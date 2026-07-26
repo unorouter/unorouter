@@ -88,9 +88,13 @@ export function TesterForm() {
         apiKey: values.apiKey,
         model: values.model,
       });
-      if (res.published) {
+      if ("result" in res) {
         setResult(res.result);
-        setPublishMsg(t("MODEL_TESTER.PUBLISH.DONE"));
+        setPublishMsg(
+          res.published
+            ? t("MODEL_TESTER.PUBLISH.DONE")
+            : t("MODEL_TESTER.PUBLISH.NOT_SAVED"),
+        );
       } else if (res.deduped) setPublishMsg(t("MODEL_TESTER.PUBLISH.DEDUPED"));
       else setPublishMsg(t("MODEL_TESTER.PUBLISH.FAILED"));
     } finally {

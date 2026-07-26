@@ -328,7 +328,13 @@
       "PROVIDERS": "Providers",
       "MIN": "Min",
       "ANY": "Any",
-      "SERIES": "Series"
+      "SERIES": "Series",
+      "OUTPUT_PRICING": "Output pricing",
+      "MODEL_AGE": "Model age",
+      "AGE_7D": "7 days",
+      "AGE_30D": "30 days",
+      "AGE_90D": "90 days",
+      "AGE_1Y": "1 year"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -474,7 +480,8 @@
       "AUDIO": "Audio",
       "VIDEO": "Video",
       "EMBEDDINGS": "Embeddings",
-      "FILE": "File"
+      "FILE": "File",
+      "ALL": "All"
     },
     "TABLE": {
       "MODEL": "Model",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "To stop forged results, publishing runs the whole test on our server, so we produce the verdict ourselves. Your key passes through server memory only and is never stored.",
       "WARN_THROWAWAY": "Use a low-limit, throwaway key and rotate it afterwards.",
       "DONE": "Verified by our server and published to the public rankings. Saved to your history too.",
+      "NOT_SAVED": "Verified by our server, but the public rankings are unavailable right now, so the result was not saved. It is shown below.",
       "DEDUPED": "Already published recently for this endpoint.",
       "FAILED": "Could not verify this endpoint. Nothing was published."
     },

@@ -1,5 +1,10 @@
 import { foreignPatternsExcept } from "../patterns";
-import type { BuiltRequest, ProbeRequestArgs, ProviderConfig } from "./config";
+import {
+  normalizeProbeBaseUrl,
+  type BuiltRequest,
+  type ProbeRequestArgs,
+  type ProviderConfig,
+} from "./config";
 
 type AnthropicResponse = {
   type?: string;
@@ -25,7 +30,7 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
   if (args.direct && isAnthropicHost(args.baseUrl))
     headers["anthropic-dangerous-direct-browser-access"] = "true";
   return {
-    url: `${args.baseUrl}/v1/messages`,
+    url: `${normalizeProbeBaseUrl(args.baseUrl)}/v1/messages`,
     headers,
     body: {
       model: args.model,

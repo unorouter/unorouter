@@ -1,6 +1,7 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 
 export const OUTPUT_MODALITIES = [
+  "all",
   "text",
   "image",
   "audio",
@@ -9,11 +10,15 @@ export const OUTPUT_MODALITIES = [
 ] as const;
 export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
+export const AGE_STEPS_DAYS = [0, 7, 30, 90, 365] as const;
+
 export const FLAT_VARIANT_SUFFIX = ":flat";
 export const isFlatVariant = (model: ProcessedModel): boolean =>
   model.name.endsWith(FLAT_VARIANT_SUFFIX);
 
-export function deriveOutputModality(model: ProcessedModel): OutputModality {
+export type ConcreteModality = Exclude<OutputModality, "all">;
+
+export function deriveOutputModality(model: ProcessedModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata.outputModalities ?? [];
   if (model.type === "image" || out.includes("image")) return "image";
@@ -22,10 +27,17 @@ export function deriveOutputModality(model: ProcessedModel): OutputModality {
   return "text";
 }
 
+export function matchesModality(
+  model: ProcessedModel,
+  selected: OutputModality,
+): boolean {
+  return selected === "all" || deriveOutputModality(model) === selected;
+}
+
 export function countByOutputModality(
   models: ProcessedModel[],
-): Record<OutputModality, number> {
-  const counts: Record<OutputModality, number> = {
+): Record<ConcreteModality, number> {
+  const counts: Record<ConcreteModality, number> = {
     text: 0,
     image: 0,
     audio: 0,

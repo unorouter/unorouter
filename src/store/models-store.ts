@@ -24,6 +24,8 @@ export type ModelsStoreState = {
   inputModalities: string[];
   contextMin: number;
   priceRange: [number, number];
+  outputPriceMax: number;
+  maxAgeDays: number;
   series: string[];
   categories: string[];
   supportedParameters: string[];
@@ -45,6 +47,8 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   inputModalities: [],
   contextMin: 0,
   priceRange: [0, PRICE_MAX],
+  outputPriceMax: PRICE_MAX,
+  maxAgeDays: 0,
   series: [],
   categories: [],
   supportedParameters: [],
@@ -133,6 +137,20 @@ export const priceRangeAtom = atom(
   },
 );
 
+export const outputPriceMaxAtom = atom(
+  (get) => get(modelsStoreAtom).outputPriceMax ?? PRICE_MAX,
+  (get, set, value: number) => {
+    set(modelsStoreAtom, { ...get(modelsStoreAtom), outputPriceMax: value });
+  },
+);
+
+export const maxAgeDaysAtom = atom(
+  (get) => get(modelsStoreAtom).maxAgeDays ?? 0,
+  (get, set, value: number) => {
+    set(modelsStoreAtom, { ...get(modelsStoreAtom), maxAgeDays: value });
+  },
+);
+
 export const seriesAtom = atom(
   (get) => arr(get(modelsStoreAtom).series),
   (get, set, value: string[]) => {
@@ -194,6 +212,8 @@ export const clearFiltersAtom = atom(null, (get, set) => {
     inputModalities: [],
     contextMin: 0,
     priceRange: [0, PRICE_MAX],
+    outputPriceMax: PRICE_MAX,
+    maxAgeDays: 0,
     series: [],
     categories: [],
     supportedParameters: [],
@@ -216,7 +236,9 @@ export const isDirtyAtom = atom((get) => {
       s.supportedParameters.length > 0) ||
     s.toolsOnly === true ||
     (s.contextMin ?? 0) > 0 ||
-    (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX)
+    (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX) ||
+    (s.outputPriceMax ?? PRICE_MAX) < PRICE_MAX ||
+    (s.maxAgeDays ?? 0) > 0
   );
 });
 
@@ -236,5 +258,7 @@ export const activeFilterCountAtom = atom((get) => {
   if (s.toolsOnly === true) n++;
   if ((s.contextMin ?? 0) > 0) n++;
   if (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX) n++;
+  if ((s.outputPriceMax ?? PRICE_MAX) < PRICE_MAX) n++;
+  if ((s.maxAgeDays ?? 0) > 0) n++;
   return n;
 });

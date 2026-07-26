@@ -14,6 +14,8 @@ import {
   contextMinAtom,
   inputModalitiesAtom,
   isDirtyAtom,
+  maxAgeDaysAtom,
+  outputPriceMaxAtom,
   priceRangeAtom,
   selectedVendorsAtom,
   seriesAtom,
@@ -25,7 +27,9 @@ import { useTranslations } from "next-intl";
 import {
   ContextGroup,
   InputModalitiesGroup,
+  ModelAgeGroup,
   MultiSelectGroup,
+  OutputPriceGroup,
   PriceGroup,
   ToolsGroup,
 } from "./filter-groups";
@@ -40,6 +44,8 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
   const [contextMin, setContextMin] = useAtom(contextMinAtom);
   const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
+  const [outputPriceMax, setOutputPriceMax] = useAtom(outputPriceMaxAtom);
+  const [maxAgeDays, setMaxAgeDays] = useAtom(maxAgeDaysAtom);
   const [series, setSeries] = useAtom(seriesAtom);
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [supportedParameters, setSupportedParameters] = useAtom(
@@ -98,6 +104,11 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
           <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
           <ContextGroup value={contextMin} onChange={setContextMin} />
           <PriceGroup value={priceRange} onChange={setPriceRange} />
+          <OutputPriceGroup
+            value={outputPriceMax}
+            onChange={setOutputPriceMax}
+          />
+          <ModelAgeGroup value={maxAgeDays} onChange={setMaxAgeDays} />
           <MultiSelectGroup
             label={t("MODELS.FILTER.SERIES")}
             options={seriesOptions}

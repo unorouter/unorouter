@@ -328,7 +328,13 @@
       "PROVIDERS": "Fournisseurs",
       "MIN": "Min",
       "ANY": "Tout",
-      "SERIES": "Série"
+      "SERIES": "Série",
+      "OUTPUT_PRICING": "Prix en sortie",
+      "MODEL_AGE": "Ancienneté du modèle",
+      "AGE_7D": "7 jours",
+      "AGE_30D": "30 jours",
+      "AGE_90D": "90 jours",
+      "AGE_1Y": "1 an"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -474,7 +480,8 @@
       "AUDIO": "Audio",
       "VIDEO": "Vidéo",
       "EMBEDDINGS": "Embeddings",
-      "FILE": "Fichier"
+      "FILE": "Fichier",
+      "ALL": "Tous"
     },
     "TABLE": {
       "MODEL": "Modèle",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "Pour empecher les resultats falsifies, la publication execute tout le test sur notre serveur, afin que nous produisions le verdict nous-memes. Votre cle ne transite que par la memoire du serveur et n'est jamais stockee.",
       "WARN_THROWAWAY": "Utilisez une cle jetable a faible limite et renouvelez-la ensuite.",
       "DONE": "Verifie par notre serveur et publie au classement public. Egalement enregistre dans votre historique.",
+      "NOT_SAVED": "Vérifié par notre serveur, mais le classement public est indisponible pour le moment, donc le résultat n'a pas été enregistré. Il s'affiche ci-dessous.",
       "DEDUPED": "Deja publie recemment pour ce point de terminaison.",
       "FAILED": "Impossible de verifier ce point de terminaison. Rien n'a ete publie."
     },

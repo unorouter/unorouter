@@ -328,7 +328,13 @@
       "PROVIDERS": "Penyedia",
       "MIN": "Min",
       "ANY": "Apa saja",
-      "SERIES": "Seri"
+      "SERIES": "Seri",
+      "OUTPUT_PRICING": "Harga keluaran",
+      "MODEL_AGE": "Usia model",
+      "AGE_7D": "7 hari",
+      "AGE_30D": "30 hari",
+      "AGE_90D": "90 hari",
+      "AGE_1Y": "1 tahun"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -474,7 +480,8 @@
       "AUDIO": "Audio",
       "VIDEO": "Video",
       "EMBEDDINGS": "Embedding",
-      "FILE": "Berkas"
+      "FILE": "Berkas",
+      "ALL": "Semua"
     },
     "TABLE": {
       "MODEL": "Model",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "Untuk mencegah hasil palsu, publikasi menjalankan seluruh uji di server kami, sehingga kami yang menghasilkan vonis. Kunci Anda hanya melewati memori server dan tidak pernah disimpan.",
       "WARN_THROWAWAY": "Gunakan kunci sekali pakai berlimit rendah dan ganti sesudahnya.",
       "DONE": "Diverifikasi oleh server kami dan dipublikasikan ke peringkat publik. Disimpan juga ke riwayat Anda.",
+      "NOT_SAVED": "Diverifikasi oleh server kami, tetapi peringkat publik sedang tidak tersedia, sehingga hasilnya tidak disimpan. Hasilnya ditampilkan di bawah.",
       "DEDUPED": "Sudah dipublikasikan baru-baru ini untuk endpoint ini.",
       "FAILED": "Tidak dapat memverifikasi endpoint ini. Tidak ada yang dipublikasikan."
     },

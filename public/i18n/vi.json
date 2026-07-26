@@ -328,7 +328,13 @@
       "PROVIDERS": "Nhà cung cấp",
       "MIN": "Tối thiểu",
       "ANY": "Bất kỳ",
-      "SERIES": "Dòng"
+      "SERIES": "Dòng",
+      "OUTPUT_PRICING": "Giá đầu ra",
+      "MODEL_AGE": "Tuổi mô hình",
+      "AGE_7D": "7 ngày",
+      "AGE_30D": "30 ngày",
+      "AGE_90D": "90 ngày",
+      "AGE_1Y": "1 năm"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -474,7 +480,8 @@
       "AUDIO": "Âm thanh",
       "VIDEO": "Video",
       "EMBEDDINGS": "Embeddings",
-      "FILE": "Tệp"
+      "FILE": "Tệp",
+      "ALL": "Tất cả"
     },
     "TABLE": {
       "MODEL": "Mô hình",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "De ngan ket qua gia mao, khi dang toan bo bai kiem tra chay tren may chu cua chung toi, nen chung toi tao ket luan. Khoa cua ban chi di qua bo nho may chu va khong bao gio duoc luu.",
       "WARN_THROWAWAY": "Dung khoa dung mot lan voi han muc thap va doi sau do.",
       "DONE": "Da duoc may chu cua chung toi xac minh va dang len bang xep hang cong khai. Cung da luu vao lich su cua ban.",
+      "NOT_SAVED": "Đã được máy chủ của chúng tôi xác minh, nhưng bảng xếp hạng công khai hiện không khả dụng nên kết quả chưa được lưu. Kết quả hiển thị bên dưới.",
       "DEDUPED": "Da dang gan day cho diem cuoi nay.",
       "FAILED": "Khong the xac minh diem cuoi nay. Khong co gi duoc dang."
     },

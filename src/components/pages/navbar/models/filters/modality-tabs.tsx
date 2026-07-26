@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 const MODALITY_ICON: Record<OutputModality, IconName> = {
+  all: "layout-grid",
   text: "type",
   image: "image",
   audio: "mic",
@@ -21,6 +22,7 @@ const MODALITY_ICON: Record<OutputModality, IconName> = {
 };
 
 const MODALITY_LABEL_KEY = {
+  all: msg("MODELS.MODALITY.ALL"),
   text: msg("MODELS.MODALITY.TEXT"),
   image: msg("MODELS.MODALITY.IMAGE"),
   audio: msg("MODELS.MODALITY.AUDIO"),
@@ -35,6 +37,8 @@ export function ModalityTabs(props: {
 }) {
   const t = useTranslations();
   const counts = countByOutputModality(props.models);
+  const countFor = (modality: OutputModality) =>
+    modality === "all" ? props.models.length : counts[modality];
 
   return (
     <div className="border-border flex gap-1 overflow-x-auto border-b pb-px">
@@ -56,7 +60,7 @@ export function ModalityTabs(props: {
             <Icon name={MODALITY_ICON[modality]} className="h-4 w-4" />
             <span>{t(MODALITY_LABEL_KEY[modality])}</span>
             <span className="text-muted-foreground text-xs">
-              {counts[modality]}
+              {countFor(modality)}
             </span>
           </button>
         );

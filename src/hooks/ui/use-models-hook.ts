@@ -1,7 +1,7 @@
 "use client";
 
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { deriveOutputModality } from "@/lib/api/model-modality";
+import { matchesModality } from "@/lib/api/model-modality";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
@@ -11,7 +11,9 @@ import {
   clearFiltersAtom,
   contextMinAtom,
   inputModalitiesAtom,
+  maxAgeDaysAtom,
   outputModalityAtom,
+  outputPriceMaxAtom,
   PRICE_MAX,
   priceRangeAtom,
   searchAtom,
@@ -81,6 +83,8 @@ export function useModelsFilter() {
   const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
   const [contextMin, setContextMin] = useAtom(contextMinAtom);
   const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
+  const [outputPriceMax, setOutputPriceMax] = useAtom(outputPriceMaxAtom);
+  const [maxAgeDays, setMaxAgeDays] = useAtom(maxAgeDaysAtom);
   const [series, setSeries] = useAtom(seriesAtom);
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [supportedParameters, setSupportedParameters] = useAtom(
@@ -110,9 +114,12 @@ export function useModelsFilter() {
     toolsOnly ||
     contextMin > 0 ||
     priceRange[0] > 0 ||
-    priceRange[1] < PRICE_MAX;
+    priceRange[1] < PRICE_MAX ||
+    outputPriceMax < PRICE_MAX ||
+    maxAgeDays > 0;
 
   const query = search.trim().toLowerCase();
+  const ageCutoff = maxAgeDays > 0 ? dayjs().valueOf() - maxAgeDays * 86_400_000 : 0;
   const tabModels = models.filter((model) => {
     const matchesSearch =
       query.length === 0 ||
@@ -133,6 +140,10 @@ export function useModelsFilter() {
     const matchesPrice =
       price >= priceRange[0] &&
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
+    const matchesOutputPrice =
+      outputPriceMax >= PRICE_MAX || model.outputPrice <= outputPriceMax;
+    const ts = modelReleaseTs(model);
+    const matchesAge = ageCutoff === 0 || (ts > 0 && ts >= ageCutoff);
     const modelCats = model.metadata.categories ?? model.tags;
     const matchesCategories =
       categories.length === 0 || categories.some((c) => modelCats.includes(c));
@@ -150,6 +161,8 @@ export function useModelsFilter() {
       matchesInputModalities &&
       matchesContext &&
       matchesPrice &&
+      matchesOutputPrice &&
+      matchesAge &&
       matchesSeries &&
       matchesCategories &&
       matchesParams &&
@@ -157,11 +170,9 @@ export function useModelsFilter() {
     );
   });
 
-  let filtered = hasActiveFilters
-    ? tabModels
-    : tabModels.filter(
-        (model) => deriveOutputModality(model) === outputModality,
-      );
+  let filtered = tabModels.filter((model) =>
+    matchesModality(model, outputModality),
+  );
 
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {
@@ -225,6 +236,10 @@ export function useModelsFilter() {
     setContextMin,
     priceRange,
     setPriceRange,
+    outputPriceMax,
+    setOutputPriceMax,
+    maxAgeDays,
+    setMaxAgeDays,
     series,
     setSeries,
     categories,

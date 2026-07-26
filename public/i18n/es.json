@@ -328,7 +328,13 @@
       "PROVIDERS": "Proveedores",
       "MIN": "Mín",
       "ANY": "Cualquiera",
-      "SERIES": "Serie"
+      "SERIES": "Serie",
+      "OUTPUT_PRICING": "Precio de salida",
+      "MODEL_AGE": "Antigüedad del modelo",
+      "AGE_7D": "7 días",
+      "AGE_30D": "30 días",
+      "AGE_90D": "90 días",
+      "AGE_1Y": "1 año"
     },
     "DETAIL": {
       "DESCRIPTION": "Descripción",
@@ -474,7 +480,8 @@
       "AUDIO": "Audio",
       "VIDEO": "Vídeo",
       "EMBEDDINGS": "Embeddings",
-      "FILE": "Archivo"
+      "FILE": "Archivo",
+      "ALL": "Todos"
     },
     "TABLE": {
       "MODEL": "Modelo",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "Para evitar resultados falsificados, al publicar se ejecuta toda la prueba en nuestro servidor, de modo que el veredicto lo producimos nosotros. Tu clave solo pasa por la memoria del servidor y nunca se almacena.",
       "WARN_THROWAWAY": "Usa una clave desechable de bajo limite y rotala despues.",
       "DONE": "Verificado por nuestro servidor y publicado en la clasificacion publica. Tambien guardado en tu historial.",
+      "NOT_SAVED": "Verificado por nuestro servidor, pero las clasificaciones públicas no están disponibles ahora mismo, así que el resultado no se guardó. Se muestra abajo.",
       "DEDUPED": "Ya publicado recientemente para este endpoint.",
       "FAILED": "No se pudo verificar este endpoint. No se publico nada."
     },

@@ -328,7 +328,13 @@
       "PROVIDERS": "Dostawcy",
       "MIN": "Min",
       "ANY": "Dowolny",
-      "SERIES": "Seria"
+      "SERIES": "Seria",
+      "OUTPUT_PRICING": "Cena wyjścia",
+      "MODEL_AGE": "Wiek modelu",
+      "AGE_7D": "7 dni",
+      "AGE_30D": "30 dni",
+      "AGE_90D": "90 dni",
+      "AGE_1Y": "1 rok"
     },
     "DETAIL": {
       "DESCRIPTION": "Opis",
@@ -474,7 +480,8 @@
       "AUDIO": "Audio",
       "VIDEO": "Wideo",
       "EMBEDDINGS": "Osadzenia",
-      "FILE": "Plik"
+      "FILE": "Plik",
+      "ALL": "Wszystkie"
     },
     "TABLE": {
       "MODEL": "Model",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "Aby zapobiec sfalszowanym wynikom, publikacja uruchamia caly test na naszym serwerze, dzieki czemu sami tworzymy werdykt. Twoj klucz przechodzi tylko przez pamiec serwera i nigdy nie jest przechowywany.",
       "WARN_THROWAWAY": "Uzyj jednorazowego klucza o niskim limicie i wymien go potem.",
       "DONE": "Zweryfikowane przez nasz serwer i opublikowane w publicznym rankingu. Zapisane takze w twojej historii.",
+      "NOT_SAVED": "Zweryfikowane przez nasz serwer, ale publiczny ranking jest teraz niedostępny, więc wynik nie został zapisany. Jest pokazany poniżej.",
       "DEDUPED": "Juz niedawno opublikowano dla tego punktu koncowego.",
       "FAILED": "Nie udalo sie zweryfikowac tego punktu koncowego. Nic nie opublikowano."
     },

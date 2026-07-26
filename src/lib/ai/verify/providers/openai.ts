@@ -1,5 +1,10 @@
 import { foreignPatternsExcept } from "../patterns";
-import type { BuiltRequest, ProbeRequestArgs, ProviderConfig } from "./config";
+import {
+  normalizeProbeBaseUrl,
+  type BuiltRequest,
+  type ProbeRequestArgs,
+  type ProviderConfig,
+} from "./config";
 
 type OpenAIChatResponse = {
   error?: unknown;
@@ -20,7 +25,7 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
     ? Math.max(args.maxTokens, REASONING_MIN_OUTPUT_TOKENS)
     : args.maxTokens;
   return {
-    url: `${args.baseUrl}/v1/chat/completions`,
+    url: `${normalizeProbeBaseUrl(args.baseUrl)}/v1/chat/completions`,
     headers: {
       "content-type": "application/json",
       authorization: `Bearer ${args.apiKey}`,

@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/db/server/client";
-import { uid } from "@/lib/utils/base";
+import { errMessage, uid } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import {
   testerModels,
   testerProbes,
@@ -96,7 +97,7 @@ export async function verifyAndPublish(
   submitterUsername: string | null,
 ): Promise<
   | {
-      published: true;
+      published: boolean;
       deduped: false;
       result: VerifyResult;
     }
@@ -118,19 +119,26 @@ export async function verifyAndPublish(
 
   if (submitterUserId !== null && submitterUserId !== GUEST_USER_ID) {
     const since = new Date(Date.now() - DEDUPE_WINDOW_MS);
-    const recent = await db
-      .select({ id: testerTests.id })
-      .from(testerTests)
-      .where(
-        and(
-          eq(testerTests.submitterUserId, submitterUserId),
-          eq(testerTests.baseUrlHost, host),
-          eq(testerTests.requestedModel, body.model),
-          gt(testerTests.createdAt, since),
-        ),
-      )
-      .limit(1);
-    if (recent[0]) return { published: false, deduped: true };
+    try {
+      const recent = await db
+        .select({ id: testerTests.id })
+        .from(testerTests)
+        .where(
+          and(
+            eq(testerTests.submitterUserId, submitterUserId),
+            eq(testerTests.baseUrlHost, host),
+            eq(testerTests.requestedModel, body.model),
+            gt(testerTests.createdAt, since),
+          ),
+        )
+        .limit(1);
+      if (recent[0]) return { published: false, deduped: true };
+    } catch (err) {
+      logger.warn("Dedupe lookup failed, continuing without it", {
+        context: "model-tester",
+        err: errMessage(err),
+      });
+    }
   }
 
   const result = await runServerVerification({
@@ -143,6 +151,39 @@ export async function verifyAndPublish(
     return { published: false, error: result.connectivityError };
 
   const now = new Date();
+  try {
+    await persistPublishedTest({
+      body,
+      result,
+      kind,
+      host,
+      now,
+      submitterUserId,
+      submitterUsername,
+    });
+  } catch (err) {
+    logger.warn("Publish write failed, returning unsaved result", {
+      context: "model-tester",
+      err: errMessage(err),
+    });
+    return { published: false, deduped: false, result };
+  }
+  return { published: true, deduped: false, result };
+}
+
+async function persistPublishedTest(opts: {
+  body: VerifyAndPublishBody;
+  result: VerifyResult;
+  kind: VerifyProviderValue;
+  host: string;
+  now: Date;
+  submitterUserId: number | null;
+  submitterUsername: string | null;
+}): Promise<void> {
+  const db = getDb();
+  const { body, result, kind, host, now } = opts;
+  const submitterUserId = opts.submitterUserId;
+  const submitterUsername = opts.submitterUsername;
   const providerId = await findOrCreateProvider(kind, host, now);
   const modelId = await findOrCreateModel(providerId, body.model, now);
 
@@ -191,7 +232,6 @@ export async function verifyAndPublish(
       latencyMs: p.latencyMs,
     });
   }
-  return { published: true, deduped: false, result };
 }
 
 async function p95ByGroup(

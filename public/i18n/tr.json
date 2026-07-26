@@ -328,7 +328,13 @@
       "PROVIDERS": "Sağlayıcılar",
       "MIN": "Min",
       "ANY": "Herhangi",
-      "SERIES": "Seri"
+      "SERIES": "Seri",
+      "OUTPUT_PRICING": "Çıkış fiyatı",
+      "MODEL_AGE": "Model yaşı",
+      "AGE_7D": "7 gün",
+      "AGE_30D": "30 gün",
+      "AGE_90D": "90 gün",
+      "AGE_1Y": "1 yıl"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -474,7 +480,8 @@
       "AUDIO": "Ses",
       "VIDEO": "Video",
       "EMBEDDINGS": "Gömme",
-      "FILE": "Dosya"
+      "FILE": "Dosya",
+      "ALL": "Tümü"
     },
     "TABLE": {
       "MODEL": "Model",
@@ -4550,6 +4557,7 @@
       "WARN_BODY": "Sahte sonuclari onlemek icin yayinlama sirasinda tum test sunucumuzda calisir, boylece kararı biz uretiriz. Anahtariniz yalnizca sunucu belleginden gecer ve asla saklanmaz.",
       "WARN_THROWAWAY": "Dusuk limitli, tek kullanimlik bir anahtar kullanin ve sonra degistirin.",
       "DONE": "Sunucumuz tarafindan dogrulandi ve genel siralamada yayinlandi. Gecmisinize de kaydedildi.",
+      "NOT_SAVED": "Sunucumuz tarafından doğrulandı, ancak genel sıralama şu anda kullanılamıyor, bu yüzden sonuç kaydedilmedi. Aşağıda gösteriliyor.",
       "DEDUPED": "Bu uc nokta icin yakin zamanda zaten yayinlandi.",
       "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi."
     },

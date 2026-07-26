@@ -1,5 +1,10 @@
 import { foreignPatternsExcept } from "../patterns";
-import type { BuiltRequest, ProbeRequestArgs, ProviderConfig } from "./config";
+import {
+  normalizeProbeBaseUrl,
+  type BuiltRequest,
+  type ProbeRequestArgs,
+  type ProviderConfig,
+} from "./config";
 
 type GeminiResponse = {
   error?: unknown;
@@ -16,7 +21,7 @@ const GEMINI_MIN_OUTPUT_TOKENS = 1024;
 
 function buildRequest(args: ProbeRequestArgs): BuiltRequest {
   return {
-    url: `${args.baseUrl}/v1beta/models/${args.model}:generateContent`,
+    url: `${normalizeProbeBaseUrl(args.baseUrl)}/v1beta/models/${args.model}:generateContent`,
     headers: {
       "content-type": "application/json",
       "x-goog-api-key": args.apiKey,

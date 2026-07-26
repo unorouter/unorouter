@@ -39,6 +39,8 @@ const PARSERS = {
   vendor: parseAsArrayOf(parseAsString),
   context: parseAsInteger,
   max_price: parseAsFloat,
+  max_output_price: parseAsFloat,
+  max_age_days: parseAsInteger,
   modality: parseAsStringLiteral(OUTPUT_MODALITIES),
   order: parseAsStringLiteral(SORT_VALUES),
   tools: parseAsBoolean,
@@ -65,6 +67,9 @@ export function ModelsUrlSync() {
         vendor: null,
         context: s.contextMin > 0 ? s.contextMin : null,
         max_price: priceMax < PRICE_MAX ? priceMax : null,
+        max_output_price:
+          s.outputPriceMax < PRICE_MAX ? s.outputPriceMax : null,
+        max_age_days: s.maxAgeDays > 0 ? s.maxAgeDays : null,
         modality: s.outputModality !== "text" ? s.outputModality : null,
         order: s.sortOrder !== "newest" ? s.sortOrder : null,
         tools: s.toolsOnly ? true : null,
@@ -106,6 +111,14 @@ export function ModelsUrlSync() {
         : PRICE_MAX;
       if (seed.max_price && seed.max_price > 0 && curMax >= PRICE_MAX)
         next.priceRange = [0, seed.max_price];
+      if (
+        seed.max_output_price &&
+        seed.max_output_price > 0 &&
+        (cur.outputPriceMax ?? PRICE_MAX) >= PRICE_MAX
+      )
+        next.outputPriceMax = seed.max_output_price;
+      if (seed.max_age_days && seed.max_age_days > 0 && (cur.maxAgeDays ?? 0) === 0)
+        next.maxAgeDays = seed.max_age_days;
       if (seed.modality && cur.outputModality === "text")
         next.outputModality = seed.modality;
       if (seed.order && cur.sortOrder === "newest") next.sortOrder = seed.order;

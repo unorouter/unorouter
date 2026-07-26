@@ -8,6 +8,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
+import { AGE_STEPS_DAYS } from "@/lib/api/model-modality";
 import { msg } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
@@ -200,6 +201,93 @@ export function PriceGroup(props: {
               className="border-input focus-visible:ring-ring/50 w-16 [appearance:textfield] rounded-md border bg-transparent px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
           </div>
+        </div>
+      </div>
+    </GroupShell>
+  );
+}
+
+export function OutputPriceGroup(props: {
+  value: number;
+  onChange: (next: number) => void;
+}) {
+  const t = useTranslations();
+  const max = props.value;
+  const commitMax = (raw: string) => {
+    if (raw.trim() === "") {
+      props.onChange(PRICE_MAX);
+      return;
+    }
+    const n = Number(raw);
+    if (!Number.isFinite(n)) return;
+    props.onChange(Math.min(PRICE_MAX, Math.max(0, n)));
+  };
+  return (
+    <GroupShell label={t("MODELS.FILTER.OUTPUT_PRICING")}>
+      <div className="px-1.5 pt-2">
+        <Slider
+          aria-label={t("MODELS.FILTER.OUTPUT_PRICING")}
+          min={0}
+          max={PRICE_MAX}
+          step={0.5}
+          value={max}
+          onValueChange={(v) => props.onChange(Array.isArray(v) ? v[0] : v)}
+        />
+        <div className="text-muted-foreground mt-2 flex items-center justify-between font-mono text-[10px]">
+          <span>$0</span>
+          <div className="flex items-center gap-1">
+            <span>$</span>
+            <input
+              type="number"
+              min={0}
+              max={PRICE_MAX}
+              step={0.5}
+              aria-label={t("MODELS.FILTER.OUTPUT_PRICING")}
+              value={max >= PRICE_MAX ? "" : max}
+              placeholder={t("MODELS.FILTER.ANY")}
+              onChange={(e) => commitMax(e.target.value)}
+              className="border-input focus-visible:ring-ring/50 w-16 [appearance:textfield] rounded-md border bg-transparent px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            />
+          </div>
+        </div>
+      </div>
+    </GroupShell>
+  );
+}
+
+const AGE_LABEL_KEY = {
+  7: msg("MODELS.FILTER.AGE_7D"),
+  30: msg("MODELS.FILTER.AGE_30D"),
+  90: msg("MODELS.FILTER.AGE_90D"),
+  365: msg("MODELS.FILTER.AGE_1Y"),
+} as const;
+
+export function ModelAgeGroup(props: {
+  value: number;
+  onChange: (next: number) => void;
+}) {
+  const t = useTranslations();
+  const idx = Math.max(0, AGE_STEPS_DAYS.indexOf(props.value as never));
+  const ageLabel = (days: number) =>
+    days === 0
+      ? t("MODELS.FILTER.ANY")
+      : t(AGE_LABEL_KEY[days as keyof typeof AGE_LABEL_KEY]);
+  return (
+    <GroupShell label={t("MODELS.FILTER.MODEL_AGE")}>
+      <div className="px-1.5 pt-2">
+        <Slider
+          aria-label={t("MODELS.FILTER.MODEL_AGE")}
+          min={0}
+          max={AGE_STEPS_DAYS.length - 1}
+          step={1}
+          value={idx}
+          onValueChange={(v) =>
+            props.onChange(AGE_STEPS_DAYS[Array.isArray(v) ? v[0] : v] ?? 0)
+          }
+        />
+        <div className="text-muted-foreground mt-2 flex justify-between font-mono text-[10px]">
+          <span>{t("MODELS.FILTER.ANY")}</span>
+          <span>{ageLabel(props.value)}</span>
         </div>
       </div>
     </GroupShell>

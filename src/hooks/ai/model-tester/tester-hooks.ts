@@ -91,7 +91,7 @@ export type VerifyPublishVars = {
 };
 
 export type VerifyPublishResult =
-  | { published: true; result: VerifyResult }
+  | { published: boolean; result: VerifyResult }
   | { published: false; deduped?: true; error?: string };
 
 export function useVerifyAndPublish() {
@@ -106,7 +106,8 @@ export function useVerifyAndPublish() {
           model: vars.model,
         }),
       )) as VerifyPublishResult;
-      if (res.published) await recordTestRun(userId, res.result, true);
+      if ("result" in res)
+        await recordTestRun(userId, res.result, res.published);
       return res;
     },
     invalidates: [
