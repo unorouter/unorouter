@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useAuthUser } from "@/hooks/auth/auth-hook";
 import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { posthog } from "@/lib/posthog-lazy";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -24,13 +24,13 @@ function PostHogPageView() {
 }
 
 function PostHogIdentify() {
-  const authQuery = useAuthQuery();
+  const auth = useAuthUser();
   const previousUserId = useRef<number | null>(null);
 
   useEffect(() => {
     if (IS_DEV) return;
 
-    const user = authQuery.data;
+    const user = auth.user;
     const userId = user?.id;
 
     if (userId && previousUserId.current !== userId) {
@@ -51,7 +51,7 @@ function PostHogIdentify() {
       posthog.reset();
       previousUserId.current = null;
     }
-  }, [authQuery.data]);
+  }, [auth.user]);
 
   return null;
 }

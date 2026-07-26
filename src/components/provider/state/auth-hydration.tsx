@@ -19,16 +19,24 @@ export async function AuthHydration(props: {
   );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
-  if (props.withBestKey && isLoggedIn) {
-    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
-      rpc.api.billing.token["best-key"].get({ ...cookies }),
-    );
+  if (isLoggedIn) {
+    await Promise.all([
+      prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
+        rpc.api.billing.core["subscription-self"].get(cookies),
+      ),
+      props.withBestKey
+        ? prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
+            rpc.api.billing.token["best-key"].get({ ...cookies }),
+          )
+        : null,
+    ]);
   }
 
   return (
     <HydrationBoundary
       state={dehydrateOnly(queryClient, [
         queryKeys.auth(),
+        queryKeys.subscriptionSelf(),
         queryKeys.bestKey(),
       ])}
     >
