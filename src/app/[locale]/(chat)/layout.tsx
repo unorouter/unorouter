@@ -7,12 +7,35 @@ import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/viewport-de
 import { CrossOriginIsolationGuard } from "@/components/provider/app/cross-origin-isolation-guard";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { rpc } from "@/lib/rpc";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
+
+// The model selector's per-row reliability dot. 89KB raw / ~10KB brotli, so
+// unlike pricing it is cheap enough to carry in the flight payload.
+async function StatusHydration(props: { children: React.ReactNode }) {
+  const queryClient = getQueryClient();
+
+  await prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
+    rpc.api.models["model-status"].components.get(),
+  );
+
+  return (
+    <HydrationBoundary
+      state={dehydrateOnly(queryClient, [queryKeys.modelStatusComponents()])}
+    >
+      {props.children}
+    </HydrationBoundary>
+  );
+}
 
 // Pricing is intentionally NOT prefetched here: dehydrating 700+ full model
 // objects put ~2.3MB of RSC flight payload in the chat HTML (182KB brotli),
@@ -27,19 +50,21 @@ export default async function ChatLayout(props: Props) {
           whole chat UI per request instead. */}
       <Suspense>
         <AuthHydration withBestKey>
-          <CrossOriginIsolationGuard>
-            <ChatRuntimeProvider>
-              <ViewportDebugLogger />
-              <SidebarLayout
-                before={<AuthRedirectCleanup />}
-                navConfig="chat"
-                chatContent={<ConversationList />}
-              >
-                {props.children}
-              </SidebarLayout>
-              <RpDialogs />
-            </ChatRuntimeProvider>
-          </CrossOriginIsolationGuard>
+          <StatusHydration>
+            <CrossOriginIsolationGuard>
+              <ChatRuntimeProvider>
+                <ViewportDebugLogger />
+                <SidebarLayout
+                  before={<AuthRedirectCleanup />}
+                  navConfig="chat"
+                  chatContent={<ConversationList />}
+                >
+                  {props.children}
+                </SidebarLayout>
+                <RpDialogs />
+              </ChatRuntimeProvider>
+            </CrossOriginIsolationGuard>
+          </StatusHydration>
         </AuthHydration>
       </Suspense>
     </>
