@@ -38,7 +38,7 @@ export const PRICE_MAX = 100;
 
 export const INITIAL_MODELS_STATE: ModelsStoreState = {
   search: "",
-  outputModality: "text",
+  outputModality: "all",
   selectedVendors: [],
   selectedModelName: null,
   viewMode: "table",
@@ -88,7 +88,7 @@ export const selectedModelNameAtom = atom(
 );
 
 export const outputModalityAtom = atom(
-  (get) => get(modelsStoreAtom).outputModality ?? "text",
+  (get) => get(modelsStoreAtom).outputModality ?? "all",
   (get, set, value: OutputModality) => {
     set(modelsStoreAtom, { ...get(modelsStoreAtom), outputModality: value });
   },
@@ -205,7 +205,7 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   set(modelsStoreAtom, {
     ...get(modelsStoreAtom),
     search: "",
-    outputModality: "text",
+    outputModality: "all",
     sortOrder: "newest",
     viewMode: "table",
     selectedVendors: [],
@@ -225,7 +225,7 @@ export const isDirtyAtom = atom((get) => {
   const s = get(modelsStoreAtom);
   return (
     (s.search ?? "").trim().length > 0 ||
-    (s.outputModality ?? "text") !== "text" ||
+    (s.outputModality ?? "all") !== "all" ||
     (s.sortOrder ?? "newest") !== "newest" ||
     (s.viewMode ?? "table") !== "table" ||
     (Array.isArray(s.selectedVendors) && s.selectedVendors.length > 0) ||
@@ -249,7 +249,7 @@ export const activeFilterCountAtom = atom((get) => {
   const s = get(modelsStoreAtom);
   let n = 0;
   if ((s.search ?? "").trim().length > 0) n++;
-  if ((s.outputModality ?? "text") !== "text") n++;
+  if ((s.outputModality ?? "all") !== "all") n++;
   if (Array.isArray(s.selectedVendors)) n += s.selectedVendors.length;
   if (Array.isArray(s.inputModalities)) n += s.inputModalities.length;
   if (Array.isArray(s.series)) n += s.series.length;

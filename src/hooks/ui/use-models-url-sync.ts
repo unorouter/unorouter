@@ -70,7 +70,7 @@ export function ModelsUrlSync() {
         max_output_price:
           s.outputPriceMax < PRICE_MAX ? s.outputPriceMax : null,
         max_age_days: s.maxAgeDays > 0 ? s.maxAgeDays : null,
-        modality: s.outputModality !== "text" ? s.outputModality : null,
+        modality: s.outputModality !== "all" ? s.outputModality : null,
         order: s.sortOrder !== "newest" ? s.sortOrder : null,
         tools: s.toolsOnly ? true : null,
         q: s.search ? s.search : null,
@@ -119,7 +119,7 @@ export function ModelsUrlSync() {
         next.outputPriceMax = seed.max_output_price;
       if (seed.max_age_days && seed.max_age_days > 0 && (cur.maxAgeDays ?? 0) === 0)
         next.maxAgeDays = seed.max_age_days;
-      if (seed.modality && cur.outputModality === "text")
+      if (seed.modality && cur.outputModality === "all")
         next.outputModality = seed.modality;
       if (seed.order && cur.sortOrder === "newest") next.sortOrder = seed.order;
       if (seed.tools && !cur.toolsOnly) next.toolsOnly = true;
