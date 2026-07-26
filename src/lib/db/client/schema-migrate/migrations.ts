@@ -73,7 +73,48 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
 
   await reconcileSchema(sql, migrations);
 
+  await ensureTables(sql, migrations);
+
   await validateColumns(sql, migrations);
+}
+
+// Recreate any manifest table entirely absent from the DB. A partial/aborted
+// migration (or an OPFS write that never landed the CREATE) can leave the file
+// missing a whole table, and every query against it dies with "no such table"
+// (e.g. the media attachment adapter). validateColumns deliberately skips
+// absent tables; this is the create half. The whole schema is idempotent, so
+// recreating from the manifest DDL is safe and loses no data (the table had
+// none). Runs BEFORE validateColumns so the freshly created table also gets
+// column-checked.
+async function ensureTables(
+  sql: SQLocalDrizzle,
+  migrations: MigrationManifest["migrations"],
+): Promise<void> {
+  const expected = parseManifestDdl(migrations);
+  const tableRows = await sql.sql<{ name: string }>(
+    `SELECT name FROM sqlite_master WHERE type = 'table'`,
+  );
+  const existing = new Set(tableRows.map((r) => r.name));
+
+  for (const [table, ddl] of expected) {
+    if (existing.has(table)) continue;
+    try {
+      await sql.sql(buildCreate(ddl));
+      for (const index of ddl.indexes) await sql.sql(index);
+      logChatDebug("ensure.table_created", { table });
+      logger.warn("ensureTables: recreated a table missing from the OPFS db", {
+        context: "local-db.migrations.ensure",
+        table,
+      });
+    } catch (err) {
+      if (isIdempotentMigrationError(err)) continue;
+      logger.error("ensureTables: failed to recreate a missing table", {
+        context: "local-db.migrations.ensure",
+        table,
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
 }
 
 async function migrateCursorTable(sql: SQLocalDrizzle): Promise<void> {
