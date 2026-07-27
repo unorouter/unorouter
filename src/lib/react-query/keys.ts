@@ -22,6 +22,13 @@ export const queryKeys = {
   billingPlans: () => ["billing-plans"] as const,
   subscriptionPlans: () => ["subscription-plans"] as const,
 
+  topUpHistory: (
+    params?: EdenQuery<typeof rpc.api.billing.core.transactions.topups>,
+  ) => ["topup-history", params] as const,
+  subscriptionOrders: (
+    params?: EdenQuery<typeof rpc.api.billing.core.transactions.orders>,
+  ) => ["subscription-orders", params] as const,
+
   affiliateCommissions: (
     params?: EdenQuery<typeof rpc.api.billing.affiliate.commissions>,
   ) => ["affiliate-commissions", params] as const,

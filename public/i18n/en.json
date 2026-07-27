@@ -3508,7 +3508,30 @@
       "CRYPTO": "Crypto"
     },
     "SUPPORT_TITLE": "Need help?",
-    "SUPPORT_TEXT": "Questions about billing or your account? Email us at {supportEmail} and we will respond within one business day."
+    "SUPPORT_TEXT": "Questions about billing or your account? Email us at {supportEmail} and we will respond within one business day.",
+    "TRANSACTIONS": {
+      "TITLE": "Transactions",
+      "TAB_TOPUPS": "Top-ups",
+      "TAB_SUBSCRIPTIONS": "Subscriptions",
+      "DATE": "Date",
+      "DESCRIPTION": "Description",
+      "METHOD": "Method",
+      "AMOUNT": "Amount",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "VIEW_INVOICE": "View invoice",
+      "GET_INVOICE": "Get invoice",
+      "COPIED": "Transaction ID copied",
+      "EMPTY": "No transactions yet.",
+      "LOADING": "Loading transactions...",
+      "COUNT": "{count} transactions",
+      "TOPUP_DESCRIPTION": "Top-up of {amount} units",
+      "STATUS_PENDING": "Pending",
+      "STATUS_SUCCESS": "Paid",
+      "STATUS_PAID": "Paid",
+      "STATUS_FAILED": "Failed",
+      "STATUS_EXPIRED": "Expired"
+    }
   },
   "FORM": {
     "ERROR": {

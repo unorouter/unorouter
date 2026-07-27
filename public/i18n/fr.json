@@ -3508,6 +3508,29 @@
       "LABEL": "Mode de paiement",
       "CARD": "Carte de crédit",
       "CRYPTO": "Crypto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Transactions",
+      "TAB_TOPUPS": "Recharges",
+      "TAB_SUBSCRIPTIONS": "Abonnements",
+      "DATE": "Date",
+      "DESCRIPTION": "Description",
+      "METHOD": "Moyen de paiement",
+      "AMOUNT": "Montant",
+      "STATUS": "Statut",
+      "ACTIONS": "Actions",
+      "VIEW_INVOICE": "Voir la facture",
+      "GET_INVOICE": "Obtenir la facture",
+      "COPIED": "Identifiant de transaction copié",
+      "EMPTY": "Aucune transaction pour le moment.",
+      "LOADING": "Chargement des transactions...",
+      "COUNT": "{count} transactions",
+      "TOPUP_DESCRIPTION": "Recharge de {amount} unités",
+      "STATUS_PENDING": "En attente",
+      "STATUS_SUCCESS": "Payé",
+      "STATUS_PAID": "Payé",
+      "STATUS_FAILED": "Échoué",
+      "STATUS_EXPIRED": "Expiré"
     }
   },
   "FORM": {

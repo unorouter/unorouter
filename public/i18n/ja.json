@@ -3508,6 +3508,29 @@
       "LABEL": "支払い方法",
       "CARD": "クレジットカード",
       "CRYPTO": "暗号通貨"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "取引履歴",
+      "TAB_TOPUPS": "チャージ",
+      "TAB_SUBSCRIPTIONS": "サブスクリプション",
+      "DATE": "日付",
+      "DESCRIPTION": "内容",
+      "METHOD": "支払い方法",
+      "AMOUNT": "金額",
+      "STATUS": "ステータス",
+      "ACTIONS": "操作",
+      "VIEW_INVOICE": "請求書を表示",
+      "GET_INVOICE": "請求書を取得",
+      "COPIED": "取引IDをコピーしました",
+      "EMPTY": "取引はまだありません。",
+      "LOADING": "取引を読み込んでいます...",
+      "COUNT": "{count}件の取引",
+      "TOPUP_DESCRIPTION": "{amount}ユニットのチャージ",
+      "STATUS_PENDING": "保留中",
+      "STATUS_SUCCESS": "支払い済み",
+      "STATUS_PAID": "支払い済み",
+      "STATUS_FAILED": "失敗",
+      "STATUS_EXPIRED": "期限切れ"
     }
   },
   "FORM": {

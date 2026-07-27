@@ -5,7 +5,7 @@ import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { EdenArgs } from "@/lib/types/eden";
+import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { handleElysia, safeJsonParse } from "@/lib/utils/base";
 import type { SubscriptionSelfData } from "@/openapi";
 
@@ -128,7 +128,29 @@ export function useNowPaymentsSubscriptionMutation() {
 
 export function useBillingPortalMutation() {
   return useApiMutation({
-    mutationFn: async () =>
-      handleElysia(await rpc.api.billing.core.portal.get()),
+    mutationFn: async (query?: EdenQuery<typeof rpc.api.billing.core.portal>) =>
+      handleElysia(await rpc.api.billing.core.portal.get({ query })),
   });
+}
+
+export function useTopUpHistoryQuery(
+  query?: EdenQuery<typeof rpc.api.billing.core.transactions.topups>,
+) {
+  const isLoggedIn = !!useAuthQuery().data;
+  return useElysiaQuery(
+    queryKeys.topUpHistory(query),
+    () => rpc.api.billing.core.transactions.topups.get({ query }),
+    { enabled: isLoggedIn },
+  );
+}
+
+export function useSubscriptionOrdersQuery(
+  query?: EdenQuery<typeof rpc.api.billing.core.transactions.orders>,
+) {
+  const isLoggedIn = !!useAuthQuery().data;
+  return useElysiaQuery(
+    queryKeys.subscriptionOrders(query),
+    () => rpc.api.billing.core.transactions.orders.get({ query }),
+    { enabled: isLoggedIn },
+  );
 }

@@ -3508,6 +3508,29 @@
       "LABEL": "Ödeme yöntemi",
       "CARD": "Kredi Kartı",
       "CRYPTO": "Crypto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "İşlemler",
+      "TAB_TOPUPS": "Yüklemeler",
+      "TAB_SUBSCRIPTIONS": "Abonelikler",
+      "DATE": "Tarih",
+      "DESCRIPTION": "Açıklama",
+      "METHOD": "Yöntem",
+      "AMOUNT": "Tutar",
+      "STATUS": "Durum",
+      "ACTIONS": "İşlemler",
+      "VIEW_INVOICE": "Faturayı görüntüle",
+      "GET_INVOICE": "Fatura al",
+      "COPIED": "İşlem kimliği kopyalandı",
+      "EMPTY": "Henüz işlem yok.",
+      "LOADING": "İşlemler yükleniyor...",
+      "COUNT": "{count} işlem",
+      "TOPUP_DESCRIPTION": "{amount} birim yükleme",
+      "STATUS_PENDING": "Beklemede",
+      "STATUS_SUCCESS": "Ödendi",
+      "STATUS_PAID": "Ödendi",
+      "STATUS_FAILED": "Başarısız",
+      "STATUS_EXPIRED": "Süresi doldu"
     }
   },
   "FORM": {

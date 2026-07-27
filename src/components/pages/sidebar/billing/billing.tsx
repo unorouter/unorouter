@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { AccountStats } from "./account-stats";
 import { SubscriptionSection } from "./subscription-section";
 import { TopUpSection } from "./topup-section";
+import { TransactionsSection } from "./transactions-section";
 
 export function Billing() {
   const t = useTranslations();
@@ -48,6 +49,12 @@ export function Billing() {
       <div className="mb-6">
         <SectionBoundary>
           <TopUpSection />
+        </SectionBoundary>
+      </div>
+
+      <div className="mb-6">
+        <SectionBoundary>
+          <TransactionsSection />
         </SectionBoundary>
       </div>
 

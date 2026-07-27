@@ -3508,6 +3508,29 @@
       "LABEL": "Metode pembayaran",
       "CARD": "Kartu Kredit",
       "CRYPTO": "Crypto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Transaksi",
+      "TAB_TOPUPS": "Isi ulang",
+      "TAB_SUBSCRIPTIONS": "Langganan",
+      "DATE": "Tanggal",
+      "DESCRIPTION": "Deskripsi",
+      "METHOD": "Metode",
+      "AMOUNT": "Jumlah",
+      "STATUS": "Status",
+      "ACTIONS": "Tindakan",
+      "VIEW_INVOICE": "Lihat faktur",
+      "GET_INVOICE": "Dapatkan faktur",
+      "COPIED": "ID transaksi disalin",
+      "EMPTY": "Belum ada transaksi.",
+      "LOADING": "Memuat transaksi...",
+      "COUNT": "{count} transaksi",
+      "TOPUP_DESCRIPTION": "Isi ulang {amount} unit",
+      "STATUS_PENDING": "Tertunda",
+      "STATUS_SUCCESS": "Dibayar",
+      "STATUS_PAID": "Dibayar",
+      "STATUS_FAILED": "Gagal",
+      "STATUS_EXPIRED": "Kedaluwarsa"
     }
   },
   "FORM": {

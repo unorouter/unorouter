@@ -3508,6 +3508,29 @@
       "LABEL": "支付方式",
       "CARD": "信用卡",
       "CRYPTO": "加密货币"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "交易记录",
+      "TAB_TOPUPS": "充值",
+      "TAB_SUBSCRIPTIONS": "订阅",
+      "DATE": "日期",
+      "DESCRIPTION": "说明",
+      "METHOD": "支付方式",
+      "AMOUNT": "金额",
+      "STATUS": "状态",
+      "ACTIONS": "操作",
+      "VIEW_INVOICE": "查看发票",
+      "GET_INVOICE": "获取发票",
+      "COPIED": "交易编号已复制",
+      "EMPTY": "暂无交易记录。",
+      "LOADING": "正在加载交易记录……",
+      "COUNT": "共 {count} 笔交易",
+      "TOPUP_DESCRIPTION": "充值 {amount} 单位",
+      "STATUS_PENDING": "处理中",
+      "STATUS_SUCCESS": "已支付",
+      "STATUS_PAID": "已支付",
+      "STATUS_FAILED": "失败",
+      "STATUS_EXPIRED": "已过期"
     }
   },
   "FORM": {

@@ -3508,6 +3508,29 @@
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ tín dụng",
       "CRYPTO": "Tiền mã hoá"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Giao dịch",
+      "TAB_TOPUPS": "Nạp tiền",
+      "TAB_SUBSCRIPTIONS": "Gói đăng ký",
+      "DATE": "Ngày",
+      "DESCRIPTION": "Mô tả",
+      "METHOD": "Phương thức",
+      "AMOUNT": "Số tiền",
+      "STATUS": "Trạng thái",
+      "ACTIONS": "Hành động",
+      "VIEW_INVOICE": "Xem hóa đơn",
+      "GET_INVOICE": "Lấy hóa đơn",
+      "COPIED": "Đã sao chép mã giao dịch",
+      "EMPTY": "Chưa có giao dịch nào.",
+      "LOADING": "Đang tải giao dịch...",
+      "COUNT": "{count} giao dịch",
+      "TOPUP_DESCRIPTION": "Nạp {amount} đơn vị",
+      "STATUS_PENDING": "Đang chờ",
+      "STATUS_SUCCESS": "Đã thanh toán",
+      "STATUS_PAID": "Đã thanh toán",
+      "STATUS_FAILED": "Thất bại",
+      "STATUS_EXPIRED": "Đã hết hạn"
     }
   },
   "FORM": {

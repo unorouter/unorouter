@@ -3508,6 +3508,29 @@
       "LABEL": "Metoda płatności",
       "CARD": "Karta kredytowa",
       "CRYPTO": "Krypto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Transakcje",
+      "TAB_TOPUPS": "Doładowania",
+      "TAB_SUBSCRIPTIONS": "Subskrypcje",
+      "DATE": "Data",
+      "DESCRIPTION": "Opis",
+      "METHOD": "Metoda",
+      "AMOUNT": "Kwota",
+      "STATUS": "Status",
+      "ACTIONS": "Akcje",
+      "VIEW_INVOICE": "Zobacz fakturę",
+      "GET_INVOICE": "Pobierz fakturę",
+      "COPIED": "Skopiowano identyfikator transakcji",
+      "EMPTY": "Brak transakcji.",
+      "LOADING": "Wczytywanie transakcji...",
+      "COUNT": "Liczba transakcji: {count}",
+      "TOPUP_DESCRIPTION": "Doładowanie o {amount} jednostek",
+      "STATUS_PENDING": "Oczekująca",
+      "STATUS_SUCCESS": "Opłacona",
+      "STATUS_PAID": "Opłacona",
+      "STATUS_FAILED": "Nieudana",
+      "STATUS_EXPIRED": "Wygasła"
     }
   },
   "FORM": {

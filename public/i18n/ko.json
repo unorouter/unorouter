@@ -3508,6 +3508,29 @@
       "LABEL": "결제 수단",
       "CARD": "신용카드",
       "CRYPTO": "암호화폐"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "거래 내역",
+      "TAB_TOPUPS": "충전",
+      "TAB_SUBSCRIPTIONS": "구독",
+      "DATE": "날짜",
+      "DESCRIPTION": "설명",
+      "METHOD": "결제 수단",
+      "AMOUNT": "금액",
+      "STATUS": "상태",
+      "ACTIONS": "작업",
+      "VIEW_INVOICE": "청구서 보기",
+      "GET_INVOICE": "청구서 받기",
+      "COPIED": "거래 ID가 복사되었습니다",
+      "EMPTY": "아직 거래가 없습니다.",
+      "LOADING": "거래를 불러오는 중...",
+      "COUNT": "거래 {count}건",
+      "TOPUP_DESCRIPTION": "{amount} 단위 충전",
+      "STATUS_PENDING": "대기 중",
+      "STATUS_SUCCESS": "결제 완료",
+      "STATUS_PAID": "결제 완료",
+      "STATUS_FAILED": "실패",
+      "STATUS_EXPIRED": "만료됨"
     }
   },
   "FORM": {

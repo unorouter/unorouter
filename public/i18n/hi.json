@@ -3508,6 +3508,29 @@
       "LABEL": "भुगतान विधि",
       "CARD": "Credit Card",
       "CRYPTO": "Crypto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "लेन-देन",
+      "TAB_TOPUPS": "टॉप-अप",
+      "TAB_SUBSCRIPTIONS": "सदस्यताएँ",
+      "DATE": "तारीख",
+      "DESCRIPTION": "विवरण",
+      "METHOD": "भुगतान विधि",
+      "AMOUNT": "राशि",
+      "STATUS": "स्थिति",
+      "ACTIONS": "कार्रवाइयाँ",
+      "VIEW_INVOICE": "चालान देखें",
+      "GET_INVOICE": "चालान प्राप्त करें",
+      "COPIED": "लेन-देन आईडी कॉपी हो गई",
+      "EMPTY": "अभी तक कोई लेन-देन नहीं।",
+      "LOADING": "लेन-देन लोड हो रहे हैं...",
+      "COUNT": "{count} लेन-देन",
+      "TOPUP_DESCRIPTION": "{amount} यूनिट का टॉप-अप",
+      "STATUS_PENDING": "लंबित",
+      "STATUS_SUCCESS": "भुगतान हो गया",
+      "STATUS_PAID": "भुगतान हो गया",
+      "STATUS_FAILED": "विफल",
+      "STATUS_EXPIRED": "समाप्त"
     }
   },
   "FORM": {

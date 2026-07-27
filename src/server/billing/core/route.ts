@@ -1,10 +1,12 @@
 import { processPlans } from "@/lib/api/subscription";
 import {
+  billingPortalQuery,
   creemPayBody,
   nowPaymentsPayBody,
   stripePayBody,
   subscriptionPayBody,
   subscriptionPreferenceBody,
+  transactionsQuery,
 } from "@/lib/api/typebox/billing";
 import { unwrap } from "@/lib/utils/base";
 import {
@@ -12,6 +14,8 @@ import {
   getSubscriptionPlans,
   getSubscriptionSelf,
   getTopUpInfo,
+  getUserSubscriptionOrders,
+  getUserTopUps,
   requestCreemPay,
   requestNowPaymentsPay,
   requestStripePay,
@@ -63,10 +67,32 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     const res = await getSubscriptionSelf({ headers: upstream.headers });
     return unwrap(res);
   })
-  .get("/portal", async ({ upstream }) => {
-    const res = await getBillingPortal({ headers: upstream.headers });
-    return unwrap(res);
-  })
+  .get(
+    "/portal",
+    async ({ query, upstream }) => {
+      const res = await getBillingPortal(query, { headers: upstream.headers });
+      return unwrap(res);
+    },
+    { query: billingPortalQuery },
+  )
+  .get(
+    "/transactions/topups",
+    async ({ query, upstream }) => {
+      const res = await getUserTopUps(query, { headers: upstream.headers });
+      return unwrap(res);
+    },
+    { query: transactionsQuery },
+  )
+  .get(
+    "/transactions/orders",
+    async ({ query, upstream }) => {
+      const res = await getUserSubscriptionOrders(query, {
+        headers: upstream.headers,
+      });
+      return unwrap(res);
+    },
+    { query: transactionsQuery },
+  )
   .put(
     "/subscription-preference",
     async ({ body, upstream }) => {

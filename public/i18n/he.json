@@ -3508,6 +3508,29 @@
       "LABEL": "אמצעי תשלום",
       "CARD": "כרטיס אשראי",
       "CRYPTO": "קריפטו"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "עסקאות",
+      "TAB_TOPUPS": "טעינות",
+      "TAB_SUBSCRIPTIONS": "מנויים",
+      "DATE": "תאריך",
+      "DESCRIPTION": "תיאור",
+      "METHOD": "אמצעי תשלום",
+      "AMOUNT": "סכום",
+      "STATUS": "סטטוס",
+      "ACTIONS": "פעולות",
+      "VIEW_INVOICE": "הצגת חשבונית",
+      "GET_INVOICE": "קבלת חשבונית",
+      "COPIED": "מזהה העסקה הועתק",
+      "EMPTY": "אין עסקאות עדיין.",
+      "LOADING": "טוען עסקאות...",
+      "COUNT": "{count} עסקאות",
+      "TOPUP_DESCRIPTION": "טעינה של {amount} יחידות",
+      "STATUS_PENDING": "ממתין",
+      "STATUS_SUCCESS": "שולם",
+      "STATUS_PAID": "שולם",
+      "STATUS_FAILED": "נכשל",
+      "STATUS_EXPIRED": "פג תוקף"
     }
   },
   "FORM": {

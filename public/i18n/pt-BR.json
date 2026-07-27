@@ -3508,6 +3508,29 @@
       "LABEL": "Método de pagamento",
       "CARD": "Cartão de crédito",
       "CRYPTO": "Cripto"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Transações",
+      "TAB_TOPUPS": "Recargas",
+      "TAB_SUBSCRIPTIONS": "Assinaturas",
+      "DATE": "Data",
+      "DESCRIPTION": "Descrição",
+      "METHOD": "Método",
+      "AMOUNT": "Valor",
+      "STATUS": "Status",
+      "ACTIONS": "Ações",
+      "VIEW_INVOICE": "Ver fatura",
+      "GET_INVOICE": "Obter fatura",
+      "COPIED": "ID da transação copiado",
+      "EMPTY": "Ainda não há transações.",
+      "LOADING": "Carregando transações...",
+      "COUNT": "{count} transações",
+      "TOPUP_DESCRIPTION": "Recarga de {amount} unidades",
+      "STATUS_PENDING": "Pendente",
+      "STATUS_SUCCESS": "Pago",
+      "STATUS_PAID": "Pago",
+      "STATUS_FAILED": "Falhou",
+      "STATUS_EXPIRED": "Expirado"
     }
   },
   "FORM": {

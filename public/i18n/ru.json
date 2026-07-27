@@ -3508,6 +3508,29 @@
       "LABEL": "Способ оплаты",
       "CARD": "Кредитная карта",
       "CRYPTO": "Криптовалюта"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "Транзакции",
+      "TAB_TOPUPS": "Пополнения",
+      "TAB_SUBSCRIPTIONS": "Подписки",
+      "DATE": "Дата",
+      "DESCRIPTION": "Описание",
+      "METHOD": "Способ оплаты",
+      "AMOUNT": "Сумма",
+      "STATUS": "Статус",
+      "ACTIONS": "Действия",
+      "VIEW_INVOICE": "Посмотреть счёт",
+      "GET_INVOICE": "Получить счёт",
+      "COPIED": "Идентификатор транзакции скопирован",
+      "EMPTY": "Транзакций пока нет.",
+      "LOADING": "Загрузка транзакций...",
+      "COUNT": "Транзакций: {count}",
+      "TOPUP_DESCRIPTION": "Пополнение на {amount} единиц",
+      "STATUS_PENDING": "В обработке",
+      "STATUS_SUCCESS": "Оплачено",
+      "STATUS_PAID": "Оплачено",
+      "STATUS_FAILED": "Ошибка",
+      "STATUS_EXPIRED": "Истёк срок"
     }
   },
   "FORM": {

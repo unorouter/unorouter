@@ -3508,6 +3508,29 @@
       "LABEL": "طريقة الدفع",
       "CARD": "بطاقة ائتمان",
       "CRYPTO": "عملات مشفّرة"
+    },
+    "TRANSACTIONS": {
+      "TITLE": "المعاملات",
+      "TAB_TOPUPS": "عمليات الشحن",
+      "TAB_SUBSCRIPTIONS": "الاشتراكات",
+      "DATE": "التاريخ",
+      "DESCRIPTION": "الوصف",
+      "METHOD": "طريقة الدفع",
+      "AMOUNT": "المبلغ",
+      "STATUS": "الحالة",
+      "ACTIONS": "الإجراءات",
+      "VIEW_INVOICE": "عرض الفاتورة",
+      "GET_INVOICE": "الحصول على الفاتورة",
+      "COPIED": "تم نسخ معرف المعاملة",
+      "EMPTY": "لا توجد معاملات بعد.",
+      "LOADING": "جارٍ تحميل المعاملات...",
+      "COUNT": "{count} معاملة",
+      "TOPUP_DESCRIPTION": "شحن {amount} وحدة",
+      "STATUS_PENDING": "قيد الانتظار",
+      "STATUS_SUCCESS": "مدفوعة",
+      "STATUS_PAID": "مدفوعة",
+      "STATUS_FAILED": "فشلت",
+      "STATUS_EXPIRED": "منتهية الصلاحية"
     }
   },
   "FORM": {
