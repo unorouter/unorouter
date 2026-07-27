@@ -1,17 +1,9 @@
 "use client";
 
+import { DataTable } from "@/components/elements/table/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useBillingPlansQuery,
   useBillingPortalMutation,
@@ -20,13 +12,21 @@ import {
 } from "@/hooks/billing/billing-hook";
 import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
 import { analytics } from "@/lib/analytics";
+import { DataTableId } from "@/lib/types/enums";
 import { formatTimestamp } from "@/lib/utils/format/date";
+import { createTableAtoms } from "@/store/data-table-store";
+import type { ColumnDef } from "@tanstack/react-table";
+import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-// Providers whose hosted portal can mint an invoice on demand. Crypto and
-// balance payments have no portal, so those rows fall back to the trade number.
+// Providers whose hosted portal can mint an invoice on demand. Crypto, balance
+// and manual grants have no portal, so those rows fall back to the trade number.
 const PORTAL_PROVIDERS = ["stripe", "creem"];
+
+// Only a settled payment has an invoice behind it; abandoned checkouts sit at
+// pending forever and failed/expired ones were never charged.
+const PAID_STATUSES = ["success", "paid"];
 
 type TransactionRow = {
   id: number;
@@ -41,7 +41,7 @@ type TransactionRow = {
 };
 
 function statusVariant(status: string) {
-  if (status === "success" || status === "paid") return "default";
+  if (PAID_STATUSES.includes(status)) return "default";
   if (status === "pending") return "secondary";
   return "destructive";
 }
@@ -55,11 +55,7 @@ const STATUS_KEYS = {
   expired: "BILLING.TRANSACTIONS.STATUS_EXPIRED",
 } as const;
 
-function TransactionTable(props: {
-  rows: TransactionRow[];
-  isLoading: boolean;
-  emptyLabel: string;
-}) {
+function useTransactionColumns(): ColumnDef<TransactionRow>[] {
   const t = useTranslations();
   const portalMutation = useBillingPortalMutation();
   const copy = useCopyToClipboard();
@@ -79,118 +75,142 @@ function TransactionTable(props: {
     );
   }
 
-  if (props.isLoading) {
-    return (
-      <p className="text-muted-foreground py-8 text-center text-sm">
-        {t("BILLING.TRANSACTIONS.LOADING")}
-      </p>
-    );
-  }
+  return [
+    {
+      accessorKey: "complete_time",
+      header: t("BILLING.TRANSACTIONS.DATE"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs whitespace-nowrap">
+          {formatTimestamp(
+            row.original.complete_time || row.original.create_time,
+          )}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "description",
+      header: t("BILLING.TRANSACTIONS.DESCRIPTION"),
+      cell: ({ row }) => (
+        <span className="text-foreground text-sm">
+          {row.original.description}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "payment_method",
+      header: t("BILLING.TRANSACTIONS.METHOD"),
+      cell: ({ row }) =>
+        row.original.payment_method ? (
+          <Badge variant="outline">{row.original.payment_method}</Badge>
+        ) : (
+          <Badge variant="ghost">
+            {t("BILLING.TRANSACTIONS.METHOD_MANUAL")}
+          </Badge>
+        ),
+    },
+    {
+      accessorKey: "money",
+      header: t("BILLING.TRANSACTIONS.AMOUNT"),
+      meta: { headerClassName: "text-right", cellClassName: "text-right" },
+      cell: ({ row }) => (
+        <span className="font-mono text-sm tabular-nums">
+          ${row.original.money.toFixed(2)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: t("BILLING.TRANSACTIONS.STATUS"),
+      cell: ({ row }) => (
+        <Badge variant={statusVariant(row.original.status)}>
+          {row.original.status in STATUS_KEYS
+            ? t(STATUS_KEYS[row.original.status as keyof typeof STATUS_KEYS])
+            : row.original.status}
+        </Badge>
+      ),
+    },
+    {
+      id: "actions",
+      header: t("BILLING.TRANSACTIONS.ACTIONS"),
+      meta: { headerClassName: "text-right", cellClassName: "text-right" },
+      cell: ({ row }) => {
+        const item = row.original;
+        const isPaid = PAID_STATUSES.includes(item.status);
 
-  if (props.rows.length === 0) {
-    return (
-      <p className="text-muted-foreground py-8 text-center text-sm">
-        {props.emptyLabel}
-      </p>
-    );
-  }
+        if (item.invoice_url && isPaid) {
+          return (
+            <a
+              href={item.invoice_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({ variant: "ghost", size: "sm" })}
+            >
+              {t("BILLING.TRANSACTIONS.VIEW_INVOICE")}
+              <Icon name="external-link" className="h-3.5 w-3.5" />
+            </a>
+          );
+        }
 
+        if (isPaid && PORTAL_PROVIDERS.includes(item.payment_method)) {
+          return (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleGetInvoice(item)}
+              disabled={portalMutation.isPending}
+            >
+              {t("BILLING.TRANSACTIONS.GET_INVOICE")}
+              <Icon name="file-text" className="h-3.5 w-3.5" />
+            </Button>
+          );
+        }
+
+        return (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() =>
+              copy.copy(item.trade_no, {
+                withToast: true,
+                successMessage: t("BILLING.TRANSACTIONS.COPIED"),
+              })
+            }
+          >
+            <span className="max-w-32 truncate font-mono text-[11px]">
+              {item.trade_no}
+            </span>
+            <Icon name="clipboard-copy" className="h-3.5 w-3.5" />
+          </Button>
+        );
+      },
+    },
+  ];
+}
+
+function EmptyState() {
+  const t = useTranslations();
   return (
-    <>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t("BILLING.TRANSACTIONS.DATE")}</TableHead>
-            <TableHead>{t("BILLING.TRANSACTIONS.DESCRIPTION")}</TableHead>
-            <TableHead>{t("BILLING.TRANSACTIONS.METHOD")}</TableHead>
-            <TableHead className="text-right">
-              {t("BILLING.TRANSACTIONS.AMOUNT")}
-            </TableHead>
-            <TableHead>{t("BILLING.TRANSACTIONS.STATUS")}</TableHead>
-            <TableHead className="text-right">
-              {t("BILLING.TRANSACTIONS.ACTIONS")}
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {props.rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell className="whitespace-nowrap tabular-nums">
-                {formatTimestamp(row.complete_time || row.create_time)}
-              </TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell>
-                <Badge variant="outline">{row.payment_method}</Badge>
-              </TableCell>
-              <TableCell className="text-right tabular-nums">
-                ${row.money.toFixed(2)}
-              </TableCell>
-              <TableCell>
-                <Badge variant={statusVariant(row.status)}>
-                  {row.status in STATUS_KEYS
-                    ? t(STATUS_KEYS[row.status as keyof typeof STATUS_KEYS])
-                    : row.status}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                {row.invoice_url ? (
-                  <a
-                    href={row.invoice_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={buttonVariants({ variant: "ghost", size: "sm" })}
-                  >
-                    {t("BILLING.TRANSACTIONS.VIEW_INVOICE")}
-                    <Icon name="external-link" className="h-3.5 w-3.5" />
-                  </a>
-                ) : PORTAL_PROVIDERS.includes(row.payment_method) ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleGetInvoice(row)}
-                    disabled={portalMutation.isPending}
-                  >
-                    {t("BILLING.TRANSACTIONS.GET_INVOICE")}
-                    <Icon name="file-text" className="h-3.5 w-3.5" />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      copy.copy(row.trade_no, {
-                        withToast: true,
-                        successMessage: t("BILLING.TRANSACTIONS.COPIED"),
-                      })
-                    }
-                  >
-                    <span className="max-w-32 truncate font-mono text-[11px]">
-                      {row.trade_no}
-                    </span>
-                    <Icon name="clipboard-copy" className="h-3.5 w-3.5" />
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <p className="text-muted-foreground mt-3 text-xs">
-        {t("BILLING.TRANSACTIONS.COUNT", { count: props.rows.length })}
-      </p>
-    </>
+    <div className="flex flex-col items-center gap-2">
+      <Icon name="credit-card" className="text-muted-foreground h-6 w-6" />
+      <span className="text-muted-foreground text-sm">
+        {t("BILLING.TRANSACTIONS.EMPTY")}
+      </span>
+    </div>
   );
 }
 
-export function TransactionsSection() {
+function TopUpTransactions() {
   const t = useTranslations();
-  const topUpsQuery = useTopUpHistoryQuery({ page_size: 50 });
-  const ordersQuery = useSubscriptionOrdersQuery({ page_size: 50 });
-  const plansQuery = useBillingPlansQuery();
+  const tableAtoms = createTableAtoms(DataTableId.BILLING_TOPUP_HISTORY);
+  const store = useAtomValue(tableAtoms.baseAtom);
+  const columns = useTransactionColumns();
 
-  const plans = plansQuery.data ?? [];
+  const topUpsQuery = useTopUpHistoryQuery({
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
+  });
 
-  const topUpRows: TransactionRow[] = (topUpsQuery.data?.items ?? []).map(
+  const rows: TransactionRow[] = (topUpsQuery.data?.items ?? []).map(
     (item) => ({
       id: item.id,
       money: item.money,
@@ -206,7 +226,33 @@ export function TransactionsSection() {
     }),
   );
 
-  const orderRows: TransactionRow[] = (ordersQuery.data?.items ?? []).map(
+  return (
+    <DataTable
+      id={DataTableId.BILLING_TOPUP_HISTORY}
+      data={rows}
+      columns={columns}
+      total={topUpsQuery.data?.total ?? 0}
+      isLoading={topUpsQuery.isLoading}
+      emptyState={<EmptyState />}
+    />
+  );
+}
+
+function SubscriptionTransactions() {
+  const t = useTranslations();
+  const tableAtoms = createTableAtoms(DataTableId.BILLING_SUBSCRIPTION_HISTORY);
+  const store = useAtomValue(tableAtoms.baseAtom);
+  const columns = useTransactionColumns();
+  const plansQuery = useBillingPlansQuery();
+
+  const ordersQuery = useSubscriptionOrdersQuery({
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
+  });
+
+  const plans = plansQuery.data ?? [];
+
+  const rows: TransactionRow[] = (ordersQuery.data?.items ?? []).map(
     (item) => ({
       id: item.id,
       money: item.money,
@@ -223,40 +269,18 @@ export function TransactionsSection() {
   );
 
   return (
-    <div>
-      <div className="mb-3 flex items-center gap-2">
-        <Icon name="credit-card" className="text-muted-foreground h-4 w-4" />
-        <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-          {t("BILLING.TRANSACTIONS.TITLE")}
-        </span>
-      </div>
-
-      <Tabs defaultValue="topups">
-        <TabsList>
-          <TabsTrigger value="topups">
-            {t("BILLING.TRANSACTIONS.TAB_TOPUPS")}
-          </TabsTrigger>
-          <TabsTrigger value="orders">
-            {t("BILLING.TRANSACTIONS.TAB_SUBSCRIPTIONS")}
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="topups">
-          <TransactionTable
-            rows={topUpRows}
-            isLoading={topUpsQuery.isLoading}
-            emptyLabel={t("BILLING.TRANSACTIONS.EMPTY")}
-          />
-        </TabsContent>
-
-        <TabsContent value="orders">
-          <TransactionTable
-            rows={orderRows}
-            isLoading={ordersQuery.isLoading}
-            emptyLabel={t("BILLING.TRANSACTIONS.EMPTY")}
-          />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <DataTable
+      id={DataTableId.BILLING_SUBSCRIPTION_HISTORY}
+      data={rows}
+      columns={columns}
+      total={ordersQuery.data?.total ?? 0}
+      isLoading={ordersQuery.isLoading}
+      emptyState={<EmptyState />}
+    />
   );
+}
+
+export function TransactionsSection(props: { kind: "topups" | "orders" }) {
+  if (props.kind === "topups") return <TopUpTransactions />;
+  return <SubscriptionTransactions />;
 }

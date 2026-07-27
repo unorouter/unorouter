@@ -3475,7 +3475,10 @@
       "RESETS_IN": "重置剩餘",
       "RESETS_AT": "重置時間",
       "PLAN_FALLBACK": "方案 #{planId}",
-      "CRYPTO_EMAIL_SENT": "加密貨幣訂閱已建立，請查收郵件中的首張帳單。"
+      "CRYPTO_EMAIL_SENT": "加密貨幣訂閱已建立，請查收郵件中的首張帳單。",
+      "CURRENT_PLAN": "目前方案",
+      "NO_ACTIVE_PLAN": "尚無有效訂閱",
+      "RENEWS_ON": "將於 {date} 續訂"
     },
     "PREFERENCE": {
       "TITLE": "計費偏好",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "加密貨幣"
     },
     "TRANSACTIONS": {
-      "TITLE": "交易紀錄",
-      "TAB_TOPUPS": "儲值",
-      "TAB_SUBSCRIPTIONS": "訂閱",
       "DATE": "日期",
       "DESCRIPTION": "說明",
       "METHOD": "付款方式",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "取得發票",
       "COPIED": "交易編號已複製",
       "EMPTY": "尚無交易紀錄。",
-      "LOADING": "正在載入交易紀錄……",
-      "COUNT": "共 {count} 筆交易",
       "TOPUP_DESCRIPTION": "儲值 {amount} 單位",
       "STATUS_PENDING": "處理中",
       "STATUS_SUCCESS": "已付款",
       "STATUS_PAID": "已付款",
       "STATUS_FAILED": "失敗",
-      "STATUS_EXPIRED": "已過期"
+      "STATUS_EXPIRED": "已過期",
+      "METHOD_MANUAL": "手動"
+    },
+    "TABS": {
+      "BUY": "購買",
+      "TOPUP_TRANSACTIONS": "儲值紀錄",
+      "SUBSCRIPTION_TRANSACTIONS": "訂閱紀錄"
+    },
+    "BALANCE": {
+      "RUNWAY": "按每天 {rate} 計算，約剩 {days} 天",
+      "LOW": "餘額不足，請儲值以維持請求運作"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "訂閱方案",
+      "QUOTA_TOPUP": "額度儲值"
     }
   },
   "FORM": {

@@ -3475,7 +3475,10 @@
       "RESETS_IN": "מתאפס בעוד",
       "RESETS_AT": "מתאפס ב",
       "PLAN_FALLBACK": "תוכנית #{planId}",
-      "CRYPTO_EMAIL_SENT": "מנוי קריפטו נוצר. בדקו את הדואר האלקטרוני שלכם לחשבונית הראשונה."
+      "CRYPTO_EMAIL_SENT": "מנוי קריפטו נוצר. בדקו את הדואר האלקטרוני שלכם לחשבונית הראשונה.",
+      "CURRENT_PLAN": "התוכנית הנוכחית",
+      "NO_ACTIVE_PLAN": "אין מנוי פעיל",
+      "RENEWS_ON": "מתחדש ב-{date}"
     },
     "PREFERENCE": {
       "TITLE": "העדפת חיוב",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "קריפטו"
     },
     "TRANSACTIONS": {
-      "TITLE": "עסקאות",
-      "TAB_TOPUPS": "טעינות",
-      "TAB_SUBSCRIPTIONS": "מנויים",
       "DATE": "תאריך",
       "DESCRIPTION": "תיאור",
       "METHOD": "אמצעי תשלום",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "קבלת חשבונית",
       "COPIED": "מזהה העסקה הועתק",
       "EMPTY": "אין עסקאות עדיין.",
-      "LOADING": "טוען עסקאות...",
-      "COUNT": "{count} עסקאות",
       "TOPUP_DESCRIPTION": "טעינה של {amount} יחידות",
       "STATUS_PENDING": "ממתין",
       "STATUS_SUCCESS": "שולם",
       "STATUS_PAID": "שולם",
       "STATUS_FAILED": "נכשל",
-      "STATUS_EXPIRED": "פג תוקף"
+      "STATUS_EXPIRED": "פג תוקף",
+      "METHOD_MANUAL": "ידני"
+    },
+    "TABS": {
+      "BUY": "רכישה",
+      "TOPUP_TRANSACTIONS": "היסטוריית טעינות",
+      "SUBSCRIPTION_TRANSACTIONS": "היסטוריית מנויים"
+    },
+    "BALANCE": {
+      "RUNWAY": "נותרו כ-{days} ימים בקצב של {rate} ליום",
+      "LOW": "היתרה נמוכה, טען כדי שהבקשות ימשיכו לפעול"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "תוכניות מנוי",
+      "QUOTA_TOPUP": "טעינת מכסה"
     }
   },
   "FORM": {

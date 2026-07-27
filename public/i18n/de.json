@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Zurücksetzung in",
       "RESETS_AT": "Zurücksetzung am",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Krypto-Abo erstellt. Prüfe deine E-Mails für die erste Rechnung."
+      "CRYPTO_EMAIL_SENT": "Krypto-Abo erstellt. Prüfe deine E-Mails für die erste Rechnung.",
+      "CURRENT_PLAN": "Aktueller Tarif",
+      "NO_ACTIVE_PLAN": "Kein aktives Abonnement",
+      "RENEWS_ON": "Verlängert sich am {date}"
     },
     "PREFERENCE": {
       "TITLE": "Abrechnungspräferenz",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Krypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "Transaktionen",
-      "TAB_TOPUPS": "Aufladungen",
-      "TAB_SUBSCRIPTIONS": "Abonnements",
       "DATE": "Datum",
       "DESCRIPTION": "Beschreibung",
       "METHOD": "Zahlungsart",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Rechnung anfordern",
       "COPIED": "Transaktions-ID kopiert",
       "EMPTY": "Noch keine Transaktionen.",
-      "LOADING": "Transaktionen werden geladen...",
-      "COUNT": "{count} Transaktionen",
       "TOPUP_DESCRIPTION": "Aufladung um {amount} Einheiten",
       "STATUS_PENDING": "Ausstehend",
       "STATUS_SUCCESS": "Bezahlt",
       "STATUS_PAID": "Bezahlt",
       "STATUS_FAILED": "Fehlgeschlagen",
-      "STATUS_EXPIRED": "Abgelaufen"
+      "STATUS_EXPIRED": "Abgelaufen",
+      "METHOD_MANUAL": "Manuell"
+    },
+    "TABS": {
+      "BUY": "Kaufen",
+      "TOPUP_TRANSACTIONS": "Aufladungsverlauf",
+      "SUBSCRIPTION_TRANSACTIONS": "Abonnementverlauf"
+    },
+    "BALANCE": {
+      "RUNWAY": "noch ca. {days} Tage bei {rate}/Tag",
+      "LOW": "Guthaben niedrig, jetzt aufladen, damit Anfragen weiterlaufen"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Abonnements",
+      "QUOTA_TOPUP": "Guthaben aufladen"
     }
   },
   "FORM": {

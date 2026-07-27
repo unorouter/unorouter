@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Sıfırlanır",
       "RESETS_AT": "Sıfırlanma tarihi",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto aboneliği oluşturuldu. İlk fatura için e-postanızı kontrol edin."
+      "CRYPTO_EMAIL_SENT": "Crypto aboneliği oluşturuldu. İlk fatura için e-postanızı kontrol edin.",
+      "CURRENT_PLAN": "Mevcut plan",
+      "NO_ACTIVE_PLAN": "Etkin abonelik yok",
+      "RENEWS_ON": "{date} tarihinde yenilenir"
     },
     "PREFERENCE": {
       "TITLE": "Faturalandırma Tercihi",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "İşlemler",
-      "TAB_TOPUPS": "Yüklemeler",
-      "TAB_SUBSCRIPTIONS": "Abonelikler",
       "DATE": "Tarih",
       "DESCRIPTION": "Açıklama",
       "METHOD": "Yöntem",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Fatura al",
       "COPIED": "İşlem kimliği kopyalandı",
       "EMPTY": "Henüz işlem yok.",
-      "LOADING": "İşlemler yükleniyor...",
-      "COUNT": "{count} işlem",
       "TOPUP_DESCRIPTION": "{amount} birim yükleme",
       "STATUS_PENDING": "Beklemede",
       "STATUS_SUCCESS": "Ödendi",
       "STATUS_PAID": "Ödendi",
       "STATUS_FAILED": "Başarısız",
-      "STATUS_EXPIRED": "Süresi doldu"
+      "STATUS_EXPIRED": "Süresi doldu",
+      "METHOD_MANUAL": "Manuel"
+    },
+    "TABS": {
+      "BUY": "Satın al",
+      "TOPUP_TRANSACTIONS": "Yükleme geçmişi",
+      "SUBSCRIPTION_TRANSACTIONS": "Abonelik geçmişi"
+    },
+    "BALANCE": {
+      "RUNWAY": "günlük {rate} ile ~{days} gün kaldı",
+      "LOW": "Bakiye düşük, isteklerin sürmesi için yükleme yapın"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Abonelik planları",
+      "QUOTA_TOPUP": "Bakiye yükleme"
     }
   },
   "FORM": {

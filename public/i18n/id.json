@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Reset dalam",
       "RESETS_AT": "Reset pada",
       "PLAN_FALLBACK": "Paket #{planId}",
-      "CRYPTO_EMAIL_SENT": "Langganan crypto dibuat. Periksa email Anda untuk faktur pertama."
+      "CRYPTO_EMAIL_SENT": "Langganan crypto dibuat. Periksa email Anda untuk faktur pertama.",
+      "CURRENT_PLAN": "Paket saat ini",
+      "NO_ACTIVE_PLAN": "Tidak ada langganan aktif",
+      "RENEWS_ON": "Diperpanjang pada {date}"
     },
     "PREFERENCE": {
       "TITLE": "Preferensi Penagihan",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "Transaksi",
-      "TAB_TOPUPS": "Isi ulang",
-      "TAB_SUBSCRIPTIONS": "Langganan",
       "DATE": "Tanggal",
       "DESCRIPTION": "Deskripsi",
       "METHOD": "Metode",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Dapatkan faktur",
       "COPIED": "ID transaksi disalin",
       "EMPTY": "Belum ada transaksi.",
-      "LOADING": "Memuat transaksi...",
-      "COUNT": "{count} transaksi",
       "TOPUP_DESCRIPTION": "Isi ulang {amount} unit",
       "STATUS_PENDING": "Tertunda",
       "STATUS_SUCCESS": "Dibayar",
       "STATUS_PAID": "Dibayar",
       "STATUS_FAILED": "Gagal",
-      "STATUS_EXPIRED": "Kedaluwarsa"
+      "STATUS_EXPIRED": "Kedaluwarsa",
+      "METHOD_MANUAL": "Manual"
+    },
+    "TABS": {
+      "BUY": "Beli",
+      "TOPUP_TRANSACTIONS": "Riwayat isi ulang",
+      "SUBSCRIPTION_TRANSACTIONS": "Riwayat langganan"
+    },
+    "BALANCE": {
+      "RUNWAY": "~{days} hari tersisa pada {rate}/hari",
+      "LOW": "Saldo rendah, isi ulang agar permintaan tetap berjalan"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Paket langganan",
+      "QUOTA_TOPUP": "Isi ulang kuota"
     }
   },
   "FORM": {

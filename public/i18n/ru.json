@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Сброс через",
       "RESETS_AT": "Сброс в",
       "PLAN_FALLBACK": "Тариф #{planId}",
-      "CRYPTO_EMAIL_SENT": "Крипто-подписка создана. Проверьте почту для первого счёта."
+      "CRYPTO_EMAIL_SENT": "Крипто-подписка создана. Проверьте почту для первого счёта.",
+      "CURRENT_PLAN": "Текущий тариф",
+      "NO_ACTIVE_PLAN": "Нет активной подписки",
+      "RENEWS_ON": "Продлевается {date}"
     },
     "PREFERENCE": {
       "TITLE": "Предпочтение оплаты",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Криптовалюта"
     },
     "TRANSACTIONS": {
-      "TITLE": "Транзакции",
-      "TAB_TOPUPS": "Пополнения",
-      "TAB_SUBSCRIPTIONS": "Подписки",
       "DATE": "Дата",
       "DESCRIPTION": "Описание",
       "METHOD": "Способ оплаты",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Получить счёт",
       "COPIED": "Идентификатор транзакции скопирован",
       "EMPTY": "Транзакций пока нет.",
-      "LOADING": "Загрузка транзакций...",
-      "COUNT": "Транзакций: {count}",
       "TOPUP_DESCRIPTION": "Пополнение на {amount} единиц",
       "STATUS_PENDING": "В обработке",
       "STATUS_SUCCESS": "Оплачено",
       "STATUS_PAID": "Оплачено",
       "STATUS_FAILED": "Ошибка",
-      "STATUS_EXPIRED": "Истёк срок"
+      "STATUS_EXPIRED": "Истёк срок",
+      "METHOD_MANUAL": "Вручную"
+    },
+    "TABS": {
+      "BUY": "Купить",
+      "TOPUP_TRANSACTIONS": "История пополнений",
+      "SUBSCRIPTION_TRANSACTIONS": "История подписок"
+    },
+    "BALANCE": {
+      "RUNWAY": "осталось ~{days} дн. при расходе {rate}/день",
+      "LOW": "Низкий баланс, пополните, чтобы запросы не прерывались"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Тарифы подписки",
+      "QUOTA_TOPUP": "Пополнение баланса"
     }
   },
   "FORM": {

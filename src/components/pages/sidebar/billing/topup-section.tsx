@@ -1,6 +1,5 @@
 "use client";
 
-import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { DEFAULT_TOPUP_AMOUNTS } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
@@ -17,12 +16,12 @@ function TopUpTile(props: {
     <button
       onClick={props.onPay}
       disabled={props.disabled}
-      className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
+      className="border-border hover:border-primary/50 focus-visible:border-primary focus-visible:ring-ring/50 flex flex-col items-center gap-1 border p-4 transition-colors focus-visible:ring-[3px] focus-visible:outline-none disabled:opacity-50"
     >
-      <span className="text-foreground text-2xl font-bold tabular-nums">
+      <span className="text-foreground text-2xl font-bold tracking-tight tabular-nums">
         ${props.price}
       </span>
-      <span className="text-muted-foreground font-mono text-[11px]">
+      <span className="text-muted-foreground font-mono text-[10px]">
         {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${props.actual.toFixed(2)}
         {(props.save ?? 0) > 0 && (
           <>
@@ -35,7 +34,6 @@ function TopUpTile(props: {
 }
 
 export function TopUpSection() {
-  const t = useTranslations();
   const billing = useBillingActions();
   const topUpInfo = billing.topUpInfo;
 
@@ -56,13 +54,6 @@ export function TopUpSection() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
-        <h2 className="text-foreground text-lg font-bold tracking-tight">
-          {t("BILLING.TOPUP.TITLE")}
-        </h2>
-        <PaymentMethodToggle />
-      </div>
-
       {showCard && billing.enableStripe && amountOptions.length > 0 && (
         <div className={grid}>
           {amountOptions.map((amount) => (

@@ -3,6 +3,7 @@
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { env } from "@/lib/config/env";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
@@ -29,34 +30,48 @@ export function Billing() {
       </div>
 
       <div className="mb-6">
-        <div className="mb-3 flex items-center gap-2">
-          <Icon name="wallet" className="text-muted-foreground h-4 w-4" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("BILLING.ACCOUNT_STATS")}
-          </span>
-        </div>
         <SectionBoundary>
           <AccountStats />
         </SectionBoundary>
       </div>
 
-      <div className="mb-6">
-        <SectionBoundary>
-          <SubscriptionSection />
-        </SectionBoundary>
-      </div>
+      <Tabs defaultValue="buy" className="mb-6">
+        <TabsList>
+          <TabsTrigger value="buy">{t("BILLING.TABS.BUY")}</TabsTrigger>
+          <TabsTrigger value="topup-transactions">
+            {t("BILLING.TABS.TOPUP_TRANSACTIONS")}
+          </TabsTrigger>
+          <TabsTrigger value="subscription-transactions">
+            {t("BILLING.TABS.SUBSCRIPTION_TRANSACTIONS")}
+          </TabsTrigger>
+        </TabsList>
 
-      <div className="mb-6">
-        <SectionBoundary>
-          <TopUpSection />
-        </SectionBoundary>
-      </div>
+        <TabsContent value="buy" className="space-y-8">
+          <SectionBoundary>
+            <SubscriptionSection />
+          </SectionBoundary>
+          <div className="space-y-3">
+            <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
+              {t("BILLING.SECTIONS.QUOTA_TOPUP")}
+            </span>
+            <SectionBoundary>
+              <TopUpSection />
+            </SectionBoundary>
+          </div>
+        </TabsContent>
 
-      <div className="mb-6">
-        <SectionBoundary>
-          <TransactionsSection />
-        </SectionBoundary>
-      </div>
+        <TabsContent value="topup-transactions">
+          <SectionBoundary>
+            <TransactionsSection kind="topups" />
+          </SectionBoundary>
+        </TabsContent>
+
+        <TabsContent value="subscription-transactions">
+          <SectionBoundary>
+            <TransactionsSection kind="orders" />
+          </SectionBoundary>
+        </TabsContent>
+      </Tabs>
 
       <div className="mb-6">
         <div className="mb-3 flex items-center gap-2">

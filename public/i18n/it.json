@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Si reimposta in",
       "RESETS_AT": "Si reimposta alle",
       "PLAN_FALLBACK": "Piano #{planId}",
-      "CRYPTO_EMAIL_SENT": "Abbonamento crypto creato. Controlla la tua email per la prima fattura."
+      "CRYPTO_EMAIL_SENT": "Abbonamento crypto creato. Controlla la tua email per la prima fattura.",
+      "CURRENT_PLAN": "Piano attuale",
+      "NO_ACTIVE_PLAN": "Nessun abbonamento attivo",
+      "RENEWS_ON": "Si rinnova il {date}"
     },
     "PREFERENCE": {
       "TITLE": "Preferenza di fatturazione",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "Transazioni",
-      "TAB_TOPUPS": "Ricariche",
-      "TAB_SUBSCRIPTIONS": "Abbonamenti",
       "DATE": "Data",
       "DESCRIPTION": "Descrizione",
       "METHOD": "Metodo",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Ottieni fattura",
       "COPIED": "ID transazione copiato",
       "EMPTY": "Nessuna transazione al momento.",
-      "LOADING": "Caricamento delle transazioni...",
-      "COUNT": "{count} transazioni",
       "TOPUP_DESCRIPTION": "Ricarica di {amount} unità",
       "STATUS_PENDING": "In sospeso",
       "STATUS_SUCCESS": "Pagato",
       "STATUS_PAID": "Pagato",
       "STATUS_FAILED": "Non riuscito",
-      "STATUS_EXPIRED": "Scaduto"
+      "STATUS_EXPIRED": "Scaduto",
+      "METHOD_MANUAL": "Manuale"
+    },
+    "TABS": {
+      "BUY": "Acquista",
+      "TOPUP_TRANSACTIONS": "Cronologia ricariche",
+      "SUBSCRIPTION_TRANSACTIONS": "Cronologia abbonamenti"
+    },
+    "BALANCE": {
+      "RUNWAY": "~{days} giorni rimasti a {rate}/giorno",
+      "LOW": "Saldo basso, ricarica per non interrompere le richieste"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Piani di abbonamento",
+      "QUOTA_TOPUP": "Ricarica credito"
     }
   },
   "FORM": {

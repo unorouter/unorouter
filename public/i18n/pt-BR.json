@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Reseta em",
       "RESETS_AT": "Reseta às",
       "PLAN_FALLBACK": "Plano #{planId}",
-      "CRYPTO_EMAIL_SENT": "Assinatura cripto criada. Verifique seu email para a primeira fatura."
+      "CRYPTO_EMAIL_SENT": "Assinatura cripto criada. Verifique seu email para a primeira fatura.",
+      "CURRENT_PLAN": "Plano atual",
+      "NO_ACTIVE_PLAN": "Nenhuma assinatura ativa",
+      "RENEWS_ON": "Renova em {date}"
     },
     "PREFERENCE": {
       "TITLE": "Preferência de faturamento",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Cripto"
     },
     "TRANSACTIONS": {
-      "TITLE": "Transações",
-      "TAB_TOPUPS": "Recargas",
-      "TAB_SUBSCRIPTIONS": "Assinaturas",
       "DATE": "Data",
       "DESCRIPTION": "Descrição",
       "METHOD": "Método",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Obter fatura",
       "COPIED": "ID da transação copiado",
       "EMPTY": "Ainda não há transações.",
-      "LOADING": "Carregando transações...",
-      "COUNT": "{count} transações",
       "TOPUP_DESCRIPTION": "Recarga de {amount} unidades",
       "STATUS_PENDING": "Pendente",
       "STATUS_SUCCESS": "Pago",
       "STATUS_PAID": "Pago",
       "STATUS_FAILED": "Falhou",
-      "STATUS_EXPIRED": "Expirado"
+      "STATUS_EXPIRED": "Expirado",
+      "METHOD_MANUAL": "Manual"
+    },
+    "TABS": {
+      "BUY": "Comprar",
+      "TOPUP_TRANSACTIONS": "Histórico de recargas",
+      "SUBSCRIPTION_TRANSACTIONS": "Histórico de assinaturas"
+    },
+    "BALANCE": {
+      "RUNWAY": "~{days} dias restantes a {rate}/dia",
+      "LOW": "Saldo baixo, recarregue para manter as requisições ativas"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Planos de assinatura",
+      "QUOTA_TOPUP": "Recarga de saldo"
     }
   },
   "FORM": {

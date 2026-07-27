@@ -31,6 +31,9 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
+// Expired plans stay visible for a grace window, then drop off the list.
+const EXPIRED_RETENTION_DAYS = 30;
+
 export function SubscriptionSection() {
   const t = useTranslations();
   const plansQuery = useBillingPlansQuery();
@@ -47,8 +50,16 @@ export function SubscriptionSection() {
   const activeSubscriptions = (selfData?.subscriptions ?? []).filter(
     (s) => s.subscription && s.subscription.status === "active",
   );
-  const allSubscriptions = selfData?.all_subscriptions ?? [];
-  const hasActive = activeSubscriptions.length > 0;
+  const expiredCutoff = dayjs().subtract(EXPIRED_RETENTION_DAYS, "day");
+  const allSubscriptions = (selfData?.all_subscriptions ?? []).filter(
+    (item) => {
+      const sub = item.subscription;
+      if (!sub) return false;
+      if (sub.status === "active") return true;
+      return dayjs.unix(sub.end_time).isAfter(expiredCutoff);
+    },
+  );
+  const primarySubscription = activeSubscriptions[0]?.subscription;
 
   function handlePreferenceChange(value: string | null) {
     if (value) {
@@ -79,15 +90,31 @@ export function SubscriptionSection() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <h2 className="text-foreground text-lg font-bold tracking-tight">
-            {t("BILLING.SUBSCRIPTION.MY")}
-          </h2>
-          <Badge variant={hasActive ? "default" : "secondary"}>
-            {hasActive
-              ? t("BILLING.SUBSCRIPTION.ACTIVE")
-              : t("BILLING.SUBSCRIPTION.NO_ACTIVE")}
-          </Badge>
+        <div className="min-w-0">
+          <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
+            {t("BILLING.SUBSCRIPTION.CURRENT_PLAN")}
+          </span>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <span className="text-foreground text-lg font-bold tracking-tight">
+              {primarySubscription
+                ? getPlanTitle(primarySubscription.plan_id)
+                : t("BILLING.SUBSCRIPTION.NO_ACTIVE_PLAN")}
+            </span>
+            {primarySubscription && (
+              <Badge variant="default">
+                {t("BILLING.SUBSCRIPTION.ACTIVE")}
+              </Badge>
+            )}
+          </div>
+          {primarySubscription && (
+            <span className="text-muted-foreground mt-1 block font-mono text-xs">
+              {t("BILLING.SUBSCRIPTION.RENEWS_ON", {
+                date: dayjs
+                  .unix(primarySubscription.end_time)
+                  .format("MMM D, YYYY"),
+              })}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Select
@@ -208,90 +235,95 @@ export function SubscriptionSection() {
       )}
 
       {plans.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {plans.map((plan, i) => {
-            const multiplier = getMultiplier(plan);
-            const quotaUsd = plan.quotaPerResetUsd;
-            const periodSuffix = resetPeriodSuffixKey(plan.quotaResetPeriod);
-            const isMutating = billing.isSubMutating;
+        <div className="space-y-3">
+          <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
+            {t("BILLING.SECTIONS.SUBSCRIPTION_PLANS")}
+          </span>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {plans.map((plan, i) => {
+              const multiplier = getMultiplier(plan);
+              const quotaUsd = plan.quotaPerResetUsd;
+              const periodSuffix = resetPeriodSuffixKey(plan.quotaResetPeriod);
+              const isMutating = billing.isSubMutating;
 
-            return (
-              <div
-                key={plan.id}
-                className={`border-border hover:border-primary/50 relative flex flex-col border p-6 transition-colors ${
-                  i === 0 ? "border-primary/50" : ""
-                }`}
-              >
-                {i === 0 && (
-                  <div className="absolute top-3 right-3">
-                    <Badge className="bg-primary/10 text-primary gap-1">
-                      <Icon name="sparkles" className="h-3 w-3" />
-                      {t("BILLING.SUBSCRIPTION.RECOMMENDED")}
-                    </Badge>
-                  </div>
-                )}
-
-                <h3 className="text-foreground text-sm font-bold">
-                  {plan.title}
-                </h3>
-
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-muted-foreground text-sm">$</span>
-                  <span className="text-foreground text-3xl font-bold tabular-nums">
-                    {plan.priceAmount}
-                  </span>
-                </div>
-
-                <div className="text-muted-foreground mt-4 space-y-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                    {t("BILLING.SUBSCRIPTION.VALIDITY")}: {plan.durationValue}{" "}
-                    {plan.durationValue === 1
-                      ? t("BILLING.SUBSCRIPTION.MONTH")
-                      : t("BILLING.SUBSCRIPTION.MONTHS")}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                    {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
-                    {t(resetPeriodLabelKey(plan.quotaResetPeriod))}
-                  </div>
-                  {quotaUsd > 0 && (
-                    <div className="flex items-center gap-2">
-                      <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.SUBSCRIPTION.TOTAL_QUOTA")}: $
-                      {quotaUsd.toFixed(2)}
-                      {t(periodSuffix)}
+              return (
+                <div
+                  key={plan.id}
+                  className={`border-border hover:border-primary/50 relative flex flex-col border p-6 transition-colors ${
+                    i === 0 ? "border-primary/50 bg-primary/2" : ""
+                  }`}
+                >
+                  {i === 0 && (
+                    <div className="absolute top-3 right-3">
+                      <Badge className="bg-primary/10 text-primary gap-1">
+                        <Icon name="sparkles" className="h-3 w-3" />
+                        {t("BILLING.SUBSCRIPTION.RECOMMENDED")}
+                      </Badge>
                     </div>
                   )}
-                  {multiplier > 0 && (
+
+                  <h3 className="text-foreground text-sm font-bold">
+                    {plan.title}
+                  </h3>
+
+                  <div className="mt-3 flex items-baseline gap-1">
+                    <span className="text-muted-foreground text-sm">$</span>
+                    <span className="text-foreground text-3xl font-bold tabular-nums">
+                      {plan.priceAmount}
+                    </span>
+                  </div>
+
+                  <div className="text-muted-foreground mt-4 space-y-2 text-xs">
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.SUBSCRIPTION.EST_TOTAL_QUOTA")}: ~$
-                      {plan.estimatedTotalUsd.toFixed(2)}
+                      {t("BILLING.SUBSCRIPTION.VALIDITY")}: {plan.durationValue}{" "}
+                      {plan.durationValue === 1
+                        ? t("BILLING.SUBSCRIPTION.MONTH")
+                        : t("BILLING.SUBSCRIPTION.MONTHS")}
                     </div>
-                  )}
-                </div>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
+                      {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
+                      {t(resetPeriodLabelKey(plan.quotaResetPeriod))}
+                    </div>
+                    {quotaUsd > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
+                        {t("BILLING.SUBSCRIPTION.TOTAL_QUOTA")}: $
+                        {quotaUsd.toFixed(2)}
+                        {t(periodSuffix)}
+                      </div>
+                    )}
+                    {multiplier > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
+                        {t("BILLING.SUBSCRIPTION.EST_TOTAL_QUOTA")}: ~$
+                        {plan.estimatedTotalUsd.toFixed(2)}
+                      </div>
+                    )}
+                  </div>
 
-                <div className="mt-auto pt-6">
-                  <Button
-                    variant={i === 0 ? "default" : "outline"}
-                    className="w-full"
-                    onClick={() =>
-                      billing.subscribe(plan, { isLoggedIn: true })
-                    }
-                    disabled={
-                      isMutating ||
-                      (!billing.enableStripe &&
-                        !billing.enableCreem &&
-                        !billing.enableNowPayments)
-                    }
-                  >
-                    {t("BILLING.SUBSCRIPTION.SUBSCRIBE_NOW")}
-                  </Button>
+                  <div className="mt-auto pt-6">
+                    <Button
+                      variant={i === 0 ? "default" : "outline"}
+                      className="w-full"
+                      onClick={() =>
+                        billing.subscribe(plan, { isLoggedIn: true })
+                      }
+                      disabled={
+                        isMutating ||
+                        (!billing.enableStripe &&
+                          !billing.enableCreem &&
+                          !billing.enableNowPayments)
+                      }
+                    >
+                      {t("BILLING.SUBSCRIPTION.SUBSCRIBE_NOW")}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

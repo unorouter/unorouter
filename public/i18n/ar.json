@@ -3475,7 +3475,10 @@
       "RESETS_IN": "تُعاد بعد",
       "RESETS_AT": "تُعاد في",
       "PLAN_FALLBACK": "خطّة #{planId}",
-      "CRYPTO_EMAIL_SENT": "تمّ إنشاء اشتراك العملات المشفّرة. تحقّق من بريدك للفاتورة الأولى."
+      "CRYPTO_EMAIL_SENT": "تمّ إنشاء اشتراك العملات المشفّرة. تحقّق من بريدك للفاتورة الأولى.",
+      "CURRENT_PLAN": "الباقة الحالية",
+      "NO_ACTIVE_PLAN": "لا يوجد اشتراك نشط",
+      "RENEWS_ON": "يتجدد في {date}"
     },
     "PREFERENCE": {
       "TITLE": "تفضيل الفوترة",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "عملات مشفّرة"
     },
     "TRANSACTIONS": {
-      "TITLE": "المعاملات",
-      "TAB_TOPUPS": "عمليات الشحن",
-      "TAB_SUBSCRIPTIONS": "الاشتراكات",
       "DATE": "التاريخ",
       "DESCRIPTION": "الوصف",
       "METHOD": "طريقة الدفع",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "الحصول على الفاتورة",
       "COPIED": "تم نسخ معرف المعاملة",
       "EMPTY": "لا توجد معاملات بعد.",
-      "LOADING": "جارٍ تحميل المعاملات...",
-      "COUNT": "{count} معاملة",
       "TOPUP_DESCRIPTION": "شحن {amount} وحدة",
       "STATUS_PENDING": "قيد الانتظار",
       "STATUS_SUCCESS": "مدفوعة",
       "STATUS_PAID": "مدفوعة",
       "STATUS_FAILED": "فشلت",
-      "STATUS_EXPIRED": "منتهية الصلاحية"
+      "STATUS_EXPIRED": "منتهية الصلاحية",
+      "METHOD_MANUAL": "يدوي"
+    },
+    "TABS": {
+      "BUY": "شراء",
+      "TOPUP_TRANSACTIONS": "سجل الشحن",
+      "SUBSCRIPTION_TRANSACTIONS": "سجل الاشتراكات"
+    },
+    "BALANCE": {
+      "RUNWAY": "يتبقى نحو {days} يوم بمعدل {rate}/يوم",
+      "LOW": "الرصيد منخفض، اشحن للحفاظ على استمرار الطلبات"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "باقات الاشتراك",
+      "QUOTA_TOPUP": "شحن الرصيد"
     }
   },
   "FORM": {

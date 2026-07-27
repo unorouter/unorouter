@@ -3475,7 +3475,10 @@
       "RESETS_IN": "다음 초기화까지",
       "RESETS_AT": "초기화 시점",
       "PLAN_FALLBACK": "플랜 #{planId}",
-      "CRYPTO_EMAIL_SENT": "암호화폐 구독이 생성되었습니다. 첫 청구서는 이메일을 확인하세요."
+      "CRYPTO_EMAIL_SENT": "암호화폐 구독이 생성되었습니다. 첫 청구서는 이메일을 확인하세요.",
+      "CURRENT_PLAN": "현재 요금제",
+      "NO_ACTIVE_PLAN": "활성 구독 없음",
+      "RENEWS_ON": "{date}에 갱신"
     },
     "PREFERENCE": {
       "TITLE": "결제 환경 설정",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "암호화폐"
     },
     "TRANSACTIONS": {
-      "TITLE": "거래 내역",
-      "TAB_TOPUPS": "충전",
-      "TAB_SUBSCRIPTIONS": "구독",
       "DATE": "날짜",
       "DESCRIPTION": "설명",
       "METHOD": "결제 수단",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "청구서 받기",
       "COPIED": "거래 ID가 복사되었습니다",
       "EMPTY": "아직 거래가 없습니다.",
-      "LOADING": "거래를 불러오는 중...",
-      "COUNT": "거래 {count}건",
       "TOPUP_DESCRIPTION": "{amount} 단위 충전",
       "STATUS_PENDING": "대기 중",
       "STATUS_SUCCESS": "결제 완료",
       "STATUS_PAID": "결제 완료",
       "STATUS_FAILED": "실패",
-      "STATUS_EXPIRED": "만료됨"
+      "STATUS_EXPIRED": "만료됨",
+      "METHOD_MANUAL": "수동"
+    },
+    "TABS": {
+      "BUY": "구매",
+      "TOPUP_TRANSACTIONS": "충전 내역",
+      "SUBSCRIPTION_TRANSACTIONS": "구독 내역"
+    },
+    "BALANCE": {
+      "RUNWAY": "하루 {rate} 기준 약 {days}일 남음",
+      "LOW": "잔액이 부족합니다. 요청을 계속하려면 충전하세요"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "구독 요금제",
+      "QUOTA_TOPUP": "쿼터 충전"
     }
   },
   "FORM": {

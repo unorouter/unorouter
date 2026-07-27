@@ -3475,7 +3475,10 @@
       "RESETS_IN": "रीसेट होता है",
       "RESETS_AT": "रीसेट होता है",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto subscription बनाई गई। पहले invoice के लिए अपना ईमेल जांचें।"
+      "CRYPTO_EMAIL_SENT": "Crypto subscription बनाई गई। पहले invoice के लिए अपना ईमेल जांचें।",
+      "CURRENT_PLAN": "वर्तमान योजना",
+      "NO_ACTIVE_PLAN": "कोई सक्रिय सदस्यता नहीं",
+      "RENEWS_ON": "{date} को नवीनीकृत होगा"
     },
     "PREFERENCE": {
       "TITLE": "Billing Preference",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "लेन-देन",
-      "TAB_TOPUPS": "टॉप-अप",
-      "TAB_SUBSCRIPTIONS": "सदस्यताएँ",
       "DATE": "तारीख",
       "DESCRIPTION": "विवरण",
       "METHOD": "भुगतान विधि",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "चालान प्राप्त करें",
       "COPIED": "लेन-देन आईडी कॉपी हो गई",
       "EMPTY": "अभी तक कोई लेन-देन नहीं।",
-      "LOADING": "लेन-देन लोड हो रहे हैं...",
-      "COUNT": "{count} लेन-देन",
       "TOPUP_DESCRIPTION": "{amount} यूनिट का टॉप-अप",
       "STATUS_PENDING": "लंबित",
       "STATUS_SUCCESS": "भुगतान हो गया",
       "STATUS_PAID": "भुगतान हो गया",
       "STATUS_FAILED": "विफल",
-      "STATUS_EXPIRED": "समाप्त"
+      "STATUS_EXPIRED": "समाप्त",
+      "METHOD_MANUAL": "मैनुअल"
+    },
+    "TABS": {
+      "BUY": "खरीदें",
+      "TOPUP_TRANSACTIONS": "टॉप-अप इतिहास",
+      "SUBSCRIPTION_TRANSACTIONS": "सदस्यता इतिहास"
+    },
+    "BALANCE": {
+      "RUNWAY": "{rate}/दिन की दर से लगभग {days} दिन शेष",
+      "LOW": "शेष राशि कम है, अनुरोध चालू रखने के लिए टॉप-अप करें"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "सदस्यता योजनाएँ",
+      "QUOTA_TOPUP": "कोटा टॉप-अप"
     }
   },
   "FORM": {

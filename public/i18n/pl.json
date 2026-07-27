@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Resetuje za",
       "RESETS_AT": "Resetuje o",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Subskrypcja krypto utworzona. Sprawdź e-mail w sprawie pierwszej faktury."
+      "CRYPTO_EMAIL_SENT": "Subskrypcja krypto utworzona. Sprawdź e-mail w sprawie pierwszej faktury.",
+      "CURRENT_PLAN": "Bieżący plan",
+      "NO_ACTIVE_PLAN": "Brak aktywnej subskrypcji",
+      "RENEWS_ON": "Odnawia się {date}"
     },
     "PREFERENCE": {
       "TITLE": "Preferencja rozliczeń",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Krypto"
     },
     "TRANSACTIONS": {
-      "TITLE": "Transakcje",
-      "TAB_TOPUPS": "Doładowania",
-      "TAB_SUBSCRIPTIONS": "Subskrypcje",
       "DATE": "Data",
       "DESCRIPTION": "Opis",
       "METHOD": "Metoda",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Pobierz fakturę",
       "COPIED": "Skopiowano identyfikator transakcji",
       "EMPTY": "Brak transakcji.",
-      "LOADING": "Wczytywanie transakcji...",
-      "COUNT": "Liczba transakcji: {count}",
       "TOPUP_DESCRIPTION": "Doładowanie o {amount} jednostek",
       "STATUS_PENDING": "Oczekująca",
       "STATUS_SUCCESS": "Opłacona",
       "STATUS_PAID": "Opłacona",
       "STATUS_FAILED": "Nieudana",
-      "STATUS_EXPIRED": "Wygasła"
+      "STATUS_EXPIRED": "Wygasła",
+      "METHOD_MANUAL": "Ręcznie"
+    },
+    "TABS": {
+      "BUY": "Kup",
+      "TOPUP_TRANSACTIONS": "Historia doładowań",
+      "SUBSCRIPTION_TRANSACTIONS": "Historia subskrypcji"
+    },
+    "BALANCE": {
+      "RUNWAY": "~{days} dni przy zużyciu {rate}/dzień",
+      "LOW": "Niskie saldo, doładuj, aby zapytania działały dalej"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Plany subskrypcji",
+      "QUOTA_TOPUP": "Doładowanie salda"
     }
   },
   "FORM": {

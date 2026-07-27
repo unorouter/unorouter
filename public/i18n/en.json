@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Resets in",
       "RESETS_AT": "Resets at",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto subscription created. Check your email for the first invoice."
+      "CRYPTO_EMAIL_SENT": "Crypto subscription created. Check your email for the first invoice.",
+      "CURRENT_PLAN": "Current plan",
+      "NO_ACTIVE_PLAN": "No active subscription",
+      "RENEWS_ON": "Renews on {date}"
     },
     "PREFERENCE": {
       "TITLE": "Billing Preference",
@@ -3510,9 +3513,6 @@
     "SUPPORT_TITLE": "Need help?",
     "SUPPORT_TEXT": "Questions about billing or your account? Email us at {supportEmail} and we will respond within one business day.",
     "TRANSACTIONS": {
-      "TITLE": "Transactions",
-      "TAB_TOPUPS": "Top-ups",
-      "TAB_SUBSCRIPTIONS": "Subscriptions",
       "DATE": "Date",
       "DESCRIPTION": "Description",
       "METHOD": "Method",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Get invoice",
       "COPIED": "Transaction ID copied",
       "EMPTY": "No transactions yet.",
-      "LOADING": "Loading transactions...",
-      "COUNT": "{count} transactions",
       "TOPUP_DESCRIPTION": "Top-up of {amount} units",
       "STATUS_PENDING": "Pending",
       "STATUS_SUCCESS": "Paid",
       "STATUS_PAID": "Paid",
       "STATUS_FAILED": "Failed",
-      "STATUS_EXPIRED": "Expired"
+      "STATUS_EXPIRED": "Expired",
+      "METHOD_MANUAL": "Manual"
+    },
+    "TABS": {
+      "BUY": "Buy",
+      "TOPUP_TRANSACTIONS": "Top-up history",
+      "SUBSCRIPTION_TRANSACTIONS": "Subscription history"
+    },
+    "BALANCE": {
+      "RUNWAY": "~{days} days left at {rate}/day",
+      "LOW": "Low balance, top up to keep requests running"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Subscription plans",
+      "QUOTA_TOPUP": "Quota top-up"
     }
   },
   "FORM": {

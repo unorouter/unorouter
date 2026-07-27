@@ -3475,7 +3475,10 @@
       "RESETS_IN": "Đặt lại sau",
       "RESETS_AT": "Đặt lại lúc",
       "PLAN_FALLBACK": "Gói #{planId}",
-      "CRYPTO_EMAIL_SENT": "Đã tạo gói đăng ký crypto. Kiểm tra email để xem hoá đơn đầu tiên."
+      "CRYPTO_EMAIL_SENT": "Đã tạo gói đăng ký crypto. Kiểm tra email để xem hoá đơn đầu tiên.",
+      "CURRENT_PLAN": "Gói hiện tại",
+      "NO_ACTIVE_PLAN": "Chưa có gói đăng ký",
+      "RENEWS_ON": "Gia hạn vào {date}"
     },
     "PREFERENCE": {
       "TITLE": "Tùy chọn thanh toán",
@@ -3510,9 +3513,6 @@
       "CRYPTO": "Tiền mã hoá"
     },
     "TRANSACTIONS": {
-      "TITLE": "Giao dịch",
-      "TAB_TOPUPS": "Nạp tiền",
-      "TAB_SUBSCRIPTIONS": "Gói đăng ký",
       "DATE": "Ngày",
       "DESCRIPTION": "Mô tả",
       "METHOD": "Phương thức",
@@ -3523,14 +3523,26 @@
       "GET_INVOICE": "Lấy hóa đơn",
       "COPIED": "Đã sao chép mã giao dịch",
       "EMPTY": "Chưa có giao dịch nào.",
-      "LOADING": "Đang tải giao dịch...",
-      "COUNT": "{count} giao dịch",
       "TOPUP_DESCRIPTION": "Nạp {amount} đơn vị",
       "STATUS_PENDING": "Đang chờ",
       "STATUS_SUCCESS": "Đã thanh toán",
       "STATUS_PAID": "Đã thanh toán",
       "STATUS_FAILED": "Thất bại",
-      "STATUS_EXPIRED": "Đã hết hạn"
+      "STATUS_EXPIRED": "Đã hết hạn",
+      "METHOD_MANUAL": "Thủ công"
+    },
+    "TABS": {
+      "BUY": "Mua",
+      "TOPUP_TRANSACTIONS": "Lịch sử nạp tiền",
+      "SUBSCRIPTION_TRANSACTIONS": "Lịch sử đăng ký"
+    },
+    "BALANCE": {
+      "RUNWAY": "còn ~{days} ngày với {rate}/ngày",
+      "LOW": "Số dư thấp, hãy nạp thêm để duy trì yêu cầu"
+    },
+    "SECTIONS": {
+      "SUBSCRIPTION_PLANS": "Gói đăng ký",
+      "QUOTA_TOPUP": "Nạp hạn mức"
     }
   },
   "FORM": {

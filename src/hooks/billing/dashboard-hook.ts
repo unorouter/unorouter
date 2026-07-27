@@ -8,9 +8,12 @@ import type { EdenQuery } from "@/lib/types/eden";
 
 export function useDashboardQuotaQuery(
   query?: EdenQuery<typeof rpc.api.billing.dashboard.quota>,
+  options?: { enabled?: boolean },
 ) {
-  return useElysiaQuery(queryKeys.dashboardQuota(query), () =>
-    rpc.api.billing.dashboard.quota.get({ query }),
+  return useElysiaQuery(
+    queryKeys.dashboardQuota(query),
+    () => rpc.api.billing.dashboard.quota.get({ query }),
+    options,
   );
 }
 
