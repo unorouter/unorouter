@@ -8,13 +8,12 @@ import { midjourneyLogsQuery } from "@/lib/api/typebox/midjourney";
 import { taskLogsQuery } from "@/lib/api/typebox/task";
 import { unwrap } from "@/lib/utils/base";
 import {
-  getAllLogs,
   getLogsSelfStat,
   getUserLogs,
   getUserMidjourney,
   getUserTask,
 } from "@/openapi";
-import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
+import { deriveUpstream } from "@/server/constants";
 import { Value } from "@sinclair/typebox/value";
 import { Elysia } from "elysia";
 
@@ -32,11 +31,15 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
 
   .get(
     "/by-request",
-    async ({ query }) => {
+    async ({ query, upstream }) => {
       const empty = Value.Create(byRequestResponse);
-      const res = await getAllLogs(
+      // Scoped to the caller's own token (getUserLogs), NOT ADMIN_HEADERS: the
+      // enrich lookup only needs the requester's own row, and the admin path
+      // let anyone poll request ids off error responses to map other users'
+      // channels/usage AND pinned a BFF worker on a slow admin query per call.
+      const res = await getUserLogs(
         { request_id: query.request_id, page_size: 1 },
-        { headers: ADMIN_HEADERS },
+        { headers: upstream.headers },
       );
       const row = unwrap(res)?.data?.items?.[0] ?? undefined;
       if (!row) return empty;
