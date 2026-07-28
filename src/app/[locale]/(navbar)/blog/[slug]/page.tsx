@@ -7,7 +7,11 @@ import {
 } from "@/components/pages/blog/posts";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  getPageMetadata,
+  notFoundMetadata,
+  ogBadge,
+} from "@/lib/seo/metadata";
 import {
   buildArticleSchema,
   buildBreadcrumbListSchema,
@@ -32,7 +36,7 @@ interface PageProps {
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const post = getPost(params.slug);
-  if (!post) return {};
+  if (!post) return notFoundMetadata();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 

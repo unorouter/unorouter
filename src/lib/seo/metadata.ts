@@ -146,6 +146,26 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   };
 }
 
+// Head for a route that resolves to notFound(). With cacheComponents the
+// shell streams before the page body runs, so the response is already
+// committed as 200 and notFound() can only swap the body. Returning an empty
+// metadata object would inherit the parent's "index, follow" plus a canonical
+// pointing at the locale root, which is exactly what Google reports as a soft
+// 404. This keeps the status at 200 (unavoidable while streaming) but makes
+// the head unambiguously non-indexable.
+export function notFoundMetadata(): Metadata {
+  return {
+    title: "Not Found",
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: { index: false, follow: false },
+    },
+    alternates: { canonical: null },
+  };
+}
+
 type SeoTimestamp = {
   published: string;
   modified: string;

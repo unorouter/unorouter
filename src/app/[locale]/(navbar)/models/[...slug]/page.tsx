@@ -13,7 +13,7 @@ import { getModelByName } from "@/server/models/pricing/pricing.service";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
@@ -94,7 +94,12 @@ export async function generateMetadata(props: PageProps) {
       if (legacy) {
         permanentRedirect(localeUrl(locale, canonicalHref(legacy.model)));
       }
-      return {};
+      // An empty object inherits the parent (home) metadata: "index, follow"
+      // plus a canonical pointing at /<locale>. cacheComponents streams the
+      // shell before notFound() runs, so the 200 status can no longer be
+      // changed and Google reads that inherited head as a soft 404 on a real
+      // page. Emit the noindex head here, where it still lands in the shell.
+      return notFoundMetadata();
     }
     return getPageMetadata({
       locale,

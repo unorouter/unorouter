@@ -10,7 +10,11 @@ import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
 import { buildHowToSchema } from "@/lib/seo/structured-data";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  getPageMetadata,
+  notFoundMetadata,
+  ogBadge,
+} from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -33,7 +37,7 @@ const prefixKey = (prefix: string, leaf: string) =>
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const guide = getSetupGuide(params.slug);
-  if (!guide) return {};
+  if (!guide) return notFoundMetadata();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   return getPageMetadata({
