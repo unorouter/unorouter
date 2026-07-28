@@ -92,6 +92,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const nameToVendor = new Map<string, string>(
     (pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
   );
+  const nameToReleaseDate = new Map<string, Date>();
+  for (const model of pricing?.models ?? []) {
+    const raw = model.metadata?.releaseDate;
+    if (!raw) continue;
+    const date = new Date(raw);
+    if (!Number.isNaN(date.getTime())) nameToReleaseDate.set(model.name, date);
+  }
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),
   );
@@ -130,7 +137,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const slug = [vendorSlug(nameToVendor.get(name) ?? ""), modelSlug(name)];
       return localizedEntries(
         { pathname: "/models/[...slug]", params: { slug } },
-        { priority: 0.6, changeFrequency: "weekly" },
+        {
+          priority: 0.6,
+          changeFrequency: "weekly",
+          // Falling back to the build date stamps every model page with
+          // "changed today" on every deploy. Once lastModified is provably
+          // unreliable Google ignores it and crawls the set on its own
+          // schedule, which is what stalled recrawl of ~5.6k model URLs.
+          lastModified: nameToReleaseDate.get(name),
+        },
       );
     }),
     ...sitemapVendorSlugs.flatMap((slug) =>
