@@ -16,6 +16,12 @@ export function ViewportDebugLogger() {
   useEffect(() => {
     const ua = navigator.userAgent;
     const isIos = /iP(hone|ad|od)/.test(ua);
+    // Everything below (recomposite nudge, --vvh mirror, geometry logging) is
+    // iOS-only. Off iOS the ResizeObserver still fired per content-shrink (every
+    // reasoning-box collapse / streaming reflow), each firing a synchronous
+    // full-buffer localStorage write in logChatDebug - a main-thread storm that
+    // froze desktop chat. Bail before wiring anything when not on iOS.
+    if (!isIos) return;
 
     const geometry = () => {
       const scroller = document.querySelector<HTMLElement>(

@@ -9,7 +9,7 @@ const MAX_ENTRY_BYTES = 10_000;
 const STORAGE_KEY = "unorouter-chat-debug-log";
 
 let buffer: ChatDebugEntry[] = load();
-let saveQueued = false;
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
 function load(): ChatDebugEntry[] {
   if (typeof localStorage === "undefined") return [];
@@ -22,15 +22,21 @@ function load(): ChatDebugEntry[] {
   }
 }
 
+// Persisting the whole ring buffer means a full JSON.stringify + a SYNCHRONOUS
+// localStorage.setItem. A per-microtask flush let a high-frequency caller (e.g.
+// a per-frame viewport/streaming log) run that heavy write on every frame and
+// froze the main thread. Debounce to a single trailing write so any burst
+// coalesces into one serialize+store.
+const SAVE_DEBOUNCE_MS = 1000;
+
 function save(): void {
-  if (saveQueued || typeof localStorage === "undefined") return;
-  saveQueued = true;
-  queueMicrotask(() => {
-    saveQueued = false;
+  if (saveTimer !== null || typeof localStorage === "undefined") return;
+  saveTimer = setTimeout(() => {
+    saveTimer = null;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(buffer));
     } catch {}
-  });
+  }, SAVE_DEBOUNCE_MS);
 }
 
 export function logChatDebug(
