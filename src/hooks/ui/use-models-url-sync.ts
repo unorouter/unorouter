@@ -53,7 +53,14 @@ export function ModelsUrlSync() {
   const [params, setParams] = useQueryStates(PARSERS);
 
   useEffect(() => {
+    // The seed below writes the atom twice (reset + set). Each write notifies
+    // this subscriber, which calls setParams, which can re-enter the atom via
+    // nuqs' URL update -> a self-feeding render loop that overflowed the stack
+    // on iOS ("Maximum call stack size exceeded" on /models with filters).
+    // Mute the writeback while the seed applies; it runs once after.
+    let seeding = false;
     const writeback = () => {
+      if (seeding) return;
       const s = store.get(modelsStoreAtom);
       const priceMax = Array.isArray(s.priceRange)
         ? (s.priceRange[1] ?? PRICE_MAX)
@@ -127,10 +134,18 @@ export function ModelsUrlSync() {
       if (seed.view === "list" && cur.viewMode === "table")
         next.viewMode = "list";
 
-      if (JSON.stringify(next) !== JSON.stringify(INITIAL_MODELS_STATE)) {
-        store.set(modelsStoreAtom, INITIAL_MODELS_STATE);
+      seeding = true;
+      try {
+        if (JSON.stringify(next) !== JSON.stringify(INITIAL_MODELS_STATE)) {
+          store.set(modelsStoreAtom, INITIAL_MODELS_STATE);
+        }
+        store.set(modelsStoreAtom, next);
+      } finally {
+        seeding = false;
       }
-      store.set(modelsStoreAtom, next);
+      // One deliberate sync after the seed settles, so the URL reflects the
+      // final state without the intermediate reset ever reaching nuqs.
+      writeback();
     }, 0);
     return () => {
       clearTimeout(timer);
