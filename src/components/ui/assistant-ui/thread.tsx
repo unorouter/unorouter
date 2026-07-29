@@ -102,6 +102,11 @@ export const Thread: FC = () => {
         ["--thread-max-width" as string]: "44rem",
         ["--composer-radius" as string]: "24px",
         ["--composer-padding" as string]: "10px",
+        // --vvh is set by ViewportDebugLogger on iOS only while the composer
+        // is focused: it caps the shell to the keyboard-shrunk visual viewport
+        // so Safari never offsets the viewport (offsetTop > 0 desyncs caret
+        // hit-testing while typing). Unset everywhere else -> 100%.
+        maxHeight: "var(--vvh, 100%)",
       }}
     >
       <ThreadPrimitive.Viewport

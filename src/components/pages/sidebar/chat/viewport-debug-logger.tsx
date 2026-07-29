@@ -77,24 +77,42 @@ export function ViewportDebugLogger() {
 
     // The chat shell is sized with `svh` (the blanking fix in sidebar.tsx: a
     // dynamic dvh height relayouts on every URL-bar/keyboard move and blanked the
-    // chat on send). But svh is the keyboard-HIDDEN height, so when the keyboard
-    // opens the composer - pinned to the bottom of the full-height shell - drops
-    // below the visible area ("frame too low"; diagnostics show innerH:660
-    // vvH:376 offset:0, scroller still 612 tall). Neither svh NOR dvh fixes this
-    // here: this device already sends `interactive-widget=resizes-content` yet
-    // the layout viewport doesn't shrink for the keyboard, so dvh stays 660 too.
-    // The visualViewport listener is the documented fallback for exactly that.
-    // Mirror the live visual-viewport height into `--vvh`; the thread root caps
-    // to it so the composer tracks the visible area. Do NOT "simplify" to dvh -
-    // it won't shrink for the keyboard on iOS and would reintroduce the bug.
-    // Cleared off iOS so the CSS falls back to 100%.
+    // chat on send). But svh is the keyboard-HIDDEN height, so with the keyboard
+    // up the 660px shell overflows the 376px visible area and Safari offsets the
+    // visual viewport (offsetTop 284) to reveal the composer - and with a
+    // non-zero offsetTop Safari's hit-testing desyncs the caret from where
+    // typing lands. Neither svh NOR dvh fixes this: this device already sends
+    // `interactive-widget=resizes-content` yet the layout viewport does not
+    // shrink for the keyboard. Mirror the live visual-viewport height into
+    // `--vvh` ONLY while the composer is focused (keyboard genuinely up); the
+    // thread root caps to it, the shell fits the visible area, and Safari never
+    // needs the offset. Cleared the moment focus leaves: an unconditional
+    // mirror once squished the shell into the top half of the screen when iOS
+    // left vvH stale after a dismiss. Do NOT "simplify" to dvh.
     const syncViewportHeight = () => {
       const vv = window.visualViewport;
       if (!vv) return;
-      document.documentElement.style.setProperty(
-        "--vvh",
-        `${Math.round(vv.height)}px`,
-      );
+      if (composerFocused()) {
+        document.documentElement.style.setProperty(
+          "--vvh",
+          `${Math.round(vv.height)}px`,
+        );
+        // Once the shell is capped to the visible height the offset Safari
+        // applied to reveal the composer serves no purpose, but Safari never
+        // removes it on its own (WebKit 297779) - and a non-zero offsetTop is
+        // exactly what desyncs caret hit-testing. Send it back to 0 after the
+        // cap has laid out; the composer is inside the visible area by then,
+        // so Safari has no reason to re-offset (Lumiverse ships this same
+        // counteract on visualViewport scroll). Self-terminating: the scroll
+        // re-fires this handler with offsetTop 0.
+        requestAnimationFrame(() => {
+          const live = window.visualViewport;
+          if (!live || live.scale > 1.01 || !composerFocused()) return;
+          if (live.offsetTop > 0) window.scrollTo(0, 0);
+        });
+      } else {
+        document.documentElement.style.removeProperty("--vvh");
+      }
     };
 
     // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard
