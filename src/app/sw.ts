@@ -20,6 +20,8 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+// The DB worker script and sqlite wasm must never be SW-intercepted: a cached
+// stale worker/wasm pair desyncs from the app bundle and breaks OPFS opens.
 const isOpfsAsset = (url: URL, destination: RequestDestination): boolean =>
   destination === "worker" ||
   destination === "sharedworker" ||

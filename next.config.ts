@@ -10,19 +10,6 @@ const acceptMarkdown = [
 ] as const;
 const statusHost = [{ type: "host", value: "status\\..*" }] as const;
 
-// COEP isolation for routes that mount SQLocal (OPFS-backed SQLite WASM).
-// Browsers require a cross-origin-isolated context to use sync access handles.
-const coepHeaders = [
-  { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-];
-const corpSameOrigin = [
-  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-];
-const corpCrossOrigin = [
-  { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
-];
-
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
   // Type errors gate the CI checks job (bun typecheck), not the deploy build;
@@ -44,12 +31,9 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
   cacheComponents: true,
-  // The Serwist route bundles the service worker with esbuild at request
-  // time; since the route prerenders, the file tracer no longer sees esbuild
-  // as a runtime dependency and drops it from the standalone output
-  // (Cannot find package 'esbuild' -> /sw-worker/sw.js 500s in production).
-  // esbuild resolves the worker's imports from node_modules at request time,
-  // so serwist and its transitive deps must ship too.
+  // The prerendered Serwist route bundles the SW with esbuild at request time;
+  // the file tracer misses that and drops esbuild + serwist deps from the
+  // standalone output (/sw-worker/sw.js then 500s in production).
   outputFileTracingIncludes: {
     "/sw-worker/**": [
       "./node_modules/esbuild/**/*",
@@ -59,15 +43,12 @@ const nextConfig: NextConfig = {
       "./node_modules/idb/**/*",
     ],
   },
-  // productionBrowserSourceMaps: true,
   experimental: {
-    // allowDevelopmentBuild: true,
-    // Turbopack disk cache for `next build` (experimental; dev cache is stable
-    // and on by default). CI persists it via the Dockerfile cache mount.
+    // Turbopack disk cache for `next build`; CI persists it via the
+    // Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
-    // inlineCss tried and reverted: it inlined the full 274KB stylesheet into
-    // every document AND duplicated it inside the RSC flight payload, costing
-    // far more than the ~36KB render-blocking request it removed.
+    // inlineCss tried and reverted: duplicated the full 274KB stylesheet into
+    // every document + RSC flight, far worse than the request it removed.
   },
   images: {
     formats: ["image/webp"],
@@ -150,13 +131,6 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      { source: "/:locale/chat/:path*", headers: coepHeaders },
-      { source: "/:locale/playground/:path*", headers: coepHeaders },
-      // Model tester persists its history in SQLocal/OPFS, which needs cross-origin isolation.
-      { source: "/:locale/ai-api-model-tester/:path*", headers: coepHeaders },
-      { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
-      { source: "/_next/static/:path*", headers: corpSameOrigin },
-      { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
       // public/ assets get Next's 4h default, which Lighthouse flags on every
       // page. Not immutable (no content hash in names), so 30d + SWR.
       ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(
@@ -170,25 +144,16 @@ const nextConfig: NextConfig = {
           ],
         }),
       ),
-      // Never store the SW route so new SW versions propagate on deploy (a year-long s-maxage once
-      // poisoned the edge cache and would not purge; Serwist's own handler emits max-age=14400 which
-      // this and the route wrapper override). A stored SW keeps serving a stale precache manifest
-      // whose chunk hashes 404 after the next deploy.
+      // Never store the SW route: a cached SW serves a stale precache manifest
+      // whose chunk hashes 404 after the next deploy (a year-long s-maxage once
+      // poisoned the edge cache un-purgeably).
       {
         source: "/sw-worker/:path*",
-        headers: [
-          { key: "Cache-Control", value: "no-store, must-revalidate" },
-          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-        ],
+        headers: [{ key: "Cache-Control", value: "no-store, must-revalidate" }],
       },
     ];
   },
 };
-
-// Turbopack-native Serwist: the SW is served by an app route
-// (src/app/sw-worker/[path]/route.ts via createSerwistRoute) at /sw-worker/sw.js,
-// NOT a webpack InjectManifest plugin. withSerwist just marks esbuild as an
-// external server package so the route can bundle the worker at request time.
 
 const withNextIntl = createNextIntlPlugin({
   experimental: {

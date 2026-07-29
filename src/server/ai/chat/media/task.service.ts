@@ -106,8 +106,8 @@ export async function submitVideoTask(
 
 // Local-first: video bytes live in the browser (OPFS), same as generated images.
 // This route only downloads the upstream result and returns it as a base64 data
-// URI (COEP-safe, same-origin); the client persists + renders it locally. No R2:
-// a cross-origin R2 URL is blocked by the chat page's COEP require-corp.
+// URI; the client persists + renders it locally. No object storage: local bytes
+// work offline and keep media inside the export/import story.
 export async function finalizeVideoTask(
   _convId: string,
   body: FinalizeTaskBody,

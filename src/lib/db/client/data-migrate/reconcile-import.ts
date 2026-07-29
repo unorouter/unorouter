@@ -127,8 +127,9 @@ async function copySharedTables(
 }
 
 async function readBytes(sql: SQLocalDrizzle): Promise<ArrayBuffer> {
-  // overwriteDatabaseFile requires a transferable ArrayBuffer under COEP isolation;
-  // a File/Blob triggers DataCloneError, so always round-trip through arrayBuffer().
+  // overwriteDatabaseFile wants a transferable ArrayBuffer; structured-cloning
+  // a File/Blob across the worker boundary triggered DataCloneError, so always
+  // round-trip through arrayBuffer().
   const file = await sql.getDatabaseFile();
   return file.arrayBuffer();
 }

@@ -1,5 +1,4 @@
 import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
-import { IsolationEscapeGuard } from "@/components/provider/app/isolation-escape-guard";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link, redirect } from "@/i18n/navigation";
 import { Redirect } from "@/i18n/routing";
@@ -28,7 +27,6 @@ type Props = {
 export default function AuthLayout(props: Props) {
   return (
     <Suspense>
-      <IsolationEscapeGuard />
       <AuthGate params={props.params}>{props.children}</AuthGate>
     </Suspense>
   );
