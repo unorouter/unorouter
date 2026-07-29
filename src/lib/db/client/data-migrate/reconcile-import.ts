@@ -4,6 +4,7 @@ import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import { newSql } from "@/lib/db/client/new-sql";
+import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -132,9 +133,11 @@ async function readBytes(sql: SQLocalDrizzle): Promise<ArrayBuffer> {
   return file.arrayBuffer();
 }
 
-// SQLocal's deleteDatabaseFile() is unreliable (no-ops on some WASM builds), so
-// release the handle then remove the OPFS entry directly - the same approach the
-// Local DB Studio wipe uses.
+// Databases live in per-path sahpool pools (opaque managed files), with
+// legacy plain files possibly still at the OPFS root. Removing one means:
+// unlink the pool contents through the driver (deleteDatabaseFile -> pool
+// unlink; without it a scratch/final pool retains a full-size database copy),
+// then drop any legacy root entry.
 async function removeOpfsFile(path: string): Promise<void> {
   try {
     const root = await navigator.storage.getDirectory();
@@ -150,6 +153,14 @@ async function cleanup(
   removePath: string | null,
 ): Promise<void> {
   if (!handle) return;
+  if (removePath) {
+    await handle.deleteDatabaseFile().catch((err) =>
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: `${label}.delete`,
+        error: String(err).slice(0, 200),
+      }),
+    );
+  }
   await handle.destroy().catch((err) =>
     logChatDebug("import.reconcile.cleanup_failed", {
       handle: `${label}.destroy`,
@@ -320,6 +331,39 @@ async function restoreLiveFromBackup(
 
 async function deleteBackup(backupPath: string): Promise<void> {
   await removeOpfsFile(backupPath);
+  if (await sahPoolDirExists(backupPath)) {
+    const backup = newSql(backupPath);
+    await backup.deleteDatabaseFile().catch(() => {});
+    await backup.destroy().catch(() => {});
+  }
+}
+
+// Probe for a database's pool WITHOUT opening it (opening auto-creates the
+// pool). Directory presence alone is not "backup exists" - an emptied pool
+// keeps its directory - so callers still content-check via sqlite_master.
+async function sahPoolDirExists(databasePath: string): Promise<boolean> {
+  try {
+    const root = await navigator.storage.getDirectory();
+    await root.getDirectoryHandle(sahPoolDirName(databasePath));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
+  if (!(await sahPoolDirExists(backupPath))) return false;
+  const probe = newSql(backupPath);
+  try {
+    const rows = await probe.sql<{ n: number }>(
+      "SELECT count(*) AS n FROM sqlite_master",
+    );
+    return (rows[0]?.n ?? 0) > 0;
+  } catch {
+    return false;
+  } finally {
+    await probe.destroy().catch(() => {});
+  }
 }
 
 export function backupImportPath(appName: string, uid: number): string {
@@ -349,6 +393,9 @@ export async function recoverPendingImport(
   } catch {
     return;
   }
+  // Backups written since the sahpool migration live in the backup path's
+  // pool, not at the OPFS root.
+  if (!exists) exists = await sahPoolBackupHasContent(backupPath);
   if (!exists) return;
 
   logChatDebug("import.reconcile.recover.start", { uid });

@@ -48,7 +48,13 @@ function isRecoverable(err: unknown): boolean {
     s.includes("SQLITE_CORRUPT") ||
     s.includes("SQLITE_NOTADB") ||
     s.includes("file is not a database") ||
-    s.includes("client has been destroyed")
+    s.includes("client has been destroyed") ||
+    // opfs-sahpool contention/exhaustion shapes: another tab's pool holds the
+    // sync access handles, or the pool ran out of file slots.
+    s.includes("NoModificationAllowedError") ||
+    s.includes("NotAllowedError") ||
+    s.includes("OpfsSAHPool") ||
+    s.includes("available file slots")
   );
 }
 
@@ -59,18 +65,15 @@ async function openMigratedSql(
   dbPath: string,
   userId: number,
 ): Promise<SQLocalDrizzle> {
-  const isolated =
-    typeof window === "undefined" || window.crossOriginIsolated !== false;
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
+      // The sahpool worker falls back to an in-memory driver when the pool
+      // install fails (typically: another live tab holds the pool's access
+      // handles). Never accept it - synthesize a recoverable error so the
+      // retry loop absorbs the handover, exactly like SAH contention before.
       if ((await sql.getDatabaseInfo()).storageType !== "opfs") {
-        if (!isolated) {
-          logChatDebug("db.open.fallback", { userId, reason: "non-isolated" });
-          await runMigrations(sql);
-          return sql;
-        }
-        throw new Error("GetSyncHandleError: fell back to in-memory");
+        throw new Error("OpfsSAHPool unavailable: fell back to in-memory");
       }
       await runMigrations(sql);
       logChatDebug("db.open.done", { userId, storageType: "opfs" });
@@ -102,6 +105,59 @@ async function openMigratedSql(
   }
 }
 
+// One-time migration off the pre-sahpool driver: the old opfs VFS stored the
+// database as a plain sqlite file at the OPFS root; sahpool keeps opaque
+// pool-managed files. While a legacy root file exists, stream-import it into
+// the pool (overwrite is wholesale, so a half-imported pool from a previous
+// failed attempt is fully healed by the retry), verify, re-run migrations on
+// the imported (older-schema) data, and only then move the legacy file aside.
+// Rename to .pre-sahpool keeps a rollback copy; Safari has no main-thread
+// rename, so it falls back to deletion. If neither works the open ABORTS -
+// silently continuing would let a later open re-import the stale legacy file
+// over post-migration writes.
+async function migrateLegacySqliteFile(
+  sql: SQLocalDrizzle,
+  dbPath: string,
+  userId: number,
+): Promise<void> {
+  const root = await navigator.storage.getDirectory();
+  let handle: FileSystemFileHandle;
+  try {
+    handle = await root.getFileHandle(dbPath);
+  } catch {
+    return;
+  }
+  const file = await handle.getFile();
+  if (file.size === 0) {
+    await root.removeEntry(dbPath).catch(() => {});
+    return;
+  }
+  logChatDebug("db.migrate.sahpool.start", { userId, bytes: file.size });
+  await sql.overwriteDatabaseFile(file.stream());
+  const check = await sql.sql<{ integrity_check: string }>(
+    "PRAGMA integrity_check",
+  );
+  if (check[0]?.integrity_check !== "ok") {
+    throw new Error(
+      `legacy import failed integrity_check: ${String(check[0]?.integrity_check).slice(0, 100)}`,
+    );
+  }
+  await runMigrations(sql);
+  try {
+    const movable = handle as FileSystemFileHandle & {
+      move?: (name: string) => Promise<void>;
+    };
+    if (typeof movable.move === "function") {
+      await movable.move(`${dbPath}.pre-sahpool`);
+    } else {
+      await root.removeEntry(dbPath);
+    }
+  } catch {
+    await root.removeEntry(dbPath);
+  }
+  logChatDebug("db.migrate.sahpool.done", { userId, bytes: file.size });
+}
+
 async function openClient(userId: number): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
   const dbPath = `${appName}-${userId}.sqlite3`;
@@ -116,6 +172,16 @@ async function openClient(userId: number): Promise<LocalClient> {
     });
   }
   let sql = await openMigratedSql(dbPath, userId);
+  try {
+    await migrateLegacySqliteFile(sql, dbPath, userId);
+  } catch (err) {
+    logChatDebug("db.migrate.sahpool.failed", {
+      userId,
+      error: String(err).slice(0, 200),
+    });
+    await sql.destroy().catch(() => {});
+    throw err;
+  }
   let reopening: Promise<void> | null = null;
 
   const run = async <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> => {
