@@ -1,4 +1,5 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
+import { SidebarShellSkeleton } from "@/components/layout/sidebar/sidebar-shell-skeleton";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
@@ -59,7 +60,7 @@ async function AuthGate(props: DashboardLayoutProps) {
 // shell; it also covers every sidebar page's own request-bound prefetches.
 export default function DashboardLayout(props: DashboardLayoutProps) {
   return (
-    <Suspense>
+    <Suspense fallback={<SidebarShellSkeleton />}>
       <AuthGate>{props.children}</AuthGate>
     </Suspense>
   );
