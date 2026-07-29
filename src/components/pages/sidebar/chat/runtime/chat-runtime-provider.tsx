@@ -11,7 +11,6 @@ import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime
 import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-prompt-dialog";
 import {
   useConvIdSync,
-  useGroupSync,
   useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
@@ -112,7 +111,6 @@ function ChatRuntimeHook() {
 
   useConvIdSync(remoteId);
   useResolvedChatModel(remoteId);
-  useGroupSync(remoteId);
   useSettingsSync(remoteId);
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;

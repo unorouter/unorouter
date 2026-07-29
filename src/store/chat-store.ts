@@ -40,7 +40,7 @@ const EMPTY_LOADOUT: ChatLoadout = {
 
 export type ChatState = {
   model: string | null;
-  group: string | null;
+  groupByModel: Record<string, string>;
   webSearch: boolean;
   defaults: StreamOverrides;
   loadout: ChatLoadout;
@@ -52,7 +52,7 @@ export type ChatState = {
 
 export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
-  group: null,
+  groupByModel: {},
   webSearch: false,
   defaults: {},
   loadout: EMPTY_LOADOUT,
@@ -75,10 +75,27 @@ export const chatModelAtom = atom(
   },
 );
 
+// The provider-group pin is keyed BY MODEL, not stored as one global value.
+// A single value kept unpinning: a conv-load race rewrote it to null before
+// the saved value arrived, and every model switch had to clear it because a
+// group name only serves the model it embeds. Keyed by model, switching
+// models (or reloading) just changes which entry is read; each model keeps
+// its own pin until the user changes it.
 export const chatGroupAtom = atom(
-  (get) => get(chatStoreAtom).group ?? INITIAL_CHAT_STATE.group,
+  (get) => {
+    const state = get(chatStoreAtom);
+    const model = state.model;
+    if (!model) return null;
+    return (state.groupByModel ?? {})[model] ?? null;
+  },
   (get, set, value: string | null) => {
-    set(chatStoreAtom, { ...get(chatStoreAtom), group: value });
+    const state = get(chatStoreAtom);
+    const model = state.model;
+    if (!model) return;
+    const map = { ...(state.groupByModel ?? {}) };
+    if (value === null || value === undefined) delete map[model];
+    else map[model] = value;
+    set(chatStoreAtom, { ...state, groupByModel: map });
   },
 );
 

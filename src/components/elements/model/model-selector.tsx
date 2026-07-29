@@ -334,13 +334,19 @@ export function ModelSelector(props: ModelSelectorProps) {
   ];
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
 
+  // A pinned group must exist among the model's servable groups (pricing
+  // enableGroups + the user's private groups) or new-api silently falls back
+  // to auto while the UI still claims the pin. Reset to auto when the loaded
+  // group list does not contain the pin; skip while the list is still empty
+  // (pricing not loaded yet) so a valid pin is never wiped by a race.
+  const candidateGroupsKey = candidateGroups.join("|");
   useEffect(() => {
     if (!props.group || props.group === AUTO_GROUP) return;
-    if (enableGroups.length > 0 && !enableGroups.includes(props.group)) {
+    if (candidateGroups.length > 0 && !candidateGroups.includes(props.group)) {
       props.onGroupChange(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
-  }, [props.value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run on model or group-list change
+  }, [props.value, candidateGroupsKey]);
 
   function pickModel(id: string) {
     analytics.chat.modelChanged({ from: props.value, to: id });
