@@ -31,16 +31,25 @@ export default function proxy(request: NextRequest) {
     return res;
   }
 
-  if (/^\/[a-z-]+\/ai-api-model-tester(\/|$)/.test(pathname)) {
-    request.headers.set(SERVER_URL_KEY, request.url);
-    const res = createMiddleware(routing)(request);
+  request.headers.set(SERVER_URL_KEY, request.url);
+  const res = createMiddleware(routing)(request);
+  // Isolate every document, not just /chat: a non-isolated page navigating into
+  // the isolated chat forces a full document reload (the isolation state is
+  // fixed at document creation; CrossOriginIsolationGuard reloads to acquire
+  // SharedArrayBuffer for OPFS). With the whole app isolated the transition is
+  // a soft SPA nav. Exclusions (matched on the INTERNAL post-i18n-rewrite path,
+  // so localized URLs are covered): login/register/consent embed the Cloudflare
+  // Turnstile script+iframe, and /blog hot-links external badge images; both
+  // break under COEP require-corp.
+  const rewrite = res.headers.get("x-middleware-rewrite");
+  const internalPath = rewrite ? new URL(rewrite).pathname : pathname;
+  if (
+    !/^\/[a-zA-Z-]+\/(login|register|consent|blog)(\/|$)/.test(internalPath)
+  ) {
     res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
     res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-    return res;
   }
-
-  request.headers.set(SERVER_URL_KEY, request.url);
-  return createMiddleware(routing)(request);
+  return res;
 }
 
 export const config = {
