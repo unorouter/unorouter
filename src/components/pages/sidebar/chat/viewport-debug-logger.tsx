@@ -214,6 +214,11 @@ export function ViewportDebugLogger() {
 
     logChatDebug("viewport.mount", { ios: isIos, ...geometry() });
     if (isIos) syncViewportHeight();
+    // Safari can restore a page already in the stuck-offset state (session
+    // restore / bfcache), and no viewport event fires until the user
+    // interacts - the shell sits too low from the first paint. Realign once
+    // at mount; every later occurrence is handled by the event triggers.
+    requestAnimationFrame(realignStuckViewport);
     const onVvScroll = () => {
       if (isIos) syncViewportHeight();
     };
