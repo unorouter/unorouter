@@ -77,6 +77,23 @@ export function ViewportDebugLogger() {
       );
     };
 
+    // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard
+    // dismiss or pinch-zoom-out (WebKit 297779, only partially fixed in 26.1),
+    // so the whole shell sits too low with the composer cut off until the user
+    // swipes the page itself - a window-level scroll resets it. The scrollBy
+    // jiggle is the automated version of that swipe. The chat shell is a
+    // full-height overflow-hidden box, so any window scroll is the same stuck
+    // state; send it back to 0 too. Skip while pinch-zoomed: a panned viewport
+    // legitimately has offsetTop > 0.
+    const realignStuckViewport = () => {
+      const vv = window.visualViewport;
+      if (!vv || vv.scale > 1.01) return;
+      if (window.scrollY > 0) window.scrollTo(0, 0);
+      if (vv.offsetTop <= 0) return;
+      window.scrollBy(0, -1);
+      window.scrollBy(0, 1);
+    };
+
     const composerFocused = () => {
       const el = document.activeElement;
       return (
@@ -99,6 +116,13 @@ export function ViewportDebugLogger() {
       // which never fire mid-typing.
       if (isIos && !(reason === "vv-resize" && composerFocused())) {
         requestAnimationFrame(nudge);
+      }
+      // Realign the stuck viewport (shell too low after a keyboard dismiss or
+      // zoom-out). NOT while the composer is focused: with the keyboard up an
+      // offsetTop > 0 is the correct state, and jiggling would fight typing.
+      // focusout / zoom-settle are the real dismiss signals.
+      if (!composerFocused()) {
+        requestAnimationFrame(realignStuckViewport);
       }
       // Keep the shell height matched to the visible viewport on every change
       // (keyboard open/close, zoom, URL-bar). Safe mid-typing: it only resizes
