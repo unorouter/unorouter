@@ -102,10 +102,24 @@ export function ViewportDebugLogger() {
     // needs the offset. Cleared the moment focus leaves: an unconditional
     // mirror once squished the shell into the top half of the screen when iOS
     // left vvH stale after a dismiss. Do NOT "simplify" to dvh.
+    // No-keyboard baseline height. Grows only while the composer is blurred
+    // so a stuck reduced viewport can never poison it (WebKit 297779 leaves
+    // vv.height stuck small after a dismiss).
+    let baselineVvH = 0;
     const syncViewportHeight = () => {
       const vv = window.visualViewport;
       if (!vv) return;
-      if (composerFocused()) {
+      if (!composerFocused()) {
+        baselineVvH = Math.max(baselineVvH, vv.height);
+      }
+      // Focus alone is not enough: iOS keeps the textarea focused when the
+      // keyboard is swiped away, and capping then leaves the shell short by
+      // the inset with the keyboard closed. Require a real keyboard-sized
+      // height drop (80px rejects the stuck ~24px residual and the iPad
+      // hardware-keyboard accessory bar).
+      const keyboardOpen =
+        composerFocused() && baselineVvH - vv.height >= 80;
+      if (keyboardOpen) {
         // visualViewport.height does NOT exclude the iOS 26 floating
         // form-assistant capsule (the prev/next/done pill Safari hovers just
         // above the keyboard) - Safari's own auto-reveal scrolls the focused
