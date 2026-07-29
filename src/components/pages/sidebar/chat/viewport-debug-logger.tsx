@@ -61,7 +61,12 @@ export function ViewportDebugLogger() {
       };
     };
 
-    const nudge = () => {
+    // Repaint without transforms: a transform toggle desyncs Safari's caret
+    // hit-testing while the composer is focused, but a same-position scroll
+    // jiggle still forces the scroller's stale composited tiles (black smears
+    // over the messages after the shell resizes under the keyboard cap) to
+    // repaint and never moves any geometry.
+    const repaintScroll = () => {
       const scroller = document.querySelector<HTMLElement>(
         ".aui-thread-viewport",
       );
@@ -69,6 +74,14 @@ export function ViewportDebugLogger() {
       const top = scroller.scrollTop;
       scroller.scrollTop = top + 1;
       scroller.scrollTop = top;
+    };
+
+    const nudge = () => {
+      const scroller = document.querySelector<HTMLElement>(
+        ".aui-thread-viewport",
+      );
+      if (!scroller) return;
+      repaintScroll();
       scroller.style.transform = "translateZ(0)";
       requestAnimationFrame(() => {
         scroller.style.transform = "";
@@ -93,9 +106,16 @@ export function ViewportDebugLogger() {
       const vv = window.visualViewport;
       if (!vv) return;
       if (composerFocused()) {
+        // visualViewport.height does NOT exclude the iOS 26 floating
+        // form-assistant capsule (the prev/next/done pill Safari hovers just
+        // above the keyboard) - Safari's own auto-reveal scrolls the focused
+        // field clear of it, but pinning the shell flush to the visible
+        // height put the composer exactly underneath it. Reserve room so the
+        // composer clears the pill.
+        const FORM_ASSISTANT_INSET = 64;
         document.documentElement.style.setProperty(
           "--vvh",
-          `${Math.round(vv.height)}px`,
+          `${Math.round(vv.height) - FORM_ASSISTANT_INSET}px`,
         );
         // Once the shell is capped to the visible height the offset Safari
         // applied to reveal the composer serves no purpose, but Safari never
@@ -109,6 +129,7 @@ export function ViewportDebugLogger() {
           const live = window.visualViewport;
           if (!live || live.scale > 1.01 || !composerFocused()) return;
           if (live.offsetTop > 0) window.scrollTo(0, 0);
+          repaintScroll();
         });
       } else {
         document.documentElement.style.removeProperty("--vvh");
@@ -151,12 +172,11 @@ export function ViewportDebugLogger() {
       // is not limited to keyboard-driven vv-resizes: content-shrink fires when
       // a reasoning box collapses after a stream, which happens mid-typing
       // whenever the user composes the next message while a response streams.
-      // Skip the nudge for ANY trigger while the composer is focused; the
-      // blackout it guards against needs a repaint the next unfocused trigger
-      // (focusout at the latest) still delivers, and svh sizing is the primary
-      // blackout fix anyway.
-      if (isIos && !composerFocused()) {
-        requestAnimationFrame(nudge);
+      // While focused, the transform-free repaint still runs - the --vvh cap
+      // resizes the shell under the keyboard and stale tiles smear black
+      // without it.
+      if (isIos) {
+        requestAnimationFrame(composerFocused() ? repaintScroll : nudge);
       }
       // Realign the stuck viewport (shell too low after a keyboard dismiss or
       // zoom-out). NOT while the composer is focused: with the keyboard up an
