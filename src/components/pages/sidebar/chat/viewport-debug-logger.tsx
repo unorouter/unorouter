@@ -23,6 +23,26 @@ export function ViewportDebugLogger() {
     // froze desktop chat. Bail before wiring anything when not on iOS.
     if (!isIos) return;
 
+    // iOS nudges the page scale above 1 on its own (input auto-zoom, double
+    // tap) and then leaves it stuck slightly zoomed with the shell offset -
+    // diagnostics show innerHeight parked at 578/592 on a 660 screen with the
+    // keyboard closed. Cap maximum-scale at 1 on iOS only: Safari suppresses
+    // the automatic zooms but still honors a deliberate pinch (it ignores the
+    // cap for user gestures), and Android keeps full zoom for accessibility.
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
+    const prevViewportContent = viewportMeta?.getAttribute("content") ?? null;
+    if (viewportMeta && prevViewportContent) {
+      viewportMeta.setAttribute(
+        "content",
+        prevViewportContent.includes("maximum-scale")
+          ? prevViewportContent.replace(
+              /maximum-scale=[\d.]+/,
+              "maximum-scale=1",
+            )
+          : `${prevViewportContent}, maximum-scale=1`,
+      );
+    }
+
     const geometry = () => {
       const scroller = document.querySelector<HTMLElement>(
         ".aui-thread-viewport",
@@ -166,6 +186,9 @@ export function ViewportDebugLogger() {
       document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
       document.documentElement.style.removeProperty("--vvh");
+      if (viewportMeta && prevViewportContent) {
+        viewportMeta.setAttribute("content", prevViewportContent);
+      }
     };
   }, []);
 
