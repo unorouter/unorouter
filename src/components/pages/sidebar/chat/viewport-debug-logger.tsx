@@ -128,13 +128,16 @@ export function ViewportDebugLogger() {
       const g = geometry();
       logChatDebug("viewport.change", { reason, ios: isIos, ...g });
       // The recompositing nudge toggles a transform on the scroll ancestor. On
-      // iOS that desyncs the textarea caret hit-testing WHILE typing (each
-      // keystroke fires a vv-resize as the keyboard/accessory bar animates), so
-      // the caret renders on the wrong line and typing lands at the true end.
-      // Skip the nudge for keyboard-driven vv-resizes while the composer is
-      // focused; still nudge on the blackout triggers (visibility/content-shrink)
-      // which never fire mid-typing.
-      if (isIos && !(reason === "vv-resize" && composerFocused())) {
+      // iOS that desyncs the textarea caret hit-testing WHILE typing, so the
+      // caret renders on the wrong line and typing lands at the true end. That
+      // is not limited to keyboard-driven vv-resizes: content-shrink fires when
+      // a reasoning box collapses after a stream, which happens mid-typing
+      // whenever the user composes the next message while a response streams.
+      // Skip the nudge for ANY trigger while the composer is focused; the
+      // blackout it guards against needs a repaint the next unfocused trigger
+      // (focusout at the latest) still delivers, and svh sizing is the primary
+      // blackout fix anyway.
+      if (isIos && !composerFocused()) {
         requestAnimationFrame(nudge);
       }
       // Realign the stuck viewport (shell too low after a keyboard dismiss or
