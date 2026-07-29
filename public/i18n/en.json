@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "Request ID...",
       "SUBSCRIPTION_PLAN": "Subscription plan...",
       "UPSTREAM_REQUEST_ID": "Upstream Request ID",
-      "GROUP": "Group"
+      "GROUP": "Group",
+      "ACTIVE_NOTICE": "{count} filter(s) applied. Click Reset to clear."
     },
     "STAT": {
       "USED_QUOTA": "Used Quota"

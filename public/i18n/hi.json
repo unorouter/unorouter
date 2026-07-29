@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "Request ID...",
       "SUBSCRIPTION_PLAN": "Subscription plan...",
       "UPSTREAM_REQUEST_ID": "अपस्ट्रीम अनुरोध ID",
-      "GROUP": "समूह"
+      "GROUP": "समूह",
+      "ACTIVE_NOTICE": "{count} फ़िल्टर लागू हैं। साफ़ करने के लिए रीसेट पर क्लिक करें।"
     },
     "STAT": {
       "USED_QUOTA": "उपयोग किया गया Quota"

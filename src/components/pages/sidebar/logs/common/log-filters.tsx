@@ -80,6 +80,24 @@ export function LogFilters(props: {
   const group = props.filters.group ?? "";
   const subscriptionPlan = props.filters.subscription_plan ?? "";
 
+  // A filter counts as active only when the user moved it off the default (the
+  // date range defaults to today, so a range change counts; every other filter
+  // is only present in `filters` once set). Drives the Reset button's badge +
+  // primary styling, mirroring the models page.
+  const dateChanged =
+    (props.filters.start_date != null && props.filters.start_date !== startOfDay) ||
+    (props.filters.end_date != null && props.filters.end_date !== endOfDay);
+  const activeFilterCount =
+    (dateChanged ? 1 : 0) +
+    (logType != null ? 1 : 0) +
+    (tokenName ? 1 : 0) +
+    (modelName ? 1 : 0) +
+    (requestId ? 1 : 0) +
+    (upstreamRequestId ? 1 : 0) +
+    (group ? 1 : 0) +
+    (subscriptionPlan ? 1 : 0);
+  const hasActiveFilters = activeFilterCount > 0;
+
   const logTypeOptions = [
     { value: "all", label: t("LOGS.ENUM.ALL") },
     { value: String(LOG_TYPE_CONSUME), label: t("LOGS.ENUM.CONSUME") },
@@ -133,8 +151,23 @@ export function LogFilters(props: {
             ))}
           </SelectContent>
         </Select>
-        <Button variant="outline" size="sm" onClick={props.onReset}>
+        <Button
+          variant={hasActiveFilters ? "default" : "outline"}
+          size="sm"
+          onClick={props.onReset}
+          disabled={!hasActiveFilters}
+        >
+          <Icon
+            name="filter-x"
+            data-icon="inline-start"
+            className="h-3.5 w-3.5"
+          />
           {t("LOGS.RESET")}
+          {hasActiveFilters && (
+            <span className="bg-background/20 ml-1.5 rounded px-1.5 text-xs font-semibold">
+              {activeFilterCount}
+            </span>
+          )}
         </Button>
         <Button
           variant="outline"
@@ -149,6 +182,11 @@ export function LogFilters(props: {
           {t("LOGS.FILTERS")}
         </Button>
       </div>
+      {hasActiveFilters && (
+        <p className="text-muted-foreground text-xs">
+          {t("LOGS.FILTER.ACTIVE_NOTICE", { count: activeFilterCount })}
+        </p>
+      )}
 
       {filtersExpanded && (
         <div className="flex flex-wrap items-center gap-2">

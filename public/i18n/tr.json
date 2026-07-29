@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "İstek ID...",
       "SUBSCRIPTION_PLAN": "Abonelik planı...",
       "UPSTREAM_REQUEST_ID": "Üst kaynak istek kimliği",
-      "GROUP": "Grup"
+      "GROUP": "Grup",
+      "ACTIVE_NOTICE": "{count} filtre uygulandı. Temizlemek için Sıfırla’ya tıklayın."
     },
     "STAT": {
       "USED_QUOTA": "Kullanılan Kota"

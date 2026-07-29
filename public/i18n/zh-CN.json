@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "请求 ID...",
       "SUBSCRIPTION_PLAN": "订阅计划……",
       "UPSTREAM_REQUEST_ID": "上游请求 ID",
-      "GROUP": "分组"
+      "GROUP": "分组",
+      "ACTIVE_NOTICE": "已应用 {count} 个筛选条件，点击“重置”清除。"
     },
     "STAT": {
       "USED_QUOTA": "已用额度"

@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "מזהה בקשה...",
       "SUBSCRIPTION_PLAN": "תוכנית מנוי...",
       "UPSTREAM_REQUEST_ID": "מזהה בקשת מקור",
-      "GROUP": "קבוצה"
+      "GROUP": "קבוצה",
+      "ACTIVE_NOTICE": "הוחלו {count} מסננים. לחץ על איפוס כדי לנקות."
     },
     "STAT": {
       "USED_QUOTA": "מכסה שנוצלה"

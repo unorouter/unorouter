@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID richiesta...",
       "SUBSCRIPTION_PLAN": "Piano di abbonamento...",
       "UPSTREAM_REQUEST_ID": "ID richiesta upstream",
-      "GROUP": "Gruppo"
+      "GROUP": "Gruppo",
+      "ACTIVE_NOTICE": "{count} filtro/i applicato/i. Fai clic su Reimposta per cancellare."
     },
     "STAT": {
       "USED_QUOTA": "Quota usata"

@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID de requête...",
       "SUBSCRIPTION_PLAN": "Plan d'abonnement...",
       "UPSTREAM_REQUEST_ID": "ID de requête en amont",
-      "GROUP": "Groupe"
+      "GROUP": "Groupe",
+      "ACTIVE_NOTICE": "{count} filtre(s) appliqué(s). Cliquez sur Réinitialiser pour effacer."
     },
     "STAT": {
       "USED_QUOTA": "Quota utilisé"

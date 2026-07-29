@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "請求 ID...",
       "SUBSCRIPTION_PLAN": "訂閱方案……",
       "UPSTREAM_REQUEST_ID": "上游請求 ID",
-      "GROUP": "分組"
+      "GROUP": "分組",
+      "ACTIVE_NOTICE": "已套用 {count} 個篩選條件，點擊「重設」清除。"
     },
     "STAT": {
       "USED_QUOTA": "已用額度"

@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "Anfrage-ID...",
       "SUBSCRIPTION_PLAN": "Abonnement-Plan...",
       "UPSTREAM_REQUEST_ID": "Upstream-Anfrage-ID",
-      "GROUP": "Gruppe"
+      "GROUP": "Gruppe",
+      "ACTIVE_NOTICE": "{count} Filter aktiv – zum Zurücksetzen auf Zurücksetzen klicken."
     },
     "STAT": {
       "USED_QUOTA": "Verbrauchtes Guthaben"

@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID zapytania...",
       "SUBSCRIPTION_PLAN": "Plan subskrypcji...",
       "UPSTREAM_REQUEST_ID": "ID żądania upstream",
-      "GROUP": "Grupa"
+      "GROUP": "Grupa",
+      "ACTIVE_NOTICE": "Zastosowano {count} filtr(y). Kliknij Resetuj, aby wyczyścić."
     },
     "STAT": {
       "USED_QUOTA": "Użyta kwota"

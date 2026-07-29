@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "요청 ID...",
       "SUBSCRIPTION_PLAN": "구독 플랜...",
       "UPSTREAM_REQUEST_ID": "업스트림 요청 ID",
-      "GROUP": "그룹"
+      "GROUP": "그룹",
+      "ACTIVE_NOTICE": "{count}개의 필터가 적용됨. 지우려면 초기화를 클릭하세요."
     },
     "STAT": {
       "USED_QUOTA": "사용한 할당량"

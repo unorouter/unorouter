@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID permintaan...",
       "SUBSCRIPTION_PLAN": "Paket langganan...",
       "UPSTREAM_REQUEST_ID": "ID Permintaan Upstream",
-      "GROUP": "Grup"
+      "GROUP": "Grup",
+      "ACTIVE_NOTICE": "{count} filter diterapkan. Klik Atur Ulang untuk menghapus."
     },
     "STAT": {
       "USED_QUOTA": "Kuota Terpakai"

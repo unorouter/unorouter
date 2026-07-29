@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID de solicitud...",
       "SUBSCRIPTION_PLAN": "Plan de suscripción...",
       "UPSTREAM_REQUEST_ID": "ID de solicitud upstream",
-      "GROUP": "Grupo"
+      "GROUP": "Grupo",
+      "ACTIVE_NOTICE": "{count} filtro(s) aplicado(s). Haz clic en Restablecer para borrar."
     },
     "STAT": {
       "USED_QUOTA": "Cuota usada"

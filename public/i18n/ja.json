@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "リクエスト ID...",
       "SUBSCRIPTION_PLAN": "サブスクリプションプラン...",
       "UPSTREAM_REQUEST_ID": "アップストリームリクエストID",
-      "GROUP": "グループ"
+      "GROUP": "グループ",
+      "ACTIVE_NOTICE": "{count} 件のフィルターが適用中です。リセットをクリックして解除します。"
     },
     "STAT": {
       "USED_QUOTA": "使用済みクォータ"

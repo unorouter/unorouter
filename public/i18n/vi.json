@@ -3279,7 +3279,8 @@
       "REQUEST_ID": "ID yêu cầu...",
       "SUBSCRIPTION_PLAN": "Gói đăng ký...",
       "UPSTREAM_REQUEST_ID": "ID yêu cầu thượng nguồn",
-      "GROUP": "Nhóm"
+      "GROUP": "Nhóm",
+      "ACTIVE_NOTICE": "Đã áp dụng {count} bộ lọc. Nhấp Đặt lại để xóa."
     },
     "STAT": {
       "USED_QUOTA": "Hạn mức đã dùng"
