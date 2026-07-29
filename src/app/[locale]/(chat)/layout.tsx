@@ -1,4 +1,5 @@
 import { serverLocale } from "@/lib/utils/server";
+import { ChatShellSkeleton } from "@/components/pages/sidebar/chat/chat-shell-skeleton";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
@@ -26,7 +27,7 @@ export default async function ChatLayout(props: Props) {
       {/* assistant-ui's thread-list runtime reads Math.random at init, which
           prerenders reject in client components; the boundary streams the
           whole chat UI per request instead. */}
-      <Suspense>
+      <Suspense fallback={<ChatShellSkeleton />}>
         <AuthHydration withBestKey>
           <CrossOriginIsolationGuard>
             <ChatRuntimeProvider>
