@@ -226,13 +226,9 @@ export const authRoute = new Elysia({ prefix: "/account" })
         return;
       }
 
-      // Read structurally: the generated OAuthExchangeData type lags the spec,
-      // which now carries access_expires_at (unix seconds) to cap the token TTL.
-      const accessExpiresAt = (data as { access_expires_at?: number })
-        .access_expires_at;
       for (const descriptor of await sessionCookieDescriptors(data.user_id, {
         accessToken: data.access_token,
-        accessMaxAge: accessTokenMaxAge(accessExpiresAt),
+        accessMaxAge: accessTokenMaxAge(data.access_expires_at),
       })) {
         cookie[descriptor.name].set({
           value: descriptor.value,
