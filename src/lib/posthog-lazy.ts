@@ -60,6 +60,10 @@ const DROP_EXCEPTIONS = [
   "no output generated",
   "ai_nooutputgeneratederror",
   "webassembly is not defined", // wasm disabled by hardened-browser config; shiki falls back to plain text
+  // assistant-ui's own MessageRepository invariant, raised from its
+  // useExternalStoreRuntime adapter swap. Upstream bug (the message text says
+  // so); nothing actionable on our side.
+  "a message with the same id already exists in the parent tree",
 ];
 
 // Could-be-real but high-volume + mostly-external. Instead of going fully dark
