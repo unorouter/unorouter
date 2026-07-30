@@ -11,7 +11,28 @@ import {
 } from "../elements/cipher";
 import type { Dims } from "../templates/pricing";
 import { fonts, logoDataUri, logoInnerSvg } from "./cache";
+import { fallbackFontsFor } from "./fallback-fonts";
 import type { RenderTemplateOpts } from "./types";
+
+// Collect every text leaf in a Satori node tree so we can pick fallback fonts
+// for the scripts actually present (see fallback-fonts.ts).
+function collectText(node: unknown, out: string[]): void {
+  if (typeof node === "string") {
+    out.push(node);
+    return;
+  }
+  if (typeof node === "number") {
+    out.push(String(node));
+    return;
+  }
+  if (Array.isArray(node)) {
+    for (const child of node) collectText(child, out);
+    return;
+  }
+  if (node && typeof node === "object" && "props" in node) {
+    collectText((node as { props?: { children?: unknown } }).props?.children, out);
+  }
+}
 
 export function formatCompact(n: number): string {
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
@@ -131,10 +152,14 @@ export function svgDataUri(svg: string, color?: string): string {
 export async function renderBadgeTemplate(
   opts: RenderTemplateOpts,
 ): Promise<string> {
+  const textParts: string[] = [];
+  collectText(opts.node, textParts);
+  const fallbacks = fallbackFontsFor(textParts.join(""));
+
   let svg = await satori(opts.node, {
     width: opts.width,
     height: opts.height,
-    fonts,
+    fonts: fallbacks.length > 0 ? [...fonts, ...fallbacks] : fonts,
   });
 
   if (opts.svgBackground) {
