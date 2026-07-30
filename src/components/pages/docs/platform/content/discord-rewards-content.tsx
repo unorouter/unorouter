@@ -1,18 +1,32 @@
 import {
-  DocImage,
   DocKbd,
   DocSection,
   DocTable,
 } from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getTranslations } from "next-intl/server";
+import { getRewardAmounts } from "@/lib/config/rewards";
+import { getLocale, getTranslations } from "next-intl/server";
 import { platformDocKey } from "../platform-doc-template";
 
 const P = "DOCS_PLATFORM.DISCORD_REWARDS";
 
 export async function DiscordRewardsContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
+  const locale = await getLocale();
+  const rewards = await getRewardAmounts(locale);
+  // ICU values take scalars, so the level rows stay out of this object.
+  const values = {
+    ...APP_VALUES,
+    connectReward: rewards.connectReward,
+    voteReward: rewards.voteReward,
+    boostReward: rewards.boostReward,
+    inviteReward: rewards.inviteReward,
+    tagReward: rewards.tagReward,
+    levelMin: rewards.levelMin,
+    levelMax: rewards.levelMax,
+    levelTotal: rewards.levelTotal,
+  };
+  const k = (leaf: string) => t(platformDocKey(P, leaf), values);
 
   return (
     <>
@@ -22,12 +36,6 @@ export async function DiscordRewardsContent() {
       </DocSection>
       <DocSection id="link" title={k("H_LINK")}>
         <p>{k("P_LINK_1")}</p>
-        <DocImage
-          src="/images/docs/rewards-verify-panel.webp"
-          alt={k("ALT_VERIFY_PANEL")}
-          width={662}
-          height={352}
-        />
         <p>{k("P_LINK_2")}</p>
       </DocSection>
       <DocSection id="rewards" title={k("H_REWARDS")}>
@@ -35,7 +43,7 @@ export async function DiscordRewardsContent() {
         <DocTable
           headers={[k("T_ACTION"), k("T_REWARD"), k("T_FREQUENCY")]}
           rows={[
-            [k("R_CONNECT_ACTION"), "$1", k("F_ONCE")],
+            [k("R_CONNECT_ACTION"), k("R_CONNECT_REWARD"), k("F_ONCE")],
             [k("R_BOOST_ACTION"), k("R_BOOST_REWARD"), k("F_BOOST")],
             [k("R_VOTE_ACTION"), k("R_VOTE_REWARD"), k("F_VOTE")],
             [k("R_INVITE_ACTION"), k("R_INVITE_REWARD"), k("F_INVITE")],
@@ -50,12 +58,6 @@ export async function DiscordRewardsContent() {
         <p>{k("P_BOOST_1")}</p>
         <p>{k("P_BOOST_2")}</p>
         <p>{k("P_VOTE_1")}</p>
-        <DocImage
-          src="/images/docs/rewards-vote-panel.webp"
-          alt={k("ALT_VOTE_PANEL")}
-          width={973}
-          height={519}
-        />
         <p>{k("P_VOTE_2")}</p>
       </DocSection>
       <DocSection id="tag" title={k("H_TAG")}>
@@ -67,17 +69,15 @@ export async function DiscordRewardsContent() {
         <p>{k("P_LEVELS_1")}</p>
         <DocTable
           headers={[k("T_LEVEL"), k("T_ROLE"), k("T_MESSAGES"), k("T_REWARD")]}
-          rows={[
-            ["0", "Prompt Newbie!", "10", "$0.05"],
-            ["1", "Token Spender!", "100", "$0.10"],
-            ["2", "Context Filler!", "500", "$0.25"],
-            ["3", "Fine Tuner!", "1,000", "$0.50"],
-            ["4", "Prompt Engineer!", "2,500", "$1.00"],
-            ["5", "Model Wrangler!", "5,000", "$2.00"],
-            ["6", "Agent Architect!", "10,000", "$5.00"],
-            ["7", "RP Maestro!", "25,000", "$10.00"],
-            ["8", "AGI Whisperer!", "50,000", "$25.00"],
-          ]}
+          rows={rewards.levels.map((level, i) => [
+            String(i),
+            level.role,
+            level.messages,
+            t(platformDocKey(P, "LEVEL_REWARD_CELL"), {
+              ...values,
+              amount: level.reward,
+            }),
+          ])}
         />
         <p>{k("P_LEVELS_2")}</p>
       </DocSection>
