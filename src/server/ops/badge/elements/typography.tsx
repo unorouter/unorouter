@@ -1,9 +1,32 @@
 import type { CSSProperties } from "react";
+import { shapeArabic } from "../lib/arabic-shaper";
 import type { ThemeColors } from "../lib/types";
 import { Col, Row } from "./primitives";
 
 export const FONT_SANS = "Space Grotesk";
 export const FONT_MONO = "JetBrains Mono";
+
+// Renders text as a normal Satori <span>, EXCEPT Arabic, which Satori cannot
+// shape (see arabic-shaper.ts): that path pre-shapes with HarfBuzz and emits an
+// <img> of the connected glyphs. `fontSize` + `color` must be concrete numbers/
+// strings here so the shaper can size + paint the SVG identically to the span.
+export function ShapedSpan(props: {
+  text: string;
+  fontSize: number;
+  color: string;
+  style?: CSSProperties;
+}) {
+  const shaped = shapeArabic(props.text, props.fontSize, props.color);
+  if (shaped) {
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    return <img src={shaped.src} width={shaped.width} height={shaped.height} />;
+  }
+  return (
+    <span style={{ fontSize: props.fontSize, color: props.color, ...props.style }}>
+      {props.text}
+    </span>
+  );
+}
 
 export function MonoValue(props: {
   value: string;
@@ -32,18 +55,17 @@ export function Label(props: {
   style?: CSSProperties;
 }) {
   return (
-    <span
+    <ShapedSpan
+      text={props.text}
+      fontSize={props.size ?? 11}
+      color={props.c.muted}
       style={{
         fontFamily: FONT_SANS,
-        fontSize: props.size ?? 11,
-        color: props.c.muted,
         letterSpacing: 1,
         textTransform: "uppercase",
         ...props.style,
       }}
-    >
-      {props.text}
-    </span>
+    />
   );
 }
 

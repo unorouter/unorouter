@@ -6,7 +6,7 @@ import { bgSvg, RAINBOW } from "../lib/glow";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { prepIconSvg, renderBadgeTemplate, svgDataUri } from "../lib/utils";
 import { Logo } from "./primitives";
-import { FONT_MONO, FONT_SANS } from "./typography";
+import { FONT_MONO, FONT_SANS, ShapedSpan } from "./typography";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
 
@@ -220,15 +220,12 @@ export async function renderFeatureBadge(
           </div>
         </div>
         {d.showTagline && (
-          <span
-            style={{
-              fontFamily: FONT_SANS,
-              fontSize: d.taglineFont,
-              color: "#9aa0a6",
-            }}
-          >
-            {opts.tagline}
-          </span>
+          <ShapedSpan
+            text={opts.tagline}
+            fontSize={d.taglineFont}
+            color="#9aa0a6"
+            style={{ fontFamily: FONT_SANS }}
+          />
         )}
       </div>
       {d.statFont && opts.stat && (
@@ -249,15 +246,12 @@ export async function renderFeatureBadge(
           >
             {opts.stat.value}
           </span>
-          <span
-            style={{
-              fontFamily: FONT_SANS,
-              fontSize: d.taglineFont,
-              color: "#9aa0a6",
-            }}
-          >
-            {opts.stat.label}
-          </span>
+          <ShapedSpan
+            text={opts.stat.label}
+            fontSize={d.taglineFont}
+            color="#9aa0a6"
+            style={{ fontFamily: FONT_SANS }}
+          />
         </div>
       )}
     </div>
@@ -291,16 +285,15 @@ export async function renderFeatureBadge(
             }}
           >
             <IconCell svg={f.icon} cell={d.cell} iconSize={d.iconSize} />
-            <span
+            <ShapedSpan
+              text={f.label}
+              fontSize={d.labelFont}
+              color="#e8eaed"
               style={{
                 fontFamily: FONT_SANS,
-                fontSize: d.labelFont,
-                color: "#e8eaed",
                 maxWidth: chipW - d.cell - Math.round(d.cell * 0.3),
               }}
-            >
-              {f.label}
-            </span>
+            />
           </div>
         ))}
       </div>
