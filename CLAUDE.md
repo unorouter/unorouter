@@ -302,6 +302,24 @@ Centralized in `src/lib/ai/chat/free-model-race.ts` (`freeModelRace`, isomorphic
 
 - Server-side caches: pricing 5min (`pricing-cache.ts`, internal consumers), badge 5min, web-bot-auth dir 10min. PUBLIC upstream GETs use the Next Data Cache 1h via `PUBLIC_CACHE` (`src/lib/config/constants.ts`, spread into Orval call options): pricing, subscriptions, rankings, perf-metrics, plus the GUEST branch of topup-info/subscription-plans. RULE: pair `PUBLIC_CACHE` with `ADMIN_HEADERS` (cache keys by URL only; customFetch auto-attaches user cookies without explicit auth, which would leak one user's response to all). Logged-in branches stay uncached. Items >2MB silently never store (stats/history caches its computed summary in-module instead).
 
+## Discord reward amounts (docs)
+
+The reward figures on `/docs/platform/discord-rewards` are NOT hardcoded and NOT in the locale
+files. `getRewardAmounts(locale)` (`src/lib/config/rewards.ts`) fetches the Discord bot's
+`GET /rewards` over the cluster network (`serverEnv.botInternalUrl`, default
+`http://unorouter-bot:4000`, ClusterIP with no public ingress) with `PUBLIC_CACHE` (1h ISR), so
+changing a payout is a bot env change plus a bot restart - no site deploy, no translation edits.
+
+- Amounts reach the copy as ICU placeholders (`{voteReward}`, `{levelTotal}`, ...) spread into the
+  same values object `APP_VALUES` already uses. Messages precompile at build, so a typo'd
+  placeholder FAILS THE BUILD rather than rendering wrong.
+- Locale values carry the currency symbol and their own decimal convention; only the numeral is
+  interpolated, formatted per locale via `Intl.NumberFormat`. Do not put `$` in the fetched value.
+- `FALLBACK` in that file is a last-known-good safety net for when the bot is unreachable. It is
+  NOT the place to change a reward; editing it changes nothing while the bot is healthy.
+- The level table rows come from the same fetch. There are no reward screenshots: they were
+  deleted because they silently went stale, and the prose covers both flows.
+
 ## Analytics
 
 `src/lib/analytics.ts` is the canonical telemetry surface. Single `analytics` const groups events by feature (`auth/chat/billing/tokens/settings/navigation/affiliate/dashboard/logs/docs/rp/content`). Every event takes typed args and calls `posthog.capture(name, props)`. Components import as `analytics.<feature>.<event>(...)`. Add new events here; never call `posthog.capture` directly from a component.
