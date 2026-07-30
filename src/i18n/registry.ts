@@ -76,11 +76,16 @@ const PLATFORM_DOC_DATES: Record<string, string> = {
   "group-pinning": "2026-07-19",
 };
 
+const PLATFORM_DOC_UPDATED: Record<string, string> = {
+  "discord-rewards": "2026-07-30",
+};
+
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
   slug: `docs/platform/${doc.slug}`,
   path: doc.href as Pathname,
   i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
   date: PLATFORM_DOC_DATES[doc.slug] ?? CHAT_PLATFORM_DOCS_DATE,
+  updated: PLATFORM_DOC_UPDATED[doc.slug],
   priority: 0.7,
   changeFrequency: "weekly",
 }));

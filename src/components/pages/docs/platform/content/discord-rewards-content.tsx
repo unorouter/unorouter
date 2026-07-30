@@ -40,6 +40,7 @@ export async function DiscordRewardsContent() {
             [k("R_VOTE_ACTION"), k("R_VOTE_REWARD"), k("F_VOTE")],
             [k("R_INVITE_ACTION"), k("R_INVITE_REWARD"), k("F_INVITE")],
             [k("R_LEVEL_ACTION"), k("R_LEVEL_REWARD"), k("F_LEVEL")],
+            [k("R_TAG_ACTION"), k("R_TAG_REWARD"), k("F_TAG")],
             [k("R_BOUNTY_ACTION"), k("R_BOUNTY_REWARD"), k("F_BOUNTY")],
           ]}
         />
@@ -56,6 +57,11 @@ export async function DiscordRewardsContent() {
           height={519}
         />
         <p>{k("P_VOTE_2")}</p>
+      </DocSection>
+      <DocSection id="tag" title={k("H_TAG")}>
+        <p>{k("P_TAG_1")}</p>
+        <p>{k("P_TAG_2")}</p>
+        <p>{k("P_TAG_3")}</p>
       </DocSection>
       <DocSection id="levels" title={k("H_LEVELS")}>
         <p>{k("P_LEVELS_1")}</p>
@@ -91,6 +97,7 @@ export async function DiscordRewardsContent() {
           <li>{k("R_RULE_2")}</li>
           <li>{k("R_RULE_3")}</li>
           <li>{k("R_RULE_4")}</li>
+          <li>{k("R_RULE_TAG")}</li>
           <li>{k("R_RULE_5")}</li>
           <li>{k("R_RULE_6")}</li>
           <li>{k("R_RULE_7")}</li>
