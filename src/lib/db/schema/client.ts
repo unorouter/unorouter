@@ -120,6 +120,32 @@ export const LOCAL_MIGRATION_KEYS = {
   migrationVersion: "migration_version",
 } as const;
 
+// Checkpoints the user brought themselves, addressed by AIR. Saved on first successful
+// generation rather than on resolve, so the list is models actually used and not every one
+// glanced at. Client only, like custom_providers: nothing here belongs on a server.
+export const imageModels = sqliteTable(
+  "image_models",
+  {
+    air: text("air").primaryKey(),
+    userId: integer("user_id").notNull(),
+    name: text("name").notNull(),
+    architecture: text("architecture"),
+    heroImage: text("hero_image"),
+    nsfwLevel: integer("nsfw_level"),
+    lastUsedAt: integer("last_used_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_image_models_user").on(table.userId, table.lastUsedAt),
+  ],
+);
+
+export type ImageModel = typeof imageModels.$inferSelect;
+
 export const imageSessions = sqliteTable(
   "image_sessions",
   {

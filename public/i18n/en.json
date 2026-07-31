@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "Resolving...",
     "CIVITAI_RESOLVED": "Ready: {name}",
     "CIVITAI_FAILED": "Could not resolve that model. Some models fail to resolve due to provider limitations.",
-    "CIVITAI_HINT": "Paste a CivitAI model link, then resolve it before generating."
+    "CIVITAI_HINT": "Paste a CivitAI model link, then resolve it before generating.",
+    "MODEL_SEARCH_OR_URL": "Search models, or paste a CivitAI URL",
+    "MODEL_GROUP_SAVED": "My models",
+    "MODEL_GROUP_CIVITAI": "CivitAI checkpoints"
   }
 }

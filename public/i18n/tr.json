@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "Çözümleniyor...",
     "CIVITAI_RESOLVED": "Hazır: {name}",
     "CIVITAI_FAILED": "Bu model çözümlenemedi. Sağlayıcı kısıtları nedeniyle bazı modeller çözümlenemez.",
-    "CIVITAI_HINT": "Bir CivitAI model bağlantısı yapıştırın, üretmeden önce çözümleyin."
+    "CIVITAI_HINT": "Bir CivitAI model bağlantısı yapıştırın, üretmeden önce çözümleyin.",
+    "MODEL_SEARCH_OR_URL": "Model arayın veya bir CivitAI bağlantısı yapıştırın",
+    "MODEL_GROUP_SAVED": "Modellerim",
+    "MODEL_GROUP_CIVITAI": "CivitAI kontrol noktaları"
   }
 }

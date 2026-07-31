@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "Đang phân giải...",
     "CIVITAI_RESOLVED": "Sẵn sàng: {name}",
     "CIVITAI_FAILED": "Không thể phân giải mô hình này. Một số mô hình thất bại do giới hạn của nhà cung cấp.",
-    "CIVITAI_HINT": "Dán liên kết mô hình CivitAI, sau đó phân giải trước khi tạo ảnh."
+    "CIVITAI_HINT": "Dán liên kết mô hình CivitAI, sau đó phân giải trước khi tạo ảnh.",
+    "MODEL_SEARCH_OR_URL": "Tìm mô hình hoặc dán liên kết CivitAI",
+    "MODEL_GROUP_SAVED": "Mô hình của tôi",
+    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI"
   }
 }

@@ -116,7 +116,10 @@ function inferDescriptor(
     supportsLoraChain: diffusion,
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
-    supportsSampler: diffusion,
+    // Steps and CFG transfer between backends, but sampler and scheduler names do not: the
+    // form's list is ComfyUI vocabulary (euler_ancestral, normal) and Runware rejects those
+    // outright with invalidScheduler. Left off until the choices are per backend.
+    supportsSampler: false,
     supportsHiresFix: false,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,

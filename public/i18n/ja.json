@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "解決中...",
     "CIVITAI_RESOLVED": "準備完了: {name}",
     "CIVITAI_FAILED": "このモデルを解決できませんでした。プロバイダーの制限により解決できないモデルもあります。",
-    "CIVITAI_HINT": "CivitAI のモデルリンクを貼り付け、生成前に解決してください。"
+    "CIVITAI_HINT": "CivitAI のモデルリンクを貼り付け、生成前に解決してください。",
+    "MODEL_SEARCH_OR_URL": "モデルを検索、または CivitAI の URL を貼り付け",
+    "MODEL_GROUP_SAVED": "マイモデル",
+    "MODEL_GROUP_CIVITAI": "CivitAI チェックポイント"
   }
 }

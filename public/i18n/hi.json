@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "हल किया जा रहा है...",
     "CIVITAI_RESOLVED": "तैयार: {name}",
     "CIVITAI_FAILED": "यह मॉडल हल नहीं हो सका। प्रदाता की सीमाओं के कारण कुछ मॉडल हल नहीं होते।",
-    "CIVITAI_HINT": "CivitAI मॉडल लिंक चिपकाएँ, फिर बनाने से पहले उसे हल करें।"
+    "CIVITAI_HINT": "CivitAI मॉडल लिंक चिपकाएँ, फिर बनाने से पहले उसे हल करें।",
+    "MODEL_SEARCH_OR_URL": "मॉडल खोजें या CivitAI URL चिपकाएँ",
+    "MODEL_GROUP_SAVED": "मेरे मॉडल",
+    "MODEL_GROUP_CIVITAI": "CivitAI चेकपॉइंट"
   }
 }

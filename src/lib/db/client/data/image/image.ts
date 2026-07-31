@@ -5,6 +5,7 @@ import { base64ToDataUri } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   type ImageSnapshot,
+  imageModels,
   imageSessions,
   imageSnapshots,
 } from "@/lib/db/schema/client";
@@ -237,4 +238,36 @@ export async function patchLocalSnapshotCost(
     .update(imageSnapshots)
     .set({ costQuota, updatedAt: dayjs().toDate() })
     .where(eq(imageSnapshots.id, snapshotId));
+}
+
+const imageModelStore = makeTableStore(imageModels, imageModels.air);
+
+export const readLocalImageModels = (userId: number | undefined) =>
+  imageModelStore.list(userId);
+
+export const deleteLocalImageModel = (
+  userId: number | undefined,
+  air: string,
+) => imageModelStore.drop(userId, air);
+
+// Recorded when a checkpoint is actually generated with, so the list stays what the user
+// uses rather than everything they searched. Re-generating just moves it back to the top.
+export async function rememberLocalImageModel(
+  userId: number | undefined,
+  model: {
+    air: string;
+    name: string;
+    architecture?: string | null;
+    heroImage?: string | null;
+    nsfwLevel?: number | null;
+  },
+) {
+  await imageModelStore.upsert(userId, {
+    air: model.air,
+    name: model.name,
+    architecture: model.architecture ?? null,
+    heroImage: model.heroImage ?? null,
+    nsfwLevel: model.nsfwLevel ?? null,
+    lastUsedAt: dayjs().toDate(),
+  });
 }

@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "Risoluzione...",
     "CIVITAI_RESOLVED": "Pronto: {name}",
     "CIVITAI_FAILED": "Impossibile risolvere questo modello. Alcuni modelli falliscono per limiti del fornitore.",
-    "CIVITAI_HINT": "Incolla un link a un modello CivitAI, poi risolvilo prima di generare."
+    "CIVITAI_HINT": "Incolla un link a un modello CivitAI, poi risolvilo prima di generare.",
+    "MODEL_SEARCH_OR_URL": "Cerca modelli o incolla un URL CivitAI",
+    "MODEL_GROUP_SAVED": "I miei modelli",
+    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI"
   }
 }

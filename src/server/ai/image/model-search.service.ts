@@ -95,9 +95,12 @@ export type ResolvedCheckpoint = {
   nsfwLevel: number | null;
 };
 
-// Civitai URLs carry the model id, and optionally a version id:
+// Every way a user might name a checkpoint. A reference identifies one specific model, so it
+// resolves to that; anything else is treated as a name to search for.
 //   civitai.com/models/288584/autismmix-sdxl?modelVersionId=324619
-// A bare id is also accepted, matching the "CivitAI URL or ID" affordance users expect.
+//   288584
+//   civitai:288584@324619
+//   urn:air:sdxl:checkpoint:civitai:288584@324619
 function parseCivitaiReference(input: string): {
   modelId: string;
   versionId?: string;
@@ -107,9 +110,9 @@ function parseCivitaiReference(input: string): {
 
   if (/^\d+$/.test(trimmed)) return { modelId: trimmed };
 
-  // Already an AIR, e.g. civitai:288584@324619
-  const air = trimmed.match(/^[a-z]+:(\d+)@(\d+)$/i);
-  if (air?.[1] && air[2]) return { modelId: air[1], versionId: air[2] };
+  // A full URN carries the AIR at its tail, so read that rather than the prefix.
+  const air = trimmed.match(/(?:^|:)([a-z]+):(\d+)@(\d+)$/i);
+  if (air?.[2] && air[3]) return { modelId: air[2], versionId: air[3] };
 
   const url = trimmed.match(/civitai\.com\/models\/(\d+)/i);
   if (!url?.[1]) return null;
@@ -118,6 +121,10 @@ function parseCivitaiReference(input: string): {
     modelId: url[1],
     ...(version?.[1] ? { versionId: version[1] } : {}),
   };
+}
+
+export function looksLikeCheckpointReference(input: string): boolean {
+  return parseCivitaiReference(input) != null;
 }
 
 /**
@@ -129,6 +136,40 @@ function parseCivitaiReference(input: string): {
  * `runware:` publisher prefix, not `civitai:`), which is why the caller should treat a
  * successful resolve as necessary but not sufficient and surface honest failure copy.
  */
+/**
+ * One entry point for everything a user can type into the model search: a Civitai URL, a bare
+ * id, an AIR, or a plain name. A reference names one model so it resolves to that one; a name
+ * searches the provider's catalog, which is far larger than any list shipped in config.
+ */
+export async function findCheckpoints(
+  input: string,
+): Promise<ResolvedCheckpoint[]> {
+  const trimmed = input.trim();
+  if (trimmed.length < 2) return [];
+
+  if (looksLikeCheckpointReference(trimmed)) {
+    const resolved = await resolveCivitaiCheckpoint(trimmed);
+    return resolved ? [resolved] : [];
+  }
+
+  const envelope = await runwareTask({
+    taskType: "modelSearch",
+    category: "checkpoint",
+    search: trimmed,
+    limit: 20,
+  });
+  const results = envelope.data?.[0]?.results ?? [];
+  return results
+    .filter((row) => !!row.air)
+    .map((row) => ({
+      air: row.air,
+      name: row.name,
+      architecture: row.architecture ?? null,
+      heroImage: row.heroImage ?? null,
+      nsfwLevel: row.nsfwLevel ?? null,
+    }));
+}
+
 export async function resolveCivitaiCheckpoint(
   input: string,
 ): Promise<ResolvedCheckpoint | null> {

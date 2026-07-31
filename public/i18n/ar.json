@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "جارٍ التحليل...",
     "CIVITAI_RESOLVED": "جاهز: {name}",
     "CIVITAI_FAILED": "تعذر تحليل هذا النموذج. بعض النماذج تفشل بسبب قيود المزود.",
-    "CIVITAI_HINT": "الصق رابط نموذج من CivitAI ثم حلله قبل التوليد."
+    "CIVITAI_HINT": "الصق رابط نموذج من CivitAI ثم حلله قبل التوليد.",
+    "MODEL_SEARCH_OR_URL": "ابحث عن النماذج أو الصق رابط CivitAI",
+    "MODEL_GROUP_SAVED": "نماذجي",
+    "MODEL_GROUP_CIVITAI": "نقاط تفتيش CivitAI"
   }
 }

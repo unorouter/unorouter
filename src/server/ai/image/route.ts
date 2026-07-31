@@ -9,6 +9,7 @@ import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia, t } from "elysia";
 import { submitGeneration } from "./image-submit.service";
 import {
+  findCheckpoints,
   resolveCivitaiCheckpoint,
   searchModelCatalog,
 } from "./model-search.service";
@@ -57,9 +58,18 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: catalogSearchQuery },
   )
-  // Resolving a pasted Civitai reference is a separate step from generating with it, so the
-  // form can hard-gate Generate until a checkpoint is known to exist. Resolution succeeding
-  // is necessary but not sufficient: some models still fail to load at generation time.
+  // One search for every reference form plus plain names, so the picker needs no mode switch.
+  .get(
+    "/checkpoints",
+    async ({ query }) => ({
+      success: true,
+      data: { items: await findCheckpoints(query.q) },
+    }),
+    { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
+  )
+  // Resolving one reference on its own, for a caller that wants to gate an action on a
+  // checkpoint existing. Resolution succeeding is necessary but not sufficient: some models
+  // still fail to load at generation time.
   .post(
     "/resolve-civitai",
     async ({ body }) => ({

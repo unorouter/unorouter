@@ -4,6 +4,9 @@ import {
 } from "@/lib/validation/playground";
 
 export const INITIAL_MODEL: PlaygroundModel = "pony";
+
+// The passthrough model: it carries no checkpoint of its own, the AIR rides on the request.
+export const CUSTOM_CIVITAI_MODEL_ID = "custom-civitai";
 export const VARIANT_CHOICES = [1, 2, MAX_IMAGES_PER_GEN] as const;
 
 export const CLIP_TOKEN_CAP = 77;

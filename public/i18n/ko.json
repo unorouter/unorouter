@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "확인 중...",
     "CIVITAI_RESOLVED": "준비됨: {name}",
     "CIVITAI_FAILED": "이 모델을 확인할 수 없습니다. 공급자 제한으로 일부 모델은 확인되지 않습니다.",
-    "CIVITAI_HINT": "CivitAI 모델 링크를 붙여넣고 생성 전에 확인하세요."
+    "CIVITAI_HINT": "CivitAI 모델 링크를 붙여넣고 생성 전에 확인하세요.",
+    "MODEL_SEARCH_OR_URL": "모델 검색 또는 CivitAI URL 붙여넣기",
+    "MODEL_GROUP_SAVED": "내 모델",
+    "MODEL_GROUP_CIVITAI": "CivitAI 체크포인트"
   }
 }

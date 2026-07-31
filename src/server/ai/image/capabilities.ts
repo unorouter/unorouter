@@ -30,6 +30,10 @@ export function filterParamsToCapabilities(
   if (!descriptor.supportsSampler) {
     drop("sampler");
     drop("scheduler");
+  }
+  // Steps and clip skip are plain numbers every diffusion backend understands, unlike the
+  // sampler names, so they ride with CFG rather than with the sampler controls.
+  if (!descriptor.supportsCfg) {
     drop("steps");
     drop("clipSkip");
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useSubmitGenerationMutation } from "@/hooks/ai/image-hook";
+import { useRememberImageModelMutation } from "@/hooks/ai/image-catalog-hook";
 import { useTranslations } from "next-intl";
 import { estimateImageCost } from "@/lib/ai/image/cost-estimate";
 import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
@@ -31,11 +33,15 @@ import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { InitImageField } from "../fields/init-image-field";
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
-import { INITIAL_MODEL, VARIANT_CHOICES } from "../image-constants";
+import {
+  CUSTOM_CIVITAI_MODEL_ID,
+  INITIAL_MODEL,
+  VARIANT_CHOICES,
+} from "../image-constants";
 import { AdvancedFieldsStack } from "./advanced-fields-stack";
 import { CoreParamsFields } from "./core-params-fields";
 import { patchParams } from "./form-helpers";
-import { ModelPicker } from "./model-picker";
+import { ModelPicker, type CustomCheckpoint } from "./model-picker";
 import { TokenEstimate } from "./image-form-fields";
 import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
@@ -64,6 +70,9 @@ function deriveMode(
 export function ImageForm() {
   const t = useTranslations();
   const router = useRouter();
+  const [customCheckpoint, setCustomCheckpoint] =
+    useState<CustomCheckpoint | null>(null);
+  const rememberModel = useRememberImageModelMutation();
   const submitMut = useSubmitGenerationMutation();
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
@@ -116,8 +125,19 @@ export function ImageForm() {
     const body = await toSubmitBody(data, { activeSessionId, mode });
     const submitted = await submitMut.mutateAsync({
       ...body,
+      ...(customCheckpoint
+        ? {
+            extraParams: {
+              ...(body.extraParams ?? {}),
+              air: customCheckpoint.air,
+            },
+          }
+        : {}),
       sessionId: activeSessionId ?? undefined,
     });
+
+    // Saved only once it has produced an image, so the list is checkpoints actually used.
+    if (customCheckpoint) rememberModel.mutate(customCheckpoint);
 
     if (mode === "inpaint") {
       const curUi = data.ui ?? {};
@@ -168,7 +188,16 @@ export function ImageForm() {
                   onSelect={(id) => {
                     field.onChange(id);
                     gen.changeModel(id);
+                    setCustomCheckpoint(null);
                   }}
+                  onSelectCustom={(checkpoint) => {
+                    // The passthrough model carries no checkpoint of its own; the AIR rides
+                    // on the request and the picker label shows the resolved name.
+                    field.onChange(CUSTOM_CIVITAI_MODEL_ID);
+                    gen.changeModel(CUSTOM_CIVITAI_MODEL_ID);
+                    setCustomCheckpoint(checkpoint);
+                  }}
+                  customLabel={customCheckpoint?.name ?? null}
                 />
               </FormControl>
               <FormMessage />

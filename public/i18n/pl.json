@@ -5622,6 +5622,9 @@
     "CIVITAI_RESOLVING": "Rozwiązywanie...",
     "CIVITAI_RESOLVED": "Gotowe: {name}",
     "CIVITAI_FAILED": "Nie udało się rozwiązać tego modelu. Część modeli zawodzi z powodu ograniczeń dostawcy.",
-    "CIVITAI_HINT": "Wklej link do modelu CivitAI, a przed generowaniem rozwiąż go."
+    "CIVITAI_HINT": "Wklej link do modelu CivitAI, a przed generowaniem rozwiąż go.",
+    "MODEL_SEARCH_OR_URL": "Szukaj modeli lub wklej adres CivitAI",
+    "MODEL_GROUP_SAVED": "Moje modele",
+    "MODEL_GROUP_CIVITAI": "Checkpointy CivitAI"
   }
 }

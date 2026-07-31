@@ -28,6 +28,19 @@ import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useDebouncedValue } from "@/hooks/ui/use-debounced-value";
+import {
+  useCheckpointSearchQuery,
+  useSavedImageModelsQuery,
+} from "@/hooks/ai/image-catalog-hook";
+
+export type CustomCheckpoint = {
+  air: string;
+  name: string;
+  architecture: string | null;
+  heroImage: string | null;
+  nsfwLevel: number | null;
+};
 
 function isModelInTab(m: PlaygroundModelDescriptor, tab: GenerateTab): boolean {
   if (!m.tabs) return tab === "text2img";
@@ -39,6 +52,10 @@ type Props = {
   selected: PlaygroundModelDescriptor;
   activeTab: GenerateTab;
   onSelect: (modelId: string) => void;
+  /** Picking a checkpoint the catalog does not ship sets the passthrough model plus its AIR. */
+  onSelectCustom: (checkpoint: CustomCheckpoint) => void;
+  /** Shown instead of the descriptor name when a user-supplied checkpoint is selected. */
+  customLabel?: string | null;
 };
 
 export function ModelPicker(props: Props) {
@@ -48,6 +65,10 @@ export function ModelPicker(props: Props) {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebouncedValue(search, 350);
+  const savedModels = useSavedImageModelsQuery();
+  const remoteSearch = useCheckpointSearchQuery(debouncedSearch);
 
   const pick = (m: PlaygroundModelDescriptor, disabled: boolean) => {
     if (disabled) {
@@ -92,12 +113,60 @@ export function ModelPicker(props: Props) {
     );
   };
 
+  const pickCheckpoint = (c: CustomCheckpoint) => {
+    if (!isLoggedIn) {
+      setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+      router.push("/login");
+      setOpen(false);
+      return;
+    }
+    props.onSelectCustom(c);
+    setSearch("");
+    setOpen(false);
+  };
+
+  const renderCheckpoint = (c: CustomCheckpoint) => (
+    <CommandItem
+      key={c.air}
+      value={`${c.name} ${c.air}`}
+      onSelect={() => pickCheckpoint(c)}
+    >
+      <span className="min-w-0 flex-1 truncate">{c.name}</span>
+      {c.architecture && (
+        <span className="text-muted-foreground shrink-0 text-[10px] uppercase">
+          {c.architecture}
+        </span>
+      )}
+    </CommandItem>
+  );
+
+  const saved = (savedModels.data ?? []) as CustomCheckpoint[];
+  const found = (remoteSearch.data?.items ?? []) as CustomCheckpoint[];
+  const savedAirs = new Set(saved.map((c) => c.air));
+  // Saved models already have their own group, so a search hit that is already saved would
+  // otherwise appear twice.
+  const foundCheckpoints = found.filter((c) => !savedAirs.has(c.air));
+  const savedCheckpoints = search.trim()
+    ? saved.filter((c) =>
+        `${c.name} ${c.air}`
+          .toLowerCase()
+          .includes(search.trim().toLowerCase()),
+      )
+    : saved;
+
+  const needle = search.trim().toLowerCase();
+  const matchesSearch = (m: PlaygroundModelDescriptor) =>
+    !needle ||
+    `${m.displayName} ${m.vendor ?? ""} ${m.id}`.toLowerCase().includes(needle);
+
   const comfyModels = props.models
     .filter((m) => m.family !== "sync-image")
-    .filter((m) => isModelInTab(m, props.activeTab));
+    .filter((m) => isModelInTab(m, props.activeTab))
+    .filter(matchesSearch);
   const hostedModels = props.models
     .filter((m) => m.family === "sync-image")
-    .filter((m) => isModelInTab(m, props.activeTab));
+    .filter((m) => isModelInTab(m, props.activeTab))
+    .filter(matchesSearch);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -106,7 +175,9 @@ export function ModelPicker(props: Props) {
           {props.selected.vendor && (
             <VendorIcon vendor={props.selected.vendor} size={16} />
           )}
-          <span className="truncate">{props.selected.displayName}</span>
+          <span className="truncate">
+            {props.customLabel ?? props.selected.displayName}
+          </span>
         </span>
         <Icon
           name="chevrons-up-down"
@@ -114,16 +185,32 @@ export function ModelPicker(props: Props) {
         />
       </PopoverTrigger>
       <PopoverContent className="w-(--anchor-width) p-0" align="start">
-        <Command>
-          <CommandInput placeholder={t("IMAGE.MODEL_SEARCH")} />
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder={t("IMAGE.MODEL_SEARCH_OR_URL")}
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>{t("IMAGE.MODEL_NO_RESULTS")}</CommandEmpty>
-            <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
-              {comfyModels.map(renderItem)}
-            </CommandGroup>
+            {comfyModels.length > 0 && (
+              <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
+                {comfyModels.map(renderItem)}
+              </CommandGroup>
+            )}
+            {savedCheckpoints.length > 0 && (
+              <CommandGroup heading={t("IMAGE.MODEL_GROUP_SAVED")}>
+                {savedCheckpoints.map(renderCheckpoint)}
+              </CommandGroup>
+            )}
             {hostedModels.length > 0 && (
               <CommandGroup heading={t("IMAGE.MODEL_GROUP_HOSTED")}>
                 {hostedModels.map(renderItem)}
+              </CommandGroup>
+            )}
+            {foundCheckpoints.length > 0 && (
+              <CommandGroup heading={t("IMAGE.MODEL_GROUP_CIVITAI")}>
+                {foundCheckpoints.map(renderCheckpoint)}
               </CommandGroup>
             )}
           </CommandList>

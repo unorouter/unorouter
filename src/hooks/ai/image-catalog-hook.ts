@@ -6,7 +6,14 @@ import { rpc } from "@/lib/rpc";
 import type { CatalogSearchQuery } from "@/lib/validation/playground";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { useMutation } from "@tanstack/react-query";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import {
+  deleteLocalImageModel,
+  readLocalImageModels,
+  rememberLocalImageModel,
+} from "@/lib/db/client/data/image/image";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
@@ -40,5 +47,51 @@ export function useResolveCivitaiMutation() {
       return handleElysia(res);
     },
     onError: (e) => handleError(e, t),
+  });
+}
+
+// Debounced by the caller through the query key; a reference resolves to one model and a
+// name searches the provider catalog, so one hook covers both.
+export function useCheckpointSearchQuery(q: string) {
+  return useElysiaQuery(
+    queryKeys.checkpointSearch(q),
+    () => rpc.api.ai.image.checkpoints.get({ query: { q } }),
+    { enabled: q.trim().length >= 2 },
+  );
+}
+
+export function useSavedImageModelsQuery() {
+  const userId = useLocalUserId();
+  return useQuery({
+    queryKey: queryKeys.savedImageModels(),
+    queryFn: () => readLocalImageModels(userId),
+  });
+}
+
+export function useForgetImageModelMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: (air: string) => deleteLocalImageModel(userId, air),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
+  });
+}
+
+export function useRememberImageModelMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: (model: {
+      air: string;
+      name: string;
+      architecture: string | null;
+      heroImage: string | null;
+      nsfwLevel: number | null;
+    }) => rememberLocalImageModel(userId, model),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
   });
 }
