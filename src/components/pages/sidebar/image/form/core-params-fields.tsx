@@ -109,37 +109,41 @@ export function CoreParamsFields(props: Props) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="params.scheduler"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
-                <FormControl>
-                  <Select
-                    value={
-                      field.value ?? descriptor.defaultParams.scheduler ?? ""
-                    }
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger
-                      aria-label={t("IMAGE.SCHEDULER_LABEL")}
-                      className="w-full"
+          {/* Some backends fold the scheduler into the sampler and offer no separate list,
+              which would render an empty select holding a value the provider rejects. */}
+          {(descriptor.schedulers?.length ?? 0) > 0 && (
+            <FormField
+              control={form.control}
+              name="params.scheduler"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
+                  <FormControl>
+                    <Select
+                      value={
+                        field.value ?? descriptor.defaultParams.scheduler ?? ""
+                      }
+                      onValueChange={field.onChange}
                     >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {(descriptor.schedulers ?? []).map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {s}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
-          />
+                      <SelectTrigger
+                        aria-label={t("IMAGE.SCHEDULER_LABEL")}
+                        className="w-full"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(descriptor.schedulers ?? []).map((s) => (
+                          <SelectItem key={s} value={s}>
+                            {s}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          )}
           <SeedField />
         </div>
       ) : (

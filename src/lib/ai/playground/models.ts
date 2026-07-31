@@ -1,8 +1,6 @@
 import {
   GENERATION_SAMPLERS,
   GENERATION_SCHEDULERS,
-  type GenerationSamplerValue,
-  type GenerationSchedulerValue,
   type PlaygroundModel,
 } from "@/lib/validation/playground";
 
@@ -38,8 +36,10 @@ export type PlaygroundModelDescriptor = {
     steps: number;
     cfg?: number;
     guidance?: number;
-    sampler?: GenerationSamplerValue;
-    scheduler?: GenerationSchedulerValue;
+    // Plain strings: the names belong to whichever backend serves the model, and the
+    // samplers/schedulers lists below say which ones it accepts.
+    sampler?: string;
+    scheduler?: string;
   };
   fixedSize?: { width: number; height: number };
   samplers?: string[];

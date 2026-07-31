@@ -158,6 +158,9 @@ function inferDescriptor(
       width: 1024,
       height: 1024,
       steps: 20,
+      // Named explicitly so the form does not fall back to a ComfyUI value the provider
+      // rejects. "Default" lets the checkpoint pick its own.
+      ...(diffusion ? { sampler: "Default" } : {}),
     },
     estimatedSeconds: 15,
     recommendedPromptStyle: "natural-language",
