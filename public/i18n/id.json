@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "panduan",
     "PARAM_SEED": "seed",
+    "REUSE_SEED": "Gunakan lagi seed ini",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Jumlah gambar",

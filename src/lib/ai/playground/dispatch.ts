@@ -189,16 +189,30 @@ export function extractResultUris(
   endpoint: SyncImageEndpoint,
   payload: unknown,
 ): string[] {
+  return extractResults(endpoint, payload).map((r) => r.uri);
+}
+
+/** A result plus whatever the provider reported about how it was produced. */
+export type ExtractedResult = { uri: string; seed?: number };
+
+export function extractResults(
+  endpoint: SyncImageEndpoint,
+  payload: unknown,
+): ExtractedResult[] {
   const p = rec(payload);
   if (!p) return [];
-  const out: string[] = [];
+  const out: ExtractedResult[] = [];
 
   if (endpoint === "image-generation") {
     for (const entry of recArray(p.data)) {
       const url = str(entry.url);
       const b64 = str(entry.b64_json);
-      if (url) out.push(url);
-      else if (b64) out.push(base64ToDataUri(b64, "image/png"));
+      // Diffusion backends report the seed they actually used, which is the only way
+      // to reproduce a generation that did not pin one.
+      const rawSeed = entry.seed;
+      const seed = typeof rawSeed === "number" ? rawSeed : undefined;
+      if (url) out.push({ uri: url, seed });
+      else if (b64) out.push({ uri: base64ToDataUri(b64, "image/png"), seed });
     }
     return out;
   }
@@ -212,14 +226,14 @@ export function extractResultUris(
         const pp = rec(part);
         if (pp?.type === "image_url") {
           const url = str(rec(pp.image_url)?.url);
-          if (url) out.push(url);
+          if (url) out.push({ uri: url });
         }
       }
       return out;
     }
     if (typeof content === "string") {
       const found = extractFromMarkdownOrText(content);
-      if (found) out.push(found);
+      if (found) out.push({ uri: found });
     }
     return out;
   }
@@ -230,7 +244,7 @@ export function extractResultUris(
     if (!inline) continue;
     const mime = str(inline.mime_type) ?? str(inline.mimeType);
     const data = str(inline.data);
-    if (mime && data) out.push(base64ToDataUri(data, mime));
+    if (mime && data) out.push({ uri: base64ToDataUri(data, mime) });
   }
   return out;
 }

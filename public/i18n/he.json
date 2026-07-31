@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "הדרכה",
     "PARAM_SEED": "זרע",
+    "REUSE_SEED": "השתמש שוב בזרע הזה",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "מספר תמונות",

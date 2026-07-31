@@ -299,6 +299,20 @@ export function ImageResult(props: Props) {
             });
             setLastRestoredPrompt(data.prompt);
           }}
+          onReuseSeed={(seed) => {
+            // Everything else stays as it was: reusing a seed is only useful when the
+            // rest of the generation is reproduced alongside it.
+            setRestore({
+              model: data.model,
+              prompt: data.prompt,
+              negativePrompt: data.negativePrompt,
+              params: { ...data.params, seed },
+              loras: data.loras,
+              references: data.references,
+              extraParams: data.extraParams,
+            });
+            setLastRestoredPrompt(data.prompt);
+          }}
         />
       ) : isFailed ? (
         <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">

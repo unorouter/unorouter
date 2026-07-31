@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "가이던스",
     "PARAM_SEED": "시드",
+    "REUSE_SEED": "이 시드 재사용",
     "SAMPLER_LABEL": "샘플러",
     "SCHEDULER_LABEL": "스케줄러",
     "VARIANTS_LABEL": "이미지 수",

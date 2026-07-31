@@ -500,6 +500,10 @@ export const media = sqliteTable(
     height: integer("height"),
     extractedText: text("extracted_text"),
     promptText: text("prompt_text"),
+    // The seed the provider actually used. Per image rather than per snapshot, since a
+    // batch draws a different one for each result, and without it a generation made
+    // without a pinned seed cannot be reproduced.
+    seed: integer("seed"),
     createdAt: createdAtCol(),
   },
   (table) => [

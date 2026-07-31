@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "prowadzenie",
     "PARAM_SEED": "ziarno",
+    "REUSE_SEED": "Użyj ponownie tego ziarna",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Liczba obrazów",

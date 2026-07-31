@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "CFG",
     "PARAM_GUIDANCE": "guidage",
     "PARAM_SEED": "graine",
+    "REUSE_SEED": "Réutiliser cette graine",
     "SAMPLER_LABEL": "Échantillonneur",
     "SCHEDULER_LABEL": "Planificateur",
     "VARIANTS_LABEL": "Nombre d'images",

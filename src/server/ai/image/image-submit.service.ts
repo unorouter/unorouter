@@ -1,6 +1,6 @@
 import {
   buildBody,
-  extractResultUris,
+  extractResults,
   loadRefs,
 } from "@/lib/ai/playground/dispatch";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
@@ -169,14 +169,15 @@ export async function submitGeneration(
     // real charge is only knowable from its own log row, keyed by this id.
     const requestId = res.headers.get("x-oneapi-request-id");
     if (requestId) requestIds.push(requestId);
-    const uris = extractResultUris(endpoint, JSON.parse(text));
-    for (const uri of uris) {
-      const fetched = await downloadGenerationBytes(uri, apiKey);
+    const results = extractResults(endpoint, JSON.parse(text));
+    for (const result of results) {
+      const fetched = await downloadGenerationBytes(result.uri, apiKey);
       collected.push({
-        resultUrl: uri.startsWith("data:") ? null : uri,
+        resultUrl: result.uri.startsWith("data:") ? null : result.uri,
         base64: fetched.buffer.toString("base64"),
         mimeType: fetched.mime,
         sizeBytes: fetched.sizeBytes,
+        seed: result.seed,
       });
     }
   }

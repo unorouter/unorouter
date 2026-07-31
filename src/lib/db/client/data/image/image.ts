@@ -35,6 +35,7 @@ function toImageView(row: Media): ImageView | null {
     mimeType: row.mimeType,
     width: row.width,
     height: row.height,
+    seed: row.seed,
   };
 }
 

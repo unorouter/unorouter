@@ -227,6 +227,9 @@ export const generatedImage = t.Object({
   base64: t.String(),
   mimeType: t.String(),
   sizeBytes: t.Integer(),
+  // Diffusion backends pick a seed when the request omits one. Per image, not per
+  // snapshot: a batch gets a different seed for each result.
+  seed: t.Optional(t.Integer()),
 });
 export type GeneratedImage = Static<typeof generatedImage>;
 

@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "توجيه",
     "PARAM_SEED": "بذرة",
+    "REUSE_SEED": "إعادة استخدام هذه البذرة",
     "SAMPLER_LABEL": "العيّن",
     "SCHEDULER_LABEL": "المُجدوِل",
     "VARIANTS_LABEL": "عدد الصور",

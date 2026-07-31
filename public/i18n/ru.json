@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "CFG",
     "PARAM_GUIDANCE": "guidance",
     "PARAM_SEED": "сид",
+    "REUSE_SEED": "Использовать этот сид повторно",
     "SAMPLER_LABEL": "Сэмплер",
     "SCHEDULER_LABEL": "Планировщик",
     "VARIANTS_LABEL": "Количество изображений",

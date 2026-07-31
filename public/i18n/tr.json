@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "rehberlik",
     "PARAM_SEED": "seed",
+    "REUSE_SEED": "Bu tohumu yeniden kullan",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Görsel sayısı",

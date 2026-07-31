@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "CFG",
     "PARAM_GUIDANCE": "ガイダンス",
     "PARAM_SEED": "シード",
+    "REUSE_SEED": "このシードを再利用",
     "SAMPLER_LABEL": "サンプラー",
     "SCHEDULER_LABEL": "スケジューラ",
     "VARIANTS_LABEL": "画像数",

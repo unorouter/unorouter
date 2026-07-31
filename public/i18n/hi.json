@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "guidance",
     "PARAM_SEED": "seed",
+    "REUSE_SEED": "इस सीड का दोबारा उपयोग करें",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Images की संख्या",

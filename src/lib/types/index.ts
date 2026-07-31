@@ -87,6 +87,7 @@ export type ImageView = {
   mimeType: string | null;
   width: number | null;
   height: number | null;
+  seed: number | null;
 };
 
 export type SnapshotView = {

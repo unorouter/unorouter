@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "CFG",
     "PARAM_GUIDANCE": "引导",
     "PARAM_SEED": "种子",
+    "REUSE_SEED": "重复使用该种子",
     "SAMPLER_LABEL": "采样器",
     "SCHEDULER_LABEL": "调度器",
     "VARIANTS_LABEL": "生成数量",

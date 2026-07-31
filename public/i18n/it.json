@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "cfg",
     "PARAM_GUIDANCE": "guidance",
     "PARAM_SEED": "seed",
+    "REUSE_SEED": "Riutilizza questo seed",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Numero di immagini",

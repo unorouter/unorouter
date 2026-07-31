@@ -24,8 +24,10 @@ function ImageTile(props: {
   alt: string;
   filename: string;
   className?: string;
+  seed?: number | null;
   onZoom: () => void;
   onQuickAction?: QuickHandler;
+  onReuseSeed?: (seed: number) => void;
 }) {
   const t = useTranslations();
   const onDownload = async () => {
@@ -67,6 +69,19 @@ function ImageTile(props: {
       >
         <Icon name="download" className="h-4 w-4" />
       </button>
+      {/* A generation that did not pin a seed is otherwise unreproducible, so the one the
+          provider chose is shown on the image it produced and is one click to reuse. */}
+      {typeof props.seed === "number" && (
+        <button
+          type="button"
+          onClick={() => props.onReuseSeed?.(props.seed as number)}
+          disabled={!props.onReuseSeed}
+          title={t("IMAGE.REUSE_SEED")}
+          className="bg-background/80 text-foreground absolute top-2 left-2 cursor-pointer rounded-md px-1.5 py-1 font-mono text-[10px] tabular-nums opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 disabled:cursor-default max-md:opacity-100"
+        >
+          {t("IMAGE.PARAM_SEED")} {props.seed}
+        </button>
+      )}
       {props.onQuickAction && (
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
           <button
@@ -113,6 +128,7 @@ export function BatchGrid(props: {
   snapshotId: string;
   onOpenLightbox: (index: number) => void;
   onQuickAction?: QuickHandler;
+  onReuseSeed?: (seed: number) => void;
 }) {
   const sorted = props.images
     .slice()
@@ -124,8 +140,10 @@ export function BatchGrid(props: {
         alt={props.prompt}
         filename={`${props.snapshotId}.png`}
         className="aspect-square w-full"
+        seed={sorted[0].seed}
         onZoom={() => props.onOpenLightbox(0)}
         onQuickAction={props.onQuickAction}
+        onReuseSeed={props.onReuseSeed}
       />
     );
   }
@@ -138,8 +156,10 @@ export function BatchGrid(props: {
           alt={`${props.prompt} (${img.sequenceIndex + 1})`}
           filename={`${props.snapshotId}-${img.sequenceIndex}.png`}
           className="aspect-square"
+          seed={img.seed}
           onZoom={() => props.onOpenLightbox(i)}
           onQuickAction={props.onQuickAction}
+          onReuseSeed={props.onReuseSeed}
         />
       ))}
     </div>

@@ -5574,6 +5574,7 @@
     "PARAM_CFG": "CFG",
     "PARAM_GUIDANCE": "guidance",
     "PARAM_SEED": "seed",
+    "REUSE_SEED": "Dùng lại seed này",
     "SAMPLER_LABEL": "Sampler",
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Số lượng ảnh",
