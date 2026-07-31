@@ -5602,7 +5602,7 @@
     "REMIX": "Remix",
     "DELETE": "Hapus",
     "META_TITLE": "Generasi gambar",
-    "META_DESC": "Buat gambar dengan pipeline ComfyUI {appName} (SDXL + Flux 2).",
+    "META_DESC": "Hasilkan gambar dengan {appName}: checkpoint SDXL dan Flux, LoRA, dan model Civitai apa pun.",
     "REFERENCES_DROP_HINT": "Jatuhkan gambar atau telusuri",
     "LORAS_EMPTY": "Belum ada LoRA disiapkan di volume. Operator dapat menambahkannya melalui tabel katalog.",
     "PNG_IMPORT_HINT": "Jatuhkan PNG ComfyUI untuk mengimpor prompt dan parameternya",

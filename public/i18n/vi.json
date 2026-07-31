@@ -5602,7 +5602,7 @@
     "REMIX": "Remix",
     "DELETE": "Xóa",
     "META_TITLE": "Tạo ảnh",
-    "META_DESC": "Tạo ảnh qua pipeline ComfyUI của {appName} (SDXL + Flux 2).",
+    "META_DESC": "Tạo ảnh với {appName}: checkpoint SDXL và Flux, LoRA và bất kỳ mô hình Civitai nào.",
     "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",
     "LORAS_EMPTY": "Chưa có LoRA nào trên ổ đĩa. Quản trị viên có thể thêm qua bảng danh mục.",
     "PNG_IMPORT_HINT": "Thả ảnh PNG từ ComfyUI để nhập prompt và tham số",

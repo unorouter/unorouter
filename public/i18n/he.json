@@ -5602,7 +5602,7 @@
     "REMIX": "רמיקס",
     "DELETE": "מחק",
     "META_TITLE": "ייצור תמונות",
-    "META_DESC": "ייצרו תמונות עם צינור ComfyUI של {appName} (SDXL + Flux 2).",
+    "META_DESC": "צור תמונות עם {appName}: צ'קפוינטים של SDXL ו-Flux, מודלי LoRA וכל מודל מ-Civitai.",
     "REFERENCES_DROP_HINT": "שחררו תמונות או עיינו",
     "LORAS_EMPTY": "אין LoRAs בנפח עדיין. אופרטור יכול להוסיף אותם דרך טבלת הקטלוג.",
     "PNG_IMPORT_HINT": "שחררו PNG של ComfyUI כדי לייבא את ההנחיה והפרמטרים שלו",

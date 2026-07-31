@@ -5602,7 +5602,7 @@
     "REMIX": "ريمكس",
     "DELETE": "حذف",
     "META_TITLE": "توليد الصور",
-    "META_DESC": "ولّد صوراً بخط أنابيب ComfyUI لـ {appName} (SDXL + Flux 2).",
+    "META_DESC": "أنشئ صورًا باستخدام {appName}: نقاط تفتيش SDXL وFlux، ونماذج LoRA، وأي نموذج من Civitai.",
     "REFERENCES_DROP_HINT": "أفلت صوراً أو تصفّح",
     "LORAS_EMPTY": "لا LoRAs مُجهّزة على الوحدة بعد. المشغّل يستطيع إضافتها عبر جدول الفهرس.",
     "PNG_IMPORT_HINT": "أفلت PNG من ComfyUI لاستيراد مطالبته ومعاملاته",

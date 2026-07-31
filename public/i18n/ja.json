@@ -5602,7 +5602,7 @@
     "REMIX": "リミックス",
     "DELETE": "削除",
     "META_TITLE": "画像生成",
-    "META_DESC": "{appName} の ComfyUI パイプライン (SDXL + Flux 2) で画像を生成。",
+    "META_DESC": "{appName} で画像を生成：SDXL と Flux のチェックポイント、LoRA、あらゆる Civitai モデルに対応。",
     "REFERENCES_DROP_HINT": "画像をドロップまたは選択",
     "LORAS_EMPTY": "ボリュームにLoRAがまだ配置されていません。オペレーターがカタログテーブルから追加できます。",
     "PNG_IMPORT_HINT": "ComfyUI PNG をドロップして、プロンプトとパラメータを取り込み",

@@ -5602,7 +5602,7 @@
     "REMIX": "Remix",
     "DELETE": "Delete",
     "META_TITLE": "Image generation",
-    "META_DESC": "Generate images with the {appName} ComfyUI pipeline (SDXL + Flux 2).",
+    "META_DESC": "Generate images with {appName}: SDXL and Flux checkpoints, LoRAs, and any Civitai model.",
     "REFERENCES_DROP_HINT": "Drop images or browse",
     "LORAS_EMPTY": "No LoRAs staged on the volume yet. Operator can add them via the catalog table.",
     "PNG_IMPORT_HINT": "Drop a ComfyUI PNG to import its prompt and params",

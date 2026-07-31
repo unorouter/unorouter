@@ -5602,7 +5602,7 @@
     "REMIX": "Remix",
     "DELETE": "Sil",
     "META_TITLE": "Görsel üretimi",
-    "META_DESC": "{appName} ComfyUI pipeline'ı (SDXL + Flux 2) ile görseller üretin.",
+    "META_DESC": "{appName} ile görsel üretin: SDXL ve Flux kontrol noktaları, LoRA'lar ve herhangi bir Civitai modeli.",
     "REFERENCES_DROP_HINT": "Görselleri bırak veya gözat",
     "LORAS_EMPTY": "Volume'da henüz hazırlanmış LoRA yok. Operatör katalog tablosu üzerinden ekleyebilir.",
     "PNG_IMPORT_HINT": "İstem ve parametreleri içe aktarmak için bir ComfyUI PNG bırakın",

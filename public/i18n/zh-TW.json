@@ -5602,7 +5602,7 @@
     "REMIX": "再創作",
     "DELETE": "刪除",
     "META_TITLE": "圖像生成",
-    "META_DESC": "透過 {appName} 的 ComfyUI 管線（SDXL 與 Flux 2）生成圖像。",
+    "META_DESC": "使用 {appName} 生成圖像：支援 SDXL 與 Flux 檢查點、LoRA，以及任意 Civitai 模型。",
     "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",
     "LORAS_EMPTY": "磁碟區尚未部署 LoRA。維運可透過目錄表新增。",
     "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以匯入提示詞和參數",
