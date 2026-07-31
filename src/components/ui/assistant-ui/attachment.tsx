@@ -78,7 +78,8 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = (props) => {
       alt={t("CHAT.ATTACHMENT.IMAGE_PREVIEW")}
       width={0}
       height={0}
-      sizes="100vw"
+      sizes="(max-width: 768px) 100vw, 768px"
+      decoding="async"
       className={cn(
         "block h-auto max-h-[80vh] w-auto max-w-full object-contain",
         isLoaded
@@ -123,6 +124,13 @@ const AttachmentThumb: FC = () => {
       <AvatarImage
         src={src}
         alt={t("CHAT.ATTACHMENT.PREVIEW")}
+        // The tile is ~96px but src is the attachment's full-resolution base64
+        // data URI, so the browser holds a whole decoded bitmap
+        // (width x height x 4 bytes) to paint a thumbnail. Decode lazily and
+        // off the main thread so a thread full of attachments does not decode
+        // every one of them at once.
+        loading="lazy"
+        decoding="async"
         className="aui-attachment-tile-image object-cover"
       />
       <AvatarFallback delay={isImage ? 200 : 0}>

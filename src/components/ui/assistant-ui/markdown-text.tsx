@@ -364,7 +364,17 @@ const defaultComponents = memoizeMarkdownComponents({
             title={title}
             width={0}
             height={0}
-            sizes="100vw"
+            // Chat media are inline base64 data URIs, so next/image cannot
+            // optimize them: the browser decodes the FULL-resolution bitmap
+            // (width x height x 4 bytes, independent of the encoded size), and
+            // sizes="100vw" told it to decode for a full-viewport render. A
+            // handful of camera/4K images that way costs GBs of RAM and the
+            // decode work to match. Cap the hint at the real column width, and
+            // decode lazily so a thread of images does not decode all of them
+            // at once on load.
+            sizes="(max-width: 768px) 100vw, 768px"
+            loading="lazy"
+            decoding="async"
             data-asset={media.isAsset ? "" : undefined}
             className="h-auto w-auto max-w-full rounded-lg"
           />
