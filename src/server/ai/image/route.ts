@@ -10,6 +10,7 @@ import { Elysia, t } from "elysia";
 import { submitGeneration } from "./image-submit.service";
 import {
   findCheckpoints,
+  listCheckpointVersions,
   resolveCivitaiCheckpoint,
   searchModelCatalog,
 } from "./model-search.service";
@@ -70,6 +71,16 @@ export const imageRoute = new Elysia({ prefix: "/image" })
   // Resolving one reference on its own, for a caller that wants to gate an action on a
   // checkpoint existing. Resolution succeeding is necessary but not sufficient: some models
   // still fail to load at generation time.
+  // A Civitai model is a family of versions that generate differently, so validating a
+  // reference returns all of them rather than silently choosing.
+  .post(
+    "/civitai-versions",
+    async ({ body }) => ({
+      success: true,
+      data: { items: await listCheckpointVersions(body.query) },
+    }),
+    { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
+  )
   .post(
     "/resolve-civitai",
     async ({ body }) => ({

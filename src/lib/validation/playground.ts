@@ -100,8 +100,11 @@ export const generationParams = t.Object({
   steps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
   cfg: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
   guidance: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
-  sampler: t.Optional(generationSampler),
-  scheduler: t.Optional(generationScheduler),
+  // Free-form: each backend has its own vocabulary (ComfyUI spells a sampler
+  // euler_ancestral, Runware spells the same idea "Euler a"), and the descriptor decides
+  // which names to offer. The submit path drops the value for a model that takes none.
+  sampler: t.Optional(t.String({ maxLength: 64 })),
+  scheduler: t.Optional(t.String({ maxLength: 64 })),
   seed: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
   denoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresDenoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),

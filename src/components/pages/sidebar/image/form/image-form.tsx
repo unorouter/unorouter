@@ -30,6 +30,7 @@ import {
 } from "@/store/image-store";
 import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
+import { CivitaiResolverField } from "../fields/civitai-resolver-field";
 import { InitImageField } from "../fields/init-image-field";
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
@@ -230,6 +231,13 @@ export function ImageForm() {
             </FormItem>
           )}
         />
+
+        {descriptor.id === CUSTOM_CIVITAI_MODEL_ID && (
+          <CivitaiResolverField
+            value={activeCheckpoint}
+            onChange={setPickedCheckpoint}
+          />
+        )}
 
         {descriptor.supportsSize && (
           <AspectRatioField

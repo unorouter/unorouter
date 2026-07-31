@@ -2,45 +2,43 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useResolveCivitaiMutation } from "@/hooks/ai/image-catalog-hook";
+import { useCivitaiVersionsMutation } from "@/hooks/ai/image-catalog-hook";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-export type ResolvedCheckpoint = {
-  air: string;
-  name: string;
-  architecture: string | null;
-};
+import type { CustomCheckpoint } from "../form/model-picker";
 
 type Props = {
-  value: ResolvedCheckpoint | null;
-  onChange: (next: ResolvedCheckpoint | null) => void;
+  value: CustomCheckpoint | null;
+  onChange: (next: CustomCheckpoint | null) => void;
 };
 
 /**
- * Two step handshake for a user supplied checkpoint: paste, resolve, then generate.
+ * Paste a reference, check it, then pick a version.
  *
- * Resolving before submitting is what makes an arbitrary checkpoint safe to offer. Runware
- * pins its own version ids, so an id taken straight from a Civitai URL is often rejected, and
- * resolving here turns that into an inline message instead of a failed generation the user
- * already waited for.
+ * Checking before generating is what makes an arbitrary checkpoint safe to offer: the
+ * provider pins its own version ids, so an id taken straight from a Civitai URL is often not
+ * loadable, and finding that out here costs nothing instead of a failed generation.
+ *
+ * The version list is the point rather than a detail. One Civitai model is a family (LUSTIFY
+ * alone has eleven: alpha, lightning and DMD2 variants) that generate quite differently, so
+ * resolving to one silently would hand the user a model they did not choose.
  */
 export function CivitaiResolverField(props: Props) {
   const t = useTranslations();
   const [query, setQuery] = useState("");
-  const [failed, setFailed] = useState(false);
-  const resolve = useResolveCivitaiMutation();
+  const [versions, setVersions] = useState<CustomCheckpoint[] | null>(null);
+  const lookup = useCivitaiVersionsMutation();
 
   async function run() {
     if (!query.trim()) return;
-    setFailed(false);
+    setVersions(null);
     props.onChange(null);
-    const resolved = await resolve.mutateAsync(query.trim());
-    if (!resolved) {
-      setFailed(true);
-      return;
-    }
-    props.onChange(resolved);
+    const result = await lookup.mutateAsync(query.trim());
+    const items = (result?.items ?? []) as CustomCheckpoint[];
+    setVersions(items);
+    // The version named in the reference leads the list, so a URL that already picked one
+    // needs no second click.
+    if (items[0]) props.onChange(items[0]);
   }
 
   return (
@@ -52,9 +50,7 @@ export function CivitaiResolverField(props: Props) {
           placeholder={t("IMAGE.CIVITAI_PLACEHOLDER")}
           onChange={(e) => {
             setQuery(e.target.value);
-            setFailed(false);
-            // The pasted reference no longer matches what was resolved, so drop the
-            // resolution and make the user resolve again before generating.
+            setVersions(null);
             if (props.value) props.onChange(null);
           }}
           onKeyDown={(e) => {
@@ -67,28 +63,52 @@ export function CivitaiResolverField(props: Props) {
         <Button
           type="button"
           variant="secondary"
-          disabled={!query.trim() || resolve.isPending}
+          disabled={!query.trim() || lookup.isPending}
           onClick={() => void run()}
         >
-          {resolve.isPending
+          {lookup.isPending
             ? t("IMAGE.CIVITAI_RESOLVING")
             : t("IMAGE.CIVITAI_RESOLVE")}
         </Button>
       </div>
 
-      {props.value ? (
-        <div className="text-xs text-emerald-600 dark:text-emerald-400">
-          {t("IMAGE.CIVITAI_RESOLVED", { name: props.value.name })}
+      {versions && versions.length > 0 && (
+        <div className="thin-scrollbar flex max-h-48 flex-col gap-1 overflow-y-auto">
+          {versions.map((v) => {
+            const isActive = props.value?.air === v.air;
+            return (
+              <button
+                key={v.air}
+                type="button"
+                onClick={() => props.onChange(v)}
+                className={
+                  "flex items-center gap-2 rounded-md border px-2 py-1.5 text-left text-xs transition-colors " +
+                  (isActive
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-input hover:bg-accent")
+                }
+              >
+                <span className="min-w-0 flex-1 truncate">{v.name}</span>
+                {v.architecture && (
+                  <span className="text-muted-foreground shrink-0 text-[10px] uppercase">
+                    {v.architecture}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
-      ) : failed ? (
+      )}
+
+      {versions && versions.length === 0 ? (
         <div className="text-destructive text-xs">
           {t("IMAGE.CIVITAI_FAILED")}
         </div>
-      ) : (
+      ) : !versions ? (
         <div className="text-muted-foreground text-xs">
           {t("IMAGE.CIVITAI_HINT")}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

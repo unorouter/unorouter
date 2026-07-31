@@ -20,14 +20,38 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   return null;
 }
 
-// Diffusion checkpoints served through Runware. Unlike the hosted image APIs, these accept the
-// full sampler surface (steps, CFG, scheduler, clip skip, LoRA chains), which is the whole
-// reason for exposing them. Matched by vendor rather than by name, since a model addressed by
-// AIR (civitai:288584@324619) has no recognisable name pattern.
-const DIFFUSION_VENDORS = new Set(["runware"]);
+// Diffusion checkpoints accept knobs the hosted image APIs do not: negative prompt, CFG,
+// steps, LoRA chains. That is the whole reason for offering them, so getting this wrong
+// silently strips the controls.
+//
+// Detected from the routing group, which names the channel actually serving the model. The
+// vendor is only a display label and is inferred from the model name, so a checkpoint whose
+// name a vendor matcher happens to claim (juggernaut-xl and wai-nsfw-illustrious-sdxl both
+// read as "AI Horde") would otherwise lose every diffusion control it supports.
+const DIFFUSION_GROUP_PATTERN = /runware/i;
+
+// Runware's own scheduler vocabulary, each verified against a live generation. It rejects the
+// ComfyUI spellings (euler_ancestral, normal) outright, so the choices have to come from the
+// backend rather than from one shared list.
+const RUNWARE_SCHEDULERS = [
+  "Default",
+  "Euler",
+  "Euler a",
+  "Euler Beta",
+  "DPM++ 2M",
+  "DPM++ 2M Karras",
+  "DPM++ 2M SDE Karras",
+  "DPM++ SDE Karras",
+  "DDIM",
+  "UniPC",
+  "Heun",
+  "LMS",
+];
 
 function isDiffusionModel(model: ProcessedModel): boolean {
-  return DIFFUSION_VENDORS.has(model.vendor.name.toLowerCase());
+  return (model.enableGroups ?? []).some((g) =>
+    DIFFUSION_GROUP_PATTERN.test(g),
+  );
 }
 
 function vendorKnobs(modelName: string): {
@@ -116,10 +140,11 @@ function inferDescriptor(
     supportsLoraChain: diffusion,
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
-    // Steps and CFG transfer between backends, but sampler and scheduler names do not: the
-    // form's list is ComfyUI vocabulary (euler_ancestral, normal) and Runware rejects those
-    // outright with invalidScheduler. Left off until the choices are per backend.
-    supportsSampler: false,
+    supportsSampler: diffusion,
+    // Runware takes one scheduler field rather than a separate sampler and scheduler, so the
+    // sampler control carries its vocabulary and the scheduler control stays empty.
+    samplers: diffusion ? RUNWARE_SCHEDULERS : undefined,
+    schedulers: undefined,
     supportsHiresFix: false,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,

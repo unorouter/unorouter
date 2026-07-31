@@ -12,6 +12,7 @@ const RUNWARE_ENDPOINT = "https://api.runware.ai/v1";
 type RunwareSearchResult = {
   air: string;
   name: string;
+  version?: string;
   architecture?: string | null;
   category?: string;
   heroImage?: string | null;
@@ -168,6 +169,50 @@ export async function findCheckpoints(
       heroImage: row.heroImage ?? null,
       nsfwLevel: row.nsfwLevel ?? null,
     }));
+}
+
+/**
+ * Every version of the model a reference points at, best match first.
+ *
+ * A Civitai model is usually a family: LUSTIFY alone has eleven versions on the provider,
+ * across alpha, lightning and DMD2 variants that generate quite differently. Picking one
+ * silently hides that, so the caller gets the list and the user chooses.
+ */
+export async function listCheckpointVersions(
+  input: string,
+): Promise<ResolvedCheckpoint[]> {
+  const ref = parseCivitaiReference(input);
+  if (!ref) return [];
+
+  const envelope = await runwareTask({
+    taskType: "modelSearch",
+    category: "checkpoint",
+    search: ref.modelId,
+    limit: 50,
+  });
+  const results = envelope.data?.[0]?.results ?? [];
+  const versions = results.filter((row) =>
+    row.air?.includes(`:${ref.modelId}@`),
+  );
+  if (!versions.length) return [];
+
+  const toCheckpoint = (row: RunwareSearchResult): ResolvedCheckpoint => ({
+    air: row.air,
+    name: row.version ? `${row.name} (${row.version})` : row.name,
+    architecture: row.architecture ?? null,
+    heroImage: row.heroImage ?? null,
+    nsfwLevel: row.nsfwLevel ?? null,
+  });
+
+  // The version named in the URL leads, since that is the one the user was looking at.
+  const exactIndex = ref.versionId
+    ? versions.findIndex((row) => row.air?.endsWith(`@${ref.versionId}`))
+    : -1;
+  if (exactIndex > 0) {
+    const [exact] = versions.splice(exactIndex, 1);
+    if (exact) versions.unshift(exact);
+  }
+  return versions.map(toCheckpoint);
 }
 
 export async function resolveCivitaiCheckpoint(

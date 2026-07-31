@@ -39,6 +39,17 @@ export function useUpscalerCatalogQuery(query?: CatalogSearchQuery) {
 // Resolving is deliberately a separate step from generating: Runware pins its own version
 // ids, so a reference lifted from a Civitai URL often does not load, and finding that out
 // here costs nothing instead of failing a generation the user already paid for.
+export function useCivitaiVersionsMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (query: string) => {
+      const res = await rpc.api.ai.image["civitai-versions"].post({ query });
+      return handleElysia(res);
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
 export function useResolveCivitaiMutation() {
   const t = useTranslations();
   return useMutation({
