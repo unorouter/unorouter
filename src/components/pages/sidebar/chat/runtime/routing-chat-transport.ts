@@ -42,7 +42,7 @@ import {
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType, type ProcessedModel } from "@/lib/api/pricing";
-import { buildChatRequestBody } from "./chat-transport";
+import { buildChatRequestBody, buildMediaRequestBody } from "./chat-transport";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
@@ -287,7 +287,7 @@ export function makeRoutingTransport(
 ): ChatTransport<ChatUIMessage> {
   const mediaTransport = new DefaultChatTransport<ChatUIMessage>({
     api: "/api/ai/chat/stream",
-    body: () => buildChatRequestBody(getConvId),
+    body: () => buildMediaRequestBody(getConvId),
   });
 
   const sendText = async (

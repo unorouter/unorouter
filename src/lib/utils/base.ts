@@ -173,6 +173,19 @@ export function base64ToDataUri(base64: string, mimeType: string): string {
   return `data:${mimeType};base64,${base64}`;
 }
 
+export function parseDataUri(
+  uri: string,
+): { base64: string; mime: string } | null {
+  const comma = uri.indexOf(",");
+  if (!uri.startsWith("data:") || comma === -1) return null;
+  const header = uri.slice(5, comma);
+  if (!header.endsWith(";base64")) return null;
+  return {
+    base64: uri.slice(comma + 1),
+    mime: header.slice(0, -";base64".length) || "application/octet-stream",
+  };
+}
+
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

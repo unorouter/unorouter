@@ -13,6 +13,19 @@ import {
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 
+// Media generation reads only model/group/convId plus the latest user turn, so
+// it skips the text path's assembly entirely: no chatContext (which lazy-loads
+// ~110KB of lorebook/trigger machinery and walks the conversation) and no
+// per-message timestamps. Those exist to build a PROMPT from history, which an
+// image/video request has no use for.
+export function buildMediaRequestBody(getConvId: () => string | null) {
+  return {
+    model: chatStore.get(chatModelAtom),
+    convId: getConvId(),
+    group: chatStore.get(chatGroupAtom),
+  };
+}
+
 export async function buildChatRequestBody(getConvId: () => string | null) {
   const userId = chatStore.get(localUserIdAtom);
   const convId = getConvId();
