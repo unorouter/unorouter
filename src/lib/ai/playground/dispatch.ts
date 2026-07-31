@@ -53,6 +53,12 @@ type SubmitArgs = {
   background?: string;
   strength?: number;
   seed?: number;
+  /**
+   * Diffusion knobs the OpenAI image schema has no field for (steps, cfg, sampler, LoRA
+   * chains). They ride along as extra top-level JSON keys, which the gateway's adaptor picks
+   * up; providers that do not understand a key ignore it.
+   */
+  diffusion?: Record<string, unknown>;
 };
 
 export type Built =
@@ -73,6 +79,9 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
       ["seed", args.seed],
     ] as Array<[string, unknown]>
   ).filter(([, v]) => v !== undefined && v !== "");
+  for (const [k, v] of Object.entries(args.diffusion ?? {})) {
+    if (v !== undefined && v !== null && v !== "") fields.push([k, v]);
+  }
   if (args.refs.length === 0) {
     return {
       kind: "json",
@@ -81,7 +90,10 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
     };
   }
   const form = new FormData();
-  for (const [k, v] of fields) form.append(k, String(v));
+  for (const [k, v] of fields) {
+    // Objects and arrays (a LoRA chain) survive multipart only as JSON text.
+    form.append(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+  }
   for (const r of args.refs) {
     const blob = new Blob([new Uint8Array(r.buf)], { type: r.mime });
     form.append(

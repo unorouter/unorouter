@@ -20,6 +20,16 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   return null;
 }
 
+// Diffusion checkpoints served through Runware. Unlike the hosted image APIs, these accept the
+// full sampler surface (steps, CFG, scheduler, clip skip, LoRA chains), which is the whole
+// reason for exposing them. Matched by vendor rather than by name, since a model addressed by
+// AIR (civitai:288584@324619) has no recognisable name pattern.
+const DIFFUSION_VENDORS = new Set(["runware"]);
+
+function isDiffusionModel(model: ProcessedModel): boolean {
+  return DIFFUSION_VENDORS.has(model.vendor.name.toLowerCase());
+}
+
 function vendorKnobs(modelName: string): {
   quality?: readonly string[];
   outputFormat?: readonly string[];
@@ -80,6 +90,7 @@ function inferDescriptor(
 
   const supportsSize = endpoint === "image-generation";
   const knobs = vendorKnobs(model.name);
+  const diffusion = isDiffusionModel(model);
 
   const maxReferenceImages =
     declaredMaxRefs > 0
@@ -95,22 +106,22 @@ function inferDescriptor(
     vendor: model.vendor.name,
     pricePerCall: model.isFixedPrice ? model.fixedPrice : 0,
     isFree: model.isFree,
-    supportsNegativePrompt: false,
-    supportsCfg: false,
+    supportsNegativePrompt: diffusion,
+    supportsCfg: diffusion,
     supportsGuidance: false,
     supportsSize,
-    supportsLoraChain: false,
+    supportsLoraChain: diffusion,
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
-    supportsSampler: false,
+    supportsSampler: diffusion,
     supportsHiresFix: false,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,
     supportsOutputFormat: !!knobs.outputFormat,
     outputFormatChoices: knobs.outputFormat,
     supportsWatermark: knobs.watermark,
-    supportsSeed: knobs.seed,
-    supportsStrength: knobs.strength,
+    supportsSeed: knobs.seed || diffusion,
+    supportsStrength: knobs.strength || diffusion,
     supportsBackground: knobs.background,
     defaultParams: {
       width: 1024,

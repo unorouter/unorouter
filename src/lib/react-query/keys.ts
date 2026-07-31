@@ -70,6 +70,14 @@ export const queryKeys = {
   customProviders: () => ["custom-providers"] as const,
   customProvider: (id: string) => ["custom-providers", id] as const,
 
+  imageSessionLists: () => ["image-sessions"] as const,
+  imageSessionList: (params?: unknown) => ["image-sessions", params] as const,
+  imageSession: (id: string) => ["image-session", id] as const,
+  imageSnapshot: (id: string) => ["image-snapshot", id] as const,
+  loraCatalog: (params?: unknown) => ["lora-catalog", params] as const,
+  embeddingCatalog: (params?: unknown) => ["embedding-catalog", params] as const,
+  upscalerCatalog: (params?: unknown) => ["upscaler-catalog", params] as const,
+
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 
   pricing: () => ["pricing"] as const,

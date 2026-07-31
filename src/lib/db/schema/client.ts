@@ -3,15 +3,26 @@ import type {
   CustomProviderModel,
 } from "@/lib/validation/custom-provider";
 import type { TokenizerKind } from "@/lib/ai/chat/tokenizer";
+import type {
+  GenerationFormUi,
+  GenerationParams,
+  GenerationStatus,
+  LoraEntry,
+  PlaygroundVisibility,
+  ReferenceEntry,
+} from "@/lib/validation/playground";
 import { uid } from "@/lib/utils/base";
 import { getTableName, sql } from "drizzle-orm";
 import {
+  type AnySQLiteColumn,
   index,
   integer,
   primaryKey,
   sqliteTable,
   text,
+  uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import { timestamps } from "./shared";
 
 export const ENTITY_KINDS = [
   "characters",
@@ -108,3 +119,83 @@ export const LOCAL_ONLY_TABLES = [
 export const LOCAL_MIGRATION_KEYS = {
   migrationVersion: "migration_version",
 } as const;
+
+export const imageSessions = sqliteTable(
+  "image_sessions",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    title: text("title"),
+    firstModel: text("first_model"),
+    snapshotCount: integer("snapshot_count").notNull().default(0),
+    imageCount: integer("image_count").notNull().default(0),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    ...timestamps(),
+  },
+  (table) => [
+    index("idx_image_session_user_updated").on(table.userId, table.updatedAt),
+    index("idx_image_session_expires").on(table.expiresAt),
+  ],
+);
+
+// One generation within a session. Each row carries its FULL param set, which is what
+// makes navigating back to it able to restore the form exactly as it was.
+export const imageSnapshots = sqliteTable(
+  "image_snapshots",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    sessionId: text("session_id")
+      .notNull()
+      .references(() => imageSessions.id, { onDelete: "cascade" }),
+    sessionOrder: integer("session_order").notNull(),
+    // Which snapshot this one was generated from. A session is an ordered list, so
+    // without this a branch off an older snapshot appends at the end and the fork is
+    // invisible. Null for the first snapshot of a session.
+    parentSnapshotId: text("parent_snapshot_id").references(
+      (): AnySQLiteColumn => imageSnapshots.id,
+      { onDelete: "set null" },
+    ),
+    requestedCount: integer("requested_count").notNull().default(1),
+    taskId: text("task_id"),
+    model: text("model").notNull(),
+    prompt: text("prompt").notNull(),
+    negativePrompt: text("negative_prompt"),
+    params: text("params", { mode: "json" }).$type<GenerationParams>(),
+    loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
+    references: text("references", { mode: "json" }).$type<ReferenceEntry[]>(),
+    extraParams: text("extra_params", {
+      mode: "json",
+    }).$type<GenerationFormUi>(),
+    status: text("status")
+      .notNull()
+      .default("pending")
+      .$type<GenerationStatus>(),
+    progress: text("progress"),
+    costQuota: integer("cost_quota"),
+    visibility: text("visibility")
+      .notNull()
+      .default("private")
+      .$type<PlaygroundVisibility>(),
+    flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
+    flagReason: text("flag_reason"),
+    errorMessage: text("error_message"),
+    // Set before submitting so a double-click cannot bill the same generation twice.
+    submittedKey: text("submitted_key"),
+    ...timestamps(),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    index("idx_image_snapshot_session").on(table.sessionId, table.sessionOrder),
+    index("idx_image_snapshot_user").on(table.userId),
+    index("idx_image_snapshot_expires").on(table.expiresAt),
+    uniqueIndex("idx_image_snapshot_submitted").on(table.submittedKey),
+  ],
+);
+
+export type ImageSession = typeof imageSessions.$inferSelect;
+export type ImageSnapshot = typeof imageSnapshots.$inferSelect;

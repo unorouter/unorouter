@@ -4,6 +4,7 @@ export const serverEnv = {
   systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN as string,
   sessionSecret: process.env.SESSION_SECRET as string,
   guestApiKey: process.env.GUEST_API_KEY,
+  runwareApiKey: process.env.RUNWARE_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,
   // Cluster-internal Discord bot. Serves the live reward amounts; no public ingress.
   botInternalUrl: process.env.BOT_INTERNAL_URL ?? "http://unorouter-bot:4000",

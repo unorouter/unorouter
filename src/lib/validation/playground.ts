@@ -233,3 +233,25 @@ export const generationBaseModel = t.Union([
   t.Literal("flux2"),
   t.Literal("z-image"),
 ]);
+
+// Runware exposes ~277k LoRAs addressed by AIR, so the catalog is a live keyword search
+// against its modelSearch task rather than a fixed list. `architecture` narrows to models
+// compatible with the selected checkpoint (a Pony LoRA does not apply to Flux).
+export const catalogSearchQuery = t.Object({
+  search: t.Optional(t.String({ maxLength: 128 })),
+  architecture: t.Optional(t.String({ maxLength: 32 })),
+  limit: t.Optional(t.Integer({ minimum: 1, maximum: 50 })),
+});
+export type CatalogSearchQuery = Static<typeof catalogSearchQuery>;
+
+export const catalogItem = t.Object({
+  id: t.String(),
+  air: t.String(),
+  name: t.String(),
+  architecture: t.Union([t.String(), t.Null()]),
+  category: t.String(),
+  heroImage: t.Union([t.String(), t.Null()]),
+  defaultWeight: t.Number(),
+  nsfwLevel: t.Union([t.Integer(), t.Null()]),
+});
+export type CatalogItem = Static<typeof catalogItem>;

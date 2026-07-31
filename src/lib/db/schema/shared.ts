@@ -486,9 +486,9 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // Dead column: the playgrounds table was removed with the playground feature.
-    // Kept nullable (no FK) so the shared media table needs no client migration.
-    playgroundId: text("playground_id"),
+    // Snapshot this image belongs to. The SQL column keeps its original name so no
+    // client OPFS migration is needed; no FK, since media rows outlive a deleted snapshot.
+    imageSnapshotId: text("playground_id"),
     sequenceIndex: integer("sequence_index"),
     upstreamResultUrl: text("upstream_result_url"),
     r2Key: text("r2_key"),
