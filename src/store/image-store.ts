@@ -48,19 +48,33 @@ export type GenerateDraft = {
 };
 
 // Each tab keeps its own draft so switching between them does not lose work.
+//
+// getOnInit reads localStorage synchronously during atom creation. Without it the first
+// render sees null, the form restores its defaults, and the real draft arrives too late to
+// be applied - so the model and every setting reset on each visit. Safe here because the
+// page is client-only and these are localStorage, not the cookie-backed atoms whose async
+// load exists to avoid an SSR hydration mismatch.
+const draftStorageOptions = { getOnInit: true } as const;
+
 export const text2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
   "image-draft-text2img-v1",
   null,
+  undefined,
+  draftStorageOptions,
 );
 
 export const img2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
   "image-draft-img2img-v1",
   null,
+  undefined,
+  draftStorageOptions,
 );
 
 export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   "image-draft-edit-v1",
   null,
+  undefined,
+  draftStorageOptions,
 );
 
 type ModelParamsMemory = Record<string, Partial<GenerationParams>>;
@@ -69,6 +83,8 @@ type ModelParamsMemory = Record<string, Partial<GenerationParams>>;
 export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
   "image-sampler-memory-v1",
   {},
+  undefined,
+  draftStorageOptions,
 );
 
 export const activeTabAtom = atom<GenerateTab>("text2img");

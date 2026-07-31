@@ -76,6 +76,7 @@ export const queryKeys = {
   imageSnapshot: (id: string) => ["image-snapshot", id] as const,
   checkpointSearch: (q: string) => ["checkpoint-search", q] as const,
   savedImageModels: () => ["saved-image-models"] as const,
+  imagePresets: () => ["image-presets"] as const,
   loraCatalog: (params?: unknown) => ["lora-catalog", params] as const,
   embeddingCatalog: (params?: unknown) =>
     ["embedding-catalog", params] as const,

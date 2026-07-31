@@ -43,6 +43,7 @@ import { AdvancedFieldsStack } from "./advanced-fields-stack";
 import { CoreParamsFields } from "./core-params-fields";
 import { patchParams } from "./form-helpers";
 import { ModelPicker, type CustomCheckpoint } from "./model-picker";
+import { PresetBar } from "./preset-bar";
 import { TokenEstimate } from "./image-form-fields";
 import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
@@ -176,7 +177,18 @@ export function ImageForm() {
       ...gen.samplerMemory,
       [modelKey]: data.params ?? {},
     });
-    gen.setDraft(null);
+    // The draft is the whole setup, not an unsent message: clearing it on success threw
+    // away the model and every setting, so the next visit started from defaults. Keep it
+    // and drop only the prompt, which is the part that is meant to change per generation.
+    gen.setDraft({
+      model: modelKey,
+      prompt: "",
+      negativePrompt: data.negativePrompt ?? "",
+      params: data.params ?? {},
+      loras: data.loras,
+      references: data.references,
+      extraParams: data.ui ?? { variants: 1 },
+    });
 
     setActiveSessionId(submitted.sessionId);
     setActiveSnapshotId(submitted.snapshotId);
@@ -200,6 +212,27 @@ export function ImageForm() {
     <Form {...form}>
       <form onSubmit={onSubmit} className="flex flex-col gap-6">
         <PngImport onImport={onPngImport} />
+
+        <PresetBar
+          current={{
+            model: form.watch("model") ?? INITIAL_MODEL,
+            negativePrompt: form.watch("negativePrompt"),
+            params: form.watch("params"),
+            loras: form.watch("loras"),
+            extraParams: form.watch("ui"),
+          }}
+          onApply={(preset) => {
+            // The prompt is intentionally untouched: a preset restores the setup around
+            // whatever the user is currently writing.
+            form.setValue("model", preset.model);
+            gen.changeModel(preset.model);
+            setPickedCheckpoint(null);
+            form.setValue("negativePrompt", preset.negativePrompt ?? "");
+            if (preset.params) form.setValue("params", preset.params);
+            form.setValue("loras", preset.loras ?? undefined);
+            if (preset.extraParams) form.setValue("ui", preset.extraParams);
+          }}
+        />
 
         <FormField
           control={form.control}

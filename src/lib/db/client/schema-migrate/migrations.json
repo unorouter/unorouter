@@ -39,6 +39,10 @@
     {
       "tag": "0009_flippant_aqueduct",
       "sql": "ALTER TABLE `media` ADD `seed` integer;"
+    },
+    {
+      "tag": "0010_sudden_vargas",
+      "sql": "CREATE TABLE `image_presets` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`name` text NOT NULL,\n\t`model` text NOT NULL,\n\t`negative_prompt` text,\n\t`params` text,\n\t`loras` text,\n\t`extra_params` text,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_image_presets_user` ON `image_presets` (`user_id`,`name`);"
     }
   ]
 }

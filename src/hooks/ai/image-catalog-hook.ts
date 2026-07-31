@@ -12,6 +12,12 @@ import {
   readLocalImageModels,
   rememberLocalImageModel,
 } from "@/lib/db/client/data/image/image";
+import {
+  deleteImagePreset,
+  listImagePresets,
+  saveImagePreset,
+  type ImagePresetInput,
+} from "@/lib/db/client/data/image/image-presets";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -104,5 +110,35 @@ export function useRememberImageModelMutation() {
     }) => rememberLocalImageModel(userId, model),
     onError: (e) => handleError(e, t),
     onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
+  });
+}
+
+export function useImagePresetsQuery() {
+  const userId = useLocalUserId();
+  return useQuery({
+    queryKey: queryKeys.imagePresets(),
+    queryFn: () => listImagePresets(userId),
+  });
+}
+
+export function useSaveImagePresetMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: (input: ImagePresetInput) => saveImagePreset(input, userId),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
+  });
+}
+
+export function useDeleteImagePresetMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: (id: string) => deleteImagePreset(id, userId),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
   });
 }

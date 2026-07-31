@@ -42,13 +42,24 @@ function paramsToSize(
   return `${Math.round(p.width * scale)}x${Math.round(p.height * scale)}`;
 }
 
+// `<publisher>:<modelId>@<versionId>`. Checked here as well as in the gateway because this
+// value selects the model that runs: anything malformed must be dropped rather than
+// forwarded, and a caller must not be able to smuggle a path or a URL through it.
+const AIR_PATTERN = /^[a-z0-9_-]+:\d+@\d+$/i;
+
 // Knobs the OpenAI image schema has no field for. They ride as extra top-level keys and the
 // gateway adaptor maps them onto the provider's own names.
 function diffusionParams(
   params: Record<string, unknown>,
   loras: LoraEntry[],
+  extraParams: Record<string, unknown> | undefined,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
+  // The checkpoint for a passthrough model. It rides in extraParams because it is not a
+  // generation parameter, and without forwarding it every custom-civitai request silently
+  // ran the channel's default checkpoint instead of the one the user resolved.
+  const air = extraParams?.air;
+  if (typeof air === "string" && AIR_PATTERN.test(air)) out.air = air;
   // An empty string is how the form spells "untouched", but providers read it as a real
   // value and reject it: Runware answers invalidNegativePrompt / invalidScheduler rather
   // than falling back to its own default. Absent has to stay absent.
@@ -163,7 +174,7 @@ export async function submitGeneration(
       background: params.background as string | undefined,
       strength: params.strength as number | undefined,
       seed: params.seed as number | undefined,
-      diffusion: diffusionParams(params, loras),
+      diffusion: diffusionParams(params, loras, body.extraParams),
     });
 
     const headers: Record<string, string> = {
