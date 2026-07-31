@@ -5520,6 +5520,7 @@
     "UPSCALER": "Upscaler",
     "UPSCALER_AUTO": "Otomatik",
     "UPSCALER_MULTIPLIER": "Şu kadar upscale",
+    "UPSCALE_SECTION": "Büyütme",
     "UPSCALER_HIRES_STEPS": "Hires adımları",
     "UPSCALER_DENOISE": "Denoising gücü",
     "ADETAILER": "ADetailer",

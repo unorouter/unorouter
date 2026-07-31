@@ -1,7 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -33,6 +35,10 @@ type Props = {
 
 export function UpscalerField(props: Props) {
   const t = useTranslations();
+  // Collapsed by default: these only matter to someone upscaling, and left expanded they
+  // doubled the length of the form for everyone else. Opens itself when a multiplier is
+  // already set, so a restored snapshot does not hide settings that are in effect.
+  const [open, setOpen] = useState((props.multiplier ?? 1) > 1);
   const catalog = useUpscalerCatalogQuery({});
   const items = catalog.data?.items ?? [];
 
@@ -44,7 +50,25 @@ export function UpscalerField(props: Props) {
     MULTIPLIERS.find((m) => m.value === multiplier)?.id ?? "custom";
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="rounded-md border">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
+      >
+        <Icon
+          name={open ? "chevron-down" : "chevron-right"}
+          className="h-4 w-4"
+        />
+        {t("IMAGE.UPSCALE_SECTION")}
+        {(props.multiplier ?? 1) > 1 && (
+          <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+            {props.multiplier}x
+          </span>
+        )}
+      </button>
+      {!open ? null : (
+      <div className="flex flex-col gap-4 border-t p-3">
       <div>
         <Label className="mb-2 block">{t("IMAGE.UPSCALER_MULTIPLIER")}</Label>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
@@ -157,6 +181,8 @@ export function UpscalerField(props: Props) {
           </div>
         </div>
       </div>
+      </div>
+      )}
     </div>
   );
 }

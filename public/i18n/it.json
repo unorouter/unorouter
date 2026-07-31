@@ -5520,6 +5520,7 @@
     "UPSCALER": "Upscaler",
     "UPSCALER_AUTO": "Automatico",
     "UPSCALER_MULTIPLIER": "Upscale di",
+    "UPSCALE_SECTION": "Ingrandimento",
     "UPSCALER_HIRES_STEPS": "Step Hires",
     "UPSCALER_DENOISE": "Forza di denoising",
     "ADETAILER": "ADetailer",

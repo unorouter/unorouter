@@ -5520,6 +5520,7 @@
     "UPSCALER": "Escalador",
     "UPSCALER_AUTO": "Automático",
     "UPSCALER_MULTIPLIER": "Escalar por",
+    "UPSCALE_SECTION": "Escalado",
     "UPSCALER_HIRES_STEPS": "Pasos hires",
     "UPSCALER_DENOISE": "Fuerza de eliminación de ruido",
     "ADETAILER": "ADetailer",

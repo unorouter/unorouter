@@ -5520,6 +5520,7 @@
     "UPSCALER": "Upscaler",
     "UPSCALER_AUTO": "Automatisch",
     "UPSCALER_MULTIPLIER": "Vergrößern um",
+    "UPSCALE_SECTION": "Hochskalieren",
     "UPSCALER_HIRES_STEPS": "Hires-Schritte",
     "UPSCALER_DENOISE": "Denoise-Stärke",
     "ADETAILER": "ADetailer",

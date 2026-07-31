@@ -5520,6 +5520,7 @@
     "UPSCALER": "放大器",
     "UPSCALER_AUTO": "自動",
     "UPSCALER_MULTIPLIER": "放大倍率",
+    "UPSCALE_SECTION": "放大",
     "UPSCALER_HIRES_STEPS": "Hires 步數",
     "UPSCALER_DENOISE": "降噪強度",
     "ADETAILER": "ADetailer",

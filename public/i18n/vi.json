@@ -5520,6 +5520,7 @@
     "UPSCALER": "Bộ phóng to",
     "UPSCALER_AUTO": "Tự động",
     "UPSCALER_MULTIPLIER": "Phóng to theo",
+    "UPSCALE_SECTION": "Phóng to",
     "UPSCALER_HIRES_STEPS": "Số bước Hires",
     "UPSCALER_DENOISE": "Cường độ khử nhiễu",
     "ADETAILER": "ADetailer",

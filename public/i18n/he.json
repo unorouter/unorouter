@@ -5520,6 +5520,7 @@
     "UPSCALER": "מגדיל",
     "UPSCALER_AUTO": "אוטומטי",
     "UPSCALER_MULTIPLIER": "הגדל פי",
+    "UPSCALE_SECTION": "הגדלה",
     "UPSCALER_HIRES_STEPS": "צעדי Hires",
     "UPSCALER_DENOISE": "עוצמת denoising",
     "ADETAILER": "ADetailer",

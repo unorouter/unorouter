@@ -5520,6 +5520,7 @@
     "UPSCALER": "Agrandisseur",
     "UPSCALER_AUTO": "Automatique",
     "UPSCALER_MULTIPLIER": "Agrandir de",
+    "UPSCALE_SECTION": "Agrandissement",
     "UPSCALER_HIRES_STEPS": "Étapes hires",
     "UPSCALER_DENOISE": "Force de débruitage",
     "ADETAILER": "ADetailer",

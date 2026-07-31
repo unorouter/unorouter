@@ -5520,6 +5520,7 @@
     "UPSCALER": "업스케일러",
     "UPSCALER_AUTO": "자동",
     "UPSCALER_MULTIPLIER": "업스케일 배율",
+    "UPSCALE_SECTION": "업스케일",
     "UPSCALER_HIRES_STEPS": "Hires 단계",
     "UPSCALER_DENOISE": "노이즈 제거 강도",
     "ADETAILER": "ADetailer",
