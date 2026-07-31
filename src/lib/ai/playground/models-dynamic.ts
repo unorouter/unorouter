@@ -85,8 +85,11 @@ function inferDescriptor(
   const endpoint = chooseEndpoint(model.endpointTypes);
   if (!endpoint) return null;
 
+  // How many reference images a model accepts says nothing about whether it can generate
+  // one. Requiring six here hid every paid model that does not declare the field, which is
+  // almost all of them: 29 of 36 image models in the catalog, gpt-image-2 and the whole
+  // Runware set included, leaving only free models in the picker.
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
-  if (declaredMaxRefs < 6 && !model.isFree) return null;
 
   const supportsSize = endpoint === "image-generation";
   const knobs = vendorKnobs(model.name);

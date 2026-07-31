@@ -42,8 +42,13 @@ function diffusionParams(
   loras: LoraEntry[],
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
+  // An empty string is how the form spells "untouched", but providers read it as a real
+  // value and reject it: Runware answers invalidNegativePrompt / invalidScheduler rather
+  // than falling back to its own default. Absent has to stay absent.
   const copy = (key: string) => {
-    if (params[key] !== undefined) out[key] = params[key];
+    const value = params[key];
+    if (value === undefined || value === null || value === "") return;
+    out[key] = value;
   };
   copy("steps");
   copy("cfg");
@@ -55,6 +60,16 @@ function diffusionParams(
     out.loras = loras.map((l) => ({ name: l.name, weight: l.weight }));
   }
   return out;
+}
+
+// The gateway routes on the caller's own group unless one is named. Prefer leaving that
+// alone when a shared group can serve the model, and only pin a specific group when the
+// model lives exclusively in one.
+function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
+  const usable = (groups ?? []).filter((g) => g && g !== "auto");
+  if (!usable.length) return undefined;
+  if (usable.includes("default")) return undefined;
+  return usable[0];
 }
 
 export type SubmitGenerationResult = {
@@ -96,6 +111,12 @@ export async function submitGeneration(
     ? await loadRefs(references.map((r) => r.url))
     : [];
 
+  // A model served only by a non-default routing group (every dedicated image provider) is
+  // unreachable without naming that group, so the request 403s as "no access to model".
+  // Chat solves this with a user-facing group picker; here the model's own group list is
+  // enough, and "auto" is left to the gateway when the default group already serves it.
+  const routingGroup = resolveRoutingGroup(info.enableGroups);
+
   const supportsNativeBatch = endpoint === "image-generation";
   const callsToMake = supportsNativeBatch ? 1 : requestedCount;
   const perCallN = supportsNativeBatch ? requestedCount : 1;
@@ -119,6 +140,7 @@ export async function submitGeneration(
 
     const headers: Record<string, string> = {
       Authorization: `Bearer ${apiKey}`,
+      ...(routingGroup ? { "X-Group": routingGroup } : {}),
     };
     let res: Response;
     if (built.kind === "json") {
