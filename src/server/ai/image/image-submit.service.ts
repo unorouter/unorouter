@@ -32,7 +32,14 @@ function paramsToSize(
   params: PlaygroundSubmitBody["params"],
 ): string | undefined {
   const p = params ?? {};
-  return p.width && p.height ? `${p.width}x${p.height}` : undefined;
+  if (!p.width || !p.height) return undefined;
+  // A hires pass renders the same image larger. There is no separate upscale parameter on
+  // an inference request, so the multiplier becomes the requested size and the source image
+  // rides along as the init image; the provider re-diffuses at the new size, which adds
+  // detail rather than just resampling. The gateway snaps to its own dimension rules.
+  const scale = typeof p.hiresUpscale === "number" ? p.hiresUpscale : 1;
+  if (scale <= 1) return `${p.width}x${p.height}`;
+  return `${Math.round(p.width * scale)}x${Math.round(p.height * scale)}`;
 }
 
 // Knobs the OpenAI image schema has no field for. They ride as extra top-level keys and the
@@ -61,6 +68,17 @@ function diffusionParams(
   // spelling, so the rename happens here rather than in the form or the gateway.
   const initImage = params.initImageUrl;
   if (typeof initImage === "string" && initImage) out.seedImage = initImage;
+  // A hires pass is an init-image render at a larger size, so its denoise IS the strength
+  // of that pass. Only meaningful with a source image, and it wins over a plain strength
+  // because the user set it more recently, from the hires control.
+  const hiresDenoise = params.hiresDenoise;
+  if (typeof hiresDenoise === "number" && initImage) {
+    out.strength = hiresDenoise;
+  }
+  // Likewise the hires pass has its own step count; it is the only render happening, so it
+  // replaces the base steps rather than adding a second pass.
+  const hiresSteps = params.hiresSteps;
+  if (typeof hiresSteps === "number" && initImage) out.steps = hiresSteps;
   const mask = params.maskUrl;
   if (typeof mask === "string" && mask) out.maskImage = mask;
   if (loras.length) {

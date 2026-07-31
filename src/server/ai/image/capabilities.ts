@@ -38,6 +38,11 @@ export function filterParamsToCapabilities(
     drop("clipSkip");
   }
   if (!descriptor.supportsSeed) drop("seed");
+  if (!descriptor.supportsHiresFix) {
+    drop("hiresUpscale");
+    drop("hiresDenoise");
+    drop("hiresSteps");
+  }
   // An init image and a mask are the img2img/inpaint inputs. A model that cannot take a
   // strength has nothing to do with them, and forwarding a multi-megabyte data URI to a
   // provider that will reject it is worse than dropping it here.

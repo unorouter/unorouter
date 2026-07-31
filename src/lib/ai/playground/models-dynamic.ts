@@ -145,13 +145,10 @@ function inferDescriptor(
     // sampler control carries its vocabulary and the scheduler control stays empty.
     samplers: diffusion ? RUNWARE_SCHEDULERS : undefined,
     schedulers: undefined,
-    // Deliberately off, including for diffusion models. Runware exposes upscaling as its
-    // own task (imageUpscale) that takes an already-finished image, not as a parameter on
-    // imageInference, so there is no single field this control could map to. A real hires
-    // fix is generate-low, upscale, then re-diffuse, which needs multi-task orchestration
-    // the adaptor does not do. Showing the control before that exists would be a knob that
-    // silently changes nothing.
-    supportsHiresFix: false,
+    // A hires pass re-renders the source at a larger size with a low denoise, which is an
+    // init-image render and needs no separate upscale task. It therefore requires the same
+    // support as img2img: a model that takes no init image cannot do it.
+    supportsHiresFix: diffusion,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,
     supportsOutputFormat: !!knobs.outputFormat,

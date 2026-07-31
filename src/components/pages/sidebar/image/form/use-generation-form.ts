@@ -23,7 +23,7 @@ import {
   type GenerateTab,
 } from "@/store/image-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
@@ -54,6 +54,7 @@ function draftAtomFor(tab: GenerateTab) {
 
 export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
+  const setActiveTab = useSetAtom(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
   const searchParams = useSearchParams();
   const authQuery = useAuthQuery();
@@ -116,10 +117,21 @@ export function useGenerationForm() {
     if (!data || seededIdRef.current === data.id) return;
     seededIdRef.current = data.id;
     const desc = findDescriptor(data.model);
+    // A hires pass re-renders the snapshot's own image at a larger size, so the result
+    // being upscaled has to come along as the init image. Without it the pass would be a
+    // fresh generation at a bigger size, which is not what the control promises.
+    const hiresSource = data.images?.[0]?.src;
     const hiresParams =
-      hiresShortcut && desc.supportsHiresFix
-        ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
+      hiresShortcut && desc.supportsHiresFix && hiresSource
+        ? {
+            hiresDenoise: 0.5,
+            hiresUpscale: 1.5,
+            initImageUrl: hiresSource,
+          }
         : {};
+    // The pass renders from that init image, so the tab that shows it has to be the one
+    // the user lands on; leaving them on text2img would hide the input being used.
+    if (Object.keys(hiresParams).length > 0) setActiveTab("img2img");
     form.reset({
       ...defaultsFor(desc),
       prompt: data.prompt,

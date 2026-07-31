@@ -69,24 +69,29 @@ export function UpscalerField(props: Props) {
           ))}
         </div>
       </div>
-      <div>
-        <Label className="mb-1 block">{t("IMAGE.UPSCALER")}</Label>
-        <Select
-          value={upscaler ?? ""}
-          onValueChange={(v) => props.onChange({ upscaler: v || undefined })}
-        >
-          <SelectTrigger aria-label={t("IMAGE.UPSCALER")} className="w-full">
-            <SelectValue placeholder={t("IMAGE.UPSCALER_AUTO")} />
-          </SelectTrigger>
-          <SelectContent>
-            {items.map((u) => (
-              <SelectItem key={u.id} value={u.air}>
-                {u.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* A backend that re-renders at the target size instead of running a dedicated
+          upscale model offers no models to pick, and an empty select holding a value the
+          provider ignores is worse than no control. */}
+      {items.length > 0 && (
+        <div>
+          <Label className="mb-1 block">{t("IMAGE.UPSCALER")}</Label>
+          <Select
+            value={upscaler ?? ""}
+            onValueChange={(v) => props.onChange({ upscaler: v || undefined })}
+          >
+            <SelectTrigger aria-label={t("IMAGE.UPSCALER")} className="w-full">
+              <SelectValue placeholder={t("IMAGE.UPSCALER_AUTO")} />
+            </SelectTrigger>
+            <SelectContent>
+              {items.map((u) => (
+                <SelectItem key={u.id} value={u.air}>
+                  {u.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
