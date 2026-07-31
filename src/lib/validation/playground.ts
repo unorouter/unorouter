@@ -94,6 +94,17 @@ export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });
 
+// There is no object storage: the browser holds the bytes and sends a base64 data URI,
+// which is neither a `uri` by format nor anywhere near 2048 chars. Accepting a bare string
+// would take any input at all, so the shape is still pinned - a downscaled image data URI
+// or an https URL, nothing else. The cap is generous enough for a 1024px long edge
+// (MAX_LONG_EDGE) at the encoder quality the uploader uses, and still bounds the body.
+const MAX_IMAGE_SOURCE_LENGTH = 8 * 1024 * 1024;
+export const imageSource = t.String({
+  pattern: "^(data:image/(png|jpeg|webp);base64,|https://)",
+  maxLength: MAX_IMAGE_SOURCE_LENGTH,
+});
+
 export const generationParams = t.Object({
   width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
@@ -115,8 +126,8 @@ export const generationParams = t.Object({
   watermark: t.Optional(t.Boolean()),
   background: t.Optional(t.String({ maxLength: 32 })),
   strength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
-  initImageUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
-  maskUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
+  initImageUrl: t.Optional(imageSource),
+  maskUrl: t.Optional(imageSource),
   vae: t.Optional(t.String({ maxLength: 128 })),
   upscaler: t.Optional(t.String({ maxLength: 128 })),
   upscalerMultiplier: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
@@ -144,7 +155,7 @@ export const generationLoraEntry = t.Object({
 export type LoraEntry = Static<typeof generationLoraEntry>;
 
 export const generationReferenceEntry = t.Object({
-  url: t.String({ format: "uri", maxLength: 2048 }),
+  url: imageSource,
   name: t.Optional(t.String({ maxLength: 200 })),
   weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
 });

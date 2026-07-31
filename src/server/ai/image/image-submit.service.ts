@@ -56,6 +56,13 @@ function diffusionParams(
   copy("scheduler");
   copy("clipSkip");
   copy("negativePrompt");
+  copy("strength");
+  // The form names these after the UI concept; the adaptor reads the provider's own
+  // spelling, so the rename happens here rather than in the form or the gateway.
+  const initImage = params.initImageUrl;
+  if (typeof initImage === "string" && initImage) out.seedImage = initImage;
+  const mask = params.maskUrl;
+  if (typeof mask === "string" && mask) out.maskImage = mask;
   if (loras.length) {
     out.loras = loras.map((l) => ({ name: l.name, weight: l.weight }));
   }
