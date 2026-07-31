@@ -105,6 +105,7 @@ export type SnapshotView = {
   progress: string | null;
   taskId: string | null;
   requestedCount: number;
+  costQuota: number | null;
   errorMessage: string | null;
   expiresAt: Date | null;
   createdAt: Date | null;

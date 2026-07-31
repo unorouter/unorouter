@@ -3,6 +3,7 @@
 import { SmartImage } from "@/components/ui/smart-image";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { dayjs } from "@/lib/utils/format/date";
+import { renderQuota } from "@/lib/utils/format/number";
 import { activeSessionIdAtom, activeSnapshotIdAtom } from "@/store/image-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -100,6 +101,16 @@ export function RecentStrip() {
                   {params?.seed !== undefined && (
                     <>
                       {" / "}seed {String(params.seed)}
+                    </>
+                  )}
+                  {snap.costQuota != null && (
+                    <>
+                      {" / "}
+                      {/* Three decimals: a GPU-time provider charges different amounts for
+                          the same request, and two decimals collapses that into one number. */}
+                      <span className="text-foreground tabular-nums">
+                        {renderQuota(snap.costQuota, 3)}
+                      </span>
                     </>
                   )}
                   {snap.createdAt && (

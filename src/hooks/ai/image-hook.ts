@@ -11,6 +11,7 @@ import {
   readLocalImageSessions,
   readLocalSessionBundle,
   readLocalSnapshotBySubmittedKey,
+  patchLocalSnapshotCost,
   readLocalSnapshotView,
   toSnapshotView,
   upsertLocalImageSession,
@@ -70,6 +71,43 @@ function imageToMediaRow(
     promptText: null,
     createdAt: dayjs().toDate(),
   };
+}
+
+// The gateway writes its log row after answering, so the cost is briefly not there yet.
+// A few short retries cover that; giving up just leaves the snapshot without a price.
+async function backfillSnapshotCost(
+  userId: number,
+  snapshotId: string,
+  sessionId: string,
+  requestIds: string[],
+  qc: ReturnType<typeof useQueryClient>,
+): Promise<void> {
+  if (!requestIds.length) return;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
+    let total = 0;
+    let missing = false;
+    for (const requestId of requestIds) {
+      try {
+        const row = handleElysia(
+          await rpc.api.ops.logs["by-request"].get({
+            query: { request_id: requestId },
+          }),
+        );
+        if (row.quota == null) missing = true;
+        else total += row.quota;
+      } catch {
+        missing = true;
+      }
+    }
+    if (missing) continue;
+    await patchLocalSnapshotCost(userId, snapshotId, total);
+    invalidateAndBroadcast(qc, [
+      queryKeys.imageSnapshot(snapshotId),
+      queryKeys.imageSession(sessionId),
+    ]);
+    return;
+  }
 }
 
 // Content derived, so a double-click submits the same key twice and the second call is a
@@ -150,6 +188,7 @@ export function useSnapshotQuery(id: string | null) {
 async function runSubmit(
   userId: number,
   body: SubmitArgs,
+  qc: ReturnType<typeof useQueryClient>,
 ): Promise<{ sessionId: string; snapshotId: string }> {
   const submittedKey = submittedKeyFor(userId, body);
   const existing = await readLocalSnapshotBySubmittedKey(userId, submittedKey);
@@ -213,6 +252,17 @@ async function runSubmit(
     snapshotId,
     result.images.map((img, i) => imageToMediaRow(snapshotId, i, img)),
   );
+
+  // What a generation cost is only known after it runs, since the provider bills GPU time.
+  // Patched in after the snapshot exists so the image renders immediately and a slow or
+  // missing log row costs nothing but the price label.
+  void backfillSnapshotCost(
+    userId,
+    snapshotId,
+    sessionId,
+    result.requestIds,
+    qc,
+  );
   await bumpLocalSessionCounts(userId, sessionId, {
     snapshots: 1,
     images: result.images.length,
@@ -227,7 +277,7 @@ export function useSubmitGenerationMutation() {
   const userId = useLocalUserId();
 
   return useMutation({
-    mutationFn: async (body: SubmitArgs) => runSubmit(userId, body),
+    mutationFn: async (body: SubmitArgs) => runSubmit(userId, body, qc),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       invalidateAndBroadcast(qc, [
@@ -310,7 +360,7 @@ export function useImportGenerationMutation() {
           visibility: "private",
           sessionId: sessionId || undefined,
         };
-        const result = await runSubmit(userId, body);
+        const result = await runSubmit(userId, body, qc);
         sessionId = result.sessionId;
       }
       return { sessionId };

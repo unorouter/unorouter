@@ -57,6 +57,7 @@ export function toSnapshotView(
     progress: snapshot.progress,
     taskId: snapshot.taskId,
     requestedCount: snapshot.requestedCount,
+    costQuota: snapshot.costQuota,
     errorMessage: snapshot.errorMessage,
     expiresAt: snapshot.expiresAt,
     createdAt: snapshot.createdAt,
@@ -221,4 +222,19 @@ export async function upsertLocalSessionBundle(
   for (const m of bundle.media) {
     await mediaStore.upsert(userId, m);
   }
+}
+
+// Cost is only known after the generation runs, so it is patched onto an existing row.
+// A partial upsert would blank every column it did not carry, including the session id.
+export async function patchLocalSnapshotCost(
+  userId: number | undefined,
+  snapshotId: string,
+  costQuota: number,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .update(imageSnapshots)
+    .set({ costQuota, updatedAt: dayjs().toDate() })
+    .where(eq(imageSnapshots.id, snapshotId));
 }

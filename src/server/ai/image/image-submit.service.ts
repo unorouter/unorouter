@@ -77,6 +77,8 @@ export type SubmitGenerationResult = {
   status: "success";
   images: GeneratedImage[];
   droppedParams: string[];
+  /** Gateway request ids for this generation, used to look up what it actually cost. */
+  requestIds: string[];
 };
 
 export async function submitGeneration(
@@ -122,6 +124,7 @@ export async function submitGeneration(
   const perCallN = supportsNativeBatch ? requestedCount : 1;
 
   const collected: GeneratedImage[] = [];
+  const requestIds: string[] = [];
   for (let i = 0; i < callsToMake; i++) {
     const built = buildBody(endpoint, {
       model: body.model,
@@ -162,6 +165,10 @@ export async function submitGeneration(
     if (!res.ok) {
       throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
     }
+    // The gateway bills a GPU-time provider on what the generation actually cost, so the
+    // real charge is only knowable from its own log row, keyed by this id.
+    const requestId = res.headers.get("x-oneapi-request-id");
+    if (requestId) requestIds.push(requestId);
     const uris = extractResultUris(endpoint, JSON.parse(text));
     for (const uri of uris) {
       const fetched = await downloadGenerationBytes(uri, apiKey);
@@ -179,5 +186,6 @@ export async function submitGeneration(
     status: "success",
     images: collected,
     droppedParams: filtered.dropped,
+    requestIds,
   };
 }
