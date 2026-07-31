@@ -370,6 +370,20 @@ export function ImageResult(props: Props) {
             {t("IMAGE.HIRES_SHORTCUT")}
           </Button>
         )}
+        {/* Same shape as the hires pass: the result becomes the init image, so a region can
+            be redrawn without downloading it and uploading it back as a reference. */}
+        {isDone && getModelDescriptor(data.model).supportsStrength && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              router.push(`/image?remix=${props.snapshotId}&inpaint=1`)
+            }
+          >
+            <Icon name="paintbrush" className="mr-2" />
+            {t("IMAGE.INPAINT_SHORTCUT")}
+          </Button>
+        )}
         {isDone && (
           <Button
             variant="outline"

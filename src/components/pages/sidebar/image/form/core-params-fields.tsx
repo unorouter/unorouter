@@ -6,6 +6,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { CollapsibleSection } from "../fields/collapsible-section";
 import {
   Select,
   SelectContent,
@@ -38,8 +39,20 @@ export function CoreParamsFields(props: Props) {
     return params?.[key] ?? fallback;
   };
 
+  const steps = numParam("steps", descriptor.defaultParams.steps ?? 20);
+  const cfg = numParam("cfg", descriptor.defaultParams.cfg ?? 7);
+  // Shown on the closed header so the two knobs most worth checking do not require opening
+  // the section to read.
+  const summary = [
+    steps !== undefined ? `${t("IMAGE.STEPS_LABEL")} ${steps}` : null,
+    cfg !== undefined ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
+  ]
+    .filter(Boolean)
+    .join("  ");
+
   return (
     <>
+      <CollapsibleSection title={t("IMAGE.GENERATION_SECTION")} summary={summary}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SliderParamField
           control={form.control}
@@ -144,11 +157,11 @@ export function CoreParamsFields(props: Props) {
               )}
             />
           )}
-          <SeedField />
         </div>
-      ) : (
-        <SeedField />
-      )}
+      ) : null}
+      </CollapsibleSection>
+      {/* Outside the disclosure: a seed is changed or reused per generation, not set once. */}
+      <SeedField />
     </>
   );
 }

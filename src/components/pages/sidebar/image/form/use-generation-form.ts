@@ -56,6 +56,7 @@ export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
   const setActiveTab = useSetAtom(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
+  const setActiveSubPill = useSetAtom(activeSubPillAtom);
   const searchParams = useSearchParams();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -68,6 +69,7 @@ export function useGenerationForm() {
 
   const remixId = searchParams.get("remix");
   const hiresShortcut = searchParams.get("hires") === "1";
+  const inpaintShortcut = searchParams.get("inpaint") === "1";
   const seedQuery = useSnapshotQuery(remixId);
 
   const pricingQuery = usePricingQuery();
@@ -121,6 +123,13 @@ export function useGenerationForm() {
     // being upscaled has to come along as the init image. Without it the pass would be a
     // fresh generation at a bigger size, which is not what the control promises.
     const hiresSource = data.images?.[0]?.src;
+    // Inpainting a finished image is the same shape as a hires pass: the result becomes the
+    // init image, and the mask decides what gets redrawn. Carrying it here is what saves the
+    // user downloading the image and re-uploading it as a reference.
+    const inpaintParams =
+      inpaintShortcut && hiresSource
+        ? { initImageUrl: hiresSource, strength: 0.85 }
+        : {};
     const hiresParams =
       hiresShortcut && desc.supportsHiresFix && hiresSource
         ? {
@@ -132,6 +141,10 @@ export function useGenerationForm() {
     // The pass renders from that init image, so the tab that shows it has to be the one
     // the user lands on; leaving them on text2img would hide the input being used.
     if (Object.keys(hiresParams).length > 0) setActiveTab("img2img");
+    if (Object.keys(inpaintParams).length > 0) {
+      setActiveTab("img2img");
+      setActiveSubPill("inpaint");
+    }
     form.reset({
       ...defaultsFor(desc),
       prompt: data.prompt,
@@ -140,6 +153,7 @@ export function useGenerationForm() {
         ...desc.defaultParams,
         ...(data.params ?? {}),
         ...hiresParams,
+        ...inpaintParams,
       },
       loras: data.loras ?? undefined,
       references: data.references ?? undefined,
