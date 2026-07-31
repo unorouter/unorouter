@@ -29,7 +29,7 @@ import {
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
 import "@assistant-ui/react-markdown/styles/dot.css";
-import { useAtomValue } from "jotai";
+import { atom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { type FC, useEffect, useState } from "react";
 import remarkGfm from "remark-gfm";
@@ -43,6 +43,9 @@ function normalizeMathDelimiters(text: string): string {
 }
 
 const MATH_DELIMITER_RE = /\$|\\\(|\\\[/;
+// Inert stand-in so the media-version subscriptions stay conditional on token
+// presence without changing the hook count between renders.
+const ZERO_ATOM = atom(0);
 let cachedMathjax: Pluggable | null = null;
 
 function useRehypeMathjax(wanted: boolean): Pluggable | null {
@@ -66,8 +69,25 @@ const MarkdownTextImpl = () => {
     ),
   );
   const mathjax = useRehypeMathjax(hasMath);
-  useAtomValue(inlayVersionAtom);
-  useAtomValue(imgVersionAtom);
+  // Subscribe to the media version counters ONLY when this message actually
+  // carries a token. They are global counters bumped once per resolved image,
+  // so an unconditional subscription re-ran every message's full markdown
+  // pipeline (remark + rehype + mdast-to-React) on every resolution: N messages
+  // x M images re-parses. Inlay/img sources are inlined base64 data URIs, so
+  // each of those re-parses tokenizes hundreds of KB of URI text, which froze
+  // the thread outright on image-heavy chats.
+  const hasInlayToken = useAuiState((s) =>
+    s.message.content.some(
+      (p) => p.type === "text" && p.text.includes("{{inlay::"),
+    ),
+  );
+  const hasImgToken = useAuiState((s) =>
+    s.message.content.some(
+      (p) => p.type === "text" && p.text.includes("{{img::"),
+    ),
+  );
+  useAtomValue(hasInlayToken ? inlayVersionAtom : ZERO_ATOM);
+  useAtomValue(hasImgToken ? imgVersionAtom : ZERO_ATOM);
   const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive

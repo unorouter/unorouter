@@ -27,8 +27,18 @@ function key(convId: string, nameLower: string): string {
   return `${convId}:${nameLower}`;
 }
 
+// Coalesced: a bump re-runs the full markdown pipeline for every message with an
+// img token, and each resolved src is an inlined base64 data URI. A thread
+// opening with N named assets resolves them in the same tick, so batch the
+// bumps into one re-render instead of N. Mirrors inlay-render.ts.
+let bumpScheduled = false;
 function bump(): void {
-  chatStore.set(imgVersionAtom, chatStore.get(imgVersionAtom) + 1);
+  if (bumpScheduled) return;
+  bumpScheduled = true;
+  queueMicrotask(() => {
+    bumpScheduled = false;
+    chatStore.set(imgVersionAtom, chatStore.get(imgVersionAtom) + 1);
+  });
 }
 
 async function resolveName(
