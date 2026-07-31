@@ -29,10 +29,6 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { InitImageField } from "../fields/init-image-field";
-const InpaintCanvas = dynamic(
-  () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
-  { ssr: false },
-);
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import { INITIAL_MODEL, VARIANT_CHOICES } from "../image-constants";
@@ -45,6 +41,13 @@ import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
 import { useGenerationForm } from "./use-generation-form";
 import { VendorParamsFields } from "./vendor-params-fields";
+
+// react-canvas-masker touches the DOM at module scope, so the canvas cannot render on
+// the server and is only pulled in when the inpaint mode is actually opened.
+const InpaintCanvas = dynamic(
+  () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
+  { ssr: false },
+);
 
 const COST_MARKUP = 20;
 const COST_FLOOR_FALLBACK = 0.02;
