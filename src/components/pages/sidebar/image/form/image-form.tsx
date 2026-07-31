@@ -178,11 +178,12 @@ export function ImageForm() {
       [modelKey]: data.params ?? {},
     });
     // The draft is the whole setup, not an unsent message: clearing it on success threw
-    // away the model and every setting, so the next visit started from defaults. Keep it
-    // and drop only the prompt, which is the part that is meant to change per generation.
+    // away the model and every setting, so the next visit started from defaults. The prompt
+    // is kept too - a generation is usually the first of several on the same prompt, and
+    // blanking the stored copy wiped what the form was still showing on the next restore.
     gen.setDraft({
       model: modelKey,
-      prompt: "",
+      prompt: data.prompt ?? "",
       negativePrompt: data.negativePrompt ?? "",
       params: data.params ?? {},
       loras: data.loras,

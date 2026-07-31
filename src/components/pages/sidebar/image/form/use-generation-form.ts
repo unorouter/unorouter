@@ -24,7 +24,7 @@ import {
 } from "@/store/image-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import { activeTabAtom, activeSubPillAtom } from "@/store/image-store";
@@ -173,20 +173,27 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
+  // State, not a ref: the tab-fit effect below has to re-run once the restore lands, and a
+  // ref mutation does not schedule that.
+  const [draftRestoredTab, setDraftRestoredTab] = useState<string | null>(null);
+
   useEffect(() => {
     if (effectiveModels.length === 0) return;
+    // The model list arrives after mount, so this can fire before the draft has been
+    // restored. Swapping then reads the still-default model, decides it does not fit the
+    // tab, and replaces the model the draft was about to restore - the "model reset itself
+    // after a generation" report. A remix seeds the model from its snapshot instead.
+    if (draftRestoredTab === null && !remixId) return;
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
     if (desc && isModelInTab(desc, activeTab)) return;
     const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
     if (pool.length > 0) changeModel(pool[0].id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, effectiveModels.length]);
-
-  const draftRestoredRef = useRef<string | null>(null);
+  }, [activeTab, effectiveModels.length, draftRestoredTab, remixId]);
   useEffect(() => {
-    if (draftRestoredRef.current === activeTab || remixId) return;
-    draftRestoredRef.current = activeTab;
+    if (draftRestoredTab === activeTab || remixId) return;
+    setDraftRestoredTab(activeTab);
     if (!draft) {
       const fallback =
         effectiveModels.find((m) => isModelInTab(m, activeTab)) ??
@@ -205,7 +212,7 @@ export function useGenerationForm() {
       ui: draft.extraParams ?? { variants: 1 },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, remixId, draft, form]);
+  }, [activeTab, remixId, draft, form, draftRestoredTab]);
 
   const setDraftRef = useRef(setDraft);
   useEffect(() => {
