@@ -57,3 +57,22 @@ export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "mediapipe_face_mesh", label: "mediapipe_face_mesh" },
   { id: "mediapipe_face_short", label: "mediapipe_face_short" },
 ];
+
+/**
+ * What to call a snapshot's model in history.
+ *
+ * A user-supplied checkpoint routes through one passthrough model id, so the stored model
+ * name is the routing id for every one of them. The checkpoint's own name is kept in
+ * extraParams at submit time; fall back to the model id when it is absent, which covers
+ * curated models and snapshots made before the name was recorded.
+ */
+export function snapshotModelLabel(
+  model: string,
+  extraParams: unknown,
+): string {
+  if (model !== CUSTOM_CIVITAI_MODEL_ID) return model;
+  const extras = extraParams as { airName?: unknown } | null | undefined;
+  return typeof extras?.airName === "string" && extras.airName
+    ? extras.airName
+    : model;
+}

@@ -70,7 +70,7 @@ function deriveMode(
 export function ImageForm() {
   const t = useTranslations();
   const router = useRouter();
-  const [customCheckpoint, setCustomCheckpoint] =
+  const [pickedCheckpoint, setPickedCheckpoint] =
     useState<CustomCheckpoint | null>(null);
   const rememberModel = useRememberImageModelMutation();
   const submitMut = useSubmitGenerationMutation();
@@ -84,6 +84,26 @@ export function ImageForm() {
   const descriptor = gen.descriptor;
 
   const ui = form.watch("ui") ?? {};
+  // A restored snapshot repopulates ui from its extraParams, which is where the checkpoint
+  // was recorded. Re-selecting it here keeps the picker label right and, more importantly,
+  // keeps the AIR on a resubmit instead of silently generating with the placeholder model.
+  // Derived, not synced: a restored snapshot repopulates ui from its extraParams, so the
+  // checkpoint recorded there IS the selection. Picking one in the session takes precedence
+  // over what an older snapshot restored.
+  const restoredAir = (ui as Record<string, unknown>).air;
+  const restoredAirName = (ui as Record<string, unknown>).airName;
+  const activeCheckpoint: CustomCheckpoint | null =
+    pickedCheckpoint ??
+    (typeof restoredAir === "string" && restoredAir
+      ? {
+          air: restoredAir,
+          name:
+            typeof restoredAirName === "string" ? restoredAirName : restoredAir,
+          architecture: null,
+          heroImage: null,
+          nsfwLevel: null,
+        }
+      : null);
   const variantsRaw = ui.variants;
   const variants = ([1, 2, 4] as const).find((v) => v === variantsRaw) ?? 1;
   const params = form.watch("params") ?? {};
@@ -125,11 +145,17 @@ export function ImageForm() {
     const body = await toSubmitBody(data, { activeSessionId, mode });
     const submitted = await submitMut.mutateAsync({
       ...body,
-      ...(customCheckpoint
+      ...(activeCheckpoint
         ? {
             extraParams: {
               ...(body.extraParams ?? {}),
-              air: customCheckpoint.air,
+              air: activeCheckpoint.air,
+              // Persisted so history reads as the checkpoint the user chose rather than
+              // the routing id, and so reopening the snapshot can restore it.
+              airName: activeCheckpoint.name,
+              ...(activeCheckpoint.architecture
+                ? { airArchitecture: activeCheckpoint.architecture }
+                : {}),
             },
           }
         : {}),
@@ -137,7 +163,7 @@ export function ImageForm() {
     });
 
     // Saved only once it has produced an image, so the list is checkpoints actually used.
-    if (customCheckpoint) rememberModel.mutate(customCheckpoint);
+    if (activeCheckpoint) rememberModel.mutate(activeCheckpoint);
 
     if (mode === "inpaint") {
       const curUi = data.ui ?? {};
@@ -188,16 +214,16 @@ export function ImageForm() {
                   onSelect={(id) => {
                     field.onChange(id);
                     gen.changeModel(id);
-                    setCustomCheckpoint(null);
+                    setPickedCheckpoint(null);
                   }}
                   onSelectCustom={(checkpoint) => {
                     // The passthrough model carries no checkpoint of its own; the AIR rides
                     // on the request and the picker label shows the resolved name.
                     field.onChange(CUSTOM_CIVITAI_MODEL_ID);
                     gen.changeModel(CUSTOM_CIVITAI_MODEL_ID);
-                    setCustomCheckpoint(checkpoint);
+                    setPickedCheckpoint(checkpoint);
                   }}
-                  customLabel={customCheckpoint?.name ?? null}
+                  customLabel={activeCheckpoint?.name ?? null}
                 />
               </FormControl>
               <FormMessage />

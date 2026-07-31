@@ -4,6 +4,7 @@ import { SmartImage } from "@/components/ui/smart-image";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { dayjs } from "@/lib/utils/format/date";
 import { renderQuota } from "@/lib/utils/format/number";
+import { snapshotModelLabel } from "../image-constants";
 import { activeSessionIdAtom, activeSnapshotIdAtom } from "@/store/image-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -82,7 +83,7 @@ export function RecentStrip() {
               <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                 <span className="truncate text-sm">{snap.prompt}</span>
                 <span className="text-muted-foreground text-xs">
-                  {snap.model}
+                  {snapshotModelLabel(snap.model, snap.extraParams)}
                   {params?.steps !== undefined && (
                     <>
                       {" / "}steps {String(params.steps)}

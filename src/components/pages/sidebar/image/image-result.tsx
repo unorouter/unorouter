@@ -43,6 +43,7 @@ import {
 } from "@/store/image-store";
 import { useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
 import { useTranslations } from "next-intl";
+import { snapshotModelLabel } from "./image-constants";
 import { useRouter } from "next/navigation";
 import { useQueryStates } from "nuqs";
 import { useEffect, useRef, useState } from "react";
@@ -154,9 +155,17 @@ export function ImageResult(props: Props) {
       store.get(img2imgDraftAtom),
       store.get(editDraftAtom),
     ];
+    // Only unsaved work blocks the restore. A draft left over from a previous generation is
+    // not that: it matches the snapshot it came from, or it matches what the last restore
+    // wrote, and either way overwriting it loses nothing.
+    const knownPrompts = new Set(
+      [lastRestoredPrompt, ...snapshots.map((s) => s.prompt)]
+        .filter((p): p is string => typeof p === "string")
+        .map((p) => p.trim()),
+    );
     const typed = drafts.some((d) => {
       const prompt = d?.prompt?.trim();
-      return !!prompt && prompt !== (lastRestoredPrompt ?? "").trim();
+      return !!prompt && !knownPrompts.has(prompt);
     });
     if (typed) return;
     setRestore({
@@ -317,7 +326,10 @@ export function ImageResult(props: Props) {
       )}
 
       <div className="flex flex-wrap items-center gap-2">
-        <ParamsBadge model={data.model} params={data.params} />
+        <ParamsBadge
+          model={snapshotModelLabel(data.model, data.extraParams)}
+          params={data.params}
+        />
         {data.expiresAt && <RetentionBadge expiresAt={data.expiresAt} />}
       </div>
 
