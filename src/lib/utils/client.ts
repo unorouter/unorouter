@@ -181,8 +181,17 @@ export function downloadBlob(blob: Blob, filename: string) {
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
+  // The anchor must be IN the document for the click to count as user-initiated
+  // in Safari; a detached one is ignored (and for a large blob that silently
+  // does nothing at all).
+  a.style.display = "none";
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  a.remove();
+  // Revoking synchronously kills the URL before the download has actually
+  // started - Safari then either drops the file or navigates to a dead blob:
+  // URL, unmounting the app. Give the fetch a turn to begin.
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
 type SaveFilePicker = (opts: {
@@ -221,6 +230,26 @@ export async function streamFileToDisk(
       if (err instanceof DOMException && err.name === "AbortError")
         return "cancelled";
       // Any other failure (partial write, permission) falls through to blob.
+    }
+  }
+  // iOS Safari has no showSaveFilePicker AND largely ignores the `download`
+  // attribute for blob: URLs - it NAVIGATES to them instead, which unmounts the
+  // app and loses the file (a user trying to rescue a database saw the page
+  // "refresh" and land somewhere else). Web Share hands the file to the real
+  // save sheet instead. Only offered when the platform says it can take this
+  // exact file, and a user cancel is not an error.
+  const nav = navigator as Navigator & {
+    canShare?: (data: { files?: File[] }) => boolean;
+    share?: (data: { files?: File[]; title?: string }) => Promise<void>;
+  };
+  if (typeof nav.share === "function" && nav.canShare?.({ files: [file] })) {
+    try {
+      await nav.share({ files: [file], title: filename });
+      return "fsa";
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError")
+        return "cancelled";
+      // Share unavailable in practice: fall through to the blob anchor.
     }
   }
   downloadBlob(file, filename);

@@ -20,8 +20,17 @@ export async function runRecoverOrphanedDb(
   const { salvagePoolDatabases } =
     await import("@/lib/db/client/sahpool/salvage");
   const found = await salvagePoolDatabases(dbPath);
+  // Record the storage estimate alongside the result: "found nothing" is only
+  // meaningful next to how much OPFS is actually in use. A large usage with no
+  // candidates means the bytes are somewhere the scan does not reach, which is
+  // a different problem from the data being genuinely gone.
+  const estimate = await navigator.storage?.estimate?.().catch(() => null);
   if (found.length === 0) {
-    logChatDebug("db.salvage.done", { userId, candidates: 0 });
+    logChatDebug("db.salvage.done", {
+      userId,
+      candidates: 0,
+      storageUsage: estimate?.usage ?? null,
+    });
     return { kind: "none" };
   }
 
@@ -42,6 +51,7 @@ export async function runRecoverOrphanedDb(
     candidates: found.length,
     bytes: biggest.sizeBytes,
     source: biggest.source,
+    storageUsage: estimate?.usage ?? null,
   });
   logger.info("Recovered an orphaned local database", {
     context: "local-db.salvage",
