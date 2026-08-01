@@ -37,40 +37,51 @@ export function ScrollHashSync() {
       );
     }
 
-    const visible = new Set<string>();
+    const bare = () => window.location.pathname + window.location.search;
+    // Headings sit below the sticky header, so "reached" means crossing that
+    // line rather than the viewport edge.
+    const TRIGGER_LINE = 96;
 
     function apply() {
-      let topId: string | null = null;
-      let topOffset = Number.MAX_VALUE;
+      let currentId: string | null = null;
       for (const h of headings) {
-        if (!visible.has(h.id)) continue;
-        const top = h.getBoundingClientRect().top;
-        if (top < topOffset) {
-          topOffset = top;
-          topId = h.id;
-        }
+        if (h.getBoundingClientRect().top <= TRIGGER_LINE) currentId = h.id;
+        else break;
       }
-      if (topId && `#${topId}` !== window.location.hash) {
-        window.history.replaceState(null, "", `#${topId}`);
+
+      // Above the first heading the page is the hero, not a section, so the
+      // bare URL is the one worth copying.
+      if (!currentId) {
+        if (window.location.hash) window.history.replaceState(null, "", bare());
+        return;
+      }
+      if (`#${currentId}` !== window.location.hash) {
+        window.history.replaceState(null, "", `#${currentId}`);
       }
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = (entry.target as HTMLElement).id;
-          if (entry.isIntersecting) visible.add(id);
-          else visible.delete(id);
-        }
+    // <main> is the scroll container (the shell caps it at max-h-svh), so the
+    // window scroll event never fires; listen on both so either layout works.
+    const scroller = document.querySelector("main");
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
         apply();
-      },
-      // Trigger band near the top of the viewport so the "current" section is
-      // the one the reader is actually on, not one still far below the fold.
-      { rootMargin: "0px 0px -80% 0px", threshold: 0 },
-    );
+      });
+    };
 
-    for (const h of headings) observer.observe(h);
-    return () => observer.disconnect();
+    // No initial apply(): an incoming deep link has not been scrolled to yet,
+    // and clearing it here would break the anchor the visitor arrived on.
+    scroller?.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      scroller?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return null;
