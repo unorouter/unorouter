@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/icon";
 
-type CCSwitchApp = "claude" | "codex" | "gemini" | "openclaw";
+type CCSwitchApp = "claude" | "codex" | "gemini" | "opencode" | "openclaw";
 
 interface CCSwitchSetupProps {
   app: CCSwitchApp;

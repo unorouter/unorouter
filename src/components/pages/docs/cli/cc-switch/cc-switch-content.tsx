@@ -201,6 +201,7 @@ brew install --cask cc-switch`}
                 { label: "Claude Code", app: "claude", suffix: "" },
                 { label: "Codex CLI", app: "codex", suffix: "/v1" },
                 { label: "Gemini CLI", app: "gemini", suffix: "" },
+                { label: "OpenCode", app: "opencode", suffix: "/v1" },
                 { label: "OpenClaw", app: "openclaw", suffix: "/v1" },
               ]}
               cliCodeBlock={
