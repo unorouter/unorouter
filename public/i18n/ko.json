@@ -3458,7 +3458,7 @@
     "COLOR_BACKGROUND": "배경",
     "COLOR_FOREGROUND": "전경",
     "COLOR_CARD": "카드",
-    "COLOR_MUTED": "음소거",
+    "COLOR_MUTED": "뮤트",
     "COLOR_BORDER": "테두리",
     "COLOR_RING": "포커스 링",
     "COLOR_DESTRUCTIVE": "파괴적",

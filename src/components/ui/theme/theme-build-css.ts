@@ -169,6 +169,7 @@ function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
     vars.ring = surface.primary;
   }
   if (surface.accent) vars.accent = surface.accent;
+  if (surface.muted) vars.muted = surface.muted;
   if (surface.border) {
     vars.border = surface.border;
     vars.input = surface.border;

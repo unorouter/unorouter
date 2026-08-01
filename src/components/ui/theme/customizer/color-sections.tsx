@@ -115,6 +115,7 @@ const SURFACE_FIELDS = [
   ["card", "THEME.COLOR_CARD"],
   ["primary", "THEME.COLOR_PRIMARY"],
   ["accent", "THEME.COLOR_ACCENT"],
+  ["muted", "THEME.COLOR_MUTED"],
   ["sidebar", "THEME.COLOR_SIDEBAR"],
   ["border", "THEME.COLOR_BORDER"],
 ] as const;

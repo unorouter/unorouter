@@ -16,6 +16,10 @@ export type SurfaceColors = {
   card?: string;
   primary?: string;
   accent?: string;
+  // Backs chips, the unfilled half of every slider track, skeletons and hover
+  // states. Previously only settable via the base-colour preset, so a user who
+  // themed everything still had grey chips they could not find a control for.
+  muted?: string;
   border?: string;
   sidebar?: string;
 };
