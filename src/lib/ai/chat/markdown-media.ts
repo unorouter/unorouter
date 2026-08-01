@@ -38,6 +38,9 @@ export function resolveMarkdownMedia(
 // generated inline media needs image/audio/video data URIs permitted. Everything
 // else keeps the default protocol allowlist.
 export function allowDataMediaUrls(url: string): string {
+  // blob: is same-origin media resolved at render time (inlay/img tokens); the
+  // default transform would strip it as an unknown protocol.
+  if (url.startsWith("blob:")) return url;
   if (
     url.startsWith("data:image/") ||
     url.startsWith("data:audio/") ||

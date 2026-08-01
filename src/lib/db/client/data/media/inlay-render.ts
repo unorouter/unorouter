@@ -3,6 +3,10 @@
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  mediaBlobUrl,
+  revokeMediaBlobUrl,
+} from "@/lib/db/client/data/media/blob-url";
 
 export const inlayVersionAtom = atom(0);
 
@@ -16,10 +20,9 @@ export function getInlaySrc(id: string): string | undefined {
 }
 
 // Bumping the version atom re-runs the full markdown pipeline for every message
-// holding an inlay token, and each resolved src is an inlined base64 data URI,
-// so that re-parse is expensive. A thread opening with N images resolves N rows
-// in the same tick; coalesce the bumps into one so it costs a single re-render
-// instead of N sequential ones.
+// holding an inlay token. A thread opening with N images resolves N rows in the
+// same tick; coalesce the bumps into one so it costs a single re-render instead
+// of N sequential ones.
 let bumpScheduled = false;
 function scheduleBump(): void {
   if (bumpScheduled) return;
@@ -40,7 +43,7 @@ export function requestInlay(userId: number, id: string): void {
       // OPFS synchronously, pinning the main thread). Mirrors img-render.ts.
       const src =
         (row?.dataBase64
-          ? `data:${row.mimeType};base64,${row.dataBase64}`
+          ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
           : (row?.r2Url ?? null)) ?? "";
       cache.set(id, src);
       scheduleBump();
@@ -50,6 +53,7 @@ export function requestInlay(userId: number, id: string): void {
 
 export function invalidateInlay(id: string): void {
   cache.delete(id);
+  revokeMediaBlobUrl(id);
   chatStore.set(inlayVersionAtom, chatStore.get(inlayVersionAtom) + 1);
 }
 

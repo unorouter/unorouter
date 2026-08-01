@@ -2,6 +2,10 @@
 
 import { readLocalConversationBindings } from "@/lib/db/client/data/chat/chat";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  mediaBlobUrl,
+  revokeMediaBlobUrl,
+} from "@/lib/db/client/data/media/blob-url";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
 import { atom } from "jotai";
@@ -69,10 +73,11 @@ async function resolveName(
     return;
   }
   const row = await readLocalMedia(userId, mediaId);
+  const k = key(convId, nameLower);
   const src = row?.dataBase64
-    ? `data:${row.mimeType};base64,${row.dataBase64}`
+    ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
     : "";
-  cache.set(key(convId, nameLower), src);
+  cache.set(k, src);
 }
 
 function requestImg(userId: number, convId: string, nameLower: string): void {
@@ -87,6 +92,7 @@ function requestImg(userId: number, convId: string, nameLower: string): void {
 // Drop every cached entry for a character's assets (e.g. after an asset edit),
 // forcing the next render to re-resolve names to fresh media.
 export function invalidateImgAssets(): void {
+  for (const k of cache.keys()) revokeMediaBlobUrl(k);
   cache.clear();
   bump();
 }
