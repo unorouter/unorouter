@@ -181,7 +181,7 @@ export function ThemeCustomizerBody() {
           />
         </FieldGroup>
       </CardContent>
-      <CardFooter className="flex flex-col gap-2 border-t pt-4 *:w-full">
+      <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
         <Button type="button" variant="outline" size="sm" onClick={shuffle}>
           <Icon name="shuffle" className="mr-1.5 size-3.5" />
           {t("THEME.SHUFFLE")}
