@@ -19,12 +19,16 @@ const SQLITE_MAGIC = "SQLite format 3\0";
 
 export type SalvagedDb = {
   fileName: string;
-  bytes: Uint8Array<ArrayBuffer>;
   sizeBytes: number;
   // "pool" = an opaque slot file inside the pool directory (the orphan case).
   // "root" = a plain database at the OPFS root, e.g. a `.pre-sahpool` rollback
   // copy, which is a NORMAL post-migration leftover and not evidence of loss.
   source: "pool" | "root";
+  // A Blob VIEW of the database bytes, not a copy: scanning must never pull
+  // candidates into memory. These files run to hundreds of MB (media is inlined
+  // base64), and materializing even one is enough to OOM a phone - which is
+  // exactly the device this recovery path exists for.
+  blob: Blob;
 };
 
 function hasSqliteMagic(head: Uint8Array): boolean {
@@ -66,12 +70,11 @@ export async function salvagePoolDatabases(
         await file.slice(HEADER_BYTES, HEADER_BYTES + 16).arrayBuffer(),
       );
       if (!hasSqliteMagic(head)) continue;
-      const body = await file.slice(HEADER_BYTES).arrayBuffer();
       found.push({
         fileName: name,
-        bytes: new Uint8Array(body),
-        sizeBytes: body.byteLength,
+        sizeBytes: file.size - HEADER_BYTES,
         source: "pool",
+        blob: file.slice(HEADER_BYTES),
       });
     } catch {
       // A slot held by a live access handle can't be read; skip it.
@@ -92,9 +95,9 @@ export async function salvagePoolDatabases(
       if (!hasSqliteMagic(head)) continue;
       found.push({
         fileName: name,
-        bytes: new Uint8Array(await file.arrayBuffer()),
         sizeBytes: file.size,
         source: "root",
+        blob: file,
       });
     } catch {
       // Locked by a live handle (the current db): skip.

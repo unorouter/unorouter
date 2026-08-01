@@ -107,35 +107,18 @@ export function LocalDbStudio(props: Props) {
   // hand the biggest one back as a download: recovery must never overwrite the
   // live db on its own, since the user may since have written to it.
   const recover = async () => {
-    logChatDebug("db.salvage.start", { userId });
     try {
-      const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
-      const { salvagePoolDatabases } =
-        await import("@/lib/db/client/sahpool/salvage");
-      const found = await salvagePoolDatabases(dbPath);
-      if (found.length === 0) {
+      const { runRecoverOrphanedDb } =
+        await import("@/lib/db/client/sahpool/recover-action");
+      const res = await runRecoverOrphanedDb(userId);
+      if (res.kind === "none") {
         toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
         return;
       }
-      const biggest = found[0]!;
-      const { streamFileToDisk } = await import("@/lib/utils/client");
-      const stamp = dayjs().format("YYYYMMDD-HHmmss");
-      const fileName = `${env.appName.toLowerCase()}-recovered-${stamp}.sqlite3`;
-      await streamFileToDisk(
-        new File([biggest.bytes as BlobPart], fileName, {
-          type: "application/octet-stream",
-        }),
-        fileName,
-      );
-      logChatDebug("db.salvage.done", {
-        userId,
-        candidates: found.length,
-        bytes: biggest.sizeBytes,
-      });
       toast.success(
         t("CHAT.MORE.LOCAL_DB_RECOVER_SUMMARY", {
-          count: found.length,
-          size: `${Math.round(biggest.sizeBytes / 1024 / 1024)} MB`,
+          count: res.candidates,
+          size: `${Math.round(res.sizeBytes / 1024 / 1024)} MB`,
         }),
       );
     } catch (err) {

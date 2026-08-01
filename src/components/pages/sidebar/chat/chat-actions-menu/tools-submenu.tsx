@@ -16,6 +16,7 @@ import {
 import { analytics } from "@/lib/analytics";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { toast } from "sonner";
 import { ImportExportSubmenu } from "./import-export-submenu";
 
@@ -27,6 +28,27 @@ type Props = {
 export function ToolsSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
+  const userId = useLocalUserId();
+
+  const handleRecover = async () => {
+    try {
+      const { runRecoverOrphanedDb } =
+        await import("@/lib/db/client/sahpool/recover-action");
+      const res = await runRecoverOrphanedDb(userId);
+      if (res.kind === "none") {
+        toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
+        return;
+      }
+      toast.success(
+        t("CHAT.MORE.LOCAL_DB_RECOVER_SUMMARY", {
+          count: res.candidates,
+          size: `${Math.round(res.sizeBytes / 1024 / 1024)} MB`,
+        }),
+      );
+    } catch (err) {
+      toast.error(String(err));
+    }
+  };
   const duplicateMut = useDuplicateConversationMutation();
   const clearMut = useClearConversationMutation();
   const hasConv = !!props.convId;
@@ -73,6 +95,14 @@ export function ToolsSubmenu(props: Props) {
         <DropdownMenuItem onClick={props.onOpenDbStudio}>
           <Icon name="database" className="size-4" />
           {t("CHAT.MORE.LOCAL_DB")}
+        </DropdownMenuItem>
+        {/* Recovery lives HERE as well as in the DB studio: the studio mounts a
+            full table viewer that reads the database, which is exactly what a
+            user with a huge or damaged db cannot load (it OOMs their browser).
+            Recovery must stay reachable without it. */}
+        <DropdownMenuItem onClick={handleRecover}>
+          <Icon name="rotate-ccw" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_RECOVER")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
