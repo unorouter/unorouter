@@ -142,6 +142,10 @@ async function assertNotSilentlyEmptied(
     const { salvagePoolDatabases } =
       await import("@/lib/db/client/sahpool/salvage");
     for (const candidate of await salvagePoolDatabases(dbPath)) {
+      // POOL files only. A root `.pre-sahpool` copy is the NORMAL leftover of a
+      // successful migration and is routinely larger than a fresh empty db, so
+      // counting it would lock out every user who migrated cleanly.
+      if (candidate.source !== "pool") continue;
       // The live db is itself one of the pool files; only a STRICTLY larger one
       // is evidence of an orphan holding the user's data.
       if (candidate.sizeBytes > liveBytes) {

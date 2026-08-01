@@ -21,6 +21,10 @@ export type SalvagedDb = {
   fileName: string;
   bytes: Uint8Array<ArrayBuffer>;
   sizeBytes: number;
+  // "pool" = an opaque slot file inside the pool directory (the orphan case).
+  // "root" = a plain database at the OPFS root, e.g. a `.pre-sahpool` rollback
+  // copy, which is a NORMAL post-migration leftover and not evidence of loss.
+  source: "pool" | "root";
 };
 
 function hasSqliteMagic(head: Uint8Array): boolean {
@@ -38,7 +42,12 @@ export async function salvagePoolDatabases(
   dbPath: string,
 ): Promise<SalvagedDb[]> {
   const root = await navigator.storage.getDirectory();
-  const poolDir = await root.getDirectoryHandle(sahPoolDirName(dbPath));
+  let poolDir: FileSystemDirectoryHandle;
+  try {
+    poolDir = await root.getDirectoryHandle(sahPoolDirName(dbPath));
+  } catch {
+    return [];
+  }
   // The VFS keeps its slot files inside an ".opaque" subdirectory.
   let filesDir: FileSystemDirectoryHandle = poolDir;
   try {
@@ -62,9 +71,33 @@ export async function salvagePoolDatabases(
         fileName: name,
         bytes: new Uint8Array(body),
         sizeBytes: body.byteLength,
+        source: "pool",
       });
     } catch {
       // A slot held by a live access handle can't be read; skip it.
+    }
+  }
+
+  // Also sweep the OPFS ROOT: a `.pre-sahpool` rollback copy or a leftover
+  // pre-migration file is a plain SQLite database with no pool header, and it
+  // is just as recoverable. Without this a user whose pool is genuinely empty
+  // would be told nothing exists while their old file sits one level up.
+  for await (const [name, handle] of root.entries()) {
+    if (handle.kind !== "file") continue;
+    if (!name.includes(".sqlite3")) continue;
+    try {
+      const file = await handle.getFile();
+      if (file.size <= 512) continue;
+      const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+      if (!hasSqliteMagic(head)) continue;
+      found.push({
+        fileName: name,
+        bytes: new Uint8Array(await file.arrayBuffer()),
+        sizeBytes: file.size,
+        source: "root",
+      });
+    } catch {
+      // Locked by a live handle (the current db): skip.
     }
   }
 
