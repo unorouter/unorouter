@@ -15,6 +15,7 @@ export type IntegrationIconKey =
   | "janitor-ai"
   | "risuai"
   | "chub"
+  | "nevika"
   | "librechat"
   | "open-webui"
   | "lobechat"

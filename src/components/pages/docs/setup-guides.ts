@@ -774,6 +774,54 @@ API Endpoint: ${env.apiUrl}/v1`,
     ],
   },
   {
+    slug: "nevika",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "nevika" } },
+    i18nPrefix: "DOCS.NEVIKA",
+    kind: "rp",
+    category: "roleplay",
+    titleKey: "DOCS.NEVIKA.TITLE",
+    subtitleKey: "DOCS.NEVIKA.SUBTITLE",
+    badgeKey: "DOCS.NEVIKA.BADGE",
+    iconKey: "nevika",
+    logoSrc: "/icons/nevika.png",
+    color: guideColor("violet"),
+    baseUrl: `${env.apiUrl}/v1`,
+    apiPath: "/chat/completions",
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.NEVIKA.STEP_1_TITLE",
+        bodyKey: "DOCS.NEVIKA.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.NEVIKA.STEP_2_TITLE",
+        bodyKey: "DOCS.NEVIKA.STEP_2_DESC",
+      },
+      {
+        titleKey: "DOCS.NEVIKA.STEP_3_TITLE",
+        bodyKey: "DOCS.NEVIKA.STEP_3_DESC",
+        code: {
+          lang: "text",
+          value: `API Base URL: ${env.apiUrl}/v1
+API Key: YOUR_API_KEY`,
+        },
+      },
+      {
+        titleKey: "DOCS.NEVIKA.STEP_4_TITLE",
+        bodyKey: "DOCS.NEVIKA.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: [
+      "DOCS.NEVIKA.GOTCHA_1",
+      "DOCS.NEVIKA.GOTCHA_2",
+      "DOCS.NEVIKA.GOTCHA_3",
+    ],
+  },
+  {
     slug: "opencode",
     href: {
       pathname: "/docs/integrations/[slug]",

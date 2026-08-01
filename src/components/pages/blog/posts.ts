@@ -16,6 +16,7 @@ import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/p
 import { OpenSourceOpenrouterAlternativeContent } from "@/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content";
 import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
 import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
+import { HowToConnectUnorouterToNevikaContent } from "@/components/pages/blog/posts/2026-08-01-how-to-connect-unorouter-to-nevika-content";
 import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
 import { UnorouterVsJanitoraiContent } from "@/components/pages/blog/posts/2026-07-07-unorouter-vs-janitorai-content";
 import { UnorouterVsCharacterAiContent } from "@/components/pages/blog/posts/2026-07-09-unorouter-vs-character-ai-content";
@@ -51,6 +52,7 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "best-openrouter-alternatives-2026": BestOpenrouterAlternatives2026Content,
   "open-source-openrouter-alternative": OpenSourceOpenrouterAlternativeContent,
   "what-is-an-llm-gateway": WhatIsAnLlmGatewayContent,
+  "how-to-connect-unorouter-to-nevika": HowToConnectUnorouterToNevikaContent,
   "how-to-connect-any-llm-to-sillytavern":
     HowToConnectAnyLlmToSillytavernContent,
   "one-api-key-for-claude-code-and-roleplay":

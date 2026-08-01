@@ -1244,6 +1244,25 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin situs RP tanpa-sensor paling sederhana yang mungkin tanpa hal yang perlu dipelajari, dan Anda tidak keberatan membayar tier untuk memori lebih banyak? SpicyChat adalah itu. Ingin awalan mudah yang sama dengan pilihan model terbuka, lorebook mendalam secara default, dan key yang juga menjalankan kode? Itulah {appName}.",
         "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "Cara menghubungkan {appName} ke Nevika",
+        "DESCRIPTION": "Nevika menerima endpoint apa pun yang kompatibel dengan OpenAI sebagai custom proxy. Ini setup persisnya, model mana yang dipilih untuk roleplay, dan cara memperbaiki error yang biasa muncul.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Nevika adalah platform chat character, bukan penyedia model, jadi ia butuh tempat untuk mengirim prompt Anda. Arahkan ke satu endpoint yang kompatibel dengan OpenAI dan ia bisa menjalankan model apa pun di balik endpoint itu. Gateway adalah cara rapi untuk melakukannya: satu base URL dan satu key menjangkau seluruh katalog, bukan satu provider saja. Nevika membuat halaman setup khusus untuk {appName}, jadi ini hanya butuh sekitar satu menit.",
+        "H_WHAT_IS_NEVIKA": "Apa itu Nevika",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika> adalah platform roleplay AI yang dibangun di sekitar character yang bisa mengingat. Anda memilih dari ribuan character buatan komunitas atau menulis sendiri, dan percakapannya menjaga alur sepanjang sesi panjang alih-alih ter-reset tiap beberapa pesan. Ia membawa sistem memori dan perkakas character-nya sendiri; yang tidak ia bawa adalah model, dan di situlah gateway masuk.",
+        "H_WHAT_YOU_NEED": "Yang Anda butuhkan lebih dulu",
+        "P_WHAT_YOU_NEED": "Dua hal: akun Nevika dan API key {appName}. Buat key dari dashboard Anda dan simpan di tempat pribadi, karena siapa pun yang memegangnya bisa memakai saldo Anda. Ada tier gratis, jadi Anda bisa menguji sebuah character sebelum mengeluarkan uang. Anda tidak perlu memasang apa pun, karena kedua sisi berjalan di browser.",
+        "H_STEPS": "Langkah setup",
+        "P_STEPS": "Buka <setup>halaman setup {appName}</setup> milik Nevika. Base URL sudah terisi sebagai <c>https://api.unorouter.com/v1</c>, jadi tempel key Anda ke kolom API Key dan daftar model akan termuat langsung dari kami. Pilih sebuah model, simpan, lalu buka character mana pun untuk mengirim pesan uji. Character dan pengaturan memori Anda tidak tersentuh; Nevika hanya butuh endpoint dan key. Key yang sama juga bekerja di SillyTavern, RisuAI, Janitor.AI, dan Chub, jadi satu key mencakup setiap front end yang Anda pakai.",
+        "H_PICKING_A_MODEL": "Memilih model untuk roleplay",
+        "P_PICKING_A_MODEL": "Karena semuanya lewat satu endpoint, berganti model hanya soal memilih entri lain di dropdown. Untuk roleplay, <c>glm-5.2</c> adalah default yang kuat: ia bernalar secara bawaan tanpa perlu sufiks khusus, menjaga adegan panjang tetap nyambung, dan biayanya kecil. Model gratis ada untuk diuji coba, tapi sifatnya berbagi dan kena rate limit, jadi model berbayar pilihan yang lebih tepat begitu sebuah cerita mulai berarti bagi Anda. Cocokkan model dengan adegannya, bukan pasrah pada apa pun yang ditawarkan satu provider.",
+        "H_TROUBLESHOOTING": "Error umum dan solusinya",
+        "P_TROUBLESHOOTING": "Kalau daftar model tidak mau termuat, periksa base URL berakhir dengan <c>/v1</c> dan key Anda tidak kemasukan spasi saat disalin. 401 berarti key salah atau sudah dicabut, jadi buat yang baru. 404 pada sebuah model biasanya berarti namanya diketik manual, bukan dipilih dari daftar yang termuat. Kalau balasan berhenti terlalu cepat, naikkan panjang respons di pengaturan Nevika alih-alih menganggap modelnya terpotong. Kebanyakan kegagalan adalah URL salah ketik atau key dengan spasi, jadi periksa dua hal itu dulu.",
+        "H_VERDICT": "Itu seluruh setup-nya",
+        "P_VERDICT": "Menghubungkan Nevika ke {appName} hanyalah satu base URL plus satu key, dan gateway mengubahnya menjadi ratusan model di balik satu konfigurasi. Anda dapat memori dan perkakas character Nevika di atas katalog yang bebas Anda ganti-ganti, dengan tier gratis untuk memulai. Atur sekali dan key yang sama ikut ke setiap front end chat lain yang Anda coba.",
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>lihat model-modelnya</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "LiteLLM mungkin menampilkan peringatan model tidak dikenal. Gunakan --no-show-model-warnings atau berikan jendela konteks melalui --model-metadata-file jika peringatannya terlalu ramai."
     },
     "COPY_LINK": "Salin tautan ke bagian ini",
-    "LINK_COPIED": "Tautan disalin"
+    "LINK_COPIED": "Tautan disalin",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Panduan Integrasi Nevika | {appName}",
+        "DESCRIPTION": "Hubungkan Nevika ke {appName} sebagai custom proxy. Satu key untuk ratusan model AI dalam roleplay character Anda.",
+        "KEYWORDS": "Nevika, custom proxy Nevika, API key Nevika, {appName} Nevika, roleplay AI, chat character"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Panduan Integrasi Nevika",
+      "SUBTITLE": "Hubungkan {appName} ke Nevika lewat pengaturan Custom Proxy-nya.",
+      "OVERVIEW_DESC": "Nevika adalah platform roleplay AI dengan memori jangka panjang dan ribuan character dari komunitas. Ia menerima endpoint apa pun yang kompatibel dengan OpenAI sebagai custom proxy, dan ia menyertakan halaman setup untuk {appName} dengan base URL yang sudah terisi, jadi Anda cukup menempel key dan memilih model.",
+      "STEP_1_TITLE": "Ambil API key Anda",
+      "STEP_1_DESC": "Buat API key {appName} dari dashboard Anda lalu salin. Simpan secara pribadi; siapa pun yang punya key itu bisa memakai saldo Anda.",
+      "STEP_2_TITLE": "Buka halaman setup Nevika",
+      "STEP_2_DESC": "Kunjungi nevika.eu/tutorial/custom-proxy/unorouter. Ini halaman Nevika sendiri untuk {appName} dan datang dengan base URL sudah terisi.",
+      "STEP_3_TITLE": "Tempel key Anda",
+      "STEP_3_DESC": "Tempel key ke kolom API Key. Daftar model lalu termuat langsung dari {appName}, jadi Anda tidak pernah mengetik nama model secara manual.",
+      "STEP_4_TITLE": "Pilih model dan uji",
+      "STEP_4_DESC": "Pilih sebuah model dari daftar yang termuat, simpan, lalu buka character mana pun dan kirim pesan untuk memastikan koneksinya bekerja.",
+      "TS_1_DESC": "Kalau daftar model tetap kosong, periksa base URL berakhir dengan /v1 dan key ditempel tanpa spasi berlebih.",
+      "TS_2_DESC": "401 berarti key salah atau sudah dicabut. Buat key baru lalu tempel lagi.",
+      "GOTCHA_1": "Selalu pilih model dari dropdown yang termuat, bukan mengetik namanya. Nama yang diketik manual dan tidak cocok persis akan mengembalikan 404.",
+      "GOTCHA_2": "Model gratis sifatnya berbagi dan kena rate limit, jadi lebih cocok untuk uji coba ketimbang sesi panjang. Pindah ke model berbayar begitu sebuah cerita mulai berarti bagi Anda.",
+      "GOTCHA_3": "Untuk roleplay, glm-5.2 bernalar secara bawaan dan tidak butuh sufiks khusus. Menambahkan -thinking hanya mengunci perilaku yang sudah ia punya."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Produk",

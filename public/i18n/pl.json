@@ -1244,6 +1244,25 @@
         "H_VERDICT": "Jak wybrać",
         "P_VERDICT": "Chcesz najprostszej możliwej nieocenzurowanej strony RP, niczego do nauki, i nie masz nic przeciwko płaceniu za progi dla większej pamięci? SpicyChat jest właśnie tym. Chcesz tego samego łatwego startu z otwartym wyborem modeli, głębokimi lorebookami domyślnie i kluczem, który też koduje? To {appName}.",
         "CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "Jak połączyć {appName} z Nevika",
+        "DESCRIPTION": "Nevika przyjmuje dowolny punkt końcowy zgodny z OpenAI jako własne proxy. Oto dokładna konfiguracja, jaki model wybrać do odgrywania ról i jak naprawić typowe błędy.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "Nevika to platforma czatu z postaciami, a nie host modeli, więc potrzebuje miejsca, do którego wyśle twoje prompty. Skieruj ją na jeden punkt końcowy zgodny z OpenAI, a poprowadzi dowolny model stojący za tym punktem. Brama to czysty sposób, by to zrobić: jeden bazowy adres URL i jeden klucz sięgają całego katalogu zamiast pojedynczego dostawcy. Nevika zbudowała stronę konfiguracji specjalnie dla {appName}, więc zajmie to około minuty.",
+        "H_WHAT_IS_NEVIKA": "Czym jest Nevika",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika> to platforma odgrywania ról z AI zbudowana wokół postaci, które pamiętają. Wybierasz spośród tysięcy postaci stworzonych przez społeczność albo piszesz własne, a rozmowa trzyma wątek przez długie sesje, zamiast resetować się co kilka wiadomości. Wnosi własny system pamięci i narzędzia do postaci; czego nie wnosi, to modele, i właśnie tu wchodzi brama.",
+        "H_WHAT_YOU_NEED": "Czego potrzebujesz najpierw",
+        "P_WHAT_YOU_NEED": "Dwóch rzeczy: konta Nevika i klucza API {appName}. Utwórz klucz w swoim panelu i trzymaj go w bezpiecznym miejscu, bo każdy, kto go ma, może wydawać z twojego salda. Jest darmowy poziom, więc możesz przetestować postać, zanim wpłacisz pieniądze. Nie musisz nic instalować, bo obie strony działają w przeglądarce.",
+        "H_STEPS": "Kroki konfiguracji",
+        "P_STEPS": "Otwórz <setup>stronę konfiguracji {appName}</setup> w Nevice. Bazowy adres URL jest już wpisany jako <c>https://api.unorouter.com/v1</c>, więc wklej swój klucz w pole API Key, a lista modeli wczyta się prosto od nas. Wybierz model, zapisz i otwórz dowolną postać, by wysłać wiadomość testową. Twoje postacie i ustawienia pamięci pozostają nietknięte; Nevice potrzebny był tylko punkt końcowy i klucz. Ten sam klucz działa też w SillyTavern, RisuAI, Janitor.AI i Chub, więc jeden klucz obsługuje każdy frontend, którego używasz.",
+        "H_PICKING_A_MODEL": "Wybór modelu do odgrywania ról",
+        "P_PICKING_A_MODEL": "Ponieważ wszystko idzie przez jeden punkt końcowy, zmiana modelu to po prostu wybór innej pozycji z listy rozwijanej. Do odgrywania ról <c>glm-5.2</c> jest mocnym ustawieniem domyślnym: rozumuje standardowo, bez żadnego specjalnego przyrostka, trzyma długie sceny w całości i mało kosztuje. Darmowe modele są do testów, ale są współdzielone i mają limity zapytań, więc płatny model to lepszy wybór, gdy dana historia zaczyna ci na czymś zależeć. Dopasuj model do sceny, zamiast zadowalać się tym, co daje jeden dostawca.",
+        "H_TROUBLESHOOTING": "Częste błędy i naprawy",
+        "P_TROUBLESHOOTING": "Jeśli lista modeli nie chce się wczytać, sprawdź, czy bazowy adres URL kończy się na <c>/v1</c> i czy w kluczu nie zostały spacje po kopiowaniu. 401 oznacza, że klucz jest błędny albo unieważniony, więc wygeneruj nowy. 404 na modelu zwykle znaczy, że nazwa została wpisana ręcznie zamiast wybrana z wczytanej listy. Jeśli odpowiedzi urywają się za wcześnie, zwiększ długość odpowiedzi w ustawieniach Neviki, zamiast zakładać, że model został ucięty. Większość awarii to literówka w adresie albo klucz ze spacją, więc te dwie rzeczy sprawdź najpierw.",
+        "H_VERDICT": "To cała konfiguracja",
+        "P_VERDICT": "Połączenie Neviki z {appName} to jeden bazowy adres URL plus jeden klucz, a brama zamienia to w setki modeli za pojedynczą konfiguracją. Dostajesz pamięć i narzędzia do postaci od Neviki na katalogu, po którym możesz swobodnie przełączać, z darmowym poziomem na start. Ustaw raz, a ten sam klucz pójdzie z tobą do każdego innego frontendu czatu, który wypróbujesz.",
+        "CTA": "Gotowy, by spróbować? <register>Załóż darmowe konto</register> albo <models>przejrzyj modele</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "LiteLLM może wypisywać ostrzeżenia o nieznanym modelu. Użyj --no-show-model-warnings lub podaj okno kontekstu przez --model-metadata-file, jeśli staną się uciążliwe."
     },
     "COPY_LINK": "Skopiuj link do tej sekcji",
-    "LINK_COPIED": "Link skopiowany"
+    "LINK_COPIED": "Link skopiowany",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Przewodnik integracji z Nevika | {appName}",
+        "DESCRIPTION": "Podłącz Nevikę do {appName} jako własne proxy. Jeden klucz do setek modeli AI w twoim odgrywaniu ról z postaciami.",
+        "KEYWORDS": "Nevika, własne proxy Nevika, klucz API Nevika, {appName} Nevika, odgrywanie ról z AI, czat z postaciami"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Przewodnik integracji z Nevika",
+      "SUBTITLE": "Podłącz {appName} do Neviki przez jej ustawienia własnego proxy.",
+      "OVERVIEW_DESC": "Nevika to platforma odgrywania ról z AI z pamięcią długoterminową i tysiącami postaci od społeczności. Przyjmuje dowolny punkt końcowy zgodny z OpenAI jako własne proxy i udostępnia stronę konfiguracji dla {appName} z już wpisanym bazowym adresem URL, więc wystarczy wkleić klucz i wybrać model.",
+      "STEP_1_TITLE": "Zdobądź swój klucz API",
+      "STEP_1_DESC": "Utwórz klucz API {appName} w swoim panelu i skopiuj go. Trzymaj go prywatnie; każdy, kto ma klucz, może wydawać z twojego salda.",
+      "STEP_2_TITLE": "Otwórz stronę konfiguracji Neviki",
+      "STEP_2_DESC": "Wejdź na nevika.eu/tutorial/custom-proxy/unorouter. To własna strona Neviki dla {appName} i przychodzi z wypełnionym bazowym adresem URL.",
+      "STEP_3_TITLE": "Wklej swój klucz",
+      "STEP_3_DESC": "Wklej klucz w pole API Key. Lista modeli wczyta się wtedy prosto z {appName}, więc nigdy nie wpisujesz nazwy modelu ręcznie.",
+      "STEP_4_TITLE": "Wybierz model i przetestuj",
+      "STEP_4_DESC": "Wybierz model z wczytanej listy, zapisz, potem otwórz dowolną postać i wyślij wiadomość, by potwierdzić, że połączenie działa.",
+      "TS_1_DESC": "Jeśli lista modeli pozostaje pusta, sprawdź, czy bazowy adres URL kończy się na /v1 i czy klucz został wklejony bez zbędnych spacji.",
+      "TS_2_DESC": "401 oznacza, że klucz jest błędny albo unieważniony. Wygeneruj nowy klucz i wklej go ponownie.",
+      "GOTCHA_1": "Zawsze wybieraj model z wczytanej listy rozwijanej, zamiast wpisywać nazwę. Ręcznie wpisana nazwa, która nie pasuje dokładnie, zwraca 404.",
+      "GOTCHA_2": "Darmowe modele są współdzielone i mają limity zapytań, więc nadają się bardziej do testów niż do długiej sesji. Przejdź na model płatny, gdy dana historia zaczyna ci na czymś zależeć.",
+      "GOTCHA_3": "Do odgrywania ról glm-5.2 rozumuje standardowo i nie potrzebuje specjalnego przyrostka. Dodanie -thinking tylko utrwala zachowanie, które już ma."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Produkt",

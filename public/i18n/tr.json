@@ -1244,6 +1244,25 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Öğrenilecek hiçbir şeyi olmayan, mümkün olan en basit sansürsüz RP sitesini mi istiyorsunuz ve daha fazla bellek için katmanlara ödemeye aldırmıyor musunuz? SpicyChat budur. Açık model seçimiyle, öntanımlı derin lorebook'larla ve kod da yazan bir anahtarla aynı kolay başlangıcı mı istiyorsunuz? İşte o {appName}.",
         "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "{appName} Nevika''ya nasıl bağlanır",
+        "DESCRIPTION": "Nevika, OpenAI uyumlu herhangi bir uç noktayı özel proxy olarak kabul eder. İşte tam kurulum, rol yapma için hangi modeli seçmeniz gerektiği ve sık görülen hataların çözümü.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Nevika bir karakter sohbeti platformu, bir model barındırıcısı değil, bu yüzden istemlerinizi gönderecek bir yere ihtiyacı var. Onu OpenAI uyumlu tek bir uç noktaya yönlendirin, o uç noktanın ardındaki herhangi bir modeli çalıştırabilsin. Bunun düzenli yolu bir ağ geçidi: tek bir temel URL ve tek bir anahtar, tek bir sağlayıcı yerine tüm kataloğa ulaşır. Nevika özellikle {appName} için bir kurulum sayfası hazırladı, yani bu iş yaklaşık bir dakika sürer.",
+        "H_WHAT_IS_NEVIKA": "Nevika nedir",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika>, hatırlayan karakterlerin etrafında kurulmuş bir yapay zeka rol yapma platformu. Topluluğun yaptığı binlerce karakterden birini seçersiniz ya da kendinizinkini yazarsınız; sohbet, birkaç mesajda bir sıfırlanmak yerine uzun oturumlar boyunca ipini korur. Kendi bellek sistemini ve karakter araçlarını getirir; getirmediği şey modeller, ağ geçidi de tam burada devreye girer.",
+        "H_WHAT_YOU_NEED": "Önce neye ihtiyacınız var",
+        "P_WHAT_YOU_NEED": "İki şey: bir Nevika hesabı ve bir {appName} API anahtarı. Anahtarı panelinizden oluşturun ve gizli bir yerde tutun, çünkü elinde tutan herkes bakiyenizden harcayabilir. Ücretsiz bir katman var, dolayısıyla para yatırmadan önce bir karakteri deneyebilirsiniz. Hiçbir şey kurmanız gerekmiyor, çünkü iki taraf da tarayıcıda çalışıyor.",
+        "H_STEPS": "Kurulum adımları",
+        "P_STEPS": "Nevika''nın <setup>{appName} kurulum sayfasını</setup> açın. Temel URL zaten <c>https://api.unorouter.com/v1</c> olarak doldurulmuş durumda, o yüzden anahtarınızı API Key alanına yapıştırın; model listesi doğrudan bizden yüklenir. Bir model seçin, kaydedin ve test mesajı göndermek için herhangi bir karakteri açın. Karakterleriniz ve bellek ayarlarınız olduğu gibi kalır; Nevika''nın tek istediği bir uç nokta ve bir anahtardı. Aynı anahtar SillyTavern, RisuAI, Janitor.AI ve Chub''da da çalışır, yani tek anahtar kullandığınız her arayüzü kapsar.",
+        "H_PICKING_A_MODEL": "Rol yapma için model seçmek",
+        "P_PICKING_A_MODEL": "Her şey tek bir uç noktadan geçtiği için model değiştirmek, açılır listeden başka bir kayıt seçmekten ibaret. Rol yapma için <c>glm-5.2</c> güçlü bir varsayılan: özel bir ek gerekmeden kendiliğinden akıl yürütür, uzun sahneleri bir arada tutar ve az maliyetlidir. Ücretsiz modeller denemek için var, ancak paylaşımlı ve hız sınırlı olduklarından bir hikaye sizin için önem kazandığında ücretli bir model daha doğru tercih. Tek bir sağlayıcının sunduğuyla yetinmek yerine modeli sahneye göre eşleştirin.",
+        "H_TROUBLESHOOTING": "Sık görülen hatalar ve çözümleri",
+        "P_TROUBLESHOOTING": "Model listesi yüklenmiyorsa, temel URL'nin <c>/v1</c> ile bittiğini ve kopyalarken anahtara boşluk karışmadığını kontrol edin. 401, anahtarın yanlış ya da iptal edilmiş olduğu anlamına gelir, yenisini üretin. Bir modelde 404 genellikle adın yüklenen listeden seçilmek yerine elle yazıldığını gösterir. Yanıtlar erken kesiliyorsa, modelin kırpıldığını varsaymak yerine Nevika ayarlarından yanıt uzunluğunu artırın. Arızaların çoğu yazım hatalı bir URL ya da boşluk içeren bir anahtardır, önce bu ikisine bakın.",
+        "H_VERDICT": "Kurulumun tamamı bu kadar",
+        "P_VERDICT": "Nevika''yı {appName}''e bağlamak tek bir temel URL artı tek bir anahtar demek ve ağ geçidi bunu tek bir yapılandırmanın ardındaki yüzlerce modele dönüştürüyor. Serbestçe geçiş yapabileceğiniz bir kataloğun üstünde Nevika''nın belleğini ve karakter araçlarını, başlamak için de ücretsiz bir katmanı elde ediyorsunuz. Bir kez ayarlayın; aynı anahtar deneyeceğiniz diğer her sohbet arayüzüne sizinle gelsin.",
+        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "LiteLLM bilinmeyen model uyarıları yazdırabilir. Çok fazla olursa --no-show-model-warnings kullanın veya --model-metadata-file ile bir bağlam penceresi sağlayın."
     },
     "COPY_LINK": "Bu bölümün bağlantısını kopyala",
-    "LINK_COPIED": "Bağlantı kopyalandı"
+    "LINK_COPIED": "Bağlantı kopyalandı",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Nevika Entegrasyon Rehberi | {appName}",
+        "DESCRIPTION": "Nevika''yı {appName}''e özel proxy olarak bağlayın. Karakter rol yapmanızda yüzlerce yapay zeka modeli için tek anahtar.",
+        "KEYWORDS": "Nevika, Nevika özel proxy, Nevika API anahtarı, {appName} Nevika, yapay zeka rol yapma, karakter sohbeti"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Nevika Entegrasyon Rehberi",
+      "SUBTITLE": "{appName}''i Custom Proxy ayarları üzerinden Nevika''ya bağlayın.",
+      "OVERVIEW_DESC": "Nevika, uzun süreli belleğe ve binlerce topluluk karakterine sahip bir yapay zeka rol yapma platformu. OpenAI uyumlu herhangi bir uç noktayı özel proxy olarak kabul eder ve {appName} için temel URL''si önceden doldurulmuş bir kurulum sayfasıyla gelir, yani yalnızca bir anahtar yapıştırıp model seçersiniz.",
+      "STEP_1_TITLE": "API anahtarınızı alın",
+      "STEP_1_DESC": "Panelinizden bir {appName} API anahtarı oluşturun ve kopyalayın. Gizli tutun; anahtara sahip olan herkes bakiyenizden harcayabilir.",
+      "STEP_2_TITLE": "Nevika kurulum sayfasını açın",
+      "STEP_2_DESC": "nevika.eu/tutorial/custom-proxy/unorouter adresine gidin. Bu, Nevika''nın {appName} için kendi sayfası ve temel URL önceden doldurulmuş halde gelir.",
+      "STEP_3_TITLE": "Anahtarınızı yapıştırın",
+      "STEP_3_DESC": "Anahtarı API Key alanına yapıştırın. Model listesi ardından doğrudan {appName} üzerinden yüklenir, böylece hiçbir model adını elle yazmazsınız.",
+      "STEP_4_TITLE": "Bir model seçip test edin",
+      "STEP_4_DESC": "Yüklenen listeden bir model seçin, kaydedin, sonra herhangi bir karakteri açıp bağlantının çalıştığını doğrulamak için bir mesaj gönderin.",
+      "TS_1_DESC": "Model listesi boş kalıyorsa, temel URL'nin /v1 ile bittiğini ve anahtarın fazladan boşluk olmadan yapıştırıldığını kontrol edin.",
+      "TS_2_DESC": "401, anahtarın yanlış ya da iptal edilmiş olduğu anlamına gelir. Yeni bir anahtar oluşturup tekrar yapıştırın.",
+      "GOTCHA_1": "Modeli adını yazmak yerine her zaman yüklenen açılır listeden seçin. Tam olarak eşleşmeyen, elle yazılmış bir ad 404 döndürür.",
+      "GOTCHA_2": "Ücretsiz modeller paylaşımlı ve hız sınırlıdır, bu yüzden uzun bir oturumdan çok denemeye uygundur. Bir hikaye sizin için önem kazandığında ücretli bir modele geçin.",
+      "GOTCHA_3": "Rol yapma için glm-5.2 kendiliğinden akıl yürütür ve özel bir ek gerektirmez. -thinking eklemek yalnızca zaten sahip olduğu davranışı sabitler."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Ürün",

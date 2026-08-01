@@ -1244,6 +1244,25 @@
         "H_VERDICT": "Como escolher",
         "P_VERDICT": "Quer o site de RP sem censura mais simples possível, com nada para aprender, e não se importa de pagar níveis por mais memória? SpicyChat é isso. Quer o mesmo começo fácil com escolha aberta de modelos, lorebooks profundos por padrão, e uma chave que também programa? Isso é o {appName}.",
         "CTA": "Pronto para experimentar o 2 em 1? <register>Crie uma conta gratuita</register> ou <chat>abra o chat</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "Como conectar o {appName} ao Nevika",
+        "DESCRIPTION": "O Nevika aceita qualquer endpoint compatível com OpenAI como proxy personalizado. Aqui está a configuração exata, qual modelo escolher para roleplay e como corrigir os erros mais comuns.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "O Nevika é uma plataforma de chat com personagens, não um host de modelos, então ele precisa de um lugar para onde enviar seus prompts. Aponte-o para um endpoint compatível com OpenAI e ele conduz qualquer modelo por trás desse endpoint. Um gateway é o jeito limpo de fazer isso: uma URL base e uma chave alcançam o catálogo inteiro em vez de um único provedor. O Nevika criou uma página de configuração específica para o {appName}, então isso leva cerca de um minuto.",
+        "H_WHAT_IS_NEVIKA": "O que é o Nevika",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika> é uma plataforma de roleplay com IA construída em torno de personagens que lembram. Você escolhe entre milhares de personagens feitos pela comunidade ou escreve os seus, e a conversa mantém o fio ao longo de sessões longas em vez de reiniciar a cada poucas mensagens. Ele traz o próprio sistema de memória e as ferramentas de personagem; o que ele não traz são modelos, e é aí que entra um gateway.",
+        "H_WHAT_YOU_NEED": "O que você precisa primeiro",
+        "P_WHAT_YOU_NEED": "Duas coisas: uma conta no Nevika e uma chave de API do {appName}. Crie a chave no seu painel e guarde em um lugar privado, já que qualquer pessoa com ela pode gastar do seu saldo. Existe um nível gratuito, então você pode testar um personagem antes de colocar dinheiro. Não precisa instalar nada, porque os dois lados rodam no navegador.",
+        "H_STEPS": "Os passos de configuração",
+        "P_STEPS": "Abra a <setup>página de configuração do {appName}</setup> no Nevika. A URL base já vem preenchida como <c>https://api.unorouter.com/v1</c>, então cole sua chave no campo API Key e a lista de modelos carrega direto da gente. Escolha um modelo, salve e abra qualquer personagem para enviar uma mensagem de teste. Seus personagens e configurações de memória continuam intactos; o Nevika só precisava de um endpoint e uma chave. A mesma chave também funciona no SillyTavern, RisuAI, Janitor.AI e Chub, então uma chave cobre todos os frontends que você usa.",
+        "H_PICKING_A_MODEL": "Escolhendo um modelo para roleplay",
+        "P_PICKING_A_MODEL": "Como tudo passa por um único endpoint, trocar de modelo é só escolher outra entrada na lista suspensa. Para roleplay, <c>glm-5.2</c> é um ótimo padrão: ele raciocina por padrão sem precisar de sufixo especial, segura cenas longas e custa pouco. Os modelos gratuitos existem para testar, mas são compartilhados e têm limite de requisições, então um modelo pago é a melhor escolha assim que uma história passa a importar para você. Ajuste o modelo à cena em vez de se contentar com o que um único provedor oferece.",
+        "H_TROUBLESHOOTING": "Erros comuns e como corrigir",
+        "P_TROUBLESHOOTING": "Se a lista de modelos não carregar, confira se a URL base termina em <c>/v1</c> e se a sua chave não ficou com espaços soltos da cópia. Um 401 quer dizer que a chave está errada ou foi revogada, então gere uma nova. Um 404 em um modelo geralmente significa que o nome foi digitado à mão em vez de escolhido na lista carregada. Se as respostas param cedo, aumente o tamanho da resposta nas configurações do Nevika em vez de supor que o modelo foi cortado. A maioria das falhas é uma URL digitada errado ou uma chave com espaço, então cheque esses dois pontos primeiro.",
+        "H_VERDICT": "É essa a configuração inteira",
+        "P_VERDICT": "Conectar o Nevika ao {appName} é uma URL base mais uma chave, e o gateway transforma isso em centenas de modelos por trás de uma única configuração. Você fica com a memória e as ferramentas de personagem do Nevika em cima de um catálogo pelo qual pode transitar livremente, com um nível gratuito para começar. Configure uma vez e a mesma chave te acompanha em qualquer outro frontend de chat que você experimentar.",
+        "CTA": "Pronto para testar? <register>Crie uma conta gratuita</register> ou <models>explore os modelos</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "O LiteLLM pode exibir avisos unknown model. Use --no-show-model-warnings ou forneça uma janela de contexto via --model-metadata-file se ficar muito ruidoso."
     },
     "COPY_LINK": "Copiar link para esta seção",
-    "LINK_COPIED": "Link copiado"
+    "LINK_COPIED": "Link copiado",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Guia de integração com o Nevika | {appName}",
+        "DESCRIPTION": "Conecte o Nevika ao {appName} como proxy personalizado. Uma chave para centenas de modelos de IA no seu roleplay com personagens.",
+        "KEYWORDS": "Nevika, proxy personalizado Nevika, chave de API Nevika, {appName} Nevika, roleplay com IA, chat de personagens"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Guia de integração com o Nevika",
+      "SUBTITLE": "Conecte o {appName} ao Nevika pelas configurações de proxy personalizado dele.",
+      "OVERVIEW_DESC": "O Nevika é uma plataforma de roleplay com IA que tem memória de longo prazo e milhares de personagens da comunidade. Ele aceita qualquer endpoint compatível com OpenAI como proxy personalizado e traz uma página de configuração para o {appName} com a URL base já preenchida, então você só cola uma chave e escolhe um modelo.",
+      "STEP_1_TITLE": "Pegue sua chave de API",
+      "STEP_1_DESC": "Crie uma chave de API do {appName} no seu painel e copie. Mantenha em segredo; qualquer pessoa com a chave pode gastar do seu saldo.",
+      "STEP_2_TITLE": "Abra a página de configuração do Nevika",
+      "STEP_2_DESC": "Acesse nevika.eu/tutorial/custom-proxy/unorouter. Essa é a página do próprio Nevika para o {appName} e ela já vem com a URL base preenchida.",
+      "STEP_3_TITLE": "Cole sua chave",
+      "STEP_3_DESC": "Cole a chave no campo API Key. A lista de modelos carrega então direto do {appName}, então você nunca digita um nome de modelo à mão.",
+      "STEP_4_TITLE": "Escolha um modelo e teste",
+      "STEP_4_DESC": "Escolha um modelo na lista carregada, salve, depois abra qualquer personagem e envie uma mensagem para confirmar que a conexão funciona.",
+      "TS_1_DESC": "Se a lista de modelos continuar vazia, confira se a URL base termina em /v1 e se a chave foi colada sem espaços soltos.",
+      "TS_2_DESC": "Um 401 quer dizer que a chave está errada ou foi revogada. Gere uma chave nova e cole de novo.",
+      "GOTCHA_1": "Sempre escolha o modelo na lista suspensa carregada em vez de digitar o nome. Um nome digitado à mão que não bate exatamente devolve um 404.",
+      "GOTCHA_2": "Modelos gratuitos são compartilhados e têm limite de requisições, então servem mais para teste do que para uma sessão longa. Troque para um modelo pago assim que uma história passar a importar para você.",
+      "GOTCHA_3": "Para roleplay, o glm-5.2 raciocina por padrão e não precisa de sufixo especial. Adicionar -thinking só fixa o comportamento que ele já tem."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Produto",

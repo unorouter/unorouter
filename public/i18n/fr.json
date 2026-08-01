@@ -1244,6 +1244,25 @@
         "H_VERDICT": "Comment choisir",
         "P_VERDICT": "Vous voulez le site de RP non censuré le plus simple possible, sans rien à apprendre, et ça ne vous dérange pas de payer des paliers pour plus de mémoire ? SpicyChat, c'est ça. Vous voulez le même démarrage facile avec un choix de modèles ouvert, des lorebooks profonds par défaut, et une clé qui code aussi ? C'est {appName}.",
         "CTA": "Prêt à essayer le 2 en 1 ? <register>Créez un compte gratuit</register> ou <chat>ouvrez le chat</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "Comment connecter {appName} à Nevika",
+        "DESCRIPTION": "Nevika accepte n'importe quel endpoint compatible OpenAI comme proxy personnalisé. Voici la configuration exacte, quel modèle choisir pour le roleplay et comment corriger les erreurs habituelles.",
+        "AUTHOR": "Équipe {appName}",
+        "INTRO": "Nevika est une plateforme de chat avec des personnages, pas un hôte de modèles, il lui faut donc un endroit où envoyer vos prompts. Pointez-la vers un endpoint compatible OpenAI et elle peut piloter n'importe quel modèle derrière cet endpoint. Une passerelle est la façon propre de le faire : une URL de base et une clé atteignent tout le catalogue au lieu d'un seul fournisseur. Nevika a construit une page de configuration dédiée à {appName}, cela prend donc environ une minute.",
+        "H_WHAT_IS_NEVIKA": "Ce qu'est Nevika",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika> est une plateforme de roleplay IA bâtie autour de personnages qui se souviennent. Vous choisissez parmi des milliers de personnages créés par la communauté ou vous écrivez les vôtres, et la conversation garde son fil sur de longues sessions au lieu de repartir de zéro toutes les quelques réponses. Elle apporte son propre système de mémoire et ses outils de personnages ; ce qu'elle n'apporte pas, ce sont les modèles, et c'est là qu'une passerelle intervient.",
+        "H_WHAT_YOU_NEED": "Ce qu'il vous faut d'abord",
+        "P_WHAT_YOU_NEED": "Deux choses : un compte Nevika et une clé API {appName}. Créez la clé depuis votre tableau de bord et gardez-la en lieu sûr, car quiconque la détient peut dépenser sur votre solde. Il existe un palier gratuit, vous pouvez donc tester un personnage avant de mettre de l'argent. Vous n'avez rien à installer, puisque les deux côtés tournent dans le navigateur.",
+        "H_STEPS": "Les étapes de configuration",
+        "P_STEPS": "Ouvrez la <setup>page de configuration {appName}</setup> de Nevika. L'URL de base est déjà remplie avec <c>https://api.unorouter.com/v1</c>, collez donc votre clé dans le champ API Key et la liste des modèles se charge directement depuis chez nous. Choisissez un modèle, enregistrez, puis ouvrez n'importe quel personnage pour envoyer un message de test. Vos personnages et vos réglages de mémoire restent intacts ; Nevika avait seulement besoin d'un endpoint et d'une clé. La même clé fonctionne aussi dans SillyTavern, RisuAI, Janitor.AI et Chub, une seule clé couvre donc tous les frontends que vous utilisez.",
+        "H_PICKING_A_MODEL": "Choisir un modèle pour le roleplay",
+        "P_PICKING_A_MODEL": "Comme tout passe par un seul endpoint, changer de modèle revient à choisir une autre entrée dans le menu déroulant. Pour le roleplay, <c>glm-5.2</c> est un excellent choix par défaut : il raisonne nativement sans suffixe particulier, tient les longues scènes et coûte peu. Les modèles gratuits servent à tester, mais ils sont partagés et limités en débit, donc un modèle payant est le meilleur choix dès qu'une histoire compte pour vous. Adaptez le modèle à la scène au lieu de vous contenter de ce qu'un seul fournisseur propose.",
+        "H_TROUBLESHOOTING": "Erreurs courantes et solutions",
+        "P_TROUBLESHOOTING": "Si la liste des modèles refuse de se charger, vérifiez que l'URL de base se termine par <c>/v1</c> et que votre clé ne contient pas d'espaces parasites venus du copier-coller. Un 401 signifie que la clé est fausse ou révoquée, générez-en une nouvelle. Un 404 sur un modèle veut généralement dire que le nom a été tapé à la main plutôt que choisi dans la liste chargée. Si les réponses s'arrêtent trop tôt, augmentez la longueur de réponse dans les réglages de Nevika au lieu de croire que le modèle a été coupé. La plupart des échecs viennent d'une URL mal tapée ou d'une clé avec des espaces, vérifiez donc ces deux points en premier.",
+        "H_VERDICT": "Voilà toute la configuration",
+        "P_VERDICT": "Connecter Nevika à {appName}, c'est une URL de base plus une clé, et la passerelle transforme cela en des centaines de modèles derrière une seule configuration. Vous gardez la mémoire et les outils de personnages de Nevika par-dessus un catalogue que vous parcourez librement, avec un palier gratuit pour commencer. Réglez-le une fois et la même clé vous suit vers tous les autres frontends de chat que vous essaierez.",
+        "CTA": "Envie d'essayer ? <register>Créez un compte gratuit</register> ou <models>parcourez les modèles</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "LiteLLM peut afficher des avertissements unknown model. Utilisez --no-show-model-warnings ou fournissez une fenêtre de contexte via --model-metadata-file si cela devient trop bruyant."
     },
     "COPY_LINK": "Copier le lien vers cette section",
-    "LINK_COPIED": "Lien copié"
+    "LINK_COPIED": "Lien copié",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Guide d'intégration Nevika | {appName}",
+        "DESCRIPTION": "Connectez Nevika à {appName} comme proxy personnalisé. Une clé pour des centaines de modèles IA dans votre roleplay de personnages.",
+        "KEYWORDS": "Nevika, proxy personnalisé Nevika, clé API Nevika, {appName} Nevika, roleplay IA, chat de personnages"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Guide d'intégration Nevika",
+      "SUBTITLE": "Connectez {appName} à Nevika via ses réglages de proxy personnalisé.",
+      "OVERVIEW_DESC": "Nevika est une plateforme de roleplay IA avec mémoire à long terme et des milliers de personnages communautaires. Elle accepte n'importe quel endpoint compatible OpenAI comme proxy personnalisé et fournit une page de configuration pour {appName} avec l'URL de base déjà remplie, vous n'avez donc qu'à coller une clé et choisir un modèle.",
+      "STEP_1_TITLE": "Récupérez votre clé API",
+      "STEP_1_DESC": "Créez une clé API {appName} depuis votre tableau de bord et copiez-la. Gardez-la privée ; quiconque possède la clé peut dépenser sur votre solde.",
+      "STEP_2_TITLE": "Ouvrez la page de configuration Nevika",
+      "STEP_2_DESC": "Rendez-vous sur nevika.eu/tutorial/custom-proxy/unorouter. C'est la page de Nevika dédiée à {appName} et elle arrive avec l'URL de base préremplie.",
+      "STEP_3_TITLE": "Collez votre clé",
+      "STEP_3_DESC": "Collez la clé dans le champ API Key. La liste des modèles se charge alors directement depuis {appName}, vous ne tapez donc jamais un nom de modèle à la main.",
+      "STEP_4_TITLE": "Choisissez un modèle et testez",
+      "STEP_4_DESC": "Choisissez un modèle dans la liste chargée, enregistrez, puis ouvrez n'importe quel personnage et envoyez un message pour confirmer que la connexion fonctionne.",
+      "TS_1_DESC": "Si la liste des modèles reste vide, vérifiez que l'URL de base se termine par /v1 et que la clé a été collée sans espaces parasites.",
+      "TS_2_DESC": "Un 401 signifie que la clé est fausse ou révoquée. Générez une nouvelle clé et collez-la de nouveau.",
+      "GOTCHA_1": "Choisissez toujours le modèle dans le menu déroulant chargé plutôt que de taper le nom. Un nom saisi à la main qui ne correspond pas exactement renvoie un 404.",
+      "GOTCHA_2": "Les modèles gratuits sont partagés et limités en débit, ils conviennent donc plus aux tests qu'à une longue session. Passez à un modèle payant dès qu'une histoire compte pour vous.",
+      "GOTCHA_3": "Pour le roleplay, glm-5.2 raisonne nativement et n'a besoin d'aucun suffixe particulier. Ajouter -thinking ne fait que figer le comportement qu'il a déjà."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Produit",

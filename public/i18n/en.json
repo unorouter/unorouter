@@ -1244,6 +1244,25 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want the simplest possible uncensored RP site with nothing to learn, and you do not mind paying tiers for more memory? SpicyChat is that. Want the same easy start with open model choice, deep lorebooks by default, and a key that also codes? That is {appName}.",
         "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>."
+      },
+      "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
+        "TITLE": "How to connect {appName} to Nevika",
+        "DESCRIPTION": "Nevika accepts any OpenAI-compatible endpoint as a custom proxy. Here is the exact setup, which model to pick for roleplay, and how to fix the usual errors.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Nevika is a character chat platform, not a model host, so it needs somewhere to send your prompts. Point it at one OpenAI-compatible endpoint and it can drive any model behind that endpoint. A gateway is the tidy way to do this: one base URL and one key reach the whole catalogue instead of a single provider. Nevika built a setup page for {appName} specifically, so this takes about a minute.",
+        "H_WHAT_IS_NEVIKA": "What Nevika is",
+        "P_WHAT_IS_NEVIKA": "<nevika>Nevika</nevika> is an AI roleplay platform built around characters that remember. You pick from thousands of community-made characters or write your own, and the conversation keeps its thread over long sessions rather than resetting every few messages. It brings its own memory system and character tooling; what it does not bring is models, which is where a gateway comes in.",
+        "H_WHAT_YOU_NEED": "What you need first",
+        "P_WHAT_YOU_NEED": "Two things: a Nevika account and an {appName} API key. Create the key from your dashboard and keep it somewhere private, since anyone holding it can spend against your balance. There is a free tier, so you can test a character before putting money in. You do not need to install anything, because both sides run in the browser.",
+        "H_STEPS": "The setup steps",
+        "P_STEPS": "Open Nevika's <setup>{appName} setup page</setup>. The base URL is already filled in as <c>https://api.unorouter.com/v1</c>, so paste your key into the API Key field and the model list loads straight from us. Pick a model, save, and open any character to send a test message. Your characters and memory settings are untouched; Nevika only needed an endpoint and a key. The same key also works in SillyTavern, RisuAI, Janitor.AI, and Chub, so one key covers every front end you use.",
+        "H_PICKING_A_MODEL": "Picking a model for roleplay",
+        "P_PICKING_A_MODEL": "Because everything routes through one endpoint, switching models is just choosing a different entry in the dropdown. For roleplay, <c>glm-5.2</c> is a strong default: it reasons by default with no special suffix needed, holds long scenes together, and costs little. Free models are there to test with, though they are shared and rate limited, so a paid model is the better call once a story matters to you. Match the model to the scene instead of settling for whatever one provider offers.",
+        "H_TROUBLESHOOTING": "Common errors and fixes",
+        "P_TROUBLESHOOTING": "If the model list will not load, check the base URL ends in <c>/v1</c> and that your key has no stray spaces from copying. A 401 means the key is wrong or revoked, so generate a fresh one. A 404 on a model usually means the name was typed by hand rather than picked from the loaded list. If replies stop early, raise the response length in Nevika's settings rather than assuming the model was cut off. Most failures are a typo'd URL or a key with whitespace, so check those two first.",
+        "H_VERDICT": "That is the whole setup",
+        "P_VERDICT": "Connecting Nevika to {appName} is one base URL plus one key, and the gateway turns that into hundreds of models behind a single configuration. You get Nevika's memory and character tooling on top of a catalogue you can switch through freely, with a free tier to start on. Set it once and the same key follows you to every other chat front end you try.",
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
       }
     }
   },
@@ -2650,7 +2669,31 @@
       "GOTCHA_2": "LiteLLM may print unknown model warnings. Use --no-show-model-warnings or supply a context window via --model-metadata-file if it gets noisy."
     },
     "COPY_LINK": "Copy link to this section",
-    "LINK_COPIED": "Link copied"
+    "LINK_COPIED": "Link copied",
+    "NEVIKA": {
+      "META": {
+        "TITLE": "Nevika Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Nevika to {appName} as a custom proxy. One key for hundreds of AI models in your character roleplay.",
+        "KEYWORDS": "Nevika, Nevika custom proxy, Nevika API key, {appName} Nevika, AI roleplay, character chat"
+      },
+      "BADGE": "Nevika",
+      "TITLE": "Nevika Integration Guide",
+      "SUBTITLE": "Connect {appName} to Nevika through its Custom Proxy settings.",
+      "OVERVIEW_DESC": "Nevika is an AI roleplay platform with long-term memory and thousands of community characters. It accepts any OpenAI-compatible endpoint as a custom proxy, and it ships a setup page for {appName} with the base URL already filled in, so you only paste a key and pick a model.",
+      "STEP_1_TITLE": "Get your API key",
+      "STEP_1_DESC": "Create an {appName} API key from your dashboard and copy it. Keep it private; anyone with the key can spend against your balance.",
+      "STEP_2_TITLE": "Open the Nevika setup page",
+      "STEP_2_DESC": "Go to nevika.eu/tutorial/custom-proxy/unorouter. This is Nevika's own page for {appName} and it arrives with the base URL prefilled.",
+      "STEP_3_TITLE": "Paste your key",
+      "STEP_3_DESC": "Paste the key into the API Key field. The model list then loads directly from {appName}, so you never type a model name by hand.",
+      "STEP_4_TITLE": "Pick a model and test",
+      "STEP_4_DESC": "Choose a model from the loaded list, save, then open any character and send a message to confirm the connection works.",
+      "TS_1_DESC": "If the model list stays empty, check the base URL ends in /v1 and that the key was pasted without stray spaces.",
+      "TS_2_DESC": "A 401 means the key is wrong or revoked. Generate a fresh key and paste it again.",
+      "GOTCHA_1": "Always pick the model from the loaded dropdown rather than typing the name. A hand-typed name that does not match exactly returns a 404.",
+      "GOTCHA_2": "Free models are shared and rate limited, so they suit testing more than a long session. Switch to a paid model once a story matters to you.",
+      "GOTCHA_3": "For roleplay, glm-5.2 reasons by default and needs no special suffix. Adding -thinking only pins the behaviour it already has."
+    }
   },
   "FOOTER": {
     "PRODUCT": "Product",
