@@ -93,6 +93,37 @@ export async function clearAllRequestLogs(
   await local.db.delete(requestLogs);
 }
 
+// Request logs are debug data with no retention: they accumulate for the life
+// of the database, and each one stored the full assembled conversation, so long
+// threads grew them quadratically. Shrinking what NEW logs store does nothing
+// for a user already carrying hundreds of MB, so reclaim the old ones by
+// emptying the heavy columns on everything but the most recent few per
+// conversation. The rows stay (cost/token history is read from them); only the
+// reproduce-the-request payload goes.
+const KEEP_FULL_LOGS_PER_CONV = 10;
+
+export async function trimRequestLogPayloads(
+  userId: number | undefined,
+): Promise<number> {
+  const local = await getLocalDb(userId);
+  if (!local) return 0;
+  const res = await local.exec(
+    `UPDATE request_logs
+       SET final_messages = '[]', assembled_system = NULL, request_body = '{}'
+     WHERE length(final_messages) + coalesce(length(assembled_system),0) > 20000
+       AND msg_id NOT IN (
+         SELECT msg_id FROM (
+           SELECT msg_id, row_number() OVER (
+             PARTITION BY conv_id ORDER BY created_at DESC
+           ) AS rn FROM request_logs
+         ) WHERE rn <= ${KEEP_FULL_LOGS_PER_CONV}
+       )`,
+    [],
+    "run",
+  );
+  return Number(res.numAffectedRows ?? 0);
+}
+
 export async function patchLocalRequestLogUpstream(
   userId: number | undefined,
   msgId: string,

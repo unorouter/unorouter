@@ -287,6 +287,15 @@ async function openClient(userId: number): Promise<LocalClient> {
     await sql.destroy().catch(() => {});
     throw err;
   }
+  // Reclaim the pre-cap request-log payloads once per open. Fire-and-forget:
+  // it is pure cleanup and must never delay or fail the open.
+  void import("@/lib/db/client/data/chat/request-log")
+    .then((m) => m.trimRequestLogPayloads(userId))
+    .then((n) => {
+      if (n > 0) logChatDebug("db.reqlog.trimmed", { userId, rows: n });
+    })
+    .catch(() => {});
+
   let reopening: Promise<void> | null = null;
 
   const run = async <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> => {

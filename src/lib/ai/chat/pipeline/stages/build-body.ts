@@ -172,6 +172,52 @@ export function buildWritebacks(
   return { varsWriteback, globalVarsWriteback };
 }
 
+// A request log is written PER MESSAGE and stores the whole assembled
+// conversation, so a 75-turn chat writes turn 1 seventy-five times: the table
+// grows quadratically with thread length. That is survivable for text, but an
+// inline `data:` URI (a pasted image, an attachment, a generated video - single
+// parts of 3-4MB were measured on a real profile) gets copied into every
+// subsequent log in the thread and is what drives these databases past 500MB,
+// at which point they can no longer be exported or imported on a phone.
+//
+// The log exists to reproduce a request (curl) and inspect the prompt, and
+// neither needs the bytes. Keep the shape and the text; replace media payloads
+// with a marker and cap runaway text.
+const MAX_LOGGED_TEXT = 20_000;
+const DATA_URI_IN_TEXT = /data:[\w.+-]+\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g;
+
+function leanParts(parts: unknown): unknown {
+  if (!Array.isArray(parts)) return parts;
+  return parts.map((part) => {
+    if (!part || typeof part !== "object") return part;
+    const p = part as Record<string, unknown>;
+    const out: Record<string, unknown> = { ...p };
+    for (const key of ["url", "data", "image", "text"]) {
+      const v = out[key];
+      if (typeof v !== "string") continue;
+      if (v.startsWith("data:")) {
+        // Keep the mime type, drop the payload.
+        out[key] =
+          `${v.slice(0, v.indexOf(",") + 1)}<${v.length} bytes elided>`;
+      } else if (v.includes(";base64,")) {
+        // The heaviest rows measured were markdown wrapping a data URI
+        // (`![video](data:video/mp4;base64,...)`), which does not START with
+        // `data:` and so would only get length-truncated, keeping megabytes.
+        // Gate on a plain substring, not regex.test: a /g regex carries
+        // lastIndex between calls and would skip matches on later strings.
+        out[key] = v.replace(
+          DATA_URI_IN_TEXT,
+          (m) => `${m.slice(0, m.indexOf(",") + 1)}<${m.length} bytes elided>`,
+        );
+      } else if (v.length > MAX_LOGGED_TEXT) {
+        out[key] =
+          `${v.slice(0, MAX_LOGGED_TEXT)}<truncated ${v.length - MAX_LOGGED_TEXT} chars>`;
+      }
+    }
+    return out;
+  });
+}
+
 export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
@@ -181,7 +227,7 @@ export function buildDebugSnapshot(
   const ctx = body.chatContext;
   const leanMessages = messagesForUpstream.map((m) => ({
     role: (m as { role: string }).role,
-    parts: (m as { parts?: unknown }).parts,
+    parts: leanParts((m as { parts?: unknown }).parts),
   }));
   return {
     requestBody: {
@@ -203,7 +249,14 @@ export function buildDebugSnapshot(
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    assembledSystem: effectiveSystem ?? null,
+    // The system block is identical on every turn of a conversation and is
+    // routinely tens of KB (a character card plus lorebook entries), so storing
+    // it whole per message is the second multiplier after the messages array.
+    assembledSystem: effectiveSystem
+      ? effectiveSystem.length > MAX_LOGGED_TEXT
+        ? `${effectiveSystem.slice(0, MAX_LOGGED_TEXT)}<truncated ${effectiveSystem.length - MAX_LOGGED_TEXT} chars>`
+        : effectiveSystem
+      : null,
     finalMessages: leanMessages,
     endpoint: target?.endpoint ?? null,
     url: target?.url ?? null,
