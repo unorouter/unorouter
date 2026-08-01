@@ -114,9 +114,11 @@ async function buildExportFile(
 
     const before = await scratchSize(scratch);
     const deleted = await deleteExcluded(scratch, opts);
-    // Exported files get shared for debugging; never let plaintext provider
-    // keys ride along. Restoring an export means re-entering keys.
-    await scratch.sql`UPDATE custom_providers SET api_key = ''`;
+    // Provider API keys stay in this file. It is a LOCAL BACKUP, restored on
+    // the user's own device; the file shared for debugging is the diagnostics
+    // JSON, which never reads custom_providers at all. Stripping them here
+    // protected the wrong artifact and silently broke restores: everything
+    // else came back and the key alone was blank.
     await scratch.sql`VACUUM`;
     const after = await scratchSize(scratch);
     logChatDebug("export.db.shrink", { before, after, deletedTables: deleted });
