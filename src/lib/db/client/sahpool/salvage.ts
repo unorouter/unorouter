@@ -24,6 +24,17 @@ export type SalvagedDb = {
   // "root" = a plain database at the OPFS root, e.g. a `.pre-sahpool` rollback
   // copy, which is a NORMAL post-migration leftover and not evidence of loss.
   source: "pool" | "root";
+  // Last write time, so an operator can tell a fresh orphan from a months-old
+  // rollback copy without opening either.
+  modifiedAt: number;
+  // True for the database this page currently has open. Without it a user
+  // picking from the list cannot tell their recovered data from the empty
+  // replacement they are already looking at.
+  isLive: boolean;
+  // SQLite page count x page size, both read out of the 100-byte file header.
+  // Cheap (one 100-byte read) and enough to rank candidates by real content.
+  pageSize: number;
+  pageCount: number;
   // A Blob VIEW of the database bytes, not a copy: scanning must never pull
   // candidates into memory. These files run to hundreds of MB (media is inlined
   // base64), and materializing even one is enough to OOM a phone - which is
@@ -37,6 +48,21 @@ function hasSqliteMagic(head: Uint8Array): boolean {
     if (head[i] !== SQLITE_MAGIC.charCodeAt(i)) return false;
   }
   return true;
+}
+
+// SQLite's 100-byte header: page size is a big-endian u16 at offset 16 (the
+// value 1 means 65536), page count a big-endian u32 at offset 28.
+function readHeaderGeometry(head: Uint8Array): {
+  pageSize: number;
+  pageCount: number;
+} {
+  const view = new DataView(head.buffer, head.byteOffset, head.byteLength);
+  if (head.byteLength < 32) return { pageSize: 0, pageCount: 0 };
+  const raw = view.getUint16(16);
+  return {
+    pageSize: raw === 1 ? 65536 : raw,
+    pageCount: view.getUint32(28),
+  };
 }
 
 // Every SQLite database in the pool directory, largest first. Includes the
@@ -60,6 +86,27 @@ export async function salvagePoolDatabases(
     // Older layouts kept the slot files directly under the pool directory.
   }
 
+  // Which slot currently holds the live database. The slot's own 4096-byte
+  // header carries the logical filename it is associated with, so read that
+  // rather than guessing: an orphan's header still parses as SQLite but no
+  // longer names the live db (that is the whole failure mode).
+  const liveNames = new Set<string>();
+  for await (const [name, handle] of filesDir.entries()) {
+    if (handle.kind !== "file") continue;
+    try {
+      const file = await handle.getFile();
+      if (file.size <= HEADER_BYTES) continue;
+      const raw = new Uint8Array(await file.slice(0, 128).arrayBuffer());
+      // The path is a NUL-terminated string at the start of the pool header.
+      let end = 0;
+      while (end < raw.length && raw[end] !== 0) end++;
+      const assoc = new TextDecoder().decode(raw.subarray(0, end));
+      if (assoc === `/${dbPath}` || assoc === dbPath) liveNames.add(name);
+    } catch {
+      // Unreadable slot: it simply won't be marked live.
+    }
+  }
+
   const found: SalvagedDb[] = [];
   for await (const [name, handle] of filesDir.entries()) {
     if (handle.kind !== "file") continue;
@@ -67,13 +114,18 @@ export async function salvagePoolDatabases(
       const file = await handle.getFile();
       if (file.size <= HEADER_BYTES) continue;
       const head = new Uint8Array(
-        await file.slice(HEADER_BYTES, HEADER_BYTES + 16).arrayBuffer(),
+        await file.slice(HEADER_BYTES, HEADER_BYTES + 100).arrayBuffer(),
       );
       if (!hasSqliteMagic(head)) continue;
+      const geo = readHeaderGeometry(head);
       found.push({
         fileName: name,
         sizeBytes: file.size - HEADER_BYTES,
         source: "pool",
+        modifiedAt: file.lastModified,
+        isLive: liveNames.has(name),
+        pageSize: geo.pageSize,
+        pageCount: geo.pageCount,
         blob: file.slice(HEADER_BYTES),
       });
     } catch {
@@ -91,12 +143,17 @@ export async function salvagePoolDatabases(
     try {
       const file = await handle.getFile();
       if (file.size <= 512) continue;
-      const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+      const head = new Uint8Array(await file.slice(0, 100).arrayBuffer());
       if (!hasSqliteMagic(head)) continue;
+      const geo = readHeaderGeometry(head);
       found.push({
         fileName: name,
         sizeBytes: file.size,
         source: "root",
+        modifiedAt: file.lastModified,
+        isLive: name === dbPath,
+        pageSize: geo.pageSize,
+        pageCount: geo.pageCount,
         blob: file,
       });
     } catch {
@@ -107,7 +164,15 @@ export async function salvagePoolDatabases(
   found.sort((a, b) => b.sizeBytes - a.sizeBytes);
   logChatDebug("db.salvage.scan", {
     dbPath,
-    candidates: found.map((f) => ({ name: f.fileName, bytes: f.sizeBytes })),
+    candidates: found.map((f) => ({
+      name: f.fileName,
+      bytes: f.sizeBytes,
+      source: f.source,
+      isLive: f.isLive,
+      pageSize: f.pageSize,
+      pageCount: f.pageCount,
+      modifiedAt: f.modifiedAt,
+    })),
   });
   return found;
 }
