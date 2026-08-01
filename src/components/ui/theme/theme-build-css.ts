@@ -64,26 +64,46 @@ function styleVarsBlock(name: string | undefined): string {
   ].join("");
 }
 
-function menuBlock(name: string | undefined): string {
+function menuBlock(
+  name: string | undefined,
+  hasCustomForeground: boolean,
+): string {
   if (!name || name === "default") return "";
+  // "Inverted" paints the menu with --foreground. Foreground is OPTIONAL in the
+  // customizer, and its default is near-white in dark mode, so a user who
+  // themed everything EXCEPT foreground got a white menu that ignored their
+  // Card colour and matched no control they had touched. Only invert against a
+  // foreground the user actually chose; otherwise fall back to the normal menu
+  // surface so the menu tracks the rest of the theme.
+  const invertSurface = hasCustomForeground
+    ? "var(--foreground)"
+    : "var(--popover)";
+  const invertText = hasCustomForeground
+    ? "var(--background)"
+    : "var(--popover-foreground)";
+  // Submenus render through DropdownMenuContent but override data-slot to
+  // `dropdown-menu-sub-content` (the spread lands after the hardcoded
+  // attribute), so a selector listing only `dropdown-menu-content` styled the
+  // parent and skipped its own submenu: an inverted theme produced a white menu
+  // with a black submenu hanging off it.
   const selectors =
-    "[data-slot=dropdown-menu-content],[data-slot=popover-content]";
+    "[data-slot=dropdown-menu-content],[data-slot=dropdown-menu-sub-content],[data-slot=popover-content]";
   const inverted = name === "inverted" || name === "inverted-translucent";
   const translucent =
     name === "default-translucent" || name === "inverted-translucent";
   const rules: string[] = [];
   if (inverted) {
     rules.push(
-      "color-scheme: dark;",
-      "background-color: var(--foreground);",
-      "color: var(--background);",
-      "border-color: color-mix(in srgb, var(--background) 15%, transparent);",
+      ...(hasCustomForeground ? ["color-scheme: dark;"] : []),
+      `background-color: ${invertSurface};`,
+      `color: ${invertText};`,
+      `border-color: color-mix(in srgb, ${invertText} 15%, transparent);`,
     );
   }
   if (translucent) {
     rules.push(
       "background-color: color-mix(in srgb, " +
-        (inverted ? "var(--foreground)" : "var(--popover)") +
+        (inverted ? invertSurface : "var(--popover)") +
         " 75%, transparent);",
       "backdrop-filter: blur(12px);",
     );
@@ -94,7 +114,18 @@ function menuBlock(name: string | undefined): string {
 function menuAccentBlock(name: string | undefined): string {
   if (!name || name === "subtle") return "";
   if (name === "bold") {
-    return "[data-slot=dropdown-menu-item][data-highlighted=true],[data-slot=dropdown-menu-item][data-state=open]{background-color: var(--primary);color: var(--primary-foreground);}";
+    // Sub-triggers ("Appearance >") carry their own data-slot, so listing only
+    // dropdown-menu-item left the one row a user is most likely to be hovering
+    // unaccented.
+    const rows = [
+      "[data-slot=dropdown-menu-item]",
+      "[data-slot=dropdown-menu-sub-trigger]",
+    ];
+    const states = ["[data-highlighted=true]", "[data-state=open]"];
+    const selectors = rows
+      .flatMap((row) => states.map((state) => `${row}${state}`))
+      .join(",");
+    return `${selectors}{background-color: var(--primary);color: var(--primary-foreground);}`;
   }
   return "";
 }
@@ -144,6 +175,14 @@ function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
   }
   if (surface.sidebar) vars.sidebar = surface.sidebar;
   return vars;
+}
+
+// Whether the user picked a foreground at all. Foreground is optional, and the
+// inverted menu style is the one place that reads it as a SURFACE, so it must
+// know the difference between "chosen" and "defaulted".
+function hasCustomForeground(surface: UserTheme["surface"]): boolean {
+  const palette = normalizeSurface(surface);
+  return !!(palette.light?.foreground || palette.dark?.foreground);
 }
 
 function surfaceBlock(surface: UserTheme["surface"]): string {
@@ -257,7 +296,7 @@ export function buildThemeCss(theme: UserTheme): string {
     customBlock(theme),
     styleVarsBlock(theme.style),
     bodyFontBlock,
-    menuBlock(theme.menu),
+    menuBlock(theme.menu, hasCustomForeground(theme.surface)),
     menuAccentBlock(theme.menuAccent),
     markdownBlock(theme.markdown),
     chatFontSizeBlock(theme.chatFontScale),
