@@ -210,14 +210,11 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 600,
+    wordCount: 230,
     headings: [
-      { id: "what-is-nevika", i18nLeaf: "H_WHAT_IS_NEVIKA", level: 2 },
-      { id: "what-you-need", i18nLeaf: "H_WHAT_YOU_NEED", level: 2 },
       { id: "steps", i18nLeaf: "H_STEPS", level: 2 },
       { id: "picking-a-model", i18nLeaf: "H_PICKING_A_MODEL", level: 2 },
       { id: "troubleshooting", i18nLeaf: "H_TROUBLESHOOTING", level: 2 },
-      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
     ],
   },
   {
