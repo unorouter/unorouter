@@ -37,12 +37,16 @@ export function resetLocalDbCache() {
 }
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
+export const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
 
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
   // An orphaned pool file is NOT contention: retrying just re-opens the same
   // empty replacement and would report success, hiding the user's data.
   if (s.includes(ORPHAN_MARKER)) return false;
+  // Another tab holds the pool. Retrying cannot help (the lock is held for that
+  // tab's lifetime) and every attempt is another chance to tear a header.
+  if (s.includes(TAB_LOCK_MARKER)) return false;
   return (
     s.includes("GetSyncHandleError") ||
     s.includes("InvalidStateError") ||
@@ -245,6 +249,23 @@ async function migrateLegacySqliteFile(
 async function openClient(userId: number): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
   const dbPath = `${appName}-${userId}.sqlite3`;
+  // ONE tab may touch the pool. opfs-sahpool claims exclusive sync access
+  // handles for every pool file, so a second tab's install attempt fails by
+  // design - but a failed attempt can leave a pool file's header torn, after
+  // which the FIRST tab opens an empty database and the user sees a wipe. That
+  // is how a user lost a long RP: chat in one tab, /image in another, both
+  // resolving to this same per-user pool.
+  //
+  // Take the lock BEFORE any pool access and never release it while the tab
+  // lives (the browser releases it when the tab dies). A second tab fails fast
+  // with a non-recoverable error instead of racing for the handles.
+  const { acquireLock } = await import("@/lib/db/client/outbox/resource-lock");
+  if (!(await acquireLock(`db:${dbPath}`))) {
+    logChatDebug("db.open.tab_locked", { userId });
+    throw new Error(
+      `${TAB_LOCK_MARKER}: ${dbPath} is open in another tab or window`,
+    );
+  }
   try {
     const { recoverPendingImport } =
       await import("@/lib/db/client/data-migrate/reconcile-import");
