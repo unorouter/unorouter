@@ -38,19 +38,31 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
   );
   const [endTime, setEndTime] = useState(dayjs(props.value.to).format("HH:mm"));
 
+  // A half-typed time ("12", "") yields undefined for the missing part, and
+  // dayjs reads a unit call with no argument as a GETTER: .minute(undefined)
+  // returns a number, so the next .second() is not a function and the apply
+  // click throws.
+  function parseTime(value: string, fallbackHour: number, fallbackMin: number) {
+    const [h, m] = value.split(":").map(Number);
+    return {
+      hour: Number.isFinite(h) ? h : fallbackHour,
+      minute: Number.isFinite(m) ? m : fallbackMin,
+    };
+  }
+
   function handleApply() {
     if (!range?.from || !range?.to) return;
-    const [sh, sm] = startTime.split(":").map(Number);
-    const [eh, em] = endTime.split(":").map(Number);
+    const start = parseTime(startTime, 0, 0);
+    const end = parseTime(endTime, 23, 59);
     const from = dayjs(range.from)
-      .hour(sh)
-      .minute(sm)
+      .hour(start.hour)
+      .minute(start.minute)
       .second(0)
       .millisecond(0)
       .toDate();
     const to = dayjs(range.to)
-      .hour(eh)
-      .minute(em)
+      .hour(end.hour)
+      .minute(end.minute)
       .second(59)
       .millisecond(0)
       .toDate();
