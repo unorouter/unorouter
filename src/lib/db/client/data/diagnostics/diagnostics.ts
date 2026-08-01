@@ -24,6 +24,23 @@ export type TableStorageStat = {
   rows: number;
   bytes: number;
   size: string;
+  // Summed length of the columns known to dominate a table, when the table has
+  // any. dbstat alone reports table totals, which names a table but not the
+  // reason it grew.
+  columnBytes?: Record<string, number>;
+};
+
+// The columns that actually carry weight. request_logs stores finalMessages
+// (the ENTIRE assembled conversation) per message, so a 75-turn chat writes
+// turn 1 once, turn 2 twice ... turn 75 seventy-five times: growth is
+// quadratic in thread length, independent of whether the chat has any images.
+const HEAVY_COLUMNS: Record<string, string[]> = {
+  request_logs: ["final_messages", "request_body", "assembled_system"],
+  message_items: ["data"],
+  media: ["data_base64"],
+  image_snapshots: ["params", "extra_params", "references"],
+  messages: ["branch_vars"],
+  conversations: ["vars", "summary_memory"],
 };
 
 function formatBytes(bytes: number): string {
@@ -85,7 +102,37 @@ export async function getTableStorageStats(
       );
       const rows = Number(countRes.rows[0]?.[0] ?? 0);
       const bytes = bytesForTable(table);
-      stats.push({ table, rows, bytes, size: formatBytes(bytes) });
+      // dbstat gives bytes per TABLE, which is not enough to act on: it says
+      // "request_logs is huge" without saying that one column is the reason.
+      // Measure the known-heavy columns too, so a bloat report names the
+      // culprit instead of prompting another round of guessing.
+      const cols = HEAVY_COLUMNS[table];
+      let columnBytes: Record<string, number> | undefined;
+      if (cols && rows > 0) {
+        try {
+          const sums = await local.exec(
+            `SELECT ${cols
+              .map((c) => `coalesce(sum(length(\`${c}\`)),0)`)
+              .join(", ")} FROM \`${table}\``,
+            [],
+            "all",
+          );
+          const row = sums.rows[0] ?? [];
+          columnBytes = {};
+          cols.forEach((c, i) => {
+            columnBytes![c] = Number(row[i] ?? 0);
+          });
+        } catch {
+          // A renamed/dropped column must not break the whole report.
+        }
+      }
+      stats.push({
+        table,
+        rows,
+        bytes,
+        size: formatBytes(bytes),
+        ...(columnBytes ? { columnBytes } : {}),
+      });
     }
     stats.sort((a, b) => b.bytes - a.bytes);
     const totalBytes = stats.reduce((acc, s) => acc + s.bytes, 0);
