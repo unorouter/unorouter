@@ -100,6 +100,54 @@ export function LocalDbStudio(props: Props) {
     }
   };
 
+  // opfs-sahpool silently drops a pool file's name mapping when its header
+  // digest fails (an abrupt tab kill mid-header-write does this), and the next
+  // open then creates a fresh EMPTY database under the same name. The real
+  // bytes are still in the pool directory, just unreferenced. Scan for them and
+  // hand the biggest one back as a download: recovery must never overwrite the
+  // live db on its own, since the user may since have written to it.
+  const recover = async () => {
+    logChatDebug("db.salvage.start", { userId });
+    try {
+      const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
+      const { salvagePoolDatabases } =
+        await import("@/lib/db/client/sahpool/salvage");
+      const found = await salvagePoolDatabases(dbPath);
+      if (found.length === 0) {
+        toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
+        return;
+      }
+      const biggest = found[0]!;
+      const { streamFileToDisk } = await import("@/lib/utils/client");
+      const stamp = dayjs().format("YYYYMMDD-HHmmss");
+      const fileName = `${env.appName.toLowerCase()}-recovered-${stamp}.sqlite3`;
+      await streamFileToDisk(
+        new File([biggest.bytes as BlobPart], fileName, {
+          type: "application/octet-stream",
+        }),
+        fileName,
+      );
+      logChatDebug("db.salvage.done", {
+        userId,
+        candidates: found.length,
+        bytes: biggest.sizeBytes,
+      });
+      toast.success(
+        t("CHAT.MORE.LOCAL_DB_RECOVER_SUMMARY", {
+          count: found.length,
+          size: `${Math.round(biggest.sizeBytes / 1024 / 1024)} MB`,
+        }),
+      );
+    } catch (err) {
+      logChatDebug("db.salvage.error", { error: String(err).slice(0, 200) });
+      logger.error("DB salvage failed", {
+        context: "local-db.studio",
+        error: String(err),
+      });
+      toast.error(String(err));
+    }
+  };
+
   const upload = async (file: File) => {
     const ok = await confirm({
       title: t("COMMON.CONFIRM.UPLOAD_DB_TITLE"),
@@ -156,6 +204,12 @@ export function LocalDbStudio(props: Props) {
             label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
             variant="secondary"
             onClick={() => uploadInputRef.current?.click()}
+          />
+          <ActionButton
+            icon="rotate-ccw"
+            label={t("CHAT.MORE.LOCAL_DB_RECOVER")}
+            variant="secondary"
+            onClick={recover}
           />
           <input
             ref={uploadInputRef}

@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Tải nhật ký (không có tin nhắn)",
       "DIAGNOSTICS_FULL": "Tải nhật ký + tin nhắn",
       "DEBUG_CLEAR": "Xóa nhật ký gỡ lỗi",
-      "DEBUG_CLEARED": "Đã xóa nhật ký gỡ lỗi"
+      "DEBUG_CLEARED": "Đã xóa nhật ký gỡ lỗi",
+      "LOCAL_DB_RECOVER": "Khôi phục cơ sở dữ liệu mồ côi",
+      "LOCAL_DB_RECOVER_NONE": "Không tìm thấy cơ sở dữ liệu nào có thể khôi phục trong nhóm.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Đã tìm thấy {count} cơ sở dữ liệu. Đã tải xuống cái lớn nhất ({size}). Hãy nhập nó bằng nút tải lên."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",

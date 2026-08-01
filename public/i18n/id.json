@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Unduh log (tanpa pesan)",
       "DIAGNOSTICS_FULL": "Unduh log + pesan",
       "DEBUG_CLEAR": "Hapus log debug",
-      "DEBUG_CLEARED": "Log debug dihapus"
+      "DEBUG_CLEARED": "Log debug dihapus",
+      "LOCAL_DB_RECOVER": "Pulihkan basis data yatim",
+      "LOCAL_DB_RECOVER_NONE": "Tidak ada basis data yang dapat dipulihkan di pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Ditemukan {count} basis data. Yang terbesar ({size}) telah diunduh. Impor dengan tombol unggah."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",

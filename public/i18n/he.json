@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "הורדת יומן (ללא הודעות)",
       "DIAGNOSTICS_FULL": "הורדת יומן + הודעות",
       "DEBUG_CLEAR": "ניקוי יומן ניפוי",
-      "DEBUG_CLEARED": "יומן ניפוי נוקה"
+      "DEBUG_CLEARED": "יומן ניפוי נוקה",
+      "LOCAL_DB_RECOVER": "שחזור מסד נתונים מנותק",
+      "LOCAL_DB_RECOVER_NONE": "לא נמצא מסד נתונים בר-שחזור במאגר.",
+      "LOCAL_DB_RECOVER_SUMMARY": "נמצאו {count} מסדי נתונים. הגדול ביותר ({size}) הורד. ייבא אותו באמצעות כפתור ההעלאה."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {דמות אחת} two {# דמויות} many {# דמויות} other {# דמויות}}",

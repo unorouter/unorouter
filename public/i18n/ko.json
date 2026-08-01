@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "로그 다운로드(메시지 제외)",
       "DIAGNOSTICS_FULL": "로그 + 메시지 다운로드",
       "DEBUG_CLEAR": "디버그 로그 지우기",
-      "DEBUG_CLEARED": "디버그 로그를 지웠습니다"
+      "DEBUG_CLEARED": "디버그 로그를 지웠습니다",
+      "LOCAL_DB_RECOVER": "분리된 데이터베이스 복구",
+      "LOCAL_DB_RECOVER_NONE": "풀에서 복구 가능한 데이터베이스를 찾지 못했습니다.",
+      "LOCAL_DB_RECOVER_SUMMARY": "데이터베이스 {count}개를 찾았습니다. 가장 큰 것({size})을 내려받았습니다. 업로드 버튼으로 가져오세요."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",

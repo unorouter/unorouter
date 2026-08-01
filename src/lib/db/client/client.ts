@@ -36,8 +36,13 @@ export function resetLocalDbCache() {
   cached = new Map();
 }
 
+const ORPHAN_MARKER = "OpfsSAHPool orphan";
+
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
+  // An orphaned pool file is NOT contention: retrying just re-opens the same
+  // empty replacement and would report success, hiding the user's data.
+  if (s.includes(ORPHAN_MARKER)) return false;
   return (
     s.includes("GetSyncHandleError") ||
     s.includes("InvalidStateError") ||
@@ -76,6 +81,7 @@ async function openMigratedSql(
         throw new Error("OpfsSAHPool unavailable: fell back to in-memory");
       }
       await runMigrations(sql);
+      await assertNotSilentlyEmptied(sql, dbPath, userId);
       logChatDebug("db.open.done", { userId, storageType: "opfs" });
       return sql;
     } catch (err) {
@@ -103,6 +109,62 @@ async function openMigratedSql(
       sql = newSql(dbPath);
     }
   }
+}
+
+// opfs-sahpool verifies a digest in each pool file's 4096-byte header on every
+// install and, when it fails, SILENTLY drops that file's logical name and frees
+// the slot. The data is untouched but unreferenced, so the next open creates a
+// brand-new empty database under the same name and the user sees a wiped app. A
+// torn header is what an abrupt process kill produces (iOS Safari discards
+// background tabs mid-write), which is exactly how one user lost a long RP.
+//
+// Refuse to hand back a database that is empty while the pool still holds a
+// LARGER sqlite file than the one we just opened: that combination means the
+// real database is sitting there orphaned. Throwing here is non-recoverable on
+// purpose - the retry loop must not paper over it, and the user gets the
+// DB-unavailable state with their bytes intact for the Studio's recover action.
+async function assertNotSilentlyEmptied(
+  sql: SQLocalDrizzle,
+  dbPath: string,
+  userId: number,
+): Promise<void> {
+  const info = await sql.getDatabaseInfo();
+  const liveBytes = info.databaseSizeBytes ?? 0;
+  // Only a just-created database is worth checking; anything with real content
+  // is by definition not the empty-replacement case.
+  const rows = await sql.sql<{ n: number }>(
+    "SELECT (SELECT COUNT(*) FROM conversations) + (SELECT COUNT(*) FROM characters) + (SELECT COUNT(*) FROM lorebooks) + (SELECT COUNT(*) FROM sampling_presets) AS n",
+  );
+  if (Number(rows[0]?.n ?? 0) > 0) return;
+
+  let orphanBytes = 0;
+  try {
+    const { salvagePoolDatabases } =
+      await import("@/lib/db/client/sahpool/salvage");
+    for (const candidate of await salvagePoolDatabases(dbPath)) {
+      // The live db is itself one of the pool files; only a STRICTLY larger one
+      // is evidence of an orphan holding the user's data.
+      if (candidate.sizeBytes > liveBytes) {
+        orphanBytes = Math.max(orphanBytes, candidate.sizeBytes);
+      }
+    }
+  } catch {
+    // Can't inspect the pool (permissions, layout change): fall through rather
+    // than block a legitimately empty first-run database.
+    return;
+  }
+  if (orphanBytes === 0) return;
+
+  logChatDebug("db.open.orphan_detected", { userId, liveBytes, orphanBytes });
+  logger.error("Local DB opened empty while the pool holds a larger database", {
+    context: "local-db.client",
+    userId,
+    liveBytes,
+    orphanBytes,
+  });
+  throw new Error(
+    `${ORPHAN_MARKER}: opened an empty database while ${orphanBytes} bytes sit unreferenced in the pool`,
+  );
 }
 
 // One-time migration off the pre-sahpool driver: the old opfs VFS stored the
@@ -143,6 +205,11 @@ async function migrateLegacySqliteFile(
     );
   }
   await runMigrations(sql);
+  // Keep a rollback copy. Safari has no main-thread FileSystemFileHandle.move(),
+  // and the old fallback deleted the legacy file outright - so every Safari user
+  // (i.e. every iPhone) lost their only pre-migration copy. Copy the bytes to
+  // `.pre-sahpool` via createWritable (which Safari does support) before
+  // removing the original, and keep the original if that copy fails.
   try {
     const movable = handle as FileSystemFileHandle & {
       move?: (name: string) => Promise<void>;
@@ -150,10 +217,23 @@ async function migrateLegacySqliteFile(
     if (typeof movable.move === "function") {
       await movable.move(`${dbPath}.pre-sahpool`);
     } else {
+      const backup = await root.getFileHandle(`${dbPath}.pre-sahpool`, {
+        create: true,
+      });
+      const writable = await backup.createWritable();
+      await file.stream().pipeTo(writable);
       await root.removeEntry(dbPath);
     }
-  } catch {
-    await root.removeEntry(dbPath);
+  } catch (err) {
+    logChatDebug("db.migrate.sahpool.backup_failed", {
+      userId,
+      error: String(err).slice(0, 200),
+    });
+    // The copy failed, so there is no rollback. The legacy file must still go:
+    // leaving it means the NEXT open re-imports it wholesale and discards
+    // everything written since this migration. The import above already
+    // succeeded and passed integrity_check, so the data is in the pool.
+    await root.removeEntry(dbPath).catch(() => {});
   }
   logChatDebug("db.migrate.sahpool.done", { userId, bytes: file.size });
 }

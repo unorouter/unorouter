@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "下載日誌（不含訊息）",
       "DIAGNOSTICS_FULL": "下載日誌 + 訊息",
       "DEBUG_CLEAR": "清除除錯日誌",
-      "DEBUG_CLEARED": "除錯日誌已清除"
+      "DEBUG_CLEARED": "除錯日誌已清除",
+      "LOCAL_DB_RECOVER": "復原孤立資料庫",
+      "LOCAL_DB_RECOVER_NONE": "集區中找不到可復原的資料庫。",
+      "LOCAL_DB_RECOVER_SUMMARY": "找到 {count} 個資料庫。已下載最大的一個（{size}）。請使用上傳按鈕匯入。"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 個角色}}",

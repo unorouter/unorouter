@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Télécharger le journal (sans messages)",
       "DIAGNOSTICS_FULL": "Télécharger le journal + messages",
       "DEBUG_CLEAR": "Effacer le journal de débogage",
-      "DEBUG_CLEARED": "Journal de débogage effacé"
+      "DEBUG_CLEARED": "Journal de débogage effacé",
+      "LOCAL_DB_RECOVER": "Récupérer la base de données orpheline",
+      "LOCAL_DB_RECOVER_NONE": "Aucune base de données récupérable trouvée dans le pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} base(s) de données trouvée(s). La plus grande ({size}) a été téléchargée. Importe-la avec le bouton d'envoi."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",

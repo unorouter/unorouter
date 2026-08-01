@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "下载日志（不含消息）",
       "DIAGNOSTICS_FULL": "下载日志 + 消息",
       "DEBUG_CLEAR": "清除调试日志",
-      "DEBUG_CLEARED": "调试日志已清除"
+      "DEBUG_CLEARED": "调试日志已清除",
+      "LOCAL_DB_RECOVER": "恢复孤立数据库",
+      "LOCAL_DB_RECOVER_NONE": "池中未找到可恢复的数据库。",
+      "LOCAL_DB_RECOVER_SUMMARY": "找到 {count} 个数据库。已下载最大的一个（{size}）。请使用上传按钮导入。"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",

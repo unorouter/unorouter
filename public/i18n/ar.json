@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "تنزيل السجل (بدون رسائل)",
       "DIAGNOSTICS_FULL": "تنزيل السجل + الرسائل",
       "DEBUG_CLEAR": "مسح سجل التصحيح",
-      "DEBUG_CLEARED": "تم مسح سجل التصحيح"
+      "DEBUG_CLEARED": "تم مسح سجل التصحيح",
+      "LOCAL_DB_RECOVER": "استرداد قاعدة البيانات المفقودة",
+      "LOCAL_DB_RECOVER_NONE": "لم يتم العثور على قاعدة بيانات قابلة للاسترداد في المجمع.",
+      "LOCAL_DB_RECOVER_SUMMARY": "تم العثور على {count} من قواعد البيانات. تم تنزيل الأكبر ({size}). استوردها باستخدام زر الرفع."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",

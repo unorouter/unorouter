@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
       "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
       "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",
-      "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi"
+      "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi",
+      "LOCAL_DB_RECOVER": "Sahipsiz veritabanını kurtar",
+      "LOCAL_DB_RECOVER_NONE": "Havuzda kurtarılabilir veritabanı bulunamadı.",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} veritabanı bulundu. En büyüğü ({size}) indirildi. Yükleme düğmesiyle içe aktarın."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",

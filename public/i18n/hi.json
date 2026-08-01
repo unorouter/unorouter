@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
       "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
       "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
-      "DEBUG_CLEARED": "डिबग लॉग साफ़ हो गया"
+      "DEBUG_CLEARED": "डिबग लॉग साफ़ हो गया",
+      "LOCAL_DB_RECOVER": "अनाथ डेटाबेस पुनर्प्राप्त करें",
+      "LOCAL_DB_RECOVER_NONE": "पूल में कोई पुनर्प्राप्ति योग्य डेटाबेस नहीं मिला।",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} डेटाबेस मिले। सबसे बड़ा ({size}) डाउनलोड किया गया। इसे अपलोड बटन से आयात करें।"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",

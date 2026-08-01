@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Baixar registro (sem mensagens)",
       "DIAGNOSTICS_FULL": "Baixar registro + mensagens",
       "DEBUG_CLEAR": "Limpar registro de depuração",
-      "DEBUG_CLEARED": "Registro de depuração limpo"
+      "DEBUG_CLEARED": "Registro de depuração limpo",
+      "LOCAL_DB_RECOVER": "Recuperar banco de dados órfão",
+      "LOCAL_DB_RECOVER_NONE": "Nenhum banco de dados recuperável encontrado no pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Encontrado(s) {count} banco(s) de dados. O maior ({size}) foi baixado. Importe-o com o botão de envio."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personagem} other {# personagens}}",

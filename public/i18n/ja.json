@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "ログをダウンロード（メッセージなし）",
       "DIAGNOSTICS_FULL": "ログ + メッセージをダウンロード",
       "DEBUG_CLEAR": "デバッグログを消去",
-      "DEBUG_CLEARED": "デバッグログを消去しました"
+      "DEBUG_CLEARED": "デバッグログを消去しました",
+      "LOCAL_DB_RECOVER": "孤立したデータベースを復元",
+      "LOCAL_DB_RECOVER_NONE": "プール内に復元可能なデータベースが見つかりませんでした。",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} 件のデータベースが見つかりました。最大のもの（{size}）をダウンロードしました。アップロードボタンからインポートしてください。"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# キャラクター}}",

@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Download log (no messages)",
       "DIAGNOSTICS_FULL": "Download log + messages",
       "DEBUG_CLEAR": "Clear debug log",
-      "DEBUG_CLEARED": "Debug log cleared"
+      "DEBUG_CLEARED": "Debug log cleared",
+      "LOCAL_DB_RECOVER": "Recover orphaned database",
+      "LOCAL_DB_RECOVER_NONE": "No recoverable database found in the pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Found {count} database(s). Downloaded the largest ({size}). Import it with the upload button."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# character} other {# characters}}",

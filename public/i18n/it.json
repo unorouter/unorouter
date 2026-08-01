@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Scarica registro (senza messaggi)",
       "DIAGNOSTICS_FULL": "Scarica registro + messaggi",
       "DEBUG_CLEAR": "Cancella registro di debug",
-      "DEBUG_CLEARED": "Registro di debug cancellato"
+      "DEBUG_CLEARED": "Registro di debug cancellato",
+      "LOCAL_DB_RECOVER": "Recupera database orfano",
+      "LOCAL_DB_RECOVER_NONE": "Nessun database recuperabile trovato nel pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Trovati {count} database. Scaricato il più grande ({size}). Importalo con il pulsante di caricamento."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaggio} other {# personaggi}}",

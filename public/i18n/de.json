@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Protokoll herunterladen (ohne Nachrichten)",
       "DIAGNOSTICS_FULL": "Protokoll + Nachrichten herunterladen",
       "DEBUG_CLEAR": "Debug-Protokoll löschen",
-      "DEBUG_CLEARED": "Debug-Protokoll gelöscht"
+      "DEBUG_CLEARED": "Debug-Protokoll gelöscht",
+      "LOCAL_DB_RECOVER": "Verwaiste Datenbank wiederherstellen",
+      "LOCAL_DB_RECOVER_NONE": "Keine wiederherstellbare Datenbank im Pool gefunden.",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} Datenbank(en) gefunden. Die größte ({size}) wurde heruntergeladen. Importiere sie über die Schaltfläche zum Hochladen."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# Charakter} other {# Charaktere}}",

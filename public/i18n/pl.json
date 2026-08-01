@@ -3947,7 +3947,10 @@
       "DIAGNOSTICS": "Pobierz dziennik (bez wiadomości)",
       "DIAGNOSTICS_FULL": "Pobierz dziennik + wiadomości",
       "DEBUG_CLEAR": "Wyczyść dziennik debugowania",
-      "DEBUG_CLEARED": "Dziennik debugowania wyczyszczony"
+      "DEBUG_CLEARED": "Dziennik debugowania wyczyszczony",
+      "LOCAL_DB_RECOVER": "Odzyskaj osieroconą bazę danych",
+      "LOCAL_DB_RECOVER_NONE": "Nie znaleziono bazy danych do odzyskania w puli.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Znaleziono {count} baz(y) danych. Pobrano największą ({size}). Zaimportuj ją przyciskiem przesyłania."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# postać} few {# postacie} many {# postaci} other {# postaci}}",
