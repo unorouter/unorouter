@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "通知设置",
+      "QUOTA_WARNING_ENABLED": "配额预警通知",
+      "QUOTA_WARNING_ENABLED_DESC": "默认关闭。开启后，余额不足时将收到提醒。",
       "METHOD": "通知方式",
       "METHOD_EMAIL": "邮箱",
       "METHOD_WEBHOOK": "Webhook",

@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "通知設定",
+      "QUOTA_WARNING_ENABLED": "配額預警通知",
+      "QUOTA_WARNING_ENABLED_DESC": "預設關閉。開啟後，餘額不足時將收到提醒。",
       "METHOD": "通知方式",
       "METHOD_EMAIL": "電子郵件",
       "METHOD_WEBHOOK": "Webhook",

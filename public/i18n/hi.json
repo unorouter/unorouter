@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Notification Settings",
+      "QUOTA_WARNING_ENABLED": "कोटा चेतावनी सूचनाएं",
+      "QUOTA_WARNING_ENABLED_DESC": "डिफ़ॉल्ट रूप से बंद। शेष राशि कम होने पर सूचना पाने के लिए चालू करें।",
       "METHOD": "Notification विधि",
       "METHOD_EMAIL": "ईमेल",
       "METHOD_WEBHOOK": "Webhook",

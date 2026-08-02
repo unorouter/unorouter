@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "通知設定",
+      "QUOTA_WARNING_ENABLED": "残高警告通知",
+      "QUOTA_WARNING_ENABLED_DESC": "デフォルトはオフです。残高が少なくなったときに通知を受け取るにはオンにしてください。",
       "METHOD": "通知方法",
       "METHOD_EMAIL": "メール",
       "METHOD_WEBHOOK": "Webhook",

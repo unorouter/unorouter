@@ -55,6 +55,7 @@ export const deleteAccountSchema = t.Object({
 export type DeleteAccountSchema = Static<typeof deleteAccountSchema>;
 
 export const notificationSettingSchema = t.Object({
+  quota_warning_enabled: t.Boolean({ default: false }),
   notify_type: t.String({ default: "email" }),
   quota_threshold_dollars: t.Number({
     minimum: 0,

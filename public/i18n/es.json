@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Configuración de notificaciones",
+      "QUOTA_WARNING_ENABLED": "Notificaciones de aviso de saldo",
+      "QUOTA_WARNING_ENABLED_DESC": "Desactivado de forma predeterminada. Actívalo para recibir un aviso cuando tu saldo sea bajo.",
       "METHOD": "Método de notificación",
       "METHOD_EMAIL": "Correo",
       "METHOD_WEBHOOK": "Webhook",

@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "إعدادات الإشعارات",
+      "QUOTA_WARNING_ENABLED": "إشعارات تحذير الرصيد",
+      "QUOTA_WARNING_ENABLED_DESC": "معطّل افتراضيًا. فعّله لتلقي تنبيه عند انخفاض رصيدك.",
       "METHOD": "طريقة الإشعار",
       "METHOD_EMAIL": "البريد الإلكتروني",
       "METHOD_WEBHOOK": "Webhook",

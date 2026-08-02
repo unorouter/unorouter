@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Bildirim Ayarları",
+      "QUOTA_WARNING_ENABLED": "Bakiye uyarı bildirimleri",
+      "QUOTA_WARNING_ENABLED_DESC": "Varsayılan olarak kapalıdır. Bakiyeniz azaldığında uyarı almak için açın.",
       "METHOD": "Bildirim Yöntemi",
       "METHOD_EMAIL": "E-posta",
       "METHOD_WEBHOOK": "Webhook",

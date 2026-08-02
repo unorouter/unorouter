@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Cài đặt thông báo",
+      "QUOTA_WARNING_ENABLED": "Thông báo cảnh báo hạn mức",
+      "QUOTA_WARNING_ENABLED_DESC": "Mặc định tắt. Bật để nhận cảnh báo khi số dư của bạn sắp hết.",
       "METHOD": "Phương thức thông báo",
       "METHOD_EMAIL": "Email",
       "METHOD_WEBHOOK": "Webhook",

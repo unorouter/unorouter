@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "הגדרות התראות",
+      "QUOTA_WARNING_ENABLED": "התראות על יתרה נמוכה",
+      "QUOTA_WARNING_ENABLED_DESC": "כבוי כברירת מחדל. הפעילו כדי לקבל התראה כשהיתרה שלכם אוזלת.",
       "METHOD": "שיטת התראה",
       "METHOD_EMAIL": "דואר אלקטרוני",
       "METHOD_WEBHOOK": "Webhook",

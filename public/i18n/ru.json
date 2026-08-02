@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Настройки уведомлений",
+      "QUOTA_WARNING_ENABLED": "Уведомления о низком балансе",
+      "QUOTA_WARNING_ENABLED_DESC": "По умолчанию выключено. Включите, чтобы получать оповещение при низком балансе.",
       "METHOD": "Способ уведомления",
       "METHOD_EMAIL": "Email",
       "METHOD_WEBHOOK": "Webhook",

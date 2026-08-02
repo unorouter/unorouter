@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "알림 설정",
+      "QUOTA_WARNING_ENABLED": "잔액 경고 알림",
+      "QUOTA_WARNING_ENABLED_DESC": "기본적으로 꺼져 있습니다. 잔액이 부족할 때 알림을 받으려면 켜세요.",
       "METHOD": "알림 방법",
       "METHOD_EMAIL": "이메일",
       "METHOD_WEBHOOK": "Webhook",

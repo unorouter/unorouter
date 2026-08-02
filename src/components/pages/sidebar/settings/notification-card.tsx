@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useUpdateSettingMutation } from "@/hooks/auth/settings-hook";
 import { analytics } from "@/lib/analytics";
@@ -24,6 +26,7 @@ import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { safeJsonParse } from "@/lib/utils/base";
 
 type ServerSetting = {
+  quota_warning_enabled?: boolean;
   notify_type?: string;
   quota_warning_threshold?: number;
   notification_email?: string;
@@ -62,11 +65,13 @@ export function NotificationCard() {
   });
 
   const notifyType = form.watch("notify_type");
+  const quotaWarningEnabled = form.watch("quota_warning_enabled");
 
   useEffect(() => {
     if (!user?.setting) return;
     const s = safeJsonParse<Partial<ServerSetting>>(user.setting, {});
     form.reset({
+      quota_warning_enabled: s.quota_warning_enabled ?? false,
       notify_type: s.notify_type || "email",
       quota_threshold_dollars: s.quota_warning_threshold
         ? quotaToDollars(s.quota_warning_threshold)
@@ -90,6 +95,7 @@ export function NotificationCard() {
     updateSettingMutation.mutate(
       {
         body: {
+          quota_warning_enabled: data.quota_warning_enabled,
           notify_type: data.notify_type,
           quota_warning_threshold: dollarsToQuota(
             data.quota_threshold_dollars || 1,
@@ -133,141 +139,177 @@ export function NotificationCard() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="notify_type"
+              name="quota_warning_enabled"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("SETTINGS.NOTIFICATIONS.METHOD")}</FormLabel>
+                <FormItem className="flex items-center justify-between gap-4">
+                  <div className="space-y-0.5">
+                    <FormLabel>
+                      {t("SETTINGS.NOTIFICATIONS.QUOTA_WARNING_ENABLED")}
+                    </FormLabel>
+                    <FormDescription className="text-muted-foreground text-xs">
+                      {t("SETTINGS.NOTIFICATIONS.QUOTA_WARNING_ENABLED_DESC")}
+                    </FormDescription>
+                  </div>
                   <FormControl>
-                    <Select
-                      value={field.value}
-                      onValueChange={(v) => {
-                        if (v) analytics.settings.notificationChannelChanged(v);
-                        field.onChange(v);
-                      }}
-                    >
-                      <SelectTrigger className="w-full sm:w-64">
-                        <SelectValue>
-                          {{
-                            email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
-                            webhook: t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK"),
-                            bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
-                            gotify: t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY"),
-                          }[field.value] || field.value}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="email">
-                          {t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL")}
-                        </SelectItem>
-                        <SelectItem value="webhook">
-                          {t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK")}
-                        </SelectItem>
-                        <SelectItem value="bark">
-                          {t("SETTINGS.NOTIFICATIONS.METHOD_BARK")}
-                        </SelectItem>
-                        <SelectItem value="gotify">
-                          {t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY")}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
             />
 
-            <div className="space-y-1">
-              <MyFormInput
-                control={form.control}
-                name="quota_threshold_dollars"
-                schema={notificationSettingSchema}
-                label={t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD")}
-                type="number"
-                step="0.1"
-                min="0"
-                symbol="$"
-                className="w-32"
-              />
-              <p className="text-muted-foreground text-xs">
-                {t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD_DESC")}
-              </p>
-            </div>
-
-            {notifyType === "email" && (
-              <MyFormInput
-                control={form.control}
-                name="notification_email"
-                schema={notificationSettingSchema}
-                label={t("SETTINGS.NOTIFICATIONS.EMAIL_ADDRESS")}
-                type="email"
-                placeholder={t("SETTINGS.NOTIFICATIONS.EMAIL_PLACEHOLDER")}
-                className="sm:w-96"
-              />
-            )}
-
-            {notifyType === "webhook" && (
-              <div className="space-y-4">
-                <MyFormInput
+            {quotaWarningEnabled && (
+              <>
+                <FormField
                   control={form.control}
-                  name="webhook_url"
-                  schema={notificationSettingSchema}
-                  label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL")}
-                  placeholder={t(
-                    "SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER",
+                  name="notify_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("SETTINGS.NOTIFICATIONS.METHOD")}
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={(v) => {
+                            if (v)
+                              analytics.settings.notificationChannelChanged(v);
+                            field.onChange(v);
+                          }}
+                        >
+                          <SelectTrigger className="w-full sm:w-64">
+                            <SelectValue>
+                              {{
+                                email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
+                                webhook: t(
+                                  "SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK",
+                                ),
+                                bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
+                                gotify: t(
+                                  "SETTINGS.NOTIFICATIONS.METHOD_GOTIFY",
+                                ),
+                              }[field.value] || field.value}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="email">
+                              {t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL")}
+                            </SelectItem>
+                            <SelectItem value="webhook">
+                              {t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK")}
+                            </SelectItem>
+                            <SelectItem value="bark">
+                              {t("SETTINGS.NOTIFICATIONS.METHOD_BARK")}
+                            </SelectItem>
+                            <SelectItem value="gotify">
+                              {t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY")}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
                   )}
                 />
-                <MyFormInput
-                  control={form.control}
-                  name="webhook_secret"
-                  schema={notificationSettingSchema}
-                  label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET")}
-                  placeholder={t(
-                    "SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER",
-                  )}
-                />
-              </div>
-            )}
 
-            {notifyType === "bark" && (
-              <MyFormInput
-                control={form.control}
-                name="bark_url"
-                schema={notificationSettingSchema}
-                label={t("SETTINGS.NOTIFICATIONS.BARK_URL")}
-                placeholder={t("SETTINGS.NOTIFICATIONS.BARK_URL_PLACEHOLDER")}
-              />
-            )}
+                <div className="space-y-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="quota_threshold_dollars"
+                    schema={notificationSettingSchema}
+                    label={t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD")}
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    symbol="$"
+                    className="w-32"
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD_DESC")}
+                  </p>
+                </div>
 
-            {notifyType === "gotify" && (
-              <div className="space-y-4">
-                <MyFormInput
-                  control={form.control}
-                  name="gotify_url"
-                  schema={notificationSettingSchema}
-                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL")}
-                  placeholder={t(
-                    "SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER",
-                  )}
-                />
-                <MyFormInput
-                  control={form.control}
-                  name="gotify_token"
-                  schema={notificationSettingSchema}
-                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN")}
-                  placeholder={t(
-                    "SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER",
-                  )}
-                />
-                <MyFormInput
-                  control={form.control}
-                  name="gotify_priority"
-                  schema={notificationSettingSchema}
-                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_PRIORITY")}
-                  type="number"
-                  min="0"
-                  max="10"
-                  className="w-24"
-                />
-              </div>
+                {notifyType === "email" && (
+                  <MyFormInput
+                    control={form.control}
+                    name="notification_email"
+                    schema={notificationSettingSchema}
+                    label={t("SETTINGS.NOTIFICATIONS.EMAIL_ADDRESS")}
+                    type="email"
+                    placeholder={t("SETTINGS.NOTIFICATIONS.EMAIL_PLACEHOLDER")}
+                    className="sm:w-96"
+                  />
+                )}
+
+                {notifyType === "webhook" && (
+                  <div className="space-y-4">
+                    <MyFormInput
+                      control={form.control}
+                      name="webhook_url"
+                      schema={notificationSettingSchema}
+                      label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL")}
+                      placeholder={t(
+                        "SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER",
+                      )}
+                    />
+                    <MyFormInput
+                      control={form.control}
+                      name="webhook_secret"
+                      schema={notificationSettingSchema}
+                      label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET")}
+                      placeholder={t(
+                        "SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER",
+                      )}
+                    />
+                  </div>
+                )}
+
+                {notifyType === "bark" && (
+                  <MyFormInput
+                    control={form.control}
+                    name="bark_url"
+                    schema={notificationSettingSchema}
+                    label={t("SETTINGS.NOTIFICATIONS.BARK_URL")}
+                    placeholder={t(
+                      "SETTINGS.NOTIFICATIONS.BARK_URL_PLACEHOLDER",
+                    )}
+                  />
+                )}
+
+                {notifyType === "gotify" && (
+                  <div className="space-y-4">
+                    <MyFormInput
+                      control={form.control}
+                      name="gotify_url"
+                      schema={notificationSettingSchema}
+                      label={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL")}
+                      placeholder={t(
+                        "SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER",
+                      )}
+                    />
+                    <MyFormInput
+                      control={form.control}
+                      name="gotify_token"
+                      schema={notificationSettingSchema}
+                      label={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN")}
+                      placeholder={t(
+                        "SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER",
+                      )}
+                    />
+                    <MyFormInput
+                      control={form.control}
+                      name="gotify_priority"
+                      schema={notificationSettingSchema}
+                      label={t("SETTINGS.NOTIFICATIONS.GOTIFY_PRIORITY")}
+                      type="number"
+                      min="0"
+                      max="10"
+                      className="w-24"
+                    />
+                  </div>
+                )}
+              </>
             )}
 
             <Button type="submit" disabled={updateSettingMutation.isPending}>

@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Impostazioni notifiche",
+      "QUOTA_WARNING_ENABLED": "Notifiche di avviso credito",
+      "QUOTA_WARNING_ENABLED_DESC": "Disattivato per impostazione predefinita. Attivalo per ricevere un avviso quando il credito sta per esaurirsi.",
       "METHOD": "Metodo di notifica",
       "METHOD_EMAIL": "Email",
       "METHOD_WEBHOOK": "Webhook",

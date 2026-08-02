@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Pengaturan Notifikasi",
+      "QUOTA_WARNING_ENABLED": "Notifikasi Peringatan Kuota",
+      "QUOTA_WARNING_ENABLED_DESC": "Nonaktif secara bawaan. Aktifkan untuk menerima peringatan saat saldo Anda menipis.",
       "METHOD": "Metode Notifikasi",
       "METHOD_EMAIL": "Email",
       "METHOD_WEBHOOK": "Webhook",

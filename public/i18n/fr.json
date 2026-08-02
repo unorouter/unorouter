@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Paramètres de notification",
+      "QUOTA_WARNING_ENABLED": "Notifications d'alerte de solde",
+      "QUOTA_WARNING_ENABLED_DESC": "Désactivé par défaut. Activez-le pour recevoir une alerte lorsque votre solde devient faible.",
       "METHOD": "Méthode de notification",
       "METHOD_EMAIL": "Email",
       "METHOD_WEBHOOK": "Webhook",

@@ -26,6 +26,7 @@ export const emailBindQuery = t.Object({
 });
 
 export const updateSettingBody = t.Object({
+  quota_warning_enabled: t.Boolean(),
   notify_type: t.String(),
   quota_warning_threshold: t.Number(),
   accept_unset_model_ratio_model: t.Boolean(),

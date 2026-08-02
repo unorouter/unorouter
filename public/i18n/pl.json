@@ -3685,6 +3685,8 @@
     },
     "NOTIFICATIONS": {
       "TITLE": "Ustawienia powiadomień",
+      "QUOTA_WARNING_ENABLED": "Powiadomienia o niskim saldzie",
+      "QUOTA_WARNING_ENABLED_DESC": "Domyślnie wyłączone. Włącz, aby otrzymać powiadomienie, gdy saldo się kończy.",
       "METHOD": "Metoda powiadomień",
       "METHOD_EMAIL": "E-mail",
       "METHOD_WEBHOOK": "Webhook",
