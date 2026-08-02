@@ -59,18 +59,23 @@ export function ModelsUrlSync() {
     // on iOS ("Maximum call stack size exceeded" on /models with filters).
     // Mute the writeback while the seed applies; it runs once after.
     let seeding = false;
+    // Every setParams writes the URL, and the atom is cookie-persisted, so its
+    // own setItem re-notifies this subscriber. Without an equality gate that
+    // round trip re-enters setParams forever and overflows the stack on iOS,
+    // whose limit is far lower than desktop. Only push a genuinely new value.
+    let lastPushed = "";
     const writeback = () => {
       if (seeding) return;
       const s = store.get(modelsStoreAtom);
       const priceMax = Array.isArray(s.priceRange)
         ? (s.priceRange[1] ?? PRICE_MAX)
         : PRICE_MAX;
-      void setParams({
-        input_modalities: nonEmptyArray(s.inputModalities),
-        arch: nonEmptyArray(s.series),
-        categories: nonEmptyArray(s.categories),
-        supported_parameters: nonEmptyArray(s.supportedParameters),
-        providers: nonEmptyArray(s.selectedVendors),
+      const nextParams = {
+        input_modalities: nonEmptyArray<string>(s.inputModalities),
+        arch: nonEmptyArray<string>(s.series),
+        categories: nonEmptyArray<string>(s.categories),
+        supported_parameters: nonEmptyArray<string>(s.supportedParameters),
+        providers: nonEmptyArray<string>(s.selectedVendors),
         vendor: null,
         context: s.contextMin > 0 ? s.contextMin : null,
         max_price: priceMax < PRICE_MAX ? priceMax : null,
@@ -82,7 +87,11 @@ export function ModelsUrlSync() {
         tools: s.toolsOnly ? true : null,
         q: s.search ? s.search : null,
         view: s.viewMode !== "table" ? s.viewMode : null,
-      });
+      };
+      const key = JSON.stringify(nextParams);
+      if (key === lastPushed) return;
+      lastPushed = key;
+      void setParams(nextParams);
     };
     const unsub = store.sub(modelsStoreAtom, writeback);
 
