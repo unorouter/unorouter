@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "Doppeltes API-Guthaben für den gezahlten Betrag",
+      "NO_FREE_LIMIT": "Kein Anfragelimit bei Gratis-Modellen",
       "MODELS": "Alle Modelle inklusive",
       "FAILOVER": "Automatisches Failover",
       "OPENAI_COMPAT": "OpenAI kompatibler Endpunkt"

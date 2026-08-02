@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "Ödediğinizin iki katı API kredisi",
+      "NO_FREE_LIMIT": "Ücretsiz modellerde istek limiti yok",
       "MODELS": "Tüm modeller dahil",
       "FAILOVER": "Otomatik failover",
       "OPENAI_COMPAT": "OpenAI uyumlu endpoint"

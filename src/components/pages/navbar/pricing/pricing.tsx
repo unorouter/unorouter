@@ -106,6 +106,7 @@ export function Pricing() {
   function buildFeatures(): string[] {
     return [
       t("PRICING.FEATURE.CREDIT"),
+      t("PRICING.FEATURE.NO_FREE_LIMIT"),
       t("PRICING.FEATURE.MODELS"),
       t("PRICING.FEATURE.FAILOVER"),
       t("PRICING.FEATURE.OPENAI_COMPAT"),

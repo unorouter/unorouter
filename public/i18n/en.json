@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "2x the API credit you pay for",
+      "NO_FREE_LIMIT": "No request limit on free models",
       "MODELS": "All models included",
       "FAILOVER": "Automatic failover",
       "OPENAI_COMPAT": "OpenAI compatible endpoint"

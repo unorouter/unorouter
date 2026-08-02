@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "आप जितना भुगतान करते हैं उसका दोगुना API क्रेडिट",
+      "NO_FREE_LIMIT": "मुफ़्त मॉडल पर कोई अनुरोध सीमा नहीं",
       "MODELS": "सभी मॉडल शामिल",
       "FAILOVER": "स्वचालित failover",
       "OPENAI_COMPAT": "OpenAI संगत एंडपॉइंट"

@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "支付金額兩倍的 API 額度",
+      "NO_FREE_LIMIT": "免費模型無請求次數限制",
       "MODELS": "包含所有模型",
       "FAILOVER": "自動容錯",
       "OPENAI_COMPAT": "OpenAI 相容端點"

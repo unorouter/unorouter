@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "Gấp đôi tín dụng API so với số tiền bạn trả",
+      "NO_FREE_LIMIT": "Không giới hạn yêu cầu trên mô hình miễn phí",
       "MODELS": "Bao gồm mọi mô hình",
       "FAILOVER": "Tự động chuyển đổi dự phòng",
       "OPENAI_COMPAT": "Endpoint tương thích OpenAI"

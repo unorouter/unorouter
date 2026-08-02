@@ -1370,6 +1370,7 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "支払額の2倍のAPIクレジット",
+      "NO_FREE_LIMIT": "無料モデルのリクエスト制限なし",
       "MODELS": "全モデル込み",
       "FAILOVER": "自動フェイルオーバー",
       "OPENAI_COMPAT": "OpenAI 互換エンドポイント"
