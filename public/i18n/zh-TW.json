@@ -241,8 +241,8 @@
           "DESC": "失敗的請求立即改走備援通道重試"
         },
         "STEP4": {
-          "TITLE": "必送達",
-          "DESC": "所有模型皆享 99.9% 運行時間 SLA"
+          "TITLE": "多路由",
+          "DESC": "多數模型透過多家供應商提供，沒有單點故障"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "支付金額兩倍的 API 額度",
       "MODELS": "包含所有模型",
-      "PRIORITY": "優先路由",
-      "DEDICATED": "專屬支援",
       "FAILOVER": "自動容錯",
-      "UPTIME": "99.9% 運行時間 SLA",
       "OPENAI_COMPAT": "OpenAI 相容端點"
     },
     "CARD": {

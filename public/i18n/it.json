@@ -263,8 +263,8 @@
           "DESC": "Le richieste fallite vengono ritentate su canali alternativi all'istante"
         },
         "STEP4": {
-          "TITLE": "Sempre consegnato",
-          "DESC": "SLA 99.9% di uptime su tutti i modelli"
+          "TITLE": "Percorsi multipli",
+          "DESC": "La maggior parte dei modelli passa da più provider, senza un unico punto di guasto"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Il doppio del credito API rispetto a quanto paghi",
       "MODELS": "Tutti i modelli inclusi",
-      "PRIORITY": "Routing prioritario",
-      "DEDICATED": "Supporto dedicato",
       "FAILOVER": "Failover automatico",
-      "UPTIME": "SLA uptime 99.9%",
       "OPENAI_COMPAT": "Endpoint compatibile con OpenAI"
     },
     "CARD": {

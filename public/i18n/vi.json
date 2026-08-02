@@ -241,8 +241,8 @@
           "DESC": "Yêu cầu thất bại sẽ lập tức thử lại qua kênh thay thế"
         },
         "STEP4": {
-          "TITLE": "Luôn được gửi thành công",
-          "DESC": "SLA 99.9% thời gian hoạt động cho mọi mô hình"
+          "TITLE": "Nhiều tuyến đường",
+          "DESC": "Hầu hết mô hình chạy qua nhiều nhà cung cấp, không có điểm lỗi duy nhất"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Gấp đôi tín dụng API so với số tiền bạn trả",
       "MODELS": "Bao gồm mọi mô hình",
-      "PRIORITY": "Định tuyến ưu tiên",
-      "DEDICATED": "Hỗ trợ chuyên biệt",
       "FAILOVER": "Tự động chuyển đổi dự phòng",
-      "UPTIME": "SLA 99.9% thời gian hoạt động",
       "OPENAI_COMPAT": "Endpoint tương thích OpenAI"
     },
     "CARD": {

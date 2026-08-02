@@ -241,8 +241,8 @@
           "DESC": "Fehlgeschlagene Anfragen werden sofort auf alternative Kanäle umgeleitet"
         },
         "STEP4": {
-          "TITLE": "Immer zugestellt",
-          "DESC": "99,9% Verfügbarkeits-SLA für alle Modelle"
+          "TITLE": "Mehrere Wege",
+          "DESC": "Die meisten Modelle laufen über mehrere Anbieter, kein einzelner Ausfallpunkt"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Doppeltes API-Guthaben für den gezahlten Betrag",
       "MODELS": "Alle Modelle inklusive",
-      "PRIORITY": "Priorisiertes Routing",
-      "DEDICATED": "Dedizierter Support",
       "FAILOVER": "Automatisches Failover",
-      "UPTIME": "99,9% Verfügbarkeits-SLA",
       "OPENAI_COMPAT": "OpenAI kompatibler Endpunkt"
     },
     "CARD": {

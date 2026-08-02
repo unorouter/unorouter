@@ -263,8 +263,8 @@
           "DESC": "Failed requests retry on alternate channels instantly"
         },
         "STEP4": {
-          "TITLE": "Always Delivered",
-          "DESC": "99.9% uptime SLA across all models"
+          "TITLE": "Multiple Routes",
+          "DESC": "Most models run across several providers, so no single one can take them down"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "2x the API credit you pay for",
       "MODELS": "All models included",
-      "PRIORITY": "Priority routing",
-      "DEDICATED": "Dedicated support",
       "FAILOVER": "Automatic failover",
-      "UPTIME": "99.9% uptime SLA",
       "OPENAI_COMPAT": "OpenAI compatible endpoint"
     },
     "CARD": {

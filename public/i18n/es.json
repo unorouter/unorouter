@@ -263,8 +263,8 @@
           "DESC": "Las solicitudes fallidas se reintentan en canales alternos al instante"
         },
         "STEP4": {
-          "TITLE": "Siempre entregado",
-          "DESC": "SLA de 99.9% de tiempo activo en todos los modelos"
+          "TITLE": "Múltiples rutas",
+          "DESC": "La mayoría de los modelos usan varios proveedores, sin un único punto de fallo"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "El doble de crédito de API por lo que pagas",
       "MODELS": "Todos los modelos incluidos",
-      "PRIORITY": "Enrutamiento prioritario",
-      "DEDICATED": "Soporte dedicado",
       "FAILOVER": "Failover automático",
-      "UPTIME": "SLA de 99.9% de tiempo activo",
       "OPENAI_COMPAT": "Endpoint compatible con OpenAI"
     },
     "CARD": {

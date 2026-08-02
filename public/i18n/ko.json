@@ -263,8 +263,8 @@
           "DESC": "실패한 요청은 즉시 다른 채널에서 재시도됩니다"
         },
         "STEP4": {
-          "TITLE": "항상 전달",
-          "DESC": "모든 모델에 걸쳐 99.9% 가동 시간 SLA"
+          "TITLE": "다중 경로",
+          "DESC": "대부분의 모델이 여러 공급자를 통해 실행되어 단일 장애 지점이 없습니다"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "결제 금액의 2배 API 크레딧",
       "MODELS": "모든 모델 포함",
-      "PRIORITY": "우선순위 라우팅",
-      "DEDICATED": "전담 지원",
       "FAILOVER": "자동 페일오버",
-      "UPTIME": "99.9% 가동 시간 SLA",
       "OPENAI_COMPAT": "OpenAI 호환 엔드포인트"
     },
     "CARD": {

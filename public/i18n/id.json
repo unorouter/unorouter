@@ -263,8 +263,8 @@
           "DESC": "Permintaan gagal diulang di saluran alternatif secara instan"
         },
         "STEP4": {
-          "TITLE": "Selalu Dikirim",
-          "DESC": "SLA uptime 99,9% di semua model"
+          "TITLE": "Banyak Rute",
+          "DESC": "Sebagian besar model berjalan di beberapa penyedia, tanpa titik kegagalan tunggal"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Kredit API dua kali lipat dari yang dibayar",
       "MODELS": "Semua model termasuk",
-      "PRIORITY": "Routing prioritas",
-      "DEDICATED": "Dukungan khusus",
       "FAILOVER": "Failover otomatis",
-      "UPTIME": "SLA uptime 99,9%",
       "OPENAI_COMPAT": "Endpoint kompatibel OpenAI"
     },
     "CARD": {

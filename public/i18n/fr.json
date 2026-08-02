@@ -241,8 +241,8 @@
           "DESC": "Les requêtes échouées sont relancées instantanément sur d'autres canaux"
         },
         "STEP4": {
-          "TITLE": "Toujours livrées",
-          "DESC": "SLA de disponibilité 99,9 % sur tous les modèles"
+          "TITLE": "Routes multiples",
+          "DESC": "La plupart des modèles passent par plusieurs fournisseurs, sans point de défaillance unique"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Deux fois le crédit API que vous payez",
       "MODELS": "Tous les modèles inclus",
-      "PRIORITY": "Routage prioritaire",
-      "DEDICATED": "Support dédié",
       "FAILOVER": "Basculement automatique",
-      "UPTIME": "SLA de disponibilité 99,9 %",
       "OPENAI_COMPAT": "Point d'accès compatible OpenAI"
     },
     "CARD": {

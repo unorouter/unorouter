@@ -241,8 +241,8 @@
           "DESC": "失败请求瞬间切换到备用通道重试"
         },
         "STEP4": {
-          "TITLE": "始终送达",
-          "DESC": "所有模型 99.9% 可用率 SLA"
+          "TITLE": "多路由",
+          "DESC": "大多数模型经由多家供应商提供，没有单点故障"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "支付金额两倍的 API 额度",
       "MODELS": "包含全部模型",
-      "PRIORITY": "优先路由",
-      "DEDICATED": "专属支持",
       "FAILOVER": "自动容灾",
-      "UPTIME": "99.9% 可用率 SLA",
       "OPENAI_COMPAT": "OpenAI 兼容端点"
     },
     "CARD": {

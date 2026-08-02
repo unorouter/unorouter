@@ -101,15 +101,15 @@ export function Pricing() {
     return [];
   }
 
-  function buildFeatures(planIndex: number): string[] {
-    const features: string[] = [];
-    features.push(t("PRICING.FEATURE.MODELS"));
-    features.push(t("PRICING.FEATURE.FAILOVER"));
-    features.push(t("PRICING.FEATURE.OPENAI_COMPAT"));
-    if (planIndex >= 1) features.push(t("PRICING.FEATURE.PRIORITY"));
-    if (planIndex >= 2) features.push(t("PRICING.FEATURE.DEDICATED"));
-    features.push(t("PRICING.FEATURE.UPTIME"));
-    return features;
+  // The tiers differ only in how much credit they carry, which the price hero already
+  // states. Everything here has to hold for every tier.
+  function buildFeatures(): string[] {
+    return [
+      t("PRICING.FEATURE.CREDIT"),
+      t("PRICING.FEATURE.MODELS"),
+      t("PRICING.FEATURE.FAILOVER"),
+      t("PRICING.FEATURE.OPENAI_COMPAT"),
+    ];
   }
 
   function deliveryLabelFor(plan: SubscriptionPlan): string | undefined {
@@ -215,7 +215,7 @@ export function Pricing() {
                 value={plan.estimatedTotalUsd}
                 deliveryLabel={deliveryLabelFor(plan)}
                 popular={i === 1}
-                features={buildFeatures(i)}
+                features={buildFeatures()}
                 cta={t("PRICING.CTA")}
                 onSubscribe={() => handleSubscribe(plan)}
                 disabled={billing.isSubMutating}

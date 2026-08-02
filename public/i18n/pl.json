@@ -263,8 +263,8 @@
           "DESC": "Nieudane zapytania natychmiast ponawiane są na alternatywnych kanałach"
         },
         "STEP4": {
-          "TITLE": "Zawsze dostarczone",
-          "DESC": "SLA 99.9% dostępności dla wszystkich modeli"
+          "TITLE": "Wiele tras",
+          "DESC": "Większość modeli działa u kilku dostawców, bez pojedynczego punktu awarii"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Dwukrotność kredytu API za zapłaconą kwotę",
       "MODELS": "Wszystkie modele w cenie",
-      "PRIORITY": "Priorytetowy routing",
-      "DEDICATED": "Dedykowane wsparcie",
       "FAILOVER": "Automatyczny failover",
-      "UPTIME": "SLA 99.9% dostępności",
       "OPENAI_COMPAT": "Endpoint kompatybilny z OpenAI"
     },
     "CARD": {

@@ -263,8 +263,8 @@
           "DESC": "Başarısız istekler anında alternatif kanallarda yeniden denenir"
         },
         "STEP4": {
-          "TITLE": "Her Zaman Teslim",
-          "DESC": "Tüm modellerde %99.9 uptime SLA"
+          "TITLE": "Çoklu Rota",
+          "DESC": "Modellerin çoğu birden fazla sağlayıcı üzerinden çalışır, tek arıza noktası yok"
         }
       },
       "FORMATS": {
@@ -1369,11 +1369,9 @@
   },
   "PRICING": {
     "FEATURE": {
+      "CREDIT": "Ödediğinizin iki katı API kredisi",
       "MODELS": "Tüm modeller dahil",
-      "PRIORITY": "Öncelikli yönlendirme",
-      "DEDICATED": "Özel destek",
       "FAILOVER": "Otomatik failover",
-      "UPTIME": "%99.9 uptime SLA",
       "OPENAI_COMPAT": "OpenAI uyumlu endpoint"
     },
     "CARD": {
