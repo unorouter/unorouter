@@ -78,6 +78,13 @@
       "when": 1785533116123,
       "tag": "0010_sudden_vargas",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1785785817462,
+      "tag": "0011_spooky_energizer",
+      "breakpoints": true
     }
   ]
 }

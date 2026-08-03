@@ -9,6 +9,7 @@ import { and, asc, eq } from "drizzle-orm";
 export type ImagePresetInput = {
   name: string;
   model: string;
+  prompt?: string | null;
   negativePrompt?: string | null;
   params?: ImagePreset["params"];
   loras?: ImagePreset["loras"];
@@ -50,6 +51,7 @@ export async function saveImagePreset(
     userId,
     name: input.name,
     model: input.model,
+    prompt: input.prompt ?? null,
     negativePrompt: input.negativePrompt ?? null,
     params: input.params ?? null,
     loras: input.loras ?? null,

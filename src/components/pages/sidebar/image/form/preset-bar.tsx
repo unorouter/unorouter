@@ -20,9 +20,10 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 type Props = {
-  /** Everything the current form holds, minus the prompt. */
+  /** Everything the current form holds. */
   current: {
     model: string;
+    prompt?: string | null;
     negativePrompt?: string | null;
     params?: ImagePreset["params"];
     loras?: ImagePreset["loras"];
@@ -32,9 +33,9 @@ type Props = {
 };
 
 /**
- * Saved generation setups. The prompt is deliberately not part of one: it is the field that
- * changes every time, while the model, size, sampler and LoRA chain are the parts a user
- * rebuilds by hand on every visit.
+ * Saved generation setups: model, prompts, size, sampler and LoRA chain. Prompts are included
+ * because the constant part of one (quality tags, style boilerplate) is exactly what users
+ * retype every visit; applying a preset with an empty prompt leaves the current text alone.
  */
 export function PresetBar(props: Props) {
   const t = useTranslations();
@@ -54,6 +55,7 @@ export function PresetBar(props: Props) {
     const saved = await savePreset.mutateAsync({
       name: trimmed,
       model: props.current.model,
+      prompt: props.current.prompt,
       negativePrompt: props.current.negativePrompt,
       params: props.current.params,
       loras: props.current.loras,

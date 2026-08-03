@@ -146,8 +146,8 @@ export const imageModels = sqliteTable(
 
 export type ImageModel = typeof imageModels.$inferSelect;
 
-// A saved generation setup: everything the form holds except the prompt, which is the one
-// part that changes every time. Mirrors the snapshot columns rather than a column per knob,
+// A saved generation setup: everything the form holds, prompts included, since the constant
+// part of a prompt is what users retype every visit. Mirrors the snapshot columns rather than a column per knob,
 // since the params are already one validated JSON blob and a new knob would otherwise mean
 // a migration. Client only: a generation setup is a local preference, not account state.
 export const imagePresets = sqliteTable(
@@ -159,10 +159,13 @@ export const imagePresets = sqliteTable(
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     model: text("model").notNull(),
+    prompt: text("prompt"),
     negativePrompt: text("negative_prompt"),
     params: text("params", { mode: "json" }).$type<GenerationParams>(),
     loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
-    extraParams: text("extra_params", { mode: "json" }).$type<GenerationFormUi>(),
+    extraParams: text("extra_params", {
+      mode: "json",
+    }).$type<GenerationFormUi>(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

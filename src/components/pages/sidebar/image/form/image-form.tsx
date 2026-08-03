@@ -217,17 +217,19 @@ export function ImageForm() {
         <PresetBar
           current={{
             model: form.watch("model") ?? INITIAL_MODEL,
+            prompt: form.watch("prompt"),
             negativePrompt: form.watch("negativePrompt"),
             params: form.watch("params"),
             loras: form.watch("loras"),
             extraParams: form.watch("ui"),
           }}
           onApply={(preset) => {
-            // The prompt is intentionally untouched: a preset restores the setup around
-            // whatever the user is currently writing.
             form.setValue("model", preset.model);
             gen.changeModel(preset.model);
             setPickedCheckpoint(null);
+            // Presets saved before prompts were stored have none; overwriting with "" would
+            // clear whatever the user had already typed.
+            if (preset.prompt) form.setValue("prompt", preset.prompt);
             form.setValue("negativePrompt", preset.negativePrompt ?? "");
             if (preset.params) form.setValue("params", preset.params);
             form.setValue("loras", preset.loras ?? undefined);
