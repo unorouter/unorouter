@@ -10,6 +10,9 @@ import type { CustomCheckpoint } from "../form/model-picker";
 type Props = {
   value: CustomCheckpoint | null;
   onChange: (next: CustomCheckpoint | null) => void;
+  /** Persisted across remounts by the form; submitting navigates to the result and rebuilds this field. */
+  query: string;
+  onQueryChange: (next: string) => void;
 };
 
 /**
@@ -25,7 +28,7 @@ type Props = {
  */
 export function CivitaiResolverField(props: Props) {
   const t = useTranslations();
-  const [query, setQuery] = useState("");
+  const query = props.query;
   const [versions, setVersions] = useState<CustomCheckpoint[] | null>(null);
   const lookup = useCivitaiVersionsMutation();
 
@@ -49,7 +52,7 @@ export function CivitaiResolverField(props: Props) {
           value={query}
           placeholder={t("IMAGE.CIVITAI_PLACEHOLDER")}
           onChange={(e) => {
-            setQuery(e.target.value);
+            props.onQueryChange(e.target.value);
             setVersions(null);
             if (props.value) props.onChange(null);
           }}
@@ -100,11 +103,25 @@ export function CivitaiResolverField(props: Props) {
         </div>
       )}
 
+      {/* The list only exists after a lookup, but the choice outlives it (a restored draft or
+          snapshot carries the checkpoint alone), so show what is selected rather than a bare
+          hint that reads as nothing being picked. */}
+      {!versions && props.value && (
+        <div className="border-primary bg-primary/10 text-primary flex items-center gap-2 rounded-md border px-2 py-1.5 text-xs">
+          <span className="min-w-0 flex-1 truncate">{props.value.name}</span>
+          {props.value.architecture && (
+            <span className="shrink-0 text-[10px] uppercase opacity-70">
+              {props.value.architecture}
+            </span>
+          )}
+        </div>
+      )}
+
       {versions && versions.length === 0 ? (
         <div className="text-destructive text-xs">
           {t("IMAGE.CIVITAI_FAILED")}
         </div>
-      ) : !versions ? (
+      ) : !versions && !props.value ? (
         <div className="text-muted-foreground text-xs">
           {t("IMAGE.CIVITAI_HINT")}
         </div>

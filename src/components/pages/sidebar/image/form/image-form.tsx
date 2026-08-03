@@ -92,16 +92,13 @@ export function ImageForm() {
   // Derived, not synced: a restored snapshot repopulates ui from its extraParams, so the
   // checkpoint recorded there IS the selection. Picking one in the session takes precedence
   // over what an older snapshot restored.
-  const restoredAir = (ui as Record<string, unknown>).air;
-  const restoredAirName = (ui as Record<string, unknown>).airName;
   const activeCheckpoint: CustomCheckpoint | null =
     pickedCheckpoint ??
-    (typeof restoredAir === "string" && restoredAir
+    (ui.air
       ? {
-          air: restoredAir,
-          name:
-            typeof restoredAirName === "string" ? restoredAirName : restoredAir,
-          architecture: null,
+          air: ui.air,
+          name: ui.airName ?? ui.air,
+          architecture: ui.airArchitecture ?? null,
           heroImage: null,
           nsfwLevel: null,
         }
@@ -181,6 +178,21 @@ export function ImageForm() {
     // away the model and every setting, so the next visit started from defaults. The prompt
     // is kept too - a generation is usually the first of several on the same prompt, and
     // blanking the stored copy wiped what the form was still showing on the next restore.
+    // The chosen checkpoint rides in ui as well as in the submitted extraParams: submitting
+    // navigates to the result, which remounts the form and drops the picked-checkpoint state,
+    // so without this the custom model came back with its URL and version list emptied.
+    const draftUi = {
+      ...(data.ui ?? { variants: 1 }),
+      ...(activeCheckpoint
+        ? {
+            air: activeCheckpoint.air,
+            airName: activeCheckpoint.name,
+            ...(activeCheckpoint.architecture
+              ? { airArchitecture: activeCheckpoint.architecture }
+              : {}),
+          }
+        : {}),
+    };
     gen.setDraft({
       model: modelKey,
       prompt: data.prompt ?? "",
@@ -188,8 +200,9 @@ export function ImageForm() {
       params: data.params ?? {},
       loras: data.loras,
       references: data.references,
-      extraParams: data.ui ?? { variants: 1 },
+      extraParams: draftUi,
     });
+    form.setValue("ui", draftUi);
 
     setActiveSessionId(submitted.sessionId);
     setActiveSnapshotId(submitted.snapshotId);
@@ -272,6 +285,13 @@ export function ImageForm() {
           <CivitaiResolverField
             value={activeCheckpoint}
             onChange={setPickedCheckpoint}
+            query={ui.airQuery ?? ""}
+            onQueryChange={(next) =>
+              form.setValue("ui", {
+                ...(form.getValues("ui") ?? {}),
+                airQuery: next,
+              })
+            }
           />
         )}
 

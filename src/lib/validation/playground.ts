@@ -168,6 +168,12 @@ export const generationFormUi = t.Object({
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
+  // The user-brought checkpoint and the reference it was resolved from. Submitting navigates
+  // to the result and rebuilds the form, so a field-local copy does not survive a generation.
+  air: t.Optional(t.String({ maxLength: 256 })),
+  airName: t.Optional(t.String({ maxLength: 256 })),
+  airArchitecture: t.Optional(t.String({ maxLength: 64 })),
+  airQuery: t.Optional(t.String({ maxLength: 2048 })),
 });
 export type GenerationFormUi = Static<typeof generationFormUi>;
 
