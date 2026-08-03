@@ -1,4 +1,5 @@
 import {
+  DocAppLink,
   DocCode,
   DocImage,
   DocPageLink,
@@ -47,7 +48,11 @@ export async function GroupPinningContent() {
         />
       </DocSection>
       <DocSection id="pinning" title={k("H_PINNING")}>
-        <p>{k("P_PINNING_1")}</p>
+        <p>
+          {k("P_PINNING_1_PRE")}
+          <DocAppLink href="/token">{k("P_PINNING_1_LINK")}</DocAppLink>
+          {k("P_PINNING_1_POST")}
+        </p>
         <DocImage
           src="/images/docs/pinning-token-mapping.webp"
           alt={k("ALT_MAPPING")}

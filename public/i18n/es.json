@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "La página de detalle de cada modelo lista cada grupo con su precio de entrada y salida bajo Group Pricing; la insignia de descuento en la lista de modelos siempre refleja el grupo más barato.",
       "ALT_GROUP_PRICES": "Tabla de precios por grupo en la página de detalle de un modelo",
       "H_PINNING": "Fijar grupos en una clave",
-      "P_PINNING_1": "Abre Claves API, crea o edita una clave y abre el selector de grupos. Busca un modelo, haz clic y marca uno o más grupos de proveedores, ordenados del más barato al más caro con su multiplicador de tarifa. Los modelos que no toques siguen en auto.",
       "ALT_MAPPING": "Selector de grupos por modelo en el editor de claves",
       "P_PINNING_2": "Los modelos fijados suben arriba con una insignia que muestra a cuántos grupos están bloqueados; Borrar todo devuelve la clave a auto completo. La lista de claves muestra las claves fijadas como auto +N.",
       "H_ROUTING": "Cómo se enrutan las peticiones fijadas",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Cuando los grupos fijados están caídos",
       "P_ERRORS_1": "Si todos los grupos fijados de un modelo están caídos mientras otros proveedores aún lo sirven, las peticiones fallan con un error específico en lugar de un mensaje genérico:",
       "P_ERRORS_2": "Amplía o quita la fijación de la clave, o reintenta más tarde. El modelo en sí sigue funcionando.",
-      "P_SEE_NOTIFY": "Combina una fijación con una vigilancia para enterarte cuando sus grupos cambien de precio o caigan, consulta"
+      "P_SEE_NOTIFY": "Combina una fijación con una vigilancia para enterarte cuando sus grupos cambien de precio o caigan, consulta",
+      "P_PINNING_1_PRE": "Abre ",
+      "P_PINNING_1_LINK": "Claves API",
+      "P_PINNING_1_POST": ", crea o edita una clave y abre el selector de grupos. Busca un modelo, haz clic y marca uno o más grupos de proveedores, ordenados del más barato al más caro con su multiplicador de tarifa. Los modelos que no toques siguen en auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

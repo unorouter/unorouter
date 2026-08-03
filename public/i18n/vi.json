@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Trang chi tiết của mỗi mô hình liệt kê từng nhóm với giá đầu vào và đầu ra trong mục Group Pricing; huy hiệu giảm giá trong danh sách mô hình luôn phản ánh nhóm rẻ nhất.",
       "ALT_GROUP_PRICES": "Bảng giá theo nhóm trên trang chi tiết mô hình",
       "H_PINNING": "Ghim nhóm trên khóa",
-      "P_PINNING_1": "Mở Khóa API, tạo hoặc sửa một khóa và mở bộ chọn nhóm. Tìm mô hình, nhấp vào và tích một hoặc nhiều nhóm nhà cung cấp, sắp xếp rẻ nhất trước kèm hệ số giá. Mô hình bạn không đụng tới vẫn ở auto.",
       "ALT_MAPPING": "Bộ chọn nhóm nhà cung cấp theo mô hình trong trình sửa khóa",
       "P_PINNING_2": "Mô hình đã ghim nổi lên đầu với huy hiệu cho biết bị khóa vào bao nhiêu nhóm; Xóa tất cả đưa khóa về auto hoàn toàn. Danh sách khóa hiển thị khóa đã ghim là auto +N.",
       "H_ROUTING": "Yêu cầu đã ghim định tuyến thế nào",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Khi các nhóm đã ghim ngừng hoạt động",
       "P_ERRORS_1": "Nếu mọi nhóm đã ghim của một mô hình đều ngừng hoạt động trong khi nhà cung cấp khác vẫn phục vụ nó, yêu cầu sẽ thất bại với lỗi nhắm đích thay vì thông báo bận chung chung:",
       "P_ERRORS_2": "Mở rộng hoặc gỡ ghim trên khóa, hoặc thử lại sau. Bản thân mô hình vẫn đang hoạt động.",
-      "P_SEE_NOTIFY": "Kết hợp ghim với theo dõi để biết khi các nhóm đổi giá hoặc ngừng hoạt động, xem"
+      "P_SEE_NOTIFY": "Kết hợp ghim với theo dõi để biết khi các nhóm đổi giá hoặc ngừng hoạt động, xem",
+      "P_PINNING_1_PRE": "Mở ",
+      "P_PINNING_1_LINK": "Khóa API",
+      "P_PINNING_1_POST": ", tạo hoặc sửa một khóa và mở bộ chọn nhóm. Tìm mô hình, nhấp vào và tích một hoặc nhiều nhóm nhà cung cấp, sắp xếp rẻ nhất trước kèm hệ số giá. Mô hình bạn không đụng tới vẫn ở auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

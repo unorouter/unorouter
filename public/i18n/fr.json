@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "La page de détail de chaque modèle liste chaque groupe avec ses prix d'entrée et de sortie sous Group Pricing ; le badge de remise dans la liste des modèles reflète toujours le groupe le moins cher.",
       "ALT_GROUP_PRICES": "Tableau des prix par groupe sur une page de détail de modèle",
       "H_PINNING": "Épingler des groupes sur une clé",
-      "P_PINNING_1": "Ouvrez Clés API, créez ou modifiez une clé et ouvrez le sélecteur de groupes. Cherchez un modèle, cliquez dessus et cochez un ou plusieurs groupes, triés du moins cher au plus cher avec leur multiplicateur de tarif. Les modèles non touchés restent sur auto.",
       "ALT_MAPPING": "Sélecteur de groupes par modèle dans l'éditeur de clé",
       "P_PINNING_2": "Les modèles épinglés remontent en haut avec un badge indiquant le nombre de groupes verrouillés ; Tout effacer remet la clé en auto complet. La liste des clés affiche les clés épinglées comme auto +N.",
       "H_ROUTING": "Routage des requêtes épinglées",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Quand les groupes épinglés sont indisponibles",
       "P_ERRORS_1": "Si tous les groupes épinglés d'un modèle sont indisponibles alors que d'autres fournisseurs le servent encore, les requêtes échouent avec une erreur ciblée plutôt qu'un message générique :",
       "P_ERRORS_2": "Élargissez ou retirez l'épinglage sur la clé, ou réessayez plus tard. Le modèle lui-même fonctionne toujours.",
-      "P_SEE_NOTIFY": "Associez un épinglage à une surveillance pour savoir quand ses groupes changent de prix ou tombent, voir"
+      "P_SEE_NOTIFY": "Associez un épinglage à une surveillance pour savoir quand ses groupes changent de prix ou tombent, voir",
+      "P_PINNING_1_PRE": "Ouvrez ",
+      "P_PINNING_1_LINK": "Clés API",
+      "P_PINNING_1_POST": ", créez ou modifiez une clé et ouvrez le sélecteur de groupes. Cherchez un modèle, cliquez dessus et cochez un ou plusieurs groupes, triés du moins cher au plus cher avec leur multiplicateur de tarif. Les modèles non touchés restent sur auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

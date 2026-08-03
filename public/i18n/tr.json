@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Her modelin detay sayfası Group Pricing altında her grubu girdi ve çıktı fiyatıyla listeler; model listesindeki indirim rozeti her zaman en ucuz grubu yansıtır.",
       "ALT_GROUP_PRICES": "Model detay sayfasındaki grup fiyat tablosu",
       "H_PINNING": "Bir anahtara grup sabitleme",
-      "P_PINNING_1": "API Anahtarlarını açın, bir anahtar oluşturun veya düzenleyin ve grup seçiciyi açın. Bir model arayın, tıklayın ve tarife çarpanıyla en ucuzdan sıralanmış bir veya daha fazla sağlayıcı grubunu işaretleyin. Dokunmadığınız modeller auto kalır.",
       "ALT_MAPPING": "Anahtar düzenleyicide model bazlı sağlayıcı grubu seçici",
       "P_PINNING_2": "Sabitlenmiş modeller, kaç gruba kilitlendiklerini gösteren rozetle üste çıkar; Tümünü temizle anahtarı tamamen auto durumuna döndürür. Anahtar listesi sabitlenmiş anahtarları auto +N olarak gösterir.",
       "H_ROUTING": "Sabitlenmiş istekler nasıl yönlendirilir",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Sabitlenmiş gruplar düştüğünde",
       "P_ERRORS_1": "Bir modelin tüm sabitlenmiş grupları düşmüşken başka sağlayıcılar onu hâlâ sunuyorsa, istekler genel bir meşgul mesajı yerine hedefli bir hatayla başarısız olur:",
       "P_ERRORS_2": "Anahtardaki sabitlemeyi genişletin veya kaldırın ya da daha sonra yeniden deneyin. Modelin kendisi hâlâ çalışıyor.",
-      "P_SEE_NOTIFY": "Grupları fiyat değiştirdiğinde veya düştüğünde haberdar olmak için sabitlemeyi izlemeyle birleştirin, bkz."
+      "P_SEE_NOTIFY": "Grupları fiyat değiştirdiğinde veya düştüğünde haberdar olmak için sabitlemeyi izlemeyle birleştirin, bkz.",
+      "P_PINNING_1_PRE": "",
+      "P_PINNING_1_LINK": "API Anahtarları",
+      "P_PINNING_1_POST": "nı açın, bir anahtar oluşturun veya düzenleyin ve grup seçiciyi açın. Bir model arayın, tıklayın ve tarife çarpanıyla en ucuzdan sıralanmış bir veya daha fazla sağlayıcı grubunu işaretleyin. Dokunmadığınız modeller auto kalır."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

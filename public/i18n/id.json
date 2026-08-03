@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Halaman detail tiap model mencantumkan setiap grup dengan harga input dan output di bagian Group Pricing; lencana diskon di daftar model selalu mencerminkan grup termurah.",
       "ALT_GROUP_PRICES": "Tabel harga grup di halaman detail model",
       "H_PINNING": "Menyematkan grup pada kunci",
-      "P_PINNING_1": "Buka Kunci API, buat atau edit kunci, lalu buka pemilih grup. Cari model, klik, dan centang satu atau beberapa grup penyedia, diurutkan dari termurah dengan pengali tarifnya. Model yang tidak disentuh tetap auto.",
       "ALT_MAPPING": "Pemilih grup penyedia per model di editor kunci",
       "P_PINNING_2": "Model yang disematkan naik ke atas dengan lencana jumlah grup penguncinya; Bersihkan semua mengembalikan kunci ke auto penuh. Daftar kunci menampilkan kunci tersemat sebagai auto +N.",
       "H_ROUTING": "Cara permintaan tersemat dirutekan",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Saat grup tersemat tumbang",
       "P_ERRORS_1": "Jika semua grup tersemat sebuah model tumbang sementara penyedia lain masih melayaninya, permintaan gagal dengan galat terarah alih-alih pesan sibuk generik:",
       "P_ERRORS_2": "Perluas atau lepas sematan pada kunci, atau coba lagi nanti. Modelnya sendiri masih aktif.",
-      "P_SEE_NOTIFY": "Padukan sematan dengan pantauan agar tahu saat grupnya berubah harga atau tumbang, lihat"
+      "P_SEE_NOTIFY": "Padukan sematan dengan pantauan agar tahu saat grupnya berubah harga atau tumbang, lihat",
+      "P_PINNING_1_PRE": "Buka ",
+      "P_PINNING_1_LINK": "Kunci API",
+      "P_PINNING_1_POST": ", buat atau edit kunci, lalu buka pemilih grup. Cari model, klik, dan centang satu atau beberapa grup penyedia, diurutkan dari termurah dengan pengali tarifnya. Model yang tidak disentuh tetap auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

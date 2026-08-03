@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "La pagina di dettaglio di ogni modello elenca ciascun gruppo con prezzo di input e output sotto Group Pricing; il badge di sconto nell'elenco modelli riflette sempre il gruppo più economico.",
       "ALT_GROUP_PRICES": "Tabella dei prezzi per gruppo nella pagina di dettaglio di un modello",
       "H_PINNING": "Bloccare gruppi su una chiave",
-      "P_PINNING_1": "Apri Chiavi API, crea o modifica una chiave e apri il selettore dei gruppi. Cerca un modello, cliccalo e spunta uno o più gruppi di provider, ordinati dal più economico con il loro moltiplicatore di tariffa. I modelli non toccati restano su auto.",
       "ALT_MAPPING": "Selettore dei gruppi per modello nell'editor della chiave",
       "P_PINNING_2": "I modelli bloccati salgono in cima con un badge che mostra a quanti gruppi sono vincolati; Cancella tutto riporta la chiave ad auto completo. L'elenco chiavi mostra le chiavi bloccate come auto +N.",
       "H_ROUTING": "Come vengono instradate le richieste bloccate",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Quando i gruppi bloccati sono giù",
       "P_ERRORS_1": "Se tutti i gruppi bloccati di un modello sono giù mentre altri provider lo servono ancora, le richieste falliscono con un errore mirato invece di un messaggio generico:",
       "P_ERRORS_2": "Allarga o rimuovi il blocco sulla chiave, oppure riprova più tardi. Il modello in sé è ancora attivo.",
-      "P_SEE_NOTIFY": "Abbina un blocco a un'osservazione per sapere quando i suoi gruppi cambiano prezzo o cadono, vedi"
+      "P_SEE_NOTIFY": "Abbina un blocco a un'osservazione per sapere quando i suoi gruppi cambiano prezzo o cadono, vedi",
+      "P_PINNING_1_PRE": "Apri ",
+      "P_PINNING_1_LINK": "Chiavi API",
+      "P_PINNING_1_POST": ", crea o modifica una chiave e apri il selettore dei gruppi. Cerca un modello, cliccalo e spunta uno o più gruppi di provider, ordinati dal più economico con il loro moltiplicatore di tariffa. I modelli non toccati restano su auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

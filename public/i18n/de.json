@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Die Detailseite jedes Modells listet unter Group Pricing jede Gruppe mit ihrem Eingabe- und Ausgabepreis; das Rabatt-Badge in der Modellliste spiegelt immer die günstigste Gruppe.",
       "ALT_GROUP_PRICES": "Gruppenpreis-Tabelle auf einer Modell-Detailseite",
       "H_PINNING": "Gruppen an einem Schlüssel pinnen",
-      "P_PINNING_1": "Öffne API-Schlüssel, erstelle oder bearbeite einen Schlüssel und öffne den Gruppenwähler. Suche ein Modell, klicke es an und hake eine oder mehrere Anbietergruppen ab, sortiert günstigste zuerst mit ihrem Tarif-Multiplikator. Unberührte Modelle bleiben auf auto.",
       "ALT_MAPPING": "Gruppenauswahl pro Modell im Schlüssel-Editor",
       "P_PINNING_2": "Gepinnte Modelle schwimmen mit einem Badge nach oben, das zeigt, auf wie viele Gruppen sie fixiert sind; „Alle löschen“ setzt den Schlüssel auf volles auto zurück. Die Schlüsselliste zeigt gepinnte Schlüssel als auto +N.",
       "H_ROUTING": "Wie gepinnte Anfragen routen",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Wenn gepinnte Gruppen ausfallen",
       "P_ERRORS_1": "Sind alle gepinnten Gruppen eines Modells ausgefallen, während andere Anbieter es weiter bedienen, schlagen Anfragen mit einem gezielten Fehler statt einer generischen Meldung fehl:",
       "P_ERRORS_2": "Erweitere oder entferne das Pinning am Schlüssel oder versuche es später erneut. Das Modell selbst läuft weiter.",
-      "P_SEE_NOTIFY": "Kombiniere ein Pinning mit einer Beobachtung, um von Preisänderungen oder Ausfällen der Gruppen zu erfahren, siehe"
+      "P_SEE_NOTIFY": "Kombiniere ein Pinning mit einer Beobachtung, um von Preisänderungen oder Ausfällen der Gruppen zu erfahren, siehe",
+      "P_PINNING_1_PRE": "Öffne ",
+      "P_PINNING_1_LINK": "API-Schlüssel",
+      "P_PINNING_1_POST": ", erstelle oder bearbeite einen Schlüssel und öffne den Gruppenwähler. Suche ein Modell, klicke es an und hake eine oder mehrere Anbietergruppen ab, sortiert günstigste zuerst mit ihrem Tarif-Multiplikator. Unberührte Modelle bleiben auf auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

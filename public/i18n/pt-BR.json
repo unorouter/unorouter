@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "A página de detalhes de cada modelo lista cada grupo com preço de entrada e saída em Group Pricing; o selo de desconto na lista de modelos sempre reflete o grupo mais barato.",
       "ALT_GROUP_PRICES": "Tabela de preços por grupo na página de detalhes de um modelo",
       "H_PINNING": "Fixando grupos em uma chave",
-      "P_PINNING_1": "Abra Chaves de API, crie ou edite uma chave e abra o seletor de grupos. Busque um modelo, clique nele e marque um ou mais grupos de provedores, ordenados do mais barato com seu multiplicador de tarifa. Modelos que você não mexer continuam em auto.",
       "ALT_MAPPING": "Seletor de grupos por modelo no editor de chaves",
       "P_PINNING_2": "Modelos fixados sobem ao topo com um selo mostrando em quantos grupos estão travados; Limpar tudo devolve a chave ao auto completo. A lista de chaves mostra chaves fixadas como auto +N.",
       "H_ROUTING": "Como as requisições fixadas roteiam",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Quando os grupos fixados caem",
       "P_ERRORS_1": "Se todos os grupos fixados de um modelo caírem enquanto outros provedores ainda o servem, as requisições falham com um erro direcionado em vez de uma mensagem genérica:",
       "P_ERRORS_2": "Amplie ou remova a fixação da chave, ou tente de novo mais tarde. O modelo em si continua no ar.",
-      "P_SEE_NOTIFY": "Combine uma fixação com um acompanhamento para saber quando os grupos mudam de preço ou caem, veja"
+      "P_SEE_NOTIFY": "Combine uma fixação com um acompanhamento para saber quando os grupos mudam de preço ou caem, veja",
+      "P_PINNING_1_PRE": "Abra ",
+      "P_PINNING_1_LINK": "Chaves de API",
+      "P_PINNING_1_POST": ", crie ou edite uma chave e abra o seletor de grupos. Busque um modelo, clique nele e marque um ou mais grupos de provedores, ordenados do mais barato com seu multiplicador de tarifa. Modelos que você não mexer continuam em auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

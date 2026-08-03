@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Strona szczegółów każdego modelu wymienia każdą grupę z ceną wejścia i wyjścia w sekcji Group Pricing; znaczek rabatu na liście modeli zawsze odzwierciedla najtańszą grupę.",
       "ALT_GROUP_PRICES": "Tabela cen grup na stronie szczegółów modelu",
       "H_PINNING": "Przypinanie grup do klucza",
-      "P_PINNING_1": "Otwórz Klucze API, utwórz lub edytuj klucz i otwórz selektor grup. Wyszukaj model, kliknij go i zaznacz jedną lub więcej grup dostawców, posortowanych od najtańszej z mnożnikiem stawki. Modele, których nie ruszysz, zostają na auto.",
       "ALT_MAPPING": "Selektor grup dostawców per model w edytorze klucza",
       "P_PINNING_2": "Przypięte modele wypływają na górę ze znaczkiem liczby grup, do których są przypięte; Wyczyść wszystko przywraca klucz do pełnego auto. Lista kluczy pokazuje przypięte klucze jako auto +N.",
       "H_ROUTING": "Jak trasują przypięte żądania",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "Gdy przypięte grupy padną",
       "P_ERRORS_1": "Jeśli wszystkie przypięte grupy modelu padły, a inni dostawcy wciąż go obsługują, żądania kończą się celowanym błędem zamiast ogólnego komunikatu:",
       "P_ERRORS_2": "Poszerz lub usuń przypięcie na kluczu albo spróbuj później. Sam model nadal działa.",
-      "P_SEE_NOTIFY": "Połącz przypięcie z obserwacją, by wiedzieć, kiedy grupy zmieniają cenę lub padają, zobacz"
+      "P_SEE_NOTIFY": "Połącz przypięcie z obserwacją, by wiedzieć, kiedy grupy zmieniają cenę lub padają, zobacz",
+      "P_PINNING_1_PRE": "Otwórz ",
+      "P_PINNING_1_LINK": "Klucze API",
+      "P_PINNING_1_POST": ", utwórz lub edytuj klucz i otwórz selektor grup. Wyszukaj model, kliknij go i zaznacz jedną lub więcej grup dostawców, posortowanych od najtańszej z mnożnikiem stawki. Modele, których nie ruszysz, zostają na auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

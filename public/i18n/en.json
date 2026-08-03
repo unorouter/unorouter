@@ -5326,7 +5326,6 @@
       "P_PRICES_1": "Each model's detail page lists every group with its input and output price under Group Pricing; the discount badge in the model list always reflects the cheapest group.",
       "ALT_GROUP_PRICES": "Group pricing table on a model detail page",
       "H_PINNING": "Pinning groups on a key",
-      "P_PINNING_1": "Open API Keys, create or edit a key, and open the group selector. Search for a model, click it, and tick one or more provider groups, sorted cheapest first with their rate multiplier. Models you leave alone stay on auto.",
       "ALT_MAPPING": "Per-model provider group picker in the key editor",
       "P_PINNING_2": "Pinned models float to the top with a badge showing how many groups they are locked to, and Clear all resets the key to full auto. The key list shows pinned keys as auto +N.",
       "H_ROUTING": "How pinned requests route",
@@ -5337,7 +5336,10 @@
       "H_ERRORS": "When pinned groups are down",
       "P_ERRORS_1": "If every pinned group for a model is down while other providers still serve it, requests fail with a targeted error instead of a generic busy message:",
       "P_ERRORS_2": "Widen or remove the pin on the key, or retry later. The model itself is still up.",
-      "P_SEE_NOTIFY": "Pair a pin with a watch to hear when its groups change price or go down, see"
+      "P_SEE_NOTIFY": "Pair a pin with a watch to hear when its groups change price or go down, see",
+      "P_PINNING_1_PRE": "Open ",
+      "P_PINNING_1_LINK": "API Keys",
+      "P_PINNING_1_POST": ", create or edit a key, and open the group selector. Search for a model, click it, and tick one or more provider groups, sorted cheapest first with their rate multiplier. Models you leave alone stay on auto."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
