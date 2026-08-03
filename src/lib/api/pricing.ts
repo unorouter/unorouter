@@ -263,8 +263,8 @@ export function groupModelsByType(models: ProcessedModel[]) {
   };
   for (const [tag, tagModels] of typeMap) {
     tagModels.sort((a, b) => {
-      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
-      return releaseTs(b) - releaseTs(a);
+      const diff = releaseTs(b) - releaseTs(a);
+      return diff !== 0 ? diff : a.name.localeCompare(b.name);
     });
     modelsByType.push({ tag, models: tagModels });
   }
