@@ -1,4 +1,5 @@
 import {
+  DocAppLink,
   DocImage,
   DocPageLink,
   DocSection,
@@ -7,11 +8,19 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { platformDocKey } from "../platform-doc-template";
 
+type DocHref = React.ComponentProps<typeof DocAppLink>["href"];
+
 const P = "DOCS_PLATFORM.ACCOUNT_AND_BILLING";
 
 export async function AccountAndBillingContent() {
   const t = await getTranslations();
   const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
+  // <a> in the message becomes a link to the page the sentence is describing.
+  const kLink = (leaf: string, href: DocHref) =>
+    t.rich(platformDocKey(P, leaf), {
+      ...APP_VALUES,
+      a: (chunks) => <DocAppLink href={href}>{chunks}</DocAppLink>,
+    });
 
   return (
     <>
@@ -61,7 +70,7 @@ export async function AccountAndBillingContent() {
         </p>
       </DocSection>
       <DocSection id="logs" title={k("H_LOGS")}>
-        <p>{k("P_LOGS_1")}</p>
+        <p>{kLink("P_LOGS_1", "/logs")}</p>
       </DocSection>
     </>
   );
