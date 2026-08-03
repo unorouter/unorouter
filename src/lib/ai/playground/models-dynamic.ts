@@ -1,3 +1,4 @@
+import { releaseTs } from "@/lib/api/pricing";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
   PLAYGROUND_MODELS,
@@ -175,7 +176,7 @@ export function getEffectiveGenerationModels(
 ): PlaygroundModelDescriptor[] {
   if (!pricing || pricing.length === 0) return PLAYGROUND_MODELS;
   const comfy: PlaygroundModelDescriptor[] = [];
-  const dynamic: PlaygroundModelDescriptor[] = [];
+  const dynamic: { desc: PlaygroundModelDescriptor; releasedAt: number }[] = [];
   const seen = new Set<string>();
   for (const model of pricing) {
     if (seen.has(model.name)) continue;
@@ -183,8 +184,13 @@ export function getEffectiveGenerationModels(
     if (!desc) continue;
     seen.add(model.name);
     if (model.endpointTypes.includes("comfyui")) comfy.push(desc);
-    else dynamic.push(desc);
+    else dynamic.push({ desc, releasedAt: releaseTs(model) });
   }
-  dynamic.sort((a, b) => a.displayName.localeCompare(b.displayName));
-  return [...comfy, ...dynamic];
+  dynamic.sort((a, b) => {
+    const diff = b.releasedAt - a.releasedAt;
+    return diff !== 0
+      ? diff
+      : a.desc.displayName.localeCompare(b.desc.displayName);
+  });
+  return [...comfy, ...dynamic.map((d) => d.desc)];
 }

@@ -240,7 +240,7 @@ export function processModels(response: PricingData) {
     });
 }
 
-function releaseTs(m: ProcessedModel): number {
+export function releaseTs(m: ProcessedModel): number {
   const iso = m.metadata.releaseDate;
   const ms = iso ? Date.parse(iso) : NaN;
   if (Number.isFinite(ms)) return ms;
