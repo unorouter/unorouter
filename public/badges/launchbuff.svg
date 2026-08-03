@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 80" width="256" height="80" role="img" aria-label="Featured on LaunchBuff Badge">
+
+  <!-- Single dark background -->
+  <rect width="256" height="80" rx="12" fill="#1b1c24"/>
+
+  <!-- LB logomark: left=white, top-right=orange, bottom-right=white -->
+  <rect x="12" y="25" width="13" height="30" rx="2" fill="white"/>
+  <rect x="27" y="25" width="13" height="18" rx="2" fill="#e67f00"/>
+  <rect x="27" y="45" width="13" height="10" rx="2" fill="white"/>
+
+  <!-- Separator -->
+  <line x1="52" y1="12" x2="52" y2="68" stroke="#e67f00" stroke-width="1" opacity="0.3"/>
+
+  <!-- Featured On label -->
+  <text x="154" y="34"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="13"
+    font-weight="600"
+    letter-spacing="2"
+    fill="white">Featured On</text>
+
+  <!-- LAUNCHBUFF wordmark -->
+  <text x="154" y="57"
+    text-anchor="middle"
+    font-family="'Arial Black', Impact, 'Helvetica Neue', sans-serif"
+    font-size="20"
+    font-weight="900"
+    letter-spacing="0.5">
+    <tspan fill="white">LAUNCH</tspan><tspan fill="#e67f00">BUFF</tspan>
+  </text>
+
+  <!-- Border -->
+  <rect width="256" height="80" rx="12" fill="none" stroke="#c88a00" stroke-width="1.5" opacity="0.45"/>
+</svg>

@@ -103,6 +103,12 @@ const FOOTER_BADGES = [
     name: "LaunchBoosts",
     width: 153,
   },
+  {
+    href: "https://launchbuff.com/products/unorouter-ratcls",
+    src: "/badges/launchbuff.svg",
+    name: "LaunchBuff",
+    width: 160,
+  },
 ] as const;
 
 function FooterLinks(props: {
