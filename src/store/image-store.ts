@@ -25,6 +25,8 @@ type SnapshotRestorePayload = {
   tab?: GenerateTab;
   subPill?: Img2ImgSubPill;
   initImageUrl?: string;
+  /** Merged over the snapshot's own params, so a quick action can set the knobs it implies. */
+  paramOverrides?: Partial<GenerationParams>;
 };
 
 // One-shot mailbox: the form consumes this and clears it, so a remount cannot re-apply a

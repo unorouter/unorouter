@@ -278,6 +278,7 @@ export function ImageResult(props: Props) {
             setLightboxIndex(i);
             setLightboxOpen(true);
           }}
+          supportsHires={getModelDescriptor(data.model).supportsHiresFix}
           onQuickAction={(src, target) => {
             setActiveTab(target.tab);
             if (target.subPill) setActiveSubPill(target.subPill);
@@ -296,6 +297,9 @@ export function ImageResult(props: Props) {
               tab: target.tab,
               subPill: target.subPill,
               initImageUrl: src,
+              paramOverrides: target.hires
+                ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
+                : undefined,
             });
             setLastRestoredPrompt(data.prompt);
           }}
@@ -358,18 +362,8 @@ export function ImageResult(props: Props) {
           <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
-        {isDone && getModelDescriptor(data.model).supportsHiresFix && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              router.push(`/image?remix=${props.snapshotId}&hires=1`)
-            }
-          >
-            <Icon name="wand" className="mr-2" />
-            {t("IMAGE.HIRES_SHORTCUT")}
-          </Button>
-        )}
+        {/* Hires lives on each image's hover actions instead of here: a batch has several
+            results and a snapshot-level button cannot say which one to re-render. */}
         {/* Same shape as the hires pass: the result becomes the init image, so a region can
             be redrawn without downloading it and uploading it back as a reference. */}
         {isDone && getModelDescriptor(data.model).supportsStrength && (

@@ -52,100 +52,72 @@ export function CoreParamsFields(props: Props) {
 
   return (
     <>
-      <CollapsibleSection title={t("IMAGE.GENERATION_SECTION")} summary={summary}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <SliderParamField
-          control={form.control}
-          name="params.steps"
-          label={t("IMAGE.STEPS_LABEL")}
-          min={1}
-          max={50}
-          step={1}
-          value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
-        />
-
-        {descriptor.supportsCfg && (
+      <CollapsibleSection
+        title={t("IMAGE.GENERATION_SECTION")}
+        summary={summary}
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <SliderParamField
             control={form.control}
-            name="params.cfg"
-            label={t("IMAGE.CFG_LABEL")}
-            min={0}
-            max={15}
-            step={0.5}
-            value={numParam("cfg", descriptor.defaultParams.cfg ?? 7)}
-          />
-        )}
-
-        {descriptor.supportsGuidance && (
-          <SliderParamField
-            control={form.control}
-            name="params.guidance"
-            label={t("IMAGE.GUIDANCE_LABEL")}
+            name="params.steps"
+            label={t("IMAGE.STEPS_LABEL")}
             min={1}
-            max={10}
-            step={0.1}
-            value={numParam("guidance", descriptor.defaultParams.guidance ?? 4)}
+            max={50}
+            step={1}
+            value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
           />
-        )}
-      </div>
 
-      {descriptor.supportsSampler ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <FormField
-            control={form.control}
-            name="params.sampler"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("IMAGE.SAMPLER_LABEL")}</FormLabel>
-                <FormControl>
-                  <Select
-                    value={
-                      field.value ?? descriptor.defaultParams.sampler ?? ""
-                    }
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger
-                      aria-label={t("IMAGE.SAMPLER_LABEL")}
-                      className="w-full"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {(descriptor.samplers ?? []).map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {s}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          {/* Some backends fold the scheduler into the sampler and offer no separate list,
-              which would render an empty select holding a value the provider rejects. */}
-          {(descriptor.schedulers?.length ?? 0) > 0 && (
+          {descriptor.supportsCfg && (
+            <SliderParamField
+              control={form.control}
+              name="params.cfg"
+              label={t("IMAGE.CFG_LABEL")}
+              min={0}
+              max={15}
+              step={0.5}
+              value={numParam("cfg", descriptor.defaultParams.cfg ?? 7)}
+            />
+          )}
+
+          {descriptor.supportsGuidance && (
+            <SliderParamField
+              control={form.control}
+              name="params.guidance"
+              label={t("IMAGE.GUIDANCE_LABEL")}
+              min={1}
+              max={10}
+              step={0.1}
+              value={numParam(
+                "guidance",
+                descriptor.defaultParams.guidance ?? 4,
+              )}
+            />
+          )}
+        </div>
+
+        {descriptor.supportsSampler ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <FormField
               control={form.control}
-              name="params.scheduler"
+              name="params.sampler"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
+                  <FormLabel>{t("IMAGE.SAMPLER_LABEL")}</FormLabel>
                   <FormControl>
                     <Select
                       value={
-                        field.value ?? descriptor.defaultParams.scheduler ?? ""
+                        field.value ?? descriptor.defaultParams.sampler ?? ""
                       }
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger
-                        aria-label={t("IMAGE.SCHEDULER_LABEL")}
+                        aria-label={t("IMAGE.SAMPLER_LABEL")}
                         className="w-full"
                       >
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {(descriptor.schedulers ?? []).map((s) => (
+                        {(descriptor.samplers ?? []).map((s) => (
                           <SelectItem key={s} value={s}>
                             {s}
                           </SelectItem>
@@ -156,9 +128,45 @@ export function CoreParamsFields(props: Props) {
                 </FormItem>
               )}
             />
-          )}
-        </div>
-      ) : null}
+            {/* Some backends fold the scheduler into the sampler and offer no separate list,
+              which would render an empty select holding a value the provider rejects. */}
+            {(descriptor.schedulers?.length ?? 0) > 0 && (
+              <FormField
+                control={form.control}
+                name="params.scheduler"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={
+                          field.value ??
+                          descriptor.defaultParams.scheduler ??
+                          ""
+                        }
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger
+                          aria-label={t("IMAGE.SCHEDULER_LABEL")}
+                          className="w-full"
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(descriptor.schedulers ?? []).map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
+          </div>
+        ) : null}
       </CollapsibleSection>
       {/* Outside the disclosure: a seed is changed or reused per generation, not set once. */}
       <SeedField />

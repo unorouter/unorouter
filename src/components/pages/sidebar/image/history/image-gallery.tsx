@@ -10,7 +10,12 @@ import type { GenerateTab, Img2ImgSubPill } from "@/store/image-store";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-type QuickTarget = { tab: GenerateTab; subPill?: Img2ImgSubPill };
+type QuickTarget = {
+  tab: GenerateTab;
+  subPill?: Img2ImgSubPill;
+  /** A hires pass re-renders THIS image larger, so it is per-image, not per-snapshot. */
+  hires?: boolean;
+};
 type QuickHandler = (src: string, target: QuickTarget) => void;
 
 async function downloadGenerationImage(src: string, filename: string) {
@@ -27,6 +32,7 @@ function ImageTile(props: {
   seed?: number | null;
   onZoom: () => void;
   onQuickAction?: QuickHandler;
+  supportsHires?: boolean;
   onReuseSeed?: (seed: number) => void;
 }) {
   const t = useTranslations();
@@ -100,6 +106,16 @@ function ImageTile(props: {
           >
             <Icon name="maximize-2" className="h-3.5 w-3.5" />
           </button>
+          {props.supportsHires && (
+            <button
+              type="button"
+              onClick={() => quick({ tab: "img2img", hires: true })}
+              title={t("IMAGE.HOVER_HIRES")}
+              className="hover:bg-accent cursor-pointer rounded p-1"
+            >
+              <Icon name="wand" className="h-3.5 w-3.5" />
+            </button>
+          )}
           <button
             type="button"
             onClick={() => quick({ tab: "img2img", subPill: "adetailer" })}
@@ -128,6 +144,7 @@ export function BatchGrid(props: {
   snapshotId: string;
   onOpenLightbox: (index: number) => void;
   onQuickAction?: QuickHandler;
+  supportsHires?: boolean;
   onReuseSeed?: (seed: number) => void;
 }) {
   const sorted = props.images
@@ -143,6 +160,7 @@ export function BatchGrid(props: {
         seed={sorted[0].seed}
         onZoom={() => props.onOpenLightbox(0)}
         onQuickAction={props.onQuickAction}
+        supportsHires={props.supportsHires}
         onReuseSeed={props.onReuseSeed}
       />
     );
@@ -159,6 +177,7 @@ export function BatchGrid(props: {
           seed={img.seed}
           onZoom={() => props.onOpenLightbox(i)}
           onQuickAction={props.onQuickAction}
+          supportsHires={props.supportsHires}
           onReuseSeed={props.onReuseSeed}
         />
       ))}

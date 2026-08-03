@@ -17,7 +17,7 @@ export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   id: string;
   value: number | null;
 }> = [
-  { id: "1x", value: 1 },
+  { id: "off", value: 1 },
   { id: "1.5x", value: 1.5 },
   { id: "2x", value: 2 },
   { id: "3x", value: 3 },

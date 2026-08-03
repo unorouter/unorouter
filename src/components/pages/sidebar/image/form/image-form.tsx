@@ -237,16 +237,28 @@ export function ImageForm() {
             extraParams: form.watch("ui"),
           }}
           onApply={(preset) => {
+            gen.adoptModelTab(preset.model);
             form.setValue("model", preset.model);
             gen.changeModel(preset.model);
-            setPickedCheckpoint(null);
+            // Only a preset that carries its own checkpoint replaces the resolved one.
+            // Presets saved before the AIR was stored carry none, and clearing on those
+            // left the custom model with an empty URL and no version, which blocks submit.
+            if (preset.extraParams?.air) setPickedCheckpoint(null);
             // Presets saved before prompts were stored have none; overwriting with "" would
             // clear whatever the user had already typed.
             if (preset.prompt) form.setValue("prompt", preset.prompt);
             form.setValue("negativePrompt", preset.negativePrompt ?? "");
             if (preset.params) form.setValue("params", preset.params);
             form.setValue("loras", preset.loras ?? undefined);
-            if (preset.extraParams) form.setValue("ui", preset.extraParams);
+            // Merge rather than replace: a preset with no checkpoint of its own must not
+            // drop the AIR the current ui is carrying, since that is what identifies the
+            // model actually being run.
+            if (preset.extraParams) {
+              form.setValue("ui", {
+                ...(preset.extraParams.air ? {} : ui),
+                ...preset.extraParams,
+              });
+            }
           }}
         />
 
@@ -284,7 +296,31 @@ export function ImageForm() {
         {descriptor.id === CUSTOM_CIVITAI_MODEL_ID && (
           <CivitaiResolverField
             value={activeCheckpoint}
-            onChange={setPickedCheckpoint}
+            // Mirrored into ui, not just held in state: the draft is built from ui, so a
+            // checkpoint kept only in state was lost on every remount (submitting navigates
+            // to the result) and the user had to resolve the URL again before each run.
+            onChange={(next) => {
+              setPickedCheckpoint(next);
+              const current = form.getValues("ui") ?? {};
+              form.setValue(
+                "ui",
+                next
+                  ? {
+                      ...current,
+                      air: next.air,
+                      airName: next.name,
+                      ...(next.architecture
+                        ? { airArchitecture: next.architecture }
+                        : {}),
+                    }
+                  : {
+                      ...current,
+                      air: undefined,
+                      airName: undefined,
+                      airArchitecture: undefined,
+                    },
+              );
+            }}
             query={ui.airQuery ?? ""}
             onQueryChange={(next) =>
               form.setValue("ui", {
@@ -424,6 +460,13 @@ export function ImageForm() {
               ? t("IMAGE.SUBMITTING")
               : `${t("IMAGE.SUBMIT")} ${priceLabel}`}
           </Button>
+          {/* A disabled button with no reason reads as broken rather than as a missing
+              field, which is how an older preset carrying no prompt was reported. */}
+          {!submitMut.isPending && !(form.watch("prompt") ?? "") && (
+            <p className="text-muted-foreground text-xs">
+              {t("IMAGE.SUBMIT_NEEDS_PROMPT")}
+            </p>
+          )}
           {activeSessionId && (
             <Link
               href="/image"

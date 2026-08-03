@@ -163,11 +163,15 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
+  // Guests can only run free models, so a paid pick has to be swapped out. A logged-in user
+  // is never swapped: a model missing from the list is a passthrough checkpoint or a catalog
+  // entry that has not loaded, and replacing it spends the generation on a model the user
+  // did not choose.
   useEffect(() => {
-    if (effectiveModels.length === 0) return;
+    if (effectiveModels.length === 0 || isLoggedIn) return;
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
-    if (desc && (isLoggedIn || desc.isFree)) return;
+    if (desc?.isFree) return;
     const freePool = effectiveModels.filter((m) => m.isFree);
     if (freePool.length > 0) changeModel(freePool[0].id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,7 +190,9 @@ export function useGenerationForm() {
     if (draftRestoredTab === null && !remixId) return;
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
-    if (desc && isModelInTab(desc, activeTab)) return;
+    // Unknown model = a passthrough checkpoint the catalog does not list. It fits whatever
+    // tab the user is on; swapping it would discard a checkpoint they resolved by hand.
+    if (!desc || isModelInTab(desc, activeTab)) return;
     const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
     if (pool.length > 0) changeModel(pool[0].id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -249,6 +255,7 @@ export function useGenerationForm() {
     if (restorePayload.initImageUrl) {
       mergedParams.initImageUrl = restorePayload.initImageUrl;
     }
+    Object.assign(mergedParams, restorePayload.paramOverrides ?? {});
     form.reset({
       ...defaultsFor(desc),
       model: desc.id,
@@ -263,11 +270,23 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restorePayload]);
 
+  // Applying a preset picks a model deliberately, so the TAB has to follow the model. The
+  // fit effect above resolves the other direction (model follows tab) and would otherwise
+  // see a text2img preset on the img2img tab and silently swap in a free model instead.
+  const adoptModelTab = (modelId: string) => {
+    const desc = effectiveModels.find((m) => m.id === modelId);
+    if (!desc || isModelInTab(desc, activeTab)) return;
+    const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
+    setActiveTab(target);
+    setDraftRestoredTab(target);
+  };
+
   return {
     form,
     descriptor,
     effectiveModels,
     changeModel,
+    adoptModelTab,
     samplerMemory,
     setSamplerMemory,
     setDraft,
