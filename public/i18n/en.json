@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Photorealistic",
       "CINEMATIC": "Cinematic"
     },
-    "DISCORD_CTA": "Need a preset or stuck? Ask on Discord"
+    "DISCORD_CTA": "Need a preset or stuck? Ask on Discord",
+    "TRUNCATED_BEFORE_TEXT": "The output limit was reached while the model was still thinking, so no reply was written. Raise max tokens or turn off reasoning for this model."
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",

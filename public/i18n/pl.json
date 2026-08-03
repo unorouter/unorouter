@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Fotorealistyczny",
       "CINEMATIC": "Kinowy"
     },
-    "DISCORD_CTA": "Potrzebujesz presetu lub pomocy? Zapytaj na Discordzie"
+    "DISCORD_CTA": "Potrzebujesz presetu lub pomocy? Zapytaj na Discordzie",
+    "TRUNCATED_BEFORE_TEXT": "Limit wyjścia został osiągnięty, gdy model wciąż rozumował, więc nie napisano żadnej odpowiedzi. Zwiększ maksymalną liczbę tokenów lub wyłącz rozumowanie dla tego modelu."
   },
   "RP": {
     "CHARACTERS_TITLE": "Postacie",

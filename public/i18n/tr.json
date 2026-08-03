@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Fotogerçekçi",
       "CINEMATIC": "Sinematik"
     },
-    "DISCORD_CTA": "Preset mi lazım yoksa takıldın mı? Discord'da sor"
+    "DISCORD_CTA": "Preset mi lazım yoksa takıldın mı? Discord'da sor",
+    "TRUNCATED_BEFORE_TEXT": "Model hâlâ düşünürken çıktı sınırına ulaşıldı, bu yüzden hiçbir yanıt yazılmadı. Maksimum token sayısını artırın veya bu model için akıl yürütmeyi kapatın."
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",

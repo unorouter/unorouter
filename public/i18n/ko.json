@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "포토리얼",
       "CINEMATIC": "시네마틱"
     },
-    "DISCORD_CTA": "프리셋이 필요하거나 막히셨나요? Discord에서 물어보세요"
+    "DISCORD_CTA": "프리셋이 필요하거나 막히셨나요? Discord에서 물어보세요",
+    "TRUNCATED_BEFORE_TEXT": "모델이 아직 추론하는 중에 출력 한도에 도달하여 답변이 작성되지 않았습니다. 최대 토큰 수를 늘리거나 이 모델의 추론을 끄세요."
   },
   "RP": {
     "CHARACTERS_TITLE": "캐릭터",

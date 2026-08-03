@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "照片級寫實",
       "CINEMATIC": "電影感"
     },
-    "DISCORD_CTA": "需要預設或遇到問題？在 Discord 上提問"
+    "DISCORD_CTA": "需要預設或遇到問題？在 Discord 上提問",
+    "TRUNCATED_BEFORE_TEXT": "模型仍在思考時就達到了輸出上限，因此沒有寫出回覆。請提高最大權杖數，或關閉該模型的推理。"
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",

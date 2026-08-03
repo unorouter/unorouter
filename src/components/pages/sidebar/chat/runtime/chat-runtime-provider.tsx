@@ -210,6 +210,9 @@ function ChatRuntimeHook() {
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
         );
       }
+      if (message.metadata?.truncatedBeforeText) {
+        toast.warning(t("CHAT.TRUNCATED_BEFORE_TEXT"));
+      }
       void maybeAutoContinue(chat, remoteId ?? null, message, userId);
     },
   });

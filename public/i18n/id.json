@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Fotorealistis",
       "CINEMATIC": "Sinematik"
     },
-    "DISCORD_CTA": "Butuh preset atau bingung? Tanya di Discord"
+    "DISCORD_CTA": "Butuh preset atau bingung? Tanya di Discord",
+    "TRUNCATED_BEFORE_TEXT": "Batas keluaran tercapai saat model masih menalar, sehingga tidak ada balasan yang ditulis. Naikkan token maksimum atau matikan penalaran untuk model ini."
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",

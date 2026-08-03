@@ -161,8 +161,10 @@ async function runClientStream(args: {
   const collector = createMetaCollector();
   const startedAt = Date.now();
   const buildUsage = makeBuildUsage(prepared, startedAt, Date.now);
+  let sawText = false;
   const finishMeta = (
     totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
+    finishReason?: string,
   ) =>
     buildFinishMeta({
       prepared,
@@ -170,6 +172,8 @@ async function runClientStream(args: {
       buildUsage,
       totalUsage,
       speakingCharacterId: body.speakingCharacterId,
+      finishReason,
+      hasText: sawText,
     });
 
   if (prepared.stopRequested) {
@@ -252,12 +256,13 @@ async function runClientStream(args: {
     generateMessageId: () => responseMessageId,
     onError: (error) => streamErrorText(error),
     messageMetadata: ({ part }) => {
+      if (part.type === "text-delta" && part.text) sawText = true;
       if (part.type === "finish-step") {
         collector.captureHeaders(part.response.headers);
         return undefined;
       }
       if (part.type === "finish") {
-        const meta = finishMeta(part.totalUsage);
+        const meta = finishMeta(part.totalUsage, part.finishReason);
         return Object.keys(meta).length > 0 ? meta : undefined;
       }
       return undefined;

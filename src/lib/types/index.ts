@@ -63,6 +63,7 @@ type RequestLogPayload = Omit<
 export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
+  truncatedBeforeText?: boolean;
   debug?: RequestLogPayload;
   vars?: string;
   globalVars?: string;

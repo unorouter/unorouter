@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "フォトリアル",
       "CINEMATIC": "シネマティック"
     },
-    "DISCORD_CTA": "プリセットが必要、または困ったときは Discord で質問"
+    "DISCORD_CTA": "プリセットが必要、または困ったときは Discord で質問",
+    "TRUNCATED_BEFORE_TEXT": "モデルが思考している間に出力上限に達したため、返答は書かれませんでした。最大トークン数を増やすか、このモデルの推論をオフにしてください。"
   },
   "RP": {
     "CHARACTERS_TITLE": "キャラクター",

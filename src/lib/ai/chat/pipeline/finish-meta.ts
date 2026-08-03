@@ -63,9 +63,16 @@ export function buildFinishMeta(args: {
   buildUsage: (inputTokens: number, outputTokens: number) => StreamUsage;
   totalUsage: { inputTokens?: number; outputTokens?: number } | undefined;
   speakingCharacterId?: string | null;
+  finishReason?: string;
+  hasText?: boolean;
 }): Record<string, unknown> {
   const prepared = args.prepared;
   const meta: Record<string, unknown> = {};
+  // A run that hits the output cap while still reasoning closes cleanly with no
+  // text part: no error is raised anywhere, so without this the user gets a
+  // blank bubble and nothing to act on.
+  if (args.finishReason === "length" && args.hasText === false)
+    meta.truncatedBeforeText = true;
   if (args.collector.droppedParams)
     meta.droppedParams = args.collector.droppedParams;
   if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;

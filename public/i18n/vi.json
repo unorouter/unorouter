@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Siêu chân thực",
       "CINEMATIC": "Điện ảnh"
     },
-    "DISCORD_CTA": "Cần preset hay đang bí? Hỏi trên Discord"
+    "DISCORD_CTA": "Cần preset hay đang bí? Hỏi trên Discord",
+    "TRUNCATED_BEFORE_TEXT": "Đã đạt giới hạn đầu ra khi mô hình vẫn đang suy luận, nên không có câu trả lời nào được viết. Hãy tăng số token tối đa hoặc tắt suy luận cho mô hình này."
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",

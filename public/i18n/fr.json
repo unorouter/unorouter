@@ -4039,7 +4039,8 @@
       "PHOTOREALISTIC": "Photoréaliste",
       "CINEMATIC": "Cinématographique"
     },
-    "DISCORD_CTA": "Besoin d'un preset ou d'aide ? Demandez sur Discord"
+    "DISCORD_CTA": "Besoin d'un preset ou d'aide ? Demandez sur Discord",
+    "TRUNCATED_BEFORE_TEXT": "La limite de sortie a été atteinte pendant que le modèle réfléchissait encore, aucune réponse n'a donc été écrite. Augmentez le nombre maximal de tokens ou désactivez le raisonnement pour ce modèle."
   },
   "RP": {
     "CHARACTERS_TITLE": "Personnages",
