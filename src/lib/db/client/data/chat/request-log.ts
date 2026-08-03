@@ -4,10 +4,10 @@ import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
-import { desc, eq, notInArray } from "drizzle-orm";
+import { and, desc, eq, notInArray } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 
-const MAX_REQUEST_LOGS = 15;
+const MAX_REQUEST_LOGS = 200;
 
 function wireMessage(m: unknown): { role: string; content: string } {
   const msg = m as {
@@ -73,13 +73,17 @@ export async function insertLocalRequestLog(
   const keep = await local.db
     .select({ msgId: requestLogs.msgId })
     .from(requestLogs)
+    .where(eq(requestLogs.convId, row.convId))
     .orderBy(desc(requestLogs.createdAt))
     .limit(MAX_REQUEST_LOGS);
   if (keep.length >= MAX_REQUEST_LOGS) {
     await local.db.delete(requestLogs).where(
-      notInArray(
-        requestLogs.msgId,
-        keep.map((r) => r.msgId),
+      and(
+        eq(requestLogs.convId, row.convId),
+        notInArray(
+          requestLogs.msgId,
+          keep.map((r) => r.msgId),
+        ),
       ),
     );
   }
