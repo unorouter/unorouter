@@ -34,6 +34,7 @@ function requireKey(): string {
 
 async function runwareTask<T = RunwareEnvelope>(
   task: Record<string, unknown>,
+  timeoutMs = 15_000,
 ): Promise<T> {
   const res = await fetch(RUNWARE_ENDPOINT, {
     method: "POST",
@@ -43,7 +44,7 @@ async function runwareTask<T = RunwareEnvelope>(
     },
     // taskUUID must be a hyphenated UUIDv4; Runware rejects any other shape.
     body: JSON.stringify([{ taskUUID: crypto.randomUUID(), ...task }]),
-    signal: AbortSignal.timeout(15_000),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   return (await res.json()) as T;
 }
@@ -67,13 +68,31 @@ export async function searchModelCatalog(
   category: string,
   query: CatalogSearchQuery,
 ): Promise<{ items: CatalogItem[] }> {
-  const envelope = await runwareTask({
-    taskType: "modelSearch",
-    category,
-    ...(query.search ? { search: query.search } : {}),
-    ...(query.architecture ? { architecture: query.architecture } : {}),
-    limit: query.limit ?? 24,
-  });
+  // These lists are optional decoration on the form: a LoRA or VAE picker that cannot load
+  // should render empty, not fail the request. Runware regularly exceeds the timeout here,
+  // and a 500 made the whole page look broken while the user was only trying to generate.
+  let envelope: RunwareEnvelope;
+  try {
+    envelope = await runwareTask(
+      {
+        taskType: "modelSearch",
+        category,
+        ...(query.search ? { search: query.search } : {}),
+        ...(query.architecture ? { architecture: query.architecture } : {}),
+        limit: query.limit ?? 24,
+      },
+      // Shorter than the resolver's: an empty picker is a small loss, while a page that
+      // hangs for fifteen seconds on every load is the thing being reported.
+      7_000,
+    );
+  } catch (err) {
+    logger.warn("runware model search unreachable", {
+      context: "image.catalog",
+      category,
+      error: String(err),
+    });
+    return { items: [] };
+  }
 
   if (envelope.errors?.length) {
     logger.warn("runware model search failed", {

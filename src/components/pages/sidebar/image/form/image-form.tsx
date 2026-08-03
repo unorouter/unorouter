@@ -449,13 +449,19 @@ export function ImageForm() {
 
         <AdvancedFieldsStack form={form} descriptor={descriptor} />
 
-        <div className="flex flex-col gap-2">
+        {/* Sticky while submitting: a generation takes ten seconds or more, and the result
+            mounting above pushes this button far below the fold. Losing sight of it mid-run
+            reads as a dead button and the whole generation as a no-op. */}
+        <div className="bg-background sticky bottom-0 z-10 flex flex-col gap-2 py-2">
           <Button
             type="submit"
             disabled={submitMut.isPending || !(form.watch("prompt") ?? "")}
             size="lg"
           >
-            <Icon name="sparkles" className="mr-2" />
+            <Icon
+              name={submitMut.isPending ? "loader" : "sparkles"}
+              className={cn("mr-2", submitMut.isPending && "animate-spin")}
+            />
             {submitMut.isPending
               ? t("IMAGE.SUBMITTING")
               : `${t("IMAGE.SUBMIT")} ${priceLabel}`}
