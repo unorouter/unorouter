@@ -5,7 +5,16 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
-import { newSql } from "@/lib/db/client/new-sql";
+import { newSql, pauseSql, resumeSql } from "@/lib/db/client/new-sql";
+import {
+  requestOwnership,
+  subscribeWant,
+} from "@/lib/db/client/sahpool/db-ownership";
+import {
+  acquireLock,
+  acquireLockWaiting,
+  releaseLock,
+} from "@/lib/db/client/outbox/resource-lock";
 import { runMigrations } from "@/lib/db/client/schema-migrate/migrations";
 import type { LocalClient } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -69,6 +78,31 @@ function isRecoverable(err: unknown): boolean {
 
 const RETRIES = 7;
 const MAX_BACKOFF = 1500;
+
+async function awaitOwnership(
+  dbPath: string,
+  lockKey: string,
+): Promise<boolean> {
+  const deadline = Date.now() + HANDOVER_TIMEOUT;
+  while (Date.now() < deadline) {
+    requestOwnership(dbPath);
+    const slice = Math.min(WANT_RETRY_MS, deadline - Date.now());
+    if (await acquireLockWaiting(lockKey, slice)) return true;
+  }
+  return false;
+}
+
+// Handover wait cap: covers a frozen owner tab (a dead one releases its Web
+// Lock automatically and the wait resolves early).
+const HANDOVER_TIMEOUT = 15_000;
+// `want` is re-broadcast on this interval while waiting: a single shot is
+// lost when the owner has not finished its own open yet (BroadcastChannel
+// does not queue for handlers registered later).
+const WANT_RETRY_MS = 2_000;
+// A tab that just took the pool keeps it at least this long before honouring
+// the next want, so two active tabs trade in batches instead of ping-ponging
+// on every statement.
+const MIN_HOLD_MS = 2_000;
 
 async function openMigratedSql(
   dbPath: string,
@@ -249,22 +283,25 @@ async function migrateLegacySqliteFile(
 async function openClient(userId: number): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
   const dbPath = `${appName}-${userId}.sqlite3`;
-  // ONE tab may touch the pool. opfs-sahpool claims exclusive sync access
-  // handles for every pool file, so a second tab's install attempt fails by
-  // design - but a failed attempt can leave a pool file's header torn, after
-  // which the FIRST tab opens an empty database and the user sees a wipe. That
-  // is how a user lost a long RP: chat in one tab, /image in another, both
-  // resolving to this same per-user pool.
+  // ONE tab may hold the pool at a time. opfs-sahpool claims exclusive sync
+  // access handles for every pool file, so a second tab's install attempt
+  // fails by design - but a failed attempt can leave a pool file's header
+  // torn, after which the FIRST tab opens an empty database and the user sees
+  // a wipe. That is how a user lost a long RP: chat in one tab, /image in
+  // another, both resolving to this same per-user pool.
   //
-  // Take the lock BEFORE any pool access and never release it while the tab
-  // lives (the browser releases it when the tab dies). A second tab fails fast
-  // with a non-recoverable error instead of racing for the handles.
-  const { acquireLock } = await import("@/lib/db/client/outbox/resource-lock");
-  if (!(await acquireLock(`db:${dbPath}`))) {
-    logChatDebug("db.open.tab_locked", { userId });
-    throw new Error(
-      `${TAB_LOCK_MARKER}: ${dbPath} is open in another tab or window`,
-    );
+  // Take the Web Lock BEFORE any pool access. On contention, ask the owner to
+  // hand the pool over (it drains, pauses its VFS, releases) and wait in the
+  // lock queue; only a hung owner ends in the DB-unavailable state.
+  const lockKey = `db:${dbPath}`;
+  if (!(await acquireLock(lockKey))) {
+    logChatDebug("db.open.handover_wait", { userId });
+    if (!(await awaitOwnership(dbPath, lockKey))) {
+      logChatDebug("db.open.tab_locked", { userId });
+      throw new Error(
+        `${TAB_LOCK_MARKER}: ${dbPath} is open in another tab or window`,
+      );
+    }
   }
   try {
     const { recoverPendingImport } =
@@ -298,20 +335,87 @@ async function openClient(userId: number): Promise<LocalClient> {
 
   let reopening: Promise<void> | null = null;
 
-  const run = async <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> => {
+  // Cooperative handover state. `parked` means this tab gave the pool away:
+  // the VFS is paused, the Web Lock released, and every statement path below
+  // must reacquire before touching the database. Transitions are single-flight
+  // through `transition` so park and unpark never interleave.
+  let parked = false;
+  let transition: Promise<void> | null = null;
+  let lastAcquiredAt = Date.now();
+  let inFlight = 0;
+  let idleWaiters: (() => void)[] = [];
+
+  const waitForIdle = () =>
+    inFlight === 0
+      ? Promise.resolve()
+      : new Promise<void>((resolve) => idleWaiters.push(resolve));
+
+  const parkNow = async () => {
+    const heldFor = Date.now() - lastAcquiredAt;
+    if (heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
+    await waitForIdle();
+    await pauseSql(sql);
+    parked = true;
+    releaseLock(lockKey);
+    logChatDebug("db.handover.parked", { userId });
+  };
+
+  const unparkNow = async () => {
+    if (!(await awaitOwnership(dbPath, lockKey))) {
+      throw new Error(`${TAB_LOCK_MARKER}: handover of ${dbPath} timed out`);
+    }
+    await resumeSql(sql);
+    parked = false;
+    lastAcquiredAt = Date.now();
+    logChatDebug("db.handover.resumed", { userId });
+  };
+
+  const ensureOwned = async (): Promise<void> => {
+    while (transition) await transition.catch(() => {});
+    if (!parked) return;
+    transition = unparkNow().finally(() => (transition = null));
+    await transition;
+  };
+
+  const unsubscribeWant = subscribeWant(dbPath, () => {
+    if (parked || transition) return;
+    transition = parkNow().finally(() => (transition = null));
+  });
+
+  const gated = async <T>(
+    fn: (s: SQLocalDrizzle) => Promise<T>,
+  ): Promise<T> => {
+    await ensureOwned();
+    inFlight++;
     try {
       return await fn(sql);
-    } catch (err) {
-      if (!isRecoverable(err)) throw err;
-      reopening ??= (async () => {
-        logChatDebug("db.reopen", { userId, error: String(err).slice(0, 200) });
-        await sql.destroy().catch(() => {});
-        sql = await openMigratedSql(dbPath, userId);
-      })().finally(() => (reopening = null));
-      await reopening;
-      return fn(sql);
+    } finally {
+      inFlight--;
+      if (inFlight === 0) {
+        idleWaiters.forEach((resolve) => resolve());
+        idleWaiters = [];
+      }
     }
   };
+
+  const run = <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> =>
+    gated(async () => {
+      try {
+        return await fn(sql);
+      } catch (err) {
+        if (!isRecoverable(err)) throw err;
+        reopening ??= (async () => {
+          logChatDebug("db.reopen", {
+            userId,
+            error: String(err).slice(0, 200),
+          });
+          await sql.destroy().catch(() => {});
+          sql = await openMigratedSql(dbPath, userId);
+        })().finally(() => (reopening = null));
+        await reopening;
+        return fn(sql);
+      }
+    });
 
   const db = drizzle(
     (q, params, method) => run((s) => s.driver(q, params, method)),
@@ -322,11 +426,17 @@ async function openClient(userId: number): Promise<LocalClient> {
     db,
     exec: (q, params, method) => run((s) => s.exec(q, params, method)),
     transaction: (cb) => run((s) => s.transaction(cb)),
-    destroy: () => sql.destroy(),
-    deleteDatabaseFile: () => sql.deleteDatabaseFile(),
-    getDatabaseFile: () => sql.getDatabaseFile(),
-    getDatabaseInfo: () => sql.getDatabaseInfo(),
-    overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
+    destroy: async () => {
+      unsubscribeWant();
+      await ensureOwned().catch(() => {});
+      await sql.destroy();
+      releaseLock(lockKey);
+    },
+    deleteDatabaseFile: () => gated((s) => s.deleteDatabaseFile()),
+    getDatabaseFile: () => gated((s) => s.getDatabaseFile()),
+    getDatabaseInfo: () => gated((s) => s.getDatabaseInfo()),
+    overwriteDatabaseFile: (file) =>
+      gated((s) => s.overwriteDatabaseFile(file)),
     reactiveQuery: (query) => sql.reactiveQuery(query),
   };
 

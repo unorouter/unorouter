@@ -192,6 +192,31 @@ export class SQLiteSahPoolDriver
     return removed;
   }
 
+  // Cooperative multi-tab handover (not on the sqlocal driver interface yet):
+  // pause releases every sync access handle so another tab's pool instance can
+  // acquire them; resume takes them back and reopens the same database.
+  // pauseVfs throws while any db is open, hence the close-first.
+  async pause(): Promise<void> {
+    if (!this.poolUtil || this.poolUtil.isPaused()) return;
+    this.closeDb();
+    this.poolUtil.pauseVfs();
+  }
+
+  async resume(): Promise<void> {
+    if (!this.poolUtil || !this.config?.databasePath) {
+      throw new Error("Driver not initialized");
+    }
+    if (this.poolUtil.isPaused()) {
+      await this.poolUtil.unpauseVfs();
+    }
+    if (!this.db) {
+      this.db = new this.poolUtil.OpfsSAHPoolDb(
+        absName(this.config.databasePath),
+      );
+      this.initWriteHook();
+    }
+  }
+
   override async destroy(): Promise<void> {
     this.closeDb();
     this.writeCallbacks.clear();
