@@ -10,6 +10,9 @@ import { useTranslations } from "next-intl";
 
 // Below this the balance reads as a warning rather than a plain figure.
 const LOW_BALANCE_DOLLARS = 5;
+// When the burn rate is known it decides instead: a small balance that still covers months
+// of use is not low, and warning about it reads as noise.
+const LOW_BALANCE_DAYS = 14;
 
 export function AccountStats() {
   const t = useTranslations();
@@ -20,7 +23,11 @@ export function AccountStats() {
   const burn = useBurnRate(user?.quota);
 
   const balance = quotaToDollars(user?.quota ?? 0);
-  const isLow = !isLoading && balance < LOW_BALANCE_DOLLARS;
+  const isLow =
+    !isLoading &&
+    (burn.available
+      ? burn.daysRemaining < LOW_BALANCE_DAYS
+      : balance < LOW_BALANCE_DOLLARS);
 
   const secondary = [
     {
@@ -62,7 +69,12 @@ export function AccountStats() {
             <span className="text-muted-foreground mt-2 block font-mono text-xs">
               {t("BILLING.BALANCE.RUNWAY", {
                 days: burn.daysRemaining,
-                rate: `$${burn.dollarsPerDay.toFixed(2)}`,
+                // Two decimals rounds a sub-cent burn to $0.02, and the reader divides the
+                // balance by that and gets a different day count than the one shown. Keep
+                // enough precision that the two figures reconcile.
+                rate: `$${burn.dollarsPerDay.toFixed(
+                  burn.dollarsPerDay < 0.1 ? 4 : 2,
+                )}`,
               })}
             </span>
           )}
