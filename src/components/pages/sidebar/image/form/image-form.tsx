@@ -230,7 +230,6 @@ export function ImageForm() {
         <PresetBar
           current={{
             model: form.watch("model") ?? INITIAL_MODEL,
-            prompt: form.watch("prompt"),
             negativePrompt: form.watch("negativePrompt"),
             params: form.watch("params"),
             loras: form.watch("loras"),
@@ -244,9 +243,10 @@ export function ImageForm() {
             // Presets saved before the AIR was stored carry none, and clearing on those
             // left the custom model with an empty URL and no version, which blocks submit.
             if (preset.extraParams?.air) setPickedCheckpoint(null);
-            // Presets saved before prompts were stored have none; overwriting with "" would
-            // clear whatever the user had already typed.
-            if (preset.prompt) form.setValue("prompt", preset.prompt);
+            // The positive prompt is deliberately NOT applied, including from presets saved
+            // back when it was stored: it is what the user is actively writing, and a preset
+            // is the setup around it. The negative prompt IS applied, since that is the
+            // boilerplate worth saving.
             form.setValue("negativePrompt", preset.negativePrompt ?? "");
             if (preset.params) form.setValue("params", preset.params);
             form.setValue("loras", preset.loras ?? undefined);

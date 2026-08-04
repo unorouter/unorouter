@@ -25,7 +25,6 @@ type Props = {
   /** Everything the current form holds. */
   current: {
     model: string;
-    prompt?: string | null;
     negativePrompt?: string | null;
     params?: ImagePreset["params"];
     loras?: ImagePreset["loras"];
@@ -35,9 +34,10 @@ type Props = {
 };
 
 /**
- * Saved generation setups: model, prompts, size, sampler and LoRA chain. Prompts are included
- * because the constant part of one (quality tags, style boilerplate) is exactly what users
- * retype every visit; applying a preset with an empty prompt leaves the current text alone.
+ * Saved generation setups: model, negative prompt, size, sampler and LoRA chain. The POSITIVE
+ * prompt is deliberately excluded: it is what changes between generations, and carrying it
+ * meant applying a preset wiped the text the user was working on. The negative prompt is the
+ * opposite, boilerplate worth keeping with the setup.
  */
 export function PresetBar(props: Props) {
   const t = useTranslations();
@@ -57,7 +57,10 @@ export function PresetBar(props: Props) {
     const saved = await savePreset.mutateAsync({
       name: trimmed,
       model: props.current.model,
-      prompt: props.current.prompt,
+      // The POSITIVE prompt is per-generation, not part of a setup: it changes every run,
+      // and baking it in made applying a preset overwrite whatever the user was writing.
+      // The negative prompt is the opposite, it is the boilerplate a setup exists to carry.
+      prompt: null,
       negativePrompt: props.current.negativePrompt,
       params: props.current.params,
       loras: props.current.loras,
