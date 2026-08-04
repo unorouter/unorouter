@@ -41,8 +41,15 @@ export function InpaintCanvas(props: Props) {
   const onDrawingChange = (isDrawing: boolean) => {
     if (isDrawing) return;
     const canvas = editorRef.current?.maskCanvas;
-    if (!canvas) return;
-    setUi({ inpaintMaskDataUrl: toMask(canvas) });
+    // toMask reads getImageData(0, 0, width, height) with no guard of its own, and a zero
+    // dimension makes that throw IndexSizeError, which took down the whole page. The canvas
+    // is still unsized until the source image loads, so a touch before then hits this.
+    if (!canvas || !canvas.width || !canvas.height) return;
+    try {
+      setUi({ inpaintMaskDataUrl: toMask(canvas) });
+    } catch {
+      // A mask that cannot be read is not worth losing the page over; the next stroke retries.
+    }
   };
 
   return (
