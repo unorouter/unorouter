@@ -665,6 +665,23 @@
       "comparison": "karşılaştırma"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Roleplay için Claude Opus 4.8, 4.6 ve 4.7 karşılaştırması: uygulamalı bir sıralama",
+        "DESCRIPTION": "Bir roleplaycı, {appName} üzerinde üç Claude Opus sürümünü sıralıyor: bellek, duygusal derinlik, itici güç ve yaratıcı yazım. 4.8 kazanıyor, 4.6 4.7'yi geçiyor ve her biri belirgin bir noktada ya öne çıkıyor ya da geri kalıyor.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "Her Claude Opus sürümünü {appName} üzerinde çalıştırıyoruz, bu yüzden her yeni sürüm Discord'umuzda aynı ilk soruyu alıyor: roleplay için iyi mi? cacaliz bunlardan üçünü uzun, karakterde kalınan oturumlardan geçirdi. Test edilenler: Claude Opus 4.7, 4.6 ve 4.8, RP'de önem taşıyan konularda. Opus 5 bilerek dışarıda bırakıldı, burada mesele üst sınıfın zirvesi değil, güçlü bir günlük iş gören sürüm. Nihai sıralama: 4.8, sonra 4.6, sonra 4.7.",
+        "H_RANKING": "Kısa özet",
+        "P_RANKING": "4.8 birinci, 4.6 ikinci, 4.7 sonuncu. 4.7'yi kullanan hiç kimse şaşırmadı. Asıl sürpriz, 4.6 ile 4.8'in neredeyse zıt olması: birinin iyi yaptığı şeyde diğeri geri kalıyor. 4.6'da duygu var, 4.8'de itici güç var. Hayal, ikisinin tek bir sürümde toplanması, ki bu aslında Opus 5 demek, ama 5 burada kapsam dışı.",
+        "H_MEMORY": "Bellek",
+        "P_MEMORY": "4.7 en zayıfıydı: sahne ortasında ayrıntıları unutuyor ve dürtüklenmeye ihtiyaç duyuyordu. 4.6 ipin ucunu çok daha iyi tuttu. 4.8 daha da ileri gitti ve belleği karakterde ifade etti; bir geri çağırmada olguyu sadece tekrar etmek yerine ruh halini ve söyleyişi değiştirdi. Örnek: baştaki bir replik, “Ben senin arkanı kollarım, sen de benimkini, o yüzden biri yolumuza çıkarsa Tanrı bizi affetsin. Anlaştık mı, ortak?”, çok sonra bir kavganın ardından geri geldi; iki karakter de sınırında, nefes nefese. Yanıt: “Hey. Bu iş bitince, yani şu öfke nöbetin bitince ve o lanet aklını başına toplayınca, hadi eve gidip yine UnoRouter'a oy verelim. Birlikte. Her zamanki gibi.” Sessizlik. “Anlaştık mı, ortak?” 4.8 bu geri çağırmayı bir sorgulama olarak değil, bir karakter anı olarak sundu.",
+        "H_EMOTIONAL": "Duygusal derinlik ile itici güç karşılaştırması",
+        "P_EMOTIONAL": "Asıl ayrım burada. 4.6 duygusal olarak derin ve şiirsel; ifadeleri ve jestleri katman katman ekliyor ve karakterin OC mi yoksa kanon mu olduğuna göre uyum sağlıyor. Ama oyalanıyor: duyguya gömülüp kalıyor ve sahneyi nadiren ileri taşıyor, böylece her anı sen sürüklüyorsun. 4.8 tam tersi. Kendiliğindenliğiyle, bağımsız ve insansı yapısıyla bizi şaşırttı, eski ChatGPT havasından eser yok, ve sahneyi kendi başına ilerletiyor. Bedeli derinlik: duygusal yazımı daha sığ ve daha pragmatik. İkisini puanladığında, 4.6'nın kalbini 4.8'in inisiyatifiyle bir arada istiyorsun.",
+        "H_CREATIVE": "Yaratıcı yazım",
+        "P_CREATIVE": "4.7 en sinir bozucu olanıydı: ifadeleri ve diyalogları tekrar ediyor, çeşitlilik için çok sayıda yeniden üretim gerektiriyordu. 4.6 büyük bir sıçramaydı; eylemlere, atmosfere ve yüz ifadelerine kendi küçük ayrıntılarını ekliyordu. 4.8 gerçekten şaşırttı: kendiliğindenliğiyle tanınan kanon bir karakteri alıp inandırıcı biçimde canlandırdı, bir eyleme başlayıp aynı an içinde onu tersine çevirdi; taklit edilmesi zor, karaktere uygun bir yanıltma. 4.8'i zirveye taşıyan da buydu.",
+        "H_VERDICT": "Karar",
+        "P_VERDICT": "{appName} üzerinde roleplay için şimdi 4.8'e yönel, 4.6'yı daha ucuz bir yedek olarak tut, 4.7'yi atla. Üçü de model seçicide tek tıklık mesafede, o yüzden kendi karakterini her birinden geçir. Sampler'lar, lorebook'lar ve bellek ayarları tüm modellerde aynen taşınıyor ve özel bir prompt 4.6'yı daha fazla itici güce ya da 4.8'i daha fazla derinliğe yönlendirebilir. İpucu: her modeli kullandıktan hemen sonra, bir sonraki gözünü kamaştırmadan puanla; yeni bir modelin gerçekte neyi eksik bıraktığını yakalamanın tek yolu budur.",
+        "CTA": "Kendin denemek ister misin? <register>Ücretsiz hesap oluştur</register> ya da <chat>sohbeti aç</chat> ve Opus sürümleri arasında tek bir yerden geçiş yap."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: aynı kodlama ağ geçidi, artı bir sohbet istemcisi",
         "DESCRIPTION": "MegaLLM, kodlama ajanları için popüler bir öncü model ağ geçididir. {appName} aynı işi yapar ve dahili bir sohbet ve karakter istemcisi ekler. Fark, yalnızca kod mu yazdığınız yoksa sohbet edecek bir yer de mi istediğinizdir.",

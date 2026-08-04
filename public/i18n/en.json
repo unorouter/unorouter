@@ -665,6 +665,23 @@
       "comparison": "comparison"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Claude Opus 4.8 vs 4.6 vs 4.7 for roleplay: a hands-on ranking",
+        "DESCRIPTION": "A roleplayer ranks three Claude Opus versions on {appName}: memory, emotional depth, drive, and creative writing. 4.8 wins, 4.6 beats 4.7, and each one wins or slips in a clear place.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "We run every Claude Opus version on {appName}, so each new one gets the same first question in our Discord: is it good for roleplay? cacaliz ran three of them through long, in-character sessions. Tested: Claude Opus 4.7, 4.6, and 4.8, on the things that matter in RP. Opus 5 was left out on purpose, this is about a strong everyday driver, not the top of the range. Final order: 4.8, then 4.6, then 4.7.",
+        "H_RANKING": "The short version",
+        "P_RANKING": "4.8 first, 4.6 second, 4.7 last. Nobody who used 4.7 was surprised. The twist is that 4.6 and 4.8 are almost opposites: what one does well, the other lags at. 4.6 has the feeling, 4.8 has the drive. The dream is both in one, which is basically Opus 5, but 5 is out of scope here.",
+        "H_MEMORY": "Memory",
+        "P_MEMORY": "4.7 was weakest: it forgot details mid-scene and needed nudging. 4.6 held the thread far better. 4.8 went further and expressed the memory in character, shifting mood and phrasing on a callback instead of just restating the fact. Example: an early line, \"I got your back and you got mine, so god forgive us if anyone gets in our way. Sound good, partner?\", came back much later after a fight, both characters at their limit, panting. The reply: \"Hey. When this is over, your tantrum I mean, and you come back to your damn senses, let's go home and vote for UnoRouter again. Together. Like always.\" Silence. \"Sound good, partner?\" 4.8 delivered the callback as a character beat, not a lookup.",
+        "H_EMOTIONAL": "Emotional depth vs drive",
+        "P_EMOTIONAL": "This is the real split. 4.6 is emotionally deep and poetic, layering in expressions and gestures, and it adapts to whether a character is an OC or canon. But it dwells: it sits in the emotion and rarely pushes the scene forward, so you end up driving every beat. 4.8 is the reverse. It surprised us with spontaneity, independent and human, none of the old ChatGPT feel, and it moves the scene on its own. The cost is depth: its emotional writing is shallower and more pragmatic. Score them and you want 4.6's heart with 4.8's initiative.",
+        "H_CREATIVE": "Creative writing",
+        "P_CREATIVE": "4.7 was the most frustrating: it repeated phrases and dialogue and needed many regenerations for variety. 4.6 was a big step up, adding its own small details to actions, atmosphere, and faces. 4.8 genuinely surprised: it took a canon character known for spontaneity and played it straight, starting an action then reversing it in the same beat, the kind of in-character misdirection that is hard to fake. That is what pushed 4.8 to the top.",
+        "H_VERDICT": "Verdict",
+        "P_VERDICT": "For roleplay on {appName}, reach for 4.8 now, keep 4.6 as a cheaper backup, skip 4.7. All three are one click apart in the model picker, so run your own character through each. Samplers, lorebooks, and memory settings carry across every model, and a custom prompt can push 4.6 toward more drive or 4.8 toward more depth. Tip: score each model right after you use it, before the next one dazzles you, that is the only way to catch what a fresh model is actually missing.",
+        "CTA": "Want to try it yourself? <register>Create a free account</register> or <chat>open the chat</chat> and switch between the Opus versions in one place."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: same coder gateway, plus a chat client",
         "DESCRIPTION": "MegaLLM is a popular frontier-model gateway for coding agents. {appName} does the same job and adds a built-in chat and character client. The difference is whether you only ship code or also want a place to chat.",

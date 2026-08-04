@@ -665,6 +665,23 @@
       "comparison": "so sánh"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Claude Opus 4.8 so với 4.6 so với 4.7 cho nhập vai: bảng xếp hạng qua trải nghiệm thực tế",
+        "DESCRIPTION": "Một người chơi nhập vai xếp hạng ba phiên bản Claude Opus trên {appName}: trí nhớ, chiều sâu cảm xúc, sức đẩy và khả năng viết sáng tạo. 4.8 thắng, 4.6 vượt 4.7, và mỗi bản đều thắng hoặc tụt lại ở một điểm rõ ràng.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "Chúng tôi chạy mọi phiên bản Claude Opus trên {appName}, nên mỗi bản mới đều nhận cùng một câu hỏi đầu tiên trong Discord của chúng tôi: nó có tốt cho nhập vai không? cacaliz đã cho ba bản trong số đó trải qua những phiên chơi dài, luôn giữ đúng nhân vật. Đã thử nghiệm: Claude Opus 4.7, 4.6 và 4.8, ở những thứ quan trọng trong RP. Opus 5 bị bỏ ra ngoài một cách có chủ đích, đây là chuyện về một bản chủ lực mạnh mẽ dùng hằng ngày, không phải đỉnh cao của dòng sản phẩm. Thứ tự cuối cùng: 4.8, rồi 4.6, rồi 4.7.",
+        "H_RANKING": "Bản tóm tắt ngắn gọn",
+        "P_RANKING": "4.8 hạng nhất, 4.6 hạng nhì, 4.7 chót bảng. Không ai từng dùng 4.7 mà thấy bất ngờ. Điều bất ngờ là 4.6 và 4.8 gần như đối lập nhau: cái gì bản này làm tốt thì bản kia lại thua kém. 4.6 có cảm xúc, 4.8 có sức đẩy. Điều mơ ước là gộp cả hai vào một, mà về cơ bản đó chính là Opus 5, nhưng 5 nằm ngoài phạm vi bài này.",
+        "H_MEMORY": "Trí nhớ",
+        "P_MEMORY": "4.7 yếu nhất: nó quên chi tiết giữa cảnh và cần được nhắc. 4.6 giữ mạch tốt hơn nhiều. 4.8 còn đi xa hơn và thể hiện trí nhớ ngay trong vai diễn, chuyển đổi tâm trạng và cách nói khi nhắc lại thay vì chỉ lặp lại sự việc. Ví dụ: một câu thoại từ đầu, “Tôi che chắn cho cậu và cậu che chắn cho tôi, nên cầu Chúa tha thứ cho chúng ta nếu có kẻ nào cản đường. Nghe được không, chiến hữu?”, quay trở lại mãi về sau sau một trận đánh, cả hai nhân vật đều kiệt sức, thở hổn hển. Câu đáp: “Này. Khi chuyện này kết thúc, ý tôi là cái cơn nổi khùng của cậu ấy, và cậu tỉnh lại cái đầu chết tiệt của mình, thì mình về nhà và lại bỏ phiếu cho UnoRouter đi. Cùng nhau. Như mọi khi.” Im lặng. “Nghe được không, chiến hữu?” 4.8 tung ra câu nhắc lại ấy như một nhịp của nhân vật, chứ không phải một cú tra cứu.",
+        "H_EMOTIONAL": "Chiều sâu cảm xúc so với sức đẩy",
+        "P_EMOTIONAL": "Đây mới là ranh giới thật sự. 4.6 sâu sắc về cảm xúc và giàu chất thơ, lồng ghép biểu cảm và cử chỉ, đồng thời thích ứng theo việc nhân vật là OC hay chính truyện. Nhưng nó nấn ná: nó chìm đắm trong cảm xúc và hiếm khi đẩy cảnh tiến lên, nên rốt cuộc bạn phải dẫn dắt từng nhịp. 4.8 thì ngược lại. Nó khiến chúng tôi bất ngờ bởi sự tự phát, độc lập và đầy chất người, không còn chút cảm giác ChatGPT cũ kỹ nào, và nó tự đẩy cảnh đi tới. Cái giá phải trả là chiều sâu: lối viết cảm xúc của nó nông hơn và thực dụng hơn. Chấm điểm chúng và bạn sẽ muốn trái tim của 4.6 đi cùng sự chủ động của 4.8.",
+        "H_CREATIVE": "Viết sáng tạo",
+        "P_CREATIVE": "4.7 gây bực nhất: nó lặp lại câu chữ và lời thoại, và cần tạo lại nhiều lần mới có sự đa dạng. 4.6 là một bước tiến lớn, tự thêm những chi tiết nhỏ của riêng nó vào hành động, bầu không khí và nét mặt. 4.8 khiến người ta thật sự bất ngờ: nó lấy một nhân vật chính truyện nổi tiếng bởi sự tự phát và diễn đúng chất ấy, bắt đầu một hành động rồi đảo ngược ngay trong cùng một nhịp, kiểu đánh lạc hướng đúng nhân vật mà rất khó giả tạo. Chính điều đó đã đưa 4.8 lên đầu bảng.",
+        "H_VERDICT": "Kết luận",
+        "P_VERDICT": "Để nhập vai trên {appName}, hãy dùng 4.8 ngay bây giờ, giữ 4.6 làm phương án dự phòng rẻ hơn, bỏ qua 4.7. Cả ba chỉ cách nhau một cú nhấp trong bộ chọn mô hình, nên hãy cho nhân vật của riêng bạn chạy qua từng bản. Sampler, lorebook và các thiết lập trí nhớ được áp dụng chung cho mọi mô hình, và một prompt tùy chỉnh có thể đẩy 4.6 hướng tới nhiều sức đẩy hơn hoặc đẩy 4.8 hướng tới nhiều chiều sâu hơn. Mẹo: chấm điểm mỗi mô hình ngay sau khi dùng, trước khi bản kế tiếp làm bạn lóa mắt, đó là cách duy nhất để nhận ra một mô hình mới thực sự còn thiếu điều gì.",
+        "CTA": "Muốn tự mình thử? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở khung chat</chat> và chuyển đổi giữa các phiên bản Opus ở cùng một nơi."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} so với MegaLLM: cùng một cổng cho lập trình, thêm một client chat",
         "DESCRIPTION": "MegaLLM là một cổng mô hình tiên phong phổ biến cho tác nhân lập trình. {appName} làm cùng công việc đó và thêm một client chat và nhân vật tích hợp. Khác biệt là bạn chỉ viết code hay còn muốn một nơi để trò chuyện.",

@@ -28,6 +28,7 @@ import { UnorouterVsLibrechatContent } from "@/components/pages/blog/posts/2026-
 import { UnorouterVsOpenWebuiContent } from "@/components/pages/blog/posts/2026-07-23-unorouter-vs-open-webui-content";
 import { UnorouterVsAgnaiContent } from "@/components/pages/blog/posts/2026-07-25-unorouter-vs-agnai-content";
 import { UnorouterVsSpicychatContent } from "@/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content";
+import { ClaudeOpus48Vs46Vs47RoleplayContent } from "@/components/pages/blog/posts/2026-07-30-claude-opus-4-8-vs-4-6-vs-4-7-roleplay-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { BlogPost } from "@/lib/types";
@@ -67,6 +68,8 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-open-webui": UnorouterVsOpenWebuiContent,
   "unorouter-vs-agnai": UnorouterVsAgnaiContent,
   "unorouter-vs-spicychat": UnorouterVsSpicychatContent,
+  "claude-opus-4-8-vs-4-6-vs-4-7-roleplay":
+    ClaudeOpus48Vs46Vs47RoleplayContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

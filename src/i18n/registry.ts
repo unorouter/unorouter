@@ -135,6 +135,23 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "claude-opus-4-8-vs-4-6-vs-4-7-roleplay",
+    date: "2026-07-30",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 590,
+    headings: [
+      { id: "ranking", i18nLeaf: "H_RANKING", level: 2 },
+      { id: "memory", i18nLeaf: "H_MEMORY", level: 2 },
+      { id: "emotional", i18nLeaf: "H_EMOTIONAL", level: 2 },
+      { id: "creative", i18nLeaf: "H_CREATIVE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "best-ai-gateway-for-sillytavern",
     date: "2026-06-25",
     tags: ["comparison", "product"],

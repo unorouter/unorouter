@@ -665,6 +665,23 @@
       "comparison": "perbandingan"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Claude Opus 4.8 vs 4.6 vs 4.7 untuk roleplay: peringkat berdasarkan pengalaman langsung",
+        "DESCRIPTION": "Seorang pemain roleplay memeringkat tiga versi Claude Opus di {appName}: memori, kedalaman emosi, daya dorong, dan penulisan kreatif. 4.8 menang, 4.6 mengalahkan 4.7, dan masing-masing menang atau tergelincir di satu titik yang jelas.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "Kami menjalankan setiap versi Claude Opus di {appName}, jadi setiap versi baru mendapat pertanyaan pertama yang sama di Discord kami: apakah bagus untuk roleplay? cacaliz menguji tiga di antaranya lewat sesi panjang sambil tetap dalam karakter. Yang diuji: Claude Opus 4.7, 4.6, dan 4.8, pada hal-hal yang penting dalam RP. Opus 5 sengaja tidak diikutkan, ini soal andalan harian yang kuat, bukan puncak jajaran. Urutan akhir: 4.8, lalu 4.6, lalu 4.7.",
+        "H_RANKING": "Versi singkatnya",
+        "P_RANKING": "4.8 pertama, 4.6 kedua, 4.7 terakhir. Tidak ada yang pernah memakai 4.7 lalu terkejut. Kejutannya adalah 4.6 dan 4.8 nyaris berlawanan: yang satu bagus di suatu hal, yang lain justru tertinggal di situ. 4.6 punya rasa, 4.8 punya daya dorong. Impiannya adalah keduanya dalam satu, yang pada dasarnya adalah Opus 5, tetapi 5 berada di luar lingkup di sini.",
+        "H_MEMORY": "Memori",
+        "P_MEMORY": "4.7 paling lemah: ia melupakan detail di tengah adegan dan perlu diingatkan. 4.6 memegang alur jauh lebih baik. 4.8 melangkah lebih jauh dan mengungkapkan memori dalam karakter, mengubah suasana hati dan gaya bicara saat mengungkit kembali alih-alih sekadar menyebut ulang faktanya. Contoh: sebuah kalimat di awal, “Aku menjagamu dan kau menjagaku, jadi semoga Tuhan mengampuni kita kalau ada yang menghalangi jalan kita. Setuju, kawan?”, muncul kembali jauh kemudian setelah sebuah pertarungan, kedua karakter di batas kemampuan, terengah-engah. Jawabannya: “Hei. Kalau ini sudah berakhir, maksudku amukanmu ini, dan kau kembali ke akal sehatmu yang sialan itu, ayo pulang dan pilih UnoRouter lagi. Bersama. Seperti biasa.” Hening. “Setuju, kawan?” 4.8 menyampaikan pengungkitan itu sebagai momen karakter, bukan sebagai pencarian data.",
+        "H_EMOTIONAL": "Kedalaman emosi vs daya dorong",
+        "P_EMOTIONAL": "Di sinilah pembedanya yang sesungguhnya. 4.6 dalam secara emosi dan puitis, menumpuk ekspresi dan gestur, serta menyesuaikan diri apakah karakter itu OC atau kanon. Tetapi ia berlama-lama: ia berlarut dalam emosi dan jarang mendorong adegan maju, sehingga kau akhirnya menggerakkan setiap momen. 4.8 kebalikannya. Ia mengejutkan kami dengan spontanitas, mandiri dan manusiawi, tanpa kesan ChatGPT lama sedikit pun, dan ia menggerakkan adegan dengan sendirinya. Harganya adalah kedalaman: penulisan emosinya lebih dangkal dan lebih pragmatis. Beri keduanya nilai, dan kau akan menginginkan hati 4.6 dengan inisiatif 4.8.",
+        "H_CREATIVE": "Penulisan kreatif",
+        "P_CREATIVE": "4.7 paling menjengkelkan: ia mengulang-ulang frasa dan dialog serta perlu banyak regenerasi demi variasi. 4.6 adalah lompatan besar, menambahkan detail-detail kecilnya sendiri pada aksi, atmosfer, dan raut wajah. 4.8 benar-benar mengejutkan: ia mengambil karakter kanon yang terkenal dengan spontanitasnya dan memerankannya dengan meyakinkan, memulai sebuah aksi lalu membalikkannya dalam momen yang sama, jenis pengecohan dalam karakter yang sulit dipalsukan. Itulah yang mengangkat 4.8 ke puncak.",
+        "H_VERDICT": "Vonis",
+        "P_VERDICT": "Untuk roleplay di {appName}, pakai 4.8 sekarang, simpan 4.6 sebagai cadangan yang lebih murah, lewati 4.7. Ketiganya hanya berjarak satu klik di pemilih model, jadi jalankan karaktermu sendiri lewat masing-masing. Sampler, lorebook, dan pengaturan memori berlaku di semua model, dan prompt kustom bisa mendorong 4.6 ke arah daya dorong lebih atau 4.8 ke arah kedalaman lebih. Tips: nilai setiap model tepat setelah kau memakainya, sebelum model berikutnya memukau kau, itu satu-satunya cara menangkap apa yang sebenarnya kurang dari sebuah model baru.",
+        "CTA": "Ingin mencobanya sendiri? <register>Buat akun gratis</register> atau <chat>buka obrolan</chat> dan beralih antar versi Opus di satu tempat."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: gateway koding yang sama, plus klien chat",
         "DESCRIPTION": "MegaLLM adalah gateway model frontier populer untuk agen koding. {appName} melakukan pekerjaan yang sama dan menambahkan klien chat dan karakter bawaan. Bedanya apakah kamu hanya menulis kode atau juga ingin tempat untuk mengobrol.",

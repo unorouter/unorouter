@@ -665,6 +665,23 @@
       "comparison": "porównanie"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Claude Opus 4.8 kontra 4.6 kontra 4.7 do roleplayu: praktyczny ranking",
+        "DESCRIPTION": "Roleplayer układa ranking trzech wersji Claude Opus na {appName}: pamięć, głębia emocjonalna, napęd i pisanie kreatywne. 4.8 wygrywa, 4.6 bije 4.7, a każda z nich w jakimś wyraźnym miejscu wygrywa albo traci.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "Uruchamiamy każdą wersję Claude Opus na {appName}, więc przy każdej nowej na naszym Discordzie pada to samo pierwsze pytanie: czy nadaje się do roleplayu? cacaliz przepuścił trzy z nich przez długie sesje w roli. Przetestowane: Claude Opus 4.7, 4.6 i 4.8, pod kątem tego, co w RP naprawdę się liczy. Opus 5 celowo pominięto, tu chodzi o mocny model na co dzień, a nie o szczyt oferty. Kolejność końcowa: 4.8, potem 4.6, potem 4.7.",
+        "H_RANKING": "W skrócie",
+        "P_RANKING": "4.8 na pierwszym miejscu, 4.6 na drugim, 4.7 na ostatnim. Nikogo, kto korzystał z 4.7, to nie zaskoczyło. Zaskakujące jest to, że 4.6 i 4.8 są niemal przeciwieństwami: to, co jedna robi dobrze, w drugiej kuleje. 4.6 ma uczucie, 4.8 ma napęd. Marzenie to jedno i drugie w jednym, czyli w zasadzie Opus 5, ale 5 jest tu poza zakresem.",
+        "H_MEMORY": "Pamięć",
+        "P_MEMORY": "4.7 wypadła najsłabiej: gubiła szczegóły w środku sceny i wymagała podpowiadania. 4.6 trzymała wątek znacznie lepiej. 4.8 poszła dalej i wyraziła pamięć w roli, zmieniając nastrój i frazowanie przy nawiązaniu, zamiast po prostu powtarzać fakt. Przykład: wczesna kwestia, „Kryję cię, a ty mnie, więc niech Bóg nam wybaczy, jeśli ktoś stanie nam na drodze. Brzmi dobrze, partnerze?”, wróciła znacznie później po walce, gdy oboje bohaterów było u kresu sił, dysząc. Odpowiedź: „Hej. Kiedy to się skończy, ten twój napad złości, i wrócisz do tych swoich cholernych zmysłów, chodźmy do domu i znów zagłosujmy na UnoRouter. Razem. Jak zawsze.” Cisza. „Brzmi dobrze, partnerze?” 4.8 podała to nawiązanie jako moment postaci, a nie jako odczyt z pamięci.",
+        "H_EMOTIONAL": "Głębia emocjonalna kontra napęd",
+        "P_EMOTIONAL": "To jest właściwy podział. 4.6 jest emocjonalnie głęboka i poetycka, nawarstwia ekspresje i gesty oraz dostosowuje się do tego, czy postać to OC, czy kanon. Ale grzęźnie: tkwi w emocji i rzadko pcha scenę do przodu, więc to ty prowadzisz każdy moment. 4.8 jest odwrotnością. Zaskoczyła nas spontanicznością, niezależna i ludzka, bez dawnego wrażenia rodem z ChatGPT, i sama posuwa scenę naprzód. Kosztem jest głębia: jej pisanie emocjonalne jest płytsze i bardziej pragmatyczne. Wystaw im oceny, a zapragniesz serca 4.6 z inicjatywą 4.8.",
+        "H_CREATIVE": "Pisanie kreatywne",
+        "P_CREATIVE": "4.7 była najbardziej frustrująca: powtarzała frazy i dialogi oraz wymagała wielu regeneracji, by uzyskać różnorodność. 4.6 była dużym krokiem naprzód, dokładając własne drobne detale do akcji, atmosfery i twarzy. 4.8 naprawdę zaskoczyła: wzięła kanoniczną postać znaną ze spontaniczności i zagrała ją wiarygodnie, zaczynając akcję, a potem odwracając ją w tym samym momencie, taki zmyłkowy ruch w roli, który trudno podrobić. To właśnie wyniosło 4.8 na szczyt.",
+        "H_VERDICT": "Werdykt",
+        "P_VERDICT": "Do roleplayu na {appName} sięgaj teraz po 4.8, trzymaj 4.6 jako tańszą rezerwę, odpuść 4.7. Wszystkie trzy dzieli jedno kliknięcie w wyborze modelu, więc przepuść własną postać przez każdą. Samplery, lorebooki i ustawienia pamięci przenoszą się między wszystkimi modelami, a własny prompt może pchnąć 4.6 ku większemu napędowi albo 4.8 ku większej głębi. Wskazówka: oceniaj każdy model zaraz po użyciu, zanim olśni cię kolejny, tylko tak wychwycisz, czego świeżemu modelowi naprawdę brakuje.",
+        "CTA": "Chcesz spróbować sam? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat> i przełączaj się między wersjami Opus w jednym miejscu."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} kontra MegaLLM: ta sama brama dla kodu, plus klient czatu",
         "DESCRIPTION": "MegaLLM to popularna brama modeli frontier dla agentów kodujących. {appName} robi tę samą pracę i dodaje wbudowanego klienta czatu i postaci. Różnica to czy tylko piszesz kod, czy chcesz też miejsce do rozmowy.",

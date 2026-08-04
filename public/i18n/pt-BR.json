@@ -665,6 +665,23 @@
       "comparison": "comparativo"
     },
     "POSTS": {
+      "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
+        "TITLE": "Claude Opus 4.8 vs 4.6 vs 4.7 para roleplay: um ranking na prática",
+        "DESCRIPTION": "Um roleplayer classifica três versões do Claude Opus no {appName}: memória, profundidade emocional, iniciativa e escrita criativa. A 4.8 vence, a 4.6 supera a 4.7, e cada uma vence ou tropeça em um ponto claro.",
+        "AUTHOR": "cacaliz",
+        "INTRO": "Rodamos toda versão do Claude Opus no {appName}, então cada nova recebe a mesma primeira pergunta no nosso Discord: ela é boa para roleplay? cacaliz passou três delas por sessões longas, mantendo o personagem. Testadas: Claude Opus 4.7, 4.6 e 4.8, no que importa em RP. A Opus 5 ficou de fora de propósito, aqui o foco é um modelo forte para o dia a dia, não o topo da linha. Ordem final: 4.8, depois 4.6, depois 4.7.",
+        "H_RANKING": "A versão curta",
+        "P_RANKING": "4.8 em primeiro, 4.6 em segundo, 4.7 por último. Ninguém que usou a 4.7 se surpreendeu. A reviravolta é que a 4.6 e a 4.8 são quase opostas: o que uma faz bem, a outra deixa a desejar. A 4.6 tem o sentimento, a 4.8 tem a iniciativa. O sonho é as duas em uma só, que basicamente é a Opus 5, mas a 5 está fora do escopo aqui.",
+        "H_MEMORY": "Memória",
+        "P_MEMORY": "A 4.7 foi a mais fraca: esquecia detalhes no meio da cena e precisava de cutucões. A 4.6 segurou o fio muito melhor. A 4.8 foi além e expressou a memória dentro do personagem, mudando o clima e a forma de falar em uma retomada em vez de só repetir o fato. Exemplo: uma fala do começo, “Eu te protejo e você me protege, então que Deus nos perdoe se alguém cruzar o nosso caminho. Combinado, parceiro?”, voltou bem mais tarde depois de uma briga, os dois personagens no limite, ofegantes. A resposta: “Ei. Quando isso acabar, esse seu chilique, quer dizer, e você voltar ao seu maldito juízo, vamos pra casa e votar no UnoRouter de novo. Juntos. Como sempre.” Silêncio. “Combinado, parceiro?” A 4.8 entregou a retomada como um momento do personagem, não como uma consulta.",
+        "H_EMOTIONAL": "Profundidade emocional vs iniciativa",
+        "P_EMOTIONAL": "Aqui está a divisão de verdade. A 4.6 é emocionalmente profunda e poética, acumulando expressões e gestos, e se adapta a se o personagem é um OC ou canônico. Mas ela se demora: fica presa na emoção e raramente empurra a cena adiante, então você acaba conduzindo cada momento. A 4.8 é o inverso. Ela nos surpreendeu com espontaneidade, independente e humana, sem nada daquela antiga cara de ChatGPT, e move a cena por conta própria. O custo é a profundidade: a escrita emocional dela é mais rasa e mais pragmática. Ao pontuar as duas, você quer o coração da 4.6 com a iniciativa da 4.8.",
+        "H_CREATIVE": "Escrita criativa",
+        "P_CREATIVE": "A 4.7 foi a mais frustrante: repetia frases e diálogos e exigia muitas regenerações para variar. A 4.6 foi um grande avanço, acrescentando seus próprios pequenos detalhes a ações, atmosfera e expressões faciais. A 4.8 surpreendeu de verdade: pegou um personagem canônico conhecido pela espontaneidade e o interpretou com fidelidade, iniciando uma ação e depois revertendo-a no mesmo momento, o tipo de despiste dentro do personagem que é difícil de fingir. Foi isso que levou a 4.8 ao topo.",
+        "H_VERDICT": "Veredito",
+        "P_VERDICT": "Para roleplay no {appName}, recorra à 4.8 agora, mantenha a 4.6 como reserva mais barata, pule a 4.7. As três estão a um clique de distância no seletor de modelos, então passe o seu próprio personagem por cada uma. Samplers, lorebooks e configurações de memória se mantêm em todos os modelos, e um prompt personalizado pode empurrar a 4.6 para mais iniciativa ou a 4.8 para mais profundidade. Dica: pontue cada modelo logo depois de usá-lo, antes de o próximo te encantar, essa é a única forma de perceber o que um modelo novinho está de fato deixando a desejar.",
+        "CTA": "Quer testar você mesmo? <register>Crie uma conta grátis</register> ou <chat>abra o chat</chat> e alterne entre as versões do Opus em um só lugar."
+      },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: o mesmo gateway para código, mais um cliente de chat",
         "DESCRIPTION": "O MegaLLM é um gateway popular de modelos de fronteira para agentes de código. O {appName} faz o mesmo trabalho e adiciona um cliente de chat e personagens integrado. A diferença é se você só escreve código ou também quer um lugar para conversar.",
