@@ -188,8 +188,14 @@ export function ImageResult(props: Props) {
   const requestedCount = data?.requestedCount ?? 1;
 
   // Mobile stacks the result under a tall form, so a finished generation lands offscreen.
+  // ONCE per snapshot: isDone dips to false and back on any refetch of the session query, and
+  // re-running then yanked the page upward while the user was reading or reaching for the
+  // hover actions.
+  const scrolledForRef = useRef<string | null>(null);
   useEffect(() => {
     if (!isDone) return;
+    if (scrolledForRef.current === props.snapshotId) return;
+    scrolledForRef.current = props.snapshotId;
     if (!window.matchMedia("(max-width: 1023px)").matches) return;
     resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [isDone, props.snapshotId]);
