@@ -26,7 +26,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { activeTabAtom, activeSubPillAtom } from "@/store/image-store";
 import { INITIAL_MODEL } from "../image-constants";
 
@@ -58,6 +58,7 @@ export function useGenerationForm() {
   const activeSubPill = useAtomValue(activeSubPillAtom);
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
 
@@ -160,6 +161,11 @@ export function useGenerationForm() {
       visibility: "private",
       ui: { variants: 1 },
     });
+    // Consume the params. They are a one-shot instruction, but they sat in the URL, and
+    // submitting navigates to the result and remounts this form: the ref guard resets, the
+    // snapshot is still cached, and the reset above ran a second time and threw away every
+    // edit the user had made since (the "changed the prompt and it kept the old one" report).
+    router.replace(window.location.pathname, { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 

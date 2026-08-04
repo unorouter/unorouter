@@ -15,6 +15,8 @@ type QuickTarget = {
   subPill?: Img2ImgSubPill;
   /** A hires pass re-renders THIS image larger, so it is per-image, not per-snapshot. */
   hires?: boolean;
+  /** Reuse this image's settings as a fresh start, carrying its own seed. */
+  remix?: boolean;
 };
 type QuickHandler = (src: string, target: QuickTarget) => void;
 
@@ -102,6 +104,16 @@ function ImageTile(props: {
       )}
       {props.onQuickAction && (
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
+          {/* Remix is per-image too: a batch has several results, and the snapshot-level
+              button could only ever reuse the first one's seed. */}
+          <button
+            type="button"
+            onClick={() => quick({ tab: "text2img", remix: true })}
+            title={t("IMAGE.REMIX")}
+            className="hover:bg-accent cursor-pointer rounded p-1"
+          >
+            <Icon name="sparkles" className="h-3.5 w-3.5" />
+          </button>
           <button
             type="button"
             onClick={() => quick({ tab: "img2img", subPill: "inpaint" })}

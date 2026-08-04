@@ -292,6 +292,11 @@ export function ImageResult(props: Props) {
               tab: target.tab,
               mode: target.subPill ?? null,
             });
+            // Remix restarts from the settings, so it must NOT carry an init image: that
+            // would silently turn a fresh generation into an img2img render of the old one.
+            // The seed comes from the image that was clicked, which is what makes it work on
+            // a batch where each result has its own.
+            const remixSeed = images.find((i) => i.src === src)?.seed;
             setRestore({
               model: data.model,
               prompt: data.prompt,
@@ -302,10 +307,14 @@ export function ImageResult(props: Props) {
               extraParams: data.extraParams,
               tab: target.tab,
               subPill: target.subPill,
-              initImageUrl: src,
-              paramOverrides: target.hires
-                ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
-                : undefined,
+              initImageUrl: target.remix ? undefined : src,
+              paramOverrides: target.remix
+                ? typeof remixSeed === "number"
+                  ? { seed: remixSeed }
+                  : undefined
+                : target.hires
+                  ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
+                  : undefined,
             });
             setLastRestoredPrompt(data.prompt);
           }}
