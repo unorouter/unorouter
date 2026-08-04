@@ -121,6 +121,12 @@ const FOOTER_BADGES = [
     name: "Neeed Directory",
     width: 139,
   },
+  {
+    href: "https://www.launchvault.dev",
+    src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
+    name: "Launch Vault",
+    width: 139,
+  },
 ] as const;
 
 function FooterLinks(props: {
