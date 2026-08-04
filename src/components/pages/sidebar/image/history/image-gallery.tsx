@@ -26,6 +26,27 @@ function aspectRatioOf(img: ImageView): string | undefined {
   return `${img.width} / ${img.height}`;
 }
 
+// Touch has no hover, so these are always visible on a phone and are the ONLY way to reach
+// remix/inpaint/hires there. At the desktop icon size they were 22px targets, well under the
+// 44px a finger needs, so they were effectively unusable on the device most reports came from.
+function QuickButton(props: {
+  icon: string;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={props.onClick}
+      title={props.label}
+      aria-label={props.label}
+      className="hover:bg-accent flex h-11 w-11 cursor-pointer items-center justify-center rounded md:h-auto md:w-auto md:p-1"
+    >
+      <Icon name={props.icon} className="h-5 w-5 md:h-3.5 md:w-3.5" />
+    </button>
+  );
+}
+
 async function downloadGenerationImage(src: string, filename: string) {
   const res = await fetch(src, { cache: "no-cache" });
   if (!res.ok) throw new Error(`fetch ${res.status}`);
@@ -106,56 +127,38 @@ function ImageTile(props: {
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
           {/* Remix is per-image too: a batch has several results, and the snapshot-level
               button could only ever reuse the first one's seed. */}
-          <button
-            type="button"
+          <QuickButton
+            icon="sparkles"
+            label={t("IMAGE.REMIX")}
             onClick={() => quick({ tab: "text2img", remix: true })}
-            title={t("IMAGE.REMIX")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="sparkles" className="h-3.5 w-3.5" />
-          </button>
-          <button
-            type="button"
+          />
+          <QuickButton
+            icon="paintbrush"
+            label={t("IMAGE.HOVER_INPAINT")}
             onClick={() => quick({ tab: "img2img", subPill: "inpaint" })}
-            title={t("IMAGE.HOVER_INPAINT")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="paintbrush" className="h-3.5 w-3.5" />
-          </button>
-          <button
-            type="button"
+          />
+          <QuickButton
+            icon="maximize-2"
+            label={t("IMAGE.HOVER_UPSCALE")}
             onClick={() => quick({ tab: "img2img", subPill: "upscale" })}
-            title={t("IMAGE.HOVER_UPSCALE")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="maximize-2" className="h-3.5 w-3.5" />
-          </button>
+          />
           {props.supportsHires && (
-            <button
-              type="button"
+            <QuickButton
+              icon="wand"
+              label={t("IMAGE.HOVER_HIRES")}
               onClick={() => quick({ tab: "img2img", hires: true })}
-              title={t("IMAGE.HOVER_HIRES")}
-              className="hover:bg-accent cursor-pointer rounded p-1"
-            >
-              <Icon name="wand" className="h-3.5 w-3.5" />
-            </button>
+            />
           )}
-          <button
-            type="button"
+          <QuickButton
+            icon="pencil-ruler"
+            label={t("IMAGE.HOVER_ADETAILER")}
             onClick={() => quick({ tab: "img2img", subPill: "adetailer" })}
-            title={t("IMAGE.HOVER_ADETAILER")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="pencil-ruler" className="h-3.5 w-3.5" />
-          </button>
-          <button
-            type="button"
+          />
+          <QuickButton
+            icon="pencil"
+            label={t("IMAGE.HOVER_EDIT")}
             onClick={() => quick({ tab: "edit" })}
-            title={t("IMAGE.HOVER_EDIT")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="pencil" className="h-3.5 w-3.5" />
-          </button>
+          />
         </div>
       )}
     </div>
@@ -180,7 +183,10 @@ export function BatchGrid(props: {
         src={sorted[0].src}
         alt={props.prompt}
         filename={`${props.snapshotId}.png`}
-        className="w-full"
+        // aspect-square is the FALLBACK for rows with no stored dimensions: the inline
+        // aspectRatio overrides it when they exist, and without it a `fill` image inside a
+        // height-less box collapses to zero.
+        className={aspectRatioOf(sorted[0]) ? "w-full" : "aspect-square w-full"}
         // The single result shows the WHOLE image: a square tile cropped a portrait to its
         // middle third and scaled it up, which reads as the viewer zooming in on its own.
         aspectRatio={aspectRatioOf(sorted[0])}

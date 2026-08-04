@@ -1,3 +1,4 @@
+import { blobUrlToDataUri } from "@/lib/db/client/data/media/blob-url";
 import type {
   GenerationFormValues,
   GenerationMode,
@@ -63,6 +64,14 @@ export async function toSubmitBody(
     ...forwarded,
     n: variants,
   };
+
+  // A blob: URL only means something inside this document, and the init image is FORWARDED
+  // to the provider as seedImage. Resolve it back to bytes before it leaves the browser,
+  // else every img2img/inpaint/upscale/hires from a generated result sends a dead reference.
+  const initImageUrl = paramsWithN.initImageUrl;
+  if (typeof initImageUrl === "string" && initImageUrl.startsWith("blob:")) {
+    paramsWithN.initImageUrl = await blobUrlToDataUri(initImageUrl);
+  }
 
   if (ctx.mode === "inpaint" && ui.inpaintMaskDataUrl) {
     paramsWithN.maskUrl = ui.inpaintMaskDataUrl;

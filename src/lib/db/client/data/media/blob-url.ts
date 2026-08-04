@@ -39,3 +39,15 @@ export function revokeAllMediaBlobUrls(): void {
   for (const url of urls.values()) URL.revokeObjectURL(url);
   urls.clear();
 }
+
+// The inverse, for the few values that LEAVE the document: a blob: URL is meaningless to a
+// server, so anything forwarded upstream (an init image, a reference) has to carry bytes.
+export async function blobUrlToDataUri(url: string): Promise<string> {
+  const blob = await (await fetch(url)).blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}

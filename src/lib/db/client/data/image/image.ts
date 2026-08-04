@@ -1,7 +1,7 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { base64ToDataUri } from "@/lib/utils/base";
+import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   type ImageSnapshot,
@@ -31,7 +31,11 @@ function toImageView(row: Media): ImageView | null {
   return {
     id: row.id,
     sequenceIndex: row.sequenceIndex ?? 0,
-    src: base64ToDataUri(row.dataBase64, row.mimeType ?? "image/png"),
+    // blob: URL, not a data: URI. A generated image is multiple megabytes, and as a data URI
+    // that whole string sits in React state and is re-parsed by the browser on every paint.
+    // The blob is ~40 chars pointing at bytes decoded once. Keyed by media id, so the cache
+    // hits on re-render and the existing revoke path still applies.
+    src: mediaBlobUrl(row.id, row.dataBase64, row.mimeType ?? "image/png"),
     mimeType: row.mimeType,
     width: row.width,
     height: row.height,
