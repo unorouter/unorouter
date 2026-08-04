@@ -32,9 +32,11 @@ function requireKey(): string {
   return key;
 }
 
+// Runware's modelSearch has been measured between 8 and 22 seconds. A 15s cap timed out more
+// often than not, and the catalog then rendered empty, which read as "there are no LoRAs".
 async function runwareTask<T = RunwareEnvelope>(
   task: Record<string, unknown>,
-  timeoutMs = 15_000,
+  timeoutMs = 30_000,
 ): Promise<T> {
   const res = await fetch(RUNWARE_ENDPOINT, {
     method: "POST",
@@ -64,34 +66,46 @@ function toCatalogItem(row: RunwareSearchResult): CatalogItem {
   };
 }
 
+// Runware's modelSearch answers in anywhere from 8 to 22 seconds, so a result is worth
+// holding on to: the catalog is a browse list that barely changes, and without this every
+// picker open pays the full latency again.
+const CATALOG_TTL_MS = 30 * 60_000;
+const catalogCache = new Map<string, { at: number; items: CatalogItem[] }>();
+
 export async function searchModelCatalog(
   category: string,
   query: CatalogSearchQuery,
 ): Promise<{ items: CatalogItem[] }> {
+  const cacheKey = JSON.stringify([
+    category,
+    query.search ?? "",
+    query.architecture ?? "",
+    query.limit ?? 24,
+  ]);
+  const hit = catalogCache.get(cacheKey);
+  if (hit && Date.now() - hit.at < CATALOG_TTL_MS) return { items: hit.items };
+
   // These lists are optional decoration on the form: a LoRA or VAE picker that cannot load
   // should render empty, not fail the request. Runware regularly exceeds the timeout here,
   // and a 500 made the whole page look broken while the user was only trying to generate.
   let envelope: RunwareEnvelope;
   try {
-    envelope = await runwareTask(
-      {
-        taskType: "modelSearch",
-        category,
-        ...(query.search ? { search: query.search } : {}),
-        ...(query.architecture ? { architecture: query.architecture } : {}),
-        limit: query.limit ?? 24,
-      },
-      // Shorter than the resolver's: an empty picker is a small loss, while a page that
-      // hangs for fifteen seconds on every load is the thing being reported.
-      7_000,
-    );
+    envelope = await runwareTask({
+      taskType: "modelSearch",
+      category,
+      ...(query.search ? { search: query.search } : {}),
+      ...(query.architecture ? { architecture: query.architecture } : {}),
+      limit: query.limit ?? 24,
+    });
   } catch (err) {
     logger.warn("runware model search unreachable", {
       context: "image.catalog",
       category,
       error: String(err),
     });
-    return { items: [] };
+    // Stale beats empty: an expired entry is a real list, and returning nothing is what made
+    // the LoRA picker look like it had no models at all.
+    return { items: hit?.items ?? [] };
   }
 
   if (envelope.errors?.length) {
@@ -100,11 +114,13 @@ export async function searchModelCatalog(
       category,
       error: envelope.errors[0]?.message,
     });
-    return { items: [] };
+    return { items: hit?.items ?? [] };
   }
 
   const results = envelope.data?.[0]?.results ?? [];
-  return { items: results.map(toCatalogItem) };
+  const items = results.map(toCatalogItem);
+  catalogCache.set(cacheKey, { at: Date.now(), items });
+  return { items };
 }
 
 export type ResolvedCheckpoint = {
