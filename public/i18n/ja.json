@@ -5565,7 +5565,6 @@
     "UPSCALER_AUTO": "自動",
     "UPSCALER_MULTIPLIER": "拡大倍率",
     "UPSCALE_SECTION": "アップスケール",
-    "UPSCALE_OFF": "オフ",
     "UPSCALER_HIRES_STEPS": "Hires ステップ",
     "UPSCALER_DENOISE": "ノイズ除去強度",
     "ADETAILER": "ADetailer",

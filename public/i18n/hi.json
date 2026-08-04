@@ -5565,7 +5565,6 @@
     "UPSCALER_AUTO": "स्वचालित",
     "UPSCALER_MULTIPLIER": "इससे Upscale",
     "UPSCALE_SECTION": "अपस्केल",
-    "UPSCALE_OFF": "बंद",
     "UPSCALER_HIRES_STEPS": "Hires steps",
     "UPSCALER_DENOISE": "Denoising strength",
     "ADETAILER": "ADetailer",

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { useUpscalerCatalogQuery } from "@/hooks/ai/image-catalog-hook";
 import { cn } from "@/lib/utils";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../image-constants";
@@ -33,47 +34,65 @@ type Props = {
   onChange: (patch: UpscalerFieldPatch) => void;
 };
 
+// The multiplier a switch-on restores when the user has no previous choice.
+const DEFAULT_MULTIPLIER = 1.5;
+
 export function UpscalerField(props: Props) {
   const t = useTranslations();
+  // On means "renders larger": the multiplier IS the feature, so a value above 1 is the
+  // enabled state rather than a separate flag.
+  const enabled = (props.multiplier ?? 1) > 1;
   // Collapsed by default: these only matter to someone upscaling, and left expanded they
   // doubled the length of the form for everyone else. Opens itself when a multiplier is
   // already set, so a restored snapshot does not hide settings that are in effect.
-  const [open, setOpen] = useState((props.multiplier ?? 1) > 1);
+  const [open, setOpen] = useState(enabled);
   const catalog = useUpscalerCatalogQuery({});
   const items = catalog.data?.items ?? [];
 
   const upscaler = props.upscaler;
-  const multiplier = props.multiplier ?? 2;
+  const multiplier = props.multiplier ?? DEFAULT_MULTIPLIER;
   const hiresSteps = props.hiresSteps ?? 20;
   const denoise = props.denoise ?? 0.5;
   const activeMul =
     MULTIPLIERS.find((m) => m.value === multiplier)?.id ?? "custom";
+  const expanded = open && enabled;
 
   return (
     <div className="rounded-md border">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          if (enabled) setOpen((o) => !o);
+        }}
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
       >
         <Icon
-          name={open ? "chevron-down" : "chevron-right"}
+          name={expanded ? "chevron-down" : "chevron-right"}
           className="h-4 w-4"
         />
         {t("IMAGE.UPSCALE_SECTION")}
-        {/* Always state the status, not just when it is on: a collapsed section with no
-            badge reads as "unknown", and the whole question is whether this is running. */}
-        {(props.multiplier ?? 1) > 1 ? (
-          <span className="text-primary ml-auto text-xs tabular-nums">
-            {props.multiplier}x
-          </span>
-        ) : (
-          <span className="text-muted-foreground ml-auto text-xs">
-            {t("IMAGE.UPSCALE_OFF")}
-          </span>
-        )}
+        <span className="ml-auto flex items-center gap-2">
+          {/* Say the size it renders at, not just that it is on: this multiplies the pixel
+              count, and the cost with it, which is exactly what was invisible before. */}
+          {enabled && (
+            <span className="text-primary text-xs tabular-nums">
+              {multiplier}x
+            </span>
+          )}
+          <Switch
+            aria-label={t("IMAGE.UPSCALE_SECTION")}
+            checked={enabled}
+            onCheckedChange={(c) => {
+              setOpen(c);
+              // Off is a multiplier of 1: the server reads scale <= 1 as no upscale, so this
+              // is the value that actually stops it, not merely a hidden panel.
+              props.onChange({ multiplier: c ? DEFAULT_MULTIPLIER : 1 });
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </span>
       </button>
-      {!open ? null : (
+      {!expanded ? null : (
         <div className="flex flex-col gap-4 border-t p-3">
           <div>
             <Label className="mb-2 block">
@@ -101,7 +120,7 @@ export function UpscalerField(props: Props) {
                       : "hover:bg-accent hover:text-accent-foreground",
                   )}
                 >
-                  {m.id === "off" ? t("IMAGE.UPSCALE_OFF") : m.id}
+                  {m.id}
                 </button>
               ))}
             </div>

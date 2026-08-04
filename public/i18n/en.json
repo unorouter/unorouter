@@ -5565,7 +5565,6 @@
     "UPSCALER_AUTO": "Automatic",
     "UPSCALER_MULTIPLIER": "Upscale by",
     "UPSCALE_SECTION": "Upscale",
-    "UPSCALE_OFF": "Off",
     "UPSCALER_HIRES_STEPS": "Hires steps",
     "UPSCALER_DENOISE": "Denoising strength",
     "ADETAILER": "ADetailer",

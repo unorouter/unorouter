@@ -17,7 +17,7 @@ export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   id: string;
   value: number | null;
 }> = [
-  { id: "off", value: 1 },
+  // No 1x entry: a multiplier of 1 IS "off", and that is the header switch's job.
   { id: "1.5x", value: 1.5 },
   { id: "2x", value: 2 },
   { id: "3x", value: 3 },
