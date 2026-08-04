@@ -18,6 +18,12 @@ type QuickTarget = {
 };
 type QuickHandler = (src: string, target: QuickTarget) => void;
 
+// Falls back to square only when the row carries no dimensions (older rows predate them).
+function aspectRatioOf(img: ImageView): string | undefined {
+  if (!img.width || !img.height) return undefined;
+  return `${img.width} / ${img.height}`;
+}
+
 async function downloadGenerationImage(src: string, filename: string) {
   const res = await fetch(src, { cache: "no-cache" });
   if (!res.ok) throw new Error(`fetch ${res.status}`);
@@ -29,6 +35,8 @@ function ImageTile(props: {
   alt: string;
   filename: string;
   className?: string;
+  /** CSS aspect-ratio. Absent keeps whatever the className sets. */
+  aspectRatio?: string;
   seed?: number | null;
   onZoom: () => void;
   onQuickAction?: QuickHandler;
@@ -52,6 +60,7 @@ function ImageTile(props: {
         "bg-muted group/img relative overflow-hidden rounded-lg " +
         (props.className ?? "")
       }
+      style={props.aspectRatio ? { aspectRatio: props.aspectRatio } : undefined}
     >
       <button
         type="button"
@@ -64,7 +73,10 @@ function ImageTile(props: {
           alt={props.alt}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover"
+          // contain when the box already matches the image: cover would still crop on any
+          // rounding mismatch, and cropping the result the user just paid for is worse than
+          // a hairline of background.
+          className={props.aspectRatio ? "object-contain" : "object-cover"}
         />
       </button>
       <button
@@ -156,7 +168,10 @@ export function BatchGrid(props: {
         src={sorted[0].src}
         alt={props.prompt}
         filename={`${props.snapshotId}.png`}
-        className="aspect-square w-full"
+        className="w-full"
+        // The single result shows the WHOLE image: a square tile cropped a portrait to its
+        // middle third and scaled it up, which reads as the viewer zooming in on its own.
+        aspectRatio={aspectRatioOf(sorted[0])}
         seed={sorted[0].seed}
         onZoom={() => props.onOpenLightbox(0)}
         onQuickAction={props.onQuickAction}
