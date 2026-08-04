@@ -49,6 +49,8 @@ import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
 import { useGenerationForm } from "./use-generation-form";
 import { VendorParamsFields } from "./vendor-params-fields";
+import { IMAGE_URL_PARSERS } from "../image-url-state";
+import { useQueryStates } from "nuqs";
 
 // react-canvas-masker touches the DOM at module scope, so the canvas cannot render on
 // the server and is only pulled in when the inpaint mode is actually opened.
@@ -77,7 +79,8 @@ export function ImageForm() {
   const rememberModel = useRememberImageModelMutation();
   const submitMut = useSubmitGenerationMutation();
   const activeTab = useAtomValue(activeTabAtom);
-  const activeSubPill = useAtomValue(activeSubPillAtom);
+  const [activeSubPill, setActiveSubPill] = useAtom(activeSubPillAtom);
+  const [, setImageUrlState] = useQueryStates(IMAGE_URL_PARSERS);
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
   const [, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
 
@@ -438,6 +441,14 @@ export function ImageForm() {
           <InitImageField
             value={params.initImageUrl as string | undefined}
             onChange={(initImageUrl) => patchParams(form, { initImageUrl })}
+            onInpaint={
+              activeSubPill === "inpaint"
+                ? undefined
+                : () => {
+                    setActiveSubPill("inpaint");
+                    void setImageUrlState({ mode: "inpaint" });
+                  }
+            }
           />
         )}
 

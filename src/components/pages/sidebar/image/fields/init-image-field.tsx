@@ -13,6 +13,8 @@ import { ACCEPTED_IMAGE_MIMES, fileToScaledDataUri } from "./client-image-file";
 type Props = {
   value: string | undefined;
   onChange: (next: string | undefined) => void;
+  /** Absent while already inpainting, since the mask canvas is the thing below. */
+  onInpaint?: () => void;
 };
 
 export function InitImageField(props: Props) {
@@ -45,15 +47,32 @@ export function InitImageField(props: Props) {
             sizes="100vw"
             className="h-auto max-h-64 w-full object-contain"
           />
-          <Button
-            size="sm"
-            variant="outline"
-            type="button"
-            onClick={() => props.onChange(undefined)}
-            className="absolute top-2 right-2"
-          >
-            <Icon name="trash" className="h-3 w-3" />
-          </Button>
+          {/* Same affordance an uploaded image gets as a generated one: the paintbrush is
+              how users already reach the mask, so it has to be here too rather than only on
+              results. */}
+          <div className="absolute top-2 right-2 flex gap-2">
+            {props.onInpaint && (
+              <Button
+                size="sm"
+                variant="outline"
+                type="button"
+                onClick={props.onInpaint}
+                title={t("IMAGE.HOVER_INPAINT")}
+                aria-label={t("IMAGE.HOVER_INPAINT")}
+              >
+                <Icon name="paintbrush" className="h-3 w-3" />
+              </Button>
+            )}
+            <Button
+              size="sm"
+              variant="outline"
+              type="button"
+              onClick={() => props.onChange(undefined)}
+              aria-label={t("COMMON.DELETE")}
+            >
+              <Icon name="trash" className="h-3 w-3" />
+            </Button>
+          </div>
         </div>
       ) : (
         <button
