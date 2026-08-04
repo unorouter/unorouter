@@ -109,6 +109,18 @@ const FOOTER_BADGES = [
     name: "LaunchBuff",
     width: 160,
   },
+  {
+    href: "https://ufind.best/products/unorouter?utm_source=ufind.best",
+    src: "/badges/ufind.svg",
+    name: "ufind.best",
+    width: 139,
+  },
+  {
+    href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
+    src: "/badges/neeed.svg",
+    name: "Neeed Directory",
+    width: 139,
+  },
 ] as const;
 
 function FooterLinks(props: {
