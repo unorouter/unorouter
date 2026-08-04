@@ -127,6 +127,12 @@ const FOOTER_BADGES = [
     name: "Launch Vault",
     width: 139,
   },
+  {
+    href: "https://findyoursaas.com/tool/unorouter",
+    src: "/badges/findyoursaas.png",
+    name: "FindYourSaaS",
+    width: 24,
+  },
 ] as const;
 
 function FooterLinks(props: {
