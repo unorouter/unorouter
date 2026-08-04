@@ -39,6 +39,11 @@ export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
 // silently destroy work the user had typed; comparing against this tells the two apart.
 export const lastRestoredPromptAtom = atom<string | null>(null);
 
+// Which preset is equipped. Not component state: submitting navigates from /image to
+// /image/[id], which remounts the form, and a locally-held selection reset itself to blank
+// on every generation even though the values it applied were still in effect.
+export const selectedPresetIdAtom = atom<string>("");
+
 export type GenerateDraft = {
   model: string;
   prompt: string;

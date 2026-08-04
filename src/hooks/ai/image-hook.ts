@@ -111,8 +111,17 @@ async function backfillSnapshotCost(
   }
 }
 
+// A double-click is two presses within a moment of each other; a re-roll is a deliberate
+// press later on. Bucketing by time separates them, so the guard still collapses the
+// accidental second bill without swallowing an intentional regenerate.
+const SUBMIT_DEDUPE_WINDOW_MS = 5_000;
+
 // Content derived, so a double-click submits the same key twice and the second call is a
 // no-op instead of a second bill. The column carries a UNIQUE index.
+//
+// Content ALONE is not enough: an unchanged form (no seed set, so nothing varies per press)
+// hashed identically forever, and every regenerate after the first returned the original
+// snapshot instead of generating. That reads as a dead Generate button.
 function submittedKeyFor(userId: number, body: SubmitArgs): string {
   return fnv1aHex(
     JSON.stringify([
@@ -125,6 +134,7 @@ function submittedKeyFor(userId: number, body: SubmitArgs): string {
       body.loras ?? null,
       body.references ?? null,
       body.extraParams ?? null,
+      Math.floor(Date.now() / SUBMIT_DEDUPE_WINDOW_MS),
     ]),
   );
 }

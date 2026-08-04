@@ -16,6 +16,8 @@ import {
   useSaveImagePresetMutation,
 } from "@/hooks/ai/image-catalog-hook";
 import type { ImagePreset } from "@/lib/db/schema/client";
+import { selectedPresetIdAtom } from "@/store/image-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -44,7 +46,7 @@ export function PresetBar(props: Props) {
   const deletePreset = useDeleteImagePresetMutation();
   const [naming, setNaming] = useState(false);
   const [name, setName] = useState("");
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useAtom(selectedPresetIdAtom);
 
   const presets = presetsQuery.data ?? [];
   const selectedPreset = presets.find((p) => p.id === selectedId) ?? null;
