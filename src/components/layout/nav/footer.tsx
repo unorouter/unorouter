@@ -117,7 +117,7 @@ const FOOTER_BADGES = [
   },
   {
     href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
-    src: "/badges/neeed.svg",
+    src: "https://neeed.directory/badges/neeed-badge-light.svg",
     name: "Neeed Directory",
     width: 139,
   },
