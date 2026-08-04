@@ -2007,6 +2007,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs"),
   },
+  "brand-instagram": {
+    lucide: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconBrandInstagram.mjs"),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconBrandInstagram.mjs"),
+  },
   "brand-discord-si": {
     lucide: () =>
       import("@/components/ui/local-icons").then((m) => ({

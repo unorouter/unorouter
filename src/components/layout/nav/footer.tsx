@@ -209,6 +209,12 @@ export function Footer() {
       icon: "brand-youtube",
       label: "YouTube",
     },
+    {
+      id: "instagram",
+      href: env.instagramUrl,
+      icon: "brand-instagram",
+      label: "Instagram",
+    },
   ] as const;
 
   return (
