@@ -131,6 +131,12 @@ const FOOTER_BADGES = [
     width: 73,
   },
   {
+    href: "https://aibesttop.com",
+    src: "/badges/aibesttop.svg",
+    name: "AIBestTop",
+    width: 72,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
