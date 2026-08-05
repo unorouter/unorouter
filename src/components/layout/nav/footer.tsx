@@ -163,6 +163,12 @@ const FOOTER_BADGES = [
     name: "Startup Benchmarks",
     width: 160,
   },
+  {
+    href: "https://saasgrow.app?ref=unorouter.com",
+    src: "https://saasgrow.app/api/badge?type=featured&style=light",
+    name: "SaaSGrow",
+    width: 240,
+  },
 ] as const;
 
 function FooterLinks(props: {
