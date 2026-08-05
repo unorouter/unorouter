@@ -169,6 +169,12 @@ const FOOTER_BADGES = [
     name: "SaaSGrow",
     width: 240,
   },
+  {
+    href: "https://wired.business",
+    src: "https://wired.business/badge0-white.svg",
+    name: "Wired Business",
+    width: 200,
+  },
 ] as const;
 
 // Directories that require a plain text backlink instead of an image badge, and
