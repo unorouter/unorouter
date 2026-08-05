@@ -175,6 +175,12 @@ const FOOTER_BADGES = [
     name: "Wired Business",
     width: 200,
   },
+  {
+    href: "https://findly.tools/unorouter?utm_source=unorouter",
+    src: "https://findly.tools/badges/findly-tools-badge-light.svg",
+    name: "Findly.tools",
+    width: 175,
+  },
 ] as const;
 
 // Directories that require a plain text backlink instead of an image badge, and
