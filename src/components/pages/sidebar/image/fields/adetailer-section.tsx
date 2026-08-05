@@ -65,8 +65,15 @@ export function AdetailerSection(props: Props) {
     <div className="rounded-md border">
       <button
         type="button"
+        // Same as the upscale section: a header that ignores the tap while off looks like a
+        // broken dropdown, so opening it turns the feature on.
         onClick={() => {
-          if (enabled) setOpen((o) => !o);
+          if (enabled) {
+            setOpen((o) => !o);
+            return;
+          }
+          setOpen(true);
+          props.onChange({ ...DEFAULTS });
         }}
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
       >

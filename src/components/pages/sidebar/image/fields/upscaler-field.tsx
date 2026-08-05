@@ -48,8 +48,15 @@ export function UpscalerField(props: Props) {
     <div className="rounded-md border">
       <button
         type="button"
+        // Tapping the header while off used to do nothing at all, which reads as a dropdown
+        // that will not open. Treat it as "I want this": switch it on and expand.
         onClick={() => {
-          if (enabled) setOpen((o) => !o);
+          if (enabled) {
+            setOpen((o) => !o);
+            return;
+          }
+          setOpen(true);
+          props.onChange({ multiplier: DEFAULT_MULTIPLIER });
         }}
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
       >
