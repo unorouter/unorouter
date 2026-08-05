@@ -34,19 +34,35 @@ const DIFFUSION_GROUP_PATTERN = /runware/i;
 // Runware's own scheduler vocabulary, each verified against a live generation. It rejects the
 // ComfyUI spellings (euler_ancestral, normal) outright, so the choices have to come from the
 // backend rather than from one shared list.
+// Runware spells one field as `<sampler> <schedule>`, the schedule suffix optional, so the
+// pairing A1111 splits across two dropdowns arrives here as a single string. Every entry
+// below was accepted by a live generation; the omissions are rejections, not oversights
+// (no DPM2, no DPM++ 3M, no LCM Karras, no Euler a with a schedule other than Beta).
 const RUNWARE_SCHEDULERS = [
   "Default",
   "Euler",
+  "Euler Karras",
   "Euler a",
   "Euler Beta",
   "DPM++ 2M",
   "DPM++ 2M Karras",
-  "DPM++ 2M SDE Karras",
+  "DPM++ 2M Exponential",
+  "DPM++ 2M Beta",
+  "DPM++ SDE",
   "DPM++ SDE Karras",
+  "DPM++ SDE Exponential",
+  "DPM++ SDE Beta",
+  "DPM++ 2M SDE",
+  "DPM++ 2M SDE Karras",
+  "DPM++ 2M SDE Exponential",
   "DDIM",
   "UniPC",
+  "UniPC Karras",
   "Heun",
+  "Heun Karras",
   "LMS",
+  "LMS Karras",
+  "LCM",
 ];
 
 function isDiffusionModel(model: ProcessedModel): boolean {
