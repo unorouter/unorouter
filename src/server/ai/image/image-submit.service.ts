@@ -75,9 +75,13 @@ function diffusionParams(
     out[key] = value;
   };
   copy("steps");
-  copy("cfg");
   copy("scheduler");
   copy("clipSkip");
+  // The provider spells this CFGScale. Sent as `cfg` it was accepted and ignored (an unknown
+  // key raises no error), so the slider moved nothing and every render used the model's own
+  // default guidance. Same failure the scheduler had.
+  const cfg = params.cfg;
+  if (typeof cfg === "number") out.CFGScale = cfg;
   // The sampler control carries the BACKEND's scheduler vocabulary (Runware takes one field,
   // not a separate sampler and scheduler), so it has to arrive as `scheduler`. Sent as
   // `sampler` it was silently dropped: Runware ignores the unknown key without an error, so
@@ -106,7 +110,23 @@ function diffusionParams(
   const mask = params.maskUrl;
   if (typeof mask === "string" && mask) out.maskImage = mask;
   if (loras.length) {
-    out.loras = loras.map((l) => ({ name: l.name, weight: l.weight }));
+    // `lora`, not `loras`, and the entry key is `model`, not `name`. The old spelling was
+    // accepted and ignored, so a whole LoRA chain silently did nothing to the render.
+    out.lora = loras.map((l) => ({ model: l.name, weight: l.weight }));
+  }
+  // Neither of these was forwarded at all, so both pickers were decorative. Same entry
+  // shape as LoRAs: the provider keys the model by `model`.
+  const embeddings = params.embeddings;
+  if (Array.isArray(embeddings) && embeddings.length) {
+    out.embeddings = embeddings
+      .filter((e): e is { name: string; weight?: number } => !!e?.name)
+      .map((e) => ({ model: e.name, weight: e.weight ?? 1 }));
+  }
+  const vae = params.vae;
+  // "automatic" is the form's way of spelling "leave it to the checkpoint", and the
+  // provider has no such VAE: sending it would be rejected as invalidVae.
+  if (typeof vae === "string" && vae && vae !== "automatic" && vae !== "none") {
+    out.vae = vae;
   }
   return out;
 }
