@@ -4,6 +4,7 @@ import { ContentBoundary } from "@/components/elements/feedback/content-boundary
 import { Footer } from "@/components/layout/nav/footer";
 import { NavAuth } from "@/components/layout/nav/nav-auth";
 import { Navbar } from "@/components/layout/nav/navbar";
+import { NavbarShellSkeleton } from "@/components/layout/nav/navbar-shell-skeleton";
 import { getTranslations } from "next-intl/server";
 import { NavLoginLink } from "@/components/layout/nav/nav-auth";
 
@@ -31,7 +32,9 @@ export default async function NavbarLayout(props: Props) {
       />
       <main className="flex-1">
         <ContentBoundary className="pt-20 pb-24">
-          {props.children}
+          <Suspense fallback={<NavbarShellSkeleton />}>
+            {props.children}
+          </Suspense>
         </ContentBoundary>
       </main>
       <Footer />
