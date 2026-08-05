@@ -110,11 +110,18 @@ const serwist = new Serwist({
   },
 });
 
+// Everything a deploy can invalidate. `next-static` belongs here as much as the HTML caches
+// do: chunk filenames are content-hashed, so a new build's HTML asks for names the old cache
+// has never held, while the old names it DOES hold are gone from the server. Keeping it
+// across deploys is what produced ChunkLoadError on a stale client (NetworkFirst falls back
+// to a previous build's HTML on a flaky connection, and that HTML then requests chunks that
+// no longer exist). Fonts and images are content-addressed and safe to keep.
 const BUILD_SCOPED_CACHES = [
   "pages",
   "pages-rsc",
   "pages-rsc-prefetch",
   "others",
+  "next-static",
 ];
 self.addEventListener("activate", (event) => {
   event.waitUntil(

@@ -43,7 +43,27 @@ export function ErrorFallback(props: ErrorFallbackProps) {
       const KEY = "chunk-reload-once";
       if (!sessionStorage.getItem(KEY)) {
         sessionStorage.setItem(KEY, "1");
-        window.location.reload();
+        // A plain reload is served BY the service worker, so it hands back the very HTML
+        // that asked for the missing chunk and the page fails identically. Drop the build
+        // scoped caches and let the waiting worker take over, THEN reload.
+        void (async () => {
+          try {
+            const names = await caches.keys();
+            await Promise.all(
+              names
+                .filter((n) => n !== "fonts" && n !== "images")
+                .map((n) => caches.delete(n)),
+            );
+            const regs = await navigator.serviceWorker
+              ?.getRegistrations?.()
+              .catch(() => []);
+            await Promise.all((regs ?? []).map((r) => r.update()));
+          } catch {
+            // Cache APIs can be unavailable (private mode, older Safari); the reload below
+            // is still worth attempting.
+          }
+          window.location.reload();
+        })();
       }
     }
   }, [props.error]);
