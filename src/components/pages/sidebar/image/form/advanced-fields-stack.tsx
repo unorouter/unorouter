@@ -63,7 +63,6 @@ export function AdvancedFieldsStack(props: Props) {
 
       {descriptor.supportsHiresFix && (
         <UpscalerField
-          upscaler={params.upscaler as string | undefined}
           multiplier={
             (params.upscalerMultiplier as number | undefined) ??
             (params.hiresUpscale as number | undefined)
@@ -72,9 +71,6 @@ export function AdvancedFieldsStack(props: Props) {
           denoise={params.hiresDenoise as number | undefined}
           onChange={(patch) =>
             patchParams(form, {
-              ...(patch.upscaler !== undefined && {
-                upscaler: patch.upscaler,
-              }),
               ...(patch.multiplier !== undefined && {
                 upscalerMultiplier: patch.multiplier,
                 hiresUpscale: patch.multiplier,

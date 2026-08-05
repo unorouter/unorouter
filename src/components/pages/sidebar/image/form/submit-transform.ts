@@ -31,7 +31,6 @@ const FORWARDED_PARAM_KEYS = [
   "initImageUrl",
   "maskUrl",
   "vae",
-  "upscaler",
   "upscalerMultiplier",
   "hiresSteps",
   "hiresDenoise",

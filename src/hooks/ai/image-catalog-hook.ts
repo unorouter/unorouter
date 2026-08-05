@@ -34,13 +34,8 @@ export function useEmbeddingCatalogQuery(query?: CatalogSearchQuery) {
   );
 }
 
-// Runware has no upscaler category; the closest catalog surface is vaes. Name kept so the
-// existing picker does not need to change.
-export function useUpscalerCatalogQuery(query?: CatalogSearchQuery) {
-  return useElysiaQuery(queryKeys.upscalerCatalog(query), () =>
-    rpc.api.ai.image.catalog.vaes.get({ query: query ?? {} }),
-  );
-}
+// No upscaler-catalog hook: the backend has no such category, and pointing the picker at
+// vaes filled it with an unrelated list whose selection was never sent anywhere.
 
 // Resolving is deliberately a separate step from generating: Runware pins its own version
 // ids, so a reference lifted from a Civitai URL often does not load, and finding that out

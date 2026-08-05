@@ -80,11 +80,13 @@ export const queryKeys = {
   loraCatalog: (params?: unknown) => ["lora-catalog", params] as const,
   embeddingCatalog: (params?: unknown) =>
     ["embedding-catalog", params] as const,
-  upscalerCatalog: (params?: unknown) => ["upscaler-catalog", params] as const,
 
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 
   pricing: () => ["pricing"] as const,
+  pricingCounts: () => ["pricing", "counts"] as const,
+  pricingVendors: () => ["pricing", "vendors"] as const,
+  pricingVendor: (name: string) => ["pricing", "vendor", name] as const,
   pricingModel: (name: string) => ["pricing", "model", name] as const,
   searchIndex: (locale: string) => ["search-index", locale] as const,
   searchResults: (locale: string, query: string) =>

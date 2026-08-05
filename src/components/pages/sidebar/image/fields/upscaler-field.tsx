@@ -6,28 +6,18 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { useUpscalerCatalogQuery } from "@/hooks/ai/image-catalog-hook";
 import { cn } from "@/lib/utils";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../image-constants";
 
 export type UpscalerFieldPatch = {
-  upscaler?: string;
   multiplier?: number;
   hiresSteps?: number;
   denoise?: number;
 };
 
 type Props = {
-  upscaler: string | undefined;
   multiplier: number | undefined;
   hiresSteps: number | undefined;
   denoise: number | undefined;
@@ -46,10 +36,7 @@ export function UpscalerField(props: Props) {
   // doubled the length of the form for everyone else. Opens itself when a multiplier is
   // already set, so a restored snapshot does not hide settings that are in effect.
   const [open, setOpen] = useState(enabled);
-  const catalog = useUpscalerCatalogQuery({});
-  const items = catalog.data?.items ?? [];
 
-  const upscaler = props.upscaler;
   const multiplier = props.multiplier ?? DEFAULT_MULTIPLIER;
   const hiresSteps = props.hiresSteps ?? 20;
   const denoise = props.denoise ?? 0.5;
@@ -125,34 +112,10 @@ export function UpscalerField(props: Props) {
               ))}
             </div>
           </div>
-          {/* A backend that re-renders at the target size instead of running a dedicated
-          upscale model offers no models to pick, and an empty select holding a value the
-          provider ignores is worse than no control. */}
-          {items.length > 0 && (
-            <div>
-              <Label className="mb-1 block">{t("IMAGE.UPSCALER")}</Label>
-              <Select
-                value={upscaler ?? ""}
-                onValueChange={(v) =>
-                  props.onChange({ upscaler: v || undefined })
-                }
-              >
-                <SelectTrigger
-                  aria-label={t("IMAGE.UPSCALER")}
-                  className="w-full"
-                >
-                  <SelectValue placeholder={t("IMAGE.UPSCALER_AUTO")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {items.map((u) => (
-                    <SelectItem key={u.id} value={u.air}>
-                      {u.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
+          {/* No upscaler-model picker. The backend has no such category (modelSearch answers
+              invalidCategory for "upscaler") and never reads an `upscaler` param: a hires
+              pass IS a re-render at the target size. The control here listed VAEs, which are
+              an unrelated thing, and picking one changed nothing. */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">

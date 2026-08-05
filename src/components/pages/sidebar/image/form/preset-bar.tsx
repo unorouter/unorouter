@@ -51,6 +51,29 @@ export function PresetBar(props: Props) {
   const presets = presetsQuery.data ?? [];
   const selectedPreset = presets.find((p) => p.id === selectedId) ?? null;
 
+  // Saving is keyed by NAME (the data layer overwrites a same-named row), so overwriting the
+  // equipped preset is the same call with its own name. Without a button for it the only way
+  // to update a preset was to retype its name exactly, and a typo silently made a duplicate.
+  const onOverwrite = async () => {
+    if (!selectedPreset) return;
+    const ok = await confirm({
+      title: t("IMAGE.PRESET_OVERWRITE_CONFIRM", { name: selectedPreset.name }),
+      confirmLabel: t("IMAGE.PRESET_OVERWRITE"),
+      cancelLabel: t("COMMON.CANCEL"),
+    });
+    if (!ok) return;
+    await savePreset.mutateAsync({
+      name: selectedPreset.name,
+      model: props.current.model,
+      prompt: null,
+      negativePrompt: props.current.negativePrompt,
+      params: props.current.params,
+      loras: props.current.loras,
+      extraParams: props.current.extraParams,
+    });
+    setNaming(false);
+  };
+
   const onSave = async () => {
     const trimmed = name.trim();
     if (!trimmed) return;
@@ -123,14 +146,32 @@ export function PresetBar(props: Props) {
           </SelectContent>
         </Select>
 
+        {selectedPreset && (
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            disabled={savePreset.isPending}
+            onClick={() => void onOverwrite()}
+          >
+            <Icon name="save" className="mr-2 h-3.5 w-3.5" />
+            {t("IMAGE.PRESET_OVERWRITE")}
+          </Button>
+        )}
+
         <Button
           type="button"
-          variant="secondary"
+          variant={selectedPreset ? "ghost" : "secondary"}
           size="sm"
           onClick={() => setNaming((v) => !v)}
         >
-          <Icon name="save" className="mr-2 h-3.5 w-3.5" />
-          {t("IMAGE.PRESET_SAVE")}
+          <Icon
+            name={selectedPreset ? "plus" : "save"}
+            className="mr-2 h-3.5 w-3.5"
+          />
+          {selectedPreset
+            ? t("IMAGE.PRESET_SAVE_AS_NEW")
+            : t("IMAGE.PRESET_SAVE")}
         </Button>
 
         {selectedId && (
