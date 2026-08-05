@@ -1,7 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -14,11 +14,9 @@ type Props = {
 
 export function ModelTicker(props: Props) {
   const t = useTranslations();
-  const { data } = usePricingQuery();
+  const { data } = usePricingVendorsQuery();
   const { tps } = useLiveStats();
-  const models = data?.models ?? [];
-
-  if (models.length === 0) return null;
+  const models = data?.modelVendors ?? [];
 
   const tripled = [...models, ...models, ...models];
 
@@ -41,11 +39,11 @@ export function ModelTicker(props: Props) {
               return (
                 <Link
                   key={`${model.name}-${i}`}
-                  href={modelHref(model.name, model.vendor.name)}
+                  href={modelHref(model.name, model.vendor)}
                   className="flex items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <VendorIcon
-                    vendor={model.vendor.name}
+                    vendor={model.vendor}
                     size={16}
                     className="shrink-0"
                   />

@@ -2,6 +2,7 @@ import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
 import {
   getCachedPricingCounts,
+  getDehydratedPricingVendors,
   getDehydratedStatsHistory,
 } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -32,13 +33,14 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  // Hero counts come from the tiny counts slice (4 ints), never the ~325kB
-  // pricing summary: awaiting the full summary here suspended the whole page and
-  // painted footer-first. The model ticker (ssr:false) fetches the full lean
-  // pricing client-side after load.
-  const [counts, statsState] = await Promise.all([
+  // Hero counts come from the tiny counts slice (4 ints), never the ~487kB
+  // pricing summary (awaiting that suspended the page + painted footer-first).
+  // The ticker SSRs off the 16kB vendors slice (name+vendor chips) dehydrated
+  // here, so it renders server-side with no client-fetch pop-in.
+  const [counts, statsState, vendorsState] = await Promise.all([
     getCachedPricingCounts().catch(() => null),
     getDehydratedStatsHistory(),
+    getDehydratedPricingVendors(),
   ]);
 
   return (
@@ -52,14 +54,16 @@ export default async function HomePage(props: {
         })}
       />
       <HydrationBoundary state={statsState}>
-        <Home
-          counts={{
-            modelCount: counts?.modelCount ?? 0,
-            vendorCount: counts?.vendorCount ?? 0,
-            freeCount: counts?.freeCount ?? 0,
-            paidCount: counts?.paidCount ?? 0,
-          }}
-        />
+        <HydrationBoundary state={vendorsState}>
+          <Home
+            counts={{
+              modelCount: counts?.modelCount ?? 0,
+              vendorCount: counts?.vendorCount ?? 0,
+              freeCount: counts?.freeCount ?? 0,
+              paidCount: counts?.paidCount ?? 0,
+            }}
+          />
+        </HydrationBoundary>
       </HydrationBoundary>
     </>
   );

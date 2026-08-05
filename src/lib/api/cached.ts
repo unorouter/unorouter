@@ -52,6 +52,24 @@ export async function getCachedPricingVendors() {
   return (await getPricingSummary()).vendorNames;
 }
 
+// Dehydrated {vendorNames, modelVendors} for the home ticker: same shape the
+// /pricing/vendors route serves, so the ticker SSRs its chips (name+vendor, 16kB)
+// instead of client-fetching after mount. Matches queryKeys.pricingVendors().
+export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
+  "use cache";
+  cacheLife("minutes");
+  const summary = await getPricingSummary();
+  const qc = new QueryClient();
+  await seed(qc, queryKeys.pricingVendors(), {
+    vendorNames: summary.vendorNames,
+    modelVendors: summary.models.map((m) => ({
+      name: m.name,
+      vendor: m.vendor.name,
+    })),
+  });
+  return dehydrate(qc);
+}
+
 // Small {name, vendor} pool for the home chat demo: free text models only, so
 // home never awaits the full summary just to name 4 demo models. Deterministic
 // (no shuffle) for cacheComponents prerenders.
