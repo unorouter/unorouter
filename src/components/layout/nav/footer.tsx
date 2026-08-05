@@ -182,6 +182,7 @@ const FOOTER_BADGES = [
 const FOOTER_TEXT_LINKS = [
   { href: "https://aitooltrek.com", label: "AI Tool Trek" },
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
+  { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
 ] as const;
 
 function FooterLinks(props: {
