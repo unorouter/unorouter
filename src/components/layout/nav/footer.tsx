@@ -171,6 +171,13 @@ const FOOTER_BADGES = [
   },
 ] as const;
 
+// Directories that require a plain text backlink instead of an image badge, and
+// delist the entry if the link is removed.
+const FOOTER_TEXT_LINKS = [
+  { href: "https://aitooltrek.com", label: "AI Tool Trek" },
+  { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
+] as const;
+
 function FooterLinks(props: {
   links: typeof NAV_LINKS | typeof LEGAL_LINKS;
   pathname: string;
@@ -364,6 +371,20 @@ export function Footer() {
                 decoding="async"
                 className="h-6 w-auto"
               />
+            </NextLink>
+          ))}
+        </div>
+
+        <div className="text-foreground/50 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 pb-4 text-xs">
+          {FOOTER_TEXT_LINKS.map((link) => (
+            <NextLink
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground/70 transition-colors"
+            >
+              {link.label}
             </NextLink>
           ))}
         </div>
