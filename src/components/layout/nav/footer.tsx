@@ -125,12 +125,6 @@ const FOOTER_BADGES = [
     width: 139,
   },
   {
-    href: "https://aigc160.com/ai/unorouter",
-    src: "/badges/aigc160.png",
-    name: "AIGC 160",
-    width: 73,
-  },
-  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
@@ -141,12 +135,6 @@ const FOOTER_BADGES = [
     src: "/badges/ailaunchspace.svg",
     name: "AI Launch Space",
     width: 89,
-  },
-  {
-    href: "https://aixcollection.com/ai/unorouter",
-    src: "/badges/aixcollection.png",
-    name: "AI X Collection",
-    width: 95,
   },
   {
     href: "https://www.launchvault.dev",
