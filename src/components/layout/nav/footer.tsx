@@ -143,6 +143,12 @@ const FOOTER_BADGES = [
     width: 89,
   },
   {
+    href: "https://aixcollection.com/ai/unorouter",
+    src: "/badges/aixcollection.png",
+    name: "AI X Collection",
+    width: 95,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
