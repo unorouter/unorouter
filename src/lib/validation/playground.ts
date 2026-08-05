@@ -90,6 +90,8 @@ export const playgroundAdetailer = t.Object({
   ),
 });
 
+export type AdetailerParams = Static<typeof playgroundAdetailer>;
+
 export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });

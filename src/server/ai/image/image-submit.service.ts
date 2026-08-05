@@ -15,6 +15,11 @@ import type {
   PlaygroundSubmitBody,
 } from "@/lib/validation/playground";
 import { logger } from "@/lib/utils/logger";
+import {
+  adetailerCheckpoint,
+  runAdetailerPass,
+} from "@/server/ai/image/adetailer.service";
+import type { AdetailerParams } from "@/lib/validation/playground";
 import { MAX_IMAGES_PER_GEN } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
 import {
@@ -254,9 +259,37 @@ export async function submitGeneration(
     if (requestId) requestIds.push(requestId);
     const results = extractResults(endpoint, JSON.parse(text));
     for (const result of results) {
-      const fetched = await downloadGenerationBytes(result.uri, apiKey);
+      // ADetailer redraws faces or hands AFTER the image exists, so it runs here on the
+      // finished result. Best-effort: a detector that finds nothing, or a failed pass,
+      // keeps the original rather than losing a generation the user already paid for.
+      let uri = result.uri;
+      const adetailer = params.adetailer as AdetailerParams | undefined;
+      if (adetailer && !uri.startsWith("data:")) {
+        const refined = await runAdetailerPass({
+          imageUrl: uri,
+          adetailer,
+          checkpoint: adetailerCheckpoint(body, params),
+          prompt: body.prompt,
+          negativePrompt: params.negativePrompt as string | undefined,
+          loras: adetailer.loras?.length ? adetailer.loras : loras,
+          scheduler: params.scheduler as string | undefined,
+          cfg: params.cfg as number | undefined,
+          // The pass redraws the same canvas, so it renders at the SIZE ACTUALLY REQUESTED,
+          // which already carries any hires multiplier.
+          width: Number(size?.split("x")[0]) || 1024,
+          height: Number(size?.split("x")[1]) || 1024,
+        }).catch((err) => {
+          logger.warn("adetailer pass errored", {
+            context: "image.adetailer",
+            error: String(err).slice(0, 200),
+          });
+          return null;
+        });
+        if (refined) uri = refined;
+      }
+      const fetched = await downloadGenerationBytes(uri, apiKey);
       collected.push({
-        resultUrl: result.uri.startsWith("data:") ? null : result.uri,
+        resultUrl: uri.startsWith("data:") ? null : uri,
         base64: fetched.buffer.toString("base64"),
         mimeType: fetched.mime,
         sizeBytes: fetched.sizeBytes,

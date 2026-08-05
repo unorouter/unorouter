@@ -51,6 +51,9 @@ export function filterParamsToCapabilities(
     drop("initImageUrl");
     drop("maskUrl");
   }
+  // The ADetailer pass inpaints a detected region, so a model that declares no support for
+  // it must not have one run (and billed) on its output.
+  if (!descriptor.supportsAdetailer) drop("adetailer");
   if (!descriptor.supportsWatermark) drop("watermark");
   if (!descriptor.supportsBackground) drop("background");
   if (!descriptor.supportsSize) {

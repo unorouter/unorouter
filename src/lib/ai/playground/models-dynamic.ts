@@ -166,6 +166,9 @@ function inferDescriptor(
     // init-image render and needs no separate upscale task. It therefore requires the same
     // support as img2img: a model that takes no init image cannot do it.
     supportsHiresFix: diffusion,
+    // ADetailer is a detect-then-inpaint pass the server chains itself, so it needs the same
+    // support inpainting does: a model that takes no init image cannot redraw a region.
+    supportsAdetailer: diffusion,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,
     supportsOutputFormat: !!knobs.outputFormat,

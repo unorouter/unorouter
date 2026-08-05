@@ -41,21 +41,15 @@ export const VAES: ReadonlyArray<{ value: string; label: string }> = [
   { value: "ClearVAE.safetensors", label: "ClearVAE.safetensors" },
 ];
 
+// Face detectors only: the backend's hand and person detectors return nothing even on an
+// image that is entirely hands, so listing them would offer a control that does not work.
 export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "bbox/face_yolov8s.pt", label: "face_yolov8s.pt" },
   { id: "bbox/face_yolov9c.pt", label: "face_yolov9c.pt" },
   { id: "bbox/face_yolov8m.pt", label: "face_yolov8m.pt" },
   { id: "bbox/face_yolov8n.pt", label: "face_yolov8n.pt" },
   { id: "bbox/face_yolov8n_v2.pt", label: "face_yolov8n_v2.pt" },
-  { id: "bbox/hand_yolov8s.pt", label: "hand_yolov8s.pt" },
-  { id: "bbox/hand_yolov9c.pt", label: "hand_yolov9c.pt" },
-  { id: "bbox/hand_yolov8n.pt", label: "hand_yolov8n.pt" },
-  { id: "segm/person_yolov8n-seg.pt", label: "person_yolov8n-seg.pt" },
-  { id: "segm/person_yolov8m-seg.pt", label: "person_yolov8m-seg.pt" },
-  { id: "segm/person_yolov8s-seg.pt", label: "person_yolov8s-seg.pt" },
   { id: "mediapipe_face_full", label: "mediapipe_face_full" },
-  { id: "mediapipe_face_mesh", label: "mediapipe_face_mesh" },
-  { id: "mediapipe_face_short", label: "mediapipe_face_short" },
 ];
 
 /**
