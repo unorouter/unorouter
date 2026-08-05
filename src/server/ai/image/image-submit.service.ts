@@ -59,8 +59,13 @@ function diffusionParams(
   params: Record<string, unknown>,
   loras: LoraEntry[],
   extraParams: Record<string, unknown> | undefined,
+  // The negative prompt is a TOP-LEVEL body field, not a param, so the copy() below could
+  // never see it and it never reached the provider at all. Every generation ran with no
+  // negative prompt no matter what the user typed.
+  bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
+  if (bodyNegativePrompt) out.negativePrompt = bodyNegativePrompt;
   // The checkpoint for a passthrough model. It rides in extraParams because it is not a
   // generation parameter, and without forwarding it every custom-civitai request silently
   // ran the channel's default checkpoint instead of the one the user resolved.
@@ -225,7 +230,12 @@ export async function submitGeneration(
       background: params.background as string | undefined,
       strength: params.strength as number | undefined,
       seed: params.seed as number | undefined,
-      diffusion: diffusionParams(params, loras, body.extraParams),
+      diffusion: diffusionParams(
+        params,
+        loras,
+        body.extraParams,
+        body.negativePrompt,
+      ),
     });
 
     // What the provider ACTUALLY receives, which is the only way to tell a knob that was
