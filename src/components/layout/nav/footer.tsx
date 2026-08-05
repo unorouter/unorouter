@@ -137,6 +137,12 @@ const FOOTER_BADGES = [
     width: 72,
   },
   {
+    href: "https://ailaunch.space/",
+    src: "/badges/ailaunchspace.svg",
+    name: "AI Launch Space",
+    width: 89,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
