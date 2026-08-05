@@ -14,6 +14,7 @@ import type {
   LoraEntry,
   PlaygroundSubmitBody,
 } from "@/lib/validation/playground";
+import { logger } from "@/lib/utils/logger";
 import { MAX_IMAGES_PER_GEN } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
 import {
@@ -70,9 +71,16 @@ function diffusionParams(
   };
   copy("steps");
   copy("cfg");
-  copy("sampler");
   copy("scheduler");
   copy("clipSkip");
+  // The sampler control carries the BACKEND's scheduler vocabulary (Runware takes one field,
+  // not a separate sampler and scheduler), so it has to arrive as `scheduler`. Sent as
+  // `sampler` it was silently dropped: Runware ignores the unknown key without an error, so
+  // every pick fell back to the default and the choice looked like it did nothing.
+  const sampler = params.sampler;
+  if (typeof sampler === "string" && sampler && sampler !== "Default") {
+    out.scheduler ??= sampler;
+  }
   copy("negativePrompt");
   copy("strength");
   // The form names these after the UI concept; the adaptor reads the provider's own
@@ -94,6 +102,24 @@ function diffusionParams(
   if (typeof mask === "string" && mask) out.maskImage = mask;
   if (loras.length) {
     out.loras = loras.map((l) => ({ name: l.name, weight: l.weight }));
+  }
+  return out;
+}
+
+// Image inputs are base64 data URIs measured in megabytes. Logging one would bury the line
+// that matters, so they become a size marker while every other value stays verbatim.
+function redactImageValues(
+  src: Record<string, unknown>,
+): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(src)) {
+    if (typeof v === "string" && (v.startsWith("data:") || v.length > 512)) {
+      out[k] = `<${v.length} chars>`;
+    } else if (Array.isArray(v)) {
+      out[k] = `<${v.length} items>`;
+    } else {
+      out[k] = v;
+    }
   }
   return out;
 }
@@ -175,6 +201,27 @@ export async function submitGeneration(
       strength: params.strength as number | undefined,
       seed: params.seed as number | undefined,
       diffusion: diffusionParams(params, loras, body.extraParams),
+    });
+
+    // What the provider ACTUALLY receives, which is the only way to tell a knob that was
+    // dropped from one that was sent and ignored. Image payloads carry base64 data URIs, so
+    // they are summarised rather than logged.
+    logger.info("image generation request", {
+      context: "image.submit",
+      model: body.model,
+      endpoint,
+      group: routingGroup ?? "auto",
+      size,
+      n: perCallN,
+      call: i + 1,
+      of: callsToMake,
+      params: redactImageValues(
+        built.kind === "json"
+          ? (JSON.parse(built.body) as Record<string, unknown>)
+          : params,
+      ),
+      loras: loras.map((l) => `${l.name}@${l.weight}`),
+      refCount: refs.length,
     });
 
     const headers: Record<string, string> = {
