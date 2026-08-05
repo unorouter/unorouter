@@ -35,6 +35,8 @@ const LEGAL_LINKS = [
 
 // Directory badges render at h-6; width is the intrinsic ratio hint. Swap a
 // badge between hosted and self-hosted src by editing its entry only.
+// liveFrom marks a listing that only goes public on a scheduled launch date; the
+// badge appears one day earlier so the directory can verify it before going live.
 const FOOTER_BADGES = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -114,6 +116,7 @@ const FOOTER_BADGES = [
     src: "/badges/ufind.svg",
     name: "ufind.best",
     width: 139,
+    liveFrom: "2026-12-07",
   },
   {
     href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
@@ -208,6 +211,12 @@ export function Footer() {
   const t = useTranslations();
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
+
+  const visibleBadges = FOOTER_BADGES.filter(
+    (badge) =>
+      !("liveFrom" in badge) ||
+      !dayjs().isBefore(dayjs(badge.liveFrom).subtract(1, "day"), "day"),
+  );
 
   const socialLinks = [
     {
@@ -344,7 +353,7 @@ export function Footer() {
         </div>
 
         <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-4 opacity-70">
-          {FOOTER_BADGES.map((badge) => (
+          {visibleBadges.map((badge) => (
             <NextLink
               key={badge.href}
               href={badge.href}
