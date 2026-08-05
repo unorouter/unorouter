@@ -48,6 +48,7 @@ export enum Vendor {
   BAIDU = "baidu",
   QIANFAN = "qianfan",
   LIQUID = "liquid",
+  CODEIUM = "codeium",
   INCLUSIONAI = "inclusionai",
   LING = "ling",
   ARCEE = "arcee",

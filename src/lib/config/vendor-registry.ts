@@ -224,6 +224,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-slate-500/20",
     primary: "#64748b",
   },
+  [Vendor.CODEIUM]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#09b6a2",
+  },
   [Vendor.INCLUSIONAI]: {
     bg: "bg-blue-500/5",
     border: "border-blue-500/20",
@@ -829,6 +837,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.JINA]: () => import("@lobehub/icons/es/Jina"),
   [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
   [Vendor.LING]: () => import("@lobehub/icons/es/AntGroup"),
+  [Vendor.CODEIUM]: () => import("@lobehub/icons/es/Windsurf"),
   [Vendor.LIQUID]: () => import("@lobehub/icons/es/Liquid"),
   [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
   [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
