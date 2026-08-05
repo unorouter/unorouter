@@ -166,6 +166,12 @@ const FOOTER_BADGES = [
     name: "Findly.tools",
     width: 175,
   },
+  {
+    href: "https://scoutforge.net/apps/unorouter?ref=badge",
+    src: "https://scoutforge.net/badge/unorouter/image?theme=light",
+    name: "Scout Forge",
+    width: 300,
+  },
 ] as const;
 
 // Directories that require a plain text backlink instead of an image badge, and
