@@ -11,7 +11,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFreeModelsWatch } from "@/hooks/models/notify-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { useRouter } from "@/i18n/navigation";
 import { notifyEventText } from "@/lib/notify/event-text";
 import {
@@ -54,7 +54,7 @@ export function NotifyBell() {
   const [soundEnabled, setSoundEnabled] = useAtom(soundEnabledAtom);
   const freeWatch = useFreeModelsWatch();
   const [open, setOpen] = useState(false);
-  const pricingQuery = usePricingQuery(open);
+  const vendorsQuery = usePricingVendorsQuery(open);
   const [permission, setPermission] = useState<NotificationPermission | null>(
     null,
   );
@@ -62,7 +62,7 @@ export function NotifyBell() {
   const [query, setQuery] = useState("");
 
   const vendorOf = (model: string) =>
-    pricingQuery.data?.models.find((m) => m.name === model)?.vendor.name;
+    vendorsQuery.data?.modelVendors.find((m) => m.name === model)?.vendor;
 
   const watchedModels = topics
     .filter((topic) => topic.startsWith("model:"))

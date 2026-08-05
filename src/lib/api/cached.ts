@@ -1,4 +1,4 @@
-import { toLeanPricing } from "@/lib/api/pricing";
+import { leanOne, toLeanPricing } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -28,6 +28,55 @@ export async function getCachedPricing(includeOffline?: boolean) {
   "use cache";
   cacheLife("minutes");
   return getPricingSummary(includeOffline);
+}
+
+// Scoped pricing slices for SERVER prerender: sub-KB, so pages that need only
+// counts / vendor names prerender into the shell with NO footer-first suspend
+// (unlike the ~325kB full pricing). Same "minutes" cadence as getCachedPricing;
+// derived from the same summary so they never drift from the /models table.
+export async function getCachedPricingCounts() {
+  "use cache";
+  cacheLife("minutes");
+  const summary = await getPricingSummary();
+  return {
+    modelCount: summary.modelCount,
+    freeCount: summary.freeCount,
+    paidCount: summary.paidCount,
+    vendorCount: summary.vendorCount,
+  };
+}
+
+export async function getCachedPricingVendors() {
+  "use cache";
+  cacheLife("minutes");
+  return (await getPricingSummary()).vendorNames;
+}
+
+// Small {name, vendor} pool for the home chat demo: free text models only, so
+// home never awaits the full summary just to name 4 demo models. Deterministic
+// (no shuffle) for cacheComponents prerenders.
+// One vendor's models (lean per-model shape), for the vendor page SSR hydration.
+// Filtered server-side so the vendor page prefetches ~1/40th of the full list.
+export async function getCachedVendorModels(vendorName: string) {
+  "use cache";
+  cacheLife("minutes");
+  const summary = await getPricingSummary();
+  return {
+    models: summary.models
+      .filter((m) => m.vendor.name === vendorName)
+      .map((m) => leanOne(m)),
+  };
+}
+
+export async function getCachedFreeTextModelsWithVendor(limit: number) {
+  "use cache";
+  cacheLife("minutes");
+  const summary = await getPricingSummary();
+  const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
+  return summary.models
+    .filter((m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name))
+    .slice(0, limit)
+    .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
 }
 
 export async function getCachedRankings(period: string) {

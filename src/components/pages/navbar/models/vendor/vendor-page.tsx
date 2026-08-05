@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorQuery } from "@/hooks/models/pricing-hook";
 import { vendorDisplayName } from "@/lib/api/pricing";
 import { vendorSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
@@ -13,7 +13,7 @@ import { VendorModelCard } from "./vendor-model-card";
 
 export function VendorModelsPage(props: { vendor: string }) {
   const t = useTranslations();
-  const query = usePricingQuery();
+  const query = usePricingVendorQuery(props.vendor);
   const target = vendorSlug(props.vendor);
 
   const models = (query.data?.models ?? [])
@@ -41,9 +41,20 @@ export function VendorModelsPage(props: { vendor: string }) {
       </div>
 
       {models.length === 0 ? (
-        <p className="text-muted-foreground py-16 text-center text-sm">
-          {t("MODELS.VENDOR.EMPTY")}
-        </p>
+        query.isPending ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="border-border/50 bg-muted/20 h-28 animate-pulse rounded-lg border"
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground py-16 text-center text-sm">
+            {t("MODELS.VENDOR.EMPTY")}
+          </p>
+        )
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {models.map((model) => (

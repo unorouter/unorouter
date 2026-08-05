@@ -448,6 +448,10 @@ export type LeanPricing = ReturnType<typeof toLeanPricing>;
 
 const LEAN_DESCRIPTION_CHARS = 200;
 
+export function leanOne(model: ProcessedModel): ProcessedModel {
+  return leanModel(model);
+}
+
 function leanModel(model: ProcessedModel): ProcessedModel {
   const description = model.description;
   return {

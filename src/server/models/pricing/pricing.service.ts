@@ -1,4 +1,4 @@
-import { buildPricingSummary, toLeanPricing } from "@/lib/api/pricing";
+import { buildPricingSummary, leanOne, toLeanPricing } from "@/lib/api/pricing";
 import {
   getPricingSummary as getCachedByName,
   refreshPricingSummary,
@@ -44,6 +44,48 @@ export async function getPricingSummary(includeOffline = false) {
 
 export async function getPricingLean(includeOffline = false) {
   return toLeanPricing(await getPricingSummary(includeOffline));
+}
+
+// Scoped slices for pages that need only a sliver of pricing. All read the ONE
+// shared in-process 5min cache (same snapshot toLeanPricing serves at /pricing),
+// so counts/vendors/vendor-models never drift from the /models table. Deriving
+// from `.models` keeps membership identical to the online-only feed.
+
+export async function getPricingCounts() {
+  const { models } = await getCachedByName();
+  const freeCount = models.filter((m) => m.isFree).length;
+  const vendorCount = new Set(models.map((m) => m.vendor.name)).size;
+  return {
+    modelCount: models.length,
+    freeCount,
+    paidCount: models.length - freeCount,
+    vendorCount,
+  };
+}
+
+// name->vendor pairs: covers NotifyBell's vendorOf lookup and the crawlable
+// vendor list. Strings only, no per-model pricing/metadata.
+export async function getPricingVendors() {
+  const { models } = await getCachedByName();
+  const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
+    (a, b) => a.localeCompare(b),
+  );
+  const modelVendors = models.map((m) => ({
+    name: m.name,
+    vendor: m.vendor.name,
+  }));
+  return { vendorNames, modelVendors };
+}
+
+// One vendor's models in the SAME lean per-model shape as /pricing (vendor cards
+// need release date / modalities / prices), filtered to that vendor.
+export async function getVendorModels(name: string) {
+  const { models } = await getCachedByName();
+  return {
+    models: models
+      .filter((m) => m.vendor.name === name)
+      .map((m) => leanOne(m)),
+  };
 }
 
 // Single full model for the detail sheet / on-demand consumers; served from

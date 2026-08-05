@@ -37,9 +37,9 @@ export default async function TokensPage() {
         ...cookies,
       }),
     ),
-    prefetchElysia(queryClient, queryKeys.pricing(), () =>
-      rpc.api.models.pricing.get(),
-    ),
+    // Pricing (name->vendor for the token columns/dialog) is NOT prefetched here:
+    // dehydrating the ~325kB list blocked the token page shell. The widgets
+    // lazy-fetch it client-side via usePricingQuery after mount.
     prefetchElysia(queryClient, queryKeys.userGroups(), (cookies) =>
       rpc.api.billing.token.groups.get(cookies),
     ),

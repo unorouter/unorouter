@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/status/status-component";
 import type { StatusBucket } from "@/lib/types";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";
@@ -45,8 +45,16 @@ import { SummaryCards } from "./summary-cards";
 export function StatusPage() {
   const t = useTranslations();
   const s = useStatusFilter();
-  const pricing = usePricingQuery();
-  const pricingModels = pricing.data?.models ?? [];
+  const pricing = usePricingVendorsQuery();
+  const vendorCounts = (() => {
+    const counts = new Map<string, number>();
+    for (const m of pricing.data?.modelVendors ?? []) {
+      counts.set(m.vendor, (counts.get(m.vendor) ?? 0) + 1);
+    }
+    return Array.from(counts, ([name, count]) => ({ name, count })).sort(
+      (a, b) => b.count - a.count,
+    );
+  })();
   const perfQuery = usePerfMetricsSummaryQuery(24);
   const perfMap = new Map<string, ModelSummary>(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
@@ -106,7 +114,7 @@ export function StatusPage() {
                 className="pl-10"
               />
             </div>
-            <VendorFilter models={pricingModels} />
+            <VendorFilter vendorCounts={vendorCounts} />
             <Select
               value={s.bucket}
               onValueChange={(v) => s.setBucket(v as StatusBucket)}

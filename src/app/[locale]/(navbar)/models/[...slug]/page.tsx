@@ -3,12 +3,15 @@ import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor
 import { localeUrl } from "@/i18n/navigation";
 import {
   findContextTag,
-  toLeanPricing,
   type ProcessedModel,
   vendorDisplayName,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getCachedPricing } from "@/lib/api/cached";
+import {
+  getCachedPricing,
+  getCachedPricingVendors,
+  getCachedVendorModels,
+} from "@/lib/api/cached";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -68,8 +71,7 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
   const seg = slug[0]!;
-  const pricing = await getCachedPricing().catch(() => null);
-  const vendorNames = pricing?.vendorNames ?? [];
+  const vendorNames = await getCachedPricingVendors().catch(() => []);
   const match = vendorNames.find((v) => vendorMatchesSlug(v, seg));
   return match ?? null;
 }
@@ -157,8 +159,8 @@ export default async function ModelDetailPage(props: PageProps) {
     }
     const vendorQc = getQueryClient();
     await vendorQc.prefetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => toLeanPricing(await getCachedPricing()),
+      queryKey: queryKeys.pricingVendor(vendor),
+      queryFn: () => getCachedVendorModels(vendor),
     });
     return (
       <HydrationBoundary state={dehydrate(vendorQc)}>

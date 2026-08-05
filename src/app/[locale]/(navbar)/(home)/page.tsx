@@ -1,6 +1,9 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getCachedPricing, getDehydratedStatsHistory } from "@/lib/api/cached";
+import {
+  getCachedPricingCounts,
+  getDehydratedStatsHistory,
+} from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
@@ -29,12 +32,12 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  // Pricing is fetched for the hero counts only and deliberately NOT put in
-  // the query cache: dehydrating 700+ full model objects added ~2.3MB of RSC
-  // flight payload to the homepage HTML (197KB brotli). The model ticker
-  // (ssr:false, renders null until data) fetches it client-side after load.
-  const [pricing, statsState] = await Promise.all([
-    getCachedPricing().catch(() => null),
+  // Hero counts come from the tiny counts slice (4 ints), never the ~325kB
+  // pricing summary: awaiting the full summary here suspended the whole page and
+  // painted footer-first. The model ticker (ssr:false) fetches the full lean
+  // pricing client-side after load.
+  const [counts, statsState] = await Promise.all([
+    getCachedPricingCounts().catch(() => null),
     getDehydratedStatsHistory(),
   ]);
 
@@ -45,16 +48,16 @@ export default async function HomePage(props: {
         data={buildSoftwareApplicationSchema({
           locale,
           description: t("HOME.META.DESCRIPTION"),
-          modelCount: pricing?.modelCount,
+          modelCount: counts?.modelCount,
         })}
       />
       <HydrationBoundary state={statsState}>
         <Home
           counts={{
-            modelCount: pricing?.modelCount ?? 0,
-            vendorCount: pricing?.vendorCount ?? 0,
-            freeCount: pricing?.freeCount ?? 0,
-            paidCount: pricing?.paidCount ?? 0,
+            modelCount: counts?.modelCount ?? 0,
+            vendorCount: counts?.vendorCount ?? 0,
+            freeCount: counts?.freeCount ?? 0,
+            paidCount: counts?.paidCount ?? 0,
           }}
         />
       </HydrationBoundary>

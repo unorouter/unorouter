@@ -3,7 +3,7 @@
 import type { StatusType } from "@/components/ui/status/status.types";
 import { useStatusPage as useStatusPageQuery } from "@/hooks/models/model-status-hook";
 import type { StatusBucket } from "@/lib/types";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import {
   collapsedVendorsAtom,
   selectedVendorsAtom,
@@ -67,7 +67,7 @@ export function useStatusFilter() {
   const hours = BUCKET_OPTIONS.find((o) => o.value === bucket)?.hours ?? 24;
   const q = useStatusPageQuery(bucket, hours);
   const data = q.data;
-  const pricing = usePricingQuery();
+  const pricing = usePricingVendorsQuery();
 
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -96,11 +96,11 @@ export function useStatusFilter() {
 
   const components: StatusComponent[] = data?.components ?? [];
   const bars = data?.bars ?? {};
-  const pricingModels = pricing.data?.models ?? [];
+  const modelVendors = pricing.data?.modelVendors ?? [];
 
   const vendorByModel = new Map<string, string>();
-  for (const m of pricingModels) {
-    vendorByModel.set(m.name, m.vendor.name);
+  for (const m of modelVendors) {
+    vendorByModel.set(m.name, m.vendor);
   }
 
   const searchLower = deferredSearch.toLowerCase();

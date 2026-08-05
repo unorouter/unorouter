@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/theme/theme-store";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
-import { getCachedPricing } from "@/lib/api/cached";
+import { getCachedPricingCounts } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -69,9 +69,9 @@ export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
   const locale = await serverLocale(props);
-  const [t, pricing] = await Promise.all([
+  const [t, counts] = await Promise.all([
     getTranslations({ locale }),
-    getCachedPricing().catch(() => null),
+    getCachedPricingCounts().catch(() => null),
   ]);
 
   return getPageMetadata({
@@ -79,7 +79,7 @@ export async function generateMetadata(props: {
     href: "/",
     title: t("METADATA.TITLE", APP_VALUES),
     description: t("METADATA.DESCRIPTION", {
-      modelCount: String(pricing?.modelCount),
+      modelCount: String(counts?.modelCount),
     }),
     keywords: t("METADATA.KEYWORDS"),
     ogImage: ogBadge("hero", locale),

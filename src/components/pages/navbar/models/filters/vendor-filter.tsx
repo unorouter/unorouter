@@ -37,10 +37,14 @@ function buildVendorOptions(models: ProcessedModel[]): VendorOption[] {
   );
 }
 
-export function VendorFilter(props: { models: ProcessedModel[] }) {
+export function VendorFilter(props: {
+  models?: ProcessedModel[];
+  vendorCounts?: VendorOption[];
+}) {
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const t = useTranslations();
-  const vendorOptions = buildVendorOptions(props.models);
+  const vendorOptions =
+    props.vendorCounts ?? buildVendorOptions(props.models ?? []);
   const selectedSet = new Set(selectedVendors);
 
   return (

@@ -17,6 +17,30 @@ export function usePricingQuery(enabled = true) {
   );
 }
 
+export function usePricingCountsQuery() {
+  return useElysiaQuery(
+    queryKeys.pricingCounts(),
+    () => rpc.api.models.pricing.counts.get(),
+    { staleTime: "static" },
+  );
+}
+
+export function usePricingVendorsQuery(enabled = true) {
+  return useElysiaQuery(
+    queryKeys.pricingVendors(),
+    () => rpc.api.models.pricing.vendors.get(),
+    { staleTime: "static", enabled },
+  );
+}
+
+export function usePricingVendorQuery(name: string) {
+  return useElysiaQuery(
+    queryKeys.pricingVendor(name),
+    () => rpc.api.models.pricing.vendor.get({ query: { name } }),
+    { staleTime: "static" },
+  );
+}
+
 export function useModelDetailQuery(name: string | null) {
   return useElysiaQuery(
     queryKeys.pricingModel(name ?? ""),

@@ -55,8 +55,8 @@ async function StatusData() {
     prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
       rpc.api.models["model-status"].components.get(),
     ),
-    prefetchElysia(queryClient, queryKeys.pricing(), () =>
-      rpc.api.models.pricing.get(),
+    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
+      rpc.api.models.pricing.vendors.get(),
     ),
     prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
       rpc.api.models["perf-metrics"].summary.get({

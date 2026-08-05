@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getCachedPricing } from "@/lib/api/cached";
+import { getCachedFreeTextModelsWithVendor } from "@/lib/api/cached";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -10,22 +10,9 @@ import {
 } from "./chat-mock-view";
 import { ChatMockLazy } from "./chat-mock-lazy";
 
-const vendorOf = (m: { vendor: string | { name?: string } }): string =>
-  typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? "");
-
 export async function ChatSection() {
   const t = await getTranslations();
-  const models = (await getCachedPricing()).models;
-  const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
-  const freeText = models.filter(
-    (m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name),
-  );
-  const withVendor = freeText.filter((m) => vendorOf(m).length > 0);
-  const pool = withVendor.length > 0 ? withVendor : freeText;
-  const demoModels: MockModel[] = pool.slice(0, 4).map((m) => ({
-    name: m.name,
-    vendor: vendorOf(m) || m.name,
-  }));
+  const demoModels: MockModel[] = await getCachedFreeTextModelsWithVendor(4);
   if (demoModels.length === 0) {
     demoModels.push({
       name: t("HOME.CHAT.MOCK.MODEL_NAME"),
