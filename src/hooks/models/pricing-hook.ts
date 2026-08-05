@@ -5,7 +5,7 @@ import { useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 
-export function usePricingQuery() {
+export function usePricingQuery(enabled = true) {
   // staleTime "static": this dataset is dehydrated into prerendered shells,
   // and any finite staleTime makes useQuery read the clock during the
   // prerender (rejected by cacheComponents). Static queries are skipped by
@@ -13,7 +13,7 @@ export function usePricingQuery() {
   return useElysiaQuery(
     queryKeys.pricing(),
     () => rpc.api.models.pricing.get(),
-    { staleTime: "static" },
+    { staleTime: "static", enabled },
   );
 }
 

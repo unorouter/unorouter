@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Fragment, useRef } from "react";
 import { MobileNav } from "./mobile-nav";
+import { PrefetchLink } from "./prefetch-link";
 import { isActiveLink, navigation, type NavigationItem } from "./navigation";
 
 export function Navbar(props: { authSlot?: React.ReactNode }) {
@@ -80,7 +81,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
 
         <div className="hidden items-center gap-8 lg:flex">
           {topLevelItems.map((link) => (
-            <Link
+            <PrefetchLink
               key={link.name}
               href={link.href}
               className={cn(
@@ -97,7 +98,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
               }
             >
               {t(link.name)}
-            </Link>
+            </PrefetchLink>
           ))}
 
           {dropdownItems.map((item) => (
@@ -115,7 +116,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
                         <li key={sub.name}>
                           <NavigationMenuLink
                             render={
-                              <Link
+                              <PrefetchLink
                                 href={sub.href}
                                 className="hover:bg-muted/50 focus:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 rounded-md px-2.5 py-1.5 transition-colors"
                                 onClick={() =>
@@ -134,7 +135,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
                                 <span className="text-foreground text-[13px] font-medium">
                                   {t(sub.name)}
                                 </span>
-                              </Link>
+                              </PrefetchLink>
                             }
                           />
                         </li>
@@ -176,7 +177,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
                             <NavigationMenuLink
                               key={link.name}
                               render={
-                                <Link
+                                <PrefetchLink
                                   href={link.href}
                                   className="border-border/60 bg-card/40 hover:border-primary/40 hover:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-0.5 rounded-md border px-3 py-2 transition-colors"
                                   onClick={() =>
@@ -213,7 +214,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
                                       {t(link.subtitle, APP_VALUES)}
                                     </span>
                                   )}
-                                </Link>
+                                </PrefetchLink>
                               }
                             />
                           ))}

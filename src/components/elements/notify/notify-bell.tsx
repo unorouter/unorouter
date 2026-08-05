@@ -53,8 +53,8 @@ export function NotifyBell() {
   const [pushEnabled, setPushEnabled] = useAtom(pushEnabledAtom);
   const [soundEnabled, setSoundEnabled] = useAtom(soundEnabledAtom);
   const freeWatch = useFreeModelsWatch();
-  const pricingQuery = usePricingQuery();
   const [open, setOpen] = useState(false);
+  const pricingQuery = usePricingQuery(open);
   const [permission, setPermission] = useState<NotificationPermission | null>(
     null,
   );

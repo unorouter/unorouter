@@ -26,7 +26,8 @@ import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { Icon } from "@/components/ui/icon";
 import { APP_VALUES } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { PrefetchLink } from "@/components/layout/nav/prefetch-link";
 import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAui } from "@assistant-ui/react";
@@ -53,7 +54,9 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
-                  render={<Link href={item.href} onClick={item.onClick} />}
+                  render={
+                    <PrefetchLink href={item.href} onClick={item.onClick} />
+                  }
                   tooltip={t(item.name, APP_VALUES)}
                   isActive={isActive}
                   className={cn(

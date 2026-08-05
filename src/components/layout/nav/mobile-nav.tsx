@@ -14,6 +14,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
+import { PrefetchLink } from "./prefetch-link";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { expandedNavAtom, toggleNavigationAtom } from "@/store/client-store";
@@ -73,7 +74,7 @@ export function MobileNav() {
 
               const isActive = isActiveLink(pathname, item.href, item.exact);
               return (
-                <Link
+                <PrefetchLink
                   key={item.name}
                   href={item.href}
                   onClick={handleNavigate}
@@ -91,7 +92,7 @@ export function MobileNav() {
                     <item.iconComponent className="h-4 w-4" />
                   )}
                   {t(item.name)}
-                </Link>
+                </PrefetchLink>
               );
             })}
           </nav>
@@ -134,7 +135,7 @@ function CollapsibleNavItem(props: {
   return (
     <div>
       <div className="flex items-center">
-        <Link
+        <PrefetchLink
           href={props.item.href}
           onClick={props.onNavigate}
           className={cn(
@@ -151,7 +152,7 @@ function CollapsibleNavItem(props: {
             <props.item.iconComponent className="h-4 w-4" />
           )}
           {t(props.item.name)}
-        </Link>
+        </PrefetchLink>
         <button
           type="button"
           onClick={() => toggleNavigation(props.item.name)}
@@ -191,7 +192,7 @@ function CollapsibleNavItem(props: {
                   </li>
                 )}
                 <li>
-                  <Link
+                  <PrefetchLink
                     href={subItem.href}
                     onClick={props.onNavigate}
                     className={cn(
@@ -208,7 +209,7 @@ function CollapsibleNavItem(props: {
                       <subItem.iconComponent className="h-3 w-3" />
                     )}
                     {t(subItem.name)}
-                  </Link>
+                  </PrefetchLink>
                 </li>
               </Fragment>
             );
