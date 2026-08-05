@@ -146,24 +146,6 @@ const FOOTER_BADGES = [
     width: 220,
   },
   {
-    href: "https://toolprism.com/ai/unorouter",
-    src: "https://toolprism.com/assets/images/badge.png",
-    name: "Tool Prism",
-    width: 160,
-  },
-  {
-    href: "https://thekeytools.com/ai/unorouter",
-    src: "https://thekeytools.com/assets/images/badge.png",
-    name: "The Key Tools",
-    width: 160,
-  },
-  {
-    href: "https://startupbenchmarks.com/product/unorouter",
-    src: "https://startupbenchmarks.com/assets/images/badge.png",
-    name: "Startup Benchmarks",
-    width: 160,
-  },
-  {
     href: "https://saasgrow.app?ref=unorouter.com",
     src: "https://saasgrow.app/api/badge?type=featured&style=light",
     name: "SaaSGrow",
