@@ -145,6 +145,24 @@ const FOOTER_BADGES = [
     name: "ShowMeBestAI",
     width: 220,
   },
+  {
+    href: "https://toolprism.com/ai/unorouter",
+    src: "https://toolprism.com/assets/images/badge.png",
+    name: "Tool Prism",
+    width: 160,
+  },
+  {
+    href: "https://thekeytools.com/ai/unorouter",
+    src: "https://thekeytools.com/assets/images/badge.png",
+    name: "The Key Tools",
+    width: 160,
+  },
+  {
+    href: "https://startupbenchmarks.com/product/unorouter",
+    src: "https://startupbenchmarks.com/assets/images/badge.png",
+    name: "Startup Benchmarks",
+    width: 160,
+  },
 ] as const;
 
 function FooterLinks(props: {
