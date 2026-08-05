@@ -133,6 +133,12 @@ const FOOTER_BADGES = [
     name: "FindYourSaaS",
     width: 24,
   },
+  {
+    href: "https://openhunts.com",
+    src: "https://cdn.openhunts.com/badges/club.webp",
+    name: "OpenHunts",
+    width: 111,
+  },
 ] as const;
 
 function FooterLinks(props: {
