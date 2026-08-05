@@ -6,11 +6,15 @@ const HEX_RE = /^#[0-9a-fA-F]{6}$/;
 
 const COMMIT_DELAY_MS = 100;
 
-function normalizeHex(v: string): string | null {
+// `expandShort` is off while typing: "#ff0" on the way to "#ff0000" is a PREFIX, not a
+// shorthand, and expanding it committed #ffff00 mid-keystroke. The parent then echoed that
+// back into the field, so the text changed under the cursor and the theme flashed a colour
+// the user never chose. Shorthand still expands on blur, where the input really is complete.
+function normalizeHex(v: string, expandShort = true): string | null {
   let s = v.trim();
   if (!s) return null;
   if (!s.startsWith("#")) s = `#${s}`;
-  if (/^#[0-9a-fA-F]{3}$/.test(s)) {
+  if (expandShort && /^#[0-9a-fA-F]{3}$/.test(s)) {
     s = `#${s[1]}${s[1]}${s[2]}${s[2]}${s[3]}${s[3]}`;
   }
   return HEX_RE.test(s) ? s.toLowerCase() : null;
@@ -73,7 +77,7 @@ export function ColorField(props: {
             const raw = e.target.value;
             setLocal(raw);
             if (raw === "") return debouncedChange(undefined);
-            const hex = normalizeHex(raw);
+            const hex = normalizeHex(raw, false);
             if (hex) debouncedChange(hex); // valid hex commits; blur normalizes the rest
           }}
           onBlur={(e) => {
