@@ -125,6 +125,12 @@ const FOOTER_BADGES = [
     width: 139,
   },
   {
+    href: "https://aigc160.com/ai/unorouter",
+    src: "/badges/aigc160.png",
+    name: "AIGC 160",
+    width: 73,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
