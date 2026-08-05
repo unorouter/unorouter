@@ -139,6 +139,12 @@ const FOOTER_BADGES = [
     name: "OpenHunts",
     width: 111,
   },
+  {
+    href: "https://showmebest.ai",
+    src: "https://showmebest.ai/badge/feature-badge-white.webp",
+    name: "ShowMeBestAI",
+    width: 220,
+  },
 ] as const;
 
 function FooterLinks(props: {
