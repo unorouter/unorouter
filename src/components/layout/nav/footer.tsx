@@ -149,6 +149,12 @@ const FOOTER_BADGES = [
     width: 103,
   },
   {
+    href: "https://huzzler.so/products/colhB77fuA/unorouter?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=badge",
+    src: "/badges/huzzler.png",
+    name: "Huzzler",
+    width: 81,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
