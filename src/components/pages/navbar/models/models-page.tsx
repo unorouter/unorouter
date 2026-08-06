@@ -28,7 +28,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -100,7 +100,11 @@ export function ModelsPage() {
 
   return (
     <div className="w-full pt-20 pb-16">
-      <ModelsUrlSync />
+      {/* useQueryStates (useSearchParams) is a CSR bailout: without its own
+          boundary it ejects the whole page from the PPR static shell. */}
+      <Suspense fallback={null}>
+        <ModelsUrlSync />
+      </Suspense>
       <SidebarProvider
         defaultOpen
         className="relative h-auto min-h-0 overflow-visible"

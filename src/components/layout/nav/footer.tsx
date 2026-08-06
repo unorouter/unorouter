@@ -230,10 +230,15 @@ export function Footer() {
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
 
+  // Build-date clock: dayjs() (now) is non-deterministic in prerenders and
+  // ejects every page from the PPR static shell ("render in browser" abort).
   const visibleBadges = FOOTER_BADGES.filter(
     (badge) =>
       !("liveFrom" in badge) ||
-      !dayjs().isBefore(dayjs(badge.liveFrom).subtract(1, "day"), "day"),
+      !dayjs(process.env.NEXT_PUBLIC_BUILD_DATE).isBefore(
+        dayjs(badge.liveFrom).subtract(1, "day"),
+        "day",
+      ),
   );
 
   const socialLinks = [
