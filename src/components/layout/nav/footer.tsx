@@ -167,6 +167,12 @@ const FOOTER_BADGES = [
     width: 111,
   },
   {
+    href: "https://saasbison.com",
+    src: "https://saasbison.com/badge.png",
+    name: "SaaSBison",
+    width: 111,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
