@@ -3,6 +3,7 @@
 import { ImageForm } from "@/components/pages/sidebar/image/form/image-form";
 import { ImageResult } from "@/components/pages/sidebar/image/image-result";
 import { Img2ImgSubPills } from "@/components/pages/sidebar/image/form/img2img-sub-pills";
+import { ImageActionsMenu } from "@/components/pages/sidebar/image/image-actions-menu";
 import { ModeTabs } from "@/components/pages/sidebar/image/form/mode-tabs";
 import { RecentStrip } from "@/components/pages/sidebar/image/history/recent-strip";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
@@ -83,7 +84,10 @@ export function ImagePage(props: { sessionId?: string; snapshotId?: string }) {
     <div className="thin-scrollbar flex min-h-0 min-w-0 flex-1 flex-col gap-6 overflow-y-auto p-4 md:p-6 lg:flex-row lg:overflow-hidden">
       <div className="thin-scrollbar flex-1 lg:overflow-y-auto lg:pr-2">
         <div className="flex max-w-2xl flex-col gap-4">
-          <ModeTabs />
+          <div className="flex items-center justify-between gap-2">
+            <ModeTabs />
+            <ImageActionsMenu />
+          </div>
           {activeTab === "img2img" && <Img2ImgSubPills />}
           <ImageForm />
         </div>
