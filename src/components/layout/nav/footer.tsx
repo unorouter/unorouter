@@ -195,9 +195,9 @@ const FOOTER_BADGES = [
 // Directories that require a plain text backlink instead of an image badge, and
 // delist the entry if the link is removed.
 const FOOTER_TEXT_LINKS = [
-  { href: "https://aitooltrek.com", label: "AI Tool Trek" },
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
   { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
+  { href: "https://animatephoto.io", label: "Animate Photo AI" },
 ] as const;
 
 function FooterLinks(props: {
