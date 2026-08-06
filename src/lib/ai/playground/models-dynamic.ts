@@ -38,7 +38,7 @@ const DIFFUSION_GROUP_PATTERN = /runware/i;
 // pairing A1111 splits across two dropdowns arrives here as a single string. Every entry
 // below was accepted by a live generation; the omissions are rejections, not oversights
 // (no DPM2, no DPM++ 3M, no LCM Karras, no Euler a with a schedule other than Beta).
-const RUNWARE_SCHEDULERS = [
+export const RUNWARE_SCHEDULERS = [
   "Default",
   "Euler",
   "Euler Karras",
@@ -64,6 +64,12 @@ const RUNWARE_SCHEDULERS = [
   "LMS Karras",
   "LCM",
 ];
+
+// An unknown scheduler is rejected outright rather than ignored, so the submit path checks
+// against this list before forwarding one.
+export function isRunwareScheduler(value: string): boolean {
+  return RUNWARE_SCHEDULERS.includes(value);
+}
 
 function isDiffusionModel(model: ProcessedModel): boolean {
   return (model.enableGroups ?? []).some((g) =>

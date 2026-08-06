@@ -27,8 +27,8 @@ function aspectRatioOf(img: ImageView): string | undefined {
 }
 
 // Touch has no hover, so these are always visible on a phone and are the ONLY way to reach
-// remix/inpaint/hires there. At the desktop icon size they were 22px targets, well under the
-// 44px a finger needs, so they were effectively unusable on the device most reports came from.
+// remix/inpaint/hires there. 22px was too small to hit; a full 44px target covered the image
+// it sits on. 32px is the middle: tappable without becoming the subject of the tile.
 function QuickButton(props: {
   icon: string;
   label: string;
@@ -40,9 +40,9 @@ function QuickButton(props: {
       onClick={props.onClick}
       title={props.label}
       aria-label={props.label}
-      className="hover:bg-accent flex h-11 w-11 cursor-pointer items-center justify-center rounded md:h-auto md:w-auto md:p-1"
+      className="hover:bg-accent flex size-8 cursor-pointer items-center justify-center rounded md:size-auto md:p-1"
     >
-      <Icon name={props.icon} className="h-5 w-5 md:h-3.5 md:w-3.5" />
+      <Icon name={props.icon} className="size-4 md:size-3.5" />
     </button>
   );
 }

@@ -32,6 +32,11 @@ type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
   value: TEntry[];
   onAddPayload: (item: TItem) => TEntry;
   onChange: (next: TEntry[]) => void;
+  /** Present = show a search box. The catalog holds tens of thousands of entries, so the
+   *  default page of 24 is a lottery without one. Owned by the caller since it drives the
+   *  query. */
+  search?: string;
+  onSearchChange?: (next: string) => void;
 };
 
 export function CatalogChainPicker<
@@ -105,6 +110,16 @@ export function CatalogChainPicker<
             {t(props.titleKey)}
           </PopoverTrigger>
           <PopoverContent className="w-80 p-0" align="start">
+            {props.onSearchChange && (
+              <div className="border-b p-2">
+                <Input
+                  autoFocus
+                  value={props.search ?? ""}
+                  placeholder={t("IMAGE.CATALOG_SEARCH_PLACEHOLDER")}
+                  onChange={(e) => props.onSearchChange?.(e.target.value)}
+                />
+              </div>
+            )}
             {props.isLoading && (
               <div className="text-muted-foreground p-4 text-sm">
                 {t("IMAGE.STATUS_PENDING")}

@@ -223,13 +223,12 @@ export function AdetailerSection(props: Props) {
               />
             </div>
           </div>
-          <label className="flex items-center gap-2 text-sm">
-            <Checkbox
-              checked={v.inpaintOnlyMasked ?? true}
-              onCheckedChange={(c) => update({ inpaintOnlyMasked: c === true })}
-            />
-            {t("IMAGE.ADETAILER_INPAINT_ONLY_MASKED")}
-          </label>
+          {/* No "inpaint only masked area" toggle: the pass ALWAYS redraws just the detected
+              region, so the option had nothing to switch and only implied this depends on
+              the manual inpaint tool. It does not: it runs on the image it just generated. */}
+          <p className="text-muted-foreground text-xs">
+            {t("IMAGE.ADETAILER_HINT")}
+          </p>
         </div>
       )}
     </div>

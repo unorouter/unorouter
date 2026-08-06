@@ -7,6 +7,7 @@ import { getPricingSummary } from "@/lib/api/pricing-cache";
 import {
   chooseEndpoint,
   getEffectiveGenerationModels,
+  isRunwareScheduler,
 } from "@/lib/ai/playground/models-dynamic";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import type {
@@ -80,7 +81,6 @@ function diffusionParams(
     out[key] = value;
   };
   copy("steps");
-  copy("scheduler");
   copy("clipSkip");
   // The provider spells this CFGScale. Sent as `cfg` it was accepted and ignored (an unknown
   // key raises no error), so the slider moved nothing and every render used the model's own
@@ -91,10 +91,17 @@ function diffusionParams(
   // not a separate sampler and scheduler), so it has to arrive as `scheduler`. Sent as
   // `sampler` it was silently dropped: Runware ignores the unknown key without an error, so
   // every pick fell back to the default and the choice looked like it did nothing.
-  const sampler = params.sampler;
-  if (typeof sampler === "string" && sampler && sampler !== "Default") {
-    out.scheduler ??= sampler;
-  }
+  //
+  // ALLOWLISTED, because an unknown scheduler is a HARD failure (invalidScheduler), unlike
+  // most knobs here which are ignored. Old drafts still carry ComfyUI spellings like
+  // "normal"/"euler_ancestral" from a previous default, and those 500'd every generation
+  // until the user cleared their draft. An unrecognised value now falls back to the model's
+  // own default instead of failing the request.
+  const scheduler = [params.scheduler, params.sampler].find(
+    (v): v is string =>
+      typeof v === "string" && !!v && v !== "Default" && isRunwareScheduler(v),
+  );
+  if (scheduler) out.scheduler = scheduler;
   copy("negativePrompt");
   copy("strength");
   // The form names these after the UI concept; the adaptor reads the provider's own

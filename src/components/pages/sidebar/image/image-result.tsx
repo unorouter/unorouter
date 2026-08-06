@@ -37,11 +37,8 @@ import {
   activeTabAtom,
   lastRestoredPromptAtom,
   restoreSnapshotIntoFormAtom,
-  text2imgDraftAtom,
-  img2imgDraftAtom,
-  editDraftAtom,
 } from "@/store/image-store";
-import { useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { snapshotModelLabel } from "./image-constants";
 import { useRouter } from "next/navigation";
@@ -103,7 +100,6 @@ function RetentionBadge(props: { expiresAt: Date | string | number }) {
 export function ImageResult(props: Props) {
   const t = useTranslations();
   const router = useRouter();
-  const store = useStore();
 
   const sessionQuery = useSessionQuery(props.sessionId);
 
@@ -116,7 +112,6 @@ export function ImageResult(props: Props) {
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
   const setActiveTab = useSetAtom(activeTabAtom);
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
-  const lastRestoredPrompt = useAtomValue(lastRestoredPromptAtom);
   const setLastRestoredPrompt = useSetAtom(lastRestoredPromptAtom);
   const [, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
 
@@ -148,38 +143,11 @@ export function ImageResult(props: Props) {
     swapTo(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  useEffect(() => {
-    if (!data || currentIndex === 0 || data.status === "failure") return;
-    const drafts = [
-      store.get(text2imgDraftAtom),
-      store.get(img2imgDraftAtom),
-      store.get(editDraftAtom),
-    ];
-    // Only unsaved work blocks the restore. A draft left over from a previous generation is
-    // not that: it matches the snapshot it came from, or it matches what the last restore
-    // wrote, and either way overwriting it loses nothing.
-    const knownPrompts = new Set(
-      [lastRestoredPrompt, ...snapshots.map((s) => s.prompt)]
-        .filter((p): p is string => typeof p === "string")
-        .map((p) => p.trim()),
-    );
-    const typed = drafts.some((d) => {
-      const prompt = d?.prompt?.trim();
-      return !!prompt && !knownPrompts.has(prompt);
-    });
-    if (typed) return;
-    setRestore({
-      model: data.model,
-      prompt: data.prompt,
-      negativePrompt: data.negativePrompt,
-      params: data.params,
-      loras: data.loras,
-      references: data.references,
-      extraParams: data.extraParams,
-    });
-    setLastRestoredPrompt(data.prompt);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.snapshotId]);
+  // NOTHING auto-restores here. Merely LOOKING at an older generation used to rewrite the
+  // whole form with that snapshot's settings, so browsing history to copy a prompt silently
+  // replaced the model, LoRAs and params the user had set up, and the equipped preset became
+  // a label over values that were no longer its own. Restoring is now only ever explicit:
+  // the Remix button, the per-image remix action, or reuse-seed.
 
   const status = data?.status;
   const isFailed = status === "failure";

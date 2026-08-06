@@ -119,7 +119,9 @@ export async function searchModelCatalog(
 
   const results = envelope.data?.[0]?.results ?? [];
   const items = results.map(toCatalogItem);
-  catalogCache.set(cacheKey, { at: Date.now(), items });
+  // Only a REAL list is worth holding. Caching an empty one pinned "no models" for the whole
+  // TTL after a single bad response, which is exactly how the picker looked broken before.
+  if (items.length) catalogCache.set(cacheKey, { at: Date.now(), items });
   return { items };
 }
 
