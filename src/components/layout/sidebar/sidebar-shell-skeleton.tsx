@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // then swaps the whole viewport, which reads as a full reload.
 export function SidebarShellSkeleton() {
   return (
-    <div aria-busy className="flex h-svh w-full overflow-hidden">
+    <div aria-busy className="flex h-dvh w-full overflow-hidden">
       <div className="border-border/50 hidden w-64 shrink-0 flex-col gap-3 border-r p-3 md:flex">
         <Skeleton className="h-9 w-full" />
         <div className="mt-2 flex flex-col gap-2">

@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // shell so the transition reads as an in-app navigation.
 export function ChatShellSkeleton() {
   return (
-    <div aria-busy className="flex h-svh w-full overflow-hidden">
+    <div aria-busy className="flex h-dvh w-full overflow-hidden">
       <div className="border-border/50 hidden w-64 shrink-0 flex-col gap-3 border-r p-3 md:flex">
         <Skeleton className="h-9 w-full" />
         <Skeleton className="h-8 w-3/4" />

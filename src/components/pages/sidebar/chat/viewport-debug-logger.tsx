@@ -3,45 +3,29 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useEffect } from "react";
 
-// iOS 26 Safari leaves a stale/blank composited layer when the visual viewport
-// changes (keyboard show/hide, URL-bar animation) or when the chat content
-// shrinks (a reasoning box collapsing after a stream finishes) - the UI goes
-// black until a manual scroll forces a repaint. The primary fix is the svh
-// height units (see sidebar.tsx). This component is the belt-and-suspenders
-// layer: it (a) nudges WebKit to recomposite on the exact triggers, and (b)
-// logs viewport/scroller geometry into the exportable chat-debug log so a user
-// who still hits the bug can send a diagnostics export that shows precisely
-// what the viewport did. No-op off iOS.
+// iOS Safari diagnostics + recovery. The chat layout itself is CSS-only: a
+// dvh-sized shell with ONE inner scroller and the composer sticky INSIDE that
+// scroller (thread.tsx / sidebar.tsx). When the keyboard opens, Safari pans
+// the visual viewport and scrolls the focused field's scroll container; the
+// sticky footer rides up in the same native pass, so nothing here resizes,
+// scrolls, or repositions anything while the user is typing. (A previous
+// design mirrored visualViewport.height into a --vvh cap on the thread root;
+// resizing the shell to the visual viewport is the one thing no working
+// reference client does, and it fought Safari's own keyboard handling.)
+//
+// What remains: (a) viewport/scroller geometry logged into the exportable
+// chat-debug log so a user report comes with data, (b) a recomposite nudge on
+// the triggers where iOS 26 leaves stale/blank composited tiles (keyboard,
+// URL-bar, content shrink), (c) a reset for the stuck visual-viewport offset
+// WebKit 297779 leaves behind after a keyboard dismiss. No-op off iOS.
 export function ViewportDebugLogger() {
   useEffect(() => {
-    const ua = navigator.userAgent;
-    const isIos = /iP(hone|ad|od)/.test(ua);
-    // Everything below (recomposite nudge, --vvh mirror, geometry logging) is
-    // iOS-only. Off iOS the ResizeObserver still fired per content-shrink (every
-    // reasoning-box collapse / streaming reflow), each firing a synchronous
-    // full-buffer localStorage write in logChatDebug - a main-thread storm that
-    // froze desktop chat. Bail before wiring anything when not on iOS.
+    const isIos = /iP(hone|ad|od)/.test(navigator.userAgent);
+    // Off iOS the ResizeObserver fired per content-shrink (every reasoning-box
+    // collapse / streaming reflow), each a synchronous full-buffer
+    // localStorage write in logChatDebug - a main-thread storm that froze
+    // desktop chat. Bail before wiring anything when not on iOS.
     if (!isIos) return;
-
-    // iOS nudges the page scale above 1 on its own (input auto-zoom, double
-    // tap) and then leaves it stuck slightly zoomed with the shell offset -
-    // diagnostics show innerHeight parked at 578/592 on a 660 screen with the
-    // keyboard closed. Cap maximum-scale at 1 on iOS only: Safari suppresses
-    // the automatic zooms but still honors a deliberate pinch (it ignores the
-    // cap for user gestures), and Android keeps full zoom for accessibility.
-    const viewportMeta = document.querySelector('meta[name="viewport"]');
-    const prevViewportContent = viewportMeta?.getAttribute("content") ?? null;
-    if (viewportMeta && prevViewportContent) {
-      viewportMeta.setAttribute(
-        "content",
-        prevViewportContent.includes("maximum-scale")
-          ? prevViewportContent.replace(
-              /maximum-scale=[\d.]+/,
-              "maximum-scale=1",
-            )
-          : `${prevViewportContent}, maximum-scale=1`,
-      );
-    }
 
     const geometry = () => {
       const scroller = document.querySelector<HTMLElement>(
@@ -63,9 +47,8 @@ export function ViewportDebugLogger() {
 
     // Repaint without transforms: a transform toggle desyncs Safari's caret
     // hit-testing while the composer is focused, but a same-position scroll
-    // jiggle still forces the scroller's stale composited tiles (black smears
-    // over the messages after the shell resizes under the keyboard cap) to
-    // repaint and never moves any geometry.
+    // jiggle still forces stale composited tiles to repaint and never moves
+    // any geometry.
     const repaintScroll = () => {
       const scroller = document.querySelector<HTMLElement>(
         ".aui-thread-viewport",
@@ -88,66 +71,14 @@ export function ViewportDebugLogger() {
       });
     };
 
-    // The chat shell is sized with `svh` (the blanking fix in sidebar.tsx: a
-    // dynamic dvh height relayouts on every URL-bar/keyboard move and blanked the
-    // chat on send). But svh is the keyboard-HIDDEN height, so with the keyboard
-    // up the 660px shell overflows the 376px visible area and Safari offsets the
-    // visual viewport (offsetTop 284) to reveal the composer - and with a
-    // non-zero offsetTop Safari's hit-testing desyncs the caret from where
-    // typing lands. Neither svh NOR dvh fixes this: this device already sends
-    // `interactive-widget=resizes-content` yet the layout viewport does not
-    // shrink for the keyboard. Mirror the live visual-viewport height into
-    // `--vvh` ONLY while the composer is focused (keyboard genuinely up); the
-    // thread root caps to it, the shell fits the visible area, and Safari never
-    // needs the offset. Cleared the moment focus leaves: an unconditional
-    // mirror once squished the shell into the top half of the screen when iOS
-    // left vvH stale after a dismiss. Do NOT "simplify" to dvh.
-    // No-keyboard baseline height. Grows only while the composer is blurred
-    // so a stuck reduced viewport can never poison it (WebKit 297779 leaves
-    // vv.height stuck small after a dismiss).
-    let baselineVvH = 0;
-    const syncViewportHeight = () => {
-      const vv = window.visualViewport;
-      if (!vv) return;
-      if (!composerFocused()) {
-        baselineVvH = Math.max(baselineVvH, vv.height);
-      }
-      // Focus alone is not enough: iOS keeps the textarea focused when the
-      // keyboard is swiped away, and capping then leaves the shell short by
-      // the inset with the keyboard closed. Require a real keyboard-sized
-      // height drop (80px rejects the stuck ~24px residual and the iPad
-      // hardware-keyboard accessory bar).
-      const keyboardOpen =
-        composerFocused() && baselineVvH - vv.height >= 80;
-      if (keyboardOpen) {
-        // visualViewport.height does NOT exclude the iOS 26 floating
-        // form-assistant capsule (the prev/next/done pill Safari hovers just
-        // above the keyboard) - Safari's own auto-reveal scrolls the focused
-        // field clear of it, but pinning the shell flush to the visible
-        // height put the composer exactly underneath it. Reserve room so the
-        // composer clears the pill.
-        const FORM_ASSISTANT_INSET = 64;
-        document.documentElement.style.setProperty(
-          "--vvh",
-          `${Math.round(vv.height) - FORM_ASSISTANT_INSET}px`,
-        );
-        // Once the shell is capped to the visible height the offset Safari
-        // applied to reveal the composer serves no purpose, but Safari never
-        // removes it on its own (WebKit 297779) - and a non-zero offsetTop is
-        // exactly what desyncs caret hit-testing. Send it back to 0 after the
-        // cap has laid out; the composer is inside the visible area by then,
-        // so Safari has no reason to re-offset (Lumiverse ships this same
-        // counteract on visualViewport scroll). Self-terminating: the scroll
-        // re-fires this handler with offsetTop 0.
-        requestAnimationFrame(() => {
-          const live = window.visualViewport;
-          if (!live || live.scale > 1.01 || !composerFocused()) return;
-          if (live.offsetTop > 0) window.scrollTo(0, 0);
-          repaintScroll();
-        });
-      } else {
-        document.documentElement.style.removeProperty("--vvh");
-      }
+    const composerFocused = () => {
+      const el = document.activeElement;
+      return (
+        el instanceof HTMLElement &&
+        (el.tagName === "TEXTAREA" ||
+          el.tagName === "INPUT" ||
+          el.isContentEditable)
+      );
     };
 
     // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard
@@ -167,42 +98,21 @@ export function ViewportDebugLogger() {
       window.scrollBy(0, 1);
     };
 
-    const composerFocused = () => {
-      const el = document.activeElement;
-      return (
-        el instanceof HTMLElement &&
-        (el.tagName === "TEXTAREA" ||
-          el.tagName === "INPUT" ||
-          el.isContentEditable)
-      );
-    };
-
     const onTrigger = (reason: string) => {
-      const g = geometry();
-      logChatDebug("viewport.change", { reason, ios: isIos, ...g });
-      // The recompositing nudge toggles a transform on the scroll ancestor. On
-      // iOS that desyncs the textarea caret hit-testing WHILE typing, so the
-      // caret renders on the wrong line and typing lands at the true end. That
-      // is not limited to keyboard-driven vv-resizes: content-shrink fires when
-      // a reasoning box collapses after a stream, which happens mid-typing
-      // whenever the user composes the next message while a response streams.
-      // While focused, the transform-free repaint still runs - the --vvh cap
-      // resizes the shell under the keyboard and stale tiles smear black
-      // without it.
-      if (isIos) {
-        requestAnimationFrame(composerFocused() ? repaintScroll : nudge);
-      }
+      logChatDebug("viewport.change", { reason, ios: isIos, ...geometry() });
+      // The recompositing nudge toggles a transform on the scroll ancestor,
+      // which desyncs the textarea caret hit-testing WHILE typing. While
+      // focused, only the transform-free repaint runs; content-shrink fires
+      // mid-typing whenever a reasoning box collapses during a stream.
+      requestAnimationFrame(composerFocused() ? repaintScroll : nudge);
       // Realign the stuck viewport (shell too low after a keyboard dismiss or
       // zoom-out). NOT while the composer is focused: with the keyboard up an
-      // offsetTop > 0 is the correct state, and jiggling would fight typing.
-      // focusout / zoom-settle are the real dismiss signals.
+      // offsetTop > 0 is Safari's own reveal pan and must be left alone -
+      // fighting it mid-typing is what desyncs the caret. focusout /
+      // zoom-settle are the real dismiss signals.
       if (!composerFocused()) {
         requestAnimationFrame(realignStuckViewport);
       }
-      // Keep the shell height matched to the visible viewport on every change
-      // (keyboard open/close, zoom, URL-bar). Safe mid-typing: it only resizes
-      // the container, never scrolls or steals focus.
-      if (isIos) syncViewportHeight();
     };
 
     const onVvResize = () => onTrigger("vv-resize");
@@ -211,21 +121,16 @@ export function ViewportDebugLogger() {
       if (document.visibilityState === "visible")
         setTimeout(() => onTrigger("visible"), 100);
     };
+    // Safari can restore a page already in the stuck-offset state (session
+    // restore / bfcache) with no viewport event until the user interacts.
+    const onPageShow = () => setTimeout(() => onTrigger("pageshow"), 100);
 
     logChatDebug("viewport.mount", { ios: isIos, ...geometry() });
-    if (isIos) syncViewportHeight();
-    // Safari can restore a page already in the stuck-offset state (session
-    // restore / bfcache), and no viewport event fires until the user
-    // interacts - the shell sits too low from the first paint. Realign once
-    // at mount; every later occurrence is handled by the event triggers.
     requestAnimationFrame(realignStuckViewport);
-    const onVvScroll = () => {
-      if (isIos) syncViewportHeight();
-    };
     window.visualViewport?.addEventListener("resize", onVvResize);
-    window.visualViewport?.addEventListener("scroll", onVvScroll);
     document.addEventListener("focusout", onFocusOut);
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pageshow", onPageShow);
 
     // Content shrink (reasoning box collapse) has no viewport event; observe it.
     let prevHeight = 0;
@@ -241,14 +146,10 @@ export function ViewportDebugLogger() {
 
     return () => {
       window.visualViewport?.removeEventListener("resize", onVvResize);
-      window.visualViewport?.removeEventListener("scroll", onVvScroll);
       document.removeEventListener("focusout", onFocusOut);
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pageshow", onPageShow);
       ro.disconnect();
-      document.documentElement.style.removeProperty("--vvh");
-      if (viewportMeta && prevViewportContent) {
-        viewportMeta.setAttribute("content", prevViewportContent);
-      }
     };
   }, []);
 

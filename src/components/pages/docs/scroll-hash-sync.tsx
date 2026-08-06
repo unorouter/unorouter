@@ -60,7 +60,7 @@ export function ScrollHashSync() {
       }
     }
 
-    // <main> is the scroll container (the shell caps it at max-h-svh), so the
+    // <main> is the scroll container (the shell caps it at max-h-dvh), so the
     // window scroll event never fires; listen on both so either layout works.
     const scroller = document.querySelector("main");
     let queued = false;

@@ -102,11 +102,6 @@ export const Thread: FC = () => {
         ["--thread-max-width" as string]: "44rem",
         ["--composer-radius" as string]: "24px",
         ["--composer-padding" as string]: "10px",
-        // --vvh is set by ViewportDebugLogger on iOS only while the composer
-        // is focused: it caps the shell to the keyboard-shrunk visual viewport
-        // so Safari never offsets the viewport (offsetTop > 0 desyncs caret
-        // hit-testing while typing). Unset everywhere else -> 100%.
-        maxHeight: "var(--vvh, 100%)",
       }}
     >
       <ThreadPrimitive.Viewport
@@ -121,7 +116,15 @@ export const Thread: FC = () => {
           {() => <ThreadMessage />}
         </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+        {/* sticky bottom-0 INSIDE the scroller (not fixed to the viewport):
+            when the iOS keyboard pans the visual viewport, Safari scrolls the
+            focused field's nearest scroll container, and a sticky footer rides
+            up with that same pass - a viewport-anchored footer stays pinned to
+            the full-height layout viewport and ends up under the keyboard.
+            Every glitch-free reference client keeps the composer inside the
+            scroller's coordinate space; it is also what assistant-ui's docs
+            recommend for ViewportFooter. */}
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background sticky bottom-0 z-10 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
           <ThreadScrollToBottom />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
