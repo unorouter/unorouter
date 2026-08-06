@@ -137,6 +137,12 @@ const FOOTER_BADGES = [
     width: 89,
   },
   {
+    href: "https://dododirectory.com",
+    src: "/badges/dododirectory.png",
+    name: "DodoDirectory",
+    width: 103,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
