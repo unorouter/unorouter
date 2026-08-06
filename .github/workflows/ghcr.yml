@@ -51,37 +51,47 @@ jobs:
       # Same full .env as the don build: Next.js inlines NEXT_PUBLIC_* and the SSG
       # prerender needs server creds. The image therefore CONTAINS secrets -> the
       # ghcr package MUST stay PRIVATE (repo is public; verify package visibility).
+      # No GitHub secrets: the runner proves identity with a GitHub-signed OIDC JWT and
+      # OpenBao returns a 10-minute token scoped to one KV path. OpenBao stays the single
+      # source of truth instead of every value being duplicated into repo settings.
+      - name: Fetch build secrets from OpenBao
+        id: vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://openbao-ci.unorouter.com
+          method: jwt
+          path: jwt-github
+          role: unorouter-ci
+          exportEnv: true
+          secrets: |
+            secret/data/unorouter-env CREEM_API_KEY ;
+            secret/data/unorouter-env CREEM_API_URL ;
+            secret/data/unorouter-env CREEM_MODERATION_ENABLED ;
+            secret/data/unorouter-env GUEST_API_KEY ;
+            secret/data/unorouter-env INDEXNOW_KEY ;
+            secret/data/unorouter-env POSTHOG_API_KEY ;
+            secret/data/unorouter-env POSTHOG_ENV_ID ;
+            secret/data/unorouter-env POSTHOG_PROXY_HOST ;
+            secret/data/unorouter-env SESSION_SECRET ;
+            secret/data/unorouter-env SYSTEM_ACCESS_TOKEN ;
+            secret/data/unorouter-env TAVILY_API_KEY ;
+            secret/data/unorouter-env TURSO_AUTH_TOKEN ;
+            secret/data/unorouter-env TURSO_DATABASE_URL ;
+            secret/data/unorouter-env WEB_BOT_AUTH_PRIVATE_JWK ;
+            secret/data/unorouter-env WEB_BOT_AUTH_PUBLIC_JWKS
+
+      # NEXT_PUBLIC_* live in the committed .env.public: Next.js inlines them into the
+      # browser bundle, so they are public by construction and are not secrets.
       - name: Create env file
         run: |
-          echo NEXT_PUBLIC_APP_NAME=${{ secrets.NEXT_PUBLIC_APP_NAME }} > .env
-          echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
-          echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env
-          echo NEXT_PUBLIC_SUPPORT_EMAIL=${{ secrets.NEXT_PUBLIC_SUPPORT_EMAIL }} >> .env
-          echo NEXT_PUBLIC_GITHUB_URL=${{ secrets.NEXT_PUBLIC_GITHUB_URL }} >> .env
-          echo NEXT_PUBLIC_DISCORD_URL=${{ secrets.NEXT_PUBLIC_DISCORD_URL }} >> .env
-          echo NEXT_PUBLIC_TWITTER_HANDLE=${{ secrets.NEXT_PUBLIC_TWITTER_HANDLE }} >> .env
-          echo NEXT_PUBLIC_TRUSTPILOT_URL=${{ secrets.NEXT_PUBLIC_TRUSTPILOT_URL }} >> .env
-          echo NEXT_PUBLIC_REDDIT_URL=${{ secrets.NEXT_PUBLIC_REDDIT_URL }} >> .env
-          echo NEXT_PUBLIC_YOUTUBE_URL=${{ secrets.NEXT_PUBLIC_YOUTUBE_URL }} >> .env
-          echo NEXT_PUBLIC_TELEGRAM_URL=${{ secrets.NEXT_PUBLIC_TELEGRAM_URL }} >> .env
-          echo SYSTEM_ACCESS_TOKEN=${{ secrets.SYSTEM_ACCESS_TOKEN }} >> .env
-          echo SESSION_SECRET=${{ secrets.SESSION_SECRET }} >> .env
-          echo TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }} >> .env
-          echo TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }} >> .env
-          echo TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }} >> .env
-          echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
-          echo NEXT_PUBLIC_POSTHOG_DISABLED=${{ secrets.NEXT_PUBLIC_POSTHOG_DISABLED }} >> .env
-          echo NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }} >> .env
-          echo NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }} >> .env
-          echo POSTHOG_PROXY_HOST=${{ secrets.POSTHOG_PROXY_HOST }} >> .env
-          echo POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} >> .env
-          echo POSTHOG_ENV_ID=${{ secrets.POSTHOG_ENV_ID }} >> .env
-          echo INDEXNOW_KEY=${{ secrets.INDEXNOW_KEY }} >> .env
-          echo 'WEB_BOT_AUTH_PUBLIC_JWKS=${{ secrets.WEB_BOT_AUTH_PUBLIC_JWKS }}' >> .env
-          echo 'WEB_BOT_AUTH_PRIVATE_JWK=${{ secrets.WEB_BOT_AUTH_PRIVATE_JWK }}' >> .env
-          echo CREEM_API_KEY=${{ secrets.CREEM_API_KEY }} >> .env
-          echo CREEM_API_URL=${{ secrets.CREEM_API_URL }} >> .env
-          echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
+          cp .env.public .env
+          for k in CREEM_API_KEY CREEM_API_URL CREEM_MODERATION_ENABLED GUEST_API_KEY \
+                   INDEXNOW_KEY POSTHOG_API_KEY POSTHOG_ENV_ID POSTHOG_PROXY_HOST \
+                   SESSION_SECRET SYSTEM_ACCESS_TOKEN TAVILY_API_KEY TURSO_AUTH_TOKEN \
+                   TURSO_DATABASE_URL WEB_BOT_AUTH_PRIVATE_JWK WEB_BOT_AUTH_PUBLIC_JWKS; do
+            printf '%s=%s\n' "$k" "${!k}" >> .env
+          done
+          echo "wrote $(wc -l < .env) vars"
 
       - uses: docker/setup-buildx-action@v3
 
@@ -197,11 +207,25 @@ jobs:
     needs: deploy
     timeout-minutes: 45
     steps:
+      - name: Fetch post-deploy secrets from OpenBao
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://openbao-ci.unorouter.com
+          method: jwt
+          path: jwt-github
+          role: unorouter-ci
+          exportEnv: true
+          secrets: |
+            secret/data/unorouter-env CLOUDFLARE_API_TOKEN ;
+            secret/data/unorouter-env CLOUDFLARE_ZONE_ID ;
+            secret/data/unorouter-env INDEXNOW_KEY
+
+
       - name: Wait for this build to be live
         run: |
           # 40min budget: ArgoCD polls git every ~3min, then the rollout + probes.
           for i in {1..240}; do
-            live="$(curl -fsS --max-time 10 "${{ secrets.NEXT_PUBLIC_URL }}/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
+            live="$(curl -fsS --max-time 10 "https://unorouter.com/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
             if [ "$live" = "${{ github.sha }}" ]; then
               echo "live version matches ${{ github.sha }}"
               exit 0
@@ -221,8 +245,8 @@ jobs:
           # Bearer API token, not the legacy X-Auth-Email/X-Auth-Key global key -- that key
           # was revoked and returned 401 on every deploy.
           curl -fsS -X POST \
-            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
 
@@ -230,7 +254,7 @@ jobs:
         run: |
           # Guards the localhost-self-call / build-prerender regression that
           # silently emptied every model page from the sitemap.
-          sitemap="$(curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml")"
+          sitemap="$(curl -fsS "https://unorouter.com/sitemap.xml")"
           total="$(printf '%s' "$sitemap" | grep -oc '<loc>' || true)"
           models="$(printf '%s' "$sitemap" \
             | grep -oE '<loc>[^<]*</loc>' \
@@ -246,8 +270,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Submit to IndexNow
         env:
-          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
+          INDEXNOW_KEY: ${{ env.INDEXNOW_KEY }}
+          NEXT_PUBLIC_URL: https://unorouter.com
         run: |
           bun add indexnow-submitter --no-save && bun scripts/indexnow.ts
         continue-on-error: true
@@ -266,7 +290,7 @@ jobs:
           # Depth <= 2 only (locale home + section pages, ~700 urls). The full
           # sitemap is ~22k urls (model pages x locales) which were never
           # build-prerendered anyway; those stay ISR-on-first-hit.
-          curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" \
+          curl -fsS "https://unorouter.com/sitemap.xml" \
             | grep -oE '<loc>[^<]+</loc>' \
             | sed -E 's#</?loc>##g' \
             | awk -F/ 'NF<=5' > urls.txt
