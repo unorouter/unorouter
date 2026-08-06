@@ -155,6 +155,12 @@ const FOOTER_BADGES = [
     width: 81,
   },
   {
+    href: "https://postmake.io",
+    src: "/badges/postmake.png",
+    name: "Postmake",
+    width: 103,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
