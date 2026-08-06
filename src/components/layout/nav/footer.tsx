@@ -143,6 +143,12 @@ const FOOTER_BADGES = [
     width: 103,
   },
   {
+    href: "https://fastlaunch.io",
+    src: "/badges/fastlaunch.svg",
+    name: "FastLaunch",
+    width: 103,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
