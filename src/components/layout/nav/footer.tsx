@@ -144,7 +144,7 @@ const FOOTER_BADGES = [
   },
   {
     href: "https://fastlaunch.io",
-    src: "/badges/fastlaunch.svg",
+    src: "https://fastlaunch.io/images/badges/featured-light.svg",
     name: "FastLaunch",
     width: 103,
   },
