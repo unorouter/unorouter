@@ -161,6 +161,12 @@ const FOOTER_BADGES = [
     width: 103,
   },
   {
+    href: "https://dofollow.tools",
+    src: "https://dofollow.tools/badge/badge_light.svg",
+    name: "Dofollow.Tools",
+    width: 111,
+  },
+  {
     href: "https://www.launchvault.dev",
     src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
     name: "Launch Vault",
