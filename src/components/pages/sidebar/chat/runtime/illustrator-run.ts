@@ -20,6 +20,7 @@ import {
   readPrimaryCharacter,
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
+import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { chatStore, localUserIdAtom } from "@/store/chat-store";
@@ -245,5 +246,12 @@ export async function runIllustrator(
     }));
 
   await replaceLocalMessageItems(input.userId, input.messageId, rewritten);
+  // The placeholder rendered BEFORE the media row existed, so requestInlay may have cached
+  // the resolved-empty marker for this id and, by design, never re-reads it. Without
+  // dropping that entry the finished image stays blank until a reload.
+  if (image && image.type === "inlay_image") {
+    const id = image.token.match(/\{\{inlay::([\w-]+)\}\}/)?.[1];
+    if (id) invalidateInlay(id);
+  }
   return !!image;
 }
