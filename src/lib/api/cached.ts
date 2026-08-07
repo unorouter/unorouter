@@ -79,8 +79,6 @@ export async function getCachedVendorModels(vendorName: string) {
   };
 }
 
-// Shuffle runs inside the cached scope: Math.random is rejected in prerenders
-// outside "use cache". Order is therefore fixed per cache entry.
 export async function getCachedFreeChatModels(limit?: number) {
   "use cache";
   cacheLife("minutes");
@@ -88,10 +86,6 @@ export async function getCachedFreeChatModels(limit?: number) {
   const free = summary.models
     .filter(isFreeChatModel)
     .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
-  for (let i = free.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [free[i]!, free[j]!] = [free[j]!, free[i]!];
-  }
   return limit == null ? free : free.slice(0, limit);
 }
 
@@ -157,9 +151,6 @@ export async function getModelsPageData() {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
-  // rankings + perf are non-critical: a transient upstream reset on either must
-  // not reject the cached render and fail the page's static export. Only pricing
-  // is load-bearing (the page-level catch falls back to emptyPageData).
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
     fetchRankings("week").catch(() => null),
