@@ -1,6 +1,5 @@
 import {
   buildPricingSummary,
-  isFreeChatModel,
   type EndpointInfo,
   type ProcessedModel,
 } from "@/lib/api/pricing";
@@ -67,12 +66,3 @@ export async function isMediaModel(model: string) {
   };
 }
 
-export async function getFreeTextModels(limit?: number): Promise<string[]> {
-  const { models } = await getPricingSnapshot();
-  const free = models.filter(isFreeChatModel).map((m) => m.name);
-  for (let i = free.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [free[i], free[j]] = [free[j], free[i]];
-  }
-  return limit == null ? free : free.slice(0, limit);
-}

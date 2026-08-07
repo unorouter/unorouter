@@ -177,7 +177,10 @@ export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for t
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
-export const TITLE_MODELS = [
+// The fixed pool every short utility call races: title generation, web-search
+// classification, rolling-summary folding. Raced concurrently with maxRetries 0,
+// so keep it small; individually flaky free models are covered by Promise.any.
+export const UTILITY_RACE_MODELS = [
   "gpt-oss-120b:free",
   "gpt-oss-20b:free",
   "llama-3.3-70b:free",

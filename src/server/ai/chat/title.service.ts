@@ -1,6 +1,6 @@
 import {
   TITLE_FALLBACK_MAX_CHARS,
-  TITLE_MODELS,
+  UTILITY_RACE_MODELS,
   TITLE_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
@@ -28,7 +28,7 @@ export async function generateChatTitle(
   _preferredModel?: string,
 ) {
   const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
-  const attempts = TITLE_MODELS.map((modelName) =>
+  const attempts = UTILITY_RACE_MODELS.map((modelName) =>
     generateText({
       model: provider.chatModel(modelName),
       system: TITLE_SYSTEM_PROMPT,
