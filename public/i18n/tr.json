@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "Bir CivitAI model bağlantısı yapıştırın, üretmeden önce çözümleyin.",
     "MODEL_SEARCH_OR_URL": "Model arayın veya bir CivitAI bağlantısı yapıştırın",
     "MODEL_GROUP_SAVED": "Modellerim",
-    "MODEL_GROUP_CIVITAI": "CivitAI kontrol noktaları"
+    "MODEL_GROUP_CIVITAI": "CivitAI kontrol noktaları",
+    "TRIGGER_WORDS": "Tetikleyici kelimeler",
+    "DOWNLOADS": "indirme"
   }
 }

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import type { TranslationKey } from "@/lib/types";
+import { formatTokens } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
 export type WeightedEntry = { name: string; weight: number };
@@ -22,6 +23,10 @@ type CatalogItem = {
   category?: string | null;
   architecture?: string | null;
   heroImage?: string | null;
+  triggerWords?: string | null;
+  tags?: string[];
+  downloadCount?: number | null;
+  thumbsUpCount?: number | null;
 };
 
 type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
@@ -138,21 +143,53 @@ export function CatalogChainPicker<
                 </div>
               )}
             {available.length > 0 && (
-              <div className="flex max-h-72 flex-col overflow-y-auto py-2">
+              <div className="flex max-h-96 flex-col overflow-y-auto py-2">
                 {available.map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    className="hover:bg-muted flex flex-col items-start gap-0.5 px-3 py-2 text-left"
+                    className="hover:bg-muted flex w-full items-start gap-2 px-3 py-2 text-left"
                     onClick={() =>
                       props.onChange([...value, props.onAddPayload(item)])
                     }
                   >
-                    <div className="text-sm font-medium">{item.name}</div>
-
-                    <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] tracking-wide uppercase">
-                      <span>{item.category}</span>
-                      <span>{item.architecture}</span>
+                    {/* Catalog names are frequently unreadable on their own, so the preview
+                        carries most of what tells a user what a model does. */}
+                    {item.heroImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.heroImage}
+                        alt=""
+                        loading="lazy"
+                        className="bg-muted size-12 shrink-0 rounded object-cover"
+                      />
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium">
+                        {item.name}
+                      </div>
+                      {item.tags?.length ? (
+                        <div className="text-muted-foreground truncate text-[11px]">
+                          {item.tags.join(", ")}
+                        </div>
+                      ) : null}
+                      {/* A LoRA with a trigger word does nothing until that word is in the
+                          prompt, so it is the single most load-bearing thing to show. */}
+                      {item.triggerWords ? (
+                        <div className="text-primary truncate text-[11px]">
+                          {t("IMAGE.TRIGGER_WORDS")}: {item.triggerWords}
+                        </div>
+                      ) : null}
+                      <div className="text-muted-foreground mt-0.5 flex flex-wrap gap-2 text-[10px] tracking-wide uppercase">
+                        <span>{item.architecture}</span>
+                        {typeof item.downloadCount === "number" &&
+                        item.downloadCount > 0 ? (
+                          <span>
+                            {formatTokens(item.downloadCount)}{" "}
+                            {t("IMAGE.DOWNLOADS")}
+                          </span>
+                        ) : null}
+                      </div>
                     </div>
                   </button>
                 ))}

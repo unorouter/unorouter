@@ -420,6 +420,15 @@ export function ImageForm() {
                 shouldDirty: true,
               })
             }
+            onAppendPrompt={(words) => {
+              const current = form.getValues("prompt") ?? "";
+              if (current.includes(words)) return;
+              form.setValue(
+                "prompt",
+                current.trim() ? `${current.trim()}, ${words}` : words,
+                { shouldDirty: true },
+              );
+            }}
           />
         )}
 

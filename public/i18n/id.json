@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "Tempel tautan model CivitAI, lalu selesaikan sebelum membuat gambar.",
     "MODEL_SEARCH_OR_URL": "Cari model atau tempel URL CivitAI",
     "MODEL_GROUP_SAVED": "Model saya",
-    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI"
+    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI",
+    "TRIGGER_WORDS": "Kata pemicu",
+    "DOWNLOADS": "unduhan"
   }
 }

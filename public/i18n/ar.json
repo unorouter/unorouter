@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "الصق رابط نموذج من CivitAI ثم حلله قبل التوليد.",
     "MODEL_SEARCH_OR_URL": "ابحث عن النماذج أو الصق رابط CivitAI",
     "MODEL_GROUP_SAVED": "نماذجي",
-    "MODEL_GROUP_CIVITAI": "نقاط تفتيش CivitAI"
+    "MODEL_GROUP_CIVITAI": "نقاط تفتيش CivitAI",
+    "TRIGGER_WORDS": "الكلمات المُحفِّزة",
+    "DOWNLOADS": "تنزيل"
   }
 }

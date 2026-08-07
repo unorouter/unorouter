@@ -19,6 +19,9 @@ type RunwareSearchResult = {
   nsfwLevel?: number | null;
   positiveTriggerWords?: string;
   defaultWeight?: number;
+  tags?: string[];
+  downloadCount?: number;
+  thumbsUpCount?: number;
 };
 
 type RunwareEnvelope = {
@@ -63,6 +66,12 @@ function toCatalogItem(row: RunwareSearchResult): CatalogItem {
     // point for LoRAs since stacking several at full strength tends to overcook an image.
     defaultWeight: row.defaultWeight ?? 0.8,
     nsfwLevel: row.nsfwLevel ?? null,
+    triggerWords: row.positiveTriggerWords?.trim() || null,
+    // Capped because Runware returns up to ~60 tags per LoRA, which is a wall of text in a
+    // picker row rather than a description. The leading ones are the descriptive ones.
+    tags: (row.tags ?? []).slice(0, 8),
+    downloadCount: row.downloadCount ?? null,
+    thumbsUpCount: row.thumbsUpCount ?? null,
   };
 }
 
@@ -131,6 +140,10 @@ export type ResolvedCheckpoint = {
   architecture: string | null;
   heroImage: string | null;
   nsfwLevel: number | null;
+  // Meaningful for LoRAs only (a checkpoint has neither), but the resolve path is shared and
+  // the picker needs both the moment a LoRA is what got resolved.
+  triggerWords: string | null;
+  defaultWeight: number | null;
 };
 
 // Every way a user might name a checkpoint. A reference identifies one specific model, so it
@@ -205,6 +218,8 @@ export async function findCheckpoints(
       architecture: row.architecture ?? null,
       heroImage: row.heroImage ?? null,
       nsfwLevel: row.nsfwLevel ?? null,
+      triggerWords: row.positiveTriggerWords?.trim() || null,
+      defaultWeight: row.defaultWeight ?? null,
     }));
 }
 
@@ -217,13 +232,14 @@ export async function findCheckpoints(
  */
 export async function listCheckpointVersions(
   input: string,
+  category: "checkpoint" | "lora" = "checkpoint",
 ): Promise<ResolvedCheckpoint[]> {
   const ref = parseCivitaiReference(input);
   if (!ref) return [];
 
   const envelope = await runwareTask({
     taskType: "modelSearch",
-    category: "checkpoint",
+    category,
     search: ref.modelId,
     limit: 50,
   });
@@ -239,6 +255,8 @@ export async function listCheckpointVersions(
     architecture: row.architecture ?? null,
     heroImage: row.heroImage ?? null,
     nsfwLevel: row.nsfwLevel ?? null,
+    triggerWords: row.positiveTriggerWords?.trim() || null,
+    defaultWeight: row.defaultWeight ?? null,
   });
 
   // The version named in the URL leads, since that is the one the user was looking at.
@@ -254,13 +272,14 @@ export async function listCheckpointVersions(
 
 export async function resolveCivitaiCheckpoint(
   input: string,
+  category: "checkpoint" | "lora" = "checkpoint",
 ): Promise<ResolvedCheckpoint | null> {
   const ref = parseCivitaiReference(input);
   if (!ref) return null;
 
   const envelope = await runwareTask({
     taskType: "modelSearch",
-    category: "checkpoint",
+    category,
     search: ref.modelId,
     limit: 50,
   });
@@ -283,5 +302,7 @@ export async function resolveCivitaiCheckpoint(
     architecture: picked.architecture ?? null,
     heroImage: picked.heroImage ?? null,
     nsfwLevel: picked.nsfwLevel ?? null,
+    triggerWords: picked.positiveTriggerWords?.trim() || null,
+    defaultWeight: picked.defaultWeight ?? null,
   };
 }

@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "הדביקו קישור למודל ב-CivitAI ופענחו אותו לפני היצירה.",
     "MODEL_SEARCH_OR_URL": "חפשו מודלים או הדביקו כתובת CivitAI",
     "MODEL_GROUP_SAVED": "המודלים שלי",
-    "MODEL_GROUP_CIVITAI": "נקודות בדיקה של CivitAI"
+    "MODEL_GROUP_CIVITAI": "נקודות בדיקה של CivitAI",
+    "TRIGGER_WORDS": "מילות הפעלה",
+    "DOWNLOADS": "הורדות"
   }
 }

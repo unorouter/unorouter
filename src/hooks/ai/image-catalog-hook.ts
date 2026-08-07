@@ -51,6 +51,22 @@ export function useCivitaiVersionsMutation() {
   });
 }
 
+// The LoRA twin of useCivitaiVersionsMutation. Runware indexes Civitai LoRAs the same way it
+// does checkpoints, so a pasted link resolves identically; the catalog search alone cannot
+// reach a specific model out of the ~277k it holds. A QUERY rather than a mutation because
+// the picker resolves as the user types, and resolving the same link twice should be a cache
+// hit rather than a second 8-to-22 second provider call.
+export function useCivitaiLoraVersionsQuery(query: string | undefined) {
+  return useElysiaQuery(
+    queryKeys.civitaiLoraVersions(query ?? ""),
+    () =>
+      rpc.api.ai.image["civitai-lora-versions"].get({
+        query: { q: query ?? "" },
+      }),
+    { enabled: !!query },
+  );
+}
+
 export function useResolveCivitaiMutation() {
   const t = useTranslations();
   return useMutation({

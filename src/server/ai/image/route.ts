@@ -88,4 +88,16 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       data: await resolveCivitaiCheckpoint(body.query),
     }),
     { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
+  )
+  // The LoRA twin of /civitai-versions. Runware indexes Civitai for both categories, so a
+  // pasted LoRA link resolves exactly like a checkpoint one; only the search category
+  // differs. Versions rather than one match, because a Civitai LoRA is a family and the
+  // weights differ between them.
+  .get(
+    "/civitai-lora-versions",
+    async ({ query }) => ({
+      success: true,
+      data: { items: await listCheckpointVersions(query.q, "lora") },
+    }),
+    { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
   );

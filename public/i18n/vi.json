@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "Dán liên kết mô hình CivitAI, sau đó phân giải trước khi tạo ảnh.",
     "MODEL_SEARCH_OR_URL": "Tìm mô hình hoặc dán liên kết CivitAI",
     "MODEL_GROUP_SAVED": "Mô hình của tôi",
-    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI"
+    "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI",
+    "TRIGGER_WORDS": "Từ kích hoạt",
+    "DOWNLOADS": "lượt tải"
   }
 }

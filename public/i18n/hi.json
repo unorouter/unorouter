@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "CivitAI मॉडल लिंक चिपकाएँ, फिर बनाने से पहले उसे हल करें।",
     "MODEL_SEARCH_OR_URL": "मॉडल खोजें या CivitAI URL चिपकाएँ",
     "MODEL_GROUP_SAVED": "मेरे मॉडल",
-    "MODEL_GROUP_CIVITAI": "CivitAI चेकपॉइंट"
+    "MODEL_GROUP_CIVITAI": "CivitAI चेकपॉइंट",
+    "TRIGGER_WORDS": "ट्रिगर शब्द",
+    "DOWNLOADS": "डाउनलोड"
   }
 }

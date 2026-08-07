@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "Вставьте ссылку на модель CivitAI и найдите её перед генерацией.",
     "MODEL_SEARCH_OR_URL": "Найдите модель или вставьте ссылку CivitAI",
     "MODEL_GROUP_SAVED": "Мои модели",
-    "MODEL_GROUP_CIVITAI": "Чекпоинты CivitAI"
+    "MODEL_GROUP_CIVITAI": "Чекпоинты CivitAI",
+    "TRIGGER_WORDS": "Триггерные слова",
+    "DOWNLOADS": "загрузок"
   }
 }

@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "CivitAI 모델 링크를 붙여넣고 생성 전에 확인하세요.",
     "MODEL_SEARCH_OR_URL": "모델 검색 또는 CivitAI URL 붙여넣기",
     "MODEL_GROUP_SAVED": "내 모델",
-    "MODEL_GROUP_CIVITAI": "CivitAI 체크포인트"
+    "MODEL_GROUP_CIVITAI": "CivitAI 체크포인트",
+    "TRIGGER_WORDS": "트리거 단어",
+    "DOWNLOADS": "다운로드"
   }
 }

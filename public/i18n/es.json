@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "Pega un enlace de modelo de CivitAI y resuélvelo antes de generar.",
     "MODEL_SEARCH_OR_URL": "Busca modelos o pega una URL de CivitAI",
     "MODEL_GROUP_SAVED": "Mis modelos",
-    "MODEL_GROUP_CIVITAI": "Checkpoints de CivitAI"
+    "MODEL_GROUP_CIVITAI": "Checkpoints de CivitAI",
+    "TRIGGER_WORDS": "Palabras clave",
+    "DOWNLOADS": "descargas"
   }
 }

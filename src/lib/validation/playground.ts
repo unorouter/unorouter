@@ -278,5 +278,15 @@ export const catalogItem = t.Object({
   heroImage: t.Union([t.String(), t.Null()]),
   defaultWeight: t.Number(),
   nsfwLevel: t.Union([t.Integer(), t.Null()]),
+  // Many LoRAs are inert until their trigger word appears in the prompt, so a picker that
+  // hides this ships a model that silently does nothing. The provider knows the words; not
+  // surfacing them is what makes a working LoRA look broken.
+  triggerWords: t.Union([t.String(), t.Null()]),
+  // Names alone are frequently unreadable ("Detailer by Chad (XL_2400_Steps) (Use <lora:l30_1
+  // : > ...)"), so the tag list plus a popularity signal is what actually tells a user what a
+  // LoRA is for and whether anyone else found it good.
+  tags: t.Array(t.String()),
+  downloadCount: t.Union([t.Integer(), t.Null()]),
+  thumbsUpCount: t.Union([t.Integer(), t.Null()]),
 });
 export type CatalogItem = Static<typeof catalogItem>;

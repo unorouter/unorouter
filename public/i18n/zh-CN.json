@@ -5756,6 +5756,8 @@
     "CIVITAI_HINT": "粘贴 CivitAI 模型链接，解析成功后再生成。",
     "MODEL_SEARCH_OR_URL": "搜索模型，或粘贴 CivitAI 链接",
     "MODEL_GROUP_SAVED": "我的模型",
-    "MODEL_GROUP_CIVITAI": "CivitAI 模型"
+    "MODEL_GROUP_CIVITAI": "CivitAI 模型",
+    "TRIGGER_WORDS": "触发词",
+    "DOWNLOADS": "次下载"
   }
 }
