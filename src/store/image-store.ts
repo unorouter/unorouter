@@ -42,7 +42,17 @@ export const lastRestoredPromptAtom = atom<string | null>(null);
 // Which preset is equipped. Not component state: submitting navigates from /image to
 // /image/[id], which remounts the form, and a locally-held selection reset itself to blank
 // on every generation even though the values it applied were still in effect.
-export const selectedPresetIdAtom = atom<string>("");
+//
+// PERSISTED for the same reason the drafts below are. Those survive a reload and this did
+// not, so the form came back holding a preset's values with nothing selected: the Overwrite
+// button (which only renders with a selection) was gone, and re-picking the preset to get it
+// back re-applied the saved values over the edits the user meant to save.
+export const selectedPresetIdAtom = atomWithStorage<string>(
+  "image-selected-preset-v1",
+  "",
+  undefined,
+  { getOnInit: true },
+);
 
 export type GenerateDraft = {
   model: string;

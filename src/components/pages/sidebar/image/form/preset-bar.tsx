@@ -114,6 +114,10 @@ export function PresetBar(props: Props) {
         <Select
           value={selectedId}
           onValueChange={(id) => {
+            // Re-picking the preset that is ALREADY equipped must not re-apply it: the user
+            // reaches for the dropdown after editing its values, and applying would discard
+            // exactly the changes they opened it to save.
+            if (id === selectedId) return;
             setSelectedId(id ?? "");
             const preset = presets.find((p) => p.id === id);
             if (preset) props.onApply(preset);
