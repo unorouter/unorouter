@@ -8,12 +8,13 @@ import { midjourneyLogsQuery } from "@/lib/api/typebox/midjourney";
 import { taskLogsQuery } from "@/lib/api/typebox/task";
 import { unwrap } from "@/lib/utils/base";
 import {
+  getAllLogs,
   getLogsSelfStat,
   getUserLogs,
   getUserMidjourney,
   getUserTask,
 } from "@/openapi";
-import { deriveUpstream } from "@/server/constants";
+import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
 import { Value } from "@sinclair/typebox/value";
 import { Elysia } from "elysia";
 
@@ -31,15 +32,17 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
 
   .get(
     "/by-request",
-    async ({ query, upstream }) => {
+    async ({ query }) => {
       const empty = Value.Create(byRequestResponse);
-      // Scoped to the caller's own token (getUserLogs), NOT ADMIN_HEADERS: the
-      // enrich lookup only needs the requester's own row, and the admin path
-      // let anyone poll request ids off error responses to map other users'
-      // channels/usage AND pinned a BFF worker on a slow admin query per call.
-      const res = await getUserLogs(
+      // Admin-scoped on purpose: new-api writes the consume log under the user
+      // id that carried the relay, which is NOT always the caller (best-key
+      // fallthrough, guest key, shared provider tokens). getUserLogs ANDs
+      // logs.user_id = caller, so those rows are invisible to it and the cost
+      // enrichment never lands. Request ids are unguessable and the row holds
+      // only quota/tokens/channel for one request.
+      const res = await getAllLogs(
         { request_id: query.request_id, page_size: 1 },
-        { headers: upstream.headers },
+        { headers: ADMIN_HEADERS },
       );
       const row = unwrap(res)?.data?.items?.[0] ?? undefined;
       if (!row) return empty;
