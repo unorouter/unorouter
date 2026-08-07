@@ -79,6 +79,10 @@ function toCatalogItem(row: RunwareSearchResult): CatalogItem {
 // holding on to: the catalog is a browse list that barely changes, and without this every
 // picker open pays the full latency again.
 const CATALOG_TTL_MS = 30 * 60_000;
+
+// The provider's own per-request maximum. Latency is per REQUEST rather than per result, so
+// a short page costs the same 8-to-22 seconds as a full one while showing a quarter as much.
+const CATALOG_PAGE_SIZE = 50;
 const catalogCache = new Map<string, { at: number; items: CatalogItem[] }>();
 
 export async function searchModelCatalog(
@@ -89,7 +93,7 @@ export async function searchModelCatalog(
     category,
     query.search ?? "",
     query.architecture ?? "",
-    query.limit ?? 24,
+    query.limit ?? CATALOG_PAGE_SIZE,
   ]);
   const hit = catalogCache.get(cacheKey);
   if (hit && Date.now() - hit.at < CATALOG_TTL_MS) return { items: hit.items };
@@ -104,8 +108,22 @@ export async function searchModelCatalog(
       category,
       ...(query.search ? { search: query.search } : {}),
       ...(query.architecture ? { architecture: query.architecture } : {}),
-      limit: query.limit ?? 24,
+      limit: query.limit ?? CATALOG_PAGE_SIZE,
     });
+    // The provider matches whole tokens against model NAMES only, so a word that is a
+    // substring rather than a prefix finds nothing: "face" returns zero while "faces"
+    // returns results, and "detailer" zero while "Face Detailer" works. Retry the same word
+    // as a TAG, which is where that vocabulary actually lives, before reporting no results.
+    if (query.search && !(envelope.data?.[0]?.results ?? []).length) {
+      const byTag = await runwareTask({
+        taskType: "modelSearch",
+        category,
+        tags: [query.search.toLowerCase()],
+        ...(query.architecture ? { architecture: query.architecture } : {}),
+        limit: query.limit ?? CATALOG_PAGE_SIZE,
+      });
+      if ((byTag.data?.[0]?.results ?? []).length) envelope = byTag;
+    }
   } catch (err) {
     logger.warn("runware model search unreachable", {
       context: "image.catalog",
