@@ -30,6 +30,53 @@ export function useStatusComponents() {
   );
 }
 
+export type ModelStatusInfo = {
+  status: string;
+  uptime24h: number;
+  upChannels: number;
+  totalChannels: number;
+};
+
+type StatusComponentRow = {
+  name?: string;
+  status: string;
+  uptime_24h: number;
+  up_channels: number;
+  total_channels: number;
+};
+
+const EMPTY_STATUS_MAP: ReadonlyMap<string, ModelStatusInfo> = new Map();
+
+function toStatusMap(
+  rows: readonly StatusComponentRow[] | null | undefined,
+): ReadonlyMap<string, ModelStatusInfo> {
+  const map = new Map<string, ModelStatusInfo>();
+  for (const c of rows ?? []) {
+    if (!c.name) continue;
+    map.set(c.name, {
+      status: c.status,
+      uptime24h: c.uptime_24h,
+      upChannels: c.up_channels,
+      totalChannels: c.total_channels,
+    });
+  }
+  return map;
+}
+
+// One lightweight /components fetch (no bar series), mapped by model name so the
+// chat model drawer can show a per-row reliability dot without a per-row query.
+// The mapping rides select rather than the hook body: it shares this query key
+// with useStatusComponents, and rebuilding ~590 entries per render meant once
+// per keystroke in the selector's filter.
+export function useModelStatusMap(): ReadonlyMap<string, ModelStatusInfo> {
+  const query = useElysiaQuery(
+    queryKeys.modelStatusComponents(),
+    () => rpc.api.models["model-status"].components.get(),
+    { select: toStatusMap },
+  );
+  return query.data ?? EMPTY_STATUS_MAP;
+}
+
 export function useModelStatusBucketsQuery(
   model: string | null,
   bucket: StatusBucket = "15m",

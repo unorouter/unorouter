@@ -1,6 +1,6 @@
 "use client";
 
-import type { ModelStatusInfo } from "@/hooks/models/model-status-map-hook";
+import type { ModelStatusInfo } from "@/hooks/models/model-status-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 

@@ -33,7 +33,7 @@ import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import {
   type ModelStatusInfo,
   useModelStatusMap,
-} from "@/hooks/models/model-status-map-hook";
+} from "@/hooks/models/model-status-hook";
 import { UptimeDot } from "@/components/elements/model/uptime-dot";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
