@@ -27,6 +27,29 @@ export function ViewportDebugLogger() {
     // desktop chat. Bail before wiring anything when not on iOS.
     if (!isIos) return;
 
+    // iOS nudges the page scale above 1 on its own (input auto-zoom, double
+    // tap, edit-save focus churn) and then leaves it stuck slightly zoomed -
+    // a page at scale > 1 clips the bottom-right corner, which is where the
+    // send button lives. Cap maximum-scale at 1 on iOS only: Safari
+    // suppresses the automatic zooms but still honors a deliberate pinch (it
+    // ignores the cap for user gestures), and Android keeps full zoom for
+    // accessibility. Set ONCE and never restored: toggling the meta on
+    // mount/unmount made Safari re-evaluate the viewport mid-session.
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
+    const metaContent = viewportMeta?.getAttribute("content");
+    if (
+      viewportMeta &&
+      metaContent &&
+      !/maximum-scale=1(?![\d.])/.test(metaContent)
+    ) {
+      viewportMeta.setAttribute(
+        "content",
+        metaContent.includes("maximum-scale")
+          ? metaContent.replace(/maximum-scale=[\d.]+/, "maximum-scale=1")
+          : `${metaContent}, maximum-scale=1`,
+      );
+    }
+
     const geometry = () => {
       const scroller = document.querySelector<HTMLElement>(
         ".aui-thread-viewport",
@@ -34,7 +57,9 @@ export function ViewportDebugLogger() {
       const vv = window.visualViewport;
       return {
         innerH: window.innerHeight,
+        innerW: window.innerWidth,
         vvH: vv ? Math.round(vv.height) : null,
+        vvScale: vv ? Math.round(vv.scale * 100) / 100 : null,
         vvOffsetTop: vv ? Math.round(vv.offsetTop) : null,
         scrollerH: scroller?.clientHeight ?? null,
         scrollerScrollH: scroller?.scrollHeight ?? null,
