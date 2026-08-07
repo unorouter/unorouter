@@ -179,6 +179,12 @@ const FOOTER_BADGES = [
     width: 111,
   },
   {
+    href: "https://www.stork.ai/",
+    src: "https://www.stork.ai/badge/verified-dark.svg",
+    name: "Stork Verified",
+    width: 120,
+  },
+  {
     href: "https://web-review.com",
     src: "https://web-review.com/badge.png",
     name: "Web Review",
