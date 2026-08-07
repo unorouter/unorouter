@@ -2,6 +2,7 @@ import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { Providers } from "@/components/provider/providers";
 import { NotifyProvider } from "@/components/provider/app/notify-provider";
+import { InteractiveWidgetMeta } from "@/components/provider/app/interactive-widget-meta";
 import { SwRegister } from "@/components/provider/app/sw-register";
 import { DebugCapture } from "@/components/provider/app/debug-capture";
 import { Toaster } from "@/components/ui/sonner";
@@ -36,11 +37,17 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import "../globals.css";
 
+// interactive-widget=resizes-content is deliberately NOT in the static meta.
+// iOS 26 half-honors it: device diagnostics show the layout viewport animating
+// through a dozen intermediate heights per keyboard cycle (660 -> 426 -> 578 ->
+// ... -> 747 -> 660) and getting STUCK mid-dismiss (innerHeight parked at 578
+// on a 660 screen), which cut the composer off by the difference. Chromium
+// honors it correctly and needs it (the shell then resizes natively for the
+// keyboard), so InteractiveWidgetMeta appends it at runtime on non-WebKit only.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  interactiveWidget: "resizes-content",
   viewportFit: "cover",
 };
 
@@ -136,6 +143,7 @@ export default async function LocaleLayout(props: Props) {
         <Providers>
           <Toaster richColors />
           <SwRegister />
+          <InteractiveWidgetMeta />
           <NotifyProvider />
           <DebugCapture />
           <Suspense>
