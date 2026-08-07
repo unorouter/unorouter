@@ -179,6 +179,18 @@ const FOOTER_BADGES = [
     width: 111,
   },
   {
+    href: "https://web-review.com",
+    src: "https://web-review.com/badge.png",
+    name: "Web Review",
+    width: 111,
+  },
+  {
+    href: "https://toolfio.com",
+    src: "https://toolfio.com/toolfio-badge.svg",
+    name: "Toolfio",
+    width: 111,
+  },
+  {
     href: "https://startupbase.io/products/unorouter?utm_source=startupbase&utm_medium=badge&utm_campaign=launch-badge-light",
     src: "https://statics.startupbase.io/site/badges/launched-on-sb.svg",
     name: "StartupBase",
