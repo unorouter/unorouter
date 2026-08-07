@@ -130,7 +130,10 @@ export function CatalogChainPicker<
                 />
               </div>
             )}
-            <div className="h-80 overflow-y-auto">
+            {/* Capped against the viewport as well as a fixed height: on a short screen a
+                constant 20rem list is taller than the room the popup has, and it then spills
+                past the edge rather than scrolling internally. */}
+            <div className="h-[min(20rem,50dvh)] overflow-y-auto">
               {props.isLoading && (
                 <div className="text-muted-foreground p-4 text-sm">
                   {t("IMAGE.STATUS_PENDING")}
