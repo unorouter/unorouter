@@ -1,8 +1,11 @@
+// Both model-status endpoints decode into the StatusBar component's
+// StatusBarData[]: /page_compact via int tuples, /buckets via the verbose DTO.
 import type {
   StatusBarData,
   StatusEventType,
   StatusType,
 } from "@/components/ui/status/status.types";
+import type { StatusBarDataDTO } from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
 
 type CompactBucket = [
@@ -158,4 +161,54 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
   }
 
   return { components: p.components ?? [], incidents, bars };
+}
+
+const STATUS_TYPES: readonly StatusType[] = [
+  STATUS_SUCCESS,
+  STATUS_DEGRADED,
+  STATUS_ERROR,
+  "info",
+  STATUS_EMPTY,
+];
+const EVENT_TYPES: readonly StatusEventType[] = [
+  "incident",
+  "report",
+  "maintenance",
+];
+
+// Unknown values degrade to a renderable default rather than reaching a
+// component that switches on them: the DTO types these as bare strings.
+function toStatus(s: string): StatusType {
+  return STATUS_TYPES.find((v) => v === s) ?? STATUS_EMPTY;
+}
+
+function toEventType(s: string): StatusEventType {
+  return EVENT_TYPES.find((v) => v === s) ?? "incident";
+}
+
+// The per-model /buckets endpoint returns the verbose StatusBarDataDTO[]
+// (nullable arrays, string enums) instead of the page's int tuples.
+export function decodeBucketDtos(
+  dtos: StatusBarDataDTO[] | null | undefined,
+): StatusBarData[] {
+  if (!dtos) return [];
+  return dtos.map((d) => ({
+    day: d.day,
+    bar: (d.bar ?? []).map((seg) => ({
+      status: toStatus(seg.status),
+      height: seg.height,
+    })),
+    card: (d.card ?? []).map((c) => ({
+      status: toStatus(c.status),
+      value: c.value,
+    })),
+    events: (d.events ?? []).map((e) => ({
+      id: e.id,
+      name: e.name,
+      type: toEventType(e.type),
+      from: dayjs(e.from).toDate(),
+      to: e.to ? dayjs(e.to).toDate() : null,
+      isAggregated: e.is_aggregated,
+    })),
+  }));
 }

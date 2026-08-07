@@ -2,12 +2,17 @@
 
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 
-import { decodeCompactPage } from "@/lib/api/model-status-compact";
-import { decodeBucketDtos } from "@/lib/api/model-status-buckets";
+import {
+  decodeBucketDtos,
+  decodeCompactPage,
+} from "@/lib/api/model-status-decode";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { StatusBucket } from "@/lib/types";
 
+// select is passed by reference, never as an inline arrow: react-query memoizes
+// on (data, select) identity, so a fresh closure per render re-decodes all
+// ~36k buckets on every keystroke in the page's search box.
 export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
   return useElysiaQuery(
     queryKeys.modelStatusPage(bucket, hours),
@@ -15,9 +20,7 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
       rpc.api.models["model-status"].page_compact.get({
         query: { bucket, hours },
       }),
-    {
-      select: (raw) => decodeCompactPage(raw),
-    },
+    { select: decodeCompactPage },
   );
 }
 
@@ -40,7 +43,7 @@ export function useModelStatusBucketsQuery(
       }),
     {
       enabled: Boolean(model),
-      select: (raw) => decodeBucketDtos(raw),
+      select: decodeBucketDtos,
     },
   );
 }

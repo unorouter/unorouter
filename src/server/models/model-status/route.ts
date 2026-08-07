@@ -2,7 +2,7 @@ import {
   modelStatusBucketsQuery,
   modelStatusPageCompactQuery,
 } from "@/lib/api/typebox/model-status";
-import type { CompactPagePayload } from "@/lib/api/model-status-compact";
+import type { CompactPagePayload } from "@/lib/api/model-status-decode";
 import { unwrap } from "@/lib/utils/base";
 import {
   getModelStatusBuckets,
