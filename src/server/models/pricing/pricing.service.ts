@@ -5,8 +5,8 @@ import {
   toLeanPricing,
 } from "@/lib/api/pricing";
 import {
-  getPricingSummary as getCachedByName,
-  refreshPricingSummary,
+  getPricingSnapshot,
+  refreshPricingSnapshot,
 } from "@/lib/api/pricing-cache";
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
@@ -36,7 +36,10 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
   throw lastError;
 }
 
-// In-process pricing summary: server components and build-time prerenders
+// Fetches upstream on every call, unlike getPricingSnapshot's shared 5min
+// object. Callers are the "use cache" fetchers in lib/api/cached.ts, where the
+// render cache is the caching layer and a stale in-module object would outlive
+// its revalidation. Direct, because server components and build-time prerenders
 // must not loop back over http://127.0.0.1 (no self server during build).
 export async function getPricingSummary(includeOffline = false) {
   const res = await withRetry(() =>
@@ -57,7 +60,7 @@ export async function getPricingLean(includeOffline = false) {
 // from `.models` keeps membership identical to the online-only feed.
 
 export async function getPricingCounts() {
-  const { models } = await getCachedByName();
+  const { models } = await getPricingSnapshot();
   const freeCount = models.filter((m) => m.isFree).length;
   const vendorCount = new Set(models.map((m) => m.vendor.name)).size;
   return {
@@ -73,7 +76,7 @@ export async function getPricingCounts() {
 // because callers that only display models (the ticker) must skip
 // embedding/rerank rows, and the predicate needs the full model to decide.
 export async function getPricingVendors() {
-  const { models } = await getCachedByName();
+  const { models } = await getPricingSnapshot();
   const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
     (a, b) => a.localeCompare(b),
   );
@@ -88,7 +91,7 @@ export async function getPricingVendors() {
 // One vendor's models in the SAME lean per-model shape as /pricing (vendor cards
 // need release date / modalities / prices), filtered to that vendor.
 export async function getVendorModels(name: string) {
-  const { models } = await getCachedByName();
+  const { models } = await getPricingSnapshot();
   return {
     models: models
       .filter((m) => m.vendor.name === name)
@@ -100,10 +103,10 @@ export async function getVendorModels(name: string) {
 // the 5min in-module pricing cache instead of refetching the whole upstream
 // list per drawer open.
 export async function getModelDetail(name: string) {
-  let cached = await getCachedByName();
+  let cached = await getPricingSnapshot();
   let model = cached.byName.get(name);
   if (!model) {
-    cached = await refreshPricingSummary();
+    cached = await refreshPricingSnapshot();
     model = cached.byName.get(name);
   }
   return { model: model ?? null };

@@ -1,4 +1,4 @@
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import {
   finalizeTaskBody,
@@ -28,7 +28,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID && body.model) {
-        const meta = (await getPricingSummary()).byName.get(body.model);
+        const meta = (await getPricingSnapshot()).byName.get(body.model);
         if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
       }
       const apiKey = await resolveChatApiKey(cookie);
@@ -44,7 +44,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const apiKey = await resolveChatApiKey(cookie);
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID) {
-        const meta = (await getPricingSummary()).byName.get(body.model);
+        const meta = (await getPricingSnapshot()).byName.get(body.model);
         if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
       }
       return streamMedia(apiKey, body, request, userId);

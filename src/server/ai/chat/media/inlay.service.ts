@@ -1,5 +1,5 @@
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import { uid } from "@/lib/utils/base";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { submitSyncImage } from "./sync-image";
@@ -10,7 +10,7 @@ export async function generateInlayImage(
   prompt: string,
   opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
-  const summary = await getPricingSummary();
+  const summary = await getPricingSnapshot();
   const model =
     (opts?.model
       ? summary.models.find((m) => m.type === "image" && m.name === opts.model)

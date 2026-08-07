@@ -8,7 +8,7 @@ import { msg } from "@/lib/config/constants";
 import { getPricing } from "@/openapi";
 
 // Pricing crosses THREE cache layers; keep their roles distinct when touching
-// any of them: (1) this in-module 5min summary for server-internal consumers,
+// any of them: (1) this in-module 5min snapshot for per-request server paths,
 // (2) the Next Data Cache 1h on PUBLIC upstream GETs (PUBLIC_CACHE, keyed by
 // URL only, so always pair with ADMIN_HEADERS), (3) the Cloudflare edge in
 // front of the /pricing BFF responses (purged by CI after deploy).
@@ -20,15 +20,18 @@ let cache: {
 } | null = null;
 const CACHE_TTL = 5 * 60 * 1000;
 
-export async function getPricingSummary() {
+// "Snapshot", not "summary": pricing.service exports a getPricingSummary that
+// fetches upstream on EVERY call for the prerender path. This one is the shared
+// 5min object with the prebuilt byName map, for hot per-request paths.
+export async function getPricingSnapshot() {
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) return cache;
-  return refreshPricingSummary();
+  return refreshPricingSnapshot();
 }
 
 // Cache-miss escape hatch (e.g. a just-added model requested by name):
 // refetches regardless of TTL, capped to one upstream call per 30s so
 // unknown-name requests cannot hammer the upstream.
-export async function refreshPricingSummary() {
+export async function refreshPricingSnapshot() {
   if (cache && Date.now() - cache.fetchedAt < 30_000) return cache;
   const res = await getPricing();
   if (!res.data) throw new Error(msg("ERRORS.PRICING_FETCH_FAILED"));
@@ -43,7 +46,7 @@ export async function refreshPricingSummary() {
 }
 
 export async function isMediaModel(model: string) {
-  const { byName, endpointMap } = await getPricingSummary();
+  const { byName, endpointMap } = await getPricingSnapshot();
   const found = byName.get(model);
 
   let endpointPath: string | undefined;
@@ -65,7 +68,7 @@ export async function isMediaModel(model: string) {
 }
 
 export async function getFreeTextModels(limit?: number): Promise<string[]> {
-  const { models } = await getPricingSummary();
+  const { models } = await getPricingSnapshot();
   const free = models.filter(isFreeChatModel).map((m) => m.name);
   for (let i = free.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

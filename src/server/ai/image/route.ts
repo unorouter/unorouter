@@ -1,4 +1,4 @@
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import {
   catalogSearchQuery,
@@ -16,7 +16,7 @@ import {
 } from "./model-search.service";
 
 async function assertGuestAllowedModel(model: string): Promise<void> {
-  const meta = (await getPricingSummary()).byName.get(model);
+  const meta = (await getPricingSnapshot()).byName.get(model);
   if (!meta?.isFree) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }

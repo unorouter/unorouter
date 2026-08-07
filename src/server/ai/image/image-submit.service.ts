@@ -3,7 +3,7 @@ import {
   extractResults,
   loadRefs,
 } from "@/lib/ai/playground/dispatch";
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import {
   chooseEndpoint,
   getEffectiveGenerationModels,
@@ -185,7 +185,7 @@ export async function submitGeneration(
   body: PlaygroundSubmitBody,
 ): Promise<SubmitGenerationResult> {
   const requestedCount = imageCountFor(body);
-  const summary = await getPricingSummary();
+  const summary = await getPricingSnapshot();
 
   const info = summary.byName.get(body.model);
   if (!info) throw new Error(`model ${body.model} not in catalog`);

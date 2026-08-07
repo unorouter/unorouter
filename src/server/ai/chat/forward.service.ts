@@ -1,4 +1,4 @@
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
@@ -26,7 +26,7 @@ export async function forwardChatCompletions(args: {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
   if (args.userId === GUEST_USER_ID) {
-    const meta = (await getPricingSummary()).byName.get(model);
+    const meta = (await getPricingSnapshot()).byName.get(model);
     if (!meta?.isFree) {
       return new Response(
         JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }),
@@ -39,7 +39,7 @@ export async function forwardChatCompletions(args: {
   }
 
   if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
-    const meta = (await getPricingSummary()).byName.get(model);
+    const meta = (await getPricingSnapshot()).byName.get(model);
     if (!meta?.isFree) {
       return new Response(
         JSON.stringify({

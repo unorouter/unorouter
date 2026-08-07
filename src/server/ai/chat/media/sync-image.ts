@@ -3,7 +3,7 @@ import {
   extractResultUris,
   fetchAllRefs,
 } from "@/lib/ai/playground/dispatch";
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/lib/api/pricing-cache";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import type {
@@ -33,7 +33,7 @@ export async function submitSyncImage(args: {
   const params = args.body.params ?? {};
   const size = paramsToSize(args.body.params);
 
-  const meta = (await getPricingSummary()).models.find(
+  const meta = (await getPricingSnapshot()).models.find(
     (m) => m.name === args.body.model,
   );
   const cap = meta?.metadata.maxImageInputs ?? 6;
