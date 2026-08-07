@@ -140,6 +140,8 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   if (md.singleQuote) vars["md-single-quote"] = md.singleQuote;
   if (md.doubleQuote) vars["md-double-quote"] = md.doubleQuote;
   const varsBlock = emitBlock(":root", vars);
+  // Apply vars via CSS so nested italic+bold (<strong><em>) gets its own slot.
+  // Plain text falls through to inherited foreground when md-normal unset.
   const rules: string[] = [];
   if (md.normal) rules.push(".aui-md p,.aui-md li{color:var(--md-normal);}");
   if (md.italic) rules.push(".aui-md em{color:var(--md-italic);}");

@@ -63,6 +63,12 @@ export async function ErrorsAndRateLimitsContent() {
         <p>{k("P_ENVELOPE_1")}</p>
         <DocCode code={ENVELOPE_EXAMPLE} lang="json" />
         <p>{k("P_ENVELOPE_2")}</p>
+        <p>
+          {k("P_ENVELOPE_SETUP")}{" "}
+          <DocPageLink slug="quickstart">
+            {t("DOCS_PLATFORM.QUICKSTART.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="status-codes" title={k("H_STATUS_CODES")}>
         <p>{k("P_STATUS_CODES_1")}</p>

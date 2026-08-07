@@ -1,5 +1,6 @@
 import {
   DocKbd,
+  DocPageLink,
   DocSection,
   DocTable,
 } from "@/components/pages/docs/doc-parts";
@@ -53,6 +54,18 @@ export async function DiscordRewardsContent() {
           ]}
         />
         <p>{k("P_REWARDS_2")}</p>
+        <p>
+          {k("P_REWARDS_SPEND")}{" "}
+          <DocPageLink slug="account-and-billing">
+            {t("DOCS_PLATFORM.ACCOUNT_AND_BILLING.TITLE")}
+          </DocPageLink>
+        </p>
+        <p>
+          {k("P_REWARDS_MODELS")}{" "}
+          <DocPageLink slug="models-and-pricing">
+            {t("DOCS_PLATFORM.MODELS_AND_PRICING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="recurring" title={k("H_RECURRING")}>
         <p>{k("P_BOOST_1")}</p>
