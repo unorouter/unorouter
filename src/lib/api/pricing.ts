@@ -446,6 +446,29 @@ export function gridPriceParts(
 export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 export type LeanPricing = ReturnType<typeof toLeanPricing>;
 
+// Upstream types every embedding model as "text" (all jina-*-embeddings-*,
+// embeddinggemma-*), so a bare type === "text" filter leaks models that cannot
+// serve a chat completion: they showed up as "recommended models" in the setup
+// guides and got raced for title generation. metadata.mode is the real signal
+// ("chat" vs "embedding"); endpointTypes is the same signal one level down. Only
+// rows with neither (older catalog entries) fall back to the name heuristic.
+const NON_CHAT_NAME = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
+const NON_CHAT_ENDPOINT = ["embedding", "rerank", "moderation"];
+
+export function isChatModel(model: ProcessedModel): boolean {
+  if (model.type !== "text") return false;
+  const mode = model.metadata?.mode;
+  if (mode) return mode === "chat";
+  if (model.endpointTypes?.some((e) => NON_CHAT_ENDPOINT.includes(e))) {
+    return false;
+  }
+  return !NON_CHAT_NAME.test(model.name);
+}
+
+export function isFreeChatModel(model: ProcessedModel): boolean {
+  return model.isFree && isChatModel(model);
+}
+
 const LEAN_DESCRIPTION_CHARS = 200;
 
 export function leanOne(model: ProcessedModel): ProcessedModel {

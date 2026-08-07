@@ -1,4 +1,4 @@
-import { leanOne, toLeanPricing } from "@/lib/api/pricing";
+import { isFreeChatModel, leanOne, toLeanPricing } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -90,9 +90,8 @@ export async function getCachedFreeTextModelsWithVendor(limit: number) {
   "use cache";
   cacheLife("minutes");
   const summary = await getPricingSummary();
-  const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
   return summary.models
-    .filter((m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name))
+    .filter(isFreeChatModel)
     .slice(0, limit)
     .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
 }
@@ -243,9 +242,7 @@ export async function getCachedFreeTextModels(limit?: number) {
   "use cache";
   cacheLife("hours");
   const summary = await getPricingSummary();
-  const free = summary.models
-    .filter((m) => m.type === "text" && m.isFree)
-    .map((m) => m.name);
+  const free = summary.models.filter(isFreeChatModel).map((m) => m.name);
   for (let i = free.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [free[i]!, free[j]!] = [free[j]!, free[i]!];

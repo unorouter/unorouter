@@ -1,5 +1,6 @@
 import {
   buildPricingSummary,
+  isFreeChatModel,
   type EndpointInfo,
   type ProcessedModel,
 } from "@/lib/api/pricing";
@@ -65,9 +66,7 @@ export async function isMediaModel(model: string) {
 
 export async function getFreeTextModels(limit?: number): Promise<string[]> {
   const { models } = await getPricingSummary();
-  const free = models
-    .filter((m) => m.type === "text" && m.isFree)
-    .map((m) => m.name);
+  const free = models.filter(isFreeChatModel).map((m) => m.name);
   for (let i = free.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [free[i], free[j]] = [free[j], free[i]];
