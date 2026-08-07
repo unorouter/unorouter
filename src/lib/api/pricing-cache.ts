@@ -5,6 +5,7 @@ import {
 } from "@/lib/api/pricing";
 import { msg } from "@/lib/config/constants";
 import { getPricing } from "@/openapi";
+import { ADMIN_HEADERS } from "@/server/constants";
 
 // Pricing crosses THREE cache layers; keep their roles distinct when touching
 // any of them: (1) this in-module 5min snapshot for per-request server paths,
@@ -32,7 +33,12 @@ export async function getPricingSnapshot() {
 // unknown-name requests cannot hammer the upstream.
 export async function refreshPricingSnapshot() {
   if (cache && Date.now() - cache.fetchedAt < 30_000) return cache;
-  const res = await getPricing();
+  // ADMIN_HEADERS is load-bearing, not boilerplate: upstream GetPricing applies
+  // the CALLER's group ratios, and customFetch forwards the caller's cookies
+  // when no Authorization is set. Without it, whoever happens to trigger a
+  // refill bakes their own pricing into a module-level object every other user
+  // then reads for the next 5 minutes.
+  const res = await getPricing(undefined, { headers: ADMIN_HEADERS });
   if (!res.data) throw new Error(msg("ERRORS.PRICING_FETCH_FAILED"));
   const summary = buildPricingSummary(res.data);
   cache = {
