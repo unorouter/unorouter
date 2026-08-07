@@ -155,6 +155,12 @@ const FOOTER_BADGES = [
     width: 100,
   },
   {
+    href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
+    src: "https://sharefast.co/sharefast-featured-badge.svg",
+    name: "Featured on Share Fast",
+    width: 110,
+  },
+  {
     href: "https://huzzler.so/products/colhB77fuA/unorouter?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=badge",
     src: "/badges/huzzler.png",
     name: "Huzzler",
