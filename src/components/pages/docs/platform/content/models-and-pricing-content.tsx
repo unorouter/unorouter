@@ -34,6 +34,12 @@ export async function ModelsAndPricingContent() {
           height={675}
         />
         <p>{kLink("P_CATALOG_2", "/rankings")}</p>
+        <p>
+          {k("P_CATALOG_SETUP")}{" "}
+          <DocPageLink slug="quickstart">
+            {t("DOCS_PLATFORM.QUICKSTART.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="free-vs-paid" title={k("H_FREE_VS_PAID")}>
         <p>
