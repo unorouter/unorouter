@@ -1,7 +1,7 @@
 import {
   buildPricingSummary,
   isChatModel,
-  leanOne,
+  leanModel,
   toLeanPricing,
 } from "@/lib/api/pricing";
 import {
@@ -95,7 +95,7 @@ export async function getVendorModels(name: string) {
   return {
     models: models
       .filter((m) => m.vendor.name === name)
-      .map((m) => leanOne(m)),
+      .map((m) => leanModel(m)),
   };
 }
 

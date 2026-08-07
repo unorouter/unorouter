@@ -1,7 +1,7 @@
 import {
   isChatModel,
   isFreeChatModel,
-  leanOne,
+  leanModel,
   toLeanPricing,
 } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -81,7 +81,7 @@ export async function getCachedVendorModels(vendorName: string) {
   return {
     models: summary.models
       .filter((m) => m.vendor.name === vendorName)
-      .map((m) => leanOne(m)),
+      .map((m) => leanModel(m)),
   };
 }
 

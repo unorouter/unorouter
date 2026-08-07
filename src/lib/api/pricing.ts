@@ -310,8 +310,6 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
-  const modelsByType = groupModelsByType(models);
-
   const firstFreeModel =
     models.find((m) => m.isFree && m.type === "text") ??
     models.find((m) => m.isFree) ??
@@ -361,11 +359,9 @@ export function buildPricingSummary(response: PricingData) {
     models,
     vendors,
     vendorNames,
-    modelsByType,
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
-    usableGroup: response.usable_group ?? {},
     autoGroups: response.auto_groups ?? [],
     topDiscounted,
   };
@@ -443,8 +439,7 @@ export function gridPriceParts(
   };
 }
 
-export type PricingSummary = ReturnType<typeof buildPricingSummary>;
-export type LeanPricing = ReturnType<typeof toLeanPricing>;
+type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
 // Upstream types every embedding model as "text" (all jina-*-embeddings-*,
 // embeddinggemma-*), so a bare type === "text" filter leaks models that cannot
@@ -471,11 +466,7 @@ export function isFreeChatModel(model: ProcessedModel): boolean {
 
 const LEAN_DESCRIPTION_CHARS = 200;
 
-export function leanOne(model: ProcessedModel): ProcessedModel {
-  return leanModel(model);
-}
-
-function leanModel(model: ProcessedModel): ProcessedModel {
+export function leanModel(model: ProcessedModel): ProcessedModel {
   const description = model.description;
   return {
     ...model,
