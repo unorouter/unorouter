@@ -5322,7 +5322,7 @@
       "P_DISCOUNTS_1": "Każdy model przechodzi przez jedną lub więcej grup dostawców, każda z własną ceną; tabela Group Pricing na stronie modelu wymienia je wszystkie. Wysoka dostępność daje automatyczne rabaty, a przełączenie na inną grupę może przesunąć efektywną cenę.",
       "P_FREE_VS_PAID_1": "Darmowe modele mają przyrostek :free, na przykład",
       "P_FREE_VS_PAID_2": "Model :free jest kierowany wyłącznie do darmowych dostawców upstream i nigdy nie narusza twojego salda. Ta sama nazwa bazowa bez przyrostka to wersja płatna: stabilna, bez limitu i rozliczana za token. Obie mogą istnieć obok siebie, więc przejście z darmowego na płatny to zmiana jednego ciągu znaków.",
-      "P_FREE_VS_PAID_3": "Darmowe modele są darmowe nie bez powodu: to dostawcy upstream ustalają limity szybkości, nie my. Spodziewaj się odpowiedzi 429 w godzinach szczytu i używaj modelu płatnego, gdy potrzebujesz niezawodności.",
+      "P_FREE_VS_PAID_3": "Darmowe modele mają dwie warstwy limitów. Dostawcy upstream ograniczają swoje darmowe pule, a my dodatkowo nakładamy własny limit na użytkownika i model, aby jeden intensywny użytkownik nie wyczerpał wspólnej puli. Spodziewaj się odpowiedzi 429 w godzinach szczytu i używaj modelu płatnego, gdy potrzebujesz niezawodności.",
       "H_PRICING": "Jak działa wycena",
       "P_PRICING_1": "Większość modeli rozlicza się za token, z osobnymi cenami wejścia i wyjścia. Kilka modeli (głównie obraz i wideo) rozlicza zamiast tego stałą cenę za wywołanie. To, co widzisz na stronie modelu, to to, co płacisz: bez subskrypcji, bez ukrytych opłat, twoje saldo po prostu maleje z każdym żądaniem.",
       "P_PRICING_2": "<a>Strona Cennik</a> zawiera aktualne opcje doładowania; każda strona modelu pokazuje ceny za token na żywo.",

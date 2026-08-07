@@ -5322,7 +5322,7 @@
       "P_DISCOUNTS_1": "Every model routes across one or more provider groups, each with its own price; the Group Pricing table on the model page lists them all. High availability earns automatic discounts, and a failover to another group can shift the effective price.",
       "P_FREE_VS_PAID_1": "Free models carry a :free suffix, for example",
       "P_FREE_VS_PAID_2": "A :free model routes only to free upstream providers and never touches your balance. The same base name without the suffix is the paid version: stable, uncapped and billed per token. Both can exist side by side, so switching from free to paid is a one-string change.",
-      "P_FREE_VS_PAID_3": "Free models are free for a reason: the upstream providers set the rate limits, not us. Expect 429 responses at peak times, and use a paid model when you need reliability.",
+      "P_FREE_VS_PAID_3": "Free models have two layers of limits. The upstream providers cap their free pools, and on top of that we add our own per-user, per-model cap so one heavy user cannot drain a shared pool. Expect 429 responses at peak times, and use a paid model when you need reliability.",
       "H_PRICING": "How pricing works",
       "P_PRICING_1": "Most models bill per token, with separate input and output prices. A few models (mostly image and video) bill a flat price per call instead. What you see on the model page is what you pay: no subscriptions, no hidden fees, your balance simply decreases per request.",
       "P_PRICING_2": "<a>The Pricing page</a> has current top-up options; every model page shows live per-token prices.",
