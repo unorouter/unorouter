@@ -264,13 +264,27 @@ function ReasoningText({
     const scrollEl = scrollRef.current;
     const contentEl = contentRef.current;
     if (!scrollEl || !contentEl) return;
+    // Follow the newest token only while the reader sits at the bottom - the
+    // same contract as the thread. Once they scroll up to read mid-stream the
+    // pin disengages; scrolling back to the bottom re-engages it.
+    let follow = true;
+    const AT_BOTTOM_SLACK = 24;
+    const onScroll = () => {
+      follow =
+        scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight <
+        AT_BOTTOM_SLACK;
+    };
     const pin = () => {
-      scrollEl.scrollTop = scrollEl.scrollHeight;
+      if (follow) scrollEl.scrollTop = scrollEl.scrollHeight;
     };
     pin();
+    scrollEl.addEventListener("scroll", onScroll, { passive: true });
     const observer = new ResizeObserver(pin);
     observer.observe(contentEl);
-    return () => observer.disconnect();
+    return () => {
+      scrollEl.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, [isPreview]);
 
   return (
