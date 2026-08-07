@@ -3072,11 +3072,6 @@
       "AFTERNOON": "İyi günler",
       "EVENING": "İyi akşamlar"
     },
-    "MONITOR": {
-      "UP": "Açık",
-      "DOWN": "Kapalı",
-      "PENDING": "Beklemede"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Hesap Verisi",
       "CURRENT_BALANCE": "Mevcut Bakiye",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "İstatistiksel Tokenlar",
       "PERFORMANCE_INDICATORS": "Performans Göstergeleri",
       "AVERAGE_RPM": "Ortalama RPM",
-      "AVERAGE_TPM": "Ortalama TPM"
+      "AVERAGE_TPM": "Ortalama TPM",
+      "STATISTICAL_COUNT_CAPTION": "İstatistiksel sayı",
+      "STATISTICAL_QUOTA_CAPTION": "İstatistiksel kota",
+      "STATISTICAL_TOKENS_CAPTION": "İstatistiksel token",
+      "AVERAGE_RPM_CAPTION": "Dakikadaki istek",
+      "AVERAGE_TPM_CAPTION": "Dakikadaki token"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Model Veri Analizi",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Çağrı Sıralaması"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Sistem Bildirimi",
-      "FAQ": "SSS",
-      "SERVICE_STATUS": "Hizmet Durumu",
       "API_INFORMATION": "API Bilgisi",
-      "NO_ANNOUNCEMENTS": "Duyuru yok",
-      "NO_FAQ": "SSS girdisi yok",
-      "NO_API_INFO": "API bilgisi yok"
+      "NO_API_INFO": "API bilgisi yok",
+      "BALANCE": "Bakiye",
+      "BURN_RATE": "Harcama hızı",
+      "RUNWAY": "Kalan süre",
+      "PER_DAY": "{amount}/gün",
+      "DAYS_LEFT": "{days} gün",
+      "PERFORMANCE": "Performans",
+      "P50_LATENCY": "p50 gecikme",
+      "P95_LATENCY": "p95 gecikme",
+      "STREAM_SHARE": "Akışlı",
+      "SLOWEST_MODELS": "En yavaş modeller",
+      "SAMPLE_SIZE": "Son {count} isteğe dayalı",
+      "API_KEYS": "API anahtarı harcaması",
+      "UNNAMED_KEY": "Adsız anahtar",
+      "LAST_USED": "Son kullanım {when}",
+      "NEVER_USED": "Hiç kullanılmadı",
+      "USAGE_GLANCE": "Kullanıma genel bakış",
+      "USAGE_GLANCE_DESC": "Bakiye, kullanım ve istek hacmini izleyin",
+      "PERIOD_USAGE": "Seçili dönem",
+      "PERIOD_USAGE_CAPTION": "Seçili aralıkta tüketilen",
+      "HISTORICAL_USAGE": "Geçmiş kullanım",
+      "HISTORICAL_USAGE_CAPTION": "Toplam tüketim",
+      "REQUEST_COUNT_CAPTION": "Yapılan toplam istek",
+      "CREDIT_REMAINING": "Kalan kredi",
+      "HEALTHY": "İyi",
+      "LOW": "Düşük",
+      "TOP_UP": "Yükle",
+      "PERFORMANCE_DESC": "Son 24 saatin performans ölçümleri",
+      "SUCCESS_RATE": "Başarı oranı",
+      "AVG_LATENCY": "Ortalama gecikme",
+      "THROUGHPUT": "İşlem hacmi",
+      "TOP_MODELS": "En çok trafiğe sahip modeller",
+      "API_KEYS_DESC": "Anahtar başına harcama ve son kullanım"
     },
     "CONSUMPTION": "Tüketim",
     "TOTAL": "Toplam",
     "OTHER": "Diğer",
     "NO_DATA": "Veri yok",
-    "COPIED": "Kopyalandı"
+    "COPIED": "Kopyalandı",
+    "SECTION": {
+      "OVERVIEW": "Genel bakış",
+      "ANALYTICS": "Model analizi",
+      "FLOW": "Akış"
+    },
+    "FLOW": {
+      "QUOTA": "Harcama",
+      "TOKENS": "Token",
+      "REQUESTS": "İstekler",
+      "DESC": "Harcamanızın akışı: anahtar, grup, model",
+      "UNTRACKED_KEY": "İzlenmeyen anahtar"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Tercihler",
+      "FILTER": "Filtre",
+      "CHART_TYPE": "Grafik türü",
+      "BAR_CHART": "Çubuk",
+      "AREA_CHART": "Alan",
+      "MODEL": "Model",
+      "GROUP": "Grup",
+      "ALL_MODELS": "Tüm modeller",
+      "ALL_GROUPS": "Tüm gruplar",
+      "CLEAR_FILTERS": "Filtreleri temizle"
+    }
   },
   "TOKEN": {
     "TABLE": {

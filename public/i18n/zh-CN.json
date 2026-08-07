@@ -3072,11 +3072,6 @@
       "AFTERNOON": "下午好",
       "EVENING": "晚上好"
     },
-    "MONITOR": {
-      "UP": "正常",
-      "DOWN": "异常",
-      "PENDING": "待处理"
-    },
     "STATS": {
       "ACCOUNT_DATA": "账户数据",
       "CURRENT_BALANCE": "当前余额",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "统计 Token",
       "PERFORMANCE_INDICATORS": "性能指标",
       "AVERAGE_RPM": "平均 RPM",
-      "AVERAGE_TPM": "平均 TPM"
+      "AVERAGE_TPM": "平均 TPM",
+      "STATISTICAL_COUNT_CAPTION": "统计次数",
+      "STATISTICAL_QUOTA_CAPTION": "统计消费",
+      "STATISTICAL_TOKENS_CAPTION": "统计令牌数",
+      "AVERAGE_RPM_CAPTION": "每分钟请求数",
+      "AVERAGE_TPM_CAPTION": "每分钟令牌数"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "模型数据分析",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "调用排行"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "系统公告",
-      "FAQ": "常见问题",
-      "SERVICE_STATUS": "服务状态",
       "API_INFORMATION": "API 信息",
-      "NO_ANNOUNCEMENTS": "暂无公告",
-      "NO_FAQ": "暂无常见问题",
-      "NO_API_INFO": "暂无 API 信息"
+      "NO_API_INFO": "暂无 API 信息",
+      "BALANCE": "余额",
+      "BURN_RATE": "消耗速度",
+      "RUNWAY": "可用天数",
+      "PER_DAY": "{amount}/天",
+      "DAYS_LEFT": "{days} 天",
+      "PERFORMANCE": "性能",
+      "P50_LATENCY": "p50 延迟",
+      "P95_LATENCY": "p95 延迟",
+      "STREAM_SHARE": "流式占比",
+      "SLOWEST_MODELS": "最慢的模型",
+      "SAMPLE_SIZE": "基于最近 {count} 次请求",
+      "API_KEYS": "API 密钥消费",
+      "UNNAMED_KEY": "未命名密钥",
+      "LAST_USED": "最后使用：{when}",
+      "NEVER_USED": "从未使用",
+      "USAGE_GLANCE": "用量概览",
+      "USAGE_GLANCE_DESC": "监控余额、用量与请求量",
+      "PERIOD_USAGE": "所选时段",
+      "PERIOD_USAGE_CAPTION": "所选时段内的消费",
+      "HISTORICAL_USAGE": "历史用量",
+      "HISTORICAL_USAGE_CAPTION": "累计消费总额",
+      "REQUEST_COUNT_CAPTION": "累计请求次数",
+      "CREDIT_REMAINING": "剩余额度",
+      "HEALTHY": "正常",
+      "LOW": "偏低",
+      "TOP_UP": "充值",
+      "PERFORMANCE_DESC": "最近 24 小时的性能指标",
+      "SUCCESS_RATE": "成功率",
+      "AVG_LATENCY": "平均延迟",
+      "THROUGHPUT": "吞吐量",
+      "TOP_MODELS": "流量最高的模型",
+      "API_KEYS_DESC": "各密钥的消费与最后使用时间"
     },
     "CONSUMPTION": "消耗",
     "TOTAL": "合计",
     "OTHER": "其他",
     "NO_DATA": "暂无数据",
-    "COPIED": "已复制"
+    "COPIED": "已复制",
+    "SECTION": {
+      "OVERVIEW": "概览",
+      "ANALYTICS": "模型分析",
+      "FLOW": "流向"
+    },
+    "FLOW": {
+      "QUOTA": "消费",
+      "TOKENS": "令牌",
+      "REQUESTS": "请求",
+      "DESC": "消费流向：密钥、分组、模型",
+      "UNTRACKED_KEY": "未记录的密钥"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "偏好设置",
+      "FILTER": "筛选",
+      "CHART_TYPE": "图表类型",
+      "BAR_CHART": "柱状图",
+      "AREA_CHART": "面积图",
+      "MODEL": "模型",
+      "GROUP": "分组",
+      "ALL_MODELS": "全部模型",
+      "ALL_GROUPS": "全部分组",
+      "CLEAR_FILTERS": "清除筛选"
+    }
   },
   "TOKEN": {
     "TABLE": {

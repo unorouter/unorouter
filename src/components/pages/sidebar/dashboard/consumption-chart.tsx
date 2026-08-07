@@ -23,7 +23,11 @@ import {
   type Granularity,
 } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
+import { parseAsString, useQueryState } from "nuqs";
+import { useState, type ReactNode } from "react";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
@@ -35,6 +39,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ALL_VALUE, AnalyticsToolbar } from "./analytics-toolbar";
+import { PagedChartLegend } from "./chart-legend-paged";
 import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
 
 function buildModelChartConfig(modelNames: string[]): ChartConfig {
@@ -115,6 +121,7 @@ function processTrendData(data: QuotaDataItem[], g: Granularity) {
 
 function ChartToolbar(props: {
   dashboard: ReturnType<typeof useDashboardData>;
+  toolbar: ReactNode;
 }) {
   const t = useTranslations();
   const dashboard = props.dashboard;
@@ -126,7 +133,8 @@ function ChartToolbar(props: {
           {t("DASHBOARD.CHART.MODEL_DATA_ANALYSIS")}
         </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        {props.toolbar}
         <DateTimeRangePicker
           value={dashboard.dateRange}
           onChange={(range) => {
@@ -173,34 +181,78 @@ export function ConsumptionChart() {
   const dashboard = useDashboardData();
   const isLoading = dashboard.quotaQuery.isLoading;
 
+  const [modelFilter, setModelFilter] = useQueryState(
+    "model",
+    parseAsString.withDefault(ALL_VALUE),
+  );
+  const [groupFilter, setGroupFilter] = useQueryState(
+    "group",
+    parseAsString.withDefault(ALL_VALUE),
+  );
+  const [chartType, setChartType] = useState<"bar" | "area">("bar");
+
+  const allModels = [
+    ...new Set(dashboard.rawData.map((r) => r.model_name).filter(Boolean)),
+  ].sort() as string[];
+  const allGroups = [
+    ...new Set(dashboard.rawData.map((r) => r.use_group).filter(Boolean)),
+  ].sort() as string[];
+
+  const rows = dashboard.rawData.filter(
+    (row) =>
+      (modelFilter === ALL_VALUE || row.model_name === modelFilter) &&
+      (groupFilter === ALL_VALUE || row.use_group === groupFilter),
+  );
+
   const otherLabel = t("DASHBOARD.OTHER");
   const totalLabel = t("DASHBOARD.TOTAL");
   const granularity = pickGranularity(dashboard.periodMinutes);
-  const distribution = processDistributionData(
-    dashboard.rawData,
-    granularity,
-    otherLabel,
-  );
-  const trendData = processTrendData(dashboard.rawData, granularity);
-  const pieData = aggregateByModel(dashboard.rawData, "count", 8, otherLabel);
+  const distribution = processDistributionData(rows, granularity, otherLabel);
+  const trendData = processTrendData(rows, granularity);
+  const pieData = aggregateByModel(rows, "count", 8, otherLabel);
   const rankingData = [
-    ...aggregateByModel(dashboard.rawData, "count", 20, otherLabel),
+    ...aggregateByModel(rows, "count", 20, otherLabel),
   ].reverse();
+  // Full ranked list for the legend: the bars only stack the top N.
+  const legendNames = aggregateByModel(rows, "quota", Number.MAX_SAFE_INTEGER)
+    .map((entry) => entry.name)
+    .filter((name) => name !== otherLabel);
 
-  const totalQuota = dashboard.rawData.reduce(
+  const totalQuota = rows.reduce(
     (sum, item) => sum + quotaToDollars(item.quota ?? 0),
     0,
   );
 
+  const hasFilters = modelFilter !== ALL_VALUE || groupFilter !== ALL_VALUE;
+
   return (
     <div className="border-border bg-card flex min-w-0 flex-col border">
-      <ChartToolbar dashboard={dashboard} />
+      <ChartToolbar
+        dashboard={dashboard}
+        toolbar={
+          <AnalyticsToolbar
+            models={allModels}
+            groups={allGroups}
+            model={modelFilter}
+            group={groupFilter}
+            onModelChange={setModelFilter}
+            onGroupChange={setGroupFilter}
+            chartType={chartType}
+            onChartTypeChange={setChartType}
+            onReset={() => {
+              setModelFilter(ALL_VALUE);
+              setGroupFilter(ALL_VALUE);
+            }}
+            hasFilters={hasFilters}
+          />
+        }
+      />
 
       {isLoading ? (
         <div className="flex h-80 items-center justify-center p-5">
           <Skeleton className="h-full w-full" />
         </div>
-      ) : dashboard.rawData.length === 0 ? (
+      ) : rows.length === 0 ? (
         <div className="flex h-80 flex-col items-center justify-center gap-2 p-5">
           <Icon
             name="chart-bar"
@@ -254,7 +306,9 @@ export function ConsumptionChart() {
               <DistributionChart
                 distribution={distribution}
                 totalLabel={totalLabel}
+                chartType={chartType}
               />
+              <PagedChartLegend names={legendNames} />
             </TabsContent>
 
             <TabsContent value="trend">
@@ -278,50 +332,78 @@ export function ConsumptionChart() {
 function DistributionChart(props: {
   distribution: ReturnType<typeof processDistributionData>;
   totalLabel: string;
+  chartType: "bar" | "area";
 }) {
   const distribution = props.distribution;
+  // Inlined per chart, not a shared fragment: recharts inspects its DIRECT
+  // children to find axes, so a wrapping fragment makes them disappear.
+  function axes() {
+    return [
+      <CartesianGrid key="grid" strokeDasharray="3 3" vertical={false} />,
+      <XAxis
+        key="x"
+        dataKey="time"
+        tickLine={false}
+        axisLine={false}
+        fontSize={10}
+        fontFamily="monospace"
+      />,
+      <YAxis
+        key="y"
+        tickLine={false}
+        axisLine={false}
+        fontSize={10}
+        fontFamily="monospace"
+        allowDecimals
+        tickFormatter={formatPrice}
+      />,
+      <ChartTooltip
+        key="tip"
+        content={
+          <ChartTooltipContent
+            valueFormatter={formatPrice}
+            sortDesc
+            showTotal
+            totalLabel={props.totalLabel}
+          />
+        }
+      />,
+    ];
+  }
+
   return (
     <ChartContainer
       config={buildModelChartConfig(distribution.modelList)}
       className="aspect-auto h-72 w-full"
     >
-      <BarChart data={distribution.chartData}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-        <XAxis
-          dataKey="time"
-          tickLine={false}
-          axisLine={false}
-          fontSize={10}
-          fontFamily="monospace"
-        />
-        <YAxis
-          tickLine={false}
-          axisLine={false}
-          fontSize={10}
-          fontFamily="monospace"
-          allowDecimals
-          tickFormatter={formatPrice}
-        />
-        <ChartTooltip
-          content={
-            <ChartTooltipContent
-              valueFormatter={formatPrice}
-              sortDesc
-              showTotal
-              totalLabel={props.totalLabel}
+      {props.chartType === "area" ? (
+        <AreaChart data={distribution.chartData}>
+          {axes()}
+          {distribution.modelList.map((model) => (
+            <Area
+              key={model}
+              type="monotone"
+              dataKey={model}
+              stackId="a"
+              stroke={modelColor(model)}
+              fill={modelColor(model)}
+              fillOpacity={0.5}
             />
-          }
-        />
-        <ChartLegend content={<ChartLegendContent />} />
-        {distribution.modelList.map((model) => (
-          <Bar
-            key={model}
-            dataKey={model}
-            stackId="a"
-            fill={modelColor(model)}
-          />
-        ))}
-      </BarChart>
+          ))}
+        </AreaChart>
+      ) : (
+        <BarChart data={distribution.chartData}>
+          {axes()}
+          {distribution.modelList.map((model) => (
+            <Bar
+              key={model}
+              dataKey={model}
+              stackId="a"
+              fill={modelColor(model)}
+            />
+          ))}
+        </BarChart>
+      )}
     </ChartContainer>
   );
 }

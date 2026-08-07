@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Guten Tag",
       "EVENING": "Guten Abend"
     },
-    "MONITOR": {
-      "UP": "Online",
-      "DOWN": "Offline",
-      "PENDING": "Ausstehend"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Kontodaten",
       "CURRENT_BALANCE": "Aktuelles Guthaben",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Statistische Tokens",
       "PERFORMANCE_INDICATORS": "Leistungsindikatoren",
       "AVERAGE_RPM": "Durchschn. RPM",
-      "AVERAGE_TPM": "Durchschn. TPM"
+      "AVERAGE_TPM": "Durchschn. TPM",
+      "STATISTICAL_COUNT_CAPTION": "Statistische Anzahl",
+      "STATISTICAL_QUOTA_CAPTION": "Statistisches Kontingent",
+      "STATISTICAL_TOKENS_CAPTION": "Statistische Tokens",
+      "AVERAGE_RPM_CAPTION": "Anfragen pro Minute",
+      "AVERAGE_TPM_CAPTION": "Tokens pro Minute"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Modelldatenanalyse",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Aufrufranking"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Systemmeldung",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Dienststatus",
       "API_INFORMATION": "API-Informationen",
-      "NO_ANNOUNCEMENTS": "Keine Ankündigungen",
-      "NO_FAQ": "Keine FAQ-Einträge",
-      "NO_API_INFO": "Keine API-Informationen"
+      "NO_API_INFO": "Keine API-Informationen",
+      "BALANCE": "Guthaben",
+      "BURN_RATE": "Verbrauchsrate",
+      "RUNWAY": "Reichweite",
+      "PER_DAY": "{amount}/Tag",
+      "DAYS_LEFT": "{days} Tage",
+      "PERFORMANCE": "Leistung",
+      "P50_LATENCY": "p50-Latenz",
+      "P95_LATENCY": "p95-Latenz",
+      "STREAM_SHARE": "Gestreamt",
+      "SLOWEST_MODELS": "Langsamste Modelle",
+      "SAMPLE_SIZE": "Basierend auf {count} letzten Anfragen",
+      "API_KEYS": "Ausgaben nach API-Schlüssel",
+      "UNNAMED_KEY": "Unbenannter Schlüssel",
+      "LAST_USED": "Zuletzt verwendet {when}",
+      "NEVER_USED": "Nie verwendet",
+      "USAGE_GLANCE": "Nutzung auf einen Blick",
+      "USAGE_GLANCE_DESC": "Guthaben, Nutzung und Anfragevolumen im Blick",
+      "PERIOD_USAGE": "Gewählter Zeitraum",
+      "PERIOD_USAGE_CAPTION": "Verbrauch im gewählten Zeitraum",
+      "HISTORICAL_USAGE": "Bisherige Nutzung",
+      "HISTORICAL_USAGE_CAPTION": "Gesamtverbrauch seit Beginn",
+      "REQUEST_COUNT_CAPTION": "Gesamtzahl der Anfragen",
+      "CREDIT_REMAINING": "Verbleibendes Guthaben",
+      "HEALTHY": "Gesund",
+      "LOW": "Niedrig",
+      "TOP_UP": "Aufladen",
+      "PERFORMANCE_DESC": "Leistungskennzahlen der letzten 24 Stunden",
+      "SUCCESS_RATE": "Erfolgsrate",
+      "AVG_LATENCY": "Durchschn. Latenz",
+      "THROUGHPUT": "Durchsatz",
+      "TOP_MODELS": "Top-Modelle nach Traffic",
+      "API_KEYS_DESC": "Ausgaben und letzte Nutzung je Schlüssel"
     },
     "CONSUMPTION": "Verbrauch",
     "TOTAL": "Gesamt",
     "OTHER": "Sonstige",
     "NO_DATA": "Keine Daten verfügbar",
-    "COPIED": "Kopiert"
+    "COPIED": "Kopiert",
+    "SECTION": {
+      "OVERVIEW": "Überblick",
+      "ANALYTICS": "Modellanalyse",
+      "FLOW": "Fluss"
+    },
+    "FLOW": {
+      "QUOTA": "Ausgaben",
+      "TOKENS": "Tokens",
+      "REQUESTS": "Anfragen",
+      "DESC": "Wohin Ihre Ausgaben fließen: Schlüssel, Gruppe, Modell",
+      "UNTRACKED_KEY": "Nicht zugeordneter Schlüssel"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Einstellungen",
+      "FILTER": "Filter",
+      "CHART_TYPE": "Diagrammtyp",
+      "BAR_CHART": "Balken",
+      "AREA_CHART": "Fläche",
+      "MODEL": "Modell",
+      "GROUP": "Gruppe",
+      "ALL_MODELS": "Alle Modelle",
+      "ALL_GROUPS": "Alle Gruppen",
+      "CLEAR_FILTERS": "Filter zurücksetzen"
+    }
   },
   "TOKEN": {
     "TABLE": {

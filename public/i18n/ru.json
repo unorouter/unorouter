@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Добрый день",
       "EVENING": "Добрый вечер"
     },
-    "MONITOR": {
-      "UP": "Онлайн",
-      "DOWN": "Офлайн",
-      "PENDING": "Ожидание"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Данные аккаунта",
       "CURRENT_BALANCE": "Текущий баланс",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Статистика по токенам",
       "PERFORMANCE_INDICATORS": "Показатели производительности",
       "AVERAGE_RPM": "Среднее RPM",
-      "AVERAGE_TPM": "Среднее TPM"
+      "AVERAGE_TPM": "Среднее TPM",
+      "STATISTICAL_COUNT_CAPTION": "Статистика запросов",
+      "STATISTICAL_QUOTA_CAPTION": "Статистика расхода",
+      "STATISTICAL_TOKENS_CAPTION": "Статистика токенов",
+      "AVERAGE_RPM_CAPTION": "Запросов в минуту",
+      "AVERAGE_TPM_CAPTION": "Токенов в минуту"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Анализ данных по моделям",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Рейтинг вызовов"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Системное объявление",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Статус сервиса",
       "API_INFORMATION": "Информация об API",
-      "NO_ANNOUNCEMENTS": "Нет объявлений",
-      "NO_FAQ": "Нет записей FAQ",
-      "NO_API_INFO": "Нет информации об API"
+      "NO_API_INFO": "Нет информации об API",
+      "BALANCE": "Баланс",
+      "BURN_RATE": "Скорость расхода",
+      "RUNWAY": "Хватит на",
+      "PER_DAY": "{amount}/день",
+      "DAYS_LEFT": "{days} дн.",
+      "PERFORMANCE": "Производительность",
+      "P50_LATENCY": "Задержка p50",
+      "P95_LATENCY": "Задержка p95",
+      "STREAM_SHARE": "Потоковые",
+      "SLOWEST_MODELS": "Самые медленные модели",
+      "SAMPLE_SIZE": "На основе {count} последних запросов",
+      "API_KEYS": "Расходы по API-ключам",
+      "UNNAMED_KEY": "Ключ без названия",
+      "LAST_USED": "Последнее использование {when}",
+      "NEVER_USED": "Не использовался",
+      "USAGE_GLANCE": "Обзор использования",
+      "USAGE_GLANCE_DESC": "Следите за балансом, расходом и числом запросов",
+      "PERIOD_USAGE": "Выбранный период",
+      "PERIOD_USAGE_CAPTION": "Израсходовано за выбранный период",
+      "HISTORICAL_USAGE": "Всего израсходовано",
+      "HISTORICAL_USAGE_CAPTION": "Суммарный расход за всё время",
+      "REQUEST_COUNT_CAPTION": "Всего выполнено запросов",
+      "CREDIT_REMAINING": "Остаток средств",
+      "HEALTHY": "В норме",
+      "LOW": "Мало",
+      "TOP_UP": "Пополнить",
+      "PERFORMANCE_DESC": "Показатели за последние 24 часа",
+      "SUCCESS_RATE": "Доля успешных",
+      "AVG_LATENCY": "Средняя задержка",
+      "THROUGHPUT": "Пропускная способность",
+      "TOP_MODELS": "Самые нагруженные модели",
+      "API_KEYS_DESC": "Расходы и последнее использование по ключам"
     },
     "CONSUMPTION": "Потребление",
     "TOTAL": "Итого",
     "OTHER": "Прочие",
     "NO_DATA": "Нет данных",
-    "COPIED": "Скопировано"
+    "COPIED": "Скопировано",
+    "SECTION": {
+      "OVERVIEW": "Обзор",
+      "ANALYTICS": "Анализ моделей",
+      "FLOW": "Поток"
+    },
+    "FLOW": {
+      "QUOTA": "Расходы",
+      "TOKENS": "Токены",
+      "REQUESTS": "Запросы",
+      "DESC": "Куда уходят расходы: ключ, группа, модель",
+      "UNTRACKED_KEY": "Ключ без учёта"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Настройки",
+      "FILTER": "Фильтр",
+      "CHART_TYPE": "Тип диаграммы",
+      "BAR_CHART": "Столбцы",
+      "AREA_CHART": "Область",
+      "MODEL": "Модель",
+      "GROUP": "Группа",
+      "ALL_MODELS": "Все модели",
+      "ALL_GROUPS": "Все группы",
+      "CLEAR_FILTERS": "Сбросить фильтры"
+    }
   },
   "TOKEN": {
     "TABLE": {

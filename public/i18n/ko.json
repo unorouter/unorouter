@@ -3072,11 +3072,6 @@
       "AFTERNOON": "좋은 오후입니다",
       "EVENING": "좋은 저녁입니다"
     },
-    "MONITOR": {
-      "UP": "정상",
-      "DOWN": "다운",
-      "PENDING": "대기 중"
-    },
     "STATS": {
       "ACCOUNT_DATA": "계정 데이터",
       "CURRENT_BALANCE": "현재 잔액",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "통계 토큰",
       "PERFORMANCE_INDICATORS": "성능 지표",
       "AVERAGE_RPM": "평균 RPM",
-      "AVERAGE_TPM": "평균 TPM"
+      "AVERAGE_TPM": "평균 TPM",
+      "STATISTICAL_COUNT_CAPTION": "통계 건수",
+      "STATISTICAL_QUOTA_CAPTION": "통계 사용액",
+      "STATISTICAL_TOKENS_CAPTION": "통계 토큰 수",
+      "AVERAGE_RPM_CAPTION": "분당 요청 수",
+      "AVERAGE_TPM_CAPTION": "분당 토큰 수"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "모델 데이터 분석",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "호출 순위"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "시스템 공지",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "서비스 상태",
       "API_INFORMATION": "API 정보",
-      "NO_ANNOUNCEMENTS": "공지가 없습니다",
-      "NO_FAQ": "FAQ 항목이 없습니다",
-      "NO_API_INFO": "API 정보가 없습니다"
+      "NO_API_INFO": "API 정보가 없습니다",
+      "BALANCE": "잔액",
+      "BURN_RATE": "소진 속도",
+      "RUNWAY": "남은 기간",
+      "PER_DAY": "{amount}/일",
+      "DAYS_LEFT": "{days}일",
+      "PERFORMANCE": "성능",
+      "P50_LATENCY": "p50 지연시간",
+      "P95_LATENCY": "p95 지연시간",
+      "STREAM_SHARE": "스트리밍",
+      "SLOWEST_MODELS": "가장 느린 모델",
+      "SAMPLE_SIZE": "최근 {count}건의 요청 기준",
+      "API_KEYS": "API 키별 지출",
+      "UNNAMED_KEY": "이름 없는 키",
+      "LAST_USED": "마지막 사용 {when}",
+      "NEVER_USED": "사용된 적 없음",
+      "USAGE_GLANCE": "사용 현황 요약",
+      "USAGE_GLANCE_DESC": "잔액, 사용량, 요청 수를 확인하세요",
+      "PERIOD_USAGE": "선택 기간",
+      "PERIOD_USAGE_CAPTION": "선택한 기간의 사용량",
+      "HISTORICAL_USAGE": "누적 사용량",
+      "HISTORICAL_USAGE_CAPTION": "전체 기간 총 사용량",
+      "REQUEST_COUNT_CAPTION": "총 요청 수",
+      "CREDIT_REMAINING": "잔여 크레딧",
+      "HEALTHY": "양호",
+      "LOW": "부족",
+      "TOP_UP": "충전",
+      "PERFORMANCE_DESC": "최근 24시간 성능 지표",
+      "SUCCESS_RATE": "성공률",
+      "AVG_LATENCY": "평균 지연시간",
+      "THROUGHPUT": "처리량",
+      "TOP_MODELS": "트래픽 상위 모델",
+      "API_KEYS_DESC": "키별 지출 및 마지막 사용"
     },
     "CONSUMPTION": "소비",
     "TOTAL": "합계",
     "OTHER": "기타",
     "NO_DATA": "데이터가 없습니다",
-    "COPIED": "복사됨"
+    "COPIED": "복사됨",
+    "SECTION": {
+      "OVERVIEW": "개요",
+      "ANALYTICS": "모델 분석",
+      "FLOW": "흐름"
+    },
+    "FLOW": {
+      "QUOTA": "지출",
+      "TOKENS": "토큰",
+      "REQUESTS": "요청",
+      "DESC": "지출 흐름: 키, 그룹, 모델",
+      "UNTRACKED_KEY": "추적되지 않은 키"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "환경설정",
+      "FILTER": "필터",
+      "CHART_TYPE": "차트 유형",
+      "BAR_CHART": "막대",
+      "AREA_CHART": "영역",
+      "MODEL": "모델",
+      "GROUP": "그룹",
+      "ALL_MODELS": "모든 모델",
+      "ALL_GROUPS": "모든 그룹",
+      "CLEAR_FILTERS": "필터 지우기"
+    }
   },
   "TOKEN": {
     "TABLE": {

@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Good afternoon",
       "EVENING": "Good evening"
     },
-    "MONITOR": {
-      "UP": "Up",
-      "DOWN": "Down",
-      "PENDING": "Pending"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Account Data",
       "CURRENT_BALANCE": "Current Balance",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Statistical Tokens",
       "PERFORMANCE_INDICATORS": "Performance Indicators",
       "AVERAGE_RPM": "Average RPM",
-      "AVERAGE_TPM": "Average TPM"
+      "AVERAGE_TPM": "Average TPM",
+      "STATISTICAL_COUNT_CAPTION": "Statistical count",
+      "STATISTICAL_QUOTA_CAPTION": "Statistical quota",
+      "STATISTICAL_TOKENS_CAPTION": "Statistical tokens",
+      "AVERAGE_RPM_CAPTION": "Requests per minute",
+      "AVERAGE_TPM_CAPTION": "Tokens per minute"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Model Data Analysis",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Calls Ranking"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "System Notice",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Service Status",
       "API_INFORMATION": "API Information",
-      "NO_ANNOUNCEMENTS": "No announcements",
-      "NO_FAQ": "No FAQ entries",
-      "NO_API_INFO": "No API information"
+      "NO_API_INFO": "No API information",
+      "BALANCE": "Balance",
+      "BURN_RATE": "Burn Rate",
+      "RUNWAY": "Runway",
+      "PER_DAY": "{amount}/day",
+      "DAYS_LEFT": "{days} days",
+      "PERFORMANCE": "Performance",
+      "P50_LATENCY": "p50 Latency",
+      "P95_LATENCY": "p95 Latency",
+      "STREAM_SHARE": "Streamed",
+      "SLOWEST_MODELS": "Slowest Models",
+      "SAMPLE_SIZE": "Based on {count} recent requests",
+      "API_KEYS": "API Key Spend",
+      "UNNAMED_KEY": "Unnamed key",
+      "LAST_USED": "Last used {when}",
+      "NEVER_USED": "Never used",
+      "USAGE_GLANCE": "Usage at a glance",
+      "USAGE_GLANCE_DESC": "Monitor balance, usage, and request volume",
+      "PERIOD_USAGE": "Selected period",
+      "PERIOD_USAGE_CAPTION": "Consumed in the selected range",
+      "HISTORICAL_USAGE": "Historical usage",
+      "HISTORICAL_USAGE_CAPTION": "Total consumed all time",
+      "REQUEST_COUNT_CAPTION": "Total requests made",
+      "CREDIT_REMAINING": "Credit remaining",
+      "HEALTHY": "Healthy",
+      "LOW": "Low",
+      "TOP_UP": "Top up",
+      "PERFORMANCE_DESC": "Performance metrics for the last 24 hours",
+      "SUCCESS_RATE": "Success rate",
+      "AVG_LATENCY": "Average latency",
+      "THROUGHPUT": "Throughput",
+      "TOP_MODELS": "Top models by traffic",
+      "API_KEYS_DESC": "Spend and last use per key"
     },
     "CONSUMPTION": "Consumption",
     "TOTAL": "Total",
     "OTHER": "Other",
     "NO_DATA": "No data available",
-    "COPIED": "Copied"
+    "COPIED": "Copied",
+    "SECTION": {
+      "OVERVIEW": "Overview",
+      "ANALYTICS": "Model Analytics",
+      "FLOW": "Flow"
+    },
+    "FLOW": {
+      "QUOTA": "Spend",
+      "TOKENS": "Tokens",
+      "REQUESTS": "Requests",
+      "DESC": "Where your spend flows: key, group, then model",
+      "UNTRACKED_KEY": "Untracked key"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Preferences",
+      "FILTER": "Filter",
+      "CHART_TYPE": "Chart type",
+      "BAR_CHART": "Bar",
+      "AREA_CHART": "Area",
+      "MODEL": "Model",
+      "GROUP": "Group",
+      "ALL_MODELS": "All models",
+      "ALL_GROUPS": "All groups",
+      "CLEAR_FILTERS": "Clear filters"
+    }
   },
   "TOKEN": {
     "TABLE": {

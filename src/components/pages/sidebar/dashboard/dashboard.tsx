@@ -2,24 +2,31 @@
 
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
-import { useStatusQuery } from "@/hooks/ops/status-hook";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
+import { analytics } from "@/lib/analytics";
 import type { DashboardStore } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";
 import { dayjs } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { useRef } from "react";
-import { AnnouncementsPanel } from "./announcements-panel";
-import { ApiInfoPanel } from "./api-info-panel";
-import { ConsumptionChart } from "./consumption-chart";
-import { FaqPanel } from "./faq-panel";
-import { StatsCards } from "./stats-cards";
-import { UptimePanel } from "./uptime-panel";
+import { AnalyticsSection } from "./analytics-section";
+import { FlowSection } from "./flow-section";
+import { OverviewSection } from "./overview-section";
 
 type DashboardProps = {
   serverTimestamps: DashboardStore;
 };
+
+const SECTIONS = [
+  { value: "analytics", Component: AnalyticsSection },
+  { value: "overview", Component: OverviewSection },
+  { value: "flow", Component: FlowSection },
+] as const;
+const SECTION_VALUES = SECTIONS.map((section) => section.value);
+type DashboardSection = (typeof SECTIONS)[number]["value"];
 
 export function Dashboard(props: DashboardProps) {
   const setDashboardStore = useSetAtom(dashboardStoreAtom);
@@ -30,9 +37,17 @@ export function Dashboard(props: DashboardProps) {
   }
   const t = useTranslations();
   const { displayName } = useUserDisplay();
-  const statusQuery = useStatusQuery();
+  const [activeSection, setActiveSection] = useQueryState(
+    "section",
+    parseAsStringLiteral(SECTION_VALUES).withDefault("analytics"),
+  );
 
-  const status = statusQuery.data;
+  function setSection(next: string) {
+    const section =
+      SECTION_VALUES.find((value) => value === next) ?? "analytics";
+    analytics.dashboard.sectionChanged({ section });
+    setActiveSection(section);
+  }
 
   const hours = dayjs().hour();
   const greetingKey =
@@ -42,12 +57,6 @@ export function Dashboard(props: DashboardProps) {
         ? "DASHBOARD.GREETING.AFTERNOON"
         : "DASHBOARD.GREETING.EVENING";
   const greeting = t(greetingKey);
-
-  const hasApiInfo = status?.api_info_enabled ?? false;
-  const hasAnnouncements = status?.announcements_enabled ?? false;
-  const hasFaq = status?.faq_enabled ?? false;
-  const hasUptime = status?.uptime_kuma_enabled ?? false;
-  const hasInfoRow = hasAnnouncements || hasFaq || hasUptime;
 
   return (
     <PageContent>
@@ -74,26 +83,27 @@ export function Dashboard(props: DashboardProps) {
         </div>
       </div>
 
-      <div className="border-border mb-6 border">
-        <StatsCards />
-      </div>
+      <Tabs value={activeSection} onValueChange={setSection} className="gap-6">
+        <TabsList variant="line">
+          {SECTIONS.map((section) => (
+            <TabsTrigger
+              key={section.value}
+              value={section.value}
+              className="font-mono text-xs"
+            >
+              {t(
+                `DASHBOARD.SECTION.${section.value.toUpperCase() as Uppercase<DashboardSection>}`,
+              )}
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
-      <div
-        className={`mb-6 grid gap-6 ${hasApiInfo ? "lg:grid-cols-[1fr_320px]" : ""}`}
-      >
-        <div className="min-w-0">
-          <ConsumptionChart />
-        </div>
-        {hasApiInfo && <ApiInfoPanel />}
-      </div>
-
-      {hasInfoRow && (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {hasAnnouncements && <AnnouncementsPanel />}
-          {hasFaq && <FaqPanel />}
-          {hasUptime && <UptimePanel />}
-        </div>
-      )}
+        {SECTIONS.map((section) => (
+          <TabsContent key={section.value} value={section.value}>
+            <section.Component />
+          </TabsContent>
+        ))}
+      </Tabs>
     </PageContent>
   );
 }

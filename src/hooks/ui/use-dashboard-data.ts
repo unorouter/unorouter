@@ -1,10 +1,7 @@
 "use client";
 
 import type { QuotaDataItem } from "@/components/pages/sidebar/dashboard/stats";
-import {
-  useDashboardQuotaQuery,
-  useDashboardUptimeQuery,
-} from "@/hooks/billing/dashboard-hook";
+import { useDashboardQuotaQuery } from "@/hooks/billing/dashboard-hook";
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import {
   DEFAULT_RANGE_HOURS,
@@ -24,7 +21,6 @@ export function useDashboardData() {
     start_timestamp: startTs,
     end_timestamp: endTs,
   });
-  const uptimeQuery = useDashboardUptimeQuery();
   const rawData = (quotaQuery.data ?? []).filter(
     (item): item is QuotaDataItem => item != null,
   );
@@ -47,7 +43,6 @@ export function useDashboardData() {
   const refetchAll = () => {
     statusQuery.refetch();
     quotaQuery.refetch();
-    uptimeQuery.refetch();
   };
 
   const isFetching = quotaQuery.isFetching;
@@ -60,6 +55,8 @@ export function useDashboardData() {
     refetchAll,
     isFetching,
     periodMinutes,
+    startTs,
+    endTs,
     quotaQuery,
     rawData,
   };

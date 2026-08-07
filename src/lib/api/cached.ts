@@ -153,6 +153,20 @@ export async function getModelsPageData() {
   return { dehydrated, topModels, vendorNames: summary.vendorNames };
 }
 
+// Dashboard perf strip. A plain prefetchQuery on the request-scoped client is
+// dropped by dehydrate(): usePerfMetricsSummaryQuery is staleTime "static", and
+// static queries are excluded by default. A fresh client carries no such
+// default for the key, so seeding one here is what actually reaches the client
+// (the hook is enabled:false and cannot fetch on its own).
+export async function getDashboardPerfData(): Promise<DehydratedState> {
+  "use cache";
+  cacheLife("minutes");
+  const qc = new QueryClient();
+  const perf = await fetchPerfSummary(24).catch(() => null);
+  qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
+  return dehydrate(qc);
+}
+
 // Compare pages: lean pricing (the comparison table reads only core price +
 // capability fields), plus resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {

@@ -3072,11 +3072,6 @@
       "AFTERNOON": "नमस्कार",
       "EVENING": "शुभ संध्या"
     },
-    "MONITOR": {
-      "UP": "Up",
-      "DOWN": "Down",
-      "PENDING": "Pending"
-    },
     "STATS": {
       "ACCOUNT_DATA": "खाता डेटा",
       "CURRENT_BALANCE": "वर्तमान Balance",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Statistical Tokens",
       "PERFORMANCE_INDICATORS": "प्रदर्शन संकेतक",
       "AVERAGE_RPM": "औसत RPM",
-      "AVERAGE_TPM": "औसत TPM"
+      "AVERAGE_TPM": "औसत TPM",
+      "STATISTICAL_COUNT_CAPTION": "सांख्यिकीय गणना",
+      "STATISTICAL_QUOTA_CAPTION": "सांख्यिकीय कोटा",
+      "STATISTICAL_TOKENS_CAPTION": "सांख्यिकीय टोकन",
+      "AVERAGE_RPM_CAPTION": "प्रति मिनट अनुरोध",
+      "AVERAGE_TPM_CAPTION": "प्रति मिनट टोकन"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Model डेटा विश्लेषण",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Calls रैंकिंग"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "System सूचना",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Service स्थिति",
       "API_INFORMATION": "API जानकारी",
-      "NO_ANNOUNCEMENTS": "कोई घोषणाएं नहीं",
-      "NO_FAQ": "कोई FAQ entries नहीं",
-      "NO_API_INFO": "कोई API जानकारी नहीं"
+      "NO_API_INFO": "कोई API जानकारी नहीं",
+      "BALANCE": "शेष राशि",
+      "BURN_RATE": "व्यय दर",
+      "RUNWAY": "शेष अवधि",
+      "PER_DAY": "{amount}/दिन",
+      "DAYS_LEFT": "{days} दिन",
+      "PERFORMANCE": "प्रदर्शन",
+      "P50_LATENCY": "p50 विलंबता",
+      "P95_LATENCY": "p95 विलंबता",
+      "STREAM_SHARE": "स्ट्रीम किए गए",
+      "SLOWEST_MODELS": "सबसे धीमे मॉडल",
+      "SAMPLE_SIZE": "हाल के {count} अनुरोधों पर आधारित",
+      "API_KEYS": "API कुंजी व्यय",
+      "UNNAMED_KEY": "अनामित कुंजी",
+      "LAST_USED": "अंतिम उपयोग {when}",
+      "NEVER_USED": "कभी उपयोग नहीं किया",
+      "USAGE_GLANCE": "उपयोग एक नज़र में",
+      "USAGE_GLANCE_DESC": "शेष राशि, उपयोग और अनुरोध मात्रा देखें",
+      "PERIOD_USAGE": "चयनित अवधि",
+      "PERIOD_USAGE_CAPTION": "चयनित अवधि में खपत",
+      "HISTORICAL_USAGE": "कुल उपयोग",
+      "HISTORICAL_USAGE_CAPTION": "अब तक की कुल खपत",
+      "REQUEST_COUNT_CAPTION": "कुल अनुरोध",
+      "CREDIT_REMAINING": "शेष क्रेडिट",
+      "HEALTHY": "ठीक",
+      "LOW": "कम",
+      "TOP_UP": "टॉप अप",
+      "PERFORMANCE_DESC": "पिछले 24 घंटों के प्रदर्शन मापदंड",
+      "SUCCESS_RATE": "सफलता दर",
+      "AVG_LATENCY": "औसत विलंबता",
+      "THROUGHPUT": "थ्रूपुट",
+      "TOP_MODELS": "सर्वाधिक ट्रैफ़िक वाले मॉडल",
+      "API_KEYS_DESC": "प्रति कुंजी व्यय और अंतिम उपयोग"
     },
     "CONSUMPTION": "खपत",
     "TOTAL": "कुल",
     "OTHER": "अन्य",
     "NO_DATA": "कोई डेटा उपलब्ध नहीं",
-    "COPIED": "Copied"
+    "COPIED": "Copied",
+    "SECTION": {
+      "OVERVIEW": "अवलोकन",
+      "ANALYTICS": "मॉडल विश्लेषण",
+      "FLOW": "प्रवाह"
+    },
+    "FLOW": {
+      "QUOTA": "व्यय",
+      "TOKENS": "टोकन",
+      "REQUESTS": "अनुरोध",
+      "DESC": "आपका व्यय कहाँ जाता है: कुंजी, समूह, मॉडल",
+      "UNTRACKED_KEY": "अनट्रैक कुंजी"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "प्राथमिकताएँ",
+      "FILTER": "फ़िल्टर",
+      "CHART_TYPE": "चार्ट प्रकार",
+      "BAR_CHART": "बार",
+      "AREA_CHART": "क्षेत्र",
+      "MODEL": "मॉडल",
+      "GROUP": "समूह",
+      "ALL_MODELS": "सभी मॉडल",
+      "ALL_GROUPS": "सभी समूह",
+      "CLEAR_FILTERS": "फ़िल्टर हटाएँ"
+    }
   },
   "TOKEN": {
     "TABLE": {

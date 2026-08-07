@@ -32,6 +32,28 @@ export function formatYearMonth(
   return d.format(str.includes("-") ? "MMM YYYY" : "YYYY");
 }
 
+const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+  ["year", 31536000],
+  ["month", 2592000],
+  ["day", 86400],
+  ["hour", 3600],
+  ["minute", 60],
+];
+
+// Intl rather than dayjs.fromNow: only the `de` dayjs locale is bundled, so
+// fromNow renders English for the other 17 locales.
+export function formatRelativeUnix(unix: number, locale: string): string {
+  const diff = unix - Math.floor(Date.now() / 1000);
+  const abs = Math.abs(diff);
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  for (const [unit, seconds] of RELATIVE_UNITS) {
+    if (abs >= seconds) {
+      return formatter.format(Math.round(diff / seconds), unit);
+    }
+  }
+  return formatter.format(Math.round(diff), "second");
+}
+
 export function formatHoursLabel(hours: number): string {
   if (hours >= 24 && hours % 24 === 0) return `${hours / 24}d`;
   return `${hours}h`;

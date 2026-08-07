@@ -3072,11 +3072,6 @@
       "AFTERNOON": "مساء الخير",
       "EVENING": "مساء الخير"
     },
-    "MONITOR": {
-      "UP": "يعمل",
-      "DOWN": "متوقّف",
-      "PENDING": "قيد الانتظار"
-    },
     "STATS": {
       "ACCOUNT_DATA": "بيانات الحساب",
       "CURRENT_BALANCE": "الرصيد الحالي",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "tokens الإحصائية",
       "PERFORMANCE_INDICATORS": "مؤشّرات الأداء",
       "AVERAGE_RPM": "متوسّط RPM",
-      "AVERAGE_TPM": "متوسّط TPM"
+      "AVERAGE_TPM": "متوسّط TPM",
+      "STATISTICAL_COUNT_CAPTION": "عدد الطلبات الإحصائي",
+      "STATISTICAL_QUOTA_CAPTION": "الحصة الإحصائية",
+      "STATISTICAL_TOKENS_CAPTION": "الرموز الإحصائية",
+      "AVERAGE_RPM_CAPTION": "الطلبات في الدقيقة",
+      "AVERAGE_TPM_CAPTION": "الرموز في الدقيقة"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "تحليل بيانات النموذج",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "تصنيف الاستدعاءات"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "إشعار النظام",
-      "FAQ": "أسئلة شائعة",
-      "SERVICE_STATUS": "حالة الخدمة",
       "API_INFORMATION": "معلومات API",
-      "NO_ANNOUNCEMENTS": "لا توجد إعلانات",
-      "NO_FAQ": "لا توجد أسئلة شائعة",
-      "NO_API_INFO": "لا توجد معلومات API"
+      "NO_API_INFO": "لا توجد معلومات API",
+      "BALANCE": "الرصيد",
+      "BURN_RATE": "معدل الإنفاق",
+      "RUNWAY": "المدة المتبقية",
+      "PER_DAY": "{amount}/يوم",
+      "DAYS_LEFT": "{days} يوم",
+      "PERFORMANCE": "الأداء",
+      "P50_LATENCY": "زمن الاستجابة p50",
+      "P95_LATENCY": "زمن الاستجابة p95",
+      "STREAM_SHARE": "بالبث",
+      "SLOWEST_MODELS": "أبطأ النماذج",
+      "SAMPLE_SIZE": "استنادًا إلى {count} طلب حديث",
+      "API_KEYS": "الإنفاق حسب مفتاح API",
+      "UNNAMED_KEY": "مفتاح بلا اسم",
+      "LAST_USED": "آخر استخدام {when}",
+      "NEVER_USED": "لم يُستخدم قط",
+      "USAGE_GLANCE": "نظرة سريعة على الاستخدام",
+      "USAGE_GLANCE_DESC": "تابع الرصيد والاستخدام وحجم الطلبات",
+      "PERIOD_USAGE": "الفترة المحددة",
+      "PERIOD_USAGE_CAPTION": "الاستهلاك في الفترة المحددة",
+      "HISTORICAL_USAGE": "الاستخدام التراكمي",
+      "HISTORICAL_USAGE_CAPTION": "إجمالي الاستهلاك",
+      "REQUEST_COUNT_CAPTION": "إجمالي الطلبات",
+      "CREDIT_REMAINING": "الرصيد المتبقي",
+      "HEALTHY": "جيد",
+      "LOW": "منخفض",
+      "TOP_UP": "شحن الرصيد",
+      "PERFORMANCE_DESC": "مقاييس الأداء لآخر 24 ساعة",
+      "SUCCESS_RATE": "معدل النجاح",
+      "AVG_LATENCY": "متوسط زمن الاستجابة",
+      "THROUGHPUT": "معدل المعالجة",
+      "TOP_MODELS": "النماذج الأكثر استخدامًا",
+      "API_KEYS_DESC": "الإنفاق وآخر استخدام لكل مفتاح"
     },
     "CONSUMPTION": "الاستهلاك",
     "TOTAL": "الإجمالي",
     "OTHER": "أخرى",
     "NO_DATA": "لا تتوفّر بيانات",
-    "COPIED": "تمّ النسخ"
+    "COPIED": "تمّ النسخ",
+    "SECTION": {
+      "OVERVIEW": "نظرة عامة",
+      "ANALYTICS": "تحليل النماذج",
+      "FLOW": "التدفق"
+    },
+    "FLOW": {
+      "QUOTA": "الإنفاق",
+      "TOKENS": "الرموز",
+      "REQUESTS": "الطلبات",
+      "DESC": "مسار إنفاقك: المفتاح ثم المجموعة ثم النموذج",
+      "UNTRACKED_KEY": "مفتاح غير متتبع"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "التفضيلات",
+      "FILTER": "تصفية",
+      "CHART_TYPE": "نوع الرسم البياني",
+      "BAR_CHART": "أعمدة",
+      "AREA_CHART": "مساحة",
+      "MODEL": "النموذج",
+      "GROUP": "المجموعة",
+      "ALL_MODELS": "كل النماذج",
+      "ALL_GROUPS": "كل المجموعات",
+      "CLEAR_FILTERS": "مسح التصفية"
+    }
   },
   "TOKEN": {
     "TABLE": {

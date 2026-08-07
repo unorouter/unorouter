@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Chào buổi chiều",
       "EVENING": "Chào buổi tối"
     },
-    "MONITOR": {
-      "UP": "Hoạt động",
-      "DOWN": "Ngừng",
-      "PENDING": "Đang chờ"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Dữ liệu tài khoản",
       "CURRENT_BALANCE": "Số dư hiện tại",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Token thống kê",
       "PERFORMANCE_INDICATORS": "Chỉ số hiệu năng",
       "AVERAGE_RPM": "RPM trung bình",
-      "AVERAGE_TPM": "TPM trung bình"
+      "AVERAGE_TPM": "TPM trung bình",
+      "STATISTICAL_COUNT_CAPTION": "Số liệu yêu cầu",
+      "STATISTICAL_QUOTA_CAPTION": "Số liệu chi tiêu",
+      "STATISTICAL_TOKENS_CAPTION": "Số liệu token",
+      "AVERAGE_RPM_CAPTION": "Yêu cầu mỗi phút",
+      "AVERAGE_TPM_CAPTION": "Token mỗi phút"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Phân tích dữ liệu mô hình",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Xếp hạng lệnh gọi"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Thông báo hệ thống",
-      "FAQ": "Câu hỏi thường gặp",
-      "SERVICE_STATUS": "Trạng thái dịch vụ",
       "API_INFORMATION": "Thông tin API",
-      "NO_ANNOUNCEMENTS": "Không có thông báo",
-      "NO_FAQ": "Không có câu hỏi thường gặp",
-      "NO_API_INFO": "Không có thông tin API"
+      "NO_API_INFO": "Không có thông tin API",
+      "BALANCE": "Số dư",
+      "BURN_RATE": "Tốc độ chi tiêu",
+      "RUNWAY": "Thời gian còn lại",
+      "PER_DAY": "{amount}/ngày",
+      "DAYS_LEFT": "{days} ngày",
+      "PERFORMANCE": "Hiệu năng",
+      "P50_LATENCY": "Độ trễ p50",
+      "P95_LATENCY": "Độ trễ p95",
+      "STREAM_SHARE": "Truyền phát",
+      "SLOWEST_MODELS": "Mô hình chậm nhất",
+      "SAMPLE_SIZE": "Dựa trên {count} yêu cầu gần đây",
+      "API_KEYS": "Chi tiêu theo khóa API",
+      "UNNAMED_KEY": "Khóa chưa đặt tên",
+      "LAST_USED": "Dùng lần cuối {when}",
+      "NEVER_USED": "Chưa từng dùng",
+      "USAGE_GLANCE": "Tổng quan sử dụng",
+      "USAGE_GLANCE_DESC": "Theo dõi số dư, mức dùng và lượng yêu cầu",
+      "PERIOD_USAGE": "Khoảng thời gian đã chọn",
+      "PERIOD_USAGE_CAPTION": "Đã dùng trong khoảng đã chọn",
+      "HISTORICAL_USAGE": "Tổng đã dùng",
+      "HISTORICAL_USAGE_CAPTION": "Tổng mức tiêu thụ từ trước đến nay",
+      "REQUEST_COUNT_CAPTION": "Tổng số yêu cầu",
+      "CREDIT_REMAINING": "Số dư còn lại",
+      "HEALTHY": "Ổn định",
+      "LOW": "Thấp",
+      "TOP_UP": "Nạp thêm",
+      "PERFORMANCE_DESC": "Chỉ số hiệu năng trong 24 giờ qua",
+      "SUCCESS_RATE": "Tỷ lệ thành công",
+      "AVG_LATENCY": "Độ trễ trung bình",
+      "THROUGHPUT": "Thông lượng",
+      "TOP_MODELS": "Mô hình nhiều lưu lượng nhất",
+      "API_KEYS_DESC": "Chi tiêu và lần dùng cuối theo khóa"
     },
     "CONSUMPTION": "Tiêu thụ",
     "TOTAL": "Tổng",
     "OTHER": "Khác",
     "NO_DATA": "Không có dữ liệu",
-    "COPIED": "Đã sao chép"
+    "COPIED": "Đã sao chép",
+    "SECTION": {
+      "OVERVIEW": "Tổng quan",
+      "ANALYTICS": "Phân tích mô hình",
+      "FLOW": "Luồng"
+    },
+    "FLOW": {
+      "QUOTA": "Chi tiêu",
+      "TOKENS": "Token",
+      "REQUESTS": "Yêu cầu",
+      "DESC": "Dòng chi tiêu: khóa, nhóm, mô hình",
+      "UNTRACKED_KEY": "Khóa chưa ghi nhận"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Tùy chọn",
+      "FILTER": "Bộ lọc",
+      "CHART_TYPE": "Loại biểu đồ",
+      "BAR_CHART": "Cột",
+      "AREA_CHART": "Vùng",
+      "MODEL": "Mô hình",
+      "GROUP": "Nhóm",
+      "ALL_MODELS": "Tất cả mô hình",
+      "ALL_GROUPS": "Tất cả nhóm",
+      "CLEAR_FILTERS": "Xóa bộ lọc"
+    }
   },
   "TOKEN": {
     "TABLE": {

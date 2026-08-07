@@ -3072,11 +3072,6 @@
       "AFTERNOON": "こんにちは",
       "EVENING": "こんばんは"
     },
-    "MONITOR": {
-      "UP": "稼働中",
-      "DOWN": "停止中",
-      "PENDING": "保留中"
-    },
     "STATS": {
       "ACCOUNT_DATA": "アカウントデータ",
       "CURRENT_BALANCE": "現在の残高",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "統計トークン",
       "PERFORMANCE_INDICATORS": "パフォーマンス指標",
       "AVERAGE_RPM": "平均 RPM",
-      "AVERAGE_TPM": "平均 TPM"
+      "AVERAGE_TPM": "平均 TPM",
+      "STATISTICAL_COUNT_CAPTION": "統計件数",
+      "STATISTICAL_QUOTA_CAPTION": "統計消費額",
+      "STATISTICAL_TOKENS_CAPTION": "統計トークン数",
+      "AVERAGE_RPM_CAPTION": "1分あたりのリクエスト",
+      "AVERAGE_TPM_CAPTION": "1分あたりのトークン"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "モデルデータ分析",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "呼び出しランキング"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "システム通知",
-      "FAQ": "よくある質問",
-      "SERVICE_STATUS": "サービス状態",
       "API_INFORMATION": "API 情報",
-      "NO_ANNOUNCEMENTS": "お知らせはありません",
-      "NO_FAQ": "FAQ項目はありません",
-      "NO_API_INFO": "API 情報はありません"
+      "NO_API_INFO": "API 情報はありません",
+      "BALANCE": "残高",
+      "BURN_RATE": "消費ペース",
+      "RUNWAY": "残り日数",
+      "PER_DAY": "{amount}/日",
+      "DAYS_LEFT": "{days}日",
+      "PERFORMANCE": "パフォーマンス",
+      "P50_LATENCY": "p50レイテンシ",
+      "P95_LATENCY": "p95レイテンシ",
+      "STREAM_SHARE": "ストリーミング",
+      "SLOWEST_MODELS": "最も遅いモデル",
+      "SAMPLE_SIZE": "直近{count}件のリクエストに基づく",
+      "API_KEYS": "APIキー別の利用額",
+      "UNNAMED_KEY": "名称未設定のキー",
+      "LAST_USED": "最終使用：{when}",
+      "NEVER_USED": "未使用",
+      "USAGE_GLANCE": "利用状況の概要",
+      "USAGE_GLANCE_DESC": "残高、利用量、リクエスト数を確認",
+      "PERIOD_USAGE": "選択期間",
+      "PERIOD_USAGE_CAPTION": "選択した期間の消費量",
+      "HISTORICAL_USAGE": "累計利用量",
+      "HISTORICAL_USAGE_CAPTION": "これまでの合計消費量",
+      "REQUEST_COUNT_CAPTION": "累計リクエスト数",
+      "CREDIT_REMAINING": "残高",
+      "HEALTHY": "正常",
+      "LOW": "残りわずか",
+      "TOP_UP": "チャージ",
+      "PERFORMANCE_DESC": "過去24時間のパフォーマンス指標",
+      "SUCCESS_RATE": "成功率",
+      "AVG_LATENCY": "平均レイテンシ",
+      "THROUGHPUT": "スループット",
+      "TOP_MODELS": "トラフィック上位のモデル",
+      "API_KEYS_DESC": "キーごとの利用額と最終使用"
     },
     "CONSUMPTION": "消費",
     "TOTAL": "合計",
     "OTHER": "その他",
     "NO_DATA": "データはありません",
-    "COPIED": "コピーしました"
+    "COPIED": "コピーしました",
+    "SECTION": {
+      "OVERVIEW": "概要",
+      "ANALYTICS": "モデル分析",
+      "FLOW": "フロー"
+    },
+    "FLOW": {
+      "QUOTA": "利用額",
+      "TOKENS": "トークン",
+      "REQUESTS": "リクエスト",
+      "DESC": "利用額の流れ：キー、グループ、モデル",
+      "UNTRACKED_KEY": "未記録のキー"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "表示設定",
+      "FILTER": "フィルター",
+      "CHART_TYPE": "グラフの種類",
+      "BAR_CHART": "棒",
+      "AREA_CHART": "エリア",
+      "MODEL": "モデル",
+      "GROUP": "グループ",
+      "ALL_MODELS": "すべてのモデル",
+      "ALL_GROUPS": "すべてのグループ",
+      "CLEAR_FILTERS": "フィルターを解除"
+    }
   },
   "TOKEN": {
     "TABLE": {

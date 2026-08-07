@@ -376,13 +376,8 @@ const dashboard = {
   refreshed: () => {
     posthog.capture("dashboard_refreshed");
   },
-  uptimeCategoryChanged: (props: { category: string }) => {
-    posthog.capture("dashboard_uptime_category_changed", {
-      category: props.category,
-    });
-  },
-  faqExpanded: (props: { index: number }) => {
-    posthog.capture("dashboard_faq_expanded", { index: props.index });
+  sectionChanged: (props: { section: string }) => {
+    posthog.capture("dashboard_section_changed", { section: props.section });
   },
 };
 

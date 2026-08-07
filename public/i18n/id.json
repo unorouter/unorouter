@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Selamat siang",
       "EVENING": "Selamat malam"
     },
-    "MONITOR": {
-      "UP": "Aktif",
-      "DOWN": "Mati",
-      "PENDING": "Tertunda"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Data Akun",
       "CURRENT_BALANCE": "Saldo Saat Ini",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Token Statistik",
       "PERFORMANCE_INDICATORS": "Indikator Performa",
       "AVERAGE_RPM": "RPM Rata-rata",
-      "AVERAGE_TPM": "TPM Rata-rata"
+      "AVERAGE_TPM": "TPM Rata-rata",
+      "STATISTICAL_COUNT_CAPTION": "Jumlah statistik",
+      "STATISTICAL_QUOTA_CAPTION": "Kuota statistik",
+      "STATISTICAL_TOKENS_CAPTION": "Token statistik",
+      "AVERAGE_RPM_CAPTION": "Permintaan per menit",
+      "AVERAGE_TPM_CAPTION": "Token per menit"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Analisis Data Model",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Peringkat Panggilan"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Pengumuman Sistem",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Status Layanan",
       "API_INFORMATION": "Informasi API",
-      "NO_ANNOUNCEMENTS": "Tidak ada pengumuman",
-      "NO_FAQ": "Tidak ada entri FAQ",
-      "NO_API_INFO": "Tidak ada informasi API"
+      "NO_API_INFO": "Tidak ada informasi API",
+      "BALANCE": "Saldo",
+      "BURN_RATE": "Laju Pengeluaran",
+      "RUNWAY": "Sisa Waktu",
+      "PER_DAY": "{amount}/hari",
+      "DAYS_LEFT": "{days} hari",
+      "PERFORMANCE": "Performa",
+      "P50_LATENCY": "Latensi p50",
+      "P95_LATENCY": "Latensi p95",
+      "STREAM_SHARE": "Streaming",
+      "SLOWEST_MODELS": "Model Terlambat",
+      "SAMPLE_SIZE": "Berdasarkan {count} permintaan terbaru",
+      "API_KEYS": "Pengeluaran per Kunci API",
+      "UNNAMED_KEY": "Kunci tanpa nama",
+      "LAST_USED": "Terakhir digunakan {when}",
+      "NEVER_USED": "Belum pernah digunakan",
+      "USAGE_GLANCE": "Ringkasan penggunaan",
+      "USAGE_GLANCE_DESC": "Pantau saldo, penggunaan, dan volume permintaan",
+      "PERIOD_USAGE": "Periode terpilih",
+      "PERIOD_USAGE_CAPTION": "Terpakai pada rentang terpilih",
+      "HISTORICAL_USAGE": "Penggunaan historis",
+      "HISTORICAL_USAGE_CAPTION": "Total pemakaian sepanjang waktu",
+      "REQUEST_COUNT_CAPTION": "Total permintaan dibuat",
+      "CREDIT_REMAINING": "Sisa kredit",
+      "HEALTHY": "Sehat",
+      "LOW": "Rendah",
+      "TOP_UP": "Isi ulang",
+      "PERFORMANCE_DESC": "Metrik performa 24 jam terakhir",
+      "SUCCESS_RATE": "Tingkat keberhasilan",
+      "AVG_LATENCY": "Latensi rata-rata",
+      "THROUGHPUT": "Throughput",
+      "TOP_MODELS": "Model dengan trafik tertinggi",
+      "API_KEYS_DESC": "Pengeluaran dan penggunaan terakhir per kunci"
     },
     "CONSUMPTION": "Konsumsi",
     "TOTAL": "Total",
     "OTHER": "Lainnya",
     "NO_DATA": "Tidak ada data tersedia",
-    "COPIED": "Disalin"
+    "COPIED": "Disalin",
+    "SECTION": {
+      "OVERVIEW": "Ikhtisar",
+      "ANALYTICS": "Analisis Model",
+      "FLOW": "Alur"
+    },
+    "FLOW": {
+      "QUOTA": "Pengeluaran",
+      "TOKENS": "Token",
+      "REQUESTS": "Permintaan",
+      "DESC": "Ke mana pengeluaran mengalir: kunci, grup, model",
+      "UNTRACKED_KEY": "Kunci tak terlacak"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Preferensi",
+      "FILTER": "Filter",
+      "CHART_TYPE": "Jenis grafik",
+      "BAR_CHART": "Batang",
+      "AREA_CHART": "Area",
+      "MODEL": "Model",
+      "GROUP": "Grup",
+      "ALL_MODELS": "Semua model",
+      "ALL_GROUPS": "Semua grup",
+      "CLEAR_FILTERS": "Hapus filter"
+    }
   },
   "TOKEN": {
     "TABLE": {

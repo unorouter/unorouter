@@ -3072,11 +3072,6 @@
       "AFTERNOON": "Boa tarde",
       "EVENING": "Boa noite"
     },
-    "MONITOR": {
-      "UP": "Ativo",
-      "DOWN": "Caído",
-      "PENDING": "Pendente"
-    },
     "STATS": {
       "ACCOUNT_DATA": "Dados da conta",
       "CURRENT_BALANCE": "Saldo atual",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "Tokens estatísticos",
       "PERFORMANCE_INDICATORS": "Indicadores de desempenho",
       "AVERAGE_RPM": "RPM médio",
-      "AVERAGE_TPM": "TPM médio"
+      "AVERAGE_TPM": "TPM médio",
+      "STATISTICAL_COUNT_CAPTION": "Contagem estatística",
+      "STATISTICAL_QUOTA_CAPTION": "Cota estatística",
+      "STATISTICAL_TOKENS_CAPTION": "Tokens estatísticos",
+      "AVERAGE_RPM_CAPTION": "Requisições por minuto",
+      "AVERAGE_TPM_CAPTION": "Tokens por minuto"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "Análise de dados de modelo",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "Ranking de chamadas"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "Aviso do sistema",
-      "FAQ": "FAQ",
-      "SERVICE_STATUS": "Status do serviço",
       "API_INFORMATION": "Informações da API",
-      "NO_ANNOUNCEMENTS": "Sem anúncios",
-      "NO_FAQ": "Sem entradas FAQ",
-      "NO_API_INFO": "Sem informações da API"
+      "NO_API_INFO": "Sem informações da API",
+      "BALANCE": "Saldo",
+      "BURN_RATE": "Ritmo de gasto",
+      "RUNWAY": "Autonomia",
+      "PER_DAY": "{amount}/dia",
+      "DAYS_LEFT": "{days} dias",
+      "PERFORMANCE": "Desempenho",
+      "P50_LATENCY": "Latência p50",
+      "P95_LATENCY": "Latência p95",
+      "STREAM_SHARE": "Em streaming",
+      "SLOWEST_MODELS": "Modelos mais lentos",
+      "SAMPLE_SIZE": "Com base em {count} requisições recentes",
+      "API_KEYS": "Gasto por chave de API",
+      "UNNAMED_KEY": "Chave sem nome",
+      "LAST_USED": "Último uso {when}",
+      "NEVER_USED": "Nunca usada",
+      "USAGE_GLANCE": "Uso em resumo",
+      "USAGE_GLANCE_DESC": "Acompanhe saldo, uso e volume de requisições",
+      "PERIOD_USAGE": "Período selecionado",
+      "PERIOD_USAGE_CAPTION": "Consumido no intervalo selecionado",
+      "HISTORICAL_USAGE": "Uso histórico",
+      "HISTORICAL_USAGE_CAPTION": "Consumo total acumulado",
+      "REQUEST_COUNT_CAPTION": "Total de requisições feitas",
+      "CREDIT_REMAINING": "Crédito restante",
+      "HEALTHY": "Saudável",
+      "LOW": "Baixo",
+      "TOP_UP": "Recarregar",
+      "PERFORMANCE_DESC": "Métricas de desempenho das últimas 24 horas",
+      "SUCCESS_RATE": "Taxa de sucesso",
+      "AVG_LATENCY": "Latência média",
+      "THROUGHPUT": "Vazão",
+      "TOP_MODELS": "Modelos com mais tráfego",
+      "API_KEYS_DESC": "Gasto e último uso por chave"
     },
     "CONSUMPTION": "Consumo",
     "TOTAL": "Total",
     "OTHER": "Outro",
     "NO_DATA": "Sem dados disponíveis",
-    "COPIED": "Copiado"
+    "COPIED": "Copiado",
+    "SECTION": {
+      "OVERVIEW": "Visão geral",
+      "ANALYTICS": "Análise de modelos",
+      "FLOW": "Fluxo"
+    },
+    "FLOW": {
+      "QUOTA": "Gasto",
+      "TOKENS": "Tokens",
+      "REQUESTS": "Requisições",
+      "DESC": "Para onde vai seu gasto: chave, grupo e modelo",
+      "UNTRACKED_KEY": "Chave não rastreada"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "Preferências",
+      "FILTER": "Filtro",
+      "CHART_TYPE": "Tipo de gráfico",
+      "BAR_CHART": "Barras",
+      "AREA_CHART": "Área",
+      "MODEL": "Modelo",
+      "GROUP": "Grupo",
+      "ALL_MODELS": "Todos os modelos",
+      "ALL_GROUPS": "Todos os grupos",
+      "CLEAR_FILTERS": "Limpar filtros"
+    }
   },
   "TOKEN": {
     "TABLE": {

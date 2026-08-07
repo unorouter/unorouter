@@ -3072,11 +3072,6 @@
       "AFTERNOON": "午安",
       "EVENING": "晚安"
     },
-    "MONITOR": {
-      "UP": "正常",
-      "DOWN": "異常",
-      "PENDING": "等待中"
-    },
     "STATS": {
       "ACCOUNT_DATA": "帳戶資料",
       "CURRENT_BALANCE": "目前餘額",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "統計 Tokens",
       "PERFORMANCE_INDICATORS": "效能指標",
       "AVERAGE_RPM": "平均 RPM",
-      "AVERAGE_TPM": "平均 TPM"
+      "AVERAGE_TPM": "平均 TPM",
+      "STATISTICAL_COUNT_CAPTION": "統計次數",
+      "STATISTICAL_QUOTA_CAPTION": "統計消費",
+      "STATISTICAL_TOKENS_CAPTION": "統計權杖數",
+      "AVERAGE_RPM_CAPTION": "每分鐘請求數",
+      "AVERAGE_TPM_CAPTION": "每分鐘權杖數"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "模型資料分析",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "呼叫排行"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "系統公告",
-      "FAQ": "常見問題",
-      "SERVICE_STATUS": "服務狀態",
       "API_INFORMATION": "API 資訊",
-      "NO_ANNOUNCEMENTS": "目前無公告",
-      "NO_FAQ": "目前無常見問題",
-      "NO_API_INFO": "目前無 API 資訊"
+      "NO_API_INFO": "目前無 API 資訊",
+      "BALANCE": "餘額",
+      "BURN_RATE": "消耗速度",
+      "RUNWAY": "可用天數",
+      "PER_DAY": "{amount}/天",
+      "DAYS_LEFT": "{days} 天",
+      "PERFORMANCE": "效能",
+      "P50_LATENCY": "p50 延遲",
+      "P95_LATENCY": "p95 延遲",
+      "STREAM_SHARE": "串流佔比",
+      "SLOWEST_MODELS": "最慢的模型",
+      "SAMPLE_SIZE": "基於最近 {count} 次請求",
+      "API_KEYS": "API 金鑰消費",
+      "UNNAMED_KEY": "未命名金鑰",
+      "LAST_USED": "最後使用：{when}",
+      "NEVER_USED": "從未使用",
+      "USAGE_GLANCE": "用量總覽",
+      "USAGE_GLANCE_DESC": "監控餘額、用量與請求量",
+      "PERIOD_USAGE": "所選期間",
+      "PERIOD_USAGE_CAPTION": "所選期間內的消費",
+      "HISTORICAL_USAGE": "歷史用量",
+      "HISTORICAL_USAGE_CAPTION": "累計消費總額",
+      "REQUEST_COUNT_CAPTION": "累計請求次數",
+      "CREDIT_REMAINING": "剩餘額度",
+      "HEALTHY": "正常",
+      "LOW": "偏低",
+      "TOP_UP": "儲值",
+      "PERFORMANCE_DESC": "最近 24 小時的效能指標",
+      "SUCCESS_RATE": "成功率",
+      "AVG_LATENCY": "平均延遲",
+      "THROUGHPUT": "吞吐量",
+      "TOP_MODELS": "流量最高的模型",
+      "API_KEYS_DESC": "各金鑰的消費與最後使用時間"
     },
     "CONSUMPTION": "用量",
     "TOTAL": "總計",
     "OTHER": "其他",
     "NO_DATA": "暫無資料",
-    "COPIED": "已複製"
+    "COPIED": "已複製",
+    "SECTION": {
+      "OVERVIEW": "總覽",
+      "ANALYTICS": "模型分析",
+      "FLOW": "流向"
+    },
+    "FLOW": {
+      "QUOTA": "消費",
+      "TOKENS": "權杖",
+      "REQUESTS": "請求",
+      "DESC": "消費流向：金鑰、群組、模型",
+      "UNTRACKED_KEY": "未記錄的金鑰"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "偏好設定",
+      "FILTER": "篩選",
+      "CHART_TYPE": "圖表類型",
+      "BAR_CHART": "長條圖",
+      "AREA_CHART": "面積圖",
+      "MODEL": "模型",
+      "GROUP": "群組",
+      "ALL_MODELS": "全部模型",
+      "ALL_GROUPS": "全部群組",
+      "CLEAR_FILTERS": "清除篩選"
+    }
   },
   "TOKEN": {
     "TABLE": {

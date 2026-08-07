@@ -3072,11 +3072,6 @@
       "AFTERNOON": "צהריים טובים",
       "EVENING": "ערב טוב"
     },
-    "MONITOR": {
-      "UP": "פעיל",
-      "DOWN": "לא פעיל",
-      "PENDING": "ממתין"
-    },
     "STATS": {
       "ACCOUNT_DATA": "נתוני חשבון",
       "CURRENT_BALANCE": "יתרה נוכחית",
@@ -3088,7 +3083,12 @@
       "STATISTICAL_TOKENS": "טוקנים סטטיסטיים",
       "PERFORMANCE_INDICATORS": "מדדי ביצועים",
       "AVERAGE_RPM": "RPM ממוצע",
-      "AVERAGE_TPM": "TPM ממוצע"
+      "AVERAGE_TPM": "TPM ממוצע",
+      "STATISTICAL_COUNT_CAPTION": "ספירה סטטיסטית",
+      "STATISTICAL_QUOTA_CAPTION": "מכסה סטטיסטית",
+      "STATISTICAL_TOKENS_CAPTION": "טוקנים סטטיסטיים",
+      "AVERAGE_RPM_CAPTION": "בקשות לדקה",
+      "AVERAGE_TPM_CAPTION": "טוקנים לדקה"
     },
     "CHART": {
       "MODEL_DATA_ANALYSIS": "ניתוח נתוני מודל",
@@ -3099,19 +3099,70 @@
       "CALLS_RANKING": "דירוג קריאות"
     },
     "PANEL": {
-      "SYSTEM_NOTICE": "הודעת מערכת",
-      "FAQ": "שאלות נפוצות",
-      "SERVICE_STATUS": "סטטוס שירות",
       "API_INFORMATION": "מידע API",
-      "NO_ANNOUNCEMENTS": "אין הודעות",
-      "NO_FAQ": "אין שאלות נפוצות",
-      "NO_API_INFO": "אין מידע API"
+      "NO_API_INFO": "אין מידע API",
+      "BALANCE": "יתרה",
+      "BURN_RATE": "קצב הוצאה",
+      "RUNWAY": "זמן שנותר",
+      "PER_DAY": "{amount}/יום",
+      "DAYS_LEFT": "{days} ימים",
+      "PERFORMANCE": "ביצועים",
+      "P50_LATENCY": "השהיית p50",
+      "P95_LATENCY": "השהיית p95",
+      "STREAM_SHARE": "בהזרמה",
+      "SLOWEST_MODELS": "המודלים האיטיים ביותר",
+      "SAMPLE_SIZE": "מבוסס על {count} בקשות אחרונות",
+      "API_KEYS": "הוצאות לפי מפתח API",
+      "UNNAMED_KEY": "מפתח ללא שם",
+      "LAST_USED": "שימוש אחרון {when}",
+      "NEVER_USED": "מעולם לא היה בשימוש",
+      "USAGE_GLANCE": "סקירת שימוש",
+      "USAGE_GLANCE_DESC": "מעקב אחר יתרה, שימוש ונפח בקשות",
+      "PERIOD_USAGE": "התקופה שנבחרה",
+      "PERIOD_USAGE_CAPTION": "צריכה בטווח שנבחר",
+      "HISTORICAL_USAGE": "שימוש מצטבר",
+      "HISTORICAL_USAGE_CAPTION": "סך הצריכה מאז ומעולם",
+      "REQUEST_COUNT_CAPTION": "סך הבקשות שבוצעו",
+      "CREDIT_REMAINING": "יתרת אשראי",
+      "HEALTHY": "תקין",
+      "LOW": "נמוך",
+      "TOP_UP": "טעינה",
+      "PERFORMANCE_DESC": "מדדי ביצועים מ־24 השעות האחרונות",
+      "SUCCESS_RATE": "שיעור הצלחה",
+      "AVG_LATENCY": "השהיה ממוצעת",
+      "THROUGHPUT": "תפוקה",
+      "TOP_MODELS": "המודלים העמוסים ביותר",
+      "API_KEYS_DESC": "הוצאות ושימוש אחרון לכל מפתח"
     },
     "CONSUMPTION": "צריכה",
     "TOTAL": "סך הכל",
     "OTHER": "אחר",
     "NO_DATA": "אין נתונים זמינים",
-    "COPIED": "הועתק"
+    "COPIED": "הועתק",
+    "SECTION": {
+      "OVERVIEW": "סקירה",
+      "ANALYTICS": "ניתוח מודלים",
+      "FLOW": "זרימה"
+    },
+    "FLOW": {
+      "QUOTA": "הוצאות",
+      "TOKENS": "טוקנים",
+      "REQUESTS": "בקשות",
+      "DESC": "לאן זורמות ההוצאות: מפתח, קבוצה, מודל",
+      "UNTRACKED_KEY": "מפתח לא מתועד"
+    },
+    "TOOLBAR": {
+      "PREFERENCES": "העדפות",
+      "FILTER": "סינון",
+      "CHART_TYPE": "סוג תרשים",
+      "BAR_CHART": "עמודות",
+      "AREA_CHART": "שטח",
+      "MODEL": "מודל",
+      "GROUP": "קבוצה",
+      "ALL_MODELS": "כל המודלים",
+      "ALL_GROUPS": "כל הקבוצות",
+      "CLEAR_FILTERS": "נקה סינון"
+    }
   },
   "TOKEN": {
     "TABLE": {

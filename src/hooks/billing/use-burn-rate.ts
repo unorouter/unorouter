@@ -3,7 +3,7 @@
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useDashboardQuotaQuery } from "@/hooks/billing/dashboard-hook";
 import { quotaToDollars } from "@/lib/config/constants";
-import { dayjs } from "@/lib/utils/format/date";
+import { burnRateWindow } from "@/store/dashboard-store";
 
 const WINDOW_DAYS = 7;
 
@@ -18,14 +18,9 @@ export type BurnRate =
  */
 export function useBurnRate(balanceQuota: number | undefined): BurnRate {
   const isLoggedIn = !!useAuthQuery().data;
-  // Day-aligned bounds keep the query key stable across re-renders.
-  const end = dayjs().endOf("day");
-  const start = end.subtract(WINDOW_DAYS, "day").startOf("day");
-
-  const quotaQuery = useDashboardQuotaQuery(
-    { start_timestamp: start.unix(), end_timestamp: end.unix() },
-    { enabled: isLoggedIn },
-  );
+  const quotaQuery = useDashboardQuotaQuery(burnRateWindow(), {
+    enabled: isLoggedIn,
+  });
 
   const rows = quotaQuery.data ?? [];
   if (!isLoggedIn || quotaQuery.isError || rows.length === 0) {

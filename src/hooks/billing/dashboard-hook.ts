@@ -17,8 +17,13 @@ export function useDashboardQuotaQuery(
   );
 }
 
-export function useDashboardUptimeQuery() {
-  return useElysiaQuery(queryKeys.dashboardUptime(), () =>
-    rpc.api.billing.dashboard.uptime.get(),
+export function useDashboardFlowQuery(
+  query: EdenQuery<typeof rpc.api.billing.dashboard.flow>,
+  options?: { enabled?: boolean },
+) {
+  return useElysiaQuery(
+    queryKeys.dashboardFlow(query),
+    () => rpc.api.billing.dashboard.flow.get({ query }),
+    options,
   );
 }

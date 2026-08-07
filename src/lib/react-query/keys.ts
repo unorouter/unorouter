@@ -10,7 +10,8 @@ export const queryKeys = {
   dashboardQuota: (
     params?: EdenQuery<typeof rpc.api.billing.dashboard.quota>,
   ) => ["dashboard-quota", params] as const,
-  dashboardUptime: () => ["dashboard-uptime"] as const,
+  dashboardFlow: (params?: EdenQuery<typeof rpc.api.billing.dashboard.flow>) =>
+    ["dashboard-flow", params] as const,
 
   tokens: (params?: EdenQuery<typeof rpc.api.billing.token.search>) =>
     ["tokens", params] as const,
