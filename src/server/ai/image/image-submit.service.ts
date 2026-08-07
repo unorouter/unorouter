@@ -3,7 +3,7 @@ import {
   extractResults,
   loadRefs,
 } from "@/lib/ai/playground/dispatch";
-import { getPricingSnapshot } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import {
   chooseEndpoint,
   getEffectiveGenerationModels,

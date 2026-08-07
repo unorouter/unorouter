@@ -1,5 +1,5 @@
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
-import { getPricingSnapshot } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { uid } from "@/lib/utils/base";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { submitSyncImage } from "./sync-image";

@@ -1,5 +1,5 @@
 import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
-import { getPricingSnapshot } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { msg } from "@/lib/config/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri, parseDataUri, uid } from "@/lib/utils/base";

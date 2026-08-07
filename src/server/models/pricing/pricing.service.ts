@@ -7,7 +7,7 @@ import {
 import {
   getPricingSnapshot,
   refreshPricingSnapshot,
-} from "@/lib/api/pricing-cache";
+} from "@/server/models/pricing/pricing-snapshot";
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { customFetch } from "@/lib/custom-fetch";

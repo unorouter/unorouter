@@ -1,4 +1,4 @@
-import { getPricingSnapshot } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";

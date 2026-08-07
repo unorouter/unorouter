@@ -3,7 +3,7 @@ import {
   extractResultUris,
   fetchAllRefs,
 } from "@/lib/ai/playground/dispatch";
-import { getPricingSnapshot } from "@/lib/api/pricing-cache";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import type {
