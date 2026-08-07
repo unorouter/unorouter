@@ -12,12 +12,17 @@ export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
 export const AGE_STEPS_DAYS = [0, 7, 30, 90, 365] as const;
 
-export const FLAT_VARIANT_SUFFIX = ":flat";
+// Per-call image/video pricing splits a model into a per-token base and a
+// flat-priced `:flat` twin (new-api-sync pricing/image-per-call.ts).
 export const isFlatVariant = (model: ProcessedModel): boolean =>
-  model.name.endsWith(FLAT_VARIANT_SUFFIX);
+  model.name.endsWith(":flat");
 
-export type ConcreteModality = Exclude<OutputModality, "all">;
+type ConcreteModality = Exclude<OutputModality, "all">;
 
+// `type` is checked first and outputModalities second on purpose: both are
+// upstream-supplied and each has been wrong. A model mistyped `text` upstream is
+// caught by its modality, and a model whose modality upstream reports as `text`
+// (gpt-4o-image) is caught by its type.
 export function deriveOutputModality(model: ProcessedModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata.outputModalities ?? [];
@@ -77,11 +82,13 @@ export function fixedPriceUnitLabel(
   return "request";
 }
 
+// Fixed-price image/video bill per image/second, so their per-token input price
+// is meaningless rather than zero.
 export function inputPriceUnit(
   modality: OutputModality,
   isFixedPrice?: boolean,
 ): PriceUnit {
-  if (modality === "image" || modality === "video")
-    return isFixedPrice ? "dash" : "perM";
-  return "perM";
+  return isFixedPrice && (modality === "image" || modality === "video")
+    ? "dash"
+    : "perM";
 }
