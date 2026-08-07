@@ -1,4 +1,9 @@
-import { buildPricingSummary, leanOne, toLeanPricing } from "@/lib/api/pricing";
+import {
+  buildPricingSummary,
+  isChatModel,
+  leanOne,
+  toLeanPricing,
+} from "@/lib/api/pricing";
 import {
   getPricingSummary as getCachedByName,
   refreshPricingSummary,
@@ -64,7 +69,9 @@ export async function getPricingCounts() {
 }
 
 // name->vendor pairs: covers NotifyBell's vendorOf lookup and the crawlable
-// vendor list. Strings only, no per-model pricing/metadata.
+// vendor list. Strings only, no per-model pricing/metadata. `chat` rides along
+// because callers that only display models (the ticker) must skip
+// embedding/rerank rows, and the predicate needs the full model to decide.
 export async function getPricingVendors() {
   const { models } = await getCachedByName();
   const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
@@ -73,6 +80,7 @@ export async function getPricingVendors() {
   const modelVendors = models.map((m) => ({
     name: m.name,
     vendor: m.vendor.name,
+    chat: isChatModel(m),
   }));
   return { vendorNames, modelVendors };
 }

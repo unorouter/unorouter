@@ -1,4 +1,9 @@
-import { isFreeChatModel, leanOne, toLeanPricing } from "@/lib/api/pricing";
+import {
+  isChatModel,
+  isFreeChatModel,
+  leanOne,
+  toLeanPricing,
+} from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -63,6 +68,7 @@ export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
     modelVendors: summary.models.map((m) => ({
       name: m.name,
       vendor: m.vendor.name,
+      chat: isChatModel(m),
     })),
   });
   return dehydrate(qc);
@@ -87,30 +93,6 @@ export async function getCachedFreeChatModels(limit?: number) {
     .filter(isFreeChatModel)
     .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
   return limit == null ? free : free.slice(0, limit);
-}
-
-export async function getCachedRankings(period: string) {
-  "use cache";
-  cacheLife("hours");
-  return fetchRankings(period);
-}
-
-export async function getCachedPerfSummary(hours: number) {
-  "use cache";
-  cacheLife("hours");
-  return fetchPerfSummary(hours);
-}
-
-export async function getCachedSubscriptionPlans() {
-  "use cache";
-  cacheLife("hours");
-  return getSubscriptionPlansSummary();
-}
-
-export async function getCachedStatsHistory() {
-  "use cache";
-  cacheLife("minutes");
-  return computeStatsSummary();
 }
 
 // Dehydrated states must be built INSIDE "use cache": seeding stamps

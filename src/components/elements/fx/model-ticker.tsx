@@ -16,7 +16,7 @@ export function ModelTicker(props: Props) {
   const t = useTranslations();
   const { data } = usePricingVendorsQuery();
   const { tps } = useLiveStats();
-  const models = data?.modelVendors ?? [];
+  const models = (data?.modelVendors ?? []).filter((m) => m.chat);
 
   const tripled = [...models, ...models, ...models];
 
