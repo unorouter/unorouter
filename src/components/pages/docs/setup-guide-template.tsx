@@ -12,7 +12,7 @@ import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { GuideViewedBeacon } from "@/components/pages/docs/guide-viewed-beacon";
 import { Link } from "@/i18n/navigation";
-import { getCachedFreeTextModels } from "@/lib/api/cached";
+import { getCachedFreeChatModels } from "@/lib/api/cached";
 import { APP_VALUES } from "@/lib/config/constants";
 import { OS } from "@/lib/types/enums";
 import { getDocsApiKey } from "@/lib/utils/server";
@@ -43,7 +43,7 @@ export async function SetupGuideTemplate(props: { guide: SetupGuide }) {
   const guide = props.guide;
   const t = await getTranslations();
   const docs = await getDocsApiKey();
-  const freeModels = await getCachedFreeTextModels(5);
+  const freeModels = (await getCachedFreeChatModels(5)).map((m) => m.name);
   const models = freeModels.length > 0 ? freeModels : guide.recommendedModels;
 
   const hasSteps = guide.steps.length > 0;

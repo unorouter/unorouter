@@ -30,10 +30,9 @@ export async function getCachedPricing(includeOffline?: boolean) {
   return getPricingSummary(includeOffline);
 }
 
-// Scoped pricing slices for SERVER prerender: sub-KB, so pages that need only
-// counts / vendor names prerender into the shell with NO footer-first suspend
-// (unlike the ~325kB full pricing). Same "minutes" cadence as getCachedPricing;
-// derived from the same summary so they never drift from the /models table.
+// Scoped slices: pages needing only counts/vendor names must not carry the
+// ~487kB full pricing into their payload. All derive from the same summary, so
+// they cannot drift from the /models table.
 export async function getCachedPricingCounts() {
   "use cache";
   cacheLife("minutes");
@@ -52,9 +51,8 @@ export async function getCachedPricingVendors() {
   return (await getPricingSummary()).vendorNames;
 }
 
-// Dehydrated {vendorNames, modelVendors} for the home ticker: same shape the
-// /pricing/vendors route serves, so the ticker SSRs its chips (name+vendor, 16kB)
-// instead of client-fetching after mount. Matches queryKeys.pricingVendors().
+// Must match the /pricing/vendors response shape exactly: the home ticker reads
+// this key, so a mismatch silently drops it back to a client fetch.
 export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
   "use cache";
   cacheLife("minutes");
@@ -70,11 +68,6 @@ export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
   return dehydrate(qc);
 }
 
-// Small {name, vendor} pool for the home chat demo: free text models only, so
-// home never awaits the full summary just to name 4 demo models. Deterministic
-// (no shuffle) for cacheComponents prerenders.
-// One vendor's models (lean per-model shape), for the vendor page SSR hydration.
-// Filtered server-side so the vendor page prefetches ~1/40th of the full list.
 export async function getCachedVendorModels(vendorName: string) {
   "use cache";
   cacheLife("minutes");
@@ -86,14 +79,20 @@ export async function getCachedVendorModels(vendorName: string) {
   };
 }
 
-export async function getCachedFreeTextModelsWithVendor(limit: number) {
+// Shuffle runs inside the cached scope: Math.random is rejected in prerenders
+// outside "use cache". Order is therefore fixed per cache entry.
+export async function getCachedFreeChatModels(limit?: number) {
   "use cache";
   cacheLife("minutes");
   const summary = await getPricingSummary();
-  return summary.models
+  const free = summary.models
     .filter(isFreeChatModel)
-    .slice(0, limit)
     .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
+  for (let i = free.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [free[i]!, free[j]!] = [free[j]!, free[i]!];
+  }
+  return limit == null ? free : free.slice(0, limit);
 }
 
 export async function getCachedRankings(period: string) {
@@ -120,9 +119,8 @@ export async function getCachedStatsHistory() {
   return computeStatsSummary();
 }
 
-// Dehydrated React Query states are built INSIDE "use cache": prefetchQuery
-// stamps Date.now() internally, which prerenders reject outside cached scope.
-
+// Dehydrated states must be built INSIDE "use cache": prefetchQuery stamps
+// Date.now(), which prerenders reject outside a cached scope.
 async function seed(
   qc: QueryClient,
   queryKey: readonly unknown[],
@@ -172,10 +170,9 @@ export async function getModelsPageData() {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
-  // rankings + perf are non-critical enrichment: a transient upstream reset on
-  // either must not reject the whole cached render (it would fail the static
-  // export for that page). Only pricing is load-bearing; if IT throws, the
-  // page-level catch falls back to emptyPageData().
+  // rankings + perf are non-critical: a transient upstream reset on either must
+  // not reject the cached render and fail the page's static export. Only pricing
+  // is load-bearing (the page-level catch falls back to emptyPageData).
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
     fetchRankings("week").catch(() => null),
@@ -204,8 +201,7 @@ export async function getComparePageData(slugs: readonly string[]) {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
-  // See getModelsPageData: rankings + perf are non-critical, so a transient
-  // upstream reset on them must not fail the static export of this page.
+  // See getModelsPageData on the non-critical rankings/perf catches.
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
     fetchRankings("week").catch(() => null),
@@ -222,11 +218,9 @@ export async function getComparePageData(slugs: readonly string[]) {
   return { dehydrated: dehydrate(qc), models };
 }
 
-// A transient upstream /pricing 5xx makes getPricingSummary throw, which would
-// otherwise reject the whole server render of the models/compare pages (an RSC
-// error, ~200/day). The page falls back to this empty-but-valid shape so it
-// renders and the client refetches live pricing. Not cached (the page-level
-// catch is outside "use cache"), so a momentary failure never sticks.
+// A transient upstream /pricing 5xx would otherwise reject the whole server
+// render of models/compare (~200 RSC errors/day). Deliberately NOT cached, so a
+// momentary failure cannot stick; the client refetches live pricing.
 export function emptyPageData() {
   return {
     dehydrated: dehydrate(new QueryClient()),
@@ -236,16 +230,3 @@ export function emptyPageData() {
   };
 }
 
-// Shuffle runs inside the cached scope: Math.random is non-deterministic and
-// rejected in prerenders outside "use cache". Order is fixed per cache entry.
-export async function getCachedFreeTextModels(limit?: number) {
-  "use cache";
-  cacheLife("hours");
-  const summary = await getPricingSummary();
-  const free = summary.models.filter(isFreeChatModel).map((m) => m.name);
-  for (let i = free.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [free[i]!, free[j]!] = [free[j]!, free[i]!];
-  }
-  return limit == null ? free : free.slice(0, limit);
-}

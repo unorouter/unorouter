@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getCachedFreeTextModelsWithVendor } from "@/lib/api/cached";
+import { getCachedFreeChatModels } from "@/lib/api/cached";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -12,7 +12,7 @@ import { ChatMockLazy } from "./chat-mock-lazy";
 
 export async function ChatSection() {
   const t = await getTranslations();
-  const demoModels: MockModel[] = await getCachedFreeTextModelsWithVendor(4);
+  const demoModels: MockModel[] = await getCachedFreeChatModels(4);
   if (demoModels.length === 0) {
     demoModels.push({
       name: t("HOME.CHAT.MOCK.MODEL_NAME"),
