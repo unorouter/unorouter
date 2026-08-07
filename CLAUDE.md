@@ -115,7 +115,7 @@ Server pages: prefetch with `getQueryClient()` plus `HydrationBoundary` and `deh
 
 Auth cookies (`src/lib/config/constants.ts` for names; `src/store/client-store.ts` for `CLIENT_STORE_KEY`):
 
-- `access_token`: httpOnly, upstream API token, 30 day TTL
+- `access_token`: httpOnly, upstream API token, 30 day TTL. There is NO refresh flow: the fork pins `AccessTokenTTL` to 30d (upstream ships 15min) and `LoginSessionTTL` is also 30d, so token and session expire together and refresh had nothing to renew. Sessions end hard at 30 days and a leaked token stays valid until then. Re-adding revocation means either reverting to upstream's short TTL or checking the session row in auth middleware, NOT restoring the old `/auth/refresh` route. Cookie maxAge tracks the token via `accessTokenMaxAge`; if `AccessTokenTTL` changes in the fork, `ACCESS_TOKEN_FALLBACK_MAX_AGE` must change with it.
 - `user-id`: signed via iron-session (`signUserId`/`verifyUserId` in `src/lib/utils/server.ts`), readable by server handlers, used by `getUserId(cookie)` in `src/server/constants.ts`. Requires `SESSION_SECRET` (>= 32 chars).
 - `local-user-id`: plain unsealed twin of `user-id`, set alongside it at the OAuth callback. Client-only concern (selects the per-user OPFS file via `localUserIdAtom`); carries no server trust.
 - `client-store`: JSON (`CLIENT_STORE_KEY`, owned by `src/store/client-store.ts`), holds the user's own API key (for direct `getApiKey(cookie)` use). Server imports the key constant from the store module.
