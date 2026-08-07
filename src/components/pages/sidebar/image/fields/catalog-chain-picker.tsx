@@ -114,7 +114,12 @@ export function CatalogChainPicker<
             <Icon name="plus" className="mr-2" />
             {t(props.titleKey)}
           </PopoverTrigger>
-          <PopoverContent className="w-80 p-0" align="start">
+          {/* The result area is a FIXED height rather than one that grows with the list. The
+              popup repositions whenever its size changes, so a list that swapped between a
+              one-line "searching" state and 24 rows with async-loading thumbnails made the
+              whole panel jump on every keystroke and drift out from under the cursor. A
+              constant box means only the contents scroll. */}
+          <PopoverContent className="flex w-80 flex-col p-0" align="start">
             {props.onSearchChange && (
               <div className="border-b p-2">
                 <Input
@@ -125,76 +130,78 @@ export function CatalogChainPicker<
                 />
               </div>
             )}
-            {props.isLoading && (
-              <div className="text-muted-foreground p-4 text-sm">
-                {t("IMAGE.STATUS_PENDING")}
-              </div>
-            )}
-            {!props.isLoading && props.items.length === 0 && (
-              <div className="text-muted-foreground p-4 text-sm">
-                {t(props.emptyKey)}
-              </div>
-            )}
-            {!props.isLoading &&
-              props.items.length > 0 &&
-              available.length === 0 && (
+            <div className="h-80 overflow-y-auto">
+              {props.isLoading && (
                 <div className="text-muted-foreground p-4 text-sm">
-                  {t("IMAGE.HISTORY_EMPTY")}
+                  {t("IMAGE.STATUS_PENDING")}
                 </div>
               )}
-            {available.length > 0 && (
-              <div className="flex max-h-96 flex-col overflow-y-auto py-2">
-                {available.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="hover:bg-muted flex w-full items-start gap-2 px-3 py-2 text-left"
-                    onClick={() =>
-                      props.onChange([...value, props.onAddPayload(item)])
-                    }
-                  >
-                    {/* Catalog names are frequently unreadable on their own, so the preview
+              {!props.isLoading && props.items.length === 0 && (
+                <div className="text-muted-foreground p-4 text-sm">
+                  {t(props.emptyKey)}
+                </div>
+              )}
+              {!props.isLoading &&
+                props.items.length > 0 &&
+                available.length === 0 && (
+                  <div className="text-muted-foreground p-4 text-sm">
+                    {t("IMAGE.HISTORY_EMPTY")}
+                  </div>
+                )}
+              {available.length > 0 && (
+                <div className="flex flex-col py-2">
+                  {available.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="hover:bg-muted flex w-full items-start gap-2 px-3 py-2 text-left"
+                      onClick={() =>
+                        props.onChange([...value, props.onAddPayload(item)])
+                      }
+                    >
+                      {/* Catalog names are frequently unreadable on their own, so the preview
                         carries most of what tells a user what a model does. */}
-                    {item.heroImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={item.heroImage}
-                        alt=""
-                        loading="lazy"
-                        className="bg-muted size-12 shrink-0 rounded object-cover"
-                      />
-                    ) : null}
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium">
-                        {item.name}
-                      </div>
-                      {item.tags?.length ? (
-                        <div className="text-muted-foreground truncate text-[11px]">
-                          {item.tags.join(", ")}
-                        </div>
+                      {item.heroImage ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={item.heroImage}
+                          alt=""
+                          loading="lazy"
+                          className="bg-muted size-12 shrink-0 rounded object-cover"
+                        />
                       ) : null}
-                      {/* A LoRA with a trigger word does nothing until that word is in the
-                          prompt, so it is the single most load-bearing thing to show. */}
-                      {item.triggerWords ? (
-                        <div className="text-primary truncate text-[11px]">
-                          {t("IMAGE.TRIGGER_WORDS")}: {item.triggerWords}
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm font-medium">
+                          {item.name}
                         </div>
-                      ) : null}
-                      <div className="text-muted-foreground mt-0.5 flex flex-wrap gap-2 text-[10px] tracking-wide uppercase">
-                        <span>{item.architecture}</span>
-                        {typeof item.downloadCount === "number" &&
-                        item.downloadCount > 0 ? (
-                          <span>
-                            {formatTokens(item.downloadCount)}{" "}
-                            {t("IMAGE.DOWNLOADS")}
-                          </span>
+                        {item.tags?.length ? (
+                          <div className="text-muted-foreground truncate text-[11px]">
+                            {item.tags.join(", ")}
+                          </div>
                         ) : null}
+                        {/* A LoRA with a trigger word does nothing until that word is in the
+                          prompt, so it is the single most load-bearing thing to show. */}
+                        {item.triggerWords ? (
+                          <div className="text-primary truncate text-[11px]">
+                            {t("IMAGE.TRIGGER_WORDS")}: {item.triggerWords}
+                          </div>
+                        ) : null}
+                        <div className="text-muted-foreground mt-0.5 flex flex-wrap gap-2 text-[10px] tracking-wide uppercase">
+                          <span>{item.architecture}</span>
+                          {typeof item.downloadCount === "number" &&
+                          item.downloadCount > 0 ? (
+                            <span>
+                              {formatTokens(item.downloadCount)}{" "}
+                              {t("IMAGE.DOWNLOADS")}
+                            </span>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </PopoverContent>
         </Popover>
       </div>

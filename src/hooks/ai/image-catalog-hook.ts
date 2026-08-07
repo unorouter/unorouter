@@ -23,8 +23,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
-  return useElysiaQuery(queryKeys.loraCatalog(query), () =>
-    rpc.api.ai.image.catalog.loras.get({ query: query ?? {} }),
+  return useElysiaQuery(
+    queryKeys.loraCatalog(query),
+    () => rpc.api.ai.image.catalog.loras.get({ query: query ?? {} }),
+    // Hold the previous results while the next search resolves. Without this the list
+    // emptied on every keystroke and the popup collapsed to its loading state and back,
+    // which read as the panel jumping around while typing.
+    { placeholderData: (prev) => prev },
   );
 }
 
@@ -63,7 +68,7 @@ export function useCivitaiLoraVersionsQuery(query: string | undefined) {
       rpc.api.ai.image["civitai-lora-versions"].get({
         query: { q: query ?? "" },
       }),
-    { enabled: !!query },
+    { enabled: !!query, placeholderData: (prev) => prev },
   );
 }
 

@@ -42,7 +42,11 @@ function isCivitaiReference(input: string): boolean {
 export function LoraPicker(props: Props) {
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
-  const isReference = isCivitaiReference(search);
+  // Derived from the DEBOUNCED value, not the live one: reading the raw input flipped this
+  // on individual keystrokes (a half-typed url is briefly a bare id), so the panel swapped
+  // between the catalog and the resolver on the way to a stable query and flickered through
+  // empty/loading states the whole time.
+  const isReference = isCivitaiReference(debounced);
 
   // The provider answers this in seconds, so querying per keystroke would queue a request
   // the user has already typed past.
