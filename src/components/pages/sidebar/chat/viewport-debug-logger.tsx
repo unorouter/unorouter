@@ -54,15 +54,38 @@ export function ViewportDebugLogger() {
       const scroller = document.querySelector<HTMLElement>(
         ".aui-thread-viewport",
       );
+      const footer = document.querySelector<HTMLElement>(
+        ".aui-thread-viewport-footer",
+      );
+      const shell = document.querySelector<HTMLElement>(
+        '[data-slot="sidebar-wrapper"]',
+      );
       const vv = window.visualViewport;
+      // How far the composer's bottom edge sits above the bottom of the
+      // VISIBLE area. Negative = the composer (send button) is cut off by
+      // that many px - the exact symptom, measured instead of inferred.
+      const footerGap =
+        vv && footer
+          ? Math.round(
+              vv.offsetTop + vv.height - footer.getBoundingClientRect().bottom,
+            )
+          : null;
+      const active = document.activeElement;
       return {
         innerH: window.innerHeight,
         innerW: window.innerWidth,
         vvH: vv ? Math.round(vv.height) : null,
         vvScale: vv ? Math.round(vv.scale * 100) / 100 : null,
         vvOffsetTop: vv ? Math.round(vv.offsetTop) : null,
+        scrollY: Math.round(window.scrollY),
+        shellH: shell?.clientHeight ?? null,
         scrollerH: scroller?.clientHeight ?? null,
         scrollerScrollH: scroller?.scrollHeight ?? null,
+        footerGap,
+        activeEl:
+          active instanceof HTMLElement
+            ? `${active.tagName.toLowerCase()}${active.className.includes("aui-composer-input") ? ":composer" : active.className.includes("aui-edit-composer-input") ? ":edit" : ""}`
+            : null,
         docHidden: document.hidden,
         // The black-out signature: the scroll container is taller than the
         // visible viewport, so content sits below the fold with no repaint.
@@ -150,7 +173,18 @@ export function ViewportDebugLogger() {
     // restore / bfcache) with no viewport event until the user interacts.
     const onPageShow = () => setTimeout(() => onTrigger("pageshow"), 100);
 
-    logChatDebug("viewport.mount", { ios: isIos, ...geometry() });
+    // The layout tag + live meta prove WHICH build/architecture an export came
+    // from - one report was already misread because the user had landed back
+    // on the previous production build without noticing.
+    logChatDebug("viewport.mount", {
+      ios: isIos,
+      layout: "dvh-sticky",
+      viewportMeta:
+        document
+          .querySelector('meta[name="viewport"]')
+          ?.getAttribute("content") ?? null,
+      ...geometry(),
+    });
     requestAnimationFrame(realignStuckViewport);
     window.visualViewport?.addEventListener("resize", onVvResize);
     document.addEventListener("focusout", onFocusOut);
