@@ -191,6 +191,12 @@ const FOOTER_BADGES = [
     width: 111,
   },
   {
+    href: "https://shipycorn.com",
+    src: "https://shipycorn.com/images/badges/shipycorn.badge.svg",
+    name: "Shipycorn",
+    width: 83,
+  },
+  {
     href: "https://startupbase.io/products/unorouter?utm_source=startupbase&utm_medium=badge&utm_campaign=launch-badge-light",
     src: "https://statics.startupbase.io/site/badges/launched-on-sb.svg",
     name: "StartupBase",
