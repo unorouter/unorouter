@@ -149,6 +149,12 @@ const FOOTER_BADGES = [
     width: 103,
   },
   {
+    href: "https://toolfio.com",
+    src: "https://toolfio.com/toolfio-light-badge.png",
+    name: "Featured on Toolfio",
+    width: 100,
+  },
+  {
     href: "https://huzzler.so/products/colhB77fuA/unorouter?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=badge",
     src: "/badges/huzzler.png",
     name: "Huzzler",
