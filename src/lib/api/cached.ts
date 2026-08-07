@@ -58,7 +58,7 @@ export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
   cacheLife("minutes");
   const summary = await getPricingSummary();
   const qc = new QueryClient();
-  await seed(qc, queryKeys.pricingVendors(), {
+  qc.setQueryData(queryKeys.pricingVendors(), {
     vendorNames: summary.vendorNames,
     modelVendors: summary.models.map((m) => ({
       name: m.name,
@@ -119,19 +119,8 @@ export async function getCachedStatsHistory() {
   return computeStatsSummary();
 }
 
-// Dehydrated states must be built INSIDE "use cache": prefetchQuery stamps
-// Date.now(), which prerenders reject outside a cached scope.
-async function seed(
-  qc: QueryClient,
-  queryKey: readonly unknown[],
-  data: unknown,
-) {
-  await qc.prefetchQuery({
-    queryKey: queryKey as unknown[],
-    queryFn: () => Promise.resolve(data),
-  });
-}
-
+// Dehydrated states must be built INSIDE "use cache": seeding stamps
+// dataUpdatedAt, which prerenders reject outside a cached scope.
 export async function getDehydratedPlans(): Promise<DehydratedState> {
   "use cache";
   cacheLife("hours");
@@ -140,10 +129,8 @@ export async function getDehydratedPlans(): Promise<DehydratedState> {
     getSubscriptionPlansSummary(),
     getTopUpInfoSummary(),
   ]);
-  await Promise.all([
-    seed(qc, queryKeys.subscriptionPlans(), plans),
-    seed(qc, queryKeys.topUpInfo(), topUpInfo),
-  ]);
+  qc.setQueryData(queryKeys.subscriptionPlans(), plans);
+  qc.setQueryData(queryKeys.topUpInfo(), topUpInfo);
   return dehydrate(qc);
 }
 
@@ -151,7 +138,7 @@ export async function getDehydratedStatsHistory(): Promise<DehydratedState> {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
-  await seed(qc, queryKeys.statsHistory(), await computeStatsSummary());
+  qc.setQueryData(queryKeys.statsHistory(), await computeStatsSummary());
   return dehydrate(qc);
 }
 
@@ -160,7 +147,7 @@ export async function getRankingsPageData(period: string) {
   cacheLife("hours");
   const qc = new QueryClient();
   const data = await fetchRankings(period);
-  await seed(qc, queryKeys.rankings(period), data);
+  qc.setQueryData(queryKeys.rankings(period), data);
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
@@ -178,11 +165,9 @@ export async function getModelsPageData() {
     fetchRankings("week").catch(() => null),
     fetchPerfSummary(24).catch(() => null),
   ]);
-  await Promise.all([
-    seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
-    seed(qc, queryKeys.rankings("week"), rankings),
-    seed(qc, queryKeys.perfMetricsSummary(24), perf),
-  ]);
+  qc.setQueryData(queryKeys.pricing(), toLeanPricing(summary));
+  qc.setQueryData(queryKeys.rankings("week"), rankings);
+  qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
   const dehydrated = dehydrate(qc);
   const topModels = summary.models
     .filter((m) => m.type === "text")
@@ -207,11 +192,9 @@ export async function getComparePageData(slugs: readonly string[]) {
     fetchRankings("week").catch(() => null),
     fetchPerfSummary(24).catch(() => null),
   ]);
-  await Promise.all([
-    seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
-    seed(qc, queryKeys.rankings("week"), rankings),
-    seed(qc, queryKeys.perfMetricsSummary(24), perf),
-  ]);
+  qc.setQueryData(queryKeys.pricing(), toLeanPricing(summary));
+  qc.setQueryData(queryKeys.rankings("week"), rankings);
+  qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
   const models = slugs
     .map((slug) => summary.models.find((m) => modelMatchesSlug(m.name, slug)))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
@@ -226,7 +209,6 @@ export function emptyPageData() {
     dehydrated: dehydrate(new QueryClient()),
     topModels: [],
     models: [],
-    vendorNames: [] as string[],
+    vendorNames: [],
   };
 }
-
