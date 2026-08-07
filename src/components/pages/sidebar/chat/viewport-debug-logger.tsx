@@ -74,6 +74,13 @@ export function ViewportDebugLogger() {
       return {
         innerH: window.innerHeight,
         innerW: window.innerWidth,
+        shellTop: shell ? Math.round(shell.getBoundingClientRect().top) : null,
+        scrollerTop: scroller
+          ? Math.round(scroller.getBoundingClientRect().top)
+          : null,
+        footerBottom: footer
+          ? Math.round(footer.getBoundingClientRect().bottom)
+          : null,
         vvH: vv ? Math.round(vv.height) : null,
         vvScale: vv ? Math.round(vv.scale * 100) / 100 : null,
         vvOffsetTop: vv ? Math.round(vv.offsetTop) : null,
@@ -146,8 +153,46 @@ export function ViewportDebugLogger() {
       window.scrollBy(0, 1);
     };
 
+    // When the composer is cut off (footerGap < 0) with the viewport itself
+    // healthy, the cause is layout, not the browser: some in-flow element
+    // above the dvh shell pushes it below the fold. Name that element once
+    // instead of guessing from geometry.
+    let lastIntruderScan = 0;
+    const scanIntruders = (g: ReturnType<typeof geometry>) => {
+      if (g.footerGap == null || g.footerGap >= -4) return;
+      const now = Date.now();
+      if (now - lastIntruderScan < 10_000) return;
+      lastIntruderScan = now;
+      const shell = document.querySelector('[data-slot="sidebar-wrapper"]');
+      const flow: Record<string, unknown>[] = [];
+      for (const el of document.body.children) {
+        if (el === shell) continue;
+        const cs = getComputedStyle(el);
+        if (cs.position === "fixed" || cs.position === "absolute") continue;
+        const r = el.getBoundingClientRect();
+        if (r.height < 1) continue;
+        flow.push({
+          tag: el.tagName,
+          id: (el as HTMLElement).id || undefined,
+          cls: String((el as HTMLElement).className).slice(0, 80),
+          h: Math.round(r.height),
+          top: Math.round(r.top),
+        });
+      }
+      logChatDebug("viewport.intruders", {
+        wrapperTop: shell
+          ? Math.round(shell.getBoundingClientRect().top)
+          : null,
+        bodyScrollH: document.body.scrollHeight,
+        htmlScrollH: document.documentElement.scrollHeight,
+        flow,
+      });
+    };
+
     const onTrigger = (reason: string) => {
-      logChatDebug("viewport.change", { reason, ios: isIos, ...geometry() });
+      const g = geometry();
+      logChatDebug("viewport.change", { reason, ios: isIos, ...g });
+      scanIntruders(g);
       // The recompositing nudge toggles a transform on the scroll ancestor,
       // which desyncs the textarea caret hit-testing WHILE typing. While
       // focused, only the transform-free repaint runs; content-shrink fires
