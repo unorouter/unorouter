@@ -2,21 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Icon } from "@/components/ui/icon";
 
-type AdvancedSettingsPatch = {
-  clipSkip?: number;
-  ensd?: number;
-};
-
 type Props = {
   clipSkip: number | undefined;
-  ensd: number | undefined;
-  onChange: (patch: AdvancedSettingsPatch) => void;
+  onChange: (patch: { clipSkip?: number }) => void;
 };
 
 export function AdvancedSettingsAccordion(props: Props) {
@@ -24,7 +16,6 @@ export function AdvancedSettingsAccordion(props: Props) {
   const [open, setOpen] = useState(false);
 
   const clipSkip = props.clipSkip ?? 2;
-  const ensd = props.ensd ?? 31337;
 
   return (
     <div className="rounded-md border">
@@ -58,21 +49,6 @@ export function AdvancedSettingsAccordion(props: Props) {
                   clipSkip: Array.isArray(s) ? s[0] : s,
                 })
               }
-            />
-          </div>
-          <div>
-            <Label className="mb-1 block">{t("IMAGE.ENSD")}</Label>
-            <Input
-              aria-label={t("IMAGE.ENSD")}
-              type="number"
-              value={ensd}
-              onChange={(e) =>
-                props.onChange({
-                  ensd: Number(e.target.value) || undefined,
-                })
-              }
-              min={0}
-              max={4_294_967_295}
             />
           </div>
         </div>

@@ -1,8 +1,9 @@
+import { isValidAir } from "@/lib/ai/image/constants";
 import { logger } from "@/lib/utils/logger";
 import type { AdetailerParams, LoraEntry } from "@/lib/validation/playground";
-import { serverEnv } from "@/server/env";
+import { runwareTask } from "./runware";
 
-const RUNWARE_ENDPOINT = "https://api.runware.ai/v1";
+const ADETAILER_TIMEOUT_MS = 60_000;
 
 // ADetailer = detect (mask) + inpaint the region; the provider exposes both halves but
 // nothing that chains them. Detectors are addressed by AIR, the picker keeps the A1111
@@ -23,37 +24,16 @@ export function detectorAirFor(yoloModel: string | undefined): string | null {
 }
 
 // The pass goes direct to the provider, so a passthrough model needs the resolved AIR,
-// not our routing placeholder.
-export function adetailerCheckpoint(
-  body: { model: string; extraParams?: Record<string, unknown> },
-  params: Record<string, unknown>,
-): string {
-  const air = body.extraParams?.air ?? params.air;
-  return typeof air === "string" && air ? air : body.model;
+// not our routing placeholder. Same AIR validation as the main submit path.
+export function adetailerCheckpoint(body: {
+  model: string;
+  extraParams?: { air?: string };
+}): string {
+  const air = body.extraParams?.air;
+  return isValidAir(air) ? air : body.model;
 }
 
 type MaskResult = { maskImageURL: string; detections: unknown[] };
-
-async function runwareTask<T>(
-  task: Record<string, unknown>,
-  timeoutMs = 60_000,
-): Promise<{ data?: T[]; errors?: { code?: string; message?: string }[] }> {
-  const key = serverEnv.runwareApiKey;
-  if (!key) throw new Error("runware api key is not configured");
-  const res = await fetch(RUNWARE_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([{ taskUUID: crypto.randomUUID(), ...task }]),
-    signal: AbortSignal.timeout(timeoutMs),
-  });
-  return (await res.json()) as {
-    data?: T[];
-    errors?: { code?: string; message?: string }[];
-  };
-}
 
 /**
  * One ADetailer pass over a finished image; returns the redrawn URL or null. Best-effort:
@@ -75,14 +55,17 @@ export async function runAdetailerPass(args: {
   const air = detectorAirFor(args.adetailer.yoloModel);
   if (!air) return null;
 
-  const mask = await runwareTask<MaskResult>({
-    taskType: "imageMasking",
-    model: air,
-    confidence: args.adetailer.confidence ?? 0.5,
-    maskPadding: 18,
-    maskBlur: args.adetailer.maskBlur ?? 4,
-    inputs: { image: args.imageUrl },
-  });
+  const mask = await runwareTask<MaskResult>(
+    {
+      taskType: "imageMasking",
+      model: air,
+      confidence: args.adetailer.confidence ?? 0.5,
+      maskPadding: 18,
+      maskBlur: args.adetailer.maskBlur ?? 4,
+      inputs: { image: args.imageUrl },
+    },
+    ADETAILER_TIMEOUT_MS,
+  );
 
   if (mask.errors?.length) {
     logger.warn("adetailer detection failed", {
@@ -106,29 +89,32 @@ export async function runAdetailerPass(args: {
   // Detail prompt when given, else the original (an empty prompt would redraw a face
   // from nothing). Steps 0 = inherit (the form's toggle-off state).
   const steps = args.adetailer.steps;
-  const inpaint = await runwareTask<{ imageURL?: string }>({
-    taskType: "imageInference",
-    model: args.checkpoint,
-    positivePrompt: args.adetailer.prompt?.trim() || args.prompt,
-    ...(args.adetailer.negativePrompt?.trim() || args.negativePrompt
-      ? {
-          negativePrompt:
-            args.adetailer.negativePrompt?.trim() || args.negativePrompt,
-        }
-      : {}),
-    width: args.width,
-    height: args.height,
-    seedImage: args.imageUrl,
-    maskImage: first.maskImageURL,
-    strength: args.adetailer.denoise ?? 0.25,
-    ...(typeof steps === "number" && steps > 0 ? { steps } : {}),
-    ...(args.scheduler ? { scheduler: args.scheduler } : {}),
-    ...(typeof args.cfg === "number" ? { CFGScale: args.cfg } : {}),
-    ...(args.loras.length
-      ? { lora: args.loras.map((l) => ({ model: l.name, weight: l.weight })) }
-      : {}),
-    numberResults: 1,
-  });
+  const inpaint = await runwareTask<{ imageURL?: string }>(
+    {
+      taskType: "imageInference",
+      model: args.checkpoint,
+      positivePrompt: args.adetailer.prompt?.trim() || args.prompt,
+      ...(args.adetailer.negativePrompt?.trim() || args.negativePrompt
+        ? {
+            negativePrompt:
+              args.adetailer.negativePrompt?.trim() || args.negativePrompt,
+          }
+        : {}),
+      width: args.width,
+      height: args.height,
+      seedImage: args.imageUrl,
+      maskImage: first.maskImageURL,
+      strength: args.adetailer.denoise ?? 0.25,
+      ...(typeof steps === "number" && steps > 0 ? { steps } : {}),
+      ...(args.scheduler ? { scheduler: args.scheduler } : {}),
+      ...(typeof args.cfg === "number" ? { CFGScale: args.cfg } : {}),
+      ...(args.loras.length
+        ? { lora: args.loras.map((l) => ({ model: l.name, weight: l.weight })) }
+        : {}),
+      numberResults: 1,
+    },
+    ADETAILER_TIMEOUT_MS,
+  );
 
   if (inpaint.errors?.length) {
     logger.warn("adetailer inpaint failed", {

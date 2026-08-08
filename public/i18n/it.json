@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Intensità di denoise",
     "INPAINT_STRENGTH_HINT": "Più alto ridisegna l’area più liberamente; più basso conserva di più dell’originale",
     "INPAINT_UNDO": "Annulla",
-    "INPAINT_REDO": "Ripristina"
+    "INPAINT_REDO": "Ripristina",
+    "CLAMP_WARNING": "Il provider ridimensiona le richieste oltre 1 megapixel o 50 passi.",
+    "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida."
   }
 }

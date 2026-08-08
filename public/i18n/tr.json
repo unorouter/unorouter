@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Gürültü giderme gücü",
     "INPAINT_STRENGTH_HINT": "Yüksek değer alanı daha serbest yeniden çizer; düşük değer orijinali daha çok korur",
     "INPAINT_UNDO": "Geri al",
-    "INPAINT_REDO": "Yinele"
+    "INPAINT_REDO": "Yinele",
+    "CLAMP_WARNING": "Sağlayıcı 1 megapikseli veya 50 adımı aşan istekleri küçültür.",
+    "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil."
   }
 }

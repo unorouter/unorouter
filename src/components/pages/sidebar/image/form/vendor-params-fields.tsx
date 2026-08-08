@@ -6,7 +6,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -123,37 +122,7 @@ export function VendorParamsFields(props: Props) {
           min={0}
           max={1}
           step={0.05}
-          value={
-            typeof form.watch("params.strength") === "number"
-              ? (form.watch("params.strength") as number)
-              : 0.5
-          }
-        />
-      )}
-
-      {descriptor.supportsSeed && (
-        <FormField
-          control={form.control}
-          name="params.seed"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("IMAGE.SEED_LABEL")}</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder={t("IMAGE.SEED_RANDOMIZE")}
-                  value={(field.value as number | undefined) ?? ""}
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === ""
-                        ? undefined
-                        : Number(e.target.value),
-                    )
-                  }
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          value={form.watch("params.strength") ?? 0.5}
         />
       )}
     </div>

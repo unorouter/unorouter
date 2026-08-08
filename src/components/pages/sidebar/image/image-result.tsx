@@ -26,7 +26,12 @@ import {
   useSessionQuery,
 } from "@/hooks/ai/image-hook";
 import { getModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationCloneMode } from "@/lib/validation/playground";
+import {
+  importPayloadChecker,
+  type GenerationCloneMode,
+} from "@/lib/validation/playground";
+import { safeParse } from "@/lib/validation/helpers";
+import { toast } from "sonner";
 import type { SnapshotView } from "@/lib/types";
 import { downloadJson } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
@@ -189,9 +194,22 @@ export function ImageResult(props: Props) {
   };
 
   const onImportFile = async (file: File) => {
-    const parsed = JSON.parse(await file.text());
+    // The upload is arbitrary JSON headed for DB rows (and, on regenerate, the submit
+    // path); nothing unchecked gets through.
+    let raw: unknown;
+    try {
+      raw = JSON.parse(await file.text());
+    } catch {
+      toast.error(t("IMAGE.IMPORT_INVALID"));
+      return;
+    }
+    const parsed = safeParse(importPayloadChecker, raw as never);
+    if (!parsed.success) {
+      toast.error(t("IMAGE.IMPORT_INVALID"));
+      return;
+    }
     const result = await importMut.mutateAsync({
-      payload: parsed,
+      payload: parsed.data,
       mode: importMode,
     });
     setImportDialogOpen(false);

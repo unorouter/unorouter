@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Denoise strength",
     "INPAINT_STRENGTH_HINT": "Higher redraws the masked area more freely; lower keeps more of the original",
     "INPAINT_UNDO": "Undo",
-    "INPAINT_REDO": "Redo"
+    "INPAINT_REDO": "Redo",
+    "CLAMP_WARNING": "Requests above 1 megapixel or 50 steps are scaled down by the provider.",
+    "IMPORT_INVALID": "This file is not a valid generation export."
   }
 }

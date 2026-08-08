@@ -33,11 +33,7 @@ export function CoreParamsFields(props: Props) {
   const numParam = (
     key: "steps" | "cfg" | "guidance",
     fallback: number,
-  ): number => {
-    const params = form.watch("params") as
-      Record<string, number | undefined> | undefined;
-    return params?.[key] ?? fallback;
-  };
+  ): number => form.watch("params")?.[key] ?? fallback;
 
   const steps = numParam("steps", descriptor.defaultParams.steps ?? 20);
   const cfg = numParam("cfg", descriptor.defaultParams.cfg ?? 7);
@@ -168,8 +164,10 @@ export function CoreParamsFields(props: Props) {
           </div>
         ) : null}
       </CollapsibleSection>
-      {/* Outside the disclosure: a seed is changed or reused per generation, not set once. */}
-      <SeedField />
+      {/* Outside the disclosure: a seed is changed or reused per generation, not set
+          once. Gated exactly like the server-side capability filter, which drops the
+          seed for models that do not declare it. */}
+      {descriptor.supportsSeed && <SeedField />}
     </>
   );
 }

@@ -45,7 +45,6 @@ export type PlaygroundModelDescriptor = {
   supportsAdetailer?: boolean;
   supportsEmbedding?: boolean;
   supportsVae?: boolean;
-  supportsLayerDiffusion?: boolean;
   supportsClipSkip?: boolean;
   tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
@@ -84,6 +83,7 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsReferences: false,
     supportsSampler: true,
     supportsHiresFix: true,
+    supportsSeed: true,
     defaultParams: {
       width: 1024,
       height: 1024,
@@ -114,6 +114,7 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsReferences: false,
     supportsSampler: true,
     supportsHiresFix: true,
+    supportsSeed: true,
     defaultParams: {
       width: 1024,
       height: 1024,
@@ -144,6 +145,7 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsReferences: false,
     supportsSampler: true,
     supportsHiresFix: true,
+    supportsSeed: true,
     defaultParams: {
       width: 1024,
       height: 1024,
@@ -157,7 +159,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,
-    supportsLayerDiffusion: true,
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },
@@ -287,8 +288,12 @@ export const PLAYGROUND_MODELS_BY_ID: Record<
   PlaygroundModelDescriptor
 > = Object.fromEntries(PLAYGROUND_MODELS.map((m) => [m.id, m]));
 
+// Unknown ids (passthrough checkpoints, catalog models) fall back to the first comfy
+// descriptor deliberately: callers only read display defaults off it.
+export const FALLBACK_MODEL_DESCRIPTOR = PLAYGROUND_MODELS[0];
+
 export function getModelDescriptor(
   id: PlaygroundModel,
 ): PlaygroundModelDescriptor {
-  return PLAYGROUND_MODELS_BY_ID[id] ?? PLAYGROUND_MODELS[0];
+  return PLAYGROUND_MODELS_BY_ID[id] ?? FALLBACK_MODEL_DESCRIPTOR;
 }

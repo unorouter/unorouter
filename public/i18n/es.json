@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Fuerza de eliminación de ruido",
     "INPAINT_STRENGTH_HINT": "Más alto redibuja el área con más libertad; más bajo conserva más del original",
     "INPAINT_UNDO": "Deshacer",
-    "INPAINT_REDO": "Rehacer"
+    "INPAINT_REDO": "Rehacer",
+    "CLAMP_WARNING": "El proveedor reduce las solicitudes que superan 1 megapíxel o 50 pasos.",
+    "IMPORT_INVALID": "Este archivo no es una exportación de generación válida."
   }
 }

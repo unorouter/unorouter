@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Force de débruitage",
     "INPAINT_STRENGTH_HINT": "Plus élevé redessine la zone plus librement ; plus bas conserve davantage l’original",
     "INPAINT_UNDO": "Annuler",
-    "INPAINT_REDO": "Rétablir"
+    "INPAINT_REDO": "Rétablir",
+    "CLAMP_WARNING": "Le fournisseur réduit les requêtes dépassant 1 mégapixel ou 50 étapes.",
+    "IMPORT_INVALID": "Ce fichier n’est pas un export de génération valide."
   }
 }

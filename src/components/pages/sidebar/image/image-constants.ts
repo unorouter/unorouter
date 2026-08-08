@@ -8,10 +8,13 @@ export const INITIAL_MODEL: PlaygroundModel = "pony";
 // The passthrough model: it carries no checkpoint of its own, the AIR rides on the request.
 export const CUSTOM_CIVITAI_MODEL_ID = "custom-civitai";
 export const VARIANT_CHOICES = [1, 2, MAX_IMAGES_PER_GEN] as const;
+export type VariantChoice = (typeof VARIANT_CHOICES)[number];
+
+export function clampVariants(value: unknown): VariantChoice {
+  return VARIANT_CHOICES.find((v) => v === value) ?? 1;
+}
 
 export const CLIP_TOKEN_CAP = 77;
-
-export const PLAYGROUND_SESSION_TITLE_MAX = 60;
 
 export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   id: string;

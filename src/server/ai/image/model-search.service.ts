@@ -1,12 +1,9 @@
-import { serverEnv } from "@/server/env";
 import type {
   CatalogItem,
   CatalogSearchQuery,
 } from "@/lib/validation/playground";
 import { logger } from "@/lib/utils/logger";
-
-// One endpoint for every task type; body is an array of tasks, response {data}|{errors}.
-const RUNWARE_ENDPOINT = "https://api.runware.ai/v1";
+import { runwareTask, type RunwareErrors } from "./runware";
 
 type RunwareSearchResult = {
   air: string;
@@ -21,33 +18,14 @@ type RunwareSearchResult = {
   downloadCount?: number;
 };
 
-type RunwareEnvelope = {
-  data?: { results?: RunwareSearchResult[]; totalResults?: number }[];
-  errors?: { code?: string; message?: string }[];
-};
-
-function requireKey(): string {
-  const key = serverEnv.runwareApiKey;
-  if (!key) throw new Error("runware api key is not configured");
-  return key;
-}
+type SearchPage = { results?: RunwareSearchResult[]; totalResults?: number };
+type RunwareEnvelope = { data?: SearchPage[]; errors?: RunwareErrors };
 
 // modelSearch answers in 8-22s measured; a 15s cap timed out more often than not.
-async function runwareTask<T = RunwareEnvelope>(
-  task: Record<string, unknown>,
-  timeoutMs = 30_000,
-): Promise<T> {
-  const res = await fetch(RUNWARE_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${requireKey()}`,
-      "Content-Type": "application/json",
-    },
-    // taskUUID must be a hyphenated UUIDv4; Runware rejects any other shape.
-    body: JSON.stringify([{ taskUUID: crypto.randomUUID(), ...task }]),
-    signal: AbortSignal.timeout(timeoutMs),
-  });
-  return (await res.json()) as T;
+const SEARCH_TIMEOUT_MS = 30_000;
+
+function searchTask(task: Record<string, unknown>): Promise<RunwareEnvelope> {
+  return runwareTask<SearchPage>(task, SEARCH_TIMEOUT_MS);
 }
 
 function toCatalogItem(row: RunwareSearchResult): CatalogItem {
@@ -89,7 +67,7 @@ export async function searchModelCatalog(
   // Catalog lists are decoration: a picker that cannot load renders empty, never 500s.
   let envelope: RunwareEnvelope;
   try {
-    envelope = await runwareTask({
+    envelope = await searchTask({
       taskType: "modelSearch",
       category,
       ...(query.search ? { search: query.search } : {}),
@@ -99,7 +77,7 @@ export async function searchModelCatalog(
     // Name search matches whole tokens only ("face" finds nothing, "faces" does); retry
     // the word as a tag before reporting no results.
     if (query.search && !(envelope.data?.[0]?.results ?? []).length) {
-      const byTag = await runwareTask({
+      const byTag = await searchTask({
         taskType: "modelSearch",
         category,
         tags: [query.search.toLowerCase()],
@@ -195,7 +173,7 @@ export async function findCheckpoints(
     return resolved ? [resolved] : [];
   }
 
-  const envelope = await runwareTask({
+  const envelope = await searchTask({
     taskType: "modelSearch",
     category: "checkpoint",
     search: trimmed,
@@ -226,7 +204,7 @@ export async function listCheckpointVersions(
   const ref = parseCivitaiReference(input);
   if (!ref) return [];
 
-  const envelope = await runwareTask({
+  const envelope = await searchTask({
     taskType: "modelSearch",
     category,
     search: ref.modelId,
@@ -266,7 +244,7 @@ export async function resolveCivitaiCheckpoint(
   const ref = parseCivitaiReference(input);
   if (!ref) return null;
 
-  const envelope = await runwareTask({
+  const envelope = await searchTask({
     taskType: "modelSearch",
     category,
     search: ref.modelId,

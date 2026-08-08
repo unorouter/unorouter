@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/image/image-constants";
+import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
@@ -28,13 +28,18 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { SnapshotView } from "@/lib/types";
 import {
+  generationLorasChecker,
+  generationParamsChecker,
+  generationReferencesChecker,
   isPlaygroundSessionFormat,
+  MAX_IMAGES_PER_GEN,
   type GeneratedImage,
   type GenerationCloneMode,
   type PlaygroundSnapshot,
   type PlaygroundSubmitBody,
   type SessionSnapshot,
 } from "@/lib/validation/playground";
+import { safeParse } from "@/lib/validation/helpers";
 import { fnv1aHex, handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
@@ -217,7 +222,7 @@ async function runSubmit(
     await upsertLocalImageSession(userId, {
       id: sessionId,
       userId,
-      title: body.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null,
+      title: body.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null,
       firstModel: body.model,
       snapshotCount: 0,
       imageCount: 0,
@@ -233,7 +238,7 @@ async function runSubmit(
     userId,
     sessionId,
     sessionOrder,
-    requestedCount: Math.min(4, body.params?.n ?? 1),
+    requestedCount: Math.min(MAX_IMAGES_PER_GEN, body.params?.n ?? 1),
     model: body.model,
     prompt: body.prompt,
     negativePrompt: body.negativePrompt ?? null,
@@ -350,14 +355,34 @@ export function useImportGenerationMutation() {
         : [args.payload];
       let sessionId = "";
       for (const snap of snapshots) {
+        // Snapshot payload fields are stored loosely for restore-lenience; regenerating
+        // resubmits them, so anything that fails the schema is dropped, not forwarded.
+        const params = safeParse(generationParamsChecker, snap.params as never);
+        const loras = safeParse(generationLorasChecker, snap.loras as never);
+        const references = safeParse(
+          generationReferencesChecker,
+          snap.references as never,
+        );
+        const extras =
+          snap.extraParams && typeof snap.extraParams === "object"
+            ? (snap.extraParams as { air?: unknown; airName?: unknown })
+            : null;
         const body: SubmitArgs = {
           model: snap.model,
           prompt: snap.prompt,
           negativePrompt: snap.negativePrompt ?? undefined,
-          params: snap.params as PlaygroundSubmitBody["params"],
-          loras: snap.loras as PlaygroundSubmitBody["loras"],
-          references: snap.references as PlaygroundSubmitBody["references"],
-          extraParams: snap.extraParams as Record<string, unknown> | undefined,
+          params: params.success ? params.data : undefined,
+          loras: loras.success ? loras.data : undefined,
+          references: references.success ? references.data : undefined,
+          extraParams:
+            typeof extras?.air === "string"
+              ? {
+                  air: extras.air,
+                  ...(typeof extras.airName === "string"
+                    ? { airName: extras.airName }
+                    : {}),
+                }
+              : undefined,
           visibility: "private",
           sessionId: sessionId || undefined,
         };

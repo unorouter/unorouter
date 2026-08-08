@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Kekuatan denoise",
     "INPAINT_STRENGTH_HINT": "Makin tinggi makin bebas menggambar ulang area; makin rendah makin mempertahankan aslinya",
     "INPAINT_UNDO": "Urungkan",
-    "INPAINT_REDO": "Ulangi"
+    "INPAINT_REDO": "Ulangi",
+    "CLAMP_WARNING": "Penyedia memperkecil permintaan di atas 1 megapiksel atau 50 langkah.",
+    "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid."
   }
 }

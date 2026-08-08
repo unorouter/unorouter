@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "Cường độ khử nhiễu",
     "INPAINT_STRENGTH_HINT": "Càng cao thì vẽ lại vùng càng tự do; càng thấp thì giữ lại nhiều ảnh gốc hơn",
     "INPAINT_UNDO": "Hoàn tác",
-    "INPAINT_REDO": "Làm lại"
+    "INPAINT_REDO": "Làm lại",
+    "CLAMP_WARNING": "Nhà cung cấp thu nhỏ các yêu cầu vượt quá 1 megapixel hoặc 50 bước.",
+    "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ."
   }
 }

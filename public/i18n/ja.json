@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "ノイズ除去の強さ",
     "INPAINT_STRENGTH_HINT": "高いほどマスク領域を自由に描き直し、低いほど元の画像を保持します",
     "INPAINT_UNDO": "元に戻す",
-    "INPAINT_REDO": "やり直す"
+    "INPAINT_REDO": "やり直す",
+    "CLAMP_WARNING": "1メガピクセルまたは50ステップを超えるリクエストはプロバイダー側で縮小されます。",
+    "IMPORT_INVALID": "このファイルは有効な生成エクスポートではありません。"
   }
 }

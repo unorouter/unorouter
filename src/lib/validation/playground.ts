@@ -1,5 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
+import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
@@ -65,15 +66,8 @@ export const playgroundAdetailer = t.Object({
 
 export type AdetailerParams = Static<typeof playgroundAdetailer>;
 
-export const generationLayerDiffusion = t.Object({
-  weight: t.Number({ minimum: 0, maximum: 2 }),
-});
-
-// There is no object storage: the browser holds the bytes and sends a base64 data URI,
-// which is neither a `uri` by format nor anywhere near 2048 chars. Accepting a bare string
-// would take any input at all, so the shape is still pinned - a downscaled image data URI
-// or an https URL, nothing else. The cap is generous enough for a 1024px long edge
-// (MAX_LONG_EDGE) at the encoder quality the uploader uses, and still bounds the body.
+// No object storage: the browser sends a downscaled base64 data URI or an https URL,
+// nothing else. The cap bounds the body while fitting a 1024px long edge.
 const MAX_IMAGE_SOURCE_LENGTH = 8 * 1024 * 1024;
 export const imageSource = t.String({
   pattern: "^(data:image/(png|jpeg|webp);base64,|https://)",
@@ -86,13 +80,11 @@ export const generationParams = t.Object({
   steps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
   cfg: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
   guidance: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
-  // Free-form: each backend has its own vocabulary (ComfyUI spells a sampler
-  // euler_ancestral, Runware spells the same idea "Euler a"), and the descriptor decides
-  // which names to offer. The submit path drops the value for a model that takes none.
+  // Free-form: each backend has its own sampler vocabulary; the descriptor decides
+  // which names to offer and the submit path drops values a model does not take.
   sampler: t.Optional(t.String({ maxLength: 64 })),
   scheduler: t.Optional(t.String({ maxLength: 64 })),
   seed: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
-  denoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresDenoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresUpscale: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
   n: t.Optional(t.Integer({ minimum: 1, maximum: MAX_IMAGES_PER_GEN })),
@@ -104,8 +96,6 @@ export const generationParams = t.Object({
   initImageUrl: t.Optional(imageSource),
   maskUrl: t.Optional(imageSource),
   vae: t.Optional(t.String({ maxLength: 128 })),
-  upscaler: t.Optional(t.String({ maxLength: 128 })),
-  upscalerMultiplier: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
   hiresSteps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
   embeddings: t.Optional(
     t.Array(
@@ -117,9 +107,7 @@ export const generationParams = t.Object({
     ),
   ),
   adetailer: t.Optional(playgroundAdetailer),
-  layerDiffusion: t.Optional(generationLayerDiffusion),
   clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
-  ensd: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
 });
 
 export const generationLoraEntry = t.Object({
@@ -160,6 +148,15 @@ export const generationFormUi = t.Object({
 });
 export type GenerationFormUi = Static<typeof generationFormUi>;
 
+// The only extraParams the server reads: the passthrough checkpoint and its display
+// metadata. Elysia's normalize strips anything else a stale client still sends.
+export const submitExtraParams = t.Object({
+  air: t.Optional(t.String({ maxLength: 256 })),
+  airName: t.Optional(t.String({ maxLength: 256 })),
+  airArchitecture: t.Optional(t.String({ maxLength: 64 })),
+});
+export type SubmitExtraParams = Static<typeof submitExtraParams>;
+
 export const playgroundSubmitBody = t.Object({
   model: playgroundModel,
   mode: t.Optional(generationMode),
@@ -168,7 +165,7 @@ export const playgroundSubmitBody = t.Object({
   params: t.Optional(generationParams),
   loras: t.Optional(t.Array(generationLoraEntry, { maxItems: 12 })),
   references: t.Optional(t.Array(generationReferenceEntry, { maxItems: 6 })),
-  extraParams: t.Optional(t.Record(t.String(), t.Any())),
+  extraParams: t.Optional(submitExtraParams),
   visibility: t.Optional(generationVisibility),
   sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
@@ -217,6 +214,21 @@ export const sessionSnapshot = t.Object({
   snapshots: t.Array(playgroundSnapshot, { maxItems: 200 }),
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
+
+// Uploaded import files are arbitrary JSON; check the envelope before any DB write.
+export const importPayloadChecker = TypeCompiler.Compile(
+  t.Union([playgroundSnapshot, sessionSnapshot]),
+);
+
+// Snapshot payload fields are t.Unknown for restore-lenience; the regenerate path
+// narrows them through these before resubmitting.
+export const generationParamsChecker = TypeCompiler.Compile(generationParams);
+export const generationLorasChecker = TypeCompiler.Compile(
+  t.Array(generationLoraEntry, { maxItems: 12 }),
+);
+export const generationReferencesChecker = TypeCompiler.Compile(
+  t.Array(generationReferenceEntry, { maxItems: 6 }),
+);
 
 export const generatedImage = t.Object({
   resultUrl: t.Union([t.String(), t.Null()]),

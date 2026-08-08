@@ -10,7 +10,6 @@ import {
 import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
 import type { EmbeddingEntry } from "../fields/embedding-picker";
 import { EmbeddingPicker } from "../fields/embedding-picker";
-import { LayerDiffusionField } from "../fields/layer-diffusion-field";
 import { UpscalerField } from "../fields/upscaler-field";
 import { VaePicker } from "../fields/vae-picker";
 import { patchParams } from "./form-helpers";
@@ -54,25 +53,14 @@ export function AdvancedFieldsStack(props: Props) {
         />
       )}
 
-      {descriptor.supportsLayerDiffusion && (
-        <LayerDiffusionField
-          value={params.layerDiffusion as { weight: number } | undefined}
-          onChange={(layerDiffusion) => patchParams(form, { layerDiffusion })}
-        />
-      )}
-
       {descriptor.supportsHiresFix && (
         <UpscalerField
-          multiplier={
-            (params.upscalerMultiplier as number | undefined) ??
-            (params.hiresUpscale as number | undefined)
-          }
+          multiplier={params.hiresUpscale as number | undefined}
           hiresSteps={params.hiresSteps as number | undefined}
           denoise={params.hiresDenoise as number | undefined}
           onChange={(patch) =>
             patchParams(form, {
               ...(patch.multiplier !== undefined && {
-                upscalerMultiplier: patch.multiplier,
                 hiresUpscale: patch.multiplier,
               }),
               ...(patch.hiresSteps !== undefined && {
@@ -89,7 +77,6 @@ export function AdvancedFieldsStack(props: Props) {
       {descriptor.supportsClipSkip && (
         <AdvancedSettingsAccordion
           clipSkip={params.clipSkip as number | undefined}
-          ensd={params.ensd as number | undefined}
           onChange={(patch) => patchParams(form, patch)}
         />
       )}

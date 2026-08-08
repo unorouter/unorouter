@@ -1,9 +1,10 @@
 import { blobUrlToDataUri } from "@/lib/db/client/data/media/blob-url";
-import { CUSTOM_CIVITAI_MODEL_ID } from "../image-constants";
+import { CUSTOM_CIVITAI_MODEL_ID, clampVariants } from "../image-constants";
 import type {
   GenerationFormValues,
   GenerationMode,
   PlaygroundSubmitBody,
+  SubmitExtraParams,
 } from "@/lib/validation/playground";
 
 export type SubmitContext = {
@@ -11,57 +12,15 @@ export type SubmitContext = {
   mode: GenerationMode;
 };
 
-/** Params the UI collects that the server reads off the params object. */
-const FORWARDED_PARAM_KEYS = [
-  "width",
-  "height",
-  "steps",
-  "cfg",
-  "guidance",
-  "sampler",
-  "scheduler",
-  "clipSkip",
-  "ensd",
-  "seed",
-  "denoise",
-  "strength",
-  "quality",
-  "outputFormat",
-  "watermark",
-  "background",
-  "initImageUrl",
-  "maskUrl",
-  "vae",
-  "upscalerMultiplier",
-  "hiresSteps",
-  "hiresDenoise",
-  "hiresUpscale",
-  "embeddings",
-  "adetailer",
-  "layerDiffusion",
-] as const;
-
 export async function toSubmitBody(
   values: GenerationFormValues,
   ctx: SubmitContext,
 ): Promise<PlaygroundSubmitBody> {
   const ui = values.ui ?? {};
-  const variants =
-    typeof ui.variants === "number" && [1, 2, 4].includes(ui.variants)
-      ? ui.variants
-      : 1;
-
-  const existingParams =
-    (values.params as Record<string, unknown> | undefined) ?? {};
-
-  const forwarded: Record<string, unknown> = {};
-  for (const key of FORWARDED_PARAM_KEYS) {
-    if (existingParams[key] !== undefined) forwarded[key] = existingParams[key];
-  }
+  const variants = clampVariants(ui.variants);
 
   const paramsWithN: Record<string, unknown> = {
-    ...existingParams,
-    ...forwarded,
+    ...(values.params ?? {}),
     n: variants,
   };
 
@@ -88,13 +47,11 @@ export async function toSubmitBody(
     }
   }
 
-  const wireExtras = {
-    ...((values.extraParams as Record<string, unknown> | undefined) ?? {}),
-    // The inpaint checkpoint override applies to this request only.
-    ...(ctx.mode === "inpaint" && ui.inpaintAir
+  // The inpaint checkpoint override applies to this request only.
+  const wireExtras: SubmitExtraParams =
+    ctx.mode === "inpaint" && ui.inpaintAir
       ? { air: ui.inpaintAir, airName: ui.inpaintAirName }
-      : {}),
-  };
+      : {};
   const cleanedExtras =
     Object.keys(wireExtras).length > 0 ? wireExtras : undefined;
 

@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "降噪強度",
     "INPAINT_STRENGTH_HINT": "數值越高，遮罩區域重繪越自由；越低則保留更多原圖",
     "INPAINT_UNDO": "復原",
-    "INPAINT_REDO": "重做"
+    "INPAINT_REDO": "重做",
+    "CLAMP_WARNING": "超過1百萬像素或50步的請求會被服務方縮小後執行。",
+    "IMPORT_INVALID": "此檔案不是有效的生成匯出檔。"
   }
 }

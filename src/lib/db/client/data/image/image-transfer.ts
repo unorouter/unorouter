@@ -1,6 +1,6 @@
 "use client";
 
-import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/image/image-constants";
+import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
   isPlaygroundSessionFormat,
@@ -126,9 +126,8 @@ export async function importLocalSession(
     ? payload.snapshots
     : [payload];
   const title = isSession
-    ? payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
-      null
-    : payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null;
+    ? payload.session.title?.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null
+    : payload.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null;
   const firstModel = isSession ? payload.session.firstModel : payload.model;
 
   await upsertLocalImageSession(uidVal, {

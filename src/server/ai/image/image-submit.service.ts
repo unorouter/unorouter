@@ -9,6 +9,7 @@ import {
   getEffectiveGenerationModels,
   isRunwareScheduler,
 } from "@/lib/ai/playground/models-dynamic";
+import { isValidAir } from "@/lib/ai/image/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import type {
   GeneratedImage,
@@ -55,25 +56,20 @@ function paramsToSize(
   return `${Math.round(p.width * scale)}x${Math.round(p.height * scale)}`;
 }
 
-// `<publisher>:<modelId>@<versionId>`. Validated here as well as in the gateway: this
-// value selects the model that runs, so nothing malformed may be forwarded.
-const AIR_PATTERN = /^[a-z0-9_-]+:\d+@\d+$/i;
-
 // Diffusion knobs the OpenAI image schema has no field for; they ride as extra top-level
 // keys under the PROVIDER'S spellings (CFGScale, seedImage, lora[].model, scheduler).
 // Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
 function diffusionParams(
   params: Record<string, unknown>,
   loras: LoraEntry[],
-  extraParams: Record<string, unknown> | undefined,
+  extraParams: { air?: string } | undefined,
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   if (bodyNegativePrompt) out.negativePrompt = bodyNegativePrompt;
   // The passthrough checkpoint; without it every custom-civitai request runs the
   // channel's default model.
-  const air = extraParams?.air;
-  if (typeof air === "string" && AIR_PATTERN.test(air)) out.air = air;
+  if (isValidAir(extraParams?.air)) out.air = extraParams.air;
   // Empty string means "untouched" in the form, but providers reject it as a real value.
   const copy = (key: string) => {
     const value = params[key];
@@ -82,7 +78,8 @@ function diffusionParams(
   };
   copy("steps");
   copy("clipSkip");
-  const cfg = params.cfg;
+  // guidance is the flux-family spelling of the same knob; cfg wins when both exist.
+  const cfg = params.cfg ?? params.guidance;
   if (typeof cfg === "number") out.CFGScale = cfg;
   // One scheduler field upstream. Allowlisted because an unknown scheduler is a HARD
   // failure (old drafts still carry ComfyUI spellings); unrecognised falls back to the
@@ -275,7 +272,7 @@ export async function submitGeneration(
         const refined = await runAdetailerPass({
           imageUrl: uri,
           adetailer,
-          checkpoint: adetailerCheckpoint(body, params),
+          checkpoint: adetailerCheckpoint(body),
           prompt: body.prompt,
           negativePrompt: params.negativePrompt as string | undefined,
           loras: adetailer.loras?.length ? adetailer.loras : loras,

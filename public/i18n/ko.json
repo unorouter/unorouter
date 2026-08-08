@@ -5765,6 +5765,8 @@
     "INPAINT_STRENGTH": "디노이즈 강도",
     "INPAINT_STRENGTH_HINT": "높을수록 마스크 영역을 자유롭게 다시 그리고, 낮을수록 원본을 더 유지합니다",
     "INPAINT_UNDO": "실행 취소",
-    "INPAINT_REDO": "다시 실행"
+    "INPAINT_REDO": "다시 실행",
+    "CLAMP_WARNING": "1메가픽셀 또는 50스텝을 초과하는 요청은 제공자가 축소합니다.",
+    "IMPORT_INVALID": "이 파일은 유효한 생성 내보내기가 아닙니다."
   }
 }

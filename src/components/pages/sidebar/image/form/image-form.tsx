@@ -16,7 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSubmitGenerationMutation } from "@/hooks/ai/image-hook";
 import { useRememberImageModelMutation } from "@/hooks/ai/image-catalog-hook";
 import { useTranslations } from "next-intl";
-import { estimateImageCost } from "@/lib/ai/image/cost-estimate";
+import { estimateImageCost, willClamp } from "@/lib/ai/image/cost-estimate";
+import { COST_FLOOR_FALLBACK, COST_MARKUP } from "@/lib/ai/image/constants";
 import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -36,6 +37,7 @@ import { InpaintSettings } from "../fields/inpaint-settings";
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import {
+  clampVariants,
   CUSTOM_CIVITAI_MODEL_ID,
   INITIAL_MODEL,
   VARIANT_CHOICES,
@@ -59,9 +61,6 @@ const InpaintCanvas = dynamic(
   () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
   { ssr: false },
 );
-
-const COST_MARKUP = 20;
-const COST_FLOOR_FALLBACK = 0.02;
 
 function deriveMode(
   activeTab: "text2img" | "img2img" | "edit",
@@ -103,13 +102,12 @@ export function ImageForm() {
           nsfwLevel: null,
         }
       : null);
-  const variantsRaw = ui.variants;
-  const variants = ([1, 2, 4] as const).find((v) => v === variantsRaw) ?? 1;
+  const variants = clampVariants(ui.variants);
   const params = form.watch("params") ?? {};
 
   const cost = estimateImageCost({
-    width: (params.width as number | undefined) ?? 1024,
-    height: (params.height as number | undefined) ?? 1024,
+    width: params.width ?? 1024,
+    height: params.height ?? 1024,
     count: variants,
     markup: COST_MARKUP,
     floorPrice: descriptor.pricePerCall || COST_FLOOR_FALLBACK,
@@ -117,6 +115,11 @@ export function ImageForm() {
   const priceLabel = descriptor.isFree
     ? t("IMAGE.FREE_BADGE")
     : `~${renderQuota(dollarsToQuota(cost.estimate), 2)}`;
+  const clampWarning = willClamp(
+    params.width ?? 1024,
+    params.height ?? 1024,
+    params.steps ?? 0,
+  );
 
   const onPngImport = (data: RestoredFromPng) => {
     if (data.prompt !== undefined) {
@@ -319,8 +322,8 @@ export function ImageForm() {
 
         {descriptor.supportsSize && (
           <AspectRatioField
-            width={(params.width as number | undefined) ?? 1024}
-            height={(params.height as number | undefined) ?? 1024}
+            width={params.width ?? 1024}
+            height={params.height ?? 1024}
             onChange={(next) =>
               patchParams(form, { width: next.width, height: next.height })
             }
@@ -431,7 +434,7 @@ export function ImageForm() {
 
         {activeTab === "img2img" && (
           <InitImageField
-            value={params.initImageUrl as string | undefined}
+            value={params.initImageUrl}
             onChange={(initImageUrl) => patchParams(form, { initImageUrl })}
             onInpaint={
               activeSubPill === "inpaint"
@@ -478,6 +481,11 @@ export function ImageForm() {
           {!submitMut.isPending && !(form.watch("prompt") ?? "") && (
             <p className="text-muted-foreground text-xs">
               {t("IMAGE.SUBMIT_NEEDS_PROMPT")}
+            </p>
+          )}
+          {clampWarning && (
+            <p className="text-xs text-amber-700 dark:text-amber-400">
+              {t("IMAGE.CLAMP_WARNING")}
             </p>
           )}
           {activeSessionId && (
