@@ -26,9 +26,7 @@ function aspectRatioOf(img: ImageView): string | undefined {
   return `${img.width} / ${img.height}`;
 }
 
-// Touch has no hover, so these are always visible on a phone and are the ONLY way to reach
-// remix/inpaint/hires there. 22px was too small to hit; a full 44px target covered the image
-// it sits on. 32px is the middle: tappable without becoming the subject of the tile.
+// Always visible on touch (no hover there); 32px targets, tappable without covering the tile.
 function QuickButton(props: {
   icon: string;
   label: string;
@@ -96,9 +94,7 @@ function ImageTile(props: {
           alt={props.alt}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          // contain when the box already matches the image: cover would still crop on any
-          // rounding mismatch, and cropping the result the user just paid for is worse than
-          // a hairline of background.
+          // contain when the box matches the image: never crop a paid result.
           className={props.aspectRatio ? "object-contain" : "object-cover"}
         />
       </button>
@@ -110,8 +106,7 @@ function ImageTile(props: {
       >
         <Icon name="download" className="h-4 w-4" />
       </button>
-      {/* A generation that did not pin a seed is otherwise unreproducible, so the one the
-          provider chose is shown on the image it produced and is one click to reuse. */}
+      {/* The provider-chosen seed is the only way to reproduce an unpinned generation. */}
       {typeof props.seed === "number" && (
         <button
           type="button"
@@ -125,8 +120,7 @@ function ImageTile(props: {
       )}
       {props.onQuickAction && (
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
-          {/* Remix is per-image too: a batch has several results, and the snapshot-level
-              button could only ever reuse the first one's seed. */}
+          {/* Per-image: each batch result carries its own seed. */}
           <QuickButton
             icon="sparkles"
             label={t("IMAGE.REMIX")}
@@ -183,12 +177,8 @@ export function BatchGrid(props: {
         src={sorted[0].src}
         alt={props.prompt}
         filename={`${props.snapshotId}.png`}
-        // aspect-square is the FALLBACK for rows with no stored dimensions: the inline
-        // aspectRatio overrides it when they exist, and without it a `fill` image inside a
-        // height-less box collapses to zero.
+        // aspect-square only as fallback: a fill image in a height-less box collapses.
         className={aspectRatioOf(sorted[0]) ? "w-full" : "aspect-square w-full"}
-        // The single result shows the WHOLE image: a square tile cropped a portrait to its
-        // middle third and scaled it up, which reads as the viewer zooming in on its own.
         aspectRatio={aspectRatioOf(sorted[0])}
         seed={sorted[0].seed}
         onZoom={() => props.onOpenLightbox(0)}

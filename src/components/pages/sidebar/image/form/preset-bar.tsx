@@ -34,10 +34,8 @@ type Props = {
 };
 
 /**
- * Saved generation setups: model, negative prompt, size, sampler and LoRA chain. The POSITIVE
- * prompt is deliberately excluded: it is what changes between generations, and carrying it
- * meant applying a preset wiped the text the user was working on. The negative prompt is the
- * opposite, boilerplate worth keeping with the setup.
+ * Saved generation setups. The positive prompt is deliberately excluded (it changes per
+ * generation); the negative prompt is the boilerplate a setup exists to carry.
  */
 export function PresetBar(props: Props) {
   const t = useTranslations();
@@ -51,9 +49,7 @@ export function PresetBar(props: Props) {
   const presets = presetsQuery.data ?? [];
   const selectedPreset = presets.find((p) => p.id === selectedId) ?? null;
 
-  // Saving is keyed by NAME (the data layer overwrites a same-named row), so overwriting the
-  // equipped preset is the same call with its own name. Without a button for it the only way
-  // to update a preset was to retype its name exactly, and a typo silently made a duplicate.
+  // Saving is keyed by NAME (the data layer overwrites a same-named row).
   const onOverwrite = async () => {
     if (!selectedPreset) return;
     const ok = await confirm({
@@ -80,9 +76,6 @@ export function PresetBar(props: Props) {
     const saved = await savePreset.mutateAsync({
       name: trimmed,
       model: props.current.model,
-      // The POSITIVE prompt is per-generation, not part of a setup: it changes every run,
-      // and baking it in made applying a preset overwrite whatever the user was writing.
-      // The negative prompt is the opposite, it is the boilerplate a setup exists to carry.
       prompt: null,
       negativePrompt: props.current.negativePrompt,
       params: props.current.params,
@@ -114,9 +107,7 @@ export function PresetBar(props: Props) {
         <Select
           value={selectedId}
           onValueChange={(id) => {
-            // Re-picking the preset that is ALREADY equipped must not re-apply it: the user
-            // reaches for the dropdown after editing its values, and applying would discard
-            // exactly the changes they opened it to save.
+            // Re-picking the equipped preset must not re-apply it over unsaved edits.
             if (id === selectedId) return;
             setSelectedId(id ?? "");
             const preset = presets.find((p) => p.id === id);
@@ -128,9 +119,7 @@ export function PresetBar(props: Props) {
             aria-label={t("IMAGE.PRESET_LABEL")}
             className="min-w-0 flex-1"
           >
-            {/* Rendered from the row rather than by SelectValue: the item that carries the
-                label only mounts while the list is open, so the trigger fell back to the raw
-                id once closed. */}
+            {/* From the row, not SelectValue: items only mount while the list is open. */}
             {selectedPreset ? (
               <span className="truncate">{selectedPreset.name}</span>
             ) : (

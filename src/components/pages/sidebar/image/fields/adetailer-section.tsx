@@ -4,7 +4,6 @@ import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -28,7 +27,6 @@ export type AdetailerValue = {
   confidence?: number;
   maskBlur?: number;
   denoise?: number;
-  inpaintOnlyMasked?: boolean;
   loras?: LoraEntry[];
 };
 
@@ -44,7 +42,6 @@ const DEFAULTS: AdetailerValue = {
   confidence: 0.5,
   maskBlur: 4,
   denoise: 0.25,
-  inpaintOnlyMasked: true,
   loras: [],
 };
 
@@ -223,9 +220,6 @@ export function AdetailerSection(props: Props) {
               />
             </div>
           </div>
-          {/* No "inpaint only masked area" toggle: the pass ALWAYS redraws just the detected
-              region, so the option had nothing to switch and only implied this depends on
-              the manual inpaint tool. It does not: it runs on the image it just generated. */}
           <p className="text-muted-foreground text-xs">
             {t("IMAGE.ADETAILER_HINT")}
           </p>

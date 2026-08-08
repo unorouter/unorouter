@@ -1,8 +1,4 @@
-import {
-  GENERATION_SAMPLERS,
-  GENERATION_SCHEDULERS,
-  type PlaygroundModel,
-} from "@/lib/validation/playground";
+import type { PlaygroundModel } from "@/lib/validation/playground";
 
 export type ModelFamily = "sdxl" | "flux2" | "sync-image" | "edit";
 
@@ -46,9 +42,6 @@ export type PlaygroundModelDescriptor = {
   schedulers?: string[];
   estimatedSeconds: number;
   recommendedPromptStyle: "natural-language" | "danbooru-tags";
-  supportsImg2Img?: boolean;
-  supportsUpscale?: boolean;
-  supportsInpaint?: boolean;
   supportsAdetailer?: boolean;
   supportsEmbedding?: boolean;
   supportsVae?: boolean;
@@ -57,9 +50,24 @@ export type PlaygroundModelDescriptor = {
   tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
-const SDXL_SAMPLERS: string[] = [...GENERATION_SAMPLERS];
+// ComfyUI vocabulary; only the hardcoded comfy descriptors use these spellings.
+const SDXL_SAMPLERS: string[] = [
+  "euler",
+  "euler_ancestral",
+  "dpmpp_2m",
+  "dpmpp_2m_sde",
+  "dpmpp_3m_sde",
+  "ddim",
+  "uni_pc",
+];
 
-const SDXL_SCHEDULERS: string[] = [...GENERATION_SCHEDULERS];
+const SDXL_SCHEDULERS: string[] = [
+  "normal",
+  "karras",
+  "exponential",
+  "sgm_uniform",
+  "simple",
+];
 
 export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
   {
@@ -86,9 +94,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
-    supportsImg2Img: true,
-    supportsUpscale: true,
-    supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,
@@ -119,9 +124,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 10,
     recommendedPromptStyle: "natural-language",
-    supportsImg2Img: true,
-    supportsUpscale: true,
-    supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,
@@ -152,9 +154,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
-    supportsImg2Img: true,
-    supportsUpscale: true,
-    supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,

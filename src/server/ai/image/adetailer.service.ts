@@ -4,16 +4,10 @@ import { serverEnv } from "@/server/env";
 
 const RUNWARE_ENDPOINT = "https://api.runware.ai/v1";
 
-// ADetailer is two steps, not one parameter: a detector finds faces or hands and returns a
-// mask, then a normal inpaint pass redraws only that region at the model's full resolution.
-// The provider exposes both halves but nothing that chains them, so the chaining lives here.
-//
-// The detector is addressed by AIR (`runware:35@<n>`), NOT by the `face_yolov8n.pt` filenames
-// the A1111 extension uses. Those names are what users recognise, so the picker keeps them
-// and this map translates.
-// FACE ONLY, deliberately. Every entry here was verified against a live detection; the hand
-// and person slots in this AIR family either error or return no detections even on an image
-// that is nothing but hands, so offering them would be a control that silently does nothing.
+// ADetailer = detect (mask) + inpaint the region; the provider exposes both halves but
+// nothing that chains them. Detectors are addressed by AIR, the picker keeps the A1111
+// filenames users recognise. FACE ONLY: the hand/person slots in this AIR family return
+// no detections even on an image that is nothing but hands (live-verified).
 const DETECTOR_AIR: Record<string, string> = {
   "bbox/face_yolov8n.pt": "runware:35@1",
   "bbox/face_yolov8n_v2.pt": "runware:35@2",
@@ -28,8 +22,8 @@ export function detectorAirFor(yoloModel: string | undefined): string | null {
   return DETECTOR_AIR[yoloModel] ?? null;
 }
 
-// The pass goes DIRECT to the provider, so it needs the checkpoint the provider knows. For a
-// passthrough model that is the resolved AIR the user picked, not our routing placeholder.
+// The pass goes direct to the provider, so a passthrough model needs the resolved AIR,
+// not our routing placeholder.
 export function adetailerCheckpoint(
   body: { model: string; extraParams?: Record<string, unknown> },
   params: Record<string, unknown>,
@@ -62,12 +56,8 @@ async function runwareTask<T>(
 }
 
 /**
- * Runs one ADetailer pass over a finished image and returns the redrawn image URL, or null
- * when there is nothing to do.
- *
- * Best-effort by design: the source image is already generated and paid for, so a detector
- * that finds no face, or an inpaint that errors, must leave the original untouched rather
- * than failing the whole generation.
+ * One ADetailer pass over a finished image; returns the redrawn URL or null. Best-effort:
+ * the source is already paid for, so any failure leaves the original untouched.
  */
 export async function runAdetailerPass(args: {
   imageUrl: string;
@@ -104,7 +94,7 @@ export async function runAdetailerPass(args: {
   }
 
   const first = mask.data?.[0];
-  // No detections is the normal case for an image with no face in it, not a failure.
+  // No detections is normal for an image with no face in it.
   if (!first?.maskImageURL || !first.detections?.length) {
     logger.info("adetailer found nothing to fix", {
       context: "image.adetailer",
@@ -113,9 +103,8 @@ export async function runAdetailerPass(args: {
     return null;
   }
 
-  // The pass redraws ONLY the masked region, so its prompt is the detail prompt when the
-  // user gave one and the original otherwise: an empty prompt would redraw a face from
-  // nothing. Steps of 0 means "inherit", which the form spells as the toggle being off.
+  // Detail prompt when given, else the original (an empty prompt would redraw a face
+  // from nothing). Steps 0 = inherit (the form's toggle-off state).
   const steps = args.adetailer.steps;
   const inpaint = await runwareTask<{ imageURL?: string }>({
     taskType: "imageInference",

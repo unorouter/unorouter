@@ -16,21 +16,10 @@ type Props = {
 };
 
 /**
- * Settings for the manual inpaint pass, rendered WITH the mask canvas.
- *
- * The values here are overrides: empty means the pass reuses what the form already holds.
- * They live next to the canvas rather than in the shared fields far above it, because the
- * brush drops the user at the bottom of a long form and the controls that drive the pass
- * were nowhere near what they were looking at.
- *
- * Every field binds through its OWN Controller rather than being lifted into the parent.
- * The parent watches a dozen paths, so routing keystrokes through it re-rendered the whole
- * form (mask canvas included) on every character and the typing visibly stuttered.
- *
- * Distinct from the ADetailer section on purpose. ADetailer runs a detector over a finished
- * image and redraws whatever it finds; inpainting redraws the region the user painted, with
- * a real checkpoint they choose. Folding one into the other would have made the manual tool
- * inherit a YOLO model picker that has nothing to do with it.
+ * Overrides for the manual inpaint pass, rendered next to the mask canvas; empty fields
+ * reuse what the form holds. Each field binds its own Controller so keystrokes do not
+ * re-render the whole form (canvas included). Distinct from ADetailer, which detects a
+ * region instead of taking a painted one.
  */
 export function InpaintSettings(props: Props) {
   const t = useTranslations();
@@ -66,11 +55,6 @@ export function InpaintSettings(props: Props) {
                     form.setValue(
                       "ui.inpaintAirName" as never,
                       checkpoint?.name as never,
-                      { shouldDirty: true },
-                    );
-                    form.setValue(
-                      "ui.inpaintModel" as never,
-                      checkpoint?.air as never,
                       { shouldDirty: true },
                     );
                   }}

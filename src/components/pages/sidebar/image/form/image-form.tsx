@@ -90,12 +90,8 @@ export function ImageForm() {
   const descriptor = gen.descriptor;
 
   const ui = form.watch("ui") ?? {};
-  // A restored snapshot repopulates ui from its extraParams, which is where the checkpoint
-  // was recorded. Re-selecting it here keeps the picker label right and, more importantly,
-  // keeps the AIR on a resubmit instead of silently generating with the placeholder model.
-  // Derived, not synced: a restored snapshot repopulates ui from its extraParams, so the
-  // checkpoint recorded there IS the selection. Picking one in the session takes precedence
-  // over what an older snapshot restored.
+  // Derived, not synced: ui.air (restored from a snapshot's extraParams) IS the
+  // selection; a checkpoint picked this session takes precedence.
   const activeCheckpoint: CustomCheckpoint | null =
     pickedCheckpoint ??
     (ui.air
@@ -153,8 +149,7 @@ export function ImageForm() {
             extraParams: {
               ...(body.extraParams ?? {}),
               air: activeCheckpoint.air,
-              // Persisted so history reads as the checkpoint the user chose rather than
-              // the routing id, and so reopening the snapshot can restore it.
+              // Name persisted so history shows the checkpoint, not the routing id.
               airName: activeCheckpoint.name,
               ...(activeCheckpoint.architecture
                 ? { airArchitecture: activeCheckpoint.architecture }
@@ -178,13 +173,8 @@ export function ImageForm() {
       ...gen.samplerMemory,
       [modelKey]: data.params ?? {},
     });
-    // The draft is the whole setup, not an unsent message: clearing it on success threw
-    // away the model and every setting, so the next visit started from defaults. The prompt
-    // is kept too - a generation is usually the first of several on the same prompt, and
-    // blanking the stored copy wiped what the form was still showing on the next restore.
-    // The chosen checkpoint rides in ui as well as in the submitted extraParams: submitting
-    // navigates to the result, which remounts the form and drops the picked-checkpoint state,
-    // so without this the custom model came back with its URL and version list emptied.
+    // The draft is the whole setup and survives the submit; the checkpoint rides in ui
+    // because submitting navigates and remounts the form, dropping component state.
     const draftUi = {
       ...(data.ui ?? { variants: 1 }),
       ...(activeCheckpoint
@@ -210,8 +200,7 @@ export function ImageForm() {
 
     setActiveSessionId(submitted.sessionId);
     setActiveSnapshotId(submitted.snapshotId);
-    // Through the i18n router so the locale-translated pathname is used, and replace so a
-    // submit does not add a back entry between the form and its own result.
+    // replace: a submit must not add a back entry between the form and its own result.
     router.replace(
       {
         pathname: "/image/[id]",
@@ -243,20 +232,14 @@ export function ImageForm() {
             gen.adoptModelTab(preset.model);
             form.setValue("model", preset.model);
             gen.changeModel(preset.model);
-            // Only a preset that carries its own checkpoint replaces the resolved one.
-            // Presets saved before the AIR was stored carry none, and clearing on those
-            // left the custom model with an empty URL and no version, which blocks submit.
+            // Only a preset carrying its own checkpoint replaces the resolved one.
             if (preset.extraParams?.air) setPickedCheckpoint(null);
-            // The positive prompt is deliberately NOT applied, including from presets saved
-            // back when it was stored: it is what the user is actively writing, and a preset
-            // is the setup around it. The negative prompt IS applied, since that is the
-            // boilerplate worth saving.
+            // The positive prompt is never applied (it is what the user is writing);
+            // the negative prompt is the boilerplate a preset exists to carry.
             form.setValue("negativePrompt", preset.negativePrompt ?? "");
             if (preset.params) form.setValue("params", preset.params);
             form.setValue("loras", preset.loras ?? undefined);
-            // Merge rather than replace: a preset with no checkpoint of its own must not
-            // drop the AIR the current ui is carrying, since that is what identifies the
-            // model actually being run.
+            // Merge: a preset with no checkpoint must not drop the current ui's AIR.
             if (preset.extraParams) {
               form.setValue("ui", {
                 ...(preset.extraParams.air ? {} : ui),
@@ -300,9 +283,8 @@ export function ImageForm() {
         {descriptor.id === CUSTOM_CIVITAI_MODEL_ID && (
           <CivitaiResolverField
             value={activeCheckpoint}
-            // Mirrored into ui, not just held in state: the draft is built from ui, so a
-            // checkpoint kept only in state was lost on every remount (submitting navigates
-            // to the result) and the user had to resolve the URL again before each run.
+            // Mirrored into ui: the draft is built from ui, and component state dies on
+            // the post-submit remount.
             onChange={(next) => {
               setPickedCheckpoint(next);
               const current = form.getValues("ui") ?? {};
@@ -467,26 +449,17 @@ export function ImageForm() {
           typeof params.initImageUrl === "string" && (
             <>
               <InpaintCanvas imageUrl={params.initImageUrl} />
-              {/* Beside the canvas, not in the shared fields far above it: the brush drops the
-                  user at the bottom of a long form, and the controls driving the pass were
-                  nowhere near the thing they were looking at. */}
-              {/* Binds its own fields through the form context. Routing them through this
-                  component made every keystroke re-render the whole form, canvas included. */}
               <InpaintSettings fallbackPrompt={form.watch("prompt") ?? ""} />
             </>
           )}
 
         <AdvancedFieldsStack form={form} descriptor={descriptor} />
 
-        {/* Sticky while submitting: a generation takes ten seconds or more, and the result
-            mounting above pushes this button far below the fold. Losing sight of it mid-run
-            reads as a dead button and the whole generation as a no-op. */}
+        {/* Sticky: the result mounting above pushes this below the fold mid-run. */}
         <div className="bg-background sticky bottom-0 z-10 flex flex-col gap-2 py-2">
           <Button
             type="submit"
-            // Inpainting has its OWN prompt, and typing only there left this disabled with
-            // nothing saying why: the main prompt above was empty because the pass does not
-            // use it. Either one is enough to describe what to generate.
+            // Inpainting has its own prompt; either one describes what to generate.
             disabled={
               submitMut.isPending ||
               !((form.watch("prompt") || ui.inpaintPrompt) ?? "")
@@ -501,8 +474,7 @@ export function ImageForm() {
               ? t("IMAGE.SUBMITTING")
               : `${t("IMAGE.SUBMIT")} ${priceLabel}`}
           </Button>
-          {/* A disabled button with no reason reads as broken rather than as a missing
-              field, which is how an older preset carrying no prompt was reported. */}
+          {/* A disabled button with no stated reason reads as broken. */}
           {!submitMut.isPending && !(form.watch("prompt") ?? "") && (
             <p className="text-muted-foreground text-xs">
               {t("IMAGE.SUBMIT_NEEDS_PROMPT")}

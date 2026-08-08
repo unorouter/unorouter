@@ -8,13 +8,8 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
+import type { ReferenceEntry } from "@/lib/validation/playground";
 import { ACCEPTED_IMAGE_MIMES, fileToScaledDataUri } from "./client-image-file";
-
-export type ReferenceEntry = {
-  url: string;
-  name?: string;
-  weight?: number;
-};
 
 const MAX_REFERENCES_DEFAULT = 6;
 

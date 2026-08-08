@@ -74,8 +74,7 @@ function imageToMediaRow(
   };
 }
 
-// The gateway writes its log row after answering, so the cost is briefly not there yet.
-// A few short retries cover that; giving up just leaves the snapshot without a price.
+// The gateway writes its log row after answering; retry briefly, give up = no price.
 async function backfillSnapshotCost(
   userId: number,
   snapshotId: string,
@@ -111,17 +110,11 @@ async function backfillSnapshotCost(
   }
 }
 
-// A double-click is two presses within a moment of each other; a re-roll is a deliberate
-// press later on. Bucketing by time separates them, so the guard still collapses the
-// accidental second bill without swallowing an intentional regenerate.
+// Content-derived dedupe key with a time bucket: collapses a double-click's second bill
+// without swallowing a deliberate regenerate (content alone hashed identically forever
+// and made Generate look dead). The column carries a UNIQUE index.
 const SUBMIT_DEDUPE_WINDOW_MS = 5_000;
 
-// Content derived, so a double-click submits the same key twice and the second call is a
-// no-op instead of a second bill. The column carries a UNIQUE index.
-//
-// Content ALONE is not enough: an unchanged form (no seed set, so nothing varies per press)
-// hashed identically forever, and every regenerate after the first returned the original
-// snapshot instead of generating. That reads as a dead Generate button.
 function submittedKeyFor(userId: number, body: SubmitArgs): string {
   return fnv1aHex(
     JSON.stringify([
@@ -216,8 +209,7 @@ async function runSubmit(
     : null;
   const sessionOrder = existingSession?.snapshotCount ?? 0;
 
-  // Submit BEFORE creating the session row: a failed submit used to leave an empty
-  // session behind that nothing ever cleaned up.
+  // Submit BEFORE creating the session row, so a failed submit leaves nothing behind.
   const result = handleElysia(await rpc.api.ai.image.submit.post(body));
 
   const sessionId = existingSessionId || uid();
@@ -264,9 +256,7 @@ async function runSubmit(
     result.images.map((img, i) => imageToMediaRow(snapshotId, i, img)),
   );
 
-  // What a generation cost is only known after it runs, since the provider bills GPU time.
-  // Patched in after the snapshot exists so the image renders immediately and a slow or
-  // missing log row costs nothing but the price label.
+  // Cost is only known after the run; patched in so the image renders immediately.
   void backfillSnapshotCost(
     userId,
     snapshotId,

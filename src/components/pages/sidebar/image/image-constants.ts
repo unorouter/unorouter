@@ -41,8 +41,7 @@ export const VAES: ReadonlyArray<{ value: string; label: string }> = [
   { value: "ClearVAE.safetensors", label: "ClearVAE.safetensors" },
 ];
 
-// Face detectors only: the backend's hand and person detectors return nothing even on an
-// image that is entirely hands, so listing them would offer a control that does not work.
+// Face detectors only: the backend's hand/person detectors return no detections.
 export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "bbox/face_yolov8s.pt", label: "face_yolov8s.pt" },
   { id: "bbox/face_yolov9c.pt", label: "face_yolov9c.pt" },
@@ -52,14 +51,8 @@ export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "mediapipe_face_full", label: "mediapipe_face_full" },
 ];
 
-/**
- * What to call a snapshot's model in history.
- *
- * A user-supplied checkpoint routes through one passthrough model id, so the stored model
- * name is the routing id for every one of them. The checkpoint's own name is kept in
- * extraParams at submit time; fall back to the model id when it is absent, which covers
- * curated models and snapshots made before the name was recorded.
- */
+// History label: passthrough snapshots store the routing id; the checkpoint's own name
+// rides in extraParams.
 export function snapshotModelLabel(
   model: string,
   extraParams: unknown,

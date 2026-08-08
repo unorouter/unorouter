@@ -18,17 +18,12 @@ type Props = {
   family: ModelFamily;
   value: LoraEntry[];
   onChange: (next: LoraEntry[]) => void;
-  /** Appends a LoRA's trigger words to the prompt when it is added. A LoRA gated behind a
-   *  trigger word contributes NOTHING until that word is in the prompt, which is the most
-   *  common reason one looks broken. Editable afterwards, because it lands in the prompt box
-   *  rather than being spliced in at submit. */
+  /** Appends the LoRA's trigger words to the prompt on add; a gated LoRA does nothing
+   *  without them. Lands in the prompt box, so it stays editable. */
   onAppendPrompt?: (words: string) => void;
 };
 
-// A pasted Civitai link/id names ONE model, so it resolves; anything else is a keyword the
-// catalog searches for. Mirrors the checkpoint field, which users already reach for when the
-// browse list does not hold what they want - and the LoRA catalog is far larger than the
-// checkpoint one, so searching it blind is worse.
+// A pasted Civitai link/id names ONE model and resolves; anything else searches the catalog.
 function isCivitaiReference(input: string): boolean {
   const trimmed = input.trim();
   if (!trimmed) return false;
@@ -42,22 +37,17 @@ function isCivitaiReference(input: string): boolean {
 export function LoraPicker(props: Props) {
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
-  // Derived from the DEBOUNCED value, not the live one: reading the raw input flipped this
-  // on individual keystrokes (a half-typed url is briefly a bare id), so the panel swapped
-  // between the catalog and the resolver on the way to a stable query and flickered through
-  // empty/loading states the whole time.
+  // From the DEBOUNCED value: a half-typed url is briefly a bare id, and the live value
+  // flip-flopped the panel between catalog and resolver per keystroke.
   const isReference = isCivitaiReference(debounced);
 
-  // The provider answers this in seconds, so querying per keystroke would queue a request
-  // the user has already typed past.
   useEffect(() => {
     const timer = setTimeout(() => setDebounced(search.trim()), 400);
     return () => clearTimeout(timer);
   }, [search]);
 
-  // A reference resolves through the versions endpoint instead of the catalog: a Civitai
-  // LoRA is a family whose weights differ between versions, so the user picks rather than
-  // getting whichever one matched first.
+  // A reference resolves through the versions endpoint: a Civitai LoRA is a family
+  // whose weights differ between versions, so the user picks.
   const versions = useCivitaiLoraVersionsQuery(
     isReference ? debounced : undefined,
   );
@@ -66,14 +56,12 @@ export function LoraPicker(props: Props) {
     air: v.air,
     name: v.name,
     architecture: v.architecture,
-    category: "lora",
     heroImage: v.heroImage,
     defaultWeight: v.defaultWeight ?? 0.8,
     nsfwLevel: v.nsfwLevel,
     triggerWords: v.triggerWords,
     tags: [],
     downloadCount: null,
-    thumbsUpCount: null,
   }));
 
   const catalog = useLoraCatalogQuery(
@@ -90,9 +78,8 @@ export function LoraPicker(props: Props) {
       titleKey="IMAGE.LORAS_TITLE"
       emptyKey="IMAGE.LORAS_EMPTY"
       items={isReference ? resolved : (catalog.data?.items ?? [])}
-      // isFetching, not isLoading: the previous results are kept as placeholder data while a
-      // new search runs, which leaves isLoading false. The provider takes 8 to 22 seconds, so
-      // without this the old rows just sit there and the search looks like it does nothing.
+      // isFetching, not isLoading: placeholder data keeps isLoading false during the
+      // 8-22s search, and stale rows with no pending marker look like a dead search box.
       isFetching={isReference ? versions.isFetching : catalog.isFetching}
       isLoading={isReference ? versions.isLoading : catalog.isLoading}
       value={props.value}

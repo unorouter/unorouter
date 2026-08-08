@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../image-constants";
 
-export type UpscalerFieldPatch = {
+type UpscalerFieldPatch = {
   multiplier?: number;
   hiresSteps?: number;
   denoise?: number;
@@ -24,17 +24,13 @@ type Props = {
   onChange: (patch: UpscalerFieldPatch) => void;
 };
 
-// The multiplier a switch-on restores when the user has no previous choice.
 const DEFAULT_MULTIPLIER = 1.5;
 
 export function UpscalerField(props: Props) {
   const t = useTranslations();
-  // On means "renders larger": the multiplier IS the feature, so a value above 1 is the
-  // enabled state rather than a separate flag.
+  // The multiplier IS the feature: above 1 = enabled, no separate flag.
   const enabled = (props.multiplier ?? 1) > 1;
-  // Collapsed by default: these only matter to someone upscaling, and left expanded they
-  // doubled the length of the form for everyone else. Opens itself when a multiplier is
-  // already set, so a restored snapshot does not hide settings that are in effect.
+  // Opens itself when a multiplier is set, so a restored snapshot shows what is in effect.
   const [open, setOpen] = useState(enabled);
 
   const multiplier = props.multiplier ?? DEFAULT_MULTIPLIER;
@@ -48,8 +44,7 @@ export function UpscalerField(props: Props) {
     <div className="rounded-md border">
       <button
         type="button"
-        // Tapping the header while off used to do nothing at all, which reads as a dropdown
-        // that will not open. Treat it as "I want this": switch it on and expand.
+        // Tapping the header while off means "I want this": switch on and expand.
         onClick={() => {
           if (enabled) {
             setOpen((o) => !o);
@@ -66,8 +61,7 @@ export function UpscalerField(props: Props) {
         />
         {t("IMAGE.UPSCALE_SECTION")}
         <span className="ml-auto flex items-center gap-2">
-          {/* Say the size it renders at, not just that it is on: this multiplies the pixel
-              count, and the cost with it, which is exactly what was invisible before. */}
+          {/* Show the multiplier on the closed header: it multiplies the cost. */}
           {enabled && (
             <span className="text-primary text-xs tabular-nums">
               {multiplier}x
@@ -78,8 +72,7 @@ export function UpscalerField(props: Props) {
             checked={enabled}
             onCheckedChange={(c) => {
               setOpen(c);
-              // Off is a multiplier of 1: the server reads scale <= 1 as no upscale, so this
-              // is the value that actually stops it, not merely a hidden panel.
+              // Off = multiplier 1; the server reads scale <= 1 as no upscale.
               props.onChange({ multiplier: c ? DEFAULT_MULTIPLIER : 1 });
             }}
             onClick={(e) => e.stopPropagation()}
@@ -107,8 +100,7 @@ export function UpscalerField(props: Props) {
                     activeMul === m.id
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border text-muted-foreground",
-                    // "Custom" carries no multiplier to apply: it lights up on its own when the
-                    // value matches no preset. Clicking it did nothing, which reads as broken.
+                    // "Custom" lights up on its own when no preset matches; inert by markup.
                     m.value === null
                       ? "pointer-events-none"
                       : "hover:bg-accent hover:text-accent-foreground",
@@ -119,10 +111,8 @@ export function UpscalerField(props: Props) {
               ))}
             </div>
           </div>
-          {/* No upscaler-model picker. The backend has no such category (modelSearch answers
-              invalidCategory for "upscaler") and never reads an `upscaler` param: a hires
-              pass IS a re-render at the target size. The control here listed VAEs, which are
-              an unrelated thing, and picking one changed nothing. */}
+          {/* No upscaler-model picker: a hires pass IS a re-render at the target size,
+              and the backend has no upscaler category. */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">

@@ -1,6 +1,5 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
-import { unionLiterals } from "./helpers";
 import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
@@ -26,39 +25,13 @@ export const generationVisibility = t.Union([
 ]);
 export type PlaygroundVisibility = Static<typeof generationVisibility>;
 
+// The submit path is synchronous: a failed submit throws before any row is written, so
+// only these two states ever persist.
 export const generationStatus = t.Union([
-  t.Literal("pending"),
-  t.Literal("submitted"),
-  t.Literal("queued"),
-  t.Literal("in_progress"),
   t.Literal("success"),
   t.Literal("failure"),
 ]);
 export type GenerationStatus = Static<typeof generationStatus>;
-
-export const generationSampler = t.Union([
-  t.Literal("euler"),
-  t.Literal("euler_ancestral"),
-  t.Literal("dpmpp_2m"),
-  t.Literal("dpmpp_2m_sde"),
-  t.Literal("dpmpp_3m_sde"),
-  t.Literal("ddim"),
-  t.Literal("uni_pc"),
-]);
-
-export const generationScheduler = t.Union([
-  t.Literal("normal"),
-  t.Literal("karras"),
-  t.Literal("exponential"),
-  t.Literal("sgm_uniform"),
-  t.Literal("simple"),
-]);
-
-export type GenerationSamplerValue = Static<typeof generationSampler>;
-export type GenerationSchedulerValue = Static<typeof generationScheduler>;
-
-export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
-export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);
 
 export const generationMode = t.Union([
   t.Literal("txt2img"),
@@ -170,10 +143,8 @@ export const generationFormUi = t.Object({
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
-  // Redrawing a masked region is often better served by a different checkpoint than the one
-  // that produced the image (a realism model fixing a hand on an anime render), so the
-  // inpaint pass can override the form's model. Empty = use the form's.
-  inpaintModel: t.Optional(t.String({ maxLength: 256 })),
+  // The inpaint pass can run a different checkpoint than the form's (a realism model
+  // fixing a hand on an anime render). Empty = use the form's.
   inpaintAir: t.Optional(t.String({ maxLength: 256 })),
   inpaintAirName: t.Optional(t.String({ maxLength: 256 })),
   inpaintAirQuery: t.Optional(t.String({ maxLength: 2048 })),
@@ -247,10 +218,6 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-export const playgroundPollBody = t.Object({
-  taskId: t.String({ minLength: 1, maxLength: 128 }),
-});
-
 export const generatedImage = t.Object({
   resultUrl: t.Union([t.String(), t.Null()]),
   base64: t.String(),
@@ -261,13 +228,6 @@ export const generatedImage = t.Object({
   seed: t.Optional(t.Integer()),
 });
 export type GeneratedImage = Static<typeof generatedImage>;
-
-export const generationBaseModel = t.Union([
-  t.Literal("sdxl"),
-  t.Literal("pony"),
-  t.Literal("flux2"),
-  t.Literal("z-image"),
-]);
 
 // Runware exposes ~277k LoRAs addressed by AIR, so the catalog is a live keyword search
 // against its modelSearch task rather than a fixed list. `architecture` narrows to models
@@ -284,19 +244,14 @@ export const catalogItem = t.Object({
   air: t.String(),
   name: t.String(),
   architecture: t.Union([t.String(), t.Null()]),
-  category: t.String(),
   heroImage: t.Union([t.String(), t.Null()]),
   defaultWeight: t.Number(),
   nsfwLevel: t.Union([t.Integer(), t.Null()]),
-  // Many LoRAs are inert until their trigger word appears in the prompt, so a picker that
-  // hides this ships a model that silently does nothing. The provider knows the words; not
-  // surfacing them is what makes a working LoRA look broken.
+  // A LoRA gated behind a trigger word does nothing until that word is in the prompt.
   triggerWords: t.Union([t.String(), t.Null()]),
-  // Names alone are frequently unreadable ("Detailer by Chad (XL_2400_Steps) (Use <lora:l30_1
-  // : > ...)"), so the tag list plus a popularity signal is what actually tells a user what a
-  // LoRA is for and whether anyone else found it good.
+  // Catalog names are frequently unreadable; tags plus download count are what tell a
+  // user what a LoRA is for.
   tags: t.Array(t.String()),
   downloadCount: t.Union([t.Integer(), t.Null()]),
-  thumbsUpCount: t.Union([t.Integer(), t.Null()]),
 });
 export type CatalogItem = Static<typeof catalogItem>;

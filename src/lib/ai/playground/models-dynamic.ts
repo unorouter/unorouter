@@ -21,23 +21,14 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   return null;
 }
 
-// Diffusion checkpoints accept knobs the hosted image APIs do not: negative prompt, CFG,
-// steps, LoRA chains. That is the whole reason for offering them, so getting this wrong
-// silently strips the controls.
-//
-// Detected from the routing group, which names the channel actually serving the model. The
-// vendor is only a display label and is inferred from the model name, so a checkpoint whose
-// name a vendor matcher happens to claim (juggernaut-xl and wai-nsfw-illustrious-sdxl both
-// read as "AI Horde") would otherwise lose every diffusion control it supports.
+// Diffusion support is detected from the ROUTING GROUP (the channel serving the model),
+// not the vendor label: vendor is name-inferred and misclaims checkpoints, which would
+// strip every diffusion control they support.
 const DIFFUSION_GROUP_PATTERN = /runware/i;
 
-// Runware's own scheduler vocabulary, each verified against a live generation. It rejects the
-// ComfyUI spellings (euler_ancestral, normal) outright, so the choices have to come from the
-// backend rather than from one shared list.
-// Runware spells one field as `<sampler> <schedule>`, the schedule suffix optional, so the
-// pairing A1111 splits across two dropdowns arrives here as a single string. Every entry
-// below was accepted by a live generation; the omissions are rejections, not oversights
-// (no DPM2, no DPM++ 3M, no LCM Karras, no Euler a with a schedule other than Beta).
+// Runware's own scheduler vocabulary, one `<sampler> <schedule>` string per entry. Every
+// entry was verified against a live generation; omissions are provider rejections. It
+// rejects ComfyUI spellings (euler_ancestral, normal) outright.
 export const RUNWARE_SCHEDULERS = [
   "Default",
   "Euler",
@@ -65,8 +56,7 @@ export const RUNWARE_SCHEDULERS = [
   "LCM",
 ];
 
-// An unknown scheduler is rejected outright rather than ignored, so the submit path checks
-// against this list before forwarding one.
+// An unknown scheduler is a hard upstream rejection, so the submit path checks first.
 export function isRunwareScheduler(value: string): boolean {
   return RUNWARE_SCHEDULERS.includes(value);
 }
@@ -132,10 +122,7 @@ function inferDescriptor(
   const endpoint = chooseEndpoint(model.endpointTypes);
   if (!endpoint) return null;
 
-  // How many reference images a model accepts says nothing about whether it can generate
-  // one. Requiring six here hid every paid model that does not declare the field, which is
-  // almost all of them: 29 of 36 image models in the catalog, gpt-image-2 and the whole
-  // Runware set included, leaving only free models in the picker.
+  // Most catalog models declare no maxImageInputs; requiring one would hide them all.
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
 
   const supportsSize = endpoint === "image-generation";
@@ -164,16 +151,11 @@ function inferDescriptor(
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
     supportsSampler: diffusion,
-    // Runware takes one scheduler field rather than a separate sampler and scheduler, so the
-    // sampler control carries its vocabulary and the scheduler control stays empty.
+    // Runware folds sampler+scheduler into one field; the sampler control carries it.
     samplers: diffusion ? RUNWARE_SCHEDULERS : undefined,
     schedulers: undefined,
-    // A hires pass re-renders the source at a larger size with a low denoise, which is an
-    // init-image render and needs no separate upscale task. It therefore requires the same
-    // support as img2img: a model that takes no init image cannot do it.
+    // Hires and ADetailer are init-image renders under the hood, so both need strength.
     supportsHiresFix: diffusion,
-    // ADetailer is a detect-then-inpaint pass the server chains itself, so it needs the same
-    // support inpainting does: a model that takes no init image cannot redraw a region.
     supportsAdetailer: diffusion,
     supportsQuality: !!knobs.quality,
     qualityChoices: knobs.quality,
@@ -187,8 +169,7 @@ function inferDescriptor(
       width: 1024,
       height: 1024,
       steps: 20,
-      // Named explicitly so the form does not fall back to a ComfyUI value the provider
-      // rejects. "Default" lets the checkpoint pick its own.
+      // "Default" lets the checkpoint pick; prevents ComfyUI fallback values.
       ...(diffusion ? { sampler: "Default" } : {}),
     },
     estimatedSeconds: 15,

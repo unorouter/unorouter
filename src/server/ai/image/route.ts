@@ -11,7 +11,6 @@ import { submitGeneration } from "./image-submit.service";
 import {
   findCheckpoints,
   listCheckpointVersions,
-  resolveCivitaiCheckpoint,
   searchModelCatalog,
 } from "./model-search.service";
 
@@ -68,10 +67,7 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
   )
-  // Resolving one reference on its own, for a caller that wants to gate an action on a
-  // checkpoint existing. Resolution succeeding is necessary but not sufficient: some models
-  // still fail to load at generation time.
-  // A Civitai model is a family of versions that generate differently, so validating a
+  // A Civitai model is a family of versions that generate differently, so resolving a
   // reference returns all of them rather than silently choosing.
   .post(
     "/civitai-versions",
@@ -81,18 +77,7 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
   )
-  .post(
-    "/resolve-civitai",
-    async ({ body }) => ({
-      success: true,
-      data: await resolveCivitaiCheckpoint(body.query),
-    }),
-    { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
-  )
-  // The LoRA twin of /civitai-versions. Runware indexes Civitai for both categories, so a
-  // pasted LoRA link resolves exactly like a checkpoint one; only the search category
-  // differs. Versions rather than one match, because a Civitai LoRA is a family and the
-  // weights differ between them.
+  // LoRA twin of /civitai-versions; only the search category differs.
   .get(
     "/civitai-lora-versions",
     async ({ query }) => ({

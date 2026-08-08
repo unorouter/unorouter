@@ -119,9 +119,7 @@ export function AspectRatioField(props: {
           <button
             key={p.id}
             type="button"
-            // "Custom" has no dimensions to apply: it lights up on its own whenever the
-            // current size matches no preset. Clicking it did nothing, which read as broken,
-            // so it is inert by markup while keeping its lit state visible.
+            // "Custom" lights up on its own when no preset matches; inert by markup.
             disabled={props.disabled}
             aria-pressed={activeId === p.id}
             onClick={() => onPickPreset(p)}

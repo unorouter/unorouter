@@ -31,10 +31,8 @@ function toImageView(row: Media): ImageView | null {
   return {
     id: row.id,
     sequenceIndex: row.sequenceIndex ?? 0,
-    // blob: URL, not a data: URI. A generated image is multiple megabytes, and as a data URI
-    // that whole string sits in React state and is re-parsed by the browser on every paint.
-    // The blob is ~40 chars pointing at bytes decoded once. Keyed by media id, so the cache
-    // hits on re-render and the existing revoke path still applies.
+    // blob: URL, not data: URI - a multi-MB data URI re-parses on every paint; the blob
+    // is decoded once and cached by media id.
     src: mediaBlobUrl(row.id, row.dataBase64, row.mimeType ?? "image/png"),
     mimeType: row.mimeType,
     width: row.width,
@@ -172,9 +170,7 @@ export async function readLocalSessionBundle(
   return { session, snapshots, media: images };
 }
 
-// Looks the snapshot up by id rather than scanning every session and loading each
-// bundle. The poll loop calls this twice a second, and the scan version loaded every
-// session's base64 images on each tick.
+// Direct id lookup: callers poll this, and a session scan loads every base64 image.
 export async function readLocalSnapshotView(
   userId: number | undefined,
   snapshotId: string,
@@ -230,8 +226,7 @@ export async function upsertLocalSessionBundle(
   }
 }
 
-// Cost is only known after the generation runs, so it is patched onto an existing row.
-// A partial upsert would blank every column it did not carry, including the session id.
+// Patch, not upsert: a partial upsert would blank every column it did not carry.
 export async function patchLocalSnapshotCost(
   userId: number | undefined,
   snapshotId: string,
@@ -250,13 +245,7 @@ const imageModelStore = makeTableStore(imageModels, imageModels.air);
 export const readLocalImageModels = (userId: number | undefined) =>
   imageModelStore.list(userId);
 
-export const deleteLocalImageModel = (
-  userId: number | undefined,
-  air: string,
-) => imageModelStore.drop(userId, air);
-
-// Recorded when a checkpoint is actually generated with, so the list stays what the user
-// uses rather than everything they searched. Re-generating just moves it back to the top.
+// Recorded on generation, not on search, so the list stays what the user actually uses.
 export async function rememberLocalImageModel(
   userId: number | undefined,
   model: {

@@ -65,25 +65,21 @@ export async function toSubmitBody(
     n: variants,
   };
 
-  // A blob: URL only means something inside this document, and the init image is FORWARDED
-  // to the provider as seedImage. Resolve it back to bytes before it leaves the browser,
-  // else every img2img/inpaint/upscale/hires from a generated result sends a dead reference.
+  // A blob: URL means nothing outside this document; resolve to bytes before it leaves
+  // the browser or the provider gets a dead reference.
   const initImageUrl = paramsWithN.initImageUrl;
   if (typeof initImageUrl === "string" && initImageUrl.startsWith("blob:")) {
     paramsWithN.initImageUrl = await blobUrlToDataUri(initImageUrl);
   }
 
-  // A mask without the image it was painted on is meaningless, and the provider rejects the
-  // pair outright: removing the init image while a mask was still stored failed the NEXT
-  // plain generation with an opaque error rather than doing an ordinary text2img run.
+  // The provider rejects a mask without its init image outright.
   const hasInitImage =
     typeof paramsWithN.initImageUrl === "string" && !!paramsWithN.initImageUrl;
   if (!hasInitImage) delete paramsWithN.maskUrl;
 
   if (ctx.mode === "inpaint" && ui.inpaintMaskDataUrl && hasInitImage) {
     paramsWithN.maskUrl = ui.inpaintMaskDataUrl;
-    // Every inpaint field is an OVERRIDE: left empty, the pass runs on what the form already
-    // holds, so a user who just wants to repaint a region with the same setup types nothing.
+    // Every inpaint field is an override; empty reuses what the form holds.
     if (ui.inpaintStrength !== undefined) {
       paramsWithN.strength = ui.inpaintStrength;
     }
@@ -94,8 +90,7 @@ export async function toSubmitBody(
 
   const wireExtras = {
     ...((values.extraParams as Record<string, unknown> | undefined) ?? {}),
-    // The checkpoint the provider loads rides here, so an inpaint override replaces it for
-    // this request only rather than changing what the form is set to.
+    // The inpaint checkpoint override applies to this request only.
     ...(ctx.mode === "inpaint" && ui.inpaintAir
       ? { air: ui.inpaintAir, airName: ui.inpaintAirName }
       : {}),
@@ -106,10 +101,8 @@ export async function toSubmitBody(
   const loras =
     values.loras && values.loras.length > 0 ? values.loras : undefined;
 
-  // The inpaint pass can run a different checkpoint than the one that made the image (a
-  // realism model fixing a hand on an anime render), so its AIR replaces the form's for this
-  // request only. The passthrough model id has to come along with it: the AIR is what the
-  // provider loads, but the catalog id is what routes there.
+  // An inpaint AIR override must also switch to the passthrough model id: the AIR is
+  // what the provider loads, the catalog id is what routes there.
   const inpaintingWithModel =
     ctx.mode === "inpaint" && hasInitImage && !!ui.inpaintAir;
 

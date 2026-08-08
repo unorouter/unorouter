@@ -5,8 +5,7 @@ import type {
 } from "@/lib/validation/playground";
 import { logger } from "@/lib/utils/logger";
 
-// Runware serves one endpoint for every task type; the body is an array of tasks and the
-// response is {data:[...]} or {errors:[...]}.
+// One endpoint for every task type; body is an array of tasks, response {data}|{errors}.
 const RUNWARE_ENDPOINT = "https://api.runware.ai/v1";
 
 type RunwareSearchResult = {
@@ -14,14 +13,12 @@ type RunwareSearchResult = {
   name: string;
   version?: string;
   architecture?: string | null;
-  category?: string;
   heroImage?: string | null;
   nsfwLevel?: number | null;
   positiveTriggerWords?: string;
   defaultWeight?: number;
   tags?: string[];
   downloadCount?: number;
-  thumbsUpCount?: number;
 };
 
 type RunwareEnvelope = {
@@ -35,8 +32,7 @@ function requireKey(): string {
   return key;
 }
 
-// Runware's modelSearch has been measured between 8 and 22 seconds. A 15s cap timed out more
-// often than not, and the catalog then rendered empty, which read as "there are no LoRAs".
+// modelSearch answers in 8-22s measured; a 15s cap timed out more often than not.
 async function runwareTask<T = RunwareEnvelope>(
   task: Record<string, unknown>,
   timeoutMs = 30_000,
@@ -60,28 +56,20 @@ function toCatalogItem(row: RunwareSearchResult): CatalogItem {
     air: row.air,
     name: row.name,
     architecture: row.architecture ?? null,
-    category: row.category ?? "lora",
     heroImage: row.heroImage ?? null,
-    // Runware applies 1 when a weight is omitted; the pickers offer the usual 0.8 starting
-    // point for LoRAs since stacking several at full strength tends to overcook an image.
+    // 0.8 starting weight: stacking several LoRAs at full strength overcooks an image.
     defaultWeight: row.defaultWeight ?? 0.8,
     nsfwLevel: row.nsfwLevel ?? null,
     triggerWords: row.positiveTriggerWords?.trim() || null,
-    // Capped because Runware returns up to ~60 tags per LoRA, which is a wall of text in a
-    // picker row rather than a description. The leading ones are the descriptive ones.
+    // Runware returns up to ~60 tags; only the leading ones are descriptive.
     tags: (row.tags ?? []).slice(0, 8),
     downloadCount: row.downloadCount ?? null,
-    thumbsUpCount: row.thumbsUpCount ?? null,
   };
 }
 
-// Runware's modelSearch answers in anywhere from 8 to 22 seconds, so a result is worth
-// holding on to: the catalog is a browse list that barely changes, and without this every
-// picker open pays the full latency again.
 const CATALOG_TTL_MS = 30 * 60_000;
 
-// The provider's own per-request maximum. Latency is per REQUEST rather than per result, so
-// a short page costs the same 8-to-22 seconds as a full one while showing a quarter as much.
+// Provider's per-request max; latency is per request, so ask for the full page.
 const CATALOG_PAGE_SIZE = 50;
 const catalogCache = new Map<string, { at: number; items: CatalogItem[] }>();
 
@@ -98,9 +86,7 @@ export async function searchModelCatalog(
   const hit = catalogCache.get(cacheKey);
   if (hit && Date.now() - hit.at < CATALOG_TTL_MS) return { items: hit.items };
 
-  // These lists are optional decoration on the form: a LoRA or VAE picker that cannot load
-  // should render empty, not fail the request. Runware regularly exceeds the timeout here,
-  // and a 500 made the whole page look broken while the user was only trying to generate.
+  // Catalog lists are decoration: a picker that cannot load renders empty, never 500s.
   let envelope: RunwareEnvelope;
   try {
     envelope = await runwareTask({
@@ -110,10 +96,8 @@ export async function searchModelCatalog(
       ...(query.architecture ? { architecture: query.architecture } : {}),
       limit: query.limit ?? CATALOG_PAGE_SIZE,
     });
-    // The provider matches whole tokens against model NAMES only, so a word that is a
-    // substring rather than a prefix finds nothing: "face" returns zero while "faces"
-    // returns results, and "detailer" zero while "Face Detailer" works. Retry the same word
-    // as a TAG, which is where that vocabulary actually lives, before reporting no results.
+    // Name search matches whole tokens only ("face" finds nothing, "faces" does); retry
+    // the word as a tag before reporting no results.
     if (query.search && !(envelope.data?.[0]?.results ?? []).length) {
       const byTag = await runwareTask({
         taskType: "modelSearch",
@@ -130,8 +114,7 @@ export async function searchModelCatalog(
       category,
       error: String(err),
     });
-    // Stale beats empty: an expired entry is a real list, and returning nothing is what made
-    // the LoRA picker look like it had no models at all.
+    // Stale beats empty.
     return { items: hit?.items ?? [] };
   }
 
@@ -146,8 +129,7 @@ export async function searchModelCatalog(
 
   const results = envelope.data?.[0]?.results ?? [];
   const items = results.map(toCatalogItem);
-  // Only a REAL list is worth holding. Caching an empty one pinned "no models" for the whole
-  // TTL after a single bad response, which is exactly how the picker looked broken before.
+  // Never cache an empty list: one bad response would pin "no models" for the whole TTL.
   if (items.length) catalogCache.set(cacheKey, { at: Date.now(), items });
   return { items };
 }
@@ -158,8 +140,7 @@ export type ResolvedCheckpoint = {
   architecture: string | null;
   heroImage: string | null;
   nsfwLevel: number | null;
-  // Meaningful for LoRAs only (a checkpoint has neither), but the resolve path is shared and
-  // the picker needs both the moment a LoRA is what got resolved.
+  // LoRA-only fields; the resolve path is shared between categories.
   triggerWords: string | null;
   defaultWeight: number | null;
 };
@@ -197,18 +178,11 @@ export function looksLikeCheckpointReference(input: string): boolean {
 }
 
 /**
- * Resolves a user-supplied Civitai reference to a checkpoint Runware can actually load.
- *
- * Resolution goes through Runware's own catalog rather than Civitai's API on purpose:
- * Runware pins its own version ids, so a Civitai-sourced AIR is frequently rejected as
- * invalidModel. Even a listed model can fail to load (Pony V6 XL only loads under the
- * `runware:` publisher prefix, not `civitai:`), which is why the caller should treat a
- * successful resolve as necessary but not sufficient and surface honest failure copy.
- */
-/**
- * One entry point for everything a user can type into the model search: a Civitai URL, a bare
- * id, an AIR, or a plain name. A reference names one model so it resolves to that one; a name
- * searches the provider's catalog, which is far larger than any list shipped in config.
+ * One entry point for everything a user can type into the model search: a Civitai URL,
+ * a bare id, an AIR, or a plain name. A reference resolves to its one model; a name
+ * searches the provider catalog. Resolution goes through Runware's catalog, not
+ * Civitai's API: Runware pins its own version ids, and a resolve succeeding is
+ * necessary but not sufficient (some models still fail to load at generation time).
  */
 export async function findCheckpoints(
   input: string,
@@ -242,11 +216,8 @@ export async function findCheckpoints(
 }
 
 /**
- * Every version of the model a reference points at, best match first.
- *
- * A Civitai model is usually a family: LUSTIFY alone has eleven versions on the provider,
- * across alpha, lightning and DMD2 variants that generate quite differently. Picking one
- * silently hides that, so the caller gets the list and the user chooses.
+ * Every version of the model a reference points at, best match first. A Civitai model is
+ * a family whose variants generate differently, so the user chooses.
  */
 export async function listCheckpointVersions(
   input: string,

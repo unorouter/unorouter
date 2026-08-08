@@ -18,9 +18,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { toast } from "sonner";
 
-// Same three-dot entry point chat has, minus everything that needs a conversation. Without
-// it this route had no way to reach diagnostics or the theme, so an image-gen report could
-// not carry the debug log that makes it actionable.
+// Chat's three-dot menu, minus everything that needs a conversation.
 const LocalDbStudio = dynamic(
   () =>
     import("@/components/elements/db/local-db-studio").then(

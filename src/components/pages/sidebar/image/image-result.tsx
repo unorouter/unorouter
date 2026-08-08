@@ -35,7 +35,6 @@ import {
   activeSnapshotIdAtom,
   activeSubPillAtom,
   activeTabAtom,
-  lastRestoredPromptAtom,
   restoreSnapshotIntoFormAtom,
 } from "@/store/image-store";
 import { useAtom, useSetAtom } from "jotai";
@@ -112,7 +111,6 @@ export function ImageResult(props: Props) {
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
   const setActiveTab = useSetAtom(activeTabAtom);
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
-  const setLastRestoredPrompt = useSetAtom(lastRestoredPromptAtom);
   const [, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
 
   const [importDialogOpen, setImportDialogOpen] = useState(false);
@@ -143,22 +141,15 @@ export function ImageResult(props: Props) {
     swapTo(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  // NOTHING auto-restores here. Merely LOOKING at an older generation used to rewrite the
-  // whole form with that snapshot's settings, so browsing history to copy a prompt silently
-  // replaced the model, LoRAs and params the user had set up, and the equipped preset became
-  // a label over values that were no longer its own. Restoring is now only ever explicit:
-  // the Remix button, the per-image remix action, or reuse-seed.
-
+  // Browsing history never auto-restores the form; restoring is explicit (remix, reuse-seed).
   const status = data?.status;
   const isFailed = status === "failure";
   const images = data?.images ?? [];
   const isDone = status === "success" && images.length > 0;
   const requestedCount = data?.requestedCount ?? 1;
 
-  // Mobile stacks the result under a tall form, so a finished generation lands offscreen.
-  // ONCE per snapshot: isDone dips to false and back on any refetch of the session query, and
-  // re-running then yanked the page upward while the user was reading or reaching for the
-  // hover actions.
+  // Mobile stacks the result under a tall form; scroll it into view ONCE per snapshot
+  // (isDone flaps on refetch, and re-running yanks the page while the user is reading).
   const scrolledForRef = useRef<string | null>(null);
   useEffect(() => {
     if (!isDone) return;
@@ -260,10 +251,8 @@ export function ImageResult(props: Props) {
               tab: target.tab,
               mode: target.subPill ?? null,
             });
-            // Remix restarts from the settings, so it must NOT carry an init image: that
-            // would silently turn a fresh generation into an img2img render of the old one.
-            // The seed comes from the image that was clicked, which is what makes it work on
-            // a batch where each result has its own.
+            // Remix must not carry an init image (that would turn it into img2img of the
+            // old result); the seed comes from the clicked image, each batch result has its own.
             const remixSeed = images.find((i) => i.src === src)?.seed;
             setRestore({
               model: data.model,
@@ -284,11 +273,9 @@ export function ImageResult(props: Props) {
                   ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
                   : undefined,
             });
-            setLastRestoredPrompt(data.prompt);
           }}
           onReuseSeed={(seed) => {
-            // Everything else stays as it was: reusing a seed is only useful when the
-            // rest of the generation is reproduced alongside it.
+            // A seed is only useful with the rest of the generation reproduced around it.
             setRestore({
               model: data.model,
               prompt: data.prompt,
@@ -298,7 +285,6 @@ export function ImageResult(props: Props) {
               references: data.references,
               extraParams: data.extraParams,
             });
-            setLastRestoredPrompt(data.prompt);
           }}
         />
       ) : isFailed ? (
@@ -345,10 +331,8 @@ export function ImageResult(props: Props) {
           <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
-        {/* Hires lives on each image's hover actions instead of here: a batch has several
-            results and a snapshot-level button cannot say which one to re-render. */}
-        {/* Same shape as the hires pass: the result becomes the init image, so a region can
-            be redrawn without downloading it and uploading it back as a reference. */}
+        {/* Hires is per-image (hover actions); this shortcut carries the result along as
+            the init image so a region can be redrawn without re-uploading it. */}
         {isDone && getModelDescriptor(data.model).supportsStrength && (
           <Button
             variant="outline"

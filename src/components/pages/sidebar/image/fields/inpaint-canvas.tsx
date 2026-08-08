@@ -34,9 +34,7 @@ export function InpaintCanvas(props: Props) {
   const opacity =
     (ui.inpaintBrushOpacity as number | undefined) ?? DEFAULT_OPACITY;
 
-  // Writes one field by PATH instead of replacing the whole ui object. Rebuilding ui from a
-  // snapshot clobbered anything written since it was taken: Clear came back on the next
-  // stroke, and characters typed into the inpaint prompt beside this canvas went missing.
+  // Path-scoped writes only: rebuilding ui from a snapshot clobbers concurrent writes.
   const setUi = (patch: Record<string, unknown>) => {
     for (const [key, value] of Object.entries(patch)) {
       form.setValue(`ui.${key}` as never, value as never, {
@@ -45,9 +43,8 @@ export function InpaintCanvas(props: Props) {
     }
   };
 
-  // The canvas owns the stroke history, so the mask is whatever it holds AFTER the
-  // operation. Reading it back keeps the submitted mask in step with what is on screen;
-  // an empty canvas submits no mask at all rather than an all-black one.
+  // The canvas owns the stroke history; read it back after every operation so the
+  // submitted mask matches the screen (empty canvas = no mask, not an all-black one).
   const syncMaskFromCanvas = () => {
     const canvas = editorRef.current?.maskCanvas;
     if (!canvas || !canvas.width || !canvas.height) {
@@ -61,10 +58,8 @@ export function InpaintCanvas(props: Props) {
     }
   };
 
-  // toMask reads getImageData(0, 0, width, height) with no guard of its own, and a zero
-  // dimension makes that throw IndexSizeError, which took down the whole page. The canvas is
-  // still unsized until the source image loads, so a touch before then hits this; the guard
-  // lives in syncMaskFromCanvas, which every path here goes through.
+  // The canvas is unsized until the source image loads, and toMask throws
+  // IndexSizeError on a zero dimension; syncMaskFromCanvas guards every path here.
   const onDrawingChange = (isDrawing: boolean) => {
     if (isDrawing) return;
     syncMaskFromCanvas();
@@ -124,9 +119,6 @@ export function InpaintCanvas(props: Props) {
               />
             </div>
           </div>
-          {/* Undo/redo step through the canvas's own stroke history; Clear wipes it. All
-              three re-read the canvas afterwards, since it is the source of truth for what
-              the user can see and therefore for what gets submitted. */}
           <div className="flex gap-2">
             <Button
               type="button"

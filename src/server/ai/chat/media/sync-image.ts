@@ -12,11 +12,7 @@ import type {
 } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
 
-// Sync image generation shared by the chat inlay/illustrator. Formerly lived in
-// the playground vertical (playground-submit-sync.ts); the playground UI was
-// removed but the isomorphic image-gen engine under src/lib/ai/playground/ +
-// this submit path are reused by in-chat image generation, so they stay here
-// under chat/media.
+// Sync image generation for the chat inlay/illustrator.
 function paramsToSize(
   params: PlaygroundSubmitBody["params"],
 ): string | undefined {

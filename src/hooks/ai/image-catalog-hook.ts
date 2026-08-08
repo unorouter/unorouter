@@ -8,7 +8,6 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
-  deleteLocalImageModel,
   readLocalImageModels,
   rememberLocalImageModel,
 } from "@/lib/db/client/data/image/image";
@@ -40,12 +39,8 @@ export function useEmbeddingCatalogQuery(query?: CatalogSearchQuery) {
   );
 }
 
-// No upscaler-catalog hook: the backend has no such category, and pointing the picker at
-// vaes filled it with an unrelated list whose selection was never sent anywhere.
-
-// Resolving is deliberately a separate step from generating: Runware pins its own version
-// ids, so a reference lifted from a Civitai URL often does not load, and finding that out
-// here costs nothing instead of failing a generation the user already paid for.
+// Resolving is a separate step from generating: Runware pins its own version ids, so a
+// Civitai-sourced reference often does not load, and finding out here costs nothing.
 export function useCivitaiVersionsMutation() {
   const t = useTranslations();
   return useMutation({
@@ -57,11 +52,8 @@ export function useCivitaiVersionsMutation() {
   });
 }
 
-// The LoRA twin of useCivitaiVersionsMutation. Runware indexes Civitai LoRAs the same way it
-// does checkpoints, so a pasted link resolves identically; the catalog search alone cannot
-// reach a specific model out of the ~277k it holds. A QUERY rather than a mutation because
-// the picker resolves as the user types, and resolving the same link twice should be a cache
-// hit rather than a second 8-to-22 second provider call.
+// LoRA twin of useCivitaiVersionsMutation. A query, not a mutation: the picker resolves
+// as the user types, and a repeat link should hit cache instead of a second 8-22s call.
 export function useCivitaiLoraVersionsQuery(query: string | undefined) {
   return useElysiaQuery(
     queryKeys.civitaiLoraVersions(query ?? ""),
@@ -71,17 +63,6 @@ export function useCivitaiLoraVersionsQuery(query: string | undefined) {
       }),
     { enabled: !!query, placeholderData: (prev) => prev },
   );
-}
-
-export function useResolveCivitaiMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (query: string) => {
-      const res = await rpc.api.ai.image["resolve-civitai"].post({ query });
-      return handleElysia(res);
-    },
-    onError: (e) => handleError(e, t),
-  });
 }
 
 // Debounced by the caller through the query key; a reference resolves to one model and a
@@ -99,17 +80,6 @@ export function useSavedImageModelsQuery() {
   return useQuery({
     queryKey: queryKeys.savedImageModels(),
     queryFn: () => readLocalImageModels(userId),
-  });
-}
-
-export function useForgetImageModelMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const userId = useLocalUserId();
-  return useMutation({
-    mutationFn: (air: string) => deleteLocalImageModel(userId, air),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
   });
 }
 

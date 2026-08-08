@@ -1,13 +1,13 @@
 import type { GenerateTab, Img2ImgSubPill } from "@/store/image-store";
 import { parseAsString, parseAsStringLiteral } from "nuqs";
 
-export const IMAGE_TAB_VALUES = [
+const IMAGE_TAB_VALUES = [
   "text2img",
   "img2img",
   "edit",
 ] as const satisfies readonly GenerateTab[];
 
-export const IMAGE_SUB_PILL_VALUES = [
+const IMAGE_SUB_PILL_VALUES = [
   "img2img",
   "upscale",
   "adetailer",

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Icon } from "@/components/ui/icon";
 
-export type AdvancedSettingsPatch = {
+type AdvancedSettingsPatch = {
   clipSkip?: number;
   ensd?: number;
 };

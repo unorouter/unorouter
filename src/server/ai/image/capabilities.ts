@@ -2,15 +2,10 @@ import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
 import type { GenerationParams, LoraEntry } from "@/lib/validation/playground";
 
 /**
- * Strips params the resolved model does not support.
- *
- * The `supportsX` flags previously gated only the JSX, so a crafted POST could send `cfg` to a
- * model that has no sampler, or a twelve-entry LoRA chain to a hosted image API, and the submit
- * path forwarded all of it. Enforcing here rather than in the form means the rule holds for any
- * caller, and it runs on the same descriptor the renderer reads so the two cannot drift.
- *
- * Unsupported params are dropped rather than rejected: a remix that carries an SDXL snapshot's
- * clipSkip onto a Flux model should still generate, minus the knob that does not apply.
+ * Strips params the resolved model does not support, server-side, so the rule holds for
+ * any caller (not just the form) and runs on the same descriptor the renderer reads.
+ * Unsupported params drop rather than reject: a remix carrying an SDXL knob onto a Flux
+ * model still generates, minus the knob.
  */
 export function filterParamsToCapabilities(
   descriptor: PlaygroundModelDescriptor,
@@ -26,16 +21,14 @@ export function filterParamsToCapabilities(
     }
   };
 
-  if (!descriptor.supportsCfg) drop("cfg");
+  if (!descriptor.supportsCfg) {
+    drop("cfg");
+    drop("steps");
+    drop("clipSkip");
+  }
   if (!descriptor.supportsSampler) {
     drop("sampler");
     drop("scheduler");
-  }
-  // Steps and clip skip are plain numbers every diffusion backend understands, unlike the
-  // sampler names, so they ride with CFG rather than with the sampler controls.
-  if (!descriptor.supportsCfg) {
-    drop("steps");
-    drop("clipSkip");
   }
   if (!descriptor.supportsSeed) drop("seed");
   if (!descriptor.supportsHiresFix) {
@@ -43,16 +36,13 @@ export function filterParamsToCapabilities(
     drop("hiresDenoise");
     drop("hiresSteps");
   }
-  // An init image and a mask are the img2img/inpaint inputs. A model that cannot take a
-  // strength has nothing to do with them, and forwarding a multi-megabyte data URI to a
-  // provider that will reject it is worse than dropping it here.
+  // No strength = no init-image inputs; don't forward multi-MB data URIs to a rejector.
   if (!descriptor.supportsStrength) {
     drop("strength");
     drop("initImageUrl");
     drop("maskUrl");
   }
-  // The ADetailer pass inpaints a detected region, so a model that declares no support for
-  // it must not have one run (and billed) on its output.
+  // ADetailer is a second billed pass; a model that does not declare it must not run one.
   if (!descriptor.supportsAdetailer) drop("adetailer");
   if (!descriptor.supportsWatermark) drop("watermark");
   if (!descriptor.supportsBackground) drop("background");
@@ -63,8 +53,7 @@ export function filterParamsToCapabilities(
   if (!descriptor.supportsQuality) drop("quality");
   if (!descriptor.supportsOutputFormat) drop("outputFormat");
 
-  // An enum-valued knob must also be checked against the model's own choices, since a
-  // supported key with an unknown value is still a request the upstream will reject.
+  // Enum knobs also check the model's own choices; an unknown value is still rejected.
   if (descriptor.qualityChoices && typeof source.quality === "string") {
     if (!descriptor.qualityChoices.includes(source.quality)) drop("quality");
   }

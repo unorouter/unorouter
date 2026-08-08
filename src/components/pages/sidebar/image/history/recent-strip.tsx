@@ -107,8 +107,7 @@ export function RecentStrip() {
                   {snap.costQuota != null && (
                     <>
                       {" / "}
-                      {/* Three decimals: a GPU-time provider charges different amounts for
-                          the same request, and two decimals collapses that into one number. */}
+                      {/* Three decimals: GPU-time prices differ below two. */}
                       <span className="text-foreground tabular-nums">
                         {renderQuota(snap.costQuota, 3)}
                       </span>

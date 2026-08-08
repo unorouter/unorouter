@@ -120,13 +120,9 @@ export function useGenerationForm() {
     if (!data || seededIdRef.current === data.id) return;
     seededIdRef.current = data.id;
     const desc = findDescriptor(data.model);
-    // A hires pass re-renders the snapshot's own image at a larger size, so the result
-    // being upscaled has to come along as the init image. Without it the pass would be a
-    // fresh generation at a bigger size, which is not what the control promises.
+    // Hires/inpaint shortcuts re-render the snapshot's own image, so it comes along as
+    // the init image.
     const hiresSource = data.images?.[0]?.src;
-    // Inpainting a finished image is the same shape as a hires pass: the result becomes the
-    // init image, and the mask decides what gets redrawn. Carrying it here is what saves the
-    // user downloading the image and re-uploading it as a reference.
     const inpaintParams =
       inpaintShortcut && hiresSource
         ? { initImageUrl: hiresSource, strength: 0.85 }
@@ -139,8 +135,7 @@ export function useGenerationForm() {
             initImageUrl: hiresSource,
           }
         : {};
-    // The pass renders from that init image, so the tab that shows it has to be the one
-    // the user lands on; leaving them on text2img would hide the input being used.
+    // Land on the tab that shows the init image being used.
     if (Object.keys(hiresParams).length > 0) setActiveTab("img2img");
     if (Object.keys(inpaintParams).length > 0) {
       setActiveTab("img2img");
@@ -161,18 +156,14 @@ export function useGenerationForm() {
       visibility: "private",
       ui: { variants: 1 },
     });
-    // Consume the params. They are a one-shot instruction, but they sat in the URL, and
-    // submitting navigates to the result and remounts this form: the ref guard resets, the
-    // snapshot is still cached, and the reset above ran a second time and threw away every
-    // edit the user had made since (the "changed the prompt and it kept the old one" report).
+    // Consume the URL params: they are one-shot, and the post-submit remount resets the
+    // ref guard, so leaving them would re-run this reset over the user's edits.
     router.replace(window.location.pathname, { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
-  // Guests can only run free models, so a paid pick has to be swapped out. A logged-in user
-  // is never swapped: a model missing from the list is a passthrough checkpoint or a catalog
-  // entry that has not loaded, and replacing it spends the generation on a model the user
-  // did not choose.
+  // Guests only run free models. A logged-in user is never swapped: an unlisted model is
+  // a passthrough checkpoint or a not-yet-loaded catalog entry.
   useEffect(() => {
     if (effectiveModels.length === 0 || isLoggedIn) return;
     const current = form.watch("model") ?? "";
@@ -189,15 +180,12 @@ export function useGenerationForm() {
 
   useEffect(() => {
     if (effectiveModels.length === 0) return;
-    // The model list arrives after mount, so this can fire before the draft has been
-    // restored. Swapping then reads the still-default model, decides it does not fit the
-    // tab, and replaces the model the draft was about to restore - the "model reset itself
-    // after a generation" report. A remix seeds the model from its snapshot instead.
+    // Must not fire before the draft restore: it would read the still-default model and
+    // swap away the one the draft was about to restore.
     if (draftRestoredTab === null && !remixId) return;
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
-    // Unknown model = a passthrough checkpoint the catalog does not list. It fits whatever
-    // tab the user is on; swapping it would discard a checkpoint they resolved by hand.
+    // Unknown model = a hand-resolved passthrough checkpoint; fits any tab.
     if (!desc || isModelInTab(desc, activeTab)) return;
     const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
     if (pool.length > 0) changeModel(pool[0].id);
@@ -276,9 +264,8 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restorePayload]);
 
-  // Applying a preset picks a model deliberately, so the TAB has to follow the model. The
-  // fit effect above resolves the other direction (model follows tab) and would otherwise
-  // see a text2img preset on the img2img tab and silently swap in a free model instead.
+  // A preset picks a model deliberately, so the TAB follows the model (the fit effect
+  // above resolves the other direction and would swap the preset's model out).
   const adoptModelTab = (modelId: string) => {
     const desc = effectiveModels.find((m) => m.id === modelId);
     if (!desc || isModelInTab(desc, activeTab)) return;

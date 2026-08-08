@@ -29,11 +29,8 @@ export function ImagePage(props: { sessionId?: string; snapshotId?: string }) {
   const setActiveTab = useSetAtom(activeTabAtom);
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
 
-  // The URL wins over the server prop. `props.snapshotId` is read from searchParams DURING
-  // THE SERVER RENDER, so it freezes at whatever the page loaded with; a client-side
-  // `setUrlState` never re-runs it. Preferring the prop made this effect stomp the atom back
-  // to the stale snapshot on the next render, which locked the view to the old image and
-  // made every snapshot change take two clicks.
+  // URL wins over the server prop: props.snapshotId froze at the server render and a
+  // client-side setUrlState never re-runs it.
   useEffect(() => {
     setActiveSessionId(props.sessionId ?? null);
     setActiveSnapshotId(urlState.snap ?? props.snapshotId ?? null);

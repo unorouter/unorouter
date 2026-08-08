@@ -29,11 +29,8 @@ import {
   filterParamsToCapabilities,
 } from "./capabilities";
 
-// The gateway already says WHY it refused ("insufficient user quota, remaining: $-0.08",
-// "Inappropriate prompt: blocked by content moderation"), and the client's error extractor
-// reads .error.message out of a JSON body. Prefixing it with "upstream 403: " was the only
-// reason none of that reached the user: the prefix makes the string neither plain text nor
-// parseable JSON, so it fell through to a generic unexpected error. Pass the body verbatim.
+// JSON bodies pass VERBATIM: the client extracts .error.message from them, and any
+// prefix makes the string neither plain text nor parseable JSON.
 function upstreamImageError(status: number, body: string): string {
   const trimmed = body.trim();
   if (trimmed.startsWith("{") || trimmed.startsWith("[")) return trimmed;
@@ -51,41 +48,33 @@ function paramsToSize(
 ): string | undefined {
   const p = params ?? {};
   if (!p.width || !p.height) return undefined;
-  // A hires pass renders the same image larger. There is no separate upscale parameter on
-  // an inference request, so the multiplier becomes the requested size and the source image
-  // rides along as the init image; the provider re-diffuses at the new size, which adds
-  // detail rather than just resampling. The gateway snaps to its own dimension rules.
+  // A hires pass is the same render at a larger size: the multiplier becomes the
+  // requested size and the source rides as init image (re-diffused, not resampled).
   const scale = typeof p.hiresUpscale === "number" ? p.hiresUpscale : 1;
   if (scale <= 1) return `${p.width}x${p.height}`;
   return `${Math.round(p.width * scale)}x${Math.round(p.height * scale)}`;
 }
 
-// `<publisher>:<modelId>@<versionId>`. Checked here as well as in the gateway because this
-// value selects the model that runs: anything malformed must be dropped rather than
-// forwarded, and a caller must not be able to smuggle a path or a URL through it.
+// `<publisher>:<modelId>@<versionId>`. Validated here as well as in the gateway: this
+// value selects the model that runs, so nothing malformed may be forwarded.
 const AIR_PATTERN = /^[a-z0-9_-]+:\d+@\d+$/i;
 
-// Knobs the OpenAI image schema has no field for. They ride as extra top-level keys and the
-// gateway adaptor maps them onto the provider's own names.
+// Diffusion knobs the OpenAI image schema has no field for; they ride as extra top-level
+// keys under the PROVIDER'S spellings (CFGScale, seedImage, lora[].model, scheduler).
+// Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
 function diffusionParams(
   params: Record<string, unknown>,
   loras: LoraEntry[],
   extraParams: Record<string, unknown> | undefined,
-  // The negative prompt is a TOP-LEVEL body field, not a param, so the copy() below could
-  // never see it and it never reached the provider at all. Every generation ran with no
-  // negative prompt no matter what the user typed.
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   if (bodyNegativePrompt) out.negativePrompt = bodyNegativePrompt;
-  // The checkpoint for a passthrough model. It rides in extraParams because it is not a
-  // generation parameter, and without forwarding it every custom-civitai request silently
-  // ran the channel's default checkpoint instead of the one the user resolved.
+  // The passthrough checkpoint; without it every custom-civitai request runs the
+  // channel's default model.
   const air = extraParams?.air;
   if (typeof air === "string" && AIR_PATTERN.test(air)) out.air = air;
-  // An empty string is how the form spells "untouched", but providers read it as a real
-  // value and reject it: Runware answers invalidNegativePrompt / invalidScheduler rather
-  // than falling back to its own default. Absent has to stay absent.
+  // Empty string means "untouched" in the form, but providers reject it as a real value.
   const copy = (key: string) => {
     const value = params[key];
     if (value === undefined || value === null || value === "") return;
@@ -93,21 +82,11 @@ function diffusionParams(
   };
   copy("steps");
   copy("clipSkip");
-  // The provider spells this CFGScale. Sent as `cfg` it was accepted and ignored (an unknown
-  // key raises no error), so the slider moved nothing and every render used the model's own
-  // default guidance. Same failure the scheduler had.
   const cfg = params.cfg;
   if (typeof cfg === "number") out.CFGScale = cfg;
-  // The sampler control carries the BACKEND's scheduler vocabulary (Runware takes one field,
-  // not a separate sampler and scheduler), so it has to arrive as `scheduler`. Sent as
-  // `sampler` it was silently dropped: Runware ignores the unknown key without an error, so
-  // every pick fell back to the default and the choice looked like it did nothing.
-  //
-  // ALLOWLISTED, because an unknown scheduler is a HARD failure (invalidScheduler), unlike
-  // most knobs here which are ignored. Old drafts still carry ComfyUI spellings like
-  // "normal"/"euler_ancestral" from a previous default, and those 500'd every generation
-  // until the user cleared their draft. An unrecognised value now falls back to the model's
-  // own default instead of failing the request.
+  // One scheduler field upstream. Allowlisted because an unknown scheduler is a HARD
+  // failure (old drafts still carry ComfyUI spellings); unrecognised falls back to the
+  // model default instead of failing the request.
   const scheduler = [params.scheduler, params.sampler].find(
     (v): v is string =>
       typeof v === "string" && !!v && v !== "Default" && isRunwareScheduler(v),
@@ -115,30 +94,21 @@ function diffusionParams(
   if (scheduler) out.scheduler = scheduler;
   copy("negativePrompt");
   copy("strength");
-  // The form names these after the UI concept; the adaptor reads the provider's own
-  // spelling, so the rename happens here rather than in the form or the gateway.
   const initImage = params.initImageUrl;
   if (typeof initImage === "string" && initImage) out.seedImage = initImage;
-  // A hires pass is an init-image render at a larger size, so its denoise IS the strength
-  // of that pass. Only meaningful with a source image, and it wins over a plain strength
-  // because the user set it more recently, from the hires control.
+  // A hires pass is the only render happening, so its denoise/steps REPLACE the base
+  // strength/steps; only meaningful with a source image.
   const hiresDenoise = params.hiresDenoise;
   if (typeof hiresDenoise === "number" && initImage) {
     out.strength = hiresDenoise;
   }
-  // Likewise the hires pass has its own step count; it is the only render happening, so it
-  // replaces the base steps rather than adding a second pass.
   const hiresSteps = params.hiresSteps;
   if (typeof hiresSteps === "number" && initImage) out.steps = hiresSteps;
   const mask = params.maskUrl;
   if (typeof mask === "string" && mask) out.maskImage = mask;
   if (loras.length) {
-    // `lora`, not `loras`, and the entry key is `model`, not `name`. The old spelling was
-    // accepted and ignored, so a whole LoRA chain silently did nothing to the render.
     out.lora = loras.map((l) => ({ model: l.name, weight: l.weight }));
   }
-  // Neither of these was forwarded at all, so both pickers were decorative. Same entry
-  // shape as LoRAs: the provider keys the model by `model`.
   const embeddings = params.embeddings;
   if (Array.isArray(embeddings) && embeddings.length) {
     out.embeddings = embeddings
@@ -146,16 +116,14 @@ function diffusionParams(
       .map((e) => ({ model: e.name, weight: e.weight ?? 1 }));
   }
   const vae = params.vae;
-  // "automatic" is the form's way of spelling "leave it to the checkpoint", and the
-  // provider has no such VAE: sending it would be rejected as invalidVae.
+  // "automatic"/"none" mean "leave it to the checkpoint"; the provider has no such VAE.
   if (typeof vae === "string" && vae && vae !== "automatic" && vae !== "none") {
     out.vae = vae;
   }
   return out;
 }
 
-// Image inputs are base64 data URIs measured in megabytes. Logging one would bury the line
-// that matters, so they become a size marker while every other value stays verbatim.
+// Base64 image inputs are megabytes; log them as size markers, everything else verbatim.
 function redactImageValues(
   src: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -172,9 +140,7 @@ function redactImageValues(
   return out;
 }
 
-// The gateway routes on the caller's own group unless one is named. Prefer leaving that
-// alone when a shared group can serve the model, and only pin a specific group when the
-// model lives exclusively in one.
+// Pin a routing group only when the model lives exclusively in a non-default one.
 function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
   const usable = (groups ?? []).filter((g) => g && g !== "auto");
   if (!usable.length) return undefined;
@@ -205,8 +171,7 @@ export async function submitGeneration(
     throw new Error(`model ${body.model} declares no supported endpoint`);
   }
 
-  // Enforce the model's declared capabilities server-side. The form gates the same flags, but
-  // a request that did not come from the form must not be able to smuggle unsupported knobs.
+  // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
   const descriptor = getEffectiveGenerationModels(summary.models).find(
     (d) => d.id === body.model,
   );
@@ -218,15 +183,12 @@ export async function submitGeneration(
 
   const params = filtered.params as Record<string, unknown>;
   const size = paramsToSize(filtered.params);
-  // References may be data URIs: the browser holds the bytes and there is no object storage.
+  // References may be data URIs: the browser holds the bytes, there is no object storage.
   const refs = references.length
     ? await loadRefs(references.map((r) => r.url))
     : [];
 
-  // A model served only by a non-default routing group (every dedicated image provider) is
-  // unreachable without naming that group, so the request 403s as "no access to model".
-  // Chat solves this with a user-facing group picker; here the model's own group list is
-  // enough, and "auto" is left to the gateway when the default group already serves it.
+  // A model served only by a non-default group 403s without naming that group.
   const routingGroup = resolveRoutingGroup(info.enableGroups);
 
   const supportsNativeBatch = endpoint === "image-generation";
@@ -256,9 +218,8 @@ export async function submitGeneration(
       ),
     });
 
-    // What the provider ACTUALLY receives, which is the only way to tell a knob that was
-    // dropped from one that was sent and ignored. Image payloads carry base64 data URIs, so
-    // they are summarised rather than logged.
+    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob from
+    // a sent-and-ignored one.
     logger.info("image generation request", {
       context: "image.submit",
       model: body.model,
@@ -301,15 +262,13 @@ export async function submitGeneration(
     if (!res.ok) {
       throw new Error(upstreamImageError(res.status, text));
     }
-    // The gateway bills a GPU-time provider on what the generation actually cost, so the
-    // real charge is only knowable from its own log row, keyed by this id.
+    // The real charge is only knowable from the gateway's log row, keyed by this id.
     const requestId = res.headers.get("x-oneapi-request-id");
     if (requestId) requestIds.push(requestId);
     const results = extractResults(endpoint, JSON.parse(text));
     for (const result of results) {
-      // ADetailer redraws faces or hands AFTER the image exists, so it runs here on the
-      // finished result. Best-effort: a detector that finds nothing, or a failed pass,
-      // keeps the original rather than losing a generation the user already paid for.
+      // ADetailer runs on the finished result, best-effort: any failure keeps the
+      // original rather than losing a generation the user already paid for.
       let uri = result.uri;
       const adetailer = params.adetailer as AdetailerParams | undefined;
       if (adetailer && !uri.startsWith("data:")) {
@@ -322,8 +281,7 @@ export async function submitGeneration(
           loras: adetailer.loras?.length ? adetailer.loras : loras,
           scheduler: params.scheduler as string | undefined,
           cfg: params.cfg as number | undefined,
-          // The pass redraws the same canvas, so it renders at the SIZE ACTUALLY REQUESTED,
-          // which already carries any hires multiplier.
+          // Renders at the size actually requested, hires multiplier included.
           width: Number(size?.split("x")[0]) || 1024,
           height: Number(size?.split("x")[1]) || 1024,
         }).catch((err) => {
