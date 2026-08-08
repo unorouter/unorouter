@@ -90,6 +90,10 @@ export function LoraPicker(props: Props) {
       titleKey="IMAGE.LORAS_TITLE"
       emptyKey="IMAGE.LORAS_EMPTY"
       items={isReference ? resolved : (catalog.data?.items ?? [])}
+      // isFetching, not isLoading: the previous results are kept as placeholder data while a
+      // new search runs, which leaves isLoading false. The provider takes 8 to 22 seconds, so
+      // without this the old rows just sit there and the search looks like it does nothing.
+      isFetching={isReference ? versions.isFetching : catalog.isFetching}
       isLoading={isReference ? versions.isLoading : catalog.isLoading}
       value={props.value}
       search={search}

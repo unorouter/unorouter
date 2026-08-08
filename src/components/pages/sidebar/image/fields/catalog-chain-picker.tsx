@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import type { TranslationKey } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { formatTokens } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
@@ -34,6 +35,9 @@ type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
   emptyKey: TranslationKey;
   items: TItem[];
   isLoading: boolean;
+  /** A search is in flight while PREVIOUS results are still on screen. Distinct from
+   *  isLoading, which is only true when there is nothing to show at all. */
+  isFetching?: boolean;
   value: TEntry[];
   onAddPayload: (item: TItem) => TEntry;
   onChange: (next: TEntry[]) => void;
@@ -122,12 +126,23 @@ export function CatalogChainPicker<
           <PopoverContent className="flex w-80 flex-col p-0" align="start">
             {props.onSearchChange && (
               <div className="border-b p-2">
-                <Input
-                  autoFocus
-                  value={props.search ?? ""}
-                  placeholder={t("IMAGE.CATALOG_SEARCH_PLACEHOLDER")}
-                  onChange={(e) => props.onSearchChange?.(e.target.value)}
-                />
+                <div className="relative">
+                  <Input
+                    autoFocus
+                    value={props.search ?? ""}
+                    placeholder={t("IMAGE.CATALOG_SEARCH_PLACEHOLDER")}
+                    onChange={(e) => props.onSearchChange?.(e.target.value)}
+                  />
+                  {/* The provider answers in 8 to 22 seconds and the previous results stay on
+                      screen meanwhile, so without a visible pending marker the box looks like
+                      it is ignoring what was typed. */}
+                  {props.isFetching ? (
+                    <Icon
+                      name="loader"
+                      className="text-muted-foreground absolute top-1/2 right-2 size-4 -translate-y-1/2 animate-spin"
+                    />
+                  ) : null}
+                </div>
               </div>
             )}
             {/* Capped against the viewport as well as a fixed height: on a short screen a
@@ -152,7 +167,13 @@ export function CatalogChainPicker<
                   </div>
                 )}
               {available.length > 0 && (
-                <div className="flex flex-col py-2">
+                <div
+                  className={cn(
+                    "flex flex-col py-2",
+                    // Rows on screen during a fetch belong to the PREVIOUS search term.
+                    props.isFetching && "opacity-50",
+                  )}
+                >
                   {available.map((item) => (
                     <button
                       key={item.id}

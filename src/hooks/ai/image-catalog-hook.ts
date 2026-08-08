@@ -26,9 +26,10 @@ export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
   return useElysiaQuery(
     queryKeys.loraCatalog(query),
     () => rpc.api.ai.image.catalog.loras.get({ query: query ?? {} }),
-    // Hold the previous results while the next search resolves. Without this the list
-    // emptied on every keystroke and the popup collapsed to its loading state and back,
-    // which read as the panel jumping around while typing.
+    // Hold the previous results while the next search resolves, so the list does not empty
+    // and collapse the popup on every keystroke. The caller MUST surface isFetching with
+    // this: the provider takes 8 to 22 seconds, and stale rows with no pending indicator
+    // read as a search box that ignores what you type.
     { placeholderData: (prev) => prev },
   );
 }
