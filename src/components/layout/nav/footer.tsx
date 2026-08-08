@@ -137,6 +137,12 @@ const FOOTER_BADGES: {
     width: 174,
   },
   {
+    href: "https://dailypings.com/p/unorouter",
+    src: "https://dailypings.com/badge.svg",
+    name: "DailyPings",
+    width: 179,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
