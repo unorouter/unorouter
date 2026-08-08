@@ -132,8 +132,8 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://shipycorn.com",
-    src: "/badges/shipycorn.svg",
-    name: "Featured on Shipycorn",
+    src: "https://shipycorn.com/images/badges/shipycorn.badge.svg",
+    name: "Shipycorn",
     width: 174,
   },
   {
