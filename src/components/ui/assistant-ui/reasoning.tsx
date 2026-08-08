@@ -277,15 +277,30 @@ function ReasoningText({
     // Follow the newest token only while the reader sits at the bottom - the
     // same contract as the thread. Once they scroll up to read mid-stream the
     // pin disengages; scrolling back to the bottom re-engages it.
+    //
+    // The at-bottom test must IGNORE the scrolls this effect causes itself.
+    // `pin` sets scrollTop past the end and the browser clamps it, so the
+    // resulting event always measures as at-bottom; re-deriving `follow` from
+    // that re-armed the pin one frame after the reader scrolled away, and any
+    // nudge downward stuck it back on for good.
     let follow = true;
+    let selfScrolling = false;
     const AT_BOTTOM_SLACK = 24;
     const onScroll = () => {
+      if (selfScrolling) {
+        selfScrolling = false;
+        return;
+      }
       follow =
         scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight <
         AT_BOTTOM_SLACK;
     };
     const pin = () => {
-      if (follow) scrollEl.scrollTop = scrollEl.scrollHeight;
+      if (!follow) return;
+      const target = scrollEl.scrollHeight - scrollEl.clientHeight;
+      if (Math.abs(scrollEl.scrollTop - target) < 1) return;
+      selfScrolling = true;
+      scrollEl.scrollTop = target;
     };
     pin();
     scrollEl.addEventListener("scroll", onScroll, { passive: true });
