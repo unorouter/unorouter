@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Model saya",
     "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI",
     "TRIGGER_WORDS": "Kata pemicu",
-    "DOWNLOADS": "unduhan"
+    "DOWNLOADS": "unduhan",
+    "INPAINT_MODEL": "Model inpaint",
+    "INPAINT_MODEL_HINT": "Biarkan kosong untuk memakai model di atas",
+    "INPAINT_PROMPT": "Prompt inpaint",
+    "INPAINT_PROMPT_PLACEHOLDER": "Apa yang menggantikan area bermasker?",
+    "INPAINT_NEGATIVE_PROMPT": "Prompt negatif inpaint",
+    "INPAINT_STRENGTH": "Kekuatan denoise",
+    "INPAINT_STRENGTH_HINT": "Makin tinggi makin bebas menggambar ulang area; makin rendah makin mempertahankan aslinya"
   }
 }

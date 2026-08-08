@@ -170,6 +170,16 @@ export const generationFormUi = t.Object({
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
+  // Redrawing a masked region is often better served by a different checkpoint than the one
+  // that produced the image (a realism model fixing a hand on an anime render), so the
+  // inpaint pass can override the form's model. Empty = use the form's.
+  inpaintModel: t.Optional(t.String({ maxLength: 256 })),
+  inpaintAir: t.Optional(t.String({ maxLength: 256 })),
+  inpaintAirName: t.Optional(t.String({ maxLength: 256 })),
+  inpaintAirQuery: t.Optional(t.String({ maxLength: 2048 })),
+  inpaintPrompt: t.Optional(t.String({ maxLength: 8000 })),
+  inpaintNegativePrompt: t.Optional(t.String({ maxLength: 4000 })),
+  inpaintStrength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   // The user-brought checkpoint and the reference it was resolved from. Submitting navigates
   // to the result and rebuilds the form, so a field-local copy does not survive a generation.
   air: t.Optional(t.String({ maxLength: 256 })),

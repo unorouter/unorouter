@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "המודלים שלי",
     "MODEL_GROUP_CIVITAI": "נקודות בדיקה של CivitAI",
     "TRIGGER_WORDS": "מילות הפעלה",
-    "DOWNLOADS": "הורדות"
+    "DOWNLOADS": "הורדות",
+    "INPAINT_MODEL": "מודל ציור פנימי",
+    "INPAINT_MODEL_HINT": "השאירו ריק כדי להשתמש במודל שלמעלה",
+    "INPAINT_PROMPT": "הנחיית ציור פנימי",
+    "INPAINT_PROMPT_PLACEHOLDER": "במה להחליף את האזור המסומן?",
+    "INPAINT_NEGATIVE_PROMPT": "הנחיה שלילית לציור פנימי",
+    "INPAINT_STRENGTH": "עוצמת הפחתת רעש",
+    "INPAINT_STRENGTH_HINT": "ערך גבוה מצייר מחדש את האזור בחופשיות רבה יותר; נמוך משמר יותר מהמקור"
   }
 }

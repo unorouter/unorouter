@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "मेरे मॉडल",
     "MODEL_GROUP_CIVITAI": "CivitAI चेकपॉइंट",
     "TRIGGER_WORDS": "ट्रिगर शब्द",
-    "DOWNLOADS": "डाउनलोड"
+    "DOWNLOADS": "डाउनलोड",
+    "INPAINT_MODEL": "इनपेंट मॉडल",
+    "INPAINT_MODEL_HINT": "ऊपर वाला मॉडल उपयोग करने के लिए खाली छोड़ें",
+    "INPAINT_PROMPT": "इनपेंट प्रॉम्प्ट",
+    "INPAINT_PROMPT_PLACEHOLDER": "मास्क किए गए क्षेत्र की जगह क्या आना चाहिए?",
+    "INPAINT_NEGATIVE_PROMPT": "इनपेंट नेगेटिव प्रॉम्प्ट",
+    "INPAINT_STRENGTH": "डीनॉइज़ शक्ति",
+    "INPAINT_STRENGTH_HINT": "अधिक मान क्षेत्र को अधिक स्वतंत्रता से बनाता है; कम मान मूल को अधिक बनाए रखता है"
   }
 }

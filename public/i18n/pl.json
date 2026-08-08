@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Moje modele",
     "MODEL_GROUP_CIVITAI": "Checkpointy CivitAI",
     "TRIGGER_WORDS": "Słowa wyzwalające",
-    "DOWNLOADS": "pobrań"
+    "DOWNLOADS": "pobrań",
+    "INPAINT_MODEL": "Model inpaintingu",
+    "INPAINT_MODEL_HINT": "Pozostaw puste, aby użyć modelu powyżej",
+    "INPAINT_PROMPT": "Prompt inpaintingu",
+    "INPAINT_PROMPT_PLACEHOLDER": "Co ma zastąpić zamaskowany obszar?",
+    "INPAINT_NEGATIVE_PROMPT": "Negatywny prompt inpaintingu",
+    "INPAINT_STRENGTH": "Siła odszumiania",
+    "INPAINT_STRENGTH_HINT": "Wyższa przerysowuje obszar swobodniej; niższa zachowuje więcej oryginału"
   }
 }

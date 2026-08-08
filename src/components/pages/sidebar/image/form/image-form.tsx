@@ -32,6 +32,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { CivitaiResolverField } from "../fields/civitai-resolver-field";
 import { InitImageField } from "../fields/init-image-field";
+import { InpaintSettings } from "../fields/inpaint-settings";
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import {
@@ -464,7 +465,52 @@ export function ImageForm() {
         {activeTab === "img2img" &&
           activeSubPill === "inpaint" &&
           typeof params.initImageUrl === "string" && (
-            <InpaintCanvas imageUrl={params.initImageUrl} />
+            <>
+              <InpaintCanvas imageUrl={params.initImageUrl} />
+              {/* Beside the canvas, not in the shared fields far above it: the brush drops the
+                  user at the bottom of a long form, and the controls driving the pass were
+                  nowhere near the thing they were looking at. */}
+              <InpaintSettings
+                fallbackPrompt={form.watch("prompt") ?? ""}
+                value={{
+                  prompt: ui.inpaintPrompt,
+                  negativePrompt: ui.inpaintNegativePrompt,
+                  strength: ui.inpaintStrength,
+                  model: ui.inpaintModel,
+                  air: ui.inpaintAir,
+                  airName: ui.inpaintAirName,
+                  airQuery: ui.inpaintAirQuery,
+                }}
+                onChange={(patch) =>
+                  form.setValue(
+                    "ui",
+                    {
+                      ...(form.getValues("ui") ?? {}),
+                      ...(patch.prompt !== undefined && {
+                        inpaintPrompt: patch.prompt,
+                      }),
+                      ...(patch.negativePrompt !== undefined && {
+                        inpaintNegativePrompt: patch.negativePrompt,
+                      }),
+                      ...(patch.strength !== undefined && {
+                        inpaintStrength: patch.strength,
+                      }),
+                      ...(patch.model !== undefined && {
+                        inpaintModel: patch.model,
+                      }),
+                      ...(patch.air !== undefined && { inpaintAir: patch.air }),
+                      ...(patch.airName !== undefined && {
+                        inpaintAirName: patch.airName,
+                      }),
+                      ...(patch.airQuery !== undefined && {
+                        inpaintAirQuery: patch.airQuery,
+                      }),
+                    },
+                    { shouldDirty: true },
+                  )
+                }
+              />
+            </>
           )}
 
         <AdvancedFieldsStack form={form} descriptor={descriptor} />

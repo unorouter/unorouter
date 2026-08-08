@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "My models",
     "MODEL_GROUP_CIVITAI": "CivitAI checkpoints",
     "TRIGGER_WORDS": "Trigger words",
-    "DOWNLOADS": "downloads"
+    "DOWNLOADS": "downloads",
+    "INPAINT_MODEL": "Inpaint model",
+    "INPAINT_MODEL_HINT": "Leave empty to use the model above",
+    "INPAINT_PROMPT": "Inpaint prompt",
+    "INPAINT_PROMPT_PLACEHOLDER": "What should replace the masked area?",
+    "INPAINT_NEGATIVE_PROMPT": "Inpaint negative prompt",
+    "INPAINT_STRENGTH": "Denoise strength",
+    "INPAINT_STRENGTH_HINT": "Higher redraws the masked area more freely; lower keeps more of the original"
   }
 }

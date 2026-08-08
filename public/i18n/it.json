@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "I miei modelli",
     "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI",
     "TRIGGER_WORDS": "Parole chiave",
-    "DOWNLOADS": "download"
+    "DOWNLOADS": "download",
+    "INPAINT_MODEL": "Modello di ritocco",
+    "INPAINT_MODEL_HINT": "Lascia vuoto per usare il modello sopra",
+    "INPAINT_PROMPT": "Prompt di ritocco",
+    "INPAINT_PROMPT_PLACEHOLDER": "Cosa deve sostituire l’area mascherata?",
+    "INPAINT_NEGATIVE_PROMPT": "Prompt negativo di ritocco",
+    "INPAINT_STRENGTH": "Intensità di denoise",
+    "INPAINT_STRENGTH_HINT": "Più alto ridisegna l’area più liberamente; più basso conserva di più dell’originale"
   }
 }

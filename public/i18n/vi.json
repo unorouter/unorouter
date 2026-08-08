@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Mô hình của tôi",
     "MODEL_GROUP_CIVITAI": "Checkpoint CivitAI",
     "TRIGGER_WORDS": "Từ kích hoạt",
-    "DOWNLOADS": "lượt tải"
+    "DOWNLOADS": "lượt tải",
+    "INPAINT_MODEL": "Mô hình vẽ lại",
+    "INPAINT_MODEL_HINT": "Để trống để dùng mô hình ở trên",
+    "INPAINT_PROMPT": "Câu lệnh vẽ lại",
+    "INPAINT_PROMPT_PLACEHOLDER": "Vùng được che sẽ được thay bằng gì?",
+    "INPAINT_NEGATIVE_PROMPT": "Câu lệnh phủ định khi vẽ lại",
+    "INPAINT_STRENGTH": "Cường độ khử nhiễu",
+    "INPAINT_STRENGTH_HINT": "Càng cao thì vẽ lại vùng càng tự do; càng thấp thì giữ lại nhiều ảnh gốc hơn"
   }
 }

@@ -1,4 +1,5 @@
 import { blobUrlToDataUri } from "@/lib/db/client/data/media/blob-url";
+import { CUSTOM_CIVITAI_MODEL_ID } from "../image-constants";
 import type {
   GenerationFormValues,
   GenerationMode,
@@ -72,22 +73,53 @@ export async function toSubmitBody(
     paramsWithN.initImageUrl = await blobUrlToDataUri(initImageUrl);
   }
 
-  if (ctx.mode === "inpaint" && ui.inpaintMaskDataUrl) {
+  // A mask without the image it was painted on is meaningless, and the provider rejects the
+  // pair outright: removing the init image while a mask was still stored failed the NEXT
+  // plain generation with an opaque error rather than doing an ordinary text2img run.
+  const hasInitImage =
+    typeof paramsWithN.initImageUrl === "string" && !!paramsWithN.initImageUrl;
+  if (!hasInitImage) delete paramsWithN.maskUrl;
+
+  if (ctx.mode === "inpaint" && ui.inpaintMaskDataUrl && hasInitImage) {
     paramsWithN.maskUrl = ui.inpaintMaskDataUrl;
+    // Every inpaint field is an OVERRIDE: left empty, the pass runs on what the form already
+    // holds, so a user who just wants to repaint a region with the same setup types nothing.
+    if (ui.inpaintStrength !== undefined) {
+      paramsWithN.strength = ui.inpaintStrength;
+    }
+    if (ui.inpaintNegativePrompt) {
+      paramsWithN.negativePrompt = ui.inpaintNegativePrompt;
+    }
   }
 
-  const wireExtras =
-    (values.extraParams as Record<string, unknown> | undefined) ?? {};
+  const wireExtras = {
+    ...((values.extraParams as Record<string, unknown> | undefined) ?? {}),
+    // The checkpoint the provider loads rides here, so an inpaint override replaces it for
+    // this request only rather than changing what the form is set to.
+    ...(ctx.mode === "inpaint" && ui.inpaintAir
+      ? { air: ui.inpaintAir, airName: ui.inpaintAirName }
+      : {}),
+  };
   const cleanedExtras =
     Object.keys(wireExtras).length > 0 ? wireExtras : undefined;
 
   const loras =
     values.loras && values.loras.length > 0 ? values.loras : undefined;
 
+  // The inpaint pass can run a different checkpoint than the one that made the image (a
+  // realism model fixing a hand on an anime render), so its AIR replaces the form's for this
+  // request only. The passthrough model id has to come along with it: the AIR is what the
+  // provider loads, but the catalog id is what routes there.
+  const inpaintingWithModel =
+    ctx.mode === "inpaint" && hasInitImage && !!ui.inpaintAir;
+
   return {
-    model: values.model,
+    model: inpaintingWithModel ? CUSTOM_CIVITAI_MODEL_ID : values.model,
     mode: ctx.mode,
-    prompt: values.prompt,
+    prompt:
+      ctx.mode === "inpaint" && ui.inpaintPrompt
+        ? ui.inpaintPrompt
+        : values.prompt,
     negativePrompt: values.negativePrompt || undefined,
     params: paramsWithN as never,
     loras,

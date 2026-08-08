@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "내 모델",
     "MODEL_GROUP_CIVITAI": "CivitAI 체크포인트",
     "TRIGGER_WORDS": "트리거 단어",
-    "DOWNLOADS": "다운로드"
+    "DOWNLOADS": "다운로드",
+    "INPAINT_MODEL": "인페인팅 모델",
+    "INPAINT_MODEL_HINT": "비워 두면 위의 모델을 사용합니다",
+    "INPAINT_PROMPT": "인페인팅 프롬프트",
+    "INPAINT_PROMPT_PLACEHOLDER": "마스크한 영역을 무엇으로 바꿀까요?",
+    "INPAINT_NEGATIVE_PROMPT": "인페인팅 네거티브 프롬프트",
+    "INPAINT_STRENGTH": "디노이즈 강도",
+    "INPAINT_STRENGTH_HINT": "높을수록 마스크 영역을 자유롭게 다시 그리고, 낮을수록 원본을 더 유지합니다"
   }
 }

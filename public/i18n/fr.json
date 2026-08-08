@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Mes modèles",
     "MODEL_GROUP_CIVITAI": "Checkpoints CivitAI",
     "TRIGGER_WORDS": "Mots déclencheurs",
-    "DOWNLOADS": "téléchargements"
+    "DOWNLOADS": "téléchargements",
+    "INPAINT_MODEL": "Modèle de retouche",
+    "INPAINT_MODEL_HINT": "Laissez vide pour utiliser le modèle ci-dessus",
+    "INPAINT_PROMPT": "Prompt de retouche",
+    "INPAINT_PROMPT_PLACEHOLDER": "Que doit remplacer la zone masquée ?",
+    "INPAINT_NEGATIVE_PROMPT": "Prompt négatif de retouche",
+    "INPAINT_STRENGTH": "Force de débruitage",
+    "INPAINT_STRENGTH_HINT": "Plus élevé redessine la zone plus librement ; plus bas conserve davantage l’original"
   }
 }

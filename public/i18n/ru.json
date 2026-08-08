@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Мои модели",
     "MODEL_GROUP_CIVITAI": "Чекпоинты CivitAI",
     "TRIGGER_WORDS": "Триггерные слова",
-    "DOWNLOADS": "загрузок"
+    "DOWNLOADS": "загрузок",
+    "INPAINT_MODEL": "Модель врисовки",
+    "INPAINT_MODEL_HINT": "Оставьте пустым, чтобы использовать модель выше",
+    "INPAINT_PROMPT": "Запрос врисовки",
+    "INPAINT_PROMPT_PLACEHOLDER": "Что должно заменить замаскированную область?",
+    "INPAINT_NEGATIVE_PROMPT": "Негативный запрос врисовки",
+    "INPAINT_STRENGTH": "Сила шумоподавления",
+    "INPAINT_STRENGTH_HINT": "Выше — область перерисовывается свободнее; ниже — сохраняется больше оригинала"
   }
 }

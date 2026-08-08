@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "我的模型",
     "MODEL_GROUP_CIVITAI": "CivitAI 模型",
     "TRIGGER_WORDS": "触发词",
-    "DOWNLOADS": "次下载"
+    "DOWNLOADS": "次下载",
+    "INPAINT_MODEL": "重绘模型",
+    "INPAINT_MODEL_HINT": "留空则使用上方的模型",
+    "INPAINT_PROMPT": "重绘提示词",
+    "INPAINT_PROMPT_PLACEHOLDER": "用什么替换遮罩区域？",
+    "INPAINT_NEGATIVE_PROMPT": "重绘负面提示词",
+    "INPAINT_STRENGTH": "降噪强度",
+    "INPAINT_STRENGTH_HINT": "数值越高，遮罩区域重绘越自由；越低则保留更多原图"
   }
 }

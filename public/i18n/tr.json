@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Modellerim",
     "MODEL_GROUP_CIVITAI": "CivitAI kontrol noktaları",
     "TRIGGER_WORDS": "Tetikleyici kelimeler",
-    "DOWNLOADS": "indirme"
+    "DOWNLOADS": "indirme",
+    "INPAINT_MODEL": "Inpaint modeli",
+    "INPAINT_MODEL_HINT": "Yukarıdaki modeli kullanmak için boş bırakın",
+    "INPAINT_PROMPT": "Inpaint istemi",
+    "INPAINT_PROMPT_PLACEHOLDER": "Maskelenen alanın yerine ne gelmeli?",
+    "INPAINT_NEGATIVE_PROMPT": "Negatif inpaint istemi",
+    "INPAINT_STRENGTH": "Gürültü giderme gücü",
+    "INPAINT_STRENGTH_HINT": "Yüksek değer alanı daha serbest yeniden çizer; düşük değer orijinali daha çok korur"
   }
 }

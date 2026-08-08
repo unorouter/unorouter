@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "Meine Modelle",
     "MODEL_GROUP_CIVITAI": "CivitAI-Checkpoints",
     "TRIGGER_WORDS": "Auslösewörter",
-    "DOWNLOADS": "Downloads"
+    "DOWNLOADS": "Downloads",
+    "INPAINT_MODEL": "Inpaint-Modell",
+    "INPAINT_MODEL_HINT": "Leer lassen, um das Modell oben zu verwenden",
+    "INPAINT_PROMPT": "Inpaint-Prompt",
+    "INPAINT_PROMPT_PLACEHOLDER": "Was soll den maskierten Bereich ersetzen?",
+    "INPAINT_NEGATIVE_PROMPT": "Negativer Inpaint-Prompt",
+    "INPAINT_STRENGTH": "Denoise-Stärke",
+    "INPAINT_STRENGTH_HINT": "Höher zeichnet den maskierten Bereich freier neu; niedriger behält mehr vom Original"
   }
 }

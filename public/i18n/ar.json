@@ -5763,6 +5763,13 @@
     "MODEL_GROUP_SAVED": "نماذجي",
     "MODEL_GROUP_CIVITAI": "نقاط تفتيش CivitAI",
     "TRIGGER_WORDS": "الكلمات المُحفِّزة",
-    "DOWNLOADS": "تنزيل"
+    "DOWNLOADS": "تنزيل",
+    "INPAINT_MODEL": "نموذج إعادة الرسم",
+    "INPAINT_MODEL_HINT": "اتركه فارغًا لاستخدام النموذج أعلاه",
+    "INPAINT_PROMPT": "موجّه إعادة الرسم",
+    "INPAINT_PROMPT_PLACEHOLDER": "بماذا تريد استبدال المنطقة المحددة؟",
+    "INPAINT_NEGATIVE_PROMPT": "الموجّه السلبي لإعادة الرسم",
+    "INPAINT_STRENGTH": "قوة إزالة التشويش",
+    "INPAINT_STRENGTH_HINT": "القيمة الأعلى تعيد رسم المنطقة بحرية أكبر، والأقل تحافظ على الأصل أكثر"
   }
 }
