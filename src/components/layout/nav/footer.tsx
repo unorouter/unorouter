@@ -155,6 +155,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://aitechviral.com/ai/unorouter",
+    src: "https://aitechviral.com/assets/images/badge.png",
+    name: "AI Tech Viral",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
