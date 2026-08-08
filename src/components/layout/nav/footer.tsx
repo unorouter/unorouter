@@ -37,7 +37,14 @@ const LEGAL_LINKS = [
 // badge between hosted and self-hosted src by editing its entry only.
 // liveFrom marks a listing that only goes public on a scheduled launch date; the
 // badge appears one day earlier so the directory can verify it before going live.
-const FOOTER_BADGES = [
+const FOOTER_BADGES: {
+  href: string;
+  src: string;
+  name: string;
+  width: number;
+  liveFrom?: string;
+  verified?: boolean;
+}[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
     src: "/badges/startupfame.webp",
@@ -116,7 +123,6 @@ const FOOTER_BADGES = [
     src: "/badges/ufind.svg",
     name: "ufind.best",
     width: 139,
-    liveFrom: "2026-12-07",
   },
   {
     href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
