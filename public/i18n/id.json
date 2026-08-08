@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "{type} diperlukan",
       "MIN_LENGTH": "{type} harus minimal {minLength} karakter",
+      "MAX_LENGTH": "{type} maksimal {maxLength} karakter",
       "MIN_VALUE": "{type} harus lebih besar dari 0"
     },
     "TYPE": {

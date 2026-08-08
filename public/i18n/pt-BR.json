@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "{type} é obrigatório",
       "MIN_LENGTH": "{type} deve ter pelo menos {minLength} caracteres",
+      "MAX_LENGTH": "{type} deve ter no máximo {maxLength} caracteres",
       "MIN_VALUE": "{type} deve ser maior que 0"
     },
     "TYPE": {

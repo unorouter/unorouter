@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "Trường {type} là bắt buộc",
       "MIN_LENGTH": "{type} phải có ít nhất {minLength} ký tự",
+      "MAX_LENGTH": "{type} không được vượt quá {maxLength} ký tự",
       "MIN_VALUE": "{type} phải lớn hơn 0"
     },
     "TYPE": {

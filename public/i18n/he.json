@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "{type} נדרש",
       "MIN_LENGTH": "{type} חייב להיות לפחות {minLength} תווים",
+      "MAX_LENGTH": "{type} יכול להכיל לכל היותר {maxLength} תווים",
       "MIN_VALUE": "{type} חייב להיות גדול מ-0"
     },
     "TYPE": {

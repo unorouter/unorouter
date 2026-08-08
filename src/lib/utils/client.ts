@@ -5,11 +5,20 @@ import { asParams } from "@/lib/utils/base";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
+  ValueErrorType,
 } from "@sinclair/typebox/errors";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 SetErrorFunction((error) => {
+  // A schema carries ONE error string, so a field with both bounds would report
+  // its minLength message for a too-long value. maxLength gets its own key.
+  if (
+    error.errorType === ValueErrorType.StringMaxLength &&
+    typeof error.schema.maxLength === "number"
+  ) {
+    return "FORM.ERROR.MAX_LENGTH";
+  }
   if (typeof error.schema.error === "string") return error.schema.error;
   return DefaultErrorFunction(error);
 });

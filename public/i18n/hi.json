@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "{type} आवश्यक है",
       "MIN_LENGTH": "{type} कम से कम {minLength} अक्षरों का होना चाहिए",
+      "MAX_LENGTH": "{type} अधिकतम {maxLength} अक्षरों का होना चाहिए",
       "MIN_VALUE": "{type} 0 से अधिक होना चाहिए"
     },
     "TYPE": {

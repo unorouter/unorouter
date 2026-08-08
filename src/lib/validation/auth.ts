@@ -24,9 +24,11 @@ export const registerSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  // Mirrors new-api's RegisterRequest validate tag. The max is bcrypt's hard
-  // ceiling (Password2Hash errors above 72 bytes), and upstream reports a
-  // violation as a bare "Invalid parameters" naming no field, so catch it here.
+  // Mirrors new-api's RegisterRequest tag. 72 is bcrypt's hard ceiling
+  // (Password2Hash errors above it), and upstream reports a violation as a bare
+  // "Invalid parameters" naming no field, so catch it before submit. NOT applied
+  // to loginSchema: login has no upstream max, and capping it would lock out
+  // anyone whose existing password is longer.
   password: t.String({
     minLength: 8,
     maxLength: 72,

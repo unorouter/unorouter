@@ -3654,6 +3654,7 @@
     "ERROR": {
       "REQUIRED": "{type} は必須です",
       "MIN_LENGTH": "{type} は {minLength} 文字以上である必要があります",
+      "MAX_LENGTH": "{type} は {maxLength} 文字以下である必要があります",
       "MIN_VALUE": "{type} は 0 より大きい必要があります"
     },
     "TYPE": {
