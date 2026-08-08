@@ -180,6 +180,10 @@ export function ConsumptionChart() {
   const t = useTranslations();
   const dashboard = useDashboardData();
   const isLoading = dashboard.quotaQuery.isLoading;
+  const loadError =
+    dashboard.quotaQuery.error instanceof Error
+      ? dashboard.quotaQuery.error.message
+      : null;
 
   const [modelFilter, setModelFilter] = useQueryState(
     "model",
@@ -251,6 +255,23 @@ export function ConsumptionChart() {
       {isLoading ? (
         <div className="flex h-80 items-center justify-center p-5">
           <Skeleton className="h-full w-full" />
+        </div>
+      ) : loadError ? (
+        <div className="flex h-80 flex-col items-center justify-center gap-3 p-5">
+          <Icon
+            name="triangle-alert"
+            className="text-destructive h-10 w-10 opacity-70"
+          />
+          <span className="text-muted-foreground max-w-md text-center font-mono text-xs">
+            {loadError}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => dashboard.resetDateRange()}
+          >
+            {t("DASHBOARD.CHART.RESET_DATE_RANGE")}
+          </Button>
         </div>
       ) : rows.length === 0 ? (
         <div className="flex h-80 flex-col items-center justify-center gap-2 p-5">
