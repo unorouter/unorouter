@@ -143,6 +143,12 @@ const FOOTER_BADGES: {
     width: 179,
   },
   {
+    href: "https://unitelist.com/product/unorouter",
+    src: "https://unitelist.com/assets/images/badge.png",
+    name: "Unite List",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
