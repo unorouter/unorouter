@@ -29,6 +29,17 @@ import {
   filterParamsToCapabilities,
 } from "./capabilities";
 
+// The gateway already says WHY it refused ("insufficient user quota, remaining: $-0.08",
+// "Inappropriate prompt: blocked by content moderation"), and the client's error extractor
+// reads .error.message out of a JSON body. Prefixing it with "upstream 403: " was the only
+// reason none of that reached the user: the prefix makes the string neither plain text nor
+// parseable JSON, so it fell through to a generic unexpected error. Pass the body verbatim.
+function upstreamImageError(status: number, body: string): string {
+  const trimmed = body.trim();
+  if (trimmed.startsWith("{") || trimmed.startsWith("[")) return trimmed;
+  return trimmed ? `${status}: ${trimmed.slice(0, 300)}` : `upstream ${status}`;
+}
+
 function imageCountFor(body: PlaygroundSubmitBody): number {
   const n = body.params?.n ?? 1;
   if (!Number.isFinite(n) || n < 1) return 1;
@@ -288,7 +299,7 @@ export async function submitGeneration(
 
     const text = await res.text();
     if (!res.ok) {
-      throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
+      throw new Error(upstreamImageError(res.status, text));
     }
     // The gateway bills a GPU-time provider on what the generation actually cost, so the
     // real charge is only knowable from its own log row, keyed by this id.
