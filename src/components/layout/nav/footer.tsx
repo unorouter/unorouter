@@ -161,6 +161,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://dofollow.tools",
+    src: "https://dofollow.tools/badge/badge_dark.svg",
+    name: "Dofollow.Tools",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
