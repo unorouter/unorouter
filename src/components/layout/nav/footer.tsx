@@ -149,6 +149,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://acidtools.com/ai/unorouter",
+    src: "https://acidtools.com/assets/images/badge.png",
+    name: "Acid Tools",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
