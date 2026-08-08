@@ -66,7 +66,10 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
       .second(59)
       .millisecond(0)
       .toDate();
-    props.onChange({ from, to });
+    // Upstream rejects end < start with an error the dashboard renders as a
+    // blank page, so a backwards same-day pick is normalized instead of sent.
+    const inverted = dayjs(to).isBefore(from);
+    props.onChange(inverted ? { from: to, to: from } : { from, to });
     setOpen(false);
   }
 
