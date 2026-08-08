@@ -1,25 +1,25 @@
 import {
   buildBody,
-  extractResultUris,
-  fetchAllRefs,
+  extractResults,
+  loadRefs,
 } from "@/lib/ai/playground/dispatch";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
-import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
+import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
 import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import type {
   GeneratedImage,
   PlaygroundSubmitBody,
 } from "@/lib/validation/playground";
-import { upstreamApiUrl } from "@/server/constants";
+import { logger } from "@/lib/utils/logger";
+import {
+  batchPlan,
+  collectImages,
+  formatSize,
+  postImageRequest,
+  sizeOf,
+} from "@/server/ai/image/upstream";
 
 // Sync image generation for the chat inlay/illustrator.
-function paramsToSize(
-  params: PlaygroundSubmitBody["params"],
-): string | undefined {
-  const p = params ?? {};
-  return p.width && p.height ? `${p.width}x${p.height}` : undefined;
-}
-
 export async function submitSyncImage(args: {
   apiKey: string;
   body: PlaygroundSubmitBody;
@@ -27,27 +27,24 @@ export async function submitSyncImage(args: {
   n: number;
 }): Promise<GeneratedImage[]> {
   const params = args.body.params ?? {};
-  const size = paramsToSize(args.body.params);
+  const size = formatSize(sizeOf(args.body.params));
 
-  const meta = (await getPricingSnapshot()).models.find(
-    (m) => m.name === args.body.model,
-  );
-  const cap = meta?.metadata.maxImageInputs ?? 6;
+  const meta = (await getPricingSnapshot()).byName.get(args.body.model);
+  const cap = meta?.metadata.maxImageInputs ?? MAX_INLAY_REFS;
   const refUrls = (args.body.references ?? []).slice(0, cap).map((r) => r.url);
-  const refs = refUrls.length > 0 ? await fetchAllRefs(refUrls) : [];
+  // loadRefs, not a plain fetch: illustrator references are data URIs.
+  const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];
 
-  const supportsNativeBatch = args.endpoint === "image-generation";
-  const callsToMake = supportsNativeBatch ? 1 : args.n;
-  const perCallN = supportsNativeBatch ? args.n : 1;
+  const plan = batchPlan(args.endpoint === "image-generation", args.n);
 
   const collected: GeneratedImage[] = [];
-  for (let i = 0; i < callsToMake; i++) {
+  for (let i = 0; i < plan.calls; i++) {
     const built = buildBody(args.endpoint, {
       model: args.body.model,
       prompt: args.body.prompt,
       size,
       refs,
-      n: perCallN,
+      n: plan.perCallN,
       quality: params.quality,
       outputFormat: params.outputFormat,
       watermark: params.watermark,
@@ -56,51 +53,20 @@ export async function submitSyncImage(args: {
       seed: params.seed,
     });
 
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${args.apiKey}`,
-    };
-    let res: Response;
-    if (built.kind === "json") {
-      headers["Content-Type"] = "application/json";
-      res = await fetch(`${upstreamApiUrl}${built.path}`, {
-        method: "POST",
-        headers,
-        body: built.body,
-      });
-    } else {
-      res = await fetch(`${upstreamApiUrl}${built.path}`, {
-        method: "POST",
-        headers,
-        body: built.form,
+    const res = await postImageRequest(built, args.apiKey);
+    if (res.requestId) {
+      // Nothing enriches inlay cost yet; keep the id traceable in logs.
+      logger.info("inlay image generated", {
+        context: "chat.inlay",
+        model: args.body.model,
+        requestId: res.requestId,
       });
     }
-
-    const text = await res.text();
-    if (!res.ok) {
-      throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
+    const results = extractResults(args.endpoint, res.payload);
+    if (results.length === 0) {
+      throw new Error(`no image in upstream response (${args.endpoint})`);
     }
-    let payload: unknown;
-    try {
-      payload = JSON.parse(text);
-    } catch {
-      throw new Error(`upstream returned non-JSON: ${text.slice(0, 200)}`);
-    }
-
-    const uris = extractResultUris(args.endpoint, payload);
-    if (uris.length === 0) {
-      throw new Error(
-        `no image in upstream response (${args.endpoint}): ${text.slice(0, 200)}`,
-      );
-    }
-    for (const uri of uris) {
-      const bytes = await downloadGenerationBytes(uri, args.apiKey);
-      collected.push({
-        resultUrl: uri.startsWith("data:") ? null : uri,
-        base64: bytes.buffer.toString("base64"),
-        mimeType: bytes.mime,
-        sizeBytes: bytes.sizeBytes,
-      });
-    }
+    collected.push(...(await collectImages(results, args.apiKey)));
   }
 
   return collected;

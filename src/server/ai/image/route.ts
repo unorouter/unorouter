@@ -8,6 +8,7 @@ import { getUserId } from "@/server/constants";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia, t } from "elysia";
 import { submitGeneration } from "./image-submit.service";
+import { UpstreamImageError } from "./upstream";
 import {
   findCheckpoints,
   listCheckpointVersions,
@@ -22,6 +23,29 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
 }
 
 export const imageRoute = new Elysia({ prefix: "/image" })
+  // Eden Treaty only parses error bodies served as JSON; Elysia's default text/plain
+  // error response reaches the client as an unreadable stream and every toast collapsed
+  // to a generic message. Upstream JSON bodies pass through verbatim. The `never` casts
+  // keep the hook's Response out of Eden's inferred success types for every route.
+  .onError(({ error }): undefined => {
+    const asJson = (status: number, body: string) =>
+      new Response(body, {
+        status,
+        headers: { "content-type": "application/json" },
+      }) as never;
+    if (error instanceof UpstreamImageError) {
+      const trimmed = error.body.trim();
+      return asJson(
+        error.status,
+        trimmed.startsWith("{") || trimmed.startsWith("[")
+          ? trimmed
+          : JSON.stringify({ error: { message: error.message } }),
+      );
+    }
+    if (error instanceof Error) {
+      return asJson(500, JSON.stringify({ error: { message: error.message } }));
+    }
+  })
   .post(
     "/submit",
     async ({ body, cookie }) => {

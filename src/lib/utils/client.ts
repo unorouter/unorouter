@@ -39,10 +39,15 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   if (e && typeof e === "object") {
     const obj = e as Record<string, unknown>;
     if (typeof obj.statusCode === "number") status = obj.statusCode;
+    else if (typeof obj.status === "number") status = obj.status;
     if (typeof obj.responseBody === "string" && obj.responseBody.trim())
       body = obj.responseBody;
-    else if ("data" in obj) body = obj.data;
-    else if (e instanceof Error) body = e.message;
+    else if ("data" in obj && obj.data != null) body = obj.data;
+    // Eden Treaty parks a non-2xx body under error.value.
+    else if ("error" in obj && obj.error != null) {
+      const edenError = obj.error as { value?: unknown };
+      body = edenError.value ?? edenError;
+    } else if (e instanceof Error) body = e.message;
   }
 
   let parsed: unknown = body;
@@ -132,7 +137,8 @@ function pickMessage(v: unknown): Extracted | null {
         };
       }
     }
-    for (const key of ["error", "data", "body", "response"]) {
+    // "value" is where Eden Treaty parks a non-2xx response body.
+    for (const key of ["error", "data", "body", "response", "value"]) {
       if (key in obj) {
         const found = pickMessage(obj[key]);
         if (found) return found;
@@ -160,8 +166,14 @@ export async function handleError(
 ) {
   let source: unknown = e;
   if (e && typeof e === "object") {
-    if ("data" in e) source = e.data;
-    else if ("response" in e && e.response instanceof Response)
+    // An Eden Treaty error response has data: null and the body under error.value;
+    // the EdenFetchError's own .message is a useless String(value).
+    if ("data" in e && (e as { data: unknown }).data != null)
+      source = (e as { data: unknown }).data;
+    else if ("error" in e && (e as { error: unknown }).error != null) {
+      const edenError = (e as { error: { value?: unknown } }).error;
+      source = edenError.value ?? edenError;
+    } else if ("response" in e && e.response instanceof Response)
       source = await e.response
         .clone()
         .json()

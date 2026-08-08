@@ -155,6 +155,42 @@ export function looksLikeCheckpointReference(input: string): boolean {
   return parseCivitaiReference(input) != null;
 }
 
+function toResolved(
+  row: RunwareSearchResult,
+  opts: { versionSuffix?: boolean } = {},
+): ResolvedCheckpoint {
+  return {
+    air: row.air,
+    name:
+      opts.versionSuffix && row.version
+        ? `${row.name} (${row.version})`
+        : row.name,
+    architecture: row.architecture ?? null,
+    heroImage: row.heroImage ?? null,
+    nsfwLevel: row.nsfwLevel ?? null,
+    triggerWords: row.positiveTriggerWords?.trim() || null,
+    defaultWeight: row.defaultWeight ?? null,
+  };
+}
+
+type Ref = NonNullable<ReturnType<typeof parseCivitaiReference>>;
+
+// One provider search per reference; the model-id filter narrows to the family the
+// reference names.
+async function searchByReference(ref: Ref, category: "checkpoint" | "lora") {
+  const envelope = await searchTask({
+    taskType: "modelSearch",
+    category,
+    search: ref.modelId,
+    limit: 50,
+  });
+  const results = envelope.data?.[0]?.results ?? [];
+  return {
+    results,
+    family: results.filter((row) => row.air?.includes(`:${ref.modelId}@`)),
+  };
+}
+
 /**
  * One entry point for everything a user can type into the model search: a Civitai URL,
  * a bare id, an AIR, or a plain name. A reference resolves to its one model; a name
@@ -180,17 +216,7 @@ export async function findCheckpoints(
     limit: 20,
   });
   const results = envelope.data?.[0]?.results ?? [];
-  return results
-    .filter((row) => !!row.air)
-    .map((row) => ({
-      air: row.air,
-      name: row.name,
-      architecture: row.architecture ?? null,
-      heroImage: row.heroImage ?? null,
-      nsfwLevel: row.nsfwLevel ?? null,
-      triggerWords: row.positiveTriggerWords?.trim() || null,
-      defaultWeight: row.defaultWeight ?? null,
-    }));
+  return results.filter((row) => !!row.air).map((row) => toResolved(row));
 }
 
 /**
@@ -204,27 +230,8 @@ export async function listCheckpointVersions(
   const ref = parseCivitaiReference(input);
   if (!ref) return [];
 
-  const envelope = await searchTask({
-    taskType: "modelSearch",
-    category,
-    search: ref.modelId,
-    limit: 50,
-  });
-  const results = envelope.data?.[0]?.results ?? [];
-  const versions = results.filter((row) =>
-    row.air?.includes(`:${ref.modelId}@`),
-  );
+  const versions = (await searchByReference(ref, category)).family;
   if (!versions.length) return [];
-
-  const toCheckpoint = (row: RunwareSearchResult): ResolvedCheckpoint => ({
-    air: row.air,
-    name: row.version ? `${row.name} (${row.version})` : row.name,
-    architecture: row.architecture ?? null,
-    heroImage: row.heroImage ?? null,
-    nsfwLevel: row.nsfwLevel ?? null,
-    triggerWords: row.positiveTriggerWords?.trim() || null,
-    defaultWeight: row.defaultWeight ?? null,
-  });
 
   // The version named in the URL leads, since that is the one the user was looking at.
   const exactIndex = ref.versionId
@@ -234,7 +241,7 @@ export async function listCheckpointVersions(
     const [exact] = versions.splice(exactIndex, 1);
     if (exact) versions.unshift(exact);
   }
-  return versions.map(toCheckpoint);
+  return versions.map((row) => toResolved(row, { versionSuffix: true }));
 }
 
 export async function resolveCivitaiCheckpoint(
@@ -244,32 +251,14 @@ export async function resolveCivitaiCheckpoint(
   const ref = parseCivitaiReference(input);
   if (!ref) return null;
 
-  const envelope = await searchTask({
-    taskType: "modelSearch",
-    category,
-    search: ref.modelId,
-    limit: 50,
-  });
-  const results = envelope.data?.[0]?.results ?? [];
-  if (!results.length) return null;
+  const found = await searchByReference(ref, category);
+  if (!found.results.length) return null;
 
-  const matches = results.filter((row) =>
-    row.air?.includes(`:${ref.modelId}@`),
-  );
-  const pool = matches.length ? matches : results;
+  const pool = found.family.length ? found.family : found.results;
   const exact = ref.versionId
     ? pool.find((row) => row.air?.endsWith(`@${ref.versionId}`))
     : undefined;
   const picked = exact ?? pool[0];
   if (!picked?.air) return null;
-
-  return {
-    air: picked.air,
-    name: picked.name,
-    architecture: picked.architecture ?? null,
-    heroImage: picked.heroImage ?? null,
-    nsfwLevel: picked.nsfwLevel ?? null,
-    triggerWords: picked.positiveTriggerWords?.trim() || null,
-    defaultWeight: picked.defaultWeight ?? null,
-  };
+  return toResolved(picked);
 }

@@ -19,10 +19,6 @@ async function fetchRefBytes(url: string): Promise<RefBytes> {
   return { buf, mime, base64, dataUri: base64ToDataUri(base64, mime) };
 }
 
-export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
-  return Promise.all(urls.map(fetchRefBytes));
-}
-
 function dataUriToRefBytes(dataUri: string): RefBytes {
   const header = dataUri.slice(0, dataUri.indexOf(","));
   const mime = header.match(/data:([^;]+)/)?.[1]?.trim() || "image/png";

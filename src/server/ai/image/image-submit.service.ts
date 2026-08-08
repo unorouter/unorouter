@@ -8,35 +8,37 @@ import {
   chooseEndpoint,
   getEffectiveGenerationModels,
   isRunwareScheduler,
+  type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
 import { isValidAir } from "@/lib/ai/image/constants";
-import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
+import { msg } from "@/lib/config/constants";
 import type {
   GeneratedImage,
   LoraEntry,
   PlaygroundSubmitBody,
 } from "@/lib/validation/playground";
 import { logger } from "@/lib/utils/logger";
+import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
+import type { ProcessedModel } from "@/lib/api/pricing";
 import {
   adetailerCheckpoint,
   runAdetailerPass,
 } from "@/server/ai/image/adetailer.service";
 import type { AdetailerParams } from "@/lib/validation/playground";
 import { MAX_IMAGES_PER_GEN } from "@/lib/validation/playground";
-import { upstreamApiUrl } from "@/server/constants";
+import {
+  batchPlan,
+  fetchGeneratedImage,
+  formatSize,
+  postImageRequest,
+  sizeOf,
+  type UpstreamSize,
+} from "./upstream";
 import {
   capReferences,
   filterLorasToCapabilities,
   filterParamsToCapabilities,
 } from "./capabilities";
-
-// JSON bodies pass VERBATIM: the client extracts .error.message from them, and any
-// prefix makes the string neither plain text nor parseable JSON.
-function upstreamImageError(status: number, body: string): string {
-  const trimmed = body.trim();
-  if (trimmed.startsWith("{") || trimmed.startsWith("[")) return trimmed;
-  return trimmed ? `${status}: ${trimmed.slice(0, 300)}` : `upstream ${status}`;
-}
 
 function imageCountFor(body: PlaygroundSubmitBody): number {
   const n = body.params?.n ?? 1;
@@ -44,32 +46,14 @@ function imageCountFor(body: PlaygroundSubmitBody): number {
   return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
 }
 
-function paramsToSize(
-  params: PlaygroundSubmitBody["params"],
-): string | undefined {
-  const p = params ?? {};
-  if (!p.width || !p.height) return undefined;
-  // A hires pass is the same render at a larger size: the multiplier becomes the
-  // requested size and the source rides as init image (re-diffused, not resampled).
-  const scale = typeof p.hiresUpscale === "number" ? p.hiresUpscale : 1;
-  if (scale <= 1) return `${p.width}x${p.height}`;
-  return `${Math.round(p.width * scale)}x${Math.round(p.height * scale)}`;
-}
-
-// Diffusion knobs the OpenAI image schema has no field for; they ride as extra top-level
-// keys under the PROVIDER'S spellings (CFGScale, seedImage, lora[].model, scheduler).
+// The provider spellings for the base knobs (CFGScale, scheduler as one field).
 // Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
-function diffusionParams(
+function baseDiffusionKnobs(
   params: Record<string, unknown>,
-  loras: LoraEntry[],
-  extraParams: { air?: string } | undefined,
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   if (bodyNegativePrompt) out.negativePrompt = bodyNegativePrompt;
-  // The passthrough checkpoint; without it every custom-civitai request runs the
-  // channel's default model.
-  if (isValidAir(extraParams?.air)) out.air = extraParams.air;
   // Empty string means "untouched" in the form, but providers reject it as a real value.
   const copy = (key: string) => {
     const value = params[key];
@@ -78,6 +62,8 @@ function diffusionParams(
   };
   copy("steps");
   copy("clipSkip");
+  copy("negativePrompt");
+  copy("strength");
   // guidance is the flux-family spelling of the same knob; cfg wins when both exist.
   const cfg = params.cfg ?? params.guidance;
   if (typeof cfg === "number") out.CFGScale = cfg;
@@ -89,20 +75,33 @@ function diffusionParams(
       typeof v === "string" && !!v && v !== "Default" && isRunwareScheduler(v),
   );
   if (scheduler) out.scheduler = scheduler;
-  copy("negativePrompt");
-  copy("strength");
+  return out;
+}
+
+// Init image, mask, and the hires overrides. A hires pass is the only render
+// happening, so its denoise/steps REPLACE the base strength/steps.
+function initImageKnobs(
+  params: Record<string, unknown>,
+): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
   const initImage = params.initImageUrl;
-  if (typeof initImage === "string" && initImage) out.seedImage = initImage;
-  // A hires pass is the only render happening, so its denoise/steps REPLACE the base
-  // strength/steps; only meaningful with a source image.
-  const hiresDenoise = params.hiresDenoise;
-  if (typeof hiresDenoise === "number" && initImage) {
-    out.strength = hiresDenoise;
+  if (typeof initImage !== "string" || !initImage) return out;
+  out.seedImage = initImage;
+  if (typeof params.hiresDenoise === "number") {
+    out.strength = params.hiresDenoise;
   }
-  const hiresSteps = params.hiresSteps;
-  if (typeof hiresSteps === "number" && initImage) out.steps = hiresSteps;
+  if (typeof params.hiresSteps === "number") out.steps = params.hiresSteps;
   const mask = params.maskUrl;
   if (typeof mask === "string" && mask) out.maskImage = mask;
+  return out;
+}
+
+// LoRA/embedding chains and the VAE; the provider keys each model by `model`.
+function modelChainKnobs(
+  params: Record<string, unknown>,
+  loras: LoraEntry[],
+): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
   if (loras.length) {
     out.lora = loras.map((l) => ({ model: l.name, weight: l.weight }));
   }
@@ -118,6 +117,24 @@ function diffusionParams(
     out.vae = vae;
   }
   return out;
+}
+
+// Diffusion knobs the OpenAI image schema has no field for; they ride as extra
+// top-level keys and the gateway adaptor maps them onto the provider's own names.
+function diffusionParams(
+  params: Record<string, unknown>,
+  loras: LoraEntry[],
+  extraParams: { air?: string } | undefined,
+  bodyNegativePrompt?: string,
+): Record<string, unknown> {
+  return {
+    // The passthrough checkpoint; without it every custom-civitai request runs the
+    // channel's default model.
+    ...(isValidAir(extraParams?.air) ? { air: extraParams.air } : {}),
+    ...baseDiffusionKnobs(params, bodyNegativePrompt),
+    ...initImageKnobs(params),
+    ...modelChainKnobs(params, loras),
+  };
 }
 
 // Base64 image inputs are megabytes; log them as size markers, everything else verbatim.
@@ -145,8 +162,72 @@ function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
   return usable[0];
 }
 
+type ResolvedModel = {
+  info: ProcessedModel;
+  descriptor: PlaygroundModelDescriptor;
+  endpoint: SyncImageEndpoint;
+};
+
+async function resolveModel(model: string): Promise<ResolvedModel> {
+  const summary = await getPricingSnapshot();
+  const info = summary.byName.get(model);
+  if (!info) {
+    logger.warn("image model not in catalog", {
+      context: "image.submit",
+      model,
+    });
+    throw new Error(msg("ERRORS.NOT_FOUND"));
+  }
+  const endpoint = chooseEndpoint(info.endpointTypes ?? []);
+  // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
+  const descriptor = getEffectiveGenerationModels(summary.models).find(
+    (d) => d.id === model,
+  );
+  if (!endpoint || !descriptor) {
+    logger.warn("image model has no usable endpoint", {
+      context: "image.submit",
+      model,
+      endpointTypes: info.endpointTypes,
+    });
+    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  }
+  return { info, descriptor, endpoint };
+}
+
+async function refineWithAdetailer(
+  uri: string,
+  body: PlaygroundSubmitBody,
+  params: Record<string, unknown>,
+  loras: LoraEntry[],
+  size: UpstreamSize | undefined,
+): Promise<string> {
+  const adetailer = params.adetailer as AdetailerParams | undefined;
+  if (!adetailer || uri.startsWith("data:")) return uri;
+  // ADetailer runs on the finished result, best-effort: any failure keeps the
+  // original rather than losing a generation the user already paid for.
+  const refined = await runAdetailerPass({
+    imageUrl: uri,
+    adetailer,
+    checkpoint: adetailerCheckpoint(body),
+    prompt: body.prompt,
+    negativePrompt: params.negativePrompt as string | undefined,
+    loras: adetailer.loras?.length ? adetailer.loras : loras,
+    scheduler: params.scheduler as string | undefined,
+    cfg: params.cfg as number | undefined,
+    // Renders at the size actually requested, hires multiplier included.
+    width: size?.width ?? 1024,
+    height: size?.height ?? 1024,
+  }).catch((err) => {
+    logger.warn("adetailer pass errored", {
+      context: "image.adetailer",
+      error: String(err).slice(0, 200),
+    });
+    return null;
+  });
+  return refined ?? uri;
+}
+
 export type SubmitGenerationResult = {
-  kind: "sync";
   status: "success";
   images: GeneratedImage[];
   droppedParams: string[];
@@ -158,49 +239,34 @@ export async function submitGeneration(
   apiKey: string,
   body: PlaygroundSubmitBody,
 ): Promise<SubmitGenerationResult> {
-  const requestedCount = imageCountFor(body);
-  const summary = await getPricingSnapshot();
-
-  const info = summary.byName.get(body.model);
-  if (!info) throw new Error(`model ${body.model} not in catalog`);
-  const endpoint = chooseEndpoint(info.endpointTypes ?? []);
-  if (!endpoint) {
-    throw new Error(`model ${body.model} declares no supported endpoint`);
-  }
-
-  // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const descriptor = getEffectiveGenerationModels(summary.models).find(
-    (d) => d.id === body.model,
-  );
-  if (!descriptor) throw new Error(`model ${body.model} is not generatable`);
+  const resolved = await resolveModel(body.model);
+  const descriptor = resolved.descriptor;
+  const endpoint = resolved.endpoint;
 
   const filtered = filterParamsToCapabilities(descriptor, body.params);
   const loras = filterLorasToCapabilities(descriptor, body.loras);
   const references = capReferences(descriptor, body.references);
 
   const params = filtered.params as Record<string, unknown>;
-  const size = paramsToSize(filtered.params);
+  const size = sizeOf(filtered.params);
   // References may be data URIs: the browser holds the bytes, there is no object storage.
   const refs = references.length
     ? await loadRefs(references.map((r) => r.url))
     : [];
 
   // A model served only by a non-default group 403s without naming that group.
-  const routingGroup = resolveRoutingGroup(info.enableGroups);
-
-  const supportsNativeBatch = endpoint === "image-generation";
-  const callsToMake = supportsNativeBatch ? 1 : requestedCount;
-  const perCallN = supportsNativeBatch ? requestedCount : 1;
+  const routingGroup = resolveRoutingGroup(resolved.info.enableGroups);
+  const plan = batchPlan(endpoint === "image-generation", imageCountFor(body));
 
   const collected: GeneratedImage[] = [];
   const requestIds: string[] = [];
-  for (let i = 0; i < callsToMake; i++) {
+  for (let i = 0; i < plan.calls; i++) {
     const built = buildBody(endpoint, {
       model: body.model,
       prompt: body.prompt,
-      size,
+      size: formatSize(size),
       refs,
-      n: perCallN,
+      n: plan.perCallN,
       quality: params.quality as string | undefined,
       outputFormat: params.outputFormat as string | undefined,
       watermark: params.watermark as boolean | undefined,
@@ -215,17 +281,17 @@ export async function submitGeneration(
       ),
     });
 
-    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob from
-    // a sent-and-ignored one.
+    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob
+    // from a sent-and-ignored one.
     logger.info("image generation request", {
       context: "image.submit",
       model: body.model,
       endpoint,
       group: routingGroup ?? "auto",
-      size,
-      n: perCallN,
+      size: formatSize(size),
+      n: plan.perCallN,
       call: i + 1,
-      of: callsToMake,
+      of: plan.calls,
       params: redactImageValues(
         built.kind === "json"
           ? (JSON.parse(built.body) as Record<string, unknown>)
@@ -235,74 +301,35 @@ export async function submitGeneration(
       refCount: refs.length,
     });
 
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${apiKey}`,
-      ...(routingGroup ? { "X-Group": routingGroup } : {}),
-    };
-    let res: Response;
-    if (built.kind === "json") {
-      headers["Content-Type"] = "application/json";
-      res = await fetch(`${upstreamApiUrl}${built.path}`, {
-        method: "POST",
-        headers,
-        body: built.body,
-      });
-    } else {
-      res = await fetch(`${upstreamApiUrl}${built.path}`, {
-        method: "POST",
-        headers,
-        body: built.form,
-      });
-    }
+    const res = await postImageRequest(
+      built,
+      apiKey,
+      routingGroup ? { "X-Group": routingGroup } : {},
+    );
+    if (res.requestId) requestIds.push(res.requestId);
 
-    const text = await res.text();
-    if (!res.ok) {
-      throw new Error(upstreamImageError(res.status, text));
-    }
-    // The real charge is only knowable from the gateway's log row, keyed by this id.
-    const requestId = res.headers.get("x-oneapi-request-id");
-    if (requestId) requestIds.push(requestId);
-    const results = extractResults(endpoint, JSON.parse(text));
-    for (const result of results) {
-      // ADetailer runs on the finished result, best-effort: any failure keeps the
-      // original rather than losing a generation the user already paid for.
-      let uri = result.uri;
-      const adetailer = params.adetailer as AdetailerParams | undefined;
-      if (adetailer && !uri.startsWith("data:")) {
-        const refined = await runAdetailerPass({
-          imageUrl: uri,
-          adetailer,
-          checkpoint: adetailerCheckpoint(body),
-          prompt: body.prompt,
-          negativePrompt: params.negativePrompt as string | undefined,
-          loras: adetailer.loras?.length ? adetailer.loras : loras,
-          scheduler: params.scheduler as string | undefined,
-          cfg: params.cfg as number | undefined,
-          // Renders at the size actually requested, hires multiplier included.
-          width: Number(size?.split("x")[0]) || 1024,
-          height: Number(size?.split("x")[1]) || 1024,
-        }).catch((err) => {
-          logger.warn("adetailer pass errored", {
-            context: "image.adetailer",
-            error: String(err).slice(0, 200),
-          });
-          return null;
-        });
-        if (refined) uri = refined;
-      }
-      const fetched = await downloadGenerationBytes(uri, apiKey);
-      collected.push({
-        resultUrl: uri.startsWith("data:") ? null : uri,
-        base64: fetched.buffer.toString("base64"),
-        mimeType: fetched.mime,
-        sizeBytes: fetched.sizeBytes,
-        seed: result.seed,
-      });
+    for (const result of extractResults(endpoint, res.payload)) {
+      const uri = await refineWithAdetailer(
+        result.uri,
+        body,
+        params,
+        loras,
+        size,
+      );
+      collected.push(await fetchGeneratedImage(uri, apiKey, result.seed));
     }
   }
 
+  if (collected.length === 0) {
+    logger.warn("image generation returned no images", {
+      context: "image.submit",
+      model: body.model,
+      endpoint,
+    });
+    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  }
+
   return {
-    kind: "sync",
     status: "success",
     images: collected,
     droppedParams: filtered.dropped,

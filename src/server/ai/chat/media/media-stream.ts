@@ -16,6 +16,11 @@ import {
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import {
+  postImageRequest,
+  UpstreamImageError,
+  type UpstreamImageResponse,
+} from "@/server/ai/image/upstream";
+import {
   createUIMessageStream,
   createUIMessageStreamResponse,
   streamText,
@@ -287,31 +292,26 @@ async function generateImage(
 ): Promise<ImageGenResult> {
   const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];
   const built = buildBody(endpoint, { model, prompt, refs, n: 1 });
-  const headers: Record<string, string> = {
-    Authorization: `Bearer ${apiKey}`,
-    ...groupHeader(group),
-  };
-  if (built.kind === "json") headers["Content-Type"] = "application/json";
-  const url = `${upstreamApiUrl}${built.path}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers,
-    body: built.kind === "json" ? built.body : built.form,
-  });
-  if (!res.ok) {
-    const err = await res.text();
-    logger.error("Upstream image call failed", {
-      context: "stream.image",
-      model,
-      endpoint,
-      refs: refs.length,
-      error: err.slice(0, 200),
-    });
-    throw new Error(
-      upstreamErrorMessage(err, msg("ERRORS.IMAGE_GENERATION_FAILED")),
-    );
+  let res: UpstreamImageResponse;
+  try {
+    res = await postImageRequest(built, apiKey, groupHeader(group));
+  } catch (err) {
+    if (err instanceof UpstreamImageError) {
+      logger.error("Upstream image call failed", {
+        context: "stream.image",
+        model,
+        endpoint,
+        refs: refs.length,
+        error: err.body.slice(0, 200),
+      });
+      // The chat stream displays a plain message, not the raw JSON body.
+      throw new Error(
+        upstreamErrorMessage(err.body, msg("ERRORS.IMAGE_GENERATION_FAILED")),
+      );
+    }
+    throw err;
   }
-  const json = (await res.json()) as { usage?: UpstreamUsage };
+  const json = res.payload as { usage?: UpstreamUsage };
   const uris = extractResultUris(endpoint, json);
   if (uris.length === 0) {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
@@ -328,9 +328,9 @@ async function generateImage(
   return {
     uris,
     usage: json.usage,
-    requestId: res.headers.get("x-oneapi-request-id"),
+    requestId: res.requestId,
     endpointPath: built.path,
-    url,
+    url: `${upstreamApiUrl}${built.path}`,
     wireBody,
   };
 }
