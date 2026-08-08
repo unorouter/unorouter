@@ -37,6 +37,9 @@ const ReasoningMarkdown = dynamic(
 const ANIMATION_DURATION = 200;
 
 const ReasoningPreviewContext = createContext(false);
+// Separate from the preview flag: the fade overlay is a look for the auto-opened peek, while
+// scroll follow has to run for ANY open box that is streaming.
+const ReasoningStreamingOpenContext = createContext(false);
 
 const reasoningVariants = cva("aui-reasoning-root mb-4 w-full", {
   variants: {
@@ -83,6 +86,11 @@ function ReasoningRoot({
     : (userOpen ?? streaming ?? initialOpen);
   const isAutoMode = isControlled || userOpen === null;
   const isPreview = streaming === true && isOpen && isAutoMode;
+  // Scroll follow is about a box that is STREAMING and OPEN, whichever way it got opened.
+  // Gating it on isPreview (auto-mode only) left anyone who clicks the box open with no
+  // follow logic at all: no listener, no observer, just the browser shoving the view as the
+  // content grows.
+  const isStreamingOpen = streaming === true && isOpen;
 
   const prevStreamingRef = useRef(streaming);
   useLayoutEffect(() => {
@@ -119,7 +127,9 @@ function ReasoningRoot({
       {...props}
     >
       <ReasoningPreviewContext.Provider value={isPreview}>
-        {children}
+        <ReasoningStreamingOpenContext.Provider value={isStreamingOpen}>
+          {children}
+        </ReasoningStreamingOpenContext.Provider>
       </ReasoningPreviewContext.Provider>
     </Collapsible>
   );
@@ -255,12 +265,12 @@ function ReasoningText({
   children,
   ...props
 }: React.ComponentProps<"div">) {
-  const isPreview = useContext(ReasoningPreviewContext);
+  const isStreamingOpen = useContext(ReasoningStreamingOpenContext);
   const scrollRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isPreview) return;
+    if (!isStreamingOpen) return;
     const scrollEl = scrollRef.current;
     const contentEl = contentRef.current;
     if (!scrollEl || !contentEl) return;
@@ -285,7 +295,7 @@ function ReasoningText({
       scrollEl.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };
-  }, [isPreview]);
+  }, [isStreamingOpen]);
 
   return (
     <div
