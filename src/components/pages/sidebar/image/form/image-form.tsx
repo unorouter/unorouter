@@ -470,39 +470,9 @@ export function ImageForm() {
               {/* Beside the canvas, not in the shared fields far above it: the brush drops the
                   user at the bottom of a long form, and the controls driving the pass were
                   nowhere near the thing they were looking at. */}
-              <InpaintSettings
-                fallbackPrompt={form.watch("prompt") ?? ""}
-                value={{
-                  prompt: ui.inpaintPrompt,
-                  negativePrompt: ui.inpaintNegativePrompt,
-                  strength: ui.inpaintStrength,
-                  model: ui.inpaintModel,
-                  air: ui.inpaintAir,
-                  airName: ui.inpaintAirName,
-                  airQuery: ui.inpaintAirQuery,
-                }}
-                // Writes each field by PATH rather than replacing the whole ui object. The
-                // mask canvas writes ui too (on every stroke), and a whole-object rewrite
-                // built from a snapshot taken a keystroke ago dropped characters typed in
-                // between - it felt like the keyboard was missing presses.
-                onChange={(patch) => {
-                  const paths: Record<string, keyof typeof patch> = {
-                    "ui.inpaintPrompt": "prompt",
-                    "ui.inpaintNegativePrompt": "negativePrompt",
-                    "ui.inpaintStrength": "strength",
-                    "ui.inpaintModel": "model",
-                    "ui.inpaintAir": "air",
-                    "ui.inpaintAirName": "airName",
-                    "ui.inpaintAirQuery": "airQuery",
-                  };
-                  for (const [path, key] of Object.entries(paths)) {
-                    if (patch[key] === undefined) continue;
-                    form.setValue(path as never, patch[key] as never, {
-                      shouldDirty: true,
-                    });
-                  }
-                }}
-              />
+              {/* Binds its own fields through the form context. Routing them through this
+                  component made every keystroke re-render the whole form, canvas included. */}
+              <InpaintSettings fallbackPrompt={form.watch("prompt") ?? ""} />
             </>
           )}
 
@@ -514,7 +484,13 @@ export function ImageForm() {
         <div className="bg-background sticky bottom-0 z-10 flex flex-col gap-2 py-2">
           <Button
             type="submit"
-            disabled={submitMut.isPending || !(form.watch("prompt") ?? "")}
+            // Inpainting has its OWN prompt, and typing only there left this disabled with
+            // nothing saying why: the main prompt above was empty because the pass does not
+            // use it. Either one is enough to describe what to generate.
+            disabled={
+              submitMut.isPending ||
+              !((form.watch("prompt") || ui.inpaintPrompt) ?? "")
+            }
             size="lg"
           >
             <Icon
