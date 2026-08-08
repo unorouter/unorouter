@@ -20,20 +20,15 @@ import {
   samplerMemoryAtom,
   text2imgDraftAtom,
   type GenerateDraft,
-  type GenerateTab,
 } from "@/store/image-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { activeTabAtom, activeSubPillAtom } from "@/store/image-store";
+import { useImageNav, type GenerateTab } from "../image-nav";
 import { INITIAL_MODEL } from "../image-constants";
-
-function isModelInTab(m: PlaygroundModelDescriptor, tab: GenerateTab): boolean {
-  if (!m.tabs) return tab === "text2img";
-  return m.tabs.includes(tab);
-}
+import { isModelInTab } from "./mode";
 
 function defaultsFor(d: PlaygroundModelDescriptor): GenerationFormValues {
   return {
@@ -53,10 +48,8 @@ function draftAtomFor(tab: GenerateTab) {
 }
 
 export function useGenerationForm() {
-  const activeTab = useAtomValue(activeTabAtom);
-  const setActiveTab = useSetAtom(activeTabAtom);
-  const activeSubPill = useAtomValue(activeSubPillAtom);
-  const setActiveSubPill = useSetAtom(activeSubPillAtom);
+  const nav = useImageNav();
+  const activeTab = nav.tab;
   const searchParams = useSearchParams();
   const router = useRouter();
   const authQuery = useAuthQuery();
@@ -103,17 +96,6 @@ export function useGenerationForm() {
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
   };
 
-  useEffect(() => {
-    const mode =
-      activeTab === "text2img"
-        ? "txt2img"
-        : activeTab === "edit"
-          ? "edit"
-          : activeSubPill;
-    form.setValue("mode", mode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, activeSubPill]);
-
   const seededIdRef = useRef<string | null>(null);
   useEffect(() => {
     const data = seedQuery.data;
@@ -135,12 +117,6 @@ export function useGenerationForm() {
             initImageUrl: hiresSource,
           }
         : {};
-    // Land on the tab that shows the init image being used.
-    if (Object.keys(hiresParams).length > 0) setActiveTab("img2img");
-    if (Object.keys(inpaintParams).length > 0) {
-      setActiveTab("img2img");
-      setActiveSubPill("inpaint");
-    }
     form.reset({
       ...defaultsFor(desc),
       prompt: data.prompt,
@@ -156,9 +132,19 @@ export function useGenerationForm() {
       visibility: "private",
       ui: { variants: 1 },
     });
-    // Consume the URL params: they are one-shot, and the post-submit remount resets the
-    // ref guard, so leaving them would re-run this reset over the user's edits.
-    router.replace(window.location.pathname, { scroll: false });
+    // Consume the one-shot params in the same URL write that lands the user on the tab
+    // showing the init image; the post-submit remount resets the ref guard, so leaving
+    // them would re-run this reset over the user's edits.
+    const url = new URL(window.location.href);
+    for (const key of ["remix", "hires", "inpaint"])
+      url.searchParams.delete(key);
+    if (Object.keys(inpaintParams).length > 0) {
+      url.searchParams.set("tab", "img2img");
+      url.searchParams.set("mode", "inpaint");
+    } else if (Object.keys(hiresParams).length > 0) {
+      url.searchParams.set("tab", "img2img");
+    }
+    router.replace(url.pathname + url.search, { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
@@ -270,7 +256,7 @@ export function useGenerationForm() {
     const desc = effectiveModels.find((m) => m.id === modelId);
     if (!desc || isModelInTab(desc, activeTab)) return;
     const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
-    setActiveTab(target);
+    nav.setTab(target);
     setDraftRestoredTab(target);
   };
 

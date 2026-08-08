@@ -20,23 +20,12 @@ export async function generateMetadata(props: {
   });
 }
 
-type PageProps = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ snap?: string }>;
-};
-
-async function Inner(props: PageProps) {
-  const params = await props.params;
-  const search = await props.searchParams;
-  return (
-    <ImagePage sessionId={params.id} snapshotId={search.snap ?? undefined} />
-  );
-}
-
-export default function ImageSessionPage(props: PageProps) {
+// The client reads session/snapshot from the URL itself (useImageNav); the route only
+// needs to exist for the path segment.
+export default function ImageSessionPage() {
   return (
     <Suspense>
-      <Inner params={props.params} searchParams={props.searchParams} />
+      <ImagePage />
     </Suspense>
   );
 }

@@ -24,7 +24,7 @@ export function nullable<T extends TSchema>(schema: T) {
 
 export function safeParse<T extends TSchema>(
   checker: ReturnType<typeof TypeCompiler.Compile<T>>,
-  value: Partial<Static<T>>,
+  value: unknown,
 ):
   | { success: true; data: Static<T> }
   | { success: false; errors: { message: string }[] } {

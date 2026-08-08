@@ -2,96 +2,53 @@
 
 import { ImageForm } from "@/components/pages/sidebar/image/form/image-form";
 import { ImageResult } from "@/components/pages/sidebar/image/image-result";
-import { Img2ImgSubPills } from "@/components/pages/sidebar/image/form/img2img-sub-pills";
-import { ModeTabs } from "@/components/pages/sidebar/image/form/mode-tabs";
+import {
+  Img2ImgSubPills,
+  ModeTabs,
+} from "@/components/pages/sidebar/image/form/mode-tabs";
 import { RecentStrip } from "@/components/pages/sidebar/image/history/recent-strip";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
-import {
-  activeSessionIdAtom,
-  activeSnapshotIdAtom,
-  activeSubPillAtom,
-  activeTabAtom,
-} from "@/store/image-store";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useQueryStates } from "nuqs";
 import { useEffect } from "react";
-import { IMAGE_URL_PARSERS } from "./image-url-state";
+import { useImageNav } from "./image-nav";
 
-export function ImagePage(props: { sessionId?: string; snapshotId?: string }) {
+export function ImagePage() {
   const t = useTranslations();
   const router = useRouter();
-  const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
-  const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
-  const [urlState, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
+  const nav = useImageNav();
 
-  const setActiveTab = useSetAtom(activeTabAtom);
-  const setActiveSubPill = useSetAtom(activeSubPillAtom);
+  const sessionQuery = useSessionQuery(nav.sessionId);
 
-  // URL wins over the server prop: props.snapshotId froze at the server render and a
-  // client-side setUrlState never re-runs it.
+  // A session route with no snapshot in the URL shows its newest one.
   useEffect(() => {
-    setActiveSessionId(props.sessionId ?? null);
-    setActiveSnapshotId(urlState.snap ?? props.snapshotId ?? null);
-  }, [
-    props.sessionId,
-    props.snapshotId,
-    urlState.snap,
-    setActiveSessionId,
-    setActiveSnapshotId,
-  ]);
-
-  useEffect(() => {
-    setActiveTab(urlState.tab);
-  }, [urlState.tab, setActiveTab]);
-
-  useEffect(() => {
-    setActiveSubPill(urlState.mode);
-  }, [urlState.mode, setActiveSubPill]);
-
-  const sessionQuery = useSessionQuery(props.sessionId);
-
-  useEffect(() => {
-    if (!props.sessionId) return;
-    if (activeSnapshotId) return;
+    if (!nav.sessionId || nav.snapshotId) return;
     const snaps = sessionQuery.data?.snapshots ?? [];
     if (snaps.length === 0) return;
-    setActiveSnapshotId(snaps[0].id);
-    void setUrlState({ snap: snaps[0].id }, { history: "replace" });
-  }, [
-    props.sessionId,
-    activeSnapshotId,
-    sessionQuery.data,
-    setActiveSnapshotId,
-    setUrlState,
-  ]);
+    nav.replaceSnapshot(snaps[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- nav methods are stable per render; re-run on data/route changes only
+  }, [nav.sessionId, nav.snapshotId, sessionQuery.data]);
 
   useEffect(() => {
-    if (!props.sessionId) return;
+    if (!nav.sessionId) return;
     if (sessionQuery.isError) {
       router.replace("/image");
     }
-  }, [props.sessionId, sessionQuery.isError, router]);
-
-  const activeTab = useAtomValue(activeTabAtom);
+  }, [nav.sessionId, sessionQuery.isError, router]);
 
   return (
     <div className="thin-scrollbar flex min-h-0 min-w-0 flex-1 flex-col gap-6 overflow-y-auto p-4 md:p-6 lg:flex-row lg:overflow-hidden">
       <div className="thin-scrollbar flex-1 lg:overflow-y-auto lg:pr-2">
         <div className="flex max-w-2xl flex-col gap-4">
           <ModeTabs />
-          {activeTab === "img2img" && <Img2ImgSubPills />}
+          {nav.tab === "img2img" && <Img2ImgSubPills />}
           <ImageForm />
         </div>
       </div>
 
       <div className="thin-scrollbar flex flex-1 flex-col gap-6 lg:overflow-y-auto lg:pl-2">
-        {activeSessionId && activeSnapshotId ? (
-          <ImageResult
-            sessionId={activeSessionId}
-            snapshotId={activeSnapshotId}
-          />
+        {nav.sessionId && nav.snapshotId ? (
+          <ImageResult sessionId={nav.sessionId} snapshotId={nav.snapshotId} />
         ) : (
           <div className="text-muted-foreground flex h-full min-h-40 items-center justify-center rounded-lg border border-dashed p-8 text-center text-sm">
             {t("IMAGE.PICK_OR_GENERATE")}

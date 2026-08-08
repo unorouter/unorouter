@@ -1,4 +1,8 @@
 import type {
+  GenerateTab,
+  Img2ImgSubPill,
+} from "@/components/pages/sidebar/image/image-nav";
+import type {
   GenerationFormUi,
   GenerationParams,
   LoraEntry,
@@ -6,13 +10,6 @@ import type {
 } from "@/lib/validation/playground";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-
-export const activeSessionIdAtom = atom<string | null>(null);
-export const activeSnapshotIdAtom = atom<string | null>(null);
-
-export type Img2ImgSubPill = "img2img" | "upscale" | "adetailer" | "inpaint";
-
-export type GenerateTab = "text2img" | "img2img" | "edit";
 
 type SnapshotRestorePayload = {
   model: string;
@@ -90,6 +87,3 @@ export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
   undefined,
   draftStorageOptions,
 );
-
-export const activeTabAtom = atom<GenerateTab>("text2img");
-export const activeSubPillAtom = atom<Img2ImgSubPill>("img2img");

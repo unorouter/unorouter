@@ -5,21 +5,16 @@ import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { dayjs } from "@/lib/utils/format/date";
 import { renderQuota } from "@/lib/utils/format/number";
 import { snapshotModelLabel } from "../image-constants";
-import { activeSessionIdAtom, activeSnapshotIdAtom } from "@/store/image-store";
-import { useAtom } from "jotai";
+import { useImageNav } from "../image-nav";
 import { useTranslations } from "next-intl";
-import { useQueryStates } from "nuqs";
-import { IMAGE_URL_PARSERS } from "../image-url-state";
 
 export function RecentStrip() {
   const t = useTranslations();
-  const [activeSessionId] = useAtom(activeSessionIdAtom);
-  const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
-  const [, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
-  const query = useSessionQuery(activeSessionId);
+  const nav = useImageNav();
+  const query = useSessionQuery(nav.sessionId);
   const snapshots = query.data?.snapshots ?? [];
 
-  if (!activeSessionId || snapshots.length === 0) return null;
+  if (!nav.sessionId || snapshots.length === 0) return null;
 
   const fmtDateTime = (when: Date | string | number | null | undefined) => {
     if (!when) return "";
@@ -27,11 +22,6 @@ export function RecentStrip() {
     const now = dayjs();
     if (d.isSame(now, "day")) return d.format("HH:mm");
     return d.format(d.isSame(now, "year") ? "MMM D HH:mm" : "MMM D YYYY HH:mm");
-  };
-
-  const swapTo = (snapshotId: string) => {
-    setActiveSnapshotId(snapshotId);
-    void setUrlState({ snap: snapshotId });
   };
 
   return (
@@ -44,17 +34,14 @@ export function RecentStrip() {
           const images = snap.images;
           const firstImage = images[0];
           const extra = images.length > 1 ? images.length - 1 : 0;
-          const isActive = activeSnapshotId === snap.id;
-          const params =
-            snap.params && typeof snap.params === "object"
-              ? (snap.params as Record<string, unknown>)
-              : null;
+          const isActive = nav.snapshotId === snap.id;
+          const params = snap.params;
           return (
             <button
               key={snap.id}
               type="button"
               title={snap.prompt}
-              onClick={() => swapTo(snap.id)}
+              onClick={() => nav.showSnapshot(snap.id)}
               className={
                 "bg-muted ring-offset-background flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors " +
                 (isActive ? "ring-ring ring-2" : "hover:ring-ring hover:ring-1")
@@ -86,22 +73,22 @@ export function RecentStrip() {
                   {snapshotModelLabel(snap.model, snap.extraParams)}
                   {params?.steps !== undefined && (
                     <>
-                      {" / "}steps {String(params.steps)}
+                      {" / "}steps {params.steps}
                     </>
                   )}
                   {params?.cfg !== undefined && (
                     <>
-                      {" / "}cfg {String(params.cfg)}
+                      {" / "}cfg {params.cfg}
                     </>
                   )}
                   {params?.guidance !== undefined && (
                     <>
-                      {" / "}g {String(params.guidance)}
+                      {" / "}g {params.guidance}
                     </>
                   )}
                   {params?.seed !== undefined && (
                     <>
-                      {" / "}seed {String(params.seed)}
+                      {" / "}seed {params.seed}
                     </>
                   )}
                   {snap.costQuota != null && (
@@ -116,7 +103,7 @@ export function RecentStrip() {
                   {snap.createdAt && (
                     <>
                       {" / "}
-                      {fmtDateTime(snap.createdAt as never)}
+                      {fmtDateTime(snap.createdAt)}
                     </>
                   )}
                 </span>

@@ -357,11 +357,11 @@ export function useImportGenerationMutation() {
       for (const snap of snapshots) {
         // Snapshot payload fields are stored loosely for restore-lenience; regenerating
         // resubmits them, so anything that fails the schema is dropped, not forwarded.
-        const params = safeParse(generationParamsChecker, snap.params as never);
-        const loras = safeParse(generationLorasChecker, snap.loras as never);
+        const params = safeParse(generationParamsChecker, snap.params);
+        const loras = safeParse(generationLorasChecker, snap.loras);
         const references = safeParse(
           generationReferencesChecker,
-          snap.references as never,
+          snap.references,
         );
         const extras =
           snap.extraParams && typeof snap.extraParams === "object"

@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -22,14 +21,6 @@ import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { RestoredFromPng } from "@/components/pages/sidebar/image/utils/png-metadata";
-import type { GenerationMode } from "@/lib/validation/playground";
-import {
-  activeSessionIdAtom,
-  activeSnapshotIdAtom,
-  activeSubPillAtom,
-  activeTabAtom,
-} from "@/store/image-store";
-import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { CivitaiResolverField } from "../fields/civitai-resolver-field";
 import { InitImageField } from "../fields/init-image-field";
@@ -45,15 +36,17 @@ import {
 import { AdvancedFieldsStack } from "./advanced-fields-stack";
 import { CoreParamsFields } from "./core-params-fields";
 import { patchParams } from "./form-helpers";
-import { ModelPicker, type CustomCheckpoint } from "./model-picker";
+import { applyPreset } from "./apply-preset";
+import { deriveMode } from "./mode";
+import { ModelPicker } from "./model-picker";
+import { useCheckpoint } from "./use-checkpoint";
 import { PresetBar } from "./preset-bar";
 import { TokenEstimate } from "./image-form-fields";
 import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
 import { useGenerationForm } from "./use-generation-form";
 import { VendorParamsFields } from "./vendor-params-fields";
-import { IMAGE_URL_PARSERS } from "../image-url-state";
-import { useQueryStates } from "nuqs";
+import { useImageNav } from "../image-nav";
 
 // react-canvas-masker touches the DOM at module scope, so the canvas cannot render on
 // the server and is only pulled in when the inpaint mode is actually opened.
@@ -62,46 +55,20 @@ const InpaintCanvas = dynamic(
   { ssr: false },
 );
 
-function deriveMode(
-  activeTab: "text2img" | "img2img" | "edit",
-  activeSubPill: "img2img" | "upscale" | "adetailer" | "inpaint",
-): GenerationMode {
-  if (activeTab === "text2img") return "txt2img";
-  if (activeTab === "edit") return "edit";
-  return activeSubPill;
-}
-
 export function ImageForm() {
   const t = useTranslations();
   const router = useRouter();
-  const [pickedCheckpoint, setPickedCheckpoint] =
-    useState<CustomCheckpoint | null>(null);
   const rememberModel = useRememberImageModelMutation();
   const submitMut = useSubmitGenerationMutation();
-  const activeTab = useAtomValue(activeTabAtom);
-  const [activeSubPill, setActiveSubPill] = useAtom(activeSubPillAtom);
-  const [, setImageUrlState] = useQueryStates(IMAGE_URL_PARSERS);
-  const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
-  const [, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
+  const nav = useImageNav();
 
   const gen = useGenerationForm();
   const form = gen.form;
   const descriptor = gen.descriptor;
+  const checkpoint = useCheckpoint(form);
+  const activeCheckpoint = checkpoint.activeCheckpoint;
 
   const ui = form.watch("ui") ?? {};
-  // Derived, not synced: ui.air (restored from a snapshot's extraParams) IS the
-  // selection; a checkpoint picked this session takes precedence.
-  const activeCheckpoint: CustomCheckpoint | null =
-    pickedCheckpoint ??
-    (ui.air
-      ? {
-          air: ui.air,
-          name: ui.airName ?? ui.air,
-          architecture: ui.airArchitecture ?? null,
-          heroImage: null,
-          nsfwLevel: null,
-        }
-      : null);
   const variants = clampVariants(ui.variants);
   const params = form.watch("params") ?? {};
 
@@ -143,32 +110,35 @@ export function ImageForm() {
   };
 
   const onSubmit = form.handleSubmit(async (data) => {
-    const mode = deriveMode(activeTab, activeSubPill);
-    const body = await toSubmitBody(data, { activeSessionId, mode });
+    const mode = deriveMode(nav.tab, nav.subPill);
+    const body = await toSubmitBody(data, {
+      activeSessionId: nav.sessionId,
+      mode,
+    });
     const submitted = await submitMut.mutateAsync({
       ...body,
       ...(activeCheckpoint
         ? {
             extraParams: {
-              ...(body.extraParams ?? {}),
               air: activeCheckpoint.air,
               // Name persisted so history shows the checkpoint, not the routing id.
               airName: activeCheckpoint.name,
               ...(activeCheckpoint.architecture
                 ? { airArchitecture: activeCheckpoint.architecture }
                 : {}),
+              // A per-request inpaint override beats the form's checkpoint.
+              ...(body.extraParams ?? {}),
             },
           }
         : {}),
-      sessionId: activeSessionId ?? undefined,
+      sessionId: nav.sessionId ?? undefined,
     });
 
     // Saved only once it has produced an image, so the list is checkpoints actually used.
     if (activeCheckpoint) rememberModel.mutate(activeCheckpoint);
 
     if (mode === "inpaint") {
-      const curUi = data.ui ?? {};
-      form.setValue("ui", { ...curUi, inpaintMaskDataUrl: undefined });
+      form.setValue("ui.inpaintMaskDataUrl", undefined);
     }
 
     const modelKey = data.model ?? INITIAL_MODEL;
@@ -176,20 +146,8 @@ export function ImageForm() {
       ...gen.samplerMemory,
       [modelKey]: data.params ?? {},
     });
-    // The draft is the whole setup and survives the submit; the checkpoint rides in ui
-    // because submitting navigates and remounts the form, dropping component state.
-    const draftUi = {
-      ...(data.ui ?? { variants: 1 }),
-      ...(activeCheckpoint
-        ? {
-            air: activeCheckpoint.air,
-            airName: activeCheckpoint.name,
-            ...(activeCheckpoint.architecture
-              ? { airArchitecture: activeCheckpoint.architecture }
-              : {}),
-          }
-        : {}),
-    };
+    // The draft is the whole setup and survives the submit; the checkpoint is already
+    // in data.ui, so nothing needs merging back.
     gen.setDraft({
       model: modelKey,
       prompt: data.prompt ?? "",
@@ -197,12 +155,9 @@ export function ImageForm() {
       params: data.params ?? {},
       loras: data.loras,
       references: data.references,
-      extraParams: draftUi,
+      extraParams: data.ui ?? { variants: 1 },
     });
-    form.setValue("ui", draftUi);
 
-    setActiveSessionId(submitted.sessionId);
-    setActiveSnapshotId(submitted.snapshotId);
     // replace: a submit must not add a back entry between the form and its own result.
     router.replace(
       {
@@ -215,7 +170,7 @@ export function ImageForm() {
   });
 
   const setVariants = (n: 1 | 2 | 4) => {
-    form.setValue("ui", { ...ui, variants: n });
+    form.setValue("ui.variants", n, { shouldDirty: true });
   };
 
   return (
@@ -231,25 +186,16 @@ export function ImageForm() {
             loras: form.watch("loras"),
             extraParams: form.watch("ui"),
           }}
-          onApply={(preset) => {
-            gen.adoptModelTab(preset.model);
-            form.setValue("model", preset.model);
-            gen.changeModel(preset.model);
-            // Only a preset carrying its own checkpoint replaces the resolved one.
-            if (preset.extraParams?.air) setPickedCheckpoint(null);
-            // The positive prompt is never applied (it is what the user is writing);
-            // the negative prompt is the boilerplate a preset exists to carry.
-            form.setValue("negativePrompt", preset.negativePrompt ?? "");
-            if (preset.params) form.setValue("params", preset.params);
-            form.setValue("loras", preset.loras ?? undefined);
-            // Merge: a preset with no checkpoint must not drop the current ui's AIR.
-            if (preset.extraParams) {
-              form.setValue("ui", {
-                ...(preset.extraParams.air ? {} : ui),
-                ...preset.extraParams,
-              });
-            }
-          }}
+          onApply={(preset) =>
+            applyPreset(
+              {
+                form,
+                adoptModelTab: gen.adoptModelTab,
+                changeModel: gen.changeModel,
+              },
+              preset,
+            )
+          }
         />
 
         <FormField
@@ -262,18 +208,18 @@ export function ImageForm() {
                 <ModelPicker
                   models={gen.effectiveModels}
                   selected={descriptor}
-                  activeTab={activeTab}
+                  activeTab={nav.tab}
                   onSelect={(id) => {
                     field.onChange(id);
                     gen.changeModel(id);
-                    setPickedCheckpoint(null);
+                    checkpoint.setCheckpoint(null);
                   }}
-                  onSelectCustom={(checkpoint) => {
-                    // The passthrough model carries no checkpoint of its own; the AIR rides
-                    // on the request and the picker label shows the resolved name.
+                  onSelectCustom={(picked) => {
+                    // The passthrough model carries no checkpoint of its own; the AIR
+                    // rides on the request, the picker label shows the resolved name.
                     field.onChange(CUSTOM_CIVITAI_MODEL_ID);
                     gen.changeModel(CUSTOM_CIVITAI_MODEL_ID);
-                    setPickedCheckpoint(checkpoint);
+                    checkpoint.setCheckpoint(picked);
                   }}
                   customLabel={activeCheckpoint?.name ?? null}
                 />
@@ -286,36 +232,10 @@ export function ImageForm() {
         {descriptor.id === CUSTOM_CIVITAI_MODEL_ID && (
           <CivitaiResolverField
             value={activeCheckpoint}
-            // Mirrored into ui: the draft is built from ui, and component state dies on
-            // the post-submit remount.
-            onChange={(next) => {
-              setPickedCheckpoint(next);
-              const current = form.getValues("ui") ?? {};
-              form.setValue(
-                "ui",
-                next
-                  ? {
-                      ...current,
-                      air: next.air,
-                      airName: next.name,
-                      ...(next.architecture
-                        ? { airArchitecture: next.architecture }
-                        : {}),
-                    }
-                  : {
-                      ...current,
-                      air: undefined,
-                      airName: undefined,
-                      airArchitecture: undefined,
-                    },
-              );
-            }}
+            onChange={checkpoint.setCheckpoint}
             query={ui.airQuery ?? ""}
             onQueryChange={(next) =>
-              form.setValue("ui", {
-                ...(form.getValues("ui") ?? {}),
-                airQuery: next,
-              })
+              form.setValue("ui.airQuery", next, { shouldDirty: true })
             }
           />
         )}
@@ -432,23 +352,20 @@ export function ImageForm() {
 
         <VendorParamsFields form={form} descriptor={descriptor} />
 
-        {activeTab === "img2img" && (
+        {nav.tab === "img2img" && (
           <InitImageField
             value={params.initImageUrl}
             onChange={(initImageUrl) => patchParams(form, { initImageUrl })}
             onInpaint={
-              activeSubPill === "inpaint"
+              nav.subPill === "inpaint"
                 ? undefined
-                : () => {
-                    setActiveSubPill("inpaint");
-                    void setImageUrlState({ mode: "inpaint" });
-                  }
+                : () => nav.setSubPill("inpaint")
             }
           />
         )}
 
-        {activeTab === "img2img" &&
-          activeSubPill === "inpaint" &&
+        {nav.tab === "img2img" &&
+          nav.subPill === "inpaint" &&
           typeof params.initImageUrl === "string" && (
             <>
               <InpaintCanvas imageUrl={params.initImageUrl} />
@@ -488,7 +405,7 @@ export function ImageForm() {
               {t("IMAGE.CLAMP_WARNING")}
             </p>
           )}
-          {activeSessionId && (
+          {nav.sessionId && (
             <Link
               href="/image"
               className={cn(buttonVariants({ variant: "outline", size: "sm" }))}

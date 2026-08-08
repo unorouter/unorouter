@@ -13,6 +13,7 @@ import "react-canvas-masker/dist/style.css";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import type { GenerationFormValues } from "@/lib/validation/playground";
 
 const DEFAULT_BRUSH = 32;
 const DEFAULT_OPACITY = 0.6;
@@ -23,43 +24,32 @@ type Props = {
 
 export function InpaintCanvas(props: Props) {
   const t = useTranslations();
-  const form = useFormContext();
-  const editorRef = useRef<MaskEditorCanvasRef>(
-    null as unknown as MaskEditorCanvasRef,
-  );
+  const form = useFormContext<GenerationFormValues>();
+  const editorRef = useRef<MaskEditorCanvasRef | null>(null);
 
-  const ui = (form.watch("ui") as Record<string, unknown> | undefined) ?? {};
-  const brushSize =
-    (ui.inpaintBrushSize as number | undefined) ?? DEFAULT_BRUSH;
-  const opacity =
-    (ui.inpaintBrushOpacity as number | undefined) ?? DEFAULT_OPACITY;
+  const brushSize = form.watch("ui.inpaintBrushSize") ?? DEFAULT_BRUSH;
+  const opacity = form.watch("ui.inpaintBrushOpacity") ?? DEFAULT_OPACITY;
 
-  // Path-scoped writes only: rebuilding ui from a snapshot clobbers concurrent writes.
-  const setUi = (patch: Record<string, unknown>) => {
-    for (const [key, value] of Object.entries(patch)) {
-      form.setValue(`ui.${key}` as never, value as never, {
-        shouldDirty: true,
-      });
-    }
-  };
+  const setMask = (value: string | undefined) =>
+    form.setValue("ui.inpaintMaskDataUrl", value, { shouldDirty: true });
 
   // The canvas owns the stroke history; read it back after every operation so the
   // submitted mask matches the screen (empty canvas = no mask, not an all-black one).
+  // The canvas is unsized until the source image loads, and toMask throws
+  // IndexSizeError on a zero dimension, so every path guards here.
   const syncMaskFromCanvas = () => {
     const canvas = editorRef.current?.maskCanvas;
     if (!canvas || !canvas.width || !canvas.height) {
-      setUi({ inpaintMaskDataUrl: undefined });
+      setMask(undefined);
       return;
     }
     try {
-      setUi({ inpaintMaskDataUrl: toMask(canvas) });
+      setMask(toMask(canvas));
     } catch {
-      setUi({ inpaintMaskDataUrl: undefined });
+      setMask(undefined);
     }
   };
 
-  // The canvas is unsized until the source image loads, and toMask throws
-  // IndexSizeError on a zero dimension; syncMaskFromCanvas guards every path here.
   const onDrawingChange = (isDrawing: boolean) => {
     if (isDrawing) return;
     syncMaskFromCanvas();
@@ -69,17 +59,21 @@ export function InpaintCanvas(props: Props) {
     <Controller
       control={form.control}
       name="ui.inpaintMaskDataUrl"
-      render={({ field }) => (
+      render={() => (
         <div className="flex flex-col gap-3">
           <div className="relative overflow-hidden rounded-md border">
             <MaskEditor
               src={props.imageUrl}
-              canvasRef={editorRef}
+              canvasRef={editorRef as React.RefObject<MaskEditorCanvasRef>}
               cursorSize={brushSize}
               maskOpacity={opacity}
               maskColor="#ffffff"
               maskBlendMode="normal"
-              onCursorSizeChange={(size) => setUi({ inpaintBrushSize: size })}
+              onCursorSizeChange={(size) =>
+                form.setValue("ui.inpaintBrushSize", size, {
+                  shouldDirty: true,
+                })
+              }
               onDrawingChange={onDrawingChange}
             />
           </div>
@@ -96,7 +90,11 @@ export function InpaintCanvas(props: Props) {
                 step={2}
                 value={[brushSize]}
                 onValueChange={(v) =>
-                  setUi({ inpaintBrushSize: Array.isArray(v) ? v[0] : v })
+                  form.setValue(
+                    "ui.inpaintBrushSize",
+                    Array.isArray(v) ? v[0] : v,
+                    { shouldDirty: true },
+                  )
                 }
               />
             </div>
@@ -114,7 +112,11 @@ export function InpaintCanvas(props: Props) {
                 step={0.05}
                 value={[opacity]}
                 onValueChange={(v) =>
-                  setUi({ inpaintBrushOpacity: Array.isArray(v) ? v[0] : v })
+                  form.setValue(
+                    "ui.inpaintBrushOpacity",
+                    Array.isArray(v) ? v[0] : v,
+                    { shouldDirty: true },
+                  )
                 }
               />
             </div>
@@ -150,8 +152,7 @@ export function InpaintCanvas(props: Props) {
               size="sm"
               onClick={() => {
                 editorRef.current?.clear();
-                field.onChange(undefined);
-                setUi({ inpaintMaskDataUrl: undefined });
+                setMask(undefined);
               }}
             >
               <Icon name="eraser" className="mr-1 h-4 w-4" />

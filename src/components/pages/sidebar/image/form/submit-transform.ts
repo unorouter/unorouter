@@ -3,6 +3,7 @@ import { CUSTOM_CIVITAI_MODEL_ID, clampVariants } from "../image-constants";
 import type {
   GenerationFormValues,
   GenerationMode,
+  GenerationParams,
   PlaygroundSubmitBody,
   SubmitExtraParams,
 } from "@/lib/validation/playground";
@@ -18,63 +19,49 @@ export async function toSubmitBody(
 ): Promise<PlaygroundSubmitBody> {
   const ui = values.ui ?? {};
   const variants = clampVariants(ui.variants);
+  const inpainting = ctx.mode === "inpaint";
 
-  const paramsWithN: Record<string, unknown> = {
-    ...(values.params ?? {}),
-    n: variants,
-  };
+  const params: GenerationParams = { ...(values.params ?? {}), n: variants };
 
   // A blob: URL means nothing outside this document; resolve to bytes before it leaves
   // the browser or the provider gets a dead reference.
-  const initImageUrl = paramsWithN.initImageUrl;
-  if (typeof initImageUrl === "string" && initImageUrl.startsWith("blob:")) {
-    paramsWithN.initImageUrl = await blobUrlToDataUri(initImageUrl);
+  if (params.initImageUrl?.startsWith("blob:")) {
+    params.initImageUrl = await blobUrlToDataUri(params.initImageUrl);
   }
 
   // The provider rejects a mask without its init image outright.
-  const hasInitImage =
-    typeof paramsWithN.initImageUrl === "string" && !!paramsWithN.initImageUrl;
-  if (!hasInitImage) delete paramsWithN.maskUrl;
+  const hasInitImage = !!params.initImageUrl;
+  if (!hasInitImage) delete params.maskUrl;
 
-  if (ctx.mode === "inpaint" && ui.inpaintMaskDataUrl && hasInitImage) {
-    paramsWithN.maskUrl = ui.inpaintMaskDataUrl;
-    // Every inpaint field is an override; empty reuses what the form holds.
+  // Every inpaint field is an override; empty reuses what the form holds.
+  const inpaintActive = inpainting && !!ui.inpaintMaskDataUrl && hasInitImage;
+  if (inpaintActive) {
+    params.maskUrl = ui.inpaintMaskDataUrl;
     if (ui.inpaintStrength !== undefined) {
-      paramsWithN.strength = ui.inpaintStrength;
-    }
-    if (ui.inpaintNegativePrompt) {
-      paramsWithN.negativePrompt = ui.inpaintNegativePrompt;
+      params.strength = ui.inpaintStrength;
     }
   }
 
-  // The inpaint checkpoint override applies to this request only.
-  const wireExtras: SubmitExtraParams =
-    ctx.mode === "inpaint" && ui.inpaintAir
-      ? { air: ui.inpaintAir, airName: ui.inpaintAirName }
-      : {};
-  const cleanedExtras =
-    Object.keys(wireExtras).length > 0 ? wireExtras : undefined;
-
-  const loras =
-    values.loras && values.loras.length > 0 ? values.loras : undefined;
-
-  // An inpaint AIR override must also switch to the passthrough model id: the AIR is
-  // what the provider loads, the catalog id is what routes there.
-  const inpaintingWithModel =
-    ctx.mode === "inpaint" && hasInitImage && !!ui.inpaintAir;
+  // The inpaint checkpoint override applies to this request only. It must also switch to
+  // the passthrough model id: the AIR is what the provider loads, the catalog id is what
+  // routes there.
+  const inpaintingWithModel = inpainting && hasInitImage && !!ui.inpaintAir;
+  const extraParams: SubmitExtraParams | undefined = inpaintingWithModel
+    ? { air: ui.inpaintAir, airName: ui.inpaintAirName }
+    : undefined;
 
   return {
     model: inpaintingWithModel ? CUSTOM_CIVITAI_MODEL_ID : values.model,
     mode: ctx.mode,
-    prompt:
-      ctx.mode === "inpaint" && ui.inpaintPrompt
-        ? ui.inpaintPrompt
-        : values.prompt,
-    negativePrompt: values.negativePrompt || undefined,
-    params: paramsWithN as never,
-    loras,
+    prompt: inpainting && ui.inpaintPrompt ? ui.inpaintPrompt : values.prompt,
+    negativePrompt:
+      (inpaintActive && ui.inpaintNegativePrompt) ||
+      values.negativePrompt ||
+      undefined,
+    params,
+    loras: values.loras && values.loras.length > 0 ? values.loras : undefined,
     references: values.references,
-    extraParams: cleanedExtras,
+    extraParams,
     visibility: values.visibility,
     sessionId: ctx.activeSessionId ?? undefined,
   };

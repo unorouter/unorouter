@@ -3,6 +3,7 @@
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
+import type { GenerationFormValues } from "@/lib/validation/playground";
 import { useTranslations } from "next-intl";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -23,7 +24,7 @@ type Props = {
  */
 export function InpaintSettings(props: Props) {
   const t = useTranslations();
-  const form = useFormContext();
+  const form = useFormContext<GenerationFormValues>();
 
   return (
     <div className="flex flex-col gap-4 rounded-md border p-3">
@@ -36,30 +37,31 @@ export function InpaintSettings(props: Props) {
             <Controller
               control={form.control}
               name="ui.inpaintAirQuery"
-              render={({ field: queryField }) => (
-                <CivitaiResolverField
-                  value={
-                    airField.value
-                      ? ({
-                          air: airField.value,
-                          name:
-                            (form.getValues("ui.inpaintAirName") as
-                              string | undefined) ?? airField.value,
-                        } as CustomCheckpoint)
-                      : null
-                  }
-                  query={(queryField.value as string | undefined) ?? ""}
-                  onQueryChange={queryField.onChange}
-                  onChange={(checkpoint) => {
-                    airField.onChange(checkpoint?.air);
-                    form.setValue(
-                      "ui.inpaintAirName" as never,
-                      checkpoint?.name as never,
-                      { shouldDirty: true },
-                    );
-                  }}
-                />
-              )}
+              render={({ field: queryField }) => {
+                const air = airField.value;
+                const selected: CustomCheckpoint | null = air
+                  ? {
+                      air,
+                      name: form.getValues("ui.inpaintAirName") ?? air,
+                      architecture: null,
+                      heroImage: null,
+                      nsfwLevel: null,
+                    }
+                  : null;
+                return (
+                  <CivitaiResolverField
+                    value={selected}
+                    query={queryField.value ?? ""}
+                    onQueryChange={queryField.onChange}
+                    onChange={(checkpoint) => {
+                      airField.onChange(checkpoint?.air);
+                      form.setValue("ui.inpaintAirName", checkpoint?.name, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                );
+              }}
             />
           )}
         />
@@ -76,7 +78,7 @@ export function InpaintSettings(props: Props) {
             <Label className="mb-1 block">{t("IMAGE.INPAINT_PROMPT")}</Label>
             <Textarea
               rows={2}
-              value={(field.value as string | undefined) ?? ""}
+              value={field.value ?? ""}
               onChange={field.onChange}
               placeholder={
                 props.fallbackPrompt || t("IMAGE.INPAINT_PROMPT_PLACEHOLDER")
@@ -96,7 +98,7 @@ export function InpaintSettings(props: Props) {
             </Label>
             <Textarea
               rows={2}
-              value={(field.value as string | undefined) ?? ""}
+              value={field.value ?? ""}
               onChange={field.onChange}
             />
           </div>
@@ -107,7 +109,7 @@ export function InpaintSettings(props: Props) {
         control={form.control}
         name="ui.inpaintStrength"
         render={({ field }) => {
-          const strength = (field.value as number | undefined) ?? 0.75;
+          const strength = field.value ?? 0.75;
           return (
             <div>
               <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">

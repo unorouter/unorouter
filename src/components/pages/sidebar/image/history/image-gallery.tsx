@@ -6,7 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { SmartImage } from "@/components/ui/smart-image";
 import type { ImageView } from "@/lib/types";
 import { downloadBlob } from "@/lib/utils/client";
-import type { GenerateTab, Img2ImgSubPill } from "@/store/image-store";
+import type { GenerateTab, Img2ImgSubPill } from "../image-nav";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 

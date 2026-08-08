@@ -35,21 +35,14 @@ import { toast } from "sonner";
 import type { SnapshotView } from "@/lib/types";
 import { downloadJson } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
-import {
-  activeSessionIdAtom,
-  activeSnapshotIdAtom,
-  activeSubPillAtom,
-  activeTabAtom,
-  restoreSnapshotIntoFormAtom,
-} from "@/store/image-store";
-import { useAtom, useSetAtom } from "jotai";
+import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
+import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { snapshotModelLabel } from "./image-constants";
+import { useImageNav } from "./image-nav";
 import { useRouter } from "next/navigation";
-import { useQueryStates } from "nuqs";
 import { useEffect, useRef, useState } from "react";
 import { BatchGrid, ImageLightbox } from "./history/image-gallery";
-import { IMAGE_URL_PARSERS } from "./image-url-state";
 
 type Props = {
   sessionId: string;
@@ -111,12 +104,8 @@ export function ImageResult(props: Props) {
   const exportMut = useExportSessionMutation();
   const importMut = useImportGenerationMutation();
 
-  const [, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
-  const [, setActiveSessionId] = useAtom(activeSessionIdAtom);
+  const nav = useImageNav();
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
-  const setActiveTab = useSetAtom(activeTabAtom);
-  const setActiveSubPill = useSetAtom(activeSubPillAtom);
-  const [, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
 
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importMode, setImportMode] = useState<GenerationCloneMode>("restore");
@@ -132,18 +121,13 @@ export function ImageResult(props: Props) {
   const currentIndex = snapshots.findIndex((s) => s.id === props.snapshotId);
   const total = snapshots.length;
 
-  const swapTo = (snapshotId: string) => {
-    setActiveSnapshotId(snapshotId);
-    void setUrlState({ snap: snapshotId });
-  };
-
   const onPrevSnapshot = () => {
     if (currentIndex < 0 || total <= 1) return;
-    swapTo(snapshots[(currentIndex + 1) % total].id);
+    nav.showSnapshot(snapshots[(currentIndex + 1) % total].id);
   };
   const onNextSnapshot = () => {
     if (currentIndex < 0 || total <= 1) return;
-    swapTo(snapshots[(currentIndex - 1 + total) % total].id);
+    nav.showSnapshot(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
   // Browsing history never auto-restores the form; restoring is explicit (remix, reuse-seed).
@@ -175,8 +159,6 @@ export function ImageResult(props: Props) {
     if (!ok) return;
     const result = await deleteMut.mutateAsync({ id: props.snapshotId });
     if (result.sessionDeleted) {
-      setActiveSessionId(null);
-      setActiveSnapshotId(null);
       router.push("/image");
       return;
     }
@@ -185,7 +167,7 @@ export function ImageResult(props: Props) {
       router.push("/image");
       return;
     }
-    swapTo(remaining[0].id);
+    nav.showSnapshot(remaining[0].id);
   };
 
   const onExport = async () => {
@@ -203,7 +185,7 @@ export function ImageResult(props: Props) {
       toast.error(t("IMAGE.IMPORT_INVALID"));
       return;
     }
-    const parsed = safeParse(importPayloadChecker, raw as never);
+    const parsed = safeParse(importPayloadChecker, raw);
     if (!parsed.success) {
       toast.error(t("IMAGE.IMPORT_INVALID"));
       return;
@@ -263,12 +245,7 @@ export function ImageResult(props: Props) {
           }}
           supportsHires={getModelDescriptor(data.model).supportsHiresFix}
           onQuickAction={(src, target) => {
-            setActiveTab(target.tab);
-            if (target.subPill) setActiveSubPill(target.subPill);
-            void setUrlState({
-              tab: target.tab,
-              mode: target.subPill ?? null,
-            });
+            nav.setNav({ tab: target.tab, subPill: target.subPill });
             // Remix must not carry an init image (that would turn it into img2img of the
             // old result); the seed comes from the clicked image, each batch result has its own.
             const remixSeed = images.find((i) => i.src === src)?.seed;

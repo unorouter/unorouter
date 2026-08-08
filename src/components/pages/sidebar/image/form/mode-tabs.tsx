@@ -1,19 +1,22 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useAtom } from "jotai";
-import { useQueryStates } from "nuqs";
 
+import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/config/icon-map";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { activeTabAtom } from "@/store/image-store";
-import type { GenerateTab } from "@/store/image-store";
-import { IMAGE_URL_PARSERS } from "../image-url-state";
+import type { TranslationKey } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import {
+  useImageNav,
+  type GenerateTab,
+  type Img2ImgSubPill,
+} from "../image-nav";
 
 const TABS: ReadonlyArray<{
   id: GenerateTab;
-  i18nKey: string;
+  i18nKey: TranslationKey;
   iconName: IconName;
 }> = [
   { id: "text2img", i18nKey: "IMAGE.TAB_TEXT2IMG", iconName: "image" },
@@ -21,27 +24,57 @@ const TABS: ReadonlyArray<{
   { id: "edit", i18nKey: "IMAGE.TAB_EDIT", iconName: "pencil" },
 ];
 
+const PILLS: ReadonlyArray<{
+  id: Img2ImgSubPill;
+  i18nKey: TranslationKey;
+  iconName: IconName;
+}> = [
+  { id: "img2img", i18nKey: "IMAGE.SUB_IMG2IMG", iconName: "image" },
+  { id: "upscale", i18nKey: "IMAGE.SUB_UPSCALE", iconName: "maximize-2" },
+  { id: "adetailer", i18nKey: "IMAGE.SUB_ADETAILER", iconName: "pencil-ruler" },
+  { id: "inpaint", i18nKey: "IMAGE.SUB_INPAINT", iconName: "paintbrush" },
+];
+
 export function ModeTabs() {
   const t = useTranslations();
-  const [activeTab, setActiveTab] = useAtom(activeTabAtom);
-  const [, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
-
-  const onChange = (next: string) => {
-    const tab = next as GenerateTab;
-    setActiveTab(tab);
-    void setUrlState({ tab, mode: tab === "img2img" ? undefined : null });
-  };
+  const nav = useImageNav();
 
   return (
-    <Tabs value={activeTab} onValueChange={onChange}>
+    <Tabs
+      value={nav.tab}
+      onValueChange={(next) => nav.setTab(next as GenerateTab)}
+    >
       <TabsList>
         {TABS.map((tab) => (
           <TabsTrigger key={tab.id} value={tab.id}>
             <Icon name={tab.iconName} className="mr-1.5 h-4 w-4" />
-            {t(tab.i18nKey as Parameters<typeof t>[0])}
+            {t(tab.i18nKey)}
           </TabsTrigger>
         ))}
       </TabsList>
     </Tabs>
+  );
+}
+
+export function Img2ImgSubPills() {
+  const t = useTranslations();
+  const nav = useImageNav();
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {PILLS.map((p) => (
+        <Button
+          key={p.id}
+          type="button"
+          variant={nav.subPill === p.id ? "default" : "outline"}
+          size="sm"
+          onClick={() => nav.setSubPill(p.id)}
+          className={cn("gap-1.5")}
+        >
+          <Icon name={p.iconName} className="h-4 w-4" />
+          {t(p.i18nKey)}
+        </Button>
+      ))}
+    </div>
   );
 }
