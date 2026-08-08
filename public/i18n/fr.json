@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Taille du pinceau",
     "INPAINT_BRUSH_OPACITY": "Opacité du pinceau",
     "INPAINT_CLEAR": "Effacer",
-    "INPAINT_DISCARD": "Abandonner le masque",
     "HOVER_INPAINT": "Inpainter cette image",
     "HOVER_UPSCALE": "Agrandir cette image",
     "HOVER_HIRES": "Passe hires sur cette image",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Que doit remplacer la zone masquée ?",
     "INPAINT_NEGATIVE_PROMPT": "Prompt négatif de retouche",
     "INPAINT_STRENGTH": "Force de débruitage",
-    "INPAINT_STRENGTH_HINT": "Plus élevé redessine la zone plus librement ; plus bas conserve davantage l’original"
+    "INPAINT_STRENGTH_HINT": "Plus élevé redessine la zone plus librement ; plus bas conserve davantage l’original",
+    "INPAINT_UNDO": "Annuler",
+    "INPAINT_REDO": "Rétablir"
   }
 }

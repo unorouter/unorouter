@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Ukuran kuas",
     "INPAINT_BRUSH_OPACITY": "Opasitas kuas",
     "INPAINT_CLEAR": "Bersihkan",
-    "INPAINT_DISCARD": "Buang masker",
     "HOVER_INPAINT": "Inpaint gambar ini",
     "HOVER_UPSCALE": "Upscale gambar ini",
     "HOVER_HIRES": "Proses hires pada gambar ini",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Apa yang menggantikan area bermasker?",
     "INPAINT_NEGATIVE_PROMPT": "Prompt negatif inpaint",
     "INPAINT_STRENGTH": "Kekuatan denoise",
-    "INPAINT_STRENGTH_HINT": "Makin tinggi makin bebas menggambar ulang area; makin rendah makin mempertahankan aslinya"
+    "INPAINT_STRENGTH_HINT": "Makin tinggi makin bebas menggambar ulang area; makin rendah makin mempertahankan aslinya",
+    "INPAINT_UNDO": "Urungkan",
+    "INPAINT_REDO": "Ulangi"
   }
 }

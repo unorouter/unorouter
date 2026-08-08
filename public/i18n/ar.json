@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "حجم الفرشاة",
     "INPAINT_BRUSH_OPACITY": "شفافية الفرشاة",
     "INPAINT_CLEAR": "مسح",
-    "INPAINT_DISCARD": "تخلّص من القناع",
     "HOVER_INPAINT": "Inpaint هذه الصورة",
     "HOVER_UPSCALE": "كبّر هذه الصورة",
     "HOVER_HIRES": "تمريرة hires على هذه الصورة",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "بماذا تريد استبدال المنطقة المحددة؟",
     "INPAINT_NEGATIVE_PROMPT": "الموجّه السلبي لإعادة الرسم",
     "INPAINT_STRENGTH": "قوة إزالة التشويش",
-    "INPAINT_STRENGTH_HINT": "القيمة الأعلى تعيد رسم المنطقة بحرية أكبر، والأقل تحافظ على الأصل أكثر"
+    "INPAINT_STRENGTH_HINT": "القيمة الأعلى تعيد رسم المنطقة بحرية أكبر، والأقل تحافظ على الأصل أكثر",
+    "INPAINT_UNDO": "تراجع",
+    "INPAINT_REDO": "إعادة"
   }
 }

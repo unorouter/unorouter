@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Kích thước cọ",
     "INPAINT_BRUSH_OPACITY": "Độ mờ cọ",
     "INPAINT_CLEAR": "Xóa",
-    "INPAINT_DISCARD": "Bỏ mặt nạ",
     "HOVER_INPAINT": "Inpaint ảnh này",
     "HOVER_UPSCALE": "Phóng to ảnh này",
     "HOVER_HIRES": "Lượt hires cho ảnh này",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Vùng được che sẽ được thay bằng gì?",
     "INPAINT_NEGATIVE_PROMPT": "Câu lệnh phủ định khi vẽ lại",
     "INPAINT_STRENGTH": "Cường độ khử nhiễu",
-    "INPAINT_STRENGTH_HINT": "Càng cao thì vẽ lại vùng càng tự do; càng thấp thì giữ lại nhiều ảnh gốc hơn"
+    "INPAINT_STRENGTH_HINT": "Càng cao thì vẽ lại vùng càng tự do; càng thấp thì giữ lại nhiều ảnh gốc hơn",
+    "INPAINT_UNDO": "Hoàn tác",
+    "INPAINT_REDO": "Làm lại"
   }
 }

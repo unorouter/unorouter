@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Brush size",
     "INPAINT_BRUSH_OPACITY": "Brush opacity",
     "INPAINT_CLEAR": "Clear",
-    "INPAINT_DISCARD": "Mask discard करें",
     "HOVER_INPAINT": "इस image को Inpaint करें",
     "HOVER_UPSCALE": "इस image को Upscale करें",
     "HOVER_HIRES": "इस image पर hires pass चलाएँ",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "मास्क किए गए क्षेत्र की जगह क्या आना चाहिए?",
     "INPAINT_NEGATIVE_PROMPT": "इनपेंट नेगेटिव प्रॉम्प्ट",
     "INPAINT_STRENGTH": "डीनॉइज़ शक्ति",
-    "INPAINT_STRENGTH_HINT": "अधिक मान क्षेत्र को अधिक स्वतंत्रता से बनाता है; कम मान मूल को अधिक बनाए रखता है"
+    "INPAINT_STRENGTH_HINT": "अधिक मान क्षेत्र को अधिक स्वतंत्रता से बनाता है; कम मान मूल को अधिक बनाए रखता है",
+    "INPAINT_UNDO": "पूर्ववत करें",
+    "INPAINT_REDO": "फिर से करें"
   }
 }

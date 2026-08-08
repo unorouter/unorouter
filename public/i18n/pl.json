@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Rozmiar pędzla",
     "INPAINT_BRUSH_OPACITY": "Krycie pędzla",
     "INPAINT_CLEAR": "Wyczyść",
-    "INPAINT_DISCARD": "Odrzuć maskę",
     "HOVER_INPAINT": "Inpaint tego obrazu",
     "HOVER_UPSCALE": "Skaluj ten obraz w górę",
     "HOVER_HIRES": "Przebieg hires na tym obrazie",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Co ma zastąpić zamaskowany obszar?",
     "INPAINT_NEGATIVE_PROMPT": "Negatywny prompt inpaintingu",
     "INPAINT_STRENGTH": "Siła odszumiania",
-    "INPAINT_STRENGTH_HINT": "Wyższa przerysowuje obszar swobodniej; niższa zachowuje więcej oryginału"
+    "INPAINT_STRENGTH_HINT": "Wyższa przerysowuje obszar swobodniej; niższa zachowuje więcej oryginału",
+    "INPAINT_UNDO": "Cofnij",
+    "INPAINT_REDO": "Ponów"
   }
 }

@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "גודל מברשת",
     "INPAINT_BRUSH_OPACITY": "אטימות מברשת",
     "INPAINT_CLEAR": "נקה",
-    "INPAINT_DISCARD": "בטל מסכה",
     "HOVER_INPAINT": "Inpaint לתמונה הזו",
     "HOVER_UPSCALE": "הגדל תמונה זו",
     "HOVER_HIRES": "מעבר hires על תמונה זו",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "במה להחליף את האזור המסומן?",
     "INPAINT_NEGATIVE_PROMPT": "הנחיה שלילית לציור פנימי",
     "INPAINT_STRENGTH": "עוצמת הפחתת רעש",
-    "INPAINT_STRENGTH_HINT": "ערך גבוה מצייר מחדש את האזור בחופשיות רבה יותר; נמוך משמר יותר מהמקור"
+    "INPAINT_STRENGTH_HINT": "ערך גבוה מצייר מחדש את האזור בחופשיות רבה יותר; נמוך משמר יותר מהמקור",
+    "INPAINT_UNDO": "ביטול",
+    "INPAINT_REDO": "ביצוע מחדש"
   }
 }

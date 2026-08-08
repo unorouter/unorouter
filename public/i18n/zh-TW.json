@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "筆刷大小",
     "INPAINT_BRUSH_OPACITY": "筆刷不透明度",
     "INPAINT_CLEAR": "清除",
-    "INPAINT_DISCARD": "捨棄遮罩",
     "HOVER_INPAINT": "對此圖進行局部重繪",
     "HOVER_UPSCALE": "放大此圖",
     "HOVER_HIRES": "對此圖執行高解析度重繪",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "要用什麼取代遮罩區域？",
     "INPAINT_NEGATIVE_PROMPT": "重繪負面提示詞",
     "INPAINT_STRENGTH": "降噪強度",
-    "INPAINT_STRENGTH_HINT": "數值越高，遮罩區域重繪越自由；越低則保留更多原圖"
+    "INPAINT_STRENGTH_HINT": "數值越高，遮罩區域重繪越自由；越低則保留更多原圖",
+    "INPAINT_UNDO": "復原",
+    "INPAINT_REDO": "重做"
   }
 }

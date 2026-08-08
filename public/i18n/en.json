@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Brush size",
     "INPAINT_BRUSH_OPACITY": "Brush opacity",
     "INPAINT_CLEAR": "Clear",
-    "INPAINT_DISCARD": "Discard mask",
     "HOVER_INPAINT": "Inpaint this image",
     "HOVER_UPSCALE": "Upscale this image",
     "HOVER_HIRES": "Hires pass on this image",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "What should replace the masked area?",
     "INPAINT_NEGATIVE_PROMPT": "Inpaint negative prompt",
     "INPAINT_STRENGTH": "Denoise strength",
-    "INPAINT_STRENGTH_HINT": "Higher redraws the masked area more freely; lower keeps more of the original"
+    "INPAINT_STRENGTH_HINT": "Higher redraws the masked area more freely; lower keeps more of the original",
+    "INPAINT_UNDO": "Undo",
+    "INPAINT_REDO": "Redo"
   }
 }

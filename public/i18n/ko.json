@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "브러시 크기",
     "INPAINT_BRUSH_OPACITY": "브러시 불투명도",
     "INPAINT_CLEAR": "지우기",
-    "INPAINT_DISCARD": "마스크 폐기",
     "HOVER_INPAINT": "이 이미지에 인페인트",
     "HOVER_UPSCALE": "이 이미지 업스케일",
     "HOVER_HIRES": "이 이미지에 Hires 패스 적용",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "마스크한 영역을 무엇으로 바꿀까요?",
     "INPAINT_NEGATIVE_PROMPT": "인페인팅 네거티브 프롬프트",
     "INPAINT_STRENGTH": "디노이즈 강도",
-    "INPAINT_STRENGTH_HINT": "높을수록 마스크 영역을 자유롭게 다시 그리고, 낮을수록 원본을 더 유지합니다"
+    "INPAINT_STRENGTH_HINT": "높을수록 마스크 영역을 자유롭게 다시 그리고, 낮을수록 원본을 더 유지합니다",
+    "INPAINT_UNDO": "실행 취소",
+    "INPAINT_REDO": "다시 실행"
   }
 }

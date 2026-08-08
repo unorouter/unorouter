@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Pinselgröße",
     "INPAINT_BRUSH_OPACITY": "Pinseldeckkraft",
     "INPAINT_CLEAR": "Leeren",
-    "INPAINT_DISCARD": "Maske verwerfen",
     "HOVER_INPAINT": "Dieses Bild inpainten",
     "HOVER_UPSCALE": "Dieses Bild hochskalieren",
     "HOVER_HIRES": "Hires-Durchgang für dieses Bild",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Was soll den maskierten Bereich ersetzen?",
     "INPAINT_NEGATIVE_PROMPT": "Negativer Inpaint-Prompt",
     "INPAINT_STRENGTH": "Denoise-Stärke",
-    "INPAINT_STRENGTH_HINT": "Höher zeichnet den maskierten Bereich freier neu; niedriger behält mehr vom Original"
+    "INPAINT_STRENGTH_HINT": "Höher zeichnet den maskierten Bereich freier neu; niedriger behält mehr vom Original",
+    "INPAINT_UNDO": "Rückgängig",
+    "INPAINT_REDO": "Wiederholen"
   }
 }

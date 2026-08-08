@@ -481,34 +481,27 @@ export function ImageForm() {
                   airName: ui.inpaintAirName,
                   airQuery: ui.inpaintAirQuery,
                 }}
-                onChange={(patch) =>
-                  form.setValue(
-                    "ui",
-                    {
-                      ...(form.getValues("ui") ?? {}),
-                      ...(patch.prompt !== undefined && {
-                        inpaintPrompt: patch.prompt,
-                      }),
-                      ...(patch.negativePrompt !== undefined && {
-                        inpaintNegativePrompt: patch.negativePrompt,
-                      }),
-                      ...(patch.strength !== undefined && {
-                        inpaintStrength: patch.strength,
-                      }),
-                      ...(patch.model !== undefined && {
-                        inpaintModel: patch.model,
-                      }),
-                      ...(patch.air !== undefined && { inpaintAir: patch.air }),
-                      ...(patch.airName !== undefined && {
-                        inpaintAirName: patch.airName,
-                      }),
-                      ...(patch.airQuery !== undefined && {
-                        inpaintAirQuery: patch.airQuery,
-                      }),
-                    },
-                    { shouldDirty: true },
-                  )
-                }
+                // Writes each field by PATH rather than replacing the whole ui object. The
+                // mask canvas writes ui too (on every stroke), and a whole-object rewrite
+                // built from a snapshot taken a keystroke ago dropped characters typed in
+                // between - it felt like the keyboard was missing presses.
+                onChange={(patch) => {
+                  const paths: Record<string, keyof typeof patch> = {
+                    "ui.inpaintPrompt": "prompt",
+                    "ui.inpaintNegativePrompt": "negativePrompt",
+                    "ui.inpaintStrength": "strength",
+                    "ui.inpaintModel": "model",
+                    "ui.inpaintAir": "air",
+                    "ui.inpaintAirName": "airName",
+                    "ui.inpaintAirQuery": "airQuery",
+                  };
+                  for (const [path, key] of Object.entries(paths)) {
+                    if (patch[key] === undefined) continue;
+                    form.setValue(path as never, patch[key] as never, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
               />
             </>
           )}

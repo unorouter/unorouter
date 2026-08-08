@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "ブラシサイズ",
     "INPAINT_BRUSH_OPACITY": "ブラシ不透明度",
     "INPAINT_CLEAR": "クリア",
-    "INPAINT_DISCARD": "マスクを破棄",
     "HOVER_INPAINT": "この画像をインペイント",
     "HOVER_UPSCALE": "この画像をアップスケール",
     "HOVER_HIRES": "この画像にHiresパスを適用",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "マスクした領域を何に置き換えますか？",
     "INPAINT_NEGATIVE_PROMPT": "インペイントのネガティブプロンプト",
     "INPAINT_STRENGTH": "ノイズ除去の強さ",
-    "INPAINT_STRENGTH_HINT": "高いほどマスク領域を自由に描き直し、低いほど元の画像を保持します"
+    "INPAINT_STRENGTH_HINT": "高いほどマスク領域を自由に描き直し、低いほど元の画像を保持します",
+    "INPAINT_UNDO": "元に戻す",
+    "INPAINT_REDO": "やり直す"
   }
 }

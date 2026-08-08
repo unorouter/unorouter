@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Размер кисти",
     "INPAINT_BRUSH_OPACITY": "Прозрачность кисти",
     "INPAINT_CLEAR": "Очистить",
-    "INPAINT_DISCARD": "Отбросить маску",
     "HOVER_INPAINT": "Применить инпейнт к изображению",
     "HOVER_UPSCALE": "Апскейл этого изображения",
     "HOVER_HIRES": "Hires-проход для этого изображения",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Что должно заменить замаскированную область?",
     "INPAINT_NEGATIVE_PROMPT": "Негативный запрос врисовки",
     "INPAINT_STRENGTH": "Сила шумоподавления",
-    "INPAINT_STRENGTH_HINT": "Выше — область перерисовывается свободнее; ниже — сохраняется больше оригинала"
+    "INPAINT_STRENGTH_HINT": "Выше — область перерисовывается свободнее; ниже — сохраняется больше оригинала",
+    "INPAINT_UNDO": "Отменить",
+    "INPAINT_REDO": "Повторить"
   }
 }

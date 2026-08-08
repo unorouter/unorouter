@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Fırça boyutu",
     "INPAINT_BRUSH_OPACITY": "Fırça opaklığı",
     "INPAINT_CLEAR": "Temizle",
-    "INPAINT_DISCARD": "Maskeyi at",
     "HOVER_INPAINT": "Bu görseli inpaint et",
     "HOVER_UPSCALE": "Bu görseli upscale et",
     "HOVER_HIRES": "Bu görselde hires geçişi",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "Maskelenen alanın yerine ne gelmeli?",
     "INPAINT_NEGATIVE_PROMPT": "Negatif inpaint istemi",
     "INPAINT_STRENGTH": "Gürültü giderme gücü",
-    "INPAINT_STRENGTH_HINT": "Yüksek değer alanı daha serbest yeniden çizer; düşük değer orijinali daha çok korur"
+    "INPAINT_STRENGTH_HINT": "Yüksek değer alanı daha serbest yeniden çizer; düşük değer orijinali daha çok korur",
+    "INPAINT_UNDO": "Geri al",
+    "INPAINT_REDO": "Yinele"
   }
 }

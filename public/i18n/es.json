@@ -5660,7 +5660,6 @@
     "INPAINT_BRUSH_SIZE": "Tamaño de pincel",
     "INPAINT_BRUSH_OPACITY": "Opacidad de pincel",
     "INPAINT_CLEAR": "Limpiar",
-    "INPAINT_DISCARD": "Descartar máscara",
     "HOVER_INPAINT": "Inpaint esta imagen",
     "HOVER_UPSCALE": "Escalar esta imagen",
     "HOVER_HIRES": "Pase hires en esta imagen",
@@ -5770,6 +5769,8 @@
     "INPAINT_PROMPT_PLACEHOLDER": "¿Qué debe reemplazar el área enmascarada?",
     "INPAINT_NEGATIVE_PROMPT": "Prompt negativo de retoque",
     "INPAINT_STRENGTH": "Fuerza de eliminación de ruido",
-    "INPAINT_STRENGTH_HINT": "Más alto redibuja el área con más libertad; más bajo conserva más del original"
+    "INPAINT_STRENGTH_HINT": "Más alto redibuja el área con más libertad; más bajo conserva más del original",
+    "INPAINT_UNDO": "Deshacer",
+    "INPAINT_REDO": "Rehacer"
   }
 }

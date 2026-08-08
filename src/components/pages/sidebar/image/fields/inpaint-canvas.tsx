@@ -34,22 +34,40 @@ export function InpaintCanvas(props: Props) {
   const opacity =
     (ui.inpaintBrushOpacity as number | undefined) ?? DEFAULT_OPACITY;
 
+  // Writes one field by PATH instead of replacing the whole ui object. Rebuilding ui from a
+  // snapshot clobbered anything written since it was taken: Clear came back on the next
+  // stroke, and characters typed into the inpaint prompt beside this canvas went missing.
   const setUi = (patch: Record<string, unknown>) => {
-    form.setValue("ui", { ...ui, ...patch } as never, { shouldDirty: true });
+    for (const [key, value] of Object.entries(patch)) {
+      form.setValue(`ui.${key}` as never, value as never, {
+        shouldDirty: true,
+      });
+    }
   };
 
-  const onDrawingChange = (isDrawing: boolean) => {
-    if (isDrawing) return;
+  // The canvas owns the stroke history, so the mask is whatever it holds AFTER the
+  // operation. Reading it back keeps the submitted mask in step with what is on screen;
+  // an empty canvas submits no mask at all rather than an all-black one.
+  const syncMaskFromCanvas = () => {
     const canvas = editorRef.current?.maskCanvas;
-    // toMask reads getImageData(0, 0, width, height) with no guard of its own, and a zero
-    // dimension makes that throw IndexSizeError, which took down the whole page. The canvas
-    // is still unsized until the source image loads, so a touch before then hits this.
-    if (!canvas || !canvas.width || !canvas.height) return;
+    if (!canvas || !canvas.width || !canvas.height) {
+      setUi({ inpaintMaskDataUrl: undefined });
+      return;
+    }
     try {
       setUi({ inpaintMaskDataUrl: toMask(canvas) });
     } catch {
-      // A mask that cannot be read is not worth losing the page over; the next stroke retries.
+      setUi({ inpaintMaskDataUrl: undefined });
     }
+  };
+
+  // toMask reads getImageData(0, 0, width, height) with no guard of its own, and a zero
+  // dimension makes that throw IndexSizeError, which took down the whole page. The canvas is
+  // still unsized until the source image loads, so a touch before then hits this; the guard
+  // lives in syncMaskFromCanvas, which every path here goes through.
+  const onDrawingChange = (isDrawing: boolean) => {
+    if (isDrawing) return;
+    syncMaskFromCanvas();
   };
 
   return (
@@ -106,27 +124,46 @@ export function InpaintCanvas(props: Props) {
               />
             </div>
           </div>
+          {/* Undo/redo step through the canvas's own stroke history; Clear wipes it. All
+              three re-read the canvas afterwards, since it is the source of truth for what
+              the user can see and therefore for what gets submitted. */}
           <div className="flex gap-2">
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => {
-                editorRef.current?.clear();
-                field.onChange(undefined);
+                editorRef.current?.undo();
+                syncMaskFromCanvas();
               }}
             >
               <Icon name="rotate-ccw" className="mr-1 h-4 w-4" />
-              {t("IMAGE.INPAINT_CLEAR")}
+              {t("IMAGE.INPAINT_UNDO")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                editorRef.current?.redo();
+                syncMaskFromCanvas();
+              }}
+            >
+              <Icon name="rotate-cw" className="mr-1 h-4 w-4" />
+              {t("IMAGE.INPAINT_REDO")}
             </Button>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => field.onChange(undefined)}
+              onClick={() => {
+                editorRef.current?.clear();
+                field.onChange(undefined);
+                setUi({ inpaintMaskDataUrl: undefined });
+              }}
             >
               <Icon name="eraser" className="mr-1 h-4 w-4" />
-              {t("IMAGE.INPAINT_DISCARD")}
+              {t("IMAGE.INPAINT_CLEAR")}
             </Button>
           </div>
         </div>
