@@ -131,6 +131,12 @@ const FOOTER_BADGES: {
     width: 139,
   },
   {
+    href: "https://shipycorn.com",
+    src: "/badges/shipycorn.svg",
+    name: "Featured on Shipycorn",
+    width: 174,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
