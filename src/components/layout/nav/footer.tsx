@@ -115,7 +115,7 @@ const FOOTER_BADGES: {
   {
     href: "https://launchbuff.com",
     src: "https://launchbuff.com/badge-featured-dark.svg",
-    name: "Featured on LaunchBuff",
+    name: "LaunchBuff",
     width: 160,
   },
   {
@@ -151,19 +151,19 @@ const FOOTER_BADGES: {
   {
     href: "https://roozna.com/project/unorouter",
     src: "https://roozna.com/api/badge/unorouter",
-    name: "Featured on Roozna",
+    name: "Roozna",
     width: 150,
   },
   {
     href: "https://firstlook.tools",
     src: "https://firstlook.tools/badge/badge_dark.svg",
-    name: "Featured on First Look",
+    name: "First Look",
     width: 150,
   },
   {
     href: "https://yo.directory",
     src: "https://assets.yo.directory/badges/yo-directory-featured-dark.svg",
-    name: "Featured on Yo.directory",
+    name: "Yo.directory",
     width: 150,
   },
   {
@@ -199,7 +199,7 @@ const FOOTER_BADGES: {
   {
     href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
     src: "https://sharefast.co/sharefast-featured-badge.svg",
-    name: "Featured on Share Fast",
+    name: "Share Fast",
     width: 110,
   },
   {
