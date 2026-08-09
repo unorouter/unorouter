@@ -5,36 +5,36 @@ import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
 
-export const PLAYGROUND_GENERATION_FORMAT =
+export const IMAGE_GENERATION_FORMAT =
   `${env.appName.toLowerCase()}-generation-1` as `${string}-generation-1`;
-export const PLAYGROUND_SESSION_FORMAT =
+export const IMAGE_SESSION_FORMAT =
   `${env.appName.toLowerCase()}-session-1` as `${string}-session-1`;
 
-export function isPlaygroundSessionFormat(
-  payload: PlaygroundSnapshot | SessionSnapshot,
+export function isImageSessionFormat(
+  payload: ImageSnapshotExport | SessionSnapshot,
 ): payload is SessionSnapshot {
-  return payload.version === PLAYGROUND_SESSION_FORMAT;
+  return payload.version === IMAGE_SESSION_FORMAT;
 }
 
-export const playgroundModel = t.String({ minLength: 1, maxLength: 128 });
-export type PlaygroundModel = Static<typeof playgroundModel>;
+export const imageModelId = t.String({ minLength: 1, maxLength: 128 });
+export type ImageModelId = Static<typeof imageModelId>;
 
-export const generationVisibility = t.Union([
+export const imageVisibility = t.Union([
   t.Literal("private"),
   t.Literal("unlisted"),
   t.Literal("public"),
 ]);
-export type PlaygroundVisibility = Static<typeof generationVisibility>;
+export type ImageVisibility = Static<typeof imageVisibility>;
 
 // The submit path is synchronous: a failed submit throws before any row is written, so
 // only these two states ever persist.
-export const generationStatus = t.Union([
+export const imageGenerationStatus = t.Union([
   t.Literal("success"),
   t.Literal("failure"),
 ]);
-export type GenerationStatus = Static<typeof generationStatus>;
+export type ImageGenerationStatus = Static<typeof imageGenerationStatus>;
 
-export const generationMode = t.Union([
+export const imageMode = t.Union([
   t.Literal("txt2img"),
   t.Literal("img2img"),
   t.Literal("upscale"),
@@ -42,9 +42,9 @@ export const generationMode = t.Union([
   t.Literal("inpaint"),
   t.Literal("edit"),
 ]);
-export type GenerationMode = Static<typeof generationMode>;
+export type ImageMode = Static<typeof imageMode>;
 
-export const playgroundAdetailer = t.Object({
+export const imageAdetailer = t.Object({
   yoloModel: t.String({ maxLength: 128 }),
   prompt: t.Optional(t.String({ maxLength: 2000 })),
   negativePrompt: t.Optional(t.String({ maxLength: 2000 })),
@@ -64,7 +64,7 @@ export const playgroundAdetailer = t.Object({
   ),
 });
 
-export type AdetailerParams = Static<typeof playgroundAdetailer>;
+export type AdetailerParams = Static<typeof imageAdetailer>;
 
 // No object storage: the browser sends a downscaled base64 data URI or an https URL,
 // nothing else. The cap bounds the body while fitting a 1024px long edge.
@@ -74,7 +74,7 @@ export const imageSource = t.String({
   maxLength: MAX_IMAGE_SOURCE_LENGTH,
 });
 
-export const generationParams = t.Object({
+export const imageParams = t.Object({
   width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   steps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
@@ -106,27 +106,27 @@ export const generationParams = t.Object({
       { maxItems: 6 },
     ),
   ),
-  adetailer: t.Optional(playgroundAdetailer),
+  adetailer: t.Optional(imageAdetailer),
   clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
 });
 
-export const generationLoraEntry = t.Object({
+export const imageLoraEntry = t.Object({
   name: t.String({ maxLength: 256 }),
   weight: t.Number({ minimum: 0, maximum: 2 }),
   source: t.Optional(t.String({ maxLength: 64 })),
 });
-export type LoraEntry = Static<typeof generationLoraEntry>;
+export type LoraEntry = Static<typeof imageLoraEntry>;
 
-export const generationReferenceEntry = t.Object({
+export const imageReferenceEntry = t.Object({
   url: imageSource,
   name: t.Optional(t.String({ maxLength: 200 })),
   weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
 });
-export type ReferenceEntry = Static<typeof generationReferenceEntry>;
+export type ReferenceEntry = Static<typeof imageReferenceEntry>;
 
-export type GenerationParams = Static<typeof generationParams>;
+export type ImageParams = Static<typeof imageParams>;
 
-export const generationFormUi = t.Object({
+export const imageFormUi = t.Object({
   variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
@@ -146,7 +146,7 @@ export const generationFormUi = t.Object({
   airArchitecture: t.Optional(t.String({ maxLength: 64 })),
   airQuery: t.Optional(t.String({ maxLength: 2048 })),
 });
-export type GenerationFormUi = Static<typeof generationFormUi>;
+export type ImageFormUi = Static<typeof imageFormUi>;
 
 // The only extraParams the server reads: the passthrough checkpoint and its display
 // metadata. Elysia's normalize strips anything else a stale client still sends.
@@ -157,34 +157,34 @@ export const submitExtraParams = t.Object({
 });
 export type SubmitExtraParams = Static<typeof submitExtraParams>;
 
-export const playgroundSubmitBody = t.Object({
-  model: playgroundModel,
-  mode: t.Optional(generationMode),
+export const imageSubmitBody = t.Object({
+  model: imageModelId,
+  mode: t.Optional(imageMode),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Optional(t.String({ maxLength: 4000 })),
-  params: t.Optional(generationParams),
-  loras: t.Optional(t.Array(generationLoraEntry, { maxItems: 12 })),
-  references: t.Optional(t.Array(generationReferenceEntry, { maxItems: 6 })),
+  params: t.Optional(imageParams),
+  loras: t.Optional(t.Array(imageLoraEntry, { maxItems: 12 })),
+  references: t.Optional(t.Array(imageReferenceEntry, { maxItems: 6 })),
   extraParams: t.Optional(submitExtraParams),
-  visibility: t.Optional(generationVisibility),
+  visibility: t.Optional(imageVisibility),
   sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
-export type PlaygroundSubmitBody = Static<typeof playgroundSubmitBody>;
+export type ImageSubmitBody = Static<typeof imageSubmitBody>;
 
-export const generationFormValues = t.Composite([
-  playgroundSubmitBody,
-  t.Object({ ui: t.Optional(generationFormUi) }),
+export const imageFormValues = t.Composite([
+  imageSubmitBody,
+  t.Object({ ui: t.Optional(imageFormUi) }),
 ]);
-export type GenerationFormValues = Static<typeof generationFormValues>;
+export type ImageFormValues = Static<typeof imageFormValues>;
 
-export const generationCloneMode = t.Union([
+export const imageCloneMode = t.Union([
   t.Literal("restore"),
   t.Literal("regenerate"),
 ]);
-export type GenerationCloneMode = Static<typeof generationCloneMode>;
+export type ImageCloneMode = Static<typeof imageCloneMode>;
 
-export const playgroundSnapshot = t.Object({
-  version: t.Literal(PLAYGROUND_GENERATION_FORMAT),
+export const imageSnapshotExport = t.Object({
+  version: t.Literal(IMAGE_GENERATION_FORMAT),
   model: t.String({ minLength: 1, maxLength: 128 }),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Union([t.String({ maxLength: 4000 }), t.Null()]),
@@ -203,31 +203,31 @@ export const playgroundSnapshot = t.Object({
     { maxItems: 16 },
   ),
 });
-export type PlaygroundSnapshot = Static<typeof playgroundSnapshot>;
+export type ImageSnapshotExport = Static<typeof imageSnapshotExport>;
 
 export const sessionSnapshot = t.Object({
-  version: t.Literal(PLAYGROUND_SESSION_FORMAT),
+  version: t.Literal(IMAGE_SESSION_FORMAT),
   session: t.Object({
     title: t.Union([t.String({ maxLength: 256 }), t.Null()]),
     firstModel: t.Union([t.String({ maxLength: 128 }), t.Null()]),
   }),
-  snapshots: t.Array(playgroundSnapshot, { maxItems: 200 }),
+  snapshots: t.Array(imageSnapshotExport, { maxItems: 200 }),
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
 // Uploaded import files are arbitrary JSON; check the envelope before any DB write.
 export const importPayloadChecker = TypeCompiler.Compile(
-  t.Union([playgroundSnapshot, sessionSnapshot]),
+  t.Union([imageSnapshotExport, sessionSnapshot]),
 );
 
 // Snapshot payload fields are t.Unknown for restore-lenience; the regenerate path
 // narrows them through these before resubmitting.
-export const generationParamsChecker = TypeCompiler.Compile(generationParams);
-export const generationLorasChecker = TypeCompiler.Compile(
-  t.Array(generationLoraEntry, { maxItems: 12 }),
+export const imageParamsChecker = TypeCompiler.Compile(imageParams);
+export const imageLorasChecker = TypeCompiler.Compile(
+  t.Array(imageLoraEntry, { maxItems: 12 }),
 );
-export const generationReferencesChecker = TypeCompiler.Compile(
-  t.Array(generationReferenceEntry, { maxItems: 6 }),
+export const imageReferencesChecker = TypeCompiler.Compile(
+  t.Array(imageReferenceEntry, { maxItems: 6 }),
 );
 
 export const generatedImage = t.Object({

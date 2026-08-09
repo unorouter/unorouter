@@ -30,7 +30,10 @@ function collectText(node: unknown, out: string[]): void {
     return;
   }
   if (node && typeof node === "object" && "props" in node) {
-    collectText((node as { props?: { children?: unknown } }).props?.children, out);
+    collectText(
+      (node as { props?: { children?: unknown } }).props?.children,
+      out,
+    );
   }
 }
 

@@ -8,7 +8,10 @@ export async function ClaudeOpus48Vs46Vs47RoleplayContent() {
   return (
     <>
       <p>
-        {t("BLOG.POSTS.CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY.INTRO", APP_VALUES)}
+        {t(
+          "BLOG.POSTS.CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY.INTRO",
+          APP_VALUES,
+        )}
       </p>
 
       <h2 id="ranking">

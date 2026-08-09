@@ -2,7 +2,7 @@
 
 import { useRememberImageModelMutation } from "@/hooks/ai/image-catalog-hook";
 import { useSubmitGenerationMutation } from "@/hooks/ai/image-hook";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useRouter } from "@/i18n/navigation";
 import type { UseFormReturn } from "react-hook-form";
 import { useImageNav } from "../image-nav";
@@ -12,13 +12,10 @@ import type { CustomCheckpoint } from "./model-picker";
 import { toSubmitBody } from "./submit-transform";
 
 type Args = {
-  form: UseFormReturn<GenerationFormValues>;
+  form: UseFormReturn<ImageFormValues>;
   activeCheckpoint: CustomCheckpoint | null;
-  setSamplerMemory: (
-    params: GenerationFormValues["params"],
-    model: string,
-  ) => void;
-  setDraft: (values: GenerationFormValues) => void;
+  setSamplerMemory: (params: ImageFormValues["params"], model: string) => void;
+  setDraft: (values: ImageFormValues) => void;
 };
 
 export function useSubmitGeneration(args: Args) {

@@ -1,10 +1,10 @@
 import { releaseTs } from "@/lib/api/pricing";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
-  PLAYGROUND_MODELS,
-  PLAYGROUND_MODELS_BY_ID,
-  type PlaygroundModelDescriptor,
-} from "@/lib/ai/playground/models";
+  STATIC_IMAGE_MODELS,
+  STATIC_IMAGE_MODELS_BY_ID,
+  type ImageModelDescriptor,
+} from "@/lib/ai/image/models";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 
@@ -106,11 +106,9 @@ function vendorKnobs(modelName: string): {
   return {};
 }
 
-function inferDescriptor(
-  model: ProcessedModel,
-): PlaygroundModelDescriptor | null {
+function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
   if (model.endpointTypes.includes("comfyui")) {
-    const tmpl = PLAYGROUND_MODELS_BY_ID[model.name];
+    const tmpl = STATIC_IMAGE_MODELS_BY_ID[model.name];
     if (!tmpl) return null;
     return {
       ...tmpl,
@@ -181,25 +179,25 @@ function inferDescriptor(
 // a fresh array per render would fire them every render.
 const effectiveModelsCache = new WeakMap<
   ProcessedModel[],
-  PlaygroundModelDescriptor[]
+  ImageModelDescriptor[]
 >();
 
-export function getEffectiveGenerationModels(
+export function getEffectiveImageModels(
   pricing: ProcessedModel[] | undefined,
-): PlaygroundModelDescriptor[] {
-  if (!pricing || pricing.length === 0) return PLAYGROUND_MODELS;
+): ImageModelDescriptor[] {
+  if (!pricing || pricing.length === 0) return STATIC_IMAGE_MODELS;
   const hit = effectiveModelsCache.get(pricing);
   if (hit) return hit;
-  const computed = computeEffectiveGenerationModels(pricing);
+  const computed = computeEffectiveImageModels(pricing);
   effectiveModelsCache.set(pricing, computed);
   return computed;
 }
 
-function computeEffectiveGenerationModels(
+function computeEffectiveImageModels(
   pricing: ProcessedModel[],
-): PlaygroundModelDescriptor[] {
-  const comfy: PlaygroundModelDescriptor[] = [];
-  const dynamic: { desc: PlaygroundModelDescriptor; releasedAt: number }[] = [];
+): ImageModelDescriptor[] {
+  const comfy: ImageModelDescriptor[] = [];
+  const dynamic: { desc: ImageModelDescriptor; releasedAt: number }[] = [];
   const seen = new Set<string>();
   for (const model of pricing) {
     if (seen.has(model.name)) continue;

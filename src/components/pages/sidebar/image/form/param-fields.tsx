@@ -16,15 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useFormContext, type Control, type FieldPath } from "react-hook-form";
 import { LabeledSlider } from "../fields/labeled-slider";
 
-type NumberParamPath = FieldPath<GenerationFormValues>;
+type NumberParamPath = FieldPath<ImageFormValues>;
 
 export function SliderParamField(props: {
-  control: Control<GenerationFormValues>;
+  control: Control<ImageFormValues>;
   name: NumberParamPath;
   label: string;
   min: number;
@@ -67,7 +67,7 @@ export function SelectParamField(props: {
   label: string;
   placeholder: string;
 }) {
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   return (
     <FormField
       control={form.control}
@@ -100,7 +100,7 @@ export function SelectParamField(props: {
 
 export function SeedField() {
   const t = useTranslations();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   return (
     <FormField
       control={form.control}

@@ -1,9 +1,6 @@
-import {
-  MAX_IMAGES_PER_GEN,
-  type PlaygroundModel,
-} from "@/lib/validation/playground";
+import { MAX_IMAGES_PER_GEN, type ImageModelId } from "@/lib/validation/image";
 
-export const INITIAL_MODEL: PlaygroundModel = "pony";
+export const INITIAL_MODEL: ImageModelId = "pony";
 
 // The passthrough model: it carries no checkpoint of its own, the AIR rides on the request.
 export const CUSTOM_CIVITAI_MODEL_ID = "custom-civitai";

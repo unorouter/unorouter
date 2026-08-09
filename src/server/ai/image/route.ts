@@ -1,9 +1,6 @@
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
-import {
-  catalogSearchQuery,
-  playgroundSubmitBody,
-} from "@/lib/validation/playground";
+import { catalogSearchQuery, imageSubmitBody } from "@/lib/validation/image";
 import { getUserId } from "@/server/constants";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia, t } from "elysia";
@@ -56,7 +53,7 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       const apiKey = await resolveChatApiKey(cookie);
       return { success: true, data: await submitGeneration(apiKey, body) };
     },
-    { body: playgroundSubmitBody },
+    { body: imageSubmitBody },
   )
   .get(
     "/catalog/loras",

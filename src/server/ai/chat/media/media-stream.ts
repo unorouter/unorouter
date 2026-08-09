@@ -8,11 +8,11 @@ import {
   buildBody,
   extractResultUris,
   loadRefs,
-} from "@/lib/ai/playground/dispatch";
+} from "@/lib/ai/image/dispatch";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
-} from "@/lib/ai/playground/models-dynamic";
+} from "@/lib/ai/image/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import {

@@ -1,10 +1,7 @@
 "use client";
 
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type {
-  GenerationFormValues,
-  PlaygroundModel,
-} from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -12,8 +9,8 @@ import type { UseFormReturn } from "react-hook-form";
 import { defaultsFor } from "./persistence";
 
 type Args = {
-  form: UseFormReturn<GenerationFormValues>;
-  findDescriptor: (id: PlaygroundModel) => PlaygroundModelDescriptor;
+  form: UseFormReturn<ImageFormValues>;
+  findDescriptor: (id: ImageModelId) => ImageModelDescriptor;
 };
 
 // Consumes the one-shot restore mailbox (remix button, reuse-seed, quick actions).
@@ -39,7 +36,7 @@ export function useSnapshotRestore(args: Args) {
       model: desc.id,
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
-      params: mergedParams as GenerationFormValues["params"],
+      params: mergedParams as ImageFormValues["params"],
       loras: restorePayload.loras ?? undefined,
       references: restorePayload.references ?? undefined,
       ui: restorePayload.extraParams ?? { variants: 1 },

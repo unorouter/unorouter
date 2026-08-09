@@ -1,12 +1,9 @@
 import type { ImagePreset } from "@/lib/db/schema/client";
-import type {
-  GenerationFormUi,
-  GenerationFormValues,
-} from "@/lib/validation/playground";
+import type { ImageFormUi, ImageFormValues } from "@/lib/validation/image";
 import type { UseFormReturn } from "react-hook-form";
 
 type PresetTarget = {
-  form: UseFormReturn<GenerationFormValues>;
+  form: UseFormReturn<ImageFormValues>;
   adoptModelTab: (modelId: string) => void;
   changeModel: (modelId: string) => void;
 };
@@ -27,7 +24,7 @@ export function applyPreset(target: PresetTarget, preset: ImagePreset): void {
   form.setValue("loras", preset.loras ?? undefined);
   const presetUi = preset.extraParams;
   if (presetUi) {
-    const next: GenerationFormUi = presetUi.air
+    const next: ImageFormUi = presetUi.air
       ? { ...presetUi }
       : { ...(form.getValues("ui") ?? {}), ...presetUi };
     form.setValue("ui", next, { shouldDirty: true });

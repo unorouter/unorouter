@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useFormContext, useWatch } from "react-hook-form";
 import { InitImageField } from "../fields/init-image-field";
 import { InpaintSettings } from "../fields/inpaint-settings";
@@ -19,7 +19,7 @@ const InpaintCanvas = dynamic(
 // not re-render the whole form.
 export function Img2ImgSection() {
   const nav = useImageNav();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   const initImageUrl = useWatch({
     control: form.control,
     name: "params.initImageUrl",

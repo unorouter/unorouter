@@ -1,5 +1,5 @@
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationParams, LoraEntry } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageParams, LoraEntry } from "@/lib/validation/image";
 
 /**
  * Strips params the resolved model does not support, server-side, so the rule holds for
@@ -8,9 +8,9 @@ import type { GenerationParams, LoraEntry } from "@/lib/validation/playground";
  * model still generates, minus the knob.
  */
 export function filterParamsToCapabilities(
-  descriptor: PlaygroundModelDescriptor,
-  params: GenerationParams | undefined,
-): { params: GenerationParams; dropped: string[] } {
+  descriptor: ImageModelDescriptor,
+  params: ImageParams | undefined,
+): { params: ImageParams; dropped: string[] } {
   const source: Record<string, unknown> = { ...(params ?? {}) };
   const dropped: string[] = [];
 
@@ -66,11 +66,11 @@ export function filterParamsToCapabilities(
     }
   }
 
-  return { params: source as GenerationParams, dropped };
+  return { params: source as ImageParams, dropped };
 }
 
 export function filterLorasToCapabilities(
-  descriptor: PlaygroundModelDescriptor,
+  descriptor: ImageModelDescriptor,
   loras: LoraEntry[] | undefined,
 ): LoraEntry[] {
   if (!descriptor.supportsLoraChain) return [];
@@ -78,7 +78,7 @@ export function filterLorasToCapabilities(
 }
 
 export function capReferences<T>(
-  descriptor: PlaygroundModelDescriptor,
+  descriptor: ImageModelDescriptor,
   references: T[] | undefined,
 ): T[] {
   if (!descriptor.supportsReferences) return [];

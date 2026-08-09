@@ -21,11 +21,7 @@ import { TriggersAndLuaContent } from "@/components/pages/docs/chat/content/trig
 import type { Pathname } from "@/i18n/routing";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
-import {
-  getPageMetadata,
-  notFoundMetadata,
-  ogBadge,
-} from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

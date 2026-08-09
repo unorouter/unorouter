@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
-import type { ReferenceEntry } from "@/lib/validation/playground";
+import type { ReferenceEntry } from "@/lib/validation/image";
 import { ACCEPTED_IMAGE_MIMES, fileToScaledDataUri } from "./client-image-file";
 
 const MAX_REFERENCES_DEFAULT = 6;

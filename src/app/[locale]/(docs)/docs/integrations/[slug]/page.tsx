@@ -10,11 +10,7 @@ import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
 import { buildHowToSchema } from "@/lib/seo/structured-data";
-import {
-  getPageMetadata,
-  notFoundMetadata,
-  ogBadge,
-} from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

@@ -36,7 +36,13 @@ interface RewardsResponse {
  * place to change a reward: the bot's env is the source of truth.
  */
 const FALLBACK: RewardsResponse = {
-  amounts: { connect: 0.5, vote: 0.025, boost: 0.5, invite: 0.01, serverTag: 0.01 },
+  amounts: {
+    connect: 0.5,
+    vote: 0.025,
+    boost: 0.5,
+    invite: 0.01,
+    serverTag: 0.01,
+  },
   levels: [
     { role: "Prompt Newbie!", messages: 10, dollars: 0.03 },
     { role: "Token Spender!", messages: 100, dollars: 0.05 },
@@ -64,7 +70,10 @@ function money(value: number, locale: string): string {
 
 async function fetchRewards(): Promise<RewardsResponse> {
   try {
-    const res = await fetch(`${serverEnv.botInternalUrl}/rewards`, PUBLIC_CACHE);
+    const res = await fetch(
+      `${serverEnv.botInternalUrl}/rewards`,
+      PUBLIC_CACHE,
+    );
     if (!res.ok) throw new Error(`bot /rewards returned ${res.status}`);
     return (await res.json()) as RewardsResponse;
   } catch (error) {
@@ -80,9 +89,7 @@ async function fetchRewards(): Promise<RewardsResponse> {
  * Live reward amounts from the bot, revalidated hourly, so cutting a reward is
  * an env change plus a bot restart with no site deploy or translation edits.
  */
-export async function getRewardAmounts(
-  locale: string,
-): Promise<RewardAmounts> {
+export async function getRewardAmounts(locale: string): Promise<RewardAmounts> {
   const data = await fetchRewards();
   const fmt = (value: number) => money(value, locale);
   const paid = data.levels.filter((level) => level.dollars > 0);

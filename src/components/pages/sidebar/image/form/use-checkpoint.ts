@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import type { CustomCheckpoint } from "./model-picker";
 
 /**
@@ -12,7 +12,7 @@ import type { CustomCheckpoint } from "./model-picker";
  * worth persisting; it enriches the derived checkpoint while the same air stays
  * selected and is never read as the selection itself.
  */
-export function useCheckpoint(form: UseFormReturn<GenerationFormValues>) {
+export function useCheckpoint(form: UseFormReturn<ImageFormValues>) {
   const [lastPicked, setLastPicked] = useState<CustomCheckpoint | null>(null);
 
   const air = form.watch("ui.air");

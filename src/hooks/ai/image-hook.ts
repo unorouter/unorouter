@@ -28,17 +28,17 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { SnapshotView } from "@/lib/types";
 import {
-  generationLorasChecker,
-  generationParamsChecker,
-  generationReferencesChecker,
-  isPlaygroundSessionFormat,
+  imageLorasChecker,
+  imageParamsChecker,
+  imageReferencesChecker,
+  isImageSessionFormat,
   MAX_IMAGES_PER_GEN,
   type GeneratedImage,
-  type GenerationCloneMode,
-  type PlaygroundSnapshot,
-  type PlaygroundSubmitBody,
+  type ImageCloneMode,
+  type ImageSnapshotExport,
+  type ImageSubmitBody,
   type SessionSnapshot,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 import { safeParse } from "@/lib/validation/helpers";
 import { fnv1aHex, handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -51,7 +51,7 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-type SubmitArgs = PlaygroundSubmitBody & { sessionId?: string };
+type SubmitArgs = ImageSubmitBody & { sessionId?: string };
 
 function imageToMediaRow(
   imageSnapshotId: string,
@@ -329,25 +329,22 @@ export function useImportGenerationMutation() {
   const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
-      payload: PlaygroundSnapshot | SessionSnapshot;
-      mode: GenerationCloneMode;
+      payload: ImageSnapshotExport | SessionSnapshot;
+      mode: ImageCloneMode;
     }) => {
       if (args.mode === "restore") {
         return importLocalSession(userId, args.payload);
       }
-      const snapshots = isPlaygroundSessionFormat(args.payload)
+      const snapshots = isImageSessionFormat(args.payload)
         ? args.payload.snapshots
         : [args.payload];
       let sessionId = "";
       for (const snap of snapshots) {
         // Snapshot payload fields are stored loosely for restore-lenience; regenerating
         // resubmits them, so anything that fails the schema is dropped, not forwarded.
-        const params = safeParse(generationParamsChecker, snap.params);
-        const loras = safeParse(generationLorasChecker, snap.loras);
-        const references = safeParse(
-          generationReferencesChecker,
-          snap.references,
-        );
+        const params = safeParse(imageParamsChecker, snap.params);
+        const loras = safeParse(imageLorasChecker, snap.loras);
+        const references = safeParse(imageReferencesChecker, snap.references);
         const extras =
           snap.extraParams && typeof snap.extraParams === "object"
             ? (snap.extraParams as { air?: unknown; airName?: unknown })

@@ -10,8 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEmbeddingCatalogQuery } from "@/hooks/ai/image-catalog-hook";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
@@ -25,8 +25,8 @@ import { UpscalerField } from "../fields/upscaler-field";
 import { VAES } from "../image-constants";
 
 type Props = {
-  form: UseFormReturn<GenerationFormValues>;
-  descriptor: PlaygroundModelDescriptor;
+  form: UseFormReturn<ImageFormValues>;
+  descriptor: ImageModelDescriptor;
 };
 
 // The advanced stack: embeddings, VAE, ADetailer, upscale, clip skip. Every field binds
@@ -96,11 +96,11 @@ export function AdvancedFields(props: Props) {
 }
 
 type EmbeddingEntry = NonNullable<
-  NonNullable<GenerationFormValues["params"]>["embeddings"]
+  NonNullable<ImageFormValues["params"]>["embeddings"]
 >[number];
 
 function EmbeddingPicker(props: {
-  family: PlaygroundModelDescriptor["family"];
+  family: ImageModelDescriptor["family"];
   value: EmbeddingEntry[];
   onChange: (next: EmbeddingEntry[]) => void;
 }) {

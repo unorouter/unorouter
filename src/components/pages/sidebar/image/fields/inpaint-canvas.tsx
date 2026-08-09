@@ -11,7 +11,7 @@ import {
 } from "react-canvas-masker";
 import "react-canvas-masker/dist/style.css";
 import { Button } from "@/components/ui/button";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { LabeledSlider } from "./labeled-slider";
 
 const DEFAULT_BRUSH = 32;
@@ -23,7 +23,7 @@ type Props = {
 
 export function InpaintCanvas(props: Props) {
   const t = useTranslations();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   const editorRef = useRef<MaskEditorCanvasRef | null>(null);
 
   const brushSize = form.watch("ui.inpaintBrushSize") ?? DEFAULT_BRUSH;

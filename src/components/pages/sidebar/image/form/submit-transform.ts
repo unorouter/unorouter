@@ -1,27 +1,27 @@
 import { blobUrlToDataUri } from "@/lib/db/client/data/media/blob-url";
 import { CUSTOM_CIVITAI_MODEL_ID, clampVariants } from "../image-constants";
 import type {
-  GenerationFormValues,
-  GenerationMode,
-  GenerationParams,
-  PlaygroundSubmitBody,
+  ImageFormValues,
+  ImageMode,
+  ImageParams,
+  ImageSubmitBody,
   SubmitExtraParams,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 
 export type SubmitContext = {
   activeSessionId: string | null;
-  mode: GenerationMode;
+  mode: ImageMode;
 };
 
 export async function toSubmitBody(
-  values: GenerationFormValues,
+  values: ImageFormValues,
   ctx: SubmitContext,
-): Promise<PlaygroundSubmitBody> {
+): Promise<ImageSubmitBody> {
   const ui = values.ui ?? {};
   const variants = clampVariants(ui.variants);
   const inpainting = ctx.mode === "inpaint";
 
-  const params: GenerationParams = { ...(values.params ?? {}), n: variants };
+  const params: ImageParams = { ...(values.params ?? {}), n: variants };
 
   // A blob: URL means nothing outside this document; resolve to bytes before it leaves
   // the browser or the provider gets a dead reference.

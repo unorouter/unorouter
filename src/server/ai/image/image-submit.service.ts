@@ -1,31 +1,27 @@
-import {
-  buildBody,
-  extractResults,
-  loadRefs,
-} from "@/lib/ai/playground/dispatch";
+import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import {
   chooseEndpoint,
-  getEffectiveGenerationModels,
+  getEffectiveImageModels,
   isRunwareScheduler,
   type SyncImageEndpoint,
-} from "@/lib/ai/playground/models-dynamic";
+} from "@/lib/ai/image/models-dynamic";
 import { isValidAir } from "@/lib/ai/image/constants";
 import { msg } from "@/lib/config/constants";
 import type {
   GeneratedImage,
   LoraEntry,
-  PlaygroundSubmitBody,
-} from "@/lib/validation/playground";
+  ImageSubmitBody,
+} from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
   adetailerCheckpoint,
   runAdetailerPass,
 } from "@/server/ai/image/adetailer.service";
-import type { AdetailerParams } from "@/lib/validation/playground";
-import { MAX_IMAGES_PER_GEN } from "@/lib/validation/playground";
+import type { AdetailerParams } from "@/lib/validation/image";
+import { MAX_IMAGES_PER_GEN } from "@/lib/validation/image";
 import {
   batchPlan,
   fetchGeneratedImage,
@@ -40,7 +36,7 @@ import {
   filterParamsToCapabilities,
 } from "./capabilities";
 
-function imageCountFor(body: PlaygroundSubmitBody): number {
+function imageCountFor(body: ImageSubmitBody): number {
   const n = body.params?.n ?? 1;
   if (!Number.isFinite(n) || n < 1) return 1;
   return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
@@ -164,7 +160,7 @@ function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
 
 type ResolvedModel = {
   info: ProcessedModel;
-  descriptor: PlaygroundModelDescriptor;
+  descriptor: ImageModelDescriptor;
   endpoint: SyncImageEndpoint;
 };
 
@@ -180,7 +176,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
   }
   const endpoint = chooseEndpoint(info.endpointTypes ?? []);
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const descriptor = getEffectiveGenerationModels(summary.models).find(
+  const descriptor = getEffectiveImageModels(summary.models).find(
     (d) => d.id === model,
   );
   if (!endpoint || !descriptor) {
@@ -196,7 +192,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
 
 async function refineWithAdetailer(
   uri: string,
-  body: PlaygroundSubmitBody,
+  body: ImageSubmitBody,
   params: Record<string, unknown>,
   loras: LoraEntry[],
   size: UpstreamSize | undefined,
@@ -237,7 +233,7 @@ export type SubmitGenerationResult = {
 
 export async function submitGeneration(
   apiKey: string,
-  body: PlaygroundSubmitBody,
+  body: ImageSubmitBody,
 ): Promise<SubmitGenerationResult> {
   const resolved = await resolveModel(body.model);
   const descriptor = resolved.descriptor;

@@ -11,11 +11,11 @@ import type {
 } from "@/lib/db/schema/rows";
 import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
 import type {
-  GenerationFormUi,
-  GenerationParams,
+  ImageFormUi,
+  ImageParams,
   LoraEntry,
   ReferenceEntry,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
@@ -99,10 +99,10 @@ export type SnapshotView = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
-  params: GenerationParams | null;
+  params: ImageParams | null;
   loras: LoraEntry[] | null;
   references: ReferenceEntry[] | null;
-  extraParams: GenerationFormUi | null;
+  extraParams: ImageFormUi | null;
   status: string;
   progress: string | null;
   taskId: string | null;

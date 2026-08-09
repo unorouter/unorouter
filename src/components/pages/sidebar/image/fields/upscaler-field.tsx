@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { cn } from "@/lib/utils";
 import { useWatch, type UseFormReturn } from "react-hook-form";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../image-constants";
@@ -15,7 +15,7 @@ import { LabeledSlider } from "./labeled-slider";
 const DEFAULT_MULTIPLIER = 1.5;
 
 type Props = {
-  form: UseFormReturn<GenerationFormValues>;
+  form: UseFormReturn<ImageFormValues>;
 };
 
 export function UpscalerField(props: Props) {

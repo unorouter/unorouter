@@ -9,7 +9,7 @@ import {
   useExportSessionMutation,
   useSessionQuery,
 } from "@/hooks/ai/image-hook";
-import { getModelDescriptor } from "@/lib/ai/playground/models";
+import { getModelDescriptor } from "@/lib/ai/image/models";
 import type { SnapshotView } from "@/lib/types";
 import { downloadJson } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";

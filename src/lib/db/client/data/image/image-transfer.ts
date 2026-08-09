@@ -3,12 +3,12 @@
 import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
-  isPlaygroundSessionFormat,
-  PLAYGROUND_GENERATION_FORMAT,
-  PLAYGROUND_SESSION_FORMAT,
-  type PlaygroundSnapshot,
+  isImageSessionFormat,
+  IMAGE_GENERATION_FORMAT,
+  IMAGE_SESSION_FORMAT,
+  type ImageSnapshotExport,
   type SessionSnapshot,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 import { uid } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
@@ -28,7 +28,7 @@ export async function exportLocalSession(
   logChatDebug("export.image.start", { sessionId });
   const bundle = await readLocalSessionBundle(userId, sessionId);
   if (!bundle) throw new Error("image-session-not-found");
-  const snapshots: PlaygroundSnapshot[] = [];
+  const snapshots: ImageSnapshotExport[] = [];
   for (const snap of bundle.snapshots) {
     const imgs = bundle.media.filter((m) => m.imageSnapshotId === snap.id);
     const images = await Promise.all(
@@ -41,7 +41,7 @@ export async function exportLocalSession(
       })),
     );
     snapshots.push({
-      version: PLAYGROUND_GENERATION_FORMAT,
+      version: IMAGE_GENERATION_FORMAT,
       model: snap.model,
       prompt: snap.prompt,
       negativePrompt: snap.negativePrompt,
@@ -53,7 +53,7 @@ export async function exportLocalSession(
     });
   }
   return {
-    version: PLAYGROUND_SESSION_FORMAT,
+    version: IMAGE_SESSION_FORMAT,
     session: {
       title: bundle.session.title,
       firstModel: bundle.session.firstModel,
@@ -65,7 +65,7 @@ export async function exportLocalSession(
 function snapshotToRows(
   userId: number,
   sessionId: string,
-  snap: PlaygroundSnapshot,
+  snap: ImageSnapshotExport,
   order: number,
 ) {
   const now = dayjs().toDate();
@@ -114,15 +114,15 @@ function snapshotToRows(
 
 export async function importLocalSession(
   userId: number | undefined,
-  payload: PlaygroundSnapshot | SessionSnapshot,
+  payload: ImageSnapshotExport | SessionSnapshot,
 ): Promise<{ sessionId: string }> {
   const uidVal = userId ?? GUEST_USER_ID;
   const now = dayjs().toDate();
   const expiresAt = new Date(Date.now() + RETENTION_MS);
   const sessionId = uid();
 
-  const isSession = isPlaygroundSessionFormat(payload);
-  const snapshots: PlaygroundSnapshot[] = isSession
+  const isSession = isImageSessionFormat(payload);
+  const snapshots: ImageSnapshotExport[] = isSession
     ? payload.snapshots
     : [payload];
   const title = isSession

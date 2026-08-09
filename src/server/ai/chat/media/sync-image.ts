@@ -1,15 +1,8 @@
-import {
-  buildBody,
-  extractResults,
-  loadRefs,
-} from "@/lib/ai/playground/dispatch";
+import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
-import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
-import type {
-  GeneratedImage,
-  PlaygroundSubmitBody,
-} from "@/lib/validation/playground";
+import { type SyncImageEndpoint } from "@/lib/ai/image/models-dynamic";
+import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import {
   batchPlan,
@@ -22,7 +15,7 @@ import {
 // Sync image generation for the chat inlay/illustrator.
 export async function submitSyncImage(args: {
   apiKey: string;
-  body: PlaygroundSubmitBody;
+  body: ImageSubmitBody;
   endpoint: SyncImageEndpoint;
   n: number;
 }): Promise<GeneratedImage[]> {

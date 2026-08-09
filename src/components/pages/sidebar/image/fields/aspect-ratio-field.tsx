@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -16,7 +16,7 @@ import { patchParams } from "../form/form-helpers";
 // Connected wrapper: subscribes to its own params so size changes do not re-render the
 // form root.
 export function AspectRatioSection() {
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   const width =
     useWatch({ control: form.control, name: "params.width" }) ?? 1024;
   const height =

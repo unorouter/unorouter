@@ -4,8 +4,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { estimateImageCost, willClamp } from "@/lib/ai/image/cost-estimate";
 import { COST_FLOOR_FALLBACK, COST_MARKUP } from "@/lib/ai/image/constants";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -15,7 +15,7 @@ import { clampVariants } from "../image-constants";
 import { useImageNav } from "../image-nav";
 
 type Props = {
-  descriptor: PlaygroundModelDescriptor;
+  descriptor: ImageModelDescriptor;
   isPending: boolean;
 };
 
@@ -27,7 +27,7 @@ type Props = {
 export function SubmitBar(props: Props) {
   const t = useTranslations();
   const nav = useImageNav();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
 
   const prompt = useWatch({ control: form.control, name: "prompt" }) ?? "";
   const inpaintPrompt = useWatch({

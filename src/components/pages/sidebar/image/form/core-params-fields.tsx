@@ -14,15 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useWatch, type UseFormReturn } from "react-hook-form";
 import { SeedField, SliderParamField } from "./param-fields";
 
 type Props = {
-  form: UseFormReturn<GenerationFormValues>;
-  descriptor: PlaygroundModelDescriptor;
+  form: UseFormReturn<ImageFormValues>;
+  descriptor: ImageModelDescriptor;
 };
 
 export function CoreParamsFields(props: Props) {

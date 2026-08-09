@@ -1,5 +1,5 @@
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import {
   editDraftAtom,
   img2imgDraftAtom,
@@ -9,9 +9,7 @@ import {
 import type { GenerateTab } from "../image-nav";
 import { INITIAL_MODEL } from "../image-constants";
 
-export function defaultsFor(
-  d: PlaygroundModelDescriptor,
-): GenerationFormValues {
+export function defaultsFor(d: ImageModelDescriptor): ImageFormValues {
   return {
     model: d.id,
     prompt: "",
@@ -28,7 +26,7 @@ export function draftAtomFor(tab: GenerateTab) {
   return text2imgDraftAtom;
 }
 
-export function draftFromForm(v: GenerationFormValues): GenerateDraft {
+export function draftFromForm(v: ImageFormValues): GenerateDraft {
   return {
     model: v.model ?? INITIAL_MODEL,
     prompt: v.prompt ?? "",
@@ -42,8 +40,8 @@ export function draftFromForm(v: GenerationFormValues): GenerateDraft {
 
 export function formValuesFromDraft(
   draft: GenerateDraft,
-  desc: PlaygroundModelDescriptor,
-): GenerationFormValues {
+  desc: ImageModelDescriptor,
+): ImageFormValues {
   return {
     ...defaultsFor(desc),
     model: draft.model,

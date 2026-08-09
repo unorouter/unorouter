@@ -4,14 +4,14 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import {
   getModelDescriptor,
-  type PlaygroundModelDescriptor,
-} from "@/lib/ai/playground/models";
-import { getEffectiveGenerationModels } from "@/lib/ai/playground/models-dynamic";
+  type ImageModelDescriptor,
+} from "@/lib/ai/image/models";
+import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
-  generationFormValues,
-  type GenerationFormValues,
-  type PlaygroundModel,
-} from "@/lib/validation/playground";
+  imageFormValues,
+  type ImageFormValues,
+  type ImageModelId,
+} from "@/lib/validation/image";
 import { samplerMemoryAtom } from "@/store/image-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useAtom } from "jotai";
@@ -25,7 +25,7 @@ import { useModelTabFit } from "./use-model-tab-fit";
 import { useRemixSeed } from "./use-remix-seed";
 import { useSnapshotRestore } from "./use-snapshot-restore";
 
-export function useGenerationForm() {
+export function useImageForm() {
   const nav = useImageNav();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -33,14 +33,12 @@ export function useGenerationForm() {
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
 
   const pricingQuery = usePricingQuery();
-  const effectiveModels = getEffectiveGenerationModels(
-    pricingQuery.data?.models,
-  );
-  const findDescriptor = (id: PlaygroundModel): PlaygroundModelDescriptor =>
+  const effectiveModels = getEffectiveImageModels(pricingQuery.data?.models);
+  const findDescriptor = (id: ImageModelId): ImageModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
 
-  const form = useForm<GenerationFormValues>({
-    resolver: typeboxResolver(generationFormValues),
+  const form = useForm<ImageFormValues>({
+    resolver: typeboxResolver(imageFormValues),
     defaultValues: defaultsFor(getModelDescriptor(INITIAL_MODEL)),
   });
 

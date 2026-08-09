@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { LabeledSlider } from "./labeled-slider";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 
@@ -18,7 +18,7 @@ import type { CustomCheckpoint } from "../form/model-picker";
  */
 export function InpaintSettings() {
   const t = useTranslations();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   // The form's own prompt is the placeholder, so it is obvious what runs when the
   // override is left empty.
   const fallbackPrompt =

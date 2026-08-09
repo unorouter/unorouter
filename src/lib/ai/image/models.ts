@@ -1,9 +1,9 @@
-import type { PlaygroundModel } from "@/lib/validation/playground";
+import type { ImageModelId } from "@/lib/validation/image";
 
 export type ModelFamily = "sdxl" | "flux2" | "sync-image" | "edit";
 
-export type PlaygroundModelDescriptor = {
-  id: PlaygroundModel;
+export type ImageModelDescriptor = {
+  id: ImageModelId;
   family: ModelFamily;
   displayName: string;
   pricePerCall: number;
@@ -68,7 +68,7 @@ const SDXL_SCHEDULERS: string[] = [
   "simple",
 ];
 
-export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
+export const STATIC_IMAGE_MODELS: ImageModelDescriptor[] = [
   {
     id: "pony",
     family: "sdxl",
@@ -283,17 +283,13 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
   },
 ];
 
-export const PLAYGROUND_MODELS_BY_ID: Record<
-  string,
-  PlaygroundModelDescriptor
-> = Object.fromEntries(PLAYGROUND_MODELS.map((m) => [m.id, m]));
+export const STATIC_IMAGE_MODELS_BY_ID: Record<string, ImageModelDescriptor> =
+  Object.fromEntries(STATIC_IMAGE_MODELS.map((m) => [m.id, m]));
 
 // Unknown ids (passthrough checkpoints, catalog models) fall back to the first comfy
 // descriptor deliberately: callers only read display defaults off it.
-export const FALLBACK_MODEL_DESCRIPTOR = PLAYGROUND_MODELS[0];
+export const FALLBACK_MODEL_DESCRIPTOR = STATIC_IMAGE_MODELS[0];
 
-export function getModelDescriptor(
-  id: PlaygroundModel,
-): PlaygroundModelDescriptor {
-  return PLAYGROUND_MODELS_BY_ID[id] ?? FALLBACK_MODEL_DESCRIPTOR;
+export function getModelDescriptor(id: ImageModelId): ImageModelDescriptor {
+  return STATIC_IMAGE_MODELS_BY_ID[id] ?? FALLBACK_MODEL_DESCRIPTOR;
 }

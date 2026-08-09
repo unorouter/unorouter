@@ -68,8 +68,7 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-open-webui": UnorouterVsOpenWebuiContent,
   "unorouter-vs-agnai": UnorouterVsAgnaiContent,
   "unorouter-vs-spicychat": UnorouterVsSpicychatContent,
-  "claude-opus-4-8-vs-4-6-vs-4-7-roleplay":
-    ClaudeOpus48Vs46Vs47RoleplayContent,
+  "claude-opus-4-8-vs-4-6-vs-4-7-roleplay": ClaudeOpus48Vs46Vs47RoleplayContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

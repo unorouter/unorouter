@@ -17,8 +17,8 @@ import {
 import { useImportGenerationMutation } from "@/hooks/ai/image-hook";
 import {
   importPayloadChecker,
-  type GenerationCloneMode,
-} from "@/lib/validation/playground";
+  type ImageCloneMode,
+} from "@/lib/validation/image";
 import { safeParse } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -34,7 +34,7 @@ export function SnapshotImportDialog(props: Props) {
   const t = useTranslations();
   const router = useRouter();
   const importMut = useImportGenerationMutation();
-  const [importMode, setImportMode] = useState<GenerationCloneMode>("restore");
+  const [importMode, setImportMode] = useState<ImageCloneMode>("restore");
 
   const onImportFile = async (file: File) => {
     // The upload is arbitrary JSON headed for DB rows (and, on regenerate, the submit
@@ -69,7 +69,7 @@ export function SnapshotImportDialog(props: Props) {
         <div className="flex flex-col gap-3">
           <Select
             value={importMode}
-            onValueChange={(v) => setImportMode(v as GenerationCloneMode)}
+            onValueChange={(v) => setImportMode(v as ImageCloneMode)}
           >
             <SelectTrigger>
               <SelectValue />

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -137,7 +137,7 @@ async function extractMetadataFromPngFile(
 // Drop a ComfyUI PNG to restore the prompt and params it was generated with.
 export function PngImport() {
   const t = useTranslations();
-  const form = useFormContext<GenerationFormValues>();
+  const form = useFormContext<ImageFormValues>();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isParsing, setIsParsing] = useState(false);

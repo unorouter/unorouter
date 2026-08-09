@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import {
   AUTH_REDIRECT_COOKIE,
   dollarsToQuota,
@@ -42,14 +42,14 @@ export type CustomCheckpoint = {
   nsfwLevel: number | null;
 };
 
-function isModelInTab(m: PlaygroundModelDescriptor, tab: GenerateTab): boolean {
+function isModelInTab(m: ImageModelDescriptor, tab: GenerateTab): boolean {
   if (!m.tabs) return tab === "text2img";
   return m.tabs.includes(tab);
 }
 
 type Props = {
-  models: PlaygroundModelDescriptor[];
-  selected: PlaygroundModelDescriptor;
+  models: ImageModelDescriptor[];
+  selected: ImageModelDescriptor;
   activeTab: GenerateTab;
   onSelect: (modelId: string) => void;
   /** Picking a checkpoint the catalog does not ship sets the passthrough model plus its AIR. */
@@ -70,7 +70,7 @@ export function ModelPicker(props: Props) {
   const savedModels = useSavedImageModelsQuery();
   const remoteSearch = useCheckpointSearchQuery(debouncedSearch);
 
-  const pick = (m: PlaygroundModelDescriptor, disabled: boolean) => {
+  const pick = (m: ImageModelDescriptor, disabled: boolean) => {
     if (disabled) {
       setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
       router.push("/login");
@@ -81,7 +81,7 @@ export function ModelPicker(props: Props) {
     setOpen(false);
   };
 
-  const renderItem = (m: PlaygroundModelDescriptor) => {
+  const renderItem = (m: ImageModelDescriptor) => {
     const disabled = !isLoggedIn && !m.isFree;
     return (
       <CommandItem
@@ -155,7 +155,7 @@ export function ModelPicker(props: Props) {
     : saved;
 
   const needle = search.trim().toLowerCase();
-  const matchesSearch = (m: PlaygroundModelDescriptor) =>
+  const matchesSearch = (m: ImageModelDescriptor) =>
     !needle ||
     `${m.displayName} ${m.vendor ?? ""} ${m.id}`.toLowerCase().includes(needle);
 

@@ -1,7 +1,7 @@
-import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
+import { chooseEndpoint } from "@/lib/ai/image/models-dynamic";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import { uid } from "@/lib/utils/base";
-import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
+import type { ImageSubmitBody } from "@/lib/validation/image";
 import { submitSyncImage } from "./sync-image";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 
@@ -26,7 +26,7 @@ export async function generateInlayImage(
       model: model.name,
       prompt,
       references: opts?.references,
-    } as PlaygroundSubmitBody,
+    } as ImageSubmitBody,
     endpoint,
     n: 1,
   });

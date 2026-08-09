@@ -119,7 +119,8 @@ export function useModelsFilter() {
     maxAgeDays > 0;
 
   const query = search.trim().toLowerCase();
-  const ageCutoff = maxAgeDays > 0 ? dayjs().valueOf() - maxAgeDays * 86_400_000 : 0;
+  const ageCutoff =
+    maxAgeDays > 0 ? dayjs().valueOf() - maxAgeDays * 86_400_000 : 0;
   const tabModels = models.filter((model) => {
     const matchesSearch =
       query.length === 0 ||

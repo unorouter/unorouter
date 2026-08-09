@@ -1,4 +1,4 @@
-import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
+import type { SyncImageEndpoint } from "@/lib/ai/image/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { safeFetchBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";

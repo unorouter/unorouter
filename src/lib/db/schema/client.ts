@@ -4,13 +4,13 @@ import type {
 } from "@/lib/validation/custom-provider";
 import type { TokenizerKind } from "@/lib/ai/chat/tokenizer";
 import type {
-  GenerationFormUi,
-  GenerationParams,
-  GenerationStatus,
+  ImageFormUi,
+  ImageParams,
+  ImageGenerationStatus,
   LoraEntry,
-  PlaygroundVisibility,
+  ImageVisibility,
   ReferenceEntry,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 import { uid } from "@/lib/utils/base";
 import { getTableName, sql } from "drizzle-orm";
 import {
@@ -161,11 +161,11 @@ export const imagePresets = sqliteTable(
     model: text("model").notNull(),
     prompt: text("prompt"),
     negativePrompt: text("negative_prompt"),
-    params: text("params", { mode: "json" }).$type<GenerationParams>(),
+    params: text("params", { mode: "json" }).$type<ImageParams>(),
     loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
     extraParams: text("extra_params", {
       mode: "json",
-    }).$type<GenerationFormUi>(),
+    }).$type<ImageFormUi>(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -223,22 +223,22 @@ export const imageSnapshots = sqliteTable(
     model: text("model").notNull(),
     prompt: text("prompt").notNull(),
     negativePrompt: text("negative_prompt"),
-    params: text("params", { mode: "json" }).$type<GenerationParams>(),
+    params: text("params", { mode: "json" }).$type<ImageParams>(),
     loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
     references: text("references", { mode: "json" }).$type<ReferenceEntry[]>(),
     extraParams: text("extra_params", {
       mode: "json",
-    }).$type<GenerationFormUi>(),
+    }).$type<ImageFormUi>(),
     status: text("status")
       .notNull()
       .default("pending")
-      .$type<GenerationStatus>(),
+      .$type<ImageGenerationStatus>(),
     progress: text("progress"),
     costQuota: integer("cost_quota"),
     visibility: text("visibility")
       .notNull()
       .default("private")
-      .$type<PlaygroundVisibility>(),
+      .$type<ImageVisibility>(),
     flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
     flagReason: text("flag_reason"),
     errorMessage: text("error_message"),

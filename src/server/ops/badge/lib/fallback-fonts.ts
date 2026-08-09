@@ -15,7 +15,15 @@ import type { SatoriOptions } from "satori";
 
 type FallbackFont = NonNullable<SatoriOptions["fonts"]>[number];
 
-const dir = join(process.cwd(), "src", "server", "ops", "badge", "fonts", "fallback");
+const dir = join(
+  process.cwd(),
+  "src",
+  "server",
+  "ops",
+  "badge",
+  "fonts",
+  "fallback",
+);
 
 type ScriptDef = {
   file: string;
@@ -30,9 +38,21 @@ type ScriptDef = {
 const SCRIPTS: ScriptDef[] = [
   { file: "NotoSansJP-Regular.otf", name: "Noto Sans JP", test: /[぀-ヿ]/ }, // kana
   { file: "NotoSansKR-Regular.otf", name: "Noto Sans KR", test: /[가-힣ᄀ-ᇿ]/ }, // hangul
-  { file: "NotoSansSC-Regular.otf", name: "Noto Sans SC", test: /[㐀-鿿豈-﫿]/ }, // han
-  { file: "NotoSansHebrew-Regular.ttf", name: "Noto Sans Hebrew", test: /[֐-׿]/ },
-  { file: "NotoSansDevanagari-Regular.ttf", name: "Noto Sans Devanagari", test: /[ऀ-ॿ]/ },
+  {
+    file: "NotoSansSC-Regular.otf",
+    name: "Noto Sans SC",
+    test: /[㐀-鿿豈-﫿]/,
+  }, // han
+  {
+    file: "NotoSansHebrew-Regular.ttf",
+    name: "Noto Sans Hebrew",
+    test: /[֐-׿]/,
+  },
+  {
+    file: "NotoSansDevanagari-Regular.ttf",
+    name: "Noto Sans Devanagari",
+    test: /[ऀ-ॿ]/,
+  },
 ];
 
 const cache = new Map<string, FallbackFont>();

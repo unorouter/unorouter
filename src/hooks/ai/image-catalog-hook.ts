@@ -3,7 +3,7 @@
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { CatalogSearchQuery } from "@/lib/validation/playground";
+import type { CatalogSearchQuery } from "@/lib/validation/image";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";

@@ -1,9 +1,6 @@
-import type { Built, ExtractedResult } from "@/lib/ai/playground/dispatch";
+import type { Built, ExtractedResult } from "@/lib/ai/image/dispatch";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
-import type {
-  GeneratedImage,
-  PlaygroundSubmitBody,
-} from "@/lib/validation/playground";
+import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { upstreamApiUrl } from "@/server/constants";
 
 // JSON bodies pass VERBATIM: the image client extracts .error.message from them, and
@@ -30,7 +27,7 @@ export type UpstreamSize = { width: number; height: number };
 // A hires pass is the same render at a larger size: the multiplier becomes the
 // requested size and the source rides as init image (re-diffused, not resampled).
 export function sizeOf(
-  params: PlaygroundSubmitBody["params"],
+  params: ImageSubmitBody["params"],
 ): UpstreamSize | undefined {
   const p = params ?? {};
   if (!p.width || !p.height) return undefined;

@@ -162,6 +162,8 @@ export async function showOsBanner(title: string, body: string, tag: string) {
 export async function unsubscribePush(): Promise<void> {
   const sub = await getPushSubscription();
   if (!sub) return;
-  await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(() => undefined);
+  await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(
+    () => undefined,
+  );
   await sub.unsubscribe().catch(() => undefined);
 }

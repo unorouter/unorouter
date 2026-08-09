@@ -1,10 +1,7 @@
 "use client";
 
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type {
-  GenerationFormValues,
-  PlaygroundModel,
-} from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { useSnapshotQuery } from "@/hooks/ai/image-hook";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -12,8 +9,8 @@ import type { UseFormReturn } from "react-hook-form";
 import { defaultsFor } from "./persistence";
 
 type Args = {
-  form: UseFormReturn<GenerationFormValues>;
-  findDescriptor: (id: PlaygroundModel) => PlaygroundModelDescriptor;
+  form: UseFormReturn<ImageFormValues>;
+  findDescriptor: (id: ImageModelId) => ImageModelDescriptor;
 };
 
 /**

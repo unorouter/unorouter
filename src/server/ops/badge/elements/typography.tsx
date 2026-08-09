@@ -22,7 +22,9 @@ export function ShapedSpan(props: {
     return <img src={shaped.src} width={shaped.width} height={shaped.height} />;
   }
   return (
-    <span style={{ fontSize: props.fontSize, color: props.color, ...props.style }}>
+    <span
+      style={{ fontSize: props.fontSize, color: props.color, ...props.style }}
+    >
       {props.text}
     </span>
   );

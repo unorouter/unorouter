@@ -133,7 +133,11 @@ export function ModelsUrlSync() {
         (cur.outputPriceMax ?? PRICE_MAX) >= PRICE_MAX
       )
         next.outputPriceMax = seed.max_output_price;
-      if (seed.max_age_days && seed.max_age_days > 0 && (cur.maxAgeDays ?? 0) === 0)
+      if (
+        seed.max_age_days &&
+        seed.max_age_days > 0 &&
+        (cur.maxAgeDays ?? 0) === 0
+      )
         next.maxAgeDays = seed.max_age_days;
       if (seed.modality && cur.outputModality === "all")
         next.outputModality = seed.modality;

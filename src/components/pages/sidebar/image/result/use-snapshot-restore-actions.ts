@@ -3,7 +3,7 @@
 import type { SnapshotView } from "@/lib/types";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useSetAtom } from "jotai";
-import type { GenerationParams } from "@/lib/validation/playground";
+import type { ImageParams } from "@/lib/validation/image";
 import type { GenerateTab, Img2ImgSubPill } from "../image-nav";
 import { useImageNav } from "../image-nav";
 
@@ -24,8 +24,8 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     tab?: GenerateTab;
     subPill?: Img2ImgSubPill;
     initImageUrl?: string;
-    paramOverrides?: Partial<GenerationParams>;
-    params?: GenerationParams | null;
+    paramOverrides?: Partial<ImageParams>;
+    params?: ImageParams | null;
   }) => {
     if (!data) return;
     setRestore({

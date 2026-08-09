@@ -152,7 +152,7 @@ async function deleteExcluded(
   if (!opts.includeMedia) {
     await drop("media");
   } else if (!opts.includeChats) {
-    // Chats gone but media kept: drop only conversation-scoped media, keep playground media.
+    // Chats gone but media kept: drop only conversation-scoped media, keep image-generation media.
     await drop("media", "conv_id IS NOT NULL");
   }
   return deleted;

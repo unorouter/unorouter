@@ -7,11 +7,7 @@ import {
 } from "@/components/pages/blog/posts";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import {
-  getPageMetadata,
-  notFoundMetadata,
-  ogBadge,
-} from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildArticleSchema,
   buildBreadcrumbListSchema,

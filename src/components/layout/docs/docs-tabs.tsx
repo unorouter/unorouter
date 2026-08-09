@@ -23,7 +23,10 @@ export function DocsTabs() {
   return (
     <div className="border-border bg-background/95 supports-backdrop-filter:bg-background/80 sticky top-12 z-10 border-b backdrop-blur">
       <nav className="flex gap-4 px-4 md:px-6">
-        <PrefetchLink href="/docs/platform" className={tabClass(platformActive)}>
+        <PrefetchLink
+          href="/docs/platform"
+          className={tabClass(platformActive)}
+        >
           {t("DOCS_PLATFORM.COMMON.TAB_PLATFORM")}
         </PrefetchLink>
         <PrefetchLink

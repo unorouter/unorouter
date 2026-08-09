@@ -1,7 +1,4 @@
-import type {
-  CatalogItem,
-  CatalogSearchQuery,
-} from "@/lib/validation/playground";
+import type { CatalogItem, CatalogSearchQuery } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import { runwareTask, type RunwareErrors } from "./runware";
 

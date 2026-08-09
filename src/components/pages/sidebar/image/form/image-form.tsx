@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { Controller } from "react-hook-form";
 import { AspectRatioSection } from "../fields/aspect-ratio-field";
@@ -33,7 +33,7 @@ import { PngImport } from "./png-import";
 import { PresetBar } from "./preset-bar";
 import { SubmitBar } from "./submit-bar";
 import { useCheckpoint } from "./use-checkpoint";
-import { useGenerationForm } from "./use-generation-form";
+import { useImageForm } from "./use-image-form";
 import { useSubmitGeneration } from "./use-submit-generation";
 import { VendorParamsFields } from "./vendor-params-fields";
 
@@ -41,7 +41,7 @@ export function ImageForm() {
   const t = useTranslations();
   const nav = useImageNav();
 
-  const gen = useGenerationForm();
+  const gen = useImageForm();
   const form = gen.form;
   const descriptor = gen.descriptor;
   const checkpoint = useCheckpoint(form);
@@ -244,7 +244,7 @@ export function ImageForm() {
 function VariantsField() {
   const t = useTranslations();
   return (
-    <Controller<GenerationFormValues, "ui.variants">
+    <Controller<ImageFormValues, "ui.variants">
       name="ui.variants"
       render={({ field }) => {
         const variants = clampVariants(field.value);

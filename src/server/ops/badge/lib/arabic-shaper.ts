@@ -67,7 +67,9 @@ function segment(text: string): Run[] {
     const kind: boolean = isArabicChar(ch)
       ? true
       : isNeutralChar(ch)
-        ? (cur ? cur.arabic : true)
+        ? cur
+          ? cur.arabic
+          : true
         : false;
     if (!cur || cur.arabic !== kind) {
       cur = { arabic: kind, text: ch };

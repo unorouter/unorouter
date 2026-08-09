@@ -71,4 +71,3 @@ export async function isMediaModel(model: string) {
     endpointPath,
   };
 }
-

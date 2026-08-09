@@ -1,14 +1,14 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import type { GenerationParams } from "@/lib/validation/playground";
+import type { ImageParams } from "@/lib/validation/image";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 export function ParamsBadge(props: {
   model: string;
-  params: GenerationParams | null;
+  params: ImageParams | null;
 }) {
   const t = useTranslations();
   const p = props.params;

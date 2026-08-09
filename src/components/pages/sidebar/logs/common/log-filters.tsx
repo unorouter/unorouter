@@ -85,7 +85,8 @@ export function LogFilters(props: {
   // is only present in `filters` once set). Drives the Reset button's badge +
   // primary styling, mirroring the models page.
   const dateChanged =
-    (props.filters.start_date != null && props.filters.start_date !== startOfDay) ||
+    (props.filters.start_date != null &&
+      props.filters.start_date !== startOfDay) ||
     (props.filters.end_date != null && props.filters.end_date !== endOfDay);
   const activeFilterCount =
     (dateChanged ? 1 : 0) +

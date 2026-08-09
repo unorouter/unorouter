@@ -1,6 +1,6 @@
 import { isValidAir } from "@/lib/ai/image/constants";
 import { logger } from "@/lib/utils/logger";
-import type { AdetailerParams, LoraEntry } from "@/lib/validation/playground";
+import type { AdetailerParams, LoraEntry } from "@/lib/validation/image";
 import { runwareTask } from "./runware";
 
 const ADETAILER_TIMEOUT_MS = 60_000;

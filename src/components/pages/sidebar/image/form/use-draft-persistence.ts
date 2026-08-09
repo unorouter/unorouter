@@ -1,8 +1,8 @@
 "use client";
 
-import { getModelDescriptor } from "@/lib/ai/playground/models";
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import { getModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
@@ -19,10 +19,10 @@ import {
 const DRAFT_SAVE_DEBOUNCE_MS = 500;
 
 type Args = {
-  form: UseFormReturn<GenerationFormValues>;
+  form: UseFormReturn<ImageFormValues>;
   tab: GenerateTab;
   remixId: string | null;
-  effectiveModels: PlaygroundModelDescriptor[];
+  effectiveModels: ImageModelDescriptor[];
 };
 
 /**

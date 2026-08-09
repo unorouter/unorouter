@@ -4,8 +4,8 @@ import {
   useCivitaiLoraVersionsQuery,
   useLoraCatalogQuery,
 } from "@/hooks/ai/image-catalog-hook";
-import type { ModelFamily } from "@/lib/ai/playground/models";
-import type { CatalogItem, LoraEntry } from "@/lib/validation/playground";
+import type { ModelFamily } from "@/lib/ai/image/models";
+import type { CatalogItem, LoraEntry } from "@/lib/validation/image";
 import { useEffect, useState } from "react";
 import {
   CatalogChainPicker,

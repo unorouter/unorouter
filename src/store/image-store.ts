@@ -3,11 +3,11 @@ import type {
   Img2ImgSubPill,
 } from "@/components/pages/sidebar/image/image-nav";
 import type {
-  GenerationFormUi,
-  GenerationParams,
+  ImageFormUi,
+  ImageParams,
   LoraEntry,
   ReferenceEntry,
-} from "@/lib/validation/playground";
+} from "@/lib/validation/image";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -15,15 +15,15 @@ type SnapshotRestorePayload = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
-  params: GenerationParams | null;
+  params: ImageParams | null;
   loras: LoraEntry[] | null;
   references: ReferenceEntry[] | null;
-  extraParams: GenerationFormUi | null;
+  extraParams: ImageFormUi | null;
   tab?: GenerateTab;
   subPill?: Img2ImgSubPill;
   initImageUrl?: string;
   /** Merged over the snapshot's own params, so a quick action can set the knobs it implies. */
-  paramOverrides?: Partial<GenerationParams>;
+  paramOverrides?: Partial<ImageParams>;
 };
 
 // One-shot mailbox: the form consumes this and clears it, so a remount cannot re-apply a
@@ -45,10 +45,10 @@ export type GenerateDraft = {
   model: string;
   prompt: string;
   negativePrompt: string;
-  params: GenerationParams;
+  params: ImageParams;
   loras?: LoraEntry[];
   references?: ReferenceEntry[];
-  extraParams: GenerationFormUi;
+  extraParams: ImageFormUi;
 };
 
 // getOnInit: the first render must see the draft or the form restores defaults. Safe here
@@ -78,7 +78,7 @@ export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   draftStorageOptions,
 );
 
-type ModelParamsMemory = Record<string, Partial<GenerationParams>>;
+type ModelParamsMemory = Record<string, Partial<ImageParams>>;
 
 // Params last used per model, restored when the model is picked again.
 export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(

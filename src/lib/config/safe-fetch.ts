@@ -10,7 +10,7 @@ import {
 
 // SSRF-safe remote fetch toolkit (extracted from the former config/r2.ts). Used
 // by character-card import, web-bot-auth directory fetch, model-tester verify,
-// model verify-proxy, and playground reference-image fetch. No R2/S3 or DB deps.
+// model verify-proxy, and image-gen reference-image fetch. No R2/S3 or DB deps.
 
 const BLOCKED_HOSTS = new Set([
   "localhost",

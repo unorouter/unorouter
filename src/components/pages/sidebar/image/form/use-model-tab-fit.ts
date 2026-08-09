@@ -1,16 +1,16 @@
 "use client";
 
-import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
-import type { GenerationFormValues } from "@/lib/validation/playground";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageFormValues } from "@/lib/validation/image";
 import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import type { GenerateTab } from "../image-nav";
 import { isModelInTab } from "./mode";
 
 type Args = {
-  form: UseFormReturn<GenerationFormValues>;
+  form: UseFormReturn<ImageFormValues>;
   tab: GenerateTab;
-  effectiveModels: PlaygroundModelDescriptor[];
+  effectiveModels: ImageModelDescriptor[];
   changeModel: (id: string) => void;
   isLoggedIn: boolean;
   remixId: string | null;
