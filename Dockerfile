@@ -1,6 +1,6 @@
-# Pinned: the floating 1-alpine tag resolved to a musl baseline build of Bun
-# that segfaults (SIGILL/SIGTRAP) at the end of next build. Bump deliberately.
-FROM oven/bun:1.2.21-alpine AS builder
+# Pinned: the floating 1-alpine tag can move to a Bun build that segfaults at the
+# end of next build. Bump deliberately, and verify with infra/scripts/build-local.sh.
+FROM oven/bun:1.3.14-alpine AS builder
 WORKDIR /app
 
 COPY package.json ./
