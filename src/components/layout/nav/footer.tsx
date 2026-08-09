@@ -161,6 +161,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://yo.directory",
+    src: "https://assets.yo.directory/badges/yo-directory-featured-dark.svg",
+    name: "Featured on Yo.directory",
+    width: 150,
+  },
+  {
     href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
     src: "https://tools.launchllama.co/featured-badge.png?v=2",
     name: "As seen on Launch Llama Newsletter",
