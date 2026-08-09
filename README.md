@@ -71,12 +71,12 @@ Prereqs: Bun and an upstream `new-api` gateway. `SESSION_SECRET` (>= 32 chars) a
 
 ## Scripts
 
-| Script            | Description                                               |
-| ----------------- | --------------------------------------------------------- |
-| `bun dev:log`     | Dev server (logs to `/tmp/next.log`)                      |
+| Script            | Description                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `bun dev:log`     | Dev server (logs to `/tmp/next.log`)                           |
 | `bun build`       | Production build (prebuild: search index + bundled migrations) |
-| `bun lint`        | ESLint                                                    |
-| `bun typecheck`   | `tsc --noEmit`                                            |
-| `bun prettier`    | Format                                                    |
-| `bun openapi`     | Regen `src/openapi.ts` from upstream                      |
-| `bun db:generate` | Drizzle migrations (server + client) + bundle for SQLocal  |
+| `bun lint`        | ESLint                                                         |
+| `bun typecheck`   | `tsc --noEmit`                                                 |
+| `bun prettier`    | Format                                                         |
+| `bun openapi`     | Regen `src/openapi.ts` from upstream                           |
+| `bun db:generate` | Drizzle migrations (server + client) + bundle for SQLocal      |

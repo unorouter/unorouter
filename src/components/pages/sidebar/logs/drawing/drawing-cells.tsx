@@ -72,7 +72,9 @@ export function DrawingActionCell(props: CellContext<TableFeats, DrawingRow>) {
   );
 }
 
-export function DrawingDurationCell(props: CellContext<TableFeats, DrawingRow>) {
+export function DrawingDurationCell(
+  props: CellContext<TableFeats, DrawingRow>,
+) {
   const log = props.row.original;
   const duration = formatMjDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
@@ -85,7 +87,9 @@ export function DrawingDurationCell(props: CellContext<TableFeats, DrawingRow>) 
   );
 }
 
-export function DrawingProgressCell(props: CellContext<TableFeats, DrawingRow>) {
+export function DrawingProgressCell(
+  props: CellContext<TableFeats, DrawingRow>,
+) {
   const log = props.row.original;
   if (!log.progress) return EMPTY;
   const pct = parseProgress(log.progress);
@@ -134,7 +138,9 @@ export function DrawingPromptCell(props: CellContext<TableFeats, DrawingRow>) {
   );
 }
 
-export function DrawingFailReasonCell(props: CellContext<TableFeats, DrawingRow>) {
+export function DrawingFailReasonCell(
+  props: CellContext<TableFeats, DrawingRow>,
+) {
   const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.fail_reason) return EMPTY;

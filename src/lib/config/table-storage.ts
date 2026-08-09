@@ -24,7 +24,9 @@ export const jotaiCookieStorage = {
   },
 };
 
-export const initialTableStore = (overrides?: Partial<TableState<TableFeats>>) =>
+export const initialTableStore = (
+  overrides?: Partial<TableState<TableFeats>>,
+) =>
   ({
     globalFilter: undefined,
     rowSelection: {},

@@ -224,7 +224,6 @@ jobs:
             secret/data/unorouter-env CLOUDFLARE_ZONE_ID ;
             secret/data/unorouter-env INDEXNOW_KEY
 
-
       - name: Wait for this build to be live
         run: |
           # 40min budget: ArgoCD polls git every ~3min, then the rollout + probes.

@@ -15,10 +15,10 @@ import type { Column, RowData } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 
-interface DataTableColumnHeaderProps<TData extends RowData, TValue> extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "title"
-> {
+interface DataTableColumnHeaderProps<
+  TData extends RowData,
+  TValue,
+> extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   column: Column<TableFeats, TData, TValue>;
   title: TranslationKey;
 }

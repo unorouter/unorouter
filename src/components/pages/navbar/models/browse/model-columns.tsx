@@ -237,8 +237,7 @@ export function buildModelColumns(opts: {
       id: "released",
       accessorFn: (m) => modelReleaseTs(m),
       enableSorting: true,
-      sortFn: (a, b) =>
-        modelReleaseTs(a.original) - modelReleaseTs(b.original),
+      sortFn: (a, b) => modelReleaseTs(a.original) - modelReleaseTs(b.original),
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}

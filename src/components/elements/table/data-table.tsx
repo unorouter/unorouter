@@ -58,9 +58,7 @@ interface DataTableProps<TData extends RowData> {
   getRowCanExpand?: (row: Row<TableFeats, TData>) => boolean;
 }
 
-export function DataTable<TData extends RowData>(
-  props: DataTableProps<TData>,
-) {
+export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
   const tableAtoms = createTableAtoms(props.id, props.tableStore);
 
   const store = useAtomValue(tableAtoms.baseAtom);
