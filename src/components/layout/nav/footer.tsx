@@ -167,6 +167,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://ufind.best/products/unorouter?utm_source=ufind.best",
+    src: "https://ufind.best/badges/ufind-best-badge-light.svg",
+    name: "Featured on ufind.best",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
