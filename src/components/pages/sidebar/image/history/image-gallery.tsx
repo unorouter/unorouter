@@ -55,6 +55,15 @@ function QuickButton(props: {
   );
 }
 
+// The extension must match the actual bytes: Runware serves jpeg/webp, and a
+// jpeg saved as ".png" comes back from an iOS photo roll as a file nothing
+// accepts, including our own img2img upload.
+function imageExt(mimeType: string | null | undefined): string {
+  if (mimeType === "image/jpeg") return "jpg";
+  if (mimeType === "image/webp") return "webp";
+  return "png";
+}
+
 async function downloadGenerationImage(src: string, filename: string) {
   const res = await fetch(src, { cache: "no-cache" });
   if (!res.ok) throw new Error(`fetch ${res.status}`);
@@ -186,7 +195,7 @@ export function BatchGrid(props: {
       <ImageTile
         src={sorted[0].src}
         alt={props.prompt}
-        filename={`${props.snapshotId}.png`}
+        filename={`${props.snapshotId}.${imageExt(sorted[0].mimeType)}`}
         // aspect-square only as fallback: a fill image in a height-less box collapses.
         className={aspectRatioOf(sorted[0]) ? "w-full" : "aspect-square w-full"}
         aspectRatio={aspectRatioOf(sorted[0])}
@@ -205,7 +214,7 @@ export function BatchGrid(props: {
           key={img.sequenceIndex}
           src={img.src}
           alt={`${props.prompt} (${img.sequenceIndex + 1})`}
-          filename={`${props.snapshotId}-${img.sequenceIndex}.png`}
+          filename={`${props.snapshotId}-${img.sequenceIndex}.${imageExt(img.mimeType)}`}
           className="aspect-square"
           seed={img.seed}
           onZoom={() => props.onOpenLightbox(i)}

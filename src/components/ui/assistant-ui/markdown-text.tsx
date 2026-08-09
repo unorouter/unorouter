@@ -341,11 +341,23 @@ const defaultComponents = memoizeMarkdownComponents({
     const showCopyLink = !media.isDataUri;
     const showActions = !!imgSrc && !isAudio;
 
+    // The saved file needs an extension matching the actual bytes: an alt-derived
+    // name like "inlay:x@WxH" (or a wrong extension) makes iOS save a file that
+    // no uploader takes back, including our own img2img.
     const handleDownload = async () => {
       if (!imgSrc) return;
       const res = await fetch(imgSrc, { cache: "no-cache" });
       const blob = await res.blob();
-      downloadBlob(blob, alt || "download");
+      const ext =
+        blob.type === "image/jpeg"
+          ? "jpg"
+          : blob.type === "image/webp"
+            ? "webp"
+            : blob.type === "image/png"
+              ? "png"
+              : (blob.type.split("/")[1] ?? "bin");
+      const base = (inlayMediaId ?? alt ?? "download").replace(/[^\w-]+/g, "-");
+      downloadBlob(blob, `${base}.${ext}`);
     };
 
     const handleCopyLink = () => {
