@@ -12,6 +12,17 @@ export const readLocalMedia = (userId: number | undefined, id: string) =>
 export const deleteLocalMedia = (userId: number | undefined, id: string) =>
   mediaStore.drop(userId, id);
 
+// Backfilled from the browser once a bitmap decodes: nothing upstream reports the
+// rendered size (the gateway clamps, hosted models pick their own), so the rendered
+// image is the only reliable source. Lets the next render reserve the exact box
+// instead of expanding from zero height and shoving the thread down.
+export const setLocalMediaDimensions = (
+  userId: number | undefined,
+  id: string,
+  width: number,
+  height: number,
+) => mediaStore.update(userId, id, { width, height });
+
 export async function upsertLocalMedia(
   userId: number | undefined,
   row: {
@@ -22,6 +33,8 @@ export async function upsertLocalMedia(
     dataBase64?: string | null;
     r2Key?: string | null;
     r2Url?: string | null;
+    width?: number | null;
+    height?: number | null;
     extractedText?: string | null;
     promptText?: string | null;
   },
@@ -41,6 +54,11 @@ export async function upsertLocalMedia(
       dataBase64: row.dataBase64 ?? null,
       r2Key: row.r2Key ?? null,
       r2Url: row.r2Url ?? null,
+      // Only when the caller knows them: an upsert's conflict-set overwrites every
+      // listed column, and most callers re-persist rows whose measured size must survive.
+      ...(row.width != null && row.height != null
+        ? { width: row.width, height: row.height }
+        : {}),
       extractedText: row.extractedText ?? null,
       promptText: row.promptText ?? null,
     });

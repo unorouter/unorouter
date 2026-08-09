@@ -37,5 +37,7 @@ export async function generateInlayImage(
     dataBase64: img.base64,
     mimeType: img.mimeType,
     sizeBytes: img.sizeBytes,
+    width: img.width,
+    height: img.height,
   };
 }

@@ -13,13 +13,23 @@ export type ResolvedMarkdownMedia = {
   inlayMediaId: string | null;
   isDataUri: boolean;
   isAsset: boolean;
+  aspectRatio: number | null;
 };
+
+// `inlay:<id>` optionally carries the decoded size as `inlay:<id>@<w>x<h>`, so the
+// renderer can reserve the exact box before the bitmap decodes. Older tokens (and
+// rows whose size has not been measured yet) simply omit the suffix.
+const INLAY_ALT_RE = /^inlay:([\w-]+)(?:@(\d+)x(\d+))?$/;
 
 export function resolveMarkdownMedia(
   src: string | undefined,
   alt: string | undefined,
 ): ResolvedMarkdownMedia {
-  const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
+  const inlayMatch = alt ? INLAY_ALT_RE.exec(alt) : null;
+  const inlayMediaId = inlayMatch ? inlayMatch[1] : null;
+  const width = inlayMatch?.[2] ? Number(inlayMatch[2]) : 0;
+  const height = inlayMatch?.[3] ? Number(inlayMatch[3]) : 0;
+  const aspectRatio = width > 0 && height > 0 ? width / height : null;
   const isAsset = alt?.startsWith("img:") ?? false;
   const isDataUri = !!src && src.startsWith("data:");
   let kind: MarkdownMediaKind = "image";
@@ -31,7 +41,7 @@ export function resolveMarkdownMedia(
   } else if (src && (src.startsWith("data:audio/") || AUDIO_EXT_RE.test(src))) {
     kind = "audio";
   }
-  return { kind, inlayMediaId, isDataUri, isAsset };
+  return { kind, inlayMediaId, isDataUri, isAsset, aspectRatio };
 }
 
 // react-markdown's default urlTransform strips all data: URLs as an XSS defense;

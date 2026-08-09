@@ -2,6 +2,23 @@ import type { Built, ExtractedResult } from "@/lib/ai/image/dispatch";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { upstreamApiUrl } from "@/server/constants";
+import { loadSharp } from "@/server/sharp-loader";
+
+// Pixel dimensions from the delivered file's header (sharp metadata reads the
+// header, not the bitmap). The request's width/height are not authoritative:
+// the gateway clamps to 1MP and hosted models pick their own size. The client
+// persists these on the media row so renders reserve the exact box instead of
+// growing from zero height when the bitmap decodes (the mid-stream scroll snap).
+export async function probeImageSize(
+  buffer: Buffer,
+): Promise<{ width: number | null; height: number | null }> {
+  try {
+    const meta = await loadSharp()(buffer).metadata();
+    return { width: meta.width ?? null, height: meta.height ?? null };
+  } catch {
+    return { width: null, height: null };
+  }
+}
 
 // JSON bodies pass VERBATIM: the image client extracts .error.message from them, and
 // any prefix makes the string neither plain text nor parseable JSON.
@@ -87,11 +104,14 @@ export async function fetchGeneratedImage(
   seed?: number,
 ): Promise<GeneratedImage> {
   const fetched = await downloadGenerationBytes(uri, apiKey);
+  const size = await probeImageSize(fetched.buffer);
   return {
     resultUrl: uri.startsWith("data:") ? null : uri,
     base64: fetched.buffer.toString("base64"),
     mimeType: fetched.mime,
     sizeBytes: fetched.sizeBytes,
+    width: size.width,
+    height: size.height,
     seed,
   };
 }

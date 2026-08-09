@@ -149,6 +149,8 @@ function makeGenerateImage(
       dataBase64: img.dataBase64,
       r2Key: null,
       r2Url: null,
+      width: img.width,
+      height: img.height,
       promptText: prompt,
     });
     return {
@@ -156,6 +158,8 @@ function makeGenerateImage(
       dataBase64: img.dataBase64,
       mimeType: img.mimeType,
       sizeBytes: img.sizeBytes,
+      width: img.width,
+      height: img.height,
     };
   };
 }

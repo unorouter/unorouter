@@ -46,6 +46,8 @@ async function extractImage(res: Response): Promise<InlayImage> {
       dataBase64: first.b64_json,
       mimeType: "image/png",
       sizeBytes: bytes.length,
+      width: null,
+      height: null,
     };
   }
   if (first?.url) {
@@ -59,6 +61,8 @@ async function extractImage(res: Response): Promise<InlayImage> {
         imgRes.headers.get("content-type")?.split(";")[0]?.trim() ||
         "image/png",
       sizeBytes: buf.length,
+      width: null,
+      height: null,
     };
   }
   throw new Error("Image response contained no image");

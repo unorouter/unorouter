@@ -235,6 +235,11 @@ export const generatedImage = t.Object({
   base64: t.String(),
   mimeType: t.String(),
   sizeBytes: t.Integer(),
+  // Probed from the delivered bytes, not echoed from the request: the gateway
+  // clamps to 1MP and hosted models pick their own size, so only the file knows.
+  // Null when the header probe fails on an exotic format.
+  width: t.Union([t.Integer(), t.Null()]),
+  height: t.Union([t.Integer(), t.Null()]),
   // Diffusion backends pick a seed when the request omits one. Per image, not per
   // snapshot: a batch gets a different seed for each result.
   seed: t.Optional(t.Integer()),

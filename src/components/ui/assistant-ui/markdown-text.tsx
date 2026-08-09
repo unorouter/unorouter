@@ -17,8 +17,10 @@ import {
 } from "@/lib/db/client/data/media/img-render";
 import {
   inlayVersionAtom,
+  rememberInlayDimensions,
   replaceInlayTokens,
 } from "@/lib/db/client/data/media/inlay-render";
+import { setLocalMediaDimensions } from "@/lib/db/client/data/media/media";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
 import { useAuiState } from "@assistant-ui/react";
@@ -31,7 +33,7 @@ import {
 import "@assistant-ui/react-markdown/styles/dot.css";
 import { atom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { type FC, useEffect, useState } from "react";
+import { type FC, type SyntheticEvent, useEffect, useState } from "react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
@@ -351,6 +353,26 @@ const defaultComponents = memoizeMarkdownComponents({
       copyToClipboard(imgSrc);
     };
 
+    // A zero-height image that pops to full size on decode grows the thread under
+    // the reader, and the viewport's bottom-pin reads that as the user scrolling
+    // away mid-stream. Generated media rows carry probed dimensions from birth
+    // (the alt token rides them in as `@WxH`), so the box is reserved exactly.
+    // Rows persisted before the probe existed are measured here once and
+    // backfilled; only their first-ever view falls back to a square box.
+    const userId = useLocalUserId();
+    const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+      const el = e.currentTarget;
+      if (media.aspectRatio || !inlayMediaId) return;
+      if (!el.naturalWidth || !el.naturalHeight) return;
+      rememberInlayDimensions(inlayMediaId, el.naturalWidth, el.naturalHeight);
+      void setLocalMediaDimensions(
+        userId,
+        inlayMediaId,
+        el.naturalWidth,
+        el.naturalHeight,
+      ).catch(() => {});
+    };
+
     return (
       <span className="group/img relative my-2 block first:mt-0 last:mb-0">
         {isAudio ? (
@@ -364,6 +386,10 @@ const defaultComponents = memoizeMarkdownComponents({
             title={title}
             width={0}
             height={0}
+            onLoad={handleLoad}
+            style={
+              inlayMediaId ? { aspectRatio: media.aspectRatio ?? 1 } : undefined
+            }
             // Chat media are inline base64 data URIs, so next/image cannot
             // optimize them: the browser decodes the FULL-resolution bitmap
             // (width x height x 4 bytes, independent of the encoded size), and
@@ -376,7 +402,12 @@ const defaultComponents = memoizeMarkdownComponents({
             loading="lazy"
             decoding="async"
             data-asset={media.isAsset ? "" : undefined}
-            className="h-auto w-auto max-w-full rounded-lg"
+            className={cn(
+              "max-w-full rounded-lg",
+              // Generated images fill the column so the reserved aspect-ratio box
+              // drives height; author assets keep their natural size.
+              inlayMediaId ? "h-auto w-full" : "h-auto w-auto",
+            )}
           />
         ) : null}
         {showActions && (

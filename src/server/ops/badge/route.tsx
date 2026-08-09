@@ -13,7 +13,7 @@ import {
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
 import { findBadgeModel, getPricingData, getStats } from "./lib/cache";
-import { loadSharp } from "./lib/sharp-loader";
+import { loadSharp } from "@/server/sharp-loader";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { AllPage, type PreviewGroup } from "./templates/all-page";

@@ -10,13 +10,27 @@ import {
 
 export const inlayVersionAtom = atom(0);
 
-const cache = new Map<string, string>();
+type InlayEntry = { src: string; width: number | null; height: number | null };
+
+const cache = new Map<string, InlayEntry>();
 const pending = new Set<string>();
 
 export const INLAY_TOKEN_RE = /\{\{inlay::([\w-]+)\}\}/g;
 
 export function getInlaySrc(id: string): string | undefined {
-  return cache.get(id);
+  return cache.get(id)?.src;
+}
+
+// The renderer measures a bitmap the first time it decodes and writes the size back
+// here, so every later render of the same image reserves its box up front.
+export function rememberInlayDimensions(
+  id: string,
+  width: number,
+  height: number,
+): void {
+  const hit = cache.get(id);
+  if (!hit || !hit.src || (hit.width && hit.height)) return;
+  cache.set(id, { ...hit, width, height });
 }
 
 // Bumping the version atom re-runs the full markdown pipeline for every message
@@ -45,7 +59,11 @@ export function requestInlay(userId: number, id: string): void {
         (row?.dataBase64
           ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
           : (row?.r2Url ?? null)) ?? "";
-      cache.set(id, src);
+      cache.set(id, {
+        src,
+        width: row?.width ?? null,
+        height: row?.height ?? null,
+      });
       scheduleBump();
     })
     .finally(() => pending.delete(id));
@@ -59,11 +77,13 @@ export function invalidateInlay(id: string): void {
 
 export function replaceInlayTokens(text: string, userId: number): string {
   return text.replace(INLAY_TOKEN_RE, (_m, id: string) => {
-    const src = getInlaySrc(id);
-    if (src === undefined) {
+    const hit = cache.get(id);
+    if (hit === undefined) {
       requestInlay(userId, id);
       return "";
     }
-    return src ? `![inlay:${id}](${src})` : "";
+    if (!hit.src) return "";
+    const size = hit.width && hit.height ? `@${hit.width}x${hit.height}` : "";
+    return `![inlay:${id}${size}](${hit.src})`;
   });
 }

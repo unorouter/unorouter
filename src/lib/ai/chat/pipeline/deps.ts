@@ -9,6 +9,8 @@ export type InlayImage = {
   dataBase64: string;
   mimeType: string;
   sizeBytes: number;
+  width: number | null;
+  height: number | null;
 };
 
 export type WebSearchResolution = {

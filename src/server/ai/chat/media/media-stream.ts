@@ -17,6 +17,7 @@ import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import {
   postImageRequest,
+  probeImageSize,
   UpstreamImageError,
   type UpstreamImageResponse,
 } from "@/server/ai/image/upstream";
@@ -402,11 +403,16 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
                   return { base64: buffer.toString("base64"), mime };
                 })();
             if (!parsed) return null;
+            const size = await probeImageSize(
+              Buffer.from(parsed.base64, "base64"),
+            );
             return {
               id: uid(16),
               dataBase64: parsed.base64,
               mimeType: parsed.mime,
               sizeBytes: Math.floor((parsed.base64.length * 3) / 4),
+              width: size.width,
+              height: size.height,
             };
           } catch (err) {
             logger.warn("image download to base64 failed", {

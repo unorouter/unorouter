@@ -7,6 +7,7 @@ import {
   walkActiveBranch,
 } from "@/lib/ai/chat/messages";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
+import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import {
   readConvRegexScripts,
   readConvTriggers,
@@ -261,7 +262,13 @@ async function persistInlayMedia(
       dataBase64: m.dataBase64,
       r2Key: null,
       r2Url: null,
+      width: m.width,
+      height: m.height,
     });
+    // The streamed part renders before this persist runs, so the token resolver
+    // has already cached its resolved-empty marker for the missing row. Drop it
+    // now that the row exists, else the image stays blank until a reload.
+    invalidateInlay(m.id);
   }
 }
 
