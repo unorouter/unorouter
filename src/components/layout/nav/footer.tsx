@@ -113,9 +113,9 @@ const FOOTER_BADGES: {
     width: 153,
   },
   {
-    href: "https://launchbuff.com/products/unorouter-ratcls",
-    src: "/badges/launchbuff.svg",
-    name: "LaunchBuff",
+    href: "https://launchbuff.com",
+    src: "https://launchbuff.com/badge-featured-dark.svg",
+    name: "Featured on LaunchBuff",
     width: 160,
   },
   {
