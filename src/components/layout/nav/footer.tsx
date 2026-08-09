@@ -83,12 +83,6 @@ const FOOTER_BADGES: {
     width: 182,
   },
   {
-    href: "https://turbo0.com/item/unorouter",
-    src: "/badges/turbo0.svg",
-    name: "Turbo0",
-    width: 72,
-  },
-  {
     href: "https://codetrendy.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/codetrendy.svg",
     name: "CodeTrendy",
@@ -107,12 +101,6 @@ const FOOTER_BADGES: {
     width: 181,
   },
   {
-    href: "https://launchboosts.com/project/unorouter",
-    src: "/badges/launchboosts.svg",
-    name: "LaunchBoosts",
-    width: 153,
-  },
-  {
     href: "https://launchbuff.com",
     src: "https://launchbuff.com/badge-featured-dark.svg",
     name: "Featured on LaunchBuff",
@@ -122,12 +110,6 @@ const FOOTER_BADGES: {
     href: "https://ufind.best/products/unorouter?utm_source=ufind.best",
     src: "/badges/ufind.svg",
     name: "ufind.best",
-    width: 139,
-  },
-  {
-    href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
-    src: "https://neeed.directory/badges/neeed-badge-light.svg",
-    name: "Neeed Directory",
     width: 139,
   },
   {
@@ -197,12 +179,6 @@ const FOOTER_BADGES: {
     width: 110,
   },
   {
-    href: "https://huzzler.so/products/colhB77fuA/unorouter?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=badge",
-    src: "/badges/huzzler.png",
-    name: "Huzzler",
-    width: 81,
-  },
-  {
     href: "https://postmake.io",
     src: "/badges/postmake.png",
     name: "Postmake",
@@ -231,12 +207,6 @@ const FOOTER_BADGES: {
     src: "https://statics.startupbase.io/site/badges/launched-on-sb.svg",
     name: "StartupBase",
     width: 132,
-  },
-  {
-    href: "https://findyoursaas.com/tool/unorouter",
-    src: "/badges/findyoursaas.png",
-    name: "FindYourSaaS",
-    width: 24,
   },
   {
     href: "https://openhunts.com",
