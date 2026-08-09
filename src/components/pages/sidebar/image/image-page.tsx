@@ -5,7 +5,7 @@ import { ImageResult } from "@/components/pages/sidebar/image/image-result";
 import {
   Img2ImgSubPills,
   ModeTabs,
-} from "@/components/pages/sidebar/image/form/mode-tabs";
+} from "@/components/pages/sidebar/image/form/sections/mode-tabs";
 import { RecentStrip } from "@/components/pages/sidebar/image/history/recent-strip";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { useTranslations } from "next-intl";

@@ -11,7 +11,7 @@ import type { ImageFormValues } from "@/lib/validation/image";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { patchParams } from "../form/form-helpers";
+import { patchParams } from "../form/logic/form-helpers";
 
 // Connected wrapper: subscribes to its own params so size changes do not re-render the
 // form root.

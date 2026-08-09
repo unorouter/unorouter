@@ -4,8 +4,8 @@ import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { GenerateTab } from "../image-nav";
-import { isModelInTab } from "./mode";
+import type { GenerateTab } from "../../image-nav";
+import { isModelInTab } from "../logic/mode";
 
 type Args = {
   form: UseFormReturn<ImageFormValues>;

@@ -6,7 +6,7 @@ import { useSnapshotQuery } from "@/hooks/ai/image-hook";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import { defaultsFor } from "./persistence";
+import { defaultsFor } from "../logic/persistence";
 
 type Args = {
   form: UseFormReturn<ImageFormValues>;

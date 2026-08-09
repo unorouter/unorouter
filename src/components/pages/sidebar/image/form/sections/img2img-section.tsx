@@ -3,15 +3,15 @@
 import dynamic from "next/dynamic";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useFormContext, useWatch } from "react-hook-form";
-import { InitImageField } from "../fields/init-image-field";
-import { InpaintSettings } from "../fields/inpaint-settings";
-import { useImageNav } from "../image-nav";
-import { patchParams } from "./form-helpers";
+import { InitImageField } from "../../fields/init-image-field";
+import { InpaintSettings } from "../../fields/inpaint-settings";
+import { useImageNav } from "../../image-nav";
+import { patchParams } from "../logic/form-helpers";
 
 // react-canvas-masker touches the DOM at module scope, so the canvas cannot render on
 // the server and is only pulled in when the inpaint mode is actually opened.
 const InpaintCanvas = dynamic(
-  () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
+  () => import("../../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
   { ssr: false },
 );
 

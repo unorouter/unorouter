@@ -6,8 +6,8 @@ import {
   text2imgDraftAtom,
   type GenerateDraft,
 } from "@/store/image-store";
-import type { GenerateTab } from "../image-nav";
-import { INITIAL_MODEL } from "../image-constants";
+import type { GenerateTab } from "../../image-nav";
+import { INITIAL_MODEL } from "../../image-constants";
 
 export function defaultsFor(d: ImageModelDescriptor): ImageFormValues {
   return {

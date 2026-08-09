@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 
 import { CivitaiResolverField } from "./civitai-resolver-field";
-import type { CustomCheckpoint } from "../form/model-picker";
+import type { CustomCheckpoint } from "../form/sections/model-picker";
 
 /**
  * Overrides for the manual inpaint pass, rendered next to the mask canvas; empty fields

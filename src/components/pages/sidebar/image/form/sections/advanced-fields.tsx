@@ -15,14 +15,14 @@ import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
-import { AdetailerSection } from "../fields/adetailer-section";
+import { AdetailerSection } from "../../fields/adetailer-section";
 import {
   CatalogChainPicker,
   familyToArchitecture,
-} from "../fields/catalog-chain-picker";
-import { LabeledSlider } from "../fields/labeled-slider";
-import { UpscalerField } from "../fields/upscaler-field";
-import { VAES } from "../image-constants";
+} from "../../fields/catalog-chain-picker";
+import { LabeledSlider } from "../../fields/labeled-slider";
+import { UpscalerField } from "../../fields/upscaler-field";
+import { VAES } from "../../image-constants";
 
 type Props = {
   form: UseFormReturn<ImageFormValues>;

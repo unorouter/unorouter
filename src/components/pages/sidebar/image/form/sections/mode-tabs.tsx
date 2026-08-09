@@ -12,7 +12,7 @@ import {
   useImageNav,
   type GenerateTab,
   type Img2ImgSubPill,
-} from "../image-nav";
+} from "../../image-nav";
 
 const TABS: ReadonlyArray<{
   id: GenerateTab;

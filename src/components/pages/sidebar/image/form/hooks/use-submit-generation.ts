@@ -5,11 +5,11 @@ import { useSubmitGenerationMutation } from "@/hooks/ai/image-hook";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useRouter } from "@/i18n/navigation";
 import type { UseFormReturn } from "react-hook-form";
-import { useImageNav } from "../image-nav";
-import { INITIAL_MODEL } from "../image-constants";
-import { deriveMode } from "./mode";
-import type { CustomCheckpoint } from "./model-picker";
-import { toSubmitBody } from "./submit-transform";
+import { useImageNav } from "../../image-nav";
+import { INITIAL_MODEL } from "../../image-constants";
+import { deriveMode } from "../logic/mode";
+import type { CustomCheckpoint } from "../sections/model-picker";
+import { toSubmitBody } from "../logic/submit-transform";
 
 type Args = {
   form: UseFormReturn<ImageFormValues>;

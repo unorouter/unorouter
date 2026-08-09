@@ -17,7 +17,7 @@ import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import type { UseFormReturn } from "react-hook-form";
-import { SelectParamField, SliderParamField } from "./param-fields";
+import { SelectParamField, SliderParamField } from "../../fields/param-fields";
 
 type Props = {
   form: UseFormReturn<ImageFormValues>;

@@ -6,7 +6,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { CollapsibleSection } from "../fields/collapsible-section";
+import { CollapsibleSection } from "../../fields/collapsible-section";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useWatch, type UseFormReturn } from "react-hook-form";
-import { SeedField, SliderParamField } from "./param-fields";
+import { SeedField, SliderParamField } from "../../fields/param-fields";
 
 type Props = {
   form: UseFormReturn<ImageFormValues>;

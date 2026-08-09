@@ -1,6 +1,6 @@
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageMode } from "@/lib/validation/image";
-import type { GenerateTab, Img2ImgSubPill } from "../image-nav";
+import type { GenerateTab, Img2ImgSubPill } from "../../image-nav";
 
 export function deriveMode(
   tab: GenerateTab,

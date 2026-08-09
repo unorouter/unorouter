@@ -6,7 +6,7 @@ import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import { defaultsFor } from "./persistence";
+import { defaultsFor } from "../logic/persistence";
 
 type Args = {
   form: UseFormReturn<ImageFormValues>;

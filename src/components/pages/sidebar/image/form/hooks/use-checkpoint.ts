@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import type { ImageFormValues } from "@/lib/validation/image";
-import type { CustomCheckpoint } from "./model-picker";
+import type { CustomCheckpoint } from "../sections/model-picker";
 
 /**
  * The selected passthrough checkpoint. ui.air* is the single source of truth: it

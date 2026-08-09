@@ -19,7 +19,7 @@ import {
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useFormContext, type Control, type FieldPath } from "react-hook-form";
-import { LabeledSlider } from "../fields/labeled-slider";
+import { LabeledSlider } from "./labeled-slider";
 
 type NumberParamPath = FieldPath<ImageFormValues>;
 

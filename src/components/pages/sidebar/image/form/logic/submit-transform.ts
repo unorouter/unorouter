@@ -1,5 +1,5 @@
 import { blobUrlToDataUri } from "@/lib/db/client/data/media/blob-url";
-import { CUSTOM_CIVITAI_MODEL_ID, clampVariants } from "../image-constants";
+import { CUSTOM_CIVITAI_MODEL_ID, clampVariants } from "../../image-constants";
 import type {
   ImageFormValues,
   ImageMode,

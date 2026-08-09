@@ -6,15 +6,15 @@ import type { ImageFormValues } from "@/lib/validation/image";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import type { GenerateTab } from "../image-nav";
-import { INITIAL_MODEL } from "../image-constants";
-import { isModelInTab } from "./mode";
+import type { GenerateTab } from "../../image-nav";
+import { INITIAL_MODEL } from "../../image-constants";
+import { isModelInTab } from "../logic/mode";
 import {
   defaultsFor,
   draftAtomFor,
   draftFromForm,
   formValuesFromDraft,
-} from "./persistence";
+} from "../logic/persistence";
 
 const DRAFT_SAVE_DEBOUNCE_MS = 500;
 

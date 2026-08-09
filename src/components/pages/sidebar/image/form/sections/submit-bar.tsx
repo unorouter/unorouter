@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useFormContext, useWatch } from "react-hook-form";
-import { clampVariants } from "../image-constants";
-import { useImageNav } from "../image-nav";
+import { clampVariants } from "../../image-constants";
+import { useImageNav } from "../../image-nav";
 
 type Props = {
   descriptor: ImageModelDescriptor;

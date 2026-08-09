@@ -6,7 +6,7 @@ import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { patchParams } from "./form-helpers";
+import { patchParams } from "../logic/form-helpers";
 
 const PNG_SIGNATURE = [137, 80, 78, 71, 13, 10, 26, 10] as const;
 

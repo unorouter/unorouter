@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useCivitaiVersionsMutation } from "@/hooks/ai/image-catalog-hook";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import type { CustomCheckpoint } from "../form/model-picker";
+import type { CustomCheckpoint } from "../form/sections/model-picker";
 
 type Props = {
   value: CustomCheckpoint | null;

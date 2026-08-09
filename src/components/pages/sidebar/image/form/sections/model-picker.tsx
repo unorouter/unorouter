@@ -23,7 +23,7 @@ import {
   dollarsToQuota,
   renderQuota,
 } from "@/lib/config/constants";
-import type { GenerateTab } from "../image-nav";
+import type { GenerateTab } from "../../image-nav";
 import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";

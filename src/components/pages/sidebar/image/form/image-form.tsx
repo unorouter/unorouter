@@ -24,18 +24,18 @@ import {
   VARIANT_CHOICES,
 } from "../image-constants";
 import { useImageNav } from "../image-nav";
-import { AdvancedFields } from "./advanced-fields";
-import { applyPreset } from "./apply-preset";
-import { CoreParamsFields } from "./core-params-fields";
-import { Img2ImgSection } from "./img2img-section";
-import { ModelPicker } from "./model-picker";
-import { PngImport } from "./png-import";
-import { PresetBar } from "./preset-bar";
-import { SubmitBar } from "./submit-bar";
-import { useCheckpoint } from "./use-checkpoint";
-import { useImageForm } from "./use-image-form";
-import { useSubmitGeneration } from "./use-submit-generation";
-import { VendorParamsFields } from "./vendor-params-fields";
+import { AdvancedFields } from "./sections/advanced-fields";
+import { applyPreset } from "./logic/apply-preset";
+import { CoreParamsFields } from "./sections/core-params-fields";
+import { Img2ImgSection } from "./sections/img2img-section";
+import { ModelPicker } from "./sections/model-picker";
+import { PngImport } from "./sections/png-import";
+import { PresetBar } from "./sections/preset-bar";
+import { SubmitBar } from "./sections/submit-bar";
+import { useCheckpoint } from "./hooks/use-checkpoint";
+import { useImageForm } from "./hooks/use-image-form";
+import { useSubmitGeneration } from "./hooks/use-submit-generation";
+import { VendorParamsFields } from "./sections/vendor-params-fields";
 
 export function ImageForm() {
   const t = useTranslations();
