@@ -161,6 +161,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://firstlook.tools",
+    src: "https://firstlook.tools/badge/badge_dark.svg",
+    name: "Featured on First Look",
+    width: 150,
+  },
+  {
     href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
     src: "https://tools.launchllama.co/featured-badge.png?v=2",
     name: "As seen on Launch Llama Newsletter",
