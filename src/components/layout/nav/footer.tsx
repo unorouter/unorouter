@@ -173,6 +173,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://roozna.com/project/unorouter",
+    src: "https://roozna.com/api/badge/unorouter",
+    name: "Featured on Roozna",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
