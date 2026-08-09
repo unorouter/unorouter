@@ -66,7 +66,6 @@ import {
   ThreadPrimitive,
   useAui,
   useAuiState,
-  useThreadRuntime,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
@@ -310,7 +309,7 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerContinueButton: FC = () => {
   const t = useTranslations();
-  const threadRuntime = useThreadRuntime();
+  const threadRuntime = useAui().thread;
   const hasMessages = useAuiState((s) => s.thread.messages.length > 0);
   const isRunning = useAuiState((s) => s.thread.isRunning);
   if (!hasMessages || isRunning) return null;
@@ -328,7 +327,7 @@ const ComposerContinueButton: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
-  const threadRuntime = useThreadRuntime();
+  const threadRuntime = useAui().thread;
   const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
   const lastIsUser = useAuiState(
     (s) => s.thread.messages.at(-1)?.role === "user",

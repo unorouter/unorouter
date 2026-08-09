@@ -6,6 +6,7 @@ import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -56,7 +57,7 @@ export function TaskLogs() {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }
 
-  const columns: ColumnDef<TaskRow>[] = [
+  const columns: ColumnDef<TableFeats, TaskRow>[] = [
     {
       accessorKey: "submit_time",
       meta: { title: msg("LOGS.TASK.SUBMIT_TIME") },

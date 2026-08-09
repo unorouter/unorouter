@@ -27,6 +27,7 @@ import {
   formatTokens,
 } from "@/lib/utils/format/number";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
@@ -88,7 +89,7 @@ export function buildModelColumns(opts: {
   offLabel: (pct: number) => string;
   freeLabel: string;
   flatNoParamsLabel: string;
-}): ColumnDef<ProcessedModel>[] {
+}): ColumnDef<TableFeats, ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
   const ctxOf = (m: ProcessedModel) =>
@@ -236,7 +237,7 @@ export function buildModelColumns(opts: {
       id: "released",
       accessorFn: (m) => modelReleaseTs(m),
       enableSorting: true,
-      sortingFn: (a, b) =>
+      sortFn: (a, b) =>
         modelReleaseTs(a.original) - modelReleaseTs(b.original),
       header: ({ column }) => (
         <DataTableColumnHeader

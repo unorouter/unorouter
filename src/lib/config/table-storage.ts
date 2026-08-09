@@ -1,6 +1,7 @@
 import type { StoreId } from "@/lib/types/enums";
 import { isServer } from "@tanstack/react-query";
 import type { TableState } from "@tanstack/react-table";
+import type { TableFeats } from "./table-features";
 import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { COOKIE_MAX_AGE } from "./constants";
@@ -23,7 +24,7 @@ export const jotaiCookieStorage = {
   },
 };
 
-export const initialTableStore = (overrides?: Partial<TableState>) =>
+export const initialTableStore = (overrides?: Partial<TableState<TableFeats>>) =>
   ({
     globalFilter: undefined,
     rowSelection: {},
@@ -32,9 +33,9 @@ export const initialTableStore = (overrides?: Partial<TableState>) =>
     sorting: [],
     pagination: { pageIndex: 0, pageSize: 10 },
     ...overrides,
-  }) satisfies Partial<TableState>;
+  }) satisfies Partial<TableState<TableFeats>>;
 
-export const loadDataFromCookie = <T = TableState>(
+export const loadDataFromCookie = <T = TableState<TableFeats>>(
   id: StoreId,
   cookie?: ReadonlyRequestCookies,
 ): T | undefined => {

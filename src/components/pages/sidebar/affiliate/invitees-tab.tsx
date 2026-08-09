@@ -8,6 +8,7 @@ import { DataTableId } from "@/lib/types/enums";
 import type { InvitedUser } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 
@@ -25,7 +26,7 @@ export function InviteesTab() {
   const invitees = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<InvitedUser>[] = [
+  const columns: ColumnDef<TableFeats, InvitedUser>[] = [
     {
       accessorKey: "username",
       header: t("AFFILIATE.TABLE.USER"),

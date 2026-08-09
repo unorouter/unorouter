@@ -12,6 +12,7 @@ import { msg, renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -76,7 +77,7 @@ export function UsageLogs() {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }
 
-  const columns: ColumnDef<LogRow>[] = [
+  const columns: ColumnDef<TableFeats, LogRow>[] = [
     {
       id: "expand",
       header: "",

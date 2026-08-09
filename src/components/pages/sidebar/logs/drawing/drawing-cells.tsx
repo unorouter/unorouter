@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import type { CellContext } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import {
@@ -28,7 +29,7 @@ export const DrawingDialogContext = createContext<{
   openFailReason: (row: DrawingRow) => void;
 } | null>(null);
 
-export function DrawingTimeCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingTimeCell(props: CellContext<TableFeats, DrawingRow>) {
   const t = useTranslations();
   const log = props.row.original;
   const statusColor = getMjStatusColor(log.status);
@@ -52,13 +53,13 @@ export function DrawingTimeCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingMjIdCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingMjIdCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   if (!log.mj_id) return EMPTY;
   return <CopyIdButton id={log.mj_id} maxWidth="max-w-40" />;
 }
 
-export function DrawingActionCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingActionCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   if (!log.action) return EMPTY;
   return (
@@ -71,7 +72,7 @@ export function DrawingActionCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingDurationCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingDurationCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   const duration = formatMjDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
@@ -84,7 +85,7 @@ export function DrawingDurationCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingProgressCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingProgressCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   if (!log.progress) return EMPTY;
   const pct = parseProgress(log.progress);
@@ -95,13 +96,13 @@ export function DrawingProgressCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingChannelCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingChannelCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   if (!log.channel_id) return EMPTY;
   return <ChannelCode channelId={log.channel_id} />;
 }
 
-export function DrawingImageCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingImageCell(props: CellContext<TableFeats, DrawingRow>) {
   const t = useTranslations();
   const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
@@ -118,7 +119,7 @@ export function DrawingImageCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingPromptCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingPromptCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.prompt) return EMPTY;
@@ -133,7 +134,7 @@ export function DrawingPromptCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingFailReasonCell(props: CellContext<DrawingRow, unknown>) {
+export function DrawingFailReasonCell(props: CellContext<TableFeats, DrawingRow>) {
   const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.fail_reason) return EMPTY;

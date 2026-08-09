@@ -24,6 +24,7 @@ import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import type { Token } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { formatLongDate } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -35,7 +36,7 @@ export type TokenRow = NonNullable<Token>;
 
 const MODEL_PREVIEW_CAP = 12;
 
-export function TokenStatusCell(props: CellContext<TokenRow, unknown>) {
+export function TokenStatusCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const isEnabled = props.row.original.status === 1;
   return (
@@ -48,7 +49,7 @@ export function TokenStatusCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenQuotaCell(props: CellContext<TokenRow, unknown>) {
+export function TokenQuotaCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   return (
     <span className="font-mono text-sm tabular-nums">
@@ -59,7 +60,7 @@ export function TokenQuotaCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenKeyCell(props: CellContext<TokenRow, unknown>) {
+export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
@@ -150,7 +151,7 @@ export function TokenKeyCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenGroupCell(props: CellContext<TokenRow, unknown>) {
+export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
   const pricingQuery = usePricingQuery();
@@ -215,7 +216,7 @@ export function TokenGroupCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
+export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
   const pricingQuery = usePricingQuery();
@@ -276,7 +277,7 @@ export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
+export function TokenActionCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const setEditingToken = useSetAtom(editingTokenAtom);
   const toggleMutation = useToggleTokenStatusMutation();
@@ -341,7 +342,7 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
   return <DataTableRowActions row={props.row} actions={actions} />;
 }
 
-export function TokenDateCell(props: CellContext<TokenRow, unknown>) {
+export function TokenDateCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const value =
     props.row.original[props.column.id as "created_time" | "expired_time"];

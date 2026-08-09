@@ -15,6 +15,7 @@ import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
 import type { CellContext } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { createContext, useContext, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -85,7 +86,7 @@ function LogTypePill(props: { type: number }) {
   );
 }
 
-export function LogTimeCell(props: CellContext<LogRow, unknown>) {
+export function LogTimeCell(props: CellContext<TableFeats, LogRow>) {
   return (
     <StackedCell
       primary={
@@ -98,7 +99,7 @@ export function LogTimeCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogChannelCell(props: CellContext<LogRow, unknown>) {
+export function LogChannelCell(props: CellContext<TableFeats, LogRow>) {
   const log = props.row.original;
   if (!log.channel) {
     return LOG_EMPTY;
@@ -126,7 +127,7 @@ export function LogChannelCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogUserCell(props: CellContext<LogRow, unknown>) {
+export function LogUserCell(props: CellContext<TableFeats, LogRow>) {
   const log = props.row.original;
   if (!log.username) {
     return LOG_EMPTY;
@@ -144,7 +145,7 @@ export function LogUserCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogModelCell(props: CellContext<LogRow, unknown>) {
+export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (!isConsumeLike(log.type) || !log.model_name) {
@@ -190,7 +191,7 @@ export function LogModelCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogTokenNameCell(props: CellContext<LogRow, unknown>) {
+export function LogTokenNameCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (!isConsumeLike(log.type) || !log.token_name) {
@@ -234,7 +235,7 @@ export function LogTokenNameCell(props: CellContext<LogRow, unknown>) {
   return <StackedCell primary={primary} secondary={secondary} />;
 }
 
-export function LogTokensCell(props: CellContext<LogRow, unknown>) {
+export function LogTokensCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (!isConsumeLike(log.type)) {
@@ -268,7 +269,7 @@ export function LogTokensCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogTimingCell(props: CellContext<LogRow, unknown>) {
+export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (
@@ -327,7 +328,7 @@ export function LogTimingCell(props: CellContext<LogRow, unknown>) {
   return <StackedCell primary={primary} secondary={secondary} />;
 }
 
-export function LogSpendCell(props: CellContext<LogRow, unknown>) {
+export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (!isConsumeLike(log.type)) {
@@ -384,7 +385,7 @@ export function LogSpendCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogPricingDetailsCell(props: CellContext<LogRow, unknown>) {
+export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
   const other = parseOther(log.other);
@@ -481,7 +482,7 @@ export function LogPricingDetailsCell(props: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogExpandToggleCell(props: CellContext<LogRow, unknown>) {
+export function LogExpandToggleCell(props: CellContext<TableFeats, LogRow>) {
   if (!props.row.getCanExpand()) return null;
   return (
     <Icon

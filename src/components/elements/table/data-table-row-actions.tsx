@@ -9,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { TranslationKey } from "@/lib/config/constants";
-import type { Row } from "@tanstack/react-table";
+import type { Row, RowData } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/icon";
@@ -24,13 +25,13 @@ export type RowAction = {
   separator?: boolean;
 };
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
+interface DataTableRowActionsProps<TData extends RowData> {
+  row: Row<TableFeats, TData>;
   actions: RowAction[];
   align?: "start" | "end";
 }
 
-export function DataTableRowActions<TData>(
+export function DataTableRowActions<TData extends RowData>(
   props: DataTableRowActionsProps<TData>,
 ) {
   const t = useTranslations();

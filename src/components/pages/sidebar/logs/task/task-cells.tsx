@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import type { CellContext } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import {
@@ -33,7 +34,7 @@ export const TaskDialogContext = createContext<{
   openAudio: (row: TaskRow) => void;
 } | null>(null);
 
-export function TaskTimeCell(props: CellContext<TaskRow, unknown>) {
+export function TaskTimeCell(props: CellContext<TableFeats, TaskRow>) {
   const log = props.row.original;
   return (
     <StackedCell
@@ -47,13 +48,13 @@ export function TaskTimeCell(props: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskChannelCell(props: CellContext<TaskRow, unknown>) {
+export function TaskChannelCell(props: CellContext<TableFeats, TaskRow>) {
   const log = props.row.original;
   if (!log.channel_id) return EMPTY;
   return <ChannelCode channelId={log.channel_id} />;
 }
 
-export function TaskIdCell(props: CellContext<TaskRow, unknown>) {
+export function TaskIdCell(props: CellContext<TableFeats, TaskRow>) {
   const log = props.row.original;
   if (!log.task_id) return EMPTY;
   const secondary =
@@ -68,7 +69,7 @@ export function TaskIdCell(props: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskDurationCell(props: CellContext<TaskRow, unknown>) {
+export function TaskDurationCell(props: CellContext<TableFeats, TaskRow>) {
   const log = props.row.original;
   const duration = formatTaskDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
@@ -81,7 +82,7 @@ export function TaskDurationCell(props: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskStatusCell(props: CellContext<TaskRow, unknown>) {
+export function TaskStatusCell(props: CellContext<TableFeats, TaskRow>) {
   const t = useTranslations();
   const log = props.row.original;
   if (!log.status) return EMPTY;
@@ -95,7 +96,7 @@ export function TaskStatusCell(props: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskProgressCell(props: CellContext<TaskRow, unknown>) {
+export function TaskProgressCell(props: CellContext<TableFeats, TaskRow>) {
   const log = props.row.original;
   if (!log.progress) return EMPTY;
   return (
@@ -105,7 +106,7 @@ export function TaskProgressCell(props: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskDetailsCell(props: CellContext<TaskRow, unknown>) {
+export function TaskDetailsCell(props: CellContext<TableFeats, TaskRow>) {
   const t = useTranslations();
   const log = props.row.original;
   const ctx = useContext(TaskDialogContext);

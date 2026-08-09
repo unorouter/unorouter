@@ -16,6 +16,7 @@ import { DataTableId } from "@/lib/types/enums";
 import { formatTimestamp } from "@/lib/utils/format/date";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -55,7 +56,7 @@ const STATUS_KEYS = {
   expired: "BILLING.TRANSACTIONS.STATUS_EXPIRED",
 } as const;
 
-function useTransactionColumns(): ColumnDef<TransactionRow>[] {
+function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
   const t = useTranslations();
   const portalMutation = useBillingPortalMutation();
   const copy = useCopyToClipboard();

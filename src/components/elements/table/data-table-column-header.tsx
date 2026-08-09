@@ -11,18 +11,19 @@ import {
 import { Icon } from "@/components/ui/icon";
 import type { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
-import type { Column } from "@tanstack/react-table";
+import type { Column, RowData } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 
-interface DataTableColumnHeaderProps<TData, TValue> extends Omit<
+interface DataTableColumnHeaderProps<TData extends RowData, TValue> extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "title"
 > {
-  column: Column<TData, TValue>;
+  column: Column<TableFeats, TData, TValue>;
   title: TranslationKey;
 }
 
-export function DataTableColumnHeader<TData, TValue>(
+export function DataTableColumnHeader<TData extends RowData, TValue>(
   props: DataTableColumnHeaderProps<TData, TValue>,
 ) {
   const t = useTranslations();

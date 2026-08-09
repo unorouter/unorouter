@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     resolveAlias: {
       module: { browser: "./src/lib/empty-module.ts" },
+      // sqlite-wasm builds the OPFS async-proxy worker URL at runtime
+      // (`new URL(proxyUri, import.meta.url)`), which turbopack cannot resolve
+      // statically. Only installOpfsSAHPoolVfs is used here, so the worker1
+      // entrypoint that reaches it is never loaded; stub it out.
+      "./sqlite3-worker1.mjs": { browser: "./src/lib/empty-module.ts" },
     },
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],

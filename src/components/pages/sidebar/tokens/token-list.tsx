@@ -10,6 +10,7 @@ import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -42,7 +43,7 @@ export function TokenList() {
   const keyword = store.globalFilter || undefined;
   const tokensQuery = useTokensQuery({ p, keyword });
 
-  const columns: ColumnDef<TokenRow>[] = [
+  const columns: ColumnDef<TableFeats, TokenRow>[] = [
     {
       accessorKey: "name",
       meta: { title: msg("TOKEN.TABLE.NAME") },

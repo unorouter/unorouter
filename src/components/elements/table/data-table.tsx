@@ -9,20 +9,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { type TableFeats, tableFeatures } from "@/lib/config/table-features";
 import { DataTableId } from "@/lib/types/enums";
 import { cn } from "@/lib/utils";
 import { createTableAtoms } from "@/store/data-table-store";
 import {
   type ColumnDef,
   type Row,
-  type Table as TTable,
+  type RowData,
+  type ReactTable,
   type TableState,
+  createCoreRowModel,
+  createExpandedRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
   flexRender,
-  getCoreRowModel,
-  getExpandedRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
+  useTable,
 } from "@tanstack/react-table";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -36,12 +38,12 @@ type Meta = {
   cellClassName?: string;
 };
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends RowData> {
   id: DataTableId;
   data: TData[];
-  columns: ColumnDef<TData, TValue>[];
+  columns: ColumnDef<TableFeats, TData>[];
   total?: number;
-  tableStore?: Partial<TableState>;
+  tableStore?: Partial<TableState<TableFeats>>;
   columnVisibility?: boolean;
   localSorting?: boolean;
   windowVirtual?: boolean;
@@ -49,14 +51,16 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
   emptyState?: ReactNode;
   onRowClick?: (row: TData) => void;
-  rowClassName?: (row: Row<TData>) => string | undefined;
-  filter?: (props: { table: TTable<TData> }) => ReactNode;
-  actions?: (props: { table: TTable<TData> }) => ReactNode;
-  renderExpandedRow?: (row: Row<TData>) => ReactNode;
-  getRowCanExpand?: (row: Row<TData>) => boolean;
+  rowClassName?: (row: Row<TableFeats, TData>) => string | undefined;
+  filter?: (props: { table: ReactTable<TableFeats, TData> }) => ReactNode;
+  actions?: (props: { table: ReactTable<TableFeats, TData> }) => ReactNode;
+  renderExpandedRow?: (row: Row<TableFeats, TData>) => ReactNode;
+  getRowCanExpand?: (row: Row<TableFeats, TData>) => boolean;
 }
 
-export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends RowData>(
+  props: DataTableProps<TData>,
+) {
   const tableAtoms = createTableAtoms(props.id, props.tableStore);
 
   const store = useAtomValue(tableAtoms.baseAtom);
@@ -68,7 +72,19 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const [expanded, setExpanded] = useState({});
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
-  const table = useReactTable({
+  const table = useTable<TableFeats, TData>({
+    // v9 registers row models as slots on `features`, next to the feature objects.
+    features: {
+      ...tableFeatures,
+      coreRowModel: createCoreRowModel(),
+      ...(props.total !== undefined
+        ? { paginatedRowModel: createPaginatedRowModel() }
+        : {}),
+      ...(props.localSorting ? { sortedRowModel: createSortedRowModel() } : {}),
+      ...(props.renderExpandedRow
+        ? { expandedRowModel: createExpandedRowModel() }
+        : {}),
+    },
     data: props.data,
     columns: props.columns,
     state: {
@@ -83,14 +99,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     pageCount: props.total
       ? Math.ceil(props.total / store.pagination.pageSize)
       : undefined,
-    getCoreRowModel: getCoreRowModel(),
-    ...(props.total !== undefined
-      ? { getPaginationRowModel: getPaginationRowModel() }
-      : {}),
-    ...(props.localSorting ? { getSortedRowModel: getSortedRowModel() } : {}),
-    ...(props.renderExpandedRow
-      ? { getExpandedRowModel: getExpandedRowModel() }
-      : {}),
     getRowCanExpand: props.getRowCanExpand,
     onExpandedChange: setExpanded,
     onGlobalFilterChange: setGlobalFilter,
@@ -107,16 +115,20 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   // The window virtualizer renders no rows until it can measure, so SSR HTML
   // held an empty tbody and the table only painted after hydration (late LCP
   // on /models). Render the first screenful statically until mount.
+  /* eslint-disable react-hooks/set-state-in-effect -- mount latch, see above */
   const [virtualReady, setVirtualReady] = useState(false);
   useEffect(() => {
     if (props.windowVirtual) setVirtualReady(true);
   }, [props.windowVirtual]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+  /* eslint-disable react-hooks/refs -- offsetTop seeds the initial scroll margin; the virtualizer re-measures after mount */
   const virtualizer = useWindowVirtualizer({
     count: props.windowVirtual ? rows.length : 0,
     estimateSize: () => props.estimateRowHeight ?? 53,
     overscan: 8,
     scrollMargin: tableContainerRef.current?.offsetTop ?? 0,
   });
+  /* eslint-enable react-hooks/refs */
   const virtualRows = virtualizer.getVirtualItems();
   const scrollMargin = virtualizer.options.scrollMargin;
   const paddingTop =

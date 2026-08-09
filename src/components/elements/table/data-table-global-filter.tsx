@@ -1,22 +1,23 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Table } from "@tanstack/react-table";
+import type { ReactTable, RowData } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 
-interface DataTableGlobalFilterProps<TData> {
-  table: Table<TData>;
+interface DataTableGlobalFilterProps<TData extends RowData> {
+  table: ReactTable<TableFeats, TData>;
   debounceMs?: number;
   placeholder?: string;
 }
 
-export function DataTableGlobalFilter<TData>(
+export function DataTableGlobalFilter<TData extends RowData>(
   props: DataTableGlobalFilterProps<TData>,
 ) {
   const t = useTranslations();
-  const [value, setValue] = useState(props.table.getState().globalFilter ?? "");
+  const [value, setValue] = useState(props.table.state.globalFilter ?? "");
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -26,7 +27,7 @@ export function DataTableGlobalFilter<TData>(
     return () => clearTimeout(timeout);
   }, [value, props.table, props.debounceMs]);
 
-  const globalFilter = props.table.getState().globalFilter ?? "";
+  const globalFilter = props.table.state.globalFilter ?? "";
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sync local state from table filter
     setValue(globalFilter);

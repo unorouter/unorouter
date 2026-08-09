@@ -8,7 +8,7 @@ import type {
   PaginationState,
   RowSelectionState,
   SortingState,
-  VisibilityState,
+  ColumnVisibilityState,
 } from "@tanstack/react-table";
 import type { WritableAtom } from "jotai";
 import { atom } from "jotai";
@@ -18,7 +18,7 @@ import { atomWithStorage } from "jotai/utils";
 type DataTableStore = {
   globalFilter: string;
   rowSelection: RowSelectionState;
-  columnVisibility: VisibilityState;
+  columnVisibility: ColumnVisibilityState;
   columnFilters: ColumnFiltersState;
   sorting: SortingState;
   pagination: PaginationState;
@@ -94,7 +94,7 @@ function buildFieldAtoms(
       (s) => s.rowSelection,
       (prev, v) => ({ ...prev, rowSelection: v }),
     ),
-    columnVisibilityAtom: fieldAtom<VisibilityState>(
+    columnVisibilityAtom: fieldAtom<ColumnVisibilityState>(
       (s) => s.columnVisibility,
       (prev, v) => ({ ...prev, columnVisibility: v }),
     ),

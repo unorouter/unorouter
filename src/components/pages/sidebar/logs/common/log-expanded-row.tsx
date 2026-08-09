@@ -3,6 +3,7 @@
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
 import type { Row } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import type React from "react";
 import {
@@ -41,7 +42,7 @@ function CopyableCode(props: { value: string; analyticsLabel: string }) {
   );
 }
 
-export function LogExpandedRow(props: { row: Row<LogRow> }) {
+export function LogExpandedRow(props: { row: Row<TableFeats, LogRow> }) {
   const t = useTranslations();
   const log = props.row.original;
   const other = parseOther(log.other);

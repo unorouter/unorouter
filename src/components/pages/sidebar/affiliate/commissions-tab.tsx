@@ -9,6 +9,7 @@ import { DataTableId } from "@/lib/types/enums";
 import { ReferralCommissionWithUser } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 
@@ -26,7 +27,7 @@ export function CommissionsTab() {
   const commissions = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<ReferralCommissionWithUser>[] = [
+  const columns: ColumnDef<TableFeats, ReferralCommissionWithUser>[] = [
     {
       accessorKey: "created_at",
       header: t("AFFILIATE.TABLE.DATE"),
