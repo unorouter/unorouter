@@ -149,12 +149,6 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
-    href: "https://ufind.best/products/unorouter?utm_source=ufind.best",
-    src: "https://ufind.best/badges/ufind-best-badge-light.svg",
-    name: "Featured on ufind.best",
-    width: 150,
-  },
-  {
     href: "https://roozna.com/project/unorouter",
     src: "https://roozna.com/api/badge/unorouter",
     name: "Featured on Roozna",
@@ -213,12 +207,6 @@ const FOOTER_BADGES: {
     src: "/badges/postmake.png",
     name: "Postmake",
     width: 103,
-  },
-  {
-    href: "https://dofollow.tools",
-    src: "https://dofollow.tools/badge/badge_light.svg",
-    name: "Dofollow.Tools",
-    width: 111,
   },
   {
     href: "https://saasbison.com",
