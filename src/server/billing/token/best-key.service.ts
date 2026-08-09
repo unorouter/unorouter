@@ -58,6 +58,7 @@ async function createAutoToken(
       cross_group_retry: false,
       allow_ips: null,
       group_mapping: "",
+      auto_groups: null,
     },
     { headers },
   );

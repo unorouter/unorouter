@@ -18,6 +18,7 @@ export const createTokenBody = t.Object({
   group: t.String(),
   cross_group_retry: t.Boolean(),
   group_mapping: t.Optional(t.String()),
+  auto_groups: t.Optional(t.Nullable(t.Array(t.String()))),
 });
 
 export const updateTokenBody = t.Object({
@@ -33,4 +34,5 @@ export const updateTokenBody = t.Object({
   group: t.String(),
   cross_group_retry: t.Boolean(),
   group_mapping: t.Optional(t.String()),
+  auto_groups: t.Optional(t.Nullable(t.Array(t.String()))),
 });

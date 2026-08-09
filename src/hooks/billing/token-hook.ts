@@ -8,7 +8,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
-import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
+import type { ResponseDtoPageDataControllerTokenResponseData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useAtomValue } from "jotai";
 
@@ -69,15 +69,17 @@ export function useUpdateTokenMutation() {
     mutationFn: async (args: EdenArgs<TokenRoute, "put">) =>
       handleElysia(await rpc.api.billing.token.put(args.body)),
     onSuccess: (_, args, qc) => {
-      qc.setQueryData<ResponseDtoPageDataModelTokenData>(queryKey, (old) =>
-        old
-          ? {
-              ...old,
-              items: (old.items ?? []).map((item) =>
-                item?.id === args.body.id ? { ...item, ...args.body } : item,
-              ),
-            }
-          : old,
+      qc.setQueryData<ResponseDtoPageDataControllerTokenResponseData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                items: (old.items ?? []).map((item) =>
+                  item?.id === args.body.id ? { ...item, ...args.body } : item,
+                ),
+              }
+            : old,
       );
     },
   });
@@ -89,17 +91,19 @@ export function useToggleTokenStatusMutation() {
     mutationFn: async (args: EdenArgs<TokenRoute["status"], "put">) =>
       handleElysia(await rpc.api.billing.token.status.put(args.body)),
     onSuccess: (_, args, qc) => {
-      qc.setQueryData<ResponseDtoPageDataModelTokenData>(queryKey, (old) =>
-        old
-          ? {
-              ...old,
-              items: (old.items ?? []).map((item) =>
-                item?.id === args.body.id
-                  ? { ...item, status: args.body.status }
-                  : item,
-              ),
-            }
-          : old,
+      qc.setQueryData<ResponseDtoPageDataControllerTokenResponseData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                items: (old.items ?? []).map((item) =>
+                  item?.id === args.body.id
+                    ? { ...item, status: args.body.status }
+                    : item,
+                ),
+              }
+            : old,
       );
     },
   });
@@ -118,16 +122,18 @@ export function useDeleteTokenMutation() {
     mutationFn: async (args: { id: string | number }) =>
       handleElysia(await rpc.api.billing.token(args).delete()),
     onSuccess: (_, args, qc) => {
-      qc.setQueryData<ResponseDtoPageDataModelTokenData>(queryKey, (old) =>
-        old
-          ? {
-              ...old,
-              total: old.total - 1,
-              items: (old.items ?? []).filter(
-                (item) => item?.id !== Number(args.id),
-              ),
-            }
-          : old,
+      qc.setQueryData<ResponseDtoPageDataControllerTokenResponseData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                total: old.total - 1,
+                items: (old.items ?? []).filter(
+                  (item) => item?.id !== Number(args.id),
+                ),
+              }
+            : old,
       );
     },
   });

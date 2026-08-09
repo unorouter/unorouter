@@ -22,7 +22,7 @@ import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
-import type { Token } from "@/openapi";
+import type { TokenResponse } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { formatLongDate } from "@/lib/utils/format/date";
@@ -32,7 +32,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
-export type TokenRow = NonNullable<Token>;
+export type TokenRow = NonNullable<TokenResponse>;
 
 const MODEL_PREVIEW_CAP = 12;
 
