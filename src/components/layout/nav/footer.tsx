@@ -325,7 +325,6 @@ const FOOTER_TEXT_LINKS = [
   { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
   { href: "https://animatephoto.io", label: "Animate Photo AI" },
   { href: "https://lookaitools.com", label: "LookAITools" },
-  { href: "https://bowora.com", label: "Bowora" },
 ] as const;
 
 function FooterLinks(props: {
