@@ -179,6 +179,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
+    src: "https://tools.launchllama.co/featured-badge.png?v=2",
+    name: "As seen on Launch Llama Newsletter",
+    width: 150,
+  },
+  {
     href: "https://aibesttop.com",
     src: "/badges/aibesttop.svg",
     name: "AIBestTop",
