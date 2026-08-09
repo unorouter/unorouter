@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Hoàn tác",
     "INPAINT_REDO": "Làm lại",
     "CLAMP_WARNING": "Nhà cung cấp thu nhỏ các yêu cầu vượt quá 1 megapixel hoặc 50 bước.",
-    "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ."
+    "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ.",
+    "CATALOG_ALL_ADDED": "Tất cả kết quả tìm thấy đã được thêm."
   }
 }

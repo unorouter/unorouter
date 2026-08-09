@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "撤销",
     "INPAINT_REDO": "重做",
     "CLAMP_WARNING": "超过1百万像素或50步的请求会被服务方缩小后运行。",
-    "IMPORT_INVALID": "此文件不是有效的生成导出文件。"
+    "IMPORT_INVALID": "此文件不是有效的生成导出文件。",
+    "CATALOG_ALL_ADDED": "找到的条目均已添加。"
   }
 }

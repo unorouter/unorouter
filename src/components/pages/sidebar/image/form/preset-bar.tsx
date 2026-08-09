@@ -21,15 +21,17 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+type PresetValues = {
+  model: string | undefined;
+  negativePrompt?: string | null;
+  params?: ImagePreset["params"];
+  loras?: ImagePreset["loras"] | undefined;
+  extraParams?: ImagePreset["extraParams"] | undefined;
+};
+
 type Props = {
-  /** Everything the current form holds. */
-  current: {
-    model: string;
-    negativePrompt?: string | null;
-    params?: ImagePreset["params"];
-    loras?: ImagePreset["loras"];
-    extraParams?: ImagePreset["extraParams"];
-  };
+  /** Read at SAVE time, so the bar does not subscribe to every form field. */
+  getCurrent: () => PresetValues;
   onApply: (preset: ImagePreset) => void;
 };
 
@@ -58,14 +60,15 @@ export function PresetBar(props: Props) {
       cancelLabel: t("COMMON.CANCEL"),
     });
     if (!ok) return;
+    const current = props.getCurrent();
     await savePreset.mutateAsync({
       name: selectedPreset.name,
-      model: props.current.model,
+      model: current.model ?? "",
       prompt: null,
-      negativePrompt: props.current.negativePrompt,
-      params: props.current.params,
-      loras: props.current.loras,
-      extraParams: props.current.extraParams,
+      negativePrompt: current.negativePrompt,
+      params: current.params,
+      loras: current.loras,
+      extraParams: current.extraParams,
     });
     setNaming(false);
   };
@@ -73,14 +76,15 @@ export function PresetBar(props: Props) {
   const onSave = async () => {
     const trimmed = name.trim();
     if (!trimmed) return;
+    const current = props.getCurrent();
     const saved = await savePreset.mutateAsync({
       name: trimmed,
-      model: props.current.model,
+      model: current.model ?? "",
       prompt: null,
-      negativePrompt: props.current.negativePrompt,
-      params: props.current.params,
-      loras: props.current.loras,
-      extraParams: props.current.extraParams,
+      negativePrompt: current.negativePrompt,
+      params: current.params,
+      loras: current.loras,
+      extraParams: current.extraParams,
     });
     setSelectedId(saved.id);
     setName("");

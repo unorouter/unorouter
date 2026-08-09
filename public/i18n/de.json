@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Rückgängig",
     "INPAINT_REDO": "Wiederholen",
     "CLAMP_WARNING": "Anfragen über 1 Megapixel oder 50 Steps werden vom Anbieter herunterskaliert.",
-    "IMPORT_INVALID": "Diese Datei ist kein gültiger Generierungs-Export."
+    "IMPORT_INVALID": "Diese Datei ist kein gültiger Generierungs-Export.",
+    "CATALOG_ALL_ADDED": "Alle gefundenen Einträge sind bereits hinzugefügt."
   }
 }

@@ -12,10 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import type { ModelFamily } from "@/lib/ai/playground/models";
+import { LabeledSlider } from "./labeled-slider";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
 import { YOLO_MODELS } from "../image-constants";
 
@@ -144,8 +144,10 @@ export function AdetailerSection(props: Props) {
             />
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
+            <LabeledSlider
+              label={t("IMAGE.ADETAILER_STEPS")}
+              // Steps 0 = inherit, spelled as a toggle.
+              labelSlot={
                 <Label className="flex items-center gap-2">
                   <Switch
                     checked={stepsToggleOn}
@@ -153,72 +155,40 @@ export function AdetailerSection(props: Props) {
                   />
                   {t("IMAGE.ADETAILER_STEPS")}
                 </Label>
-                <span className="tabular-nums">{v.steps ?? 0}</span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.ADETAILER_STEPS")}
-                min={0}
-                max={60}
-                step={1}
-                value={[v.steps ?? 0]}
-                onValueChange={(s) =>
-                  update({ steps: Array.isArray(s) ? s[0] : s })
-                }
-                disabled={!stepsToggleOn}
-              />
-            </div>
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.ADETAILER_CONFIDENCE")}</Label>
-                <span className="tabular-nums">
-                  {(v.confidence ?? 0.5).toFixed(2)}
-                </span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.ADETAILER_CONFIDENCE")}
-                min={0}
-                max={1}
-                step={0.05}
-                value={[v.confidence ?? 0.5]}
-                onValueChange={(s) =>
-                  update({ confidence: Array.isArray(s) ? s[0] : s })
-                }
-              />
-            </div>
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.ADETAILER_MASK_BLUR")}</Label>
-                <span className="tabular-nums">{v.maskBlur ?? 4}</span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.ADETAILER_MASK_BLUR")}
-                min={0}
-                max={64}
-                step={1}
-                value={[v.maskBlur ?? 4]}
-                onValueChange={(s) =>
-                  update({ maskBlur: Array.isArray(s) ? s[0] : s })
-                }
-              />
-            </div>
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.ADETAILER_DENOISE")}</Label>
-                <span className="tabular-nums">
-                  {(v.denoise ?? 0.25).toFixed(2)}
-                </span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.ADETAILER_DENOISE")}
-                min={0}
-                max={1}
-                step={0.05}
-                value={[v.denoise ?? 0.25]}
-                onValueChange={(s) =>
-                  update({ denoise: Array.isArray(s) ? s[0] : s })
-                }
-              />
-            </div>
+              }
+              min={0}
+              max={60}
+              step={1}
+              value={v.steps ?? 0}
+              onChange={(steps) => update({ steps })}
+              disabled={!stepsToggleOn}
+            />
+            <LabeledSlider
+              label={t("IMAGE.ADETAILER_CONFIDENCE")}
+              min={0}
+              max={1}
+              step={0.05}
+              value={v.confidence ?? 0.5}
+              onChange={(confidence) => update({ confidence })}
+              format={(x) => x.toFixed(2)}
+            />
+            <LabeledSlider
+              label={t("IMAGE.ADETAILER_MASK_BLUR")}
+              min={0}
+              max={64}
+              step={1}
+              value={v.maskBlur ?? 4}
+              onChange={(maskBlur) => update({ maskBlur })}
+            />
+            <LabeledSlider
+              label={t("IMAGE.ADETAILER_DENOISE")}
+              min={0}
+              max={1}
+              step={0.05}
+              value={v.denoise ?? 0.25}
+              onChange={(denoise) => update({ denoise })}
+              format={(x) => x.toFixed(2)}
+            />
           </div>
           <p className="text-muted-foreground text-xs">
             {t("IMAGE.ADETAILER_HINT")}

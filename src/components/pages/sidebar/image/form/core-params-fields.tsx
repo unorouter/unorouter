@@ -17,8 +17,8 @@ import {
 import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
 import type { GenerationFormValues } from "@/lib/validation/playground";
 import { useTranslations } from "next-intl";
-import type { UseFormReturn } from "react-hook-form";
-import { SeedField, SliderParamField } from "./image-form-fields";
+import { useWatch, type UseFormReturn } from "react-hook-form";
+import { SeedField, SliderParamField } from "./param-fields";
 
 type Props = {
   form: UseFormReturn<GenerationFormValues>;
@@ -30,18 +30,19 @@ export function CoreParamsFields(props: Props) {
   const form = props.form;
   const descriptor = props.descriptor;
 
-  const numParam = (
-    key: "steps" | "cfg" | "guidance",
-    fallback: number,
-  ): number => form.watch("params")?.[key] ?? fallback;
-
-  const steps = numParam("steps", descriptor.defaultParams.steps ?? 20);
-  const cfg = numParam("cfg", descriptor.defaultParams.cfg ?? 7);
-  // Shown on the closed header so the two knobs most worth checking do not require opening
-  // the section to read.
+  // Shown on the closed header so the two knobs most worth checking do not require
+  // opening the section to read.
+  const steps =
+    useWatch({ control: form.control, name: "params.steps" }) ??
+    descriptor.defaultParams.steps ??
+    20;
+  const cfg =
+    useWatch({ control: form.control, name: "params.cfg" }) ??
+    descriptor.defaultParams.cfg ??
+    7;
   const summary = [
-    steps !== undefined ? `${t("IMAGE.STEPS_LABEL")} ${steps}` : null,
-    cfg !== undefined ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
+    `${t("IMAGE.STEPS_LABEL")} ${steps}`,
+    descriptor.supportsCfg ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
   ]
     .filter(Boolean)
     .join("  ");
@@ -60,7 +61,7 @@ export function CoreParamsFields(props: Props) {
             min={1}
             max={50}
             step={1}
-            value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
+            defaultValue={descriptor.defaultParams.steps ?? 20}
           />
 
           {descriptor.supportsCfg && (
@@ -71,7 +72,7 @@ export function CoreParamsFields(props: Props) {
               min={0}
               max={15}
               step={0.5}
-              value={numParam("cfg", descriptor.defaultParams.cfg ?? 7)}
+              defaultValue={descriptor.defaultParams.cfg ?? 7}
             />
           )}
 
@@ -83,10 +84,7 @@ export function CoreParamsFields(props: Props) {
               min={1}
               max={10}
               step={0.1}
-              value={numParam(
-                "guidance",
-                descriptor.defaultParams.guidance ?? 4,
-              )}
+              defaultValue={descriptor.defaultParams.guidance ?? 4}
             />
           )}
         </div>
@@ -124,8 +122,8 @@ export function CoreParamsFields(props: Props) {
                 </FormItem>
               )}
             />
-            {/* Some backends fold the scheduler into the sampler and offer no separate list,
-              which would render an empty select holding a value the provider rejects. */}
+            {/* Some backends fold the scheduler into the sampler and offer no separate
+              list, which would render an empty select the provider rejects. */}
             {(descriptor.schedulers?.length ?? 0) > 0 && (
               <FormField
                 control={form.control}

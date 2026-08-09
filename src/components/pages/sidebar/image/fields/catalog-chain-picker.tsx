@@ -154,7 +154,7 @@ export function CatalogChainPicker<
                 props.items.length > 0 &&
                 available.length === 0 && (
                   <div className="text-muted-foreground p-4 text-sm">
-                    {t("IMAGE.HISTORY_EMPTY")}
+                    {t("IMAGE.CATALOG_ALL_ADDED")}
                   </div>
                 )}
               {available.length > 0 && (

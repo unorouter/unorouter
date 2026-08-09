@@ -11,9 +11,8 @@ import {
 } from "react-canvas-masker";
 import "react-canvas-masker/dist/style.css";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import type { GenerationFormValues } from "@/lib/validation/playground";
+import { LabeledSlider } from "./labeled-slider";
 
 const DEFAULT_BRUSH = 32;
 const DEFAULT_OPACITY = 0.6;
@@ -78,48 +77,30 @@ export function InpaintCanvas(props: Props) {
             />
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.INPAINT_BRUSH_SIZE")}</Label>
-                <span className="tabular-nums">{brushSize}px</span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.INPAINT_BRUSH_SIZE")}
-                min={4}
-                max={128}
-                step={2}
-                value={[brushSize]}
-                onValueChange={(v) =>
-                  form.setValue(
-                    "ui.inpaintBrushSize",
-                    Array.isArray(v) ? v[0] : v,
-                    { shouldDirty: true },
-                  )
-                }
-              />
-            </div>
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.INPAINT_BRUSH_OPACITY")}</Label>
-                <span className="tabular-nums">
-                  {Math.round(opacity * 100)}%
-                </span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.INPAINT_BRUSH_OPACITY")}
-                min={0.1}
-                max={1}
-                step={0.05}
-                value={[opacity]}
-                onValueChange={(v) =>
-                  form.setValue(
-                    "ui.inpaintBrushOpacity",
-                    Array.isArray(v) ? v[0] : v,
-                    { shouldDirty: true },
-                  )
-                }
-              />
-            </div>
+            <LabeledSlider
+              label={t("IMAGE.INPAINT_BRUSH_SIZE")}
+              min={4}
+              max={128}
+              step={2}
+              value={brushSize}
+              onChange={(v) =>
+                form.setValue("ui.inpaintBrushSize", v, { shouldDirty: true })
+              }
+              format={(v) => `${v}px`}
+            />
+            <LabeledSlider
+              label={t("IMAGE.INPAINT_BRUSH_OPACITY")}
+              min={0.1}
+              max={1}
+              step={0.05}
+              value={opacity}
+              onChange={(v) =>
+                form.setValue("ui.inpaintBrushOpacity", v, {
+                  shouldDirty: true,
+                })
+              }
+              format={(v) => `${Math.round(v * 100)}%`}
+            />
           </div>
           <div className="flex gap-2">
             <Button

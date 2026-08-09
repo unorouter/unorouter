@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Annulla",
     "INPAINT_REDO": "Ripristina",
     "CLAMP_WARNING": "Il provider ridimensiona le richieste oltre 1 megapixel o 50 passi.",
-    "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida."
+    "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida.",
+    "CATALOG_ALL_ADDED": "Tutti i risultati trovati sono già stati aggiunti."
   }
 }

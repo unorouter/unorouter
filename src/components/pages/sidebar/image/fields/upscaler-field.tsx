@@ -4,38 +4,44 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import type { GenerationFormValues } from "@/lib/validation/playground";
 import { cn } from "@/lib/utils";
+import { useWatch, type UseFormReturn } from "react-hook-form";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../image-constants";
-
-type UpscalerFieldPatch = {
-  multiplier?: number;
-  hiresSteps?: number;
-  denoise?: number;
-};
-
-type Props = {
-  multiplier: number | undefined;
-  hiresSteps: number | undefined;
-  denoise: number | undefined;
-  onChange: (patch: UpscalerFieldPatch) => void;
-};
+import { LabeledSlider } from "./labeled-slider";
 
 const DEFAULT_MULTIPLIER = 1.5;
 
+type Props = {
+  form: UseFormReturn<GenerationFormValues>;
+};
+
 export function UpscalerField(props: Props) {
   const t = useTranslations();
-  // The multiplier IS the feature: above 1 = enabled, no separate flag.
-  const enabled = (props.multiplier ?? 1) > 1;
+  const form = props.form;
+  const multiplierValue = useWatch({
+    control: form.control,
+    name: "params.hiresUpscale",
+  });
+  const hiresSteps =
+    useWatch({ control: form.control, name: "params.hiresSteps" }) ?? 20;
+  const denoise =
+    useWatch({ control: form.control, name: "params.hiresDenoise" }) ?? 0.5;
+
+  const setParam = (
+    name: "params.hiresUpscale" | "params.hiresSteps" | "params.hiresDenoise",
+    value: number,
+  ) => form.setValue(name, value, { shouldDirty: true });
+
+  // The multiplier IS the feature: above 1 = enabled, no separate flag. The server reads
+  // scale <= 1 as no upscale.
+  const enabled = (multiplierValue ?? 1) > 1;
   // Opens itself when a multiplier is set, so a restored snapshot shows what is in effect.
   const [open, setOpen] = useState(enabled);
 
-  const multiplier = props.multiplier ?? DEFAULT_MULTIPLIER;
-  const hiresSteps = props.hiresSteps ?? 20;
-  const denoise = props.denoise ?? 0.5;
+  const multiplier = multiplierValue ?? DEFAULT_MULTIPLIER;
   const activeMul =
     MULTIPLIERS.find((m) => m.value === multiplier)?.id ?? "custom";
   const expanded = open && enabled;
@@ -51,7 +57,7 @@ export function UpscalerField(props: Props) {
             return;
           }
           setOpen(true);
-          props.onChange({ multiplier: DEFAULT_MULTIPLIER });
+          setParam("params.hiresUpscale", DEFAULT_MULTIPLIER);
         }}
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
       >
@@ -72,8 +78,7 @@ export function UpscalerField(props: Props) {
             checked={enabled}
             onCheckedChange={(c) => {
               setOpen(c);
-              // Off = multiplier 1; the server reads scale <= 1 as no upscale.
-              props.onChange({ multiplier: c ? DEFAULT_MULTIPLIER : 1 });
+              setParam("params.hiresUpscale", c ? DEFAULT_MULTIPLIER : 1);
             }}
             onClick={(e) => e.stopPropagation()}
           />
@@ -92,7 +97,7 @@ export function UpscalerField(props: Props) {
                   type="button"
                   onClick={() => {
                     if (m.value !== null) {
-                      props.onChange({ multiplier: m.value });
+                      setParam("params.hiresUpscale", m.value);
                     }
                   }}
                   className={cn(
@@ -114,69 +119,25 @@ export function UpscalerField(props: Props) {
           {/* No upscaler-model picker: a hires pass IS a re-render at the target size,
               and the backend has no upscaler category. */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.UPSCALER_HIRES_STEPS")}</Label>
-                <span className="tabular-nums">{hiresSteps}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Slider
-                  aria-label={t("IMAGE.UPSCALER_HIRES_STEPS")}
-                  min={1}
-                  max={60}
-                  step={1}
-                  value={[hiresSteps]}
-                  onValueChange={(v) =>
-                    props.onChange({ hiresSteps: Array.isArray(v) ? v[0] : v })
-                  }
-                  className="flex-1"
-                />
-                <Input
-                  aria-label={t("IMAGE.UPSCALER_HIRES_STEPS")}
-                  type="number"
-                  min={1}
-                  max={60}
-                  value={hiresSteps}
-                  onChange={(e) =>
-                    props.onChange({
-                      hiresSteps: Number(e.target.value) || hiresSteps,
-                    })
-                  }
-                  className="w-16"
-                />
-              </div>
-            </div>
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.UPSCALER_DENOISE")}</Label>
-                <span className="tabular-nums">{denoise.toFixed(2)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Slider
-                  aria-label={t("IMAGE.UPSCALER_DENOISE")}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={[denoise]}
-                  onValueChange={(v) =>
-                    props.onChange({ denoise: Array.isArray(v) ? v[0] : v })
-                  }
-                  className="flex-1"
-                />
-                <Input
-                  aria-label={t("IMAGE.UPSCALER_DENOISE")}
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={denoise}
-                  onChange={(e) =>
-                    props.onChange({ denoise: Number(e.target.value) || 0 })
-                  }
-                  className="w-16"
-                />
-              </div>
-            </div>
+            <LabeledSlider
+              label={t("IMAGE.UPSCALER_HIRES_STEPS")}
+              min={1}
+              max={60}
+              step={1}
+              value={hiresSteps}
+              onChange={(v) => setParam("params.hiresSteps", v)}
+              withInput
+            />
+            <LabeledSlider
+              label={t("IMAGE.UPSCALER_DENOISE")}
+              min={0}
+              max={1}
+              step={0.05}
+              value={denoise}
+              onChange={(v) => setParam("params.hiresDenoise", v)}
+              format={(v) => v.toFixed(2)}
+              withInput
+            />
           </div>
         </div>
       )}

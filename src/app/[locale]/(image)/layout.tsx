@@ -2,7 +2,7 @@ import { serverLocale } from "@/lib/utils/server";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { Suspense } from "react";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { ImageSessionList } from "@/components/pages/sidebar/image/history/image-session-list";
+import { ImageSessionList } from "@/components/pages/sidebar/image/history/image-gallery";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SidebarShellSkeleton } from "@/components/layout/sidebar/sidebar-shell-skeleton";
 

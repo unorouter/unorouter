@@ -1,20 +1,14 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
+import { LabeledSlider } from "./labeled-slider";
 import type { GenerationFormValues } from "@/lib/validation/playground";
 import { useTranslations } from "next-intl";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 
 import { CivitaiResolverField } from "./civitai-resolver-field";
 import type { CustomCheckpoint } from "../form/model-picker";
-
-type Props = {
-  /** The form's own prompt, shown as the placeholder so it is obvious what runs when the
-   *  override is left empty. */
-  fallbackPrompt?: string;
-};
 
 /**
  * Overrides for the manual inpaint pass, rendered next to the mask canvas; empty fields
@@ -22,9 +16,13 @@ type Props = {
  * re-render the whole form (canvas included). Distinct from ADetailer, which detects a
  * region instead of taking a painted one.
  */
-export function InpaintSettings(props: Props) {
+export function InpaintSettings() {
   const t = useTranslations();
   const form = useFormContext<GenerationFormValues>();
+  // The form's own prompt is the placeholder, so it is obvious what runs when the
+  // override is left empty.
+  const fallbackPrompt =
+    useWatch({ control: form.control, name: "prompt" }) ?? "";
 
   return (
     <div className="flex flex-col gap-4 rounded-md border p-3">
@@ -81,7 +79,7 @@ export function InpaintSettings(props: Props) {
               value={field.value ?? ""}
               onChange={field.onChange}
               placeholder={
-                props.fallbackPrompt || t("IMAGE.INPAINT_PROMPT_PLACEHOLDER")
+                fallbackPrompt || t("IMAGE.INPAINT_PROMPT_PLACEHOLDER")
               }
             />
           </div>
@@ -108,30 +106,22 @@ export function InpaintSettings(props: Props) {
       <Controller
         control={form.control}
         name="ui.inpaintStrength"
-        render={({ field }) => {
-          const strength = field.value ?? 0.75;
-          return (
-            <div>
-              <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-                <Label>{t("IMAGE.INPAINT_STRENGTH")}</Label>
-                <span className="tabular-nums">{strength.toFixed(2)}</span>
-              </div>
-              <Slider
-                aria-label={t("IMAGE.INPAINT_STRENGTH")}
-                min={0}
-                max={1}
-                step={0.05}
-                value={[strength]}
-                onValueChange={(s) =>
-                  field.onChange(Array.isArray(s) ? s[0] : s)
-                }
-              />
-              <p className="text-muted-foreground mt-1 text-xs">
-                {t("IMAGE.INPAINT_STRENGTH_HINT")}
-              </p>
-            </div>
-          );
-        }}
+        render={({ field }) => (
+          <div>
+            <LabeledSlider
+              label={t("IMAGE.INPAINT_STRENGTH")}
+              min={0}
+              max={1}
+              step={0.05}
+              value={field.value ?? 0.75}
+              onChange={field.onChange}
+              format={(v) => v.toFixed(2)}
+            />
+            <p className="text-muted-foreground mt-1 text-xs">
+              {t("IMAGE.INPAINT_STRENGTH_HINT")}
+            </p>
+          </div>
+        )}
       />
     </div>
   );

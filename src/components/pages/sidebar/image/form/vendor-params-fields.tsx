@@ -17,11 +17,7 @@ import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
 import type { GenerationFormValues } from "@/lib/validation/playground";
 import { useTranslations } from "next-intl";
 import type { UseFormReturn } from "react-hook-form";
-import {
-  OutputFormatField,
-  QualityField,
-  SliderParamField,
-} from "./image-form-fields";
+import { SelectParamField, SliderParamField } from "./param-fields";
 
 type Props = {
   form: UseFormReturn<GenerationFormValues>;
@@ -34,8 +30,7 @@ function hasVendorFields(d: PlaygroundModelDescriptor): boolean {
     d.supportsOutputFormat ||
     d.supportsBackground ||
     d.supportsWatermark ||
-    d.supportsStrength ||
-    d.supportsSeed,
+    d.supportsStrength,
   );
 }
 
@@ -48,7 +43,8 @@ export function VendorParamsFields(props: Props) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {descriptor.supportsQuality && descriptor.qualityChoices && (
-        <QualityField
+        <SelectParamField
+          name="params.quality"
           choices={descriptor.qualityChoices}
           label={t("IMAGE.QUALITY_LABEL")}
           placeholder={t("IMAGE.QUALITY_DEFAULT")}
@@ -56,7 +52,8 @@ export function VendorParamsFields(props: Props) {
       )}
 
       {descriptor.supportsOutputFormat && descriptor.outputFormatChoices && (
-        <OutputFormatField
+        <SelectParamField
+          name="params.outputFormat"
           choices={descriptor.outputFormatChoices}
           label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
           placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
@@ -105,7 +102,7 @@ export function VendorParamsFields(props: Props) {
               <FormControl>
                 <input
                   type="checkbox"
-                  checked={(field.value as boolean | undefined) ?? false}
+                  checked={field.value ?? false}
                   onChange={(e) => field.onChange(e.target.checked)}
                 />
               </FormControl>
@@ -122,7 +119,7 @@ export function VendorParamsFields(props: Props) {
           min={0}
           max={1}
           step={0.05}
-          value={form.watch("params.strength") ?? 0.5}
+          defaultValue={0.5}
         />
       )}
     </div>

@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Geri al",
     "INPAINT_REDO": "Yinele",
     "CLAMP_WARNING": "Sağlayıcı 1 megapikseli veya 50 adımı aşan istekleri küçültür.",
-    "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil."
+    "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil.",
+    "CATALOG_ALL_ADDED": "Bulunan her şey zaten eklendi."
   }
 }

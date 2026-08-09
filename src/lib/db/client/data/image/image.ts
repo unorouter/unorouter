@@ -170,6 +170,44 @@ export async function readLocalSessionBundle(
   return { session, snapshots, media: images };
 }
 
+// Sidebar previews: ONE latest snapshot + ONE image per session. The full-bundle read
+// loads every base64 image of every session, which is far too heavy for thumbnails.
+export async function readLocalSessionPreviews(userId: number | undefined) {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  const sessions = (await readLocalImageSessions(userId)) ?? [];
+  const out: {
+    session: (typeof sessions)[number];
+    latestSnapshot: SnapshotView | null;
+    latestImage: ImageView | null;
+  }[] = [];
+  for (const session of sessions) {
+    const [latest] = await local.db
+      .select()
+      .from(imageSnapshots)
+      .where(eq(imageSnapshots.sessionId, session.id))
+      .orderBy(desc(imageSnapshots.sessionOrder))
+      .limit(1);
+    if (!latest) {
+      out.push({ session, latestSnapshot: null, latestImage: null });
+      continue;
+    }
+    const [firstImage] = await local.db
+      .select()
+      .from(media)
+      .where(eq(media.imageSnapshotId, latest.id))
+      .orderBy(asc(media.sequenceIndex))
+      .limit(1);
+    const view = toSnapshotView(latest, firstImage ? [firstImage] : []);
+    out.push({
+      session,
+      latestSnapshot: view,
+      latestImage: view.images[0] ?? null,
+    });
+  }
+  return out;
+}
+
 // Direct id lookup: callers poll this, and a session scan loads every base64 image.
 export async function readLocalSnapshotView(
   userId: number | undefined,

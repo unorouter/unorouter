@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Annuler",
     "INPAINT_REDO": "Rétablir",
     "CLAMP_WARNING": "Le fournisseur réduit les requêtes dépassant 1 mégapixel ou 50 étapes.",
-    "IMPORT_INVALID": "Ce fichier n’est pas un export de génération valide."
+    "IMPORT_INVALID": "Ce fichier n’est pas un export de génération valide.",
+    "CATALOG_ALL_ADDED": "Tout ce qui a été trouvé est déjà ajouté."
   }
 }

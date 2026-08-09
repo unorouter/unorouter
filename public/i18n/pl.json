@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Cofnij",
     "INPAINT_REDO": "Ponów",
     "CLAMP_WARNING": "Dostawca zmniejsza żądania przekraczające 1 megapiksel lub 50 kroków.",
-    "IMPORT_INVALID": "Ten plik nie jest prawidłowym eksportem generacji."
+    "IMPORT_INVALID": "Ten plik nie jest prawidłowym eksportem generacji.",
+    "CATALOG_ALL_ADDED": "Wszystkie znalezione pozycje są już dodane."
   }
 }

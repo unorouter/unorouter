@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Urungkan",
     "INPAINT_REDO": "Ulangi",
     "CLAMP_WARNING": "Penyedia memperkecil permintaan di atas 1 megapiksel atau 50 langkah.",
-    "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid."
+    "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid.",
+    "CATALOG_ALL_ADDED": "Semua yang ditemukan sudah ditambahkan."
   }
 }

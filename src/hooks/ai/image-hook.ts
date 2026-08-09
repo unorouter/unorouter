@@ -8,8 +8,8 @@ import {
   deleteLocalImageSession,
   deleteLocalSnapshot,
   readLocalImageSession,
-  readLocalImageSessions,
   readLocalSessionBundle,
+  readLocalSessionPreviews,
   readLocalSnapshotBySubmittedKey,
   patchLocalSnapshotCost,
   readLocalSnapshotView,
@@ -141,25 +141,10 @@ export function useSessionHistoryQuery() {
   const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.imageSessionList(undefined),
-    queryFn: async () => {
-      const sessions = (await readLocalImageSessions(userId)) ?? [];
-      const items = await Promise.all(
-        sessions.map(async (session) => {
-          const bundle = await readLocalSessionBundle(userId, session.id);
-          const snapshots = bundle?.snapshots ?? [];
-          const latest = snapshots[snapshots.length - 1] ?? null;
-          const latestView = latest
-            ? toSnapshotView(latest, bundle?.media ?? [])
-            : null;
-          return {
-            session,
-            latestSnapshot: latestView,
-            latestImage: latestView?.images[0] ?? null,
-          };
-        }),
-      );
-      return { items, nextCursor: null };
-    },
+    queryFn: async () => ({
+      items: await readLocalSessionPreviews(userId),
+      nextCursor: null,
+    }),
   });
 }
 

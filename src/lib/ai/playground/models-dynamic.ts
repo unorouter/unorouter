@@ -177,10 +177,27 @@ function inferDescriptor(
   };
 }
 
+// Cached per pricing-array identity: React effects list the result as a dependency, and
+// a fresh array per render would fire them every render.
+const effectiveModelsCache = new WeakMap<
+  ProcessedModel[],
+  PlaygroundModelDescriptor[]
+>();
+
 export function getEffectiveGenerationModels(
   pricing: ProcessedModel[] | undefined,
 ): PlaygroundModelDescriptor[] {
   if (!pricing || pricing.length === 0) return PLAYGROUND_MODELS;
+  const hit = effectiveModelsCache.get(pricing);
+  if (hit) return hit;
+  const computed = computeEffectiveGenerationModels(pricing);
+  effectiveModelsCache.set(pricing, computed);
+  return computed;
+}
+
+function computeEffectiveGenerationModels(
+  pricing: ProcessedModel[],
+): PlaygroundModelDescriptor[] {
   const comfy: PlaygroundModelDescriptor[] = [];
   const dynamic: { desc: PlaygroundModelDescriptor; releasedAt: number }[] = [];
   const seen = new Set<string>();

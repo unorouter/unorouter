@@ -1,122 +1,48 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useDeleteSnapshotMutation,
   useExportSessionMutation,
-  useImportGenerationMutation,
   useSessionQuery,
 } from "@/hooks/ai/image-hook";
 import { getModelDescriptor } from "@/lib/ai/playground/models";
-import {
-  importPayloadChecker,
-  type GenerationCloneMode,
-} from "@/lib/validation/playground";
-import { safeParse } from "@/lib/validation/helpers";
-import { toast } from "sonner";
 import type { SnapshotView } from "@/lib/types";
 import { downloadJson } from "@/lib/utils/client";
-import { dayjs } from "@/lib/utils/format/date";
-import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
-import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { snapshotModelLabel } from "./image-constants";
 import { useImageNav } from "./image-nav";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BatchGrid, ImageLightbox } from "./history/image-gallery";
+import { ParamsBadge, RetentionBadge } from "./result/params-badge";
+import { SnapshotImportDialog } from "./result/snapshot-import-dialog";
+import { useSnapshotRestoreActions } from "./result/use-snapshot-restore-actions";
 
 type Props = {
   sessionId: string;
   snapshotId: string;
 };
 
-function ParamsBadge(props: { model: string; params: unknown }) {
-  const t = useTranslations();
-  const p =
-    props.params && typeof props.params === "object"
-      ? (props.params as Record<string, unknown>)
-      : null;
-  return (
-    <div className="text-muted-foreground flex flex-wrap gap-2 text-xs">
-      <span>{props.model}</span>
-      {p?.steps !== undefined && (
-        <span>
-          {t("IMAGE.PARAM_STEPS")} {String(p.steps)}
-        </span>
-      )}
-      {p?.cfg !== undefined && (
-        <span>
-          {t("IMAGE.PARAM_CFG")} {String(p.cfg)}
-        </span>
-      )}
-      {p?.guidance !== undefined && (
-        <span>
-          {t("IMAGE.PARAM_GUIDANCE")} {String(p.guidance)}
-        </span>
-      )}
-      {p?.seed !== undefined && (
-        <span>
-          {t("IMAGE.PARAM_SEED")} {String(p.seed)}
-        </span>
-      )}
-    </div>
-  );
-}
-
-function RetentionBadge(props: { expiresAt: Date | string | number }) {
-  const t = useTranslations();
-  const [now] = useState(() => dayjs());
-  const daysLeft = dayjs(props.expiresAt).diff(now, "day");
-  if (!Number.isFinite(daysLeft) || daysLeft > 7) return null;
-  return (
-    <Badge variant="outline" className="text-xs">
-      {t("IMAGE.EXPIRES_IN_DAYS", { days: Math.max(0, daysLeft) })}
-    </Badge>
-  );
-}
-
 export function ImageResult(props: Props) {
   const t = useTranslations();
   const router = useRouter();
+  const nav = useImageNav();
 
   const sessionQuery = useSessionQuery(props.sessionId);
-
   const deleteMut = useDeleteSnapshotMutation();
   const exportMut = useExportSessionMutation();
-  const importMut = useImportGenerationMutation();
-
-  const nav = useImageNav();
-  const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
 
   const [importDialogOpen, setImportDialogOpen] = useState(false);
-  const [importMode, setImportMode] = useState<GenerationCloneMode>("restore");
-  const importFileRef = useRef<HTMLInputElement>(null);
-  const resultRef = useRef<HTMLDivElement>(null);
-
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const snapshots: SnapshotView[] = sessionQuery.data?.snapshots ?? [];
   const data = snapshots.find((s) => s.id === props.snapshotId);
+  const actions = useSnapshotRestoreActions(data);
 
   const currentIndex = snapshots.findIndex((s) => s.id === props.snapshotId);
   const total = snapshots.length;
@@ -130,7 +56,6 @@ export function ImageResult(props: Props) {
     nav.showSnapshot(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  // Browsing history never auto-restores the form; restoring is explicit (remix, reuse-seed).
   const status = data?.status;
   const isFailed = status === "failure";
   const images = data?.images ?? [];
@@ -139,6 +64,7 @@ export function ImageResult(props: Props) {
 
   // Mobile stacks the result under a tall form; scroll it into view ONCE per snapshot
   // (isDone flaps on refetch, and re-running yanks the page while the user is reading).
+  const resultRef = useRef<HTMLDivElement>(null);
   const scrolledForRef = useRef<string | null>(null);
   useEffect(() => {
     if (!isDone) return;
@@ -173,29 +99,6 @@ export function ImageResult(props: Props) {
   const onExport = async () => {
     const payload = await exportMut.mutateAsync({ sessionId: props.sessionId });
     downloadJson(payload, `${props.sessionId}.json`);
-  };
-
-  const onImportFile = async (file: File) => {
-    // The upload is arbitrary JSON headed for DB rows (and, on regenerate, the submit
-    // path); nothing unchecked gets through.
-    let raw: unknown;
-    try {
-      raw = JSON.parse(await file.text());
-    } catch {
-      toast.error(t("IMAGE.IMPORT_INVALID"));
-      return;
-    }
-    const parsed = safeParse(importPayloadChecker, raw);
-    if (!parsed.success) {
-      toast.error(t("IMAGE.IMPORT_INVALID"));
-      return;
-    }
-    const result = await importMut.mutateAsync({
-      payload: parsed.data,
-      mode: importMode,
-    });
-    setImportDialogOpen(false);
-    router.push(`/image/${result.sessionId}`);
   };
 
   if (!data) {
@@ -244,43 +147,8 @@ export function ImageResult(props: Props) {
             setLightboxOpen(true);
           }}
           supportsHires={getModelDescriptor(data.model).supportsHiresFix}
-          onQuickAction={(src, target) => {
-            nav.setNav({ tab: target.tab, subPill: target.subPill });
-            // Remix must not carry an init image (that would turn it into img2img of the
-            // old result); the seed comes from the clicked image, each batch result has its own.
-            const remixSeed = images.find((i) => i.src === src)?.seed;
-            setRestore({
-              model: data.model,
-              prompt: data.prompt,
-              negativePrompt: data.negativePrompt,
-              params: data.params,
-              loras: data.loras,
-              references: data.references,
-              extraParams: data.extraParams,
-              tab: target.tab,
-              subPill: target.subPill,
-              initImageUrl: target.remix ? undefined : src,
-              paramOverrides: target.remix
-                ? typeof remixSeed === "number"
-                  ? { seed: remixSeed }
-                  : undefined
-                : target.hires
-                  ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
-                  : undefined,
-            });
-          }}
-          onReuseSeed={(seed) => {
-            // A seed is only useful with the rest of the generation reproduced around it.
-            setRestore({
-              model: data.model,
-              prompt: data.prompt,
-              negativePrompt: data.negativePrompt,
-              params: { ...data.params, seed },
-              loras: data.loras,
-              references: data.references,
-              extraParams: data.extraParams,
-            });
-          }}
+          onQuickAction={actions.onQuickAction}
+          onReuseSeed={actions.onReuseSeed}
         />
       ) : isFailed ? (
         <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
@@ -379,44 +247,10 @@ export function ImageResult(props: Props) {
         alt={data.prompt}
       />
 
-      <Dialog open={importDialogOpen} onOpenChange={setImportDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("IMAGE.IMPORT_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("IMAGE.IMPORT_DESCRIPTION")}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-3">
-            <Select
-              value={importMode}
-              onValueChange={(v) => setImportMode(v as GenerationCloneMode)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="restore">
-                  {t("IMAGE.IMPORT_MODE_RESTORE")}
-                </SelectItem>
-                <SelectItem value="regenerate">
-                  {t("IMAGE.IMPORT_MODE_REGENERATE")}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            <input
-              ref={importFileRef}
-              type="file"
-              accept="application/json"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) void onImportFile(file);
-              }}
-              className="text-sm"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
+      <SnapshotImportDialog
+        open={importDialogOpen}
+        onOpenChange={setImportDialogOpen}
+      />
     </div>
   );
 }

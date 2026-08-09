@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "復原",
     "INPAINT_REDO": "重做",
     "CLAMP_WARNING": "超過1百萬像素或50步的請求會被服務方縮小後執行。",
-    "IMPORT_INVALID": "此檔案不是有效的生成匯出檔。"
+    "IMPORT_INVALID": "此檔案不是有效的生成匯出檔。",
+    "CATALOG_ALL_ADDED": "找到的項目均已加入。"
   }
 }

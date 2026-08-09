@@ -5767,6 +5767,7 @@
     "INPAINT_UNDO": "Desfazer",
     "INPAINT_REDO": "Refazer",
     "CLAMP_WARNING": "O provedor reduz solicitações acima de 1 megapixel ou 50 passos.",
-    "IMPORT_INVALID": "Este arquivo não é uma exportação de geração válida."
+    "IMPORT_INVALID": "Este arquivo não é uma exportação de geração válida.",
+    "CATALOG_ALL_ADDED": "Tudo o que foi encontrado já está adicionado."
   }
 }
