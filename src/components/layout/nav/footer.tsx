@@ -233,12 +233,6 @@ const FOOTER_BADGES: {
     width: 132,
   },
   {
-    href: "https://www.launchvault.dev",
-    src: "https://www.launchvault.dev/images/badges/launch-valut-badge.svg",
-    name: "Launch Vault",
-    width: 139,
-  },
-  {
     href: "https://findyoursaas.com/tool/unorouter",
     src: "/badges/findyoursaas.png",
     name: "FindYourSaaS",
