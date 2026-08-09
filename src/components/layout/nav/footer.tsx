@@ -167,6 +167,12 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
+    href: "https://acidtools.com/ai/unorouter",
+    src: "https://acidtools.com/assets/images/badge-dark.png",
+    name: "Acid Tools",
+    width: 150,
+  },
+  {
     href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
     src: "https://tools.launchllama.co/featured-badge.png?v=2",
     name: "As seen on Launch Llama Newsletter",
