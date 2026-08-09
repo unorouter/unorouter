@@ -38,6 +38,21 @@ export function draftFromForm(v: ImageFormValues): GenerateDraft {
   };
 }
 
+// blob: URLs die with the document that made them; one restored from a draft after a
+// reload is guaranteed dead, and the inpaint canvas mounting on an unloadable image
+// bricks the whole img2img section. Drop them, keep everything durable.
+function stripDeadBlobUrls(
+  params: GenerateDraft["params"],
+): GenerateDraft["params"] {
+  const out = { ...params };
+  for (const key of ["initImageUrl", "maskUrl"] as const) {
+    if (typeof out[key] === "string" && out[key].startsWith("blob:")) {
+      delete out[key];
+    }
+  }
+  return out;
+}
+
 export function formValuesFromDraft(
   draft: GenerateDraft,
   desc: ImageModelDescriptor,
@@ -47,7 +62,7 @@ export function formValuesFromDraft(
     model: draft.model,
     prompt: draft.prompt,
     negativePrompt: draft.negativePrompt ?? "",
-    params: draft.params,
+    params: stripDeadBlobUrls(draft.params),
     loras: draft.loras,
     references: draft.references,
     ui: draft.extraParams ?? { variants: 1 },

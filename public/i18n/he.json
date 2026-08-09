@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "הורד",
       "COPY_LINK": "העתק קישור",
       "RENAME": "שנה שם",
-      "DELETE": "מחק"
+      "DELETE": "מחק",
+      "CONTINUE_SCENE": "המשך הסצנה"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",

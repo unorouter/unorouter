@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "다운로드",
       "COPY_LINK": "링크 복사",
       "RENAME": "이름 변경",
-      "DELETE": "삭제"
+      "DELETE": "삭제",
+      "CONTINUE_SCENE": "장면 계속하기"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API 키 필요",

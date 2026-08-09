@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Pobierz",
       "COPY_LINK": "Kopiuj link",
       "RENAME": "Zmień nazwę",
-      "DELETE": "Usuń"
+      "DELETE": "Usuń",
+      "CONTINUE_SCENE": "Kontynuuj scenę"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Wymagany klucz API",

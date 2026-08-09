@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Download",
       "COPY_LINK": "Copy link",
       "RENAME": "Rename",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "CONTINUE_SCENE": "Continue scene"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key Required",

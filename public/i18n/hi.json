@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Download",
       "COPY_LINK": "Link copy करें",
       "RENAME": "Rename",
-      "DELETE": "हटाएं"
+      "DELETE": "हटाएं",
+      "CONTINUE_SCENE": "दृश्य जारी रखें"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",

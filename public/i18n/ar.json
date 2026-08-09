@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "تنزيل",
       "COPY_LINK": "نسخ الرابط",
       "RENAME": "إعادة تسمية",
-      "DELETE": "حذف"
+      "DELETE": "حذف",
+      "CONTINUE_SCENE": "متابعة المشهد"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "مفتاح API مطلوب",

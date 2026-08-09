@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "İndir",
       "COPY_LINK": "Bağlantıyı kopyala",
       "RENAME": "Yeniden Adlandır",
-      "DELETE": "Sil"
+      "DELETE": "Sil",
+      "CONTINUE_SCENE": "Sahneye devam et"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Anahtarı Gerekli",

@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import type { SnapshotView } from "@/lib/types";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useSetAtom } from "jotai";
@@ -18,7 +20,19 @@ export type QuickTarget = {
 // never auto-restores the form.
 export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const nav = useImageNav();
+  const userId = useLocalUserId();
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
+
+  // The gallery src is a blob: URL, which dies with the document: persisted into the
+  // form draft it comes back dead after a reload and the inpaint canvas mounts on an
+  // unloadable image. Resolve the media row's bytes into a durable data: URI instead.
+  const durableInitUrl = async (src: string): Promise<string | undefined> => {
+    const image = data?.images.find((i) => i.src === src);
+    if (!image) return src;
+    const row = await readLocalMedia(userId, image.id);
+    if (!row?.dataBase64) return src;
+    return `data:${row.mimeType};base64,${row.dataBase64}`;
+  };
 
   const restore = (extra: {
     tab?: GenerateTab;
@@ -43,7 +57,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     });
   };
 
-  const onQuickAction = (src: string, target: QuickTarget) => {
+  const onQuickAction = async (src: string, target: QuickTarget) => {
     if (!data) return;
     nav.setNav({ tab: target.tab, subPill: target.subPill });
     // Remix must not carry an init image (that would turn it into img2img of the old
@@ -52,7 +66,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     restore({
       tab: target.tab,
       subPill: target.subPill,
-      initImageUrl: target.remix ? undefined : src,
+      initImageUrl: target.remix ? undefined : await durableInitUrl(src),
       paramOverrides: target.remix
         ? typeof remixSeed === "number"
           ? { seed: remixSeed }

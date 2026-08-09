@@ -131,12 +131,6 @@ const FOOTER_BADGES: {
     width: 139,
   },
   {
-    href: "https://shipycorn.com",
-    src: "https://shipycorn.com/images/badges/shipycorn.badge.svg",
-    name: "Shipycorn",
-    width: 174,
-  },
-  {
     href: "https://dailypings.com/p/unorouter",
     src: "https://dailypings.com/badge.svg",
     name: "DailyPings",
@@ -146,18 +140,6 @@ const FOOTER_BADGES: {
     href: "https://unitelist.com/product/unorouter",
     src: "https://unitelist.com/assets/images/badge.png",
     name: "Unite List",
-    width: 150,
-  },
-  {
-    href: "https://acidtools.com/ai/unorouter",
-    src: "https://acidtools.com/assets/images/badge.png",
-    name: "Acid Tools",
-    width: 150,
-  },
-  {
-    href: "https://aitechviral.com/ai/unorouter",
-    src: "https://aitechviral.com/assets/images/badge.png",
-    name: "AI Tech Viral",
     width: 150,
   },
   {
@@ -209,12 +191,6 @@ const FOOTER_BADGES: {
     width: 103,
   },
   {
-    href: "https://toolfio.com",
-    src: "https://toolfio.com/toolfio-light-badge.png",
-    name: "Featured on Toolfio",
-    width: 100,
-  },
-  {
     href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
     src: "https://sharefast.co/sharefast-featured-badge.svg",
     name: "Featured on Share Fast",
@@ -255,12 +231,6 @@ const FOOTER_BADGES: {
     src: "https://www.stork.ai/badge/verified-dark.svg",
     name: "Stork Verified",
     width: 120,
-  },
-  {
-    href: "https://web-review.com",
-    src: "https://web-review.com/badge.png",
-    name: "Web Review",
-    width: 111,
   },
   {
     href: "https://startupbase.io/products/unorouter?utm_source=startupbase&utm_medium=badge&utm_campaign=launch-badge-light",

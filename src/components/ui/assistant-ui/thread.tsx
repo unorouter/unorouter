@@ -308,6 +308,24 @@ const ComposerWebSearchToggle: FC = () => {
   );
 };
 
+const ComposerContinueButton: FC = () => {
+  const t = useTranslations();
+  const threadRuntime = useThreadRuntime();
+  const hasMessages = useAuiState((s) => s.thread.messages.length > 0);
+  const isRunning = useAuiState((s) => s.thread.isRunning);
+  if (!hasMessages || isRunning) return null;
+  return (
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.CONTINUE_SCENE")}
+      variant="ghost"
+      className="aui-composer-continue size-8 rounded-full"
+      onClick={() => threadRuntime.append("(OOC: Continue.)")}
+    >
+      <Icon name="chevrons-right" className="size-4" />
+    </TooltipIconButton>
+  );
+};
+
 const ComposerAction: FC = () => {
   const t = useTranslations();
   const threadRuntime = useThreadRuntime();
@@ -325,6 +343,7 @@ const ComposerAction: FC = () => {
       <div className="flex items-center">
         <ComposerAddAttachment />
         <ComposerWebSearchToggle />
+        <ComposerContinueButton />
       </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
         {emptySend ? (

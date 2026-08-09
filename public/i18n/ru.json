@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Скачать",
       "COPY_LINK": "Скопировать ссылку",
       "RENAME": "Переименовать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CONTINUE_SCENE": "Продолжить сцену"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Требуется ключ API",

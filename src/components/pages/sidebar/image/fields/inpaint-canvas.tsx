@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/icon";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
   MaskEditor,
@@ -25,6 +25,25 @@ export function InpaintCanvas(props: Props) {
   const t = useTranslations();
   const form = useFormContext<ImageFormValues>();
   const editorRef = useRef<MaskEditorCanvasRef | null>(null);
+
+  // The editor's own viewport is a fixed 300px-tall box and it scales the canvas to
+  // fit, so a portrait render paints at ~200px wide. Size the box to the source
+  // image's aspect ratio (capped to the viewport) so the paint surface fills the
+  // column and the whole image stays reachable.
+  const [aspect, setAspect] = useState<number | null>(null);
+  useEffect(() => {
+    let alive = true;
+    const probe = new Image();
+    probe.onload = () => {
+      if (alive && probe.naturalWidth && probe.naturalHeight) {
+        setAspect(probe.naturalWidth / probe.naturalHeight);
+      }
+    };
+    probe.src = props.imageUrl;
+    return () => {
+      alive = false;
+    };
+  }, [props.imageUrl]);
 
   const brushSize = form.watch("ui.inpaintBrushSize") ?? DEFAULT_BRUSH;
   const opacity = form.watch("ui.inpaintBrushOpacity") ?? DEFAULT_OPACITY;
@@ -60,7 +79,10 @@ export function InpaintCanvas(props: Props) {
       name="ui.inpaintMaskDataUrl"
       render={() => (
         <div className="flex flex-col gap-3">
-          <div className="relative overflow-hidden rounded-md border">
+          <div
+            className="relative mx-auto max-h-[70vh] w-full overflow-hidden rounded-md border"
+            style={aspect ? { aspectRatio: aspect } : { height: 300 }}
+          >
             <MaskEditor
               src={props.imageUrl}
               canvasRef={editorRef as React.RefObject<MaskEditorCanvasRef>}

@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "下載",
       "COPY_LINK": "複製連結",
       "RENAME": "重新命名",
-      "DELETE": "刪除"
+      "DELETE": "刪除",
+      "CONTINUE_SCENE": "繼續場景"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",

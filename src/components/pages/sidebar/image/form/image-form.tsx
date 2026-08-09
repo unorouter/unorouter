@@ -195,6 +195,7 @@ export function ImageForm() {
             render={({ field }) => (
               <LoraPicker
                 family={descriptor.family}
+                checkpointArchitecture={activeCheckpoint?.architecture ?? null}
                 value={field.value ?? []}
                 onChange={(loras) =>
                   field.onChange(loras.length > 0 ? loras : undefined)

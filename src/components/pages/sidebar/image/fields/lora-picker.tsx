@@ -16,6 +16,10 @@ export type { LoraEntry };
 
 type Props = {
   family: ModelFamily;
+  /** The active passthrough checkpoint's Runware architecture tag. The provider
+   *  rejects a LoRA whose architecture differs from the checkpoint's, so the
+   *  catalog narrows to it and resolved links get a compatibility check. */
+  checkpointArchitecture?: string | null;
   value: LoraEntry[];
   onChange: (next: LoraEntry[]) => void;
   /** Appends the LoRA's trigger words to the prompt on add; a gated LoRA does nothing
@@ -51,24 +55,34 @@ export function LoraPicker(props: Props) {
   const versions = useCivitaiLoraVersionsQuery(
     isReference ? debounced : undefined,
   );
-  const resolved: CatalogItem[] = (versions.data?.items ?? []).map((v) => ({
-    id: v.air,
-    air: v.air,
-    name: v.name,
-    architecture: v.architecture,
-    heroImage: v.heroImage,
-    defaultWeight: v.defaultWeight ?? 0.8,
-    nsfwLevel: v.nsfwLevel,
-    triggerWords: v.triggerWords,
-    tags: [],
-    downloadCount: null,
-  }));
+  const checkpointArch = props.checkpointArchitecture ?? undefined;
+  const compatible = (arch: string | null | undefined) =>
+    !checkpointArch || !arch || arch === checkpointArch;
+  const resolved: CatalogItem[] = (versions.data?.items ?? [])
+    .map((v) => ({
+      id: v.air,
+      air: v.air,
+      name: v.name,
+      architecture: v.architecture,
+      heroImage: v.heroImage,
+      defaultWeight: v.defaultWeight ?? 0.8,
+      nsfwLevel: v.nsfwLevel,
+      triggerWords: v.triggerWords,
+      tags: [],
+      downloadCount: null,
+    }))
+    // The provider rejects a LoRA whose architecture differs from the checkpoint's,
+    // so compatible versions list first; the row shows each one's architecture.
+    .sort(
+      (a, b) =>
+        Number(compatible(b.architecture)) - Number(compatible(a.architecture)),
+    );
 
   const catalog = useLoraCatalogQuery(
     isReference
       ? undefined
       : {
-          architecture: familyToArchitecture(props.family),
+          architecture: checkpointArch ?? familyToArchitecture(props.family),
           ...(debounced ? { search: debounced } : {}),
         },
   );

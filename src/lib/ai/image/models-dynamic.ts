@@ -127,8 +127,12 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
   const knobs = vendorKnobs(model.name);
   const diffusion = isDiffusionModel(model);
 
-  const maxReferenceImages =
-    declaredMaxRefs > 0
+  // Diffusion checkpoints have no reference-image input: refs switch the request to
+  // the multipart edits endpoint, which their channels cannot serve (instant 400).
+  // Their image-input path is the img2img init image (seedImage).
+  const maxReferenceImages = diffusion
+    ? 0
+    : declaredMaxRefs > 0
       ? declaredMaxRefs
       : endpoint === "image-generation"
         ? 1

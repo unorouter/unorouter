@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Unduh",
       "COPY_LINK": "Salin tautan",
       "RENAME": "Ganti nama",
-      "DELETE": "Hapus"
+      "DELETE": "Hapus",
+      "CONTINUE_SCENE": "Lanjutkan adegan"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",

@@ -3824,7 +3824,8 @@
       "DOWNLOAD": "Tải xuống",
       "COPY_LINK": "Sao chép liên kết",
       "RENAME": "Đổi tên",
-      "DELETE": "Xóa"
+      "DELETE": "Xóa",
+      "CONTINUE_SCENE": "Tiếp tục cảnh"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",
