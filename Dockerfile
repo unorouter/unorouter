@@ -1,6 +1,8 @@
-# Pinned: the floating 1-alpine tag can move to a Bun build that segfaults at the
-# end of next build. Bump deliberately, and verify with infra/scripts/build-local.sh.
-FROM oven/bun:1.3.14-alpine AS builder
+# Every Zig-era Bun (1.3.14 and the floating 1-alpine tag alike) segfaults with
+# SIGILL at the very end of next build, after all routes compile. The 1.4 Rust
+# rewrite does not. Move back to a stable tag once 1.4 ships a release.
+# Verify any bump with infra/scripts/build-local.sh.
+FROM oven/bun:canary-alpine AS builder
 WORKDIR /app
 
 COPY package.json ./
