@@ -524,10 +524,7 @@ export function Footer() {
                       isDup && "marquee-dup",
                     )}
                     aria-hidden={isDup || undefined}
-                    // React's DOM typings still declare inert as boolean;
-                    // the attribute is a string in HTML, so pass "" to set it.
-                    // @ts-expect-error see above
-                    inert={isDup ? "" : undefined}
+                    inert={isDup}
                   >
                     {row.map((item) =>
                       "src" in item ? (
