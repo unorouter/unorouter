@@ -16,6 +16,16 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+// Every route in this group is behind auth: AuthGate awaits the cookie-bound
+// self lookup and redirects when it comes back empty, so there is no useful
+// static shell to paint before that answer arrives. The two escape hatches do
+// not apply - "use cache" cannot wrap a cookies() read, and the Suspense
+// boundary below is already in place but only covers prerender, not the
+// client-navigation validation this silences. Per the Next docs this is the
+// intended use of `instant`: request-time gating high in the tree. It opts out
+// THIS segment only; child pages stay validated.
+export const instant = false;
+
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
