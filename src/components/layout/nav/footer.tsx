@@ -502,7 +502,7 @@ export function Footer() {
             the copy is aria-hidden + inert so it is neither announced twice nor
             tab-focusable. Pure CSS: no hooks, no measurement, so the footer
             stays in the PPR static shell. */}
-        <div className="border-muted/50 space-y-3 border-t pt-8 pb-4">
+        <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
           {badgeRows.map((row, rowIndex) => (
             <div
               key={rowIndex}
@@ -576,8 +576,8 @@ export function Footer() {
                   </div>
                 ))}
               </div>
-              <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-12 bg-linear-to-r to-transparent" />
-              <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-12 bg-linear-to-l to-transparent" />
+              <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r to-transparent" />
+              <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l to-transparent" />
             </div>
           ))}
         </div>
