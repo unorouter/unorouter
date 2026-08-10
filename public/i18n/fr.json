@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Recharge de quota",
       "ACTUAL_PAYMENT": "Paiement réel",
-      "SAVE": "Enregistrer"
+      "SAVE": "Enregistrer",
+      "CUSTOM_AMOUNT": "Montant personnalisé",
+      "PAY": "Payer"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Le paiement a échoué. Veuillez réessayer."

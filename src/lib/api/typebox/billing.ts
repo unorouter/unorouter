@@ -14,6 +14,9 @@ export const stripePayBody = t.Object({
 export const creemPayBody = t.Object({
   product_id: t.String(),
   payment_method: t.String(),
+  // Pay-what-you-want. Omitted for a preset tile, which charges the product's
+  // own price; when present, upstream overrides it via Creem's custom_price.
+  amount: t.Optional(t.Number()),
 });
 
 export const nowPaymentsPayBody = t.Object({

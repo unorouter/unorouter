@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Kota Yükleme",
       "ACTUAL_PAYMENT": "Gerçek ödeme",
-      "SAVE": "Kaydet"
+      "SAVE": "Kaydet",
+      "CUSTOM_AMOUNT": "Özel tutar",
+      "PAY": "Öde"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Ödeme başarısız. Lütfen tekrar deneyin."

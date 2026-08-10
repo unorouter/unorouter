@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Quota Top Up",
       "ACTUAL_PAYMENT": "Actual payment",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "CUSTOM_AMOUNT": "Custom amount",
+      "PAY": "Pay"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Payment failed. Please try again."

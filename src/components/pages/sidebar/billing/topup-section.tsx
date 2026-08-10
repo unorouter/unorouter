@@ -1,8 +1,70 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { DEFAULT_TOPUP_AMOUNTS } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+
+// Creem's custom_price bounds, mirrored from the upstream handler so the input
+// rejects the same amounts the API would.
+const CUSTOM_MIN = 1;
+const CUSTOM_MAX = 100000;
+
+// Any configured product works as the carrier for a custom amount: Creem still
+// requires a product_id, and upstream scales the credit from that product's own
+// price/quota ratio. Pick the cheapest so the ratio is the finest-grained one.
+function CustomAmountField(props: {
+  productId: string;
+  disabled: boolean;
+  onPay: (amount: number) => void;
+}) {
+  const t = useTranslations();
+  const [value, setValue] = useState("");
+
+  const parsed = Number(value);
+  const valid =
+    value.trim() !== "" &&
+    Number.isFinite(parsed) &&
+    parsed >= CUSTOM_MIN &&
+    parsed <= CUSTOM_MAX;
+
+  return (
+    <div className="border-border space-y-3 border p-4">
+      <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        {t("BILLING.TOPUP.CUSTOM_AMOUNT")}
+      </span>
+      <div className="flex items-center gap-3">
+        <Input
+          type="number"
+          inputMode="decimal"
+          min={CUSTOM_MIN}
+          max={CUSTOM_MAX}
+          step="1"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={String(CUSTOM_MIN)}
+          className="max-w-40"
+        />
+        <span className="text-muted-foreground shrink-0 font-mono text-[10px]">
+          {t("BILLING.TOPUP.ACTUAL_PAYMENT")}{" "}
+          <span className="text-foreground tabular-nums">
+            ${valid ? parsed.toFixed(2) : "0.00"}
+          </span>
+        </span>
+        <Button
+          size="sm"
+          className="ml-auto"
+          disabled={!valid || props.disabled}
+          onClick={() => props.onPay(parsed)}
+        >
+          {t("BILLING.TOPUP.PAY")}
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 function TopUpTile(props: {
   price: number;
@@ -39,6 +101,10 @@ export function TopUpSection() {
 
   const amountOptions = topUpInfo?.amount_options ?? [];
   const creemProducts = topUpInfo?.creemProducts ?? [];
+  const cheapestCreemProductId =
+    creemProducts
+      .filter((p) => p.price > 0)
+      .sort((a, b) => a.price - b.price)[0]?.productId ?? "";
 
   if (
     !billing.enableStripe &&
@@ -70,16 +136,25 @@ export function TopUpSection() {
       )}
 
       {showCard && billing.enableCreem && creemProducts.length > 0 && (
-        <div className={grid}>
-          {creemProducts.map((product, index) => (
-            <TopUpTile
-              key={product.productId ?? index}
-              price={product.price}
-              actual={product.price}
-              disabled={billing.isTopUpMutating}
-              onPay={() => billing.payCreem(product.productId, product.price)}
-            />
-          ))}
+        <div className="space-y-3">
+          <div className={grid}>
+            {creemProducts.map((product, index) => (
+              <TopUpTile
+                key={product.productId ?? index}
+                price={product.price}
+                actual={product.price}
+                disabled={billing.isTopUpMutating}
+                onPay={() => billing.payCreem(product.productId, product.price)}
+              />
+            ))}
+          </div>
+          <CustomAmountField
+            productId={cheapestCreemProductId}
+            disabled={billing.isTopUpMutating}
+            onPay={(amount) =>
+              billing.payCreem(cheapestCreemProductId, amount, true)
+            }
+          />
         </div>
       )}
 

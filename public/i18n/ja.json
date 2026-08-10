@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "クォータチャージ",
       "ACTUAL_PAYMENT": "実際のお支払い額",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "CUSTOM_AMOUNT": "カスタム金額",
+      "PAY": "支払う"
     },
     "ERROR": {
       "PAYMENT_FAILED": "支払いに失敗しました。もう一度お試しください。"

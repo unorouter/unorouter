@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "額度儲值",
       "ACTUAL_PAYMENT": "實付金額",
-      "SAVE": "儲存"
+      "SAVE": "儲存",
+      "CUSTOM_AMOUNT": "自訂金額",
+      "PAY": "支付"
     },
     "ERROR": {
       "PAYMENT_FAILED": "付款失敗，請重試。"

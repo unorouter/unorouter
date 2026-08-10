@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "额度充值",
       "ACTUAL_PAYMENT": "实付金额",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "CUSTOM_AMOUNT": "自定义金额",
+      "PAY": "支付"
     },
     "ERROR": {
       "PAYMENT_FAILED": "支付失败，请重试。"

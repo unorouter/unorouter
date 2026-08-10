@@ -191,10 +191,18 @@ export function useBillingActions() {
     );
   }
 
-  function payCreem(productId: string, amount?: number) {
+  // custom: send the amount so upstream overrides the product price via Creem's
+  // custom_price. Preset tiles omit it and charge the product's own price.
+  function payCreem(productId: string, amount?: number, custom?: boolean) {
     analytics.billing.topUpInitiated({ provider: "creem", amount });
     creemTopUpMutation.mutate(
-      { body: { product_id: productId, payment_method: "creem" } },
+      {
+        body: {
+          product_id: productId,
+          payment_method: "creem",
+          ...(custom && amount ? { amount } : {}),
+        },
+      },
       {
         onSuccess: (data) => openPayLink(data?.checkout_url),
         onError: failToast,

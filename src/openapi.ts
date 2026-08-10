@@ -702,6 +702,7 @@ export interface CreemPayData {
  * CreemPayRequest schema
  */
 export interface CreemPayRequest {
+  amount?: number;
   payment_method: string;
   product_id: string;
 }

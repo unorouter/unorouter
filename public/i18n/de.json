@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Kontingent aufladen",
       "ACTUAL_PAYMENT": "Tatsächliche Zahlung",
-      "SAVE": "Sparen"
+      "SAVE": "Sparen",
+      "CUSTOM_AMOUNT": "Eigener Betrag",
+      "PAY": "Bezahlen"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."

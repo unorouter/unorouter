@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Isi Ulang Kuota",
       "ACTUAL_PAYMENT": "Pembayaran sebenarnya",
-      "SAVE": "Simpan"
+      "SAVE": "Simpan",
+      "CUSTOM_AMOUNT": "Jumlah khusus",
+      "PAY": "Bayar"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Pembayaran gagal. Silakan coba lagi."

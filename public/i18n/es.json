@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Recargar cuota",
       "ACTUAL_PAYMENT": "Pago real",
-      "SAVE": "Guardar"
+      "SAVE": "Guardar",
+      "CUSTOM_AMOUNT": "Importe personalizado",
+      "PAY": "Pagar"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Pago fallido. Inténtalo de nuevo."

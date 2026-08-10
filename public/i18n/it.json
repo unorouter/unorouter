@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Ricarica quota",
       "ACTUAL_PAYMENT": "Pagamento effettivo",
-      "SAVE": "Salva"
+      "SAVE": "Salva",
+      "CUSTOM_AMOUNT": "Importo personalizzato",
+      "PAY": "Paga"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Pagamento fallito. Riprova."

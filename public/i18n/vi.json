@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Nạp hạn mức",
       "ACTUAL_PAYMENT": "Thanh toán thực tế",
-      "SAVE": "Lưu"
+      "SAVE": "Lưu",
+      "CUSTOM_AMOUNT": "Số tiền tùy chỉnh",
+      "PAY": "Thanh toán"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Thanh toán thất bại. Vui lòng thử lại."

@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "טעינת מכסה",
       "ACTUAL_PAYMENT": "תשלום בפועל",
-      "SAVE": "שמור"
+      "SAVE": "שמור",
+      "CUSTOM_AMOUNT": "סכום מותאם אישית",
+      "PAY": "שלם"
     },
     "ERROR": {
       "PAYMENT_FAILED": "התשלום נכשל. אנא נסו שוב."

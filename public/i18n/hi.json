@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Quota टॉप अप",
       "ACTUAL_PAYMENT": "वास्तविक भुगतान",
-      "SAVE": "सहेजें"
+      "SAVE": "सहेजें",
+      "CUSTOM_AMOUNT": "कस्टम राशि",
+      "PAY": "भुगतान करें"
     },
     "ERROR": {
       "PAYMENT_FAILED": "भुगतान विफल। कृपया पुनः प्रयास करें।"

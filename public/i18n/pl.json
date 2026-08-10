@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Doładowanie kwoty",
       "ACTUAL_PAYMENT": "Rzeczywista płatność",
-      "SAVE": "Zapisz"
+      "SAVE": "Zapisz",
+      "CUSTOM_AMOUNT": "Własna kwota",
+      "PAY": "Zapłać"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Płatność nie powiodła się. Spróbuj ponownie."

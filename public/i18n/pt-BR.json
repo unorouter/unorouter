@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "Recarga de cota",
       "ACTUAL_PAYMENT": "Pagamento real",
-      "SAVE": "Salvar"
+      "SAVE": "Salvar",
+      "CUSTOM_AMOUNT": "Valor personalizado",
+      "PAY": "Pagar"
     },
     "ERROR": {
       "PAYMENT_FAILED": "Pagamento falhou. Tente novamente."

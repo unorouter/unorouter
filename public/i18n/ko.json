@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "할당량 충전",
       "ACTUAL_PAYMENT": "실제 결제",
-      "SAVE": "저장"
+      "SAVE": "저장",
+      "CUSTOM_AMOUNT": "직접 입력 금액",
+      "PAY": "결제"
     },
     "ERROR": {
       "PAYMENT_FAILED": "결제 실패. 다시 시도하세요."

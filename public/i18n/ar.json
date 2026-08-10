@@ -3595,7 +3595,9 @@
     "TOPUP": {
       "TITLE": "شحن الحصّة",
       "ACTUAL_PAYMENT": "الدفع الفعلي",
-      "SAVE": "حفظ"
+      "SAVE": "حفظ",
+      "CUSTOM_AMOUNT": "مبلغ مخصص",
+      "PAY": "ادفع"
     },
     "ERROR": {
       "PAYMENT_FAILED": "فشل الدفع. حاول مجدّداً."
