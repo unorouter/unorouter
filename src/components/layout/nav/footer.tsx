@@ -350,6 +350,16 @@ export function Footer() {
       ),
   );
 
+  // Two marquee tracks. The text-only links ride the second row so they scroll
+  // with everything else instead of sitting in their own static line.
+  const badgeSplit = Math.ceil(visibleBadges.length / 2);
+  const badgeRows: Array<
+    Array<(typeof visibleBadges)[number] | (typeof FOOTER_TEXT_LINKS)[number]>
+  > = [
+    visibleBadges.slice(0, badgeSplit),
+    [...visibleBadges.slice(badgeSplit), ...FOOTER_TEXT_LINKS],
+  ];
+
   const socialLinks = [
     {
       id: "github",
@@ -484,49 +494,91 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-4 opacity-70">
-          {visibleBadges.map((badge) => (
-            <NextLink
-              key={badge.href}
-              href={badge.href}
-              target="_blank"
-              rel="noopener noreferrer"
+        {/* Two drifting rows instead of a 4-row wall of logos. EVERY badge and
+            text link stays in the server-rendered DOM: directories verify by
+            fetching this HTML and grepping for their own link, and several
+            (huzzler, dododirectory, saasbison) auto-delist when it is missing.
+            So the track is DUPLICATED for the seam rather than virtualised, and
+            the copy is aria-hidden + inert so it is neither announced twice nor
+            tab-focusable. Pure CSS: no hooks, no measurement, so the footer
+            stays in the PPR static shell. */}
+        <div className="border-muted/50 space-y-3 border-t pt-8 pb-4">
+          {badgeRows.map((row, rowIndex) => (
+            <div
+              key={rowIndex}
+              className="marquee-row relative overflow-hidden opacity-70"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={badge.src}
-                alt={t(
-                  "verified" in badge && badge.verified
-                    ? "FOOTER.BADGE_VERIFIED_ON"
-                    : "FOOTER.BADGE_FEATURED_ON",
-                  { name: badge.name },
-                )}
-                width={badge.width}
-                height={24}
-                loading="lazy"
-                decoding="async"
+              <div
                 className={cn(
-                  "h-6 w-auto",
-                  "lightBg" in badge &&
-                    badge.lightBg &&
-                    "rounded-sm bg-white/90 px-1 py-0.5",
+                  "flex w-max items-center gap-4",
+                  rowIndex === 0
+                    ? "animate-marquee-slow"
+                    : "animate-marquee-slow-reverse",
                 )}
-              />
-            </NextLink>
-          ))}
-        </div>
-
-        <div className="text-foreground/50 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 pb-4 text-xs">
-          {FOOTER_TEXT_LINKS.map((link) => (
-            <NextLink
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground/70 transition-colors"
-            >
-              {link.label}
-            </NextLink>
+              >
+                {[false, true].map((isDup) => (
+                  <div
+                    key={String(isDup)}
+                    className={cn(
+                      "flex shrink-0 items-center gap-4",
+                      isDup && "marquee-dup",
+                    )}
+                    aria-hidden={isDup || undefined}
+                    // React's DOM typings still declare inert as boolean;
+                    // the attribute is a string in HTML, so pass "" to set it.
+                    // @ts-expect-error see above
+                    inert={isDup ? "" : undefined}
+                  >
+                    {row.map((item) =>
+                      "src" in item ? (
+                        <NextLink
+                          key={item.href}
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0"
+                          tabIndex={isDup ? -1 : undefined}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={item.src}
+                            alt={t(
+                              "verified" in item && item.verified
+                                ? "FOOTER.BADGE_VERIFIED_ON"
+                                : "FOOTER.BADGE_FEATURED_ON",
+                              { name: item.name },
+                            )}
+                            width={item.width}
+                            height={24}
+                            loading="lazy"
+                            decoding="async"
+                            className={cn(
+                              "h-6 w-auto max-w-none",
+                              "lightBg" in item &&
+                                item.lightBg &&
+                                "rounded-sm bg-white/90 px-1 py-0.5",
+                            )}
+                          />
+                        </NextLink>
+                      ) : (
+                        <NextLink
+                          key={item.href}
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          tabIndex={isDup ? -1 : undefined}
+                          className="text-foreground/50 hover:text-foreground/70 shrink-0 text-xs whitespace-nowrap transition-colors"
+                        >
+                          {item.label}
+                        </NextLink>
+                      ),
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-12 bg-linear-to-r to-transparent" />
+              <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-12 bg-linear-to-l to-transparent" />
+            </div>
           ))}
         </div>
 

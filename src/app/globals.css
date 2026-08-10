@@ -224,6 +224,47 @@
   animation: marquee 50s linear infinite;
 }
 
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Footer badge rows. Slower than the model ticker because these are logos the
+   eye has to resolve, not a glanceable stream. The track is duplicated in the
+   markup, so -50% lands exactly on the seam. */
+@utility animate-marquee-slow {
+  animation: marquee 80s linear infinite;
+}
+
+@utility animate-marquee-slow-reverse {
+  animation: marquee-reverse 80s linear infinite;
+}
+
+/* Pause on hover so a badge can actually be clicked. */
+.marquee-row:hover .animate-marquee-slow,
+.marquee-row:hover .animate-marquee-slow-reverse {
+  animation-play-state: paused;
+}
+
+/* Motion-sensitive users get the full static block instead of a moving one:
+   stop the animation AND let the track wrap, or half the badges sit off-screen
+   with no way to reach them. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-slow,
+  .animate-marquee-slow-reverse {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .marquee-row .marquee-dup {
+    display: none;
+  }
+}
+
 /* Hero brand chip drift. Duration/delay/--fx/--fy are overridden inline per
    chip. Declared as a @utility so Tailwind v4 keeps the float-chip keyframe
    (bare @keyframes get tree-shaken if nothing references them). */
