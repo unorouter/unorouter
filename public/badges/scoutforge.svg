@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="72" viewBox="0 0 300 72" role="img" aria-label="UnoRouter on Scout Forge">
+  <title>UnoRouter on Scout Forge</title>
+  <rect x="0.5" y="0.5" width="299" height="71" rx="12" fill="#ffffff" stroke="#9ddcf5" />
+  
+    <rect x="12" y="14" width="44" height="44" rx="9.7" fill="#0CA2E0" />
+    <text x="34" y="36" text-anchor="middle" dominant-baseline="central"
+          font-family="'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="700"
+          fill="#ffffff">U</text>
+  <text x="66" y="30" font-family="'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="14"
+        font-weight="600" fill="#17324a">UnoRouter</text>
+  <text x="66" y="47" font-family="'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="11"
+        fill="#5b7f99">Trusted by Scout Forge</text>
+  
+    <g transform="translate(263 36)">
+      <circle r="23" fill="none" stroke="hsl(64 100% 42% / 0.18)" stroke-width="4" />
+      <circle r="23" fill="none" stroke="hsl(64 100% 42%)" stroke-width="4"
+              stroke-linecap="round" stroke-dasharray="91.04 144.51"
+              transform="rotate(-90)" />
+      <text x="0" y="0" text-anchor="middle" dominant-baseline="central"
+            font-family="'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17" font-weight="700"
+            fill="hsl(64 100% 42%)">63</text>
+    </g>
+</svg>

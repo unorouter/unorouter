@@ -1,0 +1,26 @@
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50">
+      <rect width="199" height="49" x="0.5" y="0.5" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <g transform="translate(12, 9) scale(0.32)">
+        <g clip-path="url(#roozna-clip-unorouter)">
+          <rect x="0.0684525" y="50.2638" width="70.987" height="69.0858" rx="18.3072" transform="rotate(-45 0.0684525 50.2638)" stroke="#FE5B00" stroke-width="14.2389" fill="none"/>
+          <rect x="43.9046" y="43.9045" width="11.1877" height="11.1877" rx="5.59387" fill="#FE5B00"/>
+          <rect x="69.3312" y="44.9216" width="6.1024" height="6.1024" rx="3.0512" fill="#FE5B00"/>
+          <rect x="43.9046" y="78.4849" width="8.13654" height="8.13654" rx="4.06827" fill="#FE5B00"/>
+          <rect x="33.7339" y="17.4608" width="8.13654" height="8.13654" rx="4.06827" fill="#FE5B00"/>
+          <rect x="47.9728" y="13.3926" width="3.0512" height="33.5632" fill="#FE5B00"/>
+          <rect x="20.512" y="34.3421" width="3.0512" height="33.5632" transform="rotate(-60 20.512 34.3421)" fill="#FE5B00"/>
+          <rect x="47.9728" y="48.4813" width="3.0512" height="33.5632" transform="rotate(-30 47.9728 48.4813)" fill="#FE5B00"/>
+        </g>
+        <defs>
+          <clipPath id="roozna-clip-unorouter">
+            <rect width="100" height="100" fill="white"/>
+          </clipPath>
+        </defs>
+      </g>
+      <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" text-anchor="start">
+        <text x="50" y="20" font-size="10" font-weight="600" fill="#6B7280" letter-spacing="0.5">FEATURED ON</text>
+        <text x="50" y="38" font-size="16" font-weight="700" fill="#1a1a1a">Roozna</text>
+      </g>
+    </svg>
+  

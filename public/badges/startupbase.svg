@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Launched on StartupBase badge</title>
+  <desc>StartupBase launch badge.</desc>
+
+  <rect x="1.25" y="1.25" width="297.5" height="77.5" rx="18" fill="#FFFFFF" stroke="#006AFF" stroke-width="2.5"/>
+
+  <svg x="14" y="18" width="42" height="42" viewBox="0 0 612 612" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(50 50)">
+      <path d="M470.042755,396.486454 C496.567519,356.155549 512,307.879999 512,256 C512,166.870518 466.451028,88.3795686 397.360733,42.5348026 C356.854025,15.6566342 308.255414,0 256,0 C114.615104,0 0,114.615104 0,256 C0,397.384896 114.615104,512 256,512 C307.097234,512 354.697966,497.029697 394.655506,471.235781" stroke="#006AFF" stroke-width="100" fill="#FFFFFF" fill-opacity="0"/>
+      <circle cx="256.5" cy="256.5" r="87.5" fill="#F97316"/>
+    </g>
+  </svg>
+
+  <text x="72" y="30" fill="#006AFF" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="1">LAUNCHED ON</text>
+  <text x="72" y="55" fill="#006AFF" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="23" font-weight="800">StartupBase</text>
+</svg>
