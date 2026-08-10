@@ -124,13 +124,21 @@ function loadNow() {
       api_host: env.posthogHost,
       ui_host: "https://eu.posthog.com",
       defaults: "2026-01-30",
-      capture_performance: true,
-      capture_heatmaps: true,
-      capture_dead_clicks: true,
-      // Session replay is the quota hog (events are cheap + kept 30d). The 5%
-      // project sample bounds HOW MANY sessions record; this bounds how BIG each
-      // one is: mask all text/inputs (also a privacy win for chat/RP content),
-      // skip console noise, and don't record cross-origin iframes.
+      // Every automatic capture is OFF. They accounted for ~48% of ingested
+      // events ($autocapture 34%, $web_vitals 8.5%, $dead_click/$dead_swipe 6%)
+      // against a 1M/month tier we were projected to overrun 5.7x, and nothing
+      // reads them: every funnel here runs on the named events in analytics.ts.
+      // Turning one back on means accepting a six-figure monthly event bill, so
+      // instrument an explicit event instead.
+      autocapture: false,
+      capture_performance: false,
+      capture_heatmaps: false,
+      capture_dead_clicks: false,
+      // Replay volume is bounded server-side by the project's 5% sampling +
+      // 8s minimum duration (PostHog project settings, not this file). These
+      // options bound how BIG each recording is: mask all text/inputs (also a
+      // privacy win for chat/RP content), skip console noise, and don't record
+      // cross-origin iframes.
       disable_session_recording: false,
       enable_recording_console_log: false,
       session_recording: {
