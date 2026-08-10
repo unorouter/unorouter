@@ -37,6 +37,9 @@ const LEGAL_LINKS = [
 // badge between hosted and self-hosted src by editing its entry only.
 // liveFrom marks a listing that only goes public on a scheduled launch date; the
 // badge appears one day earlier so the directory can verify it before going live.
+// lightBg: the host only ships dark artwork on transparency, which is invisible
+// on this footer. It gets a light chip behind it rather than a swapped src, so
+// the badge their verifier fetches stays byte-identical.
 const FOOTER_BADGES: {
   href: string;
   src: string;
@@ -44,6 +47,7 @@ const FOOTER_BADGES: {
   width: number;
   liveFrom?: string;
   verified?: boolean;
+  lightBg?: boolean;
 }[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -195,6 +199,7 @@ const FOOTER_BADGES: {
     src: "/badges/dododirectory.png",
     name: "DodoDirectory",
     width: 103,
+    lightBg: true,
   },
   {
     href: "https://fastlaunch.io",
@@ -225,6 +230,7 @@ const FOOTER_BADGES: {
     src: "/badges/saasbison.png",
     name: "SaaSBison",
     width: 111,
+    lightBg: true,
   },
   {
     href: "https://sumodir.com",
@@ -499,7 +505,12 @@ export function Footer() {
                 height={24}
                 loading="lazy"
                 decoding="async"
-                className="h-6 w-auto"
+                className={cn(
+                  "h-6 w-auto",
+                  "lightBg" in badge &&
+                    badge.lightBg &&
+                    "rounded-sm bg-white/90 px-1 py-0.5",
+                )}
               />
             </NextLink>
           ))}
