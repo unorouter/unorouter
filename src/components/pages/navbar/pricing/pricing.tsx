@@ -20,6 +20,7 @@ import {
   type TranslationKey,
 } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 type TopUpOption = {
@@ -27,6 +28,12 @@ type TopUpOption = {
   amount: number;
   handler: () => void;
 };
+
+// Mirrors the upstream Creem handler's bounds so the field rejects what the
+// API would. Only Creem supports a custom price; the Stripe and crypto lanes
+// still need a preset.
+const CUSTOM_MIN = 1;
+const CUSTOM_MAX = 100000;
 
 export function Pricing() {
   const t = useTranslations();
@@ -38,6 +45,24 @@ export function Pricing() {
   const hydrated = useHydrated();
   const isLoggedIn = hydrated && !!authQuery.data;
   const topUpInfo = billing.topUpInfo;
+  const [customAmount, setCustomAmount] = useState("");
+
+  // Any configured product carries the custom amount (Creem still requires a
+  // product_id); the cheapest gives the finest price/quota ratio to scale from.
+  // Empty string when Creem is not the active lane, which hides the field.
+  const customTopUpProductId =
+    billing.paymentMethod === "card" && billing.enableCreem
+      ? ((topUpInfo?.creemProducts ?? [])
+          .filter((p) => p.price > 0)
+          .sort((a, b) => a.price - b.price)[0]?.productId ?? "")
+      : "";
+
+  const parsedCustom = Number(customAmount);
+  const customValid =
+    customAmount.trim() !== "" &&
+    Number.isFinite(parsedCustom) &&
+    parsedCustom >= CUSTOM_MIN &&
+    parsedCustom <= CUSTOM_MAX;
 
   function redirectToLogin() {
     setCookie(AUTH_REDIRECT_COOKIE, "/pricing", { maxAge: 300 });
@@ -165,6 +190,43 @@ export function Pricing() {
                 </button>
               ))}
             </div>
+            {customTopUpProductId && (
+              <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-2">
+                <div className="border-border focus-within:border-foreground/50 flex items-center border px-3 py-2 transition-colors">
+                  <span className="text-muted-foreground font-mono text-sm">
+                    $
+                  </span>
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    min={CUSTOM_MIN}
+                    max={CUSTOM_MAX}
+                    step="1"
+                    value={customAmount}
+                    onChange={(e) => setCustomAmount(e.target.value)}
+                    placeholder={String(CUSTOM_MIN)}
+                    className="text-foreground w-24 bg-transparent pl-1 font-mono text-sm font-bold tabular-nums outline-none"
+                  />
+                </div>
+                <button
+                  type="button"
+                  disabled={!customValid || billing.isTopUpMutating}
+                  onClick={
+                    isLoggedIn
+                      ? () =>
+                          billing.payCreem(
+                            customTopUpProductId,
+                            Number(customAmount),
+                            true,
+                          )
+                      : redirectToLogin
+                  }
+                  className="border-border hover:border-foreground/50 text-foreground flex cursor-pointer items-center justify-center border px-4 py-2.5 font-mono text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {t("BILLING.TOPUP.PAY")}
+                </button>
+              </div>
+            )}
             <p className="text-muted-foreground mt-3 text-center font-mono text-[10px] tracking-wider uppercase">
               {t("PRICING.TOPUP.FOOTNOTE")}
             </p>
