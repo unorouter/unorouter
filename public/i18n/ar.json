@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "متاح الآن بمعدل {ratio}x",
       "MODEL_ADDED_FREE_BODY": "متاح الآن مجانًا",
       "MODEL_REMOVED": "تمت إزالة {model}",
-      "MODEL_REMOVED_BODY": "لم يعد متوفرًا"
+      "MODEL_REMOVED_BODY": "لم يعد متوفرًا",
+      "BULK_ONLINE": "عاد {count} من الطُرز إلى العمل",
+      "BULK_OFFLINE": "أصبح {count} من الطُرز غير متاح",
+      "BULK_ADDED": "تمت إضافة {count} طرازًا جديدًا",
+      "BULK_REMOVED": "تمت إزالة {count} من الطُرز",
+      "BULK_PRICE_CHANGE": "تغيّرت أسعار {count} من الطُرز",
+      "BULK_BODY": "ومن بينها {sample}",
+      "BULK_BODY_EMPTY": "افتح الكتالوج لعرض القائمة الكاملة"
     },
     "WATCHED_MODELS": "النماذج المتابَعة",
     "PUSH_ON": "إشعارات المتصفح مفعّلة",

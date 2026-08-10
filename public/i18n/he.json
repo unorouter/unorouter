@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "זמין כעת ב-{ratio}x",
       "MODEL_ADDED_FREE_BODY": "זמין כעת בחינם",
       "MODEL_REMOVED": "{model} הוסר",
-      "MODEL_REMOVED_BODY": "אינו מוצע יותר"
+      "MODEL_REMOVED_BODY": "אינו מוצע יותר",
+      "BULK_ONLINE": "{count} דגמים חזרו לפעולה",
+      "BULK_OFFLINE": "{count} דגמים אינם זמינים",
+      "BULK_ADDED": "נוספו {count} דגמים חדשים",
+      "BULK_REMOVED": "{count} דגמים הוסרו",
+      "BULK_PRICE_CHANGE": "המחירים של {count} דגמים השתנו",
+      "BULK_BODY": "ביניהם {sample}",
+      "BULK_BODY_EMPTY": "פתח את הקטלוג לרשימה המלאה"
     },
     "WATCHED_MODELS": "מודלים במעקב",
     "PUSH_ON": "התראות הדפדפן פעילות",

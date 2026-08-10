@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "अब {ratio}x पर उपलब्ध",
       "MODEL_ADDED_FREE_BODY": "अब मुफ़्त उपलब्ध",
       "MODEL_REMOVED": "{model} हटा दिया गया",
-      "MODEL_REMOVED_BODY": "अब उपलब्ध नहीं है"
+      "MODEL_REMOVED_BODY": "अब उपलब्ध नहीं है",
+      "BULK_ONLINE": "{count} मॉडल फिर से ऑनलाइन हैं",
+      "BULK_OFFLINE": "{count} मॉडल अनुपलब्ध हो गए",
+      "BULK_ADDED": "{count} नए मॉडल जोड़े गए",
+      "BULK_REMOVED": "{count} मॉडल हटा दिए गए",
+      "BULK_PRICE_CHANGE": "{count} मॉडल की कीमतें बदलीं",
+      "BULK_BODY": "इनमें {sample} शामिल हैं",
+      "BULK_BODY_EMPTY": "पूरी सूची देखने के लिए कैटलॉग खोलें"
     },
     "WATCHED_MODELS": "वॉच किए गए मॉडल",
     "PUSH_ON": "ब्राउज़र सूचनाएँ चालू हैं",

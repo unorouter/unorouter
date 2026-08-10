@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "Désormais disponible à {ratio}x",
       "MODEL_ADDED_FREE_BODY": "Désormais disponible gratuitement",
       "MODEL_REMOVED": "{model} a été retiré",
-      "MODEL_REMOVED_BODY": "N'est plus proposé"
+      "MODEL_REMOVED_BODY": "N'est plus proposé",
+      "BULK_ONLINE": "{count} modèles sont de nouveau en ligne",
+      "BULK_OFFLINE": "{count} modèles sont devenus indisponibles",
+      "BULK_ADDED": "{count} nouveaux modèles ajoutés",
+      "BULK_REMOVED": "{count} modèles ont été retirés",
+      "BULK_PRICE_CHANGE": "Les prix de {count} modèles ont changé",
+      "BULK_BODY": "Dont {sample}",
+      "BULK_BODY_EMPTY": "Ouvre le catalogue pour voir la liste complète"
     },
     "WATCHED_MODELS": "Modèles suivis",
     "PUSH_ON": "Notifications du navigateur activées",

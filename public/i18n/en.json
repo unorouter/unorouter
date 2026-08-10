@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "Now available at {ratio}x",
       "MODEL_ADDED_FREE_BODY": "Now available for free",
       "MODEL_REMOVED": "{model} was removed",
-      "MODEL_REMOVED_BODY": "No longer offered"
+      "MODEL_REMOVED_BODY": "No longer offered",
+      "BULK_ONLINE": "{count} models are back online",
+      "BULK_OFFLINE": "{count} models went unavailable",
+      "BULK_ADDED": "{count} new models added",
+      "BULK_REMOVED": "{count} models were removed",
+      "BULK_PRICE_CHANGE": "{count} model prices changed",
+      "BULK_BODY": "Including {sample}",
+      "BULK_BODY_EMPTY": "Open the catalog to see the full list"
     },
     "WATCHED_MODELS": "Watched models",
     "PUSH_ON": "Browser notifications on",

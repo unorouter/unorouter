@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "Hiện khả dụng với mức {ratio}x",
       "MODEL_ADDED_FREE_BODY": "Hiện khả dụng miễn phí",
       "MODEL_REMOVED": "{model} đã bị gỡ bỏ",
-      "MODEL_REMOVED_BODY": "Không còn được cung cấp"
+      "MODEL_REMOVED_BODY": "Không còn được cung cấp",
+      "BULK_ONLINE": "{count} mô hình đã hoạt động trở lại",
+      "BULK_OFFLINE": "{count} mô hình đã ngừng hoạt động",
+      "BULK_ADDED": "Đã thêm {count} mô hình mới",
+      "BULK_REMOVED": "Đã xóa {count} mô hình",
+      "BULK_PRICE_CHANGE": "Giá của {count} mô hình đã thay đổi",
+      "BULK_BODY": "Bao gồm {sample}",
+      "BULK_BODY_EMPTY": "Mở danh mục để xem toàn bộ danh sách"
     },
     "WATCHED_MODELS": "Mô hình đang theo dõi",
     "PUSH_ON": "Thông báo trình duyệt đang bật",

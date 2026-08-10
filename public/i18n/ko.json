@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "이제 {ratio}x로 이용 가능",
       "MODEL_ADDED_FREE_BODY": "이제 무료로 이용 가능",
       "MODEL_REMOVED": "{model}이(가) 제거되었습니다",
-      "MODEL_REMOVED_BODY": "더 이상 제공되지 않습니다"
+      "MODEL_REMOVED_BODY": "더 이상 제공되지 않습니다",
+      "BULK_ONLINE": "{count}개 모델이 다시 온라인 상태입니다",
+      "BULK_OFFLINE": "{count}개 모델을 사용할 수 없게 되었습니다",
+      "BULK_ADDED": "{count}개의 새 모델이 추가되었습니다",
+      "BULK_REMOVED": "{count}개 모델이 제거되었습니다",
+      "BULK_PRICE_CHANGE": "{count}개 모델의 가격이 변경되었습니다",
+      "BULK_BODY": "{sample} 등이 포함됩니다",
+      "BULK_BODY_EMPTY": "전체 목록은 카탈로그에서 확인하세요"
     },
     "WATCHED_MODELS": "관심 모델",
     "PUSH_ON": "브라우저 알림 켜짐",

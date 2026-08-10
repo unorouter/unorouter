@@ -11,7 +11,8 @@ export type NotifyEventType =
   | "model_offline"
   | "model_price_change"
   | "model_added"
-  | "model_removed";
+  | "model_removed"
+  | "model_bulk_change";
 
 export type NotifyEvent = {
   id: string;
@@ -25,6 +26,12 @@ export type NotifyEvent = {
     cheapest_ratio?: number;
     prev_cheapest_ratio?: number;
     cheapest_group?: string;
+    // model_bulk_change only: the server collapsed a mass transition (e.g. an
+    // operator re-enabling hundreds of channels) into one digest.
+    bulk_event?: Exclude<NotifyEventType, "model_bulk_change">;
+    bulk_count?: number;
+    bulk_free?: number;
+    models?: string[];
   };
 };
 

@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "Kini tersedia dengan tarif {ratio}x",
       "MODEL_ADDED_FREE_BODY": "Kini tersedia gratis",
       "MODEL_REMOVED": "{model} telah dihapus",
-      "MODEL_REMOVED_BODY": "Tidak lagi ditawarkan"
+      "MODEL_REMOVED_BODY": "Tidak lagi ditawarkan",
+      "BULK_ONLINE": "{count} model kembali online",
+      "BULK_OFFLINE": "{count} model menjadi tidak tersedia",
+      "BULK_ADDED": "{count} model baru ditambahkan",
+      "BULK_REMOVED": "{count} model telah dihapus",
+      "BULK_PRICE_CHANGE": "Harga {count} model berubah",
+      "BULK_BODY": "Termasuk {sample}",
+      "BULK_BODY_EMPTY": "Buka katalog untuk melihat daftar lengkap"
     },
     "WATCHED_MODELS": "Model yang dipantau",
     "PUSH_ON": "Notifikasi browser aktif",

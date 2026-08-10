@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "{ratio}x で利用可能になりました",
       "MODEL_ADDED_FREE_BODY": "無料で利用可能になりました",
       "MODEL_REMOVED": "{model} は削除されました",
-      "MODEL_REMOVED_BODY": "提供終了となりました"
+      "MODEL_REMOVED_BODY": "提供終了となりました",
+      "BULK_ONLINE": "{count}件のモデルが再び利用可能になりました",
+      "BULK_OFFLINE": "{count}件のモデルが利用できなくなりました",
+      "BULK_ADDED": "{count}件の新しいモデルが追加されました",
+      "BULK_REMOVED": "{count}件のモデルが削除されました",
+      "BULK_PRICE_CHANGE": "{count}件のモデルの価格が変更されました",
+      "BULK_BODY": "{sample}などが含まれます",
+      "BULK_BODY_EMPTY": "全一覧はカタログで確認できます"
     },
     "WATCHED_MODELS": "ウォッチ中のモデル",
     "PUSH_ON": "ブラウザ通知は有効です",

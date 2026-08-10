@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "現已可用，費率 {ratio}x",
       "MODEL_ADDED_FREE_BODY": "現已免費可用",
       "MODEL_REMOVED": "{model} 已下架",
-      "MODEL_REMOVED_BODY": "已不再提供"
+      "MODEL_REMOVED_BODY": "已不再提供",
+      "BULK_ONLINE": "{count} 個模型恢復可用",
+      "BULK_OFFLINE": "{count} 個模型已無法使用",
+      "BULK_ADDED": "新增 {count} 個模型",
+      "BULK_REMOVED": "已移除 {count} 個模型",
+      "BULK_PRICE_CHANGE": "{count} 個模型的價格已變動",
+      "BULK_BODY": "其中包括 {sample}",
+      "BULK_BODY_EMPTY": "開啟模型目錄查看完整清單"
     },
     "WATCHED_MODELS": "已關注的模型",
     "PUSH_ON": "瀏覽器通知已開啟",

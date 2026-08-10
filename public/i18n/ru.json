@@ -5603,7 +5603,14 @@
       "MODEL_ADDED_BODY": "Теперь доступна по {ratio}x",
       "MODEL_ADDED_FREE_BODY": "Теперь доступна бесплатно",
       "MODEL_REMOVED": "{model} удалена",
-      "MODEL_REMOVED_BODY": "Больше не предлагается"
+      "MODEL_REMOVED_BODY": "Больше не предлагается",
+      "BULK_ONLINE": "{count} моделей снова доступны",
+      "BULK_OFFLINE": "{count} моделей стали недоступны",
+      "BULK_ADDED": "Добавлено {count} новых моделей",
+      "BULK_REMOVED": "Удалено {count} моделей",
+      "BULK_PRICE_CHANGE": "Изменились цены {count} моделей",
+      "BULK_BODY": "Среди них {sample}",
+      "BULK_BODY_EMPTY": "Откройте каталог, чтобы увидеть полный список"
     },
     "WATCHED_MODELS": "Отслеживаемые модели",
     "PUSH_ON": "Уведомления браузера включены",
