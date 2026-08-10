@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Formules d'abonnement",
-      "QUOTA_TOPUP": "Recharge de crédit"
+      "QUOTA_TOPUP": "Recharge de crédit",
+      "SUBSCRIPTIONS_HINT": "Récurrent, réinitialisé chaque semaine",
+      "QUOTA_TOPUP_HINT": "Paiement unique, sans expiration"
     }
   },
   "FORM": {

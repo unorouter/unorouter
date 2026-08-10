@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "订阅套餐",
-      "QUOTA_TOPUP": "额度充值"
+      "QUOTA_TOPUP": "额度充值",
+      "SUBSCRIPTIONS_HINT": "周期扣费，每周重置",
+      "QUOTA_TOPUP_HINT": "一次性付款，永不过期"
     }
   },
   "FORM": {

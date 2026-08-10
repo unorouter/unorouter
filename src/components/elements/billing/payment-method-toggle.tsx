@@ -5,7 +5,12 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import type { PaymentMethod } from "@/store/client-store";
 import { useTranslations } from "next-intl";
 
-export function PaymentMethodToggle(props: { centered?: boolean }) {
+// compact: sits inside a section header that already says what it applies to,
+// so the standalone "Payment method" label would just repeat the context.
+export function PaymentMethodToggle(props: {
+  centered?: boolean;
+  compact?: boolean;
+}) {
   const t = useTranslations();
   const billing = useBillingActions();
 
@@ -17,9 +22,11 @@ export function PaymentMethodToggle(props: { centered?: boolean }) {
         props.centered ? "flex flex-col items-center space-y-2" : "space-y-2"
       }
     >
-      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-        {t("BILLING.PAYMENT_METHOD.LABEL")}
-      </p>
+      {!props.compact && (
+        <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+          {t("BILLING.PAYMENT_METHOD.LABEL")}
+        </p>
+      )}
       <Tabs
         value={billing.paymentMethod}
         onValueChange={(value) =>

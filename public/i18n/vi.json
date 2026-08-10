@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Gói đăng ký",
-      "QUOTA_TOPUP": "Nạp hạn mức"
+      "QUOTA_TOPUP": "Nạp hạn mức",
+      "SUBSCRIPTIONS_HINT": "Định kỳ, đặt lại hằng tuần",
+      "QUOTA_TOPUP_HINT": "Một lần, không hết hạn"
     }
   },
   "FORM": {

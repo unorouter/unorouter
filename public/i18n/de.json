@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Abonnements",
-      "QUOTA_TOPUP": "Guthaben aufladen"
+      "QUOTA_TOPUP": "Guthaben aufladen",
+      "SUBSCRIPTIONS_HINT": "Wiederkehrend, wöchentlicher Reset",
+      "QUOTA_TOPUP_HINT": "Einmalig, ohne Ablaufdatum"
     }
   },
   "FORM": {

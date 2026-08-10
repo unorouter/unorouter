@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "सदस्यता योजनाएँ",
-      "QUOTA_TOPUP": "कोटा टॉप-अप"
+      "QUOTA_TOPUP": "कोटा टॉप-अप",
+      "SUBSCRIPTIONS_HINT": "आवर्ती, हर सप्ताह रीसेट",
+      "QUOTA_TOPUP_HINT": "एक बार, कभी समाप्त नहीं"
     }
   },
   "FORM": {

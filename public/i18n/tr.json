@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Abonelik planları",
-      "QUOTA_TOPUP": "Bakiye yükleme"
+      "QUOTA_TOPUP": "Bakiye yükleme",
+      "SUBSCRIPTIONS_HINT": "Yinelenen, haftalık sıfırlanır",
+      "QUOTA_TOPUP_HINT": "Tek seferlik, süresi dolmaz"
     }
   },
   "FORM": {

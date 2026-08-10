@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Piani di abbonamento",
-      "QUOTA_TOPUP": "Ricarica credito"
+      "QUOTA_TOPUP": "Ricarica credito",
+      "SUBSCRIPTIONS_HINT": "Ricorrente, si azzera ogni settimana",
+      "QUOTA_TOPUP_HINT": "Una tantum, senza scadenza"
     }
   },
   "FORM": {

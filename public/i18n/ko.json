@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "구독 요금제",
-      "QUOTA_TOPUP": "쿼터 충전"
+      "QUOTA_TOPUP": "쿼터 충전",
+      "SUBSCRIPTIONS_HINT": "정기 결제, 매주 초기화",
+      "QUOTA_TOPUP_HINT": "일회성 결제, 만료 없음"
     }
   },
   "FORM": {

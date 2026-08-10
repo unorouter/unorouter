@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Planos de assinatura",
-      "QUOTA_TOPUP": "Recarga de saldo"
+      "QUOTA_TOPUP": "Recarga de saldo",
+      "SUBSCRIPTIONS_HINT": "Recorrente, reinicia semanalmente",
+      "QUOTA_TOPUP_HINT": "Pagamento único, sem validade"
     }
   },
   "FORM": {

@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Subscription plans",
-      "QUOTA_TOPUP": "Quota top-up"
+      "QUOTA_TOPUP": "Quota top-up",
+      "SUBSCRIPTIONS_HINT": "Recurring, resets weekly",
+      "QUOTA_TOPUP_HINT": "One-time, never expires"
     }
   },
   "FORM": {

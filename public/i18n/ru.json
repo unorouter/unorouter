@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Тарифы подписки",
-      "QUOTA_TOPUP": "Пополнение баланса"
+      "QUOTA_TOPUP": "Пополнение баланса",
+      "SUBSCRIPTIONS_HINT": "Регулярно, сброс каждую неделю",
+      "QUOTA_TOPUP_HINT": "Разовый платёж, без срока действия"
     }
   },
   "FORM": {

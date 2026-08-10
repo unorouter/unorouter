@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "サブスクリプションプラン",
-      "QUOTA_TOPUP": "クォータのチャージ"
+      "QUOTA_TOPUP": "クォータのチャージ",
+      "SUBSCRIPTIONS_HINT": "継続課金、毎週リセット",
+      "QUOTA_TOPUP_HINT": "一回払い、有効期限なし"
     }
   },
   "FORM": {

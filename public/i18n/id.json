@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Paket langganan",
-      "QUOTA_TOPUP": "Isi ulang kuota"
+      "QUOTA_TOPUP": "Isi ulang kuota",
+      "SUBSCRIPTIONS_HINT": "Berulang, disetel ulang mingguan",
+      "QUOTA_TOPUP_HINT": "Sekali bayar, tanpa kedaluwarsa"
     }
   },
   "FORM": {

@@ -1,5 +1,6 @@
 "use client";
 
+import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
@@ -46,18 +47,45 @@ export function Billing() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="buy" className="space-y-8">
-          <SectionBoundary>
-            <SubscriptionSection />
-          </SectionBoundary>
-          <div className="space-y-3">
-            <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
-              {t("BILLING.SECTIONS.QUOTA_TOPUP")}
-            </span>
-            <SectionBoundary>
-              <TopUpSection />
-            </SectionBoundary>
-          </div>
+        {/* Two distinct ways to pay, so each gets its own bordered block with a
+            header. Previously they ran together under one faint label and the
+            payment-method toggle sat up in the balance card, nowhere near the
+            tiles it switches. */}
+        <TabsContent value="buy" className="space-y-4">
+          <section className="border-border border">
+            <header className="border-border flex items-center justify-between border-b px-4 py-3">
+              <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                {t("BILLING.SECTIONS.SUBSCRIPTION_PLANS")}
+              </span>
+              <span className="text-muted-foreground/70 text-xs">
+                {t("BILLING.SECTIONS.SUBSCRIPTIONS_HINT")}
+              </span>
+            </header>
+            <div className="p-4">
+              <SectionBoundary>
+                <SubscriptionSection />
+              </SectionBoundary>
+            </div>
+          </section>
+
+          <section className="border-border border">
+            <header className="border-border flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+              <div className="flex items-baseline gap-3">
+                <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                  {t("BILLING.SECTIONS.QUOTA_TOPUP")}
+                </span>
+                <span className="text-muted-foreground/70 text-xs">
+                  {t("BILLING.SECTIONS.QUOTA_TOPUP_HINT")}
+                </span>
+              </div>
+              <PaymentMethodToggle compact />
+            </header>
+            <div className="p-4">
+              <SectionBoundary>
+                <TopUpSection />
+              </SectionBoundary>
+            </div>
+          </section>
         </TabsContent>
 
         <TabsContent value="topup-transactions">

@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "Plany subskrypcji",
-      "QUOTA_TOPUP": "Doładowanie salda"
+      "QUOTA_TOPUP": "Doładowanie salda",
+      "SUBSCRIPTIONS_HINT": "Cyklicznie, reset co tydzień",
+      "QUOTA_TOPUP_HINT": "Jednorazowo, bez wygaśnięcia"
     }
   },
   "FORM": {

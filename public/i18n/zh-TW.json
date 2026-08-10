@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "訂閱方案",
-      "QUOTA_TOPUP": "額度儲值"
+      "QUOTA_TOPUP": "額度儲值",
+      "SUBSCRIPTIONS_HINT": "週期扣款，每週重設",
+      "QUOTA_TOPUP_HINT": "一次性付款，永不過期"
     }
   },
   "FORM": {

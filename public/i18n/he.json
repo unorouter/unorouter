@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "תוכניות מנוי",
-      "QUOTA_TOPUP": "טעינת מכסה"
+      "QUOTA_TOPUP": "טעינת מכסה",
+      "SUBSCRIPTIONS_HINT": "מתחדש, מתאפס מדי שבוע",
+      "QUOTA_TOPUP_HINT": "תשלום חד-פעמי, ללא תפוגה"
     }
   },
   "FORM": {

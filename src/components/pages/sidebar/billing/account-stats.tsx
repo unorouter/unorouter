@@ -1,6 +1,5 @@
 "use client";
 
-import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
@@ -84,8 +83,6 @@ export function AccountStats() {
             </span>
           )}
         </div>
-
-        <PaymentMethodToggle />
       </div>
 
       <div className="bg-border grid grid-cols-1 gap-px border-t md:grid-cols-2">

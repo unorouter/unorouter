@@ -3649,7 +3649,9 @@
     },
     "SECTIONS": {
       "SUBSCRIPTION_PLANS": "باقات الاشتراك",
-      "QUOTA_TOPUP": "شحن الرصيد"
+      "QUOTA_TOPUP": "شحن الرصيد",
+      "SUBSCRIPTIONS_HINT": "متكرر، يُعاد ضبطه أسبوعيًا",
+      "QUOTA_TOPUP_HINT": "دفعة واحدة، بلا انتهاء"
     }
   },
   "FORM": {
