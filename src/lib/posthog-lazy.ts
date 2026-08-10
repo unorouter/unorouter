@@ -40,6 +40,9 @@ const DROP_EXCEPTIONS = [
   "contentscriptdata", // injected content-script
   "standardselectors", // injected extension
   "wallet must has", // crypto wallet extension
+  "window.webkit.messagehandlers", // iOS in-app webview bridge probing a host app we are not
+  "lidnotifyid is not defined", // linkedin in-app browser injection
+  "object not found matching id", // outlook/office safelinks scanner
   "can't access dead object", // bfcache / detached extension object
   "permission denied to access", // firefox extension touching cross-origin obj / React __reactFiber on a DOM node
   "cannot redefine property: onurlchange", // tampermonkey/violentmonkey
@@ -70,6 +73,14 @@ const DROP_EXCEPTIONS = [
 // (which would hide a genuine outage), keep a SAMPLE so a real spike still
 // surfaces in the trend while the steady-state noise is trimmed.
 const SAMPLE_EXCEPTIONS = [
+  // 140 in 7 days, 137 of them from 2 Chrome iOS users and 122 from ONE, with
+  // empty stack frames, on pages that share no code path (/en, /login,
+  // /register, /token, model detail). The known first-party cause - the
+  // /models URL-sync feedback loop - was fixed in a03e3cc4 and its pages are
+  // absent here, so what is left reads as an injected script in one user's
+  // browser. Sampled rather than dropped: a genuine recursion regression would
+  // show up across many people and still clear the 10% gate.
+  "maximum call stack size exceeded",
   "network error",
   "networkerror",
   "load failed",
