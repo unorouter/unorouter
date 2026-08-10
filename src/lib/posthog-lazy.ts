@@ -146,15 +146,17 @@ function loadNow() {
       capture_heatmaps: false,
       capture_dead_clicks: false,
       // Replay volume is bounded server-side by the project's 5% sampling +
-      // 8s minimum duration (PostHog project settings, not this file). These
-      // options bound how BIG each recording is: mask all text/inputs (also a
-      // privacy win for chat/RP content), skip console noise, and don't record
-      // cross-origin iframes.
+      // 8s minimum duration (PostHog project settings, not this file).
+      //
+      // Rendered TEXT is not masked: `maskTextSelector: "*"` turned every
+      // recording into a wall of asterisks that showed nothing about what the
+      // user actually did, which defeats the point of recording at all.
+      // maskAllInputs stays on, so passwords and pasted API keys are still
+      // never captured as they are typed.
       disable_session_recording: false,
       enable_recording_console_log: false,
       session_recording: {
         maskAllInputs: true,
-        maskTextSelector: "*",
         recordCrossOriginIframes: false,
       },
       before_send: (event) => {
