@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/theme/theme-store";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
-import { getCachedPricingCounts } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -75,19 +74,19 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
+  // No network reads here. This is the ROOT metadata, so anything uncached in
+  // it renders the head of every route under [locale] dynamically and blocks
+  // their prerender. METADATA.DESCRIPTION carries no {modelCount} placeholder
+  // in any of the 18 locales, so the pricing lookup this used to await was
+  // fetched and then discarded.
   const locale = await serverLocale(props);
-  const [t, counts] = await Promise.all([
-    getTranslations({ locale }),
-    getCachedPricingCounts().catch(() => null),
-  ]);
+  const t = await getTranslations({ locale });
 
   return getPageMetadata({
     locale,
     href: "/",
     title: t("METADATA.TITLE", APP_VALUES),
-    description: t("METADATA.DESCRIPTION", {
-      modelCount: String(counts?.modelCount),
-    }),
+    description: t("METADATA.DESCRIPTION"),
     keywords: t("METADATA.KEYWORDS"),
     ogImage: ogBadge("hero", locale),
   });
