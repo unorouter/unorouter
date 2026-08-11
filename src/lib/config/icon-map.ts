@@ -24,7 +24,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowDownLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowDown"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ArrowDown })),
   },
   "arrow-down-right": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-down-right.mjs"),
@@ -39,7 +40,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowRightDownLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowDownRight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.ArrowDownRight,
+      })),
   },
   "arrow-left": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-left.mjs"),
@@ -54,7 +58,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowLeftLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowLeft"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ArrowLeft })),
   },
   "arrow-left-right": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-left-right.mjs"),
@@ -83,7 +88,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowRightLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowRight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ArrowRight })),
   },
   "arrow-right-left": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-right-left.mjs"),
@@ -111,7 +117,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowUpLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowUp"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ArrowUp })),
   },
   "arrow-up-down": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-up-down.mjs"),
@@ -126,7 +133,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowUpDownLine,
       })),
-    iconoir: () => import("iconoir-react/regular/DataTransferBoth"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.DataTransferBoth,
+      })),
   },
   "arrow-up-right": {
     lucide: () => import("lucide-react/dist/esm/icons/arrow-up-right.mjs"),
@@ -141,7 +151,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowRightUpLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowUpRight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.ArrowUpRight,
+      })),
   },
   "chevron-down": {
     lucide: () => import("lucide-react/dist/esm/icons/chevron-down.mjs"),
@@ -156,7 +169,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowDownSLine,
       })),
-    iconoir: () => import("iconoir-react/regular/NavArrowDown"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.NavArrowDown,
+      })),
   },
   "chevron-left": {
     lucide: () => import("lucide-react/dist/esm/icons/chevron-left.mjs"),
@@ -171,7 +187,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowLeftSLine,
       })),
-    iconoir: () => import("iconoir-react/regular/NavArrowLeft"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.NavArrowLeft,
+      })),
   },
   "chevron-right": {
     lucide: () => import("lucide-react/dist/esm/icons/chevron-right.mjs"),
@@ -186,7 +205,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowRightSLine,
       })),
-    iconoir: () => import("iconoir-react/regular/NavArrowRight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.NavArrowRight,
+      })),
   },
   "chevrons-down-up": {
     lucide: () => import("lucide-react/dist/esm/icons/chevrons-down-up.mjs"),
@@ -203,7 +225,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiContractUpDownLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowUnionVertical"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.ArrowUnionVertical,
+      })),
   },
   "chevrons-left": {
     lucide: () => import("lucide-react/dist/esm/icons/chevrons-left.mjs"),
@@ -219,7 +244,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowLeftDoubleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/FastArrowLeft"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.FastArrowLeft,
+      })),
   },
   "chevrons-right": {
     lucide: () => import("lucide-react/dist/esm/icons/chevrons-right.mjs"),
@@ -235,7 +263,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiArrowRightDoubleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/FastArrowRight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.FastArrowRight,
+      })),
   },
   "chevrons-up-down": {
     lucide: () => import("lucide-react/dist/esm/icons/chevrons-up-down.mjs"),
@@ -250,7 +281,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiExpandUpDownLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ArrowSeparateVertical"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.ArrowSeparateVertical,
+      })),
   },
   activity: {
     lucide: () => import("lucide-react/dist/esm/icons/activity.mjs"),
@@ -264,7 +298,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPulseLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Activity"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Activity })),
   },
   check: {
     lucide: () => import("lucide-react/dist/esm/icons/check.mjs"),
@@ -278,7 +313,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCheckLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Check"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Check })),
   },
   "circle-alert": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-alert.mjs"),
@@ -294,7 +330,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiErrorWarningLine,
       })),
-    iconoir: () => import("iconoir-react/regular/WarningCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.WarningCircle,
+      })),
   },
   "circle-check": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-check.mjs"),
@@ -309,7 +348,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCheckboxCircleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/CheckCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.CheckCircle })),
   },
   "circle-dashed": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-dashed.mjs"),
@@ -328,7 +368,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiQuestionLine,
       })),
-    iconoir: () => import("iconoir-react/regular/HelpCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.HelpCircle })),
   },
   "circle-x": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-x.mjs"),
@@ -342,7 +383,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCloseCircleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/XmarkCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.XmarkCircle })),
   },
   "triangle-alert": {
     lucide: () => import("lucide-react/dist/esm/icons/triangle-alert.mjs"),
@@ -358,7 +400,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiAlertLine,
       })),
-    iconoir: () => import("iconoir-react/regular/WarningTriangle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.WarningTriangle,
+      })),
   },
   "octagon-x": {
     lucide: () => import("lucide-react/dist/esm/icons/octagon-x.mjs"),
@@ -372,7 +417,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiForbidLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Prohibition"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Prohibition })),
   },
   info: {
     lucide: () => import("lucide-react/dist/esm/icons/info.mjs"),
@@ -388,7 +434,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiInformationLine,
       })),
-    iconoir: () => import("iconoir-react/regular/InfoCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.InfoCircle })),
   },
   loader: {
     lucide: () => import("lucide-react/dist/esm/icons/loader.mjs"),
@@ -402,7 +449,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLoaderLine,
       })),
-    iconoir: () => import("iconoir-react/regular/RefreshDouble"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.RefreshDouble,
+      })),
   },
   x: {
     lucide: () => import("lucide-react/dist/esm/icons/x.mjs"),
@@ -416,7 +466,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCloseLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Xmark"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Xmark })),
   },
   "chart-bar": {
     lucide: () => import("lucide-react/dist/esm/icons/chart-bar.mjs"),
@@ -430,7 +481,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBarChartHorizontalLine,
       })),
-    iconoir: () => import("iconoir-react/regular/StatsReport"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.StatsReport })),
   },
   "chart-column": {
     lucide: () => import("lucide-react/dist/esm/icons/chart-column.mjs"),
@@ -445,7 +497,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBarChartLine,
       })),
-    iconoir: () => import("iconoir-react/regular/StatsUpSquare"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.StatsUpSquare,
+      })),
   },
   "chart-column-big": {
     lucide: () => import("lucide-react/dist/esm/icons/chart-column-big.mjs"),
@@ -460,7 +515,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBarChart2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/StatsUpSquare"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.StatsUpSquare,
+      })),
   },
   "chart-pie": {
     lucide: () => import("lucide-react/dist/esm/icons/chart-pie.mjs"),
@@ -489,7 +547,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiStockLine,
       })),
-    iconoir: () => import("iconoir-react/regular/GraphDown"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.GraphDown })),
   },
   "trending-up": {
     lucide: () => import("lucide-react/dist/esm/icons/trending-up.mjs"),
@@ -504,7 +563,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLineChartLine,
       })),
-    iconoir: () => import("iconoir-react/regular/GraphUp"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.GraphUp })),
   },
   gauge: {
     lucide: () => import("lucide-react/dist/esm/icons/gauge.mjs"),
@@ -517,7 +577,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDashboard3Line,
       })),
-    iconoir: () => import("iconoir-react/regular/DashboardSpeed"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.DashboardSpeed,
+      })),
   },
   bell: {
     lucide: () => import("lucide-react/dist/esm/icons/bell.mjs"),
@@ -531,7 +594,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBellLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Bell"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Bell })),
   },
   binary: {
     lucide: () => import("lucide-react/dist/esm/icons/binary.mjs"),
@@ -553,7 +617,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBookOpenLine,
       })),
-    iconoir: () => import("iconoir-react/regular/OpenBook"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.OpenBook })),
   },
   "book-text": {
     lucide: () => import("lucide-react/dist/esm/icons/book-text.mjs"),
@@ -567,7 +632,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBookOpenLine,
       })),
-    iconoir: () => import("iconoir-react/regular/OpenBook"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.OpenBook })),
   },
   calendar: {
     lucide: () => import("lucide-react/dist/esm/icons/calendar.mjs"),
@@ -581,7 +647,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCalendarLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Calendar"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Calendar })),
   },
   "clipboard-copy": {
     lucide: () => import("lucide-react/dist/esm/icons/clipboard-copy.mjs"),
@@ -597,7 +664,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiClipboardLine,
       })),
-    iconoir: () => import("iconoir-react/regular/PasteClipboard"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.PasteClipboard,
+      })),
   },
   "cloud-off": {
     lucide: () => import("lucide-react/dist/esm/icons/cloud-off.mjs"),
@@ -610,7 +680,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCloudOffLine,
       })),
-    iconoir: () => import("iconoir-react/regular/CloudXmark"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.CloudXmark })),
   },
   "cloud-upload": {
     lucide: () => import("lucide-react/dist/esm/icons/cloud-upload.mjs"),
@@ -625,7 +696,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiUploadCloud2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/CloudUpload"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.CloudUpload })),
   },
   clock: {
     lucide: () => import("lucide-react/dist/esm/icons/clock.mjs"),
@@ -639,7 +711,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiTimeLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Clock"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Clock })),
   },
   code: {
     lucide: () => import("lucide-react/dist/esm/icons/code.mjs"),
@@ -653,7 +726,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCodeLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Code"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Code })),
   },
   copy: {
     lucide: () => import("lucide-react/dist/esm/icons/copy.mjs"),
@@ -668,7 +742,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFileCopyLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Copy"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Copy })),
   },
   cpu: {
     lucide: () => import("lucide-react/dist/esm/icons/cpu.mjs"),
@@ -682,7 +757,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCpuLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Cpu"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Cpu })),
   },
   database: {
     lucide: () => import("lucide-react/dist/esm/icons/database.mjs"),
@@ -696,7 +772,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDatabaseLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Database"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Database })),
   },
   dices: {
     lucide: () => import("lucide-react/dist/esm/icons/dices.mjs"),
@@ -709,7 +786,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDiceLine,
       })),
-    iconoir: () => import("iconoir-react/regular/DiceFive"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.DiceFive })),
   },
   "dollar-sign": {
     lucide: () => import("lucide-react/dist/esm/icons/dollar-sign.mjs"),
@@ -724,7 +802,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMoneyDollarCircleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Dollar"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Dollar })),
   },
   download: {
     lucide: () => import("lucide-react/dist/esm/icons/download.mjs"),
@@ -738,7 +817,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDownloadLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Download"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Download })),
   },
   drama: {
     lucide: () => import("lucide-react/dist/esm/icons/drama.mjs"),
@@ -762,7 +842,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMoreLine,
       })),
-    iconoir: () => import("iconoir-react/regular/MoreHoriz"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.MoreHoriz })),
   },
   "ellipsis-vertical": {
     lucide: () => import("lucide-react/dist/esm/icons/ellipsis-vertical.mjs"),
@@ -777,7 +858,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMore2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/MoreVert"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.MoreVert })),
   },
   eraser: {
     lucide: () => import("lucide-react/dist/esm/icons/eraser.mjs"),
@@ -790,7 +872,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiEraserLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Erase"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Erase })),
   },
   "external-link": {
     lucide: () => import("lucide-react/dist/esm/icons/external-link.mjs"),
@@ -806,7 +889,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiExternalLinkLine,
       })),
-    iconoir: () => import("iconoir-react/regular/OpenNewWindow"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.OpenNewWindow,
+      })),
   },
   eye: {
     lucide: () => import("lucide-react/dist/esm/icons/eye.mjs"),
@@ -820,7 +906,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiEyeLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Eye"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Eye })),
   },
   "eye-off": {
     lucide: () => import("lucide-react/dist/esm/icons/eye-off.mjs"),
@@ -834,7 +921,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiEyeOffLine,
       })),
-    iconoir: () => import("iconoir-react/regular/EyeClosed"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.EyeClosed })),
   },
   file: {
     lucide: () => import("lucide-react/dist/esm/icons/file.mjs"),
@@ -848,7 +936,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFileLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Page"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Page })),
   },
   "file-question": {
     lucide: () => import("lucide-react/dist/esm/icons/file-question.mjs"),
@@ -871,7 +960,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFilterLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Filter"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Filter })),
   },
   "filter-x": {
     lucide: () => import("lucide-react/dist/esm/icons/filter-x.mjs"),
@@ -884,7 +974,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFilterOffLine,
       })),
-    iconoir: () => import("iconoir-react/regular/FilterListCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.FilterListCircle,
+      })),
   },
   fingerprint: {
     lucide: () => import("lucide-react/dist/esm/icons/fingerprint-pattern.mjs"),
@@ -899,7 +992,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFingerprintLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Fingerprint"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Fingerprint })),
   },
   gift: {
     lucide: () => import("lucide-react/dist/esm/icons/gift.mjs"),
@@ -913,7 +1007,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiGiftLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Gift"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Gift })),
   },
   github: {
     lucide: () =>
@@ -930,7 +1025,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiGithubLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Github"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Github })),
   },
   "git-branch": {
     lucide: () => import("lucide-react/dist/esm/icons/git-branch.mjs"),
@@ -949,7 +1045,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiGlobeLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Globe"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Globe })),
   },
   "globe-lock": {
     lucide: () => import("lucide-react/dist/esm/icons/globe-lock.mjs"),
@@ -967,7 +1064,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLayoutGridLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ViewGrid"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ViewGrid })),
   },
   "grip-vertical": {
     lucide: () => import("lucide-react/dist/esm/icons/grip-vertical.mjs"),
@@ -994,7 +1092,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiHashtag,
       })),
-    iconoir: () => import("iconoir-react/regular/Hashtag"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Hashtag })),
   },
   heart: {
     lucide: () => import("lucide-react/dist/esm/icons/heart.mjs"),
@@ -1008,7 +1107,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiHeartLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Heart"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Heart })),
   },
   "heart-pulse": {
     lucide: () => import("lucide-react/dist/esm/icons/heart-pulse.mjs"),
@@ -1036,7 +1136,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiHome4Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Home"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Home })),
   },
   image: {
     lucide: () => import("lucide-react/dist/esm/icons/image.mjs"),
@@ -1050,13 +1151,15 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiImageLine,
       })),
-    iconoir: () => import("iconoir-react/regular/MediaImage"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.MediaImage })),
   },
   "image-down": {
     lucide: () => import("lucide-react/dist/esm/icons/image-down.mjs"),
     tabler: () =>
       import("@tabler/icons-react/dist/esm/icons/IconPhotoDown.mjs"),
-    iconoir: () => import("iconoir-react/regular/MediaImage"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.MediaImage })),
   },
   key: {
     lucide: () => import("lucide-react/dist/esm/icons/key.mjs"),
@@ -1070,7 +1173,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiKeyLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Key"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Key })),
   },
   "key-round": {
     lucide: () => import("lucide-react/dist/esm/icons/key-round.mjs"),
@@ -1084,7 +1188,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiKey2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Key"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Key })),
   },
   layers: {
     lucide: () => import("lucide-react/dist/esm/icons/layers.mjs"),
@@ -1112,7 +1217,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDashboardLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Dashboard"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Dashboard })),
   },
   "layout-grid": {
     lucide: () => import("lucide-react/dist/esm/icons/layout-grid.mjs"),
@@ -1127,7 +1233,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLayoutGridLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ViewGrid"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ViewGrid })),
   },
   link: {
     lucide: () => import("lucide-react/dist/esm/icons/link.mjs"),
@@ -1141,7 +1248,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLink,
       })),
-    iconoir: () => import("iconoir-react/regular/Link"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Link })),
   },
   lock: {
     lucide: () => import("lucide-react/dist/esm/icons/lock.mjs"),
@@ -1155,7 +1263,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLockLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Lock"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Lock })),
   },
   "log-in": {
     lucide: () => import("lucide-react/dist/esm/icons/log-in.mjs"),
@@ -1170,7 +1279,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLoginBoxLine,
       })),
-    iconoir: () => import("iconoir-react/regular/LogIn"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.LogIn })),
   },
   "log-out": {
     lucide: () => import("lucide-react/dist/esm/icons/log-out.mjs"),
@@ -1185,7 +1295,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLogoutBoxLine,
       })),
-    iconoir: () => import("iconoir-react/regular/LogOut"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.LogOut })),
   },
   mail: {
     lucide: () => import("lucide-react/dist/esm/icons/mail.mjs"),
@@ -1199,7 +1310,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMailLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Mail"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Mail })),
   },
   menu: {
     lucide: () => import("lucide-react/dist/esm/icons/menu.mjs"),
@@ -1213,7 +1325,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMenuLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Menu"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Menu })),
   },
   "message-circle": {
     lucide: () => import("lucide-react/dist/esm/icons/message-circle.mjs"),
@@ -1229,7 +1342,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiChat1Line,
       })),
-    iconoir: () => import("iconoir-react/regular/ChatBubbleEmpty"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.ChatBubbleEmpty,
+      })),
   },
   "message-square": {
     lucide: () => import("lucide-react/dist/esm/icons/message-square.mjs"),
@@ -1243,7 +1359,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiChat4Line,
       })),
-    iconoir: () => import("iconoir-react/regular/ChatLines"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ChatLines })),
   },
   mic: {
     lucide: () => import("lucide-react/dist/esm/icons/mic.mjs"),
@@ -1258,7 +1375,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMicLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Microphone"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Microphone })),
   },
   monitor: {
     lucide: () => import("lucide-react/dist/esm/icons/monitor.mjs"),
@@ -1273,7 +1391,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiComputerLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Computer"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Computer })),
   },
   moon: {
     lucide: () => import("lucide-react/dist/esm/icons/moon.mjs"),
@@ -1287,7 +1406,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMoonLine,
       })),
-    iconoir: () => import("iconoir-react/regular/HalfMoon"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.HalfMoon })),
   },
   music: {
     lucide: () => import("lucide-react/dist/esm/icons/music.mjs"),
@@ -1301,7 +1421,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMusicLine,
       })),
-    iconoir: () => import("iconoir-react/regular/MusicDoubleNote"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.MusicDoubleNote,
+      })),
   },
   newspaper: {
     lucide: () => import("lucide-react/dist/esm/icons/newspaper.mjs"),
@@ -1328,7 +1451,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBrushLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Palette"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Palette })),
   },
   "panel-left": {
     lucide: () => import("lucide-react/dist/esm/icons/panel-left.mjs"),
@@ -1342,7 +1466,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiLayoutLeftLine,
       })),
-    iconoir: () => import("iconoir-react/regular/SidebarCollapse"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.SidebarCollapse,
+      })),
   },
   pencil: {
     lucide: () => import("lucide-react/dist/esm/icons/pencil.mjs"),
@@ -1356,7 +1483,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPencilLine,
       })),
-    iconoir: () => import("iconoir-react/regular/EditPencil"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.EditPencil })),
   },
   "pencil-ruler": {
     lucide: () => import("lucide-react/dist/esm/icons/pencil-ruler.mjs"),
@@ -1371,7 +1499,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPencilRulerLine,
       })),
-    iconoir: () => import("iconoir-react/regular/DesignPencil"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.DesignPencil,
+      })),
   },
   percent: {
     lucide: () => import("lucide-react/dist/esm/icons/percent.mjs"),
@@ -1386,7 +1517,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPercentLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Percentage"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Percentage })),
   },
   play: {
     lucide: () => import("lucide-react/dist/esm/icons/play.mjs"),
@@ -1401,7 +1533,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPlayLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Play"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Play })),
   },
   plus: {
     lucide: () => import("lucide-react/dist/esm/icons/plus.mjs"),
@@ -1415,7 +1548,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiAddLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Plus"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Plus })),
   },
   power: {
     lucide: () => import("lucide-react/dist/esm/icons/power.mjs"),
@@ -1457,7 +1591,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiResetLeftLine,
       })),
-    iconoir: () => import("iconoir-react/regular/RefreshDouble"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.RefreshDouble,
+      })),
   },
   "refresh-cw": {
     lucide: () => import("lucide-react/dist/esm/icons/refresh-cw.mjs"),
@@ -1471,7 +1608,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiRefreshLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Refresh"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Refresh })),
   },
   repeat: {
     lucide: () => import("lucide-react/dist/esm/icons/repeat.mjs"),
@@ -1486,7 +1624,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiRepeatLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Repeat"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Repeat })),
   },
   "rotate-ccw": {
     lucide: () => import("lucide-react/dist/esm/icons/rotate-ccw.mjs"),
@@ -1502,7 +1641,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiAnticlockwise2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Undo"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Undo })),
   },
   "rotate-cw": {
     lucide: () => import("lucide-react/dist/esm/icons/rotate-cw.mjs"),
@@ -1517,7 +1657,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiClockwise2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Redo"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Redo })),
   },
   rss: {
     lucide: () => import("lucide-react/dist/esm/icons/rss.mjs"),
@@ -1531,7 +1672,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiRssLine,
       })),
-    iconoir: () => import("iconoir-react/regular/RssFeed"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.RssFeed })),
   },
   "scroll-text": {
     lucide: () => import("lucide-react/dist/esm/icons/scroll-text.mjs"),
@@ -1558,7 +1700,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSearchLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Search"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Search })),
   },
   send: {
     lucide: () => import("lucide-react/dist/esm/icons/send.mjs"),
@@ -1572,7 +1715,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSendPlaneLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Send"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Send })),
   },
   server: {
     lucide: () => import("lucide-react/dist/esm/icons/server.mjs"),
@@ -1586,7 +1730,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiServerLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Server"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Server })),
   },
   settings: {
     lucide: () => import("lucide-react/dist/esm/icons/settings.mjs"),
@@ -1600,7 +1745,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSettingsLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Settings"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Settings })),
   },
   shield: {
     lucide: () => import("lucide-react/dist/esm/icons/shield.mjs"),
@@ -1614,7 +1760,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiShieldLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Shield"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Shield })),
   },
   "shield-check": {
     lucide: () => import("lucide-react/dist/esm/icons/shield-check.mjs"),
@@ -1629,7 +1776,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiShieldCheckLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ShieldCheck"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ShieldCheck })),
   },
   shuffle: {
     lucide: () => import("lucide-react/dist/esm/icons/shuffle.mjs"),
@@ -1643,7 +1791,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiShuffleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Shuffle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Shuffle })),
   },
   "sliders-horizontal": {
     lucide: () => import("lucide-react/dist/esm/icons/sliders-horizontal.mjs"),
@@ -1672,7 +1821,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSparklingLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Sparks"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Sparks })),
   },
   sun: {
     lucide: () => import("lucide-react/dist/esm/icons/sun.mjs"),
@@ -1686,7 +1836,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSunLine,
       })),
-    iconoir: () => import("iconoir-react/regular/SunLight"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.SunLight })),
   },
   tag: {
     lucide: () => import("lucide-react/dist/esm/icons/tag.mjs"),
@@ -1700,7 +1851,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiPriceTag3Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Label"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Label })),
   },
   terminal: {
     lucide: () => import("lucide-react/dist/esm/icons/terminal.mjs"),
@@ -1715,7 +1867,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiTerminalLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Terminal"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Terminal })),
   },
   trash: {
     lucide: () => import("lucide-react/dist/esm/icons/trash.mjs"),
@@ -1729,7 +1882,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDeleteBinLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Trash"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Trash })),
   },
   trophy: {
     lucide: () => import("lucide-react/dist/esm/icons/trophy.mjs"),
@@ -1743,7 +1897,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiTrophyLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Trophy"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Trophy })),
   },
   type: {
     lucide: () => import("lucide-react/dist/esm/icons/type.mjs"),
@@ -1757,7 +1912,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiText,
       })),
-    iconoir: () => import("iconoir-react/regular/Type"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Type })),
   },
   upload: {
     lucide: () => import("lucide-react/dist/esm/icons/upload.mjs"),
@@ -1771,7 +1927,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiUploadLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Upload"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Upload })),
   },
   user: {
     lucide: () => import("lucide-react/dist/esm/icons/user.mjs"),
@@ -1785,7 +1942,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiUserLine,
       })),
-    iconoir: () => import("iconoir-react/regular/User"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.User })),
   },
   "user-plus": {
     lucide: () => import("lucide-react/dist/esm/icons/user-plus.mjs"),
@@ -1799,7 +1957,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiUserAddLine,
       })),
-    iconoir: () => import("iconoir-react/regular/UserPlus"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.UserPlus })),
   },
   users: {
     lucide: () => import("lucide-react/dist/esm/icons/users.mjs"),
@@ -1813,7 +1972,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiGroupLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Group"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Group })),
   },
   video: {
     lucide: () => import("lucide-react/dist/esm/icons/video.mjs"),
@@ -1827,7 +1987,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiVideoLine,
       })),
-    iconoir: () => import("iconoir-react/regular/VideoCamera"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.VideoCamera })),
   },
   wallet: {
     lucide: () => import("lucide-react/dist/esm/icons/wallet.mjs"),
@@ -1841,7 +2002,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiWalletLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Wallet"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Wallet })),
   },
   wand: {
     lucide: () => import("lucide-react/dist/esm/icons/wand.mjs"),
@@ -1855,7 +2017,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiMagicLine,
       })),
-    iconoir: () => import("iconoir-react/regular/MagicWand"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.MagicWand })),
   },
   zap: {
     lucide: () => import("lucide-react/dist/esm/icons/zap.mjs"),
@@ -1869,7 +2032,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFlashlightLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Flash"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Flash })),
   },
   "grid-3x3": {
     lucide: () => import("lucide-react/dist/esm/icons/grid-3-x-3.mjs"),
@@ -1883,7 +2047,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiGridLine,
       })),
-    iconoir: () => import("iconoir-react/regular/ViewGrid"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.ViewGrid })),
   },
   "maximize-2": {
     lucide: () => import("lucide-react/dist/esm/icons/maximize-2.mjs"),
@@ -1898,7 +2063,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiExpandDiagonalLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Expand"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Expand })),
   },
   "settings-2": {
     lucide: () => import("lucide-react/dist/esm/icons/settings-2.mjs"),
@@ -1914,7 +2080,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSettings2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Settings"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Settings })),
   },
   "trash-2": {
     lucide: () => import("lucide-react/dist/esm/icons/trash-2.mjs"),
@@ -1928,7 +2095,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiDeleteBin2Line,
       })),
-    iconoir: () => import("iconoir-react/regular/Trash"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Trash })),
   },
   "brand-apple": {
     lucide: () =>
@@ -2069,7 +2237,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBrainLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Brain"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Brain })),
   },
   "wifi-off": {
     lucide: () => import("lucide-react/dist/esm/icons/wifi-off.mjs"),
@@ -2082,7 +2251,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiWifiOffLine,
       })),
-    iconoir: () => import("iconoir-react/regular/WifiOff"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.WifiOff })),
   },
   "x-circle": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-x.mjs"),
@@ -2096,7 +2266,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiCloseCircleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/XmarkCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.XmarkCircle })),
   },
   "alert-circle": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-alert.mjs"),
@@ -2112,7 +2283,10 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiErrorWarningLine,
       })),
-    iconoir: () => import("iconoir-react/regular/WarningCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.WarningCircle,
+      })),
   },
   "file-text": {
     lucide: () => import("lucide-react/dist/esm/icons/file-text.mjs"),
@@ -2126,7 +2300,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiFileTextLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Page"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Page })),
   },
   square: {
     lucide: () => import("lucide-react/dist/esm/icons/square.mjs"),
@@ -2140,7 +2315,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiSquareLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Square"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Square })),
   },
   wrench: {
     lucide: () => import("lucide-react/dist/esm/icons/wrench.mjs"),
@@ -2154,7 +2330,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiWrenchLine,
       })),
-    iconoir: () => import("iconoir-react/regular/Wrench"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Wrench })),
   },
   list: {
     lucide: () => import("lucide-react/dist/esm/icons/list.mjs"),
@@ -2168,7 +2345,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiListUnordered,
       })),
-    iconoir: () => import("iconoir-react/regular/List"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.List })),
   },
   "plus-circle": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-plus.mjs"),
@@ -2183,7 +2361,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiAddCircleLine,
       })),
-    iconoir: () => import("iconoir-react/regular/PlusCircle"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.PlusCircle })),
   },
   "credit-card": {
     lucide: () => import("lucide-react/dist/esm/icons/credit-card.mjs"),
@@ -2198,7 +2377,8 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@remixicon/react").then((m) => ({
         default: m.RiBankCardLine,
       })),
-    iconoir: () => import("iconoir-react/regular/CreditCard"),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.CreditCard })),
   },
 };
 

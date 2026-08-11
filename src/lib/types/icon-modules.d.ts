@@ -11,8 +11,3 @@ declare module "@tabler/icons-react/dist/esm/icons/*.mjs" {
   const Icon: LazyIconComponent;
   export default Icon;
 }
-
-declare module "iconoir-react/regular/*" {
-  const Icon: LazyIconComponent;
-  export default Icon;
-}
