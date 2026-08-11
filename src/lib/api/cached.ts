@@ -75,6 +75,23 @@ export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
   return dehydrate(qc);
 }
 
+// Dehydrating inside the cache boundary is load-bearing, not a style choice:
+// prefetchQuery stamps dataUpdatedAt with Date.now(), and reading that during a
+// prerender bails the route out with NEXT_STATIC_GEN_BAILOUT (every non-English
+// vendor page 500d). Caching the dehydrated state caches the timestamp with it.
+export async function getDehydratedVendorModels(
+  vendorName: string,
+): Promise<DehydratedState> {
+  "use cache";
+  cacheLife("minutes");
+  const qc = new QueryClient();
+  qc.setQueryData(
+    queryKeys.pricingVendor(vendorName),
+    await getCachedVendorModels(vendorName),
+  );
+  return dehydrate(qc);
+}
+
 export async function getCachedVendorModels(vendorName: string) {
   "use cache";
   cacheLife("minutes");

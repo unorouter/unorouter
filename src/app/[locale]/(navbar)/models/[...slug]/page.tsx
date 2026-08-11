@@ -10,11 +10,9 @@ import { APP_VALUES } from "@/lib/config/constants";
 import {
   getCachedPricing,
   getCachedPricingVendors,
-  getCachedVendorModels,
+  getDehydratedVendorModels,
 } from "@/lib/api/cached";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -31,7 +29,7 @@ import {
 } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -149,13 +147,8 @@ export default async function ModelDetailPage(props: PageProps) {
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
     if (!vendor) notFound();
-    const vendorQc = getQueryClient();
-    await vendorQc.prefetchQuery({
-      queryKey: queryKeys.pricingVendor(vendor),
-      queryFn: () => getCachedVendorModels(vendor),
-    });
     return (
-      <HydrationBoundary state={dehydrate(vendorQc)}>
+      <HydrationBoundary state={await getDehydratedVendorModels(vendor)}>
         <VendorModelsPage vendor={vendor} />
       </HydrationBoundary>
     );
