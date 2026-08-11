@@ -81,7 +81,7 @@ export const SAMPLING_PARAMS = [
     apiKey: "max_tokens",
     labelKey: "RP.SAMPLING_MAX_TOKENS",
     min: 1,
-    max: 32_000,
+    max: 200_000,
     step: 1,
     fallback: 2048,
   },

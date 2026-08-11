@@ -4,7 +4,7 @@ import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort } from "./chat";
 
 export const MAX_NAME_LEN = 200;
-export const MAX_DESC_LEN = 50_000;
+export const MAX_DESC_LEN = 200_000;
 export const MAX_TAG_LEN = 64;
 export const MAX_TAGS = 32;
 export const MAX_KEYS_PER_ENTRY = 64;
@@ -97,7 +97,7 @@ export const samplingPresetBody = t.Object({
   chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
   extraBody: nullable(t.String({ maxLength: 8_192 })),
   providers: nullable(t.String({ maxLength: 4_096 })),
-  promptTemplate: nullable(t.String({ maxLength: 32_768 })),
+  promptTemplate: nullable(t.String({ maxLength: 131_072 })),
   mainPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistory: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistoryRole: nullable(t.Union([t.Literal("system"), t.Literal("user")])),
