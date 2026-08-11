@@ -12,7 +12,6 @@ import {
   msg,
   SERVER_URL_KEY,
 } from "../config/constants";
-import { getCachedPricing } from "../api/cached";
 
 export const setCookies = async () => {
   const cookie = (await cookies())
@@ -67,37 +66,6 @@ export const serverLocale = async (props?: {
   return ((await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
-};
-
-export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = await getCachedPricing();
-  const rawModels = data.models ?? [];
-  const models = rawModels.map((m) => ({
-    name: m.name,
-    vendor: m.vendor.name,
-    type: m.type,
-    outputPrice: m.isFixedPrice ? m.fixedPrice : m.outputPrice,
-  }));
-
-  const modelFor = (vendor: string) =>
-    models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())?.name ??
-    models[0]?.name ??
-    "model-name";
-
-  const topTextModel = models
-    .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
-    .reduce<(typeof models)[number] | null>(
-      (best, m) =>
-        !best || (m.outputPrice ?? 0) > (best.outputPrice ?? 0) ? m : best,
-      null,
-    );
-
-  return {
-    apiUrl: env.apiUrl,
-    placeholder,
-    modelFor,
-    topTextModel: topTextModel?.name ?? models[0]?.name ?? "model-name",
-  };
 };
 
 // The auth-redirect cookie is client-written: it may hold a DECODED localized

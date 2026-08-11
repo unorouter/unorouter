@@ -10,7 +10,7 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { OSTabs } from "../../os/os-tabs";
 import { CCSwitchDeepLinks } from "./cc-switch-deep-links";
-import { getDocsApiKey } from "@/lib/utils/server";
+import { getDocsApiKey } from "@/lib/api/cached";
 
 export async function CCSwitchContent() {
   const t = await getTranslations();

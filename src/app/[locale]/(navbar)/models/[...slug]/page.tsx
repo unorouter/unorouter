@@ -33,7 +33,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string[] }>;
@@ -82,6 +82,13 @@ function canonicalHref(model: ProcessedModel) {
   return { pathname: "/models/[...slug]" as const, params: { slug } };
 }
 
+// The whole page is a function of the slug: it either 404s, 301s a legacy
+// /models/<model> URL, or renders a vendor vs a model view. There is no
+// slug-independent shell to prerender around a Suspense hole, and
+// generateStaticParams is not an option either (760 models x 18 locales).
+// So gate at request time instead, the same way (sidebar)/layout.tsx does.
+export const instant = false;
+
 export async function generateMetadata(props: PageProps) {
   const locale = await serverLocale(props);
   const params = await props.params;
@@ -91,11 +98,6 @@ export async function generateMetadata(props: PageProps) {
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
     if (!vendor) {
-      const legacy =
-        params.slug.length === 1 ? await resolveModel(params.slug[0]!) : null;
-      if (legacy) {
-        permanentRedirect(localeUrl(locale, canonicalHref(legacy.model)));
-      }
       // An empty object inherits the parent (home) metadata: "index, follow"
       // plus a canonical pointing at /<locale>. cacheComponents streams the
       // shell before notFound() runs, so the 200 status can no longer be
@@ -146,17 +148,7 @@ export default async function ModelDetailPage(props: PageProps) {
 
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
-    if (!vendor) {
-      // Pre-vendor-segment URLs (/models/<model>) are still crawled by Google
-      // (773 not-found errors in Search Console); 301 them to the canonical
-      // /models/<vendor>/<model> instead of 404ing.
-      const legacy =
-        params.slug.length === 1 ? await resolveModel(params.slug[0]!) : null;
-      if (legacy) {
-        permanentRedirect(localeUrl(locale, canonicalHref(legacy.model)));
-      }
-      notFound();
-    }
+    if (!vendor) notFound();
     const vendorQc = getQueryClient();
     await vendorQc.prefetchQuery({
       queryKey: queryKeys.pricingVendor(vendor),

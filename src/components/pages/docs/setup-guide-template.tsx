@@ -15,7 +15,7 @@ import { Link } from "@/i18n/navigation";
 import { getCachedFreeChatModels } from "@/lib/api/cached";
 import { APP_VALUES } from "@/lib/config/constants";
 import { OS } from "@/lib/types/enums";
-import { getDocsApiKey } from "@/lib/utils/server";
+import { getDocsApiKey } from "@/lib/api/cached";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";

@@ -7,7 +7,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES, msg } from "@/lib/config/constants";
-import { getDocsApiKey } from "@/lib/utils/server";
+import { getDocsApiKey } from "@/lib/api/cached";
 import Claude from "@lobehub/icons/es/Claude";
 import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";

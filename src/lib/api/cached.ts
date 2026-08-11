@@ -4,6 +4,7 @@ import {
   leanModel,
   toLeanPricing,
 } from "@/lib/api/pricing";
+import { env } from "@/lib/config/env";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -199,3 +200,42 @@ export function emptyPageData() {
     vendorNames: [],
   };
 }
+
+// Lives here, not in utils/server: that module is reachable from client bundles,
+// where a "use cache" directive throws "cacheLife is not defined". Cached because
+// it reads the whole pricing catalog just to name models in snippets, and an
+// uncached read taints every server component awaiting it (the /models/[slug]
+// blocking-prerender error). Plain data only - a closure cannot cross the boundary.
+export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
+  "use cache";
+  cacheLife("minutes");
+  const data = await getCachedPricing();
+  const rawModels = data.models ?? [];
+  const models = rawModels.map((m) => ({
+    name: m.name,
+    vendor: m.vendor.name,
+    type: m.type,
+    outputPrice: m.isFixedPrice ? m.fixedPrice : m.outputPrice,
+  }));
+
+  const modelFor = (vendor: string) =>
+    models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())?.name ??
+    models[0]?.name ??
+    "model-name";
+  const anthropicModel = modelFor("Anthropic");
+
+  const topTextModel = models
+    .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
+    .reduce<(typeof models)[number] | null>(
+      (best, m) =>
+        !best || (m.outputPrice ?? 0) > (best.outputPrice ?? 0) ? m : best,
+      null,
+    );
+
+  return {
+    apiUrl: env.apiUrl,
+    placeholder,
+    anthropicModel,
+    topTextModel: topTextModel?.name ?? models[0]?.name ?? "model-name",
+  };
+};
