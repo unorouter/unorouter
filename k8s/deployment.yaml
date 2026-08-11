@@ -49,6 +49,12 @@ spec:
             limits: { memory: 2Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
+          env:
+            # V8 sizes its heap from the HOST's RAM, not the cgroup limit, so it picked a
+            # ~1120MB ceiling and hit "Ineffective mark-compacts" while half the 2Gi limit sat
+            # unused. Keep this below the limit so V8 GCs hard before the kernel OOM-kills.
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=1536"
           ports:
             - containerPort: 3000
           # readiness gates traffic on deps (db/upstream); generous timeout, deps can be slow
