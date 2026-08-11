@@ -15,7 +15,6 @@ import {
   INITIAL_USER_THEME,
   USER_THEME_KEY,
 } from "@/components/ui/theme/theme-store";
-import { routing } from "@/i18n/routing";
 import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -25,14 +24,12 @@ import {
 } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
-import { hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
   Space_Grotesk,
 } from "next/font/google";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import "../globals.css";
 
@@ -109,9 +106,6 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
-
-  if (!hasLocale(routing.locales, params.locale)) notFound();
-  setRequestLocale(params.locale);
 
   return (
     <html

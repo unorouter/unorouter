@@ -163,6 +163,11 @@ export function TaskCard(props: Props) {
         },
       );
     }
+    // Deliberately keyed on the poll result alone. useFinalizeTaskMutation
+    // returns a new object every render and the body reads its isPending, so
+    // listing it would re-run this the moment the mutation starts; finalizedRef
+    // is the real once-only guard. The props are stable for a card's lifetime.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const handleRefresh = async () => {

@@ -71,6 +71,10 @@ export default function GlobalError(props: RouteErrorProps) {
               {clearing ? "Resetting..." : "Reset app data & reload"}
             </button>
             <button
+              // A hard navigation is required, not router.push: global-error
+              // renders when the root layout itself threw, so the router tree
+              // this button lives in is the broken one.
+              // eslint-disable-next-line @next/next/no-location-assign-relative-destination
               onClick={() => (window.location.href = "/")}
               className="border-border hover:bg-muted rounded-md border px-4 py-2 transition-colors"
             >

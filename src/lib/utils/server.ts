@@ -1,5 +1,4 @@
 import { redirect } from "@/i18n/navigation";
-import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
 import { sealData, unsealData } from "iron-session";
 import { hasLocale, type Locale } from "next-intl";
@@ -60,6 +59,7 @@ export const serverLocale = async (props?: {
   if (fromParams && hasLocale(LOCALES, fromParams)) {
     // Enables static rendering: next-intl otherwise reads the locale from
     // request headers, opting the whole route into dynamic rendering.
+    // (Deprecated in favour of next/root-params; see i18n/request.ts.)
     setRequestLocale(fromParams);
     return fromParams;
   }
@@ -81,12 +81,6 @@ export function sanitizeRedirectPath(target: string): string | null {
   } catch {
     return null;
   }
-}
-
-export function assertFound<T>(
-  rows: ArrayLike<T>,
-): asserts rows is { 0: T } & ArrayLike<T> {
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
 export async function redirectToLogin(): Promise<never> {

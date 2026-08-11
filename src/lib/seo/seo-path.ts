@@ -56,7 +56,9 @@ export async function resolveSeoPath(pathname: string) {
 
   const live =
     slug.length === 1
-      ? models.some((m) => vendorSlug(m.vendor.name) === candidate.toLowerCase())
+      ? models.some(
+          (m) => vendorSlug(m.vendor.name) === candidate.toLowerCase(),
+        )
       : known(candidate);
   if (live) return null;
 
