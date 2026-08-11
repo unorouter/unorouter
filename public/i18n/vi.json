@@ -3616,7 +3616,7 @@
     "USED_OF": "đã dùng trên",
     "PAYMENT_METHOD": {
       "LABEL": "Phương thức thanh toán",
-      "CARD": "Thẻ tín dụng",
+      "CARD": "Thẻ / Google & Apple Pay / Alipay",
       "CRYPTO": "Tiền mã hoá"
     },
     "TRANSACTIONS": {

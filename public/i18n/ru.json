@@ -3616,7 +3616,7 @@
     "USED_OF": "использовано из",
     "PAYMENT_METHOD": {
       "LABEL": "Способ оплаты",
-      "CARD": "Кредитная карта",
+      "CARD": "Карта / Google & Apple Pay / Alipay",
       "CRYPTO": "Криптовалюта"
     },
     "TRANSACTIONS": {

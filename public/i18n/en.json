@@ -3614,7 +3614,7 @@
     "USED_OF": "used of",
     "PAYMENT_METHOD": {
       "LABEL": "Payment method",
-      "CARD": "Credit Card",
+      "CARD": "Card / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto"
     },
     "SUPPORT_TITLE": "Need help?",

@@ -3616,7 +3616,7 @@
     "USED_OF": "مُستخدم من",
     "PAYMENT_METHOD": {
       "LABEL": "طريقة الدفع",
-      "CARD": "بطاقة ائتمان",
+      "CARD": "بطاقة / Google & Apple Pay / Alipay",
       "CRYPTO": "عملات مشفّرة"
     },
     "TRANSACTIONS": {

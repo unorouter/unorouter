@@ -3616,7 +3616,7 @@
     "USED_OF": "사용 / 총",
     "PAYMENT_METHOD": {
       "LABEL": "결제 수단",
-      "CARD": "신용카드",
+      "CARD": "카드 / Google & Apple Pay / Alipay",
       "CRYPTO": "암호화폐"
     },
     "TRANSACTIONS": {

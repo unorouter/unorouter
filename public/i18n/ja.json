@@ -3616,7 +3616,7 @@
     "USED_OF": "使用済み（合計のうち）",
     "PAYMENT_METHOD": {
       "LABEL": "支払い方法",
-      "CARD": "クレジットカード",
+      "CARD": "カード / Google & Apple Pay / Alipay",
       "CRYPTO": "暗号通貨"
     },
     "TRANSACTIONS": {

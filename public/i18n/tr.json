@@ -3616,7 +3616,7 @@
     "USED_OF": "kullanılan",
     "PAYMENT_METHOD": {
       "LABEL": "Ödeme yöntemi",
-      "CARD": "Kredi Kartı",
+      "CARD": "Kart / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {

@@ -3616,7 +3616,7 @@
     "USED_OF": "נוצל מתוך",
     "PAYMENT_METHOD": {
       "LABEL": "אמצעי תשלום",
-      "CARD": "כרטיס אשראי",
+      "CARD": "כרטיס / Google & Apple Pay / Alipay",
       "CRYPTO": "קריפטו"
     },
     "TRANSACTIONS": {

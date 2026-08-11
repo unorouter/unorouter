@@ -3616,7 +3616,7 @@
     "USED_OF": "已用",
     "PAYMENT_METHOD": {
       "LABEL": "支付方式",
-      "CARD": "信用卡",
+      "CARD": "信用卡 / Google & Apple Pay / 支付寶",
       "CRYPTO": "加密貨幣"
     },
     "TRANSACTIONS": {

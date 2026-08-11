@@ -3616,7 +3616,7 @@
     "USED_OF": "में से उपयोग किया गया",
     "PAYMENT_METHOD": {
       "LABEL": "भुगतान विधि",
-      "CARD": "Credit Card",
+      "CARD": "कार्ड / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto"
     },
     "TRANSACTIONS": {
