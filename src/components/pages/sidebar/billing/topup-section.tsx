@@ -8,15 +8,12 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 // Creem's custom_price bounds, mirrored from the upstream handler so the input
-// rejects the same amounts the API would.
+// rejects the same amounts the API would. NowPayments shares them: it takes an
+// arbitrary USD amount with the same $1 floor.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 
-// Any configured product works as the carrier for a custom amount: Creem still
-// requires a product_id, and upstream scales the credit from that product's own
-// price/quota ratio. Pick the cheapest so the ratio is the finest-grained one.
 function CustomAmountField(props: {
-  productId: string;
   disabled: boolean;
   onPay: (amount: number) => void;
 }) {
@@ -149,7 +146,6 @@ export function TopUpSection() {
             ))}
           </div>
           <CustomAmountField
-            productId={cheapestCreemProductId}
             disabled={billing.isTopUpMutating}
             onPay={(amount) =>
               billing.payCreem(cheapestCreemProductId, amount, true)
@@ -176,20 +172,26 @@ export function TopUpSection() {
         )}
 
       {showCrypto && (
-        <div className={grid}>
-          {(amountOptions.length > 0
-            ? amountOptions
-            : DEFAULT_TOPUP_AMOUNTS
-          ).map((amount) => (
-            <TopUpTile
-              key={amount}
-              price={amount}
-              actual={billing.discountedAmount(amount)}
-              save={billing.discountSavings(amount)}
-              disabled={billing.isTopUpMutating}
-              onPay={() => billing.payNowPayments(amount)}
-            />
-          ))}
+        <div className="space-y-3">
+          <div className={grid}>
+            {(amountOptions.length > 0
+              ? amountOptions
+              : DEFAULT_TOPUP_AMOUNTS
+            ).map((amount) => (
+              <TopUpTile
+                key={amount}
+                price={amount}
+                actual={billing.discountedAmount(amount)}
+                save={billing.discountSavings(amount)}
+                disabled={billing.isTopUpMutating}
+                onPay={() => billing.payNowPayments(amount)}
+              />
+            ))}
+          </div>
+          <CustomAmountField
+            disabled={billing.isTopUpMutating}
+            onPay={(amount) => billing.payNowPayments(amount)}
+          />
         </div>
       )}
     </div>

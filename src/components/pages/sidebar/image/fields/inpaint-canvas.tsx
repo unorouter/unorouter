@@ -45,6 +45,52 @@ export function InpaintCanvas(props: Props) {
     };
   }, [props.imageUrl]);
 
+  // react-canvas-masker listens for mouse events only, and iOS Safari synthesizes
+  // compat mouse events for taps but not for drags, so touch users could only dab
+  // dots. Bridge single-finger touches to the mouse events the editor understands;
+  // two-finger gestures pass through untouched for its pinch zoom.
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const toMouse = (type: string, touch: Touch, target: EventTarget) => {
+      target.dispatchEvent(
+        new MouseEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+          button: 0,
+          buttons: type === "mouseup" ? 0 : 1,
+        }),
+      );
+    };
+    const onStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      e.preventDefault();
+      toMouse("mousedown", e.touches[0], e.target ?? wrap);
+    };
+    const onMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      e.preventDefault();
+      toMouse("mousemove", e.touches[0], e.target ?? wrap);
+    };
+    const onEnd = (e: TouchEvent) => {
+      if (e.changedTouches.length !== 1 || e.touches.length !== 0) return;
+      toMouse("mouseup", e.changedTouches[0], e.target ?? wrap);
+    };
+    wrap.addEventListener("touchstart", onStart, { passive: false });
+    wrap.addEventListener("touchmove", onMove, { passive: false });
+    wrap.addEventListener("touchend", onEnd);
+    wrap.addEventListener("touchcancel", onEnd);
+    return () => {
+      wrap.removeEventListener("touchstart", onStart);
+      wrap.removeEventListener("touchmove", onMove);
+      wrap.removeEventListener("touchend", onEnd);
+      wrap.removeEventListener("touchcancel", onEnd);
+    };
+  }, []);
+
   const brushSize = form.watch("ui.inpaintBrushSize") ?? DEFAULT_BRUSH;
   const opacity = form.watch("ui.inpaintBrushOpacity") ?? DEFAULT_OPACITY;
 
@@ -80,7 +126,8 @@ export function InpaintCanvas(props: Props) {
       render={() => (
         <div className="flex flex-col gap-3">
           <div
-            className="relative mx-auto max-h-[70vh] w-full overflow-hidden rounded-md border"
+            ref={wrapRef}
+            className="relative mx-auto max-h-[70vh] w-full touch-none overflow-hidden rounded-md border"
             style={aspect ? { aspectRatio: aspect } : { height: 300 }}
           >
             <MaskEditor

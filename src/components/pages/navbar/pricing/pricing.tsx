@@ -30,8 +30,8 @@ type TopUpOption = {
 };
 
 // Mirrors the upstream Creem handler's bounds so the field rejects what the
-// API would. Only Creem supports a custom price; the Stripe and crypto lanes
-// still need a preset.
+// API would. Creem and NowPayments both take a custom price; only the Stripe
+// lane still needs a preset.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 
@@ -56,6 +56,22 @@ export function Pricing() {
           .filter((p) => p.price > 0)
           .sort((a, b) => a.price - b.price)[0]?.productId ?? "")
       : "";
+
+  const cryptoCustomEnabled =
+    billing.paymentMethod === "crypto" && billing.enableNowPayments;
+  const showCustomField = !!customTopUpProductId || cryptoCustomEnabled;
+
+  function payCustom() {
+    if (!isLoggedIn) {
+      redirectToLogin();
+      return;
+    }
+    if (cryptoCustomEnabled) {
+      billing.payNowPayments(Number(customAmount));
+      return;
+    }
+    billing.payCreem(customTopUpProductId, Number(customAmount), true);
+  }
 
   const parsedCustom = Number(customAmount);
   const customValid =
@@ -190,7 +206,7 @@ export function Pricing() {
                 </button>
               ))}
             </div>
-            {customTopUpProductId && (
+            {showCustomField && (
               <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-2">
                 <div className="border-border focus-within:border-foreground/50 flex items-center border px-3 py-2 transition-colors">
                   <span className="text-muted-foreground font-mono text-sm">
@@ -211,16 +227,7 @@ export function Pricing() {
                 <button
                   type="button"
                   disabled={!customValid || billing.isTopUpMutating}
-                  onClick={
-                    isLoggedIn
-                      ? () =>
-                          billing.payCreem(
-                            customTopUpProductId,
-                            Number(customAmount),
-                            true,
-                          )
-                      : redirectToLogin
-                  }
+                  onClick={payCustom}
                   className="border-border hover:border-foreground/50 text-foreground flex cursor-pointer items-center justify-center border px-4 py-2.5 font-mono text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {t("BILLING.TOPUP.PAY")}
