@@ -15,6 +15,9 @@ const MAX_REFERENCES_DEFAULT = 6;
 
 type Props = {
   maxFiles?: number;
+  /** Edit models call the same slot "images to edit"; a user looking for the
+   *  image input does not recognize "Reference images" as it. */
+  labelKey?: "IMAGE.REFERENCES_TITLE" | "IMAGE.EDIT_IMAGES_TITLE";
   value: ReferenceEntry[];
   onChange: (next: ReferenceEntry[]) => void;
 };
@@ -65,7 +68,7 @@ export function ReferenceUploader(props: Props) {
   return (
     <FormItem>
       <FormLabel>
-        {t("IMAGE.REFERENCES_TITLE")}
+        {t(props.labelKey ?? "IMAGE.REFERENCES_TITLE")}
         <span className="text-muted-foreground ml-2 text-xs font-normal">
           {value.length}/{cap}
         </span>

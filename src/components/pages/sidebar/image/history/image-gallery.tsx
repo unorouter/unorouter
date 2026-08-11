@@ -144,7 +144,7 @@ function ImageTile(props: {
           />
           {props.supportsHires && (
             <QuickButton
-              icon="wand"
+              icon="maximize-2"
               label={t("IMAGE.HOVER_HIRES")}
               onClick={() => quick({ tab: "img2img", hires: true })}
             />

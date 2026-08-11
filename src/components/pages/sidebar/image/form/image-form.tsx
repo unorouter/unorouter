@@ -221,6 +221,11 @@ export function ImageForm() {
             render={({ field }) => (
               <ReferenceUploader
                 maxFiles={descriptor.maxReferenceImages}
+                labelKey={
+                  descriptor.family === "edit"
+                    ? "IMAGE.EDIT_IMAGES_TITLE"
+                    : undefined
+                }
                 value={field.value ?? []}
                 onChange={(refs) =>
                   field.onChange(refs.length > 0 ? refs : undefined)

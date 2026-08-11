@@ -6,7 +6,7 @@ import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import type { SnapshotView } from "@/lib/types";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useSetAtom } from "jotai";
-import type { ImageParams } from "@/lib/validation/image";
+import type { ImageParams, ReferenceEntry } from "@/lib/validation/image";
 import type { GenerateTab, Img2ImgSubPill } from "../image-nav";
 import { useImageNav } from "../image-nav";
 
@@ -40,6 +40,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     tab?: GenerateTab;
     subPill?: Img2ImgSubPill;
     initImageUrl?: string;
+    references?: ReferenceEntry[];
     paramOverrides?: Partial<ImageParams>;
     params?: ImageParams | null;
   }) => {
@@ -50,7 +51,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
       negativePrompt: data.negativePrompt,
       params: extra.params !== undefined ? extra.params : data.params,
       loras: data.loras,
-      references: data.references,
+      references: extra.references ?? data.references,
       extraParams: data.extraParams,
       tab: extra.tab,
       subPill: extra.subPill,
@@ -78,11 +79,18 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     if (!data) return;
     nav.setNav({ tab: target.tab, subPill: target.subPill });
     const remixSeed = data.images.find((i) => i.src === src)?.seed;
+    const durable = target.remix ? undefined : await durableInitUrl(src);
+    // Edit models take their input as a reference image, and reusing the seed
+    // would regenerate the original instead of editing it.
+    const editing = target.tab === "edit";
     restore({
       tab: target.tab,
       subPill: target.subPill,
-      initImageUrl: target.remix ? undefined : await durableInitUrl(src),
-      paramOverrides: quickOverrides(target, remixSeed),
+      initImageUrl: editing ? undefined : durable,
+      references: editing && durable ? [{ url: durable }] : undefined,
+      paramOverrides: editing
+        ? { seed: undefined }
+        : quickOverrides(target, remixSeed),
     });
   };
 
