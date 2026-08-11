@@ -2,7 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 import { SERVER_URL_KEY } from "./lib/config/constants";
-import { resolveModelPath } from "./lib/seo/model-redirect";
+import { resolveSeoPath } from "./lib/seo/seo-path";
 
 // Infra prefixes must BYPASS the next-intl middleware: the matcher does not
 // exclude .js, so without this early return chunk/API requests get locale-
@@ -22,13 +22,13 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const model = await resolveModelPath(pathname);
-  if (model?.to) {
+  const seo = await resolveSeoPath(pathname);
+  if (seo?.to) {
     const url = request.nextUrl.clone();
-    url.pathname = model.to;
+    url.pathname = seo.to;
     return NextResponse.redirect(url, 301);
   }
-  if (model?.gone) {
+  if (seo?.gone) {
     // Rewrite rather than redirect: the URL stays put and the not-found UI
     // renders, but the status is a real 404 because it is set before the
     // shell streams.
