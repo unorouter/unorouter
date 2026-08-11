@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { ADETAILER_DEFAULTS } from "../fields/adetailer-section";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import type { SnapshotView } from "@/lib/types";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
@@ -13,6 +14,7 @@ export type QuickTarget = {
   tab: GenerateTab;
   subPill?: Img2ImgSubPill;
   hires?: boolean;
+  adetailer?: boolean;
   remix?: boolean;
 };
 
@@ -57,23 +59,30 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     });
   };
 
+  // Each quick action pre-fills the one thing it promises. Remix must not carry an
+  // init image (that would turn it into img2img of the old result); its seed comes
+  // from the clicked image, each batch result has its own.
+  const quickOverrides = (
+    target: QuickTarget,
+    remixSeed: number | null | undefined,
+  ): Partial<ImageParams> | undefined => {
+    if (target.remix) {
+      return typeof remixSeed === "number" ? { seed: remixSeed } : undefined;
+    }
+    if (target.hires) return { hiresDenoise: 0.5, hiresUpscale: 1.5 };
+    if (target.adetailer) return { adetailer: { ...ADETAILER_DEFAULTS } };
+    return undefined;
+  };
+
   const onQuickAction = async (src: string, target: QuickTarget) => {
     if (!data) return;
     nav.setNav({ tab: target.tab, subPill: target.subPill });
-    // Remix must not carry an init image (that would turn it into img2img of the old
-    // result); the seed comes from the clicked image, each batch result has its own.
     const remixSeed = data.images.find((i) => i.src === src)?.seed;
     restore({
       tab: target.tab,
       subPill: target.subPill,
       initImageUrl: target.remix ? undefined : await durableInitUrl(src),
-      paramOverrides: target.remix
-        ? typeof remixSeed === "number"
-          ? { seed: remixSeed }
-          : undefined
-        : target.hires
-          ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
-          : undefined,
+      paramOverrides: quickOverrides(target, remixSeed),
     });
   };
 

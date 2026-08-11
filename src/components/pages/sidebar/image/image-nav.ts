@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
 
 export type GenerateTab = "text2img" | "img2img" | "edit";
-export type Img2ImgSubPill = "img2img" | "upscale" | "adetailer" | "inpaint";
+export type Img2ImgSubPill = "img2img" | "inpaint";
 
 const IMAGE_TAB_VALUES = [
   "text2img",
@@ -14,8 +14,6 @@ const IMAGE_TAB_VALUES = [
 
 const IMAGE_SUB_PILL_VALUES = [
   "img2img",
-  "upscale",
-  "adetailer",
   "inpaint",
 ] as const satisfies readonly Img2ImgSubPill[];
 

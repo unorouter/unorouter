@@ -30,8 +30,6 @@ const PILLS: ReadonlyArray<{
   iconName: IconName;
 }> = [
   { id: "img2img", i18nKey: "IMAGE.SUB_IMG2IMG", iconName: "image" },
-  { id: "upscale", i18nKey: "IMAGE.SUB_UPSCALE", iconName: "maximize-2" },
-  { id: "adetailer", i18nKey: "IMAGE.SUB_ADETAILER", iconName: "pencil-ruler" },
   { id: "inpaint", i18nKey: "IMAGE.SUB_INPAINT", iconName: "paintbrush" },
 ];
 

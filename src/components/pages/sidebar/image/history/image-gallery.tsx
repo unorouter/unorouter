@@ -15,19 +15,11 @@ import { Link } from "@/i18n/navigation";
 import type { ImageView } from "@/lib/types";
 import { downloadBlob } from "@/lib/utils/client";
 import { cn } from "@/lib/utils";
-import type { GenerateTab, Img2ImgSubPill } from "../image-nav";
+import type { QuickTarget } from "../result/use-snapshot-restore-actions";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-type QuickTarget = {
-  tab: GenerateTab;
-  subPill?: Img2ImgSubPill;
-  /** A hires pass re-renders THIS image larger, so it is per-image, not per-snapshot. */
-  hires?: boolean;
-  /** Reuse this image's settings as a fresh start, carrying its own seed. */
-  remix?: boolean;
-};
 type QuickHandler = (src: string, target: QuickTarget) => void;
 
 // Falls back to square only when the row carries no dimensions (older rows predate them).
@@ -150,11 +142,6 @@ function ImageTile(props: {
             label={t("IMAGE.HOVER_INPAINT")}
             onClick={() => quick({ tab: "img2img", subPill: "inpaint" })}
           />
-          <QuickButton
-            icon="maximize-2"
-            label={t("IMAGE.HOVER_UPSCALE")}
-            onClick={() => quick({ tab: "img2img", subPill: "upscale" })}
-          />
           {props.supportsHires && (
             <QuickButton
               icon="wand"
@@ -165,7 +152,7 @@ function ImageTile(props: {
           <QuickButton
             icon="pencil-ruler"
             label={t("IMAGE.HOVER_ADETAILER")}
-            onClick={() => quick({ tab: "img2img", subPill: "adetailer" })}
+            onClick={() => quick({ tab: "img2img", adetailer: true })}
           />
           <QuickButton
             icon="pencil"

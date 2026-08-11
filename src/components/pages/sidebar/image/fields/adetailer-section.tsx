@@ -36,7 +36,7 @@ type Props = {
   onChange: (next: AdetailerValue | undefined) => void;
 };
 
-const DEFAULTS: AdetailerValue = {
+export const ADETAILER_DEFAULTS: AdetailerValue = {
   yoloModel: "face_yolov8s.pt",
   steps: 0,
   confidence: 0.5,
@@ -49,7 +49,7 @@ export function AdetailerSection(props: Props) {
   const t = useTranslations();
   const [open, setOpen] = useState(!!props.value);
   const enabled = !!props.value;
-  const v = props.value ?? DEFAULTS;
+  const v = props.value ?? ADETAILER_DEFAULTS;
   const stepsToggleOn = (props.value?.steps ?? 0) > 0;
   const expanded = open && enabled;
 
@@ -70,7 +70,7 @@ export function AdetailerSection(props: Props) {
             return;
           }
           setOpen(true);
-          props.onChange({ ...DEFAULTS });
+          props.onChange({ ...ADETAILER_DEFAULTS });
         }}
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
       >
@@ -87,7 +87,7 @@ export function AdetailerSection(props: Props) {
           checked={enabled}
           onCheckedChange={(c) => {
             setOpen(c);
-            props.onChange(c ? { ...DEFAULTS } : undefined);
+            props.onChange(c ? { ...ADETAILER_DEFAULTS } : undefined);
           }}
           onClick={(e) => e.stopPropagation()}
         />
