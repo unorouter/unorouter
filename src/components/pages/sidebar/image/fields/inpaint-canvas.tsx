@@ -119,6 +119,18 @@ export function InpaintCanvas(props: Props) {
     syncMaskFromCanvas();
   };
 
+  // The editor paints the in-progress stroke on its cursor overlay canvas and only
+  // wipes it on the next stroke, so undo/redo/clear left a transparent ghost of the
+  // removed stroke on screen. Wipe the overlay ourselves; the hover cursor redraws
+  // on the next pointer move.
+  const clearCursorGhost = () => {
+    const overlay = [...(wrapRef.current?.querySelectorAll("canvas") ?? [])].at(
+      -1,
+    );
+    const ctx = overlay?.getContext("2d");
+    if (overlay && ctx) ctx.clearRect(0, 0, overlay.width, overlay.height);
+  };
+
   return (
     <Controller
       control={form.control}
@@ -178,6 +190,7 @@ export function InpaintCanvas(props: Props) {
               size="sm"
               onClick={() => {
                 editorRef.current?.undo();
+                clearCursorGhost();
                 syncMaskFromCanvas();
               }}
             >
@@ -190,6 +203,7 @@ export function InpaintCanvas(props: Props) {
               size="sm"
               onClick={() => {
                 editorRef.current?.redo();
+                clearCursorGhost();
                 syncMaskFromCanvas();
               }}
             >
@@ -202,6 +216,7 @@ export function InpaintCanvas(props: Props) {
               size="sm"
               onClick={() => {
                 editorRef.current?.clear();
+                clearCursorGhost();
                 setMask(undefined);
               }}
             >
