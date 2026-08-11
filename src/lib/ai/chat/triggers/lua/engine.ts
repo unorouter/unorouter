@@ -14,7 +14,13 @@ type EngineState = {
   engine?: LuaEngineLike;
   code?: string;
   queue: Promise<unknown>;
+  idleTimer?: ReturnType<typeof setTimeout>;
 };
+
+// Each live engine pins a 16MB WebAssembly.Memory that only global.close() releases. On the
+// server one module instance is shared by every request, so engines kept for the process
+// lifetime accumulate: measured 4 -> 9 WebAssembly.Memory over one load run, never freed.
+const ENGINE_IDLE_MS = 60_000;
 
 export const luaSafeIds = new Set<string>();
 export const luaEditDisplayIds = new Set<string>();
@@ -52,6 +58,28 @@ function getState(mode: string): EngineState {
     engines.set(mode, s);
   }
   return s;
+}
+
+function closeEngine(state: EngineState): void {
+  if (state.idleTimer) {
+    clearTimeout(state.idleTimer);
+    state.idleTimer = undefined;
+  }
+  try {
+    state.engine?.global.close();
+  } catch {
+    // a close during a broken engine state must not mask the original failure
+  }
+  state.engine = undefined;
+  state.code = undefined;
+}
+
+function scheduleIdleClose(state: EngineState): void {
+  if (state.idleTimer) clearTimeout(state.idleTimer);
+  state.idleTimer = setTimeout(() => closeEngine(state), ENGINE_IDLE_MS);
+  // Node keeps the event loop alive for pending timers; an idle-eviction timer must never be
+  // the reason the process will not exit.
+  state.idleTimer.unref?.();
 }
 
 function luaCodeWrapper(code: string): string {
@@ -227,7 +255,7 @@ export async function runScripted(
   const run = state.queue.then(async (): Promise<RunScriptedResult> => {
     const flags = { stopSending: false };
     if (args.code !== state.code) {
-      state.engine?.global.close();
+      closeEngine(state);
       const factory = (await getFactory()) as {
         createEngine: (o: object) => Promise<LuaEngineLike>;
       };
@@ -296,6 +324,7 @@ export async function runScripted(
       luaSafeIds.delete(accessKey);
       luaEditDisplayIds.delete(accessKey);
       luaLowLevelIds.delete(accessKey);
+      scheduleIdleClose(state);
     }
   });
   state.queue = run.catch(() => undefined);
