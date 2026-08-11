@@ -1,5 +1,6 @@
 import { routing } from "@/i18n/routing";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { getOfflinePricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 
 // Localized first segments ("modelle" -> de), derived from routing.pathnames
@@ -66,7 +67,16 @@ export async function resolveSeoPath(pathname: string) {
       m.name === `${candidate}:free` ||
       m.name.split("/")[1]?.replace(":free", "") === candidate,
   );
-  if (!match) return { gone: true, to: null } as const;
+  // Last check before killing a URL. The snapshot is up to 5min stale and the
+  // catalog churns as channels flap, so confirm against the by-name lookup the
+  // page itself falls back to (it answers for fully-dark models absent from
+  // every feed). It returns null for an upstream failure as well as a genuine
+  // miss, so this can still 404 a live URL during an outage - the short
+  // s-maxage on the response is what bounds that.
+  if (!match) {
+    const byName = await getModelByName(candidate).catch(() => null);
+    return byName ? null : ({ gone: true, to: null } as const);
+  }
 
   const vendor = vendorSlug(match.vendor.name) || "unknown";
   // modelSlug already encodes what needs encoding ([ ] /). Re-encoding would
