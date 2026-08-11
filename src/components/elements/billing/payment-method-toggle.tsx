@@ -34,12 +34,21 @@ export function PaymentMethodToggle(props: {
         }
       >
         <TabsList>
-          <TabsTrigger value="card">
-            {t("BILLING.PAYMENT_METHOD.CARD")}
-          </TabsTrigger>
-          <TabsTrigger value="crypto">
-            {t("BILLING.PAYMENT_METHOD.CRYPTO")}
-          </TabsTrigger>
+          {billing.availableMethods.includes("card") && (
+            <TabsTrigger value="card">
+              {t("BILLING.PAYMENT_METHOD.CARD")}
+            </TabsTrigger>
+          )}
+          {billing.availableMethods.includes("paypal") && (
+            <TabsTrigger value="paypal">
+              {t("BILLING.PAYMENT_METHOD.PAYPAL")}
+            </TabsTrigger>
+          )}
+          {billing.availableMethods.includes("crypto") && (
+            <TabsTrigger value="crypto">
+              {t("BILLING.PAYMENT_METHOD.CRYPTO")}
+            </TabsTrigger>
+          )}
         </TabsList>
       </Tabs>
     </div>

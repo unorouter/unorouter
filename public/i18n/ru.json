@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Способ оплаты",
       "CARD": "Карта / Google & Apple Pay / Alipay",
-      "CRYPTO": "Криптовалюта"
+      "CRYPTO": "Криптовалюта",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "Дата",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Повторить",
     "CLAMP_WARNING": "Провайдер уменьшает запросы свыше 1 мегапикселя или 50 шагов.",
     "IMPORT_INVALID": "Этот файл не является корректным экспортом генерации.",
-    "CATALOG_ALL_ADDED": "Всё найденное уже добавлено."
+    "CATALOG_ALL_ADDED": "Всё найденное уже добавлено.",
+    "EDIT_IMAGES_TITLE": "Изображения для редактирования"
   }
 }

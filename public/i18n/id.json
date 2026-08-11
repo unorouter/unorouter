@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Metode pembayaran",
       "CARD": "Kartu / Google & Apple Pay / Alipay",
-      "CRYPTO": "Crypto"
+      "CRYPTO": "Crypto",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "Tanggal",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Ulangi",
     "CLAMP_WARNING": "Penyedia memperkecil permintaan di atas 1 megapiksel atau 50 langkah.",
     "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid.",
-    "CATALOG_ALL_ADDED": "Semua yang ditemukan sudah ditambahkan."
+    "CATALOG_ALL_ADDED": "Semua yang ditemukan sudah ditambahkan.",
+    "EDIT_IMAGES_TITLE": "Gambar yang akan diedit"
   }
 }

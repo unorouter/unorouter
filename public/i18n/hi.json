@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "भुगतान विधि",
       "CARD": "कार्ड / Google & Apple Pay / Alipay",
-      "CRYPTO": "Crypto"
+      "CRYPTO": "Crypto",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "तारीख",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "फिर से करें",
     "CLAMP_WARNING": "1 मेगापिक्सेल या 50 स्टेप से अधिक के अनुरोधों को प्रदाता छोटा कर देता है।",
     "IMPORT_INVALID": "यह फ़ाइल एक मान्य जनरेशन निर्यात नहीं है।",
-    "CATALOG_ALL_ADDED": "जो कुछ मिला वह पहले से जोड़ा जा चुका है।"
+    "CATALOG_ALL_ADDED": "जो कुछ मिला वह पहले से जोड़ा जा चुका है।",
+    "EDIT_IMAGES_TITLE": "संपादित करने के लिए छवियां"
   }
 }

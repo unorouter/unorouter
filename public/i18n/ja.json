@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "支払い方法",
       "CARD": "カード / Google & Apple Pay / Alipay",
-      "CRYPTO": "暗号通貨"
+      "CRYPTO": "暗号通貨",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "日付",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "やり直す",
     "CLAMP_WARNING": "1メガピクセルまたは50ステップを超えるリクエストはプロバイダー側で縮小されます。",
     "IMPORT_INVALID": "このファイルは有効な生成エクスポートではありません。",
-    "CATALOG_ALL_ADDED": "見つかった項目はすべて追加済みです。"
+    "CATALOG_ALL_ADDED": "見つかった項目はすべて追加済みです。",
+    "EDIT_IMAGES_TITLE": "編集する画像"
   }
 }

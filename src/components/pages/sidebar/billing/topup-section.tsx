@@ -12,20 +12,26 @@ import { useState } from "react";
 // arbitrary USD amount with the same $1 floor.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
+// DeloPay takes whole dollars only (int64 upstream).
+const DELOPAY_MAX = 100000;
 
 function CustomAmountField(props: {
   disabled: boolean;
+  max?: number;
+  integer?: boolean;
   onPay: (amount: number) => void;
 }) {
   const t = useTranslations();
   const [value, setValue] = useState("");
 
+  const max = props.max ?? CUSTOM_MAX;
   const parsed = Number(value);
   const valid =
     value.trim() !== "" &&
     Number.isFinite(parsed) &&
+    (!props.integer || Number.isInteger(parsed)) &&
     parsed >= CUSTOM_MIN &&
-    parsed <= CUSTOM_MAX;
+    parsed <= max;
 
   return (
     <div className="border-border space-y-3 border p-4">
@@ -37,7 +43,7 @@ function CustomAmountField(props: {
           type="number"
           inputMode="decimal"
           min={CUSTOM_MIN}
-          max={CUSTOM_MAX}
+          max={max}
           step="1"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -106,12 +112,15 @@ export function TopUpSection() {
   if (
     !billing.enableStripe &&
     !billing.enableCreem &&
-    !billing.enableNowPayments
+    !billing.enableNowPayments &&
+    !billing.enableDeloPay
   )
     return null;
 
   const showCrypto =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
+  const showPayPal =
+    billing.paymentMethod === "paypal" && billing.enableDeloPay;
   const showCard = billing.paymentMethod === "card" && billing.enableCard;
   const grid = "grid grid-cols-2 gap-3 md:grid-cols-4";
 
@@ -189,8 +198,34 @@ export function TopUpSection() {
             ))}
           </div>
           <CustomAmountField
+            integer
             disabled={billing.isTopUpMutating}
             onPay={(amount) => billing.payNowPayments(amount)}
+          />
+        </div>
+      )}
+
+      {showPayPal && (
+        <div className="space-y-3">
+          <div className={grid}>
+            {(amountOptions.length > 0 ? amountOptions : DEFAULT_TOPUP_AMOUNTS)
+              .filter((amount) => amount <= DELOPAY_MAX)
+              .map((amount) => (
+                <TopUpTile
+                  key={amount}
+                  price={amount}
+                  actual={billing.discountedAmount(amount)}
+                  save={billing.discountSavings(amount)}
+                  disabled={billing.isTopUpMutating}
+                  onPay={() => billing.payDeloPay(amount)}
+                />
+              ))}
+          </div>
+          <CustomAmountField
+            integer
+            max={DELOPAY_MAX}
+            disabled={billing.isTopUpMutating}
+            onPay={(amount) => billing.payDeloPay(amount)}
           />
         </div>
       )}

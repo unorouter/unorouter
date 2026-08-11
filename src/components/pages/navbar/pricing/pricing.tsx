@@ -30,10 +30,12 @@ type TopUpOption = {
 };
 
 // Mirrors the upstream Creem handler's bounds so the field rejects what the
-// API would. Creem and NowPayments both take a custom price; only the Stripe
-// lane still needs a preset.
+// API would. Creem, NowPayments and DeloPay all take a custom price; only the
+// Stripe lane still needs a preset.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
+// DeloPay takes whole dollars only (int64 upstream).
+const DELOPAY_MAX = 100000;
 
 export function Pricing() {
   const t = useTranslations();
@@ -59,11 +61,19 @@ export function Pricing() {
 
   const cryptoCustomEnabled =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
-  const showCustomField = !!customTopUpProductId || cryptoCustomEnabled;
+  const paypalCustomEnabled =
+    billing.paymentMethod === "paypal" && billing.enableDeloPay;
+  const showCustomField =
+    !!customTopUpProductId || cryptoCustomEnabled || paypalCustomEnabled;
+  const customMax = paypalCustomEnabled ? DELOPAY_MAX : CUSTOM_MAX;
 
   function payCustom() {
     if (!isLoggedIn) {
       redirectToLogin();
+      return;
+    }
+    if (paypalCustomEnabled) {
+      billing.payDeloPay(Number(customAmount));
       return;
     }
     if (cryptoCustomEnabled) {
@@ -77,8 +87,10 @@ export function Pricing() {
   const customValid =
     customAmount.trim() !== "" &&
     Number.isFinite(parsedCustom) &&
+    (!(cryptoCustomEnabled || paypalCustomEnabled) ||
+      Number.isInteger(parsedCustom)) &&
     parsedCustom >= CUSTOM_MIN &&
-    parsedCustom <= CUSTOM_MAX;
+    parsedCustom <= customMax;
 
   function redirectToLogin() {
     setCookie(AUTH_REDIRECT_COOKIE, "/pricing", { maxAge: 300 });
@@ -111,6 +123,22 @@ export function Pricing() {
           ? () => billing.payNowPayments(amount)
           : redirectToLogin,
       }));
+    }
+
+    if (billing.paymentMethod === "paypal" && billing.enableDeloPay) {
+      const amounts =
+        (topUpInfo.amount_options ?? []).length > 0
+          ? (topUpInfo.amount_options ?? [])
+          : DEFAULT_TOPUP_AMOUNTS;
+      return amounts
+        .filter((amount) => amount <= DELOPAY_MAX)
+        .map((amount) => ({
+          key: `delopay-${amount}`,
+          amount,
+          handler: isLoggedIn
+            ? () => billing.payDeloPay(amount)
+            : redirectToLogin,
+        }));
     }
 
     if (billing.enableCreem && topUpInfo.creemProducts.length > 0) {
@@ -216,7 +244,7 @@ export function Pricing() {
                     type="number"
                     inputMode="decimal"
                     min={CUSTOM_MIN}
-                    max={CUSTOM_MAX}
+                    max={customMax}
                     step="1"
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}

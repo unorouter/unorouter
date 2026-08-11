@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "支付方式",
       "CARD": "银行卡 / Google & Apple Pay / 支付宝",
-      "CRYPTO": "加密货币"
+      "CRYPTO": "加密货币",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "日期",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "重做",
     "CLAMP_WARNING": "超过1百万像素或50步的请求会被服务方缩小后运行。",
     "IMPORT_INVALID": "此文件不是有效的生成导出文件。",
-    "CATALOG_ALL_ADDED": "找到的条目均已添加。"
+    "CATALOG_ALL_ADDED": "找到的条目均已添加。",
+    "EDIT_IMAGES_TITLE": "要编辑的图片"
   }
 }

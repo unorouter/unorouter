@@ -26,6 +26,11 @@ export const nowPaymentsPayBody = t.Object({
   cancel_url: t.Optional(t.String()),
 });
 
+export const deloPayPayBody = t.Object({
+  amount: t.Number(),
+  payment_method: t.String(),
+});
+
 export const subscriptionPayBody = t.Object({
   plan_id: t.Number(),
 });

@@ -2,6 +2,7 @@ import { processPlans } from "@/lib/api/subscription";
 import {
   billingPortalQuery,
   creemPayBody,
+  deloPayPayBody,
   nowPaymentsPayBody,
   stripePayBody,
   subscriptionPayBody,
@@ -17,9 +18,11 @@ import {
   getUserSubscriptionOrders,
   getUserTopUps,
   requestCreemPay,
+  requestDeloPayPay,
   requestNowPaymentsPay,
   requestStripePay,
   subscriptionRequestCreemPay,
+  subscriptionRequestDeloPayPay,
   subscriptionRequestNowPaymentsPay,
   subscriptionRequestStripePay,
   updateSubscriptionPreference,
@@ -29,7 +32,7 @@ import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
 
 const xPaymentInfo = (
-  method: "stripe" | "creem" | "nowpayments",
+  method: "stripe" | "creem" | "nowpayments" | "delopay",
   description: string,
 ) =>
   ({
@@ -122,9 +125,14 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   .post(
     "/creem-pay",
     async ({ body, upstream }) => {
-      const res = await requestCreemPay(body, {
-        headers: { ...upstream.headers },
-      });
+      // Zero mirrors an omitted amount: upstream only treats amount > 0 as a
+      // pay-what-you-want override.
+      const res = await requestCreemPay(
+        { ...body, amount: body.amount ?? 0 },
+        {
+          headers: { ...upstream.headers },
+        },
+      );
       return unwrap(res);
     },
     {
@@ -150,6 +158,25 @@ export const billingRoute = new Elysia({ prefix: "/core" })
         ...xPaymentInfo(
           "nowpayments",
           "Top-up balance via NowPayments crypto checkout URL",
+        ),
+      },
+    },
+  )
+  .post(
+    "/delopay-pay",
+    async ({ body, upstream }) => {
+      const res = await requestDeloPayPay(body, {
+        headers: { ...upstream.headers },
+      });
+      return unwrap(res);
+    },
+    {
+      body: deloPayPayBody,
+      detail: {
+        summary: "Start a DeloPay PayPal checkout for a balance top-up",
+        ...xPaymentInfo(
+          "delopay",
+          "Top-up balance via DeloPay PayPal checkout URL",
         ),
       },
     },
@@ -204,6 +231,25 @@ export const billingRoute = new Elysia({ prefix: "/core" })
         ...xPaymentInfo(
           "nowpayments",
           "Subscribe to a plan via NowPayments crypto checkout URL",
+        ),
+      },
+    },
+  )
+  .post(
+    "/subscription/delopay-pay",
+    async ({ body, upstream }) => {
+      const res = await subscriptionRequestDeloPayPay(body, {
+        headers: { ...upstream.headers },
+      });
+      return unwrap(res);
+    },
+    {
+      body: subscriptionPayBody,
+      detail: {
+        summary: "Start a DeloPay PayPal checkout for a subscription plan",
+        ...xPaymentInfo(
+          "delopay",
+          "Subscribe to a plan via DeloPay PayPal checkout URL",
         ),
       },
     },

@@ -91,6 +91,13 @@ export function useNowPaymentsTopUpMutation() {
   });
 }
 
+export function useDeloPayTopUpMutation() {
+  return useApiMutation({
+    mutationFn: async (args: EdenArgs<Billing["delopay-pay"], "post">) =>
+      handleElysia(await rpc.api.billing.core["delopay-pay"].post(args.body)),
+  });
+}
+
 export function useStripeSubscriptionMutation() {
   return useApiMutation({
     mutationFn: async (
@@ -122,6 +129,17 @@ export function useNowPaymentsSubscriptionMutation() {
         await rpc.api.billing.core.subscription["nowpayments-pay"].post(
           args.body,
         ),
+      ),
+  });
+}
+
+export function useDeloPaySubscriptionMutation() {
+  return useApiMutation({
+    mutationFn: async (
+      args: EdenArgs<Billing["subscription"]["delopay-pay"], "post">,
+    ) =>
+      handleElysia(
+        await rpc.api.billing.core.subscription["delopay-pay"].post(args.body),
       ),
   });
 }

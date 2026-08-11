@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ / Google & Apple Pay / Alipay",
-      "CRYPTO": "Tiền mã hoá"
+      "CRYPTO": "Tiền mã hoá",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "Ngày",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Làm lại",
     "CLAMP_WARNING": "Nhà cung cấp thu nhỏ các yêu cầu vượt quá 1 megapixel hoặc 50 bước.",
     "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ.",
-    "CATALOG_ALL_ADDED": "Tất cả kết quả tìm thấy đã được thêm."
+    "CATALOG_ALL_ADDED": "Tất cả kết quả tìm thấy đã được thêm.",
+    "EDIT_IMAGES_TITLE": "Ảnh cần chỉnh sửa"
   }
 }

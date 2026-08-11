@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Ödeme yöntemi",
       "CARD": "Kart / Google & Apple Pay / Alipay",
-      "CRYPTO": "Crypto"
+      "CRYPTO": "Crypto",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "Tarih",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Yinele",
     "CLAMP_WARNING": "Sağlayıcı 1 megapikseli veya 50 adımı aşan istekleri küçültür.",
     "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil.",
-    "CATALOG_ALL_ADDED": "Bulunan her şey zaten eklendi."
+    "CATALOG_ALL_ADDED": "Bulunan her şey zaten eklendi.",
+    "EDIT_IMAGES_TITLE": "Düzenlenecek görseller"
   }
 }

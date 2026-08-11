@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Metodo di pagamento",
       "CARD": "Carta / Google & Apple Pay / Alipay",
-      "CRYPTO": "Crypto"
+      "CRYPTO": "Crypto",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "Data",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Ripristina",
     "CLAMP_WARNING": "Il provider ridimensiona le richieste oltre 1 megapixel o 50 passi.",
     "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida.",
-    "CATALOG_ALL_ADDED": "Tutti i risultati trovati sono già stati aggiunti."
+    "CATALOG_ALL_ADDED": "Tutti i risultati trovati sono già stati aggiunti.",
+    "EDIT_IMAGES_TITLE": "Immagini da modificare"
   }
 }

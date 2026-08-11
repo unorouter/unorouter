@@ -234,25 +234,25 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
-export interface ClaudeServerToolUse {
-  web_search_requests: number;
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
 }
 
 export interface BillingUsage {
   billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
 }
 
 export interface BoundChannel {
@@ -436,6 +436,11 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
 /**
  * ClaudeMessageResponse schema
  */
@@ -449,6 +454,10 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
+}
+
+export interface ClaudeServerToolUse {
+  web_search_requests: number;
 }
 
 export interface ClaudeUsage {
@@ -702,7 +711,7 @@ export interface CreemPayData {
  * CreemPayRequest schema
  */
 export interface CreemPayRequest {
-  amount?: number;
+  amount: number;
   payment_method: string;
   product_id: string;
 }
@@ -746,6 +755,18 @@ export interface DeleteDeploymentResponse {
 
 export interface DeletedCountData {
   deleted: number;
+}
+
+export interface DeloPayPayData {
+  pay_link: string;
+}
+
+/**
+ * DeloPayPayRequest schema
+ */
+export interface DeloPayPayRequest {
+  amount: number;
+  payment_method: string;
 }
 
 export type DeploymentContainerConfigEnvVariablesAnyOf = {
@@ -954,34 +975,38 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
 }
 
 /**
@@ -1148,6 +1173,22 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
 
 /**
@@ -1228,15 +1269,6 @@ export interface ImageGenerationResponse {
   created: number;
   /** @nullable */
   data: ImageData[] | null;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1745,13 +1777,6 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
-}
-
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
 }
 
 export interface OverwriteField {
@@ -2645,6 +2670,15 @@ export interface ResponseDtoDeletedCountData {
 }
 
 /**
+ * Response_dto.DeloPayPayData schema
+ */
+export interface ResponseDtoDeloPayPayData {
+  data: DeloPayPayData;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_dto.DeploymentDetailResponse schema
  */
 export interface ResponseDtoDeploymentDetailResponse {
@@ -3480,9 +3514,11 @@ export interface TopUpInfoData {
   /** @nullable */
   amount_options: number[] | null;
   creem_products: string;
+  delopay_min_topup: number;
   /** @nullable */
   discount: TopUpInfoDataDiscount;
   enable_creem_topup: boolean;
+  enable_delopay_topup: boolean;
   enable_nowpayments_topup: boolean;
   enable_online_topup: boolean;
   enable_redemption: boolean;
@@ -3938,6 +3974,13 @@ export interface SubscriptionBalancePayRequest {
  * SubscriptionCreemPayRequest schema
  */
 export interface SubscriptionCreemPayRequest {
+  plan_id: number;
+}
+
+/**
+ * SubscriptionDeloPayPayRequest schema
+ */
+export interface SubscriptionDeloPayPayRequest {
   plan_id: number;
 }
 
@@ -7477,6 +7520,40 @@ export const getUserQuotaDates = async (
       method: "GET",
     },
   );
+};
+
+export type deloPayWebhookResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type deloPayWebhookResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type deloPayWebhookResponseSuccess = (
+  | deloPayWebhookResponse200ApplicationJson
+  | deloPayWebhookResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type deloPayWebhookResponse = deloPayWebhookResponseSuccess;
+
+export const getDeloPayWebhookUrl = () => {
+  return `/api/delopay/webhook`;
+};
+
+/**
+ * @summary Delo Pay Webhook
+ */
+export const deloPayWebhook = async (
+  options?: Parameters<typeof customFetch>[1],
+): Promise<deloPayWebhookResponse> => {
+  return customFetch<deloPayWebhookResponse>(getDeloPayWebhookUrl(), {
+    ...options,
+    method: "POST",
+  });
 };
 
 export type getAllDeploymentsResponse200ApplicationJson = {
@@ -12385,6 +12462,47 @@ export const subscriptionRequestCreemPay = async (
   );
 };
 
+export type subscriptionRequestDeloPayPayResponse200ApplicationJson = {
+  data: ResponseDtoDeloPayPayData;
+  status: 200;
+};
+
+export type subscriptionRequestDeloPayPayResponse200ApplicationXml = {
+  data: ResponseDtoDeloPayPayData;
+  status: 200;
+};
+
+export type subscriptionRequestDeloPayPayResponseSuccess = (
+  | subscriptionRequestDeloPayPayResponse200ApplicationJson
+  | subscriptionRequestDeloPayPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestDeloPayPayResponse =
+  subscriptionRequestDeloPayPayResponseSuccess;
+
+export const getSubscriptionRequestDeloPayPayUrl = () => {
+  return `/api/subscription/delopay/pay`;
+};
+
+/**
+ * @summary Subscription Request Delo Pay Pay
+ */
+export const subscriptionRequestDeloPayPay = async (
+  subscriptionDeloPayPayRequest: SubscriptionDeloPayPayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<subscriptionRequestDeloPayPayResponse> => {
+  return customFetch<subscriptionRequestDeloPayPayResponse>(
+    getSubscriptionRequestDeloPayPayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionDeloPayPayRequest),
+    },
+  );
+};
+
 export type getApiSubscriptionEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
@@ -14191,6 +14309,83 @@ export const requestCreemPay = async (
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(creemPayRequest),
+  });
+};
+
+export type requestDeloPayAmountResponse200ApplicationJson = {
+  data: ResponseString;
+  status: 200;
+};
+
+export type requestDeloPayAmountResponse200ApplicationXml = {
+  data: ResponseString;
+  status: 200;
+};
+
+export type requestDeloPayAmountResponseSuccess = (
+  | requestDeloPayAmountResponse200ApplicationJson
+  | requestDeloPayAmountResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestDeloPayAmountResponse = requestDeloPayAmountResponseSuccess;
+
+export const getRequestDeloPayAmountUrl = () => {
+  return `/api/user/delopay/amount`;
+};
+
+/**
+ * @summary Request Delo Pay Amount
+ */
+export const requestDeloPayAmount = async (
+  deloPayPayRequest: DeloPayPayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<requestDeloPayAmountResponse> => {
+  return customFetch<requestDeloPayAmountResponse>(
+    getRequestDeloPayAmountUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(deloPayPayRequest),
+    },
+  );
+};
+
+export type requestDeloPayPayResponse200ApplicationJson = {
+  data: ResponseDtoDeloPayPayData;
+  status: 200;
+};
+
+export type requestDeloPayPayResponse200ApplicationXml = {
+  data: ResponseDtoDeloPayPayData;
+  status: 200;
+};
+
+export type requestDeloPayPayResponseSuccess = (
+  | requestDeloPayPayResponse200ApplicationJson
+  | requestDeloPayPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestDeloPayPayResponse = requestDeloPayPayResponseSuccess;
+
+export const getRequestDeloPayPayUrl = () => {
+  return `/api/user/delopay/pay`;
+};
+
+/**
+ * @summary Request Delo Pay Pay
+ */
+export const requestDeloPayPay = async (
+  deloPayPayRequest: DeloPayPayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<requestDeloPayPayResponse> => {
+  return customFetch<requestDeloPayPayResponse>(getRequestDeloPayPayUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(deloPayPayRequest),
   });
 };
 

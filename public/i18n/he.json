@@ -3617,7 +3617,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "אמצעי תשלום",
       "CARD": "כרטיס / Google & Apple Pay / Alipay",
-      "CRYPTO": "קריפטו"
+      "CRYPTO": "קריפטו",
+      "PAYPAL": "PayPal"
     },
     "TRANSACTIONS": {
       "DATE": "תאריך",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "ביצוע מחדש",
     "CLAMP_WARNING": "הספק מקטין בקשות החורגות ממגה-פיקסל אחד או מ-50 צעדים.",
     "IMPORT_INVALID": "קובץ זה אינו ייצוא תקין של יצירת תמונה.",
-    "CATALOG_ALL_ADDED": "כל מה שנמצא כבר נוסף."
+    "CATALOG_ALL_ADDED": "כל מה שנמצא כבר נוסף.",
+    "EDIT_IMAGES_TITLE": "תמונות לעריכה"
   }
 }

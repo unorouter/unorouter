@@ -3615,7 +3615,8 @@
     "PAYMENT_METHOD": {
       "LABEL": "Payment method",
       "CARD": "Card / Google & Apple Pay / Alipay",
-      "CRYPTO": "Crypto"
+      "CRYPTO": "Crypto",
+      "PAYPAL": "PayPal"
     },
     "SUPPORT_TITLE": "Need help?",
     "SUPPORT_TEXT": "Questions about billing or your account? Email us at {supportEmail} and we will respond within one business day.",
@@ -5778,6 +5779,7 @@
     "INPAINT_REDO": "Redo",
     "CLAMP_WARNING": "Requests above 1 megapixel or 50 steps are scaled down by the provider.",
     "IMPORT_INVALID": "This file is not a valid generation export.",
-    "CATALOG_ALL_ADDED": "Everything found is already added."
+    "CATALOG_ALL_ADDED": "Everything found is already added.",
+    "EDIT_IMAGES_TITLE": "Images to edit"
   }
 }

@@ -3,6 +3,8 @@
 import {
   useCreemSubscriptionMutation,
   useCreemTopUpMutation,
+  useDeloPaySubscriptionMutation,
+  useDeloPayTopUpMutation,
   useNowPaymentsSubscriptionMutation,
   useNowPaymentsTopUpMutation,
   useStripeSubscriptionMutation,
@@ -28,40 +30,62 @@ export function useBillingActions() {
   const stripeSubMutation = useStripeSubscriptionMutation();
   const creemSubMutation = useCreemSubscriptionMutation();
   const nowPaymentsSubMutation = useNowPaymentsSubscriptionMutation();
+  const deloPaySubMutation = useDeloPaySubscriptionMutation();
   const stripeTopUpMutation = useStripeTopUpMutation();
   const creemTopUpMutation = useCreemTopUpMutation();
   const nowPaymentsTopUpMutation = useNowPaymentsTopUpMutation();
+  const deloPayTopUpMutation = useDeloPayTopUpMutation();
   const [paymentMethod, setPaymentMethod] = useAtom(paymentMethodAtom);
 
   const topUpInfo = topUpInfoQuery.data;
   const enableStripe = topUpInfo?.enable_stripe_topup ?? false;
   const enableCreem = topUpInfo?.enable_creem_topup ?? false;
   const enableNowPayments = topUpInfo?.enable_nowpayments_topup ?? false;
+  const enableDeloPay = topUpInfo?.enable_delopay_topup ?? false;
   const enableCard = enableStripe || enableCreem;
   const enableCrypto = enableNowPayments;
+  const enablePayPal = enableDeloPay;
   const discount = topUpInfo?.discount ?? {};
 
   const availableMethods: PaymentMethod[] = [];
   if (enableCard) availableMethods.push("card");
+  if (enablePayPal) availableMethods.push("paypal");
   if (enableCrypto) availableMethods.push("crypto");
 
   const isSubMutating =
     stripeSubMutation.isPending ||
     creemSubMutation.isPending ||
-    nowPaymentsSubMutation.isPending;
+    nowPaymentsSubMutation.isPending ||
+    deloPaySubMutation.isPending;
   const isTopUpMutating =
     stripeTopUpMutation.isPending ||
     creemTopUpMutation.isPending ||
-    nowPaymentsTopUpMutation.isPending;
+    nowPaymentsTopUpMutation.isPending ||
+    deloPayTopUpMutation.isPending;
 
   useEffect(() => {
     if (!topUpInfo) return;
-    if (paymentMethod === "card" && !enableCard && enableCrypto) {
-      setPaymentMethod("crypto");
-    } else if (paymentMethod === "crypto" && !enableCrypto && enableCard) {
-      setPaymentMethod("card");
-    }
-  }, [topUpInfo, paymentMethod, enableCard, enableCrypto, setPaymentMethod]);
+    const enabled =
+      (paymentMethod === "card" && enableCard) ||
+      (paymentMethod === "crypto" && enableCrypto) ||
+      (paymentMethod === "paypal" && enablePayPal);
+    if (enabled) return;
+    const fallback: PaymentMethod | undefined = enableCard
+      ? "card"
+      : enablePayPal
+        ? "paypal"
+        : enableCrypto
+          ? "crypto"
+          : undefined;
+    if (fallback) setPaymentMethod(fallback);
+  }, [
+    topUpInfo,
+    paymentMethod,
+    enableCard,
+    enableCrypto,
+    enablePayPal,
+    setPaymentMethod,
+  ]);
 
   function discountFactor(amount: number): number | undefined {
     return discount[String(amount)];
@@ -87,6 +111,22 @@ export function useBillingActions() {
   function subscribe(plan: SubscriptionPlan, opts?: SubscribeOptions) {
     if (opts?.isLoggedIn === false) {
       opts.onUnauthorized?.();
+      return;
+    }
+
+    if (paymentMethod === "paypal" && enableDeloPay) {
+      analytics.billing.subscriptionInitiated({
+        planId: String(plan.id),
+        provider: "delopay",
+        provider_was_only_option: !enableCard && !enableCrypto,
+      });
+      deloPaySubMutation.mutate(
+        { body: { plan_id: plan.id } },
+        {
+          onSuccess: (data) => openPayLink(data?.pay_link),
+          onError: failToast,
+        },
+      );
       return;
     }
 
@@ -227,13 +267,32 @@ export function useBillingActions() {
     );
   }
 
+  function payDeloPay(amount: number) {
+    const factor = discountFactor(amount);
+    analytics.billing.topUpInitiated({
+      provider: "delopay",
+      amount,
+      has_discount: !!factor,
+      discount_pct: factor ? Math.round((1 - factor) * 100) : undefined,
+    });
+    deloPayTopUpMutation.mutate(
+      { body: { amount, payment_method: "delopay" } },
+      {
+        onSuccess: (data) => openPayLink(data?.pay_link),
+        onError: failToast,
+      },
+    );
+  }
+
   return {
     topUpInfo,
     enableStripe,
     enableCreem,
     enableNowPayments,
+    enableDeloPay,
     enableCard,
     enableCrypto,
+    enablePayPal,
     availableMethods,
     paymentMethod,
     setPaymentMethod,
@@ -243,6 +302,7 @@ export function useBillingActions() {
     payStripe,
     payCreem,
     payNowPayments,
+    payDeloPay,
     discountedAmount,
     discountSavings,
   };
