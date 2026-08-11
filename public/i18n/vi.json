@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "Xem lại prompt hình ảnh",
     "PRESET_USE_CHAR_AVATAR_REF": "Ảnh đại diện làm ảnh tham chiếu",
     "PRESET_IMAGE_MODEL": "Mô hình hình ảnh",
-    "PRESET_IMAGE_MODEL_HINT": "Mô hình hình ảnh trong danh mục dùng để tạo ảnh trong trò chuyện. Để trống là tự động."
+    "PRESET_IMAGE_MODEL_HINT": "Mô hình hình ảnh trong danh mục dùng để tạo ảnh trong trò chuyện. Để trống là tự động.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} token"
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",

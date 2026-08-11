@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "בדיקת פרומפט תמונה",
     "PRESET_USE_CHAR_AVATAR_REF": "אווטאר כתמונת ייחוס",
     "PRESET_IMAGE_MODEL": "מודל תמונות",
-    "PRESET_IMAGE_MODEL_HINT": "מודל תמונות מהקטלוג ליצירת תמונות בצ'אט. ריק פירושו אוטומטי."
+    "PRESET_IMAGE_MODEL_HINT": "מודל תמונות מהקטלוג ליצירת תמונות בצ'אט. ריק פירושו אוטומטי.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} טוקנים"
   },
   "ERRORS": {
     "MISSING_ENV": "חסר משתנה סביבה נדרש: {var}",

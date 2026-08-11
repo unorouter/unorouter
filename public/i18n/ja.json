@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "画像プロンプトの確認",
     "PRESET_USE_CHAR_AVATAR_REF": "アバターを参照画像に使用",
     "PRESET_IMAGE_MODEL": "画像モデル",
-    "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使うカタログの画像モデル。空欄なら自動。"
+    "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使うカタログの画像モデル。空欄なら自動。",
+    "LOREBOOK_ENTRY_TOKENS": "約 {count} トークン"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",

@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "審核圖像提示詞",
     "PRESET_USE_CHAR_AVATAR_REF": "頭像作為參考圖",
     "PRESET_IMAGE_MODEL": "圖像模型",
-    "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的目錄圖像模型。留空則自動選擇。"
+    "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的目錄圖像模型。留空則自動選擇。",
+    "LOREBOOK_ENTRY_TOKENS": "約 {count} 個 token"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",

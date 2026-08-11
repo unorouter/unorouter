@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "مراجعة موجّه الصورة",
     "PRESET_USE_CHAR_AVATAR_REF": "الصورة الرمزية كصورة مرجعية",
     "PRESET_IMAGE_MODEL": "نموذج الصور",
-    "PRESET_IMAGE_MODEL_HINT": "نموذج صور من الكتالوج لتوليد الصور داخل المحادثة. اتركه فارغًا للاختيار التلقائي."
+    "PRESET_IMAGE_MODEL_HINT": "نموذج صور من الكتالوج لتوليد الصور داخل المحادثة. اتركه فارغًا للاختيار التلقائي.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} token"
   },
   "ERRORS": {
     "MISSING_ENV": "متغيّر بيئة مطلوب مفقود: {var}",

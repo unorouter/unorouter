@@ -215,7 +215,7 @@ export const lorebookFormSchema = t.Object({
   }),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
-  tokenBudget: t.Number({ minimum: 100, maximum: 32_000, default: 1500 }),
+  tokenBudget: t.Number({ minimum: 100, maximum: 1_000_000, default: 1500 }),
   recursiveScanning: t.Boolean({ default: false }),
 });
 export type LorebookForm = Static<typeof lorebookFormSchema>;

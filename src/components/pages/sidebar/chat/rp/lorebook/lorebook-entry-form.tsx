@@ -33,9 +33,11 @@ import {
   type LorebookEntryForm as LorebookEntryFormValues,
   type LorebookInjectionRole,
 } from "@/lib/validation/rp-forms";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
+import { useWatch, type Control } from "react-hook-form";
 
 const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
   {
@@ -43,6 +45,23 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
+
+// Same counter the lorebook budget uses at assembly, so the number is comparable
+// to the tokenBudget setting. Subscribes to its own field: the whole form must not
+// re-render per keystroke in the content box.
+function EntryTokenEstimate(props: {
+  control: Control<LorebookEntryFormValues>;
+}) {
+  const t = useTranslations();
+  const content = useWatch({ control: props.control, name: "content" });
+  const count = countTokens(content);
+  if (!content?.trim() || count === 0) return null;
+  return (
+    <p className="text-muted-foreground text-xs">
+      {t("RP.LOREBOOK_ENTRY_TOKENS", { count })}
+    </p>
+  );
+}
 
 function splitDecorators(content: string): {
   content: string;
@@ -162,13 +181,16 @@ export function LorebookEntryForm(props: {
             </p>
           </div>
 
-          <MyFormTextarea
-            control={form.control}
-            name="content"
-            schema={lorebookEntryFormSchema}
-            label={t("RP.LOREBOOK_ENTRY_CONTENT")}
-            rows={5}
-          />
+          <div className="flex flex-col gap-1">
+            <MyFormTextarea
+              control={form.control}
+              name="content"
+              schema={lorebookEntryFormSchema}
+              label={t("RP.LOREBOOK_ENTRY_CONTENT")}
+              rows={5}
+            />
+            <EntryTokenEstimate control={form.control} />
+          </div>
 
           {/* Headline toggle (RisuAI mental model): an entry is either
               always-active or key-triggered. When always-active, the

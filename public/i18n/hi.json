@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "इमेज प्रॉम्प्ट की समीक्षा",
     "PRESET_USE_CHAR_AVATAR_REF": "अवतार को संदर्भ इमेज बनाएं",
     "PRESET_IMAGE_MODEL": "इमेज मॉडल",
-    "PRESET_IMAGE_MODEL_HINT": "चैट में इमेज जनरेशन के लिए कैटलॉग इमेज मॉडल। खाली रखने पर स्वचालित।"
+    "PRESET_IMAGE_MODEL_HINT": "चैट में इमेज जनरेशन के लिए कैटलॉग इमेज मॉडल। खाली रखने पर स्वचालित।",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} tokens"
   },
   "ERRORS": {
     "MISSING_ENV": "गायब आवश्यक env: {var}",

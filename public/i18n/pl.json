@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "Przejrzyj prompt obrazu",
     "PRESET_USE_CHAR_AVATAR_REF": "Awatar jako obraz referencyjny",
     "PRESET_IMAGE_MODEL": "Model obrazów",
-    "PRESET_IMAGE_MODEL_HINT": "Model obrazów z katalogu do generowania na czacie. Puste oznacza automatycznie."
+    "PRESET_IMAGE_MODEL_HINT": "Model obrazów z katalogu do generowania na czacie. Puste oznacza automatycznie.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} tokenów"
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",

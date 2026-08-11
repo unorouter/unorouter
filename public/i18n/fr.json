@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "Vérifier le prompt d'image",
     "PRESET_USE_CHAR_AVATAR_REF": "Avatar comme image de référence",
     "PRESET_IMAGE_MODEL": "Modèle d'image",
-    "PRESET_IMAGE_MODEL_HINT": "Modèle d'image du catalogue pour la génération dans le chat. Vide signifie automatique."
+    "PRESET_IMAGE_MODEL_HINT": "Modèle d'image du catalogue pour la génération dans le chat. Vide signifie automatique.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} jetons"
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",

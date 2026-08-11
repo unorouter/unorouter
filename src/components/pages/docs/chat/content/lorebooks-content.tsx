@@ -25,7 +25,7 @@ export async function LorebooksContent() {
             [<DocKbd key="s">scanDepth</DocKbd>, "0-100", k("S_SCAN_DEPTH")],
             [
               <DocKbd key="s">tokenBudget</DocKbd>,
-              "100-32000",
+              "100-1000000",
               k("S_TOKEN_BUDGET"),
             ],
             [

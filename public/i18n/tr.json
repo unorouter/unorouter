@@ -4312,7 +4312,8 @@
     "PRESET_IMAGE_PREVIEW": "Görsel promptunu incele",
     "PRESET_USE_CHAR_AVATAR_REF": "Avatarı referans görsel yap",
     "PRESET_IMAGE_MODEL": "Görsel modeli",
-    "PRESET_IMAGE_MODEL_HINT": "Sohbet içi görsel oluşturma için katalog görsel modeli. Boş bırakılırsa otomatik."
+    "PRESET_IMAGE_MODEL_HINT": "Sohbet içi görsel oluşturma için katalog görsel modeli. Boş bırakılırsa otomatik.",
+    "LOREBOOK_ENTRY_TOKENS": "~{count} token"
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",
