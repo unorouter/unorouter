@@ -2,7 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 import { SERVER_URL_KEY } from "./lib/config/constants";
-import { canonicalModelPath, parseModelPath } from "./lib/seo/model-redirect";
+import { resolveModelPath } from "./lib/seo/model-redirect";
 
 // Infra prefixes must BYPASS the next-intl middleware: the matcher does not
 // exclude .js, so without this early return chunk/API requests get locale-
@@ -22,18 +22,19 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Retired model URLs (":free" dropped, or a "vendor/model" name addressed by
-  // its bare model part) have to 301 from here. cacheComponents streams the
-  // shell before the page's own notFound()/redirect() runs, so by then the 200
-  // is committed and Google indexes the not-found body as a soft 404.
-  const parsedModel = parseModelPath(pathname);
-  if (parsedModel) {
-    const target = await canonicalModelPath(parsedModel);
-    if (target) {
-      const url = request.nextUrl.clone();
-      url.pathname = target;
-      return NextResponse.redirect(url, 301);
-    }
+  const model = await resolveModelPath(pathname);
+  if (model?.to) {
+    const url = request.nextUrl.clone();
+    url.pathname = model.to;
+    return NextResponse.redirect(url, 301);
+  }
+  if (model?.gone) {
+    // Rewrite rather than redirect: the URL stays put and the not-found UI
+    // renders, but the status is a real 404 because it is set before the
+    // shell streams.
+    return NextResponse.rewrite(new URL("/_not-found", request.url), {
+      status: 404,
+    });
   }
 
   request.headers.set(SERVER_URL_KEY, request.url);

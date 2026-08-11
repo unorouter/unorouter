@@ -1,68 +1,64 @@
 import { routing } from "@/i18n/routing";
-import { findModelForLegacySlug, modelSlug, vendorSlug } from "@/lib/utils/base";
+import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 
-// The localized first segment of /models/[...slug] per locale, mapped back to
-// the locale that owns it ("modelle" -> de). Derived from routing.pathnames so
-// adding a locale needs no edit here.
-const MODEL_SEGMENTS = new Map<string, string>(
-  Object.entries(routing.pathnames["/models/[...slug]"]).flatMap(
-    ([locale, path]) => {
-      const seg = path.split("/")[1];
-      return seg ? [[seg, locale] as const] : [];
-    },
+// Localized first segment of /models/[...slug] ("modelle" -> de), derived from
+// routing.pathnames so a new locale needs no edit here.
+const MODEL_SEGMENTS = new Map(
+  Object.entries(routing.pathnames["/models/[...slug]"]).map(
+    ([locale, path]) => [path.split("/")[1]!, locale],
   ),
 );
 MODEL_SEGMENTS.set("models", routing.defaultLocale);
 
-type ParsedModelPath = { locale: string; segment: string; slug: string[] };
+// Model URLs have to be classified before anything renders. Per the Next docs
+// on notFound(): under Cache Components every dynamic route streams a static
+// shell first, so the segment's own notFound() lands after the 200 is already
+// committed and Google files the not-found body as a soft 404 on a live URL.
+// Checking here is the documented way to still set a status.
+export async function resolveModelPath(pathname: string) {
+  const parts = pathname.split("/").filter(Boolean).map(decode);
+  const [locale, segment, ...slug] = parts;
+  if (!locale || !segment || slug.length === 0) return null;
+  if (MODEL_SEGMENTS.get(segment) !== locale) return null;
 
-function decodeSegment(part: string): string {
+  const snapshot = await getPricingSnapshot().catch(() => null);
+  // A dead pricing feed must never turn live model pages into 404s.
+  if (!snapshot?.models.length) return null;
+
+  const models = snapshot.models;
+  const candidate = slug.length === 1 ? slug[0]! : slug[1]!;
+
+  const live =
+    slug.length === 1
+      ? models.some((m) => vendorSlug(m.vendor.name) === candidate.toLowerCase())
+      : snapshot.byName.has(candidate) ||
+        models.some((m) => modelSlug(m.name) === candidate);
+  if (live) return null;
+
+  // Still a real model under an older URL shape: ":free" dropped, or a
+  // "vendor/model" name addressed by its bare model part.
+  const match = models.find(
+    (m) =>
+      m.name === `${candidate}:free` ||
+      m.name.split("/")[1]?.replace(":free", "") === candidate,
+  );
+  if (!match) return { gone: true, to: null } as const;
+
+  const vendor = vendorSlug(match.vendor.name) || "unknown";
+  // modelSlug already encodes what needs encoding ([ ] /). Re-encoding would
+  // turn ":free" into "%3Afree" and point the 301 at a different string than
+  // the sitemap and canonical tag emit.
+  return {
+    gone: false,
+    to: `/${locale}/${segment}/${vendor}/${modelSlug(match.name)}`,
+  } as const;
+}
+
+function decode(part: string) {
   try {
     return decodeURIComponent(part);
   } catch {
     return part;
   }
-}
-
-// Matches /<locale>/<localized-models-segment>/<rest...>; null for anything
-// else so the caller falls through untouched.
-export function parseModelPath(pathname: string): ParsedModelPath | null {
-  const parts = pathname.split("/").filter(Boolean).map(decodeSegment);
-  if (parts.length < 3) return null;
-  const [locale, segment, ...slug] = parts;
-  if (!locale || !segment || slug.length === 0) return null;
-  if (!(routing.locales as readonly string[]).includes(locale)) return null;
-  if (MODEL_SEGMENTS.get(segment) !== locale) return null;
-  return { locale, segment, slug };
-}
-
-// Canonical path for a stale model URL, or null when the slug is already
-// canonical or names nothing. Reads the shared 5min pricing snapshot, so a hit
-// costs a map lookup rather than an upstream call.
-export async function canonicalModelPath(
-  parsed: ParsedModelPath,
-): Promise<string | null> {
-  const candidate =
-    parsed.slug.length === 1 ? parsed.slug[0]! : (parsed.slug[1] ?? "");
-  if (!candidate) return null;
-
-  const snapshot = await getPricingSnapshot().catch(() => null);
-  if (!snapshot?.models.length) return null;
-
-  // A canonical two-segment URL resolves by exact name; skip the legacy scan so
-  // the common case stays a single map hit.
-  if (parsed.slug.length === 2 && snapshot.byName.has(candidate)) return null;
-
-  const match = findModelForLegacySlug(snapshot.models, candidate);
-  if (!match) return null;
-
-  const vendor = vendorSlug(match.vendor.name) || "unknown";
-  const model = modelSlug(match.name);
-  if (parsed.slug.length === 2 && parsed.slug[0] === vendor) return null;
-
-  // modelSlug already percent-encodes the only characters that need it ([ ] /).
-  // Re-encoding here would turn the ":free" suffix into "%3Afree" and point the
-  // 301 at a different string than the sitemap and canonical tag emit.
-  return `/${parsed.locale}/${parsed.segment}/${vendor}/${model}`;
 }

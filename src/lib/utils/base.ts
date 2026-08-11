@@ -88,37 +88,6 @@ export function modelMatchesSlug(name: string, slug: string): boolean {
   );
 }
 
-// Exact match first, then the forms that older inbound links and Google's index
-// still use: the ":free" suffix dropped, and a "vendor/model" name addressed by
-// its bare model part. Both are answered with a redirect to the canonical URL,
-// never rendered in place, so one model keeps exactly one indexable page.
-export function findModelForLegacySlug<T extends { name: string }>(
-  models: readonly T[],
-  slug: string,
-): T | null {
-  if (!slug) return null;
-  let decoded = slug;
-  try {
-    decoded = decodeURIComponent(slug);
-  } catch {}
-
-  const exact = models.find((m) => modelMatchesSlug(m.name, slug));
-  if (exact) return exact;
-
-  const free = models.find(
-    (m) => m.name === `${decoded}:free` || modelSlug(m.name) === `${slug}:free`,
-  );
-  if (free) return free;
-
-  const tail = models.find((m) => {
-    const i = m.name.indexOf("/");
-    if (i < 0) return false;
-    const rest = m.name.slice(i + 1);
-    return rest === decoded || baseModelName(rest) === decoded;
-  });
-  return tail ?? null;
-}
-
 export function vendorSlug(name: string): string {
   return name
     .toLowerCase()
