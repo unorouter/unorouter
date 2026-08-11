@@ -118,6 +118,7 @@ function modelChainKnobs(
 // Diffusion knobs the OpenAI image schema has no field for; they ride as extra
 // top-level keys and the gateway adaptor maps them onto the provider's own names.
 function diffusionParams(
+  mode: ImageSubmitBody["mode"],
   params: Record<string, unknown>,
   loras: LoraEntry[],
   extraParams: { air?: string } | undefined,
@@ -128,7 +129,9 @@ function diffusionParams(
     // channel's default model.
     ...(isValidAir(extraParams?.air) ? { air: extraParams.air } : {}),
     ...baseDiffusionKnobs(params, bodyNegativePrompt),
-    ...initImageKnobs(params),
+    // A stale initImageUrl in a text2img request would silently turn it into
+    // img2img of an old base; the mode the user chose wins over leftover params.
+    ...(mode === "txt2img" ? {} : initImageKnobs(params)),
     ...modelChainKnobs(params, loras),
   };
 }
@@ -268,8 +271,11 @@ export async function submitGeneration(
       watermark: params.watermark as boolean | undefined,
       background: params.background as string | undefined,
       strength: params.strength as number | undefined,
-      seed: params.seed as number | undefined,
+      // A pinned seed on a multi-image batch offsets per call, else every call
+      // renders the identical image.
+      seed: typeof params.seed === "number" ? params.seed + i : undefined,
       diffusion: diffusionParams(
+        body.mode,
         params,
         loras,
         body.extraParams,

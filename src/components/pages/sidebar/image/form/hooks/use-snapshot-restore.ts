@@ -27,6 +27,14 @@ export function useSnapshotRestore(args: Args) {
       ...desc.defaultParams,
       ...(restorePayload.params ?? {}),
     };
+    // A snapshot made in img2img carries its init image and mask inside params;
+    // restored into text2img they would silently turn the generation back into
+    // img2img of the old base (the server applies an init image whenever present).
+    if (restorePayload.tab === "text2img") {
+      delete mergedParams.initImageUrl;
+      delete mergedParams.maskUrl;
+      delete mergedParams.strength;
+    }
     if (restorePayload.initImageUrl) {
       mergedParams.initImageUrl = restorePayload.initImageUrl;
     }
