@@ -1,6 +1,6 @@
 import { routing } from "@/i18n/routing";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getOfflinePricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 
 // Localized first segments ("modelle" -> de), derived from routing.pathnames
 // so a new locale needs no edit here.
@@ -31,18 +31,23 @@ export async function resolveSeoPath(pathname: string) {
   const isModel = MODEL_SEGMENTS.get(segment) === locale;
   if (!isModel && COMPARE_SEGMENTS.get(segment) !== locale) return null;
 
-  const snapshot = await getPricingSnapshot().catch(() => null);
+  // include_offline, matching the page's own resolveModel and the sitemap: a
+  // model with every channel down still has a real page, and the online-only
+  // feed would 404 the URLs the sitemap advertises. Plain module state, NOT a
+  // "use cache" function: the proxy cannot call one, and the failure is silent
+  // (every lookup resolves to "pass" and the whole check stops running).
+  const pricing = await getOfflinePricingSnapshot().catch(() => null);
   // A dead pricing feed must never turn live model pages into 404s.
-  if (!snapshot?.models.length) return null;
+  if (!pricing?.models.length) return null;
 
-  const models = snapshot.models;
+  const models = pricing.models;
+  const known = (s: string) =>
+    models.some((m) => m.name === s || modelSlug(m.name) === s);
 
   // A comparison of a model that no longer exists renders a partial page at
   // 200 whose canonical drops the missing slug, pointing Google at a different
   // URL than the one it crawled. Every slug has to resolve or the URL is gone.
   if (!isModel) {
-    const known = (s: string) =>
-      snapshot.byName.has(s) || models.some((m) => modelSlug(m.name) === s);
     return slug.every(known) ? null : ({ gone: true, to: null } as const);
   }
 
@@ -51,8 +56,7 @@ export async function resolveSeoPath(pathname: string) {
   const live =
     slug.length === 1
       ? models.some((m) => vendorSlug(m.vendor.name) === candidate.toLowerCase())
-      : snapshot.byName.has(candidate) ||
-        models.some((m) => modelSlug(m.name) === candidate);
+      : known(candidate);
   if (live) return null;
 
   // Still a real model under an older URL shape: ":free" dropped, or a
