@@ -239,19 +239,26 @@ jobs:
           echo "::error::build never went live (check the deploy job's commit + ArgoCD sync)"
           exit 1
 
-      # Anonymous HTML is edge-cached 10min via a Cloudflare Cache Rule;
-      # purge after each deploy so cached HTML never references chunk
-      # hashes the new container no longer serves (also clears any 404s
-      # cached during the swap).
-      - name: Purge Cloudflare cache
+      # Deliberately NOT purge_everything: that evicted every content-hashed
+      # /_next/static chunk from the edge, so every already-open tab and
+      # installed PWA lost the files its running build lazy-loads and died
+      # with ChunkLoadError on each deploy (worst during the rollout window,
+      # when a chunk request can land on the old pod and 404 with no edge
+      # copy left to absorb it). Chunk names are immutable, so stale entries
+      # can never be wrong -- only stale HTML matters, and the Cache Rule
+      # bounds that to a 10min edge TTL; old edge HTML pairs with the old
+      # edge chunks it references, which keeps working. Purge only the
+      # locale roots so the homepage converges immediately.
+      - name: Purge Cloudflare cache (locale roots only)
         run: |
           # Bearer API token, not the legacy X-Auth-Email/X-Auth-Key global key -- that key
           # was revoked and returned 401 on every deploy.
+          urls=$(printf '"https://unorouter.com/%s",' en de fr it es pt-BR ja ko ru tr ar he hi id pl vi zh-CN zh-TW)
           curl -fsS -X POST \
             "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}'
+            --data "{\"files\":[${urls}\"https://unorouter.com/\"]}"
 
       - name: Assert sitemap has model pages
         run: |
