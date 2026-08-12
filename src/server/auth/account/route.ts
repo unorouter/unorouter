@@ -11,7 +11,12 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  ACCESS_TOKEN_COOKIE,
+  AUTH_REDIRECT_COOKIE,
+  LOCAL_USER_ID_COOKIE,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import {
   exchangeOAuthCode,
@@ -78,8 +83,22 @@ export const authRoute = new Elysia({ prefix: "/account" })
     return unwrap(res);
   })
 
-  .get("/self", async ({ upstream }) => {
+  .get("/self", async ({ cookie, upstream }) => {
     const res = await getSelf(upstream);
+    // Session cookies can outlive the upstream token (revoked, or expiry
+    // drift between cookie maxAge and the token's real lifetime). Without
+    // this the client sits half-logged-in with a dead credential and every
+    // action 401s until a manual re-login.
+    // Orval only types the 200 branch; upstream really returns 401 here.
+    if ((res.status as number) === 401) {
+      for (const name of [
+        ACCESS_TOKEN_COOKIE,
+        USER_ID_COOKIE,
+        LOCAL_USER_ID_COOKIE,
+      ]) {
+        if (cookie[name]?.value) cookie[name].remove();
+      }
+    }
     return unwrap(res);
   })
 
