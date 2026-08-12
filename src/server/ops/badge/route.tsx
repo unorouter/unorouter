@@ -14,6 +14,8 @@ import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
 import { findBadgeModel, getPricingData, getStats } from "./lib/cache";
 import { loadSharp } from "@/server/sharp-loader";
+import { logger } from "@/lib/utils/logger";
+import { errMessage } from "@/lib/utils/base";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { AllPage, type PreviewGroup } from "./templates/all-page";
@@ -34,6 +36,22 @@ import { generateTokensSquare } from "./templates/tokens-square";
 const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
 function htmlResponse(body: JSX.Element): Response {
   return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
+}
+
+// sharp's SVG loader can fail at runtime in a long-lived process (loader poisoning: the
+// same buffer converts fine in a fresh process on the same pod). Every og:image then 500s
+// silently because nothing logged here. Serve the SVG instead and make the failure loud.
+async function pngResponse(svg: string): Promise<Response> {
+  try {
+    const png = await svgToPng(svg);
+    return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
+  } catch (err) {
+    logger.error("badge svg->png failed, serving svg fallback", {
+      context: "badge",
+      message: errMessage(err),
+    });
+    return new Response(svg, { headers: SVG_HEADERS });
+  }
 }
 
 const CACHE_CONTROL =
@@ -163,10 +181,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           staticMode: isPng,
           modelCount: pricing.modelCount,
         });
-        if (isPng) {
-          const png = await svgToPng(socialSvg);
-          return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
-        }
+        if (isPng) return pngResponse(socialSvg);
         return socialSvg;
       }
 
@@ -206,10 +221,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           );
           svg = await generateCompare(ctx, pair);
         }
-        if (isPng) {
-          const png = await svgToPng(svg);
-          return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
-        }
+        if (isPng) return pngResponse(svg);
         return svg;
       }
 
@@ -233,10 +245,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         staticMode: isPng,
       });
 
-      if (isPng) {
-        const png = await svgToPng(svg);
-        return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
-      }
+      if (isPng) return pngResponse(svg);
       return svg;
     },
     { query: badgeQuery },
