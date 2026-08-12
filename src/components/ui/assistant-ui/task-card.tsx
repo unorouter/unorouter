@@ -34,10 +34,13 @@ function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
   };
 }
 
+// Holds the square box the finished image will occupy. A one-line spinner row
+// grew by the image's full height the moment it swapped in, which shoved the
+// thread down mid-reply; reserving it up front makes the swap a repaint.
 function ImagePlaceholder() {
   const t = useTranslations();
   return (
-    <div className="bg-muted/40 text-muted-foreground flex items-center gap-2 rounded-lg border px-4 py-3 text-sm">
+    <div className="bg-muted/40 text-muted-foreground flex aspect-square w-full items-center justify-center gap-2 rounded-lg border text-sm">
       <Icon name="loader" className="size-4 animate-spin" />
       <span>{t("CHAT.TASK.GENERATING_IMAGE")}</span>
     </div>
