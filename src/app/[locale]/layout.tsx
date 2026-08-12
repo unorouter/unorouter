@@ -22,8 +22,10 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
+import { routing } from "@/i18n/routing";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
+import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   JetBrains_Mono,
@@ -110,7 +112,9 @@ export default async function LocaleLayout(props: Props) {
   // Without this, awaiting requestLocale in i18n/request.ts counts as
   // uncached request data and cacheComponents fails every [locale] prerender.
   // The unknown-locale notFound() guard stays in i18n/request.ts.
-  setRequestLocale(params.locale);
+  if (hasLocale(routing.locales, params.locale)) {
+    setRequestLocale(params.locale);
+  }
 
   return (
     <html
