@@ -305,9 +305,21 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
+  // The chat default when no model is picked yet: the NEWEST free text model
+  // by release date, so a fresh visitor lands on the current flagship free
+  // model instead of whatever sorts first alphabetically.
+  const newestFree = (list: ProcessedModel[]) =>
+    list.reduce<ProcessedModel | null>((best, m) => {
+      if (!best) return m;
+      const diff = releaseTs(m) - releaseTs(best);
+      if (diff !== 0) return diff > 0 ? m : best;
+      return m.name.localeCompare(best.name) < 0 ? m : best;
+    }, null);
   const firstFreeModel =
-    models.find((m) => m.isFree && m.type === "text") ??
-    models.find((m) => m.isFree) ??
+    newestFree(
+      models.filter((m) => m.isFree && m.type === "text" && m.online),
+    ) ??
+    newestFree(models.filter((m) => m.isFree)) ??
     null;
 
   const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
