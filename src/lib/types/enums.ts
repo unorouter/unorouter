@@ -85,6 +85,7 @@ export enum Vendor {
   STEELSKULL = "steelskull",
   BRUHZWATER = "bruhzwater",
   FALLENMERICK = "fallenmerick",
+  THINKINGMACHINES = "thinking machines",
   MEGANOVA = "meganova",
   AGNES = "agnes ai",
   REQUESTY = "requesty",
