@@ -184,28 +184,9 @@ const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
 // Read the flag directly: the constants-module indirection evaluated before
 // env loading in the Docker build and the sourcemap upload kept running.
-// Uploading sourcemaps is best-effort telemetry: PostHog returning a socket
-// hang up must not fail a build whose compile already succeeded. The plugin
-// treats its own upload as fatal, so swallow that one hook's failure while
-// leaving every real build error untouched.
-function tolerateSourcemapUploadFailure(config: NextConfig): NextConfig {
-  const upload = config.runAfterProductionCompile;
-  if (!upload) return config;
-  return {
-    ...config,
-    runAfterProductionCompile: async (params) => {
-      try {
-        await upload(params);
-      } catch (error) {
-        console.warn("PostHog sourcemap upload failed, continuing:", error);
-      }
-    },
-  };
-}
-
 export default process.env.STANDALONE &&
 process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
-  ? tolerateSourcemapUploadFailure(withPostHogConfig(configWithNextIntl, {
+  ? withPostHogConfig(configWithNextIntl, {
       personalApiKey: process.env.POSTHOG_API_KEY!,
       envId: process.env.POSTHOG_ENV_ID!,
       host: "https://eu.i.posthog.com",
@@ -222,5 +203,5 @@ process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
           new Date().toISOString().slice(0, 10),
         deleteAfterUpload: true,
       },
-    }))
+    })
   : configWithNextIntl;
