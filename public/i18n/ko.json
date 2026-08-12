@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다.",
       "MODEL_TYPE": "유형",
       "MODEL_TYPE_TEXT": "텍스트",
-      "MODEL_TYPE_IMAGE": "이미지"
+      "MODEL_TYPE_IMAGE": "이미지",
+      "FETCH_BLOCKED": "브라우저가 요청을 차단했습니다. 엔드포인트가 CORS 헤더를 보내야 하며, 앞단의 봇 차단도 이 사이트를 허용해야 합니다.",
+      "FETCH_NOT_JSON": "엔드포인트가 모델 데이터 대신 웹 페이지를 반환했습니다. 대개 봇 차단 확인 화면입니다. 이 사이트를 허용하거나 모델을 직접 추가하세요."
     },
     "IMAGE_PROMPT": {
       "TITLE": "이미지 프롬프트",

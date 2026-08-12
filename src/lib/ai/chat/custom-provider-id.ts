@@ -49,6 +49,14 @@ export async function fetchCustomProviderModels(
     (err as { status?: number }).status = res.status;
     throw err;
   }
+  // A bot-protection page answers 200 with HTML. Parsing that as JSON throws a
+  // syntax error that reads like a bug in us, so name what actually happened.
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.includes("json")) {
+    const err = new Error("Model list response was not JSON");
+    (err as { notJson?: boolean }).notJson = true;
+    throw err;
+  }
   const data = (await res.json()) as { data?: Array<{ id?: string }> };
   return (data.data ?? [])
     .map((m) => m.id)

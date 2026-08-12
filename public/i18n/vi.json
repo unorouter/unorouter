@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Thao tác này xóa nhà cung cấp và các mô hình của nó. Cuộc trò chuyện của bạn được giữ lại.",
       "MODEL_TYPE": "Loại",
       "MODEL_TYPE_TEXT": "Văn bản",
-      "MODEL_TYPE_IMAGE": "Hình ảnh"
+      "MODEL_TYPE_IMAGE": "Hình ảnh",
+      "FETCH_BLOCKED": "Trình duyệt đã chặn yêu cầu. Điểm cuối phải gửi tiêu đề CORS, và lớp chống bot phía trước nó phải cho phép trang này.",
+      "FETCH_NOT_JSON": "Điểm cuối trả về một trang web thay vì dữ liệu mô hình, thường là bước kiểm tra chống bot. Hãy cho phép trang này đi qua, hoặc tự thêm mô hình."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt hình ảnh",

@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "This removes the provider and its models. Your conversations are kept.",
       "MODEL_TYPE": "Type",
       "MODEL_TYPE_TEXT": "Text",
-      "MODEL_TYPE_IMAGE": "Image"
+      "MODEL_TYPE_IMAGE": "Image",
+      "FETCH_BLOCKED": "The browser blocked the request. The endpoint must send CORS headers, and any bot protection in front of it has to allow this site.",
+      "FETCH_NOT_JSON": "The endpoint answered with a web page instead of model data, usually a bot-protection challenge. Allow this site through it, or add your models manually."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Image prompt",

@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Damit werden der Anbieter und seine Modelle entfernt. Deine Unterhaltungen bleiben erhalten.",
       "MODEL_TYPE": "Typ",
       "MODEL_TYPE_TEXT": "Text",
-      "MODEL_TYPE_IMAGE": "Bild"
+      "MODEL_TYPE_IMAGE": "Bild",
+      "FETCH_BLOCKED": "Der Browser hat die Anfrage blockiert. Der Endpunkt muss CORS-Header senden, und ein vorgeschalteter Bot-Schutz muss diese Seite zulassen.",
+      "FETCH_NOT_JSON": "Der Endpunkt hat eine Webseite statt Modelldaten zurückgegeben, meist eine Bot-Schutz-Abfrage. Lass diese Seite dort zu oder trage deine Modelle manuell ein."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Bild-Prompt",

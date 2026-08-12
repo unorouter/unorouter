@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan.",
       "MODEL_TYPE": "Tipe",
       "MODEL_TYPE_TEXT": "Teks",
-      "MODEL_TYPE_IMAGE": "Gambar"
+      "MODEL_TYPE_IMAGE": "Gambar",
+      "FETCH_BLOCKED": "Peramban memblokir permintaan. Endpoint harus mengirim header CORS, dan proteksi bot di depannya harus mengizinkan situs ini.",
+      "FETCH_NOT_JSON": "Endpoint menjawab dengan halaman web alih-alih data model, biasanya pemeriksaan proteksi bot. Izinkan situs ini melewatinya, atau tambahkan model secara manual."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt gambar",

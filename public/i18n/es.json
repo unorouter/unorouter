@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Esto elimina el proveedor y sus modelos. Tus conversaciones se conservan.",
       "MODEL_TYPE": "Tipo",
       "MODEL_TYPE_TEXT": "Texto",
-      "MODEL_TYPE_IMAGE": "Imagen"
+      "MODEL_TYPE_IMAGE": "Imagen",
+      "FETCH_BLOCKED": "El navegador bloqueó la solicitud. El endpoint debe enviar cabeceras CORS, y cualquier protección antibots delante debe permitir este sitio.",
+      "FETCH_NOT_JSON": "El endpoint respondió con una página web en lugar de datos de modelos, normalmente una comprobación antibots. Permite este sitio allí o añade tus modelos manualmente."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt de imagen",

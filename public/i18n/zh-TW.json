@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "這會移除該提供商及其模型。你的對話會保留。",
       "MODEL_TYPE": "類型",
       "MODEL_TYPE_TEXT": "文字",
-      "MODEL_TYPE_IMAGE": "圖像"
+      "MODEL_TYPE_IMAGE": "圖像",
+      "FETCH_BLOCKED": "瀏覽器攔截了該請求。端點必須回傳 CORS 標頭，其前方的機器人防護也要放行本站。",
+      "FETCH_NOT_JSON": "端點回傳的是網頁而不是模型資料，通常是機器人防護驗證頁。請放行本站，或手動新增模型。"
     },
     "IMAGE_PROMPT": {
       "TITLE": "圖像提示詞",

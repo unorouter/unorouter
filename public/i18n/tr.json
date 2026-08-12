@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Bu işlem sağlayıcıyı ve modellerini kaldırır. Sohbetleriniz korunur.",
       "MODEL_TYPE": "Tür",
       "MODEL_TYPE_TEXT": "Metin",
-      "MODEL_TYPE_IMAGE": "Görsel"
+      "MODEL_TYPE_IMAGE": "Görsel",
+      "FETCH_BLOCKED": "Tarayıcı isteği engelledi. Uç noktanın CORS başlıkları göndermesi ve önündeki bot korumasının bu siteye izin vermesi gerekir.",
+      "FETCH_NOT_JSON": "Uç nokta, model verisi yerine bir web sayfası döndürdü; genelde bot koruma doğrulamasıdır. Bu siteye izin verin ya da modelleri elle ekleyin."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Görsel promptu",

@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Cela supprime le fournisseur et ses modèles. Vos conversations sont conservées.",
       "MODEL_TYPE": "Type",
       "MODEL_TYPE_TEXT": "Texte",
-      "MODEL_TYPE_IMAGE": "Image"
+      "MODEL_TYPE_IMAGE": "Image",
+      "FETCH_BLOCKED": "Le navigateur a bloqué la requête. Le point de terminaison doit envoyer des en-têtes CORS, et toute protection anti-bots en amont doit autoriser ce site.",
+      "FETCH_NOT_JSON": "Le point de terminaison a renvoyé une page web au lieu des données de modèles, en général une vérification anti-bots. Autorisez ce site ou ajoutez vos modèles manuellement."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt d'image",

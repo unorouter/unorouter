@@ -4094,7 +4094,9 @@
       "DELETE_DESC": "Spowoduje to usunięcie dostawcy i jego modeli. Twoje rozmowy zostaną zachowane.",
       "MODEL_TYPE": "Typ",
       "MODEL_TYPE_TEXT": "Tekst",
-      "MODEL_TYPE_IMAGE": "Obraz"
+      "MODEL_TYPE_IMAGE": "Obraz",
+      "FETCH_BLOCKED": "Przeglądarka zablokowała żądanie. Punkt końcowy musi wysyłać nagłówki CORS, a ewentualna ochrona przed botami musi zezwalać tej witrynie.",
+      "FETCH_NOT_JSON": "Punkt końcowy zwrócił stronę internetową zamiast danych modeli, zwykle test ochrony przed botami. Zezwól tej witrynie albo dodaj modele ręcznie."
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt obrazu",

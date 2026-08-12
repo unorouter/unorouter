@@ -94,8 +94,17 @@ export function CustomProviderEditor(props: Props) {
       }
     } catch (e) {
       const status = (e as { status?: number }).status;
+      const notJson = (e as { notJson?: boolean }).notJson;
+      // Three distinct failures the old single message conflated: the endpoint
+      // answered with an error code, it answered with a challenge page instead
+      // of JSON, or the browser blocked the response outright (no CORS headers,
+      // which bot protection in front of an endpoint typically causes).
       toast.error(
-        t("CHAT.CUSTOM_PROVIDER.FETCH_FAILED", { status: status ?? "" }),
+        status
+          ? t("CHAT.CUSTOM_PROVIDER.FETCH_FAILED", { status })
+          : notJson
+            ? t("CHAT.CUSTOM_PROVIDER.FETCH_NOT_JSON")
+            : t("CHAT.CUSTOM_PROVIDER.FETCH_BLOCKED"),
       );
     } finally {
       setFetching(false);
@@ -138,11 +147,13 @@ export function CustomProviderEditor(props: Props) {
           />
 
           <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
+            {/* Wraps on a phone: the label plus both button labels overflow a
+                narrow dialog otherwise. */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-sm font-medium">
                 {t("CHAT.CUSTOM_PROVIDER.MODELS")}
               </span>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
                   variant="outline"
@@ -218,14 +229,14 @@ function ModelRow(props: {
 
   return (
     <div className="flex flex-col gap-1.5 rounded-md border p-2">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Input
-          className="flex-1 font-mono text-xs"
+          className="min-w-32 flex-1 font-mono text-xs"
           placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_KEY")}
           {...props.form.register(`models.${props.index}.key`)}
         />
         <Input
-          className="flex-1 text-xs"
+          className="min-w-32 flex-1 text-xs"
           placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_LABEL")}
           {...props.form.register(`models.${props.index}.label`)}
         />
@@ -238,7 +249,7 @@ function ModelRow(props: {
           <Icon name="trash-2" className="size-4" />
         </Button>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="text-muted-foreground shrink-0 text-[11px]">
           {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE")}
         </span>
