@@ -818,8 +818,6 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
     import("@/components/elements/brand/steelskull-icon"),
   [Vendor.BRUHZWATER]: () =>
     import("@/components/elements/brand/bruhzwater-icon"),
-  [Vendor.FALLENMERICK]: () =>
-    import("@/components/elements/brand/fallenmerick-icon"),
   [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
   [Vendor.AGNES]: () => import("@/components/elements/brand/agnes-icon"),
   [Vendor.REQUESTY]: () => import("@/components/elements/brand/requesty-icon"),
