@@ -134,6 +134,7 @@
     "typescript": "6.0.2"
   },
   "patchedDependencies": {
-    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch"
+    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
+    "next@16.3.0": "patches/next@16.3.0.patch"
   }
 }

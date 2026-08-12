@@ -1,0 +1,176 @@
+diff --git a/dist/esm/server/lib/clone-response.js b/dist/esm/server/lib/clone-response.js
+index 033a75a82dee9b2caea424f077e5b65ec131bc5a..0fe3b7022425d32736e2f322cbfb0c3403a38fdd 100644
+--- a/dist/esm/server/lib/clone-response.js
++++ b/dist/esm/server/lib/clone-response.js
+@@ -75,4 +75,36 @@ if (globalThis.FinalizationRegistry) {
+     ];
+ }
+ 
++
++// Backport of https://github.com/vercel/next.js/pull/94238 (fixes #92287):
++// deterministically release the retained tee() branch when the cache scope
++// settles instead of waiting for a GC that off-heap bytes never trigger.
++const cancellationsBySignal = new WeakMap();
++function runOnAbort(signal, cancel) {
++    const existing = cancellationsBySignal.get(signal);
++    if (existing) {
++        existing.push(cancel);
++        return;
++    }
++    const cancellations = [cancel];
++    cancellationsBySignal.set(signal, cancellations);
++    signal.addEventListener('abort', ()=>{
++        cancellationsBySignal.delete(signal);
++        for(let i = 0; i < cancellations.length; i++){
++            try { cancellations[i](); } catch {}
++        }
++    }, { once: true });
++}
++export function cancelUnconsumedBodyOnAbort(signal, body) {
++    if (!signal || !body) return;
++    const bodyRef = new WeakRef(body);
++    const cancel = ()=>{
++        const stream = bodyRef.deref();
++        if (stream && !stream.locked) {
++            stream.cancel('Retained response is no longer needed').then(noop, noop);
++        }
++    };
++    if (signal.aborted) { queueMicrotask(cancel); } else { runOnAbort(signal, cancel); }
++}
++
+ //# sourceMappingURL=clone-response.js.map
+\ No newline at end of file
+diff --git a/dist/esm/server/lib/dedupe-fetch.js b/dist/esm/server/lib/dedupe-fetch.js
+index 9cff7521dab16176d963c9d323ff9cc2cdd7e581..027893249ed3d17114a79d346116847823ccfaec 100644
+--- a/dist/esm/server/lib/dedupe-fetch.js
++++ b/dist/esm/server/lib/dedupe-fetch.js
+@@ -1,7 +1,7 @@
+ /**
+  * Based on https://github.com/facebook/react/blob/d4e78c42a94be027b4dc7ed2659a5fddfbf9bd4e/packages/react/src/ReactFetch.js
+  */ import * as React from 'react';
+-import { cloneResponse } from './clone-response';
++import { cloneResponse, cancelUnconsumedBodyOnAbort } from './clone-response';
+ import { InvariantError } from '../../shared/lib/invariant-error';
+ const simpleCacheKey = '["GET",[],null,"follow",null,null,null,null]' // generateCacheKey(new Request('https://blank'));
+ ;
+@@ -67,6 +67,7 @@ export function createDedupeFetch(originalFetch) {
+             cacheKey = generateCacheKey(request);
+             url = request.url;
+         }
++        const cacheSignal = typeof React.cacheSignal === 'function' ? React.cacheSignal() : null;
+         const cacheEntries = getCacheEntries(url);
+         for(let i = 0, j = cacheEntries.length; i < j; i += 1){
+             const [key, promise] = cacheEntries[i];
+@@ -84,6 +85,7 @@ export function createDedupeFetch(originalFetch) {
+                     // https://github.com/vercel/next.js/pull/73274
+                     const [cloned1, cloned2] = cloneResponse(response);
+                     cacheEntries[i][2] = cloned2;
++                    cancelUnconsumedBodyOnAbort(cacheSignal, cloned2.body);
+                     return cloned1;
+                 });
+             }
+@@ -104,6 +106,7 @@ export function createDedupeFetch(originalFetch) {
+             // https://github.com/vercel/next.js/pull/73274
+             const [cloned1, cloned2] = cloneResponse(response);
+             entry[2] = cloned2;
++            cancelUnconsumedBodyOnAbort(cacheSignal, cloned2.body);
+             return cloned1;
+         });
+     };
+diff --git a/dist/server/lib/clone-response.js b/dist/server/lib/clone-response.js
+index e283e8840ca341e93b701716d56c5433aa34268e..9ad986bbd97a856fbba770c8e75f253e9eefe0fa 100644
+--- a/dist/server/lib/clone-response.js
++++ b/dist/server/lib/clone-response.js
+@@ -8,6 +8,12 @@ Object.defineProperty(exports, "cloneResponse", {
+         return cloneResponse;
+     }
+ });
++Object.defineProperty(exports, "cancelUnconsumedBodyOnAbort", {
++    enumerable: true,
++    get: function() {
++        return cancelUnconsumedBodyOnAbort;
++    }
++});
+ const noop = ()=>{};
+ let registry;
+ if (globalThis.FinalizationRegistry) {
+@@ -73,5 +79,47 @@ function cloneResponse(original) {
+         cloned2
+     ];
+ }
++// Backport of https://github.com/vercel/next.js/pull/94238 (fixes #92287):
++// deterministically release the retained tee() branch when the cache scope
++// settles instead of waiting for a GC that off-heap bytes never trigger.
++const cancellationsBySignal = new WeakMap();
++function runOnAbort(signal, cancel) {
++    const existing = cancellationsBySignal.get(signal);
++    if (existing) {
++        existing.push(cancel);
++        return;
++    }
++    const cancellations = [
++        cancel
++    ];
++    cancellationsBySignal.set(signal, cancellations);
++    signal.addEventListener('abort', ()=>{
++        cancellationsBySignal.delete(signal);
++        for(let i = 0; i < cancellations.length; i++){
++            try {
++                cancellations[i]();
++            } catch  {}
++        }
++    }, {
++        once: true
++    });
++}
++function cancelUnconsumedBodyOnAbort(signal, body) {
++    if (!signal || !body) {
++        return;
++    }
++    const bodyRef = new WeakRef(body);
++    const cancel = ()=>{
++        const stream = bodyRef.deref();
++        if (stream && !stream.locked) {
++            stream.cancel('Retained response is no longer needed').then(noop, noop);
++        }
++    };
++    if (signal.aborted) {
++        queueMicrotask(cancel);
++    } else {
++        runOnAbort(signal, cancel);
++    }
++}
+ 
+ //# sourceMappingURL=clone-response.js.map
+\ No newline at end of file
+diff --git a/dist/server/lib/dedupe-fetch.js b/dist/server/lib/dedupe-fetch.js
+index 0392cded667647f06f2586f9df1d30820483aace..ff65fe2b0215e5c5e0b7344da4c21d7a6cd61e35 100644
+--- a/dist/server/lib/dedupe-fetch.js
++++ b/dist/server/lib/dedupe-fetch.js
+@@ -118,6 +118,10 @@ function createDedupeFetch(originalFetch) {
+             cacheKey = generateCacheKey(request);
+             url = request.url;
+         }
++        // Backport of https://github.com/vercel/next.js/pull/94238: React aborts
++        // the cache scope's signal when the scope settles, which is exactly when
++        // the retained clone below (entry[2]) is no longer needed.
++        const cacheSignal = typeof _react.cacheSignal === 'function' ? _react.cacheSignal() : null;
+         const cacheEntries = getCacheEntries(url);
+         for(let i = 0, j = cacheEntries.length; i < j; i += 1){
+             const [key, promise] = cacheEntries[i];
+@@ -135,6 +139,7 @@ function createDedupeFetch(originalFetch) {
+                     // https://github.com/vercel/next.js/pull/73274
+                     const [cloned1, cloned2] = (0, _cloneresponse.cloneResponse)(response);
+                     cacheEntries[i][2] = cloned2;
++                    (0, _cloneresponse.cancelUnconsumedBodyOnAbort)(cacheSignal, cloned2.body);
+                     return cloned1;
+                 });
+             }
+@@ -155,6 +160,7 @@ function createDedupeFetch(originalFetch) {
+             // https://github.com/vercel/next.js/pull/73274
+             const [cloned1, cloned2] = (0, _cloneresponse.cloneResponse)(response);
+             entry[2] = cloned2;
++            (0, _cloneresponse.cancelUnconsumedBodyOnAbort)(cacheSignal, cloned2.body);
+             return cloned1;
+         });
+     };
