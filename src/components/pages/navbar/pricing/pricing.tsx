@@ -66,6 +66,14 @@ export function Pricing() {
   const showCustomField =
     !!customTopUpProductId || cryptoCustomEnabled || paypalCustomEnabled;
   const customMax = paypalCustomEnabled ? DELOPAY_MAX : CUSTOM_MAX;
+  const customMin = paypalCustomEnabled ? billing.deloPayMinTopUp : CUSTOM_MIN;
+  // The tiles show the credit, not the charge, so state the fee once rather
+  // than letting checkout be the first place a higher number appears.
+  const paypalFee = billing.deloPayChargedAmount(1) - 1;
+  const paypalFeeNotice =
+    paypalFee > 0
+      ? t("PRICING.TOPUP.PAYPAL_FEE", { fee: `$${paypalFee.toFixed(2)}` })
+      : "";
 
   function payCustom() {
     if (!isLoggedIn) {
@@ -89,7 +97,7 @@ export function Pricing() {
     Number.isFinite(parsedCustom) &&
     (!(cryptoCustomEnabled || paypalCustomEnabled) ||
       Number.isInteger(parsedCustom)) &&
-    parsedCustom >= CUSTOM_MIN &&
+    parsedCustom >= customMin &&
     parsedCustom <= customMax;
 
   function redirectToLogin() {
@@ -131,7 +139,10 @@ export function Pricing() {
           ? (topUpInfo.amount_options ?? [])
           : DEFAULT_TOPUP_AMOUNTS;
       return amounts
-        .filter((amount) => amount <= DELOPAY_MAX)
+        .filter(
+          (amount) =>
+            amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,
+        )
         .map((amount) => ({
           key: `delopay-${amount}`,
           amount,
@@ -234,6 +245,11 @@ export function Pricing() {
                 </button>
               ))}
             </div>
+            {paypalCustomEnabled && paypalFeeNotice && (
+              <p className="text-muted-foreground mt-3 text-center font-mono text-[10px]">
+                {paypalFeeNotice}
+              </p>
+            )}
             {showCustomField && (
               <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-2">
                 <div className="border-border focus-within:border-foreground/50 flex items-center border px-3 py-2 transition-colors">
@@ -243,12 +259,12 @@ export function Pricing() {
                   <input
                     type="number"
                     inputMode="decimal"
-                    min={CUSTOM_MIN}
+                    min={customMin}
                     max={customMax}
                     step="1"
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
-                    placeholder={String(CUSTOM_MIN)}
+                    placeholder={String(customMin)}
                     className="text-foreground w-24 bg-transparent pl-1 font-mono text-sm font-bold tabular-nums outline-none"
                   />
                 </div>

@@ -17,20 +17,23 @@ const DELOPAY_MAX = 100000;
 
 function CustomAmountField(props: {
   disabled: boolean;
+  min?: number;
   max?: number;
   integer?: boolean;
+  chargedAmount?: (amount: number) => number;
   onPay: (amount: number) => void;
 }) {
   const t = useTranslations();
   const [value, setValue] = useState("");
 
+  const min = props.min ?? CUSTOM_MIN;
   const max = props.max ?? CUSTOM_MAX;
   const parsed = Number(value);
   const valid =
     value.trim() !== "" &&
     Number.isFinite(parsed) &&
     (!props.integer || Number.isInteger(parsed)) &&
-    parsed >= CUSTOM_MIN &&
+    parsed >= min &&
     parsed <= max;
 
   return (
@@ -42,18 +45,21 @@ function CustomAmountField(props: {
         <Input
           type="number"
           inputMode="decimal"
-          min={CUSTOM_MIN}
+          min={min}
           max={max}
           step="1"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={String(CUSTOM_MIN)}
+          placeholder={String(min)}
           className="max-w-40"
         />
         <span className="text-muted-foreground shrink-0 font-mono text-[10px]">
           {t("BILLING.TOPUP.ACTUAL_PAYMENT")}{" "}
           <span className="text-foreground tabular-nums">
-            ${valid ? parsed.toFixed(2) : "0.00"}
+            $
+            {valid
+              ? (props.chargedAmount?.(parsed) ?? parsed).toFixed(2)
+              : "0.00"}
           </span>
         </span>
         <Button
@@ -209,12 +215,15 @@ export function TopUpSection() {
         <div className="space-y-3">
           <div className={grid}>
             {(amountOptions.length > 0 ? amountOptions : DEFAULT_TOPUP_AMOUNTS)
-              .filter((amount) => amount <= DELOPAY_MAX)
+              .filter(
+                (amount) =>
+                  amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,
+              )
               .map((amount) => (
                 <TopUpTile
                   key={amount}
                   price={amount}
-                  actual={billing.discountedAmount(amount)}
+                  actual={billing.deloPayChargedAmount(amount)}
                   save={billing.discountSavings(amount)}
                   disabled={billing.isTopUpMutating}
                   onPay={() => billing.payDeloPay(amount)}
@@ -223,7 +232,9 @@ export function TopUpSection() {
           </div>
           <CustomAmountField
             integer
+            min={billing.deloPayMinTopUp}
             max={DELOPAY_MAX}
+            chargedAmount={billing.deloPayChargedAmount}
             disabled={billing.isTopUpMutating}
             onPay={(amount) => billing.payDeloPay(amount)}
           />

@@ -1441,7 +1441,8 @@
       "STEP": "Comece aqui",
       "LABEL": "Pague conforme o uso",
       "DESC": "Adicione crédito, use qualquer modelo.",
-      "FOOTNOTE": "O crédito nunca expira."
+      "FOOTNOTE": "O crédito nunca expira.",
+      "PAYPAL_FEE": "O PayPal adiciona uma taxa de processamento de {fee} no checkout."
     },
     "BRIDGE": {
       "TITLE": "Usa com frequência? Assine e ganhe mais crédito todo mês.",

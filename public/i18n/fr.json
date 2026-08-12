@@ -1441,7 +1441,8 @@
       "STEP": "Commencez ici",
       "LABEL": "Paiement à l'usage",
       "DESC": "Ajoutez du crédit, utilisez n'importe quel modèle.",
-      "FOOTNOTE": "Le crédit n'expire jamais."
+      "FOOTNOTE": "Le crédit n'expire jamais.",
+      "PAYPAL_FEE": "PayPal ajoute des frais de traitement de {fee} au paiement."
     },
     "BRIDGE": {
       "TITLE": "Utilisateur régulier ? Abonnez-vous et obtenez plus de crédit chaque mois.",

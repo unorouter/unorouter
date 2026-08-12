@@ -1441,7 +1441,8 @@
       "STEP": "从这里开始",
       "LABEL": "按量付费",
       "DESC": "充值额度，畅用任意模型。",
-      "FOOTNOTE": "额度永不过期。"
+      "FOOTNOTE": "额度永不过期。",
+      "PAYPAL_FEE": "PayPal 结账时会加收 {fee} 手续费。"
     },
     "BRIDGE": {
       "TITLE": "经常使用？订阅可每月获得更多额度。",

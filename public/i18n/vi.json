@@ -1441,7 +1441,8 @@
       "STEP": "Bắt đầu ở đây",
       "LABEL": "Trả theo dùng",
       "DESC": "Thêm tín dụng, dùng mọi mô hình.",
-      "FOOTNOTE": "Tín dụng không bao giờ hết hạn."
+      "FOOTNOTE": "Tín dụng không bao giờ hết hạn.",
+      "PAYPAL_FEE": "PayPal tính thêm phí xử lý {fee} khi thanh toán."
     },
     "BRIDGE": {
       "TITLE": "Dùng thường xuyên? Đăng ký để nhận thêm tín dụng mỗi tháng.",

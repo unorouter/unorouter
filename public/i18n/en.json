@@ -1441,7 +1441,8 @@
       "STEP": "Start here",
       "LABEL": "Pay as you go",
       "DESC": "Add credit, use any model.",
-      "FOOTNOTE": "Credits never expire."
+      "FOOTNOTE": "Credits never expire.",
+      "PAYPAL_FEE": "PayPal adds a {fee} processing fee at checkout."
     },
     "BRIDGE": {
       "TITLE": "Using it regularly? Subscribe and get more credit each month.",

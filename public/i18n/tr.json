@@ -1441,7 +1441,8 @@
       "STEP": "Buradan başla",
       "LABEL": "Kullandıkça öde",
       "DESC": "Kredi ekle, herhangi bir modeli kullan.",
-      "FOOTNOTE": "Krediler asla sona ermez."
+      "FOOTNOTE": "Krediler asla sona ermez.",
+      "PAYPAL_FEE": "PayPal ödeme sırasında {fee} işlem ücreti ekler."
     },
     "BRIDGE": {
       "TITLE": "Düzenli mi kullanıyorsun? Abone ol ve her ay daha fazla kredi kazan.",

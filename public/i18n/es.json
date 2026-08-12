@@ -1441,7 +1441,8 @@
       "STEP": "Empieza aquí",
       "LABEL": "Pago por uso",
       "DESC": "Agrega crédito, usa cualquier modelo.",
-      "FOOTNOTE": "El crédito nunca caduca."
+      "FOOTNOTE": "El crédito nunca caduca.",
+      "PAYPAL_FEE": "PayPal añade una comisión de procesamiento de {fee} al pagar."
     },
     "BRIDGE": {
       "TITLE": "¿Lo usas con frecuencia? Suscríbete y obtén más crédito cada mes.",

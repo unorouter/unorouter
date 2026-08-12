@@ -1441,7 +1441,8 @@
       "STEP": "Mulai di sini",
       "LABEL": "Bayar sesuai pakai",
       "DESC": "Tambah kredit, gunakan model apa pun.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
+      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa.",
+      "PAYPAL_FEE": "PayPal menambahkan biaya pemrosesan {fee} saat pembayaran."
     },
     "BRIDGE": {
       "TITLE": "Sering memakainya? Berlangganan dan dapatkan lebih banyak kredit tiap bulan.",

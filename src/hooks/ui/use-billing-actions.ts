@@ -46,6 +46,12 @@ export function useBillingActions() {
   const enableCrypto = enableNowPayments;
   const enablePayPal = enableDeloPay;
   const discount = topUpInfo?.discount ?? {};
+  // PayPal's fixed per-transaction fee makes the smallest tiers a loss, so
+  // upstream enforces its own floor and advertises it here. Honor it in the UI
+  // instead of offering amounts the pay call would reject.
+  const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
+  const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
+  const deloPayFeePercent = topUpInfo?.delopay_fee_percent ?? 0;
 
   const availableMethods: PaymentMethod[] = [];
   if (enableCard) availableMethods.push("card");
@@ -94,6 +100,16 @@ export function useBillingActions() {
   function discountedAmount(amount: number): number {
     const factor = discountFactor(amount);
     return factor ? Math.round(amount * factor * 100) / 100 : amount;
+  }
+
+  // What PayPal actually bills: the buyer covers the processing fee on top of
+  // the credited amount. Mirrors applyDeloPayFeeSurcharge upstream, including
+  // rounding up to the cent, so the tile never understates the charge.
+  function deloPayChargedAmount(amount: number): number {
+    const credited = discountedAmount(amount);
+    if (credited <= 0) return credited;
+    const billed = credited * (1 + deloPayFeePercent) + deloPayFeeFixed;
+    return Math.max(credited, Math.ceil(billed * 100) / 100);
   }
 
   function discountSavings(amount: number): number {
@@ -293,6 +309,7 @@ export function useBillingActions() {
     enableCard,
     enableCrypto,
     enablePayPal,
+    deloPayMinTopUp,
     availableMethods,
     paymentMethod,
     setPaymentMethod,
@@ -305,5 +322,6 @@ export function useBillingActions() {
     payDeloPay,
     discountedAmount,
     discountSavings,
+    deloPayChargedAmount,
   };
 }
