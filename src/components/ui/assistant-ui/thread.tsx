@@ -104,8 +104,12 @@ export const Thread: FC = () => {
         ["--composer-padding" as string]: "10px",
       }}
     >
+      {/* autoScroll alone only gates the content-resize branch; the run-start
+          jump is a separate default that still fired with the setting off, so
+          the toggle looked broken. Both follow the preference now. */}
       <ThreadPrimitive.Viewport
         autoScroll={autoScrollStream}
+        scrollToBottomOnRunStart={autoScrollStream}
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
         <AuiIf condition={(s) => s.thread.isEmpty}>

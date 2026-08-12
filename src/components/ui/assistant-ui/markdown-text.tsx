@@ -400,7 +400,12 @@ const defaultComponents = memoizeMarkdownComponents({
             height={0}
             onLoad={handleLoad}
             style={
-              inlayMediaId ? { aspectRatio: media.aspectRatio ?? 1 } : undefined
+              inlayMediaId
+                ? { aspectRatio: media.aspectRatio ?? 1 }
+                : // Author assets keep their natural size, so no ratio can be
+                  // assumed for them; a min-height still stops the jump from
+                  // zero that shoves the thread while a reply streams.
+                  { minHeight: "12rem" }
             }
             // Chat media are inline base64 data URIs, so next/image cannot
             // optimize them: the browser decodes the FULL-resolution bitmap
