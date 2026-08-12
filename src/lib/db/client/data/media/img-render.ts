@@ -1,7 +1,10 @@
 "use client";
 
 import { readLocalConversationBindings } from "@/lib/db/client/data/chat/chat";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  readLocalMedia,
+  setLocalMediaDimensions,
+} from "@/lib/db/client/data/media/media";
 import {
   mediaBlobUrl,
   revokeMediaBlobUrl,
@@ -20,9 +23,14 @@ import { atom } from "jotai";
 
 export const imgVersionAtom = atom(0);
 
-// name-src cache keyed by `${convId}:${nameLower}`; a resolved-empty marker ("")
-// prevents re-resolving an unknown name every render.
-const cache = new Map<string, string>();
+// name-src cache keyed by `${convId}:${nameLower}`; a resolved-empty marker
+// (src "") prevents re-resolving an unknown name every render.
+type ResolvedAsset = {
+  src: string;
+  width: number | null;
+  height: number | null;
+};
+const cache = new Map<string, ResolvedAsset>();
 const pending = new Set<string>();
 
 export const IMG_TOKEN_RE = /\{\{img::([^}]+?)\}\}/g;
@@ -69,7 +77,7 @@ async function resolveName(
     }
   }
   if (!mediaId) {
-    cache.set(key(convId, nameLower), "");
+    cache.set(key(convId, nameLower), { src: "", width: null, height: null });
     return;
   }
   const row = await readLocalMedia(userId, mediaId);
@@ -77,7 +85,28 @@ async function resolveName(
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
     : "";
-  cache.set(k, src);
+  // The renderer reserves the asset's exact box from `@WxH` in the alt text, so
+  // an image popping in mid-stream cannot grow the thread under the reader. Rows
+  // without stored dimensions are measured here once (decode is off the render
+  // path) and backfilled.
+  let width = row?.width ?? null;
+  let height = row?.height ?? null;
+  if (src && row?.dataBase64 && (!width || !height)) {
+    try {
+      const blob = await (await fetch(src)).blob();
+      const bmp = await createImageBitmap(blob);
+      width = bmp.width;
+      height = bmp.height;
+      bmp.close();
+      void setLocalMediaDimensions(userId, mediaId, width, height).catch(
+        () => {},
+      );
+    } catch {
+      width = null;
+      height = null;
+    }
+  }
+  cache.set(k, { src, width, height });
 }
 
 function requestImg(userId: number, convId: string, nameLower: string): void {
@@ -103,11 +132,13 @@ export function replaceImgTokens(text: string, userId: number): string {
   return text.replace(IMG_TOKEN_RE, (_m, rawName: string) => {
     const name = rawName.trim();
     const nameLower = name.toLowerCase();
-    const src = cache.get(key(convId, nameLower));
-    if (src === undefined) {
+    const hit = cache.get(key(convId, nameLower));
+    if (hit === undefined) {
       requestImg(userId, convId, nameLower);
       return "";
     }
-    return src ? `![img:${name}](${src})` : "";
+    if (!hit.src) return "";
+    const size = hit.width && hit.height ? `@${hit.width}x${hit.height}` : "";
+    return `![img:${name}${size}](${hit.src})`;
   });
 }
