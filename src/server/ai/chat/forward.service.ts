@@ -95,44 +95,82 @@ export async function forwardChatCompletions(args: {
   // re-framed as an OpenAI-style error chunk, which the ai-sdk client surfaces
   // through its normal stream-error path.
   const enc = new TextEncoder();
+  // Pull-driven on purpose: the consumer's reads pace upstream. Enqueueing in a free-running
+  // loop lets a stalled or half-dead client accumulate the entire completion in the
+  // controller queue, and those stranded queues stay pinned until the stream is collected.
+  let reader: ReadableStreamDefaultReader<Uint8Array> | null = null;
+  let ping: ReturnType<typeof setInterval> | null = null;
+  const stopPing = () => {
+    if (ping) clearInterval(ping);
+    ping = null;
+  };
+  const writeError = (
+    controller: ReadableStreamDefaultController<Uint8Array>,
+    message: string,
+  ) => {
+    try {
+      controller.enqueue(
+        enc.encode(`data: ${JSON.stringify({ error: { message } })}\n\n`),
+      );
+      controller.enqueue(enc.encode("data: [DONE]\n\n"));
+    } catch {
+      // consumer already gone
+    }
+  };
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
-      const ping = setInterval(() => {
+      ping = setInterval(() => {
         try {
           controller.enqueue(enc.encode(": keepalive\n\n"));
         } catch {
-          clearInterval(ping);
+          stopPing();
         }
       }, KEEPALIVE_MS);
       controller.enqueue(enc.encode(": keepalive\n\n"));
-      const writeError = (message: string) => {
-        controller.enqueue(
-          enc.encode(`data: ${JSON.stringify({ error: { message } })}\n\n`),
-        );
-        controller.enqueue(enc.encode("data: [DONE]\n\n"));
-      };
       try {
         const upstream = await upstreamPromise;
-        clearInterval(ping);
+        stopPing();
         if (!upstream.ok || !upstream.body) {
           const text = await upstream.text().catch(() => "");
-          writeError(compactErrorText(text, upstream.status));
+          writeError(controller, compactErrorText(text, upstream.status));
+          controller.close();
         } else {
-          const reader = upstream.body.getReader();
-          for (;;) {
-            const chunk = await reader.read();
-            if (chunk.done) break;
-            controller.enqueue(chunk.value);
-          }
+          reader = upstream.body.getReader();
         }
       } catch (e) {
-        writeError(String(e).slice(0, 300));
-      } finally {
-        clearInterval(ping);
-        controller.close();
+        stopPing();
+        writeError(controller, String(e).slice(0, 300));
+        try {
+          controller.close();
+        } catch {
+          // already closed by cancel
+        }
+      }
+    },
+    async pull(controller) {
+      if (!reader) return;
+      try {
+        const chunk = await reader.read();
+        if (chunk.done) {
+          reader = null;
+          controller.close();
+        } else {
+          controller.enqueue(chunk.value);
+        }
+      } catch (e) {
+        reader = null;
+        writeError(controller, String(e).slice(0, 300));
+        try {
+          controller.close();
+        } catch {
+          // already closed by cancel
+        }
       }
     },
     cancel() {
+      stopPing();
+      reader?.cancel().catch(() => undefined);
+      reader = null;
       abort.abort();
     },
   });
