@@ -1,0 +1,19 @@
+<svg width="174" height="44" viewBox="0 0 174 44" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect x="1" y="1" width="172" height="42" rx="5" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+
+      <!-- Logo/Icon: blue rounded rect with white "fh" -->
+      <g transform="translate(12, 12)">
+        <rect width="20" height="20" rx="5" fill="#0074b3"/>
+        <text x="4" y="15" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffffff" letter-spacing="-0.3">f</text>
+        <text x="10.5" y="15" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" font-style="italic" fill="#ffffff" letter-spacing="-0.3">h</text>
+      </g>
+
+      <!-- Text -->
+      <text x="40" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" fill="#000000" opacity="0.8" text-transform="uppercase">FEATURED ON</text>
+
+      <!-- Site name -->
+      <text x="40" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#000000">
+        FridayHunt.com
+      </text>
+    </svg>

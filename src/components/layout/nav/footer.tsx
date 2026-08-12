@@ -208,6 +208,13 @@ const FOOTER_BADGES: {
     width: 103,
   },
   {
+    href: "https://FridayHunt.com/projects/unorouter?ref=FridayHunt",
+    src: "/badges/fridayhunt.svg",
+    name: "FridayHunt",
+    width: 103,
+    lightBg: true,
+  },
+  {
     href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
     src: "/badges/sharefast.svg",
     name: "Share Fast",
