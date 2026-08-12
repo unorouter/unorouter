@@ -242,6 +242,20 @@ export const CHAT_DOCS: ChatDoc[] = [
       ["db", "H_DB"],
     ],
   }),
+  chatDoc({
+    slug: "backups",
+    name: "BACKUPS",
+    section: "DATA",
+    iconName: "cloud-upload",
+    headings: [
+      ["why", "H_WHY"],
+      ["backup", "H_BACKUP"],
+      ["restore", "H_RESTORE"],
+      ["size", "H_SIZE"],
+      ["move", "H_MOVE"],
+      ["troubleshoot", "H_TROUBLESHOOT"],
+    ],
+  }),
 ];
 
 export const CHAT_DOC_SECTION_ORDER: ChatDocSection[] = [

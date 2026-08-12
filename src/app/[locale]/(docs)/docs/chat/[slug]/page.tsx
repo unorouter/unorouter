@@ -7,6 +7,7 @@ import { CardsContent } from "@/components/pages/docs/chat/content/cards-content
 import { CharactersContent } from "@/components/pages/docs/chat/content/characters-content";
 import { CustomProvidersContent } from "@/components/pages/docs/chat/content/custom-providers-content";
 import { DataContent } from "@/components/pages/docs/chat/content/data-content";
+import { BackupsContent } from "@/components/pages/docs/chat/content/backups-content";
 import { GettingStartedContent } from "@/components/pages/docs/chat/content/getting-started-content";
 import { GroupChatsContent } from "@/components/pages/docs/chat/content/group-chats-content";
 import { ImagesContent } from "@/components/pages/docs/chat/content/images-content";
@@ -69,6 +70,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   images: ImagesContent,
   "custom-providers": CustomProvidersContent,
   data: DataContent,
+  backups: BackupsContent,
 };
 
 export default async function ChatDocPage(props: PageProps) {

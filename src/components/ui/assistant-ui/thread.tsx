@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/navigation";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
@@ -199,6 +200,19 @@ const ThreadWelcome: FC = () => {
               {t("CHAT.EMPTY_DESCRIPTION")}
             </p>
           </div>
+          {/* Users arriving from JanitorAI/SillyTavern assume a web app stores
+              chats server-side, then ask whether we read them. Say it up front,
+              next to where the backup that this implies is explained. */}
+          <Link
+            href={{
+              pathname: "/docs/chat/[slug]",
+              params: { slug: "backups" },
+            }}
+            className="border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground hover:border-border flex max-w-md items-start gap-2 rounded-lg border px-3 py-2 text-xs transition-colors"
+          >
+            <Icon name="shield-check" className="mt-0.5 size-3.5 shrink-0" />
+            <span>{t("CHAT.LOCAL_ONLY_NOTICE")}</span>
+          </Link>
           <ChatLoadout />
           <GreetingPreview />
           {env.discordUrl && (
