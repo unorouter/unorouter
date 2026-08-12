@@ -24,7 +24,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -106,6 +106,11 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
+
+  // Without this, awaiting requestLocale in i18n/request.ts counts as
+  // uncached request data and cacheComponents fails every [locale] prerender.
+  // The unknown-locale notFound() guard stays in i18n/request.ts.
+  setRequestLocale(params.locale);
 
   return (
     <html
