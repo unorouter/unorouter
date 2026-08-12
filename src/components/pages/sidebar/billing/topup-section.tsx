@@ -8,8 +8,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 // Creem's custom_price bounds, mirrored from the upstream handler so the input
-// rejects the same amounts the API would. NowPayments shares them: it takes an
-// arbitrary USD amount with the same $1 floor.
+// rejects the same amounts the API would. NowPayments shares them. The buyer
+// covers the processing fee on top of the floor, so a 1 top-up bills more than
+// 1 while still crediting 1.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 // DeloPay takes whole dollars only (int64 upstream).
@@ -47,10 +48,10 @@ function CustomAmountField(props: {
           inputMode="decimal"
           min={min}
           max={max}
-          step="1"
+          step={props.integer ? "1" : "0.01"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={String(min)}
+          placeholder={Number.isInteger(min) ? String(min) : min.toFixed(2)}
           className="max-w-40"
         />
         <span className="text-muted-foreground shrink-0 font-mono text-[10px]">
@@ -161,6 +162,7 @@ export function TopUpSection() {
             ))}
           </div>
           <CustomAmountField
+            chargedAmount={billing.creemChargedAmount}
             disabled={billing.isTopUpMutating}
             onPay={(amount) =>
               billing.payCreem(cheapestCreemProductId, amount, true)

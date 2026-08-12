@@ -52,6 +52,10 @@ export function useBillingActions() {
   const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
   const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
   const deloPayFeePercent = topUpInfo?.delopay_fee_percent ?? 0;
+  const deloPayFeeThreshold = topUpInfo?.delopay_fee_threshold ?? 0;
+  const creemFeeFixed = topUpInfo?.creem_fee_fixed ?? 0;
+  const creemFeePercent = topUpInfo?.creem_fee_percent ?? 0;
+  const creemFeeThreshold = topUpInfo?.creem_fee_threshold ?? 0;
 
   const availableMethods: PaymentMethod[] = [];
   if (enableCard) availableMethods.push("card");
@@ -102,14 +106,40 @@ export function useBillingActions() {
     return factor ? Math.round(amount * factor * 100) / 100 : amount;
   }
 
-  // What PayPal actually bills: the buyer covers the processing fee on top of
-  // the credited amount. Mirrors applyDeloPayFeeSurcharge upstream, including
-  // rounding up to the cent, so the tile never understates the charge.
-  function deloPayChargedAmount(amount: number): number {
-    const credited = discountedAmount(amount);
+  // What the gateway actually bills: the buyer covers the processing fee on top
+  // of the credited amount, and only up to the threshold. Mirrors the upstream
+  // surcharge helpers, rounding up to the cent, so a tile never understates the
+  // charge.
+  function chargedWithFee(
+    credited: number,
+    fixed: number,
+    percent: number,
+    threshold: number,
+  ): number {
     if (credited <= 0) return credited;
-    const billed = credited * (1 + deloPayFeePercent) + deloPayFeeFixed;
+    if (threshold > 0 && credited > threshold) return credited;
+    const billed = credited * (1 + percent) + fixed;
     return Math.max(credited, Math.ceil(billed * 100) / 100);
+  }
+
+  function deloPayChargedAmount(amount: number): number {
+    return chargedWithFee(
+      discountedAmount(amount),
+      deloPayFeeFixed,
+      deloPayFeePercent,
+      deloPayFeeThreshold,
+    );
+  }
+
+  // Creem applies its fee to a CUSTOM amount only; preset products keep the
+  // price configured upstream.
+  function creemChargedAmount(amount: number): number {
+    return chargedWithFee(
+      amount,
+      creemFeeFixed,
+      creemFeePercent,
+      creemFeeThreshold,
+    );
   }
 
   function discountSavings(amount: number): number {
@@ -323,5 +353,6 @@ export function useBillingActions() {
     discountedAmount,
     discountSavings,
     deloPayChargedAmount,
+    creemChargedAmount,
   };
 }

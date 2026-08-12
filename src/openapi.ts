@@ -3507,9 +3507,13 @@ export type TopUpInfoDataPayMethodsItem = { [key: string]: string };
 export interface TopUpInfoData {
   /** @nullable */
   amount_options: number[] | null;
+  creem_fee_fixed: number;
+  creem_fee_percent: number;
+  creem_fee_threshold: number;
   creem_products: string;
   delopay_fee_fixed: number;
   delopay_fee_percent: number;
+  delopay_fee_threshold: number;
   delopay_min_topup: number;
   /** @nullable */
   discount: TopUpInfoDataDiscount;

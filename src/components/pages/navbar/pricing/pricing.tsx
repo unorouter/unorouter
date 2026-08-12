@@ -31,7 +31,8 @@ type TopUpOption = {
 
 // Mirrors the upstream Creem handler's bounds so the field rejects what the
 // API would. Creem, NowPayments and DeloPay all take a custom price; only the
-// Stripe lane still needs a preset.
+// Stripe lane still needs a preset. The buyer covers the processing fee on top
+// of the floor, so a 1 top-up bills more than 1 while still crediting 1.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 // DeloPay takes whole dollars only (int64 upstream).
@@ -261,10 +262,14 @@ export function Pricing() {
                     inputMode="decimal"
                     min={customMin}
                     max={customMax}
-                    step="1"
+                    step={cryptoCustomEnabled || paypalCustomEnabled ? "1" : "0.01"}
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
-                    placeholder={String(customMin)}
+                    placeholder={
+                      Number.isInteger(customMin)
+                        ? String(customMin)
+                        : customMin.toFixed(2)
+                    }
                     className="text-foreground w-24 bg-transparent pl-1 font-mono text-sm font-bold tabular-nums outline-none"
                   />
                 </div>
