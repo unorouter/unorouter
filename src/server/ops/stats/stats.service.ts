@@ -24,7 +24,10 @@ export async function computeStatsSummary(): Promise<HistorySummary> {
 
   let avgTpm = 0;
   if (data.length > 0) {
-    const earliest = Math.min(...data.map((d) => d?.created_at ?? 0));
+    const earliest = data.reduce(
+      (min, d) => Math.min(min, d?.created_at ?? 0),
+      Infinity,
+    );
     const timeDiffMinutes = (now - earliest) / 60;
     if (timeDiffMinutes > 0) {
       avgTpm = Math.round(tokenUsed / timeDiffMinutes);
