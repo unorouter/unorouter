@@ -4069,6 +4069,8 @@
       "FORMAT": "Định dạng",
       "TOKENIZER": "Bộ tách token",
       "FORMAT_OPENAI": "Tương thích OpenAI",
+      "PROXY": "Định tuyến qua UnoRouter",
+      "PROXY_HINT": "Khắc phục các nhà cung cấp chặn trình duyệt (CORS). Yêu cầu và khóa của bạn đi qua máy chủ của chúng tôi thay vì trực tiếp; chúng tôi không bao giờ lưu chúng.",
       "TOKENIZER_AUTO": "Tự động (khớp theo tên)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

@@ -4069,6 +4069,8 @@
       "FORMAT": "格式",
       "TOKENIZER": "分詞器",
       "FORMAT_OPENAI": "相容 OpenAI",
+      "PROXY": "經由 UnoRouter 轉送",
+      "PROXY_HINT": "解決封鎖瀏覽器的供應商（CORS）問題。請求與你的金鑰改經我們的伺服器轉送，而非直連；我們絕不儲存它們。",
       "TOKENIZER_AUTO": "自動（依名稱比對）",
       "TOKENIZER_CL100K": "GPT（cl100k）",
       "TOKENIZER_O200K": "GPT-4o/5（o200k）",

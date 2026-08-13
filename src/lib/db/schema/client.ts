@@ -79,6 +79,9 @@ export const customProviders = sqliteTable(
     baseUrl: text("base_url").notNull(),
     apiKey: text("api_key").notNull().default(""),
     format: text("format").$type<CustomProviderFormat>().notNull(),
+    // Route requests through our server (CORS-bypass); default stays
+    // browser-direct so the server never sees the user's endpoint or key.
+    proxy: integer("proxy", { mode: "boolean" }).notNull().default(false),
     models: text("models", { mode: "json" })
       .$type<CustomProviderModel[]>()
       .notNull(),

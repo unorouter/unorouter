@@ -19,6 +19,7 @@ import { generateChatTitle } from "./title.service";
 import { runTriggerLLM, runTriggerSimilarity } from "./triggers/trigger-ops";
 import { streamMedia } from "./media-stream.service";
 import { forwardChatCompletions } from "./forward.service";
+import { forwardCustomProvider } from "./custom-forward.service";
 import { resolveWebSearch } from "./context/web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
@@ -67,6 +68,32 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     },
     { body: forwardBody },
   )
+
+  // Opt-in CORS-bypass proxy for custom providers (the per-provider "proxy"
+  // toggle). Auth required: an anonymous open proxy would be abused. The
+  // user's own key rides Authorization; we never resolve or log a key here.
+  .post("/custom-forward/chat/completions", async ({ cookie, request }) => {
+    await getUserId(cookie);
+    return forwardCustomProvider({
+      targetBase: request.headers.get("x-proxy-target"),
+      path: "/chat/completions",
+      method: "POST",
+      authorization: request.headers.get("authorization"),
+      body: await request.text(),
+      signal: request.signal,
+    });
+  })
+
+  .get("/custom-forward/models", async ({ cookie, request }) => {
+    await getUserId(cookie);
+    return forwardCustomProvider({
+      targetBase: request.headers.get("x-proxy-target"),
+      path: "/models",
+      method: "GET",
+      authorization: request.headers.get("authorization"),
+      signal: request.signal,
+    });
+  })
 
   .post(
     "/web-search",

@@ -4069,6 +4069,8 @@
       "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
       "FORMAT_OPENAI": "OpenAI-compatible",
+      "PROXY": "Route through UnoRouter",
+      "PROXY_HINT": "Fixes providers that block browsers (CORS). Requests and your key pass through our server instead of going direct; we never store them.",
       "TOKENIZER_AUTO": "Auto (match by name)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

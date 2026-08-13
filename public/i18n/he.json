@@ -4069,6 +4069,8 @@
       "FORMAT": "פורמט",
       "TOKENIZER": "מטמיע אסימונים",
       "FORMAT_OPENAI": "תואם OpenAI",
+      "PROXY": "ניתוב דרך UnoRouter",
+      "PROXY_HINT": "פותר ספקים שחוסמים דפדפנים (CORS). הבקשות והמפתח שלך עוברים דרך השרת שלנו במקום ישירות; אנחנו לעולם לא שומרים אותם.",
       "TOKENIZER_AUTO": "אוטומטי (לפי השם)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

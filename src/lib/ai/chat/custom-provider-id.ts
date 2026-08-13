@@ -35,13 +35,18 @@ export function normalizeBaseUrl(url: string): string {
 export async function fetchCustomProviderModels(
   baseUrl: string,
   apiKey: string,
+  proxy = false,
 ): Promise<string[]> {
   const base = normalizeBaseUrl(baseUrl);
   const key = apiKey.trim().replace(/^Bearer\s+/i, "");
-  const res = await fetch(`${base}/models`, {
+  // Proxy toggle: providers without CORS cannot answer the browser directly,
+  // so the request detours through our custom-forward route.
+  const url = proxy ? "/api/ai/chat/custom-forward/models" : `${base}/models`;
+  const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       ...(key ? { Authorization: `Bearer ${key}` } : {}),
+      ...(proxy ? { "x-proxy-target": base } : {}),
     },
   });
   if (!res.ok) {

@@ -100,6 +100,7 @@ async function runClientStream(args: {
   options: SendOptions;
   getConvId: () => string | null;
   tokenizer?: TokenizerRef;
+  extraHeaders?: Record<string, string>;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const userId = chatStore.get(localUserIdAtom);
   const fields = await buildChatRequestBody(args.getConvId);
@@ -193,7 +194,14 @@ async function runClientStream(args: {
     name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
     apiKey: args.apiKey,
-    ...(group && group !== "auto" ? { headers: { "X-Group": group } } : {}),
+    ...((group && group !== "auto") || args.extraHeaders
+      ? {
+          headers: {
+            ...(group && group !== "auto" ? { "X-Group": group } : {}),
+            ...args.extraHeaders,
+          },
+        }
+      : {}),
     ...(hasBodyMutation(prepared.bodyMutations)
       ? { fetch: makeBodyMutationFetch(prepared.bodyMutations) }
       : {}),
@@ -308,6 +316,7 @@ export function makeRoutingTransport(
       options,
       getConvId,
       ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
+      ...(target.extraHeaders ? { extraHeaders: target.extraHeaders } : {}),
     });
   };
 

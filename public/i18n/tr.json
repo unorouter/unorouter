@@ -4069,6 +4069,8 @@
       "FORMAT": "Biçim",
       "TOKENIZER": "Belirteçleyici",
       "FORMAT_OPENAI": "OpenAI uyumlu",
+      "PROXY": "UnoRouter üzerinden yönlendir",
+      "PROXY_HINT": "Tarayıcıları engelleyen sağlayıcıları (CORS) düzeltir. İstekler ve anahtarınız doğrudan gitmek yerine sunucumuzdan geçer; bunları asla saklamayız.",
       "TOKENIZER_AUTO": "Otomatik (ada göre eşleştir)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

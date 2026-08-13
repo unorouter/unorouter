@@ -2,6 +2,7 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
+import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
@@ -86,7 +87,11 @@ export function CustomProviderEditor(props: Props) {
     if (!baseUrl) return;
     setFetching(true);
     try {
-      const ids = await fetchCustomProviderModels(baseUrl, apiKey);
+      const ids = await fetchCustomProviderModels(
+        baseUrl,
+        apiKey,
+        form.getValues("proxy"),
+      );
       const existingKeys = new Set(form.getValues("models").map((m) => m.key));
       for (const id of ids) {
         if (!existingKeys.has(id))
@@ -144,6 +149,12 @@ export function CustomProviderEditor(props: Props) {
             label={t("CHAT.CUSTOM_PROVIDER.FORMAT")}
             fallback="openai-compatible"
             optionKeys={FORMAT_KEYS}
+          />
+          <MyFormSwitch
+            control={form.control}
+            name="proxy"
+            label={t("CHAT.CUSTOM_PROVIDER.PROXY")}
+            description={t("CHAT.CUSTOM_PROVIDER.PROXY_HINT")}
           />
 
           <div className="flex flex-col gap-2">

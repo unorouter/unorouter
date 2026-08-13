@@ -4069,6 +4069,8 @@
       "FORMAT": "التنسيق",
       "TOKENIZER": "المُرمِّز",
       "FORMAT_OPENAI": "متوافق مع OpenAI",
+      "PROXY": "التوجيه عبر UnoRouter",
+      "PROXY_HINT": "يعالج المزودين الذين يحظرون المتصفحات (CORS). تمر الطلبات ومفتاحك عبر خادمنا بدلاً من الاتصال المباشر؛ ولا نخزنها أبدًا.",
       "TOKENIZER_AUTO": "تلقائي (حسب الاسم)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

@@ -4069,6 +4069,8 @@
       "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
       "FORMAT_OPENAI": "Kompatibel dengan OpenAI",
+      "PROXY": "Rutekan melalui UnoRouter",
+      "PROXY_HINT": "Memperbaiki penyedia yang memblokir peramban (CORS). Permintaan dan kunci Anda melewati server kami alih-alih langsung; kami tidak pernah menyimpannya.",
       "TOKENIZER_AUTO": "Otomatis (cocokkan nama)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

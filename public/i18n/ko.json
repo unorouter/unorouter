@@ -4069,6 +4069,8 @@
       "FORMAT": "형식",
       "TOKENIZER": "토크나이저",
       "FORMAT_OPENAI": "OpenAI 호환",
+      "PROXY": "UnoRouter 경유",
+      "PROXY_HINT": "브라우저를 차단하는 제공자(CORS) 문제를 해결합니다. 요청과 키가 직접 가는 대신 우리 서버를 거치며, 절대 저장하지 않습니다.",
       "TOKENIZER_AUTO": "자동 (이름으로 매칭)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",

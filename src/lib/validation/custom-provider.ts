@@ -37,6 +37,7 @@ export const customProviderBody = t.Object({
   baseUrl: t.String({ minLength: 1, maxLength: MAX_URL_LEN }),
   apiKey: t.String({ maxLength: MAX_KEY_LEN }),
   format: customProviderFormat,
+  proxy: t.Optional(t.Boolean()),
   models: t.Array(customProviderModel, { maxItems: MAX_MODELS }),
 });
 export type CustomProviderBody = Static<typeof customProviderBody>;
@@ -49,6 +50,7 @@ export const customProviderForm = t.Object({
     CUSTOM_PROVIDER_FORMATS.map((f) => t.Literal(f)),
     { default: "openai-compatible" },
   ),
+  proxy: t.Boolean({ default: false }),
   models: t.Array(customProviderModel, { maxItems: MAX_MODELS, default: [] }),
 });
 export type CustomProviderForm = Static<typeof customProviderForm>;

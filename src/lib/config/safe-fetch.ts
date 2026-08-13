@@ -142,6 +142,43 @@ function parseAndCheckUrl(url: string): URL {
   return parsed;
 }
 
+// A separate agent for STREAMING responses (SSE): the download agent's 10s
+// body timeout would kill any generation longer than that. Headers still time
+// out, so a dead host cannot hold a connection open silently; the body flows
+// as long as the model streams.
+const safeStreamAgent = new Agent({
+  connect: { lookup: filteringLookup },
+  headersTimeout: 30_000,
+  bodyTimeout: 0,
+});
+
+// SSRF-guarded fetch that returns the live response for piping (the custom
+// provider proxy). Same URL/DNS/port policy as every other safe fetch here;
+// redirects refused so the check cannot be bypassed by a hop.
+export async function safeFetchStream(
+  url: string,
+  opts: {
+    method?: string;
+    headers?: Record<string, string>;
+    body?: string;
+    signal?: AbortSignal;
+  } = {},
+): Promise<UndiciResponse> {
+  parseAndCheckUrl(url);
+  const res = await undiciFetch(url, {
+    method: opts.method ?? "GET",
+    headers: opts.headers,
+    body: opts.body,
+    signal: opts.signal,
+    dispatcher: safeStreamAgent,
+    redirect: "manual",
+  });
+  if (res.status >= 300 && res.status < 400) {
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
+  }
+  return res;
+}
+
 async function safeFetch(
   url: string,
   method: "GET" | "HEAD" = "GET",
