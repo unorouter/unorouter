@@ -970,7 +970,7 @@ const UserMessage: FC = () => {
             <UserMessageAttachments />
 
             <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
-              <MessagePrimitive.Parts />
+              <MessagePrimitive.Parts components={{ Text: MarkdownText }} />
             </div>
 
             <div className="aui-user-message-footer col-span-full col-start-1 row-start-3 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
