@@ -10,11 +10,6 @@ import {
   allowDataMediaUrls,
   resolveMarkdownMedia,
 } from "@/lib/ai/chat/markdown-media";
-import {
-  hasJsHandlers,
-  jsDisplayVersionAtom,
-  transformDisplayJsSync,
-} from "@/lib/ai/chat/plugins/engine";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
   imgVersionAtom,
@@ -95,10 +90,6 @@ const MarkdownTextImpl = () => {
   );
   useAtomValue(hasInlayToken ? inlayVersionAtom : ZERO_ATOM);
   useAtomValue(hasImgToken ? imgVersionAtom : ZERO_ATOM);
-  // Plugin display handlers resolve asynchronously into a cache; the version
-  // bump re-renders once the transformed text is ready. Subscribed only while
-  // a plugin actually registered a display handler.
-  useAtomValue(hasJsHandlers("display") ? jsDisplayVersionAtom : ZERO_ATOM);
   const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive
@@ -111,7 +102,6 @@ const MarkdownTextImpl = () => {
         let t = stripThinkForDisplay(text);
         if (t.includes("{{inlay::")) t = replaceInlayTokens(t, userId);
         if (t.includes("{{img::")) t = replaceImgTokens(t, userId);
-        t = transformDisplayJsSync(t);
         return normalizeMathDelimiters(t);
       }}
     />
