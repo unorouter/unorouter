@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   useCharacterQuery,
@@ -44,6 +45,8 @@ type AssetRow = {
   dataUrl: string | null;
 };
 
+type GreetingRow = { rowId: string; text: string };
+
 export function CharacterEditor(props: Props) {
   const t = useTranslations();
   const userId = useLocalUserId();
@@ -73,6 +76,25 @@ export function CharacterEditor(props: Props) {
       : avatarDraft.kind === "keep"
         ? existingAvatarSrc
         : null;
+
+  // Alternate greetings are kept as local rows rather than form fields: the
+  // count is variable, and a row must keep its identity while the text changes
+  // so typing in one does not remount the others.
+  const [greetingRows, setGreetingRows] = useState<GreetingRow[] | null>(null);
+  const greetings =
+    greetingRows ??
+    (existing?.alternateGreetings ?? []).map((text) => ({
+      rowId: uid(),
+      text,
+    }));
+  const addGreetingRow = () =>
+    setGreetingRows([...greetings, { rowId: uid(), text: "" }]);
+  const removeGreetingRow = (rowId: string) =>
+    setGreetingRows(greetings.filter((g) => g.rowId !== rowId));
+  const editGreetingRow = (rowId: string, text: string) =>
+    setGreetingRows(
+      greetings.map((g) => (g.rowId === rowId ? { ...g, text } : g)),
+    );
 
   const [assetRows, setAssetRows] = useState<AssetRow[] | null>(null);
   const assetInputRef = useRef<HTMLInputElement | null>(null);
@@ -182,6 +204,9 @@ export function CharacterEditor(props: Props) {
       ...rest,
       tags: csvToArray(data.tags),
       turnTriggers: csvToArray(triggerWords),
+      alternateGreetings: greetings
+        .map((g) => g.text.trim())
+        .filter((text) => text.length > 0),
       avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
       backgroundMediaId: await resolveMediaId(
         bgDraft,
@@ -238,6 +263,44 @@ export function CharacterEditor(props: Props) {
           label={t("RP.CHARACTER_FIRST_MESSAGE")}
           rows={4}
         />
+        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+            {t("RP.CHARACTER_ALT_GREETINGS_TITLE")}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            {t("RP.CHARACTER_ALT_GREETINGS_HINT")}
+          </p>
+          {greetings.map((row, index) => (
+            <div key={row.rowId} className="flex items-start gap-2">
+              <Textarea
+                value={row.text}
+                rows={3}
+                placeholder={t("RP.CHARACTER_ALT_GREETING_PLACEHOLDER", {
+                  index: index + 2,
+                })}
+                onChange={(e) => editGreetingRow(row.rowId, e.target.value)}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label={t("RP.CHARACTER_ALT_GREETING_REMOVE")}
+                onClick={() => removeGreetingRow(row.rowId)}
+              >
+                <Icon name="trash-2" className="size-3.5" />
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addGreetingRow}
+          >
+            <Icon name="plus" className="mr-1.5 size-3.5" />
+            {t("RP.CHARACTER_ALT_GREETING_ADD")}
+          </Button>
+        </div>
         <MyFormTextarea
           control={form.control}
           name="exampleMessages"
