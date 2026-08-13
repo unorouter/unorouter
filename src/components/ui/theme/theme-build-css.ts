@@ -351,6 +351,12 @@ export function buildBackgroundCss(
           // it twice. Inner surfaces defer to the outer one.
           `[data-bg-active] .bg-background .bg-background{background-color:transparent !important;backdrop-filter:none;}`,
           `[data-bg-active] .bg-sidebar .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
+          // The sidebar's 1px border sits outside its panel's painted area, so
+          // that column showed the image raw and unblurred against the frosted
+          // panels either side of it. The container covers the border box, so
+          // the panel inside it must not tint the same pixels twice.
+          `[data-bg-active] [data-slot="sidebar-container"]{background-color:${surfaceMix("sidebar")};backdrop-filter:blur(8px);}`,
+          `[data-bg-active] [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
   return [
