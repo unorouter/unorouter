@@ -295,6 +295,8 @@ const PROVIDER_SELECT = {
 
 const PASS_RATE_SQL = sql`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`;
 
+const LAST_TESTED_SQL = sql`max(${testerTests.testedAt})`;
+
 export async function getProviders(
   page: number,
   pageSize: number,
@@ -353,12 +355,14 @@ export async function getProviderDetail(host: string): Promise<{
     .groupBy(testerTests.baseUrlHost)
     .limit(1);
 
+  // Most endpoints score 100%, so ranking these by pass rate leaves the list in
+  // an arbitrary tie order. Newest run first is what makes the page readable.
   const models = await db
     .select(AGG_SELECT)
     .from(testerTests)
     .where(where)
     .groupBy(testerTests.requestedModel)
-    .orderBy(desc(PASS_RATE_SQL));
+    .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL));
 
   const providerP95 = await p95ByGroup(where, false);
   const modelP95 = await p95ByGroup(where, true);

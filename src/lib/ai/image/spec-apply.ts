@@ -34,8 +34,16 @@ export function lookupParamSpec(
   if (air && SNAPSHOT.byAir[air]) return SNAPSHOT.byAir[air];
   if (!series) return null;
   const key = series.trim().toLowerCase();
-  const slug = SERIES_TO_ARCHITECTURE[key] ?? key;
-  return SNAPSHOT.byArchitecture[slug] ?? null;
+  const mapped = SERIES_TO_ARCHITECTURE[key] ?? key;
+  const direct =
+    SNAPSHOT.byArchitecture[mapped] ?? SNAPSHOT.byArchitecture[key];
+  if (direct) return direct;
+  // Runware labels variants off the base architecture ("pony_v7", "sdxl_lightning"), and
+  // a variant takes the same parameters as its base. Falling back to the base beats
+  // dropping every control because of a suffix we have not seen before.
+  const base = key.split(/[_-]/)[0];
+  const baseSlug = SERIES_TO_ARCHITECTURE[base] ?? base;
+  return SNAPSHOT.byArchitecture[baseSlug] ?? null;
 }
 
 function numeric(value: unknown): number | undefined {

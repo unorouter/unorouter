@@ -7,6 +7,7 @@ import {
   type ImageModelDescriptor,
 } from "@/lib/ai/image/models";
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
+import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
 import {
   imageFormValues,
   type ImageFormValues,
@@ -43,7 +44,18 @@ export function useImageForm() {
   });
 
   const selectedModel = form.watch("model") ?? INITIAL_MODEL;
-  const descriptor = findDescriptor(selectedModel);
+  const baseDescriptor = findDescriptor(selectedModel);
+  // The passthrough row carries no lineage of its own, so its controls would come from a
+  // generic guess. The checkpoint the user resolved DOES know its architecture, and
+  // Runware documents one schema per architecture, so the picked checkpoint decides which
+  // knobs a passthrough generation actually accepts.
+  const pickedArchitecture = form.watch("ui.airArchitecture");
+  const checkpointSpec = pickedArchitecture
+    ? lookupParamSpec(form.watch("ui.air"), pickedArchitecture)
+    : null;
+  const descriptor = checkpointSpec
+    ? applyParamSpec(baseDescriptor, checkpointSpec)
+    : baseDescriptor;
 
   const changeModel = (next: string) => {
     const nextDesc = findDescriptor(next);
