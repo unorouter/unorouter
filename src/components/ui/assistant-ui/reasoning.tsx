@@ -99,9 +99,17 @@ function ReasoningRoot({
     if (!isControlled && userOpen === null) lockScroll();
   }, [streaming, isControlled, userOpen, lockScroll]);
 
+  // NO scroll lock on collapse. Native scroll anchoring (overflow-anchor is
+  // auto on the viewport) already keeps the reading position while the box
+  // shrinks; the lock fights it by forcing the pre-collapse scrollTop back,
+  // and near the bottom that value exceeds the new maximum, so the browser
+  // clamps to the end - which the viewport's at-bottom detector reads as the
+  // user scrolling down, re-arming the follow pin and making the stream yank
+  // the view again. Expanding keeps the lock: the old position stays valid
+  // when content grows, so restoring it is harmless there.
   const handleOpenChange = useCallback(
     (open: boolean) => {
-      lockScroll();
+      if (open) lockScroll();
       if (!isControlled) setUserOpen(open);
       controlledOnOpenChange?.(open);
     },
