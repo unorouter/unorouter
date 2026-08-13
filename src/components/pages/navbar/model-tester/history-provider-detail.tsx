@@ -98,18 +98,20 @@ export function HistoryProviderDetail(props: { host: string }) {
                       <span className="truncate text-sm font-medium">
                         {model.requestedModel}
                       </span>
-                      <span className="text-muted-foreground shrink-0 font-mono text-xs tabular-nums">
-                        {Math.round(model.avgLatencyMs)}ms
+                      <span className="text-foreground/70 shrink-0 text-xs">
+                        {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                          when: dayjs(model.lastTestedAt).fromNow(),
+                        })}
                       </span>
                     </div>
                     <RankBar pct={passPct} />
                     <span className="text-muted-foreground truncate text-xs">
+                      <span className="font-mono tabular-nums">
+                        {Math.round(model.avgLatencyMs)}ms
+                      </span>
+                      {" · "}
                       {t("MODEL_TESTER.RANKINGS.SAMPLES", {
                         count: model.sampleCount,
-                      })}
-                      {" · "}
-                      {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                        when: dayjs(model.lastTestedAt).fromNow(),
                       })}
                     </span>
                   </div>

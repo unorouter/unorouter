@@ -142,12 +142,18 @@ export function RankingsTable() {
                       <span className="truncate text-sm font-medium">
                         {row.baseUrlHost}
                       </span>
-                      <span className="text-muted-foreground shrink-0 font-mono text-xs tabular-nums">
-                        {Math.round(row.avgLatencyMs)}ms
+                      <span className="text-foreground/70 shrink-0 text-xs">
+                        {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                          when: dayjs(row.lastTestedAt).fromNow(),
+                        })}
                       </span>
                     </div>
                     <RankBar pct={passPct} lowN={lowN} />
                     <span className="text-muted-foreground truncate text-xs">
+                      <span className="font-mono tabular-nums">
+                        {Math.round(row.avgLatencyMs)}ms
+                      </span>
+                      {" · "}
                       {t("MODEL_TESTER.RANKINGS.MODELS_TRACKED", {
                         count: row.modelCount,
                       })}{" "}
@@ -160,10 +166,6 @@ export function RankingsTable() {
                             count: row.sampleCount,
                           })}`
                         : ""}
-                      {" · "}
-                      {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                        when: dayjs(row.lastTestedAt).fromNow(),
-                      })}
                     </span>
                   </div>
                 </Link>
