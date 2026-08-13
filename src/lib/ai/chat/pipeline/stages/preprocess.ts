@@ -36,6 +36,7 @@ export async function preprocessMessages(
   if (luaCodes.length > 0) {
     out = await applyLuaEditInput(out, luaCodes);
   }
+  out = await applyJsEditInput(out);
 
   return { messages: out, luaCodes, primaryChar };
 }
@@ -74,6 +75,47 @@ async function applyLuaEditInput(
               p.text,
             ),
           }
+        : p,
+    ),
+  );
+  return messages.map((mm, i) =>
+    i === lastUserIdx ? ({ ...mm, parts } as (typeof messages)[number]) : mm,
+  );
+}
+
+// JS plugin input handlers, same shape as the Lua pass: only the last user
+// message's text parts. Dynamically imported so the plugin engine stays out of
+// the server bundle and off first paint; no-ops when no handler is registered.
+async function applyJsEditInput(
+  messages: StreamMessages,
+): Promise<StreamMessages> {
+  if (typeof window === "undefined") return messages;
+  const { hasJsHandlers, runJsEditTrigger } = await import(
+    "@/lib/ai/chat/plugins/engine"
+  );
+  if (!hasJsHandlers("input")) return messages;
+
+  let lastUserIdx = -1;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === "user") {
+      lastUserIdx = i;
+      break;
+    }
+  }
+  if (lastUserIdx === -1) return messages;
+  const m = messages[lastUserIdx];
+  if (!Array.isArray(m.parts)) return messages;
+
+  const editCtx = makeTriggerContext({
+    mode: "input",
+    vars: {},
+    globalVars: {},
+    chat: [],
+  });
+  const parts = await Promise.all(
+    m.parts.map(async (p) =>
+      p.type === "text" && typeof p.text === "string"
+        ? { ...p, text: await runJsEditTrigger("input", editCtx, p.text) }
         : p,
     ),
   );

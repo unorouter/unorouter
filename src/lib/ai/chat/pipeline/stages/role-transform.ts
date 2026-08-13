@@ -70,6 +70,7 @@ export async function transformRoles(
   if (luaCodes.length > 0) {
     processedMessages = await applyLuaEditRequest(processedMessages, luaCodes);
   }
+  processedMessages = await applyJsEditRequest(processedMessages);
 
   logChatDebug("assembly.shape", {
     model,
@@ -180,6 +181,48 @@ async function applyLuaEditRequest(
     editCtx,
     formated,
   );
+  if (!Array.isArray(edited) || edited.length !== formated.length)
+    return messages;
+  return messages.map((m, i) =>
+    edited[i] &&
+    typeof edited[i].content === "string" &&
+    edited[i].content !== formated[i].content
+      ? ({
+          ...m,
+          parts: [{ type: "text", text: edited[i].content }],
+        } as (typeof messages)[number])
+      : m,
+  );
+}
+
+// JS plugin request handlers over the same flattened {role, content}[] the Lua
+// pass uses, with the same length guard. Dynamically imported so the plugin
+// engine stays out of the server bundle; no-ops without registered handlers.
+async function applyJsEditRequest(
+  messages: StreamMessages,
+): Promise<StreamMessages> {
+  if (typeof window === "undefined") return messages;
+  const { hasJsHandlers, runJsEditTrigger } = await import(
+    "@/lib/ai/chat/plugins/engine"
+  );
+  if (!hasJsHandlers("request")) return messages;
+
+  const editCtx = makeTriggerContext({
+    mode: "request",
+    vars: {},
+    globalVars: {},
+    chat: [],
+  });
+  const formated = messages.map((m) => ({
+    role: m.role,
+    content: Array.isArray(m.parts)
+      ? m.parts
+          .filter((p) => p.type === "text" && typeof p.text === "string")
+          .map((p) => (p as { text: string }).text)
+          .join("\n")
+      : "",
+  }));
+  const edited = await runJsEditTrigger("request", editCtx, formated);
   if (!Array.isArray(edited) || edited.length !== formated.length)
     return messages;
   return messages.map((m, i) =>

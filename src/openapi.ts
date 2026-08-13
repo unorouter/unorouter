@@ -243,7 +243,7 @@ export interface ClaudeServerToolUse {
   web_search_requests: number;
 }
 
-export interface BillingUsage {
+export interface ClaudeUsage {
   billing_usage?: BillingUsage;
   cache_creation?: ClaudeCacheCreationUsage;
   cache_creation_input_tokens: number;
@@ -253,6 +253,70 @@ export interface BillingUsage {
   input_tokens: number;
   output_tokens: number;
   server_tool_use?: ClaudeServerToolUse;
+}
+
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
+export interface Usage {
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -449,18 +513,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -966,36 +1018,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
-export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1240,15 +1262,6 @@ export interface ImageGenerationResponse {
   created: number;
   /** @nullable */
   data: ImageData[] | null;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1759,13 +1772,6 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
 export interface OverwriteField {
   /** @nullable */
   fields: string[] | null;
@@ -2004,6 +2010,13 @@ export interface QuotaData {
   use_group: string;
   user_id: number;
   username: string;
+}
+
+export interface QuotaDataSummary {
+  count: number;
+  earliest_created_at: number;
+  quota: number;
+  token_used: number;
 }
 
 export interface RankedModel {
@@ -3771,6 +3784,15 @@ export interface ResponseModelPrefillGroup {
 }
 
 /**
+ * Response_model.QuotaDataSummary schema
+ */
+export interface ResponseModelQuotaDataSummary {
+  data: QuotaDataSummary;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_model.Redemption schema
  */
 export interface ResponseModelRedemption {
@@ -4419,6 +4441,11 @@ export type GetUserFlowQuotaDatesParams = {
 };
 
 export type GetUserQuotaDatesParams = {
+  start_timestamp?: number;
+  end_timestamp?: number;
+};
+
+export type GetQuotaDataSummaryParams = {
   start_timestamp?: number;
   end_timestamp?: number;
 };
@@ -7509,6 +7536,58 @@ export const getUserQuotaDates = async (
 ): Promise<getUserQuotaDatesResponse> => {
   return customFetch<getUserQuotaDatesResponse>(
     getGetUserQuotaDatesUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export type getQuotaDataSummaryResponse200ApplicationJson = {
+  data: ResponseModelQuotaDataSummary;
+  status: 200;
+};
+
+export type getQuotaDataSummaryResponse200ApplicationXml = {
+  data: ResponseModelQuotaDataSummary;
+  status: 200;
+};
+
+export type getQuotaDataSummaryResponseSuccess = (
+  | getQuotaDataSummaryResponse200ApplicationJson
+  | getQuotaDataSummaryResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getQuotaDataSummaryResponse = getQuotaDataSummaryResponseSuccess;
+
+export const getGetQuotaDataSummaryUrl = (
+  params?: GetQuotaDataSummaryParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/data/summary?${stringifiedParams}`
+    : `/api/data/summary`;
+};
+
+/**
+ * @summary Get Quota Data Summary
+ */
+export const getQuotaDataSummary = async (
+  params?: GetQuotaDataSummaryParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getQuotaDataSummaryResponse> => {
+  return customFetch<getQuotaDataSummaryResponse>(
+    getGetQuotaDataSummaryUrl(params),
     {
       ...options,
       method: "GET",

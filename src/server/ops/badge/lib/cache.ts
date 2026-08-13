@@ -7,7 +7,7 @@ import { modelMatchesSlug } from "@/lib/utils/base";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
 import { errMessage, unixSec, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { getAllQuotaDates, getPricing } from "@/openapi";
+import { getPricing, getQuotaDataSummary } from "@/openapi";
 import { readFileSync } from "fs";
 import type { Locale } from "next-intl";
 import { join } from "path";
@@ -87,9 +87,9 @@ export async function getStats(): Promise<BadgeStats> {
   if (cachedStats && Date.now() - cachedStatsAt < CACHE_TTL) return cachedStats;
 
   const now = unixSec();
-  let body;
+  let summary;
   try {
-    const res = await getAllQuotaDates(
+    const res = await getQuotaDataSummary(
       { start_timestamp: 0, end_timestamp: FAR_FUTURE },
       { headers: ADMIN_HEADERS },
     );
@@ -102,7 +102,7 @@ export async function getStats(): Promise<BadgeStats> {
       cachedStatsAt = Date.now();
       return cachedStats;
     }
-    body = unwrap(res);
+    summary = unwrap(res).data;
   } catch (err) {
     logger.warn("badge getStats: upstream failed, falling back to zero", {
       context: "badge",
@@ -112,17 +112,13 @@ export async function getStats(): Promise<BadgeStats> {
     cachedStatsAt = Date.now();
     return cachedStats;
   }
-  const data = body.data ?? [];
 
-  const requestCount = data.reduce((s, d) => s + (d?.count ?? 0), 0);
-  const tokenUsed = data.reduce((s, d) => s + (d?.token_used ?? 0), 0);
+  const requestCount = summary?.count ?? 0;
+  const tokenUsed = summary?.token_used ?? 0;
 
   let avgTpm = 0;
-  if (data.length > 0) {
-    const earliest = data.reduce(
-      (min, d) => Math.min(min, d?.created_at ?? 0),
-      Infinity,
-    );
+  const earliest = summary?.earliest_created_at ?? 0;
+  if (earliest > 0) {
     const timeDiffMinutes = (now - earliest) / 60;
     if (timeDiffMinutes > 0) {
       avgTpm = Math.round(tokenUsed / timeDiffMinutes);
