@@ -40,18 +40,57 @@ function htmlResponse(body: JSX.Element): Response {
 
 // sharp's SVG loader can fail at runtime in a long-lived process (loader poisoning: the
 // same buffer converts fine in a fresh process on the same pod). Every og:image then 500s
-// silently because nothing logged here. Serve the SVG instead and make the failure loud.
+// silently because nothing logged here. Retry the conversion in a short-lived child
+// process (spawn cost is fine: PNGs sit behind a 1h edge cache), and only if that also
+// fails serve the SVG so link unfurlers at least get something.
 async function pngResponse(svg: string): Promise<Response> {
   try {
     const png = await svgToPng(svg);
     return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
   } catch (err) {
-    logger.error("badge svg->png failed, serving svg fallback", {
-      context: "badge",
-      message: errMessage(err),
-    });
-    return new Response(svg, { headers: SVG_HEADERS });
+    try {
+      const png = await svgToPngChild(svg);
+      logger.warn("badge svg->png poisoned in-process, child conversion ok", {
+        context: "badge",
+        message: errMessage(err),
+      });
+      return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
+    } catch (childErr) {
+      logger.error("badge svg->png failed, serving svg fallback", {
+        context: "badge",
+        message: errMessage(err),
+        childMessage: errMessage(childErr),
+      });
+      return new Response(svg, { headers: SVG_HEADERS });
+    }
   }
+}
+
+const CHILD_CONVERT_SCRIPT =
+  'const cs=[];process.stdin.on("data",c=>cs.push(c)).on("end",async()=>{' +
+  'try{const s=require("sharp");const b=await s(Buffer.concat(cs)).png().toBuffer();' +
+  "process.stdout.write(b)}catch(e){console.error(e.message);process.exit(1)}})";
+
+async function svgToPngChild(svg: string): Promise<Buffer> {
+  const cp = await import("node:child_process");
+  return new Promise((resolve, reject) => {
+    const child = cp.execFile(
+      process.execPath,
+      ["-e", CHILD_CONVERT_SCRIPT],
+      { encoding: "buffer", maxBuffer: 32 * 1024 * 1024, timeout: 15000 },
+      (err, stdout, stderr) => {
+        if (err || stdout.length === 0) {
+          reject(
+            new Error(stderr.toString().trim() || err?.message || "empty png"),
+          );
+          return;
+        }
+        resolve(stdout);
+      },
+    );
+    child.stdin?.write(svg);
+    child.stdin?.end();
+  });
 }
 
 const CACHE_CONTROL =
