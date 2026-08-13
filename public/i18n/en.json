@@ -3674,7 +3674,9 @@
       "AMOUNT": "Amount",
       "REMAIN_QUOTA": "Quota",
       "QUOTA_THRESHOLD_DOLLARS": "Quota warning threshold",
-      "CONTENT": "Content"
+      "CONTENT": "Content",
+      "MODEL": "Model",
+      "BASEURL": "API base URL"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Verified by our server and published to the public rankings. Saved to your history too.",
       "NOT_SAVED": "Verified by our server, but the public rankings are unavailable right now, so the result was not saved. It is shown below.",
       "DEDUPED": "Already published recently for this endpoint.",
-      "FAILED": "Could not verify this endpoint. Nothing was published."
+      "FAILED": "Could not verify this endpoint. Nothing was published.",
+      "FORMAT_MISMATCH": "The model id does not match the selected API format."
     },
     "TRUST": {
       "TITLE": "Open source. Verify and improve it.",

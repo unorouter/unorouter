@@ -3674,7 +3674,9 @@
       "AMOUNT": "Số tiền",
       "REMAIN_QUOTA": "Hạn mức",
       "QUOTA_THRESHOLD_DOLLARS": "Ngưỡng cảnh báo hạn mức",
-      "CONTENT": "Nội dung"
+      "CONTENT": "Nội dung",
+      "MODEL": "Mô hình",
+      "BASEURL": "URL cơ sở của API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Da duoc may chu cua chung toi xac minh va dang len bang xep hang cong khai. Cung da luu vao lich su cua ban.",
       "NOT_SAVED": "Đã được máy chủ của chúng tôi xác minh, nhưng bảng xếp hạng công khai hiện không khả dụng nên kết quả chưa được lưu. Kết quả hiển thị bên dưới.",
       "DEDUPED": "Da dang gan day cho diem cuoi nay.",
-      "FAILED": "Khong the xac minh diem cuoi nay. Khong co gi duoc dang."
+      "FAILED": "Khong the xac minh diem cuoi nay. Khong co gi duoc dang.",
+      "FORMAT_MISMATCH": "Mã mô hình không khớp với định dạng API đã chọn."
     },
     "TRUST": {
       "TITLE": "Ma nguon mo. Hay xac minh va cai thien.",

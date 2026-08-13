@@ -19,8 +19,30 @@ export type TransportArgs = {
 
 export type TransportFn = (args: TransportArgs) => Promise<TransportResult>;
 
-function isLikelyCorsError(err: unknown): boolean {
-  return err instanceof TypeError;
+// A CORS block and a dead host both surface as an opaque TypeError, so the
+// rejection alone cannot separate them. Retrying in "no-cors" mode can: that
+// mode skips the CORS check, so it still resolves when only CORS was in the way
+// and still rejects when nothing is listening.
+// See https://github.com/whatwg/fetch/issues/1123.
+//
+// The retry is deliberately NOT the original request. no-cors strips the
+// Authorization header and forces a safelisted content-type, so it proves
+// reachability only; the response is opaque by design and never inspected.
+async function corsBlockedNotUnreachable(
+  url: string,
+  timeoutMs: number,
+): Promise<boolean> {
+  try {
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      body: "{}",
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function direct(args: TransportArgs): Promise<TransportResult> {
@@ -40,7 +62,10 @@ async function direct(args: TransportArgs): Promise<TransportResult> {
       status: null,
       data: null,
       error: isAbort ? "timeout" : msg,
-      corsBlocked: !isAbort && isLikelyCorsError(err),
+      corsBlocked:
+        !isAbort &&
+        err instanceof TypeError &&
+        (await corsBlockedNotUnreachable(args.url, args.timeoutMs)),
     };
   }
 }

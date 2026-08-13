@@ -3674,7 +3674,9 @@
       "AMOUNT": "Valor",
       "REMAIN_QUOTA": "Cota",
       "QUOTA_THRESHOLD_DOLLARS": "Limite de aviso de cota",
-      "CONTENT": "Conteúdo"
+      "CONTENT": "Conteúdo",
+      "MODEL": "Modelo",
+      "BASEURL": "URL base da API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Verificado pelo nosso servidor e publicado no ranking publico. Tambem salvo no seu historico.",
       "NOT_SAVED": "Verificado pelo nosso servidor, mas o ranking público está indisponível no momento, então o resultado não foi salvo. Ele aparece abaixo.",
       "DEDUPED": "Ja publicado recentemente para este endpoint.",
-      "FAILED": "Nao foi possivel verificar este endpoint. Nada foi publicado."
+      "FAILED": "Nao foi possivel verificar este endpoint. Nada foi publicado.",
+      "FORMAT_MISMATCH": "O identificador do modelo não corresponde ao formato de API selecionado."
     },
     "TRUST": {
       "TITLE": "Codigo aberto. Verifique e melhore.",

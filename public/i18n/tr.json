@@ -3674,7 +3674,9 @@
       "AMOUNT": "Miktar",
       "REMAIN_QUOTA": "Kota",
       "QUOTA_THRESHOLD_DOLLARS": "Kota uyarı eşiği",
-      "CONTENT": "İçerik"
+      "CONTENT": "İçerik",
+      "MODEL": "Model",
+      "BASEURL": "API temel URL'si"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Sunucumuz tarafindan dogrulandi ve genel siralamada yayinlandi. Gecmisinize de kaydedildi.",
       "NOT_SAVED": "Sunucumuz tarafından doğrulandı, ancak genel sıralama şu anda kullanılamıyor, bu yüzden sonuç kaydedilmedi. Aşağıda gösteriliyor.",
       "DEDUPED": "Bu uc nokta icin yakin zamanda zaten yayinlandi.",
-      "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi."
+      "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi.",
+      "FORMAT_MISMATCH": "Model kimliği seçilen API biçimiyle eşleşmiyor."
     },
     "TRUST": {
       "TITLE": "Acik kaynak. Dogrulayin ve gelistirin.",

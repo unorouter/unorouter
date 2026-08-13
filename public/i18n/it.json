@@ -3674,7 +3674,9 @@
       "AMOUNT": "Importo",
       "REMAIN_QUOTA": "Quota",
       "QUOTA_THRESHOLD_DOLLARS": "Soglia di avviso quota",
-      "CONTENT": "Contenuto"
+      "CONTENT": "Contenuto",
+      "MODEL": "Modello",
+      "BASEURL": "URL base dell'API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Verificato dal nostro server e pubblicato nella classifica pubblica. Salvato anche nella tua cronologia.",
       "NOT_SAVED": "Verificato dal nostro server, ma la classifica pubblica non è al momento disponibile, quindi il risultato non è stato salvato. Viene mostrato qui sotto.",
       "DEDUPED": "Gia pubblicato di recente per questo endpoint.",
-      "FAILED": "Impossibile verificare questo endpoint. Nulla e stato pubblicato."
+      "FAILED": "Impossibile verificare questo endpoint. Nulla e stato pubblicato.",
+      "FORMAT_MISMATCH": "L'identificativo del modello non corrisponde al formato API selezionato."
     },
     "TRUST": {
       "TITLE": "Open source. Verificalo e miglioralo.",

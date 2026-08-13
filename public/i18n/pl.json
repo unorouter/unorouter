@@ -3674,7 +3674,9 @@
       "AMOUNT": "Kwota",
       "REMAIN_QUOTA": "Kwota",
       "QUOTA_THRESHOLD_DOLLARS": "Próg ostrzeżenia o kwocie",
-      "CONTENT": "Treść"
+      "CONTENT": "Treść",
+      "MODEL": "Model",
+      "BASEURL": "Bazowy adres URL API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Zweryfikowane przez nasz serwer i opublikowane w publicznym rankingu. Zapisane takze w twojej historii.",
       "NOT_SAVED": "Zweryfikowane przez nasz serwer, ale publiczny ranking jest teraz niedostępny, więc wynik nie został zapisany. Jest pokazany poniżej.",
       "DEDUPED": "Juz niedawno opublikowano dla tego punktu koncowego.",
-      "FAILED": "Nie udalo sie zweryfikowac tego punktu koncowego. Nic nie opublikowano."
+      "FAILED": "Nie udalo sie zweryfikowac tego punktu koncowego. Nic nie opublikowano.",
+      "FORMAT_MISMATCH": "Identyfikator modelu nie pasuje do wybranego formatu API."
     },
     "TRUST": {
       "TITLE": "Otwarty kod. Zweryfikuj i ulepsz.",

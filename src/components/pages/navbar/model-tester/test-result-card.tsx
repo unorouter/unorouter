@@ -95,7 +95,7 @@ const PROBE_INTENT_WHY: Record<string, TranslationKey> = {
   "model-name": "MODEL_TESTER.PROBE_INTENT.MODEL-NAME.WHY",
 };
 
-const CONN_KEY: Record<string, TranslationKey> = {
+export const CONN_KEY: Record<string, TranslationKey> = {
   "cors-needs-backend": "MODEL_TESTER.CONNECTIVITY.CORS",
   unreachable: "MODEL_TESTER.CONNECTIVITY.UNREACHABLE",
   "invalid-key": "MODEL_TESTER.CONNECTIVITY.INVALID_KEY",

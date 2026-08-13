@@ -92,7 +92,7 @@ export type VerifyPublishVars = {
 
 export type VerifyPublishResult =
   | { published: boolean; result: VerifyResult }
-  | { published: false; deduped?: true; error?: string };
+  | { published: false; deduped?: true; error?: string; result?: VerifyResult };
 
 export function useVerifyAndPublish() {
   const userId = useLocalUserId();
@@ -106,7 +106,9 @@ export function useVerifyAndPublish() {
           model: vars.model,
         }),
       )) as VerifyPublishResult;
-      if ("result" in res)
+      // A connectivity failure now returns its result for display, but there is
+      // no verdict worth keeping, so only a real run reaches history.
+      if ("result" in res && res.result && !("error" in res && res.error))
         await recordTestRun(userId, res.result, res.published);
       return res;
     },

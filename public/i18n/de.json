@@ -3674,7 +3674,9 @@
       "AMOUNT": "Betrag",
       "REMAIN_QUOTA": "Kontingent",
       "QUOTA_THRESHOLD_DOLLARS": "Guthaben-Warnschwelle",
-      "CONTENT": "Inhalt"
+      "CONTENT": "Inhalt",
+      "MODEL": "Modell",
+      "BASEURL": "API-Basis-URL"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Von unserem Server verifiziert und in der oeffentlichen Rangliste veroeffentlicht. Auch in deinem Verlauf gespeichert.",
       "NOT_SAVED": "Von unserem Server verifiziert, aber die öffentliche Rangliste ist derzeit nicht verfügbar, daher wurde das Ergebnis nicht gespeichert. Es wird unten angezeigt.",
       "DEDUPED": "Fuer diesen Endpunkt bereits kuerzlich veroeffentlicht.",
-      "FAILED": "Endpunkt konnte nicht verifiziert werden. Nichts veroeffentlicht."
+      "FAILED": "Endpunkt konnte nicht verifiziert werden. Nichts veroeffentlicht.",
+      "FORMAT_MISMATCH": "Die Modell-ID passt nicht zum gewählten API-Format."
     },
     "TRUST": {
       "TITLE": "Open Source. Pruefe und verbessere es.",

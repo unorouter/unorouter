@@ -3674,7 +3674,9 @@
       "AMOUNT": "Monto",
       "REMAIN_QUOTA": "Cuota",
       "QUOTA_THRESHOLD_DOLLARS": "Umbral de advertencia de cuota",
-      "CONTENT": "Contenido"
+      "CONTENT": "Contenido",
+      "MODEL": "Modelo",
+      "BASEURL": "URL base de la API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Verificado por nuestro servidor y publicado en la clasificacion publica. Tambien guardado en tu historial.",
       "NOT_SAVED": "Verificado por nuestro servidor, pero las clasificaciones públicas no están disponibles ahora mismo, así que el resultado no se guardó. Se muestra abajo.",
       "DEDUPED": "Ya publicado recientemente para este endpoint.",
-      "FAILED": "No se pudo verificar este endpoint. No se publico nada."
+      "FAILED": "No se pudo verificar este endpoint. No se publico nada.",
+      "FORMAT_MISMATCH": "El identificador del modelo no coincide con el formato de API seleccionado."
     },
     "TRUST": {
       "TITLE": "Codigo abierto. Verificalo y mejoralo.",

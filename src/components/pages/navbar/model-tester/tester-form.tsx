@@ -1,5 +1,6 @@
 "use client";
 
+import { MyFormError } from "@/components/elements/form/my-form-error";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ import { Controller } from "react-hook-form";
 import { ProviderCards } from "./provider-cards";
 import { fromVerifyResult } from "./result-adapters";
 import { ScoreGauge, type GaugeArc } from "./score-gauge";
-import { TestResultCard } from "./test-result-card";
+import { CONN_KEY, TestResultCard } from "./test-result-card";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 
 const INPUT_CLASS = "bg-muted/40 font-mono text-sm shadow-none";
@@ -88,15 +89,33 @@ export function TesterForm() {
         apiKey: values.apiKey,
         model: values.model,
       });
-      if ("result" in res) {
+      // The error arm is checked first: a failed verification still returns its
+      // result so the probe evidence renders, so "result" in res is no longer
+      // enough to mean the run succeeded.
+      if ("error" in res && res.error) {
+        // The server already says why it could not verify (bad key, unreachable,
+        // wrong format). Reporting only the generic failure left people
+        // re-running a test that could never pass.
+        if (res.result) setResult(res.result);
+        const reasonKey =
+          res.error === "format-mismatch"
+            ? "MODEL_TESTER.PUBLISH.FORMAT_MISMATCH"
+            : CONN_KEY[res.error];
+        setPublishMsg(
+          reasonKey
+            ? `${t("MODEL_TESTER.PUBLISH.FAILED")} ${t(reasonKey)}`
+            : t("MODEL_TESTER.PUBLISH.FAILED"),
+        );
+      } else if ("deduped" in res && res.deduped)
+        setPublishMsg(t("MODEL_TESTER.PUBLISH.DEDUPED"));
+      else if ("result" in res && res.result) {
         setResult(res.result);
         setPublishMsg(
           res.published
             ? t("MODEL_TESTER.PUBLISH.DONE")
             : t("MODEL_TESTER.PUBLISH.NOT_SAVED"),
         );
-      } else if (res.deduped) setPublishMsg(t("MODEL_TESTER.PUBLISH.DEDUPED"));
-      else setPublishMsg(t("MODEL_TESTER.PUBLISH.FAILED"));
+      } else setPublishMsg(t("MODEL_TESTER.PUBLISH.FAILED"));
     } finally {
       setRunning(false);
     }
@@ -173,7 +192,7 @@ export function TesterForm() {
               <Controller
                 control={form.control}
                 name="model"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <div className="flex flex-col gap-1.5">
                     <label
                       htmlFor="tester-model"
@@ -205,6 +224,14 @@ export function TesterForm() {
                         <option key={m} value={m} />
                       ))}
                     </datalist>
+                    {/* This input is hand-rolled rather than a MyFormInput, so
+                        without this the required-model error had nowhere to
+                        render and submitting empty looked like a dead button. */}
+                    <MyFormError
+                      name="model"
+                      schema={modelTesterForm}
+                      error={fieldState.error?.message}
+                    />
                   </div>
                 )}
               />

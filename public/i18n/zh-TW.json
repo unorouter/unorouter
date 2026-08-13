@@ -3674,7 +3674,9 @@
       "AMOUNT": "金額",
       "REMAIN_QUOTA": "額度",
       "QUOTA_THRESHOLD_DOLLARS": "額度警示門檻",
-      "CONTENT": "內容"
+      "CONTENT": "內容",
+      "MODEL": "模型",
+      "BASEURL": "API 基礎網址"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "已由我們的伺服器驗證並發佈到公開排行榜，同時已儲存到你的歷史記錄。",
       "NOT_SAVED": "已由我們的伺服器驗證，但公開排行榜目前無法使用，因此結果未儲存。結果顯示在下方。",
       "DEDUPED": "該端點最近已發佈過。",
-      "FAILED": "無法驗證該端點，未發佈任何內容。"
+      "FAILED": "無法驗證該端點，未發佈任何內容。",
+      "FORMAT_MISMATCH": "模型 ID 與所選的 API 格式不相符。"
     },
     "TRUST": {
       "TITLE": "開源。歡迎驗證與改進。",

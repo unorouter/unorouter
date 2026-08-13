@@ -102,7 +102,7 @@ export async function verifyAndPublish(
       result: VerifyResult;
     }
   | { published: false; deduped: true }
-  | { published: false; error: string }
+  | { published: false; error: string; result?: VerifyResult }
 > {
   const inferred = providerForModel(body.model);
   if (inferred !== null && inferred !== body.provider)
@@ -147,8 +147,11 @@ export async function verifyAndPublish(
     apiKey: body.apiKey,
     model: body.model,
   });
+  // Hand the result back even though nothing is published: it carries the
+  // per-probe evidence that explains WHY the endpoint failed, and dropping it
+  // left the user with a bare "could not verify" and nothing to act on.
   if (result.connectivityError)
-    return { published: false, error: result.connectivityError };
+    return { published: false, error: result.connectivityError, result };
 
   const now = new Date();
   try {

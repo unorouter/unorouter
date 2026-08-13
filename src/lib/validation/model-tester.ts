@@ -1,4 +1,5 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
+import { msg } from "../config/constants";
 
 export const VERIFY_VERDICTS = ["genuine", "suspicious", "unverified"] as const;
 export const verifyVerdict = t.Union(VERIFY_VERDICTS.map((v) => t.Literal(v)));
@@ -30,9 +31,19 @@ export const modelTesterForm = t.Object({
       default: "anthropic",
     },
   ),
-  baseUrl: t.String({ minLength: 1, maxLength: MAX_URL_LEN, default: "" }),
+  baseUrl: t.String({
+    minLength: 1,
+    maxLength: MAX_URL_LEN,
+    default: "",
+    error: msg("FORM.ERROR.REQUIRED"),
+  }),
   apiKey: t.String({ maxLength: MAX_KEY_LEN, default: "" }),
-  model: t.String({ minLength: 1, maxLength: 256, default: "" }),
+  model: t.String({
+    minLength: 1,
+    maxLength: 256,
+    default: "",
+    error: msg("FORM.ERROR.REQUIRED"),
+  }),
   publish: t.Boolean({ default: false }),
 });
 export type ModelTesterForm = Static<typeof modelTesterForm>;

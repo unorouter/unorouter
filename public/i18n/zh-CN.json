@@ -3674,7 +3674,9 @@
       "AMOUNT": "金额",
       "REMAIN_QUOTA": "额度",
       "QUOTA_THRESHOLD_DOLLARS": "额度告警阈值",
-      "CONTENT": "内容"
+      "CONTENT": "内容",
+      "MODEL": "模型",
+      "BASEURL": "API 基础地址"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "已由我们的服务器验证并发布到公开排行榜，同时已保存到你的历史记录。",
       "NOT_SAVED": "已由我们的服务器验证，但公开排行榜当前不可用，因此结果未保存。结果显示在下方。",
       "DEDUPED": "该端点最近已发布过。",
-      "FAILED": "无法验证该端点，未发布任何内容。"
+      "FAILED": "无法验证该端点，未发布任何内容。",
+      "FORMAT_MISMATCH": "模型 ID 与所选的 API 格式不匹配。"
     },
     "TRUST": {
       "TITLE": "开源。欢迎验证与改进。",

@@ -3674,7 +3674,9 @@
       "AMOUNT": "Montant",
       "REMAIN_QUOTA": "Quota",
       "QUOTA_THRESHOLD_DOLLARS": "Seuil d'alerte de quota",
-      "CONTENT": "Contenu"
+      "CONTENT": "Contenu",
+      "MODEL": "Modèle",
+      "BASEURL": "URL de base de l'API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Verifie par notre serveur et publie au classement public. Egalement enregistre dans votre historique.",
       "NOT_SAVED": "Vérifié par notre serveur, mais le classement public est indisponible pour le moment, donc le résultat n'a pas été enregistré. Il s'affiche ci-dessous.",
       "DEDUPED": "Deja publie recemment pour ce point de terminaison.",
-      "FAILED": "Impossible de verifier ce point de terminaison. Rien n'a ete publie."
+      "FAILED": "Impossible de verifier ce point de terminaison. Rien n'a ete publie.",
+      "FORMAT_MISMATCH": "L'identifiant du modèle ne correspond pas au format d'API sélectionné."
     },
     "TRUST": {
       "TITLE": "Open source. Verifiez-le et ameliorez-le.",

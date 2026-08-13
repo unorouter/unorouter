@@ -3674,7 +3674,9 @@
       "AMOUNT": "Jumlah",
       "REMAIN_QUOTA": "Kuota",
       "QUOTA_THRESHOLD_DOLLARS": "Ambang peringatan kuota",
-      "CONTENT": "Konten"
+      "CONTENT": "Konten",
+      "MODEL": "Model",
+      "BASEURL": "URL dasar API"
     }
   },
   "SETTINGS": {
@@ -4745,7 +4747,8 @@
       "DONE": "Diverifikasi oleh server kami dan dipublikasikan ke peringkat publik. Disimpan juga ke riwayat Anda.",
       "NOT_SAVED": "Diverifikasi oleh server kami, tetapi peringkat publik sedang tidak tersedia, sehingga hasilnya tidak disimpan. Hasilnya ditampilkan di bawah.",
       "DEDUPED": "Sudah dipublikasikan baru-baru ini untuk endpoint ini.",
-      "FAILED": "Tidak dapat memverifikasi endpoint ini. Tidak ada yang dipublikasikan."
+      "FAILED": "Tidak dapat memverifikasi endpoint ini. Tidak ada yang dipublikasikan.",
+      "FORMAT_MISMATCH": "ID model tidak cocok dengan format API yang dipilih."
     },
     "TRUST": {
       "TITLE": "Sumber terbuka. Verifikasi dan tingkatkan.",
