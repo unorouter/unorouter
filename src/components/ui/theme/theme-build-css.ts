@@ -346,6 +346,11 @@ export function buildBackgroundCss(
           `[data-bg-active] .bg-sidebar{background-color:${surfaceMix("sidebar")} !important;backdrop-filter:blur(8px);}`,
           `[data-bg-active] .bg-card{background-color:${surfaceMix("card")} !important;}`,
           `[data-bg-active] .bg-muted{background-color:${surfaceMix("muted")} !important;}`,
+          // A translucent surface nested in another one multiplies: the chat
+          // thread inside <main> left only ~6% of the image visible, and blurred
+          // it twice. Inner surfaces defer to the outer one.
+          `[data-bg-active] .bg-background .bg-background{background-color:transparent !important;backdrop-filter:none;}`,
+          `[data-bg-active] .bg-sidebar .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
   return [
