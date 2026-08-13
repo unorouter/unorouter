@@ -6,7 +6,9 @@ import { msg } from "@/lib/config/constants";
 // gets raw-piped both ways. The user's own key rides the Authorization header
 // verbatim and is never logged or stored; the target comes from a header and
 // passes the same SSRF policy as every other server-side fetch (public DNS
-// only, http/https on 80/443, redirects refused).
+// only, http/https on 80/443, redirects refused). Open to guests (BYOK is a
+// local-first feature), so a caller-supplied Authorization is mandatory: it is
+// what keeps this from being a free anonymous relay.
 
 const FORWARD_RESPONSE_HEADERS = ["content-type"] as const;
 
@@ -27,6 +29,7 @@ export async function forwardCustomProvider(args: {
 }): Promise<Response> {
   const base = (args.targetBase ?? "").trim().replace(/\/+$/, "");
   if (!base) return json(400, msg("ERRORS.INVALID_URL"));
+  if (!args.authorization) return json(401, msg("ERRORS.NO_API_KEY"));
 
   let upstream;
   try {

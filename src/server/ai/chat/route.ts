@@ -70,10 +70,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   // Opt-in CORS-bypass proxy for custom providers (the per-provider "proxy"
-  // toggle). Auth required: an anonymous open proxy would be abused. The
-  // user's own key rides Authorization; we never resolve or log a key here.
-  .post("/custom-forward/chat/completions", async ({ cookie, request }) => {
-    await getUserId(cookie);
+  // toggle). Custom providers are a local-first BYOK feature guests use too,
+  // so this is open to guests; the caller's own Authorization is REQUIRED,
+  // which is what stops it being a free open relay. We never resolve, log or
+  // store a key here.
+  .post("/custom-forward/chat/completions", async ({ request }) => {
     return forwardCustomProvider({
       targetBase: request.headers.get("x-proxy-target"),
       path: "/chat/completions",
@@ -84,8 +85,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     });
   })
 
-  .get("/custom-forward/models", async ({ cookie, request }) => {
-    await getUserId(cookie);
+  .get("/custom-forward/models", async ({ request }) => {
     return forwardCustomProvider({
       targetBase: request.headers.get("x-proxy-target"),
       path: "/models",
