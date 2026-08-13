@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "瀏覽器攔截了該請求。端點必須回傳 CORS 標頭，其前方的機器人防護也要放行本站。",
       "FETCH_NOT_JSON": "端點回傳的是網頁而不是模型資料，通常是機器人防護驗證頁。請放行本站，或手動新增模型。"
     },
+    "JS_PLUGIN": {
+      "TITLE": "外掛",
+      "SIDEBAR_TAB": "外掛",
+      "NEW": "新增外掛",
+      "IMPORT": "匯入檔案",
+      "EMPTY": "尚未有外掛。",
+      "NAME": "名稱",
+      "KIND": "類型",
+      "KIND_UNO": "UnoRouter 外掛",
+      "KIND_JANITOR": "JanitorAI 指令碼",
+      "ENABLED": "已啟用",
+      "SCRIPT": "程式碼",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "在沙箱中執行，無法存取你的對話、檔案或 Cookie。網路請求會透過主程式轉送。",
+      "SUMMARY_UNO": "UnoRouter 外掛，已啟用",
+      "SUMMARY_JANITOR": "JanitorAI 指令碼，已啟用",
+      "SUMMARY_DISABLED": "已停用",
+      "DELETE_TITLE": "刪除外掛？",
+      "DELETE_DESC": "這會移除該外掛及其程式碼。你的對話會保留。"
+    },
     "IMAGE_PROMPT": {
       "TITLE": "圖像提示詞",
       "HINT": "生成此圖像的提示詞。編輯後重新生成即可替換圖像。",

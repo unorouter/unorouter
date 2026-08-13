@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "El navegador bloqueó la solicitud. El endpoint debe enviar cabeceras CORS, y cualquier protección antibots delante debe permitir este sitio.",
       "FETCH_NOT_JSON": "El endpoint respondió con una página web en lugar de datos de modelos, normalmente una comprobación antibots. Permite este sitio allí o añade tus modelos manualmente."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Complementos",
+      "SIDEBAR_TAB": "Complementos",
+      "NEW": "Nuevo complemento",
+      "IMPORT": "Importar archivo",
+      "EMPTY": "Aún no hay complementos.",
+      "NAME": "Nombre",
+      "KIND": "Tipo",
+      "KIND_UNO": "Complemento de UnoRouter",
+      "KIND_JANITOR": "Script de JanitorAI",
+      "ENABLED": "Activado",
+      "SCRIPT": "Código",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Se ejecuta en un entorno aislado sin acceso a tus chats, archivos ni cookies. Las peticiones de red pasan por el host.",
+      "SUMMARY_UNO": "Complemento de UnoRouter, activo",
+      "SUMMARY_JANITOR": "Script de JanitorAI, activo",
+      "SUMMARY_DISABLED": "Desactivado",
+      "DELETE_TITLE": "¿Eliminar el complemento?",
+      "DELETE_DESC": "Esto elimina el complemento y su código. Se conservan tus conversaciones."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt de imagen",
       "HINT": "El prompt que generó esta imagen. Edítalo y regenera para reemplazar la imagen.",

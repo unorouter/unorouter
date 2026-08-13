@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "브라우저가 요청을 차단했습니다. 엔드포인트가 CORS 헤더를 보내야 하며, 앞단의 봇 차단도 이 사이트를 허용해야 합니다.",
       "FETCH_NOT_JSON": "엔드포인트가 모델 데이터 대신 웹 페이지를 반환했습니다. 대개 봇 차단 확인 화면입니다. 이 사이트를 허용하거나 모델을 직접 추가하세요."
     },
+    "JS_PLUGIN": {
+      "TITLE": "플러그인",
+      "SIDEBAR_TAB": "플러그인",
+      "NEW": "새 플러그인",
+      "IMPORT": "파일 가져오기",
+      "EMPTY": "아직 플러그인이 없습니다.",
+      "NAME": "이름",
+      "KIND": "종류",
+      "KIND_UNO": "UnoRouter 플러그인",
+      "KIND_JANITOR": "JanitorAI 스크립트",
+      "ENABLED": "사용",
+      "SCRIPT": "코드",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "대화, 파일, 쿠키에 접근할 수 없는 샌드박스에서 실행됩니다. 네트워크 요청은 호스트를 거칩니다.",
+      "SUMMARY_UNO": "UnoRouter 플러그인, 사용 중",
+      "SUMMARY_JANITOR": "JanitorAI 스크립트, 사용 중",
+      "SUMMARY_DISABLED": "사용 안 함",
+      "DELETE_TITLE": "플러그인을 삭제할까요?",
+      "DELETE_DESC": "플러그인과 코드가 삭제됩니다. 대화는 유지됩니다."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "이미지 프롬프트",
       "HINT": "이 이미지를 생성한 프롬프트입니다. 수정 후 재생성하면 이미지가 교체됩니다.",

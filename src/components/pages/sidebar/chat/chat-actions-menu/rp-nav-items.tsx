@@ -35,6 +35,10 @@ export function RpNavItems() {
         <Icon name="server" className="size-4" />
         {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
       </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => setOpenRpTab("js-plugins")}>
+        <Icon name="code" className="size-4" />
+        {t("CHAT.JS_PLUGIN.SIDEBAR_TAB")}
+      </DropdownMenuItem>
     </>
   );
 }

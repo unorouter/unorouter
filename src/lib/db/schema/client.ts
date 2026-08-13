@@ -3,6 +3,7 @@ import type {
   CustomProviderModel,
 } from "@/lib/validation/custom-provider";
 import type { TokenizerKind } from "@/lib/ai/chat/tokenizer";
+import type { JsPluginKind } from "@/lib/validation/js-plugin";
 import type {
   ImageFormUi,
   ImageParams,
@@ -89,6 +90,30 @@ export const customProviders = sqliteTable(
       .default(sql`(unixepoch() * 1000)`),
   },
   (table) => [index("idx_custom_providers_user").on(table.userId)],
+);
+
+// Sandboxed user-JS plugins (global, Risu-style). `kind` picks the execution
+// model: "uno" plugins register hook handlers through the RPC api, "janitor"
+// scripts run per turn against a JanitorAI-shaped context snapshot.
+export const jsPlugins = sqliteTable(
+  "js_plugins",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    name: text("name").notNull(),
+    script: text("script").notNull(),
+    kind: text("kind").$type<JsPluginKind>().notNull().default("uno"),
+    enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [index("idx_js_plugins_user").on(table.userId)],
 );
 
 export const tokenizers = sqliteTable("tokenizers", {

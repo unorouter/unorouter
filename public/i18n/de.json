@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Der Browser hat die Anfrage blockiert. Der Endpunkt muss CORS-Header senden, und ein vorgeschalteter Bot-Schutz muss diese Seite zulassen.",
       "FETCH_NOT_JSON": "Der Endpunkt hat eine Webseite statt Modelldaten zurückgegeben, meist eine Bot-Schutz-Abfrage. Lass diese Seite dort zu oder trage deine Modelle manuell ein."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Plugins",
+      "SIDEBAR_TAB": "Plugins",
+      "NEW": "Neues Plugin",
+      "IMPORT": "Datei importieren",
+      "EMPTY": "Noch keine Plugins.",
+      "NAME": "Name",
+      "KIND": "Typ",
+      "KIND_UNO": "UnoRouter-Plugin",
+      "KIND_JANITOR": "JanitorAI-Skript",
+      "ENABLED": "Aktiviert",
+      "SCRIPT": "Code",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Läuft in einer Sandbox ohne Zugriff auf deine Chats, Dateien oder Cookies. Netzwerkanfragen laufen über den Host.",
+      "SUMMARY_UNO": "UnoRouter-Plugin, aktiv",
+      "SUMMARY_JANITOR": "JanitorAI-Skript, aktiv",
+      "SUMMARY_DISABLED": "Deaktiviert",
+      "DELETE_TITLE": "Plugin löschen?",
+      "DELETE_DESC": "Damit werden das Plugin und sein Code entfernt. Deine Unterhaltungen bleiben erhalten."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Bild-Prompt",
       "HINT": "Der Prompt, der dieses Bild erzeugt hat. Bearbeite ihn und generiere neu, um das Bild zu ersetzen.",

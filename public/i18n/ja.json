@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "ブラウザーがリクエストを遮断しました。エンドポイントは CORS ヘッダーを返す必要があり、その前段のボット対策もこのサイトを許可する必要があります。",
       "FETCH_NOT_JSON": "エンドポイントがモデル情報ではなく Web ページを返しました。多くはボット対策の確認画面です。このサイトを許可するか、モデルを手動で追加してください。"
     },
+    "JS_PLUGIN": {
+      "TITLE": "プラグイン",
+      "SIDEBAR_TAB": "プラグイン",
+      "NEW": "新しいプラグイン",
+      "IMPORT": "ファイルを読み込む",
+      "EMPTY": "プラグインはまだありません。",
+      "NAME": "名前",
+      "KIND": "種類",
+      "KIND_UNO": "UnoRouter プラグイン",
+      "KIND_JANITOR": "JanitorAI スクリプト",
+      "ENABLED": "有効",
+      "SCRIPT": "コード",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "サンドボックス内で実行され、会話・ファイル・Cookie にはアクセスできません。ネットワーク要求はホスト経由で行われます。",
+      "SUMMARY_UNO": "UnoRouter プラグイン、有効",
+      "SUMMARY_JANITOR": "JanitorAI スクリプト、有効",
+      "SUMMARY_DISABLED": "無効",
+      "DELETE_TITLE": "プラグインを削除しますか？",
+      "DELETE_DESC": "プラグインとそのコードが削除されます。会話は保持されます。"
+    },
     "IMAGE_PROMPT": {
       "TITLE": "画像プロンプト",
       "HINT": "この画像を生成したプロンプトです。編集して再生成すると画像を置き換えます。",

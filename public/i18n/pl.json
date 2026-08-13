@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Przeglądarka zablokowała żądanie. Punkt końcowy musi wysyłać nagłówki CORS, a ewentualna ochrona przed botami musi zezwalać tej witrynie.",
       "FETCH_NOT_JSON": "Punkt końcowy zwrócił stronę internetową zamiast danych modeli, zwykle test ochrony przed botami. Zezwól tej witrynie albo dodaj modele ręcznie."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Wtyczki",
+      "SIDEBAR_TAB": "Wtyczki",
+      "NEW": "Nowa wtyczka",
+      "IMPORT": "Importuj plik",
+      "EMPTY": "Nie ma jeszcze wtyczek.",
+      "NAME": "Nazwa",
+      "KIND": "Typ",
+      "KIND_UNO": "Wtyczka UnoRouter",
+      "KIND_JANITOR": "Skrypt JanitorAI",
+      "ENABLED": "Włączona",
+      "SCRIPT": "Kod",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Działa w piaskownicy bez dostępu do twoich rozmów, plików i ciasteczek. Żądania sieciowe przechodzą przez hosta.",
+      "SUMMARY_UNO": "Wtyczka UnoRouter, aktywna",
+      "SUMMARY_JANITOR": "Skrypt JanitorAI, aktywny",
+      "SUMMARY_DISABLED": "Wyłączona",
+      "DELETE_TITLE": "Usunąć wtyczkę?",
+      "DELETE_DESC": "Spowoduje to usunięcie wtyczki i jej kodu. Twoje rozmowy zostaną zachowane."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt obrazu",
       "HINT": "Prompt, który wygenerował ten obraz. Edytuj go i wygeneruj ponownie, aby zastąpić obraz.",

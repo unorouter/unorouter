@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Le navigateur a bloqué la requête. Le point de terminaison doit envoyer des en-têtes CORS, et toute protection anti-bots en amont doit autoriser ce site.",
       "FETCH_NOT_JSON": "Le point de terminaison a renvoyé une page web au lieu des données de modèles, en général une vérification anti-bots. Autorisez ce site ou ajoutez vos modèles manuellement."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Extensions",
+      "SIDEBAR_TAB": "Extensions",
+      "NEW": "Nouvelle extension",
+      "IMPORT": "Importer un fichier",
+      "EMPTY": "Aucune extension pour l'instant.",
+      "NAME": "Nom",
+      "KIND": "Type",
+      "KIND_UNO": "Extension UnoRouter",
+      "KIND_JANITOR": "Script JanitorAI",
+      "ENABLED": "Activée",
+      "SCRIPT": "Code",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "S'exécute dans un bac à sable sans accès à vos conversations, fichiers ou cookies. Les requêtes réseau passent par l'hôte.",
+      "SUMMARY_UNO": "Extension UnoRouter, active",
+      "SUMMARY_JANITOR": "Script JanitorAI, actif",
+      "SUMMARY_DISABLED": "Désactivée",
+      "DELETE_TITLE": "Supprimer l'extension ?",
+      "DELETE_DESC": "Cela supprime l'extension et son code. Vos conversations sont conservées."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt d'image",
       "HINT": "Le prompt qui a généré cette image. Modifiez-le et régénérez pour remplacer l'image.",

@@ -24,6 +24,11 @@ const CustomProviderList = dynamic(() =>
     (m) => m.CustomProviderList,
   ),
 );
+const JsPluginList = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/js-plugin/list").then(
+    (m) => m.JsPluginList,
+  ),
+);
 
 export const openRpTabAtom = atom<RpTab | null>(null);
 
@@ -53,6 +58,12 @@ export function RpDialogs() {
         <CustomProviderList
           open
           onOpenChange={(o) => setOpenTab(o ? "custom-providers" : null)}
+        />
+      )}
+      {openTab === "js-plugins" && (
+        <JsPluginList
+          open
+          onOpenChange={(o) => setOpenTab(o ? "js-plugins" : null)}
         />
       )}
     </>

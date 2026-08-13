@@ -13,7 +13,7 @@ import type { PluginHandler, PluginHookMode } from "./api";
 // Every entry no-ops without a window: the pipeline stages that call the run
 // functions are isomorphic, but plugins are a browser-only feature.
 
-export type JsPluginRow = {
+export type LoadedJsPlugin = {
   id: string;
   name: string;
   script: string;
@@ -83,7 +83,7 @@ export function unloadJsPlugins(): void {
   loadedKey = "";
 }
 
-export async function loadJsPlugins(rows: JsPluginRow[]): Promise<void> {
+export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   if (typeof window === "undefined") return;
   const enabled = rows.filter((r) => r.enabled);
   // Cheap idempotence: the runtime provider calls this on every query refresh.

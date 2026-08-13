@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Tarayıcı isteği engelledi. Uç noktanın CORS başlıkları göndermesi ve önündeki bot korumasının bu siteye izin vermesi gerekir.",
       "FETCH_NOT_JSON": "Uç nokta, model verisi yerine bir web sayfası döndürdü; genelde bot koruma doğrulamasıdır. Bu siteye izin verin ya da modelleri elle ekleyin."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Eklentiler",
+      "SIDEBAR_TAB": "Eklentiler",
+      "NEW": "Yeni eklenti",
+      "IMPORT": "Dosya içe aktar",
+      "EMPTY": "Henüz eklenti yok.",
+      "NAME": "Ad",
+      "KIND": "Tür",
+      "KIND_UNO": "UnoRouter eklentisi",
+      "KIND_JANITOR": "JanitorAI betiği",
+      "ENABLED": "Etkin",
+      "SCRIPT": "Kod",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Sohbetlerinize, dosyalarınıza veya çerezlerinize erişimi olmayan bir korumalı alanda çalışır. Ağ istekleri ana uygulama üzerinden gider.",
+      "SUMMARY_UNO": "UnoRouter eklentisi, etkin",
+      "SUMMARY_JANITOR": "JanitorAI betiği, etkin",
+      "SUMMARY_DISABLED": "Devre dışı",
+      "DELETE_TITLE": "Eklenti silinsin mi?",
+      "DELETE_DESC": "Bu, eklentiyi ve kodunu kaldırır. Sohbetleriniz korunur."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Görsel promptu",
       "HINT": "Bu görseli oluşturan prompt. Düzenleyip yeniden oluşturarak görseli değiştirin.",

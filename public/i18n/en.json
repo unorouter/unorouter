@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "The browser blocked the request. The endpoint must send CORS headers, and any bot protection in front of it has to allow this site.",
       "FETCH_NOT_JSON": "The endpoint answered with a web page instead of model data, usually a bot-protection challenge. Allow this site through it, or add your models manually."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Plugins",
+      "SIDEBAR_TAB": "Plugins",
+      "NEW": "New plugin",
+      "IMPORT": "Import file",
+      "EMPTY": "No plugins yet.",
+      "NAME": "Name",
+      "KIND": "Type",
+      "KIND_UNO": "UnoRouter plugin",
+      "KIND_JANITOR": "JanitorAI script",
+      "ENABLED": "Enabled",
+      "SCRIPT": "Code",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Runs in a sandbox with no access to your chats, files or cookies. Network requests go through the host.",
+      "SUMMARY_UNO": "UnoRouter plugin, active",
+      "SUMMARY_JANITOR": "JanitorAI script, active",
+      "SUMMARY_DISABLED": "Disabled",
+      "DELETE_TITLE": "Delete plugin?",
+      "DELETE_DESC": "This removes the plugin and its code. Your conversations are kept."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Image prompt",
       "HINT": "The prompt that generated this image. Edit it and regenerate to replace the image.",

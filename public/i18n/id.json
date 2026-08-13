@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Peramban memblokir permintaan. Endpoint harus mengirim header CORS, dan proteksi bot di depannya harus mengizinkan situs ini.",
       "FETCH_NOT_JSON": "Endpoint menjawab dengan halaman web alih-alih data model, biasanya pemeriksaan proteksi bot. Izinkan situs ini melewatinya, atau tambahkan model secara manual."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Plugin",
+      "SIDEBAR_TAB": "Plugin",
+      "NEW": "Plugin baru",
+      "IMPORT": "Impor berkas",
+      "EMPTY": "Belum ada plugin.",
+      "NAME": "Nama",
+      "KIND": "Jenis",
+      "KIND_UNO": "Plugin UnoRouter",
+      "KIND_JANITOR": "Skrip JanitorAI",
+      "ENABLED": "Aktif",
+      "SCRIPT": "Kode",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Berjalan di lingkungan terisolasi tanpa akses ke obrolan, berkas, atau cookie Anda. Permintaan jaringan melewati host.",
+      "SUMMARY_UNO": "Plugin UnoRouter, aktif",
+      "SUMMARY_JANITOR": "Skrip JanitorAI, aktif",
+      "SUMMARY_DISABLED": "Nonaktif",
+      "DELETE_TITLE": "Hapus plugin?",
+      "DELETE_DESC": "Ini menghapus plugin beserta kodenya. Percakapan Anda tetap tersimpan."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt gambar",
       "HINT": "Prompt yang menghasilkan gambar ini. Edit lalu regenerasi untuk mengganti gambar.",

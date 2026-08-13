@@ -85,6 +85,13 @@
       "when": 1785785817462,
       "tag": "0011_spooky_energizer",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1786623229399,
+      "tag": "0012_reflective_blue_shield",
+      "breakpoints": true
     }
   ]
 }

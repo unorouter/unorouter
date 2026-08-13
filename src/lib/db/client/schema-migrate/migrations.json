@@ -47,6 +47,10 @@
     {
       "tag": "0011_spooky_energizer",
       "sql": "ALTER TABLE `image_presets` ADD `prompt` text;"
+    },
+    {
+      "tag": "0012_reflective_blue_shield",
+      "sql": "CREATE TABLE `js_plugins` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`name` text NOT NULL,\n\t`script` text NOT NULL,\n\t`kind` text DEFAULT 'uno' NOT NULL,\n\t`enabled` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_js_plugins_user` ON `js_plugins` (`user_id`);"
     }
   ]
 }

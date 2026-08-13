@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "O navegador bloqueou a requisição. O endpoint precisa enviar cabeçalhos CORS, e qualquer proteção contra bots à frente dele deve permitir este site.",
       "FETCH_NOT_JSON": "O endpoint respondeu com uma página web em vez dos dados dos modelos, normalmente uma verificação contra bots. Libere este site ou adicione seus modelos manualmente."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Plugins",
+      "SIDEBAR_TAB": "Plugins",
+      "NEW": "Novo plugin",
+      "IMPORT": "Importar arquivo",
+      "EMPTY": "Ainda não há plugins.",
+      "NAME": "Nome",
+      "KIND": "Tipo",
+      "KIND_UNO": "Plugin do UnoRouter",
+      "KIND_JANITOR": "Script do JanitorAI",
+      "ENABLED": "Ativado",
+      "SCRIPT": "Código",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Executa em um ambiente isolado, sem acesso às suas conversas, arquivos ou cookies. As requisições de rede passam pelo host.",
+      "SUMMARY_UNO": "Plugin do UnoRouter, ativo",
+      "SUMMARY_JANITOR": "Script do JanitorAI, ativo",
+      "SUMMARY_DISABLED": "Desativado",
+      "DELETE_TITLE": "Excluir o plugin?",
+      "DELETE_DESC": "Isso remove o plugin e seu código. Suas conversas são mantidas."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt da imagem",
       "HINT": "O prompt que gerou esta imagem. Edite-o e gere novamente para substituir a imagem.",

@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "Trình duyệt đã chặn yêu cầu. Điểm cuối phải gửi tiêu đề CORS, và lớp chống bot phía trước nó phải cho phép trang này.",
       "FETCH_NOT_JSON": "Điểm cuối trả về một trang web thay vì dữ liệu mô hình, thường là bước kiểm tra chống bot. Hãy cho phép trang này đi qua, hoặc tự thêm mô hình."
     },
+    "JS_PLUGIN": {
+      "TITLE": "Tiện ích",
+      "SIDEBAR_TAB": "Tiện ích",
+      "NEW": "Tiện ích mới",
+      "IMPORT": "Nhập tệp",
+      "EMPTY": "Chưa có tiện ích nào.",
+      "NAME": "Tên",
+      "KIND": "Loại",
+      "KIND_UNO": "Tiện ích UnoRouter",
+      "KIND_JANITOR": "Kịch bản JanitorAI",
+      "ENABLED": "Đã bật",
+      "SCRIPT": "Mã",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "Chạy trong môi trường cách ly, không truy cập được cuộc trò chuyện, tệp hay cookie của bạn. Yêu cầu mạng đi qua máy chủ.",
+      "SUMMARY_UNO": "Tiện ích UnoRouter, đang hoạt động",
+      "SUMMARY_JANITOR": "Kịch bản JanitorAI, đang hoạt động",
+      "SUMMARY_DISABLED": "Đã tắt",
+      "DELETE_TITLE": "Xóa tiện ích?",
+      "DELETE_DESC": "Thao tác này xóa tiện ích và mã của nó. Các cuộc trò chuyện của bạn được giữ lại."
+    },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt hình ảnh",
       "HINT": "Prompt đã tạo ra hình ảnh này. Chỉnh sửa và tạo lại để thay thế hình ảnh.",

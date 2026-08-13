@@ -4099,6 +4099,26 @@
       "FETCH_BLOCKED": "浏览器拦截了该请求。端点必须返回 CORS 标头，其前面的机器人防护也要放行本站。",
       "FETCH_NOT_JSON": "端点返回的是网页而不是模型数据，通常是机器人防护验证页。请放行本站，或手动添加模型。"
     },
+    "JS_PLUGIN": {
+      "TITLE": "插件",
+      "SIDEBAR_TAB": "插件",
+      "NEW": "新建插件",
+      "IMPORT": "导入文件",
+      "EMPTY": "还没有插件。",
+      "NAME": "名称",
+      "KIND": "类型",
+      "KIND_UNO": "UnoRouter 插件",
+      "KIND_JANITOR": "JanitorAI 脚本",
+      "ENABLED": "已启用",
+      "SCRIPT": "代码",
+      "SCRIPT_PLACEHOLDER": "uno.registerHandler('output', (text) => text.toUpperCase());",
+      "SCRIPT_HINT": "在沙箱中运行，无法访问你的对话、文件或 Cookie。网络请求通过宿主转发。",
+      "SUMMARY_UNO": "UnoRouter 插件，已启用",
+      "SUMMARY_JANITOR": "JanitorAI 脚本，已启用",
+      "SUMMARY_DISABLED": "已停用",
+      "DELETE_TITLE": "删除插件？",
+      "DELETE_DESC": "这将移除该插件及其代码。你的对话会保留。"
+    },
     "IMAGE_PROMPT": {
       "TITLE": "图像提示词",
       "HINT": "生成此图像的提示词。编辑后重新生成即可替换图像。",

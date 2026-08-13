@@ -70,6 +70,8 @@ export const queryKeys = {
   card: (id: string) => ["rp-card", id] as const,
   customProviders: () => ["custom-providers"] as const,
   customProvider: (id: string) => ["custom-providers", id] as const,
+  jsPlugins: () => ["js-plugins"] as const,
+  jsPlugin: (id: string) => ["js-plugins", id] as const,
 
   imageSessionLists: () => ["image-sessions"] as const,
   imageSessionList: (params?: unknown) => ["image-sessions", params] as const,

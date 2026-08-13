@@ -15,6 +15,7 @@ import {
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { useJsPluginLoader } from "@/hooks/ai/use-js-plugin-loader";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { analytics } from "@/lib/analytics";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
@@ -280,6 +281,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const userId = useLocalUserId();
   usePendingDrainScheduler(userId);
+  useJsPluginLoader();
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, () =>
       chatStore.get(localUserIdAtom),
