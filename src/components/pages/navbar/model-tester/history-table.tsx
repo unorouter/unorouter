@@ -4,6 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { useHistoryProviders } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
 
@@ -81,6 +82,10 @@ export function HistoryTable() {
                   ·{" "}
                   {t("MODEL_TESTER.RANKINGS.SAMPLES", {
                     count: row.sampleCount,
+                  })}
+                  {" · "}
+                  {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                    when: dayjs(row.lastTestedAt).fromNow(),
                   })}
                 </span>
               </div>

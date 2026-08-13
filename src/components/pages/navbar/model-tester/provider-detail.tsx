@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useProviderDetail } from "@/hooks/models/model-tester-rankings-hook";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
 
@@ -110,6 +111,10 @@ export function ProviderDetail(props: { host: string }) {
                               count: model.sampleCount,
                             })}`
                           : ""}
+                        {" · "}
+                        {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                          when: dayjs(model.lastTestedAt).fromNow(),
+                        })}
                       </span>
                     </div>
                   </Link>

@@ -10,6 +10,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { APP_VALUES } from "@/lib/config/constants";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { RankBar } from "./rank-bar";
@@ -159,6 +160,10 @@ export function RankingsTable() {
                             count: row.sampleCount,
                           })}`
                         : ""}
+                      {" · "}
+                      {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                        when: dayjs(row.lastTestedAt).fromNow(),
+                      })}
                     </span>
                   </div>
                 </Link>

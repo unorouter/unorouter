@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useHistoryModels } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
 
@@ -105,6 +106,10 @@ export function HistoryProviderDetail(props: { host: string }) {
                     <span className="text-muted-foreground truncate text-xs">
                       {t("MODEL_TESTER.RANKINGS.SAMPLES", {
                         count: model.sampleCount,
+                      })}
+                      {" · "}
+                      {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
+                        when: dayjs(model.lastTestedAt).fromNow(),
                       })}
                     </span>
                   </div>

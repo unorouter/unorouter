@@ -314,7 +314,7 @@ export async function getProviders(
     .from(testerTests)
     .where(isNotNull(testerTests.verifiedAt))
     .groupBy(testerTests.baseUrlHost)
-    .orderBy(desc(PASS_RATE_SQL))
+    .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL))
     .limit(pageSize)
     .offset(offset);
 
