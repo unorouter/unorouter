@@ -11,7 +11,6 @@ import {
   resolveMarkdownMedia,
 } from "@/lib/ai/chat/markdown-media";
 import {
-  hasJsHandlers,
   jsDisplayVersionAtom,
   transformDisplayJsSync,
 } from "@/lib/ai/chat/plugins/engine";
@@ -96,9 +95,11 @@ const MarkdownTextImpl = () => {
   useAtomValue(hasInlayToken ? inlayVersionAtom : ZERO_ATOM);
   useAtomValue(hasImgToken ? imgVersionAtom : ZERO_ATOM);
   // Plugin display handlers resolve asynchronously into a cache; the version
-  // bump re-renders once the transformed text is ready. Subscribed only while
-  // a plugin actually registered a display handler.
-  useAtomValue(hasJsHandlers("display") ? jsDisplayVersionAtom : ZERO_ATOM);
+  // bump re-renders once the transformed text is ready. Subscribed
+  // unconditionally: gating on a handler existing would leave every message
+  // listening to the inert atom until a reload, so enabling a plugin mid-session
+  // would bump a counter nobody reads. The atom never changes without plugins.
+  useAtomValue(jsDisplayVersionAtom);
   const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive

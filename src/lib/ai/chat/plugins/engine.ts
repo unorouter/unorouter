@@ -81,6 +81,9 @@ export function unloadJsPlugins(): void {
     scratchHost = null;
   }
   loadedKey = "";
+  // Rendered messages hold display-transformed text from the previous plugin
+  // set; without dropping the cache a disabled plugin's edits stay on screen.
+  invalidateJsDisplayCache();
 }
 
 export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
@@ -121,9 +124,14 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
           const set = handlers.get(mode) ?? new Set();
           set.add(fn);
           handlers.set(mode, set);
+          // A sandbox boots asynchronously, so a display handler registers
+          // after the thread has already rendered; without this the messages
+          // keep their untransformed text until something else re-renders.
+          if (mode === "display") invalidateJsDisplayCache();
         },
         removeHandler: (mode, fn) => {
           handlers.get(mode)?.delete(fn);
+          if (mode === "display") invalidateJsDisplayCache();
         },
         getCtx: () => activeCtx,
         log: (line) => {
