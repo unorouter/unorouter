@@ -109,8 +109,11 @@ export function CharacterEditor(props: Props) {
     ? formDefaults(characterFormSchema, {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
-        triggers: Array.isArray(existing.triggers)
-          ? existing.triggers.join(", ")
+        // The CSV field is the turn-gating word list (turnTriggers), NOT the
+        // triggers column: that one holds imported V2 trigger scripts and
+        // embedded Lua, which a save must never overwrite.
+        triggers: Array.isArray(existing.turnTriggers)
+          ? existing.turnTriggers.join(", ")
           : "",
       })
     : undefined;
@@ -171,10 +174,14 @@ export function CharacterEditor(props: Props) {
   };
 
   const onSubmit = async (data: CharacterForm) => {
+    // The form's CSV `triggers` field holds turn-gating words; the DB `triggers`
+    // column holds imported trigger scripts. Omit the key entirely so the update
+    // spread cannot clobber scripts (an explicit undefined still overwrites).
+    const { triggers: triggerWords, ...rest } = data;
     const body = {
-      ...data,
+      ...rest,
       tags: csvToArray(data.tags),
-      triggers: csvToArray(data.triggers),
+      turnTriggers: csvToArray(triggerWords),
       avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
       backgroundMediaId: await resolveMediaId(
         bgDraft,
