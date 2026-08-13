@@ -349,7 +349,9 @@ export function buildBackgroundCss(
         ].join("")
       : "";
   return [
-    "html{background-color:var(--background);}",
+    // Both must be transparent: body::before paints at z-index -1, so any
+    // opaque color on html or body renders on top of the image and buries it.
+    "html{background-color:transparent !important;}",
     "body{background-color:transparent !important;}",
     "body::before{",
     'content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;',
