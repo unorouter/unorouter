@@ -372,6 +372,21 @@ export function buildBackgroundCss(
     bubbleOpacity < 1
       ? `[data-bg-active] .aui-user-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
       : "";
+  // The composer is a .bg-background nested inside the thread's own, so the
+  // nested-surface reset above stripped its fill AND its blur, leaving the raw
+  // image to run straight through the type area behind the text. It reads as a
+  // hole rather than a panel. Frost it explicitly: tinted like a panel, blurred
+  // harder than one, so it stays legible over any artwork.
+  const composer = [
+    // Doubled attribute selector on purpose: the nested-surface reset above is
+    // `.bg-background .bg-background` (three classes), which outranks a single
+    // attribute selector, so the composer would keep the reset's transparency.
+    `[data-bg-active] [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${surfaceMix("background")} !important;backdrop-filter:blur(16px) saturate(1.4) !important;}`,
+    // The footer wraps the composer, so tinting both stacks two translucent
+    // layers and two blurs over the same pixels. The composer carries the glass;
+    // its wrapper defers.
+    `[data-bg-active] .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
+  ].join("");
   return [
     // Both must be transparent: body::before paints at z-index -1, so any
     // opaque color on html or body renders on top of the image and buries it.
@@ -387,6 +402,7 @@ export function buildBackgroundCss(
     translucent,
     // After the panel block so a bubble value still wins when both are set.
     bubble,
+    composer,
   ].join("");
 }
 
