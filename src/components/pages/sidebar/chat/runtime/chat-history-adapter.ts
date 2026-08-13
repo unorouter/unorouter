@@ -485,9 +485,13 @@ export function createChatHistoryAdapter(
             type Cached = { pages: MsgPage[]; pageParams: number[] };
 
             let allMessages: ApiMessage[] = [];
-            const cached = queryClient.getQueryData<Cached>(
-              queryKeys.chatMessages(id),
-            );
+            // The infinite query keys by [convId, userId]; getQueryData matches
+            // exactly, so without the userId this always missed and the cache
+            // fast-path was dead code.
+            const cached = queryClient.getQueryData<Cached>([
+              ...queryKeys.chatMessages(id),
+              userId,
+            ]);
             if (cached) {
               allMessages = cached.pages.flatMap((p) => p.messages);
             } else {

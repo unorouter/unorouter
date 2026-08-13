@@ -53,6 +53,7 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   historyLoadedAtom,
+  reloadLiveThreadFromDb,
   replaceMessageParts,
 } from "@/store/chat-store";
 import { useMessageError } from "@assistant-ui/core/react";
@@ -707,7 +708,11 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     }
     analytics.chat.messageEdited({ role: "assistant", is_rp: isRpActive() });
 
+    // Instant visual update, then the DB-derived rebuild as the authority: the
+    // transport sends the live array as the model's history, so a lost patch
+    // here meant the model kept answering the pre-edit prompt.
     replaceMessageParts(messageId, () => newParts);
+    await reloadLiveThreadFromDb(convId);
 
     props.onClose();
   };

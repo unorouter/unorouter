@@ -274,6 +274,9 @@ export function setLiveMessages(updater: (msgs: unknown[]) => unknown[]): void {
   const timer = setTimeout(() => {
     done = true;
     unsub();
+    // A dropped update here means the on-screen thread (and therefore the
+    // history the transport sends) no longer matches the DB.
+    console.warn("setLiveMessages: bridge never published, update dropped");
   }, 5000);
 }
 
@@ -293,6 +296,48 @@ export function replaceMessageParts(
 // useChat's error is runtime-read-only state; the in-tree hook publishes clearError.
 export function clearLiveError(): void {
   chatStore.get(clearChatErrorAtom)?.();
+}
+
+// Rebuild the live useChat array from the local DB's active branch. The array
+// is the RENDER SOURCE and the transport sends it verbatim as the model's
+// history, but useExternalHistory loads it exactly once per mount - so after an
+// edit or delete the DB and the array diverge until a remount unless something
+// re-syncs them. Users saw pre-edit text on screen AND the model answering the
+// pre-edit prompt; this is the repair both paths call after their DB write.
+export async function reloadLiveThreadFromDb(convId: string): Promise<void> {
+  if (chatStore.get(convIdAtom) !== convId) return;
+  const userId = chatStore.get(localUserIdAtom);
+  const [dataMod, msgMod] = await Promise.all([
+    import("@/lib/db/client/data/chat/chat"),
+    import("@/lib/ai/chat/messages"),
+  ]);
+  const [msgs, items] = await Promise.all([
+    dataMod.readLocalMessages(userId, convId),
+    dataMod.readLocalMessageItems(userId, convId),
+  ]);
+  const joined = msgMod.joinItemsToMessages(msgs ?? [], items ?? []);
+  const walked = msgMod.walkActiveBranch(
+    joined as Array<{
+      id: string;
+      parentId: string | null;
+      isActiveBranch?: boolean | null;
+    }>,
+  );
+  const live = walked.path.map((m) => {
+    const row = m as unknown as {
+      id: string;
+      role: string;
+      items?: Parameters<typeof msgMod.itemsToParts>[0];
+    };
+    return {
+      id: row.id,
+      role: row.role,
+      parts: msgMod.itemsToParts(row.items ?? []),
+    };
+  });
+  // The conversation may have swapped while the DB reads ran.
+  if (chatStore.get(convIdAtom) !== convId) return;
+  setLiveMessages(() => live);
 }
 
 export function ensureConvId(): string {

@@ -11,6 +11,7 @@ import { rpc } from "@/lib/rpc";
 import {
   clearLiveError,
   getThreadRuntime,
+  reloadLiveThreadFromDb,
   setLiveMessages,
 } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
@@ -437,6 +438,11 @@ export function useDeleteMessageMutation() {
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
+      // deleteMessage prunes the runtime repository, but the RENDER SOURCE (and
+      // the history the transport sends) is the useChat array, which nothing
+      // else updates - a deleted message could stay on screen and still reach
+      // the model. Rebuild the array from the DB the splice just wrote.
+      await reloadLiveThreadFromDb(args.convId);
       return { id: args.msgId };
     },
     onError: (e) => handleError(e, t),
