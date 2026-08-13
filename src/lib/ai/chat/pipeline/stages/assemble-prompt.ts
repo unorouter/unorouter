@@ -111,13 +111,15 @@ export async function assemblePrompt(
       .filter(Boolean)
       .join("\n\n") || undefined;
 
+  const janitorCtx = await applyJanitorScripts(convCtx, messages);
+
   const assembled =
     body.convId && convCtx
       ? await assembleForStream(
           body.convId,
           recentUserTexts,
           assemblySystem,
-          convCtx,
+          janitorCtx,
           {
             globalVars: globalVarsIn,
             history,
@@ -278,4 +280,81 @@ function clampOutputTokens(
     ceiling ?? Number.POSITIVE_INFINITY,
     ...(modelInfo?.isFree ? [FREE_MODEL_OUTPUT_CAP] : []),
   );
+}
+
+// JanitorAI-compat scripts run once per turn before assembly and may rewrite
+// ONLY the primary character's personality and scenario for this turn. The
+// override rides a cloned context so the caller's conversation data is never
+// mutated. Browser-only; a turn without janitor plugins passes through.
+async function applyJanitorScripts(
+  convCtx: LoadedConvContext,
+  messages: StreamMessages,
+): Promise<LoadedConvContext> {
+  if (typeof window === "undefined" || !convCtx) return convCtx;
+  const primary = convCtx.boundCharacters[0]?.character as
+    | {
+        name?: string | null;
+        exampleMessages?: string | null;
+        personality?: string | null;
+        scenario?: string | null;
+      }
+    | undefined;
+  if (!primary) return convCtx;
+
+  const { hasJanitorScripts, runJanitorScriptsForTurn } =
+    await import("@/lib/ai/chat/plugins/engine");
+  if (!hasJanitorScripts()) return convCtx;
+
+  const texts: { role: string; text: string }[] = [];
+  for (const m of messages) {
+    if (!Array.isArray(m.parts)) continue;
+    const text = m.parts
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => (p as { text: string }).text)
+      .join("\n");
+    if (text) texts.push({ role: m.role, text });
+  }
+  const lastUser = [...texts].reverse().find((t) => t.role === "user");
+
+  const result = await runJanitorScriptsForTurn({
+    character: {
+      name: primary.name ?? "",
+      chat_name: primary.name ?? "",
+      example_dialogs: primary.exampleMessages ?? "",
+      personality: primary.personality ?? "",
+      scenario: primary.scenario ?? "",
+    },
+    chat: {
+      last_message: lastUser?.text ?? "",
+      lastMessage: lastUser?.text ?? "",
+      message_count: texts.length,
+      first_message_date: null,
+      last_bot_message_date: null,
+      last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
+    },
+  });
+  if (!result) return convCtx;
+  if (
+    result.personality === (primary.personality ?? "") &&
+    result.scenario === (primary.scenario ?? "")
+  ) {
+    return convCtx;
+  }
+
+  const boundCharacters = convCtx.boundCharacters.map((b, i) =>
+    i === 0
+      ? {
+          ...b,
+          character: {
+            ...(b.character as Record<string, unknown>),
+            personality: result.personality,
+            scenario: result.scenario,
+          },
+        }
+      : b,
+  );
+  return {
+    ...convCtx,
+    boundCharacters,
+  } as LoadedConvContext;
 }

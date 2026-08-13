@@ -194,6 +194,23 @@ async function applyAssistantOutputTransforms(
     }
     await runOutputTriggers(userId, convId, triggers, out);
   }
+  const { hasJsHandlers, runJsEditTrigger } =
+    await import("@/lib/ai/chat/plugins/engine");
+  if (hasJsHandlers("output")) {
+    const editCtx = makeTriggerContext({
+      mode: "output",
+      vars: {},
+      globalVars: {},
+      chat: [],
+    });
+    out = await Promise.all(
+      out.map(async (p) =>
+        p.type === "text" && typeof p.text === "string"
+          ? { ...p, text: await runJsEditTrigger("output", editCtx, p.text) }
+          : p,
+      ),
+    );
+  }
   return out;
 }
 
