@@ -14,6 +14,13 @@ export type ImageModelDescriptor = {
   // form rendered steps unconditionally. Only a descriptor that explicitly sets false
   // (FLUX.2 pro/max/klein, which reject the field) loses the control.
   supportsSteps?: boolean;
+  // Slider bounds from the model's own schema. Absent falls back to the form's generic
+  // range; present means the provider's real limits, so a value cannot be out of range
+  // (FLUX.2 flex accepts CFG 1.5-5, well inside the generic 0-15).
+  stepsMin?: number;
+  stepsMax?: number;
+  cfgMin?: number;
+  cfgMax?: number;
   supportsSize: boolean;
   supportsLoraChain: boolean;
   supportsReferences: boolean;

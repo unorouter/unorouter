@@ -131,8 +131,16 @@ function pickMessage(v: unknown): Extracted | null {
     const obj = v as Record<string, unknown>;
     for (const key of ["message", "detail", "error_description"]) {
       if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
+        const text = obj[key] as string;
+        // Runware names the offending field on `parameter`. Without it a rejected knob
+        // reads as a generic failure and the user cannot tell WHICH control to change.
+        const parameter =
+          typeof obj.parameter === "string" ? obj.parameter : null;
         return {
-          message: obj[key] as string,
+          message:
+            parameter && !text.includes(parameter)
+              ? `${text} (${parameter})`
+              : text,
           params: asParams(obj.params),
         };
       }

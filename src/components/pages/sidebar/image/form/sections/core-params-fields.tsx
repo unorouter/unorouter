@@ -60,8 +60,8 @@ export function CoreParamsFields(props: Props) {
               control={form.control}
               name="params.steps"
               label={t("IMAGE.STEPS_LABEL")}
-              min={1}
-              max={50}
+              min={descriptor.stepsMin ?? 1}
+              max={descriptor.stepsMax ?? 50}
               step={1}
               defaultValue={descriptor.defaultParams.steps ?? 20}
             />
@@ -72,8 +72,8 @@ export function CoreParamsFields(props: Props) {
               control={form.control}
               name="params.cfg"
               label={t("IMAGE.CFG_LABEL")}
-              min={0}
-              max={15}
+              min={descriptor.cfgMin ?? 0}
+              max={descriptor.cfgMax ?? 15}
               step={0.5}
               defaultValue={descriptor.defaultParams.cfg ?? 7}
             />

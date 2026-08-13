@@ -5,6 +5,7 @@ import {
   STATIC_IMAGE_MODELS_BY_ID,
   type ImageModelDescriptor,
 } from "@/lib/ai/image/models";
+import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 
@@ -138,7 +139,7 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
         ? 1
         : 0;
 
-  return {
+  const inferred: ImageModelDescriptor = {
     id: model.name,
     family: "sync-image",
     displayName: model.name,
@@ -180,6 +181,12 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
     estimatedSeconds: 15,
     recommendedPromptStyle: "natural-language",
   };
+
+  // Catalog rows carry no AIR, so a checkpoint resolves through its `series` (Pony,
+  // Illustrious, SDXL, ...) - the architecture tier that covers arbitrary Civitai
+  // checkpoints without a per-model entry. Only spec'd models change behaviour.
+  const spec = lookupParamSpec(null, model.metadata?.series);
+  return spec ? applyParamSpec(inferred, spec) : inferred;
 }
 
 // Cached per pricing-array identity: React effects list the result as a dependency, and

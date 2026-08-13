@@ -13,7 +13,21 @@ type RunwareSearchResult = {
   defaultWeight?: number;
   tags?: string[];
   downloadCount?: number;
+  capabilities?: string[];
 };
+
+// Runware's catalog includes entries that cannot render an image: a LoRA TRAINING model
+// answers the same checkpoint search but only accepts `train` tasks, so offering it in the
+// model picker guarantees a failed generation ("FLUX.2 [klein] 9B Style LoRA Training" was
+// listed beside real checkpoints). Anything advertising a generation capability stays;
+// entries that declare none are kept too, since the field is not always populated.
+const NON_GENERATIVE_CAPABILITIES = new Set(["train"]);
+
+function canGenerate(row: RunwareSearchResult): boolean {
+  const caps = row.capabilities;
+  if (!caps || caps.length === 0) return true;
+  return !caps.every((c) => NON_GENERATIVE_CAPABILITIES.has(c));
+}
 
 type SearchPage = { results?: RunwareSearchResult[]; totalResults?: number };
 type RunwareEnvelope = { data?: SearchPage[]; errors?: RunwareErrors };
@@ -103,7 +117,7 @@ export async function searchModelCatalog(
   }
 
   const results = envelope.data?.[0]?.results ?? [];
-  const items = results.map(toCatalogItem);
+  const items = results.filter(canGenerate).map(toCatalogItem);
   // Never cache an empty list: one bad response would pin "no models" for the whole TTL.
   if (items.length) catalogCache.set(cacheKey, { at: Date.now(), items });
   return { items };
