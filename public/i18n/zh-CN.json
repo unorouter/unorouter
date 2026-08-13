@@ -5194,6 +5194,31 @@
       "H_SAFETY": "安全",
       "P_SAFETY_1": "显示与请求脚本模式运行在命令集受限的沙箱中。脚本无法触及你的账户、密钥或其他对话；一个坏脚本最多也只能搅乱它自己的聊天。"
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "{appName} 中的 JavaScript 插件",
+        "DESCRIPTION": "在沙箱中运行你自己的 JavaScript：围绕每条消息的处理器、插件 API，以及对 JanitorAI 脚本的兼容。",
+        "KEYWORDS": "javascript 插件, janitorai 脚本, 聊天自动化, 沙箱"
+      },
+      "TITLE": "插件",
+      "SUBTITLE": "你自己的 JavaScript，安全地运行在每条消息前后。",
+      "H_OVERVIEW": "插件是什么",
+      "P_OVERVIEW_1": "插件是你自己写的 JavaScript，会在每次消息发出或返回时运行。可以用来改写文本、维护自己的计数器，或往提示词里插入备注。",
+      "P_OVERVIEW_2": "插件是全局的：启用后会在所有对话里运行。在聊天菜单的「插件」中管理，可以粘贴代码或导入 .js 文件。",
+      "H_HOOKS": "钩子",
+      "P_HOOKS_1": "为以下四个时机之一注册处理器：",
+      "P_HOOKS_2": "处理器接收文本并返回替换后的内容。不返回任何值则保持原样。",
+      "P_HOOKS_3": "处理器按顺序运行，且从不阻塞回复：抛出错误或超过五秒的会被跳过，原文继续传递。",
+      "H_API": "uno API",
+      "P_API_1": "在处理器内部，uno 对象负责读写对话。每次调用都返回一个 promise。",
+      "P_API_2": "完整能力涵盖聊天消息、角色与人设字段、对话变量、世界书条目、宏展开、词元计数，以及一个带频率限制的 https 请求。",
+      "H_JANITOR": "JanitorAI 脚本",
+      "P_JANITOR_1": "为 JanitorAI 写的脚本可以直接运行。它们拿到同样的 context 对象，留在 character.personality 和 character.scenario 里的内容会成为该轮的提示词。",
+      "P_JANITOR_2": "它们的规则同样适用：状态每轮都会重置，所以想保留的内容每次都要重新写回场景。",
+      "H_SAFETY": "插件做不到的事",
+      "P_SAFETY_1": "插件运行在隔离的框架中，无法访问你的对话、文件、Cookie 或登录状态，也读不到页面、发不出自己的网络请求。",
+      "P_SAFETY_2": "插件能接触到的一切都要经过上面的 API，因此它只看得到处理器收到的内容。即便如此，也只安装你信任的代码：插件可以改写你发送和读到的文字。"
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} 中的记忆、检索与网络搜索",

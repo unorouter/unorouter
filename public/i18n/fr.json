@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Sécurité",
       "P_SAFETY_1": "Les modes d'affichage et de requête tournent dans un bac à sable au jeu de commandes restreint. Les scripts n'atteignent ni votre compte, ni vos clés, ni les autres conversations ; au pire, un mauvais script brouille son propre chat."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Extensions JavaScript dans {appName}",
+        "DESCRIPTION": "Votre JavaScript en bac à sable : des gestionnaires autour de chaque message, l'API d'extension et la compatibilité avec les scripts JanitorAI.",
+        "KEYWORDS": "extensions javascript, scripts janitorai, automatisation de chat, bac à sable"
+      },
+      "TITLE": "Extensions",
+      "SUBTITLE": "Votre propre JavaScript, exécuté en toute sécurité autour de chaque message.",
+      "H_OVERVIEW": "Ce qu'est une extension",
+      "P_OVERVIEW_1": "Une extension est du JavaScript que vous écrivez et qui s'exécute chaque fois qu'un message part ou revient. Elle sert à réécrire du texte, tenir vos propres compteurs ou insérer des notes dans le prompt.",
+      "P_OVERVIEW_2": "Les extensions sont globales : une fois activées, elles s'exécutent dans toutes les conversations. Gérez-les sous Extensions dans le menu du chat, où vous pouvez coller du code ou importer un fichier .js.",
+      "H_HOOKS": "Points d'ancrage",
+      "P_HOOKS_1": "Enregistrez un gestionnaire pour l'un de ces quatre moments :",
+      "P_HOOKS_2": "Un gestionnaire reçoit le texte et renvoie le remplacement. Ne rien renvoyer laisse le texte inchangé.",
+      "P_HOOKS_3": "Les gestionnaires s'exécutent dans l'ordre et ne bloquent jamais une réponse : celui qui échoue ou dépasse cinq secondes est ignoré, et le texte d'origine passe.",
+      "H_API": "L'API uno",
+      "P_API_1": "Dans un gestionnaire, l'objet uno lit et écrit la conversation. Chaque appel renvoie une promesse.",
+      "P_API_2": "L'ensemble couvre les messages, les champs du personnage et du persona, les variables de conversation, les entrées de lorebook, l'expansion des macros, le comptage de jetons et une requête https à débit limité.",
+      "H_JANITOR": "Scripts JanitorAI",
+      "P_JANITOR_1": "Les scripts écrits pour JanitorAI fonctionnent tels quels. Ils reçoivent le même objet context, et ce qu'ils laissent dans character.personality et character.scenario devient le prompt de ce tour.",
+      "P_JANITOR_2": "Leurs règles s'appliquent aussi : l'état est réinitialisé à chaque tour, réécrivez donc dans le scénario tout ce que vous voulez conserver.",
+      "H_SAFETY": "Ce qu'une extension ne peut pas faire",
+      "P_SAFETY_1": "Les extensions s'exécutent dans un cadre isolé, sans accès à vos conversations, fichiers, cookies ou session. Elles ne peuvent ni lire la page ni émettre leurs propres requêtes réseau.",
+      "P_SAFETY_2": "Tout ce qu'une extension atteint passe par l'API ci-dessus : elle ne voit que ce qu'un gestionnaire reçoit. N'installez tout de même que du code de confiance : une extension peut réécrire ce que vous envoyez et ce que vous lisez."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Mémoire, récupération et recherche web dans {appName}",

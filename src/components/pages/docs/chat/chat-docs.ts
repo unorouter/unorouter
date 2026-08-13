@@ -191,6 +191,19 @@ export const CHAT_DOCS: ChatDoc[] = [
     ],
   }),
   chatDoc({
+    slug: "plugins",
+    name: "PLUGINS",
+    section: "SCRIPTING",
+    iconName: "code",
+    headings: [
+      ["overview", "H_OVERVIEW"],
+      ["hooks", "H_HOOKS"],
+      ["api", "H_API"],
+      ["janitor", "H_JANITOR"],
+      ["safety", "H_SAFETY"],
+    ],
+  }),
+  chatDoc({
     slug: "memory-and-context",
     name: "MEMORY_AND_CONTEXT",
     section: "CONTEXT_MEDIA",

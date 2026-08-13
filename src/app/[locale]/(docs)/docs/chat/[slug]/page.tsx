@@ -6,6 +6,7 @@ import { CHAT_DOCS, getChatDoc } from "@/components/pages/docs/chat/chat-docs";
 import { CardsContent } from "@/components/pages/docs/chat/content/cards-content";
 import { CharactersContent } from "@/components/pages/docs/chat/content/characters-content";
 import { CustomProvidersContent } from "@/components/pages/docs/chat/content/custom-providers-content";
+import { PluginsContent } from "@/components/pages/docs/chat/content/plugins-content";
 import { DataContent } from "@/components/pages/docs/chat/content/data-content";
 import { BackupsContent } from "@/components/pages/docs/chat/content/backups-content";
 import { GettingStartedContent } from "@/components/pages/docs/chat/content/getting-started-content";
@@ -69,6 +70,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   "memory-and-context": MemoryAndContextContent,
   images: ImagesContent,
   "custom-providers": CustomProvidersContent,
+  plugins: PluginsContent,
   data: DataContent,
   backups: BackupsContent,
 };

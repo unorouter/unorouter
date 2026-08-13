@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Sicherheit",
       "P_SAFETY_1": "Anzeige- und Anfrage-Skriptmodi laufen in einer Sandbox mit eingeschränktem Befehlssatz. Skripte erreichen weder dein Konto noch Schlüssel oder andere Gespräche; das Schlimmste, was ein schlechtes Skript anrichten kann, ist den eigenen Chat zu verwürfeln."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "JavaScript-Plugins in {appName}",
+        "DESCRIPTION": "Abgeschottetes eigenes JavaScript: Handler rund um jede Nachricht, die Plugin-API und Kompatibilität mit JanitorAI-Skripten.",
+        "KEYWORDS": "javascript plugins, janitorai skripte, chat automatisierung, sandbox"
+      },
+      "TITLE": "Plugins",
+      "SUBTITLE": "Dein eigenes JavaScript, sicher rund um jede Nachricht.",
+      "H_OVERVIEW": "Was Plugins sind",
+      "P_OVERVIEW_1": "Ein Plugin ist JavaScript, das du schreibst und das läuft, sobald eine Nachricht rausgeht oder zurückkommt. Damit kannst du Text umschreiben, eigene Zähler führen oder Notizen in den Prompt einfügen.",
+      "P_OVERVIEW_2": "Plugins gelten global: einmal aktiviert, läuft eines in jedem Chat. Verwalten kannst du sie unter Plugins im Chat-Menü, wo du Code einfügen oder eine .js-Datei importieren kannst.",
+      "H_HOOKS": "Hooks",
+      "P_HOOKS_1": "Registriere einen Handler für einen von vier Zeitpunkten:",
+      "P_HOOKS_2": "Ein Handler bekommt den Text und gibt den Ersatz zurück. Gib nichts zurück, um ihn unverändert zu lassen.",
+      "P_HOOKS_3": "Handler laufen der Reihe nach und blockieren nie eine Antwort: Wer einen Fehler wirft oder länger als fünf Sekunden braucht, wird übersprungen, und der ursprüngliche Text geht durch.",
+      "H_API": "Die uno-API",
+      "P_API_1": "Innerhalb eines Handlers liest und schreibt das uno-Objekt die Unterhaltung. Jeder Aufruf liefert ein Promise.",
+      "P_API_2": "Der volle Umfang deckt Chatnachrichten, Charakter- und Persona-Felder, Chat-Variablen, Lorebook-Einträge, Makro-Auflösung, Token-Zählung und eine ratenbegrenzte https-Anfrage ab.",
+      "H_JANITOR": "JanitorAI-Skripte",
+      "P_JANITOR_1": "Für JanitorAI geschriebene Skripte laufen unverändert. Sie bekommen dasselbe context-Objekt, und was sie in character.personality und character.scenario hinterlassen, wird zum Prompt dieses Zuges.",
+      "P_JANITOR_2": "Auch deren Regeln gelten: der Zustand wird jeden Zug zurückgesetzt, schreib also alles Wichtige jedes Mal erneut ins Szenario.",
+      "H_SAFETY": "Was ein Plugin nicht kann",
+      "P_SAFETY_1": "Plugins laufen in einem abgeschotteten Frame ohne Zugriff auf deine Chats, Dateien, Cookies oder deinen Login. Sie können weder die Seite lesen noch eigene Netzwerkanfragen stellen.",
+      "P_SAFETY_2": "Alles, was ein Plugin erreicht, läuft über die obige API, es sieht also nur, was ein Handler bekommt. Installiere trotzdem nur Code, dem du vertraust: ein Plugin kann umschreiben, was du sendest und was du liest."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Gedächtnis, Abruf und Websuche in {appName}",

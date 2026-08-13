@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Segurança",
       "P_SAFETY_1": "Os modos de exibição e requisição rodam em uma sandbox com comandos restritos. Scripts não alcançam sua conta, chaves nem outras conversas; o pior que um script ruim faz é embaralhar o próprio chat."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Plugins de JavaScript no {appName}",
+        "DESCRIPTION": "Seu JavaScript em ambiente isolado: manipuladores em torno de cada mensagem, a API de plugins e compatibilidade com scripts do JanitorAI.",
+        "KEYWORDS": "plugins javascript, scripts janitorai, automação de chat, ambiente isolado"
+      },
+      "TITLE": "Plugins",
+      "SUBTITLE": "Seu próprio JavaScript, rodando com segurança em cada mensagem.",
+      "H_OVERVIEW": "O que são plugins",
+      "P_OVERVIEW_1": "Um plugin é JavaScript que você escreve e que roda sempre que uma mensagem sai ou chega. Use para reescrever texto, manter seus próprios contadores ou inserir notas no prompt.",
+      "P_OVERVIEW_2": "Plugins são globais: uma vez ativados, rodam em todas as conversas. Você os gerencia em Plugins, no menu do chat, onde pode colar código ou importar um arquivo .js.",
+      "H_HOOKS": "Ganchos",
+      "P_HOOKS_1": "Registre um manipulador para um destes quatro momentos:",
+      "P_HOOKS_2": "O manipulador recebe o texto e devolve a substituição. Não devolver nada deixa o texto intacto.",
+      "P_HOOKS_3": "Os manipuladores rodam em ordem e nunca travam uma resposta: o que falhar ou passar de cinco segundos é ignorado, e o texto original segue.",
+      "H_API": "A API uno",
+      "P_API_1": "Dentro de um manipulador, o objeto uno lê e escreve a conversa. Cada chamada devolve uma promise.",
+      "P_API_2": "O conjunto completo cobre mensagens do chat, campos de personagem e persona, variáveis da conversa, entradas do lorebook, expansão de macros, contagem de tokens e uma requisição https com limite de frequência.",
+      "H_JANITOR": "Scripts do JanitorAI",
+      "P_JANITOR_1": "Scripts escritos para o JanitorAI funcionam como estão. Eles recebem o mesmo objeto context, e o que deixarem em character.personality e character.scenario vira o prompt daquele turno.",
+      "P_JANITOR_2": "As regras deles também valem: o estado é reiniciado a cada turno, então reescreva no cenário tudo o que quiser manter.",
+      "H_SAFETY": "O que um plugin não pode fazer",
+      "P_SAFETY_1": "Plugins rodam em um quadro isolado, sem acesso às suas conversas, arquivos, cookies ou login. Não conseguem ler a página nem fazer as próprias requisições de rede.",
+      "P_SAFETY_2": "Tudo o que um plugin alcança passa pela API acima, então ele só vê o que um manipulador recebe. Ainda assim, instale apenas código confiável: um plugin pode reescrever o que você envia e o que você lê."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memória, recuperação e busca na web no {appName}",

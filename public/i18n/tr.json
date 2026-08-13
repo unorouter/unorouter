@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Güvenlik",
       "P_SAFETY_1": "Görüntü ve istek betik kipleri kısıtlı komut setli bir kum havuzunda çalışır. Betikler hesabına, anahtarlarına veya diğer konuşmalara dokunamaz; kötü bir betiğin yapabileceği en kötü şey kendi sohbetini karıştırmaktır."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "{appName} içinde JavaScript eklentileri",
+        "DESCRIPTION": "Korumalı alanda kendi JavaScript'iniz: her mesajın çevresinde çalışan işleyiciler, eklenti API'si ve JanitorAI betikleriyle uyumluluk.",
+        "KEYWORDS": "javascript eklentileri, janitorai betikleri, sohbet otomasyonu, korumalı alan"
+      },
+      "TITLE": "Eklentiler",
+      "SUBTITLE": "Kendi JavaScript'iniz, her mesajın çevresinde güvenle çalışır.",
+      "H_OVERVIEW": "Eklentiler nedir",
+      "P_OVERVIEW_1": "Eklenti, yazdığınız ve her mesaj gidip geldiğinde çalışan JavaScript'tir. Metni yeniden yazmak, kendi sayaçlarınızı tutmak veya isteme not eklemek için kullanın.",
+      "P_OVERVIEW_2": "Eklentiler geneldir: etkinleştirildiğinde her sohbette çalışır. Sohbet menüsündeki Eklentiler bölümünden yönetilir; kod yapıştırabilir veya bir .js dosyası içe aktarabilirsiniz.",
+      "H_HOOKS": "Kancalar",
+      "P_HOOKS_1": "Şu dört andan biri için bir işleyici kaydedin:",
+      "P_HOOKS_2": "İşleyici metni alır ve yerine geçecek metni döndürür. Hiçbir şey döndürmezseniz metin olduğu gibi kalır.",
+      "P_HOOKS_3": "İşleyiciler sırayla çalışır ve yanıtı asla engellemez: hata veren ya da beş saniyeyi aşan atlanır, özgün metin geçer.",
+      "H_API": "uno API'si",
+      "P_API_1": "Bir işleyicinin içinde uno nesnesi sohbeti okur ve yazar. Her çağrı bir promise döndürür.",
+      "P_API_2": "Tam küme sohbet mesajlarını, karakter ve persona alanlarını, sohbet değişkenlerini, lorebook kayıtlarını, makro açılımını, jeton sayımını ve hız sınırlı bir https isteğini kapsar.",
+      "H_JANITOR": "JanitorAI betikleri",
+      "P_JANITOR_1": "JanitorAI için yazılmış betikler olduğu gibi çalışır. Aynı context nesnesini alır; character.personality ve character.scenario içinde bıraktıkları, o turun istemi olur.",
+      "P_JANITOR_2": "Onların kuralları da geçerlidir: durum her turda sıfırlanır, bu yüzden saklanmasını istediğiniz her şeyi senaryoya yeniden yazın.",
+      "H_SAFETY": "Bir eklentinin yapamayacakları",
+      "P_SAFETY_1": "Eklentiler; sohbetlerinize, dosyalarınıza, çerezlerinize veya oturumunuza erişimi olmayan korumalı bir çerçevede çalışır. Sayfayı okuyamaz, kendi ağ isteklerini yapamazlar.",
+      "P_SAFETY_2": "Bir eklentinin ulaştığı her şey yukarıdaki API'den geçer, yani yalnızca bir işleyiciye verileni görür. Yine de sadece güvendiğiniz kodu kurun: bir eklenti gönderdiğinizi ve okuduğunuzu yeniden yazabilir."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} İçinde Bellek, Getirme ve Web Araması",

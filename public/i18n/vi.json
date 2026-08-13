@@ -5194,6 +5194,31 @@
       "H_SAFETY": "An toàn",
       "P_SAFETY_1": "Chế độ kịch bản hiển thị và yêu cầu chạy trong hộp cát với bộ lệnh hạn chế. Kịch bản không thể chạm đến tài khoản, khóa hay cuộc trò chuyện khác của bạn; điều tệ nhất một kịch bản xấu làm được là làm rối chat của chính nó."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Tiện ích JavaScript trong {appName}",
+        "DESCRIPTION": "JavaScript của bạn trong môi trường cách ly: bộ xử lý quanh mỗi tin nhắn, API tiện ích và tương thích với kịch bản JanitorAI.",
+        "KEYWORDS": "tiện ích javascript, kịch bản janitorai, tự động hóa trò chuyện, môi trường cách ly"
+      },
+      "TITLE": "Tiện ích",
+      "SUBTITLE": "JavaScript của riêng bạn, chạy an toàn quanh mỗi tin nhắn.",
+      "H_OVERVIEW": "Tiện ích là gì",
+      "P_OVERVIEW_1": "Tiện ích là mã JavaScript bạn viết, chạy mỗi khi một tin nhắn gửi đi hoặc nhận về. Dùng nó để viết lại văn bản, giữ bộ đếm riêng hoặc chèn ghi chú vào lời nhắc.",
+      "P_OVERVIEW_2": "Tiện ích có phạm vi toàn cục: khi đã bật, nó chạy trong mọi cuộc trò chuyện. Quản lý ở mục Tiện ích trong trình đơn trò chuyện, nơi bạn có thể dán mã hoặc nhập tệp .js.",
+      "H_HOOKS": "Điểm móc",
+      "P_HOOKS_1": "Đăng ký một bộ xử lý cho một trong bốn thời điểm:",
+      "P_HOOKS_2": "Bộ xử lý nhận văn bản và trả về phần thay thế. Không trả về gì thì văn bản giữ nguyên.",
+      "P_HOOKS_3": "Các bộ xử lý chạy theo thứ tự và không bao giờ chặn câu trả lời: cái nào lỗi hoặc quá năm giây sẽ bị bỏ qua, và văn bản gốc được dùng.",
+      "H_API": "API uno",
+      "P_API_1": "Bên trong bộ xử lý, đối tượng uno đọc và ghi cuộc trò chuyện. Mỗi lời gọi trả về một promise.",
+      "P_API_2": "Bộ đầy đủ bao gồm tin nhắn, các trường nhân vật và persona, biến cuộc trò chuyện, mục lorebook, khai triển macro, đếm token và một yêu cầu https có giới hạn tần suất.",
+      "H_JANITOR": "Kịch bản JanitorAI",
+      "P_JANITOR_1": "Kịch bản viết cho JanitorAI chạy nguyên trạng. Chúng nhận cùng đối tượng context, và những gì để lại trong character.personality và character.scenario sẽ thành lời nhắc của lượt đó.",
+      "P_JANITOR_2": "Quy tắc của họ cũng được áp dụng: trạng thái đặt lại mỗi lượt, nên hãy ghi lại vào kịch bản mọi thứ bạn muốn giữ.",
+      "H_SAFETY": "Điều tiện ích không thể làm",
+      "P_SAFETY_1": "Tiện ích chạy trong khung cách ly, không truy cập được cuộc trò chuyện, tệp, cookie hay đăng nhập của bạn. Chúng không đọc được trang và không tự gửi yêu cầu mạng.",
+      "P_SAFETY_2": "Mọi thứ tiện ích chạm tới đều đi qua API ở trên, nên nó chỉ thấy những gì bộ xử lý được đưa. Dù vậy, chỉ cài mã bạn tin tưởng: tiện ích có thể viết lại thứ bạn gửi và thứ bạn đọc."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Bộ nhớ, Truy hồi và Tìm kiếm web trong {appName}",

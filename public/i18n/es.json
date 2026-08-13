@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Seguridad",
       "P_SAFETY_1": "Los modos de visualización y petición corren en un entorno aislado con comandos restringidos. Los scripts no pueden tocar tu cuenta, tus claves ni otras conversaciones; lo peor que puede hacer un mal script es enredar su propio chat."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Complementos de JavaScript en {appName}",
+        "DESCRIPTION": "JavaScript propio en un entorno aislado: manejadores alrededor de cada mensaje, la API de complementos y compatibilidad con scripts de JanitorAI.",
+        "KEYWORDS": "complementos javascript, scripts janitorai, automatización de chat, entorno aislado"
+      },
+      "TITLE": "Complementos",
+      "SUBTITLE": "Tu propio JavaScript, ejecutándose con seguridad en cada mensaje.",
+      "H_OVERVIEW": "Qué son los complementos",
+      "P_OVERVIEW_1": "Un complemento es JavaScript que tú escribes y que se ejecuta cada vez que sale o llega un mensaje. Sirve para reescribir texto, llevar tus propios contadores o insertar notas en el prompt.",
+      "P_OVERVIEW_2": "Los complementos son globales: una vez activados, se ejecutan en todos los chats. Se gestionan en Complementos, dentro del menú del chat, donde puedes pegar código o importar un archivo .js.",
+      "H_HOOKS": "Enganches",
+      "P_HOOKS_1": "Registra un manejador para uno de estos cuatro momentos:",
+      "P_HOOKS_2": "El manejador recibe el texto y devuelve el reemplazo. Si no devuelve nada, el texto queda intacto.",
+      "P_HOOKS_3": "Los manejadores se ejecutan en orden y nunca bloquean una respuesta: si uno falla o tarda más de cinco segundos, se omite y pasa el texto original.",
+      "H_API": "La API uno",
+      "P_API_1": "Dentro de un manejador, el objeto uno lee y escribe la conversación. Cada llamada devuelve una promesa.",
+      "P_API_2": "El conjunto completo abarca mensajes del chat, campos de personaje y persona, variables del chat, entradas del lorebook, expansión de macros, recuento de tokens y una petición https con límite de frecuencia.",
+      "H_JANITOR": "Scripts de JanitorAI",
+      "P_JANITOR_1": "Los scripts escritos para JanitorAI funcionan tal cual. Reciben el mismo objeto context, y lo que dejen en character.personality y character.scenario se convierte en el prompt de ese turno.",
+      "P_JANITOR_2": "También se aplican sus reglas: el estado se reinicia en cada turno, así que vuelve a escribir en el escenario todo lo que quieras conservar.",
+      "H_SAFETY": "Lo que un complemento no puede hacer",
+      "P_SAFETY_1": "Los complementos se ejecutan en un marco aislado, sin acceso a tus chats, archivos, cookies ni sesión. No pueden leer la página ni hacer sus propias peticiones de red.",
+      "P_SAFETY_2": "Todo lo que alcanza un complemento pasa por la API anterior, así que solo ve lo que recibe un manejador. Aun así, instala solo código de confianza: un complemento puede reescribir lo que envías y lo que lees."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memoria, recuperación y búsqueda web en {appName}",

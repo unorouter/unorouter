@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Safety",
       "P_SAFETY_1": "Display and request script modes run in a sandbox with a restricted command set. Scripts cannot touch your account, keys, or other conversations; the worst a bad script can do is garble its own chat."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "JavaScript Plugins in {appName}",
+        "DESCRIPTION": "Sandboxed user JavaScript: hook handlers around every message, the plugin API, and JanitorAI script compatibility.",
+        "KEYWORDS": "javascript plugins, janitorai scripts, chat automation, sandbox"
+      },
+      "TITLE": "Plugins",
+      "SUBTITLE": "Your own JavaScript, running safely around every message.",
+      "H_OVERVIEW": "What plugins are",
+      "P_OVERVIEW_1": "A plugin is JavaScript you write that runs whenever a message goes out or comes back. Use it to rewrite text, keep your own counters, or inject notes into the prompt.",
+      "P_OVERVIEW_2": "Plugins are global: once enabled, one runs in every chat. Manage them under Plugins in the chat menu, where you can paste code or import a .js file.",
+      "H_HOOKS": "Hooks",
+      "P_HOOKS_1": "Register a handler for one of four moments:",
+      "P_HOOKS_2": "A handler receives the text and returns the replacement. Return nothing to leave it untouched.",
+      "P_HOOKS_3": "Handlers run in order and never block a reply: one that throws or takes longer than five seconds is skipped, and the original text goes through.",
+      "H_API": "The uno API",
+      "P_API_1": "Inside a handler the uno object reads and writes the conversation. Every call returns a promise.",
+      "P_API_2": "The full set covers chat messages, character and persona fields, chat variables, lorebook entries, macro expansion, token counts, and a rate-limited https request.",
+      "H_JANITOR": "JanitorAI scripts",
+      "P_JANITOR_1": "Scripts written for JanitorAI run as they are. They get the same context object, and whatever they leave in character.personality and character.scenario becomes that turn's prompt.",
+      "P_JANITOR_2": "Their rules apply too: state resets every turn, so write anything worth keeping back into the scenario each time.",
+      "H_SAFETY": "What a plugin cannot do",
+      "P_SAFETY_1": "Plugins run in a sandboxed frame with no access to your chats, files, cookies or login. They cannot read the page or make their own network requests.",
+      "P_SAFETY_2": "Anything a plugin reaches goes through the API above, so it only ever sees what a handler is given. Still, only install code you trust: a plugin can rewrite what you send and what you read."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memory, Retrieval, and Web Search in {appName}",

@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Keamanan",
       "P_SAFETY_1": "Mode skrip tampilan dan permintaan berjalan di kotak pasir dengan set perintah terbatas. Skrip tak bisa menyentuh akun, kunci, atau percakapan lain Anda; hal terburuk skrip buruk hanyalah mengacaukan chatnya sendiri."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Plugin JavaScript di {appName}",
+        "DESCRIPTION": "JavaScript Anda dalam lingkungan terisolasi: penangan di sekitar setiap pesan, API plugin, dan kompatibilitas skrip JanitorAI.",
+        "KEYWORDS": "plugin javascript, skrip janitorai, otomatisasi obrolan, lingkungan terisolasi"
+      },
+      "TITLE": "Plugin",
+      "SUBTITLE": "JavaScript Anda sendiri, berjalan aman di sekitar setiap pesan.",
+      "H_OVERVIEW": "Apa itu plugin",
+      "P_OVERVIEW_1": "Plugin adalah JavaScript yang Anda tulis dan berjalan setiap kali pesan dikirim atau diterima. Gunakan untuk menulis ulang teks, menyimpan penghitung sendiri, atau menyisipkan catatan ke dalam prompt.",
+      "P_OVERVIEW_2": "Plugin bersifat global: setelah diaktifkan, ia berjalan di semua obrolan. Kelola di menu Plugin pada menu obrolan, tempat Anda bisa menempelkan kode atau mengimpor berkas .js.",
+      "H_HOOKS": "Kait",
+      "P_HOOKS_1": "Daftarkan penangan untuk salah satu dari empat momen berikut:",
+      "P_HOOKS_2": "Penangan menerima teks dan mengembalikan penggantinya. Tidak mengembalikan apa pun berarti teks dibiarkan apa adanya.",
+      "P_HOOKS_3": "Penangan berjalan berurutan dan tidak pernah menghambat balasan: yang gagal atau lebih dari lima detik akan dilewati, dan teks aslinya yang dipakai.",
+      "H_API": "API uno",
+      "P_API_1": "Di dalam penangan, objek uno membaca dan menulis percakapan. Setiap panggilan mengembalikan promise.",
+      "P_API_2": "Kumpulan lengkapnya mencakup pesan obrolan, bidang karakter dan persona, variabel obrolan, entri lorebook, perluasan makro, penghitungan token, dan permintaan https dengan batas laju.",
+      "H_JANITOR": "Skrip JanitorAI",
+      "P_JANITOR_1": "Skrip yang ditulis untuk JanitorAI berjalan apa adanya. Mereka mendapat objek context yang sama, dan apa pun yang tersisa di character.personality dan character.scenario menjadi prompt giliran itu.",
+      "P_JANITOR_2": "Aturan mereka juga berlaku: keadaan disetel ulang setiap giliran, jadi tulis kembali ke skenario apa pun yang ingin Anda pertahankan.",
+      "H_SAFETY": "Yang tidak bisa dilakukan plugin",
+      "P_SAFETY_1": "Plugin berjalan dalam bingkai terisolasi tanpa akses ke obrolan, berkas, cookie, atau sesi masuk Anda. Mereka tidak bisa membaca halaman atau membuat permintaan jaringan sendiri.",
+      "P_SAFETY_2": "Semua yang dijangkau plugin melewati API di atas, jadi ia hanya melihat apa yang diberikan ke penangan. Meski begitu, pasang hanya kode yang Anda percaya: plugin bisa menulis ulang apa yang Anda kirim dan baca."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memori, Pengambilan, dan Pencarian Web di {appName}",

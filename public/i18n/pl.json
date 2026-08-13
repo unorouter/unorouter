@@ -5194,6 +5194,31 @@
       "H_SAFETY": "Bezpieczeństwo",
       "P_SAFETY_1": "Tryby wyświetlania i żądania działają w piaskownicy z ograniczonym zestawem komend. Skrypty nie dosięgną konta, kluczy ani innych rozmów; najgorsze, co zrobi zły skrypt, to zamiesza we własnym czacie."
     },
+    "PLUGINS": {
+      "META": {
+        "TITLE": "Wtyczki JavaScript w {appName}",
+        "DESCRIPTION": "Twój JavaScript w piaskownicy: obsługa zdarzeń wokół każdej wiadomości, API wtyczek i zgodność ze skryptami JanitorAI.",
+        "KEYWORDS": "wtyczki javascript, skrypty janitorai, automatyzacja czatu, piaskownica"
+      },
+      "TITLE": "Wtyczki",
+      "SUBTITLE": "Twój własny JavaScript, działający bezpiecznie przy każdej wiadomości.",
+      "H_OVERVIEW": "Czym są wtyczki",
+      "P_OVERVIEW_1": "Wtyczka to JavaScript, który piszesz i który uruchamia się przy każdej wysyłanej i odbieranej wiadomości. Użyj jej do przepisywania tekstu, prowadzenia własnych liczników albo wstawiania notatek do promptu.",
+      "P_OVERVIEW_2": "Wtyczki są globalne: po włączeniu działają w każdej rozmowie. Zarządzasz nimi w sekcji Wtyczki w menu czatu, gdzie możesz wkleić kod albo zaimportować plik .js.",
+      "H_HOOKS": "Zaczepy",
+      "P_HOOKS_1": "Zarejestruj obsługę dla jednego z czterech momentów:",
+      "P_HOOKS_2": "Obsługa dostaje tekst i zwraca zamiennik. Brak zwrotu zostawia tekst bez zmian.",
+      "P_HOOKS_3": "Obsługi działają po kolei i nigdy nie blokują odpowiedzi: ta, która zgłosi błąd albo przekroczy pięć sekund, jest pomijana, a dalej idzie tekst pierwotny.",
+      "H_API": "API uno",
+      "P_API_1": "Wewnątrz obsługi obiekt uno czyta i zapisuje rozmowę. Każde wywołanie zwraca obietnicę.",
+      "P_API_2": "Pełny zestaw obejmuje wiadomości czatu, pola postaci i persony, zmienne rozmowy, wpisy lorebooka, rozwijanie makr, liczenie tokenów oraz żądanie https z limitem częstotliwości.",
+      "H_JANITOR": "Skrypty JanitorAI",
+      "P_JANITOR_1": "Skrypty napisane dla JanitorAI działają bez zmian. Dostają ten sam obiekt context, a to, co zostawią w character.personality i character.scenario, staje się promptem tej tury.",
+      "P_JANITOR_2": "Obowiązują też ich zasady: stan zeruje się co turę, więc wszystko, co ma zostać, zapisuj do scenariusza za każdym razem.",
+      "H_SAFETY": "Czego wtyczka nie może",
+      "P_SAFETY_1": "Wtyczki działają w izolowanej ramce bez dostępu do twoich rozmów, plików, ciasteczek i logowania. Nie odczytają strony ani nie wyślą własnych żądań sieciowych.",
+      "P_SAFETY_2": "Wszystko, do czego wtyczka sięga, przechodzi przez powyższe API, więc widzi tylko to, co dostaje obsługa. Mimo to instaluj tylko zaufany kod: wtyczka może przepisać to, co wysyłasz i co czytasz."
+    },
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Pamięć, wyszukiwanie i sieć w {appName}",
