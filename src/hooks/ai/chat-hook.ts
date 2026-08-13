@@ -435,14 +435,26 @@ export function useDeleteMessageMutation() {
     mutationFn: async (args: { convId: string; msgId: string }) => {
       // Prune UI before the awaited splice: the node may have no DB row.
       getThreadRuntime()?.deleteMessage(args.msgId);
+      // deleteMessage prunes the runtime repository, but the RENDER SOURCE (and
+      // the history the transport sends) is the useChat array. Drop the node
+      // from it here, BEFORE the await: a failed-run node can have no DB row and
+      // the SQLocal splice can throw on iOS, and a throw past this point would
+      // leave a deleted message on screen and still in the model's history.
+      setLiveMessages((msgs) =>
+        (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
+      );
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
-      // deleteMessage prunes the runtime repository, but the RENDER SOURCE (and
-      // the history the transport sends) is the useChat array, which nothing
-      // else updates - a deleted message could stay on screen and still reach
-      // the model. Rebuild the array from the DB the splice just wrote.
-      await reloadLiveThreadFromDb(args.convId);
+      // The DB is authoritative once the splice lands: rebuild from it so a
+      // branch re-walk (siblings promoted after the delete) is reflected too.
+      // Best-effort, since the prune above already removed the node: a throwing
+      // reader must not report a delete that actually succeeded as failed.
+      try {
+        await reloadLiveThreadFromDb(args.convId);
+      } catch {
+        // Already pruned from the live array; the next mount reads the DB.
+      }
       return { id: args.msgId };
     },
     onError: (e) => handleError(e, t),

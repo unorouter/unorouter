@@ -710,9 +710,15 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
 
     // Instant visual update, then the DB-derived rebuild as the authority: the
     // transport sends the live array as the model's history, so a lost patch
-    // here meant the model kept answering the pre-edit prompt.
+    // here meant the model kept answering the pre-edit prompt. The rebuild is
+    // best-effort: the write already landed, and a reader that throws (SQLocal
+    // contention on iOS) must not strand the editor open over an applied edit.
     replaceMessageParts(messageId, () => newParts);
-    await reloadLiveThreadFromDb(convId);
+    try {
+      await reloadLiveThreadFromDb(convId);
+    } catch {
+      // The patch above already reflects the edit on screen.
+    }
 
     props.onClose();
   };
