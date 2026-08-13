@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
@@ -147,10 +148,18 @@ export function LogUserCell(props: CellContext<TableFeats, LogRow>) {
 
 export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
+  const vendorsQuery = usePricingVendorsQuery();
   const log = props.row.original;
   if (!isConsumeLike(log.type) || !log.model_name) {
     return LOG_EMPTY;
   }
+  // VendorIcon substring-matches its registry keys, so a model whose name
+  // carries no vendor string (glm-5.2, laguna-xs-2.1) never resolves an icon.
+  // The catalog knows the real vendor; fall back to the name for models it
+  // does not list, which is what the registry aliases already cover.
+  const vendorName =
+    vendorsQuery.data?.modelVendors.find((m) => m.name === log.model_name)
+      ?.vendor ?? log.model_name;
   const other = parseOther(log.other);
   const upstream = other?.is_model_mapped ? other?.upstream_model_name : null;
 
@@ -171,7 +180,7 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
             />
           }
         >
-          <VendorIcon vendor={log.model_name} size={14} />
+          <VendorIcon vendor={vendorName} size={14} />
           <span className="text-foreground font-mono text-xs">
             {log.model_name}
           </span>
