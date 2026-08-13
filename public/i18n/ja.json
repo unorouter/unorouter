@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "タイル",
     "BG_OPACITY": "不透明度",
     "BG_BLUR": "ぼかし",
-    "BG_PANEL_OPACITY": "パネルの不透明度"
+    "BG_PANEL_OPACITY": "パネルの不透明度",
+    "BG_BUBBLE_OPACITY": "メッセージバブルの不透明度",
+    "BG_BUBBLE_OPACITY_HINT": "自分のチャットメッセージに適用され、パネルとは別に背景を透けさせられます。"
   },
   "BILLING": {
     "SUBSCRIPTION": {

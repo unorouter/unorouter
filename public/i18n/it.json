@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "Affianca",
     "BG_OPACITY": "Opacità",
     "BG_BLUR": "Sfocatura",
-    "BG_PANEL_OPACITY": "Opacità dei pannelli"
+    "BG_PANEL_OPACITY": "Opacità dei pannelli",
+    "BG_BUBBLE_OPACITY": "Opacita dei fumetti dei messaggi",
+    "BG_BUBBLE_OPACITY_HINT": "Vale per i tuoi messaggi in chat, cosi lo sfondo puo trasparire indipendentemente dai pannelli."
   },
   "BILLING": {
     "SUBSCRIPTION": {

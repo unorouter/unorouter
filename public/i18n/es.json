@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "Mosaico",
     "BG_OPACITY": "Opacidad",
     "BG_BLUR": "Desenfoque",
-    "BG_PANEL_OPACITY": "Opacidad de los paneles"
+    "BG_PANEL_OPACITY": "Opacidad de los paneles",
+    "BG_BUBBLE_OPACITY": "Opacidad de los globos de mensaje",
+    "BG_BUBBLE_OPACITY_HINT": "Se aplica a tus propios mensajes del chat, para que el fondo se vea a traves de ellos con independencia de los paneles."
   },
   "BILLING": {
     "SUBSCRIPTION": {

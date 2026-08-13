@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "Ubin",
     "BG_OPACITY": "Opasitas",
     "BG_BLUR": "Buram",
-    "BG_PANEL_OPACITY": "Opasitas panel"
+    "BG_PANEL_OPACITY": "Opasitas panel",
+    "BG_BUBBLE_OPACITY": "Opasitas balon pesan",
+    "BG_BUBBLE_OPACITY_HINT": "Berlaku untuk pesan obrolan Anda sendiri, sehingga latar dapat terlihat menembusnya secara terpisah dari panel."
   },
   "BILLING": {
     "SUBSCRIPTION": {

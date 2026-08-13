@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "타일",
     "BG_OPACITY": "불투명도",
     "BG_BLUR": "흐림",
-    "BG_PANEL_OPACITY": "패널 불투명도"
+    "BG_PANEL_OPACITY": "패널 불투명도",
+    "BG_BUBBLE_OPACITY": "메시지 말풍선 불투명도",
+    "BG_BUBBLE_OPACITY_HINT": "내가 보낸 메시지에 적용되어, 패널과 별개로 배경이 비쳐 보이게 합니다."
   },
   "BILLING": {
     "SUBSCRIPTION": {

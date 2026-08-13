@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "تكرار",
     "BG_OPACITY": "الشفافية",
     "BG_BLUR": "ضبابية",
-    "BG_PANEL_OPACITY": "شفافية اللوحات"
+    "BG_PANEL_OPACITY": "شفافية اللوحات",
+    "BG_BUBBLE_OPACITY": "تعتيم فقاعات الرسائل",
+    "BG_BUBBLE_OPACITY_HINT": "ينطبق على رسائلك أنت في المحادثة، بحيث تظهر الخلفية من خلفها بشكل مستقل عن اللوحات."
   },
   "BILLING": {
     "SUBSCRIPTION": {

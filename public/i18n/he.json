@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "אריחים",
     "BG_OPACITY": "אטימות",
     "BG_BLUR": "טשטוש",
-    "BG_PANEL_OPACITY": "אטימות הלוחות"
+    "BG_PANEL_OPACITY": "אטימות הלוחות",
+    "BG_BUBBLE_OPACITY": "אטימות בועות ההודעה",
+    "BG_BUBBLE_OPACITY_HINT": "חל על ההודעות שלך בצ'אט, כך שהרקע יוכל להציץ דרכן בנפרד מהפאנלים."
   },
   "BILLING": {
     "SUBSCRIPTION": {

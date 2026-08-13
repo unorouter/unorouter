@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "टाइल",
     "BG_OPACITY": "अपारदर्शिता",
     "BG_BLUR": "धुंधलापन",
-    "BG_PANEL_OPACITY": "पैनल अपारदर्शिता"
+    "BG_PANEL_OPACITY": "पैनल अपारदर्शिता",
+    "BG_BUBBLE_OPACITY": "संदेश बबल की अपारदर्शिता",
+    "BG_BUBBLE_OPACITY_HINT": "यह आपके अपने चैट संदेशों पर लागू होता है, ताकि पृष्ठभूमि पैनलों से स्वतंत्र रूप से उनके पीछे दिखाई दे।"
   },
   "BILLING": {
     "SUBSCRIPTION": {

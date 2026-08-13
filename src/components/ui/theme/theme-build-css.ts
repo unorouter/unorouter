@@ -332,6 +332,11 @@ export function buildBackgroundCss(
   const blur = bg?.blur ?? 0;
   const panelOpacity = Math.min(1, Math.max(0, bg?.panelOpacity ?? 0.75));
   const pct = Math.round(panelOpacity * 100);
+  const bubbleOpacity = Math.min(
+    1,
+    Math.max(0, bg?.bubbleOpacity ?? panelOpacity),
+  );
+  const bubblePct = Math.round(bubbleOpacity * 100);
   const sizeRule =
     fit === "tile"
       ? "background-repeat:repeat;background-size:auto;"
@@ -339,6 +344,8 @@ export function buildBackgroundCss(
   const safeUrl = image.replace(/["\\]/g, "");
   const surfaceMix = (varName: string) =>
     `color-mix(in srgb, var(--${varName}) ${pct}%, transparent)`;
+  const bubbleMix = (varName: string) =>
+    `color-mix(in srgb, var(--${varName}) ${bubblePct}%, transparent)`;
   const translucent =
     panelOpacity < 1
       ? [
@@ -359,6 +366,12 @@ export function buildBackgroundCss(
           `[data-bg-active] [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
+  // Separate from the panel block: a user can want solid panels with see-through
+  // bubbles, or the reverse, so this rule cannot hang off panelOpacity < 1.
+  const bubble =
+    bubbleOpacity < 1
+      ? `[data-bg-active] .aui-user-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
+      : "";
   return [
     // Both must be transparent: body::before paints at z-index -1, so any
     // opaque color on html or body renders on top of the image and buries it.
@@ -372,6 +385,8 @@ export function buildBackgroundCss(
     blur > 0 ? `filter:blur(${blur}px);` : "",
     "}",
     translucent,
+    // After the panel block so a bubble value still wins when both are set.
+    bubble,
   ].join("");
 }
 

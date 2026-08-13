@@ -37,6 +37,10 @@ export type BackgroundSettings = {
   blur?: number; // px
   fit?: BackgroundFit;
   panelOpacity?: number; // 0..1, surface translucency so the image floats behind panels
+  // Message bubbles sit ON a panel rather than beside one, so the panel value
+  // reads differently on them: what frames a sidebar nicely leaves a bubble
+  // looking like it overlaps the artwork. Defaults to panelOpacity.
+  bubbleOpacity?: number; // 0..1
 };
 
 export type UserTheme = {

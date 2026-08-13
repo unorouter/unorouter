@@ -3557,7 +3557,9 @@
     "BG_FIT_TILE": "Lado a lado",
     "BG_OPACITY": "Opacidade",
     "BG_BLUR": "Desfoque",
-    "BG_PANEL_OPACITY": "Opacidade dos painéis"
+    "BG_PANEL_OPACITY": "Opacidade dos painéis",
+    "BG_BUBBLE_OPACITY": "Opacidade dos baloes de mensagem",
+    "BG_BUBBLE_OPACITY_HINT": "Vale para as suas proprias mensagens, para que o fundo apareca atraves delas independentemente dos paineis."
   },
   "BILLING": {
     "SUBSCRIPTION": {
