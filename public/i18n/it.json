@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Sintassi",
       "P_SYNTAX_1": "Le macro sono token a doppie graffe espansi al momento della richiesta. Funzionano nei campi dei personaggi, nelle voci dei lorebook, nei preset, nei saluti e nel testo normale della chat, e si annidano.",
       "P_SYNTAX_2": "Gli argomenti si separano con doppi due punti. Le macro sconosciute si espandono a nulla invece di dare errore, così un refuso non rompe mai una richiesta.",
+      "P_SYNTAX_3": "Le parentesi graffe singole non sono macro: un token scritto con una sola coppia raggiunge il modello come testo letterale e compare nelle risposte, la causa piu comune delle graffe vaganti in una chat. Corrisponde a SillyTavern, RisuAI e JanitorAI, quindi una scheda scritta per uno di essi funziona senza modifiche.",
       "H_CORE": "Macro di base",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Si espande in",

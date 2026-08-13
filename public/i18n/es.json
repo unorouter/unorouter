@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Sintaxis",
       "P_SYNTAX_1": "Las macros son fichas entre llaves dobles que se expanden al hacer la petición. Funcionan en campos de personaje, entradas de lorebook, presets, saludos y texto normal del chat, y se pueden anidar.",
       "P_SYNTAX_2": "Los argumentos se separan con dobles dos puntos. Las macros desconocidas se expanden a nada en vez de fallar, así que una errata nunca rompe una petición.",
+      "P_SYNTAX_3": "Las llaves simples no son macros: un token escrito con un solo par llega al modelo como texto literal y aparece en las respuestas, que es la causa habitual de llaves sueltas en un chat. Coincide con SillyTavern, RisuAI y JanitorAI, asi que una tarjeta escrita para cualquiera de ellos funciona sin cambios.",
       "H_CORE": "Macros básicas",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Se expande a",

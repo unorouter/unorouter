@@ -24,6 +24,11 @@ export async function MacrosContent() {
 {{calc::1+2*3}}`}
         />
         <p>{k("P_SYNTAX_2")}</p>
+        <p>{k("P_SYNTAX_3")}</p>
+        <DocCode
+          code={`{{user}}   expands to your persona name
+{user}     stays literal text`}
+        />
       </DocSection>
       <DocSection id="core" title={k("H_CORE")}>
         <DocTable

@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Syntax",
       "P_SYNTAX_1": "Macros are double-brace tokens that expand at request time. They work in character fields, lorebook entries, presets, greetings, and plain chat text, and they nest.",
       "P_SYNTAX_2": "Arguments are separated with double colons. Unknown macros expand to nothing rather than erroring, so a typo never breaks a request.",
+      "P_SYNTAX_3": "Single braces are not macros: a token written with one pair reaches the model as literal text and shows up in replies, which is the usual cause of stray braces in a chat. This matches SillyTavern, RisuAI and JanitorAI, so a card written for any of them works unchanged.",
       "H_CORE": "Core macros",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Expands to",

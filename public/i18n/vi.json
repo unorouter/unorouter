@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Cú pháp",
       "P_SYNTAX_1": "Macro là các token trong dấu ngoặc nhọn kép được mở rộng lúc yêu cầu. Chúng hoạt động trong trường nhân vật, mục sổ tri thức, preset, lời chào và văn bản chat thường, và có thể lồng nhau.",
       "P_SYNTAX_2": "Đối số ngăn bằng dấu hai chấm kép. Macro lạ mở rộng thành rỗng thay vì lỗi, nên lỗi gõ không bao giờ làm hỏng một yêu cầu.",
+      "P_SYNTAX_3": "Dau ngoac nhon don khong phai la macro: mot token viet bang mot cap se den mo hinh duoi dang van ban thuan tuy va xuat hien trong cau tra loi, day thuong la nguyen nhan cua nhung dau ngoac la trong cuoc tro chuyen. Dieu nay giong SillyTavern, RisuAI va JanitorAI, nen the viet cho bat ky nen tang nao trong so do deu chay duoc.",
       "H_CORE": "Macro cốt lõi",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Mở rộng thành",

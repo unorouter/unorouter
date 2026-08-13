@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Söz dizimi",
       "P_SYNTAX_1": "Makrolar, istek anında genişleyen çift küme parantezli belirteçlerdir. Karakter alanlarında, lorebook girdilerinde, ön ayarlarda, açılışlarda ve düz sohbet metninde çalışır; iç içe geçebilir.",
       "P_SYNTAX_2": "Argümanlar çift iki nokta ile ayrılır. Bilinmeyen makrolar hata yerine hiçliğe genişler; yazım hatası bir isteği asla bozmaz.",
+      "P_SYNTAX_3": "Tek suslu parantezler makro degildir: yalnizca bir cift ile yazilan bir belirtec modele duz metin olarak ulasir ve yanitlarda gorunur, bir sohbetteki bosta kalan parantezlerin en yaygin sebebi budur. Bu SillyTavern, RisuAI ve JanitorAI ile ayni sekilde calisir, dolayisiyla onlar icin yazilmis bir kart degistirilmeden calisir.",
       "H_CORE": "Çekirdek makrolar",
       "TH_MACRO": "Makro",
       "TH_RESULT": "Şuna genişler",

@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Sintaxe",
       "P_SYNTAX_1": "Macros são tokens de chaves duplas expandidos na hora da requisição. Funcionam em campos de personagem, entradas de lorebook, presets, saudações e texto comum do chat, e podem se aninhar.",
       "P_SYNTAX_2": "Argumentos são separados por dois-pontos duplos. Macros desconhecidas expandem para nada em vez de dar erro, então um erro de digitação nunca quebra uma requisição.",
+      "P_SYNTAX_3": "Chaves simples nao sao macros: um token escrito com apenas um par chega ao modelo como texto literal e aparece nas respostas, a causa mais comum de chaves perdidas em uma conversa. Isso corresponde a SillyTavern, RisuAI e JanitorAI, entao um cartao escrito para qualquer um deles funciona sem alteracoes.",
       "H_CORE": "Macros básicas",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Expande para",

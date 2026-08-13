@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Składnia",
       "P_SYNTAX_1": "Makra to tokeny w podwójnych klamrach rozwijane w chwili żądania. Działają w polach postaci, wpisach lorebooków, presetach, powitaniach i zwykłym tekście czatu, i można je zagnieżdżać.",
       "P_SYNTAX_2": "Argumenty rozdziela podwójny dwukropek. Nieznane makra rozwijają się do niczego zamiast rzucać błąd, więc literówka nigdy nie psuje żądania.",
+      "P_SYNTAX_3": "Pojedyncze nawiasy klamrowe nie sa makrami: token zapisany jedna para trafia do modelu jako zwykly tekst i pojawia sie w odpowiedziach, co najczesciej tlumaczy bledne nawiasy w czacie. Odpowiada to SillyTavern, RisuAI i JanitorAI, wiec karta napisana dla nich dziala bez zmian.",
       "H_CORE": "Makra podstawowe",
       "TH_MACRO": "Makro",
       "TH_RESULT": "Rozwija się do",

@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Syntaxe",
       "P_SYNTAX_1": "Les macros sont des jetons à doubles accolades développés au moment de la requête. Elles fonctionnent dans les champs de personnage, les entrées de lorebook, les presets, les salutations et le texte de chat ordinaire, et elles s'imbriquent.",
       "P_SYNTAX_2": "Les arguments sont séparés par des doubles deux-points. Une macro inconnue se développe en rien plutôt qu'en erreur : une faute de frappe ne casse jamais une requête.",
+      "P_SYNTAX_3": "Les accolades simples ne sont pas des macros : un jeton ecrit avec une seule paire parvient au modele sous forme de texte brut et apparait dans les reponses, ce qui explique le plus souvent les accolades parasites dans une discussion. Cela correspond a SillyTavern, RisuAI et JanitorAI, donc une carte ecrite pour l'un d'eux fonctionne telle quelle.",
       "H_CORE": "Macros de base",
       "TH_MACRO": "Macro",
       "TH_RESULT": "Se développe en",

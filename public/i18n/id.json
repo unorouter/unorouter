@@ -5137,6 +5137,7 @@
       "H_SYNTAX": "Sintaks",
       "P_SYNTAX_1": "Makro adalah token kurung kurawal ganda yang dikembangkan saat permintaan. Ia bekerja di bidang karakter, entri lorebook, preset, sapaan, dan teks chat biasa, serta bisa bersarang.",
       "P_SYNTAX_2": "Argumen dipisah titik dua ganda. Makro tak dikenal dikembangkan menjadi kosong alih-alih galat, jadi salah ketik tak pernah merusak permintaan.",
+      "P_SYNTAX_3": "Kurung kurawal tunggal bukan makro: token yang ditulis dengan satu pasang saja sampai ke model apa adanya dan muncul di balasan, penyebab paling umum kurung liar dalam sebuah obrolan. Ini sama seperti SillyTavern, RisuAI, dan JanitorAI, jadi kartu yang ditulis untuk salah satunya berfungsi tanpa perubahan.",
       "H_CORE": "Makro inti",
       "TH_MACRO": "Makro",
       "TH_RESULT": "Berkembang menjadi",
