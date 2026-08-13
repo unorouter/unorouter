@@ -3481,7 +3481,8 @@
       "COPIED": "Embed kodu panoya kopyalandı",
       "BADGE_ALT": "{appName} badge",
       "LOCALE": "Dil"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Gerçek kişileri davet edin. Kendinizi davet etmek için ek hesap açmak bu programın amacı değildir ve kendi kendine yapılan davetler komisyon kazandırmaz."
   },
   "THEME": {
     "LIGHT": "Açık",

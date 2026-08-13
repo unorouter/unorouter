@@ -3481,7 +3481,8 @@
       "COPIED": "Code d'intégration copié dans le presse-papiers",
       "BADGE_ALT": "Badge {appName}",
       "LOCALE": "Langue"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Invitez de vraies personnes. Créer des comptes supplémentaires pour se parrainer soi-même n'est pas l'objectif de ce programme, et les auto-parrainages ne rapportent aucune commission."
   },
   "THEME": {
     "LIGHT": "Clair",

@@ -3481,7 +3481,8 @@
       "COPIED": "Codice incorporato copiato negli appunti",
       "BADGE_ALT": "Badge {appName}",
       "LOCALE": "Lingua"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Invita persone reali. Creare account aggiuntivi per segnalare se stessi non è lo scopo di questo programma e gli auto-inviti non generano commissioni."
   },
   "THEME": {
     "LIGHT": "Chiaro",

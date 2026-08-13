@@ -3481,7 +3481,8 @@
       "COPIED": "Kod do osadzenia skopiowany do schowka",
       "BADGE_ALT": "Odznaka {appName}",
       "LOCALE": "Język"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Zapraszaj prawdziwe osoby. Zakładanie dodatkowych kont, aby polecić samego siebie, nie jest celem tego programu, a autopolecenia nie generują prowizji."
   },
   "THEME": {
     "LIGHT": "Jasny",

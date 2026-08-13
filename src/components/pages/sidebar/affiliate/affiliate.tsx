@@ -170,6 +170,14 @@ export function Affiliate() {
                 </div>
               </div>
             </div>
+            <div className="border-border text-muted-foreground mt-4 flex gap-2 border-t pt-3 text-xs">
+              <Icon
+                name="info"
+                className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                aria-hidden
+              />
+              <span>{t("AFFILIATE.SELF_INVITE_NOTICE")}</span>
+            </div>
           </div>
 
           <div className="border-border grid grid-cols-1 gap-px border">

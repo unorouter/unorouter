@@ -3481,7 +3481,8 @@
       "COPIED": "Código embebido copiado al portapapeles",
       "BADGE_ALT": "Insignia de {appName}",
       "LOCALE": "Idioma"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Invita a personas reales. Crear cuentas adicionales para recomendarte a ti mismo no es el propósito de este programa, y las autorreferencias no generan comisión."
   },
   "THEME": {
     "LIGHT": "Claro",

@@ -3481,7 +3481,8 @@
       "COPIED": "Embed code copied to clipboard",
       "BADGE_ALT": "{appName} badge",
       "LOCALE": "Language"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Invite real people. Creating extra accounts to refer yourself is not what this program is for, and self-referrals do not earn commission."
   },
   "THEME": {
     "LIGHT": "Light",

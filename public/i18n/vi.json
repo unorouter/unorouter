@@ -3481,7 +3481,8 @@
       "COPIED": "Đã sao chép mã nhúng vào bộ nhớ tạm",
       "BADGE_ALT": "Huy hiệu {appName}",
       "LOCALE": "Ngôn ngữ"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Hãy mời những người thật. Việc tạo thêm tài khoản để tự giới thiệu chính mình không phải là mục đích của chương trình này, và giới thiệu chính mình sẽ không nhận được hoa hồng."
   },
   "THEME": {
     "LIGHT": "Sáng",

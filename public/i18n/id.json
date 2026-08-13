@@ -3481,7 +3481,8 @@
       "COPIED": "Kode embed disalin ke clipboard",
       "BADGE_ALT": "Badge {appName}",
       "LOCALE": "Bahasa"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Undang orang yang nyata. Membuat akun tambahan untuk mereferensikan diri sendiri bukan tujuan program ini, dan referensi diri sendiri tidak menghasilkan komisi."
   },
   "THEME": {
     "LIGHT": "Terang",

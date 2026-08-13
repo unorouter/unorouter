@@ -3481,7 +3481,8 @@
       "COPIED": "Einbettungscode in die Zwischenablage kopiert",
       "BADGE_ALT": "{appName}-Badge",
       "LOCALE": "Sprache"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Lade echte Personen ein. Zusätzliche Konten anzulegen, um sich selbst zu werben, ist nicht Sinn dieses Programms; Eigenempfehlungen erhalten keine Provision."
   },
   "THEME": {
     "LIGHT": "Hell",

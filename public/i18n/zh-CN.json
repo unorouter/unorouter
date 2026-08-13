@@ -3481,7 +3481,8 @@
       "COPIED": "嵌入代码已复制到剪贴板",
       "BADGE_ALT": "{appName} 徽章",
       "LOCALE": "语言"
-    }
+    },
+    "SELF_INVITE_NOTICE": "请邀请真实用户。为了推荐自己而创建额外账户并非本计划的用途，自我推荐不会获得佣金。"
   },
   "THEME": {
     "LIGHT": "浅色",

@@ -3481,7 +3481,8 @@
       "COPIED": "Código embutido copiado para a área de transferência",
       "BADGE_ALT": "Badge {appName}",
       "LOCALE": "Idioma"
-    }
+    },
+    "SELF_INVITE_NOTICE": "Convide pessoas reais. Criar contas adicionais para indicar a si mesmo não é o objetivo deste programa, e autoindicações não geram comissão."
   },
   "THEME": {
     "LIGHT": "Claro",
