@@ -416,9 +416,11 @@ const defaultComponents = memoizeMarkdownComponents({
                 : media.isAsset && media.width && media.aspectRatio
                   ? // Assets render at natural size; their measured dimensions
                     // ride the alt token, so the exact box exists pre-decode.
+                    // No inline max-width: it would override the user's asset
+                    // resize slider (.aui-md img[data-asset] max-width rule);
+                    // the max-w-full class caps the width instead.
                     {
                       width: media.width,
-                      maxWidth: "100%",
                       aspectRatio: media.aspectRatio,
                     }
                   : // No dimensions known: a min-height still stops the jump
