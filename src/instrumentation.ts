@@ -3,6 +3,27 @@ import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 
 export async function register() {
   await import("./lib/utils/format/date");
+
+  // DO NOT REMOVE (vercel/next.js#92287). cacheComponents runtime prerenders park
+  // their abort-reason Error on the render AbortSignal, and V8's LAZY stack means
+  // that Error still holds structured CallSiteInfo frames whose closure contexts
+  // pin the render's entire buffer state (prerenderChunks / segmentData / rscData;
+  // ~80MB of pinned ArrayBuffers per 15min of traffic when this was found). The
+  // signal outlives the render inside long-lived registries, so the pin is
+  // permanent. Reading `.stack` ONCE materializes the string and V8 drops the
+  // frames, so touching the reason at abort time converts a per-prerender leak
+  // into a short string. Remove only when upstream creates abort reasons
+  // stackless or stops retaining settled render signals.
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    const origAbort = AbortController.prototype.abort;
+    AbortController.prototype.abort = function (reason?: unknown) {
+      if (reason instanceof Error) void reason.stack;
+      const out = origAbort.call(this, reason);
+      const settled = this.signal.reason;
+      if (settled instanceof Error) void settled.stack;
+      return out;
+    };
+  }
 }
 
 export const onRequestError: Instrumentation.onRequestError = async (
