@@ -147,6 +147,9 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
     isFree: model.isFree,
     supportsNegativePrompt: diffusion,
     supportsCfg: diffusion,
+    // Hosted API models (FLUX.2 pro/max/klein, seedream, gpt-image) reject steps outright;
+    // only the diffusion checkpoints take one. Verified against Runware's per-model schema.
+    supportsSteps: diffusion,
     supportsGuidance: false,
     supportsSize,
     supportsLoraChain: diffusion,

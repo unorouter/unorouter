@@ -40,8 +40,9 @@ export function CoreParamsFields(props: Props) {
     useWatch({ control: form.control, name: "params.cfg" }) ??
     descriptor.defaultParams.cfg ??
     7;
+  const showSteps = descriptor.supportsSteps !== false;
   const summary = [
-    `${t("IMAGE.STEPS_LABEL")} ${steps}`,
+    showSteps ? `${t("IMAGE.STEPS_LABEL")} ${steps}` : null,
     descriptor.supportsCfg ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
   ]
     .filter(Boolean)
@@ -54,15 +55,17 @@ export function CoreParamsFields(props: Props) {
         summary={summary}
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <SliderParamField
-            control={form.control}
-            name="params.steps"
-            label={t("IMAGE.STEPS_LABEL")}
-            min={1}
-            max={50}
-            step={1}
-            defaultValue={descriptor.defaultParams.steps ?? 20}
-          />
+          {showSteps && (
+            <SliderParamField
+              control={form.control}
+              name="params.steps"
+              label={t("IMAGE.STEPS_LABEL")}
+              min={1}
+              max={50}
+              step={1}
+              defaultValue={descriptor.defaultParams.steps ?? 20}
+            />
+          )}
 
           {descriptor.supportsCfg && (
             <SliderParamField

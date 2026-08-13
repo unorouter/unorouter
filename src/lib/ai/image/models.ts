@@ -10,6 +10,10 @@ export type ImageModelDescriptor = {
   supportsNegativePrompt: boolean;
   supportsCfg: boolean;
   supportsGuidance: boolean;
+  // Absent means "assume yes": every pre-existing descriptor predates this flag and the
+  // form rendered steps unconditionally. Only a descriptor that explicitly sets false
+  // (FLUX.2 pro/max/klein, which reject the field) loses the control.
+  supportsSteps?: boolean;
   supportsSize: boolean;
   supportsLoraChain: boolean;
   supportsReferences: boolean;
@@ -290,6 +294,31 @@ export const STATIC_IMAGE_MODELS_BY_ID: Record<string, ImageModelDescriptor> =
 // descriptor deliberately: callers only read display defaults off it.
 export const FALLBACK_MODEL_DESCRIPTOR = STATIC_IMAGE_MODELS[0];
 
+// An id we cannot resolve borrows NOTHING but the shape. Inheriting a real model's
+// capability flags renders that model's controls under a different name: an unresolved
+// flux showed the SDXL sampler and hid its own reference uploader, while the request
+// still ran flux. Prompt and size are the only knobs every image model shares.
+function unresolvedDescriptor(id: ImageModelId): ImageModelDescriptor {
+  return {
+    ...FALLBACK_MODEL_DESCRIPTOR,
+    id,
+    displayName: id,
+    family: "sync-image",
+    supportsNegativePrompt: false,
+    supportsCfg: false,
+    supportsGuidance: false,
+    supportsSize: true,
+    supportsLoraChain: false,
+    supportsReferences: false,
+    supportsSampler: false,
+    supportsHiresFix: false,
+    supportsAdetailer: false,
+    samplers: undefined,
+    schedulers: undefined,
+    tabs: undefined,
+  };
+}
+
 export function getModelDescriptor(id: ImageModelId): ImageModelDescriptor {
-  return STATIC_IMAGE_MODELS_BY_ID[id] ?? FALLBACK_MODEL_DESCRIPTOR;
+  return STATIC_IMAGE_MODELS_BY_ID[id] ?? unresolvedDescriptor(id);
 }
