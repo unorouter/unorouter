@@ -12,7 +12,6 @@ import { modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -63,11 +62,7 @@ export default async function RankingsPage(props: {
         })}
       />
       <HydrationBoundary state={data.dehydrated}>
-        {/* Rankings reads the period from useQueryState (useSearchParams),
-            which suspends and needs its own boundary. */}
-        <Suspense fallback={null}>
-          <Rankings initialPeriod={period} />
-        </Suspense>
+        <Rankings initialPeriod={period} />
       </HydrationBoundary>
     </>
   );

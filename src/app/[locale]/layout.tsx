@@ -32,7 +32,6 @@ import {
   Plus_Jakarta_Sans,
   Space_Grotesk,
 } from "next/font/google";
-import { Suspense } from "react";
 import "../globals.css";
 
 // interactive-widget=resizes-content is deliberately NOT in the static meta.
@@ -144,10 +143,8 @@ export default async function LocaleLayout(props: Props) {
           <InteractiveWidgetMeta />
           <NotifyProvider />
           <DebugCapture />
-          <Suspense>
-            <AffiliateCapture />
-            <AuthRedirectCapture />
-          </Suspense>
+          <AffiliateCapture />
+          <AuthRedirectCapture />
           {props.children}
         </Providers>
       </body>

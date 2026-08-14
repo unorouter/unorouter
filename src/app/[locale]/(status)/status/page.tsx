@@ -1,6 +1,5 @@
 import { prefetchAllSettled, prefetchElysia } from "@/lib/react-query/prefetch";
 import { StatusPage } from "@/components/pages/navbar/status/status-page";
-import { Skeleton } from "@/components/ui/skeleton";
 import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
@@ -12,7 +11,6 @@ import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -29,25 +27,6 @@ export async function generateMetadata(props: {
   });
 }
 
-function StatusSkeleton() {
-  return (
-    <div className="mx-auto w-full max-w-5xl space-y-4 px-4 py-8">
-      <Skeleton className="h-16 w-full" />
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Skeleton className="h-24" />
-        <Skeleton className="h-24" />
-        <Skeleton className="h-24" />
-        <Skeleton className="h-24" />
-      </div>
-      <Skeleton className="h-10 w-full" />
-      {Array.from({ length: 8 }).map((_, i) => (
-        <Skeleton key={i} className="h-14 w-full" />
-      ))}
-    </div>
-  );
-}
-
-// Live status data streams from a Suspense hole so the shell prerenders.
 async function StatusData() {
   const queryClient = getQueryClient();
 
@@ -87,9 +66,7 @@ export default async function StatusRoute(props: {
           { name: t("NAV.STATUS"), url: localeUrl(locale, "/status") },
         ])}
       />
-      <Suspense fallback={<StatusSkeleton />}>
-        <StatusData />
-      </Suspense>
+      <StatusData />
     </>
   );
 }

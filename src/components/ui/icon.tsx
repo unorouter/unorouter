@@ -7,9 +7,8 @@ import type {
 } from "@/lib/config/icon-map";
 import { LUCIDE_STATIC } from "@/lib/config/lucide-static";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
-import { cn } from "@/lib/utils";
 import { useAtomValue } from "jotai";
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 
 const cache = new Map<string, IconComponent>();
 
@@ -57,22 +56,8 @@ export function Icon(props: Props) {
     return StaticIcon ? <StaticIcon {...sized} /> : null;
   }
 
+  /* eslint-disable react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair */
   const IconComp = getIcon(name, lib);
-  return (
-    <Suspense
-      // The fallback must occupy the exact box of the icon it replaces: a
-      // bare in-flow span under an absolutely-positioned icon adds a line
-      // box and shifts everything below (models page CLS 0.2 on mobile).
-      fallback={
-        <span
-          className={cn("inline-block size-[1em]", props.className)}
-          style={size ? { width: size, height: size } : undefined}
-          aria-hidden
-        />
-      }
-    >
-      {/* eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair */}
-      <IconComp {...sized} />
-    </Suspense>
-  );
+  return <IconComp {...sized} />;
+  /* eslint-enable react-hooks/static-components */
 }

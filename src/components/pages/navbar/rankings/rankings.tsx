@@ -6,7 +6,6 @@ import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
-import { Suspense } from "react";
 import { PulseSection } from "./pulse-section";
 import { RANKING_PERIODS } from "./rankings-helpers";
 import { RankingsHero } from "./rankings-hero";
@@ -75,21 +74,17 @@ export function Rankings(props: RankingsProps) {
           />
         ) : (
           <>
-            <Suspense fallback={<Skeleton className="h-150 w-full" />}>
-              <ModelsSection
-                history={snapshot.models_history}
-                rows={snapshot.models}
-                period={period}
-              />
-            </Suspense>
+            <ModelsSection
+              history={snapshot.models_history}
+              rows={snapshot.models}
+              period={period}
+            />
 
-            <Suspense fallback={<Skeleton className="h-150 w-full" />}>
-              <MarketShareSection
-                history={snapshot.vendor_share_history}
-                rows={snapshot.vendors}
-                period={period}
-              />
-            </Suspense>
+            <MarketShareSection
+              history={snapshot.vendor_share_history}
+              rows={snapshot.vendors}
+              period={period}
+            />
 
             <PulseSection
               movers={snapshot.top_movers}

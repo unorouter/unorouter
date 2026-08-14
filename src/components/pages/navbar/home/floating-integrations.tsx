@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 
 const FloatingIntegrationsMotion = dynamic(
   () =>
@@ -16,9 +15,5 @@ const FloatingIntegrationsMotion = dynamic(
 export function FloatingIntegrations(props: {
   titles: Record<string, string>;
 }) {
-  return (
-    <Suspense fallback={null}>
-      <FloatingIntegrationsMotion titles={props.titles} />
-    </Suspense>
-  );
+  return <FloatingIntegrationsMotion titles={props.titles} />;
 }
