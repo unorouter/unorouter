@@ -58,7 +58,6 @@ function styleVarsBlock(name: string | undefined): string {
     `:root{`,
     `--style-radius-scale: ${style.radiusScale};`,
     `--style-shadow: ${style.shadow};`,
-    `--style-border-opacity: ${style.borderOpacity};`,
     `--style-hover-lift: ${style.hoverLift}px;`,
     `}`,
   ].join("");

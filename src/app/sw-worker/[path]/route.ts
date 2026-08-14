@@ -23,10 +23,6 @@ const serwistRoute = createSerwistRoute({
 export const { dynamic, dynamicParams, revalidate, generateStaticParams } =
   serwistRoute;
 
-// Serwist's handler emits Cache-Control: max-age=14400, which the middleware NextResponse.next()
-// header cannot override (a route handler's own Response wins). A cached SW keeps serving an old
-// precache manifest whose chunk hashes no longer exist after a deploy (ChunkLoadError). Force
-// no-store so every client always fetches the current build's worker.
 export async function GET(
   ...args: Parameters<typeof serwistRoute.GET>
 ): Promise<Response> {

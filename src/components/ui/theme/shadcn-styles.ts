@@ -3,7 +3,6 @@ export type ShadcnStyle = {
   label: string;
   radiusScale: number;
   shadow: string;
-  borderOpacity: number;
   hoverLift: number;
 };
 
@@ -13,7 +12,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Vega",
     radiusScale: 0.5,
     shadow: "0 1px 2px rgb(0 0 0 / 0.05)",
-    borderOpacity: 0.05,
     hoverLift: 0,
   },
   {
@@ -21,7 +19,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Nova",
     radiusScale: 1.0,
     shadow: "0 1px 3px rgb(0 0 0 / 0.1)",
-    borderOpacity: 0.1,
     hoverLift: 1,
   },
   {
@@ -29,7 +26,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Maia",
     radiusScale: 1.2,
     shadow: "0 4px 12px rgb(0 0 0 / 0.08)",
-    borderOpacity: 0.08,
     hoverLift: 1,
   },
   {
@@ -37,7 +33,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Lyra",
     radiusScale: 0,
     shadow: "none",
-    borderOpacity: 0.15,
     hoverLift: 0,
   },
   {
@@ -45,7 +40,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Mira",
     radiusScale: 1.5,
     shadow: "0 8px 24px rgb(0 0 0 / 0.06)",
-    borderOpacity: 0.05,
     hoverLift: 2,
   },
   {
@@ -53,7 +47,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Luma",
     radiusScale: 2.0,
     shadow: "0 6px 16px rgb(0 0 0 / 0.08)",
-    borderOpacity: 0.05,
     hoverLift: 1,
   },
   {
@@ -61,7 +54,6 @@ export const STYLES: ShadcnStyle[] = [
     label: "Sera",
     radiusScale: 0,
     shadow: "0 1px 2px rgb(0 0 0 / 0.08)",
-    borderOpacity: 0.12,
     hoverLift: 0,
   },
 ];

@@ -49,11 +49,9 @@
   --radius-2xl: calc((var(--radius) + 8px) * var(--style-radius-scale, 1));
   --radius-3xl: calc((var(--radius) + 12px) * var(--style-radius-scale, 1));
   --radius-4xl: calc((var(--radius) + 16px) * var(--style-radius-scale, 1));
-  /* The theme "Style" presets emit --style-shadow/--style-border-opacity/
-     --style-hover-lift. Only the radius scale above was ever consumed, so
-     three quarters of every preset did nothing and switching styles looked
-     broken. Route the shadow scale through the same vars Tailwind's shadow
-     utilities resolve, defaulting to the stock values when unset. */
+  /* Style presets emit --style-shadow and --style-hover-lift alongside the
+     radius scale above. Route the shadow through the vars Tailwind's shadow
+     utilities resolve, defaulting to stock values when unset. */
   --shadow-xs: var(--style-shadow, 0 1px 2px 0 rgb(0 0 0 / 0.05));
   --shadow-sm: var(--style-shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
   --shadow-md: var(--style-shadow, 0 4px 6px -1px rgb(0 0 0 / 0.1));
@@ -141,11 +139,10 @@
     @apply border-border outline-ring/50;
   }
 
-  /* The hover-lift half of a theme "Style" preset. Defaults to 0px when the
-     style sets no lift, so this is inert unless a preset asks for it.
-     Border opacity is deliberately NOT wired here: `*` would override every
-     component's own border colour, and the surface Border field already gives
-     the user direct control. */
+  /* Hover-lift from the active style preset. Inert (0px) unless one asks for
+     it. Border opacity is deliberately NOT a style preset: `*` would override
+     every component's own border colour, and the surface Border field already
+     gives the user direct control. */
   button:hover:not(:disabled),
   [role="button"]:hover:not([aria-disabled="true"]) {
     transform: translateY(calc(var(--style-hover-lift, 0px) * -1));

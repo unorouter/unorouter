@@ -10,10 +10,7 @@ import {
   themeDataAttrs,
 } from "@/components/ui/theme/theme-build-css";
 import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
-import {
-  INITIAL_USER_THEME,
-  USER_THEME_KEY,
-} from "@/components/ui/theme/theme-store";
+import { INITIAL_USER_THEME } from "@/components/ui/theme/theme-store";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -100,10 +97,16 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC: set the theme class before paint (next-themes' own script runs too late, in body). */}
+        {/* Anti-FOUC: set the dark class before paint. next-themes emits an
+            equivalent script, but INLINE where its provider mounts, and ours is
+            in <body> (it needs the jotai/query context above it), so that copy
+            runs after the first paint. Mounting a second head-level provider to
+            move it was tried and emits the script TWICE: next-themes does not
+            dedupe across separate React trees. Keep this until the provider can
+            live in <head>. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}try{var m=document.cookie.match(/(?:^|; )${USER_THEME_KEY}=([^;]*)/);if(m){var th=JSON.parse(decodeURIComponent(m[1]));var h=document.documentElement;if(th.style)h.setAttribute("data-style",th.style);if(th.menu)h.setAttribute("data-menu",th.menu);if(th.menuAccent)h.setAttribute("data-menu-accent",th.menuAccent);if(th.iconLibrary)h.setAttribute("data-icon-library",th.iconLibrary)}}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
           }}
         />
         {/* User-theme CSS SSR'd from the cookie (authoritative, matches the <html data-*> above, no
