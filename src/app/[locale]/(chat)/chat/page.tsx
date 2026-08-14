@@ -20,10 +20,7 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ChatPage(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  await serverLocale(props);
+export default function ChatPage() {
   return (
     <div className="chat-shell relative flex min-h-0 min-w-0 flex-1">
       <ChatWelcomePlaceholder />

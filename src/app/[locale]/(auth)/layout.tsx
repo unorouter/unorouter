@@ -4,7 +4,7 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
-import { redirectFromAuth, serverLocale } from "@/lib/utils/server";
+import { redirectFromAuth } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { ReactNode } from "react";
@@ -15,7 +15,6 @@ type Props = {
 };
 
 export default async function AuthLayout(props: Props) {
-  await serverLocale(props);
   const t = await getTranslations();
   const queryClient = getQueryClient();
 

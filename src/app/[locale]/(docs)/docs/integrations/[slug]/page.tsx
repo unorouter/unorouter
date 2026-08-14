@@ -49,7 +49,6 @@ function BespokeBody(props: { guide: SetupGuide }) {
 }
 
 export default async function SetupGuidePage(props: PageProps) {
-  await serverLocale(props);
   const params = await props.params;
   const guide = getSetupGuide(params.slug);
   if (!guide) notFound();

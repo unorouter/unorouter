@@ -1,4 +1,3 @@
-import { serverLocale } from "@/lib/utils/server";
 import { DocsTabs } from "@/components/layout/docs/docs-tabs";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
@@ -9,7 +8,6 @@ interface DocsLayoutProps {
 }
 
 export default async function DocsLayout(props: DocsLayoutProps) {
-  await serverLocale(props);
   return (
     <AuthHydration>
       <SidebarLayout navConfig="docs" showSearch>

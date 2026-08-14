@@ -1,4 +1,3 @@
-import { serverLocale } from "@/lib/utils/server";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ImageSessionList } from "@/components/pages/sidebar/image/history/image-gallery";
@@ -8,7 +7,6 @@ export default async function ImageGroupLayout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  await serverLocale(props);
   return (
     <AuthHydration>
       <SidebarLayout

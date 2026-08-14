@@ -1,4 +1,3 @@
-import { serverLocale } from "@/lib/utils/server";
 import { ContentBoundary } from "@/components/elements/feedback/content-boundary";
 
 type Props = {
@@ -7,7 +6,6 @@ type Props = {
 };
 
 export default async function StatusLayout(props: Props) {
-  await serverLocale(props);
   return (
     <main className="flex-1">
       <ContentBoundary>{props.children}</ContentBoundary>

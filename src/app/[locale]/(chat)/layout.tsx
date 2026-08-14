@@ -1,4 +1,3 @@
-import { serverLocale } from "@/lib/utils/server";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
@@ -17,7 +16,6 @@ type Props = {
 // flight) and model-status (the selector's reliability dots) both fetch
 // client-side right after mount via their React Query hooks instead.
 export default async function ChatLayout(props: Props) {
-  await serverLocale(props);
   return (
     <AuthHydration withBestKey>
       <ChatRuntimeProvider>

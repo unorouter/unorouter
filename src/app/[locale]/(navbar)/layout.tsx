@@ -2,7 +2,6 @@ import { ContentBoundary } from "@/components/elements/feedback/content-boundary
 import { Footer } from "@/components/layout/nav/footer";
 import { NavAuth } from "@/components/layout/nav/nav-auth";
 import { Navbar } from "@/components/layout/nav/navbar";
-import { serverLocale } from "@/lib/utils/server";
 
 type Props = {
   children: React.ReactNode;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export default async function NavbarLayout(props: Props) {
-  await serverLocale(props);
   return (
     <>
       <Navbar authSlot={<NavAuth />} />
