@@ -86,9 +86,6 @@ export default async function Page(props: {
                         pathname: "/models/[...slug]",
                         params: { slug: [vendorSlug(vendor)] },
                       }}
-                      // 42 links x every visitor's viewport prefetch hammered
-                      // the vendor pages with RSC requests (25k server errors
-                      // in 48h). Crawlers only need the href.
                       prefetch={false}
                       className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs transition-colors"
                     >

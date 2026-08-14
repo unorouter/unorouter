@@ -1,36 +1,18 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
+import { ModelSchema } from "@/components/pages/navbar/models/detail/model-schema";
+import {
+  canonicalHref,
+  resolveSlug,
+  vendorHref,
+} from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import {
-  findContextTag,
-  type ProcessedModel,
-  vendorDisplayName,
-} from "@/lib/api/pricing";
+import { getCachedVendorModels } from "@/lib/api/cached";
 import { APP_VALUES } from "@/lib/config/constants";
-import {
-  getCachedPricing,
-  getCachedPricingVendors,
-  getCachedVendorModels,
-} from "@/lib/api/cached";
-import { getModelByName } from "@/server/models/pricing/pricing.service";
-import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
-import {
-  buildBreadcrumbListSchema,
-  buildFAQPageSchema,
-  buildProductSchema,
-  buildSoftwareApplicationSchema,
-} from "@/lib/seo/structured-data";
-import {
-  modelMatchesSlug,
-  modelSlug,
-  vendorMatchesSlug,
-  vendorSlug,
-} from "@/lib/utils/base";
-import { formatPrice } from "@/lib/utils/format/number";
-import { serverLocale } from "@/lib/utils/server";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
+import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -40,68 +22,21 @@ interface PageProps {
   searchParams: Promise<{ tab?: string }>;
 }
 
-type ResolvedModel = {
-  model: ProcessedModel;
-  atCapacity: boolean;
-  data: Awaited<ReturnType<typeof getCachedPricing>> | null;
-};
-
-function modelSegment(slug: string[]): string {
-  if (slug.length !== 2) return "";
-  return slug[1] ?? "";
-}
-
-async function resolveModel(slug: string): Promise<ResolvedModel | null> {
-  if (!slug) return null;
-  const data = await getCachedPricing(true).catch(() => null);
-  const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
-  if (live) return { model: live, atCapacity: !live.online, data };
-  // Fully dark model (every channel disabled/deleted) is absent even from the
-  // offline feed; the by-name route still returns it so the detail page renders.
-  // modelSlug only percent-encodes []/, so the name decodes straight back.
-  let name = slug;
-  try {
-    name = decodeURIComponent(slug);
-  } catch {}
-  const byName = await getModelByName(name).catch(() => null);
-  if (byName) return { model: byName, atCapacity: true, data };
-  return null;
-}
-
-async function resolveVendor(slug: string[]): Promise<string | null> {
-  if (slug.length !== 1) return null;
-  const seg = slug[0]!;
-  const vendorNames = await getCachedPricingVendors().catch(() => []);
-  const match = vendorNames.find((v) => vendorMatchesSlug(v, seg));
-  return match ?? null;
-}
-
-function canonicalHref(model: ProcessedModel) {
-  const vendor = vendorSlug(model.vendor.name) || "unknown";
-  const slug = [vendor, modelSlug(model.name)];
-  return { pathname: "/models/[...slug]" as const, params: { slug } };
-}
-
 export async function generateMetadata(props: PageProps) {
   const locale = await serverLocale(props);
-  const params = await props.params;
-  const resolved = await resolveModel(modelSegment(params.slug));
+  const resolved = await resolveSlug((await props.params).slug);
   const t = await getTranslations({ locale });
 
-  if (!resolved) {
-    const vendor = await resolveVendor(params.slug);
-    if (!vendor) {
-      // An empty object inherits the parent (home) metadata: "index, follow"
-      // plus a canonical pointing at /<locale>, which Google reads as a soft
-      // 404 on a real page. Emit the noindex head here instead.
-      return notFoundMetadata();
-    }
+  // An empty object inherits the parent (home) metadata: "index, follow" plus a
+  // canonical pointing at /<locale>, which Google reads as a soft 404 on a real
+  // page. Emit the noindex head here instead.
+  if (!resolved) return notFoundMetadata();
+
+  if (resolved.kind === "vendor") {
+    const vendor = resolved.vendor;
     return getPageMetadata({
       locale,
-      href: {
-        pathname: "/models/[...slug]",
-        params: { slug: [vendorSlug(vendor)] },
-      },
+      href: vendorHref(vendor),
       title: t("MODELS.VENDOR.META_TITLE", { ...APP_VALUES, vendor }),
       description: t("MODELS.VENDOR.META_DESC", { ...APP_VALUES, vendor }),
       keywords: t("MODELS.VENDOR.META_KEYWORDS", { ...APP_VALUES, vendor }),
@@ -109,25 +44,14 @@ export async function generateMetadata(props: PageProps) {
     });
   }
 
-  const model = resolved.model;
+  const model = resolved.model.model;
+  const values = { ...APP_VALUES, name: model.name, vendor: model.vendor.name };
   return getPageMetadata({
     locale,
     href: canonicalHref(model),
-    title: t("MODEL_PAGE.META_TITLE", {
-      ...APP_VALUES,
-      name: model.name,
-      vendor: model.vendor.name,
-    }),
-    description: t("MODEL_PAGE.META_DESC", {
-      ...APP_VALUES,
-      name: model.name,
-      vendor: model.vendor.name,
-    }),
-    keywords: t("MODEL_PAGE.META_KEYWORDS", {
-      ...APP_VALUES,
-      name: model.name,
-      vendor: model.vendor.name,
-    }),
+    title: t("MODEL_PAGE.META_TITLE", values),
+    description: t("MODEL_PAGE.META_DESC", values),
+    keywords: t("MODEL_PAGE.META_KEYWORDS", values),
     ogImage: ogBadge("model", locale, { model: model.name }),
   });
 }
@@ -135,121 +59,36 @@ export async function generateMetadata(props: PageProps) {
 export default async function ModelDetailPage(props: PageProps) {
   const params = await props.params;
   const locale = await serverLocale(props);
-  const resolved = await resolveModel(modelSegment(params.slug));
+  const resolved = await resolveSlug(params.slug);
+  if (!resolved) notFound();
 
-  if (!resolved) {
-    const vendor = await resolveVendor(params.slug);
-    if (!vendor) notFound();
+  if (resolved.kind === "vendor") {
     const queryClient = getQueryClient();
     queryClient.setQueryData(
-      queryKeys.pricingVendor(vendor),
-      await getCachedVendorModels(vendor),
+      queryKeys.pricingVendor(resolved.vendor),
+      await getCachedVendorModels(resolved.vendor),
     );
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <VendorModelsPage vendor={vendor} />
+        <VendorModelsPage vendor={resolved.vendor} />
       </HydrationBoundary>
     );
   }
 
-  const model = resolved.model;
-  const data = resolved.data;
-  const t = await getTranslations({ locale });
-  const url = localeUrl(locale, canonicalHref(model));
-  const vendorUrl = localeUrl(locale, {
-    pathname: "/models/[...slug]",
-    params: { slug: [vendorSlug(model.vendor.name)] },
-  });
-
-  const contextTag = findContextTag(model);
-  const idSlug = params.slug.join("-");
-
-  const faqEntries = [
-    {
-      question: model.isTiered
-        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: model.name })
-        : t("MODEL_PAGE.FAQ_COST_Q", { name: model.name }),
-      answer: model.isTiered
-        ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.name })
-        : t("MODEL_PAGE.FAQ_COST_A", {
-            name: model.name,
-            input: formatPrice(model.inputPrice),
-            output: formatPrice(model.outputPrice),
-          }),
-    },
-    {
-      question: t("MODEL_PAGE.FAQ_API_Q", { name: model.name }),
-      answer: t("MODEL_PAGE.FAQ_API_A", {
-        ...APP_VALUES,
-        name: model.name,
-      }),
-    },
-    ...(contextTag
-      ? [
-          {
-            question: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: model.name }),
-            answer: t("MODEL_PAGE.FAQ_CONTEXT_A", {
-              name: model.name,
-              context: contextTag,
-            }),
-          },
-        ]
-      : []),
-  ];
-
+  const hit = resolved.model;
   return (
     <>
-      <JsonLd
-        id={`${idSlug}-breadcrumb`}
-        data={buildBreadcrumbListSchema([
-          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
-          { name: t("NAV.MODELS"), url: localeUrl(locale, "/models") },
-          { name: vendorDisplayName(model.vendor.name), url: vendorUrl },
-          { name: model.name, url },
-        ])}
+      <ModelSchema
+        model={hit.model}
+        locale={locale}
+        idSlug={params.slug.join("-")}
       />
-      <JsonLd
-        id={`${idSlug}-software`}
-        data={buildSoftwareApplicationSchema({
-          locale,
-          name: model.name,
-          url,
-          brandName: model.vendor.name,
-          description:
-            model.description ??
-            t("MODEL_PAGE.META_DESC", {
-              ...APP_VALUES,
-              name: model.name,
-              vendor: model.vendor.name,
-            }),
-        })}
-      />
-      {!model.isTiered && (
-        <JsonLd
-          id={`${idSlug}-product`}
-          data={buildProductSchema({
-            name: model.name,
-            url,
-            isFree: model.name.endsWith(":free"),
-            inputPrice: model.inputPrice,
-            outputPrice: model.outputPrice,
-            description:
-              model.description ??
-              t("MODEL_PAGE.META_DESC", {
-                ...APP_VALUES,
-                name: model.name,
-                vendor: model.vendor.name,
-              }),
-          })}
-        />
-      )}
-      <JsonLd id={`${idSlug}-faq`} data={buildFAQPageSchema(faqEntries)} />
       <ModelDetail
-        model={model}
-        models={data?.models ?? [model]}
-        groupRatioMap={data?.groupRatioMap ?? {}}
-        offline={resolved.atCapacity}
-        vendorHref={vendorUrl}
+        model={hit.model}
+        models={hit.data?.models ?? [hit.model]}
+        groupRatioMap={hit.data?.groupRatioMap ?? {}}
+        offline={hit.atCapacity}
+        vendorHref={localeUrl(locale, vendorHref(hit.model.vendor.name))}
       />
     </>
   );

@@ -31,7 +31,12 @@ import { UnorouterVsSpicychatContent } from "@/components/pages/blog/posts/2026-
 import { ClaudeOpus48Vs46Vs47RoleplayContent } from "@/components/pages/blog/posts/2026-07-30-claude-opus-4-8-vs-4-6-vs-4-7-roleplay-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { BlogPost } from "@/lib/types";
+import type {
+  BlogPost,
+  FaqI18nKey,
+  MethodI18nKey,
+  TldrI18nKey,
+} from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
 
@@ -93,14 +98,38 @@ export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
 }
 
 // Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema).
-// Gate is flag driven because t.raw is unsupported repo wide.
-export const GEO_POSTS = new Set<string>([
+// Gate is flag driven because t.raw is unsupported repo wide. Declared as a
+// const tuple, not Set<string>: `${GeoI18nKey}.FAQ_1_Q` then resolves to keys
+// that actually exist, so the FAQ lookups typecheck without a cast.
+export const GEO_SLUGS = [
   "unorouter-vs-openrouter",
   "best-openrouter-alternatives-2026",
   "open-source-openrouter-alternative",
   "what-is-an-llm-gateway",
   "free-models-aggregated",
-]);
+] as const;
+
+export type GeoSlug = (typeof GEO_SLUGS)[number];
+export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
+
+// Narrows i18nKey to namespaces that actually have FAQ leaves, which is what
+// lets `${key}.FAQ_1_Q` typecheck. The runtime check stays the slug set; the
+// type side is derived from the message tree, so the two cannot silently
+// disagree about which posts have FAQ copy.
+export function faqI18nKey(post: BlogPost): FaqI18nKey | null {
+  if (!GEO_POSTS.has(post.slug)) return null;
+  return post.i18nKey as FaqI18nKey;
+}
+
+export function tldrI18nKey(post: BlogPost): TldrI18nKey | null {
+  if (!GEO_POSTS.has(post.slug)) return null;
+  return post.i18nKey as TldrI18nKey;
+}
+
+export function methodI18nKey(post: BlogPost): MethodI18nKey | null {
+  if (!METHOD_POSTS.has(post.slug)) return null;
+  return post.i18nKey as MethodI18nKey;
+}
 
 // Comparison posts whose competitor facts were verified against the rival's
 // actual source code. They render a "how we verified" note (METHOD leaf) that

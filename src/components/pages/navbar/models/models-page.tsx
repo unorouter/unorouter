@@ -1,10 +1,6 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
-import { env } from "@/lib/config/env";
-import { Input } from "@/components/ui/input";
 import {
   SidebarInset,
   SidebarProvider,
@@ -13,10 +9,6 @@ import {
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { analytics } from "@/lib/analytics";
-import { Link } from "@/i18n/navigation";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import {
@@ -24,16 +16,18 @@ import {
   clearFiltersAtom,
   isDirtyAtom,
 } from "@/store/models-store";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
+import { ModelsEmpty } from "./browse/models-empty";
+import { ModelsToolbar, SearchBox } from "./browse/models-toolbar";
+import { ModalityTabs } from "./filters/modality-tabs";
+import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 
-// Static import chained recharts (PerformanceSection) into the initial
-// models bundle; the sheet only renders after a row click.
+// Static import chained recharts (PerformanceSection) into the initial models
+// bundle; the sheet only renders after a row click.
 const ModelDetailSheet = dynamic(
   () =>
     import("./detail/model-detail-sheet").then((m) => ({
@@ -41,50 +35,23 @@ const ModelDetailSheet = dynamic(
     })),
   { ssr: false },
 );
-import { ModalityTabs } from "./filters/modality-tabs";
-import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
-import { SortFilter } from "./filters/sort-filter";
-import { ViewModeToggle } from "./filters/view-mode-toggle";
 
 const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
-
-  const openDetail = (name: string) => {
-    analytics.models.detailOpened({ model: name });
-    m.setSelectedModelName(name);
-  };
-
-  // The hydrated list comes from the 5min server snapshot and staleTime
-  // "static" never refetches it; pull a fresh copy once the page is idle so
-  // newly added models appear without waiting for the snapshot to expire.
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    const idle =
-      window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
-    const cancel = window.cancelIdleCallback ?? clearTimeout;
-    const handle = idle(() => {
-      // Best-effort freshness refetch; the hydrated shell already renders. A
-      // transient network drop here must not surface as an unhandled rejection.
-      void queryClient
-        .fetchQuery({
-          queryKey: queryKeys.pricing(),
-          queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-          staleTime: 0,
-        })
-        .catch(() => {});
-    });
-    return () => cancel(handle as number);
-  }, [queryClient]);
-
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const activeFilterCount = useAtomValue(activeFilterCountAtom);
   const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
   const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
   const showReset = isDirty || columnSorting.length > 0;
+
+  const openDetail = (name: string) => {
+    analytics.models.detailOpened({ model: name });
+    m.setSelectedModelName(name);
+  };
 
   function resetAll() {
     clearFilters();
@@ -100,8 +67,6 @@ export function ModelsPage() {
 
   return (
     <div className="w-full pt-20 pb-16">
-      {/* useQueryStates (useSearchParams) is a CSR bailout: without its own
-          boundary it ejects the whole page from the PPR static shell. */}
       <ModelsUrlSync />
       <SidebarProvider
         defaultOpen
@@ -111,67 +76,16 @@ export function ModelsPage() {
         <ModelsFilterSidebar models={m.models} />
 
         <SidebarInset className="@container max-h-none! min-w-0 overflow-visible bg-transparent px-4 md:px-6">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h1 className="mr-2 basis-full text-lg font-semibold tracking-tight @5xl:basis-auto">
-              {t("MODELS.TITLE")}
-            </h1>
-            <p className="text-muted-foreground sr-only">
-              {t("MODELS.SUBTITLE")}
-            </p>
-            <div className="ml-auto flex flex-1 items-center justify-end gap-2">
-              {showReset && (
-                <Button
-                  variant="default"
-                  size="sm"
-                  onClick={resetAll}
-                  className="h-9 px-2 lg:px-3"
-                >
-                  <Icon name="filter-x" className="h-4 w-4 lg:mr-1.5" />
-                  <span className="hidden lg:inline">
-                    {t("MODELS.FILTER.RESET")}
-                  </span>
-                  {activeFilterCount > 0 && (
-                    <span className="bg-background/25 ml-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold">
-                      {activeFilterCount}
-                    </span>
-                  )}
-                </Button>
-              )}
-              <div className="relative hidden w-full max-w-xs lg:block">
-                <Icon
-                  name="search"
-                  className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-                />
-                <Input
-                  placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-                  value={m.search}
-                  onChange={(e) => m.setSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                nativeButton={false}
-                render={<Link href="/compare" />}
-                className="h-9 px-2 lg:px-3"
-                aria-label={t("MODELS.COMPARE.BADGE")}
-              >
-                <Icon name="chart-column" className="h-4 w-4 lg:mr-1.5" />
-                <span className="hidden lg:inline">
-                  {t("MODELS.COMPARE.BADGE")}
-                </span>
-              </Button>
-              <SortFilter />
-              <ViewModeToggle />
-            </div>
-          </div>
+          <ModelsToolbar
+            showReset={showReset}
+            activeFilterCount={activeFilterCount}
+            onReset={resetAll}
+          />
 
           {/* Tabs + table header stick together as one unit under the navbar
-              so the column labels stay flush below the tab row (no gap, no
-              half-row peeking through). */}
-          {/* h pinned: a transient hydration reflow inside the tab strip
-              briefly grew this row 24px and shifted everything below (CLS). */}
+              so the column labels stay flush below the tab row. h pinned: a
+              transient hydration reflow inside the tab strip briefly grew this
+              row 24px and shifted everything below (CLS). */}
           <div className="bg-background sticky top-14 z-20 flex h-9.75 items-center gap-2 overflow-hidden">
             <SidebarTrigger
               aria-label={t("MODELS.FILTER.TITLE")}
@@ -184,52 +98,18 @@ export function ModelsPage() {
             />
           </div>
 
-          <div className="relative mt-3 w-full lg:hidden">
-            <Icon
-              name="search"
-              className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-            />
-            <Input
-              placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-              value={m.search}
-              onChange={(e) => m.setSearch(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+          <SearchBox className="relative mt-3 w-full lg:hidden" />
 
           {/* min-h reserves the virtualized table's space pre-hydration; the
               window virtualizer renders no rows at SSR, so without it the
               footer starts in-viewport and hydration shoves it down (CLS). */}
           <div className="mt-4 min-h-svh">
             {m.filtered.length === 0 ? (
-              <div className="text-muted-foreground flex flex-col items-center gap-3 py-24 text-center">
-                {showReset ? (
-                  <>
-                    <span>
-                      {t("MODELS.EMPTY_FILTERED", { count: activeFilterCount })}
-                    </span>
-                    <Button size="sm" onClick={resetAll}>
-                      <Icon name="filter-x" className="mr-1.5 h-4 w-4" />
-                      {t("MODELS.FILTER.RESET")}
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    {t("MODELS.EMPTY")}
-                    {env.discordUrl && (
-                      <a
-                        href={env.discordUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
-                      >
-                        <Icon name="brand-discord" className="h-3.5 w-3.5" />
-                        {t("MODELS.DISCORD")}
-                      </a>
-                    )}
-                  </>
-                )}
-              </div>
+              <ModelsEmpty
+                filtered={showReset}
+                count={activeFilterCount}
+                onReset={resetAll}
+              />
             ) : m.viewMode === "table" ? (
               <DataTable
                 id={DataTableId.MODELS}

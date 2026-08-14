@@ -15,8 +15,9 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
-  GEO_POSTS,
-  METHOD_POSTS,
+  faqI18nKey,
+  methodI18nKey,
+  tldrI18nKey,
   getAdjacentPosts,
   getPost,
   getRelatedPosts,
@@ -37,6 +38,9 @@ export async function BlogPost(props: BlogPostProps) {
   const t = await getTranslations();
   const tr = translated(t, post);
   const theme = getBlogTheme(post.category);
+  const faqKey = faqI18nKey(post);
+  const tldrKey = tldrI18nKey(post);
+  const methodKey = methodI18nKey(post);
   const minutes = estimateReadingMinutes(post.wordCount);
   const adjacent = getAdjacentPosts(post.slug);
   const related = getRelatedPosts(post.slug);
@@ -152,37 +156,31 @@ export async function BlogPost(props: BlogPostProps) {
           </section>
 
           <div className="prose prose-neutral dark:prose-invert border-border mt-4 max-w-none min-w-0 border-t pt-12 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:scroll-mt-24 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:my-1 [&_p]:my-4 [&_p]:leading-relaxed [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6">
-            {GEO_POSTS.has(post.slug) && (
+            {tldrKey && (
               <p className="border-primary/40 bg-muted/40 rounded-r-md border-l-2 px-4 py-3 text-[15px]">
-                {t(
-                  `${post.i18nKey}.TLDR` as Parameters<typeof t>[0],
-                  APP_VALUES,
-                )}
+                {t(`${tldrKey}.TLDR`, APP_VALUES)}
               </p>
             )}
             <post.Component />
-            {METHOD_POSTS.has(post.slug) && (
+            {methodKey && (
               <p className="text-muted-foreground border-border mt-10 border-t pt-6 text-sm">
-                {t(
-                  `${post.i18nKey}.METHOD` as Parameters<typeof t>[0],
-                  APP_VALUES,
-                )}
+                {t(`${methodKey}.METHOD`, APP_VALUES)}
               </p>
             )}
-            {GEO_POSTS.has(post.slug) && (
+            {faqKey && (
               <section id="faq">
                 <h2>{t("BLOG.FAQ_TITLE")}</h2>
                 {([1, 2, 3] as const).map((n) => (
                   <div key={n}>
                     <h3 className="mt-6 mb-2 text-lg font-semibold">
                       {t(
-                        `${post.i18nKey}.FAQ_${n}_Q` as Parameters<typeof t>[0],
+                        `${faqKey}.FAQ_${n}_Q`,
                         APP_VALUES,
                       )}
                     </h3>
                     <p>
                       {t(
-                        `${post.i18nKey}.FAQ_${n}_A` as Parameters<typeof t>[0],
+                        `${faqKey}.FAQ_${n}_A`,
                         APP_VALUES,
                       )}
                     </p>

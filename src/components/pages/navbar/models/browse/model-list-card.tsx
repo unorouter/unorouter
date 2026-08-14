@@ -8,6 +8,7 @@ import {
   inputPriceUnit,
   isFlatVariant,
   outputPriceUnit,
+  fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
@@ -17,19 +18,10 @@ import { cn } from "@/lib/utils";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
-  formatPrice,
   formatTokenCount,
   formatTokens,
 } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
-
-function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
-  if (unit === "dash" || value <= 0) return "-";
-  if (unit === "perImage") return `${formatPrice(value)}/img`;
-  if (unit === "perSecond") return `${formatPrice(value)}/s`;
-  if (perCall) return `${formatPrice(value)}/call`;
-  return formatPrice(value);
-}
 
 function PriceMeta(props: {
   value: number;

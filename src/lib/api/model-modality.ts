@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/utils/format/number";
 import type { ProcessedModel } from "@/lib/api/pricing";
 
 export const OUTPUT_MODALITIES = [
@@ -54,6 +55,18 @@ export function countByOutputModality(
 }
 
 export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
+
+export function fmtUnit(
+  value: number,
+  unit: PriceUnit,
+  perCall?: boolean,
+): string {
+  if (unit === "dash" || value <= 0) return "-";
+  if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (unit === "perSecond") return `${formatPrice(value)}/s`;
+  if (perCall) return `${formatPrice(value)}/call`;
+  return formatPrice(value);
+}
 
 export function outputPriceUnit(
   modality: OutputModality,

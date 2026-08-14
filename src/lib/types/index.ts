@@ -256,6 +256,21 @@ export type DocSlug = keyof typeof pathnames extends infer K
 
 type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 
+// Post namespaces that actually carry FAQ_n_Q/A leaves. Derived from the
+// message tree rather than a hand-kept list, so adding FAQ copy to a post is
+// all it takes for the FAQPage schema to typecheck for it.
+export type FaqI18nKey = {
+  [K in TranslationKey]: K extends `${infer P}.FAQ_1_Q` ? P : never;
+}[TranslationKey];
+
+export type TldrI18nKey = {
+  [K in TranslationKey]: K extends `${infer P}.TLDR` ? P : never;
+}[TranslationKey];
+
+export type MethodI18nKey = {
+  [K in TranslationKey]: K extends `${infer P}.METHOD` ? P : never;
+}[TranslationKey];
+
 type PostI18nKey = {
   [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
     ? `${P}.TITLE` extends TranslationKey

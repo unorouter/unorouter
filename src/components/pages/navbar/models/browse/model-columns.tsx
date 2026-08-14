@@ -15,6 +15,7 @@ import {
   inputPriceUnit,
   isFlatVariant,
   outputPriceUnit,
+  fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
@@ -22,20 +23,11 @@ import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
-  formatPrice,
   formatTokenCount,
   formatTokens,
 } from "@/lib/utils/format/number";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
-
-function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
-  if (unit === "dash" || value <= 0) return "-";
-  if (unit === "perImage") return `${formatPrice(value)}/img`;
-  if (unit === "perSecond") return `${formatPrice(value)}/s`;
-  if (perCall) return `${formatPrice(value)}/call`;
-  return formatPrice(value);
-}
 
 function fixedPriceSide(m: ProcessedModel): "input" | "output" {
   const modality = deriveOutputModality(m);

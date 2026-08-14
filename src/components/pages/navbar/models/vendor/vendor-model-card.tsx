@@ -8,27 +8,16 @@ import {
   deriveOutputModality,
   inputPriceUnit,
   outputPriceUnit,
+  fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
-import {
-  discountPercent,
-  formatPrice,
-  formatTokenCount,
-} from "@/lib/utils/format/number";
+import { discountPercent, formatTokenCount } from "@/lib/utils/format/number";
 import { CapabilityChips } from "../detail/header/capability-chips";
 import { useLocale, useTranslations } from "next-intl";
-
-function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
-  if (unit === "dash" || value <= 0) return "-";
-  if (unit === "perImage") return `${formatPrice(value)}/img`;
-  if (unit === "perSecond") return `${formatPrice(value)}/s`;
-  if (perCall) return `${formatPrice(value)}/call`;
-  return formatPrice(value);
-}
 
 function PriceMeta(props: {
   value: number;

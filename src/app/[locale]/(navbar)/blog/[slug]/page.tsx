@@ -1,15 +1,19 @@
 import { BlogPost } from "@/components/pages/blog/blog-post";
-import { GEO_POSTS, getPost, translated } from "@/components/pages/blog/posts";
+import { faqI18nKey, getPost, translated } from "@/components/pages/blog/posts";
+import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  getPageMetadata,
+  getSeoTimestamps,
+  notFoundMetadata,
+  ogBadge,
+} from "@/lib/seo/metadata";
 import {
   buildArticleSchema,
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
 } from "@/lib/seo/structured-data";
-import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -45,6 +49,7 @@ export default async function BlogPostPage(props: PageProps) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   const ts = getSeoTimestamps(`blog/${post.slug}`);
+  const faqKey = faqI18nKey(post);
   const url = localeUrl(locale, {
     pathname: "/blog/[slug]",
     params: { slug: post.slug },
@@ -73,19 +78,13 @@ export default async function BlogPostPage(props: PageProps) {
           author,
         })}
       />
-      {GEO_POSTS.has(post.slug) && (
+      {faqKey && (
         <JsonLd
           id={`blog-${post.slug}-faq`}
           data={buildFAQPageSchema(
             ([1, 2, 3] as const).map((n) => ({
-              question: t(
-                `${post.i18nKey}.FAQ_${n}_Q` as Parameters<typeof t>[0],
-                APP_VALUES,
-              ),
-              answer: t(
-                `${post.i18nKey}.FAQ_${n}_A` as Parameters<typeof t>[0],
-                APP_VALUES,
-              ),
+              question: t(`${faqKey}.FAQ_${n}_Q`, APP_VALUES),
+              answer: t(`${faqKey}.FAQ_${n}_A`, APP_VALUES),
             })),
           )}
         />

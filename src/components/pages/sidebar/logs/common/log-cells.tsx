@@ -15,10 +15,11 @@ import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
+import { StackedCell } from "./cell-primitives";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext } from "react";
 import { toast } from "sonner";
 import {
   computeLogPricing,
@@ -44,19 +45,6 @@ const LOG_EMPTY = <span className="text-muted-foreground text-xs">{"-"}</span>;
 export const LogDetailsContext = createContext<{
   open: (log: LogRow) => void;
 } | null>(null);
-
-function StackedCell(props: { primary: ReactNode; secondary?: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-0.5 leading-tight">
-      {props.primary}
-      {props.secondary != null && props.secondary !== "" && (
-        <span className="text-muted-foreground/70 truncate text-[10px]">
-          {props.secondary}
-        </span>
-      )}
-    </div>
-  );
-}
 
 function LogTypePill(props: { type: number }) {
   const t = useTranslations();
