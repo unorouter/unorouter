@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "A failed send stays in the timeline so you can retry manually; nothing is silently resent. Offline sends are marked as queued.",
       "H_AUTOCONTINUE": "Auto-continue",
       "P_AUTOCONTINUE_1": "With auto-continue enabled, a reply that stops mid-sentence automatically requests a continuation, up to three times. Toggle it per conversation in the settings drawer.",
+      "H_BACKGROUND_MODELS": "Background models in your logs",
+      "P_BACKGROUND_MODELS_1": "Your usage logs will show a few small calls to models you never picked. That is expected. Short background jobs race a fixed pool of free models:",
+      "P_BACKGROUND_MODELS_2": "Three jobs use them: naming a new conversation (once, on the first message), deciding whether a question needs a web search, and folding older turns into the rolling summary when memory is on.",
+      "P_BACKGROUND_MODELS_3": "They never touch the model you picked for the chat, and they never bill your balance. The calls are tiny, and all three run at once so a slow or failing free model cannot hold up your reply.",
       "H_NEXT": "Where to go next",
       "P_NEXT_1": "Import a character card, create a persona, and skim the Presets page to understand how the prompt is assembled. The Lorebooks and Macros pages unlock the deeper systems.",
       "P_NEXT_2": "opens search across all docs pages."

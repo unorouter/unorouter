@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Başarısız bir gönderim zaman çizelgesinde kalır ki elle yeniden deneyebilesin; hiçbir şey sessizce yeniden gönderilmez. Çevrimdışı gönderimler kuyrukta olarak işaretlenir.",
       "H_AUTOCONTINUE": "Otomatik devam",
       "P_AUTOCONTINUE_1": "Otomatik devam açıkken cümle ortasında kesilen bir yanıt otomatik olarak devam ister, en fazla üç kez. Ayarlar panelinden konuşma bazında açılır.",
+      "H_BACKGROUND_MODELS": "Kayıtlarınızdaki arka plan modelleri",
+      "P_BACKGROUND_MODELS_1": "Kullanım kayıtlarınızda hiç seçmediğiniz modellere giden birkaç küçük istek görünecek. Bu beklenen bir durumdur. Kısa arka plan işleri sabit bir ücretsiz model havuzunu yarıştırır:",
+      "P_BACKGROUND_MODELS_2": "Bunları üç iş kullanır: yeni bir sohbete ad verme (yalnızca bir kez, ilk mesajda), bir sorunun web aramasına ihtiyaç duyup duymadığına karar verme ve bellek açıkken eski turları ilerleyen özete katlama.",
+      "P_BACKGROUND_MODELS_3": "Sohbet için seçtiğiniz modele hiç dokunmaz ve bakiyenizden ücret almazlar. İstekler çok küçüktür ve üçü aynı anda gider; böylece yavaş ya da çalışmayan bir ücretsiz model yanıtınızı geciktiremez.",
       "H_NEXT": "Sırada ne var",
       "P_NEXT_1": "Bir karakter kartı içe aktar, bir persona oluştur ve prompt'un nasıl birleştirildiğini anlamak için Ön Ayarlar sayfasına göz at. Lorebook ve Makro sayfaları daha derin sistemlerin kapısını açar.",
       "P_NEXT_2": "tüm dokümantasyon sayfalarında aramayı açar."

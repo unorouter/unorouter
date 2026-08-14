@@ -63,6 +63,7 @@ export const CHAT_DOCS: ChatDoc[] = [
       ["greetings", "H_GREETINGS"],
       ["messages", "H_MESSAGES"],
       ["auto-continue", "H_AUTOCONTINUE"],
+      ["background-models", "H_BACKGROUND_MODELS"],
       ["next", "H_NEXT"],
     ],
   }),

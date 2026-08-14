@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Um envio que falhou fica na linha do tempo para você tentar de novo manualmente; nada é reenviado em silêncio. Envios offline são marcados como na fila.",
       "H_AUTOCONTINUE": "Continuação automática",
       "P_AUTOCONTINUE_1": "Com a continuação automática ligada, uma resposta que para no meio da frase pede automaticamente uma continuação, até três vezes. Ative por conversa no painel de configurações.",
+      "H_BACKGROUND_MODELS": "Modelos em segundo plano nos seus registros",
+      "P_BACKGROUND_MODELS_1": "Seus registros de uso vão mostrar algumas chamadas pequenas para modelos que você nunca escolheu. Isso é esperado. Tarefas curtas em segundo plano disputam entre um conjunto fixo de modelos gratuitos:",
+      "P_BACKGROUND_MODELS_2": "Três tarefas os usam: dar nome a uma conversa nova (uma única vez, na primeira mensagem), decidir se uma pergunta precisa de busca na web e condensar turnos antigos no resumo contínuo quando a memória está ativada.",
+      "P_BACKGROUND_MODELS_3": "Eles nunca tocam no modelo que você escolheu para o chat e nunca cobram do seu saldo. As chamadas são minúsculas e as três saem ao mesmo tempo, então um modelo gratuito lento ou fora do ar não segura a sua resposta.",
       "H_NEXT": "Próximos passos",
       "P_NEXT_1": "Importe um cartão de personagem, crie uma persona e passe pela página de Presets para entender como o prompt é montado. As páginas de Lorebooks e Macros destravam os sistemas mais profundos.",
       "P_NEXT_2": "abre a busca em todas as páginas da documentação."

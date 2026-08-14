@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Un invio fallito resta nella cronologia per poterlo ritentare a mano; nulla viene rispedito in silenzio. Gli invii offline vengono contrassegnati come in coda.",
       "H_AUTOCONTINUE": "Continuazione automatica",
       "P_AUTOCONTINUE_1": "Con la continuazione automatica attiva, una risposta che si interrompe a metà frase richiede automaticamente un seguito, fino a tre volte. Attivabile per conversazione nel pannello delle impostazioni.",
+      "H_BACKGROUND_MODELS": "Modelli in background nei tuoi log",
+      "P_BACKGROUND_MODELS_1": "Nei log di utilizzo compariranno alcune piccole chiamate a modelli che non hai mai scelto. È normale. Le brevi attività in background mettono in gara un gruppo fisso di modelli gratuiti:",
+      "P_BACKGROUND_MODELS_2": "Le usano tre attività: dare un nome a una nuova conversazione (una volta sola, al primo messaggio), decidere se una domanda richiede una ricerca sul web e condensare i turni più vecchi nel riassunto progressivo quando la memoria è attiva.",
+      "P_BACKGROUND_MODELS_3": "Non toccano mai il modello scelto per la chat e non addebitano nulla sul tuo credito. Le chiamate sono minime e partono tutte e tre insieme, così un modello gratuito lento o non funzionante non blocca la tua risposta.",
       "H_NEXT": "Dove andare adesso",
       "P_NEXT_1": "Importa una scheda personaggio, crea una persona e scorri la pagina Preset per capire come viene assemblato il prompt. Le pagine Lorebook e Macro aprono i sistemi più profondi.",
       "P_NEXT_2": "apre la ricerca in tutte le pagine della documentazione."

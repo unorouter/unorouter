@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Un envoi échoué reste dans la chronologie pour être relancé manuellement ; rien n'est renvoyé en silence. Les envois hors ligne sont marqués comme en attente.",
       "H_AUTOCONTINUE": "Continuation automatique",
       "P_AUTOCONTINUE_1": "Avec la continuation automatique, une réponse qui s'arrête en pleine phrase redemande automatiquement une suite, jusqu'à trois fois. Activable par conversation dans le panneau de paramètres.",
+      "H_BACKGROUND_MODELS": "Modèles en arrière-plan dans vos journaux",
+      "P_BACKGROUND_MODELS_1": "Vos journaux d'utilisation afficheront quelques petits appels vers des modèles que vous n'avez jamais choisis. C'est normal. Les tâches courtes en arrière-plan mettent en concurrence un pool fixe de modèles gratuits :",
+      "P_BACKGROUND_MODELS_2": "Trois tâches les utilisent : nommer une nouvelle conversation (une seule fois, au premier message), déterminer si une question nécessite une recherche web, et condenser les tours anciens dans le résumé continu lorsque la mémoire est activée.",
+      "P_BACKGROUND_MODELS_3": "Ils ne touchent jamais au modèle choisi pour le chat et ne débitent jamais votre solde. Les appels sont minuscules et les trois partent en même temps, pour qu'un modèle gratuit lent ou en panne ne retarde pas votre réponse.",
       "H_NEXT": "Et ensuite",
       "P_NEXT_1": "Importez une carte de personnage, créez une persona et parcourez la page Presets pour comprendre comment le prompt est assemblé. Les pages Lorebooks et Macros ouvrent les systèmes plus profonds.",
       "P_NEXT_2": "ouvre la recherche dans toutes les pages de documentation."

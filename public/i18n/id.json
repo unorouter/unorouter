@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Kiriman yang gagal tetap di garis waktu agar Anda coba ulang manual; tidak ada yang dikirim ulang diam-diam. Kiriman luring ditandai sebagai dalam antrean.",
       "H_AUTOCONTINUE": "Lanjut otomatis",
       "P_AUTOCONTINUE_1": "Dengan lanjut otomatis aktif, balasan yang berhenti di tengah kalimat otomatis meminta lanjutan, hingga tiga kali. Dialihkan per percakapan di laci pengaturan.",
+      "H_BACKGROUND_MODELS": "Model latar belakang di log Anda",
+      "P_BACKGROUND_MODELS_1": "Log penggunaan Anda akan menampilkan beberapa panggilan kecil ke model yang tidak pernah Anda pilih. Itu wajar. Tugas latar belakang yang singkat mengadu sekumpulan tetap model gratis:",
+      "P_BACKGROUND_MODELS_2": "Tiga tugas memakainya: memberi nama percakapan baru (sekali saja, pada pesan pertama), memutuskan apakah sebuah pertanyaan perlu pencarian web, dan meringkas giliran lama ke dalam ringkasan berjalan saat memori aktif.",
+      "P_BACKGROUND_MODELS_3": "Semuanya tidak pernah menyentuh model yang Anda pilih untuk obrolan dan tidak pernah memotong saldo Anda. Panggilannya sangat kecil dan ketiganya berjalan bersamaan, sehingga model gratis yang lambat atau gagal tidak menahan balasan Anda.",
       "H_NEXT": "Ke mana selanjutnya",
       "P_NEXT_1": "Impor kartu karakter, buat persona, dan telusuri halaman Preset untuk memahami cara prompt dirakit. Halaman Lorebook dan Makro membuka sistem yang lebih dalam.",
       "P_NEXT_2": "membuka pencarian di semua halaman dokumentasi."

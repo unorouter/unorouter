@@ -2,6 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
 import {
+  DocCode,
   DocImage,
   DocKbd,
   DocSection,
@@ -40,6 +41,14 @@ export async function GettingStartedContent() {
       </DocSection>
       <DocSection id="auto-continue" title={k("H_AUTOCONTINUE")}>
         <p>{k("P_AUTOCONTINUE_1")}</p>
+      </DocSection>
+      <DocSection id="background-models" title={k("H_BACKGROUND_MODELS")}>
+        <p>{k("P_BACKGROUND_MODELS_1")}</p>
+        <DocCode
+          code={"gpt-oss-120b:free\ngpt-oss-20b:free\nllama-3.3-70b:free"}
+        />
+        <p>{k("P_BACKGROUND_MODELS_2")}</p>
+        <p>{k("P_BACKGROUND_MODELS_3")}</p>
       </DocSection>
       <DocSection id="next" title={k("H_NEXT")}>
         <p>{k("P_NEXT_1")}</p>

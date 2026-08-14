@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Ein fehlgeschlagenes Senden bleibt in der Timeline, damit du manuell erneut senden kannst; nichts wird stillschweigend wiederholt. Offline-Sendungen werden als eingereiht markiert.",
       "H_AUTOCONTINUE": "Automatisch fortsetzen",
       "P_AUTOCONTINUE_1": "Mit aktiviertem Auto-Fortsetzen fordert eine mitten im Satz endende Antwort automatisch eine Fortsetzung an, bis zu dreimal. Pro Gespräch im Einstellungs-Drawer umschaltbar.",
+      "H_BACKGROUND_MODELS": "Hintergrundmodelle in deinen Logs",
+      "P_BACKGROUND_MODELS_1": "In deinen Nutzungslogs tauchen ein paar kleine Aufrufe an Modelle auf, die du nie ausgewählt hast. Das ist normal. Kurze Hintergrundaufgaben lassen einen festen Pool kostenloser Modelle gegeneinander antreten:",
+      "P_BACKGROUND_MODELS_2": "Drei Aufgaben nutzen sie: das Benennen einer neuen Unterhaltung (einmalig, bei der ersten Nachricht), die Entscheidung, ob eine Frage eine Websuche braucht, und das Zusammenfassen älterer Züge, wenn der Speicher aktiv ist.",
+      "P_BACKGROUND_MODELS_3": "Sie rühren das für den Chat gewählte Modell nie an und belasten dein Guthaben nicht. Die Aufrufe sind winzig, und alle drei laufen gleichzeitig, damit ein langsames oder ausfallendes kostenloses Modell deine Antwort nicht aufhält.",
       "H_NEXT": "Wie es weitergeht",
       "P_NEXT_1": "Importiere eine Charakterkarte, erstelle eine Persona und überfliege die Presets-Seite, um zu verstehen, wie der Prompt zusammengesetzt wird. Die Seiten zu Lorebooks und Makros erschließen die tieferen Systeme.",
       "P_NEXT_2": "öffnet die Suche über alle Doku-Seiten."

@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Lần gửi thất bại vẫn nằm trên dòng thời gian để bạn thử lại thủ công; không có gì được gửi lại lặng lẽ. Các lần gửi ngoại tuyến được đánh dấu là đang chờ.",
       "H_AUTOCONTINUE": "Tiếp tục tự động",
       "P_AUTOCONTINUE_1": "Khi bật tiếp tục tự động, phản hồi dừng giữa câu sẽ tự động yêu cầu phần tiếp, tối đa ba lần. Bật tắt theo từng cuộc trò chuyện trong ngăn cài đặt.",
+      "H_BACKGROUND_MODELS": "Mô hình chạy nền trong nhật ký của bạn",
+      "P_BACKGROUND_MODELS_1": "Nhật ký sử dụng sẽ hiện vài lệnh gọi nhỏ tới những mô hình bạn chưa từng chọn. Đó là điều bình thường. Các tác vụ nền ngắn cho một nhóm mô hình miễn phí cố định chạy đua với nhau:",
+      "P_BACKGROUND_MODELS_2": "Ba tác vụ dùng chúng: đặt tên cho cuộc trò chuyện mới (chỉ một lần, ở tin nhắn đầu tiên), quyết định xem câu hỏi có cần tìm kiếm web hay không, và gộp các lượt cũ vào bản tóm tắt liên tục khi bật bộ nhớ.",
+      "P_BACKGROUND_MODELS_3": "Chúng không bao giờ đụng tới mô hình bạn đã chọn cho cuộc trò chuyện và không trừ tiền trong số dư. Các lệnh gọi rất nhỏ và cả ba chạy cùng lúc, nên một mô hình miễn phí chậm hoặc lỗi không thể làm chậm câu trả lời của bạn.",
       "H_NEXT": "Đi đâu tiếp theo",
       "P_NEXT_1": "Nhập một thẻ nhân vật, tạo một persona và lướt qua trang Preset để hiểu cách prompt được lắp ráp. Trang Sổ tri thức và Macro mở ra các hệ thống sâu hơn.",
       "P_NEXT_2": "mở tìm kiếm trên mọi trang tài liệu."

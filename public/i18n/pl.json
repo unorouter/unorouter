@@ -4933,6 +4933,10 @@
       "P_MESSAGES_3": "Nieudane wysłanie zostaje na osi czasu, żebyś mógł ponowić je ręcznie; nic nie jest wysyłane ponownie po cichu. Wysyłki offline są oznaczane jako w kolejce.",
       "H_AUTOCONTINUE": "Automatyczna kontynuacja",
       "P_AUTOCONTINUE_1": "Z włączoną automatyczną kontynuacją odpowiedź urwana w pół zdania sama prosi o ciąg dalszy, maksymalnie trzy razy. Przełączane per rozmowa w panelu ustawień.",
+      "H_BACKGROUND_MODELS": "Modele działające w tle w twoich logach",
+      "P_BACKGROUND_MODELS_1": "W logach użycia pojawi się kilka drobnych zapytań do modeli, których nigdy nie wybrałeś. Tak ma być. Krótkie zadania w tle ścigają się w stałej puli darmowych modeli:",
+      "P_BACKGROUND_MODELS_2": "Korzystają z nich trzy zadania: nadanie nazwy nowej rozmowie (raz, przy pierwszej wiadomości), ocena, czy pytanie wymaga wyszukiwania w sieci, oraz zwijanie starszych tur do bieżącego podsumowania, gdy pamięć jest włączona.",
+      "P_BACKGROUND_MODELS_3": "Nigdy nie dotykają modelu wybranego do czatu i nie obciążają twojego salda. Zapytania są malutkie, a wszystkie trzy startują naraz, więc wolny lub niedziałający darmowy model nie opóźni twojej odpowiedzi.",
       "H_NEXT": "Co dalej",
       "P_NEXT_1": "Zaimportuj kartę postaci, stwórz personę i przejrzyj stronę Presety, żeby zrozumieć, jak składany jest prompt. Strony Lorebooki i Makra otwierają głębsze systemy.",
       "P_NEXT_2": "otwiera wyszukiwanie po wszystkich stronach dokumentacji."
