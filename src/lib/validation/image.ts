@@ -128,7 +128,9 @@ export type ImageParams = Static<typeof imageParams>;
 
 export const imageFormUi = t.Object({
   variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
-  inpaintMaskDataUrl: t.Optional(t.String()),
+  inpaintMaskDataUrl: t.Optional(
+    t.String({ maxLength: MAX_IMAGE_SOURCE_LENGTH }),
+  ),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
   // The inpaint pass can run a different checkpoint than the form's (a realism model

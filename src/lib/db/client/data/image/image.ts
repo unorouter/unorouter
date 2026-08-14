@@ -95,10 +95,40 @@ export const deleteLocalImageSession = (
   id: string,
 ) => sessionStore.drop(userId, id);
 
+// A snapshot's params carry the img2img source and inpaint mask, and both accept
+// base64 data URIs up to 8MB. Kept verbatim they outweigh every generated image:
+// each edit stores its INPUT forever on top of the output already in `media`.
+// The restore path never reads them back (quick actions rebuild the init image
+// from the media row's bytes via durableInitUrl), so keep https URLs and drop the
+// inline copies. `extraParams.inpaintMaskDataUrl` is the same canvas-drawn mask.
+function stripInlineImages(row: SnapshotInput): SnapshotInput {
+  const params = row.params as Record<string, unknown> | null | undefined;
+  const extra = row.extraParams as Record<string, unknown> | null | undefined;
+  const isInline = (v: unknown) =>
+    typeof v === "string" && v.startsWith("data:");
+  const nextParams =
+    params && (isInline(params.initImageUrl) || isInline(params.maskUrl))
+      ? { ...params }
+      : params;
+  if (nextParams && nextParams !== params) {
+    if (isInline(nextParams.initImageUrl)) delete nextParams.initImageUrl;
+    if (isInline(nextParams.maskUrl)) delete nextParams.maskUrl;
+  }
+  const nextExtra =
+    extra && isInline(extra.inpaintMaskDataUrl) ? { ...extra } : extra;
+  if (nextExtra && nextExtra !== extra) delete nextExtra.inpaintMaskDataUrl;
+  if (nextParams === params && nextExtra === extra) return row;
+  return {
+    ...row,
+    params: nextParams,
+    extraParams: nextExtra,
+  } as SnapshotInput;
+}
+
 export const upsertLocalSnapshot = (
   userId: number | undefined,
   row: SnapshotInput,
-) => snapshotStore.upsert(userId, row);
+) => snapshotStore.upsert(userId, stripInlineImages(row));
 
 export const deleteLocalSnapshot = (userId: number | undefined, id: string) =>
   snapshotStore.drop(userId, id);
