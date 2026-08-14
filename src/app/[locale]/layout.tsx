@@ -1,10 +1,9 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
-import { Providers } from "@/components/provider/providers";
-import { NotifyProvider } from "@/components/provider/app/notify-provider";
-import { InteractiveWidgetMeta } from "@/components/provider/app/interactive-widget-meta";
-import { SwRegister } from "@/components/provider/app/sw-register";
 import { DebugCapture } from "@/components/provider/app/debug-capture";
+import { NotifyProvider } from "@/components/provider/app/notify-provider";
+import { SwRegister } from "@/components/provider/app/sw-register";
+import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import {
   buildThemeCss,
@@ -32,17 +31,17 @@ import {
 } from "next/font/google";
 import "../globals.css";
 
-// interactive-widget=resizes-content is deliberately NOT in the static meta.
-// iOS 26 half-honors it: device diagnostics show the layout viewport animating
-// through a dozen intermediate heights per keyboard cycle (660 -> 426 -> 578 ->
-// ... -> 747 -> 660) and getting STUCK mid-dismiss (innerHeight parked at 578
-// on a 660 screen), which cut the composer off by the difference. Chromium
-// honors it correctly and needs it (the shell then resizes natively for the
-// keyboard), so InteractiveWidgetMeta appends it at runtime on non-WebKit only.
+// The chat shell is h-dvh, and dvh only shrinks for the keyboard when the
+// LAYOUT viewport does. Chromium/Firefox default to resizes-visual since Chrome
+// 108, so without this the composer sits under the keyboard on Android. WebKit
+// has not implemented the key at all (bug 259770): it logs "Viewport argument
+// key not recognized" and falls back to resizes-visual, which is iOS's native
+// behavior anyway, so shipping it statically is safe on both engines.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  interactiveWidget: "resizes-content",
   viewportFit: "cover",
 };
 
@@ -70,9 +69,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  // No network reads here: METADATA.DESCRIPTION carries no {modelCount}
-  // placeholder in any of the 18 locales, so the pricing lookup this used to
-  // await was fetched and then discarded.
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
@@ -91,9 +87,6 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-// The shell ships the DEFAULT theme (no cookie read); the pre-paint script
-// below applies custom data-attrs from the cookie before first paint and
-// UserThemeProvider swaps in the full custom CSS at hydration.
 const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
@@ -129,7 +122,6 @@ export default async function LocaleLayout(props: Props) {
         <Providers>
           <Toaster richColors />
           <SwRegister />
-          <InteractiveWidgetMeta />
           <NotifyProvider />
           <DebugCapture />
           <AffiliateCapture />

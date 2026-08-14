@@ -1,4 +1,3 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { TokenList } from "@/components/pages/sidebar/tokens/token-list";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
@@ -7,6 +6,7 @@ import {
 } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
 import type { DataTableStores } from "@/store/data-table-store";
@@ -37,9 +37,6 @@ export default async function TokensPage() {
         ...cookies,
       }),
     ),
-    // Pricing (name->vendor for the token columns/dialog) is NOT prefetched here:
-    // dehydrating the ~325kB list blocked the token page shell. The widgets
-    // lazy-fetch it client-side via usePricingQuery after mount.
     prefetchElysia(queryClient, queryKeys.userGroups(), (cookies) =>
       rpc.api.billing.token.groups.get(cookies),
     ),
