@@ -1,4 +1,3 @@
-
 export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["claude-opus-4-8", "gpt-5.5"],
   ["claude-opus-4-8", "gemini-3.1-pro-preview"],
@@ -34,4 +33,3 @@ export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["glm-5.2", "glm-4.6"],
   ["qwen3.7-max", "deepseek-v4-pro"],
 ] as const;
-

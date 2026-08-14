@@ -29,4 +29,3 @@ export default async function ChatConvPage(props: Props) {
   const { convId } = await props.params;
   return <Chat convId={convId} />;
 }
-

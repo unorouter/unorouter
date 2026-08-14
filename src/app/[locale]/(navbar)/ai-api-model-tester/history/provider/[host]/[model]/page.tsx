@@ -13,4 +13,3 @@ export default async function HistoryModelPage(props: Props) {
     />
   );
 }
-

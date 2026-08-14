@@ -27,4 +27,3 @@ export default async function ModelTesterRankingPage(props: Props) {
     </HydrationBoundary>
   );
 }
-

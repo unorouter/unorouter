@@ -18,10 +18,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
-import {
-  dollarsToQuota,
-  renderQuota,
-} from "@/lib/config/constants";
+import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import type { GenerateTab } from "../../image-nav";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

@@ -8,7 +8,6 @@ export const RANKING_PERIODS = [
   { id: "year", labelKey: msg("RANKINGS.PERIODS.YEAR") },
 ] as const satisfies readonly { id: RankingPeriod; labelKey: TranslationKey }[];
 
-
 const MODEL_PERIOD_KEYS: Record<RankingPeriod, TranslationKey> = {
   today: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.TODAY",
   week: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.WEEK",

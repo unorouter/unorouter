@@ -1,8 +1,4 @@
-import {
-  isFreeChatModel,
-  leanModel,
-  toLeanPricing,
-} from "@/lib/api/pricing";
+import { isFreeChatModel, leanModel, toLeanPricing } from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";

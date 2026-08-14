@@ -8,4 +8,3 @@ export default async function HistoryProviderPage(props: Props) {
   const params = await props.params;
   return <HistoryProviderDetail host={decodeURIComponent(params.host)} />;
 }
-

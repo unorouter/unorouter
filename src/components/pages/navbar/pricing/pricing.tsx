@@ -16,9 +16,7 @@ import {
   periodWordKey,
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
-import {
-  type TranslationKey,
-} from "@/lib/config/constants";
+import { type TranslationKey } from "@/lib/config/constants";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -258,7 +256,9 @@ export function Pricing() {
                     inputMode="decimal"
                     min={customMin}
                     max={customMax}
-                    step={cryptoCustomEnabled || paypalCustomEnabled ? "1" : "0.01"}
+                    step={
+                      cryptoCustomEnabled || paypalCustomEnabled ? "1" : "0.01"
+                    }
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
                     placeholder={

@@ -1,9 +1,5 @@
 import { BlogPost } from "@/components/pages/blog/blog-post";
-import {
-  GEO_POSTS,
-  getPost,
-  translated,
-} from "@/components/pages/blog/posts";
+import { GEO_POSTS, getPost, translated } from "@/components/pages/blog/posts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
