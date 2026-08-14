@@ -35,7 +35,6 @@ export const IS_DEV = process.env.NODE_ENV === "development";
 export const POSTHOG_DISABLED =
   process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
 
-export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
 
 export const THIRTY_DAY_CACHE = {
   next: { revalidate: 60 * 60 * 24 * 30 },
@@ -101,14 +100,6 @@ export const LOCALES = [
   "zh-CN",
   "zh-TW",
 ] as const;
-
-// Deploy builds prerender only the default locale (full 18-locale SSG cost
-// ~3min per build); other locales render on demand via ISR. Set
-// PRERENDER_ALL_LOCALES=1 to prerender everything.
-export const PRERENDER_LOCALES: readonly (typeof LOCALES)[number][] = process
-  .env.PRERENDER_ALL_LOCALES
-  ? LOCALES
-  : [LOCALES[0]];
 
 export const NATIVE_VERSION = `${env.appName.toLowerCase()}.1.0` as const;
 export const ORPG_EXTENSION_KEY = `_${env.appName.toLowerCase()}_extension`;

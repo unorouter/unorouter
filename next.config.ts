@@ -17,8 +17,7 @@ const nextConfig: NextConfig = {
   typescript: { ignoreBuildErrors: true },
   env: {
     // Build-time date (YYYY-MM-DD) for og-image cache busting and the blog
-    // publish-date filter: reading the clock during render is
-    // non-deterministic and rejected by cacheComponents prerenders.
+    // publish-date filter, so both change per deploy rather than per request.
     NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
   },
   // wasmoon's emscripten loader probes node builtins (`import('module')`);
@@ -35,13 +34,8 @@ const nextConfig: NextConfig = {
     },
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
-  cacheComponents: true,
-  // Default is 50MB shared by ISR pages AND "use cache" entries. 18 locales x hundreds of
-  // routes thrash it, so entries warmed during a runtime prerender are evicted before the
-  // final phase reads them back: every such request logs "Unexpected cache miss after cache
-  // warming phase" and renders twice for nothing.
-  cacheMaxMemorySize: 256 * 1024 * 1024,
-  // The prerendered Serwist route bundles the SW with esbuild at request time;
+  cacheComponents: false,
+  // The Serwist route bundles the SW with esbuild at request time;
   // the file tracer misses that and drops esbuild + serwist deps from the
   // standalone output (/sw-worker/sw.js then 500s in production).
   outputFileTracingIncludes: {

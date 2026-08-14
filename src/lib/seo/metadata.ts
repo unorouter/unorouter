@@ -146,9 +146,9 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   };
 }
 
-// Head for a route that resolves to notFound(). With cacheComponents the
-// shell streams before the page body runs, so the response is already
-// committed as 200 and notFound() can only swap the body. Returning an empty
+// Head for a route that resolves to notFound(). The head streams before the
+// page body runs, so the response is already committed as 200 and notFound()
+// can only swap the body. Returning an empty
 // metadata object would inherit the parent's "index, follow" plus a canonical
 // pointing at the locale root, which is exactly what Google reports as a soft
 // 404. This keeps the status at 200 (unavoidable while streaming) but makes

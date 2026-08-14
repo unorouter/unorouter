@@ -63,7 +63,7 @@ export function PostHogProvider(props: { children: React.ReactNode }) {
 
   return (
     <>
-      {/* useSearchParams needs its own boundary or every prerendered page bails out of the static shell */}
+      {/* useSearchParams suspends, so it needs its own boundary */}
       <Suspense>
         <PostHogPageView />
       </Suspense>

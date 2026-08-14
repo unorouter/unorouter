@@ -29,7 +29,6 @@ import {
 } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
-import { PUBLIC_CACHE } from "@/lib/config/constants";
 
 const xPaymentInfo = (
   method: "stripe" | "creem" | "nowpayments" | "delopay",
@@ -52,7 +51,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     const res = await getTopUpInfo(
       hasUser
         ? { headers: upstream.headers }
-        : { headers: ADMIN_HEADERS, ...PUBLIC_CACHE },
+        : { headers: ADMIN_HEADERS },
     );
     return unwrap(res);
   })
@@ -61,7 +60,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     const res = await getSubscriptionPlans(
       hasUser
         ? { headers: upstream.headers }
-        : { headers: ADMIN_HEADERS, ...PUBLIC_CACHE },
+        : { headers: ADMIN_HEADERS },
     );
     if (res.status !== 200) return [];
     return processPlans(res.data.data);

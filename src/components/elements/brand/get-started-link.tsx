@@ -16,7 +16,7 @@ export function GetStartedLink(props: {
 }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  // Gate on hydrated: the first client render must match the prerendered
+  // Gate on hydrated: the first client render must match the server-rendered
   // logged-out shell (the auth cache may already be filled by the streamed
   // NavAuth hole when this hydrates).
   const hydrated = useHydrated();

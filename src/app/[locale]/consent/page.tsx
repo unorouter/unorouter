@@ -12,7 +12,6 @@ import {
 } from "@/lib/validation/auth";
 import { safeParse } from "@/lib/validation/helpers";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -51,17 +50,7 @@ type ConsentPageProps = {
   searchParams: Promise<ConsentSearchParams>;
 };
 
-// Fully request-bound (auth redirect + OIDC request lookup); the Suspense
-// gate keeps it out of the static shell.
-export default function ConsentPage(props: ConsentPageProps) {
-  return (
-    <Suspense>
-      <ConsentInner params={props.params} searchParams={props.searchParams} />
-    </Suspense>
-  );
-}
-
-async function ConsentInner(props: ConsentPageProps) {
+export default async function ConsentPage(props: ConsentPageProps) {
   const params = await props.searchParams;
   const locale = await serverLocale(props);
   const t = await getTranslations();

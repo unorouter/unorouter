@@ -4,16 +4,14 @@ import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 export async function register() {
   await import("./lib/utils/format/date");
 
-  // DO NOT REMOVE (vercel/next.js#92287). cacheComponents runtime prerenders park
-  // their abort-reason Error on the render AbortSignal, and V8's LAZY stack means
-  // that Error still holds structured CallSiteInfo frames whose closure contexts
-  // pin the render's entire buffer state (prerenderChunks / segmentData / rscData;
-  // ~80MB of pinned ArrayBuffers per 15min of traffic when this was found). The
-  // signal outlives the render inside long-lived registries, so the pin is
-  // permanent. Reading `.stack` ONCE materializes the string and V8 drops the
-  // frames, so touching the reason at abort time converts a per-prerender leak
-  // into a short string. Remove only when upstream creates abort reasons
-  // stackless or stops retaining settled render signals.
+  // Renders park their abort-reason Error on the render AbortSignal, and V8's
+  // LAZY stack means that Error still holds structured CallSiteInfo frames
+  // whose closure contexts pin the render's entire buffer state (~80MB of
+  // pinned ArrayBuffers per 15min of traffic when this was found). The signal
+  // outlives the render inside long-lived registries, so the pin is permanent.
+  // Reading `.stack` ONCE materializes the string and V8 drops the frames.
+  // Kept as cheap insurance: the original trigger (vercel/next.js#92287) needed
+  // cacheComponents, which is now off, but the retention path is generic.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const origAbort = AbortController.prototype.abort;
     AbortController.prototype.abort = function (reason?: unknown) {
@@ -89,15 +87,12 @@ export const onRequestError: Instrumentation.onRequestError = async (
     // can fix them.
     if (message.includes("This is a bug in Next.js")) return;
 
-    // DO NOT REMOVE. Background cache revalidation (`handleRevalidate`) of a
-    // "use cache" page whose render throws a control-flow signal (notFound /
-    // redirect for a churned-out :free model) rethrows it here with the digest
-    // AND message already stripped: `Error` with value "", empty digest, source
-    // "render", route the models [...slug] page. The digest guard above cannot
-    // catch it (digest is empty by this point), so a message check is the only
-    // handle. These carry zero actionable signal (no message, no digest, no
-    // app frame) and flooded 25k+ events per 48h twice. Removing this guard
-    // brings the flood straight back.
+    // DO NOT REMOVE. A control-flow signal (notFound / redirect for a churned
+    // out :free model) can reach here with its digest AND message already
+    // stripped: `Error` with value "", empty digest, source "render". The
+    // digest guard above cannot catch it (digest is empty by this point), so a
+    // message check is the only handle. These carry zero actionable signal and
+    // flooded 25k+ events per 48h twice.
     if (!message.trim()) return;
 
     // DO NOT REMOVE. Bots POST garbage bodies at /RSC/*.txt and similar, which

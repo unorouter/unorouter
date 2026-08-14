@@ -9,7 +9,6 @@ import {
   refreshPricingSnapshot,
 } from "@/server/models/pricing/pricing-snapshot";
 import { processPlans } from "@/lib/api/subscription";
-import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { customFetch } from "@/lib/custom-fetch";
 import { sleep, unwrap } from "@/lib/utils/base";
 import {
@@ -20,9 +19,9 @@ import {
 } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 
-// Build prerenders fan out across ~31 workers and the upstream occasionally
-// truncates responses under that concurrency; a failed parse is not cached,
-// so without retries every remaining page re-attempts and the build dies.
+// The upstream occasionally truncates responses under concurrent renders, and
+// a failed parse would otherwise surface as a 500 on a page that only needed
+// the model list.
 async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
   let lastError: unknown;
   for (let i = 0; i < attempts; i++) {
@@ -37,10 +36,8 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
 }
 
 // Fetches upstream on every call, unlike getPricingSnapshot's shared 5min
-// object. Callers are the "use cache" fetchers in lib/api/cached.ts, where the
-// render cache is the caching layer and a stale in-module object would outlive
-// its revalidation. Direct, because server components and build-time prerenders
-// must not loop back over http://127.0.0.1 (no self server during build).
+// object. Callers are the fetchers in lib/api/cached.ts. Direct, because server
+// components must not loop back over http://127.0.0.1.
 export async function getPricingSummary(includeOffline = false) {
   const res = await withRetry(() =>
     getPricing(includeOffline ? { include_offline: "true" } : undefined, {
@@ -135,7 +132,6 @@ export async function getSubscriptionPlansSummary() {
   const res = await withRetry(() =>
     getSubscriptionPlans({
       headers: ADMIN_HEADERS,
-      ...PUBLIC_CACHE,
     }),
   );
   if (res.status !== 200) return [];
@@ -146,7 +142,6 @@ export async function getTopUpInfoSummary() {
   const res = await withRetry(() =>
     getTopUpInfo({
       headers: ADMIN_HEADERS,
-      ...PUBLIC_CACHE,
     }),
   );
   return unwrap(res).data;

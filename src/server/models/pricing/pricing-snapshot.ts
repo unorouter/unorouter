@@ -7,11 +7,10 @@ import { msg } from "@/lib/config/constants";
 import { getPricing } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 
-// Pricing crosses THREE cache layers; keep their roles distinct when touching
-// any of them: (1) this in-module 5min snapshot for per-request server paths,
-// (2) the Next Data Cache 1h on PUBLIC upstream GETs (PUBLIC_CACHE, keyed by
-// URL only, so always pair with ADMIN_HEADERS), (3) the Cloudflare edge in
-// front of the /pricing BFF responses (purged by CI after deploy).
+// Pricing crosses TWO cache layers; keep their roles distinct when touching
+// either: (1) this in-module 5min snapshot for per-request server paths, and
+// (2) the Cloudflare edge in front of the /pricing BFF responses (purged by CI
+// after deploy).
 let cache: {
   models: ProcessedModel[];
   byName: Map<string, ProcessedModel>;
@@ -21,8 +20,8 @@ let cache: {
 const CACHE_TTL = 5 * 60 * 1000;
 
 // "Snapshot", not "summary": pricing.service exports a getPricingSummary that
-// fetches upstream on EVERY call for the prerender path. This one is the shared
-// 5min object with the prebuilt byName map, for hot per-request paths.
+// fetches upstream on EVERY call. This one is the shared 5min object with the
+// prebuilt byName map, for hot per-request paths.
 export async function getPricingSnapshot() {
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) return cache;
   return refreshPricingSnapshot();
@@ -30,9 +29,7 @@ export async function getPricingSnapshot() {
 
 // Same shape but include_offline, for callers that must agree with the sitemap
 // and the model page on which URLs exist: a model whose channels are all down
-// keeps a real page, so the online-only feed would 404 URLs we advertise. Kept
-// as plain module state rather than a "use cache" function because the proxy
-// resolves model URLs and cannot call one.
+// keeps a real page, so the online-only feed would 404 URLs we advertise.
 let offlineCache: { models: ProcessedModel[]; fetchedAt: number } | null = null;
 
 export async function getOfflinePricingSnapshot() {

@@ -1,11 +1,10 @@
 import { BlogPost } from "@/components/pages/blog/blog-post";
 import {
   GEO_POSTS,
-  POSTS,
   getPost,
   translated,
 } from "@/components/pages/blog/posts";
-import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -18,12 +17,6 @@ import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-
-export function generateStaticParams() {
-  return PRERENDER_LOCALES.flatMap((locale) =>
-    POSTS.map((p) => ({ locale, slug: p.slug })),
-  );
-}
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;

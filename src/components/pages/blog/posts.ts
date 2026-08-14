@@ -84,8 +84,8 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  // Build date, not the clock: deterministic for cacheComponents prerenders.
-  // Scheduled posts go live with the first deploy on or after their date.
+  // Build date, not the clock: scheduled posts go live with the first deploy
+  // on or after their date, rather than mid-session for whoever is reading.
   const today = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
   return [...POSTS]
     .filter((p) => p.date <= today)

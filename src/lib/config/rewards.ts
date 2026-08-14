@@ -1,4 +1,3 @@
-import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
 
@@ -70,10 +69,7 @@ function money(value: number, locale: string): string {
 
 async function fetchRewards(): Promise<RewardsResponse> {
   try {
-    const res = await fetch(
-      `${serverEnv.botInternalUrl}/rewards`,
-      PUBLIC_CACHE,
-    );
+    const res = await fetch(`${serverEnv.botInternalUrl}/rewards`);
     if (!res.ok) throw new Error(`bot /rewards returned ${res.status}`);
     return (await res.json()) as RewardsResponse;
   } catch (error) {

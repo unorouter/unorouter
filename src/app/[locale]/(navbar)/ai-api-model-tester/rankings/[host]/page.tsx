@@ -4,13 +4,12 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ locale: string; host: string }>;
 };
 
-async function Inner(props: Props) {
+export default async function ModelTesterProviderPage(props: Props) {
   const params = await props.params;
   const host = decodeURIComponent(params.host);
   const queryClient = getQueryClient();
@@ -28,10 +27,3 @@ async function Inner(props: Props) {
   );
 }
 
-export default function ModelTesterProviderPage(props: Props) {
-  return (
-    <Suspense>
-      <Inner params={props.params} />
-    </Suspense>
-  );
-}

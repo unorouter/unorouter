@@ -346,8 +346,8 @@ export function Footer() {
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
 
-  // Build-date clock: dayjs() (now) is non-deterministic in prerenders and
-  // ejects every page from the PPR static shell ("render in browser" abort).
+  // Build date, not the clock: a badge goes live with the first deploy on or
+  // after its date, so server and client agree on what is visible.
   const visibleBadges = FOOTER_BADGES.filter(
     (badge) =>
       !("liveFrom" in badge) ||
@@ -591,7 +591,7 @@ export function Footer() {
           <div className="text-foreground/70 relative flex items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
-                // Build-date year: the clock is non-deterministic in prerenders.
+                // Build-date year, so server and client render the same string.
                 year:
                   (process.env.NEXT_PUBLIC_BUILD_DATE ?? "").slice(0, 4) ||
                   String(dayjs().year()),

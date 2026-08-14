@@ -17,7 +17,7 @@ function getHeader(
 
 // Cloudflare sends the visitor address as cf-connecting-ip; x-forwarded-for is
 // the fallback for any other hop. Returns "" when there is no request scope
-// (static prerender, background revalidate), where no visitor exists to name.
+// (build scripts, background jobs), where no visitor exists to name.
 // Upstream must then record NO client IP rather than fall back to the socket
 // peer, which is this pod and would masquerade as a real user address.
 async function getServerClientIp(): Promise<string> {

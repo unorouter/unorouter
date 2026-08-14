@@ -9,24 +9,15 @@ import {
   PlatformDocTemplate,
   platformDocKey,
 } from "@/components/pages/docs/platform/platform-doc-template";
-import {
-  PLATFORM_DOCS,
-  getPlatformDoc,
-} from "@/components/pages/docs/platform/platform-docs";
+import { getPlatformDoc } from "@/components/pages/docs/platform/platform-docs";
 import type { Pathname } from "@/i18n/routing";
-import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-
-export function generateStaticParams() {
-  return PRERENDER_LOCALES.flatMap((locale) =>
-    PLATFORM_DOCS.map((doc) => ({ locale, slug: doc.slug })),
-  );
-}
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;

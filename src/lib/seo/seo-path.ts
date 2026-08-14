@@ -34,9 +34,7 @@ export async function resolveSeoPath(pathname: string) {
 
   // include_offline, matching the page's own resolveModel and the sitemap: a
   // model with every channel down still has a real page, and the online-only
-  // feed would 404 the URLs the sitemap advertises. Plain module state, NOT a
-  // "use cache" function: the proxy cannot call one, and the failure is silent
-  // (every lookup resolves to "pass" and the whole check stops running).
+  // feed would 404 the URLs the sitemap advertises.
   const pricing = await getOfflinePricingSnapshot().catch(() => null);
   // A dead pricing feed must never turn live model pages into 404s.
   if (!pricing?.models.length) return null;

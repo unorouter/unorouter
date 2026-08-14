@@ -12,16 +12,13 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-// Layouts prerender independently of their pages, so each needs its own
-// setRequestLocale for next-intl to stay static (via serverLocale).
-// The Suspense boundary only matters on unknown-param fallback shells
-// (tester [host] pages): Navbar/Footer read usePathname, which is request
-// data there. Fully static routes still prerender the chrome into the shell.
+// Layouts render independently of their pages, so each needs its own
+// setRequestLocale for next-intl (via serverLocale).
 export default async function NavbarLayout(props: Props) {
   await serverLocale(props);
   const t = await getTranslations();
   return (
-    <Suspense>
+    <>
       <Navbar
         authSlot={
           <Suspense fallback={<NavLoginLink label={t("NAV.LOG_IN")} />}>
@@ -35,6 +32,6 @@ export default async function NavbarLayout(props: Props) {
         </ContentBoundary>
       </main>
       <Footer />
-    </Suspense>
+    </>
   );
 }

@@ -1,11 +1,9 @@
-import { comparePairSlugs } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import {
   comboModelList,
   comboTitle,
 } from "@/components/pages/navbar/models/compare/compare-text";
 import { localeUrl } from "@/i18n/navigation";
-import { PRERENDER_LOCALES } from "@/lib/config/constants";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import {
@@ -20,12 +18,6 @@ import { modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-
-export function generateStaticParams() {
-  return PRERENDER_LOCALES.flatMap((locale) =>
-    comparePairSlugs().map((slugs) => ({ locale, slugs })),
-  );
-}
 
 async function resolveModels(
   slugs: string[] | undefined,

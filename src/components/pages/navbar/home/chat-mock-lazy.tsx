@@ -8,8 +8,8 @@ const ChatMockAnimated = dynamic(
   { ssr: false },
 );
 
-// ssr:false is a CSR bailout: without its own Suspense boundary it ejects the
-// whole page from the PPR static shell.
+// ssr:false defers the chunk to the client, so it needs a boundary to suspend
+// against while that chunk loads.
 export function ChatMockLazy(props: ComponentProps<typeof ChatMockAnimated>) {
   return (
     <Suspense fallback={null}>

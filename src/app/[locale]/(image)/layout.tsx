@@ -1,10 +1,8 @@
 import { serverLocale } from "@/lib/utils/server";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
-import { Suspense } from "react";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ImageSessionList } from "@/components/pages/sidebar/image/history/image-gallery";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
-import { SidebarShellSkeleton } from "@/components/layout/sidebar/sidebar-shell-skeleton";
 
 export default async function ImageGroupLayout(props: {
   children: React.ReactNode;
@@ -12,16 +10,14 @@ export default async function ImageGroupLayout(props: {
 }) {
   await serverLocale(props);
   return (
-    <Suspense fallback={<SidebarShellSkeleton />}>
-      <AuthHydration>
-        <SidebarLayout
-          before={<AuthRedirectCleanup />}
-          navConfig="generate"
-          chatContent={<ImageSessionList />}
-        >
-          {props.children}
-        </SidebarLayout>
-      </AuthHydration>
-    </Suspense>
+    <AuthHydration>
+      <SidebarLayout
+        before={<AuthRedirectCleanup />}
+        navConfig="generate"
+        chatContent={<ImageSessionList />}
+      >
+        {props.children}
+      </SidebarLayout>
+    </AuthHydration>
   );
 }

@@ -3,7 +3,6 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -23,9 +22,5 @@ export async function generateMetadata(props: {
 // The client reads session/snapshot from the URL itself (useImageNav); the route only
 // needs to exist for the path segment.
 export default function ImageSessionPage() {
-  return (
-    <Suspense>
-      <ImagePage />
-    </Suspense>
-  );
+  return <ImagePage />;
 }

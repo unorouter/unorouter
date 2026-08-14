@@ -28,10 +28,9 @@ export function useTopUpInfoQuery() {
 }
 
 export function useBillingPlansQuery() {
-  // staleTime "static": this dataset is dehydrated into prerendered shells,
-  // and any finite staleTime makes useQuery read the clock during the
-  // prerender (rejected by cacheComponents). Static queries are skipped by
-  // invalidate/refetchQueries; use queryClient.fetchQuery to force-update.
+  // staleTime "static": server-dehydrated dataset that must not refetch on
+  // mount. Static queries are skipped by invalidate/refetchQueries; use
+  // queryClient.fetchQuery to force-update.
   return useElysiaQuery(
     queryKeys.billingPlans(),
     () => rpc.api.billing.core["subscription-plans"].get(),

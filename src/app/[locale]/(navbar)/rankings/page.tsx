@@ -29,8 +29,8 @@ export async function generateMetadata(props: {
   });
 }
 
-// The period query param is resolved client-side after hydration; the shell
-// always prerenders the default week ranking so it stays fully static.
+// The period query param is resolved client-side after hydration; the server
+// always renders the default week ranking.
 export default async function RankingsPage(props: {
   params: Promise<{ locale: string }>;
 }) {
@@ -63,9 +63,8 @@ export default async function RankingsPage(props: {
         })}
       />
       <HydrationBoundary state={data.dehydrated}>
-        {/* Rankings reads the period from useQueryState (useSearchParams): a CSR
-            bailout that needs its own boundary or the whole page leaves the
-            PPR static shell. */}
+        {/* Rankings reads the period from useQueryState (useSearchParams),
+            which suspends and needs its own boundary. */}
         <Suspense fallback={null}>
           <Rankings initialPeriod={period} />
         </Suspense>

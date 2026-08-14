@@ -1,5 +1,4 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { SidebarShellSkeleton } from "@/components/layout/sidebar/sidebar-shell-skeleton";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
@@ -10,21 +9,10 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
-
-// Every route in this group is behind auth: AuthGate awaits the cookie-bound
-// self lookup and redirects when it comes back empty, so there is no useful
-// static shell to paint before that answer arrives. The two escape hatches do
-// not apply - "use cache" cannot wrap a cookies() read, and the Suspense
-// boundary below is already in place but only covers prerender, not the
-// client-navigation validation this silences. Per the Next docs this is the
-// intended use of `instant`: request-time gating high in the tree. It opts out
-// THIS segment only; child pages stay validated.
-export const instant = false;
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -41,7 +29,7 @@ export async function generateMetadata(props: {
   });
 }
 
-async function AuthGate(props: DashboardLayoutProps) {
+export default async function DashboardLayout(props: DashboardLayoutProps) {
   const queryClient = getQueryClient();
   await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
     rpc.api.auth.account.self.get(cookies),
@@ -63,15 +51,5 @@ async function AuthGate(props: DashboardLayoutProps) {
         {props.children}
       </SidebarLayout>
     </HydrationBoundary>
-  );
-}
-
-// The Suspense gate keeps the cookie-based auth check out of the static
-// shell; it also covers every sidebar page's own request-bound prefetches.
-export default function DashboardLayout(props: DashboardLayoutProps) {
-  return (
-    <Suspense fallback={<SidebarShellSkeleton />}>
-      <AuthGate>{props.children}</AuthGate>
-    </Suspense>
   );
 }

@@ -57,9 +57,9 @@ export function ModelsPage() {
     m.setSelectedModelName(name);
   };
 
-  // The hydrated list comes from a prerendered shell (up to ~1min stale) and
-  // staleTime "static" never refetches it; pull a fresh copy once the page
-  // is idle so newly added models appear without waiting for revalidation.
+  // The hydrated list comes from the 5min server snapshot and staleTime
+  // "static" never refetches it; pull a fresh copy once the page is idle so
+  // newly added models appear without waiting for the snapshot to expire.
   const queryClient = useQueryClient();
   useEffect(() => {
     const idle =

@@ -80,13 +80,6 @@ function canonicalHref(model: ProcessedModel) {
   return { pathname: "/models/[...slug]" as const, params: { slug } };
 }
 
-// The whole page is a function of the slug: it either 404s, 301s a legacy
-// /models/<model> URL, or renders a vendor vs a model view. There is no
-// slug-independent shell to prerender around a Suspense hole, and
-// generateStaticParams is not an option either (760 models x 18 locales).
-// So gate at request time instead, the same way (sidebar)/layout.tsx does.
-export const instant = false;
-
 export async function generateMetadata(props: PageProps) {
   const locale = await serverLocale(props);
   const params = await props.params;

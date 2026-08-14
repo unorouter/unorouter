@@ -11,7 +11,6 @@ import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -71,9 +70,7 @@ export default async function ModelTesterRankingsPage(props: {
           },
         ])}
       />
-      <Suspense>
-        <RankingsData />
-      </Suspense>
+      <RankingsData />
     </>
   );
 }

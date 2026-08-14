@@ -20,19 +20,11 @@ import {
   QueryClient,
   type DehydratedState,
 } from "@tanstack/react-query";
-import { cacheLife } from "next/cache";
 
-// "use cache" fetchers let SEO pages (models, compare, rankings, home) carry
-// their content inside the prerendered shell instead of streaming it from a
-// per-request hole; revalidation keeps the data fresh across requests. They
-// call the upstream services in-process: rpc would loop back over
-// http://127.0.0.1, which has no listener during build prerenders.
-
-// Pricing-carrying caches use "minutes": newly added upstream models should
-// show up within ~1min of revalidation, not an hour.
+// SEO pages (models, compare, rankings, home) read their content through these
+// fetchers, which call the upstream services in-process: rpc would loop back
+// over http://127.0.0.1, which has no listener during a server render.
 export async function getCachedPricing(includeOffline?: boolean) {
-  "use cache";
-  cacheLife("minutes");
   return getPricingSummary(includeOffline);
 }
 
@@ -40,8 +32,6 @@ export async function getCachedPricing(includeOffline?: boolean) {
 // ~487kB full pricing into their payload. All derive from the same summary, so
 // they cannot drift from the /models table.
 export async function getCachedPricingCounts() {
-  "use cache";
-  cacheLife("minutes");
   const summary = await getPricingSummary();
   return {
     modelCount: summary.modelCount,
@@ -52,16 +42,12 @@ export async function getCachedPricingCounts() {
 }
 
 export async function getCachedPricingVendors() {
-  "use cache";
-  cacheLife("minutes");
   return (await getPricingSummary()).vendorNames;
 }
 
 // Must match the /pricing/vendors response shape exactly: the home ticker reads
 // this key, so a mismatch silently drops it back to a client fetch.
 export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
-  "use cache";
-  cacheLife("minutes");
   const summary = await getPricingSummary();
   const qc = new QueryClient();
   qc.setQueryData(queryKeys.pricingVendors(), {
@@ -75,15 +61,9 @@ export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
   return dehydrate(qc);
 }
 
-// Dehydrating inside the cache boundary is load-bearing, not a style choice:
-// prefetchQuery stamps dataUpdatedAt with Date.now(), and reading that during a
-// prerender bails the route out with NEXT_STATIC_GEN_BAILOUT (every non-English
-// vendor page 500d). Caching the dehydrated state caches the timestamp with it.
 export async function getDehydratedVendorModels(
   vendorName: string,
 ): Promise<DehydratedState> {
-  "use cache";
-  cacheLife("minutes");
   const qc = new QueryClient();
   qc.setQueryData(
     queryKeys.pricingVendor(vendorName),
@@ -93,8 +73,6 @@ export async function getDehydratedVendorModels(
 }
 
 export async function getCachedVendorModels(vendorName: string) {
-  "use cache";
-  cacheLife("minutes");
   const summary = await getPricingSummary();
   return {
     models: summary.models
@@ -104,8 +82,6 @@ export async function getCachedVendorModels(vendorName: string) {
 }
 
 export async function getCachedFreeChatModels(limit?: number) {
-  "use cache";
-  cacheLife("minutes");
   const summary = await getPricingSummary();
   const free = summary.models
     .filter(isFreeChatModel)
@@ -113,11 +89,7 @@ export async function getCachedFreeChatModels(limit?: number) {
   return limit == null ? free : free.slice(0, limit);
 }
 
-// Dehydrated states must be built INSIDE "use cache": seeding stamps
-// dataUpdatedAt, which prerenders reject outside a cached scope.
 export async function getDehydratedPlans(): Promise<DehydratedState> {
-  "use cache";
-  cacheLife("hours");
   const qc = new QueryClient();
   const [plans, topUpInfo] = await Promise.all([
     getSubscriptionPlansSummary(),
@@ -129,16 +101,12 @@ export async function getDehydratedPlans(): Promise<DehydratedState> {
 }
 
 export async function getDehydratedStatsHistory(): Promise<DehydratedState> {
-  "use cache";
-  cacheLife("minutes");
   const qc = new QueryClient();
   qc.setQueryData(queryKeys.statsHistory(), await computeStatsSummary());
   return dehydrate(qc);
 }
 
 export async function getRankingsPageData(period: string) {
-  "use cache";
-  cacheLife("hours");
   const qc = new QueryClient();
   const data = await fetchRankings(period);
   qc.setQueryData(queryKeys.rankings(period), data);
@@ -148,8 +116,6 @@ export async function getRankingsPageData(period: string) {
 // Models browse: lean pricing (same shape the /pricing endpoint serves) +
 // rankings + perf; the detail sheet fetches the full model on open.
 export async function getModelsPageData() {
-  "use cache";
-  cacheLife("minutes");
   const qc = new QueryClient();
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
@@ -177,8 +143,6 @@ export async function getModelsPageData() {
 // default for the key, so seeding one here is what actually reaches the client
 // (the hook is enabled:false and cannot fetch on its own).
 export async function getDashboardPerfData(): Promise<DehydratedState> {
-  "use cache";
-  cacheLife("minutes");
   const qc = new QueryClient();
   const perf = await fetchPerfSummary(24).catch(() => null);
   qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
@@ -188,8 +152,6 @@ export async function getDashboardPerfData(): Promise<DehydratedState> {
 // Compare pages: lean pricing (the comparison table reads only core price +
 // capability fields), plus resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {
-  "use cache";
-  cacheLife("minutes");
   const qc = new QueryClient();
   // See getModelsPageData on the non-critical rankings/perf catches.
   const [summary, rankings, perf] = await Promise.all([
@@ -218,14 +180,10 @@ export function emptyPageData() {
   };
 }
 
-// Lives here, not in utils/server: that module is reachable from client bundles,
-// where a "use cache" directive throws "cacheLife is not defined". Cached because
-// it reads the whole pricing catalog just to name models in snippets, and an
-// uncached read taints every server component awaiting it (the /models/[slug]
-// blocking-prerender error). Plain data only - a closure cannot cross the boundary.
+// Lives here, not in utils/server: that module is reachable from client bundles
+// and this reads the whole server-side pricing catalog just to name models in
+// snippets. Plain data only, so the result stays serializable to the client.
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  "use cache";
-  cacheLife("minutes");
   const data = await getCachedPricing();
   const rawModels = data.models ?? [];
   const models = rawModels.map((m) => ({

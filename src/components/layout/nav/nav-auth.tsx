@@ -7,17 +7,11 @@ import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { connection } from "next/server";
 
-// Streams from a Suspense hole inside the otherwise static navbar: the
-// cookie read happens per request, the personalized markup and its
-// hydration state travel together, so shell components never race the
-// auth cache (the source of the earlier hydration mismatches).
+// Streams from a Suspense hole in the navbar: the personalized markup and its
+// hydration state travel together, so shell components never race the auth
+// cache (the source of the earlier hydration mismatches).
 export async function NavAuth() {
-  // Declare request-time BEFORE the prefetch: React Query stamps Date.now()
-  // (cache timestamps) ahead of the cookies() read inside the callback, and an
-  // unstable value during prerender fails cacheComponents validation.
-  await connection();
   const t = await getTranslations();
   const queryClient = getQueryClient();
 
