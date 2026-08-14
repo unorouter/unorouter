@@ -9,9 +9,6 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";
 
 export default async function DashboardPage() {
-  // Request data before the clock: prerender rejects Date.now on a path that
-  // has not yet proven itself request-bound.
-  await cookies();
   const queryClient = getQueryClient();
 
   const { startTs, endTs } = defaultTimestamps();

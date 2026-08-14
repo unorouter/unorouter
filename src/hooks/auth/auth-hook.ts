@@ -12,10 +12,10 @@ import { useRef, useSyncExternalStore } from "react";
 
 type AuthLogin = typeof rpc.api.auth.account.login;
 
-// Read-only: every route serves auth from a server-prefetched Suspense hole
-// (NavAuth, the sidebar AuthGate, chat/docs/status AuthHydration), so this
-// never fetches. Login/logout and profile edits write the cache via
-// setQueryData, which is what keeps consumers current.
+// Read-only: every route serves auth from a server prefetch (NavAuth, the
+// sidebar layout, chat/docs/status AuthHydration), so this never fetches.
+// Login/logout and profile edits write the cache via setQueryData, which is
+// what keeps consumers current.
 export function useAuthQuery() {
   return useElysiaQuery(
     queryKeys.auth(),

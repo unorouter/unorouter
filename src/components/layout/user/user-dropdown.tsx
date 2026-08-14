@@ -39,7 +39,7 @@ export function UserDropdown(props: UserDropdownProps) {
   const subQuery = useSubscriptionSelfQuery();
   // Base UI's Menu.Trigger decorates the trigger button with interactive attrs
   // (disabled/aria-controls/handlers) only on the client, so mounting it during
-  // hydration mismatches the streamed static button. Render the plain child
+  // hydration mismatches the server-rendered button. Render the plain child
   // button first, swap in the interactive dropdown after hydration.
   const mounted = useHydrated();
 
@@ -50,7 +50,7 @@ export function UserDropdown(props: UserDropdownProps) {
 
   // Until mounted, render ONLY the plain child button - identical on the server
   // and the first client render, regardless of auth-cache timing - so hydration
-  // never compares the streamed static button against the Base UI trigger (which
+  // never compares the server-rendered button against the Base UI trigger (which
   // decorates it with client-only attrs) or against a null (auth not yet in the
   // client cache). The interactive dropdown mounts after hydration.
   if (!mounted) return props.children;

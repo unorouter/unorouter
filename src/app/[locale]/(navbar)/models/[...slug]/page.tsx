@@ -92,10 +92,8 @@ export async function generateMetadata(props: PageProps) {
     const vendor = await resolveVendor(params.slug);
     if (!vendor) {
       // An empty object inherits the parent (home) metadata: "index, follow"
-      // plus a canonical pointing at /<locale>. cacheComponents streams the
-      // shell before notFound() runs, so the 200 status can no longer be
-      // changed and Google reads that inherited head as a soft 404 on a real
-      // page. Emit the noindex head here, where it still lands in the shell.
+      // plus a canonical pointing at /<locale>, which Google reads as a soft
+      // 404 on a real page. Emit the noindex head here instead.
       return notFoundMetadata();
     }
     return getPageMetadata({

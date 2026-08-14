@@ -5,9 +5,8 @@ import { rpc } from "@/lib/rpc";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
-// Wraps a Suspense hole's content with server-prefetched auth state (and
-// optionally the best key). Content and hydration state travel in the same
-// streamed chunk, so consumers below never race the cache.
+// Wraps content with server-prefetched auth state (and optionally the best
+// key), so consumers below never race the cache.
 export async function AuthHydration(props: {
   children: ReactNode;
   withBestKey?: boolean;

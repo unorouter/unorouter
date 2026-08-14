@@ -120,20 +120,25 @@ export function ImageForm() {
           )}
         />
 
-        {descriptor.id === CUSTOM_CIVITAI_MODEL_ID && (
-          <Controller
-            control={form.control}
-            name="ui.airQuery"
-            render={({ field }) => (
-              <CivitaiResolverField
-                value={activeCheckpoint}
-                onChange={checkpoint.setCheckpoint}
-                query={field.value ?? ""}
-                onQueryChange={field.onChange}
-              />
-            )}
-          />
-        )}
+        {/* The passthrough row also carries hosted models picked by AIR (FLUX.2,
+            seedream), which have nothing to resolve on CivitAI. Showing the resolver
+            there reads as "we did not understand your pick". */}
+        {descriptor.id === CUSTOM_CIVITAI_MODEL_ID &&
+          (!activeCheckpoint?.air ||
+            activeCheckpoint.air.includes("civitai:")) && (
+            <Controller
+              control={form.control}
+              name="ui.airQuery"
+              render={({ field }) => (
+                <CivitaiResolverField
+                  value={activeCheckpoint}
+                  onChange={checkpoint.setCheckpoint}
+                  query={field.value ?? ""}
+                  onQueryChange={field.onChange}
+                />
+              )}
+            />
+          )}
 
         {descriptor.supportsSize && <AspectRatioSection />}
 

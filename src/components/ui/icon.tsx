@@ -48,7 +48,7 @@ export function Icon(props: Props) {
   // SSR and hydration always render the default library (the cookie-backed
   // theme atom resolves post-mount), so lucide must be static: a lazy icon's
   // chunk only starts loading after scripts execute, the component suspends
-  // mid-hydration, and the Suspense fallback mismatches the server <svg>
+  // mid-hydration, and the resulting gap mismatches the server <svg>
   // (React #418). Alternate libraries only ever render post-mount, where
   // lazy loading is safe.
   if (lib === "lucide") {
