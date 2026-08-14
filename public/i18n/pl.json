@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Niepowodzenie",
     "REMIX": "Remix",
     "DELETE": "Usuń",
+    "DELETE_SESSION": "Usuń sesję",
+    "DELETE_SESSION_CONFIRM": "Usunąć tę sesję generowania wraz ze wszystkimi obrazami? Tej operacji nie można cofnąć.",
     "META_TITLE": "Generowanie obrazów",
     "META_DESC": "Generuj obrazy w {appName}: checkpointy SDXL i Flux, LoRA oraz dowolny model z Civitai.",
     "REFERENCES_DROP_HINT": "Upuść obrazy lub przeglądaj",

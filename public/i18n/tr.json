@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Başarısız",
     "REMIX": "Remix",
     "DELETE": "Sil",
+    "DELETE_SESSION": "Oturumu sil",
+    "DELETE_SESSION_CONFIRM": "Bu üretim oturumu ve içindeki tüm görseller silinsin mi? Bu işlem geri alınamaz.",
     "META_TITLE": "Görsel üretimi",
     "META_DESC": "{appName} ile görsel üretin: SDXL ve Flux kontrol noktaları, LoRA'lar ve herhangi bir Civitai modeli.",
     "REFERENCES_DROP_HINT": "Görselleri bırak veya gözat",

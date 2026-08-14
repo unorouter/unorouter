@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Gagal",
     "REMIX": "Remix",
     "DELETE": "Hapus",
+    "DELETE_SESSION": "Hapus sesi",
+    "DELETE_SESSION_CONFIRM": "Hapus sesi pembuatan ini beserta semua gambarnya? Tindakan ini tidak dapat dibatalkan.",
     "META_TITLE": "Generasi gambar",
     "META_DESC": "Hasilkan gambar dengan {appName}: checkpoint SDXL dan Flux, LoRA, dan model Civitai apa pun.",
     "REFERENCES_DROP_HINT": "Jatuhkan gambar atau telusuri",

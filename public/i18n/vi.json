@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Thất bại",
     "REMIX": "Remix",
     "DELETE": "Xóa",
+    "DELETE_SESSION": "Xóa phiên",
+    "DELETE_SESSION_CONFIRM": "Xóa phiên tạo ảnh này cùng toàn bộ ảnh của nó? Thao tác này không thể hoàn tác.",
     "META_TITLE": "Tạo ảnh",
     "META_DESC": "Tạo ảnh với {appName}: checkpoint SDXL và Flux, LoRA và bất kỳ mô hình Civitai nào.",
     "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",

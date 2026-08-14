@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "विफल",
     "REMIX": "Remix",
     "DELETE": "हटाएं",
+    "DELETE_SESSION": "सत्र हटाएं",
+    "DELETE_SESSION_CONFIRM": "क्या यह जनरेशन सत्र और इसकी सभी छवियां हटा दें? इसे वापस नहीं लाया जा सकता।",
     "META_TITLE": "Image generation",
     "META_DESC": "{appName} से छवियाँ बनाएँ: SDXL और Flux चेकपॉइंट, LoRA, और कोई भी Civitai मॉडल।",
     "REFERENCES_DROP_HINT": "Images drop करें या browse करें",

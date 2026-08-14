@@ -6,6 +6,7 @@ import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
   deleteLocalImageSession,
+  deleteLocalImageSessionDeep,
   deleteLocalSnapshot,
   readLocalImageSession,
   readLocalSessionBundle,
@@ -309,6 +310,25 @@ export function useDeleteSnapshotMutation() {
         keys.push(queryKeys.imageSession(data.sessionId));
       }
       invalidateAndBroadcast(qc, keys);
+    },
+  });
+}
+
+export function useDeleteImageSessionMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: async (args: { sessionId: string }) => {
+      await deleteLocalImageSessionDeep(userId, args.sessionId);
+      return args;
+    },
+    onError: (e) => handleError(e, t),
+    onSuccess: (data) => {
+      invalidateAndBroadcast(qc, [
+        queryKeys.imageSessionLists(),
+        queryKeys.imageSession(data.sessionId),
+      ]);
     },
   });
 }

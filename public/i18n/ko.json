@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "실패",
     "REMIX": "리믹스",
     "DELETE": "삭제",
+    "DELETE_SESSION": "세션 삭제",
+    "DELETE_SESSION_CONFIRM": "이 생성 세션과 모든 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.",
     "META_TITLE": "이미지 생성",
     "META_DESC": "{appName}으로 이미지를 생성하세요. SDXL과 Flux 체크포인트, LoRA, 모든 Civitai 모델을 지원합니다.",
     "REFERENCES_DROP_HINT": "이미지를 드롭하거나 찾아보세요",

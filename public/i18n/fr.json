@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Échec",
     "REMIX": "Remix",
     "DELETE": "Supprimer",
+    "DELETE_SESSION": "Supprimer la session",
+    "DELETE_SESSION_CONFIRM": "Supprimer cette session de génération et toutes ses images ? Cette action est irréversible.",
     "META_TITLE": "Génération d'images",
     "META_DESC": "Générez des images avec {appName} : checkpoints SDXL et Flux, LoRAs et n'importe quel modèle Civitai.",
     "REFERENCES_DROP_HINT": "Déposer des images ou parcourir",

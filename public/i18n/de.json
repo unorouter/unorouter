@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Fehlgeschlagen",
     "REMIX": "Remix",
     "DELETE": "Löschen",
+    "DELETE_SESSION": "Sitzung löschen",
+    "DELETE_SESSION_CONFIRM": "Diese Generierungssitzung und alle ihre Bilder löschen? Das lässt sich nicht rückgängig machen.",
     "META_TITLE": "Bildgenerierung",
     "META_DESC": "Erzeuge Bilder mit {appName}: SDXL- und Flux-Checkpoints, LoRAs und jedes Civitai-Modell.",
     "REFERENCES_DROP_HINT": "Bilder ablegen oder auswählen",

@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "失敗",
     "REMIX": "再創作",
     "DELETE": "刪除",
+    "DELETE_SESSION": "刪除工作階段",
+    "DELETE_SESSION_CONFIRM": "刪除此生成工作階段及其全部圖片？此操作無法復原。",
     "META_TITLE": "圖像生成",
     "META_DESC": "使用 {appName} 生成圖像：支援 SDXL 與 Flux 檢查點、LoRA，以及任意 Civitai 模型。",
     "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",

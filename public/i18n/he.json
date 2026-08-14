@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "נכשל",
     "REMIX": "רמיקס",
     "DELETE": "מחק",
+    "DELETE_SESSION": "מחיקת הפעלה",
+    "DELETE_SESSION_CONFIRM": "למחוק את הפעלת היצירה הזו ואת כל התמונות שבה? לא ניתן לבטל את הפעולה.",
     "META_TITLE": "ייצור תמונות",
     "META_DESC": "צור תמונות עם {appName}: צ'קפוינטים של SDXL ו-Flux, מודלי LoRA וכל מודל מ-Civitai.",
     "REFERENCES_DROP_HINT": "שחררו תמונות או עיינו",

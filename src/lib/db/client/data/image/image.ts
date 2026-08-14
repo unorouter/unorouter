@@ -130,8 +130,37 @@ export const upsertLocalSnapshot = (
   row: SnapshotInput,
 ) => snapshotStore.upsert(userId, stripInlineImages(row));
 
-export const deleteLocalSnapshot = (userId: number | undefined, id: string) =>
-  snapshotStore.drop(userId, id);
+export async function deleteLocalSnapshot(
+  userId: number | undefined,
+  id: string,
+) {
+  const local = await getLocalDb(userId);
+  if (local) {
+    await local.db.delete(media).where(eq(media.imageSnapshotId, id));
+  }
+  await snapshotStore.drop(userId, id);
+}
+
+// Snapshots cascade with the session row, but `media.playground_id` is a plain
+// column with no FK, so the generated images (the bulk of the bytes) would be
+// orphaned and keep the space. Delete them explicitly, before the cascade takes
+// away the snapshot ids that identify them.
+export async function deleteLocalImageSessionDeep(
+  userId: number | undefined,
+  sessionId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  const snapshots = await local.db
+    .select({ id: imageSnapshots.id })
+    .from(imageSnapshots)
+    .where(eq(imageSnapshots.sessionId, sessionId));
+  const ids = snapshots.map((s) => s.id);
+  if (ids.length > 0) {
+    await local.db.delete(media).where(inArray(media.imageSnapshotId, ids));
+  }
+  await sessionStore.drop(userId, sessionId);
+}
 
 export async function bumpLocalSessionCounts(
   userId: number | undefined,

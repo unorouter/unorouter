@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "失敗",
     "REMIX": "リミックス",
     "DELETE": "削除",
+    "DELETE_SESSION": "セッションを削除",
+    "DELETE_SESSION_CONFIRM": "この生成セッションとすべての画像を削除しますか？この操作は取り消せません。",
     "META_TITLE": "画像生成",
     "META_DESC": "{appName} で画像を生成：SDXL と Flux のチェックポイント、LoRA、あらゆる Civitai モデルに対応。",
     "REFERENCES_DROP_HINT": "画像をドロップまたは選択",

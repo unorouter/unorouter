@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Fallito",
     "REMIX": "Remix",
     "DELETE": "Elimina",
+    "DELETE_SESSION": "Elimina sessione",
+    "DELETE_SESSION_CONFIRM": "Eliminare questa sessione di generazione e tutte le sue immagini? L'operazione non è reversibile.",
     "META_TITLE": "Generazione immagine",
     "META_DESC": "Genera immagini con {appName}: checkpoint SDXL e Flux, LoRA e qualsiasi modello Civitai.",
     "REFERENCES_DROP_HINT": "Trascina immagini o sfoglia",

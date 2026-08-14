@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "فشل",
     "REMIX": "ريمكس",
     "DELETE": "حذف",
+    "DELETE_SESSION": "حذف الجلسة",
+    "DELETE_SESSION_CONFIRM": "هل تريد حذف جلسة التوليد هذه وجميع صورها؟ لا يمكن التراجع عن هذا الإجراء.",
     "META_TITLE": "توليد الصور",
     "META_DESC": "أنشئ صورًا باستخدام {appName}: نقاط تفتيش SDXL وFlux، ونماذج LoRA، وأي نموذج من Civitai.",
     "REFERENCES_DROP_HINT": "أفلت صوراً أو تصفّح",

@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "失败",
     "REMIX": "再创作",
     "DELETE": "删除",
+    "DELETE_SESSION": "删除会话",
+    "DELETE_SESSION_CONFIRM": "删除该生成会话及其全部图片？此操作无法撤销。",
     "META_TITLE": "图像生成",
     "META_DESC": "使用 {appName} 生成图像：支持 SDXL 与 Flux 检查点、LoRA，以及任意 Civitai 模型。",
     "REFERENCES_DROP_HINT": "拖放图像或浏览",

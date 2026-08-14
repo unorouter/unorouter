@@ -5866,6 +5866,8 @@
     "STATUS_FAILURE": "Failed",
     "REMIX": "Remix",
     "DELETE": "Delete",
+    "DELETE_SESSION": "Delete session",
+    "DELETE_SESSION_CONFIRM": "Delete this generation session and all of its images? This cannot be undone.",
     "META_TITLE": "Image generation",
     "META_DESC": "Generate images with {appName}: SDXL and Flux checkpoints, LoRAs, and any Civitai model.",
     "REFERENCES_DROP_HINT": "Drop images or browse",

@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SmartImage } from "@/components/ui/smart-image";
-import { useSessionHistoryQuery } from "@/hooks/ai/image-hook";
+import {
+  useDeleteImageSessionMutation,
+  useSessionHistoryQuery,
+} from "@/hooks/ai/image-hook";
+import { confirm } from "@/components/ui/confirm";
 import { Link } from "@/i18n/navigation";
 import type { ImageView } from "@/lib/types";
 import { downloadBlob } from "@/lib/utils/client";
@@ -318,6 +322,7 @@ export function ImageSessionList() {
   const sidebar = useSidebar();
   const pathname = usePathname();
   const query = useSessionHistoryQuery();
+  const deleteSession = useDeleteImageSessionMutation();
 
   const items = query.data?.items ?? [];
   const segments = pathname.split("/").filter(Boolean);
@@ -363,40 +368,62 @@ export function ImageSessionList() {
                 const snapshotCount = session.snapshotCount ?? 0;
                 const extra = snapshotCount > 1 ? snapshotCount - 1 : 0;
                 return (
-                  <Link
-                    key={session.id}
-                    href={{
-                      pathname: "/image/[id]",
-                      params: { id: session.id },
-                    }}
-                    title={latest?.prompt ?? session.title ?? ""}
-                    className={cn(
-                      "bg-muted relative block aspect-square overflow-hidden rounded",
-                      "ring-offset-background hover:ring-ring hover:ring-1",
-                      activeSessionId === session.id && "ring-ring ring-2",
-                    )}
-                  >
-                    {firstImage?.src ? (
-                      <SmartImage
-                        src={firstImage.src}
-                        alt={latest?.prompt ?? session.title ?? ""}
-                        fill
-                        sizes="160px"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
-                        {latest?.status === "failure"
-                          ? "!"
-                          : (latest?.progress ?? "?")}
-                      </div>
-                    )}
-                    {extra > 0 && (
-                      <span className="bg-background/80 text-foreground absolute right-1 bottom-1 rounded px-1 text-[10px] font-medium">
-                        +{extra}
-                      </span>
-                    )}
-                  </Link>
+                  <div key={session.id} className="group/session relative">
+                    <button
+                      type="button"
+                      aria-label={t("IMAGE.DELETE_SESSION")}
+                      title={t("IMAGE.DELETE_SESSION")}
+                      onClick={async () => {
+                        if (
+                          !(await confirm({
+                            title: t("IMAGE.DELETE_SESSION"),
+                            description: t("IMAGE.DELETE_SESSION_CONFIRM"),
+                            confirmLabel: t("COMMON.DELETE"),
+                            cancelLabel: t("COMMON.CANCEL"),
+                            destructive: true,
+                          }))
+                        )
+                          return;
+                        deleteSession.mutate({ sessionId: session.id });
+                      }}
+                      className="bg-background/80 text-foreground absolute top-1 right-1 z-10 rounded p-1 opacity-0 transition-opacity group-hover/session:opacity-100 max-md:opacity-100"
+                    >
+                      <Icon name="trash" className="size-3" />
+                    </button>
+                    <Link
+                      href={{
+                        pathname: "/image/[id]",
+                        params: { id: session.id },
+                      }}
+                      title={latest?.prompt ?? session.title ?? ""}
+                      className={cn(
+                        "bg-muted relative block aspect-square overflow-hidden rounded",
+                        "ring-offset-background hover:ring-ring hover:ring-1",
+                        activeSessionId === session.id && "ring-ring ring-2",
+                      )}
+                    >
+                      {firstImage?.src ? (
+                        <SmartImage
+                          src={firstImage.src}
+                          alt={latest?.prompt ?? session.title ?? ""}
+                          fill
+                          sizes="160px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
+                          {latest?.status === "failure"
+                            ? "!"
+                            : (latest?.progress ?? "?")}
+                        </div>
+                      )}
+                      {extra > 0 && (
+                        <span className="bg-background/80 text-foreground absolute right-1 bottom-1 rounded px-1 text-[10px] font-medium">
+                          +{extra}
+                        </span>
+                      )}
+                    </Link>
+                  </div>
                 );
               })}
             </div>
