@@ -1,4 +1,3 @@
-import { modelSlug } from "@/lib/utils/base";
 
 export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["claude-opus-4-8", "gpt-5.5"],
@@ -36,6 +35,3 @@ export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["qwen3.7-max", "deepseek-v4-pro"],
 ] as const;
 
-export function comparePairSlugs(): string[][] {
-  return COMPARE_PAIRS.map(([a, b]) => [modelSlug(a), modelSlug(b)]);
-}

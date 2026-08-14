@@ -266,6 +266,12 @@ function ChatRuntimeHook() {
   useLiveOpsBridge(chat);
 
   return useAISDKRuntime(wrappedChat, {
+    // The converter otherwise folds a run of assistant messages into ONE rendered
+    // message, so deleting the user turn between two replies leaves them sharing a
+    // single bubble: two reasoning boxes, one action bar, and an edit box holding
+    // both texts. Our messages are branch nodes with their own ids, never chunks of
+    // one turn, so there is nothing to join.
+    joinStrategy: "none",
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
         convId: chatStore.get(convIdAtom),

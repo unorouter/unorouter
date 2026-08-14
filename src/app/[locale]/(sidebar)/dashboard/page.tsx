@@ -6,7 +6,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { burnRateWindow, defaultTimestamps } from "@/store/dashboard-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { cookies } from "next/headers";
 
 export default async function DashboardPage() {
   const queryClient = getQueryClient();

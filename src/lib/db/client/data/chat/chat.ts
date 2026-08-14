@@ -1,7 +1,6 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { uid } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -444,59 +443,6 @@ export async function setLocalActiveBranch(
   await bumpLocalConvUpdatedAt(userId, convId);
 }
 
-// Deleting a turn whose parent and child share a role would leave two
-// same-role messages adjacent, which the runtime renders as ONE bubble: the
-// earlier message's text and reasoning show up inside the later one and its
-// action bar is gone, so it cannot be edited, branched or deleted anymore.
-// Fold the child into the parent instead, which is what the merged bubble
-// already showed, except the row now matches and keeps one working action bar.
-async function foldOrphanedSibling(
-  userId: number | undefined,
-  msgs: Awaited<ReturnType<typeof readLocalMessages>>,
-  target:
-    | NonNullable<Awaited<ReturnType<typeof readLocalMessages>>>[number]
-    | undefined,
-  newParentId: string | null,
-): Promise<boolean> {
-  if (!target || !msgs || !newParentId) return false;
-  const parent = msgs.find((m) => m.id === newParentId);
-  if (!parent) return false;
-  const children = msgs.filter((m) => m.parentId === target.id);
-  if (children.length !== 1) return false;
-  const child = children[0];
-  if (child.role !== parent.role) return false;
-
-  const local = await getLocalDb(userId);
-  if (!local) return false;
-  const rows = await local.db
-    .select()
-    .from(messageItems)
-    .where(inArray(messageItems.messageId, [parent.id, child.id]))
-    .orderBy(asc(messageItems.sequenceIndex));
-  const parentItems = rows.filter((r) => r.messageId === parent.id);
-  const childItems = rows.filter((r) => r.messageId === child.id);
-  // Fresh ids for the carried-over rows: the originals are still owned by the
-  // child message and go away with its cascade delete below.
-  const merged = [
-    ...parentItems,
-    ...childItems.map((r) => ({ ...r, id: uid() })),
-  ].map((r, i) => ({ ...r, sequenceIndex: i }));
-  await replaceLocalMessageItems(userId, parent.id, merged);
-
-  const now = dayjs().toDate();
-  for (const m of msgs) {
-    if (m.parentId === child.id) {
-      await upsertLocalMessage(userId, {
-        ...m,
-        parentId: parent.id,
-        updatedAt: now,
-      });
-    }
-  }
-  await deleteLocalMessage(userId, child.id);
-  return true;
-}
-
 export async function spliceDeleteLocalMessage(
   userId: number | undefined,
   convId: string,
@@ -506,12 +452,6 @@ export async function spliceDeleteLocalMessage(
   const target = msgs.find((m) => m.id === msgId);
   const newParentId = target?.parentId ?? null;
   const now = dayjs().toDate();
-  const folded = await foldOrphanedSibling(userId, msgs, target, newParentId);
-  if (folded) {
-    await deleteLocalMessage(userId, msgId);
-    await bumpLocalConvUpdatedAt(userId, convId);
-    return;
-  }
   const childIds: string[] = [];
   for (const m of msgs) {
     if (m.parentId === msgId) {

@@ -8,13 +8,6 @@ export const RANKING_PERIODS = [
   { id: "year", labelKey: msg("RANKINGS.PERIODS.YEAR") },
 ] as const satisfies readonly { id: RankingPeriod; labelKey: TranslationKey }[];
 
-const VALID_PERIODS = new Set<string>(RANKING_PERIODS.map((p) => p.id));
-
-export function isValidPeriod(
-  value: string | null | undefined,
-): value is RankingPeriod {
-  return !!value && VALID_PERIODS.has(value);
-}
 
 const MODEL_PERIOD_KEYS: Record<RankingPeriod, TranslationKey> = {
   today: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.TODAY",
