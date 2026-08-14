@@ -145,6 +145,22 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
+// Many upstreams (qwen, mistral-nemo derivatives, several openai-compatible
+// resellers) reject a system message that is not part of the leading run, and
+// xAI's Responses API rejects system inside `messages` outright. The leading run
+// is left alone because role-transform hoists it into the `system` param.
+export function demoteLateSystem(messages: StreamMessages): StreamMessages {
+  let seenNonSystem = false;
+  return messages.map((m) => {
+    if (m.role !== "system") {
+      seenNonSystem = true;
+      return m;
+    }
+    if (!seenNonSystem) return m;
+    return { ...mapTextParts(m, (t) => `system: ${t}`), role: "user" };
+  });
+}
+
 export function stripReasoningParts(messages: StreamMessages): StreamMessages {
   return messages.map((m) => {
     if (!Array.isArray(m.parts)) return m;

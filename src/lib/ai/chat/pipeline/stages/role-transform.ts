@@ -8,6 +8,7 @@ import { getModelRoleFlags } from "../role-flags";
 import {
   appendPrefill,
   appendUserStub,
+  demoteLateSystem,
   dropEmptyMessages,
   mergeAlternateRoles,
   mkMsg,
@@ -56,6 +57,7 @@ export async function transformRoles(
 
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
+  processedMessages = demoteLateSystem(processedMessages);
   processedMessages = dropEmptyMessages(processedMessages);
   if (assembled.prefill && !prefillEmitted(assembled)) {
     processedMessages = appendPrefill(processedMessages, assembled.prefill);
