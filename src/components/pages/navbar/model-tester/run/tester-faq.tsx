@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { buildFAQPageSchema } from "@/lib/seo/structured-data";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { TESTER_LINKS } from "./links";
+import { TESTER_LINKS } from "../shared/links";
 import type { ReactNode } from "react";
 import type { TranslationKey } from "@/lib/types";
 

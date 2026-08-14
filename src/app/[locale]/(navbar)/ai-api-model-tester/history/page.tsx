@@ -1,4 +1,4 @@
-import { HistoryTable } from "@/components/pages/navbar/model-tester/history-table";
+import { HistoryTable } from "@/components/pages/navbar/model-tester/history/history-table";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";

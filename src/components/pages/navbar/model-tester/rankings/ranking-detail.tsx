@@ -14,11 +14,11 @@ import { vendorForRow } from "@/lib/ai/verify/models";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar, RankPill } from "./rank-bar";
-import { ResultCardList } from "./result-card-list";
-import { toResultCardData } from "./result-adapters";
-import { TestResultCard } from "./test-result-card";
-import { TESTER_LINKS, githubReportUrl } from "./links";
+import { RankBar, RankPill } from "../shared/rank-bar";
+import { ResultCardList } from "../shared/result-card-list";
+import { toResultCardData } from "../shared/result-adapters";
+import { TestResultCard } from "../shared/test-result-card";
+import { TESTER_LINKS, githubReportUrl } from "../shared/links";
 import type { RankingRecentRow } from "@/lib/api/typebox/model-tester";
 
 export function RankingDetail(props: { host: string; model: string }) {

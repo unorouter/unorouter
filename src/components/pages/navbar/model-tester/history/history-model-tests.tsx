@@ -9,9 +9,9 @@ import {
 import { Link } from "@/i18n/navigation";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { ResultCardList } from "./result-card-list";
-import { toResultCardData } from "./result-adapters";
-import { TestResultCard } from "./test-result-card";
+import { ResultCardList } from "../shared/result-card-list";
+import { toResultCardData } from "../shared/result-adapters";
+import { TestResultCard } from "../shared/test-result-card";
 import type { HistoryTestDetail } from "@/lib/db/client/data/tester/tester";
 
 export function HistoryModelTests(props: { host: string; model: string }) {

@@ -1,4 +1,4 @@
-import { HistoryModelTests } from "@/components/pages/navbar/model-tester/history-model-tests";
+import { HistoryModelTests } from "@/components/pages/navbar/model-tester/history/history-model-tests";
 
 type Props = {
   params: Promise<{ locale: string; host: string; model: string }>;

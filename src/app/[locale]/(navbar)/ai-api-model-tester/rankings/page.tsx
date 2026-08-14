@@ -1,5 +1,5 @@
 import { prefetchElysia } from "@/lib/react-query/prefetch";
-import { RankingsTable } from "@/components/pages/navbar/model-tester/rankings-table";
+import { RankingsTable } from "@/components/pages/navbar/model-tester/rankings/rankings-table";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
 import getQueryClient from "@/lib/react-query/client";

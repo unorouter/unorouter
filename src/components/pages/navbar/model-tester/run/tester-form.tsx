@@ -22,9 +22,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { ProviderCards } from "./provider-cards";
-import { fromVerifyResult } from "./result-adapters";
-import { ScoreGauge, type GaugeArc } from "./score-gauge";
-import { CONN_KEY, TestResultCard } from "./test-result-card";
+import { fromVerifyResult } from "../shared/result-adapters";
+import { ScoreGauge, type GaugeArc } from "../shared/score-gauge";
+import { CONN_KEY, TestResultCard } from "../shared/test-result-card";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 
 const INPUT_CLASS = "bg-muted/40 font-mono text-sm shadow-none";

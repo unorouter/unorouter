@@ -1,4 +1,4 @@
-import { TesterForm } from "@/components/pages/navbar/model-tester/tester-form";
+import { TesterForm } from "@/components/pages/navbar/model-tester/run/tester-form";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
 import { JsonLd } from "@/lib/seo/json-ld";

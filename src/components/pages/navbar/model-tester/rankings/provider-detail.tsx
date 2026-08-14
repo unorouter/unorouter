@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "./rank-bar";
+import { RankBar } from "../shared/rank-bar";
 
 export function ProviderDetail(props: { host: string }) {
   const t = useTranslations();

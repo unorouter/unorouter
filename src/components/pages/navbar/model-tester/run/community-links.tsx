@@ -2,7 +2,7 @@
 
 import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
-import { TESTER_LINKS } from "./links";
+import { TESTER_LINKS } from "../shared/links";
 
 export function CommunityLinks(props: { githubHref?: string }) {
   const t = useTranslations();

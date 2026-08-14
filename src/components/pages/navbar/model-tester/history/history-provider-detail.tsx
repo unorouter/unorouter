@@ -7,13 +7,16 @@ import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "./rank-bar";
+import { RankBar } from "../shared/rank-bar";
+import { totalSamples, weightedPassRate } from "../shared/stats";
 
 export function HistoryProviderDetail(props: { host: string }) {
   const t = useTranslations();
   const modelsQuery = useHistoryModels(props.host);
   const data = modelsQuery.data;
   const models = data?.models ?? [];
+  const sampleTotal = totalSamples(models);
+  const passPercent = Math.round(weightedPassRate(models) * 100);
 
   return (
     <div className="flex flex-col gap-4">
@@ -47,9 +50,7 @@ export function HistoryProviderDetail(props: { host: string }) {
           <div className="grid grid-cols-3 divide-x border-t">
             <HistoryStat
               label={t("MODEL_TESTER.RANKINGS.STAT_DETECTIONS")}
-              value={models
-                .reduce((s, m) => s + m.sampleCount, 0)
-                .toLocaleString()}
+              value={sampleTotal.toLocaleString()}
             />
             <HistoryStat
               label={t("MODEL_TESTER.RANKINGS.STAT_MODELS")}
@@ -57,19 +58,7 @@ export function HistoryProviderDetail(props: { host: string }) {
             />
             <HistoryStat
               label={t("MODEL_TESTER.RANKINGS.STAT_PASS_RATE")}
-              value={`${Math.round(
-                (() => {
-                  const total = models.reduce((s, m) => s + m.sampleCount, 0);
-                  return total > 0
-                    ? (models.reduce(
-                        (s, m) => s + m.avgPassRate * m.sampleCount,
-                        0,
-                      ) /
-                        total) *
-                        100
-                    : 0;
-                })(),
-              )}%`}
+              value={`${passPercent}%`}
             />
           </div>
           <div className="divide-border divide-y border-t">

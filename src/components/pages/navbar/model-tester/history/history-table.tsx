@@ -6,7 +6,8 @@ import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "./rank-bar";
+import { RankBar } from "../shared/rank-bar";
+import { totalSamples, weightedPassRate } from "../shared/stats";
 
 export function HistoryTable() {
   const t = useTranslations();
@@ -20,12 +21,9 @@ export function HistoryTable() {
       </p>
     );
 
-  const totalTests = rows.reduce((s, r) => s + r.sampleCount, 0);
+  const totalTests = totalSamples(rows);
   const totalModels = rows.reduce((s, r) => s + r.modelCount, 0);
-  const avgPassRate =
-    totalTests > 0
-      ? rows.reduce((s, r) => s + r.avgPassRate * r.sampleCount, 0) / totalTests
-      : 0;
+  const avgPassRate = weightedPassRate(rows);
 
   return (
     <div className="flex flex-col gap-6">

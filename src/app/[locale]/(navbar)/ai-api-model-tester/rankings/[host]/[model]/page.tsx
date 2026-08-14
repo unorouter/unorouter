@@ -1,4 +1,4 @@
-import { RankingDetail } from "@/components/pages/navbar/model-tester/ranking-detail";
+import { RankingDetail } from "@/components/pages/navbar/model-tester/rankings/ranking-detail";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { prefetchElysia } from "@/lib/react-query/prefetch";

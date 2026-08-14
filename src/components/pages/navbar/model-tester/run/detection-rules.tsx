@@ -9,7 +9,7 @@ import type {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CommunityLinks } from "./community-links";
-import { TESTER_LINKS } from "./links";
+import { TESTER_LINKS } from "../shared/links";
 import type { TranslationKey } from "@/lib/types";
 
 const RULE_TITLE: Record<DetectionRuleId, TranslationKey> = {

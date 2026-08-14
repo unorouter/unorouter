@@ -1,4 +1,4 @@
-import { HistoryProviderDetail } from "@/components/pages/navbar/model-tester/history-provider-detail";
+import { HistoryProviderDetail } from "@/components/pages/navbar/model-tester/history/history-provider-detail";
 
 type Props = {
   params: Promise<{ locale: string; host: string }>;

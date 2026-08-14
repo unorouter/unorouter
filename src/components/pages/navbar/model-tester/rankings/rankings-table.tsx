@@ -13,8 +13,8 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { RankBar } from "./rank-bar";
-import { TESTER_LINKS } from "./links";
+import { RankBar } from "../shared/rank-bar";
+import { TESTER_LINKS } from "../shared/links";
 
 const PAGE_SIZE = 20;
 

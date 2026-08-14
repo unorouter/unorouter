@@ -3,7 +3,7 @@
 import { Icon } from "@/components/ui/icon";
 import { DetectionRules } from "./detection-rules";
 import { TesterFaq } from "./tester-faq";
-import { TESTER_LINKS } from "./links";
+import { TESTER_LINKS } from "../shared/links";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
