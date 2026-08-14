@@ -2,7 +2,10 @@
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  readLocalMedia,
+  setLocalMediaDimensions,
+} from "@/lib/db/client/data/media/media";
 import {
   mediaBlobUrl,
   revokeMediaBlobUrl,
@@ -51,7 +54,7 @@ export function requestInlay(userId: number, id: string): void {
   if (cache.has(id) || pending.has(id)) return;
   pending.add(id);
   void readLocalMedia(userId, id)
-    .then((row) => {
+    .then(async (row) => {
       // A resolved-empty marker ("") for a missing/dataless row prevents
       // re-requesting an unknown inlay every render (each miss otherwise re-hit
       // OPFS synchronously, pinning the main thread). Mirrors img-render.ts.
@@ -59,11 +62,26 @@ export function requestInlay(userId: number, id: string): void {
         (row?.dataBase64
           ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
           : (row?.r2Url ?? null)) ?? "";
-      cache.set(id, {
-        src,
-        width: row?.width ?? null,
-        height: row?.height ?? null,
-      });
+      let width = row?.width ?? null;
+      let height = row?.height ?? null;
+      // Measured here rather than from the img's onLoad so the alt token carries
+      // `@WxH` on the FIRST render: a box reserved only after decode still grows
+      // the thread under the reader once per unmeasured row. Mirrors img-render.
+      if (src && row?.dataBase64 && (!width || !height)) {
+        try {
+          const bmp = await createImageBitmap(await (await fetch(src)).blob());
+          width = bmp.width;
+          height = bmp.height;
+          bmp.close();
+          void setLocalMediaDimensions(userId, id, width, height).catch(
+            () => {},
+          );
+        } catch {
+          width = null;
+          height = null;
+        }
+      }
+      cache.set(id, { src, width, height });
       scheduleBump();
     })
     .finally(() => pending.delete(id));
