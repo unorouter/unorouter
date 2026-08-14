@@ -10,16 +10,15 @@ import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useSubscriptionPlansQuery } from "@/hooks/billing/subscription-hook";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
+import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import {
   DEFAULT_TOPUP_AMOUNTS,
   periodWordKey,
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
 import {
-  AUTH_REDIRECT_COOKIE,
   type TranslationKey,
 } from "@/lib/config/constants";
-import { setCookie } from "cookies-next/client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -41,6 +40,8 @@ const DELOPAY_MAX = 100000;
 export function Pricing() {
   const t = useTranslations();
   const router = useRouter();
+  const loginRedirect = useLoginRedirect();
+  const redirectToLogin = () => loginRedirect("/pricing");
   const authQuery = useAuthQuery();
   const plansQuery = useSubscriptionPlansQuery();
   const billing = useBillingActions();
@@ -100,11 +101,6 @@ export function Pricing() {
       Number.isInteger(parsedCustom)) &&
     parsedCustom >= customMin &&
     parsedCustom <= customMax;
-
-  function redirectToLogin() {
-    setCookie(AUTH_REDIRECT_COOKIE, "/pricing", { maxAge: 300 });
-    router.push("/login");
-  }
 
   function handleSubscribe(plan: SubscriptionPlan) {
     if (!isLoggedIn) {

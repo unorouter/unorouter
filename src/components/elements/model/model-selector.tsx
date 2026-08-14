@@ -35,11 +35,9 @@ import {
   useModelStatusMap,
 } from "@/hooks/models/model-status-hook";
 import { UptimeDot } from "@/components/elements/model/uptime-dot";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import { Badge } from "@/components/ui/badge";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
-import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -284,8 +282,7 @@ function GroupSubmenu(props: {
 
 export function ModelSelector(props: ModelSelectorProps) {
   const t = useTranslations();
-  const router = useRouter();
-  const pathname = usePathname();
+  const loginRedirect = useLoginRedirect();
   const [open, setOpen] = useState(false);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const pricingQuery = usePricingQuery();
@@ -355,8 +352,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   }
 
   function redirectToLogin() {
-    setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
-    router.push("/login");
+    loginRedirect();
     setOpen(false);
   }
 

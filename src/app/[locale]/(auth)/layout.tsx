@@ -1,20 +1,12 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { Link, redirect } from "@/i18n/navigation";
-import { Redirect } from "@/i18n/routing";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { Link } from "@/i18n/navigation";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
-import {
-  sanitizeRedirectPath,
-  serverLocale,
-  setCookies,
-} from "@/lib/utils/server";
+import { redirectFromAuth, serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
 type Props = {
@@ -23,20 +15,14 @@ type Props = {
 };
 
 export default async function AuthLayout(props: Props) {
-  const locale = await serverLocale(props);
+  await serverLocale(props);
   const t = await getTranslations();
   const queryClient = getQueryClient();
-  const self = await rpc.api.auth.account.self.get(await setCookies());
 
-  if (self?.data?.data?.id) {
-    const redirectTo = sanitizeRedirectPath(
-      String((await getCookie(AUTH_REDIRECT_COOKIE, { cookies })) ?? ""),
-    );
-    redirect({
-      href: (redirectTo as Redirect["href"]) || "/dashboard",
-      locale,
-    });
-  }
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
+  );
+  if (queryClient.getQueryData(queryKeys.auth())) await redirectFromAuth();
 
   await prefetchElysia(queryClient, queryKeys.status(), () =>
     rpc.api.auth.account.status.get(),
@@ -61,7 +47,7 @@ export default async function AuthLayout(props: Props) {
           >
             {t("FOOTER.LEGAL_TERMS")}
           </Link>
-          {" · "}
+          {" / "}
           <Link
             href="/privacy"
             className="hover:text-foreground transition-colors"

@@ -1,10 +1,13 @@
 import { redirect } from "@/i18n/navigation";
+import type { Redirect } from "@/i18n/routing";
 import { serverEnv } from "@/server/env";
+import { getCookie } from "cookies-next/server";
 import { sealData, unsealData } from "iron-session";
 import { hasLocale, type Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
+  AUTH_REDIRECT_COOKIE,
   AUTH_REDIRECT_QUERY,
   LOCALE_COOKIE,
   LOCALES,
@@ -62,11 +65,19 @@ export const serverLocale = async (props?: {
     LOCALES[0]) as Locale;
 };
 
-// The auth-redirect cookie is client-written: it may hold a DECODED localized
-// path (Cyrillic /ru/... pathnames throw "Cannot convert argument to a
-// ByteString" when set raw on a Location header) and, being attacker-settable,
-// could carry protocol-relative (//evil.com) or absolute-URL open redirects.
-// Rebuild from URL parts so the path comes back percent-encoded and same-origin.
+// Two separate jobs, both needed, on a cookie the client writes:
+//
+// 1. SAFETY. Attacker-settable, so it can carry an open redirect. "//evil.com"
+//    is protocol-relative (browsers read it as https://evil.com) yet passes a
+//    naive startsWith("/") check, and "/\\evil.com" passes both string checks
+//    but parses as a host. Reject rather than rewrite: a silently-normalized
+//    "//evil.com/steal" becomes a valid-looking "/steal" and hides the attempt.
+// 2. ENCODING. Localized pathnames are real UTF-8 (/ru/модели), and a Location
+//    header takes BYTES: setting one raw throws "Cannot convert argument to a
+//    ByteString ... greater than 255". Parsing percent-encodes it.
+//
+// The localhost base is a parser seed only; nothing from it survives, since the
+// return value is rebuilt from path parts alone.
 export function sanitizeRedirectPath(target: string): string | null {
   if (!target.startsWith("/") || target.startsWith("//")) return null;
   try {
@@ -87,6 +98,18 @@ export async function redirectToLogin(): Promise<never> {
       : "/login",
     locale,
   });
+}
+
+// Mirror of redirectToLogin for an ALREADY authenticated visitor: sends them
+// back where they were headed before the login wall, else the dashboard. The
+// cookie is client-written and attacker-settable, hence sanitizeRedirectPath.
+export async function redirectFromAuth(): Promise<never> {
+  const locale = await serverLocale();
+  const stored = String(
+    (await getCookie(AUTH_REDIRECT_COOKIE, { cookies })) ?? "",
+  );
+  const target = sanitizeRedirectPath(stored) as Redirect["href"] | null;
+  return redirect({ href: target || "/dashboard", locale });
 }
 
 function stripLocalePrefix(url: string, locale: string): string {

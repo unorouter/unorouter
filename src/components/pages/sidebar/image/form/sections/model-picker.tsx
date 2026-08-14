@@ -16,16 +16,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import {
-  AUTH_REDIRECT_COOKIE,
   dollarsToQuota,
   renderQuota,
 } from "@/lib/config/constants";
 import type { GenerateTab } from "../../image-nav";
 import { cn } from "@/lib/utils";
-import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useDebouncedValue } from "@/hooks/ui/use-debounced-value";
@@ -60,8 +58,7 @@ type Props = {
 
 export function ModelPicker(props: Props) {
   const t = useTranslations();
-  const router = useRouter();
-  const pathname = usePathname();
+  const loginRedirect = useLoginRedirect();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const [open, setOpen] = useState(false);
@@ -72,8 +69,7 @@ export function ModelPicker(props: Props) {
 
   const pick = (m: ImageModelDescriptor, disabled: boolean) => {
     if (disabled) {
-      setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
-      router.push("/login");
+      loginRedirect();
       setOpen(false);
       return;
     }
@@ -115,8 +111,7 @@ export function ModelPicker(props: Props) {
 
   const pickCheckpoint = (c: CustomCheckpoint) => {
     if (!isLoggedIn) {
-      setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
-      router.push("/login");
+      loginRedirect();
       setOpen(false);
       return;
     }
