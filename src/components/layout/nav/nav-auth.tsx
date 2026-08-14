@@ -3,14 +3,13 @@ import { Icon } from "@/components/ui/icon";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-// Streams from a Suspense hole in the navbar: the personalized markup and its
-// hydration state travel together, so shell components never race the auth
-// cache (the source of the earlier hydration mismatches).
+// The personalized markup and its hydration state travel together, so shell
+// components never race the auth cache (the source of earlier mismatches).
 export async function NavAuth() {
   const t = await getTranslations();
   const queryClient = getQueryClient();
@@ -29,15 +28,10 @@ export async function NavAuth() {
   );
 
   return (
-    <HydrationBoundary
-      state={dehydrateOnly(queryClient, [
-        queryKeys.auth(),
-        queryKeys.subscriptionSelf(),
-      ])}
-    >
-      {/* Explicit trigger id: Base UI's useId differs between the streamed
-          server render and client hydration across this Suspense hole
-          (React #418); a stable id keeps the markup identical. UserDropdown
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* Explicit trigger id: Base UI's useId differs between the server
+          render and client hydration (React #418); a stable id keeps the
+          markup identical. UserDropdown
           renders the plain button until mounted, then swaps in the interactive
           Base UI trigger client-side, so hydration never compares the decorated
           trigger against the streamed static button. */}

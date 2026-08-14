@@ -2013,6 +2013,7 @@ export interface QuotaData {
 }
 
 export interface QuotaDataSummary {
+  avg_tpm: number;
   count: number;
   earliest_created_at: number;
   quota: number;

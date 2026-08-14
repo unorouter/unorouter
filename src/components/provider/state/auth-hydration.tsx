@@ -1,8 +1,8 @@
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
 // Wraps a Suspense hole's content with server-prefetched auth state (and
@@ -33,13 +33,7 @@ export async function AuthHydration(props: {
   }
 
   return (
-    <HydrationBoundary
-      state={dehydrateOnly(queryClient, [
-        queryKeys.auth(),
-        queryKeys.subscriptionSelf(),
-        queryKeys.bestKey(),
-      ])}
-    >
+    <HydrationBoundary state={dehydrate(queryClient)}>
       {props.children}
     </HydrationBoundary>
   );

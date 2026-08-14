@@ -1,7 +1,9 @@
 import { IntegrationBanner } from "@/components/pages/navbar/home/integration-banner";
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getDehydratedPlans } from "@/lib/api/cached";
+import { getPlansData } from "@/lib/api/cached";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -12,7 +14,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -43,6 +45,11 @@ export default async function PricingPage(props: {
     }),
   );
 
+  const queryClient = getQueryClient();
+  const [plans, topUpInfo] = await getPlansData();
+  queryClient.setQueryData(queryKeys.subscriptionPlans(), plans);
+  queryClient.setQueryData(queryKeys.topUpInfo(), topUpInfo);
+
   return (
     <>
       <JsonLd
@@ -60,7 +67,7 @@ export default async function PricingPage(props: {
           description: t("PRICING.META.DESCRIPTION"),
         })}
       />
-      <HydrationBoundary state={await getDehydratedPlans()}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <Pricing />
       </HydrationBoundary>
       <IntegrationBanner />

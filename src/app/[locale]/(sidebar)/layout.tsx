@@ -6,8 +6,8 @@ import { getPageMetadata } from "@/lib/seo/metadata";
 import { redirectToLogin, serverLocale } from "@/lib/utils/server";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 interface DashboardLayoutProps {
@@ -41,12 +41,7 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
   );
 
   return (
-    <HydrationBoundary
-      state={dehydrateOnly(queryClient, [
-        queryKeys.auth(),
-        queryKeys.subscriptionSelf(),
-      ])}
-    >
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <SidebarLayout before={<AuthRedirectCleanup />}>
         {props.children}
       </SidebarLayout>

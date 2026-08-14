@@ -5,15 +5,14 @@ import { ChatSection } from "./chat-section";
 import { CodeSection } from "./code-section";
 import { CtaSection } from "./cta-section";
 import { HeroSection } from "./hero-section";
-import type { HeroCounts } from "./hero-stats-grid";
 import { IntegrationBanner } from "./integration-banner";
 import { PricingSection } from "./pricing-section";
 
-export const Home: React.FC<{ counts: HeroCounts }> = (props) => {
+export const Home: React.FC = () => {
   return (
     <>
       <StreakCanvasLazy />
-      <HeroSection counts={props.counts} />
+      <HeroSection />
       <IntegrationBanner />
       <ModelTickerLazy />
       <PricingSection />

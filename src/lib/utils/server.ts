@@ -2,7 +2,7 @@ import { redirect } from "@/i18n/navigation";
 import { serverEnv } from "@/server/env";
 import { sealData, unsealData } from "iron-session";
 import { hasLocale, type Locale } from "next-intl";
-import { getLocale, setRequestLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
   AUTH_REDIRECT_QUERY,
@@ -56,13 +56,7 @@ export const serverLocale = async (props?: {
   params: Promise<{ locale: string }>;
 }): Promise<Locale> => {
   const fromParams = await safe(async () => (await props?.params)?.locale);
-  if (fromParams && hasLocale(LOCALES, fromParams)) {
-    // Enables static rendering: next-intl otherwise reads the locale from
-    // request headers, opting the whole route into dynamic rendering.
-    // (Deprecated in favour of next/root-params; see i18n/request.ts.)
-    setRequestLocale(fromParams);
-    return fromParams;
-  }
+  if (fromParams && hasLocale(LOCALES, fromParams)) return fromParams;
   return ((await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;

@@ -1,13 +1,17 @@
 "use client";
 
-import { useHistoryStatsQuery } from "@/hooks/ops/stats-hook";
+import { useElysiaQuery } from "@/lib/react-query/hooks";
+import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
 import { useEffect, useRef, useState } from "react";
 
 export function useLiveStats() {
-  const { data } = useHistoryStatsQuery();
-  const baseTokens = data?.tokenUsed ?? 0;
-  const baseRequests = data?.requestCount ?? 0;
-  const baseTpm = data?.avgTpm ?? 0;
+  const { data } = useElysiaQuery(queryKeys.statsHistory(), () =>
+    rpc.api.ops.stats.history.get(),
+  );
+  const baseTokens = data?.token_used ?? 0;
+  const baseRequests = data?.count ?? 0;
+  const baseTpm = data?.avg_tpm ?? 0;
 
   const [tokenDelta, setTokenDelta] = useState(0);
   const [requestDelta, setRequestDelta] = useState(0);

@@ -5,7 +5,7 @@ import {
 } from "@/lib/api/pricing";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
-import { errMessage, unixSec, unwrap } from "@/lib/utils/base";
+import { errMessage, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getPricing, getQuotaDataSummary } from "@/openapi";
 import { readFileSync } from "fs";
@@ -85,8 +85,6 @@ const EMPTY_STATS: BadgeStats = { tokenUsed: 0, requestCount: 0, avgTpm: 0 };
 
 export async function getStats(): Promise<BadgeStats> {
   if (cachedStats && Date.now() - cachedStatsAt < CACHE_TTL) return cachedStats;
-
-  const now = unixSec();
   let summary;
   try {
     const res = await getQuotaDataSummary(
@@ -113,19 +111,11 @@ export async function getStats(): Promise<BadgeStats> {
     return cachedStats;
   }
 
-  const requestCount = summary?.count ?? 0;
-  const tokenUsed = summary?.token_used ?? 0;
-
-  let avgTpm = 0;
-  const earliest = summary?.earliest_created_at ?? 0;
-  if (earliest > 0) {
-    const timeDiffMinutes = (now - earliest) / 60;
-    if (timeDiffMinutes > 0) {
-      avgTpm = Math.round(tokenUsed / timeDiffMinutes);
-    }
-  }
-
-  cachedStats = { tokenUsed, requestCount, avgTpm };
+  cachedStats = {
+    tokenUsed: summary.token_used,
+    requestCount: summary.count,
+    avgTpm: summary.avg_tpm,
+  };
   cachedStatsAt = Date.now();
   return cachedStats;
 }

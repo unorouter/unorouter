@@ -1,15 +1,14 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import {
-  getCachedPricingCounts,
-  getDehydratedPricingVendors,
-  getDehydratedStatsHistory,
-} from "@/lib/api/cached";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { fetchElysia, prefetchElysia } from "@/lib/react-query/prefetch";
+import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -33,14 +32,17 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  // Hero counts come from the tiny counts slice (4 ints), never the ~487kB
-  // pricing summary (awaiting that suspended the page + painted footer-first).
-  // The ticker SSRs off the 16kB vendors slice (name+vendor chips) dehydrated
-  // here, so it renders server-side with no client-fetch pop-in.
-  const [counts, statsState, vendorsState] = await Promise.all([
-    getCachedPricingCounts().catch(() => null),
-    getDehydratedStatsHistory(),
-    getDehydratedPricingVendors(),
+  const queryClient = getQueryClient();
+  const [counts] = await Promise.all([
+    fetchElysia(queryClient, queryKeys.pricingCounts(), () =>
+      rpc.api.models.pricing.counts.get(),
+    ).catch(() => null),
+    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
+      rpc.api.models.pricing.vendors.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
+      rpc.api.ops.stats.history.get(),
+    ),
   ]);
 
   return (
@@ -53,17 +55,8 @@ export default async function HomePage(props: {
           modelCount: counts?.modelCount,
         })}
       />
-      <HydrationBoundary state={statsState}>
-        <HydrationBoundary state={vendorsState}>
-          <Home
-            counts={{
-              modelCount: counts?.modelCount ?? 0,
-              vendorCount: counts?.vendorCount ?? 0,
-              freeCount: counts?.freeCount ?? 0,
-              paidCount: counts?.paidCount ?? 0,
-            }}
-          />
-        </HydrationBoundary>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Home />
       </HydrationBoundary>
     </>
   );

@@ -22,11 +22,9 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
-import { routing } from "@/i18n/routing";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
-import { hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -72,11 +70,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  // No network reads here. This is the ROOT metadata, so anything uncached in
-  // it renders the head of every route under [locale] dynamically and blocks
-  // their prerender. METADATA.DESCRIPTION carries no {modelCount} placeholder
-  // in any of the 18 locales, so the pricing lookup this used to await was
-  // fetched and then discarded.
+  // No network reads here: METADATA.DESCRIPTION carries no {modelCount}
+  // placeholder in any of the 18 locales, so the pricing lookup this used to
+  // await was fetched and then discarded.
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
@@ -95,21 +91,14 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-// The shell ships the DEFAULT theme (static, no cookie read); the pre-paint
-// script below applies custom data-attrs from the cookie before first paint
-// and UserThemeProvider swaps in the full custom CSS at hydration.
+// The shell ships the DEFAULT theme (no cookie read); the pre-paint script
+// below applies custom data-attrs from the cookie before first paint and
+// UserThemeProvider swaps in the full custom CSS at hydration.
 const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
-
-  // Without this, awaiting requestLocale in i18n/request.ts counts as
-  // uncached request data and cacheComponents fails every [locale] prerender.
-  // The unknown-locale notFound() guard stays in i18n/request.ts.
-  if (hasLocale(routing.locales, params.locale)) {
-    setRequestLocale(params.locale);
-  }
 
   return (
     <html

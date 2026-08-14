@@ -1,4 +1,4 @@
-import { prefetchAllSettled, prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { StatusPage } from "@/components/pages/navbar/status/status-page";
 import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -30,7 +30,7 @@ export async function generateMetadata(props: {
 async function StatusData() {
   const queryClient = getQueryClient();
 
-  await prefetchAllSettled([
+  await Promise.all([
     prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
       rpc.api.models["model-status"].components.get(),
     ),

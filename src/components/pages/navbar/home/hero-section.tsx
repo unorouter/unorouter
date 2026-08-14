@@ -1,10 +1,7 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
 import { FloatingIntegrations } from "@/components/pages/navbar/home/floating-integrations";
-import {
-  HeroStatsGrid,
-  type HeroCounts,
-} from "@/components/pages/navbar/home/hero-stats-grid";
+import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
@@ -13,7 +10,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
-export async function HeroSection(props: { counts: HeroCounts }) {
+export async function HeroSection() {
   const t = await getTranslations();
   const chipTitles = Object.fromEntries(
     SETUP_GUIDES.map((g) => [g.slug, t(g.titleKey, APP_VALUES)]),
@@ -47,7 +44,7 @@ export async function HeroSection(props: { counts: HeroCounts }) {
             .
           </h1>
 
-          <HeroSubtitle modelCount={props.counts.modelCount} />
+          <HeroSubtitle />
         </div>
 
         <div className="flex flex-col items-center justify-center gap-4 font-mono text-xs sm:flex-row lg:justify-start">
@@ -74,7 +71,7 @@ export async function HeroSection(props: { counts: HeroCounts }) {
           </Link>
         </div>
 
-        <HeroStatsGrid counts={props.counts} />
+        <HeroStatsGrid />
       </div>
 
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">

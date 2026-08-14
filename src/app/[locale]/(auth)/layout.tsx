@@ -1,4 +1,4 @@
-import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link, redirect } from "@/i18n/navigation";
 import { Redirect } from "@/i18n/routing";
@@ -11,7 +11,7 @@ import {
   serverLocale,
   setCookies,
 } from "@/lib/utils/server";
-import { HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
@@ -43,7 +43,7 @@ export default async function AuthLayout(props: Props) {
   );
 
   return (
-    <HydrationBoundary state={dehydrateOnly(queryClient, [queryKeys.status()])}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <main className="from-background via-muted to-background flex min-h-dvh flex-col items-center justify-center bg-linear-to-br px-4 py-12">
         <div className="animate-slide-up mb-8 flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">

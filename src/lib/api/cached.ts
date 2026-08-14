@@ -1,5 +1,4 @@
 import {
-  isChatModel,
   isFreeChatModel,
   leanModel,
   toLeanPricing,
@@ -14,7 +13,6 @@ import {
   getTopUpInfoSummary,
 } from "@/server/models/pricing/pricing.service";
 import { fetchRankings } from "@/server/models/rankings/rankings.service";
-import { computeStatsSummary } from "@/server/ops/stats/stats.service";
 import {
   dehydrate,
   QueryClient,
@@ -28,48 +26,8 @@ export async function getCachedPricing(includeOffline?: boolean) {
   return getPricingSummary(includeOffline);
 }
 
-// Scoped slices: pages needing only counts/vendor names must not carry the
-// ~487kB full pricing into their payload. All derive from the same summary, so
-// they cannot drift from the /models table.
-export async function getCachedPricingCounts() {
-  const summary = await getPricingSummary();
-  return {
-    modelCount: summary.modelCount,
-    freeCount: summary.freeCount,
-    paidCount: summary.paidCount,
-    vendorCount: summary.vendorCount,
-  };
-}
-
 export async function getCachedPricingVendors() {
   return (await getPricingSummary()).vendorNames;
-}
-
-// Must match the /pricing/vendors response shape exactly: the home ticker reads
-// this key, so a mismatch silently drops it back to a client fetch.
-export async function getDehydratedPricingVendors(): Promise<DehydratedState> {
-  const summary = await getPricingSummary();
-  const qc = new QueryClient();
-  qc.setQueryData(queryKeys.pricingVendors(), {
-    vendorNames: summary.vendorNames,
-    modelVendors: summary.models.map((m) => ({
-      name: m.name,
-      vendor: m.vendor.name,
-      chat: isChatModel(m),
-    })),
-  });
-  return dehydrate(qc);
-}
-
-export async function getDehydratedVendorModels(
-  vendorName: string,
-): Promise<DehydratedState> {
-  const qc = new QueryClient();
-  qc.setQueryData(
-    queryKeys.pricingVendor(vendorName),
-    await getCachedVendorModels(vendorName),
-  );
-  return dehydrate(qc);
 }
 
 export async function getCachedVendorModels(vendorName: string) {
@@ -89,21 +47,8 @@ export async function getCachedFreeChatModels(limit?: number) {
   return limit == null ? free : free.slice(0, limit);
 }
 
-export async function getDehydratedPlans(): Promise<DehydratedState> {
-  const qc = new QueryClient();
-  const [plans, topUpInfo] = await Promise.all([
-    getSubscriptionPlansSummary(),
-    getTopUpInfoSummary(),
-  ]);
-  qc.setQueryData(queryKeys.subscriptionPlans(), plans);
-  qc.setQueryData(queryKeys.topUpInfo(), topUpInfo);
-  return dehydrate(qc);
-}
-
-export async function getDehydratedStatsHistory(): Promise<DehydratedState> {
-  const qc = new QueryClient();
-  qc.setQueryData(queryKeys.statsHistory(), await computeStatsSummary());
-  return dehydrate(qc);
+export function getPlansData() {
+  return Promise.all([getSubscriptionPlansSummary(), getTopUpInfoSummary()]);
 }
 
 export async function getRankingsPageData(period: string) {

@@ -49,10 +49,15 @@ export function useImageForm() {
   // generic guess. The checkpoint the user resolved DOES know its architecture, and
   // Runware documents one schema per architecture, so the picked checkpoint decides which
   // knobs a passthrough generation actually accepts.
+  // Hosted API models (FLUX.2, gpt-image, seedream) are picked by AIR and carry no
+  // architecture, so gating the lookup on one skipped them entirely and left them on the
+  // passthrough's blank descriptor: no reference uploader on a model that takes ten.
   const pickedArchitecture = form.watch("ui.airArchitecture");
-  const checkpointSpec = pickedArchitecture
-    ? lookupParamSpec(form.watch("ui.air"), pickedArchitecture)
-    : null;
+  const pickedAir = form.watch("ui.air");
+  const checkpointSpec =
+    pickedAir || pickedArchitecture
+      ? lookupParamSpec(pickedAir, pickedArchitecture)
+      : null;
   const descriptor = checkpointSpec
     ? applyParamSpec(baseDescriptor, checkpointSpec)
     : baseDescriptor;
