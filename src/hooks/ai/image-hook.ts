@@ -141,7 +141,7 @@ function submittedKeyFor(userId: number, body: SubmitArgs): string {
 export function useSessionHistoryQuery() {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.imageSessionList(undefined),
+    queryKey: [...queryKeys.imageSessionList(undefined), userId],
     queryFn: async () => ({
       items: await readLocalSessionPreviews(userId),
       nextCursor: null,
@@ -152,7 +152,7 @@ export function useSessionHistoryQuery() {
 export function useSessionQuery(sessionId: string | null | undefined) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.imageSession(sessionId ?? ""),
+    queryKey: [...queryKeys.imageSession(sessionId ?? ""), userId],
     queryFn: async () => {
       const bundle = await readLocalSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("image-session-not-found");
@@ -169,7 +169,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
 export function useSnapshotQuery(id: string | null) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.imageSnapshot(id ?? ""),
+    queryKey: [...queryKeys.imageSnapshot(id ?? ""), userId],
     queryFn: async (): Promise<SnapshotView> => {
       const view = await readLocalSnapshotView(userId, id!);
       if (!view) throw new Error("image-snapshot-not-found");

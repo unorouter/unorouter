@@ -26,7 +26,7 @@ import { useTranslations } from "next-intl";
 export function useCardsQuery() {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.cards(),
+    queryKey: [...queryKeys.cards(), userId],
     queryFn: async () => {
       return (await readLocalCards(userId)) ?? [];
     },
@@ -36,7 +36,7 @@ export function useCardsQuery() {
 export function useCardQuery(id: string | undefined) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.card(id ?? ""),
+    queryKey: [...queryKeys.card(id ?? ""), userId],
     queryFn: async () => {
       if (!id) throw new Error("not-found");
       const local = await readLocalCard(userId, id);

@@ -78,7 +78,7 @@ export function useCheckpointSearchQuery(q: string) {
 export function useSavedImageModelsQuery() {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.savedImageModels(),
+    queryKey: [...queryKeys.savedImageModels(), userId],
     queryFn: () => readLocalImageModels(userId),
   });
 }
@@ -103,7 +103,7 @@ export function useRememberImageModelMutation() {
 export function useImagePresetsQuery() {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.imagePresets(),
+    queryKey: [...queryKeys.imagePresets(), userId],
     queryFn: () => listImagePresets(userId),
   });
 }

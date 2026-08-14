@@ -38,7 +38,7 @@ import { dayjs } from "@/lib/utils/format/date";
 export function useChatSettingsQuery(convId?: string) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.chatSettings(convId!),
+    queryKey: [...queryKeys.chatSettings(convId!), userId],
     queryFn: async () => {
       if (!convId) return null;
       return (await readLocalConversationSettings(userId, convId)) ?? null;
@@ -72,7 +72,7 @@ export function useUpdateChatSettingsMutation() {
 export function useChatBindingsQuery(convId?: string) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.chatBindings(convId!),
+    queryKey: [...queryKeys.chatBindings(convId!), userId],
     queryFn: async () => {
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);

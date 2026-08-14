@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 export function useQueuedSends() {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.queuedSends(),
+    queryKey: [...queryKeys.queuedSends(), userId],
     queryFn: async () => {
       const turns = await findUnansweredUserTurns(userId);
       return new Set(turns.map((turn) => turn.convId));
