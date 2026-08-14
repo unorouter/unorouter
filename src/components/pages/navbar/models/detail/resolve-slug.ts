@@ -1,7 +1,10 @@
 import { type ProcessedModel } from "@/lib/api/pricing";
 import { cache } from "react";
-import { getCachedPricing, getCachedPricingVendors } from "@/lib/api/cached";
-import { getModelByName } from "@/server/models/pricing/pricing.service";
+import { getCachedPricingVendors } from "@/lib/api/cached";
+import {
+  getModelByName,
+  getPricingSummary,
+} from "@/server/models/pricing/pricing.service";
 import {
   modelMatchesSlug,
   modelSlug,
@@ -12,7 +15,7 @@ import {
 export type ResolvedModel = {
   model: ProcessedModel;
   atCapacity: boolean;
-  data: Awaited<ReturnType<typeof getCachedPricing>> | null;
+  data: Awaited<ReturnType<typeof getPricingSummary>> | null;
 };
 
 // /models/[vendor] is a vendor listing; /models/[vendor]/[model] is a detail
@@ -28,7 +31,9 @@ export const resolveSlug = cache(
   async (
     slug: string[],
   ): Promise<
-    { kind: "model"; model: ResolvedModel } | { kind: "vendor"; vendor: string } | null
+    | { kind: "model"; model: ResolvedModel }
+    | { kind: "vendor"; vendor: string }
+    | null
   > => {
     const model = await resolveModel(modelSegment(slug));
     if (model) return { kind: "model", model };
@@ -37,11 +42,9 @@ export const resolveSlug = cache(
   },
 );
 
-async function resolveModel(
-  slug: string,
-): Promise<ResolvedModel | null> {
+async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   if (!slug) return null;
-  const data = await getCachedPricing(true).catch(() => null);
+  const data = await getPricingSummary(true).catch(() => null);
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: !live.online, data };
   // Fully dark model (every channel disabled/deleted) is absent even from the

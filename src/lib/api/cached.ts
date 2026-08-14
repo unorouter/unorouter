@@ -18,10 +18,6 @@ import {
 // SEO pages (models, compare, rankings, home) read their content through these
 // fetchers, which call the upstream services in-process: rpc would loop back
 // over http://127.0.0.1, which has no listener during a server render.
-export async function getCachedPricing(includeOffline?: boolean) {
-  return getPricingSummary(includeOffline);
-}
-
 export async function getCachedPricingVendors() {
   return (await getPricingSummary()).vendorNames;
 }
@@ -54,9 +50,9 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
-// Models browse: lean pricing (same shape the /pricing endpoint serves) +
-// rankings + perf; the detail sheet fetches the full model on open.
-export async function getModelsPageData() {
+// Models browse and compare seed the same three keys off one pricing fetch;
+// rankings/perf are non-critical, so a failure there leaves the page renderable.
+async function seedCatalogClient() {
   const qc = new QueryClient();
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
@@ -66,16 +62,24 @@ export async function getModelsPageData() {
   qc.setQueryData(queryKeys.pricing(), toLeanPricing(summary));
   qc.setQueryData(queryKeys.rankings("week"), rankings);
   qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
-  const dehydrated = dehydrate(qc);
-  const topModels = summary.models
-    .filter((m) => m.type === "text")
-    .slice(0, 24)
-    .map((m) => ({
-      name: m.name,
-      vendorName: m.vendor.name,
-      description: m.description ?? null,
-    }));
-  return { dehydrated, topModels, vendorNames: summary.vendorNames };
+  return { qc, summary };
+}
+
+// Models browse: the detail sheet fetches the full model on open.
+export async function getModelsPageData() {
+  const seeded = await seedCatalogClient();
+  return {
+    dehydrated: dehydrate(seeded.qc),
+    topModels: seeded.summary.models
+      .filter((m) => m.type === "text")
+      .slice(0, 24)
+      .map((m) => ({
+        name: m.name,
+        vendorName: m.vendor.name,
+        description: m.description ?? null,
+      })),
+    vendorNames: seeded.summary.vendorNames,
+  };
 }
 
 // Dashboard perf strip. A plain prefetchQuery on the request-scoped client is
@@ -90,23 +94,17 @@ export async function getDashboardPerfData(): Promise<DehydratedState> {
   return dehydrate(qc);
 }
 
-// Compare pages: lean pricing (the comparison table reads only core price +
-// capability fields), plus resolved slug models for metadata/breadcrumbs.
+// Compare pages: resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {
-  const qc = new QueryClient();
-  // See getModelsPageData on the non-critical rankings/perf catches.
-  const [summary, rankings, perf] = await Promise.all([
-    getPricingSummary(),
-    fetchRankings("week").catch(() => null),
-    fetchPerfSummary(24).catch(() => null),
-  ]);
-  qc.setQueryData(queryKeys.pricing(), toLeanPricing(summary));
-  qc.setQueryData(queryKeys.rankings("week"), rankings);
-  qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
-  const models = slugs
-    .map((slug) => summary.models.find((m) => modelMatchesSlug(m.name, slug)))
-    .filter((m): m is NonNullable<typeof m> => Boolean(m));
-  return { dehydrated: dehydrate(qc), models };
+  const seeded = await seedCatalogClient();
+  return {
+    dehydrated: dehydrate(seeded.qc),
+    models: slugs
+      .map((slug) =>
+        seeded.summary.models.find((m) => modelMatchesSlug(m.name, slug)),
+      )
+      .filter((m): m is NonNullable<typeof m> => Boolean(m)),
+  };
 }
 
 // A transient upstream /pricing 5xx would otherwise reject the whole server
@@ -125,7 +123,7 @@ export function emptyPageData() {
 // and this reads the whole server-side pricing catalog just to name models in
 // snippets. Plain data only, so the result stays serializable to the client.
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = await getCachedPricing();
+  const data = await getPricingSummary();
   const rawModels = data.models ?? [];
   const models = rawModels.map((m) => ({
     name: m.name,

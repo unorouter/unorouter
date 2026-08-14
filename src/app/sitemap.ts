@@ -1,3 +1,4 @@
+import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { getPathname } from "@/i18n/navigation";
 import {
@@ -13,7 +14,7 @@ import {
   privateRoutes,
   routing,
 } from "@/i18n/routing";
-import { getCachedPricing } from "@/lib/api/cached";
+import {} from "@/lib/api/cached";
 import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
@@ -78,9 +79,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.startsWith("/docs/integrations/"),
   );
 
-  const pricing = await getCachedPricing(true).catch(() =>
-    getCachedPricing(true).catch(() => null),
-  );
+  // getPricingSummary already retries 3x with backoff internally.
+  const pricing = await getPricingSummary(true).catch(() => null);
   if (!pricing?.models?.length)
     console.error(
       "[sitemap] pricing returned no models; model pages omitted from sitemap",

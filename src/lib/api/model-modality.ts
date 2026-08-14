@@ -56,6 +56,28 @@ export function countByOutputModality(
 
 export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
 
+// A fixed-price model carries ONE price, and which column it belongs in depends
+// on the modality: image/video bill per output artifact, everything else per
+// input. The unused side is 0 (or null for the pre-discount original) so callers
+// can render both columns uniformly.
+export function modelPriceColumns(model: ProcessedModel) {
+  const modality = deriveOutputModality(model);
+  const onOutput = modality === "image" || modality === "video";
+  if (!model.isFixedPrice)
+    return {
+      input: model.inputPrice,
+      output: model.outputPrice,
+      originalInput: model.originalInputPrice,
+      originalOutput: model.originalOutputPrice,
+    };
+  return {
+    input: onOutput ? 0 : model.fixedPrice,
+    output: onOutput ? model.fixedPrice : 0,
+    originalInput: onOutput ? null : model.originalFixedPrice,
+    originalOutput: onOutput ? model.originalFixedPrice : null,
+  };
+}
+
 export function fmtUnit(
   value: number,
   unit: PriceUnit,

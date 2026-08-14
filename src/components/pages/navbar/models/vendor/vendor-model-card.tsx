@@ -6,6 +6,7 @@ import { modelReleaseTs, NEW_MODEL_MS } from "@/hooks/ui/use-models-hook";
 import { useState } from "react";
 import {
   deriveOutputModality,
+  modelPriceColumns,
   inputPriceUnit,
   outputPriceUnit,
   fmtUnit,
@@ -55,27 +56,7 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
   const modality = deriveOutputModality(model);
-  const fixedOnOutput = modality === "image" || modality === "video";
-  const input = model.isFixedPrice
-    ? fixedOnOutput
-      ? 0
-      : model.fixedPrice
-    : model.inputPrice;
-  const output = model.isFixedPrice
-    ? fixedOnOutput
-      ? model.fixedPrice
-      : 0
-    : model.outputPrice;
-  const originalInput = model.isFixedPrice
-    ? fixedOnOutput
-      ? null
-      : model.originalFixedPrice
-    : model.originalInputPrice;
-  const originalOutput = model.isFixedPrice
-    ? fixedOnOutput
-      ? model.originalFixedPrice
-      : null
-    : model.originalOutputPrice;
+  const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const [now] = useState(() => Date.now());
@@ -140,16 +121,16 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
           </span>
         ) : null}
         <PriceMeta
-          value={input}
-          original={originalInput}
+          value={price.input}
+          original={price.originalInput}
           unit={inputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
           perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
         <PriceMeta
-          value={output}
-          original={originalOutput}
+          value={price.output}
+          original={price.originalOutput}
           unit={outputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
           perCall={model.isFixedPrice}

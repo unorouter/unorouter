@@ -1,3 +1,4 @@
+import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import {
   comboModelList,
@@ -6,11 +7,7 @@ import {
 import { localeUrl } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import {
-  emptyPageData,
-  getCachedPricing,
-  getComparePageData,
-} from "@/lib/api/cached";
+import { emptyPageData, getComparePageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
@@ -23,7 +20,7 @@ async function resolveModels(
   slugs: string[] | undefined,
 ): Promise<ProcessedModel[]> {
   if (!slugs?.length) return [];
-  const summary = await getCachedPricing().catch(() => null);
+  const summary = await getPricingSummary().catch(() => null);
   const models = summary?.models ?? [];
   return slugs
     .map((slug) => models.find((m) => modelMatchesSlug(m.name, slug)))
