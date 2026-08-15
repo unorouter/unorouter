@@ -40,6 +40,9 @@ export default async function TokensPage() {
     prefetchElysia(queryClient, queryKeys.userGroups(), (cookies) =>
       rpc.api.billing.token.groups.get(cookies),
     ),
+    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
+      rpc.api.models.pricing.vendors.get(),
+    ),
   ]);
 
   return (

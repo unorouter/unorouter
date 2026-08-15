@@ -18,7 +18,7 @@ import {
   useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
 } from "@/hooks/billing/token-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
@@ -154,8 +154,8 @@ export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
 export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
-  const pricingQuery = usePricingQuery();
-  const models = pricingQuery.data?.models ?? [];
+  const pricingQuery = usePricingVendorsQuery();
+  const models = pricingQuery.data?.modelVendors ?? [];
 
   let mapping: Record<string, string[]> = {};
   const rawMapping = (token as { group_mapping?: string }).group_mapping;
@@ -178,7 +178,7 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
 
   const vendors = new Set<string>();
   for (const name of mappedModels) {
-    vendors.add(models.find((m) => m.name === name)?.vendor.name ?? "unknown");
+    vendors.add(models.find((m) => m.name === name)?.vendor ?? "unknown");
   }
 
   return (
@@ -219,8 +219,8 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
 export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
-  const pricingQuery = usePricingQuery();
-  const models = pricingQuery.data?.models ?? [];
+  const pricingQuery = usePricingVendorsQuery();
+  const models = pricingQuery.data?.modelVendors ?? [];
 
   if (!token.model_limits_enabled || !token.model_limits) {
     return (
@@ -242,7 +242,7 @@ export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
   const vendorModels = new Map<string, string[]>();
   for (const name of modelNames) {
     const found = models.find((m) => m.name === name);
-    const vendor = found?.vendor.name ?? "unknown";
+    const vendor = found?.vendor ?? "unknown";
     const list = vendorModels.get(vendor);
     if (list) list.push(name);
     else vendorModels.set(vendor, [name]);

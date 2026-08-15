@@ -173,17 +173,9 @@ export async function BlogPost(props: BlogPostProps) {
                 {([1, 2, 3] as const).map((n) => (
                   <div key={n}>
                     <h3 className="mt-6 mb-2 text-lg font-semibold">
-                      {t(
-                        `${faqKey}.FAQ_${n}_Q`,
-                        APP_VALUES,
-                      )}
+                      {t(`${faqKey}.FAQ_${n}_Q`, APP_VALUES)}
                     </h3>
-                    <p>
-                      {t(
-                        `${faqKey}.FAQ_${n}_A`,
-                        APP_VALUES,
-                      )}
-                    </p>
+                    <p>{t(`${faqKey}.FAQ_${n}_A`, APP_VALUES)}</p>
                   </div>
                 ))}
               </section>

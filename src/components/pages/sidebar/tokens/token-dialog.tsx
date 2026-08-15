@@ -29,7 +29,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
@@ -76,7 +76,7 @@ export function TokenDialog(props: TokenDialogProps) {
   const deleteMutation = useDeleteTokenMutation();
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
-  const pricingQuery = usePricingQuery();
+  const pricingQuery = usePricingVendorsQuery();
   const userGroupsQuery = useUserGroupsQuery();
   const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
@@ -274,11 +274,10 @@ export function TokenDialog(props: TokenDialogProps) {
     string,
     { name: string; vendor: string }[]
   >();
-  for (const m of pricingQuery.data?.models ?? []) {
-    const vendor = m.vendor.name;
-    const list = modelsByVendorMap.get(vendor);
-    if (list) list.push({ name: m.name, vendor });
-    else modelsByVendorMap.set(vendor, [{ name: m.name, vendor }]);
+  for (const m of pricingQuery.data?.modelVendors ?? []) {
+    const list = modelsByVendorMap.get(m.vendor);
+    if (list) list.push({ name: m.name, vendor: m.vendor });
+    else modelsByVendorMap.set(m.vendor, [{ name: m.name, vendor: m.vendor }]);
   }
   const modelsByVendor = [...modelsByVendorMap.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -488,18 +487,15 @@ export function TokenDialog(props: TokenDialogProps) {
                     control={form.control}
                     mapping={groupMapping}
                     groups={userGroupsQuery.data ?? {}}
-                    models={(pricingQuery.data?.models ?? []).map((m) => ({
-                      name: m.name,
-                      vendor: m.vendor.name,
-                      isFree: !!m.isFree,
-                      tag: m.tags?.[0] ?? "Other",
-                      releaseTs: (() => {
-                        const iso = m.metadata?.releaseDate;
-                        const ms = iso ? Date.parse(iso) : NaN;
-                        if (Number.isFinite(ms)) return ms;
-                        return m.createdTime ? m.createdTime * 1000 : 0;
-                      })(),
-                    }))}
+                    models={(pricingQuery.data?.modelVendors ?? []).map(
+                      (m) => ({
+                        name: m.name,
+                        vendor: m.vendor,
+                        isFree: m.isFree,
+                        tag: m.tag,
+                        releaseTs: m.releaseTs,
+                      }),
+                    )}
                   />
                   <p className="text-muted-foreground text-[11px]">
                     {t("TOKEN.FORM.GROUP_MAPPING_HINT")}

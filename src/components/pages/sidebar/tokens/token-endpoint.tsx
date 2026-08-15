@@ -8,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { env } from "@/lib/config/env";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
@@ -19,11 +19,11 @@ const FALLBACK_MODEL = "claude-opus-4-8";
 
 export function TokenEndpoint() {
   const t = useTranslations();
-  const pricing = usePricingQuery();
+  const pricing = usePricingVendorsQuery();
   const endpoint = `${env.apiUrl}/v1/chat/completions`;
   const exampleModel =
-    pricing.data?.models?.find(
-      (m) => m.type === "text" && m.name.startsWith("claude-"),
+    pricing.data?.modelVendors?.find(
+      (m) => m.chat && m.name.startsWith("claude-"),
     )?.name ?? FALLBACK_MODEL;
   const curlExample = `curl ${endpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
