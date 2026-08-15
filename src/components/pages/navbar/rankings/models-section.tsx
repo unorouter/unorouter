@@ -7,11 +7,13 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Icon } from "@/components/ui/icon";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   ModelHistorySeries,
   RankedModel,
   RankingPeriod,
 } from "@/lib/api/typebox/rankings";
+import type { RankingTier } from "./rankings";
 import { formatTokens } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";
 import { useLocale, useTranslations } from "next-intl";
@@ -23,6 +25,8 @@ type ModelsSectionProps = {
   history: ModelHistorySeries;
   rows: RankedModel[];
   period: RankingPeriod;
+  tier: RankingTier;
+  onTierChange: (tier: string) => void;
 };
 
 export function ModelsSection(props: ModelsSectionProps) {
@@ -74,6 +78,22 @@ export function ModelsSection(props: ModelsSectionProps) {
           </div>
         </div>
       </header>
+
+      <div className="px-5 pb-3">
+        <Tabs value={props.tier} onValueChange={props.onTierChange}>
+          <TabsList variant="line">
+            <TabsTrigger value="all" className="font-mono text-xs">
+              {t("MODELS.MODALITY.ALL")}
+            </TabsTrigger>
+            <TabsTrigger value="free" className="font-mono text-xs">
+              {t("HOME.STATS.FREE")}
+            </TabsTrigger>
+            <TabsTrigger value="paid" className="font-mono text-xs">
+              {t("HOME.STATS.PAID")}
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       <div className="px-5 pb-5">
         <div className="h-60 sm:h-72">

@@ -2,7 +2,6 @@ import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import {
   itemsToParts,
-  joinItemsToMessages,
   partsToItems,
   walkActiveBranch,
 } from "@/lib/ai/chat/messages";
@@ -13,12 +12,12 @@ import {
   readConvTriggers,
   readLocalConversation,
   readLocalConversationSettings,
-  readLocalMessageItems,
   readLocalMessages,
   upsertLocalConversation,
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
+  readJoinedMessages,
 } from "@/lib/db/client/data/chat/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import type { IllustratorConvSettings } from "./illustrator-run";
@@ -495,12 +494,10 @@ export function createChatHistoryAdapter(
             if (cached) {
               allMessages = cached.pages.flatMap((p) => p.messages);
             } else {
-              const msgs = (await readLocalMessages(userId, id)) ?? [];
-              const items = (await readLocalMessageItems(userId, id)) ?? [];
               allMessages = await repairBrokenChain(
                 userId,
                 id,
-                joinItemsToMessages(msgs, items),
+                await readJoinedMessages(userId, id),
               );
             }
 

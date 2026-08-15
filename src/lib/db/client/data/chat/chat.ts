@@ -19,6 +19,11 @@ import {
   parseRegexScripts,
   type RegexScript,
 } from "@/lib/ai/chat/regex-scripts";
+import {
+  itemsToParts,
+  joinItemsToMessages,
+  walkActiveBranch,
+} from "@/lib/ai/chat/messages";
 import { parseTriggerScripts } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import {
@@ -162,6 +167,30 @@ export async function readLocalMessages(
     .from(messages)
     .where(eq(messages.convId, convId))
     .orderBy(messages.createdAt);
+}
+
+export async function readJoinedMessages(
+  userId: number | undefined,
+  convId: string,
+) {
+  const [msgs, items] = await Promise.all([
+    readLocalMessages(userId, convId),
+    readLocalMessageItems(userId, convId),
+  ]);
+  return joinItemsToMessages(msgs ?? [], items ?? []);
+}
+
+// The active branch as render-ready {id, role, parts} rows.
+export async function readActiveBranchParts(
+  userId: number | undefined,
+  convId: string,
+) {
+  const joined = await readJoinedMessages(userId, convId);
+  return walkActiveBranch(joined).path.map((m) => ({
+    id: m.id,
+    role: m.role,
+    parts: itemsToParts(m.items as Parameters<typeof itemsToParts>[0]),
+  }));
 }
 
 export async function readLocalMessageMetaForConv(

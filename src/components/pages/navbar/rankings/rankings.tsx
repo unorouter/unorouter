@@ -24,6 +24,11 @@ type RankingsProps = {
 };
 
 const PERIOD_IDS = RANKING_PERIODS.map((p) => p.id);
+const TIER_IDS = ["all", "free", "paid"] as const;
+export type RankingTier = (typeof TIER_IDS)[number];
+
+const inTier = (name: string, tier: RankingTier) =>
+  tier === "all" || (tier === "free") === name.endsWith(":free");
 
 export function Rankings(props: RankingsProps) {
   const t = useTranslations();
@@ -34,9 +39,29 @@ export function Rankings(props: RankingsProps) {
       props.initialPeriod as (typeof PERIOD_IDS)[number],
     ),
   );
+  const [tier, setTier] = useQueryState(
+    "tier",
+    parseAsStringLiteral(TIER_IDS).withDefault("all"),
+  );
 
   const rankingsQuery = useRankingsQuery(period);
   const snapshot = rankingsQuery.data;
+
+  const modelRows = (snapshot?.models ?? [])
+    .filter((r) => inTier(r.model_name, tier))
+    .sort((a, b) => b.total_tokens - a.total_tokens)
+    .map((r, i) => ({ ...r, rank: i + 1 }));
+  const modelsHistory = snapshot
+    ? {
+        ...snapshot.models_history,
+        models: snapshot.models_history.models.filter((m) =>
+          inTier(m.name, tier),
+        ),
+        points: snapshot.models_history.points.filter((p) =>
+          inTier(p.model, tier),
+        ),
+      }
+    : { models: [], points: [], buckets: 0 };
 
   return (
     <div className="relative">
@@ -75,9 +100,13 @@ export function Rankings(props: RankingsProps) {
         ) : (
           <>
             <ModelsSection
-              history={snapshot.models_history}
-              rows={snapshot.models}
+              history={modelsHistory}
+              rows={modelRows}
               period={period}
+              tier={tier}
+              onTierChange={(v) =>
+                setTier(TIER_IDS.find((id) => id === v) ?? "all")
+              }
             />
 
             <MarketShareSection

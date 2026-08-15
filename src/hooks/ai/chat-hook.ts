@@ -3,7 +3,6 @@
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -26,7 +25,6 @@ import {
   readLocalConversation,
   readLocalConversationBundle,
   readLocalConversations,
-  readLocalMessageItems,
   readLocalMessages,
   setLocalActiveBranch,
   spliceDeleteLocalMessage,
@@ -42,6 +40,7 @@ import {
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
+  readJoinedMessages,
 } from "@/lib/db/client/data/chat/chat";
 import {
   keepPreviousData,
@@ -203,9 +202,7 @@ export function useMessagesInfiniteQuery(id?: string) {
     queryFn: async ({ pageParam }) => {
       if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
-      const msgs = (await readLocalMessages(userId, id)) ?? [];
-      const items = (await readLocalMessageItems(userId, id)) ?? [];
-      const messages = joinItemsToMessages(msgs, items);
+      const messages = await readJoinedMessages(userId, id);
       return {
         messages,
         total: messages.length,
