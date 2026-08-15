@@ -5,6 +5,7 @@ import {
   releaseTs,
   toLeanPricing,
 } from "@/lib/api/pricing";
+import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
   getPricingSnapshot,
   refreshPricingSnapshot,
@@ -89,6 +90,15 @@ export async function getPricingVendors() {
     releaseTs: releaseTs(m),
   }));
   return { vendorNames, modelVendors };
+}
+
+// The image form's model list, fully derived server-side: descriptors are the
+// FINAL shape the form consumes, so the page ships ~50 descriptors instead of
+// the whole pricing payload just to run getEffectiveImageModels client-side.
+// Same derivation image-submit.service.ts validates against, same snapshot.
+export async function getImageModels() {
+  const { models } = await getPricingSnapshot();
+  return { models: getEffectiveImageModels(models) };
 }
 
 // One vendor's models in the SAME lean per-model shape as /pricing (vendor cards

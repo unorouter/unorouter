@@ -241,7 +241,14 @@ export async function streamFileToDisk(
 ): Promise<"fsa" | "blob" | "cancelled"> {
   const picker = (window as unknown as { showSaveFilePicker?: SaveFilePicker })
     .showSaveFilePicker;
-  if (typeof picker === "function") {
+  // Feature detection alone stopped being enough: iOS Safari 26 EXPOSES
+  // showSaveFilePicker, but its createWritable/pipeTo silently truncates (a
+  // 9MB database export landed on disk as 45 bytes with no error to catch).
+  // iOS always takes the Web Share path below, which its save sheet handles.
+  const likelyIos =
+    /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (typeof picker === "function" && !likelyIos) {
     try {
       const handle = await picker({
         suggestedName: filename,

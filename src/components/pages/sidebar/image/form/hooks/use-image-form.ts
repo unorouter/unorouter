@@ -1,12 +1,12 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import {
   getModelDescriptor,
+  STATIC_IMAGE_MODELS,
   type ImageModelDescriptor,
 } from "@/lib/ai/image/models";
-import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
 import {
   imageFormValues,
@@ -33,8 +33,10 @@ export function useImageForm() {
 
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
 
-  const pricingQuery = usePricingQuery();
-  const effectiveModels = getEffectiveImageModels(pricingQuery.data?.models);
+  const imageModelsQuery = useImageModelsQuery();
+  const effectiveModels = imageModelsQuery.data?.models?.length
+    ? imageModelsQuery.data.models
+    : STATIC_IMAGE_MODELS;
   const findDescriptor = (id: ImageModelId): ImageModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
 

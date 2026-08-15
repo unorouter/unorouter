@@ -32,6 +32,14 @@ export function usePricingVendorsQuery(enabled = true) {
   );
 }
 
+export function useImageModelsQuery() {
+  return useElysiaQuery(
+    queryKeys.pricingImageModels(),
+    () => rpc.api.models.pricing["image-models"].get(),
+    { staleTime: "static" },
+  );
+}
+
 export function usePricingVendorQuery(name: string) {
   return useElysiaQuery(
     queryKeys.pricingVendor(name),

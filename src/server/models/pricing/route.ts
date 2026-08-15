@@ -1,4 +1,5 @@
 import {
+  getImageModels,
   getModelDetail,
   getPricingCounts,
   getPricingLean,
@@ -16,6 +17,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   )
   .get("/counts", async () => getPricingCounts())
   .get("/vendors", async () => getPricingVendors())
+  .get("/image-models", async () => getImageModels())
   .get("/vendor", async (ctx) => getVendorModels(ctx.query.name), {
     query: t.Object({ name: t.String() }),
   })

@@ -90,6 +90,7 @@ export const queryKeys = {
   pricing: () => ["pricing"] as const,
   pricingCounts: () => ["pricing", "counts"] as const,
   pricingVendors: () => ["pricing", "vendors"] as const,
+  pricingImageModels: () => ["pricing", "image-models"] as const,
   pricingVendor: (name: string) => ["pricing", "vendor", name] as const,
   pricingModel: (name: string) => ["pricing", "model", name] as const,
   searchIndex: (locale: string) => ["search-index", locale] as const,
