@@ -33,6 +33,7 @@ import {
   freshConvId,
   setLiveMessages,
   greetingIndexAtom,
+  trackConvSeeding,
   INITIAL_CHAT_STATE,
   type ChatState,
 } from "@/store/chat-store";
@@ -167,101 +168,109 @@ export function createThreadListAdapter(
           .map(([k]) => k),
       });
 
-      if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
-        await replaceLocalConversationBindings(userId(), id, {
-          conversationCharacters: loadout.characterIds.map((cid, i) => ({
-            characterId: cid,
-            orderIndex: i,
-          })),
-          conversationLorebooks: loadout.lorebookIds.map((lid, i) => ({
-            lorebookId: lid,
-            orderIndex: i,
-          })),
-        });
-      }
-
-      if (loadout.characterIds.length > 0) {
-        const char = await readLocalCharacter(
-          userId(),
-          loadout.characterIds[0],
-        );
-        if (char?.firstMessage) {
-          const persona = loadout.personaId
-            ? await readLocalPersona(userId(), loadout.personaId)
-            : null;
-          const greetings = [
-            char.firstMessage,
-            ...(char.alternateGreetings ?? []),
-          ];
-          const picked = Math.min(
-            chatStore.get(greetingIndexAtom),
-            greetings.length - 1,
-          );
-          let seededGreeting: { id: string; text: string } | null = null;
-          for (let i = 0; i < greetings.length; i++) {
-            const msgId = uid();
-            await upsertLocalMessage(userId(), {
-              id: msgId,
-              convId: id,
-              parentId: null,
-              characterId: char.id,
-              role: "assistant",
-              model: null,
-              branchIndex: i,
-              isActiveBranch: i === picked,
-              isEdited: false,
-              createdAt: now,
-              updatedAt: now,
-            });
-            const expandedGreeting = expandMacros(greetings[i], {
-              user: persona?.name ?? "User",
-              char: char.name,
-              user_description: persona?.description ?? "",
-              char_description: char.description ?? "",
-              scenario: char.scenario ?? "",
-              personality: char.personality ?? "",
-              vars: {},
-            });
-            await upsertLocalMessageItem(userId(), {
-              id: uid(),
-              messageId: msgId,
-              sequenceIndex: 0,
-              type: "text",
-              data: { text: expandedGreeting },
-            });
-            if (i === picked) {
-              seededGreeting = { id: msgId, text: expandedGreeting };
-            }
-          }
-          if (picked > 0) {
-            await updateLocalConversationSettings(userId(), {
-              convId: id,
-              firstMsgIndex: picked - 1,
-              updatedAt: now,
-            });
-          }
-          chatStore.set(greetingIndexAtom, 0);
-          if (seededGreeting) {
-            // Show the seeded greeting in the fresh thread immediately; the DB row
-            // + invalidate below are the source of truth on reload.
-            const greetingMessage = {
-              id: seededGreeting.id,
-              role: "assistant",
-              parts: [{ type: "text", text: seededGreeting.text }],
-            };
-            setLiveMessages((msgs) =>
-              (msgs as Array<{ id?: string }>).some(
-                (m) => m.id === seededGreeting.id,
-              )
-                ? msgs
-                : [greetingMessage, ...msgs],
-            );
-          }
-          queryClient.invalidateQueries({
-            queryKey: queryKeys.chatMessages(id),
+      // assistant-ui runs this initializer CONCURRENTLY with the first send, so
+      // publish the binding + greeting writes before awaiting them: a user who
+      // types immediately would otherwise send a history with no greeting, and
+      // the model answers a scene it was never shown.
+      const seeding = (async () => {
+        if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
+          await replaceLocalConversationBindings(userId(), id, {
+            conversationCharacters: loadout.characterIds.map((cid, i) => ({
+              characterId: cid,
+              orderIndex: i,
+            })),
+            conversationLorebooks: loadout.lorebookIds.map((lid, i) => ({
+              lorebookId: lid,
+              orderIndex: i,
+            })),
           });
         }
-      }
+
+        if (loadout.characterIds.length > 0) {
+          const char = await readLocalCharacter(
+            userId(),
+            loadout.characterIds[0],
+          );
+          if (char?.firstMessage) {
+            const persona = loadout.personaId
+              ? await readLocalPersona(userId(), loadout.personaId)
+              : null;
+            const greetings = [
+              char.firstMessage,
+              ...(char.alternateGreetings ?? []),
+            ];
+            const picked = Math.min(
+              chatStore.get(greetingIndexAtom),
+              greetings.length - 1,
+            );
+            let seededGreeting: { id: string; text: string } | null = null;
+            for (let i = 0; i < greetings.length; i++) {
+              const msgId = uid();
+              await upsertLocalMessage(userId(), {
+                id: msgId,
+                convId: id,
+                parentId: null,
+                characterId: char.id,
+                role: "assistant",
+                model: null,
+                branchIndex: i,
+                isActiveBranch: i === picked,
+                isEdited: false,
+                createdAt: now,
+                updatedAt: now,
+              });
+              const expandedGreeting = expandMacros(greetings[i], {
+                user: persona?.name ?? "User",
+                char: char.name,
+                user_description: persona?.description ?? "",
+                char_description: char.description ?? "",
+                scenario: char.scenario ?? "",
+                personality: char.personality ?? "",
+                vars: {},
+              });
+              await upsertLocalMessageItem(userId(), {
+                id: uid(),
+                messageId: msgId,
+                sequenceIndex: 0,
+                type: "text",
+                data: { text: expandedGreeting },
+              });
+              if (i === picked) {
+                seededGreeting = { id: msgId, text: expandedGreeting };
+              }
+            }
+            if (picked > 0) {
+              await updateLocalConversationSettings(userId(), {
+                convId: id,
+                firstMsgIndex: picked - 1,
+                updatedAt: now,
+              });
+            }
+            chatStore.set(greetingIndexAtom, 0);
+            if (seededGreeting) {
+              // Show the seeded greeting in the fresh thread immediately; the DB row
+              // + invalidate below are the source of truth on reload.
+              const greetingMessage = {
+                id: seededGreeting.id,
+                role: "assistant",
+                parts: [{ type: "text", text: seededGreeting.text }],
+              };
+              setLiveMessages((msgs) =>
+                (msgs as Array<{ id?: string }>).some(
+                  (m) => m.id === seededGreeting.id,
+                )
+                  ? msgs
+                  : [greetingMessage, ...msgs],
+              );
+            }
+            queryClient.invalidateQueries({
+              queryKey: queryKeys.chatMessages(id),
+            });
+          }
+        }
+      })();
+      trackConvSeeding(seeding);
+      await seeding;
 
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       return { remoteId: id, externalId: undefined };

@@ -346,6 +346,28 @@ export function ensureConvId(): string {
   return id;
 }
 
+// Seeding a character's greeting is a dozen sequential OPFS writes (one row plus
+// one item per alternate greeting), and assistant-ui runs the thread-list
+// initializer CONCURRENTLY with the first send. A user who types fast sent a
+// history with no greeting in it, so the model answered a scene it had never
+// been shown. The send path awaits this before reading the live array.
+let convSeeding: Promise<void> | null = null;
+
+export function trackConvSeeding(work: Promise<void>): void {
+  const tracked = work.then(
+    () => {},
+    () => {},
+  );
+  convSeeding = tracked;
+  void tracked.then(() => {
+    if (convSeeding === tracked) convSeeding = null;
+  });
+}
+
+export async function awaitConvSeeding(): Promise<void> {
+  await convSeeding;
+}
+
 export function freshConvId(): string {
   const id = uid();
   chatStore.set(convIdAtom, id);

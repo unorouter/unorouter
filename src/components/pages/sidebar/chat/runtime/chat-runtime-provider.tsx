@@ -28,6 +28,7 @@ import {
 } from "@/lib/utils/client";
 import {
   assistantRuntimeAtom,
+  awaitConvSeeding,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -223,6 +224,7 @@ function ChatRuntimeHook() {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
       if (hasText && !remoteId) ensureConvId();
+      await awaitConvSeeding();
       const convId = chatStore.get(convIdAtom);
       logChatDebug("send.start", {
         threadId,
