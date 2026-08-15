@@ -34,11 +34,9 @@ export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
 
 // Persisted: submitting remounts the form, and the equipped preset must survive that (and
 // a reload) or the Overwrite button disappears while the preset's values are still in effect.
-export const selectedPresetIdAtom = atomWithStorage<string>(
+export const selectedPresetIdAtom = localAtom<string>(
   "image-selected-preset-v1",
   "",
-  undefined,
-  { getOnInit: true },
 );
 
 export type GenerateDraft = {
@@ -54,36 +52,28 @@ export type GenerateDraft = {
 // getOnInit: the first render must see the draft or the form restores defaults. Safe here
 // because the page is client-only and these are localStorage, not the cookie-backed atoms
 // whose async load avoids SSR hydration mismatches.
-const draftStorageOptions = { getOnInit: true } as const;
+function localAtom<T>(key: string, initial: T) {
+  return atomWithStorage<T>(key, initial, undefined, { getOnInit: true });
+}
 
 // One draft per tab so switching between them does not lose work.
-export const text2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
+export const text2imgDraftAtom = localAtom<GenerateDraft | null>(
   "image-draft-text2img-v1",
   null,
-  undefined,
-  draftStorageOptions,
 );
-
-export const img2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
+export const img2imgDraftAtom = localAtom<GenerateDraft | null>(
   "image-draft-img2img-v1",
   null,
-  undefined,
-  draftStorageOptions,
 );
-
-export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
+export const editDraftAtom = localAtom<GenerateDraft | null>(
   "image-draft-edit-v1",
   null,
-  undefined,
-  draftStorageOptions,
 );
 
 type ModelParamsMemory = Record<string, Partial<ImageParams>>;
 
 // Params last used per model, restored when the model is picked again.
-export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
+export const samplerMemoryAtom = localAtom<ModelParamsMemory>(
   "image-sampler-memory-v1",
   {},
-  undefined,
-  draftStorageOptions,
 );

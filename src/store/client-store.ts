@@ -31,47 +31,26 @@ export const clientStoreAtom = atomWithStorage<ClientState>(
   jotaiCookieStorage,
 );
 
-export const apiKeyAtom = atom(
-  (get) => get(clientStoreAtom).apiKey,
-  (get, set, value: string | null) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), apiKey: value });
-  },
-);
+function field<K extends keyof ClientState>(key: K) {
+  return atom(
+    (get) => get(clientStoreAtom)[key] ?? INITIAL_CLIENT_STATE[key],
+    (get, set, value: ClientState[K]) => {
+      set(clientStoreAtom, { ...get(clientStoreAtom), [key]: value });
+    },
+  );
+}
 
-export const apiKeyRevealedAtom = atom(
-  (get) => get(clientStoreAtom).apiKeyRevealed,
-  (get, set, value: boolean) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), apiKeyRevealed: value });
-  },
-);
+export const apiKeyAtom = field("apiKey");
+export const apiKeyRevealedAtom = field("apiKeyRevealed");
+export const osAtom = field("os");
+export const paymentMethodAtom = field("paymentMethod");
+export const sidebarOpenAtom = field("sidebarOpen");
 
 export function obfuscateApiKey(key: string) {
   const prefix = key.slice(0, 6);
   const suffix = key.slice(-3);
   return `${prefix}...${suffix}`;
 }
-
-export const osAtom = atom(
-  (get) => get(clientStoreAtom).os,
-  (get, set, value: OS | undefined) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), os: value });
-  },
-);
-
-export const paymentMethodAtom = atom(
-  (get) =>
-    get(clientStoreAtom).paymentMethod ?? INITIAL_CLIENT_STATE.paymentMethod,
-  (get, set, value: PaymentMethod) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), paymentMethod: value });
-  },
-);
-
-export const sidebarOpenAtom = atom(
-  (get) => get(clientStoreAtom).sidebarOpen ?? INITIAL_CLIENT_STATE.sidebarOpen,
-  (get, set, value: boolean) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), sidebarOpen: value });
-  },
-);
 
 export const expandedNavAtom = atom(
   (get) => get(clientStoreAtom).expanded ?? INITIAL_CLIENT_STATE.expanded,

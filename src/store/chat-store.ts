@@ -61,7 +61,7 @@ export const INITIAL_CHAT_STATE: ChatState = {
   showStatsMessages: false,
 };
 
-export const chatStoreAtom = atomWithStorage<ChatState>(
+const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,

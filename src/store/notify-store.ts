@@ -59,47 +59,26 @@ export const notifyStoreAtom = atomWithStorage<NotifyState>(
   jotaiCookieStorage,
 );
 
-export const watchedTopicsAtom = atom(
-  (get) => get(notifyStoreAtom).topics ?? INITIAL_NOTIFY_STATE.topics,
-  (get, set, value: string[]) => {
-    set(notifyStoreAtom, { ...get(notifyStoreAtom), topics: value });
-  },
-);
+function field<K extends keyof NotifyState>(key: K) {
+  return atom(
+    (get) => get(notifyStoreAtom)[key] ?? INITIAL_NOTIFY_STATE[key],
+    (get, set, value: NotifyState[K]) => {
+      set(notifyStoreAtom, { ...get(notifyStoreAtom), [key]: value });
+    },
+  );
+}
 
-export const mutedTopicsAtom = atom(
-  (get) => get(notifyStoreAtom).mutedTopics ?? INITIAL_NOTIFY_STATE.mutedTopics,
-  (get, set, value: string[]) => {
-    set(notifyStoreAtom, { ...get(notifyStoreAtom), mutedTopics: value });
-  },
-);
+export const watchedTopicsAtom = field("topics");
+export const mutedTopicsAtom = field("mutedTopics");
+export const pushEnabledAtom = field("pushEnabled");
+export const soundEnabledAtom = field("soundEnabled");
+export const pushPromptSeenAtom = field("pushPromptSeen");
 
 // Topics that actually subscribe: watched minus per-entry muted.
 export const activeTopicsAtom = atom((get) => {
   const muted = get(mutedTopicsAtom);
   return get(watchedTopicsAtom).filter((topic) => !muted.includes(topic));
 });
-
-export const pushEnabledAtom = atom(
-  (get) => get(notifyStoreAtom).pushEnabled ?? false,
-  (get, set, value: boolean) => {
-    set(notifyStoreAtom, { ...get(notifyStoreAtom), pushEnabled: value });
-  },
-);
-
-export const soundEnabledAtom = atom(
-  (get) =>
-    get(notifyStoreAtom).soundEnabled ?? INITIAL_NOTIFY_STATE.soundEnabled,
-  (get, set, value: boolean) => {
-    set(notifyStoreAtom, { ...get(notifyStoreAtom), soundEnabled: value });
-  },
-);
-
-export const pushPromptSeenAtom = atom(
-  (get) => get(notifyStoreAtom).pushPromptSeen ?? false,
-  (get, set, value: boolean) => {
-    set(notifyStoreAtom, { ...get(notifyStoreAtom), pushPromptSeen: value });
-  },
-);
 
 export function modelTopic(model: string) {
   return `model:${model}`;

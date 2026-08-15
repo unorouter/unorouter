@@ -63,202 +63,91 @@ export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
 
 const arr = (val: unknown): string[] => (Array.isArray(val) ? val : []);
 
-export const searchAtom = atom(
-  (get) => get(modelsStoreAtom).search,
-  (get, set, value: string) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), search: value });
-  },
-);
+// normalize also repairs WRONG-TYPED cookie values (schema drift), not just
+// missing ones; `?? INITIAL` alone would pass garbage through.
+function field<K extends keyof ModelsStoreState>(
+  key: K,
+  normalize?: (v: ModelsStoreState[K]) => ModelsStoreState[K],
+) {
+  return atom(
+    (get) => {
+      const v = get(modelsStoreAtom)[key] ?? INITIAL_MODELS_STATE[key];
+      return normalize ? normalize(v) : v;
+    },
+    (get, set, value: ModelsStoreState[K]) => {
+      set(modelsStoreAtom, { ...get(modelsStoreAtom), [key]: value });
+    },
+  );
+}
 
-export const selectedVendorsAtom = atom(
-  (get) => arr(get(modelsStoreAtom).selectedVendors),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), selectedVendors: value });
-  },
+export const searchAtom = field("search");
+export const selectedVendorsAtom = field("selectedVendors", arr);
+export const selectedModelNameAtom = field("selectedModelName");
+export const outputModalityAtom = field("outputModality");
+export const viewModeAtom = field("viewMode", (v) =>
+  v === "table" || v === "list" ? v : "table",
 );
-
-export const selectedModelNameAtom = atom(
-  (get) => get(modelsStoreAtom).selectedModelName,
-  (get, set, value: string | null) => {
-    set(modelsStoreAtom, {
-      ...get(modelsStoreAtom),
-      selectedModelName: value,
-    });
-  },
+export const sortOrderAtom = field("sortOrder");
+export const inputModalitiesAtom = field("inputModalities", arr);
+export const contextMinAtom = field("contextMin");
+export const priceRangeAtom = field("priceRange", (v) =>
+  Array.isArray(v) && v.length === 2 ? [v[0], v[1]] : [0, PRICE_MAX],
 );
-
-export const outputModalityAtom = atom(
-  (get) => get(modelsStoreAtom).outputModality ?? "all",
-  (get, set, value: OutputModality) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), outputModality: value });
-  },
-);
-
-export const viewModeAtom = atom(
-  (get): ViewMode => {
-    const v = get(modelsStoreAtom).viewMode;
-    return v === "table" || v === "list" ? v : "table";
-  },
-  (get, set, value: ViewMode) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), viewMode: value });
-  },
-);
-
-export const sortOrderAtom = atom(
-  (get) => get(modelsStoreAtom).sortOrder ?? "newest",
-  (get, set, value: SortOrder) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), sortOrder: value });
-  },
-);
-
-export const inputModalitiesAtom = atom(
-  (get) => arr(get(modelsStoreAtom).inputModalities),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), inputModalities: value });
-  },
-);
-
-export const contextMinAtom = atom(
-  (get) => get(modelsStoreAtom).contextMin ?? 0,
-  (get, set, value: number) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), contextMin: value });
-  },
-);
-
-export const priceRangeAtom = atom(
-  (get): [number, number] => {
-    const val = get(modelsStoreAtom).priceRange;
-    return Array.isArray(val) && val.length === 2
-      ? [val[0], val[1]]
-      : [0, PRICE_MAX];
-  },
-  (get, set, value: [number, number]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), priceRange: value });
-  },
-);
-
-export const outputPriceMaxAtom = atom(
-  (get) => get(modelsStoreAtom).outputPriceMax ?? PRICE_MAX,
-  (get, set, value: number) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), outputPriceMax: value });
-  },
-);
-
-export const maxAgeDaysAtom = atom(
-  (get) => get(modelsStoreAtom).maxAgeDays ?? 0,
-  (get, set, value: number) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), maxAgeDays: value });
-  },
-);
-
-export const seriesAtom = atom(
-  (get) => arr(get(modelsStoreAtom).series),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), series: value });
-  },
-);
-
-export const categoriesAtom = atom(
-  (get) => arr(get(modelsStoreAtom).categories),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), categories: value });
-  },
-);
-
-export const supportedParametersAtom = atom(
-  (get) => arr(get(modelsStoreAtom).supportedParameters),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, {
-      ...get(modelsStoreAtom),
-      supportedParameters: value,
-    });
-  },
-);
-
-export const toolsOnlyAtom = atom(
-  (get) => get(modelsStoreAtom).toolsOnly === true,
-  (get, set, value: boolean) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), toolsOnly: value });
-  },
-);
-
-export const collapsedVendorsAtom = atom(
-  (get) => arr(get(modelsStoreAtom).collapsedVendors),
-  (get, set, value: string[]) => {
-    set(modelsStoreAtom, { ...get(modelsStoreAtom), collapsedVendors: value });
-  },
-);
+export const outputPriceMaxAtom = field("outputPriceMax");
+export const maxAgeDaysAtom = field("maxAgeDays");
+export const seriesAtom = field("series", arr);
+export const categoriesAtom = field("categories", arr);
+export const supportedParametersAtom = field("supportedParameters", arr);
+export const toolsOnlyAtom = field("toolsOnly", (v) => v === true);
+export const collapsedVendorsAtom = field("collapsedVendors", arr);
 
 export const toggleVendorCollapsedAtom = atom(
   null,
   (get, set, vendor: string) => {
-    const state = get(modelsStoreAtom);
-    const current = arr(state.collapsedVendors);
-    const next = current.includes(vendor)
-      ? current.filter((v) => v !== vendor)
-      : [...current, vendor];
-    set(modelsStoreAtom, { ...state, collapsedVendors: next });
+    const current = get(collapsedVendorsAtom);
+    set(
+      collapsedVendorsAtom,
+      current.includes(vendor)
+        ? current.filter((v) => v !== vendor)
+        : [...current, vendor],
+    );
   },
 );
 
+// Reset everything except collapsedVendors + selectedModelName (UI state, not
+// filters).
 export const clearFiltersAtom = atom(null, (get, set) => {
-  set(modelsStoreAtom, {
-    ...get(modelsStoreAtom),
-    search: "",
-    outputModality: "all",
-    sortOrder: "newest",
-    viewMode: "table",
-    selectedVendors: [],
-    inputModalities: [],
-    contextMin: 0,
-    priceRange: [0, PRICE_MAX],
-    outputPriceMax: PRICE_MAX,
-    maxAgeDays: 0,
-    series: [],
-    categories: [],
-    supportedParameters: [],
-    toolsOnly: false,
-  });
-});
-
-export const isDirtyAtom = atom((get) => {
   const s = get(modelsStoreAtom);
-  return (
-    (s.search ?? "").trim().length > 0 ||
-    (s.outputModality ?? "all") !== "all" ||
-    (s.sortOrder ?? "newest") !== "newest" ||
-    (s.viewMode ?? "table") !== "table" ||
-    (Array.isArray(s.selectedVendors) && s.selectedVendors.length > 0) ||
-    (Array.isArray(s.inputModalities) && s.inputModalities.length > 0) ||
-    (Array.isArray(s.series) && s.series.length > 0) ||
-    (Array.isArray(s.categories) && s.categories.length > 0) ||
-    (Array.isArray(s.supportedParameters) &&
-      s.supportedParameters.length > 0) ||
-    s.toolsOnly === true ||
-    (s.contextMin ?? 0) > 0 ||
-    (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX) ||
-    (s.outputPriceMax ?? PRICE_MAX) < PRICE_MAX ||
-    (s.maxAgeDays ?? 0) > 0
-  );
+  set(modelsStoreAtom, {
+    ...INITIAL_MODELS_STATE,
+    collapsedVendors: arr(s.collapsedVendors),
+    selectedModelName: s.selectedModelName ?? null,
+  });
 });
 
 // Count of ACTIVE content filters (excludes sort + view-mode, which don't hide
 // rows). Drives the reset-button badge so mobile users notice a filter is on
 // when the list looks unexpectedly short.
 export const activeFilterCountAtom = atom((get) => {
-  const s = get(modelsStoreAtom);
   let n = 0;
-  if ((s.search ?? "").trim().length > 0) n++;
-  if ((s.outputModality ?? "all") !== "all") n++;
-  if (Array.isArray(s.selectedVendors)) n += s.selectedVendors.length;
-  if (Array.isArray(s.inputModalities)) n += s.inputModalities.length;
-  if (Array.isArray(s.series)) n += s.series.length;
-  if (Array.isArray(s.categories)) n += s.categories.length;
-  if (Array.isArray(s.supportedParameters)) n += s.supportedParameters.length;
-  if (s.toolsOnly === true) n++;
-  if ((s.contextMin ?? 0) > 0) n++;
-  if (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX) n++;
-  if ((s.outputPriceMax ?? PRICE_MAX) < PRICE_MAX) n++;
-  if ((s.maxAgeDays ?? 0) > 0) n++;
+  if (get(searchAtom).trim().length > 0) n++;
+  if (get(outputModalityAtom) !== "all") n++;
+  n += get(selectedVendorsAtom).length;
+  n += get(inputModalitiesAtom).length;
+  n += get(seriesAtom).length;
+  n += get(categoriesAtom).length;
+  n += get(supportedParametersAtom).length;
+  if (get(toolsOnlyAtom)) n++;
+  if (get(contextMinAtom) > 0) n++;
+  if (get(priceRangeAtom)[1] < PRICE_MAX) n++;
+  if (get(outputPriceMaxAtom) < PRICE_MAX) n++;
+  if (get(maxAgeDaysAtom) > 0) n++;
   return n;
 });
+
+export const isDirtyAtom = atom(
+  (get) =>
+    get(activeFilterCountAtom) > 0 ||
+    get(sortOrderAtom) !== "newest" ||
+    get(viewModeAtom) !== "table",
+);
