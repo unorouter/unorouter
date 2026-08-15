@@ -25,6 +25,26 @@ const SERIES_TO_ARCHITECTURE: Record<string, string> = {
   hidream: "hidream-i1-dev",
 };
 
+// Catalog rows for provider-hosted models carry neither an AIR nor a series, so neither
+// tier below resolves and they fall back to generic diffusion inference: a Steps slider
+// and a CFG field on FLUX.2 max, which rejects both. The published name is the one thing
+// those rows do carry, so map it to the AIR we route it under.
+const MODEL_NAME_TO_AIR: Record<string, string> = {
+  "flux.2-max": "bfl:7@1",
+  "flux.2-pro": "bfl:5@1",
+  "flux.2-flex": "bfl:6@1",
+  "flux.2-dev": "runware:400@1",
+  "flux.2-klein-9b": "runware:400@2",
+  "flux.2-klein-4b": "runware:400@4",
+};
+
+export function airForModelName(
+  name: string | null | undefined,
+): string | null {
+  if (!name) return null;
+  return MODEL_NAME_TO_AIR[name.trim().toLowerCase()] ?? null;
+}
+
 // AIR is exact; architecture is the fallback tier. A model matching neither returns null
 // and keeps the caller's own inference.
 export function lookupParamSpec(

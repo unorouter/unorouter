@@ -5,7 +5,11 @@ import {
   STATIC_IMAGE_MODELS_BY_ID,
   type ImageModelDescriptor,
 } from "@/lib/ai/image/models";
-import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
+import {
+  airForModelName,
+  applyParamSpec,
+  lookupParamSpec,
+} from "@/lib/ai/image/spec-apply";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 
@@ -184,8 +188,12 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
 
   // Catalog rows carry no AIR, so a checkpoint resolves through its `series` (Pony,
   // Illustrious, SDXL, ...) - the architecture tier that covers arbitrary Civitai
-  // checkpoints without a per-model entry. Only spec'd models change behaviour.
-  const spec = lookupParamSpec(null, model.metadata?.series);
+  // checkpoints without a per-model entry. Provider-hosted rows have no series either,
+  // so they resolve by published name. Only spec'd models change behaviour.
+  const spec = lookupParamSpec(
+    airForModelName(model.name),
+    model.metadata?.series,
+  );
   return spec ? applyParamSpec(inferred, spec) : inferred;
 }
 
