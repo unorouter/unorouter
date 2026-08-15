@@ -1,6 +1,6 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
-import { DebugCapture } from "@/components/provider/app/debug-capture";
+import { ClientRuntimeGuards } from "@/components/provider/app/client-runtime-guards";
 import { NotifyProvider } from "@/components/provider/app/notify-provider";
 import { SwRegister } from "@/components/provider/app/sw-register";
 import { Providers } from "@/components/provider/providers";
@@ -126,7 +126,7 @@ export default async function LocaleLayout(props: Props) {
           <Toaster richColors />
           <SwRegister />
           <NotifyProvider />
-          <DebugCapture />
+          <ClientRuntimeGuards />
           <AffiliateCapture />
           <AuthRedirectCapture />
           {props.children}

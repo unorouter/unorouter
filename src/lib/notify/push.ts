@@ -102,6 +102,21 @@ export async function subscribePush(): Promise<PushSubscription | null> {
   }
 }
 
+// Re-attaches the push subscription on app open (pushsubscriptionchange is
+// unreliable on every engine) and re-syncs topics. Returns false when the user
+// revoked permission, so the caller can drop its toggle. Never prompts: an
+// ungranted permission means they declined, and subscribePush would re-ask.
+export async function revalidatePush(
+  topics: string[],
+  locale: string,
+): Promise<boolean> {
+  if (Notification.permission === "denied") return false;
+  if (Notification.permission !== "granted") return true;
+  if (!(await subscribePush())) return true;
+  if (topics.length > 0) await syncPushTopics(topics, locale);
+  return true;
+}
+
 // True when web push is structurally possible here but subscribing failed
 // (push service unavailable), as opposed to no service worker at all.
 export async function pushServiceBroken(): Promise<boolean> {

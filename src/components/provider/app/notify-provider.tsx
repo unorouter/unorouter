@@ -2,9 +2,8 @@
 
 import { notifyEventText } from "@/lib/notify/event-text";
 import {
-  pushAvailableHere,
+  revalidatePush,
   showOsBanner,
-  subscribePush,
   syncPushTopics,
 } from "@/lib/notify/push";
 import { playNotifySound } from "@/lib/notify/sound";
@@ -25,10 +24,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-// NotifyProvider owns the live notification pipeline: it keeps the WS
-// subscription in sync with the watched topics, renders incoming events as
-// toasts + session inbox entries, and revalidates the push subscription on
-// every app open (pushsubscriptionchange is unreliable everywhere).
+// Push revalidates on every app open: pushsubscriptionchange is unreliable on
+// every engine.
 export function NotifyProvider() {
   const t = useTranslations();
   const locale = useLocale();
@@ -46,10 +43,8 @@ export function NotifyProvider() {
       const text = notifyEventText(t, evt);
       toast(text.title, { description: text.body });
       if (soundEnabled) playNotifySound();
-      // OS banner only when browser notifications are toggled on and the
-      // window is unfocused: the focused tab already gets toast + chime +
-      // title badge, and Brave on Linux is unreliable about focused-tab
-      // banners anyway.
+      // A focused tab already has toast + chime + badge, and Brave/Linux is
+      // unreliable about focused-tab banners.
       if (pushEnabled && !document.hasFocus()) {
         void showOsBanner(
           text.title,
@@ -61,16 +56,12 @@ export function NotifyProvider() {
     return () => setNotifyEventHandler(null);
   }, [t, setNotifications, soundEnabled, pushEnabled]);
 
-  // DM-style tab title badge: prefix the unread count, survive Next.js
-  // title swaps on navigation via a title-element observer.
+  // Observer, not a one-shot write: Next swaps the title on every navigation.
   useEffect(() => {
-    const strip = (title: string) => title.replace(/^\(\d+\+?\) /, "");
-    const badge = unread > 9 ? "9+" : String(unread);
     const apply = () => {
-      const current = document.title;
-      const wanted =
-        unread > 0 ? `(${badge}) ${strip(current)}` : strip(current);
-      if (current !== wanted) document.title = wanted;
+      const bare = document.title.replace(/^\(\d+\+?\) /, "");
+      const next = unread ? `(${unread > 9 ? "9+" : unread}) ${bare}` : bare;
+      if (document.title !== next) document.title = next;
     };
     apply();
     const el = document.querySelector("title");
@@ -88,31 +79,12 @@ export function NotifyProvider() {
   }, [topics, pushEnabled, locale]);
 
   useEffect(() => {
-    if (!pushEnabled || !pushAvailableHere()) return;
-    void (async () => {
-      if (Notification.permission === "denied") {
-        setPushEnabled(false);
-        return;
-      }
-      if (Notification.permission !== "granted") return;
-      const reg = await navigator.serviceWorker.getRegistration();
-      // No service worker (dev server): permission alone still powers the
-      // OS-notification mirror, so keep the enabled flag.
-      if (!reg) return;
-      const sub = await reg.pushManager.getSubscription();
-      if (!sub) {
-        // Endpoint churned or was revoked: silently resubscribe. Failure
-        // (e.g. Brave without its push service) keeps the flag: permission
-        // is granted, so OS banners still work without a subscription.
-        const fresh = await subscribePush();
-        if (!fresh) return;
-      }
-      if (topics.length > 0) {
-        await syncPushTopics(topics, locale);
-        refreshNotifyPresence();
-      }
-    })();
-    // Revalidation is an on-mount concern only.
+    if (!pushEnabled) return;
+    revalidatePush(topics, locale).then((ok) => {
+      if (ok) refreshNotifyPresence();
+      else setPushEnabled(false);
+    });
+    // On-mount concern only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pushEnabled]);
 
