@@ -5,17 +5,29 @@ import { useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenQuery } from "@/lib/types/eden";
+import { tablesHydratedAtom } from "@/store/data-table-store";
+import { useAtomValue } from "jotai";
 
 // Logs are live upstream data: the global staleTime:Infinity default would show
-// a stale snapshot after navigating away and back. Mark them stale immediately
-// and refetch on every mount so returning to the page always pulls fresh rows.
-const FRESH_ON_NAV = { staleTime: 0, refetchOnMount: "always" } as const;
+// a stale snapshot after navigating away and back. A short staleTime keeps
+// returning to the page fresh (stale data refetches on mount by default) while
+// still honoring the server prefetch on first load; refetchOnMount:"always"
+// duplicated every dehydrated query the instant it hydrated.
+const FRESH_ON_NAV = { staleTime: 10_000 } as const;
+
+// All params here derive from the cookie-persisted table filters, which land
+// one effect-tick after mount; fetching before that fires a throwaway
+// default-filter request pair.
+function useFreshOnNav() {
+  const hydrated = useAtomValue(tablesHydratedAtom);
+  return { ...FRESH_ON_NAV, enabled: hydrated };
+}
 
 export function useUsageLogsQuery(query?: EdenQuery<typeof rpc.api.ops.logs>) {
   return useElysiaQuery(
     queryKeys.usageLogs(query),
     () => rpc.api.ops.logs.get({ query }),
-    FRESH_ON_NAV,
+    useFreshOnNav(),
   );
 }
 
@@ -25,7 +37,7 @@ export function useUsageLogsStatQuery(
   return useElysiaQuery(
     queryKeys.usageLogsStat(query),
     () => rpc.api.ops.logs.stat.get({ query }),
-    FRESH_ON_NAV,
+    useFreshOnNav(),
   );
 }
 
@@ -35,7 +47,7 @@ export function useMidjourneyLogsQuery(
   return useElysiaQuery(
     queryKeys.midjourneyLogs(query),
     () => rpc.api.ops.logs.midjourney.get({ query }),
-    FRESH_ON_NAV,
+    useFreshOnNav(),
   );
 }
 
@@ -45,6 +57,6 @@ export function useTaskLogsQuery(
   return useElysiaQuery(
     queryKeys.taskLogs(query),
     () => rpc.api.ops.logs.task.get({ query }),
-    FRESH_ON_NAV,
+    useFreshOnNav(),
   );
 }

@@ -77,6 +77,9 @@ export default async function LogsPage() {
         ...serverCookies,
       }),
     ),
+    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
+      rpc.api.models.pricing.vendors.get(),
+    ),
   ]);
 
   return (

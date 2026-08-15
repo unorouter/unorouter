@@ -26,6 +26,12 @@ type DataTableStore = {
 
 export type DataTableStores = Record<DataTableId, DataTableStore>;
 
+// Flipped by DataTableProvider once the server-read cookie state is in the
+// store. Query hooks whose params derive from table filters gate on this:
+// before it, a render sees default filters and would fire a throwaway request
+// pair that the real filters immediately supersede.
+export const tablesHydratedAtom = atom(false);
+
 export const dataTableStorageAtom = atomWithStorage<Partial<DataTableStores>>(
   StoreId.DATA_TABLES_STORE,
   {},

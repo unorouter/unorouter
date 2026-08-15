@@ -3,6 +3,7 @@
 import {
   type DataTableStores,
   dataTableStorageAtom,
+  tablesHydratedAtom,
 } from "@/store/data-table-store";
 import { useStore } from "jotai";
 import { type ReactNode, useEffect, useSyncExternalStore } from "react";
@@ -29,6 +30,7 @@ export function DataTableProvider(props: {
     } catch {
       store.set(dataTableStorageAtom, dataToHydrate);
     }
+    store.set(tablesHydratedAtom, true);
   }, [store, props.data, dataToHydrate]);
 
   useSyncExternalStore(
