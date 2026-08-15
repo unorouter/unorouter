@@ -1,6 +1,11 @@
-import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
+import {
+  IS_DEV,
+  LOCAL_USER_ID_COOKIE,
+  POSTHOG_DISABLED,
+} from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { errMessage } from "@/lib/utils/base";
+import { errMessage, safeJsonParse } from "@/lib/utils/base";
+import { parseCookie } from "cookie";
 import { logger } from "@/lib/utils/logger";
 import { PostHog } from "posthog-node";
 
@@ -17,17 +22,19 @@ export function getPostHogServer() {
   return posthogInstance;
 }
 
-function extractDistinctId(cookieHeader: string | undefined): string | null {
-  if (!cookieHeader) return null;
-  const phMatch = cookieHeader.match(/ph_phc_.*?_posthog=([^;]+)/);
-  if (phMatch?.[1]) {
-    try {
-      const parsed = JSON.parse(decodeURIComponent(phMatch[1]));
-      if (typeof parsed?.distinct_id === "string") return parsed.distinct_id;
-    } catch {}
-  }
-  const userIdMatch = cookieHeader.match(/user-id=([^;]+)/);
-  return userIdMatch?.[1] ?? null;
+// The twin, not USER_ID_COOKIE: that one is an iron-session seal, so it yields
+// a per-session blob rather than a stable id.
+export function extractDistinctId(
+  cookieHeader: string | undefined,
+): string | undefined {
+  const cookies = parseCookie(cookieHeader ?? "");
+  const ph = Object.entries(cookies).find(([k]) =>
+    /^ph_phc_.*_posthog$/.test(k),
+  )?.[1];
+  return (
+    safeJsonParse<{ distinct_id?: string }>(ph, {}).distinct_id ??
+    cookies[LOCAL_USER_ID_COOKIE]
+  );
 }
 
 export function captureServerEvent(args: {

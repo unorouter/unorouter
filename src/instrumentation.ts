@@ -1,11 +1,5 @@
-import { parseCookie } from "cookie";
 import { type Instrumentation } from "next";
-import {
-  IS_DEV,
-  LOCAL_USER_ID_COOKIE,
-  POSTHOG_DISABLED,
-} from "./lib/config/constants";
-import { safeJsonParse } from "./lib/utils/base";
+import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 
 export async function register() {
   await import("./lib/utils/format/date");
@@ -18,21 +12,14 @@ export const onRequestError: Instrumentation.onRequestError = async (
 ) => {
   if (IS_DEV || POSTHOG_DISABLED) return;
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { getPostHogServer } = await import("./lib/posthog-server");
+    const { extractDistinctId, getPostHogServer } =
+      await import("./lib/posthog-server");
     const posthog = getPostHogServer();
-    const cookies = parseCookie(
-      (Array.isArray(request.headers.cookie)
+    const distinctId = extractDistinctId(
+      Array.isArray(request.headers.cookie)
         ? request.headers.cookie.join("; ")
-        : request.headers.cookie) ?? "",
+        : request.headers.cookie,
     );
-    const phCookie = Object.entries(cookies).find(([k]) =>
-      /^ph_phc_.*_posthog$/.test(k),
-    )?.[1];
-    // The twin, not USER_ID_COOKIE: that one is an iron-session seal, so it
-    // yields a per-session blob rather than a stable id.
-    const distinctId =
-      safeJsonParse<{ distinct_id?: string }>(phCookie, {}).distinct_id ??
-      cookies[LOCAL_USER_ID_COOKIE];
 
     // Correlates this server stack to the opaque digest-only error the client
     // reports.
