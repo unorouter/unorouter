@@ -64,14 +64,22 @@ export function useSubmitGeneration(args: Args) {
     args.setDraft(data);
 
     // replace: a submit must not add a back entry between the form and its own result.
-    router.replace(
-      {
-        pathname: "/image/[id]",
-        params: { id: submitted.sessionId },
-        query: { snap: submitted.snapshotId },
-      },
-      { scroll: false },
-    );
+    // Same session goes through nuqs, which owns the snap param: a plain router
+    // navigation that only changes the query desyncs nuqs after it has pushed once
+    // (arrowing to an older snapshot, then generating, left the viewer on the old
+    // snapshot while the URL pointed at the new one).
+    if (nav.sessionId === submitted.sessionId) {
+      nav.replaceSnapshot(submitted.snapshotId);
+    } else {
+      router.replace(
+        {
+          pathname: "/image/[id]",
+          params: { id: submitted.sessionId },
+          query: { snap: submitted.snapshotId },
+        },
+        { scroll: false },
+      );
+    }
   });
 
   return { onSubmit, isPending: submitMut.isPending };
