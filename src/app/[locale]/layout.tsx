@@ -1,10 +1,9 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { ClientRuntimeGuards } from "@/components/provider/app/client-runtime-guards";
-import { NotifyProvider } from "@/components/provider/app/notify-provider";
 import { SwRegister } from "@/components/provider/app/sw-register";
+import dynamic from "next/dynamic";
 import { Providers } from "@/components/provider/providers";
-import { Toaster } from "@/components/ui/sonner";
 import {
   buildThemeCss,
   themeDataAttrs,
@@ -84,6 +83,16 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+const Toaster = dynamic(() =>
+  import("@/components/ui/sonner").then((m) => ({ default: m.Toaster })),
+);
+
+const NotifyProvider = dynamic(() =>
+  import("@/components/provider/app/notify-provider").then((m) => ({
+    default: m.NotifyProvider,
+  })),
+);
+
 const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
@@ -97,21 +106,18 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC: set the dark class before paint. next-themes emits an
-            equivalent script, but INLINE where its provider mounts, and ours is
-            in <body> (it needs the jotai/query context above it), so that copy
-            runs after the first paint. Mounting a second head-level provider to
-            move it was tried and emits the script TWICE: next-themes does not
-            dedupe across separate React trees. Keep this until the provider can
-            live in <head>. */}
+        {/* next-themes emits this too, but inline where its provider mounts,
+            and ours is in <body> (it needs the jotai/query context), so that
+            copy runs after first paint. A second head-level provider emits the
+            script twice; next-themes does not dedupe across React trees. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
           }}
         />
-        {/* User-theme CSS SSR'd from the cookie (authoritative, matches the <html data-*> above, no
-            FOUC). UserThemeProvider mutates THIS node's content client-side for live edits; a plain
-            style (no href/precedence) lets that imperative update stick without React's float cache. */}
+        {/* Plain style, no href/precedence: UserThemeProvider mutates this
+            node's textContent for live edits, which React's float cache would
+            otherwise discard. */}
         <style
           id="user-theme"
           dangerouslySetInnerHTML={{ __html: DEFAULT_THEME_CSS }}

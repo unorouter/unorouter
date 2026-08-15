@@ -27,26 +27,6 @@ export async function getPricingSnapshot() {
   return refreshPricingSnapshot();
 }
 
-// Same shape but include_offline, for callers that must agree with the sitemap
-// and the model page on which URLs exist: a model whose channels are all down
-// keeps a real page, so the online-only feed would 404 URLs we advertise.
-let offlineCache: { models: ProcessedModel[]; fetchedAt: number } | null = null;
-
-export async function getOfflinePricingSnapshot() {
-  if (offlineCache && Date.now() - offlineCache.fetchedAt < CACHE_TTL)
-    return offlineCache;
-  const res = await getPricing(
-    { include_offline: "true" },
-    { headers: ADMIN_HEADERS },
-  );
-  if (!res.data) throw new Error(msg("ERRORS.PRICING_FETCH_FAILED"));
-  offlineCache = {
-    models: buildPricingSummary(res.data).models,
-    fetchedAt: Date.now(),
-  };
-  return offlineCache;
-}
-
 // Cache-miss escape hatch (e.g. a just-added model requested by name):
 // refetches regardless of TTL, capped to one upstream call per 30s so
 // unknown-name requests cannot hammer the upstream.

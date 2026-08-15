@@ -1,31 +1,19 @@
-import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import {
   comboModelList,
   comboTitle,
 } from "@/components/pages/navbar/models/compare/compare-text";
 import { localeUrl } from "@/i18n/navigation";
-import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { emptyPageData, getComparePageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
-import { modelMatchesSlug, modelSlug } from "@/lib/utils/base";
+import { modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-
-async function resolveModels(
-  slugs: string[] | undefined,
-): Promise<ProcessedModel[]> {
-  if (!slugs?.length) return [];
-  const summary = await getPricingSummary().catch(() => null);
-  const models = summary?.models ?? [];
-  return slugs
-    .map((slug) => models.find((m) => modelMatchesSlug(m.name, slug)))
-    .filter((m): m is ProcessedModel => Boolean(m));
-}
+import { notFound } from "next/navigation";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string; slugs?: string[] }>;
@@ -33,7 +21,11 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const models = await resolveModels(params.slugs);
+  const resolved = await getComparePageData(params.slugs ?? []).catch(() =>
+    emptyPageData(),
+  );
+  if (resolved.missing) return notFoundMetadata();
+  const models = resolved.models;
 
   if (models.length === 0) {
     return getPageMetadata({
@@ -81,6 +73,7 @@ export default async function Page(props: {
   const data = await getComparePageData(params.slugs ?? []).catch(() =>
     emptyPageData(),
   );
+  if (data.missing) notFound();
   const models = data.models;
 
   const crumbs = [
