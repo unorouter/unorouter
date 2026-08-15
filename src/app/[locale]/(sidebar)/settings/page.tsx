@@ -18,6 +18,9 @@ export default async function SettingsPageRoute() {
     prefetchElysia(queryClient, queryKeys.passkeyStatus(), (cookies) =>
       rpc.api.auth.settings.passkey.get(cookies),
     ),
+    prefetchElysia(queryClient, queryKeys.status(), (cookies) =>
+      rpc.api.auth.account.status.get(cookies),
+    ),
   ]);
 
   return (
