@@ -21,6 +21,9 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+// Radix Select items cannot carry an empty-string value; the clear row needs a sentinel.
+const NONE_ID = "__none__";
+
 type PresetValues = {
   model: string | undefined;
   negativePrompt?: string | null;
@@ -111,6 +114,11 @@ export function PresetBar(props: Props) {
         <Select
           value={selectedId}
           onValueChange={(id) => {
+            // Clearing only forgets the equipped preset; applied values stay put.
+            if (id === NONE_ID) {
+              setSelectedId("");
+              return;
+            }
             // Re-picking the equipped preset must not re-apply it over unsaved edits.
             if (id === selectedId) return;
             setSelectedId(id ?? "");
@@ -135,6 +143,13 @@ export function PresetBar(props: Props) {
             )}
           </SelectTrigger>
           <SelectContent>
+            {selectedId && (
+              <SelectItem value={NONE_ID}>
+                <span className="text-muted-foreground">
+                  {t("CHAT.OVERRIDES.NONE")}
+                </span>
+              </SelectItem>
+            )}
             {presets.map((p) => (
               <SelectItem key={p.id} value={p.id}>
                 {p.name}
