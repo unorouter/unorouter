@@ -1,15 +1,14 @@
-import { buildPricingSummary, type ProcessedModel } from "@/lib/api/pricing";
+import type { ProcessedModel } from "@/lib/api/pricing";
 import { modelMatchesSlug } from "@/lib/utils/base";
-import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
-import { errMessage, unwrap } from "@/lib/utils/base";
+import { LOCALES } from "@/lib/config/constants";
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { getPricing, getQuotaDataSummary } from "@/openapi";
+import { computeStatsSummary } from "@/server/ops/stats/stats.service";
 import { readFileSync } from "fs";
 import type { Locale } from "next-intl";
 import { join } from "path";
 import type { SatoriOptions } from "satori";
 import { createTranslator } from "use-intl/core";
-import { ADMIN_HEADERS } from "@/server/constants";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import type { BadgePricing, BadgeStats } from "./types";
 
@@ -72,49 +71,24 @@ export function t(locale: Locale, key: string): string {
   }
 }
 
-let cachedStats: BadgeStats | null = null;
-let cachedStatsAt = 0;
-let cachedPricing: BadgePricing | null = null;
-let cachedPricingAt = 0;
-const CACHE_TTL = 5 * 60 * 1000;
-
 const EMPTY_STATS: BadgeStats = { tokenUsed: 0, requestCount: 0, avgTpm: 0 };
 
+// A dead upstream must not kill badges; they render with zeros instead.
 export async function getStats(): Promise<BadgeStats> {
-  if (cachedStats && Date.now() - cachedStatsAt < CACHE_TTL) return cachedStats;
-  let summary;
   try {
-    const res = await getQuotaDataSummary(
-      { start_timestamp: 0, end_timestamp: FAR_FUTURE },
-      { headers: ADMIN_HEADERS },
-    );
-    if (res.status !== 200) {
-      logger.warn("badge getStats: upstream non-200, falling back to zero", {
-        context: "badge",
-        status: res.status,
-      });
-      cachedStats = EMPTY_STATS;
-      cachedStatsAt = Date.now();
-      return cachedStats;
-    }
-    summary = unwrap(res).data;
+    const summary = await computeStatsSummary();
+    return {
+      tokenUsed: summary.token_used,
+      requestCount: summary.count,
+      avgTpm: summary.avg_tpm,
+    };
   } catch (err) {
     logger.warn("badge getStats: upstream failed, falling back to zero", {
       context: "badge",
       message: errMessage(err),
     });
-    cachedStats = EMPTY_STATS;
-    cachedStatsAt = Date.now();
-    return cachedStats;
+    return EMPTY_STATS;
   }
-
-  cachedStats = {
-    tokenUsed: summary.token_used,
-    requestCount: summary.count,
-    avgTpm: summary.avg_tpm,
-  };
-  cachedStatsAt = Date.now();
-  return cachedStats;
 }
 
 export async function findBadgeModel(
@@ -125,18 +99,12 @@ export async function findBadgeModel(
 }
 
 export async function getPricingData(): Promise<BadgePricing> {
-  if (cachedPricing && Date.now() - cachedPricingAt < CACHE_TTL)
-    return cachedPricing;
-
-  const res = await getPricing(undefined, { headers: ADMIN_HEADERS });
-  const summary = buildPricingSummary(unwrap(res));
-
+  const { summary } = await getPricingSnapshot();
   const vendorModelCounts: Record<string, number> = {};
   for (const v of summary.vendors) {
     vendorModelCounts[v.name] = v.modelCount;
   }
-
-  cachedPricing = {
+  return {
     modelCount: summary.modelCount,
     freeCount: summary.freeCount,
     paidCount: summary.paidCount,
@@ -145,6 +113,4 @@ export async function getPricingData(): Promise<BadgePricing> {
     vendorModelCounts,
     rows: summary.topDiscounted,
   };
-  cachedPricingAt = Date.now();
-  return cachedPricing;
 }

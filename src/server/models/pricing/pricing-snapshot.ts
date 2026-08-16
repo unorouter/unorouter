@@ -1,6 +1,7 @@
 import {
   buildPricingSummary,
   type EndpointInfo,
+  type PricingSummary,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { msg } from "@/lib/config/constants";
@@ -12,6 +13,7 @@ import { ADMIN_HEADERS } from "@/server/constants";
 // (2) the Cloudflare edge in front of the /pricing BFF responses (purged by CI
 // after deploy).
 let cache: {
+  summary: PricingSummary;
   models: ProcessedModel[];
   byName: Map<string, ProcessedModel>;
   endpointMap: Record<string, EndpointInfo>;
@@ -41,6 +43,7 @@ export async function refreshPricingSnapshot() {
   if (!res.data) throw new Error(msg("ERRORS.PRICING_FETCH_FAILED"));
   const summary = buildPricingSummary(res.data);
   cache = {
+    summary,
     models: summary.models,
     byName: new Map(summary.models.map((m) => [m.name, m])),
     endpointMap: summary.endpointMap,

@@ -446,7 +446,7 @@ export function gridPriceParts(
   };
 }
 
-type PricingSummary = ReturnType<typeof buildPricingSummary>;
+export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
 // Upstream types every embedding model as "text" (all jina-*-embeddings-*,
 // embeddinggemma-*), so a bare type === "text" filter leaks models that cannot
