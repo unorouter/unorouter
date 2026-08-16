@@ -15,6 +15,7 @@ import {
   routing,
 } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
+import { releaseTs } from "@/lib/api/pricing";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
@@ -93,10 +94,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   const nameToReleaseDate = new Map<string, Date>();
   for (const model of pricing?.models ?? []) {
-    const raw = model.metadata?.releaseDate;
-    if (!raw) continue;
-    const date = new Date(raw);
-    if (!Number.isNaN(date.getTime())) nameToReleaseDate.set(model.name, date);
+    const ms = releaseTs(model);
+    if (ms) nameToReleaseDate.set(model.name, new Date(ms));
   }
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),

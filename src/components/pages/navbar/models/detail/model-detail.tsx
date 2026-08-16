@@ -9,6 +9,7 @@ import {
   findContextTag,
   findSimilarModels,
   type ProcessedModel,
+  releaseTs,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -16,7 +17,6 @@ import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { modelHref } from "@/lib/utils/base";
 import { discountPercent, formatPrice } from "@/lib/utils/format/number";
 import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";
-import { dayjs } from "@/lib/utils/format/date";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/api/page-data";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -100,14 +100,9 @@ print(res.choices[0].message.content)`;
   const theme = getVendorTheme(m.vendor.name);
   const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "-";
 
-  const releaseDateLabel = m.metadata.releaseDate
-    ? formatMsDate(dayjs(m.metadata.releaseDate).valueOf())
-    : "";
-  const lastUpdatedMs = m.createdTime
-    ? m.createdTime * 1000
-    : m.metadata.releaseDate
-      ? dayjs(m.metadata.releaseDate).valueOf()
-      : 0;
+  const released = releaseTs(m);
+  const releaseDateLabel = released ? formatMsDate(released) : "";
+  const lastUpdatedMs = m.createdTime ? m.createdTime * 1000 : released;
   const lastUpdatedLabel = lastUpdatedMs ? formatMsDate(lastUpdatedMs) : "";
   const knowledgeCutoff = formatYearMonth(m.metadata.knowledgeCutoff) ?? "";
   const hasReleaseRow = Boolean(
