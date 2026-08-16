@@ -1,6 +1,7 @@
 import { GUEST_USER_ID, LOCAL_USER_ID_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -250,16 +251,36 @@ export function ensureConvId(): string {
 // adopts, and neither can pick up a DIFFERENT thread's conversation.
 const convIdByLocalThread = new Map<string, string>();
 
+// Which id a new chat got is not the useful fact; whether it was MINTED or picked
+// up from somewhere is. `displaced` is what the atom held at the time, so a merge
+// shows up directly as a claim landing on a conversation that already existed.
+function logConvIdClaim(
+  kind: "mint" | "reuse",
+  convId: string,
+  localThreadId: string | undefined,
+  displaced: string | null,
+): void {
+  logChatDebug("conv.id_claimed", {
+    kind,
+    convId,
+    localThreadId: localThreadId ?? null,
+    displaced,
+  });
+}
+
 export function freshConvId(localThreadId?: string): string {
+  const displaced = chatStore.get(convIdAtom);
   if (localThreadId) {
     const existing = convIdByLocalThread.get(localThreadId);
     if (existing) {
       chatStore.set(convIdAtom, existing);
+      logConvIdClaim("reuse", existing, localThreadId, displaced);
       return existing;
     }
   }
   const id = uid();
   if (localThreadId) convIdByLocalThread.set(localThreadId, id);
   chatStore.set(convIdAtom, id);
+  logConvIdClaim("mint", id, localThreadId, displaced);
   return id;
 }
