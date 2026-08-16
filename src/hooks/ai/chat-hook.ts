@@ -287,7 +287,7 @@ export function useFinalizeTaskMutation() {
       },
     ) => {
       const data = handleElysia(
-        await rpc.api.ai.chat({ id: args.convId }).task.finalize.post({
+        await rpc.api.ai.chat.task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
           resultUrl: args.resultUrl,

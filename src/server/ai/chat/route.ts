@@ -1,5 +1,4 @@
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
-import { GUEST_USER_ID, msg } from "@/lib/config/constants";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   finalizeTaskBody,
   forwardBody,
@@ -10,8 +9,11 @@ import {
   triggerSimilarityBody,
   webSearchBody,
 } from "@/lib/validation/chat";
-import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
-import { getApiKey, getUserId } from "@/server/constants";
+import {
+  assertGuestFreeModel,
+  resolveChatApiKey,
+} from "@/server/billing/token/best-key.service";
+import { getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import { generateInlayImage } from "./media/inlay.service";
 import { fetchVideoTaskStatus, finalizeVideoTask } from "./media/task.service";
@@ -23,51 +25,6 @@ import { forwardCustomProvider } from "./custom-forward.service";
 import { resolveWebSearch } from "./context/web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
-
-  .post(
-    "/title",
-    async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      if (userId === GUEST_USER_ID && body.model) {
-        const meta = (await getPricingSnapshot()).byName.get(body.model);
-        if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-      }
-      const apiKey = await resolveChatApiKey(cookie);
-      const data = await generateChatTitle(apiKey, body.text, body.model);
-      return { success: true, data };
-    },
-    { body: titleGenerationBody },
-  )
-
-  .post(
-    "/stream",
-    async ({ body, cookie, request }) => {
-      const apiKey = await resolveChatApiKey(cookie);
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      if (userId === GUEST_USER_ID) {
-        const meta = (await getPricingSnapshot()).byName.get(body.model);
-        if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-      }
-      return streamMedia(apiKey, body, request, userId);
-    },
-    { body: streamBody },
-  )
-
-  .post(
-    "/forward/chat/completions",
-    async ({ body, cookie, request }) => {
-      const apiKey = await resolveChatApiKey(cookie);
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      return forwardChatCompletions({
-        apiKey,
-        userId,
-        body,
-        requestId: request.headers.get("x-request-id"),
-        group: request.headers.get("x-group"),
-      });
-    },
-    { body: forwardBody },
-  )
 
   // Opt-in CORS-bypass proxy for custom providers (the per-provider "proxy"
   // toggle). Custom providers are a local-first BYOK feature guests use too,
@@ -96,10 +53,58 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   })
 
   .post(
+    "/task/finalize",
+    async ({ body }) => {
+      const data = await finalizeVideoTask(body);
+      return { success: true, data };
+    },
+    { body: finalizeTaskBody },
+  )
+
+  // Every route below needs the resolved chat key; the ones above must not
+  // resolve one (custom-forward's open-relay protection is the caller's own
+  // Authorization).
+  .resolve(async ({ cookie }) => ({
+    apiKey: await resolveChatApiKey(cookie),
+    userId: (await getUserId(cookie, true)) ?? GUEST_USER_ID,
+  }))
+
+  .post(
+    "/title",
+    async ({ body, apiKey, userId }) => {
+      await assertGuestFreeModel(userId, body.model);
+      const data = await generateChatTitle(apiKey, body.text, body.model);
+      return { success: true, data };
+    },
+    { body: titleGenerationBody },
+  )
+
+  .post(
+    "/stream",
+    async ({ body, request, apiKey, userId }) => {
+      await assertGuestFreeModel(userId, body.model);
+      return streamMedia(apiKey, body, request, userId);
+    },
+    { body: streamBody },
+  )
+
+  .post(
+    "/forward/chat/completions",
+    async ({ body, request, apiKey, userId }) => {
+      return forwardChatCompletions({
+        apiKey,
+        userId,
+        body,
+        requestId: request.headers.get("x-request-id"),
+        group: request.headers.get("x-group"),
+      });
+    },
+    { body: forwardBody },
+  )
+
+  .post(
     "/web-search",
-    async ({ body, cookie }) => {
-      const apiKey = await resolveChatApiKey(cookie);
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+    async ({ body, apiKey, userId }) => {
       const block = await resolveWebSearch(apiKey, userId, body.text);
       return { success: true, data: { block } };
     },
@@ -108,9 +113,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/trigger-op/llm",
-    async ({ body, cookie }) => {
+    async ({ body, cookie, apiKey }) => {
       await getUserId(cookie);
-      const apiKey = await resolveChatApiKey(cookie);
       const data = await runTriggerLLM(apiKey, body.model, body.prompt);
       return { success: true, data };
     },
@@ -118,9 +122,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
   .post(
     "/trigger-op/similarity",
-    async ({ body, cookie }) => {
+    async ({ body, cookie, apiKey }) => {
       await getUserId(cookie);
-      const apiKey = await resolveChatApiKey(cookie);
       const data = await runTriggerSimilarity(apiKey, body.source, body.values);
       return { success: true, data };
     },
@@ -128,9 +131,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
   .post(
     "/trigger-op/imggen",
-    async ({ body, cookie }) => {
+    async ({ body, cookie, apiKey }) => {
       await getUserId(cookie);
-      const apiKey = await resolveChatApiKey(cookie);
       const data = await generateInlayImage(apiKey, body.prompt, {
         model: body.model,
         references: body.references,
@@ -140,17 +142,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: triggerImggenBody },
   )
 
-  .get("/task/:taskId", async ({ params, cookie }) => {
-    const apiKey = getApiKey(cookie);
+  .get("/task/:taskId", async ({ params, apiKey }) => {
     const data = await fetchVideoTaskStatus(apiKey, params.taskId);
     return { success: true, data };
-  })
-
-  .post(
-    "/:id/task/finalize",
-    async ({ params, body }) => {
-      const data = await finalizeVideoTask(params.id, body);
-      return { success: true, data };
-    },
-    { body: finalizeTaskBody },
-  );
+  });

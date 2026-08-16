@@ -2,7 +2,7 @@ import type { Built, ExtractedResult } from "@/lib/ai/image/dispatch";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { upstreamApiUrl } from "@/server/constants";
-import { loadSharp } from "@/server/sharp-loader";
+import sharp from "sharp";
 
 // Pixel dimensions from the delivered file's header (sharp metadata reads the
 // header, not the bitmap). The request's width/height are not authoritative:
@@ -13,7 +13,7 @@ export async function probeImageSize(
   buffer: Buffer,
 ): Promise<{ width: number | null; height: number | null }> {
   try {
-    const meta = await loadSharp()(buffer).metadata();
+    const meta = await sharp(buffer).metadata();
     return { width: meta.width ?? null, height: meta.height ?? null };
   } catch {
     return { width: null, height: null };

@@ -108,10 +108,7 @@ export async function submitVideoTask(
 // This route only downloads the upstream result and returns it as a base64 data
 // URI; the client persists + renders it locally. No object storage: local bytes
 // work offline and keep media inside the export/import story.
-export async function finalizeVideoTask(
-  _convId: string,
-  body: FinalizeTaskBody,
-) {
+export async function finalizeVideoTask(body: FinalizeTaskBody) {
   const bytes = await downloadGenerationBytes(body.resultUrl);
   // AI Horde image tasks return webp; keep the real image/video mime. Anything
   // else defaults to mp4 (the original video-task behavior).

@@ -1,5 +1,6 @@
 import {
   ACCESS_TOKEN_COOKIE,
+  GUEST_USER_ID,
   msg,
   NEW_API_USER,
   USER_ID_COOKIE,
@@ -8,7 +9,14 @@ import { verifyUserId } from "@/lib/utils/server";
 import { addToken, getTokenKey, searchTokens } from "@/openapi";
 import { getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import type { Cookie } from "elysia";
+
+export async function assertGuestFreeModel(userId: number, model?: string) {
+  if (userId !== GUEST_USER_ID || !model) return;
+  const meta = (await getPricingSnapshot()).byName.get(model);
+  if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
+}
 
 export async function resolveBestKey(
   headers: Record<string, string>,

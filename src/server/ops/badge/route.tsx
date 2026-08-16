@@ -13,7 +13,7 @@ import {
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
 import { findBadgeModel, getPricingData, getStats } from "./lib/cache";
-import { loadSharp } from "@/server/sharp-loader";
+import sharp from "sharp";
 import { logger } from "@/lib/utils/logger";
 import { errMessage } from "@/lib/utils/base";
 import { THEME_COLORS } from "./lib/theme";
@@ -109,7 +109,7 @@ const PNG_HEADERS = {
 };
 
 async function svgToPng(svg: string): Promise<Buffer> {
-  return loadSharp()(Buffer.from(svg)).png().toBuffer();
+  return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
