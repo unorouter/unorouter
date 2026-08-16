@@ -312,7 +312,11 @@ export function buildThemeCss(theme: UserTheme): string {
 function chatFontSizeBlock(scale: number | undefined): string {
   if (!scale || scale === 1) return "";
   const s = Math.max(0.5, Math.min(3, scale));
-  return `:root{--chat-font-scale:${s};}.aui-md,.aui-user-message-content{font-size:calc(1em * var(--chat-font-scale,1));}`;
+  // `.aui-md` renders INSIDE `.aui-user-message-content` (user text goes through
+  // the same markdown renderer), and a relative font-size on both compounds:
+  // scale 1.2 made user messages 1.44x while assistant messages stayed 1.2x.
+  // Scale the user bubble only; the markdown inside it inherits.
+  return `:root{--chat-font-scale:${s};}.aui-user-message-content,.aui-md:not(.aui-user-message-content .aui-md){font-size:calc(1em * var(--chat-font-scale,1));}`;
 }
 
 function assetImageWidthBlock(rem: number | undefined): string {
