@@ -11,13 +11,12 @@ import {
   refreshPricingSnapshot,
 } from "@/server/models/pricing/pricing-snapshot";
 import { processPlans } from "@/lib/api/subscription";
-import { customFetch } from "@/lib/custom-fetch";
 import { sleep, unwrap } from "@/lib/utils/base";
 import {
   getPricing,
+  getPricingModel,
   getSubscriptionPlans,
   getTopUpInfo,
-  type PricingData,
 } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 
@@ -190,9 +189,9 @@ export async function getModelDetail(name: string) {
 // name is unknown to new-api's models table too (route 404s -> customFetch throws).
 export async function getModelByName(name: string) {
   try {
-    const res = await customFetch<{ status: number; data: PricingData }>(
-      `/api/pricing/model?model=${encodeURIComponent(name)}`,
-      { method: "GET", headers: ADMIN_HEADERS },
+    const res = await getPricingModel(
+      { model: name },
+      { headers: ADMIN_HEADERS },
     );
     const models = buildPricingSummary(res.data).models;
     return models.find((m) => m.name === name) ?? models[0] ?? null;
