@@ -7,7 +7,7 @@ import {
   toLeanPricing,
 } from "@/lib/api/pricing";
 import { processPlans } from "@/lib/api/subscription";
-import { sleep, unwrap } from "@/lib/utils/base";
+import { unwrap } from "@/lib/utils/base";
 import {
   getPricing,
   getPricingModel,
@@ -20,27 +20,10 @@ import {
   refreshPricingSnapshot,
 } from "@/server/models/pricing/pricing-snapshot";
 
-// The upstream occasionally truncates responses under concurrent renders, and
-// a failed parse would otherwise surface as a 500 on a page that only needed
-// the model list.
-async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
-  let lastError: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error;
-      await sleep(250 * (i + 1));
-    }
-  }
-  throw lastError;
-}
-
 export async function getPricingSummary(includeOffline = false) {
-  const res = await withRetry(() =>
-    getPricing(includeOffline ? { include_offline: "true" } : undefined, {
-      headers: ADMIN_HEADERS,
-    }),
+  const res = await getPricing(
+    includeOffline ? { include_offline: "true" } : undefined,
+    { headers: ADMIN_HEADERS },
   );
   return buildPricingSummary(unwrap(res));
 }
@@ -165,20 +148,12 @@ export async function getModelByName(name: string) {
 }
 
 export async function getSubscriptionPlansSummary() {
-  const res = await withRetry(() =>
-    getSubscriptionPlans({
-      headers: ADMIN_HEADERS,
-    }),
-  );
+  const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });
   if (res.status !== 200) return [];
   return processPlans(res.data.data);
 }
 
 export async function getTopUpInfoSummary() {
-  const res = await withRetry(() =>
-    getTopUpInfo({
-      headers: ADMIN_HEADERS,
-    }),
-  );
+  const res = await getTopUpInfo({ headers: ADMIN_HEADERS });
   return unwrap(res).data;
 }
