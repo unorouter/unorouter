@@ -1,5 +1,19 @@
 import { formatPrice } from "@/lib/utils/format/number";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/lib/api/pricing";
+
+// These helpers read a handful of fields, so they are typed by what they touch
+// rather than by one concrete row shape: the browse list and the full detail
+// record both satisfy them.
+type ModalityModel = { type: string; metadata: ModelMetadata };
+type PricedModel = ModalityModel & {
+  isFixedPrice: boolean;
+  inputPrice: number;
+  outputPrice: number;
+  fixedPrice: number;
+  originalInputPrice: number | null;
+  originalOutputPrice: number | null;
+  originalFixedPrice: number | null;
+};
 
 export const OUTPUT_MODALITIES = [
   "all",
@@ -15,7 +29,7 @@ export const AGE_STEPS_DAYS = [0, 7, 30, 90, 365] as const;
 
 // Per-call image/video pricing splits a model into a per-token base and a
 // flat-priced `:flat` twin (new-api-sync pricing/image-per-call.ts).
-export const isFlatVariant = (model: ProcessedModel): boolean =>
+export const isFlatVariant = (model: { name: string }): boolean =>
   model.name.endsWith(":flat");
 
 type ConcreteModality = Exclude<OutputModality, "all">;
@@ -24,7 +38,7 @@ type ConcreteModality = Exclude<OutputModality, "all">;
 // upstream-supplied and each has been wrong. A model mistyped `text` upstream is
 // caught by its modality, and a model whose modality upstream reports as `text`
 // (gpt-4o-image) is caught by its type.
-export function deriveOutputModality(model: ProcessedModel): ConcreteModality {
+export function deriveOutputModality(model: ModalityModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata.outputModalities ?? [];
   if (model.type === "image" || out.includes("image")) return "image";
@@ -34,14 +48,14 @@ export function deriveOutputModality(model: ProcessedModel): ConcreteModality {
 }
 
 export function matchesModality(
-  model: ProcessedModel,
+  model: ModalityModel,
   selected: OutputModality,
 ): boolean {
   return selected === "all" || deriveOutputModality(model) === selected;
 }
 
 export function countByOutputModality(
-  models: ProcessedModel[],
+  models: ModalityModel[],
 ): Record<ConcreteModality, number> {
   const counts: Record<ConcreteModality, number> = {
     text: 0,
@@ -60,7 +74,7 @@ export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
 // on the modality: image/video bill per output artifact, everything else per
 // input. The unused side is 0 (or null for the pre-discount original) so callers
 // can render both columns uniformly.
-export function modelPriceColumns(model: ProcessedModel) {
+export function modelPriceColumns(model: PricedModel) {
   const modality = deriveOutputModality(model);
   const onOutput = modality === "image" || modality === "video";
   if (!model.isFixedPrice)
@@ -109,7 +123,7 @@ export function outputPriceUnit(
 }
 
 export function fixedPriceUnitLabel(
-  model: ProcessedModel,
+  model: ModalityModel,
 ): "second" | "image" | "request" {
   const modality = deriveOutputModality(model);
   if (modality === "video") return "second";

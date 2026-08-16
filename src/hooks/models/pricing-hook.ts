@@ -16,6 +16,16 @@ export function usePricingQuery(enabled = true) {
   );
 }
 
+// The /models browse and /compare pages: catalog rows plus the blurb and the
+// metadata they filter on, without the group maps only the detail sheet reads.
+export function usePricingBrowseQuery(enabled = true) {
+  return useElysiaQuery(
+    queryKeys.pricingBrowse(),
+    () => rpc.api.models.pricing.browse.get(),
+    { staleTime: "static", enabled },
+  );
+}
+
 export function usePricingCountsQuery() {
   return useElysiaQuery(
     queryKeys.pricingCounts(),

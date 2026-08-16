@@ -1959,6 +1959,7 @@ export interface PricingCatalogModel {
   chat: boolean;
   description?: string;
   fixed_price: number;
+  icon?: string;
   input_price: number;
   is_fixed_price: boolean;
   is_free: boolean;
@@ -1973,6 +1974,7 @@ export interface PricingCatalogModel {
   tags: string[];
   type: string;
   vendor: string;
+  vendor_id: number;
 }
 
 export interface PricingVendor {
@@ -4984,6 +4986,13 @@ export type GetPrefillGroupsParams = {
    * Filter by group type
    */
   type?: string;
+};
+
+export type GetPricingCatalogParams = {
+  /**
+   * Include description and metadata (browse/compare need them; the model picker does not)
+   */
+  full?: string;
 };
 
 export type GetPricingModelParams = {
@@ -11266,20 +11275,36 @@ export type getPricingCatalogResponseSuccess = (
 };
 export type getPricingCatalogResponse = getPricingCatalogResponseSuccess;
 
-export const getGetPricingCatalogUrl = () => {
-  return `/api/pricing/catalog`;
+export const getGetPricingCatalogUrl = (params?: GetPricingCatalogParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/pricing/catalog?${stringifiedParams}`
+    : `/api/pricing/catalog`;
 };
 
 /**
  * @summary Get Pricing Catalog
  */
 export const getPricingCatalog = async (
+  params?: GetPricingCatalogParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getPricingCatalogResponse> => {
-  return customFetch<getPricingCatalogResponse>(getGetPricingCatalogUrl(), {
-    ...options,
-    method: "GET",
-  });
+  return customFetch<getPricingCatalogResponse>(
+    getGetPricingCatalogUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 export type getPricingModelResponse200ApplicationJson = {

@@ -16,9 +16,12 @@ export const getPricingSummary = cache(async () => {
 });
 
 // Upstream returns this already sorted (free first, then name) and without the
-// group maps, so it is ~64KB against the full catalog's ~800KB.
-export const getCatalog = cache(async () => {
-  const res = await getPricingCatalog({ headers: ADMIN_HEADERS });
+// group maps, so it is ~117KB against the full payload's ~496KB. `full` adds the
+// truncated description and the metadata the browse/compare pages filter on.
+export const getCatalog = cache(async (full = false) => {
+  const res = await getPricingCatalog(full ? { full: "true" } : undefined, {
+    headers: ADMIN_HEADERS,
+  });
   return unwrap(res);
 });
 

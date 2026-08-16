@@ -45,6 +45,39 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     };
   })
 
+  // The /models browse and /compare pages: the catalog row plus the blurb and
+  // the metadata they filter on. Carries no group maps; the detail sheet fetches
+  // the selected model's groups from /model-groups.
+  .get("/browse", async () => {
+    const catalog = await getCatalog(true);
+    return {
+      models: catalog.data.map((m) => ({
+        name: m.model_name,
+        // Object rather than a bare string: 48 call sites across 21 components
+        // read vendor.name/vendor.icon, and renaming them all buys nothing a
+        // reader would notice.
+        vendor: { id: m.vendor_id, name: m.vendor, icon: m.icon },
+        type: m.type,
+        tags: m.tags,
+        isFree: m.is_free,
+        online: m.online,
+        chat: m.chat,
+        description: m.description,
+        inputPrice: m.input_price,
+        outputPrice: m.output_price,
+        fixedPrice: m.fixed_price,
+        isFixedPrice: m.is_fixed_price,
+        originalInputPrice: m.original_input_price ?? null,
+        originalOutputPrice: m.original_output_price ?? null,
+        originalFixedPrice: m.original_fixed_price ?? null,
+        metadata: m.metadata,
+      })),
+      vendorNames: [...new Set(catalog.data.map((m) => m.vendor))].sort(
+        (a, b) => a.localeCompare(b),
+      ),
+    };
+  })
+
   .get("/catalog", async () => {
     const catalog = await getCatalog();
     const models = catalog.data.map((m) => ({
