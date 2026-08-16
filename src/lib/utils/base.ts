@@ -147,6 +147,16 @@ export function arrayBufferToBase64(buf: ArrayBuffer): string {
   return uint8ToBase64(new Uint8Array(buf));
 }
 
+export async function sha256Hex(value: string): Promise<string> {
+  const buf = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(value),
+  );
+  return [...new Uint8Array(buf)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 export function uint8ToBase64(bytes: Uint8Array): string {
   let binary = "";
   const CHUNK = 0x8000;

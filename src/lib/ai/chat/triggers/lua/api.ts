@@ -1,3 +1,4 @@
+import { sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
@@ -11,16 +12,6 @@ const fromLuaRole = (r: string): TriggerMessage["role"] =>
 
 let lastRequestsCount = 0;
 let lastRequestResetTime = 0;
-
-async function sha256Hex(value: string): Promise<string> {
-  const buf = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(value),
-  );
-  return [...new Uint8Array(buf)]
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
 
 function promptToChatML(prompt: { role: string; content: string }[]): string {
   return prompt

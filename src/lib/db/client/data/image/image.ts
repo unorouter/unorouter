@@ -298,31 +298,6 @@ export async function readLocalSnapshotBySubmittedKey(
   return rows[0] ?? null;
 }
 
-export async function upsertLocalSessionBundle(
-  userId: number | undefined,
-  bundle: {
-    session: AnyRow;
-    snapshots: AnyRow[];
-    media: MediaInput[];
-  },
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await sessionStore.upsert(userId, bundle.session);
-
-  await replaceChildRows(
-    local.db,
-    imageSnapshots,
-    imageSnapshots.sessionId,
-    bundle.session.id,
-    bundle.snapshots,
-  );
-
-  for (const m of bundle.media) {
-    await mediaStore.upsert(userId, m);
-  }
-}
-
 // Patch, not upsert: a partial upsert would blank every column it did not carry.
 export async function patchLocalSnapshotCost(
   userId: number | undefined,

@@ -223,34 +223,6 @@ export async function recordTestRun(
   return testId;
 }
 
-export async function readTestHistory(
-  userId: number | undefined,
-): Promise<TestListItem[]> {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
-  if (!local) return [];
-  const rows = await local.db
-    .select({
-      id: testerTests.id,
-      provider: testerProviders.kind,
-      baseUrlHost: testerProviders.baseUrlHost,
-      requestedModel: testerModels.requestedModel,
-      detectedModel: testerTests.detectedModel,
-      verdict: testerTests.verdict,
-      probesPassed: testerTests.probesPassed,
-      probesTotal: testerTests.probesTotal,
-      latencyMs: testerTests.latencyMs,
-      testedAt: testerTests.testedAt,
-      publishedAt: testerTests.publishedAt,
-    })
-    .from(testerTests)
-    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
-    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
-    .where(eq(testerTests.userId, uid))
-    .orderBy(desc(testerTests.testedAt));
-  return rows as TestListItem[];
-}
-
 export async function readHistoryProviders(
   userId: number | undefined,
 ): Promise<HistoryProviderRow[]> {
@@ -315,42 +287,6 @@ export async function readHistoryModels(
   return { provider: models[0]?.provider ?? null, models };
 }
 
-export async function readHistoryModelTests(
-  userId: number | undefined,
-  host: string,
-  model: string,
-): Promise<TestListItem[]> {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
-  if (!local) return [];
-  const rows = await local.db
-    .select({
-      id: testerTests.id,
-      provider: testerProviders.kind,
-      baseUrlHost: testerProviders.baseUrlHost,
-      requestedModel: testerModels.requestedModel,
-      detectedModel: testerTests.detectedModel,
-      verdict: testerTests.verdict,
-      probesPassed: testerTests.probesPassed,
-      probesTotal: testerTests.probesTotal,
-      latencyMs: testerTests.latencyMs,
-      testedAt: testerTests.testedAt,
-      publishedAt: testerTests.publishedAt,
-    })
-    .from(testerTests)
-    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
-    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
-    .where(
-      and(
-        eq(testerTests.userId, uid),
-        eq(testerProviders.baseUrlHost, host),
-        eq(testerModels.requestedModel, model),
-      ),
-    )
-    .orderBy(desc(testerTests.testedAt));
-  return rows as TestListItem[];
-}
-
 export type HistoryTestDetail = TestResultDetail & { id: string };
 
 export async function readHistoryModelTestDetails(
@@ -405,66 +341,6 @@ export async function readHistoryModelTestDetails(
       byTest.get(r.test.id) ?? [],
     ),
   }));
-}
-
-export async function readTestDetail(
-  userId: number | undefined,
-  testId: string,
-): Promise<HistoryTestDetail | null> {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
-  if (!local) return null;
-  const db = local.db;
-
-  const tests = await db
-    .select()
-    .from(testerTests)
-    .where(and(eq(testerTests.id, testId), eq(testerTests.userId, uid)))
-    .limit(1);
-  const test = tests[0];
-  if (!test) return null;
-
-  const prov = await db
-    .select({
-      kind: testerProviders.kind,
-      baseUrlHost: testerProviders.baseUrlHost,
-    })
-    .from(testerProviders)
-    .where(eq(testerProviders.id, test.providerId))
-    .limit(1);
-  const model = await db
-    .select({ requestedModel: testerModels.requestedModel })
-    .from(testerModels)
-    .where(eq(testerModels.id, test.modelId))
-    .limit(1);
-  const probes = await db
-    .select()
-    .from(testerProbes)
-    .where(eq(testerProbes.testId, testId))
-    .orderBy(testerProbes.orderIndex);
-
-  return {
-    id: test.id,
-    ...toTestResultDetail(
-      test,
-      prov[0] ?? { kind: "openai", baseUrlHost: "" },
-      model[0] ?? { requestedModel: "" },
-      probes,
-    ),
-  };
-}
-
-export async function markTestPublished(
-  userId: number | undefined,
-  testId: string,
-): Promise<void> {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
-  if (!local) return;
-  await local.db
-    .update(testerTests)
-    .set({ publishedAt: new Date(), updatedAt: new Date() })
-    .where(and(eq(testerTests.id, testId), eq(testerTests.userId, uid)));
 }
 
 export async function deleteTest(

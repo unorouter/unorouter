@@ -29,7 +29,6 @@ import {
   setLocalActiveBranch,
   spliceDeleteLocalMessage,
   renameLocalChatGroup,
-  reorderLocalChatGroups,
   replaceLocalConversationBindings,
   replaceLocalMessageItems,
   setChatGroupFolded,
@@ -146,16 +145,6 @@ export function useDeleteChatGroupMutation() {
       return { id: args.id };
     },
     () => [queryKeys.chatGroups(), queryKeys.conversations()],
-  );
-}
-
-export function useReorderChatGroupsMutation() {
-  return useChatMutation(
-    async (userId, args: { orderedIds: string[] }) => {
-      await reorderLocalChatGroups(userId, args.orderedIds);
-      return {};
-    },
-    () => [queryKeys.chatGroups()],
   );
 }
 

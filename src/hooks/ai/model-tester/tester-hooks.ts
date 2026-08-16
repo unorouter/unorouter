@@ -5,12 +5,9 @@ import {
   readHistoryModelTestDetails,
   readHistoryModels,
   readHistoryProviders,
-  readTestDetail,
-  readTestHistory,
   recordTestRun,
   type HistoryProviderRow,
   type HistoryTestDetail,
-  type TestListItem,
 } from "@/lib/db/client/data/tester/tester";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/lib/react-query/hooks";
@@ -20,14 +17,6 @@ import { rpc } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
-
-export function useTestHistory() {
-  const userId = useLocalUserId();
-  return useQuery({
-    queryKey: [...queryKeys.modelTests(), userId],
-    queryFn: (): Promise<TestListItem[]> => readTestHistory(userId),
-  });
-}
 
 export function useHistoryProviders() {
   const userId = useLocalUserId();
@@ -51,16 +40,6 @@ export function useHistoryModelTests(host: string, model: string) {
     queryKey: [...queryKeys.modelTestHistoryModelTests(host, model), userId],
     queryFn: (): Promise<HistoryTestDetail[]> =>
       readHistoryModelTestDetails(userId, host, model),
-  });
-}
-
-export function useTestDetail(testId: string | undefined) {
-  const userId = useLocalUserId();
-  return useQuery({
-    queryKey: [...queryKeys.modelTest(testId ?? ""), userId],
-    queryFn: (): Promise<HistoryTestDetail | null> =>
-      testId ? readTestDetail(userId, testId) : Promise.resolve(null),
-    enabled: !!testId,
   });
 }
 

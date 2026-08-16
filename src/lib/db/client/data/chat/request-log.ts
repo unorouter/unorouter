@@ -89,14 +89,6 @@ export async function insertLocalRequestLog(
   }
 }
 
-export async function clearAllRequestLogs(
-  userId: number | undefined,
-): Promise<void> {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db.delete(requestLogs);
-}
-
 // Request logs are debug data with no retention: they accumulate for the life
 // of the database, and each one stored the full assembled conversation, so long
 // threads grew them quadratically. Shrinking what NEW logs store does nothing

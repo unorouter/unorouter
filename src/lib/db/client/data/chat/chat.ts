@@ -112,15 +112,6 @@ export const deleteLocalChatGroup = async (
   await chatGroupStore.drop(userId, groupId);
 };
 
-export const reorderLocalChatGroups = async (
-  userId: number | undefined,
-  orderedIds: string[],
-) => {
-  for (let i = 0; i < orderedIds.length; i++) {
-    await chatGroupStore.update(userId, orderedIds[i], { orderIndex: i });
-  }
-};
-
 export const renameLocalChatGroup = (
   userId: number | undefined,
   groupId: string,
@@ -289,32 +280,6 @@ export async function readConvTriggers(
 ): Promise<TriggerScript[]> {
   const ch = await readPrimaryCharacter(userId, convId);
   return parseTriggerScripts(ch?.triggers);
-}
-
-export async function readLocalMessagesByIds(
-  userId: number | undefined,
-  ids: string[],
-) {
-  const local = await getLocalDb(userId);
-  if (!local || ids.length === 0) return [];
-  return local.db
-    .select()
-    .from(messages)
-    .where(inArray(messages.id, ids))
-    .orderBy(asc(messages.createdAt));
-}
-
-export async function readLocalMessageItemsByMsgIds(
-  userId: number | undefined,
-  ids: string[],
-) {
-  const local = await getLocalDb(userId);
-  if (!local || ids.length === 0) return [];
-  return local.db
-    .select()
-    .from(messageItems)
-    .where(inArray(messageItems.messageId, ids))
-    .orderBy(asc(messageItems.sequenceIndex));
 }
 
 export async function readLocalMessageItems(
