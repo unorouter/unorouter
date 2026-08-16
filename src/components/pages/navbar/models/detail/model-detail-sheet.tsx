@@ -38,7 +38,6 @@ import { useState } from "react";
 import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
 import { CachePricing } from "./pricing/cache-pricing";
 import { ModelDescription } from "./header/model-description";
-import { TieredPricing } from "./pricing/tiered-pricing";
 import { AutoGroupChain } from "./pricing/auto-group-chain";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
@@ -193,12 +192,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     </div>
                   )}
                 </div>
-              ) : model.isTiered ? (
-                <TieredPricing
-                  model={model}
-                  theme={theme}
-                  groupRatioMap={props.groupRatioMap}
-                />
               ) : (
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-4">

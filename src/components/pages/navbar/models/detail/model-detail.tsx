@@ -26,7 +26,6 @@ import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
 import { CodeExamplesTabs } from "./tabs/code-examples-tabs";
 import { GridPricingTable } from "./pricing/grid-pricing-table";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
-import { TieredPricing } from "./pricing/tiered-pricing";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
@@ -232,53 +231,43 @@ print(res.choices[0].message.content)`;
               <SectionHeading theme={theme}>
                 {t("MODEL_PAGE.PRICING_TITLE")}
               </SectionHeading>
-              {m.isTiered ? (
-                <div className="overflow-hidden rounded-md border p-4">
-                  <TieredPricing
-                    model={m}
+              <div className="flex flex-wrap items-stretch gap-2">
+                {m.isFixedPrice ? (
+                  <PriceCell
+                    label={t("MODEL_PAGE.FIXED_PRICE")}
+                    value={m.fixedPrice}
+                    original={m.originalFixedPrice}
+                    unit={
+                      fixedPriceUnitLabel(m) === "second"
+                        ? t("MODEL_PAGE.PER_SECOND_UNIT")
+                        : fixedPriceUnitLabel(m) === "image"
+                          ? t("MODEL_PAGE.PER_IMAGE_UNIT")
+                          : t("MODEL_PAGE.PER_REQUEST_UNIT")
+                    }
+                    offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                     theme={theme}
-                    groupRatioMap={props.groupRatioMap}
                   />
-                </div>
-              ) : (
-                <div className="flex flex-wrap items-stretch gap-2">
-                  {m.isFixedPrice ? (
+                ) : (
+                  <>
                     <PriceCell
-                      label={t("MODEL_PAGE.FIXED_PRICE")}
-                      value={m.fixedPrice}
-                      original={m.originalFixedPrice}
-                      unit={
-                        fixedPriceUnitLabel(m) === "second"
-                          ? t("MODEL_PAGE.PER_SECOND_UNIT")
-                          : fixedPriceUnitLabel(m) === "image"
-                            ? t("MODEL_PAGE.PER_IMAGE_UNIT")
-                            : t("MODEL_PAGE.PER_REQUEST_UNIT")
-                      }
+                      label={t("MODEL_PAGE.INPUT_PRICE")}
+                      value={m.inputPrice}
+                      original={m.originalInputPrice}
+                      unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
                       offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                       theme={theme}
                     />
-                  ) : (
-                    <>
-                      <PriceCell
-                        label={t("MODEL_PAGE.INPUT_PRICE")}
-                        value={m.inputPrice}
-                        original={m.originalInputPrice}
-                        unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
-                        offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
-                        theme={theme}
-                      />
-                      <PriceCell
-                        label={t("MODEL_PAGE.OUTPUT_PRICE")}
-                        value={m.outputPrice}
-                        original={m.originalOutputPrice}
-                        unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
-                        offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
-                        theme={theme}
-                      />
-                    </>
-                  )}
-                </div>
-              )}
+                    <PriceCell
+                      label={t("MODEL_PAGE.OUTPUT_PRICE")}
+                      value={m.outputPrice}
+                      original={m.originalOutputPrice}
+                      unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
+                      offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
+                      theme={theme}
+                    />
+                  </>
+                )}
+              </div>
               <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px]">
                 {contextTag && (
                   <span>

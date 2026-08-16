@@ -1,10 +1,19 @@
 import type { PricingData, PricingModel } from "@/openapi";
 import { escapeRegex } from "@/lib/utils/base";
-import {
-  computeMinGroupRatio,
-  parseTiersFromExpr,
-  tierDisplayPrices,
-} from "./tiered-pricing";
+
+// Display prices quote the cheapest lane a caller could route to, so every
+// price is the sticker value times the lowest ratio among the model's groups.
+export function computeMinGroupRatio(
+  enableGroups: string[],
+  groupRatioMap: Record<string, number>,
+): number {
+  let min = Number.POSITIVE_INFINITY;
+  for (const g of enableGroups) {
+    const r = groupRatioMap[g];
+    if (r !== undefined && r < min) min = r;
+  }
+  return min === Number.POSITIVE_INFINITY ? 1 : min;
+}
 
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
@@ -137,20 +146,6 @@ export function processModels(response: PricingData) {
           originalFixedPrice = sticker;
         }
         isFreeStrict = fixedPrice === 0;
-      } else if (isTiered) {
-        const tiers = parseTiersFromExpr(billingExpr ?? "");
-        if (tiers.length > 0) {
-          const rows = tiers.map((tier) =>
-            tierDisplayPrices(tier, gridMinRatio),
-          );
-          const lowest = rows.reduce((acc, row) =>
-            row.inputPrice + row.outputPrice < acc.inputPrice + acc.outputPrice
-              ? row
-              : acc,
-          );
-          inputPrice = lowest.inputPrice;
-          outputPrice = lowest.outputPrice;
-        }
       } else {
         const enabledGroups = model.enable_groups ?? [];
         inputPrice = (model.model_ratio ?? 0) * 2 * gridMinRatio;
