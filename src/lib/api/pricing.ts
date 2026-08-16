@@ -484,15 +484,27 @@ export function leanModel(model: ProcessedModel): ProcessedModel {
 // defaults dropped. Group maps carry only groups some model references
 // (upstream ships ~3x more), and usableGroup has no client consumer. Full
 // models come from the per-model detail endpoint.
+// Upstream publishes one routing group per channel (1600+), of which the model
+// list references ~800; the rest are dead weight in every payload that carries
+// ratios.
+export function usedGroupRatios(
+  models: readonly ProcessedModel[],
+  groupRatioMap: Record<string, number>,
+): Record<string, number> {
+  const used = new Set<string>();
+  for (const model of models) {
+    for (const group of model.enableGroups) used.add(group);
+  }
+  const out: Record<string, number> = {};
+  for (const [group, ratio] of Object.entries(groupRatioMap)) {
+    if (used.has(group)) out[group] = ratio;
+  }
+  return out;
+}
+
 export function toLeanPricing(summary: PricingSummary) {
-  const usedGroups = new Set<string>();
-  for (const model of summary.models) {
-    for (const group of model.enableGroups) usedGroups.add(group);
-  }
-  const groupRatioMap: Record<string, number> = {};
-  for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
-    if (usedGroups.has(group)) groupRatioMap[group] = ratio;
-  }
+  const groupRatioMap = usedGroupRatios(summary.models, summary.groupRatioMap);
+  const usedGroups = new Set(Object.keys(groupRatioMap));
   return {
     modelCount: summary.modelCount,
     freeCount: summary.freeCount,

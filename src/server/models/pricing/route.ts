@@ -4,6 +4,7 @@ import {
   leanModel,
   releaseTs,
   toLeanPricing,
+  usedGroupRatios,
 } from "@/lib/api/pricing";
 import {
   getModelByName,
@@ -46,14 +47,8 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/catalog", async () => {
     const { models, summary } = await getPricingCatalogSource();
-    // Ratios only for groups some model is actually served by: the gateway
-    // knows 1600+ (one routing group per channel), the catalog references ~800.
-    const used = new Set(models.flatMap((m) => m.enableGroups));
-    const groupRatioMap: Record<string, number> = {};
-    for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
-      if (used.has(group)) groupRatioMap[group] = ratio;
-    }
     return {
+      groupRatioMap: usedGroupRatios(models, summary.groupRatioMap),
       models: models.map((m) => ({
         name: m.name,
         vendor: m.vendor.name,
@@ -64,7 +59,6 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
         online: m.online,
         releaseTs: releaseTs(m),
       })),
-      groupRatioMap,
       firstFreeModel: summary.firstFreeModel?.name ?? null,
     };
   })
