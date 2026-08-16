@@ -44,12 +44,13 @@ export const resolveSlug = cache(
 
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   if (!slug) return null;
-  const data = await getPricingSummary(true).catch(() => null);
+  const data = await getPricingSummary().catch(() => null);
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: !live.online, data };
-  // Fully dark model (every channel disabled/deleted) is absent even from the
-  // offline feed; the by-name route still returns it so the detail page renders.
-  // modelSlug only percent-encodes []/, so the name decodes straight back.
+  // A model whose channels are all disabled never reaches /pricing, which filters
+  // by servable group. The by-name route applies no such filter, so the detail
+  // page still renders. modelSlug only percent-encodes []/, so the name decodes
+  // straight back.
   let name = slug;
   try {
     name = decodeURIComponent(slug);

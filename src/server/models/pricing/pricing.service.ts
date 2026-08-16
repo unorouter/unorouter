@@ -10,11 +10,8 @@ import {
 import { ADMIN_HEADERS } from "@/server/constants";
 import { cache } from "react";
 
-export const getPricingSummary = cache(async (includeOffline = false) => {
-  const res = await getPricing(
-    includeOffline ? { include_offline: "true" } : undefined,
-    { headers: ADMIN_HEADERS },
-  );
+export const getPricingSummary = cache(async () => {
+  const res = await getPricing(undefined, { headers: ADMIN_HEADERS });
   return buildPricingSummary(unwrap(res));
 });
 

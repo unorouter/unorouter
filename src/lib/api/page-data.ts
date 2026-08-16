@@ -101,29 +101,9 @@ export async function getComparePageData(slugs: readonly string[]) {
       seeded.summary.models.find((m) => modelMatchesSlug(m.name, slug)),
     )
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
-  // A model with every channel down keeps a real page (the sitemap advertises
-  // it and the detail page renders it), so an unresolved slug is only truly
-  // gone once the offline feed misses it too. Checked ONLY on that miss, so the
-  // common path stays on the one online fetch.
   const missing =
-    seeded.summary.models.length > 0 &&
-    models.length < slugs.length &&
-    !(await resolvesOffline(slugs, models));
+    seeded.summary.models.length > 0 && models.length < slugs.length;
   return { dehydrated: dehydrate(seeded.qc), models, missing };
-}
-
-async function resolvesOffline(
-  slugs: readonly string[],
-  found: readonly { name: string }[],
-) {
-  const unresolved = slugs.filter(
-    (slug) => !found.some((m) => modelMatchesSlug(m.name, slug)),
-  );
-  const offline = await getPricingSummary(true).catch(() => null);
-  if (!offline?.models.length) return true;
-  return unresolved.every((slug) =>
-    offline.models.some((m) => modelMatchesSlug(m.name, slug)),
-  );
 }
 
 // A transient upstream /pricing 5xx would otherwise reject the whole server

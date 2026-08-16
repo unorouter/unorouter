@@ -79,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // getPricingSummary already retries 3x with backoff internally.
-  const pricing = await getPricingSummary(true).catch(() => null);
+  const pricing = await getPricingSummary().catch(() => null);
   if (!pricing?.models?.length)
     console.error(
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
