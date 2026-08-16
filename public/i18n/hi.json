@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "dropped",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "प्रदाता"
+      "BADGE_PROVIDER": "प्रदाता",
+      "TRIMMED": "इस संदेश के लिए पूरा अनुरोध सहेजा नहीं गया। किसी चैट में केवल हाल के अनुरोध ही अपनी पूरी सामग्री संग्रहीत करते हैं।"
     },
     "NEW_CONVERSATION": "नई Chat",
     "GENERATION_LOCKED_OTHER_TAB": "एक अन्य tab पहले से इस बातचीत के लिए generate कर रहा है। इसके समाप्त होने की प्रतीक्षा करें या tabs स्विच करें।",

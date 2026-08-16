@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "düşürüldü",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "sağlayıcı"
+      "BADGE_PROVIDER": "sağlayıcı",
+      "TRIMMED": "Bu mesaj için tam istek saklanmadı. Bir sohbette yalnızca en son istekler tüm içeriğini saklar."
     },
     "NEW_CONVERSATION": "Yeni Sohbet",
     "GENERATION_LOCKED_OTHER_TAB": "Başka bir sekme zaten bu sohbet için üretim yapıyor. Bitmesini bekleyin veya sekmeyi değiştirin.",

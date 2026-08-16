@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "已捨棄",
       "UNIT_MS": "毫秒",
       "UNIT_TOK_PER_S": "詞元/秒",
-      "BADGE_PROVIDER": "提供商"
+      "BADGE_PROVIDER": "提供商",
+      "TRIMMED": "此訊息的完整請求未保留：每個對話僅最近的請求會保存完整內容。"
     },
     "NEW_CONVERSATION": "新對話",
     "GENERATION_LOCKED_OTHER_TAB": "另一個分頁正在為此對話生成回覆。請等待其完成或切換到該分頁。",

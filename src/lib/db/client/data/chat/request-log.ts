@@ -96,7 +96,7 @@ export async function insertLocalRequestLog(
 // emptying the heavy columns on everything but the most recent few per
 // conversation. The rows stay (cost/token history is read from them); only the
 // reproduce-the-request payload goes.
-const KEEP_FULL_LOGS_PER_CONV = 10;
+const KEEP_FULL_LOGS_PER_CONV = 40;
 
 export async function trimRequestLogPayloads(
   userId: number | undefined,

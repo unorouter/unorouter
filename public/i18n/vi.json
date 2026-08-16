@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "đã bỏ",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/giây",
-      "BADGE_PROVIDER": "nhà cung cấp"
+      "BADGE_PROVIDER": "nhà cung cấp",
+      "TRIMMED": "Yêu cầu đầy đủ không được lưu cho tin nhắn này. Chỉ những yêu cầu gần nhất trong một cuộc trò chuyện mới giữ toàn bộ nội dung."
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "GENERATION_LOCKED_OTHER_TAB": "Tab khác đang tạo phản hồi cho cuộc trò chuyện này. Hãy đợi tab đó hoàn thành hoặc chuyển sang nó.",

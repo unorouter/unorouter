@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "descartado",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "provedor"
+      "BADGE_PROVIDER": "provedor",
+      "TRIMMED": "A requisição completa não foi mantida para esta mensagem. Apenas as requisições mais recentes de uma conversa guardam todo o conteúdo."
     },
     "NEW_CONVERSATION": "Novo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Outra aba já está gerando para esta conversa. Espere terminar ou troque de aba.",

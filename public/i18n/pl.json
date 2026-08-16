@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "odrzucone",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "dostawca"
+      "BADGE_PROVIDER": "dostawca",
+      "TRIMMED": "Pełne żądanie nie zostało zachowane dla tej wiadomości. Tylko najnowsze żądania w czacie przechowują całą zawartość."
     },
     "NEW_CONVERSATION": "Nowy chat",
     "GENERATION_LOCKED_OTHER_TAB": "Inna karta już generuje dla tej rozmowy. Poczekaj na zakończenie lub przełącz karty.",

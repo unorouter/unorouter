@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "破棄",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/秒",
-      "BADGE_PROVIDER": "プロバイダー"
+      "BADGE_PROVIDER": "プロバイダー",
+      "TRIMMED": "このメッセージのリクエスト全文は保存されていません。チャット内で最近のリクエストのみが内容全体を保持します。"
     },
     "NEW_CONVERSATION": "新しいチャット",
     "GENERATION_LOCKED_OTHER_TAB": "別のタブでこの会話の生成中です。完了するまで待つか、タブを切り替えてください。",

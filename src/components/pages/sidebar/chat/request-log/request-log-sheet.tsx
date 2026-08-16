@@ -39,6 +39,14 @@ export function RequestLogSheet(props: {
 
   const row = log.data;
 
+  // Retention empties the heavy columns on older rows rather than deleting them,
+  // so the sheet still opens but every payload tab renders as `[]`. Say so once
+  // instead of showing an empty array that reads as a failed capture.
+  const trimmed =
+    !!row &&
+    (row.finalMessages == null ||
+      (Array.isArray(row.finalMessages) && row.finalMessages.length === 0));
+
   const upstreamBody = row
     ? {
         model:
@@ -147,18 +155,33 @@ export function RequestLogSheet(props: {
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_UPSTREAM_HINT")}
               </p>
+              {trimmed && (
+                <p className="text-muted-foreground mb-2 text-xs italic">
+                  {t("CHAT.REQUEST_LOG.TRIMMED")}
+                </p>
+              )}
               <Highlight code={formatJson(upstreamBody)} />
             </TabsContent>
             <TabsContent value="system" className="min-h-0 overflow-auto">
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_SYSTEM_HINT")}
               </p>
+              {trimmed && (
+                <p className="text-muted-foreground mb-2 text-xs italic">
+                  {t("CHAT.REQUEST_LOG.TRIMMED")}
+                </p>
+              )}
               <Highlight code={row.assembledSystem ?? ""} language="markdown" />
             </TabsContent>
             <TabsContent value="final" className="min-h-0 overflow-auto">
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_FINAL_HINT")}
               </p>
+              {trimmed && (
+                <p className="text-muted-foreground mb-2 text-xs italic">
+                  {t("CHAT.REQUEST_LOG.TRIMMED")}
+                </p>
+              )}
               <Highlight code={formatJson(row.finalMessages)} />
             </TabsContent>
             <TabsContent value="headers" className="min-h-0 overflow-auto">

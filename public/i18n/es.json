@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "descartado",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "proveedor"
+      "BADGE_PROVIDER": "proveedor",
+      "TRIMMED": "La solicitud completa no se conserva para este mensaje. Solo las solicitudes más recientes de un chat guardan todo su contenido."
     },
     "NEW_CONVERSATION": "Nuevo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Otra pestaña ya está generando para esta conversación. Espera a que termine o cambia de pestaña.",

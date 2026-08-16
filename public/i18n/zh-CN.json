@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "已丢弃",
       "UNIT_MS": "毫秒",
       "UNIT_TOK_PER_S": "词元/秒",
-      "BADGE_PROVIDER": "提供商"
+      "BADGE_PROVIDER": "提供商",
+      "TRIMMED": "该消息的完整请求未保留：每个对话仅最近的请求会保存完整内容。"
     },
     "NEW_CONVERSATION": "新对话",
     "GENERATION_LOCKED_OTHER_TAB": "另一个标签页正在为此对话生成回复。请等待其完成或切换到该标签页。",

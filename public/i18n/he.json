@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "נופלו",
       "UNIT_MS": "מ\"ש",
       "UNIT_TOK_PER_S": "טוקנים/שנייה",
-      "BADGE_PROVIDER": "ספק"
+      "BADGE_PROVIDER": "ספק",
+      "TRIMMED": "הבקשה המלאה לא נשמרה עבור הודעה זו. רק הבקשות האחרונות בצ'אט שומרות את התוכן המלא."
     },
     "NEW_CONVERSATION": "צ'אט חדש",
     "GENERATION_LOCKED_OTHER_TAB": "טאב אחר כבר מייצר עבור השיחה הזו. חכו שיסיים או החליפו טאבים.",

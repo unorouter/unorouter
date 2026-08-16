@@ -3894,7 +3894,8 @@
       "BADGE_DROPPED": "dropped",
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
-      "BADGE_PROVIDER": "provider"
+      "BADGE_PROVIDER": "provider",
+      "TRIMMED": "Full request not kept for this message. Only the most recent requests in a chat store their complete contents."
     },
     "NEW_CONVERSATION": "New Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Another tab is already generating for this conversation. Wait for it to finish or switch tabs.",
