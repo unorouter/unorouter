@@ -25,10 +25,16 @@ export const getCatalog = cache(async () => {
   return unwrap(res);
 });
 
+// Newest first. The name tiebreak is load-bearing: most models share a release
+// date with another, so date alone leaves the majority in engine-dependent order.
 export async function getVendorModels(vendorName: string) {
   const { models } = await getPricingSummary();
   return models
     .filter((m) => m.vendor.name === vendorName)
+    .sort((a, b) => {
+      const diff = b.metadata.releaseTs - a.metadata.releaseTs;
+      return diff !== 0 ? diff : a.name.localeCompare(b.name);
+    })
     .map((m) => leanModel(m));
 }
 
