@@ -33,7 +33,7 @@ import {
   chatModelAtom,
   chatStore,
   convIdAtom,
-  ensureConvId,
+  freshConvId,
   lastStreamErrorAtom,
   localUserIdAtom,
   registerLiveThread,
@@ -227,10 +227,12 @@ function ChatRuntimeHook() {
         // Seed BEFORE useChat snapshots its state: the greeting rows and the
         // live-array greeting patch must exist when the request history is
         // captured. Idempotent, so the thread-list initializer seeding the same
-        // convId is a no-op for whichever runs second.
+        // convId is a no-op for whichever runs second. A thread with no remote id
+        // is a NEW chat, so it mints its own id rather than adopting the atom,
+        // which still holds the conversation the route re-activated.
         try {
           await seedConversation({
-            convId: ensureConvId(),
+            convId: freshConvId(threadId),
             userId,
             queryClient,
             noModelsError: t("ERRORS.NO_TEXT_MODELS"),

@@ -9,7 +9,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { chatModelAtom, chatStore, ensureConvId } from "@/store/chat-store";
+import { chatModelAtom, chatStore, freshConvId } from "@/store/chat-store";
 import { seedConversation } from "./conversation-seed";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -48,11 +48,12 @@ export function createThreadListAdapter(
       };
     },
 
-    async initialize(_id) {
-      // Adopt the id the send wrapper (or attachment adapter) already ensured,
-      // so media rows and the conversation share one id; seedConversation is
-      // idempotent per convId, so the wrapper having seeded first is a no-op here.
-      const id = ensureConvId();
+    async initialize(localThreadId) {
+      // Keyed by the local thread, so this returns the id the send wrapper already
+      // minted for THIS chat, or mints one when initialize runs first (attachment
+      // before any send). Never the atom's, which the route keeps pointed at the
+      // previous conversation. seedConversation is idempotent per convId.
+      const id = freshConvId(localThreadId);
       await seedConversation({
         convId: id,
         userId: userId(),

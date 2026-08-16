@@ -239,3 +239,27 @@ export function ensureConvId(): string {
   chatStore.set(convIdAtom, id);
   return id;
 }
+
+// A new chat must get a FRESH id and never inherit whatever convIdAtom holds: the
+// route still points at the previous conversation after New Chat, so that thread
+// re-activates and refills the atom, and adopting it appended the new chat's first
+// message to the old conversation (the merge bug, regressed once already).
+//
+// Keyed by the aui-local thread id so the two creation paths agree: whichever of
+// the send wrapper and the thread-list initializer runs first mints, the other
+// adopts, and neither can pick up a DIFFERENT thread's conversation.
+const convIdByLocalThread = new Map<string, string>();
+
+export function freshConvId(localThreadId?: string): string {
+  if (localThreadId) {
+    const existing = convIdByLocalThread.get(localThreadId);
+    if (existing) {
+      chatStore.set(convIdAtom, existing);
+      return existing;
+    }
+  }
+  const id = uid();
+  if (localThreadId) convIdByLocalThread.set(localThreadId, id);
+  chatStore.set(convIdAtom, id);
+  return id;
+}

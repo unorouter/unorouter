@@ -312,27 +312,17 @@ export function ModelSelector(props: ModelSelectorProps) {
   const selectedUnavailable =
     !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
-  const privateGroups = authQuery.data?.private_groups ?? [];
   const groupRatioMap: Record<string, number> = {
     ...pricingData?.groupRatioMap,
   };
-  for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;
   const enableGroups = selected?.enableGroups ?? [];
-  const privateForModel = props.value
-    ? privateGroups
-        .filter((pg) => (pg.models ?? []).includes(props.value!))
-        .map((pg) => pg.group)
-    : [];
-  const candidateGroups = [
-    ...new Set([
-      ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
-      ...privateForModel,
-    ]),
-  ];
+  const candidateGroups = enableGroups.length
+    ? enableGroups
+    : Object.keys(groupRatioMap);
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
 
-  // A pinned group must exist among the model's servable groups (pricing
-  // enableGroups + the user's private groups) or new-api silently falls back
+  // A pinned group must exist among the model's servable groups or new-api
+  // silently falls back
   // to auto while the UI still claims the pin. Reset to auto when the loaded
   // group list does not contain the pin; skip while the list is still empty
   // (pricing not loaded yet) so a valid pin is never wiped by a race.
