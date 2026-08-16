@@ -567,7 +567,7 @@ const StreamingIndicator: FC = () => {
   if (!isStreaming) return null;
 
   const modelType = pricing.data?.models.find(
-    (m) => m.name === activeModel,
+    (m) => m.model_name === activeModel,
   )?.type;
   const gradientWindow =
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
@@ -810,7 +810,7 @@ const AssistantMessageHeader: FC = () => {
   }
 
   const modelData = pricingQuery.data?.models.find(
-    (m) => m.name === meta.model,
+    (m) => m.model_name === meta.model,
   );
   const vendorName = modelData?.vendor ?? "";
 

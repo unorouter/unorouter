@@ -104,9 +104,9 @@ export function TypeFilterBadges(props: {
 }
 
 type CatalogModel = {
-  name: string;
+  model_name: string;
   vendor: string;
-  isFree: boolean;
+  is_free: boolean;
   type: string;
 };
 
@@ -122,12 +122,12 @@ function CatalogModelItem(props: {
   const model = props.model;
   return (
     <CommandItem
-      value={model.name}
-      keywords={[model.vendor, ...(model.isFree ? ["free"] : [])]}
-      data-testid={`model-option-${model.name}`}
-      data-model={model.name}
+      value={model.model_name}
+      keywords={[model.vendor, ...(model.is_free ? ["free"] : [])]}
+      data-testid={`model-option-${model.model_name}`}
+      data-model={model.model_name}
       data-model-type={model.type}
-      data-free={model.isFree || undefined}
+      data-free={model.is_free || undefined}
       data-checked={props.checked || undefined}
       onSelect={() => {
         if (props.disabled) {
@@ -139,9 +139,9 @@ function CatalogModelItem(props: {
       className={cn("text-xs", props.disabled && "cursor-pointer opacity-50")}
     >
       <VendorIcon vendor={model.vendor} size={14} />
-      <span className="min-w-0 flex-1 font-mono">{model.name}</span>
+      <span className="min-w-0 flex-1 font-mono">{model.model_name}</span>
       <UptimeDot info={props.status} />
-      {model.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
+      {model.is_free && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
       {props.disabled && (
         <span
           className="text-muted-foreground shrink-0"
@@ -387,7 +387,9 @@ export function ModelSelector(props: ModelSelectorProps) {
             />
           )}
           <span className="truncate font-mono">{triggerLabel}</span>
-          {selected?.is_free && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} />}
+          {selected?.is_free && (
+            <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} />
+          )}
         </div>
         <Icon
           name="chevrons-up-down"

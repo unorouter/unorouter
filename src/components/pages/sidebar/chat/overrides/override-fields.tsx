@@ -382,7 +382,7 @@ function UtilityModelPicker(props: {
   value: string;
   onPick: (id: string) => void;
   customOptions: UtilityModelOption[];
-  catalogModels: { name: string; isFree: boolean; vendor: string }[];
+  catalogModels: { model_name: string; is_free: boolean; vendor: string }[];
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -454,17 +454,17 @@ function UtilityModelPicker(props: {
             <CommandGroup>
               {props.catalogModels.map((m) => (
                 <CommandItem
-                  key={m.name}
-                  value={m.name}
-                  keywords={[m.vendor, ...(m.isFree ? ["free"] : [])]}
-                  onSelect={() => pick(m.name)}
+                  key={m.model_name}
+                  value={m.model_name}
+                  keywords={[m.vendor, ...(m.is_free ? ["free"] : [])]}
+                  onSelect={() => pick(m.model_name)}
                   className="text-xs"
                 >
                   <VendorIcon vendor={m.vendor} size={14} />
                   <span className="min-w-0 flex-1 truncate font-mono">
-                    {m.name}
+                    {m.model_name}
                   </span>
-                  {m.isFree && (
+                  {m.is_free && (
                     <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
                       {t("CHAT.MODEL.FREE_BADGE")}
                     </span>
