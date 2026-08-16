@@ -97,6 +97,13 @@ export async function getPricingVendors() {
 // list) which only the /models browse filters read.
 export async function getPricingCatalog() {
   const { models, summary } = await getPricingSnapshot();
+  // Ratios only for groups some model is actually served by: the gateway knows
+  // 1600+ (one routing group per channel), the catalog references ~800.
+  const used = new Set(models.flatMap((m) => m.enableGroups));
+  const groupRatioMap: Record<string, number> = {};
+  for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
+    if (used.has(group)) groupRatioMap[group] = ratio;
+  }
   return {
     models: models.map((m) => ({
       name: m.name,
@@ -108,7 +115,7 @@ export async function getPricingCatalog() {
       online: m.online,
       releaseTs: releaseTs(m),
     })),
-    groupRatioMap: summary.groupRatioMap,
+    groupRatioMap,
     firstFreeModel: summary.firstFreeModel?.name ?? null,
   };
 }

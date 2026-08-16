@@ -5,17 +5,34 @@ import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/cha
 import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/viewport-debug-logger";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { rpc } from "@/lib/rpc";
 
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
 
-// Nothing upstream is prefetched into this layout: every server await here
-// delays first paint of the chat shell. Pricing (700+ model objects, ~2.3MB
-// flight) and model-status (the selector's reliability dots) both fetch
-// client-side right after mount via their React Query hooks instead.
+// Prefetched into the request-scoped client that AuthHydration dehydrates
+// below, so the chat shell renders with no post-mount round-trip. Only
+// affordable because pricing arrives as curated slices; the full ~490KB
+// pricing list stays out of here.
 export default async function ChatLayout(props: Props) {
+  const queryClient = getQueryClient();
+  await Promise.all([
+    prefetchElysia(queryClient, queryKeys.pricingCatalog(), () =>
+      rpc.api.models.pricing.catalog.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.pricingModelBasics(), () =>
+      rpc.api.models.pricing["model-basics"].get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
+      rpc.api.models["model-status"].components.get(),
+    ),
+  ]);
+
   return (
     <AuthHydration withBestKey>
       <ChatRuntimeProvider>
