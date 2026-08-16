@@ -109,6 +109,15 @@ async function mergeDbHistory(
   const chatData = await import("@/lib/db/client/data/chat/chat");
   const db = await chatData.readConvHistoryForSend(userId, convId);
   const branch = db.branch as unknown as ChatUIMessage[];
+  logChatDebug("send.history_source", {
+    convId,
+    dbBranch: branch.length,
+    dbTotal: db.allIds.size,
+    captured: captured.length,
+    // A branch far shorter than the row count means the walk stopped early on a
+    // corrupt level; the request would otherwise ship with the history missing.
+    walkTruncated: db.allIds.size > branch.length + 1,
+  });
   if (branch.length === 0) return captured;
   const capturedIds = new Set(captured.map((m) => m.id));
   let trimEnd = branch.length;

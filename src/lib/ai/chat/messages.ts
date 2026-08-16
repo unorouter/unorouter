@@ -54,10 +54,19 @@ export function walkActiveBranch<
     arr.push(m);
     childrenOf.set(key, arr);
   }
+  // Every sibling deactivated is corruption, not a choice (a branch switch given an
+  // unknown id once deactivated a whole root row of greetings). "Newest" is the wrong
+  // tiebreak there: it picks a childless sibling and the walk stops dead, so the
+  // request carries one greeting and none of the conversation. The sibling that was
+  // actually continued is the one with children; prefer it, newest only among equals.
   const pickChild = (kids: M[] | undefined): M | undefined => {
     if (!kids || kids.length === 0) return undefined;
     const active = kids.filter((k) => k.isActiveBranch !== false);
-    const pool = active.length > 0 ? active : kids;
+    if (active.length > 0) return active[active.length - 1];
+    const continued = kids.filter(
+      (k) => (childrenOf.get(k.id)?.length ?? 0) > 0,
+    );
+    const pool = continued.length > 0 ? continued : kids;
     return pool[pool.length - 1];
   };
   const path: M[] = [];
