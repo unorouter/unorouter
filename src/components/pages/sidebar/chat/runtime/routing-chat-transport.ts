@@ -92,6 +92,54 @@ function isMediaModel(model: string): boolean {
   return isMediaType(data?.models?.find((m) => m.name === model)?.type);
 }
 
+// The DB is the canonical history (repo invariant); the useChat array is a render
+// projection that lags it: the greeting seeds after the first send captures state,
+// edits/deletes repair it asynchronously, and a heavy loadout widens every gap. The
+// request therefore takes the DB's active branch as the base and appends only the
+// captured messages the DB does not know yet (the just-typed user turn racing its
+// own persistence). A regenerate slices the captured array to the parent while the
+// DB still holds the sliced reply as active, so the DB base is TRIMMED at the
+// deepest captured id: everything past it was deliberately cut by the caller.
+async function mergeDbHistory(
+  userId: number,
+  convId: string | null,
+  captured: ChatUIMessage[],
+): Promise<ChatUIMessage[]> {
+  if (!convId) return captured;
+  const chatData = await import("@/lib/db/client/data/chat/chat");
+  const db = await chatData.readConvHistoryForSend(userId, convId);
+  const branch = db.branch as unknown as ChatUIMessage[];
+  if (branch.length === 0) return captured;
+  const capturedIds = new Set(captured.map((m) => m.id));
+  let trimEnd = branch.length;
+  while (trimEnd > 0 && !capturedIds.has(branch[trimEnd - 1].id)) trimEnd--;
+  // The walk shares NO id with the screen, yet the screen shows persisted rows:
+  // the branch flags are corrupt (a mass-deactivated root once produced exactly
+  // this), so the walk cannot be trusted; the rendered history can.
+  if (trimEnd === 0 && captured.some((m) => db.allIds.has(m.id))) {
+    logChatDebug("send.history_walk_mismatch", { convId });
+    return captured;
+  }
+  // Nothing persisted is on screen (fresh thread pre-append): keep the whole
+  // branch as base so the seeded greeting is included.
+  const base = trimEnd === 0 ? branch : branch.slice(0, trimEnd);
+  const baseIds = new Set(base.map((m) => m.id));
+  // Only the tail BEYOND the deepest persisted match may join: an unmatched
+  // captured message earlier than that (a stale sibling mid branch-swap) belongs
+  // to a branch the DB no longer considers active.
+  let lastMatch = -1;
+  for (let i = captured.length - 1; i >= 0; i--) {
+    if (baseIds.has(captured[i].id)) {
+      lastMatch = i;
+      break;
+    }
+  }
+  const suffix = captured
+    .slice(lastMatch + 1)
+    .filter((m) => !baseIds.has(m.id));
+  return [...base, ...suffix];
+}
+
 async function runClientStream(args: {
   apiKey: string;
   baseURL: string;
@@ -103,11 +151,16 @@ async function runClientStream(args: {
   extraHeaders?: Record<string, string>;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const userId = chatStore.get(localUserIdAtom);
+  const history = await mergeDbHistory(
+    userId,
+    args.getConvId(),
+    args.options.messages as ChatUIMessage[],
+  );
   const fields = await buildChatRequestBody(args.getConvId);
   const body = {
     ...fields,
     model: args.model,
-    messages: args.options.messages,
+    messages: history,
     ...(args.tokenizer ? { tokenizer: args.tokenizer } : {}),
   };
   const prepared: PreparedChatRequest = await prepareChatRequest(

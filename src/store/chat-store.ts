@@ -244,13 +244,3 @@ export function freshConvId(): string {
   chatStore.set(convIdAtom, id);
   return id;
 }
-
-let convSeeding: Promise<void> = Promise.resolve();
-
-export function trackConvSeeding(work: Promise<void>): void {
-  convSeeding = work.catch(() => {});
-}
-
-export function awaitConvSeeding(): Promise<void> {
-  return convSeeding;
-}

@@ -193,6 +193,25 @@ export async function readActiveBranchParts(
   }));
 }
 
+// readActiveBranchParts plus the id set of EVERY persisted message, so a caller
+// merging against UI state can tell "this captured message is unpersisted"
+// (append it) from "this captured message is on a branch the walk excluded"
+// (the walk is not trustworthy for this conversation).
+export async function readConvHistoryForSend(
+  userId: number | undefined,
+  convId: string,
+) {
+  const joined = await readJoinedMessages(userId, convId);
+  return {
+    branch: walkActiveBranch(joined).path.map((m) => ({
+      id: m.id,
+      role: m.role,
+      parts: itemsToParts(m.items as Parameters<typeof itemsToParts>[0]),
+    })),
+    allIds: new Set(joined.map((m) => m.id)),
+  };
+}
+
 export async function readLocalMessageMetaForConv(
   userId: number | undefined,
   convId: string,
@@ -452,7 +471,14 @@ export async function setLocalActiveBranch(
 ) {
   const msgs = (await readLocalMessages(userId, convId)) ?? [];
   const target = msgs.find((m) => m.id === msgId);
-  const parentId = target?.parentId ?? null;
+  // An unknown id (an assistant-ui internal id churning through the branch
+  // picker mid-run) must be a no-op: falling through resolved parentId to null
+  // and deactivated EVERY root row, greeting siblings included.
+  if (!target) {
+    logChatDebug("branch.switch_unknown_id", { convId, msgId });
+    return;
+  }
+  const parentId = target.parentId ?? null;
   const now = dayjs().toDate();
   for (const m of msgs) {
     if ((m.parentId ?? null) === parentId) {

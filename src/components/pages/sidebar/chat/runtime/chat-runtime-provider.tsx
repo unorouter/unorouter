@@ -7,6 +7,7 @@ import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtim
 import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/routing-chat-transport";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/group-rotation";
+import { seedConversation } from "@/components/pages/sidebar/chat/runtime/conversation-seed";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-prompt-dialog";
 import {
@@ -28,7 +29,6 @@ import {
 } from "@/lib/utils/client";
 import {
   assistantRuntimeAtom,
-  awaitConvSeeding,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -110,6 +110,7 @@ function ChatRuntimeHook() {
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
   const t = useTranslations();
   const userId = useLocalUserId();
+  const queryClient = useQueryClient();
 
   useConvIdSync(remoteId);
   useResolvedChatModel(remoteId);
@@ -223,8 +224,23 @@ function ChatRuntimeHook() {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
-      if (hasText && !remoteId) ensureConvId();
-      await awaitConvSeeding();
+      if (hasText && !remoteId) {
+        // Seed BEFORE useChat snapshots its state: the greeting rows and the
+        // live-array greeting patch must exist when the request history is
+        // captured. Idempotent, so the thread-list initializer seeding the same
+        // convId is a no-op for whichever runs second.
+        try {
+          await seedConversation({
+            convId: ensureConvId(),
+            userId,
+            queryClient,
+            noModelsError: t("ERRORS.NO_TEXT_MODELS"),
+          });
+        } catch (e) {
+          handleError(e, t);
+          return;
+        }
+      }
       const convId = chatStore.get(convIdAtom);
       logChatDebug("send.start", {
         threadId,
