@@ -814,6 +814,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
   [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
   [Vendor.POOLSIDE]: () => import("@/components/elements/brand/poolside-icon"),
+  [Vendor.DOTSSTUDIO]: () =>
+    import("@/components/elements/brand/dotsstudio-icon"),
   [Vendor.AISINGAPORE]: () =>
     import("@/components/elements/brand/aisingapore-icon"),
   [Vendor.POLLINATIONS]: () => import("@lobehub/icons/es/Pollinations"),
