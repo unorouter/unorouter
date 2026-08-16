@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProcessedModel } from "@/lib/api/pricing";
+import { releaseTs, type ProcessedModel } from "@/lib/api/pricing";
 import { matchesModality } from "@/lib/api/model-modality";
 import type { RankedModel } from "@/openapi";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
@@ -28,16 +28,6 @@ import {
 import { analytics } from "@/lib/analytics";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
-
-export function modelReleaseTs(model: ProcessedModel): number {
-  const iso = model.metadata.releaseDate;
-  if (iso) {
-    const ms = dayjs(iso).valueOf();
-    if (Number.isFinite(ms)) return ms;
-  }
-  if (model.createdTime) return model.createdTime * 1000;
-  return 0;
-}
 
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -143,7 +133,7 @@ export function useModelsFilter() {
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
     const matchesOutputPrice =
       outputPriceMax >= PRICE_MAX || model.outputPrice <= outputPriceMax;
-    const ts = modelReleaseTs(model);
+    const ts = releaseTs(model);
     const matchesAge = ageCutoff === 0 || (ts > 0 && ts >= ageCutoff);
     const modelCats = model.metadata.categories ?? model.tags;
     const matchesCategories =
@@ -177,7 +167,7 @@ export function useModelsFilter() {
 
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {
-      const diff = modelReleaseTs(b) - modelReleaseTs(a);
+      const diff = releaseTs(b) - releaseTs(a);
       return diff !== 0 ? diff : a.name.localeCompare(b.name);
     }
     if (sortOrder === "popular") {

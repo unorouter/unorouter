@@ -2,7 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
-import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
+import { releaseTs } from "@/lib/api/pricing";
 import {
   deriveOutputModality,
   modelPriceColumns,
@@ -67,7 +67,7 @@ export function ModelListCard(props: {
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
-  const releaseTs = modelReleaseTs(model);
+  const released = releaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
   const category = model.tags.find(
     (tag) =>
@@ -137,7 +137,7 @@ export function ModelListCard(props: {
         <span>
           {t("MODELS.LIST.BY")} {model.vendor.name}
         </span>
-        {releaseTs > 0 && <span>{formatMsDate(releaseTs)}</span>}
+        {released > 0 && <span>{formatMsDate(released)}</span>}
         {ctx ? (
           <span>
             {formatTokenCount(ctx, locale)} {t("MODELS.LIST.CONTEXT")}

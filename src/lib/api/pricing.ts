@@ -224,10 +224,8 @@ export function processModels(response: PricingData) {
 }
 
 export function releaseTs(m: ProcessedModel): number {
-  const iso = m.metadata.releaseDate;
-  const ms = iso ? Date.parse(iso) : NaN;
-  if (Number.isFinite(ms)) return ms;
-  return m.createdTime ? m.createdTime * 1000 : 0;
+  const ms = m.metadata.releaseDate ? Date.parse(m.metadata.releaseDate) : NaN;
+  return Number.isFinite(ms) ? ms : 0;
 }
 
 // Generic over the model shape: the selector groups a lean catalog row, the

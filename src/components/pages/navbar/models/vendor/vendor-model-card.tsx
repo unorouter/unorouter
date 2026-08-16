@@ -2,7 +2,8 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
-import { modelReleaseTs, NEW_MODEL_MS } from "@/hooks/ui/use-models-hook";
+import { NEW_MODEL_MS } from "@/hooks/ui/use-models-hook";
+import { releaseTs } from "@/lib/api/pricing";
 import { useState } from "react";
 import {
   deriveOutputModality,
@@ -58,9 +59,9 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
-  const releaseTs = modelReleaseTs(model);
+  const released = releaseTs(model);
   const [now] = useState(() => Date.now());
-  const isNew = releaseTs > 0 && now - releaseTs < NEW_MODEL_MS;
+  const isNew = released > 0 && now - released < NEW_MODEL_MS;
   const isDeprecated = Boolean(model.metadata.deprecationDate);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
 
