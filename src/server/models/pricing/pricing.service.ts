@@ -11,14 +11,14 @@ import { ADMIN_HEADERS } from "@/server/constants";
 import { cache } from "react";
 
 export const getPricingSummary = cache(async () => {
-  const res = await getPricing(undefined, { headers: ADMIN_HEADERS });
+  const res = await getPricing({ headers: ADMIN_HEADERS });
   return buildPricingSummary(unwrap(res));
 });
 
 // Upstream returns this already sorted (free first, then name) and without the
 // group maps, so it is ~64KB against the full catalog's ~800KB.
 export const getCatalog = cache(async () => {
-  const res = await getPricingCatalog(undefined, { headers: ADMIN_HEADERS });
+  const res = await getPricingCatalog({ headers: ADMIN_HEADERS });
   return unwrap(res);
 });
 
