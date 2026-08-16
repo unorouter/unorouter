@@ -228,12 +228,14 @@ async function seed(args: SeedArgs): Promise<void> {
           role: "assistant",
           parts: [{ type: "text", text: seededGreeting.text }],
         };
-        setLiveMessages((msgs) =>
-          (msgs as Array<{ id?: string }>).some(
-            (m) => m.id === seededGreeting.id,
-          )
-            ? msgs
-            : [greetingMessage, ...msgs],
+        setLiveMessages(
+          (msgs) =>
+            (msgs as Array<{ id?: string }>).some(
+              (m) => m.id === seededGreeting.id,
+            )
+              ? msgs
+              : [greetingMessage, ...msgs],
+          id,
         );
       }
       queryClient.invalidateQueries({

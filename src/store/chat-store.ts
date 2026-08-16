@@ -181,7 +181,18 @@ export function getThreadRuntime() {
   return chatStore.get(assistantRuntimeAtom)?.thread ?? null;
 }
 
-export function setLiveMessages(updater: (msgs: unknown[]) => unknown[]): void {
+// The bridge is a single global slot that every mounted thread overwrites, so an
+// update computed for one conversation lands on whichever thread published last.
+// Callers that await (seeding a heavy loadout, a DB reload) can outlive the
+// conversation they were called for; pass `forConvId` and the update is dropped
+// rather than written into the thread the user switched to.
+export function setLiveMessages(
+  updater: (msgs: unknown[]) => unknown[],
+  forConvId?: string,
+): void {
+  const stale = () =>
+    forConvId != null && chatStore.get(convIdAtom) !== forConvId;
+  if (stale()) return;
   const setMessages = chatStore.get(setLiveMessagesAtom);
   if (setMessages) {
     setMessages(updater);
@@ -195,6 +206,7 @@ export function setLiveMessages(updater: (msgs: unknown[]) => unknown[]): void {
     done = true;
     unsub();
     clearTimeout(timer);
+    if (stale()) return;
     next(updater);
   };
   const unsub = chatStore.sub(setLiveMessagesAtom, apply);
@@ -228,9 +240,7 @@ export async function reloadLiveThreadFromDb(convId: string): Promise<void> {
     chatStore.get(localUserIdAtom),
     convId,
   );
-  // The conversation may have swapped while the DB reads ran.
-  if (chatStore.get(convIdAtom) !== convId) return;
-  setLiveMessages(() => live);
+  setLiveMessages(() => live, convId);
 }
 
 export function ensureConvId(): string {
