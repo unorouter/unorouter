@@ -1,5 +1,5 @@
 import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { msg } from "@/lib/config/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri, parseDataUri, uid } from "@/lib/utils/base";
@@ -343,7 +343,7 @@ function isImageTaskModel(endpointTypes: string[] | undefined): boolean {
 }
 
 export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
-  const model = (await getPricingSnapshot()).byName.get(body.model);
+  const model = (await getModelByName(body.model)) ?? undefined;
 
   // Async image-task models (AI Horde): submit + emit a task card, client polls.
   if (isImageTaskModel(model?.endpointTypes)) {
@@ -529,7 +529,7 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
     }, body.model);
   }
 
-  const model = (await getPricingSnapshot()).byName.get(body.model);
+  const model = (await getModelByName(body.model)) ?? undefined;
 
   return streamResponse(async (writer) => {
     const input = extractLastUserText(body.messages);
@@ -589,7 +589,7 @@ export async function handleEmbeddingStream(
   apiKey: string,
   body: MediaStreamBody,
 ) {
-  const model = (await getPricingSnapshot()).byName.get(body.model);
+  const model = (await getModelByName(body.model)) ?? undefined;
 
   return streamResponse(async (writer) => {
     const input = extractLastUserText(body.messages);

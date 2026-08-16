@@ -15,10 +15,7 @@ import {
   getTopUpInfo,
 } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
-import {
-  getPricingSnapshot,
-  refreshPricingSnapshot,
-} from "@/server/models/pricing/pricing-snapshot";
+import { cache } from "react";
 
 export async function getPricingSummary(includeOffline = false) {
   const res = await getPricing(
@@ -27,6 +24,18 @@ export async function getPricingSummary(includeOffline = false) {
   );
   return buildPricingSummary(unwrap(res));
 }
+
+// Same shape the old module-level snapshot exposed, minus the 5min TTL: React
+// cache() dedupes it per render, so the list is fetched once per request that
+// needs it instead of being held across requests.
+const getPricingSnapshot = cache(async () => {
+  const summary = await getPricingSummary();
+  return {
+    summary,
+    models: summary.models,
+    byName: new Map(summary.models.map((m) => [m.name, m])),
+  };
+});
 
 export async function getPricingLean(includeOffline = false) {
   return toLeanPricing(await getPricingSummary(includeOffline));
@@ -125,13 +134,28 @@ export async function getVendorModels(name: string) {
 }
 
 export async function getModelDetail(name: string) {
-  let cached = await getPricingSnapshot();
-  let model = cached.byName.get(name);
-  if (!model) {
-    cached = await refreshPricingSnapshot();
-    model = cached.byName.get(name);
+  const { byName } = await getPricingSnapshot();
+  return { model: byName.get(name) ?? (await getModelByName(name)) };
+}
+
+export async function isMediaModel(model: string) {
+  const found = await getModelByName(model);
+  const endpointMap = found
+    ? (await getPricingSummary()).endpointMap
+    : undefined;
+  let endpointPath: string | undefined;
+  for (const epType of found?.endpointTypes ?? []) {
+    const ep = endpointMap?.[epType];
+    if (ep) {
+      endpointPath = ep.path;
+      break;
+    }
   }
-  return { model: model ?? null };
+  return {
+    buffered: found?.type === "image" || found?.type === "video",
+    mediaType: found?.type,
+    endpointPath,
+  };
 }
 
 export async function getModelByName(name: string) {

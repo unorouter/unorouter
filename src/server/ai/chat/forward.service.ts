@@ -1,4 +1,4 @@
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
@@ -26,7 +26,7 @@ export async function forwardChatCompletions(args: {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
   if (args.userId === GUEST_USER_ID) {
-    const meta = (await getPricingSnapshot()).byName.get(model);
+    const meta = await getModelByName(model);
     if (!meta?.isFree) {
       return new Response(
         JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }),
@@ -39,7 +39,7 @@ export async function forwardChatCompletions(args: {
   }
 
   if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
-    const meta = (await getPricingSnapshot()).byName.get(model);
+    const meta = await getModelByName(model);
     if (!meta?.isFree) {
       return new Response(
         JSON.stringify({

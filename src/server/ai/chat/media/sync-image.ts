@@ -1,5 +1,5 @@
 import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
 import { type SyncImageEndpoint } from "@/lib/ai/image/models-dynamic";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
@@ -22,7 +22,7 @@ export async function submitSyncImage(args: {
   const params = args.body.params ?? {};
   const size = formatSize(sizeOf(args.body.params));
 
-  const meta = (await getPricingSnapshot()).byName.get(args.body.model);
+  const meta = await getModelByName(args.body.model);
   const cap = meta?.metadata.maxImageInputs ?? MAX_INLAY_REFS;
   const refUrls = (args.body.references ?? []).slice(0, cap).map((r) => r.url);
   // loadRefs, not a plain fetch: illustrator references are data URIs.

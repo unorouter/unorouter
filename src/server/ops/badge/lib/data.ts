@@ -4,7 +4,7 @@ import { errMessage, modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getQuotaDataSummary } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import type { BadgePricing, BadgeStats } from "./types";
 
 export function getStats(): Promise<BadgeStats> {
@@ -31,12 +31,12 @@ export function getStats(): Promise<BadgeStats> {
 export async function findBadgeModel(
   nameOrSlug: string,
 ): Promise<ProcessedModel | null> {
-  const { models } = await getPricingSnapshot();
+  const { models } = await getPricingSummary();
   return models.find((m) => modelMatchesSlug(m.name, nameOrSlug)) ?? null;
 }
 
 export async function getPricingData(): Promise<BadgePricing> {
-  const { summary } = await getPricingSnapshot();
+  const summary = await getPricingSummary();
   const vendorModelCounts: Record<string, number> = {};
   for (const v of summary.vendors) {
     vendorModelCounts[v.name] = v.modelCount;

@@ -1,4 +1,4 @@
-import { isMediaModel } from "@/server/models/pricing/pricing-snapshot";
+import { isMediaModel } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { logger } from "@/lib/utils/logger";

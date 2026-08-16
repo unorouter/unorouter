@@ -9,12 +9,12 @@ import { verifyUserId } from "@/lib/utils/server";
 import { addToken, getTokenKey, searchTokens } from "@/openapi";
 import { getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import type { Cookie } from "elysia";
 
 export async function assertGuestFreeModel(userId: number, model?: string) {
   if (userId !== GUEST_USER_ID || !model) return;
-  const meta = (await getPricingSnapshot()).byName.get(model);
+  const meta = await getModelByName(model);
   if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
 }
 

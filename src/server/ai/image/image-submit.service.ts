@@ -1,5 +1,5 @@
 import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import {
   chooseEndpoint,
   getEffectiveImageModels,
@@ -168,8 +168,7 @@ type ResolvedModel = {
 };
 
 async function resolveModel(model: string): Promise<ResolvedModel> {
-  const summary = await getPricingSnapshot();
-  const info = summary.byName.get(model);
+  const info = await getModelByName(model);
   if (!info) {
     logger.warn("image model not in catalog", {
       context: "image.submit",
@@ -179,7 +178,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
   }
   const endpoint = chooseEndpoint(info.endpointTypes ?? []);
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const descriptor = getEffectiveImageModels(summary.models).find(
+  const descriptor = getEffectiveImageModels([info]).find(
     (d) => d.id === model,
   );
   if (!endpoint || !descriptor) {

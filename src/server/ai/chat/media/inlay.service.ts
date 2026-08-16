@@ -1,5 +1,5 @@
 import { chooseEndpoint } from "@/lib/ai/image/models-dynamic";
-import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
+import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
 import type { ImageSubmitBody } from "@/lib/validation/image";
 import { submitSyncImage } from "./sync-image";
@@ -10,7 +10,7 @@ export async function generateInlayImage(
   prompt: string,
   opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
-  const summary = await getPricingSnapshot();
+  const summary = await getPricingSummary();
   const model =
     (opts?.model
       ? summary.models.find((m) => m.type === "image" && m.name === opts.model)
