@@ -234,12 +234,33 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
+export interface ClaudeServerToolUse {
+  web_search_requests: number;
+}
+
+export interface ClaudeUsage {
+  billing_usage?: BillingUsage;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
+}
+
 export interface GeminiPromptTokensDetails {
   modality: string;
   tokenCount: number;
 }
 
-export interface BillingUsage {
+export interface GeminiUsageMetadata {
   billing_usage?: BillingUsage;
   cachedContentTokenCount: number;
   candidatesTokenCount: number;
@@ -253,6 +274,24 @@ export interface BillingUsage {
   /** @nullable */
   toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
   totalTokenCount: number;
+}
+
+export interface Usage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -436,11 +475,6 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
 /**
  * ClaudeMessageResponse schema
  */
@@ -454,22 +488,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeServerToolUse {
-  web_search_requests: number;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -975,40 +993,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-}
-
-export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1173,22 +1157,6 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
 
 /**
@@ -1269,6 +1237,15 @@ export interface ImageGenerationResponse {
   created: number;
   /** @nullable */
   data: ImageData[] | null;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1505,6 +1482,68 @@ export interface ModelHistorySeries {
   buckets: number;
   models: ModelHistoryModel[];
   points: ModelHistoryPoint[];
+}
+
+export type ModelMetadataDefaultParametersAnyOf = {
+  [key: string]: number | null;
+};
+
+/**
+ * @nullable
+ */
+export type ModelMetadataDefaultParameters =
+  ModelMetadataDefaultParametersAnyOf | null;
+
+export interface ModelMetadata {
+  /** @nullable */
+  categories?: string[] | null;
+  contextWindow?: number;
+  /** @nullable */
+  defaultParameters?: ModelMetadataDefaultParameters;
+  deprecationDate?: string;
+  expirationDate?: string;
+  huggingFaceId?: string;
+  /** @nullable */
+  inputModalities?: string[] | null;
+  isModerated?: boolean;
+  isReasoning?: boolean;
+  knowledgeCutoff?: string;
+  maxImageInputs?: number;
+  maxInputTokens?: number;
+  maxOutputTokens?: number;
+  mode?: string;
+  /** @nullable */
+  outputModalities?: string[] | null;
+  quantization?: string;
+  /** @nullable */
+  reasoningEfforts?: string[] | null;
+  releaseDate?: string;
+  releaseTs: number;
+  series?: string;
+  /** @nullable */
+  supportedParameters?: string[] | null;
+  /** @nullable */
+  supportedParametersAll?: string[] | null;
+  supportsAssistantPrefill?: boolean;
+  supportsAudio?: boolean;
+  supportsAudioOutput?: boolean;
+  supportsCache?: boolean;
+  supportsCodeExecution?: boolean;
+  supportsComputerUse?: boolean;
+  supportsFileSearch?: boolean;
+  supportsNativeStreaming?: boolean;
+  supportsNativeStructuredOutput?: boolean;
+  supportsParallelTools?: boolean;
+  supportsPdf?: boolean;
+  supportsResponseFormat?: boolean;
+  supportsServiceTier?: boolean;
+  supportsSystemMessages?: boolean;
+  supportsTools?: boolean;
+  supportsUrlContext?: boolean;
+  supportsVideo?: boolean;
+  supportsVision?: boolean;
+  supportsWebSearch?: boolean;
+  tokenizer?: string;
 }
 
 export interface ModelRankingPoint {
@@ -1777,6 +1816,13 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
 export interface OverwriteField {
   /** @nullable */
   fields: string[] | null;
@@ -1911,10 +1957,12 @@ export interface PriceEstimationResponse {
 
 export interface PricingCatalogModel {
   chat: boolean;
+  description?: string;
   fixed_price: number;
   input_price: number;
   is_fixed_price: boolean;
   is_free: boolean;
+  metadata: ModelMetadata;
   model_name: string;
   online: boolean;
   original_fixed_price?: number | null;

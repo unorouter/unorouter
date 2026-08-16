@@ -1,4 +1,6 @@
-import type { PricingData, PricingModel } from "@/openapi";
+import type { ModelMetadata, PricingData, PricingModel } from "@/openapi";
+
+export type { ModelMetadata };
 import { escapeRegex } from "@/lib/utils/base";
 
 // Display prices quote the cheapest lane a caller could route to, so every
@@ -27,57 +29,6 @@ export type GridPricingRow = Record<string, string | number>;
 export type EndpointInfo = {
   method: string;
   path: string;
-};
-
-export type ModelMetadata = {
-  maxInputTokens?: number;
-  maxOutputTokens?: number;
-  contextWindow?: number;
-  isReasoning?: boolean;
-  supportsTools?: boolean;
-  supportsVision?: boolean;
-  supportsAudio?: boolean;
-  supportsPdf?: boolean;
-  supportsVideo?: boolean;
-  supportsCache?: boolean;
-  supportsResponseFormat?: boolean;
-  supportsParallelTools?: boolean;
-  supportsWebSearch?: boolean;
-  supportsComputerUse?: boolean;
-  inputModalities?: string[];
-  outputModalities?: string[];
-  maxImageInputs?: number;
-  tokenizer?: string;
-  knowledgeCutoff?: string;
-  releaseDate?: string;
-  /** Epoch ms, derived by the sync. 0 when the model has no release date. */
-  releaseTs: number;
-  series?: string;
-  categories?: string[];
-  deprecationDate?: string;
-  mode?: string;
-  description?: string;
-
-  supportedParameters?: string[];
-  supportedParametersAll?: string[];
-  defaultParameters?: Record<string, number | null>;
-
-  reasoningEfforts?: ("none" | "minimal" | "low" | "medium" | "high" | "max")[];
-
-  expirationDate?: string;
-  isModerated?: boolean;
-  huggingFaceId?: string;
-  quantization?: string;
-
-  supportsAssistantPrefill?: boolean;
-  supportsCodeExecution?: boolean;
-  supportsFileSearch?: boolean;
-  supportsServiceTier?: boolean;
-  supportsUrlContext?: boolean;
-  supportsAudioOutput?: boolean;
-  supportsNativeStreaming?: boolean;
-  supportsNativeStructuredOutput?: boolean;
-  supportsSystemMessages?: boolean;
 };
 
 export type ProcessedModel = ReturnType<typeof processModels>[number];

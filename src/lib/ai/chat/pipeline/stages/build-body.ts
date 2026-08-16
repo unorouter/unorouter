@@ -25,9 +25,11 @@ const PARAM_API_KEY: Record<string, string> = {
   repetition_penalty: "repetition_penalty",
 };
 
+// Null and undefined both mean "the model states no restriction", so every
+// parameter passes.
 function stripUnsupported<T extends Record<string, unknown>>(
   o: T,
-  supported: string[] | undefined,
+  supported: string[] | null | undefined,
 ): Partial<T> {
   if (!supported || supported.length === 0) return o;
   const ok = (apiKey: string) =>
