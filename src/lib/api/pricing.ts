@@ -128,20 +128,17 @@ export function processModels(response: PricingData) {
 
       if (isFixedPrice) {
         const sticker = model.model_price ?? 0;
-        const minRatio = gridMinRatio;
-        fixedPrice = sticker * minRatio;
-        if (showOriginalPrice && minRatio < 1 && sticker > 0) {
+        fixedPrice = sticker * gridMinRatio;
+        if (showOriginalPrice && gridMinRatio < 1 && sticker > 0) {
           originalFixedPrice = sticker;
         }
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        const minRatio = computeMinGroupRatio(
-          model.enable_groups ?? [],
-          groupRatio,
-        );
         const tiers = parseTiersFromExpr(billingExpr ?? "");
         if (tiers.length > 0) {
-          const rows = tiers.map((tier) => tierDisplayPrices(tier, minRatio));
+          const rows = tiers.map((tier) =>
+            tierDisplayPrices(tier, gridMinRatio),
+          );
           const lowest = rows.reduce((acc, row) =>
             row.inputPrice + row.outputPrice < acc.inputPrice + acc.outputPrice
               ? row
@@ -152,16 +149,7 @@ export function processModels(response: PricingData) {
         }
       } else {
         const enabledGroups = model.enable_groups ?? [];
-        let minRatio = 1;
-        if (enabledGroups.length > 0) {
-          let min = Number.POSITIVE_INFINITY;
-          for (const g of enabledGroups) {
-            const r = groupRatio[g];
-            if (r !== undefined && r < min) min = r;
-          }
-          if (min !== Number.POSITIVE_INFINITY) minRatio = min;
-        }
-        inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
+        inputPrice = (model.model_ratio ?? 0) * 2 * gridMinRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
         const modelRatio = model.model_ratio ?? 0;
@@ -173,7 +161,7 @@ export function processModels(response: PricingData) {
           isFreeStrict = enabledGroups.some(groupIsFree);
         }
 
-        if (showOriginalPrice && minRatio < 1) {
+        if (showOriginalPrice && gridMinRatio < 1) {
           originalInputPrice = (model.model_ratio ?? 0) * 2;
           originalOutputPrice =
             originalInputPrice * (model.completion_ratio ?? 0);
