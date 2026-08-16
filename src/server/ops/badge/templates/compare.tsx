@@ -1,4 +1,4 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { IconCell } from "../elements/feature-badge";
 import { Brand } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
@@ -19,12 +19,12 @@ const PAD = 64;
 
 function CompareSide(props: {
   ctx: BadgeCtx;
-  model: ProcessedModel | null;
+  model: PricingCatalogModel | null;
   requested: string;
 }) {
   const model = props.model;
-  const name = model?.name ?? props.requested;
-  const vendorSvg = model ? getVendorColorIcon(model.vendor.name) : null;
+  const name = model?.model_name ?? props.requested;
+  const vendorSvg = model ? getVendorColorIcon(model.vendor) : null;
   return (
     <div
       style={{
@@ -50,7 +50,7 @@ function CompareSide(props: {
         {name}
       </span>
       {model &&
-        (model.isFree ? (
+        (model.is_free ? (
           <span
             style={{
               fontFamily: FONT_MONO,
@@ -65,18 +65,18 @@ function CompareSide(props: {
           <div style={{ display: "flex", gap: 40 }}>
             <ModelStat
               value={fmtPrice(
-                model.isFixedPrice ? model.fixedPrice : model.inputPrice,
+                model.is_fixed_price ? model.fixed_price : model.input_price,
               )}
               label={t(
                 props.ctx.locale,
-                model.isFixedPrice ? "BADGE.MODEL" : "BADGE.INPUT",
+                model.is_fixed_price ? "BADGE.MODEL" : "BADGE.INPUT",
               )}
               valueFont={30}
               labelFont={17}
             />
-            {!model.isFixedPrice && (
+            {!model.is_fixed_price && (
               <ModelStat
-                value={fmtPrice(model.outputPrice)}
+                value={fmtPrice(model.output_price)}
                 label={t(props.ctx.locale, "BADGE.OUTPUT")}
                 valueFont={30}
                 labelFont={17}
@@ -90,7 +90,7 @@ function CompareSide(props: {
 
 export async function generateCompare(
   ctx: BadgeCtx,
-  pair: { model: ProcessedModel | null; requested: string }[],
+  pair: { model: PricingCatalogModel | null; requested: string }[],
 ): Promise<string> {
   const c = THEME_COLORS.dark;
 

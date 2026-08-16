@@ -1,10 +1,10 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
 import { FAR_FUTURE } from "@/lib/config/constants";
 import { errMessage, modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getQuotaDataSummary } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { getPricingSummary } from "@/server/models/pricing/pricing.service";
+import { getCatalog } from "@/server/models/pricing/pricing.service";
+import type { PricingCatalogModel } from "@/openapi";
 import type { BadgePricing, BadgeStats } from "./types";
 
 export function getStats(): Promise<BadgeStats> {
@@ -30,24 +30,55 @@ export function getStats(): Promise<BadgeStats> {
 
 export async function findBadgeModel(
   nameOrSlug: string,
-): Promise<ProcessedModel | null> {
-  const { models } = await getPricingSummary();
-  return models.find((m) => modelMatchesSlug(m.name, nameOrSlug)) ?? null;
+): Promise<PricingCatalogModel | null> {
+  const catalog = await getCatalog(true);
+  return (
+    catalog.models.find((m) => modelMatchesSlug(m.model_name, nameOrSlug)) ??
+    null
+  );
+}
+
+// The steepest discount per vendor, deepest first: the badge advertises what a
+// caller saves, so one headline model per vendor rather than five from whoever
+// discounts most.
+function topDiscounted(models: PricingCatalogModel[]) {
+  const byVendor = new Map<string, PricingCatalogModel>();
+  for (const m of models) {
+    if (m.type !== "text" || m.is_fixed_price || m.input_price <= 0) continue;
+    if (m.original_input_price == null) continue;
+    const seen = byVendor.get(m.vendor);
+    if (!seen || m.input_price > seen.input_price) byVendor.set(m.vendor, m);
+  }
+  const discount = (m: PricingCatalogModel) =>
+    1 - m.input_price / (m.original_input_price ?? m.input_price);
+  return [...byVendor.values()]
+    .sort((a, b) => discount(b) - discount(a))
+    .slice(0, 5)
+    .map((m) => ({
+      model: m.model_name,
+      vendor: m.vendor,
+      inputPrice: m.input_price,
+      outputPrice: m.output_price,
+      originalInputPrice: m.original_input_price ?? null,
+      originalOutputPrice: m.original_output_price ?? null,
+    }));
 }
 
 export async function getPricingData(): Promise<BadgePricing> {
-  const summary = await getPricingSummary();
+  const catalog = await getCatalog(true);
   const vendorModelCounts: Record<string, number> = {};
-  for (const v of summary.vendors) {
-    vendorModelCounts[v.name] = v.modelCount;
+  for (const m of catalog.models) {
+    vendorModelCounts[m.vendor] = (vendorModelCounts[m.vendor] ?? 0) + 1;
   }
   return {
-    modelCount: summary.modelCount,
-    freeCount: summary.freeCount,
-    paidCount: summary.paidCount,
-    vendorCount: summary.vendorCount,
-    vendorNames: summary.vendorNames,
+    modelCount: catalog.counts.models,
+    freeCount: catalog.counts.free,
+    paidCount: catalog.counts.paid,
+    vendorCount: catalog.counts.vendors,
+    vendorNames: [...new Set(catalog.models.map((m) => m.vendor))].sort(
+      (a, b) => a.localeCompare(b),
+    ),
     vendorModelCounts,
-    rows: summary.topDiscounted,
+    rows: topDiscounted(catalog.models),
   };
 }

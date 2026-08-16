@@ -1,4 +1,4 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { IconCell } from "../elements/feature-badge";
 import { Brand } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
@@ -62,12 +62,12 @@ export function ModelStat(props: {
 
 export async function generateModel(
   ctx: BadgeCtx,
-  model: ProcessedModel | null,
+  model: PricingCatalogModel | null,
   requested: string,
 ): Promise<string> {
   const c = THEME_COLORS.dark;
-  const name = model?.name ?? requested;
-  const vendorSvg = model ? getVendorColorIcon(model.vendor.name) : null;
+  const name = model?.model_name ?? requested;
+  const vendorSvg = model ? getVendorColorIcon(model.vendor) : null;
   const contextWindow = model?.metadata.contextWindow;
 
   const stats = model ? (
@@ -80,7 +80,7 @@ export async function generateModel(
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        {model.isFree ? (
+        {model.is_free ? (
           <ModelStat
             value={t(ctx.locale, "BADGE.FREE").toUpperCase()}
             label={t(ctx.locale, "BADGE.PRICES_NOTE")}
@@ -90,22 +90,22 @@ export async function generateModel(
           <div style={{ display: "flex", gap: 64 }}>
             <ModelStat
               value={fmtPrice(
-                model.isFixedPrice ? model.fixedPrice : model.inputPrice,
+                model.is_fixed_price ? model.fixed_price : model.input_price,
               )}
               label={t(
                 ctx.locale,
-                model.isFixedPrice ? "BADGE.MODEL" : "BADGE.INPUT",
+                model.is_fixed_price ? "BADGE.MODEL" : "BADGE.INPUT",
               )}
             />
-            {!model.isFixedPrice && (
+            {!model.is_fixed_price && (
               <ModelStat
-                value={fmtPrice(model.outputPrice)}
+                value={fmtPrice(model.output_price)}
                 label={t(ctx.locale, "BADGE.OUTPUT")}
               />
             )}
           </div>
         )}
-        {!model.isFree && (
+        {!model.is_free && (
           <span
             style={{ fontFamily: FONT_SANS, fontSize: 18, color: "#9aa0a6" }}
           >
@@ -187,7 +187,7 @@ export async function generateModel(
                   color: "#9aa0a6",
                 }}
               >
-                {model.vendor.name}
+                {model.vendor}
               </span>
             )}
           </div>

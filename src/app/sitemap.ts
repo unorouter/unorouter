@@ -1,4 +1,4 @@
-import { getPricingSummary } from "@/server/models/pricing/pricing.service";
+import { getCatalog } from "@/server/models/pricing/pricing.service";
 import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { getPathname } from "@/i18n/navigation";
 import {
@@ -78,23 +78,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.startsWith("/docs/integrations/"),
   );
 
-  // getPricingSummary already retries 3x with backoff internally.
-  const pricing = await getPricingSummary().catch(() => null);
+  // getCatalog already retries 3x with backoff internally.
+  const pricing = await getCatalog().catch(() => null);
   if (!pricing?.models?.length)
     console.error(
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
-  const modelNames = [...new Set((pricing?.models ?? []).map((m) => m.name))];
+  const modelNames = [
+    ...new Set((pricing?.models ?? []).map((m) => m.model_name)),
+  ];
   const nameSet = new Set(modelNames);
 
   const nameToVendor = new Map<string, string>(
-    (pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
+    (pricing?.models ?? []).map((m) => [m.model_name, m.vendor] as const),
   );
   const nameToReleaseDate = new Map<string, Date>();
   for (const model of pricing?.models ?? []) {
-    const ms = model.metadata.releaseTs;
-    if (ms) nameToReleaseDate.set(model.name, new Date(ms));
+    const ms = model.release_ts;
+    if (ms) nameToReleaseDate.set(model.model_name, new Date(ms));
   }
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),
@@ -104,7 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...new Set(
       (pricing?.models ?? [])
         .filter((m) => m.online)
-        .map((m) => vendorSlug(m.vendor.name))
+        .map((m) => vendorSlug(m.vendor))
         .filter(Boolean),
     ),
   ];
