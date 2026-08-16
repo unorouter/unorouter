@@ -32,12 +32,11 @@ import {
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
-  clearChatErrorAtom,
-  setLiveMessagesAtom,
   convIdAtom,
   ensureConvId,
   lastStreamErrorAtom,
   localUserIdAtom,
+  registerLiveThread,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
@@ -82,27 +81,27 @@ function useHistoryAdapter(getConvId: () => string | null) {
 // Publishes the two useChat operations assistant-ui's runtime does not expose:
 // clearError (error is read-only runtime state) and setMessages (no single-message
 // part mutator, and the AI-SDK runtime's import() does not re-render live messages).
-function useLiveOpsBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
+// Registered per conversation so a result computed for one chat cannot be applied
+// to whichever thread happens to be mounted when it lands.
+function useLiveOpsBridge(
+  chat: ReturnType<typeof useChat<ChatUIMessage>>,
+  convId: string | null,
+) {
   const clearErrorRef = useRef(chat.clearError);
   clearErrorRef.current = chat.clearError;
   const setMessagesRef = useRef(chat.setMessages);
   setMessagesRef.current = chat.setMessages;
   useEffect(() => {
-    // jotai treats a function passed to set() as an updater, so wrap the stored
-    // callbacks in `() => fn` to store the function itself.
-    chatStore.set(clearChatErrorAtom, () => () => clearErrorRef.current());
-    chatStore.set(
-      setLiveMessagesAtom,
-      () => (updater: (msgs: unknown[]) => unknown[]) =>
+    if (!convId) return;
+    const ops = {
+      setMessages: (updater: (msgs: unknown[]) => unknown[]) =>
         setMessagesRef.current(
           updater as Parameters<typeof setMessagesRef.current>[0],
         ),
-    );
-    return () => {
-      chatStore.set(clearChatErrorAtom, null);
-      chatStore.set(setLiveMessagesAtom, null);
+      clearError: () => clearErrorRef.current(),
     };
-  }, []);
+    return registerLiveThread(convId, ops);
+  }, [convId]);
 }
 
 function ChatRuntimeHook() {
@@ -281,7 +280,7 @@ function ChatRuntimeHook() {
     },
   };
 
-  useLiveOpsBridge(chat);
+  useLiveOpsBridge(chat, remoteId ?? null);
 
   return useAISDKRuntime(wrappedChat, {
     // The converter otherwise folds a run of assistant messages into ONE rendered

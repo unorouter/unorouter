@@ -169,52 +169,43 @@ export const greetingIndexAtom = runtimeField("greetingIndex");
 
 export const assistantRuntimeAtom = atom<AssistantRuntime | null>(null);
 
-export const clearChatErrorAtom = atom<(() => void) | null>(null);
-
-export const setLiveMessagesAtom = atom<
-  ((updater: (msgs: unknown[]) => unknown[]) => void) | null
->(null);
-
 export const chatStore = createStore();
+
+type LiveThreadOps = {
+  setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
+  clearError: () => void;
+};
+
+// Threads overlap during a conversation switch: the outgoing one unmounts AFTER the
+// incoming one mounts. Keyed by conversation so an unmounting thread can only remove
+// its own entry, and an async result reaches the chat it was computed for.
+const liveThreads = new Map<string, LiveThreadOps>();
+
+export function registerLiveThread(
+  convId: string,
+  ops: LiveThreadOps,
+): () => void {
+  liveThreads.set(convId, ops);
+  return () => {
+    if (liveThreads.get(convId) === ops) liveThreads.delete(convId);
+  };
+}
+
+function activeOps(): LiveThreadOps | undefined {
+  const convId = chatStore.get(convIdAtom);
+  return convId ? liveThreads.get(convId) : undefined;
+}
 
 export function getThreadRuntime() {
   return chatStore.get(assistantRuntimeAtom)?.thread ?? null;
 }
 
-// The bridge is a single global slot that every mounted thread overwrites, so an
-// update computed for one conversation lands on whichever thread published last.
-// Callers that await (seeding a heavy loadout, a DB reload) can outlive the
-// conversation they were called for; pass `forConvId` and the update is dropped
-// rather than written into the thread the user switched to.
 export function setLiveMessages(
   updater: (msgs: unknown[]) => unknown[],
   forConvId?: string,
 ): void {
-  const stale = () =>
-    forConvId != null && chatStore.get(convIdAtom) !== forConvId;
-  if (stale()) return;
-  const setMessages = chatStore.get(setLiveMessagesAtom);
-  if (setMessages) {
-    setMessages(updater);
-    return;
-  }
-  let done = false;
-  const apply = () => {
-    if (done) return;
-    const next = chatStore.get(setLiveMessagesAtom);
-    if (!next) return;
-    done = true;
-    unsub();
-    clearTimeout(timer);
-    if (stale()) return;
-    next(updater);
-  };
-  const unsub = chatStore.sub(setLiveMessagesAtom, apply);
-  const timer = setTimeout(() => {
-    done = true;
-    unsub();
-    console.warn("setLiveMessages: bridge never published, update dropped");
-  }, 5000);
+  const ops = forConvId ? liveThreads.get(forConvId) : activeOps();
+  ops?.setMessages(updater);
 }
 
 export function replaceMessageParts(
@@ -229,7 +220,7 @@ export function replaceMessageParts(
 }
 
 export function clearLiveError(): void {
-  chatStore.get(clearChatErrorAtom)?.();
+  activeOps()?.clearError();
 }
 
 export async function reloadLiveThreadFromDb(convId: string): Promise<void> {
