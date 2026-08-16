@@ -17,9 +17,11 @@ export function ChatStoreProvider(props: {
   children: ReactNode;
   data?: ChatState;
 }) {
-  useHydrateAtoms([[chatStoreAtom, props.data ?? INITIAL_CHAT_STATE]], {
-    dangerouslyForceHydrate: true,
-  });
+  // No dangerouslyForceHydrate: that flag re-runs store.set on EVERY render, so
+  // once any mounted consumer re-rendered this wrote during render and React
+  // reported "cannot update a component while rendering a different one". The
+  // default hydrates once per store, which is all the server seed needs.
+  useHydrateAtoms([[chatStoreAtom, props.data ?? INITIAL_CHAT_STATE]]);
 
   return <>{props.children}</>;
 }
