@@ -1,4 +1,3 @@
-import { releaseTs } from "@/lib/api/pricing";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
   STATIC_IMAGE_MODELS,
@@ -227,7 +226,7 @@ function computeEffectiveImageModels(
     if (!desc) continue;
     seen.add(model.name);
     if (model.endpointTypes.includes("comfyui")) comfy.push(desc);
-    else dynamic.push({ desc, releasedAt: releaseTs(model) });
+    else dynamic.push({ desc, releasedAt: model.metadata.releaseTs });
   }
   dynamic.sort((a, b) => {
     const diff = b.releasedAt - a.releasedAt;

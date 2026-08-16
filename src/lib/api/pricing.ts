@@ -41,7 +41,8 @@ export type ModelMetadata = {
   tokenizer?: string;
   knowledgeCutoff?: string;
   releaseDate?: string;
-  releaseTs?: number;
+  /** Epoch ms, derived by the sync. 0 when the model has no release date. */
+  releaseTs: number;
   series?: string;
   categories?: string[];
   deprecationDate?: string;
@@ -77,18 +78,23 @@ function getModelType(model: PricingModel): ModelType {
   return MODEL_TYPES.find((v) => v === tag) ?? "text";
 }
 
+// releaseTs defaults to 0 for a model the sync has never seen (no metadata blob
+// yet); every synced model carries the number.
+const EMPTY_METADATA: ModelMetadata = { releaseTs: 0 };
+
 function parseModelMetadata(raw: string | undefined): ModelMetadata {
-  if (!raw) return {};
+  if (!raw) return EMPTY_METADATA;
   try {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") {
       // Duplicates the top-level model description (~120KB across the list);
       // nothing reads it from metadata.
       delete (parsed as Record<string, unknown>).description;
-      return parsed as ModelMetadata;
+      const md = parsed as ModelMetadata;
+      return { ...md, releaseTs: md.releaseTs ?? 0 };
     }
   } catch {}
-  return {};
+  return EMPTY_METADATA;
 }
 
 export function processModels(response: PricingData) {
@@ -224,12 +230,6 @@ export function processModels(response: PricingData) {
     });
 }
 
-// Sync derives this from releaseDate at resolve time. 0 sorts a dateless model
-// last (custom-civitai is a passthrough lane with no single release).
-export function releaseTs(m: ProcessedModel): number {
-  return m.metadata.releaseTs ?? 0;
-}
-
 // Generic over the model shape: the selector groups a lean catalog row, the
 // browse page groups a full ProcessedModel. Only tags/name/release ordering is
 // read, so both fit.
@@ -304,7 +304,7 @@ export function buildPricingSummary(response: PricingData) {
   const newestFree = (list: ProcessedModel[]) =>
     list.reduce<ProcessedModel | null>((best, m) => {
       if (!best) return m;
-      const diff = releaseTs(m) - releaseTs(best);
+      const diff = m.metadata.releaseTs - best.metadata.releaseTs;
       if (diff !== 0) return diff > 0 ? m : best;
       return m.name.localeCompare(best.name) < 0 ? m : best;
     }, null);

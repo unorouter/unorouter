@@ -9,7 +9,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { releaseTs } from "@/lib/api/pricing";
 import {
   deriveOutputModality,
   inputPriceUnit,
@@ -227,9 +226,10 @@ export function buildModelColumns(opts: {
     },
     {
       id: "released",
-      accessorFn: (m) => releaseTs(m),
+      accessorFn: (m) => m.metadata.releaseTs,
       enableSorting: true,
-      sortFn: (a, b) => releaseTs(a.original) - releaseTs(b.original),
+      sortFn: (a, b) =>
+        a.original.metadata.releaseTs - b.original.metadata.releaseTs,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -243,7 +243,7 @@ export function buildModelColumns(opts: {
           "hidden @4xl:table-cell text-right text-muted-foreground",
       },
       cell: ({ row }) => {
-        const ts = releaseTs(row.original);
+        const ts = row.original.metadata.releaseTs;
         return ts > 0 ? formatMsDate(ts) : "-";
       },
     },

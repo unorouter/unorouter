@@ -4,7 +4,6 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
-import { releaseTs } from "@/lib/api/pricing";
 import { usePricingVendorQuery } from "@/hooks/models/pricing-hook";
 import { vendorDisplayName } from "@/lib/api/pricing";
 import { vendorSlug } from "@/lib/utils/base";
@@ -18,7 +17,7 @@ export function VendorModelsPage(props: { vendor: string }) {
 
   const models = (query.data?.models ?? [])
     .filter((m) => vendorSlug(m.vendor.name) === target)
-    .sort((a, b) => releaseTs(b) - releaseTs(a));
+    .sort((a, b) => b.metadata.releaseTs - a.metadata.releaseTs);
 
   const display = vendorDisplayName(props.vendor);
 

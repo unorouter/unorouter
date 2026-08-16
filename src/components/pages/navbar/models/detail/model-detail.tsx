@@ -9,7 +9,6 @@ import {
   findContextTag,
   findSimilarModels,
   type ProcessedModel,
-  releaseTs,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -100,7 +99,7 @@ print(res.choices[0].message.content)`;
   const theme = getVendorTheme(m.vendor.name);
   const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "-";
 
-  const released = releaseTs(m);
+  const released = m.metadata.releaseTs;
   const releaseDateLabel = released ? formatMsDate(released) : "";
   const lastUpdatedMs = m.createdTime ? m.createdTime * 1000 : released;
   const lastUpdatedLabel = lastUpdatedMs ? formatMsDate(lastUpdatedMs) : "";

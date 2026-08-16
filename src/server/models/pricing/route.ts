@@ -2,7 +2,6 @@ import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
   isChatModel,
   leanModel,
-  releaseTs,
   toLeanPricing,
   usedGroupRatios,
 } from "@/lib/api/pricing";
@@ -40,7 +39,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
         chat: isChatModel(m),
         isFree: !!m.isFree,
         tag: m.tags[0] ?? "Other",
-        releaseTs: releaseTs(m),
+        releaseTs: m.metadata.releaseTs,
       })),
     };
   })
@@ -57,7 +56,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
         type: m.type,
         enableGroups: m.enableGroups,
         online: m.online,
-        releaseTs: releaseTs(m),
+        releaseTs: m.metadata.releaseTs,
       })),
       firstFreeModel: summary.firstFreeModel?.name ?? null,
     };

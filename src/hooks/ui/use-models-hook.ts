@@ -1,6 +1,6 @@
 "use client";
 
-import { releaseTs, type ProcessedModel } from "@/lib/api/pricing";
+import type { ProcessedModel } from "@/lib/api/pricing";
 import { matchesModality } from "@/lib/api/model-modality";
 import type { RankedModel } from "@/openapi";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
@@ -133,7 +133,7 @@ export function useModelsFilter() {
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
     const matchesOutputPrice =
       outputPriceMax >= PRICE_MAX || model.outputPrice <= outputPriceMax;
-    const ts = releaseTs(model);
+    const ts = model.metadata.releaseTs;
     const matchesAge = ageCutoff === 0 || (ts > 0 && ts >= ageCutoff);
     const modelCats = model.metadata.categories ?? model.tags;
     const matchesCategories =
@@ -167,7 +167,7 @@ export function useModelsFilter() {
 
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {
-      const diff = releaseTs(b) - releaseTs(a);
+      const diff = b.metadata.releaseTs - a.metadata.releaseTs;
       return diff !== 0 ? diff : a.name.localeCompare(b.name);
     }
     if (sortOrder === "popular") {

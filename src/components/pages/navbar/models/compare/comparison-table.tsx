@@ -4,7 +4,6 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Switch } from "@/components/ui/switch";
-import { releaseTs } from "@/lib/api/pricing";
 import {
   deriveOutputModality,
   inputPriceUnit,
@@ -124,7 +123,7 @@ export function ComparisonTable(props: {
         {
           label: t("MODELS.TABLE.RELEASED"),
           render: (m) => {
-            const ts = releaseTs(m);
+            const ts = m.metadata.releaseTs;
             return ts > 0 ? formatMsDate(ts) : "-";
           },
         },

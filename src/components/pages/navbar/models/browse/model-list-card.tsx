@@ -2,7 +2,6 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
-import { releaseTs } from "@/lib/api/pricing";
 import {
   deriveOutputModality,
   modelPriceColumns,
@@ -67,7 +66,7 @@ export function ModelListCard(props: {
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
-  const released = releaseTs(model);
+  const released = model.metadata.releaseTs;
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
   const category = model.tags.find(
     (tag) =>
