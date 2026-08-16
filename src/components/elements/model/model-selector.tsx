@@ -18,6 +18,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { analytics } from "@/lib/analytics";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   buildGroupEntries,
   type GroupEntry,
@@ -338,6 +339,13 @@ export function ModelSelector(props: ModelSelectorProps) {
   useEffect(() => {
     if (!props.group || props.group === AUTO_GROUP) return;
     if (candidateGroups.length > 0 && !candidateGroups.includes(props.group)) {
+      logChatDebug("group.pin_reset", {
+        model: props.value,
+        pin: props.group,
+        candidateGroups,
+        enableGroups,
+        ratioKeys: Object.keys(groupRatioMap),
+      });
       props.onGroupChange(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run on model or group-list change

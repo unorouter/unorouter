@@ -35,6 +35,7 @@ import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   chatGroupAtom,
+  groupByModelAtom,
   chatModelAtom,
   chatStore,
   localUserIdAtom,
@@ -185,6 +186,10 @@ async function runClientStream(args: {
   // is the live dropdown model; a mismatch with args.model (the snapshotted send
   // model) or a group pinned to a different model's channel surfaces here.
   const group = chatStore.get(chatGroupAtom);
+  // An unpinned send is ambiguous on its own: the map may be empty (the pin was
+  // cleared) or hold one under a key that no longer matches the active model.
+  // Only the keys ship, never the pinned values.
+  const pinnedModels = group ? null : Object.keys(chatStore.get(groupByModelAtom));
 
   // Wire-shape diagnostics without content: numeric/bool option values pass,
   // free-text option values reduce to their length.
@@ -193,6 +198,7 @@ async function runClientStream(args: {
     model: args.model,
     selectedModel: chatStore.get(chatModelAtom) ?? null,
     group: group ?? null,
+    pinnedModels,
     xGroupSent: group && group !== "auto" ? group : null,
     prefill: prefillOpensThink(prepared.messagesForUpstream),
     systemChars: prepared.effectiveSystem?.length ?? 0,

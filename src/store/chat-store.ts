@@ -86,6 +86,10 @@ export const showStatsTokensAtom = storeField("showStatsTokens");
 export const showStatsCostAtom = storeField("showStatsCost");
 export const showStatsMessagesAtom = storeField("showStatsMessages");
 
+export const groupByModelAtom = atom(
+  (get) => get(chatStoreAtom).groupByModel ?? {},
+);
+
 export const chatGroupAtom = atom(
   (get) => {
     const state = get(chatStoreAtom);
