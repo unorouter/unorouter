@@ -62,10 +62,18 @@ export const INITIAL_CHAT_STATE: ChatState = {
   showStatsMessages: false,
 };
 
-const chatStoreAtom = atomWithStorage<ChatState>(
+// getOnInit so the cookie is read during atom init rather than after mount. The
+// deferred load left a window where the atom served INITIAL_CHAT_STATE, and any
+// write in it spread that empty object back over the cookie, dropping every field
+// the writer did not name (a saved provider pin died on every tab reopen; the
+// maxTokens revert of 1a080093 was the same window). Eager reads only match the
+// server because ChatStoreProvider seeds this atom from the same cookie, so both
+// renders start identical; removing that provider reintroduces React #418.
+export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
+  { getOnInit: true },
 );
 
 function storeField<K extends keyof ChatState>(key: K) {

@@ -5,10 +5,13 @@ import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/cha
 import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/viewport-debug-logger";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
+import { ChatStoreProvider } from "@/components/provider/state/chat-store-provider";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
+import { getCookieValue } from "@/lib/utils/server";
+import { CHAT_STORE_KEY, type ChatState } from "@/store/chat-store";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +24,8 @@ type Props = {
 // pricing list stays out of here.
 export default async function ChatLayout(props: Props) {
   const queryClient = getQueryClient();
-  await Promise.all([
+  const [chatStoreCookie] = await Promise.all([
+    getCookieValue<ChatState>(CHAT_STORE_KEY),
     prefetchElysia(queryClient, queryKeys.pricingCatalog(), () =>
       rpc.api.models.pricing.catalog.get(),
     ),
@@ -32,17 +36,19 @@ export default async function ChatLayout(props: Props) {
 
   return (
     <AuthHydration withBestKey>
-      <ChatRuntimeProvider>
-        <ViewportDebugLogger />
-        <SidebarLayout
-          before={<AuthRedirectCleanup />}
-          navConfig="chat"
-          chatContent={<ConversationList />}
-        >
-          {props.children}
-        </SidebarLayout>
-        <RpDialogs />
-      </ChatRuntimeProvider>
+      <ChatStoreProvider data={chatStoreCookie}>
+        <ChatRuntimeProvider>
+          <ViewportDebugLogger />
+          <SidebarLayout
+            before={<AuthRedirectCleanup />}
+            navConfig="chat"
+            chatContent={<ConversationList />}
+          >
+            {props.children}
+          </SidebarLayout>
+          <RpDialogs />
+        </ChatRuntimeProvider>
+      </ChatStoreProvider>
     </AuthHydration>
   );
 }

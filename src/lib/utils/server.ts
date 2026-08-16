@@ -55,6 +55,20 @@ const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   }
 };
 
+// Reads a JSON store cookie server-side so the atom can be seeded before the
+// first render. Undefined for a missing or malformed cookie, which seeds the
+// atom's own initial value.
+export const getCookieValue = async <T>(
+  key: string,
+): Promise<T | undefined> => {
+  const cookieStore = await cookies();
+  try {
+    return JSON.parse(cookieStore.get(key)?.value ?? "") as T;
+  } catch {
+    return undefined;
+  }
+};
+
 export const serverLocale = async (props?: {
   params: Promise<{ locale: string }>;
 }): Promise<Locale> => {

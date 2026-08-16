@@ -6,8 +6,13 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { COOKIE_MAX_AGE } from "./constants";
 
+// Server-guarded because `cookies-next/client` THROWS off the client rather than
+// returning empty, and `getOnInit` atoms call getItem during the server render too.
+// Server-side reads yield the initial value; the real cookie is seeded into those
+// atoms by the store providers, which read it through `getCookieValue`.
 export const jotaiCookieStorage = {
   getItem(key: string, initialValue: unknown) {
+    if (isServer) return initialValue;
     const value = getCookie(key);
     if (!value) return initialValue;
     try {
@@ -17,9 +22,11 @@ export const jotaiCookieStorage = {
     }
   },
   setItem(key: string, value: unknown) {
+    if (isServer) return;
     setCookie(key, JSON.stringify(value), { maxAge: COOKIE_MAX_AGE });
   },
   removeItem(key: string) {
+    if (isServer) return;
     deleteCookie(key);
   },
 };
