@@ -408,6 +408,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-teal-500/20",
     primary: "#14b8a6",
   },
+  [Vendor.DOTSSTUDIO]: {
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-700 dark:text-rose-300",
+    tagBg: "bg-rose-500/10",
+    tagBorder: "border-rose-500/20",
+    primary: "#ff2442",
+  },
   [Vendor.JINA]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",

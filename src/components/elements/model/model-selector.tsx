@@ -306,7 +306,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   const customProvidersQuery = useCustomProvidersQuery();
   const customProviders = customProvidersQuery.data ?? [];
 
-  const selected = models.find((m) => m.name === props.value);
+  const selected = models.find((m) => m.model_name === props.value);
   const selectedCustom = props.value ? parseCustomModelId(props.value) : null;
   const selectedCustomProvider = selectedCustom
     ? customProviders.find((p) => p.id === selectedCustom.providerId)
@@ -387,7 +387,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             />
           )}
           <span className="truncate font-mono">{triggerLabel}</span>
-          {selected?.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} />}
+          {selected?.is_free && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} />}
         </div>
         <Icon
           name="chevrons-up-down"
@@ -419,12 +419,12 @@ export function ModelSelector(props: ModelSelectorProps) {
               <CommandGroup key={tag} heading={tag}>
                 {tagModels.map((model) => (
                   <CatalogModelItem
-                    key={model.name}
+                    key={model.model_name}
                     model={model}
-                    checked={model.name === props.value}
-                    disabled={!isLoggedIn && !model.isFree}
-                    status={statusMap.get(model.name)}
-                    onPick={() => pickModel(model.name)}
+                    checked={model.model_name === props.value}
+                    disabled={!isLoggedIn && !model.is_free}
+                    status={statusMap.get(model.model_name)}
+                    onPick={() => pickModel(model.model_name)}
                     onLoginRedirect={redirectToLogin}
                   />
                 ))}

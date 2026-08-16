@@ -72,6 +72,7 @@ export enum Vendor {
   PFNET = "preferred",
   NEXAGI = "nex agi",
   POOLSIDE = "poolside",
+  DOTSSTUDIO = "dots studio",
   JINA = "jina",
   AISINGAPORE = "ai singapore",
   POLLINATIONS = "pollinations",

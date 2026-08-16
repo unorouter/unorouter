@@ -177,7 +177,7 @@ export function processModels(response: PricingData) {
 // browse page groups a full ProcessedModel. Only tags/name/release ordering is
 // read, so both fit.
 export function groupModelsByType<
-  T extends { name: string; tags: string[]; releaseTs: number },
+  T extends { model_name: string; tags: string[]; release_ts: number },
 >(models: T[]) {
   const modelsByType: { tag: string; models: T[] }[] = [];
   const typeMap = new Map<string, T[]>();
@@ -194,8 +194,8 @@ export function groupModelsByType<
   };
   for (const [tag, tagModels] of typeMap) {
     tagModels.sort((a, b) => {
-      const diff = b.releaseTs - a.releaseTs;
-      return diff !== 0 ? diff : a.name.localeCompare(b.name);
+      const diff = b.release_ts - a.release_ts;
+      return diff !== 0 ? diff : a.model_name.localeCompare(b.model_name);
     });
     modelsByType.push({ tag, models: tagModels });
   }
