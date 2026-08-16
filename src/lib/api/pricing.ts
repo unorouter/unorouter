@@ -41,6 +41,7 @@ export type ModelMetadata = {
   tokenizer?: string;
   knowledgeCutoff?: string;
   releaseDate?: string;
+  releaseTs?: number;
   series?: string;
   categories?: string[];
   deprecationDate?: string;
@@ -223,11 +224,10 @@ export function processModels(response: PricingData) {
     });
 }
 
-// 0 sorts a dateless model last. Sync fills releaseDate for the catalog; a
-// model with none is either brand new upstream or a passthrough lane with no
-// single release (custom-civitai).
+// Sync derives this from releaseDate at resolve time. 0 sorts a dateless model
+// last (custom-civitai is a passthrough lane with no single release).
 export function releaseTs(m: ProcessedModel): number {
-  return m.metadata.releaseDate ? Date.parse(m.metadata.releaseDate) : 0;
+  return m.metadata.releaseTs ?? 0;
 }
 
 // Generic over the model shape: the selector groups a lean catalog row, the
