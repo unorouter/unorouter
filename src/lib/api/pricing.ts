@@ -87,8 +87,8 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
   try {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") {
-      // Duplicates the top-level model description (~120KB across the list);
-      // nothing reads it from metadata.
+      // The sync stopped emitting this, but rows written before that still carry
+      // it; drop once no live row has it.
       delete (parsed as Record<string, unknown>).description;
       const md = parsed as ModelMetadata;
       return { ...md, releaseTs: md.releaseTs ?? 0 };
