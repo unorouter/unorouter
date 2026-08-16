@@ -117,15 +117,15 @@ export function ModelsPage() {
                 columns={columns}
                 localSorting
                 windowVirtual
-                onRowClick={(model) => openDetail(model.name)}
+                onRowClick={(model) => openDetail(model.model_name)}
               />
             ) : (
               m.filtered.map((model) => (
                 <ModelListCard
-                  key={model.name}
+                  key={model.model_name}
                   model={model}
-                  rank={m.rankMap.get(model.name)}
-                  onClick={() => openDetail(model.name)}
+                  rank={m.rankMap.get(model.model_name)}
+                  onClick={() => openDetail(model.model_name)}
                 />
               ))
             )}
@@ -136,8 +136,6 @@ export function ModelsPage() {
       <ModelDetailSheet
         model={m.selectedModel}
         endpointMap={m.endpointMap}
-        groupRatioMap={m.groupRatioMap}
-        autoGroups={m.autoGroups}
         open={m.selectedModel !== null}
         onOpenChange={(open) => {
           if (!open) m.setSelectedModelName(null);

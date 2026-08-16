@@ -10,7 +10,7 @@ import {
   outputPriceUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
@@ -69,15 +69,15 @@ function Bool(props: { on: boolean }) {
 
 type Row = {
   label: string;
-  render: (m: ProcessedModel) => React.ReactNode;
-  best?: (m: ProcessedModel) => number | null;
+  render: (m: PricingCatalogModel) => React.ReactNode;
+  best?: (m: PricingCatalogModel) => number | null;
   lowerBetter?: boolean;
 };
 
 type Section = { title: string; rows: Row[] };
 
 export function ComparisonTable(props: {
-  models: ProcessedModel[];
+  models: PricingCatalogModel[];
   rankMap: Map<string, RankedModel>;
   perfMap: Map<string, ModelSummary>;
   onRemove: (name: string) => void;
@@ -87,13 +87,13 @@ export function ComparisonTable(props: {
   const [highlight, setHighlight] = useState(false);
   const models = props.models;
 
-  const inPrice = (m: ProcessedModel) =>
-    m.isFixedPrice ? m.fixedPrice : m.inputPrice;
-  const outPrice = (m: ProcessedModel) =>
-    m.isFixedPrice ? m.fixedPrice : m.outputPrice;
-  const ctxOf = (m: ProcessedModel) =>
+  const inPrice = (m: PricingCatalogModel) =>
+    m.is_fixed_price ? m.fixed_price : m.input_price;
+  const outPrice = (m: PricingCatalogModel) =>
+    m.is_fixed_price ? m.fixed_price : m.output_price;
+  const ctxOf = (m: PricingCatalogModel) =>
     m.metadata.contextWindow ?? m.metadata.maxInputTokens ?? 0;
-  const perf = (m: ProcessedModel) => props.perfMap.get(m.name);
+  const perf = (m: PricingCatalogModel) => props.perfMap.get(m.model_name);
 
   const sections: Section[] = [
     {
@@ -101,7 +101,7 @@ export function ComparisonTable(props: {
       rows: [
         {
           label: t("MODELS.COMPARE.AUTHOR"),
-          render: (m) => m.vendor.name,
+          render: (m) => m.vendor,
         },
         {
           label: t("MODELS.TABLE.CONTEXT"),
@@ -137,7 +137,7 @@ export function ComparisonTable(props: {
           render: (m) =>
             priceCell(
               inPrice(m),
-              inputPriceUnit(deriveOutputModality(m), m.isFixedPrice),
+              inputPriceUnit(deriveOutputModality(m), m.is_fixed_price),
             ),
           best: (m) => inPrice(m) || null,
           lowerBetter: true,
@@ -147,7 +147,7 @@ export function ComparisonTable(props: {
           render: (m) =>
             priceCell(
               outPrice(m),
-              outputPriceUnit(deriveOutputModality(m), m.isFixedPrice),
+              outputPriceUnit(deriveOutputModality(m), m.is_fixed_price),
             ),
           best: (m) => outPrice(m) || null,
           lowerBetter: true,
@@ -212,10 +212,10 @@ export function ComparisonTable(props: {
         {
           label: t("MODELS.TABLE.WEEKLY_TOKENS"),
           render: (m) => {
-            const v = props.rankMap.get(m.name)?.total_tokens ?? 0;
+            const v = props.rankMap.get(m.model_name)?.total_tokens ?? 0;
             return v > 0 ? formatTokens(v, locale) : "-";
           },
-          best: (m) => props.rankMap.get(m.name)?.total_tokens ?? null,
+          best: (m) => props.rankMap.get(m.model_name)?.total_tokens ?? null,
         },
       ],
     },
@@ -234,7 +234,7 @@ export function ComparisonTable(props: {
       if (v === null) continue;
       if (bestVal === null || (row.lowerBetter ? v < bestVal : v > bestVal)) {
         bestVal = v;
-        bestName = m.name;
+        bestName = m.model_name;
       }
     }
     return bestName;
@@ -257,13 +257,13 @@ export function ComparisonTable(props: {
           >
             <span />
             {models.map((m) => (
-              <div key={m.name} className="flex flex-col gap-1">
+              <div key={m.model_name} className="flex flex-col gap-1">
                 <div className="flex items-center justify-between gap-2">
-                  <VendorIcon vendor={m.vendor.name} size={20} />
+                  <VendorIcon vendor={m.vendor} size={20} />
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    onClick={() => props.onRemove(m.name)}
+                    onClick={() => props.onRemove(m.model_name)}
                     aria-label={t("MODELS.COMPARE.REMOVE")}
                     className="h-6 w-6"
                   >
@@ -271,7 +271,7 @@ export function ComparisonTable(props: {
                   </Button>
                 </div>
                 <span className="truncate font-mono text-sm font-medium">
-                  {m.name}
+                  {m.model_name}
                 </span>
               </div>
             ))}
@@ -295,10 +295,10 @@ export function ComparisonTable(props: {
                     </span>
                     {models.map((m) => (
                       <div
-                        key={m.name}
+                        key={m.model_name}
                         className={cn(
                           "font-mono text-sm",
-                          best === m.name &&
+                          best === m.model_name &&
                             "rounded bg-emerald-500/10 px-1.5 py-0.5 font-medium text-emerald-700 dark:text-emerald-400",
                         )}
                       >

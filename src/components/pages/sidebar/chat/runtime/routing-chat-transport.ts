@@ -42,7 +42,8 @@ import {
 } from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { isMediaType, type ProcessedModel } from "@/lib/api/pricing";
+import { isMediaType } from "@/lib/api/pricing";
+import type { PricingCatalogData } from "@/openapi";
 import { buildChatRequestBody, buildMediaRequestBody } from "./chat-transport";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
@@ -88,9 +89,9 @@ function prefillOpensThink(
 }
 
 function isMediaModel(model: string): boolean {
-  const data = getQueryClient().getQueryData(queryKeys.pricing()) as
-    { models?: ProcessedModel[] } | undefined;
-  return isMediaType(data?.models?.find((m) => m.name === model)?.type);
+  const data = getQueryClient().getQueryData(queryKeys.pricingCatalog()) as
+    PricingCatalogData | undefined;
+  return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
 // The DB is the canonical history (repo invariant); the useChat array is a render
@@ -189,7 +190,9 @@ async function runClientStream(args: {
   // An unpinned send is ambiguous on its own: the map may be empty (the pin was
   // cleared) or hold one under a key that no longer matches the active model.
   // Only the keys ship, never the pinned values.
-  const pinnedModels = group ? null : Object.keys(chatStore.get(groupByModelAtom));
+  const pinnedModels = group
+    ? null
+    : Object.keys(chatStore.get(groupByModelAtom));
 
   // Wire-shape diagnostics without content: numeric/bool option values pass,
   // free-text option values reduce to their length.

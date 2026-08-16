@@ -26,7 +26,10 @@ import {
   ProcessedModel,
 } from "@/lib/api/pricing";
 import { useModelWatch } from "@/hooks/models/notify-hook";
-import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
+import {
+  useModelDetailQuery,
+  useModelGroupsQuery,
+} from "@/hooks/models/pricing-hook";
 import { FixedPriceUnit } from "./shared/fixed-price-unit";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
@@ -46,10 +49,11 @@ import { UptimeSection } from "./tabs/uptime-section";
 import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
-  model: ProcessedModel | null;
+  // The list row, which carries only what a card renders. Everything below the
+  // header needs the full record, so the sheet renders off `detailQuery` and
+  // uses this for the name it fetches by.
+  model: { model_name: string } | null;
   endpointMap: Record<string, EndpointInfo>;
-  groupRatioMap: Record<string, number>;
-  autoGroups: string[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -80,8 +84,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const setChatModel = useSetAtom(chatModelAtom);
   // The list carries the lean model (truncated description, no parameter
   // defaults); the full record loads on open and swaps in reactively.
-  const detailQuery = useModelDetailQuery(props.model?.name ?? null);
-  const model = detailQuery.data ?? props.model;
+  const detailQuery = useModelDetailQuery(props.model?.model_name ?? null);
+  const model = detailQuery.data;
+  const groupsQuery = useModelGroupsQuery(props.model?.model_name ?? null);
 
   if (!model) return null;
 
@@ -255,8 +260,8 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {model.enableGroups.length > 0 && !model.isTiered && (
             <GroupPricingSection
               model={model}
-              groupRatioMap={props.groupRatioMap}
-              autoGroups={props.autoGroups}
+              groupRatioMap={groupsQuery.data?.group_ratio ?? {}}
+              autoGroups={groupsQuery.data?.auto_chain ?? []}
               theme={theme}
             />
           )}

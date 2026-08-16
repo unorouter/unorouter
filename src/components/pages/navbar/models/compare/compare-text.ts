@@ -1,12 +1,14 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 
-export function comboTitle(models: ProcessedModel[]): string {
-  return models.map((m) => m.name).join(" vs ");
+export function comboTitle(models: PricingCatalogModel[]): string {
+  return models.map((m) => m.model_name).join(" vs ");
 }
 
 export function comboModelList(
-  models: ProcessedModel[],
+  models: PricingCatalogModel[],
   fromWord: string,
 ): string {
-  return models.map((m) => `${m.name} ${fromWord} ${m.vendor.name}`).join(", ");
+  return models
+    .map((m) => `${m.model_name} ${fromWord} ${m.vendor}`)
+    .join(", ");
 }

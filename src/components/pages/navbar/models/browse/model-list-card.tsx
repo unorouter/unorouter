@@ -11,7 +11,7 @@ import {
   fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
@@ -55,14 +55,14 @@ function PriceMeta(props: {
 }
 
 export function ModelListCard(props: {
-  model: ProcessedModel;
+  model: PricingCatalogModel;
   rank?: RankedModel;
   onClick: () => void;
 }) {
   const t = useTranslations();
   const locale = useLocale();
   const model = props.model;
-  const theme = getVendorTheme(model.vendor.name);
+  const theme = getVendorTheme(model.vendor);
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
@@ -83,8 +83,10 @@ export function ModelListCard(props: {
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-center gap-2">
-          <VendorIcon vendor={model.vendor.name} size={22} />
-          <span className="truncate text-lg font-medium">{model.name}</span>
+          <VendorIcon vendor={model.vendor} size={22} />
+          <span className="truncate text-lg font-medium">
+            {model.model_name}
+          </span>
           <span
             className={cn(
               "shrink-0 rounded px-1 py-0.5 font-mono text-[10px] uppercase",
@@ -94,7 +96,7 @@ export function ModelListCard(props: {
           >
             {model.type.charAt(0)}
           </span>
-          {model.isFree && (
+          {model.is_free && (
             <Icon
               name="gift"
               className="h-4 w-4 shrink-0 text-emerald-500"
@@ -134,7 +136,7 @@ export function ModelListCard(props: {
 
       <div className="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs">
         <span>
-          {t("MODELS.LIST.BY")} {model.vendor.name}
+          {t("MODELS.LIST.BY")} {model.vendor}
         </span>
         {released > 0 && <span>{formatMsDate(released)}</span>}
         {ctx ? (
@@ -145,17 +147,17 @@ export function ModelListCard(props: {
         <PriceMeta
           value={price.input}
           original={price.originalInput}
-          unit={inputPriceUnit(modality, model.isFixedPrice)}
-          label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
-          perCall={model.isFixedPrice}
+          unit={inputPriceUnit(modality, model.is_fixed_price)}
+          label={model.is_fixed_price ? "" : t("MODELS.LIST.INPUT")}
+          perCall={model.is_fixed_price}
           offLabel={offLabel}
         />
         <PriceMeta
           value={price.output}
           original={price.originalOutput}
-          unit={outputPriceUnit(modality, model.isFixedPrice)}
-          label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
-          perCall={model.isFixedPrice}
+          unit={outputPriceUnit(modality, model.is_fixed_price)}
+          label={model.is_fixed_price ? "" : t("MODELS.LIST.OUTPUT")}
+          perCall={model.is_fixed_price}
           offLabel={offLabel}
         />
       </div>

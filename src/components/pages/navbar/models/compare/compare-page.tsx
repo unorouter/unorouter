@@ -1,6 +1,6 @@
 "use client";
 
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingBrowseQuery } from "@/hooks/models/pricing-hook";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { useRouter } from "@/i18n/navigation";
@@ -21,7 +21,7 @@ export function ComparePage() {
   const t = useTranslations();
   const router = useRouter();
   const params = useParams();
-  const { data } = usePricingQuery();
+  const { data } = usePricingBrowseQuery();
   const rankings = useRankingsQuery("week");
   const perfQuery = usePerfMetricsSummaryQuery(24);
 
@@ -39,9 +39,9 @@ export function ComparePage() {
       ? [params.slugs]
       : [];
   const selectedModels = slugs
-    .map((slug) => models.find((m) => modelMatchesSlug(m.name, slug)))
+    .map((slug) => models.find((m) => modelMatchesSlug(m.model_name, slug)))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
-  const selectedNames = selectedModels.map((m) => m.name);
+  const selectedNames = selectedModels.map((m) => m.model_name);
 
   function goTo(names: string[]) {
     if (names.length === 0) {

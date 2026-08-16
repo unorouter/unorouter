@@ -1,4 +1,4 @@
-import { isFreeChatModel, toLeanPricing } from "@/lib/api/pricing";
+import { isFreeChatModel } from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
 import { getRankings, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
@@ -6,6 +6,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
 import {
+  getCatalog,
   getPricingSummary,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
@@ -49,19 +50,20 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
-// Models browse and compare seed the same three keys off one pricing fetch;
+// Models browse and compare seed the same keys off one pricing fetch;
 // rankings/perf are non-critical, so a failure there leaves the page renderable.
 async function seedCatalogClient() {
   const qc = new QueryClient();
-  const [summary, rankings, perf] = await Promise.all([
+  const [summary, browse, rankings, perf] = await Promise.all([
     getPricingSummary(),
+    getCatalog(true),
     fetchRankings("week").catch(() => null),
     fetchPerfSummary(24).catch(() => null),
   ]);
-  qc.setQueryData(queryKeys.pricing(), toLeanPricing(summary));
+  qc.setQueryData(queryKeys.pricingBrowse(), browse);
   qc.setQueryData(queryKeys.rankings("week"), rankings);
   qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
-  return { qc, summary };
+  return { qc, summary, browse };
 }
 
 // Models browse: the detail sheet fetches the full model on open.
@@ -98,11 +100,11 @@ export async function getComparePageData(slugs: readonly string[]) {
   const seeded = await seedCatalogClient();
   const models = slugs
     .map((slug) =>
-      seeded.summary.models.find((m) => modelMatchesSlug(m.name, slug)),
+      seeded.browse.models.find((m) => modelMatchesSlug(m.model_name, slug)),
     )
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
   const missing =
-    seeded.summary.models.length > 0 && models.length < slugs.length;
+    seeded.browse.models.length > 0 && models.length < slugs.length;
   return { dehydrated: dehydrate(seeded.qc), models, missing };
 }
 

@@ -44,12 +44,12 @@ export async function generateMetadata(props: {
   const description = t("MODELS.COMPARE.META.DESCRIPTION_COMBO", {
     models: comboModelList(models, t("MODELS.COMPARE.FROM")),
   });
-  const sortedSlugs = models.map((m) => modelSlug(m.name)).sort();
+  const sortedSlugs = models.map((m) => modelSlug(m.model_name)).sort();
   return getPageMetadata({
     locale,
     href: {
       pathname: "/compare/[...slugs]",
-      params: { slugs: models.map((m) => modelSlug(m.name)) },
+      params: { slugs: models.map((m) => modelSlug(m.model_name)) },
     },
     canonicalHref: {
       pathname: "/compare/[...slugs]",
@@ -59,7 +59,7 @@ export async function generateMetadata(props: {
     description,
     keywords: t("MODELS.COMPARE.META.KEYWORDS"),
     ogImage: ogBadge("compare", locale, {
-      models: models.slice(0, 2).map((m) => m.name),
+      models: models.slice(0, 2).map((m) => m.model_name),
     }),
   });
 }
@@ -85,7 +85,7 @@ export default async function Page(props: {
       name: comboTitle(models),
       url: localeUrl(locale, {
         pathname: "/compare/[...slugs]",
-        params: { slugs: models.map((m) => modelSlug(m.name)) },
+        params: { slugs: models.map((m) => modelSlug(m.model_name)) },
       }),
     });
   }

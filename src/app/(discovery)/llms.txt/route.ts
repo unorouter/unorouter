@@ -11,7 +11,7 @@ import { getTranslations } from "next-intl/server";
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });
-  const pricing = await rpc.api.models.pricing
+  const pricing = await rpc.api.models.pricing.catalog
     .get()
     .then(handleElysia)
     .catch(() => null);
@@ -81,13 +81,11 @@ export async function GET() {
   if (models.length > 0) {
     lines.push(`## ${t("FOOTER.MODELS")}`);
     for (const model of models.slice(0, 50)) {
-      const url = `${env.siteOrigin}${localeUrl(locale, modelHref(model.name, model.vendor?.name))}`;
-      const price = model.name.endsWith(":free")
+      const url = `${env.siteOrigin}${localeUrl(locale, modelHref(model.model_name, model.vendor))}`;
+      const price = model.is_free
         ? "free"
-        : model.inputPrice != null && model.outputPrice != null
-          ? `${model.inputPrice} in / ${model.outputPrice} out per 1M tokens`
-          : null;
-      lines.push(`- [${model.name}](${url})${price ? `: ${price}` : ""}`);
+        : `${model.input_price} in / ${model.output_price} out per 1M tokens`;
+      lines.push(`- [${model.model_name}](${url}): ${price}`);
     }
     lines.push("");
   }

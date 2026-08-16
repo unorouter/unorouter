@@ -12,17 +12,17 @@ import { Icon } from "@/components/ui/icon";
 import { useModelWatch } from "@/hooks/models/notify-hook";
 import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { copyToClipboard, modelHref } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-export function ModelRowActions(props: { model: ProcessedModel }) {
+export function ModelRowActions(props: { model: PricingCatalogModel }) {
   const t = useTranslations();
   const setChatModel = useSetAtom(chatModelAtom);
-  const watch = useModelWatch(props.model.name);
+  const watch = useModelWatch(props.model.model_name);
   const model = props.model;
 
   return (
@@ -44,7 +44,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onClick={(e) => e.stopPropagation()}
-            render={<Link href={modelHref(model.name, model.vendor.name)} />}
+            render={<Link href={modelHref(model.model_name, model.vendor)} />}
           >
             <Icon
               name="external-link"
@@ -55,8 +55,8 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
-              analytics.models.openInChat({ model: model.name });
-              setChatModel(model.name);
+              analytics.models.openInChat({ model: model.model_name });
+              setChatModel(model.model_name);
             }}
             render={<Link href="/chat" />}
           >
@@ -86,7 +86,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
             onClick={(e) => {
               e.stopPropagation();
               analytics.content.copied({ label: "model_name" });
-              void copyToClipboard(model.name);
+              void copyToClipboard(model.model_name);
             }}
           >
             <Icon

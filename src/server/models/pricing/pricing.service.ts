@@ -5,6 +5,7 @@ import {
   getPricing,
   getPricingCatalog,
   getPricingModel,
+  getPricingModelGroups,
   getPricingVendors,
   getSubscriptionPlans,
 } from "@/openapi";
@@ -53,21 +54,18 @@ export async function getModelByName(name: string) {
   }
 }
 
-// Upstream scopes group_ratio to the model's own groups, so this is ~11 entries
-// rather than the 800+ the full catalog would carry for every model at once.
+// Upstream scopes every field to this model: ~11 group ratios rather than the
+// 1800+ the full map carries, and the auto chain already intersected with the
+// model's groups rather than the 56KB global list.
 export async function getModelGroups(name: string) {
   try {
-    const res = await getPricingModel(
+    const res = await getPricingModelGroups(
       { model: name },
       { headers: ADMIN_HEADERS },
     );
-    const model = res.data.data?.[0];
-    return {
-      enableGroups: model?.enable_groups ?? [],
-      groupRatioMap: res.data.group_ratio ?? {},
-    };
+    return unwrap(res);
   } catch {
-    return { enableGroups: [], groupRatioMap: {} };
+    return { enable_groups: [], group_ratio: {}, auto_chain: [] };
   }
 }
 

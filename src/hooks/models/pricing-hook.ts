@@ -5,17 +5,6 @@ import { useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 
-export function usePricingQuery(enabled = true) {
-  // staleTime "static": server-dehydrated dataset that must not refetch on
-  // mount. Static queries are skipped by invalidate/refetchQueries; use
-  // queryClient.fetchQuery to force-update.
-  return useElysiaQuery(
-    queryKeys.pricing(),
-    () => rpc.api.models.pricing.get(),
-    { staleTime: "static", enabled },
-  );
-}
-
 // The /models browse and /compare pages: catalog rows plus the blurb and the
 // metadata they filter on, without the group maps only the detail sheet reads.
 export function usePricingBrowseQuery(enabled = true) {

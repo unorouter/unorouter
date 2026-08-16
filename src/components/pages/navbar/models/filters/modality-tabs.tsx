@@ -8,7 +8,7 @@ import {
   OUTPUT_MODALITIES,
   type OutputModality,
 } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -31,7 +31,7 @@ const MODALITY_LABEL_KEY = {
 } satisfies Record<OutputModality, ReturnType<typeof msg>>;
 
 export function ModalityTabs(props: {
-  models: ProcessedModel[];
+  models: PricingCatalogModel[];
   value: OutputModality;
   onChange: (value: OutputModality) => void;
 }) {

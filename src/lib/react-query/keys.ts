@@ -87,7 +87,6 @@ export const queryKeys = {
 
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 
-  pricing: () => ["pricing"] as const,
   pricingBrowse: () => ["pricing", "browse"] as const,
   pricingCounts: () => ["pricing", "counts"] as const,
   pricingVendors: () => ["pricing", "vendors"] as const,

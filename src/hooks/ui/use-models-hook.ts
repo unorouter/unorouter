@@ -1,9 +1,8 @@
 "use client";
 
-import type { ProcessedModel } from "@/lib/api/pricing";
 import { matchesModality } from "@/lib/api/model-modality";
-import type { RankedModel } from "@/openapi";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import type { PricingCatalogModel, RankedModel } from "@/openapi";
+import { usePricingBrowseQuery } from "@/hooks/models/pricing-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -31,8 +30,8 @@ import { useEffect } from "react";
 
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
 
-function effectivePrice(model: ProcessedModel): number {
-  return model.isFixedPrice ? model.fixedPrice : model.inputPrice;
+function effectivePrice(model: PricingCatalogModel): number {
+  return model.is_fixed_price ? model.fixed_price : model.input_price;
 }
 
 const FREE_KEYWORDS = [
@@ -59,7 +58,7 @@ function matchesFreeKeyword(query: string): boolean {
 }
 
 export function useModelsFilter() {
-  const { data } = usePricingQuery();
+  const { data } = usePricingBrowseQuery();
   const rankings = useRankingsQuery("week");
 
   const [search, setSearch] = useAtom(searchAtom);
@@ -84,15 +83,14 @@ export function useModelsFilter() {
   const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
-  const endpointMap = data?.endpointMap ?? {};
-  const vendorNames = data?.vendorNames ?? [];
+  const endpointMap = data?.supported_endpoint ?? {};
 
   const rankMap = new Map<string, RankedModel>(
     (rankings.data?.models ?? []).map((row) => [row.model_name, row]),
   );
 
   const selectedModel =
-    models.find((m) => m.name === selectedModelName) ?? null;
+    models.find((m) => m.model_name === selectedModelName) ?? null;
 
   const hasActiveFilters =
     search.trim().length > 0 ||
@@ -114,12 +112,11 @@ export function useModelsFilter() {
   const tabModels = models.filter((model) => {
     const matchesSearch =
       query.length === 0 ||
-      model.name.toLowerCase().includes(query) ||
-      model.vendor.name.toLowerCase().includes(query) ||
-      (model.isFree && matchesFreeKeyword(query));
+      model.model_name.toLowerCase().includes(query) ||
+      model.vendor.toLowerCase().includes(query) ||
+      (model.is_free && matchesFreeKeyword(query));
     const matchesVendor =
-      selectedVendors.length === 0 ||
-      selectedVendors.includes(model.vendor.name);
+      selectedVendors.length === 0 || selectedVendors.includes(model.vendor);
     const modelInputs = model.metadata.inputModalities ?? [];
     const matchesInputModalities =
       inputModalities.length === 0 ||
@@ -132,7 +129,7 @@ export function useModelsFilter() {
       price >= priceRange[0] &&
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
     const matchesOutputPrice =
-      outputPriceMax >= PRICE_MAX || model.outputPrice <= outputPriceMax;
+      outputPriceMax >= PRICE_MAX || model.output_price <= outputPriceMax;
     const ts = model.metadata.releaseTs;
     const matchesAge = ageCutoff === 0 || (ts > 0 && ts >= ageCutoff);
     const modelCats = model.metadata.categories ?? model.tags;
@@ -168,16 +165,16 @@ export function useModelsFilter() {
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {
       const diff = b.metadata.releaseTs - a.metadata.releaseTs;
-      return diff !== 0 ? diff : a.name.localeCompare(b.name);
+      return diff !== 0 ? diff : a.model_name.localeCompare(b.model_name);
     }
     if (sortOrder === "popular") {
-      const ra = rankMap.get(a.name)?.rank ?? Number.POSITIVE_INFINITY;
-      const rb = rankMap.get(b.name)?.rank ?? Number.POSITIVE_INFINITY;
-      return ra !== rb ? ra - rb : a.name.localeCompare(b.name);
+      const ra = rankMap.get(a.model_name)?.rank ?? Number.POSITIVE_INFINITY;
+      const rb = rankMap.get(b.model_name)?.rank ?? Number.POSITIVE_INFINITY;
+      return ra !== rb ? ra - rb : a.model_name.localeCompare(b.model_name);
     }
     if (sortOrder === "topWeekly") {
-      const ta = rankMap.get(a.name)?.total_tokens ?? 0;
-      const tb = rankMap.get(b.name)?.total_tokens ?? 0;
+      const ta = rankMap.get(a.model_name)?.total_tokens ?? 0;
+      const tb = rankMap.get(b.model_name)?.total_tokens ?? 0;
       return tb - ta;
     }
     if (sortOrder === "contextDesc") {
@@ -191,7 +188,7 @@ export function useModelsFilter() {
     if (sortOrder === "priceDesc") {
       return effectivePrice(b) - effectivePrice(a);
     }
-    return a.name.localeCompare(b.name);
+    return a.model_name.localeCompare(b.model_name);
   });
 
   // Fire one models_searched when the query settles (not per keystroke).
@@ -243,9 +240,6 @@ export function useModelsFilter() {
     tabModels,
     filtered,
     rankMap,
-    vendorNames,
     endpointMap,
-    groupRatioMap: data?.groupRatioMap ?? {},
-    autoGroups: data?.autoGroups ?? [],
   };
 }

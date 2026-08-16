@@ -20,7 +20,7 @@ export function computeMinGroupRatio(
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
 
-export function isMediaType(type: ModelType | undefined): boolean {
+export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";
 }
 
@@ -405,61 +405,4 @@ export function isChatModel(model: ProcessedModel): boolean {
 
 export function isFreeChatModel(model: ProcessedModel): boolean {
   return model.isFree && isChatModel(model);
-}
-
-const LEAN_DESCRIPTION_CHARS = 200;
-
-export function leanModel(model: ProcessedModel): ProcessedModel {
-  const description = model.description;
-  return {
-    ...model,
-    description:
-      description && description.length > LEAN_DESCRIPTION_CHARS
-        ? `${description.slice(0, LEAN_DESCRIPTION_CHARS).trimEnd()}...`
-        : description,
-    metadata: { ...model.metadata, defaultParameters: undefined },
-  };
-}
-
-// The list payload every page hydrates or fetches: one copy of each model
-// (the full summary duplicates every model ~3.5x via modelsByType and
-// vendors[].models), descriptions truncated to card length, parameter
-// defaults dropped. Group maps carry only groups some model references
-// (upstream ships ~3x more), and usableGroup has no client consumer. Full
-// models come from the per-model detail endpoint.
-// Upstream publishes one routing group per channel (1600+), of which the model
-// list references ~800; the rest are dead weight in every payload that carries
-// ratios.
-export function usedGroupRatios(
-  models: readonly ProcessedModel[],
-  groupRatioMap: Record<string, number>,
-): Record<string, number> {
-  const used = new Set<string>();
-  for (const model of models) {
-    for (const group of model.enableGroups) used.add(group);
-  }
-  const out: Record<string, number> = {};
-  for (const [group, ratio] of Object.entries(groupRatioMap)) {
-    if (used.has(group)) out[group] = ratio;
-  }
-  return out;
-}
-
-export function toLeanPricing(summary: PricingSummary) {
-  const groupRatioMap = usedGroupRatios(summary.models, summary.groupRatioMap);
-  const usedGroups = new Set(Object.keys(groupRatioMap));
-  return {
-    modelCount: summary.modelCount,
-    freeCount: summary.freeCount,
-    paidCount: summary.paidCount,
-    vendorCount: summary.vendorCount,
-    models: summary.models.map(leanModel),
-    vendorNames: summary.vendorNames,
-    firstFreeModel: summary.firstFreeModel
-      ? leanModel(summary.firstFreeModel)
-      : null,
-    endpointMap: summary.endpointMap,
-    groupRatioMap,
-    autoGroups: summary.autoGroups.filter((g) => usedGroups.has(g)),
-  };
 }

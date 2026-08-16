@@ -17,14 +17,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 function groupByType(
-  models: ProcessedModel[],
-): { tag: string; models: ProcessedModel[] }[] {
-  const map = new Map<string, ProcessedModel[]>();
+  models: PricingCatalogModel[],
+): { tag: string; models: PricingCatalogModel[] }[] {
+  const map = new Map<string, PricingCatalogModel[]>();
   for (const m of models) {
     const tag = m.type || "text";
     const bucket = map.get(tag);
@@ -38,7 +38,7 @@ function groupByType(
 }
 
 export function ModelPicker(props: {
-  models: ProcessedModel[];
+  models: PricingCatalogModel[];
   selected: string[];
   onAdd: (name: string) => void;
   variant?: "button" | "slot";
@@ -50,7 +50,7 @@ export function ModelPicker(props: {
   const isSlot = props.variant === "slot";
 
   const available = props.models.filter(
-    (m) => !props.selected.includes(m.name),
+    (m) => !props.selected.includes(m.model_name),
   );
   const byType = groupByType(available);
   const visible = typeFilter
@@ -121,23 +121,23 @@ export function ModelPicker(props: {
               <CommandGroup key={entry.tag} heading={entry.tag}>
                 {entry.models.map((model) => (
                   <CommandItem
-                    key={model.name}
-                    value={model.name}
+                    key={model.model_name}
+                    value={model.model_name}
                     keywords={[
-                      model.vendor.name,
-                      ...(model.isFree ? ["free"] : []),
+                      model.vendor,
+                      ...(model.is_free ? ["free"] : []),
                     ]}
                     onSelect={() => {
-                      props.onAdd(model.name);
+                      props.onAdd(model.model_name);
                       setOpen(false);
                     }}
                     className="text-xs"
                   >
-                    <VendorIcon vendor={model.vendor.name} size={14} />
+                    <VendorIcon vendor={model.vendor} size={14} />
                     <span className="min-w-0 flex-1 font-mono">
-                      {model.name}
+                      {model.model_name}
                     </span>
-                    {model.isFree && (
+                    {model.is_free && (
                       <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
                         {t("CHAT.MODEL.FREE_BADGE")}
                       </span>

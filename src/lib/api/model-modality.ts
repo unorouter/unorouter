@@ -44,8 +44,8 @@ export const AGE_STEPS_DAYS = [0, 7, 30, 90, 365] as const;
 
 // Per-call image/video pricing splits a model into a per-token base and a
 // flat-priced `:flat` twin (new-api-sync pricing/image-per-call.ts).
-export const isFlatVariant = (model: { name: string }): boolean =>
-  model.name.endsWith(":flat");
+export const isFlatVariant = (model: { model_name: string }): boolean =>
+  model.model_name.endsWith(":flat");
 
 type ConcreteModality = Exclude<OutputModality, "all">;
 

@@ -16,7 +16,7 @@ import { expandMacros } from "@/lib/ai/chat/macros";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
-import type { buildPricingSummary } from "@/lib/api/pricing";
+import type { PricingCatalogData } from "@/openapi";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   CHAT_STORE_KEY,
@@ -65,10 +65,10 @@ async function seed(args: SeedArgs): Promise<void> {
 
   let model = chatStore.get(chatModelAtom);
   if (!model) {
-    const pricing = queryClient.getQueryData<
-      ReturnType<typeof buildPricingSummary>
-    >(queryKeys.pricing());
-    model = pricing?.firstFreeModel?.name ?? null;
+    const pricing = queryClient.getQueryData<PricingCatalogData>(
+      queryKeys.pricingCatalog(),
+    );
+    model = pricing?.first_free_model ?? null;
   }
   if (!model) throw new Error(args.noModelsError);
 

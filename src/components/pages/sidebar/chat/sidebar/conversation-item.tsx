@@ -43,7 +43,9 @@ export function ConversationItem(props: ConversationItemProps) {
   const model = props.conversation.model;
   const isCustom = isCustomModelId(model);
 
-  const modelData = pricingQuery.data?.models.find((m) => m.model_name === model);
+  const modelData = pricingQuery.data?.models.find(
+    (m) => m.model_name === model,
+  );
   const vendorName = modelData?.vendor ?? "";
   const isUnknownCatalog =
     !isCustom && !!model && pricingQuery.isSuccess && !modelData;

@@ -323,8 +323,8 @@ export function ModelSelector(props: ModelSelectorProps) {
     !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
   const modelGroupsQuery = useModelGroupsQuery(selected ? props.value : null);
-  const groupRatioMap = modelGroupsQuery.data?.groupRatioMap ?? {};
-  const enableGroups = modelGroupsQuery.data?.enableGroups ?? [];
+  const groupRatioMap = modelGroupsQuery.data?.group_ratio ?? {};
+  const enableGroups = modelGroupsQuery.data?.enable_groups ?? [];
   const candidateGroups = enableGroups.length
     ? enableGroups
     : Object.keys(groupRatioMap);

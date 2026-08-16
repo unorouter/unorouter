@@ -1,52 +1,52 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import { useTranslations } from "next-intl";
 
 function topByRank(
-  models: ProcessedModel[],
+  models: PricingCatalogModel[],
   rankMap: Map<string, RankedModel>,
-  predicate: (m: ProcessedModel) => boolean,
+  predicate: (m: PricingCatalogModel) => boolean,
   count: number,
 ): string[] {
   return models
     .filter(predicate)
     .sort((a, b) => {
-      const ra = rankMap.get(a.name)?.rank ?? Number.POSITIVE_INFINITY;
-      const rb = rankMap.get(b.name)?.rank ?? Number.POSITIVE_INFINITY;
+      const ra = rankMap.get(a.model_name)?.rank ?? Number.POSITIVE_INFINITY;
+      const rb = rankMap.get(b.model_name)?.rank ?? Number.POSITIVE_INFINITY;
       return ra - rb;
     })
     .slice(0, count)
-    .map((m) => m.name);
+    .map((m) => m.model_name);
 }
 
 function cheapest(
-  models: ProcessedModel[],
-  predicate: (m: ProcessedModel) => boolean,
+  models: PricingCatalogModel[],
+  predicate: (m: PricingCatalogModel) => boolean,
   count: number,
 ): string[] {
   return models
-    .filter((m) => predicate(m) && !m.isFree && m.inputPrice > 0)
-    .sort((a, b) => a.inputPrice - b.inputPrice)
+    .filter((m) => predicate(m) && !m.is_free && m.input_price > 0)
+    .sort((a, b) => a.input_price - b.input_price)
     .slice(0, count)
-    .map((m) => m.name);
+    .map((m) => m.model_name);
 }
 
 export function PresetCards(props: {
-  models: ProcessedModel[];
+  models: PricingCatalogModel[];
   rankMap: Map<string, RankedModel>;
   onSelect: (names: string[]) => void;
 }) {
   const t = useTranslations();
   const models = props.models;
-  const isText = (m: ProcessedModel) => m.type === "text";
+  const isText = (m: PricingCatalogModel) => m.type === "text";
 
-  const isCode = (m: ProcessedModel) =>
+  const isCode = (m: PricingCatalogModel) =>
     isText(m) &&
     (m.tags.some((tag) => /code|coder|coding/i.test(tag)) ||
-      /cod(e|er|estral)|deepseek|qwen|glm|kimi/i.test(m.name));
+      /cod(e|er|estral)|deepseek|qwen|glm|kimi/i.test(m.model_name));
 
   const codeNames = topByRank(models, props.rankMap, isCode, 3);
   const presets = [
@@ -83,8 +83,8 @@ export function PresetCards(props: {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {presets.map((preset) => {
         const cards = preset.names
-          .map((n) => models.find((m) => m.name === n))
-          .filter((m): m is ProcessedModel => Boolean(m));
+          .map((n) => models.find((m) => m.model_name === n))
+          .filter((m): m is PricingCatalogModel => Boolean(m));
         return (
           <button
             key={preset.key}
@@ -95,10 +95,10 @@ export function PresetCards(props: {
             <div className="flex -space-x-1.5">
               {cards.map((m) => (
                 <span
-                  key={m.name}
+                  key={m.model_name}
                   className="border-background bg-muted flex h-7 w-7 items-center justify-center rounded-full border-2"
                 >
-                  <VendorIcon vendor={m.vendor.name} size={16} />
+                  <VendorIcon vendor={m.vendor} size={16} />
                 </span>
               ))}
             </div>
@@ -109,7 +109,7 @@ export function PresetCards(props: {
               </span>
             </div>
             <span className="text-muted-foreground/70 border-border/60 truncate border-t pt-2 font-mono text-xs">
-              {cards.map((m) => m.name).join(", ")}
+              {cards.map((m) => m.model_name).join(", ")}
             </span>
           </button>
         );

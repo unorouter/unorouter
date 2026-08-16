@@ -17,7 +17,7 @@ import {
   fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
@@ -28,21 +28,24 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 
-function fixedPriceSide(m: ProcessedModel): "input" | "output" {
+function fixedPriceSide(m: PricingCatalogModel): "input" | "output" {
   const modality = deriveOutputModality(m);
   return modality === "image" || modality === "video" ? "output" : "input";
 }
-function priceValue(m: ProcessedModel, side: "input" | "output"): number {
-  if (m.isFixedPrice) return side === fixedPriceSide(m) ? m.fixedPrice : 0;
-  return side === "input" ? m.inputPrice : m.outputPrice;
+function priceValue(m: PricingCatalogModel, side: "input" | "output"): number {
+  if (m.is_fixed_price) return side === fixedPriceSide(m) ? m.fixed_price : 0;
+  return side === "input" ? m.input_price : m.output_price;
 }
 function originalPriceValue(
-  m: ProcessedModel,
+  m: PricingCatalogModel,
   side: "input" | "output",
 ): number | null {
-  if (m.isFixedPrice)
-    return side === fixedPriceSide(m) ? m.originalFixedPrice : null;
-  return side === "input" ? m.originalInputPrice : m.originalOutputPrice;
+  if (m.is_fixed_price)
+    return side === fixedPriceSide(m) ? (m.original_fixed_price ?? null) : null;
+  return (
+    (side === "input" ? m.original_input_price : m.original_output_price) ??
+    null
+  );
 }
 
 function PriceCell(props: {
@@ -80,16 +83,16 @@ export function buildModelColumns(opts: {
   offLabel: (pct: number) => string;
   freeLabel: string;
   flatNoParamsLabel: string;
-}): ColumnDef<TableFeats, ProcessedModel>[] {
-  const rankTokens = (m: ProcessedModel) =>
-    opts.rankMap.get(m.name)?.total_tokens ?? 0;
-  const ctxOf = (m: ProcessedModel) =>
+}): ColumnDef<TableFeats, PricingCatalogModel>[] {
+  const rankTokens = (m: PricingCatalogModel) =>
+    opts.rankMap.get(m.model_name)?.total_tokens ?? 0;
+  const ctxOf = (m: PricingCatalogModel) =>
     m.metadata.contextWindow ?? m.metadata.maxInputTokens ?? 0;
 
   return [
     {
       id: "name",
-      accessorFn: (m) => m.name,
+      accessorFn: (m) => m.model_name,
       enableSorting: true,
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="MODELS.TABLE.MODEL" />
@@ -99,11 +102,11 @@ export function buildModelColumns(opts: {
         const m = row.original;
         return (
           <span className="flex min-w-0 items-center gap-1.5">
-            <VendorIcon vendor={m.vendor.name} size={18} />
+            <VendorIcon vendor={m.vendor} size={18} />
             <span className="truncate font-mono text-xs lg:text-sm @max-4xl:max-w-56">
-              {m.name}
+              {m.model_name}
             </span>
-            {m.isFree && (
+            {m.is_free && (
               <span className="flex shrink-0 items-center gap-0.5 rounded bg-emerald-500/15 px-1 py-0.5 font-mono text-[10px] text-emerald-600 lg:px-1.5 dark:text-emerald-400">
                 <Icon name="gift" className="h-3 w-3" />
                 <span className="hidden lg:inline">{opts.freeLabel}</span>
@@ -165,8 +168,8 @@ export function buildModelColumns(opts: {
           <PriceCell
             value={priceValue(m, "input")}
             original={originalPriceValue(m, "input")}
-            unit={inputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
-            perCall={m.isFixedPrice}
+            unit={inputPriceUnit(deriveOutputModality(m), m.is_fixed_price)}
+            perCall={m.is_fixed_price}
             offLabel={opts.offLabel(
               discountPercent(
                 priceValue(m, "input"),
@@ -195,8 +198,8 @@ export function buildModelColumns(opts: {
           <PriceCell
             value={priceValue(m, "output")}
             original={originalPriceValue(m, "output")}
-            unit={outputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
-            perCall={m.isFixedPrice}
+            unit={outputPriceUnit(deriveOutputModality(m), m.is_fixed_price)}
+            perCall={m.is_fixed_price}
             offLabel={opts.offLabel(
               discountPercent(
                 priceValue(m, "output"),

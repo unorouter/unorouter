@@ -7,7 +7,7 @@ import {
   SidebarContent,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import {
   categoriesAtom,
   clearFiltersAtom,
@@ -38,7 +38,7 @@ function uniqueSorted(values: string[]): string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
 }
 
-export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
+export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
   const t = useTranslations();
 
   const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
@@ -72,7 +72,7 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   const paramOptions = uniqueSorted(
     props.models.flatMap((m) => m.metadata.supportedParametersAll ?? []),
   );
-  const vendorOptions = uniqueSorted(props.models.map((m) => m.vendor.name));
+  const vendorOptions = uniqueSorted(props.models.map((m) => m.vendor));
 
   return (
     <Sidebar

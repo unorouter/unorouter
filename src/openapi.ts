@@ -2005,8 +2005,21 @@ export interface PricingCatalogData {
   counts: PricingCatalogCounts;
   first_free_model?: string;
   models: PricingCatalogModel[];
+  supported_endpoint?: PricingCatalogDataSupportedEndpoint;
   vendors: PricingVendor[];
 }
+
+export type PricingCatalogDataSupportedEndpoint = {
+  [key: string]: EndpointInfo;
+};
+
+export interface PricingModelGroupsData {
+  auto_chain: string[];
+  enable_groups: string[];
+  group_ratio: PricingModelGroupsDataGroupRatio;
+}
+
+export type PricingModelGroupsDataGroupRatio = { [key: string]: number };
 
 export interface PricingVendorModel {
   chat: boolean;
@@ -5026,6 +5039,13 @@ export type GetPricingCatalogParams = {
    * Only models served by this vendor, newest first (the vendor page)
    */
   vendor?: string;
+};
+
+export type GetPricingModelGroupsParams = {
+  /**
+   * Model name to look up (returns it even when all channels are offline)
+   */
+  model?: string;
 };
 
 export type GetPricingModelParams = {
@@ -11333,6 +11353,48 @@ export const getPricingCatalog = async (
 ): Promise<getPricingCatalogResponse> => {
   return customFetch<getPricingCatalogResponse>(
     getGetPricingCatalogUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export type getPricingModelGroupsResponse200ApplicationJson = {
+  data: PricingModelGroupsData;
+  status: 200;
+};
+
+export type getPricingModelGroupsResponseSuccess =
+  getPricingModelGroupsResponse200ApplicationJson & {
+    headers: Headers;
+  };
+export type getPricingModelGroupsResponse =
+  getPricingModelGroupsResponseSuccess;
+
+export const getGetPricingModelGroupsUrl = (
+  params: GetPricingModelGroupsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  return `/api/pricing/model-groups?${normalizedParams.toString()}`;
+};
+
+/**
+ * @summary Get Pricing Model Groups
+ */
+export const getPricingModelGroups = async (
+  params: GetPricingModelGroupsParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getPricingModelGroupsResponse> => {
+  return customFetch<getPricingModelGroupsResponse>(
+    getGetPricingModelGroupsUrl(params),
     {
       ...options,
       method: "GET",
