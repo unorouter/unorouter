@@ -461,6 +461,31 @@ export function isFreeChatModel(model: ProcessedModel): boolean {
   return model.isFree && isChatModel(model);
 }
 
+// The chat default when no model is picked yet: the NEWEST free chat model, so a
+// fresh visitor lands on the current flagship free model rather than whatever
+// sorts first alphabetically. Falls back to any free model when none qualifies.
+export function newestFreeChatModel(
+  models: readonly {
+    model_name: string;
+    is_free: boolean;
+    chat: boolean;
+    online: boolean;
+    release_ts: number;
+  }[],
+): string | null {
+  const newest = (list: typeof models) =>
+    list.reduce<(typeof models)[number] | null>((best, m) => {
+      if (!best) return m;
+      const diff = m.release_ts - best.release_ts;
+      if (diff !== 0) return diff > 0 ? m : best;
+      return m.model_name.localeCompare(best.model_name) < 0 ? m : best;
+    }, null);
+  const pick =
+    newest(models.filter((m) => m.is_free && m.chat && m.online)) ??
+    newest(models.filter((m) => m.is_free));
+  return pick?.model_name ?? null;
+}
+
 const LEAN_DESCRIPTION_CHARS = 200;
 
 export function leanModel(model: ProcessedModel): ProcessedModel {

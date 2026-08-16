@@ -76,6 +76,18 @@ export function useModelBasicsQuery(enabled = true) {
   );
 }
 
+// The group-pin dropdown needs the ACTIVE model's servable groups and their
+// ratios. Fetched per model (~1KB) rather than shipping every model's groups in
+// the catalog, which was 57KB of the old payload for one dropdown.
+export function useModelGroupsQuery(name: string | null) {
+  return useElysiaQuery(
+    queryKeys.pricingModelGroups(name ?? ""),
+    () =>
+      rpc.api.models.pricing["model-groups"].get({ query: { model: name! } }),
+    { staleTime: "static", enabled: !!name },
+  );
+}
+
 export function useTextModelsQuery() {
   return useElysiaQuery(
     queryKeys.pricingTextModels(),

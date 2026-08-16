@@ -1,7 +1,13 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
-import { isChatModel, toLeanPricing, usedGroupRatios } from "@/lib/api/pricing";
 import {
+  isChatModel,
+  newestFreeChatModel,
+  toLeanPricing,
+} from "@/lib/api/pricing";
+import {
+  getCatalog,
   getModelByName,
+  getModelGroups,
   getPricingSummary,
   getSubscriptionPlansSummary,
   getVendorModels,
@@ -40,21 +46,16 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/catalog", async () => {
-    const summary = await getPricingSummary();
-    return {
-      groupRatioMap: usedGroupRatios(summary.models, summary.groupRatioMap),
-      models: summary.models.map((m) => ({
-        name: m.name,
-        vendor: m.vendor.name,
-        isFree: m.isFree,
-        tags: m.tags,
-        type: m.type,
-        enableGroups: m.enableGroups,
-        online: m.online,
-        releaseTs: m.metadata.releaseTs,
-      })),
-      firstFreeModel: summary.firstFreeModel?.name ?? null,
-    };
+    const catalog = await getCatalog();
+    const models = catalog.data.map((m) => ({
+      name: m.model_name,
+      vendor: m.vendor,
+      isFree: m.is_free,
+      tags: m.tags,
+      type: m.type,
+      releaseTs: m.release_ts,
+    }));
+    return { models, firstFreeModel: newestFreeChatModel(catalog.data) };
   })
 
   .get("/model-basics", async () => {
@@ -99,5 +100,9 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     },
     { query: t.Object({ model: t.String() }) },
   )
+
+  .get("/model-groups", async (ctx) => getModelGroups(ctx.query.model), {
+    query: t.Object({ model: t.String() }),
+  })
 
   .get("/subscriptions", async () => getSubscriptionPlansSummary());

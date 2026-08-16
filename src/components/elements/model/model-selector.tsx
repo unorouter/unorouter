@@ -28,7 +28,10 @@ import {
   makeCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
-import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
+import {
+  useModelGroupsQuery,
+  usePricingCatalogQuery,
+} from "@/hooks/models/pricing-hook";
 import {
   type ModelStatusInfo,
   useModelStatusMap,
@@ -318,10 +321,9 @@ export function ModelSelector(props: ModelSelectorProps) {
   const selectedUnavailable =
     !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
-  const groupRatioMap: Record<string, number> = {
-    ...pricingData?.groupRatioMap,
-  };
-  const enableGroups = selected?.enableGroups ?? [];
+  const modelGroupsQuery = useModelGroupsQuery(selected ? props.value : null);
+  const groupRatioMap = modelGroupsQuery.data?.groupRatioMap ?? {};
+  const enableGroups = modelGroupsQuery.data?.enableGroups ?? [];
   const candidateGroups = enableGroups.length
     ? enableGroups
     : Object.keys(groupRatioMap);
