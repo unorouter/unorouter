@@ -134,7 +134,7 @@ type ExportableRow = {
   tags: string[] | null;
 };
 
-function buildCCv3Card(row: ExportableRow) {
+export function buildCCv3Card(row: ExportableRow) {
   const normalized: NormalizedCard = {
     name: row.name,
     description: row.description ?? "",
@@ -150,19 +150,6 @@ function buildCCv3Card(row: ExportableRow) {
     extensions: {},
   };
   return denormalizeToV3(normalized);
-}
-
-export function exportCharacterCardAsJson(row: ExportableRow): {
-  data: Uint8Array;
-  mimeType: string;
-  ext: string;
-} {
-  const card = buildCCv3Card(row);
-  return {
-    data: new TextEncoder().encode(JSON.stringify({ ...card }, null, 2)),
-    mimeType: "application/json",
-    ext: "json",
-  };
 }
 
 export function exportCharacterCard(

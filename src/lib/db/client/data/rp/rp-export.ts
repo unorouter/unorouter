@@ -1,8 +1,8 @@
 "use client";
 
 import {
+  buildCCv3Card,
   exportCharacterCard,
-  exportCharacterCardAsJson,
 } from "@/lib/ai/rp/character-card";
 import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -73,10 +73,11 @@ export async function exportLocalCharacter(
 
   const slug = exportSlug(row.name, "character");
   if (format === "json") {
-    const out = exportCharacterCardAsJson(row);
     return {
-      blob: new Blob([uint8ToArrayBuffer(out.data)], { type: out.mimeType }),
-      filename: `${slug}.${out.ext}`,
+      blob: new Blob([JSON.stringify(buildCCv3Card(row), null, 2)], {
+        type: "application/json",
+      }),
+      filename: `${slug}.json`,
     };
   }
   const avatar = await loadAvatar(userId, row.avatarMediaId);
