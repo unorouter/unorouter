@@ -48,7 +48,7 @@ export function StatusPage() {
   const pricing = usePricingVendorsQuery();
   const vendorCounts = (() => {
     const counts = new Map<string, number>();
-    for (const m of pricing.data?.modelVendors ?? []) {
+    for (const m of pricing.data?.model_vendors ?? []) {
       counts.set(m.vendor, (counts.get(m.vendor) ?? 0) + 1);
     }
     return Array.from(counts, ([name, count]) => ({ name, count })).sort(

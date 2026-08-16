@@ -274,10 +274,13 @@ export function TokenDialog(props: TokenDialogProps) {
     string,
     { name: string; vendor: string }[]
   >();
-  for (const m of pricingQuery.data?.modelVendors ?? []) {
+  for (const m of pricingQuery.data?.model_vendors ?? []) {
     const list = modelsByVendorMap.get(m.vendor);
-    if (list) list.push({ name: m.name, vendor: m.vendor });
-    else modelsByVendorMap.set(m.vendor, [{ name: m.name, vendor: m.vendor }]);
+    if (list) list.push({ name: m.model_name, vendor: m.vendor });
+    else
+      modelsByVendorMap.set(m.vendor, [
+        { name: m.model_name, vendor: m.vendor },
+      ]);
   }
   const modelsByVendor = [...modelsByVendorMap.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -487,15 +490,7 @@ export function TokenDialog(props: TokenDialogProps) {
                     control={form.control}
                     mapping={groupMapping}
                     groups={userGroupsQuery.data ?? {}}
-                    models={(pricingQuery.data?.modelVendors ?? []).map(
-                      (m) => ({
-                        name: m.name,
-                        vendor: m.vendor,
-                        isFree: m.isFree,
-                        tag: m.tag,
-                        releaseTs: m.releaseTs,
-                      }),
-                    )}
+                    models={pricingQuery.data?.model_vendors ?? []}
                   />
                   <p className="text-muted-foreground text-[11px]">
                     {t("TOKEN.FORM.GROUP_MAPPING_HINT")}

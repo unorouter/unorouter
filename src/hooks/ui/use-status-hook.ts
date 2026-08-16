@@ -96,11 +96,11 @@ export function useStatusFilter() {
 
   const components: StatusComponent[] = data?.components ?? [];
   const bars = data?.bars ?? {};
-  const modelVendors = pricing.data?.modelVendors ?? [];
+  const modelVendors = pricing.data?.model_vendors ?? [];
 
   const vendorByModel = new Map<string, string>();
   for (const m of modelVendors) {
-    vendorByModel.set(m.name, m.vendor);
+    vendorByModel.set(m.model_name, m.vendor);
   }
 
   const searchLower = deferredSearch.toLowerCase();

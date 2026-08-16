@@ -146,8 +146,9 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   // The catalog knows the real vendor; fall back to the name for models it
   // does not list, which is what the registry aliases already cover.
   const vendorName =
-    vendorsQuery.data?.modelVendors.find((m) => m.name === log.model_name)
-      ?.vendor ?? log.model_name;
+    vendorsQuery.data?.model_vendors.find(
+      (m) => m.model_name === log.model_name,
+    )?.vendor ?? log.model_name;
   const other = parseOther(log.other);
   const upstream = other?.is_model_mapped ? other?.upstream_model_name : null;
 

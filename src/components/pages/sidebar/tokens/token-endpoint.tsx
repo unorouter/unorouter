@@ -22,9 +22,9 @@ export function TokenEndpoint() {
   const pricing = usePricingVendorsQuery();
   const endpoint = `${env.apiUrl}/v1/chat/completions`;
   const exampleModel =
-    pricing.data?.modelVendors?.find(
-      (m) => m.chat && m.name.startsWith("claude-"),
-    )?.name ?? FALLBACK_MODEL;
+    pricing.data?.model_vendors?.find(
+      (m) => m.chat && m.model_name.startsWith("claude-"),
+    )?.model_name ?? FALLBACK_MODEL;
   const curlExample = `curl ${endpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\

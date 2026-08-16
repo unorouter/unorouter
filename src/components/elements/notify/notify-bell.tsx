@@ -62,7 +62,8 @@ export function NotifyBell() {
   const [query, setQuery] = useState("");
 
   const vendorOf = (model: string) =>
-    vendorsQuery.data?.modelVendors.find((m) => m.name === model)?.vendor;
+    vendorsQuery.data?.model_vendors.find((m) => m.model_name === model)
+      ?.vendor;
 
   const watchedModels = topics
     .filter((topic) => topic.startsWith("model:"))

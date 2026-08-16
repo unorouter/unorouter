@@ -1,10 +1,11 @@
-import { buildPricingSummary, leanModel } from "@/lib/api/pricing";
+import { buildPricingSummary } from "@/lib/api/pricing";
 import { processPlans } from "@/lib/api/subscription";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricing,
   getPricingCatalog,
   getPricingModel,
+  getPricingVendors,
   getSubscriptionPlans,
 } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
@@ -25,18 +26,20 @@ export const getCatalog = cache(async (full = false) => {
   return unwrap(res);
 });
 
-// Newest first. The name tiebreak is load-bearing: most models share a release
-// date with another, so date alone leaves the majority in engine-dependent order.
-export async function getVendorModels(vendorName: string) {
-  const { models } = await getPricingSummary();
-  return models
-    .filter((m) => m.vendor.name === vendorName)
-    .sort((a, b) => {
-      const diff = b.metadata.releaseTs - a.metadata.releaseTs;
-      return diff !== 0 ? diff : a.name.localeCompare(b.name);
-    })
-    .map((m) => leanModel(m));
-}
+export const getVendors = cache(async () => {
+  const res = await getPricingVendors({ headers: ADMIN_HEADERS });
+  return unwrap(res);
+});
+
+// Upstream filters and sorts (newest first, name as tiebreak) and implies
+// `full`, so the vendor page gets its dozen rows instead of all 341.
+export const getVendorModels = cache(async (vendorName: string) => {
+  const res = await getPricingCatalog(
+    { vendor: vendorName },
+    { headers: ADMIN_HEADERS },
+  );
+  return unwrap(res).models;
+});
 
 export async function getModelByName(name: string) {
   try {

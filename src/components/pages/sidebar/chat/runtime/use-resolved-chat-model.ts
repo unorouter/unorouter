@@ -38,7 +38,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const authSettled = authQuery.isSuccess || !hasSession;
 
   const pricingReady = pricingQuery.isSuccess;
-  const firstFreeModel = pricingQuery.data?.firstFreeModel ?? null;
+  const firstFreeModel = pricingQuery.data?.first_free_model ?? null;
 
   useEffect(() => {
     if (!hydrated) return;

@@ -12,7 +12,7 @@ import {
   fmtUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
@@ -50,15 +50,15 @@ function PriceMeta(props: {
   );
 }
 
-export function VendorModelCard(props: { model: ProcessedModel }) {
+export function VendorModelCard(props: { model: PricingCatalogModel }) {
   const t = useTranslations();
   const locale = useLocale();
   const model = props.model;
-  const theme = getVendorTheme(model.vendor.name);
+  const theme = getVendorTheme(model.vendor);
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
-  const released = model.metadata.releaseTs;
+  const released = model.release_ts;
   const [now] = useState(() => Date.now());
   const isNew = released > 0 && now - released < NEW_MODEL_MS;
   const isDeprecated = Boolean(model.metadata.deprecationDate);
@@ -66,7 +66,7 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
 
   return (
     <Link
-      href={modelHref(model.name, model.vendor.name)}
+      href={modelHref(model.model_name, model.vendor)}
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-4 transition-all hover:-translate-y-0.5",
         theme.bg,
@@ -75,18 +75,18 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          <VendorIcon vendor={model.vendor.name} size={18} />
+          <VendorIcon vendor={model.vendor} size={18} />
           <span
             className={cn(
               "truncate font-mono text-[11px] uppercase",
               theme.text,
             )}
           >
-            {model.vendor.name}
+            {model.vendor}
           </span>
         </div>
         <div className="flex shrink-0 items-center gap-1">
-          {model.isFree && (
+          {model.is_free && (
             <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
               {t("MODELS.TABLE.FREE")}
             </span>
@@ -104,7 +104,7 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
         </div>
       </div>
 
-      <div className="truncate text-base font-medium">{model.name}</div>
+      <div className="truncate text-base font-medium">{model.model_name}</div>
 
       {model.description && (
         <p className="text-muted-foreground line-clamp-2 text-sm">
@@ -123,17 +123,17 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
         <PriceMeta
           value={price.input}
           original={price.originalInput}
-          unit={inputPriceUnit(modality, model.isFixedPrice)}
-          label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
-          perCall={model.isFixedPrice}
+          unit={inputPriceUnit(modality, model.is_fixed_price)}
+          label={model.is_fixed_price ? "" : t("MODELS.LIST.INPUT")}
+          perCall={model.is_fixed_price}
           offLabel={offLabel}
         />
         <PriceMeta
           value={price.output}
           original={price.originalOutput}
-          unit={outputPriceUnit(modality, model.isFixedPrice)}
-          label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
-          perCall={model.isFixedPrice}
+          unit={outputPriceUnit(modality, model.is_fixed_price)}
+          label={model.is_fixed_price ? "" : t("MODELS.LIST.OUTPUT")}
+          perCall={model.is_fixed_price}
           offLabel={offLabel}
         />
       </div>

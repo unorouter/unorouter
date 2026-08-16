@@ -11,22 +11,22 @@ export function HeroStatsGrid() {
     <div className="border-border grid w-full grid-cols-2 gap-0 border-t md:grid-cols-4">
       <StatCard
         label={t("HOME.STATS.MODELS")}
-        value={data ? String(data.modelCount) : "-"}
+        value={data ? String(data.models) : "-"}
         indicator={t("HOME.STATS.INDICATOR.GLOBAL")}
       />
       <StatCard
         label={t("HOME.STATS.PROVIDERS")}
-        value={data ? `${data.vendorCount}+` : "-"}
+        value={data ? `${data.vendors}+` : "-"}
         indicator={t("HOME.STATS.INDICATOR.INTEGRATED")}
       />
       <StatCard
         label={t("HOME.STATS.FREE")}
-        value={data ? String(data.freeCount) : "-"}
+        value={data ? String(data.free) : "-"}
         indicator={t("HOME.STATS.INDICATOR.FREE")}
       />
       <StatCard
         label={t("HOME.STATS.PAID")}
-        value={data ? String(data.paidCount) : "-"}
+        value={data ? String(data.paid) : "-"}
         indicator={t("HOME.STATS.INDICATOR.PAID")}
       />
     </div>

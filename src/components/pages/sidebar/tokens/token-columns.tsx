@@ -155,7 +155,7 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
   const pricingQuery = usePricingVendorsQuery();
-  const models = pricingQuery.data?.modelVendors ?? [];
+  const models = pricingQuery.data?.model_vendors ?? [];
 
   let mapping: Record<string, string[]> = {};
   const rawMapping = (token as { group_mapping?: string }).group_mapping;
@@ -178,7 +178,7 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
 
   const vendors = new Set<string>();
   for (const name of mappedModels) {
-    vendors.add(models.find((m) => m.name === name)?.vendor ?? "unknown");
+    vendors.add(models.find((m) => m.model_name === name)?.vendor ?? "unknown");
   }
 
   return (
@@ -220,7 +220,7 @@ export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
   const token = props.row.original;
   const pricingQuery = usePricingVendorsQuery();
-  const models = pricingQuery.data?.modelVendors ?? [];
+  const models = pricingQuery.data?.model_vendors ?? [];
 
   if (!token.model_limits_enabled || !token.model_limits) {
     return (
@@ -241,7 +241,7 @@ export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
 
   const vendorModels = new Map<string, string[]>();
   for (const name of modelNames) {
-    const found = models.find((m) => m.name === name);
+    const found = models.find((m) => m.model_name === name);
     const vendor = found?.vendor ?? "unknown";
     const list = vendorModels.get(vendor);
     if (list) list.push(name);

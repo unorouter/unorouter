@@ -1,9 +1,5 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
-import {
-  isChatModel,
-  newestFreeChatModel,
-  toLeanPricing,
-} from "@/lib/api/pricing";
+import { toLeanPricing } from "@/lib/api/pricing";
 import {
   getCatalog,
   getModelByName,
@@ -11,62 +7,20 @@ import {
   getPricingSummary,
   getSubscriptionPlansSummary,
   getVendorModels,
+  getVendors,
 } from "@/server/models/pricing/pricing.service";
 import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/", async () => toLeanPricing(await getPricingSummary()))
 
-  .get("/counts", async () => {
-    const { models } = await getPricingSummary();
-    const freeCount = models.filter((m) => m.isFree).length;
-    return {
-      modelCount: models.length,
-      freeCount,
-      paidCount: models.length - freeCount,
-      vendorCount: new Set(models.map((m) => m.vendor.name)).size,
-    };
-  })
+  .get("/counts", async () => (await getCatalog()).counts)
 
-  .get("/vendors", async () => {
-    const { models } = await getPricingSummary();
-    return {
-      vendorNames: [...new Set(models.map((m) => m.vendor.name))].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-      modelVendors: models.map((m) => ({
-        name: m.name,
-        vendor: m.vendor.name,
-        chat: isChatModel(m),
-        isFree: !!m.isFree,
-        tag: m.tags[0] ?? "Other",
-        releaseTs: m.metadata.releaseTs,
-      })),
-    };
-  })
+  .get("/vendors", async () => getVendors())
 
-  // Upstream wraps the catalog in {success, data}, which is exactly the shape
-  // handleElysia treats as a typed-failure envelope: it would unwrap to `data`
-  // and drop vendors and first_free_model on the way. Renaming the row list is
-  // what keeps the sibling fields reachable; the rows themselves pass through
-  // untouched.
-  .get("/browse", async () => {
-    const catalog = await getCatalog(true);
-    return {
-      models: catalog.data,
-      vendors: catalog.vendors,
-      firstFreeModel: catalog.first_free_model ?? null,
-    };
-  })
+  .get("/browse", async () => getCatalog(true))
 
-  .get("/catalog", async () => {
-    const catalog = await getCatalog();
-    return {
-      models: catalog.data,
-      vendors: catalog.vendors,
-      firstFreeModel: catalog.first_free_model ?? null,
-    };
-  })
+  .get("/catalog", async () => getCatalog())
 
   .get("/image-models", async () => {
     const { models } = await getPricingSummary();

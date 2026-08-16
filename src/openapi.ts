@@ -1994,11 +1994,32 @@ export interface PricingVendor {
 /**
  * PricingCatalogData schema
  */
+export interface PricingCatalogCounts {
+  free: number;
+  models: number;
+  paid: number;
+  vendors: number;
+}
+
 export interface PricingCatalogData {
-  data: PricingCatalogModel[];
+  counts: PricingCatalogCounts;
   first_free_model?: string;
-  success: boolean;
+  models: PricingCatalogModel[];
   vendors: PricingVendor[];
+}
+
+export interface PricingVendorModel {
+  chat: boolean;
+  is_free: boolean;
+  model_name: string;
+  release_ts: number;
+  tag: string;
+  vendor: string;
+}
+
+export interface PricingVendorsData {
+  model_vendors: PricingVendorModel[];
+  vendor_names: string[];
 }
 
 export type PricingDataGroupRatioAnyOf = { [key: string]: number };
@@ -5001,6 +5022,10 @@ export type GetPricingCatalogParams = {
    * Include description and metadata (browse/compare need them; the model picker does not)
    */
   full?: string;
+  /**
+   * Only models served by this vendor, newest first (the vendor page)
+   */
+  vendor?: string;
 };
 
 export type GetPricingModelParams = {
@@ -11313,6 +11338,40 @@ export const getPricingCatalog = async (
       method: "GET",
     },
   );
+};
+
+export type getPricingVendorsResponse200ApplicationJson = {
+  data: PricingVendorsData;
+  status: 200;
+};
+
+export type getPricingVendorsResponse200ApplicationXml = {
+  data: PricingVendorsData;
+  status: 200;
+};
+
+export type getPricingVendorsResponseSuccess = (
+  | getPricingVendorsResponse200ApplicationJson
+  | getPricingVendorsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPricingVendorsResponse = getPricingVendorsResponseSuccess;
+
+export const getGetPricingVendorsUrl = () => {
+  return `/api/pricing/vendors`;
+};
+
+/**
+ * @summary Get Pricing Vendors
+ */
+export const getPricingVendors = async (
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getPricingVendorsResponse> => {
+  return customFetch<getPricingVendorsResponse>(getGetPricingVendorsUrl(), {
+    ...options,
+    method: "GET",
+  });
 };
 
 export type getPricingModelResponse200ApplicationJson = {

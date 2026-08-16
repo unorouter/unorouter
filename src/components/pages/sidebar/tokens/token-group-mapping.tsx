@@ -18,7 +18,7 @@ import {
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { groupDisplayLabel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
-import type { UserGroupInfo } from "@/openapi";
+import type { PricingVendorModel, UserGroupInfo } from "@/openapi";
 import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -32,19 +32,11 @@ const LIST_VIEWPORT_PX = 288;
 
 export type GroupMapping = Record<string, string[]>;
 
-type PricingModelLite = {
-  name: string;
-  vendor: string;
-  isFree: boolean;
-  tag: string;
-  releaseTs: number;
-};
-
 type TokenGroupMappingProps = {
   control: Control<TokenFormSchema>;
   mapping: GroupMapping;
   groups: Record<string, UserGroupInfo>;
-  models: PricingModelLite[];
+  models: PricingVendorModel[];
 };
 
 type GroupOption = {
@@ -212,7 +204,9 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
   const overriddenCount = Object.keys(props.mapping).length;
 
-  const overridableModels = props.models.filter((m) => modelGroups.has(m.name));
+  const overridableModels = props.models.filter((m) =>
+    modelGroups.has(m.model_name),
+  );
   const TAG_ORDER = ["Text", "Image", "Video"];
   const tags = [...new Set(overridableModels.map((m) => m.tag))].sort(
     (a, b) => {
@@ -231,13 +225,13 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   // spans ALL types; the tag tabs only scope the browse view.
   const visibleModels = overridableModels
     .filter((m) =>
-      query ? m.name.toLowerCase().includes(query) : m.tag === activeTag,
+      query ? m.model_name.toLowerCase().includes(query) : m.tag === activeTag,
     )
     .sort((a, b) => {
-      const aOv = !!props.mapping[a.name];
-      const bOv = !!props.mapping[b.name];
+      const aOv = !!props.mapping[a.model_name];
+      const bOv = !!props.mapping[b.model_name];
       if (aOv !== bOv) return aOv ? -1 : 1;
-      return b.releaseTs - a.releaseTs;
+      return b.release_ts - a.release_ts;
     });
 
   // Hand-rolled windowing: fixed row height, padding divs, slice on scroll.
@@ -346,31 +340,33 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                         />
                       )}
                       {windowedModels.map((model) => {
-                        const selected = props.mapping[model.name] ?? [];
-                        const options = modelGroups.get(model.name) ?? [];
+                        const selected = props.mapping[model.model_name] ?? [];
+                        const options = modelGroups.get(model.model_name) ?? [];
                         const overridden = selected.length > 0;
                         const cheapest = options.find((o) =>
                           selected.includes(o.group),
                         );
                         return (
                           <ModelGroupPopover
-                            key={model.name}
-                            model={model.name}
+                            key={model.model_name}
+                            model={model.model_name}
                             options={options}
                             selected={selected}
                             onChange={(groups) =>
-                              setModelGroups(model.name, groups)
+                              setModelGroups(model.model_name, groups)
                             }
-                            open={openModel === model.name}
+                            open={openModel === model.model_name}
                             onOpenChange={(open) =>
-                              setOpenModel(open ? model.name : null)
+                              setOpenModel(open ? model.model_name : null)
                             }
                           >
                             <CommandItem
-                              value={model.name}
+                              value={model.model_name}
                               onSelect={() =>
                                 setOpenModel(
-                                  openModel === model.name ? null : model.name,
+                                  openModel === model.model_name
+                                    ? null
+                                    : model.model_name,
                                 )
                               }
                               className={cn(
@@ -380,9 +376,9 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                             >
                               <VendorIcon vendor={model.vendor} size={14} />
                               <span className="min-w-0 flex-1 truncate font-mono text-xs">
-                                {model.name}
+                                {model.model_name}
                               </span>
-                              {model.isFree && (
+                              {model.is_free && (
                                 <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
                                   FREE
                                 </span>

@@ -52,7 +52,7 @@ export default async function HomePage(props: {
         data={buildSoftwareApplicationSchema({
           locale,
           description: t("HOME.META.DESCRIPTION"),
-          modelCount: counts?.modelCount,
+          modelCount: counts?.models,
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>

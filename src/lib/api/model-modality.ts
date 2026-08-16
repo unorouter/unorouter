@@ -5,15 +5,30 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 // rather than by one concrete row shape: the browse list and the full detail
 // record both satisfy them.
 type ModalityModel = { type: string; metadata: ModelMetadata };
-type PricedModel = ModalityModel & {
-  isFixedPrice: boolean;
-  inputPrice: number;
-  outputPrice: number;
-  fixedPrice: number;
-  originalInputPrice: number | null;
-  originalOutputPrice: number | null;
-  originalFixedPrice: number | null;
-};
+// The gateway row is the target shape. The camelCase arm is the browse page's
+// client-derived record, which still comes from processModels; it goes away with
+// that, and this union with it.
+type PricedModel = ModalityModel &
+  (
+    | {
+        is_fixed_price: boolean;
+        input_price: number;
+        output_price: number;
+        fixed_price: number;
+        original_input_price?: number | null;
+        original_output_price?: number | null;
+        original_fixed_price?: number | null;
+      }
+    | {
+        isFixedPrice: boolean;
+        inputPrice: number;
+        outputPrice: number;
+        fixedPrice: number;
+        originalInputPrice: number | null;
+        originalOutputPrice: number | null;
+        originalFixedPrice: number | null;
+      }
+  );
 
 export const OUTPUT_MODALITIES = [
   "all",
@@ -77,18 +92,38 @@ export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
 export function modelPriceColumns(model: PricedModel) {
   const modality = deriveOutputModality(model);
   const onOutput = modality === "image" || modality === "video";
-  if (!model.isFixedPrice)
+  const p =
+    "is_fixed_price" in model
+      ? {
+          fixed: model.is_fixed_price,
+          input: model.input_price,
+          output: model.output_price,
+          flat: model.fixed_price,
+          origInput: model.original_input_price ?? null,
+          origOutput: model.original_output_price ?? null,
+          origFlat: model.original_fixed_price ?? null,
+        }
+      : {
+          fixed: model.isFixedPrice,
+          input: model.inputPrice,
+          output: model.outputPrice,
+          flat: model.fixedPrice,
+          origInput: model.originalInputPrice,
+          origOutput: model.originalOutputPrice,
+          origFlat: model.originalFixedPrice,
+        };
+  if (!p.fixed)
     return {
-      input: model.inputPrice,
-      output: model.outputPrice,
-      originalInput: model.originalInputPrice,
-      originalOutput: model.originalOutputPrice,
+      input: p.input,
+      output: p.output,
+      originalInput: p.origInput,
+      originalOutput: p.origOutput,
     };
   return {
-    input: onOutput ? 0 : model.fixedPrice,
-    output: onOutput ? model.fixedPrice : 0,
-    originalInput: onOutput ? null : model.originalFixedPrice,
-    originalOutput: onOutput ? model.originalFixedPrice : null,
+    input: onOutput ? 0 : p.flat,
+    output: onOutput ? p.flat : 0,
+    originalInput: onOutput ? null : p.origFlat,
+    originalOutput: onOutput ? p.origFlat : null,
   };
 }
 

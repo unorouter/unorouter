@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 export function HeroSubtitle() {
   const t = useTranslations();
-  const modelCount = usePricingCountsQuery().data?.modelCount ?? 0;
+  const modelCount = usePricingCountsQuery().data?.models ?? 0;
 
   return (
     // modelCount comes from the 5min pricing snapshot, which can refresh

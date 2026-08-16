@@ -16,7 +16,7 @@ export function VendorModelsPage(props: { vendor: string }) {
   const target = vendorSlug(props.vendor);
 
   const models = (query.data ?? []).filter(
-    (m) => vendorSlug(m.vendor.name) === target,
+    (m) => vendorSlug(m.vendor) === target,
   );
 
   const display = vendorDisplayName(props.vendor);
@@ -57,7 +57,7 @@ export function VendorModelsPage(props: { vendor: string }) {
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {models.map((model) => (
-            <VendorModelCard key={model.name} model={model} />
+            <VendorModelCard key={model.model_name} model={model} />
           ))}
         </div>
       )}

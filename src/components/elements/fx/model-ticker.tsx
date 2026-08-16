@@ -16,7 +16,7 @@ export function ModelTicker(props: Props) {
   const t = useTranslations();
   const { data } = usePricingVendorsQuery();
   const { tps } = useLiveStats();
-  const models = (data?.modelVendors ?? []).filter((m) => m.chat);
+  const models = (data?.model_vendors ?? []).filter((m) => m.chat);
 
   const tripled = [...models, ...models, ...models];
 
@@ -38,8 +38,8 @@ export function ModelTicker(props: Props) {
             {tripled.map((model, i) => {
               return (
                 <Link
-                  key={`${model.name}-${i}`}
-                  href={modelHref(model.name, model.vendor)}
+                  key={`${model.model_name}-${i}`}
+                  href={modelHref(model.model_name, model.vendor)}
                   className="flex items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <VendorIcon
@@ -48,7 +48,7 @@ export function ModelTicker(props: Props) {
                     className="shrink-0"
                   />
                   <span className="text-foreground text-[11px] font-medium tracking-wide uppercase">
-                    {model.name}
+                    {model.model_name}
                   </span>
                 </Link>
               );
