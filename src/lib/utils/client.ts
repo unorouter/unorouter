@@ -258,10 +258,14 @@ export async function streamFileToDisk(
   // result: the file lands on disk at the wrong size with no error anywhere.
   logChatDebug("save.begin", {
     bytes: file.size,
+    filename,
     likelyIos,
     hasPicker: typeof picker === "function",
     hasShare: typeof nav.share === "function",
-    canShareFile: nav.canShare?.({ files: [file] }) ?? null,
+    // Both types, because the ORIGINAL mime is what iOS refused to route as a
+    // file: a false here next to a true below is the whole bug in one line.
+    sourceType: file.type,
+    canShareSource: nav.canShare?.({ files: [file] }) ?? null,
     ua: navigator.userAgent.slice(0, 120),
     platform: navigator.platform,
     maxTouchPoints: navigator.maxTouchPoints,
@@ -308,12 +312,33 @@ export async function streamFileToDisk(
   // "refresh" and land somewhere else). Web Share hands the file to the real
   // save sheet instead. Only offered when the platform says it can take this
   // exact file, and a user cancel is not an error.
-  if (typeof nav.share === "function" && nav.canShare?.({ files: [file] })) {
+  // application/x-sqlite3 has no registered handler on iOS, so the share sheet
+  // cannot route it AS A FILE and silently degrades to sharing the accompanying
+  // text: "Save to Files" then wrote the title into `text 9.txt`, 45 bytes,
+  // instead of a 9MB database. Re-wrap as octet-stream and send NO title, so the
+  // file is the only thing in the payload.
+  const shareFile = new File([file], filename, {
+    type: "application/octet-stream",
+  });
+  const canShareRewrapped = nav.canShare?.({ files: [shareFile] }) ?? null;
+  logChatDebug("save.share_probe", {
+    sourceType: file.type,
+    shareType: shareFile.type,
+    canShareSource: nav.canShare?.({ files: [file] }) ?? null,
+    canShareRewrapped,
+    shareBytes: shareFile.size,
+  });
+  if (typeof nav.share === "function" && canShareRewrapped) {
     try {
-      await nav.share({ files: [file], title: filename });
+      await nav.share({ files: [shareFile] });
       // Distinct from "fsa": both used to report the same value, so a log could
       // not say WHICH save path produced the file on disk.
-      logChatDebug("save.done", { path: "share", bytes: file.size });
+      logChatDebug("save.done", {
+        path: "share",
+        bytes: shareFile.size,
+        sharedType: shareFile.type,
+        sharedName: shareFile.name,
+      });
       return "share";
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") {
