@@ -161,6 +161,21 @@ export function demoteLateSystem(messages: StreamMessages): StreamMessages {
   });
 }
 
+// A stream that failed leaves the partial text it managed to emit next to the
+// error item. Sending that fragment back as a normal assistant turn makes the
+// model read a truncated reply as canon and remark on the broken story; a failed
+// generation produced no turn at all, so the whole message goes.
+export function dropFailedAssistantTurns(
+  messages: StreamMessages,
+): StreamMessages {
+  return messages.filter(
+    (m) =>
+      m.role !== "assistant" ||
+      !Array.isArray(m.parts) ||
+      !m.parts.some((p) => p.type === "data-error"),
+  );
+}
+
 export function stripReasoningParts(messages: StreamMessages): StreamMessages {
   return messages.map((m) => {
     if (!Array.isArray(m.parts)) return m;

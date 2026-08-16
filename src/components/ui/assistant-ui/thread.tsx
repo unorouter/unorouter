@@ -686,7 +686,9 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
           newParts.push({ type: "text", text });
           textInjected = true;
         }
-      } else {
+      } else if (p.type !== "data-error") {
+        // Rewriting the text is how a user repairs a failed generation; keeping
+        // the error marker would leave the turn excluded from every later request.
         newParts.push(p);
       }
     }

@@ -10,6 +10,7 @@ import {
   appendUserStub,
   demoteLateSystem,
   dropEmptyMessages,
+  dropFailedAssistantTurns,
   mergeAlternateRoles,
   mkMsg,
   prependUserStub,
@@ -55,6 +56,7 @@ export async function transformRoles(
     ? collectTrailingReasoning(processedMessages)
     : undefined;
 
+  processedMessages = dropFailedAssistantTurns(processedMessages);
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
   processedMessages = demoteLateSystem(processedMessages);
