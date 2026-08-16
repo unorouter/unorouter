@@ -2,7 +2,7 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import { IconCell } from "../elements/feature-badge";
 import { Brand } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import { bgSvg, RAINBOW } from "../lib/glow";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx } from "../lib/types";

@@ -12,7 +12,7 @@ import {
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
-import { findBadgeModel, getPricingData, getStats } from "./lib/cache";
+import { findBadgeModel, getPricingData, getStats } from "./lib/data";
 import sharp from "sharp";
 import { logger } from "@/lib/utils/logger";
 import { errMessage } from "@/lib/utils/base";

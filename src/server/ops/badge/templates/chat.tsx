@@ -5,7 +5,7 @@ import {
   renderFeatureBadge,
   type FeatureBadgeDims,
 } from "../elements/feature-badge";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import type { BadgeCtx } from "../lib/types";
 import { getVendorColorIcon } from "../lib/utils";
 import type { BadgeSize } from "@/lib/validation/badge";

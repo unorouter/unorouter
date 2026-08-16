@@ -2,7 +2,7 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import { FONT_MONO, FONT_SANS, MonoValue } from "../elements/typography";
 import { makeCipher } from "../elements/cipher";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import { Brand, Card, Row } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
 import { THEME_COLORS } from "../lib/theme";

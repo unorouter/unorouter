@@ -10,7 +10,7 @@ import {
   replacePulseDotMarker,
 } from "../elements/cipher";
 import type { Dims } from "../templates/pricing";
-import { fonts, logoDataUri, logoInnerSvg } from "./cache";
+import { fonts, logoDataUri, logoInnerSvg } from "./assets";
 import { fallbackFontsFor } from "./fallback-fonts";
 import type { RenderTemplateOpts } from "./types";
 

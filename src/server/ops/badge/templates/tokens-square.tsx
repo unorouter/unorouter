@@ -2,7 +2,7 @@ import type { BadgeSize } from "@/lib/validation/badge";
 import { makeCipher, pulseDot } from "../elements/cipher";
 import { BrandName, Card, Logo } from "../elements/primitives";
 import { Label, MonoValue } from "../elements/typography";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { formatCompact, renderBadgeTemplate } from "../lib/utils";

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
-import { logoDataUri } from "../lib/cache";
+import { logoDataUri } from "../lib/assets";
 import type { ThemeColors } from "../lib/types";
 import { FONT_SANS } from "./typography";
 

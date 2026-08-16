@@ -4,7 +4,7 @@ import { pick } from "@/lib/utils/base";
 
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
-import { fonts } from "../lib/cache";
+import { fonts } from "../lib/assets";
 import type { CipherTarget } from "../lib/types";
 import { randInt } from "../lib/utils";
 import { FONT_MONO } from "./typography";

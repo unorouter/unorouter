@@ -9,7 +9,7 @@ import {
   Row,
 } from "../elements/primitives";
 import { Dot, FONT_SANS, MonoValue, Stat } from "../elements/typography";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { renderBadgeTemplate } from "../lib/utils";

@@ -2,7 +2,7 @@ import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
 import { Brand, Card, Col, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
-import { t } from "../lib/cache";
+import { t } from "../lib/assets";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { renderBadgeTemplate } from "../lib/utils";
