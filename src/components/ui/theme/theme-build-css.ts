@@ -371,6 +371,11 @@ export function buildBackgroundCss(
     bubbleOpacity < 1
       ? `[data-bg-active] .aui-user-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
       : "";
+  // The reasoning box ships as the `outline` variant: a border and no fill at
+  // all. Against a wallpaper that is an empty frame with the artwork running
+  // straight through the text. It needs a fill at EVERY bubble opacity, so it
+  // cannot hang off the translucent branch above.
+  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`;
   // The composer is a .bg-background nested inside the thread's own, so the
   // nested-surface reset above stripped its fill AND its blur, leaving the raw
   // image to run straight through the type area behind the text. It reads as a
@@ -401,6 +406,7 @@ export function buildBackgroundCss(
     translucent,
     // After the panel block so a bubble value still wins when both are set.
     bubble,
+    reasoning,
     composer,
   ].join("");
 }

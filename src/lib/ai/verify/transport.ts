@@ -76,7 +76,6 @@ async function viaServer(args: TransportArgs): Promise<TransportResult> {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        provider: args.provider,
         url: args.url,
         headers: args.headers,
         reqBody: args.reqBody,

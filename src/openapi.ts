@@ -243,7 +243,7 @@ export interface ClaudeServerToolUse {
   web_search_requests: number;
 }
 
-export interface BillingUsage {
+export interface ClaudeUsage {
   billing_usage?: BillingUsage;
   cache_creation?: ClaudeCacheCreationUsage;
   cache_creation_input_tokens: number;
@@ -253,6 +253,70 @@ export interface BillingUsage {
   input_tokens: number;
   output_tokens: number;
   server_tool_use?: ClaudeServerToolUse;
+}
+
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
+export interface Usage {
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -449,18 +513,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -966,36 +1018,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
-export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1242,15 +1264,6 @@ export interface ImageGenerationResponse {
   data: ImageData[] | null;
 }
 
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-}
-
 export interface InvitedUser {
   commission_count: number;
   display_name: string;
@@ -1483,10 +1496,8 @@ export interface ModelHistoryPoint {
 
 export interface ModelHistorySeries {
   buckets: number;
-  /** @nullable */
-  models: ModelHistoryModel[] | null;
-  /** @nullable */
-  points: ModelHistoryPoint[] | null;
+  models: ModelHistoryModel[];
+  points: ModelHistoryPoint[];
 }
 
 export interface ModelRankingPoint {
@@ -1759,13 +1770,6 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
 export interface OverwriteField {
   /** @nullable */
   fields: string[] | null;
@@ -1930,8 +1934,7 @@ export interface PricingModel {
   create_cache_ratio?: number | null;
   created_time?: number;
   description?: string;
-  /** @nullable */
-  enable_groups: string[] | null;
+  enable_groups: string[];
   grid_pricing?: unknown;
   icon?: string;
   image_ratio?: number | null;
@@ -1960,10 +1963,8 @@ export interface PricingVendor {
  * PricingData schema
  */
 export interface PricingData {
-  /** @nullable */
-  auto_groups: string[] | null;
-  /** @nullable */
-  data: PricingModel[] | null;
+  auto_groups: string[];
+  data: PricingModel[];
   /** @nullable */
   group_ratio: PricingDataGroupRatio;
   show_original_price: boolean;
@@ -1972,8 +1973,7 @@ export interface PricingData {
   supported_endpoint: PricingDataSupportedEndpoint;
   /** @nullable */
   usable_group: PricingDataUsableGroup;
-  /** @nullable */
-  vendors: PricingVendor[] | null;
+  vendors: PricingVendor[];
 }
 
 export interface PrivateGroupInfo {
@@ -2062,23 +2062,17 @@ export interface VendorShareVendor {
 
 export interface VendorShareSeries {
   buckets: number;
-  /** @nullable */
-  points: VendorSharePoint[] | null;
-  /** @nullable */
-  vendors: VendorShareVendor[] | null;
+  points: VendorSharePoint[];
+  vendors: VendorShareVendor[];
 }
 
 export interface RankingsResponse {
-  /** @nullable */
-  models: RankedModel[] | null;
+  models: RankedModel[];
   models_history: ModelHistorySeries;
-  /** @nullable */
-  top_droppers: RankingMover[] | null;
-  /** @nullable */
-  top_movers: RankingMover[] | null;
+  top_droppers: RankingMover[];
+  top_movers: RankingMover[];
   vendor_share_history: VendorShareSeries;
-  /** @nullable */
-  vendors: RankedVendor[] | null;
+  vendors: RankedVendor[];
 }
 
 export interface Redemption {
@@ -2183,13 +2177,10 @@ export interface ResponseArrayControllerEventDTO {
 }
 
 export interface StatusBarDataDTO {
-  /** @nullable */
-  bar: BarSegmentDTO[] | null;
-  /** @nullable */
-  card: CardItemDTO[] | null;
+  bar: BarSegmentDTO[];
+  card: CardItemDTO[];
   day: string;
-  /** @nullable */
-  events: EventDTO[] | null;
+  events: EventDTO[];
 }
 
 /**
@@ -2455,11 +2446,9 @@ export interface ResponseControllerSearchChannelsData {
 }
 
 export interface SubscriptionSelfData {
-  /** @nullable */
-  all_subscriptions: SubscriptionSummary[] | null;
+  all_subscriptions: SubscriptionSummary[];
   billing_preference: string;
-  /** @nullable */
-  subscriptions: SubscriptionSummary[] | null;
+  subscriptions: SubscriptionSummary[];
 }
 
 /**
@@ -3529,8 +3518,7 @@ export interface TopUpInfoData {
   enable_waffo_topup: boolean;
   min_topup: number;
   nowpayments_min_topup: number;
-  /** @nullable */
-  pay_methods: TopUpInfoDataPayMethodsItem[] | null;
+  pay_methods: TopUpInfoDataPayMethodsItem[];
   payment_compliance_confirmed: boolean;
   payment_compliance_terms_version: string;
   stripe_min_topup: number;

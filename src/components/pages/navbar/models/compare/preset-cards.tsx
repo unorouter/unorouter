@@ -2,7 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import type { RankedModel } from "@/lib/api/typebox/rankings";
+import type { RankedModel } from "@/openapi";
 import { useTranslations } from "next-intl";
 
 function topByRank(

@@ -19,7 +19,7 @@ import {
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import type { RankedModel } from "@/lib/api/typebox/rankings";
+import type { RankedModel } from "@/openapi";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,

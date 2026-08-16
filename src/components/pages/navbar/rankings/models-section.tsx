@@ -8,11 +8,8 @@ import {
 } from "@/components/ui/chart";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type {
-  ModelHistorySeries,
-  RankedModel,
-  RankingPeriod,
-} from "@/lib/api/typebox/rankings";
+import type { RankingPeriod } from "@/lib/api/typebox/rankings";
+import type { ModelHistorySeries, RankedModel } from "@/openapi";
 import type { RankingTier } from "./rankings";
 import { formatTokens } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";

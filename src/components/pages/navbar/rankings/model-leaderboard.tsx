@@ -1,7 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import type { RankedModel } from "@/lib/api/typebox/rankings";
+import type { RankedModel } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { formatTokens } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";

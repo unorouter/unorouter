@@ -7,11 +7,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Icon } from "@/components/ui/icon";
-import type {
-  RankedVendor,
-  RankingPeriod,
-  VendorShareSeries,
-} from "@/lib/api/typebox/rankings";
+import type { RankingPeriod } from "@/lib/api/typebox/rankings";
+import type { RankedVendor, VendorShareSeries } from "@/openapi";
 import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-registry";
 import { formatShare, formatTokens } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";

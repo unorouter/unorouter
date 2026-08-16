@@ -12,7 +12,7 @@ import {
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import type { RankedModel } from "@/lib/api/typebox/rankings";
+import type { RankedModel } from "@/openapi";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { formatMsDate } from "@/lib/utils/format/date";

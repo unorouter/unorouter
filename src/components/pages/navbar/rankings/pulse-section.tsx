@@ -1,7 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import type { RankingMover } from "@/lib/api/typebox/rankings";
+import type { RankingMover } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 

@@ -2,7 +2,7 @@
 
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { matchesModality } from "@/lib/api/model-modality";
-import type { RankedModel } from "@/lib/api/typebox/rankings";
+import type { RankedModel } from "@/openapi";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { dayjs } from "@/lib/utils/format/date";
