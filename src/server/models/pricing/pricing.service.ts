@@ -13,30 +13,18 @@ export const getPricingSummary = cache(async (includeOffline = false) => {
   return buildPricingSummary(unwrap(res));
 });
 
+// Upstream matches the name exactly and 404s otherwise, so the envelope holds
+// this model or nothing. Null on 404 (customFetch throws) or a dark model with
+// no pricing row.
 export async function getModelByName(name: string) {
   try {
     const res = await getPricingModel(
       { model: name },
       { headers: ADMIN_HEADERS },
     );
-    const models = buildPricingSummary(res.data).models;
-    return models.find((m) => m.name === name) ?? models[0] ?? null;
+    return buildPricingSummary(res.data).models[0] ?? null;
   } catch {
     return null;
-  }
-}
-
-// The guest gate only needs the flag, which upstream now derives, so this skips
-// buildPricingSummary's price math entirely.
-export async function isModelFree(name: string) {
-  try {
-    const res = await getPricingModel(
-      { model: name },
-      { headers: ADMIN_HEADERS },
-    );
-    return res.data.data?.[0]?.is_free === true;
-  } catch {
-    return false;
   }
 }
 
