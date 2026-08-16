@@ -1,6 +1,6 @@
 import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Dashboard } from "@/components/pages/sidebar/dashboard/dashboard";
-import { getDashboardPerfData } from "@/lib/api/cached";
+import { getDashboardPerfData } from "@/lib/api/page-data";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

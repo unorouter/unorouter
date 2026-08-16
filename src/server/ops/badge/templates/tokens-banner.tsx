@@ -95,7 +95,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
-  const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
+  const tokenCount = ctx.stats.token_used.toLocaleString("en-US");
   const cip = makeCipher();
   const m1 = cip.mark(tokenCount, d.statSize, c.text, true);
   const isOg = ctx.size === "og";

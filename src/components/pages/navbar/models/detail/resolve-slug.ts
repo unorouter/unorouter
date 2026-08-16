@@ -1,6 +1,6 @@
 import { type ProcessedModel } from "@/lib/api/pricing";
 import { cache } from "react";
-import { getCachedPricingVendors } from "@/lib/api/cached";
+import { getCachedPricingVendors } from "@/lib/api/page-data";
 import {
   getModelByName,
   getPricingSummary,

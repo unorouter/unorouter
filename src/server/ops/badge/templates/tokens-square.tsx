@@ -102,7 +102,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
-  const value = formatCompact(ctx.stats.tokenUsed);
+  const value = formatCompact(ctx.stats.token_used);
   const cip = makeCipher();
   const m1 = cip.mark(value, d.valueSize, c.text);
   const isOg = ctx.size === "og";

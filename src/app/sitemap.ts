@@ -14,7 +14,6 @@ import {
   privateRoutes,
   routing,
 } from "@/i18n/routing";
-import {} from "@/lib/api/cached";
 import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";

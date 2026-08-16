@@ -1,28 +1,31 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { errMessage, modelMatchesSlug } from "@/lib/utils/base";
+import { FAR_FUTURE } from "@/lib/config/constants";
+import { errMessage, modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
+import { getQuotaDataSummary } from "@/openapi";
+import { ADMIN_HEADERS } from "@/server/constants";
 import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
-import { computeStatsSummary } from "@/server/ops/stats/stats.service";
 import type { BadgePricing, BadgeStats } from "./types";
 
-const EMPTY_STATS: BadgeStats = { tokenUsed: 0, requestCount: 0, avgTpm: 0 };
-
-// A dead upstream must not kill badges; they render with zeros instead.
-export async function getStats(): Promise<BadgeStats> {
-  try {
-    const summary = await computeStatsSummary();
-    return {
-      tokenUsed: summary.token_used,
-      requestCount: summary.count,
-      avgTpm: summary.avg_tpm,
-    };
-  } catch (err) {
-    logger.warn("badge getStats: upstream failed, falling back to zero", {
-      context: "badge",
-      message: errMessage(err),
+export function getStats(): Promise<BadgeStats> {
+  return getQuotaDataSummary(
+    { start_timestamp: 0, end_timestamp: FAR_FUTURE },
+    { headers: ADMIN_HEADERS },
+  )
+    .then((res) => unwrap(res).data)
+    .catch((err) => {
+      logger.warn("badge getStats: upstream failed, falling back to zero", {
+        context: "badge",
+        message: errMessage(err),
+      });
+      return {
+        token_used: 0,
+        count: 0,
+        avg_tpm: 0,
+        quota: 0,
+        earliest_created_at: 0,
+      };
     });
-    return EMPTY_STATS;
-  }
 }
 
 export async function findBadgeModel(

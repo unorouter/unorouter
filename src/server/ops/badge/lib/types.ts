@@ -1,12 +1,9 @@
 import type { BadgeSize, Theme } from "@/lib/validation/badge";
+import type { QuotaDataSummary } from "@/openapi";
 import type { Locale } from "next-intl";
 import type { ReactNode } from "react";
 
-export interface BadgeStats {
-  tokenUsed: number;
-  requestCount: number;
-  avgTpm: number;
-}
+export type BadgeStats = QuotaDataSummary;
 
 export interface BadgePricingRow {
   model: string;

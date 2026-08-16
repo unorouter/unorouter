@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getCachedFreeChatModels } from "@/lib/api/cached";
+import { getCachedFreeChatModels } from "@/lib/api/page-data";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 import {

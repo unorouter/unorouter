@@ -5,7 +5,7 @@ import {
 } from "@/components/pages/navbar/models/compare/compare-text";
 import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { emptyPageData, getComparePageData } from "@/lib/api/cached";
+import { emptyPageData, getComparePageData } from "@/lib/api/page-data";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";

@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
 import { env } from "@/lib/config/env";
-import { getDocsApiKey } from "@/lib/api/cached";
+import { getDocsApiKey } from "@/lib/api/page-data";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 

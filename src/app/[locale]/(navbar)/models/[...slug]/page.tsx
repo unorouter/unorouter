@@ -7,7 +7,7 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import { getCachedVendorModels } from "@/lib/api/cached";
+import { getCachedVendorModels } from "@/lib/api/page-data";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";

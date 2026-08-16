@@ -1,7 +1,7 @@
 import { IntegrationBanner } from "@/components/pages/navbar/home/integration-banner";
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPlansData } from "@/lib/api/cached";
+import { getPlansData } from "@/lib/api/page-data";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";

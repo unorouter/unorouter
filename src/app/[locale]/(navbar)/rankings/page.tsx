@@ -1,7 +1,7 @@
 import { Rankings } from "@/components/pages/navbar/rankings/rankings";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
-import { getRankingsPageData } from "@/lib/api/cached";
+import { getRankingsPageData } from "@/lib/api/page-data";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {

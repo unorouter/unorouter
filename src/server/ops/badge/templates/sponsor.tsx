@@ -130,9 +130,9 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
-  const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
-  const requestCount = ctx.stats.requestCount.toLocaleString("en-US");
-  const tpmCount = ctx.stats.avgTpm.toLocaleString("en-US");
+  const tokenCount = ctx.stats.token_used.toLocaleString("en-US");
+  const requestCount = ctx.stats.count.toLocaleString("en-US");
+  const tpmCount = ctx.stats.avg_tpm.toLocaleString("en-US");
   const modelCount = `${ctx.pricing.modelCount}+`;
   const freeCount = ctx.pricing.freeCount.toLocaleString("en-US");
   const paidCount = ctx.pricing.paidCount.toLocaleString("en-US");

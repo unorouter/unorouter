@@ -1,7 +1,7 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ModelsPage } from "@/components/pages/navbar/models/models-page";
 import { Link, localeUrl } from "@/i18n/navigation";
-import { emptyPageData, getModelsPageData } from "@/lib/api/cached";
+import { emptyPageData, getModelsPageData } from "@/lib/api/page-data";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";

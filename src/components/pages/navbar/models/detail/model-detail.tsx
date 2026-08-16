@@ -18,7 +18,7 @@ import { discountPercent, formatPrice } from "@/lib/utils/format/number";
 import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";
 import { dayjs } from "@/lib/utils/format/date";
 import { cn } from "@/lib/utils";
-import { getDocsApiKey } from "@/lib/api/cached";
+import { getDocsApiKey } from "@/lib/api/page-data";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AtCapacityBanner } from "./header/at-capacity-banner";
 import { ModelDescription } from "./header/model-description";

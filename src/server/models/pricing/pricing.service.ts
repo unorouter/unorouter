@@ -38,7 +38,7 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
 }
 
 // Fetches upstream on every call, unlike getPricingSnapshot's shared 5min
-// object. Callers are the fetchers in lib/api/cached.ts. Direct, because server
+// object. Callers are the fetchers in lib/api/page-data.ts. Direct, because server
 // components must not loop back over http://127.0.0.1.
 export async function getPricingSummary(includeOffline = false) {
   const res = await withRetry(() =>

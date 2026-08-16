@@ -1,7 +1,7 @@
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
-import { emptyPageData, getComparePageData } from "@/lib/api/cached";
+import { emptyPageData, getComparePageData } from "@/lib/api/page-data";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
