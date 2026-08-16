@@ -1,4 +1,4 @@
-import { isMediaModel } from "@/server/models/pricing/pricing.service";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { logger } from "@/lib/utils/logger";
@@ -17,7 +17,7 @@ export async function streamMedia(
   request: Request,
   userId: number,
 ) {
-  const { mediaType } = await isMediaModel(body.model);
+  const mediaType = (await getModelByName(body.model))?.type;
 
   const settingsGroup = (
     body.chatContext?.settings as { group?: string | null } | undefined

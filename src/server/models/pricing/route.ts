@@ -7,7 +7,6 @@ import {
 } from "@/lib/api/pricing";
 import {
   getModelByName,
-  getPricingCatalogSource,
   getPricingSummary,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
@@ -17,7 +16,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/", async () => toLeanPricing(await getPricingSummary()))
 
   .get("/counts", async () => {
-    const { models } = await getPricingCatalogSource();
+    const { models } = await getPricingSummary();
     const freeCount = models.filter((m) => m.isFree).length;
     return {
       modelCount: models.length,
@@ -28,7 +27,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/vendors", async () => {
-    const { models } = await getPricingCatalogSource();
+    const { models } = await getPricingSummary();
     return {
       vendorNames: [...new Set(models.map((m) => m.vendor.name))].sort((a, b) =>
         a.localeCompare(b),
@@ -45,10 +44,10 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/catalog", async () => {
-    const { models, summary } = await getPricingCatalogSource();
+    const summary = await getPricingSummary();
     return {
-      groupRatioMap: usedGroupRatios(models, summary.groupRatioMap),
-      models: models.map((m) => ({
+      groupRatioMap: usedGroupRatios(summary.models, summary.groupRatioMap),
+      models: summary.models.map((m) => ({
         name: m.name,
         vendor: m.vendor.name,
         isFree: m.isFree,
@@ -63,7 +62,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/model-basics", async () => {
-    const { models } = await getPricingCatalogSource();
+    const { models } = await getPricingSummary();
     return {
       models: models.map((m) => ({
         name: m.name,
@@ -75,7 +74,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/text-models", async () => {
-    const { models } = await getPricingCatalogSource();
+    const { models } = await getPricingSummary();
     return {
       models: models
         .filter((m) => m.type === "text")
@@ -88,14 +87,14 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   })
 
   .get("/image-models", async () => {
-    const { models } = await getPricingCatalogSource();
+    const { models } = await getPricingSummary();
     return { models: getEffectiveImageModels(models) };
   })
 
   .get(
     "/vendor",
     async (ctx) => {
-      const { models } = await getPricingCatalogSource();
+      const { models } = await getPricingSummary();
       return {
         models: models
           .filter((m) => m.vendor.name === ctx.query.name)
@@ -108,10 +107,10 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get(
     "/detail",
     async (ctx) => {
-      const { byName } = await getPricingCatalogSource();
+      const { models } = await getPricingSummary();
       return {
         model:
-          byName.get(ctx.query.model) ??
+          models.find((m) => m.name === ctx.query.model) ??
           (await getModelByName(ctx.query.model)),
       };
     },

@@ -1,6 +1,6 @@
 import { isFreeChatModel, leanModel, toLeanPricing } from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
-import { getRankings } from "@/openapi";
+import { getRankings, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug, unwrap } from "@/lib/utils/base";
@@ -8,7 +8,6 @@ import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.serv
 import {
   getPricingSummary,
   getSubscriptionPlansSummary,
-  getTopUpInfoSummary,
 } from "@/server/models/pricing/pricing.service";
 import {
   dehydrate,
@@ -41,7 +40,10 @@ export async function getCachedFreeChatModels(limit?: number) {
 }
 
 export function getPlansData() {
-  return Promise.all([getSubscriptionPlansSummary(), getTopUpInfoSummary()]);
+  return Promise.all([
+    getSubscriptionPlansSummary(),
+    getTopUpInfo({ headers: ADMIN_HEADERS }).then((res) => unwrap(res).data),
+  ]);
 }
 
 async function fetchRankings(period: string) {
