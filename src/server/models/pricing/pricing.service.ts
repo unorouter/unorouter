@@ -92,6 +92,56 @@ export async function getPricingVendors() {
   return { vendorNames, modelVendors };
 }
 
+// The model selector's dropdown: enough to render, group and pin every row, and
+// nothing else. Excludes `description` and the metadata blob (~220KB of the full
+// list) which only the /models browse filters read.
+export async function getPricingCatalog() {
+  const { models, summary } = await getPricingSnapshot();
+  return {
+    models: models.map((m) => ({
+      name: m.name,
+      vendor: m.vendor.name,
+      isFree: m.isFree,
+      tags: m.tags,
+      type: m.type,
+      enableGroups: m.enableGroups,
+      online: m.online,
+      releaseTs: releaseTs(m),
+    })),
+    groupRatioMap: summary.groupRatioMap,
+    firstFreeModel: summary.firstFreeModel?.name ?? null,
+  };
+}
+
+// Name -> {isFree, type} for the chat surfaces that only answer "is this model
+// free" or "what type is it" for the ACTIVE model.
+export async function getModelBasics() {
+  const { models } = await getPricingSnapshot();
+  return {
+    models: models.map((m) => ({
+      name: m.name,
+      vendor: m.vendor.name,
+      isFree: m.isFree,
+      type: m.type,
+    })),
+  };
+}
+
+// Text models for the overrides drawer's utility-model picker: it groups by
+// vendor and badges free models, so it needs those two fields and nothing else.
+export async function getTextModels() {
+  const { models } = await getPricingSnapshot();
+  return {
+    models: models
+      .filter((m) => m.type === "text")
+      .map((m) => ({
+        name: m.name,
+        isFree: m.isFree,
+        vendor: { name: m.vendor.name },
+      })),
+  };
+}
+
 // The image form's model list, fully derived server-side: descriptors are the
 // FINAL shape the form consumes, so the page ships ~50 descriptors instead of
 // the whole pricing payload just to run getEffectiveImageModels client-side.

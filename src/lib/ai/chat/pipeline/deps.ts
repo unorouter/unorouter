@@ -23,7 +23,7 @@ export type SemanticHit = { id: string; text: string };
 export type ConvSettings = NonNullable<LoadedConvContext>["settings"];
 
 export type AssemblerDeps = {
-  getModelInfo: (model: string) => ProcessedModel | undefined;
+  getModelInfo: (model: string) => Promise<ProcessedModel | undefined>;
 
   upstreamTarget?: { endpoint: string; url: string };
 

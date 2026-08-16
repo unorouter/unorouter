@@ -42,7 +42,10 @@ import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import {
+  useImageModelsQuery,
+  useTextModelsQuery,
+} from "@/hooks/models/pricing-hook";
 import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
@@ -480,11 +483,9 @@ function UtilityModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
   const t = useTranslations();
-  const pricing = usePricingQuery().data;
+  const textModels = useTextModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = (pricing?.models ?? []).filter(
-    (m) => m.type === "text",
-  );
+  const catalogModels = textModels?.models ?? [];
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models
       .filter((m) => m.type !== "image")
@@ -518,16 +519,14 @@ function ImageModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
   const t = useTranslations();
-  const pricing = usePricingQuery().data;
+  const imageModels = useImageModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogOptions = (pricing?.models ?? [])
-    .filter((m) => m.type === "image")
-    .map((m) => ({
-      id: m.name,
-      name: m.metadata.maxImageInputs
-        ? `${m.name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.metadata.maxImageInputs })})`
-        : m.name,
-    }));
+  const catalogOptions = (imageModels?.models ?? []).map((m) => ({
+    id: m.id,
+    name: m.maxReferenceImages
+      ? `${m.id} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.maxReferenceImages })})`
+      : m.id,
+  }));
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models
       .filter((m) => m.type === "image")

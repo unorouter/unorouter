@@ -23,13 +23,12 @@ import {
   type GroupEntry,
   groupDisplayLabel,
   groupModelsByType,
-  type ProcessedModel,
 } from "@/lib/api/pricing";
 import {
   makeCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import {
   type ModelStatusInfo,
   useModelStatusMap,
@@ -100,8 +99,15 @@ export function TypeFilterBadges(props: {
   );
 }
 
+type CatalogModel = {
+  name: string;
+  vendor: string;
+  isFree: boolean;
+  type: string;
+};
+
 function CatalogModelItem(props: {
-  model: ProcessedModel;
+  model: CatalogModel;
   checked: boolean;
   disabled: boolean;
   status?: ModelStatusInfo;
@@ -113,7 +119,7 @@ function CatalogModelItem(props: {
   return (
     <CommandItem
       value={model.name}
-      keywords={[model.vendor.name, ...(model.isFree ? ["free"] : [])]}
+      keywords={[model.vendor, ...(model.isFree ? ["free"] : [])]}
       data-testid={`model-option-${model.name}`}
       data-model={model.name}
       data-model-type={model.type}
@@ -128,7 +134,7 @@ function CatalogModelItem(props: {
       }}
       className={cn("text-xs", props.disabled && "cursor-pointer opacity-50")}
     >
-      <VendorIcon vendor={model.vendor.name} size={14} />
+      <VendorIcon vendor={model.vendor} size={14} />
       <span className="min-w-0 flex-1 font-mono">{model.name}</span>
       <UptimeDot info={props.status} />
       {model.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
@@ -285,7 +291,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   const loginRedirect = useLoginRedirect();
   const [open, setOpen] = useState(false);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
-  const pricingQuery = usePricingQuery();
+  const pricingQuery = usePricingCatalogQuery();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const pricingData = pricingQuery.data;
@@ -360,7 +366,7 @@ export function ModelSelector(props: ModelSelectorProps) {
         className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs"
       >
         <div className="flex items-center gap-2 truncate">
-          {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
+          {selected && <VendorIcon vendor={selected.vendor} size={14} />}
           {selectedCustomProvider && (
             <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
           )}

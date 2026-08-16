@@ -3,7 +3,7 @@
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { analytics } from "@/lib/analytics";
 import { USER_ID_COOKIE } from "@/lib/config/constants";
@@ -27,7 +27,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const userId = useLocalUserId();
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
-  const pricingQuery = usePricingQuery();
+  const pricingQuery = usePricingCatalogQuery();
   const authQuery = useAuthQuery();
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
   const serverModel = conversationQuery.data?.model ?? null;
@@ -38,7 +38,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const authSettled = authQuery.isSuccess || !hasSession;
 
   const pricingReady = pricingQuery.isSuccess;
-  const firstFreeModel = pricingQuery.data?.firstFreeModel?.name ?? null;
+  const firstFreeModel = pricingQuery.data?.firstFreeModel ?? null;
 
   useEffect(() => {
     if (!hydrated) return;

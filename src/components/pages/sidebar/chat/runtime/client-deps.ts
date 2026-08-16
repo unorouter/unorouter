@@ -44,7 +44,7 @@ export function buildClientDeps(
 
   const baseUrl = normalizeBaseUrl(provider.baseUrl);
   return {
-    getModelInfo: () => undefined,
+    getModelInfo: async () => undefined,
     upstreamTarget: {
       endpoint: "/chat/completions",
       url: `${baseUrl}/chat/completions`,

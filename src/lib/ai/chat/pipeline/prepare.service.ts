@@ -65,7 +65,7 @@ export async function prepareChatRequest(
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
     await resolveContext(apiKey, body, userId, deps);
 
-  const modelInfo = deps.getModelInfo(body.model);
+  const modelInfo = await deps.getModelInfo(body.model);
   throwIfAborted(abortSignal);
   const { messages, luaCodes } = await preprocessMessages(
     body.messages,

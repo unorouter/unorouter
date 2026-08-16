@@ -13,13 +13,23 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { makeClientTriggerOps } from "./trigger-ops-client";
 import { llmCall } from "./utility-llm";
 
-type PricingData = { models?: ProcessedModel[] };
-
-function modelLookup(): (model: string) => ProcessedModel | undefined {
-  const data = getQueryClient().getQueryData(queryKeys.pricing()) as
-    PricingData | undefined;
-  const byName = new Map((data?.models ?? []).map((m) => [m.name, m]));
-  return (model) => byName.get(model);
+// One model, fetched (and then cached by React Query) on demand. The old
+// version scanned a full pricing payload held in the query cache, which is why
+// every chat surface had to load the whole catalog just to send a message.
+async function fetchModelInfo(
+  model: string,
+): Promise<ProcessedModel | undefined> {
+  if (!model) return undefined;
+  try {
+    const res = await getQueryClient().fetchQuery({
+      queryKey: queryKeys.pricingModel(model),
+      queryFn: () => rpc.api.models.pricing.detail.get({ query: { model } }),
+      staleTime: 5 * 60 * 1000,
+    });
+    return handleElysia(res)?.model ?? undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 const generate: FreeModelGenerate = llmCall("");
@@ -28,9 +38,8 @@ const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
   llmCall(modelName)("", opts);
 
 export function buildDefaultClientDeps(userId: number): AssemblerDeps {
-  const getModelInfo = modelLookup();
   return {
-    getModelInfo,
+    getModelInfo: fetchModelInfo,
     upstreamTarget: {
       endpoint: API_ENDPOINTS.chatCompletions,
       url: `${env.apiUrl}${API_ENDPOINTS.chatCompletions}`,

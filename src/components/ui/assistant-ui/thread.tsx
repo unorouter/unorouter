@@ -30,7 +30,7 @@ import {
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { useModelBasicsQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
@@ -555,7 +555,7 @@ const StreamingIndicator: FC = () => {
   );
   const [elapsed, setElapsed] = useState(0);
   const activeModel = useAtomValue(chatModelAtom);
-  const pricing = usePricingQuery();
+  const pricing = useModelBasicsQuery();
 
   useEffect(() => {
     if (!isStreaming) return;
@@ -785,7 +785,7 @@ const AssistantMessageMeta: FC = () => {
 
 const AssistantMessageHeader: FC = () => {
   const meta = useMessageMeta();
-  const pricingQuery = usePricingQuery();
+  const pricingQuery = useModelBasicsQuery();
   const customProvidersQuery = useCustomProvidersQuery();
 
   if (!meta?.model) return null;
@@ -812,10 +812,7 @@ const AssistantMessageHeader: FC = () => {
   const modelData = pricingQuery.data?.models?.find(
     (m) => m.name === meta.model,
   );
-  const vendorName =
-    typeof modelData?.vendor === "string"
-      ? modelData.vendor
-      : (modelData?.vendor?.name ?? "");
+  const vendorName = modelData?.vendor ?? "";
 
   return (
     <div className="text-muted-foreground mb-1 ml-2 flex items-center gap-1.5 text-[11px]">

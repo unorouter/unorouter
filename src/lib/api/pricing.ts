@@ -230,9 +230,14 @@ export function releaseTs(m: ProcessedModel): number {
   return m.createdTime ? m.createdTime * 1000 : 0;
 }
 
-export function groupModelsByType(models: ProcessedModel[]) {
-  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
-  const typeMap = new Map<string, ProcessedModel[]>();
+// Generic over the model shape: the selector groups a lean catalog row, the
+// browse page groups a full ProcessedModel. Only tags/name/release ordering is
+// read, so both fit.
+export function groupModelsByType<
+  T extends { name: string; tags: string[]; releaseTs: number },
+>(models: T[]) {
+  const modelsByType: { tag: string; models: T[] }[] = [];
+  const typeMap = new Map<string, T[]>();
   for (const model of models) {
     const tag = model.tags[0] ?? "Other";
     const list = typeMap.get(tag);
@@ -246,7 +251,7 @@ export function groupModelsByType(models: ProcessedModel[]) {
   };
   for (const [tag, tagModels] of typeMap) {
     tagModels.sort((a, b) => {
-      const diff = releaseTs(b) - releaseTs(a);
+      const diff = b.releaseTs - a.releaseTs;
       return diff !== 0 ? diff : a.name.localeCompare(b.name);
     });
     modelsByType.push({ tag, models: tagModels });

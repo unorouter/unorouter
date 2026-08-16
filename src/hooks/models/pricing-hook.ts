@@ -55,3 +55,31 @@ export function useModelDetailQuery(name: string | null) {
     { enabled: name !== null },
   );
 }
+
+// The model selector's dropdown data: ~143KB vs the 481KB full list, because it
+// carries no description and no metadata blob.
+export function usePricingCatalogQuery(enabled = true) {
+  return useElysiaQuery(
+    queryKeys.pricingCatalog(),
+    () => rpc.api.models.pricing.catalog.get(),
+    { staleTime: "static", enabled },
+  );
+}
+
+// name -> {vendor, isFree, type} for chat surfaces that answer one question
+// about the active model.
+export function useModelBasicsQuery(enabled = true) {
+  return useElysiaQuery(
+    queryKeys.pricingModelBasics(),
+    () => rpc.api.models.pricing["model-basics"].get(),
+    { staleTime: "static", enabled },
+  );
+}
+
+export function useTextModelsQuery() {
+  return useElysiaQuery(
+    queryKeys.pricingTextModels(),
+    () => rpc.api.models.pricing["text-models"].get(),
+    { staleTime: "static" },
+  );
+}
