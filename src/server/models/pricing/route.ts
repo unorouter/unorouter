@@ -1,33 +1,128 @@
+import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
-  getImageModels,
-  getModelBasics,
-  getModelDetail,
-  getPricingCatalog,
-  getPricingCounts,
-  getPricingLean,
-  getPricingVendors,
+  isChatModel,
+  leanModel,
+  releaseTs,
+  toLeanPricing,
+} from "@/lib/api/pricing";
+import {
+  getModelByName,
+  getPricingCatalogSource,
+  getPricingSummary,
   getSubscriptionPlansSummary,
-  getTextModels,
-  getVendorModels,
 } from "@/server/models/pricing/pricing.service";
 import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
+  .get("/", async () => toLeanPricing(await getPricingSummary()))
+
+  .get("/counts", async () => {
+    const { models } = await getPricingCatalogSource();
+    const freeCount = models.filter((m) => m.isFree).length;
+    return {
+      modelCount: models.length,
+      freeCount,
+      paidCount: models.length - freeCount,
+      vendorCount: new Set(models.map((m) => m.vendor.name)).size,
+    };
+  })
+
+  .get("/vendors", async () => {
+    const { models } = await getPricingCatalogSource();
+    return {
+      vendorNames: [...new Set(models.map((m) => m.vendor.name))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+      modelVendors: models.map((m) => ({
+        name: m.name,
+        vendor: m.vendor.name,
+        chat: isChatModel(m),
+        isFree: !!m.isFree,
+        tag: m.tags[0] ?? "Other",
+        releaseTs: releaseTs(m),
+      })),
+    };
+  })
+
+  .get("/catalog", async () => {
+    const { models, summary } = await getPricingCatalogSource();
+    // Ratios only for groups some model is actually served by: the gateway
+    // knows 1600+ (one routing group per channel), the catalog references ~800.
+    const used = new Set(models.flatMap((m) => m.enableGroups));
+    const groupRatioMap: Record<string, number> = {};
+    for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
+      if (used.has(group)) groupRatioMap[group] = ratio;
+    }
+    return {
+      models: models.map((m) => ({
+        name: m.name,
+        vendor: m.vendor.name,
+        isFree: m.isFree,
+        tags: m.tags,
+        type: m.type,
+        enableGroups: m.enableGroups,
+        online: m.online,
+        releaseTs: releaseTs(m),
+      })),
+      groupRatioMap,
+      firstFreeModel: summary.firstFreeModel?.name ?? null,
+    };
+  })
+
+  .get("/model-basics", async () => {
+    const { models } = await getPricingCatalogSource();
+    return {
+      models: models.map((m) => ({
+        name: m.name,
+        vendor: m.vendor.name,
+        isFree: m.isFree,
+        type: m.type,
+      })),
+    };
+  })
+
+  .get("/text-models", async () => {
+    const { models } = await getPricingCatalogSource();
+    return {
+      models: models
+        .filter((m) => m.type === "text")
+        .map((m) => ({
+          name: m.name,
+          isFree: m.isFree,
+          vendor: { name: m.vendor.name },
+        })),
+    };
+  })
+
+  .get("/image-models", async () => {
+    const { models } = await getPricingCatalogSource();
+    return { models: getEffectiveImageModels(models) };
+  })
+
   .get(
-    "/",
-    async (ctx) => getPricingLean(ctx.query.include_offline === "true"),
-    { query: t.Object({ include_offline: t.Optional(t.String()) }) },
+    "/vendor",
+    async (ctx) => {
+      const { models } = await getPricingCatalogSource();
+      return {
+        models: models
+          .filter((m) => m.vendor.name === ctx.query.name)
+          .map((m) => leanModel(m)),
+      };
+    },
+    { query: t.Object({ name: t.String() }) },
   )
-  .get("/counts", async () => getPricingCounts())
-  .get("/vendors", async () => getPricingVendors())
-  .get("/catalog", async () => getPricingCatalog())
-  .get("/model-basics", async () => getModelBasics())
-  .get("/text-models", async () => getTextModels())
-  .get("/image-models", async () => getImageModels())
-  .get("/vendor", async (ctx) => getVendorModels(ctx.query.name), {
-    query: t.Object({ name: t.String() }),
-  })
-  .get("/detail", async (ctx) => getModelDetail(ctx.query.model), {
-    query: t.Object({ model: t.String() }),
-  })
+
+  .get(
+    "/detail",
+    async (ctx) => {
+      const { byName } = await getPricingCatalogSource();
+      return {
+        model:
+          byName.get(ctx.query.model) ??
+          (await getModelByName(ctx.query.model)),
+      };
+    },
+    { query: t.Object({ model: t.String() }) },
+  )
+
   .get("/subscriptions", async () => getSubscriptionPlansSummary());
