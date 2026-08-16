@@ -239,9 +239,3 @@ export function ensureConvId(): string {
   chatStore.set(convIdAtom, id);
   return id;
 }
-
-export function freshConvId(): string {
-  const id = uid();
-  chatStore.set(convIdAtom, id);
-  return id;
-}

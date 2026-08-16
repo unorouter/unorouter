@@ -26,7 +26,6 @@ type PluginInstance = {
   name: string;
   terminate: () => void;
   handlers: Map<PluginHookMode, Set<PluginHandler>>;
-  logs: string[];
 };
 
 const instances: PluginInstance[] = [];
@@ -117,7 +116,6 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     }
 
     const handlers = new Map<PluginHookMode, Set<PluginHandler>>();
-    const logs: string[] = [];
     const host = new SandboxHost(
       buildPluginApi({
         registerHandler: (mode, fn) => {
@@ -134,17 +132,14 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
           if (mode === "display") invalidateJsDisplayCache();
         },
         getCtx: () => activeCtx,
-        log: (line) => {
-          logs.push(line);
-          if (logs.length > 200) logs.shift();
-        },
+        log: () => {},
       }),
     );
     const frame = document.createElement("iframe");
     frame.style.display = "none";
     document.body.appendChild(frame);
     const terminate = host.run(frame, code);
-    instances.push({ id: row.id, name: row.name, terminate, handlers, logs });
+    instances.push({ id: row.id, name: row.name, terminate, handlers });
   }
 
   if (janitorScripts.length > 0) {
@@ -155,10 +150,6 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     scratchTerminate = host.run(frame, "");
     scratchHost = host;
   }
-}
-
-export function jsPluginLogs(): { name: string; logs: string[] }[] {
-  return instances.map((i) => ({ name: i.name, logs: [...i.logs] }));
 }
 
 export function hasJsHandlers(mode: PluginHookMode): boolean {

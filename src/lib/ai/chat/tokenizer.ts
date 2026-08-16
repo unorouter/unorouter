@@ -236,12 +236,6 @@ export function countTokens(text: string | undefined): number {
   return value;
 }
 
-export function resetActiveTokenizer(): void {
-  const cl100k = instanceCache.get("cl100k");
-  active = cl100k ?? APPROXIMATE;
-  activeId = cl100k ? "cl100k" : "approximate";
-}
-
 export function tokenizerRefForModel(
   selection: TokenizerRef | undefined,
   modelName: string | undefined,
