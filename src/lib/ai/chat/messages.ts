@@ -42,14 +42,20 @@ export function walkActiveBranch<
     isActiveBranch?: boolean | null;
   },
 >(messages: M[]): { path: M[]; tipId: string | undefined } {
-  // Walk DOWN from the root, choosing exactly one active child per level. Robust to corruption where
-  // several siblings share isActiveBranch=true (a reroll bug once left every sibling active): pick the
-  // LAST such child by array order (newest), so the branch is deterministic instead of the old
-  // reverse-find-any-active tip, which picked a message whose parent chain could skip active siblings
-  // and yield an inconsistent path (empty-looking thread).
+  // Walk DOWN from the root, choosing exactly one active child per level, and stay
+  // deterministic under the two corruptions this data has actually hit.
+  //
+  // A parentId naming a row that does not exist severs the chain: the walk stops at the
+  // greeting and every turn past the orphan is unreachable, so the request ships one
+  // message out of a full conversation. The load path repairs these rows, but the send
+  // path reads straight from the DB. Treat an unresolvable parent as the row's own
+  // predecessor by array order.
+  const ids = new Set(messages.map((m) => m.id));
   const childrenOf = new Map<string | null, M[]>();
-  for (const m of messages) {
-    const key = m.parentId ?? null;
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    const orphaned = m.parentId != null && !ids.has(m.parentId);
+    const key = orphaned ? (messages[i - 1]?.id ?? null) : (m.parentId ?? null);
     const arr = childrenOf.get(key) ?? [];
     arr.push(m);
     childrenOf.set(key, arr);
