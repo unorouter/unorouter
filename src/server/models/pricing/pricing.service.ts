@@ -26,6 +26,20 @@ export async function getModelByName(name: string) {
   }
 }
 
+// The guest gate only needs the flag, which upstream now derives, so this skips
+// buildPricingSummary's price math entirely.
+export async function isModelFree(name: string) {
+  try {
+    const res = await getPricingModel(
+      { model: name },
+      { headers: ADMIN_HEADERS },
+    );
+    return res.data.data?.[0]?.is_free === true;
+  } catch {
+    return false;
+  }
+}
+
 export async function getSubscriptionPlansSummary() {
   const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });
   if (res.status !== 200) return [];

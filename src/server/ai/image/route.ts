@@ -1,4 +1,4 @@
-import { getModelByName } from "@/server/models/pricing/pricing.service";
+import { isModelFree } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { catalogSearchQuery, imageSubmitBody } from "@/lib/validation/image";
 import { getUserId } from "@/server/constants";
@@ -13,8 +13,7 @@ import {
 } from "./model-search.service";
 
 async function assertGuestAllowedModel(model: string): Promise<void> {
-  const meta = await getModelByName(model);
-  if (!meta?.isFree) {
+  if (!(await isModelFree(model))) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }

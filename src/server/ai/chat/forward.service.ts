@@ -1,4 +1,4 @@
-import { getModelByName } from "@/server/models/pricing/pricing.service";
+import { isModelFree } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
@@ -26,8 +26,7 @@ export async function forwardChatCompletions(args: {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
   if (args.userId === GUEST_USER_ID) {
-    const meta = await getModelByName(model);
-    if (!meta?.isFree) {
+    if (!(await isModelFree(model))) {
       return new Response(
         JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }),
         {
@@ -39,8 +38,7 @@ export async function forwardChatCompletions(args: {
   }
 
   if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
-    const meta = await getModelByName(model);
-    if (!meta?.isFree) {
+    if (!(await isModelFree(model))) {
       return new Response(
         JSON.stringify({
           error: `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`,
