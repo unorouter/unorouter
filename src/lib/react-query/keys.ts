@@ -96,8 +96,6 @@ export const queryKeys = {
   pricingModelGroups: (name: string) =>
     ["pricing", "model-groups", name] as const,
   pricingCatalog: () => ["pricing", "catalog"] as const,
-  pricingModelBasics: () => ["pricing", "model-basics"] as const,
-  pricingTextModels: () => ["pricing", "text-models"] as const,
   searchIndex: (locale: string) => ["search-index", locale] as const,
   searchResults: (locale: string, query: string) =>
     ["search-index", "results", locale, query] as const,

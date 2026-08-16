@@ -66,16 +66,6 @@ export function usePricingCatalogQuery(enabled = true) {
   );
 }
 
-// name -> {vendor, isFree, type} for chat surfaces that answer one question
-// about the active model.
-export function useModelBasicsQuery(enabled = true) {
-  return useElysiaQuery(
-    queryKeys.pricingModelBasics(),
-    () => rpc.api.models.pricing["model-basics"].get(),
-    { staleTime: "static", enabled },
-  );
-}
-
 // The group-pin dropdown needs the ACTIVE model's servable groups and their
 // ratios. Fetched per model (~1KB) rather than shipping every model's groups in
 // the catalog, which was 57KB of the old payload for one dropdown.
@@ -85,13 +75,5 @@ export function useModelGroupsQuery(name: string | null) {
     () =>
       rpc.api.models.pricing["model-groups"].get({ query: { model: name! } }),
     { staleTime: "static", enabled: !!name },
-  );
-}
-
-export function useTextModelsQuery() {
-  return useElysiaQuery(
-    queryKeys.pricingTextModels(),
-    () => rpc.api.models.pricing["text-models"].get(),
-    { staleTime: "static" },
   );
 }

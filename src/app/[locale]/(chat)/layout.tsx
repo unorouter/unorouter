@@ -25,9 +25,6 @@ export default async function ChatLayout(props: Props) {
     prefetchElysia(queryClient, queryKeys.pricingCatalog(), () =>
       rpc.api.models.pricing.catalog.get(),
     ),
-    prefetchElysia(queryClient, queryKeys.pricingModelBasics(), () =>
-      rpc.api.models.pricing["model-basics"].get(),
-    ),
     prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
       rpc.api.models["model-status"].components.get(),
     ),

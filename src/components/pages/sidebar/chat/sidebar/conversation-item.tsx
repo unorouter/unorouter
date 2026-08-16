@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
-import { useModelBasicsQuery } from "@/hooks/models/pricing-hook";
+import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import {
   isCustomModelId,
   parseCustomModelId,
@@ -32,7 +32,7 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
-  const pricingQuery = useModelBasicsQuery();
+  const pricingQuery = usePricingCatalogQuery();
   const updateMutation = useUpdateConversationMutation();
   const queuedSends = useQueuedSends();
   const isQueued = queuedSends.data?.has(props.conversation.id) ?? false;
@@ -43,7 +43,7 @@ export function ConversationItem(props: ConversationItemProps) {
   const model = props.conversation.model;
   const isCustom = isCustomModelId(model);
 
-  const modelData = pricingQuery.data?.find((m) => m.name === model);
+  const modelData = pricingQuery.data?.models.find((m) => m.name === model);
   const vendorName = modelData?.vendor ?? "";
   const isUnknownCatalog =
     !isCustom && !!model && pricingQuery.isSuccess && !modelData;

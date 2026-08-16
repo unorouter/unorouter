@@ -58,27 +58,6 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     return { models, firstFreeModel: newestFreeChatModel(catalog.data) };
   })
 
-  .get("/model-basics", async () => {
-    const { models } = await getPricingSummary();
-    return models.map((m) => ({
-      name: m.name,
-      vendor: m.vendor.name,
-      isFree: m.isFree,
-      type: m.type,
-    }));
-  })
-
-  .get("/text-models", async () => {
-    const { models } = await getPricingSummary();
-    return models
-      .filter((m) => m.type === "text")
-      .map((m) => ({
-        name: m.name,
-        isFree: m.isFree,
-        vendor: { name: m.vendor.name },
-      }));
-  })
-
   .get("/image-models", async () => {
     const { models } = await getPricingSummary();
     return getEffectiveImageModels(models);

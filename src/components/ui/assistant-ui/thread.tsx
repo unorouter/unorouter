@@ -30,7 +30,7 @@ import {
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { useModelBasicsQuery } from "@/hooks/models/pricing-hook";
+import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
@@ -555,7 +555,7 @@ const StreamingIndicator: FC = () => {
   );
   const [elapsed, setElapsed] = useState(0);
   const activeModel = useAtomValue(chatModelAtom);
-  const pricing = useModelBasicsQuery();
+  const pricing = usePricingCatalogQuery();
 
   useEffect(() => {
     if (!isStreaming) return;
@@ -566,7 +566,9 @@ const StreamingIndicator: FC = () => {
 
   if (!isStreaming) return null;
 
-  const modelType = pricing.data?.find((m) => m.name === activeModel)?.type;
+  const modelType = pricing.data?.models.find(
+    (m) => m.name === activeModel,
+  )?.type;
   const gradientWindow =
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
@@ -783,7 +785,7 @@ const AssistantMessageMeta: FC = () => {
 
 const AssistantMessageHeader: FC = () => {
   const meta = useMessageMeta();
-  const pricingQuery = useModelBasicsQuery();
+  const pricingQuery = usePricingCatalogQuery();
   const customProvidersQuery = useCustomProvidersQuery();
 
   if (!meta?.model) return null;
@@ -807,7 +809,9 @@ const AssistantMessageHeader: FC = () => {
     );
   }
 
-  const modelData = pricingQuery.data?.find((m) => m.name === meta.model);
+  const modelData = pricingQuery.data?.models.find(
+    (m) => m.name === meta.model,
+  );
   const vendorName = modelData?.vendor ?? "";
 
   return (

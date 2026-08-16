@@ -44,7 +44,7 @@ import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import {
   useImageModelsQuery,
-  useTextModelsQuery,
+  usePricingCatalogQuery,
 } from "@/hooks/models/pricing-hook";
 import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
@@ -382,7 +382,7 @@ function UtilityModelPicker(props: {
   value: string;
   onPick: (id: string) => void;
   customOptions: UtilityModelOption[];
-  catalogModels: { name: string; isFree: boolean; vendor: { name: string } }[];
+  catalogModels: { name: string; isFree: boolean; vendor: string }[];
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -456,11 +456,11 @@ function UtilityModelPicker(props: {
                 <CommandItem
                   key={m.name}
                   value={m.name}
-                  keywords={[m.vendor.name, ...(m.isFree ? ["free"] : [])]}
+                  keywords={[m.vendor, ...(m.isFree ? ["free"] : [])]}
                   onSelect={() => pick(m.name)}
                   className="text-xs"
                 >
-                  <VendorIcon vendor={m.vendor.name} size={14} />
+                  <VendorIcon vendor={m.vendor} size={14} />
                   <span className="min-w-0 flex-1 truncate font-mono">
                     {m.name}
                   </span>
@@ -483,9 +483,11 @@ function UtilityModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
   const t = useTranslations();
-  const textModels = useTextModelsQuery().data;
+  const catalogQuery = usePricingCatalogQuery();
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = textModels ?? [];
+  const catalogModels = (catalogQuery.data?.models ?? []).filter(
+    (m) => m.type === "text",
+  );
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models
       .filter((m) => m.type !== "image")
