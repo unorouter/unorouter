@@ -10,7 +10,7 @@ export function useChatGate() {
   const selectedModel = useAtomValue(chatModelAtom);
   const pricingData = useModelBasicsQuery().data;
   const isSelectedModelFree =
-    pricingData?.models.find((m) => m.name === selectedModel)?.isFree ?? false;
+    pricingData?.find((m) => m.name === selectedModel)?.isFree ?? false;
 
   const inputsSettled = selectedModel != null && pricingData != null;
   const needsToken =

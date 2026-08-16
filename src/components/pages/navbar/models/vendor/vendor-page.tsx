@@ -15,7 +15,7 @@ export function VendorModelsPage(props: { vendor: string }) {
   const query = usePricingVendorQuery(props.vendor);
   const target = vendorSlug(props.vendor);
 
-  const models = (query.data?.models ?? [])
+  const models = (query.data ?? [])
     .filter((m) => vendorSlug(m.vendor.name) === target)
     .sort((a, b) => b.metadata.releaseTs - a.metadata.releaseTs);
 

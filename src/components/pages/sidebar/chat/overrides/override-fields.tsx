@@ -485,7 +485,7 @@ function UtilityModelField(props: {
   const t = useTranslations();
   const textModels = useTextModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = textModels?.models ?? [];
+  const catalogModels = textModels ?? [];
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models
       .filter((m) => m.type !== "image")
@@ -521,7 +521,7 @@ function ImageModelField(props: {
   const t = useTranslations();
   const imageModels = useImageModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogOptions = (imageModels?.models ?? []).map((m) => ({
+  const catalogOptions = (imageModels ?? []).map((m) => ({
     id: m.id,
     name: m.maxReferenceImages
       ? `${m.id} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.maxReferenceImages })})`

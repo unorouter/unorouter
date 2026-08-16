@@ -1,4 +1,4 @@
-import { isFreeChatModel, leanModel, toLeanPricing } from "@/lib/api/pricing";
+import { isFreeChatModel, toLeanPricing } from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
 import { getRankings, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
@@ -20,15 +20,6 @@ import {
 // over http://127.0.0.1, which has no listener during a server render.
 export async function getCachedPricingVendors() {
   return (await getPricingSummary()).vendorNames;
-}
-
-export async function getCachedVendorModels(vendorName: string) {
-  const summary = await getPricingSummary();
-  return {
-    models: summary.models
-      .filter((m) => m.vendor.name === vendorName)
-      .map((m) => leanModel(m)),
-  };
 }
 
 export async function getCachedFreeChatModels(limit?: number) {

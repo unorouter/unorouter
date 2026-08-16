@@ -82,7 +82,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   // The list carries the lean model (truncated description, no parameter
   // defaults); the full record loads on open and swaps in reactively.
   const detailQuery = useModelDetailQuery(props.model?.name ?? null);
-  const model = detailQuery.data?.model ?? props.model;
+  const model = detailQuery.data ?? props.model;
 
   if (!model) return null;
 

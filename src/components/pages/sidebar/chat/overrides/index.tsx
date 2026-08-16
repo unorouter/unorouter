@@ -78,7 +78,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     samplerMemoryByModelAtom,
   );
   const activeModelName = useAtomValue(chatModelAtom);
-  const activeModel = useModelDetailQuery(activeModelName ?? null).data?.model;
+  const activeModel = useModelDetailQuery(activeModelName ?? null).data;
   const activeModelMetadata = activeModel?.metadata;
   const maxTokensCap = activeModel
     ? activeModel.isFree

@@ -26,7 +26,7 @@ async function fetchModelInfo(
       queryFn: () => rpc.api.models.pricing.detail.get({ query: { model } }),
       staleTime: 5 * 60 * 1000,
     });
-    return handleElysia(res)?.model ?? undefined;
+    return handleElysia(res) ?? undefined;
   } catch {
     return undefined;
   }

@@ -1,14 +1,10 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
-import {
-  isChatModel,
-  leanModel,
-  toLeanPricing,
-  usedGroupRatios,
-} from "@/lib/api/pricing";
+import { isChatModel, toLeanPricing, usedGroupRatios } from "@/lib/api/pricing";
 import {
   getModelByName,
   getPricingSummary,
   getSubscriptionPlansSummary,
+  getVendorModels,
 } from "@/server/models/pricing/pricing.service";
 import { Elysia, t } from "elysia";
 
@@ -63,56 +59,43 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/model-basics", async () => {
     const { models } = await getPricingSummary();
-    return {
-      models: models.map((m) => ({
-        name: m.name,
-        vendor: m.vendor.name,
-        isFree: m.isFree,
-        type: m.type,
-      })),
-    };
+    return models.map((m) => ({
+      name: m.name,
+      vendor: m.vendor.name,
+      isFree: m.isFree,
+      type: m.type,
+    }));
   })
 
   .get("/text-models", async () => {
     const { models } = await getPricingSummary();
-    return {
-      models: models
-        .filter((m) => m.type === "text")
-        .map((m) => ({
-          name: m.name,
-          isFree: m.isFree,
-          vendor: { name: m.vendor.name },
-        })),
-    };
+    return models
+      .filter((m) => m.type === "text")
+      .map((m) => ({
+        name: m.name,
+        isFree: m.isFree,
+        vendor: { name: m.vendor.name },
+      }));
   })
 
   .get("/image-models", async () => {
     const { models } = await getPricingSummary();
-    return { models: getEffectiveImageModels(models) };
+    return getEffectiveImageModels(models);
   })
 
-  .get(
-    "/vendor",
-    async (ctx) => {
-      const { models } = await getPricingSummary();
-      return {
-        models: models
-          .filter((m) => m.vendor.name === ctx.query.name)
-          .map((m) => leanModel(m)),
-      };
-    },
-    { query: t.Object({ name: t.String() }) },
-  )
+  .get("/vendor", async (ctx) => getVendorModels(ctx.query.name), {
+    query: t.Object({ name: t.String() }),
+  })
 
   .get(
     "/detail",
     async (ctx) => {
       const { models } = await getPricingSummary();
-      return {
-        model:
-          models.find((m) => m.name === ctx.query.model) ??
-          (await getModelByName(ctx.query.model)),
-      };
+      const model =
+        models.find((m) => m.name === ctx.query.model) ??
+        (await getModelByName(ctx.query.model));
+      if (!model) ctx.set.status = 404;
+      return model;
     },
     { query: t.Object({ model: t.String() }) },
   )

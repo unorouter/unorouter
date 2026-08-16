@@ -2,6 +2,7 @@ import { IMAGE_MAX_DIM } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { Extracted } from "@/lib/types";
 import { asParams } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
@@ -228,6 +229,7 @@ type SaveFilePicker = (opts: {
   types?: { description?: string; accept: Record<string, string[]> }[];
 }) => Promise<{
   createWritable: () => Promise<WritableStream<Uint8Array>>;
+  getFile?: () => Promise<File>;
 }>;
 
 // Stream a file straight to disk via the File System Access API where available
@@ -238,7 +240,7 @@ type SaveFilePicker = (opts: {
 export async function streamFileToDisk(
   file: File,
   filename: string,
-): Promise<"fsa" | "blob" | "cancelled"> {
+): Promise<"fsa" | "share" | "blob" | "cancelled"> {
   const picker = (window as unknown as { showSaveFilePicker?: SaveFilePicker })
     .showSaveFilePicker;
   // Feature detection alone stopped being enough: iOS Safari 26 EXPOSES
@@ -248,6 +250,22 @@ export async function streamFileToDisk(
   const likelyIos =
     /iphone|ipad|ipod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const nav = navigator as Navigator & {
+    canShare?: (data: { files?: File[] }) => boolean;
+    share?: (data: { files?: File[]; title?: string }) => Promise<void>;
+  };
+  // Every input to the branch choice, because a wrong branch is invisible in the
+  // result: the file lands on disk at the wrong size with no error anywhere.
+  logChatDebug("save.begin", {
+    bytes: file.size,
+    likelyIos,
+    hasPicker: typeof picker === "function",
+    hasShare: typeof nav.share === "function",
+    canShareFile: nav.canShare?.({ files: [file] }) ?? null,
+    ua: navigator.userAgent.slice(0, 120),
+    platform: navigator.platform,
+    maxTouchPoints: navigator.maxTouchPoints,
+  });
   if (typeof picker === "function" && !likelyIos) {
     try {
       const handle = await picker({
@@ -261,11 +279,27 @@ export async function streamFileToDisk(
       });
       const writable = await handle.createWritable();
       await file.stream().pipeTo(writable);
+      // Read back what actually landed. iOS Safari 26 accepts the whole write
+      // and leaves a stub on disk, reporting no error, so the only way to know
+      // the save worked is to measure the result rather than trust the API.
+      const written = await handle
+        .getFile?.()
+        .then((f) => f.size)
+        .catch(() => null);
+      logChatDebug("save.done", {
+        path: "fsa",
+        bytes: file.size,
+        writtenBytes: written ?? null,
+        truncated: written != null && written < file.size,
+      });
       return "fsa";
     } catch (err) {
-      if (err instanceof DOMException && err.name === "AbortError")
+      if (err instanceof DOMException && err.name === "AbortError") {
+        logChatDebug("save.cancelled", { path: "fsa" });
         return "cancelled";
+      }
       // Any other failure (partial write, permission) falls through to blob.
+      logChatDebug("save.fsa_failed", { error: String(err).slice(0, 200) });
     }
   }
   // iOS Safari has no showSaveFilePicker AND largely ignores the `download`
@@ -274,21 +308,24 @@ export async function streamFileToDisk(
   // "refresh" and land somewhere else). Web Share hands the file to the real
   // save sheet instead. Only offered when the platform says it can take this
   // exact file, and a user cancel is not an error.
-  const nav = navigator as Navigator & {
-    canShare?: (data: { files?: File[] }) => boolean;
-    share?: (data: { files?: File[]; title?: string }) => Promise<void>;
-  };
   if (typeof nav.share === "function" && nav.canShare?.({ files: [file] })) {
     try {
       await nav.share({ files: [file], title: filename });
-      return "fsa";
+      // Distinct from "fsa": both used to report the same value, so a log could
+      // not say WHICH save path produced the file on disk.
+      logChatDebug("save.done", { path: "share", bytes: file.size });
+      return "share";
     } catch (err) {
-      if (err instanceof DOMException && err.name === "AbortError")
+      if (err instanceof DOMException && err.name === "AbortError") {
+        logChatDebug("save.cancelled", { path: "share" });
         return "cancelled";
+      }
       // Share unavailable in practice: fall through to the blob anchor.
+      logChatDebug("save.share_failed", { error: String(err).slice(0, 200) });
     }
   }
   downloadBlob(file, filename);
+  logChatDebug("save.done", { path: "blob", bytes: file.size });
   return "blob";
 }
 

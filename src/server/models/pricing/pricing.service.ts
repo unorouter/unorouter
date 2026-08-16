@@ -1,4 +1,4 @@
-import { buildPricingSummary } from "@/lib/api/pricing";
+import { buildPricingSummary, leanModel } from "@/lib/api/pricing";
 import { processPlans } from "@/lib/api/subscription";
 import { unwrap } from "@/lib/utils/base";
 import { getPricing, getPricingModel, getSubscriptionPlans } from "@/openapi";
@@ -13,9 +13,13 @@ export const getPricingSummary = cache(async (includeOffline = false) => {
   return buildPricingSummary(unwrap(res));
 });
 
-// Upstream matches the name exactly and 404s otherwise, so the envelope holds
-// this model or nothing. Null on 404 (customFetch throws) or a dark model with
-// no pricing row.
+export async function getVendorModels(vendorName: string) {
+  const { models } = await getPricingSummary();
+  return models
+    .filter((m) => m.vendor.name === vendorName)
+    .map((m) => leanModel(m));
+}
+
 export async function getModelByName(name: string) {
   try {
     const res = await getPricingModel(

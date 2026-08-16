@@ -34,8 +34,8 @@ export function useImageForm() {
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
 
   const imageModelsQuery = useImageModelsQuery();
-  const effectiveModels = imageModelsQuery.data?.models?.length
-    ? imageModelsQuery.data.models
+  const effectiveModels = imageModelsQuery.data?.length
+    ? imageModelsQuery.data
     : STATIC_IMAGE_MODELS;
   const findDescriptor = (id: ImageModelId): ImageModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
