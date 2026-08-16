@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { formatPrice } from "@/lib/utils/format/number";
 import type { BadgeSize } from "@/lib/validation/badge";
-import { cipherMarker } from "../elements/cipher";
+import { makeCipher } from "../elements/cipher";
 import { Brand, Card, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
 import { t } from "../lib/cache";
@@ -11,7 +11,6 @@ import type {
   BadgeCtx,
   BadgeDimsBase,
   BadgePricingRow,
-  CipherTarget,
   ThemeColors,
 } from "../lib/types";
 import { computeSize, discount, getVendorIcon, svgDataUri } from "../lib/utils";
@@ -209,6 +208,7 @@ function PriceRow(props: {
   outputCurrentMarker: string;
   outputOriginalMarker?: string;
   discountMarker?: string;
+  disc: string;
   showOriginal: boolean;
   modelWidth: number;
   priceWidth: number;
@@ -218,10 +218,6 @@ function PriceRow(props: {
   origFont: number;
   discountFont: number;
 }) {
-  const disc =
-    props.showOriginal && props.row.originalInputPrice
-      ? discount(props.row.originalInputPrice, props.row.inputPrice)
-      : "";
   const iconSvg = getVendorIcon(props.row.vendor);
 
   return (
@@ -269,7 +265,7 @@ function PriceRow(props: {
         priceFont={props.priceFont}
         origFont={props.origFont}
       />
-      {disc ? (
+      {props.disc ? (
         <Row
           style={{
             backgroundColor: props.c.accentMuted,
@@ -278,7 +274,7 @@ function PriceRow(props: {
           }}
         >
           <MonoValue
-            value={disc}
+            value={props.disc}
             c={{ ...props.c, text: props.c.accent }}
             size={props.discountFont}
             cipherMarker={props.discountMarker}
@@ -304,26 +300,36 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     return pct > max ? pct : max;
   }, 0);
 
-  let markerIdx = 1;
-  const headerMarker = cipherMarker(markerIdx++);
+  const cip = makeCipher();
   const headerValue = `${maxDiscount}%`;
+  const headerMarker = cip.mark(headerValue, d.headerFont, c.text);
 
   const rowMarkers = displayRows.map((row) => {
-    const inputCurrent = cipherMarker(markerIdx++);
+    const inputCurrent = cip.mark(
+      formatPrice(row.inputPrice),
+      d.priceFont,
+      c.text,
+    );
     const inputOriginal =
       d.showOriginal && row.originalInputPrice !== null
-        ? cipherMarker(markerIdx++)
+        ? cip.mark(formatPrice(row.originalInputPrice), d.origFont, c.muted)
         : undefined;
-    const outputCurrent = cipherMarker(markerIdx++);
+    const outputCurrent = cip.mark(
+      formatPrice(row.outputPrice),
+      d.priceFont,
+      c.text,
+    );
     const outputOriginal =
       d.showOriginal && row.originalOutputPrice !== null
-        ? cipherMarker(markerIdx++)
+        ? cip.mark(formatPrice(row.originalOutputPrice), d.origFont, c.muted)
         : undefined;
     const disc =
       d.showOriginal && row.originalInputPrice
         ? discount(row.originalInputPrice, row.inputPrice)
         : "";
-    const discountM = disc ? cipherMarker(markerIdx++) : undefined;
+    const discountM = disc
+      ? cip.mark(disc, d.discountFont, c.accent)
+      : undefined;
     return {
       inputCurrent,
       inputOriginal,
@@ -395,6 +401,7 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
           outputCurrentMarker={rowMarkers[i].outputCurrent}
           outputOriginalMarker={rowMarkers[i].outputOriginal}
           discountMarker={rowMarkers[i].discountM}
+          disc={rowMarkers[i].disc}
           showOriginal={d.showOriginal}
           modelWidth={d.modelWidth}
           priceWidth={d.priceWidth}
@@ -420,57 +427,11 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  const targets: CipherTarget[] = [
-    {
-      value: headerValue,
-      fontSize: d.headerFont,
-      color: c.text,
-      markerColor: headerMarker,
-    },
-  ];
-  for (let i = 0; i < displayRows.length; i++) {
-    const row = displayRows[i];
-    const rm = rowMarkers[i];
-    targets.push({
-      value: formatPrice(row.inputPrice),
-      fontSize: d.priceFont,
-      color: c.text,
-      markerColor: rm.inputCurrent,
-    });
-    if (rm.inputOriginal && row.originalInputPrice !== null)
-      targets.push({
-        value: formatPrice(row.originalInputPrice),
-        fontSize: d.origFont,
-        color: c.muted,
-        markerColor: rm.inputOriginal,
-      });
-    targets.push({
-      value: formatPrice(row.outputPrice),
-      fontSize: d.priceFont,
-      color: c.text,
-      markerColor: rm.outputCurrent,
-    });
-    if (rm.outputOriginal && row.originalOutputPrice !== null)
-      targets.push({
-        value: formatPrice(row.originalOutputPrice),
-        fontSize: d.origFont,
-        color: c.muted,
-        markerColor: rm.outputOriginal,
-      });
-    if (rm.discountM && rm.disc)
-      targets.push({
-        value: rm.disc,
-        fontSize: d.discountFont,
-        color: c.accent,
-        markerColor: rm.discountM,
-      });
-  }
-
   return renderBadgeTemplate({
     node,
     width: size.W,
     height: size.H,
-    cipherTargets: targets,
+    cipherTargets: cip.targets,
     staticMode: ctx.staticMode,
   });
 }

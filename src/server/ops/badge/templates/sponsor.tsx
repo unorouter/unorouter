@@ -1,10 +1,17 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { cipherMarker } from "../elements/cipher";
-import { Brand, Card, Col, Divider, Row } from "../elements/primitives";
+import { makeCipher } from "../elements/cipher";
+import {
+  Brand,
+  Card,
+  Col,
+  Divider,
+  PulseDotMarker,
+  Row,
+} from "../elements/primitives";
 import { Dot, FONT_SANS, MonoValue, Stat } from "../elements/typography";
 import { t } from "../lib/cache";
 import { THEME_COLORS } from "../lib/theme";
-import type { BadgeCtx, BadgeDimsBase, CipherTarget } from "../lib/types";
+import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { renderBadgeTemplate } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
@@ -130,12 +137,10 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const freeCount = ctx.pricing.freeCount.toLocaleString("en-US");
   const paidCount = ctx.pricing.paidCount.toLocaleString("en-US");
 
-  const m1 = cipherMarker(1);
-  const m2 = cipherMarker(2);
-  const m3 = cipherMarker(3);
-  const m4 = cipherMarker(4);
-  const m5 = cipherMarker(5);
-  const m6 = cipherMarker(6);
+  const cip = makeCipher();
+  const m1 = cip.mark(tokenCount, d.statSize, c.text, true);
+  const m2 = cip.mark(requestCount, d.statSize, c.text, true);
+  const m3 = cip.mark(tpmCount, d.statSize, c.text, true);
 
   if (d.layout === "horizontal") {
     const node = (
@@ -173,15 +178,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
             cipherMarker={m3}
           />
         </Row>
-        <Row
-          style={{
-            width: d.dotSize,
-            height: d.dotSize,
-            borderRadius: "50%",
-            backgroundColor: c.pulseDotMarker,
-            marginLeft: "auto",
-          }}
-        />
+        <PulseDotMarker size={d.dotSize} c={c} style={{ marginLeft: "auto" }} />
       </Card>
     );
 
@@ -190,32 +187,14 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
       width: d.W,
       height: d.H,
       pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
-      cipherTargets: [
-        {
-          value: tokenCount,
-          fontSize: d.statSize,
-          color: c.text,
-          markerColor: m1,
-          loop: true,
-        },
-        {
-          value: requestCount,
-          fontSize: d.statSize,
-          color: c.text,
-          markerColor: m2,
-          loop: true,
-        },
-        {
-          value: tpmCount,
-          fontSize: d.statSize,
-          color: c.text,
-          markerColor: m3,
-          loop: true,
-        },
-      ],
+      cipherTargets: cip.targets,
       staticMode: ctx.staticMode,
     });
   }
+
+  const m4 = cip.mark(modelCount, d.modelCountFont, c.text);
+  const m5 = cip.mark(freeCount, d.modelCountFont, c.text);
+  const m6 = cip.mark(paidCount, d.modelCountFont, c.text);
 
   const node = (
     <Card c={c}>
@@ -356,15 +335,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
             size={d.statSize}
             cipherMarker={m1}
           />
-          <Row
-            style={{
-              width: d.dotSize,
-              height: d.dotSize,
-              borderRadius: "50%",
-              backgroundColor: c.pulseDotMarker,
-              marginBottom: 12,
-            }}
-          />
+          <PulseDotMarker size={d.dotSize} c={c} style={{ marginBottom: 12 }} />
         </Row>
         <Stat
           value={requestCount}
@@ -384,54 +355,12 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  const targets: CipherTarget[] = [
-    {
-      value: tokenCount,
-      fontSize: d.statSize,
-      color: c.text,
-      markerColor: m1,
-      loop: true,
-    },
-    {
-      value: requestCount,
-      fontSize: d.statSize,
-      color: c.text,
-      markerColor: m2,
-      loop: true,
-    },
-    {
-      value: tpmCount,
-      fontSize: d.statSize,
-      color: c.text,
-      markerColor: m3,
-      loop: true,
-    },
-    {
-      value: modelCount,
-      fontSize: d.modelCountFont,
-      color: c.text,
-      markerColor: m4,
-    },
-    {
-      value: freeCount,
-      fontSize: d.modelCountFont,
-      color: c.text,
-      markerColor: m5,
-    },
-    {
-      value: paidCount,
-      fontSize: d.modelCountFont,
-      color: c.text,
-      markerColor: m6,
-    },
-  ];
-
   return renderBadgeTemplate({
     node,
     width: d.W,
     height: d.H,
     pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
-    cipherTargets: targets,
+    cipherTargets: cip.targets,
     staticMode: ctx.staticMode,
   });
 }

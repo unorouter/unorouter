@@ -105,3 +105,21 @@ export function Brand(props: {
     </Row>
   );
 }
+
+export function PulseDotMarker(props: {
+  size: number;
+  c: ThemeColors;
+  style?: Record<string, string | number>;
+}) {
+  return (
+    <Row
+      style={{
+        width: props.size,
+        height: props.size,
+        borderRadius: "50%",
+        backgroundColor: props.c.pulseDotMarker,
+        ...props.style,
+      }}
+    />
+  );
+}

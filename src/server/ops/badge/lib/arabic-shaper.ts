@@ -29,7 +29,7 @@ function isNeutralChar(ch: string): boolean {
   return /[\s0-9.,:;!?/()[\]{}<>|@#%&*+=_~'"^-]/.test(ch);
 }
 
-export function hasArabic(text: string): boolean {
+function hasArabic(text: string): boolean {
   return ARABIC_RE.test(text);
 }
 

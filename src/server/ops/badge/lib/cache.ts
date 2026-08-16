@@ -1,8 +1,4 @@
-import {
-  buildPricingSummary,
-  processModels,
-  type ProcessedModel,
-} from "@/lib/api/pricing";
+import { buildPricingSummary, type ProcessedModel } from "@/lib/api/pricing";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
 import { errMessage, unwrap } from "@/lib/utils/base";
@@ -14,6 +10,7 @@ import { join } from "path";
 import type { SatoriOptions } from "satori";
 import { createTranslator } from "use-intl/core";
 import { ADMIN_HEADERS } from "@/server/constants";
+import { getPricingSnapshot } from "@/server/models/pricing/pricing-snapshot";
 import type { BadgePricing, BadgeStats } from "./types";
 
 const logoSvg = readFileSync(
@@ -120,25 +117,18 @@ export async function getStats(): Promise<BadgeStats> {
   return cachedStats;
 }
 
-let cachedModels: ProcessedModel[] | null = null;
-let cachedModelsAt = 0;
-
 export async function findBadgeModel(
   nameOrSlug: string,
 ): Promise<ProcessedModel | null> {
-  if (!cachedModels || Date.now() - cachedModelsAt >= CACHE_TTL) {
-    const res = await getPricing();
-    cachedModels = processModels(unwrap(res));
-    cachedModelsAt = Date.now();
-  }
-  return cachedModels.find((m) => modelMatchesSlug(m.name, nameOrSlug)) ?? null;
+  const { models } = await getPricingSnapshot();
+  return models.find((m) => modelMatchesSlug(m.name, nameOrSlug)) ?? null;
 }
 
 export async function getPricingData(): Promise<BadgePricing> {
   if (cachedPricing && Date.now() - cachedPricingAt < CACHE_TTL)
     return cachedPricing;
 
-  const res = await getPricing();
+  const res = await getPricing(undefined, { headers: ADMIN_HEADERS });
   const summary = buildPricingSummary(unwrap(res));
 
   const vendorModelCounts: Record<string, number> = {};

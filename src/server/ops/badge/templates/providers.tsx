@@ -1,17 +1,12 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import type { BadgeSize } from "@/lib/validation/badge";
 import { FONT_MONO, FONT_SANS, MonoValue } from "../elements/typography";
-import { cipherMarker } from "../elements/cipher";
+import { makeCipher } from "../elements/cipher";
 import { t } from "../lib/cache";
 import { Brand, Card, Row } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
 import { THEME_COLORS } from "../lib/theme";
-import type {
-  BadgeCtx,
-  BadgeDimsBase,
-  CipherTarget,
-  ThemeColors,
-} from "../lib/types";
+import type { BadgeCtx, BadgeDimsBase, ThemeColors } from "../lib/types";
 import { getVendorIcon, svgDataUri } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
@@ -203,9 +198,9 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
   const providerCount = `${ctx.pricing.vendorCount}+`;
   const modelCountValue = `${ctx.pricing.modelCount}+`;
 
-  let markerIdx = 1;
-  const m1 = cipherMarker(markerIdx++);
-  const m2 = cipherMarker(markerIdx++);
+  const cip = makeCipher();
+  const m1 = cip.mark(providerCount, d.headerFont, c.text);
+  const m2 = cip.mark(modelCountValue, d.headerFont, c.text);
 
   const resolved = ctx.pricing.vendorNames
     .map((name) => ({
@@ -220,8 +215,10 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     .slice(0, d.maxIcons);
 
   const remaining = ctx.pricing.vendorNames.length - resolved.length;
-  const iconMarkers = resolved.map(() =>
-    d.showCountBadge ? cipherMarker(markerIdx++) : "",
+  const iconMarkers = resolved.map((p) =>
+    d.showCountBadge
+      ? cip.mark(String(p.models), d.countBadgeFont, c.badgeText)
+      : "",
   );
 
   const node = (
@@ -372,36 +369,11 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  const targets: CipherTarget[] = [
-    {
-      value: providerCount,
-      fontSize: d.headerFont,
-      color: c.text,
-      markerColor: m1,
-    },
-    {
-      value: modelCountValue,
-      fontSize: d.headerFont,
-      color: c.text,
-      markerColor: m2,
-    },
-  ];
-  if (d.showCountBadge) {
-    for (let i = 0; i < resolved.length; i++) {
-      targets.push({
-        value: String(resolved[i].models),
-        fontSize: d.countBadgeFont,
-        color: c.badgeText,
-        markerColor: iconMarkers[i],
-      });
-    }
-  }
-
   return renderBadgeTemplate({
     node,
     width: d.W,
     height: d.H,
-    cipherTargets: targets,
+    cipherTargets: cip.targets,
     pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
     staticMode: ctx.staticMode,
   });

@@ -1,5 +1,5 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { cipherMarker, pulseDot } from "../elements/cipher";
+import { makeCipher, pulseDot } from "../elements/cipher";
 import { BrandName, Card, Logo } from "../elements/primitives";
 import { Label, MonoValue } from "../elements/typography";
 import { t } from "../lib/cache";
@@ -103,7 +103,8 @@ export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const value = formatCompact(ctx.stats.tokenUsed);
-  const m1 = cipherMarker(1);
+  const cip = makeCipher();
+  const m1 = cip.mark(value, d.valueSize, c.text);
   const isOg = ctx.size === "og";
 
   const node = isOg ? (
@@ -172,9 +173,7 @@ export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
     width: d.W,
     height: d.H,
     smil: pulseDot(d.W / 2, d.dotY, d.dotR, c.accent, ctx.staticMode),
-    cipherTargets: [
-      { value, fontSize: d.valueSize, color: c.text, markerColor: m1 },
-    ],
+    cipherTargets: cip.targets,
     staticMode: ctx.staticMode,
   });
 }

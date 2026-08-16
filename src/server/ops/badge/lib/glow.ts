@@ -1,4 +1,4 @@
-export const GLOW_BASE = "#070409";
+const GLOW_BASE = "#070409";
 
 export const RAINBOW =
   "linear-gradient(90deg, #ff2d55 0%, #ff8a00 18%, #ffd60a 34%, #34c759 52%, #00c7be 66%, #0a84ff 82%, #bf5af2 100%)";

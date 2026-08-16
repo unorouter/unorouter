@@ -158,8 +158,33 @@ function stripCipherMarkers(svg: string, targets: CipherTarget[]): string {
       `fill="${target.markerColor}"`,
       `fill="${target.color}"`,
     );
+    // Satori draws text-decoration (the price strikethrough) as a stroked
+    // <line>, which a fill-only pass left in the sentinel color.
+    result = result.replaceAll(
+      `stroke="${target.markerColor}"`,
+      `stroke="${target.color}"`,
+    );
   }
   return result;
+}
+
+// Marker + target are one fact: the sentinel fill in the JSX and the
+// {value,fontSize,color} the scanner replaces it with must match exactly.
+export function makeCipher() {
+  const targets: CipherTarget[] = [];
+  return {
+    targets,
+    mark(
+      value: string,
+      fontSize: number,
+      color: string,
+      loop?: boolean,
+    ): string {
+      const markerColor = cipherMarker(targets.length + 1);
+      targets.push({ value, fontSize, color, markerColor, loop });
+      return markerColor;
+    },
+  };
 }
 
 export function cipherMarker(index: number): string {
@@ -220,6 +245,12 @@ export async function processCipherMarkers(
   const injections: string[] = [];
 
   for (const target of targets) {
+    // Satori draws text-decoration (the price strikethrough) as a stroked
+    // <line> in the marker color; the glyph swap below never touches it.
+    result = result.replaceAll(
+      `stroke="${target.markerColor}"`,
+      `stroke="${target.color}"`,
+    );
     const markerRe = new RegExp(
       `<path[^>]*fill="${target.markerColor.replace("#", "\\#")}"[^>]*/?>`,
     );

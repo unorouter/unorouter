@@ -1,6 +1,6 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { cipherMarker } from "../elements/cipher";
-import { Brand, Card, Divider, Row } from "../elements/primitives";
+import { makeCipher } from "../elements/cipher";
+import { Brand, Card, Divider, PulseDotMarker } from "../elements/primitives";
 import { Stat } from "../elements/typography";
 import { t } from "../lib/cache";
 import { THEME_COLORS } from "../lib/theme";
@@ -96,7 +96,8 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
-  const m1 = cipherMarker(1);
+  const cip = makeCipher();
+  const m1 = cip.mark(tokenCount, d.statSize, c.text, true);
   const isOg = ctx.size === "og";
 
   const node = isOg ? (
@@ -125,14 +126,7 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
         labelSize={d.labelSize}
         cipherMarker={m1}
       />
-      <Row
-        style={{
-          width: d.dotSize,
-          height: d.dotSize,
-          borderRadius: "50%",
-          backgroundColor: c.pulseDotMarker,
-        }}
-      />
+      <PulseDotMarker size={d.dotSize} c={c} />
     </Card>
   ) : (
     <Card c={c} style={{ alignItems: "center", padding: `0 ${d.pad}px` }}>
@@ -151,15 +145,7 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
         labelSize={d.labelSize}
         cipherMarker={m1}
       />
-      <Row
-        style={{
-          width: d.dotSize,
-          height: d.dotSize,
-          borderRadius: "50%",
-          backgroundColor: c.pulseDotMarker,
-          marginLeft: "auto",
-        }}
-      />
+      <PulseDotMarker size={d.dotSize} c={c} style={{ marginLeft: "auto" }} />
     </Card>
   );
 
@@ -168,15 +154,7 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
     width: d.W,
     height: d.H,
     pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
-    cipherTargets: [
-      {
-        value: tokenCount,
-        fontSize: d.statSize,
-        color: c.text,
-        markerColor: m1,
-        loop: true,
-      },
-    ],
+    cipherTargets: cip.targets,
     staticMode: ctx.staticMode,
   });
 }
