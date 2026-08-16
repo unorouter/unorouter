@@ -1,5 +1,5 @@
 import { chooseEndpoint } from "@/lib/ai/image/models-dynamic";
-import { getPricingSummary } from "@/server/models/pricing/pricing.service";
+import { getCatalog } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
 import type { ImageSubmitBody } from "@/lib/validation/image";
 import { submitSyncImage } from "./sync-image";
@@ -10,20 +10,21 @@ export async function generateInlayImage(
   prompt: string,
   opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
-  const summary = await getPricingSummary();
+  const catalog = await getCatalog();
+  const models = catalog.models;
   const model =
     (opts?.model
-      ? summary.models.find((m) => m.type === "image" && m.name === opts.model)
+      ? models.find((m) => m.type === "image" && m.model_name === opts.model)
       : undefined) ??
-    summary.models.find((m) => m.type === "image" && m.isFree) ??
-    summary.models.find((m) => m.type === "image");
+    models.find((m) => m.type === "image" && m.is_free) ??
+    models.find((m) => m.type === "image");
   if (!model) return null;
-  const endpoint = chooseEndpoint(model.endpointTypes ?? []);
+  const endpoint = chooseEndpoint(model.supported_endpoint_types ?? []);
   if (!endpoint) return null;
   const images = await submitSyncImage({
     apiKey,
     body: {
-      model: model.name,
+      model: model.model_name,
       prompt,
       references: opts?.references,
     } as ImageSubmitBody,

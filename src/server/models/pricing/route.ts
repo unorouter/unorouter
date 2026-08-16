@@ -1,9 +1,9 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
   getCatalog,
+  getPricingSummary,
   getModelByName,
   getModelGroups,
-  getPricingSummary,
   getSubscriptionPlansSummary,
   getVendorModels,
   getVendors,
@@ -31,10 +31,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get(
     "/detail",
     async (ctx) => {
-      const { models } = await getPricingSummary();
-      const model =
-        models.find((m) => m.name === ctx.query.model) ??
-        (await getModelByName(ctx.query.model));
+      const model = await getModelByName(ctx.query.model);
       if (!model) ctx.set.status = 404;
       return model;
     },

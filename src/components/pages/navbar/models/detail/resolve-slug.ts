@@ -1,9 +1,10 @@
 import { type ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { cache } from "react";
 import { getCachedPricingVendors } from "@/lib/api/page-data";
 import {
+  getCatalog,
   getModelByName,
-  getPricingSummary,
 } from "@/server/models/pricing/pricing.service";
 import {
   modelMatchesSlug,
@@ -15,7 +16,8 @@ import {
 export type ResolvedModel = {
   model: ProcessedModel;
   atCapacity: boolean;
-  data: Awaited<ReturnType<typeof getPricingSummary>> | null;
+  // Catalog rows, for the similar-models lookup only.
+  models: PricingCatalogModel[];
 };
 
 // /models/[vendor] is a vendor listing; /models/[vendor]/[model] is a detail
@@ -44,9 +46,15 @@ export const resolveSlug = cache(
 
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   if (!slug) return null;
-  const data = await getPricingSummary().catch(() => null);
-  const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
-  if (live) return { model: live, atCapacity: !live.online, data };
+  const catalog = await getCatalog().catch(() => null);
+  const models = catalog?.models ?? [];
+  const live = models.find((m) => modelMatchesSlug(m.model_name, slug));
+  // The catalog row cannot drive the detail page (no ratios, groups or grid
+  // pricing), so a hit still fetches the full record by name.
+  if (live) {
+    const full = await getModelByName(live.model_name).catch(() => null);
+    if (full) return { model: full, atCapacity: !live.online, models };
+  }
   // A model whose channels are all disabled never reaches /pricing, which filters
   // by servable group. The by-name route applies no such filter, so the detail
   // page still renders. modelSlug only percent-encodes []/, so the name decodes
@@ -56,7 +64,7 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
     name = decodeURIComponent(slug);
   } catch {}
   const byName = await getModelByName(name).catch(() => null);
-  if (byName) return { model: byName, atCapacity: true, data };
+  if (byName) return { model: byName, atCapacity: true, models };
   return null;
 }
 

@@ -59,6 +59,26 @@ export async function ErrorsAndRateLimitsContent() {
 
   return (
     <>
+      <DocSection id="rate-limits" title={k("H_RATE_LIMITS")}>
+        <p>{k("P_RATE_LIMITS_1")}</p>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>{k("L_RATE_LIMITS_OURS")}</li>
+          <li>{k("L_RATE_LIMITS_UPSTREAM")}</li>
+          <li>{k("L_RATE_LIMITS_DAILY")}</li>
+          <li>{k("L_RATE_LIMITS_TPM")}</li>
+          <li>{k("L_RATE_LIMITS_CONCURRENCY")}</li>
+        </ul>
+        <p>{k("P_RATE_LIMITS_2")}</p>
+      </DocSection>
+      <DocSection id="free-model-limit" title={k("H_FREE_MODEL_LIMIT")}>
+        <p>{k("P_FREE_MODEL_LIMIT_1")}</p>
+        <DocCode code={RATE_LIMIT_HEADERS} lang="text" />
+        <p>{k("P_FREE_MODEL_LIMIT_2")}</p>
+      </DocSection>
+      <DocSection id="trial-caps" title={k("H_TRIAL_CAPS")}>
+        <p>{k("P_TRIAL_CAPS_1")}</p>
+        <p>{k("P_TRIAL_CAPS_2")}</p>
+      </DocSection>
       <DocSection id="envelope" title={k("H_ENVELOPE")}>
         <p>{k("P_ENVELOPE_1")}</p>
         <DocCode code={ENVELOPE_EXAMPLE} lang="json" />
@@ -100,26 +120,6 @@ export async function ErrorsAndRateLimitsContent() {
             {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
           </DocPageLink>
         </p>
-      </DocSection>
-      <DocSection id="rate-limits" title={k("H_RATE_LIMITS")}>
-        <p>{k("P_RATE_LIMITS_1")}</p>
-        <ul className="list-disc space-y-2 pl-5">
-          <li>{k("L_RATE_LIMITS_OURS")}</li>
-          <li>{k("L_RATE_LIMITS_UPSTREAM")}</li>
-          <li>{k("L_RATE_LIMITS_DAILY")}</li>
-          <li>{k("L_RATE_LIMITS_TPM")}</li>
-          <li>{k("L_RATE_LIMITS_CONCURRENCY")}</li>
-        </ul>
-        <p>{k("P_RATE_LIMITS_2")}</p>
-      </DocSection>
-      <DocSection id="free-model-limit" title={k("H_FREE_MODEL_LIMIT")}>
-        <p>{k("P_FREE_MODEL_LIMIT_1")}</p>
-        <DocCode code={RATE_LIMIT_HEADERS} lang="text" />
-        <p>{k("P_FREE_MODEL_LIMIT_2")}</p>
-      </DocSection>
-      <DocSection id="trial-caps" title={k("H_TRIAL_CAPS")}>
-        <p>{k("P_TRIAL_CAPS_1")}</p>
-        <p>{k("P_TRIAL_CAPS_2")}</p>
       </DocSection>
       <DocSection id="retries" title={k("H_RETRIES")}>
         <p>{k("P_RETRIES_1")}</p>

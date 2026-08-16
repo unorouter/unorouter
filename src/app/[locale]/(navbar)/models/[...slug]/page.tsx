@@ -7,7 +7,10 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import { getVendorModels } from "@/server/models/pricing/pricing.service";
+import {
+  getModelGroups,
+  getVendorModels,
+} from "@/server/models/pricing/pricing.service";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -76,6 +79,7 @@ export default async function ModelDetailPage(props: PageProps) {
   }
 
   const hit = resolved.model;
+  const groups = await getModelGroups(hit.model.name);
   return (
     <>
       <ModelSchema
@@ -85,8 +89,8 @@ export default async function ModelDetailPage(props: PageProps) {
       />
       <ModelDetail
         model={hit.model}
-        models={hit.data?.models ?? [hit.model]}
-        groupRatioMap={hit.data?.groupRatioMap ?? {}}
+        models={hit.models}
+        groupRatioMap={groups.group_ratio}
         offline={hit.atCapacity}
         vendorHref={localeUrl(locale, vendorHref(hit.model.vendor.name))}
       />

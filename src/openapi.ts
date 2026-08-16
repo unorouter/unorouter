@@ -1964,6 +1964,7 @@ export interface PriceEstimationResponse {
 
 export interface PricingCatalogModel {
   chat: boolean;
+  supported_endpoint_types: string[];
   description?: string;
   fixed_price: number;
   icon?: string;

@@ -10,6 +10,7 @@ import {
   findSimilarModels,
   type ProcessedModel,
 } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
@@ -39,7 +40,8 @@ import { WatchModelButton } from "./header/watch-model-button";
 
 interface ModelDetailProps {
   model: ProcessedModel;
-  models: ProcessedModel[];
+  // Only for the similar-models lookup, which compares vendor id and tags.
+  models: PricingCatalogModel[];
   groupRatioMap: Record<string, number>;
   offline: boolean;
   vendorHref: string;
@@ -51,7 +53,11 @@ export async function ModelDetail(props: ModelDetailProps) {
   const locale = await getLocale();
   const docs = await getDocsApiKey();
   const contextTag = findContextTag(m);
-  const similar = findSimilarModels(props.models, m);
+  const similar = findSimilarModels(props.models, {
+    model_name: m.name,
+    vendor_id: m.vendor.id,
+    tags: m.tags,
+  });
 
   const curlExample = `curl ${docs.apiUrl}/v1/chat/completions \\
   -H "Authorization: Bearer ${docs.placeholder}" \\
@@ -344,11 +350,11 @@ print(res.choices[0].message.content)`;
                 </SectionHeading>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {[...similar.sameVendor, ...similar.sameTag].map((sim) => {
-                    const simTheme = getVendorTheme(sim.vendor.name);
+                    const simTheme = getVendorTheme(sim.vendor);
                     return (
                       <Link
-                        key={sim.name}
-                        href={modelHref(sim.name, sim.vendor.name)}
+                        key={sim.model_name}
+                        href={modelHref(sim.model_name, sim.vendor)}
                         className={cn(
                           "group flex items-center gap-3 rounded-lg border p-4 transition-all hover:-translate-y-0.5",
                           simTheme.bg,
@@ -363,19 +369,21 @@ print(res.choices[0].message.content)`;
                           )}
                         >
                           <VendorIcon
-                            vendor={sim.vendor.icon ?? sim.vendor.name}
+                            vendor={sim.icon ?? sim.vendor}
                             size={24}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="truncate font-medium">{sim.name}</div>
+                          <div className="truncate font-medium">
+                            {sim.model_name}
+                          </div>
                           <div
                             className={cn(
                               "truncate font-mono text-[10px] tracking-wider uppercase",
                               simTheme.text,
                             )}
                           >
-                            {sim.vendor.name}
+                            {sim.vendor}
                           </div>
                         </div>
                       </Link>

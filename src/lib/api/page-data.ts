@@ -1,4 +1,3 @@
-import { isFreeChatModel } from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
 import { getRankings, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
@@ -7,8 +6,8 @@ import { modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
 import {
   getCatalog,
-  getPricingSummary,
   getSubscriptionPlansSummary,
+  getVendors,
 } from "@/server/models/pricing/pricing.service";
 import {
   dehydrate,
@@ -20,14 +19,14 @@ import {
 // fetchers, which call the upstream services in-process: rpc would loop back
 // over http://127.0.0.1, which has no listener during a server render.
 export async function getCachedPricingVendors() {
-  return (await getPricingSummary()).vendorNames;
+  return (await getVendors()).vendor_names;
 }
 
 export async function getCachedFreeChatModels(limit?: number) {
-  const summary = await getPricingSummary();
-  const free = summary.models
-    .filter(isFreeChatModel)
-    .map((m) => ({ name: m.name, vendor: m.vendor.name || m.name }));
+  const catalog = await getCatalog();
+  const free = catalog.models
+    .filter((m) => m.is_free && m.chat)
+    .map((m) => ({ name: m.model_name, vendor: m.vendor || m.model_name }));
   return limit == null ? free : free.slice(0, limit);
 }
 
@@ -54,8 +53,7 @@ export async function getRankingsPageData(period: string) {
 // rankings/perf are non-critical, so a failure there leaves the page renderable.
 async function seedCatalogClient() {
   const qc = new QueryClient();
-  const [summary, browse, rankings, perf] = await Promise.all([
-    getPricingSummary(),
+  const [browse, rankings, perf] = await Promise.all([
     getCatalog(true),
     fetchRankings("week").catch(() => null),
     fetchPerfSummary(24).catch(() => null),
@@ -63,7 +61,7 @@ async function seedCatalogClient() {
   qc.setQueryData(queryKeys.pricingBrowse(), browse);
   qc.setQueryData(queryKeys.rankings("week"), rankings);
   qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
-  return { qc, summary, browse };
+  return { qc, browse };
 }
 
 // Models browse: the detail sheet fetches the full model on open.
@@ -71,15 +69,17 @@ export async function getModelsPageData() {
   const seeded = await seedCatalogClient();
   return {
     dehydrated: dehydrate(seeded.qc),
-    topModels: seeded.summary.models
+    topModels: seeded.browse.models
       .filter((m) => m.type === "text")
       .slice(0, 24)
       .map((m) => ({
-        name: m.name,
-        vendorName: m.vendor.name,
+        name: m.model_name,
+        vendorName: m.vendor,
         description: m.description ?? null,
       })),
-    vendorNames: seeded.summary.vendorNames,
+    vendorNames: [...new Set(seeded.browse.models.map((m) => m.vendor))].sort(
+      (a, b) => a.localeCompare(b),
+    ),
   };
 }
 
@@ -125,13 +125,12 @@ export function emptyPageData() {
 // and this reads the whole server-side pricing catalog just to name models in
 // snippets. Plain data only, so the result stays serializable to the client.
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = await getPricingSummary();
-  const rawModels = data.models ?? [];
-  const models = rawModels.map((m) => ({
-    name: m.name,
-    vendor: m.vendor.name,
+  const data = await getCatalog();
+  const models = data.models.map((m) => ({
+    name: m.model_name,
+    vendor: m.vendor,
     type: m.type,
-    outputPrice: m.isFixedPrice ? m.fixedPrice : m.outputPrice,
+    outputPrice: m.is_fixed_price ? m.fixed_price : m.output_price,
   }));
 
   const modelFor = (vendor: string) =>

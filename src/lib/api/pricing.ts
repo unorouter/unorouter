@@ -1,4 +1,9 @@
-import type { ModelMetadata, PricingData, PricingModel } from "@/openapi";
+import type {
+  ModelMetadata,
+  PricingCatalogModel,
+  PricingData,
+  PricingModel,
+} from "@/openapi";
 
 export type { ModelMetadata };
 import { escapeRegex } from "@/lib/utils/base";
@@ -310,22 +315,24 @@ export function buildPricingSummary(response: PricingData) {
   };
 }
 
+// Vendor identity is an id comparison, not a name one: names collide across
+// sources, so two rows can read "OpenAI" and be different vendors.
 export function findSimilarModels(
-  all: ProcessedModel[],
-  current: ProcessedModel,
+  all: PricingCatalogModel[],
+  current: { model_name: string; vendor_id: number; tags: string[] },
   limit = 6,
-): { sameVendor: ProcessedModel[]; sameTag: ProcessedModel[] } {
-  const others = all.filter((m) => m.name !== current.name);
+): { sameVendor: PricingCatalogModel[]; sameTag: PricingCatalogModel[] } {
+  const others = all.filter((m) => m.model_name !== current.model_name);
 
   const sameVendor = others
-    .filter((m) => m.vendor.id === current.vendor.id)
+    .filter((m) => m.vendor_id === current.vendor_id)
     .slice(0, 3);
 
   const currentTags = new Set(current.tags ?? []);
   const sameTag = others
     .filter(
       (m) =>
-        m.vendor.id !== current.vendor.id &&
+        m.vendor_id !== current.vendor_id &&
         (m.tags ?? []).some((t) => currentTags.has(t)),
     )
     .slice(0, limit - sameVendor.length);
@@ -380,29 +387,4 @@ export function gridPriceParts(
     price: typeof row.Pricing === "number" ? row.Pricing * multiplier : 0,
     suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
   };
-}
-
-export type PricingSummary = ReturnType<typeof buildPricingSummary>;
-
-// Upstream types every embedding model as "text" (all jina-*-embeddings-*,
-// embeddinggemma-*), so a bare type === "text" filter leaks models that cannot
-// serve a chat completion: they showed up as "recommended models" in the setup
-// guides and got raced for title generation. metadata.mode is the real signal
-// ("chat" vs "embedding"); endpointTypes is the same signal one level down. Only
-// rows with neither (older catalog entries) fall back to the name heuristic.
-const NON_CHAT_NAME = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
-const NON_CHAT_ENDPOINT = ["embedding", "rerank", "moderation"];
-
-export function isChatModel(model: ProcessedModel): boolean {
-  if (model.type !== "text") return false;
-  const mode = model.metadata?.mode;
-  if (mode) return mode === "chat";
-  if (model.endpointTypes?.some((e) => NON_CHAT_ENDPOINT.includes(e))) {
-    return false;
-  }
-  return !NON_CHAT_NAME.test(model.name);
-}
-
-export function isFreeChatModel(model: ProcessedModel): boolean {
-  return model.isFree && isChatModel(model);
 }
