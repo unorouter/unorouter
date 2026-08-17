@@ -30,7 +30,7 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { Elysia, redirect } from "elysia";
+import { Elysia } from "elysia";
 import { deriveUpstream } from "@/server/constants";
 import { sanitizeRedirectPath } from "@/lib/utils/server";
 
@@ -127,6 +127,16 @@ export const authRoute = new Elysia({ prefix: "/account" })
   .get(
     "/oauth/callback",
     async ({ query, cookie, set }) => {
+      // Elysia's redirect() builds a Response whose location stays relative, and
+      // Next re-parses that through undici on the way out ("Failed to parse URL
+      // from /login", a 500 the visitor sees instead of the login page). Every
+      // other branch here sets the header itself for that reason; these did not,
+      // so any OAuth attempt that failed upstream died on an error page with no
+      // way back. Assign the header directly like the rest of the handler.
+      const toLogin = () => {
+        set.status = 302;
+        set.headers.location = "/login";
+      };
       if (query.error) {
         set.status = 302;
         set.headers.location = `/settings?bind_error=${encodeURIComponent(
@@ -134,16 +144,16 @@ export const authRoute = new Elysia({ prefix: "/account" })
         )}`;
         return;
       }
-      if (!query.code) return redirect("/login");
+      if (!query.code) return toLogin();
 
       let res;
       try {
         res = await exchangeOAuthCode({ code: query.code });
       } catch {
-        return redirect("/login");
+        return toLogin();
       }
       if (!res.data || !("success" in res.data) || !res.data.success)
-        return redirect("/login");
+        return toLogin();
 
       const data = res.data.data;
 
