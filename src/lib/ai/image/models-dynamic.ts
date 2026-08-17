@@ -1,20 +1,10 @@
-import type { PricingCatalogModel } from "@/openapi";
-
-// Typed by the fields the descriptor reads, so both rows fit: the BFF list
-// passes catalog rows, the submit path the per-model detail. enable_groups is
-// detail-only, and diffusion detection reads the routing group, so a list-fed
-// caller gets the hosted-API capability set rather than the checkpoint one.
-type ImageSourceModel = PricingCatalogModel & { enable_groups?: string[] };
-import {
-  STATIC_IMAGE_MODELS,
-  STATIC_IMAGE_MODELS_BY_ID,
-  type ImageModelDescriptor,
-} from "@/lib/ai/image/models";
+import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import {
   airForModelName,
   applyParamSpec,
   lookupParamSpec,
 } from "@/lib/ai/image/spec-apply";
+import type { PricingCatalogModel } from "@/openapi";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 
@@ -30,11 +20,6 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   }
   return null;
 }
-
-// Diffusion support is detected from the ROUTING GROUP (the channel serving the model),
-// not the vendor label: vendor is name-inferred and misclaims checkpoints, which would
-// strip every diffusion control they support.
-const DIFFUSION_GROUP_PATTERN = /runware/i;
 
 // Runware's own scheduler vocabulary, one `<sampler> <schedule>` string per entry. Every
 // entry was verified against a live generation; omissions are provider rejections. It
@@ -71,63 +56,9 @@ export function isRunwareScheduler(value: string): boolean {
   return RUNWARE_SCHEDULERS.includes(value);
 }
 
-function isDiffusionModel(model: ImageSourceModel): boolean {
-  return (model.enable_groups ?? []).some((g) =>
-    DIFFUSION_GROUP_PATTERN.test(g),
-  );
-}
-
-function vendorKnobs(modelName: string): {
-  quality?: readonly string[];
-  outputFormat?: readonly string[];
-  watermark?: boolean;
-  seed?: boolean;
-  strength?: boolean;
-  background?: boolean;
-} {
-  const m = modelName.toLowerCase();
-
-  if (m.startsWith("gpt-image") || m === "chatgpt-image-latest") {
-    return {
-      quality: ["low", "medium", "high"],
-      outputFormat: ["png", "webp", "jpeg"],
-      background: true,
-    };
-  }
-  if (m.startsWith("gpt-4o-image")) {
-    return { quality: ["standard", "hd"] };
-  }
-  if (m.startsWith("gemini") && m.includes("image")) {
-    return { quality: ["1K", "2K"] };
-  }
-  if (m.startsWith("doubao-seedream") || m.startsWith("doubao-seededit")) {
-    return { watermark: true, seed: true };
-  }
-  if (
-    m.startsWith("flux-") ||
-    m.startsWith("black-forest-labs/flux") ||
-    m === "flux-pro-1.1-ultra"
-  ) {
-    return { outputFormat: ["png", "jpeg", "webp"], seed: true };
-  }
-  if (m.startsWith("wan2.5") || m.startsWith("wan2.6")) {
-    return { strength: true, seed: true };
-  }
-  return {};
-}
-
-function inferDescriptor(model: ImageSourceModel): ImageModelDescriptor | null {
-  if (model.supported_endpoint_types.includes("comfyui")) {
-    const tmpl = STATIC_IMAGE_MODELS_BY_ID[model.model_name];
-    if (!tmpl) return null;
-    return {
-      ...tmpl,
-      pricePerCall: model.is_fixed_price
-        ? model.fixed_price
-        : tmpl.pricePerCall,
-      isFree: model.is_free,
-    };
-  }
+function inferDescriptor(
+  model: PricingCatalogModel,
+): ImageModelDescriptor | null {
   if (model.type !== "image") return null;
   const endpoint = chooseEndpoint(model.supported_endpoint_types);
   if (!endpoint) return null;
@@ -136,15 +67,9 @@ function inferDescriptor(model: ImageSourceModel): ImageModelDescriptor | null {
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
 
   const supportsSize = endpoint === "image-generation";
-  const knobs = vendorKnobs(model.model_name);
-  const diffusion = isDiffusionModel(model);
 
-  // Diffusion checkpoints have no reference-image input: refs switch the request to
-  // the multipart edits endpoint, which their channels cannot serve (instant 400).
-  // Their image-input path is the img2img init image (seedImage).
-  const maxReferenceImages = diffusion
-    ? 0
-    : declaredMaxRefs > 0
+  const maxReferenceImages =
+    declaredMaxRefs > 0
       ? declaredMaxRefs
       : endpoint === "image-generation"
         ? 1
@@ -152,43 +77,40 @@ function inferDescriptor(model: ImageSourceModel): ImageModelDescriptor | null {
 
   const inferred: ImageModelDescriptor = {
     id: model.model_name,
-    family: "sync-image",
     displayName: model.model_name,
     vendor: model.vendor,
     pricePerCall: model.is_fixed_price ? model.fixed_price : 0,
     isFree: model.is_free,
-    supportsNegativePrompt: diffusion,
-    supportsCfg: diffusion,
-    // Hosted API models (FLUX.2 pro/max/klein, seedream, gpt-image) reject steps outright;
-    // only the diffusion checkpoints take one. Verified against Runware's per-model schema.
-    supportsSteps: diffusion,
+    // Every checkpoint control below is off unless the model's own param spec
+    // turns it on: applyParamSpec reads the provider schema, which is the only
+    // thing that knows whether a model takes steps, CFG or a scheduler.
+    supportsNegativePrompt: false,
+    supportsCfg: false,
+    supportsSteps: false,
     supportsGuidance: false,
     supportsSize,
-    supportsLoraChain: diffusion,
+    supportsLoraChain: false,
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
-    supportsSampler: diffusion,
-    // Runware folds sampler+scheduler into one field; the sampler control carries it.
-    samplers: diffusion ? RUNWARE_SCHEDULERS : undefined,
+    supportsSampler: false,
+    // Runware folds sampler+scheduler into one field; the sampler control carries
+    // it, and the spec's own enum overrides this list when it has one.
+    samplers: RUNWARE_SCHEDULERS,
     schedulers: undefined,
-    // Hires and ADetailer are init-image renders under the hood, so both need strength.
-    supportsHiresFix: diffusion,
-    supportsAdetailer: diffusion,
-    supportsQuality: !!knobs.quality,
-    qualityChoices: knobs.quality,
-    supportsOutputFormat: !!knobs.outputFormat,
-    outputFormatChoices: knobs.outputFormat,
-    supportsWatermark: knobs.watermark,
-    supportsSeed: knobs.seed || diffusion,
-    supportsStrength: knobs.strength || diffusion,
-    supportsBackground: knobs.background,
-    defaultParams: {
-      width: 1024,
-      height: 1024,
-      steps: 20,
-      // "Default" lets the checkpoint pick; prevents ComfyUI fallback values.
-      ...(diffusion ? { sampler: "Default" } : {}),
-    },
+    supportsHiresFix: false,
+    supportsAdetailer: false,
+    // Every capability below stays off until the model's own Runware schema turns it
+    // on (applyParamSpec). Guessing them from the model NAME shipped wrong values:
+    // lowercase output formats against an uppercase enum, a quality list missing
+    // "auto", and watermark/background flags for fields the schema does not define.
+    supportsQuality: false,
+    supportsOutputFormat: false,
+    supportsSeed: false,
+    supportsStrength: false,
+    supportsBackground: false,
+    // "Default" lets the checkpoint pick rather than pinning a sampler the model
+    // may reject.
+    defaultParams: { width: 1024, height: 1024, steps: 20, sampler: "Default" },
     estimatedSeconds: 15,
     recommendedPromptStyle: "natural-language",
   };
@@ -207,14 +129,16 @@ function inferDescriptor(model: ImageSourceModel): ImageModelDescriptor | null {
 // Cached per pricing-array identity: React effects list the result as a dependency, and
 // a fresh array per render would fire them every render.
 const effectiveModelsCache = new WeakMap<
-  ImageSourceModel[],
+  PricingCatalogModel[],
   ImageModelDescriptor[]
 >();
 
+// Empty in, empty out: a static fallback list here served ids the gateway 404s
+// on, so the picker offered models that could not generate anything.
 export function getEffectiveImageModels(
-  pricing: ImageSourceModel[] | undefined,
+  pricing: PricingCatalogModel[] | undefined,
 ): ImageModelDescriptor[] {
-  if (!pricing || pricing.length === 0) return STATIC_IMAGE_MODELS;
+  if (!pricing || pricing.length === 0) return [];
   const hit = effectiveModelsCache.get(pricing);
   if (hit) return hit;
   const computed = computeEffectiveImageModels(pricing);
@@ -223,9 +147,8 @@ export function getEffectiveImageModels(
 }
 
 function computeEffectiveImageModels(
-  pricing: ImageSourceModel[],
+  pricing: PricingCatalogModel[],
 ): ImageModelDescriptor[] {
-  const comfy: ImageModelDescriptor[] = [];
   const dynamic: { desc: ImageModelDescriptor; releasedAt: number }[] = [];
   const seen = new Set<string>();
   for (const model of pricing) {
@@ -233,8 +156,7 @@ function computeEffectiveImageModels(
     const desc = inferDescriptor(model);
     if (!desc) continue;
     seen.add(model.model_name);
-    if (model.supported_endpoint_types.includes("comfyui")) comfy.push(desc);
-    else dynamic.push({ desc, releasedAt: model.release_ts });
+    dynamic.push({ desc, releasedAt: model.release_ts });
   }
   dynamic.sort((a, b) => {
     const diff = b.releasedAt - a.releasedAt;
@@ -242,5 +164,5 @@ function computeEffectiveImageModels(
       ? diff
       : a.desc.displayName.localeCompare(b.desc.displayName);
   });
-  return [...comfy, ...dynamic.map((d) => d.desc)];
+  return dynamic.map((d) => d.desc);
 }

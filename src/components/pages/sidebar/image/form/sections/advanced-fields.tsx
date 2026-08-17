@@ -16,10 +16,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import { AdetailerSection } from "../../fields/adetailer-section";
-import {
-  CatalogChainPicker,
-  familyToArchitecture,
-} from "../../fields/catalog-chain-picker";
+import { CatalogChainPicker } from "../../fields/catalog-chain-picker";
 import { LabeledSlider } from "../../fields/labeled-slider";
 import { UpscalerField } from "../../fields/upscaler-field";
 import { VAES } from "../../image-constants";
@@ -43,7 +40,6 @@ export function AdvancedFields(props: Props) {
           name="params.embeddings"
           render={({ field }) => (
             <EmbeddingPicker
-              family={descriptor.family}
               value={field.value ?? []}
               onChange={(next) =>
                 field.onChange(next.length > 0 ? next : undefined)
@@ -68,11 +64,7 @@ export function AdvancedFields(props: Props) {
           control={form.control}
           name="params.adetailer"
           render={({ field }) => (
-            <AdetailerSection
-              family={descriptor.family}
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <AdetailerSection value={field.value} onChange={field.onChange} />
           )}
         />
       )}
@@ -100,13 +92,10 @@ type EmbeddingEntry = NonNullable<
 >[number];
 
 function EmbeddingPicker(props: {
-  family: ImageModelDescriptor["family"];
   value: EmbeddingEntry[];
   onChange: (next: EmbeddingEntry[]) => void;
 }) {
-  const catalog = useEmbeddingCatalogQuery({
-    architecture: familyToArchitecture(props.family),
-  });
+  const catalog = useEmbeddingCatalogQuery({});
   return (
     <CatalogChainPicker
       titleKey="IMAGE.EMBEDDINGS_TITLE"

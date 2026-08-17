@@ -151,12 +151,7 @@ export function ModelPicker(props: Props) {
     !needle ||
     `${m.displayName} ${m.vendor ?? ""} ${m.id}`.toLowerCase().includes(needle);
 
-  const comfyModels = props.models
-    .filter((m) => m.family !== "sync-image")
-    .filter((m) => isModelInTab(m, props.activeTab))
-    .filter(matchesSearch);
   const hostedModels = props.models
-    .filter((m) => m.family === "sync-image")
     .filter((m) => isModelInTab(m, props.activeTab))
     .filter(matchesSearch);
 
@@ -185,11 +180,6 @@ export function ModelPicker(props: Props) {
           />
           <CommandList>
             <CommandEmpty>{t("IMAGE.MODEL_NO_RESULTS")}</CommandEmpty>
-            {comfyModels.length > 0 && (
-              <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
-                {comfyModels.map(renderItem)}
-              </CommandGroup>
-            )}
             {savedCheckpoints.length > 0 && (
               <CommandGroup heading={t("IMAGE.MODEL_GROUP_SAVED")}>
                 {savedCheckpoints.map(renderCheckpoint)}

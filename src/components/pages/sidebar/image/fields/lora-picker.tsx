@@ -4,18 +4,13 @@ import {
   useCivitaiLoraVersionsQuery,
   useLoraCatalogQuery,
 } from "@/hooks/ai/image-catalog-hook";
-import type { ModelFamily } from "@/lib/ai/image/models";
 import type { CatalogItem, LoraEntry } from "@/lib/validation/image";
 import { useEffect, useState } from "react";
-import {
-  CatalogChainPicker,
-  familyToArchitecture,
-} from "./catalog-chain-picker";
+import { CatalogChainPicker } from "./catalog-chain-picker";
 
 export type { LoraEntry };
 
 type Props = {
-  family: ModelFamily;
   /** The active passthrough checkpoint's Runware architecture tag. The provider
    *  rejects a LoRA whose architecture differs from the checkpoint's, so the
    *  catalog narrows to it and resolved links get a compatibility check. */
@@ -82,7 +77,7 @@ export function LoraPicker(props: Props) {
     isReference
       ? undefined
       : {
-          architecture: checkpointArch ?? familyToArchitecture(props.family),
+          architecture: checkpointArch,
           ...(debounced ? { search: debounced } : {}),
         },
   );

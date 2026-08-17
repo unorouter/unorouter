@@ -19,6 +19,8 @@ export type ModelParamSpec = {
   air: string | null;
   capabilities: string[];
   params: Record<string, ParamSpec>;
+  // Vendor-scoped parameters, keyed "<vendor>.<field>".
+  providerSettings: Record<string, ParamSpec>;
   // inputs.referenceImages.maxItems. Distinct from seedImage/maskImage: a model can take
   // an init image for img2img yet accept no reference images at all (flux-1-dev).
   maxReferenceImages: number;
@@ -52,6 +54,12 @@ function toParamSpec(raw: JsonObject): ParamSpec {
   if (raw.default !== undefined) spec.default = raw.default;
   if (Array.isArray(raw.enum)) {
     spec.enum = raw.enum.filter((v): v is string => typeof v === "string");
+  } else if (Array.isArray(raw.oneOf)) {
+    // Runware spells provider-settings enums as oneOf[{const}] rather than enum.
+    const consts = raw.oneOf
+      .map((o) => asObject(o)?.const)
+      .filter((c): c is string => typeof c === "string");
+    if (consts.length > 0) spec.enum = consts;
   }
   return spec;
 }
@@ -79,6 +87,23 @@ export function distillSchema(raw: unknown): ModelParamSpec | null {
       ? references.maxItems
       : 0;
 
+  // providerSettings nests one object per vendor (openai.quality, bfl.safetyTolerance).
+  // Flattened to "<vendor>.<field>" so a caller reads one map instead of walking two
+  // levels for a value that is still just a parameter.
+  const providerSettings: Record<string, ParamSpec> = {};
+  const settingsRoot = asObject(properties.providerSettings);
+  for (const [vendor, vendorSchema] of Object.entries(
+    (settingsRoot && asObject(settingsRoot.properties)) ?? {},
+  )) {
+    const vendorProps = asObject(vendorSchema);
+    for (const [field, fieldSchema] of Object.entries(
+      (vendorProps && asObject(vendorProps.properties)) ?? {},
+    )) {
+      const entry = asObject(fieldSchema);
+      if (entry) providerSettings[`${vendor}.${field}`] = toParamSpec(entry);
+    }
+  }
+
   const info = asObject(root.info) ?? {};
   const capabilities = Array.isArray(info["x-capabilities"])
     ? (info["x-capabilities"] as unknown[]).filter(
@@ -91,6 +116,7 @@ export function distillSchema(raw: unknown): ModelParamSpec | null {
     capabilities,
     params,
     maxReferenceImages,
+    providerSettings,
     supportsSeedImage: "seedImage" in inputProps,
     supportsMaskImage: "maskImage" in inputProps,
   };

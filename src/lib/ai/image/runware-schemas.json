@@ -49,11 +49,24 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 8,
+      "providerSettings": {
+        "bfl.promptUpsampling": { "type": "boolean" },
+        "bfl.safetyTolerance": {
+          "type": "integer",
+          "min": 0,
+          "max": 5,
+          "default": 2
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -96,11 +109,23 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 9,
+      "providerSettings": {
+        "bfl.safetyTolerance": {
+          "type": "integer",
+          "min": 0,
+          "max": 5,
+          "default": 2
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -145,11 +170,24 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 10,
+      "providerSettings": {
+        "bfl.promptUpsampling": { "type": "boolean" },
+        "bfl.safetyTolerance": {
+          "type": "integer",
+          "min": 0,
+          "max": 5,
+          "default": 2
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -281,11 +319,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 4,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -417,11 +460,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 4,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -553,11 +601,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 4,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -599,11 +652,32 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 16,
+      "providerSettings": {
+        "openai.background": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "opaque", "transparent"]
+        },
+        "openai.moderation": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "low"]
+        },
+        "openai.quality": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "high", "medium", "low"]
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -645,11 +719,27 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 16,
+      "providerSettings": {
+        "openai.moderation": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "low"]
+        },
+        "openai.quality": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "high", "medium", "low"]
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -692,11 +782,22 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 14,
+      "providerSettings": {
+        "bytedance.maxSequentialImages": {
+          "type": "integer",
+          "min": 1,
+          "max": 15
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -740,11 +841,22 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 14,
+      "providerSettings": {
+        "bytedance.maxSequentialImages": {
+          "type": "integer",
+          "min": 1,
+          "max": 15
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -785,11 +897,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 10,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -831,11 +948,22 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 14,
+      "providerSettings": {
+        "bytedance.maxSequentialImages": {
+          "type": "integer",
+          "min": 1,
+          "max": 15
+        }
+      },
       "supportsSeedImage": false,
       "supportsMaskImage": false
     }
@@ -977,11 +1105,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1120,11 +1253,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1263,11 +1401,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1405,11 +1548,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1548,11 +1696,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1691,11 +1844,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1834,11 +1992,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -1976,11 +2139,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -2114,11 +2282,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -2247,11 +2420,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -2389,11 +2567,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": true,
       "supportsMaskImage": true
     },
@@ -2529,11 +2712,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -2669,11 +2857,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     },
@@ -2809,11 +3002,16 @@
           "max": 99,
           "default": 95
         },
-        "deliveryMethod": { "type": "string", "default": "sync" },
+        "deliveryMethod": {
+          "type": "string",
+          "default": "sync",
+          "enum": ["sync", "async"]
+        },
         "safety": { "type": "object" },
         "advancedFeatures": { "type": "object" }
       },
       "maxReferenceImages": 0,
+      "providerSettings": {},
       "supportsSeedImage": false,
       "supportsMaskImage": false
     }

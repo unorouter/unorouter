@@ -219,13 +219,3 @@ export function CatalogChainPicker<
     </FormItem>
   );
 }
-
-// Runware names architectures differently from the descriptor families, and a LoRA only
-// applies to a matching architecture, so the picker narrows its search by this.
-export function familyToArchitecture(
-  family: "sdxl" | "flux2" | "sync-image" | "edit",
-): string | undefined {
-  if (family === "sdxl") return "sdxl";
-  if (family === "flux2") return "flux1d";
-  return undefined;
-}

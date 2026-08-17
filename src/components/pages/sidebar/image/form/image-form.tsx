@@ -156,10 +156,7 @@ export function ImageForm() {
                   onChange={field.onChange}
                 />
               </FormControl>
-              <TokenEstimate
-                text={field.value ?? ""}
-                family={descriptor.family}
-              />
+              <TokenEstimate text={field.value ?? ""} />
               <FormMessage />
             </FormItem>
           )}
@@ -179,10 +176,7 @@ export function ImageForm() {
                     onChange={field.onChange}
                   />
                 </FormControl>
-                <TokenEstimate
-                  text={field.value ?? ""}
-                  family={descriptor.family}
-                />
+                <TokenEstimate text={field.value ?? ""} />
                 <FormMessage />
               </FormItem>
             )}
@@ -199,7 +193,6 @@ export function ImageForm() {
             name="loras"
             render={({ field }) => (
               <LoraPicker
-                family={descriptor.family}
                 checkpointArchitecture={activeCheckpoint?.architecture ?? null}
                 value={field.value ?? []}
                 onChange={(loras) =>
@@ -226,11 +219,6 @@ export function ImageForm() {
             render={({ field }) => (
               <ReferenceUploader
                 maxFiles={descriptor.maxReferenceImages}
-                labelKey={
-                  descriptor.family === "edit"
-                    ? "IMAGE.EDIT_IMAGES_TITLE"
-                    : undefined
-                }
                 value={field.value ?? []}
                 onChange={(refs) =>
                   field.onChange(refs.length > 0 ? refs : undefined)

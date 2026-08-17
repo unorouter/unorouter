@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import type { ModelFamily } from "@/lib/ai/image/models";
 import { LabeledSlider } from "./labeled-slider";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
 import { YOLO_MODELS } from "../image-constants";
@@ -31,7 +30,6 @@ export type AdetailerValue = {
 };
 
 type Props = {
-  family: ModelFamily;
   value: AdetailerValue | undefined;
   onChange: (next: AdetailerValue | undefined) => void;
 };
@@ -118,7 +116,6 @@ export function AdetailerSection(props: Props) {
             </Select>
           </div>
           <LoraPicker
-            family={props.family}
             value={v.loras ?? []}
             onChange={(loras) =>
               update({ loras: loras.length > 0 ? loras : undefined })

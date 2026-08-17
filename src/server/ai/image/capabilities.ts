@@ -44,7 +44,9 @@ export function filterParamsToCapabilities(
   }
   // ADetailer is a second billed pass; a model that does not declare it must not run one.
   if (!descriptor.supportsAdetailer) drop("adetailer");
-  if (!descriptor.supportsWatermark) drop("watermark");
+  // No Runware schema defines a watermark field, so it is never forwardable. Dropped
+  // unconditionally rather than gated on a descriptor flag nothing can set.
+  drop("watermark");
   if (!descriptor.supportsBackground) drop("background");
   if (!descriptor.supportsSize) {
     drop("width");

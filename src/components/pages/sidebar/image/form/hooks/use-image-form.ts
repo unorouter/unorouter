@@ -4,7 +4,6 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import {
   getModelDescriptor,
-  STATIC_IMAGE_MODELS,
   type ImageModelDescriptor,
 } from "@/lib/ai/image/models";
 import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
@@ -34,9 +33,7 @@ export function useImageForm() {
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
 
   const imageModelsQuery = useImageModelsQuery();
-  const effectiveModels = imageModelsQuery.data?.length
-    ? imageModelsQuery.data
-    : STATIC_IMAGE_MODELS;
+  const effectiveModels = imageModelsQuery.data ?? [];
   const findDescriptor = (id: ImageModelId): ImageModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
 

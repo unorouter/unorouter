@@ -78,6 +78,15 @@ export function applyParamSpec(
   const steps = params.steps;
   const cfg = params.CFGScale;
   const scheduler = params.scheduler;
+  const outputFormat = params.outputFormat;
+  // Vendor-scoped, so the field is keyed "<vendor>.<name>" and only one vendor ever
+  // matches a given model.
+  const vendorParam = (name: string) =>
+    Object.entries(spec.providerSettings).find(
+      ([key]) => key.split(".")[1] === name,
+    )?.[1];
+  const quality = vendorParam("quality");
+  const background = vendorParam("background");
 
   return {
     ...base,
@@ -94,6 +103,18 @@ export function applyParamSpec(
     maxReferenceImages: spec.maxReferenceImages,
     supportsSeed: "seed" in params || base.supportsSeed,
     supportsStrength: "strength" in params,
+    // Output format and quality come from the schema's own enum and bounds, so the
+    // choices offered are exactly the ones the provider accepts.
+    supportsOutputFormat: !!outputFormat?.enum?.length,
+    outputFormatChoices: outputFormat?.enum,
+    // Quality and background are provider settings rather than top-level params, and
+    // their accepted values differ per provider ("auto|high|medium|low" on gpt-image,
+    // "auto|opaque|transparent" for background), so both come from the schema enum.
+    supportsQuality: !!quality?.enum?.length,
+    qualityChoices: quality?.enum,
+    supportsBackground: !!background?.enum?.length,
+    supportsHiresFix: "hiresFix" in params,
+    supportsAdetailer: "ultralytics" in params,
     stepsMin: numeric(steps?.min),
     stepsMax: numeric(steps?.max),
     cfgMin: numeric(cfg?.min),

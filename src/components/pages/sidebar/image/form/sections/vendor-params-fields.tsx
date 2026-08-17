@@ -29,7 +29,6 @@ function hasVendorFields(d: ImageModelDescriptor): boolean {
     d.supportsQuality ||
     d.supportsOutputFormat ||
     d.supportsBackground ||
-    d.supportsWatermark ||
     d.supportsStrength,
   );
 }
@@ -84,27 +83,6 @@ export function VendorParamsFields(props: Props) {
                     </SelectItem>
                   </SelectContent>
                 </Select>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      )}
-
-      {descriptor.supportsWatermark && (
-        <FormField
-          control={form.control}
-          name="params.watermark"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-md border px-3 py-2">
-              <FormLabel className="m-0">
-                {t("IMAGE.WATERMARK_LABEL")}
-              </FormLabel>
-              <FormControl>
-                <input
-                  type="checkbox"
-                  checked={field.value ?? false}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                />
               </FormControl>
             </FormItem>
           )}
