@@ -5,7 +5,12 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
-import { newSql, pauseSql, resumeSql } from "@/lib/db/client/new-sql";
+import {
+  diagnoseSql,
+  newSql,
+  pauseSql,
+  resumeSql,
+} from "@/lib/db/client/new-sql";
 import {
   requestOwnership,
   subscribeWant,
@@ -115,7 +120,19 @@ async function openMigratedSql(
       // install fails (typically: another live tab holds the pool's access
       // handles). Never accept it - synthesize a recoverable error so the
       // retry loop absorbs the handover, exactly like SAH contention before.
-      if ((await sql.getDatabaseInfo()).storageType !== "opfs") {
+      const info = await sql.getDatabaseInfo();
+      if (info.storageType !== "opfs") {
+        // Ask the worker WHY before throwing: this branch has several causes
+        // that need opposite advice (another tab holds the pool, OPFS blocked
+        // outright, quota) and they were indistinguishable in a bug report.
+        const diagnosis = await diagnoseSql(sql).catch(() => undefined);
+        logChatDebug("db.open.in_memory", {
+          userId,
+          attempt,
+          storageType: info.storageType,
+          persisted: info.persisted,
+          ...diagnosis,
+        });
         throw new Error("OpfsSAHPool unavailable: fell back to in-memory");
       }
       await runMigrations(sql);

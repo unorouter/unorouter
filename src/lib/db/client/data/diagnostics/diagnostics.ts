@@ -224,7 +224,17 @@ export async function buildDiagnosticsHead(
     });
   }
 
-  const convs = (await readLocalConversations(userId)) ?? [];
+  // Every read past here is best-effort. A diagnostics export whose whole point
+  // is explaining a broken database must not need that database to work: this
+  // threw on the unavailable-DB path, so the users who most needed to send a
+  // report were the only ones who could not produce one. The debug log itself
+  // lives in localStorage and survives regardless.
+  let convs: Awaited<ReturnType<typeof readLocalConversations>> = [];
+  try {
+    convs = (await readLocalConversations(userId)) ?? [];
+  } catch (e) {
+    dbInfo.conversationsError = String(e).slice(0, 200);
+  }
   const settingsById = new Map<string, Record<string, unknown>>();
   try {
     const local = await getLocalDb(userId);
@@ -277,8 +287,14 @@ export async function buildDiagnosticsHead(
     presets = [{ error: String(e).slice(0, 200) }];
   }
 
-  const tableStorage = await getTableStorageStats(userId);
-  logChatDebug("storage-stats", { tableStorage });
+  let tableStorage: Awaited<ReturnType<typeof getTableStorageStats>> | null =
+    null;
+  try {
+    tableStorage = await getTableStorageStats(userId);
+    logChatDebug("storage-stats", { tableStorage });
+  } catch (e) {
+    dbInfo.tableStorageError = String(e).slice(0, 200);
+  }
 
   return {
     generatedAt: dayjs().toISOString(),
@@ -360,12 +376,16 @@ export async function buildDiagnostics(
   const messagesByConv: Record<string, unknown[]> = {};
   const requestLogsByConv: Record<string, unknown[]> = {};
   for (const id of head.convIds) {
-    messagesByConv[id] = await readLocalMessageMetaForConv(userId, id);
-    requestLogsByConv[id] = await readRequestLogsForConvDiag(
-      userId,
-      id,
-      opts.includeContent,
-    );
+    try {
+      messagesByConv[id] = await readLocalMessageMetaForConv(userId, id);
+      requestLogsByConv[id] = await readRequestLogsForConvDiag(
+        userId,
+        id,
+        opts.includeContent,
+      );
+    } catch (e) {
+      messagesByConv[id] = [{ error: String(e).slice(0, 200) }];
+    }
   }
 
   return {

@@ -23,6 +23,30 @@ export async function downloadDiagnostics(
     logChatDebug("export.diagnostics.done", { filename });
   } catch (e) {
     logChatDebug("export.diagnostics.error", { error: String(e) });
+    // Last resort: emit the localStorage-backed log on its own. It needs no
+    // database, and a report from a user whose database is dead is exactly the
+    // one worth having, so failing outright here left us blind to the only
+    // bugs this export exists for.
+    try {
+      const { getChatDebugLog } = await import("@/lib/utils/chat-debug-log");
+      downloadJson(
+        {
+          generatedAt: new Date().toISOString(),
+          partial: true,
+          buildError: String(e).slice(0, 500),
+          device: { userAgent: navigator.userAgent, url: location.href },
+          debugLog: getChatDebugLog(),
+        },
+        filename,
+        { pretty: false },
+      );
+      logChatDebug("export.diagnostics.partial", { filename });
+      return;
+    } catch (fallbackError) {
+      logChatDebug("export.diagnostics.fallback_failed", {
+        error: String(fallbackError).slice(0, 200),
+      });
+    }
     throw e;
   }
 }

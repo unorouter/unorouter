@@ -2,6 +2,7 @@ import { SQLocalDrizzle } from "sqlocal/drizzle";
 import type {
   SahPoolControlMessage,
   SahPoolControlReply,
+  SahPoolDiagnosis,
 } from "./sahpool/sahpool-worker";
 
 // Every database runs on the app's sahpool worker (opfs-sahpool VFS, no
@@ -36,9 +37,9 @@ let controlSeq = 0;
 function control(
   sql: SQLocalDrizzle,
   type: SahPoolControlMessage["type"],
-): Promise<void> {
+): Promise<SahPoolDiagnosis | undefined> {
   const worker = workers.get(sql);
-  if (!worker) return Promise.resolve();
+  if (!worker) return Promise.resolve(undefined);
   const key = `sahpool-control-${++controlSeq}`;
   return new Promise((resolve, reject) => {
     const onMessage = (event: MessageEvent<SahPoolControlReply>) => {
@@ -50,17 +51,23 @@ function control(
       }
       worker.removeEventListener("message", onMessage);
       if (event.data.error) reject(new Error(event.data.error));
-      else resolve();
+      else resolve(event.data.diagnosis);
     };
     worker.addEventListener("message", onMessage);
     worker.postMessage({ type, key } satisfies SahPoolControlMessage);
   });
 }
 
-export function pauseSql(sql: SQLocalDrizzle): Promise<void> {
-  return control(sql, "sahpool-pause");
+export async function pauseSql(sql: SQLocalDrizzle): Promise<void> {
+  await control(sql, "sahpool-pause");
 }
 
-export function resumeSql(sql: SQLocalDrizzle): Promise<void> {
-  return control(sql, "sahpool-resume");
+export async function resumeSql(sql: SQLocalDrizzle): Promise<void> {
+  await control(sql, "sahpool-resume");
+}
+
+export function diagnoseSql(
+  sql: SQLocalDrizzle,
+): Promise<SahPoolDiagnosis | undefined> {
+  return control(sql, "sahpool-diagnose");
 }

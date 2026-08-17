@@ -76,10 +76,24 @@ export class SQLiteSahPoolDriver
           return util;
         });
       poolCache.set(name, pool);
-      pool.catch(() => poolCache.delete(name));
+      // The reason the pool would not install is the ONE fact that says why a
+      // user is stuck on the in-memory fallback, and it used to die here: the
+      // app only ever saw "OpfsSAHPool unavailable", which names the symptom
+      // for every possible cause (locked by another tab, OPFS blocked by
+      // policy, quota, a torn pool directory).
+      pool.catch((err) => {
+        poolCache.delete(name);
+        this.lastPoolError = String(
+          (err as Error)?.stack ?? (err as Error)?.message ?? err,
+        ).slice(0, 400);
+      });
     }
     return pool;
   }
+
+  // Read by the worker so the failure reason can reach the page, since a
+  // rejected install leaves no other trace on the driver.
+  lastPoolError?: string;
 
   override async init(config: DriverConfig): Promise<void> {
     const { databasePath } = config;
