@@ -1,7 +1,7 @@
 import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
 import { env } from "@/lib/config/env";
 import { getLocalDb } from "@/lib/db/client/client";
-import { newSql } from "@/lib/db/client/new-sql";
+import { newSql, terminateSql } from "@/lib/db/client/new-sql";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics/diagnostics";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -115,25 +115,38 @@ async function buildExportFile(
   const local = await getLocalDb(userId);
   if (!local) throw new Error("SQLocal unavailable");
   const srcFile = await local.getDatabaseFile();
-  const srcBytes = await srcFile.arrayBuffer();
-  logChatDebug("export.db.copy", { srcBytes: srcBytes.byteLength });
+  logChatDebug("export.db.copy", { srcBytes: srcFile.size });
 
   const scratch = newSql(scratchPath);
   const cleanup = async () => {
-    // SQLocal deleteDatabaseFile() is unreliable on some WASM builds; release the
-    // handle then remove the OPFS entry directly.
+    // Unlink THROUGH the driver, as reconcile-import does: the scratch runs on the
+    // sahpool VFS, so its bytes live in a pool slot and not under `scratchPath`.
+    // Removing that root name deleted nothing, so every export left a full copy of
+    // the database behind (one report showed 6.5MB of tables against 31.4MB of
+    // OPFS usage, climbing with each export). Terminate the worker too, or it holds
+    // the pool's access handles for the life of the page.
+    await scratch.deleteDatabaseFile().catch((err) =>
+      logChatDebug("export.db.cleanup_failed", {
+        stage: "delete",
+        error: String(err).slice(0, 200),
+      }),
+    );
     await scratch.destroy().catch(() => {});
+    terminateSql(scratch);
     try {
       const root = await navigator.storage.getDirectory();
       await root.removeEntry(scratchPath).catch(() => {});
     } catch (err) {
       logChatDebug("export.db.cleanup_failed", {
+        stage: "root",
         error: String(err).slice(0, 200),
       });
     }
   };
   try {
-    await scratch.overwriteDatabaseFile(srcBytes);
+    // Stream rather than buffer: arrayBuffer() materialized the WHOLE database in
+    // memory, which is what makes a large backup fail to save at all.
+    await scratch.overwriteDatabaseFile(srcFile.stream());
     await scratch.sql`PRAGMA foreign_keys = OFF`;
 
     const before = await scratchSize(scratch);

@@ -3,7 +3,7 @@
 import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
-import { newSql } from "@/lib/db/client/new-sql";
+import { newSql, terminateSql } from "@/lib/db/client/new-sql";
 import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
@@ -168,6 +168,11 @@ async function cleanup(
       error: String(err).slice(0, 200),
     }),
   );
+  // destroy() closes the database but leaves the worker running, and with it the
+  // pool's sync access handles. An import spins up ~10 of these, so without the
+  // terminate they accumulate for the life of the page and collide with the next
+  // open as NoModificationAllowedError.
+  terminateSql(handle);
   if (removePath) await removeOpfsFile(removePath);
 }
 
@@ -217,12 +222,14 @@ export async function reconcileImport(
         liveBytes = await readBytes(src);
       } finally {
         await src.destroy().catch(() => {});
+        terminateSql(src);
       }
       const backup = newSql(backupPath);
       try {
         await backup.overwriteDatabaseFile(liveBytes);
       } finally {
         await backup.destroy().catch(() => {});
+        terminateSql(backup);
       }
       logChatDebug("import.reconcile.snapshot", {
         bytes: liveBytes.byteLength,
@@ -253,6 +260,7 @@ export async function reconcileImport(
     }
     await final.sql`PRAGMA foreign_keys = ON`;
     await liveSrc.destroy().catch(() => {});
+    terminateSql(liveSrc);
     liveSrc = null;
 
     // Phase 3: single atomic-as-possible swap. Never overwrite live with a corrupt build.
@@ -313,10 +321,14 @@ async function restoreLiveFromBackup(
       backupBytes = await readBytes(backup);
     } finally {
       await backup.destroy().catch(() => {});
+      terminateSql(backup);
     }
     const live = liveHandle ?? newSql(livePath);
     await live.overwriteDatabaseFile(backupBytes);
-    if (live !== liveHandle) await live.destroy().catch(() => {});
+    if (live !== liveHandle) {
+      await live.destroy().catch(() => {});
+      terminateSql(live);
+    }
     logChatDebug("import.reconcile.rollback", { restored: true });
   } catch (err) {
     logChatDebug("import.reconcile.rollback", {
@@ -336,6 +348,7 @@ async function deleteBackup(backupPath: string): Promise<void> {
     const backup = newSql(backupPath);
     await backup.deleteDatabaseFile().catch(() => {});
     await backup.destroy().catch(() => {});
+    terminateSql(backup);
   }
 }
 
@@ -364,6 +377,7 @@ async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
     return false;
   } finally {
     await probe.destroy().catch(() => {});
+    terminateSql(probe);
   }
 }
 
@@ -411,6 +425,7 @@ export async function recoverPendingImport(
     }
   } finally {
     await live.destroy().catch(() => {});
+    terminateSql(live);
     await deleteBackup(backupPath);
   }
 }
