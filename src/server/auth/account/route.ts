@@ -1,5 +1,6 @@
 import {
   accessTokenMaxAge,
+  clearSessionCookies,
   handleAuthResponse,
   sessionCookieDescriptors,
 } from "@/lib/api/auth";
@@ -11,12 +12,7 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import {
-  ACCESS_TOKEN_COOKIE,
-  AUTH_REDIRECT_COOKIE,
-  LOCAL_USER_ID_COOKIE,
-  USER_ID_COOKIE,
-} from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import {
   exchangeOAuthCode,
@@ -75,31 +71,30 @@ export const authRoute = new Elysia({ prefix: "/account" })
     { body: registerBody },
   )
 
-  .get("/logout", async ({ cookie, upstream }) => {
+  .get("/logout", async ({ cookie, set, upstream }) => {
     const res = await logout(upstream);
     for (const name of Object.keys(cookie)) {
       cookie[name].remove();
     }
+    // The session cookies were set through a raw header, so the jar above never
+    // tracked them and would leave the user logged in after logging out.
+    clearSessionCookies(set);
     return unwrap(res);
   })
 
-  .get("/self", async ({ cookie, upstream }) => {
-    const res = await getSelf(upstream);
-    // Session cookies can outlive the upstream token (revoked, or expiry
-    // drift between cookie maxAge and the token's real lifetime). Without
-    // this the client sits half-logged-in with a dead credential and every
-    // action 401s until a manual re-login.
-    // Orval only types the 200 branch; upstream really returns 401 here.
-    if ((res.status as number) === 401) {
-      for (const name of [
-        ACCESS_TOKEN_COOKIE,
-        USER_ID_COOKIE,
-        LOCAL_USER_ID_COOKIE,
-      ]) {
-        if (cookie[name]?.value) cookie[name].remove();
-      }
+  .get("/self", async ({ set, upstream }) => {
+    // Session cookies can outlive the upstream token (revoked, or expiry drift
+    // between cookie maxAge and the token's real lifetime). Clearing them here
+    // is what stops the client sitting half-logged-in with a dead credential,
+    // where every action 401s and the only escape is clearing cookies by hand.
+    // customFetch THROWS on a non-ok response, so this must be a catch: reading
+    // `res.status === 401` after the await is unreachable code.
+    try {
+      return unwrap(await getSelf(upstream));
+    } catch (err) {
+      if ((err as { status?: number })?.status === 401) clearSessionCookies(set);
+      throw err;
     }
-    return unwrap(res);
   })
 
   .get("/status", async () => {

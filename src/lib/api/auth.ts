@@ -70,6 +70,37 @@ export async function sessionCookieDescriptors(
   return descriptors;
 }
 
+// Session cookies are SET through a raw set-cookie header, so they must be
+// CLEARED the same way. Elysia's `cookie[name].remove()` only emits a header for
+// a cookie its jar is tracking, so clearing one it never set is a silent no-op:
+// the browser kept `user-id`, the app stayed logged in as a revoked user, and
+// every request 401'd with no way out but clearing cookies by hand.
+export function clearSessionCookies(set: Context["set"]): void {
+  const existing = set.headers["set-cookie"];
+  const cookies = Array.isArray(existing)
+    ? [...existing]
+    : existing
+      ? [String(existing)]
+      : [];
+  for (const name of [
+    ACCESS_TOKEN_COOKIE,
+    USER_ID_COOKIE,
+    LOCAL_USER_ID_COOKIE,
+  ]) {
+    cookies.push(
+      stringifySetCookie({
+        name,
+        value: "",
+        path: "/",
+        maxAge: 0,
+        expires: new Date(0),
+        sameSite: "lax",
+      }),
+    );
+  }
+  set.headers["set-cookie"] = cookies;
+}
+
 export async function handleAuthResponse(
   // Read structurally, not through Orval's LoginData: upstream returns a raw gin
   // body whose real shape (access_token/user/require_2fa) is wider than the
