@@ -31,7 +31,7 @@
     "@dnd-kit/sortable": "10.0.0",
     "@dnd-kit/utilities": "3.2.2",
     "@elysiajs/eden": "1.4.9",
-    "@elysiajs/openapi": "github:0-don/elysia-openapi-fork#fix/fromtypes-response-parsing-dist",
+    "@elysiajs/openapi": "github:unorouter/elysia-openapi-fork#fix/fromtypes-response-parsing-dist",
     "@heroicons/react": "2.2.0",
     "@hookform/resolvers": "5.9.0",
     "@huggingface/transformers": "4.2.0",
