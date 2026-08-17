@@ -7,11 +7,13 @@ import type {
   personas,
   requestLogs,
   samplingPresets,
+} from "./shared";
+import type {
   testerModels,
   testerProbes,
   testerProviders,
   testerTests,
-} from "./shared";
+} from "./tester";
 import type { customProviders, jsPlugins } from "./client";
 
 export type ConversationRow = typeof conversations.$inferSelect;

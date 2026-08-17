@@ -89,9 +89,9 @@ export function LocalDbStudio(props: Props) {
   const download = async (options: DbExportOptions, targetUserId?: number) => {
     try {
       const target = targetUserId ?? userId;
-      const filename = `${env.appName.toLowerCase()}-${target}-${dayjs()
+      const filename = `${env.appName.toLowerCase()}-${dayjs()
         .toISOString()
-        .replace(/[:.]/g, "-")}.sqlite3`;
+        .replace(/[:.]/g, "-")}.sqlite`;
       const { downloadLocalDb } =
         await import("@/lib/db/client/data/diagnostics/db-export");
       await downloadLocalDb(target, filename, options);

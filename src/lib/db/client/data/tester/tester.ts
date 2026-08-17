@@ -6,7 +6,7 @@ import {
   testerProbes,
   testerProviders,
   testerTests,
-} from "@/lib/db/schema/shared";
+} from "@/lib/db/schema/tester";
 import { uid as genId } from "@/lib/utils/base";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";

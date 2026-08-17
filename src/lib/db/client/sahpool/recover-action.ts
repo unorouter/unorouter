@@ -37,7 +37,7 @@ export async function runRecoverOrphanedDb(
   const biggest = found[0]!;
   const { streamFileToDisk } = await import("@/lib/utils/client");
   const stamp = dayjs().format("YYYYMMDD-HHmmss");
-  const fileName = `${env.appName.toLowerCase()}-recovered-${stamp}.sqlite3`;
+  const fileName = `${env.appName.toLowerCase()}-recovered-${stamp}.sqlite`;
   // File wraps the Blob VIEW without copying, so the bytes stream from OPFS to
   // disk and never sit in the heap.
   await streamFileToDisk(

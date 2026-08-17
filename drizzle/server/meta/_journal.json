@@ -78,6 +78,13 @@
       "when": 1785528450595,
       "tag": "0010_third_sharon_ventura",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1786989117294,
+      "tag": "0011_drop_dead_mirror_tables",
+      "breakpoints": true
     }
   ]
 }

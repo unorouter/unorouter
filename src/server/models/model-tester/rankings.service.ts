@@ -6,7 +6,7 @@ import {
   testerProbes,
   testerProviders,
   testerTests,
-} from "@/lib/db/schema/shared";
+} from "@/lib/db/schema/tester";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { providerForModel } from "@/lib/ai/verify/models";
 import { runServerVerification } from "./server-verify.service";
