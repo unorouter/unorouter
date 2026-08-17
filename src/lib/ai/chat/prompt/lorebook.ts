@@ -2,6 +2,7 @@ import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { MAX_RECURSIVE_LOREBOOK_PASSES } from "@/lib/config/constants";
 import type { LbEntry, LbRow } from "@/lib/types";
 import { clamp, escapeRegex } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { seededRand } from "@/lib/ai/chat/calc";
 
 function stripComments(text: string): string {
@@ -358,11 +359,32 @@ export function selectLorebookEntries(
       (a.entry.id < b.entry.id ? -1 : 1),
   );
   let used = 0;
+  const dropped: { id: string; cost: number; priority: number }[] = [];
   const survived = accepted.filter((p) => {
     const cost = estimateTokens(p.dec.body);
-    if (used + cost > globalBudget) return false;
+    if (used + cost > globalBudget) {
+      dropped.push({
+        id: p.entry.id,
+        cost,
+        priority: p.effectivePriority,
+      });
+      return false;
+    }
     used += cost;
     return true;
+  });
+
+  logChatDebug("lorebook.select", {
+    entries: entries.length,
+    enabled: enabledEntries.length,
+    constant: prepared.filter((p) => p.entry.constant).length,
+    accepted: accepted.length,
+    survived: survived.length,
+    budget: globalBudget,
+    usedTokens: used,
+    droppedCount: dropped.length,
+    droppedTokens: dropped.reduce((n, d) => n + d.cost, 0),
+    dropped: dropped.slice(0, 20),
   });
 
   const injectors = survived.filter((p) => p.dec.inject);

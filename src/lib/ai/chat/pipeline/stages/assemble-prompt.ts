@@ -27,6 +27,7 @@ import {
   expandMessageMacros,
   extractLastUserText,
   fitToTokenBudget,
+  messageTokens,
   spliceDepthInjections,
   type StreamMessages,
 } from "../transforms";
@@ -176,6 +177,17 @@ export async function assemblePrompt(
     chatMemory: assembled.chatMemory ?? null,
     afterCount: countSliced.length,
     afterBudget: slicedMessages.length,
+    // Which stage actually removed history, and how much it cost in tokens.
+    // Message counts alone cannot tell a summary rollup apart from a budget
+    // slice, and both look identical to a user reporting "it forgot things".
+    droppedBySummary: messages.length - unsummarized.length,
+    droppedByChatMemory: unsummarized.length - countSliced.length,
+    droppedByBudget: countSliced.length - slicedMessages.length,
+    contextWindow: contextWindow ?? null,
+    reserveTokens,
+    outputReserve,
+    systemTokens: assembled.promptTokens || estimateTokens(assembled.system),
+    historyTokens: slicedMessages.reduce((n, m) => n + messageTokens(m), 0),
   });
 
   return {
@@ -266,7 +278,19 @@ async function buildMemoryViaAgent(
     if (hits.length > 0) {
       out.retrievalBlock = `[Relevant background]\n${hits.map((h) => h.text).join("\n\n")}`;
     }
+    logChatDebug("memory.retrieval", {
+      candidates: loreCandidates.length,
+      hits: hits.length,
+      hitIds: hits.map((h) => h.id),
+    });
   }
+  logChatDebug("memory.summary", {
+    enabled: true,
+    historyLen: history.length,
+    priorAnchor: settings.summaryAnchor ?? 0,
+    newAnchor: out.summaryWriteback?.anchor ?? null,
+    memoryBlockTokens: estimateTokens(out.memoryBlock),
+  });
   return out;
 }
 

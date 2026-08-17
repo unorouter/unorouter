@@ -385,7 +385,7 @@ export function estimateTokens(text: string | undefined): number {
   return countTokens(text);
 }
 
-function messageTokens(m: StreamMessages[number]): number {
+export function messageTokens(m: StreamMessages[number]): number {
   let n = 4; // per-message role/format overhead
   if (!Array.isArray(m.parts)) return n;
   for (const part of m.parts) {
