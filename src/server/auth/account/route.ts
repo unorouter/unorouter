@@ -12,7 +12,10 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  AUTH_REDIRECT_COOKIE,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import {
   exchangeOAuthCode,
@@ -82,7 +85,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
     return unwrap(res);
   })
 
-  .get("/self", async ({ set, upstream }) => {
+  .get("/self", async ({ cookie, set, upstream }) => {
     // Session cookies can outlive the upstream token (revoked, or expiry drift
     // between cookie maxAge and the token's real lifetime). Clearing them here
     // is what stops the client sitting half-logged-in with a dead credential,
@@ -92,7 +95,11 @@ export const authRoute = new Elysia({ prefix: "/account" })
     try {
       return unwrap(await getSelf(upstream));
     } catch (err) {
-      if ((err as { status?: number })?.status === 401) clearSessionCookies(set);
+      // Only when a session actually exists: a guest 401s here on every page
+      // load, and emitting deletions for cookies nobody sent is pure noise.
+      const hasSession = !!cookie[USER_ID_COOKIE]?.value;
+      if ((err as { status?: number })?.status === 401 && hasSession)
+        clearSessionCookies(set);
       throw err;
     }
   })
