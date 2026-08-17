@@ -39,7 +39,6 @@ import {
   type SurfaceColors,
   type UserTheme,
 } from "@/components/ui/theme/theme-store";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { env } from "@/lib/config/env";
 import { upsertLocalTheme } from "@/lib/db/client/data/theme";
 import { downloadJson } from "@/lib/utils/client";
@@ -54,12 +53,11 @@ export function ThemeCustomizerBody() {
   const t = useTranslations();
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
   const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
-  const userId = useLocalUserId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    void upsertLocalTheme(userId, next).catch(() => {});
+    void upsertLocalTheme(next).catch(() => {});
   };
 
   const setMarkdown = (patch: Partial<ChatMarkdownColors>) => {

@@ -2,7 +2,7 @@
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
-import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
+import { RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
   deleteLocalImageSession,
@@ -61,7 +61,6 @@ function imageToMediaRow(
 ): Media {
   return {
     id: uid(),
-    userId: GUEST_USER_ID,
     convId: null,
     imageSnapshotId,
     sequenceIndex: index,

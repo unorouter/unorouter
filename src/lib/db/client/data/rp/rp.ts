@@ -11,7 +11,7 @@ import {
   personas,
   samplingPresets,
 } from "@/lib/db/schema/shared";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   makeTableStore,
@@ -68,11 +68,7 @@ export async function readLocalLorebook(
   const local = await getLocalDb(uid);
   if (!local) return null;
   const [lbRows, entries] = await Promise.all([
-    local.db
-      .select()
-      .from(lorebooks)
-      .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, uid)))
-      .limit(1),
+    local.db.select().from(lorebooks).where(eq(lorebooks.id, id)).limit(1),
     local.db
       .select()
       .from(lorebookEntries)
@@ -97,11 +93,7 @@ export async function readLocalCard(userId: number | undefined, id: string) {
   const local = await getLocalDb(uid);
   if (!local) return null;
   const [rows, chars, lbs] = await Promise.all([
-    local.db
-      .select()
-      .from(cards)
-      .where(and(eq(cards.id, id), eq(cards.userId, uid)))
-      .limit(1),
+    local.db.select().from(cards).where(eq(cards.id, id)).limit(1),
     local.db.select().from(cardCharacters).where(eq(cardCharacters.cardId, id)),
     local.db.select().from(cardLorebooks).where(eq(cardLorebooks.cardId, id)),
   ]);

@@ -68,56 +68,46 @@ export const localPendingTasks = sqliteTable(
   ],
 );
 
-export const customProviders = sqliteTable(
-  "custom_providers",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    name: text("name").notNull(),
-    baseUrl: text("base_url").notNull(),
-    apiKey: text("api_key").notNull().default(""),
-    format: text("format").$type<CustomProviderFormat>().notNull(),
-    // Route requests through our server (CORS-bypass); default stays
-    // browser-direct so the server never sees the user's endpoint or key.
-    proxy: integer("proxy", { mode: "boolean" }).notNull().default(false),
-    models: text("models", { mode: "json" })
-      .$type<CustomProviderModel[]>()
-      .notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [index("idx_custom_providers_user").on(table.userId)],
-);
+export const customProviders = sqliteTable("custom_providers", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => uid()),
+  name: text("name").notNull(),
+  baseUrl: text("base_url").notNull(),
+  apiKey: text("api_key").notNull().default(""),
+  format: text("format").$type<CustomProviderFormat>().notNull(),
+  // Route requests through our server (CORS-bypass); default stays
+  // browser-direct so the server never sees the user's endpoint or key.
+  proxy: integer("proxy", { mode: "boolean" }).notNull().default(false),
+  models: text("models", { mode: "json" })
+    .$type<CustomProviderModel[]>()
+    .notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
 
 // Sandboxed user-JS plugins (global, Risu-style). `kind` picks the execution
 // model: "uno" plugins register hook handlers through the RPC api, "janitor"
 // scripts run per turn against a JanitorAI-shaped context snapshot.
-export const jsPlugins = sqliteTable(
-  "js_plugins",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    name: text("name").notNull(),
-    script: text("script").notNull(),
-    kind: text("kind").$type<JsPluginKind>().notNull().default("uno"),
-    enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [index("idx_js_plugins_user").on(table.userId)],
-);
+export const jsPlugins = sqliteTable("js_plugins", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => uid()),
+  name: text("name").notNull(),
+  script: text("script").notNull(),
+  kind: text("kind").$type<JsPluginKind>().notNull().default("uno"),
+  enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
 
 export const tokenizers = sqliteTable("tokenizers", {
   source: text("source").primaryKey(),
@@ -155,7 +145,6 @@ export const imageModels = sqliteTable(
   "image_models",
   {
     air: text("air").primaryKey(),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     architecture: text("architecture"),
     heroImage: text("hero_image"),
@@ -167,9 +156,7 @@ export const imageModels = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [
-    index("idx_image_models_user").on(table.userId, table.lastUsedAt),
-  ],
+  (table) => [index("idx_image_models_last_used").on(table.lastUsedAt)],
 );
 
 export type ImageModel = typeof imageModels.$inferSelect;
@@ -184,7 +171,6 @@ export const imagePresets = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     model: text("model").notNull(),
     prompt: text("prompt"),
@@ -201,7 +187,7 @@ export const imagePresets = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [index("idx_image_presets_user").on(table.userId, table.name)],
+  (table) => [index("idx_image_presets_name").on(table.name)],
 );
 
 export type ImagePreset = typeof imagePresets.$inferSelect;
@@ -212,7 +198,6 @@ export const imageSessions = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     title: text("title"),
     firstModel: text("first_model"),
     snapshotCount: integer("snapshot_count").notNull().default(0),
@@ -221,7 +206,7 @@ export const imageSessions = sqliteTable(
     ...timestamps(),
   },
   (table) => [
-    index("idx_image_session_user_updated").on(table.userId, table.updatedAt),
+    index("idx_image_session_updated").on(table.updatedAt),
     index("idx_image_session_expires").on(table.expiresAt),
   ],
 );
@@ -234,7 +219,6 @@ export const imageSnapshots = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     sessionId: text("session_id")
       .notNull()
       .references(() => imageSessions.id, { onDelete: "cascade" }),
@@ -277,7 +261,6 @@ export const imageSnapshots = sqliteTable(
   },
   (table) => [
     index("idx_image_snapshot_session").on(table.sessionId, table.sessionOrder),
-    index("idx_image_snapshot_user").on(table.userId),
     index("idx_image_snapshot_expires").on(table.expiresAt),
     uniqueIndex("idx_image_snapshot_submitted").on(table.submittedKey),
   ],

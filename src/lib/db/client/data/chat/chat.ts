@@ -62,7 +62,6 @@ export const readLocalConversations = async (userId: number | undefined) => {
   const rows = await local.db
     .select({
       id: conversations.id,
-      userId: conversations.userId,
       title: conversations.title,
       defaultModel: conversations.defaultModel,
       totalInputTokens: conversations.totalInputTokens,
@@ -73,7 +72,6 @@ export const readLocalConversations = async (userId: number | undefined) => {
       updatedAt: conversations.updatedAt,
     })
     .from(conversations)
-    .where(eq(conversations.userId, uid))
     .orderBy(desc(conversations.updatedAt));
   return rows.map((r) => ({ ...r, model: r.defaultModel ?? null }));
 };
@@ -87,7 +85,6 @@ export const readLocalChatGroups = async (userId: number | undefined) => {
   return local.db
     .select()
     .from(chatGroups)
-    .where(eq(chatGroups.userId, uid))
     .orderBy(asc(chatGroups.orderIndex), asc(chatGroups.createdAt));
 };
 
@@ -106,9 +103,7 @@ export const deleteLocalChatGroup = async (
   await local.db
     .update(conversations)
     .set({ groupId: null })
-    .where(
-      and(eq(conversations.userId, uid), eq(conversations.groupId, groupId)),
-    );
+    .where(eq(conversations.groupId, groupId));
   await chatGroupStore.drop(userId, groupId);
 };
 
@@ -308,10 +303,7 @@ async function readLocalConversationMedia(
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return null;
-  return local.db
-    .select()
-    .from(media)
-    .where(and(eq(media.userId, uid), eq(media.convId, convId)));
+  return local.db.select().from(media).where(eq(media.convId, convId));
 }
 
 export async function readLocalConversationBundle(

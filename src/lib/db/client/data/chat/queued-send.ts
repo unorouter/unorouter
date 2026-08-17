@@ -21,10 +21,7 @@ export async function findUnansweredUserTurns(
   const rows = await local.db
     .select({ convId: messages.convId, parentId: messages.id })
     .from(messages)
-    .innerJoin(
-      conversations,
-      and(eq(conversations.id, messages.convId), eq(conversations.userId, uid)),
-    )
+    .innerJoin(conversations, eq(conversations.id, messages.convId))
     .where(
       and(
         eq(messages.isActiveBranch, true),

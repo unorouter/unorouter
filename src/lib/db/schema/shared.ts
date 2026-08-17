@@ -35,7 +35,6 @@ export const conversations = sqliteTable(
   "conversations",
   {
     id: text("id").primaryKey(),
-    userId: integer("user_id").notNull(),
     title: text("title"),
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
@@ -91,8 +90,8 @@ export const conversations = sqliteTable(
     ...timestamps(),
   },
   (table) => [
-    index("idx_conv_user_updated").on(table.userId, table.updatedAt),
-    index("idx_conv_user_group").on(table.userId, table.groupId),
+    index("idx_conv_updated").on(table.updatedAt),
+    index("idx_conv_group").on(table.groupId),
   ],
 );
 
@@ -102,15 +101,12 @@ export const chatGroups = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     orderIndex: integer("order_index").notNull().default(0),
     folded: integer("folded", { mode: "boolean" }).notNull().default(false),
     ...timestamps(),
   },
-  (table) => [
-    index("idx_chat_group_user_order").on(table.userId, table.orderIndex),
-  ],
+  (table) => [index("idx_chat_group_order").on(table.orderIndex)],
 );
 
 export const messages = sqliteTable(
@@ -206,7 +202,6 @@ export const characters = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     avatarMediaId: text("avatar_media_id"),
     backgroundMediaId: text("background_media_id"),
@@ -239,8 +234,8 @@ export const characters = sqliteTable(
     ...timestamps(),
   },
   (table) => [
-    index("idx_char_user_updated").on(table.userId, table.updatedAt),
-    index("idx_char_user_name").on(table.userId, table.name),
+    index("idx_char_updated").on(table.updatedAt),
+    index("idx_char_name").on(table.name),
   ],
 );
 
@@ -250,7 +245,6 @@ export const personas = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     title: text("title"),
     description: text("description"),
@@ -261,30 +255,22 @@ export const personas = sqliteTable(
     notes: text("notes"),
     ...timestamps(),
   },
-  (table) => [
-    index("idx_persona_user_default").on(table.userId, table.isDefault),
-    index("idx_persona_user").on(table.userId),
-  ],
+  (table) => [index("idx_persona_default").on(table.isDefault)],
 );
 
-export const lorebooks = sqliteTable(
-  "lorebooks",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    name: text("name").notNull(),
-    description: text("description"),
-    scanDepth: integer("scan_depth").notNull().default(4),
-    tokenBudget: integer("token_budget").notNull().default(1500),
-    recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
-      .notNull()
-      .default(false),
-    ...timestamps(),
-  },
-  (table) => [index("idx_lorebook_user").on(table.userId)],
-);
+export const lorebooks = sqliteTable("lorebooks", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => uid()),
+  name: text("name").notNull(),
+  description: text("description"),
+  scanDepth: integer("scan_depth").notNull().default(4),
+  tokenBudget: integer("token_budget").notNull().default(1500),
+  recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  ...timestamps(),
+});
 
 export const lorebookEntries = sqliteTable(
   "lorebook_entries",
@@ -326,7 +312,6 @@ export const samplingPresets = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     temperature: real("temperature"),
     topP: real("top_p"),
@@ -374,7 +359,7 @@ export const samplingPresets = sqliteTable(
       .default(false),
     ...timestamps(),
   },
-  (table) => [index("idx_preset_user_name").on(table.userId, table.name)],
+  (table) => [index("idx_preset_name").on(table.name)],
 );
 
 export const conversationCharacters = sqliteTable(
@@ -422,13 +407,12 @@ export const cards = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     description: text("description"),
     personaId: text("persona_id"),
     ...timestamps(),
   },
-  (table) => [index("idx_card_user_updated").on(table.userId, table.updatedAt)],
+  (table) => [index("idx_card_updated").on(table.updatedAt)],
 );
 
 export const cardCharacters = sqliteTable(
@@ -465,8 +449,11 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
+// One theme per device, so one row, and `id` is always 1. The SQL column keeps
+// its old `user_id` name: renaming it buys nothing and would force every client
+// to rebuild the table on upgrade.
 export const userThemes = sqliteTable("user_themes", {
-  userId: integer("user_id").primaryKey(),
+  id: integer("user_id").primaryKey().default(1),
   themeJson: text("theme_json", { mode: "json" }).$type<UserTheme>().notNull(),
   ...timestamps(),
 });
@@ -477,7 +464,6 @@ export const media = sqliteTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
@@ -501,10 +487,7 @@ export const media = sqliteTable(
     seed: integer("seed"),
     createdAt: createdAtCol(),
   },
-  (table) => [
-    index("idx_media_user").on(table.userId),
-    index("idx_media_conv").on(table.convId),
-  ],
+  (table) => [index("idx_media_conv").on(table.convId)],
 );
 
 export type Message = typeof messages.$inferSelect;

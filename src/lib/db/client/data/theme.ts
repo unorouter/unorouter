@@ -5,18 +5,18 @@ import { userThemes } from "@/lib/db/schema/shared";
 import { dayjs } from "@/lib/utils/format/date";
 import { getLocalDb } from "../client";
 
-export async function upsertLocalTheme(
-  userId: number | undefined,
-  themeJson: UserTheme,
-) {
-  const local = await getLocalDb(userId);
+// One theme per device, so one row.
+const THEME_ROW_ID = 1;
+
+export async function upsertLocalTheme(themeJson: UserTheme) {
+  const local = await getLocalDb();
   if (!local) return;
   const updatedAt = dayjs().toDate();
   await local.db
     .insert(userThemes)
-    .values({ userId, themeJson, updatedAt })
+    .values({ id: THEME_ROW_ID, themeJson, updatedAt })
     .onConflictDoUpdate({
-      target: userThemes.userId,
+      target: userThemes.id,
       set: { themeJson, updatedAt },
     });
 }

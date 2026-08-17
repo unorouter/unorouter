@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  buildCCv3Card,
-  exportCharacterCard,
-} from "@/lib/ai/rp/character-card";
+import { buildCCv3Card, exportCharacterCard } from "@/lib/ai/rp/character-card";
 import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
