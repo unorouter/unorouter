@@ -18,6 +18,7 @@ import {
   type LoginSchema,
 } from "@/lib/validation/auth";
 import { safeParse } from "@/lib/validation/helpers";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
@@ -62,15 +63,20 @@ export function LoginForm() {
         },
       });
       if (result && "require_2fa" in result && result.require_2fa) {
-        if ("flow_token" in result && typeof result.flow_token === "string") {
-          setTwoFAFlowToken(result.flow_token);
+        const hasFlow =
+          "flow_token" in result && typeof result.flow_token === "string";
+        logChatDebug("auth.2fa_required", { hasFlowToken: hasFlow });
+        if (hasFlow) {
+          setTwoFAFlowToken(result.flow_token as string);
         }
         setShow2FA(true);
         return;
       }
 
       analytics.auth.loginCompleted("email");
-      router.push(getRedirectPath());
+      const to = getRedirectPath();
+      logChatDebug("auth.login_done", { via: "password", to: String(to) });
+      router.push(to);
       router.refresh();
     } catch {
       turnstileRef.current?.reset();
@@ -83,7 +89,9 @@ export function LoginForm() {
       <TwoFAForm
         flowToken={twoFAFlowToken}
         onSuccess={() => {
-          router.push(getRedirectPath());
+          const to = getRedirectPath();
+          logChatDebug("auth.login_done", { via: "2fa", to: String(to) });
+          router.push(to);
           router.refresh();
         }}
       />
