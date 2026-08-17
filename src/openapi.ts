@@ -234,25 +234,25 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
+export interface ClaudeServerToolUse {
+  web_search_requests: number;
 }
 
 export interface BillingUsage {
   billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface BoundChannel {
@@ -436,11 +436,6 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
 /**
  * ClaudeMessageResponse schema
  */
@@ -454,10 +449,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeServerToolUse {
-  web_search_requests: number;
 }
 
 export interface ClaudeUsage {
@@ -975,29 +966,38 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
 }
 
 /**
@@ -1164,6 +1164,27 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
 
 /**
@@ -1244,15 +1265,6 @@ export interface ImageGenerationResponse {
   created: number;
   /** @nullable */
   data: ImageData[] | null;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1823,13 +1835,6 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
 export interface OverwriteField {
   /** @nullable */
   fields: string[] | null;
@@ -1962,9 +1967,25 @@ export interface PriceEstimationResponse {
   price_breakdown: PriceBreakdown;
 }
 
+export interface PricingCatalogCounts {
+  free: number;
+  models: number;
+  paid: number;
+  vendors: number;
+}
+
+export type PricingCatalogDataSupportedEndpointAnyOf = {
+  [key: string]: EndpointInfo;
+};
+
+/**
+ * @nullable
+ */
+export type PricingCatalogDataSupportedEndpoint =
+  PricingCatalogDataSupportedEndpointAnyOf | null;
+
 export interface PricingCatalogModel {
   chat: boolean;
-  supported_endpoint_types: string[];
   description?: string;
   fixed_price: number;
   icon?: string;
@@ -1979,6 +2000,7 @@ export interface PricingCatalogModel {
   original_output_price?: number | null;
   output_price: number;
   release_ts: number;
+  supported_endpoint_types: string[];
   tags: string[];
   type: string;
   vendor: string;
@@ -1995,60 +2017,53 @@ export interface PricingVendor {
 /**
  * PricingCatalogData schema
  */
-export interface PricingCatalogCounts {
-  free: number;
-  models: number;
-  paid: number;
-  vendors: number;
-}
-
-export interface PricingCatalogDetail extends PricingCatalogModel {
-  auto_chain: string[];
-  billing_expr?: string;
-  cache_ratio?: number;
-  completion_ratio: number;
-  create_cache_ratio?: number;
-  created_time?: number;
-  enable_groups: string[];
-  grid_min_ratio: number;
-  grid_pricing?: Record<string, string | number>[];
-  group_ratio: PricingModelGroupsDataGroupRatio;
-  is_tiered: boolean;
-  model_ratio: number;
-}
-
 export interface PricingCatalogData {
   counts: PricingCatalogCounts;
   first_free_model?: string;
   models: PricingCatalogModel[];
+  /** @nullable */
   supported_endpoint?: PricingCatalogDataSupportedEndpoint;
   vendors: PricingVendor[];
 }
 
-export type PricingCatalogDataSupportedEndpoint = {
-  [key: string]: EndpointInfo;
-};
+export type PricingCatalogDetailGroupRatio = { [key: string]: number };
 
-export interface PricingModelGroupsData {
+/**
+ * PricingCatalogDetail schema
+ */
+export interface PricingCatalogDetail {
   auto_chain: string[];
-  enable_groups: string[];
-  group_ratio: PricingModelGroupsDataGroupRatio;
-}
-
-export type PricingModelGroupsDataGroupRatio = { [key: string]: number };
-
-export interface PricingVendorModel {
+  billing_expr?: string;
+  cache_ratio?: number | null;
   chat: boolean;
+  completion_ratio: number;
+  create_cache_ratio?: number | null;
+  created_time?: number;
+  description?: string;
+  enable_groups: string[];
+  fixed_price: number;
+  grid_min_ratio: number;
+  grid_pricing?: Record<string, unknown>[];
+  group_ratio: PricingCatalogDetailGroupRatio;
+  icon?: string;
+  input_price: number;
+  is_fixed_price: boolean;
   is_free: boolean;
+  is_tiered: boolean;
+  metadata: ModelMetadata;
   model_name: string;
+  model_ratio: number;
+  online: boolean;
+  original_fixed_price?: number | null;
+  original_input_price?: number | null;
+  original_output_price?: number | null;
+  output_price: number;
   release_ts: number;
-  tag: string;
+  supported_endpoint_types: string[];
+  tags: string[];
+  type: string;
   vendor: string;
-}
-
-export interface PricingVendorsData {
-  model_vendors: PricingVendorModel[];
-  vendor_names: string[];
+  vendor_id: number;
 }
 
 export type PricingDataGroupRatioAnyOf = { [key: string]: number };
@@ -2084,7 +2099,7 @@ export interface PricingModel {
   created_time?: number;
   description?: string;
   enable_groups: string[];
-  grid_pricing?: Record<string, string | number>[];
+  grid_pricing?: Record<string, unknown>[];
   icon?: string;
   image_ratio?: number | null;
   is_free: boolean;
@@ -2117,6 +2132,34 @@ export interface PricingData {
   /** @nullable */
   usable_group: PricingDataUsableGroup;
   vendors: PricingVendor[];
+}
+
+export type PricingModelGroupsDataGroupRatio = { [key: string]: number };
+
+/**
+ * PricingModelGroupsData schema
+ */
+export interface PricingModelGroupsData {
+  auto_chain: string[];
+  enable_groups: string[];
+  group_ratio: PricingModelGroupsDataGroupRatio;
+}
+
+export interface PricingVendorModel {
+  chat: boolean;
+  is_free: boolean;
+  model_name: string;
+  release_ts: number;
+  tag: string;
+  vendor: string;
+}
+
+/**
+ * PricingVendorsData schema
+ */
+export interface PricingVendorsData {
+  model_vendors: PricingVendorModel[];
+  vendor_names: string[];
 }
 
 export interface QueryResult {
@@ -5057,7 +5100,7 @@ export type GetPricingCatalogParams = {
   vendor?: string;
 };
 
-export type GetPricingModelGroupsParams = {
+export type GetPricingCatalogModelParams = {
   /**
    * Model name to look up (returns it even when all channels are offline)
    */
@@ -5065,6 +5108,13 @@ export type GetPricingModelGroupsParams = {
 };
 
 export type GetPricingModelParams = {
+  /**
+   * Model name to look up (returns it even when all channels are offline)
+   */
+  model?: string;
+};
+
+export type GetPricingModelGroupsParams = {
   /**
    * Model name to look up (returns it even when all channels are offline)
    */
@@ -11381,15 +11431,22 @@ export type getPricingCatalogModelResponse200ApplicationJson = {
   status: 200;
 };
 
-export type getPricingCatalogModelResponseSuccess =
-  getPricingCatalogModelResponse200ApplicationJson & {
-    headers: Headers;
-  };
+export type getPricingCatalogModelResponse200ApplicationXml = {
+  data: PricingCatalogDetail;
+  status: 200;
+};
+
+export type getPricingCatalogModelResponseSuccess = (
+  | getPricingCatalogModelResponse200ApplicationJson
+  | getPricingCatalogModelResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
 export type getPricingCatalogModelResponse =
   getPricingCatalogModelResponseSuccess;
 
 export const getGetPricingCatalogModelUrl = (
-  params: GetPricingModelGroupsParams,
+  params?: GetPricingCatalogModelParams,
 ) => {
   const normalizedParams = new URLSearchParams();
 
@@ -11399,14 +11456,18 @@ export const getGetPricingCatalogModelUrl = (
     }
   });
 
-  return `/api/pricing/catalog/model?${normalizedParams.toString()}`;
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/pricing/catalog/model?${stringifiedParams}`
+    : `/api/pricing/catalog/model`;
 };
 
 /**
  * @summary Get Pricing Catalog Model
  */
 export const getPricingCatalogModel = async (
-  params: GetPricingModelGroupsParams,
+  params?: GetPricingCatalogModelParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getPricingCatalogModelResponse> => {
   return customFetch<getPricingCatalogModelResponse>(
@@ -11416,82 +11477,6 @@ export const getPricingCatalogModel = async (
       method: "GET",
     },
   );
-};
-
-export type getPricingModelGroupsResponse200ApplicationJson = {
-  data: PricingModelGroupsData;
-  status: 200;
-};
-
-export type getPricingModelGroupsResponseSuccess =
-  getPricingModelGroupsResponse200ApplicationJson & {
-    headers: Headers;
-  };
-export type getPricingModelGroupsResponse =
-  getPricingModelGroupsResponseSuccess;
-
-export const getGetPricingModelGroupsUrl = (
-  params: GetPricingModelGroupsParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
-    }
-  });
-
-  return `/api/pricing/model-groups?${normalizedParams.toString()}`;
-};
-
-/**
- * @summary Get Pricing Model Groups
- */
-export const getPricingModelGroups = async (
-  params: GetPricingModelGroupsParams,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getPricingModelGroupsResponse> => {
-  return customFetch<getPricingModelGroupsResponse>(
-    getGetPricingModelGroupsUrl(params),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
-
-export type getPricingVendorsResponse200ApplicationJson = {
-  data: PricingVendorsData;
-  status: 200;
-};
-
-export type getPricingVendorsResponse200ApplicationXml = {
-  data: PricingVendorsData;
-  status: 200;
-};
-
-export type getPricingVendorsResponseSuccess = (
-  | getPricingVendorsResponse200ApplicationJson
-  | getPricingVendorsResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getPricingVendorsResponse = getPricingVendorsResponseSuccess;
-
-export const getGetPricingVendorsUrl = () => {
-  return `/api/pricing/vendors`;
-};
-
-/**
- * @summary Get Pricing Vendors
- */
-export const getPricingVendors = async (
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getPricingVendorsResponse> => {
-  return customFetch<getPricingVendorsResponse>(getGetPricingVendorsUrl(), {
-    ...options,
-    method: "GET",
-  });
 };
 
 export type getPricingModelResponse200ApplicationJson = {
@@ -11536,6 +11521,93 @@ export const getPricingModel = async (
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getPricingModelResponse> => {
   return customFetch<getPricingModelResponse>(getGetPricingModelUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getPricingModelGroupsResponse200ApplicationJson = {
+  data: PricingModelGroupsData;
+  status: 200;
+};
+
+export type getPricingModelGroupsResponse200ApplicationXml = {
+  data: PricingModelGroupsData;
+  status: 200;
+};
+
+export type getPricingModelGroupsResponseSuccess = (
+  | getPricingModelGroupsResponse200ApplicationJson
+  | getPricingModelGroupsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPricingModelGroupsResponse =
+  getPricingModelGroupsResponseSuccess;
+
+export const getGetPricingModelGroupsUrl = (
+  params?: GetPricingModelGroupsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/pricing/model-groups?${stringifiedParams}`
+    : `/api/pricing/model-groups`;
+};
+
+/**
+ * @summary Get Pricing Model Groups
+ */
+export const getPricingModelGroups = async (
+  params?: GetPricingModelGroupsParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getPricingModelGroupsResponse> => {
+  return customFetch<getPricingModelGroupsResponse>(
+    getGetPricingModelGroupsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export type getPricingVendorsResponse200ApplicationJson = {
+  data: PricingVendorsData;
+  status: 200;
+};
+
+export type getPricingVendorsResponse200ApplicationXml = {
+  data: PricingVendorsData;
+  status: 200;
+};
+
+export type getPricingVendorsResponseSuccess = (
+  | getPricingVendorsResponse200ApplicationJson
+  | getPricingVendorsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPricingVendorsResponse = getPricingVendorsResponseSuccess;
+
+export const getGetPricingVendorsUrl = () => {
+  return `/api/pricing/vendors`;
+};
+
+/**
+ * @summary Get Pricing Vendors
+ */
+export const getPricingVendors = async (
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getPricingVendorsResponse> => {
+  return customFetch<getPricingVendorsResponse>(getGetPricingVendorsUrl(), {
     ...options,
     method: "GET",
   });

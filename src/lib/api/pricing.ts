@@ -10,7 +10,9 @@ export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";
 }
 
-export type GridPricingRow = Record<string, string | number>;
+// Columns vary per model, so values are read through typeof guards rather
+// than assumed: this mirrors the gateway's open row map.
+export type GridPricingRow = Record<string, unknown>;
 
 export type EndpointInfo = {
   method: string;
