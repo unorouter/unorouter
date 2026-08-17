@@ -291,5 +291,8 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         break;
     }
   }
-  return parts;
+  // Also on the way OUT: rows written before the merge existed still hold one
+  // row per <think> block, and a reply must not change shape between the live
+  // stream and the reload that follows it.
+  return mergeReasoningParts(parts);
 }
