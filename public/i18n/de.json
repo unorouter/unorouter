@@ -497,7 +497,9 @@
       "SORT_ASC": "Aufsteigend",
       "SORT_DESC": "Absteigend",
       "SORT_RESET": "Zurücksetzen",
-      "FLAT_NO_PARAMS": "Pauschalpreis pro Aufruf. Größe, Qualität und andere Parameter werden bei dieser Variante nicht unterstützt."
+      "FLAT_NO_PARAMS": "Pauschalpreis pro Aufruf. Größe, Qualität und andere Parameter werden bei dieser Variante nicht unterstützt.",
+      "UPTIME": "Verfügbar",
+      "SUCCESS_RATE": "Erfolg"
     },
     "COMPARE": {
       "BADGE": "Vergleich",

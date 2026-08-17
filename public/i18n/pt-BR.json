@@ -497,7 +497,9 @@
       "SORT_ASC": "Crescente",
       "SORT_DESC": "Decrescente",
       "SORT_RESET": "Redefinir",
-      "FLAT_NO_PARAMS": "Preço fixo por chamada. Tamanho, qualidade e outros parâmetros não são suportados nesta variante."
+      "FLAT_NO_PARAMS": "Preço fixo por chamada. Tamanho, qualidade e outros parâmetros não são suportados nesta variante.",
+      "UPTIME": "Disponibilidade",
+      "SUCCESS_RATE": "Sucesso"
     },
     "COMPARE": {
       "BADGE": "Comparar",

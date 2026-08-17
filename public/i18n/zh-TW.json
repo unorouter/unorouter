@@ -497,7 +497,9 @@
       "SORT_ASC": "升序",
       "SORT_DESC": "降序",
       "SORT_RESET": "重置",
-      "FLAT_NO_PARAMS": "按次固定計費。此變體不支援尺寸、品質等參數。"
+      "FLAT_NO_PARAMS": "按次固定計費。此變體不支援尺寸、品質等參數。",
+      "UPTIME": "可用率",
+      "SUCCESS_RATE": "成功率"
     },
     "COMPARE": {
       "BADGE": "對比",

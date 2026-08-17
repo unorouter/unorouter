@@ -497,7 +497,9 @@
       "SORT_ASC": "Tăng dần",
       "SORT_DESC": "Giảm dần",
       "SORT_RESET": "Đặt lại",
-      "FLAT_NO_PARAMS": "Giá cố định mỗi lần gọi. Kích thước, chất lượng và các tham số khác không được hỗ trợ trên biến thể này."
+      "FLAT_NO_PARAMS": "Giá cố định mỗi lần gọi. Kích thước, chất lượng và các tham số khác không được hỗ trợ trên biến thể này.",
+      "UPTIME": "Hoạt động",
+      "SUCCESS_RATE": "Thành công"
     },
     "COMPARE": {
       "BADGE": "So sánh",

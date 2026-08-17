@@ -22,6 +22,7 @@ import type { RankedModel } from "@/openapi";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
+  formatPct,
   formatTokenCount,
   formatTokens,
 } from "@/lib/utils/format/number";
@@ -76,6 +77,21 @@ function PriceCell(props: {
       )}
     </span>
   );
+}
+
+// Null means no probe or no traffic in the window, which is NOT 0%: showing a
+// dash keeps an unmeasured model from reading as a broken one.
+function RateCell(props: { value: number | null | undefined }) {
+  if (props.value == null) {
+    return <span className="text-muted-foreground">-</span>;
+  }
+  const tone =
+    props.value >= 99
+      ? "text-green-600 dark:text-green-400"
+      : props.value >= 90
+        ? "text-amber-600 dark:text-amber-400"
+        : "text-red-600 dark:text-red-400";
+  return <span className={tone}>{formatPct(props.value, 1)}</span>;
 }
 
 export function buildModelColumns(opts: {
@@ -226,6 +242,42 @@ export function buildModelColumns(opts: {
         cellClassName: "text-right text-muted-foreground",
       },
       cell: ({ row }) => formatTokenCount(ctxOf(row.original)),
+    },
+    {
+      id: "uptime",
+      // Unmeasured sorts below a measured 0%: -1 rather than 0, since a model
+      // with no probe is not a model that failed every probe.
+      accessorFn: (m) => m.uptime_24h ?? -1,
+      enableSorting: true,
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="MODELS.TABLE.UPTIME"
+          className="justify-end"
+        />
+      ),
+      meta: {
+        headerClassName: "hidden @4xl:table-cell text-right",
+        cellClassName: "hidden @4xl:table-cell text-right",
+      },
+      cell: ({ row }) => <RateCell value={row.original.uptime_24h} />,
+    },
+    {
+      id: "success",
+      accessorFn: (m) => m.success_rate ?? -1,
+      enableSorting: true,
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="MODELS.TABLE.SUCCESS_RATE"
+          className="justify-end"
+        />
+      ),
+      meta: {
+        headerClassName: "hidden @4xl:table-cell text-right",
+        cellClassName: "hidden @4xl:table-cell text-right",
+      },
+      cell: ({ row }) => <RateCell value={row.original.success_rate} />,
     },
     {
       id: "released",

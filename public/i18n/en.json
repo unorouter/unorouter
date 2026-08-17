@@ -497,7 +497,9 @@
       "SORT_ASC": "Ascending",
       "SORT_DESC": "Descending",
       "SORT_RESET": "Reset",
-      "FLAT_NO_PARAMS": "Flat per-call price. Size, quality and other parameters are not supported on this variant."
+      "FLAT_NO_PARAMS": "Flat per-call price. Size, quality and other parameters are not supported on this variant.",
+      "UPTIME": "Uptime",
+      "SUCCESS_RATE": "Success"
     },
     "COMPARE": {
       "BADGE": "Compare",

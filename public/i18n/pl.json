@@ -497,7 +497,9 @@
       "SORT_ASC": "Rosnąco",
       "SORT_DESC": "Malejąco",
       "SORT_RESET": "Resetuj",
-      "FLAT_NO_PARAMS": "Stała cena za wywołanie. Rozmiar, jakość i inne parametry nie są obsługiwane w tym wariancie."
+      "FLAT_NO_PARAMS": "Stała cena za wywołanie. Rozmiar, jakość i inne parametry nie są obsługiwane w tym wariancie.",
+      "UPTIME": "Dostępność",
+      "SUCCESS_RATE": "Sukces"
     },
     "COMPARE": {
       "BADGE": "Porównaj",
