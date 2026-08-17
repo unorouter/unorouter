@@ -17,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { dayjs } from "@/lib/utils/format/date";
@@ -83,14 +84,15 @@ export function LocalDbStudio(props: Props) {
     location.reload();
   };
 
-  const download = async (options: DbExportOptions) => {
+  const download = async (options: DbExportOptions, targetUserId?: number) => {
     try {
-      const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
+      const target = targetUserId ?? userId;
+      const filename = `${env.appName.toLowerCase()}-${target}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
       const { downloadLocalDb } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await downloadLocalDb(userId, filename, options);
+      await downloadLocalDb(target, filename, options);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",
@@ -181,7 +183,7 @@ export function LocalDbStudio(props: Props) {
             variant="destructive"
             onClick={wipe}
           />
-          <DownloadPopover onDownload={download} />
+          <DownloadPopover userId={userId} onDownload={download} />
           <ActionButton
             icon="upload"
             label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
@@ -243,19 +245,39 @@ function ActionButton(props: {
 }
 
 function DownloadPopover(props: {
-  onDownload: (options: DbExportOptions) => void | Promise<void>;
+  userId: number;
+  onDownload: (
+    options: DbExportOptions,
+    userId?: number,
+  ) => void | Promise<void>;
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
+  const [others, setOthers] = useState<{ userId: number; dbPath: string }[]>(
+    [],
+  );
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
     includeMedia: true,
   });
 
-  const run = async (options: DbExportOptions) => {
+  // A device usually holds more than the signed-in account's database: the guest
+  // one from before login, and any other account used here. Only the active user
+  // was reachable, so "back up before you reset" silently skipped the rest.
+  useEffect(() => {
+    if (!open) return;
+    void (async () => {
+      const { listLocalDatabases } =
+        await import("@/lib/db/client/sahpool/salvage");
+      const all = await listLocalDatabases();
+      setOthers(all.filter((db) => db.userId !== props.userId));
+    })();
+  }, [open, props.userId]);
+
+  const run = async (options: DbExportOptions, userId?: number) => {
     setOpen(false);
-    await props.onDownload(options);
+    await props.onDownload(options, userId);
   };
 
   return (
@@ -316,6 +338,26 @@ function DownloadPopover(props: {
               {t("CHAT.MORE.LOCAL_DB_EXPORT_NO_CHAT")}
             </Button>
           </div>
+          {others.length > 0 && (
+            <div className="flex flex-col gap-1.5 border-t pt-2">
+              <span className="text-muted-foreground text-[11px]">
+                {t("CHAT.MORE.LOCAL_DB_OTHER_DATABASES")}
+              </span>
+              {others.map((db) => (
+                <Button
+                  key={db.userId}
+                  size="sm"
+                  variant="ghost"
+                  className="justify-start font-mono text-xs"
+                  onClick={() => run(opts, db.userId)}
+                >
+                  {db.userId === GUEST_USER_ID
+                    ? t("CHAT.MORE.LOCAL_DB_GUEST")
+                    : `#${db.userId}`}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       </PopoverContent>
     </Popover>

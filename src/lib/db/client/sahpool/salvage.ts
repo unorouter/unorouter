@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/lib/config/env";
 import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
@@ -63,6 +64,36 @@ function readHeaderGeometry(head: Uint8Array): {
     pageSize: raw === 1 ? 65536 : raw,
     pageCount: view.getUint32(28),
   };
+}
+
+// Every per-user database present in OPFS, not just the signed-in one. Each db
+// gets its own pool directory named from its path, so the root listing IS the
+// set of databases this browser holds: the guest db from before a login, and any
+// other account used on this device. Without this the studio can only see and
+// export the ACTIVE user, so a backup silently omits the rest.
+export async function listLocalDatabases(): Promise<
+  { userId: number; dbPath: string }[]
+> {
+  const appName = env.appName.toLowerCase();
+  const prefix = sahPoolDirName(`${appName}-`).replace(/-$/, "");
+  const found: { userId: number; dbPath: string }[] = [];
+  try {
+    const root = await navigator.storage.getDirectory();
+    for await (const [name, handle] of root.entries()) {
+      if (handle.kind !== "directory" || !name.startsWith(prefix)) continue;
+      const match = name.match(/-(\d+)_sqlite3$/);
+      if (!match) continue;
+      found.push({
+        userId: Number(match[1]),
+        dbPath: `${appName}-${match[1]}.sqlite3`,
+      });
+    }
+  } catch {
+    return [];
+  }
+  found.sort((a, b) => a.userId - b.userId);
+  logChatDebug("db.list_local", { databases: found.map((f) => f.userId) });
+  return found;
 }
 
 // Every SQLite database in the pool directory, largest first. Includes the
