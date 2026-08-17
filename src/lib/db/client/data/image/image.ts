@@ -78,7 +78,7 @@ const sessionStore = makeTableStore(imageSessions, imageSessions.id, {
 const snapshotStore = makeTableStore(imageSnapshots, imageSnapshots.id);
 const mediaStore = makeTableStore(media, media.id);
 
-export const readLocalImageSessions = () => sessionStore.list();
+const readLocalImageSessions = () => sessionStore.list();
 
 export const readLocalImageSession = (id: string) => sessionStore.get(id);
 

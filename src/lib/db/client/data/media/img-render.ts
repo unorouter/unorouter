@@ -5,10 +5,7 @@ import {
   readLocalMedia,
   setLocalMediaDimensions,
 } from "@/lib/db/client/data/media/media";
-import {
-  mediaBlobUrl,
-  revokeMediaBlobUrl,
-} from "@/lib/db/client/data/media/blob-url";
+import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
 import { atom } from "jotai";
@@ -108,14 +105,6 @@ function requestImg(convId: string, nameLower: string): void {
   void resolveName(convId, nameLower)
     .then(bump)
     .finally(() => pending.delete(k));
-}
-
-// Drop every cached entry for a character's assets (e.g. after an asset edit),
-// forcing the next render to re-resolve names to fresh media.
-export function invalidateImgAssets(): void {
-  for (const k of cache.keys()) revokeMediaBlobUrl(k);
-  cache.clear();
-  bump();
 }
 
 export function replaceImgTokens(text: string): string {

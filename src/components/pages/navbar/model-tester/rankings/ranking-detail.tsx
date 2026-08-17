@@ -2,7 +2,7 @@
 
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { useAuthUserId } from "@/hooks/auth/auth-hook";
 import {
   useDeletePublishedTest,
   usePublishedTestDetail,
@@ -23,7 +23,7 @@ import type { RankingRecentRow } from "@/lib/api/typebox/model-tester";
 
 export function RankingDetail(props: { host: string; model: string }) {
   const t = useTranslations();
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   const detailQuery = useRankingDetail(props.host, props.model);
   const deletePublished = useDeletePublishedTest(props.host, props.model);
   const detail = detailQuery.data;

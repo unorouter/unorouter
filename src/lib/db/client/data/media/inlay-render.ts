@@ -18,7 +18,7 @@ type InlayEntry = { src: string; width: number | null; height: number | null };
 const cache = new Map<string, InlayEntry>();
 const pending = new Set<string>();
 
-export const INLAY_TOKEN_RE = /\{\{inlay::([\w-]+)\}\}/g;
+const INLAY_TOKEN_RE = /\{\{inlay::([\w-]+)\}\}/g;
 
 export function getInlaySrc(id: string): string | undefined {
   return cache.get(id)?.src;

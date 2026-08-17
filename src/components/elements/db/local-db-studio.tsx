@@ -1,7 +1,6 @@
 "use client";
 
 import { env } from "@/lib/config/env";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { confirm } from "@/components/ui/confirm";
@@ -17,11 +16,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import type { LocalDatabase } from "@/lib/db/client/sahpool/salvage";
-import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
@@ -42,7 +39,6 @@ const StudioInner = dynamic(() => import("./local-db-studio-inner"), {
 
 export function LocalDbStudio(props: Props) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
   const wipe = async () => {
@@ -54,7 +50,7 @@ export function LocalDbStudio(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-    logChatDebug("opfs.wipe.start", { userId });
+    logChatDebug("opfs.wipe.start");
     try {
       const local = await getLocalDb();
       if (local) {
@@ -184,7 +180,7 @@ export function LocalDbStudio(props: Props) {
             variant="destructive"
             onClick={wipe}
           />
-          <DownloadPopover userId={userId} onDownload={download} />
+          <DownloadPopover onDownload={download} />
           <ActionButton
             icon="upload"
             label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
@@ -211,7 +207,7 @@ export function LocalDbStudio(props: Props) {
         </div>
         {props.open && (
           <ShadowHost className="min-h-0 flex-1 overflow-hidden">
-            <StudioInner userId={userId} />
+            <StudioInner />
           </ShadowHost>
         )}
       </SheetContent>
@@ -252,57 +248,31 @@ function formatDbSize(bytes: number): string {
 }
 
 function DownloadPopover(props: {
-  userId: number;
-  onDownload: (
-    options: DbExportOptions,
-    userId?: number,
-  ) => void | Promise<void>;
+  onDownload: (options: DbExportOptions) => void | Promise<void>;
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const [databases, setDatabases] = useState<LocalDatabase[]>([]);
-  // Null means "whatever account is signed in", so reopening the popover after
-  // switching users cannot export the previous one's database.
-  const [picked, setPicked] = useState<number | null>(null);
-  const selected = picked ?? props.userId;
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
     includeMedia: true,
   });
 
-  // A device usually holds more than the signed-in account's database: the guest
-  // one from before login, and any other account used here. Only the active user
-  // was reachable, so "back up before you reset" silently skipped the rest.
+  // Pre-adoption per-user pools stay on disk as the rollback, so the panel
+  // reports what is actually stored rather than only the live database.
   useEffect(() => {
     if (!open) return;
     void (async () => {
       const { listLocalDatabases } =
         await import("@/lib/db/client/sahpool/salvage");
-      const found = await listLocalDatabases();
-      // The scan returns [] when OPFS cannot be read, which is exactly the
-      // broken-database case where someone is trying to get their data out.
-      // Always list the account being exported so the panel never looks empty.
-      setDatabases(
-        found.some((db) => db.userId === props.userId)
-          ? found
-          : [
-              ...found,
-              {
-                userId: props.userId,
-                dbPath: "",
-                sizeBytes: 0,
-                modifiedAt: 0,
-              },
-            ].sort((a, b) => a.userId - b.userId),
-      );
+      setDatabases(await listLocalDatabases());
     })();
-  }, [open, props.userId]);
+  }, [open]);
 
   const run = async (options: DbExportOptions) => {
     setOpen(false);
-    setPicked(null);
-    await props.onDownload(options, selected);
+    await props.onDownload(options);
   };
 
   return (
@@ -336,45 +306,18 @@ function DownloadPopover(props: {
                 {t("CHAT.MORE.LOCAL_DB_OTHER_DATABASES")}
               </span>
               {databases.map((db) => (
-                <button
-                  key={db.userId}
-                  type="button"
-                  // With a single database there is nothing to choose between,
-                  // so the row states which one is about to be exported and its
-                  // size rather than pretending to be a control.
-                  disabled={databases.length < 2}
-                  onClick={() => setPicked(db.userId)}
-                  className={cn(
-                    "flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left font-mono text-xs",
-                    databases.length < 2
-                      ? "cursor-default"
-                      : db.userId === selected
-                        ? "bg-accent text-accent-foreground"
-                        : "hover:bg-accent/50",
-                  )}
+                <div
+                  key={db.dbPath}
+                  className="flex items-center justify-between gap-2 px-2 py-1.5 font-mono text-xs"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Icon
-                      name={
-                        db.userId === selected && databases.length > 1
-                          ? "check"
-                          : "database"
-                      }
-                      className="size-3 shrink-0"
-                    />
-                    {db.userId === GUEST_USER_ID
-                      ? t("CHAT.MORE.LOCAL_DB_GUEST")
-                      : `#${db.userId}`}
-                    {db.userId === props.userId && databases.length > 1 && (
-                      <span className="text-muted-foreground">
-                        {t("CHAT.MORE.LOCAL_DB_CURRENT")}
-                      </span>
-                    )}
+                    <Icon name="database" className="size-3 shrink-0" />
+                    {db.dbPath}
                   </span>
                   <span className="text-muted-foreground">
                     {formatDbSize(db.sizeBytes)}
                   </span>
-                </button>
+                </div>
               ))}
             </div>
           )}

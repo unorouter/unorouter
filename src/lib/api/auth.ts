@@ -4,7 +4,6 @@ import {
   ACCESS_TOKEN_COOKIE,
   ACCESS_TOKEN_FALLBACK_MAX_AGE,
   COOKIE_MAX_AGE,
-  LOCAL_USER_ID_COOKIE,
   USER_ID_COOKIE,
 } from "../config/constants";
 import { signUserId } from "../utils/server";
@@ -56,7 +55,6 @@ export async function sessionCookieDescriptors(
   };
   const descriptors: SessionCookieDescriptor[] = [
     { name: USER_ID_COOKIE, value: await signUserId(userId), ...base },
-    { name: LOCAL_USER_ID_COOKIE, value: String(userId), ...base },
   ];
   if (opts?.accessToken) {
     descriptors.push({
@@ -82,11 +80,9 @@ export function clearSessionCookies(set: Context["set"]): void {
     : existing
       ? [String(existing)]
       : [];
-  for (const name of [
-    ACCESS_TOKEN_COOKIE,
-    USER_ID_COOKIE,
-    LOCAL_USER_ID_COOKIE,
-  ]) {
+  // "local-user-id" is no longer written, but sessions predating its removal
+  // still carry it, so logout has to be what finally clears it.
+  for (const name of [ACCESS_TOKEN_COOKIE, USER_ID_COOKIE, "local-user-id"]) {
     cookies.push(
       stringifySetCookie({
         name,

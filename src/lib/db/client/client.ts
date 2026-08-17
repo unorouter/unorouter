@@ -1,7 +1,6 @@
 "use client";
 import { sleep } from "@/lib/utils/base";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
@@ -39,13 +38,11 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 // NoModificationAllowedError blaming another tab.
 let cached: Promise<LocalClient> | null = null;
 
-export async function getLocalDb(
-  userId: number | undefined = GUEST_USER_ID,
-): Promise<LocalClient | null> {
+export async function getLocalDb(): Promise<LocalClient | null> {
   if (typeof window === "undefined" || typeof indexedDB === "undefined")
     return null;
   if (cached) return cached;
-  const promise = openClient(userId);
+  const promise = openClient();
   cached = promise;
   try {
     return await promise;
@@ -118,10 +115,7 @@ const WANT_RETRY_MS = 2_000;
 // on every statement.
 const MIN_HOLD_MS = 2_000;
 
-async function openMigratedSql(
-  dbPath: string,
-  userId: number,
-): Promise<SQLocalDrizzle> {
+async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
@@ -144,8 +138,8 @@ async function openMigratedSql(
         throw new Error("OpfsSAHPool unavailable: fell back to in-memory");
       }
       await runMigrations(sql);
-      await assertNotSilentlyEmptied(sql, dbPath, userId);
-      logChatDebug("db.open.done", { userId, storageType: "opfs" });
+      await assertNotSilentlyEmptied(sql, dbPath);
+      logChatDebug("db.open.done", { storageType: "opfs" });
       return sql;
     } catch (err) {
       if (!isRecoverable(err) || attempt >= RETRIES) {
@@ -199,7 +193,6 @@ async function openMigratedSql(
 async function assertNotSilentlyEmptied(
   sql: SQLocalDrizzle,
   dbPath: string,
-  userId: number,
 ): Promise<void> {
   const info = await sql.getDatabaseInfo();
   const liveBytes = info.databaseSizeBytes ?? 0;
@@ -232,7 +225,7 @@ async function assertNotSilentlyEmptied(
   }
   if (orphanBytes === 0) return;
 
-  logChatDebug("db.open.orphan_detected", { userId, liveBytes, orphanBytes });
+  logChatDebug("db.open.orphan_detected", { liveBytes, orphanBytes });
   logger.error("Local DB opened empty while the pool holds a larger database", {
     context: "local-db.client",
     liveBytes,
@@ -256,7 +249,6 @@ async function assertNotSilentlyEmptied(
 async function migrateLegacySqliteFile(
   sql: SQLocalDrizzle,
   dbPath: string,
-  userId: number,
 ): Promise<void> {
   const root = await navigator.storage.getDirectory();
   let handle: FileSystemFileHandle;
@@ -270,7 +262,7 @@ async function migrateLegacySqliteFile(
     await root.removeEntry(dbPath).catch(() => {});
     return;
   }
-  logChatDebug("db.migrate.sahpool.start", { userId, bytes: file.size });
+  logChatDebug("db.migrate.sahpool.start", { bytes: file.size });
   await sql.overwriteDatabaseFile(file.stream());
   const check = await sql.sql<{ integrity_check: string }>(
     "PRAGMA integrity_check",
@@ -310,10 +302,10 @@ async function migrateLegacySqliteFile(
     // succeeded and passed integrity_check, so the data is in the pool.
     await root.removeEntry(dbPath).catch(() => {});
   }
-  logChatDebug("db.migrate.sahpool.done", { userId, bytes: file.size });
+  logChatDebug("db.migrate.sahpool.done", { bytes: file.size });
 }
 
-async function openClient(userId: number): Promise<LocalClient> {
+async function openClient(): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
   // ONE database per device. It is not keyed by user: the id resolves after
   // mount, so a per-user path opened the empty guest file on the first render of
@@ -331,9 +323,9 @@ async function openClient(userId: number): Promise<LocalClient> {
   // lock queue; only a hung owner ends in the DB-unavailable state.
   const lockKey = `db:${dbPath}`;
   if (!(await acquireLock(lockKey))) {
-    logChatDebug("db.open.handover_wait", { userId });
+    logChatDebug("db.open.handover_wait");
     if (!(await awaitOwnership(dbPath, lockKey))) {
-      logChatDebug("db.open.tab_locked", { userId });
+      logChatDebug("db.open.tab_locked");
       throw new Error(
         `${TAB_LOCK_MARKER}: ${dbPath} is open in another tab or window`,
       );
@@ -364,13 +356,13 @@ async function openClient(userId: number): Promise<LocalClient> {
   // tab that was never coming: the page just said "Connecting to" and hung.
   let sql: SQLocalDrizzle;
   try {
-    sql = await openMigratedSql(dbPath, userId);
+    sql = await openMigratedSql(dbPath);
   } catch (err) {
     releaseLock(lockKey);
     throw err;
   }
   try {
-    await migrateLegacySqliteFile(sql, dbPath, userId);
+    await migrateLegacySqliteFile(sql, dbPath);
   } catch (err) {
     logChatDebug("db.migrate.sahpool.failed", {
       error: String(err).slice(0, 200),
@@ -385,7 +377,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   void import("@/lib/db/client/data/chat/request-log")
     .then((m) => m.trimRequestLogPayloads())
     .then((n) => {
-      if (n > 0) logChatDebug("db.reqlog.trimmed", { userId, rows: n });
+      if (n > 0) logChatDebug("db.reqlog.trimmed", { rows: n });
     })
     .catch(() => {});
 
@@ -413,7 +405,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     await pauseSql(sql);
     parked = true;
     releaseLock(lockKey);
-    logChatDebug("db.handover.parked", { userId });
+    logChatDebug("db.handover.parked");
   };
 
   const unparkNow = async () => {
@@ -423,7 +415,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     await resumeSql(sql);
     parked = false;
     lastAcquiredAt = Date.now();
-    logChatDebug("db.handover.resumed", { userId });
+    logChatDebug("db.handover.resumed");
   };
 
   const ensureOwned = async (): Promise<void> => {
@@ -465,7 +457,7 @@ async function openClient(userId: number): Promise<LocalClient> {
             error: String(err).slice(0, 200),
           });
           await sql.destroy().catch(() => {});
-          sql = await openMigratedSql(dbPath, userId);
+          sql = await openMigratedSql(dbPath);
         })().finally(() => (reopening = null));
         await reopening;
         return fn(sql);

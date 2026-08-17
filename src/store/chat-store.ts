@@ -1,4 +1,3 @@
-import { GUEST_USER_ID, LOCAL_USER_ID_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -130,12 +129,6 @@ export const globalVarsAtom = atomWithStorage<string>(
   "{}",
   undefined,
   { getOnInit: true },
-);
-
-export const localUserIdAtom = atomWithStorage<number>(
-  LOCAL_USER_ID_COOKIE,
-  GUEST_USER_ID,
-  jotaiCookieStorage,
 );
 
 export type ChatRuntimeState = {

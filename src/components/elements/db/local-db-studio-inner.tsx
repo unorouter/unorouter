@@ -9,12 +9,12 @@ import {
   type Statement,
 } from "@libsqlstudio/gui/driver";
 
-export default function LocalDbStudioInner(props: { userId: number }) {
-  const driver = new SqlocalDriver(props.userId);
+export default function LocalDbStudioInner() {
+  const driver = new SqlocalDriver();
   return (
     <Studio
       driver={driver}
-      name={`${env.appName.toLowerCase()}-${props.userId}`}
+      name={env.appName.toLowerCase()}
       color="indigo"
       theme="dark"
     />
@@ -22,30 +22,23 @@ export default function LocalDbStudioInner(props: { userId: number }) {
 }
 
 class SqlocalDriver extends SqliteLikeBaseDriver {
-  constructor(private userId: number) {
-    super();
-  }
-
   supportBigInt() {
     return false;
   }
 
   async query(stmt: Statement) {
-    return runOne(this.userId, stmt);
+    return runOne(stmt);
   }
 
   async transaction(stmts: Statement[]) {
     const out: DatabaseResultSet[] = [];
-    for (const s of stmts) out.push(await runOne(this.userId, s));
+    for (const s of stmts) out.push(await runOne(s));
     return out;
   }
 }
 
-async function runOne(
-  userId: number,
-  stmt: Statement,
-): Promise<DatabaseResultSet> {
-  const local = await getLocalDb(userId);
+async function runOne(stmt: Statement): Promise<DatabaseResultSet> {
+  const local = await getLocalDb();
   if (!local) throw new Error("SQLocal unavailable");
   const sql = typeof stmt === "string" ? stmt : stmt.sql;
   const rawArgs = typeof stmt === "string" ? [] : (stmt.args ?? []);

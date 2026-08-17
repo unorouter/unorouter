@@ -47,9 +47,6 @@ export const CHAT_PROVIDER_NAME = "unorouter";
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
-// Unsealed twin of USER_ID_COOKIE for client-side local-DB scoping (no
-// server trust; see localUserIdAtom).
-export const LOCAL_USER_ID_COOKIE = "local-user-id" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AUTH_REDIRECT_QUERY = "redirect" as const;

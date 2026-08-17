@@ -34,7 +34,6 @@ import {
   convIdAtom,
   freshConvId,
   lastStreamErrorAtom,
-  localUserIdAtom,
   registerLiveThread,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";

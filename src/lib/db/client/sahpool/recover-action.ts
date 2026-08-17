@@ -16,13 +16,9 @@ export async function runRecoverOrphanedDb(): Promise<RecoverOutcome> {
   logChatDebug("db.salvage.start", {});
   const { listLocalDatabases, salvagePoolDatabases } =
     await import("@/lib/db/client/sahpool/salvage");
-  const { singleDbPath } =
-    await import("@/lib/db/client/data-migrate/adopt-single-db");
-  // Scan the device database AND every legacy per-user pool. Those pools are
-  // left on disk by the single-database adoption, and they are exactly where the
-  // bytes are when someone needs this button.
-  const legacy = await listLocalDatabases();
-  const paths = [singleDbPath(), ...legacy.map((db) => db.dbPath)];
+  // Includes the legacy per-user pools that adoption leaves on disk, which is
+  // exactly where the bytes are when someone needs this button.
+  const paths = (await listLocalDatabases()).map((db) => db.dbPath);
   const found = (
     await Promise.all(paths.map((p) => salvagePoolDatabases(p)))
   ).flat();

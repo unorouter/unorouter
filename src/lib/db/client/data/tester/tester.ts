@@ -171,7 +171,7 @@ export async function recordTestRun(
   publish: boolean,
 ): Promise<string> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+  const local = await getLocalDb();
   if (!local) return "";
   const db = local.db;
   const now = new Date();
@@ -227,7 +227,7 @@ export async function readHistoryProviders(
   userId: number | undefined,
 ): Promise<HistoryProviderRow[]> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+  const local = await getLocalDb();
   if (!local) return [];
   const rows = await local.db
     .select({
@@ -259,7 +259,7 @@ export async function readHistoryModels(
   models: HistoryModelRow[];
 }> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+  const local = await getLocalDb();
   if (!local) return { provider: null, models: [] };
   const rows = await local.db
     .select({
@@ -295,7 +295,7 @@ export async function readHistoryModelTestDetails(
   model: string,
 ): Promise<HistoryTestDetail[]> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+  const local = await getLocalDb();
   if (!local) return [];
   const db = local.db;
 
@@ -348,7 +348,7 @@ export async function deleteTest(
   testId: string,
 ): Promise<void> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .delete(testerTests)

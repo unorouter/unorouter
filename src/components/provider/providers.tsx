@@ -8,14 +8,12 @@ import { ThemeProvider } from "./app/theme-provider";
 import { UserThemeProvider } from "@/components/ui/theme/theme-provider";
 import { WebMcpProvider } from "./app/webmcp-provider";
 import { JotaiProvider } from "./state/jotai-provider";
-import { LocalUserIdSync } from "./state/local-user-id-sync";
 import { QueryProvider } from "./state/query-provider";
 
 export function Providers(props: { children: ReactNode }) {
   return (
     <QueryProvider>
       <JotaiProvider>
-        <LocalUserIdSync />
         <LanguageProvider>
           <ThemeProvider>
             <UserThemeProvider>

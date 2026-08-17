@@ -1,7 +1,8 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+import getQueryClient from "@/lib/react-query/client";
 import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
-
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
@@ -74,6 +75,18 @@ export function useAuthUser(): {
 }
 
 const EMPTY_AUTH = { user: undefined, loaded: false };
+
+export function useAuthUserId(): number {
+  return Number(useAuthUser().user?.id ?? GUEST_USER_ID);
+}
+
+// Same source as useAuthUser, for the non-React callers (the chat transport)
+// that need the id at send time rather than at render.
+export function authUserId(): number {
+  const user = getQueryClient().getQueryData(queryKeys.auth()) as
+    UserSelfData | undefined;
+  return Number(user?.id ?? GUEST_USER_ID);
+}
 
 export function useLoginMutation() {
   return useApiMutation({

@@ -311,7 +311,7 @@ export const upsertLocalMessage = (
   row: LocalRowInput & { id: string; convId: string },
 ) => messageStore.upsert(row);
 
-export const deleteLocalMessage = (msgId: string) => messageStore.drop(msgId);
+const deleteLocalMessage = (msgId: string) => messageStore.drop(msgId);
 
 export const upsertLocalMessageItem = (
   row: LocalRowInput & { id: string; messageId: string },

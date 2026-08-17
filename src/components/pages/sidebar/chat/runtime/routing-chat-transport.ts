@@ -38,8 +38,8 @@ import {
   groupByModelAtom,
   chatModelAtom,
   chatStore,
-  localUserIdAtom,
 } from "@/store/chat-store";
+import { authUserId } from "@/hooks/auth/auth-hook";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType } from "@/lib/api/pricing";
@@ -174,7 +174,7 @@ async function runClientStream(args: {
   const prepared: PreparedChatRequest = await prepareChatRequest(
     args.apiKey,
     body,
-    chatStore.get(localUserIdAtom),
+    authUserId(),
     args.deps,
     args.options.abortSignal,
   );

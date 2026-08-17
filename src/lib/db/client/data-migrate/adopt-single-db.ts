@@ -34,23 +34,27 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
     // Not adopted yet.
   }
 
-  const candidates = await listLocalDatabases();
+  // Legacy pools only. The live database is the thing being created here, so
+  // adopting it into itself would be a no-op at best.
+  const candidates = (await listLocalDatabases()).filter(
+    (c) => c.legacyUserId !== null,
+  );
   if (candidates.length === 0) {
     logChatDebug("db.adopt.fresh", { targetPath });
     return;
   }
 
-  const named = candidates.filter((c) => c.userId !== GUEST_USER_ID);
+  const named = candidates.filter((c) => c.legacyUserId !== GUEST_USER_ID);
   const pool = named.length > 0 ? named : candidates;
   const source = pool.reduce((a, b) => (b.sizeBytes > a.sizeBytes ? b : a));
 
   logChatDebug("db.adopt.start", {
     targetPath,
     from: source.dbPath,
-    fromUserId: source.userId,
+    fromUserId: source.legacyUserId,
     bytes: source.sizeBytes,
     candidates: candidates.map((c) => ({
-      userId: c.userId,
+      userId: c.legacyUserId,
       bytes: c.sizeBytes,
     })),
   });

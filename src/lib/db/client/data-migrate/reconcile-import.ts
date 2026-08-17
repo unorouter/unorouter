@@ -370,7 +370,7 @@ async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
   }
 }
 
-export function backupImportPath(appName: string): string {
+function backupImportPath(appName: string): string {
   return `${appName}-import-backup.sqlite3`;
 }
 

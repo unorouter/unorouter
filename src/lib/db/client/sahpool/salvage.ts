@@ -66,51 +66,59 @@ function readHeaderGeometry(head: Uint8Array): {
   };
 }
 
-// Every per-user database present in OPFS, not just the signed-in one. Each db
-// gets its own pool directory named from its path, so the root listing IS the
-// set of databases this browser holds: the guest db from before a login, and any
-// other account used on this device. Without this the studio can only see and
-// export the ACTIVE user, so a backup silently omits the rest.
+// Every SQLite database this browser holds: the live one plus the legacy
+// per-user pools that single-database adoption deliberately left on disk. Each
+// db gets its own pool directory named from its path, so the root listing IS
+// that set. Without the legacy entries a backup silently omits the pools that
+// still hold a pre-adoption account's chats.
 export type LocalDatabase = {
-  userId: number;
+  // The account the file was named for, back when there was one database per
+  // user. Null for the live device database, which is not named for anyone.
+  legacyUserId: number | null;
   dbPath: string;
-  // Bytes of real SQLite content, header excluded. A user picking which database
-  // to rescue cannot tell "#1" from "#171" by id alone; the size is what says
-  // which one holds the roleplay and which is an empty guest leftover.
+  // Bytes of real SQLite content, header excluded. Size is what tells a leftover
+  // empty guest pool apart from the one holding the roleplay.
   sizeBytes: number;
   modifiedAt: number;
 };
 
 export async function listLocalDatabases(): Promise<LocalDatabase[]> {
   const appName = env.appName.toLowerCase();
-  const prefix = sahPoolDirName(`${appName}-`).replace(/-$/, "");
   const found: LocalDatabase[] = [];
   try {
     const root = await navigator.storage.getDirectory();
     for await (const [name, handle] of root.entries()) {
-      if (handle.kind !== "directory" || !name.startsWith(prefix)) continue;
-      const match = name.match(/-(\d+)_sqlite3$/);
-      if (!match) continue;
+      if (handle.kind !== "directory") continue;
+      const entry = describePool(name, appName);
+      if (!entry) continue;
       const stats = await measurePool(handle as FileSystemDirectoryHandle);
-      found.push({
-        userId: Number(match[1]),
-        dbPath: `${appName}-${match[1]}.sqlite3`,
-        sizeBytes: stats.sizeBytes,
-        modifiedAt: stats.modifiedAt,
-      });
+      found.push({ ...entry, ...stats });
     }
   } catch {
     return [];
   }
-  found.sort((a, b) => a.userId - b.userId);
-  logChatDebug("db.list_local", {
-    databases: found.map((f) => ({
-      userId: f.userId,
-      sizeBytes: f.sizeBytes,
-      modifiedAt: f.modifiedAt,
-    })),
-  });
+  // Live database first, then the legacy pools by account.
+  found.sort((a, b) => (a.legacyUserId ?? -1) - (b.legacyUserId ?? -1));
+  logChatDebug("db.list_local", { databases: found });
   return found;
+}
+
+// The pool directory name is a pure function of the database path, so a
+// candidate path is confirmed by rebuilding its directory name rather than by
+// parsing the directory's.
+function describePool(
+  dirName: string,
+  appName: string,
+): Pick<LocalDatabase, "legacyUserId" | "dbPath"> | null {
+  const livePath = `${appName}.sqlite`;
+  if (dirName === sahPoolDirName(livePath))
+    return { legacyUserId: null, dbPath: livePath };
+  const id = Number(dirName.match(/-(\d+)_sqlite3$/)?.[1]);
+  if (!Number.isFinite(id)) return null;
+  const dbPath = `${appName}-${id}.sqlite3`;
+  return dirName === sahPoolDirName(dbPath)
+    ? { legacyUserId: id, dbPath }
+    : null;
 }
 
 // Sum only slots that actually hold a database: the pool preallocates empty

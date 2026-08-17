@@ -9,12 +9,7 @@ import {
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
-import {
-  chatStore,
-  convIdAtom,
-  historyLoadedAtom,
-  localUserIdAtom,
-} from "@/store/chat-store";
+import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type DiagnosticsOptions = { includeContent: boolean };
@@ -55,7 +50,7 @@ function formatBytes(bytes: number): string {
   return `${Math.round(n * 10) / 10} ${units[i]}`;
 }
 
-export async function getTableStorageStats(): Promise<
+async function getTableStorageStats(): Promise<
   TableStorageStat[] | { error: string }
 > {
   const local = await getLocalDb();
@@ -178,9 +173,9 @@ export async function getTableStorageStats(): Promise<
   }
 }
 
-export const MAX_LOG_CONVS = 25;
+const MAX_LOG_CONVS = 25;
 
-export async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
+async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
   const includeContent = opts.includeContent;
 
   const device = {
@@ -202,7 +197,6 @@ export async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
     url: location.href,
     convIdAtom: chatStore.get(convIdAtom),
     historyLoaded: chatStore.get(historyLoadedAtom),
-    localUserId: chatStore.get(localUserIdAtom),
   };
 
   let dbInfo: Record<string, unknown> = {};
@@ -328,7 +322,7 @@ function messageShape(finalMessages: unknown): unknown {
 
 const MAX_SHAPE_ROWS = 3;
 
-export async function readRequestLogsForConvDiag(
+async function readRequestLogsForConvDiag(
   convId: string,
   includeContent: boolean,
 ): Promise<unknown[]> {

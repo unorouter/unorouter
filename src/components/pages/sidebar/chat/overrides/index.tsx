@@ -34,7 +34,6 @@ import {
   chatDefaultsAtom,
   chatLoadoutAtom,
   chatModelAtom,
-  localUserIdAtom,
   samplerMemoryByModelAtom,
 } from "@/store/chat-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
@@ -114,10 +113,8 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     preset: boundPreset,
   });
 
-  const localUserId = useAtomValue(localUserIdAtom);
   const drawerState = JSON.stringify({
     convId: props.convId,
-    localUserId,
     settingsStatus: settingsQuery.status,
     settingsFound: !!settings,
     bindingsFound: !!bindings,
@@ -158,7 +155,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const onSubmit = async (data: ConversationOverridesForm) => {
     logChatDebug("settings.saved", {
       convId: props.convId,
-      localUserId,
       isDefaultsMode,
       dirty: Object.keys(form.formState.dirtyFields),
       presetId: data.presetId === NONE_VALUE ? null : data.presetId,

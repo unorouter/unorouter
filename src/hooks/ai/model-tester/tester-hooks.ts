@@ -9,7 +9,7 @@ import {
   type HistoryProviderRow,
   type HistoryTestDetail,
 } from "@/lib/db/client/data/tester/tester";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { useAuthUserId } from "@/hooks/auth/auth-hook";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { handleElysia } from "@/lib/utils/base";
@@ -19,7 +19,7 @@ import type { VerifyResult } from "@/lib/ai/verify/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 
 export function useHistoryProviders() {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryProviders(), userId],
     queryFn: (): Promise<HistoryProviderRow[]> => readHistoryProviders(userId),
@@ -27,7 +27,7 @@ export function useHistoryProviders() {
 }
 
 export function useHistoryModels(host: string) {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryModels(host), userId],
     queryFn: () => readHistoryModels(userId, host),
@@ -35,7 +35,7 @@ export function useHistoryModels(host: string) {
 }
 
 export function useHistoryModelTests(host: string, model: string) {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryModelTests(host, model), userId],
     queryFn: (): Promise<HistoryTestDetail[]> =>
@@ -44,7 +44,7 @@ export function useHistoryModelTests(host: string, model: string) {
 }
 
 export function useCreateTest() {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useApiMutation<string, { result: VerifyResult }>({
     mutationFn: (vars) => recordTestRun(userId, vars.result, false),
     invalidates: [queryKeys.modelTests()],
@@ -52,7 +52,7 @@ export function useCreateTest() {
 }
 
 export function useDeleteTest() {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useApiMutation<void, string>({
     mutationFn: (testId) => deleteTest(userId, testId),
     invalidates: [
@@ -74,7 +74,7 @@ export type VerifyPublishResult =
   | { published: false; deduped?: true; error?: string; result?: VerifyResult };
 
 export function useVerifyAndPublish() {
-  const userId = useLocalUserId();
+  const userId = useAuthUserId();
   return useApiMutation<VerifyPublishResult, VerifyPublishVars>({
     mutationFn: async (vars) => {
       const res = (await handleElysia(
