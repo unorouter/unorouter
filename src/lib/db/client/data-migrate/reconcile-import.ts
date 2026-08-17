@@ -4,6 +4,7 @@ import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import { newSql, terminateSql } from "@/lib/db/client/new-sql";
+import { singleDbPath } from "@/lib/db/client/data-migrate/adopt-single-db";
 import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
@@ -190,10 +191,12 @@ export async function reconcileImport(
 ): Promise<ReconcileImportResult> {
   const uid = userId ?? GUEST_USER_ID;
   const appName = env.appName.toLowerCase();
-  const livePath = `${appName}-${uid}.sqlite3`;
-  const workPath = `${appName}-${uid}-import.sqlite3`;
-  const finalPath = `${appName}-${uid}-final.sqlite3`;
-  const backupPath = backupImportPath(appName, uid);
+  // The live path is the ONE device database. Keyed by user it would have
+  // written the import into a file the app no longer opens.
+  const livePath = singleDbPath();
+  const workPath = `${appName}-import.sqlite3`;
+  const finalPath = `${appName}-final.sqlite3`;
+  const backupPath = backupImportPath(appName);
   const { runMigrations } = await import("../schema-migrate/migrations");
 
   const result: ReconcileImportResult = {
@@ -381,8 +384,8 @@ async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
   }
 }
 
-export function backupImportPath(appName: string, uid: number): string {
-  return `${appName}-${uid}-import-backup.sqlite3`;
+export function backupImportPath(appName: string): string {
+  return `${appName}-import-backup.sqlite3`;
 }
 
 /**
@@ -393,9 +396,8 @@ export function backupImportPath(appName: string, uid: number): string {
 export async function recoverPendingImport(
   livePath: string,
   appName: string,
-  uid: number,
 ): Promise<void> {
-  const backupPath = backupImportPath(appName, uid);
+  const backupPath = backupImportPath(appName);
   let exists = false;
   try {
     const root = await navigator.storage.getDirectory();
@@ -413,15 +415,15 @@ export async function recoverPendingImport(
   if (!exists) exists = await sahPoolBackupHasContent(backupPath);
   if (!exists) return;
 
-  logChatDebug("import.reconcile.recover.start", { uid });
+  logChatDebug("import.reconcile.recover.start", {});
   const live = newSql(livePath);
   try {
     const liveOk = await integrityOk(live);
     if (!liveOk) {
       await restoreLiveFromBackup(livePath, backupPath, live);
-      logChatDebug("import.reconcile.recover.restored", { uid });
+      logChatDebug("import.reconcile.recover.restored", {});
     } else {
-      logChatDebug("import.reconcile.recover.live_intact", { uid });
+      logChatDebug("import.reconcile.recover.live_intact", {});
     }
   } finally {
     await live.destroy().catch(() => {});

@@ -22,33 +22,41 @@ import {
   releaseLock,
 } from "@/lib/db/client/outbox/resource-lock";
 import { runMigrations } from "@/lib/db/client/schema-migrate/migrations";
+import {
+  adoptSingleDatabase,
+  singleDbPath,
+} from "@/lib/db/client/data-migrate/adopt-single-db";
 import type { LocalClient } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
-let cached = new Map<number, Promise<LocalClient>>();
+// One database per device means one entry. This was a Map keyed by userId, and
+// nothing evicted the previous entry when the id changed, so signing in left the
+// guest pool open for the rest of the session: two workers holding sync access
+// handles on the same origin, which is what surfaces later as
+// NoModificationAllowedError blaming another tab.
+let cached: Promise<LocalClient> | null = null;
 
 export async function getLocalDb(
   userId: number | undefined = GUEST_USER_ID,
 ): Promise<LocalClient | null> {
   if (typeof window === "undefined" || typeof indexedDB === "undefined")
     return null;
-  const existing = cached.get(userId);
-  if (existing) return existing;
+  if (cached) return cached;
   const promise = openClient(userId);
-  cached.set(userId, promise);
+  cached = promise;
   try {
     return await promise;
   } catch (err) {
-    cached.delete(userId);
+    cached = null;
     throw err;
   }
 }
 
 export function resetLocalDbCache() {
-  cached = new Map();
+  cached = null;
 }
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
@@ -313,7 +321,10 @@ async function migrateLegacySqliteFile(
 
 async function openClient(userId: number): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
-  const dbPath = `${appName}-${userId}.sqlite3`;
+  // ONE database per device. It is not keyed by user: the id resolves after
+  // mount, so a per-user path opened the empty guest file on the first render of
+  // every load, and signing in stranded whatever the guest had written.
+  const dbPath = singleDbPath();
   // ONE tab may hold the pool at a time. opfs-sahpool claims exclusive sync
   // access handles for every pool file, so a second tab's install attempt
   // fails by design - but a failed attempt can leave a pool file's header
@@ -334,10 +345,19 @@ async function openClient(userId: number): Promise<LocalClient> {
       );
     }
   }
+  // Under the lock, so two tabs cannot both adopt, and before any pool for the
+  // new path exists. A failure here must not be swallowed: continuing would open
+  // an empty database while the user's history sat in the old per-user pool.
+  try {
+    await adoptSingleDatabase(dbPath);
+  } catch (err) {
+    releaseLock(lockKey);
+    throw err;
+  }
   try {
     const { recoverPendingImport } =
       await import("@/lib/db/client/data-migrate/reconcile-import");
-    await recoverPendingImport(dbPath, appName, userId);
+    await recoverPendingImport(dbPath, appName);
   } catch (err) {
     logChatDebug("db.open.recover_error", {
       userId,
