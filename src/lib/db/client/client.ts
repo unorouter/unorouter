@@ -344,7 +344,18 @@ async function openClient(userId: number): Promise<LocalClient> {
       error: String(err).slice(0, 200),
     });
   }
-  let sql = await openMigratedSql(dbPath, userId);
+  // The Web Lock is held for the tab's lifetime once an open succeeds, but a
+  // FAILED open must hand it back. Without this a non-recoverable failure (the
+  // orphan guard) kept the lock forever, so the next attempt could not acquire
+  // it, fell into the handover wait, and spent 15s broadcasting `want` at a
+  // tab that was never coming: the page just said "Connecting to" and hung.
+  let sql: SQLocalDrizzle;
+  try {
+    sql = await openMigratedSql(dbPath, userId);
+  } catch (err) {
+    releaseLock(lockKey);
+    throw err;
+  }
   try {
     await migrateLegacySqliteFile(sql, dbPath, userId);
   } catch (err) {
@@ -353,6 +364,8 @@ async function openClient(userId: number): Promise<LocalClient> {
       error: String(err).slice(0, 200),
     });
     await sql.destroy().catch(() => {});
+    terminateSql(sql);
+    releaseLock(lockKey);
     throw err;
   }
   // Reclaim the pre-cap request-log payloads once per open. Fire-and-forget:
