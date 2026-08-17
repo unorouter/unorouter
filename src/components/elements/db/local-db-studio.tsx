@@ -247,6 +247,7 @@ function ActionButton(props: {
 }
 
 function formatDbSize(bytes: number): string {
+  if (bytes <= 0) return "";
   if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
   return `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
@@ -279,7 +280,23 @@ function DownloadPopover(props: {
     void (async () => {
       const { listLocalDatabases } =
         await import("@/lib/db/client/sahpool/salvage");
-      setDatabases(await listLocalDatabases());
+      const found = await listLocalDatabases();
+      // The scan returns [] when OPFS cannot be read, which is exactly the
+      // broken-database case where someone is trying to get their data out.
+      // Always list the account being exported so the panel never looks empty.
+      setDatabases(
+        found.some((db) => db.userId === props.userId)
+          ? found
+          : [
+              ...found,
+              {
+                userId: props.userId,
+                dbPath: "",
+                sizeBytes: 0,
+                modifiedAt: 0,
+              },
+            ].sort((a, b) => a.userId - b.userId),
+      );
     })();
   }, [open, props.userId]);
 
@@ -314,7 +331,7 @@ function DownloadPopover(props: {
       </Tooltip>
       <PopoverContent side="right" align="start" className="w-64">
         <div className="flex flex-col gap-3">
-          {databases.length > 1 && (
+          {databases.length > 0 && (
             <div className="flex flex-col gap-1">
               <span className="text-muted-foreground text-[11px]">
                 {t("CHAT.MORE.LOCAL_DB_OTHER_DATABASES")}
@@ -323,23 +340,33 @@ function DownloadPopover(props: {
                 <button
                   key={db.userId}
                   type="button"
+                  // With a single database there is nothing to choose between,
+                  // so the row states which one is about to be exported and its
+                  // size rather than pretending to be a control.
+                  disabled={databases.length < 2}
                   onClick={() => setPicked(db.userId)}
                   className={cn(
                     "flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left font-mono text-xs",
-                    db.userId === selected
-                      ? "bg-accent text-accent-foreground"
-                      : "hover:bg-accent/50",
+                    databases.length < 2
+                      ? "cursor-default"
+                      : db.userId === selected
+                        ? "bg-accent text-accent-foreground"
+                        : "hover:bg-accent/50",
                   )}
                 >
                   <span className="flex items-center gap-1.5">
                     <Icon
-                      name={db.userId === selected ? "check" : "database"}
+                      name={
+                        db.userId === selected && databases.length > 1
+                          ? "check"
+                          : "database"
+                      }
                       className="size-3 shrink-0"
                     />
                     {db.userId === GUEST_USER_ID
                       ? t("CHAT.MORE.LOCAL_DB_GUEST")
                       : `#${db.userId}`}
-                    {db.userId === props.userId && (
+                    {db.userId === props.userId && databases.length > 1 && (
                       <span className="text-muted-foreground">
                         {t("CHAT.MORE.LOCAL_DB_CURRENT")}
                       </span>
