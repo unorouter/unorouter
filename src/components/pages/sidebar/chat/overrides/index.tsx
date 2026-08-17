@@ -81,7 +81,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const activeModel = useModelDetailQuery(activeModelName ?? null).data;
   const activeModelMetadata = activeModel?.metadata;
   const maxTokensCap = activeModel
-    ? activeModel.isFree
+    ? activeModel.is_free
       ? FREE_MODEL_OUTPUT_CAP
       : activeModelMetadata?.maxOutputTokens
     : undefined;

@@ -19,7 +19,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import type { ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
@@ -27,24 +26,10 @@ import { useTranslations } from "next-intl";
 
 type VendorOption = { name: string; count: number };
 
-function buildVendorOptions(models: ProcessedModel[]): VendorOption[] {
-  const counts = new Map<string, number>();
-  for (const m of models) {
-    counts.set(m.vendor.name, (counts.get(m.vendor.name) ?? 0) + 1);
-  }
-  return Array.from(counts, ([name, count]) => ({ name, count })).sort(
-    (a, b) => b.count - a.count,
-  );
-}
-
-export function VendorFilter(props: {
-  models?: ProcessedModel[];
-  vendorCounts?: VendorOption[];
-}) {
+export function VendorFilter(props: { vendorCounts?: VendorOption[] }) {
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const t = useTranslations();
-  const vendorOptions =
-    props.vendorCounts ?? buildVendorOptions(props.models ?? []);
+  const vendorOptions = props.vendorCounts ?? [];
   const selectedSet = new Set(selectedVendors);
 
   return (

@@ -5,9 +5,6 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 // rather than by one concrete row shape: the browse list and the full detail
 // record both satisfy them.
 type ModalityModel = { type: string; metadata: ModelMetadata };
-// The gateway row is the target shape. The camelCase arm is the browse page's
-// client-derived record, which still comes from processModels; it goes away with
-// that, and this union with it.
 type PricedModel = ModalityModel &
   (
     | {

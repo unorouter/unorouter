@@ -1,5 +1,7 @@
 "use client";
 
+import type { PricingCatalogDetail } from "@/openapi";
+
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -8,7 +10,6 @@ import {
   gridPriceParts,
   gridPricingColumns,
   type GridPricingRow,
-  type ProcessedModel,
 } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
@@ -25,15 +26,15 @@ import { FixedPriceUnit } from "../shared/fixed-price-unit";
 type Theme = ReturnType<typeof getVendorTheme>;
 
 export function GroupPricingSection(props: {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   groupRatioMap: Record<string, number>;
   theme: Theme;
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const model = props.model;
-  const hasGrid = model.gridPricing !== null;
-  const entries = buildGroupEntries(model.enableGroups, props.groupRatioMap);
+  const hasGrid = model.grid_pricing !== null;
+  const entries = buildGroupEntries(model.enable_groups, props.groupRatioMap);
 
   if (entries.length === 0) return null;
 
@@ -63,21 +64,21 @@ export function GroupPricingSection(props: {
           {hasGrid ? (
             <GroupGrid
               entries={entries}
-              gridPricing={model.gridPricing!}
+              gridPricing={model.grid_pricing!}
               theme={props.theme}
             />
-          ) : model.isFixedPrice ? (
+          ) : model.is_fixed_price ? (
             <GroupFixed
               entries={entries}
-              fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
+              fixedPrice={model.original_fixed_price ?? model.fixed_price}
               model={model}
               theme={props.theme}
             />
           ) : (
             <GroupTokens
               entries={entries}
-              modelRatio={model.modelRatio}
-              completionRatio={model.completionRatio}
+              modelRatio={model.model_ratio}
+              completionRatio={model.completion_ratio}
               theme={props.theme}
             />
           )}
@@ -147,7 +148,7 @@ function GroupTokens(props: {
 function GroupFixed(props: {
   entries: GroupEntry[];
   fixedPrice: number;
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   theme: Theme;
 }) {
   const t = useTranslations();

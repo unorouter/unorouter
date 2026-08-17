@@ -14,7 +14,7 @@ import type { Cookie } from "elysia";
 
 export async function assertGuestFreeModel(userId: number, model?: string) {
   if (userId !== GUEST_USER_ID || !model) return;
-  if (!(await getModelByName(model))?.isFree)
+  if (!(await getModelByName(model))?.is_free)
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
 }
 

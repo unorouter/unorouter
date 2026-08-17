@@ -13,7 +13,7 @@ import {
 } from "./model-search.service";
 
 async function assertGuestAllowedModel(model: string): Promise<void> {
-  if (!(await getModelByName(model))?.isFree) {
+  if (!(await getModelByName(model))?.is_free) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }

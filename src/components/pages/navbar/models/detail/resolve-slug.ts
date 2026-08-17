@@ -1,4 +1,4 @@
-import { type ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import type { PricingCatalogModel } from "@/openapi";
 import { cache } from "react";
 import { getCachedPricingVendors } from "@/lib/api/page-data";
@@ -14,7 +14,7 @@ import {
 } from "@/lib/utils/base";
 
 export type ResolvedModel = {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   atCapacity: boolean;
   // Catalog rows, for the similar-models lookup only.
   models: PricingCatalogModel[];
@@ -76,9 +76,9 @@ async function resolveVendor(slug: string[]): Promise<string | null> {
   return match ?? null;
 }
 
-export function canonicalHref(model: ProcessedModel) {
-  const vendor = vendorSlug(model.vendor.name) || "unknown";
-  const slug = [vendor, modelSlug(model.name)];
+export function canonicalHref(model: PricingCatalogDetail) {
+  const vendor = vendorSlug(model.vendor) || "unknown";
+  const slug = [vendor, modelSlug(model.model_name)];
   return { pathname: "/models/[...slug]" as const, params: { slug } };
 }
 

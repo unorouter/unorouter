@@ -23,8 +23,8 @@ import {
   gridPricingColumns,
   type EndpointInfo,
   GridPricingRow,
-  ProcessedModel,
 } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import { useModelWatch } from "@/hooks/models/notify-hook";
 import {
   useModelDetailQuery,
@@ -90,7 +90,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
   if (!model) return null;
 
-  const theme = getVendorTheme(model.vendor.name);
+  const theme = getVendorTheme(model.vendor);
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -100,17 +100,20 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <span
               className={`flex size-11 shrink-0 items-center justify-center rounded-lg border ${theme.bg} ${theme.border}`}
             >
-              <VendorIcon vendor={model.vendor.name} size={28} />
+              <VendorIcon vendor={model.vendor} size={28} />
             </span>
             <div className="min-w-0 flex-1">
               <SheetTitle className="flex items-center gap-2 font-mono text-base tracking-wide">
-                <span className="truncate">{model.name}</span>
-                <CopyButton text={model.name} analyticsLabel="model_name" />
+                <span className="truncate">{model.model_name}</span>
+                <CopyButton
+                  text={model.model_name}
+                  analyticsLabel="model_name"
+                />
               </SheetTitle>
               <SheetDescription
                 className={`font-mono text-[10px] tracking-wider uppercase ${theme.text}`}
               >
-                {model.vendor.name}
+                {model.vendor}
               </SheetDescription>
             </div>
           </div>
@@ -120,7 +123,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               variant="outline"
               className="flex-1"
               nativeButton={false}
-              render={<Link href={modelHref(model.name, model.vendor.name)} />}
+              render={<Link href={modelHref(model.model_name, model.vendor)} />}
             >
               <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.VIEW_DETAILS")}
@@ -130,15 +133,15 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               className="flex-1"
               nativeButton={false}
               onClick={() => {
-                analytics.models.openInChat({ model: model.name });
-                setChatModel(model.name);
+                analytics.models.openInChat({ model: model.model_name });
+                setChatModel(model.model_name);
               }}
               render={<Link href="/chat" />}
             >
               <Icon name="message-circle" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.OPEN_IN_CHAT")}
             </Button>
-            <WatchButton modelName={model.name} />
+            <WatchButton modelName={model.model_name} />
           </div>
         </SheetHeader>
 
@@ -147,14 +150,14 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <SectionHeading theme={theme}>
               {t("MODELS.DETAIL.UPTIME")}
             </SectionHeading>
-            <UptimeSection model={model.name} />
+            <UptimeSection model={model.model_name} />
           </section>
 
           <section>
             <SectionHeading theme={theme}>
               {t("MODELS.DETAIL.PERFORMANCE")}
             </SectionHeading>
-            <PerformanceSection modelName={model.name} />
+            <PerformanceSection modelName={model.model_name} />
           </section>
 
           {model.description && (
@@ -177,22 +180,22 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <div
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
             >
-              {model.isFixedPrice ? (
+              {model.is_fixed_price ? (
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-2">
                     <span
                       className={cn("font-mono text-lg font-bold", theme.text)}
                     >
-                      {formatPrice(model.fixedPrice)}
+                      {formatPrice(model.fixed_price)}
                     </span>
                     <span className="text-muted-foreground font-mono text-xs">
                       <FixedPriceUnit model={model} />
                     </span>
                   </div>
-                  {model.originalFixedPrice !== null && (
+                  {model.original_fixed_price !== null && (
                     <div className="text-muted-foreground/50 font-mono text-xs line-through">
                       {t("MODELS.PRICE.ORIGINAL")}:{" "}
-                      {formatPrice(model.originalFixedPrice)}{" "}
+                      {formatPrice(model.original_fixed_price ?? 0)}{" "}
                       <FixedPriceUnit model={model} />
                     </div>
                   )}
@@ -210,7 +213,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                           theme.text,
                         )}
                       >
-                        {formatPrice(model.inputPrice)}
+                        {formatPrice(model.input_price)}
                       </div>
                       <span className="text-muted-foreground font-mono text-[10px]">
                         {t("MODELS.PRICE.PER_MILLION")}
@@ -226,19 +229,19 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                           theme.text,
                         )}
                       >
-                        {formatPrice(model.outputPrice)}
+                        {formatPrice(model.output_price)}
                       </div>
                       <span className="text-muted-foreground font-mono text-[10px]">
                         {t("MODELS.PRICE.PER_MILLION")}
                       </span>
                     </div>
                   </div>
-                  {model.originalInputPrice !== null &&
-                    model.originalOutputPrice !== null && (
+                  {model.original_input_price !== null &&
+                    model.original_output_price !== null && (
                       <div className="text-muted-foreground/50 font-mono text-xs line-through">
                         {t("MODELS.PRICE.ORIGINAL")}:{" "}
-                        {formatPrice(model.originalInputPrice)}/
-                        {formatPrice(model.originalOutputPrice)}{" "}
+                        {formatPrice(model.original_input_price ?? 0)}/
+                        {formatPrice(model.original_output_price ?? 0)}{" "}
                         {t("MODELS.PRICE.PER_MILLION")}
                       </div>
                     )}
@@ -248,16 +251,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </div>
           </section>
 
-          {model.gridPricing && (
+          {model.grid_pricing && (
             <GridPricingSection
-              gridPricing={model.gridPricing}
-              priceMultiplier={model.gridMinRatio}
+              gridPricing={model.grid_pricing}
+              priceMultiplier={model.grid_min_ratio}
               theme={theme}
             />
           )}
 
           {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
-          {model.enableGroups.length > 0 && !model.isTiered && (
+          {model.enable_groups.length > 0 && !model.is_tiered && (
             <GroupPricingSection
               model={model}
               groupRatioMap={groupsQuery.data?.group_ratio ?? {}}
@@ -275,17 +278,17 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {model.endpointTypes.length > 0 && (
+          {model.supported_endpoint_types.length > 0 && (
             <section>
               <SectionHeading theme={theme}>
                 {t("MODELS.DETAIL.ENDPOINTS")}
               </SectionHeading>
               <div className="space-y-2">
-                {model.endpointTypes.map((endpoint) => {
+                {model.supported_endpoint_types.map((endpoint) => {
                   const info = props.endpointMap[endpoint];
                   let path = info?.path ?? "";
                   if (path.includes("{model}")) {
-                    path = path.replaceAll("{model}", model.name);
+                    path = path.replaceAll("{model}", model.model_name);
                   }
                   const method = info?.method ?? "POST";
                   const apiBase = env.apiUrl ?? "";
@@ -426,7 +429,7 @@ function GridPricingSection(props: {
 }
 
 function GroupPricingSection(props: {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   groupRatioMap: Record<string, number>;
   autoGroups: string[];
   theme: ReturnType<typeof getVendorTheme>;
@@ -435,9 +438,9 @@ function GroupPricingSection(props: {
   const [open, setOpen] = useState(false);
   const model = props.model;
   const theme = props.theme;
-  const hasGrid = model.gridPricing !== null;
+  const hasGrid = model.grid_pricing !== null;
   const groupEntries = buildGroupEntries(
-    model.enableGroups,
+    model.enable_groups,
     props.groupRatioMap,
   );
 
@@ -446,7 +449,7 @@ function GroupPricingSection(props: {
   return (
     <section>
       <AutoGroupChain
-        enableGroups={model.enableGroups}
+        enableGroups={model.enable_groups}
         autoGroups={props.autoGroups}
         groupRatioMap={props.groupRatioMap}
         className="mb-3"
@@ -474,21 +477,21 @@ function GroupPricingSection(props: {
           {hasGrid ? (
             <GroupPricingGrid
               entries={groupEntries}
-              gridPricing={model.gridPricing!}
+              gridPricing={model.grid_pricing!}
               theme={theme}
             />
-          ) : model.isFixedPrice ? (
+          ) : model.is_fixed_price ? (
             <GroupPricingFixed
               entries={groupEntries}
-              fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
+              fixedPrice={model.original_fixed_price ?? model.fixed_price}
               model={model}
               theme={theme}
             />
           ) : (
             <GroupPricingTokens
               entries={groupEntries}
-              modelRatio={model.modelRatio}
-              completionRatio={model.completionRatio}
+              modelRatio={model.model_ratio}
+              completionRatio={model.completion_ratio}
               theme={theme}
             />
           )}
@@ -539,7 +542,7 @@ function GroupPricingGrid(props: {
 function GroupPricingFixed(props: {
   entries: GroupEntry[];
   fixedPrice: number;
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();

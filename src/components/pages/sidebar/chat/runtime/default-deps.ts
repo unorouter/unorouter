@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
 import { env } from "@/lib/config/env";
@@ -18,7 +18,7 @@ import { llmCall } from "./utility-llm";
 // every chat surface had to load the whole catalog just to send a message.
 async function fetchModelInfo(
   model: string,
-): Promise<ProcessedModel | undefined> {
+): Promise<PricingCatalogDetail | undefined> {
   if (!model) return undefined;
   try {
     const res = await getQueryClient().fetchQuery({

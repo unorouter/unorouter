@@ -1,5 +1,6 @@
 import { localeUrl } from "@/i18n/navigation";
-import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
+import { findContextTag } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
@@ -15,47 +16,50 @@ import { getTranslations } from "next-intl/server";
 import { canonicalHref, vendorHref } from "./resolve-slug";
 
 export async function ModelSchema(props: {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   locale: Locale;
   idSlug: string;
 }) {
   const model = props.model;
   const t = await getTranslations({ locale: props.locale });
   const url = localeUrl(props.locale, canonicalHref(model));
-  const vendorUrl = localeUrl(props.locale, vendorHref(model.vendor.name));
+  const vendorUrl = localeUrl(props.locale, vendorHref(model.vendor));
 
   const description =
     model.description ??
     t("MODEL_PAGE.META_DESC", {
       ...APP_VALUES,
-      name: model.name,
-      vendor: model.vendor.name,
+      name: model.model_name,
+      vendor: model.vendor,
     });
 
   const contextTag = findContextTag(model);
   const faqEntries = [
     {
-      question: model.isTiered
-        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: model.name })
-        : t("MODEL_PAGE.FAQ_COST_Q", { name: model.name }),
-      answer: model.isTiered
-        ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.name })
+      question: model.is_tiered
+        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: model.model_name })
+        : t("MODEL_PAGE.FAQ_COST_Q", { name: model.model_name }),
+      answer: model.is_tiered
+        ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.model_name })
         : t("MODEL_PAGE.FAQ_COST_A", {
-            name: model.name,
-            input: formatPrice(model.inputPrice),
-            output: formatPrice(model.outputPrice),
+            name: model.model_name,
+            input: formatPrice(model.input_price),
+            output: formatPrice(model.output_price),
           }),
     },
     {
-      question: t("MODEL_PAGE.FAQ_API_Q", { name: model.name }),
-      answer: t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name: model.name }),
+      question: t("MODEL_PAGE.FAQ_API_Q", { name: model.model_name }),
+      answer: t("MODEL_PAGE.FAQ_API_A", {
+        ...APP_VALUES,
+        name: model.model_name,
+      }),
     },
     ...(contextTag
       ? [
           {
-            question: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: model.name }),
+            question: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: model.model_name }),
             answer: t("MODEL_PAGE.FAQ_CONTEXT_A", {
-              name: model.name,
+              name: model.model_name,
               context: contextTag,
             }),
           },
@@ -70,31 +74,31 @@ export async function ModelSchema(props: {
         data={buildBreadcrumbListSchema([
           { name: t("NAV.HOME"), url: localeUrl(props.locale, "/") },
           { name: t("NAV.MODELS"), url: localeUrl(props.locale, "/models") },
-          { name: vendorDisplayName(model.vendor.name), url: vendorUrl },
-          { name: model.name, url },
+          { name: vendorDisplayName(model.vendor), url: vendorUrl },
+          { name: model.model_name, url },
         ])}
       />
       <JsonLd
         id={`${props.idSlug}-software`}
         data={buildSoftwareApplicationSchema({
           locale: props.locale,
-          name: model.name,
+          name: model.model_name,
           url,
-          brandName: model.vendor.name,
+          brandName: model.vendor,
           description,
         })}
       />
       {/* Tiered pricing has no single input/output rate, so a Product offer
           would have to invent one. Omit the schema rather than mislead. */}
-      {!model.isTiered && (
+      {!model.is_tiered && (
         <JsonLd
           id={`${props.idSlug}-product`}
           data={buildProductSchema({
-            name: model.name,
+            name: model.model_name,
             url,
-            isFree: model.name.endsWith(":free"),
-            inputPrice: model.inputPrice,
-            outputPrice: model.outputPrice,
+            isFree: model.model_name.endsWith(":free"),
+            inputPrice: model.input_price,
+            outputPrice: model.output_price,
             description,
           })}
         />

@@ -48,14 +48,18 @@ export async function generateMetadata(props: PageProps) {
   }
 
   const model = resolved.model.model;
-  const values = { ...APP_VALUES, name: model.name, vendor: model.vendor.name };
+  const values = {
+    ...APP_VALUES,
+    name: model.model_name,
+    vendor: model.vendor,
+  };
   return getPageMetadata({
     locale,
     href: canonicalHref(model),
     title: t("MODEL_PAGE.META_TITLE", values),
     description: t("MODEL_PAGE.META_DESC", values),
     keywords: t("MODEL_PAGE.META_KEYWORDS", values),
-    ogImage: ogBadge("model", locale, { model: model.name }),
+    ogImage: ogBadge("model", locale, { model: model.model_name }),
   });
 }
 
@@ -79,7 +83,7 @@ export default async function ModelDetailPage(props: PageProps) {
   }
 
   const hit = resolved.model;
-  const groups = await getModelGroups(hit.model.name);
+  const groups = await getModelGroups(hit.model.model_name);
   return (
     <>
       <ModelSchema
@@ -92,7 +96,7 @@ export default async function ModelDetailPage(props: PageProps) {
         models={hit.models}
         groupRatioMap={groups.group_ratio}
         offline={hit.atCapacity}
-        vendorHref={localeUrl(locale, vendorHref(hit.model.vendor.name))}
+        vendorHref={localeUrl(locale, vendorHref(hit.model.vendor))}
       />
     </>
   );

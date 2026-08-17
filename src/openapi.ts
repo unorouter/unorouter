@@ -2002,6 +2002,21 @@ export interface PricingCatalogCounts {
   vendors: number;
 }
 
+export interface PricingCatalogDetail extends PricingCatalogModel {
+  auto_chain: string[];
+  billing_expr?: string;
+  cache_ratio?: number;
+  completion_ratio: number;
+  create_cache_ratio?: number;
+  created_time?: number;
+  enable_groups: string[];
+  grid_min_ratio: number;
+  grid_pricing?: Record<string, string | number>[];
+  group_ratio: PricingModelGroupsDataGroupRatio;
+  is_tiered: boolean;
+  model_ratio: number;
+}
+
 export interface PricingCatalogData {
   counts: PricingCatalogCounts;
   first_free_model?: string;
@@ -2069,7 +2084,7 @@ export interface PricingModel {
   created_time?: number;
   description?: string;
   enable_groups: string[];
-  grid_pricing?: unknown;
+  grid_pricing?: Record<string, string | number>[];
   icon?: string;
   image_ratio?: number | null;
   is_free: boolean;
@@ -11354,6 +11369,48 @@ export const getPricingCatalog = async (
 ): Promise<getPricingCatalogResponse> => {
   return customFetch<getPricingCatalogResponse>(
     getGetPricingCatalogUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export type getPricingCatalogModelResponse200ApplicationJson = {
+  data: PricingCatalogDetail;
+  status: 200;
+};
+
+export type getPricingCatalogModelResponseSuccess =
+  getPricingCatalogModelResponse200ApplicationJson & {
+    headers: Headers;
+  };
+export type getPricingCatalogModelResponse =
+  getPricingCatalogModelResponseSuccess;
+
+export const getGetPricingCatalogModelUrl = (
+  params: GetPricingModelGroupsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  return `/api/pricing/catalog/model?${normalizedParams.toString()}`;
+};
+
+/**
+ * @summary Get Pricing Catalog Model
+ */
+export const getPricingCatalogModel = async (
+  params: GetPricingModelGroupsParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getPricingCatalogModelResponse> => {
+  return customFetch<getPricingCatalogModelResponse>(
+    getGetPricingCatalogModelUrl(params),
     {
       ...options,
       method: "GET",

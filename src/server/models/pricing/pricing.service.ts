@@ -1,21 +1,14 @@
-import { buildPricingSummary } from "@/lib/api/pricing";
 import { processPlans } from "@/lib/api/subscription";
 import { unwrap } from "@/lib/utils/base";
 import {
-  getPricing,
   getPricingCatalog,
-  getPricingModel,
+  getPricingCatalogModel,
   getPricingModelGroups,
   getPricingVendors,
   getSubscriptionPlans,
 } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { cache } from "react";
-
-export const getPricingSummary = cache(async () => {
-  const res = await getPricing({ headers: ADMIN_HEADERS });
-  return buildPricingSummary(unwrap(res));
-});
 
 // Upstream returns this already sorted (free first, then name) and without the
 // group maps, so it is ~117KB against the full payload's ~496KB. `full` adds the
@@ -42,17 +35,19 @@ export const getVendorModels = cache(async (vendorName: string) => {
   return unwrap(res).models;
 });
 
-export async function getModelByName(name: string) {
+// Reachable by name even when every channel is offline, unlike the list, so a
+// detail page still renders for a model nothing can currently route.
+export const getModelByName = cache(async (name: string) => {
   try {
-    const res = await getPricingModel(
+    const res = await getPricingCatalogModel(
       { model: name },
       { headers: ADMIN_HEADERS },
     );
-    return buildPricingSummary(res.data).models[0] ?? null;
+    return unwrap(res);
   } catch {
     return null;
   }
-}
+});
 
 // Upstream scopes every field to this model: ~11 group ratios rather than the
 // 1800+ the full map carries, and the auto chain already intersected with the

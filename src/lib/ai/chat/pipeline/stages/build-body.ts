@@ -1,4 +1,4 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import type { AssembledSystem } from "../../prompt/assembler.service";
 import { GEMINI_SAFETY_OFF, type StreamMessages } from "../transforms";
@@ -48,7 +48,7 @@ function stripUnsupported<T extends Record<string, unknown>>(
 export function buildModelParams(
   assembled: AssembledSystem,
   effectiveMaxOutputTokens: number,
-  modelInfo: ProcessedModel | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
 ) {
   // Only put max_tokens on the wire when the user set one (or a free-model cap
   // applies). Metadata output ceilings drift from what upstreams enforce, and a
@@ -57,7 +57,7 @@ export function buildModelParams(
   return stripUnsupported(
     defined({
       maxOutputTokens:
-        userSetMax || modelInfo?.isFree
+        userSetMax || modelInfo?.is_free
           ? effectiveMaxOutputTokens || undefined
           : undefined,
       temperature: assembled.sampling.temperature,
@@ -73,10 +73,10 @@ export function buildModelParams(
 export function buildProviderOptions(
   assembled: AssembledSystem,
   autoFlags: AutoFlags,
-  modelInfo: ProcessedModel | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
 ) {
   const safeExtraBody =
-    modelInfo?.isFree && assembled.extraBody
+    modelInfo?.is_free && assembled.extraBody
       ? Object.fromEntries(
           Object.entries(assembled.extraBody).filter(
             ([k]) =>
@@ -124,7 +124,7 @@ export function buildProviderOptions(
 export function buildBodyMutations(
   assembled: AssembledSystem,
   autoFlags: AutoFlags,
-  modelInfo: ProcessedModel | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
   deepSeekReasoningContent: string | undefined,
 ) {
   const effort = assembled.reasoningEffort;
@@ -265,11 +265,11 @@ export function buildDebugSnapshot(
   };
 }
 
-export function makeCostEstimator(modelInfo: ProcessedModel | undefined) {
+export function makeCostEstimator(modelInfo: PricingCatalogDetail | undefined) {
   return (inputTokens: number, outputTokens: number): number =>
-    modelInfo && !modelInfo.isFree
-      ? (inputTokens * modelInfo.inputPrice +
-          outputTokens * modelInfo.outputPrice) /
+    modelInfo && !modelInfo.is_free
+      ? (inputTokens * modelInfo.input_price +
+          outputTokens * modelInfo.output_price) /
         1_000_000
       : 0;
 }

@@ -1,4 +1,5 @@
-import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
+import type { ModelType } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { msg } from "@/lib/config/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
@@ -90,14 +91,14 @@ function buildMediaMeta(args: {
 }
 
 function mediaCost(
-  model: ProcessedModel | undefined,
+  model: PricingCatalogDetail | undefined,
   inputTokens: number,
   outputTokens: number,
 ): number {
-  if (!model || model.isFree) return 0;
-  if (model.isFixedPrice) return model.fixedPrice ?? 0;
+  if (!model || model.is_free) return 0;
+  if (model.is_fixed_price) return model.fixed_price ?? 0;
   return (
-    (inputTokens * model.inputPrice + outputTokens * model.outputPrice) /
+    (inputTokens * model.input_price + outputTokens * model.output_price) /
     1_000_000
   );
 }
@@ -346,7 +347,7 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
   const model = (await getModelByName(body.model)) ?? undefined;
 
   // Async image-task models (AI Horde): submit + emit a task card, client polls.
-  if (isImageTaskModel(model?.endpointTypes)) {
+  if (isImageTaskModel(model?.supported_endpoint_types)) {
     return streamResponse(async (writer) => {
       const prompt = extractMediaPrompt(body);
       const { taskId, status, progress } = await submitVideoTask(
@@ -366,7 +367,7 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
     }, body.model);
   }
 
-  const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
+  const endpoint = chooseEndpoint(model?.supported_endpoint_types ?? []);
   const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
     .map((r) => r.url)

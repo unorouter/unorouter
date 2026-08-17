@@ -5,12 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
-import {
-  findContextTag,
-  findSimilarModels,
-  type ProcessedModel,
-} from "@/lib/api/pricing";
-import type { PricingCatalogModel } from "@/openapi";
+import { findContextTag, findSimilarModels } from "@/lib/api/pricing";
+import type { PricingCatalogDetail, PricingCatalogModel } from "@/openapi";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
@@ -39,7 +35,7 @@ import { TryInChatButton } from "./header/try-in-chat-button";
 import { WatchModelButton } from "./header/watch-model-button";
 
 interface ModelDetailProps {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   // Only for the similar-models lookup, which compares vendor id and tags.
   models: PricingCatalogModel[];
   groupRatioMap: Record<string, number>;
@@ -54,8 +50,8 @@ export async function ModelDetail(props: ModelDetailProps) {
   const docs = await getDocsApiKey();
   const contextTag = findContextTag(m);
   const similar = findSimilarModels(props.models, {
-    model_name: m.name,
-    vendor_id: m.vendor.id,
+    model_name: m.model_name,
+    vendor_id: m.vendor_id,
     tags: m.tags,
   });
 
@@ -63,7 +59,7 @@ export async function ModelDetail(props: ModelDetailProps) {
   -H "Authorization: Bearer ${docs.placeholder}" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "model": "${m.name}",
+    "model": "${m.model_name}",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`;
 
@@ -75,7 +71,7 @@ const client = new OpenAI({
 });
 
 const res = await client.chat.completions.create({
-  model: "${m.name}",
+  model: "${m.model_name}",
   messages: [{ role: "user", content: "Hello!" }],
 });
 
@@ -89,7 +85,7 @@ client = OpenAI(
 )
 
 res = client.chat.completions.create(
-    model="${m.name}",
+    model="${m.model_name}",
     messages=[{"role": "user", "content": "Hello!"}],
 )
 
@@ -101,19 +97,19 @@ print(res.choices[0].message.content)`;
     highlightCode(pyExample, "python"),
   ]);
 
-  const theme = getVendorTheme(m.vendor.name);
-  const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "-";
+  const theme = getVendorTheme(m.vendor);
+  const endpointsDisplay = (m.supported_endpoint_types ?? []).join(", ") || "-";
 
-  const released = m.metadata.releaseTs;
+  const released = m.release_ts;
   const releaseDateLabel = released ? formatMsDate(released) : "";
-  const lastUpdatedMs = m.createdTime ? m.createdTime * 1000 : released;
+  const lastUpdatedMs = m.created_time ? m.created_time * 1000 : released;
   const lastUpdatedLabel = lastUpdatedMs ? formatMsDate(lastUpdatedMs) : "";
   const knowledgeCutoff = formatYearMonth(m.metadata.knowledgeCutoff) ?? "";
   const hasReleaseRow = Boolean(
     releaseDateLabel || knowledgeCutoff || lastUpdatedLabel,
   );
 
-  const endpointPills = m.endpointTypes ?? [];
+  const endpointPills = m.supported_endpoint_types ?? [];
 
   const glow = theme.primary ?? "#94a3b8";
 
@@ -136,22 +132,22 @@ print(res.choices[0].message.content)`;
         }}
       />
       <ModelBreadcrumb
-        vendorName={m.vendor.name}
+        vendorName={m.vendor}
         vendorHref={props.vendorHref}
-        modelName={m.name}
+        modelName={m.model_name}
       />
       <section className="pt-8 pb-6">
         {/* Mobile: chat action rides above the title so the name has full width. */}
         <div className="mb-4 flex gap-2 sm:hidden">
           <TryInChatButton
-            modelName={m.name}
+            modelName={m.model_name}
             label={t("MODEL_PAGE.OPEN_CHAT")}
             loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
             icon
             badge
             disabled={props.offline}
           />
-          <WatchModelButton modelName={m.name} />
+          <WatchModelButton modelName={m.model_name} />
         </div>
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 items-start gap-3">
@@ -162,31 +158,31 @@ print(res.choices[0].message.content)`;
                 theme.border,
               )}
             >
-              <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={28} />
+              <VendorIcon vendor={m.icon ?? m.vendor} size={28} />
             </div>
             <div className="min-w-0">
               <h1 className="text-2xl font-semibold tracking-tight wrap-break-word sm:text-3xl">
                 <span className={cn("font-normal", theme.text)}>
-                  {m.vendor.name}
+                  {m.vendor}
                 </span>
                 <span className="text-muted-foreground">: </span>
-                {m.name}
+                {m.model_name}
               </h1>
               <div className="text-muted-foreground mt-1 font-mono text-xs break-all">
-                {m.name}
+                {m.model_name}
               </div>
             </div>
           </div>
           <div className="hidden shrink-0 items-center gap-2 sm:flex">
             <TryInChatButton
-              modelName={m.name}
+              modelName={m.model_name}
               label={t("MODEL_PAGE.OPEN_CHAT")}
               loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
               icon
               badge
               disabled={props.offline}
             />
-            <WatchModelButton modelName={m.name} />
+            <WatchModelButton modelName={m.model_name} />
           </div>
         </div>
 
@@ -238,11 +234,11 @@ print(res.choices[0].message.content)`;
                 {t("MODEL_PAGE.PRICING_TITLE")}
               </SectionHeading>
               <div className="flex flex-wrap items-stretch gap-2">
-                {m.isFixedPrice ? (
+                {m.is_fixed_price ? (
                   <PriceCell
                     label={t("MODEL_PAGE.FIXED_PRICE")}
-                    value={m.fixedPrice}
-                    original={m.originalFixedPrice}
+                    value={m.fixed_price}
+                    original={m.original_fixed_price ?? null}
                     unit={
                       fixedPriceUnitLabel(m) === "second"
                         ? t("MODEL_PAGE.PER_SECOND_UNIT")
@@ -257,16 +253,16 @@ print(res.choices[0].message.content)`;
                   <>
                     <PriceCell
                       label={t("MODEL_PAGE.INPUT_PRICE")}
-                      value={m.inputPrice}
-                      original={m.originalInputPrice}
+                      value={m.input_price}
+                      original={m.original_input_price ?? null}
                       unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
                       offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                       theme={theme}
                     />
                     <PriceCell
                       label={t("MODEL_PAGE.OUTPUT_PRICE")}
-                      value={m.outputPrice}
-                      original={m.originalOutputPrice}
+                      value={m.output_price}
+                      original={m.original_output_price ?? null}
                       unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
                       offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                       theme={theme}
@@ -289,22 +285,22 @@ print(res.choices[0].message.content)`;
                 </span>
                 <span>
                   {t("MODEL_PAGE.VENDOR")}{" "}
-                  <span className="text-foreground/80">{m.vendor.name}</span>
+                  <span className="text-foreground/80">{m.vendor}</span>
                 </span>
               </div>
-              {m.gridPricing && (
+              {m.grid_pricing && (
                 <div className="mt-6">
                   <h3 className="mb-3 text-sm font-semibold">
                     {t("MODEL_PAGE.GRID_PRICING_TITLE")}
                   </h3>
                   <GridPricingTable
-                    rows={m.gridPricing}
+                    rows={m.grid_pricing}
                     priceLabel={t("MODEL_PAGE.GRID_PRICE_HEADER")}
-                    multiplier={m.gridMinRatio}
+                    multiplier={m.grid_min_ratio}
                   />
                 </div>
               )}
-              {m.enableGroups.length > 0 && !m.isTiered && (
+              {m.enable_groups.length > 0 && !m.is_tiered && (
                 <GroupPricingSection
                   model={m}
                   groupRatioMap={props.groupRatioMap}
@@ -313,12 +309,12 @@ print(res.choices[0].message.content)`;
               )}
             </section>
 
-            <PerfUptimePanel modelName={m.name} theme={theme} />
+            <PerfUptimePanel modelName={m.model_name} theme={theme} />
 
             <section className="mt-12">
               <ModelRankingSection
-                modelName={m.name}
-                vendorName={m.vendor.name}
+                modelName={m.model_name}
+                vendorName={m.vendor}
               />
             </section>
 
@@ -417,7 +413,7 @@ print(res.choices[0].message.content)`;
 
             <section className="mt-12">
               <SectionHeading theme={theme} className="mb-1">
-                {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
+                {t("MODEL_PAGE.CODE_TITLE", { name: m.model_name })}
               </SectionHeading>
               <p className="text-muted-foreground mb-3 text-sm">
                 {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
@@ -456,7 +452,7 @@ print(res.choices[0].message.content)`;
               </SectionHeading>
               {endpointPills.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
-                  {endpointPills.map((ep) => (
+                  {endpointPills.map((ep: string) => (
                     <Badge
                       key={ep}
                       variant="outline"
@@ -491,7 +487,7 @@ print(res.choices[0].message.content)`;
         }
         benchmarks={
           <section className="mt-12">
-            <BenchmarksSection modelName={m.name} vendorName={m.vendor.name} />
+            <BenchmarksSection modelName={m.model_name} vendorName={m.vendor} />
           </section>
         }
       />

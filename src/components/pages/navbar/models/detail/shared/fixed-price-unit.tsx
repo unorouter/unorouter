@@ -1,10 +1,12 @@
 "use client";
 
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/lib/api/pricing";
 import { useTranslations } from "next-intl";
 
-export function FixedPriceUnit(props: { model: ProcessedModel }) {
+export function FixedPriceUnit(props: {
+  model: { type: string; metadata: ModelMetadata };
+}) {
   const t = useTranslations();
   const unit = fixedPriceUnitLabel(props.model);
   if (unit === "second") return <>{t("MODELS.PRICE.PER_SECOND")}</>;

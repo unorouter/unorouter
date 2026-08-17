@@ -1,4 +1,4 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import type { LoadedConvContext } from "@/lib/types";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
@@ -23,7 +23,7 @@ export type SemanticHit = { id: string; text: string };
 export type ConvSettings = NonNullable<LoadedConvContext>["settings"];
 
 export type AssemblerDeps = {
-  getModelInfo: (model: string) => Promise<ProcessedModel | undefined>;
+  getModelInfo: (model: string) => Promise<PricingCatalogDetail | undefined>;
 
   upstreamTarget?: { endpoint: string; url: string };
 

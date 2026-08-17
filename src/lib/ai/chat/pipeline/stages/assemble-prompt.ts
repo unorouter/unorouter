@@ -5,7 +5,7 @@ import {
 } from "@/lib/config/constants";
 import { parseStringMap } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import type { LoadedConvContext } from "@/lib/types";
 import { runStartTriggers } from "../../triggers/run-triggers";
 import type { AssemblerDeps, InlayImage } from "../deps";
@@ -51,7 +51,7 @@ export async function assemblePrompt(
   clientCtx: { globalVars?: string | null } | undefined,
   messages: StreamMessages,
   searchSystemMessage: string | undefined,
-  modelInfo: ProcessedModel | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
   deps: AssemblerDeps,
 ): Promise<AssembledPrompt> {
   const recentUserTexts = collectRecentUserTexts(messages);
@@ -272,13 +272,13 @@ async function buildMemoryViaAgent(
 
 function clampOutputTokens(
   assembled: AssembledSystem,
-  modelInfo: ProcessedModel | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
 ): number {
   const ceiling = modelInfo?.metadata.maxOutputTokens;
   return Math.min(
     assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
     ceiling ?? Number.POSITIVE_INFINITY,
-    ...(modelInfo?.isFree ? [FREE_MODEL_OUTPUT_CAP] : []),
+    ...(modelInfo?.is_free ? [FREE_MODEL_OUTPUT_CAP] : []),
   );
 }
 

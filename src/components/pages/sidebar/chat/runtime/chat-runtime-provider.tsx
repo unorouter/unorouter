@@ -183,13 +183,29 @@ function ChatRuntimeHook() {
     },
     onFinish: ({ message }) => {
       releaseStreamLock();
+      const parts = message.parts ?? [];
+      const partText = (p: (typeof parts)[number]) =>
+        "text" in p && typeof p.text === "string" ? p.text : "";
+      // A reply that emits several <think> blocks renders one Thinking box per
+      // reasoning part, and a model echoing a "[Name]:" speaker tag from the
+      // user's own cards puts it in the VISIBLE body. Both are reported as "it
+      // sent me 5 responses", so record the shape that produced it.
+      const reasoningParts = parts.filter((p) => p.type === "reasoning").length;
+      const speakerTagHits = parts
+        .filter((p) => p.type === "text")
+        .flatMap(
+          (p) => partText(p).match(/\[[^\]\n]{1,40}\]\s*:/g) ?? [],
+        ).length;
       logChatDebug("stream.finish", {
         threadId,
         remoteId,
         messageId: message.id,
-        parts: (message.parts ?? []).map((p) => ({
+        reasoningParts,
+        multiReasoning: reasoningParts > 1,
+        speakerTagHits,
+        parts: parts.map((p) => ({
           type: p.type,
-          chars: "text" in p && typeof p.text === "string" ? p.text.length : 0,
+          chars: partText(p).length,
         })),
       });
       const loadout = chatStore.get(chatLoadoutAtom);

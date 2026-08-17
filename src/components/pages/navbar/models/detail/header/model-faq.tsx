@@ -1,8 +1,10 @@
 "use client";
 
+import { findContextTag } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
+
 import { Icon } from "@/components/ui/icon";
 import { APP_VALUES } from "@/lib/config/constants";
-import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { SectionHeading } from "../shared/section-heading";
 import { cn } from "@/lib/utils";
@@ -13,13 +15,13 @@ import { useState } from "react";
 
 type FaqItem = { q: string; a: string };
 
-export function ModelFaq(props: { model: ProcessedModel }) {
+export function ModelFaq(props: { model: PricingCatalogDetail }) {
   const t = useTranslations();
   const locale = useLocale();
   const m = props.model;
   const meta = m.metadata;
-  const name = m.name;
-  const theme = getVendorTheme(m.vendor.name);
+  const name = m.model_name;
+  const theme = getVendorTheme(m.vendor);
   const items: FaqItem[] = [];
   const [open, setOpen] = useState<number[]>([]);
   const toggle = (i: number) =>
@@ -27,20 +29,20 @@ export function ModelFaq(props: { model: ProcessedModel }) {
       cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i],
     );
 
-  if (m.isFixedPrice) {
+  if (m.is_fixed_price) {
     items.push({
       q: t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name }),
       a: t("MODEL_PAGE.FAQ_COST_FIXED_A", {
         name,
-        price: formatPrice(m.fixedPrice),
+        price: formatPrice(m.fixed_price),
       }),
     });
-  } else if (m.isTiered) {
+  } else if (m.is_tiered) {
     items.push({
       q: t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name }),
       a: t("MODEL_PAGE.FAQ_COST_TIERED_A", { name }),
     });
-  } else if (m.gridPricing) {
+  } else if (m.grid_pricing) {
     items.push({
       q: t("MODEL_PAGE.FAQ_COST_GRID_Q", { name }),
       a: t("MODEL_PAGE.FAQ_COST_GRID_A", { name }),
@@ -50,8 +52,8 @@ export function ModelFaq(props: { model: ProcessedModel }) {
       q: t("MODEL_PAGE.FAQ_COST_Q", { name }),
       a: t("MODEL_PAGE.FAQ_COST_A", {
         name,
-        input: formatPrice(m.inputPrice),
-        output: formatPrice(m.outputPrice),
+        input: formatPrice(m.input_price),
+        output: formatPrice(m.output_price),
       }),
     });
   }

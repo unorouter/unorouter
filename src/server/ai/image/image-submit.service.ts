@@ -15,7 +15,7 @@ import type {
 } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import {
   adetailerCheckpoint,
   runAdetailerPass,
@@ -162,7 +162,7 @@ function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
 }
 
 type ResolvedModel = {
-  info: ProcessedModel;
+  info: PricingCatalogDetail;
   descriptor: ImageModelDescriptor;
   endpoint: SyncImageEndpoint;
 };
@@ -176,7 +176,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     });
     throw new Error(msg("ERRORS.NOT_FOUND"));
   }
-  const endpoint = chooseEndpoint(info.endpointTypes ?? []);
+  const endpoint = chooseEndpoint(info.supported_endpoint_types ?? []);
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
   const descriptor = getEffectiveImageModels([info]).find(
     (d) => d.id === model,
@@ -185,7 +185,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     logger.warn("image model has no usable endpoint", {
       context: "image.submit",
       model,
-      endpointTypes: info.endpointTypes,
+      endpointTypes: info.supported_endpoint_types,
     });
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
@@ -253,7 +253,7 @@ export async function submitGeneration(
     : [];
 
   // A model served only by a non-default group 403s without naming that group.
-  const routingGroup = resolveRoutingGroup(resolved.info.enableGroups);
+  const routingGroup = resolveRoutingGroup(resolved.info.enable_groups);
   const plan = batchPlan(endpoint === "image-generation", imageCountFor(body));
 
   const collected: GeneratedImage[] = [];

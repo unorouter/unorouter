@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogDetail } from "@/openapi";
 import { TranslationKey } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
@@ -12,29 +12,29 @@ type CacheTier = {
   multiplier: number;
 };
 
-function getCacheTiers(model: ProcessedModel): CacheTier[] | null {
+function getCacheTiers(model: PricingCatalogDetail): CacheTier[] | null {
   const tiers: CacheTier[] = [];
-  if (model.createCacheRatio != null && model.createCacheRatio > 0) {
+  if (model.create_cache_ratio != null && model.create_cache_ratio > 0) {
     tiers.push({
       labelKey: "MODELS.PRICE.CACHE_WRITE",
-      multiplier: model.createCacheRatio,
+      multiplier: model.create_cache_ratio,
     });
   }
-  if (model.cacheRatio != null && model.cacheRatio > 0) {
+  if (model.cache_ratio != null && model.cache_ratio > 0) {
     tiers.push({
       labelKey: "MODELS.PRICE.CACHE_READ",
-      multiplier: model.cacheRatio,
+      multiplier: model.cache_ratio,
     });
   }
   return tiers.length > 0 ? tiers : null;
 }
 
 export function CachePricing(props: {
-  model: ProcessedModel;
+  model: PricingCatalogDetail;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
-  if (props.model.isFixedPrice) return null;
+  if (props.model.is_fixed_price) return null;
   const tiers = getCacheTiers(props.model);
   if (!tiers) return null;
 
@@ -48,7 +48,7 @@ export function CachePricing(props: {
             {t(tier.labelKey)}
           </span>
           <div className={cn("font-mono text-sm font-bold", props.theme.text)}>
-            {formatPrice(props.model.inputPrice * tier.multiplier)}
+            {formatPrice(props.model.input_price * tier.multiplier)}
           </div>
           <span className="text-muted-foreground font-mono text-[10px]">
             {t("MODELS.PRICE.PER_MILLION")}

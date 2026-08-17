@@ -99,9 +99,40 @@ export function joinItemsToMessages<
   return msgs.map((m) => ({ ...m, items: byMsg.get(m.id) ?? [] }));
 }
 
+// One reasoning box per reply. `extractReasoningMiddleware` emits a part for
+// EVERY <think> pair, and models that think between paragraphs produce a handful
+// per turn, which rendered as a stack of collapsed boxes interleaved with the
+// prose ("it gave me 5 responses"). Every comparable client that merges keeps
+// reasoning as a single field and joins the segments, so collapse them here, at
+// the one boundary both the persist and the reload path cross.
+const REASONING_JOIN = "\n\n";
+
+export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
+  const texts = parts
+    .filter((p) => p.type === "reasoning" && typeof p.text === "string")
+    .map((p) => (p.text as string).trim())
+    .filter((s) => s.length > 0);
+  if (texts.length < 2) return parts;
+  const merged = texts.join(REASONING_JOIN);
+  const out: MessagePart[] = [];
+  let placed = false;
+  for (const part of parts) {
+    if (part.type !== "reasoning") {
+      out.push(part);
+      continue;
+    }
+    // Keep the FIRST slot: reasoning that precedes its prose reads as a preamble,
+    // whereas hoisting it below the text it explains reverses the order.
+    if (placed) continue;
+    out.push({ ...part, text: merged });
+    placed = true;
+  }
+  return out;
+}
+
 export function partsToItems(parts: MessagePart[]): MessageItemData[] {
   const out: MessageItemData[] = [];
-  for (const part of parts) {
+  for (const part of mergeReasoningParts(parts)) {
     if (part.type === "text" && typeof part.text === "string") {
       out.push({ type: "text", data: { text: part.text } });
     } else if (part.type === "reasoning" && typeof part.text === "string") {

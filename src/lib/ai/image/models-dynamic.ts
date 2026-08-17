@@ -1,4 +1,10 @@
-import type { ProcessedModel } from "@/lib/api/pricing";
+import type { PricingCatalogModel } from "@/openapi";
+
+// Typed by the fields the descriptor reads, so both rows fit: the BFF list
+// passes catalog rows, the submit path the per-model detail. enable_groups is
+// detail-only, and diffusion detection reads the routing group, so a list-fed
+// caller gets the hosted-API capability set rather than the checkpoint one.
+type ImageSourceModel = PricingCatalogModel & { enable_groups?: string[] };
 import {
   STATIC_IMAGE_MODELS,
   STATIC_IMAGE_MODELS_BY_ID,
@@ -65,8 +71,8 @@ export function isRunwareScheduler(value: string): boolean {
   return RUNWARE_SCHEDULERS.includes(value);
 }
 
-function isDiffusionModel(model: ProcessedModel): boolean {
-  return (model.enableGroups ?? []).some((g) =>
+function isDiffusionModel(model: ImageSourceModel): boolean {
+  return (model.enable_groups ?? []).some((g) =>
     DIFFUSION_GROUP_PATTERN.test(g),
   );
 }
@@ -110,25 +116,27 @@ function vendorKnobs(modelName: string): {
   return {};
 }
 
-function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
-  if (model.endpointTypes.includes("comfyui")) {
-    const tmpl = STATIC_IMAGE_MODELS_BY_ID[model.name];
+function inferDescriptor(model: ImageSourceModel): ImageModelDescriptor | null {
+  if (model.supported_endpoint_types.includes("comfyui")) {
+    const tmpl = STATIC_IMAGE_MODELS_BY_ID[model.model_name];
     if (!tmpl) return null;
     return {
       ...tmpl,
-      pricePerCall: model.isFixedPrice ? model.fixedPrice : tmpl.pricePerCall,
-      isFree: model.isFree,
+      pricePerCall: model.is_fixed_price
+        ? model.fixed_price
+        : tmpl.pricePerCall,
+      isFree: model.is_free,
     };
   }
   if (model.type !== "image") return null;
-  const endpoint = chooseEndpoint(model.endpointTypes);
+  const endpoint = chooseEndpoint(model.supported_endpoint_types);
   if (!endpoint) return null;
 
   // Most catalog models declare no maxImageInputs; requiring one would hide them all.
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
 
   const supportsSize = endpoint === "image-generation";
-  const knobs = vendorKnobs(model.name);
+  const knobs = vendorKnobs(model.model_name);
   const diffusion = isDiffusionModel(model);
 
   // Diffusion checkpoints have no reference-image input: refs switch the request to
@@ -143,12 +151,12 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
         : 0;
 
   const inferred: ImageModelDescriptor = {
-    id: model.name,
+    id: model.model_name,
     family: "sync-image",
-    displayName: model.name,
-    vendor: model.vendor.name,
-    pricePerCall: model.isFixedPrice ? model.fixedPrice : 0,
-    isFree: model.isFree,
+    displayName: model.model_name,
+    vendor: model.vendor,
+    pricePerCall: model.is_fixed_price ? model.fixed_price : 0,
+    isFree: model.is_free,
     supportsNegativePrompt: diffusion,
     supportsCfg: diffusion,
     // Hosted API models (FLUX.2 pro/max/klein, seedream, gpt-image) reject steps outright;
@@ -190,7 +198,7 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
   // checkpoints without a per-model entry. Provider-hosted rows have no series either,
   // so they resolve by published name. Only spec'd models change behaviour.
   const spec = lookupParamSpec(
-    airForModelName(model.name),
+    airForModelName(model.model_name),
     model.metadata?.series,
   );
   return spec ? applyParamSpec(inferred, spec) : inferred;
@@ -199,12 +207,12 @@ function inferDescriptor(model: ProcessedModel): ImageModelDescriptor | null {
 // Cached per pricing-array identity: React effects list the result as a dependency, and
 // a fresh array per render would fire them every render.
 const effectiveModelsCache = new WeakMap<
-  ProcessedModel[],
+  ImageSourceModel[],
   ImageModelDescriptor[]
 >();
 
 export function getEffectiveImageModels(
-  pricing: ProcessedModel[] | undefined,
+  pricing: ImageSourceModel[] | undefined,
 ): ImageModelDescriptor[] {
   if (!pricing || pricing.length === 0) return STATIC_IMAGE_MODELS;
   const hit = effectiveModelsCache.get(pricing);
@@ -215,18 +223,18 @@ export function getEffectiveImageModels(
 }
 
 function computeEffectiveImageModels(
-  pricing: ProcessedModel[],
+  pricing: ImageSourceModel[],
 ): ImageModelDescriptor[] {
   const comfy: ImageModelDescriptor[] = [];
   const dynamic: { desc: ImageModelDescriptor; releasedAt: number }[] = [];
   const seen = new Set<string>();
   for (const model of pricing) {
-    if (seen.has(model.name)) continue;
+    if (seen.has(model.model_name)) continue;
     const desc = inferDescriptor(model);
     if (!desc) continue;
-    seen.add(model.name);
-    if (model.endpointTypes.includes("comfyui")) comfy.push(desc);
-    else dynamic.push({ desc, releasedAt: model.metadata.releaseTs });
+    seen.add(model.model_name);
+    if (model.supported_endpoint_types.includes("comfyui")) comfy.push(desc);
+    else dynamic.push({ desc, releasedAt: model.release_ts });
   }
   dynamic.sort((a, b) => {
     const diff = b.releasedAt - a.releasedAt;
