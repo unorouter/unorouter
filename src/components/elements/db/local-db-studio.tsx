@@ -21,6 +21,7 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import type { LocalDatabase } from "@/lib/db/client/sahpool/salvage";
+import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
@@ -259,7 +260,11 @@ function DownloadPopover(props: {
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
-  const [others, setOthers] = useState<LocalDatabase[]>([]);
+  const [databases, setDatabases] = useState<LocalDatabase[]>([]);
+  // Null means "whatever account is signed in", so reopening the popover after
+  // switching users cannot export the previous one's database.
+  const [picked, setPicked] = useState<number | null>(null);
+  const selected = picked ?? props.userId;
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
@@ -274,14 +279,14 @@ function DownloadPopover(props: {
     void (async () => {
       const { listLocalDatabases } =
         await import("@/lib/db/client/sahpool/salvage");
-      const all = await listLocalDatabases();
-      setOthers(all.filter((db) => db.userId !== props.userId));
+      setDatabases(await listLocalDatabases());
     })();
   }, [open, props.userId]);
 
-  const run = async (options: DbExportOptions, userId?: number) => {
+  const run = async (options: DbExportOptions) => {
     setOpen(false);
-    await props.onDownload(options, userId);
+    setPicked(null);
+    await props.onDownload(options, selected);
   };
 
   return (
@@ -309,6 +314,44 @@ function DownloadPopover(props: {
       </Tooltip>
       <PopoverContent side="right" align="start" className="w-64">
         <div className="flex flex-col gap-3">
+          {databases.length > 1 && (
+            <div className="flex flex-col gap-1">
+              <span className="text-muted-foreground text-[11px]">
+                {t("CHAT.MORE.LOCAL_DB_OTHER_DATABASES")}
+              </span>
+              {databases.map((db) => (
+                <button
+                  key={db.userId}
+                  type="button"
+                  onClick={() => setPicked(db.userId)}
+                  className={cn(
+                    "flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left font-mono text-xs",
+                    db.userId === selected
+                      ? "bg-accent text-accent-foreground"
+                      : "hover:bg-accent/50",
+                  )}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Icon
+                      name={db.userId === selected ? "check" : "database"}
+                      className="size-3 shrink-0"
+                    />
+                    {db.userId === GUEST_USER_ID
+                      ? t("CHAT.MORE.LOCAL_DB_GUEST")
+                      : `#${db.userId}`}
+                    {db.userId === props.userId && (
+                      <span className="text-muted-foreground">
+                        {t("CHAT.MORE.LOCAL_DB_CURRENT")}
+                      </span>
+                    )}
+                  </span>
+                  <span className="text-muted-foreground">
+                    {formatDbSize(db.sizeBytes)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
           <ExportToggle
             label={t("CHAT.MORE.LOCAL_DB_EXPORT_CHATS")}
             checked={opts.includeChats}
@@ -342,31 +385,6 @@ function DownloadPopover(props: {
               {t("CHAT.MORE.LOCAL_DB_EXPORT_NO_CHAT")}
             </Button>
           </div>
-          {others.length > 0 && (
-            <div className="flex flex-col gap-1.5 border-t pt-2">
-              <span className="text-muted-foreground text-[11px]">
-                {t("CHAT.MORE.LOCAL_DB_OTHER_DATABASES")}
-              </span>
-              {others.map((db) => (
-                <Button
-                  key={db.userId}
-                  size="sm"
-                  variant="ghost"
-                  className="h-auto justify-between gap-2 py-1.5 font-mono text-xs"
-                  onClick={() => run(opts, db.userId)}
-                >
-                  <span>
-                    {db.userId === GUEST_USER_ID
-                      ? t("CHAT.MORE.LOCAL_DB_GUEST")
-                      : `#${db.userId}`}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {formatDbSize(db.sizeBytes)}
-                  </span>
-                </Button>
-              ))}
-            </div>
-          )}
         </div>
       </PopoverContent>
     </Popover>
