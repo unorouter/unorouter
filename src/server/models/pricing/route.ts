@@ -1,6 +1,7 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import {
   getCatalog,
+  getCounts,
   getModelByName,
   getModelGroups,
   getSubscriptionPlansSummary,
@@ -10,7 +11,7 @@ import {
 import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
-  .get("/counts", async () => (await getCatalog()).counts)
+  .get("/counts", async () => getCounts())
 
   .get("/vendors", async () => getVendors())
 

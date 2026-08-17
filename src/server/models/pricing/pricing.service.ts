@@ -3,6 +3,7 @@ import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
   getPricingCatalogModel,
+  getPricingCounts,
   getPricingModelGroups,
   getPricingVendors,
   getSubscriptionPlans,
@@ -17,6 +18,11 @@ export const getCatalog = cache(async (full = false) => {
   const res = await getPricingCatalog(full ? { full: "true" } : undefined, {
     headers: ADMIN_HEADERS,
   });
+  return unwrap(res);
+});
+
+export const getCounts = cache(async () => {
+  const res = await getPricingCounts({ headers: ADMIN_HEADERS });
   return unwrap(res);
 });
 
