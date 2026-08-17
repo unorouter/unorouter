@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Esta seção falhou ao carregar.",
       "COPY_ERROR": "Copiar erro",
       "RESET_APP_DATA": "Redefinir dados do app e recarregar",
+      "RESET_APP_DATA_HINT": "Exclui tudo neste dispositivo, incluindo suas conversas.",
+      "RESET_APP_CACHE": "Limpar cache e recarregar",
+      "RESET_APP_CACHE_HINT": "Corrige uma página travada ou em branco. Suas conversas são mantidas.",
       "RESETTING": "Redefinindo...",
       "DISCORD_HELP": "Ainda com problemas? Peça ajuda no Discord"
     },

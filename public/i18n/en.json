@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "This section failed to load.",
       "COPY_ERROR": "Copy error",
       "RESET_APP_DATA": "Reset app data & reload",
+      "RESET_APP_DATA_HINT": "Deletes everything on this device, including your chats.",
+      "RESET_APP_CACHE": "Clear cache & reload",
+      "RESET_APP_CACHE_HINT": "Fixes a stuck or blank page. Your chats are kept.",
       "RESETTING": "Resetting...",
       "DISCORD_HELP": "Still stuck? Get help on Discord"
     },

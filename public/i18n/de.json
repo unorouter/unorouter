@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden.",
       "COPY_ERROR": "Fehler kopieren",
       "RESET_APP_DATA": "App-Daten zurücksetzen und neu laden",
+      "RESET_APP_DATA_HINT": "Löscht alles auf diesem Gerät, einschließlich deiner Chats.",
+      "RESET_APP_CACHE": "Cache leeren & neu laden",
+      "RESET_APP_CACHE_HINT": "Behebt eine hängende oder leere Seite. Deine Chats bleiben erhalten.",
       "RESETTING": "Wird zurückgesetzt...",
       "DISCORD_HELP": "Immer noch Probleme? Hol dir Hilfe auf Discord"
     },

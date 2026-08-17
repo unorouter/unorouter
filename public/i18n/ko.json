@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "이 섹션을 로드하지 못했습니다.",
       "COPY_ERROR": "오류 복사",
       "RESET_APP_DATA": "앱 데이터 초기화 후 새로고침",
+      "RESET_APP_DATA_HINT": "채팅을 포함해 이 기기의 모든 항목을 삭제합니다.",
+      "RESET_APP_CACHE": "캐시 삭제 후 새로고침",
+      "RESET_APP_CACHE_HINT": "멈추거나 빈 페이지를 복구합니다. 채팅은 유지됩니다.",
       "RESETTING": "초기화 중...",
       "DISCORD_HELP": "아직 해결되지 않았나요? Discord에서 도움을 받으세요"
     },

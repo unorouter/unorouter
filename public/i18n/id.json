@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat.",
       "COPY_ERROR": "Salin kesalahan",
       "RESET_APP_DATA": "Setel ulang data aplikasi & muat ulang",
+      "RESET_APP_DATA_HINT": "Menghapus semua yang ada di perangkat ini, termasuk obrolan Anda.",
+      "RESET_APP_CACHE": "Bersihkan cache & muat ulang",
+      "RESET_APP_CACHE_HINT": "Memperbaiki halaman yang macet atau kosong. Obrolan Anda tetap tersimpan.",
       "RESETTING": "Menyetel ulang...",
       "DISCORD_HELP": "Masih bermasalah? Dapatkan bantuan di Discord"
     },

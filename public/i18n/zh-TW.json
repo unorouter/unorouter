@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "此區塊載入失敗。",
       "COPY_ERROR": "複製錯誤",
       "RESET_APP_DATA": "重設應用程式資料並重新載入",
+      "RESET_APP_DATA_HINT": "刪除此裝置上的所有內容，包括您的聊天記錄。",
+      "RESET_APP_CACHE": "清除快取並重新載入",
+      "RESET_APP_CACHE_HINT": "修復卡住或空白的頁面。您的聊天記錄會保留。",
       "RESETTING": "正在重設……",
       "DISCORD_HELP": "仍未解決？在 Discord 上尋求協助"
     },

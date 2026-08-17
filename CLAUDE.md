@@ -155,9 +155,10 @@ The SW is served by an APP ROUTE, not `public/sw.js`. Every rule below exists be
 - `force-dynamic` + `no-store` (in BOTH `next.config.ts` headers and the handler response): the factory default `force-static` emits `s-maxage=1yr`, which once poisoned the Cloudflare edge un-purgeably.
 - `navigationPreload` OFF so navigations route through the SW fetch and the offline fallback fires deterministically.
 - `stopImmediatePropagation` for ALL cross-origin requests (defaultCache's catch-all would NetworkFirst third-party fetches, erroring when adblocked and caching opaque responses) and for worker/wasm/sqlocal (a cached stale worker/wasm pair desyncs from the app bundle and breaks OPFS opens).
-- Navigations are `NetworkFirst` with NO networkTimeoutSeconds: a timeout served the PREVIOUS build's HTML on slow links, 404ing its chunks after deploys and killing every handler.
+- Navigations are `NetworkFirst` with NO networkTimeoutSeconds: a timeout served the PREVIOUS build's HTML on slow links, 404ing its chunks after deploys and killing every handler. The nav rule is a FUNCTION racing that strategy against `NAV_HANG_MS`, resolving only to the precached offline page, never to `pages`. Serwist serves `fallbacks` from `handlerDidError`, which fires only when a fetch REJECTS; a HUNG fetch never rejects, so without the race a stalled radio dies as `no-response` with no fallback. Because the handler is a function and not a `Strategy`, Serwist does NOT attach the fallback plugin to it, so it must resolve `matchPrecache` itself.
 - `/en/offline` precached explicitly via `additionalPrecacheEntries`, because the serwist glob covers `_next` + `public/` but NOT rendered app-route HTML, so without it the fallback never matches.
-- Build-scoped caches wiped in `activate`, so a deploy cannot mix old-build HTML/RSC with new chunks.
+- Build-scoped caches wiped in `activate`, so a deploy cannot mix old-build HTML/RSC with new chunks. The precache (`serwist-precache-v2-<scope>`) is NOT in that list, which is why the offline page survives a deploy.
+- Two recovery paths in `recovery.ts` and they are NOT interchangeable: `clearServiceWorkerCaches` (Cache Storage + unregister) is safe and is what a stuck user should run; `clearAllClientStorage` also wipes OPFS, DESTROYING the local chat DB, which is the only copy. Never suggest "clear site data" to a user for a caching problem.
 
 ## i18n
 

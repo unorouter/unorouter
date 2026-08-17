@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Ta sekcja nie załadowała się.",
       "COPY_ERROR": "Kopiuj błąd",
       "RESET_APP_DATA": "Zresetuj dane aplikacji i odśwież",
+      "RESET_APP_DATA_HINT": "Usuwa wszystko na tym urządzeniu, łącznie z Twoimi czatami.",
+      "RESET_APP_CACHE": "Wyczyść pamięć podręczną i odśwież",
+      "RESET_APP_CACHE_HINT": "Naprawia zawieszoną lub pustą stronę. Twoje czaty zostają zachowane.",
       "RESETTING": "Resetowanie...",
       "DISCORD_HELP": "Nadal masz problem? Uzyskaj pomoc na Discordzie"
     },

@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Questa sezione non è riuscita a caricare.",
       "COPY_ERROR": "Copia errore",
       "RESET_APP_DATA": "Reimposta i dati dell app e ricarica",
+      "RESET_APP_DATA_HINT": "Elimina tutto su questo dispositivo, comprese le tue chat.",
+      "RESET_APP_CACHE": "Svuota la cache e ricarica",
+      "RESET_APP_CACHE_HINT": "Risolve una pagina bloccata o vuota. Le tue chat vengono mantenute.",
       "RESETTING": "Reimpostazione...",
       "DISCORD_HELP": "Ancora bloccato? Ottieni aiuto su Discord"
     },

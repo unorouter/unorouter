@@ -8,6 +8,7 @@ import { posthog } from "@/lib/posthog-lazy";
 import { cn } from "@/lib/utils";
 import {
   clearAllClientStorage,
+  clearServiceWorkerCaches,
   formatError,
   isChunkLoadError,
 } from "@/lib/utils/recovery";
@@ -31,6 +32,7 @@ type ErrorFallbackProps = {
 export function ErrorFallback(props: ErrorFallbackProps) {
   const t = useTranslations();
   const [clearing, setClearing] = useState(false);
+  const [clearingCaches, setClearingCaches] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -73,6 +75,12 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   const resetData = async () => {
     setClearing(true);
     await clearAllClientStorage();
+    window.location.reload();
+  };
+
+  const resetCaches = async () => {
+    setClearingCaches(true);
+    await clearServiceWorkerCaches();
     window.location.reload();
   };
 
@@ -155,17 +163,39 @@ export function ErrorFallback(props: ErrorFallbackProps) {
             </Button>
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={clearing}
-            onClick={resetData}
-            className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full"
-          >
-            {clearing
-              ? t("MAIN.ERROR.RESETTING")
-              : t("MAIN.ERROR.RESET_APP_DATA")}
-          </Button>
+          <div className="space-y-1">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={clearingCaches}
+              onClick={resetCaches}
+              className="w-full"
+            >
+              {clearingCaches
+                ? t("MAIN.ERROR.RESETTING")
+                : t("MAIN.ERROR.RESET_APP_CACHE")}
+            </Button>
+            <p className="text-muted-foreground text-xs">
+              {t("MAIN.ERROR.RESET_APP_CACHE_HINT")}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={clearing}
+              onClick={resetData}
+              className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full"
+            >
+              {clearing
+                ? t("MAIN.ERROR.RESETTING")
+                : t("MAIN.ERROR.RESET_APP_DATA")}
+            </Button>
+            <p className="text-muted-foreground text-xs">
+              {t("MAIN.ERROR.RESET_APP_DATA_HINT")}
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

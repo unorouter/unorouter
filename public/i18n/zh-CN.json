@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "此部分加载失败。",
       "COPY_ERROR": "复制错误",
       "RESET_APP_DATA": "重置应用数据并重新加载",
+      "RESET_APP_DATA_HINT": "删除此设备上的所有内容，包括您的聊天记录。",
+      "RESET_APP_CACHE": "清除缓存并重新加载",
+      "RESET_APP_CACHE_HINT": "修复卡住或空白的页面。您的聊天记录会保留。",
       "RESETTING": "正在重置……",
       "DISCORD_HELP": "仍未解决？在 Discord 上寻求帮助"
     },

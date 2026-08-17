@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Cette section n'a pas pu être chargée.",
       "COPY_ERROR": "Copier l erreur",
       "RESET_APP_DATA": "Réinitialiser les données et recharger",
+      "RESET_APP_DATA_HINT": "Supprime tout sur cet appareil, y compris vos conversations.",
+      "RESET_APP_CACHE": "Vider le cache et recharger",
+      "RESET_APP_CACHE_HINT": "Corrige une page bloquée ou vide. Vos conversations sont conservées.",
       "RESETTING": "Réinitialisation...",
       "DISCORD_HELP": "Toujours bloqué ? Obtenez de l'aide sur Discord"
     },

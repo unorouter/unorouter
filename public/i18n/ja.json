@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "このセクションの読み込みに失敗しました。",
       "COPY_ERROR": "エラーをコピー",
       "RESET_APP_DATA": "アプリデータをリセットして再読み込み",
+      "RESET_APP_DATA_HINT": "チャットを含め、この端末上のすべてを削除します。",
+      "RESET_APP_CACHE": "キャッシュを削除して再読み込み",
+      "RESET_APP_CACHE_HINT": "固まったページや白い画面を修復します。チャットは保持されます。",
       "RESETTING": "リセット中...",
       "DISCORD_HELP": "まだ解決しませんか？Discord でサポートを受ける"
     },

@@ -71,29 +71,77 @@ function readHeaderGeometry(head: Uint8Array): {
 // set of databases this browser holds: the guest db from before a login, and any
 // other account used on this device. Without this the studio can only see and
 // export the ACTIVE user, so a backup silently omits the rest.
-export async function listLocalDatabases(): Promise<
-  { userId: number; dbPath: string }[]
-> {
+export type LocalDatabase = {
+  userId: number;
+  dbPath: string;
+  // Bytes of real SQLite content, header excluded. A user picking which database
+  // to rescue cannot tell "#1" from "#171" by id alone; the size is what says
+  // which one holds the roleplay and which is an empty guest leftover.
+  sizeBytes: number;
+  modifiedAt: number;
+};
+
+export async function listLocalDatabases(): Promise<LocalDatabase[]> {
   const appName = env.appName.toLowerCase();
   const prefix = sahPoolDirName(`${appName}-`).replace(/-$/, "");
-  const found: { userId: number; dbPath: string }[] = [];
+  const found: LocalDatabase[] = [];
   try {
     const root = await navigator.storage.getDirectory();
     for await (const [name, handle] of root.entries()) {
       if (handle.kind !== "directory" || !name.startsWith(prefix)) continue;
       const match = name.match(/-(\d+)_sqlite3$/);
       if (!match) continue;
+      const stats = await measurePool(handle as FileSystemDirectoryHandle);
       found.push({
         userId: Number(match[1]),
         dbPath: `${appName}-${match[1]}.sqlite3`,
+        sizeBytes: stats.sizeBytes,
+        modifiedAt: stats.modifiedAt,
       });
     }
   } catch {
     return [];
   }
   found.sort((a, b) => a.userId - b.userId);
-  logChatDebug("db.list_local", { databases: found.map((f) => f.userId) });
+  logChatDebug("db.list_local", {
+    databases: found.map((f) => ({
+      userId: f.userId,
+      sizeBytes: f.sizeBytes,
+      modifiedAt: f.modifiedAt,
+    })),
+  });
   return found;
+}
+
+// Sum only slots that actually hold a database: the pool preallocates empty
+// slots, so a raw directory size would report the same number for every account.
+async function measurePool(
+  poolDir: FileSystemDirectoryHandle,
+): Promise<{ sizeBytes: number; modifiedAt: number }> {
+  let filesDir = poolDir;
+  try {
+    filesDir = await poolDir.getDirectoryHandle(".opaque");
+  } catch {
+    // Older layouts kept the slot files directly under the pool directory.
+  }
+  let sizeBytes = 0;
+  let modifiedAt = 0;
+  try {
+    for await (const [, handle] of filesDir.entries()) {
+      if (handle.kind !== "file") continue;
+      const file = await handle.getFile();
+      if (file.size <= HEADER_BYTES) continue;
+      const head = new Uint8Array(
+        await file.slice(HEADER_BYTES, HEADER_BYTES + 16).arrayBuffer(),
+      );
+      if (!hasSqliteMagic(head)) continue;
+      sizeBytes += file.size - HEADER_BYTES;
+      modifiedAt = Math.max(modifiedAt, file.lastModified);
+    }
+  } catch {
+    // A slot held by a live access handle cannot be read; it just goes uncounted.
+  }
+  return { sizeBytes, modifiedAt };
 }
 
 // Every SQLite database in the pool directory, largest first. Includes the

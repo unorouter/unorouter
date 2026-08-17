@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Phần này không tải được.",
       "COPY_ERROR": "Sao chép lỗi",
       "RESET_APP_DATA": "Đặt lại dữ liệu ứng dụng và tải lại",
+      "RESET_APP_DATA_HINT": "Xóa mọi thứ trên thiết bị này, bao gồm cả các cuộc trò chuyện của bạn.",
+      "RESET_APP_CACHE": "Xóa bộ nhớ đệm và tải lại",
+      "RESET_APP_CACHE_HINT": "Khắc phục trang bị treo hoặc trống. Các cuộc trò chuyện của bạn được giữ lại.",
       "RESETTING": "Đang đặt lại...",
       "DISCORD_HELP": "Vẫn chưa được? Nhận trợ giúp trên Discord"
     },

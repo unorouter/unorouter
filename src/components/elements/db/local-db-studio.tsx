@@ -20,6 +20,7 @@ import {
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
+import type { LocalDatabase } from "@/lib/db/client/sahpool/salvage";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
@@ -244,6 +245,11 @@ function ActionButton(props: {
   );
 }
 
+function formatDbSize(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
 function DownloadPopover(props: {
   userId: number;
   onDownload: (
@@ -253,9 +259,7 @@ function DownloadPopover(props: {
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
-  const [others, setOthers] = useState<{ userId: number; dbPath: string }[]>(
-    [],
-  );
+  const [others, setOthers] = useState<LocalDatabase[]>([]);
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
@@ -348,12 +352,17 @@ function DownloadPopover(props: {
                   key={db.userId}
                   size="sm"
                   variant="ghost"
-                  className="justify-start font-mono text-xs"
+                  className="h-auto justify-between gap-2 py-1.5 font-mono text-xs"
                   onClick={() => run(opts, db.userId)}
                 >
-                  {db.userId === GUEST_USER_ID
-                    ? t("CHAT.MORE.LOCAL_DB_GUEST")
-                    : `#${db.userId}`}
+                  <span>
+                    {db.userId === GUEST_USER_ID
+                      ? t("CHAT.MORE.LOCAL_DB_GUEST")
+                      : `#${db.userId}`}
+                  </span>
+                  <span className="text-muted-foreground">
+                    {formatDbSize(db.sizeBytes)}
+                  </span>
                 </Button>
               ))}
             </div>

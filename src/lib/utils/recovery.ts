@@ -1,5 +1,29 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
+// Cache Storage plus the worker registration, and NOTHING else. A stale service
+// worker can serve a dead page whose only known cure was an incognito window, but
+// the usual advice ("clear site data") also destroys the OPFS chat database, which
+// is the sole copy of a user's conversations. Neither of these touches OPFS.
+export async function clearServiceWorkerCaches() {
+  logChatDebug("recovery.clear_sw_caches");
+  try {
+    const keys = await caches?.keys?.();
+    if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
+  } catch (err) {
+    logChatDebug("recovery.caches_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
+  try {
+    const regs = await navigator.serviceWorker?.getRegistrations?.();
+    await Promise.all((regs ?? []).map((r) => r.unregister()));
+  } catch (err) {
+    logChatDebug("recovery.sw_unregister_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
+}
+
 export async function clearAllClientStorage() {
   logChatDebug("recovery.clear_storage");
   try {

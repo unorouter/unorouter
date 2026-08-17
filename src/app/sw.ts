@@ -2,7 +2,11 @@
 // Every caching rule in this worker is incident-derived and LOCKED; read the
 // "PWA / offline" section in CLAUDE.md before changing any of them.
 import { defaultCache } from "@serwist/turbopack/worker";
-import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
+import type {
+  PrecacheEntry,
+  RouteHandlerCallbackOptions,
+  SerwistGlobalConfig,
+} from "serwist";
 import {
   CacheFirst,
   ExpirationPlugin,
@@ -37,6 +41,34 @@ const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
   const url = typeof entry === "string" ? entry : entry.url;
   return !url.includes("next/static/");
 });
+
+const OFFLINE_URL = "/en/offline";
+
+// NetworkFirst serves the offline fallback from its `handlerDidError` hook, which
+// only runs when the fetch REJECTS. A request that HANGS never rejects, so on a
+// stalled radio the navigation waits forever and dies as "no-response" with no
+// fallback. Race the strategy against a timer that can resolve ONLY to the
+// precached offline page: that entry is revisioned per build, so unlike the
+// `networkTimeoutSeconds` removed in 13db2f70 it can never hand back a previous
+// build's HTML pointing at chunks this deploy replaced.
+const NAV_HANG_MS = 10_000;
+
+const navStrategy = new NetworkFirst({ cacheName: "pages" });
+
+const handleNavigation = async (
+  options: RouteHandlerCallbackOptions,
+): Promise<Response> => {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const raced = await Promise.race([
+    navStrategy.handle(options).catch(() => undefined),
+    new Promise<undefined>((resolve) => {
+      timer = setTimeout(() => resolve(undefined), NAV_HANG_MS);
+    }),
+  ]);
+  if (timer) clearTimeout(timer);
+  if (raced) return raced;
+  return (await serwist.matchPrecache(OFFLINE_URL)) ?? Response.error();
+};
 
 const serwist = new Serwist({
   precacheEntries,
@@ -89,16 +121,14 @@ const serwist = new Serwist({
     {
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
-      handler: new NetworkFirst({
-        cacheName: "pages",
-      }),
+      handler: handleNavigation,
     },
     ...defaultCache,
   ],
   fallbacks: {
     entries: [
       {
-        url: "/en/offline",
+        url: OFFLINE_URL,
         // Match navigations by mode too: a top-level navigation that fails on a
         // network blip / just-wiped page cache reports destination "" (not
         // "document"), so a destination-only matcher missed it and Serwist

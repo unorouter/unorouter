@@ -2889,6 +2889,9 @@
       "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi.",
       "COPY_ERROR": "Hatayi kopyala",
       "RESET_APP_DATA": "Uygulama verilerini sıfırla ve yeniden yükle",
+      "RESET_APP_DATA_HINT": "Sohbetleriniz dahil bu cihazdaki her şeyi siler.",
+      "RESET_APP_CACHE": "Önbelleği temizle ve yeniden yükle",
+      "RESET_APP_CACHE_HINT": "Takılan veya boş bir sayfayı düzeltir. Sohbetleriniz korunur.",
       "RESETTING": "Sıfırlanıyor...",
       "DISCORD_HELP": "Hâlâ takılı mısın? Discord'dan yardım al"
     },
