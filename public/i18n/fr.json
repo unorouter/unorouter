@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Codes d'erreur et limites de débit",
+        "TITLE": "Limites de débit et codes d'erreur",
         "DESCRIPTION": "Chaque code de statut HTTP renvoyé par l'API {appName}, ce que signifie la réponse 503 d'occupation et comment fonctionnent les limites de débit des modèles gratuits.",
         "KEYWORDS": "codes d'erreur, 429, 503, limite de débit, Retry-After, nouvelle tentative, dépannage"
       },
-      "TITLE": "Erreurs et limites de débit",
-      "SUBTITLE": "Ce que signifie chaque code de statut et comment y remédier.",
+      "TITLE": "Limites de débit et erreurs",
+      "SUBTITLE": "Quelles sont les limites et ce que signifie chaque code de statut.",
       "H_ENVELOPE": "Le format d'erreur",
       "P_ENVELOPE_1": "Les erreurs reviennent sous forme de JSON au format d'erreur OpenAI. Le message indique ce qui s'est passé, code est un identifiant stable lisible par machine, et un id de requête est ajouté à chaque message :",
       "P_ENVELOPE_2": "Incluez toujours l'id de requête lorsque vous contactez le support ou ouvrez un ticket Discord. Il nous permet de retrouver votre requête exacte dans les journaux.",

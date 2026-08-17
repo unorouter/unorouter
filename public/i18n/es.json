@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Códigos de error y límites de tasa",
+        "TITLE": "Límites de tasa y códigos de error",
         "DESCRIPTION": "Todos los códigos de estado HTTP que devuelve la API de {appName}, qué significa la respuesta 503 de ocupado y cómo funcionan los límites de tasa de los modelos gratuitos.",
         "KEYWORDS": "códigos de error, 429, 503, límite de tasa, Retry-After, reintento, solución de problemas"
       },
-      "TITLE": "Errores y límites de tasa",
-      "SUBTITLE": "Qué significa cada código de estado y qué hacer al respecto.",
+      "TITLE": "Límites de tasa y errores",
+      "SUBTITLE": "Cuáles son los límites y qué significa cada código de estado.",
       "H_ENVELOPE": "El formato de error",
       "P_ENVELOPE_1": "Los errores vuelven como JSON en el formato de error de OpenAI. El mensaje indica qué ocurrió, code es un identificador estable legible por máquina, y se añade un id de solicitud a cada mensaje:",
       "P_ENVELOPE_2": "Incluye siempre el id de solicitud cuando contactes con soporte o abras un ticket en Discord. Nos permite encontrar tu solicitud exacta en los registros.",

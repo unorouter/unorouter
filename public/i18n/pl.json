@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Kody błędów i limity szybkości",
+        "TITLE": "Limity szybkości i kody błędów",
         "DESCRIPTION": "Każdy kod statusu HTTP zwracany przez API {appName}, co oznacza odpowiedź 503 o zajętości oraz jak działają limity szybkości darmowych modeli.",
         "KEYWORDS": "kody błędów, 429, 503, limit szybkości, Retry-After, ponawianie, rozwiązywanie problemów"
       },
-      "TITLE": "Błędy i limity szybkości",
-      "SUBTITLE": "Co oznacza każdy kod statusu i co z nim zrobić.",
+      "TITLE": "Limity szybkości i błędy",
+      "SUBTITLE": "Jakie obowiązują limity i co oznacza każdy kod statusu.",
       "H_ENVELOPE": "Format błędu",
       "P_ENVELOPE_1": "Błędy wracają jako JSON w formacie błędu OpenAI. Komunikat opisuje, co się stało, code to stabilny, czytelny maszynowo identyfikator, a do każdego komunikatu dołączany jest identyfikator żądania:",
       "P_ENVELOPE_2": "Zawsze podawaj identyfikator żądania, gdy kontaktujesz się z pomocą techniczną lub otwierasz zgłoszenie na Discordzie. Pozwala nam to znaleźć twoje dokładne żądanie w logach.",

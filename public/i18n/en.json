@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Error codes & rate limits",
+        "TITLE": "Rate limits & error codes",
         "DESCRIPTION": "Every HTTP status code the {appName} API returns, what the 503 busy response means, and how free-model rate limits work.",
         "KEYWORDS": "error codes, 429, 503, rate limit, Retry-After, retry, troubleshooting"
       },
-      "TITLE": "Errors & Rate Limits",
-      "SUBTITLE": "What each status code means and what to do about it.",
+      "TITLE": "Rate Limits & Errors",
+      "SUBTITLE": "What the limits are, and what each status code means.",
       "H_ENVELOPE": "The error format",
       "P_ENVELOPE_1": "Errors come back as JSON in the OpenAI error format. The message states what happened, code is a stable machine-readable identifier, and a request id is appended to every message:",
       "P_ENVELOPE_2": "Always include the request id when you contact support or open a Discord ticket. It lets us find your exact request in the logs.",

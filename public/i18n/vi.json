@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Mã lỗi & giới hạn tốc độ",
+        "TITLE": "Giới hạn tốc độ & mã lỗi",
         "DESCRIPTION": "Mọi mã trạng thái HTTP mà API {appName} trả về, phản hồi bận 503 nghĩa là gì, và cách hoạt động của giới hạn tốc độ mô hình miễn phí.",
         "KEYWORDS": "mã lỗi, 429, 503, giới hạn tốc độ, Retry-After, thử lại, khắc phục sự cố"
       },
-      "TITLE": "Lỗi & Giới hạn tốc độ",
-      "SUBTITLE": "Mỗi mã trạng thái nghĩa là gì và cần làm gì với nó.",
+      "TITLE": "Giới hạn tốc độ & Lỗi",
+      "SUBTITLE": "Các giới hạn là gì và mỗi mã trạng thái nghĩa là gì.",
       "H_ENVELOPE": "Định dạng lỗi",
       "P_ENVELOPE_1": "Lỗi trả về dưới dạng JSON theo định dạng lỗi của OpenAI. Thông báo nêu điều đã xảy ra, code là một định danh ổn định mà máy đọc được, và một id yêu cầu được thêm vào mỗi thông báo:",
       "P_ENVELOPE_2": "Luôn kèm theo id yêu cầu khi bạn liên hệ hỗ trợ hoặc mở một ticket Discord. Nó cho phép chúng tôi tìm chính xác yêu cầu của bạn trong nhật ký.",

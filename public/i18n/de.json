@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Fehlercodes & Ratenlimits",
+        "TITLE": "Ratenlimits & Fehlercodes",
         "DESCRIPTION": "Jeder HTTP-Statuscode, den die {appName}-API zurückgibt, was die 503-Auslastungsantwort bedeutet und wie Ratenlimits für kostenlose Modelle funktionieren.",
         "KEYWORDS": "Fehlercodes, 429, 503, Ratenlimit, Retry-After, Wiederholung, Fehlerbehebung"
       },
-      "TITLE": "Fehler & Ratenlimits",
-      "SUBTITLE": "Was jeder Statuscode bedeutet und was du dagegen tun kannst.",
+      "TITLE": "Ratenlimits & Fehler",
+      "SUBTITLE": "Welche Limits gelten und was jeder Statuscode bedeutet.",
       "H_ENVELOPE": "Das Fehlerformat",
       "P_ENVELOPE_1": "Fehler kommen als JSON im OpenAI-Fehlerformat zurück. Die Nachricht gibt an, was passiert ist, code ist ein stabiler, maschinenlesbarer Bezeichner, und jeder Nachricht wird eine Request-ID angehängt:",
       "P_ENVELOPE_2": "Gib immer die Request-ID an, wenn du den Support kontaktierst oder ein Discord-Ticket öffnest. Damit können wir deine genaue Anfrage in den Logs finden.",

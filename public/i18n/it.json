@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Codici di errore e limiti di frequenza",
+        "TITLE": "Limiti di frequenza e codici di errore",
         "DESCRIPTION": "Ogni codice di stato HTTP restituito dall'API {appName}, cosa significa la risposta 503 di occupato e come funzionano i limiti di frequenza dei modelli gratuiti.",
         "KEYWORDS": "codici di errore, 429, 503, limite di frequenza, Retry-After, ritentativo, risoluzione dei problemi"
       },
-      "TITLE": "Errori e limiti di frequenza",
-      "SUBTITLE": "Cosa significa ogni codice di stato e cosa fare al riguardo.",
+      "TITLE": "Limiti di frequenza ed errori",
+      "SUBTITLE": "Quali sono i limiti e cosa significa ogni codice di stato.",
       "H_ENVELOPE": "Il formato degli errori",
       "P_ENVELOPE_1": "Gli errori tornano come JSON nel formato di errore di OpenAI. Il messaggio indica cosa è successo, code è un identificatore stabile leggibile dalla macchina, e a ogni messaggio viene aggiunto un id di richiesta:",
       "P_ENVELOPE_2": "Includi sempre l'id di richiesta quando contatti il supporto o apri un ticket su Discord. Ci consente di trovare la tua richiesta esatta nei log.",

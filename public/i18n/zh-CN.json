@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "错误码与速率限制",
+        "TITLE": "速率限制与错误码",
         "DESCRIPTION": "{appName} API 返回的每个 HTTP 状态码、503 繁忙响应的含义，以及免费模型速率限制的运作方式。",
         "KEYWORDS": "错误码，429，503，速率限制，Retry-After，重试，故障排查"
       },
-      "TITLE": "错误与速率限制",
-      "SUBTITLE": "每个状态码的含义以及应对方法。",
+      "TITLE": "速率限制与错误",
+      "SUBTITLE": "有哪些限制，以及每个状态码的含义。",
       "H_ENVELOPE": "错误格式",
       "P_ENVELOPE_1": "错误以 OpenAI 错误格式的 JSON 返回。message 说明发生了什么，code 是一个稳定的、机器可读的标识符，并且每条消息都会附加一个请求 id：",
       "P_ENVELOPE_2": "联系支持或在 Discord 开工单时，请务必附上请求 id。它能让我们在日志中找到你确切的那次请求。",

@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Hata kodları ve hız sınırları",
+        "TITLE": "Hız sınırları ve hata kodları",
         "DESCRIPTION": "{appName} API'sinin döndürdüğü her HTTP durum kodu, 503 meşgul yanıtının ne anlama geldiği ve ücretsiz model hız sınırlarının nasıl çalıştığı.",
         "KEYWORDS": "hata kodları, 429, 503, hız sınırı, Retry-After, yeniden deneme, sorun giderme"
       },
-      "TITLE": "Hatalar ve Hız Sınırları",
-      "SUBTITLE": "Her durum kodunun ne anlama geldiği ve bu konuda ne yapılması gerektiği.",
+      "TITLE": "Hız Sınırları ve Hatalar",
+      "SUBTITLE": "Sınırların ne olduğu ve her durum kodunun ne anlama geldiği.",
       "H_ENVELOPE": "Hata biçimi",
       "P_ENVELOPE_1": "Hatalar, OpenAI hata biçiminde JSON olarak geri döner. Mesaj ne olduğunu belirtir, code kararlı, makine tarafından okunabilir bir tanımlayıcıdır ve her mesaja bir istek kimliği eklenir:",
       "P_ENVELOPE_2": "Destekle iletişime geçtiğinizde veya bir Discord bileti açtığınızda istek kimliğini her zaman ekleyin. Bu, günlüklerde tam isteğinizi bulmamızı sağlar.",

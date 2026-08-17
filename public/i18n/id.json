@@ -5547,12 +5547,12 @@
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
-        "TITLE": "Kode kesalahan & batas laju",
+        "TITLE": "Batas laju & kode kesalahan",
         "DESCRIPTION": "Setiap kode status HTTP yang dikembalikan API {appName}, apa arti respons sibuk 503, dan cara kerja batas laju model gratis.",
         "KEYWORDS": "kode kesalahan, 429, 503, batas laju, Retry-After, coba lagi, pemecahan masalah"
       },
-      "TITLE": "Kesalahan & Batas Laju",
-      "SUBTITLE": "Apa arti setiap kode status dan apa yang harus dilakukan.",
+      "TITLE": "Batas Laju & Kesalahan",
+      "SUBTITLE": "Apa saja batasnya dan apa arti setiap kode status.",
       "H_ENVELOPE": "Format kesalahan",
       "P_ENVELOPE_1": "Kesalahan dikembalikan sebagai JSON dalam format kesalahan OpenAI. Pesan menyatakan apa yang terjadi, code adalah pengidentifikasi stabil yang dapat dibaca mesin, dan id permintaan ditambahkan ke setiap pesan:",
       "P_ENVELOPE_2": "Selalu sertakan id permintaan saat Anda menghubungi dukungan atau membuka tiket Discord. Itu memungkinkan kami menemukan permintaan Anda yang tepat di log.",
