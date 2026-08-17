@@ -8,7 +8,6 @@ import {
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
-import { chatStore, localUserIdAtom } from "@/store/chat-store";
 import { buildClientDeps } from "./client-deps";
 import { buildDefaultClientDeps } from "./default-deps";
 
@@ -26,13 +25,12 @@ export type ModelTarget = {
 
 export async function resolveModelTarget(
   modelId: string,
-  userId: number,
   origin: string,
 ): Promise<ModelTarget> {
   if (isCustomModelId(modelId)) {
     const parsed = parseCustomModelId(modelId);
     if (!parsed) throw new Error("invalid custom model id");
-    const provider = await readLocalCustomProvider(userId, parsed.providerId);
+    const provider = await readLocalCustomProvider(parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
     const modelRow = provider.models.find((m) => m.key === parsed.modelKey);
     const target = normalizeBaseUrl(provider.baseUrl);
@@ -42,7 +40,7 @@ export async function resolveModelTarget(
       model: parsed.modelKey,
       apiKey: provider.apiKey,
       baseURL: proxied ? `${origin}/api/ai/chat/custom-forward` : target,
-      deps: buildClientDeps(userId, provider),
+      deps: buildClientDeps(provider),
       tokenizer: (modelRow?.tokenizer as TokenizerRef | undefined) ?? undefined,
       ...(proxied ? { extraHeaders: { "x-proxy-target": target } } : {}),
     };
@@ -52,16 +50,12 @@ export async function resolveModelTarget(
     model: modelId,
     apiKey: "proxy",
     baseURL: `${origin}/api/ai/chat/forward`,
-    deps: buildDefaultClientDeps(userId),
+    deps: buildDefaultClientDeps(),
   };
 }
 
 export function resolveModelTargetFromStore(
   modelId: string,
 ): Promise<ModelTarget> {
-  return resolveModelTarget(
-    modelId,
-    chatStore.get(localUserIdAtom),
-    window.location.origin,
-  );
+  return resolveModelTarget(modelId, window.location.origin);
 }

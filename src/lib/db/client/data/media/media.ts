@@ -6,39 +6,33 @@ import { makeTableStore } from "@/lib/db/client/data/table-store";
 
 const mediaStore = makeTableStore(media, media.id);
 
-export const readLocalMedia = (userId: number | undefined, id: string) =>
-  mediaStore.get(userId, id);
+export const readLocalMedia = (id: string) => mediaStore.get(id);
 
-export const deleteLocalMedia = (userId: number | undefined, id: string) =>
-  mediaStore.drop(userId, id);
+export const deleteLocalMedia = (id: string) => mediaStore.drop(id);
 
 // Backfilled from the browser once a bitmap decodes: nothing upstream reports the
 // rendered size (the gateway clamps, hosted models pick their own), so the rendered
 // image is the only reliable source. Lets the next render reserve the exact box
 // instead of expanding from zero height and shoving the thread down.
 export const setLocalMediaDimensions = (
-  userId: number | undefined,
   id: string,
   width: number,
   height: number,
-) => mediaStore.update(userId, id, { width, height });
+) => mediaStore.update(id, { width, height });
 
-export async function upsertLocalMedia(
-  userId: number | undefined,
-  row: {
-    id: string;
-    convId?: string | null;
-    mimeType: string;
-    sizeBytes: number;
-    dataBase64?: string | null;
-    r2Key?: string | null;
-    r2Url?: string | null;
-    width?: number | null;
-    height?: number | null;
-    extractedText?: string | null;
-    promptText?: string | null;
-  },
-) {
+export async function upsertLocalMedia(row: {
+  id: string;
+  convId?: string | null;
+  mimeType: string;
+  sizeBytes: number;
+  dataBase64?: string | null;
+  r2Key?: string | null;
+  r2Url?: string | null;
+  width?: number | null;
+  height?: number | null;
+  extractedText?: string | null;
+  promptText?: string | null;
+}) {
   logChatDebug("media.write", {
     id: row.id,
     bytes: row.dataBase64 ? row.dataBase64.length : (row.sizeBytes ?? 0),
@@ -46,7 +40,7 @@ export async function upsertLocalMedia(
     inline: !!row.dataBase64,
   });
   try {
-    return await mediaStore.upsert(userId, {
+    return await mediaStore.upsert({
       id: row.id,
       convId: row.convId ?? null,
       mimeType: row.mimeType,

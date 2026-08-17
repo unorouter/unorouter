@@ -10,7 +10,6 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { quotaToDollars } from "@/lib/utils/format/number";
 
 export async function enrichRequestLogFromUpstream(
-  userId: number,
   msgId: string,
   requestId: string,
 ): Promise<void> {
@@ -24,7 +23,7 @@ export async function enrichRequestLogFromUpstream(
     throw new Error("upstream log not ready");
   }
   logChatDebug("enrich.patched", { msgId, channel: res.channel ?? null });
-  await patchLocalRequestLogUpstream(userId, msgId, {
+  await patchLocalRequestLogUpstream(msgId, {
     cost: res.quota != null ? quotaToDollars(res.quota) : undefined,
     inputTokens: res.promptTokens ?? undefined,
     outputTokens: res.completionTokens ?? undefined,

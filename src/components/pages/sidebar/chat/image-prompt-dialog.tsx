@@ -11,7 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalMedia,
   upsertLocalMedia,
@@ -45,7 +44,6 @@ export function ImagePromptDialogHost() {
 
 function ImagePromptEditor(props: { request: ImagePromptRequest }) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const request = props.request;
   const isReview = request.mode === "review";
   const [prompt, setPrompt] = useState(isReview ? request.prompt : "");
@@ -55,7 +53,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
   useEffect(() => {
     if (request.mode !== "media") return;
     let cancelled = false;
-    void readLocalMedia(userId, request.mediaId).then((row) => {
+    void readLocalMedia(request.mediaId).then((row) => {
       if (cancelled) return;
       setPrompt(row?.promptText ?? "");
       setConvId(row?.convId ?? null);
@@ -63,7 +61,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
     return () => {
       cancelled = true;
     };
-  }, [request, userId]);
+  }, [request]);
 
   const close = () => {
     if (busy) return;
@@ -76,11 +74,9 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
     try {
       const { requestImggen, resolveIllustratorSettings, resolveRefUrls } =
         await import("./runtime/illustrator-run");
-      const settings = convId
-        ? await resolveIllustratorSettings(userId, convId)
-        : null;
+      const settings = convId ? await resolveIllustratorSettings(convId) : null;
       const refUrls = settings?.refMediaIds.length
-        ? await resolveRefUrls(userId, settings.refMediaIds)
+        ? await resolveRefUrls(settings.refMediaIds)
         : [];
       const img = await requestImggen(prompt.trim(), {
         imageModel: settings?.imageModel,
@@ -91,7 +87,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
         source: "regenerate",
         model: settings?.imageModel ?? "auto",
       });
-      await upsertLocalMedia(userId, {
+      await upsertLocalMedia({
         id: request.mediaId,
         convId,
         mimeType: img.mimeType,

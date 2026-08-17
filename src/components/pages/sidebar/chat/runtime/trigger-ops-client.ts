@@ -7,7 +7,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 
-export function makeClientTriggerOps(userId: number): TriggerOps {
+export function makeClientTriggerOps(): TriggerOps {
   return {
     runLLM: async (prompt) =>
       handleElysia(
@@ -31,7 +31,7 @@ export function makeClientTriggerOps(userId: number): TriggerOps {
         }),
       );
       if (!img) return "Error: Image generation failed";
-      await upsertLocalMedia(userId, {
+      await upsertLocalMedia({
         id: img.id,
         convId: chatStore.get(convIdAtom),
         mimeType: img.mimeType,

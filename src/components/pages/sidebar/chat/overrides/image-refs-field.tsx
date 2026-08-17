@@ -7,7 +7,6 @@ import {
   useChatSettingsQuery,
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalMedia,
   upsertLocalMedia,
@@ -45,7 +44,6 @@ function readFileBase64(file: File): Promise<string> {
 
 export function ImageRefsField(props: { convId: string }) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const settingsQuery = useChatSettingsQuery(props.convId);
   const updateSettings = useUpdateChatSettingsMutation();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -61,7 +59,7 @@ export function ImageRefsField(props: { convId: string }) {
     void (async () => {
       const out: { id: string; src: string }[] = [];
       for (const id of refIdsKey ? refIdsKey.split(",") : []) {
-        const row = await readLocalMedia(userId, id);
+        const row = await readLocalMedia(id);
         if (!row) continue;
         const src = row.dataBase64
           ? `data:${row.mimeType};base64,${row.dataBase64}`
@@ -73,7 +71,7 @@ export function ImageRefsField(props: { convId: string }) {
     return () => {
       cancelled = true;
     };
-  }, [refIdsKey, userId]);
+  }, [refIdsKey]);
 
   const saveRefIds = async (ids: string[]) => {
     await updateSettings.mutateAsync({
@@ -91,7 +89,7 @@ export function ImageRefsField(props: { convId: string }) {
         if (!file.type.startsWith("image/") || file.size > MAX_REF_BYTES)
           continue;
         const id = uid();
-        await upsertLocalMedia(userId, {
+        await upsertLocalMedia({
           id,
           convId: props.convId,
           mimeType: file.type,

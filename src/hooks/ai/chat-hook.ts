@@ -2,7 +2,6 @@
 
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -62,15 +61,14 @@ type EditMessageBody = {
 };
 
 function useChatMutation<TArgs, TData>(
-  fn: (userId: number, args: TArgs) => Promise<TData>,
+  fn: (args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
   onAfter?: (data: TData, args: TArgs) => void,
 ) {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
-    mutationFn: (args: TArgs) => fn(userId, args),
+    mutationFn: (args: TArgs) => fn(args),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       invalidateAndBroadcast(qc, keysFor(args) as string[][]);
@@ -80,11 +78,10 @@ function useChatMutation<TArgs, TData>(
 }
 
 export function useConversationsInfiniteQuery(keyword?: string) {
-  const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: [...queryKeys.conversations(keyword), userId],
+    queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) => {
-      const local = (await readLocalConversations(userId)) ?? [];
+      const local = (await readLocalConversations()) ?? [];
       const filtered = keyword
         ? local.filter((c) =>
             (c.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
@@ -107,18 +104,17 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 }
 
 export function useChatGroupsQuery() {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.chatGroups(), userId],
-    queryFn: async () => (await readLocalChatGroups(userId)) ?? [],
+    queryKey: queryKeys.chatGroups(),
+    queryFn: async () => (await readLocalChatGroups()) ?? [],
   });
 }
 
 export function useCreateChatGroupMutation() {
   return useChatMutation(
-    async (userId, args: { name: string }) => {
+    async (args: { name: string }) => {
       const id = uid();
-      await upsertLocalChatGroup(userId, {
+      await upsertLocalChatGroup({
         id,
         name: args.name.trim() || "New group",
       });
@@ -130,8 +126,8 @@ export function useCreateChatGroupMutation() {
 
 export function useRenameChatGroupMutation() {
   return useChatMutation(
-    async (userId, args: { id: string; name: string }) => {
-      await renameLocalChatGroup(userId, args.id, args.name.trim());
+    async (args: { id: string; name: string }) => {
+      await renameLocalChatGroup(args.id, args.name.trim());
       return { id: args.id };
     },
     () => [queryKeys.chatGroups()],
@@ -140,8 +136,8 @@ export function useRenameChatGroupMutation() {
 
 export function useDeleteChatGroupMutation() {
   return useChatMutation(
-    async (userId, args: { id: string }) => {
-      await deleteLocalChatGroup(userId, args.id);
+    async (args: { id: string }) => {
+      await deleteLocalChatGroup(args.id);
       return { id: args.id };
     },
     () => [queryKeys.chatGroups(), queryKeys.conversations()],
@@ -150,8 +146,8 @@ export function useDeleteChatGroupMutation() {
 
 export function useToggleChatGroupFoldedMutation() {
   return useChatMutation(
-    async (userId, args: { id: string; folded: boolean }) => {
-      await setChatGroupFolded(userId, args.id, args.folded);
+    async (args: { id: string; folded: boolean }) => {
+      await setChatGroupFolded(args.id, args.folded);
       return { id: args.id };
     },
     () => [queryKeys.chatGroups()],
@@ -160,8 +156,8 @@ export function useToggleChatGroupFoldedMutation() {
 
 export function useMoveConversationToGroupMutation() {
   return useChatMutation(
-    async (userId, args: { convId: string; groupId: string | null }) => {
-      await setConversationGroup(userId, args.convId, args.groupId);
+    async (args: { convId: string; groupId: string | null }) => {
+      await setConversationGroup(args.convId, args.groupId);
       return { id: args.convId };
     },
     () => [queryKeys.conversations()],
@@ -169,12 +165,11 @@ export function useMoveConversationToGroupMutation() {
 }
 
 export function useConversationQuery(id?: string) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.chatMeta(id!), userId],
+    queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
       if (id) {
-        const local = await readLocalConversation(userId, id);
+        const local = await readLocalConversation(id);
         if (local) return local;
       }
       throw new Error("chat-not-found");
@@ -185,13 +180,12 @@ export function useConversationQuery(id?: string) {
 }
 
 export function useMessagesInfiniteQuery(id?: string) {
-  const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: [...queryKeys.chatMessages(id!), userId],
+    queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) => {
       if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
-      const messages = await readJoinedMessages(userId, id);
+      const messages = await readJoinedMessages(id);
       return {
         messages,
         total: messages.length,
@@ -209,8 +203,8 @@ export function useMessagesInfiniteQuery(id?: string) {
 
 export function useUpdateConversationMutation() {
   return useChatMutation(
-    async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
-      const existing = await readLocalConversation(userId, args.id);
+    async (args: ConvIdArg & { body: UpdateConvBody }) => {
+      const existing = await readLocalConversation(args.id);
       const now = dayjs().toDate();
       const patch = {
         ...(args.body.title !== undefined && { title: args.body.title }),
@@ -220,7 +214,7 @@ export function useUpdateConversationMutation() {
         updatedAt: now,
       };
       if (existing) {
-        await updateLocalConversationSettings(userId, {
+        await updateLocalConversationSettings({
           convId: args.id,
           ...patch,
         });
@@ -236,8 +230,8 @@ export function useUpdateConversationMutation() {
 
 export function useDeleteConversationMutation() {
   return useChatMutation(
-    async (userId, args: ConvIdArg) => {
-      await deleteLocalConversation(userId, args.id);
+    async (args: ConvIdArg) => {
+      await deleteLocalConversation(args.id);
       return { id: args.id };
     },
     () => [queryKeys.conversations()],
@@ -266,15 +260,12 @@ export function useTaskStatusQuery(
 
 export function useFinalizeTaskMutation() {
   return useChatMutation(
-    async (
-      userId,
-      args: {
-        convId: string;
-        msgId: string;
-        taskId: string;
-        resultUrl: string;
-      },
-    ) => {
+    async (args: {
+      convId: string;
+      msgId: string;
+      taskId: string;
+      resultUrl: string;
+    }) => {
       const data = handleElysia(
         await rpc.api.ai.chat.task.finalize.post({
           msgId: args.msgId,
@@ -282,7 +273,7 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-      await replaceLocalMessageItems(userId, args.msgId, [
+      await replaceLocalMessageItems(args.msgId, [
         {
           id: uid(),
           messageId: args.msgId,
@@ -302,11 +293,8 @@ export function useFinalizeTaskMutation() {
 
 export function useEditMessageMutation() {
   return useChatMutation(
-    async (
-      userId,
-      args: { convId: string; msgId: string; body: EditMessageBody },
-    ) => {
-      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+    async (args: { convId: string; msgId: string; body: EditMessageBody }) => {
+      const msgs = (await readLocalMessages(args.convId)) ?? [];
       const existing = msgs.find((m) => m.id === args.msgId);
       if (!existing) throw new Error(msg("ERRORS.MESSAGE_NOT_FOUND"));
       const itemsWithMsg = args.body.items.map((it, seq) => ({
@@ -317,14 +305,14 @@ export function useEditMessageMutation() {
         type: it.type,
         data: it.data,
       }));
-      await replaceLocalMessageItems(userId, args.msgId, itemsWithMsg);
+      await replaceLocalMessageItems(args.msgId, itemsWithMsg);
       const now = dayjs().toDate();
-      await upsertLocalMessage(userId, {
+      await upsertLocalMessage({
         ...existing,
         isEdited: true,
         updatedAt: now,
       });
-      await bumpLocalConvUpdatedAt(userId, args.convId);
+      await bumpLocalConvUpdatedAt(args.convId);
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -333,9 +321,9 @@ export function useEditMessageMutation() {
 
 export function useClearConversationMutation() {
   return useChatMutation(
-    async (userId, args: ConvIdArg) => {
-      await deleteLocalMessagesForConv(userId, args.id);
-      await bumpLocalConvUpdatedAt(userId, args.id);
+    async (args: ConvIdArg) => {
+      await deleteLocalMessagesForConv(args.id);
+      await bumpLocalConvUpdatedAt(args.id);
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
@@ -345,9 +333,9 @@ export function useClearConversationMutation() {
 
 export function useDuplicateConversationMutation() {
   return useChatMutation(
-    async (userId, args: ConvIdArg) => {
+    async (args: ConvIdArg) => {
       const srcId = args.id;
-      const bundle = await readLocalConversationBundle(userId, srcId);
+      const bundle = await readLocalConversationBundle(srcId);
       if (!bundle) throw new Error("not-found");
       const now = dayjs().toDate();
       const newId = uid();
@@ -358,14 +346,14 @@ export function useDuplicateConversationMutation() {
         createdAt: now,
         updatedAt: now,
       };
-      await upsertLocalConversation(userId, newConv);
+      await upsertLocalConversation(newConv);
       if (bundle.settings) {
-        await upsertLocalConversationSettings(userId, {
+        await upsertLocalConversationSettings({
           ...bundle.settings,
           convId: newId,
         });
       }
-      await replaceLocalConversationBindings(userId, newId, {
+      await replaceLocalConversationBindings(newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
           characterId: c.characterId,
           orderIndex: c.orderIndex,
@@ -381,7 +369,7 @@ export function useDuplicateConversationMutation() {
         idMap.set(m.id, uid());
       }
       for (const m of bundle.messages) {
-        await upsertLocalMessage(userId, {
+        await upsertLocalMessage({
           ...m,
           id: idMap.get(m.id)!,
           convId: newId,
@@ -391,7 +379,7 @@ export function useDuplicateConversationMutation() {
       for (const it of bundle.messageItems) {
         const newMsgId = idMap.get(it.messageId);
         if (!newMsgId) continue;
-        await upsertLocalMessageItem(userId, {
+        await upsertLocalMessageItem({
           ...it,
           id: uid(),
           messageId: newMsgId,
@@ -405,8 +393,8 @@ export function useDuplicateConversationMutation() {
 
 export function useSetActiveBranchMutation() {
   return useChatMutation(
-    async (userId, args: { convId: string; msgId: string }) => {
-      await setLocalActiveBranch(userId, args.convId, args.msgId);
+    async (args: { convId: string; msgId: string }) => {
+      await setLocalActiveBranch(args.convId, args.msgId);
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -416,7 +404,6 @@ export function useSetActiveBranchMutation() {
 export function useDeleteMessageMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
       // Prune UI before the awaited splice: the node may have no DB row.
@@ -431,7 +418,7 @@ export function useDeleteMessageMutation() {
       );
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
-      await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
+      await spliceDeleteLocalMessage(args.convId, args.msgId);
       // The DB is authoritative once the splice lands: rebuild from it so a
       // branch re-walk (siblings promoted after the delete) is reflected too.
       // Best-effort, since the prune above already removed the node: a throwing

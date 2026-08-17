@@ -1,6 +1,5 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -55,9 +54,8 @@ const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
-export const readLocalConversations = async (userId: number | undefined) => {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+export const readLocalConversations = async () => {
+  const local = await getLocalDb();
   if (!local) return [];
   const rows = await local.db
     .select({
@@ -78,9 +76,8 @@ export const readLocalConversations = async (userId: number | undefined) => {
 
 const chatGroupStore = makeTableStore(chatGroups, chatGroups.id);
 
-export const readLocalChatGroups = async (userId: number | undefined) => {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+export const readLocalChatGroups = async () => {
+  const local = await getLocalDb();
   if (!local) return [];
   return local.db
     .select()
@@ -88,65 +85,41 @@ export const readLocalChatGroups = async (userId: number | undefined) => {
     .orderBy(asc(chatGroups.orderIndex), asc(chatGroups.createdAt));
 };
 
-export const upsertLocalChatGroup = (
-  userId: number | undefined,
-  row: LocalRowInput & { id: string },
-) => chatGroupStore.upsert(userId, row);
+export const upsertLocalChatGroup = (row: LocalRowInput & { id: string }) =>
+  chatGroupStore.upsert(row);
 
-export const deleteLocalChatGroup = async (
-  userId: number | undefined,
-  groupId: string,
-) => {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+export const deleteLocalChatGroup = async (groupId: string) => {
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .update(conversations)
     .set({ groupId: null })
     .where(eq(conversations.groupId, groupId));
-  await chatGroupStore.drop(userId, groupId);
+  await chatGroupStore.drop(groupId);
 };
 
-export const renameLocalChatGroup = (
-  userId: number | undefined,
-  groupId: string,
-  name: string,
-) => chatGroupStore.update(userId, groupId, { name });
+export const renameLocalChatGroup = (groupId: string, name: string) =>
+  chatGroupStore.update(groupId, { name });
 
-export const setChatGroupFolded = (
-  userId: number | undefined,
-  groupId: string,
-  folded: boolean,
-) => chatGroupStore.update(userId, groupId, { folded });
+export const setChatGroupFolded = (groupId: string, folded: boolean) =>
+  chatGroupStore.update(groupId, { folded });
 
-export const setConversationGroup = (
-  userId: number | undefined,
-  convId: string,
-  groupId: string | null,
-) => conversationStore.update(userId, convId, { groupId });
+export const setConversationGroup = (convId: string, groupId: string | null) =>
+  conversationStore.update(convId, { groupId });
 
-export const readLocalConversation = async (
-  userId: number | undefined,
-  id: string,
-) => {
-  const conv = await conversationStore.get(userId, id);
+export const readLocalConversation = async (id: string) => {
+  const conv = await conversationStore.get(id);
   if (!conv) return conv;
   return { ...conv, model: conv.defaultModel ?? null };
 };
 
-export const readLocalConversationSettings = async (
-  userId: number | undefined,
-  convId: string,
-) => {
-  const conv = await conversationStore.get(userId, convId);
+export const readLocalConversationSettings = async (convId: string) => {
+  const conv = await conversationStore.get(convId);
   return conv ? projectConversationSettings(conv) : null;
 };
 
-export async function readLocalMessages(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalMessages(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
   return local.db
     .select()
@@ -155,23 +128,17 @@ export async function readLocalMessages(
     .orderBy(messages.createdAt);
 }
 
-export async function readJoinedMessages(
-  userId: number | undefined,
-  convId: string,
-) {
+export async function readJoinedMessages(convId: string) {
   const [msgs, items] = await Promise.all([
-    readLocalMessages(userId, convId),
-    readLocalMessageItems(userId, convId),
+    readLocalMessages(convId),
+    readLocalMessageItems(convId),
   ]);
   return joinItemsToMessages(msgs ?? [], items ?? []);
 }
 
 // The active branch as render-ready {id, role, parts} rows.
-export async function readActiveBranchParts(
-  userId: number | undefined,
-  convId: string,
-) {
-  const joined = await readJoinedMessages(userId, convId);
+export async function readActiveBranchParts(convId: string) {
+  const joined = await readJoinedMessages(convId);
   return walkActiveBranch(joined).path.map((m) => ({
     id: m.id,
     role: m.role,
@@ -183,11 +150,8 @@ export async function readActiveBranchParts(
 // merging against UI state can tell "this captured message is unpersisted"
 // (append it) from "this captured message is on a branch the walk excluded"
 // (the walk is not trustworthy for this conversation).
-export async function readConvHistoryForSend(
-  userId: number | undefined,
-  convId: string,
-) {
-  const joined = await readJoinedMessages(userId, convId);
+export async function readConvHistoryForSend(convId: string) {
+  const joined = await readJoinedMessages(convId);
   return {
     branch: walkActiveBranch(joined).path.map((m) => ({
       id: m.id,
@@ -198,11 +162,8 @@ export async function readConvHistoryForSend(
   };
 }
 
-export async function readLocalMessageMetaForConv(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalMessageMetaForConv(convId: string) {
+  const local = await getLocalDb();
   if (!local) return [];
   return local.db
     .select({
@@ -220,11 +181,8 @@ export async function readLocalMessageMetaForConv(
     .orderBy(messages.createdAt);
 }
 
-export async function readLocalConversationBindings(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalConversationBindings(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
   const [chars, lbs] = await Promise.all([
     local.db
@@ -239,11 +197,8 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-export async function readPrimaryCharacter(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readPrimaryCharacter(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
   const rows = await local.db
     .select({ characterId: conversationCharacters.characterId })
@@ -262,26 +217,21 @@ export async function readPrimaryCharacter(
 }
 
 export async function readConvRegexScripts(
-  userId: number | undefined,
   convId: string,
 ): Promise<RegexScript[]> {
-  const ch = await readPrimaryCharacter(userId, convId);
+  const ch = await readPrimaryCharacter(convId);
   return parseRegexScripts(ch?.regexScripts);
 }
 
 export async function readConvTriggers(
-  userId: number | undefined,
   convId: string,
 ): Promise<TriggerScript[]> {
-  const ch = await readPrimaryCharacter(userId, convId);
+  const ch = await readPrimaryCharacter(convId);
   return parseTriggerScripts(ch?.triggers);
 }
 
-export async function readLocalMessageItems(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalMessageItems(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
   const msgs = await local.db
     .select({ id: messages.id })
@@ -296,31 +246,24 @@ export async function readLocalMessageItems(
     .orderBy(asc(messageItems.sequenceIndex));
 }
 
-async function readLocalConversationMedia(
-  userId: number | undefined,
-  convId: string,
-) {
-  const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb(uid);
+async function readLocalConversationMedia(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
   return local.db.select().from(media).where(eq(media.convId, convId));
 }
 
-export async function readLocalConversationBundle(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalConversationBundle(convId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
-  const conv = await readLocalConversation(userId, convId);
+  const conv = await readLocalConversation(convId);
   if (!conv) return null;
   const settings = projectConversationSettings(conv);
   const [bindings, msgs, items, mediaRows, reqLogRows] = await Promise.all([
-    readLocalConversationBindings(userId, convId),
-    readLocalMessages(userId, convId),
-    readLocalMessageItems(userId, convId),
-    readLocalConversationMedia(userId, convId),
-    readLocalRequestLogsForConv(userId, convId),
+    readLocalConversationBindings(convId),
+    readLocalMessages(convId),
+    readLocalMessageItems(convId),
+    readLocalConversationMedia(convId),
+    readLocalRequestLogsForConv(convId),
   ]);
 
   const characterIds = (bindings?.conversationCharacters ?? []).map(
@@ -330,13 +273,13 @@ export async function readLocalConversationBundle(
     (b) => b.lorebookId,
   );
   const [characterRows, lorebookRows, persona, preset] = await Promise.all([
-    Promise.all(characterIds.map((id) => readLocalCharacter(userId, id))),
-    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
+    Promise.all(characterIds.map((id) => readLocalCharacter(id))),
+    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
     settings?.personaId
-      ? readLocalPersona(userId, settings.personaId)
+      ? readLocalPersona(settings.personaId)
       : Promise.resolve(null),
     settings?.presetId
-      ? readLocalPreset(userId, settings.presetId)
+      ? readLocalPreset(settings.presetId)
       : Promise.resolve(null),
   ]);
   const characters = characterRows.filter((c) => c != null);
@@ -358,75 +301,56 @@ export async function readLocalConversationBundle(
   };
 }
 
-export const upsertLocalConversation = (
-  userId: number | undefined,
-  row: LocalRowInput & { id: string },
-) => conversationStore.upsert(userId, row);
+export const upsertLocalConversation = (row: LocalRowInput & { id: string }) =>
+  conversationStore.upsert(row);
 
-export const deleteLocalConversation = (
-  userId: number | undefined,
-  id: string,
-) => conversationStore.drop(userId, id);
+export const deleteLocalConversation = (id: string) =>
+  conversationStore.drop(id);
 
 export const upsertLocalMessage = (
-  userId: number | undefined,
   row: LocalRowInput & { id: string; convId: string },
-) => messageStore.upsert(userId, row, { scopeUser: false });
+) => messageStore.upsert(row);
 
-export const deleteLocalMessage = (userId: number | undefined, msgId: string) =>
-  messageStore.drop(userId, msgId, { scopeUser: false });
+export const deleteLocalMessage = (msgId: string) => messageStore.drop(msgId);
 
 export const upsertLocalMessageItem = (
-  userId: number | undefined,
   row: LocalRowInput & { id: string; messageId: string },
-) => messageItemStore.upsert(userId, row, { scopeUser: false });
+) => messageItemStore.upsert(row);
 
 export const upsertLocalConversationSettings = (
-  userId: number | undefined,
   row: LocalRowInput & { convId: string },
 ) => {
   const next = { ...row, id: row.convId } as LocalRowInput & { id: string };
   delete (next as Record<string, unknown>).convId;
-  return conversationStore.upsert(userId, next);
+  return conversationStore.upsert(next);
 };
 
 export const updateLocalConversationSettings = (
-  userId: number | undefined,
   row: LocalRowInput & { convId: string },
 ) => {
   const patch = { ...row } as Record<string, unknown>;
   delete patch.convId;
-  return conversationStore.update(userId, row.convId, patch);
+  return conversationStore.update(row.convId, patch);
 };
 
-export async function deleteLocalMessagesForConv(
-  userId: number | undefined,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function deleteLocalMessagesForConv(convId: string) {
+  const local = await getLocalDb();
   if (!local) return;
   await local.db.delete(messages).where(eq(messages.convId, convId));
 }
 
-export async function bumpLocalConvUpdatedAt(
-  userId: number | undefined,
-  convId: string,
-) {
-  const conv = await readLocalConversation(userId, convId);
+export async function bumpLocalConvUpdatedAt(convId: string) {
+  const conv = await readLocalConversation(convId);
   if (conv) {
-    await upsertLocalConversation(userId, {
+    await upsertLocalConversation({
       ...conv,
       updatedAt: dayjs().toDate(),
     });
   }
 }
 
-export async function setLocalActiveBranch(
-  userId: number | undefined,
-  convId: string,
-  msgId: string,
-) {
-  const msgs = (await readLocalMessages(userId, convId)) ?? [];
+export async function setLocalActiveBranch(convId: string, msgId: string) {
+  const msgs = (await readLocalMessages(convId)) ?? [];
   const target = msgs.find((m) => m.id === msgId);
   // An unknown id (an assistant-ui internal id churning through the branch
   // picker mid-run) must be a no-op: falling through resolved parentId to null
@@ -439,7 +363,7 @@ export async function setLocalActiveBranch(
   const now = dayjs().toDate();
   for (const m of msgs) {
     if ((m.parentId ?? null) === parentId) {
-      await upsertLocalMessage(userId, {
+      await upsertLocalMessage({
         ...m,
         isActiveBranch: m.id === msgId,
         updatedAt: now,
@@ -447,20 +371,16 @@ export async function setLocalActiveBranch(
     }
   }
   if (parentId === null && target?.role === "assistant") {
-    await updateLocalConversationSettings(userId, {
+    await updateLocalConversationSettings({
       convId,
       firstMsgIndex: (target.branchIndex ?? 0) - 1,
     });
   }
-  await bumpLocalConvUpdatedAt(userId, convId);
+  await bumpLocalConvUpdatedAt(convId);
 }
 
-export async function spliceDeleteLocalMessage(
-  userId: number | undefined,
-  convId: string,
-  msgId: string,
-) {
-  const msgs = (await readLocalMessages(userId, convId)) ?? [];
+export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
+  const msgs = (await readLocalMessages(convId)) ?? [];
   const target = msgs.find((m) => m.id === msgId);
   const newParentId = target?.parentId ?? null;
   const now = dayjs().toDate();
@@ -468,7 +388,7 @@ export async function spliceDeleteLocalMessage(
   for (const m of msgs) {
     if (m.parentId === msgId) {
       childIds.push(m.id);
-      await upsertLocalMessage(userId, {
+      await upsertLocalMessage({
         ...m,
         parentId: newParentId,
         updatedAt: now,
@@ -476,12 +396,12 @@ export async function spliceDeleteLocalMessage(
     }
   }
   if (childIds.length > 0) {
-    const check = (await readLocalMessages(userId, convId)) ?? [];
+    const check = (await readLocalMessages(convId)) ?? [];
     for (const id of childIds) {
       const child = check.find((m) => m.id === id);
       if (child && child.parentId === msgId) {
         logChatDebug("delete.splice_retry", { msgId, child: id });
-        await upsertLocalMessage(userId, {
+        await upsertLocalMessage({
           ...child,
           parentId: newParentId,
           updatedAt: now,
@@ -489,16 +409,15 @@ export async function spliceDeleteLocalMessage(
       }
     }
   }
-  await deleteLocalMessage(userId, msgId);
-  await bumpLocalConvUpdatedAt(userId, convId);
+  await deleteLocalMessage(msgId);
+  await bumpLocalConvUpdatedAt(convId);
 }
 
 export async function replaceLocalMessageItems(
-  userId: number | undefined,
   messageId: string,
   items: Array<LocalRowInput & { id: string }>,
 ) {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
   await replaceChildRows(
     local.db,
@@ -511,7 +430,6 @@ export async function replaceLocalMessageItems(
 }
 
 export async function replaceLocalConversationBindings(
-  userId: number | undefined,
   convId: string,
   bindings: {
     conversationCharacters?: Array<{
@@ -523,7 +441,7 @@ export async function replaceLocalConversationBindings(
     conversationLorebooks?: Array<{ lorebookId: string; orderIndex?: number }>;
   },
 ) {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
   if (bindings.conversationCharacters) {
     // The sticky loadout cookie can outlive its entities (delete, DB wipe,
@@ -584,20 +502,17 @@ export async function replaceLocalConversationBindings(
   }
 }
 
-export async function upsertLocalConversationBundle(
-  userId: number | undefined,
-  bundle: {
-    conversation: AnyRow;
-    settings: ChildRow | null;
-    conversationCharacters: ChildRow[];
-    conversationLorebooks: ChildRow[];
-    messages: AnyRow[];
-    messageItems: AnyRow[];
-    media: AnyRow[];
-    requestLogs: ChildRow[];
-  },
-): Promise<{ skippedLocalNewer: number }> {
-  const local = await getLocalDb(userId);
+export async function upsertLocalConversationBundle(bundle: {
+  conversation: AnyRow;
+  settings: ChildRow | null;
+  conversationCharacters: ChildRow[];
+  conversationLorebooks: ChildRow[];
+  messages: AnyRow[];
+  messageItems: AnyRow[];
+  media: AnyRow[];
+  requestLogs: ChildRow[];
+}): Promise<{ skippedLocalNewer: number }> {
+  const local = await getLocalDb();
   if (!local) return { skippedLocalNewer: 0 };
   const convRow = bundle.settings
     ? {
@@ -609,7 +524,7 @@ export async function upsertLocalConversationBundle(
         ),
       }
     : bundle.conversation;
-  await conversationStore.upsert(userId, convRow);
+  await conversationStore.upsert(convRow);
 
   const convId = bundle.conversation.id;
   await mergeChildRows(
@@ -651,7 +566,7 @@ export async function upsertLocalConversationBundle(
       if (local > remote) skippedLocalNewer++;
       continue;
     }
-    await messageStore.upsert(userId, m, { scopeUser: false });
+    await messageStore.upsert(m);
     replacedMsgIds.push(m.id);
   }
 
@@ -688,7 +603,7 @@ export async function upsertLocalConversationBundle(
   const remoteLbIds = new Set(
     bundle.conversationLorebooks.map((l) => l.lorebookId as string),
   );
-  const localBindings = await readLocalConversationBindings(userId, convId);
+  const localBindings = await readLocalConversationBindings(convId);
   for (const c of localBindings?.conversationCharacters ?? []) {
     const created = c.createdAt ? new Date(c.createdAt).getTime() : 0;
     if (!remoteCharIds.has(c.characterId) && created <= remoteConvStamp) {

@@ -5,14 +5,13 @@ import { useEffect } from "react";
 
 const DRAIN_INTERVAL_MS = 60_000;
 
-export function usePendingDrainScheduler(userId: number | null | undefined) {
+export function usePendingDrainScheduler() {
   useEffect(() => {
-    if (userId == null || userId <= 0) return;
     let timer: ReturnType<typeof setInterval> | null = null;
 
     const start = () => {
       if (timer != null) return;
-      timer = setInterval(() => void drain(userId), DRAIN_INTERVAL_MS);
+      timer = setInterval(() => void drain(), DRAIN_INTERVAL_MS);
     };
     const stop = () => {
       if (timer == null) return;
@@ -24,11 +23,11 @@ export function usePendingDrainScheduler(userId: number | null | undefined) {
       if (document.hidden) {
         stop();
       } else {
-        void drain(userId);
+        void drain();
         start();
       }
     };
-    const onOnline = () => void drain(userId);
+    const onOnline = () => void drain();
 
     if (!document.hidden) start();
     document.addEventListener("visibilitychange", onVisibility);
@@ -39,5 +38,5 @@ export function usePendingDrainScheduler(userId: number | null | undefined) {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("online", onOnline);
     };
-  }, [userId]);
+  }, []);
 }

@@ -9,7 +9,6 @@ import {
   chatStore,
   chatWebSearchAtom,
   globalVarsAtom,
-  localUserIdAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 
@@ -27,12 +26,11 @@ export function buildMediaRequestBody(getConvId: () => string | null) {
 }
 
 export async function buildChatRequestBody(getConvId: () => string | null) {
-  const userId = chatStore.get(localUserIdAtom);
   const convId = getConvId();
   const loadout = chatStore.get(chatLoadoutAtom);
   const chatContext = convId
     ? await import("@/lib/db/client/data/chat/chat-context").then((m) =>
-        m.buildChatContextFromLocalDb(userId, convId, {
+        m.buildChatContextFromLocalDb(convId, {
           expectBindings:
             loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0,
         }),
@@ -41,7 +39,7 @@ export async function buildChatRequestBody(getConvId: () => string | null) {
   let messageTimes: Record<string, number> | undefined;
   if (convId) {
     const rows = await import("@/lib/db/client/data/chat/chat").then((m) =>
-      m.readLocalMessages(userId, convId),
+      m.readLocalMessages(convId),
     );
     if (rows && rows.length > 0) {
       messageTimes = {};

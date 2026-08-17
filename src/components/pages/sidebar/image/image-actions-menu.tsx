@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
@@ -37,7 +36,6 @@ const ThemeCustomizerSheet = dynamic(
 
 export function ImageActionsMenu() {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
 
@@ -46,11 +44,9 @@ export function ImageActionsMenu() {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
       const { downloadDiagnostics: runDownloadDiagnostics } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await runDownloadDiagnostics(
-        userId,
-        `unorouter-diagnostics-${stamp}.json`,
-        { includeContent },
-      );
+      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`, {
+        includeContent,
+      });
     } catch (e) {
       toast.error(String(e).slice(0, 120));
     }

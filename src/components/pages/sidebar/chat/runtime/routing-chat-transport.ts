@@ -103,13 +103,12 @@ function isMediaModel(model: string): boolean {
 // DB still holds the sliced reply as active, so the DB base is TRIMMED at the
 // deepest captured id: everything past it was deliberately cut by the caller.
 async function mergeDbHistory(
-  userId: number,
   convId: string | null,
   captured: ChatUIMessage[],
 ): Promise<ChatUIMessage[]> {
   if (!convId) return captured;
   const chatData = await import("@/lib/db/client/data/chat/chat");
-  const db = await chatData.readConvHistoryForSend(userId, convId);
+  const db = await chatData.readConvHistoryForSend(convId);
   const branch = db.branch as unknown as ChatUIMessage[];
   logChatDebug("send.history_source", {
     convId,
@@ -161,9 +160,7 @@ async function runClientStream(args: {
   tokenizer?: TokenizerRef;
   extraHeaders?: Record<string, string>;
 }): Promise<ReadableStream<UIMessageChunk>> {
-  const userId = chatStore.get(localUserIdAtom);
   const history = await mergeDbHistory(
-    userId,
     args.getConvId(),
     args.options.messages as ChatUIMessage[],
   );
@@ -177,7 +174,7 @@ async function runClientStream(args: {
   const prepared: PreparedChatRequest = await prepareChatRequest(
     args.apiKey,
     body,
-    userId,
+    chatStore.get(localUserIdAtom),
     args.deps,
     args.options.abortSignal,
   );

@@ -6,12 +6,10 @@ import type {
   StoreListOpts,
   StorePkValue,
   StoreRow,
-  StoreRowOpts,
 } from "@/lib/types";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { getLocalDb } from "../client";
 
@@ -74,21 +72,11 @@ export function makeTableStore<TTable extends ScopedTable>(
 ) {
   type Row = InferSelectModel<TTable>;
 
-  const scopeWhere = (userId: number, base: SQL): SQL => {
-    if (!table.userId) return base;
-    return and(base, eq(table.userId, userId))!;
-  };
-
   return {
-    async list(userId?: number, opts?: StoreListOpts): Promise<Row[] | null> {
-      const uid = userId ?? GUEST_USER_ID;
-      const local = await getLocalDb(uid);
+    async list(opts?: StoreListOpts): Promise<Row[] | null> {
+      const local = await getLocalDb();
       if (!local) return null;
-      const scope = opts?.scopeUser ?? true;
       let query = local.db.select().from(table).$dynamic();
-      if (scope && table.userId) {
-        query = query.where(eq(table.userId, uid));
-      }
       const orderBy = opts?.orderBy ?? config.defaultOrderBy;
       if (orderBy) {
         query = query.orderBy(orderBy);
@@ -96,67 +84,39 @@ export function makeTableStore<TTable extends ScopedTable>(
       return (await query) as Row[];
     },
 
-    async get(
-      userId: number | undefined,
-      id: StorePkValue,
-      opts?: StoreRowOpts,
-    ): Promise<Row | null> {
-      const uid = userId ?? GUEST_USER_ID;
-      const local = await getLocalDb(uid);
+    async get(id: StorePkValue): Promise<Row | null> {
+      const local = await getLocalDb();
       if (!local) return null;
-      const scope = opts?.scopeUser ?? true;
-      const base = eq(pk, id);
-      const where = scope ? scopeWhere(uid, base) : base;
-      const rows = await local.db.select().from(table).where(where).limit(1);
+      const rows = await local.db
+        .select()
+        .from(table)
+        .where(eq(pk, id))
+        .limit(1);
       return (rows[0] as Row | undefined) ?? null;
     },
 
-    async upsert(
-      userId: number | undefined,
-      row: StoreRow,
-      opts?: StoreRowOpts,
-    ): Promise<void> {
-      const uid = userId ?? GUEST_USER_ID;
-      const local = await getLocalDb(uid);
+    async upsert(row: StoreRow): Promise<void> {
+      const local = await getLocalDb();
       if (!local) return;
-      const scope = opts?.scopeUser ?? true;
-      const values = scope && table.userId ? { ...row, userId: uid } : row;
       await local.db
         .insert(table)
-        .values(values as never)
+        .values(row as never)
         .onConflictDoUpdate({ target: pk, set: row as never });
     },
 
-    async update(
-      userId: number | undefined,
-      id: StorePkValue,
-      patch: Partial<StoreRow>,
-      opts?: StoreRowOpts,
-    ): Promise<void> {
-      const uid = userId ?? GUEST_USER_ID;
-      const local = await getLocalDb(uid);
+    async update(id: StorePkValue, patch: Partial<StoreRow>): Promise<void> {
+      const local = await getLocalDb();
       if (!local) return;
-      const scope = opts?.scopeUser ?? true;
-      const base = eq(pk, id);
-      const where = scope ? scopeWhere(uid, base) : base;
       await local.db
         .update(table)
         .set(patch as never)
-        .where(where);
+        .where(eq(pk, id));
     },
 
-    async drop(
-      userId: number | undefined,
-      id: StorePkValue,
-      opts?: StoreRowOpts,
-    ): Promise<void> {
-      const uid = userId ?? GUEST_USER_ID;
-      const local = await getLocalDb(uid);
+    async drop(id: StorePkValue): Promise<void> {
+      const local = await getLocalDb();
       if (!local) return;
-      const scope = opts?.scopeUser ?? true;
-      const base = eq(pk, id);
-      const where = scope ? scopeWhere(uid, base) : base;
-      await local.db.delete(table).where(where);
+      await local.db.delete(table).where(eq(pk, id));
     },
   };
 }

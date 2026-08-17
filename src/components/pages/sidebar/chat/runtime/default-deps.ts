@@ -37,7 +37,7 @@ const generate: FreeModelGenerate = llmCall("");
 const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
   llmCall(modelName)("", opts);
 
-export function buildDefaultClientDeps(userId: number): AssemblerDeps {
+export function buildDefaultClientDeps(): AssemblerDeps {
   return {
     getModelInfo: fetchModelInfo,
     upstreamTarget: {
@@ -80,6 +80,6 @@ export function buildDefaultClientDeps(userId: number): AssemblerDeps {
         return [];
       }
     },
-    triggerOps: () => makeClientTriggerOps(userId),
+    triggerOps: () => makeClientTriggerOps(),
   };
 }

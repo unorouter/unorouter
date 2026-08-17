@@ -240,10 +240,7 @@ export async function reloadLiveThreadFromDb(convId: string): Promise<void> {
   if (chatStore.get(convIdAtom) !== convId) return;
   const { readActiveBranchParts } =
     await import("@/lib/db/client/data/chat/chat");
-  const live = await readActiveBranchParts(
-    chatStore.get(localUserIdAtom),
-    convId,
-  );
+  const live = await readActiveBranchParts(convId);
   setLiveMessages(() => live, convId);
 }
 

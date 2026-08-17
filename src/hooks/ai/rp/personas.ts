@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
 import {
@@ -38,7 +37,6 @@ export const useDuplicatePersonaMutation = personas.useDuplicate;
 
 export function useImportPersonaMutation() {
   const t = useTranslations();
-  const userId = useLocalUserId();
 
   return useApiMutation({
     mutationFn: async (file: File) => {
@@ -53,7 +51,6 @@ export function useImportPersonaMutation() {
       const now = dayjs().toDate();
       const rows = parsed.map((p) => ({
         id: uid(),
-        userId,
         name: p.name,
         description: p.description ?? null,
         avatarMediaId: null,
@@ -63,7 +60,7 @@ export function useImportPersonaMutation() {
         updatedAt: now,
       }));
       for (const row of rows) {
-        await upsertLocalPersona(userId, row as never);
+        await upsertLocalPersona(row as never);
       }
       return rows;
     },

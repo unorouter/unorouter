@@ -1,7 +1,6 @@
 "use client";
 
 import { env } from "@/lib/config/env";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import { newSql, terminateSql } from "@/lib/db/client/new-sql";
 import { singleDbPath } from "@/lib/db/client/data-migrate/adopt-single-db";
@@ -61,15 +60,11 @@ async function integrityOk(sql: SQLocalDrizzle): Promise<boolean> {
   }
 }
 
-const USER_ID_COL = "user_id";
-
 async function copyTable(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
   table: string,
   cols: string[],
-  targetUserId: number,
-  rewriteUserId = true,
 ): Promise<number> {
   const colList = cols.map((c) => `\`${c}\``).join(", ");
   const placeholders = `(${cols.map(() => "?").join(", ")})`;
@@ -85,9 +80,7 @@ async function copyTable(
     const params: unknown[] = [];
     for (const row of batch) {
       for (const c of cols) {
-        params.push(
-          rewriteUserId && c === USER_ID_COL ? targetUserId : (row[c] ?? null),
-        );
+        params.push(row[c] ?? null);
       }
     }
     await target.sql(
@@ -99,12 +92,11 @@ async function copyTable(
   return after - before;
 }
 
-// Copy the intersecting columns of every shared user table from `source` into
-// `target`, rewriting user_id to the current session and counting skips.
+// Copy the intersecting columns of every shared table from `source` into
+// `target`, counting skips.
 async function copySharedTables(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
-  uid: number,
   result: ReconcileImportResult,
 ): Promise<void> {
   const skip = new Set<string>(LOCAL_ONLY_TABLES);
@@ -117,7 +109,7 @@ async function copySharedTables(
     if (shared.length === 0) continue;
 
     const available = await countRows(source, table);
-    const inserted = await copyTable(source, target, table, shared, uid);
+    const inserted = await copyTable(source, target, table, shared);
     const skipped = available - inserted;
     result.tables += 1;
     result.imported += inserted;
@@ -186,10 +178,8 @@ async function cleanup(
  * is healed on next open by recoverPendingImport (client.ts).
  */
 export async function reconcileImport(
-  userId: number | undefined,
   buffer: ArrayBuffer,
 ): Promise<ReconcileImportResult> {
-  const uid = userId ?? GUEST_USER_ID;
   const appName = env.appName.toLowerCase();
   // The live path is the ONE device database. Keyed by user it would have
   // written the import into a file the app no longer opens.
@@ -212,10 +202,7 @@ export async function reconcileImport(
   let liveSrc: SQLocalDrizzle | null = null;
   let swapped = false;
 
-  logChatDebug("import.reconcile.start", {
-    userId: uid,
-    bytes: buffer.byteLength,
-  });
+  logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
   try {
     // Phase 0: snapshot live to backup (durable rollback token). Fail here = live intact.
     {
@@ -248,7 +235,7 @@ export async function reconcileImport(
     final = newSql(finalPath);
     await runMigrations(final);
     await final.sql`PRAGMA foreign_keys = OFF`;
-    await copySharedTables(work, final, uid, result);
+    await copySharedTables(work, final, result);
     // Graft live-only bookkeeping (pending tasks, tokenizer cache) from the live db.
     liveSrc = newSql(livePath);
     const finalTables = new Set(await tableNames(final));
@@ -259,7 +246,7 @@ export async function reconcileImport(
       const srcCols = new Set(await columnNames(liveSrc, table));
       const shared = targetCols.filter((c) => srcCols.has(c));
       if (shared.length === 0) continue;
-      await copyTable(liveSrc, final, table, shared, uid, false);
+      await copyTable(liveSrc, final, table, shared);
     }
     await final.sql`PRAGMA foreign_keys = ON`;
     await liveSrc.destroy().catch(() => {});
@@ -293,7 +280,6 @@ export async function reconcileImport(
     });
     logger.error("reconcileImport failed", {
       context: "local-db.reconcile-import",
-      userId: uid,
       error: String(err),
     });
     // Phase 5: if the live file was already touched, restore it from the backup.

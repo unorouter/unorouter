@@ -3,7 +3,7 @@ import {
   upsertLocalMedia,
 } from "@/lib/db/client/data/media/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
-import { chatStore, ensureConvId, localUserIdAtom } from "@/store/chat-store";
+import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
 export function extractFirstUserText(
@@ -53,7 +53,7 @@ export function createLocalAttachmentAdapter(
       const base64 = await fileToBase64(file);
       const dataUrl = base64ToDataUri(base64, file.type);
 
-      await upsertLocalMedia(chatStore.get(localUserIdAtom), {
+      await upsertLocalMedia({
         id: attachment.id,
         convId: null,
         mimeType: file.type,
@@ -78,7 +78,7 @@ export function createLocalAttachmentAdapter(
     },
 
     async remove(attachment) {
-      await deleteLocalMedia(chatStore.get(localUserIdAtom), attachment.id);
+      await deleteLocalMedia(attachment.id);
     },
   };
 }

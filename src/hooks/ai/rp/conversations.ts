@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
@@ -36,25 +35,23 @@ import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 
 export function useChatSettingsQuery(convId?: string) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.chatSettings(convId!), userId],
+    queryKey: queryKeys.chatSettings(convId!),
     queryFn: async () => {
       if (!convId) return null;
-      return (await readLocalConversationSettings(userId, convId)) ?? null;
+      return (await readLocalConversationSettings(convId)) ?? null;
     },
     enabled: !!convId,
   });
 }
 
 export function useUpdateChatSettingsMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationSettingsBody;
     }) => {
-      const existing = await readLocalConversationSettings(userId, args.convId);
+      const existing = await readLocalConversationSettings(args.convId);
       const now = dayjs().toDate();
       const updated = {
         ...(existing ?? { convId: args.convId, defaultModel: "" }),
@@ -62,7 +59,7 @@ export function useUpdateChatSettingsMutation() {
         convId: args.convId,
         updatedAt: now,
       };
-      await upsertLocalConversationSettings(userId, updated);
+      await upsertLocalConversationSettings(updated);
       return updated;
     },
     invalidates: (args) => [queryKeys.chatSettings(args.convId)],
@@ -70,12 +67,11 @@ export function useUpdateChatSettingsMutation() {
 }
 
 export function useChatBindingsQuery(convId?: string) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.chatBindings(convId!), userId],
+    queryKey: queryKeys.chatBindings(convId!),
     queryFn: async () => {
       if (!convId) throw new Error("not-found");
-      const local = await readLocalConversationBindings(userId, convId);
+      const local = await readLocalConversationBindings(convId);
       return {
         characters: local?.conversationCharacters ?? [],
         lorebooks: local?.conversationLorebooks ?? [],
@@ -86,22 +82,21 @@ export function useChatBindingsQuery(convId?: string) {
 }
 
 export function useUpdateChatBindingsMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationBindingsBody;
     }) => {
-      await replaceLocalConversationBindings(userId, args.convId, {
+      await replaceLocalConversationBindings(args.convId, {
         conversationCharacters: args.body.characters ?? [],
         conversationLorebooks: (args.body.lorebookIds ?? []).map((lid) => ({
           lorebookId: lid,
         })),
       });
       const now = dayjs().toDate();
-      const conv = await readLocalConversation(userId, args.convId);
+      const conv = await readLocalConversation(args.convId);
       if (conv) {
-        await upsertLocalConversation(userId, {
+        await upsertLocalConversation({
           ...conv,
           updatedAt: now,
         });
@@ -113,14 +108,12 @@ export function useUpdateChatBindingsMutation() {
 }
 
 export function useImportConversationMutation() {
-  const userId = useLocalUserId();
-
   return useApiMutation({
     mutationFn: async (file: File) => {
       const text = await file.text();
 
       if (looksLikeSillyTavernChat(text)) {
-        return importSillyTavernChat(userId, text);
+        return importSillyTavernChat(text);
       }
 
       let parsed: Record<string, unknown>;
@@ -131,13 +124,10 @@ export function useImportConversationMutation() {
       }
 
       if (parsed.version === NATIVE_VERSION) {
-        return persistMappedImport(
-          userId,
-          mapNativeImport(parsed as NativeImport),
-        );
+        return persistMappedImport(mapNativeImport(parsed as NativeImport));
       }
       if (parsed.version === ORPG_VERSION) {
-        return persistMappedImport(userId, mapOrpgImport(parsed as OrpgImport));
+        return persistMappedImport(mapOrpgImport(parsed as OrpgImport));
       }
       throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
     },
@@ -146,23 +136,21 @@ export function useImportConversationMutation() {
 }
 
 export function useExportConversation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       format: ConversationExportFormat;
     }) => {
-      const native = await buildNativeExport(userId, args.convId);
+      const native = await buildNativeExport(args.convId);
       return args.format === "orpg" ? toOrpg(native) : native;
     },
   });
 }
 
 export function useForkConversationMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: (args: { convId: string; messageId: string }) =>
-      forkConversationFromMessage(userId, args.convId, args.messageId),
+      forkConversationFromMessage(args.convId, args.messageId),
     invalidates: [queryKeys.conversations()],
   });
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   deleteLocalCharacter,
@@ -43,10 +42,7 @@ export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 export const useDuplicateCharacterMutation = characters.useDuplicate;
 
-async function persistCharacterSetupFromFile(
-  userId: number | undefined,
-  file: File,
-) {
+async function persistCharacterSetupFromFile(file: File) {
   const { card, imageBytes, imageMime, namedAssets } =
     await import("@/lib/ai/rp/character-card").then((m) =>
       m.parseCharacterCardFile(file),
@@ -58,7 +54,7 @@ async function persistCharacterSetupFromFile(
   let avatarMediaId: string | null = null;
   if (imageBytes && imageMime) {
     avatarMediaId = uid();
-    await upsertLocalMedia(userId, {
+    await upsertLocalMedia({
       id: avatarMediaId,
       convId: null,
       mimeType: imageMime,
@@ -70,7 +66,7 @@ async function persistCharacterSetupFromFile(
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of namedAssets) {
     const mediaId = uid();
-    await upsertLocalMedia(userId, {
+    await upsertLocalMedia({
       id: mediaId,
       convId: null,
       mimeType: asset.mime,
@@ -80,9 +76,8 @@ async function persistCharacterSetupFromFile(
     assets.push({ name: asset.name, mediaId });
   }
 
-  await upsertLocalCharacter(userId, {
+  await upsertLocalCharacter({
     id: characterId,
-    userId,
     name: card.name,
     avatarMediaId,
     description: card.description ?? null,
@@ -114,10 +109,9 @@ async function persistCharacterSetupFromFile(
       );
       if (parsed && parsed.entries.length > 0) {
         lorebookId = uid();
-        await upsertLocalLorebookBundle(userId, {
+        await upsertLocalLorebookBundle({
           lorebook: {
             id: lorebookId,
-            userId,
             name: parsed.name,
             description: parsed.description ?? null,
             scanDepth: parsed.scanDepth ?? 4,
@@ -150,10 +144,9 @@ async function persistCharacterSetupFromFile(
   }
 
   const cardId = uid();
-  await upsertLocalCardBundle(userId, {
+  await upsertLocalCardBundle({
     card: {
       id: cardId,
-      userId,
       name: card.name,
       description: card.description ?? null,
       personaId: null,
@@ -174,15 +167,13 @@ const IMPORT_INVALIDATES = [
 ];
 
 export function useImportCharacterCardMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
-    mutationFn: (file: File) => persistCharacterSetupFromFile(userId, file),
+    mutationFn: (file: File) => persistCharacterSetupFromFile(file),
     invalidates: IMPORT_INVALIDATES,
   });
 }
 
 export function useImportCharacterFromUrlMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (input: string) => {
       const data = handleElysia(
@@ -192,7 +183,7 @@ export function useImportCharacterFromUrlMutation() {
       const file = new File([new Uint8Array(bytes)], "card", {
         type: data.mimeType,
       });
-      return persistCharacterSetupFromFile(userId, file);
+      return persistCharacterSetupFromFile(file);
     },
     invalidates: IMPORT_INVALIDATES,
   });

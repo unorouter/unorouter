@@ -5,7 +5,6 @@ import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-high
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   allowDataMediaUrls,
   resolveMarkdownMedia,
@@ -100,7 +99,6 @@ const MarkdownTextImpl = () => {
   // listening to the inert atom until a reload, so enabling a plugin mid-session
   // would bump a counter nobody reads. The atom never changes without plugins.
   useAtomValue(jsDisplayVersionAtom);
-  const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
@@ -110,8 +108,8 @@ const MarkdownTextImpl = () => {
       components={defaultComponents}
       preprocess={(text) => {
         let t = stripThinkForDisplay(text);
-        if (t.includes("{{inlay::")) t = replaceInlayTokens(t, userId);
-        if (t.includes("{{img::")) t = replaceImgTokens(t, userId);
+        if (t.includes("{{inlay::")) t = replaceInlayTokens(t);
+        if (t.includes("{{img::")) t = replaceImgTokens(t);
         t = transformDisplayJsSync(t);
         return normalizeMathDelimiters(t);
       }}
@@ -382,14 +380,12 @@ const defaultComponents = memoizeMarkdownComponents({
     // (the alt token rides them in as `@WxH`), so the box is reserved exactly.
     // Rows persisted before the probe existed are measured here once and
     // backfilled; only their first-ever view falls back to a square box.
-    const userId = useLocalUserId();
     const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
       const el = e.currentTarget;
       if (media.aspectRatio || !inlayMediaId) return;
       if (!el.naturalWidth || !el.naturalHeight) return;
       rememberInlayDimensions(inlayMediaId, el.naturalWidth, el.naturalHeight);
       void setLocalMediaDimensions(
-        userId,
         inlayMediaId,
         el.naturalWidth,
         el.naturalHeight,

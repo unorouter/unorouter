@@ -6,7 +6,6 @@ import { rpc } from "@/lib/rpc";
 import type { CatalogSearchQuery } from "@/lib/validation/image";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalImageModels,
   rememberLocalImageModel,
@@ -76,17 +75,15 @@ export function useCheckpointSearchQuery(q: string) {
 }
 
 export function useSavedImageModelsQuery() {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.savedImageModels(), userId],
-    queryFn: () => readLocalImageModels(userId),
+    queryKey: queryKeys.savedImageModels(),
+    queryFn: () => readLocalImageModels(),
   });
 }
 
 export function useRememberImageModelMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: (model: {
       air: string;
@@ -94,26 +91,24 @@ export function useRememberImageModelMutation() {
       architecture: string | null;
       heroImage: string | null;
       nsfwLevel: number | null;
-    }) => rememberLocalImageModel(userId, model),
+    }) => rememberLocalImageModel(model),
     onError: (e) => handleError(e, t),
     onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
   });
 }
 
 export function useImagePresetsQuery() {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.imagePresets(), userId],
-    queryFn: () => listImagePresets(userId),
+    queryKey: queryKeys.imagePresets(),
+    queryFn: () => listImagePresets(),
   });
 }
 
 export function useSaveImagePresetMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
-    mutationFn: (input: ImagePresetInput) => saveImagePreset(input, userId),
+    mutationFn: (input: ImagePresetInput) => saveImagePreset(input),
     onError: (e) => handleError(e, t),
     onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
   });
@@ -122,9 +117,8 @@ export function useSaveImagePresetMutation() {
 export function useDeleteImagePresetMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
-    mutationFn: (id: string) => deleteImagePreset(id, userId),
+    mutationFn: (id: string) => deleteImagePreset(id),
     onError: (e) => handleError(e, t),
     onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
   });

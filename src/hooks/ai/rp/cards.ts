@@ -2,7 +2,6 @@
 
 import { useApiMutation } from "@/lib/react-query/hooks";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversationBindings,
   readLocalConversationSettings,
@@ -24,22 +23,20 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 
 export function useCardsQuery() {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.cards(), userId],
+    queryKey: queryKeys.cards(),
     queryFn: async () => {
-      return (await readLocalCards(userId)) ?? [];
+      return (await readLocalCards()) ?? [];
     },
   });
 }
 
 export function useCardQuery(id: string | undefined) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.card(id ?? ""), userId],
+    queryKey: queryKeys.card(id ?? ""),
     queryFn: async () => {
       if (!id) throw new Error("not-found");
-      const local = await readLocalCard(userId, id);
+      const local = await readLocalCard(id);
       if (!local) throw new Error("not-found");
       return local;
     },
@@ -48,21 +45,19 @@ export function useCardQuery(id: string | undefined) {
 }
 
 export function useCreateCardMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { body: CardBody }) => {
       const body = args.body;
       const now = dayjs().toDate();
       const card = {
         id: uid(),
-        userId,
         name: body.name,
         description: body.description ?? null,
         personaId: body.personaId ?? null,
         createdAt: now,
         updatedAt: now,
       };
-      await upsertLocalCardBundle(userId, {
+      await upsertLocalCardBundle({
         card,
         cardCharacters: (body.characterIds ?? []).map((cid, i) => ({
           cardId: card.id,
@@ -82,10 +77,9 @@ export function useCreateCardMutation() {
 }
 
 export function useUpdateCardMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: CardBody }) => {
-      const existing = await readLocalCard(userId, args.id);
+      const existing = await readLocalCard(args.id);
       if (!existing) throw new Error("not-found");
       const body = args.body;
       const now = dayjs().toDate();
@@ -100,7 +94,7 @@ export function useUpdateCardMutation() {
         body.characterIds ?? existing.cardCharacters.map((c) => c.characterId);
       const lorebookIds =
         body.lorebookIds ?? existing.cardLorebooks.map((l) => l.lorebookId);
-      await upsertLocalCardBundle(userId, {
+      await upsertLocalCardBundle({
         card: updatedCard as never,
         cardCharacters: characterIds.map((cid, i) => ({
           cardId: args.id,
@@ -120,10 +114,9 @@ export function useUpdateCardMutation() {
 }
 
 export function useDeleteCardMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (id: string) => {
-      await deleteLocalCard(userId, id);
+      await deleteLocalCard(id);
       return { id };
     },
     invalidates: [queryKeys.cards()],
@@ -136,20 +129,19 @@ export function useDeleteCardMutation() {
 export function useApplyCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: { convId: string; mode: "replace" | "merge" };
     }) => {
-      const card = await readLocalCard(userId, args.id);
+      const card = await readLocalCard(args.id);
       if (!card) throw new Error("card-not-found");
 
       const characterIds = card.cardCharacters.map((c) => c.characterId);
       const lorebookIds = card.cardLorebooks.map((l) => l.lorebookId);
 
       if (args.body.mode === "replace") {
-        await replaceLocalConversationBindings(userId, args.body.convId, {
+        await replaceLocalConversationBindings(args.body.convId, {
           conversationCharacters: characterIds.map((cid) => ({
             characterId: cid,
           })),
@@ -158,17 +150,14 @@ export function useApplyCardMutation() {
           })),
         });
       } else {
-        const existing = await readLocalConversationBindings(
-          userId,
-          args.body.convId,
-        );
+        const existing = await readLocalConversationBindings(args.body.convId);
         const existingChars = existing?.conversationCharacters ?? [];
         const existingLbs = existing?.conversationLorebooks ?? [];
         const existingCharIds = new Set(
           existingChars.map((c) => c.characterId),
         );
         const existingLbIds = new Set(existingLbs.map((l) => l.lorebookId));
-        await replaceLocalConversationBindings(userId, args.body.convId, {
+        await replaceLocalConversationBindings(args.body.convId, {
           conversationCharacters: [
             ...existingChars,
             ...characterIds
@@ -185,12 +174,9 @@ export function useApplyCardMutation() {
       }
 
       if (card.personaId) {
-        const settings = await readLocalConversationSettings(
-          userId,
-          args.body.convId,
-        );
+        const settings = await readLocalConversationSettings(args.body.convId);
         if (settings) {
-          await upsertLocalConversationSettings(userId, {
+          await upsertLocalConversationSettings({
             ...settings,
             personaId: card.personaId,
             updatedAt: dayjs().toDate(),

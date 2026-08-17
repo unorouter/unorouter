@@ -11,17 +11,11 @@ const customProviderStore = makeTableStore(
   { defaultOrderBy: desc(customProviders.updatedAt) },
 );
 
-export const readLocalCustomProviders = (userId: number | undefined) =>
-  customProviderStore.list(userId);
-export const readLocalCustomProvider = (
-  userId: number | undefined,
-  id: string,
-) => customProviderStore.get(userId, id);
+export const readLocalCustomProviders = () => customProviderStore.list();
+export const readLocalCustomProvider = (id: string) =>
+  customProviderStore.get(id);
 export const upsertLocalCustomProvider = (
-  userId: number | undefined,
   row: LocalRowInput & { id: string },
-) => customProviderStore.upsert(userId, row);
-export const deleteLocalCustomProvider = (
-  userId: number | undefined,
-  id: string,
-) => customProviderStore.drop(userId, id);
+) => customProviderStore.upsert(row);
+export const deleteLocalCustomProvider = (id: string) =>
+  customProviderStore.drop(id);

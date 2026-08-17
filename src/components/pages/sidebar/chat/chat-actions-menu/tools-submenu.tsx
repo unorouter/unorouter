@@ -16,7 +16,6 @@ import {
 import { analytics } from "@/lib/analytics";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { toast } from "sonner";
 import { ImportExportSubmenu } from "./import-export-submenu";
 
@@ -28,13 +27,12 @@ type Props = {
 export function ToolsSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
-  const userId = useLocalUserId();
 
   const handleRecover = async () => {
     try {
       const { runRecoverOrphanedDb } =
         await import("@/lib/db/client/sahpool/recover-action");
-      const res = await runRecoverOrphanedDb(userId);
+      const res = await runRecoverOrphanedDb();
       if (res.kind === "none") {
         toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
         return;

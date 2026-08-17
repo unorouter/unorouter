@@ -8,11 +8,10 @@ import {
 type AnyRow = Record<string, unknown>;
 
 export async function forkConversationFromMessage(
-  userId: number | undefined,
   convId: string,
   messageId: string,
 ): Promise<{ id: string }> {
-  const bundle = await readLocalConversationBundle(userId, convId);
+  const bundle = await readLocalConversationBundle(convId);
   if (!bundle) throw new Error("conversation not found");
 
   const path = walkActiveBranch(
@@ -69,7 +68,7 @@ export async function forkConversationFromMessage(
     (b) => ({ ...b, convId: newConvId }),
   );
 
-  await upsertLocalConversationBundle(userId, {
+  await upsertLocalConversationBundle({
     conversation,
     settings: null,
     conversationCharacters,

@@ -60,11 +60,8 @@ export function buildRequestLogCurl(row: {
   ].join(" \\\n");
 }
 
-export async function insertLocalRequestLog(
-  userId: number | undefined,
-  row: RequestLogRow,
-): Promise<void> {
-  const local = await getLocalDb(userId);
+export async function insertLocalRequestLog(row: RequestLogRow): Promise<void> {
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .insert(requestLogs)
@@ -98,10 +95,8 @@ export async function insertLocalRequestLog(
 // reproduce-the-request payload goes.
 const KEEP_FULL_LOGS_PER_CONV = 40;
 
-export async function trimRequestLogPayloads(
-  userId: number | undefined,
-): Promise<number> {
-  const local = await getLocalDb(userId);
+export async function trimRequestLogPayloads(): Promise<number> {
+  const local = await getLocalDb();
   if (!local) return 0;
   const res = await local.exec(
     `UPDATE request_logs
@@ -121,7 +116,6 @@ export async function trimRequestLogPayloads(
 }
 
 export async function patchLocalRequestLogUpstream(
-  userId: number | undefined,
   msgId: string,
   patch: {
     cost?: number | null;
@@ -131,7 +125,7 @@ export async function patchLocalRequestLogUpstream(
     channelName?: string | null;
   },
 ): Promise<void> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .update(requestLogs)
@@ -140,10 +134,9 @@ export async function patchLocalRequestLogUpstream(
 }
 
 export async function readLocalRequestLog(
-  userId: number | undefined,
   msgId: string,
 ): Promise<RequestLogRow | null> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return null;
   const rows = await local.db
     .select()
@@ -154,10 +147,9 @@ export async function readLocalRequestLog(
 }
 
 export async function readLocalRequestLogsForConv(
-  userId: number | undefined,
   convId: string,
 ): Promise<RequestLogRow[]> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return [];
   return local.db
     .select()
@@ -166,11 +158,10 @@ export async function readLocalRequestLogsForConv(
 }
 
 export async function readLocalRequestLogsNewestForConv(
-  userId: number | undefined,
   convId: string,
   limit: number,
 ): Promise<RequestLogRow[]> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return [];
   return local.db
     .select()
@@ -190,11 +181,10 @@ export type RequestLogMeta = {
 };
 
 export async function readLocalRequestLogMetaForConv(
-  userId: number | undefined,
   convId: string,
   limit: number,
 ): Promise<RequestLogMeta[]> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return [];
   return local.db
     .select({

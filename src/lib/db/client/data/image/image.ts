@@ -1,6 +1,5 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -79,21 +78,14 @@ const sessionStore = makeTableStore(imageSessions, imageSessions.id, {
 const snapshotStore = makeTableStore(imageSnapshots, imageSnapshots.id);
 const mediaStore = makeTableStore(media, media.id);
 
-export const readLocalImageSessions = (userId: number | undefined) =>
-  sessionStore.list(userId);
+export const readLocalImageSessions = () => sessionStore.list();
 
-export const readLocalImageSession = (userId: number | undefined, id: string) =>
-  sessionStore.get(userId, id);
+export const readLocalImageSession = (id: string) => sessionStore.get(id);
 
-export const upsertLocalImageSession = (
-  userId: number | undefined,
-  row: AnyRow,
-) => sessionStore.upsert(userId, row);
+export const upsertLocalImageSession = (row: AnyRow) =>
+  sessionStore.upsert(row);
 
-export const deleteLocalImageSession = (
-  userId: number | undefined,
-  id: string,
-) => sessionStore.drop(userId, id);
+export const deleteLocalImageSession = (id: string) => sessionStore.drop(id);
 
 // A snapshot's params carry the img2img source and inpaint mask, and both accept
 // base64 data URIs up to 8MB. Kept verbatim they outweigh every generated image:
@@ -125,31 +117,23 @@ function stripInlineImages(row: SnapshotInput): SnapshotInput {
   } as SnapshotInput;
 }
 
-export const upsertLocalSnapshot = (
-  userId: number | undefined,
-  row: SnapshotInput,
-) => snapshotStore.upsert(userId, stripInlineImages(row));
+export const upsertLocalSnapshot = (row: SnapshotInput) =>
+  snapshotStore.upsert(stripInlineImages(row));
 
-export async function deleteLocalSnapshot(
-  userId: number | undefined,
-  id: string,
-) {
-  const local = await getLocalDb(userId);
+export async function deleteLocalSnapshot(id: string) {
+  const local = await getLocalDb();
   if (local) {
     await local.db.delete(media).where(eq(media.imageSnapshotId, id));
   }
-  await snapshotStore.drop(userId, id);
+  await snapshotStore.drop(id);
 }
 
 // Snapshots cascade with the session row, but `media.playground_id` is a plain
 // column with no FK, so the generated images (the bulk of the bytes) would be
 // orphaned and keep the space. Delete them explicitly, before the cascade takes
 // away the snapshot ids that identify them.
-export async function deleteLocalImageSessionDeep(
-  userId: number | undefined,
-  sessionId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function deleteLocalImageSessionDeep(sessionId: string) {
+  const local = await getLocalDb();
   if (!local) return;
   const snapshots = await local.db
     .select({ id: imageSnapshots.id })
@@ -159,15 +143,14 @@ export async function deleteLocalImageSessionDeep(
   if (ids.length > 0) {
     await local.db.delete(media).where(inArray(media.imageSnapshotId, ids));
   }
-  await sessionStore.drop(userId, sessionId);
+  await sessionStore.drop(sessionId);
 }
 
 export async function bumpLocalSessionCounts(
-  userId: number | undefined,
   sessionId: string,
   delta: { snapshots?: number; images?: number },
 ) {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .update(imageSessions)
@@ -180,38 +163,31 @@ export async function bumpLocalSessionCounts(
 }
 
 export async function upsertLocalSnapshotImages(
-  userId: number | undefined,
   snapshotId: string,
   images: MediaInput[],
 ) {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
-  const uid = userId ?? GUEST_USER_ID;
   await replaceChildRows(
     local.db,
     media,
     media.imageSnapshotId,
     snapshotId,
     images,
-    (row) => ({ ...row, userId: uid }),
   );
 }
 
 export async function readLocalImageBytes(
-  userId: number | undefined,
   mediaId: string,
 ): Promise<string | null> {
-  const row = await mediaStore.get(userId, mediaId);
+  const row = await mediaStore.get(mediaId);
   return row?.dataBase64 ?? null;
 }
 
-export async function readLocalSessionBundle(
-  userId: number | undefined,
-  sessionId: string,
-) {
-  const local = await getLocalDb(userId);
+export async function readLocalSessionBundle(sessionId: string) {
+  const local = await getLocalDb();
   if (!local) return null;
-  const session = await readLocalImageSession(userId, sessionId);
+  const session = await readLocalImageSession(sessionId);
   if (!session) return null;
   const snapshots = await local.db
     .select()
@@ -231,10 +207,10 @@ export async function readLocalSessionBundle(
 
 // Sidebar previews: ONE latest snapshot + ONE image per session. The full-bundle read
 // loads every base64 image of every session, which is far too heavy for thumbnails.
-export async function readLocalSessionPreviews(userId: number | undefined) {
-  const local = await getLocalDb(userId);
+export async function readLocalSessionPreviews() {
+  const local = await getLocalDb();
   if (!local) return [];
-  const sessions = (await readLocalImageSessions(userId)) ?? [];
+  const sessions = (await readLocalImageSessions()) ?? [];
   const out: {
     session: (typeof sessions)[number];
     latestSnapshot: SnapshotView | null;
@@ -269,12 +245,11 @@ export async function readLocalSessionPreviews(userId: number | undefined) {
 
 // Direct id lookup: callers poll this, and a session scan loads every base64 image.
 export async function readLocalSnapshotView(
-  userId: number | undefined,
   snapshotId: string,
 ): Promise<SnapshotView | null> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return null;
-  const snapshot = await snapshotStore.get(userId, snapshotId);
+  const snapshot = await snapshotStore.get(snapshotId);
   if (!snapshot) return null;
   const images = await local.db
     .select()
@@ -285,10 +260,9 @@ export async function readLocalSnapshotView(
 }
 
 export async function readLocalSnapshotBySubmittedKey(
-  userId: number | undefined,
   submittedKey: string,
 ): Promise<ImageSnapshot | null> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return null;
   const rows = await local.db
     .select()
@@ -300,11 +274,10 @@ export async function readLocalSnapshotBySubmittedKey(
 
 // Patch, not upsert: a partial upsert would blank every column it did not carry.
 export async function patchLocalSnapshotCost(
-  userId: number | undefined,
   snapshotId: string,
   costQuota: number,
 ) {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
   await local.db
     .update(imageSnapshots)
@@ -314,21 +287,17 @@ export async function patchLocalSnapshotCost(
 
 const imageModelStore = makeTableStore(imageModels, imageModels.air);
 
-export const readLocalImageModels = (userId: number | undefined) =>
-  imageModelStore.list(userId);
+export const readLocalImageModels = () => imageModelStore.list();
 
 // Recorded on generation, not on search, so the list stays what the user actually uses.
-export async function rememberLocalImageModel(
-  userId: number | undefined,
-  model: {
-    air: string;
-    name: string;
-    architecture?: string | null;
-    heroImage?: string | null;
-    nsfwLevel?: number | null;
-  },
-) {
-  await imageModelStore.upsert(userId, {
+export async function rememberLocalImageModel(model: {
+  air: string;
+  name: string;
+  architecture?: string | null;
+  heroImage?: string | null;
+  nsfwLevel?: number | null;
+}) {
+  await imageModelStore.upsert({
     air: model.air,
     name: model.name,
     architecture: model.architecture ?? null,

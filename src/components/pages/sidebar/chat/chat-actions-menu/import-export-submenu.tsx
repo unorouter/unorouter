@@ -10,7 +10,6 @@ import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/ai/rp/conversations";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
 import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
@@ -30,7 +29,6 @@ type Props = {
 export function ImportExportSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
-  const userId = useLocalUserId();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
@@ -41,11 +39,9 @@ export function ImportExportSubmenu(props: Props) {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
       const { downloadDiagnostics: runDownloadDiagnostics } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await runDownloadDiagnostics(
-        userId,
-        `unorouter-diagnostics-${stamp}.json`,
-        { includeContent },
-      );
+      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`, {
+        includeContent,
+      });
     } catch (e) {
       toast.error(String(e).slice(0, 120));
     }
@@ -56,10 +52,7 @@ export function ImportExportSubmenu(props: Props) {
 
     if (format === "sillytavern") {
       try {
-        const result = await exportLocalConversationSillyTavern(
-          userId,
-          props.convId,
-        );
+        const result = await exportLocalConversationSillyTavern(props.convId);
         const blob = new Blob([result.data], { type: "application/jsonl" });
         downloadBlob(blob, result.filename);
         analytics.chat.conversationExported({ format });

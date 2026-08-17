@@ -20,12 +20,9 @@ import {
 } from "@/lib/db/client/data/rp/rp";
 import { type MappedImport } from "./map";
 
-export async function buildNativeExport(
-  userId: number | undefined,
-  convId: string,
-) {
+export async function buildNativeExport(convId: string) {
   logChatDebug("export.conv_native.start", { convId });
-  const bundle = await readLocalConversationBundle(userId, convId);
+  const bundle = await readLocalConversationBundle(convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const lorebooks = bundle.lorebooks.map((b) => b.lorebook);
@@ -159,17 +156,16 @@ export function toOrpg(native: NativeExport) {
 }
 
 export async function persistMappedImport(
-  userId: number | undefined,
   mapped: MappedImport,
 ): Promise<{ id: string }> {
-  if (mapped.persona) await upsertLocalPersona(userId, mapped.persona);
-  if (mapped.preset) await upsertLocalPreset(userId, mapped.preset);
+  if (mapped.persona) await upsertLocalPersona(mapped.persona);
+  if (mapped.preset) await upsertLocalPreset(mapped.preset);
   for (const c of mapped.characters) {
-    await upsertLocalCharacter(userId, c);
+    await upsertLocalCharacter(c);
   }
   for (const lb of mapped.lorebooks) {
-    await upsertLocalLorebookBundle(userId, lb);
+    await upsertLocalLorebookBundle(lb);
   }
-  await upsertLocalConversationBundle(userId, mapped.bundle);
+  await upsertLocalConversationBundle(mapped.bundle);
   return { id: mapped.convId };
 }

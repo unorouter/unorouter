@@ -50,10 +50,10 @@ function scheduleBump(): void {
   });
 }
 
-export function requestInlay(userId: number, id: string): void {
+export function requestInlay(id: string): void {
   if (cache.has(id) || pending.has(id)) return;
   pending.add(id);
-  void readLocalMedia(userId, id)
+  void readLocalMedia(id)
     .then(async (row) => {
       // A resolved-empty marker ("") for a missing/dataless row prevents
       // re-requesting an unknown inlay every render (each miss otherwise re-hit
@@ -73,9 +73,7 @@ export function requestInlay(userId: number, id: string): void {
           width = bmp.width;
           height = bmp.height;
           bmp.close();
-          void setLocalMediaDimensions(userId, id, width, height).catch(
-            () => {},
-          );
+          void setLocalMediaDimensions(id, width, height).catch(() => {});
         } catch {
           width = null;
           height = null;
@@ -93,11 +91,11 @@ export function invalidateInlay(id: string): void {
   chatStore.set(inlayVersionAtom, chatStore.get(inlayVersionAtom) + 1);
 }
 
-export function replaceInlayTokens(text: string, userId: number): string {
+export function replaceInlayTokens(text: string): string {
   return text.replace(INLAY_TOKEN_RE, (_m, id: string) => {
     const hit = cache.get(id);
     if (hit === undefined) {
-      requestInlay(userId, id);
+      requestInlay(id);
       return "";
     }
     if (!hit.src) return "";

@@ -2,7 +2,6 @@
 
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Icon } from "@/components/ui/icon";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { readLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
@@ -12,12 +11,11 @@ import { RequestLogSheet } from "./request-log-sheet";
 
 export function RequestLogButton(props: { msgId: string }) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const [open, setOpen] = useState(false);
 
   const peek = useQuery({
     queryKey: queryKeys.requestLog(props.msgId),
-    queryFn: () => readLocalRequestLog(userId, props.msgId),
+    queryFn: () => readLocalRequestLog(props.msgId),
     enabled: !!props.msgId,
   });
 

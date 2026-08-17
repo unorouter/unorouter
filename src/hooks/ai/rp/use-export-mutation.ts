@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { analytics } from "@/lib/analytics";
 import {
@@ -22,10 +21,9 @@ type ExportArgs =
   | { kind: "cards"; id: string };
 
 export function useRpExportMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: ExportArgs) => {
-      const result = await runExport(userId, args);
+      const result = await runExport(args);
       downloadBlob(result.blob, result.filename);
       analytics.rp.entityAction({
         entity: args.kind,
@@ -36,15 +34,15 @@ export function useRpExportMutation() {
   });
 }
 
-function runExport(userId: number | undefined, args: ExportArgs) {
+function runExport(args: ExportArgs) {
   switch (args.kind) {
     case "characters":
-      return exportLocalCharacter(userId, args.id, args.format);
+      return exportLocalCharacter(args.id, args.format);
     case "lorebooks":
-      return exportLocalLorebook(userId, args.id, args.format);
+      return exportLocalLorebook(args.id, args.format);
     case "presets":
-      return exportLocalPreset(userId, args.id);
+      return exportLocalPreset(args.id);
     case "cards":
-      return exportLocalCard(userId, args.id);
+      return exportLocalCard(args.id);
   }
 }

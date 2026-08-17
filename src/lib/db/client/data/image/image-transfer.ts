@@ -1,7 +1,7 @@
 "use client";
 
 import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
-import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
+import { RETENTION_MS } from "@/lib/config/constants";
 import {
   isImageSessionFormat,
   IMAGE_GENERATION_FORMAT,
@@ -22,11 +22,10 @@ import {
 } from "@/lib/db/client/data/image/image";
 
 export async function exportLocalSession(
-  userId: number | undefined,
   sessionId: string,
 ): Promise<SessionSnapshot> {
   logChatDebug("export.image.start", { sessionId });
-  const bundle = await readLocalSessionBundle(userId, sessionId);
+  const bundle = await readLocalSessionBundle(sessionId);
   if (!bundle) throw new Error("image-session-not-found");
   const snapshots: ImageSnapshotExport[] = [];
   for (const snap of bundle.snapshots) {
@@ -34,7 +33,7 @@ export async function exportLocalSession(
     const images = await Promise.all(
       imgs.map(async (img) => ({
         sequenceIndex: img.sequenceIndex ?? 0,
-        base64: (await readLocalImageBytes(userId, img.id)) ?? "",
+        base64: (await readLocalImageBytes(img.id)) ?? "",
         mimeType: img.mimeType,
         width: img.width,
         height: img.height,
@@ -63,7 +62,6 @@ export async function exportLocalSession(
 }
 
 function snapshotToRows(
-  userId: number,
   sessionId: string,
   snap: ImageSnapshotExport,
   order: number,
@@ -73,7 +71,6 @@ function snapshotToRows(
   const snapshotId = uid();
   const snapshotRow = {
     id: snapshotId,
-    userId,
     sessionId,
     sessionOrder: order,
     requestedCount: Math.max(1, snap.images.length),
@@ -94,7 +91,6 @@ function snapshotToRows(
   };
   const mediaRows = snap.images.map((img) => ({
     id: uid(),
-    userId,
     convId: null,
     imageSnapshotId: snapshotId,
     sequenceIndex: img.sequenceIndex,
@@ -113,10 +109,8 @@ function snapshotToRows(
 }
 
 export async function importLocalSession(
-  userId: number | undefined,
   payload: ImageSnapshotExport | SessionSnapshot,
 ): Promise<{ sessionId: string }> {
-  const uidVal = userId ?? GUEST_USER_ID;
   const now = dayjs().toDate();
   const expiresAt = new Date(Date.now() + RETENTION_MS);
   const sessionId = uid();
@@ -130,9 +124,8 @@ export async function importLocalSession(
     : payload.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null;
   const firstModel = isSession ? payload.session.firstModel : payload.model;
 
-  await upsertLocalImageSession(uidVal, {
+  await upsertLocalImageSession({
     id: sessionId,
-    userId: uidVal,
     title,
     firstModel,
     snapshotCount: 0,
@@ -145,16 +138,15 @@ export async function importLocalSession(
   let imageTotal = 0;
   for (let i = 0; i < snapshots.length; i++) {
     const { snapshotRow, mediaRows } = snapshotToRows(
-      uidVal,
       sessionId,
       snapshots[i],
       i,
     );
-    await upsertLocalSnapshot(uidVal, snapshotRow);
-    await upsertLocalSnapshotImages(uidVal, snapshotRow.id, mediaRows);
+    await upsertLocalSnapshot(snapshotRow);
+    await upsertLocalSnapshotImages(snapshotRow.id, mediaRows);
     imageTotal += mediaRows.length;
   }
-  await bumpLocalSessionCounts(uidVal, sessionId, {
+  await bumpLocalSessionCounts(sessionId, {
     snapshots: snapshots.length,
     images: imageTotal,
   });

@@ -8,7 +8,6 @@ import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   useCharacterQuery,
   useCreateCharacterMutation,
@@ -49,7 +48,6 @@ type GreetingRow = { rowId: string; text: string };
 
 export function CharacterEditor(props: Props) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const characterQuery = useCharacterQuery(props.characterId);
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
@@ -159,7 +157,7 @@ export function CharacterEditor(props: Props) {
     const parts = splitDataUrl(draft.dataUrl);
     if (!parts) return existingId ?? null;
     const mediaId = uid();
-    await upsertLocalMedia(userId, {
+    await upsertLocalMedia({
       id: mediaId,
       convId: null,
       mimeType: parts.mimeType,
@@ -181,7 +179,7 @@ export function CharacterEditor(props: Props) {
         const parts = splitDataUrl(row.dataUrl);
         if (parts) {
           mediaId = uid();
-          await upsertLocalMedia(userId, {
+          await upsertLocalMedia({
             id: mediaId,
             convId: null,
             mimeType: parts.mimeType,

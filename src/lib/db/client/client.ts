@@ -136,7 +136,6 @@ async function openMigratedSql(
         // outright, quota) and they were indistinguishable in a bug report.
         const diagnosis = await diagnoseSql(sql).catch(() => undefined);
         logChatDebug("db.open.in_memory", {
-          userId,
           attempt,
           storageType: info.storageType,
           persisted: info.persisted,
@@ -151,7 +150,6 @@ async function openMigratedSql(
     } catch (err) {
       if (!isRecoverable(err) || attempt >= RETRIES) {
         logChatDebug("db.open.failed", {
-          userId,
           attempt,
           error: String(err).slice(0, 200),
         });
@@ -169,13 +167,11 @@ async function openMigratedSql(
         throw err;
       }
       logChatDebug("db.open.retry", {
-        userId,
         attempt,
         error: String(err).slice(0, 200),
       });
       logger.warn("Local DB open contended; retrying", {
         context: "local-db.client",
-        userId,
         attempt,
         error: String(err),
       });
@@ -239,7 +235,6 @@ async function assertNotSilentlyEmptied(
   logChatDebug("db.open.orphan_detected", { userId, liveBytes, orphanBytes });
   logger.error("Local DB opened empty while the pool holds a larger database", {
     context: "local-db.client",
-    userId,
     liveBytes,
     orphanBytes,
   });
@@ -307,7 +302,6 @@ async function migrateLegacySqliteFile(
     }
   } catch (err) {
     logChatDebug("db.migrate.sahpool.backup_failed", {
-      userId,
       error: String(err).slice(0, 200),
     });
     // The copy failed, so there is no rollback. The legacy file must still go:
@@ -360,7 +354,6 @@ async function openClient(userId: number): Promise<LocalClient> {
     await recoverPendingImport(dbPath, appName);
   } catch (err) {
     logChatDebug("db.open.recover_error", {
-      userId,
       error: String(err).slice(0, 200),
     });
   }
@@ -380,7 +373,6 @@ async function openClient(userId: number): Promise<LocalClient> {
     await migrateLegacySqliteFile(sql, dbPath, userId);
   } catch (err) {
     logChatDebug("db.migrate.sahpool.failed", {
-      userId,
       error: String(err).slice(0, 200),
     });
     await sql.destroy().catch(() => {});
@@ -391,7 +383,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   // Reclaim the pre-cap request-log payloads once per open. Fire-and-forget:
   // it is pure cleanup and must never delay or fail the open.
   void import("@/lib/db/client/data/chat/request-log")
-    .then((m) => m.trimRequestLogPayloads(userId))
+    .then((m) => m.trimRequestLogPayloads())
     .then((n) => {
       if (n > 0) logChatDebug("db.reqlog.trimmed", { userId, rows: n });
     })
@@ -470,7 +462,6 @@ async function openClient(userId: number): Promise<LocalClient> {
         if (!isRecoverable(err)) throw err;
         reopening ??= (async () => {
           logChatDebug("db.reopen", {
-            userId,
             error: String(err).slice(0, 200),
           });
           await sql.destroy().catch(() => {});

@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -34,13 +33,12 @@ export function makeRpEntity<
 >(opts: {
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];
-  readList: (userId: number) => Promise<TItem[] | null>;
-  readItem: (userId: number, id: string) => Promise<TDetail | null>;
-  upsertLocal: (userId: number, row: TItem) => Promise<void>;
-  deleteLocal: (userId: number, id: string) => Promise<void>;
+  readList: () => Promise<TItem[] | null>;
+  readItem: (id: string) => Promise<TDetail | null>;
+  upsertLocal: (row: TItem) => Promise<void>;
+  deleteLocal: (id: string) => Promise<void>;
   nameField?: string;
   cloneEntity?: (
-    userId: number,
     detail: TDetail,
     newId: string,
     copyName: string,
@@ -49,20 +47,18 @@ export function makeRpEntity<
   const nameField = opts.nameField ?? "name";
   return {
     useList: () => {
-      const userId = useLocalUserId();
       return useQuery({
-        queryKey: [...opts.listKey(), userId],
-        queryFn: async () => (await opts.readList(userId)) ?? [],
+        queryKey: opts.listKey(),
+        queryFn: async () => (await opts.readList()) ?? [],
       });
     },
 
     useItem: (id: string | undefined) => {
-      const userId = useLocalUserId();
       return useQuery({
-        queryKey: [...opts.itemKey(id ?? ""), userId],
+        queryKey: opts.itemKey(id ?? ""),
         queryFn: async () => {
           if (!id) throw new Error("not-found");
-          const item = await opts.readItem(userId, id);
+          const item = await opts.readItem(id);
           if (!item) throw new Error("not-found");
           return item;
         },
@@ -73,18 +69,16 @@ export function makeRpEntity<
     useCreate: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (args: { body: TCreateBody }) => {
           const now = dayjs().toDate();
           const row = {
             ...args.body,
             id: uid(),
-            userId,
             createdAt: now,
             updatedAt: now,
           } as unknown as TItem;
-          await opts.upsertLocal(userId, row);
+          await opts.upsertLocal(row);
           return row;
         },
         onSuccess: () => {
@@ -97,10 +91,9 @@ export function makeRpEntity<
     useUpdate: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (args: { id: string; body: TUpdateBody }) => {
-          const existing = await opts.readItem(userId, args.id);
+          const existing = await opts.readItem(args.id);
           if (!existing) throw new Error("not-found");
           const now = dayjs().toDate();
           const updated = {
@@ -108,7 +101,7 @@ export function makeRpEntity<
             ...args.body,
             updatedAt: now,
           } as unknown as TItem;
-          await opts.upsertLocal(userId, updated);
+          await opts.upsertLocal(updated);
           return updated;
         },
         onSuccess: (_data, args) => {
@@ -124,10 +117,9 @@ export function makeRpEntity<
     useDelete: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (id: string) => {
-          await opts.deleteLocal(userId, id);
+          await opts.deleteLocal(id);
           return { id };
         },
         onSuccess: (_data, id) => {
@@ -141,28 +133,26 @@ export function makeRpEntity<
     useDuplicate: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (id: string) => {
-          const detail = await opts.readItem(userId, id);
+          const detail = await opts.readItem(id);
           if (!detail) throw new Error("not-found");
           const newId = uid();
           const srcName = (detail as Record<string, unknown>)[nameField];
           const copyName =
             `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
           if (opts.cloneEntity) {
-            await opts.cloneEntity(userId, detail, newId, copyName);
+            await opts.cloneEntity(detail, newId, copyName);
           } else {
             const now = dayjs().toDate();
             const row = {
               ...(detail as Record<string, unknown>),
               id: newId,
-              userId,
               [nameField]: copyName,
               createdAt: now,
               updatedAt: now,
             } as unknown as TItem;
-            await opts.upsertLocal(userId, row);
+            await opts.upsertLocal(row);
           }
           return { id: newId };
         },

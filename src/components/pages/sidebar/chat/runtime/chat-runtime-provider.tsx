@@ -15,7 +15,6 @@ import {
   useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useJsPluginLoader } from "@/hooks/ai/use-js-plugin-loader";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { analytics } from "@/lib/analytics";
@@ -68,13 +67,7 @@ function markFirstChatDone(): boolean {
 
 function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
-  const adapterRef = useRef(
-    createChatHistoryAdapter(
-      queryClient,
-      () => chatStore.get(localUserIdAtom),
-      getConvId,
-    ),
-  );
+  const adapterRef = useRef(createChatHistoryAdapter(queryClient, getConvId));
   return adapterRef.current;
 }
 
@@ -108,7 +101,6 @@ function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
   const t = useTranslations();
-  const userId = useLocalUserId();
   const queryClient = useQueryClient();
 
   useConvIdSync(remoteId);
@@ -231,7 +223,7 @@ function ChatRuntimeHook() {
       if (message.metadata?.truncatedBeforeText) {
         toast.warning(t("CHAT.TRUNCATED_BEFORE_TEXT"));
       }
-      void maybeAutoContinue(chat, remoteId ?? null, message, userId);
+      void maybeAutoContinue(chat, remoteId ?? null, message);
     },
   });
 
@@ -249,7 +241,6 @@ function ChatRuntimeHook() {
         try {
           await seedConversation({
             convId: freshConvId(threadId),
-            userId,
             queryClient,
             noModelsError: t("ERRORS.NO_TEXT_MODELS"),
           });
@@ -275,7 +266,7 @@ function ChatRuntimeHook() {
         streamLockKeyRef.current = lockKey;
       }
       if (hasText && convId) {
-        const order = await computeSpeakingOrder(userId, convId, args[0]);
+        const order = await computeSpeakingOrder(convId, args[0]);
         if (order.length > 1) {
           analytics.chat.groupTurn({ character_count: order.length });
           rotatingRef.current = true;
@@ -320,14 +311,9 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
   const t = useTranslations();
-  const userId = useLocalUserId();
-  usePendingDrainScheduler(userId);
+  usePendingDrainScheduler();
   useJsPluginLoader();
-  const adapterRef = useRef(
-    createThreadListAdapter(queryClient, t, () =>
-      chatStore.get(localUserIdAtom),
-    ),
-  );
+  const adapterRef = useRef(createThreadListAdapter(queryClient, t));
 
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,

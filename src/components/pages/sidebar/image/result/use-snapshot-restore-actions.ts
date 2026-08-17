@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { ADETAILER_DEFAULTS } from "../fields/adetailer-section";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import type { SnapshotView } from "@/lib/types";
@@ -22,7 +21,6 @@ export type QuickTarget = {
 // never auto-restores the form.
 export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const nav = useImageNav();
-  const userId = useLocalUserId();
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
 
   // The gallery src is a blob: URL, which dies with the document: persisted into the
@@ -31,7 +29,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const durableInitUrl = async (src: string): Promise<string | undefined> => {
     const image = data?.images.find((i) => i.src === src);
     if (!image) return src;
-    const row = await readLocalMedia(userId, image.id);
+    const row = await readLocalMedia(image.id);
     if (!row?.dataBase64) return src;
     return `data:${row.mimeType};base64,${row.dataBase64}`;
   };

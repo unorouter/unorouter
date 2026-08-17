@@ -12,10 +12,7 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import {
-  AUTH_REDIRECT_COOKIE,
-  USER_ID_COOKIE,
-} from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import {
   exchangeOAuthCode,

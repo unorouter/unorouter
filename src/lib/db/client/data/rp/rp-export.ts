@@ -26,11 +26,10 @@ type LocalExportResult = {
 };
 
 async function loadAvatar(
-  userId: number | undefined,
   avatarMediaId: string | null,
 ): Promise<{ data: Uint8Array; mime: string } | null> {
   if (!avatarMediaId) return null;
-  const row = await readLocalMedia(userId, avatarMediaId);
+  const row = await readLocalMedia(avatarMediaId);
   if (!row) return null;
   if (row.dataBase64) {
     return { data: base64ToUint8(row.dataBase64), mime: row.mimeType };
@@ -61,11 +60,10 @@ async function loadAvatar(
 }
 
 export async function exportLocalCharacter(
-  userId: number | undefined,
   id: string,
   format: CharacterExportFormat,
 ): Promise<LocalExportResult> {
-  const row = await readLocalCharacter(userId, id);
+  const row = await readLocalCharacter(id);
   if (!row) throw new Error("Character not found");
 
   const slug = exportSlug(row.name, "character");
@@ -77,10 +75,10 @@ export async function exportLocalCharacter(
       filename: `${slug}.json`,
     };
   }
-  const avatar = await loadAvatar(userId, row.avatarMediaId);
+  const avatar = await loadAvatar(row.avatarMediaId);
   const namedAssets: { name: string; data: Uint8Array; mime: string }[] = [];
   for (const asset of row.assets ?? []) {
-    const bytes = await loadAvatar(userId, asset.mediaId);
+    const bytes = await loadAvatar(asset.mediaId);
     if (bytes) {
       namedAssets.push({
         name: asset.name,
@@ -97,11 +95,10 @@ export async function exportLocalCharacter(
 }
 
 export async function exportLocalLorebook(
-  userId: number | undefined,
   id: string,
   format: LorebookExportFormat = "sillytavern",
 ): Promise<LocalExportResult> {
-  const book = await readLocalLorebook(userId, id);
+  const book = await readLocalLorebook(id);
   if (!book) throw new Error("Lorebook not found");
   const json = serializeLorebookForExport(book, book.entries, format);
   const slug = exportSlug(book.name, "lorebook");
@@ -112,10 +109,9 @@ export async function exportLocalLorebook(
 }
 
 export async function exportLocalPreset(
-  userId: number | undefined,
   id: string,
 ): Promise<LocalExportResult> {
-  const row = await readLocalPreset(userId, id);
+  const row = await readLocalPreset(id);
   if (!row) throw new Error("Preset not found");
   const portable = {
     name: row.name,
@@ -149,11 +145,8 @@ export async function exportLocalPreset(
   };
 }
 
-export async function exportLocalCard(
-  userId: number | undefined,
-  id: string,
-): Promise<LocalExportResult> {
-  const card = await readLocalCard(userId, id);
+export async function exportLocalCard(id: string): Promise<LocalExportResult> {
+  const card = await readLocalCard(id);
   if (!card) throw new Error("Card not found");
   const portable = {
     name: card.name,

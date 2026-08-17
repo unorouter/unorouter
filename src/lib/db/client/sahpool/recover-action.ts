@@ -12,10 +12,8 @@ export type RecoverOutcome =
 // the largest hit out as a file. Deliberately independent of the DB studio: the
 // studio mounts a table viewer that reads the live database, and a user whose db
 // is huge or damaged cannot load it, which is precisely when recovery is needed.
-export async function runRecoverOrphanedDb(
-  userId: number,
-): Promise<RecoverOutcome> {
-  logChatDebug("db.salvage.start", { userId });
+export async function runRecoverOrphanedDb(): Promise<RecoverOutcome> {
+  logChatDebug("db.salvage.start", {});
   const { listLocalDatabases, salvagePoolDatabases } =
     await import("@/lib/db/client/sahpool/salvage");
   const { singleDbPath } =
@@ -36,7 +34,6 @@ export async function runRecoverOrphanedDb(
   const estimate = await navigator.storage?.estimate?.().catch(() => null);
   if (found.length === 0) {
     logChatDebug("db.salvage.done", {
-      userId,
       candidates: 0,
       storageUsage: estimate?.usage ?? null,
     });
@@ -56,7 +53,6 @@ export async function runRecoverOrphanedDb(
     fileName,
   );
   logChatDebug("db.salvage.done", {
-    userId,
     candidates: found.length,
     bytes: biggest.sizeBytes,
     source: biggest.source,
@@ -64,7 +60,6 @@ export async function runRecoverOrphanedDb(
   });
   logger.info("Recovered an orphaned local database", {
     context: "local-db.salvage",
-    userId,
     candidates: found.length,
     bytes: biggest.sizeBytes,
   });

@@ -11,7 +11,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import {
   buildRequestLogCurl,
@@ -28,12 +27,11 @@ export function RequestLogSheet(props: {
   onOpenChange: (open: boolean) => void;
 }) {
   const t = useTranslations();
-  const userId = useLocalUserId();
   const isMobile = useIsMobile();
 
   const log = useQuery({
     queryKey: queryKeys.requestLog(props.msgId),
-    queryFn: () => readLocalRequestLog(userId, props.msgId),
+    queryFn: () => readLocalRequestLog(props.msgId),
     enabled: props.open,
   });
 

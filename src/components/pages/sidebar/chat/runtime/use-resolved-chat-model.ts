@@ -2,7 +2,6 @@
 
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { analytics } from "@/lib/analytics";
@@ -24,7 +23,6 @@ import { useEffect } from "react";
 // the conversation's defaultModel. Replaces the old useModelSync 3-way race.
 export function useResolvedChatModel(remoteId: string | null | undefined) {
   const hydrated = useHydrated();
-  const userId = useLocalUserId();
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
   const pricingQuery = usePricingCatalogQuery();
@@ -74,9 +72,9 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
-        const conv = await readLocalConversation(userId, id);
+        const conv = await readLocalConversation(id);
         if (!conv) return;
-        await updateLocalConversationSettings(userId, {
+        await updateLocalConversationSettings({
           convId: id,
           defaultModel: newModel,
           updatedAt: dayjs().toDate(),
@@ -84,5 +82,5 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
         queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
       })();
     });
-  }, [queryClient, userId]);
+  }, [queryClient]);
 }

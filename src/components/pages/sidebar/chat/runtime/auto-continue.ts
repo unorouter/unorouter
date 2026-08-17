@@ -69,7 +69,6 @@ export async function maybeAutoContinue(
   chat: { sendMessage: (...args: never[]) => Promise<void> },
   remoteId: string | null,
   message: ChatUIMessage,
-  userId: number | undefined,
 ): Promise<void> {
   if (!remoteId) return;
   if (chatStore.get(speakingCharacterIdAtom) != null) return;
@@ -81,7 +80,7 @@ export async function maybeAutoContinue(
     autoContinueDepth.delete(remoteId);
     return;
   }
-  const settings = await readLocalConversationSettings(userId, remoteId);
+  const settings = await readLocalConversationSettings(remoteId);
   if (
     !settings ||
     (settings as { autoContinue?: boolean }).autoContinue !== true

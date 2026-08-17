@@ -55,10 +55,10 @@ function formatBytes(bytes: number): string {
   return `${Math.round(n * 10) / 10} ${units[i]}`;
 }
 
-export async function getTableStorageStats(
-  userId: number | undefined,
-): Promise<TableStorageStat[] | { error: string }> {
-  const local = await getLocalDb(userId);
+export async function getTableStorageStats(): Promise<
+  TableStorageStat[] | { error: string }
+> {
+  const local = await getLocalDb();
   if (!local) return { error: "no local db" };
 
   try {
@@ -180,10 +180,7 @@ export async function getTableStorageStats(
 
 export const MAX_LOG_CONVS = 25;
 
-export async function buildDiagnosticsHead(
-  userId: number | undefined,
-  opts: DiagnosticsOptions,
-) {
+export async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
   const includeContent = opts.includeContent;
 
   const device = {
@@ -210,7 +207,7 @@ export async function buildDiagnosticsHead(
 
   let dbInfo: Record<string, unknown> = {};
   try {
-    const local = await getLocalDb(userId);
+    const local = await getLocalDb();
     if (local) dbInfo = await local.getDatabaseInfo();
   } catch (e) {
     dbInfo = { error: String(e).slice(0, 200) };
@@ -231,13 +228,13 @@ export async function buildDiagnosticsHead(
   // lives in localStorage and survives regardless.
   let convs: Awaited<ReturnType<typeof readLocalConversations>> = [];
   try {
-    convs = (await readLocalConversations(userId)) ?? [];
+    convs = (await readLocalConversations()) ?? [];
   } catch (e) {
     dbInfo.conversationsError = String(e).slice(0, 200);
   }
   const settingsById = new Map<string, Record<string, unknown>>();
   try {
-    const local = await getLocalDb(userId);
+    const local = await getLocalDb();
     if (local) {
       const res = await local.exec(
         `SELECT id, preset_id, chat_memory, memory_enabled, summary_anchor, utility_model FROM conversations`,
@@ -270,7 +267,7 @@ export async function buildDiagnosticsHead(
   let presets: unknown[] = [];
   try {
     const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
-    presets = ((await readLocalPresets(userId)) ?? []).map((p) => ({
+    presets = ((await readLocalPresets()) ?? []).map((p) => ({
       id: p.id,
       name: includeContent ? p.name : undefined,
       chatMemory: p.chatMemory,
@@ -290,7 +287,7 @@ export async function buildDiagnosticsHead(
   let tableStorage: Awaited<ReturnType<typeof getTableStorageStats>> | null =
     null;
   try {
-    tableStorage = await getTableStorageStats(userId);
+    tableStorage = await getTableStorageStats();
     logChatDebug("storage-stats", { tableStorage });
   } catch (e) {
     dbInfo.tableStorageError = String(e).slice(0, 200);
@@ -332,18 +329,12 @@ function messageShape(finalMessages: unknown): unknown {
 const MAX_SHAPE_ROWS = 3;
 
 export async function readRequestLogsForConvDiag(
-  userId: number | undefined,
   convId: string,
   includeContent: boolean,
 ): Promise<unknown[]> {
   if (!includeContent) {
-    const meta = await readLocalRequestLogMetaForConv(
-      userId,
-      convId,
-      MAX_LOG_CONVS,
-    );
+    const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOG_CONVS);
     const newest = await readLocalRequestLogsNewestForConv(
-      userId,
       convId,
       MAX_SHAPE_ROWS,
     );
@@ -354,7 +345,7 @@ export async function readRequestLogsForConvDiag(
         : row;
     });
   }
-  const logs = await readLocalRequestLogsForConv(userId, convId);
+  const logs = await readLocalRequestLogsForConv(convId);
   return logs.slice(-MAX_LOG_CONVS).map((l) => ({
     msgId: l.msgId,
     convId: l.convId,
@@ -368,18 +359,16 @@ export async function readRequestLogsForConvDiag(
 }
 
 export async function buildDiagnostics(
-  userId: number | undefined,
   opts: DiagnosticsOptions,
 ): Promise<Record<string, unknown>> {
-  const head = await buildDiagnosticsHead(userId, opts);
+  const head = await buildDiagnosticsHead(opts);
 
   const messagesByConv: Record<string, unknown[]> = {};
   const requestLogsByConv: Record<string, unknown[]> = {};
   for (const id of head.convIds) {
     try {
-      messagesByConv[id] = await readLocalMessageMetaForConv(userId, id);
+      messagesByConv[id] = await readLocalMessageMetaForConv(id);
       requestLogsByConv[id] = await readRequestLogsForConvDiag(
-        userId,
         id,
         opts.includeContent,
       );

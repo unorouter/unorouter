@@ -2,14 +2,12 @@ import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
 import { env } from "@/lib/config/env";
 import { getLocalDb } from "@/lib/db/client/client";
 import { newSql, terminateSql } from "@/lib/db/client/new-sql";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics/diagnostics";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
 export async function downloadDiagnostics(
-  userId: number | undefined,
   filename: string,
   opts: DiagnosticsOptions,
 ): Promise<void> {
@@ -18,7 +16,7 @@ export async function downloadDiagnostics(
     includeContent: opts.includeContent,
   });
   try {
-    const data = await buildDiagnostics(userId, opts);
+    const data = await buildDiagnostics(opts);
     downloadJson(data, filename, { pretty: false });
     logChatDebug("export.diagnostics.done", { filename });
   } catch (e) {
@@ -79,7 +77,6 @@ const CHAT_TABLES = [
 ] as const;
 
 export async function downloadLocalDb(
-  userId: number | undefined,
   filename: string,
   options?: DbExportOptions,
 ): Promise<void> {
@@ -87,7 +84,7 @@ export async function downloadLocalDb(
   logChatDebug("export.db.start", { filename, options: opts });
   let built: { file: File; cleanup: () => Promise<void> } | null = null;
   try {
-    built = await buildExportFile(userId, opts);
+    built = await buildExportFile(opts);
     const path = await streamFileToDisk(built.file, filename);
     logChatDebug("export.db.done", {
       filename,
@@ -105,14 +102,12 @@ export async function downloadLocalDb(
 // Build the export as a shrunken COPY so the live DB is never mutated. Excluded
 // tables are deleted on the scratch, then VACUUM reclaims the freed pages.
 async function buildExportFile(
-  userId: number | undefined,
   opts: Required<DbExportOptions>,
 ): Promise<{ file: File; cleanup: () => Promise<void> }> {
-  const uid = userId ?? GUEST_USER_ID;
   const appName = env.appName.toLowerCase();
-  const scratchPath = `${appName}-${uid}-export.sqlite3`;
+  const scratchPath = `${appName}-export.sqlite3`;
 
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) throw new Error("SQLocal unavailable");
   const srcFile = await local.getDatabaseFile();
   logChatDebug("export.db.copy", { srcBytes: srcFile.size });

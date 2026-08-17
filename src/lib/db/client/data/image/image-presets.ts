@@ -1,6 +1,5 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { getLocalDb } from "@/lib/db/client/client";
 import { type ImagePreset, imagePresets } from "@/lib/db/schema/client";
 import { uid } from "@/lib/utils/base";
@@ -16,19 +15,16 @@ export type ImagePresetInput = {
   extraParams?: ImagePreset["extraParams"];
 };
 
-export async function listImagePresets(
-  userId: number = GUEST_USER_ID,
-): Promise<ImagePreset[]> {
-  const client = await getLocalDb(userId);
+export async function listImagePresets(): Promise<ImagePreset[]> {
+  const client = await getLocalDb();
   if (!client) return [];
   return client.db.select().from(imagePresets).orderBy(asc(imagePresets.name));
 }
 
 export async function saveImagePreset(
   input: ImagePresetInput,
-  userId: number = GUEST_USER_ID,
 ): Promise<ImagePreset> {
-  const client = await getLocalDb(userId);
+  const client = await getLocalDb();
   if (!client) throw new Error("local-db-unavailable");
   const db = client.db;
   const now = new Date();
@@ -60,11 +56,8 @@ export async function saveImagePreset(
   return row;
 }
 
-export async function deleteImagePreset(
-  id: string,
-  userId: number = GUEST_USER_ID,
-): Promise<void> {
-  const client = await getLocalDb(userId);
+export async function deleteImagePreset(id: string): Promise<void> {
+  const client = await getLocalDb();
   if (!client) return;
   await client.db.delete(imagePresets).where(eq(imagePresets.id, id));
 }

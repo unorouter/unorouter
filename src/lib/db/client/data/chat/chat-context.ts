@@ -16,19 +16,18 @@ import {
 } from "@/lib/db/client/data/rp/rp";
 
 export async function buildChatContextFromLocalDb(
-  userId: number | undefined,
   convId: string,
   opts?: { expectBindings?: boolean },
 ): Promise<ChatContext | undefined> {
-  let settings = await readLocalConversationSettings(userId, convId);
+  let settings = await readLocalConversationSettings(convId);
   for (let attempt = 0; !settings && attempt < 5; attempt++) {
     await sleep(40);
-    settings = await readLocalConversationSettings(userId, convId);
+    settings = await readLocalConversationSettings(convId);
   }
   if (!settings) return undefined;
 
   {
-    const msgs = await readLocalMessages(userId, convId);
+    const msgs = await readLocalMessages(convId);
     if (msgs && msgs.length > 0) {
       const tip = walkActiveBranch(msgs).path.at(-1) as
         { branchVars?: string | null } | undefined;
@@ -37,7 +36,7 @@ export async function buildChatContextFromLocalDb(
     }
   }
 
-  let bindings = await readLocalConversationBindings(userId, convId);
+  let bindings = await readLocalConversationBindings(convId);
   for (
     let attempt = 0;
     opts?.expectBindings &&
@@ -47,7 +46,7 @@ export async function buildChatContextFromLocalDb(
     attempt++
   ) {
     await sleep(40);
-    bindings = await readLocalConversationBindings(userId, convId);
+    bindings = await readLocalConversationBindings(convId);
   }
 
   const charBindings = bindings?.conversationCharacters ?? [];
@@ -59,15 +58,15 @@ export async function buildChatContextFromLocalDb(
     Promise.all(
       charBindings.map(async (b) => ({
         binding: b,
-        character: await readLocalCharacter(userId, b.characterId),
+        character: await readLocalCharacter(b.characterId),
       })),
     ),
-    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
+    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
     settings.personaId
-      ? readLocalPersona(userId, settings.personaId)
+      ? readLocalPersona(settings.personaId)
       : Promise.resolve(null),
     settings.presetId
-      ? readLocalPreset(userId, settings.presetId)
+      ? readLocalPreset(settings.presetId)
       : Promise.resolve(null),
   ]);
   const characters = characterRows

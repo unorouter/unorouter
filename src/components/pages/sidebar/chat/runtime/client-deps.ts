@@ -24,10 +24,7 @@ function makeProvider(provider: CustomProviderRow, mutations?: BodyMutations) {
   });
 }
 
-export function buildClientDeps(
-  userId: number,
-  provider: CustomProviderRow,
-): AssemblerDeps {
+export function buildClientDeps(provider: CustomProviderRow): AssemblerDeps {
   const sdk = makeProvider(provider);
   const raceModels = provider.models.map((m) => m.key);
   const firstModel = raceModels[0];
@@ -78,6 +75,6 @@ export function buildClientDeps(
         return [];
       }
     },
-    triggerOps: () => makeClientTriggerOps(userId),
+    triggerOps: () => makeClientTriggerOps(),
   };
 }

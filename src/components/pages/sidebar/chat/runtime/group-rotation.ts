@@ -27,12 +27,11 @@ function sendArgText(arg: unknown): string {
 }
 
 export async function computeSpeakingOrder(
-  userId: number | undefined,
   convId: string,
   sendArg: unknown,
 ): Promise<string[]> {
-  const settings = await readLocalConversationSettings(userId, convId);
-  const bindings = await readLocalConversationBindings(userId, convId);
+  const settings = await readLocalConversationSettings(convId);
+  const bindings = await readLocalConversationBindings(convId);
   const active = (bindings?.conversationCharacters ?? []).filter(
     (b) => b.isActive !== false,
   );
@@ -40,7 +39,7 @@ export async function computeSpeakingOrder(
 
   const members = await Promise.all(
     active.map(async (b) => {
-      const ch = await readLocalCharacter(userId, b.characterId);
+      const ch = await readLocalCharacter(b.characterId);
       return {
         id: b.characterId,
         name: (ch as { name?: string } | null)?.name ?? "",
@@ -52,7 +51,7 @@ export async function computeSpeakingOrder(
       };
     }),
   );
-  const rows = await readLocalMessages(userId, convId);
+  const rows = await readLocalMessages(convId);
   const lastSpeakerId =
     [...(rows ?? [])]
       .reverse()

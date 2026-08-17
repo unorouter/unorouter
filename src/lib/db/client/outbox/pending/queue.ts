@@ -15,11 +15,10 @@ const backoff = (attempts: number) =>
 const KIND = "";
 
 export async function enqueueLogEnrich(
-  userId: number,
   msgId: string,
   requestId: string,
 ): Promise<void> {
-  const local = await getLocalDb(userId);
+  const local = await getLocalDb();
   if (!local) return;
 
   const existing = (
@@ -57,16 +56,16 @@ export async function enqueueLogEnrich(
     });
 }
 
-async function runTask(userId: number, msgId: string, payload: string | null) {
+async function runTask(msgId: string, payload: string | null) {
   const requestId = payload
     ? (JSON.parse(payload) as { requestId?: string }).requestId
     : undefined;
   if (!requestId) return; // nothing to enrich; the row is dropped
-  await enrichRequestLogFromUpstream(userId, msgId, requestId);
+  await enrichRequestLogFromUpstream(msgId, requestId);
 }
 
-async function drainPending(userId: number): Promise<void> {
-  const local = await getLocalDb(userId);
+async function drainPending(): Promise<void> {
+  const local = await getLocalDb();
   if (!local) return;
 
   const now = new Date();
@@ -85,7 +84,7 @@ async function drainPending(userId: number): Promise<void> {
   for (const row of rows) {
     if (row.attempts >= MAX_ATTEMPTS) continue; // dead-lettered; stays for record
     try {
-      await runTask(userId, row.id, row.payload);
+      await runTask(row.id, row.payload);
       await local.db
         .delete(localPendingTasks)
         .where(
@@ -129,35 +128,32 @@ async function drainPending(userId: number): Promise<void> {
   }
 }
 
-const inFlight = new Map<number, Promise<void>>();
+// One database per device, so one drain at a time. These were Maps keyed by
+// userId, which could only ever hold a single entry once the database stopped
+// being per-user.
+let inFlight: Promise<void> | null = null;
 
-export function drain(userId: number): Promise<void> {
-  const running = inFlight.get(userId);
-  if (running) return running;
-  const run = drainPending(userId)
+export function drain(): Promise<void> {
+  if (inFlight) return inFlight;
+  const run = drainPending()
     .catch((err) =>
       logger.warn("drainPending failed", {
         context: "local-db.pending-queue",
-        userId,
         error: String(err),
       }),
     )
-    .finally(() => inFlight.delete(userId));
-  inFlight.set(userId, run);
+    .finally(() => (inFlight = null));
+  inFlight = run;
   return run;
 }
 
 const DRAIN_SOON_MS = 250;
-const drainTimers = new Map<number, ReturnType<typeof setTimeout>>();
+let drainTimer: ReturnType<typeof setTimeout> | null = null;
 
-export function drainSoon(userId: number): void {
-  const prev = drainTimers.get(userId);
-  if (prev) clearTimeout(prev);
-  drainTimers.set(
-    userId,
-    setTimeout(() => {
-      drainTimers.delete(userId);
-      void drain(userId);
-    }, DRAIN_SOON_MS),
-  );
+export function drainSoon(): void {
+  if (drainTimer) clearTimeout(drainTimer);
+  drainTimer = setTimeout(() => {
+    drainTimer = null;
+    void drain();
+  }, DRAIN_SOON_MS);
 }

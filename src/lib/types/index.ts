@@ -177,12 +177,10 @@ export type CopyResult = {
   tables: string[];
 };
 
-export type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
+export type ScopedTable = SQLiteTable;
 export type StoreListOpts = {
   orderBy?: SQL | SQLiteColumn;
-  scopeUser?: boolean;
 };
-export type StoreRowOpts = { scopeUser?: boolean };
 export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;
 export type StorePkValue = string | number;

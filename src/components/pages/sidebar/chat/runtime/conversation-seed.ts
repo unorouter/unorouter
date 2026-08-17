@@ -36,7 +36,6 @@ import { dayjs } from "@/lib/utils/format/date";
 
 type SeedArgs = {
   convId: string;
-  userId: number;
   queryClient: QueryClient;
   /** Pre-translated: this module runs outside React. */
   noModelsError: string;
@@ -60,7 +59,6 @@ export function seedConversation(args: SeedArgs): Promise<void> {
 
 async function seed(args: SeedArgs): Promise<void> {
   const id = args.convId;
-  const userId = args.userId;
   const queryClient = args.queryClient;
 
   let model = chatStore.get(chatModelAtom);
@@ -95,11 +93,11 @@ async function seed(args: SeedArgs): Promise<void> {
   // that doesn't set its own maxTokens should NOT wipe the last-used default to null (which sends no cap
   // and lets the provider apply a small one). Seed it from defaults unless the preset supplies its own.
   const boundPreset = loadout.presetId
-    ? await readLocalPreset(userId, loadout.presetId)
+    ? await readLocalPreset(loadout.presetId)
     : null;
   const seedMaxTokens =
     boundPreset?.maxTokens != null ? null : (defaults.maxTokens ?? null);
-  await upsertLocalConversation(userId, {
+  await upsertLocalConversation({
     id,
     title: null,
     totalInputTokens: 0,
@@ -137,7 +135,6 @@ async function seed(args: SeedArgs): Promise<void> {
 
   logChatDebug("conv.initialized", {
     convId: id,
-    userId,
     model,
     presetId: loadout.presetId ?? null,
     boundPresetFound: !!boundPreset,
@@ -153,7 +150,7 @@ async function seed(args: SeedArgs): Promise<void> {
   });
 
   if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
-    await replaceLocalConversationBindings(userId, id, {
+    await replaceLocalConversationBindings(id, {
       conversationCharacters: loadout.characterIds.map((cid, i) => ({
         characterId: cid,
         orderIndex: i,
@@ -166,10 +163,10 @@ async function seed(args: SeedArgs): Promise<void> {
   }
 
   if (loadout.characterIds.length > 0) {
-    const char = await readLocalCharacter(userId, loadout.characterIds[0]);
+    const char = await readLocalCharacter(loadout.characterIds[0]);
     if (char?.firstMessage) {
       const persona = loadout.personaId
-        ? await readLocalPersona(userId, loadout.personaId)
+        ? await readLocalPersona(loadout.personaId)
         : null;
       const greetings = [char.firstMessage, ...(char.alternateGreetings ?? [])];
       const picked = Math.min(
@@ -179,7 +176,7 @@ async function seed(args: SeedArgs): Promise<void> {
       let seededGreeting: { id: string; text: string } | null = null;
       for (let i = 0; i < greetings.length; i++) {
         const msgId = uid();
-        await upsertLocalMessage(userId, {
+        await upsertLocalMessage({
           id: msgId,
           convId: id,
           parentId: null,
@@ -201,7 +198,7 @@ async function seed(args: SeedArgs): Promise<void> {
           personality: char.personality ?? "",
           vars: {},
         });
-        await upsertLocalMessageItem(userId, {
+        await upsertLocalMessageItem({
           id: uid(),
           messageId: msgId,
           sequenceIndex: 0,
@@ -213,7 +210,7 @@ async function seed(args: SeedArgs): Promise<void> {
         }
       }
       if (picked > 0) {
-        await updateLocalConversationSettings(userId, {
+        await updateLocalConversationSettings({
           convId: id,
           firstMsgIndex: picked - 1,
           updatedAt: now,

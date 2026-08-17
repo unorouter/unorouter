@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
 import { RETENTION_MS } from "@/lib/config/constants";
 import {
@@ -81,7 +80,6 @@ function imageToMediaRow(
 
 // The gateway writes its log row after answering; retry briefly, give up = no price.
 async function backfillSnapshotCost(
-  userId: number,
   snapshotId: string,
   sessionId: string,
   requestIds: string[],
@@ -106,7 +104,7 @@ async function backfillSnapshotCost(
       }
     }
     if (missing) continue;
-    await patchLocalSnapshotCost(userId, snapshotId, total);
+    await patchLocalSnapshotCost(snapshotId, total);
     invalidateAndBroadcast(qc, [
       queryKeys.imageSnapshot(snapshotId),
       queryKeys.imageSession(sessionId),
@@ -120,10 +118,9 @@ async function backfillSnapshotCost(
 // and made Generate look dead). The column carries a UNIQUE index.
 const SUBMIT_DEDUPE_WINDOW_MS = 5_000;
 
-function submittedKeyFor(userId: number, body: SubmitArgs): string {
+function submittedKeyFor(body: SubmitArgs): string {
   return fnv1aHex(
     JSON.stringify([
-      userId,
       body.sessionId ?? "",
       body.model,
       body.prompt,
@@ -138,22 +135,20 @@ function submittedKeyFor(userId: number, body: SubmitArgs): string {
 }
 
 export function useSessionHistoryQuery() {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.imageSessionList(undefined), userId],
+    queryKey: queryKeys.imageSessionList(undefined),
     queryFn: async () => ({
-      items: await readLocalSessionPreviews(userId),
+      items: await readLocalSessionPreviews(),
       nextCursor: null,
     }),
   });
 }
 
 export function useSessionQuery(sessionId: string | null | undefined) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.imageSession(sessionId ?? ""), userId],
+    queryKey: queryKeys.imageSession(sessionId ?? ""),
     queryFn: async () => {
-      const bundle = await readLocalSessionBundle(userId, sessionId!);
+      const bundle = await readLocalSessionBundle(sessionId!);
       if (!bundle) throw new Error("image-session-not-found");
       const snapshots = bundle.snapshots
         .map((s) => toSnapshotView(s, bundle.media))
@@ -166,11 +161,10 @@ export function useSessionQuery(sessionId: string | null | undefined) {
 }
 
 export function useSnapshotQuery(id: string | null) {
-  const userId = useLocalUserId();
   return useQuery({
-    queryKey: [...queryKeys.imageSnapshot(id ?? ""), userId],
+    queryKey: queryKeys.imageSnapshot(id ?? ""),
     queryFn: async (): Promise<SnapshotView> => {
-      const view = await readLocalSnapshotView(userId, id!);
+      const view = await readLocalSnapshotView(id!);
       if (!view) throw new Error("image-snapshot-not-found");
       return view;
     },
@@ -180,12 +174,11 @@ export function useSnapshotQuery(id: string | null) {
 }
 
 async function runSubmit(
-  userId: number,
   body: SubmitArgs,
   qc: ReturnType<typeof useQueryClient>,
 ): Promise<{ sessionId: string; snapshotId: string }> {
-  const submittedKey = submittedKeyFor(userId, body);
-  const existing = await readLocalSnapshotBySubmittedKey(userId, submittedKey);
+  const submittedKey = submittedKeyFor(body);
+  const existing = await readLocalSnapshotBySubmittedKey(submittedKey);
   if (existing) {
     return { sessionId: existing.sessionId, snapshotId: existing.id };
   }
@@ -195,7 +188,7 @@ async function runSubmit(
 
   const existingSessionId = body.sessionId ?? "";
   const existingSession = existingSessionId
-    ? await readLocalImageSession(userId, existingSessionId)
+    ? await readLocalImageSession(existingSessionId)
     : null;
   const sessionOrder = existingSession?.snapshotCount ?? 0;
 
@@ -204,9 +197,8 @@ async function runSubmit(
 
   const sessionId = existingSessionId || uid();
   if (!existingSession) {
-    await upsertLocalImageSession(userId, {
+    await upsertLocalImageSession({
       id: sessionId,
-      userId,
       title: body.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null,
       firstModel: body.model,
       snapshotCount: 0,
@@ -218,9 +210,8 @@ async function runSubmit(
   }
 
   const snapshotId = uid();
-  await upsertLocalSnapshot(userId, {
+  await upsertLocalSnapshot({
     id: snapshotId,
-    userId,
     sessionId,
     sessionOrder,
     requestedCount: Math.min(MAX_IMAGES_PER_GEN, body.params?.n ?? 1),
@@ -241,20 +232,13 @@ async function runSubmit(
     updatedAt: now,
   });
   await upsertLocalSnapshotImages(
-    userId,
     snapshotId,
     result.images.map((img, i) => imageToMediaRow(snapshotId, i, img)),
   );
 
   // Cost is only known after the run; patched in so the image renders immediately.
-  void backfillSnapshotCost(
-    userId,
-    snapshotId,
-    sessionId,
-    result.requestIds,
-    qc,
-  );
-  await bumpLocalSessionCounts(userId, sessionId, {
+  void backfillSnapshotCost(snapshotId, sessionId, result.requestIds, qc);
+  await bumpLocalSessionCounts(sessionId, {
     snapshots: 1,
     images: result.images.length,
   });
@@ -265,10 +249,9 @@ async function runSubmit(
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
 
   return useMutation({
-    mutationFn: async (body: SubmitArgs) => runSubmit(userId, body, qc),
+    mutationFn: async (body: SubmitArgs) => runSubmit(body, qc),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       invalidateAndBroadcast(qc, [
@@ -283,19 +266,18 @@ export function useSubmitGenerationMutation() {
 export function useDeleteSnapshotMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { id: string }) => {
-      const view = await readLocalSnapshotView(userId, args.id);
+      const view = await readLocalSnapshotView(args.id);
       if (!view) return { id: args.id, sessionId: "", sessionDeleted: false };
       const sessionId = view.sessionId;
-      await deleteLocalSnapshot(userId, args.id);
-      const remaining = await readLocalSessionBundle(userId, sessionId);
+      await deleteLocalSnapshot(args.id);
+      const remaining = await readLocalSessionBundle(sessionId);
       const sessionDeleted = (remaining?.snapshots.length ?? 0) === 0;
       if (sessionDeleted) {
-        await deleteLocalImageSession(userId, sessionId);
+        await deleteLocalImageSession(sessionId);
       } else {
-        await bumpLocalSessionCounts(userId, sessionId, {
+        await bumpLocalSessionCounts(sessionId, {
           snapshots: -1,
           images: -view.images.length,
         });
@@ -316,10 +298,9 @@ export function useDeleteSnapshotMutation() {
 export function useDeleteImageSessionMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { sessionId: string }) => {
-      await deleteLocalImageSessionDeep(userId, args.sessionId);
+      await deleteLocalImageSessionDeep(args.sessionId);
       return args;
     },
     onError: (e) => handleError(e, t),
@@ -334,10 +315,9 @@ export function useDeleteImageSessionMutation() {
 
 export function useExportSessionMutation() {
   const t = useTranslations();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { sessionId: string }) =>
-      exportLocalSession(userId, args.sessionId),
+      exportLocalSession(args.sessionId),
     onError: (e) => handleError(e, t),
   });
 }
@@ -345,14 +325,13 @@ export function useExportSessionMutation() {
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
       payload: ImageSnapshotExport | SessionSnapshot;
       mode: ImageCloneMode;
     }) => {
       if (args.mode === "restore") {
-        return importLocalSession(userId, args.payload);
+        return importLocalSession(args.payload);
       }
       const snapshots = isImageSessionFormat(args.payload)
         ? args.payload.snapshots
@@ -387,7 +366,7 @@ export function useImportGenerationMutation() {
           visibility: "private",
           sessionId: sessionId || undefined,
         };
-        const result = await runSubmit(userId, body, qc);
+        const result = await runSubmit(body, qc);
         sessionId = result.sessionId;
       }
       return { sessionId };

@@ -51,11 +51,10 @@ function renderItemsAsText(items: MessageItemRow[]): string {
 }
 
 export async function exportLocalConversationSillyTavern(
-  userId: number | undefined,
   convId: string,
 ): Promise<{ data: string; filename: string }> {
   logChatDebug("export.conv_sillytavern.start", { convId });
-  const bundle = await readLocalConversationBundle(userId, convId);
+  const bundle = await readLocalConversationBundle(convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const conv = bundle.conversation;
@@ -126,7 +125,6 @@ export function looksLikeSillyTavernChat(text: string): boolean {
 }
 
 export async function importSillyTavernChat(
-  userId: number | undefined,
   text: string,
 ): Promise<{ id: string }> {
   const parsed = parseStJsonl(text);
@@ -134,7 +132,7 @@ export async function importSillyTavernChat(
     throw new Error(msg("ERRORS.REQUEST_FAILED"));
   }
   const mapped = mapStImport(parsed, dayjs().toDate());
-  await upsertLocalConversationBundle(userId, mapped.bundle);
+  await upsertLocalConversationBundle(mapped.bundle);
   logChatDebug("import.sillytavern.done", {
     convId: mapped.convId,
     messages: parsed.messages.length,

@@ -21,14 +21,12 @@ import { extractFirstUserText } from "./chat-utils";
 export function createThreadListAdapter(
   queryClient: QueryClient,
   t: ReturnType<typeof useTranslations<never>>,
-  getUserId: () => number,
 ): RemoteThreadListAdapter {
-  const userId = (): number => getUserId();
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
-    const existing = await readLocalConversation(userId(), id);
+    const existing = await readLocalConversation(id);
     if (!existing) return;
-    await updateLocalConversationSettings(userId(), {
+    await updateLocalConversationSettings({
       convId: id,
       title,
       updatedAt: now,
@@ -38,7 +36,7 @@ export function createThreadListAdapter(
   };
   return {
     async list() {
-      const items = (await readLocalConversations(userId())) ?? [];
+      const items = (await readLocalConversations()) ?? [];
       return {
         threads: items.map((item) => ({
           remoteId: item.id,
@@ -56,7 +54,6 @@ export function createThreadListAdapter(
       const id = freshConvId(localThreadId);
       await seedConversation({
         convId: id,
-        userId: userId(),
         queryClient,
         noModelsError: t("ERRORS.NO_TEXT_MODELS"),
       });
@@ -71,12 +68,12 @@ export function createThreadListAdapter(
     async unarchive(_id) {},
 
     async delete(id) {
-      await deleteLocalConversation(userId(), id);
+      await deleteLocalConversation(id);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
     },
 
     async fetch(id) {
-      const local = await readLocalConversation(userId(), id);
+      const local = await readLocalConversation(id);
       if (local) {
         return {
           remoteId: local.id,

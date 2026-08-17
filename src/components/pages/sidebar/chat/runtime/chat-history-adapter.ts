@@ -67,7 +67,6 @@ type IllustratorJob = {
 };
 
 async function repairBrokenChain(
-  userId: number,
   convId: string,
   msgs: ApiMessage[],
 ): Promise<ApiMessage[]> {
@@ -107,10 +106,7 @@ async function repairBrokenChain(
     for (const m of repaired) {
       const row = { ...m } as Record<string, unknown>;
       delete row.items;
-      await upsertLocalMessage(
-        userId,
-        row as Parameters<typeof upsertLocalMessage>[1],
-      );
+      await upsertLocalMessage(row as Parameters<typeof upsertLocalMessage>[0]);
     }
   }
   return out;
@@ -150,12 +146,11 @@ function assistantTextOf(content: EncodedContent): string {
 
 // Regex editoutput scripts, Lua editoutput hooks, then output-mode triggers.
 async function applyAssistantOutputTransforms(
-  userId: number,
   convId: string,
   parts: MessagePart[],
 ): Promise<MessagePart[]> {
   let out = parts;
-  const scripts = await readConvRegexScripts(userId, convId);
+  const scripts = await readConvRegexScripts(convId);
   if (scripts.length > 0) {
     out = out.map((p) =>
       p.type === "text" && typeof p.text === "string"
@@ -163,7 +158,7 @@ async function applyAssistantOutputTransforms(
         : p,
     );
   }
-  const triggers = await readConvTriggers(userId, convId);
+  const triggers = await readConvTriggers(convId);
   if (triggers.length > 0) {
     const { extractLuaCodes, runLuaEditTrigger } =
       await import("@/lib/ai/chat/triggers/lua/engine");
@@ -191,7 +186,7 @@ async function applyAssistantOutputTransforms(
         ),
       );
     }
-    await runOutputTriggers(userId, convId, triggers, out);
+    await runOutputTriggers(convId, triggers, out);
   }
   const { hasJsHandlers, runJsEditTrigger } =
     await import("@/lib/ai/chat/plugins/engine");
@@ -236,13 +231,12 @@ function appendStreamErrorItem(
 }
 
 async function prepareIllustratorJob(
-  userId: number,
   convId: string,
   items: MessageItem[],
   resolvedModel: string | null,
 ): Promise<IllustratorJob | null> {
   const { resolveIllustratorSettings } = await import("./illustrator-run");
-  const illu = await resolveIllustratorSettings(userId, convId);
+  const illu = await resolveIllustratorSettings(convId);
   const hasError = items.some((it) => it.type === "error");
   if (!illu?.imageEnabled || hasError) return null;
   const taskId = uid();
@@ -264,13 +258,12 @@ async function prepareIllustratorJob(
 }
 
 async function persistInlayMedia(
-  userId: number,
   convId: string,
   metadata: ChatMessageMetadata | null,
 ): Promise<void> {
   if (!metadata?.inlayMedia) return;
   for (const m of metadata.inlayMedia) {
-    await upsertLocalMedia(userId, {
+    await upsertLocalMedia({
       id: m.id,
       convId,
       mimeType: m.mimeType,
@@ -299,7 +292,6 @@ type BranchPlacement = {
 // isActiveBranch=1/branchIndex=0, so walkActiveBranch picked the wrong tip and switching branches
 // rendered an empty thread.
 async function placeOnBranch(
-  userId: number,
   convId: string,
   messageId: string,
   requestedParentId: string | null,
@@ -308,7 +300,7 @@ async function placeOnBranch(
   let parentId = requestedParentId;
   let parentBranchVars: string | null = null;
   let siblings: NonNullable<Awaited<ReturnType<typeof readLocalMessages>>> = [];
-  const existing = (await readLocalMessages(userId, convId)) ?? [];
+  const existing = (await readLocalMessages(convId)) ?? [];
   if (existing.length > 0) {
     const tipRow = walkActiveBranch(existing).path.at(-1) as
       { id: string; branchVars?: string | null } | undefined;
@@ -338,8 +330,8 @@ async function placeOnBranch(
   for (const sib of siblings) {
     const row = { ...sib } as Record<string, unknown>;
     delete row.items;
-    await upsertLocalMessage(userId, {
-      ...(row as Parameters<typeof upsertLocalMessage>[1]),
+    await upsertLocalMessage({
+      ...(row as Parameters<typeof upsertLocalMessage>[0]),
       isActiveBranch: false,
       updatedAt: now,
     });
@@ -349,7 +341,6 @@ async function placeOnBranch(
 
 async function persistRequestLog(
   queryClient: QueryClient,
-  userId: number,
   convId: string,
   messageId: string,
   metadata: ChatMessageMetadata | null,
@@ -370,19 +361,18 @@ async function persistRequestLog(
     tokensPerSecond: usage?.tokensPerSecond ?? null,
     createdAt: now,
   };
-  await insertLocalRequestLog(userId, logRow);
+  await insertLocalRequestLog(logRow);
   queryClient.invalidateQueries({
     queryKey: queryKeys.requestLog(messageId),
   });
   const reqId = (logRow as { requestId?: string | null }).requestId;
   if (reqId && !isCustomModelId(resolvedModel)) {
-    await enqueueLogEnrich(userId, messageId, reqId);
-    drainSoon(userId);
+    await enqueueLogEnrich(messageId, reqId);
+    drainSoon();
   }
 }
 
 async function bumpConversationTotals(
-  userId: number,
   convId: string,
   existingConv: Awaited<ReturnType<typeof readLocalConversation>>,
   metadata: ChatMessageMetadata | null,
@@ -390,9 +380,8 @@ async function bumpConversationTotals(
 ): Promise<void> {
   const usage = metadata?.usage ?? null;
   const varsWriteback = metadata?.vars ?? null;
-  const convForTotals =
-    existingConv ?? (await readLocalConversation(userId, convId));
-  await upsertLocalConversation(userId, {
+  const convForTotals = existingConv ?? (await readLocalConversation(convId));
+  await upsertLocalConversation({
     ...(convForTotals ?? {}),
     id: convId,
     totalInputTokens:
@@ -417,7 +406,6 @@ function fireIllustrator(
   queryClient: QueryClient,
   job: IllustratorJob,
   args: {
-    userId: number;
     convId: string;
     messageId: string;
     responseText: string;
@@ -432,7 +420,6 @@ function fireIllustrator(
           ).requestImagePromptReview
         : undefined;
       await runIllustrator({
-        userId: args.userId,
         convId: args.convId,
         messageId: args.messageId,
         taskId: job.taskId,
@@ -454,7 +441,6 @@ function fireIllustrator(
 
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
-  getUserId: () => number,
   getConvId: () => string | null,
 ): ThreadHistoryAdapter {
   return {
@@ -478,7 +464,6 @@ export function createChatHistoryAdapter(
           try {
             const id = getConvId();
             if (!id) return { messages: [] };
-            const userId = getUserId();
 
             type MsgPage = { messages: ApiMessage[]; total: number };
             type Cached = { pages: MsgPage[]; pageParams: number[] };
@@ -489,15 +474,13 @@ export function createChatHistoryAdapter(
             // fast-path was dead code.
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
-              userId,
             ]);
             if (cached) {
               allMessages = cached.pages.flatMap((p) => p.messages);
             } else {
               allMessages = await repairBrokenChain(
-                userId,
                 id,
-                await readJoinedMessages(userId, id),
+                await readJoinedMessages(id),
               );
             }
 
@@ -515,7 +498,6 @@ export function createChatHistoryAdapter(
 
         async append(item: MessageFormatItem<TMessage>) {
           const id = getConvId();
-          const userId = getUserId();
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
@@ -526,7 +508,7 @@ export function createChatHistoryAdapter(
             role: (item.message as { role?: string }).role,
           });
           {
-            const existingRows = (await readLocalMessages(userId, id)) ?? [];
+            const existingRows = (await readLocalMessages(id)) ?? [];
             if (existingRows.some((m) => m.id === messageId)) return;
           }
           const content = formatAdapter.encode(
@@ -536,7 +518,7 @@ export function createChatHistoryAdapter(
           const originalAssistantText = assistantTextOf(content);
 
           const parts = isAssistant
-            ? await applyAssistantOutputTransforms(userId, id, content.parts)
+            ? await applyAssistantOutputTransforms(id, content.parts)
             : content.parts;
           const items = partsToItems(parts);
           const resolvedModel = isAssistant
@@ -550,7 +532,7 @@ export function createChatHistoryAdapter(
 
           const illustratorJob =
             isAssistant && originalAssistantText.trim()
-              ? await prepareIllustratorJob(userId, id, items, resolvedModel)
+              ? await prepareIllustratorJob(id, items, resolvedModel)
               : null;
 
           const now = dayjs().toDate();
@@ -559,7 +541,7 @@ export function createChatHistoryAdapter(
             null;
           const usage = metadata?.usage ?? null;
           const varsWriteback = metadata?.vars ?? null;
-          await persistInlayMedia(userId, id, metadata);
+          await persistInlayMedia(id, metadata);
           if (metadata?.globalVars != null) {
             chatStore.set(globalVarsAtom, metadata.globalVars);
           }
@@ -570,7 +552,6 @@ export function createChatHistoryAdapter(
             : null;
 
           const placement = await placeOnBranch(
-            userId,
             id,
             messageId,
             item.parentId ?? null,
@@ -596,9 +577,9 @@ export function createChatHistoryAdapter(
             createdAt: now,
             updatedAt: now,
           };
-          const existingConv = await readLocalConversation(userId, id);
+          const existingConv = await readLocalConversation(id);
           if (!existingConv) {
-            await upsertLocalConversation(userId, {
+            await upsertLocalConversation({
               id,
               title: null,
               totalInputTokens: 0,
@@ -610,17 +591,15 @@ export function createChatHistoryAdapter(
             });
           }
           try {
-            await upsertLocalMessage(userId, newMessage);
+            await upsertLocalMessage(newMessage);
             logChatDebug("history.persisted", {
               convId: id,
-              userId,
               messageId,
               role: content.role,
             });
           } catch (e) {
             logChatDebug("history.persist_error", {
               convId: id,
-              userId,
               messageId,
               error: String(e).slice(0, 200),
             });
@@ -637,19 +616,18 @@ export function createChatHistoryAdapter(
             createdAt: now,
           }));
           for (const row of itemRows) {
-            await upsertLocalMessageItem(userId, row);
+            await upsertLocalMessageItem(row);
           }
 
           await persistRequestLog(
             queryClient,
-            userId,
             id,
             messageId,
             metadata,
             resolvedModel,
             now,
           );
-          await bumpConversationTotals(userId, id, existingConv, metadata, now);
+          await bumpConversationTotals(id, existingConv, metadata, now);
           for (const queryKey of [
             queryKeys.chatMeta(id),
             queryKeys.chatMessages(id),
@@ -661,7 +639,6 @@ export function createChatHistoryAdapter(
 
           if (illustratorJob) {
             fireIllustrator(queryClient, illustratorJob, {
-              userId,
               convId: id,
               messageId,
               responseText: originalAssistantText,
@@ -674,12 +651,11 @@ export function createChatHistoryAdapter(
 }
 
 async function runOutputTriggers(
-  userId: number,
   convId: string,
   triggers: TriggerScript[],
   parts: MessagePart[],
 ): Promise<void> {
-  const settings = await readLocalConversationSettings(userId, convId);
+  const settings = await readLocalConversationSettings(convId);
   if (!settings) return;
   const vars = parseStringMap(
     (settings as { vars?: string | null }).vars ?? null,
@@ -700,7 +676,7 @@ async function runOutputTriggers(
     vars,
     globalVars,
     chat: [{ role: "assistant", data: replyText }],
-    ops: makeClientTriggerOps(userId),
+    ops: makeClientTriggerOps(),
   });
   ctx.ops = {
     ...ctx.ops,
@@ -722,7 +698,7 @@ async function runOutputTriggers(
   }
 
   if (JSON.stringify(vars) !== before) {
-    await upsertLocalConversationSettings(userId, {
+    await upsertLocalConversationSettings({
       convId,
       vars: JSON.stringify(vars),
     });

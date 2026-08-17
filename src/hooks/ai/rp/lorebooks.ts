@@ -2,7 +2,6 @@
 
 import { useApiMutation } from "@/lib/react-query/hooks";
 
-import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
@@ -31,7 +30,7 @@ const lorebooks = makeRpEntity<
   readItem: readLocalLorebook,
   upsertLocal: upsertLocalLorebook,
   deleteLocal: deleteLocalLorebook,
-  cloneEntity: async (userId, detail, newId, copyName) => {
+  cloneEntity: async (detail, newId, copyName) => {
     const now = dayjs().toDate();
     const { entries, ...book } = detail;
     const lorebook = {
@@ -48,7 +47,7 @@ const lorebooks = makeRpEntity<
       createdAt: now,
       updatedAt: now,
     }));
-    await upsertLocalLorebookBundle(userId, {
+    await upsertLocalLorebookBundle({
       lorebook: lorebook as never,
       entries: clonedEntries as never,
     });
@@ -62,15 +61,14 @@ export const useDeleteLorebookMutation = lorebooks.useDelete;
 export const useDuplicateLorebookMutation = lorebooks.useDuplicate;
 
 export function useUpdateLorebookMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: LorebookBody }) => {
-      const existing = await readLocalLorebook(userId, args.id);
+      const existing = await readLocalLorebook(args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
-      await upsertLocalLorebook(userId, updated as never);
+      await upsertLocalLorebook(updated as never);
       return updated;
     },
     invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
@@ -78,7 +76,6 @@ export function useUpdateLorebookMutation() {
 }
 
 export function useImportLorebookMutation() {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (file: File) => {
       let raw: unknown;
@@ -95,7 +92,6 @@ export function useImportLorebookMutation() {
       const now = dayjs().toDate();
       const lorebook = {
         id,
-        userId,
         name: parsed.name,
         description: parsed.description ?? null,
         scanDepth: parsed.scanDepth ?? 4,
@@ -121,7 +117,7 @@ export function useImportLorebookMutation() {
         createdAt: now,
         updatedAt: now,
       }));
-      await upsertLocalLorebookBundle(userId, {
+      await upsertLocalLorebookBundle({
         lorebook: lorebook as never,
         entries: entries as never,
       });
@@ -132,11 +128,10 @@ export function useImportLorebookMutation() {
 }
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (body: LorebookEntryBody) => {
       const now = dayjs().toDate();
-      const lb = await readLocalLorebook(userId, lorebookId);
+      const lb = await readLocalLorebook(lorebookId);
       const nextOrder =
         (lb?.entries.reduce((m, e) => Math.max(m, e.orderIndex ?? 0), -1) ??
           -1) + 1;
@@ -148,7 +143,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
         createdAt: now,
         updatedAt: now,
       };
-      await upsertLocalLorebookEntry(userId, row);
+      await upsertLocalLorebookEntry(row);
       return row;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
@@ -156,11 +151,10 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { entryId: string; body: LorebookEntryBody }) => {
       const now = dayjs().toDate();
-      const lb = await readLocalLorebook(userId, lorebookId);
+      const lb = await readLocalLorebook(lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
       const updated = {
         ...(existing ?? {}),
@@ -169,7 +163,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         ...args.body,
         updatedAt: now,
       };
-      await upsertLocalLorebookEntry(userId, updated);
+      await upsertLocalLorebookEntry(updated);
       return updated;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
@@ -177,17 +171,16 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useReorderLorebookEntriesMutation(lorebookId: string) {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (orderedIds: string[]) => {
       const now = dayjs().toDate();
-      const lb = await readLocalLorebook(userId, lorebookId);
+      const lb = await readLocalLorebook(lorebookId);
       if (!lb) return;
       const byId = new Map(lb.entries.map((e) => [e.id, e]));
       for (let i = 0; i < orderedIds.length; i++) {
         const existing = byId.get(orderedIds[i]);
         if (!existing) continue;
-        await upsertLocalLorebookEntry(userId, {
+        await upsertLocalLorebookEntry({
           ...existing,
           orderIndex: i,
           updatedAt: now,
@@ -199,10 +192,9 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
 }
 
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
-  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (entryId: string) => {
-      await deleteLocalLorebookEntry(userId, entryId);
+      await deleteLocalLorebookEntry(entryId);
       return { id: entryId };
     },
     invalidates: [queryKeys.lorebook(lorebookId)],

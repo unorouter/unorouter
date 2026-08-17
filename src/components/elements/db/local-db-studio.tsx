@@ -56,7 +56,7 @@ export function LocalDbStudio(props: Props) {
     if (!ok) return;
     logChatDebug("opfs.wipe.start", { userId });
     try {
-      const local = await getLocalDb(userId);
+      const local = await getLocalDb();
       if (local) {
         await local.destroy();
         resetLocalDbCache();
@@ -86,15 +86,14 @@ export function LocalDbStudio(props: Props) {
     location.reload();
   };
 
-  const download = async (options: DbExportOptions, targetUserId?: number) => {
+  const download = async (options: DbExportOptions) => {
     try {
-      const target = targetUserId ?? userId;
       const filename = `${env.appName.toLowerCase()}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite`;
       const { downloadLocalDb } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await downloadLocalDb(target, filename, options);
+      await downloadLocalDb(filename, options);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",
@@ -114,7 +113,7 @@ export function LocalDbStudio(props: Props) {
     try {
       const { runRecoverOrphanedDb } =
         await import("@/lib/db/client/sahpool/recover-action");
-      const res = await runRecoverOrphanedDb(userId);
+      const res = await runRecoverOrphanedDb();
       if (res.kind === "none") {
         toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
         return;
@@ -146,12 +145,12 @@ export function LocalDbStudio(props: Props) {
     if (!ok) return;
     try {
       const buffer = await file.arrayBuffer();
-      const local = await getLocalDb(userId);
+      const local = await getLocalDb();
       if (local) await local.destroy();
       resetLocalDbCache();
       const { reconcileImport } =
         await import("@/lib/db/client/data-migrate/reconcile-import");
-      const res = await reconcileImport(userId, buffer);
+      const res = await reconcileImport(buffer);
       toast.success(
         t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
           imported: res.imported,

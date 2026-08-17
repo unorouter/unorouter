@@ -23,7 +23,6 @@ import {
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
-import { chatStore, localUserIdAtom } from "@/store/chat-store";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 export type IllustratorConvSettings = {
@@ -37,10 +36,9 @@ export type IllustratorConvSettings = {
 };
 
 export async function resolveIllustratorSettings(
-  userId: number,
   convId: string,
 ): Promise<IllustratorConvSettings | null> {
-  const s = (await readLocalConversationSettings(userId, convId)) as {
+  const s = (await readLocalConversationSettings(convId)) as {
     imageEnabled?: boolean | null;
     utilityModel?: string | null;
     defaultModel?: string | null;
@@ -53,7 +51,7 @@ export async function resolveIllustratorSettings(
   } | null;
   if (!s) return null;
   const preset = s.presetId
-    ? ((await readLocalPreset(userId, s.presetId)) as {
+    ? ((await readLocalPreset(s.presetId)) as {
         imageEnabled?: boolean | null;
         utilityModel?: string | null;
         promptInstruction?: string | null;
@@ -70,7 +68,7 @@ export async function resolveIllustratorSettings(
     }
   } catch {}
   if (s.useCharAvatarRef ?? preset?.useCharAvatarRef) {
-    const primary = await readPrimaryCharacter(userId, convId);
+    const primary = await readPrimaryCharacter(convId);
     const avatarId = (primary as { avatarMediaId?: string | null } | null)
       ?.avatarMediaId;
     if (avatarId) refMediaIds = [avatarId, ...refMediaIds];
@@ -94,8 +92,7 @@ export async function requestImggen(
   if (opts.imageModel && isCustomModelId(opts.imageModel)) {
     const parsed = parseCustomModelId(opts.imageModel);
     if (!parsed) throw new Error("invalid custom model id");
-    const userId = chatStore.get(localUserIdAtom);
-    const provider = await readLocalCustomProvider(userId, parsed.providerId);
+    const provider = await readLocalCustomProvider(parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
     const { generateCustomProviderImage } =
       await import("@/lib/ai/chat/custom-image-gen");
@@ -117,13 +114,10 @@ export async function requestImggen(
   );
 }
 
-export async function resolveRefUrls(
-  userId: number,
-  mediaIds: string[],
-): Promise<string[]> {
+export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
   const urls: string[] = [];
   for (const id of mediaIds.slice(0, 6)) {
-    const row = await readLocalMedia(userId, id);
+    const row = await readLocalMedia(id);
     if (!row) continue;
     const url = row.dataBase64
       ? `data:${row.mimeType};base64,${row.dataBase64}`
@@ -134,14 +128,13 @@ export async function resolveRefUrls(
 }
 
 function makeGenerateImage(
-  userId: number,
   convId: string,
   opts: { imageModel?: string | null; refUrls?: string[] },
 ): NonNullable<AgentRuntime["generateImage"]> {
   return async (prompt) => {
     const img = await requestImggen(prompt, opts);
     if (!img) return null;
-    await upsertLocalMedia(userId, {
+    await upsertLocalMedia({
       id: img.id,
       convId,
       mimeType: img.mimeType,
@@ -165,7 +158,6 @@ function makeGenerateImage(
 }
 
 export type IllustratorRunInput = {
-  userId: number;
   convId: string;
   messageId: string;
   taskId: string;
@@ -182,12 +174,12 @@ export async function runIllustrator(
 ): Promise<boolean> {
   const target = await resolveModelTargetFromStore(input.utilityModel);
   const refUrls = input.refMediaIds?.length
-    ? await resolveRefUrls(input.userId, input.refMediaIds)
+    ? await resolveRefUrls(input.refMediaIds)
     : [];
   const runtime: AgentRuntime = {
     listFreeModels: async () => [target.model],
     generate: target.deps.runUtilityLLM,
-    generateImage: makeGenerateImage(input.userId, input.convId, {
+    generateImage: makeGenerateImage(input.convId, {
       imageModel: input.imageModel,
       refUrls,
     }),
@@ -221,7 +213,7 @@ export async function runIllustrator(
     });
   }
 
-  const items = (await readLocalMessageItems(input.userId, input.convId)) ?? [];
+  const items = (await readLocalMessageItems(input.convId)) ?? [];
   const mine = items.filter((it) => it.messageId === input.messageId);
   const rewritten = mine
     .map((it) => {
@@ -249,7 +241,7 @@ export async function runIllustrator(
       createdAt: it.createdAt,
     }));
 
-  await replaceLocalMessageItems(input.userId, input.messageId, rewritten);
+  await replaceLocalMessageItems(input.messageId, rewritten);
   // The placeholder rendered BEFORE the media row existed, so requestInlay may have cached
   // the resolved-empty marker for this id and, by design, never re-reads it. Without
   // dropping that entry the finished image stays blank until a reload.

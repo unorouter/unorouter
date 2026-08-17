@@ -53,18 +53,12 @@ function bump(): void {
   });
 }
 
-async function resolveName(
-  userId: number,
-  convId: string,
-  nameLower: string,
-): Promise<void> {
-  const bindings = await readLocalConversationBindings(userId, convId);
+async function resolveName(convId: string, nameLower: string): Promise<void> {
+  const bindings = await readLocalConversationBindings(convId);
   const charIds = (bindings?.conversationCharacters ?? []).map(
     (c) => c.characterId,
   );
-  const chars = await Promise.all(
-    charIds.map((id) => readLocalCharacter(userId, id)),
-  );
+  const chars = await Promise.all(charIds.map((id) => readLocalCharacter(id)));
   // First bound character with a matching asset wins (group-chat friendly).
   let mediaId: string | undefined;
   for (const char of chars) {
@@ -80,7 +74,7 @@ async function resolveName(
     cache.set(key(convId, nameLower), { src: "", width: null, height: null });
     return;
   }
-  const row = await readLocalMedia(userId, mediaId);
+  const row = await readLocalMedia(mediaId);
   const k = key(convId, nameLower);
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
@@ -98,9 +92,7 @@ async function resolveName(
       width = bmp.width;
       height = bmp.height;
       bmp.close();
-      void setLocalMediaDimensions(userId, mediaId, width, height).catch(
-        () => {},
-      );
+      void setLocalMediaDimensions(mediaId, width, height).catch(() => {});
     } catch {
       width = null;
       height = null;
@@ -109,11 +101,11 @@ async function resolveName(
   cache.set(k, { src, width, height });
 }
 
-function requestImg(userId: number, convId: string, nameLower: string): void {
+function requestImg(convId: string, nameLower: string): void {
   const k = key(convId, nameLower);
   if (cache.has(k) || pending.has(k)) return;
   pending.add(k);
-  void resolveName(userId, convId, nameLower)
+  void resolveName(convId, nameLower)
     .then(bump)
     .finally(() => pending.delete(k));
 }
@@ -126,7 +118,7 @@ export function invalidateImgAssets(): void {
   bump();
 }
 
-export function replaceImgTokens(text: string, userId: number): string {
+export function replaceImgTokens(text: string): string {
   const convId = chatStore.get(convIdAtom);
   if (!convId) return text.replace(IMG_TOKEN_RE, "");
   return text.replace(IMG_TOKEN_RE, (_m, rawName: string) => {
@@ -134,7 +126,7 @@ export function replaceImgTokens(text: string, userId: number): string {
     const nameLower = name.toLowerCase();
     const hit = cache.get(key(convId, nameLower));
     if (hit === undefined) {
-      requestImg(userId, convId, nameLower);
+      requestImg(convId, nameLower);
       return "";
     }
     if (!hit.src) return "";
