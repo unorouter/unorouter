@@ -425,7 +425,9 @@
       "NEWEST": "Más recientes",
       "POPULAR": "Más populares",
       "TOP_WEEKLY": "Top semanal",
-      "CONTEXT_DESC": "Contexto (alto)"
+      "CONTEXT_DESC": "Contexto (alto)",
+      "UPTIME_DESC": "Disponibilidad (alta)",
+      "SUCCESS_DESC": "Tasa de éxito (alta)"
     },
     "VIEW": {
       "GRID": "Vista de cuadrícula",

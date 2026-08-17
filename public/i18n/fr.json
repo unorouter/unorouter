@@ -425,7 +425,9 @@
       "NEWEST": "Plus récents",
       "POPULAR": "Les plus populaires",
       "TOP_WEEKLY": "Top hebdomadaire",
-      "CONTEXT_DESC": "Contexte (élevé)"
+      "CONTEXT_DESC": "Contexte (élevé)",
+      "UPTIME_DESC": "Disponibilité (élevée)",
+      "SUCCESS_DESC": "Taux de réussite (élevé)"
     },
     "VIEW": {
       "GRID": "Vue grille",

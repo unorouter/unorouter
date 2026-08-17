@@ -23,6 +23,8 @@ export function SortFilter() {
     if (sortOrder === "priceAsc") return t("MODELS.SORT.PRICE_ASC");
     if (sortOrder === "priceDesc") return t("MODELS.SORT.PRICE_DESC");
     if (sortOrder === "contextDesc") return t("MODELS.SORT.CONTEXT_DESC");
+    if (sortOrder === "uptimeDesc") return t("MODELS.SORT.UPTIME_DESC");
+    if (sortOrder === "successDesc") return t("MODELS.SORT.SUCCESS_DESC");
     if (sortOrder === "name") return t("MODELS.SORT.NAME");
     return t("MODELS.SORT.NEWEST");
   };
@@ -63,6 +65,12 @@ export function SortFilter() {
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="contextDesc">
             {t("MODELS.SORT.CONTEXT_DESC")}
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="uptimeDesc">
+            {t("MODELS.SORT.UPTIME_DESC")}
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="successDesc">
+            {t("MODELS.SORT.SUCCESS_DESC")}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="name">
             {t("MODELS.SORT.NAME")}

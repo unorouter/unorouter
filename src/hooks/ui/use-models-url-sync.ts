@@ -28,6 +28,8 @@ const SORT_VALUES = [
   "priceAsc",
   "priceDesc",
   "contextDesc",
+  "uptimeDesc",
+  "successDesc",
 ] as const;
 
 const PARSERS = {

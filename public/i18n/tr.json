@@ -425,7 +425,9 @@
       "NEWEST": "En Yeni",
       "POPULAR": "En Popüler",
       "TOP_WEEKLY": "Haftanın En İyileri",
-      "CONTEXT_DESC": "Bağlam (Yüksek)"
+      "CONTEXT_DESC": "Bağlam (Yüksek)",
+      "UPTIME_DESC": "Çalışma Süresi (Yüksek)",
+      "SUCCESS_DESC": "Başarı Oranı (Yüksek)"
     },
     "VIEW": {
       "GRID": "Tablo görünümü",

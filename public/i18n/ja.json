@@ -425,7 +425,9 @@
       "NEWEST": "新着順",
       "POPULAR": "人気順",
       "TOP_WEEKLY": "週間トップ",
-      "CONTEXT_DESC": "コンテキスト（大）"
+      "CONTEXT_DESC": "コンテキスト（大）",
+      "UPTIME_DESC": "稼働率（高い順）",
+      "SUCCESS_DESC": "成功率（高い順）"
     },
     "VIEW": {
       "GRID": "グリッド表示",

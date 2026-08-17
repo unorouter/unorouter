@@ -425,7 +425,9 @@
       "NEWEST": "最新",
       "POPULAR": "最热门",
       "TOP_WEEKLY": "本周热门",
-      "CONTEXT_DESC": "上下文（高到低）"
+      "CONTEXT_DESC": "上下文（高到低）",
+      "UPTIME_DESC": "可用率（从高到低）",
+      "SUCCESS_DESC": "成功率（从高到低）"
     },
     "VIEW": {
       "GRID": "网格视图",

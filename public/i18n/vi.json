@@ -425,7 +425,9 @@
       "NEWEST": "Mới nhất",
       "POPULAR": "Phổ biến nhất",
       "TOP_WEEKLY": "Top tuần",
-      "CONTEXT_DESC": "Ngữ cảnh (cao)"
+      "CONTEXT_DESC": "Ngữ cảnh (cao)",
+      "UPTIME_DESC": "Thời gian hoạt động (cao)",
+      "SUCCESS_DESC": "Tỷ lệ thành công (cao)"
     },
     "VIEW": {
       "GRID": "Chế độ lưới",

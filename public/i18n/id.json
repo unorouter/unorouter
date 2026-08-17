@@ -425,7 +425,9 @@
       "NEWEST": "Terbaru",
       "POPULAR": "Terpopuler",
       "TOP_WEEKLY": "Teratas Mingguan",
-      "CONTEXT_DESC": "Konteks (Tinggi)"
+      "CONTEXT_DESC": "Konteks (Tinggi)",
+      "UPTIME_DESC": "Waktu Aktif (Tinggi)",
+      "SUCCESS_DESC": "Tingkat Keberhasilan (Tinggi)"
     },
     "VIEW": {
       "GRID": "Tampilan grid",

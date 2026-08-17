@@ -11,7 +11,9 @@ export type SortOrder =
   | "name"
   | "priceAsc"
   | "priceDesc"
-  | "contextDesc";
+  | "contextDesc"
+  | "uptimeDesc"
+  | "successDesc";
 
 export type ModelsStoreState = {
   search: string;

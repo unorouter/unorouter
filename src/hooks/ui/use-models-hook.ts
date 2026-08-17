@@ -57,6 +57,23 @@ function matchesFreeKeyword(query: string): boolean {
   return FREE_KEYWORDS.some((word) => word.toLowerCase().includes(query));
 }
 
+// Highest first, but "no measurement" sorts last rather than as 0: a model
+// nobody has called yet is unmeasured, and ranking it level with one measured
+// at 0% buries the healthy long tail under every untouched row.
+function byReliability(
+  a: number | null | undefined,
+  b: number | null | undefined,
+  ma: PricingCatalogModel,
+  mb: PricingCatalogModel,
+): number {
+  if (a == null || b == null) {
+    if (a == null && b == null)
+      return ma.model_name.localeCompare(mb.model_name);
+    return a == null ? 1 : -1;
+  }
+  return b !== a ? b - a : ma.model_name.localeCompare(mb.model_name);
+}
+
 export function useModelsFilter() {
   const { data } = usePricingBrowseQuery();
   const rankings = useRankingsQuery("week");
@@ -187,6 +204,15 @@ export function useModelsFilter() {
     }
     if (sortOrder === "priceDesc") {
       return effectivePrice(b) - effectivePrice(a);
+    }
+    // Reliability sorts rank "no data" last rather than as 0: a model nobody has
+    // called yet is unmeasured, and sorting it level with a model measured at 0%
+    // buries the healthy long tail under every untouched row.
+    if (sortOrder === "uptimeDesc") {
+      return byReliability(a.uptime_24h, b.uptime_24h, a, b);
+    }
+    if (sortOrder === "successDesc") {
+      return byReliability(a.success_rate, b.success_rate, a, b);
     }
     return a.model_name.localeCompare(b.model_name);
   });
