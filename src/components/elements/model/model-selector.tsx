@@ -232,7 +232,10 @@ function GroupSubmenu(props: {
         side="right"
         align="start"
         sideOffset={4}
-        className="w-60 gap-0 p-1"
+        // A model can expose 20+ provider groups, which overflowed the viewport
+        // and left the cheapest ones unreachable. --available-height is the room
+        // the positioner actually has on the chosen side.
+        className="max-h-[min(20rem,var(--available-height,20rem))] w-60 gap-0 overflow-y-auto p-1"
       >
         <button
           type="button"
