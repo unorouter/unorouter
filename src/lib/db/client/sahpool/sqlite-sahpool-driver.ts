@@ -104,6 +104,13 @@ export class SQLiteSahPoolDriver
 
     this.poolUtil = await this.getPool(databasePath);
 
+    // The pool is cached per VFS name and survives destroy(), so one left
+    // paused by a handover (or by a failed open releasing its handles) would
+    // otherwise be handed back still paused and every statement would fail.
+    if (this.poolUtil.isPaused()) {
+      await this.poolUtil.unpauseVfs();
+    }
+
     if (this.db) {
       await this.destroy();
     }

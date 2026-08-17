@@ -10,6 +10,7 @@ import {
   newSql,
   pauseSql,
   resumeSql,
+  terminateSql,
 } from "@/lib/db/client/new-sql";
 import {
   requestOwnership,
@@ -146,6 +147,17 @@ async function openMigratedSql(
           attempt,
           error: String(err).slice(0, 200),
         });
+        // Release the pool's sync access handles before giving up. destroy()
+        // closes the DATABASE but the pool keeps its handles, so bailing out
+        // here locked the file against this very page: every later attempt then
+        // failed with NoModificationAllowedError, which reads as "another tab
+        // has it" when the culprit is our own abandoned worker. The orphan
+        // guard throws only AFTER the pool is installed, so the users it fires
+        // for could never reopen their database, not even after a reload, and
+        // the salvage UI meant to rescue them was locked out too.
+        await pauseSql(sql).catch(() => {});
+        await sql.destroy().catch(() => {});
+        terminateSql(sql);
         throw err;
       }
       logChatDebug("db.open.retry", {
@@ -159,7 +171,9 @@ async function openMigratedSql(
         attempt,
         error: String(err),
       });
+      await pauseSql(sql).catch(() => {});
       await sql.destroy().catch(() => {});
+      terminateSql(sql);
       await sleep(Math.min(50 * 2 ** attempt, MAX_BACKOFF));
       sql = newSql(dbPath);
     }

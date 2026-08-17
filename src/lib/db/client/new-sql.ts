@@ -62,6 +62,18 @@ export async function pauseSql(sql: SQLocalDrizzle): Promise<void> {
   await control(sql, "sahpool-pause");
 }
 
+// destroy() closes the database but leaves the worker alive, and with it the
+// pool's sync access handles. A discarded client must therefore be terminated
+// as well: a retry loop that abandons one client per attempt otherwise leaves
+// a row of workers all holding the same file, and the next install fails with
+// NoModificationAllowedError blaming "another tab".
+export function terminateSql(sql: SQLocalDrizzle): void {
+  const worker = workers.get(sql);
+  if (!worker) return;
+  worker.terminate();
+  workers.delete(sql);
+}
+
 export async function resumeSql(sql: SQLocalDrizzle): Promise<void> {
   await control(sql, "sahpool-resume");
 }
