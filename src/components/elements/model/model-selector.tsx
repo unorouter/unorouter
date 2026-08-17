@@ -331,13 +331,19 @@ export function ModelSelector(props: ModelSelectorProps) {
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
 
   // A pinned group must exist among the model's servable groups or new-api
-  // silently falls back
-  // to auto while the UI still claims the pin. Reset to auto when the loaded
-  // group list does not contain the pin; skip while the list is still empty
-  // (pricing not loaded yet) so a valid pin is never wiped by a race.
+  // silently falls back to auto while the UI still claims the pin. Reset to auto
+  // only once the list is SETTLED: a non-empty list is not proof it is complete.
+  // The upstream group list is served from a 5-minute cache, and while that cache
+  // repopulates a model can come back missing lanes it will have again seconds
+  // later (users saw a paid provider vanish from the dropdown and return on the
+  // next reload). Resetting off that partial list deleted a pin permanently, for
+  // a condition that had already resolved.
   const candidateGroupsKey = candidateGroups.join("|");
+  const groupsSettled =
+    modelGroupsQuery.isSuccess && !modelGroupsQuery.isFetching;
   useEffect(() => {
     if (!props.group || props.group === AUTO_GROUP) return;
+    if (!groupsSettled) return;
     if (candidateGroups.length > 0 && !candidateGroups.includes(props.group)) {
       logChatDebug("group.pin_reset", {
         model: props.value,
@@ -349,7 +355,7 @@ export function ModelSelector(props: ModelSelectorProps) {
       props.onGroupChange(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run on model or group-list change
-  }, [props.value, candidateGroupsKey]);
+  }, [props.value, candidateGroupsKey, groupsSettled]);
 
   function pickModel(id: string) {
     analytics.chat.modelChanged({ from: props.value, to: id });

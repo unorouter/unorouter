@@ -108,11 +108,12 @@ export function joinItemsToMessages<
 const REASONING_JOIN = "\n\n";
 
 export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
+  const reasoningCount = parts.filter((p) => p.type === "reasoning").length;
+  if (reasoningCount < 2) return parts;
   const texts = parts
     .filter((p) => p.type === "reasoning" && typeof p.text === "string")
     .map((p) => (p.text as string).trim())
     .filter((s) => s.length > 0);
-  if (texts.length < 2) return parts;
   const merged = texts.join(REASONING_JOIN);
   const out: MessagePart[] = [];
   let placed = false;
