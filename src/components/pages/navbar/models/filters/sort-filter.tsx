@@ -98,7 +98,10 @@ export function SortFilter() {
             >
               <span>{t(LABEL_KEY[key])}</span>
               {rank >= 0 && (
-                <span className="bg-primary text-primary-foreground flex h-5 w-5 shrink-0 items-center justify-center rounded font-mono text-[10px]">
+                // The menu item forces text-accent-foreground onto every
+                // descendant while focused, which erased this number against
+                // its own background. Pin the colour so it survives hover.
+                <span className="bg-primary text-primary-foreground! flex h-5 w-5 shrink-0 items-center justify-center rounded font-mono text-[10px]">
                   {rank + 1}
                 </span>
               )}
