@@ -1,4 +1,3 @@
-import { errMessage } from "@/lib/utils/base";
 import { parseChatML } from "@/lib/ai/chat/chatml";
 import { generateInlayImage } from "../media/inlay.service";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
@@ -9,6 +8,13 @@ import { retrieveSemantic } from "../context/retrieval.service";
 
 const TRIGGER_LLM_MAX_TOKENS = 1024;
 
+// THROWS on failure. This is shared by the Lua trigger VM and the illustrator,
+// and they need opposite things from an upstream rejection: the VM wants a
+// string a script can inspect (it formats its own "Error: ..." around this
+// call), while the illustrator treats whatever comes back as the image prompt.
+// Returning the message as text made the illustrator generate from it, so a
+// model that rejected the request put "Error: Invalid prompt: System messages
+// are not allowed..." into the review dialog as if the model had written it.
 export async function runTriggerLLM(
   apiKey: string,
   model: string,
@@ -16,18 +22,15 @@ export async function runTriggerLLM(
 ): Promise<string> {
   const parsed = parseChatML(prompt);
   const messages = parsed ?? [{ role: "user" as const, content: prompt }];
-  try {
-    const provider = getProvider(apiKey);
-    const result = await generateText({
-      model: provider.chatModel(model),
-      messages,
-      maxOutputTokens: TRIGGER_LLM_MAX_TOKENS,
-      maxRetries: 1,
-    });
-    return result.text || "Error: empty response";
-  } catch (err) {
-    return "Error: " + errMessage(err);
-  }
+  const provider = getProvider(apiKey);
+  const result = await generateText({
+    model: provider.chatModel(model),
+    messages,
+    maxOutputTokens: TRIGGER_LLM_MAX_TOKENS,
+    maxRetries: 1,
+  });
+  if (!result.text) throw new Error("empty response");
+  return result.text;
 }
 
 export async function runTriggerSimilarity(
