@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Bir şey bozulursa",
         "P_TROUBLESHOOTING": "Boş model listesi, kopyalarken anahtara bir boşluk karıştığı anlamına gelir. 401, anahtarın yanlış ya da iptal edilmiş olduğunu gösterir, yenisini üretin. Bir modelde 404 ise adın listeden seçilmek yerine elle yazıldığı anlamına gelir.",
         "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Sunucu etiketi artık ücretsiz model bekleme süreni kısaltıyor",
+        "DESCRIPTION": "{appName} Discord etiketini takmak ücretsiz modellerdeki hız sınırı pencereni yüzde 25 kısaltır: dakikada bir çağırabildiğin bir modeli artık 45 saniyede bir çağırabilirsin.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "{appName} üzerindeki ücretsiz modeller dakikada bir başarılı istekle sınırlıdır. Bu sınır, seni bekletmek istediğimiz için değil, yukarı akış sağlayıcıları bizi sınırladığı için var. Discord sunucu etiketimizi takmak artık bu beklemenin sana düşen kısmını yüzde 25 kısaltıyor.",
+        "H_WHAT_CHANGES": "Ne değişiyor",
+        "P_WHAT_CHANGES_1": "Sınır bir kota değil, bir penceredir. 60 saniyede bir çağırabildiğin ücretsiz bir modeli artık 45 saniyede bir çağırabilirsin. Aynı yüzde 25 her ücretsiz model için geçerli; görsel, ses ve video modellerindeki daha uzun pencereler dahil, orada 30 dakikalık bekleme 22 dakika 30 saniyeye iner.",
+        "P_WHAT_CHANGES_2": "İstek sayısını artırmak yerine pencereyi kısaltıyoruz ve bu bilinçli bir tercih. Ücretsiz modellerin çoğu pencere başına tam olarak bir istekte duruyor ve bir isteğin yüzdesi yine bir istek eder.",
+        "H_HOW_TO_GET_IT": "Nasıl alınır",
+        "P_HOW_TO_GET_IT": "Discord'u aç, Kullanıcı Ayarları, ardından Profiller, ardından Sunucu Etiketi bölümüne git ve <discord>sunucumuzu</discord> seç. Bot bunu saniyeler içinde fark eder ve indirimi uygular. Etiketi çıkardığında pencereniz aynı hızla normale döner.",
+        "P_LINKED": "İndirimin sana ulaşması için bağlı bir hesap gerekiyor, çünkü hangi {appName} kullanıcısına uygulayacağımızı bilmemiz lazım. Etiket ayrıca taktığın her tam gün için {tagReward} $ kazandırır ve bu, kısalan pencerenin yerine geçmez, üstüne eklenir. Gerisini <rewards>Discord ödülleri sayfası</rewards> anlatıyor.",
+        "H_WHAT_IT_DOES_NOT_DO": "Ne yapmaz",
+        "P_NOT_DO_1": "Bu senin bekleme süreni kısaltır. Sağlayıcının sınırlarını yükseltmez. Ücretsiz bir model, yukarı akış doygun ya da bozuk olduğu için meşgulse, bizim tarafımızdaki daha kısa pencere var olmayan kapasiteyi yaratmaz ve istek yine takılabilir veya başarısız olabilir.",
+        "P_NOT_DO_2": "Ücretli modellerde dakika başına hiçbir sınır yoktur. Yani her seferinde değil de çoğu zaman değil, her seferinde yanıt veren bir modele ihtiyacın varsa dürüst tavsiye budur. <pricing>Fiyatlar</pricing> milyon token başına kuruşun kesirlerinden başlıyor.",
+        "CTA": "Etiketi almak için <discord>Discord'a katıl</discord> ya da önce <models>ücretsiz modellere göz at</models>."
       }
     }
   },

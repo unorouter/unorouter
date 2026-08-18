@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "If something breaks",
         "P_TROUBLESHOOTING": "Empty model list means the key has a stray space from copying. A 401 means the key is wrong or revoked, so generate a new one. A 404 on a model means it was typed by hand instead of picked from the list.",
         "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "The server tag now cuts your free model wait",
+        "DESCRIPTION": "Wearing the {appName} Discord tag shortens your free-model rate limit window by 25 percent, so a model you could call once a minute you can call every 45 seconds.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Free models on {appName} are limited to one successful request per minute each. That limit exists because the upstream providers rate-limit us, not because we want you to wait. Wearing our Discord server tag now shortens your side of that wait by 25 percent.",
+        "H_WHAT_CHANGES": "What changes",
+        "P_WHAT_CHANGES_1": "The rate limit is a window, not a quota. A free model you could call once every 60 seconds you can now call once every 45. The same 25 percent comes off every free model, including the longer windows on image, audio and video models where a 30 minute wait becomes 22 minutes and 30 seconds.",
+        "P_WHAT_CHANGES_2": "We shorten the window rather than raise the request count on purpose. Most free models sit at exactly one request per window, and a percentage off one request is still one request.",
+        "H_HOW_TO_GET_IT": "How to get it",
+        "P_HOW_TO_GET_IT": "Open Discord, go to User Settings, then Profiles, then Server Tag, and pick <discord>our server</discord>. The bot notices within seconds and applies the discount. Take the tag off and your window goes back to normal just as quickly.",
+        "P_LINKED": "You need a linked account for the discount to reach you, since we have to know which {appName} user to apply it to. The tag also pays ${tagReward} for every full day you wear it, which stacks with the shorter window rather than replacing it. The <rewards>Discord rewards page</rewards> covers the rest.",
+        "H_WHAT_IT_DOES_NOT_DO": "What it does not do",
+        "P_NOT_DO_1": "This shortens your wait. It does not raise the provider's limits. When a free model is busy because the upstream is saturated or degraded, a shorter window on our side does not conjure capacity that is not there, and the request can still stall or fail.",
+        "P_NOT_DO_2": "Paid models have no per-minute limit at all, so if you need a model that answers every time rather than most of the time, that is the honest recommendation. <pricing>Pricing</pricing> starts at fractions of a cent per million tokens.",
+        "CTA": "<discord>Join the Discord</discord> to pick up the tag, or <models>browse the free models</models> first."
       }
     }
   },

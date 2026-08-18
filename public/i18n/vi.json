@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Nếu có gì đó hỏng",
         "P_TROUBLESHOOTING": "Danh sách model trống nghĩa là key dính khoảng trắng thừa khi copy. Lỗi 401 nghĩa là key sai hoặc đã bị thu hồi, hãy tạo key mới. Lỗi 404 ở một model nghĩa là tên được gõ tay chứ không chọn từ danh sách.",
         "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem các model</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Thẻ máy chủ giờ rút ngắn thời gian chờ mô hình miễn phí của bạn",
+        "DESCRIPTION": "Đeo thẻ Discord của {appName} giúp rút ngắn 25 phần trăm cửa sổ giới hạn tốc độ trên các mô hình miễn phí: mô hình trước đây gọi được mỗi phút một lần giờ có thể gọi mỗi 45 giây.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Các mô hình miễn phí trên {appName} bị giới hạn một yêu cầu thành công mỗi phút. Giới hạn đó tồn tại vì các nhà cung cấp thượng nguồn giới hạn chúng tôi, không phải vì chúng tôi muốn bạn phải chờ. Đeo thẻ máy chủ Discord của chúng tôi giờ rút ngắn 25 phần trăm phần chờ đợi thuộc về bạn.",
+        "H_WHAT_CHANGES": "Điều gì thay đổi",
+        "P_WHAT_CHANGES_1": "Giới hạn này là một cửa sổ thời gian, không phải hạn ngạch. Mô hình miễn phí trước đây gọi được mỗi 60 giây giờ gọi được mỗi 45 giây. Cùng mức 25 phần trăm đó áp dụng cho mọi mô hình miễn phí, kể cả những cửa sổ dài hơn ở mô hình ảnh, âm thanh và video, nơi thời gian chờ 30 phút giảm còn 22 phút 30 giây.",
+        "P_WHAT_CHANGES_2": "Chúng tôi rút ngắn cửa sổ thay vì tăng số lượng yêu cầu, và đó là chủ ý. Hầu hết mô hình miễn phí đứng ở đúng một yêu cầu mỗi cửa sổ, và một phần trăm của một yêu cầu thì vẫn là một yêu cầu.",
+        "H_HOW_TO_GET_IT": "Cách nhận",
+        "P_HOW_TO_GET_IT": "Mở Discord, vào Cài đặt người dùng, rồi Hồ sơ, rồi Thẻ máy chủ, và chọn <discord>máy chủ của chúng tôi</discord>. Bot nhận ra trong vài giây và áp dụng ưu đãi. Gỡ thẻ ra thì cửa sổ của bạn trở lại bình thường cũng nhanh như vậy.",
+        "P_LINKED": "Bạn cần một tài khoản đã liên kết để ưu đãi đến được với bạn, vì chúng tôi phải biết áp dụng nó cho người dùng {appName} nào. Thẻ này cũng trả ${tagReward} cho mỗi ngày trọn vẹn bạn đeo, và khoản đó cộng thêm vào cửa sổ ngắn hơn chứ không thay thế nó. <rewards>Trang phần thưởng Discord</rewards> nói rõ phần còn lại.",
+        "H_WHAT_IT_DOES_NOT_DO": "Điều nó không làm được",
+        "P_NOT_DO_1": "Nó rút ngắn thời gian chờ của bạn. Nó không nâng giới hạn của nhà cung cấp. Khi một mô hình miễn phí bận vì thượng nguồn quá tải hoặc suy giảm, cửa sổ ngắn hơn ở phía chúng tôi không tạo ra năng lực vốn không tồn tại, và yêu cầu vẫn có thể treo hoặc thất bại.",
+        "P_NOT_DO_2": "Các mô hình trả phí hoàn toàn không có giới hạn mỗi phút. Vậy nên nếu bạn cần một mô hình trả lời mọi lúc chứ không phải hầu hết thời gian, đó là lời khuyên thành thật. <pricing>Bảng giá</pricing> bắt đầu từ vài phần trăm xu cho mỗi triệu token.",
+        "CTA": "<discord>Tham gia Discord</discord> để lấy thẻ, hoặc <models>xem các mô hình miễn phí</models> trước đã."
       }
     }
   },

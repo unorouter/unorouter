@@ -135,6 +135,21 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "server-tag-cuts-free-model-wait",
+    date: "2026-08-19",
+    tags: ["product"],
+    i18nKey: "BLOG.POSTS.SERVER_TAG_CUTS_FREE_MODEL_WAIT",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 430,
+    headings: [
+      { id: "what-changes", i18nLeaf: "H_WHAT_CHANGES", level: 2 },
+      { id: "how-to-get-it", i18nLeaf: "H_HOW_TO_GET_IT", level: 2 },
+      { id: "what-it-does-not-do", i18nLeaf: "H_WHAT_IT_DOES_NOT_DO", level: 2 },
+    ],
+  },
+  {
     slug: "claude-opus-4-8-vs-4-6-vs-4-7-roleplay",
     date: "2026-07-30",
     tags: ["comparison", "product"],

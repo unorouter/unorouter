@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Si algo falla",
         "P_TROUBLESHOOTING": "Una lista de modelos vacía significa que la clave tiene un espacio suelto del copiado. Un 401 significa que la clave es incorrecta o está revocada, así que genera una nueva. Un 404 en un modelo significa que el nombre se escribió a mano en vez de elegirse de la lista.",
         "CTA": "¿Listo para probarlo? <register>Crea una cuenta gratuita</register> o <models>explora los modelos</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "La etiqueta de servidor ahora reduce tu espera en los modelos gratuitos",
+        "DESCRIPTION": "Llevar la etiqueta de Discord de {appName} acorta un 25 por ciento tu ventana de límite en los modelos gratuitos: un modelo que podías usar una vez por minuto ahora lo puedes usar cada 45 segundos.",
+        "AUTHOR": "Equipo de {appName}",
+        "INTRO": "Los modelos gratuitos en {appName} están limitados a una petición correcta por minuto. Ese límite existe porque los proveedores upstream nos limitan, no porque queramos hacerte esperar. Llevar la etiqueta de nuestro servidor de Discord ahora acorta tu parte de esa espera un 25 por ciento.",
+        "H_WHAT_CHANGES": "Qué cambia",
+        "P_WHAT_CHANGES_1": "El límite es una ventana, no una cuota. Un modelo gratuito que podías llamar cada 60 segundos ahora lo puedes llamar cada 45. Ese mismo 25 por ciento se aplica a todos los modelos gratuitos, incluidas las ventanas más largas de los modelos de imagen, audio y vídeo, donde una espera de 30 minutos pasa a 22 minutos y 30 segundos.",
+        "P_WHAT_CHANGES_2": "Acortamos la ventana en lugar de subir el número de peticiones, y es a propósito. La mayoría de los modelos gratuitos están en exactamente una petición por ventana, y un porcentaje sobre una petición sigue siendo una petición.",
+        "H_HOW_TO_GET_IT": "Cómo conseguirlo",
+        "P_HOW_TO_GET_IT": "Abre Discord, ve a Ajustes de usuario, luego Perfiles, luego Etiqueta de servidor, y elige <discord>nuestro servidor</discord>. El bot lo detecta en segundos y aplica el descuento. Si te quitas la etiqueta, tu ventana vuelve a la normalidad igual de rápido.",
+        "P_LINKED": "Necesitas una cuenta vinculada para que el descuento te llegue, porque tenemos que saber a qué usuario de {appName} aplicárselo. La etiqueta también paga ${tagReward} por cada día completo que la lleves, y eso se suma a la ventana más corta en lugar de sustituirla. La <rewards>página de recompensas de Discord</rewards> cubre el resto.",
+        "H_WHAT_IT_DOES_NOT_DO": "Qué no hace",
+        "P_NOT_DO_1": "Esto acorta tu espera. No sube los límites del proveedor. Cuando un modelo gratuito está saturado porque el upstream está sobrecargado o degradado, una ventana más corta por nuestra parte no crea capacidad que no existe, y la petición todavía puede quedarse colgada o fallar.",
+        "P_NOT_DO_2": "Los modelos de pago no tienen ningún límite por minuto. Así que si necesitas un modelo que responda siempre y no casi siempre, esa es la recomendación honesta. Los <pricing>precios</pricing> empiezan en fracciones de céntimo por millón de tokens.",
+        "CTA": "<discord>Únete al Discord</discord> para conseguir la etiqueta, o <models>explora los modelos gratuitos</models> primero."
       }
     }
   },

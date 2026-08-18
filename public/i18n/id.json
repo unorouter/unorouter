@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Kalau ada yang rusak",
         "P_TROUBLESHOOTING": "Daftar model kosong berarti key kemasukan spasi saat disalin. 401 berarti key salah atau sudah dicabut, jadi buat yang baru. 404 pada sebuah model berarti namanya diketik manual, bukan dipilih dari daftar.",
         "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>lihat model-modelnya</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Tag server kini memangkas waktu tunggu model gratismu",
+        "DESCRIPTION": "Memakai tag Discord {appName} memperpendek jendela batas laju pada model gratis sebesar 25 persen: model yang tadinya bisa dipanggil sekali per menit kini bisa dipanggil setiap 45 detik.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Model gratis di {appName} dibatasi satu permintaan berhasil per menit. Batas itu ada karena penyedia upstream membatasi kami, bukan karena kami ingin membuatmu menunggu. Memakai tag server Discord kami kini memangkas bagianmu dari waktu tunggu itu sebesar 25 persen.",
+        "H_WHAT_CHANGES": "Apa yang berubah",
+        "P_WHAT_CHANGES_1": "Batas ini adalah jendela waktu, bukan kuota. Model gratis yang tadinya bisa dipanggil tiap 60 detik kini bisa dipanggil tiap 45 detik. Dua puluh lima persen yang sama berlaku untuk setiap model gratis, termasuk jendela yang lebih panjang pada model gambar, audio, dan video, di mana tunggu 30 menit menjadi 22 menit 30 detik.",
+        "P_WHAT_CHANGES_2": "Kami memperpendek jendelanya alih-alih menaikkan jumlah permintaan, dan itu disengaja. Sebagian besar model gratis berada tepat di satu permintaan per jendela, dan persentase dari satu permintaan tetap satu permintaan.",
+        "H_HOW_TO_GET_IT": "Cara mendapatkannya",
+        "P_HOW_TO_GET_IT": "Buka Discord, masuk ke Pengaturan Pengguna, lalu Profil, lalu Tag Server, dan pilih <discord>server kami</discord>. Bot akan menyadarinya dalam hitungan detik dan menerapkan diskonnya. Lepas tag itu dan jendelamu kembali normal secepat itu juga.",
+        "P_LINKED": "Kamu butuh akun yang tertaut agar diskonnya sampai kepadamu, karena kami harus tahu ke pengguna {appName} yang mana diskon itu diterapkan. Tag ini juga membayar ${tagReward} untuk setiap hari penuh kamu memakainya, dan itu menambah jendela yang lebih pendek, bukan menggantikannya. Selebihnya ada di <rewards>halaman hadiah Discord</rewards>.",
+        "H_WHAT_IT_DOES_NOT_DO": "Yang tidak dilakukannya",
+        "P_NOT_DO_1": "Ini memangkas waktu tunggumu. Ini tidak menaikkan batas dari penyedia. Ketika model gratis sibuk karena upstream jenuh atau bermasalah, jendela yang lebih pendek di sisi kami tidak menciptakan kapasitas yang memang tidak ada, dan permintaan tetap bisa macet atau gagal.",
+        "P_NOT_DO_2": "Model berbayar sama sekali tidak punya batas per menit. Jadi kalau kamu butuh model yang menjawab setiap saat, bukan sekadar sering, itulah rekomendasi jujurnya. <pricing>Harga</pricing> mulai dari pecahan sen per juta token.",
+        "CTA": "<discord>Gabung ke Discord</discord> untuk mengambil tag, atau <models>lihat dulu model gratisnya</models>."
       }
     }
   },

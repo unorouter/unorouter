@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Se qualcosa non va",
         "P_TROUBLESHOOTING": "Una lista di modelli vuota vuol dire che nella chiave è rimasto uno spazio dalla copia. Un 401 vuol dire che la chiave è sbagliata o revocata, quindi generane una nuova. Un 404 su un modello vuol dire che il nome è stato digitato a mano invece di essere scelto dalla lista.",
         "CTA": "Pronto a provarlo? <register>Crea un account gratuito</register> oppure <models>sfoglia i modelli</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Il tag del server ora riduce la tua attesa sui modelli gratuiti",
+        "DESCRIPTION": "Indossare il tag Discord di {appName} riduce del 25 per cento la tua finestra di limite sui modelli gratuiti: un modello che potevi chiamare una volta al minuto ora lo chiami ogni 45 secondi.",
+        "AUTHOR": "Team di {appName}",
+        "INTRO": "I modelli gratuiti su {appName} sono limitati a una richiesta riuscita al minuto. Quel limite esiste perché i provider upstream limitano noi, non perché vogliamo farti aspettare. Indossare il tag del nostro server Discord ora riduce del 25 per cento la tua parte di quell'attesa.",
+        "H_WHAT_CHANGES": "Cosa cambia",
+        "P_WHAT_CHANGES_1": "Il limite è una finestra, non una quota. Un modello gratuito che potevi chiamare ogni 60 secondi ora lo puoi chiamare ogni 45. Lo stesso 25 per cento vale per ogni modello gratuito, comprese le finestre più lunghe dei modelli di immagini, audio e video, dove un'attesa di 30 minuti diventa 22 minuti e 30 secondi.",
+        "P_WHAT_CHANGES_2": "Accorciamo la finestra invece di alzare il numero di richieste, ed è una scelta voluta. La maggior parte dei modelli gratuiti sta a esattamente una richiesta per finestra, e una percentuale su una richiesta resta una richiesta.",
+        "H_HOW_TO_GET_IT": "Come ottenerlo",
+        "P_HOW_TO_GET_IT": "Apri Discord, vai su Impostazioni utente, poi Profili, poi Tag del server, e scegli <discord>il nostro server</discord>. Il bot se ne accorge in pochi secondi e applica lo sconto. Togli il tag e la tua finestra torna normale altrettanto in fretta.",
+        "P_LINKED": "Ti serve un account collegato perché lo sconto ti raggiunga, dato che dobbiamo sapere a quale utente {appName} applicarlo. Il tag paga anche ${tagReward} per ogni giorno intero in cui lo indossi, e questo si somma alla finestra più corta invece di sostituirla. La <rewards>pagina delle ricompense Discord</rewards> copre il resto.",
+        "H_WHAT_IT_DOES_NOT_DO": "Cosa non fa",
+        "P_NOT_DO_1": "Questo accorcia la tua attesa. Non alza i limiti del provider. Quando un modello gratuito è occupato perché l'upstream è saturo o degradato, una finestra più corta dalla nostra parte non crea capacità che non esiste, e la richiesta può comunque bloccarsi o fallire.",
+        "P_NOT_DO_2": "I modelli a pagamento non hanno alcun limite al minuto. Quindi se ti serve un modello che risponda sempre e non quasi sempre, questo è il consiglio onesto. I <pricing>prezzi</pricing> partono da frazioni di centesimo per milione di token.",
+        "CTA": "<discord>Entra nel Discord</discord> per prendere il tag, oppure <models>sfoglia prima i modelli gratuiti</models>."
       }
     }
   },

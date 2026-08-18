@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Si quelque chose casse",
         "P_TROUBLESHOOTING": "Une liste de modèles vide signifie que la clé contient un espace parasite venu du copier-coller. Un 401 signifie que la clé est fausse ou révoquée, générez-en une nouvelle. Un 404 sur un modèle signifie que le nom a été tapé à la main au lieu d'être choisi dans la liste.",
         "CTA": "Envie d'essayer ? <register>Créez un compte gratuit</register> ou <models>parcourez les modèles</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Le tag de serveur réduit désormais votre attente sur les modèles gratuits",
+        "DESCRIPTION": "Porter le tag Discord {appName} réduit de 25 pour cent votre fenêtre de limitation sur les modèles gratuits : un modèle appelable une fois par minute devient appelable toutes les 45 secondes.",
+        "AUTHOR": "L'équipe {appName}",
+        "INTRO": "Les modèles gratuits sur {appName} sont limités à une requête réussie par minute. Cette limite existe parce que les fournisseurs en amont nous limitent, pas parce que nous voulons vous faire attendre. Porter le tag de notre serveur Discord réduit désormais votre part de cette attente de 25 pour cent.",
+        "H_WHAT_CHANGES": "Ce qui change",
+        "P_WHAT_CHANGES_1": "La limite est une fenêtre, pas un quota. Un modèle gratuit appelable toutes les 60 secondes devient appelable toutes les 45. Les mêmes 25 pour cent s'appliquent à tous les modèles gratuits, y compris aux fenêtres plus longues des modèles d'image, d'audio et de vidéo, où une attente de 30 minutes tombe à 22 minutes et 30 secondes.",
+        "P_WHAT_CHANGES_2": "Nous raccourcissons la fenêtre plutôt que d'augmenter le nombre de requêtes, et c'est délibéré. La plupart des modèles gratuits sont à exactement une requête par fenêtre, et un pourcentage retiré d'une seule requête reste une requête.",
+        "H_HOW_TO_GET_IT": "Comment l'obtenir",
+        "P_HOW_TO_GET_IT": "Ouvrez Discord, allez dans Paramètres utilisateur, puis Profils, puis Tag de serveur, et choisissez <discord>notre serveur</discord>. Le bot le détecte en quelques secondes et applique la réduction. Retirez le tag et votre fenêtre redevient normale tout aussi vite.",
+        "P_LINKED": "Il vous faut un compte lié pour que la réduction vous parvienne, car nous devons savoir à quel utilisateur {appName} l'appliquer. Le tag rapporte aussi {tagReward} $ par journée complète où vous le portez, ce qui s'ajoute à la fenêtre raccourcie au lieu de la remplacer. La <rewards>page des récompenses Discord</rewards> couvre le reste.",
+        "H_WHAT_IT_DOES_NOT_DO": "Ce que cela ne fait pas",
+        "P_NOT_DO_1": "Cela raccourcit votre attente. Cela n'augmente pas les limites du fournisseur. Quand un modèle gratuit est saturé parce que l'amont est surchargé ou dégradé, une fenêtre plus courte de notre côté ne crée pas une capacité qui n'existe pas, et la requête peut toujours bloquer ou échouer.",
+        "P_NOT_DO_2": "Les modèles payants n'ont aucune limite par minute. Donc si vous avez besoin d'un modèle qui répond à chaque fois plutôt que la plupart du temps, c'est la recommandation honnête. Les <pricing>tarifs</pricing> commencent à des fractions de centime par million de tokens.",
+        "CTA": "<discord>Rejoignez le Discord</discord> pour récupérer le tag, ou <models>parcourez les modèles gratuits</models> d'abord."
       }
     }
   },

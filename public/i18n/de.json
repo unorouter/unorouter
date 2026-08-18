@@ -1281,6 +1281,22 @@
         "H_TROUBLESHOOTING": "Wenn etwas hakt",
         "P_TROUBLESHOOTING": "Eine leere Modellliste heißt, im Schlüssel steckt ein Leerzeichen vom Kopieren. Ein 401 heißt, der Schlüssel ist falsch oder widerrufen, erzeugen Sie einen neuen. Ein 404 bei einem Modell heißt, der Name wurde von Hand getippt statt aus der Liste gewählt.",
         "CTA": "Bereit zum Ausprobieren? <register>Erstellen Sie ein kostenloses Konto</register> oder <models>durchstöbern Sie die Modelle</models>."
+      },
+      "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
+        "TITLE": "Das Server-Tag verkürzt jetzt deine Wartezeit bei Gratis-Modellen",
+        "DESCRIPTION": "Wenn du das {appName}-Discord-Tag trägst, verkürzt sich dein Ratenlimit-Fenster für Gratis-Modelle um 25 Prozent: Ein Modell, das du einmal pro Minute aufrufen konntest, kannst du nun alle 45 Sekunden aufrufen.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Gratis-Modelle bei {appName} sind auf eine erfolgreiche Anfrage pro Minute begrenzt. Dieses Limit existiert, weil die Upstream-Anbieter uns drosseln, nicht weil wir dich warten lassen wollen. Wer unser Discord-Server-Tag trägt, verkürzt seinen Teil dieser Wartezeit ab sofort um 25 Prozent.",
+        "H_WHAT_CHANGES": "Was sich ändert",
+        "P_WHAT_CHANGES_1": "Das Ratenlimit ist ein Zeitfenster, kein Kontingent. Ein Gratis-Modell, das du alle 60 Sekunden aufrufen konntest, kannst du jetzt alle 45 Sekunden aufrufen. Dieselben 25 Prozent gelten für jedes Gratis-Modell, auch für die längeren Fenster bei Bild-, Audio- und Videomodellen, wo aus 30 Minuten Wartezeit 22 Minuten und 30 Sekunden werden.",
+        "P_WHAT_CHANGES_2": "Wir verkürzen bewusst das Fenster, statt die Anzahl der Anfragen zu erhöhen. Die meisten Gratis-Modelle liegen bei genau einer Anfrage pro Fenster, und ein Prozentsatz von einer Anfrage bleibt eine Anfrage.",
+        "H_HOW_TO_GET_IT": "So bekommst du es",
+        "P_HOW_TO_GET_IT": "Öffne Discord, gehe zu Benutzereinstellungen, dann Profile, dann Server-Tag, und wähle <discord>unseren Server</discord>. Der Bot bemerkt es innerhalb von Sekunden und aktiviert den Rabatt. Nimmst du das Tag ab, gilt genauso schnell wieder das normale Fenster.",
+        "P_LINKED": "Damit der Rabatt bei dir ankommt, brauchst du ein verknüpftes Konto, denn wir müssen wissen, welchem {appName}-Nutzer er gilt. Das Tag zahlt außerdem {tagReward} $ für jeden vollen Tag, den du es trägst, und das kommt zum kürzeren Fenster hinzu, statt es zu ersetzen. Alles Weitere steht auf der <rewards>Discord-Belohnungsseite</rewards>.",
+        "H_WHAT_IT_DOES_NOT_DO": "Was es nicht leistet",
+        "P_NOT_DO_1": "Es verkürzt deine Wartezeit. Es hebt nicht die Limits des Anbieters an. Wenn ein Gratis-Modell ausgelastet ist, weil der Upstream überlastet oder gestört ist, zaubert ein kürzeres Fenster auf unserer Seite keine Kapazität herbei, die es nicht gibt, und die Anfrage kann weiterhin hängen bleiben oder fehlschlagen.",
+        "P_NOT_DO_2": "Kostenpflichtige Modelle haben überhaupt kein Limit pro Minute. Wenn du also ein Modell brauchst, das jedes Mal antwortet statt meistens, ist das die ehrliche Empfehlung. Die <pricing>Preise</pricing> beginnen bei Bruchteilen eines Cents pro Million Tokens.",
+        "CTA": "<discord>Komm auf den Discord</discord> und hol dir das Tag, oder sieh dir zuerst die <models>Gratis-Modelle</models> an."
       }
     }
   },
