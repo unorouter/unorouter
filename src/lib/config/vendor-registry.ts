@@ -813,6 +813,10 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.DEEPSEEK]: () => import("@lobehub/icons/es/DeepSeek"),
   [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
   [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.AMAZON]: () => import("@lobehub/icons/es/Aws"),
+  [Vendor.MOONDREAM]: () =>
+    import("@/components/elements/brand/moondream-icon"),
+  [Vendor.SLAI]: () => import("@/components/elements/brand/slai-icon"),
   [Vendor.GROQ]: () => import("@lobehub/icons/es/Groq"),
   [Vendor.SDAIA]: () => import("@/components/elements/brand/sdaia-icon"),
   [Vendor.BAAI]: () => import("@lobehub/icons/es/BAAI"),
