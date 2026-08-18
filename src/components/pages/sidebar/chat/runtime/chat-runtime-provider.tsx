@@ -187,6 +187,19 @@ function ChatRuntimeHook() {
         .flatMap(
           (p) => partText(p).match(/\[[^\]\n]{1,40}\]\s*:/g) ?? [],
         ).length;
+      // Reasoning reaches us two ways and they fail differently: a channel that
+      // sends <think> tags is extracted into a reasoning part, while one that
+      // sends the reasoning as a separate upstream field needs the gateway's
+      // thinking_to_content to wrap it first. Both surface to the user as "the
+      // thoughts are in the reply", so record which one happened: tags still in
+      // the visible text mean extraction missed them, no tags and no reasoning
+      // part means the gateway never converted the field.
+      const visibleText = parts
+        .filter((p) => p.type === "text")
+        .map(partText)
+        .join("");
+      const leakedThinkTags = (visibleText.match(/<\/?think(?:ing)?>/gi) ?? [])
+        .length;
       logChatDebug("stream.finish", {
         threadId,
         remoteId,
@@ -194,6 +207,8 @@ function ChatRuntimeHook() {
         reasoningParts,
         multiReasoning: reasoningParts > 1,
         speakerTagHits,
+        leakedThinkTags,
+        reasoningMissing: reasoningParts === 0 && leakedThinkTags === 0,
         parts: parts.map((p) => ({
           type: p.type,
           chars: partText(p).length,
