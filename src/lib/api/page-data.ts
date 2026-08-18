@@ -7,20 +7,12 @@ import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.serv
 import {
   getCatalog,
   getSubscriptionPlansSummary,
-  getVendors,
 } from "@/server/models/pricing/pricing.service";
 import {
   dehydrate,
   QueryClient,
   type DehydratedState,
 } from "@tanstack/react-query";
-
-// SEO pages (models, compare, rankings, home) read their content through these
-// fetchers, which call the upstream services in-process: rpc would loop back
-// over http://127.0.0.1, which has no listener during a server render.
-export async function getCachedPricingVendors() {
-  return (await getVendors()).vendor_names;
-}
 
 export async function getCachedFreeChatModels(limit?: number) {
   const catalog = await getCatalog();

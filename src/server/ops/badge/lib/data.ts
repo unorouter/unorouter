@@ -1,10 +1,13 @@
 import { FAR_FUTURE } from "@/lib/config/constants";
-import { errMessage, modelMatchesSlug, unwrap } from "@/lib/utils/base";
+import { errMessage, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getQuotaDataSummary } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { getCatalog } from "@/server/models/pricing/pricing.service";
-import type { PricingCatalogModel } from "@/openapi";
+import {
+  getCatalog,
+  getModelByName,
+} from "@/server/models/pricing/pricing.service";
+import type { PricingCatalogDetail, PricingCatalogModel } from "@/openapi";
 import type { BadgePricing, BadgeStats } from "./types";
 
 export function getStats(): Promise<BadgeStats> {
@@ -28,14 +31,16 @@ export function getStats(): Promise<BadgeStats> {
     });
 }
 
+// modelSlug only percent-encodes []/ and no live model name contains them, so a
+// badge's slug decodes straight back to the name the by-name route takes.
 export async function findBadgeModel(
   nameOrSlug: string,
-): Promise<PricingCatalogModel | null> {
-  const catalog = await getCatalog(true);
-  return (
-    catalog.models.find((m) => modelMatchesSlug(m.model_name, nameOrSlug)) ??
-    null
-  );
+): Promise<PricingCatalogDetail | null> {
+  let name = nameOrSlug;
+  try {
+    name = decodeURIComponent(nameOrSlug);
+  } catch {}
+  return getModelByName(name);
 }
 
 // The steepest discount per vendor, deepest first: the badge advertises what a

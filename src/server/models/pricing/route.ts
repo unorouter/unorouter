@@ -1,19 +1,27 @@
 import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
+import { unwrap } from "@/lib/utils/base";
+import {
+  getPricingCatalog,
+  getPricingCounts,
+  getPricingVendors,
+} from "@/openapi";
+import { ADMIN_HEADERS } from "@/server/constants";
 import {
   getCatalog,
-  getCounts,
   getModelByName,
   getModelGroups,
   getSubscriptionPlansSummary,
-  getVendorModels,
-  getVendors,
 } from "@/server/models/pricing/pricing.service";
 import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
-  .get("/counts", async () => getCounts())
+  .get("/counts", async () =>
+    unwrap(await getPricingCounts({ headers: ADMIN_HEADERS })),
+  )
 
-  .get("/vendors", async () => getVendors())
+  .get("/vendors", async () =>
+    unwrap(await getPricingVendors({ headers: ADMIN_HEADERS })),
+  )
 
   .get("/browse", async () => getCatalog(true))
 
@@ -23,9 +31,20 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     getEffectiveImageModels((await getCatalog(true)).models),
   )
 
-  .get("/vendor", async (ctx) => getVendorModels(ctx.query.name), {
-    query: t.Object({ name: t.String() }),
-  })
+  // Upstream matches the vendor by slug or exact name, filters and sorts (newest
+  // first, name as tiebreak) and implies `full`, so the vendor page gets its
+  // dozen rows instead of all 341.
+  .get(
+    "/vendor",
+    async (ctx) =>
+      unwrap(
+        await getPricingCatalog(
+          { vendor: ctx.query.name },
+          { headers: ADMIN_HEADERS },
+        ),
+      ).models,
+    { query: t.Object({ name: t.String() }) },
+  )
 
   .get(
     "/detail",

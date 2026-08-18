@@ -1,17 +1,12 @@
 import type { PricingCatalogDetail } from "@/openapi";
 import type { PricingCatalogModel } from "@/openapi";
 import { cache } from "react";
-import { getCachedPricingVendors } from "@/lib/api/page-data";
+import { rpc } from "@/lib/rpc";
 import {
   getCatalog,
   getModelByName,
 } from "@/server/models/pricing/pricing.service";
-import {
-  modelMatchesSlug,
-  modelSlug,
-  vendorMatchesSlug,
-  vendorSlug,
-} from "@/lib/utils/base";
+import { modelMatchesSlug, modelSlug, vendorSlug } from "@/lib/utils/base";
 
 export type ResolvedModel = {
   model: PricingCatalogDetail;
@@ -68,12 +63,15 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   return null;
 }
 
+// Upstream matches a vendor by slug as well as by exact name, so the segment
+// goes straight to it rather than pulling every vendor name back to translate
+// it here. The rows carry the real name, which is what the page renders.
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
-  const seg = slug[0]!;
-  const vendorNames = await getCachedPricingVendors().catch(() => []);
-  const match = vendorNames.find((v) => vendorMatchesSlug(v, seg));
-  return match ?? null;
+  const res = await rpc.api.models.pricing.vendor.get({
+    query: { name: slug[0]! },
+  });
+  return res.data?.[0]?.vendor ?? null;
 }
 
 export function canonicalHref(model: PricingCatalogDetail) {

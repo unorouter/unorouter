@@ -7,10 +7,10 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import {
-  getModelGroups,
-  getVendorModels,
-} from "@/server/models/pricing/pricing.service";
+import { getPricingCatalog } from "@/openapi";
+import { ADMIN_HEADERS } from "@/server/constants";
+import { unwrap } from "@/lib/utils/base";
+import { getModelGroups } from "@/server/models/pricing/pricing.service";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -73,7 +73,12 @@ export default async function ModelDetailPage(props: PageProps) {
     const queryClient = getQueryClient();
     queryClient.setQueryData(
       queryKeys.pricingVendor(resolved.vendor),
-      await getVendorModels(resolved.vendor),
+      unwrap(
+        await getPricingCatalog(
+          { vendor: resolved.vendor },
+          { headers: ADMIN_HEADERS },
+        ),
+      ).models,
     );
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>

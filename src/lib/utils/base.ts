@@ -98,17 +98,6 @@ export function vendorSlug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function vendorMatchesSlug(name: string, slug: string): boolean {
-  let decoded = slug;
-  try {
-    decoded = decodeURIComponent(slug);
-  } catch {
-    decoded = slug;
-  }
-  const target = vendorSlug(name);
-  return target === decoded.toLowerCase() || target === slug.toLowerCase();
-}
-
 export function modelHref(name: string, vendorName?: string) {
   const vendor = vendorName ? vendorSlug(vendorName) : "";
   const slug = [vendor || "unknown", modelSlug(name)];
