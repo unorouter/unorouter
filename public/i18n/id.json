@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "Teratas Mingguan",
       "CONTEXT_DESC": "Konteks (Tinggi)",
       "UPTIME_DESC": "Waktu Aktif (Tinggi)",
-      "SUCCESS_DESC": "Tingkat Keberhasilan (Tinggi)"
+      "SUCCESS_DESC": "Tingkat Keberhasilan (Tinggi)",
+      "MULTI": "{first} + {count} lagi",
+      "HINT": "Pilih beberapa, diberi nomor sesuai prioritas",
+      "CLEAR": "Hapus urutan"
     },
     "VIEW": {
       "GRID": "Tampilan grid",

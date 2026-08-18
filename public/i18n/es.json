@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "Top semanal",
       "CONTEXT_DESC": "Contexto (alto)",
       "UPTIME_DESC": "Disponibilidad (alta)",
-      "SUCCESS_DESC": "Tasa de éxito (alta)"
+      "SUCCESS_DESC": "Tasa de éxito (alta)",
+      "MULTI": "{first} + {count} más",
+      "HINT": "Elige varios, numerados por prioridad",
+      "CLEAR": "Borrar orden"
     },
     "VIEW": {
       "GRID": "Vista de cuadrícula",

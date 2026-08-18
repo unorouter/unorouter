@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "Top tygodnia",
       "CONTEXT_DESC": "Kontekst (wysoki)",
       "UPTIME_DESC": "Dostępność (wysoka)",
-      "SUCCESS_DESC": "Wskaźnik sukcesu (wysoki)"
+      "SUCCESS_DESC": "Wskaźnik sukcesu (wysoki)",
+      "MULTI": "{first} + {count} więcej",
+      "HINT": "Wybierz kilka, numerowane wedle priorytetu",
+      "CLEAR": "Wyczyść sortowanie"
     },
     "VIEW": {
       "GRID": "Widok siatki",

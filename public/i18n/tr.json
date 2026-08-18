@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "Haftanın En İyileri",
       "CONTEXT_DESC": "Bağlam (Yüksek)",
       "UPTIME_DESC": "Çalışma Süresi (Yüksek)",
-      "SUCCESS_DESC": "Başarı Oranı (Yüksek)"
+      "SUCCESS_DESC": "Başarı Oranı (Yüksek)",
+      "MULTI": "{first} + {count} tane daha",
+      "HINT": "Birkaçını seçin, önceliğe göre numaralanır",
+      "CLEAR": "Sıralamayı temizle"
     },
     "VIEW": {
       "GRID": "Tablo görünümü",

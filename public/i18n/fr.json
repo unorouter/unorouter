@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "Top hebdomadaire",
       "CONTEXT_DESC": "Contexte (élevé)",
       "UPTIME_DESC": "Disponibilité (élevée)",
-      "SUCCESS_DESC": "Taux de réussite (élevé)"
+      "SUCCESS_DESC": "Taux de réussite (élevé)",
+      "MULTI": "{first} + {count} de plus",
+      "HINT": "Choisissez-en plusieurs, numérotés par priorité",
+      "CLEAR": "Effacer le tri"
     },
     "VIEW": {
       "GRID": "Vue grille",

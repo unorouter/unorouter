@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "週間トップ",
       "CONTEXT_DESC": "コンテキスト（大）",
       "UPTIME_DESC": "稼働率（高い順）",
-      "SUCCESS_DESC": "成功率（高い順）"
+      "SUCCESS_DESC": "成功率（高い順）",
+      "MULTI": "{first} + 他{count}件",
+      "HINT": "複数選択でき、優先順に番号が付きます",
+      "CLEAR": "並び替えをクリア"
     },
     "VIEW": {
       "GRID": "グリッド表示",

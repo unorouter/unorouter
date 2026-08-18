@@ -15,12 +15,28 @@ export type SortOrder =
   | "uptimeDesc"
   | "successDesc";
 
+export const SORT_VALUES: readonly SortOrder[] = [
+  "popular",
+  "newest",
+  "topWeekly",
+  "priceAsc",
+  "priceDesc",
+  "contextDesc",
+  "uptimeDesc",
+  "successDesc",
+  "name",
+];
+
 export type ModelsStoreState = {
   search: string;
   outputModality: OutputModality;
   selectedVendors: string[];
   selectedModelName: string | null;
   viewMode: ViewMode;
+  // Ordered: index 0 is the primary key, later keys break its ties. The UI
+  // numbers them from this order. Empty = the sortOrder default below, which
+  // stays because a shared link carries ?order= and must keep working.
+  sortKeys: SortOrder[];
   sortOrder: SortOrder;
   collapsedVendors: string[];
   inputModalities: string[];
@@ -44,6 +60,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   selectedVendors: [],
   selectedModelName: null,
   viewMode: "table",
+  sortKeys: [],
   sortOrder: "newest",
   collapsedVendors: [],
   inputModalities: [],
@@ -90,6 +107,18 @@ export const viewModeAtom = field("viewMode", (v) =>
   v === "table" || v === "list" ? v : "table",
 );
 export const sortOrderAtom = field("sortOrder");
+// Drops unknown values rather than passing them through: the list is
+// cookie-persisted and URL-seeded, so a stale or hand-edited key would reach the
+// comparator and silently sort by nothing.
+export const sortKeysAtom = field("sortKeys", (v) =>
+  Array.isArray(v) ? v.filter((k) => SORT_VALUES.includes(k)) : [],
+);
+// The keys actually applied, in priority order. Falls back to the single
+// sortOrder so an untouched page and an ?order= link both still sort.
+export const effectiveSortKeysAtom = atom<SortOrder[]>((get) => {
+  const keys = get(sortKeysAtom);
+  return keys.length > 0 ? keys : [get(sortOrderAtom)];
+});
 export const inputModalitiesAtom = field("inputModalities", arr);
 export const contextMinAtom = field("contextMin");
 export const priceRangeAtom = field("priceRange", (v) =>
@@ -150,6 +179,7 @@ export const activeFilterCountAtom = atom((get) => {
 export const isDirtyAtom = atom(
   (get) =>
     get(activeFilterCountAtom) > 0 ||
+    get(sortKeysAtom).length > 0 ||
     get(sortOrderAtom) !== "newest" ||
     get(viewModeAtom) !== "table",
 );

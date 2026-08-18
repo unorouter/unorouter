@@ -5,6 +5,7 @@ import {
   INITIAL_MODELS_STATE,
   modelsStoreAtom,
   PRICE_MAX,
+  SORT_VALUES,
   type ModelsStoreState,
 } from "@/store/models-store";
 import { nonEmptyArray } from "@/lib/utils/base";
@@ -20,18 +21,6 @@ import {
 } from "nuqs";
 import { useEffect } from "react";
 
-const SORT_VALUES = [
-  "newest",
-  "popular",
-  "topWeekly",
-  "name",
-  "priceAsc",
-  "priceDesc",
-  "contextDesc",
-  "uptimeDesc",
-  "successDesc",
-] as const;
-
 const PARSERS = {
   input_modalities: parseAsArrayOf(parseAsString),
   arch: parseAsArrayOf(parseAsString),
@@ -44,7 +33,10 @@ const PARSERS = {
   max_output_price: parseAsFloat,
   max_age_days: parseAsInteger,
   modality: parseAsStringLiteral(OUTPUT_MODALITIES),
-  order: parseAsStringLiteral(SORT_VALUES),
+  // Comma separated so a chain travels in one param: ?order=priceAsc,successDesc.
+  // A single value still parses, so every ?order=newest link already shared keeps
+  // working.
+  order: parseAsArrayOf(parseAsStringLiteral(SORT_VALUES)),
   tools: parseAsBoolean,
   q: parseAsString,
   view: parseAsStringLiteral(["table", "list"] as const),
@@ -85,7 +77,13 @@ export function ModelsUrlSync() {
           s.outputPriceMax < PRICE_MAX ? s.outputPriceMax : null,
         max_age_days: s.maxAgeDays > 0 ? s.maxAgeDays : null,
         modality: s.outputModality !== "all" ? s.outputModality : null,
-        order: s.sortOrder !== "newest" ? s.sortOrder : null,
+        // Read defensively: this runs against the RAW cookie value, and a
+        // cookie written before sortKeys existed has no such field.
+        order: nonEmptyArray<string>(s.sortKeys)
+          ? s.sortKeys
+          : s.sortOrder !== "newest"
+            ? [s.sortOrder]
+            : null,
         tools: s.toolsOnly ? true : null,
         q: s.search ? s.search : null,
         view: s.viewMode !== "table" ? s.viewMode : null,
@@ -143,7 +141,8 @@ export function ModelsUrlSync() {
         next.maxAgeDays = seed.max_age_days;
       if (seed.modality && cur.outputModality === "all")
         next.outputModality = seed.modality;
-      if (seed.order && cur.sortOrder === "newest") next.sortOrder = seed.order;
+      if (seed.order?.length && !nonEmptyArray(cur.sortKeys))
+        next.sortKeys = seed.order;
       if (seed.tools && !cur.toolsOnly) next.toolsOnly = true;
       if (seed.q && !cur.search) next.search = seed.q;
       if (seed.view === "list" && cur.viewMode === "table")

@@ -427,7 +427,10 @@
       "TOP_WEEKLY": "本周热门",
       "CONTEXT_DESC": "上下文（高到低）",
       "UPTIME_DESC": "可用率（从高到低）",
-      "SUCCESS_DESC": "成功率（从高到低）"
+      "SUCCESS_DESC": "成功率（从高到低）",
+      "MULTI": "{first} + 另{count}项",
+      "HINT": "可多选，按优先级编号",
+      "CLEAR": "清除排序"
     },
     "VIEW": {
       "GRID": "网格视图",
