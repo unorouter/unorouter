@@ -115,9 +115,10 @@ async function mergeDbHistory(
     dbBranch: branch.length,
     dbTotal: db.allIds.size,
     captured: captured.length,
-    // A branch far shorter than the row count means the walk stopped early on a
-    // corrupt level; the request would otherwise ship with the history missing.
-    walkTruncated: db.allIds.size > branch.length + 1,
+    // Against the ACTIVE row count, not the total: alternate greetings and every
+    // swipe leave inactive siblings, so comparing to the total flagged healthy
+    // conversations on every send and made the signal useless.
+    walkTruncated: db.activeCount > branch.length + 1,
   });
   if (branch.length === 0) return captured;
   const capturedIds = new Set(captured.map((m) => m.id));

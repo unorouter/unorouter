@@ -159,6 +159,10 @@ export async function readConvHistoryForSend(convId: string) {
       parts: itemsToParts(m.items as Parameters<typeof itemsToParts>[0]),
     })),
     allIds: new Set(joined.map((m) => m.id)),
+    // Rows the walk was entitled to reach. Every swipe and alternate greeting
+    // leaves an inactive sibling behind, so the total row count runs far ahead
+    // of any branch and cannot say whether the walk stopped early.
+    activeCount: joined.filter((m) => m.isActiveBranch !== false).length,
   };
 }
 
