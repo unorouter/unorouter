@@ -1,9 +1,17 @@
 "use client";
 
 import { logger } from "@/lib/utils/logger";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function SwRegister() {
+  const t = useTranslations();
+  // Resolved here rather than inside the effect so the effect can stay
+  // mount-only: re-registering the worker on a locale change would be wrong,
+  // and these two strings are all it needs from the translator.
+  const updateText = t("COMMON.UPDATE_AVAILABLE");
+  const reloadText = t("COMMON.UPDATE_RELOAD");
   useEffect(() => {
     // We mounted, so this build's chunks loaded fine; clear the one-shot chunk-reload guard so a
     // future post-deploy chunk error can auto-recover again (set in error-fallback).
@@ -36,6 +44,18 @@ export function SwRegister() {
       // reloading would only flash the page for every new visitor.
       if (!navigator.serviceWorker.controller) return;
       stale = true;
+      // A tab held in the foreground never reaches the visibilitychange path, so
+      // it would sit on the old build until closed. Reloading it unprompted can
+      // discard a reply mid-stream, so offer the reload and let the reader pick
+      // the moment. Backgrounded tabs still adopt silently on return.
+      if (document.visibilityState !== "visible") return;
+      toast(updateText, {
+        duration: Infinity,
+        action: {
+          label: reloadText,
+          onClick: () => window.location.reload(),
+        },
+      });
     };
     navigator.serviceWorker.addEventListener(
       "controllerchange",
@@ -67,6 +87,7 @@ export function SwRegister() {
         onControllerChange,
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- register once per mount; the toast strings are captured at registration and a locale change must not re-register the worker
   }, []);
 
   return null;

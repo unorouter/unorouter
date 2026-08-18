@@ -2954,7 +2954,9 @@
       "FROM": "Du",
       "TO": "Au",
       "APPLY": "Appliquer"
-    }
+    },
+    "UPDATE_AVAILABLE": "Une nouvelle version est disponible",
+    "UPDATE_RELOAD": "Recharger"
   },
   "LANGUAGE": {
     "EN": "English",

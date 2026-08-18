@@ -2954,7 +2954,9 @@
       "FROM": "Desde",
       "TO": "Hasta",
       "APPLY": "Aplicar"
-    }
+    },
+    "UPDATE_AVAILABLE": "Hay una nueva versión disponible",
+    "UPDATE_RELOAD": "Recargar"
   },
   "LANGUAGE": {
     "EN": "English",

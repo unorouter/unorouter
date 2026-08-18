@@ -2954,7 +2954,9 @@
       "FROM": "מ",
       "TO": "עד",
       "APPLY": "החל"
-    }
+    },
+    "UPDATE_AVAILABLE": "גרסה חדשה זמינה",
+    "UPDATE_RELOAD": "רענון"
   },
   "LANGUAGE": {
     "EN": "English",

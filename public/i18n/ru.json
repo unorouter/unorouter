@@ -2954,7 +2954,9 @@
       "FROM": "С",
       "TO": "По",
       "APPLY": "Применить"
-    }
+    },
+    "UPDATE_AVAILABLE": "Доступна новая версия",
+    "UPDATE_RELOAD": "Обновить"
   },
   "LANGUAGE": {
     "EN": "English",

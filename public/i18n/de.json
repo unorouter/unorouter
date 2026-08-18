@@ -2954,7 +2954,9 @@
       "FROM": "Von",
       "TO": "Bis",
       "APPLY": "Anwenden"
-    }
+    },
+    "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
+    "UPDATE_RELOAD": "Neu laden"
   },
   "LANGUAGE": {
     "EN": "English",

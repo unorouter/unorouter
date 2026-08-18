@@ -2954,7 +2954,9 @@
       "FROM": "從",
       "TO": "至",
       "APPLY": "套用"
-    }
+    },
+    "UPDATE_AVAILABLE": "有新版本可用",
+    "UPDATE_RELOAD": "重新載入"
   },
   "LANGUAGE": {
     "EN": "English",

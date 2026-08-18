@@ -2954,7 +2954,9 @@
       "FROM": "से",
       "TO": "तक",
       "APPLY": "लागू करें"
-    }
+    },
+    "UPDATE_AVAILABLE": "नया संस्करण उपलब्ध है",
+    "UPDATE_RELOAD": "पुनः लोड करें"
   },
   "LANGUAGE": {
     "EN": "English",

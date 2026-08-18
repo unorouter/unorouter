@@ -2954,7 +2954,9 @@
       "FROM": "Từ",
       "TO": "Đến",
       "APPLY": "Áp dụng"
-    }
+    },
+    "UPDATE_AVAILABLE": "Đã có phiên bản mới",
+    "UPDATE_RELOAD": "Tải lại"
   },
   "LANGUAGE": {
     "EN": "English",

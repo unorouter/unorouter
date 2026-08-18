@@ -2954,7 +2954,9 @@
       "FROM": "Başlangıç",
       "TO": "Bitiş",
       "APPLY": "Uygula"
-    }
+    },
+    "UPDATE_AVAILABLE": "Yeni bir sürüm mevcut",
+    "UPDATE_RELOAD": "Yeniden yükle"
   },
   "LANGUAGE": {
     "EN": "English",
