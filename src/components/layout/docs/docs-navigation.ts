@@ -9,9 +9,9 @@ import {
   platformDocsBySection,
 } from "@/components/pages/docs/platform/platform-docs";
 import {
+  CATEGORY_ICONS,
   CATEGORY_LABELS,
   CATEGORY_ORDER,
-  type SetupCategory,
   setupGuidesByCategory,
 } from "@/components/pages/docs/setup-guides";
 import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
@@ -37,13 +37,6 @@ export type DocsNavItem = {
 export type DocsNavGroup = {
   labelKey: TranslationKey;
   items: DocsNavItem[];
-};
-
-const CATEGORY_ICONS: Record<SetupCategory, IconName> = {
-  coding: "code",
-  roleplay: "drama",
-  general: "message-circle",
-  cli: "terminal",
 };
 
 export const docsNavItemsOverview: DocsNavItem[] = [

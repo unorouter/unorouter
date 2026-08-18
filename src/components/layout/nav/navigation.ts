@@ -2,6 +2,8 @@ import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
 import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import {
+  CATEGORY_DESCRIPTIONS,
+  CATEGORY_ICONS,
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   setupGuidesByCategory,
@@ -48,20 +50,24 @@ const docsSubmenu = (): NavigationItem[] => {
   return [
     ...platformItems,
     ...chatItems,
-    ...CATEGORY_ORDER.flatMap((category) =>
-      byCategory[category].map((guide) => ({
-        name: guide.titleKey,
-        subtitle: guide.subtitleKey,
-        href: guide.href,
-        group: CATEGORY_LABELS[category],
-        guideIcon: {
-          iconKey: guide.iconKey,
-          logoSrc: guide.logoSrc,
-          logoBg: guide.logoBg,
-          logoMono: guide.logoMono,
+    // One row per category rather than one per guide. Listing all 24 integrations
+    // here made the panel taller than the viewport and put a scrollbar inside a
+    // menu; nobody scans two dozen logos to find their client, they go to the
+    // index and search. Platform and Chat stay expanded: those are the pages the
+    // navbar exists to reach.
+    ...CATEGORY_ORDER.flatMap((category): NavigationItem[] => {
+      const guides = byCategory[category];
+      if (guides.length === 0) return [];
+      return [
+        {
+          name: CATEGORY_LABELS[category],
+          subtitle: CATEGORY_DESCRIPTIONS[category],
+          href: "/docs/integrations",
+          group: "DOCS_CHAT.COMMON.TAB_INTEGRATIONS" as TranslationKey,
+          iconName: CATEGORY_ICONS[category],
         },
-      })),
-    ),
+      ];
+    }),
   ];
 };
 

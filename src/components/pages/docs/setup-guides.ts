@@ -1,3 +1,4 @@
+import type { IconName } from "@/lib/config/icon-map";
 import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -1596,6 +1597,13 @@ export const CATEGORY_LABELS: Record<SetupCategory, TranslationKey> = {
   roleplay: "DOCS.SETUP_GUIDE.CATEGORY_ROLEPLAY",
   general: "DOCS.SETUP_GUIDE.CATEGORY_GENERAL",
   cli: "DOCS.SETUP_GUIDE.CATEGORY_CLI",
+};
+
+export const CATEGORY_ICONS: Record<SetupCategory, IconName> = {
+  coding: "code",
+  roleplay: "drama",
+  general: "message-circle",
+  cli: "terminal",
 };
 
 export const CATEGORY_DESCRIPTIONS: Record<SetupCategory, TranslationKey> = {
