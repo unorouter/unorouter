@@ -12,7 +12,7 @@ import { cache } from "react";
 // group maps, so it is ~117KB against the full payload's ~496KB. `full` adds the
 // truncated description and the metadata the browse/compare pages filter on.
 export const getCatalog = cache(async (full = false) => {
-  const res = await getPricingCatalog(full ? { full: "true" } : undefined);
+  const res = await getPricingCatalog({ full });
   return unwrap(res);
 });
 
@@ -31,12 +31,7 @@ export const getModelByName = cache(async (model: string) => {
 // 1800+ the full map carries, and the auto chain already intersected with the
 // model's groups rather than the 56KB global list.
 export async function getModelGroups(name: string) {
-  try {
-    const res = await getPricingModelGroups({ model: name });
-    return unwrap(res);
-  } catch {
-    return { enable_groups: [], group_ratio: {}, auto_chain: [] };
-  }
+  return unwrap(await getPricingModelGroups({ model: name }));
 }
 
 export async function getSubscriptionPlansSummary() {
