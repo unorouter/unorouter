@@ -30,12 +30,20 @@ export const resolveSlug = cache(
   ): Promise<
     | { kind: "model"; model: ResolvedModel }
     | { kind: "vendor"; vendor: string }
+    | { kind: "redirect"; model: PricingCatalogDetail }
     | null
   > => {
     const model = await resolveModel(modelSegment(slug));
     if (model) return { kind: "model", model };
     const vendor = await resolveVendor(slug);
-    return vendor ? { kind: "vendor", vendor } : null;
+    if (vendor) return { kind: "vendor", vendor };
+    // A bare model name, which is the shape every pre-vendor-prefix link still
+    // uses. Vendor wins the segment, so this only runs once that misses.
+    if (slug.length === 1) {
+      const legacy = await resolveModel(slug[0]!);
+      if (legacy) return { kind: "redirect", model: legacy.model };
+    }
+    return null;
   },
 );
 

@@ -18,7 +18,7 @@ import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string[] }>;
@@ -34,6 +34,10 @@ export async function generateMetadata(props: PageProps) {
   // canonical pointing at /<locale>, which Google reads as a soft 404 on a real
   // page. Emit the noindex head here instead.
   if (!resolved) return notFoundMetadata();
+
+  // The page redirects this one, so the head never ships. Skip the noindex that
+  // a missing branch would otherwise emit.
+  if (resolved.kind === "redirect") return {};
 
   if (resolved.kind === "vendor") {
     const vendor = resolved.vendor;
@@ -68,6 +72,10 @@ export default async function ModelDetailPage(props: PageProps) {
   const locale = await serverLocale(props);
   const resolved = await resolveSlug(params.slug);
   if (!resolved) notFound();
+
+  if (resolved.kind === "redirect") {
+    permanentRedirect(localeUrl(locale, canonicalHref(resolved.model)));
+  }
 
   if (resolved.kind === "vendor") {
     const queryClient = getQueryClient();
