@@ -1,4 +1,3 @@
-import { getEffectiveImageModels } from "@/lib/ai/image/models-dynamic";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
@@ -8,6 +7,7 @@ import {
 } from "@/openapi";
 import {
   getCatalog,
+  getImageModels,
   getModelByName,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
@@ -22,9 +22,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/catalog", async () => getCatalog())
 
-  .get("/image-models", async () =>
-    getEffectiveImageModels((await getCatalog(true)).models),
-  )
+  .get("/image-models", async () => getImageModels())
 
   // Upstream matches the vendor by slug or exact name, filters and sorts (newest
   // first, name as tiebreak) and implies `full`, so the vendor page gets its

@@ -8,7 +8,9 @@ import type { PricingCatalogModel } from "@/openapi";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 
-const ENDPOINT_PRECEDENCE: SyncImageEndpoint[] = [
+// Order matters: chooseEndpoint picks the first a model serves. Doubles as the
+// upstream ?endpoint= filter, so the catalog never returns a row this cannot submit.
+export const ENDPOINT_PRECEDENCE: SyncImageEndpoint[] = [
   "image-generation",
   "openai",
   "gemini",
@@ -146,23 +148,12 @@ export function getEffectiveImageModels(
   return computed;
 }
 
+// Upstream already scoped the rows to submittable image models and ordered them
+// newest first, so this only layers the Runware param spec onto each one.
 function computeEffectiveImageModels(
   pricing: PricingCatalogModel[],
 ): ImageModelDescriptor[] {
-  const dynamic: { desc: ImageModelDescriptor; releasedAt: number }[] = [];
-  const seen = new Set<string>();
-  for (const model of pricing) {
-    if (seen.has(model.model_name)) continue;
-    const desc = inferDescriptor(model);
-    if (!desc) continue;
-    seen.add(model.model_name);
-    dynamic.push({ desc, releasedAt: model.release_ts });
-  }
-  dynamic.sort((a, b) => {
-    const diff = b.releasedAt - a.releasedAt;
-    return diff !== 0
-      ? diff
-      : a.desc.displayName.localeCompare(b.desc.displayName);
-  });
-  return dynamic.map((d) => d.desc);
+  return pricing
+    .map(inferDescriptor)
+    .filter((d): d is ImageModelDescriptor => d !== null);
 }
