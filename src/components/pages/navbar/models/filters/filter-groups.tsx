@@ -124,6 +124,22 @@ export function ToolsGroup(props: {
   );
 }
 
+export function PricingGroup(props: {
+  value: boolean;
+  onChange: (next: boolean) => void;
+}) {
+  const t = useTranslations();
+  return (
+    <GroupShell label={t("MODELS.FILTER.PRICING")}>
+      <CheckRow
+        label={t("MODELS.FILTER.HIDE_FREE")}
+        checked={props.value}
+        onToggle={() => props.onChange(!props.value)}
+      />
+    </GroupShell>
+  );
+}
+
 export function ContextGroup(props: {
   value: number;
   onChange: (next: number) => void;

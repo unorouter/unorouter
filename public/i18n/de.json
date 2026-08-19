@@ -334,7 +334,9 @@
       "AGE_7D": "7 Tage",
       "AGE_30D": "30 Tage",
       "AGE_90D": "90 Tage",
-      "AGE_1Y": "1 Jahr"
+      "AGE_1Y": "1 Jahr",
+      "PRICING": "Preise",
+      "HIDE_FREE": "Kostenlose Modelle ausblenden"
     },
     "DETAIL": {
       "DESCRIPTION": "Beschreibung",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Zurücksetzen",
       "FLAT_NO_PARAMS": "Pauschalpreis pro Aufruf. Größe, Qualität und andere Parameter werden bei dieser Variante nicht unterstützt.",
       "UPTIME": "Verfügbar",
-      "SUCCESS_RATE": "Erfolg"
+      "SUCCESS_RATE": "Erfolg",
+      "LATENCY": "Latenz"
     },
     "COMPARE": {
       "BADGE": "Vergleich",

@@ -334,7 +334,9 @@
       "AGE_7D": "7 jours",
       "AGE_30D": "30 jours",
       "AGE_90D": "90 jours",
-      "AGE_1Y": "1 an"
+      "AGE_1Y": "1 an",
+      "PRICING": "Tarifs",
+      "HIDE_FREE": "Masquer les modèles gratuits"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Réinitialiser",
       "FLAT_NO_PARAMS": "Prix forfaitaire par appel. La taille, la qualité et les autres paramètres ne sont pas pris en charge sur cette variante.",
       "UPTIME": "Disponibilité",
-      "SUCCESS_RATE": "Réussite"
+      "SUCCESS_RATE": "Réussite",
+      "LATENCY": "Latence"
     },
     "COMPARE": {
       "BADGE": "Comparer",

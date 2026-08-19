@@ -334,7 +334,9 @@
       "AGE_7D": "7 hari",
       "AGE_30D": "30 hari",
       "AGE_90D": "90 hari",
-      "AGE_1Y": "1 tahun"
+      "AGE_1Y": "1 tahun",
+      "PRICING": "Harga",
+      "HIDE_FREE": "Sembunyikan model gratis"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Atur ulang",
       "FLAT_NO_PARAMS": "Harga tetap per panggilan. Ukuran, kualitas, dan parameter lain tidak didukung pada varian ini.",
       "UPTIME": "Waktu Aktif",
-      "SUCCESS_RATE": "Keberhasilan"
+      "SUCCESS_RATE": "Keberhasilan",
+      "LATENCY": "Latensi"
     },
     "COMPARE": {
       "BADGE": "Bandingkan",

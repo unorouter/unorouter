@@ -2017,6 +2017,7 @@ export type PricingCatalogDataSupportedEndpoint =
   PricingCatalogDataSupportedEndpointAnyOf | null;
 
 export interface PricingCatalogModel {
+  avg_latency_ms?: number | null;
   chat: boolean;
   description?: string;
   fixed_price: number;
@@ -2069,6 +2070,7 @@ export type PricingCatalogDetailGroupRatio = { [key: string]: number };
  */
 export interface PricingCatalogDetail {
   auto_chain: string[];
+  avg_latency_ms?: number | null;
   billing_expr?: string;
   cache_ratio?: number | null;
   chat: boolean;

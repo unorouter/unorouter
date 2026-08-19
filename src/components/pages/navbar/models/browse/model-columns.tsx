@@ -22,6 +22,7 @@ import type { RankedModel } from "@/openapi";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
+  formatLatency,
   formatPct,
   formatTokenCount,
   formatTokens,
@@ -278,6 +279,32 @@ export function buildModelColumns(opts: {
         cellClassName: "hidden @4xl:table-cell text-right",
       },
       cell: ({ row }) => <RateCell value={row.original.success_rate} />,
+    },
+    {
+      id: "latency",
+      // Lower is better, so unmeasured sorts LAST by going high rather than
+      // negative like the rate columns.
+      accessorFn: (m) => m.avg_latency_ms ?? Number.MAX_SAFE_INTEGER,
+      enableSorting: true,
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="MODELS.TABLE.LATENCY"
+          className="justify-end"
+        />
+      ),
+      meta: {
+        headerClassName: "hidden @4xl:table-cell text-right",
+        cellClassName: "hidden @4xl:table-cell text-right",
+      },
+      cell: ({ row }) =>
+        row.original.avg_latency_ms == null ? (
+          <span className="text-muted-foreground">-</span>
+        ) : (
+          <span className="text-muted-foreground">
+            {formatLatency(row.original.avg_latency_ms)}
+          </span>
+        ),
     },
     {
       id: "released",

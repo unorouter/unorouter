@@ -334,7 +334,9 @@
       "AGE_7D": "7 ngày",
       "AGE_30D": "30 ngày",
       "AGE_90D": "90 ngày",
-      "AGE_1Y": "1 năm"
+      "AGE_1Y": "1 năm",
+      "PRICING": "Giá",
+      "HIDE_FREE": "Ẩn mô hình miễn phí"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Đặt lại",
       "FLAT_NO_PARAMS": "Giá cố định mỗi lần gọi. Kích thước, chất lượng và các tham số khác không được hỗ trợ trên biến thể này.",
       "UPTIME": "Hoạt động",
-      "SUCCESS_RATE": "Thành công"
+      "SUCCESS_RATE": "Thành công",
+      "LATENCY": "Độ trễ"
     },
     "COMPARE": {
       "BADGE": "So sánh",

@@ -334,7 +334,9 @@
       "AGE_7D": "7 days",
       "AGE_30D": "30 days",
       "AGE_90D": "90 days",
-      "AGE_1Y": "1 year"
+      "AGE_1Y": "1 year",
+      "PRICING": "Pricing",
+      "HIDE_FREE": "Hide free models"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Reset",
       "FLAT_NO_PARAMS": "Flat per-call price. Size, quality and other parameters are not supported on this variant.",
       "UPTIME": "Uptime",
-      "SUCCESS_RATE": "Success"
+      "SUCCESS_RATE": "Success",
+      "LATENCY": "Latency"
     },
     "COMPARE": {
       "BADGE": "Compare",

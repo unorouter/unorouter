@@ -334,7 +334,9 @@
       "AGE_7D": "7日間",
       "AGE_30D": "30日間",
       "AGE_90D": "90日間",
-      "AGE_1Y": "1年間"
+      "AGE_1Y": "1年間",
+      "PRICING": "料金",
+      "HIDE_FREE": "無料モデルを非表示"
     },
     "DETAIL": {
       "DESCRIPTION": "説明",
@@ -502,7 +504,8 @@
       "SORT_RESET": "リセット",
       "FLAT_NO_PARAMS": "呼び出しごとの定額料金。このバリアントではサイズ、品質などのパラメータはサポートされていません。",
       "UPTIME": "稼働率",
-      "SUCCESS_RATE": "成功率"
+      "SUCCESS_RATE": "成功率",
+      "LATENCY": "レイテンシ"
     },
     "COMPARE": {
       "BADGE": "比較",

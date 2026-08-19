@@ -48,6 +48,7 @@ export type ModelsStoreState = {
   categories: string[];
   supportedParameters: string[];
   toolsOnly: boolean;
+  hideFree: boolean;
 };
 
 export const MODELS_STORE_KEY = "models-store";
@@ -72,6 +73,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   categories: [],
   supportedParameters: [],
   toolsOnly: false,
+  hideFree: false,
 };
 
 export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
@@ -130,6 +132,7 @@ export const seriesAtom = field("series", arr);
 export const categoriesAtom = field("categories", arr);
 export const supportedParametersAtom = field("supportedParameters", arr);
 export const toolsOnlyAtom = field("toolsOnly", (v) => v === true);
+export const hideFreeAtom = field("hideFree", (v) => v === true);
 export const collapsedVendorsAtom = field("collapsedVendors", arr);
 
 export const toggleVendorCollapsedAtom = atom(
@@ -169,6 +172,7 @@ export const activeFilterCountAtom = atom((get) => {
   n += get(categoriesAtom).length;
   n += get(supportedParametersAtom).length;
   if (get(toolsOnlyAtom)) n++;
+  if (get(hideFreeAtom)) n++;
   if (get(contextMinAtom) > 0) n++;
   if (get(priceRangeAtom)[1] < PRICE_MAX) n++;
   if (get(outputPriceMaxAtom) < PRICE_MAX) n++;

@@ -21,6 +21,7 @@ import {
   seriesAtom,
   supportedParametersAtom,
   toolsOnlyAtom,
+  hideFreeAtom,
 } from "@/store/models-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -32,6 +33,7 @@ import {
   OutputPriceGroup,
   PriceGroup,
   ToolsGroup,
+  PricingGroup,
 } from "./filter-groups";
 
 function uniqueSorted(values: string[]): string[] {
@@ -53,6 +55,7 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
   );
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
+  const [hideFree, setHideFree] = useAtom(hideFreeAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
@@ -102,6 +105,7 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
             onChange={setInputModalities}
           />
           <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
+          <PricingGroup value={hideFree} onChange={setHideFree} />
           <ContextGroup value={contextMin} onChange={setContextMin} />
           <PriceGroup value={priceRange} onChange={setPriceRange} />
           <OutputPriceGroup

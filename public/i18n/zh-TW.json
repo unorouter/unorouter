@@ -334,7 +334,9 @@
       "AGE_7D": "7天",
       "AGE_30D": "30天",
       "AGE_90D": "90天",
-      "AGE_1Y": "1年"
+      "AGE_1Y": "1年",
+      "PRICING": "價格",
+      "HIDE_FREE": "隱藏免費模型"
     },
     "DETAIL": {
       "DESCRIPTION": "說明",
@@ -502,7 +504,8 @@
       "SORT_RESET": "重置",
       "FLAT_NO_PARAMS": "按次固定計費。此變體不支援尺寸、品質等參數。",
       "UPTIME": "可用率",
-      "SUCCESS_RATE": "成功率"
+      "SUCCESS_RATE": "成功率",
+      "LATENCY": "延遲"
     },
     "COMPARE": {
       "BADGE": "對比",

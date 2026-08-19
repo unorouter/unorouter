@@ -25,6 +25,7 @@ import {
   sortOrderAtom,
   supportedParametersAtom,
   toolsOnlyAtom,
+  hideFreeAtom,
   viewModeAtom,
 } from "@/store/models-store";
 import { analytics } from "@/lib/analytics";
@@ -100,6 +101,7 @@ export function useModelsFilter() {
     supportedParametersAtom,
   );
   const toolsOnly = useAtomValue(toolsOnlyAtom);
+  const hideFree = useAtomValue(hideFreeAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
@@ -120,6 +122,7 @@ export function useModelsFilter() {
     categories.length > 0 ||
     supportedParameters.length > 0 ||
     toolsOnly ||
+    hideFree ||
     contextMin > 0 ||
     priceRange[0] > 0 ||
     priceRange[1] < PRICE_MAX ||
@@ -163,6 +166,7 @@ export function useModelsFilter() {
       supportedParameters.length === 0 ||
       supportedParameters.every((p) => modelParams.includes(p));
     const matchesTools = !toolsOnly || model.metadata.supportsTools === true;
+    const matchesPaid = !hideFree || !model.is_free;
     return (
       matchesSearch &&
       matchesVendor &&
@@ -174,7 +178,8 @@ export function useModelsFilter() {
       matchesSeries &&
       matchesCategories &&
       matchesParams &&
-      matchesTools
+      matchesTools &&
+      matchesPaid
     );
   });
 

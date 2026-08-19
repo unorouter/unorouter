@@ -334,7 +334,9 @@
       "AGE_7D": "7 gün",
       "AGE_30D": "30 gün",
       "AGE_90D": "90 gün",
-      "AGE_1Y": "1 yıl"
+      "AGE_1Y": "1 yıl",
+      "PRICING": "Fiyatlandırma",
+      "HIDE_FREE": "Ücretsiz modelleri gizle"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -502,7 +504,8 @@
       "SORT_RESET": "Sıfırla",
       "FLAT_NO_PARAMS": "Çağrı başına sabit fiyat. Boyut, kalite ve diğer parametreler bu varyantta desteklenmez.",
       "UPTIME": "Çalışma",
-      "SUCCESS_RATE": "Başarı"
+      "SUCCESS_RATE": "Başarı",
+      "LATENCY": "Gecikme"
     },
     "COMPARE": {
       "BADGE": "Karşılaştır",

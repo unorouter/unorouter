@@ -334,7 +334,9 @@
       "AGE_7D": "7일",
       "AGE_30D": "30일",
       "AGE_90D": "90일",
-      "AGE_1Y": "1년"
+      "AGE_1Y": "1년",
+      "PRICING": "가격",
+      "HIDE_FREE": "무료 모델 숨기기"
     },
     "DETAIL": {
       "DESCRIPTION": "설명",
@@ -502,7 +504,8 @@
       "SORT_RESET": "초기화",
       "FLAT_NO_PARAMS": "호출당 정액 요금입니다. 이 변형에서는 크기, 품질 등의 매개변수가 지원되지 않습니다.",
       "UPTIME": "가동률",
-      "SUCCESS_RATE": "성공률"
+      "SUCCESS_RATE": "성공률",
+      "LATENCY": "지연 시간"
     },
     "COMPARE": {
       "BADGE": "비교",
