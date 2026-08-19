@@ -5,6 +5,7 @@ export type ModelRoleFlags = {
   userStub: boolean;
   endUserStub: boolean;
   prefillSupported: boolean;
+  prefillOpensThink: boolean;
   deepSeekPrefix: boolean;
   deepSeekThinkingToggle: boolean;
   deepSeekThinkingInput: boolean;
@@ -27,6 +28,7 @@ export const DEFAULT_ROLE_FLAGS: ModelRoleFlags = {
   userStub: false,
   endUserStub: false,
   prefillSupported: false,
+  prefillOpensThink: false,
   deepSeekPrefix: false,
   deepSeekThinkingToggle: false,
   deepSeekThinkingInput: false,

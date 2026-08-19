@@ -56,13 +56,24 @@ export async function transformRoles(
     ? collectTrailingReasoning(processedMessages)
     : undefined;
 
+  const prefillText = openThinkForPrefill(
+    assembled.prefill,
+    autoFlags.prefillOpensThink,
+  );
+
   processedMessages = dropFailedAssistantTurns(processedMessages);
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
   processedMessages = demoteLateSystem(processedMessages);
   processedMessages = dropEmptyMessages(processedMessages);
-  if (assembled.prefill && !prefillEmitted(assembled)) {
-    processedMessages = appendPrefill(processedMessages, assembled.prefill);
+  if (prefillText && !prefillEmitted(assembled)) {
+    processedMessages = appendPrefill(processedMessages, prefillText);
+  } else if (prefillText && prefillText !== assembled.prefill) {
+    processedMessages = retagEmittedPrefill(
+      processedMessages,
+      assembled.prefill!,
+      prefillText,
+    );
   }
   if (forceAlternateRoles)
     processedMessages = mergeAlternateRoles(processedMessages);
@@ -149,6 +160,47 @@ function collectTrailingReasoning(
     )
     .map((p) => (p as { text: string }).text);
   return thoughts.length > 0 ? thoughts.join("\n") : undefined;
+}
+
+// Reopen the reasoning block on the prefill so the model resumes thinking instead of answering
+// straight away (see prefillOpensThink). Applied to the prefill STRING, before it is appended, so
+// that a doubled trailing assistant folding into one message during mergeAlternateRoles keeps the
+// tag attached to the prefill segment rather than to the whole merged turn. Left alone when the
+// text already opens one: that is the hand-written shape prefillThinkMiddleware was built for.
+function openThinkForPrefill(
+  prefill: string | undefined,
+  enabled: boolean,
+): string | undefined {
+  if (!prefill || !enabled) return prefill;
+  const open = prefill.lastIndexOf("<think>");
+  if (open !== -1 && !prefill.includes("</think>", open)) return prefill;
+  return `<think>\n${prefill}`;
+}
+
+// The prefill can also reach the message list as a template card emitted by walkTemplate, which
+// skips appendPrefill entirely. Retag that card so the tag lands whichever way the prefill arrived.
+// Matches the LAST assistant message carrying the raw prefill text, since that is the trailing turn
+// the model continues from.
+function retagEmittedPrefill(
+  messages: StreamMessages,
+  rawPrefill: string,
+  tagged: string,
+): StreamMessages {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const m = messages[i];
+    if (m.role !== "assistant" || !Array.isArray(m.parts)) continue;
+    const idx = m.parts.findIndex(
+      (p) => p.type === "text" && (p as { text?: string }).text === rawPrefill,
+    );
+    if (idx === -1) continue;
+    const parts = m.parts.map((p, j) =>
+      j === idx ? { ...p, text: tagged } : p,
+    );
+    return messages.map((msg, j) =>
+      j === i ? ({ ...msg, parts } as (typeof messages)[number]) : msg,
+    );
+  }
+  return messages;
 }
 
 function prefillEmitted(assembled: AssembledSystem): boolean {
