@@ -44,9 +44,11 @@ export function filterParamsToCapabilities(
   }
   // ADetailer is a second billed pass; a model that does not declare it must not run one.
   if (!descriptor.supportsAdetailer) drop("adetailer");
-  // No Runware schema defines a watermark field, so it is never forwardable. Dropped
-  // unconditionally rather than gated on a descriptor flag nothing can set.
+  // No Runware schema defines a watermark or guidance field, so neither is ever
+  // forwardable. Dropped unconditionally rather than gated on a descriptor flag
+  // nothing can set.
   drop("watermark");
+  drop("guidance");
   // The provider enum IS the capability: no accepted values means the field is
   // not forwardable at all.
   if (!descriptor.backgroundChoices?.length) drop("background");

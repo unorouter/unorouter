@@ -75,7 +75,6 @@ export function inferDescriptor(
     maxReferenceImages,
     supportsReferences: maxReferenceImages >= 1,
     supportsSize: endpoint === "image-generation",
-    supportsGuidance: false,
     // A resolved spec with no enum means the model takes no sampler; only an
     // unresolved one falls back to the shared vocabulary.
     samplers: p ? (p.samplers ?? undefined) : RUNWARE_SCHEDULERS,
@@ -87,8 +86,6 @@ export function inferDescriptor(
       ...(p?.cfg?.default != null ? { cfg: p.cfg.default } : {}),
       sampler: "Default",
     },
-    estimatedSeconds: 15,
-    recommendedPromptStyle: "natural-language",
   };
 }
 

@@ -78,18 +78,6 @@ export function CoreParamsFields(props: Props) {
               defaultValue={descriptor.defaultParams.cfg ?? 7}
             />
           )}
-
-          {descriptor.supportsGuidance && (
-            <SliderParamField
-              control={form.control}
-              name="params.guidance"
-              label={t("IMAGE.GUIDANCE_LABEL")}
-              min={1}
-              max={10}
-              step={0.1}
-              defaultValue={descriptor.defaultParams.guidance ?? 4}
-            />
-          )}
         </div>
 
         {descriptor.supportsSampler ? (

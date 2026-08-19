@@ -9,11 +9,11 @@ import {
   useExportSessionMutation,
   useSessionQuery,
 } from "@/hooks/ai/image-hook";
-import { getModelDescriptor } from "@/lib/ai/image/models";
 import type { SnapshotView } from "@/lib/types";
 import { downloadJson } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { snapshotModelLabel } from "./image-constants";
+import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import { useImageNav } from "./image-nav";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -27,11 +27,15 @@ type Props = {
   snapshotId: string;
 };
 
+// Rough placeholder while a generation is in flight; no provider publishes an ETA.
+const ESTIMATED_SECONDS = 15;
+
 export function ImageResult(props: Props) {
   const t = useTranslations();
   const router = useRouter();
   const nav = useImageNav();
 
+  const modelsQuery = useImageModelsQuery();
   const sessionQuery = useSessionQuery(props.sessionId);
   const deleteMut = useDeleteSnapshotMutation();
   const exportMut = useExportSessionMutation();
@@ -106,7 +110,9 @@ export function ImageResult(props: Props) {
   }
 
   const showChevrons = total > 1;
-  const estimatedSeconds = getModelDescriptor(data.model).estimatedSeconds;
+  const descriptor = (modelsQuery.data ?? []).find(
+    (m) => m.model_name === data.model,
+  );
 
   return (
     <div ref={resultRef} className="flex max-w-2xl flex-col gap-4">
@@ -146,7 +152,7 @@ export function ImageResult(props: Props) {
             setLightboxIndex(i);
             setLightboxOpen(true);
           }}
-          supportsHires={getModelDescriptor(data.model).supportsHiresFix}
+          supportsHires={descriptor?.supportsHiresFix}
           onQuickAction={actions.onQuickAction}
           onReuseSeed={actions.onReuseSeed}
         />
@@ -169,7 +175,7 @@ export function ImageResult(props: Props) {
                     current: images.length,
                     total: requestedCount,
                   })
-                : `${estimatedSeconds}s`}
+                : `${ESTIMATED_SECONDS}s`}
             </p>
           </div>
         </div>
@@ -196,7 +202,7 @@ export function ImageResult(props: Props) {
         </Button>
         {/* Hires is per-image (hover actions); this shortcut carries the result along as
             the init image so a region can be redrawn without re-uploading it. */}
-        {isDone && getModelDescriptor(data.model).supportsStrength && (
+        {isDone && descriptor?.supportsStrength && (
           <Button
             variant="outline"
             size="sm"

@@ -8,7 +8,6 @@ export type ImageModelDescriptor = PricingCatalogModel &
     model_name: ImageModelId;
     supportsSize: boolean;
     supportsReferences: boolean;
-    supportsGuidance: boolean;
     defaultParams: {
       width: number;
       height: number;
@@ -22,8 +21,6 @@ export type ImageModelDescriptor = PricingCatalogModel &
     };
     fixedSize?: { width: number; height: number };
     schedulers?: string[];
-    estimatedSeconds: number;
-    recommendedPromptStyle: "natural-language" | "danbooru-tags";
     // Checkpoint-only controls, set by the form's own AIR lookup rather than the
     // catalog: a user picks these at generation time.
     supportsEmbedding?: boolean;
@@ -54,11 +51,8 @@ export function getModelDescriptor(id: ImageModelId): ImageModelDescriptor {
     chat: false,
     supported_endpoint_types: [],
     metadata: { releaseTs: 0 },
-    supportsGuidance: false,
     supportsSize: true,
     supportsReferences: false,
     defaultParams: { width: 1024, height: 1024, steps: 20 },
-    estimatedSeconds: 15,
-    recommendedPromptStyle: "natural-language",
   };
 }
