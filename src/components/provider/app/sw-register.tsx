@@ -38,6 +38,38 @@ export function SwRegister() {
     // running the previous build's JavaScript, with no error to trigger the ChunkLoadError
     // recovery. Users read that as "your deploys arrive late, I have to close the tab a few
     // times", and any bug report made from that tab is really about the old build.
+    // controllerchange fires when the new worker takes control, but its activate
+    // handler deletes the build-scoped caches inside waitUntil, which settles
+    // later. Reloading into that window fetches HTML whose chunks were just
+    // evicted and not yet refetched, so the page renders blank and a second
+    // refresh is needed. Wait for the worker to leave "activating" first.
+    const whenActivated = () => {
+      const w = navigator.serviceWorker.controller;
+      if (!w || w.state === "activated") return Promise.resolve();
+      return new Promise<void>((resolve) => {
+        // iOS Safari can hold a worker in "activating" indefinitely, and never
+        // reloading is worse than reloading early, so the wait is capped.
+        const timer = setTimeout(finish, 3000);
+        function finish() {
+          clearTimeout(timer);
+          w!.removeEventListener("statechange", onState);
+          resolve();
+        }
+        function onState() {
+          if (w!.state === "activated") finish();
+        }
+        w.addEventListener("statechange", onState);
+      });
+    };
+    // A second reload while the first is in flight lands mid-navigation, which
+    // is the state iOS turns into a permanently blank page.
+    let refreshing = false;
+    const reloadWhenReady = () => {
+      if (refreshing) return;
+      refreshing = true;
+      void whenActivated().then(() => window.location.reload());
+    };
+
     let stale = false;
     const onControllerChange = () => {
       // The first worker on this origin also lands here. Nothing is stale then, so
@@ -53,7 +85,7 @@ export function SwRegister() {
         duration: Infinity,
         action: {
           label: reloadText,
-          onClick: () => window.location.reload(),
+          onClick: () => reloadWhenReady(),
         },
       });
     };
@@ -73,7 +105,7 @@ export function SwRegister() {
       if (document.visibilityState !== "visible") return;
       if (stale) {
         stale = false;
-        window.location.reload();
+        reloadWhenReady();
         return;
       }
       registration?.update().catch(() => {});
