@@ -105,20 +105,35 @@ export function writeSamplerMemory(
 function buildDefaultsForm(
   chatDefaults: StreamOverrides,
   modelMemory: ModelSamplerMemory,
+  pendingPreset?: InheritSource | null,
 ): ConversationOverridesForm {
+  // A conversation row only exists after the first send, so before that the
+  // drawer showed defaults while seedConversation was already binding the
+  // selected preset. The values sent and the values displayed disagreed, and
+  // users read that as the preset not applying. Layer the pending preset here
+  // on the same precedence seedConversation uses: preset over defaults, except
+  // maxTokens, which stays sticky unless the preset sets its own.
+  const p = pendingPreset ?? {};
   const layered = {
-    temperature: modelMemory.temperature ?? chatDefaults.temperature,
-    topP: modelMemory.topP ?? chatDefaults.topP,
-    topK: modelMemory.topK ?? chatDefaults.topK,
-    minP: modelMemory.minP ?? chatDefaults.minP,
-    topA: modelMemory.topA ?? chatDefaults.topA,
+    temperature:
+      modelMemory.temperature ?? p.temperature ?? chatDefaults.temperature,
+    topP: modelMemory.topP ?? p.topP ?? chatDefaults.topP,
+    topK: modelMemory.topK ?? p.topK ?? chatDefaults.topK,
+    minP: modelMemory.minP ?? p.minP ?? chatDefaults.minP,
+    topA: modelMemory.topA ?? p.topA ?? chatDefaults.topA,
     frequencyPenalty:
-      modelMemory.frequencyPenalty ?? chatDefaults.frequencyPenalty,
+      modelMemory.frequencyPenalty ??
+      p.frequencyPenalty ??
+      chatDefaults.frequencyPenalty,
     presencePenalty:
-      modelMemory.presencePenalty ?? chatDefaults.presencePenalty,
+      modelMemory.presencePenalty ??
+      p.presencePenalty ??
+      chatDefaults.presencePenalty,
     repetitionPenalty:
-      modelMemory.repetitionPenalty ?? chatDefaults.repetitionPenalty,
-    maxTokens: modelMemory.maxTokens ?? chatDefaults.maxTokens,
+      modelMemory.repetitionPenalty ??
+      p.repetitionPenalty ??
+      chatDefaults.repetitionPenalty,
+    maxTokens: modelMemory.maxTokens ?? p.maxTokens ?? chatDefaults.maxTokens,
   };
   return {
     personaId: NONE_VALUE,
@@ -236,7 +251,7 @@ export function computeFormValues(args: {
     const memory = args.activeModelName
       ? (args.samplerMemoryByModel[args.activeModelName] ?? {})
       : {};
-    return buildDefaultsForm(args.chatDefaults, memory);
+    return buildDefaultsForm(args.chatDefaults, memory, args.preset);
   }
   if (!args.settings || !args.bindings) return undefined;
   return buildSettingsForm(args.settings, args.bindings, args.preset);

@@ -98,9 +98,13 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const bindings = bindingsQuery.data;
 
   const presetsQuery = usePresetsQuery();
+  const loadout = useAtomValue(chatLoadoutAtom);
+  // Before the first send there is no settings row, so the only record of the
+  // chosen preset is the loadout that seedConversation will bind from.
+  const effectivePresetId = settings?.presetId ?? loadout.presetId;
   const boundPreset =
-    (settings?.presetId
-      ? presetsQuery.data?.find((p) => p.id === settings.presetId)
+    (effectivePresetId
+      ? presetsQuery.data?.find((p) => p.id === effectivePresetId)
       : null) ?? null;
 
   const formValues = computeFormValues({
