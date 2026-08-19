@@ -438,7 +438,7 @@ function GroupPricingSection(props: {
   const [open, setOpen] = useState(false);
   const model = props.model;
   const theme = props.theme;
-  const hasGrid = model.grid_pricing !== null;
+  const hasGrid = !!model.grid_pricing?.length;
   const groupEntries = buildGroupEntries(
     model.enable_groups,
     props.groupRatioMap,
