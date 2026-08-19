@@ -243,7 +243,7 @@ export function buildDebugSnapshot(
   autoFlags?: AutoFlags,
   modelInfo?: PricingCatalogDetail,
   historyStats?: Record<string, unknown>,
-  tokenizer?: string,
+  tokenizer?: { source: string; exact: boolean },
 ) {
   const ctx = body.chatContext;
   const leanMessages = messagesForUpstream.map((m) => ({
@@ -268,7 +268,10 @@ export function buildDebugSnapshot(
       prefill: assembled?.prefill ?? null,
       extraBody: assembled?.extraBody ?? null,
       providerRouting: assembled?.providerRouting ?? null,
-      tokenizer: tokenizer ?? null,
+      tokenizer: tokenizer?.source ?? null,
+      // false means the load failed and counts are ~4 chars/token, whatever
+      // name sits above.
+      tokenizerExact: tokenizer?.exact ?? null,
       promptTokens: assembled?.promptTokens ?? null,
       // Ordering decides whether post-history sits above or below the chat,
       // which changes how strongly it holds at depth.

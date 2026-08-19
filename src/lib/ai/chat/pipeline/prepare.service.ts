@@ -2,6 +2,7 @@ import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
 import {
+  activeTokenizerState,
   setActiveTokenizer,
   tokenizerRefForModel,
   type TokenizerRef,
@@ -70,6 +71,7 @@ export async function prepareChatRequest(
     body.model,
   );
   await setActiveTokenizer(activeTokenizer);
+  const tokenizerState = activeTokenizerState();
 
   throwIfAborted(abortSignal);
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
@@ -143,7 +145,7 @@ export async function prepareChatRequest(
       autoFlags,
       modelInfo,
       prompt.historyStats,
-      activeTokenizer,
+      tokenizerState,
     ),
     bodyMutations: buildBodyMutations(
       prompt.assembled,

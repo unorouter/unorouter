@@ -39,6 +39,7 @@ const APPROXIMATE: Encoder = (text) => Math.ceil(text.length / 4);
 
 const instanceCache = new Map<string, Encoder>(); // keyed by resolved source
 const inflight = new Map<string, Promise<Encoder>>();
+const degraded = new Set<string>(); // sources whose load failed into APPROXIMATE
 
 // cl100k is lazy too: gpt-tokenizer embeds ~2MB of BPE rank data, which a
 // static import put into the chat entry chunk (983KB brotli). Counts are
@@ -201,7 +202,12 @@ export async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
 
   const job = target
     .load()
-    .catch(() => APPROXIMATE)
+    .catch(() => {
+      // A failed load still counts, just at ~4 chars per token. Silent before,
+      // which let a debug export name a tokenizer that was never running.
+      degraded.add(target.source);
+      return APPROXIMATE;
+    })
     .then((enc) => {
       instanceCache.set(target.source, enc);
       inflight.delete(target.source);
@@ -215,6 +221,11 @@ export async function setActiveTokenizer(ref: TokenizerRef): Promise<void> {
   const enc = await loadTokenizer(ref);
   active = enc;
   activeId = resolveSource(ref).source;
+}
+
+/** What is actually counting, which is not always what was asked for. */
+export function activeTokenizerState(): { source: string; exact: boolean } {
+  return { source: activeId, exact: !degraded.has(activeId) };
 }
 
 export function countTokens(text: string | undefined): number {
