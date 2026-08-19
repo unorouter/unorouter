@@ -40,6 +40,30 @@ export function requestPersistentStorage(): void {
     );
 }
 
+// A blank shell on iOS has three causes that look identical to the user, and
+// only one is ours: the WebContent process being killed for memory, a bfcache
+// restore handing back a heap whose listeners no longer match the DOM, or a
+// resume-time reload that never lands (WebKit #211018). pageshow.persisted
+// separates the bfcache case, and the memory reading separates the jetsam one,
+// so a report can name the cause instead of guessing at it.
+export function installResumeDiagnostics(): void {
+  window.addEventListener("pageshow", (e) => {
+    const mem = (
+      performance as unknown as { memory?: { usedJSHeapSize?: number } }
+    ).memory;
+    logChatDebug("page.show", {
+      // true means the heap came back from bfcache rather than being rebuilt.
+      bfcache: e.persisted,
+      heapMB: mem?.usedJSHeapSize
+        ? Math.round(mem.usedJSHeapSize / 1048576)
+        : null,
+    });
+  });
+  window.addEventListener("pagehide", (e) => {
+    logChatDebug("page.hide", { bfcached: e.persisted });
+  });
+}
+
 // Extensions that mutate the DOM (Translate, Dark Reader, Grammarly) detach
 // nodes React still owns, so its next commit on a big subtree swap throws
 // NotFoundError and white-screens the app. The node is already in the desired

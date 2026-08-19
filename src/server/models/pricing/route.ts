@@ -24,9 +24,6 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/image-models", async () => getImageModels())
 
-  // Upstream matches the vendor by slug or exact name, filters and sorts (newest
-  // first, name as tiebreak) and implies `full`, so the vendor page gets its
-  // dozen rows instead of all 341.
   .get(
     "/vendor",
     async (ctx) =>
@@ -44,9 +41,6 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     { query: t.Object({ model: t.String() }) },
   )
 
-  // Upstream scopes every field to this model: ~17 group ratios rather than the
-  // 1800+ the full map carries, and the auto chain already intersected with the
-  // model's groups rather than the 56KB global list.
   .get(
     "/model-groups",
     async (ctx) =>
