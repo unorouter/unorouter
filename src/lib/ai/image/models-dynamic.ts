@@ -60,53 +60,26 @@ export function inferDescriptor(
   const endpoint = chooseEndpoint(model.supported_endpoint_types);
   if (!endpoint) return null;
 
-  // Resolved by the sync from the provider's own schema. Absent means unresolved,
-  // so every control stays off rather than guessing one the model would reject.
+  // Which controls the model accepts, resolved by the sync from the provider's own
+  // schema. Absent means unresolved, so nothing is claimed rather than guessing a
+  // control the model would reject.
   const p = model.metadata?.imageParams;
-  const supportsSize = endpoint === "image-generation";
-  // A resolved spec is authoritative, INCLUDING its zero: an SDXL checkpoint takes
-  // no reference images, so falling back to a default there would offer an uploader
-  // the model rejects.
   const maxReferenceImages = p
     ? p.maxReferenceImages
     : (model.metadata?.maxImageInputs ??
       (endpoint === "image-generation" ? 1 : 0));
 
   return {
-    id: model.model_name,
-    displayName: model.model_name,
-    vendor: model.vendor,
-    pricePerCall: model.is_fixed_price ? model.fixed_price : 0,
-    isFree: model.is_free,
-    supportsSize,
-    supportsReferences: maxReferenceImages >= 1,
+    ...model,
+    ...p,
     maxReferenceImages,
-    supportsNegativePrompt: p?.supportsNegativePrompt ?? false,
-    supportsCfg: p?.supportsCfg ?? false,
-    supportsSteps: p?.supportsSteps ?? false,
-    supportsSampler: p?.supportsSampler ?? false,
-    supportsLoraChain: p?.supportsLoraChain ?? false,
-    supportsSeed: p?.supportsSeed ?? false,
-    supportsStrength: p?.supportsStrength ?? false,
-    supportsHiresFix: p?.supportsHiresFix ?? false,
-    supportsAdetailer: p?.supportsAdetailer ?? false,
+    supportsReferences: maxReferenceImages >= 1,
+    supportsSize: endpoint === "image-generation",
     supportsGuidance: false,
-    // The schema enum is the accepted vocabulary, so a value picked from it cannot
-    // be rejected the way a shared hardcoded list could. A resolved spec with no
-    // enum means the model takes no sampler at all.
+    // A resolved spec with no enum means the model takes no sampler; only an
+    // unresolved one falls back to the shared vocabulary.
     samplers: p ? (p.samplers ?? undefined) : RUNWARE_SCHEDULERS,
-    schedulers: undefined,
-    supportsOutputFormat: !!p?.outputFormatChoices?.length,
-    outputFormatChoices: p?.outputFormatChoices ?? undefined,
-    supportsQuality: !!p?.qualityChoices?.length,
-    qualityChoices: p?.qualityChoices ?? undefined,
-    supportsBackground: !!p?.backgroundChoices?.length,
-    stepsMin: p?.steps?.min ?? undefined,
-    stepsMax: p?.steps?.max ?? undefined,
-    cfgMin: p?.cfg?.min ?? undefined,
-    cfgMax: p?.cfg?.max ?? undefined,
-    // "Default" lets the checkpoint pick rather than pinning a sampler the model
-    // may reject.
+    // "Default" lets the checkpoint pick rather than pinning one it may reject.
     defaultParams: {
       width: 1024,
       height: 1024,

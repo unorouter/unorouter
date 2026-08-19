@@ -31,10 +31,10 @@ export function useModelTabFit(args: Args) {
   useEffect(() => {
     if (effectiveModels.length === 0 || args.isLoggedIn) return;
     const current = form.getValues("model") ?? "";
-    const desc = effectiveModels.find((m) => m.id === current);
-    if (desc?.isFree) return;
-    const freePool = effectiveModels.filter((m) => m.isFree);
-    if (freePool.length > 0) changeModel(freePool[0].id);
+    const desc = effectiveModels.find((m) => m.model_name === current);
+    if (desc?.is_free) return;
+    const freePool = effectiveModels.filter((m) => m.is_free);
+    if (freePool.length > 0) changeModel(freePool[0].model_name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- changeModel is recreated per render; keying on login/model-list is the intent
   }, [args.isLoggedIn, effectiveModels]);
 
@@ -43,10 +43,10 @@ export function useModelTabFit(args: Args) {
     // Must not fire before the draft restore (see useDraftPersistence).
     if (args.draftRestoredTab === null && !args.remixId) return;
     const current = form.getValues("model") ?? "";
-    const desc = effectiveModels.find((m) => m.id === current);
+    const desc = effectiveModels.find((m) => m.model_name === current);
     if (!desc || isModelInTab(desc, args.tab)) return;
     const pool = effectiveModels.filter((m) => isModelInTab(m, args.tab));
-    if (pool.length > 0) changeModel(pool[0].id);
+    if (pool.length > 0) changeModel(pool[0].model_name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- changeModel is recreated per render; keying on tab/list/restore-state is the intent
   }, [args.tab, effectiveModels, args.draftRestoredTab, args.remixId]);
 }

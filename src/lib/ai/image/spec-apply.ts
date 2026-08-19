@@ -103,22 +103,16 @@ export function applyParamSpec(
     maxReferenceImages: spec.maxReferenceImages,
     supportsSeed: "seed" in params || base.supportsSeed,
     supportsStrength: "strength" in params,
-    // Output format and quality come from the schema's own enum and bounds, so the
-    // choices offered are exactly the ones the provider accepts.
-    supportsOutputFormat: !!outputFormat?.enum?.length,
+    // Quality and background are provider settings rather than top-level params,
+    // and their accepted values differ per provider ("auto|high|medium|low" on
+    // gpt-image), so the enum is both the capability and the choices.
     outputFormatChoices: outputFormat?.enum,
-    // Quality and background are provider settings rather than top-level params, and
-    // their accepted values differ per provider ("auto|high|medium|low" on gpt-image,
-    // "auto|opaque|transparent" for background), so both come from the schema enum.
-    supportsQuality: !!quality?.enum?.length,
     qualityChoices: quality?.enum,
-    supportsBackground: !!background?.enum?.length,
+    backgroundChoices: background?.enum,
     supportsHiresFix: "hiresFix" in params,
     supportsAdetailer: "ultralytics" in params,
-    stepsMin: numeric(steps?.min),
-    stepsMax: numeric(steps?.max),
-    cfgMin: numeric(cfg?.min),
-    cfgMax: numeric(cfg?.max),
+    steps: { min: numeric(steps?.min), max: numeric(steps?.max) },
+    cfg: { min: numeric(cfg?.min), max: numeric(cfg?.max) },
     defaultParams: {
       ...base.defaultParams,
       ...(numeric(steps?.default) !== undefined

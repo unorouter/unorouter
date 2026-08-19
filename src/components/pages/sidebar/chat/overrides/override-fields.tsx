@@ -524,10 +524,10 @@ function ImageModelField(props: {
   const imageModels = useImageModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
   const catalogOptions = (imageModels ?? []).map((m) => ({
-    id: m.id,
+    id: m.model_name,
     name: m.maxReferenceImages
-      ? `${m.id} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.maxReferenceImages })})`
-      : m.id,
+      ? `${m.model_name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.maxReferenceImages })})`
+      : m.model_name,
   }));
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models

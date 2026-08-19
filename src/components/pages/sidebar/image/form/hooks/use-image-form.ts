@@ -35,7 +35,7 @@ export function useImageForm() {
   const imageModelsQuery = useImageModelsQuery();
   const effectiveModels = imageModelsQuery.data ?? [];
   const findDescriptor = (id: ImageModelId): ImageModelDescriptor =>
-    effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
+    effectiveModels.find((m) => m.model_name === id) ?? getModelDescriptor(id);
 
   const form = useForm<ImageFormValues>({
     resolver: typeboxResolver(imageFormValues),
@@ -97,7 +97,7 @@ export function useImageForm() {
   // A preset picks a model deliberately, so the TAB follows the model (the fit hook
   // resolves the other direction and would swap the preset's model out).
   const adoptModelTab = (modelId: string) => {
-    const desc = effectiveModels.find((m) => m.id === modelId);
+    const desc = effectiveModels.find((m) => m.model_name === modelId);
     if (!desc || isModelInTab(desc, nav.tab)) return;
     const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
     nav.setTab(target);

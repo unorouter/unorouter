@@ -40,7 +40,7 @@ export function CoreParamsFields(props: Props) {
     useWatch({ control: form.control, name: "params.cfg" }) ??
     descriptor.defaultParams.cfg ??
     7;
-  const showSteps = descriptor.supportsSteps !== false;
+  const showSteps = descriptor.supportsSteps === true;
   const summary = [
     showSteps ? `${t("IMAGE.STEPS_LABEL")} ${steps}` : null,
     descriptor.supportsCfg ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
@@ -60,8 +60,8 @@ export function CoreParamsFields(props: Props) {
               control={form.control}
               name="params.steps"
               label={t("IMAGE.STEPS_LABEL")}
-              min={descriptor.stepsMin ?? 1}
-              max={descriptor.stepsMax ?? 50}
+              min={descriptor.steps?.min ?? 1}
+              max={descriptor.steps?.max ?? 50}
               step={1}
               defaultValue={descriptor.defaultParams.steps ?? 20}
             />
@@ -72,8 +72,8 @@ export function CoreParamsFields(props: Props) {
               control={form.control}
               name="params.cfg"
               label={t("IMAGE.CFG_LABEL")}
-              min={descriptor.cfgMin ?? 0}
-              max={descriptor.cfgMax ?? 15}
+              min={descriptor.cfg?.min ?? 0}
+              max={descriptor.cfg?.max ?? 15}
               step={0.5}
               defaultValue={descriptor.defaultParams.cfg ?? 7}
             />

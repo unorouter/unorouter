@@ -11,7 +11,7 @@ import { INITIAL_MODEL } from "../../image-constants";
 
 export function defaultsFor(d: ImageModelDescriptor): ImageFormValues {
   return {
-    model: d.id,
+    model: d.model_name,
     prompt: "",
     negativePrompt: "",
     params: { ...d.defaultParams },

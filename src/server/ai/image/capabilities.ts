@@ -47,13 +47,15 @@ export function filterParamsToCapabilities(
   // No Runware schema defines a watermark field, so it is never forwardable. Dropped
   // unconditionally rather than gated on a descriptor flag nothing can set.
   drop("watermark");
-  if (!descriptor.supportsBackground) drop("background");
+  // The provider enum IS the capability: no accepted values means the field is
+  // not forwardable at all.
+  if (!descriptor.backgroundChoices?.length) drop("background");
   if (!descriptor.supportsSize) {
     drop("width");
     drop("height");
   }
-  if (!descriptor.supportsQuality) drop("quality");
-  if (!descriptor.supportsOutputFormat) drop("outputFormat");
+  if (!descriptor.qualityChoices?.length) drop("quality");
+  if (!descriptor.outputFormatChoices?.length) drop("outputFormat");
 
   // Enum knobs also check the model's own choices; an unknown value is still rejected.
   if (descriptor.qualityChoices && typeof source.quality === "string") {

@@ -48,9 +48,11 @@ export function SubmitBar(props: Props) {
     height,
     count: variants,
     markup: COST_MARKUP,
-    floorPrice: props.descriptor.pricePerCall || COST_FLOOR_FALLBACK,
+    floorPrice:
+      (props.descriptor.is_fixed_price ? props.descriptor.fixed_price : 0) ||
+      COST_FLOOR_FALLBACK,
   });
-  const priceLabel = props.descriptor.isFree
+  const priceLabel = props.descriptor.is_free
     ? t("IMAGE.FREE_BADGE")
     : `~${renderQuota(dollarsToQuota(cost.estimate), 2)}`;
   const clampWarning = willClamp(width, height, steps);

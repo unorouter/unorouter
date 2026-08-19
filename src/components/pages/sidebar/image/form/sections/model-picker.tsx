@@ -70,29 +70,32 @@ export function ModelPicker(props: Props) {
       setOpen(false);
       return;
     }
-    props.onSelect(m.id);
+    props.onSelect(m.model_name);
     setOpen(false);
   };
 
   const renderItem = (m: ImageModelDescriptor) => {
-    const disabled = !isLoggedIn && !m.isFree;
+    const disabled = !isLoggedIn && !m.is_free;
     return (
       <CommandItem
-        key={m.id}
-        value={`${m.displayName} ${m.vendor ?? ""} ${m.id}`}
+        key={m.model_name}
+        value={`${m.model_name} ${m.vendor}`}
         onSelect={() => pick(m, disabled)}
         className={cn(disabled && "opacity-50")}
       >
         {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
-        <span className="min-w-0 flex-1 truncate">{m.displayName}</span>
-        {m.isFree ? (
+        <span className="min-w-0 flex-1 truncate">{m.model_name}</span>
+        {m.is_free ? (
           <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
             {t("IMAGE.FREE_BADGE")}
           </span>
         ) : (
           <span className="text-muted-foreground shrink-0 text-xs">
-            {m.pricePerCall > 0
-              ? renderQuota(dollarsToQuota(m.pricePerCall), 2)
+            {(m.is_fixed_price ? m.fixed_price : 0) > 0
+              ? renderQuota(
+                  dollarsToQuota(m.is_fixed_price ? m.fixed_price : 0),
+                  2,
+                )
               : t("IMAGE.PRICING_RATIO_BASED")}
           </span>
         )}
@@ -149,7 +152,9 @@ export function ModelPicker(props: Props) {
   const needle = search.trim().toLowerCase();
   const matchesSearch = (m: ImageModelDescriptor) =>
     !needle ||
-    `${m.displayName} ${m.vendor ?? ""} ${m.id}`.toLowerCase().includes(needle);
+    `${m.model_name} ${m.vendor ?? ""} ${m.model_name}`
+      .toLowerCase()
+      .includes(needle);
 
   const hostedModels = props.models
     .filter((m) => isModelInTab(m, props.activeTab))
@@ -163,7 +168,7 @@ export function ModelPicker(props: Props) {
             <VendorIcon vendor={props.selected.vendor} size={16} />
           )}
           <span className="truncate">
-            {props.customLabel ?? props.selected.displayName}
+            {props.customLabel ?? props.selected.model_name}
           </span>
         </span>
         <Icon

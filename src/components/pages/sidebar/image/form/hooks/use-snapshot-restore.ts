@@ -41,7 +41,7 @@ export function useSnapshotRestore(args: Args) {
     Object.assign(mergedParams, restorePayload.paramOverrides ?? {});
     form.reset({
       ...defaultsFor(desc),
-      model: desc.id,
+      model: desc.model_name,
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
       params: mergedParams as ImageFormValues["params"],

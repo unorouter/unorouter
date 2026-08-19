@@ -26,9 +26,9 @@ type Props = {
 
 function hasVendorFields(d: ImageModelDescriptor): boolean {
   return Boolean(
-    d.supportsQuality ||
-    d.supportsOutputFormat ||
-    d.supportsBackground ||
+    d.qualityChoices?.length ||
+    d.outputFormatChoices?.length ||
+    d.backgroundChoices?.length ||
     d.supportsStrength,
   );
 }
@@ -41,7 +41,7 @@ export function VendorParamsFields(props: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {descriptor.supportsQuality && descriptor.qualityChoices && (
+      {descriptor.qualityChoices?.length && (
         <SelectParamField
           name="params.quality"
           choices={descriptor.qualityChoices}
@@ -50,7 +50,7 @@ export function VendorParamsFields(props: Props) {
         />
       )}
 
-      {descriptor.supportsOutputFormat && descriptor.outputFormatChoices && (
+      {descriptor.outputFormatChoices?.length && (
         <SelectParamField
           name="params.outputFormat"
           choices={descriptor.outputFormatChoices}
@@ -59,7 +59,7 @@ export function VendorParamsFields(props: Props) {
         />
       )}
 
-      {descriptor.supportsBackground && (
+      {descriptor.backgroundChoices?.length && (
         <FormField
           control={form.control}
           name="params.background"
