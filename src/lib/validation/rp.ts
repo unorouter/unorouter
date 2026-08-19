@@ -2,7 +2,7 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort } from "./chat";
-import { tokenizerRef } from "./custom-provider";
+import { tokenizerRef } from "./tokenizer";
 
 export const MAX_NAME_LEN = 200;
 export const MAX_DESC_LEN = 200_000;

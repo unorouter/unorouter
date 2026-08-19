@@ -1,6 +1,6 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
-import { TOKENIZER_PRESETS } from "@/lib/ai/chat/tokenizer";
 import { MAX_NAME_LEN } from "./rp";
+import { tokenizerRef } from "./tokenizer";
 
 export const CUSTOM_PROVIDER_FORMATS = ["openai-compatible"] as const;
 export const customProviderFormat = t.Union(
@@ -8,12 +8,6 @@ export const customProviderFormat = t.Union(
 );
 export type CustomProviderFormat = Static<typeof customProviderFormat>;
 
-// Not provider-specific: presets carry the same ref, so the schema lives here and
-// both surfaces import it.
-export const tokenizerRef = t.Union([
-  ...TOKENIZER_PRESETS.map((tk) => t.Literal(tk)),
-  t.TemplateLiteral([t.Literal("hf:"), t.String()]),
-]);
 export type CustomProviderTokenizer = Static<typeof tokenizerRef>;
 
 const MAX_URL_LEN = 2_048;
