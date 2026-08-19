@@ -1,6 +1,6 @@
 import {
   ENDPOINT_PRECEDENCE,
-  getEffectiveImageModels,
+  imageDescriptors,
 } from "@/lib/ai/image/models-dynamic";
 import { unwrap } from "@/lib/utils/base";
 import {
@@ -23,7 +23,7 @@ export const getImageModels = cache(async () => {
     type: "image",
     endpoint: ENDPOINT_PRECEDENCE.join(","),
   });
-  return getEffectiveImageModels(unwrap(res).models);
+  return imageDescriptors(unwrap(res).models);
 });
 
 export const getModelByName = cache(async (model: string) => {

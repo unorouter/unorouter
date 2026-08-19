@@ -2,7 +2,7 @@ import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import {
   chooseEndpoint,
-  getEffectiveImageModels,
+  inferDescriptor,
   isRunwareScheduler,
   type SyncImageEndpoint,
 } from "@/lib/ai/image/models-dynamic";
@@ -178,9 +178,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
   }
   const endpoint = chooseEndpoint(info.supported_endpoint_types ?? []);
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const descriptor = getEffectiveImageModels([info]).find(
-    (d) => d.id === model,
-  );
+  const descriptor = inferDescriptor(info);
   if (!endpoint || !descriptor) {
     logger.warn("image model has no usable endpoint", {
       context: "image.submit",

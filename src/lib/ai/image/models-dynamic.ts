@@ -58,7 +58,7 @@ export function isRunwareScheduler(value: string): boolean {
   return RUNWARE_SCHEDULERS.includes(value);
 }
 
-function inferDescriptor(
+export function inferDescriptor(
   model: PricingCatalogModel,
 ): ImageModelDescriptor | null {
   if (model.type !== "image") return null;
@@ -128,29 +128,7 @@ function inferDescriptor(
   return spec ? applyParamSpec(inferred, spec) : inferred;
 }
 
-// Cached per pricing-array identity: React effects list the result as a dependency, and
-// a fresh array per render would fire them every render.
-const effectiveModelsCache = new WeakMap<
-  PricingCatalogModel[],
-  ImageModelDescriptor[]
->();
-
-// Empty in, empty out: a static fallback list here served ids the gateway 404s
-// on, so the picker offered models that could not generate anything.
-export function getEffectiveImageModels(
-  pricing: PricingCatalogModel[] | undefined,
-): ImageModelDescriptor[] {
-  if (!pricing || pricing.length === 0) return [];
-  const hit = effectiveModelsCache.get(pricing);
-  if (hit) return hit;
-  const computed = computeEffectiveImageModels(pricing);
-  effectiveModelsCache.set(pricing, computed);
-  return computed;
-}
-
-// Upstream already scoped the rows to submittable image models and ordered them
-// newest first, so this only layers the Runware param spec onto each one.
-function computeEffectiveImageModels(
+export function imageDescriptors(
   pricing: PricingCatalogModel[],
 ): ImageModelDescriptor[] {
   return pricing
