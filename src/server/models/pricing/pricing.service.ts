@@ -1,7 +1,4 @@
-import {
-  ENDPOINT_PRECEDENCE,
-  imageDescriptors,
-} from "@/lib/ai/image/models-dynamic";
+import { imageDescriptors } from "@/lib/ai/image/models-dynamic";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
@@ -15,14 +12,8 @@ export const getCatalog = cache(async (full = false) => {
   return unwrap(res);
 });
 
-// aihorde rows are listable but not submittable by the image UI, so upstream
-// scopes the list to endpoints it can actually reach.
 export const getImageModels = cache(async () => {
-  const res = await getPricingCatalog({
-    full: true,
-    type: "image",
-    endpoint: ENDPOINT_PRECEDENCE.join(","),
-  });
+  const res = await getPricingCatalog({ full: true, type: "image" });
   return imageDescriptors(unwrap(res).models);
 });
 
