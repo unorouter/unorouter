@@ -16,6 +16,9 @@ export function SwRegister() {
     // We mounted, so this build's chunks loaded fine; clear the one-shot chunk-reload guard so a
     // future post-deploy chunk error can auto-recover again (set in error-fallback).
     sessionStorage.removeItem("chunk-reload-once");
+    // Reaching mount means the last reload rendered, so the watchdog below is
+    // free to arm again.
+    sessionStorage.removeItem("sw-reload-pending");
 
     if (process.env.NODE_ENV !== "production") return;
     if (!("serviceWorker" in navigator)) return;
@@ -69,11 +72,26 @@ export function SwRegister() {
     // to a tab is when a fresh build is wanted and nothing can be mid-reply. A tab held in
     // the foreground stays on the old build until it is closed, as it does today, which
     // beats reloading out from under someone.
+    // WebKit #211018: a PWA resuming from the background can lose its page and
+    // worker contexts, and a reload issued during that window never completes,
+    // leaving the shell with no content until the tab is closed by hand. The
+    // reload cannot be made reliable, so record that one was attempted and
+    // reissue it if the page is still here afterwards, which it should not be.
+    const RELOAD_WATCHDOG_MS = 4000;
+    const reloadWithWatchdog = () => {
+      const already = sessionStorage.getItem("sw-reload-pending");
+      sessionStorage.setItem("sw-reload-pending", String(Date.now()));
+      window.location.reload();
+      // A completed navigation tears this timer down with the document.
+      if (!already)
+        setTimeout(() => window.location.reload(), RELOAD_WATCHDOG_MS);
+    };
+
     const onVisible = () => {
       if (document.visibilityState !== "visible") return;
       if (stale) {
         stale = false;
-        window.location.reload();
+        reloadWithWatchdog();
         return;
       }
       registration?.update().catch(() => {});
