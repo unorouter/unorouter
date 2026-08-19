@@ -18,6 +18,17 @@ export const loginSchema = t.Object({
 export const loginChecker = TypeCompiler.Compile(loginSchema);
 export type LoginSchema = Static<typeof loginSchema>;
 
+export const forgotPasswordSchema = t.Object({
+  email: t.String({
+    minLength: 1,
+    default: "",
+    error: msg("FORM.ERROR.REQUIRED"),
+  }),
+  turnstile: t.Optional(t.String()),
+});
+export const forgotPasswordChecker = TypeCompiler.Compile(forgotPasswordSchema);
+export type ForgotPasswordSchema = Static<typeof forgotPasswordSchema>;
+
 export const registerSchema = t.Object({
   username: t.String({
     minLength: 1,

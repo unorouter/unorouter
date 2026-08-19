@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Sign in to your {appName} account to access the AI API dashboard.",
       "REGISTER_TITLE": "Create Account - {appName}",
       "REGISTER_DESCRIPTION": "Create a {appName} account to start using all AI models through one API.",
-      "KEYWORDS": "{appName} login, {appName} register, AI API account, sign in"
+      "KEYWORDS": "{appName} login, {appName} register, AI API account, sign in",
+      "FORGOT_PASSWORD_TITLE": "Reset Password - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Request a password reset link for your {appName} account.",
+      "RESET_PASSWORD_TITLE": "Reset Password - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Set a new password for your {appName} account."
     },
     "CONSENT": {
       "TITLE": "Authorize access",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Or continue with",
     "LOG_OUT": "Log Out",
     "SUBSCRIPTION": "Subscription",
-    "SUBSCRIPTION_ACTIVE": "Active"
+    "SUBSCRIPTION_ACTIVE": "Active",
+    "FORGOT_PASSWORD": {
+      "LINK": "Forgot password?",
+      "TITLE": "Reset Password",
+      "DESCRIPTION": "Enter your email and we will send you a reset link.",
+      "BUTTON": "Send reset link",
+      "SENDING": "Sending...",
+      "SENT": "If that email is registered, a reset link is on its way. Check your inbox and spam folder.",
+      "BACK_TO_LOGIN": "Back to sign in"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Reset Password",
+      "DESCRIPTION": "Confirm to generate a new password for your {appName} account.",
+      "BUTTON": "Reset my password",
+      "RESETTING": "Resetting...",
+      "SAVE_PASSWORD": "This is your new password. Save it now, it will not be shown again.",
+      "GO_TO_LOGIN": "Go to sign in",
+      "INVALID_LINK": "This reset link is invalid or has expired.",
+      "REQUEST_NEW_LINK": "Request a new link"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

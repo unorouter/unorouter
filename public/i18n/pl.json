@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Zaloguj się do swojego konta {appName}, aby uzyskać dostęp do panelu API AI.",
       "REGISTER_TITLE": "Utwórz konto - {appName}",
       "REGISTER_DESCRIPTION": "Utwórz konto {appName}, aby zacząć używać wszystkich modeli AI przez jedno API.",
-      "KEYWORDS": "logowanie {appName}, rejestracja {appName}, konto API AI, zaloguj się"
+      "KEYWORDS": "logowanie {appName}, rejestracja {appName}, konto API AI, zaloguj się",
+      "FORGOT_PASSWORD_TITLE": "Resetowanie hasła - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Poproś o link do zresetowania hasła do konta {appName}.",
+      "RESET_PASSWORD_TITLE": "Resetowanie hasła - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Ustaw nowe hasło do konta {appName}."
     },
     "CONSENT": {
       "TITLE": "Autoryzuj dostęp",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Lub kontynuuj z",
     "LOG_OUT": "Wyloguj się",
     "SUBSCRIPTION": "Subskrypcja",
-    "SUBSCRIPTION_ACTIVE": "Aktywna"
+    "SUBSCRIPTION_ACTIVE": "Aktywna",
+    "FORGOT_PASSWORD": {
+      "LINK": "Nie pamiętasz hasła?",
+      "TITLE": "Resetowanie hasła",
+      "DESCRIPTION": "Podaj swój e-mail, a wyślemy Ci link do zresetowania hasła.",
+      "BUTTON": "Wyślij link",
+      "SENDING": "Wysyłanie...",
+      "SENT": "Jeśli ten adres jest zarejestrowany, link jest już w drodze. Sprawdź skrzynkę odbiorczą i folder ze spamem.",
+      "BACK_TO_LOGIN": "Powrót do logowania"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Resetowanie hasła",
+      "DESCRIPTION": "Potwierdź, aby wygenerować nowe hasło do konta {appName}.",
+      "BUTTON": "Zresetuj hasło",
+      "RESETTING": "Resetowanie...",
+      "SAVE_PASSWORD": "To Twoje nowe hasło. Zapisz je teraz, nie zostanie wyświetlone ponownie.",
+      "GO_TO_LOGIN": "Przejdź do logowania",
+      "INVALID_LINK": "Ten link jest nieprawidłowy lub wygasł.",
+      "REQUEST_NEW_LINK": "Poproś o nowy link"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

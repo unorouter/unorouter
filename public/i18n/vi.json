@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Đăng nhập vào tài khoản {appName} để truy cập bảng điều khiển API AI.",
       "REGISTER_TITLE": "Tạo tài khoản - {appName}",
       "REGISTER_DESCRIPTION": "Tạo tài khoản {appName} để bắt đầu dùng mọi mô hình AI qua một API.",
-      "KEYWORDS": "đăng nhập {appName}, đăng ký {appName}, tài khoản API AI, đăng nhập"
+      "KEYWORDS": "đăng nhập {appName}, đăng ký {appName}, tài khoản API AI, đăng nhập",
+      "FORGOT_PASSWORD_TITLE": "Đặt lại mật khẩu - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Yêu cầu liên kết đặt lại mật khẩu cho tài khoản {appName} của bạn.",
+      "RESET_PASSWORD_TITLE": "Đặt lại mật khẩu - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Đặt mật khẩu mới cho tài khoản {appName} của bạn."
     },
     "CONSENT": {
       "TITLE": "Cho phép truy cập",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Hoặc tiếp tục với",
     "LOG_OUT": "Đăng xuất",
     "SUBSCRIPTION": "Gói đăng ký",
-    "SUBSCRIPTION_ACTIVE": "Đang hoạt động"
+    "SUBSCRIPTION_ACTIVE": "Đang hoạt động",
+    "FORGOT_PASSWORD": {
+      "LINK": "Quên mật khẩu?",
+      "TITLE": "Đặt lại mật khẩu",
+      "DESCRIPTION": "Nhập email của bạn và chúng tôi sẽ gửi liên kết đặt lại.",
+      "BUTTON": "Gửi liên kết",
+      "SENDING": "Đang gửi...",
+      "SENT": "Nếu email đó đã đăng ký, liên kết đang được gửi. Hãy kiểm tra hộp thư đến và thư rác.",
+      "BACK_TO_LOGIN": "Quay lại đăng nhập"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Đặt lại mật khẩu",
+      "DESCRIPTION": "Xác nhận để tạo mật khẩu mới cho tài khoản {appName} của bạn.",
+      "BUTTON": "Đặt lại mật khẩu",
+      "RESETTING": "Đang đặt lại...",
+      "SAVE_PASSWORD": "Đây là mật khẩu mới của bạn. Hãy lưu ngay, nó sẽ không hiển thị lại.",
+      "GO_TO_LOGIN": "Đến trang đăng nhập",
+      "INVALID_LINK": "Liên kết này không hợp lệ hoặc đã hết hạn.",
+      "REQUEST_NEW_LINK": "Yêu cầu liên kết mới"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

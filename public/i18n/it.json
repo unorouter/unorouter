@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Accedi al tuo account {appName} per accedere al dashboard API AI.",
       "REGISTER_TITLE": "Crea account - {appName}",
       "REGISTER_DESCRIPTION": "Crea un account {appName} per iniziare a usare tutti i modelli AI tramite un'unica API.",
-      "KEYWORDS": "login {appName}, registrazione {appName}, account API AI, accedi"
+      "KEYWORDS": "login {appName}, registrazione {appName}, account API AI, accedi",
+      "FORGOT_PASSWORD_TITLE": "Reimposta password - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Richiedi un link per reimpostare la password del tuo account {appName}.",
+      "RESET_PASSWORD_TITLE": "Reimposta password - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Imposta una nuova password per il tuo account {appName}."
     },
     "CONSENT": {
       "TITLE": "Autorizza accesso",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "O continua con",
     "LOG_OUT": "Esci",
     "SUBSCRIPTION": "Abbonamento",
-    "SUBSCRIPTION_ACTIVE": "Attivo"
+    "SUBSCRIPTION_ACTIVE": "Attivo",
+    "FORGOT_PASSWORD": {
+      "LINK": "Password dimenticata?",
+      "TITLE": "Reimposta password",
+      "DESCRIPTION": "Inserisci la tua email e ti invieremo un link per reimpostarla.",
+      "BUTTON": "Invia il link",
+      "SENDING": "Invio in corso...",
+      "SENT": "Se l'indirizzo è registrato, il link è in arrivo. Controlla la posta in arrivo e lo spam.",
+      "BACK_TO_LOGIN": "Torna all'accesso"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Reimposta password",
+      "DESCRIPTION": "Conferma per generare una nuova password per il tuo account {appName}.",
+      "BUTTON": "Reimposta la password",
+      "RESETTING": "Reimpostazione...",
+      "SAVE_PASSWORD": "Questa è la tua nuova password. Salvala subito, non verrà mostrata di nuovo.",
+      "GO_TO_LOGIN": "Vai all'accesso",
+      "INVALID_LINK": "Questo link non è valido o è scaduto.",
+      "REQUEST_NEW_LINK": "Richiedi un nuovo link"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

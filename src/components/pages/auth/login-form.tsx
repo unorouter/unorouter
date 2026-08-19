@@ -144,6 +144,14 @@ export function LoginForm() {
                   placeholder={t("AUTH.FORM.PASSWORD_PLACEHOLDER")}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
+                <div className="flex justify-end">
+                  <Link
+                    href="/forgot-password"
+                    className="text-muted-foreground hover:text-foreground text-xs hover:underline"
+                  >
+                    {t("AUTH.FORGOT_PASSWORD.LINK")}
+                  </Link>
+                </div>
               </div>
 
               {statusQuery.data?.turnstile_check &&

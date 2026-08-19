@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "{appName} アカウントにサインインして、AI API ダッシュボードにアクセスします。",
       "REGISTER_TITLE": "アカウント作成 {appName}",
       "REGISTER_DESCRIPTION": "{appName} アカウントを作成し、ひとつの API からすべての AI モデルを利用しましょう。",
-      "KEYWORDS": "{appName} ログイン, {appName} 登録, AI API アカウント, サインイン"
+      "KEYWORDS": "{appName} ログイン, {appName} 登録, AI API アカウント, サインイン",
+      "FORGOT_PASSWORD_TITLE": "パスワードの再設定 - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "{appName} アカウントのパスワード再設定リンクをリクエストします。",
+      "RESET_PASSWORD_TITLE": "パスワードの再設定 - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "{appName} アカウントの新しいパスワードを設定します。"
     },
     "CONSENT": {
       "TITLE": "アクセスを許可",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "または次で続行",
     "LOG_OUT": "ログアウト",
     "SUBSCRIPTION": "サブスクリプション",
-    "SUBSCRIPTION_ACTIVE": "有効"
+    "SUBSCRIPTION_ACTIVE": "有効",
+    "FORGOT_PASSWORD": {
+      "LINK": "パスワードをお忘れですか？",
+      "TITLE": "パスワードの再設定",
+      "DESCRIPTION": "メールアドレスを入力してください。再設定用のリンクをお送りします。",
+      "BUTTON": "リンクを送信",
+      "SENDING": "送信中...",
+      "SENT": "そのメールアドレスが登録されていれば、リンクを送信しました。受信トレイと迷惑メールフォルダーをご確認ください。",
+      "BACK_TO_LOGIN": "ログインに戻る"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "パスワードの再設定",
+      "DESCRIPTION": "確認すると、{appName} アカウントの新しいパスワードを生成します。",
+      "BUTTON": "パスワードを再設定",
+      "RESETTING": "再設定中...",
+      "SAVE_PASSWORD": "これが新しいパスワードです。二度と表示されませんので、今すぐ保存してください。",
+      "GO_TO_LOGIN": "ログインへ",
+      "INVALID_LINK": "このリンクは無効か、有効期限が切れています。",
+      "REQUEST_NEW_LINK": "新しいリンクをリクエスト"
+    }
   },
   "SIDEBAR": {
     "MENU": "メニュー",

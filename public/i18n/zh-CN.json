@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "登录您的 {appName} 账户以访问 AI API 控制台。",
       "REGISTER_TITLE": "创建账户：{appName}",
       "REGISTER_DESCRIPTION": "创建 {appName} 账户，通过一个 API 开始使用所有 AI 模型。",
-      "KEYWORDS": "{appName} 登录, {appName} 注册, AI API 账户, 登录"
+      "KEYWORDS": "{appName} 登录, {appName} 注册, AI API 账户, 登录",
+      "FORGOT_PASSWORD_TITLE": "重置密码 - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "为你的 {appName} 账户申请密码重置链接。",
+      "RESET_PASSWORD_TITLE": "重置密码 - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "为你的 {appName} 账户设置新密码。"
     },
     "CONSENT": {
       "TITLE": "授权访问",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "或使用以下方式继续",
     "LOG_OUT": "退出登录",
     "SUBSCRIPTION": "订阅",
-    "SUBSCRIPTION_ACTIVE": "生效中"
+    "SUBSCRIPTION_ACTIVE": "生效中",
+    "FORGOT_PASSWORD": {
+      "LINK": "忘记密码？",
+      "TITLE": "重置密码",
+      "DESCRIPTION": "输入你的邮箱，我们会发送重置链接。",
+      "BUTTON": "发送重置链接",
+      "SENDING": "发送中……",
+      "SENT": "如果该邮箱已注册，重置链接已在发送中。请查看收件箱和垃圾邮件文件夹。",
+      "BACK_TO_LOGIN": "返回登录"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "重置密码",
+      "DESCRIPTION": "确认后将为你的 {appName} 账户生成新密码。",
+      "BUTTON": "重置我的密码",
+      "RESETTING": "重置中……",
+      "SAVE_PASSWORD": "这是你的新密码。请立即保存，它不会再次显示。",
+      "GO_TO_LOGIN": "前往登录",
+      "INVALID_LINK": "此链接无效或已过期。",
+      "REQUEST_NEW_LINK": "重新申请链接"
+    }
   },
   "SIDEBAR": {
     "MENU": "菜单",

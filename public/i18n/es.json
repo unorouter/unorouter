@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Inicia sesión en tu cuenta de {appName} para acceder al panel de API de IA.",
       "REGISTER_TITLE": "Crear cuenta - {appName}",
       "REGISTER_DESCRIPTION": "Crea una cuenta de {appName} para empezar a usar todos los modelos de IA a través de una sola API.",
-      "KEYWORDS": "inicio sesión {appName}, registro {appName}, cuenta API de IA, iniciar sesión"
+      "KEYWORDS": "inicio sesión {appName}, registro {appName}, cuenta API de IA, iniciar sesión",
+      "FORGOT_PASSWORD_TITLE": "Restablecer contraseña - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Solicita un enlace para restablecer la contraseña de tu cuenta de {appName}.",
+      "RESET_PASSWORD_TITLE": "Restablecer contraseña - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Establece una nueva contraseña para tu cuenta de {appName}."
     },
     "CONSENT": {
       "TITLE": "Autorizar acceso",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "O continúa con",
     "LOG_OUT": "Cerrar sesión",
     "SUBSCRIPTION": "Suscripción",
-    "SUBSCRIPTION_ACTIVE": "Activa"
+    "SUBSCRIPTION_ACTIVE": "Activa",
+    "FORGOT_PASSWORD": {
+      "LINK": "¿Olvidaste tu contraseña?",
+      "TITLE": "Restablecer contraseña",
+      "DESCRIPTION": "Introduce tu correo y te enviaremos un enlace para restablecerla.",
+      "BUTTON": "Enviar enlace",
+      "SENDING": "Enviando...",
+      "SENT": "Si ese correo está registrado, el enlace va en camino. Revisa tu bandeja de entrada y la carpeta de spam.",
+      "BACK_TO_LOGIN": "Volver al inicio de sesión"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Restablecer contraseña",
+      "DESCRIPTION": "Confirma para generar una nueva contraseña para tu cuenta de {appName}.",
+      "BUTTON": "Restablecer mi contraseña",
+      "RESETTING": "Restableciendo...",
+      "SAVE_PASSWORD": "Esta es tu nueva contraseña. Guárdala ahora, no se volverá a mostrar.",
+      "GO_TO_LOGIN": "Ir al inicio de sesión",
+      "INVALID_LINK": "Este enlace no es válido o ha caducado.",
+      "REQUEST_NEW_LINK": "Solicitar un enlace nuevo"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menú",

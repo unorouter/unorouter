@@ -122,6 +122,31 @@ export function useSendVerificationMutation() {
   });
 }
 
+export function useSendPasswordResetMutation() {
+  return useApiMutation({
+    mutationFn: async (
+      args: EdenArgs<(typeof rpc.api.auth.account)["reset-password"], "get">,
+    ) =>
+      handleElysia(
+        await rpc.api.auth.account["reset-password"].get({ query: args.query }),
+      ),
+  });
+}
+
+export function useResetPasswordMutation() {
+  return useApiMutation({
+    mutationFn: async (
+      args: EdenArgs<
+        (typeof rpc.api.auth.account)["reset-password"]["confirm"],
+        "post"
+      >,
+    ) =>
+      handleElysia(
+        await rpc.api.auth.account["reset-password"].confirm.post(args.body),
+      ),
+  });
+}
+
 export function useLogoutMutation() {
   return useApiMutation({
     mutationFn: async () =>

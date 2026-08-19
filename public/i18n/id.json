@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Masuk ke akun {appName} Anda untuk mengakses dashboard AI API.",
       "REGISTER_TITLE": "Buat Akun - {appName}",
       "REGISTER_DESCRIPTION": "Buat akun {appName} untuk mulai menggunakan semua model AI melalui satu API.",
-      "KEYWORDS": "login {appName}, daftar {appName}, akun AI API, masuk"
+      "KEYWORDS": "login {appName}, daftar {appName}, akun AI API, masuk",
+      "FORGOT_PASSWORD_TITLE": "Atur ulang kata sandi - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Minta tautan pengaturan ulang kata sandi untuk akun {appName} Anda.",
+      "RESET_PASSWORD_TITLE": "Atur ulang kata sandi - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Tetapkan kata sandi baru untuk akun {appName} Anda."
     },
     "CONSENT": {
       "TITLE": "Otorisasi akses",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Atau lanjutkan dengan",
     "LOG_OUT": "Keluar",
     "SUBSCRIPTION": "Langganan",
-    "SUBSCRIPTION_ACTIVE": "Aktif"
+    "SUBSCRIPTION_ACTIVE": "Aktif",
+    "FORGOT_PASSWORD": {
+      "LINK": "Lupa kata sandi?",
+      "TITLE": "Atur ulang kata sandi",
+      "DESCRIPTION": "Masukkan email Anda dan kami akan mengirimkan tautan pengaturan ulang.",
+      "BUTTON": "Kirim tautan",
+      "SENDING": "Mengirim...",
+      "SENT": "Jika email itu terdaftar, tautan sedang dikirim. Periksa kotak masuk dan folder spam Anda.",
+      "BACK_TO_LOGIN": "Kembali ke masuk"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Atur ulang kata sandi",
+      "DESCRIPTION": "Konfirmasi untuk membuat kata sandi baru bagi akun {appName} Anda.",
+      "BUTTON": "Atur ulang kata sandi",
+      "RESETTING": "Mengatur ulang...",
+      "SAVE_PASSWORD": "Ini kata sandi baru Anda. Simpan sekarang, kata sandi ini tidak akan ditampilkan lagi.",
+      "GO_TO_LOGIN": "Ke halaman masuk",
+      "INVALID_LINK": "Tautan ini tidak valid atau sudah kedaluwarsa.",
+      "REQUEST_NEW_LINK": "Minta tautan baru"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Melde dich bei deinem {appName}-Konto an, um auf das KI-API-Dashboard zuzugreifen.",
       "REGISTER_TITLE": "Konto erstellen - {appName}",
       "REGISTER_DESCRIPTION": "Erstelle ein {appName}-Konto und nutze alle KI-Modelle über eine API.",
-      "KEYWORDS": "{appName} Anmeldung, {appName} Registrierung, KI API Konto, Anmelden"
+      "KEYWORDS": "{appName} Anmeldung, {appName} Registrierung, KI API Konto, Anmelden",
+      "FORGOT_PASSWORD_TITLE": "Passwort zurücksetzen - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Fordere einen Link zum Zurücksetzen deines {appName}-Passworts an.",
+      "RESET_PASSWORD_TITLE": "Passwort zurücksetzen - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Lege ein neues Passwort für dein {appName}-Konto fest."
     },
     "CONSENT": {
       "TITLE": "Zugriff autorisieren",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Oder weiter mit",
     "LOG_OUT": "Abmelden",
     "SUBSCRIPTION": "Abonnement",
-    "SUBSCRIPTION_ACTIVE": "Aktiv"
+    "SUBSCRIPTION_ACTIVE": "Aktiv",
+    "FORGOT_PASSWORD": {
+      "LINK": "Passwort vergessen?",
+      "TITLE": "Passwort zurücksetzen",
+      "DESCRIPTION": "Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen.",
+      "BUTTON": "Link senden",
+      "SENDING": "Wird gesendet...",
+      "SENT": "Falls diese E-Mail-Adresse registriert ist, ist ein Link unterwegs. Prüfe dein Postfach und den Spam-Ordner.",
+      "BACK_TO_LOGIN": "Zurück zur Anmeldung"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Passwort zurücksetzen",
+      "DESCRIPTION": "Bestätige, um ein neues Passwort für dein {appName}-Konto zu erzeugen.",
+      "BUTTON": "Passwort zurücksetzen",
+      "RESETTING": "Wird zurückgesetzt...",
+      "SAVE_PASSWORD": "Das ist dein neues Passwort. Speichere es jetzt, es wird nicht erneut angezeigt.",
+      "GO_TO_LOGIN": "Zur Anmeldung",
+      "INVALID_LINK": "Dieser Link ist ungültig oder abgelaufen.",
+      "REQUEST_NEW_LINK": "Neuen Link anfordern"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menü",

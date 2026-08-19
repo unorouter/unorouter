@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Connectez-vous à votre compte {appName} pour accéder au tableau de bord de l'API IA.",
       "REGISTER_TITLE": "Créer un compte, {appName}",
       "REGISTER_DESCRIPTION": "Créez un compte {appName} pour commencer à utiliser tous les modèles IA via une seule API.",
-      "KEYWORDS": "connexion {appName}, inscription {appName}, compte API IA, se connecter"
+      "KEYWORDS": "connexion {appName}, inscription {appName}, compte API IA, se connecter",
+      "FORGOT_PASSWORD_TITLE": "Réinitialiser le mot de passe - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Demandez un lien de réinitialisation pour votre compte {appName}.",
+      "RESET_PASSWORD_TITLE": "Réinitialiser le mot de passe - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Définissez un nouveau mot de passe pour votre compte {appName}."
     },
     "CONSENT": {
       "TITLE": "Autoriser l'accès",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Ou continuer avec",
     "LOG_OUT": "Se déconnecter",
     "SUBSCRIPTION": "Abonnement",
-    "SUBSCRIPTION_ACTIVE": "Actif"
+    "SUBSCRIPTION_ACTIVE": "Actif",
+    "FORGOT_PASSWORD": {
+      "LINK": "Mot de passe oublié ?",
+      "TITLE": "Réinitialiser le mot de passe",
+      "DESCRIPTION": "Saisissez votre e-mail et nous vous enverrons un lien de réinitialisation.",
+      "BUTTON": "Envoyer le lien",
+      "SENDING": "Envoi en cours...",
+      "SENT": "Si cette adresse est enregistrée, un lien est en route. Vérifiez votre boîte de réception et vos spams.",
+      "BACK_TO_LOGIN": "Retour à la connexion"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Réinitialiser le mot de passe",
+      "DESCRIPTION": "Confirmez pour générer un nouveau mot de passe pour votre compte {appName}.",
+      "BUTTON": "Réinitialiser mon mot de passe",
+      "RESETTING": "Réinitialisation...",
+      "SAVE_PASSWORD": "Voici votre nouveau mot de passe. Enregistrez-le maintenant, il ne sera plus affiché.",
+      "GO_TO_LOGIN": "Aller à la connexion",
+      "INVALID_LINK": "Ce lien est invalide ou a expiré.",
+      "REQUEST_NEW_LINK": "Demander un nouveau lien"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

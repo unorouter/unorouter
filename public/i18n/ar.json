@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "سجّل الدخول إلى حسابك في {appName} للوصول إلى لوحة تحكّم AI API.",
       "REGISTER_TITLE": "إنشاء حساب - {appName}",
       "REGISTER_DESCRIPTION": "أنشئ حساباً في {appName} لتبدأ باستخدام كل نماذج الذكاء الاصطناعي عبر API واحد.",
-      "KEYWORDS": "تسجيل دخول {appName}، تسجيل {appName}، حساب AI API، تسجيل الدخول"
+      "KEYWORDS": "تسجيل دخول {appName}، تسجيل {appName}، حساب AI API، تسجيل الدخول",
+      "FORGOT_PASSWORD_TITLE": "إعادة تعيين كلمة المرور - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "اطلب رابط إعادة تعيين كلمة المرور لحسابك في {appName}.",
+      "RESET_PASSWORD_TITLE": "إعادة تعيين كلمة المرور - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "عيّن كلمة مرور جديدة لحسابك في {appName}."
     },
     "CONSENT": {
       "TITLE": "أذن بالوصول",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "أو تابع عبر",
     "LOG_OUT": "تسجيل الخروج",
     "SUBSCRIPTION": "الاشتراك",
-    "SUBSCRIPTION_ACTIVE": "نشط"
+    "SUBSCRIPTION_ACTIVE": "نشط",
+    "FORGOT_PASSWORD": {
+      "LINK": "هل نسيت كلمة المرور؟",
+      "TITLE": "إعادة تعيين كلمة المرور",
+      "DESCRIPTION": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين.",
+      "BUTTON": "إرسال الرابط",
+      "SENDING": "جارٍ الإرسال...",
+      "SENT": "إذا كان هذا البريد مسجلاً، فالرابط في طريقه إليك. تحقق من صندوق الوارد ومجلد الرسائل غير المرغوب فيها.",
+      "BACK_TO_LOGIN": "العودة إلى تسجيل الدخول"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "إعادة تعيين كلمة المرور",
+      "DESCRIPTION": "أكّد لإنشاء كلمة مرور جديدة لحسابك في {appName}.",
+      "BUTTON": "إعادة تعيين كلمة المرور",
+      "RESETTING": "جارٍ إعادة التعيين...",
+      "SAVE_PASSWORD": "هذه كلمة المرور الجديدة. احفظها الآن، فلن تُعرض مرة أخرى.",
+      "GO_TO_LOGIN": "الذهاب إلى تسجيل الدخول",
+      "INVALID_LINK": "هذا الرابط غير صالح أو انتهت صلاحيته.",
+      "REQUEST_NEW_LINK": "طلب رابط جديد"
+    }
   },
   "SIDEBAR": {
     "MENU": "القائمة",

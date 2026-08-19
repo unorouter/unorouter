@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "登入您的 {appName} 帳戶以存取 AI API 儀表板。",
       "REGISTER_TITLE": "建立帳戶：{appName}",
       "REGISTER_DESCRIPTION": "建立 {appName} 帳戶，透過單一 API 開始使用所有 AI 模型。",
-      "KEYWORDS": "{appName} 登入、{appName} 註冊、AI API 帳戶、登入"
+      "KEYWORDS": "{appName} 登入、{appName} 註冊、AI API 帳戶、登入",
+      "FORGOT_PASSWORD_TITLE": "重設密碼 - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "為你的 {appName} 帳戶申請密碼重設連結。",
+      "RESET_PASSWORD_TITLE": "重設密碼 - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "為你的 {appName} 帳戶設定新密碼。"
     },
     "CONSENT": {
       "TITLE": "授權存取",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "或使用以下方式繼續",
     "LOG_OUT": "登出",
     "SUBSCRIPTION": "訂閱",
-    "SUBSCRIPTION_ACTIVE": "生效中"
+    "SUBSCRIPTION_ACTIVE": "生效中",
+    "FORGOT_PASSWORD": {
+      "LINK": "忘記密碼？",
+      "TITLE": "重設密碼",
+      "DESCRIPTION": "輸入你的電子郵件，我們會寄送重設連結。",
+      "BUTTON": "寄送重設連結",
+      "SENDING": "寄送中……",
+      "SENT": "如果該電子郵件已註冊，重設連結已在寄送中。請查看收件匣與垃圾郵件資料夾。",
+      "BACK_TO_LOGIN": "返回登入"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "重設密碼",
+      "DESCRIPTION": "確認後將為你的 {appName} 帳戶產生新密碼。",
+      "BUTTON": "重設我的密碼",
+      "RESETTING": "重設中……",
+      "SAVE_PASSWORD": "這是你的新密碼。請立即儲存，它不會再次顯示。",
+      "GO_TO_LOGIN": "前往登入",
+      "INVALID_LINK": "此連結無效或已過期。",
+      "REQUEST_NEW_LINK": "重新申請連結"
+    }
   },
   "SIDEBAR": {
     "MENU": "選單",

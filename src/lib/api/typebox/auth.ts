@@ -27,6 +27,11 @@ export const oauthCallbackQuery = t.Object({
   error: t.Optional(t.String()),
 });
 
+export const passwordResetBody = t.Object({
+  email: t.String(),
+  token: t.String(),
+});
+
 export const oauthUnbindParams = t.Object({
   binding_type: t.Union([
     t.Literal("github"),

@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "AI API डैशबोर्ड तक पहुंचने के लिए अपने {appName} खाते में साइन इन करें।",
       "REGISTER_TITLE": "खाता बनाएं - {appName}",
       "REGISTER_DESCRIPTION": "एक API के माध्यम से सभी AI मॉडलों का उपयोग शुरू करने के लिए {appName} खाता बनाएं।",
-      "KEYWORDS": "{appName} login, {appName} register, AI API खाता, साइन इन"
+      "KEYWORDS": "{appName} login, {appName} register, AI API खाता, साइन इन",
+      "FORGOT_PASSWORD_TITLE": "पासवर्ड रीसेट करें - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "अपने {appName} खाते के लिए पासवर्ड रीसेट लिंक का अनुरोध करें।",
+      "RESET_PASSWORD_TITLE": "पासवर्ड रीसेट करें - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "अपने {appName} खाते के लिए नया पासवर्ड सेट करें।"
     },
     "CONSENT": {
       "TITLE": "एक्सेस अधिकृत करें",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "या इसके साथ जारी रखें",
     "LOG_OUT": "लॉग आउट",
     "SUBSCRIPTION": "Subscription",
-    "SUBSCRIPTION_ACTIVE": "Active"
+    "SUBSCRIPTION_ACTIVE": "Active",
+    "FORGOT_PASSWORD": {
+      "LINK": "पासवर्ड भूल गए?",
+      "TITLE": "पासवर्ड रीसेट करें",
+      "DESCRIPTION": "अपना ईमेल दर्ज करें, हम आपको रीसेट लिंक भेजेंगे।",
+      "BUTTON": "लिंक भेजें",
+      "SENDING": "भेजा जा रहा है...",
+      "SENT": "यदि वह ईमेल पंजीकृत है, तो लिंक भेजा जा चुका है। अपना इनबॉक्स और स्पैम फ़ोल्डर देखें।",
+      "BACK_TO_LOGIN": "साइन इन पर वापस जाएँ"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "पासवर्ड रीसेट करें",
+      "DESCRIPTION": "अपने {appName} खाते के लिए नया पासवर्ड बनाने हेतु पुष्टि करें।",
+      "BUTTON": "मेरा पासवर्ड रीसेट करें",
+      "RESETTING": "रीसेट हो रहा है...",
+      "SAVE_PASSWORD": "यह आपका नया पासवर्ड है। इसे अभी सहेजें, यह दोबारा नहीं दिखाया जाएगा।",
+      "GO_TO_LOGIN": "साइन इन पर जाएँ",
+      "INVALID_LINK": "यह लिंक अमान्य है या इसकी अवधि समाप्त हो चुकी है।",
+      "REQUEST_NEW_LINK": "नया लिंक माँगें"
+    }
   },
   "SIDEBAR": {
     "MENU": "मेन्यू",

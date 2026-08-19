@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Войдите в аккаунт {appName}, чтобы открыть панель управления API ИИ.",
       "REGISTER_TITLE": "Создать аккаунт: {appName}",
       "REGISTER_DESCRIPTION": "Создайте аккаунт {appName}, чтобы получить доступ ко всем моделям ИИ через один API.",
-      "KEYWORDS": "вход {appName}, регистрация {appName}, аккаунт API ИИ, авторизация"
+      "KEYWORDS": "вход {appName}, регистрация {appName}, аккаунт API ИИ, авторизация",
+      "FORGOT_PASSWORD_TITLE": "Сброс пароля - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Запросите ссылку для сброса пароля вашей учётной записи {appName}.",
+      "RESET_PASSWORD_TITLE": "Сброс пароля - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Задайте новый пароль для вашей учётной записи {appName}."
     },
     "CONSENT": {
       "TITLE": "Разрешить доступ",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Или продолжить через",
     "LOG_OUT": "Выйти",
     "SUBSCRIPTION": "Подписка",
-    "SUBSCRIPTION_ACTIVE": "Активна"
+    "SUBSCRIPTION_ACTIVE": "Активна",
+    "FORGOT_PASSWORD": {
+      "LINK": "Забыли пароль?",
+      "TITLE": "Сброс пароля",
+      "DESCRIPTION": "Введите вашу почту, и мы отправим ссылку для сброса.",
+      "BUTTON": "Отправить ссылку",
+      "SENDING": "Отправка...",
+      "SENT": "Если этот адрес зарегистрирован, ссылка уже в пути. Проверьте входящие и папку со спамом.",
+      "BACK_TO_LOGIN": "Вернуться ко входу"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Сброс пароля",
+      "DESCRIPTION": "Подтвердите, чтобы создать новый пароль для вашей учётной записи {appName}.",
+      "BUTTON": "Сбросить пароль",
+      "RESETTING": "Сброс...",
+      "SAVE_PASSWORD": "Это ваш новый пароль. Сохраните его сейчас, повторно он показан не будет.",
+      "GO_TO_LOGIN": "Перейти ко входу",
+      "INVALID_LINK": "Эта ссылка недействительна или истекла.",
+      "REQUEST_NEW_LINK": "Запросить новую ссылку"
+    }
   },
   "SIDEBAR": {
     "MENU": "Меню",

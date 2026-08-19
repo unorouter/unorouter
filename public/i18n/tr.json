@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "AI API dashboard'una erişmek için {appName} hesabınıza giriş yapın.",
       "REGISTER_TITLE": "Hesap Oluştur - {appName}",
       "REGISTER_DESCRIPTION": "Tüm AI modellerini tek bir API üzerinden kullanmaya başlamak için bir {appName} hesabı oluşturun.",
-      "KEYWORDS": "{appName} giriş, {appName} kayıt, AI API hesabı, giriş yap"
+      "KEYWORDS": "{appName} giriş, {appName} kayıt, AI API hesabı, giriş yap",
+      "FORGOT_PASSWORD_TITLE": "Şifre sıfırlama - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "{appName} hesabınız için şifre sıfırlama bağlantısı isteyin.",
+      "RESET_PASSWORD_TITLE": "Şifre sıfırlama - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "{appName} hesabınız için yeni bir şifre belirleyin."
     },
     "CONSENT": {
       "TITLE": "Erişimi yetkilendir",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Veya devam edin",
     "LOG_OUT": "Çıkış Yap",
     "SUBSCRIPTION": "Abonelik",
-    "SUBSCRIPTION_ACTIVE": "Aktif"
+    "SUBSCRIPTION_ACTIVE": "Aktif",
+    "FORGOT_PASSWORD": {
+      "LINK": "Şifrenizi mi unuttunuz?",
+      "TITLE": "Şifre sıfırlama",
+      "DESCRIPTION": "E-posta adresinizi girin, size bir sıfırlama bağlantısı gönderelim.",
+      "BUTTON": "Bağlantı gönder",
+      "SENDING": "Gönderiliyor...",
+      "SENT": "Bu e-posta kayıtlıysa bağlantı yola çıktı. Gelen kutunuzu ve spam klasörünü kontrol edin.",
+      "BACK_TO_LOGIN": "Girişe dön"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Şifre sıfırlama",
+      "DESCRIPTION": "{appName} hesabınız için yeni bir şifre oluşturmak üzere onaylayın.",
+      "BUTTON": "Şifremi sıfırla",
+      "RESETTING": "Sıfırlanıyor...",
+      "SAVE_PASSWORD": "Bu yeni şifreniz. Şimdi kaydedin, bir daha gösterilmeyecek.",
+      "GO_TO_LOGIN": "Girişe git",
+      "INVALID_LINK": "Bu bağlantı geçersiz veya süresi dolmuş.",
+      "REQUEST_NEW_LINK": "Yeni bağlantı iste"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menü",

@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "התחברו לחשבון {appName} שלכם כדי לגשת ללוח הבקרה של AI API.",
       "REGISTER_TITLE": "צור חשבון - {appName}",
       "REGISTER_DESCRIPTION": "צרו חשבון {appName} כדי להתחיל להשתמש בכל מודלי ה-AI דרך API אחד.",
-      "KEYWORDS": "התחברות {appName}, רישום {appName}, חשבון API של AI, התחברות"
+      "KEYWORDS": "התחברות {appName}, רישום {appName}, חשבון API של AI, התחברות",
+      "FORGOT_PASSWORD_TITLE": "איפוס סיסמה - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "בקש קישור לאיפוס הסיסמה של חשבון {appName} שלך.",
+      "RESET_PASSWORD_TITLE": "איפוס סיסמה - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "הגדר סיסמה חדשה לחשבון {appName} שלך."
     },
     "CONSENT": {
       "TITLE": "אישור גישה",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "או המשיכו עם",
     "LOG_OUT": "התנתקות",
     "SUBSCRIPTION": "מנוי",
-    "SUBSCRIPTION_ACTIVE": "פעיל"
+    "SUBSCRIPTION_ACTIVE": "פעיל",
+    "FORGOT_PASSWORD": {
+      "LINK": "שכחת את הסיסמה?",
+      "TITLE": "איפוס סיסמה",
+      "DESCRIPTION": "הזן את כתובת המייל שלך ונשלח לך קישור לאיפוס.",
+      "BUTTON": "שליחת קישור",
+      "SENDING": "שולח...",
+      "SENT": "אם הכתובת רשומה, הקישור בדרך. בדוק את תיבת הדואר הנכנס ותיקיית הספאם.",
+      "BACK_TO_LOGIN": "חזרה להתחברות"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "איפוס סיסמה",
+      "DESCRIPTION": "אשר כדי ליצור סיסמה חדשה לחשבון {appName} שלך.",
+      "BUTTON": "אפס את הסיסמה שלי",
+      "RESETTING": "מאפס...",
+      "SAVE_PASSWORD": "זו הסיסמה החדשה שלך. שמור אותה עכשיו, היא לא תוצג שוב.",
+      "GO_TO_LOGIN": "מעבר להתחברות",
+      "INVALID_LINK": "הקישור אינו תקין או שפג תוקפו.",
+      "REQUEST_NEW_LINK": "בקשת קישור חדש"
+    }
   },
   "SIDEBAR": {
     "MENU": "תפריט",

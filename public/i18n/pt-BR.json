@@ -3047,7 +3047,11 @@
       "LOGIN_DESCRIPTION": "Entre na sua conta {appName} para acessar o painel de API de IA.",
       "REGISTER_TITLE": "Criar conta - {appName}",
       "REGISTER_DESCRIPTION": "Crie uma conta {appName} para começar a usar todos os modelos de IA através de uma API.",
-      "KEYWORDS": "login {appName}, cadastro {appName}, conta API de IA, entrar"
+      "KEYWORDS": "login {appName}, cadastro {appName}, conta API de IA, entrar",
+      "FORGOT_PASSWORD_TITLE": "Redefinir senha - {appName}",
+      "FORGOT_PASSWORD_DESCRIPTION": "Solicite um link para redefinir a senha da sua conta {appName}.",
+      "RESET_PASSWORD_TITLE": "Redefinir senha - {appName}",
+      "RESET_PASSWORD_DESCRIPTION": "Defina uma nova senha para sua conta {appName}."
     },
     "CONSENT": {
       "TITLE": "Autorizar acesso",
@@ -3083,7 +3087,26 @@
     "OR_CONTINUE_WITH": "Ou continue com",
     "LOG_OUT": "Sair",
     "SUBSCRIPTION": "Assinatura",
-    "SUBSCRIPTION_ACTIVE": "Ativa"
+    "SUBSCRIPTION_ACTIVE": "Ativa",
+    "FORGOT_PASSWORD": {
+      "LINK": "Esqueceu a senha?",
+      "TITLE": "Redefinir senha",
+      "DESCRIPTION": "Informe seu e-mail e enviaremos um link de redefinição.",
+      "BUTTON": "Enviar link",
+      "SENDING": "Enviando...",
+      "SENT": "Se esse e-mail estiver cadastrado, o link está a caminho. Verifique sua caixa de entrada e o spam.",
+      "BACK_TO_LOGIN": "Voltar para o login"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Redefinir senha",
+      "DESCRIPTION": "Confirme para gerar uma nova senha para sua conta {appName}.",
+      "BUTTON": "Redefinir minha senha",
+      "RESETTING": "Redefinindo...",
+      "SAVE_PASSWORD": "Esta é a sua nova senha. Salve agora, ela não será exibida novamente.",
+      "GO_TO_LOGIN": "Ir para o login",
+      "INVALID_LINK": "Este link é inválido ou expirou.",
+      "REQUEST_NEW_LINK": "Solicitar um novo link"
+    }
   },
   "SIDEBAR": {
     "MENU": "Menu",

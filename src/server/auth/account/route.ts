@@ -9,6 +9,7 @@ import {
   oauthCallbackQuery,
   oauthStateQuery,
   oauthUnbindParams,
+  passwordResetBody,
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
@@ -22,8 +23,10 @@ import {
   login,
   logout,
   register,
+  resetPassword,
   selfClearBinding,
   sendEmailVerification,
+  sendPasswordResetEmail,
   verify2FALogin,
 } from "@/openapi";
 import { Elysia } from "elysia";
@@ -202,4 +205,22 @@ export const authRoute = new Elysia({ prefix: "/account" })
       return unwrap(res);
     },
     { query: verificationQuery },
+  )
+
+  .get(
+    "/reset-password",
+    async ({ query, upstream }) => {
+      const res = await sendPasswordResetEmail(query, upstream);
+      return unwrap(res);
+    },
+    { query: verificationQuery },
+  )
+
+  .post(
+    "/reset-password/confirm",
+    async ({ body, upstream }) => {
+      const res = await resetPassword(body, upstream);
+      return unwrap(res);
+    },
+    { body: passwordResetBody },
   );
