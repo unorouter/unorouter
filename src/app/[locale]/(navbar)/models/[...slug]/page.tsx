@@ -10,7 +10,6 @@ import { localeUrl } from "@/i18n/navigation";
 import { getPricingCatalog } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { unwrap } from "@/lib/utils/base";
-import { getModelGroups } from "@/server/models/pricing/pricing.service";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -96,7 +95,6 @@ export default async function ModelDetailPage(props: PageProps) {
   }
 
   const hit = resolved.model;
-  const groups = await getModelGroups(hit.model.model_name);
   return (
     <>
       <ModelSchema
@@ -107,7 +105,7 @@ export default async function ModelDetailPage(props: PageProps) {
       <ModelDetail
         model={hit.model}
         models={hit.models}
-        groupRatioMap={groups.group_ratio}
+        groupRatioMap={hit.model.group_ratio}
         offline={hit.atCapacity}
         vendorHref={localeUrl(locale, vendorHref(hit.model.vendor))}
       />

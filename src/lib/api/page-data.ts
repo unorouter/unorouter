@@ -1,6 +1,5 @@
 import { env } from "@/lib/config/env";
 import { getRankings, getTopUpInfo } from "@/openapi";
-import { ADMIN_HEADERS } from "@/server/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug, unwrap } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -25,12 +24,12 @@ export async function getCachedFreeChatModels(limit?: number) {
 export function getPlansData() {
   return Promise.all([
     getSubscriptionPlansSummary(),
-    getTopUpInfo({ headers: ADMIN_HEADERS }).then((res) => unwrap(res).data),
+    getTopUpInfo().then((res) => unwrap(res).data),
   ]);
 }
 
 async function fetchRankings(period: string) {
-  const res = await getRankings({ period }, { headers: ADMIN_HEADERS });
+  const res = await getRankings({ period });
   return unwrap(res).data;
 }
 

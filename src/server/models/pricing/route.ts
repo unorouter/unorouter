@@ -3,25 +3,20 @@ import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
   getPricingCounts,
+  getPricingModelGroups,
   getPricingVendors,
 } from "@/openapi";
-import { ADMIN_HEADERS } from "@/server/constants";
 import {
   getCatalog,
   getModelByName,
-  getModelGroups,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
 import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
-  .get("/counts", async () =>
-    unwrap(await getPricingCounts({ headers: ADMIN_HEADERS })),
-  )
+  .get("/counts", async () => unwrap(await getPricingCounts()))
 
-  .get("/vendors", async () =>
-    unwrap(await getPricingVendors({ headers: ADMIN_HEADERS })),
-  )
+  .get("/vendors", async () => unwrap(await getPricingVendors()))
 
   .get("/browse", async () => getCatalog(true))
 
@@ -37,12 +32,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get(
     "/vendor",
     async (ctx) =>
-      unwrap(
-        await getPricingCatalog(
-          { vendor: ctx.query.name },
-          { headers: ADMIN_HEADERS },
-        ),
-      ).models,
+      unwrap(await getPricingCatalog({ vendor: ctx.query.name })).models,
     { query: t.Object({ name: t.String() }) },
   )
 
@@ -56,8 +46,14 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
     { query: t.Object({ model: t.String() }) },
   )
 
-  .get("/model-groups", async (ctx) => getModelGroups(ctx.query.model), {
-    query: t.Object({ model: t.String() }),
-  })
+  // Upstream scopes every field to this model: ~17 group ratios rather than the
+  // 1800+ the full map carries, and the auto chain already intersected with the
+  // model's groups rather than the 56KB global list.
+  .get(
+    "/model-groups",
+    async (ctx) =>
+      unwrap(await getPricingModelGroups({ model: ctx.query.model })),
+    { query: t.Object({ model: t.String() }) },
+  )
 
   .get("/subscriptions", async () => getSubscriptionPlansSummary());
