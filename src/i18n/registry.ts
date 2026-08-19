@@ -146,7 +146,11 @@ export const BLOG_REGISTRY = [
     headings: [
       { id: "what-changes", i18nLeaf: "H_WHAT_CHANGES", level: 2 },
       { id: "how-to-get-it", i18nLeaf: "H_HOW_TO_GET_IT", level: 2 },
-      { id: "what-it-does-not-do", i18nLeaf: "H_WHAT_IT_DOES_NOT_DO", level: 2 },
+      {
+        id: "what-it-does-not-do",
+        i18nLeaf: "H_WHAT_IT_DOES_NOT_DO",
+        level: 2,
+      },
     ],
   },
   {

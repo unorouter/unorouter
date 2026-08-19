@@ -1,5 +1,7 @@
 "use client";
 
+import { imageParams } from "@/lib/ai/image/models";
+
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
@@ -525,8 +527,8 @@ function ImageModelField(props: {
   const customProvidersQuery = useCustomProvidersQuery();
   const catalogOptions = (imageModels ?? []).map((m) => ({
     id: m.model_name,
-    name: m.maxReferenceImages
-      ? `${m.model_name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.maxReferenceImages })})`
+    name: imageParams(m).maxReferenceImages
+      ? `${m.model_name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: imageParams(m).maxReferenceImages ?? 0 })})`
       : m.model_name,
   }));
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>

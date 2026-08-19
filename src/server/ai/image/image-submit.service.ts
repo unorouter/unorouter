@@ -1,11 +1,6 @@
 import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import {
-  chooseEndpoint,
-  inferDescriptor,
-  isRunwareScheduler,
-  type SyncImageEndpoint,
-} from "@/lib/ai/image/models-dynamic";
+import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { isValidAir } from "@/lib/ai/image/constants";
 import { msg } from "@/lib/config/constants";
 import type {
@@ -46,6 +41,7 @@ function imageCountFor(body: ImageSubmitBody): number {
 // Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
 function baseDiffusionKnobs(
   params: Record<string, unknown>,
+  acceptedSamplers: string[],
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
@@ -66,9 +62,14 @@ function baseDiffusionKnobs(
   // One scheduler field upstream. Allowlisted because an unknown scheduler is a HARD
   // failure (old drafts still carry ComfyUI spellings); unrecognised falls back to the
   // model default instead of failing the request.
+  // Validated against the model's OWN accepted list rather than a shared
+  // vocabulary: a value outside it is a hard upstream rejection.
   const scheduler = [params.scheduler, params.sampler].find(
     (v): v is string =>
-      typeof v === "string" && !!v && v !== "Default" && isRunwareScheduler(v),
+      typeof v === "string" &&
+      !!v &&
+      v !== "Default" &&
+      acceptedSamplers.includes(v),
   );
   if (scheduler) out.scheduler = scheduler;
   return out;
@@ -122,13 +123,14 @@ function diffusionParams(
   params: Record<string, unknown>,
   loras: LoraEntry[],
   extraParams: { air?: string } | undefined,
+  acceptedSamplers: string[],
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   return {
     // The passthrough checkpoint; without it every custom-civitai request runs the
     // channel's default model.
     ...(isValidAir(extraParams?.air) ? { air: extraParams.air } : {}),
-    ...baseDiffusionKnobs(params, bodyNegativePrompt),
+    ...baseDiffusionKnobs(params, acceptedSamplers, bodyNegativePrompt),
     // A stale initImageUrl in a text2img request would silently turn it into
     // img2img of an old base; the mode the user chose wins over leftover params.
     ...(mode === "txt2img" ? {} : initImageKnobs(params)),
@@ -163,7 +165,6 @@ function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
 
 type ResolvedModel = {
   info: PricingCatalogDetail;
-  descriptor: ImageModelDescriptor;
   endpoint: SyncImageEndpoint;
 };
 
@@ -176,10 +177,10 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     });
     throw new Error(msg("ERRORS.NOT_FOUND"));
   }
-  const endpoint = chooseEndpoint(info.supported_endpoint_types ?? []);
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const descriptor = inferDescriptor(info);
-  if (!endpoint || !descriptor) {
+  const endpoint = info.metadata?.imageParams?.endpoint as
+    SyncImageEndpoint | undefined;
+  if (!endpoint) {
     logger.warn("image model has no usable endpoint", {
       context: "image.submit",
       model,
@@ -187,7 +188,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     });
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
-  return { info, descriptor, endpoint };
+  return { info, endpoint };
 }
 
 async function refineWithAdetailer(
@@ -236,7 +237,8 @@ export async function submitGeneration(
   body: ImageSubmitBody,
 ): Promise<SubmitGenerationResult> {
   const resolved = await resolveModel(body.model);
-  const descriptor = resolved.descriptor;
+  // The detail row carries the same imageParams the capability gate reads.
+  const descriptor = resolved.info as unknown as ImageModelDescriptor;
   const endpoint = resolved.endpoint;
 
   const filtered = filterParamsToCapabilities(descriptor, body.params);
@@ -276,6 +278,7 @@ export async function submitGeneration(
         params,
         loras,
         body.extraParams,
+        resolved.info.metadata?.imageParams?.samplers ?? [],
         body.negativePrompt,
       ),
     });

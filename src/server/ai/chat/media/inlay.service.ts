@@ -1,4 +1,4 @@
-import { chooseEndpoint } from "@/lib/ai/image/models-dynamic";
+import type { SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { getCatalog } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
 import type { ImageSubmitBody } from "@/lib/validation/image";
@@ -19,7 +19,8 @@ export async function generateInlayImage(
     models.find((m) => m.type === "image" && m.is_free) ??
     models.find((m) => m.type === "image");
   if (!model) return null;
-  const endpoint = chooseEndpoint(model.supported_endpoint_types ?? []);
+  const endpoint = model.metadata?.imageParams?.endpoint as
+    SyncImageEndpoint | undefined;
   if (!endpoint) return null;
   const images = await submitSyncImage({
     apiKey,

@@ -1,4 +1,4 @@
-import type { ImageModelDescriptor } from "@/lib/ai/image/models";
+import type { ImageParams } from "@/openapi";
 import type { ModelParamSpec } from "@/lib/ai/image/schema-spec";
 import snapshot from "@/lib/ai/image/runware-schemas.json";
 
@@ -70,57 +70,45 @@ function numeric(value: unknown): number | undefined {
   return typeof value === "number" ? value : undefined;
 }
 
-export function applyParamSpec(
-  base: ImageModelDescriptor,
-  spec: ModelParamSpec,
-): ImageModelDescriptor {
+// A user-picked checkpoint resolves to the same shape the gateway sends, so the
+// form can merge it onto the row and every consumer keeps reading one field.
+export function specToImageParams(spec: ModelParamSpec): ImageParams {
   const params = spec.params;
-  const steps = params.steps;
-  const cfg = params.CFGScale;
-  const scheduler = params.scheduler;
-  const outputFormat = params.outputFormat;
-  // Vendor-scoped, so the field is keyed "<vendor>.<name>" and only one vendor ever
-  // matches a given model.
   const vendorParam = (name: string) =>
     Object.entries(spec.providerSettings).find(
       ([key]) => key.split(".")[1] === name,
     )?.[1];
-  const quality = vendorParam("quality");
-  const background = vendorParam("background");
 
   return {
-    ...base,
-    supportsSteps: "steps" in params,
-    supportsCfg: "CFGScale" in params,
     supportsNegativePrompt: "negativePrompt" in params,
-    supportsLoraChain: "lora" in params,
+    supportsCfg: "CFGScale" in params,
+    supportsSteps: "steps" in params,
     supportsSampler: "scheduler" in params,
-    // Schedulers are per-architecture; the schema enum is the accepted vocabulary, so a
-    // value picked from it cannot be rejected the way a shared hardcoded list could.
-    samplers:
-      scheduler?.enum ?? ("scheduler" in params ? base.samplers : undefined),
-    supportsReferences: spec.maxReferenceImages > 0,
-    maxReferenceImages: spec.maxReferenceImages,
-    supportsSeed: "seed" in params || base.supportsSeed,
+    supportsLoraChain: "lora" in params,
+    supportsSeed: "seed" in params,
     supportsStrength: "strength" in params,
-    // Quality and background are provider settings rather than top-level params,
-    // and their accepted values differ per provider ("auto|high|medium|low" on
-    // gpt-image), so the enum is both the capability and the choices.
-    outputFormatChoices: outputFormat?.enum,
-    qualityChoices: quality?.enum,
-    backgroundChoices: background?.enum,
     supportsHiresFix: "hiresFix" in params,
     supportsAdetailer: "ultralytics" in params,
-    steps: { min: numeric(steps?.min), max: numeric(steps?.max) },
-    cfg: { min: numeric(cfg?.min), max: numeric(cfg?.max) },
-    defaultParams: {
-      ...base.defaultParams,
-      ...(numeric(steps?.default) !== undefined
-        ? { steps: numeric(steps?.default) }
-        : {}),
-      ...(numeric(cfg?.default) !== undefined
-        ? { cfg: numeric(cfg?.default) }
-        : {}),
+    samplers: params.scheduler?.enum,
+    steps: { min: numeric(params.steps?.min), max: numeric(params.steps?.max) },
+    cfg: {
+      min: numeric(params.CFGScale?.min),
+      max: numeric(params.CFGScale?.max),
     },
+    maxReferenceImages: spec.maxReferenceImages,
+    supportsReferences: spec.maxReferenceImages > 0,
+    supportsSeedImage: spec.supportsSeedImage,
+    supportsMaskImage: spec.supportsMaskImage,
+    outputFormatChoices: params.outputFormat?.enum,
+    qualityChoices: vendorParam("quality")?.enum,
+    backgroundChoices: vendorParam("background")?.enum,
+    // A checkpoint always runs the diffusion endpoint, which takes a size.
+    endpoint: "image-generation",
+    supportsSize: true,
+    defaultWidth: 1024,
+    defaultHeight: 1024,
+    defaultSteps: numeric(params.steps?.default) ?? 20,
+    defaultCfg: numeric(params.CFGScale?.default),
+    defaultSampler: "Default",
   };
 }

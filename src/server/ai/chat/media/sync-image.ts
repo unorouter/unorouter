@@ -1,7 +1,7 @@
 import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
-import { type SyncImageEndpoint } from "@/lib/ai/image/models-dynamic";
+import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import {

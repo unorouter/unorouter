@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultParams } from "@/lib/ai/image/models";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
@@ -24,7 +25,7 @@ export function useSnapshotRestore(args: Args) {
     if (!restorePayload) return;
     const desc = args.findDescriptor(restorePayload.model);
     const mergedParams: Record<string, unknown> = {
-      ...desc.defaultParams,
+      ...defaultParams(desc),
       ...(restorePayload.params ?? {}),
     };
     // A snapshot made in img2img carries its init image and mask inside params;

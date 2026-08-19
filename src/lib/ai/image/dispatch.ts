@@ -1,5 +1,8 @@
-import type { SyncImageEndpoint } from "@/lib/ai/image/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
+
+// Which upstream serves a synchronous image request. Resolved by the gateway per
+// model (metadata.imageParams.endpoint); this is the shape the send paths switch on.
+export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 import { safeFetchBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 

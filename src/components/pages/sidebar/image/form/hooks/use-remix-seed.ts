@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultParams, imageParams } from "@/lib/ai/image/models";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { useSnapshotQuery } from "@/hooks/ai/image-hook";
@@ -41,7 +42,7 @@ export function useRemixSeed(args: Args): { remixId: string | null } {
         ? { initImageUrl: seedSource, strength: 0.85 }
         : {};
     const hiresParams =
-      hiresShortcut && desc.supportsHiresFix && seedSource
+      hiresShortcut && imageParams(desc).supportsHiresFix && seedSource
         ? {
             hiresDenoise: 0.5,
             hiresUpscale: 1.5,
@@ -53,7 +54,7 @@ export function useRemixSeed(args: Args): { remixId: string | null } {
       prompt: data.prompt,
       negativePrompt: data.negativePrompt ?? "",
       params: {
-        ...desc.defaultParams,
+        ...defaultParams(desc),
         ...(data.params ?? {}),
         ...hiresParams,
         ...inpaintParams,

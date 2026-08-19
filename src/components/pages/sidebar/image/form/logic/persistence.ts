@@ -1,3 +1,4 @@
+import { defaultParams } from "@/lib/ai/image/models";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues } from "@/lib/validation/image";
 import {
@@ -14,7 +15,7 @@ export function defaultsFor(d: ImageModelDescriptor): ImageFormValues {
     model: d.model_name,
     prompt: "",
     negativePrompt: "",
-    params: { ...d.defaultParams },
+    params: { ...defaultParams(d) },
     visibility: "private",
     ui: { variants: 1 },
   };

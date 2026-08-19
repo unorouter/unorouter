@@ -1,5 +1,6 @@
 "use client";
 
+import { imageParams } from "@/lib/ai/image/models";
 import {
   FormControl,
   FormField,
@@ -26,10 +27,10 @@ type Props = {
 
 function hasVendorFields(d: ImageModelDescriptor): boolean {
   return Boolean(
-    d.qualityChoices?.length ||
-    d.outputFormatChoices?.length ||
-    d.backgroundChoices?.length ||
-    d.supportsStrength,
+    imageParams(d).qualityChoices?.length ||
+    imageParams(d).outputFormatChoices?.length ||
+    imageParams(d).backgroundChoices?.length ||
+    imageParams(d).supportsStrength,
   );
 }
 
@@ -41,25 +42,25 @@ export function VendorParamsFields(props: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {descriptor.qualityChoices?.length && (
+      {imageParams(descriptor).qualityChoices?.length && (
         <SelectParamField
           name="params.quality"
-          choices={descriptor.qualityChoices}
+          choices={imageParams(descriptor).qualityChoices ?? []}
           label={t("IMAGE.QUALITY_LABEL")}
           placeholder={t("IMAGE.QUALITY_DEFAULT")}
         />
       )}
 
-      {descriptor.outputFormatChoices?.length && (
+      {imageParams(descriptor).outputFormatChoices?.length && (
         <SelectParamField
           name="params.outputFormat"
-          choices={descriptor.outputFormatChoices}
+          choices={imageParams(descriptor).outputFormatChoices ?? []}
           label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
           placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
         />
       )}
 
-      {descriptor.backgroundChoices?.length && (
+      {imageParams(descriptor).backgroundChoices?.length && (
         <FormField
           control={form.control}
           name="params.background"
@@ -89,7 +90,7 @@ export function VendorParamsFields(props: Props) {
         />
       )}
 
-      {descriptor.supportsStrength && (
+      {imageParams(descriptor).supportsStrength && (
         <SliderParamField
           control={form.control}
           name="params.strength"

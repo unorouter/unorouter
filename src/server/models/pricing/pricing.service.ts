@@ -1,4 +1,3 @@
-import { imageDescriptors } from "@/lib/ai/image/models-dynamic";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
@@ -14,7 +13,7 @@ export const getCatalog = cache(async (full = false) => {
 
 export const getImageModels = cache(async () => {
   const res = await getPricingCatalog({ full: true, type: "image" });
-  return imageDescriptors(unwrap(res).models);
+  return unwrap(res).models;
 });
 
 export const getModelByName = cache(async (model: string) => {

@@ -1,33 +1,34 @@
 import type { ImageParams, PricingCatalogModel } from "@/openapi";
 import type { ImageModelId } from "@/lib/validation/image";
 
-// The gateway's imageParams verbatim (which controls the model accepts, resolved
-// from the provider schema) plus the unorouter-only view state a form needs.
-export type ImageModelDescriptor = PricingCatalogModel &
-  Partial<ImageParams> & {
-    model_name: ImageModelId;
-    supportsSize: boolean;
-    supportsReferences: boolean;
-    defaultParams: {
-      width: number;
-      height: number;
-      steps: number;
-      cfg?: number;
-      guidance?: number;
-      // Plain strings: the names belong to whichever backend serves the model, and
-      // samplers says which ones it accepts.
-      sampler?: string;
-      scheduler?: string;
-    };
-    fixedSize?: { width: number; height: number };
-    schedulers?: string[];
-    // Checkpoint-only controls, set by the form's own AIR lookup rather than the
-    // catalog: a user picks these at generation time.
-    supportsEmbedding?: boolean;
-    supportsVae?: boolean;
-    supportsClipSkip?: boolean;
-    tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
+// The catalog row as the gateway sends it. Generation controls live on
+// metadata.imageParams; the extras below exist only for a user-picked checkpoint,
+// which is resolved in the form at generation time and never by the catalog.
+export type ImageModelDescriptor = PricingCatalogModel & {
+  model_name: ImageModelId;
+  supportsEmbedding?: boolean;
+  supportsVae?: boolean;
+  supportsClipSkip?: boolean;
+  tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
+};
+
+/** Generation controls, empty when the model resolves none. */
+export function imageParams(m: ImageModelDescriptor): Partial<ImageParams> {
+  return m.metadata?.imageParams ?? {};
+}
+
+/** What a form starts at, as the gateway resolved it for this model. */
+export function defaultParams(m: ImageModelDescriptor) {
+  const p = imageParams(m);
+  return {
+    width: p.defaultWidth ?? 1024,
+    height: p.defaultHeight ?? 1024,
+    steps: p.defaultSteps ?? 20,
+    cfg: p.defaultCfg ?? undefined,
+    sampler: p.defaultSampler ?? "Default",
+    scheduler: undefined as string | undefined,
   };
+}
 
 // An id we cannot resolve borrows NOTHING but the shape: prompt and size are the
 // only knobs every image model shares. Inheriting another model's capability
@@ -51,8 +52,5 @@ export function getModelDescriptor(id: ImageModelId): ImageModelDescriptor {
     chat: false,
     supported_endpoint_types: [],
     metadata: { releaseTs: 0 },
-    supportsSize: true,
-    supportsReferences: false,
-    defaultParams: { width: 1024, height: 1024, steps: 20 },
   };
 }

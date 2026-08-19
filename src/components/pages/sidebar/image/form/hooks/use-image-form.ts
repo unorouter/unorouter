@@ -4,9 +4,11 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import {
   getModelDescriptor,
+  imageParams,
   type ImageModelDescriptor,
+  defaultParams,
 } from "@/lib/ai/image/models";
-import { applyParamSpec, lookupParamSpec } from "@/lib/ai/image/spec-apply";
+import { lookupParamSpec, specToImageParams } from "@/lib/ai/image/spec-apply";
 import {
   imageFormValues,
   type ImageFormValues,
@@ -57,8 +59,16 @@ export function useImageForm() {
     pickedAir || pickedArchitecture
       ? lookupParamSpec(pickedAir, pickedArchitecture)
       : null;
-  const descriptor = checkpointSpec
-    ? applyParamSpec(baseDescriptor, checkpointSpec)
+  // Merged onto the row so every consumer keeps reading metadata.imageParams,
+  // whether the controls came from the catalog or the picked checkpoint.
+  const descriptor: ImageModelDescriptor = checkpointSpec
+    ? {
+        ...baseDescriptor,
+        metadata: {
+          ...baseDescriptor.metadata,
+          imageParams: specToImageParams(checkpointSpec),
+        },
+      }
     : baseDescriptor;
 
   const changeModel = (next: string) => {
@@ -66,14 +76,17 @@ export function useImageForm() {
     form.setValue("model", next);
     const remembered = samplerMemory[next];
     const params = remembered
-      ? { ...nextDesc.defaultParams, ...remembered }
-      : { ...nextDesc.defaultParams };
+      ? { ...defaultParams(nextDesc), ...remembered }
+      : { ...defaultParams(nextDesc) };
     form.setValue("params", params, {
       shouldDirty: true,
     });
-    if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
-    if (!nextDesc.supportsReferences) form.setValue("references", undefined);
-    if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
+    if (!imageParams(nextDesc).supportsNegativePrompt)
+      form.setValue("negativePrompt", "");
+    if (!imageParams(nextDesc).supportsReferences)
+      form.setValue("references", undefined);
+    if (!imageParams(nextDesc).supportsLoraChain)
+      form.setValue("loras", undefined);
   };
 
   const remix = useRemixSeed({ form, findDescriptor });
@@ -99,7 +112,8 @@ export function useImageForm() {
   const adoptModelTab = (modelId: string) => {
     const desc = effectiveModels.find((m) => m.model_name === modelId);
     if (!desc || isModelInTab(desc, nav.tab)) return;
-    const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
+    const target: GenerateTab =
+      (desc as ImageModelDescriptor).tabs?.[0] ?? "text2img";
     nav.setTab(target);
     drafts.setDraftRestoredTab(target);
   };

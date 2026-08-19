@@ -1,5 +1,7 @@
 "use client";
 
+import { imageParams } from "@/lib/ai/image/models";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -140,7 +142,7 @@ export function ImageForm() {
             />
           )}
 
-        {descriptor.supportsSize && <AspectRatioSection />}
+        {imageParams(descriptor).supportsSize && <AspectRatioSection />}
 
         <FormField
           control={form.control}
@@ -162,7 +164,7 @@ export function ImageForm() {
           )}
         />
 
-        {descriptor.supportsNegativePrompt && (
+        {imageParams(descriptor).supportsNegativePrompt && (
           <FormField
             control={form.control}
             name="negativePrompt"
@@ -187,7 +189,7 @@ export function ImageForm() {
 
         <VariantsField />
 
-        {descriptor.supportsLoraChain && (
+        {imageParams(descriptor).supportsLoraChain && (
           <Controller
             control={form.control}
             name="loras"
@@ -212,13 +214,13 @@ export function ImageForm() {
           />
         )}
 
-        {descriptor.supportsReferences && (
+        {imageParams(descriptor).supportsReferences && (
           <Controller
             control={form.control}
             name="references"
             render={({ field }) => (
               <ReferenceUploader
-                maxFiles={descriptor.maxReferenceImages}
+                maxFiles={imageParams(descriptor).maxReferenceImages}
                 value={field.value ?? []}
                 onChange={(refs) =>
                   field.onChange(refs.length > 0 ? refs : undefined)

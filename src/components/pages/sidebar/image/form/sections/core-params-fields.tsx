@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultParams, imageParams } from "@/lib/ai/image/models";
 import {
   FormControl,
   FormField,
@@ -34,16 +35,18 @@ export function CoreParamsFields(props: Props) {
   // opening the section to read.
   const steps =
     useWatch({ control: form.control, name: "params.steps" }) ??
-    descriptor.defaultParams.steps ??
+    defaultParams(descriptor).steps ??
     20;
   const cfg =
     useWatch({ control: form.control, name: "params.cfg" }) ??
-    descriptor.defaultParams.cfg ??
+    defaultParams(descriptor).cfg ??
     7;
-  const showSteps = descriptor.supportsSteps === true;
+  const showSteps = imageParams(descriptor).supportsSteps === true;
   const summary = [
     showSteps ? `${t("IMAGE.STEPS_LABEL")} ${steps}` : null,
-    descriptor.supportsCfg ? `${t("IMAGE.CFG_LABEL")} ${cfg}` : null,
+    imageParams(descriptor).supportsCfg
+      ? `${t("IMAGE.CFG_LABEL")} ${cfg}`
+      : null,
   ]
     .filter(Boolean)
     .join("  ");
@@ -60,27 +63,27 @@ export function CoreParamsFields(props: Props) {
               control={form.control}
               name="params.steps"
               label={t("IMAGE.STEPS_LABEL")}
-              min={descriptor.steps?.min ?? 1}
-              max={descriptor.steps?.max ?? 50}
+              min={imageParams(descriptor).steps?.min ?? 1}
+              max={imageParams(descriptor).steps?.max ?? 50}
               step={1}
-              defaultValue={descriptor.defaultParams.steps ?? 20}
+              defaultValue={defaultParams(descriptor).steps ?? 20}
             />
           )}
 
-          {descriptor.supportsCfg && (
+          {imageParams(descriptor).supportsCfg && (
             <SliderParamField
               control={form.control}
               name="params.cfg"
               label={t("IMAGE.CFG_LABEL")}
-              min={descriptor.cfg?.min ?? 0}
-              max={descriptor.cfg?.max ?? 15}
+              min={imageParams(descriptor).cfg?.min ?? 0}
+              max={imageParams(descriptor).cfg?.max ?? 15}
               step={0.5}
-              defaultValue={descriptor.defaultParams.cfg ?? 7}
+              defaultValue={defaultParams(descriptor).cfg ?? 7}
             />
           )}
         </div>
 
-        {descriptor.supportsSampler ? (
+        {imageParams(descriptor).supportsSampler ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <FormField
               control={form.control}
@@ -91,7 +94,7 @@ export function CoreParamsFields(props: Props) {
                   <FormControl>
                     <Select
                       value={
-                        field.value ?? descriptor.defaultParams.sampler ?? ""
+                        field.value ?? defaultParams(descriptor).sampler ?? ""
                       }
                       onValueChange={field.onChange}
                     >
@@ -102,7 +105,7 @@ export function CoreParamsFields(props: Props) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {(descriptor.samplers ?? []).map((s) => (
+                        {(imageParams(descriptor).samplers ?? []).map((s) => (
                           <SelectItem key={s} value={s}>
                             {s}
                           </SelectItem>
@@ -113,50 +116,13 @@ export function CoreParamsFields(props: Props) {
                 </FormItem>
               )}
             />
-            {/* Some backends fold the scheduler into the sampler and offer no separate
-              list, which would render an empty select the provider rejects. */}
-            {(descriptor.schedulers?.length ?? 0) > 0 && (
-              <FormField
-                control={form.control}
-                name="params.scheduler"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={
-                          field.value ??
-                          descriptor.defaultParams.scheduler ??
-                          ""
-                        }
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger
-                          aria-label={t("IMAGE.SCHEDULER_LABEL")}
-                          className="w-full"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {(descriptor.schedulers ?? []).map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            )}
           </div>
         ) : null}
       </CollapsibleSection>
       {/* Outside the disclosure: a seed is changed or reused per generation, not set
           once. Gated exactly like the server-side capability filter, which drops the
           seed for models that do not declare it. */}
-      {descriptor.supportsSeed && <SeedField />}
+      {imageParams(descriptor).supportsSeed && <SeedField />}
     </>
   );
 }

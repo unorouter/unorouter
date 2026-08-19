@@ -1,3 +1,4 @@
+import { imageParams } from "@/lib/ai/image/models";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageParams, LoraEntry } from "@/lib/validation/image";
 
@@ -21,29 +22,29 @@ export function filterParamsToCapabilities(
     }
   };
 
-  if (!descriptor.supportsCfg) {
+  if (!imageParams(descriptor).supportsCfg) {
     drop("cfg");
     drop("steps");
     drop("clipSkip");
   }
-  if (!descriptor.supportsSampler) {
+  if (!imageParams(descriptor).supportsSampler) {
     drop("sampler");
     drop("scheduler");
   }
-  if (!descriptor.supportsSeed) drop("seed");
-  if (!descriptor.supportsHiresFix) {
+  if (!imageParams(descriptor).supportsSeed) drop("seed");
+  if (!imageParams(descriptor).supportsHiresFix) {
     drop("hiresUpscale");
     drop("hiresDenoise");
     drop("hiresSteps");
   }
   // No strength = no init-image inputs; don't forward multi-MB data URIs to a rejector.
-  if (!descriptor.supportsStrength) {
+  if (!imageParams(descriptor).supportsStrength) {
     drop("strength");
     drop("initImageUrl");
     drop("maskUrl");
   }
   // ADetailer is a second billed pass; a model that does not declare it must not run one.
-  if (!descriptor.supportsAdetailer) drop("adetailer");
+  if (!imageParams(descriptor).supportsAdetailer) drop("adetailer");
   // No Runware schema defines a watermark or guidance field, so neither is ever
   // forwardable. Dropped unconditionally rather than gated on a descriptor flag
   // nothing can set.
@@ -51,23 +52,23 @@ export function filterParamsToCapabilities(
   drop("guidance");
   // The provider enum IS the capability: no accepted values means the field is
   // not forwardable at all.
-  if (!descriptor.backgroundChoices?.length) drop("background");
-  if (!descriptor.supportsSize) {
+  if (!imageParams(descriptor).backgroundChoices?.length) drop("background");
+  if (!imageParams(descriptor).supportsSize) {
     drop("width");
     drop("height");
   }
-  if (!descriptor.qualityChoices?.length) drop("quality");
-  if (!descriptor.outputFormatChoices?.length) drop("outputFormat");
+  if (!imageParams(descriptor).qualityChoices?.length) drop("quality");
+  if (!imageParams(descriptor).outputFormatChoices?.length)
+    drop("outputFormat");
 
   // Enum knobs also check the model's own choices; an unknown value is still rejected.
-  if (descriptor.qualityChoices && typeof source.quality === "string") {
-    if (!descriptor.qualityChoices.includes(source.quality)) drop("quality");
+  const quality = imageParams(descriptor).qualityChoices;
+  if (quality && typeof source.quality === "string") {
+    if (!quality.includes(source.quality)) drop("quality");
   }
-  if (
-    descriptor.outputFormatChoices &&
-    typeof source.outputFormat === "string"
-  ) {
-    if (!descriptor.outputFormatChoices.includes(source.outputFormat)) {
+  const formats = imageParams(descriptor).outputFormatChoices;
+  if (formats && typeof source.outputFormat === "string") {
+    if (!formats.includes(source.outputFormat)) {
       drop("outputFormat");
     }
   }
@@ -79,7 +80,7 @@ export function filterLorasToCapabilities(
   descriptor: ImageModelDescriptor,
   loras: LoraEntry[] | undefined,
 ): LoraEntry[] {
-  if (!descriptor.supportsLoraChain) return [];
+  if (!imageParams(descriptor).supportsLoraChain) return [];
   return loras ?? [];
 }
 
@@ -87,9 +88,9 @@ export function capReferences<T>(
   descriptor: ImageModelDescriptor,
   references: T[] | undefined,
 ): T[] {
-  if (!descriptor.supportsReferences) return [];
+  if (!imageParams(descriptor).supportsReferences) return [];
   return (references ?? []).slice(
     0,
-    Math.max(0, descriptor.maxReferenceImages ?? 0),
+    Math.max(0, imageParams(descriptor).maxReferenceImages ?? 0),
   );
 }

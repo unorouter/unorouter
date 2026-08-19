@@ -1,5 +1,6 @@
 "use client";
 
+import { imageParams } from "@/lib/ai/image/models";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
 import {
@@ -59,7 +60,7 @@ export function AdvancedFields(props: Props) {
         />
       )}
 
-      {descriptor.supportsAdetailer && (
+      {imageParams(descriptor).supportsAdetailer && (
         <Controller
           control={form.control}
           name="params.adetailer"
@@ -69,7 +70,9 @@ export function AdvancedFields(props: Props) {
         />
       )}
 
-      {descriptor.supportsHiresFix && <UpscalerField form={form} />}
+      {imageParams(descriptor).supportsHiresFix && (
+        <UpscalerField form={form} />
+      )}
 
       {descriptor.supportsClipSkip && (
         <Controller

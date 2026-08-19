@@ -10,10 +10,7 @@ import {
   extractResultUris,
   loadRefs,
 } from "@/lib/ai/image/dispatch";
-import {
-  chooseEndpoint,
-  type SyncImageEndpoint,
-} from "@/lib/ai/image/models-dynamic";
+import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import {
@@ -367,7 +364,8 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
     }, body.model);
   }
 
-  const endpoint = chooseEndpoint(model?.supported_endpoint_types ?? []);
+  const endpoint = model?.metadata.imageParams?.endpoint as
+    SyncImageEndpoint | undefined;
   const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
     .map((r) => r.url)

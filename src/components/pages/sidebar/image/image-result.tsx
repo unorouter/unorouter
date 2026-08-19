@@ -1,5 +1,7 @@
 "use client";
 
+import { imageParams } from "@/lib/ai/image/models";
+
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
@@ -152,7 +154,7 @@ export function ImageResult(props: Props) {
             setLightboxIndex(i);
             setLightboxOpen(true);
           }}
-          supportsHires={descriptor?.supportsHiresFix}
+          supportsHires={descriptor && imageParams(descriptor).supportsHiresFix}
           onQuickAction={actions.onQuickAction}
           onReuseSeed={actions.onReuseSeed}
         />
@@ -202,7 +204,7 @@ export function ImageResult(props: Props) {
         </Button>
         {/* Hires is per-image (hover actions); this shortcut carries the result along as
             the init image so a region can be redrawn without re-uploading it. */}
-        {isDone && descriptor?.supportsStrength && (
+        {isDone && descriptor && imageParams(descriptor).supportsStrength && (
           <Button
             variant="outline"
             size="sm"
