@@ -13,6 +13,8 @@ function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   ) as Partial<T>;
 }
 
+// Both spellings resolve, because the sliders arrive camelCase while extraBody
+// is hand-written on the wire names.
 const PARAM_API_KEY: Record<string, string> = {
   maxOutputTokens: "max_tokens",
   temperature: "temperature",
@@ -20,9 +22,16 @@ const PARAM_API_KEY: Record<string, string> = {
   topK: "top_k",
   frequencyPenalty: "frequency_penalty",
   presencePenalty: "presence_penalty",
+  max_tokens: "max_tokens",
+  top_p: "top_p",
+  top_k: "top_k",
+  frequency_penalty: "frequency_penalty",
+  presence_penalty: "presence_penalty",
   min_p: "min_p",
   top_a: "top_a",
   repetition_penalty: "repetition_penalty",
+  seed: "seed",
+  logit_bias: "logit_bias",
 };
 
 // Null and undefined both mean "the model states no restriction", so every
@@ -95,7 +104,12 @@ export function buildProviderOptions(
     // any other key (this object once sat under "openai") is silently dropped
     // and none of these fields ever reach the wire.
     [CHAT_PROVIDER_NAME]: {
-      ...(safeExtraBody ?? {}),
+      // extraBody goes through the same strip as the sliders: a hand-written
+      // repetition_penalty reached hosts that reject it and 400d the request.
+      ...stripUnsupported(
+        safeExtraBody ?? {},
+        modelInfo?.metadata.supportedParameters,
+      ),
       ...stripUnsupported(
         defined({
           min_p: assembled.sampling.minP,
