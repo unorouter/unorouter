@@ -1292,7 +1292,7 @@
         "P_WHAT_CHANGES_2": "Skracamy okno zamiast podnosić liczbę żądań i jest to celowe. Większość darmowych modeli stoi na dokładnie jednym żądaniu na okno, a procent z jednego żądania to nadal jedno żądanie.",
         "H_HOW_TO_GET_IT": "Jak to zdobyć",
         "P_HOW_TO_GET_IT": "Otwórz Discord, przejdź do Ustawień użytkownika, potem Profile, potem Tag serwera i wybierz <discord>nasz serwer</discord>. Bot zauważy to w kilka sekund i naliczy zniżkę. Zdejmij tag, a twoje okno wróci do normy równie szybko.",
-        "P_LINKED": "Aby zniżka do ciebie dotarła, potrzebujesz połączonego konta, bo musimy wiedzieć, któremu użytkownikowi {appName} ją przypisać. Tag płaci też {tagReward} $ za każdy pełny dzień noszenia, co dodaje się do krótszego okna, a nie zastępuje go. Resztę opisuje <rewards>strona nagród Discord</rewards>.",
+        "P_LINKED": "Aby zniżka do ciebie dotarła, potrzebujesz połączonego konta, bo musimy wiedzieć, któremu użytkownikowi {appName} ją przypisać. Tag płaci też {tagReward} za każdy pełny dzień noszenia, co dodaje się do krótszego okna, a nie zastępuje go. Resztę opisuje <rewards>strona nagród Discord</rewards>.",
         "H_WHAT_IT_DOES_NOT_DO": "Czego to nie robi",
         "P_NOT_DO_1": "To skraca twoje oczekiwanie. Nie podnosi limitów dostawcy. Gdy darmowy model jest zajęty, bo warstwa nadrzędna jest przeciążona lub uszkodzona, krótsze okno po naszej stronie nie wyczaruje mocy, której nie ma, a żądanie nadal może się zawiesić lub nie powieść.",
         "P_NOT_DO_2": "Modele płatne nie mają żadnego limitu na minutę. Jeśli więc potrzebujesz modelu, który odpowiada za każdym razem, a nie przez większość czasu, to jest uczciwa rekomendacja. <pricing>Cennik</pricing> zaczyna się od ułamków centa za milion tokenów.",

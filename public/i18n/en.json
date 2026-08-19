@@ -1292,7 +1292,7 @@
         "P_WHAT_CHANGES_2": "We shorten the window rather than raise the request count on purpose. Most free models sit at exactly one request per window, and a percentage off one request is still one request.",
         "H_HOW_TO_GET_IT": "How to get it",
         "P_HOW_TO_GET_IT": "Open Discord, go to User Settings, then Profiles, then Server Tag, and pick <discord>our server</discord>. The bot notices within seconds and applies the discount. Take the tag off and your window goes back to normal just as quickly.",
-        "P_LINKED": "You need a linked account for the discount to reach you, since we have to know which {appName} user to apply it to. The tag also pays ${tagReward} for every full day you wear it, which stacks with the shorter window rather than replacing it. The <rewards>Discord rewards page</rewards> covers the rest.",
+        "P_LINKED": "You need a linked account for the discount to reach you, since we have to know which {appName} user to apply it to. The tag also pays {tagReward} for every full day you wear it, which stacks with the shorter window rather than replacing it. The <rewards>Discord rewards page</rewards> covers the rest.",
         "H_WHAT_IT_DOES_NOT_DO": "What it does not do",
         "P_NOT_DO_1": "This shortens your wait. It does not raise the provider's limits. When a free model is busy because the upstream is saturated or degraded, a shorter window on our side does not conjure capacity that is not there, and the request can still stall or fail.",
         "P_NOT_DO_2": "Paid models have no per-minute limit at all, so if you need a model that answers every time rather than most of the time, that is the honest recommendation. <pricing>Pricing</pricing> starts at fractions of a cent per million tokens.",
