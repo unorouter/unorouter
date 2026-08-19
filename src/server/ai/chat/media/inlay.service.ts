@@ -1,5 +1,5 @@
 import type { SyncImageEndpoint } from "@/lib/ai/image/dispatch";
-import { getCatalog } from "@/server/models/pricing/pricing.service";
+import { getImageModels } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
 import type { ImageSubmitBody } from "@/lib/validation/image";
 import { submitSyncImage } from "./sync-image";
@@ -10,14 +10,15 @@ export async function generateInlayImage(
   prompt: string,
   opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
-  const catalog = await getCatalog();
-  const models = catalog.models;
+  // Already scoped to image models the gateway can submit synchronously, and
+  // ordered newest first, so the fallbacks below pick a current model.
+  const models = await getImageModels();
   const model =
     (opts?.model
-      ? models.find((m) => m.type === "image" && m.model_name === opts.model)
+      ? models.find((m) => m.model_name === opts.model)
       : undefined) ??
-    models.find((m) => m.type === "image" && m.is_free) ??
-    models.find((m) => m.type === "image");
+    models.find((m) => m.is_free) ??
+    models[0];
   if (!model) return null;
   const endpoint = model.metadata?.imageParams?.endpoint as
     SyncImageEndpoint | undefined;
