@@ -93,7 +93,10 @@ export async function insertLocalRequestLog(row: RequestLogRow): Promise<void> {
 // emptying the heavy columns on everything but the most recent few per
 // conversation. The rows stay (cost/token history is read from them); only the
 // reproduce-the-request payload goes.
-const KEEP_FULL_LOGS_PER_CONV = 40;
+// 40 was chosen for debugging headroom, but a payload averages ~38KB, so a
+// heavy user carries tens of MB of request bodies to reproduce turns nobody
+// will look at. Ten is still enough to inspect a reported problem.
+const KEEP_FULL_LOGS_PER_CONV = 10;
 
 export async function trimRequestLogPayloads(): Promise<number> {
   const local = await getLocalDb();
