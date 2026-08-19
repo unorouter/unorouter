@@ -276,16 +276,21 @@ export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   });
 }
 
+// Anthropic rejects a whitespace-only text block ("text content blocks must
+// contain non-whitespace text"), so the stub carries a character rather than a
+// space.
+const USER_STUB_TEXT = ".";
+
 export function prependUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[0].role === "user") return messages;
-  return [mkMsg("user", " "), ...messages];
+  return [mkMsg("user", USER_STUB_TEXT), ...messages];
 }
 
 export function appendUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[messages.length - 1].role === "user") return messages;
-  return [...messages, mkMsg("user", " ")];
+  return [...messages, mkMsg("user", USER_STUB_TEXT)];
 }
 
 export const GEMINI_SAFETY_OFF = [
