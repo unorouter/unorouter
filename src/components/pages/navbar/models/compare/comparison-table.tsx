@@ -92,7 +92,7 @@ export function ComparisonTable(props: {
   const outPrice = (m: PricingCatalogModel) =>
     m.is_fixed_price ? m.fixed_price : m.output_price;
   const ctxOf = (m: PricingCatalogModel) =>
-    m.metadata.contextWindow ?? m.metadata.maxInputTokens ?? 0;
+    m.metadata?.contextWindow ?? m.metadata?.maxInputTokens ?? 0;
   const perf = (m: PricingCatalogModel) => props.perfMap.get(m.model_name);
 
   const sections: Section[] = [
@@ -111,19 +111,19 @@ export function ComparisonTable(props: {
         {
           label: t("MODELS.DETAIL.INPUT"),
           render: (m) => (
-            <ModalityIcons modalities={m.metadata.inputModalities ?? []} />
+            <ModalityIcons modalities={m.metadata?.inputModalities ?? []} />
           ),
         },
         {
           label: t("MODELS.DETAIL.OUTPUT"),
           render: (m) => (
-            <ModalityIcons modalities={m.metadata.outputModalities ?? []} />
+            <ModalityIcons modalities={m.metadata?.outputModalities ?? []} />
           ),
         },
         {
           label: t("MODELS.TABLE.RELEASED"),
           render: (m) => {
-            const ts = m.metadata.releaseTs;
+            const ts = m.release_ts;
             return ts > 0 ? formatMsDate(ts) : "-";
           },
         },
@@ -181,28 +181,28 @@ export function ComparisonTable(props: {
       rows: [
         {
           label: t("MODELS.DETAIL.MAX_OUTPUT"),
-          render: (m) => formatTokenCount(m.metadata.maxOutputTokens, locale),
-          best: (m) => m.metadata.maxOutputTokens ?? null,
+          render: (m) => formatTokenCount(m.metadata?.maxOutputTokens, locale),
+          best: (m) => m.metadata?.maxOutputTokens ?? null,
         },
         {
           label: t("MODELS.CAPABILITY.REASONING"),
-          render: (m) => <Bool on={Boolean(m.metadata.isReasoning)} />,
+          render: (m) => <Bool on={Boolean(m.metadata?.isReasoning)} />,
         },
         {
           label: t("MODELS.CAPABILITY.TOOLS"),
-          render: (m) => <Bool on={Boolean(m.metadata.supportsTools)} />,
+          render: (m) => <Bool on={Boolean(m.metadata?.supportsTools)} />,
         },
         {
           label: t("MODELS.CAPABILITY.VISION"),
-          render: (m) => <Bool on={Boolean(m.metadata.supportsVision)} />,
+          render: (m) => <Bool on={Boolean(m.metadata?.supportsVision)} />,
         },
         {
           label: t("MODELS.CAPABILITY.CACHE"),
-          render: (m) => <Bool on={Boolean(m.metadata.supportsCache)} />,
+          render: (m) => <Bool on={Boolean(m.metadata?.supportsCache)} />,
         },
         {
           label: t("MODELS.DETAIL.QUANTIZATION"),
-          render: (m) => m.metadata.quantization ?? "-",
+          render: (m) => m.metadata?.quantization ?? "-",
         },
       ],
     },

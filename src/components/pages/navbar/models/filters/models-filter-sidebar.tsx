@@ -61,19 +61,19 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
 
   const seriesOptions = uniqueSorted(
     props.models
-      .map((m) => m.metadata.series)
+      .map((m) => m.metadata?.series)
       .filter((s): s is string => Boolean(s)),
   );
   const typeTags = new Set(["text", "image", "video", "audio", "embedding"]);
   const categoryOptions = uniqueSorted(
     props.models.flatMap((m) =>
-      m.metadata.categories && m.metadata.categories.length > 0
-        ? m.metadata.categories
+      m.metadata?.categories && m.metadata?.categories.length > 0
+        ? m.metadata?.categories
         : m.tags.filter((tag) => !typeTags.has(tag.toLowerCase())),
     ),
   );
   const paramOptions = uniqueSorted(
-    props.models.flatMap((m) => m.metadata.supportedParametersAll ?? []),
+    props.models.flatMap((m) => m.metadata?.supportedParametersAll ?? []),
   );
   const vendorOptions = uniqueSorted(props.models.map((m) => m.vendor));
 

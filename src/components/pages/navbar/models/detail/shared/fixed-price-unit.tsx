@@ -1,11 +1,11 @@
 "use client";
 
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
-import type { ModelMetadata } from "@/lib/api/pricing";
 import { useTranslations } from "next-intl";
 
 export function FixedPriceUnit(props: {
-  model: { type: string; metadata: ModelMetadata };
+  // Only the modality and price columns are read; metadata never is.
+  model: { type: string };
 }) {
   const t = useTranslations();
   const unit = fixedPriceUnitLabel(props.model);

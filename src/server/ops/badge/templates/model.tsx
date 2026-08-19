@@ -68,7 +68,7 @@ export async function generateModel(
   const c = THEME_COLORS.dark;
   const name = model?.model_name ?? requested;
   const vendorSvg = model ? getVendorColorIcon(model.vendor) : null;
-  const contextWindow = model?.metadata.contextWindow;
+  const contextWindow = model?.metadata?.contextWindow;
 
   const stats = model ? (
     <div

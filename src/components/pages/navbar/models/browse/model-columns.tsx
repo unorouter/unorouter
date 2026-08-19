@@ -104,7 +104,7 @@ export function buildModelColumns(opts: {
   const rankTokens = (m: PricingCatalogModel) =>
     opts.rankMap.get(m.model_name)?.total_tokens ?? 0;
   const ctxOf = (m: PricingCatalogModel) =>
-    m.metadata.contextWindow ?? m.metadata.maxInputTokens ?? 0;
+    m.metadata?.contextWindow ?? m.metadata?.maxInputTokens ?? 0;
 
   return [
     {
@@ -308,10 +308,9 @@ export function buildModelColumns(opts: {
     },
     {
       id: "released",
-      accessorFn: (m) => m.metadata.releaseTs,
+      accessorFn: (m) => m.release_ts,
       enableSorting: true,
-      sortFn: (a, b) =>
-        a.original.metadata.releaseTs - b.original.metadata.releaseTs,
+      sortFn: (a, b) => a.original.release_ts - b.original.release_ts,
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
@@ -325,7 +324,7 @@ export function buildModelColumns(opts: {
           "hidden @4xl:table-cell text-right text-muted-foreground",
       },
       cell: ({ row }) => {
-        const ts = row.original.metadata.releaseTs;
+        const ts = row.original.release_ts;
         return ts > 0 ? formatMsDate(ts) : "-";
       },
     },

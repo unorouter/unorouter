@@ -1,5 +1,6 @@
 "use client";
 
+import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
 import { NEW_MODEL_MS } from "@/hooks/ui/use-models-hook";
@@ -57,11 +58,11 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
   const theme = getVendorTheme(model.vendor);
   const modality = deriveOutputModality(model);
   const price = modelPriceColumns(model);
-  const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
+  const ctx = model.metadata?.contextWindow ?? model.metadata?.maxInputTokens;
   const released = model.release_ts;
   const [now] = useState(() => Date.now());
   const isNew = released > 0 && now - released < NEW_MODEL_MS;
-  const isDeprecated = Boolean(model.metadata.deprecationDate);
+  const isDeprecated = Boolean(model.metadata?.deprecationDate);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
 
   return (
@@ -112,7 +113,11 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
         </p>
       )}
 
-      <CapabilityChips metadata={model.metadata} variant="card" limit={4} />
+      <CapabilityChips
+        metadata={model.metadata ?? EMPTY_METADATA}
+        variant="card"
+        limit={4}
+      />
 
       <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs">
         {ctx ? (

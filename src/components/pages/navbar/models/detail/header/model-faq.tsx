@@ -1,5 +1,7 @@
 "use client";
 
+import type { ModelMetadata } from "@/openapi";
+
 import { findContextTag } from "@/lib/api/pricing";
 import type { PricingCatalogDetail } from "@/openapi";
 
@@ -19,7 +21,9 @@ export function ModelFaq(props: { model: PricingCatalogDetail }) {
   const t = useTranslations();
   const locale = useLocale();
   const m = props.model;
-  const meta = m.metadata;
+  // The detail record always carries metadata; the list shape does not, so the
+  // default keeps this readable instead of chaining every access.
+  const meta: ModelMetadata = m.metadata ?? ({} as ModelMetadata);
   const name = m.model_name;
   const theme = getVendorTheme(m.vendor);
   const items: FaqItem[] = [];

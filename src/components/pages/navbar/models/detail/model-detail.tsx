@@ -1,3 +1,4 @@
+import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
@@ -104,7 +105,7 @@ print(res.choices[0].message.content)`;
   const releaseDateLabel = released ? formatMsDate(released) : "";
   const lastUpdatedMs = m.created_time ? m.created_time * 1000 : released;
   const lastUpdatedLabel = lastUpdatedMs ? formatMsDate(lastUpdatedMs) : "";
-  const knowledgeCutoff = formatYearMonth(m.metadata.knowledgeCutoff) ?? "";
+  const knowledgeCutoff = formatYearMonth(m.metadata?.knowledgeCutoff) ?? "";
   const hasReleaseRow = Boolean(
     releaseDateLabel || knowledgeCutoff || lastUpdatedLabel,
   );
@@ -187,7 +188,10 @@ print(res.choices[0].message.content)`;
         </div>
 
         <div className="mt-4">
-          <ModelHeaderChips metadata={m.metadata} locale={locale} />
+          <ModelHeaderChips
+            metadata={m.metadata ?? EMPTY_METADATA}
+            locale={locale}
+          />
         </div>
 
         {hasReleaseRow && (
@@ -220,7 +224,7 @@ print(res.choices[0].message.content)`;
         )}
 
         <div className="mt-4">
-          <ModelMetaStats metadata={m.metadata} />
+          <ModelMetaStats metadata={m.metadata ?? EMPTY_METADATA} />
         </div>
 
         {props.offline && <AtCapacityBanner />}
@@ -318,7 +322,7 @@ print(res.choices[0].message.content)`;
               />
             </section>
 
-            {hasAnyParameter(m.metadata) && (
+            {hasAnyParameter(m.metadata ?? EMPTY_METADATA) && (
               <section className="mt-12">
                 <SectionHeading theme={theme}>
                   {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
@@ -330,7 +334,9 @@ print(res.choices[0].message.content)`;
                     theme.bg,
                   )}
                 >
-                  <SupportedParameters metadata={m.metadata} />
+                  <SupportedParameters
+                    metadata={m.metadata ?? EMPTY_METADATA}
+                  />
                 </div>
               </section>
             )}

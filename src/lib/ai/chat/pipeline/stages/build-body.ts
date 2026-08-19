@@ -75,7 +75,7 @@ export function buildModelParams(
       frequencyPenalty: assembled.sampling.frequencyPenalty,
       presencePenalty: assembled.sampling.presencePenalty,
     }),
-    modelInfo?.metadata.supportedParameters,
+    modelInfo?.metadata?.supportedParameters,
   );
 }
 
@@ -108,7 +108,7 @@ export function buildProviderOptions(
       // repetition_penalty reached hosts that reject it and 400d the request.
       ...stripUnsupported(
         safeExtraBody ?? {},
-        modelInfo?.metadata.supportedParameters,
+        modelInfo?.metadata?.supportedParameters,
       ),
       ...stripUnsupported(
         defined({
@@ -116,7 +116,7 @@ export function buildProviderOptions(
           top_a: assembled.sampling.topA,
           repetition_penalty: assembled.sampling.repetitionPenalty,
         }),
-        modelInfo?.metadata.supportedParameters,
+        modelInfo?.metadata?.supportedParameters,
       ),
       ...defined({
         // camelCase: the sdk maps its known reasoningEffort option to
@@ -144,7 +144,7 @@ export function buildBodyMutations(
   const effort = assembled.reasoningEffort;
   return {
     injectCacheControl:
-      modelInfo?.metadata.supportsCache === true && autoFlags.cacheControl,
+      modelInfo?.metadata?.supportsCache === true && autoFlags.cacheControl,
     deepSeekPrefix: autoFlags.deepSeekPrefix || undefined,
     deepSeekReasoningContent,
     deepSeekThinking:
@@ -290,9 +290,9 @@ export function buildDebugSnapshot(
     history: historyStats ?? null,
     model: modelInfo
       ? {
-          contextWindow: modelInfo.metadata.contextWindow ?? null,
-          maxOutputTokens: modelInfo.metadata.maxOutputTokens ?? null,
-          supportedParameters: modelInfo.metadata.supportedParameters ?? null,
+          contextWindow: modelInfo.metadata?.contextWindow ?? null,
+          maxOutputTokens: modelInfo.metadata?.maxOutputTokens ?? null,
+          supportedParameters: modelInfo.metadata?.supportedParameters ?? null,
           isFree: modelInfo.is_free ?? null,
         }
       : null,

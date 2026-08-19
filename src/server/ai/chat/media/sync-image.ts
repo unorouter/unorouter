@@ -23,7 +23,7 @@ export async function submitSyncImage(args: {
   const size = formatSize(sizeOf(args.body.params));
 
   const meta = await getModelByName(args.body.model);
-  const cap = meta?.metadata.maxImageInputs ?? MAX_INLAY_REFS;
+  const cap = meta?.metadata?.maxImageInputs ?? MAX_INLAY_REFS;
   const refUrls = (args.body.references ?? []).slice(0, cap).map((r) => r.url);
   // loadRefs, not a plain fetch: illustrator references are data URIs.
   const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];

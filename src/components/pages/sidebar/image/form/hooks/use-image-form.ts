@@ -1,5 +1,6 @@
 "use client";
 
+import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import {
@@ -65,7 +66,7 @@ export function useImageForm() {
     ? {
         ...baseDescriptor,
         metadata: {
-          ...baseDescriptor.metadata,
+          ...(baseDescriptor.metadata ?? EMPTY_METADATA),
           imageParams: specToImageParams(checkpointSpec),
         },
       }

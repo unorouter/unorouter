@@ -140,12 +140,12 @@ export function useModelsFilter() {
       (model.is_free && matchesFreeKeyword(query));
     const matchesVendor =
       selectedVendors.length === 0 || selectedVendors.includes(model.vendor);
-    const modelInputs = model.metadata.inputModalities ?? [];
+    const modelInputs = model.metadata?.inputModalities ?? [];
     const matchesInputModalities =
       inputModalities.length === 0 ||
       inputModalities.every((mod) => modelInputs.includes(mod));
     const ctx =
-      model.metadata.contextWindow ?? model.metadata.maxInputTokens ?? 0;
+      model.metadata?.contextWindow ?? model.metadata?.maxInputTokens ?? 0;
     const matchesContext = contextMin === 0 || ctx >= contextMin;
     const price = effectivePrice(model);
     const matchesPrice =
@@ -153,19 +153,21 @@ export function useModelsFilter() {
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
     const matchesOutputPrice =
       outputPriceMax >= PRICE_MAX || model.output_price <= outputPriceMax;
-    const ts = model.metadata.releaseTs;
+    const ts = model.release_ts;
     const matchesAge = ageCutoff === 0 || (ts > 0 && ts >= ageCutoff);
-    const modelCats = model.metadata.categories ?? model.tags;
+    const modelCats = model.metadata?.categories ?? model.tags;
     const matchesCategories =
       categories.length === 0 || categories.some((c) => modelCats.includes(c));
     const matchesSeries =
       series.length === 0 ||
-      (model.metadata.series ? series.includes(model.metadata.series) : false);
-    const modelParams = model.metadata.supportedParametersAll ?? [];
+      (model.metadata?.series
+        ? series.includes(model.metadata?.series)
+        : false);
+    const modelParams = model.metadata?.supportedParametersAll ?? [];
     const matchesParams =
       supportedParameters.length === 0 ||
       supportedParameters.every((p) => modelParams.includes(p));
-    const matchesTools = !toolsOnly || model.metadata.supportsTools === true;
+    const matchesTools = !toolsOnly || model.metadata?.supportsTools === true;
     const matchesPaid = !hideFree || !model.is_free;
     return (
       matchesSearch &&
@@ -195,7 +197,7 @@ export function useModelsFilter() {
     a: PricingCatalogModel,
     b: PricingCatalogModel,
   ): number => {
-    if (key === "newest") return b.metadata.releaseTs - a.metadata.releaseTs;
+    if (key === "newest") return b.release_ts - a.release_ts;
     if (key === "popular") {
       const ra = rankMap.get(a.model_name)?.rank ?? Number.POSITIVE_INFINITY;
       const rb = rankMap.get(b.model_name)?.rank ?? Number.POSITIVE_INFINITY;
@@ -208,8 +210,8 @@ export function useModelsFilter() {
       );
     }
     if (key === "contextDesc") {
-      const ca = a.metadata.contextWindow ?? a.metadata.maxInputTokens ?? 0;
-      const cb = b.metadata.contextWindow ?? b.metadata.maxInputTokens ?? 0;
+      const ca = a.metadata?.contextWindow ?? a.metadata?.maxInputTokens ?? 0;
+      const cb = b.metadata?.contextWindow ?? b.metadata?.maxInputTokens ?? 0;
       return cb - ca;
     }
     if (key === "priceAsc") return effectivePrice(a) - effectivePrice(b);

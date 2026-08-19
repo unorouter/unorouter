@@ -127,7 +127,7 @@ export async function assemblePrompt(
             history,
             seedVars: triggerVars,
             model: body.model,
-            maxContext: modelInfo?.metadata.contextWindow,
+            maxContext: modelInfo?.metadata?.contextWindow,
             speakingCharacterId: body.speakingCharacterId ?? undefined,
             clientEnv: body.clientEnv,
             prefillSupported: getModelRoleFlags(body.model).prefillSupported,
@@ -150,7 +150,7 @@ export async function assemblePrompt(
 
   const effectiveMaxOutputTokens = clampOutputTokens(assembled, modelInfo);
 
-  const contextWindow = modelInfo?.metadata.contextWindow;
+  const contextWindow = modelInfo?.metadata?.contextWindow;
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
     : effectiveMaxOutputTokens;
@@ -302,7 +302,7 @@ function clampOutputTokens(
   assembled: AssembledSystem,
   modelInfo: PricingCatalogDetail | undefined,
 ): number {
-  const ceiling = modelInfo?.metadata.maxOutputTokens;
+  const ceiling = modelInfo?.metadata?.maxOutputTokens;
   return Math.min(
     assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
     ceiling ?? Number.POSITIVE_INFINITY,

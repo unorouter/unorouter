@@ -364,9 +364,9 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
     }, body.model);
   }
 
-  const endpoint = model?.metadata.imageParams?.endpoint as
+  const endpoint = model?.metadata?.imageParams?.endpoint as
     SyncImageEndpoint | undefined;
-  const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
+  const maxRefs = model?.metadata?.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
     .map((r) => r.url)
     .slice(0, maxRefs);

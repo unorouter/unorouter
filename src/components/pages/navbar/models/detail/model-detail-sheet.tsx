@@ -1,5 +1,6 @@
 "use client";
 
+import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
@@ -85,7 +86,13 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   // The list carries the lean model (truncated description, no parameter
   // defaults); the full record loads on open and swaps in reactively.
   const detailQuery = useModelDetailQuery(props.model?.model_name ?? null);
-  const model = detailQuery.data;
+  // The detail route always returns metadata; defaulting once here keeps every
+  // child prop typed instead of threading a fallback through each one.
+  const detail = detailQuery.data;
+  const model = detail && {
+    ...detail,
+    metadata: detail.metadata ?? EMPTY_METADATA,
+  };
   const groupsQuery = useModelGroupsQuery(props.model?.model_name ?? null);
 
   if (!model) return null;
@@ -169,9 +176,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          <ModelHeaderChips metadata={model.metadata} locale={locale} />
+          <ModelHeaderChips
+            metadata={model.metadata ?? EMPTY_METADATA}
+            locale={locale}
+          />
 
-          <ModelMetaStats metadata={model.metadata} />
+          <ModelMetaStats metadata={model.metadata ?? EMPTY_METADATA} />
 
           <section>
             <SectionHeading theme={theme}>
@@ -274,7 +284,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <SectionHeading theme={theme}>
                 {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
               </SectionHeading>
-              <SupportedParameters metadata={model.metadata} />
+              <SupportedParameters
+                metadata={model.metadata ?? EMPTY_METADATA}
+              />
             </section>
           )}
 

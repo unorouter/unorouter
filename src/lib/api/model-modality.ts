@@ -4,7 +4,11 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 // These helpers read a handful of fields, so they are typed by what they touch
 // rather than by one concrete row shape: the browse list and the full detail
 // record both satisfy them.
-type ModalityModel = { type: string; metadata: ModelMetadata };
+type ModalityModel = { type: string; metadata?: ModelMetadata };
+
+// The picker list carries no metadata; a detail surface handed one of those rows
+// renders empty fields rather than crashing on a missing object.
+export const EMPTY_METADATA = {} as ModelMetadata;
 type PricedModel = ModalityModel &
   (
     | {
@@ -52,7 +56,7 @@ type ConcreteModality = Exclude<OutputModality, "all">;
 // (gpt-4o-image) is caught by its type.
 export function deriveOutputModality(model: ModalityModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
-  const out = model.metadata.outputModalities ?? [];
+  const out = model.metadata?.outputModalities ?? [];
   if (model.type === "image" || out.includes("image")) return "image";
   if (model.type === "video" || out.includes("video")) return "video";
   if (model.type === "audio" || out.includes("audio")) return "audio";
