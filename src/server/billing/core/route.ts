@@ -1,4 +1,3 @@
-import { processPlans } from "@/lib/api/subscription";
 import {
   billingPortalQuery,
   creemPayBody,
@@ -59,7 +58,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       hasUser ? { headers: upstream.headers } : { headers: ADMIN_HEADERS },
     );
     if (res.status !== 200) return [];
-    return processPlans(res.data.data);
+    return res.data.data;
   })
   .get("/subscription-self", async ({ upstream }) => {
     const res = await getSubscriptionSelf({ headers: upstream.headers });

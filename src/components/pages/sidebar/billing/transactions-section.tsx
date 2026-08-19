@@ -264,7 +264,7 @@ function SubscriptionTransactions() {
       complete_time: item.complete_time,
       invoice_url: item.invoice_url,
       description:
-        plans.find((plan) => plan.id === item.plan_id)?.title ??
+        plans.find((plan) => plan.plan.id === item.plan_id)?.plan.title ??
         t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId: item.plan_id }),
     }),
   );

@@ -11,13 +11,10 @@ import { useSubscriptionPlansQuery } from "@/hooks/billing/subscription-hook";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
 import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
-import {
-  DEFAULT_TOPUP_AMOUNTS,
-  periodWordKey,
-  type SubscriptionPlan,
-} from "@/lib/api/subscription";
+import { PERIOD_WORD_KEYS } from "@/lib/api/subscription";
 import { type TranslationKey } from "@/lib/config/constants";
 import { useState } from "react";
+import type { SubscriptionPlanDTO } from "@/openapi";
 import { useTranslations } from "next-intl";
 
 type TopUpOption = {
@@ -100,7 +97,7 @@ export function Pricing() {
     parsedCustom >= customMin &&
     parsedCustom <= customMax;
 
-  function handleSubscribe(plan: SubscriptionPlan) {
+  function handleSubscribe(plan: SubscriptionPlanDTO) {
     if (!isLoggedIn) {
       redirectToLogin();
       return;
@@ -115,11 +112,7 @@ export function Pricing() {
     if (!topUpInfo) return [];
 
     if (billing.paymentMethod === "crypto" && billing.enableNowPayments) {
-      const amounts =
-        (topUpInfo.amount_options ?? []).length > 0
-          ? (topUpInfo.amount_options ?? [])
-          : DEFAULT_TOPUP_AMOUNTS;
-      return amounts.map((amount) => ({
+      return (topUpInfo.amount_options ?? []).map((amount) => ({
         key: `nowpayments-${amount}`,
         amount,
         handler: isLoggedIn
@@ -129,11 +122,7 @@ export function Pricing() {
     }
 
     if (billing.paymentMethod === "paypal" && billing.enableDeloPay) {
-      const amounts =
-        (topUpInfo.amount_options ?? []).length > 0
-          ? (topUpInfo.amount_options ?? [])
-          : DEFAULT_TOPUP_AMOUNTS;
-      return amounts
+      return (topUpInfo.amount_options ?? [])
         .filter(
           (amount) =>
             amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,
@@ -165,14 +154,6 @@ export function Pricing() {
       }));
     }
 
-    if (billing.enableStripe) {
-      return DEFAULT_TOPUP_AMOUNTS.map((amount) => ({
-        key: `stripe-${amount}`,
-        amount,
-        handler: isLoggedIn ? () => billing.payStripe(amount) : redirectToLogin,
-      }));
-    }
-
     return [];
   }
 
@@ -188,11 +169,11 @@ export function Pricing() {
     ];
   }
 
-  function deliveryLabelFor(plan: SubscriptionPlan): string | undefined {
-    const periodKey = periodWordKey(plan.quotaResetPeriod);
-    if (plan.quotaPerResetUsd <= 0 || !periodKey) return undefined;
+  function deliveryLabelFor(plan: SubscriptionPlanDTO): string | undefined {
+    const periodKey = PERIOD_WORD_KEYS[plan.plan.quota_reset_period];
+    if (plan.quota_per_reset_usd <= 0 || !periodKey) return undefined;
     return t("PRICING.CARD.DELIVERED", {
-      amount: `$${plan.quotaPerResetUsd}`,
+      amount: `$${plan.quota_per_reset_usd}`,
       period: t(periodKey),
     });
   }
@@ -320,14 +301,14 @@ export function Pricing() {
         <div className="grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
             const tierKey = `PRICING.TIER.${i + 1}` as TranslationKey;
-            const name = t.has(tierKey) ? t(tierKey) : plan.title;
+            const name = t.has(tierKey) ? t(tierKey) : plan.plan.title;
 
             return (
               <PricingCard
-                key={plan.id}
+                key={plan.plan.id}
                 name={name}
-                price={plan.priceAmount}
-                value={plan.estimatedTotalUsd}
+                price={plan.plan.price_amount}
+                value={plan.estimated_total_usd}
                 deliveryLabel={deliveryLabelFor(plan)}
                 popular={i === 1}
                 features={buildFeatures()}

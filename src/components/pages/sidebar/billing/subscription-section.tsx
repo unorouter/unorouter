@@ -22,11 +22,10 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { analytics } from "@/lib/analytics";
 import {
   BILLING_PREFERENCE_OPTIONS,
-  getMultiplier,
-  resetPeriodLabelKey,
-  resetPeriodSuffixKey,
+  RESET_PERIOD_LABEL_KEYS,
+  RESET_TRANSLATION_KEYS,
 } from "@/lib/api/subscription";
-import { quotaToDollars } from "@/lib/config/constants";
+import { quotaToDollars, type TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -69,8 +68,10 @@ export function SubscriptionSection() {
   }
 
   function getPlanTitle(planId: number): string {
-    const plan = plans.find((p) => p.id === planId);
-    return plan?.title ?? t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId });
+    const plan = plans.find((p) => p.plan.id === planId);
+    return (
+      plan?.plan.title ?? t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId })
+    );
   }
 
   function handleManageBilling() {
@@ -241,14 +242,20 @@ export function SubscriptionSection() {
           </span>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {plans.map((plan, i) => {
-              const multiplier = getMultiplier(plan);
-              const quotaUsd = plan.quotaPerResetUsd;
-              const periodSuffix = resetPeriodSuffixKey(plan.quotaResetPeriod);
+              const multiplier =
+                plan.plan.price_amount > 0
+                  ? Math.round(
+                      plan.estimated_total_usd / plan.plan.price_amount,
+                    )
+                  : 0;
+              const quotaUsd = plan.quota_per_reset_usd;
+              const periodSuffix =
+                RESET_TRANSLATION_KEYS[plan.plan.quota_reset_period];
               const isMutating = billing.isSubMutating;
 
               return (
                 <div
-                  key={plan.id}
+                  key={plan.plan.id}
                   className={`border-border hover:border-primary/50 relative flex flex-col border p-6 transition-colors ${
                     i === 0 ? "border-primary/50 bg-primary/2" : ""
                   }`}
@@ -263,28 +270,32 @@ export function SubscriptionSection() {
                   )}
 
                   <h3 className="text-foreground text-sm font-bold">
-                    {plan.title}
+                    {plan.plan.title}
                   </h3>
 
                   <div className="mt-3 flex items-baseline gap-1">
                     <span className="text-muted-foreground text-sm">$</span>
                     <span className="text-foreground text-3xl font-bold tabular-nums">
-                      {plan.priceAmount}
+                      {plan.plan.price_amount}
                     </span>
                   </div>
 
                   <div className="text-muted-foreground mt-4 space-y-2 text-xs">
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.SUBSCRIPTION.VALIDITY")}: {plan.durationValue}{" "}
-                      {plan.durationValue === 1
+                      {t("BILLING.SUBSCRIPTION.VALIDITY")}:{" "}
+                      {plan.plan.duration_value}{" "}
+                      {plan.plan.duration_value === 1
                         ? t("BILLING.SUBSCRIPTION.MONTH")
                         : t("BILLING.SUBSCRIPTION.MONTHS")}
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                       {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
-                      {t(resetPeriodLabelKey(plan.quotaResetPeriod))}
+                      {t(
+                        RESET_PERIOD_LABEL_KEYS[plan.plan.quota_reset_period] ??
+                          (plan.plan.quota_reset_period as TranslationKey),
+                      )}
                     </div>
                     {quotaUsd > 0 && (
                       <div className="flex items-center gap-2">
@@ -298,7 +309,7 @@ export function SubscriptionSection() {
                       <div className="flex items-center gap-2">
                         <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                         {t("BILLING.SUBSCRIPTION.EST_TOTAL_QUOTA")}: ~$
-                        {plan.estimatedTotalUsd.toFixed(2)}
+                        {plan.estimated_total_usd.toFixed(2)}
                       </div>
                     )}
                   </div>

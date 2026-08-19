@@ -1,4 +1,3 @@
-import { processPlans } from "@/lib/api/subscription";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
@@ -22,6 +21,5 @@ export const getModelByName = cache(async (model: string) => {
 });
 
 export async function getSubscriptionPlansSummary() {
-  const res = await getSubscriptionPlans();
-  return processPlans(unwrap(res).data);
+  return unwrap(await getSubscriptionPlans()).data;
 }

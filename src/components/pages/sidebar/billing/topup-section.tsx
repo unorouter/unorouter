@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
-import { DEFAULT_TOPUP_AMOUNTS } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -171,30 +170,10 @@ export function TopUpSection() {
         </div>
       )}
 
-      {showCard &&
-        billing.enableStripe &&
-        amountOptions.length === 0 &&
-        creemProducts.length === 0 && (
-          <div className={grid}>
-            {DEFAULT_TOPUP_AMOUNTS.map((amount) => (
-              <TopUpTile
-                key={amount}
-                price={amount}
-                actual={amount}
-                disabled={billing.isTopUpMutating}
-                onPay={() => billing.payStripe(amount)}
-              />
-            ))}
-          </div>
-        )}
-
       {showCrypto && (
         <div className="space-y-3">
           <div className={grid}>
-            {(amountOptions.length > 0
-              ? amountOptions
-              : DEFAULT_TOPUP_AMOUNTS
-            ).map((amount) => (
+            {amountOptions.map((amount) => (
               <TopUpTile
                 key={amount}
                 price={amount}
@@ -216,7 +195,7 @@ export function TopUpSection() {
       {showPayPal && (
         <div className="space-y-3">
           <div className={grid}>
-            {(amountOptions.length > 0 ? amountOptions : DEFAULT_TOPUP_AMOUNTS)
+            {amountOptions
               .filter(
                 (amount) =>
                   amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,

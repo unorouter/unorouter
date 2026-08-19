@@ -12,7 +12,7 @@ import {
   useTopUpInfoQuery,
 } from "@/hooks/billing/billing-hook";
 import { analytics } from "@/lib/analytics";
-import type { SubscriptionPlan } from "@/lib/api/subscription";
+import type { SubscriptionPlanDTO } from "@/openapi";
 import { paymentMethodAtom, type PaymentMethod } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -154,7 +154,7 @@ export function useBillingActions() {
     if (url) window.open(url, "_blank");
   }
 
-  function subscribe(plan: SubscriptionPlan, opts?: SubscribeOptions) {
+  function subscribe(plan: SubscriptionPlanDTO, opts?: SubscribeOptions) {
     if (opts?.isLoggedIn === false) {
       opts.onUnauthorized?.();
       return;
@@ -162,12 +162,12 @@ export function useBillingActions() {
 
     if (paymentMethod === "paypal" && enableDeloPay) {
       analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
+        planId: String(plan.plan.id),
         provider: "delopay",
         provider_was_only_option: !enableCard && !enableCrypto,
       });
       deloPaySubMutation.mutate(
-        { body: { plan_id: plan.id } },
+        { body: { plan_id: plan.plan.id } },
         {
           onSuccess: (data) => openPayLink(data?.pay_link),
           onError: failToast,
@@ -178,12 +178,12 @@ export function useBillingActions() {
 
     if (paymentMethod === "crypto" && enableNowPayments) {
       analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
+        planId: String(plan.plan.id),
         provider: "nowpayments",
         provider_was_only_option: !enableCard,
       });
       nowPaymentsSubMutation.mutate(
-        { body: { plan_id: plan.id } },
+        { body: { plan_id: plan.plan.id } },
         {
           onSuccess: (data) => {
             if (data?.pay_link) {
@@ -202,12 +202,12 @@ export function useBillingActions() {
     const onlyCreem = enableCreem && !enableStripe;
     if (enableStripe) {
       analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
+        planId: String(plan.plan.id),
         provider: "stripe",
         provider_was_only_option: onlyStripe,
       });
       stripeSubMutation.mutate(
-        { body: { plan_id: plan.id } },
+        { body: { plan_id: plan.plan.id } },
         {
           onSuccess: (data) => openPayLink(data?.pay_link),
           onError: failToast,
@@ -217,12 +217,12 @@ export function useBillingActions() {
     }
     if (enableCreem) {
       analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
+        planId: String(plan.plan.id),
         provider: "creem",
         provider_was_only_option: onlyCreem,
       });
       creemSubMutation.mutate(
-        { body: { plan_id: plan.id } },
+        { body: { plan_id: plan.plan.id } },
         {
           onSuccess: (data) => openPayLink(data?.checkout_url),
           onError: failToast,
@@ -232,12 +232,12 @@ export function useBillingActions() {
     }
     if (enableNowPayments) {
       analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
+        planId: String(plan.plan.id),
         provider: "nowpayments",
         provider_was_only_option: true,
       });
       nowPaymentsSubMutation.mutate(
-        { body: { plan_id: plan.id } },
+        { body: { plan_id: plan.plan.id } },
         {
           onSuccess: (data) => openPayLink(data?.pay_link),
           onError: failToast,
