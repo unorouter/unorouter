@@ -38,6 +38,23 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 // NoModificationAllowedError blaming another tab.
 let cached: Promise<LocalClient> | null = null;
 
+// A reload does not collect this page's worker before the next one opens, so
+// the incoming page finds the pool still held and fails TAB_LOCK, which is
+// deliberately non-recoverable: no retry, and the app comes up with an empty
+// chat list until the tab is closed. pagehide is the last point that still runs
+// on a same-tab navigation, and it fires on the iOS bfcache path where unload
+// does not.
+if (typeof window !== "undefined") {
+  window.addEventListener("pagehide", (e) => {
+    // persisted means bfcache: the page can come back, and the next getLocalDb
+    // would be served a destroyed client.
+    if (e.persisted) return;
+    const pending = cached;
+    cached = null;
+    void pending?.then((c) => c.destroy()).catch(() => {});
+  });
+}
+
 export async function getLocalDb(): Promise<LocalClient | null> {
   if (typeof window === "undefined" || typeof indexedDB === "undefined")
     return null;
