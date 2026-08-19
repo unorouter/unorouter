@@ -4380,7 +4380,9 @@
     "PRESET_USE_CHAR_AVATAR_REF": "아바타를 참조 이미지로 사용",
     "PRESET_IMAGE_MODEL": "이미지 모델",
     "PRESET_IMAGE_MODEL_HINT": "채팅 내 이미지 생성에 사용할 카탈로그 이미지 모델. 비워 두면 자동.",
-    "LOREBOOK_ENTRY_TOKENS": "~{count} 토큰"
+    "LOREBOOK_ENTRY_TOKENS": "~{count} 토큰",
+    "PRESET_TOKENIZER": "토크나이저",
+    "PRESET_TOKENIZER_HINT": "로컬에서 컨텍스트를 계산할 때만 사용됩니다(기록 정리, 로어북 예산). 모델로 전송되지 않습니다. Auto는 선택한 모델에 맞는 토크나이저를 사용합니다."
   },
   "ERRORS": {
     "MISSING_ENV": "필수 환경 변수 누락: {var}",

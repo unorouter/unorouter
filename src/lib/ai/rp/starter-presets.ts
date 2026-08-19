@@ -21,6 +21,7 @@ const NULL_SAMPLING: Pick<
   | "repetitionPenalty"
   | "extraBody"
   | "prefill"
+  | "tokenizer"
   | "postHistoryRole"
   | "streamingEnabled"
   | "autoScrollStream"
@@ -36,6 +37,7 @@ const NULL_SAMPLING: Pick<
   repetitionPenalty: null,
   extraBody: null,
   prefill: null,
+  tokenizer: null,
   postHistoryRole: null,
   streamingEnabled: null,
   autoScrollStream: null,

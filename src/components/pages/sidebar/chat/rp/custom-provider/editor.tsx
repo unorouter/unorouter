@@ -21,35 +21,15 @@ import {
   type CustomProviderForm,
 } from "@/lib/validation/custom-provider";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import type { TranslationKey } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { FormFooter } from "../shared/form-footer";
+import { TokenizerSelect } from "../tokenizer-select";
 
 const FORMAT_KEYS = {
   "openai-compatible": "CHAT.CUSTOM_PROVIDER.FORMAT_OPENAI",
 } as const;
-
-const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] = [
-  { value: "auto", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_AUTO" },
-  { value: "cl100k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K" },
-  { value: "o200k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_O200K" },
-  { value: "claude", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CLAUDE" },
-  { value: "glm5", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM5" },
-  { value: "glm4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM4" },
-  { value: "deepseek", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK" },
-  {
-    value: "deepseek-v4",
-    labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4",
-  },
-  { value: "llama3", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_LLAMA3" },
-  { value: "gemma", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMMA" },
-  { value: "qwen", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_QWEN" },
-  { value: "mistral", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_MISTRAL" },
-  { value: "cohere", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_COHERE" },
-  { value: "hf-custom", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_CUSTOM" },
-];
 
 type Props = {
   editingId: string | "new";
@@ -226,17 +206,6 @@ function ModelRow(props: {
 }) {
   const t = useTranslations();
   const tokenizerField = `models.${props.index}.tokenizer` as const;
-  const stored = props.form.watch(tokenizerField) ?? "auto";
-  const isHf = typeof stored === "string" && stored.startsWith("hf:");
-  const selectValue = isHf ? "hf-custom" : stored;
-  const hfSlug = isHf ? stored.slice(3) : "";
-
-  const onSelect = (value: string) => {
-    const next = (
-      value === "hf-custom" ? "hf:" : value
-    ) as CustomProviderForm["models"][number]["tokenizer"];
-    props.form.setValue(tokenizerField, next, { shouldDirty: true });
-  };
 
   return (
     <div className="flex flex-col gap-1.5 rounded-md border p-2">
@@ -285,29 +254,16 @@ function ModelRow(props: {
         <span className="text-muted-foreground shrink-0 text-[11px]">
           {t("CHAT.CUSTOM_PROVIDER.TOKENIZER")}
         </span>
-        <select
-          className="border-input bg-background h-7 rounded-md border px-2 text-xs"
-          value={selectValue}
-          onChange={(e) => onSelect(e.target.value)}
-        >
-          {TOKENIZER_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {t(opt.labelKey)}
-            </option>
-          ))}
-        </select>
-        {isHf && (
-          <Input
-            className="flex-1 font-mono text-xs"
-            placeholder={t("CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_PLACEHOLDER")}
-            value={hfSlug}
-            onChange={(e) =>
-              props.form.setValue(tokenizerField, `hf:${e.target.value}`, {
-                shouldDirty: true,
-              })
-            }
-          />
-        )}
+        <TokenizerSelect
+          value={props.form.watch(tokenizerField) ?? "auto"}
+          onChange={(next) =>
+            props.form.setValue(
+              tokenizerField,
+              next as CustomProviderForm["models"][number]["tokenizer"],
+              { shouldDirty: true },
+            )
+          }
+        />
       </div>
     </div>
   );

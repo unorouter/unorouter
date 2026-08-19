@@ -4380,7 +4380,9 @@
     "PRESET_USE_CHAR_AVATAR_REF": "Avatarı referans görsel yap",
     "PRESET_IMAGE_MODEL": "Görsel modeli",
     "PRESET_IMAGE_MODEL_HINT": "Sohbet içi görsel oluşturma için katalog görsel modeli. Boş bırakılırsa otomatik.",
-    "LOREBOOK_ENTRY_TOKENS": "~{count} token"
+    "LOREBOOK_ENTRY_TOKENS": "~{count} token",
+    "PRESET_TOKENIZER": "Tokenleştirici",
+    "PRESET_TOKENIZER_HINT": "Yalnızca bağlamı yerel olarak saymak için kullanılır (geçmiş kırpma, lorebook bütçesi). Modele asla gönderilmez. Auto, tokenleştiriciyi seçili modele göre eşleştirir."
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",

@@ -8,11 +8,13 @@ export const customProviderFormat = t.Union(
 );
 export type CustomProviderFormat = Static<typeof customProviderFormat>;
 
-export const customProviderTokenizer = t.Union([
+// Not provider-specific: presets carry the same ref, so the schema lives here and
+// both surfaces import it.
+export const tokenizerRef = t.Union([
   ...TOKENIZER_PRESETS.map((tk) => t.Literal(tk)),
   t.TemplateLiteral([t.Literal("hf:"), t.String()]),
 ]);
-export type CustomProviderTokenizer = Static<typeof customProviderTokenizer>;
+export type CustomProviderTokenizer = Static<typeof tokenizerRef>;
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
@@ -27,7 +29,7 @@ export type CustomProviderModelType = Static<typeof customProviderModelType>;
 export const customProviderModel = t.Object({
   key: t.String({ minLength: 1, maxLength: 256 }),
   label: t.String({ minLength: 1, maxLength: 256 }),
-  tokenizer: t.Optional(customProviderTokenizer),
+  tokenizer: t.Optional(tokenizerRef),
   type: t.Optional(customProviderModelType),
 });
 export type CustomProviderModel = Static<typeof customProviderModel>;

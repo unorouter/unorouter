@@ -2,6 +2,7 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort } from "./chat";
+import { tokenizerRef } from "./custom-provider";
 
 export const MAX_NAME_LEN = 200;
 export const MAX_DESC_LEN = 200_000;
@@ -102,6 +103,7 @@ export const samplingPresetBody = t.Object({
   postHistory: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistoryRole: nullable(t.Union([t.Literal("system"), t.Literal("user")])),
   prefill: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  tokenizer: nullable(tokenizerRef),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),

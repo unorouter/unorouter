@@ -1,0 +1,1 @@
+ALTER TABLE `sampling_presets` ADD `tokenizer` text;

@@ -9,6 +9,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
+import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 import type {
   MessageItemType,
@@ -322,6 +323,7 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
+    tokenizer: text("tokenizer").$type<TokenizerRef>(),
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     autoScrollStream: integer("auto_scroll_stream", { mode: "boolean" }),
     showReasoning: integer("show_reasoning", { mode: "boolean" }),

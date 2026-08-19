@@ -4380,7 +4380,9 @@
     "PRESET_USE_CHAR_AVATAR_REF": "Avatar als Referenzbild",
     "PRESET_IMAGE_MODEL": "Bildmodell",
     "PRESET_IMAGE_MODEL_HINT": "Katalog-Bildmodell für die Bildgenerierung im Chat. Leer bedeutet automatisch.",
-    "LOREBOOK_ENTRY_TOKENS": "~{count} Tokens"
+    "LOREBOOK_ENTRY_TOKENS": "~{count} Tokens",
+    "PRESET_TOKENIZER": "Tokenizer",
+    "PRESET_TOKENIZER_HINT": "Wird nur zur lokalen Kontextzählung verwendet (Verlaufskürzung, Lorebook-Budget). Er wird nie an das Modell gesendet. Auto wählt den Tokenizer passend zum Modell."
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",

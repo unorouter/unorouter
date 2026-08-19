@@ -31,6 +31,7 @@ import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
 import type { Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
+import { TokenizerSelect } from "../tokenizer-select";
 import { PromptTemplateEditor } from "./prompt-template-editor";
 
 type Props = {
@@ -179,6 +180,20 @@ export function PresetForm(props: Props) {
               onReset={resetSampling}
             />
             <div className="mt-4 flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <span className="text-sm font-medium">
+                  {t("RP.PRESET_TOKENIZER")}
+                </span>
+                <TokenizerSelect
+                  value={form.watch("tokenizer") ?? ""}
+                  onChange={(next) =>
+                    form.setValue("tokenizer", next, { shouldDirty: true })
+                  }
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_TOKENIZER_HINT")}
+                </p>
+              </div>
               <div className="flex flex-col gap-1">
                 <MyFormInput
                   control={form.control}

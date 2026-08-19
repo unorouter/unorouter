@@ -4380,7 +4380,9 @@
     "PRESET_USE_CHAR_AVATAR_REF": "头像作为参考图",
     "PRESET_IMAGE_MODEL": "图像模型",
     "PRESET_IMAGE_MODEL_HINT": "用于聊天内图像生成的目录图像模型。留空则自动选择。",
-    "LOREBOOK_ENTRY_TOKENS": "约 {count} 个 token"
+    "LOREBOOK_ENTRY_TOKENS": "约 {count} 个 token",
+    "PRESET_TOKENIZER": "分词器",
+    "PRESET_TOKENIZER_HINT": "仅用于本地计算上下文（裁剪历史、世界书预算），绝不会发送给模型。Auto 会根据所选模型自动匹配分词器。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必需的环境变量：{var}",

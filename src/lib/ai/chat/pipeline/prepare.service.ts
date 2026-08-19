@@ -59,7 +59,18 @@ export async function prepareChatRequest(
   abortSignal?: AbortSignal,
 ) {
   throwIfAborted(abortSignal);
-  await setActiveTokenizer(tokenizerRefForModel(body.tokenizer, body.model));
+  // Preset wins over the custom-provider row: one provider serves many models, so its
+  // per-model tokenizer is the coarser default. Empty/absent falls through to the
+  // model-name inference in tokenizerRefForModel.
+  const presetTokenizer = (
+    body.chatContext?.preset as { tokenizer?: string } | null | undefined
+  )?.tokenizer;
+  await setActiveTokenizer(
+    tokenizerRefForModel(
+      (presetTokenizer as TokenizerRef | undefined) || body.tokenizer,
+      body.model,
+    ),
+  );
 
   throwIfAborted(abortSignal);
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
