@@ -65,12 +65,11 @@ export async function prepareChatRequest(
   const presetTokenizer = (
     body.chatContext?.preset as { tokenizer?: string } | null | undefined
   )?.tokenizer;
-  await setActiveTokenizer(
-    tokenizerRefForModel(
-      (presetTokenizer as TokenizerRef | undefined) || body.tokenizer,
-      body.model,
-    ),
+  const activeTokenizer = tokenizerRefForModel(
+    (presetTokenizer as TokenizerRef | undefined) || body.tokenizer,
+    body.model,
   );
+  await setActiveTokenizer(activeTokenizer);
 
   throwIfAborted(abortSignal);
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
@@ -140,6 +139,11 @@ export async function prepareChatRequest(
       effectiveSystem,
       messagesForUpstream,
       deps.upstreamTarget,
+      prompt.assembled,
+      autoFlags,
+      modelInfo,
+      prompt.historyStats,
+      activeTokenizer,
     ),
     bodyMutations: buildBodyMutations(
       prompt.assembled,

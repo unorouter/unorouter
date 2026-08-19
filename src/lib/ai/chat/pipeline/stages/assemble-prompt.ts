@@ -43,6 +43,7 @@ export type AssembledPrompt = {
   triggerVars: Record<string, string>;
   historyMessages: StreamMessages;
   effectiveMaxOutputTokens: number;
+  historyStats: Record<string, unknown>;
 };
 
 export async function assemblePrompt(
@@ -170,7 +171,7 @@ export async function assemblePrompt(
       : slicedMessages;
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);
 
-  logChatDebug("assembly.history", {
+  const historyStats = {
     total: messages.length,
     summaryAnchor,
     afterSummary: unsummarized.length,
@@ -188,7 +189,9 @@ export async function assemblePrompt(
     outputReserve,
     systemTokens: assembled.promptTokens || estimateTokens(assembled.system),
     historyTokens: slicedMessages.reduce((n, m) => n + messageTokens(m), 0),
-  });
+  };
+
+  logChatDebug("assembly.history", historyStats);
 
   return {
     assembled,
@@ -200,6 +203,7 @@ export async function assemblePrompt(
     triggerVars,
     historyMessages,
     effectiveMaxOutputTokens,
+    historyStats,
   };
 }
 

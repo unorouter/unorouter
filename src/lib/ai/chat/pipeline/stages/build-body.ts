@@ -225,13 +225,60 @@ export function buildDebugSnapshot(
   effectiveSystem: string | undefined,
   messagesForUpstream: StreamMessages,
   target?: { endpoint: string; url: string },
+  assembled?: AssembledSystem,
+  autoFlags?: AutoFlags,
+  modelInfo?: PricingCatalogDetail,
+  historyStats?: Record<string, unknown>,
+  tokenizer?: string,
 ) {
   const ctx = body.chatContext;
   const leanMessages = messagesForUpstream.map((m) => ({
     role: (m as { role: string }).role,
     parts: leanParts((m as { parts?: unknown }).parts),
   }));
+  const preset = ctx?.preset as Record<string, unknown> | null | undefined;
   return {
+    // Every knob that shapes the request, so a quality report can be diagnosed
+    // from the export alone instead of asking the user to recite settings.
+    settings: {
+      sampling: assembled?.sampling,
+      flags: assembled?.flags,
+      autoFlags,
+      reasoningEffort: assembled?.reasoningEffort ?? null,
+      chatMemory: assembled?.chatMemory ?? null,
+      streamingEnabled: assembled?.streamingEnabled ?? null,
+      maxOutputTokens: assembled?.sampling.maxOutputTokens ?? null,
+      authorNote: assembled?.authorNote
+        ? { depth: assembled.authorNote.depth, role: assembled.authorNote.role }
+        : null,
+      prefill: assembled?.prefill ?? null,
+      extraBody: assembled?.extraBody ?? null,
+      providerRouting: assembled?.providerRouting ?? null,
+      tokenizer: tokenizer ?? null,
+      promptTokens: assembled?.promptTokens ?? null,
+      // Ordering decides whether post-history sits above or below the chat,
+      // which changes how strongly it holds at depth.
+      promptPartKinds: assembled?.promptParts.map((p) => p.kind) ?? null,
+      preset: preset
+        ? {
+            name: preset.name ?? null,
+            hasMainPrompt: Boolean(preset.mainPrompt),
+            hasPostHistory: Boolean(preset.postHistory),
+            postHistoryRole: preset.postHistoryRole ?? null,
+            hasPromptTemplate: Boolean(preset.promptTemplate),
+            hasPrefill: Boolean(preset.prefill),
+          }
+        : null,
+    },
+    history: historyStats ?? null,
+    model: modelInfo
+      ? {
+          contextWindow: modelInfo.metadata.contextWindow ?? null,
+          maxOutputTokens: modelInfo.metadata.maxOutputTokens ?? null,
+          supportedParameters: modelInfo.metadata.supportedParameters ?? null,
+          isFree: modelInfo.is_free ?? null,
+        }
+      : null,
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
