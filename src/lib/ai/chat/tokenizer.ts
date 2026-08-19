@@ -224,8 +224,15 @@ export async function setActiveTokenizer(ref: TokenizerRef): Promise<void> {
 }
 
 /** What is actually counting, which is not always what was asked for. */
-export function activeTokenizerState(): { source: string; exact: boolean } {
-  return { source: activeId, exact: !degraded.has(activeId) };
+export function activeTokenizerState(): {
+  source: string;
+  exact: boolean;
+  used: boolean;
+} {
+  // activeId only leaves its default once a request has resolved one, so a
+  // report taken on a fresh page describes nothing that ran.
+  const used = activeId !== "approximate";
+  return { source: activeId, exact: used && !degraded.has(activeId), used };
 }
 
 export function countTokens(text: string | undefined): number {

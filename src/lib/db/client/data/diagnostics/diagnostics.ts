@@ -8,6 +8,7 @@ import {
   readLocalRequestLogsForConv,
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
+import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
@@ -380,6 +381,9 @@ export async function buildDiagnostics(
     dbInfo: head.dbInfo,
     conversations: head.conversations,
     presets: head.presets,
+    // Which tokenizer is counting, and whether it is the real one: a failed
+    // load still counts, at ~4 chars per token, under the requested name.
+    tokenizer: activeTokenizerState(),
     messagesByConv,
     requestLogsByConv,
     debugLog: head.debugLog,
