@@ -267,13 +267,24 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   return out;
 }
 
+// Anthropic validates every text block, not just the message, so a message
+// mixing an empty part with a real one is rejected wholesale ("text content
+// blocks must contain non-whitespace text"). Strip the empty parts before
+// deciding whether the message itself still carries anything.
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
-  return messages.filter((m) => {
-    if (!Array.isArray(m.parts)) return true;
-    return m.parts.some((p) =>
+  const out: StreamMessages = [];
+  for (const m of messages) {
+    if (!Array.isArray(m.parts)) {
+      out.push(m);
+      continue;
+    }
+    const parts = m.parts.filter((p) =>
       p.type === "text" ? (p.text ?? "").trim() !== "" : true,
     );
-  });
+    if (parts.length === 0) continue;
+    out.push(parts.length === m.parts.length ? m : { ...m, parts });
+  }
+  return out;
 }
 
 // Anthropic rejects a whitespace-only text block ("text content blocks must
