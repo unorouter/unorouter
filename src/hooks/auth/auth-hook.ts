@@ -14,14 +14,9 @@ import { useRef, useSyncExternalStore } from "react";
 type AuthLogin = typeof rpc.api.auth.account.login;
 
 // Read-only: every route serves auth from a server prefetch (NavAuth, the
-// sidebar layout, chat/docs/status AuthHydration), so this never fetches.
-// Login/logout and profile edits write the cache via setQueryData, which is
-// what keeps consumers current.
-//
-// The exception is a session that expired between renders. The prefetch clears
-// the dead cookie and seeds sessionExpired(), and enabling on that is what
-// makes the client re-check against the cleared jar rather than trust a
-// logged-out prefetch it never requested.
+// sidebar layout, chat/docs/status AuthHydration), so this fetches only when
+// the prefetch reported an expired session. Login/logout and profile edits
+// write the cache via setQueryData, which is what keeps consumers current.
 export function useAuthQuery() {
   return useElysiaQuery(
     queryKeys.auth(),
@@ -30,11 +25,9 @@ export function useAuthQuery() {
   );
 }
 
-// Reads the flag WITHOUT a useQuery, for the same reason useAuthUser does:
+// Subscribes rather than useQuery for the same reason useAuthUser does:
 // observing a key registers it at render time, and HydrationBoundary defers an
-// already-registered query to an effect, which is the React #418 mismatch this
-// file works around everywhere else. useAuthQuery sits under useApiKey and the
-// billing hooks, so it renders above boundaries often enough to hit it.
+// already-registered query to an effect (React #418).
 function useSessionExpired(): boolean {
   const queryClient = useQueryClient();
   return useSyncExternalStore(
