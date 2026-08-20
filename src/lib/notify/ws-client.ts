@@ -1,7 +1,8 @@
 "use client";
 
 import { env } from "@/lib/config/env";
-import { getPushSubscription, sha256Hex } from "@/lib/notify/push";
+import { getPushSubscription } from "@/lib/notify/push";
+import { sha256Hex } from "@/lib/utils/base";
 import { chatStore } from "@/store/chat-store";
 import { notifyConnectedAtom, type NotifyEvent } from "@/store/notify-store";
 import { getNotifyEvents } from "@/openapi";
@@ -23,25 +24,21 @@ let started = false;
 let everOpened = false;
 let lastEventTs = 0;
 const seenIds = new Set<string>();
-let channel: BroadcastChannel | null = null;
+const channel =
+  typeof BroadcastChannel === "undefined"
+    ? null
+    : new BroadcastChannel(CHANNEL_NAME);
 
-function getChannel(): BroadcastChannel | null {
-  if (typeof BroadcastChannel === "undefined") return null;
-  if (!channel) {
-    channel = new BroadcastChannel(CHANNEL_NAME);
-    channel.addEventListener(
-      "message",
-      (event: MessageEvent<{ type: string; event?: NotifyEvent }>) => {
-        // Followers render events relayed by the leader tab.
-        if (isLeader) return;
-        if (event.data?.type === "event" && event.data.event) {
-          deliver(event.data.event, false);
-        }
-      },
-    );
-  }
-  return channel;
-}
+channel?.addEventListener(
+  "message",
+  (event: MessageEvent<{ type: string; event?: NotifyEvent }>) => {
+    // Followers render events relayed by the leader tab.
+    if (isLeader) return;
+    if (event.data?.type === "event" && event.data.event) {
+      deliver(event.data.event, false);
+    }
+  },
+);
 
 function deliver(evt: NotifyEvent, relay: boolean) {
   if (seenIds.has(evt.id)) return;
@@ -53,7 +50,7 @@ function deliver(evt: NotifyEvent, relay: boolean) {
   if (evt.ts > lastEventTs) lastEventTs = evt.ts;
   handler?.(evt);
   if (relay) {
-    getChannel()?.postMessage({ type: "event", event: evt });
+    channel?.postMessage({ type: "event", event: evt });
   }
 }
 
@@ -61,18 +58,12 @@ function deliver(evt: NotifyEvent, relay: boolean) {
 // this can fire regardless of the current connection state.
 async function sendSubscribe() {
   if (!ws) return;
-  let endpointHash = "";
-  try {
-    const sub = await getPushSubscription();
-    if (sub) endpointHash = await sha256Hex(sub.endpoint);
-  } catch {
-    endpointHash = "";
-  }
+  const sub = await getPushSubscription().catch(() => null);
   ws?.send(
     JSON.stringify({
       op: "subscribe",
       topics: wantedTopics,
-      endpoint_hash: endpointHash,
+      endpoint_hash: sub ? await sha256Hex(sub.endpoint) : "",
     }),
   );
 }
@@ -177,7 +168,6 @@ export function syncNotifyTopics(topics: string[]) {
   }
   if (!started) {
     started = true;
-    getChannel();
     requestLeadership();
   }
   if (isLeader) {

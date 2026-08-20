@@ -45,16 +45,6 @@ function urlBase64ToUint8Array(base64: string): Uint8Array {
   return base64ToUint8(normalized);
 }
 
-export async function sha256Hex(value: string): Promise<string> {
-  const digest = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(value),
-  );
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 // getRegistration, NOT .ready: with no service worker registered (dev server)
 // .ready never resolves and would hang every caller forever.
 export async function getPushSubscription(): Promise<PushSubscription | null> {

@@ -10,6 +10,14 @@ function fmtRatio(value: number | undefined): string {
   return `${Number(value.toPrecision(3))}`;
 }
 
+const BULK_KEYS = {
+  model_offline: "NOTIFY.EVENT.BULK_OFFLINE",
+  model_price_change: "NOTIFY.EVENT.BULK_PRICE_CHANGE",
+  model_removed: "NOTIFY.EVENT.BULK_REMOVED",
+  model_added: "NOTIFY.EVENT.BULK_ADDED",
+  default: "NOTIFY.EVENT.BULK_ONLINE",
+} as const;
+
 export function notifyEventText(
   t: Translator,
   evt: NotifyEvent,
@@ -52,20 +60,13 @@ export function notifyEventText(
         body: t("NOTIFY.EVENT.MODEL_REMOVED_BODY"),
       };
     case "model_bulk_change": {
-      const count = evt.data.bulk_count ?? 0;
       const sample = (evt.data.models ?? []).join(", ");
-      const key =
-        evt.data.bulk_event === "model_offline"
-          ? "NOTIFY.EVENT.BULK_OFFLINE"
-          : evt.data.bulk_event === "model_price_change"
-            ? "NOTIFY.EVENT.BULK_PRICE_CHANGE"
-            : evt.data.bulk_event === "model_removed"
-              ? "NOTIFY.EVENT.BULK_REMOVED"
-              : evt.data.bulk_event === "model_added"
-                ? "NOTIFY.EVENT.BULK_ADDED"
-                : "NOTIFY.EVENT.BULK_ONLINE";
       return {
-        title: t(key, { count }),
+        title: t(
+          BULK_KEYS[evt.data.bulk_event as keyof typeof BULK_KEYS] ??
+            BULK_KEYS.default,
+          { count: evt.data.bulk_count ?? 0 },
+        ),
         body: sample
           ? t("NOTIFY.EVENT.BULK_BODY", { sample })
           : t("NOTIFY.EVENT.BULK_BODY_EMPTY"),
