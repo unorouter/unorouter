@@ -9,7 +9,8 @@ import {
 } from "@/lib/db/schema/tester";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { providerForModel } from "@/lib/ai/verify/models";
-import { runServerVerification } from "./server-verify.service";
+import { runVerification } from "@/lib/ai/verify/runner";
+import { serverTransport } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
   ProviderAggregateRow,
@@ -18,18 +19,22 @@ import type {
   TestResultDetail,
   VerifyAndPublishBody,
 } from "@/lib/api/typebox/model-tester";
-import type { VerifyProviderValue } from "@/lib/validation/model-tester";
+import type {
+  VerifyProviderValue,
+  VerifyVerdictValue,
+} from "@/lib/validation/model-tester";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 
 const DEDUPE_WINDOW_MS = 60_000;
 
+// returning() on a conflict yields the EXISTING row's id, which is what makes
+// these upserts find-or-create rather than needing a second lookup.
 async function findOrCreateProvider(
   kind: VerifyProviderValue,
   host: string,
   testedAt: Date,
 ): Promise<string> {
-  const db = getDb();
-  await db
+  const rows = await getDb()
     .insert(testerProviders)
     .values({
       userId: GUEST_USER_ID,
@@ -45,18 +50,8 @@ async function findOrCreateProvider(
         testerProviders.baseUrlHost,
       ],
       set: { lastTestedAt: testedAt },
-    });
-  const rows = await db
-    .select({ id: testerProviders.id })
-    .from(testerProviders)
-    .where(
-      and(
-        eq(testerProviders.userId, GUEST_USER_ID),
-        eq(testerProviders.kind, kind),
-        eq(testerProviders.baseUrlHost, host),
-      ),
-    )
-    .limit(1);
+    })
+    .returning({ id: testerProviders.id });
   return rows[0]!.id;
 }
 
@@ -65,8 +60,7 @@ async function findOrCreateModel(
   requestedModel: string,
   testedAt: Date,
 ): Promise<string> {
-  const db = getDb();
-  await db
+  const rows = await getDb()
     .insert(testerModels)
     .values({
       userId: GUEST_USER_ID,
@@ -77,17 +71,8 @@ async function findOrCreateModel(
     .onConflictDoUpdate({
       target: [testerModels.providerId, testerModels.requestedModel],
       set: { lastTestedAt: testedAt },
-    });
-  const rows = await db
-    .select({ id: testerModels.id })
-    .from(testerModels)
-    .where(
-      and(
-        eq(testerModels.providerId, providerId),
-        eq(testerModels.requestedModel, requestedModel),
-      ),
-    )
-    .limit(1);
+    })
+    .returning({ id: testerModels.id });
   return rows[0]!.id;
 }
 
@@ -110,12 +95,9 @@ export async function verifyAndPublish(
 
   const db = getDb();
   const kind = body.provider;
-  let host = body.baseUrl;
-  try {
-    host = new URL(body.baseUrl).host;
-  } catch {
-    host = body.baseUrl;
-  }
+  const host = URL.canParse(body.baseUrl)
+    ? new URL(body.baseUrl).host
+    : body.baseUrl;
 
   if (submitterUserId !== null && submitterUserId !== GUEST_USER_ID) {
     const since = new Date(Date.now() - DEDUPE_WINDOW_MS);
@@ -141,11 +123,13 @@ export async function verifyAndPublish(
     }
   }
 
-  const result = await runServerVerification({
+  const result = await runVerification({
     provider: body.provider,
     baseUrl: body.baseUrl.replace(/\/+$/, ""),
     apiKey: body.apiKey,
     model: body.model,
+    mode: "direct",
+    transport: serverTransport,
   });
   // Hand the result back even though nothing is published: it carries the
   // per-probe evidence that explains WHY the endpoint failed, and dropping it
@@ -185,8 +169,6 @@ async function persistPublishedTest(opts: {
 }): Promise<void> {
   const db = getDb();
   const { body, result, kind, host, now } = opts;
-  const submitterUserId = opts.submitterUserId;
-  const submitterUsername = opts.submitterUsername;
   const providerId = await findOrCreateProvider(kind, host, now);
   const modelId = await findOrCreateModel(providerId, body.model, now);
 
@@ -196,8 +178,8 @@ async function persistPublishedTest(opts: {
     userId: GUEST_USER_ID,
     modelId,
     providerId,
-    submitterUserId,
-    submitterUsername,
+    submitterUserId: opts.submitterUserId,
+    submitterUsername: opts.submitterUsername,
     kind,
     baseUrlHost: host,
     requestedModel: body.model,
@@ -217,11 +199,11 @@ async function persistPublishedTest(opts: {
     verifiedAt: now,
   });
 
-  for (let i = 0; i < result.probes.length; i++) {
-    const p = result.probes[i]!;
-    await db.insert(testerProbes).values({
+  if (!result.probes.length) return;
+  await db.insert(testerProbes).values(
+    result.probes.map((p, orderIndex) => ({
       testId,
-      orderIndex: i,
+      orderIndex,
       label: p.label,
       prompt: p.prompt,
       responseText: p.responseText,
@@ -233,16 +215,14 @@ async function persistPublishedTest(opts: {
       promptTokens: p.usage?.prompt ?? null,
       completionTokens: p.usage?.completion ?? null,
       latencyMs: p.latencyMs,
-    });
-  }
+    })),
+  );
 }
 
-async function p95ByGroup(
-  where: ReturnType<typeof and>,
-  byHostModel: boolean,
-): Promise<Map<string, number>> {
-  const db = getDb();
-  const rows = await db
+// Nearest-rank p95, keyed by host and by host:::model from ONE pass, since
+// both groupings read the same rows and every caller wants at least one.
+async function p95ByGroup(where: ReturnType<typeof and>) {
+  const rows = await getDb()
     .select({
       host: testerTests.baseUrlHost,
       model: testerTests.requestedModel,
@@ -255,50 +235,45 @@ async function p95ByGroup(
   const groups = new Map<string, number[]>();
   for (const r of rows) {
     const host = r.host ?? "";
-    const key = byHostModel ? `${host}:::${r.model ?? ""}` : host;
-    const arr = groups.get(key);
-    if (arr) arr.push(r.latencyMs);
-    else groups.set(key, [r.latencyMs]);
+    for (const key of [host, `${host}:::${r.model ?? ""}`]) {
+      const arr = groups.get(key);
+      if (arr) arr.push(r.latencyMs);
+      else groups.set(key, [r.latencyMs]);
+    }
   }
   const out = new Map<string, number>();
   for (const [key, arr] of groups) {
-    const idx = Math.floor(0.95 * (arr.length - 1));
-    out.set(key, arr[idx]!);
+    out.set(key, arr[Math.floor(0.95 * (arr.length - 1))]!);
   }
   return out;
 }
 
-const AGG_SELECT = {
-  provider: sql<VerifyProviderValue>`max(${testerTests.kind})`,
-  model: testerTests.requestedModel,
-  baseUrlHost: testerTests.baseUrlHost,
-  sampleCount: sql<number>`count(*)`,
-  avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
-  avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
-  avgTotalTokens: sql<number | null>`avg(${testerTests.totalTokens})`,
-  genuineCount: sql<number>`sum(case when ${testerTests.verdict} = 'genuine' then 1 else 0 end)`,
-  suspiciousCount: sql<number>`sum(case when ${testerTests.verdict} = 'suspicious' then 1 else 0 end)`,
-  unverifiedCount: sql<number>`sum(case when ${testerTests.verdict} = 'unverified' then 1 else 0 end)`,
-  lastTestedAt: sql<number>`max(${testerTests.testedAt})`,
-};
-
-const PROVIDER_SELECT = {
-  provider: sql<VerifyProviderValue>`max(${testerTests.kind})`,
-  baseUrlHost: testerTests.baseUrlHost,
-  modelCount: sql<number>`count(distinct ${testerTests.requestedModel})`,
-  sampleCount: sql<number>`count(*)`,
-  avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
-  avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
-  avgTotalTokens: sql<number | null>`avg(${testerTests.totalTokens})`,
-  genuineCount: sql<number>`sum(case when ${testerTests.verdict} = 'genuine' then 1 else 0 end)`,
-  suspiciousCount: sql<number>`sum(case when ${testerTests.verdict} = 'suspicious' then 1 else 0 end)`,
-  unverifiedCount: sql<number>`sum(case when ${testerTests.verdict} = 'unverified' then 1 else 0 end)`,
-  lastTestedAt: sql<number>`max(${testerTests.testedAt})`,
-};
-
 const PASS_RATE_SQL = sql`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`;
 
 const LAST_TESTED_SQL = sql`max(${testerTests.testedAt})`;
+
+const verdictCount = (verdict: VerifyVerdictValue) =>
+  sql<number>`sum(case when ${testerTests.verdict} = ${verdict} then 1 else 0 end)`;
+
+const SHARED_AGG = {
+  provider: sql<VerifyProviderValue>`max(${testerTests.kind})`,
+  baseUrlHost: testerTests.baseUrlHost,
+  sampleCount: sql<number>`count(*)`,
+  avgPassRate: PASS_RATE_SQL.mapWith(Number),
+  avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
+  avgTotalTokens: sql<number | null>`avg(${testerTests.totalTokens})`,
+  genuineCount: verdictCount("genuine"),
+  suspiciousCount: verdictCount("suspicious"),
+  unverifiedCount: verdictCount("unverified"),
+  lastTestedAt: LAST_TESTED_SQL.mapWith(Number),
+};
+
+const AGG_SELECT = { ...SHARED_AGG, model: testerTests.requestedModel };
+
+const PROVIDER_SELECT = {
+  ...SHARED_AGG,
+  modelCount: sql<number>`count(distinct ${testerTests.requestedModel})`,
+};
 
 export async function getProviders(
   page: number,
@@ -312,23 +287,21 @@ export async function getProviders(
   const db = getDb();
   const offset = (page - 1) * pageSize;
 
-  const rows = await db
-    .select(PROVIDER_SELECT)
-    .from(testerTests)
-    .where(isNotNull(testerTests.verifiedAt))
-    .groupBy(testerTests.baseUrlHost)
-    .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL))
-    .limit(pageSize)
-    .offset(offset);
-
-  const distinct = await db
-    .select({
-      c: sql<number>`count(distinct ${testerTests.baseUrlHost})`,
-    })
-    .from(testerTests)
-    .where(isNotNull(testerTests.verifiedAt));
-
-  const p95 = await p95ByGroup(isNotNull(testerTests.verifiedAt), false);
+  const [rows, distinct, p95] = await Promise.all([
+    db
+      .select(PROVIDER_SELECT)
+      .from(testerTests)
+      .where(isNotNull(testerTests.verifiedAt))
+      .groupBy(testerTests.baseUrlHost)
+      .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL))
+      .limit(pageSize)
+      .offset(offset),
+    db
+      .select({ c: sql<number>`count(distinct ${testerTests.baseUrlHost})` })
+      .from(testerTests)
+      .where(isNotNull(testerTests.verifiedAt)),
+    p95ByGroup(isNotNull(testerTests.verifiedAt)),
+  ]);
 
   return {
     rows: rows.map((r) => ({
@@ -351,35 +324,35 @@ export async function getProviderDetail(host: string): Promise<{
     isNotNull(testerTests.verifiedAt),
   );
 
-  const provider = await db
-    .select(PROVIDER_SELECT)
-    .from(testerTests)
-    .where(where)
-    .groupBy(testerTests.baseUrlHost)
-    .limit(1);
-
-  // Most endpoints score 100%, so ranking these by pass rate leaves the list in
-  // an arbitrary tie order. Newest run first is what makes the page readable.
-  const models = await db
-    .select(AGG_SELECT)
-    .from(testerTests)
-    .where(where)
-    .groupBy(testerTests.requestedModel)
-    .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL));
-
-  const providerP95 = await p95ByGroup(where, false);
-  const modelP95 = await p95ByGroup(where, true);
+  const [provider, models, p95] = await Promise.all([
+    db
+      .select(PROVIDER_SELECT)
+      .from(testerTests)
+      .where(where)
+      .groupBy(testerTests.baseUrlHost)
+      .limit(1),
+    // Most endpoints score 100%, so ranking these by pass rate leaves the list
+    // in an arbitrary tie order. Newest run first is what makes the page
+    // readable.
+    db
+      .select(AGG_SELECT)
+      .from(testerTests)
+      .where(where)
+      .groupBy(testerTests.requestedModel)
+      .orderBy(desc(LAST_TESTED_SQL), desc(PASS_RATE_SQL)),
+    p95ByGroup(where),
+  ]);
 
   return {
     provider: provider[0]
       ? ({
           ...provider[0],
-          p95LatencyMs: providerP95.get(host) ?? null,
+          p95LatencyMs: p95.get(host) ?? null,
         } as ProviderAggregateRow)
       : null,
     models: models.map((m) => ({
       ...m,
-      p95LatencyMs: modelP95.get(`${host}:::${m.model}`) ?? null,
+      p95LatencyMs: p95.get(`${host}:::${m.model}`) ?? null,
     })) as RankingAggregateRow[],
   };
 }
@@ -394,7 +367,7 @@ export async function getRankingsStats(): Promise<{
     .select({
       total: sql<number>`count(*)`,
       providers: sql<number>`count(distinct ${testerTests.baseUrlHost})`,
-      passRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
+      passRate: PASS_RATE_SQL.mapWith(Number),
     })
     .from(testerTests)
     .where(isNotNull(testerTests.verifiedAt));
@@ -408,52 +381,39 @@ export async function getRankingsStats(): Promise<{
 
 export async function getRankingDetail(host: string, model: string) {
   const db = getDb();
-  const agg = await db
-    .select(AGG_SELECT)
-    .from(testerTests)
-    .where(
-      and(
-        eq(testerTests.baseUrlHost, host),
-        eq(testerTests.requestedModel, model),
-        isNotNull(testerTests.verifiedAt),
-      ),
-    )
-    .groupBy(testerTests.baseUrlHost, testerTests.requestedModel)
-    .limit(1);
-
-  const recent = await db
-    .select({
-      id: testerTests.id,
-      verdict: testerTests.verdict,
-      detectedModel: testerTests.detectedModel,
-      probesPassed: testerTests.probesPassed,
-      probesTotal: testerTests.probesTotal,
-      latencyMs: testerTests.latencyMs,
-      totalTokens: testerTests.totalTokens,
-      transport: testerTests.transport,
-      testedAt: testerTests.testedAt,
-      submitterUserId: testerTests.submitterUserId,
-      submitterUsername: testerTests.submitterUsername,
-    })
-    .from(testerTests)
-    .where(
-      and(
-        eq(testerTests.baseUrlHost, host),
-        eq(testerTests.requestedModel, model),
-        isNotNull(testerTests.verifiedAt),
-      ),
-    )
-    .orderBy(desc(testerTests.testedAt))
-    .limit(20);
-
-  const p95 = await p95ByGroup(
-    and(
-      eq(testerTests.baseUrlHost, host),
-      eq(testerTests.requestedModel, model),
-      isNotNull(testerTests.verifiedAt),
-    ),
-    true,
+  const where = and(
+    eq(testerTests.baseUrlHost, host),
+    eq(testerTests.requestedModel, model),
+    isNotNull(testerTests.verifiedAt),
   );
+
+  const [agg, recent, p95] = await Promise.all([
+    db
+      .select(AGG_SELECT)
+      .from(testerTests)
+      .where(where)
+      .groupBy(testerTests.baseUrlHost, testerTests.requestedModel)
+      .limit(1),
+    db
+      .select({
+        id: testerTests.id,
+        verdict: testerTests.verdict,
+        detectedModel: testerTests.detectedModel,
+        probesPassed: testerTests.probesPassed,
+        probesTotal: testerTests.probesTotal,
+        latencyMs: testerTests.latencyMs,
+        totalTokens: testerTests.totalTokens,
+        transport: testerTests.transport,
+        testedAt: testerTests.testedAt,
+        submitterUserId: testerTests.submitterUserId,
+        submitterUsername: testerTests.submitterUsername,
+      })
+      .from(testerTests)
+      .where(where)
+      .orderBy(desc(testerTests.testedAt))
+      .limit(20),
+    p95ByGroup(where),
+  ]);
 
   return {
     aggregate: agg[0]
