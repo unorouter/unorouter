@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Démarrer Codex",
       "STEP_4_DESC": "Lancez `codex` dans le répertoire de votre projet et commencez à coder.",
       "TS_1_DESC": "Si Codex signale un endpoint non pris en charge, vérifiez que `wire_api` est défini sur `responses` et que l'URL de base se termine par `/v1`.",
-      "TS_2_DESC": "Un 401 signifie que la clé dans `~/.codex/auth.json` est manquante ou périmée. Collez une nouvelle clé depuis votre tableau de bord {appName} et relancez."
+      "TS_2_DESC": "Un 401 signifie que la clé dans `~/.codex/auth.json` est manquante ou périmée. Collez une nouvelle clé depuis votre tableau de bord {appName} et relancez.",
+      "TS_3_DESC": "Si Codex ignore votre fournisseur, vérifiez le nom de la table dans `config.toml` : les identifiants de fournisseur ne peuvent contenir que des tirets bas, pas des tirets (`model_providers.my_provider`, jamais `my-provider`), et `openai` est réservé et ne peut pas être remplacé."
     },
     "GEMINI_CLI": {
       "META": {

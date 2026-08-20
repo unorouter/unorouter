@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Start Codex",
       "STEP_4_DESC": "Run `codex` in your project directory and start coding.",
       "TS_1_DESC": "If Codex reports an unsupported endpoint, confirm `wire_api` is set to `responses` and the base URL ends in `/v1`.",
-      "TS_2_DESC": "A 401 means the key in `~/.codex/auth.json` is missing or stale. Paste a fresh key from your {appName} dashboard and rerun."
+      "TS_2_DESC": "A 401 means the key in `~/.codex/auth.json` is missing or stale. Paste a fresh key from your {appName} dashboard and rerun.",
+      "TS_3_DESC": "If Codex ignores your provider, check the table name in `config.toml`: provider IDs may only contain underscores, not hyphens (`model_providers.my_provider`, never `my-provider`), and `openai` is reserved and cannot be overridden."
     },
     "GEMINI_CLI": {
       "META": {

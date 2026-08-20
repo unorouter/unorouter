@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Mulai Codex",
       "STEP_4_DESC": "Jalankan `codex` di direktori proyek Anda dan mulai mengoding.",
       "TS_1_DESC": "Jika Codex melaporkan endpoint yang tidak didukung, pastikan `wire_api` diatur ke `responses` dan URL dasar berakhir dengan `/v1`.",
-      "TS_2_DESC": "Error 401 berarti kunci di `~/.codex/auth.json` hilang atau usang. Tempel kunci baru dari dasbor {appName} Anda dan jalankan ulang."
+      "TS_2_DESC": "Error 401 berarti kunci di `~/.codex/auth.json` hilang atau usang. Tempel kunci baru dari dasbor {appName} Anda dan jalankan ulang.",
+      "TS_3_DESC": "Jika Codex mengabaikan penyedia Anda, periksa nama tabel di `config.toml`: pengenal penyedia hanya boleh berisi garis bawah, bukan tanda hubung (`model_providers.my_provider`, jangan pernah `my-provider`), dan `openai` bersifat khusus serta tidak dapat ditimpa."
     },
     "GEMINI_CLI": {
       "META": {

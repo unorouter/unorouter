@@ -8,6 +8,23 @@ const upstreamApiUrl =
 
 const REQUEST_TIMEOUT = 30_000;
 
+// What customFetch throws on a non-ok response. A plain object rather than an
+// Error subclass, so `catch` sees `unknown`; isUpstreamError is what narrows it
+// without every call site hand-casting the shape.
+export type UpstreamError = {
+  status: number;
+  data: unknown;
+  headers: Headers;
+};
+
+export function isUpstreamError(e: unknown): e is UpstreamError {
+  return (
+    typeof e === "object" &&
+    e !== null &&
+    typeof (e as UpstreamError).status === "number"
+  );
+}
+
 function getHeader(
   headers: Record<string, string> | undefined,
   key: string,
@@ -87,7 +104,7 @@ export const customFetch = async <T>(
       status: res.status,
       data: await readErrBody(res),
       headers: res.headers,
-    };
+    } satisfies UpstreamError;
   }
   return {
     status: res.status,

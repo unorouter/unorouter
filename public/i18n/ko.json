@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Codex 시작",
       "STEP_4_DESC": "프로젝트 디렉터리에서 `codex`를 실행하여 코딩을 시작하세요.",
       "TS_1_DESC": "Codex가 지원되지 않는 엔드포인트를 보고하면 `wire_api`가 `responses`로 설정되어 있고 기본 URL이 `/v1`로 끝나는지 확인하세요.",
-      "TS_2_DESC": "401은 `~/.codex/auth.json`의 키가 없거나 오래되었음을 의미합니다. {appName} 대시보드에서 새 키를 붙여넣고 다시 실행하세요."
+      "TS_2_DESC": "401은 `~/.codex/auth.json`의 키가 없거나 오래되었음을 의미합니다. {appName} 대시보드에서 새 키를 붙여넣고 다시 실행하세요.",
+      "TS_3_DESC": "Codex가 공급자를 무시한다면 `config.toml`의 테이블 이름을 확인하세요. 공급자 ID에는 밑줄만 사용할 수 있고 하이픈은 쓸 수 없으며(`model_providers.my_provider`, `my-provider`는 불가), `openai`는 예약어라 재정의할 수 없습니다."
     },
     "GEMINI_CLI": {
       "META": {

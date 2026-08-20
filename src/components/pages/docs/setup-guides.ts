@@ -1265,8 +1265,10 @@ model: openai/YOUR_MODEL_ID`,
           lang: "toml",
           value: `# ~/.codex/config.toml
 model = "YOUR_MODEL_ID"
+model_provider = "unorouter"
 
-[model_providers.custom]
+[model_providers.unorouter]
+name = "UnoRouter"
 base_url = "${env.apiUrl}/v1"
 wire_api = "responses"`,
         },
@@ -1288,7 +1290,11 @@ wire_api = "responses"`,
         code: { lang: "bash", value: "codex" },
       },
     ],
-    gotchaKeys: ["DOCS.CODEX.TS_1_DESC", "DOCS.CODEX.TS_2_DESC"],
+    gotchaKeys: [
+      "DOCS.CODEX.TS_1_DESC",
+      "DOCS.CODEX.TS_2_DESC",
+      "DOCS.CODEX.TS_3_DESC",
+    ],
     quickStart: {
       windows: `$env:OPENAI_BASE_URL="${env.apiUrl}/v1"
 $env:OPENAI_API_KEY="YOUR_API_KEY"

@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Codex を起動する",
       "STEP_4_DESC": "プロジェクトディレクトリで `codex` を実行してコーディングを始めます。",
       "TS_1_DESC": "Codex がサポートされていないエンドポイントを報告する場合は、`wire_api` が `responses` に設定され、ベース URL が `/v1` で終わっているか確認してください。",
-      "TS_2_DESC": "401 は `~/.codex/auth.json` のキーが欠落しているか古いことを意味します。{appName} ダッシュボードから新しいキーを貼り付けて再実行してください。"
+      "TS_2_DESC": "401 は `~/.codex/auth.json` のキーが欠落しているか古いことを意味します。{appName} ダッシュボードから新しいキーを貼り付けて再実行してください。",
+      "TS_3_DESC": "Codex がプロバイダーを無視する場合は、`config.toml` のテーブル名を確認してください。プロバイダー ID にはアンダースコアのみ使用でき、ハイフンは使えません（`model_providers.my_provider` であって `my-provider` ではありません）。また `openai` は予約済みのため上書きできません。"
     },
     "GEMINI_CLI": {
       "META": {

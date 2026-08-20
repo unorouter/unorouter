@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Uruchom Codex",
       "STEP_4_DESC": "Uruchom `codex` w katalogu projektu i zacznij kodować.",
       "TS_1_DESC": "Jeśli Codex zgłasza nieobsługiwany punkt końcowy, potwierdź, że `wire_api` jest ustawione na `responses`, a bazowy adres URL kończy się na `/v1`.",
-      "TS_2_DESC": "Błąd 401 oznacza, że klucz w `~/.codex/auth.json` jest brakujący lub nieaktualny. Wklej świeży klucz z panelu {appName} i uruchom ponownie."
+      "TS_2_DESC": "Błąd 401 oznacza, że klucz w `~/.codex/auth.json` jest brakujący lub nieaktualny. Wklej świeży klucz z panelu {appName} i uruchom ponownie.",
+      "TS_3_DESC": "Jeśli Codex ignoruje twojego dostawcę, sprawdź nazwę tabeli w `config.toml`: identyfikatory dostawcy mogą zawierać tylko podkreślenia, a nie myślniki (`model_providers.my_provider`, nigdy `my-provider`), a `openai` jest zarezerwowane i nie można go nadpisać."
     },
     "GEMINI_CLI": {
       "META": {

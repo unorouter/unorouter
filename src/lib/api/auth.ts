@@ -1,4 +1,3 @@
-import { stringifySetCookie } from "cookie";
 import { Context } from "elysia";
 import {
   ACCESS_TOKEN_COOKIE,
@@ -8,11 +7,11 @@ import {
 } from "../config/constants";
 import { signUserId } from "../utils/server";
 
+// Every field optional: 2FA-required and register responses carry no token or
+// user. access_expires_at is unix seconds.
 type AuthResponseData = {
   success?: boolean;
   message?: string;
-  // 2FA-required and register responses carry no token or user, so every field
-  // is optional. access_expires_at is unix seconds.
   data?: {
     access_token?: string;
     access_expires_at?: number;
@@ -22,103 +21,62 @@ type AuthResponseData = {
   };
 };
 
-export type SessionCookieDescriptor = {
-  name: string;
-  value: string;
-  path: "/";
-  maxAge: number;
-  sameSite: "lax";
-  httpOnly?: boolean;
-};
-
-// Caps the cookie to the token's real lifetime so it cannot outlive the token
-// and bounce the user to /login. Floors to 60s: an already-near-expiry token
-// still yields a usable cookie rather than a negative maxAge.
-export function accessTokenMaxAge(accessExpiresAt?: number): number {
-  if (!accessExpiresAt) return ACCESS_TOKEN_FALLBACK_MAX_AGE;
-  const remaining = accessExpiresAt - Math.floor(Date.now() / 1000);
-  return remaining > 0 ? remaining : 60;
-}
-
-// The ONE definition of "establish session cookies", shared by every
-// authenticated flow (OAuth, password, 2FA). The identity cookies keep the full
-// 30-day TTL because they only select identity + the OPFS file; only the
-// access_token is capped to the token's own lifetime.
-export async function sessionCookieDescriptors(
+// The identity cookie outlives the token deliberately: it only selects identity
+// + the OPFS file. access_token is capped to the token's own lifetime, floored
+// at 60s so a near-expiry token still yields a usable cookie, never a negative
+// maxAge.
+// accessToken is REQUIRED: an identity cookie without one is the half-logged-in
+// state the middleware retracts on sight.
+export async function setSessionCookies(
+  cookie: Context["cookie"],
   userId: string | number,
-  opts?: { accessToken?: string; accessMaxAge?: number },
-): Promise<SessionCookieDescriptor[]> {
-  const base = {
-    path: "/" as const,
+  accessToken: string,
+  accessExpiresAt?: number,
+): Promise<void> {
+  const base = { path: "/" as const, sameSite: "lax" as const };
+  cookie[USER_ID_COOKIE].set({
+    ...base,
+    value: await signUserId(userId),
     maxAge: COOKIE_MAX_AGE,
-    sameSite: "lax" as const,
-  };
-  const descriptors: SessionCookieDescriptor[] = [
-    { name: USER_ID_COOKIE, value: await signUserId(userId), ...base },
-  ];
-  if (opts?.accessToken) {
-    descriptors.push({
-      name: ACCESS_TOKEN_COOKIE,
-      value: opts.accessToken,
-      ...base,
-      maxAge: opts.accessMaxAge ?? ACCESS_TOKEN_FALLBACK_MAX_AGE,
-      httpOnly: true,
-    });
-  }
-  return descriptors;
+  });
+  const remaining = accessExpiresAt
+    ? accessExpiresAt - Math.floor(Date.now() / 1000)
+    : 0;
+  cookie[ACCESS_TOKEN_COOKIE].set({
+    ...base,
+    value: accessToken,
+    maxAge: accessExpiresAt
+      ? Math.max(remaining, 60)
+      : ACCESS_TOKEN_FALLBACK_MAX_AGE,
+    httpOnly: true,
+  });
 }
 
-// Session cookies are SET through a raw set-cookie header, so they must be
-// CLEARED the same way. Elysia's `cookie[name].remove()` only emits a header for
-// a cookie its jar is tracking, so clearing one it never set is a silent no-op:
-// the browser kept `user-id`, the app stayed logged in as a revoked user, and
-// every request 401'd with no way out but clearing cookies by hand.
-export function clearSessionCookies(set: Context["set"]): void {
-  const existing = set.headers["set-cookie"];
-  const cookies = Array.isArray(existing)
-    ? [...existing]
-    : existing
-      ? [String(existing)]
-      : [];
-  // "local-user-id" is no longer written, but sessions predating its removal
-  // still carry it, so logout has to be what finally clears it.
+// Writes an expiry rather than `.remove()`, which emits nothing for a cookie the
+// request did not send: that is the only way to retire a stale "local-user-id".
+export function clearSessionCookies(cookie: Context["cookie"]): void {
   for (const name of [ACCESS_TOKEN_COOKIE, USER_ID_COOKIE, "local-user-id"]) {
-    cookies.push(
-      stringifySetCookie({
-        name,
-        value: "",
-        path: "/",
-        maxAge: 0,
-        expires: new Date(0),
-        sameSite: "lax",
-      }),
-    );
+    cookie[name].set({ value: "", path: "/", maxAge: 0, sameSite: "lax" });
   }
-  set.headers["set-cookie"] = cookies;
 }
 
+// `unknown` not Orval's LoginData: upstream returns a raw gin body wider than
+// the generated type.
 export async function handleAuthResponse(
-  // Read structurally, not through Orval's LoginData: upstream returns a raw gin
-  // body whose real shape (access_token/user/require_2fa) is wider than the
-  // stale generated type.
   res: { data: unknown },
-  set: Context["set"],
+  cookie: Context["cookie"],
 ) {
   const body = res.data as AuthResponseData | undefined;
-  const cookies: string[] = [];
   const data = body?.data;
-  const accessToken = data?.access_token;
   const id = data?.user?.id;
-  // No token means 2FA-required or register: set nothing and let the client
-  // drive the next step.
-  if (accessToken && id) {
-    for (const descriptor of await sessionCookieDescriptors(id, {
-      accessToken,
-      accessMaxAge: accessTokenMaxAge(data?.access_expires_at),
-    })) {
-      cookies.push(stringifySetCookie(descriptor));
-    }
+  // No token means 2FA-required or register: the client drives the next step.
+  if (data?.access_token && id) {
+    await setSessionCookies(
+      cookie,
+      id,
+      data.access_token,
+      data.access_expires_at,
+    );
   }
-  if (cookies.length) set.headers["set-cookie"] = cookies;
   return body;
 }

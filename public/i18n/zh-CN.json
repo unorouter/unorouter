@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "启动 Codex",
       "STEP_4_DESC": "在项目目录中运行 `codex` 并开始编码。",
       "TS_1_DESC": "如果 Codex 报告不支持的端点，请确认 `wire_api` 设置为 `responses` 且基础 URL 以 `/v1` 结尾。",
-      "TS_2_DESC": "401 表示 `~/.codex/auth.json` 中的密钥缺失或已失效。请从 {appName} 仪表板粘贴一个新密钥并重新运行。"
+      "TS_2_DESC": "401 表示 `~/.codex/auth.json` 中的密钥缺失或已失效。请从 {appName} 仪表板粘贴一个新密钥并重新运行。",
+      "TS_3_DESC": "如果 Codex 忽略了你的提供商，请检查 `config.toml` 中的表名：提供商 ID 只能包含下划线，不能包含连字符（应为 `model_providers.my_provider`，而非 `my-provider`），并且 `openai` 为保留名称，无法覆盖。"
     },
     "GEMINI_CLI": {
       "META": {

@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Codex'i başlatın",
       "STEP_4_DESC": "Proje dizininizde `codex` çalıştırın ve kod yazmaya başlayın.",
       "TS_1_DESC": "Codex desteklenmeyen bir uç nokta bildiriyorsa, `wire_api` değerinin `responses` olduğunu ve temel URL'nin `/v1` ile bittiğini doğrulayın.",
-      "TS_2_DESC": "401 hatası, `~/.codex/auth.json` içindeki anahtarın eksik veya eski olduğu anlamına gelir. {appName} panonuzdan yeni bir anahtar yapıştırın ve tekrar çalıştırın."
+      "TS_2_DESC": "401 hatası, `~/.codex/auth.json` içindeki anahtarın eksik veya eski olduğu anlamına gelir. {appName} panonuzdan yeni bir anahtar yapıştırın ve tekrar çalıştırın.",
+      "TS_3_DESC": "Codex sağlayıcınızı yok sayıyorsa `config.toml` içindeki tablo adını kontrol edin: sağlayıcı kimlikleri yalnızca alt çizgi içerebilir, tire içeremez (`model_providers.my_provider`, asla `my-provider`) ve `openai` ayrılmıştır, geçersiz kılınamaz."
     },
     "GEMINI_CLI": {
       "META": {

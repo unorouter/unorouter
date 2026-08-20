@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Avviare Codex",
       "STEP_4_DESC": "Esegui `codex` nella directory del tuo progetto e inizia a programmare.",
       "TS_1_DESC": "Se Codex segnala un endpoint non supportato, conferma che `wire_api` sia impostato su `responses` e che l'URL di base termini con `/v1`.",
-      "TS_2_DESC": "Un 401 significa che la chiave in `~/.codex/auth.json` è mancante o scaduta. Incolla una chiave fresca dalla tua dashboard di {appName} e riavvia."
+      "TS_2_DESC": "Un 401 significa che la chiave in `~/.codex/auth.json` è mancante o scaduta. Incolla una chiave fresca dalla tua dashboard di {appName} e riavvia.",
+      "TS_3_DESC": "Se Codex ignora il tuo provider, controlla il nome della tabella in `config.toml`: gli identificatori del provider possono contenere solo trattini bassi, non trattini (`model_providers.my_provider`, mai `my-provider`), e `openai` è riservato e non può essere sovrascritto."
     },
     "GEMINI_CLI": {
       "META": {

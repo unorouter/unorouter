@@ -1877,7 +1877,8 @@
       "STEP_4_TITLE": "Khởi động Codex",
       "STEP_4_DESC": "Chạy `codex` trong thư mục dự án của bạn và bắt đầu viết mã.",
       "TS_1_DESC": "Nếu Codex báo endpoint không được hỗ trợ, hãy xác nhận `wire_api` được đặt thành `responses` và URL cơ sở kết thúc bằng `/v1`.",
-      "TS_2_DESC": "Lỗi 401 nghĩa là khoá trong `~/.codex/auth.json` bị thiếu hoặc đã cũ. Dán một khoá mới từ bảng điều khiển {appName} và chạy lại."
+      "TS_2_DESC": "Lỗi 401 nghĩa là khoá trong `~/.codex/auth.json` bị thiếu hoặc đã cũ. Dán một khoá mới từ bảng điều khiển {appName} và chạy lại.",
+      "TS_3_DESC": "Nếu Codex bỏ qua nhà cung cấp của bạn, hãy kiểm tra tên bảng trong `config.toml`: mã định danh nhà cung cấp chỉ được chứa dấu gạch dưới, không được dùng dấu gạch ngang (`model_providers.my_provider`, không bao giờ dùng `my-provider`), và `openai` là tên dành riêng, không thể ghi đè."
     },
     "GEMINI_CLI": {
       "META": {
