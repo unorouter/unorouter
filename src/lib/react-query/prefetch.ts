@@ -1,4 +1,3 @@
-import { isUpstreamError } from "@/lib/custom-fetch";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -19,21 +18,15 @@ export function prefetchElysia<T extends ElysiaResult>(
   });
 }
 
-// fetchQuery, not prefetchQuery like its siblings: prefetchQuery discards a
-// throwing queryFn, so /self's 419 would vanish and leave no cache entry,
-// which reads the same as a guest who was never fetched.
+// Seeds the cache by hand rather than through prefetchQuery, which discards a
+// throwing queryFn: /self's 419 would vanish and leave no entry, which reads
+// the same as a guest who was never fetched. A failure must never land in the
+// cache as error state either, since dehydrate() would then try to serialize
+// the Eden response object and RSC rejects its Response/Headers prototypes.
 export async function prefetchAuth(qc: QueryClient) {
-  let expired = false;
-  try {
-    await qc.fetchQuery({
-      queryKey: queryKeys.auth(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.auth.account.self.get(await setCookies())),
-    });
-  } catch (err) {
-    expired = isUpstreamError(err) && err.status === 419;
-    qc.setQueryData(queryKeys.auth(), null);
-  }
+  const res = await rpc.api.auth.account.self.get(await setCookies());
+  qc.setQueryData(queryKeys.auth(), res.status === 200 ? res.data : null);
+  const expired = res.status === 419;
   qc.setQueryData(queryKeys.sessionExpired(), expired);
   return expired;
 }
