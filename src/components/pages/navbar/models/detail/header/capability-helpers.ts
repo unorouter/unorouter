@@ -120,11 +120,13 @@ export function deriveCapabilityChips(
   const boolChips: CapabilityChip[] = CAPABILITY_ORDER.filter(
     (c) => metadata[c.field] === true,
   ).map((c) => ({ labelKey: c.labelKey, icon: c.icon }));
-  if ((metadata.maxImageInputs ?? 0) > 1) {
+  // The provider's published limit, not a configured guess.
+  const refs = metadata.imageParams?.maxReferenceImages ?? 0;
+  if (refs > 1) {
     boolChips.push({
       labelKey: "MODELS.CAPABILITY.IMAGE_INPUTS",
       icon: "image",
-      count: metadata.maxImageInputs,
+      count: refs,
     });
   }
   return boolChips;
