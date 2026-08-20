@@ -17,11 +17,31 @@ type AuthLogin = typeof rpc.api.auth.account.login;
 // sidebar layout, chat/docs/status AuthHydration), so this never fetches.
 // Login/logout and profile edits write the cache via setQueryData, which is
 // what keeps consumers current.
+//
+// The exception is a session that expired between renders. The prefetch clears
+// the dead cookie and seeds sessionExpired(), and enabling on that is what
+// makes the client re-check against the cleared jar rather than trust a
+// logged-out prefetch it never requested.
 export function useAuthQuery() {
   return useElysiaQuery(
     queryKeys.auth(),
     () => rpc.api.auth.account.self.get(),
-    { enabled: false },
+    { enabled: useSessionExpired() },
+  );
+}
+
+// Reads the flag WITHOUT a useQuery, for the same reason useAuthUser does:
+// observing a key registers it at render time, and HydrationBoundary defers an
+// already-registered query to an effect, which is the React #418 mismatch this
+// file works around everywhere else. useAuthQuery sits under useApiKey and the
+// billing hooks, so it renders above boundaries often enough to hit it.
+function useSessionExpired(): boolean {
+  const queryClient = useQueryClient();
+  return useSyncExternalStore(
+    (onChange) =>
+      queryClient.getQueryCache().subscribe(() => queueMicrotask(onChange)),
+    () => queryClient.getQueryData(queryKeys.sessionExpired()) === true,
+    () => false,
   );
 }
 

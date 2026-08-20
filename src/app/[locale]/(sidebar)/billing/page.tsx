@@ -1,4 +1,4 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { Billing } from "@/components/pages/sidebar/billing/billing";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -11,9 +11,7 @@ export default async function BillingPage() {
   const burn = burnRateWindow();
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-      rpc.api.auth.account.self.get(cookies),
-    ),
+    prefetchAuth(queryClient),
     // The days-left estimate reads the same day-aligned 7-day quota window the
     // dashboard prefetches; without this the tile fetches client-side.
     prefetchElysia(queryClient, queryKeys.dashboardQuota(burn), (cookies) =>

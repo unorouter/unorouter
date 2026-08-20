@@ -2,7 +2,7 @@ import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link } from "@/i18n/navigation";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { redirectFromAuth } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -18,9 +18,7 @@ export default async function AuthLayout(props: Props) {
   const t = await getTranslations();
   const queryClient = getQueryClient();
 
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
+  await prefetchAuth(queryClient);
   if (queryClient.getQueryData(queryKeys.auth())) await redirectFromAuth();
 
   await prefetchElysia(queryClient, queryKeys.status(), () =>

@@ -1,6 +1,6 @@
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import type { ReactNode } from "react";
@@ -13,9 +13,7 @@ export async function AuthHydration(props: {
 }) {
   const queryClient = getQueryClient();
 
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
+  await prefetchAuth(queryClient);
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
   if (isLoggedIn) {

@@ -6,7 +6,7 @@ import { getPageMetadata } from "@/lib/seo/metadata";
 import { redirectToLogin, serverLocale } from "@/lib/utils/server";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
@@ -31,9 +31,7 @@ export async function generateMetadata(props: {
 
 export default async function DashboardLayout(props: DashboardLayoutProps) {
   const queryClient = getQueryClient();
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
+  await prefetchAuth(queryClient);
   if (!queryClient.getQueryData(queryKeys.auth())) await redirectToLogin();
 
   await prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>

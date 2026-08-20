@@ -3,6 +3,7 @@ import type { EdenQuery } from "@/lib/types/eden";
 
 export const queryKeys = {
   auth: () => ["auth"] as const,
+  sessionExpired: () => ["session-expired"] as const,
   status: () => ["status"] as const,
   twoFAStatus: () => ["2fa-status"] as const,
   passkeyStatus: () => ["passkey-status"] as const,

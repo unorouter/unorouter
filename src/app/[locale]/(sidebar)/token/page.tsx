@@ -6,7 +6,7 @@ import {
 } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
 import type { DataTableStores } from "@/store/data-table-store";
@@ -28,9 +28,7 @@ export default async function TokensPage() {
   const keyword = tokensTable?.globalFilter || undefined;
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-      rpc.api.auth.account.self.get(cookies),
-    ),
+    prefetchAuth(queryClient),
     prefetchElysia(queryClient, queryKeys.tokens({ p, keyword }), (cookies) =>
       rpc.api.billing.token.search.get({
         query: { p, keyword },

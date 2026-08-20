@@ -1,4 +1,4 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
 import { buildDrawingFilters } from "@/components/pages/sidebar/logs/drawing/drawing-helpers";
 import { LogsShell } from "@/components/pages/sidebar/logs/logs-shell";
@@ -47,9 +47,7 @@ export default async function LogsPage() {
   const serverCookies = await setCookies();
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-      rpc.api.auth.account.self.get(cookies),
-    ),
+    prefetchAuth(queryClient),
     prefetchElysia(queryClient, queryKeys.usageLogs(queryFilters), () =>
       rpc.api.ops.logs.get({
         query: queryFilters,

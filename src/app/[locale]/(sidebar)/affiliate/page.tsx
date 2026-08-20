@@ -1,4 +1,4 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { Affiliate } from "@/components/pages/sidebar/affiliate/affiliate";
 import {
   initialTableStore,
@@ -37,9 +37,7 @@ export default async function AffiliatePage() {
   };
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-      rpc.api.auth.account.self.get(cookies),
-    ),
+    prefetchAuth(queryClient),
     prefetchElysia(
       queryClient,
       queryKeys.affiliateInvitees(inviteesParams),

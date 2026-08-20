@@ -1,8 +1,7 @@
 import {
-  accessTokenMaxAge,
   clearSessionCookies,
   handleAuthResponse,
-  sessionCookieDescriptors,
+  setSessionCookies,
 } from "@/lib/api/auth";
 import {
   loginBody,
@@ -13,12 +12,12 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import { AUTH_REDIRECT_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
+import { sanitizeRedirectPath } from "@/lib/utils/server";
 import {
   exchangeOAuthCode,
   generateOAuthCode,
-  getSelf,
   getStatus,
   login,
   logout,
@@ -29,79 +28,67 @@ import {
   sendPasswordResetEmail,
   verify2FALogin,
 } from "@/openapi";
-import { Elysia } from "elysia";
+import { resolveSelf } from "@/server/auth/account/self.service";
 import { deriveUpstream } from "@/server/constants";
-import { sanitizeRedirectPath } from "@/lib/utils/server";
+import { Elysia } from "elysia";
 
 export const authRoute = new Elysia({ prefix: "/account" })
   .derive(deriveUpstream)
   .post(
     "/login",
-    async ({ body, set, upstream }) => {
+    async ({ body, cookie, upstream }) => {
       const { turnstile, ...loginRequest } = body;
       const res = await login(
         loginRequest,
         { turnstile },
         { headers: upstream.headers },
       );
-      return await handleAuthResponse(res, set);
+      return await handleAuthResponse(res, cookie);
     },
     { body: loginBody },
   )
 
   .post(
     "/login/2fa",
-    async ({ body, set, upstream }) => {
+    async ({ body, cookie, upstream }) => {
       const res = await verify2FALogin(body, {
         headers: upstream.headers,
       });
-      return await handleAuthResponse(res, set);
+      return await handleAuthResponse(res, cookie);
     },
     { body: twoFALoginBody },
   )
 
   .post(
     "/register",
-    async ({ body, set, upstream }) => {
+    async ({ body, cookie, upstream }) => {
       const { turnstile, ...registerRequest } = body;
       const res = await register(
         registerRequest,
         { turnstile },
         { headers: upstream.headers },
       );
-      return await handleAuthResponse(res, set);
+      return await handleAuthResponse(res, cookie);
     },
     { body: registerBody },
   )
 
-  .get("/logout", async ({ cookie, set, upstream }) => {
+  .get("/logout", async ({ cookie, upstream }) => {
     const res = await logout(upstream);
     for (const name of Object.keys(cookie)) {
       cookie[name].remove();
     }
-    // The session cookies were set through a raw header, so the jar above never
-    // tracked them and would leave the user logged in after logging out.
-    clearSessionCookies(set);
+    clearSessionCookies(cookie);
     return unwrap(res);
   })
 
-  .get("/self", async ({ cookie, set, upstream }) => {
-    // Session cookies can outlive the upstream token (revoked, or expiry drift
-    // between cookie maxAge and the token's real lifetime). Clearing them here
-    // is what stops the client sitting half-logged-in with a dead credential,
-    // where every action 401s and the only escape is clearing cookies by hand.
-    // customFetch THROWS on a non-ok response, so this must be a catch: reading
-    // `res.status === 401` after the await is unreachable code.
-    try {
-      return unwrap(await getSelf(upstream));
-    } catch (err) {
-      // Only when a session actually exists: a guest 401s here on every page
-      // load, and emitting deletions for cookies nobody sent is pure noise.
-      const hasSession = !!cookie[USER_ID_COOKIE]?.value;
-      if ((err as { status?: number })?.status === 401 && hasSession)
-        clearSessionCookies(set);
-      throw err;
-    }
+  // 419 rather than 401 for an expired session: both mean "no user", but only
+  // the expired case leaves a client that believed it was logged in, and it is
+  // the status that tells the client to re-check instead of trusting a
+  // logged-out prefetch it never asked to be given.
+  .get("/self", async ({ cookie, request, status }) => {
+    const self = await resolveSelf(request, cookie);
+    return self.user ?? status(self.expired ? 419 : 401);
   })
 
   .get("/status", async () => {
@@ -165,18 +152,12 @@ export const authRoute = new Elysia({ prefix: "/account" })
         return;
       }
 
-      for (const descriptor of await sessionCookieDescriptors(data.user_id, {
-        accessToken: data.access_token,
-        accessMaxAge: accessTokenMaxAge(data.access_expires_at),
-      })) {
-        cookie[descriptor.name].set({
-          value: descriptor.value,
-          path: descriptor.path,
-          maxAge: descriptor.maxAge,
-          sameSite: descriptor.sameSite,
-          httpOnly: descriptor.httpOnly,
-        });
-      }
+      await setSessionCookies(
+        cookie,
+        data.user_id,
+        data.access_token,
+        data.access_expires_at,
+      );
 
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
       if (redirectTo) {

@@ -6,7 +6,7 @@ import {
   verifyAndPublishBody,
 } from "@/lib/api/typebox/model-tester";
 import { deriveUpstream, getUserId } from "@/server/constants";
-import { getSelf } from "@/openapi";
+import { resolveSelf } from "@/server/auth/account/self.service";
 import { Elysia } from "elysia";
 import {
   deletePublishedTest,
@@ -18,32 +18,17 @@ import {
   verifyAndPublish,
 } from "./rankings.service";
 
-async function resolveUsername(
-  headers: Record<string, string>,
-): Promise<string | null> {
-  try {
-    const res = await getSelf({ headers });
-    const data = (
-      res as unknown as { data?: { data?: Record<string, unknown> } }
-    )?.data?.data;
-    const name = data?.display_name || data?.username;
-    return typeof name === "string" && name.length > 0 ? name : null;
-  } catch {
-    return null;
-  }
-}
-
 export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
   .derive(deriveUpstream)
   .post(
     "/verify-and-publish",
-    async ({ body, cookie, upstream }) => {
-      const submitterUserId = await getUserId(cookie, true);
-      const submitterUsername =
-        submitterUserId !== null
-          ? await resolveUsername(upstream.headers)
-          : null;
-      return verifyAndPublish(body, submitterUserId, submitterUsername);
+    async ({ body, request }) => {
+      const { user } = await resolveSelf(request);
+      return verifyAndPublish(
+        body,
+        user?.id ?? null,
+        user?.display_name || user?.username || null,
+      );
     },
     { body: verifyAndPublishBody },
   )

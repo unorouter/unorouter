@@ -3,7 +3,7 @@ import { Icon } from "@/components/ui/icon";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchAuth, prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -14,9 +14,7 @@ export async function NavAuth() {
   const t = await getTranslations();
   const queryClient = getQueryClient();
 
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
+  await prefetchAuth(queryClient);
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
   if (!isLoggedIn) {
