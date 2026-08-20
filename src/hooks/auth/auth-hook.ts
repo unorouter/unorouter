@@ -8,7 +8,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import type { UserSelfData } from "@/openapi";
-import { useQueryClient, type QueryClient } from "@tanstack/react-query";
+import { useQueryClient, type QueryKey } from "@tanstack/react-query";
 import { useSyncExternalStore } from "react";
 
 type AuthLogin = typeof rpc.api.auth.account.login;
@@ -18,20 +18,16 @@ type AuthLogin = typeof rpc.api.auth.account.login;
 // the prefetch reported an expired session. Login/logout and profile edits
 // write the cache via setQueryData, which is what keeps consumers current.
 export function useAuthQuery() {
+  const expired = useAuthCache(queryKeys.sessionExpired()) === true;
   return useElysiaQuery(
     queryKeys.auth(),
     () => rpc.api.auth.account.self.get(),
-    {
-      enabled: useCached(
-        (qc) => qc.getQueryData(queryKeys.sessionExpired()) === true,
-        false,
-      ),
-    },
+    { enabled: expired },
   );
 }
 
-export function useAuthUser(): UserSelfData | undefined {
-  return useCached((qc) => qc.getQueryData(queryKeys.auth()), undefined);
+export function useAuthUser() {
+  return useAuthCache<UserSelfData>(queryKeys.auth());
 }
 
 export function useAuthUserId(): number {
@@ -53,13 +49,13 @@ export function authUserId(): number {
 // renders logged-out on the server and logged-in on the client (React #418).
 // The cache notifies synchronously while HydrationBoundary is still rendering,
 // so the microtask keeps this out of another component's render.
-function useCached<T>(read: (qc: QueryClient) => T, server: T): T {
+function useAuthCache<T>(key: QueryKey): T | undefined {
   const queryClient = useQueryClient();
   return useSyncExternalStore(
     (onChange) =>
       queryClient.getQueryCache().subscribe(() => queueMicrotask(onChange)),
-    () => read(queryClient),
-    () => server,
+    () => queryClient.getQueryData<T>(key),
+    () => undefined,
   );
 }
 
