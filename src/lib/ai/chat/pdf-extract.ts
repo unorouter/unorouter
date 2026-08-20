@@ -34,32 +34,80 @@ function isPdfFilePart(part: unknown): part is PdfFilePart {
   );
 }
 
+// Text attachments need the same treatment as PDFs: a data URI reaches the model
+// as an opaque blob most cannot read, so the content is inlined as text instead.
+// Kept broad because editors label the same file inconsistently (text/markdown,
+// application/json, text/x-log), and anything mislabelled simply decodes to its
+// own contents.
+const TEXT_MEDIA_TYPE = /^text\/|^application\/(json|xml|x-yaml|yaml)$/;
+
+type TextFilePart = {
+  type: "file";
+  mediaType: string;
+  url: string;
+  filename?: string;
+};
+
+function isTextFilePart(part: unknown): part is TextFilePart {
+  const p = part as Partial<TextFilePart>;
+  return (
+    p?.type === "file" &&
+    typeof p.mediaType === "string" &&
+    TEXT_MEDIA_TYPE.test(p.mediaType) &&
+    typeof p.url === "string"
+  );
+}
+
+function decodeDataUriText(url: string): string | null {
+  const comma = url.indexOf(",");
+  if (comma < 0) return null;
+  try {
+    const bytes = base64ToUint8(url.slice(comma + 1));
+    const text = new TextDecoder().decode(bytes).trim();
+    return text.length > 0 ? text : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function inlinePdfText(
   messages: StreamMessages,
 ): Promise<StreamMessages> {
-  const hasPdf = messages.some(
+  const hasInlinable = messages.some(
     (m) =>
       m.role === "user" &&
       Array.isArray(m.parts) &&
-      m.parts.some(isPdfFilePart),
+      m.parts.some((p) => isPdfFilePart(p) || isTextFilePart(p)),
   );
-  if (!hasPdf) return messages;
+  if (!hasInlinable) return messages;
 
   return Promise.all(
     messages.map(async (m) => {
       if (m.role !== "user" || !Array.isArray(m.parts)) return m;
       const parts = await Promise.all(
         m.parts.map(async (part) => {
-          if (!isPdfFilePart(part)) return part;
-          const name = part.filename ?? "document.pdf";
-          const comma = part.url.indexOf(",");
-          const b64 = comma >= 0 ? part.url.slice(comma + 1) : "";
-          const text = b64 ? await extractPdfText(base64ToUint8(b64)) : null;
+          // PDF first: its mediaType is a literal, so checking the broader text
+          // guard ahead of it narrows this branch away entirely.
+          if (isPdfFilePart(part)) {
+            const name = part.filename ?? "document.pdf";
+            const comma = part.url.indexOf(",");
+            const b64 = comma >= 0 ? part.url.slice(comma + 1) : "";
+            const text = b64 ? await extractPdfText(base64ToUint8(b64)) : null;
+            return {
+              type: "text" as const,
+              text: text
+                ? `[Attached PDF "${name}":\n${text}\n]`
+                : `[Attached PDF "${name}": extraction unavailable]`,
+            };
+          }
+          if (!isTextFilePart(part)) return part;
+          const name = part.filename ?? "file.txt";
+          const text = decodeDataUriText(part.url);
           return {
             type: "text" as const,
             text: text
-              ? `[Attached PDF "${name}":\n${text}\n]`
-              : `[Attached PDF "${name}": extraction unavailable]`,
+              ? `[Attached file "${name}":\n${text}\n]`
+              : `[Attached file "${name}": unreadable]`,
           };
         }),
       );

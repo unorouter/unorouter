@@ -82,10 +82,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
     return unwrap(res);
   })
 
-  // 419 rather than 401 for an expired session: both mean "no user", but only
-  // the expired case leaves a client that believed it was logged in, and it is
-  // the status that tells the client to re-check instead of trusting a
-  // logged-out prefetch it never asked to be given.
+  // 419 is the expired-session status; 401 is a plain guest.
   .get("/self", async ({ cookie, request, status }) => {
     const self = await resolveSelf(request, cookie);
     return self.user ?? status(self.expired ? 419 : 401);

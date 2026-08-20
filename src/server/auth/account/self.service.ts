@@ -6,11 +6,9 @@ import { getSelf, type UserSelfData } from "@/openapi";
 import { deriveUpstream } from "@/server/constants";
 import type { Context } from "elysia";
 
-// `expired` separates a dead session from a plain guest, which both end up
-// with no user: only the former means the cookie outlived the upstream token,
-// and only it should make the client re-check rather than render as a guest.
-// Passing `cookie` opts into session repair, clearing the dead credential so
-// the client stops sitting half-logged-in where every action 401s.
+// Passing `cookie` opts into session repair: a 401 despite a verified cookie
+// means the cookie outlived the upstream token, and clearing it is what stops
+// the client sitting half-logged-in where every action 401s.
 export async function resolveSelf(
   request: Request,
   cookie?: Context["cookie"],
