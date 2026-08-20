@@ -7,6 +7,7 @@ import {
   useQuery,
   useQueryClient,
   type QueryClient,
+  type QueryKey,
   type UseQueryOptions,
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -14,8 +15,8 @@ import { useTranslations } from "next-intl";
 export function useApiMutation<TData, TVariables = void>(opts: {
   mutationFn: (vars: TVariables) => Promise<TData>;
   invalidates?:
-    | readonly (readonly unknown[])[]
-    | ((vars: TVariables, data: TData) => readonly (readonly unknown[])[]);
+    | readonly QueryKey[]
+    | ((vars: TVariables, data: TData) => readonly QueryKey[]);
   onSuccess?: (data: TData, vars: TVariables, qc: QueryClient) => void;
 }) {
   const t = useTranslations();
@@ -28,29 +29,28 @@ export function useApiMutation<TData, TVariables = void>(opts: {
         typeof opts.invalidates === "function"
           ? opts.invalidates(vars, data)
           : (opts.invalidates ?? []);
-      for (const key of keys) {
-        qc.invalidateQueries({ queryKey: key as unknown[] });
-      }
+      for (const queryKey of keys) qc.invalidateQueries({ queryKey });
       opts.onSuccess?.(data, vars, qc);
     },
   });
 }
 
 type ElysiaResult = Parameters<typeof handleElysia>[0];
+type Unwrapped<T extends ElysiaResult> = ReturnType<typeof handleElysia<T>>;
 
 export function useElysiaQuery<
   T extends ElysiaResult,
-  TSelected = ReturnType<typeof handleElysia<T>>,
+  TSelected = Unwrapped<T>,
 >(
-  queryKey: readonly unknown[],
+  queryKey: QueryKey,
   call: () => Promise<T>,
   options?: Omit<
-    UseQueryOptions<ReturnType<typeof handleElysia<T>>, Error, TSelected>,
+    UseQueryOptions<Unwrapped<T>, Error, TSelected>,
     "queryKey" | "queryFn"
   >,
 ) {
   return useQuery({
-    queryKey: queryKey as unknown[],
+    queryKey,
     queryFn: async () => handleElysia(await call()),
     ...options,
   });

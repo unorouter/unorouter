@@ -82,7 +82,7 @@ export function makeRpEntity<
           return row;
         },
         onSuccess: () => {
-          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
+          invalidateAndBroadcast(qc, [opts.listKey()]);
         },
         onError: (e) => handleError(e, t),
       });
@@ -106,7 +106,7 @@ export function makeRpEntity<
         },
         onSuccess: (_data, args) => {
           invalidateAndBroadcast(qc, [
-            opts.listKey() as string[],
+            opts.listKey(),
             opts.itemKey(args.id) as string[],
           ]);
         },
@@ -124,7 +124,7 @@ export function makeRpEntity<
         },
         onSuccess: (_data, id) => {
           qc.removeQueries({ queryKey: opts.itemKey(id) as string[] });
-          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
+          invalidateAndBroadcast(qc, [opts.listKey()]);
         },
         onError: (e) => handleError(e, t),
       });
@@ -157,7 +157,7 @@ export function makeRpEntity<
           return { id: newId };
         },
         onSuccess: () => {
-          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
+          invalidateAndBroadcast(qc, [opts.listKey()]);
         },
         onError: (e) => handleError(e, t),
       });

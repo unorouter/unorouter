@@ -31,6 +31,8 @@ export async function prefetchAuth(qc: QueryClient) {
   return expired;
 }
 
+// fetchQuery over prefetchQuery: the home page READS the counts it prefetches,
+// and prefetchQuery resolves to void.
 export function fetchElysia<T extends ElysiaResult>(
   qc: QueryClient,
   queryKey: QueryKey,

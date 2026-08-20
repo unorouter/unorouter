@@ -71,7 +71,7 @@ function useChatMutation<TArgs, TData>(
     mutationFn: (args: TArgs) => fn(args),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
-      invalidateAndBroadcast(qc, keysFor(args) as string[][]);
+      invalidateAndBroadcast(qc, keysFor(args));
       onAfter?.(data, args);
     },
   });
@@ -432,9 +432,7 @@ export function useDeleteMessageMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [
-        queryKeys.chatMessages(args.convId),
-      ] as unknown as string[][]);
+      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
     },
   });
 }
