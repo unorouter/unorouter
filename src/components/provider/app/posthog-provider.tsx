@@ -24,13 +24,12 @@ function PostHogPageView() {
 }
 
 function PostHogIdentify() {
-  const auth = useAuthUser();
+  const user = useAuthUser();
   const previousUserId = useRef<number | null>(null);
 
   useEffect(() => {
     if (IS_DEV) return;
 
-    const user = auth.user;
     const userId = user?.id;
 
     if (userId && previousUserId.current !== userId) {
@@ -51,7 +50,7 @@ function PostHogIdentify() {
       posthog.reset();
       previousUserId.current = null;
     }
-  }, [auth.user]);
+  }, [user]);
 
   return null;
 }
