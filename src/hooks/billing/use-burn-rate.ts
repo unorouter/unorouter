@@ -3,9 +3,7 @@
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useDashboardQuotaQuery } from "@/hooks/billing/dashboard-hook";
 import { quotaToDollars } from "@/lib/config/constants";
-import { burnRateWindow } from "@/store/dashboard-store";
-
-const WINDOW_DAYS = 7;
+import { BURN_RATE_WINDOW_DAYS, burnRateWindow } from "@/store/dashboard-store";
 
 export type BurnRate =
   | { available: false }
@@ -16,9 +14,12 @@ export type BurnRate =
  * empty or zero-spend window yields `available: false` so callers render
  * nothing rather than an Infinity/NaN runway.
  */
-export function useBurnRate(balanceQuota: number | undefined): BurnRate {
+export function useBurnRate(
+  balanceQuota: number | undefined,
+  days = BURN_RATE_WINDOW_DAYS,
+): BurnRate {
   const isLoggedIn = !!useAuthQuery().data;
-  const quotaQuery = useDashboardQuotaQuery(burnRateWindow(), {
+  const quotaQuery = useDashboardQuotaQuery(burnRateWindow(days), {
     enabled: isLoggedIn,
   });
 
@@ -28,7 +29,7 @@ export function useBurnRate(balanceQuota: number | undefined): BurnRate {
   }
 
   const spentQuota = rows.reduce((sum, row) => sum + (row.quota ?? 0), 0);
-  const dollarsPerDay = quotaToDollars(spentQuota) / WINDOW_DAYS;
+  const dollarsPerDay = quotaToDollars(spentQuota) / days;
   const balance = quotaToDollars(balanceQuota ?? 0);
 
   if (!Number.isFinite(dollarsPerDay) || dollarsPerDay <= 0 || balance <= 0) {

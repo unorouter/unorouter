@@ -13,14 +13,11 @@ import { useAtom } from "jotai";
 
 export function useDashboardData() {
   const [store, setStore] = useAtom(dashboardStoreAtom);
-  const { startTs, endTs } = store;
+  const { start_timestamp: startTs, end_timestamp: endTs } = store;
   const periodMinutes = (endTs - startTs) / 60;
 
   const statusQuery = useStatusQuery();
-  const quotaQuery = useDashboardQuotaQuery({
-    start_timestamp: startTs,
-    end_timestamp: endTs,
-  });
+  const quotaQuery = useDashboardQuotaQuery(store);
   const rawData = (quotaQuery.data ?? []).filter(
     (item): item is QuotaDataItem => item != null,
   );
@@ -32,8 +29,8 @@ export function useDashboardData() {
 
   const setDateRange = (range: { from: Date; to: Date }) =>
     setStore({
-      startTs: dayjs(range.from).unix(),
-      endTs: dayjs(range.to).unix(),
+      start_timestamp: dayjs(range.from).unix(),
+      end_timestamp: dayjs(range.to).unix(),
     });
 
   const resetDateRange = () => setStore(defaultTimestamps());

@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { analytics } from "@/lib/analytics";
-import type { DashboardStore } from "@/store/dashboard-store";
+import type { TimeRange } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";
 import { dayjs } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
@@ -17,7 +17,7 @@ import { FlowSection } from "./flow-section";
 import { OverviewSection } from "./overview-section";
 
 type DashboardProps = {
-  serverTimestamps: DashboardStore;
+  serverTimestamps: TimeRange;
 };
 
 const SECTIONS = [

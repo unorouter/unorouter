@@ -7,11 +7,7 @@ import {
   getCatalog,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
-import {
-  dehydrate,
-  QueryClient,
-  type DehydratedState,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 export async function getCachedFreeChatModels(limit?: number) {
   const catalog = await getCatalog();
@@ -72,18 +68,6 @@ export async function getModelsPageData() {
       (a, b) => a.localeCompare(b),
     ),
   };
-}
-
-// Dashboard perf strip. A plain prefetchQuery on the request-scoped client is
-// dropped by dehydrate(): usePerfMetricsSummaryQuery is staleTime "static", and
-// static queries are excluded by default. A fresh client carries no such
-// default for the key, so seeding one here is what actually reaches the client
-// (the hook is enabled:false and cannot fetch on its own).
-export async function getDashboardPerfData(): Promise<DehydratedState> {
-  const qc = new QueryClient();
-  const perf = await fetchPerfSummary(24).catch(() => null);
-  qc.setQueryData(queryKeys.perfMetricsSummary(24), perf);
-  return dehydrate(qc);
 }
 
 // Compare pages: resolved slug models for metadata/breadcrumbs.
