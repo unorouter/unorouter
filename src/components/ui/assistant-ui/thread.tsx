@@ -653,6 +653,11 @@ const AssistantMessage: FC = () => {
 
 const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
   const t = useTranslations();
+  const setEditing = useSetAtom(messageEditingAtom);
+  useEffect(() => {
+    setEditing(true);
+    return () => setEditing(false);
+  }, [setEditing]);
   const messageId = useAuiState((s) => s.message.id);
   const initialText = useAuiState((s) => {
     const parts = s.message.content as ReadonlyArray<{
