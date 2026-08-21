@@ -9,8 +9,11 @@ import { serverEnv } from "@/server/env";
 const BASE = serverEnv.unoImportUrl;
 const TOKEN = serverEnv.unoImportToken;
 
+// Kept in step with uno-import's own allowlist: a host missing here is
+// rejected before the job is ever submitted, which reads as an invalid link
+// rather than an unsupported site.
 const SUPPORTED =
-  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net)$/i;
+  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net|lorebary\.com)$/i;
 
 export type ImportJob = { jobId: string; status: string };
 
