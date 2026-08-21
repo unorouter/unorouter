@@ -3322,7 +3322,8 @@
       "TOKENS": "词元数",
       "TIME_FIRST": "耗时",
       "SPEND": "费用",
-      "DETAILS": "价格"
+      "DETAILS": "价格",
+      "STREAM": "流式"
     },
     "PRICING": {
       "STANDARD": "标准",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "已应用 {count} 个筛选条件，点击“重置”清除。"
     },
     "STAT": {
-      "USED_QUOTA": "已用额度"
+      "USED_QUOTA": "已用额度",
+      "USAGE": "用量",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "使用日志",
     "DESCRIPTION": "查看您的 API 请求历史、Token 使用情况和消费详情。",
@@ -3456,7 +3460,12 @@
     "STREAM": "流式",
     "NON_STREAM": "非流式",
     "STREAM_ERROR": "流异常结束（未收到响应）",
-    "SUBSCRIPTION_DEDUCTION": "订阅抵扣"
+    "SUBSCRIPTION_DEDUCTION": "订阅抵扣",
+    "FIRST_TOKEN": "首个令牌",
+    "DURATION": "耗时",
+    "NOT_AVAILABLE": "不适用",
+    "SHOW_SENSITIVE": "显示敏感信息",
+    "HIDE_SENSITIVE": "隐藏敏感信息"
   },
   "AFFILIATE": {
     "TABLE": {

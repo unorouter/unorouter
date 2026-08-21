@@ -3322,7 +3322,8 @@
       "TOKENS": "トークン数",
       "TIME_FIRST": "応答時間",
       "SPEND": "コスト",
-      "DETAILS": "料金"
+      "DETAILS": "料金",
+      "STREAM": "ストリーム"
     },
     "PRICING": {
       "STANDARD": "標準",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} 件のフィルターが適用中です。リセットをクリックして解除します。"
     },
     "STAT": {
-      "USED_QUOTA": "使用済みクォータ"
+      "USED_QUOTA": "使用済みクォータ",
+      "USAGE": "使用量",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "利用ログ",
     "DESCRIPTION": "API リクエスト履歴、トークン使用量、支出の詳細を確認できます。",
@@ -3456,7 +3460,12 @@
     "STREAM": "ストリーム",
     "NON_STREAM": "非ストリーム",
     "STREAM_ERROR": "ストリームが異常終了しました（応答を受信できませんでした）",
-    "SUBSCRIPTION_DEDUCTION": "サブスクリプションから控除"
+    "SUBSCRIPTION_DEDUCTION": "サブスクリプションから控除",
+    "FIRST_TOKEN": "最初のトークン",
+    "DURATION": "所要時間",
+    "NOT_AVAILABLE": "該当なし",
+    "SHOW_SENSITIVE": "機密値を表示",
+    "HIDE_SENSITIVE": "機密値を非表示"
   },
   "AFFILIATE": {
     "TABLE": {

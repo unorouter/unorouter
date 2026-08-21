@@ -3322,7 +3322,8 @@
       "TOKENS": "Token 數",
       "TIME_FIRST": "耗時",
       "SPEND": "費用",
-      "DETAILS": "價格"
+      "DETAILS": "價格",
+      "STREAM": "串流"
     },
     "PRICING": {
       "STANDARD": "標準",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "已套用 {count} 個篩選條件，點擊「重設」清除。"
     },
     "STAT": {
-      "USED_QUOTA": "已用額度"
+      "USED_QUOTA": "已用額度",
+      "USAGE": "用量",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "使用紀錄",
     "DESCRIPTION": "檢視您的 API 請求歷史、token 用量與花費細節。",
@@ -3456,7 +3460,12 @@
     "STREAM": "串流",
     "NON_STREAM": "非串流",
     "STREAM_ERROR": "串流異常結束（未收到回應）",
-    "SUBSCRIPTION_DEDUCTION": "訂閱抵扣"
+    "SUBSCRIPTION_DEDUCTION": "訂閱抵扣",
+    "FIRST_TOKEN": "首個權杖",
+    "DURATION": "耗時",
+    "NOT_AVAILABLE": "不適用",
+    "SHOW_SENSITIVE": "顯示敏感資訊",
+    "HIDE_SENSITIVE": "隱藏敏感資訊"
   },
   "AFFILIATE": {
     "TABLE": {

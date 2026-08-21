@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokens",
       "TIME_FIRST": "Durée",
       "SPEND": "Coût",
-      "DETAILS": "Tarif"
+      "DETAILS": "Tarif",
+      "STREAM": "FLUX"
     },
     "PRICING": {
       "STANDARD": "Standard",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} filtre(s) appliqué(s). Cliquez sur Réinitialiser pour effacer."
     },
     "STAT": {
-      "USED_QUOTA": "Quota utilisé"
+      "USED_QUOTA": "Quota utilisé",
+      "USAGE": "Utilisation",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Journaux d'utilisation",
     "DESCRIPTION": "Consultez l'historique de vos requêtes API, l'utilisation des jetons et les détails des dépenses.",
@@ -3456,7 +3460,12 @@
     "STREAM": "flux",
     "NON_STREAM": "hors flux",
     "STREAM_ERROR": "Le flux s'est terminé anormalement (aucune réponse reçue)",
-    "SUBSCRIPTION_DEDUCTION": "Déduit de l'abonnement"
+    "SUBSCRIPTION_DEDUCTION": "Déduit de l'abonnement",
+    "FIRST_TOKEN": "Premier jeton",
+    "DURATION": "Durée",
+    "NOT_AVAILABLE": "N/D",
+    "SHOW_SENSITIVE": "Afficher les valeurs sensibles",
+    "HIDE_SENSITIVE": "Masquer les valeurs sensibles"
   },
   "AFFILIATE": {
     "TABLE": {

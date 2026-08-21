@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokens",
       "TIME_FIRST": "التوقيت",
       "SPEND": "التكلفة",
-      "DETAILS": "الأسعار"
+      "DETAILS": "الأسعار",
+      "STREAM": "بث"
     },
     "PRICING": {
       "STANDARD": "قياسي",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "تم تطبيق {count} من عوامل التصفية، انقر على إعادة التعيين للمسح."
     },
     "STAT": {
-      "USED_QUOTA": "الحصّة المستخدمة"
+      "USED_QUOTA": "الحصّة المستخدمة",
+      "USAGE": "الاستخدام",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "سجلّات الاستخدام",
     "DESCRIPTION": "اعرض سجل طلبات API الخاصّة بك، واستخدام tokens، وتفاصيل الإنفاق.",
@@ -3456,7 +3460,12 @@
     "STREAM": "بثّ",
     "NON_STREAM": "بدون بثّ",
     "STREAM_ERROR": "البثّ انتهى بشكل غير طبيعي (لم تُستلم استجابة)",
-    "SUBSCRIPTION_DEDUCTION": "خُصم من الاشتراك"
+    "SUBSCRIPTION_DEDUCTION": "خُصم من الاشتراك",
+    "FIRST_TOKEN": "أول رمز",
+    "DURATION": "المدة",
+    "NOT_AVAILABLE": "غير متاح",
+    "SHOW_SENSITIVE": "إظهار القيم الحساسة",
+    "HIDE_SENSITIVE": "إخفاء القيم الحساسة"
   },
   "AFFILIATE": {
     "TABLE": {

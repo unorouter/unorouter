@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
-import { Badge } from "@/components/ui/badge";
 import {
   useUsageLogsQuery,
   useUsageLogsStatQuery,
@@ -23,6 +22,7 @@ import {
   LogModelCell,
   LogPricingDetailsCell,
   LogSpendCell,
+  LogStreamCell,
   LogTimeCell,
   LogTimingCell,
   LogTokenNameCell,
@@ -38,6 +38,22 @@ import {
   LOG_TYPE_REFUND,
   type LogRow,
 } from "./log-helpers";
+
+function StatBadge(props: {
+  label: string;
+  value: string | number;
+  accent: string;
+}) {
+  return (
+    <span className="border-border/60 bg-muted/25 inline-flex h-7 items-center gap-2 rounded-md border px-2.5 text-xs shadow-xs">
+      <span className={`h-3.5 w-0.5 rounded-full ${props.accent}`} />
+      <span className="text-muted-foreground">{props.label}</span>
+      <span className="text-foreground/85 font-mono font-semibold tabular-nums">
+        {props.value}
+      </span>
+    </span>
+  );
+}
 
 export function UsageLogs() {
   const t = useTranslations();
@@ -128,12 +144,12 @@ export function UsageLogs() {
       size: 200,
     },
     {
-      id: "timing",
-      meta: { title: msg("LOGS.TABLE.TIME_FIRST") },
-      header: t("LOGS.TABLE.TIME_FIRST"),
+      id: "stream",
+      meta: { title: msg("LOGS.TABLE.STREAM") },
+      header: t("LOGS.TABLE.STREAM"),
       enableSorting: false,
-      cell: LogTimingCell,
-      size: 120,
+      cell: LogStreamCell,
+      size: 100,
     },
     {
       id: "tokens",
@@ -153,7 +169,15 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.SPEND"),
       enableSorting: false,
       cell: LogSpendCell,
-      size: 100,
+      size: 90,
+    },
+    {
+      id: "timing",
+      meta: { title: msg("LOGS.TABLE.TIME_FIRST") },
+      header: t("LOGS.TABLE.TIME_FIRST"),
+      enableSorting: false,
+      cell: LogTimingCell,
+      size: 130,
     },
     {
       accessorKey: "content",
@@ -176,25 +200,22 @@ export function UsageLogs() {
       }}
     >
       {stat && (
-        <div className="mb-3 flex items-center gap-2">
-          <Badge
-            variant="secondary"
-            className="bg-blue-500/10 font-mono text-blue-400"
-          >
-            {t("LOGS.STAT.USED_QUOTA")}: {renderQuota(stat.quota, 2)}
-          </Badge>
-          <Badge
-            variant="secondary"
-            className="bg-pink-500/10 font-mono text-pink-400"
-          >
-            RPM: {stat.rpm}
-          </Badge>
-          <Badge
-            variant="secondary"
-            className="bg-purple-500/10 font-mono text-purple-400"
-          >
-            TPM: {stat.tpm.toLocaleString()}
-          </Badge>
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <StatBadge
+            label={t("LOGS.STAT.USAGE")}
+            value={renderQuota(stat.quota, 4)}
+            accent="bg-sky-500/70"
+          />
+          <StatBadge
+            label={t("LOGS.STAT.RPM")}
+            value={stat.rpm}
+            accent="bg-rose-500/65"
+          />
+          <StatBadge
+            label={t("LOGS.STAT.TPM")}
+            value={stat.tpm.toLocaleString()}
+            accent="bg-slate-400/70"
+          />
         </div>
       )}
       <DataTable

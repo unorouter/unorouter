@@ -3322,7 +3322,8 @@
       "TOKENS": "Token",
       "TIME_FIRST": "Thời gian",
       "SPEND": "Chi phí",
-      "DETAILS": "Giá"
+      "DETAILS": "Giá",
+      "STREAM": "LUỒNG"
     },
     "PRICING": {
       "STANDARD": "Tiêu chuẩn",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "Đã áp dụng {count} bộ lọc. Nhấp Đặt lại để xóa."
     },
     "STAT": {
-      "USED_QUOTA": "Hạn mức đã dùng"
+      "USED_QUOTA": "Hạn mức đã dùng",
+      "USAGE": "Mức dùng",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Nhật ký sử dụng",
     "DESCRIPTION": "Xem lịch sử yêu cầu API, mức sử dụng token và chi tiết chi tiêu.",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "không stream",
     "STREAM_ERROR": "Luồng kết thúc bất thường (không nhận được phản hồi)",
-    "SUBSCRIPTION_DEDUCTION": "Khấu trừ từ gói đăng ký"
+    "SUBSCRIPTION_DEDUCTION": "Khấu trừ từ gói đăng ký",
+    "FIRST_TOKEN": "Token đầu tiên",
+    "DURATION": "Thời lượng",
+    "NOT_AVAILABLE": "K/C",
+    "SHOW_SENSITIVE": "Hiện giá trị nhạy cảm",
+    "HIDE_SENSITIVE": "Ẩn giá trị nhạy cảm"
   },
   "AFFILIATE": {
     "TABLE": {

@@ -3322,7 +3322,8 @@
       "TOKENS": "טוקנים",
       "TIME_FIRST": "תזמון",
       "SPEND": "עלות",
-      "DETAILS": "תמחור"
+      "DETAILS": "תמחור",
+      "STREAM": "הזרמה"
     },
     "PRICING": {
       "STANDARD": "סטנדרטי",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "הוחלו {count} מסננים. לחץ על איפוס כדי לנקות."
     },
     "STAT": {
-      "USED_QUOTA": "מכסה שנוצלה"
+      "USED_QUOTA": "מכסה שנוצלה",
+      "USAGE": "שימוש",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "יומני שימוש",
     "DESCRIPTION": "צפו בהיסטוריית בקשות ה-API שלכם, שימוש בטוקנים ופרטי הוצאה.",
@@ -3456,7 +3460,12 @@
     "STREAM": "זרם",
     "NON_STREAM": "ללא זרם",
     "STREAM_ERROR": "הזרם הסתיים בצורה לא תקינה (לא התקבלה תגובה)",
-    "SUBSCRIPTION_DEDUCTION": "נוכה על-ידי מנוי"
+    "SUBSCRIPTION_DEDUCTION": "נוכה על-ידי מנוי",
+    "FIRST_TOKEN": "טוקן ראשון",
+    "DURATION": "משך",
+    "NOT_AVAILABLE": "לא זמין",
+    "SHOW_SENSITIVE": "הצג ערכים רגישים",
+    "HIDE_SENSITIVE": "הסתר ערכים רגישים"
   },
   "AFFILIATE": {
     "TABLE": {
