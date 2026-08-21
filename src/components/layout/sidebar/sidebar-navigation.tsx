@@ -163,26 +163,26 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const aui = useAui();
 
-  const navItems = props.authenticated ? sidebarNavigation() : [];
-  const sidebarPaths = new Set(navItems.map((item) => item.href));
   // On /chat the Chat entry starts a new thread rather than navigating to the
   // route the reader is already on.
-  const items = navigation(props.authenticated)
-    .filter((item) => !item.hidden && !sidebarPaths.has(item.href))
+  const newThread = () => aui.threads().switchToNewThread();
+
+  if (props.authenticated) {
+    const accountItems = sidebarNavigation();
+    const chatEntry = navigation(true).find((item) => item.href === "/chat");
+    const items = chatEntry
+      ? accountItems.toSpliced(1, 0, { ...chatEntry, onClick: newThread })
+      : accountItems;
+    return <NavGroup label={t("SIDEBAR.MENU")} items={items} />;
+  }
+
+  const items = navigation(false)
+    .filter((item) => !item.hidden)
     .map((item) =>
-      item.href === "/chat"
-        ? { ...item, onClick: () => aui.threads().switchToNewThread() }
-        : item,
+      item.href === "/chat" ? { ...item, onClick: newThread } : item,
     );
 
-  return (
-    <>
-      {navItems.length > 0 && (
-        <NavGroup label={t("SIDEBAR.MENU")} items={navItems} />
-      )}
-      <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />
-    </>
-  );
+  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
 
 function GenerateSidebarNav(props: { authenticated: boolean }) {
