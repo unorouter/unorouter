@@ -28,6 +28,7 @@ import {
   RpEmptyCard,
   RpEntityRow,
   RpExportMenu,
+  RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { CharacterEditor } from "./editor";
@@ -113,6 +114,7 @@ export function CharacterList(props: Props) {
                   });
                   setView({ mode: "edit" });
                 }}
+                className={RP_ACTION_BUTTON}
               >
                 <Icon name="plus" className="size-4" />
                 {t("RP.CHARACTERS_NEW")}

@@ -25,6 +25,10 @@ type RpAnalyticsEntity = Parameters<
   typeof analytics.rp.entityAction
 >[0]["entity"];
 
+// Three of these share the dialog's action row, which is narrower than the
+// viewport; at default size their labels do not fit two per line on a phone.
+export const RP_ACTION_BUTTON = "max-sm:h-8 max-sm:px-2 max-sm:text-xs";
+
 export async function confirmRpDelete(
   t: ReturnType<typeof useTranslations<never>>,
   titleKey: TranslationKey,
@@ -149,6 +153,7 @@ export function RpImportControl(props: {
           fileInputRef.current?.click();
         }}
         disabled={props.isPending}
+        className={RP_ACTION_BUTTON}
       >
         <Icon name="upload" className="size-4" />
         {t(props.labelKey)}
@@ -156,7 +161,13 @@ export function RpImportControl(props: {
       {props.onUrl && (
         <Popover open={linkOpen} onOpenChange={setLinkOpen}>
           <PopoverTrigger
-            render={<Button variant="outline" disabled={props.isPending} />}
+            render={
+              <Button
+                variant="outline"
+                disabled={props.isPending}
+                className={RP_ACTION_BUTTON}
+              />
+            }
           >
             <Icon name="link" className="size-4" />
             {t(props.urlLabelKey ?? props.labelKey)}

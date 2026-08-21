@@ -23,6 +23,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { PersonaEditor } from "./editor";
@@ -82,6 +83,7 @@ export function PersonaList(props: Props) {
                 });
                 setEditingId("new");
               }}
+              className={RP_ACTION_BUTTON}
             >
               <Icon name="plus" className="size-4" />
               {t("RP.PERSONAS_NEW")}

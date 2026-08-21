@@ -25,6 +25,7 @@ import {
   RpEmptyCard,
   RpEntityRow,
   RpExportMenu,
+  RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { LorebookEditor } from "./editor";
@@ -112,7 +113,11 @@ export function LorebookList(props: Props) {
                   isPending={importMut.isPending}
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}
                 />
-                <Button onClick={handleCreate} disabled={createMut.isPending}>
+                <Button
+                  onClick={handleCreate}
+                  disabled={createMut.isPending}
+                  className={RP_ACTION_BUTTON}
+                >
                   <Icon name="plus" className="size-4" />
                   {t("RP.LOREBOOKS_NEW")}
                 </Button>
