@@ -4,8 +4,12 @@ import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 
 import { cn } from "@/lib/utils";
 
+// Opening on the first frame of hover means a scroll that drags the cursor
+// across a virtualized table fires a tooltip per row it passes, and a portaled
+// popup landing near the viewport edge briefly grows the document, so the page
+// gains and loses a scrollbar as it goes. A short delay makes hover mean hover.
 function TooltipProvider({
-  delay = 0,
+  delay = 400,
   ...props
 }: TooltipPrimitive.Provider.Props) {
   return (
