@@ -40,6 +40,7 @@ function SearchFilterInput(props: {
   onChange: (value: string | undefined) => void;
   placeholder: string;
   className?: string;
+  type?: "text" | "password";
 }) {
   return (
     <div className="relative">
@@ -50,6 +51,7 @@ function SearchFilterInput(props: {
       />
       <Input
         value={props.value}
+        type={props.type}
         onChange={(e) => props.onChange(e.target.value || undefined)}
         placeholder={props.placeholder}
         className={`h-8 pl-7 font-mono text-xs ${props.className ?? "w-40"}`}
@@ -67,6 +69,10 @@ export function LogFilters(props: {
 }) {
   const t = useTranslations();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
+  // Group and token names identify other people's tenancy on a shared gateway,
+  // so they are maskable for screen sharing. Deliberately not persisted: the
+  // safe state is masked, and a remembered "visible" defeats the point.
+  const [sensitiveVisible, setSensitiveVisible] = useState(false);
 
   const startOfDay = formatDateForInput(dayjs().startOf("day"));
   const endOfDay = formatDateForInput(dayjs().endOf("day"));
@@ -170,6 +176,18 @@ export function LogFilters(props: {
             </span>
           )}
         </Button>
+        <SearchFilterInput
+          value={modelName}
+          onChange={(v) => props.onFilterChange("model_name", v)}
+          placeholder={t("LOGS.FILTER.MODEL")}
+        />
+        <SearchFilterInput
+          value={group}
+          onChange={(v) => props.onFilterChange("group", v)}
+          placeholder={t("LOGS.FILTER.GROUP")}
+          className="w-32"
+          type={sensitiveVisible ? "text" : "password"}
+        />
         <Button
           variant="outline"
           size="sm"
@@ -181,6 +199,19 @@ export function LogFilters(props: {
             className="h-3.5 w-3.5"
           />
           {t("LOGS.FILTERS")}
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-xs"
+          onClick={() => setSensitiveVisible(!sensitiveVisible)}
+          aria-label={t(
+            sensitiveVisible ? "LOGS.HIDE_SENSITIVE" : "LOGS.SHOW_SENSITIVE",
+          )}
+        >
+          <Icon
+            name={sensitiveVisible ? "eye" : "eye-off"}
+            className="h-3.5 w-3.5"
+          />
         </Button>
       </div>
       {hasActiveFilters && (
@@ -197,11 +228,6 @@ export function LogFilters(props: {
             placeholder={t("LOGS.FILTER.TOKEN")}
           />
           <SearchFilterInput
-            value={modelName}
-            onChange={(v) => props.onFilterChange("model_name", v)}
-            placeholder={t("LOGS.FILTER.MODEL")}
-          />
-          <SearchFilterInput
             value={requestId}
             onChange={(v) => props.onFilterChange("request_id", v)}
             placeholder={t("LOGS.FILTER.REQUEST_ID")}
@@ -212,12 +238,6 @@ export function LogFilters(props: {
             onChange={(v) => props.onFilterChange("upstream_request_id", v)}
             placeholder={t("LOGS.FILTER.UPSTREAM_REQUEST_ID")}
             className="w-48"
-          />
-          <SearchFilterInput
-            value={group}
-            onChange={(v) => props.onFilterChange("group", v)}
-            placeholder={t("LOGS.FILTER.GROUP")}
-            className="w-32"
           />
           <SearchFilterInput
             value={subscriptionPlan}

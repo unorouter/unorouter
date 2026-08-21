@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokens",
       "TIME_FIRST": "Tiempo",
       "SPEND": "Costo",
-      "DETAILS": "Precios"
+      "DETAILS": "Precios",
+      "STREAM": "FLUJO"
     },
     "PRICING": {
       "STANDARD": "Estándar",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} filtro(s) aplicado(s). Haz clic en Restablecer para borrar."
     },
     "STAT": {
-      "USED_QUOTA": "Cuota usada"
+      "USED_QUOTA": "Cuota usada",
+      "USAGE": "Uso",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Registros de uso",
     "DESCRIPTION": "Ve el historial de solicitudes API, uso de tokens y detalles de gasto.",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "no-stream",
     "STREAM_ERROR": "Stream terminó anormalmente (sin respuesta recibida)",
-    "SUBSCRIPTION_DEDUCTION": "Deducido por suscripción"
+    "SUBSCRIPTION_DEDUCTION": "Deducido por suscripción",
+    "FIRST_TOKEN": "Primer token",
+    "DURATION": "Duración",
+    "NOT_AVAILABLE": "N/D",
+    "SHOW_SENSITIVE": "Mostrar valores sensibles",
+    "HIDE_SENSITIVE": "Ocultar valores sensibles"
   },
   "AFFILIATE": {
     "TABLE": {

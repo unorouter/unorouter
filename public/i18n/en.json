@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokens",
       "TIME_FIRST": "Timing",
       "SPEND": "Cost",
-      "DETAILS": "Pricing"
+      "DETAILS": "Pricing",
+      "STREAM": "STREAM"
     },
     "PRICING": {
       "STANDARD": "Standard",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} filter(s) applied. Click Reset to clear."
     },
     "STAT": {
-      "USED_QUOTA": "Used Quota"
+      "USED_QUOTA": "Used Quota",
+      "USAGE": "Usage",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Usage Logs",
     "DESCRIPTION": "View your API request history, token usage, and spending details.",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "non-stream",
     "STREAM_ERROR": "Stream ended abnormally (no response received)",
-    "SUBSCRIPTION_DEDUCTION": "Deducted by subscription"
+    "SUBSCRIPTION_DEDUCTION": "Deducted by subscription",
+    "FIRST_TOKEN": "First token",
+    "DURATION": "Duration",
+    "NOT_AVAILABLE": "N/A",
+    "SHOW_SENSITIVE": "Show sensitive values",
+    "HIDE_SENSITIVE": "Hide sensitive values"
   },
   "AFFILIATE": {
     "TABLE": {

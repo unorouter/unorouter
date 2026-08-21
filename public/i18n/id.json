@@ -3322,7 +3322,8 @@
       "TOKENS": "Token",
       "TIME_FIRST": "Pewaktu",
       "SPEND": "Biaya",
-      "DETAILS": "Harga"
+      "DETAILS": "Harga",
+      "STREAM": "STREAM"
     },
     "PRICING": {
       "STANDARD": "Standar",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} filter diterapkan. Klik Atur Ulang untuk menghapus."
     },
     "STAT": {
-      "USED_QUOTA": "Kuota Terpakai"
+      "USED_QUOTA": "Kuota Terpakai",
+      "USAGE": "Penggunaan",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Log Penggunaan",
     "DESCRIPTION": "Lihat riwayat permintaan API Anda, penggunaan token, dan detail pengeluaran.",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "non-stream",
     "STREAM_ERROR": "Stream berakhir secara tidak normal (tidak ada respons diterima)",
-    "SUBSCRIPTION_DEDUCTION": "Dipotong oleh langganan"
+    "SUBSCRIPTION_DEDUCTION": "Dipotong oleh langganan",
+    "FIRST_TOKEN": "Token pertama",
+    "DURATION": "Durasi",
+    "NOT_AVAILABLE": "T/A",
+    "SHOW_SENSITIVE": "Tampilkan nilai sensitif",
+    "HIDE_SENSITIVE": "Sembunyikan nilai sensitif"
   },
   "AFFILIATE": {
     "TABLE": {

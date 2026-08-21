@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokens",
       "TIME_FIRST": "Timing",
       "SPEND": "लागत",
-      "DETAILS": "मूल्य निर्धारण"
+      "DETAILS": "मूल्य निर्धारण",
+      "STREAM": "स्ट्रीम"
     },
     "PRICING": {
       "STANDARD": "Standard",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} फ़िल्टर लागू हैं। साफ़ करने के लिए रीसेट पर क्लिक करें।"
     },
     "STAT": {
-      "USED_QUOTA": "उपयोग किया गया Quota"
+      "USED_QUOTA": "उपयोग किया गया Quota",
+      "USAGE": "उपयोग",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "उपयोग Logs",
     "DESCRIPTION": "अपना API अनुरोध इतिहास, token उपयोग, और खर्च विवरण देखें।",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "non-stream",
     "STREAM_ERROR": "Stream असामान्य रूप से समाप्त हुआ (कोई response प्राप्त नहीं हुआ)",
-    "SUBSCRIPTION_DEDUCTION": "Subscription द्वारा deduct किया गया"
+    "SUBSCRIPTION_DEDUCTION": "Subscription द्वारा deduct किया गया",
+    "FIRST_TOKEN": "पहला टोकन",
+    "DURATION": "अवधि",
+    "NOT_AVAILABLE": "लागू नहीं",
+    "SHOW_SENSITIVE": "संवेदनशील मान दिखाएँ",
+    "HIDE_SENSITIVE": "संवेदनशील मान छिपाएँ"
   },
   "AFFILIATE": {
     "TABLE": {

@@ -3322,7 +3322,8 @@
       "TOKENS": "Tokenlar",
       "TIME_FIRST": "Zamanlama",
       "SPEND": "Maliyet",
-      "DETAILS": "Fiyatlandırma"
+      "DETAILS": "Fiyatlandırma",
+      "STREAM": "AKIŞ"
     },
     "PRICING": {
       "STANDARD": "Standart",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count} filtre uygulandı. Temizlemek için Sıfırla’ya tıklayın."
     },
     "STAT": {
-      "USED_QUOTA": "Kullanılan Kota"
+      "USED_QUOTA": "Kullanılan Kota",
+      "USAGE": "Kullanım",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "Kullanım Logları",
     "DESCRIPTION": "API istek geçmişinizi, token kullanımınızı ve harcama detaylarınızı görüntüleyin.",
@@ -3456,7 +3460,12 @@
     "STREAM": "stream",
     "NON_STREAM": "stream değil",
     "STREAM_ERROR": "Stream anormal şekilde sonlandı (yanıt alınmadı)",
-    "SUBSCRIPTION_DEDUCTION": "Abonelik tarafından düşüldü"
+    "SUBSCRIPTION_DEDUCTION": "Abonelik tarafından düşüldü",
+    "FIRST_TOKEN": "İlk token",
+    "DURATION": "Süre",
+    "NOT_AVAILABLE": "Yok",
+    "SHOW_SENSITIVE": "Hassas değerleri göster",
+    "HIDE_SENSITIVE": "Hassas değerleri gizle"
   },
   "AFFILIATE": {
     "TABLE": {

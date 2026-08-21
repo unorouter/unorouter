@@ -3322,7 +3322,8 @@
       "TOKENS": "토큰",
       "TIME_FIRST": "타이밍",
       "SPEND": "비용",
-      "DETAILS": "요금"
+      "DETAILS": "요금",
+      "STREAM": "스트림"
     },
     "PRICING": {
       "STANDARD": "표준",
@@ -3442,7 +3443,10 @@
       "ACTIVE_NOTICE": "{count}개의 필터가 적용됨. 지우려면 초기화를 클릭하세요."
     },
     "STAT": {
-      "USED_QUOTA": "사용한 할당량"
+      "USED_QUOTA": "사용한 할당량",
+      "USAGE": "사용량",
+      "RPM": "RPM",
+      "TPM": "TPM"
     },
     "TITLE": "사용 로그",
     "DESCRIPTION": "API 요청 내역, 토큰 사용량 및 지출 세부사항을 확인하세요.",
@@ -3456,7 +3460,12 @@
     "STREAM": "스트림",
     "NON_STREAM": "비 스트림",
     "STREAM_ERROR": "스트림이 비정상적으로 종료됨 (응답 없음)",
-    "SUBSCRIPTION_DEDUCTION": "구독으로 차감됨"
+    "SUBSCRIPTION_DEDUCTION": "구독으로 차감됨",
+    "FIRST_TOKEN": "첫 토큰",
+    "DURATION": "소요 시간",
+    "NOT_AVAILABLE": "해당 없음",
+    "SHOW_SENSITIVE": "민감한 값 표시",
+    "HIDE_SENSITIVE": "민감한 값 숨기기"
   },
   "AFFILIATE": {
     "TABLE": {

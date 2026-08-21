@@ -286,51 +286,89 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   const other = parseOther(log.other);
   const frt = other?.frt;
   const completion = log.completion_tokens ?? 0;
-  const tokensPerSecond =
-    log.use_time > 0 && completion > 0 ? completion / log.use_time : 0;
-  const streamLabel = log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM");
-  const secondary =
-    tokensPerSecond > 0
-      ? `${streamLabel} \u00b7 ${tokensPerSecond.toFixed(0)} t/s`
-      : streamLabel;
 
   const totalPill = getResponseTimingPill(log.use_time, completion);
-  const frtPill =
-    log.is_stream && frt && frt > 0 ? getFrtTimingPill(frt) : null;
+  const showFirstToken = log.is_stream;
+  const frtPill = frt && frt > 0 ? getFrtTimingPill(frt) : null;
+  const firstTokenLabel =
+    frt && frt > 0 ? `${(frt / 1000).toFixed(1)}s` : t("LOGS.NOT_AVAILABLE");
 
-  const primary = (
-    <div className="flex items-center gap-1">
+  // A label per line beats a row of pills: the two numbers mean different
+  // things, and a bare pill pair left the reader to guess which was which.
+  // The bar carries the colour the pills used to, split when both are shown.
+  return (
+    <div className="flex items-stretch gap-2">
       <span
-        className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-mono text-[11px] tabular-nums ${totalPill.container}`}
+        aria-hidden
+        className={`flex w-1 shrink-0 flex-col overflow-hidden rounded-full ${
+          showFirstToken ? "" : totalPill.dot
+        }`}
       >
-        <span className={`size-1.5 rounded-full ${totalPill.dot}`} />
-        {log.use_time}s
+        {showFirstToken && (
+          <>
+            <span className={`flex-1 ${frtPill?.dot ?? "bg-muted"}`} />
+            <span className={`flex-1 ${totalPill.dot}`} />
+          </>
+        )}
       </span>
-      {frtPill && frt ? (
-        <span
-          className={`inline-flex items-center rounded-md border px-1.5 py-0.5 font-mono text-[11px] tabular-nums ${frtPill.container}`}
-        >
-          {(frt / 1000).toFixed(1)}s
-        </span>
-      ) : null}
-      {log.is_stream && frt != null && frt < 0 && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <span className="cursor-help text-red-500">
-                <Icon name="circle-alert" className="size-3" />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="top" sideOffset={6}>
-              <p className="text-xs">{t("LOGS.STREAM_ERROR")}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
+      <div className="flex min-w-0 flex-col justify-center gap-0.5 text-xs leading-tight">
+        {showFirstToken && (
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-muted-foreground shrink-0">
+              {t("LOGS.FIRST_TOKEN")}
+            </span>
+            <span className="tabular-nums">{firstTokenLabel}</span>
+            {frt != null && frt < 0 && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span className="cursor-help text-red-500">
+                      <Icon name="circle-alert" className="size-3" />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" sideOffset={6}>
+                    <p className="text-xs">{t("LOGS.STREAM_ERROR")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+        )}
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-muted-foreground shrink-0">
+            {t("LOGS.DURATION")}
+          </span>
+          <span className="tabular-nums">{log.use_time}s</span>
+        </div>
+      </div>
     </div>
   );
+}
 
-  return <StackedCell primary={primary} secondary={secondary} />;
+export function LogStreamCell(props: CellContext<TableFeats, LogRow>) {
+  const t = useTranslations();
+  const log = props.row.original;
+  if (log.type !== LOG_TYPE_CONSUME && log.type !== LOG_TYPE_ERROR) {
+    return LOG_EMPTY;
+  }
+  const completion = log.completion_tokens ?? 0;
+  const tps =
+    log.use_time > 0 && completion > 0 ? completion / log.use_time : null;
+
+  return (
+    <div className="flex flex-col justify-center gap-0.5 text-xs leading-tight">
+      <span
+        className={
+          log.is_stream ? "text-info font-medium" : "text-muted-foreground"
+        }
+      >
+        {log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM")}
+      </span>
+      <span className="text-muted-foreground/60 tabular-nums">
+        {tps ? `${tps.toFixed(0)} t/s` : "\u2014"}
+      </span>
+    </div>
+  );
 }
 
 // Six decimals is what a fraction-of-a-cent row needs, but free rows are most
@@ -424,11 +462,10 @@ export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
 
     const pricing = computeLogPricing(other);
     if (!pricing) {
-      return (
-        <span className="text-muted-foreground block max-w-50 truncate text-xs">
-          {log.content || ""}
-        </span>
-      );
+      // A consume row with no pricing has nothing to say in a PRICING column,
+      // and log.content here is a per-request note ("Model test") that repeats
+      // down the page. The details dialog still carries it.
+      return LOG_EMPTY;
     }
 
     const inputPrice = pricing.inputPrice;
