@@ -1,8 +1,7 @@
-# Every Zig-era Bun (1.3.14 and the floating 1-alpine tag alike) segfaults with
-# SIGILL at the very end of next build, after all routes compile. The 1.4 Rust
-# rewrite does not. Move back to a stable tag once 1.4 ships a release.
-# Verify any bump with infra/scripts/build-local.sh.
-FROM oven/bun:canary-alpine AS builder
+# Pinned to 1.4: every Zig-era Bun (1.3.14 and the floating 1-alpine tag alike)
+# segfaults with SIGILL at the very end of next build, after all routes compile.
+# The Rust rewrite does not. Verify any bump with infra/scripts/build-local.sh.
+FROM oven/bun:1.4-alpine AS builder
 WORKDIR /app
 
 COPY package.json ./
@@ -24,11 +23,7 @@ ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
 
 RUN --mount=type=cache,target=/app/.next/cache bun run build
 
-#
-# Prod runtime: Node (Next.js standalone is built for Node and is ~5-10x faster
-# than running it under Bun, which has incomplete fast paths for the RSC pipeline
-# and AsyncLocalStorage). Build still runs on Bun (faster install + build).
-FROM node:24-alpine AS prod
+FROM oven/bun:1.4-alpine AS prod
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -41,16 +36,12 @@ COPY --from=builder --chown=appuser:appgroup /app/drizzle ./drizzle
 COPY --from=builder --chown=appuser:appgroup /app/.next/static ./.next/static
 COPY --from=builder --chown=appuser:appgroup /app/public ./public
 
-# sharp is a native module Next standalone tracing cannot bundle across the
-# bun-alpine -> node-alpine stage swap; install the node24-musl binary here.
-# Install in an isolated empty dir so npm never resolves the standalone tree
-# (which carries a github: dependency that would need git, absent on alpine),
-# then drop the package into the standalone node_modules.
-RUN mkdir -p /tmp/sharp && cd /tmp/sharp && \
-    npm install --no-save --omit=dev sharp@0.35.1 && \
-    cp -r /tmp/sharp/node_modules/. /app/node_modules/ && \
-    rm -rf /tmp/sharp && \
-    chown -R appuser:appgroup /app/node_modules
+# sharp is a native module, so standalone tracing leaves it out of the bundle.
+# Both stages are bun-alpine, so the builder's binary is ABI-compatible and can
+# be copied straight across. Bun.Image covers resize and re-encode but has no
+# SVG loader, which is what the badge route rasterizes, so sharp stays.
+COPY --from=builder --chown=appuser:appgroup /app/node_modules/sharp ./node_modules/sharp
+COPY --from=builder --chown=appuser:appgroup /app/node_modules/@img ./node_modules/@img
 
 USER appuser
 
@@ -59,4 +50,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["bun", "server.js"]
