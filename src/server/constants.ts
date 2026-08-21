@@ -65,6 +65,11 @@ export async function deriveUpstream({ request }: { request: Request }) {
   const requestId = request.headers.get("x-request-id");
   if (requestId) headers["x-request-id"] = requestId;
 
+  // Payment checkouts return the user to whichever site started them. Upstream
+  // otherwise falls back to its own console, which is where users landed after
+  // paying. Upstream only honors an origin it already has configured.
+  headers["X-Return-Base"] = env.siteOrigin;
+
   const clientIp =
     request.headers.get("cf-connecting-ip") ??
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
