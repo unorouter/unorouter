@@ -9,7 +9,6 @@ import {
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
-import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   base64ToUint8,
@@ -17,7 +16,8 @@ import {
   uid,
   uint8ToBase64,
 } from "@/lib/utils/base";
-import { rpc } from "@/lib/rpc";
+import { msg } from "@/lib/config/constants";
+import { runUrlImport, type ImportedResult } from "./use-url-import";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
@@ -174,54 +174,25 @@ export function useImportCharacterCardMutation() {
   });
 }
 
-// A fetch drives a real browser and may rotate its VPN exit mid-job, so the
-// server hands back a job id and this polls it. The alternative, holding the
-// request open, turns a slow import into a browser timeout.
-const POLL_MS = 1500;
-const POLL_TIMEOUT_MS = 180_000;
-
 export function useImportCharacterFromUrlMutation() {
   return useApiMutation({
-    mutationFn: async (input: string) => {
-      const job = handleElysia(
-        await rpc.api.ai["character-cards"].import.post({ url: input }),
-      );
-
-      const deadline = Date.now() + POLL_TIMEOUT_MS;
-      for (;;) {
-        if (Date.now() > deadline) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-        await new Promise((r) => setTimeout(r, POLL_MS));
-        const state = handleElysia(
-          await rpc.api.ai["character-cards"].import({ jobId: job.jobId }).get(),
-        );
-        if (state.status === "failed") {
-          throw new Error(state.error || msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-        }
-        if (state.status !== "done" || !state.result) continue;
-        return persistImportedCard(state.result);
-      }
-    },
+    mutationFn: (input: string) => runUrlImport(input, persistImportedCard),
     invalidates: IMPORT_INVALIDATES,
   });
 }
 
-// The fetcher returns a card plus its lorebooks already normalised, so the card
+// The fetcher returns a card with its lorebooks already normalised, so the card
 // goes through the same file path as a drag-and-drop import and the lorebooks
 // are attached afterwards rather than being re-parsed out of the PNG.
-async function persistImportedCard(result: {
-  card: { data?: Record<string, unknown> } & Record<string, unknown>;
-  lorebooks: Array<{
-    name: string;
-    scanDepth?: number;
-    entries: Array<Record<string, unknown>>;
-  }>;
-}) {
+async function persistImportedCard(result: ImportedResult) {
+  if (!result.card) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+
   const json = JSON.stringify(result.card);
   const file = new File([json], "card.json", { type: "application/json" });
   const setup = await persistCharacterSetupFromFile(file);
 
   const now = new Date().toISOString();
-  for (const book of result.lorebooks) {
+  for (const book of result.lorebooks ?? []) {
     if (book.entries.length === 0) continue;
     const lorebookId = uid();
     await upsertLocalLorebookBundle({
@@ -245,6 +216,38 @@ async function persistImportedCard(result: {
         updatedAt: now,
       })) as never,
     });
+  }
+
+  // RisuRealm ships scripts and extra assets beside the card. They live on the
+  // character because that is where the engine reads them from, and the file
+  // path above has no way to carry them.
+  const assets: { name: string; mediaId: string }[] = [];
+  for (const asset of result.assets ?? []) {
+    const mediaId = uid();
+    const bytes = base64ToUint8(asset.base64);
+    await upsertLocalMedia({
+      id: mediaId,
+      convId: null,
+      mimeType: asset.mimeType,
+      sizeBytes: bytes.byteLength,
+      dataBase64: asset.base64,
+    });
+    assets.push({ name: asset.name, mediaId });
+  }
+
+  if (result.regexScripts || result.triggers || assets.length > 0) {
+    const existing = await readLocalCharacter(setup.characterId);
+    await upsertLocalCharacter({
+      ...(existing as Record<string, unknown>),
+      id: setup.characterId,
+      regexScripts: result.regexScripts ?? null,
+      triggers: result.triggers ?? null,
+      assets:
+        assets.length > 0
+          ? assets
+          : ((existing as { assets?: unknown })?.assets ?? null),
+      updatedAt: dayjs().toDate(),
+    } as never);
   }
   return setup;
 }
