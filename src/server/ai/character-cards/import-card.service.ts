@@ -1,5 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { safeFetchBytes, safeFetchRaw } from "@/lib/config/safe-fetch";
+import { randomBytes } from "node:crypto";
 
 const JANNY_API_BASE =
   process.env.JANNY_API_BASE ?? "https://api.jannyai.com/api/v1";
@@ -7,6 +8,8 @@ const CHUB_AVATAR_BASE =
   process.env.CHUB_AVATAR_BASE ?? "https://avatars.charhub.io/avatars";
 const RISU_REALM_BASE =
   process.env.RISU_REALM_BASE ?? "https://realm.risuai.net/api/v1/download";
+const DATACAT_API_BASE =
+  process.env.DATACAT_API_BASE ?? "https://datacat.run/api";
 
 const MAX_CARD_BYTES = 10 * 1024 * 1024;
 
@@ -42,10 +45,70 @@ function toResult(buffer: Buffer, contentType: string | null): ImportedCard {
   };
 }
 
+// JannyAI sits behind a Cloudflare managed challenge, which a server cannot
+// solve at any level of header or TLS mimicry: it wants JavaScript executed.
+// Datacat holds the same JanitorAI ids, is not challenged, and issues a session
+// to an anonymous device token, so it can answer the requests Janny now refuses.
+async function importJanitorViaDatacat(id: string): Promise<ImportedCard> {
+  const deviceToken = `anon_${randomBytes(16).toString("hex")}_${randomBytes(4).toString("hex")}`;
+  const auth = await safeFetchRaw(`${DATACAT_API_BASE}/liberator/identify`, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({ deviceToken }),
+    maxBytes: 64 * 1024,
+  });
+  const session = (() => {
+    try {
+      return JSON.parse(auth.buffer.toString("utf8")) as {
+        sessionToken?: unknown;
+      };
+    } catch {
+      return null;
+    }
+  })();
+  if (auth.status !== 200 || typeof session?.sessionToken !== "string")
+    throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+
+  const res = await safeFetchRaw(`${DATACAT_API_BASE}/characters/${id}`, {
+    headers: {
+      accept: "application/json",
+      "x-session-token": session.sessionToken,
+    },
+    maxBytes: MAX_CARD_BYTES,
+  });
+  if (res.status === 404) throw new Error(msg("ERRORS.CARD_IMPORT_NOT_FOUND"));
+  const body = (() => {
+    try {
+      return JSON.parse(res.buffer.toString("utf8")) as {
+        character?: { chara_card_v2_json?: unknown };
+      };
+    } catch {
+      return null;
+    }
+  })();
+  const card = body?.character?.chara_card_v2_json;
+  if (res.status !== 200 || card == null)
+    throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+
+  // The v2 card arrives as JSON rather than a PNG, and the loader reads either.
+  const json = typeof card === "string" ? card : JSON.stringify(card);
+  return toResult(Buffer.from(json, "utf8"), "application/json");
+}
+
 async function importJanitor(href: string): Promise<ImportedCard> {
   const id = UUID_RE.exec(href)?.[0].toLowerCase();
   if (!id) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
 
+  try {
+    return await importJanitorFromJanny(id);
+  } catch {
+    // Janny is the canonical source and still serves proxy-enabled bots, so it
+    // stays first; datacat only rescues what it refuses.
+    return await importJanitorViaDatacat(id);
+  }
+}
+
+async function importJanitorFromJanny(id: string): Promise<ImportedCard> {
   const api = await safeFetchRaw(`${JANNY_API_BASE}/download`, {
     method: "POST",
     headers: { "content-type": "application/json", accept: "application/json" },
