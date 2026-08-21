@@ -162,15 +162,24 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
 function ChatSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const aui = useAui();
+  const menuItems = props.authenticated ? sidebarNavigation() : [];
+  const menuPaths = new Set(menuItems.map((item) => item.href));
   const items = navigation(props.authenticated)
-    .filter((item) => !item.hidden)
+    .filter((item) => !item.hidden && !menuPaths.has(item.href))
     .map((item) =>
       item.href === "/chat"
         ? { ...item, onClick: () => aui.threads().switchToNewThread() }
         : item,
     );
 
-  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
+  return (
+    <>
+      {menuItems.length > 0 && (
+        <NavGroup label={t("SIDEBAR.MENU")} items={menuItems} />
+      )}
+      <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />
+    </>
+  );
 }
 
 function GenerateSidebarNav(props: { authenticated: boolean }) {
