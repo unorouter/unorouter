@@ -12,6 +12,7 @@ import {
   useCreateLorebookMutation,
   useDeleteLorebookMutation,
   useDuplicateLorebookMutation,
+  useImportLorebookFromUrlMutation,
   useImportLorebookMutation,
   useLorebooksQuery,
 } from "@/hooks/ai/rp/lorebooks";
@@ -42,6 +43,7 @@ export function LorebookList(props: Props) {
   const deleteMut = useDeleteLorebookMutation();
   const duplicateMut = useDuplicateLorebookMutation();
   const importMut = useImportLorebookMutation();
+  const importUrlMut = useImportLorebookFromUrlMutation();
   const exportMut = useRpExportMutation();
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
@@ -110,8 +112,13 @@ export function LorebookList(props: Props) {
                   entity="lorebooks"
                   accept="application/json"
                   labelKey="RP.LOREBOOKS_IMPORT"
-                  isPending={importMut.isPending}
+                  isPending={importMut.isPending || importUrlMut.isPending}
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}
+                  onUrl={(input) =>
+                    importUrlMut.mutateAsync(input).then(() => {})
+                  }
+                  urlLabelKey="RP.LOREBOOKS_IMPORT_LINK"
+                  urlPlaceholderKey="RP.LOREBOOKS_IMPORT_LINK_PLACEHOLDER"
                 />
                 <Button
                   onClick={handleCreate}

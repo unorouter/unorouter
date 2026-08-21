@@ -11,7 +11,9 @@ import {
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp/rp";
+import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
+import { runUrlImport } from "./use-url-import";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
@@ -198,5 +200,56 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
       return { id: entryId };
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
+  });
+}
+
+// Standalone lorebooks published on their own, rather than attached to a card:
+// a JanitorAI script link, a chub /lorebooks/ project, or a risu character
+// whose book travels with it. The fetcher normalises all three, so this only
+// has to write rows.
+export function useImportLorebookFromUrlMutation() {
+  return useApiMutation({
+    mutationFn: (input: string) =>
+      runUrlImport(input, async (result) => {
+        const books = result.lorebooks ?? [];
+        if (books.length === 0) {
+          // Named rather than silent: the source lists these but the author kept
+          // the contents private, and nobody can fetch them.
+          const withheld = (result.skipped ?? [])
+            .map((s) => s.title)
+            .join(", ");
+          throw new Error(
+            withheld
+              ? `${msg("ERRORS.CARD_IMPORT_LOREBOOK_PRIVATE")}: ${withheld}`
+              : msg("ERRORS.CARD_IMPORT_FETCH_FAILED"),
+          );
+        }
+        const now = dayjs().toDate();
+        for (const book of books) {
+          const id = uid();
+          await upsertLocalLorebookBundle({
+            lorebook: {
+              id,
+              name: book.name,
+              description: null,
+              scanDepth: book.scanDepth ?? 4,
+              tokenBudget: 1500,
+              recursiveScanning: false,
+              createdAt: now,
+              updatedAt: now,
+            } as never,
+            entries: book.entries.map((e, i) => ({
+              ...e,
+              id: uid(),
+              lorebookId: id,
+              orderIndex: (e.orderIndex as number | undefined) ?? i,
+              injectionRole: "system" as const,
+              createdAt: now,
+              updatedAt: now,
+            })) as never,
+          });
+        }
+      }),
+    invalidates: [queryKeys.lorebooks()],
   });
 }
