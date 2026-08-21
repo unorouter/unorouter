@@ -203,8 +203,18 @@ export function RpImportControl(props: {
                 }
               }}
             >
-              {t("RP.CHARACTERS_IMPORT_FROM_LINK")}
+              {props.isPending && (
+                <Icon name="loader" className="size-4 animate-spin" />
+              )}
+              {props.isPending
+                ? t("RP.IMPORT_FETCHING")
+                : t("RP.CHARACTERS_IMPORT_FROM_LINK")}
             </Button>
+            {props.isPending && (
+              <p className="text-muted-foreground text-xs">
+                {t("RP.IMPORT_FETCHING_HINT")}
+              </p>
+            )}
           </PopoverContent>
         </Popover>
       )}
