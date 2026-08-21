@@ -2,7 +2,10 @@
 
 import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { PageHeader } from "@/components/elements/content/page-header";
-import { PricingCard } from "@/components/elements/content/pricing-card";
+import {
+  PricingCard,
+  type PricingFeature,
+} from "@/components/elements/content/pricing-card";
 import { Icon } from "@/components/ui/icon";
 import { env } from "@/lib/config/env";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
@@ -166,13 +169,19 @@ export function Pricing() {
   // Only what actually differs by tier. "All models", failover and the
   // OpenAI-compatible endpoint are true of the free tier too, so listing them
   // here sold nothing and padded the card.
-  function buildFeatures(index: number): string[] {
+  function buildFeatures(index: number): PricingFeature[] {
     const pct = FREE_RATE_LIMIT_PCT_BY_TIER[index];
     return [
-      t("PRICING.FEATURE.CREDIT"),
-      pct === 100
-        ? t("PRICING.FEATURE.NO_FREE_WAIT")
-        : t("PRICING.FEATURE.FREE_WAIT", { percent: String(pct) }),
+      { label: t("PRICING.FEATURE.CREDIT") },
+      {
+        label:
+          pct === 100
+            ? t("PRICING.FEATURE.NO_FREE_WAIT")
+            : t("PRICING.FEATURE.FREE_WAIT", { percent: String(pct) }),
+        // The limit removed is ours. Upstream free tiers are shared and still
+        // fail, and "no waiting" reads as "always works" without saying so.
+        note: t("PRICING.FEATURE.FREE_WAIT_NOTE"),
+      },
     ];
   }
 

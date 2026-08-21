@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Doppeltes API-Guthaben für den gezahlten Betrag",
       "FREE_WAIT": "{percent} % weniger Wartezeit bei kostenlosen Modellen",
-      "NO_FREE_WAIT": "Keine Wartezeit zwischen Anfragen an kostenlose Modelle"
+      "NO_FREE_WAIT": "Keine Wartezeit zwischen Anfragen an kostenlose Modelle",
+      "FREE_WAIT_NOTE": "Das entfernt unser Limit, nicht das des Anbieters. Kostenlose Modelle laufen auf geteilten Gratis-Kontingenten der Anbieter und können weiterhin ausgelastet, langsam oder fehlerhaft sein. Wer Verlässlichkeit braucht, nimmt ein kostenpflichtiges Modell."
     },
     "CARD": {
       "POPULAR": "Beliebt",

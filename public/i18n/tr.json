@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Ödediğinizin iki katı API kredisi",
       "FREE_WAIT": "Ucretsiz modellerde %{percent} daha az bekleme",
-      "NO_FREE_WAIT": "Ucretsiz model istekleri arasinda bekleme yok"
+      "NO_FREE_WAIT": "Ucretsiz model istekleri arasinda bekleme yok",
+      "FREE_WAIT_NOTE": "Bu, saglayicinin degil bizim limitimizi kaldirir. Ucretsiz modeller paylasimli ucretsiz kotalarda calisir; yine yogun olabilir, yavaslayabilir veya hata verebilir. Guvenilirlik icin ucretli bir model kullanin."
     },
     "CARD": {
       "POPULAR": "Popüler",

@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "2x the API credit you pay for",
       "FREE_WAIT": "{percent}% less waiting on free models",
-      "NO_FREE_WAIT": "No waiting between free model requests"
+      "NO_FREE_WAIT": "No waiting between free model requests",
+      "FREE_WAIT_NOTE": "This removes our rate limit, not the provider's. Free models run on shared upstream free tiers, so they can still be busy, slow or fail; a paid model is the reliable option."
     },
     "CARD": {
       "POPULAR": "Popular",

@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Gấp đôi tín dụng API so với số tiền bạn trả",
       "FREE_WAIT": "Giảm {percent}% thời gian chờ với mô hình miễn phí",
-      "NO_FREE_WAIT": "Không phải chờ giữa các yêu cầu mô hình miễn phí"
+      "NO_FREE_WAIT": "Không phải chờ giữa các yêu cầu mô hình miễn phí",
+      "FREE_WAIT_NOTE": "Điều này gỡ giới hạn của chúng tôi, không phải của nhà cung cấp. Mô hình miễn phí chạy trên hạn mức miễn phí dùng chung nên vẫn có thể quá tải, chậm hoặc lỗi; cần ổn định thì hãy dùng mô hình trả phí."
     },
     "CARD": {
       "POPULAR": "Phổ biến",

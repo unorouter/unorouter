@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Il doppio del credito API rispetto a quanto paghi",
       "FREE_WAIT": "{percent}% di attesa in meno sui modelli gratuiti",
-      "NO_FREE_WAIT": "Nessuna attesa tra le richieste ai modelli gratuiti"
+      "NO_FREE_WAIT": "Nessuna attesa tra le richieste ai modelli gratuiti",
+      "FREE_WAIT_NOTE": "Questo rimuove il nostro limite, non quello del provider. I modelli gratuiti usano quote gratuite condivise a monte, quindi possono comunque essere occupati, lenti o fallire; per affidabilità scegli un modello a pagamento."
     },
     "CARD": {
       "POPULAR": "Popolare",

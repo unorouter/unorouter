@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Dwukrotność kredytu API za zapłaconą kwotę",
       "FREE_WAIT": "{percent}% krotszy czas oczekiwania w darmowych modelach",
-      "NO_FREE_WAIT": "Brak oczekiwania miedzy zapytaniami do darmowych modeli"
+      "NO_FREE_WAIT": "Brak oczekiwania miedzy zapytaniami do darmowych modeli",
+      "FREE_WAIT_NOTE": "To usuwa nasz limit, a nie limit dostawcy. Darmowe modele działają na współdzielonych darmowych pulach dostawców, więc nadal mogą być przeciążone, wolne lub zawodzić; jeśli potrzebujesz niezawodności, wybierz model płatny."
     },
     "CARD": {
       "POPULAR": "Popularne",

@@ -1414,7 +1414,8 @@
     "FEATURE": {
       "CREDIT": "Kredit API dua kali lipat dari yang dibayar",
       "FREE_WAIT": "Waktu tunggu model gratis berkurang {percent}%",
-      "NO_FREE_WAIT": "Tanpa jeda antar permintaan model gratis"
+      "NO_FREE_WAIT": "Tanpa jeda antar permintaan model gratis",
+      "FREE_WAIT_NOTE": "Ini menghapus batas dari kami, bukan dari penyedia. Model gratis berjalan di kuota gratis bersama, jadi tetap bisa sibuk, lambat, atau gagal; untuk keandalan gunakan model berbayar."
     },
     "CARD": {
       "POPULAR": "Populer",

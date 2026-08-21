@@ -3,13 +3,20 @@
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/icon";
+import { InfoPopover } from "@/components/ui/popover";
+
+export type PricingFeature = {
+  label: string;
+  /** Caveat behind an info button, for a claim that would otherwise oversell. */
+  note?: string;
+};
 
 type Props = {
   name: string;
   price: number;
   value: number;
   deliveryLabel?: string;
-  features: string[];
+  features: PricingFeature[];
   popular?: boolean;
   cta: string;
   onSubscribe?: () => void;
@@ -75,14 +82,15 @@ export function PricingCard(props: Props) {
         <ul className="space-y-3">
           {props.features.map((feature) => (
             <li
-              key={feature}
+              key={feature.label}
               className="flex items-center gap-2.5 font-mono text-xs"
             >
               <Icon
                 name="check"
                 className="h-3.5 w-3.5 shrink-0 text-emerald-500/70"
               />
-              <span className="text-foreground">{feature}</span>
+              <span className="text-foreground">{feature.label}</span>
+              {feature.note ? <InfoPopover text={feature.note} /> : null}
             </li>
           ))}
         </ul>
