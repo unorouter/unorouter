@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# персонаж} few {# персонажа} many {# персонажей} other {# персонажей}}",
-      "LOREBOOKS": "{count, plural, one {# лорбук} few {# лорбука} many {# лорбуков} other {# лорбуков}}"
+      "LOREBOOKS": "{count, plural, one {# лорбук} few {# лорбука} many {# лорбуков} other {# лорбуков}}",
+      "PRESET_EMPTY": "Пресет",
+      "PERSONA_EMPTY": "Персона",
+      "CHARACTERS_EMPTY": "Персонажи",
+      "LOREBOOKS_EMPTY": "Лорбуки"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Выберите вариант, чтобы продолжить",
     "TRIGGER_ALERT_OK": "ОК",

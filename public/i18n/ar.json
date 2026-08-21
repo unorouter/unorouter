@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",
-      "LOREBOOKS": "{count, plural, zero {# كتاب معرفة} one {كتاب معرفة واحد} two {كتابا معرفة} few {# كتب معرفة} many {# كتاب معرفة} other {# كتاب معرفة}}"
+      "LOREBOOKS": "{count, plural, zero {# كتاب معرفة} one {كتاب معرفة واحد} two {كتابا معرفة} few {# كتب معرفة} many {# كتاب معرفة} other {# كتاب معرفة}}",
+      "PRESET_EMPTY": "إعداد مسبق",
+      "PERSONA_EMPTY": "شخصية",
+      "CHARACTERS_EMPTY": "الشخصيات",
+      "LOREBOOKS_EMPTY": "كتب المعرفة"
     },
     "TRIGGER_ALERT_SELECT_DESC": "اختر خيارًا للمتابعة",
     "TRIGGER_ALERT_OK": "موافق",

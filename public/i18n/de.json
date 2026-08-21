@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# Charakter} other {# Charaktere}}",
-      "LOREBOOKS": "{count, plural, one {# Lorebook} other {# Lorebooks}}"
+      "LOREBOOKS": "{count, plural, one {# Lorebook} other {# Lorebooks}}",
+      "PRESET_EMPTY": "Preset",
+      "PERSONA_EMPTY": "Persona",
+      "CHARACTERS_EMPTY": "Charaktere",
+      "LOREBOOKS_EMPTY": "Lorebooks"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Wähle eine Option, um fortzufahren",
     "TRIGGER_ALERT_OK": "OK",

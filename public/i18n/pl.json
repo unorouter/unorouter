@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# postać} few {# postacie} many {# postaci} other {# postaci}}",
-      "LOREBOOKS": "{count, plural, one {# lorebook} few {# lorebooki} many {# lorebooków} other {# lorebooków}}"
+      "LOREBOOKS": "{count, plural, one {# lorebook} few {# lorebooki} many {# lorebooków} other {# lorebooków}}",
+      "PRESET_EMPTY": "Ustawienie",
+      "PERSONA_EMPTY": "Persona",
+      "CHARACTERS_EMPTY": "Postacie",
+      "LOREBOOKS_EMPTY": "Kompendia"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Wybierz opcję, aby kontynuować",
     "TRIGGER_ALERT_OK": "OK",

@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",
-      "LOREBOOKS": "{count, plural, one {# लोरबुक} other {# लोरबुक}}"
+      "LOREBOOKS": "{count, plural, one {# लोरबुक} other {# लोरबुक}}",
+      "PRESET_EMPTY": "प्रीसेट",
+      "PERSONA_EMPTY": "पर्सोना",
+      "CHARACTERS_EMPTY": "पात्र",
+      "LOREBOOKS_EMPTY": "लोरबुक"
     },
     "TRIGGER_ALERT_SELECT_DESC": "जारी रखने के लिए एक विकल्प चुनें",
     "TRIGGER_ALERT_OK": "ठीक है",

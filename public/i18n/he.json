@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {דמות אחת} two {# דמויות} many {# דמויות} other {# דמויות}}",
-      "LOREBOOKS": "{count, plural, one {ספר ידע אחד} two {# ספרי ידע} many {# ספרי ידע} other {# ספרי ידע}}"
+      "LOREBOOKS": "{count, plural, one {ספר ידע אחד} two {# ספרי ידע} many {# ספרי ידע} other {# ספרי ידע}}",
+      "PRESET_EMPTY": "הגדרה",
+      "PERSONA_EMPTY": "פרסונה",
+      "CHARACTERS_EMPTY": "דמויות",
+      "LOREBOOKS_EMPTY": "ספרי לור"
     },
     "TRIGGER_ALERT_SELECT_DESC": "בחר אפשרות כדי להמשיך",
     "TRIGGER_ALERT_OK": "אישור",

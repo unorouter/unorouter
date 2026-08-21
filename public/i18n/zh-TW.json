@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 個角色}}",
-      "LOREBOOKS": "{count, plural, other {# 個世界書}}"
+      "LOREBOOKS": "{count, plural, other {# 個世界書}}",
+      "PRESET_EMPTY": "預設",
+      "PERSONA_EMPTY": "人設",
+      "CHARACTERS_EMPTY": "角色",
+      "LOREBOOKS_EMPTY": "世界書"
     },
     "TRIGGER_ALERT_SELECT_DESC": "請選擇一個選項以繼續",
     "TRIGGER_ALERT_OK": "確定",
