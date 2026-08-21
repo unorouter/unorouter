@@ -18,6 +18,7 @@ export type ImportedResult = {
   source: string;
   sourceUrl: string;
   card?: { spec?: string; data?: Record<string, unknown> };
+  avatar?: { name: string; mimeType: string; base64: string };
   lorebooks?: Array<{
     name: string;
     scanDepth?: number;

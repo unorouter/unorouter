@@ -191,6 +191,30 @@ async function persistImportedCard(result: ImportedResult) {
   const file = new File([json], "card.json", { type: "application/json" });
   const setup = await persistCharacterSetupFromFile(file);
 
+  // A card fetched as JSON carries no image, and the avatar extraction in the
+  // file path only reads PNGs, so without this every link import lands without
+  // a picture while a dropped file keeps one. The fetcher returns the bytes it
+  // already had rather than making the browser fetch them again.
+  if (result.avatar) {
+    const mediaId = uid();
+    await upsertLocalMedia({
+      id: mediaId,
+      convId: null,
+      mimeType: result.avatar.mimeType,
+      sizeBytes: base64ToUint8(result.avatar.base64).byteLength,
+      dataBase64: result.avatar.base64,
+    });
+    await upsertLocalCharacter({
+      ...((await readLocalCharacter(setup.characterId)) as Record<
+        string,
+        unknown
+      >),
+      id: setup.characterId,
+      avatarMediaId: mediaId,
+      updatedAt: dayjs().toDate(),
+    } as never);
+  }
+
   const now = new Date().toISOString();
   for (const book of result.lorebooks ?? []) {
     if (book.entries.length === 0) continue;
