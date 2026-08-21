@@ -93,6 +93,7 @@ export function UsageLogs() {
       enableHiding: false,
       enableSorting: false,
       cell: LogTimeCell,
+      size: 180,
     },
     {
       accessorKey: "channel",
@@ -100,6 +101,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.CHANNEL"),
       enableSorting: false,
       cell: LogChannelCell,
+      size: 150,
     },
     {
       accessorKey: "username",
@@ -107,6 +109,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.USER"),
       enableSorting: false,
       cell: LogUserCell,
+      size: 120,
     },
     {
       accessorKey: "token_name",
@@ -114,6 +117,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.TOKEN"),
       enableSorting: false,
       cell: LogTokenNameCell,
+      size: 140,
     },
     {
       accessorKey: "model_name",
@@ -121,6 +125,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.MODEL"),
       enableSorting: false,
       cell: LogModelCell,
+      size: 200,
     },
     {
       id: "timing",
@@ -128,6 +133,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.TIME_FIRST"),
       enableSorting: false,
       cell: LogTimingCell,
+      size: 120,
     },
     {
       id: "tokens",
@@ -139,6 +145,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.TOKENS"),
       enableSorting: false,
       cell: LogTokensCell,
+      size: 110,
     },
     {
       accessorKey: "quota",
@@ -146,6 +153,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.SPEND"),
       enableSorting: false,
       cell: LogSpendCell,
+      size: 100,
     },
     {
       accessorKey: "content",
@@ -153,6 +161,8 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.DETAILS"),
       enableSorting: false,
       cell: LogPricingDetailsCell,
+      size: 180,
+      maxSize: 200,
     },
   ];
 

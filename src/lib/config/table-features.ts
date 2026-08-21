@@ -1,5 +1,6 @@
 import {
   columnFilteringFeature,
+  columnSizingFeature,
   columnVisibilityFeature,
   createCoreRowModel,
   createExpandedRowModel,
@@ -16,6 +17,11 @@ import {
 // TableFeats is the single TFeatures argument threaded through the generics.
 export const tableFeatures = {
   columnFilteringFeature,
+  // Only makes column.getSize() exist; the width still has to be written to the
+  // DOM, which DataTable does with a colgroup. A column that declares no size
+  // resolves to the library default (150), so a table where none do keeps the
+  // browser's even split.
+  columnSizingFeature,
   columnVisibilityFeature,
   globalFilteringFeature,
   rowExpandingFeature,

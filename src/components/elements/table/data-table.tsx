@@ -1,5 +1,6 @@
 "use client";
 
+import { DataTableColgroup } from "@/components/elements/table/data-table-colgroup";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -197,6 +198,7 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
         className="border-border overflow-hidden border"
       >
         <Table>
+          <DataTableColgroup table={table} />
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-transparent">
