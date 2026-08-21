@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaje} other {# personajes}}",
-      "LOREBOOKS": "{count, plural, one {# libro de saber} other {# libros de saber}}"
+      "LOREBOOKS": "{count, plural, one {# libro de saber} other {# libros de saber}}",
+      "PRESET_EMPTY": "Ajuste",
+      "PERSONA_EMPTY": "Persona",
+      "CHARACTERS_EMPTY": "Personajes",
+      "LOREBOOKS_EMPTY": "Compendios"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Elige una opción para continuar",
     "TRIGGER_ALERT_OK": "Aceptar",

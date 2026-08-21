@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",
-      "LOREBOOKS": "{count, plural, other {로어북 #개}}"
+      "LOREBOOKS": "{count, plural, other {로어북 #개}}",
+      "PRESET_EMPTY": "프리셋",
+      "PERSONA_EMPTY": "페르소나",
+      "CHARACTERS_EMPTY": "캐릭터",
+      "LOREBOOKS_EMPTY": "로어북"
     },
     "TRIGGER_ALERT_SELECT_DESC": "계속하려면 옵션을 선택하세요",
     "TRIGGER_ALERT_OK": "확인",

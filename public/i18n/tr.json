@@ -4092,7 +4092,11 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",
-      "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}"
+      "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}",
+      "PRESET_EMPTY": "Ön ayar",
+      "PERSONA_EMPTY": "Persona",
+      "CHARACTERS_EMPTY": "Karakterler",
+      "LOREBOOKS_EMPTY": "Bilgi kitapları"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
     "TRIGGER_ALERT_OK": "Tamam",
