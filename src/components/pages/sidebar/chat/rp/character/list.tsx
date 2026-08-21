@@ -94,9 +94,9 @@ export function CharacterList(props: Props) {
                   try {
                     await importUrlMut.mutateAsync(input);
                   } catch (error) {
-                    // JanitorAI and its mirrors answer a server fetch with a
-                    // Cloudflare challenge, so the only way to reach them is
-                    // from the visitor's own browser.
+                    // JanitorAI answers a server fetch with a Cloudflare
+                    // challenge, so those links only resolve in the visitor's
+                    // own browser.
                     const id = datacatCharacterId(input);
                     if (!id) throw error;
                     setDatacatId(id);

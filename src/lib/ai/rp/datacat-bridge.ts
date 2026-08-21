@@ -1,13 +1,5 @@
-// Datacat's published host-page integration (their datacat_st_bridge.js, built
-// for SillyTavern embedders). It exists because their API cannot be called from
-// another site at all: no response carries an Access-Control-Allow-Origin, and
-// the origin sits behind a Cloudflare challenge keyed on IP reputation, so a
-// server fetch is refused outright. Framing the page instead puts the request on
-// the visitor's own address with their own clearance, and the card comes back
-// over postMessage, which CORS does not govern.
-//
-// The visitor presses Import inside datacat's own UI. Nothing here automates
-// that click.
+// Datacat's protocol, not ours: their datacat_st_bridge.js drives this and the
+// message names, the nonce echo and the ack statuses are all theirs.
 
 const DATACAT_ORIGIN = "https://datacat.run";
 
@@ -17,8 +9,7 @@ const MSG_PREPARE = "datacat:st-character-card:prepare";
 const MSG_CARD = "datacat:st-character-card";
 const MSG_ACK = "datacat:st-character-card:ack";
 
-// Value their bridge checks for; it identifies the embedder, not SillyTavern
-// itself, and a different string makes it refuse to hand anything over.
+// Their bridge compares this exact string before handing over a card.
 const PARENT_SOURCE = "sillytavern-datacat-browser";
 
 const UUID_RE = /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/i;
@@ -48,9 +39,8 @@ type Listener = {
   onError: (message: string) => void;
 };
 
-// Their flow is prepare -> card, and each step waits on an ack that also drives
-// the progress text inside their iframe. A missing ack leaves the visitor
-// staring at a spinner, so every branch answers.
+// Every branch must reply: their bridge blocks on an ack, so a silent path
+// leaves the visitor on a spinner inside the iframe.
 export function listenForDatacatCard(
   nonce: string,
   listener: Listener,
@@ -72,12 +62,10 @@ export function listenForDatacatCard(
       return;
     }
 
-    // The nonce is what separates our frame's traffic from any other bridge on
-    // the page; theirs echoes the one we minted for this embed.
     if (data.nonce !== nonce) return;
 
-    // "need-card" tells them we hold no local copy, which is what makes them
-    // send the PNG rather than reopening an existing chat.
+    // "need-card" is what makes them send the PNG; any other status reopens an
+    // existing chat instead.
     if (data.type === MSG_PREPARE) {
       reply({ type: MSG_ACK, status: "need-card" });
       return;
