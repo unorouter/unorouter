@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Każda postać nosi własne skrypty wyzwalaczy, wyzwalacze tur i skrypty regex, więc karta może przywieźć własną automatyzację. Jak działają, opisuje sekcja Skrypty.",
       "P_BEHAVIOR_2": "W czatach grupowych zawsze aktywna decyduje, czy blok postaci stale siedzi w prompcie, czy tylko gdy postać mówi lub jest wspomniana; całe wyrazy zaostrza wykrywanie imion. Domyślny wysiłek rozumowania per postać działa, gdy model go wspiera.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Importuj karty PNG (specyfikacje v2 i v3), archiwa CHARX i czysty JSON. Upuść plik na stronę postaci albo użyj przycisku importu; osadzone awatary i powitania idą razem.",
+      "P_IMPORT_1": "Importuj karty PNG (spec v2 i v3), archiwa CHARX oraz zwykły JSON. Przeciągnij plik na stronę postaci lub użyj przycisku importu; osadzone awatary i powitania są dołączane. Import z linku obsługuje adresy JanitorAI, Chub i RisuRealm oraz pobiera lorebooki dołączone do karty.",
       "P_IMPORT_2": "Karty z SillyTavern, RisuAI i serwisów z kartami działają bez zmian. Nieznane dodatkowe pola są zachowywane tam, gdzie specyfikacja pozwala, żeby późniejszy eksport ich nie zgubił.",
+      "P_IMPORT_REQUEST": "Brakuje strony? Napisz na Discordzie i dołącz link do publicznej postaci lub lorebooka z niej; tyle wystarczy, by sprawdzić, czy da się je pobrać. Każde źródło powyżej pojawiło się, bo ktoś o nie poprosił.",
       "H_EXPORT": "Eksport",
       "P_EXPORT_1": "Eksportuj dowolną postać w czterech formatach:",
       "TH_FORMAT": "Format",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Persona domyślna",
       "P_DEFAULT_1": "Oznacz personę jako domyślną, a każdy nowy czat zacznie z nią. Nadal możesz ją podmieniać per rozmowa w panelu ustawień, a loadout może przypiąć inną.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Persony importuje się z plików wyeksportowanych z innych frontendów. Duplikacja istniejącej persony to często najszybsza droga do wariantu."
+      "P_IMPORT_1": "Persony importujesz z plików wyeksportowanych przez inne frontendy albo z linku LoreBary. Zduplikowanie istniejącej persony to zwykle najszybszy sposób na wariant."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Edytor wpisów lorebooka z treścią, kluczami aktywacji, przełącznikami oraz polami kolejności wstawiania i priorytetu",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Wiedza o świecie pojawiająca się w prompcie dokładnie wtedy, gdy jest istotna.",
       "H_BOOKS": "Księgi",
       "P_BOOKS_1": "Lorebook to zbiór wpisów plus ustawienia skanowania. Podepnij do rozmowy dowolną liczbę ksiąg; wszystkie podpięte księgi skanują się razem jako jedna pula.",
+      "P_BOOKS_IMPORT": "Lorebooki importujesz z pliku albo z linku: skryptu JanitorAI, lorebooka z Chub lub postaci RisuRealm, która go dołącza. Książki zachowanej przez autora jako prywatna nikt nie pobierze, więc jeśli karta wymienia trzy, a dotrze jedna, to była decyzja autora; import wymienia brakujące zamiast po cichu importować mniej.",
       "TH_SETTING": "Ustawienie",
       "TH_RANGE": "Zakres",
       "TH_EFFECT": "Efekt",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "Wymiana zgodna z OpenRouter z bezstratnym blokiem rozszerzeń.",
       "X_ST": "Przenoszenie czatów do lub z SillyTavern.",
       "H_ENTITIES": "Przenośność bytów",
-      "P_ENTITIES_1": "Postacie eksportują się jako png, charx, voxta lub json; lorebooki w formatach SillyTavern, Agnai, Risu lub CCv3; presety i karty jako JSON. Import przyjmuje te same formaty.",
+      "P_ENTITIES_1": "Postacie eksportujesz jako png, charx, voxta lub json; lorebooki w formatach SillyTavern, Agnai, Risu lub CCv3; presety i karty jako JSON. Import obsługuje te same formaty, a postacie, lorebooki i persony można też zaimportować z linku.",
       "P_ENTITIES_2": "Każda lista bytów ma duplikację jednym kliknięciem, klonującą z przyrostkiem Kopia; duplikaty lorebooków kopiują wpisy w głąb.",
       "H_INSPECT": "Inspekcja żądań",
       "P_INSPECT_1": "Dziennik żądań trzyma migawkę debugowania per żądanie: złożony prompt, liczby tokenów, koszt i które parametry dostawca odrzucił. Otwórz go z menu wiadomości.",
       "P_INSPECT_2": "Próba na sucho składa pełny prompt bez wołania modelu, za darmo: najszybszy sposób sprawdzenia, co naprawdę produkuje szablon, lorebook czy skrypt.",
       "H_DB": "Lokalna baza danych",
       "P_DB_1": "Wszystkie dane czatu mieszkają w bazie SQLite w prywatnym magazynie przeglądarki, per konto. Wbudowane studio bazy przegląda tabele, pobiera cały plik bazy i importuje go z powrotem.",
-      "P_DB_2": "Import uzgadnia się z bieżącym schematem i przepisuje własność, więc kopia z innego konta albo starszej wersji odtwarza się czysto. Goście mają tę samą lokalną bazę; nic nie wymaga konta."
+      "P_DB_2": "Import uzgadnia dane z bieżącym schematem, więc kopia ze starszej wersji przywraca się poprawnie. Na urządzenie przypada jedna lokalna baza, z której korzystają też goście; konto nie jest potrzebne."
     },
     "BACKUPS": {
       "META": {

@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Mỗi nhân vật mang kịch bản trigger, trigger lượt và kịch bản regex riêng, nên một thẻ có thể mang theo tự động hóa của nó. Cách chúng chạy xem ở mục Kịch bản.",
       "P_BEHAVIOR_2": "Trong chat nhóm, luôn hoạt động quyết định khối nhân vật có luôn ở trong prompt hay chỉ khi nó nói hoặc được nhắc; khớp cả từ siết chặt việc nhận diện tên. Mặc định mức nỗ lực suy luận theo từng nhân vật áp dụng khi mô hình hỗ trợ.",
       "H_IMPORT": "Nhập",
-      "P_IMPORT_1": "Nhập thẻ PNG (đặc tả v2 và v3), kho lưu CHARX và JSON thuần. Thả tệp lên trang nhân vật hoặc dùng nút nhập; hình đại diện và lời chào nhúng đi kèm.",
+      "P_IMPORT_1": "Nhập thẻ PNG (spec v2 và v3), tệp CHARX và JSON thuần. Kéo tệp vào trang nhân vật hoặc dùng nút nhập; ảnh đại diện và lời chào nhúng sẽ đi kèm. Nhập từ liên kết chấp nhận địa chỉ JanitorAI, Chub và RisuRealm, đồng thời mang theo mọi lorebook đi kèm thẻ.",
       "P_IMPORT_2": "Thẻ từ SillyTavern, RisuAI và các trang thẻ chạy nguyên trạng. Các trường bổ sung lạ được giữ ở nơi đặc tả cho phép, để lần xuất sau không đánh mất chúng.",
+      "P_IMPORT_REQUEST": "Thiếu một trang? Hãy hỏi trên Discord kèm liên kết tới một nhân vật hoặc lorebook công khai ở đó, đúng thứ cần để kiểm tra xem có lấy được hay không. Mọi nguồn ở trên đều được thêm vì có người đề nghị.",
       "H_EXPORT": "Xuất",
       "P_EXPORT_1": "Xuất bất kỳ nhân vật nào theo bốn định dạng:",
       "TH_FORMAT": "Định dạng",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Persona mặc định",
       "P_DEFAULT_1": "Đánh dấu một persona là mặc định và mọi chat mới bắt đầu với nó. Bạn vẫn có thể đổi theo từng cuộc trò chuyện trong ngăn cài đặt, và loadout có thể ghim một persona khác.",
       "H_IMPORT": "Nhập",
-      "P_IMPORT_1": "Persona được nhập từ các tệp persona do giao diện khác xuất. Nhân bản một persona sẵn có thường là cách nhanh nhất để tạo biến thể."
+      "P_IMPORT_1": "Persona được nhập từ tệp do các giao diện khác xuất ra, hoặc từ liên kết LoreBary. Nhân bản một persona sẵn có thường là cách nhanh nhất để tạo biến thể."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Trình soạn mục lorebook với nội dung, từ khóa kích hoạt, công tắc cùng các trường thứ tự chèn và độ ưu tiên",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Tri thức thế giới hiện ra trong prompt đúng lúc nó liên quan.",
       "H_BOOKS": "Sổ",
       "P_BOOKS_1": "Sổ tri thức là tập hợp các mục cùng cài đặt quét. Gắn bao nhiêu sổ tùy ý vào một cuộc trò chuyện; mọi sổ đã gắn được quét cùng nhau như một hồ chung.",
+      "P_BOOKS_IMPORT": "Lorebook nhập từ tệp hoặc từ liên kết: một script JanitorAI, một lorebook Chub, hoặc một nhân vật RisuRealm có kèm theo. Cuốn sách mà tác giả để riêng tư thì không ai tải được, nên nếu thẻ liệt kê ba mà chỉ về một, hai cuốn kia là lựa chọn của tác giả; phần nhập sẽ nêu tên chúng thay vì lặng lẽ nhập ít hơn.",
       "TH_SETTING": "Cài đặt",
       "TH_RANGE": "Khoảng",
       "TH_EFFECT": "Tác dụng",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "Trao đổi tương thích OpenRouter với khối mở rộng không mất mát.",
       "X_ST": "Chuyển chat đến hoặc từ SillyTavern.",
       "H_ENTITIES": "Khả năng chuyển thực thể",
-      "P_ENTITIES_1": "Nhân vật xuất dưới dạng png, charx, voxta hoặc json; sổ tri thức theo định dạng SillyTavern, Agnai, Risu hoặc CCv3; preset và thẻ dưới dạng JSON. Nhập chấp nhận cùng các định dạng.",
+      "P_ENTITIES_1": "Nhân vật xuất ra png, charx, voxta hoặc json; lorebook theo định dạng SillyTavern, Agnai, Risu hoặc CCv3; preset và card dạng JSON. Nhập vào chấp nhận cùng các định dạng đó, và nhân vật, lorebook cùng persona còn nhập được từ liên kết.",
       "P_ENTITIES_2": "Mỗi danh sách thực thể có nhân bản một cú nhấp, tạo bản sao với hậu tố Bản sao; bản nhân của sổ tri thức sao chép sâu các mục của chúng.",
       "H_INSPECT": "Kiểm tra yêu cầu",
       "P_INSPECT_1": "Nhật ký yêu cầu lưu một ảnh chụp gỡ lỗi theo từng yêu cầu: prompt lắp ráp, số đếm token, chi phí, và những tham số nào nhà cung cấp đã bỏ. Mở nó từ menu tin nhắn.",
       "P_INSPECT_2": "Chạy khan lắp ráp prompt đầy đủ mà không gọi mô hình, miễn phí: cách nhanh nhất để kiểm tra một mẫu, sổ tri thức hay kịch bản thực sự tạo ra gì.",
       "H_DB": "Cơ sở dữ liệu cục bộ",
       "P_DB_1": "Mọi dữ liệu chat sống trong một cơ sở dữ liệu SQLite ở kho lưu riêng tư của trình duyệt, theo từng tài khoản. Studio DB tích hợp có thể duyệt bảng, tải toàn bộ tệp cơ sở dữ liệu, và nhập lại một tệp.",
-      "P_DB_2": "Nhập đối chiếu với lược đồ hiện tại và ánh xạ lại quyền sở hữu, nên một bản sao lưu từ tài khoản khác hoặc phiên bản cũ được khôi phục sạch sẽ. Khách có cùng cơ sở dữ liệu cục bộ; không có gì cần tài khoản."
+      "P_DB_2": "Việc nhập sẽ đối chiếu với lược đồ hiện tại, nên bản sao lưu từ phiên bản cũ vẫn khôi phục sạch sẽ. Mỗi thiết bị có một cơ sở dữ liệu cục bộ và khách cũng dùng chung; không cần tài khoản."
     },
     "BACKUPS": {
       "META": {

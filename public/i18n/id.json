@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Setiap karakter membawa skrip pemicu, pemicu giliran, dan skrip regex sendiri, sehingga kartu dapat membawa otomasinya sendiri. Cara kerjanya lihat bagian Skrip.",
       "P_BEHAVIOR_2": "Dalam chat grup, selalu aktif menentukan apakah blok karakter selalu ada di prompt atau hanya saat ia berbicara atau disebut; pencocokan kata utuh memperketat deteksi nama. Default upaya penalaran per karakter berlaku saat model mendukungnya.",
       "H_IMPORT": "Impor",
-      "P_IMPORT_1": "Impor kartu PNG (spesifikasi v2 dan v3), arsip CHARX, dan JSON polos. Jatuhkan berkas ke halaman karakter atau pakai tombol impor; avatar dan sapaan tertanam ikut serta.",
+      "P_IMPORT_1": "Impor kartu PNG (spec v2 dan v3), arsip CHARX, dan JSON biasa. Seret berkas ke halaman karakter atau gunakan tombol impor; avatar dan sapaan yang tertanam ikut serta. Impor dari tautan menerima alamat JanitorAI, Chub, dan RisuRealm, serta membawa lorebook apa pun yang disertakan kartu.",
       "P_IMPORT_2": "Kartu dari SillyTavern, RisuAI, dan situs kartu bekerja apa adanya. Bidang tambahan tak dikenal dipertahankan bila spesifikasi mengizinkan, agar ekspor berikutnya tidak kehilangannya.",
+      "P_IMPORT_REQUEST": "Ada situs yang belum didukung? Tanyakan di Discord dengan tautan ke satu karakter atau lorebook publik di sana, karena itulah yang dibutuhkan untuk menguji apakah bisa diambil. Setiap sumber di atas ditambahkan karena ada yang meminta.",
       "H_EXPORT": "Ekspor",
       "P_EXPORT_1": "Ekspor karakter mana pun dalam empat format:",
       "TH_FORMAT": "Format",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Persona bawaan",
       "P_DEFAULT_1": "Tandai satu persona sebagai bawaan dan setiap chat baru mulai dengannya. Anda tetap bisa menukarnya per percakapan di laci pengaturan, dan loadout bisa menyematkan yang lain.",
       "H_IMPORT": "Impor",
-      "P_IMPORT_1": "Persona diimpor dari berkas persona yang diekspor frontend lain. Menggandakan persona yang ada sering jadi cara tercepat membuat varian."
+      "P_IMPORT_1": "Persona diimpor dari berkas yang diekspor frontend lain, atau dari tautan LoreBary. Menduplikasi persona yang ada biasanya cara tercepat membuat varian."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Editor entri lorebook dengan konten, kunci aktivasi, sakelar, serta kolom urutan sisip dan prioritas",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Pengetahuan dunia yang muncul di prompt tepat saat relevan.",
       "H_BOOKS": "Buku",
       "P_BOOKS_1": "Lorebook adalah kumpulan entri ditambah pengaturan pemindaian. Lampirkan berapa pun buku ke sebuah percakapan; semua buku terlampir dipindai bersama sebagai satu kolam.",
+      "P_BOOKS_IMPORT": "Lorebook diimpor dari berkas atau dari tautan: skrip JanitorAI, lorebook Chub, atau karakter RisuRealm yang menyertakannya. Buku yang dirahasiakan penulis tidak bisa diunduh siapa pun, jadi jika kartu mencantumkan tiga dan yang datang satu, dua sisanya adalah pilihan penulis; impor menyebut namanya alih-alih diam-diam mengambil lebih sedikit.",
       "TH_SETTING": "Pengaturan",
       "TH_RANGE": "Rentang",
       "TH_EFFECT": "Efek",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "Pertukaran kompatibel OpenRouter dengan blok ekstensi tanpa kehilangan.",
       "X_ST": "Memindah chat ke atau dari SillyTavern.",
       "H_ENTITIES": "Portabilitas entitas",
-      "P_ENTITIES_1": "Karakter diekspor sebagai png, charx, voxta, atau json; lorebook dalam format SillyTavern, Agnai, Risu, atau CCv3; preset dan kartu sebagai JSON. Impor menerima format yang sama.",
+      "P_ENTITIES_1": "Karakter diekspor sebagai png, charx, voxta, atau json; lorebook dalam format SillyTavern, Agnai, Risu, atau CCv3; preset dan card sebagai JSON. Impor menerima format yang sama, dan karakter, lorebook, serta persona juga bisa diimpor dari tautan.",
       "P_ENTITIES_2": "Setiap daftar entitas punya penggandaan satu klik, yang mengkloning dengan akhiran Salinan; gandaan lorebook menyalin entri mereka secara mendalam.",
       "H_INSPECT": "Memeriksa permintaan",
       "P_INSPECT_1": "Log permintaan menyimpan cuplikan awakutu per permintaan: prompt rakitan, hitungan token, biaya, dan parameter mana yang dibuang penyedia. Buka dari menu pesan.",
       "P_INSPECT_2": "Dry-run merakit prompt lengkap tanpa memanggil model, gratis: cara tercepat memeriksa apa yang sebenarnya dihasilkan templat, lorebook, atau skrip.",
       "H_DB": "Basis data lokal",
       "P_DB_1": "Semua data chat hidup di basis data SQLite di penyimpanan privat peramban, per akun. Studio DB bawaan bisa menjelajah tabel, mengunduh seluruh berkas basis data, dan mengimpor satu kembali.",
-      "P_DB_2": "Impor merujukkan dengan skema saat ini dan memetakan ulang kepemilikan, jadi cadangan dari akun lain atau versi lama dipulihkan dengan bersih. Tamu punya basis data lokal yang sama; tak ada yang memerlukan akun."
+      "P_DB_2": "Impor direkonsiliasi ke skema saat ini, sehingga cadangan dari versi lama pulih dengan bersih. Ada satu basis data lokal per perangkat dan tamu ikut memakainya; tidak perlu akun."
     },
     "BACKUPS": {
       "META": {

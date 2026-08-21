@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Ogni personaggio porta i propri script trigger, trigger di turno e script regex, quindi una scheda può includere la propria automazione. Vedi la sezione Scripting per come funzionano.",
       "P_BEHAVIOR_2": "Nelle chat di gruppo, sempre attivo decide se il blocco del personaggio sta sempre nel prompt o solo quando parla o viene menzionato; parole intere restringe il riconoscimento dei nomi. Lo sforzo di ragionamento predefinito per personaggio vale quando il modello lo supporta.",
       "H_IMPORT": "Importazione",
-      "P_IMPORT_1": "Importa schede PNG (specifiche v2 e v3), archivi CHARX e JSON puro. Trascina il file sulla pagina dei personaggi o usa il pulsante di importazione; avatar e saluti incorporati arrivano insieme.",
+      "P_IMPORT_1": "Importa schede PNG (spec v2 e v3), archivi CHARX e JSON semplice. Trascina il file sulla pagina dei personaggi o usa il pulsante di importazione; avatar e messaggi iniziali incorporati vengono inclusi. L'importazione da link accetta indirizzi JanitorAI, Chub e RisuRealm e porta con sé i lorebook della scheda.",
       "P_IMPORT_2": "Le schede di SillyTavern, RisuAI e dei siti hub funzionano così come sono. I campi extra sconosciuti vengono conservati dove la specifica lo consente, così un'esportazione successiva non li perde.",
+      "P_IMPORT_REQUEST": "Manca un sito? Chiedilo su Discord allegando il link a un personaggio o lorebook pubblico di quel sito: è ciò che serve per verificare se è scaricabile. Ogni fonte qui sopra è stata aggiunta perché qualcuno l'ha chiesta.",
       "H_EXPORT": "Esportazione",
       "P_EXPORT_1": "Esporta ogni personaggio in quattro formati:",
       "TH_FORMAT": "Formato",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Persona predefinita",
       "P_DEFAULT_1": "Segna una persona come predefinita e ogni nuova chat partirà con lei. Puoi comunque cambiarla per conversazione nel pannello delle impostazioni, e il loadout può fissarne un'altra.",
       "H_IMPORT": "Importazione",
-      "P_IMPORT_1": "Le persona si importano dai file esportati da altri frontend. Duplicare una persona esistente è spesso il modo più rapido per crearne una variante."
+      "P_IMPORT_1": "Le persona si importano da file esportati da altri frontend o da un link LoreBary. Duplicare una persona esistente è spesso il modo più rapido per crearne una variante."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Editor delle voci del lorebook con contenuto, chiavi di attivazione, interruttori e campi di ordine di inserimento e priorità",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Il sapere del mondo che compare nel prompt esattamente quando serve.",
       "H_BOOKS": "Libri",
       "P_BOOKS_1": "Un lorebook è una raccolta di voci più impostazioni di scansione. Collega a una conversazione quanti libri vuoi; tutti i libri collegati vengono scansionati insieme come un unico insieme.",
+      "P_BOOKS_IMPORT": "I lorebook si importano da un file o da un link: uno script JanitorAI, un lorebook Chub o un personaggio RisuRealm che ne include uno. Un libro mantenuto privato dall'autore non è scaricabile da nessuno, quindi se una scheda ne elenca tre e ne arriva uno, gli altri due erano una scelta dell'autore; l'importazione li nomina invece di importarne meno in silenzio.",
       "TH_SETTING": "Impostazione",
       "TH_RANGE": "Intervallo",
       "TH_EFFECT": "Effetto",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "Interscambio compatibile OpenRouter con blocco di estensione senza perdite.",
       "X_ST": "Spostare chat da o verso SillyTavern.",
       "H_ENTITIES": "Portabilità delle entità",
-      "P_ENTITIES_1": "I personaggi si esportano come png, charx, voxta o json; i lorebook nei formati SillyTavern, Agnai, Risu o CCv3; preset e carte come JSON. L'importazione accetta gli stessi formati.",
+      "P_ENTITIES_1": "I personaggi si esportano in png, charx, voxta o json; i lorebook nei formati SillyTavern, Agnai, Risu o CCv3; preset e card in JSON. L'importazione accetta gli stessi formati, e personaggi, lorebook e persona si importano anche da un link.",
       "P_ENTITIES_2": "Ogni elenco di entità ha la duplicazione a un clic, che clona con suffisso Copia; i duplicati dei lorebook copiano in profondità le loro voci.",
       "H_INSPECT": "Ispezionare le richieste",
       "P_INSPECT_1": "Il registro richieste conserva un'istantanea di debug per richiesta: il prompt assemblato, i conteggi di token, il costo e quali parametri il fornitore ha scartato. Aprilo dal menu del messaggio.",
       "P_INSPECT_2": "La prova a vuoto assembla il prompt completo senza chiamare il modello, gratis: il modo più rapido per verificare cosa produce davvero un modello di prompt, un lorebook o uno script.",
       "H_DB": "Database locale",
       "P_DB_1": "Tutti i dati della chat vivono in un database SQLite nello spazio privato del browser, per account. Lo studio DB integrato sfoglia le tabelle, scarica l'intero file del database e ne reimporta uno.",
-      "P_DB_2": "L'importazione si riconcilia con lo schema corrente e riassegna la proprietà, così un backup di un altro account o di una versione precedente si ripristina in modo pulito. Gli ospiti hanno lo stesso database locale; nulla richiede un account."
+      "P_DB_2": "L'importazione si riconcilia con lo schema corrente, quindi un backup di una versione precedente si ripristina senza problemi. C'è un database locale per dispositivo, condiviso anche dagli ospiti; nessun account è necessario."
     },
     "BACKUPS": {
       "META": {

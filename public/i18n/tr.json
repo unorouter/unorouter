@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Her karakter kendi tetikleyici betiklerini, tur tetikleyicilerini ve regex betiklerini taşır; yani bir kart kendi otomasyonuyla gelebilir. Nasıl çalıştıkları Betikler bölümünde.",
       "P_BEHAVIOR_2": "Grup sohbetlerinde her zaman etkin, karakter bloğunun prompt'ta sürekli mi yoksa yalnızca konuşurken veya anıldığında mı yer alacağını belirler; tam sözcük eşleşmesi ad algılamayı sıkılaştırır. Model destekliyorsa karakter bazlı akıl yürütme çabası varsayılanı uygulanır.",
       "H_IMPORT": "İçe aktarma",
-      "P_IMPORT_1": "PNG kartları (v2 ve v3 belirtimleri), CHARX arşivlerini ve düz JSON'u içe aktar. Dosyayı karakterler sayfasına bırak veya içe aktar düğmesini kullan; gömülü avatarlar ve açılışlar birlikte gelir.",
+      "P_IMPORT_1": "PNG kartları (spec v2 ve v3), CHARX arşivleri ve düz JSON içe aktarın. Dosyayı karakterler sayfasına sürükleyin veya içe aktar düğmesini kullanın; gömülü avatarlar ve karşılama mesajları da gelir. Bağlantıdan içe aktarma JanitorAI, Chub ve RisuRealm adreslerini kabul eder ve kartla gelen lorebook'ları da getirir.",
       "P_IMPORT_2": "SillyTavern, RisuAI ve kart sitelerinden gelen kartlar olduğu gibi çalışır. Bilinmeyen ek alanlar, belirtim izin verdiği yerde korunur; böylece sonraki bir dışa aktarma onları kaybetmez.",
+      "P_IMPORT_REQUEST": "Eksik bir site mi var? Discord'da sorun ve oradaki herkese açık bir karakterin ya da lorebook'un bağlantısını ekleyin; alınıp alınamayacağını denemek için gereken tam olarak budur. Yukarıdaki her kaynak biri istediği için eklendi.",
       "H_EXPORT": "Dışa aktarma",
       "P_EXPORT_1": "Her karakteri dört biçimde dışa aktar:",
       "TH_FORMAT": "Biçim",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Varsayılan persona",
       "P_DEFAULT_1": "Bir personayı varsayılan yap, her yeni sohbet onunla başlasın. Ayarlar panelinden konuşma bazında yine değiştirebilirsin; loadout da farklı birini sabitleyebilir.",
       "H_IMPORT": "İçe aktarma",
-      "P_IMPORT_1": "Personalar, diğer ön yüzlerin dışa aktardığı persona dosyalarından içe aktarılır. Mevcut bir personayı çoğaltmak, varyant oluşturmanın çoğu zaman en hızlı yoludur."
+      "P_IMPORT_1": "Personalar diğer arayüzlerin dışa aktardığı dosyalardan veya bir LoreBary bağlantısından içe aktarılır. Mevcut bir personayı çoğaltmak, varyant oluşturmanın genellikle en hızlı yoludur."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "İçerik, etkinleştirme anahtarları, anahtarlar ile ekleme sırası ve öncelik alanlarına sahip lorebook girdisi düzenleyici",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Tam da gerektiği anda prompt'ta beliren dünya bilgisi.",
       "H_BOOKS": "Kitaplar",
       "P_BOOKS_1": "Lorebook, girdiler artı tarama ayarlarından oluşan bir koleksiyondur. Bir konuşmaya istediğin kadar kitap bağla; bağlı tüm kitaplar tek havuz olarak birlikte taranır.",
+      "P_BOOKS_IMPORT": "Lorebook'lar bir dosyadan ya da bağlantıdan içe aktarılır: JanitorAI betiği, Chub lorebook'u veya bir tane getiren RisuRealm karakteri. Yazarın gizli tuttuğu bir kitabı kimse indiremez; bir kart üç tane listeliyor ve bir tanesi geliyorsa diğer ikisi yazarın tercihiydi. İçe aktarma daha azını sessizce almak yerine eksik olanları adlarıyla bildirir.",
       "TH_SETTING": "Ayar",
       "TH_RANGE": "Aralık",
       "TH_EFFECT": "Etki",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "Kayıpsız uzantı bloklu, OpenRouter uyumlu değişim.",
       "X_ST": "Sohbetleri SillyTavern'e veya SillyTavern'den taşıma.",
       "H_ENTITIES": "Varlık taşınabilirliği",
-      "P_ENTITIES_1": "Karakterler png, charx, voxta veya json olarak; lorebook'lar SillyTavern, Agnai, Risu veya CCv3 biçimlerinde; ön ayarlar ve kartlar JSON olarak dışa aktarılır. İçe aktarma aynı biçimleri kabul eder.",
+      "P_ENTITIES_1": "Karakterler png, charx, voxta veya json olarak; lorebook'lar SillyTavern, Agnai, Risu veya CCv3 biçimlerinde; ön ayarlar ve kartlar JSON olarak dışa aktarılır. İçe aktarma aynı biçimleri kabul eder; karakterler, lorebook'lar ve personalar ayrıca bağlantıdan da içe aktarılır.",
       "P_ENTITIES_2": "Her varlık listesinde tek tıkla çoğaltma vardır; Kopya son ekiyle klonlar, lorebook kopyaları girdilerini derinlemesine kopyalar.",
       "H_INSPECT": "İstekleri inceleme",
       "P_INSPECT_1": "İstek günlüğü, istek başına bir hata ayıklama anlık görüntüsü tutar: birleştirilmiş prompt, token sayıları, maliyet ve sağlayıcının hangi parametreleri attığı. Mesaj menüsünden aç.",
       "P_INSPECT_2": "Kuru çalıştırma, modeli çağırmadan tam prompt'u ücretsiz birleştirir: bir şablonun, lorebook'un veya betiğin gerçekte ne ürettiğini görmenin en hızlı yolu.",
       "H_DB": "Yerel veritabanı",
       "P_DB_1": "Tüm sohbet verisi, hesabına özel olarak tarayıcının özel deposundaki bir SQLite veritabanında yaşar. Yerleşik veritabanı stüdyosu tabloları gezer, tüm veritabanı dosyasını indirir ve bir tanesini geri içe aktarır.",
-      "P_DB_2": "İçe aktarma geçerli şemayla uzlaşır ve sahipliği yeniden eşler; başka hesaptan veya eski sürümden bir yedek temiz biçimde geri yüklenir. Misafirlerin de aynı yerel veritabanı vardır; hiçbir şey hesap gerektirmez."
+      "P_DB_2": "İçe aktarma verileri güncel şemayla uzlaştırır, bu yüzden eski bir sürümün yedeği sorunsuz geri yüklenir. Cihaz başına tek bir yerel veritabanı vardır ve misafirler de onu kullanır; hesap gerekmez."
     },
     "BACKUPS": {
       "META": {

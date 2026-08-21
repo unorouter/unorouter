@@ -19,6 +19,7 @@ export async function LorebooksContent() {
     <>
       <DocSection id="books" title={k("H_BOOKS")}>
         <p>{k("P_BOOKS_1")}</p>
+        <p>{k("P_BOOKS_IMPORT")}</p>
         <DocTable
           headers={[k("TH_SETTING"), k("TH_RANGE"), k("TH_EFFECT")]}
           rows={[

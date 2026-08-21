@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Jeder Charakter trägt eigene Trigger-Skripte, Turn-Trigger und Regex-Skripte, eine Karte kann also ihre eigene Automatisierung mitbringen. Wie diese laufen, steht im Abschnitt Scripting.",
       "P_BEHAVIOR_2": "In Gruppenchats steuert immer aktiv, ob der Block des Charakters dauerhaft im Prompt steht oder nur, wenn der Charakter spricht oder erwähnt wird; ganze Wörter abgleichen verschärft die Namenserkennung. Ein Standard für den Reasoning-Aufwand pro Charakter greift, wenn das Modell ihn unterstützt.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Importiere PNG-Karten (Spezifikation v2 und v3), CHARX-Archive und reines JSON. Ziehe die Datei auf die Charakterseite oder nutze den Import-Button; eingebettete Avatare und Begrüßungen kommen mit.",
+      "P_IMPORT_1": "Importiere PNG-Karten (Spec v2 und v3), CHARX-Archive und einfaches JSON. Zieh die Datei auf die Charakterseite oder nutze den Import-Button; eingebettete Avatare und Begrüßungen kommen mit. Per Link importieren akzeptiert JanitorAI-, Chub- und RisuRealm-Adressen und bringt alle Lorebooks der Karte mit.",
       "P_IMPORT_2": "Karten aus SillyTavern, RisuAI und von Hub-Seiten funktionieren unverändert. Unbekannte Zusatzfelder bleiben erhalten, soweit die Spezifikation es erlaubt, damit ein späterer Export nichts verliert.",
+      "P_IMPORT_REQUEST": "Fehlt eine Seite? Frag auf Discord und häng den Link zu einem öffentlichen Charakter oder Lorebook dort an; genau das braucht es, um zu prüfen, ob sich etwas abrufen lässt. Jede Quelle oben kam zustande, weil jemand gefragt hat.",
       "H_EXPORT": "Export",
       "P_EXPORT_1": "Exportiere jeden Charakter in vier Formaten:",
       "TH_FORMAT": "Format",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Standard-Persona",
       "P_DEFAULT_1": "Markiere eine Persona als Standard, und jeder neue Chat startet mit ihr. Pro Gespräch kannst du im Einstellungs-Drawer weiterhin wechseln, und das Loadout kann eine andere festpinnen.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Personas lassen sich aus Persona-Dateien anderer Frontends importieren. Eine bestehende Persona zu duplizieren ist oft der schnellste Weg zu einer Variante."
+      "P_IMPORT_1": "Personas lassen sich aus Persona-Dateien anderer Frontends oder über einen LoreBary-Link importieren. Eine bestehende Persona zu duplizieren ist oft der schnellste Weg zu einer Variante."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Lorebook-Eintragseditor mit Inhalt, Aktivierungsschlüsseln, Schaltern sowie Einfügereihenfolge und Priorität",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "Weltwissen, das genau dann im Prompt erscheint, wenn es relevant ist.",
       "H_BOOKS": "Bücher",
       "P_BOOKS_1": "Ein Lorebook ist eine Sammlung von Einträgen plus Scan-Einstellungen. Hänge beliebig viele Bücher an ein Gespräch; alle angehängten Bücher scannen gemeinsam als ein Pool.",
+      "P_BOOKS_IMPORT": "Lorebooks lassen sich aus einer Datei oder per Link importieren: ein JanitorAI-Skript, ein Chub-Lorebook oder ein RisuRealm-Charakter, der eines mitbringt. Ein Buch, das der Autor privat gehalten hat, kann niemand herunterladen; listet eine Karte also drei und es kommt eines an, war das die Entscheidung des Autors. Der Import nennt die fehlenden, statt stillschweigend weniger zu importieren.",
       "TH_SETTING": "Einstellung",
       "TH_RANGE": "Bereich",
       "TH_EFFECT": "Wirkung",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "OpenRouter-kompatibler Austausch mit verlustfreiem Erweiterungsblock.",
       "X_ST": "Chats von oder nach SillyTavern umziehen.",
       "H_ENTITIES": "Portabilität von Entitäten",
-      "P_ENTITIES_1": "Charaktere exportieren als png, charx, voxta oder json; Lorebooks in den Formaten SillyTavern, Agnai, Risu oder CCv3; Presets und Karten als JSON. Der Import akzeptiert dieselben Formate.",
+      "P_ENTITIES_1": "Charaktere exportieren als png, charx, voxta oder json; Lorebooks als SillyTavern, Agnai, Risu oder CCv3; Presets und Karten als JSON. Importe akzeptieren dieselben Formate, und Charaktere, Lorebooks und Personas lassen sich zusätzlich per Link importieren.",
       "P_ENTITIES_2": "Jede Entitätenliste hat Ein-Klick-Duplizieren, das mit Kopie-Suffix klont; Lorebook-Duplikate kopieren ihre Einträge tief mit.",
       "H_INSPECT": "Anfragen inspizieren",
       "P_INSPECT_1": "Das Anfrageprotokoll speichert pro Anfrage einen Debug-Schnappschuss: den zusammengesetzten Prompt, Token-Zahlen, Kosten und welche Parameter der Anbieter verworfen hat. Öffne es über das Nachrichtenmenü.",
       "P_INSPECT_2": "Der Probelauf setzt den vollständigen Prompt zusammen, ohne das Modell aufzurufen, kostenlos: der schnellste Weg zu prüfen, was eine Vorlage, ein Lorebook oder ein Skript tatsächlich erzeugt.",
       "H_DB": "Lokale Datenbank",
       "P_DB_1": "Alle Chatdaten liegen in einer SQLite-Datenbank im privaten Speicher deines Browsers, pro Konto. Das eingebaute DB-Studio kann Tabellen durchsuchen, die gesamte Datenbankdatei herunterladen und eine wieder importieren.",
-      "P_DB_2": "Der Import gleicht mit dem aktuellen Schema ab und ordnet die Besitzerschaft neu zu, ein Backup aus einem anderen Konto oder einer älteren Version stellt sich also sauber wieder her. Gäste haben dieselbe lokale Datenbank; nichts erfordert ein Konto."
+      "P_DB_2": "Der Import gleicht auf das aktuelle Schema ab, sodass ein Backup einer älteren Version sauber zurückkommt. Es gibt eine lokale Datenbank pro Gerät, die auch Gäste nutzen; ein Konto ist nicht nötig."
     },
     "BACKUPS": {
       "META": {

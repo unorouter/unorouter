@@ -5040,8 +5040,9 @@
       "P_BEHAVIOR_1": "Each character carries its own trigger scripts, turn triggers, and regex scripts, so a card can ship its own automation. See the Scripting section for how these run.",
       "P_BEHAVIOR_2": "In group chats, always active controls whether the character's block is always in the prompt or only when the character is talking or mentioned; match whole words tightens name-mention detection. A per-character reasoning effort default applies when the model supports it.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Import PNG cards (spec v2 and v3), CHARX archives, and plain JSON. Drop the file on the characters page or use the import button; embedded avatars and greetings come along.",
+      "P_IMPORT_1": "Import PNG cards (spec v2 and v3), CHARX archives, and plain JSON. Drop the file on the characters page or use the import button; embedded avatars and greetings come along. Import from link accepts JanitorAI, Chub and RisuRealm URLs, and brings any lorebooks the card ships with.",
       "P_IMPORT_2": "Cards from SillyTavern, RisuAI, and hub sites work as-is. Unknown extra fields are preserved where the spec allows so a later export does not lose them.",
+      "P_IMPORT_REQUEST": "Missing a site? Ask on Discord with a link to one public character or lorebook there, which is what is needed to check whether it can be fetched at all. Every source above was added because someone asked.",
       "H_EXPORT": "Export",
       "P_EXPORT_1": "Export any character in four formats:",
       "TH_FORMAT": "Format",
@@ -5066,7 +5067,7 @@
       "H_DEFAULT": "Default persona",
       "P_DEFAULT_1": "Mark one persona as default and every new chat starts with it. You can still swap personas per conversation in the settings drawer, and the loadout can pin a different one.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": "Personas import from persona files exported by other frontends. Duplicating an existing persona is often the fastest way to create a variant."
+      "P_IMPORT_1": "Personas import from persona files exported by other frontends, or from a LoreBary link. Duplicating an existing persona is often the fastest way to create a variant."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Lorebook entry editor with content, activation keys, toggles, and insert order and priority fields",
@@ -5079,6 +5080,7 @@
       "SUBTITLE": "World knowledge that appears in the prompt exactly when it is relevant.",
       "H_BOOKS": "Books",
       "P_BOOKS_1": "A lorebook is a collection of entries plus scan settings. Attach any number of books to a conversation; all attached books scan together as one pool.",
+      "P_BOOKS_IMPORT": "Lorebooks import from a file or from a link: a JanitorAI script, a Chub lorebook, or a RisuRealm character that ships one. A book the author kept private cannot be downloaded by anyone, so if a card lists three and one arrives, the other two were the author's choice; the import names them rather than quietly importing fewer.",
       "TH_SETTING": "Setting",
       "TH_RANGE": "Range",
       "TH_EFFECT": "Effect",
@@ -5388,14 +5390,14 @@
       "X_ORPG": "OpenRouter-compatible interchange with a lossless extension block.",
       "X_ST": "Moving chats to or from SillyTavern.",
       "H_ENTITIES": "Entity portability",
-      "P_ENTITIES_1": "Characters export as png, charx, voxta, or json; lorebooks as SillyTavern, Agnai, Risu, or CCv3 formats; presets and cards as JSON. Imports accept the same formats.",
+      "P_ENTITIES_1": "Characters export as png, charx, voxta, or json; lorebooks as SillyTavern, Agnai, Risu, or CCv3 formats; presets and cards as JSON. Imports accept the same formats, and characters, lorebooks and personas also import from a link.",
       "P_ENTITIES_2": "Every entity list has one-click duplicate, which clones with a Copy suffix; lorebook duplicates deep-copy their entries.",
       "H_INSPECT": "Inspecting requests",
       "P_INSPECT_1": "The request log stores a debug snapshot per request: the assembled prompt, token counts, cost, and which parameters the provider dropped. Open it from the message menu.",
       "P_INSPECT_2": "Dry-run assembles the full prompt without calling the model, free of charge: the fastest way to check what a template, lorebook, or script actually produces.",
       "H_DB": "Local database",
       "P_DB_1": "All chat data lives in a SQLite database in your browser's private storage, per account. The built-in DB studio can browse tables, download the whole database file, and import one back.",
-      "P_DB_2": "Import reconciles into the current schema and re-maps ownership, so a backup from another account or an older version restores cleanly. Guests have the same local database; nothing requires an account."
+      "P_DB_2": "Import reconciles into the current schema, so a backup from an older version restores cleanly. There is one local database per device and guests share it; nothing requires an account."
     },
     "BACKUPS": {
       "META": {
