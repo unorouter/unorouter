@@ -244,6 +244,10 @@ export function buildDebugSnapshot(
   modelInfo?: PricingCatalogDetail,
   historyStats?: Record<string, unknown>,
   tokenizer?: { source: string; exact: boolean },
+  wire?: {
+    modelParams: Record<string, unknown>;
+    providerOptions: Record<string, unknown>;
+  },
 ) {
   const ctx = body.chatContext;
   const leanMessages = messagesForUpstream.map((m) => ({
@@ -254,6 +258,17 @@ export function buildDebugSnapshot(
   return {
     // Every knob that shapes the request, so a quality report can be diagnosed
     // from the export alone instead of asking the user to recite settings.
+    // What the request actually carries, after the model's supported-parameter
+    // strip. `settings.sampling` below is what the user configured, and the two
+    // differ exactly when a rejection needs explaining.
+    sent: wire
+      ? {
+          modelParams: wire.modelParams,
+          providerOptions:
+            (wire.providerOptions[CHAT_PROVIDER_NAME] as
+              Record<string, unknown> | undefined) ?? {},
+        }
+      : null,
     settings: {
       sampling: assembled?.sampling,
       flags: assembled?.flags,

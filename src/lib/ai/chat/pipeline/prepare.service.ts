@@ -116,22 +116,29 @@ export async function prepareChatRequest(
     prompt.globalVarsIn,
   );
 
+  // Built once so the debug snapshot records what actually goes on the wire.
+  // The preset sampling above is what the user chose; these are what survived
+  // the model's supported-parameter strip, and a rejected request is explained
+  // by the second, not the first.
+  const wireModelParams = buildModelParams(
+    prompt.assembled,
+    prompt.effectiveMaxOutputTokens,
+    modelInfo,
+  );
+  const wireProviderOptions = buildProviderOptions(
+    prompt.assembled,
+    autoFlags,
+    modelInfo,
+  );
+
   return {
     modelInfo,
     estimateCost: makeCostEstimator(modelInfo),
     effectiveWebSearch,
     effectiveSystem,
     messagesForUpstream,
-    modelParams: buildModelParams(
-      prompt.assembled,
-      prompt.effectiveMaxOutputTokens,
-      modelInfo,
-    ),
-    providerOptions: buildProviderOptions(
-      prompt.assembled,
-      autoFlags,
-      modelInfo,
-    ),
+    modelParams: wireModelParams,
+    providerOptions: wireProviderOptions,
     streamingEnabled: prompt.assembled.streamingEnabled,
     memory: prompt.memory,
     varsWriteback,
@@ -146,6 +153,7 @@ export async function prepareChatRequest(
       modelInfo,
       prompt.historyStats,
       tokenizerState,
+      { modelParams: wireModelParams, providerOptions: wireProviderOptions },
     ),
     bodyMutations: buildBodyMutations(
       prompt.assembled,
