@@ -57,6 +57,7 @@ export async function CharactersContent() {
       <DocSection id="import" title={k("H_IMPORT")}>
         <p>{k("P_IMPORT_1")}</p>
         <p>{k("P_IMPORT_2")}</p>
+        <p>{k("P_IMPORT_REQUEST")}</p>
       </DocSection>
       <DocSection id="export" title={k("H_EXPORT")}>
         <p>{k("P_EXPORT_1")}</p>
