@@ -13,14 +13,14 @@ import {
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
+import type { TableFeats } from "@/lib/config/table-features";
 import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
-import { StackedCell } from "./cell-primitives";
 import type { CellContext } from "@tanstack/react-table";
-import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import { toast } from "sonner";
+import { StackedCell } from "./cell-primitives";
 import {
   computeLogPricing,
   formatPriceCompact,
@@ -150,7 +150,14 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
       (m) => m.model_name === log.model_name,
     )?.vendor ?? log.model_name;
   const other = parseOther(log.other);
-  const upstream = other?.is_model_mapped ? other?.upstream_model_name : null;
+  const mapped = other?.is_model_mapped
+    ? other?.upstream_model_name
+    : undefined;
+  // Nearly every free model maps to its own name minus the suffix, so the
+  // subline restated the row above it. Keep it only where the upstream is a
+  // genuinely different model (nvidia/nemotron-..., poolside/laguna-...).
+  const upstream =
+    mapped && mapped !== log.model_name.replace(/:free$/, "") ? mapped : null;
 
   const primary = (
     <TooltipProvider>
@@ -326,6 +333,12 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   return <StackedCell primary={primary} secondary={secondary} />;
 }
 
+// Six decimals is what a fraction-of-a-cent row needs, but free rows are most
+// of the table and "$0.000000" is eight characters of nothing on every one.
+function formatLogSpend(quota: number | undefined) {
+  return quota ? renderQuota(quota, 6) : "$0";
+}
+
 export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
@@ -342,7 +355,7 @@ export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
   if (!isSubscription) {
     return (
       <span className="font-mono text-xs font-medium tabular-nums">
-        {renderQuota(log.quota, 6)}
+        {formatLogSpend(log.quota)}
       </span>
     );
   }
@@ -426,6 +439,12 @@ export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
     const tierLabel = pricing.isTiered
       ? t("LOGS.PRICING.TIERED")
       : t("LOGS.PRICING.STANDARD");
+
+    // A free model prices at 0/0 on every row, so the cell would repeat
+    // "Standard - $0 / $0/M" down the whole table and say nothing.
+    if (!pricing.isTiered && !hasDiscount && !inputPrice && !outputPrice) {
+      return LOG_EMPTY;
+    }
 
     return (
       <span className="flex flex-col gap-0.5 font-mono text-[11px] leading-tight">
