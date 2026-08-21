@@ -16,7 +16,6 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
-  LogChannelCell,
   LogDetailsContext,
   LogExpandToggleCell,
   LogModelCell,
@@ -112,14 +111,6 @@ export function UsageLogs() {
       size: 180,
     },
     {
-      accessorKey: "channel",
-      meta: { title: msg("LOGS.TABLE.CHANNEL") },
-      header: t("LOGS.TABLE.CHANNEL"),
-      enableSorting: false,
-      cell: LogChannelCell,
-      size: 150,
-    },
-    {
       accessorKey: "username",
       meta: { title: msg("LOGS.TABLE.USER") },
       header: t("LOGS.TABLE.USER"),
@@ -141,7 +132,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.MODEL"),
       enableSorting: false,
       cell: LogModelCell,
-      size: 200,
+      size: 260,
     },
     {
       id: "stream",
@@ -169,7 +160,7 @@ export function UsageLogs() {
       header: t("LOGS.TABLE.SPEND"),
       enableSorting: false,
       cell: LogSpendCell,
-      size: 90,
+      size: 130,
     },
     {
       id: "timing",

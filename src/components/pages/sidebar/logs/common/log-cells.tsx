@@ -88,34 +88,6 @@ export function LogTimeCell(props: CellContext<TableFeats, LogRow>) {
   );
 }
 
-export function LogChannelCell(props: CellContext<TableFeats, LogRow>) {
-  const log = props.row.original;
-  if (!log.channel) {
-    return LOG_EMPTY;
-  }
-  const channelLabel = `#${log.channel}`;
-  const name = log.channel_name;
-  return (
-    <StackedCell
-      primary={
-        <code
-          className="w-fit rounded px-1.5 py-0.5 font-mono text-xs"
-          style={modelColorStyle(channelLabel)}
-        >
-          {channelLabel}
-        </code>
-      }
-      secondary={
-        name ? (
-          <span className="block max-w-40 truncate" title={name}>
-            {name}
-          </span>
-        ) : null
-      }
-    />
-  );
-}
-
 export function LogUserCell(props: CellContext<TableFeats, LogRow>) {
   const log = props.row.original;
   if (!log.username) {
@@ -186,11 +158,36 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
     </TooltipProvider>
   );
 
+  // The channel id rides along with the model rather than owning a column: on
+  // its own it was a bare "#8924" whose name (chat13-glm-5.2-free) restated the
+  // model beside it, so the pair cost two columns to say one thing.
+  const channelBadge = log.channel ? (
+    <code
+      className="flex min-w-0 items-center gap-1 rounded px-1 py-0.5 font-mono text-[10px]"
+      style={modelColorStyle(`#${log.channel}`)}
+      title={log.channel_name ?? undefined}
+    >
+      <span className="shrink-0">{`#${log.channel}`}</span>
+      {log.channel_name ? (
+        <span className="truncate opacity-70">{log.channel_name}</span>
+      ) : null}
+    </code>
+  ) : null;
+
   return (
     <StackedCell
       primary={primary}
       secondary={
-        upstream ? t("LOGS.MAPPED_VIA", { upstream: upstream as string }) : null
+        channelBadge || upstream ? (
+          <span className="flex min-w-0 items-center gap-1.5">
+            {channelBadge}
+            {upstream ? (
+              <span className="truncate">
+                {t("LOGS.MAPPED_VIA", { upstream: upstream as string })}
+              </span>
+            ) : null}
+          </span>
+        ) : null
       }
     />
   );
@@ -372,9 +369,10 @@ export function LogStreamCell(props: CellContext<TableFeats, LogRow>) {
 }
 
 // Six decimals is what a fraction-of-a-cent row needs, but free rows are most
-// of the table and "$0.000000" is eight characters of nothing on every one.
+// of the table and "0.000000" is seven characters of nothing on every one. The
+// currency symbol is rendered separately, so strip the one renderQuota adds.
 function formatLogSpend(quota: number | undefined) {
-  return quota ? renderQuota(quota, 6) : "$0";
+  return quota ? renderQuota(quota, 6).replace(/^\$/, "") : "0";
 }
 
 export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
@@ -392,8 +390,16 @@ export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
 
   if (!isSubscription) {
     return (
-      <span className="font-mono text-xs font-medium tabular-nums">
-        {formatLogSpend(log.quota)}
+      <span className="flex items-center gap-1">
+        <span className="border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center gap-1 rounded-md border px-2 font-mono text-xs leading-none font-semibold tabular-nums">
+          <span className="text-muted-foreground">{"$"}</span>
+          {formatLogSpend(log.quota)}
+        </span>
+        {!log.quota && (
+          <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
+            {t("MODELS.TABLE.FREE")}
+          </span>
+        )}
       </span>
     );
   }
