@@ -17,4 +17,15 @@ export default defineConfig({
     },
     hooks: { afterAllFilesWrite: "prettier --write" },
   },
+  // Only the OpenAPI document is published; /api/* answers 404 at the edge, so
+  // the client generated here is usable from inside the cluster only.
+  unoImport: {
+    input: "https://cards.unorouter.com/openapi/json",
+    output: {
+      target: "./src/lib/api/uno-import.ts",
+      client: "fetch",
+      override: { aliasCombinedTypes: true },
+    },
+    hooks: { afterAllFilesWrite: "prettier --write" },
+  },
 });

@@ -9,6 +9,7 @@ import {
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
+import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   base64ToUint8,
@@ -173,18 +174,77 @@ export function useImportCharacterCardMutation() {
   });
 }
 
+// A fetch drives a real browser and may rotate its VPN exit mid-job, so the
+// server hands back a job id and this polls it. The alternative, holding the
+// request open, turns a slow import into a browser timeout.
+const POLL_MS = 1500;
+const POLL_TIMEOUT_MS = 180_000;
+
 export function useImportCharacterFromUrlMutation() {
   return useApiMutation({
     mutationFn: async (input: string) => {
-      const data = handleElysia(
+      const job = handleElysia(
         await rpc.api.ai["character-cards"].import.post({ url: input }),
       );
-      const bytes = base64ToUint8(data.cardData);
-      const file = new File([new Uint8Array(bytes)], "card", {
-        type: data.mimeType,
-      });
-      return persistCharacterSetupFromFile(file);
+
+      const deadline = Date.now() + POLL_TIMEOUT_MS;
+      for (;;) {
+        if (Date.now() > deadline) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+        await new Promise((r) => setTimeout(r, POLL_MS));
+        const state = handleElysia(
+          await rpc.api.ai["character-cards"].import({ jobId: job.jobId }).get(),
+        );
+        if (state.status === "failed") {
+          throw new Error(state.error || msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+        }
+        if (state.status !== "done" || !state.result) continue;
+        return persistImportedCard(state.result);
+      }
     },
     invalidates: IMPORT_INVALIDATES,
   });
+}
+
+// The fetcher returns a card plus its lorebooks already normalised, so the card
+// goes through the same file path as a drag-and-drop import and the lorebooks
+// are attached afterwards rather than being re-parsed out of the PNG.
+async function persistImportedCard(result: {
+  card: { data?: Record<string, unknown> } & Record<string, unknown>;
+  lorebooks: Array<{
+    name: string;
+    scanDepth?: number;
+    entries: Array<Record<string, unknown>>;
+  }>;
+}) {
+  const json = JSON.stringify(result.card);
+  const file = new File([json], "card.json", { type: "application/json" });
+  const setup = await persistCharacterSetupFromFile(file);
+
+  const now = new Date().toISOString();
+  for (const book of result.lorebooks) {
+    if (book.entries.length === 0) continue;
+    const lorebookId = uid();
+    await upsertLocalLorebookBundle({
+      lorebook: {
+        id: lorebookId,
+        name: book.name,
+        description: null,
+        scanDepth: book.scanDepth ?? 4,
+        tokenBudget: 1500,
+        recursiveScanning: false,
+        createdAt: now,
+        updatedAt: now,
+      } as never,
+      entries: book.entries.map((e, i) => ({
+        ...e,
+        id: uid(),
+        lorebookId,
+        orderIndex: (e.orderIndex as number | undefined) ?? i,
+        injectionRole: "system" as const,
+        createdAt: now,
+        updatedAt: now,
+      })) as never,
+    });
+  }
+  return setup;
 }

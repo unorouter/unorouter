@@ -8,6 +8,10 @@ export const serverEnv = {
   internalApiUrl: process.env.INTERNAL_API_URL,
   // Cluster-internal Discord bot. Serves the live reward amounts; no public ingress.
   botInternalUrl: process.env.BOT_INTERNAL_URL ?? "http://unorouter-bot:4000",
+  // Cluster-internal card fetcher. Only its OpenAPI document is published, so
+  // this address is reachable from inside the cluster only.
+  unoImportUrl: process.env.UNO_IMPORT_URL ?? "http://uno-import:4000",
+  unoImportToken: process.env.UNO_IMPORT_TOKEN,
   tursoUrl: process.env.TURSO_DATABASE_URL,
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   tavilyApiKey: process.env.TAVILY_API_KEY,

@@ -234,12 +234,33 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
+export interface ClaudeServerToolUse {
+  web_search_requests: number;
+}
+
+export interface ClaudeUsage {
+  billing_usage?: BillingUsage;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
+}
+
 export interface GeminiPromptTokensDetails {
   modality: string;
   tokenCount: number;
 }
 
-export interface BillingUsage {
+export interface GeminiUsageMetadata {
   billing_usage?: BillingUsage;
   cachedContentTokenCount: number;
   candidatesTokenCount: number;
@@ -253,6 +274,49 @@ export interface BillingUsage {
   /** @nullable */
   toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
   totalTokenCount: number;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
+export interface Usage {
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -437,11 +501,6 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
 /**
  * ClaudeMessageResponse schema
  */
@@ -455,22 +514,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeServerToolUse {
-  web_search_requests: number;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -976,40 +1019,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-}
-
-export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1172,22 +1181,6 @@ export interface FlowQuotaData {
 export interface GeminiModelList {
   models: unknown;
   nextPageToken: unknown;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
 }
 
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
@@ -1572,7 +1565,6 @@ export interface ModelMetadata {
   isModerated?: boolean;
   isReasoning?: boolean;
   knowledgeCutoff?: string;
-  maxImageInputs?: number;
   maxInputTokens?: number;
   maxOutputTokens?: number;
   mode?: string;
@@ -1630,6 +1622,7 @@ export interface ModelRankingResponse {
 export interface ModelSummary {
   avg_latency_ms: number;
   avg_tps: number;
+  avg_ttft_ms: number;
   model_name: string;
   /** @nullable */
   recent_success_rates?: number[] | null;

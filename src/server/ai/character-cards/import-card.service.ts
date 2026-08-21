@@ -1,109 +1,58 @@
 import { msg } from "@/lib/config/constants";
-import { safeFetchBytes, safeFetchRaw } from "@/lib/config/safe-fetch";
+import { serverEnv } from "@/server/env";
 
-const JANNY_API_BASE =
-  process.env.JANNY_API_BASE ?? "https://api.jannyai.com/api/v1";
-const CHUB_AVATAR_BASE =
-  process.env.CHUB_AVATAR_BASE ?? "https://avatars.charhub.io/avatars";
-const RISU_REALM_BASE =
-  process.env.RISU_REALM_BASE ?? "https://realm.risuai.net/api/v1/download";
+// Every source is fetched by uno-import, not here. These sites answer this
+// cluster's IP with a Cloudflare challenge that no API client can solve, and
+// datacat additionally sends no CORS header, so neither the gateway nor the
+// browser can reach them: uno-import drives a real browser behind a rotating
+// VPN exit and is the only path that works.
+const BASE = serverEnv.unoImportUrl;
+const TOKEN = serverEnv.unoImportToken;
 
-const MAX_CARD_BYTES = 10 * 1024 * 1024;
+const SUPPORTED =
+  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net)$/i;
 
-const UUID_RE = /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/i;
+export type ImportJob = { jobId: string; status: string };
 
-const JANITOR_HOSTS = new Set([
-  "janitorai.com",
-  "www.janitorai.com",
-  "janitor.ai",
-  "www.janitor.ai",
-  "jannyai.com",
-  "www.jannyai.com",
-]);
-const CHUB_HOSTS = new Set([
-  "chub.ai",
-  "www.chub.ai",
-  "characterhub.org",
-  "www.characterhub.org",
-]);
-const RISU_HOSTS = new Set(["realm.risuai.net"]);
-
-export type ImportedCard = {
-  cardData: string; // base64
-  mimeType: string;
-  sizeBytes: number;
+export type ImportedLorebook = {
+  name: string;
+  scanDepth?: number;
+  entries: Array<Record<string, unknown>>;
 };
 
-function toResult(buffer: Buffer, contentType: string | null): ImportedCard {
-  return {
-    cardData: buffer.toString("base64"),
-    mimeType: contentType?.split(";")[0]?.trim() || "image/png",
-    sizeBytes: buffer.length,
-  };
-}
+export type ImportedCard = {
+  source: string;
+  sourceUrl: string;
+  card: { spec: string; data: Record<string, unknown> };
+  lorebooks: ImportedLorebook[];
+  // Lorebooks the source lists but will not hand over, carried by title so the
+  // UI can name what is missing instead of silently importing fewer books.
+  skipped: Array<{ title: string; reason: "private" | "not_found" }>;
+};
 
-async function importJanitor(href: string): Promise<ImportedCard> {
-  const id = UUID_RE.exec(href)?.[0].toLowerCase();
-  if (!id) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
+export type ImportStatus = {
+  status: "queued" | "running" | "done" | "failed";
+  result: ImportedCard | null;
+  error: string | null;
+};
 
-  const api = await safeFetchRaw(`${JANNY_API_BASE}/download`, {
-    method: "POST",
-    headers: { "content-type": "application/json", accept: "application/json" },
-    body: JSON.stringify({ characterId: id }),
-    maxBytes: 64 * 1024,
+async function call<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      authorization: `Bearer ${TOKEN}`,
+      "content-type": "application/json",
+    },
   });
-  if (api.status === 401)
-    throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
-
-  const json = (() => {
-    try {
-      return JSON.parse(api.buffer.toString("utf8")) as {
-        status?: string;
-        downloadUrl?: unknown;
-      };
-    } catch {
-      return null;
-    }
-  })();
-  if (!(
-    api.status === 200 &&
-    json?.status === "ok" &&
-    typeof json.downloadUrl === "string"
-  )) {
-    if (json?.status === "error") {
-      throw new Error(msg("ERRORS.CARD_IMPORT_NOT_FOUND"));
-    }
-    throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-  }
-
-  const png = await safeFetchBytes(json.downloadUrl, MAX_CARD_BYTES);
-  return toResult(png.buffer, png.contentType);
+  if (!res.ok) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+  return (await res.json()) as T;
 }
 
-async function importChub(url: URL): Promise<ImportedCard> {
-  const parts = url.pathname.split("/").filter(Boolean);
-  const idx = parts.indexOf("characters");
-  const author = idx >= 0 ? parts[idx + 1] : undefined;
-  const slug = idx >= 0 ? parts[idx + 2] : undefined;
-  if (!author || !slug) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
-  const png = await safeFetchBytes(
-    `${CHUB_AVATAR_BASE}/${encodeURIComponent(author)}/${encodeURIComponent(slug)}/chara_card_v2.png`,
-    MAX_CARD_BYTES,
-  );
-  return toResult(png.buffer, png.contentType);
-}
-
-async function importRisu(href: string): Promise<ImportedCard> {
-  const id = UUID_RE.exec(href)?.[0].toLowerCase();
-  if (!id) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
-  const png = await safeFetchBytes(
-    `${RISU_REALM_BASE}/png-v3/${id}?non_commercial=true`,
-    MAX_CARD_BYTES,
-  );
-  return toResult(png.buffer, png.contentType);
-}
-
-export async function importCardFromUrl(input: string): Promise<ImportedCard> {
+export async function submitImport(
+  input: string,
+  userId: string,
+): Promise<ImportJob> {
   const trimmed = input.trim();
   let url: URL;
   try {
@@ -111,15 +60,14 @@ export async function importCardFromUrl(input: string): Promise<ImportedCard> {
   } catch {
     throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
   }
-  if (url.protocol !== "http:" && url.protocol !== "https:") {
+  if (url.protocol !== "https:" || !SUPPORTED.test(url.hostname)) {
     throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
   }
-  const host = url.hostname.toLowerCase();
-
-  if (JANITOR_HOSTS.has(host)) return importJanitor(url.href);
-  if (CHUB_HOSTS.has(host)) return importChub(url);
-  if (RISU_HOSTS.has(host)) return importRisu(url.href);
-
-  const direct = await safeFetchBytes(url.href, MAX_CARD_BYTES);
-  return toResult(direct.buffer, direct.contentType);
+  return call<ImportJob>("/api/jobs", {
+    method: "POST",
+    body: JSON.stringify({ url: url.href, userId }),
+  });
 }
+
+export const getImportStatus = (jobId: string) =>
+  call<ImportStatus>(`/api/jobs/${encodeURIComponent(jobId)}`);
