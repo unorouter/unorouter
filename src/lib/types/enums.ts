@@ -120,6 +120,7 @@ export enum Vendor {
   TYPHOON = "typhoon",
   AIHORDE = "aihorde",
   RUNWARE = "runware",
+  STEALTH = "stealth",
 }
 
 export enum OS {

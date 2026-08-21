@@ -536,6 +536,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-rose-500/20",
     primary: "#e11d48",
   },
+  [Vendor.STEALTH]: {
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-700 dark:text-zinc-300",
+    tagBg: "bg-zinc-500/10",
+    tagBorder: "border-zinc-500/20",
+    primary: "#71717a",
+  },
   [Vendor.RUNWARE]: {
     bg: "bg-lime-500/5",
     border: "border-lime-500/20",
@@ -856,6 +864,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.SARVAM]: () => import("@/components/elements/brand/sarvam-icon"),
   [Vendor.TYPHOON]: () => import("@/components/elements/brand/typhoon-icon"),
   [Vendor.AIHORDE]: () => import("@/components/elements/brand/aihorde-icon"),
+  [Vendor.STEALTH]: () => import("@/components/elements/brand/stealth-icon"),
   [Vendor.RUNWARE]: () => import("@/components/elements/brand/runware-icon"),
   [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
   [Vendor.AIONLABS]: () => import("@lobehub/icons/es/AionLabs"),
