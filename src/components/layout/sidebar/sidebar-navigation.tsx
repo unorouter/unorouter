@@ -162,19 +162,27 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
 function ChatSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const aui = useAui();
-  if (props.authenticated) {
-    return <NavGroup label={t("SIDEBAR.MENU")} items={sidebarNavigation()} />;
-  }
 
-  const items = navigation(false)
-    .filter((item) => !item.hidden)
+  const navItems = props.authenticated ? sidebarNavigation() : [];
+  const sidebarPaths = new Set(navItems.map((item) => item.href));
+  // On /chat the Chat entry starts a new thread rather than navigating to the
+  // route the reader is already on.
+  const items = navigation(props.authenticated)
+    .filter((item) => !item.hidden && !sidebarPaths.has(item.href))
     .map((item) =>
       item.href === "/chat"
         ? { ...item, onClick: () => aui.threads().switchToNewThread() }
         : item,
     );
 
-  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
+  return (
+    <>
+      {navItems.length > 0 && (
+        <NavGroup label={t("SIDEBAR.MENU")} items={navItems} />
+      )}
+      <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />
+    </>
+  );
 }
 
 function GenerateSidebarNav(props: { authenticated: boolean }) {
