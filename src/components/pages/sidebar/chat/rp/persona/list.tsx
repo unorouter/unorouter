@@ -66,7 +66,7 @@ export function PersonaList(props: Props) {
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:justify-end">
             <RpImportControl
               entity="personas"
               accept="application/json"
@@ -82,10 +82,9 @@ export function PersonaList(props: Props) {
                 });
                 setEditingId("new");
               }}
-              className="min-w-0 flex-1 sm:flex-initial"
             >
               <Icon name="plus" className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
+              {t("RP.PERSONAS_NEW")}
             </Button>
           </div>
 

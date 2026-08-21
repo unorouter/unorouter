@@ -83,7 +83,7 @@ export function CharacterList(props: Props) {
 
         {view.mode === "list" ? (
           <div className="flex flex-col gap-3">
-            <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
               <RpImportControl
                 entity="characters"
                 accept="image/png,image/webp,application/json"
@@ -113,10 +113,9 @@ export function CharacterList(props: Props) {
                   });
                   setView({ mode: "edit" });
                 }}
-                className="min-w-0 flex-1 sm:flex-initial"
               >
                 <Icon name="plus" className="size-4" />
-                <span className="truncate">{t("RP.CHARACTERS_NEW")}</span>
+                {t("RP.CHARACTERS_NEW")}
               </Button>
             </div>
 

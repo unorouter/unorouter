@@ -149,26 +149,17 @@ export function RpImportControl(props: {
           fileInputRef.current?.click();
         }}
         disabled={props.isPending}
-        className="min-w-0 flex-1 sm:flex-initial"
       >
         <Icon name="upload" className="size-4" />
-        <span className="truncate">{t(props.labelKey)}</span>
+        {t(props.labelKey)}
       </Button>
       {props.onUrl && (
         <Popover open={linkOpen} onOpenChange={setLinkOpen}>
           <PopoverTrigger
-            render={
-              <Button
-                variant="outline"
-                disabled={props.isPending}
-                className="min-w-0 flex-1 sm:flex-initial"
-              />
-            }
+            render={<Button variant="outline" disabled={props.isPending} />}
           >
             <Icon name="link" className="size-4" />
-            <span className="truncate">
-              {t(props.urlLabelKey ?? props.labelKey)}
-            </span>
+            {t(props.urlLabelKey ?? props.labelKey)}
           </PopoverTrigger>
           <PopoverContent align="start" className="gap-2">
             <Input

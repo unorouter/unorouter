@@ -104,7 +104,7 @@ export function LorebookList(props: Props) {
             />
           ) : (
             <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                 <RpImportControl
                   entity="lorebooks"
                   accept="application/json"
@@ -112,13 +112,9 @@ export function LorebookList(props: Props) {
                   isPending={importMut.isPending}
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}
                 />
-                <Button
-                  onClick={handleCreate}
-                  disabled={createMut.isPending}
-                  className="min-w-0 flex-1 sm:flex-initial"
-                >
+                <Button onClick={handleCreate} disabled={createMut.isPending}>
                   <Icon name="plus" className="size-4" />
-                  <span className="truncate">{t("RP.LOREBOOKS_NEW")}</span>
+                  {t("RP.LOREBOOKS_NEW")}
                 </Button>
               </div>
 
