@@ -175,6 +175,11 @@ export const greetingIndexAtom = runtimeField("greetingIndex");
 
 export const assistantRuntimeAtom = atom<AssistantRuntime | null>(null);
 
+// Editing state is per-message in assistant-ui, but the scroll-to-bottom button
+// lives at thread level and sits directly over the edit box, so it needs to know
+// that some message is being edited.
+export const messageEditingAtom = atom(false);
+
 export const chatStore = createStore();
 
 type LiveThreadOps = {

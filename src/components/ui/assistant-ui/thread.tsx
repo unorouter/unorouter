@@ -53,6 +53,7 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   historyLoadedAtom,
+  messageEditingAtom,
   reloadLiveThreadFromDb,
   replaceMessageParts,
 } from "@/store/chat-store";
@@ -70,7 +71,7 @@ import {
   useAuiState,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
@@ -148,6 +149,10 @@ const ThreadMessage: FC = () => {
 
 const ThreadScrollToBottom: FC = () => {
   const t = useTranslations();
+  // It floats directly above the composer, which is where the edit box opens,
+  // so while editing it covers the line being typed.
+  const isEditingMessage = useAtomValue(messageEditingAtom);
+  if (isEditingMessage) return null;
   return (
     <ThreadPrimitive.ScrollToBottom asChild>
       <TooltipIconButton
@@ -1011,6 +1016,11 @@ const UserActionBar: FC = () => {
 const EditComposer: FC = () => {
   const t = useTranslations();
   const isMobile = useIsMobile();
+  const setEditing = useSetAtom(messageEditingAtom);
+  useEffect(() => {
+    setEditing(true);
+    return () => setEditing(false);
+  }, [setEditing]);
   return (
     <MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
       <ComposerPrimitive.Root className="aui-edit-composer-root bg-muted ml-auto flex w-full max-w-[85%] flex-col rounded-2xl">
