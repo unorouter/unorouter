@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "匯入角色卡",
     "CHARACTERS_EXPORT": "匯出角色卡",
     "CHARACTERS_IMPORT_LINK": "從連結匯入",
+    "CHARACTERS_IMPORT_DATACAT": "從 datacat 匯入",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI 會攔截自動下載，因此角色卡在你的瀏覽器中取得。請先通過 datacat 的年齡確認，再點擊 Open in SillyTavern。",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "貼上 JanitorAI、Chub、RisuRealm 或角色卡連結",
     "CHARACTERS_IMPORT_FROM_LINK": "匯入",
     "CHARACTERS_EMPTY": "尚無角色。",

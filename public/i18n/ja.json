@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "カードをインポート",
     "CHARACTERS_EXPORT": "カードをエクスポート",
     "CHARACTERS_IMPORT_LINK": "リンクからインポート",
+    "CHARACTERS_IMPORT_DATACAT": "datacat からインポート",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI は自動ダウンロードを遮断するため、カードはこのブラウザーで取得します。datacat の年齢確認を済ませてから Open in SillyTavern を押してください。",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "JanitorAI、Chub、RisuRealm またはカードのリンクを貼り付け",
     "CHARACTERS_IMPORT_FROM_LINK": "インポート",
     "CHARACTERS_EMPTY": "キャラクターがありません。",

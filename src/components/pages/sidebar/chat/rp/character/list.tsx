@@ -31,6 +31,8 @@ import {
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { CharacterEditor } from "./editor";
+import { DatacatImportDialog } from "./datacat-import-dialog";
+import { datacatCharacterId } from "@/lib/ai/rp/datacat-bridge";
 
 type Props = {
   open: boolean;
@@ -47,6 +49,7 @@ export function CharacterList(props: Props) {
   const exportMut = useRpExportMutation();
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
+  const [datacatId, setDatacatId] = useState<string | null>(null);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
@@ -87,9 +90,18 @@ export function CharacterList(props: Props) {
                 labelKey="RP.CHARACTERS_IMPORT"
                 isPending={importMut.isPending || importUrlMut.isPending}
                 onFile={(file) => importMut.mutateAsync(file).then(() => {})}
-                onUrl={(input) =>
-                  importUrlMut.mutateAsync(input).then(() => {})
-                }
+                onUrl={async (input) => {
+                  try {
+                    await importUrlMut.mutateAsync(input);
+                  } catch (error) {
+                    // JanitorAI and its mirrors answer a server fetch with a
+                    // Cloudflare challenge, so the only way to reach them is
+                    // from the visitor's own browser.
+                    const id = datacatCharacterId(input);
+                    if (!id) throw error;
+                    setDatacatId(id);
+                  }
+                }}
                 urlLabelKey="RP.CHARACTERS_IMPORT_LINK"
                 urlPlaceholderKey="RP.CHARACTERS_IMPORT_LINK_PLACEHOLDER"
               />
@@ -173,6 +185,11 @@ export function CharacterList(props: Props) {
           />
         )}
       </DialogContent>
+      <DatacatImportDialog
+        characterId={datacatId}
+        onClose={() => setDatacatId(null)}
+        onCard={(file) => importMut.mutateAsync(file).then(() => {})}
+      />
     </Dialog>
   );
 }

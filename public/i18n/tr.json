@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Kart içe aktar",
     "CHARACTERS_EXPORT": "Kart dışa aktar",
     "CHARACTERS_IMPORT_LINK": "Bağlantıdan içe aktar",
+    "CHARACTERS_IMPORT_DATACAT": "datacat'ten içe aktar",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI otomatik indirmeleri engelliyor, bu yüzden kart burada, tarayıcınızda alınıyor. datacat'in yaş doğrulamasını onaylayın, sonra Open in SillyTavern düğmesine basın.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "JanitorAI, Chub, RisuRealm veya kart bağlantısı yapıştır",
     "CHARACTERS_IMPORT_FROM_LINK": "İçe aktar",
     "CHARACTERS_EMPTY": "Henüz karakter yok.",

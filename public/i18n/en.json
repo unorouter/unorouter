@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Import card",
     "CHARACTERS_EXPORT": "Export card",
     "CHARACTERS_IMPORT_LINK": "Import from link",
+    "CHARACTERS_IMPORT_DATACAT": "Import from datacat",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI blocks automated downloads, so the card is fetched here in your browser. Confirm datacat's age check, then press Open in SillyTavern.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Paste a JanitorAI, Chub, RisuRealm or card link",
     "CHARACTERS_IMPORT_FROM_LINK": "Import",
     "CHARACTERS_EMPTY": "No characters yet.",

@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Nhập thẻ",
     "CHARACTERS_EXPORT": "Xuất thẻ",
     "CHARACTERS_IMPORT_LINK": "Nhập từ liên kết",
+    "CHARACTERS_IMPORT_DATACAT": "Nhập từ datacat",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI chặn tải xuống tự động, nên thẻ nhân vật được lấy ngay tại trình duyệt của bạn. Hãy xác nhận kiểm tra độ tuổi của datacat rồi nhấn Open in SillyTavern.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết JanitorAI, Chub, RisuRealm hoặc liên kết card",
     "CHARACTERS_IMPORT_FROM_LINK": "Nhập",
     "CHARACTERS_EMPTY": "Chưa có nhân vật.",

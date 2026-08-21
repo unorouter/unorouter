@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Импорт карточки",
     "CHARACTERS_EXPORT": "Экспорт карточки",
     "CHARACTERS_IMPORT_LINK": "Импорт по ссылке",
+    "CHARACTERS_IMPORT_DATACAT": "Импорт из datacat",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI блокирует автоматические загрузки, поэтому карточка загружается здесь, в вашем браузере. Подтвердите проверку возраста на datacat и нажмите Open in SillyTavern.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Вставьте ссылку JanitorAI, Chub, RisuRealm или на карточку",
     "CHARACTERS_IMPORT_FROM_LINK": "Импорт",
     "CHARACTERS_EMPTY": "Персонажей пока нет.",

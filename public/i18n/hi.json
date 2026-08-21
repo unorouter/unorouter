@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Card import करें",
     "CHARACTERS_EXPORT": "Card export करें",
     "CHARACTERS_IMPORT_LINK": "लिंक से इंपोर्ट करें",
+    "CHARACTERS_IMPORT_DATACAT": "datacat से आयात करें",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI स्वचालित डाउनलोड रोकता है, इसलिए कार्ड आपके ब्राउज़र में ही लाया जाता है. datacat की आयु जाँच की पुष्टि करें, फिर Open in SillyTavern दबाएँ.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "JanitorAI, Chub, RisuRealm या कार्ड लिंक पेस्ट करें",
     "CHARACTERS_IMPORT_FROM_LINK": "इंपोर्ट",
     "CHARACTERS_EMPTY": "अभी तक कोई characters नहीं।",

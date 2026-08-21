@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "Importer une carte",
     "CHARACTERS_EXPORT": "Exporter la carte",
     "CHARACTERS_IMPORT_LINK": "Importer depuis un lien",
+    "CHARACTERS_IMPORT_DATACAT": "Importer depuis datacat",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "JanitorAI bloque les téléchargements automatiques, la fiche est donc récupérée ici dans votre navigateur. Confirmez la vérification d'âge de datacat, puis cliquez sur Open in SillyTavern.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Collez un lien JanitorAI, Chub, RisuRealm ou de carte",
     "CHARACTERS_IMPORT_FROM_LINK": "Importer",
     "CHARACTERS_EMPTY": "Aucun personnage.",

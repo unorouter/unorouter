@@ -4211,6 +4211,8 @@
     "CHARACTERS_IMPORT": "استيراد بطاقة",
     "CHARACTERS_EXPORT": "تصدير بطاقة",
     "CHARACTERS_IMPORT_LINK": "استيراد من رابط",
+    "CHARACTERS_IMPORT_DATACAT": "الاستيراد من datacat",
+    "CHARACTERS_IMPORT_DATACAT_HINT": "يحجب JanitorAI التنزيلات التلقائية، لذلك تُجلب البطاقة هنا في متصفحك. أكّد التحقق من العمر في datacat ثم اضغط على Open in SillyTavern.",
     "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "الصق رابط JanitorAI أو Chub أو RisuRealm أو رابط بطاقة",
     "CHARACTERS_IMPORT_FROM_LINK": "استيراد",
     "CHARACTERS_EMPTY": "لا توجد شخصيات بعد.",
