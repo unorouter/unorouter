@@ -52,7 +52,11 @@ export function SwRegister() {
       // discard a reply mid-stream, so offer the reload and let the reader pick
       // the moment. Backgrounded tabs still adopt silently on return.
       if (document.visibilityState !== "visible") return;
+      // Every deploy claims the tab again, so without a stable id a reader who
+      // leaves one open through several of them collects a toast per deploy,
+      // none of which expire.
       toast(updateText, {
+        id: "sw-update",
         duration: Infinity,
         action: {
           label: reloadText,
