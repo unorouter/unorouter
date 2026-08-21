@@ -1413,10 +1413,8 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "결제 금액의 2배 API 크레딧",
-      "NO_FREE_LIMIT": "무료 모델 요청 제한 없음",
-      "MODELS": "모든 모델 포함",
-      "FAILOVER": "자동 페일오버",
-      "OPENAI_COMPAT": "OpenAI 호환 엔드포인트"
+      "FREE_WAIT": "무료 모델 대기 시간 {percent}% 단축",
+      "NO_FREE_WAIT": "무료 모델 요청 간 대기 없음"
     },
     "CARD": {
       "POPULAR": "인기",

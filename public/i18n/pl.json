@@ -1413,10 +1413,8 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "Dwukrotność kredytu API za zapłaconą kwotę",
-      "NO_FREE_LIMIT": "Bez limitu zapytań na darmowych modelach",
-      "MODELS": "Wszystkie modele w cenie",
-      "FAILOVER": "Automatyczny failover",
-      "OPENAI_COMPAT": "Endpoint kompatybilny z OpenAI"
+      "FREE_WAIT": "{percent}% krotszy czas oczekiwania w darmowych modelach",
+      "NO_FREE_WAIT": "Brak oczekiwania miedzy zapytaniami do darmowych modeli"
     },
     "CARD": {
       "POPULAR": "Popularne",

@@ -1413,10 +1413,8 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "支払額の2倍のAPIクレジット",
-      "NO_FREE_LIMIT": "無料モデルのリクエスト制限なし",
-      "MODELS": "全モデル込み",
-      "FAILOVER": "自動フェイルオーバー",
-      "OPENAI_COMPAT": "OpenAI 互換エンドポイント"
+      "FREE_WAIT": "無料モデルの待ち時間が{percent}%短縮",
+      "NO_FREE_WAIT": "無料モデルのリクエスト間の待ち時間なし"
     },
     "CARD": {
       "POPULAR": "人気",

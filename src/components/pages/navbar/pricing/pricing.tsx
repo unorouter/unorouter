@@ -23,6 +23,12 @@ type TopUpOption = {
   handler: () => void;
 };
 
+// How much of the free-model wait each tier removes, by card position. Must match
+// what the subscription actually writes to the user's rate-limit discount, or the
+// card promises a speed the gateway does not give. 100 is a real bypass, not a
+// floored window.
+const FREE_RATE_LIMIT_PCT_BY_TIER = [50, 75, 100];
+
 // Mirrors the upstream Creem handler's bounds so the field rejects what the
 // API would. Creem, NowPayments and DeloPay all take a custom price; only the
 // Stripe lane still needs a preset. The buyer covers the processing fee on top
@@ -157,15 +163,16 @@ export function Pricing() {
     return [];
   }
 
-  // The tiers differ only in how much credit they carry, which the price hero already
-  // states. Everything here has to hold for every tier.
-  function buildFeatures(): string[] {
+  // Only what actually differs by tier. "All models", failover and the
+  // OpenAI-compatible endpoint are true of the free tier too, so listing them
+  // here sold nothing and padded the card.
+  function buildFeatures(index: number): string[] {
+    const pct = FREE_RATE_LIMIT_PCT_BY_TIER[index];
     return [
       t("PRICING.FEATURE.CREDIT"),
-      t("PRICING.FEATURE.NO_FREE_LIMIT"),
-      t("PRICING.FEATURE.MODELS"),
-      t("PRICING.FEATURE.FAILOVER"),
-      t("PRICING.FEATURE.OPENAI_COMPAT"),
+      pct === 100
+        ? t("PRICING.FEATURE.NO_FREE_WAIT")
+        : t("PRICING.FEATURE.FREE_WAIT", { percent: String(pct) }),
     ];
   }
 
@@ -311,7 +318,7 @@ export function Pricing() {
                 value={plan.estimated_total_usd}
                 deliveryLabel={deliveryLabelFor(plan)}
                 popular={i === 1}
-                features={buildFeatures()}
+                features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}
                 onSubscribe={() => handleSubscribe(plan)}
                 disabled={billing.isSubMutating}

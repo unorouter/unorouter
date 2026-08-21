@@ -1413,10 +1413,8 @@
   "PRICING": {
     "FEATURE": {
       "CREDIT": "Doppeltes API-Guthaben für den gezahlten Betrag",
-      "NO_FREE_LIMIT": "Kein Anfragelimit bei Gratis-Modellen",
-      "MODELS": "Alle Modelle inklusive",
-      "FAILOVER": "Automatisches Failover",
-      "OPENAI_COMPAT": "OpenAI kompatibler Endpunkt"
+      "FREE_WAIT": "{percent} % weniger Wartezeit bei kostenlosen Modellen",
+      "NO_FREE_WAIT": "Keine Wartezeit zwischen Anfragen an kostenlose Modelle"
     },
     "CARD": {
       "POPULAR": "Beliebt",
