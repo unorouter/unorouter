@@ -1,11 +1,13 @@
 import { getV1VideoGenerationsTaskId, postV1VideoGenerations } from "@/openapi";
 import {
+  digErrorMessage,
   normalizeTaskStatus,
   unwrapTaskData,
   type UpstreamFetchResp,
   type UpstreamSubmitResp,
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
+import { groupHeader } from "@/server/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
@@ -32,22 +34,6 @@ type TaskFetchResult = {
   resultUrl?: string;
   failReason?: string;
 };
-
-function taskErrorMessage(data: unknown, fallback: string): string {
-  const stack: unknown[] = [data];
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (!node || typeof node !== "object") continue;
-    const obj = node as Record<string, unknown>;
-    if (typeof obj.message === "string" && obj.message.trim()) {
-      return obj.message.trim();
-    }
-    for (const key of ["error", "data", "output"]) {
-      if (key in obj) stack.push(obj[key]);
-    }
-  }
-  return fallback;
-}
 
 function toUiStatus(raw: string | undefined): TaskStatus {
   const canonical = normalizeTaskStatus(raw);
@@ -81,7 +67,7 @@ export async function submitVideoTask(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      ...(group && group !== "auto" ? { "X-Group": group } : {}),
+      ...groupHeader(group),
     },
     body: JSON.stringify({ model, prompt, ...(image ? { image } : {}) }),
   });
@@ -94,7 +80,7 @@ export async function submitVideoTask(
       model,
       raw: JSON.stringify(res.data).slice(0, 200),
     });
-    throw new Error(taskErrorMessage(res.data, msg("ERRORS.NO_TASK_ID")));
+    throw new Error(digErrorMessage(res.data) ?? msg("ERRORS.NO_TASK_ID"));
   }
 
   return {
