@@ -63,6 +63,10 @@
     {
       "tag": "0015_chubby_bastion",
       "sql": "ALTER TABLE `sampling_presets` ADD `tokenizer` text;"
+    },
+    {
+      "tag": "0016_mute_zombie",
+      "sql": "ALTER TABLE `sampling_presets` ADD `continue_prompt` text;"
     }
   ]
 }

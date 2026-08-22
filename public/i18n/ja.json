@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "プレフィル",
     "PRESET_PREFILL_PLACEHOLDER": "もちろん、回答はこちらです：",
     "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力なステアリング技術。user および char マクロに対応。",
+    "PRESET_CONTINUE_PROMPT": "続きのプロンプト",
+    "PRESET_CONTINUE_PROMPT_HINT": "続きのボタンを押したときに送信されます。空のままにすると (OOC: Continue.) を送ります。",
     "PRESET_FLAGS_TITLE": "カスタムフラグ",
     "PRESET_FLAGS_HINT": "気難しいモデル向けにリクエスト本文を調整します。必要に応じてモデルごとに自動適用されます。強制するにはオンにします。",
     "PRESET_FORCE_ALTERNATE_ROLES": "ロールの強制交互",

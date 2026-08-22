@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Klar, hier ist die Antwort:",
     "PRESET_PREFILL_HINT": "Wird zuletzt als Assistant-Nachricht gesendet. Das LLM setzt diesen Seed-Text fort. Mächtige Steuerungstechnik. Unterstützt die user- und char-Makros.",
+    "PRESET_CONTINUE_PROMPT": "Fortsetzen-Prompt",
+    "PRESET_CONTINUE_PROMPT_HINT": "Wird beim Klick auf die Fortsetzen-Schaltfläche gesendet. Leer lassen, um (OOC: Continue.) zu senden.",
     "PRESET_FLAGS_TITLE": "Eigene Flags",
     "PRESET_FLAGS_HINT": "Passe den Anfragetext für heikle Modelle an. Wird je Modell automatisch angewendet; einschalten zum Erzwingen.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rollen erzwungen alternieren",

@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tentu, ini responsnya:",
     "PRESET_PREFILL_HINT": "Dikirim terakhir sebagai pesan assistant. LLM melanjutkan dari teks benih ini. Teknik pengarahan yang kuat. Mendukung makro user dan char.",
+    "PRESET_CONTINUE_PROMPT": "Prompt lanjutkan",
+    "PRESET_CONTINUE_PROMPT_HINT": "Dikirim saat menekan tombol lanjutkan. Biarkan kosong untuk mengirim (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "Flag kustom",
     "PRESET_FLAGS_HINT": "Sesuaikan body permintaan untuk model rewel. Diterapkan otomatis per model bila perlu; aktifkan untuk memaksa.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Paksa pergantian peran",

@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "בטח, הנה התגובה:",
     "PRESET_PREFILL_HINT": "נשלח אחרון כהודעת assistant. ה-LLM ממשיך מהטקסט המקדים הזה. טכניקת הכוונה חזקה. תומך במאקרו user ו-char.",
+    "PRESET_CONTINUE_PROMPT": "הנחיית המשך",
+    "PRESET_CONTINUE_PROMPT_HINT": "נשלח בלחיצה על כפתור ההמשך. השאירו ריק כדי לשלוח (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "דגלים מותאמים אישית",
     "PRESET_FLAGS_HINT": "כוונן את גוף הבקשה למודלים רגישים. מוחל אוטומטית לכל מודל לפי הצורך; הפעל כדי לכפות.",
     "PRESET_FORCE_ALTERNATE_ROLES": "אלץ החלפת roles",

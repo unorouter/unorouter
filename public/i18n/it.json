@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Certo, ecco la risposta:",
     "PRESET_PREFILL_HINT": "Inviato per ultimo come messaggio dell'assistente. L'LLM continua da questo testo seed. Tecnica di guida potente. Supporta le macro user e char.",
+    "PRESET_CONTINUE_PROMPT": "Prompt di continuazione",
+    "PRESET_CONTINUE_PROMPT_HINT": "Inviato quando premi il pulsante di continuazione. Lascia vuoto per inviare (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "Flag personalizzati",
     "PRESET_FLAGS_HINT": "Regola il corpo della richiesta per modelli schizzinosi. Applicati automaticamente per modello se serve; attiva per forzare.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forza ruoli alternati",

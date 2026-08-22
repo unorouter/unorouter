@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Claro, aqui está a resposta:",
     "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de direcionamento. Suporta as macros user e char.",
+    "PRESET_CONTINUE_PROMPT": "Prompt de continuar",
+    "PRESET_CONTINUE_PROMPT_HINT": "Enviado quando você aperta o botão de continuar. Deixe vazio para enviar (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "Flags customizadas",
     "PRESET_FLAGS_HINT": "Ajuste o corpo da requisição para modelos exigentes. Aplicados automaticamente por modelo quando preciso; ative para forçar.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forçar papéis alternados",

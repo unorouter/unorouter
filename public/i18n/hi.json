@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "ज़रूर, यहाँ response है:",
     "PRESET_PREFILL_HINT": "Assistant message के रूप में अंतिम भेजा गया। LLM इस seed text से जारी रहता है। शक्तिशाली मार्गदर्शन तकनीक। User और char macros का समर्थन करता है।",
+    "PRESET_CONTINUE_PROMPT": "जारी रखने का प्रॉम्प्ट",
+    "PRESET_CONTINUE_PROMPT_HINT": "जारी रखने का बटन दबाने पर भेजा जाता है. (OOC: Continue.) भेजने के लिए खाली छोड़ें.",
     "PRESET_FLAGS_TITLE": "Custom flags",
     "PRESET_FLAGS_HINT": "नख़रेबाज़ मॉडलों के लिए अनुरोध बॉडी समायोजित करें। आवश्यकता होने पर प्रति मॉडल स्वतः लागू; बाध्य करने के लिए चालू करें।",
     "PRESET_FORCE_ALTERNATE_ROLES": "Alternate roles को मजबूर करें",
