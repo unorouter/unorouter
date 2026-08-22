@@ -3,6 +3,7 @@ import {
   DocPageLink,
   DocSection,
   DocTable,
+  DocWarning,
 } from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getRewardAmounts } from "@/lib/config/rewards";
@@ -75,7 +76,7 @@ export async function DiscordRewardsContent() {
       </DocSection>
       <DocSection id="invites" title={k("H_INVITES")}>
         <p>{k("P_INVITES_1")}</p>
-        <p className="text-foreground font-medium">{k("P_INVITES_VANITY")}</p>
+        <DocWarning>{k("P_INVITES_VANITY")}</DocWarning>
         <p>{k("P_INVITES_2")}</p>
         <p>{k("P_INVITES_3")}</p>
       </DocSection>
