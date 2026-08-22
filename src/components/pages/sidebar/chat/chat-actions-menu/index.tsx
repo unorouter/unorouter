@@ -29,14 +29,6 @@ const ConversationOverridesDrawer = dynamic(
     ),
   { ssr: false },
 );
-const LocalDbStudio = dynamic(
-  () =>
-    import("@/components/elements/db/local-db-studio").then(
-      (m) => m.LocalDbStudio,
-    ),
-  { ssr: false },
-);
-
 const ThemeCustomizerSheet = dynamic(
   () =>
     import("@/components/ui/theme/customizer-sheet").then(
@@ -47,7 +39,6 @@ const ThemeCustomizerSheet = dynamic(
 
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
-  const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useAtom(conversationSettingsOpenAtom);
 
@@ -80,10 +71,7 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuSeparator />
           {/* Everything else grouped: look-and-feel + utilities. */}
           <AppearanceSubmenu onOpenCustomizer={() => setThemeOpen(true)} />
-          <ToolsSubmenu
-            convId={props.convId}
-            onOpenDbStudio={() => setDbStudioOpen(true)}
-          />
+          <ToolsSubmenu convId={props.convId} />
         </DropdownMenuContent>
       </DropdownMenu>
       {settingsOpen && (
@@ -92,9 +80,6 @@ export function ChatActionsMenu(props: Props) {
           open={settingsOpen}
           onOpenChange={setSettingsOpen}
         />
-      )}
-      {dbStudioOpen && (
-        <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
       )}
       {themeOpen && (
         <ThemeCustomizerSheet open={themeOpen} onOpenChange={setThemeOpen} />

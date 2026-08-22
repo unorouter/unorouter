@@ -5,15 +5,12 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import {
   readLocalRequestLogMetaForConv,
-  readLocalRequestLogsForConv,
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
-
-export type DiagnosticsOptions = { includeContent: boolean };
 
 export type TableStorageStat = {
   table: string;
@@ -176,9 +173,7 @@ async function getTableStorageStats(): Promise<
 
 const MAX_LOG_CONVS = 25;
 
-async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
-  const includeContent = opts.includeContent;
-
+async function buildDiagnosticsHead() {
   const device = {
     userAgent: navigator.userAgent,
     platform: navigator.platform,
@@ -249,7 +244,7 @@ async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
   } catch {}
   const conversations = convs.map((c) => ({
     id: c.id,
-    title: includeContent ? c.title : undefined,
+    title: c.title,
     model: c.model,
     groupId: c.groupId,
     totalInputTokens: c.totalInputTokens,
@@ -264,7 +259,7 @@ async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
     const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
     presets = ((await readLocalPresets()) ?? []).map((p) => ({
       id: p.id,
-      name: includeContent ? p.name : undefined,
+      name: p.name,
       chatMemory: p.chatMemory,
       memoryEnabled: p.memoryEnabled,
       forceAlternateRoles: p.forceAlternateRoles,
@@ -272,7 +267,7 @@ async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
       mustStartWithUserInput: p.mustStartWithUserInput,
       postHistoryRole: p.postHistoryRole,
       hasPromptTemplate: !!p.promptTemplate,
-      promptTemplate: includeContent ? p.promptTemplate : undefined,
+      promptTemplate: p.promptTemplate,
       isDefault: p.isDefault,
     }));
   } catch (e) {
@@ -291,7 +286,6 @@ async function buildDiagnosticsHead(opts: DiagnosticsOptions) {
   return {
     generatedAt: dayjs().toISOString(),
     tableStorage,
-    includeContent,
     device,
     runtime,
     dbInfo,
@@ -323,50 +317,29 @@ function messageShape(finalMessages: unknown): unknown {
 
 const MAX_SHAPE_ROWS = 3;
 
-async function readRequestLogsForConvDiag(
-  convId: string,
-  includeContent: boolean,
-): Promise<unknown[]> {
-  if (!includeContent) {
-    const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOG_CONVS);
-    const newest = await readLocalRequestLogsNewestForConv(
-      convId,
-      MAX_SHAPE_ROWS,
-    );
-    return meta.map((row) => {
-      const match = newest.find((l) => l.msgId === row.msgId);
-      return match
-        ? { ...row, finalShape: messageShape(match.finalMessages) }
-        : row;
-    });
-  }
-  const logs = await readLocalRequestLogsForConv(convId);
-  return logs.slice(-MAX_LOG_CONVS).map((l) => ({
-    msgId: l.msgId,
-    convId: l.convId,
-    requestId: l.requestId,
-    channelName: l.channelName,
-    inputTokens: l.inputTokens,
-    createdAt: l.createdAt,
-    finalMessages: l.finalMessages,
-    requestBody: l.requestBody,
-  }));
+async function readRequestLogsForConvDiag(convId: string): Promise<unknown[]> {
+  const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOG_CONVS);
+  const newest = await readLocalRequestLogsNewestForConv(
+    convId,
+    MAX_SHAPE_ROWS,
+  );
+  return meta.map((row) => {
+    const match = newest.find((l) => l.msgId === row.msgId);
+    return match
+      ? { ...row, finalShape: messageShape(match.finalMessages) }
+      : row;
+  });
 }
 
-export async function buildDiagnostics(
-  opts: DiagnosticsOptions,
-): Promise<Record<string, unknown>> {
-  const head = await buildDiagnosticsHead(opts);
+export async function buildDiagnostics(): Promise<Record<string, unknown>> {
+  const head = await buildDiagnosticsHead();
 
   const messagesByConv: Record<string, unknown[]> = {};
   const requestLogsByConv: Record<string, unknown[]> = {};
   for (const id of head.convIds) {
     try {
       messagesByConv[id] = await readLocalMessageMetaForConv(id);
-      requestLogsByConv[id] = await readRequestLogsForConvDiag(
-        id,
-        opts.includeContent,
-      );
+      requestLogsByConv[id] = await readRequestLogsForConvDiag(id);
     } catch (e) {
       messagesByConv[id] = [{ error: String(e).slice(0, 200) }];
     }
@@ -375,7 +348,6 @@ export async function buildDiagnostics(
   return {
     generatedAt: head.generatedAt,
     tableStorage: head.tableStorage,
-    includeContent: head.includeContent,
     device: head.device,
     runtime: head.runtime,
     dbInfo: head.dbInfo,

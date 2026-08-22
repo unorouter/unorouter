@@ -34,14 +34,12 @@ export function ImportExportSubmenu(props: Props) {
   const importMut = useImportConversationMutation();
   const hasConv = !!props.convId;
 
-  const downloadDiagnostics = async (includeContent: boolean) => {
+  const downloadDiagnostics = async () => {
     try {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
       const { downloadDiagnostics: runDownloadDiagnostics } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`, {
-        includeContent,
-      });
+      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`);
     } catch (e) {
       toast.error(String(e).slice(0, 120));
     }
@@ -129,13 +127,9 @@ export function ImportExportSubmenu(props: Props) {
             {t("CHAT.MORE.IMPORT")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => downloadDiagnostics(false)}>
+          <DropdownMenuItem onClick={downloadDiagnostics}>
             <Icon name="clipboard-copy" className="size-4" />
             {t("CHAT.MORE.DIAGNOSTICS")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => downloadDiagnostics(true)}>
-            <Icon name="file-text" className="size-4" />
-            {t("CHAT.MORE.DIAGNOSTICS_FULL")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
