@@ -191,13 +191,13 @@ function TOCPanel(props: { toc: TOCState; className?: string }) {
   return (
     <aside
       className={cn(
-        "sticky top-16 hidden h-fit max-h-[calc(100svh-6rem)] w-56 shrink-0 overflow-hidden lg:block",
+        "sticky top-24 hidden h-fit max-h-[calc(100svh-8rem)] w-56 shrink-0 overflow-hidden lg:block",
         "animate-in fade-in duration-150",
         props.className,
       )}
     >
       <AnchorProvider toc={items}>
-        <div className="no-scrollbar flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto">
+        <div className="no-scrollbar flex max-h-[calc(100svh-8rem)] flex-col overflow-y-auto">
           <h3 className="text-muted-foreground mb-2 text-xs font-semibold">
             {title}
           </h3>
