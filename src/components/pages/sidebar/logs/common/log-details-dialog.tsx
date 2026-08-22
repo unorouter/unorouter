@@ -38,6 +38,7 @@ export function LogDetailsDialog(props: {
 
   const other = parseOther(log.other);
   const client = getClientAttribution(other);
+  const clientSource = client?.origin ?? client?.referer;
   const modelRatio = other?.model_ratio ?? 0;
   const completionRatio = other?.completion_ratio ?? 1;
   const cacheRatio = other?.cache_ratio;
@@ -104,11 +105,7 @@ export function LogDetailsDialog(props: {
           {client && (
             <DetailRow
               label={t("LOGS.DETAIL.CLIENT")}
-              value={
-                client.referer
-                  ? `${client.label} · ${client.referer}`
-                  : client.label
-              }
+              value={clientSource ? `${client.label} · ${clientSource}` : client.label}
               copyable
             />
           )}

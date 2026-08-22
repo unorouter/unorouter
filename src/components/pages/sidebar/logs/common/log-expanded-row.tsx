@@ -117,6 +117,7 @@ export function LogExpandedRow(props: { row: Row<TableFeats, LogRow> }) {
   }
 
   const client = getClientAttribution(other);
+  const clientSource = client?.origin ?? client?.referer;
   if (client) {
     items.push({
       label: t("LOGS.DETAIL.CLIENT"),
@@ -128,9 +129,9 @@ export function LogExpandedRow(props: { row: Row<TableFeats, LogRow> }) {
           >
             {client.label}
           </Badge>
-          {client.referer && client.referer !== client.label && (
+          {clientSource && clientSource !== client.label && (
             <span className="text-muted-foreground break-all">
-              {client.referer}
+              {clientSource}
             </span>
           )}
         </span>
