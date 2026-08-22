@@ -51,6 +51,9 @@ const nextConfig: NextConfig = {
     // Turbopack disk cache for `next build`; CI persists it via the
     // Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
+    // TypeScript 7 ships no JS compiler API, so type checking must shell out
+    // to the tsc binary instead of the in-process API.
+    useTypeScriptCli: true,
     // inlineCss tried and reverted: duplicated the full 274KB stylesheet into
     // every document + RSC flight, far worse than the request it removed.
   },
