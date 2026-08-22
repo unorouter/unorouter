@@ -8,6 +8,8 @@ import { logger } from "@/lib/utils/logger";
 import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race.service";
 import { serverEnv } from "@/server/env";
 
+const MAX_RESULTS = 5;
+
 type TavilyResult = {
   title: string;
   url: string;
@@ -55,7 +57,7 @@ async function searchTavily(
       body: JSON.stringify({
         api_key: apiKey,
         query,
-        max_results: 5,
+        max_results: MAX_RESULTS,
         include_answer: false,
       }),
     });
@@ -73,7 +75,7 @@ async function searchTavily(
     return {
       query: data.query ?? query,
       results: (data.results ?? [])
-        .slice(0, 5)
+        .slice(0, MAX_RESULTS)
         .map((r: { title?: string; url?: string; content?: string }) => ({
           title: r.title ?? "",
           url: r.url ?? "",

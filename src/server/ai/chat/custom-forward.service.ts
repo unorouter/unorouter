@@ -36,7 +36,7 @@ export async function forwardCustomProvider(args: {
     upstream = await safeFetchStream(`${base}${args.path}`, {
       method: args.method,
       headers: {
-        ...(args.authorization ? { authorization: args.authorization } : {}),
+        authorization: args.authorization,
         ...(args.method === "POST"
           ? { "content-type": "application/json" }
           : {}),
