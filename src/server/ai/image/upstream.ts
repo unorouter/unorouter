@@ -116,15 +116,13 @@ export async function fetchGeneratedImage(
   };
 }
 
-export async function collectImages(
+export function collectImages(
   results: ExtractedResult[],
   apiKey: string,
 ): Promise<GeneratedImage[]> {
-  const out: GeneratedImage[] = [];
-  for (const result of results) {
-    out.push(await fetchGeneratedImage(result.uri, apiKey, result.seed));
-  }
-  return out;
+  return Promise.all(
+    results.map((r) => fetchGeneratedImage(r.uri, apiKey, r.seed)),
+  );
 }
 
 // Hosted image APIs take a native n; everything else is one call per image.

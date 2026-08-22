@@ -9,6 +9,7 @@ import type {
   ImageSubmitBody,
 } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
+import { groupHeader } from "@/server/constants";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { PricingCatalogDetail } from "@/openapi";
 import {
@@ -255,6 +256,7 @@ export async function submitGeneration(
   // A model served only by a non-default group 403s without naming that group.
   const routingGroup = resolveRoutingGroup(resolved.info.enable_groups);
   const plan = batchPlan(endpoint === "image-generation", imageCountFor(body));
+  const sizeLabel = formatSize(size);
 
   const collected: GeneratedImage[] = [];
   const requestIds: string[] = [];
@@ -262,7 +264,7 @@ export async function submitGeneration(
     const built = buildBody(endpoint, {
       model: body.model,
       prompt: body.prompt,
-      size: formatSize(size),
+      size: sizeLabel,
       refs,
       n: plan.perCallN,
       quality: params.quality as string | undefined,
@@ -290,7 +292,7 @@ export async function submitGeneration(
       model: body.model,
       endpoint,
       group: routingGroup ?? "auto",
-      size: formatSize(size),
+      size: sizeLabel,
       n: plan.perCallN,
       call: i + 1,
       of: plan.calls,
@@ -306,7 +308,7 @@ export async function submitGeneration(
     const res = await postImageRequest(
       built,
       apiKey,
-      routingGroup ? { "X-Group": routingGroup } : {},
+      groupHeader(routingGroup),
     );
     if (res.requestId) requestIds.push(res.requestId);
 

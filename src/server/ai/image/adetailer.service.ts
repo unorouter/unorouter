@@ -18,7 +18,7 @@ const DETECTOR_AIR: Record<string, string> = {
   mediapipe_face_full: "runware:35@6",
 };
 
-export function detectorAirFor(yoloModel: string | undefined): string | null {
+function detectorAirFor(yoloModel: string | undefined): string | null {
   if (!yoloModel) return null;
   return DETECTOR_AIR[yoloModel] ?? null;
 }
@@ -89,17 +89,14 @@ export async function runAdetailerPass(args: {
   // Detail prompt when given, else the original (an empty prompt would redraw a face
   // from nothing). Steps 0 = inherit (the form's toggle-off state).
   const steps = args.adetailer.steps;
+  const negativePrompt =
+    args.adetailer.negativePrompt?.trim() || args.negativePrompt;
   const inpaint = await runwareTask<{ imageURL?: string }>(
     {
       taskType: "imageInference",
       model: args.checkpoint,
       positivePrompt: args.adetailer.prompt?.trim() || args.prompt,
-      ...(args.adetailer.negativePrompt?.trim() || args.negativePrompt
-        ? {
-            negativePrompt:
-              args.adetailer.negativePrompt?.trim() || args.negativePrompt,
-          }
-        : {}),
+      ...(negativePrompt ? { negativePrompt } : {}),
       width: args.width,
       height: args.height,
       seedImage: args.imageUrl,
