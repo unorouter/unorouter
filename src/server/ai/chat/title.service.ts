@@ -1,13 +1,11 @@
 import {
   TITLE_FALLBACK_MAX_CHARS,
-  UTILITY_RACE_MODELS,
   TITLE_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
+import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import { logger } from "@/lib/utils/logger";
-import { getProvider } from "@/server/constants";
-import { serverEnv } from "@/server/env";
-import { generateText } from "ai";
+import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race.service";
 
 function truncateToTitle(text: string): string {
   const collapsed = text.replace(/\s+/g, " ").trim();
@@ -18,33 +16,24 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
-function stripThinkFromTitle(text: string): string {
-  return stripThinkForDisplay(text).trim();
-}
-
 export async function generateChatTitle(apiKey: string, text: string) {
-  const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
-  const attempts = UTILITY_RACE_MODELS.map((modelName) =>
-    generateText({
-      model: provider.chatModel(modelName),
-      system: TITLE_SYSTEM_PROMPT,
+  try {
+    // Think-tags are stripped because an unclosed <think> would become the
+    // visible title.
+    const race = await freeModelRace({
+      systemPrompt: TITLE_SYSTEM_PROMPT,
       prompt: text,
       maxOutputTokens: 200,
-      maxRetries: 0,
-    }),
-  );
-
-  let title: string;
-  try {
-    const result = await Promise.any(attempts);
-    title = stripThinkFromTitle(result.text) || truncateToTitle(text);
+      ...serverFreeModelRaceDeps(apiKey),
+    });
+    return {
+      title: stripThinkForDisplay(race.text).trim() || truncateToTitle(text),
+    };
   } catch (err) {
     logger.warn("Title generation race failed, using truncated fallback", {
       context: "title.generate",
       error: String(err),
     });
-    title = truncateToTitle(text);
+    return { title: truncateToTitle(text) };
   }
-
-  return { title };
 }
