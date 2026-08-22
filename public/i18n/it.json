@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Includi le chat",
       "LOCAL_DB_EXPORT_LOGS": "Includi i log delle richieste",
       "LOCAL_DB_EXPORT_MEDIA": "Includi i media",
-      "LOCAL_DB_RECOVER": "Recupera database orfano",
-      "LOCAL_DB_RECOVER_NONE": "Nessun database recuperabile trovato nel pool.",
-      "LOCAL_DB_RECOVER_SUMMARY": "Trovati {count} database. Scaricato il più grande ({size}). Importalo con il pulsante di caricamento.",
       "LOCAL_DB_WIPE": "Cancella database locale e ricarica",
       "LOCAL_DB_WIPE_CONFIRM": "Cancellare TUTTI i dati OPFS locali e ricaricare?"
     },

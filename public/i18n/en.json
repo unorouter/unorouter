@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Include chats",
       "LOCAL_DB_EXPORT_LOGS": "Include request logs",
       "LOCAL_DB_EXPORT_MEDIA": "Include media",
-      "LOCAL_DB_RECOVER": "Recover orphaned database",
-      "LOCAL_DB_RECOVER_NONE": "No recoverable database found in the pool.",
-      "LOCAL_DB_RECOVER_SUMMARY": "Found {count} database(s). Downloaded the largest ({size}). Import it with the upload button.",
       "LOCAL_DB_WIPE": "Wipe local database and reload",
       "LOCAL_DB_WIPE_CONFIRM": "Wipe ALL local OPFS data and reload?"
     },

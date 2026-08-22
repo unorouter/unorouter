@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "チャットを含める",
       "LOCAL_DB_EXPORT_LOGS": "リクエストログを含める",
       "LOCAL_DB_EXPORT_MEDIA": "メディアを含める",
-      "LOCAL_DB_RECOVER": "孤立したデータベースを復元",
-      "LOCAL_DB_RECOVER_NONE": "プール内に復元可能なデータベースが見つかりませんでした。",
-      "LOCAL_DB_RECOVER_SUMMARY": "{count} 件のデータベースが見つかりました。最大のもの（{size}）をダウンロードしました。アップロードボタンからインポートしてください。",
       "LOCAL_DB_WIPE": "ローカルDBを削除して再読み込み",
       "LOCAL_DB_WIPE_CONFIRM": "ローカルOPFSデータをすべて削除して再読み込みしますか？"
     },

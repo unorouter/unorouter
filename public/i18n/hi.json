@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "चैट शामिल करें",
       "LOCAL_DB_EXPORT_LOGS": "अनुरोध लॉग शामिल करें",
       "LOCAL_DB_EXPORT_MEDIA": "मीडिया शामिल करें",
-      "LOCAL_DB_RECOVER": "अनाथ डेटाबेस पुनर्प्राप्त करें",
-      "LOCAL_DB_RECOVER_NONE": "पूल में कोई पुनर्प्राप्ति योग्य डेटाबेस नहीं मिला।",
-      "LOCAL_DB_RECOVER_SUMMARY": "{count} डेटाबेस मिले। सबसे बड़ा ({size}) डाउनलोड किया गया। इसे अपलोड बटन से आयात करें।",
       "LOCAL_DB_WIPE": "Local database wipe करें और reload करें",
       "LOCAL_DB_WIPE_CONFIRM": "सभी local OPFS डेटा wipe करें और reload करें?"
     },

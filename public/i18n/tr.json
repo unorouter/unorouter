@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Sohbetleri dahil et",
       "LOCAL_DB_EXPORT_LOGS": "İstek günlüklerini dahil et",
       "LOCAL_DB_EXPORT_MEDIA": "Medyayı dahil et",
-      "LOCAL_DB_RECOVER": "Sahipsiz veritabanını kurtar",
-      "LOCAL_DB_RECOVER_NONE": "Havuzda kurtarılabilir veritabanı bulunamadı.",
-      "LOCAL_DB_RECOVER_SUMMARY": "{count} veritabanı bulundu. En büyüğü ({size}) indirildi. Yükleme düğmesiyle içe aktarın.",
       "LOCAL_DB_WIPE": "Yerel veritabanını sil ve yeniden yükle",
       "LOCAL_DB_WIPE_CONFIRM": "TÜM yerel OPFS verisini sil ve yeniden yükle?"
     },

@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "כלול צ'אטים",
       "LOCAL_DB_EXPORT_LOGS": "כלול יומני בקשות",
       "LOCAL_DB_EXPORT_MEDIA": "כלול מדיה",
-      "LOCAL_DB_RECOVER": "שחזור מסד נתונים מנותק",
-      "LOCAL_DB_RECOVER_NONE": "לא נמצא מסד נתונים בר-שחזור במאגר.",
-      "LOCAL_DB_RECOVER_SUMMARY": "נמצאו {count} מסדי נתונים. הגדול ביותר ({size}) הורד. ייבא אותו באמצעות כפתור ההעלאה.",
       "LOCAL_DB_WIPE": "מחק את מסד הנתונים המקומי וטען מחדש",
       "LOCAL_DB_WIPE_CONFIRM": "למחוק את כל הנתונים המקומיים של OPFS ולטעון מחדש?"
     },
