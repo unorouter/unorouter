@@ -25,27 +25,18 @@ export async function forwardChatCompletions(args: {
 }): Promise<Response> {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
-  if (args.userId === GUEST_USER_ID) {
-    if (!(await getModelByName(model))?.is_free) {
-      return new Response(
-        JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }),
-        {
-          status: 401,
-          headers: { "content-type": "application/json" },
-        },
-      );
-    }
-  }
-
-  if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
-    if (!(await getModelByName(model))?.is_free) {
-      return new Response(
-        JSON.stringify({
-          error: `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`,
-        }),
-        { status: 401, headers: { "content-type": "application/json" } },
-      );
-    }
+  const onGuestKey =
+    args.userId === GUEST_USER_ID || args.apiKey === serverEnv.guestApiKey;
+  if (onGuestKey && !(await getModelByName(model))?.is_free) {
+    return new Response(
+      JSON.stringify({
+        error:
+          args.userId === GUEST_USER_ID
+            ? msg("ERRORS.UNAUTHORIZED")
+            : `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`,
+      }),
+      { status: 401, headers: { "content-type": "application/json" } },
+    );
   }
 
   // The sdk transport builds the wire body itself, so the billing-group pin

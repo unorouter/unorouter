@@ -22,11 +22,7 @@ function stripThinkFromTitle(text: string): string {
   return stripThinkForDisplay(text).trim();
 }
 
-export async function generateChatTitle(
-  apiKey: string,
-  text: string,
-  _preferredModel?: string,
-) {
+export async function generateChatTitle(apiKey: string, text: string) {
   const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
   const attempts = UTILITY_RACE_MODELS.map((modelName) =>
     generateText({
