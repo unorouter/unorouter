@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Chắc chắn rồi, đây là câu trả lời:",
     "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật định hướng mạnh. Hỗ trợ macro user và char.",
+    "PRESET_CONTINUE_PROMPT": "Lời nhắc tiếp tục",
+    "PRESET_CONTINUE_PROMPT_HINT": "Được gửi khi bạn nhấn nút tiếp tục. Để trống để gửi (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "Cờ tuỳ chỉnh",
     "PRESET_FLAGS_HINT": "Tinh chỉnh nội dung yêu cầu cho các mô hình khó tính. Tự động áp dụng theo từng mô hình khi cần; bật để buộc.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Bắt buộc xen kẽ vai trò",

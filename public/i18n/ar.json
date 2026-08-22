@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "تعبئة مسبقة",
     "PRESET_PREFILL_PLACEHOLDER": "بالتأكيد، إليك الردّ:",
     "PRESET_PREFILL_HINT": "يُرسل أخيراً كرسالة مساعد. LLM يكمل من نصّ البذرة هذا. تقنية توجيه قوية. يدعم ماكروهات user وchar.",
+    "PRESET_CONTINUE_PROMPT": "موجّه المتابعة",
+    "PRESET_CONTINUE_PROMPT_HINT": "يُرسَل عند الضغط على زر المتابعة. اتركه فارغًا لإرسال (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "أعلام مخصّصة",
     "PRESET_FLAGS_HINT": "عدّل جسم الطلب للنماذج الصعبة. تُطبَّق تلقائيًا لكل نموذج عند الحاجة، وفعّلها للإجبار.",
     "PRESET_FORCE_ALTERNATE_ROLES": "فرض تناوب الأدوار",

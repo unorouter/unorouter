@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "預填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回覆如下：",
     "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的引導技巧。支援 user 與 char 巨集。",
+    "PRESET_CONTINUE_PROMPT": "繼續提示詞",
+    "PRESET_CONTINUE_PROMPT_HINT": "按下繼續按鈕時傳送。留空則傳送 (OOC: Continue.)。",
     "PRESET_FLAGS_TITLE": "自訂旗標",
     "PRESET_FLAGS_HINT": "為挑剔的模型調整請求主體。需要時依模型自動套用；開啟以強制啟用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "強制角色交替",

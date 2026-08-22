@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "프리필",
     "PRESET_PREFILL_PLACEHOLDER": "물론, 응답은 다음과 같습니다:",
     "PRESET_PREFILL_HINT": "어시스턴트 메시지로 마지막에 전송됩니다. LLM이 이 시드 텍스트에서 계속합니다. 강력한 유도 기술. user와 char 매크로를 지원합니다.",
+    "PRESET_CONTINUE_PROMPT": "이어가기 프롬프트",
+    "PRESET_CONTINUE_PROMPT_HINT": "이어가기 버튼을 누르면 전송됩니다. 비워 두면 (OOC: Continue.) 를 보냅니다.",
     "PRESET_FLAGS_TITLE": "커스텀 플래그",
     "PRESET_FLAGS_HINT": "까다로운 모델을 위해 요청 본문을 조정합니다. 필요 시 모델별로 자동 적용되며, 강제하려면 켜세요.",
     "PRESET_FORCE_ALTERNATE_ROLES": "역할 교대 강제",

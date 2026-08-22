@@ -4213,6 +4213,8 @@
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Bien sûr, voici la réponse :",
     "PRESET_PREFILL_HINT": "Envoyé en dernier comme message assistant. Le LLM continue à partir de ce texte d'amorçage. Technique de pilotage puissante. Supporte les macros user et char.",
+    "PRESET_CONTINUE_PROMPT": "Invite de continuation",
+    "PRESET_CONTINUE_PROMPT_HINT": "Envoyé lorsque vous appuyez sur le bouton de continuation. Laissez vide pour envoyer (OOC: Continue.).",
     "PRESET_FLAGS_TITLE": "Drapeaux personnalisés",
     "PRESET_FLAGS_HINT": "Ajustez le corps de la requête pour les modèles capricieux. Appliqués automatiquement par modèle si besoin ; activez pour forcer.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forcer l'alternance des rôles",

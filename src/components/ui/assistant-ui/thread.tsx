@@ -57,6 +57,7 @@ import {
   reloadLiveThreadFromDb,
   replaceMessageParts,
 } from "@/store/chat-store";
+import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -342,12 +343,22 @@ const ComposerContinueButton: FC = () => {
       tooltip={t("CHAT.ACTION.CONTINUE_SCENE")}
       variant="ghost"
       className="aui-composer-continue size-8 rounded-full"
-      onClick={() => threadRuntime.append("(OOC: Continue.)")}
+      onClick={async () => {
+        const presetId = chatStore.get(chatLoadoutAtom).presetId;
+        const custom = presetId
+          ? await readLocalPreset(presetId)
+              .then((p) => p?.continuePrompt?.trim())
+              .catch(() => null)
+          : null;
+        threadRuntime.append(custom || CONTINUE_PROMPT);
+      }}
     >
       <Icon name="chevrons-right" className="size-4" />
     </TooltipIconButton>
   );
 };
+
+const CONTINUE_PROMPT = "(OOC: Continue.)";
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
