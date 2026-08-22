@@ -286,17 +286,12 @@ async function generateImage(
   };
 }
 
-// Image models served by an ASYNC task API (AI Horde) have no sync image
-// endpoint; they submit + poll through the same /v1/videos task flow as video.
-function isImageTaskModel(endpointTypes: string[] | undefined): boolean {
-  return (endpointTypes ?? []).includes("aihorde");
-}
-
 export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
   const model = (await getModelByName(body.model)) ?? undefined;
 
-  // Async image-task models (AI Horde): submit + emit a task card, client polls.
-  if (isImageTaskModel(model?.supported_endpoint_types)) {
+  // AI Horde has no sync image endpoint: it submits + polls through the same
+  // /v1/videos task flow as video, so emit a task card and let the client poll.
+  if ((model?.supported_endpoint_types ?? []).includes("aihorde")) {
     return streamResponse(async (writer) => {
       const prompt = extractMediaPrompt(body);
       const { taskId, status, progress } = await submitVideoTask(
