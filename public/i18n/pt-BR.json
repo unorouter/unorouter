@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Os valores das recompensas são configurados no servidor e podem mudar; os painéis de verificação e boost no servidor sempre mostram os valores em vigor.",
       "R_RULE_7": "Recompensas não utilizadas expiram; resgate seu saldo e use-o em vez de deixá-lo parado.",
       "R_CONNECT_REWARD": "US$ {connectReward}",
-      "LEVEL_REWARD_CELL": "US$ {amount}"
+      "LEVEL_REWARD_CELL": "US$ {amount}",
+      "H_INVITES": "Convidar membros",
+      "P_INVITES_1": "O crédito de convite é definido pelo link que o novo membro usou. O Discord informa esse código ao bot na entrada, e o bot paga quem criou o link.",
+      "P_INVITES_VANITY": "O link personalizado do servidor (discord.gg/{appName}) não tem criador, então entradas por ele nunca podem ser creditadas a você. Crie o seu próprio link de convite.",
+      "P_INVITES_2": "Para criar: clique com o botão direito no servidor ou em qualquer canal, escolha Convidar pessoas e depois Editar link do convite. Defina para nunca expirar e usos ilimitados, e copie o link. Quem entrar por ele conta para as suas recompensas.",
+      "P_INVITES_3": "Outros dois casos ficam sem crédito: um membro que volta depois de sair, e uma entrada que dois dos seus links poderiam explicar igualmente. Links criados por bots de sites de listagem também nunca são creditados a uma pessoa."
     }
   },
   "NOTIFY": {

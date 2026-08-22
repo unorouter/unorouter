@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Số tiền thưởng do máy chủ cấu hình và có thể thay đổi; bảng xác minh và boost trong máy chủ luôn hiển thị giá trị hiện hành.",
       "R_RULE_7": "Phần thưởng không dùng sẽ hết hạn; hãy nhận số dư và sử dụng thay vì để không.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Mời thành viên",
+      "P_INVITES_1": "Việc ghi nhận lời mời dựa trên liên kết mà thành viên mới đã dùng. Discord báo mã đó cho bot khi có người vào, và bot trả thưởng cho người tạo liên kết.",
+      "P_INVITES_VANITY": "Liên kết tuỳ chỉnh của máy chủ (discord.gg/{appName}) không có người tạo, nên lượt vào qua đó không bao giờ được ghi nhận cho bạn. Hãy tạo liên kết mời của riêng bạn.",
+      "P_INVITES_2": "Cách tạo: nhấp chuột phải vào máy chủ hoặc bất kỳ kênh nào, chọn Mời bạn bè, rồi Chỉnh sửa liên kết mời. Đặt không hết hạn và không giới hạn lượt dùng, sau đó sao chép liên kết. Ai vào qua liên kết đó đều được tính cho phần thưởng của bạn.",
+      "P_INVITES_3": "Hai trường hợp khác không được tính: thành viên quay lại sau khi rời đi, và lượt vào mà hai liên kết của bạn đều có thể giải thích như nhau. Liên kết do bot của các trang danh bạ máy chủ tạo cũng không bao giờ được ghi cho một người."
     }
   },
   "NOTIFY": {

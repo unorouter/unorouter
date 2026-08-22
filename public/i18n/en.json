@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Reward amounts are server-configured and may change; the verify and boost panels in the server always show the live values.",
       "R_RULE_7": "Rewards expire if they sit unused - claim your balance and spend it rather than letting it idle.",
       "R_CONNECT_REWARD": "${connectReward}",
-      "LEVEL_REWARD_CELL": "${amount}"
+      "LEVEL_REWARD_CELL": "${amount}",
+      "H_INVITES": "Inviting members",
+      "P_INVITES_1": "Invite credit is worked out from which invite link a new member used. Discord reports that code to the bot when someone joins, and the bot pays whoever created it.",
+      "P_INVITES_VANITY": "The server's vanity link (discord.gg/{appName}) carries no creator, so invites through it can never be credited to you. Create your own invite link instead.",
+      "P_INVITES_2": "To make one: right-click the server or any channel, choose Invite People, then Edit invite link. Set it to never expire and to unlimited uses, and copy that link. Anyone joining through it counts toward your rewards.",
+      "P_INVITES_3": "Two more cases go uncredited: a member who rejoins after leaving, and a join where two of your links could equally explain it. Bot-created links from server listing sites are never credited to a person either."
     }
   },
   "NOTIFY": {

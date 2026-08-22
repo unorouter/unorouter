@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Ödül tutarları sunucu tarafında ayarlanır ve değişebilir; sunucudaki doğrulama ve boost panelleri her zaman güncel değerleri gösterir.",
       "R_RULE_7": "Kullanılmayan ödüllerin süresi dolar; bakiyenizi alın ve öylece bekletmek yerine harcayın.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Uye davet etmek",
+      "P_INVITES_1": "Davet alacagi, yeni uyenin hangi davet baglantisini kullandigina gore belirlenir. Discord katilim aninda bu kodu bota bildirir ve bot baglantiyi olusturan kisiye oder.",
+      "P_INVITES_VANITY": "Sunucunun ozel baglantisinin (discord.gg/{appName}) bir olusturucusu yoktur; bu nedenle oradan gelen katilimlar size asla yazilamaz. Bunun yerine kendi davet baglantinizi olusturun.",
+      "P_INVITES_2": "Olusturmak icin: sunucuya veya herhangi bir kanala sag tiklayin, Insanlari davet et ve ardindan Davet baglantisini duzenle secenegini secin. Suresiz ve sinirsiz kullanim olarak ayarlayip baglantiyi kopyalayin. Oradan katilan herkes odulleriniz icin sayilir.",
+      "P_INVITES_3": "Iki durum daha hesaba katilmaz: ayrildiktan sonra tekrar katilan bir uye ve iki baglantinizin da esit olcude aciklayabilecegi bir katilim. Sunucu listeleme sitelerinin bot baglantilari da hicbir zaman bir kisiye yazilmaz."
     }
   },
   "NOTIFY": {

@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Los importes de las recompensas se configuran en el servidor y pueden cambiar; los paneles de verificación y boost del servidor siempre muestran los valores vigentes.",
       "R_RULE_7": "Las recompensas caducan si no se usan: reclama tu saldo y gástalo en lugar de dejarlo parado.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Invitar miembros",
+      "P_INVITES_1": "El crédito por invitación se calcula según el enlace que usó el nuevo miembro. Discord informa ese código al bot cuando alguien entra, y el bot paga a quien lo creó.",
+      "P_INVITES_VANITY": "El enlace personalizado del servidor (discord.gg/{appName}) no tiene creador, así que las entradas por ahí nunca pueden acreditarse a tu cuenta. Crea tu propio enlace de invitación.",
+      "P_INVITES_2": "Para crearlo: haz clic derecho en el servidor o en cualquier canal, elige Invitar a personas y luego Editar enlace de invitación. Configúralo para que nunca caduque y con usos ilimitados, y copia ese enlace. Quien entre por ahí contará para tus recompensas.",
+      "P_INVITES_3": "Hay dos casos más sin crédito: un miembro que vuelve tras haberse ido, y una entrada que dos de tus enlaces podrían explicar por igual. Los enlaces creados por bots de sitios de listados tampoco se acreditan a ninguna persona."
     }
   },
   "NOTIFY": {

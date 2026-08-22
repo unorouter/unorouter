@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Les montants des récompenses sont configurés côté serveur et peuvent changer ; les panneaux de vérification et de boost du serveur affichent toujours les valeurs en vigueur.",
       "R_RULE_7": "Les récompenses expirent si elles restent inutilisées : réclamez votre solde et dépensez-le plutôt que de le laisser dormir.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Inviter des membres",
+      "P_INVITES_1": "Le credit d'invitation depend du lien utilise par le nouveau membre. Discord transmet ce code au bot lors de l'arrivee, et le bot paie la personne qui a cree le lien.",
+      "P_INVITES_VANITY": "Le lien personnalise du serveur (discord.gg/{appName}) n'a pas de createur : les arrivees par ce lien ne peuvent jamais vous etre creditees. Creez plutot votre propre lien d'invitation.",
+      "P_INVITES_2": "Pour le creer : clic droit sur le serveur ou sur un salon, choisissez Inviter des amis, puis Modifier le lien d'invitation. Reglez-le sur aucune expiration et utilisations illimitees, puis copiez le lien. Toute personne qui rejoint par ce lien compte pour vos recompenses.",
+      "P_INVITES_3": "Deux autres cas ne sont pas credites : un membre qui revient apres etre parti, et une arrivee que deux de vos liens pourraient expliquer autant l'un que l'autre. Les liens crees par les bots des annuaires de serveurs ne sont jamais credites non plus."
     }
   },
   "NOTIFY": {

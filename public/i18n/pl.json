@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Kwoty nagród są konfigurowane po stronie serwera i mogą się zmieniać; panele weryfikacji i boostów na serwerze zawsze pokazują aktualne wartości.",
       "R_RULE_7": "Niewykorzystane nagrody wygasają; odbierz saldo i wydaj je, zamiast zostawiać je bezczynnie.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Zapraszanie członków",
+      "P_INVITES_1": "Zaliczenie zaproszenia zależy od tego, którego linku użył nowy członek. Discord przekazuje ten kod botowi przy dołączeniu, a bot wypłaca osobie, która link utworzyła.",
+      "P_INVITES_VANITY": "Link własny serwera (discord.gg/{appName}) nie ma twórcy, więc dołączenia przez niego nigdy nie mogą zostać ci zaliczone. Utwórz zamiast tego własny link zapraszający.",
+      "P_INVITES_2": "Jak to zrobić: kliknij prawym przyciskiem serwer lub dowolny kanał, wybierz Zaproś znajomych, a potem Edytuj link zaproszenia. Ustaw brak wygasania i nieograniczoną liczbę użyć, po czym skopiuj link. Każdy, kto przez niego dołączy, liczy się do twoich nagród.",
+      "P_INVITES_3": "Dwa inne przypadki nie są zaliczane: członek, który wraca po odejściu, oraz dołączenie, które równie dobrze mogą tłumaczyć dwa twoje linki. Linki tworzone przez boty serwisów katalogowych też nigdy nie są zaliczane osobie."
     }
   },
   "NOTIFY": {

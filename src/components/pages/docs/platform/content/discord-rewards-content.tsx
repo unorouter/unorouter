@@ -73,6 +73,12 @@ export async function DiscordRewardsContent() {
         <p>{k("P_VOTE_1")}</p>
         <p>{k("P_VOTE_2")}</p>
       </DocSection>
+      <DocSection id="invites" title={k("H_INVITES")}>
+        <p>{k("P_INVITES_1")}</p>
+        <p className="text-foreground font-medium">{k("P_INVITES_VANITY")}</p>
+        <p>{k("P_INVITES_2")}</p>
+        <p>{k("P_INVITES_3")}</p>
+      </DocSection>
       <DocSection id="tag" title={k("H_TAG")}>
         <p>{k("P_TAG_1")}</p>
         <p>{k("P_TAG_2")}</p>
