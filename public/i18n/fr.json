@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Inclure les discussions",
       "LOCAL_DB_EXPORT_LOGS": "Inclure les journaux de requêtes",
       "LOCAL_DB_EXPORT_MEDIA": "Inclure les médias",
-      "LOCAL_DB_RECOVER": "Récupérer la base de données orpheline",
-      "LOCAL_DB_RECOVER_NONE": "Aucune base de données récupérable trouvée dans le pool.",
-      "LOCAL_DB_RECOVER_SUMMARY": "{count} base(s) de données trouvée(s). La plus grande ({size}) a été téléchargée. Importe-la avec le bouton d'envoi.",
       "LOCAL_DB_WIPE": "Effacer la base locale et recharger",
       "LOCAL_DB_WIPE_CONFIRM": "Effacer TOUTES les données OPFS locales et recharger ?"
     },

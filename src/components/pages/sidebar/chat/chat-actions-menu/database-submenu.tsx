@@ -82,37 +82,6 @@ export function DatabaseSubmenu() {
     }
   };
 
-  // opfs-sahpool silently drops a pool file's name mapping when its header
-  // digest fails (an abrupt tab kill mid-header-write does this), and the next
-  // open then creates a fresh EMPTY database under the same name. The real
-  // bytes are still in the pool directory, just unreferenced. Scan for them and
-  // hand the biggest one back as a download: recovery must never overwrite the
-  // live db on its own, since the user may since have written to it.
-  const recover = async () => {
-    try {
-      const { runRecoverOrphanedDb } =
-        await import("@/lib/db/client/sahpool/recover-action");
-      const res = await runRecoverOrphanedDb();
-      if (res.kind === "none") {
-        toast.error(t("CHAT.MORE.LOCAL_DB_RECOVER_NONE"));
-        return;
-      }
-      toast.success(
-        t("CHAT.MORE.LOCAL_DB_RECOVER_SUMMARY", {
-          count: res.candidates,
-          size: `${Math.round(res.sizeBytes / 1024 / 1024)} MB`,
-        }),
-      );
-    } catch (err) {
-      logChatDebug("db.salvage.error", { error: String(err).slice(0, 200) });
-      logger.error("DB salvage failed", {
-        context: "local-db.menu",
-        error: String(err),
-      });
-      toast.error(String(err));
-    }
-  };
-
   const wipe = async () => {
     const ok = await confirm({
       title: t("COMMON.CONFIRM.WIPE_DB_TITLE"),
@@ -204,10 +173,6 @@ export function DatabaseSubmenu() {
             {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={recover}>
-            <Icon name="rotate-ccw" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_RECOVER")}
-          </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onClick={wipe}>
             <Icon name="trash-2" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB_WIPE")}

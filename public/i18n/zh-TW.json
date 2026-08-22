@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "包含聊天",
       "LOCAL_DB_EXPORT_LOGS": "包含請求日誌",
       "LOCAL_DB_EXPORT_MEDIA": "包含媒體",
-      "LOCAL_DB_RECOVER": "復原孤立資料庫",
-      "LOCAL_DB_RECOVER_NONE": "集區中找不到可復原的資料庫。",
-      "LOCAL_DB_RECOVER_SUMMARY": "找到 {count} 個資料庫。已下載最大的一個（{size}）。請使用上傳按鈕匯入。",
       "LOCAL_DB_WIPE": "清空本地資料庫並重新載入",
       "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 資料並重新載入？"
     },

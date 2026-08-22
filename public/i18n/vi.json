@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Bao gồm cuộc trò chuyện",
       "LOCAL_DB_EXPORT_LOGS": "Bao gồm nhật ký yêu cầu",
       "LOCAL_DB_EXPORT_MEDIA": "Bao gồm phương tiện",
-      "LOCAL_DB_RECOVER": "Khôi phục cơ sở dữ liệu mồ côi",
-      "LOCAL_DB_RECOVER_NONE": "Không tìm thấy cơ sở dữ liệu nào có thể khôi phục trong nhóm.",
-      "LOCAL_DB_RECOVER_SUMMARY": "Đã tìm thấy {count} cơ sở dữ liệu. Đã tải xuống cái lớn nhất ({size}). Hãy nhập nó bằng nút tải lên.",
       "LOCAL_DB_WIPE": "Xóa CSDL cục bộ và tải lại",
       "LOCAL_DB_WIPE_CONFIRM": "Xóa TẤT CẢ dữ liệu OPFS cục bộ và tải lại?"
     },

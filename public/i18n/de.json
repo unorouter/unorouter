@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Chats einschließen",
       "LOCAL_DB_EXPORT_LOGS": "Anfrageprotokolle einschließen",
       "LOCAL_DB_EXPORT_MEDIA": "Medien einschließen",
-      "LOCAL_DB_RECOVER": "Verwaiste Datenbank wiederherstellen",
-      "LOCAL_DB_RECOVER_NONE": "Keine wiederherstellbare Datenbank im Pool gefunden.",
-      "LOCAL_DB_RECOVER_SUMMARY": "{count} Datenbank(en) gefunden. Die größte ({size}) wurde heruntergeladen. Importiere sie über die Schaltfläche zum Hochladen.",
       "LOCAL_DB_WIPE": "Lokale Datenbank löschen und neu laden",
       "LOCAL_DB_WIPE_CONFIRM": "ALLE lokalen OPFS-Daten löschen und neu laden?"
     },

@@ -4084,9 +4084,6 @@
       "LOCAL_DB_EXPORT_CHATS": "Uwzględnij czaty",
       "LOCAL_DB_EXPORT_LOGS": "Uwzględnij dzienniki żądań",
       "LOCAL_DB_EXPORT_MEDIA": "Uwzględnij multimedia",
-      "LOCAL_DB_RECOVER": "Odzyskaj osieroconą bazę danych",
-      "LOCAL_DB_RECOVER_NONE": "Nie znaleziono bazy danych do odzyskania w puli.",
-      "LOCAL_DB_RECOVER_SUMMARY": "Znaleziono {count} baz(y) danych. Pobrano największą ({size}). Zaimportuj ją przyciskiem przesyłania.",
       "LOCAL_DB_WIPE": "Wymaż lokalną bazę danych i przeładuj",
       "LOCAL_DB_WIPE_CONFIRM": "Wymazać WSZYSTKIE lokalne dane OPFS i przeładować?"
     },
