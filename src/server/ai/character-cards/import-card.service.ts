@@ -13,7 +13,7 @@ const TOKEN = serverEnv.unoImportToken;
 // rejected before the job is ever submitted, which reads as an invalid link
 // rather than an unsupported site.
 const SUPPORTED =
-  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net|lorebary\.com)$/i;
+  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net|lorebary\.com|saucepan\.ai)$/i;
 
 export type ImportJob = { jobId: string; status: string };
 
