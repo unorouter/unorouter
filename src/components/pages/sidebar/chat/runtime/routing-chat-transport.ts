@@ -6,6 +6,7 @@ import {
   DefaultChatTransport,
   extractReasoningMiddleware,
   streamText,
+  toUIMessageStream,
   wrapLanguageModel,
   type ChatTransport,
   type UIMessageChunk,
@@ -329,7 +330,8 @@ async function runClientStream(args: {
   void Promise.resolve(result.finishReason).catch(() => {});
 
   const responseMessageId = uid();
-  const uiStream = result.toUIMessageStream({
+  const uiStream = toUIMessageStream({
+    stream: result.stream,
     generateMessageId: () => responseMessageId,
     onError: (error) => streamErrorText(error),
     messageMetadata: ({ part }) => {
