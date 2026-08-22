@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} ent. / {out} usc.",
         "MENU_LABEL": "Chat con personaggi",
-        "LOCAL_DB": "DB locale",
         "MSG_AI_2": "Il crogiolo brilla al punto giusto. Mi passi quella fiala?",
         "MSG_AI_3": "Bentornato! Il solito latte d'avena, con extra schiuma?",
         "NEW_CHAT_EMPTY": "Inizia una nuova conversazione...",
@@ -204,11 +203,7 @@
           "CARD1": "Capitano Elara (v2)",
           "CARD1_SUB": "Scheda SillyTavern",
           "CARD2": "Lyra l'Alchimista",
-          "CARD2_SUB": "Scheda personaggio importata",
-          "DB1": "conversazioni",
-          "DB1_SUB": "128 righe",
-          "DB2": "personaggi",
-          "DB2_SUB": "12 righe"
+          "CARD2_SUB": "Scheda personaggio importata"
         },
         "DEMO_USER_2": "Cosa stai preparando oggi?",
         "DEMO_AI_2": "Un elisir di lucidità. Tre gocce e la tua mente diventa affilata come vetro tagliato. Vuoi assaggiarlo?",

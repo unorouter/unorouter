@@ -157,7 +157,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} Ein. / {out} Aus.",
         "MENU_LABEL": "Charakter-Chat",
-        "LOCAL_DB": "Lokale DB",
         "MSG_AI_2": "Der Schmelztiegel glüht genau richtig. Reichst du mir das Fläschchen?",
         "MSG_AI_3": "Willkommen zurück! Dein üblicher Hafer-Latte, mit extra Schaum?",
         "NEW_CHAT_EMPTY": "Neue Unterhaltung beginnen...",
@@ -182,11 +181,7 @@
           "CARD1": "Captain Elara (v2)",
           "CARD1_SUB": "SillyTavern-Karte",
           "CARD2": "Lyra die Alchemistin",
-          "CARD2_SUB": "Importierte Charakterkarte",
-          "DB1": "Unterhaltungen",
-          "DB1_SUB": "128 Zeilen",
-          "DB2": "Charaktere",
-          "DB2_SUB": "12 Zeilen"
+          "CARD2_SUB": "Importierte Charakterkarte"
         },
         "DEMO_USER_2": "Was braust du heute zusammen?",
         "DEMO_AI_2": "Ein Elixier der Klarheit. Drei Tropfen, und dein Geist wird scharf wie geschliffenes Glas. Magst du kosten?",

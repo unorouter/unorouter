@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} in / {out} out",
         "MENU_LABEL": "Character chat",
-        "LOCAL_DB": "Local DB browser",
         "MSG_AI_2": "The crucible glows just right. Hand me that vial, would you?",
         "MSG_AI_3": "Welcome back! Your usual oat latte, extra foam?",
         "NEW_CHAT_EMPTY": "Start a new conversation...",
@@ -204,11 +203,7 @@
           "CARD1": "Captain Elara (v2)",
           "CARD1_SUB": "SillyTavern card",
           "CARD2": "Lyra the Alchemist",
-          "CARD2_SUB": "Imported character card",
-          "DB1": "conversations",
-          "DB1_SUB": "128 rows",
-          "DB2": "characters",
-          "DB2_SUB": "12 rows"
+          "CARD2_SUB": "Imported character card"
         },
         "DEMO_USER_2": "What are you brewing today?",
         "DEMO_AI_2": "A clarity elixir. Three drops and your mind sharpens like cut glass. Want a taste?",

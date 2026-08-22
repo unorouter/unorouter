@@ -29,7 +29,6 @@ export type MockData = {
     input: string;
     tokens: string;
     menuLabel: string;
-    localDb: string;
     newChatEmpty: string;
   };
 };
@@ -300,17 +299,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
                 </span>
               </div>
             ))}
-            <div
-              data-demo={`rp${data.menu.length}`}
-              className={`border-border/50 flex items-center gap-2.5 border-t px-3 py-1.5 ${
-                state.rpActive === data.menu.length ? "bg-accent" : ""
-              }`}
-            >
-              <Icon name="database" className="text-muted-foreground h-3 w-3" />
-              <span className="text-foreground/90 font-sans text-[11px]">
-                {data.strings.localDb}
-              </span>
-            </div>
           </div>
         ) : null}
 
