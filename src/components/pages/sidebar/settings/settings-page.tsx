@@ -6,6 +6,7 @@ import { AccountCard } from "./account-card";
 import { AccountHeader } from "./account-header";
 import { NotificationCard } from "./notification-card";
 import { SecurityCard } from "./security-card";
+import { TimeoutCard } from "./timeout-card";
 import { Icon } from "@/components/ui/icon";
 
 export function SettingsPage() {
@@ -45,6 +46,10 @@ export function SettingsPage() {
 
       <div className="mb-6">
         <NotificationCard />
+      </div>
+
+      <div className="mb-6">
+        <TimeoutCard />
       </div>
     </PageContent>
   );

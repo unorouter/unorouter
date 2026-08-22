@@ -194,3 +194,16 @@ export function usePasskeyDeleteMutation() {
     },
   });
 }
+
+export function useUpdateTimeoutMutation() {
+  return useApiMutation({
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.auth.settings.timeout, "put">,
+    ) => handleElysia(await rpc.api.auth.settings.timeout.put(args.body)),
+    onSuccess: (_, __, qc) => {
+      // The values live inside the `setting` JSON blob on the auth row, so patch
+      // by refetch rather than reconstructing that string here.
+      qc.invalidateQueries({ queryKey: queryKeys.auth() });
+    },
+  });
+}

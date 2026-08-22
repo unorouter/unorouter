@@ -73,3 +73,22 @@ export const notificationSettingSchema = t.Object({
 export type NotificationSettingSchema = Static<
   typeof notificationSettingSchema
 >;
+
+// Seconds to wait for the model's FIRST token. 0 disables the limit. The lower
+// bound matches the gateway's clamp, which floors anything smaller.
+export const timeoutSettingSchema = t.Object({
+  timeout_enabled: t.Boolean({ default: false }),
+  max_first_token_seconds: t.Number({
+    minimum: 0,
+    maximum: 600,
+    default: 60,
+    error: msg("FORM.ERROR.MIN_VALUE"),
+  }),
+  max_chain_first_token_seconds: t.Number({
+    minimum: 0,
+    maximum: 600,
+    default: 0,
+    error: msg("FORM.ERROR.MIN_VALUE"),
+  }),
+});
+export type TimeoutSettingSchema = Static<typeof timeoutSettingSchema>;

@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Gotify-Priorität",
       "SAVE_SETTINGS": "Einstellungen speichern",
       "SETTINGS_SAVED": "Benachrichtigungseinstellungen erfolgreich gespeichert"
+    },
+    "TIMEOUT": {
+      "TITLE": "Antwort-Zeitlimits",
+      "ENABLED": "Eigenes Zeitlimit bis zum ersten Wort",
+      "ENABLED_DESC": "Standardmäßig aus. Aktivieren, um Anbieter, die vor der Antwort hängen, früher aufzugeben, statt die volle Vorgabe abzuwarten.",
+      "PER_ATTEMPT": "Pro Anbieter (Sekunden)",
+      "PER_ATTEMPT_DESC": "Wie lange auf das erste Wort eines Anbieters gewartet wird, bevor der nächste versucht wird. Niedriger bedeutet schnellere Fehler; zu niedrig überspringt womöglich Anbieter, die gleich geantwortet hätten.",
+      "WHOLE_CHAIN": "Gesamtbudget (Sekunden)",
+      "WHOLE_CHAIN_DESC": "Maximale Gesamtzeit für die Suche nach einem antwortenden Anbieter. 0 bedeutet keine Gesamtgrenze.",
+      "STREAMING_NOTE": "Begrenzt wird nur die Wartezeit bis zum ersten Wort. Eine begonnene Antwort wird nie abgeschnitten, egal wie lange sie dauert.",
+      "SAVE_SETTINGS": "Zeitlimits speichern",
+      "SETTINGS_SAVED": "Zeitlimits gespeichert"
     }
   },
   "SEARCH": {

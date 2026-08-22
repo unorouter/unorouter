@@ -4,6 +4,7 @@ import {
   passkeyCredentialBody,
   updateSelfBody,
   updateSettingBody,
+  updateTimeoutBody,
 } from "@/lib/api/typebox/settings";
 import { unwrap } from "@/lib/utils/base";
 import {
@@ -20,6 +21,7 @@ import {
   sendEmailVerification,
   setup2FA,
   updateSelf,
+  updateTimeoutPreference,
   updateUserSetting,
 } from "@/openapi";
 import { Elysia } from "elysia";
@@ -62,6 +64,17 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
       return unwrap(res);
     },
     { body: updateSettingBody },
+  )
+
+  .put(
+    "/timeout",
+    async ({ body, upstream }) => {
+      const res = await updateTimeoutPreference(body, {
+        headers: upstream.headers,
+      });
+      return unwrap(res);
+    },
+    { body: updateTimeoutBody },
   )
 
   .get(

@@ -968,34 +968,38 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
 }
 
 /**
@@ -1162,6 +1166,27 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
 
 /**
@@ -1281,15 +1306,6 @@ export interface ImageParams {
   supportsSize: boolean;
   supportsSteps: boolean;
   supportsStrength: boolean;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1859,13 +1875,6 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
-}
-
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
 }
 
 export interface OverwriteField {
@@ -4451,6 +4460,28 @@ export interface FetchModelsRequest {
  * unknown-interface schema
  */
 export interface UnknownInterface {}
+
+export interface TimeoutPreferenceData {
+  max_chain_first_token_seconds: number;
+  max_first_token_seconds: number;
+}
+
+/**
+ * Response_dto.TimeoutPreferenceData schema
+ */
+export interface ResponseDtoTimeoutPreferenceData {
+  data: TimeoutPreferenceData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * TimeoutPreferenceRequest schema
+ */
+export interface TimeoutPreferenceRequest {
+  max_chain_first_token_seconds: number;
+  max_first_token_seconds: number;
+}
 
 export type GetAllChannelsParams = {
   /**
@@ -21025,6 +21056,56 @@ export const getModeMjTaskIdImageSeed = async (
     {
       ...options,
       method: "GET",
+    },
+  );
+};
+
+export type updateTimeoutPreferenceResponse200ApplicationJson = {
+  data: ResponseDtoTimeoutPreferenceData;
+  status: 200;
+};
+
+export type updateTimeoutPreferenceResponse200ApplicationXml = {
+  data: ResponseDtoTimeoutPreferenceData;
+  status: 200;
+};
+
+export type updateTimeoutPreferenceResponseSuccess = (
+  | updateTimeoutPreferenceResponse200ApplicationJson
+  | updateTimeoutPreferenceResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type updateTimeoutPreferenceResponse =
+  updateTimeoutPreferenceResponseSuccess;
+
+export const getUpdateTimeoutPreferenceUrl = () => {
+  return `/api/user/self/timeout`;
+};
+
+/**
+ * @summary Update Timeout Preference
+ */
+export const updateTimeoutPreference = async (
+  timeoutPreferenceRequest: TimeoutPreferenceRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<updateTimeoutPreferenceResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
+  return customFetch<updateTimeoutPreferenceResponse>(
+    getUpdateTimeoutPreferenceUrl(),
+    {
+      ...options,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(timeoutPreferenceRequest),
     },
   );
 };

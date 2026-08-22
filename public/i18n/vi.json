@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Độ ưu tiên Gotify",
       "SAVE_SETTINGS": "Lưu cài đặt",
       "SETTINGS_SAVED": "Đã lưu cài đặt thông báo thành công"
+    },
+    "TIMEOUT": {
+      "TITLE": "Thời gian chờ phản hồi",
+      "ENABLED": "Thời gian chờ tùy chỉnh đến từ đầu tiên",
+      "ENABLED_DESC": "Mặc định tắt. Bật để sớm bỏ qua những nhà cung cấp bị treo trước khi trả lời, thay vì chờ hết thời gian mặc định.",
+      "PER_ATTEMPT": "Mỗi nhà cung cấp (giây)",
+      "PER_ATTEMPT_DESC": "Thời gian chờ từ đầu tiên của một nhà cung cấp trước khi thử nhà cung cấp kế tiếp. Thấp hơn nghĩa là lỗi nhanh hơn; quá thấp có thể bỏ qua những nhà cung cấp sắp trả lời.",
+      "WHOLE_CHAIN": "Tổng ngân sách (giây)",
+      "WHOLE_CHAIN_DESC": "Tổng thời gian tối đa để tìm một nhà cung cấp có phản hồi. 0 nghĩa là không giới hạn tổng thể.",
+      "STREAMING_NOTE": "Điều này chỉ giới hạn thời gian chờ trước từ đầu tiên. Khi câu trả lời đã bắt đầu, nó không bao giờ bị cắt ngang, dù dài đến đâu.",
+      "SAVE_SETTINGS": "Lưu thời gian chờ",
+      "SETTINGS_SAVED": "Đã lưu thời gian chờ"
     }
   },
   "SEARCH": {

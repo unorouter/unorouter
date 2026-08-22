@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Gotify Önceliği",
       "SAVE_SETTINGS": "Ayarları Kaydet",
       "SETTINGS_SAVED": "Bildirim ayarları başarıyla kaydedildi"
+    },
+    "TIMEOUT": {
+      "TITLE": "Yanıt zaman aşımları",
+      "ENABLED": "Özel ilk kelime zaman aşımı",
+      "ENABLED_DESC": "Varsayılan olarak kapalı. Yanıt vermeden önce takılan sağlayıcılardan tam süreyi beklemek yerine daha erken vazgeçmek için açın.",
+      "PER_ATTEMPT": "Sağlayıcı başına (saniye)",
+      "PER_ATTEMPT_DESC": "Bir sonrakine geçmeden önce sağlayıcının ilk kelimesi için ne kadar bekleneceği. Düşük değer daha hızlı hata demektir; çok düşük olursa yanıt vermek üzere olan sağlayıcılar atlanabilir.",
+      "WHOLE_CHAIN": "Toplam bütçe (saniye)",
+      "WHOLE_CHAIN_DESC": "Yanıt veren bir sağlayıcı aramak için harcanan azami toplam süre. 0 genel sınır yok demektir.",
+      "STREAMING_NOTE": "Bu yalnızca ilk kelimeden önceki beklemeyi sınırlar. Yanıt başladıktan sonra, ne kadar uzun sürerse sürsün asla kesilmez.",
+      "SAVE_SETTINGS": "Zaman aşımlarını kaydet",
+      "SETTINGS_SAVED": "Zaman aşımı ayarları kaydedildi"
     }
   },
   "SEARCH": {

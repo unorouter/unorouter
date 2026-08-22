@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Priorità Gotify",
       "SAVE_SETTINGS": "Salva impostazioni",
       "SETTINGS_SAVED": "Impostazioni notifiche salvate con successo"
+    },
+    "TIMEOUT": {
+      "TITLE": "Timeout di risposta",
+      "ENABLED": "Timeout personalizzato per la prima parola",
+      "ENABLED_DESC": "Disattivato per impostazione predefinita. Attivalo per rinunciare prima ai provider che si bloccano prima di rispondere, invece di attendere il valore completo.",
+      "PER_ATTEMPT": "Per provider (secondi)",
+      "PER_ATTEMPT_DESC": "Quanto attendere la prima parola di un provider prima di passare al successivo. Valori più bassi significano errori più rapidi; troppo bassi possono scartare provider che stavano per rispondere.",
+      "WHOLE_CHAIN": "Budget totale (secondi)",
+      "WHOLE_CHAIN_DESC": "Tempo totale massimo dedicato a cercare un provider che risponda. 0 significa nessun limite complessivo.",
+      "STREAMING_NOTE": "Questo limita solo l'attesa prima della prima parola. Una volta iniziata, la risposta non viene mai interrotta, per quanto lunga sia.",
+      "SAVE_SETTINGS": "Salva timeout",
+      "SETTINGS_SAVED": "Timeout salvati"
     }
   },
   "SEARCH": {
