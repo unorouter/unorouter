@@ -1,12 +1,6 @@
-import {
-  flowQuery,
-  flowRow,
-  quotaQuery,
-  type FlowRow,
-} from "@/lib/api/typebox/dashboard";
-import { customFetch } from "@/lib/custom-fetch";
+import { flowQuery, flowRow, quotaQuery } from "@/lib/api/typebox/dashboard";
 import { unwrap } from "@/lib/utils/base";
-import { getUserQuotaDates } from "@/openapi";
+import { getUserFlowQuotaDates, getUserQuotaDates } from "@/openapi";
 import { Elysia, t } from "elysia";
 import { deriveUpstream } from "@/server/constants";
 
@@ -25,24 +19,7 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
   .get(
     "/flow",
     async ({ query, upstream }) => {
-      // Hand-rolled instead of an Orval client: /api/data/flow/self postdates the
-      // last `bun openapi` run. Swap to the generated fn once it regenerates.
-      const params = new URLSearchParams({
-        start_timestamp: String(query.start_timestamp),
-        end_timestamp: String(query.end_timestamp),
-      });
-      const res = await customFetch<{
-        data: {
-          success: boolean;
-          message: string;
-          data?: FlowRow[] | null;
-        };
-        status: number;
-      }>(`/api/data/flow/self?${params}`, {
-        method: "GET",
-        headers: upstream.headers,
-      });
-      const body = unwrap(res);
+      const body = unwrap(await getUserFlowQuotaDates(query, upstream));
       if (!body.success) throw new Error(body.message);
       return body.data ?? [];
     },
