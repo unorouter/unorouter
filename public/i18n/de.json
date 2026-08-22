@@ -4077,6 +4077,7 @@
       "OPEN": "Weitere Aktionen",
       "TOOLS": "Werkzeuge",
       "LOCAL_DB": "Datenbank",
+      "DATA": "Daten",
       "LOCAL_DB_DOWNLOAD": "Lokale SQLite-Datei herunterladen",
       "LOCAL_DB_UPLOAD": "SQLite-Datei importieren (ersetzt lokal)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Datensätze aus dieser Datei importieren? Sie wird auf das aktuelle Schema migriert und ersetzt deine lokalen Daten; die Datensätze werden dieser Sitzung zugeordnet.",

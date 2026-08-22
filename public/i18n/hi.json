@@ -4077,6 +4077,7 @@
       "OPEN": "अधिक क्रियाएं",
       "TOOLS": "उपकरण",
       "LOCAL_DB": "डेटाबेस",
+      "DATA": "डेटा",
       "LOCAL_DB_DOWNLOAD": "Local SQLite फ़ाइल download करें",
       "LOCAL_DB_UPLOAD": "SQLite फ़ाइल इम्पोर्ट करें (local को बदलता है)",
       "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से records इम्पोर्ट करें? यह मौजूदा schema में माइग्रेट होती है और आपके local data को बदल देती है; records इस session के स्वामित्व में आ जाते हैं।",

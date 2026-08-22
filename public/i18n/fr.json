@@ -4077,6 +4077,7 @@
       "OPEN": "Plus d'actions",
       "TOOLS": "Outils",
       "LOCAL_DB": "Base de données",
+      "DATA": "Données",
       "LOCAL_DB_DOWNLOAD": "Télécharger le fichier SQLite local",
       "LOCAL_DB_UPLOAD": "Importer un fichier SQLite (remplace la base locale)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Importer les enregistrements de ce fichier ? Il est migré vers le schéma actuel et remplace vos données locales ; les enregistrements sont réattribués à cette session.",
