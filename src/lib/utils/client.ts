@@ -27,7 +27,7 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-export type ErrorDetail = {
+type ErrorDetail = {
   message: string;
   code?: string;
   status?: number;
@@ -176,31 +176,38 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  let source: unknown = e;
-  if (e && typeof e === "object") {
-    // An Eden Treaty error response has data: null and the body under error.value;
-    // the EdenFetchError's own .message is a useless String(value).
-    if ("data" in e && (e as { data: unknown }).data != null)
-      source = (e as { data: unknown }).data;
-    else if ("error" in e && (e as { error: unknown }).error != null) {
-      const edenError = (e as { error: { value?: unknown } }).error;
-      source = edenError.value ?? edenError;
-    } else if ("response" in e && e.response instanceof Response)
-      source = await e.response
-        .clone()
-        .json()
-        .catch(() => null);
-    else if (e instanceof Error) source = e.message;
-  }
+  // Only the Response case needs its own unwrap here, because reading the body
+  // is async; extractErrorDetail covers every other shape and, unlike the
+  // duplicate this replaced, digs APICallError.responseBody. Without that a
+  // rate-limited chat toast read "bad_response_status_code" while the detail
+  // below already held "Rate limit exceeded, retry in 12s".
+  const source =
+    e &&
+    typeof e === "object" &&
+    "response" in e &&
+    e.response instanceof Response
+      ? await e.response
+          .clone()
+          .json()
+          .catch(() => null)
+      : null;
 
-  const found = pickMessage(source);
-  const message = found?.message || "ERRORS.UNEXPECTED_ERROR";
+  const detail = extractErrorDetail(e);
+  // detail.message LEADS: it digs APICallError.responseBody, which the raw error
+  // does not expose, so an ai-sdk failure would otherwise toast the SDK's
+  // useless "bad_response_status_code" instead of the upstream reason.
+  // pickMessage is consulted only for `params`, the i18n interpolation values
+  // ErrorDetail does not carry, and for the async Response body.
+  const found = pickMessage(source ?? e);
+  const message =
+    (source ? found?.message : null) ||
+    detail.message ||
+    "ERRORS.UNEXPECTED_ERROR";
   const title =
     t && t.has(message as TranslationKey)
       ? t(message as TranslationKey, found?.params)
       : message;
 
-  const detail = extractErrorDetail(e);
   const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
     .filter(Boolean)
     .join(" ");
@@ -434,11 +441,4 @@ export function splitDataUrl(dataUrl: string): {
   const m = /^data:([^;,]+);base64,(.+)$/.exec(dataUrl);
   if (!m) return null;
   return { mimeType: m[1], base64: m[2] };
-}
-
-export function setSearchParam(key: string, value: string | null) {
-  const url = new URL(window.location.href);
-  if (value === null) url.searchParams.delete(key);
-  else url.searchParams.set(key, value);
-  window.history.replaceState(null, "", url.toString());
 }
