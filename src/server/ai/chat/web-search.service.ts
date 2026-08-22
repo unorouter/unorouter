@@ -5,7 +5,7 @@ import {
   WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
-import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race-server";
+import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race.service";
 import { serverEnv } from "@/server/env";
 
 type TavilyResult = {

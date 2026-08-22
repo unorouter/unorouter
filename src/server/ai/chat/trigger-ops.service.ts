@@ -1,10 +1,9 @@
 import { parseChatML } from "@/lib/ai/chat/chatml";
-import { generateInlayImage } from "../media/inlay.service";
-import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
-import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
+import { generateEmbedding } from "./media/media-stream";
+import { cosineSimilarity, errMessage } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";
-import { retrieveSemantic } from "../context/retrieval.service";
 
 const TRIGGER_LLM_MAX_TOKENS = 1024;
 
@@ -49,20 +48,50 @@ export async function runTriggerSimilarity(
   return hits.map((h) => h.text);
 }
 
-export function makeServerTriggerOps(
+const DEFAULT_EMBED_MODEL = "text-embedding-3-small";
+
+type RetrievalCandidate = { id: string; text: string };
+
+async function retrieveSemantic(
   apiKey: string,
-  model: string,
-  inlayCollector?: InlayImage[],
-): TriggerOps {
-  return {
-    runLLM: (prompt) => runTriggerLLM(apiKey, model, prompt),
-    similarity: (source, values) =>
-      runTriggerSimilarity(apiKey, source, values),
-    imgGen: async (prompt) => {
-      const img = await generateInlayImage(apiKey, prompt);
-      if (!img) return "Error: Image generation failed";
-      inlayCollector?.push(img);
-      return `{{inlay::${img.id}}}`;
-    },
-  };
+  queryText: string,
+  candidates: RetrievalCandidate[],
+  opts: { topK?: number; model?: string; minScore?: number } = {},
+): Promise<RetrievalCandidate[]> {
+  const topK = opts.topK ?? 3;
+  const model = opts.model ?? DEFAULT_EMBED_MODEL;
+  const minScore = opts.minScore ?? 0.2;
+  if (!queryText.trim() || candidates.length === 0) return [];
+
+  try {
+    const [queryEmb, candEmbs] = await Promise.all([
+      generateEmbedding(apiKey, model, queryText),
+      Promise.all(
+        candidates.map((c) => generateEmbedding(apiKey, model, c.text)),
+      ),
+    ]);
+    if (queryEmb.vector.length === 0) return [];
+
+    const scored = candidates
+      .map((c, i) => ({
+        c,
+        score: cosineSimilarity(queryEmb.vector, candEmbs[i].vector),
+      }))
+      .filter((x) => x.score >= minScore)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, topK);
+
+    logger.debug("Semantic retrieval", {
+      context: "stream.retrieval",
+      candidates: candidates.length,
+      returned: scored.length,
+    });
+    return scored.map((x) => x.c);
+  } catch (e) {
+    logger.warn("Semantic retrieval failed; skipping", {
+      context: "stream.retrieval",
+      error: errMessage(e),
+    });
+    return [];
+  }
 }

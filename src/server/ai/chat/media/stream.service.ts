@@ -1,15 +1,14 @@
-import { getModelByName } from "@/server/models/pricing/pricing.service";
+import type { StreamBody } from "@/lib/ai/chat/pipeline/prepare.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { logger } from "@/lib/utils/logger";
-import type { StreamBody } from "@/lib/ai/chat/pipeline/prepare.service";
-
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import {
   handleAudioStream,
   handleEmbeddingStream,
   handleImageStream,
   handleVideoTaskStream,
-} from "./media/media-stream";
+} from "./media-stream";
 
 export async function streamMedia(
   apiKey: string,

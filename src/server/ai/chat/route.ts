@@ -18,11 +18,11 @@ import { Elysia } from "elysia";
 import { generateInlayImage } from "./media/inlay.service";
 import { fetchVideoTaskStatus, finalizeVideoTask } from "./media/task.service";
 import { generateChatTitle } from "./title.service";
-import { runTriggerLLM, runTriggerSimilarity } from "./triggers/trigger-ops";
-import { streamMedia } from "./media-stream.service";
+import { runTriggerLLM, runTriggerSimilarity } from "./trigger-ops.service";
+import { streamMedia } from "./media/stream.service";
 import { forwardChatCompletions } from "./forward.service";
 import { forwardCustomProvider } from "./custom-forward.service";
-import { resolveWebSearch } from "./context/web-search.service";
+import { resolveWebSearch } from "./web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
