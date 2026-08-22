@@ -26,7 +26,6 @@
     "LOG_IN": "Giriş Yap",
     "CHAT": "Sohbet",
     "STATUS": "Durum",
-    "COMPARE": "Karşılaştır",
     "LANGUAGE": "Dil",
     "MODEL_TESTER": "Denetleyici",
     "DISCORD": "Discord"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "Tamamen OpenAI uyumlu"
     },
     "PRICING": {
-      "LABEL": "Fiyatlandırma",
-      "TITLE": "Basit Fiyatlandırma.",
-      "SUBTITLE": "Sadece kullandığın kadar öde.",
-      "DESCRIPTION": "Daha iyi değer için abone ol veya kullandıkça öde. Tüm planlar sağlayıcılar arasında otomatik failover ile her modele erişim içerir.",
-      "PROVIDERS": {
-        "TITLE": "Desteklenen Sağlayıcılar"
-      },
-      "FLOW": {
-        "TITLE": "İstek Akışı"
-      }
+      "LABEL": "Fiyatlandırma"
     },
     "CHAT": {
       "BADGE": "Dahili Sohbet",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "Sohbeti aç",
       "CTA_CONNECT": "İstemcini Bağla",
       "MOCK": {
-        "CHARACTER": "Kaptan Elara Voss",
         "MODEL": "Ücretsiz",
         "MSG_AI": "Rapor ver, acemi. Teçhizatını topla, on saniyeye siçriyoruz.",
-        "MSG_USER": "Emredersiniz Kaptan. Hazırım.",
-        "TYPING": "yazıyor",
         "INPUT": "Bir mesaj yaz...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "Yeni sohbet",
         "CONV1": "Kaptan Elara Voss",
         "CONV2": "Simyacı Lyra",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "Hesaplıyorum. Üç sıçrama ötede, yakıt da bol. Kemerleri bağlayın."
       }
     },
-    "FEATURES": {
-      "TITLE": "Neden {appName}",
-      "DESCRIPTION": "Bir endpoint, her AI modeli. Akıllı yönlendirme en hızlı sağlayıcıyı seçerken otomatik failover isteklerinizin her zaman başarılı olmasını sağlar.",
-      "FAILOVER": {
-        "TITLE": "Otomatik Failover"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "Çoklu Protokol Desteği"
-      },
-      "LOADBALANCE": {
-        "TITLE": "Akıllı Yük Dengeleme"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "Sıfır Kesinti Mimarisi",
-      "TITLE_1": "Her Zaman Açık",
-      "TITLE_2": "Güvenilir AI",
-      "DESCRIPTION": "İstekleriniz aynı anda birden fazla sağlayıcı üzerinden yönlendirilir. Biri çökerse, diğeri anında devralır. Tek arıza noktası yok.",
-      "CARD1": {
-        "TITLE": "Çoklu Sağlayıcı",
-        "DESC": "Otomatik failover ile birden fazla sağlayıcı. İstekleriniz sağlayıcı kesintileri sırasında bile her zaman çalışan bir yol bulur."
-      },
-      "CARD2": {
-        "TITLE": "Akıllı Yönlendirme",
-        "DESC": "Öncelik ağırlıkları ile gecikme tabanlı kanal seçimi. En hızlı sağlayıcı her seferinde kazanır."
-      },
-      "LEARN_MORE": "Daha Fazla Bilgi",
-      "LEARN_MORE_DOCS": "Dokümantasyonu Görüntüle",
-      "ARCH": {
-        "TITLE": "Mimari",
-        "ACTIVE": "Aktif",
-        "STEP1": {
-          "TITLE": "Birleşik Endpoint",
-          "DESC": "OpenAI, Anthropic, Gemini formatları için tek API"
-        },
-        "STEP2": {
-          "TITLE": "Akıllı Yönlendirme",
-          "DESC": "Gecikme ve kullanılabilirliğe göre en hızlı sağlayıcıyı seçer"
-        },
-        "STEP3": {
-          "TITLE": "Otomatik Failover",
-          "DESC": "Başarısız istekler anında alternatif kanallarda yeniden denenir"
-        },
-        "STEP4": {
-          "TITLE": "Çoklu Rota",
-          "DESC": "Modellerin çoğu birden fazla sağlayıcı üzerinden çalışır, tek arıza noktası yok"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "Desteklenen Formatlar",
-        "DESC": "Tüm formatlar otomatik olarak algılanır ve doğru sağlayıcıya yönlendirilir."
-      }
-    },
     "CODE": {
       "TITLE_1": "Saniyeler içinde entegre edin.",
       "TITLE_2": "Sonsuza ölçeklendirin.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "Çoklu protokol desteği",
       "FEATURE_4": "Kod yok mu? Sitede sohbet et",
       "READ_DOCS": "Tam API Dokümantasyonunu Oku",
-      "NO_CODE_LABEL": "Kodlayıcı değil misiniz?",
-      "NO_CODE_OPTION": "Kodu atlayın. Doğrudan burada sitede karakterlerle sohbet edin ya da URL'yi SillyTavern, RisuAI veya OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisine yapıştırın.",
-      "NO_CODE_CHAT_LINK": "Sohbeti aç",
-      "NO_CODE_LINK": "Entegrasyon kılavuzlarını gör"
+      "NO_CODE_CHAT_LINK": "Sohbeti aç"
     },
     "CTA": {
       "TITLE_1": "Bağlanmaya",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
       "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
       "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, çoklu model API, AI sohbet istemcisi"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "Bugün",
       "WEEK": "Hafta",
       "MONTH": "Ay",
-      "YEAR": "Yıl",
-      "ALL": "Tüm zamanlar"
+      "YEAR": "Yıl"
     },
     "MODELS": {
       "TITLE": "En İyi Modeller",
-      "SUBTITLE": "Seçilen dönemde token hacmine göre sıralanan modeller",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Son 24 saatte model bazında saatlik token kullanımı",
         "WEEK": "Son birkaç haftada model bazında haftalık token kullanımı",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "Pazar Payı",
-      "SUBTITLE": "Model yazarına göre token payı",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Son 24 saatte model yazarına göre token payı",
         "WEEK": "Son birkaç haftada model yazarına göre token payı",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "Fiyatlandırma",
     "INPUT_PRICE": "Girdi fiyatı",
     "OUTPUT_PRICE": "Çıktı fiyatı",
-    "PRICE_PER_MILLION": "{price} · 1M token",
     "FIXED_PRICE": "İstek başına fiyat",
-    "PRICE_PER_REQUEST": "{price} · istek",
-    "PRICE_PER_SECOND": "{price} · saniye",
-    "PRICE_PER_IMAGE": "{price} · görsel",
     "GRID_PRICING_TITLE": "Fiyat ızgarası",
     "GRID_PRICE_HEADER": "Fiyat",
-    "AVAILABLE_BADGE": "Şimdi kullanılabilir",
-    "OFFLINE_BADGE": "Çevrimdışı",
-    "STAT_INPUT": "Girdi",
-    "STAT_OUTPUT": "Çıktı",
-    "STAT_FIXED": "İstek başına",
-    "STAT_CONTEXT": "Context",
-    "STAT_ENDPOINTS": "Endpointler",
-    "STAT_TYPE": "Tip",
-    "STAT_FREE": "Ücretsiz",
     "CONTEXT_WINDOW": "Context penceresi",
     "CONTEXT_TOKENS": "{count} token",
     "ENDPOINTS": "Uyumlu endpointler",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "aylık API kredisi",
       "VALUE_EXPLAIN": "{paid}/ay öde, {credit} API kredisi al. Her modelde kullan.",
       "DELIVERED": "Her {period} {amount} yeniler."
-    },
-    "BANNER": {
-      "TITLE": "Telegram'da OpenClaw AI Asistanı",
-      "SUBTITLE": "OpenClaw ve {appName} tarafından desteklenen Telegram botunuz için tek tıkla AI dağıtımı."
     },
     "META": {
       "TITLE": "Fiyatlandırma - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. Tüm hakları saklıdır.",
     "LEGAL_TERMS": "Hizmet Şartlarımızı",
     "LEGAL_PRIVACY": "Gizlilik Politikamızı okuyup kabul ettiğinizi onaylarsınız",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout Oyna",
     "BADGE_FEATURED_ON": "{name} üzerinde öne çıkan",
     "BADGE_VERIFIED_ON": "{name} üzerinde doğrulandı",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "Bir şeyler ters gitti",
       "UNEXPECTED_ERROR_OCCURRED": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya ana sayfaya dönün.",
       "ERROR_DETAILS": "Hata Detayları",
-      "DIGEST": "Özet",
       "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi.",
       "COPY_ERROR": "Hatayi kopyala",
       "RESET_APP_DATA": "Uygulama verilerini sıfırla ve yeniden yükle",
@@ -3123,15 +3030,10 @@
       "EVENING": "İyi akşamlar"
     },
     "STATS": {
-      "ACCOUNT_DATA": "Hesap Verisi",
-      "CURRENT_BALANCE": "Mevcut Bakiye",
-      "USAGE_STATISTICS": "Kullanım İstatistikleri",
       "REQUEST_COUNT": "İstek Sayısı",
       "STATISTICAL_COUNT": "İstatistiksel Sayı",
-      "RESOURCE_CONSUMPTION": "Kaynak Tüketimi",
       "STATISTICAL_QUOTA": "İstatistiksel Kota",
       "STATISTICAL_TOKENS": "İstatistiksel Tokenlar",
-      "PERFORMANCE_INDICATORS": "Performans Göstergeleri",
       "AVERAGE_RPM": "Ortalama RPM",
       "AVERAGE_TPM": "Ortalama TPM",
       "STATISTICAL_COUNT_CAPTION": "İstatistiksel sayı",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API Bilgisi",
       "NO_API_INFO": "API bilgisi yok",
-      "BALANCE": "Bakiye",
       "BURN_RATE": "Harcama hızı",
       "RUNWAY": "Kalan süre",
       "PER_DAY": "{amount}/gün",
       "DAYS_LEFT": "{days} gün",
       "PERFORMANCE": "Performans",
-      "P50_LATENCY": "p50 gecikme",
-      "P95_LATENCY": "p95 gecikme",
-      "STREAM_SHARE": "Akışlı",
-      "SLOWEST_MODELS": "En yavaş modeller",
-      "SAMPLE_SIZE": "Son {count} isteğe dayalı",
       "API_KEYS": "API anahtarı harcaması",
       "UNNAMED_KEY": "Adsız anahtar",
       "LAST_USED": "Son kullanım {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "İyi",
       "LOW": "Düşük",
       "TOP_UP": "Yükle",
-      "PERFORMANCE_DESC": "Son 24 saatin performans ölçümleri",
       "SUCCESS_RATE": "Başarı oranı",
       "AVG_LATENCY": "Ortalama gecikme",
       "THROUGHPUT": "İşlem hacmi",
-      "TOP_MODELS": "En çok trafiğe sahip modeller",
       "API_KEYS_DESC": "Anahtar başına harcama ve son kullanım"
     },
-    "CONSUMPTION": "Tüketim",
     "TOTAL": "Toplam",
     "OTHER": "Diğer",
     "NO_DATA": "Veri yok",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "Aboneliklerim",
       "NO_ACTIVE": "Aktif yok",
       "ACTIVE": "Aktif",
       "EXPIRED": "Süresi Doldu",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "{date} tarihinde yenilenir"
     },
     "PREFERENCE": {
-      "TITLE": "Faturalandırma Tercihi",
       "WALLET_FIRST": "Önce cüzdan",
       "WALLET_ONLY": "Sadece cüzdan",
       "SUBSCRIPTION_FIRST": "Önce abonelik",
       "SUBSCRIPTION_ONLY": "Sadece abonelik"
     },
     "TOPUP": {
-      "TITLE": "Kota Yükleme",
       "ACTUAL_PAYMENT": "Gerçek ödeme",
       "SAVE": "Kaydet",
       "CUSTOM_AMOUNT": "Özel tutar",
@@ -3671,7 +3561,6 @@
     "TITLE": "Faturalandırma",
     "SUPPORT_TITLE": "Yardıma mı ihtiyacınız var?",
     "SUPPORT_TEXT": "Faturalandırma veya hesabınızla ilgili sorularınız mı var? Bize {supportEmail} adresinden e-posta gönderin, bir iş günü içinde yanıt verelim.",
-    "ACCOUNT_STATS": "Hesap İstatistikleri",
     "CURRENT_BALANCE": "Mevcut Bakiye",
     "CONSUMPTION": "Tüketim",
     "REQUESTS": "İstekler",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "Bu mesaj artık mevcut değil. Sayfayı yenileyip tekrar deneyin.",
     "NO_TASK_ID": "Yanıtta görev ID veya URL yok",
     "REQUEST_FAILED": "İstek başarısız",
-    "PRICING_FETCH_FAILED": "Fiyatlandırma verisi alınamadı",
     "NO_TEXT_MODELS": "Metin modeli yok",
     "NO_IMAGE_PROMPT": "Görsel üretimi için istem sağlanmadı",
     "VIDEO_IMAGE_REQUIRED": "Bu model bir görseli videoya dönüştürür. Önce mesajınıza bir görsel ekleyin.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Yanıt izin verilen maksimum boyutu aşıyor",
     "DISALLOWED_CONTENT_TYPE": "İçerik tipine izin verilmiyor",
     "UPSTREAM_FETCH_FAILED": "Upstream'den alınamadı",
-    "STORAGE_QUOTA_EXCEEDED": "Depolama sınırına ulaşıldı. Yer açmak için eski sohbetleri silin.",
-    "PROMPT_REJECTED": "Bu istem içerik politikasını ihlal eder ve görsel veya video üretimi için kullanılamaz.",
-    "PROMPT_FLAGGED": "Bu istem üretim için potansiyel olarak güvensiz olarak işaretlendi. Lütfen yeniden ifade edin ve tekrar deneyin.",
-    "MODERATION_UNAVAILABLE": "Görsel ve video üretimi geçici olarak kullanılamıyor. Lütfen kısa süre içinde tekrar deneyin.",
     "IMPORT_INVALID_JSON": "Dosya geçerli JSON değil.",
     "IMPORT_UNSUPPORTED_VERSION": "Desteklenmeyen dışa aktarma sürümü.",
     "CARD_PARSE_FAILED": "Karakter kartı ayrıştırılamadı.",
     "CARD_MISSING_NAME": "Karakter kartı gerekli ad alanını eksik.",
     "CARD_IMPORT_INVALID_URL": "Bu geçerli bir karakter bağlantısı gibi görünmüyor.",
-    "CARD_IMPORT_NOT_FOUND": "Bu karakter bulunamadı. Özel veya silinmiş olabilir.",
     "CARD_IMPORT_FETCH_FAILED": "Bu karakter indirilemedi. Lütfen tekrar deneyin.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Yazar bu lorebook'ları gizli tuttu, bu yüzden indirilemiyorlar",
     "UNEXPECTED_ERROR": "Beklenmedik bir hata oluştu",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "Anahtar tarayıcınızdan asla çıkmaz",
     "TESTER_RANKINGS": "Herkese açık sıralama",
     "TESTER_VERIFIED": "Sunucu doğrulamalı sonuçlar",
-    "PLAYGROUND_TAGLINE": "Tarayıcınızda görsel ve video üretim stüdyosu",
-    "PLAYGROUND_IMAGE_VIDEO": "Görsel ve video modelleri",
-    "PLAYGROUND_COMFY": "ComfyUI iş akışları",
-    "PLAYGROUND_LORAS": "LoRA ve embedding'ler",
-    "PLAYGROUND_UPSCALE": "Upscaler ve hires fix",
-    "PLAYGROUND_REFS": "Referans görseller ve maskeler",
-    "PLAYGROUND_FREE": "Ücretsiz modeller dahil",
     "CONTEXT": "Bağlam"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Çalışıyor",
       "DOWN": "Kapalı"
     },
-    "RIBBON": {
-      "TITLE": "Son 24 saat"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Modelleri ara...",
       "STATUS_ALL": "Tümü",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "Yapay Zeka API Model Testleyici",
       "SUBTITLE": "Bir uc noktanin iddia ettigi gercek modeli sunup sunmadigini kontrol edin. Tarayicida calisir, anahtariniz sunucularimiza gonderilmez.",
-      "EYEBROW": "Guvenmeden once dogrulayin",
-      "TRUST_BADGE": "100% tarayici tarafinda. Anahtariniz asla sunucularimiza gonderilmez."
+      "EYEBROW": "Guvenmeden once dogrulayin"
     },
     "TABS": {
       "TEST": "Test",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} sonda gecti",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "{mode} uzerinden",
-      "IDLE": "Sonucu burada gormek icin bir test calistirin.",
       "DETECTED_MODEL": "Algilanan model",
       "TOTAL_TOKENS": "{tokens} token",
       "FORMAT_FELL_BACK": "Yerel bicim desteklenmiyor; bunun yerine {format} ile test edildi.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "Henuz test yok. Gecmis olusturmak icin bir tane calistirin.",
-      "PUBLISH": "Yayinla",
       "DELETE_TITLE": "Testi sil",
       "DELETE_BODY": "Testi yerel gecmisinizden kaldirir.",
       "DELETE_CONFIRM": "Sil",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "Yayınlanan her sonuç sayılmadan önce sunucumuzda yeniden çalıştırılır ve her karar, onu üreten tam kanıta bağlanır. Yanlış olduğunu düşündüğünüz bir sonuca itiraz edilebilir.",
       "REPORT_DISCORD": "Discord'da bildir",
       "REPORT_GITHUB": "GitHub'da bir sorun aç",
-      "NOT_TESTED": "Henüz test edilmedi",
       "LOW_CONFIDENCE": "Düşük güven ({count} test)",
       "SELF_TITLE": "Aynı ölçütü kendimize de uyguluyoruz",
       "SELF_BODY": "{appName} tam da bu araçla test edilir. Kanıtı görüntüleyin.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "Henüz gönderim yok. Doğrulanmış bir testi ilk yayımlayan siz olun.",
       "SUBMITTED_BY": "{who} tarafından gönderildi",
       "ANONYMOUS": "anonim",
-      "DELETE_MINE": "Sil",
       "REPORT": "Bildir",
       "REPORT_HELP": "Sizin sonucunuz değil mi? İtiraz edin:",
       "DELETE_TITLE": "Bu yayınlanan sonuç kaldırılsın mı?",
       "DELETE_BODY": "Bu, gönderiminizi herkese açık sıralamalardan çeker. Yerel geçmişiniz etkilenmez.",
       "DELETE_CONFIRM": "Kaldır",
       "DELETE_CANCEL": "İptal",
-      "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin.",
       "BACK_TO_PROVIDER": "Sağlayıcıya dön",
-      "BACK_TO_MODEL": "Modele dön",
-      "PUBLISHED_NOTE": "Sunucuda doğrulandı. Problar ve yanıtlar herkesin bu kararı denetleyebilmesi için herkese açıktır.",
       "LOADING": "Yükleniyor ...",
-      "EXPAND_ALL": "Tümünü genişlet",
-      "COLLAPSE_ALL": "Tümünü daralt",
       "PREV": "Önceki",
       "NEXT": "Sonraki",
       "PAGE_OF": "Sayfa {page} / {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "Model yaniti",
       "STATUS": "HTTP",
       "TOKENS": "Token (giris/cikis)",
-      "SIGNAL": "Sinyal",
       "REASON": "Neden",
       "NO_RESPONSE": "Yanit yakalanmadi.",
       "WHAT_WE_CHECK": "Bu denetimin neyi sınadığı"
     },
     "NAV": {
-      "TEST_DESC": "Bir uc noktayi canli test et",
       "HISTORY_DESC": "Gecmis testleriniz",
       "RANKINGS_DESC": "Genel siralama"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "Bildirimler",
     "EMPTY": "Bu oturumda bildirim yok",
     "EMPTY_HINT": "Fiyat değişimi ve erişilebilirlik uyarıları almak için bir modeli izleyin.",
-    "WATCHING_COUNT": "{count} izleniyor",
     "WATCH_FREE_MODELS": "Yeni ücretsiz modeller",
     "WATCH": "İzle",
     "UNWATCH": "İzlemeyi bırak",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "Örneğin {sample}",
       "BULK_BODY_EMPTY": "Tam listeyi görmek için kataloğu aç"
     },
-    "WATCHED_MODELS": "İzlenen modeller",
-    "PUSH_ON": "Tarayıcı bildirimleri açık",
-    "PUSH_ENABLE": "Tarayıcı bildirimlerini aç",
     "PUSH_BLOCKED": "Bildirimler tarayıcı ayarlarında engellenmiş",
     "ADD_MODEL_PLACEHOLDER": "İzlenecek model ekle...",
     "TAB_INBOX": "Gelen",

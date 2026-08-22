@@ -26,7 +26,6 @@
     "LOG_IN": "ログイン",
     "CHAT": "チャット",
     "STATUS": "ステータス",
-    "COMPARE": "比較",
     "LANGUAGE": "言語",
     "MODEL_TESTER": "インスペクター",
     "DISCORD": "Discord"
@@ -108,16 +107,7 @@
       "PICK_DESC": "{appName} は、コーディングエージェント、キャラクターチャットクライアント、AIチャットクライアント、CLIツールにまたがって、カスタムのOpenAI互換APIとして動作します。"
     },
     "PRICING": {
-      "LABEL": "料金",
-      "TITLE": "シンプルな料金体系。",
-      "SUBTITLE": "使った分だけのお支払い。",
-      "DESCRIPTION": "お得なサブスクリプションか従量課金をお選びください。すべてのプランで、全モデルへのアクセスとプロバイダー間の自動フェイルオーバーが利用できます。",
-      "PROVIDERS": {
-        "TITLE": "対応プロバイダー"
-      },
-      "FLOW": {
-        "TITLE": "リクエストフロー"
-      }
+      "LABEL": "料金"
     },
     "CHAT": {
       "BADGE": "内蔵チャット",
@@ -143,13 +133,9 @@
       "CTA_OPEN": "チャットを開く",
       "CTA_CONNECT": "クライアントを接続",
       "MOCK": {
-        "CHARACTER": "エララ・ヴォス艦長",
         "MODEL": "無料",
         "MSG_AI": "報告しろ、新兵。装備をしまえ、十秒でジャンプだ。",
-        "MSG_USER": "はい、艦長。準備完了です。",
-        "TYPING": "入力中",
         "INPUT": "メッセージを入力...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "新規チャット",
         "CONV1": "エララ・ヴォス艦長",
         "CONV2": "錬金術師リラ",
@@ -192,59 +178,6 @@
         "NEW_DEMO_AI": "今、計算中だ。ジャンプ三回、燃料はたっぷりある。しっかり掴まれ。"
       }
     },
-    "FEATURES": {
-      "TITLE": "{appName} を選ぶ理由",
-      "DESCRIPTION": "ひとつのエンドポイントで、あらゆるAIモデルを。インテリジェントルーティングが最速のプロバイダーを選び、自動フェイルオーバーがリクエストの成功を保証します。",
-      "FAILOVER": {
-        "TITLE": "自動フェイルオーバー"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "マルチプロトコル対応"
-      },
-      "LOADBALANCE": {
-        "TITLE": "スマートロードバランシング"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "ゼロダウンタイムアーキテクチャ",
-      "TITLE_1": "常時稼働",
-      "TITLE_2": "信頼性のあるAI",
-      "DESCRIPTION": "リクエストは複数のプロバイダーに同時にルーティングされます。ひとつが停止しても、別のプロバイダーが即座に引き継ぎます。単一障害点はありません。",
-      "CARD1": {
-        "TITLE": "マルチプロバイダー",
-        "DESC": "複数のプロバイダーと自動フェイルオーバー。プロバイダー障害時でも、リクエストは常に正常な経路を見つけます。"
-      },
-      "CARD2": {
-        "TITLE": "スマートルーティング",
-        "DESC": "レイテンシに基づくチャネル選択と優先度重み付け。常に最速のプロバイダーが選ばれます。"
-      },
-      "LEARN_MORE": "詳しく見る",
-      "LEARN_MORE_DOCS": "ドキュメントを見る",
-      "ARCH": {
-        "TITLE": "アーキテクチャ",
-        "ACTIVE": "稼働中",
-        "STEP1": {
-          "TITLE": "統合エンドポイント",
-          "DESC": "OpenAI、Anthropic、Gemini 形式に対応する単一API"
-        },
-        "STEP2": {
-          "TITLE": "スマートルーティング",
-          "DESC": "レイテンシと可用性に基づき最速プロバイダーを選択"
-        },
-        "STEP3": {
-          "TITLE": "自動フェイルオーバー",
-          "DESC": "失敗したリクエストは即座に別チャネルで再試行"
-        },
-        "STEP4": {
-          "TITLE": "複数の経路",
-          "DESC": "ほとんどのモデルは複数のプロバイダーで動作し、単一障害点がありません"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "対応フォーマット",
-        "DESC": "すべての形式を自動検出し、適切なプロバイダーへルーティングします。"
-      }
-    },
     "CODE": {
       "TITLE_1": "数秒で統合。",
       "TITLE_2": "無限にスケール。",
@@ -254,10 +187,7 @@
       "FEATURE_3": "マルチプロトコル対応",
       "FEATURE_4": "コード不要、サイト上でチャット",
       "READ_DOCS": "APIドキュメントを読む",
-      "NO_CODE_LABEL": "コードを書かない方へ",
-      "NO_CODE_OPTION": "コードは不要。このサイト上で直接キャラクターとチャットするか、URLを SillyTavern、RisuAI、またはOpenAI互換の任意のAIチャットクライアントに貼り付けてください。",
-      "NO_CODE_CHAT_LINK": "チャットを開く",
-      "NO_CODE_LINK": "連携ガイドを見る"
+      "NO_CODE_CHAT_LINK": "チャットを開く"
     },
     "CTA": {
       "TITLE_1": "さあ、",
@@ -273,7 +203,6 @@
       "DESCRIPTION": "すべてのAIモデルに、ひとつの鍵。コードでも、Claude Codeでも、お気に入りのAIクライアントでも使えます。主要プロバイダー全体へのスマートルーティング。",
       "KEYWORDS": "AI APIゲートウェイ、統合AIエンドポイント、OpenAI互換、Claude API、GPT API、Gemini API、自動フェイルオーバー、スマートルーティング、マルチモデルAPI、AIチャットクライアント"
     },
-    "TITLE": "{appName}",
     "HOW_IT_WORKS": {
       "LABEL": "はじめに",
       "TITLE": "3ステップ。",
@@ -576,12 +505,10 @@
       "TODAY": "本日",
       "WEEK": "週",
       "MONTH": "月",
-      "YEAR": "年",
-      "ALL": "全期間"
+      "YEAR": "年"
     },
     "MODELS": {
       "TITLE": "トップモデル",
-      "SUBTITLE": "選択した期間のトークン使用量で並べたモデル",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "直近 24 時間のモデル別 1 時間ごとのトークン使用量",
         "WEEK": "直近数週間のモデル別の週次トークン使用量",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "シェア",
-      "SUBTITLE": "モデル提供者ごとのトークンシェア",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "直近 24 時間のモデル提供者ごとのトークンシェア",
         "WEEK": "直近数週間のモデル提供者ごとのトークンシェア",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "料金",
     "INPUT_PRICE": "入力料金",
     "OUTPUT_PRICE": "出力料金",
-    "PRICE_PER_MILLION": "{price} · 100万トークン",
     "FIXED_PRICE": "1リクエストあたりの料金",
-    "PRICE_PER_REQUEST": "{price} · リクエスト",
-    "PRICE_PER_SECOND": "{price} · 秒",
-    "PRICE_PER_IMAGE": "{price} · 画像",
     "GRID_PRICING_TITLE": "料金グリッド",
     "GRID_PRICE_HEADER": "料金",
-    "AVAILABLE_BADGE": "現在利用可能",
-    "OFFLINE_BADGE": "オフライン",
-    "STAT_INPUT": "入力",
-    "STAT_OUTPUT": "出力",
-    "STAT_FIXED": "リクエスト単位",
-    "STAT_CONTEXT": "コンテキスト",
-    "STAT_ENDPOINTS": "エンドポイント",
-    "STAT_TYPE": "タイプ",
-    "STAT_FREE": "無料",
     "CONTEXT_WINDOW": "コンテキストウィンドウ",
     "CONTEXT_TOKENS": "{count} トークン",
     "ENDPOINTS": "対応エンドポイント",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "APIクレジット / 月",
       "VALUE_EXPLAIN": "{paid}/月で{credit}分のAPIクレジット。どのモデルでも使えます。",
       "DELIVERED": "{period}ごとに{amount}を補充。"
-    },
-    "BANNER": {
-      "TITLE": "Telegram で使える OpenClaw AI アシスタント",
-      "SUBTITLE": "OpenClaw と {appName} で、Telegram ボットへワンクリックでAIを展開できます。"
     },
     "META": {
       "TITLE": "料金 {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. 無断複写・転載を禁じます。",
     "LEGAL_TERMS": "利用規約",
     "LEGAL_PRIVACY": "プライバシーポリシー",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout で遊ぶ",
     "BADGE_FEATURED_ON": "{name}に掲載",
     "BADGE_VERIFIED_ON": "{name}で認証済み",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "問題が発生しました",
       "UNEXPECTED_ERROR_OCCURRED": "予期しないエラーが発生しました。もう一度お試しいただくか、ホームに戻ってください。",
       "ERROR_DETAILS": "エラーの詳細",
-      "DIGEST": "ダイジェスト",
       "SECTION_LOAD_FAILED": "このセクションの読み込みに失敗しました。",
       "COPY_ERROR": "エラーをコピー",
       "RESET_APP_DATA": "アプリデータをリセットして再読み込み",
@@ -3123,15 +3030,10 @@
       "EVENING": "こんばんは"
     },
     "STATS": {
-      "ACCOUNT_DATA": "アカウントデータ",
-      "CURRENT_BALANCE": "現在の残高",
-      "USAGE_STATISTICS": "利用統計",
       "REQUEST_COUNT": "リクエスト数",
       "STATISTICAL_COUNT": "統計件数",
-      "RESOURCE_CONSUMPTION": "リソース消費",
       "STATISTICAL_QUOTA": "統計クォータ",
       "STATISTICAL_TOKENS": "統計トークン",
-      "PERFORMANCE_INDICATORS": "パフォーマンス指標",
       "AVERAGE_RPM": "平均 RPM",
       "AVERAGE_TPM": "平均 TPM",
       "STATISTICAL_COUNT_CAPTION": "統計件数",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API 情報",
       "NO_API_INFO": "API 情報はありません",
-      "BALANCE": "残高",
       "BURN_RATE": "消費ペース",
       "RUNWAY": "残り日数",
       "PER_DAY": "{amount}/日",
       "DAYS_LEFT": "{days}日",
       "PERFORMANCE": "パフォーマンス",
-      "P50_LATENCY": "p50レイテンシ",
-      "P95_LATENCY": "p95レイテンシ",
-      "STREAM_SHARE": "ストリーミング",
-      "SLOWEST_MODELS": "最も遅いモデル",
-      "SAMPLE_SIZE": "直近{count}件のリクエストに基づく",
       "API_KEYS": "APIキー別の利用額",
       "UNNAMED_KEY": "名称未設定のキー",
       "LAST_USED": "最終使用：{when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "正常",
       "LOW": "残りわずか",
       "TOP_UP": "チャージ",
-      "PERFORMANCE_DESC": "過去24時間のパフォーマンス指標",
       "SUCCESS_RATE": "成功率",
       "AVG_LATENCY": "平均レイテンシ",
       "THROUGHPUT": "スループット",
-      "TOP_MODELS": "トラフィック上位のモデル",
       "API_KEYS_DESC": "キーごとの利用額と最終使用"
     },
-    "CONSUMPTION": "消費",
     "TOTAL": "合計",
     "OTHER": "その他",
     "NO_DATA": "データはありません",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "マイサブスクリプション",
       "NO_ACTIVE": "有効なサブスクリプションなし",
       "ACTIVE": "有効",
       "EXPIRED": "期限切れ",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "{date}に更新"
     },
     "PREFERENCE": {
-      "TITLE": "請求設定",
       "WALLET_FIRST": "ウォレット優先",
       "WALLET_ONLY": "ウォレットのみ",
       "SUBSCRIPTION_FIRST": "サブスクリプション優先",
       "SUBSCRIPTION_ONLY": "サブスクリプションのみ"
     },
     "TOPUP": {
-      "TITLE": "クォータチャージ",
       "ACTUAL_PAYMENT": "実際のお支払い額",
       "SAVE": "保存",
       "CUSTOM_AMOUNT": "カスタム金額",
@@ -3671,7 +3561,6 @@
     "TITLE": "請求",
     "SUPPORT_TITLE": "お困りですか？",
     "SUPPORT_TEXT": "請求やアカウントについてご質問がありますか？{supportEmail} までメールでお問い合わせいただければ、1営業日以内にご返信いたします。",
-    "ACCOUNT_STATS": "アカウント統計",
     "CURRENT_BALANCE": "現在の残高",
     "CONSUMPTION": "消費",
     "REQUESTS": "リクエスト",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "このメッセージは存在しません。ページを再読み込みしてもう一度お試しください。",
     "NO_TASK_ID": "応答にタスク ID または URL がありません",
     "REQUEST_FAILED": "リクエストに失敗しました",
-    "PRICING_FETCH_FAILED": "料金データの取得に失敗しました",
     "NO_TEXT_MODELS": "利用可能なテキストモデルがありません",
     "NO_IMAGE_PROMPT": "画像生成用のプロンプトが指定されていません",
     "VIDEO_IMAGE_REQUIRED": "このモデルは画像を動画に変換します。まずメッセージに画像を添付してください。",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "応答が許可された最大サイズを超えています",
     "DISALLOWED_CONTENT_TYPE": "許可されていないコンテンツタイプです",
     "UPSTREAM_FETCH_FAILED": "アップストリームからの取得に失敗しました",
-    "STORAGE_QUOTA_EXCEEDED": "ストレージの上限に達しました。古い会話を削除して空き容量を確保してください。",
-    "PROMPT_REJECTED": "このプロンプトはコンテンツポリシーに違反しており、画像や動画の生成には使用できません。",
-    "PROMPT_FLAGGED": "このプロンプトは生成にあたり安全性に懸念があると判断されました。表現を変えて再度お試しください。",
-    "MODERATION_UNAVAILABLE": "画像および動画の生成は現在一時的にご利用いただけません。しばらくしてから再度お試しください。",
     "IMPORT_INVALID_JSON": "ファイルが有効なJSONではありません。",
     "IMPORT_UNSUPPORTED_VERSION": "サポートされていないエクスポート形式です。",
     "CARD_PARSE_FAILED": "キャラクターカードを解析できませんでした。",
     "CARD_MISSING_NAME": "キャラクターカードに必須の名前フィールドがありません。",
     "CARD_IMPORT_INVALID_URL": "有効なキャラクターリンクではないようです。",
-    "CARD_IMPORT_NOT_FOUND": "このキャラクターが見つかりませんでした。非公開か削除された可能性があります。",
     "CARD_IMPORT_FETCH_FAILED": "このキャラクターをダウンロードできませんでした。もう一度お試しください。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者がこれらのロアブックを非公開にしているため、ダウンロードできません",
     "UNEXPECTED_ERROR": "予期しないエラーが発生しました",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "キーはブラウザの外に出ません",
     "TESTER_RANKINGS": "公開ランキング",
     "TESTER_VERIFIED": "サーバー検証済みの結果",
-    "PLAYGROUND_TAGLINE": "ブラウザで使える画像・動画生成スタジオ",
-    "PLAYGROUND_IMAGE_VIDEO": "画像・動画モデル",
-    "PLAYGROUND_COMFY": "ComfyUIワークフロー",
-    "PLAYGROUND_LORAS": "LoRAと埋め込み",
-    "PLAYGROUND_UPSCALE": "アップスケーラーとhires fix",
-    "PLAYGROUND_REFS": "参照画像とマスク",
-    "PLAYGROUND_FREE": "無料モデルあり",
     "CONTEXT": "コンテキスト"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "正常",
       "DOWN": "停止"
     },
-    "RIBBON": {
-      "TITLE": "過去 24 時間"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "モデルを検索...",
       "STATUS_ALL": "すべて",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "AI APIモデルテスター",
       "SUBTITLE": "エンドポイントが名乗るモデルを本当に提供しているか確認します。ブラウザで実行され、キーは当社サーバーに送信されません。",
-      "EYEBROW": "信頼する前に検証",
-      "TRUST_BADGE": "100%ブラウザ側で実行。キーは当社サーバーに送信されません。"
+      "EYEBROW": "信頼する前に検証"
     },
     "TABS": {
       "TEST": "テスト",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total}件のプローブに合格",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "{mode}経由",
-      "IDLE": "テストを実行すると、ここに結果が表示されます。",
       "DETECTED_MODEL": "検出されたモデル",
       "TOTAL_TOKENS": "{tokens} トークン",
       "FORMAT_FELL_BACK": "ネイティブ形式が非対応のため、{format}でテストしました。",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "まだテストがありません。実行して履歴を作成しましょう。",
-      "PUBLISH": "投稿",
       "DELETE_TITLE": "テストを削除",
       "DELETE_BODY": "このテストをローカル履歴から削除します。",
       "DELETE_CONFIRM": "削除",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "公開されたすべての結果は、集計される前に当社のサーバーで再実行され、各判定はそれを導いた正確な証拠にリンクされます。誤っていると思う結果には異議を申し立てられます。",
       "REPORT_DISCORD": "Discord で報告",
       "REPORT_GITHUB": "GitHub の issue を開く",
-      "NOT_TESTED": "まだテストされていません",
       "LOW_CONFIDENCE": "信頼度が低い（{count} 回のテスト）",
       "SELF_TITLE": "私たち自身にも同じ基準を課しています",
       "SELF_BODY": "{appName} はこの同じツールでテストされています。証拠をご覧ください。",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "まだ投稿がありません。最初に検証済みのテストを公開しましょう。",
       "SUBMITTED_BY": "{who} による提出",
       "ANONYMOUS": "匿名",
-      "DELETE_MINE": "削除",
       "REPORT": "報告",
       "REPORT_HELP": "あなたの結果ではありませんか？異議を申し立てる：",
       "DELETE_TITLE": "この公開結果を削除しますか？",
       "DELETE_BODY": "これにより、あなたの提出が公開ランキングから取り下げられます。ローカルの履歴には影響しません。",
       "DELETE_CONFIRM": "削除",
       "DELETE_CANCEL": "キャンセル",
-      "GUEST_CANNOT_DELETE": "ゲストの提出はここでは削除できません。Discord または GitHub で報告してください。",
       "BACK_TO_PROVIDER": "プロバイダーに戻る",
-      "BACK_TO_MODEL": "モデルに戻る",
-      "PUBLISHED_NOTE": "サーバーで検証済み。プローブと応答は公開されており、誰でもこの判定を検証できます。",
       "LOADING": "読み込み中",
-      "EXPAND_ALL": "すべて展開",
-      "COLLAPSE_ALL": "すべて折りたたむ",
       "PREV": "前へ",
       "NEXT": "次へ",
       "PAGE_OF": "{total} ページ中 {page} ページ"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "モデルの応答",
       "STATUS": "HTTP",
       "TOKENS": "トークン（入/出）",
-      "SIGNAL": "シグナル",
       "REASON": "理由",
       "NO_RESPONSE": "応答が取得されませんでした。",
       "WHAT_WE_CHECK": "このプローブが調べる内容"
     },
     "NAV": {
-      "TEST_DESC": "エンドポイントをライブでテスト",
       "HISTORY_DESC": "過去のテスト",
       "RANKINGS_DESC": "公開ランキング"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "通知",
     "EMPTY": "このセッションの通知はありません",
     "EMPTY_HINT": "モデルをウォッチすると、価格変動や稼働状況の通知を受け取れます。",
-    "WATCHING_COUNT": "{count} 件をウォッチ中",
     "WATCH_FREE_MODELS": "新しい無料モデル",
     "WATCH": "ウォッチ",
     "UNWATCH": "ウォッチ解除",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "{sample}などが含まれます",
       "BULK_BODY_EMPTY": "全一覧はカタログで確認できます"
     },
-    "WATCHED_MODELS": "ウォッチ中のモデル",
-    "PUSH_ON": "ブラウザ通知は有効です",
-    "PUSH_ENABLE": "ブラウザ通知を有効にする",
     "PUSH_BLOCKED": "ブラウザ設定で通知がブロックされています",
     "ADD_MODEL_PLACEHOLDER": "ウォッチするモデルを追加...",
     "TAB_INBOX": "受信箱",

@@ -26,7 +26,6 @@
     "LOG_IN": "登录",
     "CHAT": "对话",
     "STATUS": "状态",
-    "COMPARE": "对比",
     "LANGUAGE": "语言",
     "MODEL_TESTER": "检测器",
     "DISCORD": "Discord"
@@ -108,16 +107,7 @@
       "PICK_DESC": "{appName} 可作为自定义的 OpenAI 兼容 API，在编程智能体、角色聊天客户端、AI 聊天客户端和 CLI 工具之间通用。"
     },
     "PRICING": {
-      "LABEL": "价格",
-      "TITLE": "简单定价。",
-      "SUBTITLE": "按使用量付费。",
-      "DESCRIPTION": "订阅享受更优价格，或按需付费。所有套餐均可访问全部模型，并跨提供方自动容灾。",
-      "PROVIDERS": {
-        "TITLE": "支持的提供方"
-      },
-      "FLOW": {
-        "TITLE": "请求流程"
-      }
+      "LABEL": "价格"
     },
     "CHAT": {
       "BADGE": "内置聊天",
@@ -143,13 +133,9 @@
       "CTA_OPEN": "打开聊天",
       "CTA_CONNECT": "接入你的客户端",
       "MOCK": {
-        "CHARACTER": "埃拉拉·沃斯舰长",
         "MODEL": "免费",
         "MSG_AI": "报到，新兵。收好装备，十秒后跃迁。",
-        "MSG_USER": "是，舰长。准备就绪。",
-        "TYPING": "正在输入",
         "INPUT": "输入消息...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "新建聊天",
         "CONV1": "埃拉拉·沃斯舰长",
         "CONV2": "炼金术士莉拉",
@@ -192,59 +178,6 @@
         "NEW_DEMO_AI": "正在计算。三次跃迁就到，燃料还绰绰有余。坐稳了。"
       }
     },
-    "FEATURES": {
-      "TITLE": "为什么选择 {appName}",
-      "DESCRIPTION": "一个端点，每个 AI 模型。智能路由选择最快的提供方，自动容灾确保您的请求始终成功。",
-      "FAILOVER": {
-        "TITLE": "自动容灾"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "多协议支持"
-      },
-      "LOADBALANCE": {
-        "TITLE": "智能负载均衡"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "零停机架构",
-      "TITLE_1": "永不离线",
-      "TITLE_2": "可靠 AI",
-      "DESCRIPTION": "您的请求会同时被路由到多个提供方。某个出故障时，另一个立即接手。没有单点故障。",
-      "CARD1": {
-        "TITLE": "多提供方",
-        "DESC": "多个提供方自动容灾。即便提供方宕机，您的请求也能始终找到通路。"
-      },
-      "CARD2": {
-        "TITLE": "智能路由",
-        "DESC": "基于延迟选择通道，配合优先级权重。最快的提供方每次都胜出。"
-      },
-      "LEARN_MORE": "了解更多",
-      "LEARN_MORE_DOCS": "查看文档",
-      "ARCH": {
-        "TITLE": "架构",
-        "ACTIVE": "运行中",
-        "STEP1": {
-          "TITLE": "统一端点",
-          "DESC": "单一 API 支持 OpenAI、Anthropic、Gemini 格式"
-        },
-        "STEP2": {
-          "TITLE": "智能路由",
-          "DESC": "基于延迟和可用性选择最快的提供方"
-        },
-        "STEP3": {
-          "TITLE": "自动容灾",
-          "DESC": "失败请求瞬间切换到备用通道重试"
-        },
-        "STEP4": {
-          "TITLE": "多路由",
-          "DESC": "大多数模型经由多家供应商提供，没有单点故障"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "支持的格式",
-        "DESC": "所有格式自动识别并路由到相应提供方。"
-      }
-    },
     "CODE": {
       "TITLE_1": "秒级接入。",
       "TITLE_2": "无限扩展。",
@@ -254,10 +187,7 @@
       "FEATURE_3": "多协议支持",
       "FEATURE_4": "无需代码，在站内聊天",
       "READ_DOCS": "阅读完整 API 文档",
-      "NO_CODE_LABEL": "不是开发者？",
-      "NO_CODE_OPTION": "跳过代码。直接在本站与角色聊天，或把 URL 粘贴到 SillyTavern、RisuAI 或任意 OpenAI 兼容的 AI 聊天客户端中。",
-      "NO_CODE_CHAT_LINK": "打开聊天",
-      "NO_CODE_LINK": "查看集成指南"
+      "NO_CODE_CHAT_LINK": "打开聊天"
     },
     "CTA": {
       "TITLE_1": "准备好",
@@ -273,7 +203,6 @@
       "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在你喜爱的 AI 客户端里都能用。智能路由覆盖所有主要厂商。",
       "KEYWORDS": "AI API 网关，统一 AI 端点，OpenAI 兼容，Claude API，GPT API，Gemini API，自动故障切换，智能路由，多模型 API，AI 聊天客户端"
     },
-    "TITLE": "{appName}",
     "HOW_IT_WORKS": {
       "LABEL": "开始使用",
       "TITLE": "三步完成。",
@@ -576,12 +505,10 @@
       "TODAY": "今日",
       "WEEK": "本周",
       "MONTH": "本月",
-      "YEAR": "本年",
-      "ALL": "全部"
+      "YEAR": "本年"
     },
     "MODELS": {
       "TITLE": "热门模型",
-      "SUBTITLE": "按所选时段词元用量排序的模型",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "过去 24 小时内各模型的小时级词元用量",
         "WEEK": "过去几周内各模型的周词元用量",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "市场份额",
-      "SUBTITLE": "按模型作者划分的词元占比",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "过去 24 小时内各供应商的词元占比",
         "WEEK": "过去几周内各供应商的词元占比",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "价格",
     "INPUT_PRICE": "输入价格",
     "OUTPUT_PRICE": "输出价格",
-    "PRICE_PER_MILLION": "{price} · 百万 Token",
     "FIXED_PRICE": "每次请求价格",
-    "PRICE_PER_REQUEST": "{price} · 次请求",
-    "PRICE_PER_SECOND": "{price} · 秒",
-    "PRICE_PER_IMAGE": "{price} · 张图",
     "GRID_PRICING_TITLE": "价格矩阵",
     "GRID_PRICE_HEADER": "价格",
-    "AVAILABLE_BADGE": "现已可用",
-    "OFFLINE_BADGE": "离线",
-    "STAT_INPUT": "输入",
-    "STAT_OUTPUT": "输出",
-    "STAT_FIXED": "每次请求",
-    "STAT_CONTEXT": "上下文",
-    "STAT_ENDPOINTS": "端点",
-    "STAT_TYPE": "类型",
-    "STAT_FREE": "免费",
     "CONTEXT_WINDOW": "上下文窗口",
     "CONTEXT_TOKENS": "{count} Token",
     "ENDPOINTS": "兼容端点",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "API 额度 / 月",
       "VALUE_EXPLAIN": "支付 {paid}／月，获得 {credit} API 额度。可用于任意模型。",
       "DELIVERED": "每{period}补充 {amount}。"
-    },
-    "BANNER": {
-      "TITLE": "Telegram 上的 OpenClaw AI 助手",
-      "SUBTITLE": "一键部署 Telegram 机器人 AI 能力，由 OpenClaw 和 {appName} 驱动。"
     },
     "META": {
       "TITLE": "价格：{appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}。保留所有权利。",
     "LEGAL_TERMS": "服务条款",
     "LEGAL_PRIVACY": "隐私政策",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩 Token 打砖块",
     "BADGE_FEATURED_ON": "已在 {name} 推荐",
     "BADGE_VERIFIED_ON": "已在 {name} 验证",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "出错了",
       "UNEXPECTED_ERROR_OCCURRED": "发生了意外错误。请重试或返回首页。",
       "ERROR_DETAILS": "错误详情",
-      "DIGEST": "摘要",
       "SECTION_LOAD_FAILED": "此部分加载失败。",
       "COPY_ERROR": "复制错误",
       "RESET_APP_DATA": "重置应用数据并重新加载",
@@ -3123,15 +3030,10 @@
       "EVENING": "晚上好"
     },
     "STATS": {
-      "ACCOUNT_DATA": "账户数据",
-      "CURRENT_BALANCE": "当前余额",
-      "USAGE_STATISTICS": "使用统计",
       "REQUEST_COUNT": "请求数量",
       "STATISTICAL_COUNT": "统计次数",
-      "RESOURCE_CONSUMPTION": "资源消耗",
       "STATISTICAL_QUOTA": "统计额度",
       "STATISTICAL_TOKENS": "统计 Token",
-      "PERFORMANCE_INDICATORS": "性能指标",
       "AVERAGE_RPM": "平均 RPM",
       "AVERAGE_TPM": "平均 TPM",
       "STATISTICAL_COUNT_CAPTION": "统计次数",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API 信息",
       "NO_API_INFO": "暂无 API 信息",
-      "BALANCE": "余额",
       "BURN_RATE": "消耗速度",
       "RUNWAY": "可用天数",
       "PER_DAY": "{amount}/天",
       "DAYS_LEFT": "{days} 天",
       "PERFORMANCE": "性能",
-      "P50_LATENCY": "p50 延迟",
-      "P95_LATENCY": "p95 延迟",
-      "STREAM_SHARE": "流式占比",
-      "SLOWEST_MODELS": "最慢的模型",
-      "SAMPLE_SIZE": "基于最近 {count} 次请求",
       "API_KEYS": "API 密钥消费",
       "UNNAMED_KEY": "未命名密钥",
       "LAST_USED": "最后使用：{when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "正常",
       "LOW": "偏低",
       "TOP_UP": "充值",
-      "PERFORMANCE_DESC": "最近 24 小时的性能指标",
       "SUCCESS_RATE": "成功率",
       "AVG_LATENCY": "平均延迟",
       "THROUGHPUT": "吞吐量",
-      "TOP_MODELS": "流量最高的模型",
       "API_KEYS_DESC": "各密钥的消费与最后使用时间"
     },
-    "CONSUMPTION": "消耗",
     "TOTAL": "合计",
     "OTHER": "其他",
     "NO_DATA": "暂无数据",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "我的订阅",
       "NO_ACTIVE": "暂无",
       "ACTIVE": "生效中",
       "EXPIRED": "已过期",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "将于 {date} 续订"
     },
     "PREFERENCE": {
-      "TITLE": "计费偏好",
       "WALLET_FIRST": "优先钱包",
       "WALLET_ONLY": "仅使用钱包",
       "SUBSCRIPTION_FIRST": "优先订阅",
       "SUBSCRIPTION_ONLY": "仅使用订阅"
     },
     "TOPUP": {
-      "TITLE": "额度充值",
       "ACTUAL_PAYMENT": "实付金额",
       "SAVE": "保存",
       "CUSTOM_AMOUNT": "自定义金额",
@@ -3671,7 +3561,6 @@
     "TITLE": "账单",
     "SUPPORT_TITLE": "需要帮助吗？",
     "SUPPORT_TEXT": "对账单或账户有疑问？请发送邮件至 {supportEmail}，我们将在一个工作日内回复您。",
-    "ACCOUNT_STATS": "账户统计",
     "CURRENT_BALANCE": "当前余额",
     "CONSUMPTION": "消耗",
     "REQUESTS": "请求数",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "该消息已不存在。请刷新页面后重试。",
     "NO_TASK_ID": "响应中没有任务 ID 或 URL",
     "REQUEST_FAILED": "请求失败",
-    "PRICING_FETCH_FAILED": "获取价格数据失败",
     "NO_TEXT_MODELS": "暂无可用的文本模型",
     "NO_IMAGE_PROMPT": "未提供图像生成提示词",
     "VIDEO_IMAGE_REQUIRED": "此模型将图片转换为视频。请先在消息中附加一张图片。",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "响应超过允许的最大大小",
     "DISALLOWED_CONTENT_TYPE": "不允许的内容类型",
     "UPSTREAM_FETCH_FAILED": "从上游获取数据失败",
-    "STORAGE_QUOTA_EXCEEDED": "已达到存储上限，请删除旧会话以释放空间。",
-    "PROMPT_REJECTED": "该提示词违反了内容政策，无法用于图像或视频生成。",
-    "PROMPT_FLAGGED": "该提示词被标记为可能不适合生成内容，请修改后重试。",
-    "MODERATION_UNAVAILABLE": "图像和视频生成暂时不可用，请稍后重试。",
     "IMPORT_INVALID_JSON": "文件不是有效的JSON。",
     "IMPORT_UNSUPPORTED_VERSION": "不支持的导出版本。",
     "CARD_PARSE_FAILED": "无法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名称字段。",
     "CARD_IMPORT_INVALID_URL": "这看起来不是有效的角色链接。",
-    "CARD_IMPORT_NOT_FOUND": "找不到该角色。它可能是私密的或已被删除。",
     "CARD_IMPORT_FETCH_FAILED": "无法下载该角色，请重试。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者将这些世界书设为私密，因此无法下载",
     "UNEXPECTED_ERROR": "发生意外错误",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "密钥不离开浏览器",
     "TESTER_RANKINGS": "公开排行榜",
     "TESTER_VERIFIED": "服务器验证结果",
-    "PLAYGROUND_TAGLINE": "浏览器中的图像与视频生成工作室",
-    "PLAYGROUND_IMAGE_VIDEO": "图像与视频模型",
-    "PLAYGROUND_COMFY": "ComfyUI 工作流",
-    "PLAYGROUND_LORAS": "LoRA 与嵌入",
-    "PLAYGROUND_UPSCALE": "放大器与高清修复",
-    "PLAYGROUND_REFS": "参考图与蒙版",
-    "PLAYGROUND_FREE": "含免费模型",
     "CONTEXT": "上下文"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "正常",
       "DOWN": "故障"
     },
-    "RIBBON": {
-      "TITLE": "过去 24 小时"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜索模型……",
       "STATUS_ALL": "全部",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "AI API 模型检测器",
       "SUBTITLE": "检查端点是否真正提供其声称的模型。在你的浏览器中运行，你的密钥不会发送到我们的服务器。",
-      "EYEBROW": "先验证再信任",
-      "TRUST_BADGE": "100% 在浏览器中运行。你的密钥绝不会发送到我们的服务器。"
+      "EYEBROW": "先验证再信任"
     },
     "TABS": {
       "TEST": "检测",
@@ -4709,7 +4581,6 @@
       "PASSED": "通过 {passed}/{total} 项探测",
       "LATENCY": "{ms} 毫秒",
       "TRANSPORT": "经由 {mode}",
-      "IDLE": "运行一次检测，结果将显示在这里。",
       "DETECTED_MODEL": "检测到的模型",
       "TOTAL_TOKENS": "{tokens} 个词元",
       "FORMAT_FELL_BACK": "不支持原生格式，已改用 {format} 检测。",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "暂无检测记录。运行一次以建立历史。",
-      "PUBLISH": "发布",
       "DELETE_TITLE": "删除检测",
       "DELETE_BODY": "将该检测从你的本地历史中移除。",
       "DELETE_CONFIRM": "删除",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "每条已发布的结果在计入之前都会在我们的服务器上重新运行，且每条判定都会链接到产生它的确切证据。你认为有误的结果可以申诉。",
       "REPORT_DISCORD": "在 Discord 上报告",
       "REPORT_GITHUB": "提交一个 GitHub issue",
-      "NOT_TESTED": "尚未测试",
       "LOW_CONFIDENCE": "置信度低（{count} 次测试）",
       "SELF_TITLE": "我们对自己也坚持同样的标准",
       "SELF_BODY": "{appName} 也由这同一款工具测试。查看证据。",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "还没有提交。成为第一个发布已验证测试的人。",
       "SUBMITTED_BY": "由 {who} 提交",
       "ANONYMOUS": "匿名",
-      "DELETE_MINE": "删除",
       "REPORT": "报告",
       "REPORT_HELP": "不是你的结果？申诉它：",
       "DELETE_TITLE": "移除这条已发布的结果？",
       "DELETE_BODY": "此操作会将你的提交从公开排名中撤下。你的本地历史不受影响。",
       "DELETE_CONFIRM": "移除",
       "DELETE_CANCEL": "取消",
-      "GUEST_CANNOT_DELETE": "访客提交无法在此删除。请通过 Discord 或 GitHub 报告。",
       "BACK_TO_PROVIDER": "返回提供商",
-      "BACK_TO_MODEL": "返回模型",
-      "PUBLISHED_NOTE": "服务器已验证。探测和回复均公开，任何人都可以审核此判定。",
       "LOADING": "加载中",
-      "EXPAND_ALL": "全部展开",
-      "COLLAPSE_ALL": "全部收起",
       "PREV": "上一页",
       "NEXT": "下一页",
       "PAGE_OF": "第 {page} 页，共 {total} 页"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "模型响应",
       "STATUS": "HTTP",
       "TOKENS": "词元（入/出）",
-      "SIGNAL": "信号",
       "REASON": "原因",
       "NO_RESPONSE": "未捕获到响应。",
       "WHAT_WE_CHECK": "该探测检查什么"
     },
     "NAV": {
-      "TEST_DESC": "实时检测端点",
       "HISTORY_DESC": "你过去的检测",
       "RANKINGS_DESC": "公开排行榜"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "通知",
     "EMPTY": "本次会话暂无通知",
     "EMPTY_HINT": "关注模型即可收到价格变动和可用性提醒。",
-    "WATCHING_COUNT": "已关注 {count} 项",
     "WATCH_FREE_MODELS": "新的免费模型",
     "WATCH": "关注",
     "UNWATCH": "取消关注",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "其中包括 {sample}",
       "BULK_BODY_EMPTY": "打开模型目录查看完整列表"
     },
-    "WATCHED_MODELS": "已关注的模型",
-    "PUSH_ON": "浏览器通知已开启",
-    "PUSH_ENABLE": "开启浏览器通知",
     "PUSH_BLOCKED": "通知已在浏览器设置中被屏蔽",
     "ADD_MODEL_PLACEHOLDER": "添加要关注的模型...",
     "TAB_INBOX": "收件箱",

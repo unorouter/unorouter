@@ -14,9 +14,8 @@ Module._resolveFilename = function (request, ...rest) {
 };
 
 const { defineConfig, globalIgnores } = await import("eslint/config");
-const { default: nextVitals } = await import(
-  "eslint-config-next/core-web-vitals"
-);
+const { default: nextVitals } =
+  await import("eslint-config-next/core-web-vitals");
 const { default: nextTs } = await import("eslint-config-next/typescript");
 
 // TODO: remove react plugin overrides when eslint-plugin-react supports ESLint 10

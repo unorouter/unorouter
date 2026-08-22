@@ -26,7 +26,6 @@
     "LOG_IN": "लॉग इन",
     "CHAT": "चैट",
     "STATUS": "स्थिति",
-    "COMPARE": "तुलना",
     "LANGUAGE": "भाषा",
     "MODEL_TESTER": "इंस्पेक्टर",
     "DISCORD": "Discord"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "पूरी तरह OpenAI संगत"
     },
     "PRICING": {
-      "LABEL": "मूल्य निर्धारण",
-      "TITLE": "सरल मूल्य निर्धारण।",
-      "SUBTITLE": "केवल अपने उपयोग के लिए भुगतान करें।",
-      "DESCRIPTION": "बेहतर मूल्य के लिए सब्सक्राइब करें या उपयोग के अनुसार भुगतान करें। सभी प्लान में प्रदाताओं में स्वचालित failover के साथ हर मॉडल का एक्सेस शामिल है।",
-      "PROVIDERS": {
-        "TITLE": "समर्थित प्रदाता"
-      },
-      "FLOW": {
-        "TITLE": "अनुरोध प्रवाह"
-      }
+      "LABEL": "मूल्य निर्धारण"
     },
     "CHAT": {
       "BADGE": "अंतर्निहित चैट",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "चैट खोलें",
       "CTA_CONNECT": "अपना क्लाइंट जोड़ें",
       "MOCK": {
-        "CHARACTER": "कैप्टन एलारा वॉस",
         "MODEL": "मुफ़्त",
         "MSG_AI": "रिपोर्ट करो, रंगरूट। सामान रखो, दस में छलांग है।",
-        "MSG_USER": "जी, कैप्टन। तैयार हूं।",
-        "TYPING": "लिख रहे हैं",
         "INPUT": "संदेश लिखें...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "नई चैट",
         "CONV1": "कैप्टन एलारा वॉस",
         "CONV2": "कीमियागर लायरा",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "रास्ता तय कर रहा हूँ। तीन छलांग दूर, ईंधन भी भरपूर। सीट बेल्ट बाँध लो।"
       }
     },
-    "FEATURES": {
-      "TITLE": "क्यों {appName}",
-      "DESCRIPTION": "एक एंडपॉइंट, हर AI मॉडल। बुद्धिमान रूटिंग सबसे तेज़ प्रदाता चुनती है जबकि स्वचालित failover यह सुनिश्चित करता है कि आपके अनुरोध हमेशा सफल हों।",
-      "FAILOVER": {
-        "TITLE": "स्वचालित Failover"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "मल्टी-प्रोटोकॉल समर्थन"
-      },
-      "LOADBALANCE": {
-        "TITLE": "स्मार्ट लोड बैलेंसिंग"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "शून्य-डाउनटाइम आर्किटेक्चर",
-      "TITLE_1": "हमेशा ऑन",
-      "TITLE_2": "विश्वसनीय AI",
-      "DESCRIPTION": "आपके अनुरोध एक साथ कई प्रदाताओं के माध्यम से रूट किए जाते हैं। यदि एक डाउन हो जाता है, तो दूसरा तुरंत संभाल लेता है। कोई एकल विफलता बिंदु नहीं।",
-      "CARD1": {
-        "TITLE": "मल्टी-प्रदाता",
-        "DESC": "स्वचालित failover के साथ कई प्रदाता। आपके अनुरोध हमेशा एक काम करने वाला रास्ता ढूंढते हैं, यहां तक कि प्रदाता आउटेज के दौरान भी।"
-      },
-      "CARD2": {
-        "TITLE": "स्मार्ट रूटिंग",
-        "DESC": "प्राथमिकता वजन के साथ लेटेंसी-आधारित चैनल चयन। सबसे तेज़ प्रदाता हर बार जीतता है।"
-      },
-      "LEARN_MORE": "और जानें",
-      "LEARN_MORE_DOCS": "दस्तावेज़ देखें",
-      "ARCH": {
-        "TITLE": "आर्किटेक्चर",
-        "ACTIVE": "सक्रिय",
-        "STEP1": {
-          "TITLE": "एकीकृत एंडपॉइंट",
-          "DESC": "OpenAI, Anthropic, Gemini प्रारूपों के लिए एकल API"
-        },
-        "STEP2": {
-          "TITLE": "स्मार्ट रूटिंग",
-          "DESC": "लेटेंसी और उपलब्धता के आधार पर सबसे तेज़ प्रदाता चुनता है"
-        },
-        "STEP3": {
-          "TITLE": "स्वचालित Failover",
-          "DESC": "विफल अनुरोध तुरंत वैकल्पिक चैनलों पर पुनः प्रयास करते हैं"
-        },
-        "STEP4": {
-          "TITLE": "एकाधिक रूट",
-          "DESC": "अधिकांश मॉडल कई प्रदाताओं पर चलते हैं, कोई एकल विफलता बिंदु नहीं"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "समर्थित प्रारूप",
-        "DESC": "सभी प्रारूप स्वचालित रूप से पहचाने जाते हैं और सही प्रदाता पर रूट किए जाते हैं।"
-      }
-    },
     "CODE": {
       "TITLE_1": "सेकंडों में एकीकृत करें।",
       "TITLE_2": "अनंत तक स्केल करें।",
@@ -276,10 +209,7 @@
       "FEATURE_3": "मल्टी-प्रोटोकॉल समर्थन",
       "FEATURE_4": "कोड नहीं? साइट पर चैट करें",
       "READ_DOCS": "पूर्ण API दस्तावेज़ पढ़ें",
-      "NO_CODE_LABEL": "कोडर नहीं हैं?",
-      "NO_CODE_OPTION": "कोड छोड़ दें। यहीं साइट पर सीधे किरदारों से चैट करें, या URL को SillyTavern, RisuAI या किसी भी OpenAI-संगत AI चैट क्लाइंट में पेस्ट करें।",
-      "NO_CODE_CHAT_LINK": "चैट खोलें",
-      "NO_CODE_LINK": "एकीकरण गाइड देखें"
+      "NO_CODE_CHAT_LINK": "चैट खोलें"
     },
     "CTA": {
       "TITLE_1": "तैयार हैं",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - हर AI मॉडल के लिए एक key",
       "DESCRIPTION": "हर AI मॉडल के लिए एक की। इसे अपने कोड में, Claude Code में, या अपने पसंदीदा AI क्लाइंट में उपयोग करें। हर प्रमुख प्रदाता के बीच स्मार्ट रूटिंग।",
       "KEYWORDS": "AI API गेटवे, एकीकृत AI एंडपॉइंट, OpenAI संगत, Claude API, GPT API, Gemini API, स्वचालित failover, स्मार्ट रूटिंग, मल्टी-मॉडल API, AI चैट क्लाइंट"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "आज",
       "WEEK": "सप्ताह",
       "MONTH": "महीना",
-      "YEAR": "वर्ष",
-      "ALL": "सर्वकालिक"
+      "YEAR": "वर्ष"
     },
     "MODELS": {
       "TITLE": "शीर्ष मॉडल",
-      "SUBTITLE": "चयनित अवधि में टोकन वॉल्यूम के अनुसार रैंक किए गए मॉडल",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "पिछले 24 घंटों में मॉडल द्वारा प्रति घंटे टोकन उपयोग",
         "WEEK": "पिछले कुछ हफ्तों में मॉडल द्वारा साप्ताहिक टोकन उपयोग",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "मार्केट शेयर",
-      "SUBTITLE": "मॉडल लेखक के अनुसार टोकन शेयर",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "पिछले 24 घंटों में मॉडल लेखक के अनुसार टोकन शेयर",
         "WEEK": "पिछले कुछ हफ्तों में मॉडल लेखक के अनुसार टोकन शेयर",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "मूल्य निर्धारण",
     "INPUT_PRICE": "इनपुट मूल्य",
     "OUTPUT_PRICE": "आउटपुट मूल्य",
-    "PRICE_PER_MILLION": "{price} · 1M टोकन",
     "FIXED_PRICE": "प्रति अनुरोध मूल्य",
-    "PRICE_PER_REQUEST": "{price} · अनुरोध",
-    "PRICE_PER_SECOND": "{price} · सेकंड",
-    "PRICE_PER_IMAGE": "{price} · छवि",
     "GRID_PRICING_TITLE": "मूल्य ग्रिड",
     "GRID_PRICE_HEADER": "मूल्य",
-    "AVAILABLE_BADGE": "अभी उपलब्ध",
-    "OFFLINE_BADGE": "ऑफ़लाइन",
-    "STAT_INPUT": "इनपुट",
-    "STAT_OUTPUT": "आउटपुट",
-    "STAT_FIXED": "प्रति अनुरोध",
-    "STAT_CONTEXT": "कॉन्टेक्स्ट",
-    "STAT_ENDPOINTS": "एंडपॉइंट्स",
-    "STAT_TYPE": "प्रकार",
-    "STAT_FREE": "मुफ्त",
     "CONTEXT_WINDOW": "कॉन्टेक्स्ट विंडो",
     "CONTEXT_TOKENS": "{count} टोकन",
     "ENDPOINTS": "संगत एंडपॉइंट्स",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "एपीआई क्रेडिट / माह",
       "VALUE_EXPLAIN": "{paid}/माह चुकाएँ, {credit} एपीआई क्रेडिट पाएँ। किसी भी मॉडल पर उपयोग करें।",
       "DELIVERED": "हर {period} {amount} फिर से भरता है।"
-    },
-    "BANNER": {
-      "TITLE": "Telegram पर OpenClaw AI Assistant",
-      "SUBTITLE": "आपके Telegram bot के लिए one-click AI deployment, OpenClaw और {appName} द्वारा संचालित।"
     },
     "META": {
       "TITLE": "मूल्य निर्धारण - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}। सर्वाधिकार सुरक्षित।",
     "LEGAL_TERMS": "सेवा की शर्तें",
     "LEGAL_PRIVACY": "गोपनीयता नीति",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout खेलें",
     "BADGE_FEATURED_ON": "{name} पर फ़ीचर्ड",
     "BADGE_VERIFIED_ON": "{name} पर सत्यापित",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "कुछ गलत हो गया",
       "UNEXPECTED_ERROR_OCCURRED": "एक अप्रत्याशित error हुआ। कृपया फिर से प्रयास करें या home page पर लौटें।",
       "ERROR_DETAILS": "Error विवरण",
-      "DIGEST": "Digest",
       "SECTION_LOAD_FAILED": "यह section load करने में विफल रहा।",
       "COPY_ERROR": "त्रुटि कॉपी करें",
       "RESET_APP_DATA": "ऐप डेटा रीसेट करें और पुनः लोड करें",
@@ -3123,15 +3030,10 @@
       "EVENING": "शुभ संध्या"
     },
     "STATS": {
-      "ACCOUNT_DATA": "खाता डेटा",
-      "CURRENT_BALANCE": "वर्तमान Balance",
-      "USAGE_STATISTICS": "उपयोग आंकड़े",
       "REQUEST_COUNT": "अनुरोधों की संख्या",
       "STATISTICAL_COUNT": "Statistical Count",
-      "RESOURCE_CONSUMPTION": "संसाधन खपत",
       "STATISTICAL_QUOTA": "Statistical Quota",
       "STATISTICAL_TOKENS": "Statistical Tokens",
-      "PERFORMANCE_INDICATORS": "प्रदर्शन संकेतक",
       "AVERAGE_RPM": "औसत RPM",
       "AVERAGE_TPM": "औसत TPM",
       "STATISTICAL_COUNT_CAPTION": "सांख्यिकीय गणना",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API जानकारी",
       "NO_API_INFO": "कोई API जानकारी नहीं",
-      "BALANCE": "शेष राशि",
       "BURN_RATE": "व्यय दर",
       "RUNWAY": "शेष अवधि",
       "PER_DAY": "{amount}/दिन",
       "DAYS_LEFT": "{days} दिन",
       "PERFORMANCE": "प्रदर्शन",
-      "P50_LATENCY": "p50 विलंबता",
-      "P95_LATENCY": "p95 विलंबता",
-      "STREAM_SHARE": "स्ट्रीम किए गए",
-      "SLOWEST_MODELS": "सबसे धीमे मॉडल",
-      "SAMPLE_SIZE": "हाल के {count} अनुरोधों पर आधारित",
       "API_KEYS": "API कुंजी व्यय",
       "UNNAMED_KEY": "अनामित कुंजी",
       "LAST_USED": "अंतिम उपयोग {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "ठीक",
       "LOW": "कम",
       "TOP_UP": "टॉप अप",
-      "PERFORMANCE_DESC": "पिछले 24 घंटों के प्रदर्शन मापदंड",
       "SUCCESS_RATE": "सफलता दर",
       "AVG_LATENCY": "औसत विलंबता",
       "THROUGHPUT": "थ्रूपुट",
-      "TOP_MODELS": "सर्वाधिक ट्रैफ़िक वाले मॉडल",
       "API_KEYS_DESC": "प्रति कुंजी व्यय और अंतिम उपयोग"
     },
-    "CONSUMPTION": "खपत",
     "TOTAL": "कुल",
     "OTHER": "अन्य",
     "NO_DATA": "कोई डेटा उपलब्ध नहीं",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "मेरी Subscriptions",
       "NO_ACTIVE": "कोई active नहीं",
       "ACTIVE": "Active",
       "EXPIRED": "Expired",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "{date} को नवीनीकृत होगा"
     },
     "PREFERENCE": {
-      "TITLE": "Billing Preference",
       "WALLET_FIRST": "Wallet पहले",
       "WALLET_ONLY": "केवल Wallet",
       "SUBSCRIPTION_FIRST": "Subscription पहले",
       "SUBSCRIPTION_ONLY": "केवल Subscription"
     },
     "TOPUP": {
-      "TITLE": "Quota टॉप अप",
       "ACTUAL_PAYMENT": "वास्तविक भुगतान",
       "SAVE": "सहेजें",
       "CUSTOM_AMOUNT": "कस्टम राशि",
@@ -3671,7 +3561,6 @@
     "TITLE": "Billing",
     "SUPPORT_TITLE": "मदद चाहिए?",
     "SUPPORT_TEXT": "बिलिंग या अपने खाते के बारे में प्रश्न हैं? हमें {supportEmail} पर ईमेल करें और हम एक कार्यदिवस के भीतर जवाब देंगे।",
-    "ACCOUNT_STATS": "खाता आंकड़े",
     "CURRENT_BALANCE": "वर्तमान Balance",
     "CONSUMPTION": "खपत",
     "REQUESTS": "अनुरोध",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "यह संदेश अब मौजूद नहीं है. पेज रिफ़्रेश करें और फिर से प्रयास करें.",
     "NO_TASK_ID": "Response में कोई task ID या URL नहीं",
     "REQUEST_FAILED": "Request विफल",
-    "PRICING_FETCH_FAILED": "Pricing डेटा fetch करने में विफल",
     "NO_TEXT_MODELS": "कोई text मॉडल उपलब्ध नहीं",
     "NO_IMAGE_PROMPT": "Image generation के लिए कोई prompt नहीं दिया गया",
     "VIDEO_IMAGE_REQUIRED": "यह मॉडल छवि को वीडियो में बदलता है। पहले अपने संदेश में एक छवि जोड़ें।",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Response अधिकतम अनुमत size से अधिक है",
     "DISALLOWED_CONTENT_TYPE": "Content type अनुमति नहीं है",
     "UPSTREAM_FETCH_FAILED": "Upstream से fetch करने में विफल",
-    "STORAGE_QUOTA_EXCEEDED": "Storage सीमा पहुँच गई। स्थान मुक्त करने के लिए पुरानी बातचीत हटाएं।",
-    "PROMPT_REJECTED": "यह prompt content policy का उल्लंघन करता है और image या video generation के लिए उपयोग नहीं किया जा सकता।",
-    "PROMPT_FLAGGED": "इस prompt को generation के लिए संभावित रूप से unsafe के रूप में flag किया गया। कृपया फिर से phrase करें और पुनः प्रयास करें।",
-    "MODERATION_UNAVAILABLE": "Image और video generation अस्थायी रूप से अनुपलब्ध हैं। कृपया जल्द ही पुनः प्रयास करें।",
     "IMPORT_INVALID_JSON": "फ़ाइल valid JSON नहीं है।",
     "IMPORT_UNSUPPORTED_VERSION": "असमर्थित export संस्करण।",
     "CARD_PARSE_FAILED": "Character card parse नहीं कर सके।",
     "CARD_MISSING_NAME": "Character card में required name field गायब है।",
     "CARD_IMPORT_INVALID_URL": "यह मान्य कैरेक्टर लिंक नहीं लगता।",
-    "CARD_IMPORT_NOT_FOUND": "यह कैरेक्टर नहीं मिला। यह निजी हो सकता है या हटा दिया गया हो।",
     "CARD_IMPORT_FETCH_FAILED": "यह कैरेक्टर डाउनलोड नहीं हो सका। कृपया फिर से कोशिश करें।",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "लेखक ने इन लोरबुक को निजी रखा है, इसलिए इन्हें डाउनलोड नहीं किया जा सकता",
     "UNEXPECTED_ERROR": "एक अप्रत्याशित error हुआ",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "कुंजी कभी ब्राउज़र से बाहर नहीं जाती",
     "TESTER_RANKINGS": "सार्वजनिक रैंकिंग",
     "TESTER_VERIFIED": "सर्वर-सत्यापित परिणाम",
-    "PLAYGROUND_TAGLINE": "आपके ब्राउज़र में इमेज और वीडियो जनरेशन स्टूडियो",
-    "PLAYGROUND_IMAGE_VIDEO": "इमेज और वीडियो मॉडल",
-    "PLAYGROUND_COMFY": "ComfyUI वर्कफ़्लो",
-    "PLAYGROUND_LORAS": "LoRA और एम्बेडिंग",
-    "PLAYGROUND_UPSCALE": "अपस्केलर और hires fix",
-    "PLAYGROUND_REFS": "संदर्भ इमेज और मास्क",
-    "PLAYGROUND_FREE": "मुफ़्त मॉडल शामिल",
     "CONTEXT": "संदर्भ"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Operational",
       "DOWN": "Down"
     },
-    "RIBBON": {
-      "TITLE": "पिछले 24 घंटे"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "मॉडल खोजें...",
       "STATUS_ALL": "सभी",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "एआई एपीआई मॉडल परीक्षक",
       "SUBTITLE": "जांचें कि कोई एंडपॉइंट वही वास्तविक मॉडल देता है जिसका वह दावा करता है। यह आपके ब्राउज़र में चलता है, आपकी कुंजी हमारे सर्वर पर नहीं भेजी जाती।",
-      "EYEBROW": "भरोसा करने से पहले सत्यापित करें",
-      "TRUST_BADGE": "100% ब्राउज़र में चलता है। आपकी कुंजी कभी हमारे सर्वर पर नहीं भेजी जाती।"
+      "EYEBROW": "भरोसा करने से पहले सत्यापित करें"
     },
     "TABS": {
       "TEST": "परीक्षण",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} जांच उत्तीर्ण",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "{mode} के माध्यम से",
-      "IDLE": "परिणाम यहां देखने के लिए एक परीक्षण चलाएं।",
       "DETECTED_MODEL": "पहचाना गया मॉडल",
       "TOTAL_TOKENS": "{tokens} टोकन",
       "FORMAT_FELL_BACK": "मूल प्रारूप समर्थित नहीं; इसके बजाय {format} के माध्यम से परखा गया।",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "अभी तक कोई परीक्षण नहीं। इतिहास बनाने के लिए एक चलाएं।",
-      "PUBLISH": "प्रकाशित करें",
       "DELETE_TITLE": "परीक्षण हटाएं",
       "DELETE_BODY": "यह परीक्षण को आपके स्थानीय इतिहास से हटा देता है।",
       "DELETE_CONFIRM": "हटाएं",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "गिने जाने से पहले हर प्रकाशित परिणाम हमारे सर्वर पर दोबारा चलाया जाता है, और प्रत्येक निर्णय उसी सटीक प्रमाण से जुड़ता है जिसने उसे उत्पन्न किया। जिस परिणाम को आप ग़लत मानते हैं उस पर विवाद किया जा सकता है।",
       "REPORT_DISCORD": "Discord पर रिपोर्ट करें",
       "REPORT_GITHUB": "GitHub issue खोलें",
-      "NOT_TESTED": "अभी तक परीक्षण नहीं किया गया",
       "LOW_CONFIDENCE": "कम विश्वास ({count} परीक्षण)",
       "SELF_TITLE": "हम स्वयं को भी उसी मानक पर रखते हैं",
       "SELF_BODY": "{appName} का परीक्षण इसी टूल से होता है। प्रमाण देखें।",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "अभी तक कोई सबमिशन नहीं। सत्यापित परीक्षण प्रकाशित करने वाले पहले व्यक्ति बनें।",
       "SUBMITTED_BY": "{who} द्वारा प्रस्तुत",
       "ANONYMOUS": "अनाम",
-      "DELETE_MINE": "हटाएँ",
       "REPORT": "रिपोर्ट करें",
       "REPORT_HELP": "आपका परिणाम नहीं? इस पर विवाद करें:",
       "DELETE_TITLE": "इस प्रकाशित परिणाम को हटाएँ?",
       "DELETE_BODY": "यह आपकी प्रविष्टि को सार्वजनिक रैंकिंग से वापस ले लेता है। आपका स्थानीय इतिहास अप्रभावित रहता है।",
       "DELETE_CONFIRM": "हटाएँ",
       "DELETE_CANCEL": "रद्द करें",
-      "GUEST_CANNOT_DELETE": "अतिथि प्रविष्टियाँ यहाँ नहीं हटाई जा सकतीं। उन्हें Discord या GitHub के माध्यम से रिपोर्ट करें।",
       "BACK_TO_PROVIDER": "प्रदाता पर वापस जाएँ",
-      "BACK_TO_MODEL": "मॉडल पर वापस जाएँ",
-      "PUBLISHED_NOTE": "सर्वर-सत्यापित। प्रोब और उत्तर सार्वजनिक हैं ताकि कोई भी इस निर्णय की जाँच कर सके।",
       "LOADING": "लोड हो रहा है ...",
-      "EXPAND_ALL": "सब विस्तृत करें",
-      "COLLAPSE_ALL": "सब समेटें",
       "PREV": "पिछला",
       "NEXT": "अगला",
       "PAGE_OF": "पृष्ठ {page} / {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "मॉडल प्रतिक्रिया",
       "STATUS": "HTTP",
       "TOKENS": "टोकन (इन/आउट)",
-      "SIGNAL": "संकेत",
       "REASON": "कारण",
       "NO_RESPONSE": "कोई प्रतिक्रिया कैप्चर नहीं हुई।",
       "WHAT_WE_CHECK": "यह जाँच क्या परखती है"
     },
     "NAV": {
-      "TEST_DESC": "एंडपॉइंट को लाइव परखें",
       "HISTORY_DESC": "आपके पिछले परीक्षण",
       "RANKINGS_DESC": "सार्वजनिक रैंकिंग"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "सूचनाएँ",
     "EMPTY": "इस सत्र में कोई सूचना नहीं",
     "EMPTY_HINT": "किसी मॉडल को वॉच करें और कीमत बदलाव व उपलब्धता की सूचनाएँ पाएँ।",
-    "WATCHING_COUNT": "{count} वॉच में",
     "WATCH_FREE_MODELS": "नए मुफ़्त मॉडल",
     "WATCH": "वॉच करें",
     "UNWATCH": "वॉच हटाएँ",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "इनमें {sample} शामिल हैं",
       "BULK_BODY_EMPTY": "पूरी सूची देखने के लिए कैटलॉग खोलें"
     },
-    "WATCHED_MODELS": "वॉच किए गए मॉडल",
-    "PUSH_ON": "ब्राउज़र सूचनाएँ चालू हैं",
-    "PUSH_ENABLE": "ब्राउज़र सूचनाएँ चालू करें",
     "PUSH_BLOCKED": "ब्राउज़र सेटिंग में सूचनाएँ अवरुद्ध हैं",
     "ADD_MODEL_PLACEHOLDER": "वॉच करने के लिए मॉडल जोड़ें...",
     "TAB_INBOX": "इनबॉक्स",
