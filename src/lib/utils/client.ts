@@ -29,6 +29,8 @@ SetErrorFunction((error) => {
 
 type ErrorDetail = {
   message: string;
+  /** ICU values for `message` when it is a translation key. */
+  params?: Record<string, string | number>;
   code?: string;
   status?: number;
   requestId?: string;
@@ -92,7 +94,7 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   }
 
   const requestId = message.match(REQUEST_ID_RE)?.[1];
-  return { message, code, status, requestId };
+  return { message, params: found?.params, code, status, requestId };
 }
 
 // Buckets a stream error into a coarse type for analytics (never user-facing).
@@ -171,42 +173,34 @@ function stringifyError(v: unknown): string {
   return "ERRORS.UNEXPECTED_ERROR";
 }
 
+async function resolveDetail(e: unknown): Promise<ErrorDetail> {
+  if (
+    e &&
+    typeof e === "object" &&
+    "response" in e &&
+    e.response instanceof Response
+  ) {
+    const body = await e.response
+      .clone()
+      .json()
+      .catch(() => null);
+    if (body) return { ...extractErrorDetail(body), status: e.response.status };
+  }
+  return extractErrorDetail(e);
+}
+
 export async function handleError(
   e: unknown,
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  // Only the Response case needs its own unwrap here, because reading the body
-  // is async; extractErrorDetail covers every other shape and, unlike the
-  // duplicate this replaced, digs APICallError.responseBody. Without that a
-  // rate-limited chat toast read "bad_response_status_code" while the detail
-  // below already held "Rate limit exceeded, retry in 12s".
-  const source =
-    e &&
-    typeof e === "object" &&
-    "response" in e &&
-    e.response instanceof Response
-      ? await e.response
-          .clone()
-          .json()
-          .catch(() => null)
-      : null;
-
-  const detail = extractErrorDetail(e);
-  // detail.message LEADS: it digs APICallError.responseBody, which the raw error
-  // does not expose, so an ai-sdk failure would otherwise toast the SDK's
-  // useless "bad_response_status_code" instead of the upstream reason.
-  // pickMessage is consulted only for `params`, the i18n interpolation values
-  // ErrorDetail does not carry, and for the async Response body.
-  const found = pickMessage(source ?? e);
-  const message =
-    (source ? found?.message : null) ||
-    detail.message ||
-    "ERRORS.UNEXPECTED_ERROR";
+  // A fetch Response is the one shape extractErrorDetail cannot take, because
+  // reading its body is async; hand it the parsed body instead.
+  const detail = await resolveDetail(e);
   const title =
-    t && t.has(message as TranslationKey)
-      ? t(message as TranslationKey, found?.params)
-      : message;
+    t && t.has(detail.message as TranslationKey)
+      ? t(detail.message as TranslationKey, detail.params)
+      : detail.message;
 
   const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
     .filter(Boolean)
