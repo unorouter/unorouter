@@ -1,6 +1,23 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import Module from "node:module";
+
+// TypeScript 7 ships no compiler API, and typescript-eslint throws on sight of
+// it. Point its bare `typescript` require at the 6.x compat package, which is
+// the workaround its own error message recommends. Must run before the configs
+// below load, hence the dynamic imports.
+const resolveFilename = Module._resolveFilename;
+Module._resolveFilename = function (request, ...rest) {
+  return resolveFilename.call(
+    this,
+    request === "typescript" ? "@typescript/typescript6" : request,
+    ...rest,
+  );
+};
+
+const { defineConfig, globalIgnores } = await import("eslint/config");
+const { default: nextVitals } = await import(
+  "eslint-config-next/core-web-vitals"
+);
+const { default: nextTs } = await import("eslint-config-next/typescript");
 
 // TODO: remove react plugin overrides when eslint-plugin-react supports ESLint 10
 // The plugin uses the removed `getFilename` API. Track: https://github.com/jsx-eslint/eslint-plugin-react/issues/3878
