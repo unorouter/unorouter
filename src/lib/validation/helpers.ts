@@ -1,9 +1,5 @@
 import type { TypeCompiler } from "@sinclair/typebox/compiler";
 import { t } from "elysia";
-import {
-  DefaultErrorFunction,
-  SetErrorFunction,
-} from "@sinclair/typebox/errors";
 import type {
   Static,
   TLiteral,
@@ -12,11 +8,6 @@ import type {
   TUnion,
 } from "@sinclair/typebox/type";
 import { Value } from "@sinclair/typebox/value";
-
-SetErrorFunction((error) => {
-  if (typeof error.schema.error === "string") return error.schema.error;
-  return DefaultErrorFunction(error);
-});
 
 export function nullable<T extends TSchema>(schema: T) {
   return t.Union([schema, t.Null()], { default: null });
