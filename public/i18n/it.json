@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Gli importi delle ricompense sono configurati lato server e possono cambiare; i pannelli di verifica e boost nel server mostrano sempre i valori correnti.",
       "R_RULE_7": "Le ricompense inutilizzate scadono: riscatta il tuo saldo e spendilo invece di lasciarlo fermo.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Invitare membri",
+      "P_INVITES_1": "Il credito per gli inviti dipende da quale link ha usato il nuovo membro. Discord comunica quel codice al bot al momento dell'ingresso, e il bot paga chi lo ha creato.",
+      "P_INVITES_VANITY": "Il link personalizzato del server (discord.gg/{appName}) non ha un creatore, quindi gli ingressi tramite esso non possono mai esserti accreditati. Crea invece un tuo link di invito.",
+      "P_INVITES_2": "Per crearlo: fai clic destro sul server o su un canale, scegli Invita persone e poi Modifica link di invito. Impostalo senza scadenza e con utilizzi illimitati, poi copia il link. Chi entra da lì conta per le tue ricompense.",
+      "P_INVITES_3": "Altri due casi non danno credito: un membro che rientra dopo essere uscito, e un ingresso che due dei tuoi link potrebbero spiegare allo stesso modo. Nemmeno i link creati dai bot dei siti di elenchi vengono accreditati a una persona."
     }
   },
   "NOTIFY": {

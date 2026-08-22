@@ -141,6 +141,7 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
       ["link", "H_LINK"],
       ["rewards", "H_REWARDS"],
       ["recurring", "H_RECURRING"],
+      ["invites", "H_INVITES"],
       ["tag", "H_TAG"],
       ["levels", "H_LEVELS"],
       ["bounty", "H_BOUNTY"],

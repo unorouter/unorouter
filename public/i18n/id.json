@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Nominal hadiah dikonfigurasi di sisi server dan bisa berubah; panel verifikasi dan boost di server selalu menampilkan nilai terkini.",
       "R_RULE_7": "Hadiah yang tidak digunakan akan kedaluwarsa; klaim saldo Anda dan gunakan, jangan dibiarkan mengendap.",
       "R_CONNECT_REWARD": "${connectReward}",
-      "LEVEL_REWARD_CELL": "${amount}"
+      "LEVEL_REWARD_CELL": "${amount}",
+      "H_INVITES": "Mengundang anggota",
+      "P_INVITES_1": "Kredit undangan ditentukan oleh tautan mana yang dipakai anggota baru. Discord melaporkan kode itu ke bot saat seseorang bergabung, dan bot membayar pembuat tautannya.",
+      "P_INVITES_VANITY": "Tautan khusus server (discord.gg/{appName}) tidak punya pembuat, jadi yang bergabung lewat tautan itu tidak pernah bisa dikreditkan ke Anda. Buatlah tautan undangan Anda sendiri.",
+      "P_INVITES_2": "Cara membuatnya: klik kanan server atau kanal mana pun, pilih Undang Orang, lalu Edit tautan undangan. Atur agar tidak pernah kedaluwarsa dan tanpa batas penggunaan, lalu salin tautannya. Siapa pun yang bergabung lewat tautan itu dihitung untuk hadiah Anda.",
+      "P_INVITES_3": "Dua kasus lain tidak dikreditkan: anggota yang bergabung lagi setelah keluar, dan bergabungnya seseorang yang sama-sama bisa dijelaskan oleh dua tautan Anda. Tautan buatan bot dari situs direktori server juga tidak pernah dikreditkan ke orang."
     }
   },
   "NOTIFY": {

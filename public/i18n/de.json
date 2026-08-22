@@ -5638,7 +5638,12 @@
       "R_RULE_6": "Die Belohnungsbeträge sind serverseitig konfiguriert und können sich ändern; die Verify- und Boost-Panels im Server zeigen immer die aktuellen Werte.",
       "R_RULE_7": "Ungenutzte Belohnungen verfallen: Guthaben einlösen und ausgeben, statt es liegen zu lassen.",
       "R_CONNECT_REWARD": "{connectReward} $",
-      "LEVEL_REWARD_CELL": "{amount} $"
+      "LEVEL_REWARD_CELL": "{amount} $",
+      "H_INVITES": "Mitglieder einladen",
+      "P_INVITES_1": "Die Einladungsgutschrift ergibt sich daraus, welchen Einladungslink ein neues Mitglied benutzt hat. Discord meldet diesen Code beim Beitritt an den Bot, und der Bot zahlt an die Person, die den Link erstellt hat.",
+      "P_INVITES_VANITY": "Der Vanity-Link des Servers (discord.gg/{appName}) hat keinen Ersteller. Beitritte darüber können dir deshalb niemals gutgeschrieben werden. Erstelle stattdessen einen eigenen Einladungslink.",
+      "P_INVITES_2": "So geht es: Rechtsklick auf den Server oder einen Kanal, dann Leute einladen und Einladungslink bearbeiten. Stelle unbegrenzte Gültigkeit und unbegrenzte Nutzungen ein und kopiere den Link. Alle, die darüber beitreten, zählen für deine Belohnungen.",
+      "P_INVITES_3": "Zwei weitere Fälle bleiben ohne Gutschrift: ein Mitglied, das nach dem Verlassen erneut beitritt, und ein Beitritt, den zwei deiner Links gleichermaßen erklären könnten. Von Server-Listing-Seiten erstellte Bot-Links werden ebenfalls niemals einer Person gutgeschrieben."
     }
   },
   "NOTIFY": {
