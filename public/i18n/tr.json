@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Cache Oluşturma Tokenları",
       "LOG_DETAILS": "Log Detayları",
       "REQUEST_PATH": "İstek Yolu",
+      "CLIENT": "İstemci",
+      "USER_AGENT": "Kullanıcı aracısı",
       "REQUEST_CONVERSION": "İstek Dönüşümü",
       "BILLING_MODE": "Faturalandırma Modu",
       "BILLING_UPSTREAM": "Upstream Yanıtı",

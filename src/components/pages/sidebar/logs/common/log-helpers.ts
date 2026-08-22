@@ -132,6 +132,10 @@ export interface ParsedOther {
   reasoning_effort?: string;
   is_model_mapped?: boolean;
   upstream_model_name?: string;
+  // Self-reported by the caller, never verified: attribution only.
+  client_title?: string;
+  client_referer?: string;
+  client_user_agent?: string;
 }
 
 export function parseOther(
@@ -202,6 +206,43 @@ export function getRequestConversionChain(other: ParsedOther | null): string[] {
   if (!rc) return [];
   if (Array.isArray(rc)) return rc.filter(Boolean);
   return [rc];
+}
+
+export type ClientAttribution = {
+  label: string;
+  referer?: string;
+  userAgent?: string;
+};
+
+// Clients identify themselves with the headers OpenRouter established, so the
+// title is the name to show when present. The referer is the app's URL, which
+// makes a usable label on its own once stripped to a host; a bare User-Agent is
+// the last resort for everything that sends neither.
+export function getClientAttribution(
+  other: ParsedOther | null,
+): ClientAttribution | null {
+  const title = other?.client_title?.trim();
+  const referer = other?.client_referer?.trim();
+  const userAgent = other?.client_user_agent?.trim();
+  if (!title && !referer && !userAgent) return null;
+
+  let label = title;
+  if (!label && referer) {
+    // URL() throws on the non-URL values some clients put in HTTP-Referer.
+    try {
+      label = new URL(referer).host || referer;
+    } catch {
+      label = referer;
+    }
+  }
+  if (!label && userAgent) label = userAgent.split(/[\s/]/)[0] || userAgent;
+  if (!label) return null;
+
+  return {
+    label,
+    referer: referer || undefined,
+    userAgent: userAgent || undefined,
+  };
 }
 
 export type LogFilterValues = {

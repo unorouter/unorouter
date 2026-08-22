@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "快取建立 Tokens",
       "LOG_DETAILS": "紀錄詳情",
       "REQUEST_PATH": "請求路徑",
+      "CLIENT": "用戶端",
+      "USER_AGENT": "使用者代理",
       "REQUEST_CONVERSION": "請求轉換",
       "BILLING_MODE": "計費模式",
       "BILLING_UPSTREAM": "上游回應",

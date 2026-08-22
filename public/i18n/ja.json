@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "キャッシュ作成トークン",
       "LOG_DETAILS": "ログの詳細",
       "REQUEST_PATH": "リクエストパス",
+      "CLIENT": "クライアント",
+      "USER_AGENT": "ユーザーエージェント",
       "REQUEST_CONVERSION": "リクエスト変換",
       "BILLING_MODE": "請求モード",
       "BILLING_UPSTREAM": "アップストリーム応答",

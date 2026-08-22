@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "缓存创建 Token",
       "LOG_DETAILS": "日志详情",
       "REQUEST_PATH": "请求路径",
+      "CLIENT": "客户端",
+      "USER_AGENT": "用户代理",
       "REQUEST_CONVERSION": "请求转换",
       "BILLING_MODE": "计费模式",
       "BILLING_UPSTREAM": "上游响应",

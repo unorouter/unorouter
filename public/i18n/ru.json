@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Токены создания кэша",
       "LOG_DETAILS": "Детали лога",
       "REQUEST_PATH": "Путь запроса",
+      "CLIENT": "Клиент",
+      "USER_AGENT": "User-Agent",
       "REQUEST_CONVERSION": "Конвертация запроса",
       "BILLING_MODE": "Режим тарификации",
       "BILLING_UPSTREAM": "Ответ аптстрима",
