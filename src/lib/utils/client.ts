@@ -1,5 +1,10 @@
-import { IMAGE_MAX_DIM } from "@/lib/config/constants";
+import {
+  AUTH_REDIRECT_COOKIE,
+  IMAGE_MAX_DIM,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
+import { getCookie, setCookie } from "cookies-next/client";
 import type { Extracted } from "@/lib/types";
 import { asParams } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -203,7 +208,40 @@ export async function handleError(
     .join(" ");
   const description = tag && !title.includes(tag) ? tag : undefined;
 
+  if (detail.status === 401 || detail.status === 419) {
+    redirectToLoginPreservingLocation();
+    return;
+  }
   toast.error(title, { duration: 5000, id: toastId, description });
+}
+
+// A long-lived tab (an RP session left open) only learns its token died when a
+// request fails: the auth cache never refetches and nothing re-renders on the
+// server. Send them to login rather than leaving a logged-in shell whose every
+// action 401s, which reads as data loss and pushes people to clear storage.
+//
+// Gated on the user-id cookie so a guest keeps seeing the real error: 401 is a
+// legitimate answer for anonymous callers (BYOK, paid model without a session)
+// and bouncing them to login would hide it.
+function redirectToLoginPreservingLocation() {
+  if (typeof window === "undefined") return;
+  if (!getCookie(USER_ID_COOKIE)) return;
+  if (/\/(login|register)(\/|$)/.test(window.location.pathname)) return;
+  const path = window.location.pathname + window.location.search;
+  setCookie(AUTH_REDIRECT_COOKIE, stripLocale(path), { maxAge: 600 });
+  window.location.assign(loginHref());
+}
+
+function stripLocale(path: string): string {
+  const stripped = path.replace(/^\/[a-z]{2}(-[A-Z]{2})?(?=\/|$)/, "");
+  return stripped.startsWith("/") ? stripped : `/${stripped}`;
+}
+
+function loginHref(): string {
+  const match = /^\/([a-z]{2}(?:-[A-Z]{2})?)(?=\/|$)/.exec(
+    window.location.pathname,
+  );
+  return match ? `/${match[1]}/login` : "/login";
 }
 
 export function downloadBlob(blob: Blob, filename: string) {

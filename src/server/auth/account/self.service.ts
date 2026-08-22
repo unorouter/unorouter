@@ -1,4 +1,4 @@
-import { clearSessionCookies } from "@/lib/api/auth";
+import { clearSessionCookies, setSessionCookies } from "@/lib/api/auth";
 import { NEW_API_USER } from "@/lib/config/constants";
 import { isUpstreamError } from "@/lib/custom-fetch";
 import { unwrap } from "@/lib/utils/base";
@@ -16,7 +16,23 @@ export async function resolveSelf(
   const { upstream } = await deriveUpstream({ request });
   if (!upstream.headers[NEW_API_USER]) return { user: null, expired: false };
   try {
-    return { user: unwrap(await getSelf(upstream)).data, expired: false };
+    const user = unwrap(await getSelf(upstream)).data;
+    // Upstream re-issues once the token is past half its life, so writing it
+    // back here is what keeps an active session from ever reaching the hard
+    // expiry. Absent on a fresh token and for API-key callers.
+    const renewed = user as UserSelfData & {
+      access_token?: string;
+      access_expires_at?: number;
+    };
+    if (cookie && renewed.access_token && user.id) {
+      await setSessionCookies(
+        cookie,
+        user.id,
+        renewed.access_token,
+        renewed.access_expires_at,
+      );
+    }
+    return { user, expired: false };
   } catch (err) {
     const expired = isUpstreamError(err) && err.status === 401;
     if (cookie && expired) clearSessionCookies(cookie);
