@@ -70,14 +70,6 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: catalogSearchQuery },
   )
-  .get(
-    "/catalog/vaes",
-    async ({ query }) => ({
-      success: true,
-      data: await searchModelCatalog("vae", query),
-    }),
-    { query: catalogSearchQuery },
-  )
   // One search for every reference form plus plain names, so the picker needs no mode switch.
   .get(
     "/checkpoints",
