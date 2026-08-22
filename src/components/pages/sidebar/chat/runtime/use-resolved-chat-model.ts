@@ -5,7 +5,6 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { analytics } from "@/lib/analytics";
-import { USER_ID_COOKIE } from "@/lib/config/constants";
 import {
   readLocalConversation,
   updateLocalConversationSettings,
@@ -30,10 +29,9 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
   const serverModel = conversationQuery.data?.model ?? null;
 
-  const hasSession =
-    typeof document !== "undefined" &&
-    document.cookie.includes(`${USER_ID_COOKIE}=`);
-  const authSettled = authQuery.isSuccess || !hasSession;
+  // The auth prefetch always seeds the cache (the user, or null for a guest),
+  // so a success state IS the settled answer for both.
+  const authSettled = authQuery.isSuccess;
 
   const pricingReady = pricingQuery.isSuccess;
   const firstFreeModel = pricingQuery.data?.first_free_model ?? null;
