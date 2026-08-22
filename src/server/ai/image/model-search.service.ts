@@ -39,6 +39,27 @@ function searchTask(task: Record<string, unknown>): Promise<RunwareEnvelope> {
   return runwareTask<SearchPage>(task, SEARCH_TIMEOUT_MS);
 }
 
+// An errored envelope carries no `results`, so reading it as an empty page turns
+// a hard API failure into a silent "no models found". Log once, here.
+function logSearchError(envelope: RunwareEnvelope, context: string): void {
+  logger.warn("runware model search failed", {
+    context: "image.catalog",
+    search: context,
+    error: envelope.errors?.[0]?.message,
+  });
+}
+
+function searchRows(
+  envelope: RunwareEnvelope,
+  context: string,
+): RunwareSearchResult[] {
+  if (envelope.errors?.length) {
+    logSearchError(envelope, context);
+    return [];
+  }
+  return envelope.data?.[0]?.results ?? [];
+}
+
 function toCatalogItem(row: RunwareSearchResult): CatalogItem {
   return {
     id: row.air,
@@ -107,17 +128,16 @@ export async function searchModelCatalog(
     return { items: hit?.items ?? [] };
   }
 
+  // Stale beats empty, so an errored envelope keeps whatever the cache holds
+  // rather than the [] every other caller is happy with.
   if (envelope.errors?.length) {
-    logger.warn("runware model search failed", {
-      context: "image.catalog",
-      category,
-      error: envelope.errors[0]?.message,
-    });
+    logSearchError(envelope, category);
     return { items: hit?.items ?? [] };
   }
 
-  const results = envelope.data?.[0]?.results ?? [];
-  const items = results.filter(canGenerate).map(toCatalogItem);
+  const items = searchRows(envelope, category)
+    .filter(canGenerate)
+    .map(toCatalogItem);
   // Never cache an empty list: one bad response would pin "no models" for the whole TTL.
   if (items.length) catalogCache.set(cacheKey, { at: Date.now(), items });
   return { items };
@@ -191,11 +211,27 @@ async function searchByReference(ref: Ref, category: "checkpoint" | "lora") {
     search: ref.modelId,
     limit: 50,
   });
-  const results = envelope.data?.[0]?.results ?? [];
+  const results = searchRows(envelope, `ref:${ref.modelId}`);
   return {
     results,
     family: results.filter((row) => row.air?.includes(`:${ref.modelId}@`)),
   };
+}
+
+// The resolve core, taking an already-parsed ref so callers that parsed to decide
+// which path to take do not parse a second time.
+async function resolveRef(
+  ref: Ref,
+  category: "checkpoint" | "lora",
+): Promise<ResolvedCheckpoint | null> {
+  const found = await searchByReference(ref, category);
+  if (!found.results.length) return null;
+  const pool = found.family.length ? found.family : found.results;
+  const exact = ref.versionId
+    ? pool.find((row) => row.air?.endsWith(`@${ref.versionId}`))
+    : undefined;
+  const picked = exact ?? pool[0];
+  return picked?.air ? toResolved(picked) : null;
 }
 
 /**
@@ -211,8 +247,9 @@ export async function findCheckpoints(
   const trimmed = input.trim();
   if (trimmed.length < 2) return [];
 
-  if (parseCivitaiReference(trimmed) != null) {
-    const resolved = await resolveCivitaiCheckpoint(trimmed);
+  const ref = parseCivitaiReference(trimmed);
+  if (ref) {
+    const resolved = await resolveRef(ref, "checkpoint");
     return resolved ? [resolved] : [];
   }
 
@@ -222,8 +259,9 @@ export async function findCheckpoints(
     search: trimmed,
     limit: 20,
   });
-  const results = envelope.data?.[0]?.results ?? [];
-  return results.filter((row) => !!row.air).map((row) => toResolved(row));
+  return searchRows(envelope, trimmed)
+    .filter((row) => !!row.air)
+    .map((row) => toResolved(row));
 }
 
 /**
@@ -256,16 +294,5 @@ export async function resolveCivitaiCheckpoint(
   category: "checkpoint" | "lora" = "checkpoint",
 ): Promise<ResolvedCheckpoint | null> {
   const ref = parseCivitaiReference(input);
-  if (!ref) return null;
-
-  const found = await searchByReference(ref, category);
-  if (!found.results.length) return null;
-
-  const pool = found.family.length ? found.family : found.results;
-  const exact = ref.versionId
-    ? pool.find((row) => row.air?.endsWith(`@${ref.versionId}`))
-    : undefined;
-  const picked = exact ?? pool[0];
-  if (!picked?.air) return null;
-  return toResolved(picked);
+  return ref ? resolveRef(ref, category) : null;
 }
