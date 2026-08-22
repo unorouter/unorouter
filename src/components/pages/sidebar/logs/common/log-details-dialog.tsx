@@ -105,7 +105,11 @@ export function LogDetailsDialog(props: {
           {client && (
             <DetailRow
               label={t("LOGS.DETAIL.CLIENT")}
-              value={clientSource ? `${client.label} · ${clientSource}` : client.label}
+              value={
+                clientSource
+                  ? `${client.label} · ${clientSource}`
+                  : client.label
+              }
               copyable
             />
           )}
