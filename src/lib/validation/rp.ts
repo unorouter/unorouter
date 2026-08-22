@@ -39,7 +39,6 @@ export const characterBody = t.Object({
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
 });
-export type CharacterBody = Static<typeof characterBody>;
 
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
@@ -48,7 +47,6 @@ export const personaBody = t.Object({
   avatarMediaId: nullable(t.String({ maxLength: 64 })),
   isDefault: t.Optional(t.Boolean()),
 });
-export type PersonaBody = Static<typeof personaBody>;
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),

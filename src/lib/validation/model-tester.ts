@@ -19,7 +19,6 @@ export const probeOutcome = t.Object({
   transient: t.Boolean(),
   latencyMs: t.Number(),
 });
-export type ProbeOutcomeValue = Static<typeof probeOutcome>;
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;

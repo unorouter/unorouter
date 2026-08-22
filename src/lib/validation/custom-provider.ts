@@ -8,8 +8,6 @@ export const customProviderFormat = t.Union(
 );
 export type CustomProviderFormat = Static<typeof customProviderFormat>;
 
-export type CustomProviderTokenizer = Static<typeof tokenizerRef>;
-
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
 const MAX_MODELS = 256;
@@ -18,7 +16,6 @@ export const customProviderModelType = t.Union([
   t.Literal("text"),
   t.Literal("image"),
 ]);
-export type CustomProviderModelType = Static<typeof customProviderModelType>;
 
 export const customProviderModel = t.Object({
   key: t.String({ minLength: 1, maxLength: 256 }),
