@@ -33,7 +33,11 @@ const nextConfig: NextConfig = {
       "./sqlite3-worker1.mjs": { browser: "./src/lib/empty-module.ts" },
     },
   },
-  serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
+  // satori is external so turbopack does not bundle its emscripten loader: bundling
+  // rewrites harfbuzz's locateFile base to the build-root token "/ROOT", so the
+  // runtime open() hits /ROOT/node_modules/satori/node_modules/harfbuzzjs/hb.wasm
+  // and EVERY badge 500s (dev and standalone alike). Regressed in next 16.3.2.
+  serverExternalPackages: ["wasmoon", "sharp", "unpdf", "satori"],
   cacheComponents: false,
   // The Serwist route bundles the SW with esbuild at request time;
   // the file tracer misses that and drops esbuild + serwist deps from the
