@@ -20,16 +20,12 @@ export async function resolveSelf(
     // Upstream re-issues once the token is past half its life, so writing it
     // back here is what keeps an active session from ever reaching the hard
     // expiry. Absent on a fresh token and for API-key callers.
-    const renewed = user as UserSelfData & {
-      access_token?: string;
-      access_expires_at?: number;
-    };
-    if (cookie && renewed.access_token && user.id) {
+    if (cookie && user.access_token && user.id) {
       await setSessionCookies(
         cookie,
         user.id,
-        renewed.access_token,
-        renewed.access_expires_at,
+        user.access_token,
+        user.access_expires_at,
       );
     }
     return { user, expired: false };
