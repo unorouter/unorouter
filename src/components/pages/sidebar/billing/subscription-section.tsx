@@ -242,6 +242,10 @@ export function SubscriptionSection() {
           </span>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {plans.map((plan, i) => {
+              // Middle tier, matching the pricing page. Derived from the plan
+              // list rather than a fixed index so it still lands on the middle
+              // card if a plan is added or reordered.
+              const recommended = i === Math.floor((plans.length - 1) / 2);
               const multiplier =
                 plan.plan.price_amount > 0
                   ? Math.round(
@@ -257,10 +261,10 @@ export function SubscriptionSection() {
                 <div
                   key={plan.plan.id}
                   className={`border-border hover:border-primary/50 relative flex flex-col border p-6 transition-colors ${
-                    i === 0 ? "border-primary/50 bg-primary/2" : ""
+                    recommended ? "border-primary/50 bg-primary/2" : ""
                   }`}
                 >
-                  {i === 0 && (
+                  {recommended && (
                     <div className="absolute top-3 right-3">
                       <Badge className="bg-primary/10 text-primary gap-1">
                         <Icon name="sparkles" className="h-3 w-3" />
@@ -310,6 +314,21 @@ export function SubscriptionSection() {
                         <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                         {t("BILLING.SUBSCRIPTION.EST_TOTAL_QUOTA")}: ~$
                         {plan.estimated_total_usd.toFixed(2)}
+                      </div>
+                    )}
+                    {/* Read from the plan rather than the card's position: the
+                        pricing page derives it from a tier index, which silently
+                        mislabels every plan once one is added or reordered. */}
+                    {plan.plan.free_rate_limit_window_pct > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
+                        {plan.plan.free_rate_limit_window_pct >= 100
+                          ? t("PRICING.FEATURE.NO_FREE_WAIT")
+                          : t("PRICING.FEATURE.FREE_WAIT", {
+                              percent: String(
+                                plan.plan.free_rate_limit_window_pct,
+                              ),
+                            })}
                       </div>
                     )}
                   </div>
