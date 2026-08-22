@@ -3353,7 +3353,8 @@
     "DURATION": "משך",
     "NOT_AVAILABLE": "לא זמין",
     "SHOW_SENSITIVE": "הצג ערכים רגישים",
-    "HIDE_SENSITIVE": "הסתר ערכים רגישים"
+    "HIDE_SENSITIVE": "הסתר ערכים רגישים",
+    "TOKENS_IN": "קלט"
   },
   "AFFILIATE": {
     "TABLE": {

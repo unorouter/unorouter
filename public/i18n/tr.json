@@ -3353,7 +3353,8 @@
     "DURATION": "Süre",
     "NOT_AVAILABLE": "Yok",
     "SHOW_SENSITIVE": "Hassas değerleri göster",
-    "HIDE_SENSITIVE": "Hassas değerleri gizle"
+    "HIDE_SENSITIVE": "Hassas değerleri gizle",
+    "TOKENS_IN": "giriş"
   },
   "AFFILIATE": {
     "TABLE": {

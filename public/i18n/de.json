@@ -3353,7 +3353,8 @@
     "DURATION": "Dauer",
     "NOT_AVAILABLE": "K/A",
     "SHOW_SENSITIVE": "Sensible Werte anzeigen",
-    "HIDE_SENSITIVE": "Sensible Werte ausblenden"
+    "HIDE_SENSITIVE": "Sensible Werte ausblenden",
+    "TOKENS_IN": "Eingabe"
   },
   "AFFILIATE": {
     "TABLE": {

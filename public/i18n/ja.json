@@ -3353,7 +3353,8 @@
     "DURATION": "所要時間",
     "NOT_AVAILABLE": "該当なし",
     "SHOW_SENSITIVE": "機密値を表示",
-    "HIDE_SENSITIVE": "機密値を非表示"
+    "HIDE_SENSITIVE": "機密値を非表示",
+    "TOKENS_IN": "入力"
   },
   "AFFILIATE": {
     "TABLE": {

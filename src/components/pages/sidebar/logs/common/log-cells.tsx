@@ -240,7 +240,8 @@ export function LogTokenNameCell(props: CellContext<TableFeats, LogRow>) {
 export function LogTokensCell(props: CellContext<TableFeats, LogRow>) {
   const t = useTranslations();
   const log = props.row.original;
-  if (!isConsumeLike(log.type)) {
+  const isError = log.type === LOG_TYPE_ERROR;
+  if (!isConsumeLike(log.type) && !isError) {
     return LOG_EMPTY;
   }
   const other = parseOther(log.other);
@@ -250,6 +251,18 @@ export function LogTokensCell(props: CellContext<TableFeats, LogRow>) {
     : 0;
   const prompt = log.prompt_tokens ?? 0;
   const completion = log.completion_tokens ?? 0;
+  // A failed request has an input size but produced no output, so show the input
+  // alone rather than "N / 0", which would read as a model that returned nothing
+  // when it was never asked. Older error rows predate the count and stay blank.
+  if (isError) {
+    if (prompt <= 0) return LOG_EMPTY;
+    return (
+      <span className="font-mono text-xs font-medium tabular-nums">
+        {prompt.toLocaleString()}
+        <span className="text-muted-foreground"> {t("LOGS.TOKENS_IN")}</span>
+      </span>
+    );
+  }
   const cacheParts: string[] = [];
   if (cacheRead > 0) {
     cacheParts.push(`${t("LOGS.CACHE_READ")} ${cacheRead.toLocaleString()}`);

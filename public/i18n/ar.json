@@ -3353,7 +3353,8 @@
     "DURATION": "المدة",
     "NOT_AVAILABLE": "غير متاح",
     "SHOW_SENSITIVE": "إظهار القيم الحساسة",
-    "HIDE_SENSITIVE": "إخفاء القيم الحساسة"
+    "HIDE_SENSITIVE": "إخفاء القيم الحساسة",
+    "TOKENS_IN": "إدخال"
   },
   "AFFILIATE": {
     "TABLE": {

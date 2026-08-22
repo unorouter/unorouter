@@ -3353,7 +3353,8 @@
     "DURATION": "耗时",
     "NOT_AVAILABLE": "不适用",
     "SHOW_SENSITIVE": "显示敏感信息",
-    "HIDE_SENSITIVE": "隐藏敏感信息"
+    "HIDE_SENSITIVE": "隐藏敏感信息",
+    "TOKENS_IN": "输入"
   },
   "AFFILIATE": {
     "TABLE": {

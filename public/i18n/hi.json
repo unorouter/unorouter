@@ -3353,7 +3353,8 @@
     "DURATION": "अवधि",
     "NOT_AVAILABLE": "लागू नहीं",
     "SHOW_SENSITIVE": "संवेदनशील मान दिखाएँ",
-    "HIDE_SENSITIVE": "संवेदनशील मान छिपाएँ"
+    "HIDE_SENSITIVE": "संवेदनशील मान छिपाएँ",
+    "TOKENS_IN": "इनपुट"
   },
   "AFFILIATE": {
     "TABLE": {
