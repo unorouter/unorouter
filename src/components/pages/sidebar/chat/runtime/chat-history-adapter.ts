@@ -632,7 +632,6 @@ export function createChatHistoryAdapter(
             queryKeys.chatMeta(id),
             queryKeys.chatMessages(id),
             queryKeys.conversations(),
-            queryKeys.queuedSends(),
           ]) {
             queryClient.invalidateQueries({ queryKey });
           }
