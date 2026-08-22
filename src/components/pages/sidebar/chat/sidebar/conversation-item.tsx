@@ -4,7 +4,6 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
-import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import {
   isCustomModelId,
@@ -34,8 +33,6 @@ export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
   const pricingQuery = usePricingCatalogQuery();
   const updateMutation = useUpdateConversationMutation();
-  const queuedSends = useQueuedSends();
-  const isQueued = queuedSends.data?.has(props.conversation.id) ?? false;
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -145,12 +142,6 @@ export function ConversationItem(props: ConversationItemProps) {
             >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
-            {isQueued && (
-              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-700 dark:text-amber-400">
-                <Icon name="clock" className="size-2.5" />
-                {t("CHAT.QUEUED_PENDING")}
-              </span>
-            )}
           </div>
           <ConversationItemMenu
             conversationId={props.conversation.id}
