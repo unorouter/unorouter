@@ -1,5 +1,6 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { HeadingAnchor } from "@/components/pages/docs/heading-anchor";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
@@ -108,5 +109,17 @@ export function DocKbd(props: { children: React.ReactNode }) {
     <code className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-xs">
       {props.children}
     </code>
+  );
+}
+
+export function DocWarning(props: { children: React.ReactNode }) {
+  return (
+    <div
+      role="note"
+      className="flex gap-2.5 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300"
+    >
+      <Icon name="triangle-alert" className="mt-0.5 size-4 shrink-0" />
+      <div className="[&>p]:m-0">{props.children}</div>
+    </div>
   );
 }
