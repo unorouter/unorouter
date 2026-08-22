@@ -4075,7 +4075,20 @@
       "IMPORT_SUCCESS": "Sohbet içe aktarıldı",
       "MARKDOWN_COPIED": "Markdown panoya kopyalandı",
       "OPEN": "Daha fazla eylem",
-      "TOOLS": "Araçlar"
+      "TOOLS": "Araçlar",
+      "LOCAL_DB": "Veritabanı",
+      "LOCAL_DB_DOWNLOAD": "Yerel SQLite dosyasını indir",
+      "LOCAL_DB_UPLOAD": "SQLite dosyasını içe aktar (yereli değiştirir)",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Bu dosyadaki kayıtlar içe aktarılsın mı? Geçerli şemaya taşınır ve yerel verilerinizin yerini alır; kayıtlar bu oturuma devredilir.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables} tabloda {imported} kayıt içe aktarıldı ({skipped} atlandı).",
+      "LOCAL_DB_EXPORT_CHATS": "Sohbetleri dahil et",
+      "LOCAL_DB_EXPORT_LOGS": "İstek günlüklerini dahil et",
+      "LOCAL_DB_EXPORT_MEDIA": "Medyayı dahil et",
+      "LOCAL_DB_RECOVER": "Sahipsiz veritabanını kurtar",
+      "LOCAL_DB_RECOVER_NONE": "Havuzda kurtarılabilir veritabanı bulunamadı.",
+      "LOCAL_DB_RECOVER_SUMMARY": "{count} veritabanı bulundu. En büyüğü ({size}) indirildi. Yükleme düğmesiyle içe aktarın.",
+      "LOCAL_DB_WIPE": "Yerel veritabanını sil ve yeniden yükle",
+      "LOCAL_DB_WIPE_CONFIRM": "TÜM yerel OPFS verisini sil ve yeniden yükle?"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",

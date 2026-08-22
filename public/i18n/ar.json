@@ -4075,7 +4075,20 @@
       "IMPORT_SUCCESS": "تمّ استيراد المحادثة",
       "MARKDOWN_COPIED": "تمّ نسخ الماركداون إلى الحافظة",
       "OPEN": "مزيد من الإجراءات",
-      "TOOLS": "الأدوات"
+      "TOOLS": "الأدوات",
+      "LOCAL_DB": "قاعدة البيانات",
+      "LOCAL_DB_DOWNLOAD": "تنزيل ملف SQLite المحلي",
+      "LOCAL_DB_UPLOAD": "استيراد ملف SQLite (يستبدل المحلي)",
+      "LOCAL_DB_UPLOAD_CONFIRM": "استيراد السجلات من هذا الملف؟ يُرحَّل إلى المخطط الحالي ويستبدل بياناتك المحلية، وتُعاد ملكية السجلات إلى هذه الجلسة.",
+      "LOCAL_DB_IMPORT_SUMMARY": "تم استيراد {imported} سجلًا عبر {tables} جداول (تم تخطي {skipped}).",
+      "LOCAL_DB_EXPORT_CHATS": "تضمين المحادثات",
+      "LOCAL_DB_EXPORT_LOGS": "تضمين سجلات الطلبات",
+      "LOCAL_DB_EXPORT_MEDIA": "تضمين الوسائط",
+      "LOCAL_DB_RECOVER": "استرداد قاعدة البيانات المفقودة",
+      "LOCAL_DB_RECOVER_NONE": "لم يتم العثور على قاعدة بيانات قابلة للاسترداد في المجمع.",
+      "LOCAL_DB_RECOVER_SUMMARY": "تم العثور على {count} من قواعد البيانات. تم تنزيل الأكبر ({size}). استوردها باستخدام زر الرفع.",
+      "LOCAL_DB_WIPE": "محو قاعدة البيانات المحلية وإعادة التحميل",
+      "LOCAL_DB_WIPE_CONFIRM": "محو كل بيانات OPFS المحلية وإعادة التحميل؟"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",

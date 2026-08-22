@@ -17,6 +17,7 @@ import { analytics } from "@/lib/analytics";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { DatabaseSubmenu } from "./database-submenu";
 import { ImportExportSubmenu } from "./import-export-submenu";
 
 type Props = {
@@ -70,6 +71,7 @@ export function ToolsSubmenu(props: Props) {
           {t("CHAT.MORE.DUPLICATE")}
         </DropdownMenuItem>
         <ImportExportSubmenu convId={props.convId} />
+        <DatabaseSubmenu />
         <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="destructive"

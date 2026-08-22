@@ -4075,7 +4075,20 @@
       "IMPORT_SUCCESS": "Conversación importada",
       "MARKDOWN_COPIED": "Markdown copiado al portapapeles",
       "OPEN": "Más acciones",
-      "TOOLS": "Herramientas"
+      "TOOLS": "Herramientas",
+      "LOCAL_DB": "Base de datos",
+      "LOCAL_DB_DOWNLOAD": "Descargar archivo SQLite local",
+      "LOCAL_DB_UPLOAD": "Importar archivo SQLite (reemplaza local)",
+      "LOCAL_DB_UPLOAD_CONFIRM": "¿Importar registros de este archivo? Se migra al esquema actual y reemplaza tus datos locales; los registros pasan a esta sesión.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Se importaron {imported} registros en {tables} tablas ({skipped} omitidos).",
+      "LOCAL_DB_EXPORT_CHATS": "Incluir chats",
+      "LOCAL_DB_EXPORT_LOGS": "Incluir registros de solicitudes",
+      "LOCAL_DB_EXPORT_MEDIA": "Incluir multimedia",
+      "LOCAL_DB_RECOVER": "Recuperar base de datos huérfana",
+      "LOCAL_DB_RECOVER_NONE": "No se encontró ninguna base de datos recuperable en el grupo.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Se encontraron {count} base(s) de datos. Se descargó la más grande ({size}). Impórtala con el botón de subida.",
+      "LOCAL_DB_WIPE": "Borrar base de datos local y recargar",
+      "LOCAL_DB_WIPE_CONFIRM": "¿Borrar TODOS los datos OPFS locales y recargar?"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaje} other {# personajes}}",

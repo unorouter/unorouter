@@ -4075,7 +4075,20 @@
       "IMPORT_SUCCESS": "对话已导入",
       "MARKDOWN_COPIED": "Markdown 已复制到剪贴板",
       "OPEN": "更多操作",
-      "TOOLS": "工具"
+      "TOOLS": "工具",
+      "LOCAL_DB": "数据库",
+      "LOCAL_DB_DOWNLOAD": "下载本地 SQLite 文件",
+      "LOCAL_DB_UPLOAD": "导入 SQLite 文件（替换本地）",
+      "LOCAL_DB_UPLOAD_CONFIRM": "从此文件导入记录？它会迁移到当前架构并替换你的本地数据；记录将归属当前会话。",
+      "LOCAL_DB_IMPORT_SUMMARY": "已将 {imported} 条记录导入 {tables} 个表（跳过 {skipped} 条）。",
+      "LOCAL_DB_EXPORT_CHATS": "包含聊天",
+      "LOCAL_DB_EXPORT_LOGS": "包含请求日志",
+      "LOCAL_DB_EXPORT_MEDIA": "包含媒体",
+      "LOCAL_DB_RECOVER": "恢复孤立数据库",
+      "LOCAL_DB_RECOVER_NONE": "池中未找到可恢复的数据库。",
+      "LOCAL_DB_RECOVER_SUMMARY": "找到 {count} 个数据库。已下载最大的一个（{size}）。请使用上传按钮导入。",
+      "LOCAL_DB_WIPE": "清空本地数据库并重新加载",
+      "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 数据并重新加载？"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",
