@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Character card parse नहीं कर सके।",
     "CARD_MISSING_NAME": "Character card में required name field गायब है।",
     "CARD_IMPORT_INVALID_URL": "यह मान्य कैरेक्टर लिंक नहीं लगता।",
+    "CARD_IMPORT_UNSUPPORTED": "यह साइट अभी समर्थित नहीं है. Discord पर पूछें, हम इसे देखेंगे.",
     "CARD_IMPORT_FETCH_FAILED": "यह कैरेक्टर डाउनलोड नहीं हो सका। कृपया फिर से कोशिश करें।",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "लेखक ने इन लोरबुक को निजी रखा है, इसलिए इन्हें डाउनलोड नहीं किया जा सकता",
     "UNEXPECTED_ERROR": "एक अप्रत्याशित error हुआ",

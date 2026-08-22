@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Charakterkarte konnte nicht gelesen werden.",
     "CARD_MISSING_NAME": "Der Charakterkarte fehlt das erforderliche Namensfeld.",
     "CARD_IMPORT_INVALID_URL": "Das sieht nicht nach einem gültigen Charakterlink aus.",
+    "CARD_IMPORT_UNSUPPORTED": "Diese Seite wird noch nicht unterstützt. Frag im Discord, wir schauen sie uns an.",
     "CARD_IMPORT_FETCH_FAILED": "Dieser Charakter konnte nicht heruntergeladen werden. Bitte versuche es erneut.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Der Autor hat diese Lorebooks privat gehalten, sie lassen sich daher nicht herunterladen",
     "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten",

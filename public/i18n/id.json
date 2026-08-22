@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Tidak dapat mengurai kartu karakter.",
     "CARD_MISSING_NAME": "Kartu karakter kehilangan field nama yang diperlukan.",
     "CARD_IMPORT_INVALID_URL": "Itu sepertinya bukan tautan karakter yang valid.",
+    "CARD_IMPORT_UNSUPPORTED": "Situs itu belum didukung. Tanyakan di Discord dan kami akan melihatnya.",
     "CARD_IMPORT_FETCH_FAILED": "Tidak dapat mengunduh karakter ini. Silakan coba lagi.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Penulis merahasiakan lorebook ini, jadi tidak dapat diunduh",
     "UNEXPECTED_ERROR": "Terjadi error tak terduga",

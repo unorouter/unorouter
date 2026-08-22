@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "No se pudo parsear la carta de personaje.",
     "CARD_MISSING_NAME": "A la carta de personaje le falta el campo nombre requerido.",
     "CARD_IMPORT_INVALID_URL": "Eso no parece un enlace de personaje valido.",
+    "CARD_IMPORT_UNSUPPORTED": "Ese sitio aún no es compatible. Pregunta en Discord y lo revisaremos.",
     "CARD_IMPORT_FETCH_FAILED": "No se pudo descargar este personaje. Intentalo de nuevo.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "El autor mantuvo estos lorebooks en privado, así que no se pueden descargar",
     "UNEXPECTED_ERROR": "Ocurrió un error inesperado",

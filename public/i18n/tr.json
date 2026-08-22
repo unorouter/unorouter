@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Karakter kartı ayrıştırılamadı.",
     "CARD_MISSING_NAME": "Karakter kartı gerekli ad alanını eksik.",
     "CARD_IMPORT_INVALID_URL": "Bu geçerli bir karakter bağlantısı gibi görünmüyor.",
+    "CARD_IMPORT_UNSUPPORTED": "Bu site henüz desteklenmiyor. Discord'da sor, bakalım.",
     "CARD_IMPORT_FETCH_FAILED": "Bu karakter indirilemedi. Lütfen tekrar deneyin.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Yazar bu lorebook'ları gizli tuttu, bu yüzden indirilemiyorlar",
     "UNEXPECTED_ERROR": "Beklenmedik bir hata oluştu",

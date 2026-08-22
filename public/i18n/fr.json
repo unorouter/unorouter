@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Impossible de lire la carte de personnage.",
     "CARD_MISSING_NAME": "Le nom est obligatoire dans la carte de personnage.",
     "CARD_IMPORT_INVALID_URL": "Cela ne ressemble pas a un lien de personnage valide.",
+    "CARD_IMPORT_UNSUPPORTED": "Ce site n'est pas encore pris en charge. Demandez sur Discord et nous l'examinerons.",
     "CARD_IMPORT_FETCH_FAILED": "Impossible de télécharger ce personnage. Veuillez réessayer.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "L'auteur a gardé ces lorebooks privés, ils ne peuvent donc pas être téléchargés",
     "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite",

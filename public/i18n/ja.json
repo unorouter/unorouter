@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "キャラクターカードを解析できませんでした。",
     "CARD_MISSING_NAME": "キャラクターカードに必須の名前フィールドがありません。",
     "CARD_IMPORT_INVALID_URL": "有効なキャラクターリンクではないようです。",
+    "CARD_IMPORT_UNSUPPORTED": "このサイトはまだ対応していません。Discord で教えてください、確認します。",
     "CARD_IMPORT_FETCH_FAILED": "このキャラクターをダウンロードできませんでした。もう一度お試しください。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者がこれらのロアブックを非公開にしているため、ダウンロードできません",
     "UNEXPECTED_ERROR": "予期しないエラーが発生しました",

@@ -1,19 +1,12 @@
 import { msg } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 
-// Every source is fetched by uno-import, not here. These sites answer this
-// cluster's IP with a Cloudflare challenge that no API client can solve, and
-// datacat additionally sends no CORS header, so neither the gateway nor the
-// browser can reach them: uno-import drives a real browser behind a rotating
-// VPN exit and is the only path that works.
+// Every source is fetched by uno-import, not here. Some answer this cluster's
+// IP with a Cloudflare challenge that only a real browser clears, and none of
+// them send a CORS header, so neither the gateway nor the browser can reach
+// them directly.
 const BASE = serverEnv.unoImportUrl;
 const TOKEN = serverEnv.unoImportToken;
-
-// Kept in step with uno-import's own allowlist: a host missing here is
-// rejected before the job is ever submitted, which reads as an invalid link
-// rather than an unsupported site.
-const SUPPORTED =
-  /(^|\.)(datacat\.run|janitorai\.com|janitor\.ai|jannyai\.com|chub\.ai|characterhub\.org|realm\.risuai\.net|lorebary\.com|saucepan\.ai|botbooru\.com|character-tavern\.com)$/i;
 
 export type ImportJob = { jobId: string; status: string };
 
@@ -48,8 +41,16 @@ async function call<T>(path: string, init?: RequestInit): Promise<T> {
       "content-type": "application/json",
     },
   });
-  if (!res.ok) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-  return (await res.json()) as T;
+  const body = await res.json();
+  // uno-import owns the source list, so its rejection is the one the user sees.
+  if (!res.ok) {
+    throw new Error(
+      (body as { error?: string })?.error === "unsupported source"
+        ? msg("ERRORS.CARD_IMPORT_UNSUPPORTED")
+        : msg("ERRORS.CARD_IMPORT_FETCH_FAILED"),
+    );
+  }
+  return body as T;
 }
 
 export async function submitImport(
@@ -63,7 +64,7 @@ export async function submitImport(
   } catch {
     throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
   }
-  if (url.protocol !== "https:" || !SUPPORTED.test(url.hostname)) {
+  if (url.protocol !== "https:") {
     throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
   }
   return call<ImportJob>("/api/jobs", {

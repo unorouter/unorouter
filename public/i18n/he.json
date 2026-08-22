@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "לא ניתן לפענח כרטיס דמות.",
     "CARD_MISSING_NAME": "לכרטיס הדמות חסר שדה השם הנדרש.",
     "CARD_IMPORT_INVALID_URL": "זה לא נראה כמו קישור תקין לדמות.",
+    "CARD_IMPORT_UNSUPPORTED": "האתר הזה עדיין לא נתמך. שאלו בדיסקורד ונבדוק אותו.",
     "CARD_IMPORT_FETCH_FAILED": "לא ניתן להוריד את הדמות הזו. נסה שוב.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "היוצר השאיר את ספרי הלור האלה פרטיים, ולכן לא ניתן להוריד אותם",
     "UNEXPECTED_ERROR": "התרחשה שגיאה לא צפויה",
