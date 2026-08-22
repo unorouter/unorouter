@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Nie można sparsować karty postaci.",
     "CARD_MISSING_NAME": "Karta postaci nie ma wymaganego pola nazwy.",
     "CARD_IMPORT_INVALID_URL": "To nie wygląda na prawidłowy link do postaci.",
+    "CARD_IMPORT_UNSUPPORTED": "Ta strona nie jest jeszcze obsługiwana. Napisz na Discordzie, a się jej przyjrzymy.",
     "CARD_IMPORT_FETCH_FAILED": "Nie udało się pobrać tej postaci. Spróbuj ponownie.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Autor zachował te lorebooki jako prywatne, więc nie można ich pobrać",
     "UNEXPECTED_ERROR": "Wystąpił nieoczekiwany błąd",

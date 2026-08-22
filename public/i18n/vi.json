@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
     "CARD_IMPORT_INVALID_URL": "Đây không giống một liên kết nhân vật hợp lệ.",
+    "CARD_IMPORT_UNSUPPORTED": "Trang này chưa được hỗ trợ. Hãy hỏi trên Discord, chúng tôi sẽ xem xét.",
     "CARD_IMPORT_FETCH_FAILED": "Không thể tải nhân vật này. Vui lòng thử lại.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Tác giả đã để riêng tư các lorebook này, nên không thể tải xuống",
     "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",

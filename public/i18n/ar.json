@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "تعذّر تحليل بطاقة الشخصية.",
     "CARD_MISSING_NAME": "بطاقة الشخصية ينقصها حقل الاسم المطلوب.",
     "CARD_IMPORT_INVALID_URL": "لا يبدو هذا رابط شخصية صالحا.",
+    "CARD_IMPORT_UNSUPPORTED": "هذا الموقع غير مدعوم بعد. اسأل في ديسكورد وسنلقي نظرة عليه.",
     "CARD_IMPORT_FETCH_FAILED": "تعذر تنزيل هذه الشخصية. حاول مرة أخرى.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "أبقى المؤلف هذه الكتب المرجعية خاصة، لذا لا يمكن تنزيلها",
     "UNEXPECTED_ERROR": "حدث خطأ غير متوقّع",

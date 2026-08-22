@@ -4330,6 +4330,7 @@
     "CARD_PARSE_FAILED": "캐릭터 카드를 파싱할 수 없습니다.",
     "CARD_MISSING_NAME": "캐릭터 카드에 필수 name 필드가 누락되었습니다.",
     "CARD_IMPORT_INVALID_URL": "유효한 캐릭터 링크가 아닌 것 같습니다.",
+    "CARD_IMPORT_UNSUPPORTED": "아직 지원하지 않는 사이트입니다. 디스코드에 알려 주시면 살펴보겠습니다.",
     "CARD_IMPORT_FETCH_FAILED": "이 캐릭터를 내려받지 못했습니다. 다시 시도해 주세요.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "작성자가 이 로어북을 비공개로 두어 다운로드할 수 없습니다",
     "UNEXPECTED_ERROR": "예상치 못한 오류가 발생함",
