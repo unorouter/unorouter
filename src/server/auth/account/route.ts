@@ -113,41 +113,26 @@ export const authRoute = new Elysia({ prefix: "/account" })
   .get(
     "/oauth/callback",
     async ({ query, cookie, set }) => {
-      // Elysia's redirect() builds a Response whose location stays relative, and
-      // Next re-parses that through undici on the way out ("Failed to parse URL
-      // from /login", a 500 the visitor sees instead of the login page). Every
-      // other branch here sets the header itself for that reason; these did not,
-      // so any OAuth attempt that failed upstream died on an error page with no
-      // way back. Assign the header directly like the rest of the handler.
-      const toLogin = () => {
+      // Not Elysia's redirect(): it leaves the location RELATIVE, and Next
+      // re-parses that through undici on the way out, which rejects "/login"
+      // with "Failed to parse URL from /login" and shows a 500 instead.
+      const to = (location: string) => {
         set.status = 302;
-        set.headers.location = "/login";
+        set.headers.location = location;
       };
-      if (query.error) {
-        set.status = 302;
-        set.headers.location = `/settings?bind_error=${encodeURIComponent(
-          query.error,
-        )}`;
-        return;
-      }
-      if (!query.code) return toLogin();
 
-      let res;
-      try {
-        res = await exchangeOAuthCode({ code: query.code });
-      } catch {
-        return toLogin();
-      }
-      if (!res.data || !("success" in res.data) || !res.data.success)
-        return toLogin();
+      if (query.error)
+        return to(`/settings?bind_error=${encodeURIComponent(query.error)}`);
+      if (!query.code) return to("/login");
+
+      const res = await exchangeOAuthCode({ code: query.code }).catch(
+        () => null,
+      );
+      if (!res?.data || !("success" in res.data) || !res.data.success)
+        return to("/login");
 
       const data = res.data.data;
-
-      if (data.action === "bind") {
-        set.status = 302;
-        set.headers.location = "/settings";
-        return;
-      }
+      if (data.action === "bind") return to("/settings");
 
       await setSessionCookies(
         cookie,
@@ -157,12 +142,8 @@ export const authRoute = new Elysia({ prefix: "/account" })
       );
 
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
-      if (redirectTo) {
-        cookie[AUTH_REDIRECT_COOKIE].remove();
-      }
-
-      set.status = 302;
-      set.headers.location = sanitizeRedirectPath(redirectTo) ?? "/dashboard";
+      if (redirectTo) cookie[AUTH_REDIRECT_COOKIE].remove();
+      to(sanitizeRedirectPath(redirectTo) ?? "/dashboard");
     },
     { query: oauthCallbackQuery },
   )
