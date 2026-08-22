@@ -3353,7 +3353,8 @@
     "DURATION": "Durasi",
     "NOT_AVAILABLE": "T/A",
     "SHOW_SENSITIVE": "Tampilkan nilai sensitif",
-    "HIDE_SENSITIVE": "Sembunyikan nilai sensitif"
+    "HIDE_SENSITIVE": "Sembunyikan nilai sensitif",
+    "TOKENS_IN": "masukan"
   },
   "AFFILIATE": {
     "TABLE": {

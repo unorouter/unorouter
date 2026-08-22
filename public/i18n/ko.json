@@ -3353,7 +3353,8 @@
     "DURATION": "소요 시간",
     "NOT_AVAILABLE": "해당 없음",
     "SHOW_SENSITIVE": "민감한 값 표시",
-    "HIDE_SENSITIVE": "민감한 값 숨기기"
+    "HIDE_SENSITIVE": "민감한 값 숨기기",
+    "TOKENS_IN": "입력"
   },
   "AFFILIATE": {
     "TABLE": {

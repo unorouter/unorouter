@@ -3353,7 +3353,8 @@
     "DURATION": "Thời lượng",
     "NOT_AVAILABLE": "K/C",
     "SHOW_SENSITIVE": "Hiện giá trị nhạy cảm",
-    "HIDE_SENSITIVE": "Ẩn giá trị nhạy cảm"
+    "HIDE_SENSITIVE": "Ẩn giá trị nhạy cảm",
+    "TOKENS_IN": "đầu vào"
   },
   "AFFILIATE": {
     "TABLE": {
