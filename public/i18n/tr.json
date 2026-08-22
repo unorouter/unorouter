@@ -4077,6 +4077,7 @@
       "OPEN": "Daha fazla eylem",
       "TOOLS": "Araçlar",
       "LOCAL_DB": "Veritabanı",
+      "DATA": "Veriler",
       "LOCAL_DB_DOWNLOAD": "Yerel SQLite dosyasını indir",
       "LOCAL_DB_UPLOAD": "SQLite dosyasını içe aktar (yereli değiştirir)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Bu dosyadaki kayıtlar içe aktarılsın mı? Geçerli şemaya taşınır ve yerel verilerinizin yerini alır; kayıtlar bu oturuma devredilir.",

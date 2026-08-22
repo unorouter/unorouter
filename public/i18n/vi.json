@@ -4077,6 +4077,7 @@
       "OPEN": "Thao tác khác",
       "TOOLS": "Công cụ",
       "LOCAL_DB": "Cơ sở dữ liệu",
+      "DATA": "Dữ liệu",
       "LOCAL_DB_DOWNLOAD": "Tải xuống tệp SQLite cục bộ",
       "LOCAL_DB_UPLOAD": "Nhập tệp SQLite (thay thế cục bộ)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Nhập bản ghi từ tệp này? Tệp được di chuyển sang lược đồ hiện tại và thay thế dữ liệu cục bộ của bạn; các bản ghi được chuyển quyền sở hữu sang phiên này.",

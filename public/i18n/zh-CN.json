@@ -4077,6 +4077,7 @@
       "OPEN": "更多操作",
       "TOOLS": "工具",
       "LOCAL_DB": "数据库",
+      "DATA": "数据",
       "LOCAL_DB_DOWNLOAD": "下载本地 SQLite 文件",
       "LOCAL_DB_UPLOAD": "导入 SQLite 文件（替换本地）",
       "LOCAL_DB_UPLOAD_CONFIRM": "从此文件导入记录？它会迁移到当前架构并替换你的本地数据；记录将归属当前会话。",

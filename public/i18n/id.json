@@ -4077,6 +4077,7 @@
       "OPEN": "Tindakan lainnya",
       "TOOLS": "Alat",
       "LOCAL_DB": "Basis data",
+      "DATA": "Data",
       "LOCAL_DB_DOWNLOAD": "Unduh file SQLite lokal",
       "LOCAL_DB_UPLOAD": "Impor file SQLite (mengganti lokal)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",

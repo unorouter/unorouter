@@ -4077,6 +4077,7 @@
       "OPEN": "More actions",
       "TOOLS": "Tools",
       "LOCAL_DB": "Database",
+      "DATA": "Data",
       "LOCAL_DB_DOWNLOAD": "Download local SQLite file",
       "LOCAL_DB_UPLOAD": "Import SQLite file (replaces local)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Import records from this file? It is migrated to the current schema and replaces your local data; records are re-owned by this session.",

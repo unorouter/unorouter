@@ -4077,6 +4077,7 @@
       "OPEN": "Więcej akcji",
       "TOOLS": "Narzędzia",
       "LOCAL_DB": "Baza danych",
+      "DATA": "Dane",
       "LOCAL_DB_DOWNLOAD": "Pobierz lokalny plik SQLite",
       "LOCAL_DB_UPLOAD": "Importuj plik SQLite (zastępuje lokalny)",
       "LOCAL_DB_UPLOAD_CONFIRM": "Zaimportować rekordy z tego pliku? Zostanie zmigrowany do bieżącego schematu i zastąpi Twoje dane lokalne; rekordy są przypisywane do tej sesji.",

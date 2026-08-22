@@ -6,15 +6,14 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import { DebugLogItems } from "./debug-log-items";
 import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/ai/rp/conversations";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
-import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
-import { dayjs } from "@/lib/utils/format/date";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";
@@ -33,17 +32,6 @@ export function ImportExportSubmenu(props: Props) {
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
   const hasConv = !!props.convId;
-
-  const downloadDiagnostics = async () => {
-    try {
-      const stamp = dayjs().format("YYYYMMDD-HHmmss");
-      const { downloadDiagnostics: runDownloadDiagnostics } =
-        await import("@/lib/db/client/data/diagnostics/db-export");
-      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`);
-    } catch (e) {
-      toast.error(String(e).slice(0, 120));
-    }
-  };
 
   const handleExport = async (format: ExportFormat) => {
     if (!props.convId) return;
@@ -127,19 +115,7 @@ export function ImportExportSubmenu(props: Props) {
             {t("CHAT.MORE.IMPORT")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={downloadDiagnostics}>
-            <Icon name="clipboard-copy" className="size-4" />
-            {t("CHAT.MORE.DIAGNOSTICS")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              clearChatDebugLog();
-              toast.success(t("CHAT.MORE.DEBUG_CLEARED"));
-            }}
-          >
-            <Icon name="trash-2" className="size-4" />
-            {t("CHAT.MORE.DEBUG_CLEAR")}
-          </DropdownMenuItem>
+          <DebugLogItems />
         </DropdownMenuSubContent>
       </DropdownMenuSub>
     </>

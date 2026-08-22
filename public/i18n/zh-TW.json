@@ -4077,6 +4077,7 @@
       "OPEN": "更多操作",
       "TOOLS": "工具",
       "LOCAL_DB": "資料庫",
+      "DATA": "資料",
       "LOCAL_DB_DOWNLOAD": "下載本地 SQLite 檔案",
       "LOCAL_DB_UPLOAD": "匯入 SQLite 檔案（取代本地）",
       "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案匯入記錄？它會遷移到目前的結構並取代你的本地資料；記錄將歸屬目前的工作階段。",

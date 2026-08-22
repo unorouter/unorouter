@@ -4077,6 +4077,7 @@
       "OPEN": "더 많은 작업",
       "TOOLS": "도구",
       "LOCAL_DB": "데이터베이스",
+      "DATA": "데이터",
       "LOCAL_DB_DOWNLOAD": "로컬 SQLite 파일 다운로드",
       "LOCAL_DB_UPLOAD": "SQLite 파일 가져오기 (로컬 교체)",
       "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 레코드를 가져오시겠습니까? 현재 스키마로 마이그레이션되어 로컬 데이터를 교체하며, 레코드는 이 세션으로 재할당됩니다.",

@@ -20,6 +20,7 @@ import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
+import { DataSubmenu } from "./data-submenu";
 import { UserInfo } from "./user-info";
 import { quotaToDollars } from "@/lib/config/constants";
 
@@ -142,6 +143,8 @@ export function UserDropdown(props: UserDropdownProps) {
             </Link>
           ))}
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DataSubmenu />
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <Icon name="log-out" />
