@@ -98,53 +98,30 @@ export function ActiveConfigBadge() {
   type Chip = {
     icon: "sliders-horizontal" | "user" | "users" | "book-open";
     label: string;
-    bound: boolean;
   };
-  // An unbound feature still gets a chip, dimmed and labelled with the feature
-  // rather than a value: the row is how someone discovers that presets, personas,
-  // characters and lorebooks exist at all, and hiding it until something is
-  // already bound only ever showed it to people who had found it another way.
-  const chips: Chip[] = [
-    {
-      icon: "sliders-horizontal",
-      label: presetName ?? t("CHAT.ACTIVE_CONFIG.PRESET_EMPTY"),
-      bound: Boolean(presetName),
-    },
-    {
-      icon: "user",
-      label: personaName ?? t("CHAT.ACTIVE_CONFIG.PERSONA_EMPTY"),
-      bound: Boolean(personaName),
-    },
-    {
+  const chips = [
+    presetName && { icon: "sliders-horizontal", label: presetName },
+    personaName && { icon: "user", label: personaName },
+    characterCount > 0 && {
       icon: "users",
-      label:
-        characterCount > 0
-          ? t("CHAT.ACTIVE_CONFIG.CHARACTERS", { count: characterCount })
-          : t("CHAT.ACTIVE_CONFIG.CHARACTERS_EMPTY"),
-      bound: characterCount > 0,
+      label: t("CHAT.ACTIVE_CONFIG.CHARACTERS", { count: characterCount }),
     },
-    {
+    lorebookCount > 0 && {
       icon: "book-open",
-      label:
-        lorebookCount > 0
-          ? t("CHAT.ACTIVE_CONFIG.LOREBOOKS", { count: lorebookCount })
-          : t("CHAT.ACTIVE_CONFIG.LOREBOOKS_EMPTY"),
-      bound: lorebookCount > 0,
+      label: t("CHAT.ACTIVE_CONFIG.LOREBOOKS", { count: lorebookCount }),
     },
-  ];
+  ].filter((c): c is Chip => Boolean(c));
+
+  if (chips.length === 0) return null;
 
   return (
     <div className="thin-scrollbar flex min-w-0 shrink-0 items-center gap-1 overflow-x-auto border-b px-2 py-1">
       {chips.map((chip) => (
         <button
-          key={chip.icon}
+          key={`${chip.icon}:${chip.label}`}
           type="button"
           onClick={() => openSettings(true)}
-          className={`hover:text-foreground hover:bg-accent inline-flex max-w-40 shrink-0 items-center gap-1 truncate rounded-full px-1.5 py-0.5 text-[11px] transition ${
-            chip.bound
-              ? "bg-accent/60 text-muted-foreground"
-              : "text-muted-foreground/50 border-border/60 border border-dashed"
-          }`}
+          className="bg-accent/60 text-muted-foreground hover:text-foreground hover:bg-accent inline-flex max-w-40 shrink-0 items-center gap-1 truncate rounded-full px-1.5 py-0.5 text-[11px] transition"
         >
           <Icon name={chip.icon} className="size-2.5 shrink-0" />
           <span className="truncate">{chip.label}</span>

@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",
-      "LOREBOOKS": "{count, plural, other {# 个世界书}}",
-      "PRESET_EMPTY": "预设",
-      "PERSONA_EMPTY": "人设",
-      "CHARACTERS_EMPTY": "角色",
-      "LOREBOOKS_EMPTY": "世界书"
+      "LOREBOOKS": "{count, plural, other {# 个世界书}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "请选择一个选项以继续",
     "TRIGGER_ALERT_OK": "确定",

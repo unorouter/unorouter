@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# キャラクター}}",
-      "LOREBOOKS": "{count, plural, other {# ロアブック}}",
-      "PRESET_EMPTY": "プリセット",
-      "PERSONA_EMPTY": "ペルソナ",
-      "CHARACTERS_EMPTY": "キャラクター",
-      "LOREBOOKS_EMPTY": "ロアブック"
+      "LOREBOOKS": "{count, plural, other {# ロアブック}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "続行するにはオプションを選択してください",
     "TRIGGER_ALERT_OK": "OK",

@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",
-      "LOREBOOKS": "{count, plural, one {# codex} other {# codex}}",
-      "PRESET_EMPTY": "Préréglage",
-      "PERSONA_EMPTY": "Persona",
-      "CHARACTERS_EMPTY": "Personnages",
-      "LOREBOOKS_EMPTY": "Codex"
+      "LOREBOOKS": "{count, plural, one {# codex} other {# codex}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Choisissez une option pour continuer",
     "TRIGGER_ALERT_OK": "OK",

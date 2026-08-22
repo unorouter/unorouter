@@ -13,6 +13,10 @@ export async function getCachedFreeChatModels(limit?: number) {
   const catalog = await getCatalog();
   const free = catalog.models
     .filter((m) => m.is_free && m.chat)
+    .sort((a, b) => {
+      const diff = b.release_ts - a.release_ts;
+      return diff !== 0 ? diff : a.model_name.localeCompare(b.model_name);
+    })
     .map((m) => ({ name: m.model_name, vendor: m.vendor || m.model_name }));
   return limit == null ? free : free.slice(0, limit);
 }
