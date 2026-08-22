@@ -4939,7 +4939,7 @@
       "SUBTITLE": "Wiedza o świecie pojawiająca się w prompcie dokładnie wtedy, gdy jest istotna.",
       "H_BOOKS": "Księgi",
       "P_BOOKS_1": "Lorebook to zbiór wpisów plus ustawienia skanowania. Podepnij do rozmowy dowolną liczbę ksiąg; wszystkie podpięte księgi skanują się razem jako jedna pula.",
-      "P_BOOKS_IMPORT": "Lorebooki importujesz z pliku albo z linku: skryptu JanitorAI, lorebooka z Chub postaci RisuRealm, która go dołącza, albo companiona z Saucepan. Książki zachowanej przez autora jako prywatna nikt nie pobierze, więc jeśli karta wymienia trzy, a dotrze jedna, to była decyzja autora; import wymienia brakujące zamiast po cichu importować mniej.",
+      "P_BOOKS_IMPORT": "Lorebooki importujesz z pliku albo z linku: skryptu JanitorAI, lorebooka z Chub, postaci RisuRealm, która go dołącza, albo companiona lub lorebooka z Saucepan. W JanitorAI i Chub książki zachowanej przez autora jako prywatna nikt nie pobierze, więc jeśli karta wymienia trzy, a dotrze jedna, to była decyzja autora; import wymienia brakujące zamiast po cichu importować mniej.",
       "TH_SETTING": "Ustawienie",
       "TH_RANGE": "Zakres",
       "TH_EFFECT": "Efekt",

@@ -4939,7 +4939,7 @@
       "SUBTITLE": "Tam da gerektiği anda prompt'ta beliren dünya bilgisi.",
       "H_BOOKS": "Kitaplar",
       "P_BOOKS_1": "Lorebook, girdiler artı tarama ayarlarından oluşan bir koleksiyondur. Bir konuşmaya istediğin kadar kitap bağla; bağlı tüm kitaplar tek havuz olarak birlikte taranır.",
-      "P_BOOKS_IMPORT": "Lorebook'lar bir dosyadan ya da bağlantıdan içe aktarılır: JanitorAI betiği, Chub lorebook'u bir tane getiren RisuRealm karakteri ya da bir Saucepan companion'ı. Yazarın gizli tuttuğu bir kitabı kimse indiremez; bir kart üç tane listeliyor ve bir tanesi geliyorsa diğer ikisi yazarın tercihiydi. İçe aktarma daha azını sessizce almak yerine eksik olanları adlarıyla bildirir.",
+      "P_BOOKS_IMPORT": "Lorebook'lar bir dosyadan ya da bağlantıdan içe aktarılır: JanitorAI betiği, Chub lorebook'u, bir tane getiren RisuRealm karakteri ya da bir Saucepan companion'ı veya lorebook'u. JanitorAI ve Chub'da yazarın gizli tuttuğu bir kitabı kimse indiremez; bir kart üç tane listeliyor ve bir tanesi geliyorsa diğer ikisi yazarın tercihiydi. İçe aktarma daha azını sessizce almak yerine eksik olanları adlarıyla bildirir.",
       "TH_SETTING": "Ayar",
       "TH_RANGE": "Aralık",
       "TH_EFFECT": "Etki",

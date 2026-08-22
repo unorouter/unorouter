@@ -4939,7 +4939,7 @@
       "SUBTITLE": "Conhecimento do mundo que entra no prompt exatamente quando é relevante.",
       "H_BOOKS": "Livros",
       "P_BOOKS_1": "Um lorebook é uma coleção de entradas mais configurações de varredura. Anexe quantos livros quiser a uma conversa; todos os livros anexados são varridos juntos como um único conjunto.",
-      "P_BOOKS_IMPORT": "Os lorebooks importam de um arquivo ou de um link: um script do JanitorAI, um lorebook do Chub um personagem do RisuRealm que inclua um, ou um companion do Saucepan. Um livro que o autor manteve privado não pode ser baixado por ninguém, então se um cartão lista três e chega um, os outros dois foram escolha do autor; a importação os nomeia em vez de importar menos em silêncio.",
+      "P_BOOKS_IMPORT": "Os lorebooks importam de um arquivo ou de um link: um script do JanitorAI, um lorebook do Chub, um personagem do RisuRealm que inclua um, ou um companion ou lorebook do Saucepan. No JanitorAI e no Chub, um livro que o autor manteve privado não pode ser baixado por ninguém, então se um cartão lista três e chega um, os outros dois foram escolha do autor; a importação os nomeia em vez de importar menos em silêncio.",
       "TH_SETTING": "Configuração",
       "TH_RANGE": "Faixa",
       "TH_EFFECT": "Efeito",

@@ -4939,7 +4939,7 @@
       "SUBTITLE": "Tri thức thế giới hiện ra trong prompt đúng lúc nó liên quan.",
       "H_BOOKS": "Sổ",
       "P_BOOKS_1": "Sổ tri thức là tập hợp các mục cùng cài đặt quét. Gắn bao nhiêu sổ tùy ý vào một cuộc trò chuyện; mọi sổ đã gắn được quét cùng nhau như một hồ chung.",
-      "P_BOOKS_IMPORT": "Lorebook nhập từ tệp hoặc từ liên kết: một script JanitorAI, một lorebook Chub, một nhân vật RisuRealm có kèm theo, hoặc một companion Saucepan. Cuốn sách mà tác giả để riêng tư thì không ai tải được, nên nếu thẻ liệt kê ba mà chỉ về một, hai cuốn kia là lựa chọn của tác giả; phần nhập sẽ nêu tên chúng thay vì lặng lẽ nhập ít hơn.",
+      "P_BOOKS_IMPORT": "Lorebook nhập từ tệp hoặc từ liên kết: một script JanitorAI, một lorebook Chub, một nhân vật RisuRealm có kèm theo, hoặc một companion hay lorebook Saucepan. Trên JanitorAI và Chub, cuốn sách mà tác giả để riêng tư thì không ai tải được, nên nếu thẻ liệt kê ba mà chỉ về một, hai cuốn kia là lựa chọn của tác giả; phần nhập sẽ nêu tên chúng thay vì lặng lẽ nhập ít hơn.",
       "TH_SETTING": "Cài đặt",
       "TH_RANGE": "Khoảng",
       "TH_EFFECT": "Tác dụng",

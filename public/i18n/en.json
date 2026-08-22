@@ -4939,7 +4939,7 @@
       "SUBTITLE": "World knowledge that appears in the prompt exactly when it is relevant.",
       "H_BOOKS": "Books",
       "P_BOOKS_1": "A lorebook is a collection of entries plus scan settings. Attach any number of books to a conversation; all attached books scan together as one pool.",
-      "P_BOOKS_IMPORT": "Lorebooks import from a file or from a link: a JanitorAI script, a Chub lorebook, a RisuRealm character that ships one, or a Saucepan companion. A book the author kept private cannot be downloaded by anyone, so if a card lists three and one arrives, the other two were the author's choice; the import names them rather than quietly importing fewer.",
+      "P_BOOKS_IMPORT": "Lorebooks import from a file or from a link: a JanitorAI script, a Chub lorebook, a RisuRealm character that ships one, or a Saucepan companion or lorebook. On JanitorAI and Chub a book the author kept private cannot be downloaded by anyone, so if a card lists three and one arrives, the other two were the author's choice; the import names them rather than quietly importing fewer.",
       "TH_SETTING": "Setting",
       "TH_RANGE": "Range",
       "TH_EFFECT": "Effect",
