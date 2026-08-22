@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Prioritas Gotify",
       "SAVE_SETTINGS": "Simpan Pengaturan",
       "SETTINGS_SAVED": "Pengaturan notifikasi berhasil disimpan"
+    },
+    "TIMEOUT": {
+      "TITLE": "Batas waktu respons",
+      "ENABLED": "Batas waktu kata pertama khusus",
+      "ENABLED_DESC": "Nonaktif secara bawaan. Aktifkan untuk lebih cepat menyerah pada penyedia yang macet sebelum menjawab, alih-alih menunggu nilai penuh.",
+      "PER_ATTEMPT": "Per penyedia (detik)",
+      "PER_ATTEMPT_DESC": "Berapa lama menunggu kata pertama penyedia sebelum mencoba yang berikutnya. Lebih rendah berarti gagal lebih cepat; terlalu rendah bisa melewatkan penyedia yang hampir menjawab.",
+      "WHOLE_CHAIN": "Total anggaran (detik)",
+      "WHOLE_CHAIN_DESC": "Waktu total maksimum mencari penyedia yang merespons. 0 berarti tanpa batas keseluruhan.",
+      "STREAMING_NOTE": "Ini hanya membatasi tunggu sebelum kata pertama. Setelah balasan dimulai, balasan tidak pernah dipotong, sepanjang apa pun itu.",
+      "SAVE_SETTINGS": "Simpan batas waktu",
+      "SETTINGS_SAVED": "Batas waktu tersimpan"
     }
   },
   "SEARCH": {

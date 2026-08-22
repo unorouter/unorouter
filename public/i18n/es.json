@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Prioridad Gotify",
       "SAVE_SETTINGS": "Guardar configuración",
       "SETTINGS_SAVED": "Configuración de notificaciones guardada exitosamente"
+    },
+    "TIMEOUT": {
+      "TITLE": "Tiempos de espera",
+      "ENABLED": "Tiempo de espera personalizado hasta la primera palabra",
+      "ENABLED_DESC": "Desactivado por defecto. Actívalo para descartar antes a los proveedores que se atascan antes de responder, en vez de esperar el valor completo.",
+      "PER_ATTEMPT": "Por proveedor (segundos)",
+      "PER_ATTEMPT_DESC": "Cuánto esperar la primera palabra de un proveedor antes de probar el siguiente. Menos tiempo significa fallos más rápidos; demasiado poco puede descartar proveedores que iban a responder.",
+      "WHOLE_CHAIN": "Presupuesto total (segundos)",
+      "WHOLE_CHAIN_DESC": "Tiempo total máximo buscando un proveedor que responda. 0 significa sin límite global.",
+      "STREAMING_NOTE": "Esto solo limita la espera antes de la primera palabra. Una vez que empieza la respuesta, nunca se corta, por larga que sea.",
+      "SAVE_SETTINGS": "Guardar tiempos de espera",
+      "SETTINGS_SAVED": "Tiempos de espera guardados"
     }
   },
   "SEARCH": {

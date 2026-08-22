@@ -40,3 +40,10 @@ export const updateSettingBody = t.Object({
   gotify_priority: t.Optional(t.Number()),
   upstream_model_update_notify_enabled: t.Optional(t.Nullable(t.Boolean())),
 });
+
+// 0 disables a limit. The upper bound mirrors the gateway's clamp, which is what
+// actually enforces it; this only rejects obvious nonsense before the round trip.
+export const updateTimeoutBody = t.Object({
+  max_first_token_seconds: t.Integer({ minimum: 0, maximum: 600 }),
+  max_chain_first_token_seconds: t.Integer({ minimum: 0, maximum: 600 }),
+});

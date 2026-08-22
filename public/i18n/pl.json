@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Priorytet Gotify",
       "SAVE_SETTINGS": "Zapisz ustawienia",
       "SETTINGS_SAVED": "Ustawienia powiadomień zapisane pomyślnie"
+    },
+    "TIMEOUT": {
+      "TITLE": "Limity czasu odpowiedzi",
+      "ENABLED": "Własny limit czasu do pierwszego słowa",
+      "ENABLED_DESC": "Domyślnie wyłączone. Włącz, aby szybciej rezygnować z dostawców, którzy zawieszają się przed odpowiedzią, zamiast czekać pełny domyślny czas.",
+      "PER_ATTEMPT": "Na dostawcę (sekundy)",
+      "PER_ATTEMPT_DESC": "Jak długo czekać na pierwsze słowo dostawcy przed próbą następnego. Mniej oznacza szybsze błędy; zbyt mało może pominąć dostawców, którzy właśnie mieli odpowiedzieć.",
+      "WHOLE_CHAIN": "Łączny budżet (sekundy)",
+      "WHOLE_CHAIN_DESC": "Maksymalny łączny czas szukania dostawcy, który odpowie. 0 oznacza brak ogólnego limitu.",
+      "STREAMING_NOTE": "To ogranicza tylko oczekiwanie na pierwsze słowo. Gdy odpowiedź się zacznie, nigdy nie zostanie przerwana, niezależnie od długości.",
+      "SAVE_SETTINGS": "Zapisz limity czasu",
+      "SETTINGS_SAVED": "Limity czasu zapisane"
     }
   },
   "SEARCH": {

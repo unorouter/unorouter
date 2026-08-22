@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Prioridade Gotify",
       "SAVE_SETTINGS": "Salvar configurações",
       "SETTINGS_SAVED": "Configurações de notificação salvas com sucesso"
+    },
+    "TIMEOUT": {
+      "TITLE": "Tempos limite de resposta",
+      "ENABLED": "Tempo limite personalizado até a primeira palavra",
+      "ENABLED_DESC": "Desativado por padrão. Ative para desistir mais cedo de provedores que travam antes de responder, em vez de esperar o valor completo.",
+      "PER_ATTEMPT": "Por provedor (segundos)",
+      "PER_ATTEMPT_DESC": "Quanto tempo aguardar a primeira palavra de um provedor antes de tentar o próximo. Valores menores significam falhas mais rápidas; baixos demais podem descartar provedores que iam responder.",
+      "WHOLE_CHAIN": "Orçamento total (segundos)",
+      "WHOLE_CHAIN_DESC": "Tempo total máximo procurando um provedor que responda. 0 significa sem limite geral.",
+      "STREAMING_NOTE": "Isto limita apenas a espera antes da primeira palavra. Depois que a resposta começa, ela nunca é cortada, por mais longa que seja.",
+      "SAVE_SETTINGS": "Salvar tempos limite",
+      "SETTINGS_SAVED": "Tempos limite salvos"
     }
   },
   "SEARCH": {

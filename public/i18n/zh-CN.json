@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Gotify 优先级",
       "SAVE_SETTINGS": "保存设置",
       "SETTINGS_SAVED": "通知设置保存成功"
+    },
+    "TIMEOUT": {
+      "TITLE": "响应超时",
+      "ENABLED": "自定义首字超时",
+      "ENABLED_DESC": "默认关闭。开启后，对于回复前卡住的服务商会更早放弃，而不是等满默认时长。",
+      "PER_ATTEMPT": "每个服务商（秒）",
+      "PER_ATTEMPT_DESC": "在尝试下一个服务商之前，等待该服务商第一个字的时长。设得越低失败越快；过低可能会跳过即将回复的服务商。",
+      "WHOLE_CHAIN": "总预算（秒）",
+      "WHOLE_CHAIN_DESC": "寻找可响应服务商所花费的最长总时间。0 表示不设总体上限。",
+      "STREAMING_NOTE": "这只限制第一个字到达之前的等待。回复一旦开始，无论多长都不会被中断。",
+      "SAVE_SETTINGS": "保存超时设置",
+      "SETTINGS_SAVED": "超时设置已保存"
     }
   },
   "SEARCH": {

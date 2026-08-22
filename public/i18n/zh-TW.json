@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Gotify 優先等級",
       "SAVE_SETTINGS": "儲存設定",
       "SETTINGS_SAVED": "通知設定儲存成功"
+    },
+    "TIMEOUT": {
+      "TITLE": "回應逾時",
+      "ENABLED": "自訂首字逾時",
+      "ENABLED_DESC": "預設關閉。開啟後，對於回覆前卡住的服務商會更早放棄，而不是等滿預設時長。",
+      "PER_ATTEMPT": "每個服務商（秒）",
+      "PER_ATTEMPT_DESC": "在嘗試下一個服務商之前，等待該服務商第一個字的時長。設得越低失敗越快；過低可能會跳過即將回覆的服務商。",
+      "WHOLE_CHAIN": "總預算（秒）",
+      "WHOLE_CHAIN_DESC": "尋找可回應服務商所花費的最長總時間。0 表示不設整體上限。",
+      "STREAMING_NOTE": "這只限制第一個字抵達之前的等待。回覆一旦開始，無論多長都不會被中斷。",
+      "SAVE_SETTINGS": "儲存逾時設定",
+      "SETTINGS_SAVED": "逾時設定已儲存"
     }
   },
   "SEARCH": {

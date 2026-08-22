@@ -3739,6 +3739,18 @@
       "GOTIFY_PRIORITY": "Priorité Gotify",
       "SAVE_SETTINGS": "Enregistrer les paramètres",
       "SETTINGS_SAVED": "Paramètres de notification enregistrés avec succès"
+    },
+    "TIMEOUT": {
+      "TITLE": "Délais de réponse",
+      "ENABLED": "Délai personnalisé avant le premier mot",
+      "ENABLED_DESC": "Désactivé par défaut. Activez-le pour abandonner plus tôt les fournisseurs qui bloquent avant de répondre, au lieu d'attendre la valeur complète.",
+      "PER_ATTEMPT": "Par fournisseur (secondes)",
+      "PER_ATTEMPT_DESC": "Durée d'attente du premier mot d'un fournisseur avant d'essayer le suivant. Plus court signifie des échecs plus rapides ; trop court risque d'écarter des fournisseurs sur le point de répondre.",
+      "WHOLE_CHAIN": "Budget total (secondes)",
+      "WHOLE_CHAIN_DESC": "Temps total maximal consacré à trouver un fournisseur qui répond. 0 signifie aucune limite globale.",
+      "STREAMING_NOTE": "Cela limite uniquement l'attente avant le premier mot. Une fois la réponse commencée, elle n'est jamais interrompue, quelle que soit sa durée.",
+      "SAVE_SETTINGS": "Enregistrer les délais",
+      "SETTINGS_SAVED": "Délais enregistrés"
     }
   },
   "SEARCH": {
