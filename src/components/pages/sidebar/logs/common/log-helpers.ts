@@ -136,6 +136,7 @@ export interface ParsedOther {
   client_title?: string;
   client_referer?: string;
   client_user_agent?: string;
+  client_origin?: string;
 }
 
 export function parseOther(
@@ -212,29 +213,35 @@ export type ClientAttribution = {
   label: string;
   referer?: string;
   userAgent?: string;
+  origin?: string;
 };
 
-// Clients identify themselves with the headers OpenRouter established, so the
-// title is the name to show when present. The referer is the app's URL, which
-// makes a usable label on its own once stripped to a host; a bare User-Agent is
-// the last resort for everything that sends neither.
+function hostOf(url: string): string {
+  // URL() throws on the non-URL values some clients put in these headers.
+  try {
+    return new URL(url).host || url;
+  } catch {
+    return url;
+  }
+}
+
+// Ordered by how much each header actually identifies the caller. A title is a
+// deliberate self-declaration, so it wins. Origin comes next: browser-hosted
+// frontends all send an indistinguishable browser User-Agent, and their origin
+// is the only thing naming the platform. Referer then User-Agent cover native
+// and server-side callers, which send no origin at all.
 export function getClientAttribution(
   other: ParsedOther | null,
 ): ClientAttribution | null {
   const title = other?.client_title?.trim();
+  const origin = other?.client_origin?.trim();
   const referer = other?.client_referer?.trim();
   const userAgent = other?.client_user_agent?.trim();
-  if (!title && !referer && !userAgent) return null;
+  if (!title && !origin && !referer && !userAgent) return null;
 
   let label = title;
-  if (!label && referer) {
-    // URL() throws on the non-URL values some clients put in HTTP-Referer.
-    try {
-      label = new URL(referer).host || referer;
-    } catch {
-      label = referer;
-    }
-  }
+  if (!label && origin) label = hostOf(origin);
+  if (!label && referer) label = hostOf(referer);
   if (!label && userAgent) label = userAgent.split(/[\s/]/)[0] || userAgent;
   if (!label) return null;
 
@@ -242,6 +249,7 @@ export function getClientAttribution(
     label,
     referer: referer || undefined,
     userAgent: userAgent || undefined,
+    origin: origin || undefined,
   };
 }
 
