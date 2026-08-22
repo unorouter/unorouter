@@ -4075,7 +4075,20 @@
       "IMPORT_SUCCESS": "Sohbet diimpor",
       "MARKDOWN_COPIED": "Markdown disalin ke clipboard",
       "OPEN": "Tindakan lainnya",
-      "TOOLS": "Alat"
+      "TOOLS": "Alat",
+      "LOCAL_DB": "Basis data",
+      "LOCAL_DB_DOWNLOAD": "Unduh file SQLite lokal",
+      "LOCAL_DB_UPLOAD": "Impor file SQLite (mengganti lokal)",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Mengimpor {imported} record di {tables} tabel ({skipped} dilewati).",
+      "LOCAL_DB_EXPORT_CHATS": "Sertakan obrolan",
+      "LOCAL_DB_EXPORT_LOGS": "Sertakan log permintaan",
+      "LOCAL_DB_EXPORT_MEDIA": "Sertakan media",
+      "LOCAL_DB_RECOVER": "Pulihkan basis data yatim",
+      "LOCAL_DB_RECOVER_NONE": "Tidak ada basis data yang dapat dipulihkan di pool.",
+      "LOCAL_DB_RECOVER_SUMMARY": "Ditemukan {count} basis data. Yang terbesar ({size}) telah diunduh. Impor dengan tombol unggah.",
+      "LOCAL_DB_WIPE": "Hapus database lokal dan muat ulang",
+      "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",

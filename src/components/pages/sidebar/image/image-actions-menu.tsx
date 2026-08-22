@@ -1,6 +1,7 @@
 "use client";
 
 import { AppearanceSubmenu } from "@/components/pages/sidebar/chat/chat-actions-menu/appearance-submenu";
+import { DatabaseSubmenu } from "@/components/pages/sidebar/chat/chat-actions-menu/database-submenu";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,6 +62,8 @@ export function ImageActionsMenu() {
           className="w-64 max-w-[calc(100vw-1rem)]"
         >
           <AppearanceSubmenu onOpenCustomizer={() => setThemeOpen(true)} />
+          <DropdownMenuSeparator />
+          <DatabaseSubmenu />
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={downloadDiagnostics}>
             <Icon name="clipboard-copy" className="size-4" />
