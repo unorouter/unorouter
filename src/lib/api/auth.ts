@@ -34,10 +34,13 @@ export async function setSessionCookies(
   accessExpiresAt?: number,
 ): Promise<void> {
   const base = { path: "/" as const, sameSite: "lax" as const };
+  // httpOnly: only the server unseals this. The client learns it is logged in
+  // from the auth query cache, which the prefetch always seeds.
   cookie[USER_ID_COOKIE].set({
     ...base,
     value: await signUserId(userId),
     maxAge: COOKIE_MAX_AGE,
+    httpOnly: true,
   });
   const remaining = accessExpiresAt
     ? accessExpiresAt - Math.floor(Date.now() / 1000)

@@ -1,10 +1,8 @@
-import {
-  AUTH_REDIRECT_COOKIE,
-  IMAGE_MAX_DIM,
-  USER_ID_COOKIE,
-} from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE, IMAGE_MAX_DIM } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
-import { getCookie, setCookie } from "cookies-next/client";
+import { setCookie } from "cookies-next/client";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
 import type { Extracted } from "@/lib/types";
 import { asParams } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -220,12 +218,13 @@ export async function handleError(
 // server. Send them to login rather than leaving a logged-in shell whose every
 // action 401s, which reads as data loss and pushes people to clear storage.
 //
-// Gated on the user-id cookie so a guest keeps seeing the real error: 401 is a
+// Gated on the auth cache so a guest keeps seeing the real error: 401 is a
 // legitimate answer for anonymous callers (BYOK, paid model without a session)
-// and bouncing them to login would hide it.
+// and bouncing them to login would hide it. The prefetch seeds null for a
+// guest, so a present-but-null entry is a definite "not logged in".
 function redirectToLoginPreservingLocation() {
   if (typeof window === "undefined") return;
-  if (!getCookie(USER_ID_COOKIE)) return;
+  if (!getQueryClient().getQueryData(queryKeys.auth())) return;
   if (/\/(login|register)(\/|$)/.test(window.location.pathname)) return;
   const path = window.location.pathname + window.location.search;
   setCookie(AUTH_REDIRECT_COOKIE, stripLocale(path), { maxAge: 600 });
