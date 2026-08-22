@@ -24,6 +24,12 @@ export const ADMIN_HEADERS = {
 
 export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
+// "auto" means let the gateway pick, so the header is omitted entirely rather
+// than sent with a sentinel value.
+export function groupHeader(group?: string | null): Record<string, string> {
+  return group && group !== "auto" ? { "X-Group": group } : {};
+}
+
 export async function getUserId<T extends boolean = false>(
   cookie: Record<string, Cookie<unknown>>,
   optional?: T,

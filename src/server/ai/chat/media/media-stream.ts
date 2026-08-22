@@ -12,7 +12,8 @@ import {
 } from "@/lib/ai/image/dispatch";
 import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
-import { upstreamApiUrl } from "@/server/constants";
+import { digErrorMessage } from "@/lib/api/video-task";
+import { groupHeader, upstreamApiUrl } from "@/server/constants";
 import {
   postImageRequest,
   probeImageSize,
@@ -47,9 +48,8 @@ type UpstreamUsage = {
 };
 
 function buildMediaMeta(args: {
-  model: string;
+  model: PricingCatalogDetail | undefined;
   usage: UpstreamUsage | undefined;
-  cost: number;
   requestId: string | null;
   url: string;
   endpoint: string;
@@ -60,6 +60,7 @@ function buildMediaMeta(args: {
     args.usage?.input_tokens ?? args.usage?.prompt_tokens ?? 0;
   const outputTokens =
     args.usage?.output_tokens ?? args.usage?.completion_tokens ?? 0;
+  const cost = mediaCost(args.model, inputTokens, outputTokens);
   const meta: Record<string, unknown> = {
     debug: {
       requestBody: args.wireBody,
@@ -72,11 +73,11 @@ function buildMediaMeta(args: {
       endpoint: args.endpoint,
     },
   };
-  if (inputTokens > 0 || outputTokens > 0 || args.cost > 0) {
+  if (inputTokens > 0 || outputTokens > 0 || cost > 0) {
     meta.usage = {
       inputTokens,
       outputTokens,
-      cost: args.cost,
+      cost,
       durationMs: args.durationMs,
       tokensPerSecond:
         outputTokens > 0 && args.durationMs > 0
@@ -100,10 +101,6 @@ function mediaCost(
   );
 }
 
-function groupHeader(group?: string | null): Record<string, string> {
-  return group && group !== "auto" ? { "X-Group": group } : {};
-}
-
 const KEEPALIVE_INTERVAL_MS = 20_000;
 
 function upstreamErrorMessage(raw: string, fallback: string): string {
@@ -114,37 +111,6 @@ function upstreamErrorMessage(raw: string, fallback: string): string {
   } catch {
     return text;
   }
-}
-
-// digErrorMessage walks an arbitrary error value (parsed upstream JSON, or the
-// {status, data, headers} object customFetch throws on non-2xx) for the first
-// human-readable message.
-function digErrorMessage(value: unknown): string | null {
-  const stack: unknown[] = [value];
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (typeof node === "string") {
-      const s = node.trim();
-      if (s.startsWith("{") || s.startsWith("[")) {
-        try {
-          const found = digErrorMessage(JSON.parse(s));
-          if (found) return found;
-        } catch {}
-      }
-      continue;
-    }
-    if (!node || typeof node !== "object") continue;
-    const obj = node as Record<string, unknown>;
-    for (const key of ["message", "detail"]) {
-      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
-        return (obj[key] as string).trim();
-      }
-    }
-    for (const key of ["error", "data", "output", "response", "body"]) {
-      if (key in obj) stack.push(obj[key]);
-    }
-  }
-  return null;
 }
 
 // resolveThrownMessage turns anything thrown in a media handler (Error, the
@@ -244,13 +210,23 @@ function writeBufferedMessage(
   writer.write({ type: "finish", finishReason: "stop" });
 }
 
+// Async media (video, and AI Horde images) resolves by client polling, so the
+// stream ends on a task card rather than content.
+function writeTaskCard(
+  writer: UIMessageStreamWriter,
+  task: { taskId: string; status: string; progress: string },
+  model: string,
+) {
+  writer.write({ type: "start" });
+  writer.write({ type: "start-step" });
+  writer.write({ type: "data-task", data: { ...task, model } });
+  writer.write({ type: "finish-step" });
+  writer.write({ type: "finish", finishReason: "stop" });
+}
+
 const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
-async function processUrls(
-  text: string,
-  convId: string,
-  mediaType: ModelType,
-): Promise<string> {
+function processUrls(text: string, mediaType: ModelType): string {
   const matches = [...text.matchAll(LINK_RE)];
   if (matches.length === 0) return text;
   if (mediaType !== "video" && mediaType !== "image") {
@@ -353,14 +329,7 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
         prompt,
         body.group,
       );
-      writer.write({ type: "start" });
-      writer.write({ type: "start-step" });
-      writer.write({
-        type: "data-task",
-        data: { taskId, status, progress, model: body.model },
-      });
-      writer.write({ type: "finish-step" });
-      writer.write({ type: "finish", finishReason: "stop" });
+      writeTaskCard(writer, { taskId, status, progress }, body.model);
     }, body.model);
   }
 
@@ -432,14 +401,9 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
 
     const markdown = inlayMedia.map((m) => `{{inlay::${m.id}}}`).join("\n\n");
 
-    const inputTokens =
-      result.usage?.input_tokens ?? result.usage?.prompt_tokens ?? 0;
-    const outputTokens =
-      result.usage?.output_tokens ?? result.usage?.completion_tokens ?? 0;
     const meta = buildMediaMeta({
-      model: body.model,
+      model,
       usage: result.usage,
-      cost: mediaCost(model, inputTokens, outputTokens),
       requestId: result.requestId,
       url: result.url,
       endpoint: result.endpointPath,
@@ -481,14 +445,7 @@ export async function handleVideoTaskStream(
       image,
     );
 
-    writer.write({ type: "start" });
-    writer.write({ type: "start-step" });
-    writer.write({
-      type: "data-task",
-      data: { taskId, status, progress, model: body.model },
-    });
-    writer.write({ type: "finish-step" });
-    writer.write({ type: "finish", finishReason: "stop" });
+    writeTaskCard(writer, { taskId, status, progress }, body.model);
   }, body.model);
 }
 
@@ -537,9 +494,8 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
     const startedAt = Date.now();
     const speech = await generateSpeech(apiKey, body.model, input, body.group);
     const meta = buildMediaMeta({
-      model: body.model,
+      model,
       usage: undefined,
-      cost: mediaCost(model, 0, 0),
       requestId: speech.requestId,
       url: `${upstreamApiUrl}${API_ENDPOINTS.audioSpeech}`,
       endpoint: API_ENDPOINTS.audioSpeech,
@@ -605,12 +561,9 @@ export async function handleEmbeddingStream(
       `[${preview.join(", ")}${tail}]`,
       "```",
     ].join("\n");
-    const inputTokens =
-      emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
     const meta = buildMediaMeta({
-      model: body.model,
+      model,
       usage: emb.usage,
-      cost: mediaCost(model, inputTokens, 0),
       requestId: emb.requestId,
       url: `${upstreamApiUrl}${API_ENDPOINTS.embeddings}`,
       endpoint: API_ENDPOINTS.embeddings,
@@ -631,8 +584,7 @@ export function handleBufferedStream(
   return streamResponse(async (writer) => {
     const fullText = await result.text;
     const reasoning = await result.reasoningText;
-    const convId = body.convId ?? `tmp-${uid(8)}`;
-    const cleanText = await processUrls(fullText, convId, mediaType);
+    const cleanText = processUrls(fullText, mediaType);
     const meta = await finishMeta?.();
     const partId = uid(12);
     writer.write(messageId ? { type: "start", messageId } : { type: "start" });

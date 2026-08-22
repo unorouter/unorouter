@@ -2,7 +2,7 @@ import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
-import { upstreamApiUrl } from "@/server/constants";
+import { groupHeader, upstreamApiUrl } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 
 const FORWARD_RESPONSE_HEADERS = [
@@ -62,7 +62,7 @@ export async function forwardChatCompletions(args: {
       headers: {
         Authorization: `Bearer ${args.apiKey}`,
         "Content-Type": "application/json",
-        ...(group && group !== "auto" ? { "X-Group": group } : {}),
+        ...groupHeader(group),
         "x-request-id": args.requestId ?? uid(),
       },
       body: JSON.stringify(wire),
