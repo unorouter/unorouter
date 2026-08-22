@@ -147,37 +147,109 @@ export const getApiHealth = async (
   } as getApiHealthResponse;
 };
 
-export type postApiDebugEchoResponseDefault = {
+export type postV1ChatCompletionsResponseDefault = {
   data: unknown;
   status: number;
 };
 
-export type postApiDebugEchoResponseError = postApiDebugEchoResponseDefault & {
-  headers: Headers;
+export type postV1ChatCompletionsResponseError =
+  postV1ChatCompletionsResponseDefault & {
+    headers: Headers;
+  };
+
+export type postV1ChatCompletionsResponse = postV1ChatCompletionsResponseError;
+
+export const getPostV1ChatCompletionsUrl = () => {
+  return `/v1/chat/completions`;
 };
 
-export type postApiDebugEchoResponse = postApiDebugEchoResponseError;
-
-export const getPostApiDebugEchoUrl = () => {
-  return `/api/debug/echo`;
-};
-
-export const postApiDebugEcho = async (
+export const postV1ChatCompletions = async (
   options?: RequestInit,
-): Promise<postApiDebugEchoResponse> => {
-  const res = await fetch(getPostApiDebugEchoUrl(), {
+): Promise<postV1ChatCompletionsResponse> => {
+  const res = await fetch(getPostV1ChatCompletionsUrl(), {
     ...options,
     method: "POST",
   });
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: postApiDebugEchoResponse["data"] = body ? JSON.parse(body) : {};
+  const data: postV1ChatCompletionsResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
   return {
     data,
     status: res.status,
     headers: res.headers,
-  } as postApiDebugEchoResponse;
+  } as postV1ChatCompletionsResponse;
+};
+
+export type postChatCompletionsResponseDefault = {
+  data: unknown;
+  status: number;
+};
+
+export type postChatCompletionsResponseError =
+  postChatCompletionsResponseDefault & {
+    headers: Headers;
+  };
+
+export type postChatCompletionsResponse = postChatCompletionsResponseError;
+
+export const getPostChatCompletionsUrl = () => {
+  return `/chat/completions`;
+};
+
+export const postChatCompletions = async (
+  options?: RequestInit,
+): Promise<postChatCompletionsResponse> => {
+  const res = await fetch(getPostChatCompletionsUrl(), {
+    ...options,
+    method: "POST",
+  });
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: postChatCompletionsResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as postChatCompletionsResponse;
+};
+
+export type getV1ModelsResponseDefault = {
+  data: unknown;
+  status: number;
+};
+
+export type getV1ModelsResponseError = getV1ModelsResponseDefault & {
+  headers: Headers;
+};
+
+export type getV1ModelsResponse = getV1ModelsResponseError;
+
+export const getGetV1ModelsUrl = () => {
+  return `/v1/models`;
+};
+
+export const getV1Models = async (
+  options?: RequestInit,
+): Promise<getV1ModelsResponse> => {
+  const res = await fetch(getGetV1ModelsUrl(), {
+    ...options,
+    method: "GET",
+  });
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: getV1ModelsResponse["data"] = body ? JSON.parse(body) : {};
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getV1ModelsResponse;
 };
 
 export type getApiDebugLastResponseDefault = {
