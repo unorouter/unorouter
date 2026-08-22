@@ -58,7 +58,16 @@ export function SidebarLayout(props: SidebarLayoutProps) {
           showSearch={props.showSearch}
           navConfig={props.navConfig}
         />
-        <div className="flex min-h-0 min-w-0 flex-1">
+        {/* Chat owns its own scroll area, so it stays clamped to the viewport.
+            Everywhere else the row must grow to its content: a sticky child
+            cannot outlive its parent's box, so clamping it to one screen made
+            the docs tab bar scroll away at the first viewport boundary. */}
+        <div
+          className={cn(
+            "flex min-w-0",
+            isChat ? "min-h-0 flex-1" : "min-h-0 flex-1 md:min-h-fit",
+          )}
+        >
           <ContentBoundary>{props.children}</ContentBoundary>
         </div>
       </SidebarInset>
