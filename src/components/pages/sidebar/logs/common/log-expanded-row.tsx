@@ -9,6 +9,7 @@ import type React from "react";
 import {
   computeLogPricing,
   formatPriceCompact,
+  getClientAttribution,
   getRequestConversionChain,
   parseOther,
   type LogRow,
@@ -113,6 +114,38 @@ export function LogExpandedRow(props: { row: Row<TableFeats, LogRow> }) {
         </code>
       ),
     });
+  }
+
+  const client = getClientAttribution(other);
+  if (client) {
+    items.push({
+      label: t("LOGS.DETAIL.CLIENT"),
+      value: (
+        <span className="flex flex-wrap items-center gap-2">
+          <Badge
+            variant="secondary"
+            className="bg-cyan-500/10 font-mono text-cyan-400"
+          >
+            {client.label}
+          </Badge>
+          {client.referer && client.referer !== client.label && (
+            <span className="text-muted-foreground break-all">
+              {client.referer}
+            </span>
+          )}
+        </span>
+      ),
+    });
+    if (client.userAgent) {
+      items.push({
+        label: t("LOGS.DETAIL.USER_AGENT"),
+        value: (
+          <span className="text-muted-foreground break-all">
+            {client.userAgent}
+          </span>
+        ),
+      });
+    }
   }
 
   const conversionChain = getRequestConversionChain(other);

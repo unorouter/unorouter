@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Jetons de création de cache",
       "LOG_DETAILS": "Détails du journal",
       "REQUEST_PATH": "Chemin de la requête",
+      "CLIENT": "Client",
+      "USER_AGENT": "Agent utilisateur",
       "REQUEST_CONVERSION": "Conversion de requête",
       "BILLING_MODE": "Mode de facturation",
       "BILLING_UPSTREAM": "Réponse en amont",

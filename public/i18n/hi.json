@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Cache Creation Tokens",
       "LOG_DETAILS": "Log विवरण",
       "REQUEST_PATH": "Request Path",
+      "CLIENT": "क्लाइंट",
+      "USER_AGENT": "यूज़र एजेंट",
       "REQUEST_CONVERSION": "Request Conversion",
       "BILLING_MODE": "Billing Mode",
       "BILLING_UPSTREAM": "Upstream Response",

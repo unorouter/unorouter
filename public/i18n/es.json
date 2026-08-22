@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Tokens de creación de caché",
       "LOG_DETAILS": "Detalles del log",
       "REQUEST_PATH": "Ruta de solicitud",
+      "CLIENT": "Cliente",
+      "USER_AGENT": "Agente de usuario",
       "REQUEST_CONVERSION": "Conversión de solicitud",
       "BILLING_MODE": "Modo de facturación",
       "BILLING_UPSTREAM": "Respuesta upstream",

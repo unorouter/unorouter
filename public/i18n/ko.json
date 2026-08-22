@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "캐시 생성 토큰",
       "LOG_DETAILS": "로그 상세",
       "REQUEST_PATH": "요청 경로",
+      "CLIENT": "클라이언트",
+      "USER_AGENT": "사용자 에이전트",
       "REQUEST_CONVERSION": "요청 변환",
       "BILLING_MODE": "청구 모드",
       "BILLING_UPSTREAM": "업스트림 응답",

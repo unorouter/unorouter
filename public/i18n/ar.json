@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "tokens إنشاء الذاكرة المؤقّتة",
       "LOG_DETAILS": "تفاصيل السجل",
       "REQUEST_PATH": "مسار الطلب",
+      "CLIENT": "العميل",
+      "USER_AGENT": "وكيل المستخدم",
       "REQUEST_CONVERSION": "تحويل الطلب",
       "BILLING_MODE": "وضع الفوترة",
       "BILLING_UPSTREAM": "استجابة المصدر العلوي",

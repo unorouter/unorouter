@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Token tạo bộ nhớ đệm",
       "LOG_DETAILS": "Chi tiết nhật ký",
       "REQUEST_PATH": "Đường dẫn yêu cầu",
+      "CLIENT": "Ứng dụng khách",
+      "USER_AGENT": "User Agent",
       "REQUEST_CONVERSION": "Chuyển đổi yêu cầu",
       "BILLING_MODE": "Chế độ tính phí",
       "BILLING_UPSTREAM": "Phản hồi từ upstream",

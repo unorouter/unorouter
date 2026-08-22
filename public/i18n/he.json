@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "טוקני יצירת מטמון",
       "LOG_DETAILS": "פרטי יומן",
       "REQUEST_PATH": "נתיב בקשה",
+      "CLIENT": "לקוח",
+      "USER_AGENT": "סוכן משתמש",
       "REQUEST_CONVERSION": "המרת בקשה",
       "BILLING_MODE": "מצב חיוב",
       "BILLING_UPSTREAM": "תגובת upstream",

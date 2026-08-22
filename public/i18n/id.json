@@ -3301,6 +3301,8 @@
       "CACHE_CREATION": "Token Pembuatan Cache",
       "LOG_DETAILS": "Detail Log",
       "REQUEST_PATH": "Jalur Permintaan",
+      "CLIENT": "Klien",
+      "USER_AGENT": "User Agent",
       "REQUEST_CONVERSION": "Konversi Permintaan",
       "BILLING_MODE": "Mode Penagihan",
       "BILLING_UPSTREAM": "Respons Upstream",

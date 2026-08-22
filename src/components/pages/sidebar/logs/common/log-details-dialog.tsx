@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import {
   formatPriceCompact,
   formatTimestamp,
+  getClientAttribution,
   parseOther,
   type LogRow,
 } from "./log-helpers";
@@ -36,6 +37,7 @@ export function LogDetailsDialog(props: {
   }
 
   const other = parseOther(log.other);
+  const client = getClientAttribution(other);
   const modelRatio = other?.model_ratio ?? 0;
   const completionRatio = other?.completion_ratio ?? 1;
   const cacheRatio = other?.cache_ratio;
@@ -96,6 +98,24 @@ export function LogDetailsDialog(props: {
             <DetailRow
               label={t("LOGS.DETAIL.REQUEST_PATH")}
               value={other.request_path}
+              copyable
+            />
+          )}
+          {client && (
+            <DetailRow
+              label={t("LOGS.DETAIL.CLIENT")}
+              value={
+                client.referer
+                  ? `${client.label} · ${client.referer}`
+                  : client.label
+              }
+              copyable
+            />
+          )}
+          {client?.userAgent && (
+            <DetailRow
+              label={t("LOGS.DETAIL.USER_AGENT")}
+              value={client.userAgent}
               copyable
             />
           )}
