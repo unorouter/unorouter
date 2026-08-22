@@ -114,6 +114,16 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
         >
           {t("CHAT.STATS.SHOW_MESSAGES")}
         </DropdownMenuCheckboxItem>
+        {/* Desktop reaches the theme menu from the header, but the customizer
+            is only offered there, so without this it is unreachable here. */}
+        <DropdownMenuSeparator className="max-md:hidden" />
+        <DropdownMenuItem
+          className="max-md:hidden"
+          onClick={props.onOpenCustomizer}
+        >
+          <Icon name="sliders-horizontal" className="size-4" />
+          {t("THEME.CUSTOMIZE")}
+        </DropdownMenuItem>
       </DropdownMenuSubContent>
     </DropdownMenuSub>
   );

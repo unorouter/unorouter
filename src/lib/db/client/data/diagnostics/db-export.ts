@@ -2,21 +2,14 @@ import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
 import { env } from "@/lib/config/env";
 import { getLocalDb } from "@/lib/db/client/client";
 import { newSql, terminateSql } from "@/lib/db/client/new-sql";
-import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics/diagnostics";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
-export async function downloadDiagnostics(
-  filename: string,
-  opts: DiagnosticsOptions,
-): Promise<void> {
-  logChatDebug("export.diagnostics.start", {
-    filename,
-    includeContent: opts.includeContent,
-  });
+export async function downloadDiagnostics(filename: string): Promise<void> {
+  logChatDebug("export.diagnostics.start", { filename });
   try {
-    const data = await buildDiagnostics(opts);
+    const data = await buildDiagnostics();
     downloadJson(data, filename, { pretty: false });
     logChatDebug("export.diagnostics.done", { filename });
   } catch (e) {

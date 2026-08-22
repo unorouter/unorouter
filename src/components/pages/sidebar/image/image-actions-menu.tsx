@@ -18,14 +18,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 // Chat's three-dot menu, minus everything that needs a conversation.
-const LocalDbStudio = dynamic(
-  () =>
-    import("@/components/elements/db/local-db-studio").then(
-      (m) => m.LocalDbStudio,
-    ),
-  { ssr: false },
-);
-
 const ThemeCustomizerSheet = dynamic(
   () =>
     import("@/components/ui/theme/customizer-sheet").then(
@@ -36,17 +28,14 @@ const ThemeCustomizerSheet = dynamic(
 
 export function ImageActionsMenu() {
   const t = useTranslations();
-  const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
 
-  const downloadDiagnostics = async (includeContent: boolean) => {
+  const downloadDiagnostics = async () => {
     try {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
       const { downloadDiagnostics: runDownloadDiagnostics } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`, {
-        includeContent,
-      });
+      await runDownloadDiagnostics(`unorouter-diagnostics-${stamp}.json`);
     } catch (e) {
       toast.error(String(e).slice(0, 120));
     }
@@ -73,18 +62,9 @@ export function ImageActionsMenu() {
         >
           <AppearanceSubmenu onOpenCustomizer={() => setThemeOpen(true)} />
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
-            <Icon name="database" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB")}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => downloadDiagnostics(false)}>
+          <DropdownMenuItem onClick={downloadDiagnostics}>
             <Icon name="clipboard-copy" className="size-4" />
             {t("CHAT.MORE.DIAGNOSTICS")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => downloadDiagnostics(true)}>
-            <Icon name="file-text" className="size-4" />
-            {t("CHAT.MORE.DIAGNOSTICS_FULL")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
@@ -97,9 +77,6 @@ export function ImageActionsMenu() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {dbStudioOpen && (
-        <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
-      )}
       {themeOpen && (
         <ThemeCustomizerSheet open={themeOpen} onOpenChange={setThemeOpen} />
       )}
