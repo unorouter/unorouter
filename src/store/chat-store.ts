@@ -61,13 +61,13 @@ export const INITIAL_CHAT_STATE: ChatState = {
   showStatsMessages: false,
 };
 
-// getOnInit so the cookie is read during atom init rather than after mount. The
-// deferred load left a window where the atom served INITIAL_CHAT_STATE, and any
-// write in it spread that empty object back over the cookie, dropping every field
-// the writer did not name (a saved provider pin died on every tab reopen; the
-// maxTokens revert of 1a080093 was the same window). Eager reads only match the
-// server because ChatStoreProvider seeds this atom from the same cookie, so both
-// renders start identical; removing that provider reintroduces React #418.
+// Both halves are load-bearing, and this is the only cookie store whose values
+// reach server-rendered HTML (the model name in ChatControls). getOnInit makes
+// the client's first pass read the cookie; ChatStoreProvider makes the server
+// read the same one, so both renders start identical. Without getOnInit a write
+// during the deferred window spreads INITIAL_CHAT_STATE back over the cookie and
+// drops every field it did not name (the provider pin, the maxTokens revert of
+// 1a080093). Without the provider the two renders differ: React #418.
 export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
