@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} masuk / {out} keluar",
         "MENU_LABEL": "Obrolan karakter",
-        "LOCAL_DB": "DB lokal",
         "MSG_AI_2": "Wadah leburnya menyala pas sekali. Tolong ambilkan vial itu, ya?",
         "MSG_AI_3": "Selamat datang kembali! Oat latte seperti biasa, busa ekstra?",
         "NEW_CHAT_EMPTY": "Mulai percakapan baru...",
@@ -204,11 +203,7 @@
           "CARD1": "Kapten Elara (v2)",
           "CARD1_SUB": "Kartu SillyTavern",
           "CARD2": "Lyra sang Alkemis",
-          "CARD2_SUB": "Kartu karakter impor",
-          "DB1": "percakapan",
-          "DB1_SUB": "128 baris",
-          "DB2": "karakter",
-          "DB2_SUB": "12 baris"
+          "CARD2_SUB": "Kartu karakter impor"
         },
         "DEMO_USER_2": "Kamu lagi meracik apa hari ini?",
         "DEMO_AI_2": "Ramuan kejernihan. Tiga tetes dan pikiranmu setajam kaca terasah. Mau cicip?",

@@ -157,7 +157,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} vào / {out} ra",
         "MENU_LABEL": "Chat nhân vật",
-        "LOCAL_DB": "CSDL cục bộ",
         "MSG_AI_2": "Lò nung đang rực lên vừa độ. Lấy giúp tôi cái lọ kia nhé?",
         "MSG_AI_3": "Mừng bạn quay lại! Vẫn ly latte yến mạch như mọi khi, thêm bọt chứ?",
         "NEW_CHAT_EMPTY": "Bắt đầu cuộc trò chuyện mới...",
@@ -182,11 +181,7 @@
           "CARD1": "Thuyền trưởng Elara (v2)",
           "CARD1_SUB": "Thẻ SillyTavern",
           "CARD2": "Lyra nhà giả kim",
-          "CARD2_SUB": "Thẻ nhân vật đã nhập",
-          "DB1": "cuộc trò chuyện",
-          "DB1_SUB": "128 hàng",
-          "DB2": "nhân vật",
-          "DB2_SUB": "12 hàng"
+          "CARD2_SUB": "Thẻ nhân vật đã nhập"
         },
         "DEMO_USER_2": "Hôm nay cô đang pha chế gì thế?",
         "DEMO_AI_2": "Một loại tiên dược minh mẫn. Ba giọt thôi là tâm trí sắc bén như thủy tinh mài. Muốn nếm thử không?",

@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} wej. / {out} wyj.",
         "MENU_LABEL": "Czat z postaciami",
-        "LOCAL_DB": "Lokalna BD",
         "MSG_AI_2": "Tygiel rozżarzył się w sam raz. Podasz mi tę fiolkę?",
         "MSG_AI_3": "Witaj z powrotem! Twoja zwykła owsiana latte, z dodatkową pianką?",
         "NEW_CHAT_EMPTY": "Rozpocznij nową rozmowę...",
@@ -204,11 +203,7 @@
           "CARD1": "Kapitan Elara (v2)",
           "CARD1_SUB": "Karta SillyTavern",
           "CARD2": "Lyra Alchemiczka",
-          "CARD2_SUB": "Zaimportowana karta postaci",
-          "DB1": "rozmowy",
-          "DB1_SUB": "128 wierszy",
-          "DB2": "postacie",
-          "DB2_SUB": "12 wierszy"
+          "CARD2_SUB": "Zaimportowana karta postaci"
         },
         "DEMO_USER_2": "Co dziś warzysz?",
         "DEMO_AI_2": "Eliksir jasności umysłu. Trzy krople i myśli stają się ostre jak szlifowane szkło. Chcesz spróbować?",

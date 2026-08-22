@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} gir. / {out} çık.",
         "MENU_LABEL": "Karakter sohbeti",
-        "LOCAL_DB": "Yerel VT",
         "MSG_AI_2": "Pota tam kıvamında parlıyor. Şu küçük şişeyi uzatır mısın?",
         "MSG_AI_3": "Tekrar hoş geldin! Her zamanki yulaf sütlü latte, bol köpüklü olsun mu?",
         "NEW_CHAT_EMPTY": "Yeni bir sohbet başlat...",
@@ -204,11 +203,7 @@
           "CARD1": "Kaptan Elara (v2)",
           "CARD1_SUB": "SillyTavern kartı",
           "CARD2": "Simyacı Lyra",
-          "CARD2_SUB": "İçe aktarılmış karakter kartı",
-          "DB1": "konuşmalar",
-          "DB1_SUB": "128 satır",
-          "DB2": "karakterler",
-          "DB2_SUB": "12 satır"
+          "CARD2_SUB": "İçe aktarılmış karakter kartı"
         },
         "DEMO_USER_2": "Bugün ne karıştırıyorsun?",
         "DEMO_AI_2": "Berraklık iksiri. Üç damla, zihnin işlenmiş cam gibi keskinleşir. Tatmak ister misin?",

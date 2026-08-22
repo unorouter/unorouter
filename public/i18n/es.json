@@ -179,7 +179,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} ent. / {out} sal.",
         "MENU_LABEL": "Chat de personajes",
-        "LOCAL_DB": "BD local",
         "MSG_AI_2": "El crisol brilla en su punto justo. ¿Me pasas ese frasco?",
         "MSG_AI_3": "¡Qué bueno verte de nuevo! ¿Tu latte de avena de siempre, con espuma extra?",
         "NEW_CHAT_EMPTY": "Empieza una nueva conversación...",
@@ -204,11 +203,7 @@
           "CARD1": "Capitana Elara (v2)",
           "CARD1_SUB": "Tarjeta de SillyTavern",
           "CARD2": "Lyra la Alquimista",
-          "CARD2_SUB": "Tarjeta de personaje importada",
-          "DB1": "conversaciones",
-          "DB1_SUB": "128 filas",
-          "DB2": "personajes",
-          "DB2_SUB": "12 filas"
+          "CARD2_SUB": "Tarjeta de personaje importada"
         },
         "DEMO_USER_2": "¿Qué estás preparando hoy?",
         "DEMO_AI_2": "Un elixir de claridad. Tres gotas y tu mente se afila como cristal tallado. ¿Quieres probarlo?",

@@ -157,7 +157,6 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} ent. / {out} sort.",
         "MENU_LABEL": "Chat de personnages",
-        "LOCAL_DB": "BD locale",
         "MSG_AI_2": "Le creuset rougeoie juste comme il faut. Tu me passes cette fiole ?",
         "MSG_AI_3": "Content de te revoir ! Ton latte d'avoine habituel, mousse en plus ?",
         "NEW_CHAT_EMPTY": "Démarrez une nouvelle conversation...",
@@ -182,11 +181,7 @@
           "CARD1": "Capitaine Elara (v2)",
           "CARD1_SUB": "Carte SillyTavern",
           "CARD2": "Lyra l'Alchimiste",
-          "CARD2_SUB": "Carte de personnage importée",
-          "DB1": "conversations",
-          "DB1_SUB": "128 lignes",
-          "DB2": "personnages",
-          "DB2_SUB": "12 lignes"
+          "CARD2_SUB": "Carte de personnage importée"
         },
         "DEMO_USER_2": "Que prépares-tu aujourd'hui ?",
         "DEMO_AI_2": "Un élixir de clarté. Trois gouttes et ton esprit s'aiguise comme du verre taillé. Tu veux goûter ?",

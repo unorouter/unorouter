@@ -125,19 +125,6 @@ export async function ChatSection() {
           },
         ],
       },
-      {
-        title: t("HOME.CHAT.MOCK.LOCAL_DB"),
-        rows: [
-          {
-            name: t("HOME.CHAT.MOCK.DLG.DB1"),
-            sub: t("HOME.CHAT.MOCK.DLG.DB1_SUB"),
-          },
-          {
-            name: t("HOME.CHAT.MOCK.DLG.DB2"),
-            sub: t("HOME.CHAT.MOCK.DLG.DB2_SUB"),
-          },
-        ],
-      },
     ],
     newChat: {
       title: t("HOME.CHAT.MOCK.NEW_CONV_TITLE"),
@@ -151,7 +138,6 @@ export async function ChatSection() {
       input: t("HOME.CHAT.MOCK.INPUT"),
       tokens: t("HOME.CHAT.MOCK.TOKENS", { in: 64, out: 128 }),
       menuLabel: t("HOME.CHAT.MOCK.MENU_LABEL"),
-      localDb: t("HOME.CHAT.MOCK.LOCAL_DB"),
       newChatEmpty: t("HOME.CHAT.MOCK.NEW_CHAT_EMPTY"),
     },
   };
