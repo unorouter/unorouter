@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { env } from "@/lib/config/env";
-import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
@@ -57,6 +56,8 @@ export function DatabaseSubmenu() {
     if (!ok) return;
     try {
       const buffer = await file.arrayBuffer();
+      const { getLocalDb, resetLocalDbCache } =
+        await import("@/lib/db/client/client");
       const local = await getLocalDb();
       if (local) await local.destroy();
       resetLocalDbCache();
@@ -78,6 +79,7 @@ export function DatabaseSubmenu() {
         error: String(err),
       });
       toast.error(String(err));
+      const { resetLocalDbCache } = await import("@/lib/db/client/client");
       resetLocalDbCache();
     }
   };
@@ -93,6 +95,8 @@ export function DatabaseSubmenu() {
     if (!ok) return;
     logChatDebug("opfs.wipe.start");
     try {
+      const { getLocalDb, resetLocalDbCache } =
+        await import("@/lib/db/client/client");
       const local = await getLocalDb();
       if (local) {
         await local.destroy();
