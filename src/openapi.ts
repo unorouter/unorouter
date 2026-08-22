@@ -137,6 +137,7 @@ export interface SubscriptionPlan {
   duration_unit: string;
   duration_value: number;
   enabled: boolean;
+  free_rate_limit_window_pct: number;
   id: number;
   max_purchase_per_user: number;
   nowpayments_plan_id: string;
@@ -243,7 +244,7 @@ export interface ClaudeServerToolUse {
   web_search_requests: number;
 }
 
-export interface ClaudeUsage {
+export interface BillingUsage {
   billing_usage?: BillingUsage;
   cache_creation?: ClaudeCacheCreationUsage;
   cache_creation_input_tokens: number;
@@ -253,70 +254,6 @@ export interface ClaudeUsage {
   input_tokens: number;
   output_tokens: number;
   server_tool_use?: ClaudeServerToolUse;
-}
-
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-}
-
-export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
-}
-
-export interface BillingUsage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
 }
 
 export interface BoundChannel {
@@ -514,6 +451,18 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
+}
+
+export interface ClaudeUsage {
+  billing_usage?: BillingUsage;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -1019,6 +968,36 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface Usage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
+}
+
 /**
  * EmbeddingResponse schema
  */
@@ -1302,6 +1281,15 @@ export interface ImageParams {
   supportsSize: boolean;
   supportsSteps: boolean;
   supportsStrength: boolean;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1871,6 +1859,13 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 }
 
 export interface OverwriteField {
@@ -3814,6 +3809,8 @@ export interface ResponseDtoUpdateNameResponse {
 }
 
 export interface UserSelfData {
+  access_expires_at?: number;
+  access_token?: string;
   aff_code: string;
   aff_commission_max_recharges: number;
   aff_commission_rate: number;
@@ -5653,10 +5650,19 @@ export const addChannel = async (
   addChannelRequest: AddChannelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addChannelResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<addChannelResponse>(getAddChannelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(addChannelRequest),
   });
 };
@@ -5690,10 +5696,19 @@ export const updateChannel = async (
   patchChannel: PatchChannel,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateChannelResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateChannelResponse>(getUpdateChannelUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(patchChannel),
   });
 };
@@ -5727,10 +5742,19 @@ export const deleteChannelBatch = async (
   channelBatch: ChannelBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<deleteChannelBatchResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<deleteChannelBatchResponse>(getDeleteChannelBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(channelBatch),
   });
 };
@@ -5764,10 +5788,19 @@ export const batchSetChannelTag = async (
   channelBatch: ChannelBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<batchSetChannelTagResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<batchSetChannelTagResponse>(getBatchSetChannelTagUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(channelBatch),
   });
 };
@@ -5801,10 +5834,19 @@ export const completeCodexOAuth = async (
   codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<completeCodexOAuthResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<completeCodexOAuthResponse>(getCompleteCodexOAuthUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(codexOAuthCompleteRequest),
   });
 };
@@ -6115,10 +6157,19 @@ export const fetchModels = async (
   fetchModelsRequest: FetchModelsRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchModelsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<fetchModelsResponse>(getFetchModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(fetchModelsRequest),
   });
 };
@@ -6295,10 +6346,19 @@ export const manageMultiKeys = async (
   multiKeyManageRequest: MultiKeyManageRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<manageMultiKeysResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<manageMultiKeysResponse>(getManageMultiKeysUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(multiKeyManageRequest),
   });
 };
@@ -6332,10 +6392,19 @@ export const ollamaDeleteModel = async (
   ollamaModelRequest: OllamaModelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<ollamaDeleteModelResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<ollamaDeleteModelResponse>(getOllamaDeleteModelUrl(), {
     ...options,
     method: "DELETE",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(ollamaModelRequest),
   });
 };
@@ -6369,10 +6438,19 @@ export const ollamaPullModel = async (
   ollamaModelRequest: OllamaModelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<ollamaPullModelResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<ollamaPullModelResponse>(getOllamaPullModelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(ollamaModelRequest),
   });
 };
@@ -6598,10 +6676,19 @@ export const editTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<editTagChannelsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<editTagChannelsResponse>(getEditTagChannelsUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(channelTag),
   });
 };
@@ -6635,10 +6722,19 @@ export const disableTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<disableTagChannelsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<disableTagChannelsResponse>(getDisableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(channelTag),
   });
 };
@@ -6672,10 +6768,19 @@ export const enableTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<enableTagChannelsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<enableTagChannelsResponse>(getEnableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(channelTag),
   });
 };
@@ -7135,12 +7240,21 @@ export const completeCodexOAuthForChannel = async (
   codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<completeCodexOAuthForChannelResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<completeCodexOAuthForChannelResponse>(
     getCompleteCodexOAuthForChannelUrl(id),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(codexOAuthCompleteRequest),
     },
   );
@@ -7398,12 +7512,21 @@ export const createCustomOAuthProvider = async (
   createCustomOAuthProviderRequest: CreateCustomOAuthProviderRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createCustomOAuthProviderResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createCustomOAuthProviderResponse>(
     getCreateCustomOAuthProviderUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(createCustomOAuthProviderRequest),
     },
   );
@@ -7439,12 +7562,21 @@ export const fetchCustomOAuthDiscovery = async (
   fetchCustomOAuthDiscoveryRequest: FetchCustomOAuthDiscoveryRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchCustomOAuthDiscoveryResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<fetchCustomOAuthDiscoveryResponse>(
     getFetchCustomOAuthDiscoveryUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(fetchCustomOAuthDiscoveryRequest),
     },
   );
@@ -7559,12 +7691,21 @@ export const updateCustomOAuthProvider = async (
   updateCustomOAuthProviderRequest: UpdateCustomOAuthProviderRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateCustomOAuthProviderResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateCustomOAuthProviderResponse>(
     getUpdateCustomOAuthProviderUrl(id),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(updateCustomOAuthProviderRequest),
     },
   );
@@ -7935,10 +8076,19 @@ export const createDeployment = async (
   deploymentRequest: DeploymentRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createDeploymentResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createDeploymentResponse>(getCreateDeploymentUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(deploymentRequest),
   });
 };
@@ -8144,10 +8294,19 @@ export const getPriceEstimation = async (
   priceEstimationRequest: PriceEstimationRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getPriceEstimationResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<getPriceEstimationResponse>(getGetPriceEstimationUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(priceEstimationRequest),
   });
 };
@@ -8269,10 +8428,19 @@ export const testIoNetConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<testIoNetConnectionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<testIoNetConnectionResponse>(getTestIoNetConnectionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(testIoNetConnectionRequest),
   });
 };
@@ -8307,12 +8475,21 @@ export const postApiDeploymentsTestConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<postApiDeploymentsTestConnectionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<postApiDeploymentsTestConnectionResponse>(
     getPostApiDeploymentsTestConnectionUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(testIoNetConnectionRequest),
     },
   );
@@ -8418,10 +8595,19 @@ export const updateDeployment = async (
   updateDeploymentRequest: UpdateDeploymentRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateDeploymentResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateDeploymentResponse>(getUpdateDeploymentUrl(id), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(updateDeploymentRequest),
   });
 };
@@ -8534,10 +8720,19 @@ export const extendDeployment = async (
   extendDurationRequest: ExtendDurationRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<extendDeploymentResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<extendDeploymentResponse>(getExtendDeploymentUrl(id), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(extendDurationRequest),
   });
 };
@@ -8626,12 +8821,21 @@ export const updateDeploymentName = async (
   updateDeploymentNameRequest: UpdateDeploymentNameRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateDeploymentNameResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateDeploymentNameResponse>(
     getUpdateDeploymentNameUrl(id),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(updateDeploymentNameRequest),
     },
   );
@@ -9484,10 +9688,19 @@ export const createModelMeta = async (
   model: Model,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createModelMetaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createModelMetaResponse>(getCreateModelMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(model),
   });
 };
@@ -9534,10 +9747,19 @@ export const updateModelMeta = async (
   params?: UpdateModelMetaParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateModelMetaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateModelMetaResponse>(getUpdateModelMetaUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(model),
   });
 };
@@ -9736,10 +9958,19 @@ export const syncUpstreamModels = async (
   syncRequest: SyncRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<syncUpstreamModelsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<syncUpstreamModelsResponse>(getSyncUpstreamModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(syncRequest),
   });
 };
@@ -9975,12 +10206,21 @@ export const unsubscribeNotifyPush = async (
   notifyUnsubscribeRequest: NotifyUnsubscribeRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<unsubscribeNotifyPushResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<unsubscribeNotifyPushResponse>(
     getUnsubscribeNotifyPushUrl(),
     {
       ...options,
       method: "DELETE",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(notifyUnsubscribeRequest),
     },
   );
@@ -10015,10 +10255,19 @@ export const subscribeNotifyPush = async (
   notifySubscriptionRequest: NotifySubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscribeNotifyPushResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscribeNotifyPushResponse>(getSubscribeNotifyPushUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(notifySubscriptionRequest),
   });
 };
@@ -10166,10 +10415,19 @@ export const exchangeOAuthCode = async (
   oAuthExchangeRequest: OAuthExchangeRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<exchangeOAuthCodeResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<exchangeOAuthCodeResponse>(getExchangeOAuthCodeUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(oAuthExchangeRequest),
   });
 };
@@ -10529,10 +10787,19 @@ export const updateOption = async (
   optionUpdateRequest: OptionUpdateRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateOptionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateOptionResponse>(getUpdateOptionUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(optionUpdateRequest),
   });
 };
@@ -10696,12 +10963,21 @@ export const confirmPaymentCompliance = async (
   paymentComplianceRequest: PaymentComplianceRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<confirmPaymentComplianceResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<confirmPaymentComplianceResponse>(
     getConfirmPaymentComplianceUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(paymentComplianceRequest),
     },
   );
@@ -11311,10 +11587,19 @@ export const createPrefillGroup = async (
   prefillGroup: PrefillGroup,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createPrefillGroupResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createPrefillGroupResponse>(getCreatePrefillGroupUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(prefillGroup),
   });
 };
@@ -11348,10 +11633,19 @@ export const updatePrefillGroup = async (
   prefillGroup: PrefillGroup,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updatePrefillGroupResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updatePrefillGroupResponse>(getUpdatePrefillGroupUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(prefillGroup),
   });
 };
@@ -11872,10 +12166,19 @@ export const fetchUpstreamRatios = async (
   upstreamRequest: UpstreamRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchUpstreamRatiosResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<fetchUpstreamRatiosResponse>(getFetchUpstreamRatiosUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(upstreamRequest),
   });
 };
@@ -11959,10 +12262,19 @@ export const addRedemption = async (
   redemption: Redemption,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addRedemptionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<addRedemptionResponse>(getAddRedemptionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(redemption),
   });
 };
@@ -12009,10 +12321,19 @@ export const updateRedemption = async (
   params?: UpdateRedemptionParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateRedemptionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateRedemptionResponse>(getUpdateRedemptionUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(redemption),
   });
 };
@@ -12289,10 +12610,19 @@ export const postSetup = async (
   setupRequest: SetupRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<postSetupResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<postSetupResponse>(getPostSetupUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(setupRequest),
   });
 };
@@ -12427,12 +12757,21 @@ export const adminBindSubscription = async (
   adminBindSubscriptionRequest: AdminBindSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminBindSubscriptionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminBindSubscriptionResponse>(
     getAdminBindSubscriptionUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminBindSubscriptionRequest),
     },
   );
@@ -12506,12 +12845,21 @@ export const adminCreateSubscriptionPlan = async (
   adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCreateSubscriptionPlanResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminCreateSubscriptionPlanResponse>(
     getAdminCreateSubscriptionPlanUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
     },
   );
@@ -12548,12 +12896,21 @@ export const adminUpdateSubscriptionPlanStatus = async (
   adminUpdateSubscriptionPlanStatusRequest: AdminUpdateSubscriptionPlanStatusRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminUpdateSubscriptionPlanStatusResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminUpdateSubscriptionPlanStatusResponse>(
     getAdminUpdateSubscriptionPlanStatusUrl(id),
     {
       ...options,
       method: "PATCH",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminUpdateSubscriptionPlanStatusRequest),
     },
   );
@@ -12590,12 +12947,21 @@ export const adminUpdateSubscriptionPlan = async (
   adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminUpdateSubscriptionPlanResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminUpdateSubscriptionPlanResponse>(
     getAdminUpdateSubscriptionPlanUrl(id),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
     },
   );
@@ -12632,12 +12998,21 @@ export const adminResetPlanSubscriptions = async (
   adminResetSubscriptionRequest: AdminResetSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminResetPlanSubscriptionsResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminResetPlanSubscriptionsResponse>(
     getAdminResetPlanSubscriptionsUrl(id),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminResetSubscriptionRequest),
     },
   );
@@ -12791,12 +13166,21 @@ export const adminCreateUserSubscription = async (
   adminCreateUserSubscriptionRequest: AdminCreateUserSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCreateUserSubscriptionResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminCreateUserSubscriptionResponse>(
     getAdminCreateUserSubscriptionUrl(id),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminCreateUserSubscriptionRequest),
     },
   );
@@ -12833,12 +13217,21 @@ export const adminResetUserSubscriptionsByPlan = async (
   adminResetSubscriptionRequest: AdminResetSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminResetUserSubscriptionsByPlanResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminResetUserSubscriptionsByPlanResponse>(
     getAdminResetUserSubscriptionsByPlanUrl(id),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(adminResetSubscriptionRequest),
     },
   );
@@ -12874,12 +13267,21 @@ export const subscriptionRequestBalancePay = async (
   subscriptionBalancePayRequest: SubscriptionBalancePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestBalancePayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestBalancePayResponse>(
     getSubscriptionRequestBalancePayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionBalancePayRequest),
     },
   );
@@ -12915,12 +13317,21 @@ export const subscriptionRequestCreemPay = async (
   subscriptionCreemPayRequest: SubscriptionCreemPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestCreemPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestCreemPayResponse>(
     getSubscriptionRequestCreemPayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionCreemPayRequest),
     },
   );
@@ -12956,12 +13367,21 @@ export const subscriptionRequestDeloPayPay = async (
   subscriptionDeloPayPayRequest: SubscriptionDeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestDeloPayPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestDeloPayPayResponse>(
     getSubscriptionRequestDeloPayPayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionDeloPayPayRequest),
     },
   );
@@ -13073,12 +13493,21 @@ export const subscriptionRequestEpay = async (
   subscriptionEpayPayRequest: SubscriptionEpayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestEpayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestEpayResponse>(
     getSubscriptionRequestEpayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionEpayPayRequest),
     },
   );
@@ -13190,12 +13619,21 @@ export const subscriptionRequestNowPaymentsPay = async (
   subscriptionNowPaymentsPayRequest: SubscriptionNowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestNowPaymentsPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestNowPaymentsPayResponse>(
     getSubscriptionRequestNowPaymentsPayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionNowPaymentsPayRequest),
     },
   );
@@ -13355,12 +13793,21 @@ export const updateSubscriptionPreference = async (
   billingPreferenceRequest: BillingPreferenceRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateSubscriptionPreferenceResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateSubscriptionPreferenceResponse>(
     getUpdateSubscriptionPreferenceUrl(),
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(billingPreferenceRequest),
     },
   );
@@ -13396,12 +13843,21 @@ export const subscriptionRequestStripePay = async (
   subscriptionStripePayRequest: SubscriptionStripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestStripePayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<subscriptionRequestStripePayResponse>(
     getSubscriptionRequestStripePayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(subscriptionStripePayRequest),
     },
   );
@@ -13611,10 +14067,19 @@ export const addToken = async (
   createTokenRequest: CreateTokenRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addTokenResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<addTokenResponse>(getAddTokenUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(createTokenRequest),
   });
 };
@@ -13660,10 +14125,19 @@ export const updateToken = async (
   params?: UpdateTokenParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateTokenResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateTokenResponse>(getUpdateTokenUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(updateTokenRequest),
   });
 };
@@ -13731,10 +14205,19 @@ export const deleteTokenBatch = async (
   tokenBatch: TokenBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<deleteTokenBatchResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<deleteTokenBatchResponse>(getDeleteTokenBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(tokenBatch),
   });
 };
@@ -14097,10 +14580,19 @@ export const createUser = async (
   user: User,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createUserResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createUserResponse>(getCreateUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(user),
   });
 };
@@ -14133,10 +14625,19 @@ export const updateUser = async (
   user: User,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateUserResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateUserResponse>(getUpdateUserUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(user),
   });
 };
@@ -14171,12 +14672,21 @@ export const regenerateBackupCodes = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<regenerateBackupCodesResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<regenerateBackupCodesResponse>(
     getRegenerateBackupCodesUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(verify2FARequest),
     },
   );
@@ -14210,10 +14720,19 @@ export const disable2FA = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<disable2FAResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<disable2FAResponse>(getDisable2FAUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(verify2FARequest),
   });
 };
@@ -14246,10 +14765,19 @@ export const enable2FA = async (
   setup2FARequest: Setup2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<enable2FAResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<enable2FAResponse>(getEnable2FAUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(setup2FARequest),
   });
 };
@@ -14516,10 +15044,19 @@ export const transferAffQuota = async (
   transferAffQuotaRequest: TransferAffQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<transferAffQuotaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<transferAffQuotaResponse>(getTransferAffQuotaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(transferAffQuotaRequest),
   });
 };
@@ -14553,10 +15090,19 @@ export const requestAmount = async (
   amountRequest: AmountRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestAmountResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestAmountResponse>(getRequestAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(amountRequest),
   });
 };
@@ -14768,10 +15314,19 @@ export const requestCreemPay = async (
   creemPayRequest: CreemPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestCreemPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestCreemPayResponse>(getRequestCreemPayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(creemPayRequest),
   });
 };
@@ -14805,12 +15360,21 @@ export const requestDeloPayAmount = async (
   deloPayPayRequest: DeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestDeloPayAmountResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestDeloPayAmountResponse>(
     getRequestDeloPayAmountUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(deloPayPayRequest),
     },
   );
@@ -14845,10 +15409,19 @@ export const requestDeloPayPay = async (
   deloPayPayRequest: DeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestDeloPayPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestDeloPayPayResponse>(getRequestDeloPayPayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(deloPayPayRequest),
   });
 };
@@ -14882,10 +15455,19 @@ export const grantDiscordQuota = async (
   grantDiscordQuotaRequest: GrantDiscordQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<grantDiscordQuotaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<grantDiscordQuotaResponse>(getGrantDiscordQuotaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(grantDiscordQuotaRequest),
   });
 };
@@ -14919,12 +15501,21 @@ export const transferDiscordQuota = async (
   transferDiscordQuotaRequest: TransferDiscordQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<transferDiscordQuotaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<transferDiscordQuotaResponse>(
     getTransferDiscordQuotaUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(transferDiscordQuotaRequest),
     },
   );
@@ -15075,10 +15666,19 @@ export const login = async (
   params?: LoginParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<loginResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<loginResponse>(getLoginUrl(params), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(loginRequest),
   });
 };
@@ -15112,10 +15712,19 @@ export const verify2FALogin = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<verify2FALoginResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<verify2FALoginResponse>(getVerify2FALoginUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(verify2FARequest),
   });
 };
@@ -15181,10 +15790,19 @@ export const manageUser = async (
   manageRequest: ManageRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<manageUserResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<manageUserResponse>(getManageUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(manageRequest),
   });
 };
@@ -15253,12 +15871,21 @@ export const requestNowPaymentsAmount = async (
   nowPaymentsPayRequest: NowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestNowPaymentsAmountResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestNowPaymentsAmountResponse>(
     getRequestNowPaymentsAmountUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(nowPaymentsPayRequest),
     },
   );
@@ -15294,12 +15921,21 @@ export const requestNowPaymentsPay = async (
   nowPaymentsPayRequest: NowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestNowPaymentsPayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestNowPaymentsPayResponse>(
     getRequestNowPaymentsPayUrl(),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
       body: JSON.stringify(nowPaymentsPayRequest),
     },
   );
@@ -15687,10 +16323,19 @@ export const requestEpay = async (
   epayRequest: EpayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestEpayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestEpayResponse>(getRequestEpayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(epayRequest),
   });
 };
@@ -15736,10 +16381,19 @@ export const register = async (
   params?: RegisterParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<registerResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<registerResponse>(getRegisterUrl(params), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(registerRequest),
   });
 };
@@ -15773,10 +16427,19 @@ export const resetPassword = async (
   passwordResetRequest: PasswordResetRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<resetPasswordResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(passwordResetRequest),
   });
 };
@@ -16102,10 +16765,19 @@ export const updateUserSetting = async (
   updateUserSettingRequest: UpdateUserSettingRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateUserSettingResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateUserSettingResponse>(getUpdateUserSettingUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(updateUserSettingRequest),
   });
 };
@@ -16139,10 +16811,19 @@ export const requestStripeAmount = async (
   stripePayRequest: StripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestStripeAmountResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestStripeAmountResponse>(getRequestStripeAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(stripePayRequest),
   });
 };
@@ -16176,10 +16857,19 @@ export const requestStripePay = async (
   stripePayRequest: StripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestStripePayResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<requestStripePayResponse>(getRequestStripePayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(stripePayRequest),
   });
 };
@@ -16292,10 +16982,19 @@ export const topUp = async (
   topUpRequest: TopUpRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<topUpResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<topUpResponse>(getTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(topUpRequest),
   });
 };
@@ -16329,10 +17028,19 @@ export const adminCompleteTopUp = async (
   adminCompleteTopupRequest: AdminCompleteTopupRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCompleteTopUpResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<adminCompleteTopUpResponse>(getAdminCompleteTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(adminCompleteTopupRequest),
   });
 };
@@ -16900,10 +17608,19 @@ export const createVendorMeta = async (
   vendor: Vendor,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createVendorMetaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<createVendorMetaResponse>(getCreateVendorMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(vendor),
   });
 };
@@ -16937,10 +17654,19 @@ export const updateVendorMeta = async (
   vendor: Vendor,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateVendorMetaResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
   return customFetch<updateVendorMetaResponse>(getUpdateVendorMetaUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
     body: JSON.stringify(vendor),
   });
 };
