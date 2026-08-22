@@ -4939,7 +4939,7 @@
       "SUBTITLE": "Pengetahuan dunia yang muncul di prompt tepat saat relevan.",
       "H_BOOKS": "Buku",
       "P_BOOKS_1": "Lorebook adalah kumpulan entri ditambah pengaturan pemindaian. Lampirkan berapa pun buku ke sebuah percakapan; semua buku terlampir dipindai bersama sebagai satu kolam.",
-      "P_BOOKS_IMPORT": "Lorebook diimpor dari berkas atau dari tautan: skrip JanitorAI, lorebook Chub, karakter RisuRealm yang menyertakannya, atau companion Saucepan. Buku yang dirahasiakan penulis tidak bisa diunduh siapa pun, jadi jika kartu mencantumkan tiga dan yang datang satu, dua sisanya adalah pilihan penulis; impor menyebut namanya alih-alih diam-diam mengambil lebih sedikit.",
+      "P_BOOKS_IMPORT": "Lorebook diimpor dari berkas atau dari tautan: skrip JanitorAI, lorebook Chub, karakter RisuRealm yang menyertakannya, atau companion maupun lorebook Saucepan. Di JanitorAI dan Chub, buku yang dirahasiakan penulis tidak bisa diunduh siapa pun, jadi jika kartu mencantumkan tiga dan yang datang satu, dua sisanya adalah pilihan penulis; impor menyebut namanya alih-alih diam-diam mengambil lebih sedikit.",
       "TH_SETTING": "Pengaturan",
       "TH_RANGE": "Rentang",
       "TH_EFFECT": "Efek",
