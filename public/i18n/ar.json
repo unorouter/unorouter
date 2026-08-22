@@ -26,7 +26,6 @@
     "LOG_IN": "تسجيل الدخول",
     "CHAT": "الدردشة",
     "STATUS": "الحالة",
-    "COMPARE": "مقارنة",
     "LANGUAGE": "اللغة",
     "MODEL_TESTER": "المفتش",
     "DISCORD": "ديسكورد"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "متوافق تماماً مع OpenAI"
     },
     "PRICING": {
-      "LABEL": "الأسعار",
-      "TITLE": "أسعار بسيطة.",
-      "SUBTITLE": "ادفع فقط مقابل ما تستخدمه.",
-      "DESCRIPTION": "اشترك لقيمة أفضل أو ادفع حسب الاستخدام. كل الخطط تشمل الوصول إلى كل النماذج مع التحويل التلقائي عبر المزوّدين.",
-      "PROVIDERS": {
-        "TITLE": "المزوّدون المدعومون"
-      },
-      "FLOW": {
-        "TITLE": "مسار الطلب"
-      }
+      "LABEL": "الأسعار"
     },
     "CHAT": {
       "BADGE": "دردشة مدمجة",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "افتح الدردشة",
       "CTA_CONNECT": "اربط عميلك",
       "MOCK": {
-        "CHARACTER": "القائدة إيلارا فوس",
         "MODEL": "مجاني",
         "MSG_AI": "أبلغ أيها المجند. خبئ عتادك، نقفز خلال عشر.",
-        "MSG_USER": "أمرك أيتها القائدة. جاهز.",
-        "TYPING": "يكتب",
         "INPUT": "اكتب رسالة...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "محادثة جديدة",
         "CONV1": "القائدة إيلارا فوس",
         "CONV2": "ليرا الخيميائية",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "أرسم المسار الآن. ثلاث قفزات وما زال لدينا وقود فائض. اربطوا الأحزمة."
       }
     },
-    "FEATURES": {
-      "TITLE": "لماذا {appName}",
-      "DESCRIPTION": "نقطة طرفية واحدة، كل نماذج الذكاء الاصطناعي. التوجيه الذكي يختار أسرع مزوّد بينما يضمن التحويل التلقائي نجاح طلباتك دائماً.",
-      "FAILOVER": {
-        "TITLE": "تحويل تلقائي"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "دعم بروتوكولات متعدّدة"
-      },
-      "LOADBALANCE": {
-        "TITLE": "موازنة حمل ذكية"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "بنية بدون توقّف",
-      "TITLE_1": "متاح دائماً",
-      "TITLE_2": "ذكاء اصطناعي موثوق",
-      "DESCRIPTION": "تُوجَّه طلباتك عبر عدّة مزوّدين في الوقت نفسه. إذا توقّف أحدهم، يتولّى آخر فوراً. لا توجد نقطة فشل واحدة.",
-      "CARD1": {
-        "TITLE": "متعدّد المزوّدين",
-        "DESC": "عدّة مزوّدين مع تحويل تلقائي. طلباتك تجد دائماً مساراً عاملاً، حتى أثناء انقطاع أحد المزوّدين."
-      },
-      "CARD2": {
-        "TITLE": "توجيه ذكي",
-        "DESC": "اختيار قناة استناداً إلى زمن الاستجابة مع أوزان الأولوية. أسرع مزوّد يفوز في كل مرّة."
-      },
-      "LEARN_MORE": "اعرف المزيد",
-      "LEARN_MORE_DOCS": "عرض المستندات",
-      "ARCH": {
-        "TITLE": "البنية",
-        "ACTIVE": "نشط",
-        "STEP1": {
-          "TITLE": "نقطة طرفية موحّدة",
-          "DESC": "API واحد لصيغ OpenAI وAnthropic وGemini"
-        },
-        "STEP2": {
-          "TITLE": "توجيه ذكي",
-          "DESC": "يختار أسرع مزوّد بناءً على زمن الاستجابة والإتاحة"
-        },
-        "STEP3": {
-          "TITLE": "تحويل تلقائي",
-          "DESC": "إعادة محاولة الطلبات الفاشلة عبر قنوات بديلة فوراً"
-        },
-        "STEP4": {
-          "TITLE": "مسارات احتياطية متعددة",
-          "DESC": "معظم النماذج تعمل عبر عدة مزودين، لا نقطة فشل واحدة"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "الصيغ المدعومة",
-        "DESC": "تُكتشف كل الصيغ تلقائياً وتُوجَّه إلى المزوّد المناسب."
-      }
-    },
     "CODE": {
       "TITLE_1": "تكامل في ثوانٍ.",
       "TITLE_2": "توسّع بلا حدود.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "دعم بروتوكولات متعدّدة",
       "FEATURE_4": "بلا كود؟ دردش على الموقع",
       "READ_DOCS": "اقرأ مستندات API الكاملة",
-      "NO_CODE_LABEL": "لست مبرمجاً؟",
-      "NO_CODE_OPTION": "تجاوز الكود. دردش مع الشخصيات هنا مباشرة على الموقع، أو الصق عنوان URL في SillyTavern أو RisuAI أو أي عميل دردشة ذكاء اصطناعي متوافق مع OpenAI.",
-      "NO_CODE_CHAT_LINK": "افتح الدردشة",
-      "NO_CODE_LINK": "اطّلع على أدلّة التكامل"
+      "NO_CODE_CHAT_LINK": "افتح الدردشة"
     },
     "CTA": {
       "TITLE_1": "جاهز لـ",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - مفتاح واحد لكل نماذج الذكاء الاصطناعي",
       "DESCRIPTION": "مفتاح واحد لكل نماذج الذكاء الاصطناعي. استخدمه في كودك، أو في Claude Code، أو في عملاء الذكاء الاصطناعي المفضّلين لديك. توجيه ذكي عبر كل مزوّد رئيسي.",
       "KEYWORDS": "بوابة AI API، نقطة طرفية موحّدة، متوافق مع OpenAI، Claude API، GPT API، Gemini API، تحويل تلقائي، توجيه ذكي، API متعدّد النماذج، عميل دردشة ذكاء اصطناعي"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "اليوم",
       "WEEK": "الأسبوع",
       "MONTH": "الشهر",
-      "YEAR": "السنة",
-      "ALL": "كل الأوقات"
+      "YEAR": "السنة"
     },
     "MODELS": {
       "TITLE": "أعلى النماذج",
-      "SUBTITLE": "النماذج المرتّبة حسب حجم tokens في الفترة المحدّدة",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "استخدام tokens بالساعة لكل نموذج خلال آخر 24 ساعة",
         "WEEK": "استخدام tokens الأسبوعي لكل نموذج خلال الأسابيع الماضية",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "حصّة السوق",
-      "SUBTITLE": "حصّة tokens حسب مؤلّف النموذج",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "حصّة tokens حسب مؤلّف النموذج خلال آخر 24 ساعة",
         "WEEK": "حصّة tokens حسب مؤلّف النموذج خلال الأسابيع الماضية",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "الأسعار",
     "INPUT_PRICE": "سعر الإدخال",
     "OUTPUT_PRICE": "سعر الإخراج",
-    "PRICE_PER_MILLION": "{price} · لكلّ مليون token",
     "FIXED_PRICE": "السعر لكل طلب",
-    "PRICE_PER_REQUEST": "{price} · للطلب",
-    "PRICE_PER_SECOND": "{price} · للثانية",
-    "PRICE_PER_IMAGE": "{price} · للصورة",
     "GRID_PRICING_TITLE": "شبكة الأسعار",
     "GRID_PRICE_HEADER": "السعر",
-    "AVAILABLE_BADGE": "متاح الآن",
-    "OFFLINE_BADGE": "غير متصل",
-    "STAT_INPUT": "الإدخال",
-    "STAT_OUTPUT": "الإخراج",
-    "STAT_FIXED": "لكل طلب",
-    "STAT_CONTEXT": "السياق",
-    "STAT_ENDPOINTS": "النقاط الطرفية",
-    "STAT_TYPE": "النوع",
-    "STAT_FREE": "مجاني",
     "CONTEXT_WINDOW": "نافذة السياق",
     "CONTEXT_TOKENS": "{count} token",
     "ENDPOINTS": "النقاط الطرفية المتوافقة",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "رصيد API شهرياً",
       "VALUE_EXPLAIN": "ادفع {paid}/شهر، واحصل على {credit} رصيد API. استخدمه على أي نموذج.",
       "DELIVERED": "يُجدّد {amount} كل {period}."
-    },
-    "BANNER": {
-      "TITLE": "مساعد OpenClaw للذكاء الاصطناعي على Telegram",
-      "SUBTITLE": "نشر ذكاء اصطناعي بنقرة واحدة لبوت Telegram، مدعوم بـ OpenClaw و{appName}."
     },
     "META": {
       "TITLE": "الأسعار - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. كل الحقوق محفوظة.",
     "LEGAL_TERMS": "شروط الخدمة",
     "LEGAL_PRIVACY": "سياسة الخصوصية",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "العب Token Breakout",
     "BADGE_FEATURED_ON": "مميز على {name}",
     "BADGE_VERIFIED_ON": "موثق على {name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "حدث خطأ ما",
       "UNEXPECTED_ERROR_OCCURRED": "حدث خطأ غير متوقّع. حاول مجدّداً أو ارجع إلى الصفحة الرئيسية.",
       "ERROR_DETAILS": "تفاصيل الخطأ",
-      "DIGEST": "Digest",
       "SECTION_LOAD_FAILED": "فشل تحميل هذا القسم.",
       "COPY_ERROR": "نسخ الخطأ",
       "RESET_APP_DATA": "إعادة ضبط بيانات التطبيق وإعادة التحميل",
@@ -3123,15 +3030,10 @@
       "EVENING": "مساء الخير"
     },
     "STATS": {
-      "ACCOUNT_DATA": "بيانات الحساب",
-      "CURRENT_BALANCE": "الرصيد الحالي",
-      "USAGE_STATISTICS": "إحصاءات الاستخدام",
       "REQUEST_COUNT": "عدد الطلبات",
       "STATISTICAL_COUNT": "العدد الإحصائي",
-      "RESOURCE_CONSUMPTION": "استهلاك الموارد",
       "STATISTICAL_QUOTA": "الحصّة الإحصائية",
       "STATISTICAL_TOKENS": "tokens الإحصائية",
-      "PERFORMANCE_INDICATORS": "مؤشّرات الأداء",
       "AVERAGE_RPM": "متوسّط RPM",
       "AVERAGE_TPM": "متوسّط TPM",
       "STATISTICAL_COUNT_CAPTION": "عدد الطلبات الإحصائي",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "معلومات API",
       "NO_API_INFO": "لا توجد معلومات API",
-      "BALANCE": "الرصيد",
       "BURN_RATE": "معدل الإنفاق",
       "RUNWAY": "المدة المتبقية",
       "PER_DAY": "{amount}/يوم",
       "DAYS_LEFT": "{days} يوم",
       "PERFORMANCE": "الأداء",
-      "P50_LATENCY": "زمن الاستجابة p50",
-      "P95_LATENCY": "زمن الاستجابة p95",
-      "STREAM_SHARE": "بالبث",
-      "SLOWEST_MODELS": "أبطأ النماذج",
-      "SAMPLE_SIZE": "استنادًا إلى {count} طلب حديث",
       "API_KEYS": "الإنفاق حسب مفتاح API",
       "UNNAMED_KEY": "مفتاح بلا اسم",
       "LAST_USED": "آخر استخدام {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "جيد",
       "LOW": "منخفض",
       "TOP_UP": "شحن الرصيد",
-      "PERFORMANCE_DESC": "مقاييس الأداء لآخر 24 ساعة",
       "SUCCESS_RATE": "معدل النجاح",
       "AVG_LATENCY": "متوسط زمن الاستجابة",
       "THROUGHPUT": "معدل المعالجة",
-      "TOP_MODELS": "النماذج الأكثر استخدامًا",
       "API_KEYS_DESC": "الإنفاق وآخر استخدام لكل مفتاح"
     },
-    "CONSUMPTION": "الاستهلاك",
     "TOTAL": "الإجمالي",
     "OTHER": "أخرى",
     "NO_DATA": "لا تتوفّر بيانات",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "اشتراكاتي",
       "NO_ACTIVE": "لا اشتراك نشط",
       "ACTIVE": "نشط",
       "EXPIRED": "منتهٍ",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "يتجدد في {date}"
     },
     "PREFERENCE": {
-      "TITLE": "تفضيل الفوترة",
       "WALLET_FIRST": "المحفظة أولاً",
       "WALLET_ONLY": "المحفظة فقط",
       "SUBSCRIPTION_FIRST": "الاشتراك أولاً",
       "SUBSCRIPTION_ONLY": "الاشتراك فقط"
     },
     "TOPUP": {
-      "TITLE": "شحن الحصّة",
       "ACTUAL_PAYMENT": "الدفع الفعلي",
       "SAVE": "حفظ",
       "CUSTOM_AMOUNT": "مبلغ مخصص",
@@ -3671,7 +3561,6 @@
     "TITLE": "الفوترة",
     "SUPPORT_TITLE": "هل تحتاج إلى مساعدة؟",
     "SUPPORT_TEXT": "هل لديك أسئلة حول الفوترة أو حسابك؟ راسلنا عبر البريد الإلكتروني على {supportEmail} وسنرد عليك خلال يوم عمل واحد.",
-    "ACCOUNT_STATS": "إحصاءات الحساب",
     "CURRENT_BALANCE": "الرصيد الحالي",
     "CONSUMPTION": "الاستهلاك",
     "REQUESTS": "الطلبات",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "لم تعد هذه الرسالة موجودة. أعد تحميل الصفحة وحاول مرة أخرى.",
     "NO_TASK_ID": "لا معرّف مهمّة أو رابط في الردّ",
     "REQUEST_FAILED": "فشل الطلب",
-    "PRICING_FETCH_FAILED": "فشل جلب بيانات الأسعار",
     "NO_TEXT_MODELS": "لا توجد نماذج نص متاحة",
     "NO_IMAGE_PROMPT": "لا مطالبة مُقدّمة لتوليد الصورة",
     "VIDEO_IMAGE_REQUIRED": "هذا النموذج يحوّل صورة إلى فيديو. أرفق صورة برسالتك أولاً.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "الردّ يتجاوز الحجم الأقصى المسموح",
     "DISALLOWED_CONTENT_TYPE": "نوع المحتوى غير مسموح",
     "UPSTREAM_FETCH_FAILED": "فشل الجلب من المصدر العلوي",
-    "STORAGE_QUOTA_EXCEEDED": "تمّ الوصول إلى حدّ التخزين. احذف محادثات قديمة لتحرير مساحة.",
-    "PROMPT_REJECTED": "هذه المطالبة تنتهك سياسة المحتوى ولا يمكن استخدامها لتوليد الصور أو الفيديو.",
-    "PROMPT_FLAGGED": "هذه المطالبة عُلّمت كغير آمنة محتملة للتوليد. أعد صياغتها وحاول مجدّداً.",
-    "MODERATION_UNAVAILABLE": "توليد الصور والفيديو غير متاح مؤقّتاً. حاول مجدّداً قريباً.",
     "IMPORT_INVALID_JSON": "الملف ليس JSON صالحاً.",
     "IMPORT_UNSUPPORTED_VERSION": "إصدار التصدير غير مدعوم.",
     "CARD_PARSE_FAILED": "تعذّر تحليل بطاقة الشخصية.",
     "CARD_MISSING_NAME": "بطاقة الشخصية ينقصها حقل الاسم المطلوب.",
     "CARD_IMPORT_INVALID_URL": "لا يبدو هذا رابط شخصية صالحا.",
-    "CARD_IMPORT_NOT_FOUND": "تعذر العثور على هذه الشخصية. ربما تكون خاصة أو محذوفة.",
     "CARD_IMPORT_FETCH_FAILED": "تعذر تنزيل هذه الشخصية. حاول مرة أخرى.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "أبقى المؤلف هذه الكتب المرجعية خاصة، لذا لا يمكن تنزيلها",
     "UNEXPECTED_ERROR": "حدث خطأ غير متوقّع",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "المفتاح لا يغادر متصفحك أبدًا",
     "TESTER_RANKINGS": "تصنيفات عامة",
     "TESTER_VERIFIED": "نتائج موثقة من الخادم",
-    "PLAYGROUND_TAGLINE": "استوديو توليد الصور والفيديو في متصفحك",
-    "PLAYGROUND_IMAGE_VIDEO": "نماذج الصور والفيديو",
-    "PLAYGROUND_COMFY": "مسارات عمل ComfyUI",
-    "PLAYGROUND_LORAS": "LoRA والتضمينات",
-    "PLAYGROUND_UPSCALE": "أدوات التكبير وhires fix",
-    "PLAYGROUND_REFS": "صور مرجعية وأقنعة",
-    "PLAYGROUND_FREE": "تشمل نماذج مجانية",
     "CONTEXT": "السياق"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "تشغيلي",
       "DOWN": "متوقّف"
     },
-    "RIBBON": {
-      "TITLE": "آخر 24 ساعة"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "بحث النماذج...",
       "STATUS_ALL": "الكلّ",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "فاحص نماذج واجهة الذكاء الاصطناعي",
       "SUBTITLE": "تحقق مما اذا كانت نقطة النهاية تقدم النموذج الحقيقي الذي تدعيه. يعمل في متصفحك، لا يتم ارسال مفتاحك الى خوادمنا.",
-      "EYEBROW": "تحقق قبل أن تثق",
-      "TRUST_BADGE": "يعمل 100% في المتصفح. لا يتم ارسال مفتاحك ابدا الى خوادمنا."
+      "EYEBROW": "تحقق قبل أن تثق"
     },
     "TABS": {
       "TEST": "اختبار",
@@ -4709,7 +4581,6 @@
       "PASSED": "نجح {passed}/{total} من الفحوصات",
       "LATENCY": "{ms} مللي ثانية",
       "TRANSPORT": "عبر {mode}",
-      "IDLE": "شغل اختبارا لرؤية النتيجة هنا.",
       "DETECTED_MODEL": "النموذج المكتشف",
       "TOTAL_TOKENS": "{tokens} رمز",
       "FORMAT_FELL_BACK": "التنسيق الاصلي غير مدعوم؛ تم الاختبار عبر {format} بدلا منه.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "لا توجد اختبارات بعد. شغل اختبارا لبناء سجلك.",
-      "PUBLISH": "نشر",
       "DELETE_TITLE": "حذف الاختبار",
       "DELETE_BODY": "يزيل الاختبار من سجلك المحلي.",
       "DELETE_CONFIRM": "حذف",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "تُعاد كل نتيجة منشورة على خادمنا قبل احتسابها، ويربط كل حكم بالدليل الدقيق الذي أنتجه. ويمكن الاعتراض على أي نتيجة تعتقد أنها خاطئة.",
       "REPORT_DISCORD": "أبلِغ على Discord",
       "REPORT_GITHUB": "افتح مشكلة على GitHub",
-      "NOT_TESTED": "لم يُختبر بعد",
       "LOW_CONFIDENCE": "ثقة منخفضة ({count} اختبارات)",
       "SELF_TITLE": "نلزم أنفسنا بالمعيار ذاته",
       "SELF_BODY": "يُختبر {appName} بالأداة نفسها. اطّلع على الدليل.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "لا توجد مشاركات بعد. كن أول من ينشر اختبارًا موثَّقًا.",
       "SUBMITTED_BY": "أُرسل بواسطة {who}",
       "ANONYMOUS": "مجهول",
-      "DELETE_MINE": "حذف",
       "REPORT": "إبلاغ",
       "REPORT_HELP": "ليست نتيجتك؟ اعترض عليها:",
       "DELETE_TITLE": "إزالة هذه النتيجة المنشورة؟",
       "DELETE_BODY": "هذا يسحب إرساليتك من الترتيب العام. لا يتأثر سجلّك المحلي.",
       "DELETE_CONFIRM": "إزالة",
       "DELETE_CANCEL": "إلغاء",
-      "GUEST_CANNOT_DELETE": "لا يمكن حذف إرساليات الضيوف من هنا. أبلِغ عنها عبر Discord أو GitHub.",
       "BACK_TO_PROVIDER": "العودة إلى المزود",
-      "BACK_TO_MODEL": "العودة إلى النموذج",
-      "PUBLISHED_NOTE": "تم التحقق منه على الخادم. الاختبارات والردود علنية حتى يتمكن أي شخص من تدقيق هذا الحكم.",
       "LOADING": "جارٍ التحميل ...",
-      "EXPAND_ALL": "توسيع الكل",
-      "COLLAPSE_ALL": "طي الكل",
       "PREV": "السابق",
       "NEXT": "التالي",
       "PAGE_OF": "الصفحة {page} من {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "رد النموذج",
       "STATUS": "HTTP",
       "TOKENS": "الرموز (دخل/خرج)",
-      "SIGNAL": "الاشارة",
       "REASON": "السبب",
       "NO_RESPONSE": "لم يتم التقاط اي رد.",
       "WHAT_WE_CHECK": "ما الذي يفحصه هذا الاختبار"
     },
     "NAV": {
-      "TEST_DESC": "اختبر نقطة نهاية مباشرة",
       "HISTORY_DESC": "اختباراتك السابقة",
       "RANKINGS_DESC": "الترتيب العام"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "الإشعارات",
     "EMPTY": "لا توجد إشعارات في هذه الجلسة",
     "EMPTY_HINT": "تابع نموذجًا لتصلك تنبيهات بتغيّرات الأسعار والتوفر.",
-    "WATCHING_COUNT": "{count} قيد المتابعة",
     "WATCH_FREE_MODELS": "نماذج مجانية جديدة",
     "WATCH": "متابعة",
     "UNWATCH": "إيقاف المتابعة",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "ومن بينها {sample}",
       "BULK_BODY_EMPTY": "افتح الكتالوج لعرض القائمة الكاملة"
     },
-    "WATCHED_MODELS": "النماذج المتابَعة",
-    "PUSH_ON": "إشعارات المتصفح مفعّلة",
-    "PUSH_ENABLE": "تفعيل إشعارات المتصفح",
     "PUSH_BLOCKED": "الإشعارات محظورة في إعدادات المتصفح",
     "ADD_MODEL_PLACEHOLDER": "أضف نموذجًا للمتابعة...",
     "TAB_INBOX": "الوارد",

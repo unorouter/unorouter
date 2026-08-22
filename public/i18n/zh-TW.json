@@ -26,7 +26,6 @@
     "LOG_IN": "登入",
     "CHAT": "對話",
     "STATUS": "狀態",
-    "COMPARE": "對比",
     "LANGUAGE": "語言",
     "MODEL_TESTER": "檢測器",
     "DISCORD": "Discord"
@@ -108,16 +107,7 @@
       "PICK_DESC": "{appName} 可作為自訂的 OpenAI 相容 API，在程式設計代理、角色聊天用戶端、AI 聊天用戶端與 CLI 工具之間通用。"
     },
     "PRICING": {
-      "LABEL": "價格",
-      "TITLE": "價格簡單透明。",
-      "SUBTITLE": "用多少付多少。",
-      "DESCRIPTION": "訂閱享更高價值，或按用量付費。所有方案皆可存取每個模型，並跨供應商自動容錯。",
-      "PROVIDERS": {
-        "TITLE": "支援的供應商"
-      },
-      "FLOW": {
-        "TITLE": "請求流程"
-      }
+      "LABEL": "價格"
     },
     "CHAT": {
       "BADGE": "內建聊天",
@@ -143,13 +133,9 @@
       "CTA_OPEN": "開啟聊天",
       "CTA_CONNECT": "接入你的用戶端",
       "MOCK": {
-        "CHARACTER": "埃拉拉·沃斯艦長",
         "MODEL": "免費",
         "MSG_AI": "報到，新兵。收好裝備，十秒後躍遷。",
-        "MSG_USER": "是，艦長。準備就緒。",
-        "TYPING": "正在輸入",
         "INPUT": "輸入訊息...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "新增聊天",
         "CONV1": "埃拉拉·沃斯艦長",
         "CONV2": "煉金術士莉拉",
@@ -192,59 +178,6 @@
         "NEW_DEMO_AI": "正在計算。三次躍遷就到，燃料還綽綽有餘。坐穩了。"
       }
     },
-    "FEATURES": {
-      "TITLE": "為什麼選擇 {appName}",
-      "DESCRIPTION": "一個端點串連所有 AI 模型。智慧路由挑選最快的供應商，自動容錯確保您的請求永不失敗。",
-      "FAILOVER": {
-        "TITLE": "自動容錯"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "多協定支援"
-      },
-      "LOADBALANCE": {
-        "TITLE": "智慧負載平衡"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "零停機架構",
-      "TITLE_1": "永不下線",
-      "TITLE_2": "穩定可靠的 AI",
-      "DESCRIPTION": "您的請求同時透過多家供應商進行路由。若某家故障，另一家即刻接手。不存在單一故障點。",
-      "CARD1": {
-        "TITLE": "多供應商",
-        "DESC": "多家供應商搭配自動容錯。即使供應商發生中斷，您的請求也能找到可用的路徑。"
-      },
-      "CARD2": {
-        "TITLE": "智慧路由",
-        "DESC": "依延遲挑選通道並加權優先等級。最快的供應商每次都勝出。"
-      },
-      "LEARN_MORE": "了解更多",
-      "LEARN_MORE_DOCS": "查看文件",
-      "ARCH": {
-        "TITLE": "架構",
-        "ACTIVE": "啟用中",
-        "STEP1": {
-          "TITLE": "統一端點",
-          "DESC": "單一 API 支援 OpenAI、Anthropic、Gemini 格式"
-        },
-        "STEP2": {
-          "TITLE": "智慧路由",
-          "DESC": "根據延遲與可用性挑選最快的供應商"
-        },
-        "STEP3": {
-          "TITLE": "自動容錯",
-          "DESC": "失敗的請求立即改走備援通道重試"
-        },
-        "STEP4": {
-          "TITLE": "多路由",
-          "DESC": "多數模型透過多家供應商提供，沒有單點故障"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "支援的格式",
-        "DESC": "所有格式皆自動偵測並路由至對應的供應商。"
-      }
-    },
     "CODE": {
       "TITLE_1": "秒級整合。",
       "TITLE_2": "無限擴展。",
@@ -254,10 +187,7 @@
       "FEATURE_3": "多協定支援",
       "FEATURE_4": "無需程式碼，在站內聊天",
       "READ_DOCS": "閱讀完整 API 文件",
-      "NO_CODE_LABEL": "不是開發者？",
-      "NO_CODE_OPTION": "跳過程式碼。直接在本站與角色聊天，或把 URL 貼到 SillyTavern、RisuAI 或任意 OpenAI 相容的 AI 聊天用戶端中。",
-      "NO_CODE_CHAT_LINK": "開啟聊天",
-      "NO_CODE_LINK": "查看整合指南"
+      "NO_CODE_CHAT_LINK": "開啟聊天"
     },
     "CTA": {
       "TITLE_1": "準備好",
@@ -273,7 +203,6 @@
       "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在你喜愛的 AI 用戶端裡都能用。智慧路由涵蓋所有主要供應商。",
       "KEYWORDS": "AI API 閘道，統一 AI 端點，OpenAI 相容，Claude API，GPT API，Gemini API，自動容錯，智慧路由，多模型 API，AI 聊天用戶端"
     },
-    "TITLE": "{appName}",
     "HOW_IT_WORKS": {
       "LABEL": "開始使用",
       "TITLE": "三步完成。",
@@ -576,12 +505,10 @@
       "TODAY": "今日",
       "WEEK": "本週",
       "MONTH": "本月",
-      "YEAR": "本年",
-      "ALL": "全部"
+      "YEAR": "本年"
     },
     "MODELS": {
       "TITLE": "熱門模型",
-      "SUBTITLE": "依所選期間詞元用量排序的模型",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "過去 24 小時內各模型的每小時詞元用量",
         "WEEK": "過去數週各模型的每週詞元用量",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "市場份額",
-      "SUBTITLE": "依模型作者劃分的詞元佔比",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "過去 24 小時內各供應商的詞元佔比",
         "WEEK": "過去數週各供應商的詞元佔比",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "價格",
     "INPUT_PRICE": "輸入價格",
     "OUTPUT_PRICE": "輸出價格",
-    "PRICE_PER_MILLION": "{price}／每百萬 tokens",
     "FIXED_PRICE": "每次請求價格",
-    "PRICE_PER_REQUEST": "{price}／次請求",
-    "PRICE_PER_SECOND": "{price}／秒",
-    "PRICE_PER_IMAGE": "{price}／張圖",
     "GRID_PRICING_TITLE": "價格網格",
     "GRID_PRICE_HEADER": "價格",
-    "AVAILABLE_BADGE": "現已上線",
-    "OFFLINE_BADGE": "離線",
-    "STAT_INPUT": "輸入",
-    "STAT_OUTPUT": "輸出",
-    "STAT_FIXED": "每次請求",
-    "STAT_CONTEXT": "上下文",
-    "STAT_ENDPOINTS": "端點",
-    "STAT_TYPE": "類型",
-    "STAT_FREE": "免費",
     "CONTEXT_WINDOW": "上下文視窗",
     "CONTEXT_TOKENS": "{count} tokens",
     "ENDPOINTS": "相容端點",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "API 額度 / 月",
       "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
       "DELIVERED": "每{period}補充 {amount}。"
-    },
-    "BANNER": {
-      "TITLE": "Telegram 上的 OpenClaw AI 助理",
-      "SUBTITLE": "由 OpenClaw 與 {appName} 提供技術支援，一鍵為您的 Telegram 機器人部署 AI。"
     },
     "META": {
       "TITLE": "價格：{appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}。保留所有權利。",
     "LEGAL_TERMS": "服務條款",
     "LEGAL_PRIVACY": "隱私權政策",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩一場 Token Breakout",
     "BADGE_FEATURED_ON": "已在 {name} 推薦",
     "BADGE_VERIFIED_ON": "已在 {name} 驗證",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "發生錯誤",
       "UNEXPECTED_ERROR_OCCURRED": "發生未預期的錯誤。請再試一次或返回首頁。",
       "ERROR_DETAILS": "錯誤詳情",
-      "DIGEST": "摘要",
       "SECTION_LOAD_FAILED": "此區塊載入失敗。",
       "COPY_ERROR": "複製錯誤",
       "RESET_APP_DATA": "重設應用程式資料並重新載入",
@@ -3123,15 +3030,10 @@
       "EVENING": "晚安"
     },
     "STATS": {
-      "ACCOUNT_DATA": "帳戶資料",
-      "CURRENT_BALANCE": "目前餘額",
-      "USAGE_STATISTICS": "使用統計",
       "REQUEST_COUNT": "請求次數",
       "STATISTICAL_COUNT": "統計次數",
-      "RESOURCE_CONSUMPTION": "資源用量",
       "STATISTICAL_QUOTA": "統計額度",
       "STATISTICAL_TOKENS": "統計 Tokens",
-      "PERFORMANCE_INDICATORS": "效能指標",
       "AVERAGE_RPM": "平均 RPM",
       "AVERAGE_TPM": "平均 TPM",
       "STATISTICAL_COUNT_CAPTION": "統計次數",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API 資訊",
       "NO_API_INFO": "目前無 API 資訊",
-      "BALANCE": "餘額",
       "BURN_RATE": "消耗速度",
       "RUNWAY": "可用天數",
       "PER_DAY": "{amount}/天",
       "DAYS_LEFT": "{days} 天",
       "PERFORMANCE": "效能",
-      "P50_LATENCY": "p50 延遲",
-      "P95_LATENCY": "p95 延遲",
-      "STREAM_SHARE": "串流佔比",
-      "SLOWEST_MODELS": "最慢的模型",
-      "SAMPLE_SIZE": "基於最近 {count} 次請求",
       "API_KEYS": "API 金鑰消費",
       "UNNAMED_KEY": "未命名金鑰",
       "LAST_USED": "最後使用：{when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "正常",
       "LOW": "偏低",
       "TOP_UP": "儲值",
-      "PERFORMANCE_DESC": "最近 24 小時的效能指標",
       "SUCCESS_RATE": "成功率",
       "AVG_LATENCY": "平均延遲",
       "THROUGHPUT": "吞吐量",
-      "TOP_MODELS": "流量最高的模型",
       "API_KEYS_DESC": "各金鑰的消費與最後使用時間"
     },
-    "CONSUMPTION": "用量",
     "TOTAL": "總計",
     "OTHER": "其他",
     "NO_DATA": "暫無資料",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "我的訂閱",
       "NO_ACTIVE": "尚無啟用中",
       "ACTIVE": "啟用中",
       "EXPIRED": "已到期",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "將於 {date} 續訂"
     },
     "PREFERENCE": {
-      "TITLE": "計費偏好",
       "WALLET_FIRST": "優先使用錢包",
       "WALLET_ONLY": "僅使用錢包",
       "SUBSCRIPTION_FIRST": "優先使用訂閱",
       "SUBSCRIPTION_ONLY": "僅使用訂閱"
     },
     "TOPUP": {
-      "TITLE": "額度儲值",
       "ACTUAL_PAYMENT": "實付金額",
       "SAVE": "儲存",
       "CUSTOM_AMOUNT": "自訂金額",
@@ -3671,7 +3561,6 @@
     "TITLE": "帳務",
     "SUPPORT_TITLE": "需要協助嗎？",
     "SUPPORT_TEXT": "對帳單或帳戶有疑問？請寄送電子郵件至 {supportEmail}，我們將在一個工作日內回覆您。",
-    "ACCOUNT_STATS": "帳戶統計",
     "CURRENT_BALANCE": "目前餘額",
     "CONSUMPTION": "用量",
     "REQUESTS": "請求數",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "此訊息已不存在。請重新整理頁面後再試一次。",
     "NO_TASK_ID": "回應中缺少任務 ID 或 URL",
     "REQUEST_FAILED": "請求失敗",
-    "PRICING_FETCH_FAILED": "取得價格資料失敗",
     "NO_TEXT_MODELS": "沒有可用的文字模型",
     "NO_IMAGE_PROMPT": "未提供圖片生成的提示詞",
     "VIDEO_IMAGE_REQUIRED": "此模型將圖片轉換為影片。請先在訊息中附加一張圖片。",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "回應超過允許的最大大小",
     "DISALLOWED_CONTENT_TYPE": "不允許的內容類型",
     "UPSTREAM_FETCH_FAILED": "從上游取得資料失敗",
-    "STORAGE_QUOTA_EXCEEDED": "已達儲存上限，請刪除舊對話以釋出空間。",
-    "PROMPT_REJECTED": "此提示詞違反內容政策，無法用於圖像或影片生成。",
-    "PROMPT_FLAGGED": "此提示詞被標記為可能不適合生成內容，請修改後再試。",
-    "MODERATION_UNAVAILABLE": "圖像和影片生成暫時無法使用，請稍後再試。",
     "IMPORT_INVALID_JSON": "檔案不是有效的JSON。",
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
     "CARD_IMPORT_INVALID_URL": "這看起來不是有效的角色連結。",
-    "CARD_IMPORT_NOT_FOUND": "找不到該角色。它可能是私密的或已被刪除。",
     "CARD_IMPORT_FETCH_FAILED": "無法下載該角色，請重試。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者將這些世界書設為私密，因此無法下載",
     "UNEXPECTED_ERROR": "發生未預期的錯誤",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "金鑰不離開瀏覽器",
     "TESTER_RANKINGS": "公開排行榜",
     "TESTER_VERIFIED": "伺服器驗證結果",
-    "PLAYGROUND_TAGLINE": "瀏覽器中的圖像與影片生成工作室",
-    "PLAYGROUND_IMAGE_VIDEO": "圖像與影片模型",
-    "PLAYGROUND_COMFY": "ComfyUI 工作流程",
-    "PLAYGROUND_LORAS": "LoRA 與嵌入",
-    "PLAYGROUND_UPSCALE": "放大器與高清修復",
-    "PLAYGROUND_REFS": "參考圖與遮罩",
-    "PLAYGROUND_FREE": "含免費模型",
     "CONTEXT": "上下文"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "正常",
       "DOWN": "故障"
     },
-    "RIBBON": {
-      "TITLE": "過去 24 小時"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜尋模型……",
       "STATUS_ALL": "全部",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "AI API 模型檢測器",
       "SUBTITLE": "檢查端點是否真正提供其聲稱的模型。在你的瀏覽器中執行，你的金鑰不會傳送到我們的伺服器。",
-      "EYEBROW": "先驗證再信任",
-      "TRUST_BADGE": "100% 在瀏覽器中執行。你的金鑰絕不會傳送到我們的伺服器。"
+      "EYEBROW": "先驗證再信任"
     },
     "TABS": {
       "TEST": "檢測",
@@ -4709,7 +4581,6 @@
       "PASSED": "通過 {passed}/{total} 項探測",
       "LATENCY": "{ms} 毫秒",
       "TRANSPORT": "經由 {mode}",
-      "IDLE": "執行一次檢測，結果將顯示在這裡。",
       "DETECTED_MODEL": "偵測到的模型",
       "TOTAL_TOKENS": "{tokens} 個權杖",
       "FORMAT_FELL_BACK": "不支援原生格式，已改用 {format} 檢測。",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "尚無檢測記錄。執行一次以建立歷史。",
-      "PUBLISH": "發佈",
       "DELETE_TITLE": "刪除檢測",
       "DELETE_BODY": "將該檢測從你的本機歷史中移除。",
       "DELETE_CONFIRM": "刪除",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "每筆已發佈的結果在計入之前都會在我們的伺服器上重新執行，且每筆判定都會連結到產生它的確切證據。你認為有誤的結果可以申訴。",
       "REPORT_DISCORD": "在 Discord 上回報",
       "REPORT_GITHUB": "提交一個 GitHub issue",
-      "NOT_TESTED": "尚未測試",
       "LOW_CONFIDENCE": "信賴度低（{count} 次測試）",
       "SELF_TITLE": "我們對自己也堅持同樣的標準",
       "SELF_BODY": "{appName} 也由這同一款工具測試。查看證據。",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "尚未有提交。成為第一個發布已驗證測試的人。",
       "SUBMITTED_BY": "由 {who} 提交",
       "ANONYMOUS": "匿名",
-      "DELETE_MINE": "刪除",
       "REPORT": "回報",
       "REPORT_HELP": "不是你的結果？申訴它：",
       "DELETE_TITLE": "移除這筆已發佈的結果？",
       "DELETE_BODY": "此操作會將你的提交從公開排名中撤下。你的本機歷史不受影響。",
       "DELETE_CONFIRM": "移除",
       "DELETE_CANCEL": "取消",
-      "GUEST_CANNOT_DELETE": "訪客提交無法在此刪除。請透過 Discord 或 GitHub 回報。",
       "BACK_TO_PROVIDER": "返回提供商",
-      "BACK_TO_MODEL": "返回模型",
-      "PUBLISHED_NOTE": "伺服器已驗證。探測與回覆皆公開，任何人都可以稽核此判定。",
       "LOADING": "載入中",
-      "EXPAND_ALL": "全部展開",
-      "COLLAPSE_ALL": "全部收合",
       "PREV": "上一頁",
       "NEXT": "下一頁",
       "PAGE_OF": "第 {page} 頁，共 {total} 頁"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "模型回應",
       "STATUS": "HTTP",
       "TOKENS": "權杖（入/出）",
-      "SIGNAL": "信號",
       "REASON": "原因",
       "NO_RESPONSE": "未擷取到回應。",
       "WHAT_WE_CHECK": "此探測檢查什麼"
     },
     "NAV": {
-      "TEST_DESC": "即時檢測端點",
       "HISTORY_DESC": "你過去的檢測",
       "RANKINGS_DESC": "公開排行榜"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "通知",
     "EMPTY": "本次工作階段暫無通知",
     "EMPTY_HINT": "關注模型即可收到價格變動與可用性提醒。",
-    "WATCHING_COUNT": "已關注 {count} 項",
     "WATCH_FREE_MODELS": "新的免費模型",
     "WATCH": "關注",
     "UNWATCH": "取消關注",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "其中包括 {sample}",
       "BULK_BODY_EMPTY": "開啟模型目錄查看完整清單"
     },
-    "WATCHED_MODELS": "已關注的模型",
-    "PUSH_ON": "瀏覽器通知已開啟",
-    "PUSH_ENABLE": "開啟瀏覽器通知",
     "PUSH_BLOCKED": "通知已在瀏覽器設定中被封鎖",
     "ADD_MODEL_PLACEHOLDER": "新增要關注的模型...",
     "TAB_INBOX": "收件匣",

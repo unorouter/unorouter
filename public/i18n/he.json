@@ -26,7 +26,6 @@
     "LOG_IN": "התחברות",
     "CHAT": "צ'אט",
     "STATUS": "סטטוס",
-    "COMPARE": "השוואה",
     "LANGUAGE": "שפה",
     "MODEL_TESTER": "מפקח",
     "DISCORD": "דיסקורד"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "תאימות מלאה ל-OpenAI"
     },
     "PRICING": {
-      "LABEL": "תמחור",
-      "TITLE": "תמחור פשוט.",
-      "SUBTITLE": "שלמו רק על מה שאתם משתמשים.",
-      "DESCRIPTION": "הירשמו למנוי לערך טוב יותר או שלמו לפי שימוש. כל התוכניות כוללות גישה לכל מודל עם מעבר אוטומטי בין ספקים.",
-      "PROVIDERS": {
-        "TITLE": "ספקים נתמכים"
-      },
-      "FLOW": {
-        "TITLE": "זרימת הבקשה"
-      }
+      "LABEL": "תמחור"
     },
     "CHAT": {
       "BADGE": "צ'אט מובנה",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "פתח צ'אט",
       "CTA_CONNECT": "חבר את הלקוח שלך",
       "MOCK": {
-        "CHARACTER": "קפטנית אלרה ווס",
         "MODEL": "חינם",
         "MSG_AI": "דווח, טירון. אסוף את הציוד, אנחנו קופצים בעוד עשר.",
-        "MSG_USER": "כן, קפטנית. מוכן.",
-        "TYPING": "מקליד",
         "INPUT": "הקלד הודעה...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "צ'אט חדש",
         "CONV1": "קפטנית אלרה ווס",
         "CONV2": "לירה האלכימאית",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "מחשב כעת. שלוש קפיצות מכאן, ודלק בשפע. תתהדקו."
       }
     },
-    "FEATURES": {
-      "TITLE": "למה {appName}",
-      "DESCRIPTION": "נקודת קצה אחת, כל מודל AI. ניתוב חכם בוחר את הספק המהיר ביותר בעוד מעבר אוטומטי מבטיח שהבקשות שלכם תמיד מצליחות.",
-      "FAILOVER": {
-        "TITLE": "מעבר אוטומטי בזמן כשל"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "תמיכה במספר פרוטוקולים"
-      },
-      "LOADBALANCE": {
-        "TITLE": "איזון עומסים חכם"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "ארכיטקטורה ללא השבתות",
-      "TITLE_1": "תמיד פעיל",
-      "TITLE_2": "AI אמין",
-      "DESCRIPTION": "הבקשות שלכם מנותבות דרך מספר ספקים בו-זמנית. אם אחד נופל, אחר תופס במקומו מיד. אין נקודת כשל יחידה.",
-      "CARD1": {
-        "TITLE": "ספקים מרובים",
-        "DESC": "מספר ספקים עם מעבר אוטומטי. הבקשות שלכם תמיד מוצאות נתיב פעיל, גם במהלך השבתות של ספקים."
-      },
-      "CARD2": {
-        "TITLE": "ניתוב חכם",
-        "DESC": "בחירת ערוץ מבוססת השהיה עם משקולות עדיפות. הספק המהיר ביותר מנצח, בכל פעם."
-      },
-      "LEARN_MORE": "למידע נוסף",
-      "LEARN_MORE_DOCS": "צפייה בתיעוד",
-      "ARCH": {
-        "TITLE": "ארכיטקטורה",
-        "ACTIVE": "פעיל",
-        "STEP1": {
-          "TITLE": "נקודת קצה מאוחדת",
-          "DESC": "API יחיד לפורמטים של OpenAI, Anthropic, Gemini"
-        },
-        "STEP2": {
-          "TITLE": "ניתוב חכם",
-          "DESC": "בוחר ספק מהיר ביותר על בסיס השהיה וזמינות"
-        },
-        "STEP3": {
-          "TITLE": "מעבר אוטומטי בזמן כשל",
-          "DESC": "בקשות שנכשלו מנותבות מיד לערוצים חלופיים"
-        },
-        "STEP4": {
-          "TITLE": "מסלולים מרובים",
-          "DESC": "רוב המודלים פועלים דרך כמה ספקים, ללא נקודת כשל יחידה"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "פורמטים נתמכים",
-        "DESC": "כל הפורמטים מזוהים אוטומטית ומנותבים לספק הנכון."
-      }
-    },
     "CODE": {
       "TITLE_1": "אינטגרציה תוך שניות.",
       "TITLE_2": "הרחבה לאינסוף.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "תמיכה במספר פרוטוקולים",
       "FEATURE_4": "בלי קוד? שוחח באתר",
       "READ_DOCS": "קראו את תיעוד ה-API המלא",
-      "NO_CODE_LABEL": "לא מתכנתים?",
-      "NO_CODE_OPTION": "דלגו על הקוד. שוחחו עם דמויות ממש כאן באתר, או הדביקו את כתובת ה-URL ב-SillyTavern, ב-RisuAI או בכל לקוח צ'אט AI תואם OpenAI.",
-      "NO_CODE_CHAT_LINK": "פתח את הצ'אט",
-      "NO_CODE_LINK": "ראו את מדריכי האינטגרציה"
+      "NO_CODE_CHAT_LINK": "פתח את הצ'אט"
     },
     "CTA": {
       "TITLE_1": "מוכנים",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - מפתח אחד לכל מודל AI",
       "DESCRIPTION": "מפתח אחד לכל מודל AI. השתמשו בו בקוד שלכם, ב-Claude Code, או בלקוחות ה-AI האהובים עליכם. ניתוב חכם בין כל הספקים המובילים.",
       "KEYWORDS": "שער API של AI, נקודת קצה AI מאוחדת, תואם OpenAI, Claude API, GPT API, Gemini API, מעבר אוטומטי, ניתוב חכם, API רב-מודלי, לקוח צ'אט AI"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "היום",
       "WEEK": "שבוע",
       "MONTH": "חודש",
-      "YEAR": "שנה",
-      "ALL": "מאז ומעולם"
+      "YEAR": "שנה"
     },
     "MODELS": {
       "TITLE": "המודלים המובילים",
-      "SUBTITLE": "מודלים מדורגים לפי נפח טוקנים בתקופה הנבחרת",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "שימוש טוקנים שעתי לפי מודל ב-24 השעות האחרונות",
         "WEEK": "שימוש טוקנים שבועי לפי מודל בשבועות האחרונים",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "נתח שוק",
-      "SUBTITLE": "נתח טוקנים לפי יוצר המודל",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "נתח טוקנים לפי יוצר המודל ב-24 השעות האחרונות",
         "WEEK": "נתח טוקנים לפי יוצר המודל בשבועות האחרונים",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "תמחור",
     "INPUT_PRICE": "מחיר קלט",
     "OUTPUT_PRICE": "מחיר פלט",
-    "PRICE_PER_MILLION": "{price} · מיליון טוקנים",
     "FIXED_PRICE": "מחיר לבקשה",
-    "PRICE_PER_REQUEST": "{price} · בקשה",
-    "PRICE_PER_SECOND": "{price} · שנייה",
-    "PRICE_PER_IMAGE": "{price} · תמונה",
     "GRID_PRICING_TITLE": "רשת מחירים",
     "GRID_PRICE_HEADER": "מחיר",
-    "AVAILABLE_BADGE": "זמין עכשיו",
-    "OFFLINE_BADGE": "לא מקוון",
-    "STAT_INPUT": "קלט",
-    "STAT_OUTPUT": "פלט",
-    "STAT_FIXED": "לבקשה",
-    "STAT_CONTEXT": "הקשר",
-    "STAT_ENDPOINTS": "נקודות קצה",
-    "STAT_TYPE": "סוג",
-    "STAT_FREE": "חינם",
     "CONTEXT_WINDOW": "חלון הקשר",
     "CONTEXT_TOKENS": "{count} טוקנים",
     "ENDPOINTS": "נקודות קצה תואמות",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "קרדיט API לחודש",
       "VALUE_EXPLAIN": "שלמו {paid}/חודש, קבלו {credit} קרדיט API. לשימוש בכל מודל.",
       "DELIVERED": "מתחדש ב-{amount} בכל {period}."
-    },
-    "BANNER": {
-      "TITLE": "עוזר AI של OpenClaw בטלגרם",
-      "SUBTITLE": "פריסת AI בלחיצה אחת לבוט הטלגרם שלכם, מופעל על-ידי OpenClaw ו-{appName}."
     },
     "META": {
       "TITLE": "תמחור - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. כל הזכויות שמורות.",
     "LEGAL_TERMS": "תנאי השירות",
     "LEGAL_PRIVACY": "מדיניות הפרטיות",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "שחקו ב-Token Breakout",
     "BADGE_FEATURED_ON": "מופיע ב{name}",
     "BADGE_VERIFIED_ON": "מאומת ב{name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "משהו השתבש",
       "UNEXPECTED_ERROR_OCCURRED": "התרחשה שגיאה לא צפויה. אנא נסו שוב או חזרו לדף הבית.",
       "ERROR_DETAILS": "פרטי שגיאה",
-      "DIGEST": "תקציר",
       "SECTION_LOAD_FAILED": "מקטע זה נכשל בטעינה.",
       "COPY_ERROR": "העתק שגיאה",
       "RESET_APP_DATA": "איפוס נתוני האפליקציה וטעינה מחדש",
@@ -3123,15 +3030,10 @@
       "EVENING": "ערב טוב"
     },
     "STATS": {
-      "ACCOUNT_DATA": "נתוני חשבון",
-      "CURRENT_BALANCE": "יתרה נוכחית",
-      "USAGE_STATISTICS": "סטטיסטיקת שימוש",
       "REQUEST_COUNT": "מספר בקשות",
       "STATISTICAL_COUNT": "ספירה סטטיסטית",
-      "RESOURCE_CONSUMPTION": "צריכת משאבים",
       "STATISTICAL_QUOTA": "מכסה סטטיסטית",
       "STATISTICAL_TOKENS": "טוקנים סטטיסטיים",
-      "PERFORMANCE_INDICATORS": "מדדי ביצועים",
       "AVERAGE_RPM": "RPM ממוצע",
       "AVERAGE_TPM": "TPM ממוצע",
       "STATISTICAL_COUNT_CAPTION": "ספירה סטטיסטית",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "מידע API",
       "NO_API_INFO": "אין מידע API",
-      "BALANCE": "יתרה",
       "BURN_RATE": "קצב הוצאה",
       "RUNWAY": "זמן שנותר",
       "PER_DAY": "{amount}/יום",
       "DAYS_LEFT": "{days} ימים",
       "PERFORMANCE": "ביצועים",
-      "P50_LATENCY": "השהיית p50",
-      "P95_LATENCY": "השהיית p95",
-      "STREAM_SHARE": "בהזרמה",
-      "SLOWEST_MODELS": "המודלים האיטיים ביותר",
-      "SAMPLE_SIZE": "מבוסס על {count} בקשות אחרונות",
       "API_KEYS": "הוצאות לפי מפתח API",
       "UNNAMED_KEY": "מפתח ללא שם",
       "LAST_USED": "שימוש אחרון {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "תקין",
       "LOW": "נמוך",
       "TOP_UP": "טעינה",
-      "PERFORMANCE_DESC": "מדדי ביצועים מ־24 השעות האחרונות",
       "SUCCESS_RATE": "שיעור הצלחה",
       "AVG_LATENCY": "השהיה ממוצעת",
       "THROUGHPUT": "תפוקה",
-      "TOP_MODELS": "המודלים העמוסים ביותר",
       "API_KEYS_DESC": "הוצאות ושימוש אחרון לכל מפתח"
     },
-    "CONSUMPTION": "צריכה",
     "TOTAL": "סך הכל",
     "OTHER": "אחר",
     "NO_DATA": "אין נתונים זמינים",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "המנויים שלי",
       "NO_ACTIVE": "אין פעיל",
       "ACTIVE": "פעיל",
       "EXPIRED": "פג",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "מתחדש ב-{date}"
     },
     "PREFERENCE": {
-      "TITLE": "העדפת חיוב",
       "WALLET_FIRST": "ארנק תחילה",
       "WALLET_ONLY": "ארנק בלבד",
       "SUBSCRIPTION_FIRST": "מנוי תחילה",
       "SUBSCRIPTION_ONLY": "מנוי בלבד"
     },
     "TOPUP": {
-      "TITLE": "טעינת מכסה",
       "ACTUAL_PAYMENT": "תשלום בפועל",
       "SAVE": "שמור",
       "CUSTOM_AMOUNT": "סכום מותאם אישית",
@@ -3671,7 +3561,6 @@
     "TITLE": "חיובים",
     "SUPPORT_TITLE": "צריך עזרה?",
     "SUPPORT_TEXT": "יש לך שאלות על החיוב או על החשבון שלך? שלח לנו דוא\"ל לכתובת {supportEmail} ונחזור אליך תוך יום עסקים אחד.",
-    "ACCOUNT_STATS": "סטטיסטיקת חשבון",
     "CURRENT_BALANCE": "יתרה נוכחית",
     "CONSUMPTION": "צריכה",
     "REQUESTS": "בקשות",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "הודעה זו כבר לא קיימת. רענן את הדף ונסה שוב.",
     "NO_TASK_ID": "אין מזהה משימה או URL בתגובה",
     "REQUEST_FAILED": "הבקשה נכשלה",
-    "PRICING_FETCH_FAILED": "כשל בקבלת נתוני תמחור",
     "NO_TEXT_MODELS": "אין מודלי טקסט זמינים",
     "NO_IMAGE_PROMPT": "לא סופקה הנחיה לייצור תמונה",
     "VIDEO_IMAGE_REQUIRED": "מודל זה הופך תמונה לווידאו. צרף תחילה תמונה להודעה שלך.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "התגובה חורגת מהגודל המקסימלי המותר",
     "DISALLOWED_CONTENT_TYPE": "סוג תוכן לא מותר",
     "UPSTREAM_FETCH_FAILED": "כשל בקבלה מ-upstream",
-    "STORAGE_QUOTA_EXCEEDED": "מגבלת אחסון הגיעה. מחקו שיחות ישנות כדי לפנות מקום.",
-    "PROMPT_REJECTED": "ההנחיה הזו מפרה את מדיניות התוכן ולא ניתן להשתמש בה לייצור תמונה או וידאו.",
-    "PROMPT_FLAGGED": "ההנחיה הזו סומנה כעלולה להיות לא בטוחה לייצור. אנא נסחו מחדש ונסו שוב.",
-    "MODERATION_UNAVAILABLE": "ייצור תמונה ווידאו זמנית לא זמינים. אנא נסו שוב בקרוב.",
     "IMPORT_INVALID_JSON": "הקובץ אינו JSON תקין.",
     "IMPORT_UNSUPPORTED_VERSION": "גרסת ייצוא לא נתמכת.",
     "CARD_PARSE_FAILED": "לא ניתן לפענח כרטיס דמות.",
     "CARD_MISSING_NAME": "לכרטיס הדמות חסר שדה השם הנדרש.",
     "CARD_IMPORT_INVALID_URL": "זה לא נראה כמו קישור תקין לדמות.",
-    "CARD_IMPORT_NOT_FOUND": "לא ניתן למצוא את הדמות הזו. ייתכן שהיא פרטית או נמחקה.",
     "CARD_IMPORT_FETCH_FAILED": "לא ניתן להוריד את הדמות הזו. נסה שוב.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "היוצר השאיר את ספרי הלור האלה פרטיים, ולכן לא ניתן להוריד אותם",
     "UNEXPECTED_ERROR": "התרחשה שגיאה לא צפויה",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "המפתח לעולם לא עוזב את הדפדפן",
     "TESTER_RANKINGS": "דירוג ציבורי",
     "TESTER_VERIFIED": "תוצאות מאומתות בשרת",
-    "PLAYGROUND_TAGLINE": "סטודיו ליצירת תמונות ווידאו בדפדפן שלך",
-    "PLAYGROUND_IMAGE_VIDEO": "מודלים לתמונה ווידאו",
-    "PLAYGROUND_COMFY": "תהליכי ComfyUI",
-    "PLAYGROUND_LORAS": "LoRA והטמעות",
-    "PLAYGROUND_UPSCALE": "מגדילי רזולוציה ו-hires fix",
-    "PLAYGROUND_REFS": "תמונות ייחוס ומסכות",
-    "PLAYGROUND_FREE": "כולל מודלים חינמיים",
     "CONTEXT": "הקשר"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "פעילים",
       "DOWN": "לא פעילים"
     },
-    "RIBBON": {
-      "TITLE": "24 השעות האחרונות"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "חיפוש מודלים...",
       "STATUS_ALL": "הכל",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "בודק מודלים של API בינה מלאכותית",
       "SUBTITLE": "בדקו אם נקודת קצה מספקת את המודל האמיתי שהיא מצהירה. רץ בדפדפן, המפתח שלכם אינו נשלח לשרתים שלנו.",
-      "EYEBROW": "לאמת לפני שבוטחים",
-      "TRUST_BADGE": "פועל 100% בדפדפן. המפתח שלכם אינו נשלח לעולם לשרתים שלנו."
+      "EYEBROW": "לאמת לפני שבוטחים"
     },
     "TABS": {
       "TEST": "בדיקה",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} בדיקות עברו",
       "LATENCY": "{ms} מ\"ש",
       "TRANSPORT": "דרך {mode}",
-      "IDLE": "הריצו בדיקה כדי לראות כאן את התוצאה.",
       "DETECTED_MODEL": "המודל שזוהה",
       "TOTAL_TOKENS": "{tokens} אסימונים",
       "FORMAT_FELL_BACK": "הפורמט המקורי אינו נתמך; נבדק דרך {format} במקום.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "עדיין אין בדיקות. הריצו אחת כדי לבנות את ההיסטוריה.",
-      "PUBLISH": "פרסום",
       "DELETE_TITLE": "מחיקת בדיקה",
       "DELETE_BODY": "מסיר את הבדיקה מההיסטוריה המקומית שלכם.",
       "DELETE_CONFIRM": "מחיקה",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "כל תוצאה שפורסמה מורצת מחדש בשרת שלנו לפני שהיא נספרת, וכל פסיקה מקשרת לראיות המדויקות שהובילו אליה. תוצאה שאתה סבור שהיא שגויה ניתנת לערעור.",
       "REPORT_DISCORD": "דווח ב-Discord",
       "REPORT_GITHUB": "פתח issue ב-GitHub",
-      "NOT_TESTED": "טרם נבדק",
       "LOW_CONFIDENCE": "ביטחון נמוך ({count} בדיקות)",
       "SELF_TITLE": "אנו מחזיקים את עצמנו באותו רף",
       "SELF_BODY": "‏{appName} נבדק באותו כלי עצמו. צפה בראיות.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "עדיין אין הגשות. היה הראשון לפרסם בדיקה מאומתת.",
       "SUBMITTED_BY": "הוגש על ידי {who}",
       "ANONYMOUS": "אנונימי",
-      "DELETE_MINE": "מחק",
       "REPORT": "דווח",
       "REPORT_HELP": "לא התוצאה שלך? ערער עליה:",
       "DELETE_TITLE": "להסיר תוצאה מפורסמת זו?",
       "DELETE_BODY": "פעולה זו מושכת את ההגשה שלך מהדירוגים הציבוריים. ההיסטוריה המקומית שלך אינה מושפעת.",
       "DELETE_CONFIRM": "הסר",
       "DELETE_CANCEL": "ביטול",
-      "GUEST_CANNOT_DELETE": "לא ניתן למחוק כאן הגשות של אורחים. דווח עליהן דרך Discord או GitHub.",
       "BACK_TO_PROVIDER": "חזרה לספק",
-      "BACK_TO_MODEL": "חזרה למודל",
-      "PUBLISHED_NOTE": "מאומת בשרת. הבדיקות והתשובות פומביות כך שכל אחד יכול לבדוק את הפסיקה הזו.",
       "LOADING": "טוען ...",
-      "EXPAND_ALL": "הרחב הכול",
-      "COLLAPSE_ALL": "כווץ הכול",
       "PREV": "הקודם",
       "NEXT": "הבא",
       "PAGE_OF": "עמוד {page} מתוך {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "תגובת המודל",
       "STATUS": "HTTP",
       "TOKENS": "אסימונים (קלט/פלט)",
-      "SIGNAL": "אות",
       "REASON": "סיבה",
       "NO_RESPONSE": "לא נלכדה תגובה.",
       "WHAT_WE_CHECK": "מה הבדיקה הזו בודקת"
     },
     "NAV": {
-      "TEST_DESC": "בדיקת נקודת קצה חיה",
       "HISTORY_DESC": "הבדיקות הקודמות שלך",
       "RANKINGS_DESC": "דירוג ציבורי"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "התראות",
     "EMPTY": "אין התראות בהפעלה הנוכחית",
     "EMPTY_HINT": "עקבו אחרי מודל כדי לקבל התראות על שינויי מחיר וזמינות.",
-    "WATCHING_COUNT": "{count} במעקב",
     "WATCH_FREE_MODELS": "מודלים חינמיים חדשים",
     "WATCH": "עקוב",
     "UNWATCH": "הפסק מעקב",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "ביניהם {sample}",
       "BULK_BODY_EMPTY": "פתח את הקטלוג לרשימה המלאה"
     },
-    "WATCHED_MODELS": "מודלים במעקב",
-    "PUSH_ON": "התראות הדפדפן פעילות",
-    "PUSH_ENABLE": "הפעלת התראות דפדפן",
     "PUSH_BLOCKED": "ההתראות חסומות בהגדרות הדפדפן",
     "ADD_MODEL_PLACEHOLDER": "הוסף מודל למעקב...",
     "TAB_INBOX": "דואר נכנס",

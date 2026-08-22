@@ -26,7 +26,6 @@
     "LOG_IN": "Entrar",
     "CHAT": "Chat",
     "STATUS": "Status",
-    "COMPARE": "Comparar",
     "LANGUAGE": "Idioma",
     "MODEL_TESTER": "Inspetor",
     "DISCORD": "Discord"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "Totalmente compatível com OpenAI"
     },
     "PRICING": {
-      "LABEL": "Preços",
-      "TITLE": "Preços simples.",
-      "SUBTITLE": "Pague apenas pelo que usar.",
-      "DESCRIPTION": "Assine para melhor valor ou pague conforme o uso. Todos os planos incluem acesso a todos os modelos com failover automático entre provedores.",
-      "PROVIDERS": {
-        "TITLE": "Provedores suportados"
-      },
-      "FLOW": {
-        "TITLE": "Fluxo de solicitação"
-      }
+      "LABEL": "Preços"
     },
     "CHAT": {
       "BADGE": "Chat integrado",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "Abrir chat",
       "CTA_CONNECT": "Conecte seu cliente",
       "MOCK": {
-        "CHARACTER": "Capitã Elara Voss",
         "MODEL": "Grátis",
         "MSG_AI": "Me apresentando, recruta. Guarde o equipamento, saltamos em dez.",
-        "MSG_USER": "Sim, capitã. Pronta.",
-        "TYPING": "digitando",
         "INPUT": "Digite uma mensagem...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "Nova conversa",
         "CONV1": "Capitã Elara Voss",
         "CONV2": "Lyra a Alquimista",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "Calculando agora. Três saltos e combustível de sobra. Se segurem."
       }
     },
-    "FEATURES": {
-      "TITLE": "Por que {appName}",
-      "DESCRIPTION": "Um endpoint, todos os modelos de IA. Roteamento inteligente escolhe o provedor mais rápido enquanto failover automático garante que suas solicitações sempre tenham sucesso.",
-      "FAILOVER": {
-        "TITLE": "Failover automático"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "Suporte multi-protocolo"
-      },
-      "LOADBALANCE": {
-        "TITLE": "Balanceamento de carga inteligente"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "Arquitetura sem tempo de inatividade",
-      "TITLE_1": "Sempre ativa",
-      "TITLE_2": "IA confiável",
-      "DESCRIPTION": "Suas solicitações são roteadas por múltiplos provedores simultaneamente. Se um cai, outro assume instantaneamente. Sem ponto único de falha.",
-      "CARD1": {
-        "TITLE": "Multi-provedor",
-        "DESC": "Múltiplos provedores com failover automático. Suas solicitações sempre encontram um caminho funcional, mesmo durante quedas de provedor."
-      },
-      "CARD2": {
-        "TITLE": "Roteamento inteligente",
-        "DESC": "Seleção de canal baseada em latência com pesos de prioridade. O provedor mais rápido vence, toda vez."
-      },
-      "LEARN_MORE": "Saiba mais",
-      "LEARN_MORE_DOCS": "Ver documentação",
-      "ARCH": {
-        "TITLE": "Arquitetura",
-        "ACTIVE": "Ativo",
-        "STEP1": {
-          "TITLE": "Endpoint unificado",
-          "DESC": "API única para formatos OpenAI, Anthropic, Gemini"
-        },
-        "STEP2": {
-          "TITLE": "Roteamento inteligente",
-          "DESC": "Seleciona provedor mais rápido com base em latência e disponibilidade"
-        },
-        "STEP3": {
-          "TITLE": "Failover automático",
-          "DESC": "Solicitações falhas são retentadas em canais alternativos instantaneamente"
-        },
-        "STEP4": {
-          "TITLE": "Múltiplas rotas",
-          "DESC": "A maioria dos modelos roda em vários provedores, sem ponto único de falha"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "Formatos suportados",
-        "DESC": "Todos os formatos detectados automaticamente e roteados para o provedor certo."
-      }
-    },
     "CODE": {
       "TITLE_1": "Integre em segundos.",
       "TITLE_2": "Escale ao infinito.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "Suporte multi-protocolo",
       "FEATURE_4": "Sem código? Converse no site",
       "READ_DOCS": "Ler documentação completa da API",
-      "NO_CODE_LABEL": "Não é programador?",
-      "NO_CODE_OPTION": "Pule o código. Converse com personagens aqui mesmo no site, ou cole a URL no SillyTavern, RisuAI ou qualquer cliente de chat de IA compatível com OpenAI.",
-      "NO_CODE_CHAT_LINK": "Abrir o chat",
-      "NO_CODE_LINK": "Ver os guias de integração"
+      "NO_CODE_CHAT_LINK": "Abrir o chat"
     },
     "CTA": {
       "TITLE_1": "Pronto para",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - Uma chave para todo modelo de IA",
       "DESCRIPTION": "Uma chave para todo modelo de IA. Use no seu código, no Claude Code, ou nos seus clientes de IA favoritos. Roteamento inteligente entre os principais provedores.",
       "KEYWORDS": "gateway de API de IA, endpoint unificado de IA, compatível com OpenAI, API Claude, API GPT, API Gemini, failover automático, roteamento inteligente, API multi-modelo, cliente de chat de IA"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "Hoje",
       "WEEK": "Semana",
       "MONTH": "Mês",
-      "YEAR": "Ano",
-      "ALL": "Todo o tempo"
+      "YEAR": "Ano"
     },
     "MODELS": {
       "TITLE": "Melhores modelos",
-      "SUBTITLE": "Modelos classificados por volume de tokens no período selecionado",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Uso de tokens por hora por modelo nas últimas 24 horas",
         "WEEK": "Uso semanal de tokens por modelo nas últimas semanas",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "Participação de mercado",
-      "SUBTITLE": "Participação de tokens por autor do modelo",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Participação de tokens por autor do modelo nas últimas 24 horas",
         "WEEK": "Participação de tokens por autor do modelo nas últimas semanas",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "Preços",
     "INPUT_PRICE": "Preço de entrada",
     "OUTPUT_PRICE": "Preço de saída",
-    "PRICE_PER_MILLION": "{price} · 1M tokens",
     "FIXED_PRICE": "Preço por solicitação",
-    "PRICE_PER_REQUEST": "{price} · solicitação",
-    "PRICE_PER_SECOND": "{price} · segundo",
-    "PRICE_PER_IMAGE": "{price} · imagem",
     "GRID_PRICING_TITLE": "Grade de preços",
     "GRID_PRICE_HEADER": "Preço",
-    "AVAILABLE_BADGE": "Disponível agora",
-    "OFFLINE_BADGE": "Off-line",
-    "STAT_INPUT": "Entrada",
-    "STAT_OUTPUT": "Saída",
-    "STAT_FIXED": "Por solicitação",
-    "STAT_CONTEXT": "Contexto",
-    "STAT_ENDPOINTS": "Endpoints",
-    "STAT_TYPE": "Tipo",
-    "STAT_FREE": "Grátis",
     "CONTEXT_WINDOW": "Janela de contexto",
     "CONTEXT_TOKENS": "{count} tokens",
     "ENDPOINTS": "Endpoints compatíveis",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "crédito de API / mês",
       "VALUE_EXPLAIN": "Pague {paid}/mês, ganhe {credit} em crédito de API. Use em qualquer modelo.",
       "DELIVERED": "Recarrega {amount} a cada {period}."
-    },
-    "BANNER": {
-      "TITLE": "Assistente OpenClaw AI no Telegram",
-      "SUBTITLE": "Implantação de IA em um clique para seu bot do Telegram, alimentado por OpenClaw e {appName}."
     },
     "META": {
       "TITLE": "Preços - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. Todos os direitos reservados.",
     "LEGAL_TERMS": "Termos de serviço",
     "LEGAL_PRIVACY": "Política de privacidade",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Jogar Token Breakout",
     "BADGE_FEATURED_ON": "Destaque em {name}",
     "BADGE_VERIFIED_ON": "Verificado em {name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "Algo deu errado",
       "UNEXPECTED_ERROR_OCCURRED": "Ocorreu um erro inesperado. Tente novamente ou volte para a página inicial.",
       "ERROR_DETAILS": "Detalhes do erro",
-      "DIGEST": "Resumo",
       "SECTION_LOAD_FAILED": "Esta seção falhou ao carregar.",
       "COPY_ERROR": "Copiar erro",
       "RESET_APP_DATA": "Redefinir dados do app e recarregar",
@@ -3123,15 +3030,10 @@
       "EVENING": "Boa noite"
     },
     "STATS": {
-      "ACCOUNT_DATA": "Dados da conta",
-      "CURRENT_BALANCE": "Saldo atual",
-      "USAGE_STATISTICS": "Estatísticas de uso",
       "REQUEST_COUNT": "Número de solicitações",
       "STATISTICAL_COUNT": "Contagem estatística",
-      "RESOURCE_CONSUMPTION": "Consumo de recursos",
       "STATISTICAL_QUOTA": "Cota estatística",
       "STATISTICAL_TOKENS": "Tokens estatísticos",
-      "PERFORMANCE_INDICATORS": "Indicadores de desempenho",
       "AVERAGE_RPM": "RPM médio",
       "AVERAGE_TPM": "TPM médio",
       "STATISTICAL_COUNT_CAPTION": "Contagem estatística",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "Informações da API",
       "NO_API_INFO": "Sem informações da API",
-      "BALANCE": "Saldo",
       "BURN_RATE": "Ritmo de gasto",
       "RUNWAY": "Autonomia",
       "PER_DAY": "{amount}/dia",
       "DAYS_LEFT": "{days} dias",
       "PERFORMANCE": "Desempenho",
-      "P50_LATENCY": "Latência p50",
-      "P95_LATENCY": "Latência p95",
-      "STREAM_SHARE": "Em streaming",
-      "SLOWEST_MODELS": "Modelos mais lentos",
-      "SAMPLE_SIZE": "Com base em {count} requisições recentes",
       "API_KEYS": "Gasto por chave de API",
       "UNNAMED_KEY": "Chave sem nome",
       "LAST_USED": "Último uso {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "Saudável",
       "LOW": "Baixo",
       "TOP_UP": "Recarregar",
-      "PERFORMANCE_DESC": "Métricas de desempenho das últimas 24 horas",
       "SUCCESS_RATE": "Taxa de sucesso",
       "AVG_LATENCY": "Latência média",
       "THROUGHPUT": "Vazão",
-      "TOP_MODELS": "Modelos com mais tráfego",
       "API_KEYS_DESC": "Gasto e último uso por chave"
     },
-    "CONSUMPTION": "Consumo",
     "TOTAL": "Total",
     "OTHER": "Outro",
     "NO_DATA": "Sem dados disponíveis",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "Minhas assinaturas",
       "NO_ACTIVE": "Nenhuma ativa",
       "ACTIVE": "Ativa",
       "EXPIRED": "Expirada",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "Renova em {date}"
     },
     "PREFERENCE": {
-      "TITLE": "Preferência de faturamento",
       "WALLET_FIRST": "Carteira primeiro",
       "WALLET_ONLY": "Apenas carteira",
       "SUBSCRIPTION_FIRST": "Assinatura primeiro",
       "SUBSCRIPTION_ONLY": "Apenas assinatura"
     },
     "TOPUP": {
-      "TITLE": "Recarga de cota",
       "ACTUAL_PAYMENT": "Pagamento real",
       "SAVE": "Salvar",
       "CUSTOM_AMOUNT": "Valor personalizado",
@@ -3671,7 +3561,6 @@
     "TITLE": "Faturamento",
     "SUPPORT_TITLE": "Precisa de ajuda?",
     "SUPPORT_TEXT": "Tem dúvidas sobre cobrança ou sua conta? Envie um e-mail para {supportEmail} e responderemos em até um dia útil.",
-    "ACCOUNT_STATS": "Estatísticas da conta",
     "CURRENT_BALANCE": "Saldo atual",
     "CONSUMPTION": "Consumo",
     "REQUESTS": "Solicitações",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "Esta mensagem não existe mais. Atualize a página e tente novamente.",
     "NO_TASK_ID": "Sem ID de tarefa ou URL na resposta",
     "REQUEST_FAILED": "Solicitação falhou",
-    "PRICING_FETCH_FAILED": "Falha ao buscar dados de preço",
     "NO_TEXT_MODELS": "Sem modelos de texto disponíveis",
     "NO_IMAGE_PROMPT": "Sem prompt fornecido para geração de imagem",
     "VIDEO_IMAGE_REQUIRED": "Este modelo transforma uma imagem em vídeo. Anexe primeiro uma imagem à sua mensagem.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Resposta excede o tamanho máximo permitido",
     "DISALLOWED_CONTENT_TYPE": "Tipo de conteúdo não permitido",
     "UPSTREAM_FETCH_FAILED": "Falha ao buscar do upstream",
-    "STORAGE_QUOTA_EXCEEDED": "Limite de armazenamento atingido. Delete conversas antigas para liberar espaço.",
-    "PROMPT_REJECTED": "Este prompt viola a política de conteúdo e não pode ser usado para geração de imagem ou vídeo.",
-    "PROMPT_FLAGGED": "Este prompt foi sinalizado como potencialmente inseguro para geração. Reformule e tente novamente.",
-    "MODERATION_UNAVAILABLE": "Geração de imagem e vídeo temporariamente indisponível. Tente novamente em breve.",
     "IMPORT_INVALID_JSON": "O arquivo não é JSON válido.",
     "IMPORT_UNSUPPORTED_VERSION": "Versão de exportação não suportada.",
     "CARD_PARSE_FAILED": "Não foi possível parsear carta de personagem.",
     "CARD_MISSING_NAME": "Carta de personagem está sem o campo nome obrigatório.",
     "CARD_IMPORT_INVALID_URL": "Isso não parece um link de personagem válido.",
-    "CARD_IMPORT_NOT_FOUND": "Não foi possível encontrar este personagem. Ele pode ser privado ou ter sido excluido.",
     "CARD_IMPORT_FETCH_FAILED": "Não foi possível baixar este personagem. Tente novamente.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "O autor manteve estes lorebooks privados, portanto não podem ser baixados",
     "UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "A chave nunca sai do seu navegador",
     "TESTER_RANKINGS": "Ranking público",
     "TESTER_VERIFIED": "Resultados verificados no servidor",
-    "PLAYGROUND_TAGLINE": "Estúdio de geração de imagem e vídeo no seu navegador",
-    "PLAYGROUND_IMAGE_VIDEO": "Modelos de imagem e vídeo",
-    "PLAYGROUND_COMFY": "Workflows ComfyUI",
-    "PLAYGROUND_LORAS": "LoRAs e embeddings",
-    "PLAYGROUND_UPSCALE": "Upscalers e hires fix",
-    "PLAYGROUND_REFS": "Imagens de referência e máscaras",
-    "PLAYGROUND_FREE": "Modelos gratuitos inclusos",
     "CONTEXT": "Contexto"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Operacionais",
       "DOWN": "Caídos"
     },
-    "RIBBON": {
-      "TITLE": "Últimas 24 horas"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Buscar modelos...",
       "STATUS_ALL": "Todos",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "Testador de modelos de API IA",
       "SUBTITLE": "Verifique se um endpoint serve o modelo real que afirma. Roda no navegador, sua chave nao e enviada aos nossos servidores.",
-      "EYEBROW": "Verifique antes de confiar",
-      "TRUST_BADGE": "100% no navegador. Sua chave nunca e enviada aos nossos servidores."
+      "EYEBROW": "Verifique antes de confiar"
     },
     "TABS": {
       "TEST": "Teste",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} sondas aprovadas",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
-      "IDLE": "Execute um teste para ver o resultado aqui.",
       "DETECTED_MODEL": "Modelo detectado",
       "TOTAL_TOKENS": "{tokens} tokens",
       "FORMAT_FELL_BACK": "Formato nativo nao suportado; testado via {format}.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "Ainda sem testes. Execute um para criar seu historico.",
-      "PUBLISH": "Publicar",
       "DELETE_TITLE": "Excluir teste",
       "DELETE_BODY": "Remove o teste do seu historico local.",
       "DELETE_CONFIRM": "Excluir",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "Todo resultado publicado é reexecutado no nosso servidor antes de contar, e cada veredito leva às evidências exatas que o produziram. Um resultado que você considere errado pode ser contestado.",
       "REPORT_DISCORD": "Reportar no Discord",
       "REPORT_GITHUB": "Abrir uma issue no GitHub",
-      "NOT_TESTED": "Ainda não testado",
       "LOW_CONFIDENCE": "Baixa confiança ({count} testes)",
       "SELF_TITLE": "Aplicamos a nós mesmos o mesmo padrão",
       "SELF_BODY": "{appName} é testado por esta mesma ferramenta. Veja as evidências.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "Ainda não há envios. Seja o primeiro a publicar um teste verificado.",
       "SUBMITTED_BY": "Enviado por {who}",
       "ANONYMOUS": "anônimo",
-      "DELETE_MINE": "Excluir",
       "REPORT": "Reportar",
       "REPORT_HELP": "Não é o seu resultado? Conteste:",
       "DELETE_TITLE": "Remover este resultado publicado?",
       "DELETE_BODY": "Isto retira o seu envio das classificações públicas. Seu histórico local não é afetado.",
       "DELETE_CONFIRM": "Remover",
       "DELETE_CANCEL": "Cancelar",
-      "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub.",
       "BACK_TO_PROVIDER": "Voltar ao provedor",
-      "BACK_TO_MODEL": "Voltar ao modelo",
-      "PUBLISHED_NOTE": "Verificado no servidor. As sondas e as respostas são públicas para que qualquer pessoa possa auditar este veredito.",
       "LOADING": "Carregando ...",
-      "EXPAND_ALL": "Expandir tudo",
-      "COLLAPSE_ALL": "Recolher tudo",
       "PREV": "Anterior",
       "NEXT": "Próximo",
       "PAGE_OF": "Página {page} de {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "Resposta do modelo",
       "STATUS": "HTTP",
       "TOKENS": "Tokens (ent/sai)",
-      "SIGNAL": "Sinal",
       "REASON": "Motivo",
       "NO_RESPONSE": "Nenhuma resposta capturada.",
       "WHAT_WE_CHECK": "O que esta prova verifica"
     },
     "NAV": {
-      "TEST_DESC": "Teste um endpoint ao vivo",
       "HISTORY_DESC": "Seus testes anteriores",
       "RANKINGS_DESC": "Ranking publico"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "Notificações",
     "EMPTY": "Nenhuma notificação nesta sessão",
     "EMPTY_HINT": "Acompanhe um modelo para receber alertas de preço e disponibilidade.",
-    "WATCHING_COUNT": "{count} acompanhados",
     "WATCH_FREE_MODELS": "Novos modelos gratuitos",
     "WATCH": "Acompanhar",
     "UNWATCH": "Parar de acompanhar",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "Incluindo {sample}",
       "BULK_BODY_EMPTY": "Abra o catálogo para ver a lista completa"
     },
-    "WATCHED_MODELS": "Modelos acompanhados",
-    "PUSH_ON": "Notificações do navegador ativadas",
-    "PUSH_ENABLE": "Ativar notificações do navegador",
     "PUSH_BLOCKED": "Notificações bloqueadas nas configurações do navegador",
     "ADD_MODEL_PLACEHOLDER": "Adicionar um modelo para acompanhar...",
     "TAB_INBOX": "Caixa",

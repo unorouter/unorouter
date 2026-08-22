@@ -26,7 +26,6 @@
     "LOG_IN": "Log In",
     "CHAT": "Chat",
     "STATUS": "Status",
-    "COMPARE": "Compare",
     "LANGUAGE": "Language",
     "MODEL_TESTER": "Inspector",
     "DISCORD": "Discord"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "Fully OpenAI compatible"
     },
     "PRICING": {
-      "LABEL": "Pricing",
-      "TITLE": "Simple Pricing.",
-      "SUBTITLE": "Pay only for what you use.",
-      "DESCRIPTION": "Subscribe for better value or pay as you go. All plans include access to every model with automatic failover across providers.",
-      "PROVIDERS": {
-        "TITLE": "Supported Providers"
-      },
-      "FLOW": {
-        "TITLE": "Request Flow"
-      }
+      "LABEL": "Pricing"
     },
     "CHAT": {
       "BADGE": "Built-in Chat",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "Open Chat",
       "CTA_CONNECT": "Connect Your Client",
       "MOCK": {
-        "CHARACTER": "Captain Elara Voss",
         "MODEL": "Free",
         "MSG_AI": "Reporting in, recruit. Stow your gear, we jump in ten.",
-        "MSG_USER": "Aye, Captain. Locked and ready.",
-        "TYPING": "typing",
         "INPUT": "Type a message...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "New Chat",
         "CONV1": "Captain Elara Voss",
         "CONV2": "Lyra the Alchemist",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "Plotting now. Three jumps out, fuel to spare. Strap in."
       }
     },
-    "FEATURES": {
-      "TITLE": "Why {appName}",
-      "DESCRIPTION": "One endpoint, every AI model. Intelligent routing picks the fastest provider while automatic failover ensures your requests always succeed.",
-      "FAILOVER": {
-        "TITLE": "Automatic Failover"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "Multi-Protocol Support"
-      },
-      "LOADBALANCE": {
-        "TITLE": "Smart Load Balancing"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "Zero-Downtime Architecture",
-      "TITLE_1": "Always-On",
-      "TITLE_2": "Reliable AI",
-      "DESCRIPTION": "Your requests are routed through multiple providers simultaneously. If one goes down, another picks up instantly. No single point of failure.",
-      "CARD1": {
-        "TITLE": "Multi-Provider",
-        "DESC": "Multiple providers with automatic failover. Your requests always find a working path, even during provider outages."
-      },
-      "CARD2": {
-        "TITLE": "Smart Routing",
-        "DESC": "Latency-based channel selection with priority weights. The fastest provider wins, every time."
-      },
-      "LEARN_MORE": "Learn More",
-      "LEARN_MORE_DOCS": "View Documentation",
-      "ARCH": {
-        "TITLE": "Architecture",
-        "ACTIVE": "Active",
-        "STEP1": {
-          "TITLE": "Unified Endpoint",
-          "DESC": "Single API for OpenAI, Anthropic, Gemini formats"
-        },
-        "STEP2": {
-          "TITLE": "Smart Routing",
-          "DESC": "Selects fastest provider based on latency and availability"
-        },
-        "STEP3": {
-          "TITLE": "Automatic Failover",
-          "DESC": "Failed requests retry on alternate channels instantly"
-        },
-        "STEP4": {
-          "TITLE": "Multiple Routes",
-          "DESC": "Most models run across several providers, so no single one can take them down"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "Supported Formats",
-        "DESC": "All formats auto-detected and routed to the right provider."
-      }
-    },
     "CODE": {
       "TITLE_1": "Integrate in seconds.",
       "TITLE_2": "Scale to infinity.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "Multi-protocol support",
       "FEATURE_4": "No code? Chat on the site",
       "READ_DOCS": "Read Full API Docs",
-      "NO_CODE_LABEL": "Not a coder?",
-      "NO_CODE_OPTION": "Skip the code. Chat with characters right here on the site, or paste the URL into SillyTavern, RisuAI, or any OpenAI-compatible AI chat client.",
-      "NO_CODE_CHAT_LINK": "Open the chat",
-      "NO_CODE_LINK": "See the integration guides"
+      "NO_CODE_CHAT_LINK": "Open the chat"
     },
     "CTA": {
       "TITLE_1": "Ready to",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - One Key for Every AI Model",
       "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in your favorite AI clients. Smart routing across every major provider.",
       "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing, multi-model API, AI chat client"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "Today",
       "WEEK": "Week",
       "MONTH": "Month",
-      "YEAR": "Year",
-      "ALL": "All-time"
+      "YEAR": "Year"
     },
     "MODELS": {
       "TITLE": "Top Models",
-      "SUBTITLE": "Models ranked by token volume in the selected period",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Hourly token usage by model across the last 24 hours",
         "WEEK": "Weekly token usage by model across the past few weeks",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "Market Share",
-      "SUBTITLE": "Token share by model author",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Token share by model author across the last 24 hours",
         "WEEK": "Token share by model author across the past few weeks",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "Pricing",
     "INPUT_PRICE": "Input price",
     "OUTPUT_PRICE": "Output price",
-    "PRICE_PER_MILLION": "{price} · 1M tokens",
     "FIXED_PRICE": "Price per request",
-    "PRICE_PER_REQUEST": "{price} · request",
-    "PRICE_PER_SECOND": "{price} · second",
-    "PRICE_PER_IMAGE": "{price} · image",
     "GRID_PRICING_TITLE": "Price grid",
     "GRID_PRICE_HEADER": "Price",
-    "AVAILABLE_BADGE": "Available now",
-    "OFFLINE_BADGE": "Offline",
-    "STAT_INPUT": "Input",
-    "STAT_OUTPUT": "Output",
-    "STAT_FIXED": "Per request",
-    "STAT_CONTEXT": "Context",
-    "STAT_ENDPOINTS": "Endpoints",
-    "STAT_TYPE": "Type",
-    "STAT_FREE": "Free",
     "CONTEXT_WINDOW": "Context window",
     "CONTEXT_TOKENS": "{count} tokens",
     "ENDPOINTS": "Compatible endpoints",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "API credit / month",
       "VALUE_EXPLAIN": "Pay {paid}/mo, get {credit} in API credit. Use it on any model.",
       "DELIVERED": "Delivered {amount} each {period}."
-    },
-    "BANNER": {
-      "TITLE": "OpenClaw AI Assistant on Telegram",
-      "SUBTITLE": "One click AI deployment for your Telegram bot, powered by OpenClaw and {appName}."
     },
     "META": {
       "TITLE": "Pricing - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. All rights reserved.",
     "LEGAL_TERMS": "Terms of Service",
     "LEGAL_PRIVACY": "Privacy Policy",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Play Token Breakout",
     "BADGE_FEATURED_ON": "Featured on {name}",
     "BADGE_VERIFIED_ON": "Verified on {name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "Something went wrong",
       "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",
       "ERROR_DETAILS": "Error Details",
-      "DIGEST": "Digest",
       "SECTION_LOAD_FAILED": "This section failed to load.",
       "COPY_ERROR": "Copy error",
       "RESET_APP_DATA": "Reset app data & reload",
@@ -3123,15 +3030,10 @@
       "EVENING": "Good evening"
     },
     "STATS": {
-      "ACCOUNT_DATA": "Account Data",
-      "CURRENT_BALANCE": "Current Balance",
-      "USAGE_STATISTICS": "Usage Statistics",
       "REQUEST_COUNT": "Number of Requests",
       "STATISTICAL_COUNT": "Statistical Count",
-      "RESOURCE_CONSUMPTION": "Resource Consumption",
       "STATISTICAL_QUOTA": "Statistical Quota",
       "STATISTICAL_TOKENS": "Statistical Tokens",
-      "PERFORMANCE_INDICATORS": "Performance Indicators",
       "AVERAGE_RPM": "Average RPM",
       "AVERAGE_TPM": "Average TPM",
       "STATISTICAL_COUNT_CAPTION": "Statistical count",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API Information",
       "NO_API_INFO": "No API information",
-      "BALANCE": "Balance",
       "BURN_RATE": "Burn Rate",
       "RUNWAY": "Runway",
       "PER_DAY": "{amount}/day",
       "DAYS_LEFT": "{days} days",
       "PERFORMANCE": "Performance",
-      "P50_LATENCY": "p50 Latency",
-      "P95_LATENCY": "p95 Latency",
-      "STREAM_SHARE": "Streamed",
-      "SLOWEST_MODELS": "Slowest Models",
-      "SAMPLE_SIZE": "Based on {count} recent requests",
       "API_KEYS": "API Key Spend",
       "UNNAMED_KEY": "Unnamed key",
       "LAST_USED": "Last used {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "Healthy",
       "LOW": "Low",
       "TOP_UP": "Top up",
-      "PERFORMANCE_DESC": "Performance metrics for the last 24 hours",
       "SUCCESS_RATE": "Success rate",
       "AVG_LATENCY": "Average latency",
       "THROUGHPUT": "Throughput",
-      "TOP_MODELS": "Top models by traffic",
       "API_KEYS_DESC": "Spend and last use per key"
     },
-    "CONSUMPTION": "Consumption",
     "TOTAL": "Total",
     "OTHER": "Other",
     "NO_DATA": "No data available",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "My Subscriptions",
       "NO_ACTIVE": "No active",
       "ACTIVE": "Active",
       "EXPIRED": "Expired",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "Renews on {date}"
     },
     "PREFERENCE": {
-      "TITLE": "Billing Preference",
       "WALLET_FIRST": "Wallet first",
       "WALLET_ONLY": "Wallet only",
       "SUBSCRIPTION_FIRST": "Subscription first",
       "SUBSCRIPTION_ONLY": "Subscription only"
     },
     "TOPUP": {
-      "TITLE": "Quota Top Up",
       "ACTUAL_PAYMENT": "Actual payment",
       "SAVE": "Save",
       "CUSTOM_AMOUNT": "Custom amount",
@@ -3669,7 +3559,6 @@
       "ERROR": "Could not open the billing portal. Please try again."
     },
     "TITLE": "Billing",
-    "ACCOUNT_STATS": "Account Statistics",
     "CURRENT_BALANCE": "Current Balance",
     "CONSUMPTION": "Consumption",
     "REQUESTS": "Requests",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "This message no longer exists. Refresh and try again.",
     "NO_TASK_ID": "No task ID or URL in response",
     "REQUEST_FAILED": "Request failed",
-    "PRICING_FETCH_FAILED": "Failed to fetch pricing data",
     "NO_TEXT_MODELS": "No text models available",
     "NO_IMAGE_PROMPT": "No prompt provided for image generation",
     "VIDEO_IMAGE_REQUIRED": "This model turns an image into a video. Attach an image to your message first.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Response exceeds the maximum allowed size",
     "DISALLOWED_CONTENT_TYPE": "Content type not allowed",
     "UPSTREAM_FETCH_FAILED": "Failed to fetch from upstream",
-    "STORAGE_QUOTA_EXCEEDED": "Storage limit reached. Delete old conversations to free up space.",
-    "PROMPT_REJECTED": "This prompt violates the content policy and can't be used for image or video generation.",
-    "PROMPT_FLAGGED": "This prompt was flagged as potentially unsafe for generation. Please rephrase and try again.",
-    "MODERATION_UNAVAILABLE": "Image and video generation are temporarily unavailable. Please try again shortly.",
     "IMPORT_INVALID_JSON": "The file isn't valid JSON.",
     "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
     "CARD_PARSE_FAILED": "Could not parse character card.",
     "CARD_MISSING_NAME": "Character card is missing the required name field.",
     "CARD_IMPORT_INVALID_URL": "That doesn't look like a valid character link.",
-    "CARD_IMPORT_NOT_FOUND": "This character could not be found. It may be private or deleted.",
     "CARD_IMPORT_FETCH_FAILED": "Could not download this character. Please try again.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "The author kept these lorebooks private, so they cannot be downloaded",
     "UNEXPECTED_ERROR": "An unexpected error occurred",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "Key never leaves your browser",
     "TESTER_RANKINGS": "Public rankings",
     "TESTER_VERIFIED": "Server-verified results",
-    "PLAYGROUND_TAGLINE": "Image and video generation studio in your browser",
-    "PLAYGROUND_IMAGE_VIDEO": "Image & video models",
-    "PLAYGROUND_COMFY": "ComfyUI workflows",
-    "PLAYGROUND_LORAS": "LoRAs & embeddings",
-    "PLAYGROUND_UPSCALE": "Upscalers & hires fix",
-    "PLAYGROUND_REFS": "Reference images & masks",
-    "PLAYGROUND_FREE": "Free models included",
     "CONTEXT": "Context"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Operational",
       "DOWN": "Down"
     },
-    "RIBBON": {
-      "TITLE": "Last 24 hours"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Search models...",
       "STATUS_ALL": "All",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "AI API Model Tester",
       "SUBTITLE": "Check whether an endpoint serves the real model it claims. Runs in your browser, your key is not sent to our servers.",
-      "EYEBROW": "Verify before you trust",
-      "TRUST_BADGE": "100% browser-side. Your key is never sent to our servers."
+      "EYEBROW": "Verify before you trust"
     },
     "TABS": {
       "TEST": "Test",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} probes passed",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
-      "IDLE": "Run a test to see the result here.",
       "DETECTED_MODEL": "Detected model",
       "TOTAL_TOKENS": "{tokens} tokens",
       "FORMAT_FELL_BACK": "Native format not supported, tested via {format} instead.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "No tests yet. Run one to build your history.",
-      "PUBLISH": "Publish",
       "DELETE_TITLE": "Delete test",
       "DELETE_BODY": "This removes the test from your local history.",
       "DELETE_CONFIRM": "Delete",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "Every published result is re-run on our server before it counts, and each verdict links the exact evidence that produced it. A result you believe is wrong can be disputed.",
       "REPORT_DISCORD": "Report on Discord",
       "REPORT_GITHUB": "Open a GitHub issue",
-      "NOT_TESTED": "Not yet tested",
       "LOW_CONFIDENCE": "Low confidence ({count} tests)",
       "SELF_TITLE": "We hold ourselves to the same bar",
       "SELF_BODY": "{appName} is tested by this same tool. View the evidence.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "No submissions yet. Be the first to publish a verified test.",
       "SUBMITTED_BY": "Submitted by {who}",
       "ANONYMOUS": "anonymous",
-      "DELETE_MINE": "Delete",
       "REPORT": "Report",
       "REPORT_HELP": "Not your result? Dispute it:",
       "DELETE_TITLE": "Remove this published result?",
       "DELETE_BODY": "This pulls your submission from the public rankings. Your local history is unaffected.",
       "DELETE_CONFIRM": "Remove",
       "DELETE_CANCEL": "Cancel",
-      "GUEST_CANNOT_DELETE": "Guest submissions cannot be deleted here. Report them via Discord or GitHub.",
       "BACK_TO_PROVIDER": "Back to provider",
-      "BACK_TO_MODEL": "Back to model",
-      "PUBLISHED_NOTE": "Server-verified. The probes and replies are public so anyone can audit this verdict.",
       "LOADING": "Loading...",
-      "EXPAND_ALL": "Expand all",
-      "COLLAPSE_ALL": "Collapse all",
       "PREV": "Prev",
       "NEXT": "Next",
       "PAGE_OF": "Page {page} of {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "Model response",
       "STATUS": "HTTP",
       "TOKENS": "Tokens (in/out)",
-      "SIGNAL": "Signal",
       "REASON": "Reason",
       "NO_RESPONSE": "No response captured.",
       "WHAT_WE_CHECK": "What this probe checks"
     },
     "NAV": {
-      "TEST_DESC": "Test an endpoint live",
       "HISTORY_DESC": "Your past tests",
       "RANKINGS_DESC": "Public leaderboard"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "Notifications",
     "EMPTY": "No notifications this session",
     "EMPTY_HINT": "Watch a model to get alerts about price changes and availability.",
-    "WATCHING_COUNT": "{count} watched",
     "WATCH_FREE_MODELS": "New free models",
     "WATCH": "Watch",
     "UNWATCH": "Stop watching",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "Including {sample}",
       "BULK_BODY_EMPTY": "Open the catalog to see the full list"
     },
-    "WATCHED_MODELS": "Watched models",
-    "PUSH_ON": "Browser notifications on",
-    "PUSH_ENABLE": "Enable browser notifications",
     "PUSH_BLOCKED": "Notifications blocked in browser settings",
     "ADD_MODEL_PLACEHOLDER": "Add a model to watch...",
     "TAB_INBOX": "Inbox",

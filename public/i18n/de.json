@@ -26,7 +26,6 @@
     "LOG_IN": "Anmelden",
     "CHAT": "Chat",
     "STATUS": "Status",
-    "COMPARE": "Vergleich",
     "LANGUAGE": "Sprache",
     "MODEL_TESTER": "Inspektor",
     "DISCORD": "Discord"
@@ -108,16 +107,7 @@
       "PICK_DESC": "{appName} funktioniert als benutzerdefinierte OpenAI-kompatible API in Coding-Agenten, Charakter-Chat-Clients, KI-Chat-Clients und CLI-Tools."
     },
     "PRICING": {
-      "LABEL": "Preise",
-      "TITLE": "Einfache Preise.",
-      "SUBTITLE": "Zahle nur, was du nutzt.",
-      "DESCRIPTION": "Abonniere für besseren Wert oder zahle nach Verbrauch. Alle Pläne beinhalten Zugang zu jedem Modell mit automatischem Failover.",
-      "PROVIDERS": {
-        "TITLE": "Unterstützte Anbieter"
-      },
-      "FLOW": {
-        "TITLE": "Anfrage-Ablauf"
-      }
+      "LABEL": "Preise"
     },
     "CHAT": {
       "BADGE": "Integrierter Chat",
@@ -143,13 +133,9 @@
       "CTA_OPEN": "Chat öffnen",
       "CTA_CONNECT": "Client verbinden",
       "MOCK": {
-        "CHARACTER": "Captain Elara Voss",
         "MODEL": "Gratis",
         "MSG_AI": "Melde mich, Rekrut. Verstau deine Ausrüstung, wir springen in zehn.",
-        "MSG_USER": "Aye, Captain. Bereit.",
-        "TYPING": "schreibt",
         "INPUT": "Nachricht schreiben...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "Neuer Chat",
         "CONV1": "Captain Elara Voss",
         "CONV2": "Lyra die Alchemistin",
@@ -192,59 +178,6 @@
         "NEW_DEMO_AI": "Plotte gerade. Drei Sprünge entfernt, Treibstoff im Überfluss. Anschnallen."
       }
     },
-    "FEATURES": {
-      "TITLE": "Warum {appName}",
-      "DESCRIPTION": "Ein Endpunkt, jedes KI-Modell. Intelligentes Routing wählt den schnellsten Anbieter, während automatisches Failover sicherstellt, dass deine Anfragen immer ankommen.",
-      "FAILOVER": {
-        "TITLE": "Automatisches Failover"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "Multi-Protokoll-Support"
-      },
-      "LOADBALANCE": {
-        "TITLE": "Intelligentes Load Balancing"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "Zero-Downtime Architektur",
-      "TITLE_1": "Immer-An",
-      "TITLE_2": "Zuverlässige KI",
-      "DESCRIPTION": "Deine Anfragen werden über mehrere Anbieter gleichzeitig geroutet. Wenn einer ausfällt, übernimmt sofort ein anderer. Kein Single Point of Failure.",
-      "CARD1": {
-        "TITLE": "Multi-Provider",
-        "DESC": "Zahlreiche Anbieter mit automatischem Failover. Deine Anfragen finden immer einen funktionierenden Pfad, auch bei Anbieterausfällen."
-      },
-      "CARD2": {
-        "TITLE": "Smart Routing",
-        "DESC": "Latenz-basierte Kanalauswahl mit Prioritätsgewichtung. Der schnellste Anbieter gewinnt, jedes Mal."
-      },
-      "LEARN_MORE": "Mehr erfahren",
-      "LEARN_MORE_DOCS": "Dokumentation ansehen",
-      "ARCH": {
-        "TITLE": "Architektur",
-        "ACTIVE": "Aktiv",
-        "STEP1": {
-          "TITLE": "Einheitlicher Endpunkt",
-          "DESC": "Eine API für OpenAI-, Anthropic-, Gemini-Formate"
-        },
-        "STEP2": {
-          "TITLE": "Smart Routing",
-          "DESC": "Wählt schnellsten Anbieter basierend auf Latenz und Verfügbarkeit"
-        },
-        "STEP3": {
-          "TITLE": "Automatisches Failover",
-          "DESC": "Fehlgeschlagene Anfragen werden sofort auf alternative Kanäle umgeleitet"
-        },
-        "STEP4": {
-          "TITLE": "Mehrere Wege",
-          "DESC": "Die meisten Modelle laufen über mehrere Anbieter, kein einzelner Ausfallpunkt"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "Unterstützte Formate",
-        "DESC": "Alle Formate werden automatisch erkannt und zum richtigen Anbieter geleitet."
-      }
-    },
     "CODE": {
       "TITLE_1": "Integration in Sekunden.",
       "TITLE_2": "Skalierung ins Unendliche.",
@@ -254,10 +187,7 @@
       "FEATURE_3": "Multi-Protokoll-Support",
       "FEATURE_4": "Kein Code? Chatte auf der Seite",
       "READ_DOCS": "Vollständige API-Docs lesen",
-      "NO_CODE_LABEL": "Kein Coder?",
-      "NO_CODE_OPTION": "Lass den Code weg. Chatte direkt hier auf der Seite mit Charakteren oder füge die URL in SillyTavern, RisuAI oder einen beliebigen OpenAI-kompatiblen KI-Chat-Client ein.",
-      "NO_CODE_CHAT_LINK": "Chat öffnen",
-      "NO_CODE_LINK": "Integrationsanleitungen ansehen"
+      "NO_CODE_CHAT_LINK": "Chat öffnen"
     },
     "CTA": {
       "TITLE_1": "Bereit zum",
@@ -273,7 +203,6 @@
       "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in deinen bevorzugten KI-Clients. Smartes Routing über alle großen Anbieter.",
       "KEYWORDS": "KI-API-Gateway, einheitlicher KI-Endpunkt, OpenAI-kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, smartes Routing, Multi-Modell-API, KI-Chat-Client"
     },
-    "TITLE": "{appName}",
     "HOW_IT_WORKS": {
       "LABEL": "Loslegen",
       "TITLE": "Drei Schritte.",
@@ -576,12 +505,10 @@
       "TODAY": "Heute",
       "WEEK": "Woche",
       "MONTH": "Monat",
-      "YEAR": "Jahr",
-      "ALL": "Gesamt"
+      "YEAR": "Jahr"
     },
     "MODELS": {
       "TITLE": "Top-Modelle",
-      "SUBTITLE": "Modelle nach Token-Volumen im gewählten Zeitraum",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Stündliche Token-Nutzung pro Modell in den letzten 24 Stunden",
         "WEEK": "Wöchentliche Token-Nutzung pro Modell in den letzten Wochen",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "Marktanteil",
-      "SUBTITLE": "Token-Anteil nach Modellanbieter",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Token-Anteil pro Modellanbieter in den letzten 24 Stunden",
         "WEEK": "Token-Anteil pro Modellanbieter in den letzten Wochen",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "Preise",
     "INPUT_PRICE": "Input-Preis",
     "OUTPUT_PRICE": "Output-Preis",
-    "PRICE_PER_MILLION": "{price} · 1M Tokens",
     "FIXED_PRICE": "Preis pro Anfrage",
-    "PRICE_PER_REQUEST": "{price} · Anfrage",
-    "PRICE_PER_SECOND": "{price} · Sekunde",
-    "PRICE_PER_IMAGE": "{price} · Bild",
     "GRID_PRICING_TITLE": "Preisraster",
     "GRID_PRICE_HEADER": "Preis",
-    "AVAILABLE_BADGE": "Jetzt verfügbar",
-    "OFFLINE_BADGE": "Offline",
-    "STAT_INPUT": "Input",
-    "STAT_OUTPUT": "Output",
-    "STAT_FIXED": "Pro Anfrage",
-    "STAT_CONTEXT": "Kontext",
-    "STAT_ENDPOINTS": "Endpunkte",
-    "STAT_TYPE": "Typ",
-    "STAT_FREE": "Gratis",
     "CONTEXT_WINDOW": "Kontextfenster",
     "CONTEXT_TOKENS": "{count} Tokens",
     "ENDPOINTS": "Kompatible Endpunkte",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "API-Guthaben / Monat",
       "VALUE_EXPLAIN": "Zahle {paid}/Mon., erhalte {credit} an API-Guthaben. Auf jedem Modell nutzbar.",
       "DELIVERED": "Stellt {amount} pro {period} bereit."
-    },
-    "BANNER": {
-      "TITLE": "OpenClaw KI-Assistent auf Telegram",
-      "SUBTITLE": "Ein Klick KI-Bereitstellung für deinen Telegram-Bot, betrieben von OpenClaw und {appName}."
     },
     "META": {
       "TITLE": "Preise - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. Alle Rechte vorbehalten.",
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_PRIVACY": "Datenschutzrichtlinie",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout spielen",
     "BADGE_FEATURED_ON": "Vorgestellt auf {name}",
     "BADGE_VERIFIED_ON": "Verifiziert auf {name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",
       "UNEXPECTED_ERROR_OCCURRED": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kehre zur Startseite zurück.",
       "ERROR_DETAILS": "Fehlerdetails",
-      "DIGEST": "Digest",
       "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden.",
       "COPY_ERROR": "Fehler kopieren",
       "RESET_APP_DATA": "App-Daten zurücksetzen und neu laden",
@@ -3123,15 +3030,10 @@
       "EVENING": "Guten Abend"
     },
     "STATS": {
-      "ACCOUNT_DATA": "Kontodaten",
-      "CURRENT_BALANCE": "Aktuelles Guthaben",
-      "USAGE_STATISTICS": "Nutzungsstatistiken",
       "REQUEST_COUNT": "Anzahl der Anfragen",
       "STATISTICAL_COUNT": "Statistische Anzahl",
-      "RESOURCE_CONSUMPTION": "Ressourcenverbrauch",
       "STATISTICAL_QUOTA": "Statistisches Kontingent",
       "STATISTICAL_TOKENS": "Statistische Tokens",
-      "PERFORMANCE_INDICATORS": "Leistungsindikatoren",
       "AVERAGE_RPM": "Durchschn. RPM",
       "AVERAGE_TPM": "Durchschn. TPM",
       "STATISTICAL_COUNT_CAPTION": "Statistische Anzahl",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API-Informationen",
       "NO_API_INFO": "Keine API-Informationen",
-      "BALANCE": "Guthaben",
       "BURN_RATE": "Verbrauchsrate",
       "RUNWAY": "Reichweite",
       "PER_DAY": "{amount}/Tag",
       "DAYS_LEFT": "{days} Tage",
       "PERFORMANCE": "Leistung",
-      "P50_LATENCY": "p50-Latenz",
-      "P95_LATENCY": "p95-Latenz",
-      "STREAM_SHARE": "Gestreamt",
-      "SLOWEST_MODELS": "Langsamste Modelle",
-      "SAMPLE_SIZE": "Basierend auf {count} letzten Anfragen",
       "API_KEYS": "Ausgaben nach API-Schlüssel",
       "UNNAMED_KEY": "Unbenannter Schlüssel",
       "LAST_USED": "Zuletzt verwendet {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "Gesund",
       "LOW": "Niedrig",
       "TOP_UP": "Aufladen",
-      "PERFORMANCE_DESC": "Leistungskennzahlen der letzten 24 Stunden",
       "SUCCESS_RATE": "Erfolgsrate",
       "AVG_LATENCY": "Durchschn. Latenz",
       "THROUGHPUT": "Durchsatz",
-      "TOP_MODELS": "Top-Modelle nach Traffic",
       "API_KEYS_DESC": "Ausgaben und letzte Nutzung je Schlüssel"
     },
-    "CONSUMPTION": "Verbrauch",
     "TOTAL": "Gesamt",
     "OTHER": "Sonstige",
     "NO_DATA": "Keine Daten verfügbar",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "Meine Abonnements",
       "NO_ACTIVE": "Kein aktives",
       "ACTIVE": "Aktiv",
       "EXPIRED": "Abgelaufen",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "Verlängert sich am {date}"
     },
     "PREFERENCE": {
-      "TITLE": "Abrechnungspräferenz",
       "WALLET_FIRST": "Wallet zuerst",
       "WALLET_ONLY": "Nur Wallet",
       "SUBSCRIPTION_FIRST": "Abonnement zuerst",
       "SUBSCRIPTION_ONLY": "Nur Abonnement"
     },
     "TOPUP": {
-      "TITLE": "Kontingent aufladen",
       "ACTUAL_PAYMENT": "Tatsächliche Zahlung",
       "SAVE": "Sparen",
       "CUSTOM_AMOUNT": "Eigener Betrag",
@@ -3671,7 +3561,6 @@
     "TITLE": "Abrechnung",
     "SUPPORT_TITLE": "Brauchen Sie Hilfe?",
     "SUPPORT_TEXT": "Fragen zur Abrechnung oder zu Ihrem Konto? Schreiben Sie uns an {supportEmail} und wir antworten innerhalb eines Werktags.",
-    "ACCOUNT_STATS": "Kontostatistiken",
     "CURRENT_BALANCE": "Aktuelles Guthaben",
     "CONSUMPTION": "Verbrauch",
     "REQUESTS": "Anfragen",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "Diese Nachricht existiert nicht mehr. Aktualisiere die Seite und versuche es erneut.",
     "NO_TASK_ID": "Keine Aufgaben-ID oder URL in der Antwort",
     "REQUEST_FAILED": "Anfrage fehlgeschlagen",
-    "PRICING_FETCH_FAILED": "Preisdaten konnten nicht abgerufen werden",
     "NO_TEXT_MODELS": "Keine Textmodelle verfügbar",
     "NO_IMAGE_PROMPT": "Kein Prompt für die Bildgenerierung angegeben",
     "VIDEO_IMAGE_REQUIRED": "Dieses Modell macht aus einem Bild ein Video. Hänge zuerst ein Bild an deine Nachricht an.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Antwort überschreitet die maximal zulässige Größe",
     "DISALLOWED_CONTENT_TYPE": "Inhaltstyp nicht erlaubt",
     "UPSTREAM_FETCH_FAILED": "Abruf vom Upstream fehlgeschlagen",
-    "STORAGE_QUOTA_EXCEEDED": "Speichergrenze erreicht. Lösche alte Unterhaltungen, um Platz zu schaffen.",
-    "PROMPT_REJECTED": "Dieser Prompt verstößt gegen die Inhaltsrichtlinien und kann nicht für die Bild- oder Videogenerierung verwendet werden.",
-    "PROMPT_FLAGGED": "Dieser Prompt wurde als potenziell unsicher für die Generierung markiert. Bitte formuliere ihn um und versuche es erneut.",
-    "MODERATION_UNAVAILABLE": "Bild- und Videogenerierung sind vorübergehend nicht verfügbar. Bitte versuche es in Kürze erneut.",
     "IMPORT_INVALID_JSON": "Die Datei ist kein gültiges JSON.",
     "IMPORT_UNSUPPORTED_VERSION": "Nicht unterstützte Export-Version.",
     "CARD_PARSE_FAILED": "Charakterkarte konnte nicht gelesen werden.",
     "CARD_MISSING_NAME": "Der Charakterkarte fehlt das erforderliche Namensfeld.",
     "CARD_IMPORT_INVALID_URL": "Das sieht nicht nach einem gültigen Charakterlink aus.",
-    "CARD_IMPORT_NOT_FOUND": "Dieser Charakter wurde nicht gefunden. Er ist möglicherweise privat oder gelöscht.",
     "CARD_IMPORT_FETCH_FAILED": "Dieser Charakter konnte nicht heruntergeladen werden. Bitte versuche es erneut.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Der Autor hat diese Lorebooks privat gehalten, sie lassen sich daher nicht herunterladen",
     "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "Schlüssel verlässt nie deinen Browser",
     "TESTER_RANKINGS": "Öffentliche Rangliste",
     "TESTER_VERIFIED": "Servergeprüfte Ergebnisse",
-    "PLAYGROUND_TAGLINE": "Studio für Bild- und Videogenerierung in deinem Browser",
-    "PLAYGROUND_IMAGE_VIDEO": "Bild- & Videomodelle",
-    "PLAYGROUND_COMFY": "ComfyUI-Workflows",
-    "PLAYGROUND_LORAS": "LoRAs & Embeddings",
-    "PLAYGROUND_UPSCALE": "Upscaler & Hires-Fix",
-    "PLAYGROUND_REFS": "Referenzbilder & Masken",
-    "PLAYGROUND_FREE": "Kostenlose Modelle inklusive",
     "CONTEXT": "Kontext"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Betriebsbereit",
       "DOWN": "Ausgefallen"
     },
-    "RIBBON": {
-      "TITLE": "Letzte 24 Stunden"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Modelle suchen...",
       "STATUS_ALL": "Alle",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "KI-API-Modell-Tester",
       "SUBTITLE": "Pruefe, ob ein Endpunkt wirklich das angegebene Modell liefert. Laeuft im Browser, dein Schluessel wird nicht an unsere Server gesendet.",
-      "EYEBROW": "Pruefen, bevor du vertraust",
-      "TRUST_BADGE": "100% im Browser. Dein Schluessel wird nie an unsere Server gesendet."
+      "EYEBROW": "Pruefen, bevor du vertraust"
     },
     "TABS": {
       "TEST": "Test",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total} Pruefungen bestanden",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "ueber {mode}",
-      "IDLE": "Starte einen Test, um das Ergebnis hier zu sehen.",
       "DETECTED_MODEL": "Erkanntes Modell",
       "TOTAL_TOKENS": "{tokens} Tokens",
       "FORMAT_FELL_BACK": "Natives Format nicht unterstuetzt; stattdessen ueber {format} getestet.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "Noch keine Tests. Starte einen, um deinen Verlauf aufzubauen.",
-      "PUBLISH": "Veroeffentlichen",
       "DELETE_TITLE": "Test loeschen",
       "DELETE_BODY": "Entfernt den Test aus deinem lokalen Verlauf.",
       "DELETE_CONFIRM": "Loeschen",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "Jedes veröffentlichte Ergebnis wird vor der Wertung auf unserem Server erneut ausgeführt, und jedes Urteil verweist auf genau die Belege, die es hervorgebracht haben. Ein Ergebnis, das Sie für falsch halten, kann angefochten werden.",
       "REPORT_DISCORD": "Auf Discord melden",
       "REPORT_GITHUB": "Ein GitHub-Issue eröffnen",
-      "NOT_TESTED": "Noch nicht getestet",
       "LOW_CONFIDENCE": "Geringe Zuverlässigkeit ({count} Tests)",
       "SELF_TITLE": "Wir halten uns an denselben Maßstab",
       "SELF_BODY": "{appName} wird mit genau diesem Werkzeug getestet. Sehen Sie sich die Belege an.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "Noch keine Einreichungen. Veröffentliche als Erste:r einen verifizierten Test.",
       "SUBMITTED_BY": "Eingereicht von {who}",
       "ANONYMOUS": "anonym",
-      "DELETE_MINE": "Löschen",
       "REPORT": "Melden",
       "REPORT_HELP": "Nicht Ihr Ergebnis? Fechten Sie es an:",
       "DELETE_TITLE": "Dieses veröffentlichte Ergebnis entfernen?",
       "DELETE_BODY": "Dies zieht Ihre Einreichung aus den öffentlichen Ranglisten zurück. Ihr lokaler Verlauf bleibt unberührt.",
       "DELETE_CONFIRM": "Entfernen",
       "DELETE_CANCEL": "Abbrechen",
-      "GUEST_CANNOT_DELETE": "Gast-Einreichungen können hier nicht gelöscht werden. Melden Sie sie über Discord oder GitHub.",
       "BACK_TO_PROVIDER": "Zurück zum Anbieter",
-      "BACK_TO_MODEL": "Zurück zum Modell",
-      "PUBLISHED_NOTE": "Serverseitig verifiziert. Die Tests und Antworten sind öffentlich, damit jeder dieses Urteil prüfen kann.",
       "LOADING": "Wird geladen ...",
-      "EXPAND_ALL": "Alle ausklappen",
-      "COLLAPSE_ALL": "Alle einklappen",
       "PREV": "Zurück",
       "NEXT": "Weiter",
       "PAGE_OF": "Seite {page} von {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "Modellantwort",
       "STATUS": "HTTP",
       "TOKENS": "Tokens (ein/aus)",
-      "SIGNAL": "Signal",
       "REASON": "Grund",
       "NO_RESPONSE": "Keine Antwort erfasst.",
       "WHAT_WE_CHECK": "Was diese Prüfung testet"
     },
     "NAV": {
-      "TEST_DESC": "Endpunkt live testen",
       "HISTORY_DESC": "Deine bisherigen Tests",
       "RANKINGS_DESC": "Oeffentliche Bestenliste"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "Benachrichtigungen",
     "EMPTY": "Keine Benachrichtigungen in dieser Sitzung",
     "EMPTY_HINT": "Beobachte ein Modell, um Hinweise zu Preisänderungen und Verfügbarkeit zu erhalten.",
-    "WATCHING_COUNT": "{count} beobachtet",
     "WATCH_FREE_MODELS": "Neue kostenlose Modelle",
     "WATCH": "Beobachten",
     "UNWATCH": "Nicht mehr beobachten",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "Darunter {sample}",
       "BULK_BODY_EMPTY": "Öffne den Katalog für die vollständige Liste"
     },
-    "WATCHED_MODELS": "Beobachtete Modelle",
-    "PUSH_ON": "Browser-Benachrichtigungen aktiv",
-    "PUSH_ENABLE": "Browser-Benachrichtigungen aktivieren",
     "PUSH_BLOCKED": "Benachrichtigungen in den Browser-Einstellungen blockiert",
     "ADD_MODEL_PLACEHOLDER": "Modell zum Beobachten hinzufügen...",
     "TAB_INBOX": "Eingang",

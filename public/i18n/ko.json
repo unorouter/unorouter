@@ -26,7 +26,6 @@
     "LOG_IN": "로그인",
     "CHAT": "채팅",
     "STATUS": "상태",
-    "COMPARE": "비교",
     "LANGUAGE": "언어",
     "MODEL_TESTER": "인스펙터",
     "DISCORD": "Discord"
@@ -130,16 +129,7 @@
       "API_KEY_COMPATIBLE": "완전한 OpenAI 호환"
     },
     "PRICING": {
-      "LABEL": "요금",
-      "TITLE": "간단한 요금제.",
-      "SUBTITLE": "사용한 만큼만 결제하세요.",
-      "DESCRIPTION": "더 좋은 가치를 원하면 구독하고, 그렇지 않으면 종량제로 결제하세요. 모든 플랜에 모든 모델 접근과 공급자 간 자동 페일오버가 포함됩니다.",
-      "PROVIDERS": {
-        "TITLE": "지원 공급자"
-      },
-      "FLOW": {
-        "TITLE": "요청 흐름"
-      }
+      "LABEL": "요금"
     },
     "CHAT": {
       "BADGE": "내장 채팅",
@@ -165,13 +155,9 @@
       "CTA_OPEN": "채팅 열기",
       "CTA_CONNECT": "클라이언트 연결",
       "MOCK": {
-        "CHARACTER": "엘라라 보스 함장",
         "MODEL": "무료",
         "MSG_AI": "보고해라, 신병. 장비 챙기고, 10초 후 점프한다.",
-        "MSG_USER": "네, 함장님. 준비됐습니다.",
-        "TYPING": "입력 중",
         "INPUT": "메시지 입력...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "새 채팅",
         "CONV1": "엘라라 보스 함장",
         "CONV2": "연금술사 리라",
@@ -214,59 +200,6 @@
         "NEW_DEMO_AI": "지금 계산 중이야. 세 번만 점프하면 도착, 연료도 넉넉해. 단단히 잡아."
       }
     },
-    "FEATURES": {
-      "TITLE": "{appName}을 선택하는 이유",
-      "DESCRIPTION": "하나의 엔드포인트로 모든 AI 모델을. 지능형 라우팅이 가장 빠른 공급자를 골라 주고, 자동 페일오버가 요청이 항상 성공하도록 보장합니다.",
-      "FAILOVER": {
-        "TITLE": "자동 페일오버"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "멀티 프로토콜 지원"
-      },
-      "LOADBALANCE": {
-        "TITLE": "스마트 로드 밸런싱"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "무중단 아키텍처",
-      "TITLE_1": "언제나",
-      "TITLE_2": "안정적인 AI",
-      "DESCRIPTION": "요청이 여러 공급자를 통해 동시에 라우팅됩니다. 하나가 다운되면 다른 하나가 즉시 이어받습니다. 단일 장애 지점이 없습니다.",
-      "CARD1": {
-        "TITLE": "다중 공급자",
-        "DESC": "자동 페일오버가 있는 다중 공급자. 공급자 장애 중에도 요청은 항상 작동하는 경로를 찾아냅니다."
-      },
-      "CARD2": {
-        "TITLE": "스마트 라우팅",
-        "DESC": "우선순위 가중치를 적용한 지연 기반 채널 선택. 매번 가장 빠른 공급자가 이깁니다."
-      },
-      "LEARN_MORE": "더 알아보기",
-      "LEARN_MORE_DOCS": "문서 보기",
-      "ARCH": {
-        "TITLE": "아키텍처",
-        "ACTIVE": "활성",
-        "STEP1": {
-          "TITLE": "통합 엔드포인트",
-          "DESC": "OpenAI, Anthropic, Gemini 포맷을 위한 단일 API"
-        },
-        "STEP2": {
-          "TITLE": "스마트 라우팅",
-          "DESC": "지연 시간과 가용성을 기준으로 가장 빠른 공급자를 선택"
-        },
-        "STEP3": {
-          "TITLE": "자동 페일오버",
-          "DESC": "실패한 요청은 즉시 다른 채널에서 재시도됩니다"
-        },
-        "STEP4": {
-          "TITLE": "다중 경로",
-          "DESC": "대부분의 모델이 여러 공급자를 통해 실행되어 단일 장애 지점이 없습니다"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "지원 포맷",
-        "DESC": "모든 포맷이 자동 감지되어 알맞은 공급자로 라우팅됩니다."
-      }
-    },
     "CODE": {
       "TITLE_1": "몇 초 만에 통합.",
       "TITLE_2": "무한히 확장.",
@@ -276,10 +209,7 @@
       "FEATURE_3": "멀티 프로토콜 지원",
       "FEATURE_4": "코드 없이 사이트에서 채팅",
       "READ_DOCS": "전체 API 문서 읽기",
-      "NO_CODE_LABEL": "개발자가 아니신가요?",
-      "NO_CODE_OPTION": "코드는 건너뛰세요. 이 사이트에서 바로 캐릭터와 채팅하거나, URL을 SillyTavern, RisuAI 또는 OpenAI 호환 AI 채팅 클라이언트 어디에나 붙여넣으세요.",
-      "NO_CODE_CHAT_LINK": "채팅 열기",
-      "NO_CODE_LINK": "통합 가이드 보기"
+      "NO_CODE_CHAT_LINK": "채팅 열기"
     },
     "CTA": {
       "TITLE_1": "이제",
@@ -294,8 +224,7 @@
       "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",
       "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 즐겨 쓰는 AI 클라이언트에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
       "KEYWORDS": "AI API 게이트웨이, 통합 AI 엔드포인트, OpenAI 호환, Claude API, GPT API, Gemini API, 자동 페일오버, 스마트 라우팅, 멀티 모델 API, AI 채팅 클라이언트"
-    },
-    "TITLE": "{appName}"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -576,12 +505,10 @@
       "TODAY": "오늘",
       "WEEK": "이번 주",
       "MONTH": "이번 달",
-      "YEAR": "올해",
-      "ALL": "전체 기간"
+      "YEAR": "올해"
     },
     "MODELS": {
       "TITLE": "상위 모델",
-      "SUBTITLE": "선택된 기간 동안 토큰 볼륨으로 순위가 매겨진 모델",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "지난 24시간 동안 모델별 시간당 토큰 사용량",
         "WEEK": "최근 몇 주 동안 모델별 주간 토큰 사용량",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "시장 점유율",
-      "SUBTITLE": "모델 제작자별 토큰 점유율",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "지난 24시간 동안 모델 제작자별 토큰 점유율",
         "WEEK": "최근 몇 주 동안 모델 제작자별 토큰 점유율",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "요금",
     "INPUT_PRICE": "입력 가격",
     "OUTPUT_PRICE": "출력 가격",
-    "PRICE_PER_MILLION": "{price} · 100만 토큰",
     "FIXED_PRICE": "요청당 가격",
-    "PRICE_PER_REQUEST": "{price} · 요청",
-    "PRICE_PER_SECOND": "{price} · 초",
-    "PRICE_PER_IMAGE": "{price} · 이미지",
     "GRID_PRICING_TITLE": "가격 그리드",
     "GRID_PRICE_HEADER": "가격",
-    "AVAILABLE_BADGE": "지금 사용 가능",
-    "OFFLINE_BADGE": "오프라인",
-    "STAT_INPUT": "입력",
-    "STAT_OUTPUT": "출력",
-    "STAT_FIXED": "요청당",
-    "STAT_CONTEXT": "컨텍스트",
-    "STAT_ENDPOINTS": "엔드포인트",
-    "STAT_TYPE": "유형",
-    "STAT_FREE": "무료",
     "CONTEXT_WINDOW": "컨텍스트 윈도우",
     "CONTEXT_TOKENS": "{count} 토큰",
     "ENDPOINTS": "호환 엔드포인트",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "월 API 크레딧",
       "VALUE_EXPLAIN": "{paid}/월 결제로 {credit} API 크레딧 제공. 어떤 모델에서나 사용하세요.",
       "DELIVERED": "{period}마다 {amount} 충전됩니다."
-    },
-    "BANNER": {
-      "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
-      "SUBTITLE": "OpenClaw와 {appName}으로 구동되는 Telegram 봇용 원클릭 AI 배포."
     },
     "META": {
       "TITLE": "요금 - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. 모든 권리 보유.",
     "LEGAL_TERMS": "서비스 약관",
     "LEGAL_PRIVACY": "개인정보 처리방침",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout 플레이",
     "BADGE_FEATURED_ON": "{name}에 소개됨",
     "BADGE_VERIFIED_ON": "{name}에서 인증됨",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "문제가 발생했습니다",
       "UNEXPECTED_ERROR_OCCURRED": "예상치 못한 오류가 발생했습니다. 다시 시도하거나 홈페이지로 돌아가세요.",
       "ERROR_DETAILS": "오류 세부사항",
-      "DIGEST": "다이제스트",
       "SECTION_LOAD_FAILED": "이 섹션을 로드하지 못했습니다.",
       "COPY_ERROR": "오류 복사",
       "RESET_APP_DATA": "앱 데이터 초기화 후 새로고침",
@@ -3123,15 +3030,10 @@
       "EVENING": "좋은 저녁입니다"
     },
     "STATS": {
-      "ACCOUNT_DATA": "계정 데이터",
-      "CURRENT_BALANCE": "현재 잔액",
-      "USAGE_STATISTICS": "사용 통계",
       "REQUEST_COUNT": "요청 수",
       "STATISTICAL_COUNT": "통계 개수",
-      "RESOURCE_CONSUMPTION": "리소스 소비",
       "STATISTICAL_QUOTA": "통계 할당량",
       "STATISTICAL_TOKENS": "통계 토큰",
-      "PERFORMANCE_INDICATORS": "성능 지표",
       "AVERAGE_RPM": "평균 RPM",
       "AVERAGE_TPM": "평균 TPM",
       "STATISTICAL_COUNT_CAPTION": "통계 건수",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "API 정보",
       "NO_API_INFO": "API 정보가 없습니다",
-      "BALANCE": "잔액",
       "BURN_RATE": "소진 속도",
       "RUNWAY": "남은 기간",
       "PER_DAY": "{amount}/일",
       "DAYS_LEFT": "{days}일",
       "PERFORMANCE": "성능",
-      "P50_LATENCY": "p50 지연시간",
-      "P95_LATENCY": "p95 지연시간",
-      "STREAM_SHARE": "스트리밍",
-      "SLOWEST_MODELS": "가장 느린 모델",
-      "SAMPLE_SIZE": "최근 {count}건의 요청 기준",
       "API_KEYS": "API 키별 지출",
       "UNNAMED_KEY": "이름 없는 키",
       "LAST_USED": "마지막 사용 {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "양호",
       "LOW": "부족",
       "TOP_UP": "충전",
-      "PERFORMANCE_DESC": "최근 24시간 성능 지표",
       "SUCCESS_RATE": "성공률",
       "AVG_LATENCY": "평균 지연시간",
       "THROUGHPUT": "처리량",
-      "TOP_MODELS": "트래픽 상위 모델",
       "API_KEYS_DESC": "키별 지출 및 마지막 사용"
     },
-    "CONSUMPTION": "소비",
     "TOTAL": "합계",
     "OTHER": "기타",
     "NO_DATA": "데이터가 없습니다",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "내 구독",
       "NO_ACTIVE": "활성화 없음",
       "ACTIVE": "활성",
       "EXPIRED": "만료됨",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "{date}에 갱신"
     },
     "PREFERENCE": {
-      "TITLE": "결제 환경 설정",
       "WALLET_FIRST": "지갑 우선",
       "WALLET_ONLY": "지갑만",
       "SUBSCRIPTION_FIRST": "구독 우선",
       "SUBSCRIPTION_ONLY": "구독만"
     },
     "TOPUP": {
-      "TITLE": "할당량 충전",
       "ACTUAL_PAYMENT": "실제 결제",
       "SAVE": "저장",
       "CUSTOM_AMOUNT": "직접 입력 금액",
@@ -3671,7 +3561,6 @@
     "TITLE": "결제",
     "SUPPORT_TITLE": "도움이 필요하신가요?",
     "SUPPORT_TEXT": "결제나 계정에 대해 궁금한 점이 있으신가요? {supportEmail} 로 이메일을 보내주시면 영업일 기준 하루 이내에 답변해 드리겠습니다.",
-    "ACCOUNT_STATS": "계정 통계",
     "CURRENT_BALANCE": "현재 잔액",
     "CONSUMPTION": "소비",
     "REQUESTS": "요청",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "이 메시지는 더 이상 존재하지 않습니다. 페이지를 새로고침한 후 다시 시도하세요.",
     "NO_TASK_ID": "응답에 작업 ID 또는 URL 없음",
     "REQUEST_FAILED": "요청 실패",
-    "PRICING_FETCH_FAILED": "요금 데이터 가져오기 실패",
     "NO_TEXT_MODELS": "사용 가능한 텍스트 모델 없음",
     "NO_IMAGE_PROMPT": "이미지 생성을 위한 프롬프트가 제공되지 않음",
     "VIDEO_IMAGE_REQUIRED": "이 모델은 이미지를 영상으로 변환합니다. 먼저 메시지에 이미지를 첨부하세요.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "응답이 최대 허용 크기를 초과함",
     "DISALLOWED_CONTENT_TYPE": "허용되지 않는 콘텐츠 유형",
     "UPSTREAM_FETCH_FAILED": "업스트림에서 가져오기 실패",
-    "STORAGE_QUOTA_EXCEEDED": "저장소 한도 도달. 공간을 확보하려면 이전 대화를 삭제하세요.",
-    "PROMPT_REJECTED": "이 프롬프트는 콘텐츠 정책을 위반하며 이미지 또는 비디오 생성에 사용할 수 없습니다.",
-    "PROMPT_FLAGGED": "이 프롬프트는 생성에 잠재적으로 안전하지 않은 것으로 표시되었습니다. 다시 표현하고 다시 시도하세요.",
-    "MODERATION_UNAVAILABLE": "이미지 및 비디오 생성을 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도하세요.",
     "IMPORT_INVALID_JSON": "파일이 유효한 JSON이 아닙니다.",
     "IMPORT_UNSUPPORTED_VERSION": "지원되지 않는 내보내기 버전.",
     "CARD_PARSE_FAILED": "캐릭터 카드를 파싱할 수 없습니다.",
     "CARD_MISSING_NAME": "캐릭터 카드에 필수 name 필드가 누락되었습니다.",
     "CARD_IMPORT_INVALID_URL": "유효한 캐릭터 링크가 아닌 것 같습니다.",
-    "CARD_IMPORT_NOT_FOUND": "이 캐릭터를 찾을 수 없습니다. 비공개이거나 삭제되었을 수 있습니다.",
     "CARD_IMPORT_FETCH_FAILED": "이 캐릭터를 내려받지 못했습니다. 다시 시도해 주세요.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "작성자가 이 로어북을 비공개로 두어 다운로드할 수 없습니다",
     "UNEXPECTED_ERROR": "예상치 못한 오류가 발생함",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "키는 브라우저 밖으로 나가지 않음",
     "TESTER_RANKINGS": "공개 랭킹",
     "TESTER_VERIFIED": "서버 검증 결과",
-    "PLAYGROUND_TAGLINE": "브라우저 속 이미지·영상 생성 스튜디오",
-    "PLAYGROUND_IMAGE_VIDEO": "이미지·영상 모델",
-    "PLAYGROUND_COMFY": "ComfyUI 워크플로",
-    "PLAYGROUND_LORAS": "LoRA와 임베딩",
-    "PLAYGROUND_UPSCALE": "업스케일러와 hires fix",
-    "PLAYGROUND_REFS": "참조 이미지와 마스크",
-    "PLAYGROUND_FREE": "무료 모델 포함",
     "CONTEXT": "컨텍스트"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "정상",
       "DOWN": "다운"
     },
-    "RIBBON": {
-      "TITLE": "지난 24시간"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "모델 검색...",
       "STATUS_ALL": "전체",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "AI API 모델 테스터",
       "SUBTITLE": "엔드포인트가 주장하는 실제 모델을 제공하는지 확인합니다. 브라우저에서 실행되며 키는 당사 서버로 전송되지 않습니다.",
-      "EYEBROW": "신뢰하기 전에 검증하세요",
-      "TRUST_BADGE": "100% 브라우저에서 실행됩니다. 키는 당사 서버로 전송되지 않습니다."
+      "EYEBROW": "신뢰하기 전에 검증하세요"
     },
     "TABS": {
       "TEST": "테스트",
@@ -4709,7 +4581,6 @@
       "PASSED": "{passed}/{total}개 프로브 통과",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "{mode} 경유",
-      "IDLE": "테스트를 실행하면 여기에 결과가 표시됩니다.",
       "DETECTED_MODEL": "감지된 모델",
       "TOTAL_TOKENS": "토큰 {tokens}개",
       "FORMAT_FELL_BACK": "네이티브 형식을 지원하지 않아 {format}로 테스트했습니다.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "아직 테스트가 없습니다. 실행하여 기록을 만드세요.",
-      "PUBLISH": "게시",
       "DELETE_TITLE": "테스트 삭제",
       "DELETE_BODY": "이 테스트를 로컬 기록에서 제거합니다.",
       "DELETE_CONFIRM": "삭제",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "게시된 모든 결과는 집계되기 전에 우리 서버에서 다시 실행되며, 각 판정은 그것을 만들어 낸 정확한 증거에 연결됩니다. 잘못되었다고 생각하는 결과에는 이의를 제기할 수 있습니다.",
       "REPORT_DISCORD": "Discord에 신고",
       "REPORT_GITHUB": "GitHub 이슈 열기",
-      "NOT_TESTED": "아직 테스트되지 않음",
       "LOW_CONFIDENCE": "낮은 신뢰도({count}회 테스트)",
       "SELF_TITLE": "우리 자신에게도 같은 기준을 적용합니다",
       "SELF_BODY": "{appName}은(는) 바로 이 도구로 테스트됩니다. 증거를 확인하세요.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "아직 제출된 항목이 없습니다. 검증된 테스트를 가장 먼저 게시해 보세요.",
       "SUBMITTED_BY": "{who} 제출",
       "ANONYMOUS": "익명",
-      "DELETE_MINE": "삭제",
       "REPORT": "신고",
       "REPORT_HELP": "당신의 결과가 아닌가요? 이의를 제기하세요:",
       "DELETE_TITLE": "이 게시된 결과를 제거할까요?",
       "DELETE_BODY": "이렇게 하면 제출이 공개 순위에서 내려갑니다. 로컬 기록에는 영향이 없습니다.",
       "DELETE_CONFIRM": "제거",
       "DELETE_CANCEL": "취소",
-      "GUEST_CANNOT_DELETE": "게스트 제출은 여기서 삭제할 수 없습니다. Discord나 GitHub로 신고하세요.",
       "BACK_TO_PROVIDER": "제공자로 돌아가기",
-      "BACK_TO_MODEL": "모델로 돌아가기",
-      "PUBLISHED_NOTE": "서버에서 검증됨. 프로브와 응답이 공개되어 누구나 이 판정을 감사할 수 있습니다.",
       "LOADING": "불러오는 중",
-      "EXPAND_ALL": "모두 펼치기",
-      "COLLAPSE_ALL": "모두 접기",
       "PREV": "이전",
       "NEXT": "다음",
       "PAGE_OF": "{total}페이지 중 {page}페이지"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "모델 응답",
       "STATUS": "HTTP",
       "TOKENS": "토큰 (입력/출력)",
-      "SIGNAL": "신호",
       "REASON": "이유",
       "NO_RESPONSE": "캡처된 응답이 없습니다.",
       "WHAT_WE_CHECK": "이 프로브가 확인하는 것"
     },
     "NAV": {
-      "TEST_DESC": "엔드포인트 실시간 테스트",
       "HISTORY_DESC": "지난 테스트",
       "RANKINGS_DESC": "공개 순위"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "알림",
     "EMPTY": "이번 세션에는 알림이 없습니다",
     "EMPTY_HINT": "모델을 관심 등록하면 가격 변동과 가용성 알림을 받을 수 있습니다.",
-    "WATCHING_COUNT": "{count}개 관심 등록됨",
     "WATCH_FREE_MODELS": "새 무료 모델",
     "WATCH": "관심 등록",
     "UNWATCH": "관심 해제",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "{sample} 등이 포함됩니다",
       "BULK_BODY_EMPTY": "전체 목록은 카탈로그에서 확인하세요"
     },
-    "WATCHED_MODELS": "관심 모델",
-    "PUSH_ON": "브라우저 알림 켜짐",
-    "PUSH_ENABLE": "브라우저 알림 켜기",
     "PUSH_BLOCKED": "브라우저 설정에서 알림이 차단되었습니다",
     "ADD_MODEL_PLACEHOLDER": "관심 모델 추가...",
     "TAB_INBOX": "수신함",

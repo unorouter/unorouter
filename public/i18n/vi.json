@@ -26,7 +26,6 @@
     "LOG_IN": "Đăng nhập",
     "CHAT": "Trò chuyện",
     "STATUS": "Trạng thái",
-    "COMPARE": "So sánh",
     "LANGUAGE": "Ngôn ngữ",
     "MODEL_TESTER": "Trình kiểm tra",
     "DISCORD": "Discord"
@@ -108,16 +107,7 @@
       "PICK_DESC": "{appName} hoạt động như một API tùy chỉnh tương thích OpenAI trên các tác nhân lập trình, ứng dụng chat nhân vật, ứng dụng chat AI và công cụ CLI."
     },
     "PRICING": {
-      "LABEL": "Bảng giá",
-      "TITLE": "Giá cả đơn giản.",
-      "SUBTITLE": "Chỉ trả cho những gì bạn dùng.",
-      "DESCRIPTION": "Đăng ký thuê bao để tiết kiệm hơn hoặc trả theo nhu cầu. Mọi gói đều bao gồm quyền truy cập mọi mô hình kèm tự động chuyển đổi dự phòng giữa các nhà cung cấp.",
-      "PROVIDERS": {
-        "TITLE": "Nhà cung cấp được hỗ trợ"
-      },
-      "FLOW": {
-        "TITLE": "Luồng yêu cầu"
-      }
+      "LABEL": "Bảng giá"
     },
     "CHAT": {
       "BADGE": "Trò chuyện tích hợp",
@@ -143,13 +133,9 @@
       "CTA_OPEN": "Mở trò chuyện",
       "CTA_CONNECT": "Kết nối client của bạn",
       "MOCK": {
-        "CHARACTER": "Thuyền trưởng Elara Voss",
         "MODEL": "Miễn phí",
         "MSG_AI": "Báo cáo đi, tân binh. Cắt độ nghẽ, mười giây nữa nhảy.",
-        "MSG_USER": "Rõ, thuyền trưởng. Sẵn sàng.",
-        "TYPING": "đang gõ",
         "INPUT": "Nhập tin nhắn...",
-        "BRAND": "UnoRouter",
         "NEW_CHAT": "Trò chuyện mới",
         "CONV1": "Thuyền trưởng Elara Voss",
         "CONV2": "Lyra nhà giả kim",
@@ -192,59 +178,6 @@
         "NEW_DEMO_AI": "Đang tính toán đây. Ba bước nhảy nữa thôi, nhiên liệu vẫn còn dư. Cài dây an toàn vào."
       }
     },
-    "FEATURES": {
-      "TITLE": "Vì sao chọn {appName}",
-      "DESCRIPTION": "Một endpoint, mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
-      "FAILOVER": {
-        "TITLE": "Tự động chuyển đổi dự phòng"
-      },
-      "MULTIPROTOCOL": {
-        "TITLE": "Hỗ trợ đa giao thức"
-      },
-      "LOADBALANCE": {
-        "TITLE": "Cân bằng tải thông minh"
-      }
-    },
-    "RELIABILITY": {
-      "BADGE": "Kiến trúc không thời gian chết",
-      "TITLE_1": "Luôn trực tuyến",
-      "TITLE_2": "AI đáng tin cậy",
-      "DESCRIPTION": "Yêu cầu của bạn được định tuyến qua nhiều nhà cung cấp đồng thời. Nếu một bên gặp sự cố, bên khác tiếp quản ngay. Không có điểm lỗi duy nhất.",
-      "CARD1": {
-        "TITLE": "Đa nhà cung cấp",
-        "DESC": "Nhiều nhà cung cấp với tự động chuyển đổi dự phòng. Yêu cầu của bạn luôn tìm được đường đi thông suốt, kể cả khi nhà cung cấp gặp sự cố."
-      },
-      "CARD2": {
-        "TITLE": "Định tuyến thông minh",
-        "DESC": "Chọn kênh dựa trên độ trễ kết hợp trọng số ưu tiên. Nhà cung cấp nhanh nhất luôn thắng."
-      },
-      "LEARN_MORE": "Tìm hiểu thêm",
-      "LEARN_MORE_DOCS": "Xem tài liệu",
-      "ARCH": {
-        "TITLE": "Kiến trúc",
-        "ACTIVE": "Đang hoạt động",
-        "STEP1": {
-          "TITLE": "Endpoint hợp nhất",
-          "DESC": "Một API cho các định dạng OpenAI, Anthropic, Gemini"
-        },
-        "STEP2": {
-          "TITLE": "Định tuyến thông minh",
-          "DESC": "Chọn nhà cung cấp nhanh nhất dựa trên độ trễ và mức độ sẵn sàng"
-        },
-        "STEP3": {
-          "TITLE": "Tự động chuyển đổi dự phòng",
-          "DESC": "Yêu cầu thất bại sẽ lập tức thử lại qua kênh thay thế"
-        },
-        "STEP4": {
-          "TITLE": "Nhiều tuyến đường",
-          "DESC": "Hầu hết mô hình chạy qua nhiều nhà cung cấp, không có điểm lỗi duy nhất"
-        }
-      },
-      "FORMATS": {
-        "TITLE": "Định dạng được hỗ trợ",
-        "DESC": "Mọi định dạng được tự động nhận diện và định tuyến đến đúng nhà cung cấp."
-      }
-    },
     "CODE": {
       "TITLE_1": "Tích hợp trong vài giây.",
       "TITLE_2": "Mở rộng đến vô hạn.",
@@ -254,10 +187,7 @@
       "FEATURE_3": "Hỗ trợ đa giao thức",
       "FEATURE_4": "Không code? Trò chuyện trên trang",
       "READ_DOCS": "Đọc toàn bộ tài liệu API",
-      "NO_CODE_LABEL": "Không phải lập trình viên?",
-      "NO_CODE_OPTION": "Bỏ qua phần mã. Trò chuyện với nhân vật ngay tại đây trên trang, hoặc dán URL vào SillyTavern, RisuAI hay bất kỳ ứng dụng chat AI tương thích OpenAI nào.",
-      "NO_CODE_CHAT_LINK": "Mở trò chuyện",
-      "NO_CODE_LINK": "Xem hướng dẫn tích hợp"
+      "NO_CODE_CHAT_LINK": "Mở trò chuyện"
     },
     "CTA": {
       "TITLE_1": "Sẵn sàng để",
@@ -273,7 +203,6 @@
       "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong các ứng dụng khách AI yêu thích của bạn. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
       "KEYWORDS": "gateway API AI, endpoint AI thống nhất, tương thích OpenAI, Claude API, GPT API, Gemini API, failover tự động, định tuyến thông minh, API đa mô hình, ứng dụng chat AI"
     },
-    "TITLE": "{appName}",
     "HOW_IT_WORKS": {
       "LABEL": "Bắt đầu",
       "TITLE": "Ba bước.",
@@ -576,12 +505,10 @@
       "TODAY": "Hôm nay",
       "WEEK": "Tuần",
       "MONTH": "Tháng",
-      "YEAR": "Năm",
-      "ALL": "Tất cả"
+      "YEAR": "Năm"
     },
     "MODELS": {
       "TITLE": "Mô hình hàng đầu",
-      "SUBTITLE": "Mô hình xếp theo lượng token trong khoảng thời gian đã chọn",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Lượng token theo giờ của từng mô hình trong 24 giờ qua",
         "WEEK": "Lượng token theo tuần của từng mô hình trong các tuần gần đây",
@@ -598,7 +525,6 @@
     },
     "VENDORS": {
       "TITLE": "Thị phần",
-      "SUBTITLE": "Thị phần token theo nhà cung cấp mô hình",
       "PERIOD_DESCRIPTIONS": {
         "TODAY": "Thị phần token theo nhà cung cấp trong 24 giờ qua",
         "WEEK": "Thị phần token theo nhà cung cấp trong các tuần gần đây",
@@ -1305,22 +1231,9 @@
     "PRICING_TITLE": "Giá cả",
     "INPUT_PRICE": "Giá đầu vào",
     "OUTPUT_PRICE": "Giá đầu ra",
-    "PRICE_PER_MILLION": "{price} · 1 triệu token",
     "FIXED_PRICE": "Giá mỗi yêu cầu",
-    "PRICE_PER_REQUEST": "{price} · yêu cầu",
-    "PRICE_PER_SECOND": "{price} · giây",
-    "PRICE_PER_IMAGE": "{price} · ảnh",
     "GRID_PRICING_TITLE": "Lưới giá",
     "GRID_PRICE_HEADER": "Giá",
-    "AVAILABLE_BADGE": "Có sẵn ngay",
-    "OFFLINE_BADGE": "Ngoại tuyến",
-    "STAT_INPUT": "Đầu vào",
-    "STAT_OUTPUT": "Đầu ra",
-    "STAT_FIXED": "Mỗi yêu cầu",
-    "STAT_CONTEXT": "Ngữ cảnh",
-    "STAT_ENDPOINTS": "Endpoint",
-    "STAT_TYPE": "Loại",
-    "STAT_FREE": "Miễn phí",
     "CONTEXT_WINDOW": "Cửa sổ ngữ cảnh",
     "CONTEXT_TOKENS": "{count} token",
     "ENDPOINTS": "Endpoint tương thích",
@@ -1421,10 +1334,6 @@
       "VALUE_HERO": "tín dụng API / tháng",
       "VALUE_EXPLAIN": "Trả {paid}/tháng, nhận {credit} tín dụng API. Dùng trên mọi mô hình.",
       "DELIVERED": "Nạp lại {amount} mỗi {period}."
-    },
-    "BANNER": {
-      "TITLE": "Trợ lý AI OpenClaw trên Telegram",
-      "SUBTITLE": "Triển khai AI một cú nhấp cho bot Telegram của bạn, hỗ trợ bởi OpenClaw và {appName}."
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
@@ -2744,7 +2653,6 @@
     "COPYRIGHT": "© {year} {appName}. Giữ toàn quyền.",
     "LEGAL_TERMS": "Điều khoản dịch vụ",
     "LEGAL_PRIVACY": "Chính sách bảo mật",
-    "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Chơi Token Breakout",
     "BADGE_FEATURED_ON": "Được giới thiệu trên {name}",
     "BADGE_VERIFIED_ON": "Đã xác minh trên {name}",
@@ -2906,7 +2814,6 @@
       "SOMETHING_WENT_WRONG": "Đã xảy ra lỗi",
       "UNEXPECTED_ERROR_OCCURRED": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại hoặc trở về trang chủ.",
       "ERROR_DETAILS": "Chi tiết lỗi",
-      "DIGEST": "Mã tóm tắt",
       "SECTION_LOAD_FAILED": "Phần này không tải được.",
       "COPY_ERROR": "Sao chép lỗi",
       "RESET_APP_DATA": "Đặt lại dữ liệu ứng dụng và tải lại",
@@ -3123,15 +3030,10 @@
       "EVENING": "Chào buổi tối"
     },
     "STATS": {
-      "ACCOUNT_DATA": "Dữ liệu tài khoản",
-      "CURRENT_BALANCE": "Số dư hiện tại",
-      "USAGE_STATISTICS": "Thống kê sử dụng",
       "REQUEST_COUNT": "Số lượng yêu cầu",
       "STATISTICAL_COUNT": "Số liệu thống kê",
-      "RESOURCE_CONSUMPTION": "Tiêu thụ tài nguyên",
       "STATISTICAL_QUOTA": "Hạn mức thống kê",
       "STATISTICAL_TOKENS": "Token thống kê",
-      "PERFORMANCE_INDICATORS": "Chỉ số hiệu năng",
       "AVERAGE_RPM": "RPM trung bình",
       "AVERAGE_TPM": "TPM trung bình",
       "STATISTICAL_COUNT_CAPTION": "Số liệu yêu cầu",
@@ -3151,17 +3053,11 @@
     "PANEL": {
       "API_INFORMATION": "Thông tin API",
       "NO_API_INFO": "Không có thông tin API",
-      "BALANCE": "Số dư",
       "BURN_RATE": "Tốc độ chi tiêu",
       "RUNWAY": "Thời gian còn lại",
       "PER_DAY": "{amount}/ngày",
       "DAYS_LEFT": "{days} ngày",
       "PERFORMANCE": "Hiệu năng",
-      "P50_LATENCY": "Độ trễ p50",
-      "P95_LATENCY": "Độ trễ p95",
-      "STREAM_SHARE": "Truyền phát",
-      "SLOWEST_MODELS": "Mô hình chậm nhất",
-      "SAMPLE_SIZE": "Dựa trên {count} yêu cầu gần đây",
       "API_KEYS": "Chi tiêu theo khóa API",
       "UNNAMED_KEY": "Khóa chưa đặt tên",
       "LAST_USED": "Dùng lần cuối {when}",
@@ -3177,14 +3073,11 @@
       "HEALTHY": "Ổn định",
       "LOW": "Thấp",
       "TOP_UP": "Nạp thêm",
-      "PERFORMANCE_DESC": "Chỉ số hiệu năng trong 24 giờ qua",
       "SUCCESS_RATE": "Tỷ lệ thành công",
       "AVG_LATENCY": "Độ trễ trung bình",
       "THROUGHPUT": "Thông lượng",
-      "TOP_MODELS": "Mô hình nhiều lưu lượng nhất",
       "API_KEYS_DESC": "Chi tiêu và lần dùng cuối theo khóa"
     },
-    "CONSUMPTION": "Tiêu thụ",
     "TOTAL": "Tổng",
     "OTHER": "Khác",
     "NO_DATA": "Không có dữ liệu",
@@ -3621,7 +3514,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "MY": "Đăng ký của tôi",
       "NO_ACTIVE": "Không có gói đang hoạt động",
       "ACTIVE": "Đang hoạt động",
       "EXPIRED": "Đã hết hạn",
@@ -3648,14 +3540,12 @@
       "RENEWS_ON": "Gia hạn vào {date}"
     },
     "PREFERENCE": {
-      "TITLE": "Tùy chọn thanh toán",
       "WALLET_FIRST": "Ví trước",
       "WALLET_ONLY": "Chỉ ví",
       "SUBSCRIPTION_FIRST": "Thuê bao trước",
       "SUBSCRIPTION_ONLY": "Chỉ thuê bao"
     },
     "TOPUP": {
-      "TITLE": "Nạp hạn mức",
       "ACTUAL_PAYMENT": "Thanh toán thực tế",
       "SAVE": "Lưu",
       "CUSTOM_AMOUNT": "Số tiền tùy chỉnh",
@@ -3671,7 +3561,6 @@
     "TITLE": "Thanh toán",
     "SUPPORT_TITLE": "Bạn cần trợ giúp?",
     "SUPPORT_TEXT": "Bạn có câu hỏi về thanh toán hoặc tài khoản của mình? Hãy gửi email cho chúng tôi tại {supportEmail} và chúng tôi sẽ phản hồi trong vòng một ngày làm việc.",
-    "ACCOUNT_STATS": "Thống kê tài khoản",
     "CURRENT_BALANCE": "Số dư hiện tại",
     "CONSUMPTION": "Tiêu thụ",
     "REQUESTS": "Yêu cầu",
@@ -4423,7 +4312,6 @@
     "MESSAGE_NOT_FOUND": "Tin nhắn này không còn tồn tại. Hãy tải lại trang và thử lại.",
     "NO_TASK_ID": "Không có ID tác vụ hoặc URL trong phản hồi",
     "REQUEST_FAILED": "Yêu cầu thất bại",
-    "PRICING_FETCH_FAILED": "Không lấy được dữ liệu giá",
     "NO_TEXT_MODELS": "Không có mô hình văn bản khả dụng",
     "NO_IMAGE_PROMPT": "Không có prompt để tạo hình ảnh",
     "VIDEO_IMAGE_REQUIRED": "Mô hình này biến hình ảnh thành video. Hãy đính kèm một hình ảnh vào tin nhắn trước.",
@@ -4434,16 +4322,11 @@
     "RESPONSE_TOO_LARGE": "Phản hồi vượt quá kích thước tối đa cho phép",
     "DISALLOWED_CONTENT_TYPE": "Loại nội dung không được phép",
     "UPSTREAM_FETCH_FAILED": "Không thể lấy dữ liệu từ upstream",
-    "STORAGE_QUOTA_EXCEEDED": "Đã đạt giới hạn lưu trữ. Hãy xóa các cuộc trò chuyện cũ để giải phóng dung lượng.",
-    "PROMPT_REJECTED": "Prompt này vi phạm chính sách nội dung và không thể dùng để tạo hình ảnh hoặc video.",
-    "PROMPT_FLAGGED": "Prompt này bị gắn cờ là có thể không an toàn cho việc tạo nội dung. Vui lòng diễn đạt lại và thử lại.",
-    "MODERATION_UNAVAILABLE": "Tính năng tạo hình ảnh và video tạm thời không khả dụng. Vui lòng thử lại sau ít phút.",
     "IMPORT_INVALID_JSON": "Tệp không phải JSON hợp lệ.",
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
     "CARD_IMPORT_INVALID_URL": "Đây không giống một liên kết nhân vật hợp lệ.",
-    "CARD_IMPORT_NOT_FOUND": "Không tìm thấy nhân vật này. Có thể nó là riêng tư hoặc đã bị xoá.",
     "CARD_IMPORT_FETCH_FAILED": "Không thể tải nhân vật này. Vui lòng thử lại.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Tác giả đã để riêng tư các lorebook này, nên không thể tải xuống",
     "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
@@ -4494,13 +4377,6 @@
     "TESTER_PRIVATE": "Khóa không bao giờ rời trình duyệt",
     "TESTER_RANKINGS": "Bảng xếp hạng công khai",
     "TESTER_VERIFIED": "Kết quả được máy chủ xác minh",
-    "PLAYGROUND_TAGLINE": "Xưởng tạo hình ảnh và video ngay trong trình duyệt",
-    "PLAYGROUND_IMAGE_VIDEO": "Mô hình hình ảnh và video",
-    "PLAYGROUND_COMFY": "Quy trình ComfyUI",
-    "PLAYGROUND_LORAS": "LoRA và embedding",
-    "PLAYGROUND_UPSCALE": "Upscaler và hires fix",
-    "PLAYGROUND_REFS": "Ảnh tham chiếu và mặt nạ",
-    "PLAYGROUND_FREE": "Bao gồm mô hình miễn phí",
     "CONTEXT": "Ngữ cảnh"
   },
   "WELL_KNOWN": {
@@ -4583,9 +4459,6 @@
       "OPERATIONAL": "Hoạt động",
       "DOWN": "Ngừng"
     },
-    "RIBBON": {
-      "TITLE": "24 giờ qua"
-    },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Tìm kiếm mô hình...",
       "STATUS_ALL": "Tất cả",
@@ -4664,8 +4537,7 @@
     "HERO": {
       "TITLE": "Trinh kiem tra mo hinh API AI",
       "SUBTITLE": "Kiem tra xem mot diem cuoi co cung cap dung mo hinh ma no tuyen bo khong. Chay trong trinh duyet, khoa cua ban khong duoc gui den may chu cua chung toi.",
-      "EYEBROW": "Xac minh truoc khi tin tuong",
-      "TRUST_BADGE": "Chay 100% phia trinh duyet. Khoa cua ban khong bao gio duoc gui den may chu cua chung toi."
+      "EYEBROW": "Xac minh truoc khi tin tuong"
     },
     "TABS": {
       "TEST": "Kiem tra",
@@ -4709,7 +4581,6 @@
       "PASSED": "Dat {passed}/{total} tham do",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "qua {mode}",
-      "IDLE": "Chay mot bai kiem tra de xem ket qua o day.",
       "DETECTED_MODEL": "Mo hinh phat hien",
       "TOTAL_TOKENS": "{tokens} token",
       "FORMAT_FELL_BACK": "Dinh dang goc khong duoc ho tro; da kiem tra qua {format}.",
@@ -4726,7 +4597,6 @@
     },
     "HISTORY": {
       "EMPTY": "Chua co bai kiem tra nao. Chay mot bai de tao lich su.",
-      "PUBLISH": "Dang",
       "DELETE_TITLE": "Xoa bai kiem tra",
       "DELETE_BODY": "Xoa bai kiem tra khoi lich su cuc bo cua ban.",
       "DELETE_CONFIRM": "Xoa",
@@ -4747,7 +4617,6 @@
       "DISCLAIMER": "Mọi kết quả đã công bố đều được chạy lại trên máy chủ của chúng tôi trước khi được tính, và mỗi phán quyết đều liên kết tới bằng chứng chính xác đã tạo ra nó. Một kết quả mà bạn cho là sai có thể được khiếu nại.",
       "REPORT_DISCORD": "Báo cáo trên Discord",
       "REPORT_GITHUB": "Mở một issue trên GitHub",
-      "NOT_TESTED": "Chưa được kiểm tra",
       "LOW_CONFIDENCE": "Độ tin cậy thấp ({count} lần kiểm tra)",
       "SELF_TITLE": "Chúng tôi tự đặt mình theo cùng một chuẩn mực",
       "SELF_BODY": "{appName} được kiểm tra bằng chính công cụ này. Xem bằng chứng.",
@@ -4766,20 +4635,14 @@
       "NO_SUBMISSIONS": "Chưa có bài gửi nào. Hãy là người đầu tiên đăng một bài kiểm tra đã xác minh.",
       "SUBMITTED_BY": "Được gửi bởi {who}",
       "ANONYMOUS": "ẩn danh",
-      "DELETE_MINE": "Xóa",
       "REPORT": "Báo cáo",
       "REPORT_HELP": "Không phải kết quả của bạn? Hãy khiếu nại:",
       "DELETE_TITLE": "Gỡ kết quả đã công bố này?",
       "DELETE_BODY": "Thao tác này rút lượt gửi của bạn khỏi bảng xếp hạng công khai. Lịch sử cục bộ của bạn không bị ảnh hưởng.",
       "DELETE_CONFIRM": "Gỡ",
       "DELETE_CANCEL": "Hủy",
-      "GUEST_CANNOT_DELETE": "Lượt gửi của khách không thể xóa ở đây. Hãy báo cáo qua Discord hoặc GitHub.",
       "BACK_TO_PROVIDER": "Quay lại nhà cung cấp",
-      "BACK_TO_MODEL": "Quay lại mô hình",
-      "PUBLISHED_NOTE": "Đã xác minh phía máy chủ. Các phép thử và phản hồi đều công khai để bất kỳ ai cũng có thể kiểm chứng phán quyết này.",
       "LOADING": "Đang tải ...",
-      "EXPAND_ALL": "Mở rộng tất cả",
-      "COLLAPSE_ALL": "Thu gọn tất cả",
       "PREV": "Trước",
       "NEXT": "Sau",
       "PAGE_OF": "Trang {page} trên {total}"
@@ -4789,13 +4652,11 @@
       "RESPONSE": "Phan hoi cua mo hinh",
       "STATUS": "HTTP",
       "TOKENS": "Token (vao/ra)",
-      "SIGNAL": "Tin hieu",
       "REASON": "Ly do",
       "NO_RESPONSE": "Khong co phan hoi nao duoc ghi lai.",
       "WHAT_WE_CHECK": "Phép thử này kiểm tra gì"
     },
     "NAV": {
-      "TEST_DESC": "Kiem tra diem cuoi truc tiep",
       "HISTORY_DESC": "Cac bai kiem tra truoc cua ban",
       "RANKINGS_DESC": "Bang xep hang cong khai"
     },
@@ -5778,7 +5639,6 @@
     "BELL_LABEL": "Thông báo",
     "EMPTY": "Không có thông báo trong phiên này",
     "EMPTY_HINT": "Theo dõi một mô hình để nhận cảnh báo về thay đổi giá và tình trạng khả dụng.",
-    "WATCHING_COUNT": "Đang theo dõi {count}",
     "WATCH_FREE_MODELS": "Mô hình miễn phí mới",
     "WATCH": "Theo dõi",
     "UNWATCH": "Bỏ theo dõi",
@@ -5808,9 +5668,6 @@
       "BULK_BODY": "Bao gồm {sample}",
       "BULK_BODY_EMPTY": "Mở danh mục để xem toàn bộ danh sách"
     },
-    "WATCHED_MODELS": "Mô hình đang theo dõi",
-    "PUSH_ON": "Thông báo trình duyệt đang bật",
-    "PUSH_ENABLE": "Bật thông báo trình duyệt",
     "PUSH_BLOCKED": "Thông báo bị chặn trong cài đặt trình duyệt",
     "ADD_MODEL_PLACEHOLDER": "Thêm mô hình để theo dõi...",
     "TAB_INBOX": "Hộp thư",
