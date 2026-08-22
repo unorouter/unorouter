@@ -12,6 +12,7 @@ export function filterParamsToCapabilities(
   descriptor: ImageModelDescriptor,
   params: ImageParams | undefined,
 ): { params: ImageParams; dropped: string[] } {
+  const caps = imageParams(descriptor);
   const source: Record<string, unknown> = { ...(params ?? {}) };
   const dropped: string[] = [];
 
@@ -22,29 +23,29 @@ export function filterParamsToCapabilities(
     }
   };
 
-  if (!imageParams(descriptor).supportsCfg) {
+  if (!caps.supportsCfg) {
     drop("cfg");
     drop("steps");
     drop("clipSkip");
   }
-  if (!imageParams(descriptor).supportsSampler) {
+  if (!caps.supportsSampler) {
     drop("sampler");
     drop("scheduler");
   }
-  if (!imageParams(descriptor).supportsSeed) drop("seed");
-  if (!imageParams(descriptor).supportsHiresFix) {
+  if (!caps.supportsSeed) drop("seed");
+  if (!caps.supportsHiresFix) {
     drop("hiresUpscale");
     drop("hiresDenoise");
     drop("hiresSteps");
   }
   // No strength = no init-image inputs; don't forward multi-MB data URIs to a rejector.
-  if (!imageParams(descriptor).supportsStrength) {
+  if (!caps.supportsStrength) {
     drop("strength");
     drop("initImageUrl");
     drop("maskUrl");
   }
   // ADetailer is a second billed pass; a model that does not declare it must not run one.
-  if (!imageParams(descriptor).supportsAdetailer) drop("adetailer");
+  if (!caps.supportsAdetailer) drop("adetailer");
   // No Runware schema defines a watermark or guidance field, so neither is ever
   // forwardable. Dropped unconditionally rather than gated on a descriptor flag
   // nothing can set.
@@ -52,21 +53,20 @@ export function filterParamsToCapabilities(
   drop("guidance");
   // The provider enum IS the capability: no accepted values means the field is
   // not forwardable at all.
-  if (!imageParams(descriptor).backgroundChoices?.length) drop("background");
-  if (!imageParams(descriptor).supportsSize) {
+  if (!caps.backgroundChoices?.length) drop("background");
+  if (!caps.supportsSize) {
     drop("width");
     drop("height");
   }
-  if (!imageParams(descriptor).qualityChoices?.length) drop("quality");
-  if (!imageParams(descriptor).outputFormatChoices?.length)
-    drop("outputFormat");
+  if (!caps.qualityChoices?.length) drop("quality");
+  if (!caps.outputFormatChoices?.length) drop("outputFormat");
 
   // Enum knobs also check the model's own choices; an unknown value is still rejected.
-  const quality = imageParams(descriptor).qualityChoices;
+  const quality = caps.qualityChoices;
   if (quality && typeof source.quality === "string") {
     if (!quality.includes(source.quality)) drop("quality");
   }
-  const formats = imageParams(descriptor).outputFormatChoices;
+  const formats = caps.outputFormatChoices;
   if (formats && typeof source.outputFormat === "string") {
     if (!formats.includes(source.outputFormat)) {
       drop("outputFormat");
@@ -88,9 +88,7 @@ export function capReferences<T>(
   descriptor: ImageModelDescriptor,
   references: T[] | undefined,
 ): T[] {
-  if (!imageParams(descriptor).supportsReferences) return [];
-  return (references ?? []).slice(
-    0,
-    Math.max(0, imageParams(descriptor).maxReferenceImages ?? 0),
-  );
+  const caps = imageParams(descriptor);
+  if (!caps.supportsReferences) return [];
+  return (references ?? []).slice(0, Math.max(0, caps.maxReferenceImages ?? 0));
 }
