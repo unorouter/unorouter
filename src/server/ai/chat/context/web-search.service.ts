@@ -19,7 +19,7 @@ type TavilySearchResponse = {
   results: TavilyResult[];
 };
 
-export async function needsWebSearch(
+async function needsWebSearch(
   apiKey: string,
   userText: string,
 ): Promise<boolean> {
@@ -41,7 +41,7 @@ export async function needsWebSearch(
   }
 }
 
-export async function searchTavily(
+async function searchTavily(
   query: string,
 ): Promise<TavilySearchResponse | null> {
   const apiKey = serverEnv.tavilyApiKey;
@@ -101,7 +101,7 @@ export async function resolveWebSearch(
   return formatSearchContext(result);
 }
 
-export function formatSearchContext(search: TavilySearchResponse): string {
+function formatSearchContext(search: TavilySearchResponse): string {
   const entries = search.results
     .map((r, i) => `[${i + 1}] ${r.title}\nURL: ${r.url}\n${r.content}`)
     .join("\n\n");

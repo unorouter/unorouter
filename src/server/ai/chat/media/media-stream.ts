@@ -1,4 +1,3 @@
-import type { ModelType } from "@/lib/api/pricing";
 import type { PricingCatalogDetail } from "@/openapi";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { msg } from "@/lib/config/constants";
@@ -23,7 +22,6 @@ import {
 import {
   createUIMessageStream,
   createUIMessageStreamResponse,
-  streamText,
   type UIMessageStreamWriter,
 } from "ai";
 import { submitVideoTask } from "./task.service";
@@ -222,28 +220,6 @@ function writeTaskCard(
   writer.write({ type: "data-task", data: { ...task, model } });
   writer.write({ type: "finish-step" });
   writer.write({ type: "finish", finishReason: "stop" });
-}
-
-const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
-
-function processUrls(text: string, mediaType: ModelType): string {
-  const matches = [...text.matchAll(LINK_RE)];
-  if (matches.length === 0) return text;
-  if (mediaType !== "video" && mediaType !== "image") {
-    logger.warn("processUrls dropping media links for non-media model", {
-      context: "stream.urls",
-      mediaType,
-      linkCount: matches.length,
-    });
-    return "";
-  }
-
-  // Media links are no longer re-hosted (R2 removed): data: URIs inline as-is,
-  // remote URLs pass through to the original upstream location.
-  return matches
-    .map(([, , alt, url]) => `![${alt}](${url})`)
-    .filter(Boolean)
-    .join("\n\n");
 }
 
 const DEFAULT_MAX_CHAT_REFS = 4;
@@ -571,37 +547,5 @@ export async function handleEmbeddingStream(
       durationMs: Date.now() - startedAt,
     });
     writeBufferedMessage(writer, text, meta);
-  });
-}
-
-export function handleBufferedStream(
-  result: ReturnType<typeof streamText>,
-  body: MediaStreamBody,
-  mediaType: ModelType,
-  finishMeta?: () => Promise<Record<string, unknown>>,
-  messageId?: string,
-) {
-  return streamResponse(async (writer) => {
-    const fullText = await result.text;
-    const reasoning = await result.reasoningText;
-    const cleanText = processUrls(fullText, mediaType);
-    const meta = await finishMeta?.();
-    const partId = uid(12);
-    writer.write(messageId ? { type: "start", messageId } : { type: "start" });
-    writer.write({ type: "start-step" });
-    if (reasoning) {
-      const reasonId = uid(12);
-      writer.write({ type: "reasoning-start", id: reasonId });
-      writer.write({ type: "reasoning-delta", delta: reasoning, id: reasonId });
-      writer.write({ type: "reasoning-end", id: reasonId });
-    }
-    writer.write({ type: "text-start", id: partId });
-    writer.write({ type: "text-delta", delta: cleanText, id: partId });
-    writer.write({ type: "text-end", id: partId });
-    writer.write({ type: "finish-step" });
-    if (meta && Object.keys(meta).length > 0) {
-      writer.write({ type: "message-metadata", messageMetadata: meta });
-    }
-    writer.write({ type: "finish", finishReason: "stop" });
   });
 }

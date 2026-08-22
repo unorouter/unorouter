@@ -73,7 +73,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/title",
     async ({ body, apiKey, userId }) => {
       await assertGuestFreeModel(userId, body.model);
-      const data = await generateChatTitle(apiKey, body.text, body.model);
+      const data = await generateChatTitle(apiKey, body.text);
       return { success: true, data };
     },
     { body: titleGenerationBody },
