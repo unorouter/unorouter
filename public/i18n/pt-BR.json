@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personagem} other {# personagens}}",
-      "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebooks}}",
-      "PRESET_EMPTY": "Predefinição",
-      "PERSONA_EMPTY": "Persona",
-      "CHARACTERS_EMPTY": "Personagens",
-      "LOREBOOKS_EMPTY": "Compêndios"
+      "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebooks}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Escolha uma opção para continuar",
     "TRIGGER_ALERT_OK": "OK",

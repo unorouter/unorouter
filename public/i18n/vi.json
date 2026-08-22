@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",
-      "LOREBOOKS": "{count, plural, other {# lorebook}}",
-      "PRESET_EMPTY": "Cài sẵn",
-      "PERSONA_EMPTY": "Nhân cách",
-      "CHARACTERS_EMPTY": "Nhân vật",
-      "LOREBOOKS_EMPTY": "Sổ tri thức"
+      "LOREBOOKS": "{count, plural, other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Chọn một tùy chọn để tiếp tục",
     "TRIGGER_ALERT_OK": "OK",

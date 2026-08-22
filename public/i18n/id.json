@@ -4101,11 +4101,7 @@
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",
-      "LOREBOOKS": "{count, plural, other {# lorebook}}",
-      "PRESET_EMPTY": "Preset",
-      "PERSONA_EMPTY": "Persona",
-      "CHARACTERS_EMPTY": "Karakter",
-      "LOREBOOKS_EMPTY": "Lorebook"
+      "LOREBOOKS": "{count, plural, other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Pilih salah satu opsi untuk melanjutkan",
     "TRIGGER_ALERT_OK": "OK",
