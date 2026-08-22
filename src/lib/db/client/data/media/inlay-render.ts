@@ -20,10 +20,6 @@ const pending = new Set<string>();
 
 const INLAY_TOKEN_RE = /\{\{inlay::([\w-]+)\}\}/g;
 
-export function getInlaySrc(id: string): string | undefined {
-  return cache.get(id)?.src;
-}
-
 // The renderer measures a bitmap the first time it decodes and writes the size back
 // here, so every later render of the same image reserves its box up front.
 export function rememberInlayDimensions(

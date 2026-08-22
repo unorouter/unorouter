@@ -132,22 +132,6 @@ export function deriveCapabilityChips(
   return boolChips;
 }
 
-export function hasAnyCapability(metadata: ModelMetadata): boolean {
-  return CAPABILITY_ORDER.some((c) => metadata[c.field] === true);
-}
-
-export function hasAnyQuickStat(metadata: ModelMetadata): boolean {
-  const hasQuant =
-    !!metadata.quantization &&
-    metadata.quantization.toLowerCase() !== "unknown";
-  return Boolean(
-    metadata.deprecationDate ||
-    metadata.expirationDate ||
-    metadata.huggingFaceId ||
-    hasQuant,
-  );
-}
-
 export function hasAnyParameter(metadata: ModelMetadata): boolean {
   return (
     (metadata.supportedParametersAll ?? []).length > 0 ||

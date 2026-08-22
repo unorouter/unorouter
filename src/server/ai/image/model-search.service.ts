@@ -162,10 +162,6 @@ function parseCivitaiReference(input: string): {
   };
 }
 
-export function looksLikeCheckpointReference(input: string): boolean {
-  return parseCivitaiReference(input) != null;
-}
-
 function toResolved(
   row: RunwareSearchResult,
   opts: { versionSuffix?: boolean } = {},
@@ -215,7 +211,7 @@ export async function findCheckpoints(
   const trimmed = input.trim();
   if (trimmed.length < 2) return [];
 
-  if (looksLikeCheckpointReference(trimmed)) {
+  if (parseCivitaiReference(trimmed) != null) {
     const resolved = await resolveCivitaiCheckpoint(trimmed);
     return resolved ? [resolved] : [];
   }
