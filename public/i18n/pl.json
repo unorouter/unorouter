@@ -5655,7 +5655,8 @@
       "H_INVITES": "Zapraszanie członków",
       "P_INVITES_1": "Zaliczenie zaproszenia zależy od tego, którego linku użył nowy członek. Discord przekazuje ten kod botowi przy wejściu, a bot płaci temu, kto go utworzył.",
       "P_INVITES_VANITY": "Link firmowy (discord.gg/{appName}) nie ma twórcy, więc zaproszenia przez niego nigdy się nie liczą. Utwórz własny link zapraszający.",
-      "P_INVITES_2": "Kliknij prawym przyciskiem serwer albo kanał, wybierz Invite People, potem Edit invite link. Ustaw brak wygasania i nieograniczoną liczbę użyć, potem skopiuj link.",
+      "P_INVITES_2": "Kliknij prawym przyciskiem nazwę serwera lub dowolny kanał i wybierz Zaproś na kanał (Zaproś znajomych na serwerze). W oknie otwórz Edytuj link zaproszenia, ustaw brak wygasania i nieograniczoną liczbę użyć, a następnie skopiuj go.",
+      "ALT_INVITE_MENU": "Menu kontekstowe Discorda z podświetloną opcją Zaproś na kanał",
       "P_INVITES_3": "Dwa kolejne przypadki nic nie płacą: powrót po odejściu oraz wejście, które równie dobrze mogą tłumaczyć dwa twoje linki. Linki botów ze stron z listami serwerów nigdy się nie liczą."
     }
   },

@@ -5655,7 +5655,8 @@
       "H_INVITES": "Inviter des membres",
       "P_INVITES_1": "Le crédit d'invitation dépend du lien utilisé par un nouveau membre. Discord communique ce code au bot à l'arrivée, et le bot paie celui qui l'a créé.",
       "P_INVITES_VANITY": "Le lien personnalisé (discord.gg/{appName}) n''a pas de créateur, les invitations qui passent par lui ne sont donc jamais créditées. Créez votre propre lien d''invitation.",
-      "P_INVITES_2": "Faites un clic droit sur le serveur ou un canal, choisissez Invite People, puis Edit invite link. Réglez sur jamais expirer et utilisations illimitées, puis copiez-le.",
+      "P_INVITES_2": "Faites un clic droit sur le nom du serveur ou sur un salon et choisissez Inviter dans le salon (Inviter des amis sur le serveur). Dans la fenêtre, ouvrez Modifier le lien d'invitation, réglez-le sur sans expiration et utilisations illimitées, puis copiez-le.",
+      "ALT_INVITE_MENU": "Menu contextuel Discord avec Inviter dans le salon en surbrillance",
       "P_INVITES_3": "Deux autres cas ne rapportent rien : revenir après être parti, et une arrivée que deux de vos liens expliqueraient aussi bien. Les liens de bots de sites de listing ne sont jamais crédités."
     }
   },

@@ -5655,7 +5655,8 @@
       "H_INVITES": "Mitglieder einladen",
       "P_INVITES_1": "Die Gutschrift für eine Einladung hängt davon ab, welchen Link ein neues Mitglied genutzt hat. Discord meldet diesen Code beim Beitritt an den Bot, und der Bot zahlt an dessen Ersteller.",
       "P_INVITES_VANITY": "Der Vanity-Link (discord.gg/{appName}) hat keinen Ersteller, Einladungen darüber werden also nie gutgeschrieben. Erstelle deinen eigenen Einladungslink.",
-      "P_INVITES_2": "Rechtsklick auf den Server oder einen Kanal, dann Invite People, dann Edit invite link. Nie ablaufen und unbegrenzte Nutzungen einstellen, dann kopieren.",
+      "P_INVITES_2": "Klicke mit der rechten Maustaste auf den Servernamen oder einen Kanal und wähle Zum Kanal einladen (auf dem Server selbst: Leute einladen). Öffne im Dialog Einladungslink bearbeiten, stelle unbegrenzte Gültigkeit und unbegrenzte Nutzungen ein und kopiere ihn.",
+      "ALT_INVITE_MENU": "Discord-Rechtsklickmenü mit hervorgehobenem Eintrag Zum Kanal einladen",
       "P_INVITES_3": "Zwei weitere Fälle zahlen nichts: ein Wiedereintritt nach dem Verlassen und ein Beitritt, den zwei deiner Links gleichermaßen erklären könnten. Bot-Links von Listenseiten werden nie gutgeschrieben."
     }
   },
