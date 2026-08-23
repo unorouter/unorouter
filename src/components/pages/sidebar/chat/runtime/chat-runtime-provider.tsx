@@ -20,7 +20,7 @@ import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler
 import { analytics } from "@/lib/analytics";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   classifyStreamError,
   extractErrorDetail,
@@ -147,17 +147,31 @@ function ChatRuntimeHook() {
     },
     onError: (e) => {
       releaseStreamLock();
+      const detail = extractErrorDetail(e);
+      // An upstream rejection nests its real cause several JSON levels deep
+      // (provider name, vendor code, vendor request id), so a short prefix
+      // stops before any of it: a GMICloud 400 truncated at 200 chars ended
+      // mid-key, hiding the code that identified it as a body rejection.
       logChatDebug("stream.error", {
         threadId,
         remoteId,
         online: navigator.onLine,
-        error: String(e).slice(0, 200),
+        status: detail.status ?? null,
+        code: detail.code ?? null,
+        requestId: detail.requestId ?? null,
+        message: detail.message,
+        error: String(e).slice(0, 4000),
       });
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-      const detail = extractErrorDetail(e);
+      captureFailedRequest({
+        status: detail.status,
+        code: detail.code,
+        requestId: detail.requestId,
+        message: detail.message,
+      });
       analytics.chat.streamFailed({
         error_type: classifyStreamError(detail),
         status: detail.status ?? null,
