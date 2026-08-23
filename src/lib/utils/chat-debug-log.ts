@@ -172,10 +172,11 @@ export function fingerprintText(text: string): TextFingerprint {
   };
 }
 
-// Persisted, because a user reports a failure after it happened: they hit
-// export on the next page load, or after a reload the error itself prompted.
-// A capture is a few hundred bytes of counters, so unlike the payload it
-// summarises it costs nothing to keep.
+// Its own key rather than a debug-log entry, because the two need opposite
+// retention: the log persists a 200-entry tail to bound setItem cost, and a
+// chat writes several entries per turn, so a capture parked in that ring is
+// evicted by ordinary chatting within an hour. A failure is reported after the
+// fact, often after a reload, which is precisely when it must still be there.
 const MAX_FAILED_CAPTURES = 3;
 const FAILED_STORAGE_KEY = "unorouter-failed-requests";
 
