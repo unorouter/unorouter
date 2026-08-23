@@ -1,5 +1,5 @@
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
-import { base64ToUint8, capitalize, clamp } from "@/lib/utils/base";
+import { base64ToUint8, capitalize, clamp, rec } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type MacroScope = {
@@ -116,9 +116,7 @@ function parseArr(s: string): unknown[] {
 function parseDictJSON(s: string): Record<string, unknown> {
   try {
     const v = JSON.parse(s);
-    return v && typeof v === "object" && !Array.isArray(v)
-      ? (v as Record<string, unknown>)
-      : {};
+    return rec(v) ?? {};
   } catch {
     return {};
   }

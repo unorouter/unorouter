@@ -5,6 +5,22 @@ import type {
   UnwrapApiResponse,
 } from "../types/eden";
 
+export function isRecord(v: unknown): v is Record<string, unknown> {
+  return !!v && typeof v === "object" && !Array.isArray(v);
+}
+
+export function rec(v: unknown): Record<string, unknown> | undefined {
+  return isRecord(v) ? v : undefined;
+}
+
+export function recArr(v: unknown): Record<string, unknown>[] {
+  return Array.isArray(v) ? v.filter(isRecord) : [];
+}
+
+export function isStringArray(v: unknown): v is string[] {
+  return Array.isArray(v) && v.every((x) => typeof x === "string");
+}
+
 export function safeJsonParse<T = Record<string, unknown>>(
   raw: string | undefined | null,
   fallback: T,

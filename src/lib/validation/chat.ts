@@ -1,4 +1,5 @@
 import { NONE_VALUE } from "@/lib/config/constants";
+import { isRecord } from "@/lib/utils/base";
 import type { Static } from "elysia";
 import { t } from "elysia";
 import { samplingOptional, unionLiterals } from "./helpers";
@@ -156,8 +157,8 @@ export function parseExtraBody(raw: string | null | undefined): ExtraBodyParse {
   if (!raw || raw.trim().length === 0) return { state: "empty" };
   try {
     const parsed: unknown = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return { state: "valid", parsed: parsed as Record<string, unknown> };
+    if (isRecord(parsed)) {
+      return { state: "valid", parsed };
     }
     return { state: "invalid" };
   } catch {

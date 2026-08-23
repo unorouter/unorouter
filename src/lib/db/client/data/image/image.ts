@@ -4,6 +4,7 @@ import {
   mediaBlobUrl,
   revokeMediaBlobUrl,
 } from "@/lib/db/client/data/media/blob-url";
+import { isRecord } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   type ImageSnapshot,
@@ -95,8 +96,8 @@ export const deleteLocalImageSession = (id: string) => sessionStore.drop(id);
 // from the media row's bytes via durableInitUrl), so keep https URLs and drop the
 // inline copies. `extraParams.inpaintMaskDataUrl` is the same canvas-drawn mask.
 function stripInlineImages(row: SnapshotInput): SnapshotInput {
-  const params = row.params as Record<string, unknown> | null | undefined;
-  const extra = row.extraParams as Record<string, unknown> | null | undefined;
+  const params = isRecord(row.params) ? row.params : undefined;
+  const extra = isRecord(row.extraParams) ? row.extraParams : undefined;
   const isInline = (v: unknown) =>
     typeof v === "string" && v.startsWith("data:");
   const nextParams =
@@ -115,7 +116,7 @@ function stripInlineImages(row: SnapshotInput): SnapshotInput {
     ...row,
     params: nextParams,
     extraParams: nextExtra,
-  } as SnapshotInput;
+  };
 }
 
 export const upsertLocalSnapshot = (row: SnapshotInput) =>
