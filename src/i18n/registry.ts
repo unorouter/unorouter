@@ -54,7 +54,7 @@ function guideDate(slug: string): string {
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   slug: `docs/integrations/${guide.slug}`,
   path: guide.href as Pathname,
-  i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
+  i18nPrefix: guide.i18nPrefix,
   date: guideDate(guide.slug),
   priority: 0.7,
   changeFrequency: "weekly",
@@ -65,7 +65,7 @@ const CHAT_PLATFORM_DOCS_DATE = "2026-07-05";
 const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   slug: `docs/chat/${doc.slug}`,
   path: doc.href as Pathname,
-  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  i18nPrefix: doc.i18nPrefix,
   date: CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
   changeFrequency: "weekly",
@@ -84,7 +84,7 @@ const PLATFORM_DOC_UPDATED: Record<string, string> = {
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
   slug: `docs/platform/${doc.slug}`,
   path: doc.href as Pathname,
-  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  i18nPrefix: doc.i18nPrefix,
   date: PLATFORM_DOC_DATES[doc.slug] ?? CHAT_PLATFORM_DOCS_DATE,
   updated: PLATFORM_DOC_UPDATED[doc.slug],
   priority: 0.7,
@@ -104,7 +104,7 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
     slug: "docs/chat",
     path: "/docs/chat",
-    i18nPrefix: "DOCS_CHAT.INDEX" as DocEntry["i18nPrefix"],
+    i18nPrefix: "DOCS_CHAT.INDEX",
     date: "2026-07-05",
     priority: 0.8,
     changeFrequency: "weekly",
@@ -112,7 +112,7 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
     slug: "docs/platform",
     path: "/docs/platform",
-    i18nPrefix: "DOCS_PLATFORM.INDEX" as DocEntry["i18nPrefix"],
+    i18nPrefix: "DOCS_PLATFORM.INDEX",
     date: "2026-07-05",
     priority: 0.8,
     changeFrequency: "weekly",

@@ -17,33 +17,33 @@ const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
   const chatItems: NavigationItem[] = [
     {
-      name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
-      subtitle: "DOCS_CHAT.INDEX.SUBTITLE" as TranslationKey,
+      name: "DOCS_CHAT.INDEX.TITLE",
+      subtitle: "DOCS_CHAT.INDEX.SUBTITLE",
       href: "/docs/chat",
-      group: "DOCS_CHAT.COMMON.TAB_CHAT" as TranslationKey,
+      group: "DOCS_CHAT.COMMON.TAB_CHAT",
       iconName: "layout-grid",
     },
     ...CHAT_DOCS.slice(0, 3).map((doc): NavigationItem => ({
       name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
       subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
       href: doc.href,
-      group: "DOCS_CHAT.COMMON.TAB_CHAT" as TranslationKey,
+      group: "DOCS_CHAT.COMMON.TAB_CHAT",
       iconName: doc.iconName,
     })),
   ];
   const platformItems: NavigationItem[] = [
     {
-      name: "DOCS_PLATFORM.INDEX.TITLE" as TranslationKey,
-      subtitle: "DOCS_PLATFORM.INDEX.SUBTITLE" as TranslationKey,
+      name: "DOCS_PLATFORM.INDEX.TITLE",
+      subtitle: "DOCS_PLATFORM.INDEX.SUBTITLE",
       href: "/docs/platform",
-      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM" as TranslationKey,
+      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM",
       iconName: "layout-grid",
     },
     ...PLATFORM_DOCS.map((doc): NavigationItem => ({
       name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
       subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
       href: doc.href,
-      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM" as TranslationKey,
+      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM",
       iconName: doc.iconName,
     })),
   ];
@@ -63,7 +63,7 @@ const docsSubmenu = (): NavigationItem[] => {
           name: CATEGORY_LABELS[category],
           subtitle: CATEGORY_DESCRIPTIONS[category],
           href: "/docs/integrations",
-          group: "DOCS_CHAT.COMMON.TAB_INTEGRATIONS" as TranslationKey,
+          group: "DOCS_CHAT.COMMON.TAB_INTEGRATIONS",
           iconName: CATEGORY_ICONS[category],
         },
       ];

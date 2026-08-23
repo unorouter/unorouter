@@ -90,8 +90,9 @@ function prefillOpensThink(
 }
 
 function isMediaModel(model: string): boolean {
-  const data = getQueryClient().getQueryData(queryKeys.pricingCatalog()) as
-    PricingCatalogData | undefined;
+  const data = getQueryClient().getQueryData<PricingCatalogData>(
+    queryKeys.pricingCatalog(),
+  );
   return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
@@ -162,10 +163,7 @@ async function runClientStream(args: {
   tokenizer?: TokenizerRef;
   extraHeaders?: Record<string, string>;
 }): Promise<ReadableStream<UIMessageChunk>> {
-  const history = await mergeDbHistory(
-    args.getConvId(),
-    args.options.messages as ChatUIMessage[],
-  );
+  const history = await mergeDbHistory(args.getConvId(), args.options.messages);
   const fields = await buildChatRequestBody(args.getConvId);
   const body = {
     ...fields,
@@ -205,9 +203,10 @@ async function runClientStream(args: {
     prefill: prefillOpensThink(prepared.messagesForUpstream),
     systemChars: prepared.effectiveSystem?.length ?? 0,
     messages: prepared.messagesForUpstream.map((m) => ({
-      role: (m as { role: string }).role,
-      chars: ((m as { parts?: { text?: string }[] }).parts ?? []).reduce(
-        (n, p) => n + (typeof p.text === "string" ? p.text.length : 0),
+      role: m.role,
+      chars: (m.parts ?? []).reduce(
+        (n, p) =>
+          n + ("text" in p && typeof p.text === "string" ? p.text.length : 0),
         0,
       ),
     })),
@@ -361,9 +360,9 @@ async function runClientStream(args: {
       for (const a of prepared.startAlerts) {
         writer.write({ type: "data-alert", data: a, transient: true });
       }
-      writer.merge(uiStream as ReadableStream<UIMessageChunk>);
+      writer.merge(uiStream);
     },
-  }) as ReadableStream<UIMessageChunk>;
+  });
 }
 
 export function makeRoutingTransport(

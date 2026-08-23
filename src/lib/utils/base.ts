@@ -11,7 +11,7 @@ export function safeJsonParse<T = Record<string, unknown>>(
 ): T {
   if (!raw) return fallback;
   try {
-    return JSON.parse(raw) as T;
+    return JSON.parse(raw);
   } catch {
     return fallback;
   }
@@ -23,14 +23,14 @@ export function parseStringMap(
   const v = safeJsonParse<unknown>(raw, null);
   if (!v || typeof v !== "object" || Array.isArray(v)) return {};
   const out: Record<string, string> = {};
-  for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+  for (const [k, val] of Object.entries(v)) {
     out[k] = typeof val === "string" ? val : String(val);
   }
   return out;
 }
 
 export function nonEmptyArray<T>(val: T[] | unknown): T[] | null {
-  return Array.isArray(val) && val.length > 0 ? (val as T[]) : null;
+  return Array.isArray(val) && val.length > 0 ? val : null;
 }
 
 export function pick<T>(arr: ArrayLike<T>): T {
@@ -189,7 +189,7 @@ export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      const result = reader.result as string;
+      const result = String(reader.result);
       const comma = result.indexOf(",");
       resolve(comma >= 0 ? result.slice(comma + 1) : result);
     };

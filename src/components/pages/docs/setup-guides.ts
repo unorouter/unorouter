@@ -1,4 +1,5 @@
 import type { IconName } from "@/lib/config/icon-map";
+import type { DocI18nPrefix } from "@/lib/types";
 import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -25,7 +26,7 @@ export interface SetupStep {
 export interface SetupGuide {
   slug: string;
   href: LinkHref;
-  i18nPrefix: string;
+  i18nPrefix: DocI18nPrefix;
   kind: "cli" | "rp" | "general";
   category: SetupCategory;
   titleKey: TranslationKey;

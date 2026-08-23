@@ -497,7 +497,7 @@ export class SandboxHost {
   private deserializeArgs(args: any[], usedAbortIds?: string[]) {
     return args.map((arg) => {
       if (arg && arg.__type === "CALLBACK_REF") {
-        const cbRef = arg as CallbackRef;
+        const cbRef: CallbackRef = arg;
         const cached = this.callbackWrapperCache.get(cbRef.id);
         if (cached) return cached;
 
@@ -553,7 +553,8 @@ export class SandboxHost {
         return wrapper;
       }
       if (arg && arg.__type === "REMOTE_REF") {
-        const instance = this.instanceRegistry.get((arg as RemoteRef).id);
+        const remoteRef: RemoteRef = arg;
+        const instance = this.instanceRegistry.get(remoteRef.id);
         if (instance) return instance;
       }
       if (arg && typeof arg === "object" && arg.constructor === Object) {
@@ -561,7 +562,7 @@ export class SandboxHost {
         for (const [key, val] of Object.entries<any>(arg)) {
           if (val && val.__type === "ABORT_SIGNAL_REF") {
             if (!out) out = { ...arg };
-            const abortRef = val as AbortSignalRef;
+            const abortRef: AbortSignalRef = val;
             const controller = new AbortController();
             if (abortRef.aborted) controller.abort();
             else this.abortControllers.set(abortRef.abortId, controller);
@@ -818,7 +819,7 @@ export class SandboxHost {
           const fn = this.apiFactory[data.method!];
           if (typeof fn !== "function")
             throw new Error(`API method ${data.method} not found`);
-          result = await (fn as (...a: any[]) => unknown)(...args);
+          result = await fn(...args);
         } else {
           const instance = this.instanceRegistry.get(data.id!);
           if (!instance) throw new Error("Instance not found or released");

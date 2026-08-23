@@ -72,8 +72,7 @@ async function repairBrokenChain(
 ): Promise<ApiMessage[]> {
   if (msgs.length < 2) return msgs;
   const ids = new Set(msgs.map((m) => m.id));
-  const ts = (m: ApiMessage) =>
-    dayjs((m.createdAt ?? 0) as string | number | Date).valueOf();
+  const ts = (m: ApiMessage) => dayjs(m.createdAt ?? 0).valueOf();
   const sorted = [...msgs].sort((a, b) => ts(a) - ts(b));
   const firstUser = sorted.find((m) => m.role === "user");
   const repaired: ApiMessage[] = [];
@@ -313,9 +312,7 @@ async function placeOnBranch(
     const parentRow = parentId
       ? existing.find((m) => m.id === parentId)
       : tipRow;
-    parentBranchVars =
-      (parentRow as { branchVars?: string | null } | undefined)?.branchVars ??
-      null;
+    parentBranchVars = parentRow?.branchVars ?? null;
     siblings = existing.filter(
       (m) => (m.parentId ?? null) === parentId && m.id !== messageId,
     );
@@ -365,7 +362,7 @@ async function persistRequestLog(
   queryClient.invalidateQueries({
     queryKey: queryKeys.requestLog(messageId),
   });
-  const reqId = (logRow as { requestId?: string | null }).requestId;
+  const reqId = logRow.requestId;
   if (reqId && !isCustomModelId(resolvedModel)) {
     await enqueueLogEnrich(messageId, reqId);
     drainSoon();
@@ -656,16 +653,14 @@ async function runOutputTriggers(
 ): Promise<void> {
   const settings = await readLocalConversationSettings(convId);
   if (!settings) return;
-  const vars = parseStringMap(
-    (settings as { vars?: string | null }).vars ?? null,
-  );
+  const vars = parseStringMap(settings.vars ?? null);
   const before = JSON.stringify(vars);
   const globalVars = parseStringMap(chatStore.get(globalVarsAtom));
   const globalsBefore = JSON.stringify(globalVars);
   const replyText = parts
     .filter(
       (p): p is MessagePart & { text: string } =>
-        p.type === "text" && typeof (p as { text?: unknown }).text === "string",
+        p.type === "text" && typeof p.text === "string",
     )
     .map((p) => p.text)
     .join("\n");

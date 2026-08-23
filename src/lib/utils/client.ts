@@ -70,8 +70,11 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
     else if ("data" in obj && obj.data != null) body = obj.data;
     // Eden Treaty parks a non-2xx body under error.value.
     else if ("error" in obj && obj.error != null) {
-      const edenError = obj.error as { value?: unknown };
-      body = edenError.value ?? edenError;
+      const edenError = obj.error;
+      body =
+        typeof edenError === "object" && edenError && "value" in edenError
+          ? (edenError.value ?? edenError)
+          : edenError;
     } else if (e instanceof Error) body = e.message;
   }
 
@@ -107,8 +110,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
 
   let code: string | undefined;
   if (errObj && typeof errObj === "object") {
-    const c = (errObj as { code?: unknown }).code;
-    if (typeof c === "string" && c) code = c;
+    if ("code" in errObj && typeof errObj.code === "string" && errObj.code)
+      code = errObj.code;
   }
 
   const requestId = message.match(REQUEST_ID_RE)?.[1];
@@ -168,8 +171,8 @@ function pickMessage(v: unknown): Extracted | null {
   if (v && typeof v === "object") {
     const obj = v as Record<string, unknown>;
     for (const key of ["message", "detail", "error_description"]) {
-      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
-        const text = obj[key] as string;
+      if (typeof obj[key] === "string" && obj[key].trim()) {
+        const text = obj[key];
         // Runware names the offending field on `parameter`.
         const parameter =
           typeof obj.parameter === "string" ? obj.parameter : null;
@@ -263,38 +266,25 @@ export function downloadBlob(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-type SaveFilePicker = (opts: {
-  suggestedName?: string;
-  types?: { description?: string; accept: Record<string, string[]> }[];
-}) => Promise<{
-  createWritable: () => Promise<WritableStream<Uint8Array>>;
-  getFile?: () => Promise<File>;
-}>;
-
 // Streams to disk via File System Access where available so a large file never
 // materializes in the JS heap; iOS falls through to Web Share, then a blob.
 export async function streamFileToDisk(
   file: File,
   filename: string,
 ): Promise<"fsa" | "share" | "blob" | "cancelled"> {
-  const picker = (window as unknown as { showSaveFilePicker?: SaveFilePicker })
-    .showSaveFilePicker;
+  const picker = window.showSaveFilePicker;
   // iOS 26 exposes showSaveFilePicker but its pipeTo silently truncates.
   const likelyIos =
     /iphone|ipad|ipod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const nav = navigator as Navigator & {
-    canShare?: (data: { files?: File[] }) => boolean;
-    share?: (data: { files?: File[]; title?: string }) => Promise<void>;
-  };
   logChatDebug("save.begin", {
     bytes: file.size,
     filename,
     likelyIos,
     hasPicker: typeof picker === "function",
-    hasShare: typeof nav.share === "function",
+    hasShare: typeof navigator.share === "function",
     sourceType: file.type,
-    canShareSource: nav.canShare?.({ files: [file] }) ?? null,
+    canShareSource: navigator.canShare?.({ files: [file] }) ?? null,
     ua: navigator.userAgent.slice(0, 120),
     platform: navigator.platform,
     maxTouchPoints: navigator.maxTouchPoints,
@@ -338,17 +328,18 @@ export async function streamFileToDisk(
   const shareFile = new File([file], filename, {
     type: "application/octet-stream",
   });
-  const canShareRewrapped = nav.canShare?.({ files: [shareFile] }) ?? null;
+  const canShareRewrapped =
+    navigator.canShare?.({ files: [shareFile] }) ?? null;
   logChatDebug("save.share_probe", {
     sourceType: file.type,
     shareType: shareFile.type,
-    canShareSource: nav.canShare?.({ files: [file] }) ?? null,
+    canShareSource: navigator.canShare?.({ files: [file] }) ?? null,
     canShareRewrapped,
     shareBytes: shareFile.size,
   });
-  if (typeof nav.share === "function" && canShareRewrapped) {
+  if (typeof navigator.share === "function" && canShareRewrapped) {
     try {
-      await nav.share({ files: [shareFile] });
+      await navigator.share({ files: [shareFile] });
       logChatDebug("save.done", {
         path: "share",
         bytes: shareFile.size,

@@ -2,21 +2,21 @@ import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { isValidAir } from "@/lib/ai/image/constants";
+import { SYNC_IMAGE_ENDPOINTS } from "@/lib/ai/image/dispatch";
 import { msg } from "@/lib/config/constants";
 import type {
   GeneratedImage,
+  ImageParams,
   LoraEntry,
   ImageSubmitBody,
 } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import { groupHeader } from "@/server/constants";
-import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { PricingCatalogDetail } from "@/openapi";
 import {
   adetailerCheckpoint,
   runAdetailerPass,
 } from "@/server/ai/image/adetailer.service";
-import type { AdetailerParams } from "@/lib/validation/image";
 import { MAX_IMAGES_PER_GEN } from "@/lib/validation/image";
 import {
   batchPlan,
@@ -179,8 +179,8 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     throw new Error(msg("ERRORS.NOT_FOUND"));
   }
   // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
-  const endpoint = info.metadata?.imageParams?.endpoint as
-    SyncImageEndpoint | undefined;
+  const raw = info.metadata?.imageParams?.endpoint;
+  const endpoint = SYNC_IMAGE_ENDPOINTS.find((e) => e === raw);
   if (!endpoint) {
     logger.warn("image model has no usable endpoint", {
       context: "image.submit",
@@ -195,11 +195,11 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
 async function refineWithAdetailer(
   uri: string,
   body: ImageSubmitBody,
-  params: Record<string, unknown>,
+  params: ImageParams,
   loras: LoraEntry[],
   size: UpstreamSize | undefined,
 ): Promise<string> {
-  const adetailer = params.adetailer as AdetailerParams | undefined;
+  const adetailer = params.adetailer;
   if (!adetailer || uri.startsWith("data:")) return uri;
   // ADetailer runs on the finished result, best-effort: any failure keeps the
   // original rather than losing a generation the user already paid for.
@@ -208,10 +208,9 @@ async function refineWithAdetailer(
     adetailer,
     checkpoint: adetailerCheckpoint(body),
     prompt: body.prompt,
-    negativePrompt: params.negativePrompt as string | undefined,
     loras: adetailer.loras?.length ? adetailer.loras : loras,
-    scheduler: params.scheduler as string | undefined,
-    cfg: params.cfg as number | undefined,
+    scheduler: params.scheduler,
+    cfg: params.cfg,
     // Renders at the size actually requested, hires multiplier included.
     width: size?.width ?? 1024,
     height: size?.height ?? 1024,
@@ -239,14 +238,14 @@ export async function submitGeneration(
 ): Promise<SubmitGenerationResult> {
   const resolved = await resolveModel(body.model);
   // The detail row carries the same imageParams the capability gate reads.
-  const descriptor = resolved.info as unknown as ImageModelDescriptor;
+  const descriptor = resolved.info;
   const endpoint = resolved.endpoint;
 
   const filtered = filterParamsToCapabilities(descriptor, body.params);
   const loras = filterLorasToCapabilities(descriptor, body.loras);
   const references = capReferences(descriptor, body.references);
 
-  const params = filtered.params as Record<string, unknown>;
+  const params = filtered.params;
   const size = sizeOf(filtered.params);
   // References may be data URIs: the browser holds the bytes, there is no object storage.
   const refs = references.length
@@ -267,11 +266,11 @@ export async function submitGeneration(
       size: sizeLabel,
       refs,
       n: plan.perCallN,
-      quality: params.quality as string | undefined,
-      outputFormat: params.outputFormat as string | undefined,
-      watermark: params.watermark as boolean | undefined,
-      background: params.background as string | undefined,
-      strength: params.strength as number | undefined,
+      quality: params.quality,
+      outputFormat: params.outputFormat,
+      watermark: params.watermark,
+      background: params.background,
+      strength: params.strength,
       // A pinned seed on a multi-image batch offsets per call, else every call
       // renders the identical image.
       seed: typeof params.seed === "number" ? params.seed + i : undefined,
@@ -297,9 +296,7 @@ export async function submitGeneration(
       call: i + 1,
       of: plan.calls,
       params: redactImageValues(
-        built.kind === "json"
-          ? (JSON.parse(built.body) as Record<string, unknown>)
-          : params,
+        built.kind === "json" ? JSON.parse(built.body) : params,
       ),
       loras: loras.map((l) => `${l.name}@${l.weight}`),
       refCount: refs.length,

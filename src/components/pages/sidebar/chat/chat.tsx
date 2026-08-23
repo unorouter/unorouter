@@ -28,13 +28,19 @@ export function Chat(props: ChatProps) {
   const skipFirstSync = useRef(true);
 
   useEffect(() => {
+    // The runtime lives in the (chat) layout and survives navigation to
+    // /chat/presets and /chat/cards, so coming back mounts this on bare /chat
+    // while a thread is still active. Skipping that first sync left the URL
+    // without the convId, which read as the conversation being gone and forced
+    // New Chat plus reselecting it. Restore the URL instead, and only skip when
+    // the mount already agrees with the route.
     if (skipFirstSync.current) {
       skipFirstSync.current = false;
-      return;
+      if (!threadId || props.convId) return;
     }
     const url = threadId ? `/${locale}/chat/${threadId}` : `/${locale}/chat`;
     window.history.replaceState(null, "", url);
-  }, [threadId, locale]);
+  }, [threadId, locale, props.convId]);
 
   useEffect(() => {
     const convTitle = convQuery.data?.title;

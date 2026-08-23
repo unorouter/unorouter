@@ -1,6 +1,7 @@
 import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
+import type { DocI18nPrefix } from "@/lib/types";
 
 export type PlatformDocSection = "GUIDE" | "FAQ";
 
@@ -13,7 +14,7 @@ export interface PlatformDocHeading {
 export interface PlatformDoc {
   slug: string;
   href: LinkHref;
-  i18nPrefix: string;
+  i18nPrefix: DocI18nPrefix;
   section: PlatformDocSection;
   iconName: IconName;
   headings: PlatformDocHeading[];
@@ -26,7 +27,12 @@ const platformDocHref = (slug: string): LinkHref => ({
 
 function platformDoc(input: {
   slug: string;
-  name: string;
+  name: Extract<
+    DocI18nPrefix,
+    `DOCS_PLATFORM.${string}`
+  > extends `DOCS_PLATFORM.${infer N}`
+    ? N
+    : never;
   section: PlatformDocSection;
   iconName: IconName;
   headings: [string, string][];

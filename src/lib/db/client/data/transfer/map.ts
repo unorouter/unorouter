@@ -22,10 +22,14 @@ export type MappedImport = {
   bundle: {
     conversation: { id: string; title: string | null };
     settings: Record<string, unknown> & { convId: string };
-    conversationCharacters: Array<Record<string, unknown>>;
-    conversationLorebooks: Array<Record<string, unknown>>;
+    conversationCharacters: Array<
+      Record<string, unknown> & { characterId: string }
+    >;
+    conversationLorebooks: Array<
+      Record<string, unknown> & { lorebookId: string }
+    >;
     messages: Array<LocalAnyRow>;
-    messageItems: Array<LocalAnyRow>;
+    messageItems: Array<LocalAnyRow & { messageId: string }>;
     media: Array<LocalAnyRow>;
     requestLogs: Array<Record<string, unknown>>;
   };
@@ -318,7 +322,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
     };
   });
 
-  const messageItems: Array<LocalAnyRow> = [];
+  const messageItems: Array<LocalAnyRow & { messageId: string }> = [];
   for (const m of Object.values(orpgMessages)) {
     const newMsgId = msgIdMap.get(str(m.id) ?? "")!;
     const itemRefs = recArr(m.items);
@@ -413,7 +417,7 @@ export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
       : "Imported chat";
 
   const messages: Array<LocalAnyRow> = [];
-  const messageItems: Array<LocalAnyRow> = [];
+  const messageItems: Array<LocalAnyRow & { messageId: string }> = [];
   let prevId: string | null = null;
   for (let i = 0; i < parsed.messages.length; i++) {
     const m = parsed.messages[i];

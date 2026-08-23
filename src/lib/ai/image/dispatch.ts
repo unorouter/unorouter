@@ -2,7 +2,12 @@ import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 
 // Which upstream serves a synchronous image request. Resolved by the gateway per
 // model (metadata.imageParams.endpoint); this is the shape the send paths switch on.
-export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
+export const SYNC_IMAGE_ENDPOINTS = [
+  "image-generation",
+  "openai",
+  "gemini",
+] as const;
+export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
 import { safeFetchBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 

@@ -48,9 +48,7 @@ export function requestPersistentStorage(): void {
 // so a report can name the cause instead of guessing at it.
 export function installResumeDiagnostics(): void {
   window.addEventListener("pageshow", (e) => {
-    const mem = (
-      performance as unknown as { memory?: { usedJSHeapSize?: number } }
-    ).memory;
+    const mem = performance.memory;
     logChatDebug("page.show", {
       // true means the heap came back from bfcache rather than being rebuilt.
       bfcache: e.persisted,
@@ -80,7 +78,7 @@ export function installDomReconciliationGuard(): void {
     child: T,
   ): T {
     if (child.parentNode !== this) return child;
-    return originalRemoveChild.call(this, child) as T;
+    return originalRemoveChild.call<Node, [T], T>(this, child);
   };
 
   const originalInsertBefore = Node.prototype.insertBefore;
@@ -90,8 +88,16 @@ export function installDomReconciliationGuard(): void {
     referenceNode: Node | null,
   ): T {
     if (referenceNode && referenceNode.parentNode !== this) {
-      return originalInsertBefore.call(this, newNode, null) as T;
+      return originalInsertBefore.call<Node, [T, Node | null], T>(
+        this,
+        newNode,
+        null,
+      );
     }
-    return originalInsertBefore.call(this, newNode, referenceNode) as T;
+    return originalInsertBefore.call<Node, [T, Node | null], T>(
+      this,
+      newNode,
+      referenceNode,
+    );
   };
 }
