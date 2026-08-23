@@ -3205,6 +3205,7 @@
       "USER": "Kullanıcı",
       "MODEL": "Model",
       "TOKEN": "Token",
+      "CLIENT": "İstemci",
       "INPUT": "Girdi",
       "OUTPUT": "Çıktı",
       "TOKENS": "Tokenlar",

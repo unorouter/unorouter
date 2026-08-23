@@ -3205,6 +3205,7 @@
       "USER": "User",
       "MODEL": "Model",
       "TOKEN": "Token",
+      "CLIENT": "Client",
       "INPUT": "Input",
       "OUTPUT": "Output",
       "TOKENS": "Tokens",
