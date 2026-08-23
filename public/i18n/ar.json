@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type} مطلوب",
-      "MIN_LENGTH": "{type} يجب أن يكون {minLength} أحرف على الأقل",
-      "MAX_LENGTH": "{type} يجب ألا يتجاوز {maxLength} حرفًا",
-      "MIN_VALUE": "{type} يجب أن يكون أكبر من 0"
+      "REQUIRED": "هذا الحقل مطلوب",
+      "MIN_LENGTH": "يجب ألا يقل عن {minLength} أحرف",
+      "MAX_LENGTH": "يجب ألا يتجاوز {maxLength} حرفًا",
+      "MIN_VALUE": "يجب أن تكون القيمة أكبر من 0"
     },
     "TYPE": {
       "USERNAME": "اسم المستخدم",
