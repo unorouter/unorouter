@@ -5655,7 +5655,8 @@
       "H_INVITES": "Convidar membros",
       "P_INVITES_1": "O crédito por convite vem do link que o novo membro usou. O Discord informa esse código ao bot na entrada, e o bot paga quem o criou.",
       "P_INVITES_VANITY": "O link personalizado (discord.gg/{appName}) não tem criador, então convites por ele nunca são creditados. Crie seu próprio link de convite.",
-      "P_INVITES_2": "Clique com o botão direito no servidor ou em um canal, escolha Invite People e depois Edit invite link. Marque para nunca expirar e usos ilimitados, depois copie.",
+      "P_INVITES_2": "Clique com o botão direito no nome do servidor ou em um canal e escolha Convidar para o canal (Convidar pessoas no servidor). Na janela, abra Editar link de convite, defina para nunca expirar e usos ilimitados, e copie.",
+      "ALT_INVITE_MENU": "Menu de contexto do Discord com Convidar para o canal destacado",
       "P_INVITES_3": "Mais dois casos não pagam nada: voltar depois de sair e uma entrada que dois dos seus links poderiam explicar igualmente. Links de bots de sites de listagem nunca são creditados."
     }
   },

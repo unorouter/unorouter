@@ -5655,7 +5655,8 @@
       "H_INVITES": "Invitar miembros",
       "P_INVITES_1": "El crédito por invitación depende de qué enlace usó el nuevo miembro. Discord comunica ese código al bot al entrar, y el bot paga a quien lo creó.",
       "P_INVITES_VANITY": "El enlace personalizado (discord.gg/{appName}) no tiene creador, así que las invitaciones a través de él nunca se acreditan. Crea tu propio enlace de invitación.",
-      "P_INVITES_2": "Haz clic derecho en el servidor o en un canal, elige Invite People y luego Edit invite link. Ponlo sin caducidad y con usos ilimitados y cópialo.",
+      "P_INVITES_2": "Haz clic derecho en el nombre del servidor o en cualquier canal y elige Invitar al canal (Invitar gente en el servidor). En el cuadro de diálogo, abre Editar enlace de invitación, configúralo para que nunca caduque y con usos ilimitados, y cópialo.",
+      "ALT_INVITE_MENU": "Menú contextual de Discord con Invitar al canal resaltado",
       "P_INVITES_3": "Hay dos casos más que no pagan nada: volver a entrar tras haberte ido y una entrada que dos de tus enlaces podrían explicar por igual. Los enlaces de bots de sitios de listados nunca se acreditan."
     }
   },

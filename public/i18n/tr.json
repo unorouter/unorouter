@@ -5655,7 +5655,8 @@
       "H_INVITES": "Uye davet etmek",
       "P_INVITES_1": "Davet kredisi, yeni üyenin hangi bağlantıyı kullandığından gelir. Discord katılımda bu kodu bota bildirir ve bot bağlantıyı oluşturana öder.",
       "P_INVITES_VANITY": "Özel bağlantının (discord.gg/{appName}) bir oluşturucusu yoktur, bu yüzden onun üzerinden gelen davetler hiç kredilendirilmez. Kendi davet bağlantınızı oluşturun.",
-      "P_INVITES_2": "Sunucuya veya bir kanala sağ tıklayın, Invite People, ardından Edit invite link seçeneğini seçin. Süresiz ve sınırsız kullanım olarak ayarlayın, sonra kopyalayın.",
+      "P_INVITES_2": "Sunucu adına veya herhangi bir kanala sağ tıklayıp Kanala davet et (sunucuda İnsanları davet et) seçeneğini seçin. Açılan pencerede Davet bağlantısını düzenle bölümünü açın, süresiz ve sınırsız kullanım olarak ayarlayıp kopyalayın.",
+      "ALT_INVITE_MENU": "Kanala davet et seçeneğinin vurgulandığı Discord sağ tık menüsü",
       "P_INVITES_3": "İki durum daha hiçbir şey ödemez: ayrıldıktan sonra yeniden katılma ve iki bağlantınızın eşit olarak açıklayabileceği bir katılım. Listeleme sitesi bot bağlantıları hiç kredilendirilmez."
     }
   },

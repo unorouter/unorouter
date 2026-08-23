@@ -5655,7 +5655,8 @@
       "H_INVITES": "Inviting members",
       "P_INVITES_1": "Invite credit comes from which link a new member used. Discord reports that code to the bot on join, and the bot pays whoever created it.",
       "P_INVITES_VANITY": "The vanity link (discord.gg/{appName}) has no creator, so invites through it are never credited. Create your own invite link.",
-      "P_INVITES_2": "Right-click the server or a channel, choose Invite People, then Edit invite link. Set never expire and unlimited uses, then copy it.",
+      "P_INVITES_2": "Right-click the server name or any channel and choose Invite to Channel (Invite People on the server itself). In the dialog, open Edit invite link, set it to never expire with unlimited uses, then copy it.",
+      "ALT_INVITE_MENU": "Discord right-click menu with Invite to Channel highlighted",
       "P_INVITES_3": "Two more cases pay nothing: rejoining after leaving, and a join two of your links could equally explain. Listing-site bot links are never credited."
     }
   },

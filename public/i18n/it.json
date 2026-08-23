@@ -5655,7 +5655,8 @@
       "H_INVITES": "Invitare membri",
       "P_INVITES_1": "Il merito dell'invito dipende da quale link ha usato un nuovo membro. Discord comunica quel codice al bot all'ingresso, e il bot paga chi lo ha creato.",
       "P_INVITES_VANITY": "Il link vanity (discord.gg/{appName}) non ha un creatore, quindi gli inviti che passano da lì non vengono mai accreditati. Crea un tuo link di invito.",
-      "P_INVITES_2": "Fai clic destro sul server o su un canale, scegli Invite People, poi Edit invite link. Imposta nessuna scadenza e usi illimitati, poi copialo.",
+      "P_INVITES_2": "Fai clic destro sul nome del server o su un canale e scegli Invita nel canale (Invita persone sul server). Nella finestra apri Modifica link d'invito, impostalo senza scadenza e con usi illimitati, poi copialo.",
+      "ALT_INVITE_MENU": "Menu contestuale di Discord con Invita nel canale evidenziato",
       "P_INVITES_3": "Altri due casi non pagano nulla: rientrare dopo essere usciti e un ingresso che due dei tuoi link spiegherebbero allo stesso modo. I link dei bot dei siti di listing non vengono mai accreditati."
     }
   },

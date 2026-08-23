@@ -5655,7 +5655,8 @@
       "H_INVITES": "Mengundang anggota",
       "P_INVITES_1": "Kredit undangan ditentukan oleh tautan mana yang dipakai anggota baru. Discord melaporkan kode itu ke bot saat orang bergabung, dan bot membayar pembuat tautannya.",
       "P_INVITES_VANITY": "Tautan vanity (discord.gg/{appName}) tidak punya pembuat, jadi undangan lewat tautan itu tidak pernah dikreditkan. Buat tautan undangan Anda sendiri.",
-      "P_INVITES_2": "Klik kanan server atau sebuah kanal, pilih Invite People, lalu Edit invite link. Setel agar tidak pernah kedaluwarsa dan tanpa batas pemakaian, lalu salin.",
+      "P_INVITES_2": "Klik kanan nama server atau salah satu kanal lalu pilih Undang ke Kanal (Undang Orang di servernya). Di dialog, buka Edit tautan undangan, atur agar tidak pernah kedaluwarsa dengan penggunaan tak terbatas, lalu salin.",
+      "ALT_INVITE_MENU": "Menu klik kanan Discord dengan Undang ke Kanal disorot",
       "P_INVITES_3": "Dua kasus lain tidak dibayar: bergabung ulang setelah keluar, dan bergabung yang bisa dijelaskan sama kuatnya oleh dua tautan Anda. Tautan bot situs listing tidak pernah dikreditkan."
     }
   },

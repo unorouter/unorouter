@@ -5655,7 +5655,8 @@
       "H_INVITES": "Mời thành viên",
       "P_INVITES_1": "Công lao mời đến từ việc thành viên mới đã dùng liên kết nào. Discord báo mã đó cho bot lúc họ tham gia, và bot trả cho người tạo ra liên kết.",
       "P_INVITES_VANITY": "Liên kết rút gọn riêng (discord.gg/{appName}) không có người tạo, nên các lượt mời qua nó không bao giờ được tính. Hãy tạo liên kết mời của riêng bạn.",
-      "P_INVITES_2": "Nhấp chuột phải vào máy chủ hoặc một kênh, chọn Invite People, rồi Edit invite link. Đặt không bao giờ hết hạn và số lượt dùng không giới hạn, rồi sao chép nó.",
+      "P_INVITES_2": "Nhấp chuột phải vào tên máy chủ hoặc một kênh bất kỳ rồi chọn Mời vào kênh (Mời mọi người trên máy chủ). Trong hộp thoại, mở Chỉnh sửa liên kết mời, đặt không bao giờ hết hạn và số lượt dùng không giới hạn, rồi sao chép.",
+      "ALT_INVITE_MENU": "Menu chuột phải của Discord với mục Mời vào kênh được làm nổi bật",
       "P_INVITES_3": "Còn hai trường hợp nữa không được trả: vào lại sau khi đã rời đi, và một lượt tham gia mà hai liên kết của bạn đều giải thích được như nhau. Liên kết của bot trên các trang liệt kê không bao giờ được tính."
     }
   },

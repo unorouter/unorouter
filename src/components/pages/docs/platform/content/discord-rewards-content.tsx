@@ -1,4 +1,5 @@
 import {
+  DocImage,
   DocKbd,
   DocPageLink,
   DocSection,
@@ -78,6 +79,12 @@ export async function DiscordRewardsContent() {
         <p>{k("P_INVITES_1")}</p>
         <DocWarning>{k("P_INVITES_VANITY")}</DocWarning>
         <p>{k("P_INVITES_2")}</p>
+        <DocImage
+          src="/images/docs/discord-invite-menu.webp"
+          alt={k("ALT_INVITE_MENU")}
+          width={486}
+          height={397}
+        />
         <p>{k("P_INVITES_3")}</p>
       </DocSection>
       <DocSection id="tag" title={k("H_TAG")}>
