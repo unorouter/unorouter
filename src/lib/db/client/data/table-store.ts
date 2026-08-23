@@ -1,66 +1,59 @@
 "use client";
 
 import type {
+  LocalDb,
   ScopedTable,
   StoreConfig,
   StorePkValue,
   StoreRow,
 } from "@/lib/types";
-import type { InferSelectModel, SQL } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { eq } from "drizzle-orm";
-import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { getLocalDb } from "../client";
 
-type LocalDb = {
-  delete: (table: SQLiteTable) => { where: (cond: SQL) => Promise<unknown> };
-  insert: (table: SQLiteTable) => {
-    values: (row: never) => Promise<unknown>;
-  };
-};
-
-export async function replaceChildRows<T>(
-  db: LocalDb,
-  table: SQLiteTable,
-  fkColumn: SQLiteColumn,
-  parentId: string,
-  rows: T[],
-  mapRow?: (row: T, index: number) => Record<string, unknown>,
-): Promise<void> {
-  await db.delete(table).where(eq(fkColumn, parentId));
-  for (let i = 0; i < rows.length; i++) {
-    const values = mapRow ? mapRow(rows[i], i) : rows[i];
-    await db.insert(table).values(values as never);
-  }
-}
-
-type LocalInsertable = {
-  insert: (table: SQLiteTable) => {
-    values: (row: never) => {
+// drizzle's values()/set() overloads only resolve against a CONCRETE table, so a
+// generic TTable cannot reach them. This shim states what the runtime accepts;
+// mapRow's return type is what keeps every call site checked against the table.
+type ChildRowWriter<TTable extends ScopedTable> = {
+  delete: (table: ScopedTable) => { where: (cond: SQL) => Promise<unknown> };
+  insert: (table: ScopedTable) => {
+    values: (row: InferInsertModel<TTable>) => Promise<unknown> & {
       onConflictDoUpdate: (opts: {
         target: SQLiteColumn | SQLiteColumn[];
-        set: never;
+        set: InferInsertModel<TTable>;
       }) => Promise<unknown>;
     };
   };
 };
 
-export async function mergeChildRows<T>(
-  db: LocalInsertable,
-  table: SQLiteTable,
+export async function replaceChildRows<TTable extends ScopedTable, T>(
+  db: ChildRowWriter<TTable>,
+  table: TTable,
+  fkColumn: SQLiteColumn,
+  parentId: string,
+  rows: T[],
+  mapRow: (row: T, index: number) => InferInsertModel<TTable>,
+): Promise<void> {
+  await db.delete(table).where(eq(fkColumn, parentId));
+  for (let i = 0; i < rows.length; i++) {
+    await db.insert(table).values(mapRow(rows[i], i));
+  }
+}
+
+export async function mergeChildRows<TTable extends ScopedTable, T>(
+  db: ChildRowWriter<TTable>,
+  table: TTable,
   pk: SQLiteColumn | SQLiteColumn[],
   rows: T[],
-  mapRow?: (row: T, index: number) => Record<string, unknown>,
+  mapRow: (row: T, index: number) => InferInsertModel<TTable>,
 ): Promise<void> {
   for (let i = 0; i < rows.length; i++) {
-    const values = (mapRow ? mapRow(rows[i], i) : rows[i]) as Record<
-      string,
-      unknown
-    >;
+    const values = mapRow(rows[i], i);
     await db
       .insert(table)
-      .values(values as never)
-      .onConflictDoUpdate({ target: pk, set: values as never });
+      .values(values)
+      .onConflictDoUpdate({ target: pk, set: values });
   }
 }
 
@@ -80,7 +73,7 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (orderBy) {
         query = query.orderBy(orderBy);
       }
-      return (await query) as Row[];
+      return await query;
     },
 
     async get(id: StorePkValue): Promise<Row | null> {
@@ -91,7 +84,7 @@ export function makeTableStore<TTable extends ScopedTable>(
         .from(table)
         .where(eq(pk, id))
         .limit(1);
-      return (rows[0] as Row | undefined) ?? null;
+      return rows[0] ?? null;
     },
 
     async upsert(row: StoreRow): Promise<void> {

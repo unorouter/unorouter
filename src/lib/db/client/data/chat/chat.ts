@@ -30,6 +30,7 @@ import {
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
 import {
@@ -419,7 +420,7 @@ export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
 
 export async function replaceLocalMessageItems(
   messageId: string,
-  items: Array<LocalRowInput & { id: string }>,
+  items: Array<InferInsertModel<typeof messageItems> & { id: string }>,
 ) {
   const local = await getLocalDb();
   if (!local) return;
@@ -511,11 +512,13 @@ type BundleStamp = Date | number | string | null | undefined;
 export async function upsertLocalConversationBundle(bundle: {
   conversation: AnyRow & { updatedAt?: BundleStamp };
   settings: ChildRow | null;
-  conversationCharacters: Array<ChildRow & { characterId: string }>;
-  conversationLorebooks: Array<ChildRow & { lorebookId: string }>;
+  conversationCharacters: Array<
+    InferInsertModel<typeof conversationCharacters>
+  >;
+  conversationLorebooks: Array<InferInsertModel<typeof conversationLorebooks>>;
   messages: Array<AnyRow & { updatedAt?: BundleStamp }>;
   messageItems: Array<AnyRow & { messageId: string }>;
-  media: AnyRow[];
+  media: Array<InferInsertModel<typeof media>>;
   requestLogs: ChildRow[];
 }): Promise<{ skippedLocalNewer: number }> {
   const local = await getLocalDb();
@@ -538,12 +541,14 @@ export async function upsertLocalConversationBundle(bundle: {
     conversationCharacters,
     [conversationCharacters.convId, conversationCharacters.characterId],
     bundle.conversationCharacters,
+    (row) => row,
   );
   await mergeChildRows(
     local.db,
     conversationLorebooks,
     [conversationLorebooks.convId, conversationLorebooks.lorebookId],
     bundle.conversationLorebooks,
+    (row) => row,
   );
 
   const existingMessages = await local.db
@@ -630,7 +635,7 @@ export async function upsertLocalConversationBundle(bundle: {
     }
   }
 
-  await mergeChildRows(local.db, media, media.id, bundle.media);
+  await mergeChildRows(local.db, media, media.id, bundle.media, (row) => row);
 
   for (const log of bundle.requestLogs) {
     await local.db

@@ -92,7 +92,7 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
 
   const errObj =
     parsed && typeof parsed === "object" && "error" in parsed
-      ? (parsed as { error: unknown }).error
+      ? parsed.error
       : parsed;
   const found = pickMessage(errObj) ?? pickMessage(body);
   let message =

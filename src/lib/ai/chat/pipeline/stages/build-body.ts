@@ -206,8 +206,7 @@ function leanParts(parts: unknown): unknown {
   if (!Array.isArray(parts)) return parts;
   return parts.map((part) => {
     if (!part || typeof part !== "object") return part;
-    const p = part as Record<string, unknown>;
-    const out: Record<string, unknown> = { ...p };
+    const out: Record<string, unknown> = { ...part };
     for (const key of ["url", "data", "image", "text"]) {
       const v = out[key];
       if (typeof v !== "string") continue;
@@ -251,10 +250,10 @@ export function buildDebugSnapshot(
 ) {
   const ctx = body.chatContext;
   const leanMessages = messagesForUpstream.map((m) => ({
-    role: (m as { role: string }).role,
-    parts: leanParts((m as { parts?: unknown }).parts),
+    role: m.role,
+    parts: leanParts(m.parts),
   }));
-  const preset = ctx?.preset as Record<string, unknown> | null | undefined;
+  const preset = ctx?.preset;
   return {
     // Every knob that shapes the request, so a quality report can be diagnosed
     // from the export alone instead of asking the user to recite settings.
@@ -264,9 +263,7 @@ export function buildDebugSnapshot(
     sent: wire
       ? {
           modelParams: wire.modelParams,
-          providerOptions:
-            (wire.providerOptions[CHAT_PROVIDER_NAME] as
-              Record<string, unknown> | undefined) ?? {},
+          providerOptions: wire.providerOptions[CHAT_PROVIDER_NAME] ?? {},
         }
       : null,
     settings: {

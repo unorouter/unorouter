@@ -21,7 +21,8 @@ export function isUpstreamError(e: unknown): e is UpstreamError {
   return (
     typeof e === "object" &&
     e !== null &&
-    typeof (e as UpstreamError).status === "number"
+    "status" in e &&
+    typeof e.status === "number"
   );
 }
 

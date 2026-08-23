@@ -233,7 +233,7 @@ export async function readHistoryProviders(
   return rows.map((r) => ({
     ...r,
     lastTestedAt: new Date(r.lastTestedAt),
-  })) as HistoryProviderRow[];
+  }));
 }
 
 export async function readHistoryModels(
@@ -267,7 +267,7 @@ export async function readHistoryModels(
   const models = rows.map((r) => ({
     ...r,
     lastTestedAt: new Date(r.lastTestedAt),
-  })) as HistoryModelRow[];
+  }));
   return { provider: models[0]?.provider ?? null, models };
 }
 

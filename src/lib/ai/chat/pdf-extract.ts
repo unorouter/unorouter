@@ -26,11 +26,15 @@ type PdfFilePart = {
 };
 
 function isPdfFilePart(part: unknown): part is PdfFilePart {
-  const p = part as Partial<PdfFilePart>;
   return (
-    p?.type === "file" &&
-    p.mediaType === "application/pdf" &&
-    typeof p.url === "string"
+    typeof part === "object" &&
+    part !== null &&
+    "type" in part &&
+    part.type === "file" &&
+    "mediaType" in part &&
+    part.mediaType === "application/pdf" &&
+    "url" in part &&
+    typeof part.url === "string"
   );
 }
 
@@ -49,12 +53,16 @@ type TextFilePart = {
 };
 
 function isTextFilePart(part: unknown): part is TextFilePart {
-  const p = part as Partial<TextFilePart>;
   return (
-    p?.type === "file" &&
-    typeof p.mediaType === "string" &&
-    TEXT_MEDIA_TYPE.test(p.mediaType) &&
-    typeof p.url === "string"
+    typeof part === "object" &&
+    part !== null &&
+    "type" in part &&
+    part.type === "file" &&
+    "mediaType" in part &&
+    typeof part.mediaType === "string" &&
+    TEXT_MEDIA_TYPE.test(part.mediaType) &&
+    "url" in part &&
+    typeof part.url === "string"
   );
 }
 
