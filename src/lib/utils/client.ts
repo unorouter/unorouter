@@ -15,8 +15,8 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 SetErrorFunction((error) => {
-  // A schema carries ONE error string, so a field with both bounds would report
-  // its minLength message for a too-long value. maxLength gets its own key.
+  // A schema carries ONE error string, so a field with both bounds would
+  // otherwise report its minLength message for a too-long value.
   if (
     error.errorType === ValueErrorType.StringMaxLength &&
     typeof error.schema.maxLength === "number"
@@ -75,8 +75,7 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   const found = pickMessage(errObj) ?? pickMessage(body);
   let message =
     found?.message || stringifyError((e as Error)?.message ?? errObj ?? e);
-  // Error bodies can be entire HTML pages (Cloudflare 5xx). Strip markup and
-  // cap so the chat shows one line, not kilobytes of raw HTML.
+  // A Cloudflare 5xx body is a whole HTML page.
   if (/<(?:html|head|body|div|!doctype)[\s>]/i.test(message)) {
     const plain = message
       .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -138,8 +137,7 @@ function pickMessage(v: unknown): Extracted | null {
     for (const key of ["message", "detail", "error_description"]) {
       if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
         const text = obj[key] as string;
-        // Runware names the offending field on `parameter`. Without it a rejected knob
-        // reads as a generic failure and the user cannot tell WHICH control to change.
+        // Runware names the offending field on `parameter`.
         const parameter =
           typeof obj.parameter === "string" ? obj.parameter : null;
         return {
@@ -151,7 +149,6 @@ function pickMessage(v: unknown): Extracted | null {
         };
       }
     }
-    // "value" is where Eden Treaty parks a non-2xx response body.
     for (const key of ["error", "data", "body", "response", "value"]) {
       if (key in obj) {
         const found = pickMessage(obj[key]);
@@ -194,8 +191,6 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  // A fetch Response is the one shape extractErrorDetail cannot take, because
-  // reading its body is async; hand it the parsed body instead.
   const detail = await resolveDetail(e);
   const title =
     t && t.has(detail.message as TranslationKey)
@@ -214,15 +209,8 @@ export async function handleError(
   toast.error(title, { duration: 5000, id: toastId, description });
 }
 
-// A long-lived tab (an RP session left open) only learns its token died when a
-// request fails: the auth cache never refetches and nothing re-renders on the
-// server. Send them to login rather than leaving a logged-in shell whose every
-// action 401s, which reads as data loss and pushes people to clear storage.
-//
-// Gated on the auth cache so a guest keeps seeing the real error: 401 is a
-// legitimate answer for anonymous callers (BYOK, paid model without a session)
-// and bouncing them to login would hide it. The prefetch seeds null for a
-// guest, so a present-but-null entry is a definite "not logged in".
+// Gated on the auth cache because 401 is legitimate for a guest (BYOK, paid
+// model without a session) and redirecting them would hide the real error.
 function redirectToLoginPreservingLocation() {
   if (typeof window === "undefined") return;
   if (!getQueryClient().getQueryData(queryKeys.auth())) return;
@@ -249,16 +237,12 @@ export function downloadBlob(blob: Blob, filename: string) {
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
-  // The anchor must be IN the document for the click to count as user-initiated
-  // in Safari; a detached one is ignored (and for a large blob that silently
-  // does nothing at all).
+  // Safari ignores a click on a detached anchor.
   a.style.display = "none";
   document.body.appendChild(a);
   a.click();
   a.remove();
-  // Revoking synchronously kills the URL before the download has actually
-  // started - Safari then either drops the file or navigates to a dead blob:
-  // URL, unmounting the app. Give the fetch a turn to begin.
+  // Revoking before the fetch starts makes Safari navigate to a dead blob: URL.
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
@@ -270,21 +254,15 @@ type SaveFilePicker = (opts: {
   getFile?: () => Promise<File>;
 }>;
 
-// Stream a file straight to disk via the File System Access API where available
-// (desktop Chromium, Android Chrome) so large files never fully materialize in
-// the JS heap. Falls back to a blob-URL download on unsupported platforms (iOS
-// Safari lacks showSaveFilePicker and SW-controlled downloads). Returns which
-// path was taken. A user-cancelled picker resolves without downloading.
+// Streams to disk via File System Access where available so a large file never
+// materializes in the JS heap; iOS falls through to Web Share, then a blob.
 export async function streamFileToDisk(
   file: File,
   filename: string,
 ): Promise<"fsa" | "share" | "blob" | "cancelled"> {
   const picker = (window as unknown as { showSaveFilePicker?: SaveFilePicker })
     .showSaveFilePicker;
-  // Feature detection alone stopped being enough: iOS Safari 26 EXPOSES
-  // showSaveFilePicker, but its createWritable/pipeTo silently truncates (a
-  // 9MB database export landed on disk as 45 bytes with no error to catch).
-  // iOS always takes the Web Share path below, which its save sheet handles.
+  // iOS 26 exposes showSaveFilePicker but its pipeTo silently truncates.
   const likelyIos =
     /iphone|ipad|ipod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -292,16 +270,12 @@ export async function streamFileToDisk(
     canShare?: (data: { files?: File[] }) => boolean;
     share?: (data: { files?: File[]; title?: string }) => Promise<void>;
   };
-  // Every input to the branch choice, because a wrong branch is invisible in the
-  // result: the file lands on disk at the wrong size with no error anywhere.
   logChatDebug("save.begin", {
     bytes: file.size,
     filename,
     likelyIos,
     hasPicker: typeof picker === "function",
     hasShare: typeof nav.share === "function",
-    // Both types, because the ORIGINAL mime is what iOS refused to route as a
-    // file: a false here next to a true below is the whole bug in one line.
     sourceType: file.type,
     canShareSource: nav.canShare?.({ files: [file] }) ?? null,
     ua: navigator.userAgent.slice(0, 120),
@@ -321,9 +295,7 @@ export async function streamFileToDisk(
       });
       const writable = await handle.createWritable();
       await file.stream().pipeTo(writable);
-      // Read back what actually landed. iOS Safari 26 accepts the whole write
-      // and leaves a stub on disk, reporting no error, so the only way to know
-      // the save worked is to measure the result rather than trust the API.
+      // A truncating write reports no error, so measure rather than trust it.
       const written = await handle
         .getFile?.()
         .then((f) => f.size)
@@ -344,17 +316,8 @@ export async function streamFileToDisk(
       logChatDebug("save.fsa_failed", { error: String(err).slice(0, 200) });
     }
   }
-  // iOS Safari has no showSaveFilePicker AND largely ignores the `download`
-  // attribute for blob: URLs - it NAVIGATES to them instead, which unmounts the
-  // app and loses the file (a user trying to rescue a database saw the page
-  // "refresh" and land somewhere else). Web Share hands the file to the real
-  // save sheet instead. Only offered when the platform says it can take this
-  // exact file, and a user cancel is not an error.
-  // application/x-sqlite3 has no registered handler on iOS, so the share sheet
-  // cannot route it AS A FILE and silently degrades to sharing the accompanying
-  // text: "Save to Files" then wrote the title into `text 9.txt`, 45 bytes,
-  // instead of a 9MB database. Re-wrap as octet-stream and send NO title, so the
-  // file is the only thing in the payload.
+  // octet-stream and no title: iOS has no x-sqlite3 handler, so the share sheet
+  // degrades to sharing the title as text (9MB DB saved as a 45-byte txt).
   const shareFile = new File([file], filename, {
     type: "application/octet-stream",
   });
@@ -369,8 +332,6 @@ export async function streamFileToDisk(
   if (typeof nav.share === "function" && canShareRewrapped) {
     try {
       await nav.share({ files: [shareFile] });
-      // Distinct from "fsa": both used to report the same value, so a log could
-      // not say WHICH save path produced the file on disk.
       logChatDebug("save.done", {
         path: "share",
         bytes: shareFile.size,
