@@ -2,8 +2,14 @@
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
+import type { JsPluginKind } from "@/lib/validation/js-plugin";
 import type { TriggerContext } from "../triggers/types";
-import type { PluginHandler, PluginHookMode } from "./api";
+import type {
+  JanitorContextSnapshot,
+  JanitorRunResult,
+  PluginHandler,
+  PluginHookMode,
+} from "./api";
 
 // Instance manager for sandboxed JS plugins. One hidden iframe per enabled
 // plugin, created once at chat-runtime mount and fully reloaded whenever a
@@ -17,7 +23,7 @@ export type LoadedJsPlugin = {
   id: string;
   name: string;
   script: string;
-  kind: "uno" | "janitor";
+  kind: JsPluginKind;
   enabled: boolean;
 };
 
@@ -41,23 +47,30 @@ let loadedKey = "";
 let activeCtx: TriggerContext | null = null;
 
 const HANDLER_TIMEOUT_MS = 5_000;
+// Janitor scripts are whole programs rather than a single handler: real ones
+// run to 130k characters and iterate hundreds of lore entries, and a timeout
+// discards the turn's entire script output.
+const JANITOR_TIMEOUT_MS = 15_000;
 
-function withTimeout<T>(p: Promise<T>, label: string): Promise<T> {
+function withTimeout<T>(
+  p: Promise<T>,
+  label: string,
+  ms: number = HANDLER_TIMEOUT_MS,
+): Promise<T> {
   return Promise.race([
     p,
     new Promise<never>((_, reject) =>
-      setTimeout(
-        () => reject(new Error(`${label} timed out`)),
-        HANDLER_TIMEOUT_MS,
-      ),
+      setTimeout(() => reject(new Error(`${label} timed out`)), ms),
     ),
   ]);
 }
 
-export function detectPluginKind(script: string): "uno" | "janitor" {
+// Which ecosystem a pasted script came from, so either can be dropped in as-is:
+// a Janitor script mutates a bare `context`, a Risu plugin registers handlers.
+export function detectPluginKind(script: string): JsPluginKind {
   return /\bcontext\s*\./.test(script) && !/registerHandler/.test(script)
     ? "janitor"
-    : "uno";
+    : "risu";
 }
 
 export function unloadJsPlugins(): void {
@@ -252,23 +265,9 @@ export function transformDisplayJsSync(text: string): string {
   return text;
 }
 
-export async function runJanitorScriptsForTurn(snapshot: {
-  character: {
-    name: string;
-    chat_name: string;
-    example_dialogs: string;
-    personality: string;
-    scenario: string;
-  };
-  chat: {
-    last_message: string;
-    lastMessage: string;
-    message_count: number;
-    first_message_date: number | null;
-    last_bot_message_date: number | null;
-    last_messages: { message: string }[];
-  };
-}): Promise<{ personality: string; scenario: string; logs: string[] } | null> {
+export async function runJanitorScriptsForTurn(
+  snapshot: JanitorContextSnapshot,
+): Promise<JanitorRunResult | null> {
   if (typeof window === "undefined") return null;
   if (!scratchHost || janitorScripts.length === 0) return null;
   const { buildJanitorRunSource } = await import("./api");
@@ -281,16 +280,21 @@ export async function runJanitorScriptsForTurn(snapshot: {
         ),
       ),
       "janitor scripts",
+      JANITOR_TIMEOUT_MS,
     );
     if (!result || typeof result !== "object") return null;
     const r = result as {
       personality?: unknown;
       scenario?: unknown;
+      example_dialogs?: unknown;
       logs?: unknown;
     };
     return {
       personality: String(r.personality ?? snapshot.character.personality),
       scenario: String(r.scenario ?? snapshot.character.scenario),
+      example_dialogs: String(
+        r.example_dialogs ?? snapshot.character.example_dialogs,
+      ),
       logs: Array.isArray(r.logs) ? r.logs.map(String) : [],
     };
   } catch {

@@ -391,7 +391,14 @@ export class SandboxHost {
   private iframe: HTMLIFrameElement | null = null;
   private apiFactory: Record<string, unknown>;
   private nonce = crypto.randomUUID();
-  private csp = `connect-src 'none'; script-src 'nonce-${this.nonce}' 'wasm-unsafe-eval'; frame-src 'none'; object-src 'none'; style-src * 'unsafe-inline'; default-src 'none'; img-src * data: blob:; font-src * data: blob:; media-src * data: blob:; base-uri 'none';`;
+  // 'unsafe-eval' is REQUIRED, not an oversight: running guest code IS this
+  // frame's purpose, and both eval and new Function are string evaluation. The
+  // meta tag applies the policy at parse and removing it later cannot lift it,
+  // so without this every plugin fails with "Evaluating a string as JavaScript
+  // violates ... Content Security Policy" and the whole feature is inert.
+  // It does not widen the boundary that matters: the frame is an opaque origin
+  // with allow-scripts only, and connect-src 'none' still denies all network.
+  private csp = `connect-src 'none'; script-src 'nonce-${this.nonce}' 'unsafe-eval' 'wasm-unsafe-eval'; frame-src 'none'; object-src 'none'; style-src * 'unsafe-inline'; default-src 'none'; img-src * data: blob:; font-src * data: blob:; media-src * data: blob:; base-uri 'none';`;
 
   private instanceRegistry = new Map<string, any>();
   private abortControllers = new Map<string, AbortController>();

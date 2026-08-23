@@ -244,10 +244,15 @@ export function buildPluginApi(
 // ---------------------------------------------------------------------------
 // JanitorAI compat mode. Their contract (official guide): scripts run once per
 // turn before prompt build, synchronously, fresh state each turn, silent
-// failure; they mutate `context` where ONLY character.personality and
-// character.scenario are writable, and the final strings become that turn's
-// prompt sections. No RPC needed: the snapshot travels in, two strings travel
-// back.
+// failure; they mutate `context` where ONLY character.personality,
+// character.scenario and character.example_dialogs are writable, and the final
+// strings become that turn's prompt sections. No RPC needed: the snapshot
+// travels in, three strings travel back.
+//
+// Scripts do not persist across turns. State survives only by being encoded
+// into the model's reply (zero-width unicode or a visible flag string) and
+// re-parsed from chat.last_messages next turn, so message text must round-trip
+// unmodified.
 
 export type JanitorContextSnapshot = {
   character: {
@@ -256,20 +261,26 @@ export type JanitorContextSnapshot = {
     example_dialogs: string;
     personality: string;
     scenario: string;
+    description: string;
+    first_message: string;
   };
   chat: {
     last_message: string;
     lastMessage: string;
     message_count: number;
-    first_message_date: number | null;
-    last_bot_message_date: number | null;
+    // Oldest first: their templates read recent history as slice(-n) and scan
+    // backward from the end for the newest match.
     last_messages: { message: string }[];
+    user_name: string;
+    conversation_id: string;
+    message_created_at: number | null;
   };
 };
 
 export type JanitorRunResult = {
   personality: string;
   scenario: string;
+  example_dialogs: string;
   logs: string[];
 };
 
@@ -291,9 +302,11 @@ export function buildJanitorRunSource(
     const scripts = ${scriptsJson};
     for (const src of scripts) {
       try {
-        // Indirect eval: the script sees globals + \`context\`, nothing lexical.
+        // Each script becomes a FUNCTION BODY, not a program: their scripts use
+        // top-level \`return\` as an early exit, which is a syntax error under
+        // eval. \`context\` is a parameter, so nothing lexical leaks in either.
         globalThis.context = context;
-        (0, eval)(src);
+        new Function('context', src)(context);
       } catch (e) {
         logs.push('script error: ' + (e && e.message ? e.message : String(e)));
       }
@@ -302,6 +315,7 @@ export function buildJanitorRunSource(
     return {
       personality: String(context.character.personality ?? ''),
       scenario: String(context.character.scenario ?? ''),
+      example_dialogs: String(context.character.example_dialogs ?? ''),
       logs,
     };
   `;
