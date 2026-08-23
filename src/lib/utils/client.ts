@@ -170,28 +170,12 @@ function stringifyError(v: unknown): string {
   return "ERRORS.UNEXPECTED_ERROR";
 }
 
-async function resolveDetail(e: unknown): Promise<ErrorDetail> {
-  if (
-    e &&
-    typeof e === "object" &&
-    "response" in e &&
-    e.response instanceof Response
-  ) {
-    const body = await e.response
-      .clone()
-      .json()
-      .catch(() => null);
-    if (body) return { ...extractErrorDetail(body), status: e.response.status };
-  }
-  return extractErrorDetail(e);
-}
-
-export async function handleError(
+export function handleError(
   e: unknown,
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  const detail = await resolveDetail(e);
+  const detail = extractErrorDetail(e);
   const title =
     t && t.has(detail.message as TranslationKey)
       ? t(detail.message as TranslationKey, detail.params)
