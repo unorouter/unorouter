@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "استيراد",
     "LOREBOOKS_IMPORT_LINK": "الاستيراد من رابط",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "الصق رابط كتاب مرجعي أو شخصية تتضمن واحدًا",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "تم استيراد “{name}” كبرنامج نصي. تنشئ كتب المعرفة المتقدمة مدخلاتها بالكود، لذلك يعمل من قسم البرامج النصية.",
     "PERSONAS_IMPORT": "استيراد",
     "PERSONAS_IMPORT_LINK": "الاستيراد من رابط",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "الصق رابط شخصية من LoreBary",

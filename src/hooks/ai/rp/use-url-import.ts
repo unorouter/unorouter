@@ -14,7 +14,7 @@ const POLL_MS = 1500;
 const POLL_TIMEOUT_MS = 180_000;
 
 export type ImportedResult = {
-  kind?: "character" | "lorebook" | "persona" | "rich-character";
+  kind?: "character" | "lorebook" | "persona" | "rich-character" | "plugin";
   source: string;
   sourceUrl: string;
   card?: { spec?: string; data?: Record<string, unknown> };
@@ -29,6 +29,7 @@ export type ImportedResult = {
     description: string;
     attributes?: Record<string, string>;
   }>;
+  plugin?: { name: string; script: string };
   skipped?: Array<{ title: string; reason: "private" | "not_found" }>;
   regexScripts?: unknown;
   triggers?: unknown;

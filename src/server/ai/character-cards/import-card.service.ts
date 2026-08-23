@@ -17,13 +17,17 @@ export type ImportedLorebook = {
 };
 
 export type ImportedCard = {
+  kind?: string;
   source: string;
   sourceUrl: string;
-  card: { spec: string; data: Record<string, unknown> };
-  lorebooks: ImportedLorebook[];
+  card?: { spec: string; data: Record<string, unknown> };
+  lorebooks?: ImportedLorebook[];
+  // A JanitorAI "advanced" script: source that runs per turn rather than entries
+  // that can be stored, so it lands as a plugin instead of a lorebook.
+  plugin?: { name: string; script: string };
   // Lorebooks the source lists but will not hand over, carried by title so the
   // UI can name what is missing instead of silently importing fewer books.
-  skipped: Array<{ title: string; reason: "private" | "not_found" }>;
+  skipped?: Array<{ title: string; reason: "private" | "not_found" }>;
 };
 
 export type ImportStatus = {

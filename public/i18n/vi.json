@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "Nhập",
     "LOREBOOKS_IMPORT_LINK": "Nhập từ liên kết",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết lorebook hoặc nhân vật có kèm theo",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "Đã nhập “{name}” dưới dạng script. Lorebook nâng cao tạo mục bằng mã, nên nó chạy từ mục Scripts.",
     "PERSONAS_IMPORT": "Nhập",
     "PERSONAS_IMPORT_LINK": "Nhập từ liên kết",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết persona của LoreBary",

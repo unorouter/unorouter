@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "Impor",
     "LOREBOOKS_IMPORT_LINK": "Impor dari tautan",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Tempel tautan lorebook atau karakter yang menyertakannya",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}” diimpor sebagai skrip. Lorebook lanjutan membuat entrinya lewat kode, jadi skrip ini berjalan dari Scripts.",
     "PERSONAS_IMPORT": "Impor",
     "PERSONAS_IMPORT_LINK": "Impor dari tautan",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Tempel tautan persona LoreBary",

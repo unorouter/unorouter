@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "Importer",
     "LOREBOOKS_IMPORT_LINK": "Importer depuis un lien",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Collez un lien de lorebook ou d'un personnage qui en fournit un",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "« {name} » a été importé comme script. Les lorebooks avancés génèrent leurs entrées par du code, il s’exécute donc depuis Scripts.",
     "PERSONAS_IMPORT": "Importer",
     "PERSONAS_IMPORT_LINK": "Importer depuis un lien",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Collez un lien de persona LoreBary",

@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "インポート",
     "LOREBOOKS_IMPORT_LINK": "リンクからインポート",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "ロアブックのリンク、またはロアブックを同梱するキャラクターのリンクを貼り付け",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "「{name}」をスクリプトとしてインポートしました。高度なロアブックはコードでエントリを生成するため、スクリプトから実行されます。",
     "PERSONAS_IMPORT": "インポート",
     "PERSONAS_IMPORT_LINK": "リンクからインポート",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary のペルソナのリンクを貼り付けてください",

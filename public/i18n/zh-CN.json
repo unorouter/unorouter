@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "导入",
     "LOREBOOKS_IMPORT_LINK": "从链接导入",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "粘贴世界书链接，或附带世界书的角色链接",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "已将“{name}”导入为脚本。高级世界书通过代码生成条目，因此它在“脚本”中运行。",
     "PERSONAS_IMPORT": "导入",
     "PERSONAS_IMPORT_LINK": "从链接导入",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "粘贴 LoreBary 人设链接",

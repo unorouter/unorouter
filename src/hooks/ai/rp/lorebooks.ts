@@ -2,6 +2,8 @@
 
 import { useApiMutation } from "@/lib/react-query/hooks";
 
+import { msg } from "@/lib/config/constants";
+import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
@@ -11,14 +13,13 @@ import {
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp/rp";
-import { msg } from "@/lib/config/constants";
-import { queryKeys } from "@/lib/react-query/keys";
-import { runUrlImport } from "./use-url-import";
 import type { LorebookRow } from "@/lib/db/schema/rows";
-import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
+import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { makeRpEntity } from "./factory";
+import { runUrlImport } from "./use-url-import";
 
 const lorebooks = makeRpEntity<
   LorebookRow,
@@ -211,6 +212,21 @@ export function useImportLorebookFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
       runUrlImport(input, async (result) => {
+        // A JanitorAI "advanced" script builds its entries in code, so there are
+        // no rows to write; it becomes a plugin that runs each turn instead.
+        if (result.kind === "plugin" && result.plugin) {
+          const now = dayjs().toDate();
+          await upsertLocalJsPlugin({
+            id: uid(),
+            name: result.plugin.name,
+            script: result.plugin.script,
+            kind: "janitor",
+            enabled: true,
+            createdAt: now,
+            updatedAt: now,
+          });
+          return { importedAsPlugin: result.plugin.name };
+        }
         const books = result.lorebooks ?? [];
         if (books.length === 0) {
           // Named rather than silent: the source lists these but the author kept
@@ -237,19 +253,21 @@ export function useImportLorebookFromUrlMutation() {
               recursiveScanning: false,
               createdAt: now,
               updatedAt: now,
-            } as never,
+            },
             entries: book.entries.map((e, i) => ({
               ...e,
               id: uid(),
               lorebookId: id,
-              orderIndex: (e.orderIndex as number | undefined) ?? i,
-              injectionRole: "system" as const,
+              orderIndex: e.orderIndex ?? i,
+              injectionRole: "system",
               createdAt: now,
               updatedAt: now,
-            })) as never,
+            })),
           });
         }
+        return { importedAsPlugin: null };
       }),
-    invalidates: [queryKeys.lorebooks()],
+    // Both, because the same link can land as either a lorebook or a plugin.
+    invalidates: [queryKeys.lorebooks(), queryKeys.jsPlugins()],
   });
 }

@@ -19,6 +19,7 @@ import {
 import { analytics } from "@/lib/analytics";
 import type { LorebookExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import {
@@ -115,7 +116,17 @@ export function LorebookList(props: Props) {
                   isPending={importMut.isPending || importUrlMut.isPending}
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}
                   onUrl={(input) =>
-                    importUrlMut.mutateAsync(input).then(() => {})
+                    importUrlMut.mutateAsync(input).then((r) => {
+                      // It lands in Scripts, not this list, so saying nothing
+                      // reads as an import that silently did nothing.
+                      if (r?.importedAsPlugin) {
+                        toast.success(
+                          t("RP.LOREBOOKS_IMPORTED_AS_SCRIPT", {
+                            name: r.importedAsPlugin,
+                          }),
+                        );
+                      }
+                    })
                   }
                   urlLabelKey="RP.LOREBOOKS_IMPORT_LINK"
                   urlPlaceholderKey="RP.LOREBOOKS_IMPORT_LINK_PLACEHOLDER"

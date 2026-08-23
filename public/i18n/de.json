@@ -4268,6 +4268,7 @@
     "LOREBOOKS_IMPORT": "Importieren",
     "LOREBOOKS_IMPORT_LINK": "Per Link importieren",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Lorebook-Link oder Charakter mit Lorebook einfügen",
+    "LOREBOOKS_IMPORTED_AS_SCRIPT": "„{name}“ wurde als Skript importiert. Erweiterte Lorebooks erzeugen ihre Einträge im Code und laufen daher unter Skripte.",
     "PERSONAS_IMPORT": "Importieren",
     "PERSONAS_IMPORT_LINK": "Per Link importieren",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary-Persona-Link einfügen",
