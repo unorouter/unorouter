@@ -91,7 +91,7 @@ export async function listLocalDatabases(): Promise<LocalDatabase[]> {
       if (handle.kind !== "directory") continue;
       const entry = describePool(name, appName);
       if (!entry) continue;
-      const stats = await measurePool(handle as FileSystemDirectoryHandle);
+      const stats = await measurePool(handle);
       found.push({ ...entry, ...stats });
     }
   } catch {
