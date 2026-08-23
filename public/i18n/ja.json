@@ -4073,7 +4073,7 @@
       "EMPTY": "プラグインはまだありません。",
       "NAME": "名前",
       "KIND": "種類",
-      "KIND_UNO": "UnoRouter プラグイン",
+      "KIND_RISU": "RisuAI プラグイン",
       "KIND_JANITOR": "JanitorAI スクリプト",
       "ENABLED": "有効",
       "SCRIPT": "コード",

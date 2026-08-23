@@ -4073,7 +4073,7 @@
       "EMPTY": "아직 플러그인이 없습니다.",
       "NAME": "이름",
       "KIND": "종류",
-      "KIND_UNO": "UnoRouter 플러그인",
+      "KIND_RISU": "RisuAI 플러그인",
       "KIND_JANITOR": "JanitorAI 스크립트",
       "ENABLED": "사용",
       "SCRIPT": "코드",

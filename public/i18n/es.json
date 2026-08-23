@@ -4073,7 +4073,7 @@
       "EMPTY": "Aún no hay complementos.",
       "NAME": "Nombre",
       "KIND": "Tipo",
-      "KIND_UNO": "Complemento de UnoRouter",
+      "KIND_RISU": "Complemento de RisuAI",
       "KIND_JANITOR": "Script de JanitorAI",
       "ENABLED": "Activado",
       "SCRIPT": "Código",

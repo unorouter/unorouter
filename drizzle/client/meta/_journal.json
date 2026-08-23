@@ -120,6 +120,13 @@
       "when": 1787417439184,
       "tag": "0016_mute_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1787417439185,
+      "tag": "0017_rename_uno_plugin_kind",
+      "breakpoints": true
     }
   ]
 }

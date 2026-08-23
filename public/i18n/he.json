@@ -4073,7 +4073,7 @@
       "EMPTY": "אין עדיין תוספים.",
       "NAME": "שם",
       "KIND": "סוג",
-      "KIND_UNO": "תוסף UnoRouter",
+      "KIND_RISU": "תוסף RisuAI",
       "KIND_JANITOR": "סקריפט JanitorAI",
       "ENABLED": "מופעל",
       "SCRIPT": "קוד",

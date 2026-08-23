@@ -4073,7 +4073,7 @@
       "EMPTY": "Chưa có tiện ích nào.",
       "NAME": "Tên",
       "KIND": "Loại",
-      "KIND_UNO": "Tiện ích UnoRouter",
+      "KIND_RISU": "Tiện ích RisuAI",
       "KIND_JANITOR": "Kịch bản JanitorAI",
       "ENABLED": "Đã bật",
       "SCRIPT": "Mã",

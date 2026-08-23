@@ -4073,7 +4073,7 @@
       "EMPTY": "还没有插件。",
       "NAME": "名称",
       "KIND": "类型",
-      "KIND_UNO": "UnoRouter 插件",
+      "KIND_RISU": "RisuAI 插件",
       "KIND_JANITOR": "JanitorAI 脚本",
       "ENABLED": "已启用",
       "SCRIPT": "代码",
