@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type} est requis",
-      "MIN_LENGTH": "{type} doit contenir au moins {minLength} caractères",
-      "MAX_LENGTH": "{type} ne doit pas dépasser {maxLength} caractères",
-      "MIN_VALUE": "{type} doit être supérieur à 0"
+      "REQUIRED": "Ce champ est requis",
+      "MIN_LENGTH": "Doit contenir au moins {minLength} caractères",
+      "MAX_LENGTH": "Ne doit pas dépasser {maxLength} caractères",
+      "MIN_VALUE": "Doit être supérieur à 0"
     },
     "TYPE": {
       "USERNAME": "Nom d'utilisateur",

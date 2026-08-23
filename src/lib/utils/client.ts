@@ -14,6 +14,16 @@ import {
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
+// The resolver forwards only `message` to the field, dropping the schema, so a
+// key whose text interpolates a bound has to carry that bound with it. The JSON
+// shape is what pickMessage already reads.
+function formError(
+  key: TranslationKey,
+  params?: Record<string, string | number>,
+): string {
+  return params ? JSON.stringify({ message: key, params }) : key;
+}
+
 SetErrorFunction((error) => {
   // A schema carries ONE error string, so a field with both bounds would
   // otherwise report its minLength message for a too-long value.
@@ -21,9 +31,18 @@ SetErrorFunction((error) => {
     error.errorType === ValueErrorType.StringMaxLength &&
     typeof error.schema.maxLength === "number"
   ) {
-    return "FORM.ERROR.MAX_LENGTH";
+    return formError("FORM.ERROR.MAX_LENGTH", {
+      maxLength: error.schema.maxLength,
+    });
   }
-  if (typeof error.schema.error === "string") return error.schema.error;
+  if (typeof error.schema.error === "string") {
+    return error.schema.error === "FORM.ERROR.MIN_LENGTH" &&
+      typeof error.schema.minLength === "number"
+      ? formError("FORM.ERROR.MIN_LENGTH", {
+          minLength: error.schema.minLength,
+        })
+      : error.schema.error;
+  }
   return DefaultErrorFunction(error);
 });
 
@@ -94,6 +113,20 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
 
   const requestId = message.match(REQUEST_ID_RE)?.[1];
   return { message, params: found?.params, code, status, requestId };
+}
+
+// Resolves what SetErrorFunction produced: a bare key, or a key plus the bound
+// its text interpolates. A non-key message (a hand-set form.setError string)
+// passes through untouched.
+export function translateFormError(
+  message: string,
+  t: ReturnType<typeof useTranslations<never>>,
+): string {
+  const found = pickMessage(message);
+  const key = found?.message ?? message;
+  return t.has(key as TranslationKey)
+    ? t(key as TranslationKey, found?.params)
+    : key;
 }
 
 // Buckets a stream error into a coarse type for analytics (never user-facing).

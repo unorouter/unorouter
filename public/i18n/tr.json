@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type} gereklidir",
-      "MIN_LENGTH": "{type} en az {minLength} karakter olmalıdır",
-      "MAX_LENGTH": "{type} en fazla {maxLength} karakter olmalıdır",
-      "MIN_VALUE": "{type} 0'dan büyük olmalıdır"
+      "REQUIRED": "Bu alan zorunludur",
+      "MIN_LENGTH": "En az {minLength} karakter olmalıdır",
+      "MAX_LENGTH": "En fazla {maxLength} karakter olmalıdır",
+      "MIN_VALUE": "0'dan büyük olmalıdır"
     },
     "TYPE": {
       "USERNAME": "Kullanıcı adı",

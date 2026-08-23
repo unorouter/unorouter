@@ -51,9 +51,7 @@ export function ChangePasswordDialog(props: {
   function onSubmit(data: ChangePasswordSchema) {
     if (hasPassword && !data.original_password) {
       form.setError("original_password", {
-        message: t("FORM.ERROR.REQUIRED", {
-          type: t("SETTINGS.SECURITY.OLD_PASSWORD"),
-        }),
+        message: t("FORM.ERROR.REQUIRED"),
       });
       return;
     }

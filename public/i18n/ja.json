@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type} は必須です",
-      "MIN_LENGTH": "{type} は {minLength} 文字以上である必要があります",
-      "MAX_LENGTH": "{type} は {maxLength} 文字以下である必要があります",
-      "MIN_VALUE": "{type} は 0 より大きい必要があります"
+      "REQUIRED": "この項目は必須です",
+      "MIN_LENGTH": "{minLength} 文字以上で入力してください",
+      "MAX_LENGTH": "{maxLength} 文字以下で入力してください",
+      "MIN_VALUE": "0 より大きい値を入力してください"
     },
     "TYPE": {
       "USERNAME": "ユーザー名",

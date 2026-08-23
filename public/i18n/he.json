@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type} נדרש",
-      "MIN_LENGTH": "{type} חייב להיות לפחות {minLength} תווים",
-      "MAX_LENGTH": "{type} יכול להכיל לכל היותר {maxLength} תווים",
-      "MIN_VALUE": "{type} חייב להיות גדול מ-0"
+      "REQUIRED": "שדה זה נדרש",
+      "MIN_LENGTH": "חייב להכיל לפחות {minLength} תווים",
+      "MAX_LENGTH": "יכול להכיל לכל היותר {maxLength} תווים",
+      "MIN_VALUE": "חייב להיות גדול מ-0"
     },
     "TYPE": {
       "USERNAME": "שם משתמש",

@@ -3611,10 +3611,10 @@
   },
   "FORM": {
     "ERROR": {
-      "REQUIRED": "{type}이(가) 필요합니다",
-      "MIN_LENGTH": "{type}은(는) 최소 {minLength}자 이상이어야 합니다",
-      "MAX_LENGTH": "{type}은(는) 최대 {maxLength}자 이하여야 합니다",
-      "MIN_VALUE": "{type}은(는) 0보다 커야 합니다"
+      "REQUIRED": "필수 항목입니다",
+      "MIN_LENGTH": "최소 {minLength}자 이상이어야 합니다",
+      "MAX_LENGTH": "최대 {maxLength}자 이하여야 합니다",
+      "MIN_VALUE": "0보다 커야 합니다"
     },
     "TYPE": {
       "USERNAME": "사용자 이름",
