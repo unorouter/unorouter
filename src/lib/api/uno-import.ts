@@ -5,6 +5,7 @@
  * Development documentation
  * OpenAPI spec version: 0.0.0
  */
+import { unoImportFetch } from "./uno-import-fetch";
 export type PostApiJobsBodyOne = {
   /**
    * @minLength 1
@@ -44,16 +45,400 @@ export type PostApiJobsBodyThree = {
   userId: string;
 };
 
-export type postApiJobsResponseDefault = {
-  data: unknown;
-  status: number;
+export type PostApiJobs200 = {
+  jobId: string;
+  status: string;
 };
 
-export type postApiJobsResponseError = postApiJobsResponseDefault & {
+export type PostApiJobs400AnyOf = {
+  error: "invalid url";
+};
+
+export type PostApiJobs400AnyOfTwo = {
+  error: "https only";
+};
+
+export type PostApiJobs400AnyOfThree = {
+  error: "unsupported source";
+};
+
+export type PostApiJobs400 =
+  PostApiJobs400AnyOf | PostApiJobs400AnyOfTwo | PostApiJobs400AnyOfThree;
+
+export type PostApiJobs422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type PostApiJobs429 = {
+  error: "too many jobs in flight";
+};
+
+export type GetApiJobsById200ResultAnyOfAvatar = {
+  name: string;
+  mimeType: string;
+  base64: string;
+};
+
+export type GetApiJobsById200ResultAnyOfCardData = { [key: string]: unknown };
+
+export type GetApiJobsById200ResultAnyOfCard = {
+  spec: string;
+  spec_version?: string;
+  data: GetApiJobsById200ResultAnyOfCardData;
+};
+
+export type GetApiJobsById200ResultAnyOfLorebooksItemEntriesItem = {
+  keys: string[];
+  secondaryKeys?: string[];
+  content: string;
+  comment?: string;
+  enabled: boolean;
+  constant: boolean;
+  selective: boolean;
+  priority: number;
+  orderIndex: number;
+  matchWholeWords: boolean;
+};
+
+export type GetApiJobsById200ResultAnyOfLorebooksItem = {
+  name: string;
+  scanDepth?: number;
+  entries: GetApiJobsById200ResultAnyOfLorebooksItemEntriesItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfSkippedItemReason =
+  "private" | "not_found";
+
+export type GetApiJobsById200ResultAnyOfSkippedItem = {
+  title: string;
+  reason: GetApiJobsById200ResultAnyOfSkippedItemReason;
+};
+
+export type GetApiJobsById200ResultAnyOf = {
+  kind?: "character";
+  source: string;
+  sourceUrl: string;
+  avatar?: GetApiJobsById200ResultAnyOfAvatar;
+  card: GetApiJobsById200ResultAnyOfCard;
+  lorebooks: GetApiJobsById200ResultAnyOfLorebooksItem[];
+  skipped: GetApiJobsById200ResultAnyOfSkippedItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfNineLorebooksItemEntriesItem = {
+  keys: string[];
+  secondaryKeys?: string[];
+  content: string;
+  comment?: string;
+  enabled: boolean;
+  constant: boolean;
+  selective: boolean;
+  priority: number;
+  orderIndex: number;
+  matchWholeWords: boolean;
+};
+
+export type GetApiJobsById200ResultAnyOfNineLorebooksItem = {
+  name: string;
+  scanDepth?: number;
+  entries: GetApiJobsById200ResultAnyOfNineLorebooksItemEntriesItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfNineSkippedItemReason =
+  "private" | "not_found";
+
+export type GetApiJobsById200ResultAnyOfNineSkippedItem = {
+  title: string;
+  reason: GetApiJobsById200ResultAnyOfNineSkippedItemReason;
+};
+
+export type GetApiJobsById200ResultAnyOfNine = {
+  kind: "lorebook";
+  source: string;
+  sourceUrl: string;
+  lorebooks: GetApiJobsById200ResultAnyOfNineLorebooksItem[];
+  skipped: GetApiJobsById200ResultAnyOfNineSkippedItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfOnefourPersonasItemAttributes = {
+  [key: string]: unknown;
+};
+
+export type GetApiJobsById200ResultAnyOfOnefourPersonasItem = {
+  name: string;
+  description: string;
+  attributes?: GetApiJobsById200ResultAnyOfOnefourPersonasItemAttributes;
+};
+
+export type GetApiJobsById200ResultAnyOfOnefour = {
+  kind: "persona";
+  source: string;
+  sourceUrl: string;
+  personas: GetApiJobsById200ResultAnyOfOnefourPersonasItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfOnesevenPlugin = {
+  name: string;
+  script: string;
+};
+
+export type GetApiJobsById200ResultAnyOfOneseven = {
+  kind: "plugin";
+  source: string;
+  sourceUrl: string;
+  plugin: GetApiJobsById200ResultAnyOfOnesevenPlugin;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineAvatar = {
+  name: string;
+  mimeType: string;
+  base64: string;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineCardData = {
+  [key: string]: unknown;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineCard = {
+  spec: string;
+  spec_version?: string;
+  data: GetApiJobsById200ResultAnyOfOnenineCardData;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineLorebooksItemEntriesItem = {
+  keys: string[];
+  secondaryKeys?: string[];
+  content: string;
+  comment?: string;
+  enabled: boolean;
+  constant: boolean;
+  selective: boolean;
+  priority: number;
+  orderIndex: number;
+  matchWholeWords: boolean;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineLorebooksItem = {
+  name: string;
+  scanDepth?: number;
+  entries: GetApiJobsById200ResultAnyOfOnenineLorebooksItemEntriesItem[];
+};
+
+export type GetApiJobsById200ResultAnyOfOnenineAssetsItem = {
+  name: string;
+  mimeType: string;
+  base64: string;
+};
+
+export type GetApiJobsById200ResultAnyOfOnenine = {
+  kind: "rich-character";
+  source: string;
+  sourceUrl: string;
+  avatar?: GetApiJobsById200ResultAnyOfOnenineAvatar;
+  card: GetApiJobsById200ResultAnyOfOnenineCard;
+  lorebooks: GetApiJobsById200ResultAnyOfOnenineLorebooksItem[];
+  regexScripts?: unknown;
+  triggers?: unknown;
+  assets: GetApiJobsById200ResultAnyOfOnenineAssetsItem[];
+};
+
+export type GetApiJobsById200Result =
+  | GetApiJobsById200ResultAnyOf
+  | GetApiJobsById200ResultAnyOfNine
+  | GetApiJobsById200ResultAnyOfOnefour
+  | GetApiJobsById200ResultAnyOfOneseven
+  | GetApiJobsById200ResultAnyOfOnenine
+  | null;
+
+export type GetApiJobsById200Error = string | null;
+
+export type GetApiJobsById200 = {
+  status: string;
+  result: GetApiJobsById200Result;
+  error: GetApiJobsById200Error;
+};
+
+export type GetApiJobsById404 = {
+  error: "not found";
+};
+
+export type GetApiJobsById422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type GetApiHealth200 = {
+  ok: boolean;
+  exitUsable: boolean;
+  exitIp: string;
+  queueDepth: number;
+};
+
+export type PostV1ChatCompletions200ChoicesItemMessage = {
+  role: string;
+  content: string;
+};
+
+export type PostV1ChatCompletions200ChoicesItem = {
+  index: number;
+  message: PostV1ChatCompletions200ChoicesItemMessage;
+  finish_reason: string;
+};
+
+export type PostV1ChatCompletions200Usage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+};
+
+export type PostV1ChatCompletions200 = {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: PostV1ChatCompletions200ChoicesItem[];
+  usage: PostV1ChatCompletions200Usage;
+};
+
+export type PostV1ChatCompletions422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type PostChatCompletions200ChoicesItemMessage = {
+  role: string;
+  content: string;
+};
+
+export type PostChatCompletions200ChoicesItem = {
+  index: number;
+  message: PostChatCompletions200ChoicesItemMessage;
+  finish_reason: string;
+};
+
+export type PostChatCompletions200Usage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+};
+
+export type PostChatCompletions200 = {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: PostChatCompletions200ChoicesItem[];
+  usage: PostChatCompletions200Usage;
+};
+
+export type PostChatCompletions422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type GetV1Models200DataItem = {
+  id: string;
+  object: string;
+  owned_by: string;
+};
+
+export type GetV1Models200 = {
+  object: string;
+  data: GetV1Models200DataItem[];
+};
+
+export type GetV1Models422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type GetApiDebugLast200CapturedItemHeaders = { [key: string]: unknown };
+
+export type GetApiDebugLast200CapturedItemMessagesItem = {
+  role: unknown;
+  chars: number;
+  preview: string;
+};
+
+export type GetApiDebugLast200CapturedItem = {
+  at: string;
+  path: string;
+  headers: GetApiDebugLast200CapturedItemHeaders;
+  model: unknown;
+  messages: GetApiDebugLast200CapturedItemMessagesItem[];
+};
+
+export type GetApiDebugLast200 = {
+  count: number;
+  captured: GetApiDebugLast200CapturedItem[];
+};
+
+export type GetApiDebugLast422 = {
+  type: "validation";
+  on: string;
+  summary?: string;
+  message?: string;
+  found?: unknown;
+  property?: string;
+  expected?: string;
+};
+
+export type postApiJobsResponse200 = {
+  data: PostApiJobs200;
+  status: 200;
+};
+
+export type postApiJobsResponse400 = {
+  data: PostApiJobs400;
+  status: 400;
+};
+
+export type postApiJobsResponse422 = {
+  data: PostApiJobs422;
+  status: 422;
+};
+
+export type postApiJobsResponse429 = {
+  data: PostApiJobs429;
+  status: 429;
+};
+
+export type postApiJobsResponseSuccess = postApiJobsResponse200 & {
+  headers: Headers;
+};
+export type postApiJobsResponseError = (
+  postApiJobsResponse400 | postApiJobsResponse422 | postApiJobsResponse429
+) & {
   headers: Headers;
 };
 
-export type postApiJobsResponse = postApiJobsResponseError;
+export type postApiJobsResponse =
+  postApiJobsResponseSuccess | postApiJobsResponseError;
 
 export const getPostApiJobsUrl = () => {
   return `/api/jobs`;
@@ -62,34 +447,41 @@ export const getPostApiJobsUrl = () => {
 export const postApiJobs = async (
   postApiJobsBody:
     PostApiJobsBodyOne | PostApiJobsBodyTwo | PostApiJobsBodyThree,
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<postApiJobsResponse> => {
-  const res = await fetch(getPostApiJobsUrl(), {
+  return unoImportFetch<postApiJobsResponse>(getPostApiJobsUrl(), {
     ...options,
     method: "POST",
     body: JSON.stringify(postApiJobsBody),
   });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: postApiJobsResponse["data"] = body ? JSON.parse(body) : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as postApiJobsResponse;
 };
 
-export type getApiJobsByIdResponseDefault = {
-  data: unknown;
-  status: number;
+export type getApiJobsByIdResponse200 = {
+  data: GetApiJobsById200;
+  status: 200;
 };
 
-export type getApiJobsByIdResponseError = getApiJobsByIdResponseDefault & {
+export type getApiJobsByIdResponse404 = {
+  data: GetApiJobsById404;
+  status: 404;
+};
+
+export type getApiJobsByIdResponse422 = {
+  data: GetApiJobsById422;
+  status: 422;
+};
+
+export type getApiJobsByIdResponseSuccess = getApiJobsByIdResponse200 & {
+  headers: Headers;
+};
+export type getApiJobsByIdResponseError = (
+  getApiJobsByIdResponse404 | getApiJobsByIdResponse422
+) & {
   headers: Headers;
 };
 
-export type getApiJobsByIdResponse = getApiJobsByIdResponseError;
+export type getApiJobsByIdResponse =
+  getApiJobsByIdResponseSuccess | getApiJobsByIdResponseError;
 
 export const getGetApiJobsByIdUrl = (id: string) => {
   return `/api/jobs/${id}`;
@@ -97,190 +489,201 @@ export const getGetApiJobsByIdUrl = (id: string) => {
 
 export const getApiJobsById = async (
   id: string,
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<getApiJobsByIdResponse> => {
-  const res = await fetch(getGetApiJobsByIdUrl(id), {
+  return unoImportFetch<getApiJobsByIdResponse>(getGetApiJobsByIdUrl(id), {
     ...options,
     method: "GET",
   });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getApiJobsByIdResponse["data"] = body ? JSON.parse(body) : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as getApiJobsByIdResponse;
 };
 
-export type getApiHealthResponseDefault = {
-  data: unknown;
-  status: number;
+export type getApiHealthResponse200 = {
+  data: GetApiHealth200;
+  status: 200;
 };
 
-export type getApiHealthResponseError = getApiHealthResponseDefault & {
+export type getApiHealthResponseSuccess = getApiHealthResponse200 & {
   headers: Headers;
 };
-
-export type getApiHealthResponse = getApiHealthResponseError;
+export type getApiHealthResponse = getApiHealthResponseSuccess;
 
 export const getGetApiHealthUrl = () => {
   return `/api/health`;
 };
 
 export const getApiHealth = async (
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<getApiHealthResponse> => {
-  const res = await fetch(getGetApiHealthUrl(), {
+  return unoImportFetch<getApiHealthResponse>(getGetApiHealthUrl(), {
     ...options,
     method: "GET",
   });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getApiHealthResponse["data"] = body ? JSON.parse(body) : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as getApiHealthResponse;
 };
 
-export type postV1ChatCompletionsResponseDefault = {
-  data: unknown;
-  status: number;
+export type postV1ChatCompletionsResponse200 = {
+  data: PostV1ChatCompletions200;
+  status: 200;
 };
 
-export type postV1ChatCompletionsResponseError =
-  postV1ChatCompletionsResponseDefault & {
+export type postV1ChatCompletionsResponse404 = {
+  data: "Not Found";
+  status: 404;
+};
+
+export type postV1ChatCompletionsResponse422 = {
+  data: PostV1ChatCompletions422;
+  status: 422;
+};
+
+export type postV1ChatCompletionsResponseSuccess =
+  postV1ChatCompletionsResponse200 & {
     headers: Headers;
   };
+export type postV1ChatCompletionsResponseError = (
+  postV1ChatCompletionsResponse404 | postV1ChatCompletionsResponse422
+) & {
+  headers: Headers;
+};
 
-export type postV1ChatCompletionsResponse = postV1ChatCompletionsResponseError;
+export type postV1ChatCompletionsResponse =
+  postV1ChatCompletionsResponseSuccess | postV1ChatCompletionsResponseError;
 
 export const getPostV1ChatCompletionsUrl = () => {
   return `/v1/chat/completions`;
 };
 
 export const postV1ChatCompletions = async (
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<postV1ChatCompletionsResponse> => {
-  const res = await fetch(getPostV1ChatCompletionsUrl(), {
-    ...options,
-    method: "POST",
-  });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: postV1ChatCompletionsResponse["data"] = body
-    ? JSON.parse(body)
-    : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as postV1ChatCompletionsResponse;
+  return unoImportFetch<postV1ChatCompletionsResponse>(
+    getPostV1ChatCompletionsUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
-export type postChatCompletionsResponseDefault = {
-  data: unknown;
-  status: number;
+export type postChatCompletionsResponse200 = {
+  data: PostChatCompletions200;
+  status: 200;
 };
 
-export type postChatCompletionsResponseError =
-  postChatCompletionsResponseDefault & {
+export type postChatCompletionsResponse404 = {
+  data: "Not Found";
+  status: 404;
+};
+
+export type postChatCompletionsResponse422 = {
+  data: PostChatCompletions422;
+  status: 422;
+};
+
+export type postChatCompletionsResponseSuccess =
+  postChatCompletionsResponse200 & {
     headers: Headers;
   };
+export type postChatCompletionsResponseError = (
+  postChatCompletionsResponse404 | postChatCompletionsResponse422
+) & {
+  headers: Headers;
+};
 
-export type postChatCompletionsResponse = postChatCompletionsResponseError;
+export type postChatCompletionsResponse =
+  postChatCompletionsResponseSuccess | postChatCompletionsResponseError;
 
 export const getPostChatCompletionsUrl = () => {
   return `/chat/completions`;
 };
 
 export const postChatCompletions = async (
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<postChatCompletionsResponse> => {
-  const res = await fetch(getPostChatCompletionsUrl(), {
-    ...options,
-    method: "POST",
-  });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: postChatCompletionsResponse["data"] = body
-    ? JSON.parse(body)
-    : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as postChatCompletionsResponse;
+  return unoImportFetch<postChatCompletionsResponse>(
+    getPostChatCompletionsUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
-export type getV1ModelsResponseDefault = {
-  data: unknown;
-  status: number;
+export type getV1ModelsResponse200 = {
+  data: GetV1Models200;
+  status: 200;
 };
 
-export type getV1ModelsResponseError = getV1ModelsResponseDefault & {
+export type getV1ModelsResponse404 = {
+  data: "Not Found";
+  status: 404;
+};
+
+export type getV1ModelsResponse422 = {
+  data: GetV1Models422;
+  status: 422;
+};
+
+export type getV1ModelsResponseSuccess = getV1ModelsResponse200 & {
+  headers: Headers;
+};
+export type getV1ModelsResponseError = (
+  getV1ModelsResponse404 | getV1ModelsResponse422
+) & {
   headers: Headers;
 };
 
-export type getV1ModelsResponse = getV1ModelsResponseError;
+export type getV1ModelsResponse =
+  getV1ModelsResponseSuccess | getV1ModelsResponseError;
 
 export const getGetV1ModelsUrl = () => {
   return `/v1/models`;
 };
 
 export const getV1Models = async (
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<getV1ModelsResponse> => {
-  const res = await fetch(getGetV1ModelsUrl(), {
+  return unoImportFetch<getV1ModelsResponse>(getGetV1ModelsUrl(), {
     ...options,
     method: "GET",
   });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getV1ModelsResponse["data"] = body ? JSON.parse(body) : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as getV1ModelsResponse;
 };
 
-export type getApiDebugLastResponseDefault = {
-  data: unknown;
-  status: number;
+export type getApiDebugLastResponse200 = {
+  data: GetApiDebugLast200;
+  status: 200;
 };
 
-export type getApiDebugLastResponseError = getApiDebugLastResponseDefault & {
+export type getApiDebugLastResponse404 = {
+  data: "Not Found";
+  status: 404;
+};
+
+export type getApiDebugLastResponse422 = {
+  data: GetApiDebugLast422;
+  status: 422;
+};
+
+export type getApiDebugLastResponseSuccess = getApiDebugLastResponse200 & {
+  headers: Headers;
+};
+export type getApiDebugLastResponseError = (
+  getApiDebugLastResponse404 | getApiDebugLastResponse422
+) & {
   headers: Headers;
 };
 
-export type getApiDebugLastResponse = getApiDebugLastResponseError;
+export type getApiDebugLastResponse =
+  getApiDebugLastResponseSuccess | getApiDebugLastResponseError;
 
 export const getGetApiDebugLastUrl = () => {
   return `/api/debug/last`;
 };
 
 export const getApiDebugLast = async (
-  options?: RequestInit,
+  options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<getApiDebugLastResponse> => {
-  const res = await fetch(getGetApiDebugLastUrl(), {
+  return unoImportFetch<getApiDebugLastResponse>(getGetApiDebugLastUrl(), {
     ...options,
     method: "GET",
   });
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: getApiDebugLastResponse["data"] = body ? JSON.parse(body) : {};
-  return {
-    data,
-    status: res.status,
-    headers: res.headers,
-  } as getApiDebugLastResponse;
 };

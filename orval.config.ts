@@ -24,7 +24,13 @@ export default defineConfig({
     output: {
       target: "./src/lib/api/uno-import.ts",
       client: "fetch",
-      override: { aliasCombinedTypes: true },
+      override: {
+        mutator: {
+          path: "./src/lib/api/uno-import-fetch.ts",
+          name: "unoImportFetch",
+        },
+        aliasCombinedTypes: true,
+      },
     },
     hooks: { afterAllFilesWrite: "prettier --write" },
   },
