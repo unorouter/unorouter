@@ -39,22 +39,23 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
   return {
     wrapGenerate: async ({ doGenerate }) => {
       const result = await doGenerate();
-      const content = result.content as Array<{ type: string; text?: string }>;
+      const content = result.content;
       if (content.some((p) => p.type === "reasoning")) return result;
       const idx = content.findIndex(
-        (p) => p.type === "text" && (p.text ?? "").includes(CLOSING_TAG),
+        (p) => p.type === "text" && p.text.includes(CLOSING_TAG),
       );
       if (idx === -1) return result;
       const part = content[idx];
-      const at = (part.text ?? "").indexOf(CLOSING_TAG);
+      if (part.type !== "text") return result;
+      const at = part.text.indexOf(CLOSING_TAG);
       const out = [...content];
       out.splice(
         idx,
         1,
-        { type: "reasoning", text: (part.text ?? "").slice(0, at) },
-        { ...part, text: (part.text ?? "").slice(at + CLOSING_TAG.length) },
+        { type: "reasoning", text: part.text.slice(0, at) },
+        { ...part, text: part.text.slice(at + CLOSING_TAG.length) },
       );
-      return { ...result, content: out as typeof result.content };
+      return { ...result, content: out };
     },
 
     wrapStream: async ({ doStream }) => {

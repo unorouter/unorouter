@@ -9,6 +9,12 @@ import type {
 } from "@/lib/types";
 import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
+import type { InferInsertModel } from "drizzle-orm";
+import {
+  conversationCharacters,
+  conversationLorebooks,
+  media,
+} from "@/lib/db/schema/shared";
 
 export type MappedImport = {
   convId: string;
@@ -23,14 +29,14 @@ export type MappedImport = {
     conversation: { id: string; title: string | null };
     settings: Record<string, unknown> & { convId: string };
     conversationCharacters: Array<
-      Record<string, unknown> & { characterId: string }
+      InferInsertModel<typeof conversationCharacters>
     >;
     conversationLorebooks: Array<
-      Record<string, unknown> & { lorebookId: string }
+      InferInsertModel<typeof conversationLorebooks>
     >;
     messages: Array<LocalAnyRow>;
     messageItems: Array<LocalAnyRow & { messageId: string }>;
-    media: Array<LocalAnyRow>;
+    media: Array<InferInsertModel<typeof media>>;
     requestLogs: Array<Record<string, unknown>>;
   };
 };
@@ -46,14 +52,13 @@ const date = (v: unknown): Date | null => {
   const d = new Date(v);
   return Number.isNaN(d.getTime()) ? null : d;
 };
-const strArr = (v: unknown): string[] | null =>
-  Array.isArray(v) && v.every((x) => typeof x === "string")
-    ? (v as string[])
-    : null;
+const isStringArray = (v: unknown): v is string[] =>
+  Array.isArray(v) && v.every((x) => typeof x === "string");
+const strArr = (v: unknown): string[] | null => (isStringArray(v) ? v : null);
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  !!v && typeof v === "object" && !Array.isArray(v);
 const rec = (v: unknown): Record<string, unknown> | undefined =>
-  v && typeof v === "object" && !Array.isArray(v)
-    ? (v as Record<string, unknown>)
-    : undefined;
+  isRecord(v) ? v : undefined;
 const recArr = (v: unknown): Record<string, unknown>[] => {
   if (!Array.isArray(v)) return [];
   const out: Record<string, unknown>[] = [];
@@ -148,7 +153,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
         characterId: newCharId,
         orderIndex: num(b.orderIndex) ?? 0,
         isActive: bool(b.isActive) ?? true,
-        overrides: (b.overrides as Record<string, unknown> | null) ?? null,
+        overrides: b.overrides ?? null,
       };
     })
     .filter((b) => b != null);

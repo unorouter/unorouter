@@ -59,8 +59,9 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
 
     const handleOutsideClick = (e: MouseEvent) => {
       if (
+        e.target instanceof Node &&
         containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
+        !containerRef.current.contains(e.target)
       ) {
         setActiveIndex(null);
         setInteractionType(null);
@@ -111,7 +112,7 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
   };
 
   const handleBlur = (e: React.FocusEvent) => {
-    const relatedTarget = e.relatedTarget as HTMLElement;
+    const relatedTarget = e.relatedTarget;
     const isMovingToAnotherBar =
       relatedTarget &&
       relatedTarget.closest('[role="toolbar"]') === containerRef.current &&
@@ -158,8 +159,9 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
           if (prevMonitor) {
             const prevBar = prevMonitor.querySelector('[role="toolbar"]');
             if (prevBar) {
-              const prevButtons = prevBar.querySelectorAll('[role="button"]');
-              const targetButton = prevButtons[currentIndex] as HTMLElement;
+              const prevButtons =
+                prevBar.querySelectorAll<HTMLElement>('[role="button"]');
+              const targetButton = prevButtons[currentIndex];
               targetButton?.focus();
             }
           }
@@ -175,8 +177,9 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
           if (nextMonitor) {
             const nextBar = nextMonitor.querySelector('[role="toolbar"]');
             if (nextBar) {
-              const nextButtons = nextBar.querySelectorAll('[role="button"]');
-              const targetButton = nextButtons[currentIndex] as HTMLElement;
+              const nextButtons =
+                nextBar.querySelectorAll<HTMLElement>('[role="button"]');
+              const targetButton = nextButtons[currentIndex];
               targetButton?.focus();
             }
           }
@@ -239,9 +242,9 @@ export function StatusBar({
   const getAnchor = () => {
     if (activeIndex === null) return null;
     return (
-      (containerRef.current?.querySelector(
+      containerRef.current?.querySelector(
         `[data-bar-index="${activeIndex}"]`,
-      ) as HTMLElement | null) ?? null
+      ) ?? null
     );
   };
 

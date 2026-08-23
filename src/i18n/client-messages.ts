@@ -32,10 +32,12 @@ export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 export const CLIENT_DOCS_PLATFORM_KEPT = ["COMMON", "INDEX"] as const;
 
 function pruneDocsNamespace(
-  docs: Messages,
+  source: unknown,
   keptSubtrees: readonly string[],
 ): Messages {
   const pruned: Messages = {};
+  if (typeof source !== "object" || source === null) return pruned;
+  const docs: Record<string, unknown> = { ...source };
   for (const key of keptSubtrees) {
     if (docs[key] !== undefined) pruned[key] = docs[key];
   }
@@ -54,16 +56,13 @@ function pruneDocsNamespace(
 }
 
 export function pruneClientMessages(messages: Messages): Messages {
-  const prunedDocs = pruneDocsNamespace(
-    (messages.DOCS ?? {}) as Messages,
-    CLIENT_DOCS_KEPT,
-  );
+  const prunedDocs = pruneDocsNamespace(messages.DOCS, CLIENT_DOCS_KEPT);
   const prunedDocsChat = pruneDocsNamespace(
-    (messages.DOCS_CHAT ?? {}) as Messages,
+    messages.DOCS_CHAT,
     CLIENT_DOCS_CHAT_KEPT,
   );
   const prunedDocsPlatform = pruneDocsNamespace(
-    (messages.DOCS_PLATFORM ?? {}) as Messages,
+    messages.DOCS_PLATFORM,
     CLIENT_DOCS_PLATFORM_KEPT,
   );
 
@@ -84,7 +83,7 @@ export function pruneClientMessages(messages: Messages): Messages {
         resolvable = false;
         break;
       }
-      const clone = { ...(next as Messages) };
+      const clone: Messages = { ...next };
       parent[segment] = clone;
       parent = clone;
     }

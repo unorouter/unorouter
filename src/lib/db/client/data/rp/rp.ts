@@ -11,6 +11,7 @@ import {
   samplingPresets,
 } from "@/lib/db/schema/shared";
 import { asc, desc, eq } from "drizzle-orm";
+import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   makeTableStore,
@@ -119,6 +120,7 @@ export async function upsertLocalLorebookBundle(bundle: {
     lorebookEntries.lorebookId,
     bundle.lorebook.id,
     bundle.entries,
+    (row) => row as InferInsertModel<typeof lorebookEntries>,
   );
 }
 

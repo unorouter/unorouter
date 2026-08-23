@@ -218,7 +218,7 @@ function evalIf(
       : parse(e.source);
   const b =
     e.targetType === "value" ? parse(e.target) : vr.get(parse(e.target));
-  const op = (e.condition ?? e.operator) as string | undefined;
+  const op = e.condition ?? e.operator;
   switch (op) {
     case "=":
       return numEq(a, b);
@@ -508,10 +508,8 @@ export function parseTriggerScripts(raw: unknown): TriggerScript[] {
     out.push({
       comment: typeof o.comment === "string" ? o.comment : "",
       type: o.type as TriggerScript["type"],
-      conditions: Array.isArray(o.conditions)
-        ? (o.conditions as TriggerScript["conditions"])
-        : [],
-      effect: o.effect as TriggerScript["effect"],
+      conditions: Array.isArray(o.conditions) ? o.conditions : [],
+      effect: o.effect,
       lowLevelAccess: !!o.lowLevelAccess,
     });
   }

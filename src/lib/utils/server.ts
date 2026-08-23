@@ -74,9 +74,10 @@ export const serverLocale = async (props?: {
 }): Promise<Locale> => {
   const fromParams = await safe(async () => (await props?.params)?.locale);
   if (fromParams && hasLocale(LOCALES, fromParams)) return fromParams;
-  return ((await safe(getLocale)) ||
-    (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
-    LOCALES[0]) as Locale;
+  const candidate =
+    (await safe(getLocale)) ||
+    (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value));
+  return candidate && hasLocale(LOCALES, candidate) ? candidate : LOCALES[0];
 };
 
 // Two separate jobs, both needed, on a cookie the client writes:

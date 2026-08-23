@@ -15,6 +15,7 @@ import {
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { handleError } from "@/lib/utils/client";
+import type { MessageItemType } from "@/lib/validation/chat";
 import {
   deleteLocalChatGroup,
   deleteLocalConversation,
@@ -54,9 +55,9 @@ type UpdateConvBody = { title?: string | null; model?: string };
 type EditMessageBody = {
   items: Array<{
     id?: string;
-    type: string;
+    type: MessageItemType;
     output_index?: number | null;
-    data: unknown;
+    data: Record<string, unknown>;
   }>;
 };
 

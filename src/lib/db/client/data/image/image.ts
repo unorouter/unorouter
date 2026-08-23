@@ -191,6 +191,7 @@ export async function upsertLocalSnapshotImages(
     media.imageSnapshotId,
     snapshotId,
     images,
+    (row) => row,
   );
 }
 

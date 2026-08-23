@@ -117,13 +117,13 @@ export function handleElysia<T extends { data: unknown; status: number }>(
   if (response.status !== 200) throw response;
   const body = response.data;
   if (body && typeof body === "object" && "success" in body) {
-    const envelope = body as {
-      success: boolean;
+    const envelope: {
+      success?: unknown;
       data?: unknown;
-      message?: string;
-    };
+      message?: unknown;
+    } = body;
     if (!envelope.success) {
-      throw new Error(envelope.message ?? msg("ERRORS.REQUEST_FAILED"));
+      throw new Error(String(envelope.message ?? msg("ERRORS.REQUEST_FAILED")));
     }
     if ("data" in envelope) {
       return envelope.data as UnwrapApiResponse<ExtractData<T>>;

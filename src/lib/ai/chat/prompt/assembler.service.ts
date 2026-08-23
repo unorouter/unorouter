@@ -302,8 +302,7 @@ export async function assembleForStream(
     timeZone: opts?.clientEnv?.timeZone,
     firstMessage: primary?.firstMessage ?? undefined,
     alternateGreetings: primary?.alternateGreetings ?? undefined,
-    fmIndex:
-      (settings as { firstMsgIndex?: number | null }).firstMsgIndex ?? -1,
+    fmIndex: settings.firstMsgIndex ?? -1,
     exampleMessage: primary?.exampleMessages ?? undefined,
     lorebooks: lbEntries,
     prefillSupported: opts?.prefillSupported,
@@ -346,7 +345,7 @@ export async function assembleForStream(
     const binding = boundCharacters[i];
     const ch = applyCharOverrides(binding.character, binding.binding.overrides);
     const isPrimary = i === 0;
-    const turnTriggers = (ch.turnTriggers ?? null) as string[] | null;
+    const turnTriggers = ch.turnTriggers ?? null;
     const gated =
       !isPrimary &&
       ch.alwaysActive === false &&
