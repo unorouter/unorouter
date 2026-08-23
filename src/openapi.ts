@@ -3673,6 +3673,20 @@ export interface ResponseDtoTestStatusData {
   success: boolean;
 }
 
+export interface TimeoutPreferenceData {
+  max_chain_first_token_seconds: number;
+  max_first_token_seconds: number;
+}
+
+/**
+ * Response_dto.TimeoutPreferenceData schema
+ */
+export interface ResponseDtoTimeoutPreferenceData {
+  data: TimeoutPreferenceData;
+  message: string;
+  success: boolean;
+}
+
 export interface TokenAutoGroupsData {
   /** @nullable */
   groups: string[] | null;
@@ -4272,6 +4286,14 @@ export interface TestIoNetConnectionRequest {
 }
 
 /**
+ * TimeoutPreferenceRequest schema
+ */
+export interface TimeoutPreferenceRequest {
+  max_chain_first_token_seconds: number;
+  max_first_token_seconds: number;
+}
+
+/**
  * TokenBatch schema
  */
 export interface TokenBatch {
@@ -4460,28 +4482,6 @@ export interface FetchModelsRequest {
  * unknown-interface schema
  */
 export interface UnknownInterface {}
-
-export interface TimeoutPreferenceData {
-  max_chain_first_token_seconds: number;
-  max_first_token_seconds: number;
-}
-
-/**
- * Response_dto.TimeoutPreferenceData schema
- */
-export interface ResponseDtoTimeoutPreferenceData {
-  data: TimeoutPreferenceData;
-  message: string;
-  success: boolean;
-}
-
-/**
- * TimeoutPreferenceRequest schema
- */
-export interface TimeoutPreferenceRequest {
-  max_chain_first_token_seconds: number;
-  max_first_token_seconds: number;
-}
 
 export type GetAllChannelsParams = {
   /**
@@ -16657,6 +16657,56 @@ export const getApiUserSelfGroups = async (
   );
 };
 
+export type updateTimeoutPreferenceResponse200ApplicationJson = {
+  data: ResponseDtoTimeoutPreferenceData;
+  status: 200;
+};
+
+export type updateTimeoutPreferenceResponse200ApplicationXml = {
+  data: ResponseDtoTimeoutPreferenceData;
+  status: 200;
+};
+
+export type updateTimeoutPreferenceResponseSuccess = (
+  | updateTimeoutPreferenceResponse200ApplicationJson
+  | updateTimeoutPreferenceResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type updateTimeoutPreferenceResponse =
+  updateTimeoutPreferenceResponseSuccess;
+
+export const getUpdateTimeoutPreferenceUrl = () => {
+  return `/api/user/self/timeout`;
+};
+
+/**
+ * @summary Update Timeout Preference
+ */
+export const updateTimeoutPreference = async (
+  timeoutPreferenceRequest: TimeoutPreferenceRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<updateTimeoutPreferenceResponse> => {
+  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
+  return customFetch<updateTimeoutPreferenceResponse>(
+    getUpdateTimeoutPreferenceUrl(),
+    {
+      ...options,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(timeoutPreferenceRequest),
+    },
+  );
+};
+
 export type getLoginSessionsResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
@@ -21056,56 +21106,6 @@ export const getModeMjTaskIdImageSeed = async (
     {
       ...options,
       method: "GET",
-    },
-  );
-};
-
-export type updateTimeoutPreferenceResponse200ApplicationJson = {
-  data: ResponseDtoTimeoutPreferenceData;
-  status: 200;
-};
-
-export type updateTimeoutPreferenceResponse200ApplicationXml = {
-  data: ResponseDtoTimeoutPreferenceData;
-  status: 200;
-};
-
-export type updateTimeoutPreferenceResponseSuccess = (
-  | updateTimeoutPreferenceResponse200ApplicationJson
-  | updateTimeoutPreferenceResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type updateTimeoutPreferenceResponse =
-  updateTimeoutPreferenceResponseSuccess;
-
-export const getUpdateTimeoutPreferenceUrl = () => {
-  return `/api/user/self/timeout`;
-};
-
-/**
- * @summary Update Timeout Preference
- */
-export const updateTimeoutPreference = async (
-  timeoutPreferenceRequest: TimeoutPreferenceRequest,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<updateTimeoutPreferenceResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
-    if (!h) return {};
-    if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
-  };
-  return customFetch<updateTimeoutPreferenceResponse>(
-    getUpdateTimeoutPreferenceUrl(),
-    {
-      ...options,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...getHeaders(options?.headers),
-      },
-      body: JSON.stringify(timeoutPreferenceRequest),
     },
   );
 };
