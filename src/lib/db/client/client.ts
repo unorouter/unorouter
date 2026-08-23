@@ -266,9 +266,9 @@ async function migrateLegacySqliteFile(
   // legacy file outright cost every iPhone user their only pre-migration copy.
   // createWritable works there, so copy first and keep the original if it fails.
   try {
-    const movable = handle as FileSystemFileHandle & {
+    const movable: FileSystemFileHandle & {
       move?: (name: string) => Promise<void>;
-    };
+    } = handle;
     if (typeof movable.move === "function") {
       await movable.move(`${dbPath}.pre-sahpool`);
     } else {

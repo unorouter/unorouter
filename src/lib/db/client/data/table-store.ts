@@ -1,7 +1,6 @@
 "use client";
 
 import type {
-  LocalDb,
   ScopedTable,
   StoreConfig,
   StorePkValue,

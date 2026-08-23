@@ -255,7 +255,7 @@ function orpgTextPayload(content: unknown): { text: string } {
 
 export function mapOrpgImport(data: OrpgImport): MappedImport {
   const convId = uid();
-  const ext = (data[ORPG_EXTENSION_KEY] as OrpgExtension | undefined) ?? {};
+  const ext: OrpgExtension = data[ORPG_EXTENSION_KEY] ?? {};
   const orpgCharacters = data.characters ?? {};
   const orpgMessages = data.messages ?? {};
   const orpgItems = data.items ?? {};
@@ -342,9 +342,9 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
       if (ourType === "text") {
         payload = orpgTextPayload(itemData.content);
       } else if (ourType === "reasoning") {
-        const content = itemData.content as
-          Array<Record<string, unknown>> | undefined;
-        const reasoningText = content?.find((p) => p.type === "reasoning_text");
+        const reasoningText = recArr(itemData.content).find(
+          (p) => p.type === "reasoning_text",
+        );
         payload = {
           text:
             typeof reasoningText?.text === "string" ? reasoningText.text : "",
@@ -398,7 +398,7 @@ export function parseStJsonl(text: string): StParsed {
 
   let metadata: StMetadata | null = null;
   try {
-    metadata = JSON.parse(lines[0] ?? "") as StMetadata;
+    metadata = JSON.parse(lines[0] ?? "");
   } catch {
     metadata = null;
   }
@@ -407,7 +407,7 @@ export function parseStJsonl(text: string): StParsed {
   const messages: StMessage[] = [];
   for (const ln of messageLines) {
     try {
-      const parsed = JSON.parse(ln) as StMessage;
+      const parsed: StMessage = JSON.parse(ln);
       if (typeof parsed.mes === "string") messages.push(parsed);
     } catch {}
   }
