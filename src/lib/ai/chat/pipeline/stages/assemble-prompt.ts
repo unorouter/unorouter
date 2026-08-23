@@ -113,7 +113,7 @@ export async function assemblePrompt(
       .filter(Boolean)
       .join("\n\n") || undefined;
 
-  const janitorCtx = await applyJanitorScripts(convCtx, messages);
+  const janitorCtx = await applyJanitorScripts(convCtx, messages, body);
 
   const assembled =
     body.convId && convCtx
@@ -311,12 +311,14 @@ function clampOutputTokens(
 }
 
 // JanitorAI-compat scripts run once per turn before assembly and may rewrite
-// ONLY the primary character's personality and scenario for this turn. The
-// override rides a cloned context so the caller's conversation data is never
-// mutated. Browser-only; a turn without janitor plugins passes through.
+// ONLY the primary character's personality, scenario and example_dialogs for
+// this turn. The override rides a cloned context so the caller's conversation
+// data is never mutated. Browser-only; a turn without janitor plugins passes
+// through.
 async function applyJanitorScripts(
   convCtx: LoadedConvContext,
   messages: StreamMessages,
+  body: StreamBody,
 ): Promise<LoadedConvContext> {
   if (typeof window === "undefined" || !convCtx) return convCtx;
   const primary = convCtx.boundCharacters[0]?.character as
@@ -325,6 +327,8 @@ async function applyJanitorScripts(
         exampleMessages?: string | null;
         personality?: string | null;
         scenario?: string | null;
+        description?: string | null;
+        firstMessage?: string | null;
       }
     | undefined;
   if (!primary) return convCtx;
@@ -343,6 +347,8 @@ async function applyJanitorScripts(
     if (text) texts.push({ role: m.role, text });
   }
   const lastUser = [...texts].reverse().find((t) => t.role === "user");
+  const lastId = (messages[messages.length - 1] as { id?: string } | undefined)
+    ?.id;
 
   const result = await runJanitorScriptsForTurn({
     character: {
@@ -351,20 +357,24 @@ async function applyJanitorScripts(
       example_dialogs: primary.exampleMessages ?? "",
       personality: primary.personality ?? "",
       scenario: primary.scenario ?? "",
+      description: primary.description ?? "",
+      first_message: primary.firstMessage ?? "",
     },
     chat: {
       last_message: lastUser?.text ?? "",
       lastMessage: lastUser?.text ?? "",
       message_count: texts.length,
-      first_message_date: null,
-      last_bot_message_date: null,
       last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
+      user_name: convCtx.persona?.name ?? "",
+      conversation_id: body.convId ?? "",
+      message_created_at: lastId ? (body.messageTimes?.[lastId] ?? null) : null,
     },
   });
   if (!result) return convCtx;
   if (
     result.personality === (primary.personality ?? "") &&
-    result.scenario === (primary.scenario ?? "")
+    result.scenario === (primary.scenario ?? "") &&
+    result.example_dialogs === (primary.exampleMessages ?? "")
   ) {
     return convCtx;
   }
@@ -377,6 +387,7 @@ async function applyJanitorScripts(
             ...(b.character as Record<string, unknown>),
             personality: result.personality,
             scenario: result.scenario,
+            exampleMessages: result.example_dialogs,
           },
         }
       : b,
