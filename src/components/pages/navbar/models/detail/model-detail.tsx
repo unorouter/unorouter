@@ -1,6 +1,7 @@
 import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -169,8 +170,14 @@ print(res.choices[0].message.content)`;
                 <span className="text-muted-foreground">: </span>
                 {m.model_name}
               </h1>
-              <div className="text-muted-foreground mt-1 font-mono text-xs break-all">
-                {m.model_name}
+              <div className="text-muted-foreground mt-1 flex items-center gap-1 font-mono text-xs">
+                <span className="break-all">{m.model_name}</span>
+                <CopyButton
+                  text={m.model_name}
+                  analyticsLabel="model_name"
+                  className="text-muted-foreground hover:text-foreground flex size-5 shrink-0 items-center justify-center transition-colors"
+                  iconSize="h-3 w-3"
+                />
               </div>
             </div>
           </div>
