@@ -50,7 +50,12 @@ import {
 } from "@/hooks/models/pricing-hook";
 import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
-import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
+import {
+  DEFAULT_CHAT_MEMORY,
+  msg,
+  NONE_VALUE,
+  type TranslationKey,
+} from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
@@ -369,7 +374,18 @@ export function OverridesGenerationFields(props: {
               )}
             />
           </div>
-          <UtilityModelField control={props.control} />
+          <UtilityModelField
+            control={props.control}
+            name="utilityModel"
+            labelKey="CHAT.OVERRIDES.UTILITY_MODEL"
+          />
+          <UtilityModelField
+            control={props.control}
+            name="titleModel"
+            labelKey="CHAT.OVERRIDES.TITLE_MODEL"
+            hintKey="CHAT.OVERRIDES.TITLE_MODEL_HINT"
+          />
+          <TitlePromptField control={props.control} />
           <ImageModelField control={props.control} />
           <ImagePromptInstructionField control={props.control} />
         </div>
@@ -481,8 +497,13 @@ function UtilityModelPicker(props: {
   );
 }
 
+// Serves utilityModel and titleModel: both pick one text model from the same
+// catalogue, so they share the picker rather than duplicating it.
 function UtilityModelField(props: {
   control: Control<ConversationOverridesForm>;
+  name: "utilityModel" | "titleModel";
+  labelKey: TranslationKey;
+  hintKey?: TranslationKey;
 }) {
   const t = useTranslations();
   const catalogQuery = usePricingCatalogQuery();
@@ -501,11 +522,11 @@ function UtilityModelField(props: {
   return (
     <FormField
       control={props.control}
-      name="utilityModel"
+      name={props.name}
       render={({ field }) => (
         <FormItem>
           <FormLabel className="text-muted-foreground text-xs">
-            {t("CHAT.OVERRIDES.UTILITY_MODEL")}
+            {t(props.labelKey)}
           </FormLabel>
           <UtilityModelPicker
             value={field.value}
@@ -513,6 +534,9 @@ function UtilityModelField(props: {
             customOptions={customOptions}
             catalogModels={catalogModels}
           />
+          {props.hintKey && (
+            <p className="text-muted-foreground text-xs">{t(props.hintKey)}</p>
+          )}
         </FormItem>
       )}
     />
@@ -546,6 +570,33 @@ function ImageModelField(props: {
       label={t("CHAT.OVERRIDES.IMAGE_MODEL")}
       noneLabel={t("CHAT.OVERRIDES.IMAGE_MODEL_AUTO")}
       options={[...customOptions, ...catalogOptions]}
+    />
+  );
+}
+
+function TitlePromptField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  return (
+    <FormField
+      control={props.control}
+      name="titlePrompt"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-muted-foreground text-xs">
+            {t("CHAT.OVERRIDES.TITLE_PROMPT")}
+          </FormLabel>
+          <FormControl>
+            <Textarea
+              className="min-h-16 text-xs"
+              placeholder={t("CHAT.OVERRIDES.TITLE_PROMPT_PLACEHOLDER")}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          </FormControl>
+        </FormItem>
+      )}
     />
   );
 }

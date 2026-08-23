@@ -9,7 +9,13 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { chatModelAtom, chatStore, freshConvId } from "@/store/chat-store";
+import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import {
+  chatLoadoutAtom,
+  chatModelAtom,
+  chatStore,
+  freshConvId,
+} from "@/store/chat-store";
 import { seedConversation } from "./conversation-seed";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -17,6 +23,27 @@ import { createAssistantStream } from "assistant-stream";
 import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
+
+// Conversation value wins over the preset, matching how utilityModel resolves in
+// the assembler. Reading settings must never break title generation, so a failed
+// read just means the free race.
+async function readTitleOverrides(
+  convId: string,
+): Promise<{ titleModel?: string; titlePrompt?: string }> {
+  try {
+    const conv = await readLocalConversation(convId);
+    const presetId = chatStore.get(chatLoadoutAtom).presetId;
+    const preset = presetId ? await readLocalPreset(presetId) : null;
+    const titleModel = conv?.titleModel || preset?.titleModel || "";
+    const titlePrompt = conv?.titlePrompt || preset?.titlePrompt || "";
+    return {
+      ...(titleModel ? { titleModel } : {}),
+      ...(titlePrompt ? { titlePrompt } : {}),
+    };
+  } catch {
+    return {};
+  }
+}
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -101,12 +128,17 @@ export function createThreadListAdapter(
         const selected = chatStore.get(chatModelAtom);
         const model =
           selected && !isCustomModelId(selected) ? selected : undefined;
+        const titleOverrides = await readTitleOverrides(id);
         // Title gen is best-effort: an unauthorized/expired session or a flaky
         // free-model race must not surface as an unhandled error. Fall back to a
         // trimmed first-message title so the thread still gets a name.
         let title: string;
         try {
-          const res = await rpc.api.ai.chat.title.post({ text, model });
+          const res = await rpc.api.ai.chat.title.post({
+            text,
+            model,
+            ...titleOverrides,
+          });
           title = handleElysia(res).title;
         } catch {
           title = text.slice(0, 60).trim() || t("CHAT.NEW_CONVERSATION");

@@ -73,7 +73,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/title",
     async ({ body, apiKey, userId }) => {
       await assertGuestFreeModel(userId, body.model);
-      const data = await generateChatTitle(apiKey, body.text);
+      // The title model is billed too, so it needs the same guest check as the
+      // chat model rather than riding in on the chat model's approval.
+      await assertGuestFreeModel(userId, body.titleModel);
+      const data = await generateChatTitle(apiKey, body.text, {
+        titleModel: body.titleModel,
+        titlePrompt: body.titlePrompt,
+      });
       return { success: true, data };
     },
     { body: titleGenerationBody },

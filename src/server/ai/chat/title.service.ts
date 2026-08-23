@@ -16,23 +16,34 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
-export async function generateChatTitle(apiKey: string, text: string) {
+export async function generateChatTitle(
+  apiKey: string,
+  text: string,
+  opts?: { titleModel?: string; titlePrompt?: string },
+) {
+  const deps = serverFreeModelRaceDeps(apiKey);
+  const titleModel = opts?.titleModel?.trim();
   try {
     // Think-tags are stripped because an unclosed <think> would become the
     // visible title.
     const race = await freeModelRace({
-      systemPrompt: TITLE_SYSTEM_PROMPT,
+      systemPrompt: opts?.titlePrompt?.trim() || TITLE_SYSTEM_PROMPT,
       prompt: text,
       maxOutputTokens: 200,
-      ...serverFreeModelRaceDeps(apiKey),
+      ...deps,
+      // A chosen model races alone, which reuses the same generate path rather
+      // than adding a second one. Empty keeps the free trio, so titles stay
+      // free for everyone who never sets this.
+      ...(titleModel ? { listFreeModels: async () => [titleModel] } : {}),
     });
     return {
       title: stripThinkForDisplay(race.text).trim() || truncateToTitle(text),
     };
   } catch (err) {
-    logger.warn("Title generation race failed, using truncated fallback", {
+    logger.warn("Title generation failed, using truncated fallback", {
       context: "title.generate",
       error: String(err),
+      ...(titleModel ? { model: titleModel } : {}),
     });
     return { title: truncateToTitle(text) };
   }

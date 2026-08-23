@@ -202,8 +202,7 @@ function installOutboundLinkTracking(ph: PostHog) {
   if (typeof document === "undefined") return;
   const handler = (e: MouseEvent) => {
     if (e.button !== 0 && e.button !== 1) return;
-    const anchor =
-      e.target instanceof Element ? e.target.closest("a") : null;
+    const anchor = e.target instanceof Element ? e.target.closest("a") : null;
     const href = anchor?.getAttribute("href");
     if (!href) return;
     let url: URL;

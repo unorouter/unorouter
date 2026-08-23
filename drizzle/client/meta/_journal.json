@@ -127,6 +127,13 @@
       "when": 1787417439185,
       "tag": "0017_rename_uno_plugin_kind",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1787417439186,
+      "tag": "0018_title_model_override",
+      "breakpoints": true
     }
   ]
 }
