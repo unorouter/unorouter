@@ -50,8 +50,9 @@ export function digErrorMessage(value: unknown): string | null {
     if (!node || typeof node !== "object") continue;
     const obj = node as Record<string, unknown>;
     for (const key of ["message", "detail"]) {
-      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
-        return (obj[key] as string).trim();
+      const val = obj[key];
+      if (typeof val === "string" && val.trim()) {
+        return val.trim();
       }
     }
     for (const key of ["error", "data", "output", "response", "body"]) {

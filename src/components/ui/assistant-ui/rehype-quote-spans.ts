@@ -76,7 +76,7 @@ function detectSpans(value: string): Span[] {
   return [...dqSpans, ...sqSpans].sort((a, b) => a.start - b.start);
 }
 
-function isQuotable(node: ElementContent): boolean {
+function isQuotable(node: RootContent): node is ElementContent {
   if (node.type === "text") return true;
   if (node.type === "element") return !SKIP_TAGS.has(node.tagName);
   return false;
@@ -101,11 +101,11 @@ function flatten(children: ElementContent[]): { text: string; segs: Seg[] } {
   return { text, segs };
 }
 
-function elementText(node: ElementContent): string {
+function elementText(node: RootContent): string {
   if (node.type === "text") return node.value;
   if (node.type !== "element" || !node.children) return "";
   let out = "";
-  for (const c of node.children) out += elementText(c as ElementContent);
+  for (const c of node.children) out += elementText(c);
   return out;
 }
 
@@ -151,13 +151,15 @@ function wrapQuotableRun(children: ElementContent[]): ElementContent[] {
   return out;
 }
 
-function processChildren(children: ElementContent[]): ElementContent[] {
+function processChildren<TNode extends RootContent>(
+  children: TNode[],
+): (TNode | ElementContent)[] {
   for (const child of children) {
     if (child.type === "element" && !SKIP_TAGS.has(child.tagName)) {
       walkElement(child);
     }
   }
-  const out: ElementContent[] = [];
+  const out: (TNode | ElementContent)[] = [];
   let run: ElementContent[] = [];
   const flush = () => {
     if (run.length > 0) {
@@ -179,14 +181,12 @@ function processChildren(children: ElementContent[]): ElementContent[] {
 
 function walkElement(node: Element): void {
   if (!node.children) return;
-  node.children = processChildren(node.children as ElementContent[]);
+  node.children = processChildren(node.children);
 }
 
 function walkRoot(node: Root): void {
   if (!node.children) return;
-  node.children = processChildren(
-    node.children as unknown as ElementContent[],
-  ) as unknown as RootContent[];
+  node.children = processChildren(node.children);
 }
 
 export const rehypeQuoteSpans: Plugin<[], Root> = () => {

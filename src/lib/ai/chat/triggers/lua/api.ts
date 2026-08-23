@@ -278,5 +278,5 @@ export function buildLuaApi(
         result,
       });
     },
-  } as unknown as Record<string, LuaFn>;
+  };
 }

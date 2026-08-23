@@ -39,7 +39,7 @@ const BLOCKED_IPV4_CIDRS: [ipaddr.IPv4, number][] = [
   "224.0.0.0/4",
   "240.0.0.0/4",
   "255.255.255.255/32",
-].map((c) => ipaddr.parseCIDR(c) as [ipaddr.IPv4, number]);
+].map((c) => ipaddr.IPv4.parseCIDR(c));
 
 const BLOCKED_IPV6_CIDRS: [ipaddr.IPv6, number][] = [
   "::/128",
@@ -52,19 +52,18 @@ const BLOCKED_IPV6_CIDRS: [ipaddr.IPv6, number][] = [
   "fc00::/7",
   "fe80::/10",
   "ff00::/8",
-].map((c) => ipaddr.parseCIDR(c) as [ipaddr.IPv6, number]);
+].map((c) => ipaddr.IPv6.parseCIDR(c));
 
 function isPublicIp(ip: string): boolean {
   if (!ipaddr.isValid(ip)) return false;
   const parsed = ipaddr.parse(ip);
-  if (parsed.kind() === "ipv4") {
-    const v4 = parsed as ipaddr.IPv4;
+  if (parsed instanceof ipaddr.IPv4) {
     for (const cidr of BLOCKED_IPV4_CIDRS) {
-      if (v4.match(cidr)) return false;
+      if (parsed.match(cidr)) return false;
     }
     return true;
   }
-  const v6 = parsed as ipaddr.IPv6;
+  const v6 = parsed;
   if (v6.isIPv4MappedAddress()) {
     return isPublicIp(v6.toIPv4Address().toString());
   }

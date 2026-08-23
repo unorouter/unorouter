@@ -88,7 +88,7 @@ export async function parseCharacterCardFile(
     tags: Array.isArray(data.tags)
       ? data.tags.filter((t): t is string => typeof t === "string")
       : undefined,
-    raw: parsed.card as unknown as Record<string, unknown>,
+    raw: { ...parsed.card },
   };
 
   const iconAsset =

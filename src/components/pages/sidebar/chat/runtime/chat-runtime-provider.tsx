@@ -329,10 +329,16 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   useJsPluginLoader();
   const adapterRef = useRef(createThreadListAdapter(queryClient, t));
 
+  // Presets and Cards are routes rather than dialogs, so visiting one and
+  // coming back lands on /chat with no convId and the user's open conversation
+  // looks gone: they had to press New Chat and reselect it. This provider sits
+  // in the shared (chat) layout and does NOT remount across those navigations,
+  // so the last activated conversation is still in the store and is the right
+  // thing to reopen when the URL does not name one.
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,
-    initialThreadId: params.convId,
+    initialThreadId: params.convId ?? chatStore.get(convIdAtom) ?? undefined,
   });
 
   useEffect(() => {

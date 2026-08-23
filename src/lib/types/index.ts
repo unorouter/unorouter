@@ -322,7 +322,7 @@ export type SectionPriorities = Partial<
   Record<Pathname extends string ? Pathname : never, PriorityEntry>
 >;
 
-type DocI18nPrefix = {
+export type DocI18nPrefix = {
   [K in TranslationKey]: K extends `${infer P}.TITLE`
     ? `${P}.SUBTITLE` extends TranslationKey
       ? P

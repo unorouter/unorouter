@@ -160,7 +160,9 @@ export const messageItems = sqliteTable(
     sequenceIndex: integer("sequence_index").notNull(),
     outputIndex: integer("output_index"),
     type: text("type").notNull().$type<MessageItemType>(),
-    data: text("data", { mode: "json" }).notNull(),
+    data: text("data", { mode: "json" })
+      .notNull()
+      .$type<Record<string, unknown>>(),
     createdAt: createdAtCol(),
   },
   (table) => [

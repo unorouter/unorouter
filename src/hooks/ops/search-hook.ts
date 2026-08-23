@@ -39,8 +39,8 @@ export function useSearchQuery(query: string, enabled: boolean = true) {
       });
 
       return searchResult.hits
-        .filter((hit) => isSearchDoc(hit.document))
-        .map((hit) => hit.document as unknown as SearchResult);
+        .map((hit) => hit.document)
+        .filter((doc) => isSearchDoc(doc));
     },
     enabled: !!db && !!query.trim(),
   });

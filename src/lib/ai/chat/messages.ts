@@ -11,7 +11,11 @@ export type PersistMessage = {
   items: MessageItemData[];
 };
 
-export type MessagePart = { type: string; [key: string]: unknown };
+export type MessagePart = {
+  type: string;
+  data?: Record<string, unknown>;
+  [key: string]: unknown;
+};
 
 export type ApiMessage = {
   id: string;
@@ -25,12 +29,13 @@ export type ApiMessage = {
   branchIndex?: number;
   isActiveBranch?: boolean;
   isEdited?: boolean;
+  createdAt?: string | number | Date | null;
   items: Array<{
     id: string;
     sequenceIndex: number;
     outputIndex?: number | null;
     type: string;
-    data: unknown;
+    data: Record<string, unknown> | null;
   }>;
   [key: string]: unknown;
 };
@@ -112,7 +117,7 @@ export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
   if (reasoningCount < 2) return parts;
   const texts = parts
     .filter((p) => p.type === "reasoning" && typeof p.text === "string")
-    .map((p) => (p.text as string).trim())
+    .map((p) => String(p.text).trim())
     .filter((s) => s.length > 0);
   const merged = texts.join(REASONING_JOIN);
   const out: MessagePart[] = [];
@@ -202,7 +207,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
       part.type === "data-task" ||
       (part.type === "data" && part.name === "task")
     ) {
-      const data = (part.data ?? part) as Record<string, unknown>;
+      const data = part.data ?? part;
       out.push({
         type: "task",
         data: {
@@ -217,7 +222,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
       part.type === "data-error" ||
       (part.type === "data" && part.name === "error")
     ) {
-      const data = (part.data ?? part) as Record<string, unknown>;
+      const data = part.data ?? part;
       out.push({
         type: "error",
         data: {
@@ -233,7 +238,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
 export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
   const parts: MessagePart[] = [];
   for (const it of items) {
-    const data = (it.data ?? {}) as Record<string, unknown>;
+    const data = it.data ?? {};
     switch (it.type) {
       case "text":
         parts.push({ type: "text", text: String(data.text ?? "") });

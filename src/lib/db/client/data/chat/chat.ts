@@ -142,7 +142,7 @@ export async function readActiveBranchParts(convId: string) {
   return walkActiveBranch(joined).path.map((m) => ({
     id: m.id,
     role: m.role,
-    parts: itemsToParts(m.items as Parameters<typeof itemsToParts>[0]),
+    parts: itemsToParts(m.items),
   }));
 }
 
@@ -156,7 +156,7 @@ export async function readConvHistoryForSend(convId: string) {
     branch: walkActiveBranch(joined).path.map((m) => ({
       id: m.id,
       role: m.role,
-      parts: itemsToParts(m.items as Parameters<typeof itemsToParts>[0]),
+      parts: itemsToParts(m.items),
     })),
     allIds: new Set(joined.map((m) => m.id)),
     // Rows the walk was entitled to reach. Every swipe and alternate greeting
@@ -324,15 +324,15 @@ export const upsertLocalMessageItem = (
 export const upsertLocalConversationSettings = (
   row: LocalRowInput & { convId: string },
 ) => {
-  const next = { ...row, id: row.convId } as LocalRowInput & { id: string };
-  delete (next as Record<string, unknown>).convId;
+  const next: LocalRowInput & { id: string } = { ...row, id: row.convId };
+  delete next.convId;
   return conversationStore.upsert(next);
 };
 
 export const updateLocalConversationSettings = (
   row: LocalRowInput & { convId: string },
 ) => {
-  const patch = { ...row } as Record<string, unknown>;
+  const patch: Record<string, unknown> = { ...row };
   delete patch.convId;
   return conversationStore.update(row.convId, patch);
 };
@@ -506,13 +506,15 @@ export async function replaceLocalConversationBindings(
   }
 }
 
+type BundleStamp = Date | number | string | null | undefined;
+
 export async function upsertLocalConversationBundle(bundle: {
-  conversation: AnyRow;
+  conversation: AnyRow & { updatedAt?: BundleStamp };
   settings: ChildRow | null;
-  conversationCharacters: ChildRow[];
-  conversationLorebooks: ChildRow[];
-  messages: AnyRow[];
-  messageItems: AnyRow[];
+  conversationCharacters: Array<ChildRow & { characterId: string }>;
+  conversationLorebooks: Array<ChildRow & { lorebookId: string }>;
+  messages: Array<AnyRow & { updatedAt?: BundleStamp }>;
+  messageItems: Array<AnyRow & { messageId: string }>;
   media: AnyRow[];
   requestLogs: ChildRow[];
 }): Promise<{ skippedLocalNewer: number }> {
@@ -522,9 +524,9 @@ export async function upsertLocalConversationBundle(bundle: {
     ? {
         ...bundle.conversation,
         ...Object.fromEntries(
-          CONVERSATION_SETTINGS_KEYS.filter(
-            (k) => k in (bundle.settings as object),
-          ).map((k) => [k, (bundle.settings as Record<string, unknown>)[k]]),
+          CONVERSATION_SETTINGS_KEYS.filter((k) => k in bundle.settings!).map(
+            (k) => [k, bundle.settings![k]],
+          ),
         ),
       }
     : bundle.conversation;
@@ -544,13 +546,10 @@ export async function upsertLocalConversationBundle(bundle: {
     bundle.conversationLorebooks,
   );
 
-  const existingMessages = (await local.db
+  const existingMessages = await local.db
     .select({ id: messages.id, updatedAt: messages.updatedAt })
     .from(messages)
-    .where(eq(messages.convId, convId))) as Array<{
-    id: string;
-    updatedAt: Date | number | string | null;
-  }>;
+    .where(eq(messages.convId, convId));
   const localMsgUpdatedAt = new Map<string, number>(
     existingMessages.map((m) => [
       m.id,
@@ -563,9 +562,7 @@ export async function upsertLocalConversationBundle(bundle: {
   for (const m of bundle.messages) {
     remoteMsgIds.add(m.id);
     const local = localMsgUpdatedAt.get(m.id);
-    const remote = m.updatedAt
-      ? new Date(m.updatedAt as Date | number | string).getTime()
-      : 0;
+    const remote = m.updatedAt ? new Date(m.updatedAt).getTime() : 0;
     if (local !== undefined && local >= remote) {
       if (local > remote) skippedLocalNewer++;
       continue;
@@ -580,15 +577,13 @@ export async function upsertLocalConversationBundle(bundle: {
       .where(inArray(messageItems.messageId, replacedMsgIds));
   }
   for (const it of bundle.messageItems) {
-    if (!remoteMsgIds.has(it.messageId as string)) continue;
-    if (!replacedMsgIds.includes(it.messageId as string)) continue;
+    if (!remoteMsgIds.has(it.messageId)) continue;
+    if (!replacedMsgIds.includes(it.messageId)) continue;
     await local.db.insert(messageItems).values(it as never);
   }
 
   const remoteConvStamp = bundle.conversation.updatedAt
-    ? new Date(
-        bundle.conversation.updatedAt as Date | number | string,
-      ).getTime()
+    ? new Date(bundle.conversation.updatedAt).getTime()
     : 0;
   const staleMsgIds = existingMessages
     .filter(
@@ -602,10 +597,10 @@ export async function upsertLocalConversationBundle(bundle: {
   }
 
   const remoteCharIds = new Set(
-    bundle.conversationCharacters.map((c) => c.characterId as string),
+    bundle.conversationCharacters.map((c) => c.characterId),
   );
   const remoteLbIds = new Set(
-    bundle.conversationLorebooks.map((l) => l.lorebookId as string),
+    bundle.conversationLorebooks.map((l) => l.lorebookId),
   );
   const localBindings = await readLocalConversationBindings(convId);
   for (const c of localBindings?.conversationCharacters ?? []) {
@@ -641,7 +636,7 @@ export async function upsertLocalConversationBundle(bundle: {
     await local.db
       .insert(requestLogs)
       .values(log as never)
-      .onConflictDoUpdate({ target: requestLogs.msgId, set: log as never });
+      .onConflictDoUpdate({ target: requestLogs.msgId, set: log });
   }
   return { skippedLocalNewer };
 }
