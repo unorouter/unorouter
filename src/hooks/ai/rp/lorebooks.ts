@@ -51,8 +51,8 @@ const lorebooks = makeRpEntity<
       updatedAt: now,
     }));
     await upsertLocalLorebookBundle({
-      lorebook: lorebook as never,
-      entries: clonedEntries as never,
+      lorebook: lorebook,
+      entries: clonedEntries,
     });
   },
 });
@@ -71,7 +71,7 @@ export function useUpdateLorebookMutation() {
       const now = dayjs().toDate();
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
-      await upsertLocalLorebook(updated as never);
+      await upsertLocalLorebook(updated);
       return updated;
     },
     invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
@@ -121,8 +121,8 @@ export function useImportLorebookMutation() {
         updatedAt: now,
       }));
       await upsertLocalLorebookBundle({
-        lorebook: lorebook as never,
-        entries: entries as never,
+        lorebook: lorebook,
+        entries: entries,
       });
       return { ...lorebook, entries };
     },

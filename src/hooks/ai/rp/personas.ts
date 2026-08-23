@@ -62,7 +62,7 @@ export function useImportPersonaMutation() {
         updatedAt: now,
       }));
       for (const row of rows) {
-        await upsertLocalPersona(row as never);
+        await upsertLocalPersona(row);
       }
       return rows;
     },
@@ -98,7 +98,7 @@ export function useImportPersonaFromUrlMutation() {
             updatedAt: now,
           };
         });
-        for (const row of rows) await upsertLocalPersona(row as never);
+        for (const row of rows) await upsertLocalPersona(row);
         return rows;
       }),
     invalidates: [queryKeys.personas()],
