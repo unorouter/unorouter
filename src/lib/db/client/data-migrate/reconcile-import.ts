@@ -201,6 +201,7 @@ export async function reconcileImport(
   let live: SQLocalDrizzle | null = null;
   let liveSrc: SQLocalDrizzle | null = null;
   let swapped = false;
+  let rolledBack = false;
 
   logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
   try {
@@ -284,7 +285,7 @@ export async function reconcileImport(
     });
     // Phase 5: if the live file was already touched, restore it from the backup.
     if (swapped) {
-      await restoreLiveFromBackup(livePath, backupPath, live);
+      rolledBack = await restoreLiveFromBackup(livePath, backupPath, live);
     }
     throw err;
   } finally {
@@ -294,7 +295,9 @@ export async function reconcileImport(
     await cleanup(liveSrc, "liveSrc", null);
     await cleanup(live, "live", null);
     // Backup is only safe to drop once the swap succeeded (or never happened).
-    await deleteBackup(backupPath);
+    // A failed rollback leaves the live file half-written, and this copy is then
+    // the only intact one; recoverPendingImport finds it by its presence.
+    if (!swapped || rolledBack) await deleteBackup(backupPath);
   }
 }
 
@@ -302,7 +305,7 @@ async function restoreLiveFromBackup(
   livePath: string,
   backupPath: string,
   liveHandle: SQLocalDrizzle | null,
-): Promise<void> {
+): Promise<boolean> {
   try {
     const backup = newSql(backupPath);
     let backupBytes: ArrayBuffer;
@@ -319,6 +322,7 @@ async function restoreLiveFromBackup(
       terminateSql(live);
     }
     logChatDebug("import.reconcile.rollback", { restored: true });
+    return true;
   } catch (err) {
     logChatDebug("import.reconcile.rollback", {
       restored: false,
@@ -328,6 +332,7 @@ async function restoreLiveFromBackup(
       context: "local-db.reconcile-import",
       error: String(err),
     });
+    return false;
   }
 }
 

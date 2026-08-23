@@ -109,6 +109,7 @@ async function drainPending(): Promise<void> {
             eq(localPendingTasks.taskType, row.taskType),
             eq(localPendingTasks.kind, row.kind),
             eq(localPendingTasks.id, row.id),
+            eq(localPendingTasks.seq, row.seq),
           ),
         );
       logChatDebug("pending.task_error", {

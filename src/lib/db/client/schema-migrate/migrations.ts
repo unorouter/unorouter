@@ -100,7 +100,15 @@ async function ensureTables(
     if (existing.has(table)) continue;
     try {
       await sql.sql(buildCreate(ddl));
-      for (const index of ddl.indexes) await sql.sql(index);
+      // Per index: one that cannot be created must not cost the table the rest,
+      // several of which carry UNIQUE constraints other code relies on.
+      for (const index of ddl.indexes) {
+        try {
+          await sql.sql(index);
+        } catch (err) {
+          if (!isIdempotentMigrationError(err)) throw err;
+        }
+      }
       logChatDebug("ensure.table_created", { table });
       logger.warn("ensureTables: recreated a table missing from the OPFS db", {
         context: "local-db.migrations.ensure",
@@ -176,6 +184,16 @@ function parseManifestDdl(
     m = stmt.match(/^CREATE(?:\s+UNIQUE)?\s+INDEX\s+`[^`]+`\s+ON\s+`([^`]+)`/);
     if (m) {
       tables.get(m[1])?.indexes.push(stmt.replace(/;\s*$/, ""));
+      continue;
+    }
+    m = stmt.match(/^DROP INDEX\s+(?:IF EXISTS\s+)?`([^`]+)`/);
+    if (m) {
+      const dropped = m[1];
+      for (const t of tables.values()) {
+        t.indexes = t.indexes.filter(
+          (idx) => !new RegExp(`INDEX\\s+\`${dropped}\``, "i").test(idx),
+        );
+      }
       continue;
     }
     m = stmt.match(
@@ -385,12 +403,45 @@ async function forceRebuildWithDefaults(
     for (const def of ddl.colDefs) {
       const col = colName(def);
       if (!col) continue;
+      // A synthesized constant cannot satisfy a key: every row would get the
+      // same value and INSERT OR IGNORE would keep exactly one of them.
+      if (!have.has(col) && /\b(PRIMARY KEY|UNIQUE)\b/i.test(def)) {
+        await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+        logger.error(
+          "forceRebuildWithDefaults: cannot synthesize a key column",
+          {
+            context: "local-db.migrations.validate",
+            table,
+            column: col,
+          },
+        );
+        return false;
+      }
       targets.push(`\`${col}\``);
       sources.push(have.has(col) ? `\`${col}\`` : synthDefault(def));
     }
+    const before = await sql.sql<{ n: number }>(
+      `SELECT count(*) AS n FROM \`${table}\``,
+    );
     await sql.sql(
       `INSERT OR IGNORE INTO \`${tmp}\` (${targets.join(", ")}) SELECT ${sources.join(", ")} FROM \`${table}\``,
     );
+    const after = await sql.sql<{ n: number }>(
+      `SELECT count(*) AS n FROM \`${tmp}\``,
+    );
+    const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
+    if (dropped > 0) {
+      await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+      logger.error(
+        "forceRebuildWithDefaults skipped rebuild: would drop rows",
+        {
+          context: "local-db.migrations.validate",
+          table,
+          dropped,
+        },
+      );
+      return false;
+    }
     await sql.sql(`DROP TABLE \`${table}\``);
     await sql.sql(`ALTER TABLE \`${tmp}\` RENAME TO \`${table}\``);
     for (const idx of ddl.indexes) {

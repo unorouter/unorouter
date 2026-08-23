@@ -37,6 +37,7 @@ export async function exportLocalSession(
         mimeType: img.mimeType,
         width: img.width,
         height: img.height,
+        seed: img.seed,
       })),
     );
     snapshots.push({
@@ -102,6 +103,7 @@ function snapshotToRows(
     sizeBytes: 0,
     width: img.width,
     height: img.height,
+    seed: img.seed ?? null,
     extractedText: null,
     createdAt: now,
   }));

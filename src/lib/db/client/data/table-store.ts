@@ -3,7 +3,6 @@
 import type {
   ScopedTable,
   StoreConfig,
-  StoreListOpts,
   StorePkValue,
   StoreRow,
 } from "@/lib/types";
@@ -73,11 +72,11 @@ export function makeTableStore<TTable extends ScopedTable>(
   type Row = InferSelectModel<TTable>;
 
   return {
-    async list(opts?: StoreListOpts): Promise<Row[] | null> {
+    async list(): Promise<Row[] | null> {
       const local = await getLocalDb();
       if (!local) return null;
       let query = local.db.select().from(table).$dynamic();
-      const orderBy = opts?.orderBy ?? config.defaultOrderBy;
+      const orderBy = config.defaultOrderBy;
       if (orderBy) {
         query = query.orderBy(orderBy);
       }
