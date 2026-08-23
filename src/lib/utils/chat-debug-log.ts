@@ -172,12 +172,43 @@ export function fingerprintText(text: string): TextFingerprint {
   };
 }
 
-// Kept in memory, never localStorage: a capture is only useful in the export
-// taken right after the failure, and the vast majority of sends succeed.
+// Persisted, because a user reports a failure after it happened: they hit
+// export on the next page load, or after a reload the error itself prompted.
+// A capture is a few hundred bytes of counters, so unlike the payload it
+// summarises it costs nothing to keep.
 const MAX_FAILED_CAPTURES = 3;
+const FAILED_STORAGE_KEY = "unorouter-failed-requests";
 
+// The pending payload stays in memory ONLY: it is written on every send and
+// most sends succeed, so persisting it would be a localStorage write per turn
+// to store something that is discarded moments later.
 let pending: FailedRequestCapture | null = null;
-let failed: FailedRequestCapture[] = [];
+let failed: FailedRequestCapture[] | null = null;
+let failedSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+function getFailed(): FailedRequestCapture[] {
+  if (failed === null) {
+    failed = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        const raw = localStorage.getItem(FAILED_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(parsed)) failed = parsed;
+      } catch {}
+    }
+  }
+  return failed;
+}
+
+function saveFailed(): void {
+  if (failedSaveTimer !== null || typeof localStorage === "undefined") return;
+  failedSaveTimer = setTimeout(() => {
+    failedSaveTimer = null;
+    try {
+      localStorage.setItem(FAILED_STORAGE_KEY, JSON.stringify(getFailed()));
+    } catch {}
+  }, SAVE_DEBOUNCE_MS);
+}
 
 export function stashOutgoingRequest(capture: FailedRequestCapture): void {
   pending = capture;
@@ -190,19 +221,26 @@ export function captureFailedRequest(detail: {
   message?: string;
 }): void {
   if (!pending) return;
-  failed.push({ ...pending, ...detail });
+  const entries = getFailed();
+  entries.push({ ...pending, ...detail });
   pending = null;
-  if (failed.length > MAX_FAILED_CAPTURES)
-    failed.splice(0, failed.length - MAX_FAILED_CAPTURES);
+  if (entries.length > MAX_FAILED_CAPTURES)
+    entries.splice(0, entries.length - MAX_FAILED_CAPTURES);
+  saveFailed();
 }
 
 export function getFailedRequestCaptures(): FailedRequestCapture[] {
-  return failed.slice();
+  return getFailed().slice();
 }
 
 export function clearFailedRequestCaptures(): void {
   failed = [];
   pending = null;
+  if (typeof localStorage !== "undefined") {
+    try {
+      localStorage.removeItem(FAILED_STORAGE_KEY);
+    } catch {}
+  }
 }
 
 export function clearChatDebugLog(): void {
