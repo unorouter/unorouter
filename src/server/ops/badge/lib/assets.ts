@@ -54,11 +54,11 @@ function getTranslator(locale: Locale) {
 export function t(locale: Locale, key: string): string {
   const translator = getTranslator(locale);
   try {
-    return translator(key as never);
+    return translator(key);
   } catch {
     if (locale !== LOCALES[0]) {
       const en = getTranslator(LOCALES[0]);
-      return en(key as never);
+      return en(key);
     }
     return key;
   }

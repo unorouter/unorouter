@@ -95,7 +95,7 @@ export function useUpdateCardMutation() {
       const lorebookIds =
         body.lorebookIds ?? existing.cardLorebooks.map((l) => l.lorebookId);
       await upsertLocalCardBundle({
-        card: updatedCard as never,
+        card: updatedCard,
         cardCharacters: characterIds.map((cid, i) => ({
           cardId: args.id,
           characterId: cid,
