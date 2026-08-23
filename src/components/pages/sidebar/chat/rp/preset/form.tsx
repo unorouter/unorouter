@@ -258,6 +258,23 @@ export function PresetForm(props: Props) {
                     {t("RP.PRESET_UTILITY_MODEL_HINT")}
                   </p>
                 </div>
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="titleModel"
+                    schema={samplingPresetFormSchema}
+                    label={t("RP.PRESET_TITLE_MODEL")}
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.PRESET_TITLE_MODEL_HINT")}
+                  </p>
+                </div>
+                <MyFormTextarea
+                  control={form.control}
+                  name="titlePrompt"
+                  schema={samplingPresetFormSchema}
+                  label={t("RP.PRESET_TITLE_PROMPT")}
+                />
                 <MyFormSwitch
                   control={form.control}
                   name="imagePreview"

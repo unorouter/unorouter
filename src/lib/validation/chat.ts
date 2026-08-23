@@ -232,6 +232,10 @@ export const updateConversationSettingsBody = t.Object({
   utilityModel: t.Optional(
     t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
   ),
+  titleModel: t.Optional(
+    t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
+  ),
+  titlePrompt: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),
   promptInstruction: t.Optional(
     t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
   ),
@@ -335,7 +339,11 @@ export const triggerImggenBody = t.Object({
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),
+  // The chat model, sent so a guest cannot title with a paid one. Distinct from
+  // titleModel, which is what actually generates the title.
   model: t.Optional(t.String()),
+  titleModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  titlePrompt: t.Optional(t.String({ maxLength: 4_096 })),
 });
 
 export const forwardBody = t.Object(

@@ -80,6 +80,10 @@ export const conversations = sqliteTable(
     summaryAnchor: integer("summary_anchor"),
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     utilityModel: text("utility_model"),
+    // Null keeps titles on the free UTILITY_RACE_MODELS race; naming a model
+    // bills it once per new chat.
+    titleModel: text("title_model"),
+    titlePrompt: text("title_prompt"),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
     promptInstruction: text("prompt_instruction"),
     imageModel: text("image_model"),
@@ -331,6 +335,8 @@ export const samplingPresets = sqliteTable(
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
     utilityModel: text("utility_model"),
+    titleModel: text("title_model"),
+    titlePrompt: text("title_prompt"),
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
     promptInstruction: text("prompt_instruction"),

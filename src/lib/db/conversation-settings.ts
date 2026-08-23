@@ -31,6 +31,8 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "autoContinue",
   "memoryEnabled",
   "utilityModel",
+  "titleModel",
+  "titlePrompt",
   "imageEnabled",
   "promptInstruction",
   "imageModel",

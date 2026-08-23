@@ -71,6 +71,10 @@
     {
       "tag": "0017_rename_uno_plugin_kind",
       "sql": "UPDATE `js_plugins` SET `kind` = 'risu' WHERE `kind` = 'uno';\n"
+    },
+    {
+      "tag": "0018_title_model_override",
+      "sql": "ALTER TABLE `conversations` ADD `title_model` text;--> statement-breakpoint\nALTER TABLE `conversations` ADD `title_prompt` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_model` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_prompt` text;\n"
     }
   ]
 }
