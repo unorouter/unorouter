@@ -178,9 +178,6 @@ export type CopyResult = {
 };
 
 export type ScopedTable = SQLiteTable;
-export type StoreListOpts = {
-  orderBy?: SQL | SQLiteColumn;
-};
 export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;
 export type StorePkValue = string | number;

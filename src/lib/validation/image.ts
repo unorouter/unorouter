@@ -201,6 +201,8 @@ export const imageSnapshotExport = t.Object({
       mimeType: t.Union([t.String({ maxLength: 64 }), t.Null()]),
       width: t.Union([t.Integer(), t.Null()]),
       height: t.Union([t.Integer(), t.Null()]),
+      // Optional so files written before it carried a seed still validate.
+      seed: t.Optional(t.Union([t.Integer(), t.Null()])),
     }),
     { maxItems: 16 },
   ),

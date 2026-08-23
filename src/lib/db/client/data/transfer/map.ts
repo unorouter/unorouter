@@ -35,6 +35,13 @@ const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
 const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
 const bool = (v: unknown): boolean | null =>
   typeof v === "boolean" ? v : null;
+// A JSON round trip turns the exported Date into an ISO string.
+const date = (v: unknown): Date | null => {
+  if (v instanceof Date) return Number.isNaN(v.getTime()) ? null : v;
+  if (typeof v !== "string" && typeof v !== "number") return null;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
 const strArr = (v: unknown): string[] | null =>
   Array.isArray(v) && v.every((x) => typeof x === "string")
     ? (v as string[])
@@ -71,11 +78,14 @@ export function mapNativeImport(native: NativeImport): MappedImport {
   const presetIdMap = buildIdMap(native.preset ? [native.preset] : []);
   const msgIdMap = buildIdMap(native.messages);
 
+  // Spread the exported row and override only what the import must change (new
+  // id, remapped references, ownership flags). Re-listing columns here silently
+  // dropped every field the list forgot, and the export writes whole rows.
   const persona = native.persona
     ? {
+        ...native.persona,
         id: personaIdMap.get(native.persona.id)!,
         name: str(native.persona.name) ?? "",
-        description: str(native.persona.description),
         avatarMediaId: null,
         isDefault: false,
       }
@@ -83,41 +93,26 @@ export function mapNativeImport(native: NativeImport): MappedImport {
 
   const preset = native.preset
     ? {
+        ...native.preset,
         id: presetIdMap.get(native.preset.id)!,
         name: str(native.preset.name) ?? "",
-        temperature: num(native.preset.temperature),
-        topP: num(native.preset.topP),
-        topK: num(native.preset.topK),
-        minP: num(native.preset.minP),
-        topA: num(native.preset.topA),
-        frequencyPenalty: num(native.preset.frequencyPenalty),
-        presencePenalty: num(native.preset.presencePenalty),
-        repetitionPenalty: num(native.preset.repetitionPenalty),
-        maxTokens: num(native.preset.maxTokens),
         isDefault: false,
       }
     : null;
 
   const characters = native.characters.map((c) => ({
+    ...c,
     id: charIdMap.get(c.id)!,
     name: str(c.name) ?? "",
-    description: str(c.description),
-    personality: str(c.personality),
-    scenario: str(c.scenario),
-    firstMessage: str(c.firstMessage),
-    exampleMessages: str(c.exampleMessages),
-    systemPrompt: str(c.systemPrompt),
-    postHistoryInstructions: str(c.postHistoryInstructions),
-    tags: strArr(c.tags),
   }));
 
   const lorebooks = native.lorebooks.map((l) => {
     const newLbId = lbIdMap.get(l.id)!;
     return {
       lorebook: {
+        ...l,
         id: newLbId,
         name: str(l.name) ?? "",
-        description: str(l.description),
         scanDepth: num(l.scanDepth) ?? 4,
         tokenBudget: num(l.tokenBudget) ?? 1500,
         recursiveScanning: bool(l.recursiveScanning) ?? false,
@@ -125,10 +120,10 @@ export function mapNativeImport(native: NativeImport): MappedImport {
       entries: native.lorebookEntries
         .filter((e) => e.lorebookId === l.id)
         .map((e) => ({
+          ...e,
           id: uid(),
           lorebookId: newLbId,
           keys: strArr(e.keys) ?? [],
-          secondaryKeys: strArr(e.secondaryKeys),
           content: str(e.content) ?? "",
           constant: bool(e.constant) ?? false,
           selective: bool(e.selective) ?? false,
@@ -144,6 +139,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
       const newCharId = charIdMap.get(str(b.characterId) ?? "");
       if (!newCharId) return null;
       return {
+        ...b,
         convId,
         characterId: newCharId,
         orderIndex: num(b.orderIndex) ?? 0,
@@ -165,35 +161,36 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     })
     .filter((b) => b != null);
 
-  const messages = native.messages.map((m) => {
+  // The column default is second-granularity, so a whole import would share one
+  // timestamp and readLocalMessages orders by it. Distinct values per row keep
+  // the branch walk's array-order fallbacks meaningful.
+  const baseTime = new Date();
+  const messages = native.messages.map((m, i) => {
     const oldParent = str(m.parentId);
     const oldChar = str(m.characterId);
+    const createdAt =
+      date(m.createdAt) ?? dayjs(baseTime).add(i, "ms").toDate();
     return {
+      ...m,
       id: msgIdMap.get(m.id)!,
       convId,
       parentId: oldParent ? (msgIdMap.get(oldParent) ?? null) : null,
       characterId: oldChar ? (charIdMap.get(oldChar) ?? null) : null,
       role: str(m.role) ?? "user",
-      model: str(m.model),
-      playgroundId: str(m.playgroundId),
-      inputTokens: num(m.inputTokens),
-      outputTokens: num(m.outputTokens),
-      cost: num(m.cost),
-      durationMs: num(m.durationMs),
-      tokensPerSecond: num(m.tokensPerSecond),
       branchIndex: num(m.branchIndex) ?? 0,
       isActiveBranch: bool(m.isActiveBranch) ?? true,
       isEdited: bool(m.isEdited) ?? false,
+      createdAt,
+      updatedAt: date(m.updatedAt) ?? createdAt,
     };
   });
 
   const messageItems = native.items.map((it) => ({
+    ...it,
     id: uid(),
     messageId: msgIdMap.get(str(it.messageId) ?? "")!,
     sequenceIndex: num(it.sequenceIndex) ?? 0,
-    outputIndex: num(it.outputIndex),
     type: str(it.type) ?? "text",
-    data: it.data,
   }));
 
   const s = native.settings;

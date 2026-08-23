@@ -32,22 +32,7 @@ export type HistoryModelRow = {
   sampleCount: number;
   avgPassRate: number;
   avgLatencyMs: number;
-  lastVerdict: string | null;
   lastTestedAt: Date;
-};
-
-export type TestListItem = {
-  id: string;
-  provider: VerifyProviderValue;
-  baseUrlHost: string;
-  requestedModel: string;
-  detectedModel: string | null;
-  verdict: TesterTestRow["verdict"];
-  probesPassed: number;
-  probesTotal: number;
-  latencyMs: number;
-  testedAt: Date;
-  publishedAt: Date | null;
 };
 
 function toTestResultDetail(
@@ -269,7 +254,6 @@ export async function readHistoryModels(
       sampleCount: sql<number>`count(*)`,
       avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
       avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
-      lastVerdict: sql<string | null>`max(${testerModels.lastVerdict})`,
       lastTestedAt: sql<Date>`max(${testerTests.testedAt})`,
     })
     .from(testerTests)

@@ -429,7 +429,15 @@ async function openClient(): Promise<LocalClient> {
     if (!(await awaitOwnership(dbPath, lockKey))) {
       throw new Error(`${TAB_LOCK_MARKER}: handover of ${dbPath} timed out`);
     }
-    await resumeSql(sql);
+    try {
+      await resumeSql(sql);
+    } catch (err) {
+      // Staying parked with the lock still held wedges the tab: acquireLockWaiting
+      // short-circuits on a held key, so every retry would reacquire instantly,
+      // fail the same way, and starve the tab that asked for the pool.
+      releaseLock(lockKey);
+      throw err;
+    }
     parked = false;
     lastAcquiredAt = Date.now();
     logChatDebug("db.handover.resumed");
@@ -473,7 +481,9 @@ async function openClient(): Promise<LocalClient> {
           logChatDebug("db.reopen", {
             error: String(err).slice(0, 200),
           });
+          await pauseSql(sql).catch(() => {});
           await sql.destroy().catch(() => {});
+          terminateSql(sql);
           sql = await openMigratedSql(dbPath);
         })().finally(() => (reopening = null));
         await reopening;

@@ -1,6 +1,9 @@
 "use client";
 
-import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
+import {
+  mediaBlobUrl,
+  revokeMediaBlobUrl,
+} from "@/lib/db/client/data/media/blob-url";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   type ImageSnapshot,
@@ -9,7 +12,7 @@ import {
   imageSnapshots,
 } from "@/lib/db/schema/client";
 import { type Media, media } from "@/lib/db/schema/shared";
-import type { ImageView, SnapshotView } from "@/lib/types";
+import type { ImageView, LocalClient, SnapshotView } from "@/lib/types";
 import { asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
@@ -123,9 +126,24 @@ export const upsertLocalSnapshot = (row: SnapshotInput) =>
 export async function deleteLocalSnapshot(id: string) {
   const local = await getLocalDb();
   if (local) {
+    await revokeMediaUrlsForSnapshots(local, [id]);
     await local.db.delete(media).where(eq(media.imageSnapshotId, id));
   }
   await snapshotStore.drop(id);
+}
+
+// toImageView hands out a blob: URL keyed by media.id, and those pin the decoded
+// bytes for the document's lifetime. Deleting the rows without revoking leaves
+// the whole weight of every deleted image in memory until a reload.
+async function revokeMediaUrlsForSnapshots(
+  local: LocalClient,
+  snapshotIds: string[],
+) {
+  const rows = await local.db
+    .select({ id: media.id })
+    .from(media)
+    .where(inArray(media.imageSnapshotId, snapshotIds));
+  for (const row of rows) revokeMediaBlobUrl(row.id);
 }
 
 // Snapshots cascade with the session row, but `media.playground_id` is a plain
@@ -141,6 +159,7 @@ export async function deleteLocalImageSessionDeep(sessionId: string) {
     .where(eq(imageSnapshots.sessionId, sessionId));
   const ids = snapshots.map((s) => s.id);
   if (ids.length > 0) {
+    await revokeMediaUrlsForSnapshots(local, ids);
     await local.db.delete(media).where(inArray(media.imageSnapshotId, ids));
   }
   await sessionStore.drop(sessionId);
