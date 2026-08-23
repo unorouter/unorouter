@@ -157,6 +157,10 @@ type TableDdl = {
 
 const colName = (def: string) => def.match(/^`([^`]+)`/)?.[1] ?? "";
 
+const countRows = async (sql: SQLocalDrizzle, table: string) =>
+  (await sql.sql<{ n: number }>(`SELECT count(*) AS n FROM \`${table}\``))[0]
+    ?.n ?? 0;
+
 const buildCreate = (t: TableDdl) =>
   `CREATE TABLE \`${t.name}\` (\n\t${[...t.colDefs, ...t.constraints].join(",\n\t")}\n)`;
 
@@ -271,16 +275,11 @@ async function reconcileSchema(
 
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
-      const before = await sql.sql<{ n: number }>(
-        `SELECT count(*) AS n FROM \`${table}\``,
-      );
+      const before = await countRows(sql, table);
       await sql.sql(
         `INSERT OR IGNORE INTO \`${tmp}\` (${colList}) SELECT ${colList} FROM \`${table}\``,
       );
-      const after = await sql.sql<{ n: number }>(
-        `SELECT count(*) AS n FROM \`${tmp}\``,
-      );
-      const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
+      const dropped = before - (await countRows(sql, tmp));
       if (dropped > 0) {
         await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
         logChatDebug("reconcile.row_loss_abort", { table, dropped });
@@ -398,50 +397,32 @@ async function forceRebuildWithDefaults(
       `PRAGMA table_info(\`${table}\`)`,
     );
     const have = new Set(actual.map((r) => r.name));
+    const abort = async (reason: string) => {
+      await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+      logger.error(`forceRebuildWithDefaults aborted: ${reason}`, {
+        context: "local-db.migrations.validate",
+        table,
+      });
+      return false;
+    };
+
     const targets: string[] = [];
     const sources: string[] = [];
     for (const def of ddl.colDefs) {
       const col = colName(def);
       if (!col) continue;
-      // A synthesized constant cannot satisfy a key: every row would get the
-      // same value and INSERT OR IGNORE would keep exactly one of them.
-      if (!have.has(col) && /\b(PRIMARY KEY|UNIQUE)\b/i.test(def)) {
-        await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
-        logger.error(
-          "forceRebuildWithDefaults: cannot synthesize a key column",
-          {
-            context: "local-db.migrations.validate",
-            table,
-            column: col,
-          },
-        );
-        return false;
-      }
+      // A synthesized constant cannot satisfy a key: every row gets the same
+      // value and INSERT OR IGNORE then keeps exactly one of them.
+      if (!have.has(col) && /\b(PRIMARY KEY|UNIQUE)\b/i.test(def))
+        return abort(`cannot synthesize key column ${col}`);
       targets.push(`\`${col}\``);
       sources.push(have.has(col) ? `\`${col}\`` : synthDefault(def));
     }
-    const before = await sql.sql<{ n: number }>(
-      `SELECT count(*) AS n FROM \`${table}\``,
-    );
+    const before = await countRows(sql, table);
     await sql.sql(
       `INSERT OR IGNORE INTO \`${tmp}\` (${targets.join(", ")}) SELECT ${sources.join(", ")} FROM \`${table}\``,
     );
-    const after = await sql.sql<{ n: number }>(
-      `SELECT count(*) AS n FROM \`${tmp}\``,
-    );
-    const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
-    if (dropped > 0) {
-      await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
-      logger.error(
-        "forceRebuildWithDefaults skipped rebuild: would drop rows",
-        {
-          context: "local-db.migrations.validate",
-          table,
-          dropped,
-        },
-      );
-      return false;
-    }
+    if ((await countRows(sql, tmp)) < before) return abort("would drop rows");
     await sql.sql(`DROP TABLE \`${table}\``);
     await sql.sql(`ALTER TABLE \`${tmp}\` RENAME TO \`${table}\``);
     for (const idx of ddl.indexes) {

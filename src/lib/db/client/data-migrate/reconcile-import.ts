@@ -169,14 +169,8 @@ async function cleanup(
   if (removePath) await removeOpfsFile(removePath);
 }
 
-/**
- * Import a foreign `.sqlite3` dump into the user's live OPFS DB without ever
- * leaving the live DB in a partial state. The live file is written exactly once,
- * by a single overwriteDatabaseFile, only after a complete current-schema
- * replacement has been built in a detached file; a byte-identical backup of live
- * is written first and deleted only after the swap is verified. A crash mid-swap
- * is healed on next open by recoverPendingImport (client.ts).
- */
+// The live file is written exactly once, after a complete replacement is built
+// in a detached file, so a crash can never leave it half-imported.
 export async function reconcileImport(
   buffer: ArrayBuffer,
 ): Promise<ReconcileImportResult> {
@@ -291,7 +285,6 @@ export async function reconcileImport(
   } finally {
     await cleanup(work, "work", workPath);
     await cleanup(final, "final", finalPath);
-    // liveSrc + live point at the real DB file: release the handle, never remove it.
     await cleanup(liveSrc, "liveSrc", null);
     await cleanup(live, "live", null);
     // Backup is only safe to drop once the swap succeeded (or never happened).
