@@ -4073,7 +4073,7 @@
       "EMPTY": "Aucune extension pour l'instant.",
       "NAME": "Nom",
       "KIND": "Type",
-      "KIND_UNO": "Extension UnoRouter",
+      "KIND_RISU": "Extension RisuAI",
       "KIND_JANITOR": "Script JanitorAI",
       "ENABLED": "Activée",
       "SCRIPT": "Code",

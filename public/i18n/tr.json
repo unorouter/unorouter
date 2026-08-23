@@ -4073,7 +4073,7 @@
       "EMPTY": "Henüz eklenti yok.",
       "NAME": "Ad",
       "KIND": "Tür",
-      "KIND_UNO": "UnoRouter eklentisi",
+      "KIND_RISU": "RisuAI eklentisi",
       "KIND_JANITOR": "JanitorAI betiği",
       "ENABLED": "Etkin",
       "SCRIPT": "Kod",

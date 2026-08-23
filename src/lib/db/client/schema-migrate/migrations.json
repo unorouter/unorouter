@@ -67,6 +67,10 @@
     {
       "tag": "0016_mute_zombie",
       "sql": "ALTER TABLE `sampling_presets` ADD `continue_prompt` text;"
+    },
+    {
+      "tag": "0017_rename_uno_plugin_kind",
+      "sql": "UPDATE `js_plugins` SET `kind` = 'risu' WHERE `kind` = 'uno';\n"
     }
   ]
 }

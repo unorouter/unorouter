@@ -19,7 +19,7 @@ import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
 
 const KIND_KEYS = {
-  uno: "CHAT.JS_PLUGIN.KIND_UNO",
+  risu: "CHAT.JS_PLUGIN.KIND_RISU",
   janitor: "CHAT.JS_PLUGIN.KIND_JANITOR",
 } as const;
 
@@ -74,7 +74,7 @@ export function JsPluginEditor(props: Props) {
             control={form.control}
             name="kind"
             label={t("CHAT.JS_PLUGIN.KIND")}
-            fallback="uno"
+            fallback="risu"
             optionKeys={KIND_KEYS}
           />
           <MyFormSwitch

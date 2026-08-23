@@ -90,16 +90,17 @@ export const customProviders = sqliteTable("custom_providers", {
     .default(sql`(unixepoch() * 1000)`),
 });
 
-// Sandboxed user-JS plugins (global, Risu-style). `kind` picks the execution
-// model: "uno" plugins register hook handlers through the RPC api, "janitor"
-// scripts run per turn against a JanitorAI-shaped context snapshot.
+// Sandboxed user-JS plugins (global). `kind` names the ECOSYSTEM a script came
+// from, and each has its own calling convention: "risu" plugins register hook
+// handlers through the RPC api (a port of RisuAI's apiV3), "janitor" scripts
+// run per turn against a JanitorAI-shaped context snapshot.
 export const jsPlugins = sqliteTable("js_plugins", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => uid()),
   name: text("name").notNull(),
   script: text("script").notNull(),
-  kind: text("kind").$type<JsPluginKind>().notNull().default("uno"),
+  kind: text("kind").$type<JsPluginKind>().notNull().default("risu"),
   enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
   createdAt: integer("created_at", { mode: "timestamp_ms" })
     .notNull()

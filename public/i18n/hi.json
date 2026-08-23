@@ -4073,7 +4073,7 @@
       "EMPTY": "अभी कोई प्लगइन नहीं है।",
       "NAME": "नाम",
       "KIND": "प्रकार",
-      "KIND_UNO": "UnoRouter प्लगइन",
+      "KIND_RISU": "RisuAI प्लगइन",
       "KIND_JANITOR": "JanitorAI स्क्रिप्ट",
       "ENABLED": "सक्षम",
       "SCRIPT": "कोड",

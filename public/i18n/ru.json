@@ -4073,7 +4073,7 @@
       "EMPTY": "Плагинов пока нет.",
       "NAME": "Название",
       "KIND": "Тип",
-      "KIND_UNO": "Плагин UnoRouter",
+      "KIND_RISU": "Плагин RisuAI",
       "KIND_JANITOR": "Скрипт JanitorAI",
       "ENABLED": "Включён",
       "SCRIPT": "Код",

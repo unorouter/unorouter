@@ -4073,7 +4073,7 @@
       "EMPTY": "尚未有外掛。",
       "NAME": "名稱",
       "KIND": "類型",
-      "KIND_UNO": "UnoRouter 外掛",
+      "KIND_RISU": "RisuAI 外掛",
       "KIND_JANITOR": "JanitorAI 指令碼",
       "ENABLED": "已啟用",
       "SCRIPT": "程式碼",

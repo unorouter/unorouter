@@ -4073,7 +4073,7 @@
       "EMPTY": "No plugins yet.",
       "NAME": "Name",
       "KIND": "Type",
-      "KIND_UNO": "UnoRouter plugin",
+      "KIND_RISU": "RisuAI plugin",
       "KIND_JANITOR": "JanitorAI script",
       "ENABLED": "Enabled",
       "SCRIPT": "Code",

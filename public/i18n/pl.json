@@ -4073,7 +4073,7 @@
       "EMPTY": "Nie ma jeszcze wtyczek.",
       "NAME": "Nazwa",
       "KIND": "Typ",
-      "KIND_UNO": "Wtyczka UnoRouter",
+      "KIND_RISU": "Wtyczka RisuAI",
       "KIND_JANITOR": "Skrypt JanitorAI",
       "ENABLED": "Włączona",
       "SCRIPT": "Kod",

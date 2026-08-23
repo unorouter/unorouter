@@ -4073,7 +4073,7 @@
       "EMPTY": "Belum ada plugin.",
       "NAME": "Nama",
       "KIND": "Jenis",
-      "KIND_UNO": "Plugin UnoRouter",
+      "KIND_RISU": "Plugin RisuAI",
       "KIND_JANITOR": "Skrip JanitorAI",
       "ENABLED": "Aktif",
       "SCRIPT": "Kode",
