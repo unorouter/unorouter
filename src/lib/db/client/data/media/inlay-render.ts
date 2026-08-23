@@ -53,7 +53,7 @@ export function requestInlay(id: string): void {
     .then(async (row) => {
       // A resolved-empty marker ("") for a missing/dataless row prevents
       // re-requesting an unknown inlay every render (each miss otherwise re-hit
-      // OPFS synchronously, pinning the main thread). Mirrors img-render.ts.
+      // OPFS synchronously, pinning the main thread).
       const src =
         (row?.dataBase64
           ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
@@ -62,7 +62,7 @@ export function requestInlay(id: string): void {
       let height = row?.height ?? null;
       // Measured here rather than from the img's onLoad so the alt token carries
       // `@WxH` on the FIRST render: a box reserved only after decode still grows
-      // the thread under the reader once per unmeasured row. Mirrors img-render.
+      // the thread under the reader once per unmeasured row.
       if (src && row?.dataBase64 && (!width || !height)) {
         try {
           const bmp = await createImageBitmap(await (await fetch(src)).blob());

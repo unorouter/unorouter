@@ -31,19 +31,15 @@ import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
-// One database per device means one entry. This was a Map keyed by userId, and
-// nothing evicted the previous entry when the id changed, so signing in left the
-// guest pool open for the rest of the session: two workers holding sync access
-// handles on the same origin, which is what surfaces later as
-// NoModificationAllowedError blaming another tab.
+// One database per device, so one entry. Keying this by user leaves the previous
+// pool open on sign-in: two workers holding sync access handles on one origin,
+// which surfaces later as NoModificationAllowedError blaming another tab.
 let cached: Promise<LocalClient> | null = null;
 
-// A reload does not collect this page's worker before the next one opens, so
-// the incoming page finds the pool still held and fails TAB_LOCK, which is
-// deliberately non-recoverable: no retry, and the app comes up with an empty
-// chat list until the tab is closed. pagehide is the last point that still runs
-// on a same-tab navigation, and it fires on the iOS bfcache path where unload
-// does not.
+// A reload does not collect this page's worker before the next one opens, so the
+// incoming page finds the pool held and fails TAB_LOCK, which is non-recoverable.
+// pagehide is the last point that runs on a same-tab navigation, and unlike
+// unload it fires on the iOS bfcache path.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", (e) => {
     // persisted means bfcache: the page can come back, and the next getLocalDb
@@ -136,10 +132,9 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
-      // The sahpool worker falls back to an in-memory driver when the pool
-      // install fails (typically: another live tab holds the pool's access
-      // handles). Never accept it - synthesize a recoverable error so the
-      // retry loop absorbs the handover, exactly like SAH contention before.
+      // The sahpool worker silently falls back to an in-memory driver when the
+      // pool install fails. Accepting it would serve a database that persists
+      // nothing, so make it recoverable and let the retry loop handle handover.
       const info = await sql.getDatabaseInfo();
       if (info.storageType !== "opfs") {
         // Ask the worker WHY before throwing: this branch has several causes
@@ -164,14 +159,9 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
           attempt,
           error: String(err).slice(0, 200),
         });
-        // Release the pool's sync access handles before giving up. destroy()
-        // closes the DATABASE but the pool keeps its handles, so bailing out
-        // here locked the file against this very page: every later attempt then
-        // failed with NoModificationAllowedError, which reads as "another tab
-        // has it" when the culprit is our own abandoned worker. The orphan
-        // guard throws only AFTER the pool is installed, so the users it fires
-        // for could never reopen their database, not even after a reload, and
-        // the salvage UI meant to rescue them was locked out too.
+        // destroy() closes the database but the pool keeps its handles, so
+        // giving up without this locks the file against this very page and
+        // every later attempt blames another tab for our own abandoned worker.
         await pauseSql(sql).catch(() => {});
         await sql.destroy().catch(() => {});
         terminateSql(sql);
@@ -195,26 +185,16 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   }
 }
 
-// opfs-sahpool verifies a digest in each pool file's 4096-byte header on every
-// install and, when it fails, SILENTLY drops that file's logical name and frees
-// the slot. The data is untouched but unreferenced, so the next open creates a
-// brand-new empty database under the same name and the user sees a wiped app. A
-// torn header is what an abrupt process kill produces (iOS Safari discards
-// background tabs mid-write), which is exactly how one user lost a long RP.
-//
-// Refuse to hand back a database that is empty while the pool still holds a
-// LARGER sqlite file than the one we just opened: that combination means the
-// real database is sitting there orphaned. Throwing here is non-recoverable on
-// purpose - the retry loop must not paper over it, and the user gets the
-// DB-unavailable state with their bytes intact for the Studio's recover action.
+// An empty database while the pool holds a strictly larger sqlite file means
+// opfs-sahpool dropped a torn-header file's logical name and handed back a
+// fresh empty one under it. Non-recoverable on purpose: the retry loop must not
+// reopen the same replacement and report success.
 async function assertNotSilentlyEmptied(
   sql: SQLocalDrizzle,
   dbPath: string,
 ): Promise<void> {
   const info = await sql.getDatabaseInfo();
   const liveBytes = info.databaseSizeBytes ?? 0;
-  // Only a just-created database is worth checking; anything with real content
-  // is by definition not the empty-replacement case.
   const rows = await sql.sql<{ n: number }>(
     "SELECT (SELECT COUNT(*) FROM conversations) + (SELECT COUNT(*) FROM characters) + (SELECT COUNT(*) FROM lorebooks) + (SELECT COUNT(*) FROM sampling_presets) AS n",
   );
@@ -225,12 +205,10 @@ async function assertNotSilentlyEmptied(
     const { salvagePoolDatabases } =
       await import("@/lib/db/client/sahpool/salvage");
     for (const candidate of await salvagePoolDatabases(dbPath)) {
-      // POOL files only. A root `.pre-sahpool` copy is the NORMAL leftover of a
-      // successful migration and is routinely larger than a fresh empty db, so
-      // counting it would lock out every user who migrated cleanly.
+      // A root `.pre-sahpool` copy is the normal leftover of a successful
+      // migration and is routinely larger than a fresh empty db, so counting it
+      // would lock out every user who migrated cleanly.
       if (candidate.source !== "pool") continue;
-      // The live db is itself one of the pool files; only a STRICTLY larger one
-      // is evidence of an orphan holding the user's data.
       if (candidate.sizeBytes > liveBytes) {
         orphanBytes = Math.max(orphanBytes, candidate.sizeBytes);
       }
@@ -253,16 +231,10 @@ async function assertNotSilentlyEmptied(
   );
 }
 
-// One-time migration off the pre-sahpool driver: the old opfs VFS stored the
-// database as a plain sqlite file at the OPFS root; sahpool keeps opaque
-// pool-managed files. While a legacy root file exists, stream-import it into
-// the pool (overwrite is wholesale, so a half-imported pool from a previous
-// failed attempt is fully healed by the retry), verify, re-run migrations on
-// the imported (older-schema) data, and only then move the legacy file aside.
-// Rename to .pre-sahpool keeps a rollback copy; Safari has no main-thread
-// rename, so it falls back to deletion. If neither works the open ABORTS -
-// silently continuing would let a later open re-import the stale legacy file
-// over post-migration writes.
+// One-time migration off the pre-sahpool driver, which stored the database as a
+// plain sqlite file at the OPFS root. If the legacy file cannot be moved aside
+// the open ABORTS: leaving it means a later open re-imports it wholesale over
+// everything written since.
 async function migrateLegacySqliteFile(
   sql: SQLocalDrizzle,
   dbPath: string,
@@ -290,11 +262,9 @@ async function migrateLegacySqliteFile(
     );
   }
   await runMigrations(sql);
-  // Keep a rollback copy. Safari has no main-thread FileSystemFileHandle.move(),
-  // and the old fallback deleted the legacy file outright - so every Safari user
-  // (i.e. every iPhone) lost their only pre-migration copy. Copy the bytes to
-  // `.pre-sahpool` via createWritable (which Safari does support) before
-  // removing the original, and keep the original if that copy fails.
+  // Safari has no main-thread FileSystemFileHandle.move(), and deleting the
+  // legacy file outright cost every iPhone user their only pre-migration copy.
+  // createWritable works there, so copy first and keep the original if it fails.
   try {
     const movable = handle as FileSystemFileHandle & {
       move?: (name: string) => Promise<void>;
@@ -328,16 +298,10 @@ async function openClient(): Promise<LocalClient> {
   // mount, so a per-user path opened the empty guest file on the first render of
   // every load, and signing in stranded whatever the guest had written.
   const dbPath = singleDbPath();
-  // ONE tab may hold the pool at a time. opfs-sahpool claims exclusive sync
-  // access handles for every pool file, so a second tab's install attempt
-  // fails by design - but a failed attempt can leave a pool file's header
-  // torn, after which the FIRST tab opens an empty database and the user sees
-  // a wipe. That is how a user lost a long RP: chat in one tab, /image in
-  // another, both resolving to this same per-user pool.
-  //
-  // Take the Web Lock BEFORE any pool access. On contention, ask the owner to
-  // hand the pool over (it drains, pauses its VFS, releases) and wait in the
-  // lock queue; only a hung owner ends in the DB-unavailable state.
+  // ONE tab holds the pool at a time. A second tab's install attempt fails by
+  // design, but a failed attempt can tear a pool file's header, after which the
+  // FIRST tab opens an empty database and the user sees a wipe. So take the Web
+  // Lock BEFORE any pool access, and on contention ask the owner to hand over.
   const lockKey = `db:${dbPath}`;
   if (!(await acquireLock(lockKey))) {
     logChatDebug("db.open.handover_wait");
@@ -366,11 +330,9 @@ async function openClient(): Promise<LocalClient> {
       error: String(err).slice(0, 200),
     });
   }
-  // The Web Lock is held for the tab's lifetime once an open succeeds, but a
-  // FAILED open must hand it back. Without this a non-recoverable failure (the
-  // orphan guard) kept the lock forever, so the next attempt could not acquire
-  // it, fell into the handover wait, and spent 15s broadcasting `want` at a
-  // tab that was never coming: the page just said "Connecting to" and hung.
+  // A successful open holds the lock for the tab's lifetime, but a FAILED one
+  // must hand it back: otherwise the next attempt waits 15s on a handover from
+  // a tab that is never coming.
   let sql: SQLocalDrizzle;
   try {
     sql = await openMigratedSql(dbPath);

@@ -12,9 +12,8 @@ import { atom } from "jotai";
 
 // RisuAI-style named character image assets: `{{img::name}}` resolves at DISPLAY
 // time (markdown preprocess) to the image an author uploaded to the conversation's
-// character(s), NOT via the macro engine. Mirrors inlay-render.ts; the only
-// difference is the token is keyed by NAME, so the resolver maps a name to a
-// media id through the conversation's bound characters' `assets` arrays. The CBS
+// character(s), NOT via the macro engine. The token is keyed by NAME, so the
+// resolver maps a name to a media id through the bound characters' `assets`. The CBS
 // macro engine already strips `{{img::...}}` to "" at request build, so the token
 // is author-emitted in the reply and only ever resolved here on render.
 
@@ -39,7 +38,7 @@ function key(convId: string, nameLower: string): string {
 // Coalesced: a bump re-runs the full markdown pipeline for every message with an
 // img token, and each resolved src is an inlined base64 data URI. A thread
 // opening with N named assets resolves them in the same tick, so batch the
-// bumps into one re-render instead of N. Mirrors inlay-render.ts.
+// bumps into one re-render instead of N.
 let bumpScheduled = false;
 function bump(): void {
   if (bumpScheduled) return;

@@ -33,8 +33,6 @@ function toImageView(row: Media): ImageView | null {
   return {
     id: row.id,
     sequenceIndex: row.sequenceIndex ?? 0,
-    // blob: URL, not data: URI - a multi-MB data URI re-parses on every paint; the blob
-    // is decoded once and cached by media id.
     src: mediaBlobUrl(row.id, row.dataBase64, row.mimeType ?? "image/png"),
     mimeType: row.mimeType,
     width: row.width,

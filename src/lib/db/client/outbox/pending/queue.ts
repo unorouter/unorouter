@@ -129,9 +129,7 @@ async function drainPending(): Promise<void> {
   }
 }
 
-// One database per device, so one drain at a time. These were Maps keyed by
-// userId, which could only ever hold a single entry once the database stopped
-// being per-user.
+// One database per device, so one drain at a time.
 let inFlight: Promise<void> | null = null;
 
 export function drain(): Promise<void> {
