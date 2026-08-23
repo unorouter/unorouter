@@ -25,6 +25,7 @@ import {
   computeLogPricing,
   formatPriceCompact,
   formatTimestamp,
+  getClientAttribution,
   getEffectiveGroupRatio,
   getFrtTimingPill,
   getLogTypeColor,
@@ -351,6 +352,26 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
           <span className="tabular-nums">{log.use_time}s</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Which tool made the request, from the headers it volunteered. Blank for the
+// many clients that send nothing identifying: an empty cell is honest, whereas
+// showing a bare browser User-Agent here would read as a real app name.
+export function LogClientCell(props: CellContext<TableFeats, LogRow>) {
+  const log = props.row.original;
+  const client = getClientAttribution(parseOther(log.other));
+  if (!client) return LOG_EMPTY;
+  const detail = client.origin ?? client.referer;
+  return (
+    <div className="flex flex-col justify-center gap-0.5 text-xs leading-tight">
+      <span className="text-foreground truncate font-medium">
+        {client.label}
+      </span>
+      {detail && detail !== client.label && (
+        <span className="text-muted-foreground/60 truncate">{detail}</span>
+      )}
     </div>
   );
 }

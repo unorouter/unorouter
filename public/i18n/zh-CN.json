@@ -3205,6 +3205,7 @@
       "USER": "用户",
       "MODEL": "模型",
       "TOKEN": "令牌",
+      "CLIENT": "客户端",
       "INPUT": "输入",
       "OUTPUT": "输出",
       "TOKENS": "词元数",

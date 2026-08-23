@@ -3205,6 +3205,7 @@
       "USER": "使用者",
       "MODEL": "模型",
       "TOKEN": "金鑰",
+      "CLIENT": "用戶端",
       "INPUT": "輸入",
       "OUTPUT": "輸出",
       "TOKENS": "Token 數",

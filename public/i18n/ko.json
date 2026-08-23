@@ -3205,6 +3205,7 @@
       "USER": "사용자",
       "MODEL": "모델",
       "TOKEN": "토큰",
+      "CLIENT": "클라이언트",
       "INPUT": "입력",
       "OUTPUT": "출력",
       "TOKENS": "토큰",

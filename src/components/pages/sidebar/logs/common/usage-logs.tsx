@@ -16,6 +16,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
+  LogClientCell,
   LogDetailsContext,
   LogExpandToggleCell,
   LogModelCell,
@@ -133,6 +134,14 @@ export function UsageLogs() {
       enableSorting: false,
       cell: LogModelCell,
       size: 260,
+    },
+    {
+      id: "client",
+      meta: { title: msg("LOGS.TABLE.CLIENT") },
+      header: t("LOGS.TABLE.CLIENT"),
+      enableSorting: false,
+      cell: LogClientCell,
+      size: 150,
     },
     {
       id: "stream",
