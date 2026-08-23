@@ -101,9 +101,11 @@ async function persistCharacterSetupFromFile(file: File) {
 
   let lorebookId: string | null = null;
   try {
-    const characterBook = (
-      card.raw as { data?: { character_book?: unknown } } | undefined
-    )?.data?.character_book;
+    const rawData = card.raw.data;
+    const characterBook =
+      rawData && typeof rawData === "object" && "character_book" in rawData
+        ? rawData.character_book
+        : undefined;
     if (characterBook) {
       const parsed = await import("@/lib/ai/rp/lorebook-import").then((m) =>
         m.parseLorebookJson(characterBook),
@@ -120,7 +122,7 @@ async function persistCharacterSetupFromFile(file: File) {
             recursiveScanning: parsed.recursiveScanning ?? false,
             createdAt: now,
             updatedAt: now,
-          } as never,
+          },
           entries: parsed.entries.map((e, i) => ({
             id: uid(),
             lorebookId,
@@ -136,7 +138,7 @@ async function persistCharacterSetupFromFile(file: File) {
             injectionRole: "system" as const,
             createdAt: now,
             updatedAt: now,
-          })) as never,
+          })),
         });
       }
     }
@@ -153,7 +155,7 @@ async function persistCharacterSetupFromFile(file: File) {
       personaId: null,
       createdAt: now,
       updatedAt: now,
-    } as never,
+    },
     cardCharacters: [{ cardId, characterId, orderIndex: 0 }],
     cardLorebooks: lorebookId ? [{ cardId, lorebookId, orderIndex: 0 }] : [],
   });
@@ -205,14 +207,11 @@ async function persistImportedCard(result: ImportedResult) {
       dataBase64: result.avatar.base64,
     });
     await upsertLocalCharacter({
-      ...((await readLocalCharacter(setup.characterId)) as Record<
-        string,
-        unknown
-      >),
+      ...(await readLocalCharacter(setup.characterId)),
       id: setup.characterId,
       avatarMediaId: mediaId,
       updatedAt: dayjs().toDate(),
-    } as never);
+    });
   }
 
   const now = new Date().toISOString();
@@ -229,16 +228,16 @@ async function persistImportedCard(result: ImportedResult) {
         recursiveScanning: false,
         createdAt: now,
         updatedAt: now,
-      } as never,
+      },
       entries: book.entries.map((e, i) => ({
         ...e,
         id: uid(),
         lorebookId,
-        orderIndex: (e.orderIndex as number | undefined) ?? i,
+        orderIndex: e.orderIndex ?? i,
         injectionRole: "system" as const,
         createdAt: now,
         updatedAt: now,
-      })) as never,
+      })),
     });
   }
 
@@ -262,16 +261,13 @@ async function persistImportedCard(result: ImportedResult) {
   if (result.regexScripts || result.triggers || assets.length > 0) {
     const existing = await readLocalCharacter(setup.characterId);
     await upsertLocalCharacter({
-      ...(existing as Record<string, unknown>),
+      ...existing,
       id: setup.characterId,
       regexScripts: result.regexScripts ?? null,
       triggers: result.triggers ?? null,
-      assets:
-        assets.length > 0
-          ? assets
-          : ((existing as { assets?: unknown })?.assets ?? null),
+      assets: assets.length > 0 ? assets : (existing?.assets ?? null),
       updatedAt: dayjs().toDate(),
-    } as never);
+    });
   }
   return setup;
 }

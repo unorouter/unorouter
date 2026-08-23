@@ -445,7 +445,7 @@ type StreamErrorDetail = {
 function parseStreamErrorEnvelope(raw: string): StreamErrorDetail {
   if (raw.startsWith("{")) {
     try {
-      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      const parsed: Record<string, unknown> = JSON.parse(raw);
       const m = parsed.message;
       if (typeof m === "string") {
         return {
@@ -518,14 +518,16 @@ const ErrorCard: FC<{
   );
 };
 
-const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
-  const data = (props.data ?? {}) as {
+const PersistedErrorPart: FC<{
+  data?: {
     message?: string;
     model?: string;
     code?: string;
     status?: number;
     requestId?: string;
   };
+}> = (props) => {
+  const data = props.data ?? {};
   if (!data.message) return null;
   return (
     <ErrorCard
@@ -671,13 +673,9 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
   }, [setEditing]);
   const messageId = useAuiState((s) => s.message.id);
   const initialText = useAuiState((s) => {
-    const parts = s.message.content as ReadonlyArray<{
-      type: string;
-      text?: string;
-    }>;
+    const parts = s.message.content;
     return parts
-      .filter((p) => p.type === "text" && typeof p.text === "string")
-      .map((p) => p.text!)
+      .flatMap((p) => (p.type === "text" ? [p.text] : []))
       .join("\n\n");
   });
   const renderedParts = useAuiState((s) => s.message.content);
@@ -695,10 +693,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     const rawParts = getExternalStoreMessages<{
       parts?: Array<{ type: string; [k: string]: unknown }>;
     }>(threadMessage)[0]?.parts;
-    const liveParts = (rawParts ?? renderedParts ?? []) as ReadonlyArray<{
-      type: string;
-      [k: string]: unknown;
-    }>;
+    const liveParts = rawParts ?? renderedParts ?? [];
     const newParts: Array<{ type: string; [k: string]: unknown }> = [];
     let textInjected = false;
     for (const p of liveParts) {
@@ -928,13 +923,9 @@ const AssistantActionBar: FC = () => {
   const isMobile = useIsMobile();
   const messageId = useAuiState((s) => s.message.id);
   const isMediaOutput = useAuiState((s) => {
-    const parts = s.message.content as ReadonlyArray<{
-      type: string;
-      text?: string;
-    }>;
+    const parts = s.message.content;
     const text = parts
-      .filter((p) => p.type === "text" && typeof p.text === "string")
-      .map((p) => p.text!)
+      .flatMap((p) => (p.type === "text" ? [p.text] : []))
       .join("")
       .trim();
     return text.length > 0 && MEDIA_OUTPUT_RE.test(text);
