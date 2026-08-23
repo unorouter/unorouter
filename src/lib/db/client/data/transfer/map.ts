@@ -1,4 +1,4 @@
-import { uid } from "@/lib/utils/base";
+import { isStringArray, rec, recArr, uid } from "@/lib/utils/base";
 import type {
   LocalAnyRow,
   NativeImport,
@@ -52,22 +52,7 @@ const date = (v: unknown): Date | null => {
   const d = new Date(v);
   return Number.isNaN(d.getTime()) ? null : d;
 };
-const isStringArray = (v: unknown): v is string[] =>
-  Array.isArray(v) && v.every((x) => typeof x === "string");
 const strArr = (v: unknown): string[] | null => (isStringArray(v) ? v : null);
-const isRecord = (v: unknown): v is Record<string, unknown> =>
-  !!v && typeof v === "object" && !Array.isArray(v);
-const rec = (v: unknown): Record<string, unknown> | undefined =>
-  isRecord(v) ? v : undefined;
-const recArr = (v: unknown): Record<string, unknown>[] => {
-  if (!Array.isArray(v)) return [];
-  const out: Record<string, unknown>[] = [];
-  for (const x of v) {
-    const r = rec(x);
-    if (r) out.push(r);
-  }
-  return out;
-};
 
 function buildIdMap(
   items: ReadonlyArray<{ id?: unknown }> | undefined,

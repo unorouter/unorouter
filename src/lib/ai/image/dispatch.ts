@@ -9,7 +9,7 @@ export const SYNC_IMAGE_ENDPOINTS = [
 ] as const;
 export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
 import { safeFetchBytes } from "@/lib/config/safe-fetch";
-import { base64ToDataUri } from "@/lib/utils/base";
+import { base64ToDataUri, rec, recArr } from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 
@@ -70,19 +70,18 @@ export type Built =
   | { kind: "multipart"; path: string; form: FormData };
 
 function buildImageGenerationsBody(args: SubmitArgs): Built {
-  const fields = (
-    [
-      ["model", args.model],
-      ["prompt", args.prompt],
-      ["n", args.n ?? 1],
-      ["size", args.size],
-      ["quality", args.quality],
-      ["output_format", args.outputFormat],
-      ["background", args.background],
-      ["watermark", args.watermark],
-      ["seed", args.seed],
-    ] as Array<[string, unknown]>
-  ).filter(([, v]) => v !== undefined && v !== "");
+  const all: Array<[string, unknown]> = [
+    ["model", args.model],
+    ["prompt", args.prompt],
+    ["n", args.n ?? 1],
+    ["size", args.size],
+    ["quality", args.quality],
+    ["output_format", args.outputFormat],
+    ["background", args.background],
+    ["watermark", args.watermark],
+    ["seed", args.seed],
+  ];
+  const fields = all.filter(([, v]) => v !== undefined && v !== "");
   for (const [k, v] of Object.entries(args.diffusion ?? {})) {
     if (v !== undefined && v !== null && v !== "") fields.push([k, v]);
   }
@@ -170,23 +169,8 @@ export function buildBody(
   }
 }
 
-type JsonRecord = Record<string, unknown>;
-function rec(v: unknown): JsonRecord | undefined {
-  return v && typeof v === "object" && !Array.isArray(v)
-    ? (v as JsonRecord)
-    : undefined;
-}
 function str(v: unknown): string | undefined {
   return typeof v === "string" && v.length > 0 ? v : undefined;
-}
-function recArray(v: unknown): JsonRecord[] {
-  if (!Array.isArray(v)) return [];
-  const out: JsonRecord[] = [];
-  for (const x of v) {
-    const r = rec(x);
-    if (r) out.push(r);
-  }
-  return out;
 }
 
 export function extractResultUris(
@@ -208,7 +192,7 @@ export function extractResults(
   const out: ExtractedResult[] = [];
 
   if (endpoint === "image-generation") {
-    for (const entry of recArray(p.data)) {
+    for (const entry of recArr(p.data)) {
       const url = str(entry.url);
       const b64 = str(entry.b64_json);
       // Diffusion backends report the seed they actually used, which is the only way
@@ -222,7 +206,7 @@ export function extractResults(
   }
 
   if (endpoint === "openai") {
-    const msg = rec(recArray(p.choices)[0]?.message);
+    const msg = rec(recArr(p.choices)[0]?.message);
     if (!msg) return [];
     const content = msg.content;
     if (Array.isArray(content)) {
@@ -242,7 +226,7 @@ export function extractResults(
     return out;
   }
 
-  const parts = recArray(rec(recArray(p.candidates)[0]?.content)?.parts);
+  const parts = recArr(rec(recArr(p.candidates)[0]?.content)?.parts);
   for (const part of parts) {
     const inline = rec(part.inline_data) ?? rec(part.inlineData);
     if (!inline) continue;
