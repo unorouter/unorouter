@@ -143,7 +143,7 @@ export function makeRpEntity<
           } else {
             const now = dayjs().toDate();
             const row = {
-              ...(detail as Record<string, unknown>),
+              ...detail,
               id: newId,
               [nameField]: copyName,
               createdAt: now,

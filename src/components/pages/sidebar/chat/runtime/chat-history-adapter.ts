@@ -103,9 +103,8 @@ async function repairBrokenChain(
       repaired: repaired.map((m) => m.id),
     });
     for (const m of repaired) {
-      const row = { ...m } as Record<string, unknown>;
-      delete row.items;
-      await upsertLocalMessage(row as Parameters<typeof upsertLocalMessage>[0]);
+      const { items: _items, ...row } = m;
+      await upsertLocalMessage({ ...row, convId });
     }
   }
   return out;
@@ -301,8 +300,7 @@ async function placeOnBranch(
   let siblings: NonNullable<Awaited<ReturnType<typeof readLocalMessages>>> = [];
   const existing = (await readLocalMessages(convId)) ?? [];
   if (existing.length > 0) {
-    const tipRow = walkActiveBranch(existing).path.at(-1) as
-      { id: string; branchVars?: string | null } | undefined;
+    const tipRow = walkActiveBranch(existing).path.at(-1);
     if (parentId === null && tipRow) parentId = tipRow.id;
     // A requested parent that isn't persisted (greeting-sibling race, cross-tab
     // desync) would FK-fail the insert. Fall back to the active tip, else root.
@@ -325,10 +323,8 @@ async function placeOnBranch(
           siblings.length - 1,
         ) + 1;
   for (const sib of siblings) {
-    const row = { ...sib } as Record<string, unknown>;
-    delete row.items;
     await upsertLocalMessage({
-      ...(row as Parameters<typeof upsertLocalMessage>[0]),
+      ...sib,
       isActiveBranch: false,
       updatedAt: now,
     });

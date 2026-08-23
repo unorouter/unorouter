@@ -7,6 +7,8 @@
 // render and within which bounds. Pure and isomorphic (no fetch), so the build script and
 // the client cache share one implementation.
 
+import { rec } from "@/lib/utils/base";
+
 export type ParamSpec = {
   type?: string;
   min?: number;
@@ -31,9 +33,7 @@ export type ModelParamSpec = {
 type JsonObject = Record<string, unknown>;
 
 function asObject(value: unknown): JsonObject | null {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as JsonObject)
-    : null;
+  return rec(value) ?? null;
 }
 
 // RequestBody comes in TWO shapes: most models put params on `properties`, others
@@ -106,9 +106,7 @@ export function distillSchema(raw: unknown): ModelParamSpec | null {
 
   const info = asObject(root.info) ?? {};
   const capabilities = Array.isArray(info["x-capabilities"])
-    ? (info["x-capabilities"] as unknown[]).filter(
-        (c): c is string => typeof c === "string",
-      )
+    ? info["x-capabilities"].filter((c): c is string => typeof c === "string")
     : [];
 
   return {

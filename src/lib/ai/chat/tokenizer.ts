@@ -163,16 +163,20 @@ async function loadHuggingFace(source: string, name: string): Promise<Encoder> {
   return loadFromJson(tokenizerJson, tokenizerConfig);
 }
 
+function isHfRef(ref: TokenizerRef): ref is `hf:${string}` {
+  return ref.startsWith("hf:");
+}
+
 function resolveSource(ref: TokenizerRef): {
   source: string;
   name: string;
   load: () => Promise<Encoder>;
 } {
-  if (ref.startsWith("hf:")) {
+  if (isHfRef(ref)) {
     const src = ref.slice(3);
     return { source: src, name: src, load: () => loadHuggingFace(src, src) };
   }
-  const preset = ref as TokenizerPreset;
+  const preset = ref;
   if (preset === "cl100k" || preset === "auto") {
     return { source: "cl100k", name: "cl100k", load: loadCl100k };
   }

@@ -84,7 +84,7 @@ export class SQLiteSahPoolDriver
       pool.catch((err) => {
         poolCache.delete(name);
         this.lastPoolError = String(
-          (err as Error)?.stack ?? (err as Error)?.message ?? err,
+          err instanceof Error ? (err.stack ?? err.message) : err,
         ).slice(0, 400);
       });
     }

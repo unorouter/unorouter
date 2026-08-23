@@ -5,6 +5,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { isRecord } from "@/lib/utils/base";
 import { verifyUserId } from "@/lib/utils/server";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
@@ -30,26 +31,38 @@ export function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-export async function getUserId<T extends boolean = false>(
+export async function getUserId(
   cookie: Record<string, Cookie<unknown>>,
-  optional?: T,
-): Promise<T extends true ? number | null : number> {
-  const signed = cookie[USER_ID_COOKIE]?.value as string | undefined;
+  optional: true,
+): Promise<number | null>;
+export async function getUserId(
+  cookie: Record<string, Cookie<unknown>>,
+  optional?: false,
+): Promise<number>;
+export async function getUserId(
+  cookie: Record<string, Cookie<unknown>>,
+  optional?: boolean,
+): Promise<number | null> {
+  const raw = cookie[USER_ID_COOKIE]?.value;
+  const signed = typeof raw === "string" ? raw : undefined;
   const verified = await verifyUserId(signed);
   if (verified === null) {
-    if (optional) return null as T extends true ? number | null : number;
+    if (optional) return null;
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
-  return verified as T extends true ? number | null : number;
+  return verified;
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const raw = cookie[CLIENT_STORE_KEY]?.value;
   if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
   try {
-    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
-    if (!parsed?.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
-    return parsed.apiKey as string;
+    const parsed: unknown = typeof raw === "string" ? JSON.parse(raw) : raw;
+    const apiKey = isRecord(parsed) ? parsed.apiKey : undefined;
+    if (typeof apiKey !== "string" || !apiKey) {
+      throw new Error(msg("ERRORS.NO_API_KEY"));
+    }
+    return apiKey;
   } catch {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }

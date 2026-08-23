@@ -1,8 +1,8 @@
 "use client";
 
-import { errMessage } from "@/lib/utils/base";
 import { LOCAL_MIGRATION_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
+import { errMessage } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -355,7 +355,7 @@ async function validateColumns(
       });
       if (recovered) {
         logger.warn(
-          "validateColumns: recovered a stored table missing required columns via force-rebuild",
+          "validateColumns: recovered a stored tbl missing required columns via force-rebuild",
           ctx,
         );
       } else {
