@@ -8,7 +8,11 @@ import {
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
-import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
+import {
+  getChatDebugLog,
+  getFailedRequestCaptures,
+  logChatDebug,
+} from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
@@ -358,6 +362,7 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     tokenizer: activeTokenizerState(),
     messagesByConv,
     requestLogsByConv,
+    failedRequests: getFailedRequestCaptures(),
     debugLog: head.debugLog,
   };
 }

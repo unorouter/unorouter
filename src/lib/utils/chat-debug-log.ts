@@ -85,6 +85,126 @@ export function getChatDebugLog(): ChatDebugEntry[] {
   return getBuffer().slice();
 }
 
+export type TextFingerprint = {
+  chars: number;
+  bytes: number;
+  nonAscii: number;
+  controlChars: number;
+  loneSurrogates: number;
+  replacementChars: number;
+  maxCodePoint: number;
+  tags: string[];
+};
+
+export type FailedRequestCapture = {
+  ts: number;
+  model: string;
+  group: string | null;
+  url: string | null;
+  system: TextFingerprint | null;
+  messages: ({ role: string } & TextFingerprint)[];
+  modelParams: unknown;
+  status?: number | null;
+  code?: string | null;
+  requestId?: string | null;
+  message?: string;
+};
+
+// NEVER put message text in here. A capture is exported into a file users paste
+// into a public channel, and the assembled prompt is their persona, character
+// cards, lorebook and recent turns: the most private content in the app.
+//
+// What a rejected-body bug actually needs is the SHAPE of the bytes, not the
+// bytes. An upstream that 400s a payload its peers accept is reacting to
+// something structural (an encoding artifact, a control character, an unpaired
+// surrogate from a sliced emoji), and each of those is countable without
+// reproducing a single word. Template tags are matched against a fixed list, so
+// only known markers can ever appear, never user text.
+const TAG_PATTERNS = [
+  "{{user}}",
+  "{{char}}",
+  "{{bot}}",
+  "{{img::",
+  "{{random",
+  "{{roll",
+  "{{//",
+  "<think>",
+  "</think>",
+] as const;
+
+export function fingerprintText(text: string): TextFingerprint {
+  let nonAscii = 0;
+  let controlChars = 0;
+  let loneSurrogates = 0;
+  let replacementChars = 0;
+  let maxCodePoint = 0;
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    if (c > 127) nonAscii++;
+    // Tab/LF/CR are normal prose; the rest of C0 plus DEL and the C1 block are
+    // what a mangled re-encode leaves behind.
+    if ((c < 32 && c !== 9 && c !== 10 && c !== 13) || c === 127)
+      controlChars++;
+    if (c === 0xfffd) replacementChars++;
+    if (c >= 0xd800 && c <= 0xdbff) {
+      const next = text.charCodeAt(i + 1);
+      if (Number.isNaN(next) || next < 0xdc00 || next > 0xdfff)
+        loneSurrogates++;
+      else i++;
+    } else if (c >= 0xdc00 && c <= 0xdfff) {
+      loneSurrogates++;
+    }
+    if (c > maxCodePoint) maxCodePoint = c;
+  }
+  let bytes = text.length;
+  try {
+    bytes = new TextEncoder().encode(text).length;
+  } catch {}
+  return {
+    chars: text.length,
+    bytes,
+    nonAscii,
+    controlChars,
+    loneSurrogates,
+    replacementChars,
+    maxCodePoint,
+    tags: TAG_PATTERNS.filter((tag) => text.includes(tag)),
+  };
+}
+
+// Kept in memory, never localStorage: a capture is only useful in the export
+// taken right after the failure, and the vast majority of sends succeed.
+const MAX_FAILED_CAPTURES = 3;
+
+let pending: FailedRequestCapture | null = null;
+let failed: FailedRequestCapture[] = [];
+
+export function stashOutgoingRequest(capture: FailedRequestCapture): void {
+  pending = capture;
+}
+
+export function captureFailedRequest(detail: {
+  status?: number | null;
+  code?: string | null;
+  requestId?: string | null;
+  message?: string;
+}): void {
+  if (!pending) return;
+  failed.push({ ...pending, ...detail });
+  pending = null;
+  if (failed.length > MAX_FAILED_CAPTURES)
+    failed.splice(0, failed.length - MAX_FAILED_CAPTURES);
+}
+
+export function getFailedRequestCaptures(): FailedRequestCapture[] {
+  return failed.slice();
+}
+
+export function clearFailedRequestCaptures(): void {
+  failed = [];
+  pending = null;
+}
+
 export function clearChatDebugLog(): void {
   buffer = [];
   persistDisabled = false;

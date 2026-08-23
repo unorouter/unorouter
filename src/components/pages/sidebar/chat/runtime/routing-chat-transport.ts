@@ -33,7 +33,11 @@ import {
 } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import {
+  fingerprintText,
+  logChatDebug,
+  stashOutgoingRequest,
+} from "@/lib/utils/chat-debug-log";
 import {
   chatGroupAtom,
   groupByModelAtom,
@@ -226,6 +230,26 @@ async function runClientStream(args: {
               : `obj(${Object.keys(v ?? {}).length})`,
       ]),
     ),
+  });
+
+  stashOutgoingRequest({
+    ts: Date.now(),
+    model: args.model,
+    group: group ?? null,
+    url: args.baseURL,
+    system: prepared.effectiveSystem
+      ? fingerprintText(prepared.effectiveSystem)
+      : null,
+    messages: prepared.messagesForUpstream.map((m) => ({
+      role: m.role,
+      ...fingerprintText(
+        (m.parts ?? [])
+          .filter((p) => "text" in p && typeof p.text === "string")
+          .map((p) => ("text" in p ? p.text : ""))
+          .join("\n"),
+      ),
+    })),
+    modelParams: prepared.modelParams,
   });
 
   const collector = createMetaCollector();
