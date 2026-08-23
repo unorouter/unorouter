@@ -209,6 +209,23 @@ export function getRequestConversionChain(other: ParsedOther | null): string[] {
   return [rc];
 }
 
+// A zero quota is not the same as a free model. An ERROR row never bills, so
+// keying the free badge off quota alone labelled every failed request on a paid
+// model "free". Read the model's own price instead, and never badge an error.
+export function isFreeRow(log: LogRow): boolean {
+  if (log.type === LOG_TYPE_ERROR) return false;
+  if (log.quota) return false;
+  const other = parseOther(log.other);
+  // No pricing recorded at all: fall back to the quota, which is what older
+  // rows written before pricing was stored in `other` can be judged on.
+  if (!other) return true;
+  const modelPrice = other.model_price;
+  if (typeof modelPrice === "number" && modelPrice > 0) return false;
+  const modelRatio = other.model_ratio;
+  if (typeof modelRatio === "number" && modelRatio > 0) return false;
+  return true;
+}
+
 export type ClientAttribution = {
   label: string;
   referer?: string;

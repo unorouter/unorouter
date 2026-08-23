@@ -31,6 +31,7 @@ import {
   getLogTypeColor,
   getResponseTimingPill,
   isConsumeLike,
+  isFreeRow,
   LOG_TYPE_CONSUME,
   LOG_TYPE_ERROR,
   LOG_TYPE_MANAGE,
@@ -429,7 +430,7 @@ export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
           <span className="text-muted-foreground">{"$"}</span>
           {formatLogSpend(log.quota)}
         </span>
-        {!log.quota && (
+        {isFreeRow(log) && (
           <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
             {t("MODELS.TABLE.FREE")}
           </span>
