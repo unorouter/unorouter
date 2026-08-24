@@ -1,8 +1,7 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { isRecord } from "@/lib/utils/base";
 import type { Plugin } from "unified";
 import type { Root } from "hast";
-
-type WithChildren = { children?: unknown[] };
 
 // A rehype plugin that removes a node by splicing its parent's children while
 // unist-util-visit is mid-traversal leaves a HOLE: visit re-reads
@@ -16,8 +15,8 @@ type WithChildren = { children?: unknown[] };
 // against the real pipeline and none threw), and a reader should not lose their
 // reply to a library's traversal bug while that is being chased.
 function prune(node: unknown): void {
-  if (typeof node !== "object" || node === null) return;
-  const kids = (node as WithChildren).children;
+  if (!isRecord(node)) return;
+  const kids = node.children;
   if (!Array.isArray(kids)) return;
   let holes = 0;
   for (let i = kids.length - 1; i >= 0; i--) {
