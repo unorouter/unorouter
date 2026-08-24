@@ -3,7 +3,10 @@
    transport/adapter built once in refs, latest-value refs feed async callbacks. */
 
 import { maybeAutoContinue } from "@/components/pages/sidebar/chat/runtime/auto-continue";
-import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
+import {
+  createChatHistoryAdapter,
+  type PersistTurn,
+} from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/routing-chat-transport";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/group-rotation";
@@ -66,8 +69,13 @@ function markFirstChatDone(): boolean {
 
 function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
-  const adapterRef = useRef(createChatHistoryAdapter(queryClient, getConvId));
-  return adapterRef.current;
+  const persistRef = useRef<PersistTurn | null>(null);
+  const adapterRef = useRef(
+    createChatHistoryAdapter(queryClient, getConvId, (persist) => {
+      persistRef.current = persist;
+    }),
+  );
+  return { adapter: adapterRef.current, persistRef };
 }
 
 // Publishes the two useChat operations assistant-ui's runtime does not expose:
@@ -115,7 +123,8 @@ function ChatRuntimeHook() {
       convIdAtom: chatStore.get(convIdAtom),
     });
   }, [threadId, remoteId]);
-  const historyAdapter = useHistoryAdapter(getConvId);
+  const history = useHistoryAdapter(getConvId);
+  const historyAdapter = history.adapter;
   const transportRef = useRef<ReturnType<typeof makeRoutingTransport> | null>(
     null,
   );
@@ -255,6 +264,25 @@ function ChatRuntimeHook() {
     },
   });
 
+  // useChat has appended the user message to its array by the time sendMessage
+  // returns its promise, so the turn is readable here even though the stream is
+  // still open. Persisting it now is what survives a stream that never
+  // terminates: the completion path would otherwise be the only writer, and it
+  // never runs, losing the user's own text along with the reply.
+  const persistUserTurn = async () => {
+    const persist = history.persistRef.current;
+    if (!persist) return;
+    const last = chat.messages.at(-1);
+    if (!last || last.role !== "user") return;
+    try {
+      await persist(last);
+    } catch (e) {
+      logChatDebug("history.user_turn_persist_error", {
+        error: String(e).slice(0, 200),
+      });
+    }
+  };
+
   const wrappedChat: typeof chat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
@@ -301,8 +329,11 @@ function ChatRuntimeHook() {
           try {
             for (let i = 0; i < order.length; i++) {
               chatStore.set(speakingCharacterIdAtom, order[i]);
-              if (i === 0) await chat.sendMessage(...args);
-              else await chat.sendMessage();
+              if (i === 0) {
+                const first = chat.sendMessage(...args);
+                void persistUserTurn();
+                await first;
+              } else await chat.sendMessage();
             }
           } finally {
             chatStore.set(speakingCharacterIdAtom, null);
@@ -313,7 +344,9 @@ function ChatRuntimeHook() {
         }
       }
       chatStore.set(speakingCharacterIdAtom, null);
-      return chat.sendMessage(...args);
+      const sent = chat.sendMessage(...args);
+      void persistUserTurn();
+      return sent;
     },
   };
 

@@ -432,9 +432,22 @@ function fireIllustrator(
   })();
 }
 
+// assistant-ui appends a turn only once it completes, so a stream that opens and
+// never terminates persists NEITHER side: the reply is lost AND the user's own
+// message with it, leaving a conversation row with zero messages. Publishing
+// append lets the send path write the user turn immediately, which is what
+// "the user turn stays persisted and the user resends manually" requires.
+// append() dedups on the message id, so the completion path re-appending the
+// same turn is a no-op.
+// Takes the runtime's own message object. The concrete type is assistant-ui's
+// and is only known inside withFormat, so the caller hands the value straight
+// back and the encoder that produced the format does the decoding.
+export type PersistTurn = (message: object) => Promise<void>;
+
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
   getConvId: () => string | null,
+  onFormatReady?: (persist: PersistTurn) => void,
 ): ThreadHistoryAdapter {
   return {
     async load() {
@@ -452,7 +465,7 @@ export function createChatHistoryAdapter(
     withFormat<TMessage, TStorageFormat extends Record<string, unknown>>(
       formatAdapter: MessageFormatAdapter<TMessage, TStorageFormat>,
     ) {
-      return {
+      const format = {
         async load(): Promise<MessageFormatRepository<TMessage>> {
           try {
             const id = getConvId();
@@ -638,6 +651,21 @@ export function createChatHistoryAdapter(
           }
         },
       };
+
+      onFormatReady?.(async (message) => {
+        // withFormat's TMessage is whatever the mounted runtime formats, so the
+        // value can only be validated structurally: getId throwing (or yielding
+        // nothing) means this is not that runtime's message and must not persist.
+        let messageId: string | undefined;
+        try {
+          messageId = formatAdapter.getId(message as TMessage);
+        } catch {
+          return;
+        }
+        if (!messageId) return;
+        await format.append({ message: message as TMessage, parentId: null });
+      });
+      return format;
     },
   };
 }
