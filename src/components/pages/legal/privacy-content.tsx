@@ -83,7 +83,7 @@ export async function PrivacyContent() {
 
       <LegalSection title={t("PRIVACY.CHILDREN_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("PRIVACY.CHILDREN_CONTENT")}
+          {t("PRIVACY.CHILDREN_CONTENT", APP_VALUES)}
         </p>
       </LegalSection>
 

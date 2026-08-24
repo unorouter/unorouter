@@ -2,7 +2,7 @@ import { DocsIndexContent } from "@/components/pages/docs/docs-index-content";
 import { DOCS_REGISTRY } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
@@ -11,18 +11,14 @@ import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "DOCS_INDEX",
     href: "/docs/integrations",
-    title: t("DOCS_INDEX.META.TITLE", APP_VALUES),
-    description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS_INDEX.META.KEYWORDS"),
-    ogImage: ogBadge("banner", locale),
+    badge: "banner",
   });
 }
 

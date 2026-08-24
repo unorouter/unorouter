@@ -3,7 +3,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
 import { getRankingsPageData } from "@/lib/api/page-data";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
@@ -13,18 +13,14 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "RANKINGS",
     href: "/rankings",
-    title: t("RANKINGS.META.TITLE", APP_VALUES),
-    description: t("RANKINGS.META.DESCRIPTION", APP_VALUES),
-    keywords: t("RANKINGS.META.KEYWORDS"),
-    ogImage: ogBadge("hero", locale),
+    badge: "hero",
   });
 }
 

@@ -4,7 +4,7 @@ import { Link, localeUrl } from "@/i18n/navigation";
 import { emptyPageData, getModelsPageData } from "@/lib/api/page-data";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
@@ -14,18 +14,14 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "MODELS",
     href: "/models",
-    title: t("MODELS.META.TITLE", APP_VALUES),
-    description: t("MODELS.META.DESCRIPTION"),
-    keywords: t("MODELS.META.KEYWORDS"),
-    ogImage: ogBadge("sponsor", locale),
+    badge: "sponsor",
   });
 }
 
