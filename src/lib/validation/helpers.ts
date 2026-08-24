@@ -43,6 +43,10 @@ export function formDefaults<T extends TObject>(
   const defined = Object.fromEntries(
     Object.entries(row).filter(([, v]) => v !== null),
   );
+  // Value.Default is typed `unknown` by TypeBox. Checking the result instead
+  // would DISCARD a stored row that no longer satisfies the schema and hand an
+  // edit form blank fields, which loses the user's data; these forms must show
+  // what is on disk.
   return Value.Default(schema, defined) as Static<T>;
 }
 

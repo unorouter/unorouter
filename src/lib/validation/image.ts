@@ -5,10 +5,8 @@ import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
 
-export const IMAGE_GENERATION_FORMAT =
-  `${env.appName.toLowerCase()}-generation-1` as `${string}-generation-1`;
-export const IMAGE_SESSION_FORMAT =
-  `${env.appName.toLowerCase()}-session-1` as `${string}-session-1`;
+export const IMAGE_GENERATION_FORMAT: `${string}-generation-1` = `${env.appName.toLowerCase()}-generation-1`;
+export const IMAGE_SESSION_FORMAT: `${string}-session-1` = `${env.appName.toLowerCase()}-session-1`;
 
 export function isImageSessionFormat(
   payload: ImageSnapshotExport | SessionSnapshot,

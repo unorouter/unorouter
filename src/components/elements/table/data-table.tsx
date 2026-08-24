@@ -33,6 +33,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import React, { type ReactNode, useEffect, useRef, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
+import type { TranslationKey } from "@/lib/config/constants";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta<
@@ -40,7 +41,7 @@ declare module "@tanstack/react-table" {
     TData extends RowData,
     TValue,
   > {
-    title?: string;
+    title?: TranslationKey;
     headerClassName?: string;
     cellClassName?: string;
   }

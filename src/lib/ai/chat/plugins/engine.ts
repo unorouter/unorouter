@@ -170,6 +170,14 @@ export function hasJsHandlers(mode: PluginHookMode): boolean {
   return instances.some((i) => (i.handlers.get(mode)?.size ?? 0) > 0);
 }
 
+// Plugin code is untrusted, so a handler result is only adopted when its
+// runtime kind matches what was passed in. Without this a plugin returning a
+// number for a message's text would put a number where a string is declared.
+function sameKind(a: unknown, b: unknown): boolean {
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  return typeof a === typeof b;
+}
+
 // The fold every hook site uses: content passes through each live handler in
 // registration order; a nullish return keeps the previous value; any throw or
 // timeout is swallowed and the fold continues. Fail-open like runLuaEditTrigger.
@@ -192,7 +200,9 @@ export async function runJsEditTrigger<T>(
             Promise.resolve(fn(data)),
             `${inst.name} ${mode} handler`,
           );
-          if (res !== null && res !== undefined) data = res as T;
+          if (res !== null && res !== undefined && sameKind(res, content)) {
+            data = res as T;
+          }
         } catch {
           // fail-open: a broken plugin must not break the chat
         }

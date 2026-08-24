@@ -28,7 +28,7 @@ export function ThemeToggle() {
   const updateStyles = (css: string) => {
     if (typeof window === "undefined") return;
 
-    let styleElement = document.getElementById(styleId) as HTMLStyleElement;
+    let styleElement = document.getElementById(styleId);
 
     if (!styleElement) {
       styleElement = document.createElement("style");

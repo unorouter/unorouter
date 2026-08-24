@@ -1,4 +1,4 @@
-import { isRecord } from "@/lib/utils/base";
+import { isRecord, rec } from "@/lib/utils/base";
 
 export type UpstreamSubmitResp = {
   id?: string;
@@ -24,12 +24,14 @@ export function normalizeTaskStatus(raw: string | undefined): string {
   return lower;
 }
 
+// T is the caller's all-optional view of an untyped upstream body, so it cannot
+// be proven here; a record is the most that can be established. Every field is
+// optional and read with `?.`, which is what keeps the claim harmless.
 export function unwrapTaskData<T extends object>(raw: unknown): T | null {
-  if (!raw || typeof raw !== "object") return null;
-  if ("data" in raw && raw.data && typeof raw.data === "object") {
-    return raw.data as T;
-  }
-  return raw as T;
+  const body = rec(raw);
+  if (!body) return null;
+  const inner = rec(body.data);
+  return (inner ?? body) as T;
 }
 
 // Walks an arbitrary error value (parsed upstream JSON, or the {status, data,

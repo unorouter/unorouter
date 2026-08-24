@@ -45,14 +45,14 @@ export const RESULT_CAPABILITY: Record<
 
 export type AgentSettings = Record<string, unknown>;
 
-export type AgentDefinition = {
+export type AgentDefinition<S = AgentSettings> = {
   id: string;
   phase: AgentPhase;
   capabilities: readonly AgentCapability[];
-  enabled: (ctx: AgentContext, settings: AgentSettings) => boolean;
+  enabled: (ctx: AgentContext, settings: S) => boolean;
   run: (
     ctx: AgentContext,
     runtime: AgentRuntime,
-    settings: AgentSettings,
+    settings: S,
   ) => Promise<AgentResult>;
 };

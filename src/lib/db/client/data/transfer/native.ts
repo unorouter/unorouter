@@ -1,5 +1,6 @@
 "use client";
 
+import { rec } from "@/lib/utils/base";
 import {
   msg,
   NATIVE_VERSION,
@@ -50,10 +51,7 @@ export async function buildNativeExport(convId: string) {
 type NativeExport = Awaited<ReturnType<typeof buildNativeExport>>;
 
 function toOrpgItemData(type: string, data: unknown): unknown {
-  const text =
-    data && typeof data === "object" && "text" in data
-      ? String((data as { text: unknown }).text ?? "")
-      : "";
+  const text = String(rec(data)?.text ?? "");
   if (type === "text") return { type: "text", content: text };
   if (type === "reasoning") {
     return {

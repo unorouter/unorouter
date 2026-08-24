@@ -6,21 +6,20 @@ import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { and, desc, eq, notInArray } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
+import { rec, recArr } from "@/lib/utils/base";
 
 const MAX_REQUEST_LOGS = 200;
 
 function wireMessage(m: unknown): { role: string; content: string } {
-  const msg = m as {
-    role?: string;
-    parts?: { type?: string; text?: string }[];
+  const msg = rec(m);
+  const content = recArr(msg?.parts)
+    .filter((p) => p.type === "text" && typeof p.text === "string")
+    .map((p) => p.text)
+    .join("\n");
+  return {
+    role: typeof msg?.role === "string" ? msg.role : "user",
+    content,
   };
-  const content = Array.isArray(msg.parts)
-    ? msg.parts
-        .filter((p) => p.type === "text" && typeof p.text === "string")
-        .map((p) => p.text)
-        .join("\n")
-    : "";
-  return { role: msg.role ?? "user", content };
 }
 
 export function buildRequestLogCurl(row: {
@@ -33,10 +32,8 @@ export function buildRequestLogCurl(row: {
 }): string {
   const target =
     row.url || `${env.apiUrl}${row.endpoint ?? API_ENDPOINTS.chatCompletions}`;
-  const model =
-    row.requestBody && typeof row.requestBody === "object"
-      ? ((row.requestBody as { model?: string }).model ?? "")
-      : "";
+  const rawModel = rec(row.requestBody)?.model;
+  const model = typeof rawModel === "string" ? rawModel : "";
   const messages = [
     ...(row.assembledSystem
       ? [{ role: "system", content: row.assembledSystem }]

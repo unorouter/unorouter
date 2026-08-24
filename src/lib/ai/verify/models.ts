@@ -1,5 +1,15 @@
 import type { VerifyProvider } from "./types";
 
+const VERIFY_PROVIDERS: readonly VerifyProvider[] = [
+  "anthropic",
+  "openai",
+  "gemini",
+];
+
+function isVerifyProvider(v: unknown): v is VerifyProvider {
+  return VERIFY_PROVIDERS.some((p) => p === v);
+}
+
 export const CURATED_MODELS: Record<VerifyProvider, readonly string[]> = {
   anthropic: [
     "claude-opus-4-6",
@@ -12,11 +22,13 @@ export const CURATED_MODELS: Record<VerifyProvider, readonly string[]> = {
   gemini: ["gemini-3.1-pro-preview", "gemini-3.1-flash", "gemini-2.5-pro"],
 };
 
-const MODEL_TO_PROVIDER: Record<string, VerifyProvider> = Object.fromEntries(
-  (Object.keys(CURATED_MODELS) as VerifyProvider[]).flatMap((p) =>
-    CURATED_MODELS[p].map((m) => [m, p] as const),
-  ),
-);
+const MODEL_TO_PROVIDER: Record<string, VerifyProvider> = {};
+for (const provider of Object.keys(CURATED_MODELS)) {
+  if (!isVerifyProvider(provider)) continue;
+  for (const model of CURATED_MODELS[provider]) {
+    MODEL_TO_PROVIDER[model] = provider;
+  }
+}
 
 const PROVIDER_VENDOR: Record<VerifyProvider, string> = {
   anthropic: "anthropic",

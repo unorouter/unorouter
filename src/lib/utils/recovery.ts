@@ -1,4 +1,5 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { isRecord } from "@/lib/utils/base";
 
 // Cache Storage plus the worker registration, and NOTHING else. A stale service
 // worker can serve a dead page whose only known cure was an incognito window, but
@@ -85,9 +86,9 @@ export async function clearAllClientStorage() {
 // A code-split chunk failed to load: stale HTML from a previous build references a chunk the current
 // build replaced. Matches Turbopack/webpack ChunkLoadError + the dynamic-import fetch failure variants.
 export function isChunkLoadError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-  const name = (error as { name?: string }).name ?? "";
-  const message = (error as { message?: string }).message ?? "";
+  if (!isRecord(error)) return false;
+  const name = typeof error.name === "string" ? error.name : "";
+  const message = typeof error.message === "string" ? error.message : "";
   return (
     name === "ChunkLoadError" ||
     /Loading chunk [\w-]+ failed|Failed to load chunk|dynamically imported module|Importing a module script failed/i.test(

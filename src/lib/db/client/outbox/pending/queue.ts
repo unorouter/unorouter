@@ -1,9 +1,18 @@
 "use client";
 
 import { localPendingTasks } from "@/lib/db/schema/client";
+import { rec } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
-import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
+import {
+  and,
+  asc,
+  eq,
+  isNull,
+  lte,
+  or,
+  type InferInsertModel,
+} from "drizzle-orm";
 import { getLocalDb } from "../../client";
 import { enrichRequestLogFromUpstream } from "../log-enrich";
 
@@ -35,8 +44,11 @@ export async function enqueueLogEnrich(
       .limit(1)
   )[0];
 
-  const set = {
-    op: "patch" as const,
+  const set: Pick<
+    InferInsertModel<typeof localPendingTasks>,
+    "op" | "attempts" | "nextAttemptAt" | "lastError" | "payload" | "seq"
+  > = {
+    op: "patch",
     attempts: 0,
     nextAttemptAt: null,
     lastError: null,
@@ -57,9 +69,8 @@ export async function enqueueLogEnrich(
 }
 
 async function runTask(msgId: string, payload: string | null) {
-  const requestId = payload
-    ? (JSON.parse(payload) as { requestId?: string }).requestId
-    : undefined;
+  const rawId = payload ? rec(JSON.parse(payload))?.requestId : undefined;
+  const requestId = typeof rawId === "string" ? rawId : undefined;
   if (!requestId) return; // nothing to enrich; the row is dropped
   await enrichRequestLogFromUpstream(msgId, requestId);
 }

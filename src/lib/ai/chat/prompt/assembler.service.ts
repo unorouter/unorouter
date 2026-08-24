@@ -19,6 +19,7 @@ import {
   walkTemplate,
   type PromptItemRole,
   type PromptPart,
+  type SlotBlock,
   type TemplateSlots,
 } from "./template";
 
@@ -112,7 +113,7 @@ const CHAR_OVERRIDE_FIELDS = [
   "exampleMessages",
   "systemPrompt",
   "postHistoryInstructions",
-] as const;
+];
 
 function applyCharOverrides<T extends Record<string, unknown>>(
   character: T,
@@ -126,6 +127,12 @@ function applyCharOverrides<T extends Record<string, unknown>>(
   }
   return merged as T;
 }
+
+const PROVIDER_ROUTING_LIST_KEYS: readonly ("order" | "only" | "ignore")[] = [
+  "order",
+  "only",
+  "ignore",
+];
 
 type ProviderRouting = {
   order?: string[];
@@ -142,7 +149,7 @@ function parseProviderRouting(
     const src = rec(JSON.parse(raw));
     if (!src) return undefined;
     const out: ProviderRouting = {};
-    for (const k of ["order", "only", "ignore"] as const) {
+    for (const k of PROVIDER_ROUTING_LIST_KEYS) {
       const v = src[k];
       if (Array.isArray(v) && v.length > 0) out[k] = v.map(String);
     }
@@ -162,13 +169,15 @@ function baseAssembled(system: string | undefined): AssembledSystem {
     promptTokens: 0,
     promptParts: [
       ...(system
-        ? [{ kind: "message" as const, role: "system" as const, text: system }]
+        ? [
+            {
+              kind: "message",
+              role: "system",
+              text: system,
+            } satisfies PromptPart,
+          ]
         : []),
-      {
-        kind: "chatHistory" as const,
-        rangeStart: -1000,
-        rangeEnd: "end" as const,
-      },
+      { kind: "chatHistory", rangeStart: -1000, rangeEnd: "end" },
     ],
     vars: {
       user: "User",
@@ -383,8 +392,8 @@ export async function assembleForStream(
     expand(preset?.postHistory),
   ]);
 
-  const sys = (text: string) =>
-    text ? { text, role: "system" as const } : null;
+  const sys = (text: string): SlotBlock | null =>
+    text ? { text, role: "system" } : null;
   const prefillText = preset?.prefill ? expand(preset.prefill) : "";
   const slots: TemplateSlots = {
     main: sys(mainSlot),
@@ -392,9 +401,7 @@ export async function assembleForStream(
     description: sys(descriptionSlot),
     persona: sys(personaSlot),
     systemPrompt: sys(systemPromptSlot),
-    prefill: prefillText
-      ? { text: prefillText, role: "assistant" as const }
-      : null,
+    prefill: prefillText ? { text: prefillText, role: "assistant" } : null,
     postHistory: postHistorySlot
       ? {
           text: postHistorySlot,
@@ -410,8 +417,8 @@ export async function assembleForStream(
   const exampleTurns = parseExampleMessages(
     primary?.exampleMessages,
     charName,
-  ).map((t) => ({
-    kind: "message" as const,
+  ).map((t): PromptPart => ({
+    kind: "message",
     role: t.role,
     text: expand(t.text),
   }));

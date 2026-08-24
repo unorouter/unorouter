@@ -171,7 +171,7 @@ export function AccountCard() {
     label: string,
     boundId: string | undefined,
     idLabel: string,
-    provider: string,
+    provider: "github" | "discord",
   ) {
     return (
       <div className="flex items-center justify-between rounded-md border p-3">
@@ -205,9 +205,7 @@ export function AccountCard() {
             variant="outline"
             size="sm"
             disabled={unbindOAuthMutation.isPending}
-            onClick={() =>
-              handleOAuthUnbind(provider as "github" | "discord", label)
-            }
+            onClick={() => handleOAuthUnbind(provider, label)}
           >
             {t("SETTINGS.ACCOUNT.UNBIND")}
           </Button>

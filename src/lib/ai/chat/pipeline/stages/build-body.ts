@@ -4,6 +4,7 @@ import type { AssembledSystem } from "../../prompt/assembler.service";
 import { GEMINI_SAFETY_OFF, type StreamMessages } from "../transforms";
 import type { getModelRoleFlags } from "../role-flags";
 import type { StreamBody } from "../prepare.service";
+import type { BodyMutations } from "../../provider-mutations";
 
 type AutoFlags = ReturnType<typeof getModelRoleFlags>;
 
@@ -140,7 +141,7 @@ export function buildBodyMutations(
   autoFlags: AutoFlags,
   modelInfo: PricingCatalogDetail | undefined,
   deepSeekReasoningContent: string | undefined,
-) {
+): BodyMutations {
   const effort = assembled.reasoningEffort;
   return {
     injectCacheControl:
@@ -167,8 +168,8 @@ export function buildBodyMutations(
         ? {
             effort:
               effort === "xhigh" && autoFlags.claudeXHighEffort
-                ? ("xhigh" as const)
-                : ("high" as const),
+                ? "xhigh"
+                : "high",
           }
         : undefined,
   };

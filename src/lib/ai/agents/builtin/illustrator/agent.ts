@@ -3,7 +3,6 @@ import type {
   AgentDefinition,
   AgentResult,
   AgentRuntime,
-  AgentSettings,
 } from "../../types";
 
 const DEFAULT_INSTRUCTION =
@@ -18,21 +17,19 @@ type IllustratorSettings = {
   reviewPrompt?: (prompt: string) => Promise<string | null>;
 };
 
-export const illustratorAgent: AgentDefinition = {
+export const illustratorAgent: AgentDefinition<IllustratorSettings> = {
   id: "illustrator",
   phase: "post_processing",
   capabilities: ["generate_image"],
-  enabled(ctx: AgentContext, settings: AgentSettings) {
-    const s = settings as IllustratorSettings;
+  enabled(ctx: AgentContext, s: IllustratorSettings) {
     return !!s.imageEnabled && !!ctx.mainResponse?.trim();
   },
   async run(
     ctx: AgentContext,
     runtime: AgentRuntime,
-    settings: AgentSettings,
+    s: IllustratorSettings,
   ): Promise<AgentResult> {
     if (!runtime.generateImage || !ctx.mainResponse) return { type: "noop" };
-    const s = settings as IllustratorSettings;
 
     let imgPrompt: string;
     try {
