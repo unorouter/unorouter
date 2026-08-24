@@ -1,4 +1,4 @@
-import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { jotaiCookieStorage, storeFieldAtom } from "@/lib/config/table-storage";
 import type { OutputModality } from "@/lib/api/model-modality";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -86,20 +86,10 @@ const arr = (val: unknown): string[] => (Array.isArray(val) ? val : []);
 
 // normalize also repairs WRONG-TYPED cookie values (schema drift), not just
 // missing ones; `?? INITIAL` alone would pass garbage through.
-function field<K extends keyof ModelsStoreState>(
+const field = <K extends keyof ModelsStoreState>(
   key: K,
   normalize?: (v: ModelsStoreState[K]) => ModelsStoreState[K],
-) {
-  return atom(
-    (get) => {
-      const v = get(modelsStoreAtom)[key] ?? INITIAL_MODELS_STATE[key];
-      return normalize ? normalize(v) : v;
-    },
-    (get, set, value: ModelsStoreState[K]) => {
-      set(modelsStoreAtom, { ...get(modelsStoreAtom), [key]: value });
-    },
-  );
-}
+) => storeFieldAtom(modelsStoreAtom, INITIAL_MODELS_STATE, key, normalize);
 
 export const searchAtom = field("search");
 export const selectedVendorsAtom = field("selectedVendors", arr);

@@ -1,4 +1,4 @@
-import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { jotaiCookieStorage, storeFieldAtom } from "@/lib/config/table-storage";
 import type { NotifyEvent } from "@/lib/validation/notify";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -33,14 +33,8 @@ export const notifyStoreAtom = atomWithStorage<NotifyState>(
   jotaiCookieStorage,
 );
 
-function field<K extends keyof NotifyState>(key: K) {
-  return atom(
-    (get) => get(notifyStoreAtom)[key] ?? INITIAL_NOTIFY_STATE[key],
-    (get, set, value: NotifyState[K]) => {
-      set(notifyStoreAtom, { ...get(notifyStoreAtom), [key]: value });
-    },
-  );
-}
+const field = <K extends keyof NotifyState>(key: K) =>
+  storeFieldAtom(notifyStoreAtom, INITIAL_NOTIFY_STATE, key);
 
 export const watchedTopicsAtom = field("topics");
 export const mutedTopicsAtom = field("mutedTopics");

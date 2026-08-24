@@ -1,4 +1,4 @@
-import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { jotaiCookieStorage, storeFieldAtom } from "@/lib/config/table-storage";
 import { OS } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -31,14 +31,8 @@ export const clientStoreAtom = atomWithStorage<ClientState>(
   jotaiCookieStorage,
 );
 
-function field<K extends keyof ClientState>(key: K) {
-  return atom(
-    (get) => get(clientStoreAtom)[key] ?? INITIAL_CLIENT_STATE[key],
-    (get, set, value: ClientState[K]) => {
-      set(clientStoreAtom, { ...get(clientStoreAtom), [key]: value });
-    },
-  );
-}
+const field = <K extends keyof ClientState>(key: K) =>
+  storeFieldAtom(clientStoreAtom, INITIAL_CLIENT_STATE, key);
 
 export const apiKeyAtom = field("apiKey");
 export const apiKeyRevealedAtom = field("apiKeyRevealed");
