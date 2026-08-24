@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "Bağlantıdan içe aktar",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Lorebook bağlantısı ya da lorebook içeren bir karakter yapıştır",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}” bir betik olarak içe aktarıldı. Gelişmiş lorebook’lar girişlerini kodla oluşturur, bu yüzden Betikler bölümünden çalışır.",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” bir ön ayar olarak içe aktarıldı. Kullanmak için ön ayar seçiciden seçin.",
     "PERSONAS_IMPORT": "İçe Aktar",
     "PERSONAS_IMPORT_LINK": "Bağlantıdan içe aktar",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary persona bağlantısı yapıştırın",

@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "Import from link",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Paste a lorebook link or a character that ships one",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "Imported “{name}” as a script. Advanced lorebooks build their entries in code, so it runs from Scripts.",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "Imported “{name}” as a preset. Select it in the preset picker to use it.",
     "PERSONAS_IMPORT": "Import",
     "PERSONAS_IMPORT_LINK": "Import from link",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Paste a LoreBary persona link",

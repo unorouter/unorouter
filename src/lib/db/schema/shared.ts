@@ -306,6 +306,7 @@ export const lorebookEntries = sqliteTable(
       .notNull()
       .default("system")
       .$type<LorebookInjectionRole>(),
+    chance: integer("chance"),
     ...timestamps(),
   },
   (table) => [

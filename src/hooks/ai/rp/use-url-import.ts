@@ -1,5 +1,6 @@
 "use client";
 
+import type { GetApiJobsById200 } from "@/lib/api/uno-import";
 import { msg } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -13,28 +14,10 @@ import { handleElysia } from "@/lib/utils/base";
 const POLL_MS = 1500;
 const POLL_TIMEOUT_MS = 180_000;
 
-export type ImportedResult = {
-  kind?: "character" | "lorebook" | "persona" | "rich-character" | "plugin";
-  source: string;
-  sourceUrl: string;
-  card?: { spec?: string; data?: Record<string, unknown> };
-  avatar?: { name: string; mimeType: string; base64: string };
-  lorebooks?: Array<{
-    name: string;
-    scanDepth?: number;
-    entries: Array<Record<string, unknown>>;
-  }>;
-  personas?: Array<{
-    name: string;
-    description: string;
-    attributes?: Record<string, string>;
-  }>;
-  plugin?: { name: string; script: string };
-  skipped?: Array<{ title: string; reason: "private" | "not_found" }>;
-  regexScripts?: unknown;
-  triggers?: unknown;
-  assets?: Array<{ name: string; mimeType: string; base64: string }>;
-};
+// Generated from uno-import's own OpenAPI document, so a new result kind is a
+// compile error here rather than a shape the client silently ignores. Do not
+// hand-write a mirror of it.
+export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;
 
 // Submit a link, wait for the job, hand the result to `persist`. Every entity
 // shares this; only the persist step differs.
@@ -59,6 +42,6 @@ export async function runUrlImport<T>(
       throw new Error(state.error || msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
     }
     if (state.status !== "done" || !state.result) continue;
-    return persist(state.result as ImportedResult);
+    return persist(state.result);
   }
 }

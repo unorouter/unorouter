@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "लिंक से आयात करें",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "लोरबुक का लिंक या ऐसे किरदार का लिंक चिपकाएँ जो एक साथ लाता हो",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}” को स्क्रिप्ट के रूप में आयात किया गया। उन्नत लोरबुक अपनी प्रविष्टियाँ कोड से बनाती हैं, इसलिए यह Scripts से चलती है।",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” को प्रीसेट के रूप में आयात किया गया। इसे प्रीसेट चयनकर्ता में चुनकर उपयोग करें।",
     "PERSONAS_IMPORT": "Import",
     "PERSONAS_IMPORT_LINK": "लिंक से आयात करें",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary पर्सोना लिंक चिपकाएँ",

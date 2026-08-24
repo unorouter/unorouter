@@ -12,6 +12,7 @@ import {
   upsertLocalLorebook,
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
+  upsertLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -225,13 +226,32 @@ export function useImportLorebookFromUrlMutation() {
             createdAt: now,
             updatedAt: now,
           });
-          return { importedAsPlugin: result.plugin.name };
+          return {
+            importedAsPlugin: result.plugin.name,
+            importedAsPreset: null,
+          };
         }
-        const books = result.lorebooks ?? [];
+        // The fetcher emits a finished prompt template, so a published preset is
+        // one row write. Its lorebooks, if any, fall through to the writer below.
+        const preset = "preset" in result ? result.preset : null;
+        if (preset) {
+          const now = dayjs().toDate();
+          await upsertLocalPreset({
+            id: uid(),
+            name: preset.name,
+            promptTemplate: preset.promptTemplate,
+            createdAt: now,
+            updatedAt: now,
+          });
+        }
+        const books = "lorebooks" in result ? result.lorebooks : [];
+        if (books.length === 0 && preset) {
+          return { importedAsPlugin: null, importedAsPreset: preset.name };
+        }
         if (books.length === 0) {
           // Named rather than silent: the source lists these but the author kept
           // the contents private, and nobody can fetch them.
-          const withheld = (result.skipped ?? [])
+          const withheld = ("skipped" in result ? result.skipped : [])
             .map((s) => s.title)
             .join(", ");
           throw new Error(
@@ -267,15 +287,24 @@ export function useImportLorebookFromUrlMutation() {
               priority: e.priority,
               orderIndex: e.orderIndex ?? i,
               matchWholeWords: e.matchWholeWords,
-              injectionRole: "system" as const,
+              injectionRole: e.injectionRole ?? "system",
+              chance: e.chance ?? null,
               createdAt: now,
               updatedAt: now,
             })),
           });
         }
-        return { importedAsPlugin: null };
+        return {
+          importedAsPlugin: null,
+          importedAsPreset: preset?.name ?? null,
+        };
       }),
-    // Both, because the same link can land as either a lorebook or a plugin.
-    invalidates: [queryKeys.lorebooks(), queryKeys.jsPlugins()],
+    // One link can land in any of three lists depending on what the source
+    // published, so all three are invalidated rather than guessing.
+    invalidates: [
+      queryKeys.lorebooks(),
+      queryKeys.jsPlugins(),
+      queryKeys.presets(),
+    ],
   });
 }

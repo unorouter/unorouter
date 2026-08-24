@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "Импорт по ссылке",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Вставьте ссылку на лорбук или на персонажа с лорбуком",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "«{name}» импортирован как скрипт. Продвинутые лорбуки создают записи в коде, поэтому он запускается из раздела «Скрипты».",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "«{name}» импортирован как пресет. Выберите его в списке пресетов, чтобы использовать.",
     "PERSONAS_IMPORT": "Импорт",
     "PERSONAS_IMPORT_LINK": "Импорт по ссылке",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Вставьте ссылку на персону LoreBary",

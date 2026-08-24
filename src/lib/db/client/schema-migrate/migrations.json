@@ -75,6 +75,10 @@
     {
       "tag": "0018_title_model_override",
       "sql": "ALTER TABLE `conversations` ADD `title_model` text;--> statement-breakpoint\nALTER TABLE `conversations` ADD `title_prompt` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_model` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_prompt` text;\n"
+    },
+    {
+      "tag": "0019_lorebook_entry_chance",
+      "sql": "ALTER TABLE `lorebook_entries` ADD `chance` integer;\n"
     }
   ]
 }

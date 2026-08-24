@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "從連結匯入",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "貼上世界書連結，或附帶世界書的角色連結",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "已將「{name}」匯入為腳本。進階世界書透過程式碼產生條目，因此它在「腳本」中執行。",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "已將「{name}」匯入為預設。在預設選擇器中選取它即可使用。",
     "PERSONAS_IMPORT": "匯入",
     "PERSONAS_IMPORT_LINK": "從連結匯入",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "貼上 LoreBary 人設連結",

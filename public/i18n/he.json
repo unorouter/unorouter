@@ -4274,6 +4274,7 @@
     "LOREBOOKS_IMPORT_LINK": "ייבוא מקישור",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "הדביקו קישור לספר לור או לדמות שכוללת אחד",
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}” יובא כסקריפט. ספרי ידע מתקדמים בונים את הערכים שלהם בקוד, לכן הוא רץ מתוך סקריפטים.",
+    "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” יובא כערכה קבועה מראש. בחר אותה בבורר הערכות כדי להשתמש בה.",
     "PERSONAS_IMPORT": "ייבוא",
     "PERSONAS_IMPORT_LINK": "ייבוא מקישור",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "הדביקו קישור לפרסונה מ‑LoreBary",
