@@ -13,8 +13,6 @@ import { useSyncExternalStore } from "react";
 
 type AuthLogin = typeof rpc.api.auth.account.login;
 
-// Every route serves auth from a server prefetch, so this only fetches when the
-// prefetch reported an expired session.
 export function useAuthQuery() {
   const expired = useAuthCache(queryKeys.sessionExpired()) === true;
   return useElysiaQuery(
@@ -39,12 +37,7 @@ export function authUserId(): number {
   );
 }
 
-// No useQuery: observing a key registers it at render time, and HydrationBoundary
-// then hydrates it in an effect instead of during render, so consumers below the
-// boundary render logged-out on the server and logged-in on the client (React
-// #418). The microtask is because the cache notifies synchronously while
-// HydrationBoundary is still rendering. A present-but-null entry is a definite
-// guest; an absent one means not-yet-fetched.
+// A present-but-null entry is a definite guest; an absent one means not-yet-fetched.
 function useAuthCache<T>(key: QueryKey): T | undefined {
   const queryClient = useQueryClient();
   return useSyncExternalStore(

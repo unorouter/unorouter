@@ -49,8 +49,6 @@ export class SectionBoundary extends Component<
   PropsWithChildren<{
     fallback?: (props: FallbackProps) => ReactNode;
     source?: string;
-    // Returns the input that was being rendered when it threw. Called ONLY on a
-    // crash, so a boundary that never fires costs nothing.
     detail?: () => string | null;
   }>,
   State
@@ -61,8 +59,6 @@ export class SectionBoundary extends Component<
     return { error };
   }
 
-  // Without this the fallback renders and the cause is gone: the export shows a
-  // user staring at "failed to load" with nothing recording what threw.
   componentDidCatch(error: Error, info: ErrorInfo) {
     const source = this.props.source ?? "section";
     captureCaughtError({

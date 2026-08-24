@@ -21,10 +21,8 @@ type OAuthProvider = {
   icon: React.ReactNode;
 };
 
-// The ONLY builder for provider authorize URLs (login + bind flows). The
-// redirect_uri stays the BARE ${server}/oauth/<provider>: new-api's SPA owns
-// that route and processes the provider callback itself; pointing at the
-// /api Go handler instead breaks the round-trip (misdiagnosed once, Jul 2).
+// redirect_uri must stay the BARE ${server}/oauth/<provider>: new-api's SPA owns
+// that route, and pointing it at the /api Go handler breaks the round-trip.
 export function buildOAuthAuthorizeUrl(
   provider: string,
   status: StatusData,

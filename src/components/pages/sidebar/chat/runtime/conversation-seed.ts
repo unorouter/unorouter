@@ -42,6 +42,7 @@ type SeedArgs = {
 };
 
 // Idempotency key for the send-wrapper vs initialize race assistant-ui runs unordered.
+// Creation MUST stay awaited-before-send or a fast first send assembles without the greeting.
 const seeding = new Map<string, Promise<void>>();
 
 export function seedConversation(args: SeedArgs): Promise<void> {
@@ -49,7 +50,6 @@ export function seedConversation(args: SeedArgs): Promise<void> {
   if (existing) return existing;
   const work = seed(args);
   seeding.set(args.convId, work);
-  // A failed seed (e.g. no models yet) must be retryable on the next send.
   work.catch(() => seeding.delete(args.convId));
   return work;
 }
@@ -70,7 +70,7 @@ async function seed(args: SeedArgs): Promise<void> {
   const now = dayjs().toDate();
 
   // Cookie directly, not just the atom: the atom hydrates after mount, so a new chat
-  // created in that window reads empty INITIAL defaults and seeds a null maxTokens.
+  // created in that window seeds null over the user's defaults.
   const cookieState = jotaiCookieStorage.getItem(
     CHAT_STORE_KEY,
     INITIAL_CHAT_STATE,
@@ -84,8 +84,6 @@ async function seed(args: SeedArgs): Promise<void> {
   const hasPreset = !!loadout.presetId;
   const seedField = <K extends keyof typeof defaults>(key: K) =>
     hasPreset ? null : (defaults[key] ?? null);
-  // maxTokens stays sticky across new chats: a preset that sets none must not null it,
-  // since no cap lets the provider apply its own small one.
   const boundPreset = loadout.presetId
     ? await readLocalPreset(loadout.presetId)
     : null;

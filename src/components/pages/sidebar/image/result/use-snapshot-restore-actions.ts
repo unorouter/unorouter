@@ -17,13 +17,11 @@ export type QuickTarget = {
   remix?: boolean;
 };
 
-// Every restore is EXPLICIT: browsing history must never auto-restore the form.
 export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const nav = useImageNav();
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
 
-  // The gallery src is a blob: URL, which dies with the document, so persisting one into
-  // the form draft mounts the inpaint canvas on an unloadable image after a reload.
+  // A gallery blob: URL dies with the document, so the form draft must hold durable bytes.
   const durableInitUrl = async (src: string): Promise<string | undefined> => {
     const image = data?.images.find((i) => i.src === src);
     if (!image) return src;
@@ -56,7 +54,6 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     });
   };
 
-  // Remix must not carry an init image: that would make it img2img of the old result.
   const quickOverrides = (
     target: QuickTarget,
     remixSeed: number | null | undefined,
@@ -74,8 +71,6 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     nav.setNav({ tab: target.tab, subPill: target.subPill });
     const remixSeed = data.images.find((i) => i.src === src)?.seed;
     const durable = target.remix ? undefined : await durableInitUrl(src);
-    // Edit models take their input as a reference image, and reusing the seed would
-    // regenerate the original instead of editing it.
     const editing = target.tab === "edit";
     restore({
       tab: target.tab,

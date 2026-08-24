@@ -146,9 +146,6 @@ export async function readActiveBranchParts(convId: string) {
   }));
 }
 
-// `allIds` lets a caller merging against UI state tell an unpersisted captured
-// message (append it) from one on a branch the walk excluded (the walk is not
-// trustworthy for this conversation).
 export async function readConvHistoryForSend(convId: string) {
   const joined = await readJoinedMessages(convId);
   return {
@@ -158,9 +155,6 @@ export async function readConvHistoryForSend(convId: string) {
       parts: itemsToParts(m.items),
     })),
     allIds: new Set(joined.map((m) => m.id)),
-    // Rows the walk was entitled to reach. Every swipe and alternate greeting
-    // leaves an inactive sibling behind, so a total row count cannot say
-    // whether the walk stopped early.
     activeCount: joined.filter((m) => m.isActiveBranch !== false).length,
   };
 }
@@ -355,9 +349,8 @@ export async function bumpLocalConvUpdatedAt(convId: string) {
 export async function setLocalActiveBranch(convId: string, msgId: string) {
   const msgs = (await readLocalMessages(convId)) ?? [];
   const target = msgs.find((m) => m.id === msgId);
-  // An unknown id (an assistant-ui internal id churning through the branch
-  // picker mid-run) must be a no-op: falling through resolves parentId to null
-  // and deactivates EVERY root row, greeting siblings included.
+  // An unknown id must be a no-op: falling through resolves parentId to null and
+  // deactivates EVERY root row, greeting siblings included.
   if (!target) {
     logChatDebug("branch.switch_unknown_id", { convId, msgId });
     return;
@@ -447,9 +440,8 @@ export async function replaceLocalConversationBindings(
   const local = await getLocalDb();
   if (!local) return;
   if (bindings.conversationCharacters) {
-    // The sticky loadout cookie can outlive its entities (delete, DB wipe,
-    // import from another account), and binding a missing character id trips
-    // the FK constraint and kills chat creation.
+    // The sticky loadout cookie outlives its entities, and binding a missing
+    // character id trips the FK constraint and kills chat creation.
     const wantedCharIds = bindings.conversationCharacters.map(
       (row) => row.characterId,
     );

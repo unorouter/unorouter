@@ -27,12 +27,8 @@ import {
 } from "next/font/google";
 import "../globals.css";
 
-// The chat shell is h-dvh, and dvh only shrinks for the keyboard when the
-// LAYOUT viewport does. Chromium/Firefox default to resizes-visual since Chrome
-// 108, so without this the composer sits under the keyboard on Android. WebKit
-// has not implemented the key at all (bug 259770): it logs "Viewport argument
-// key not recognized" and falls back to resizes-visual, which is iOS's native
-// behavior anyway, so shipping it statically is safe on both engines.
+// interactiveWidget: without it the Android composer sits under the keyboard.
+// WebKit has not implemented the key (bug 259770) and ignores it harmlessly.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -106,18 +102,15 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <head>
-        {/* next-themes emits this too, but inline where its provider mounts,
-            and ours is in <body> (it needs the jotai/query context), so that
-            copy runs after first paint. A second head-level provider emits the
-            script twice; next-themes does not dedupe across React trees. */}
+        {/* A second head-level next-themes provider emits this script twice:
+            next-themes does not dedupe across React trees. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
           }}
         />
-        {/* Plain style, no href/precedence: UserThemeProvider mutates this
-            node's textContent for live edits, which React's float cache would
-            otherwise discard. */}
+        {/* Plain style, no href/precedence: React's float cache discards the
+            textContent UserThemeProvider mutates for live edits. */}
         <style
           id="user-theme"
           dangerouslySetInnerHTML={{ __html: DEFAULT_THEME_CSS }}

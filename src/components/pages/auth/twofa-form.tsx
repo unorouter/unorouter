@@ -25,10 +25,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
   const verify2FA = useVerify2FAMutation();
   const [code, setCode] = useState("");
 
-  // onComplete fires the moment the 6th digit lands, and the button calls the
-  // same handler, so typing then tapping submits twice. The second attempt
-  // reuses a flow_token the gateway already consumed and fails, which reads as
-  // a rejected code on a correct one.
+  // A double submit reuses a consumed flow_token, which surfaces as a wrong-code error.
   const submitting = useRef(false);
 
   async function onSubmit(value: string) {

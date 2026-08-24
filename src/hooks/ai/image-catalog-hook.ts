@@ -24,8 +24,8 @@ export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
   return useElysiaQuery(
     queryKeys.loraCatalog(query),
     () => rpc.api.ai.image.catalog.loras.get({ query: query ?? {} }),
-    // The provider takes 8 to 22 seconds, so the caller MUST surface isFetching
-    // alongside this: stale rows with no pending indicator read as a dead search box.
+    // 8-22s upstream: the caller MUST surface isFetching, or stale rows with no
+    // pending indicator read as a dead search box.
     { placeholderData: (prev) => prev },
   );
 }
@@ -36,8 +36,6 @@ export function useEmbeddingCatalogQuery(query?: CatalogSearchQuery) {
   );
 }
 
-// Resolved separately from generating because Runware pins its own version ids, so a
-// Civitai-sourced reference often does not load.
 export function useCivitaiVersionsMutation() {
   const t = useTranslations();
   return useMutation({
@@ -49,8 +47,6 @@ export function useCivitaiVersionsMutation() {
   });
 }
 
-// A query, not a mutation like its checkpoint twin: the picker resolves as the user
-// types, so a repeat link should hit cache instead of a second 8-22s call.
 export function useCivitaiLoraVersionsQuery(query: string | undefined) {
   return useElysiaQuery(
     queryKeys.civitaiLoraVersions(query ?? ""),
@@ -62,7 +58,6 @@ export function useCivitaiLoraVersionsQuery(query: string | undefined) {
   );
 }
 
-// Debounced by the caller through the query key.
 export function useCheckpointSearchQuery(q: string) {
   return useElysiaQuery(
     queryKeys.checkpointSearch(q),

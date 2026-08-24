@@ -1,9 +1,6 @@
 import type { RpEntityKind } from "@/lib/db/schema/client";
 import { posthog } from "@/lib/posthog-lazy";
 
-// js_plugins is not an ENTITY_KIND: those are the sync-tracked tables, and
-// plugins are local-only. It reports here because the import control it shares
-// with the others is what emits these events.
 type RpAnalyticsEntity =
   Exclude<RpEntityKind, "conversations"> | "lorebook_entries" | "js_plugins";
 
@@ -163,7 +160,6 @@ const chat = {
   modelAutoPicked: (props: { to: string }) => {
     posthog.capture("chat_model_auto_picked", { to_model: props.to });
   },
-  // Rerolling for a better response: the strongest RP engagement signal.
   messageSwiped: (props: { direction: "prev" | "next"; is_rp: boolean }) => {
     posthog.capture("chat_message_swiped", {
       direction: props.direction,
@@ -182,7 +178,6 @@ const chat = {
   conversationBranched: (props: { is_rp: boolean }) => {
     posthog.capture("chat_conversation_branched", { is_rp: props.is_rp });
   },
-  // Multi-character turn actually rotated (serious RP, not casual chat).
   groupTurn: (props: { character_count: number }) => {
     posthog.capture("chat_group_turn", {
       character_count: props.character_count,
@@ -194,14 +189,12 @@ const chat = {
   greetingPicked: (props: { index: number }) => {
     posthog.capture("chat_greeting_picked", { index: props.index });
   },
-  // Flagship RP feature: in-chat illustration produced by the illustrator agent.
   imageGenerated: (props: { source: "auto" | "regenerate"; model: string }) => {
     posthog.capture("chat_image_generated", {
       source: props.source,
       model: props.model,
     });
   },
-  // Long-session RP proxy: the rolling-summary memory folded a chunk this turn.
   memoryFolded: () => {
     posthog.capture("chat_memory_folded");
   },

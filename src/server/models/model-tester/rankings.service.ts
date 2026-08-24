@@ -26,8 +26,6 @@ import type { VerifyResult } from "@/lib/ai/verify/types";
 
 const DEDUPE_WINDOW_MS = 60_000;
 
-// returning() on a conflict yields the EXISTING row's id, so these upserts are
-// find-or-create with no second lookup.
 async function findOrCreateProvider(
   kind: VerifyProviderValue,
   host: string,
@@ -130,8 +128,6 @@ export async function verifyAndPublish(
     mode: "direct",
     transport: serverTransport,
   });
-  // Returned unpublished: it carries the per-probe evidence explaining WHY the
-  // endpoint failed, which is all the user has to act on.
   if (result.connectivityError)
     return { published: false, error: result.connectivityError, result };
 
@@ -217,8 +213,6 @@ async function persistPublishedTest(opts: {
   );
 }
 
-// Nearest-rank p95, keyed by host and by host:::model in ONE pass: both
-// groupings read the same rows.
 async function p95ByGroup(where: ReturnType<typeof and>) {
   const rows = await getDb()
     .select({
@@ -330,7 +324,6 @@ export async function getProviderDetail(host: string): Promise<{
       .where(where)
       .groupBy(testerTests.baseUrlHost)
       .limit(1),
-    // Most endpoints score 100%, so pass rate alone leaves an arbitrary tie order.
     db
       .select(AGG_SELECT)
       .from(testerTests)

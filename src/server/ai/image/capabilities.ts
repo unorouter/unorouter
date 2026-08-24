@@ -2,10 +2,6 @@ import { imageParams } from "@/lib/ai/image/models";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageParams, LoraEntry } from "@/lib/validation/image";
 
-/**
- * Unsupported params drop rather than reject, so a remix carrying an SDXL knob
- * onto a Flux model still generates, minus the knob.
- */
 export function filterParamsToCapabilities(
   descriptor: ImageModelDescriptor,
   params: ImageParams | undefined,
@@ -36,19 +32,14 @@ export function filterParamsToCapabilities(
     drop("hiresDenoise");
     drop("hiresSteps");
   }
-  // No strength = no init-image inputs; do not send multi-MB data URIs to a rejector.
   if (!caps.supportsStrength) {
     drop("strength");
     drop("initImageUrl");
     drop("maskUrl");
   }
-  // ADetailer is a second billed pass; a model that does not declare it must not run one.
   if (!caps.supportsAdetailer) drop("adetailer");
-  // No Runware schema defines a watermark or guidance field.
   drop("watermark");
   drop("guidance");
-  // The provider enum IS the capability: no accepted values means the field is
-  // not forwardable at all.
   if (!caps.backgroundChoices?.length) drop("background");
   if (!caps.supportsSize) {
     drop("width");

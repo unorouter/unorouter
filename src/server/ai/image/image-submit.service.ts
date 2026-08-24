@@ -38,7 +38,7 @@ function imageCountFor(body: ImageSubmitBody): number {
   return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
 }
 
-// Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
+// Unknown keys are silently ignored upstream, so a misspelling is a dead control.
 function baseDiffusionKnobs(
   params: Record<string, unknown>,
   acceptedSamplers: string[],
@@ -46,7 +46,7 @@ function baseDiffusionKnobs(
 ): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   if (bodyNegativePrompt) out.negativePrompt = bodyNegativePrompt;
-  // Empty string means "untouched" in the form, but providers reject it as a real value.
+  // Empty string means "untouched" in the form; providers reject it as a value.
   const copy = (key: string) => {
     const value = params[key];
     if (value === undefined || value === null || value === "") return;
@@ -56,11 +56,11 @@ function baseDiffusionKnobs(
   copy("clipSkip");
   copy("negativePrompt");
   copy("strength");
-  // guidance is the flux-family spelling of the same knob; cfg wins when both exist.
+  // guidance is the flux-family spelling of the same knob.
   const cfg = params.cfg ?? params.guidance;
   if (typeof cfg === "number") out.CFGScale = cfg;
-  // A scheduler outside the model's OWN accepted list is a hard upstream rejection, and old
-  // drafts still carry ComfyUI spellings, so an unrecognised one falls back to the default.
+  // A scheduler outside the model's OWN accepted list is a hard upstream
+  // rejection, so an unrecognised one falls back to the default.
   const scheduler = [params.scheduler, params.sampler].find(
     (v): v is string =>
       typeof v === "string" &&
@@ -72,7 +72,6 @@ function baseDiffusionKnobs(
   return out;
 }
 
-// A hires pass is the only render happening, so its denoise/steps REPLACE base strength/steps.
 function initImageKnobs(
   params: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -104,15 +103,15 @@ function modelChainKnobs(
       .map((e) => ({ model: e.name, weight: e.weight ?? 1 }));
   }
   const vae = params.vae;
-  // "automatic"/"none" mean "leave it to the checkpoint"; the provider has no such VAE.
+  // "automatic"/"none" are form sentinels; the provider has no such VAE.
   if (typeof vae === "string" && vae && vae !== "automatic" && vae !== "none") {
     out.vae = vae;
   }
   return out;
 }
 
-// Knobs the OpenAI image schema has no field for: they ride as extra top-level keys and the
-// gateway adaptor maps them onto the provider's own names.
+// Knobs the OpenAI image schema has no field for: they ride as extra top-level
+// keys and the gateway adaptor maps them onto the provider's own names.
 function diffusionParams(
   mode: ImageSubmitBody["mode"],
   params: Record<string, unknown>,
@@ -125,13 +124,12 @@ function diffusionParams(
     // Without this every custom-civitai request runs the channel's default model.
     ...(isValidAir(extraParams?.air) ? { air: extraParams.air } : {}),
     ...baseDiffusionKnobs(params, acceptedSamplers, bodyNegativePrompt),
-    // A stale initImageUrl would silently turn a text2img request into img2img of an old base.
+    // A stale initImageUrl would silently turn txt2img into img2img of an old base.
     ...(mode === "txt2img" ? {} : initImageKnobs(params)),
     ...modelChainKnobs(params, loras),
   };
 }
 
-// Base64 image inputs are megabytes; log them as size markers, everything else verbatim.
 function redactImageValues(
   src: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -191,8 +189,8 @@ async function refineWithAdetailer(
 ): Promise<string> {
   const adetailer = params.adetailer;
   if (!adetailer || uri.startsWith("data:")) return uri;
-  // Best-effort: any failure keeps the original rather than losing a generation the user
-  // already paid for.
+  // Best-effort: any failure keeps the original rather than losing a paid-for
+  // generation.
   const refined = await runAdetailerPass({
     imageUrl: uri,
     adetailer,
@@ -217,7 +215,6 @@ export type SubmitGenerationResult = {
   status: "success";
   images: GeneratedImage[];
   droppedParams: string[];
-  /** Gateway request ids for this generation, used to look up what it actually cost. */
   requestIds: string[];
 };
 
@@ -235,7 +232,6 @@ export async function submitGeneration(
 
   const params = filtered.params;
   const size = sizeOf(filtered.params);
-  // References may be data URIs: the browser holds the bytes, there is no object storage.
   const refs = references.length
     ? await loadRefs(references.map((r) => r.url))
     : [];
@@ -272,8 +268,6 @@ export async function submitGeneration(
       ),
     });
 
-    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob from a
-    // sent-and-ignored one.
     logger.info("image generation request", {
       context: "image.submit",
       model: body.model,

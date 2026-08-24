@@ -31,7 +31,7 @@ export function installDebugErrorCapture(): void {
 }
 
 // Without this the browser can evict OPFS under storage pressure, taking every
-// local conversation with it. The grant is not guaranteed.
+// local conversation with it.
 export function requestPersistentStorage(): void {
   void navigator.storage
     ?.persist?.()
@@ -43,10 +43,8 @@ export function requestPersistentStorage(): void {
     );
 }
 
-// A blank shell on iOS has three causes that look identical: WebContent killed
-// for memory, a bfcache restore whose listeners no longer match the DOM, or a
-// resume-time reload that never lands (WebKit #211018). pageshow.persisted
-// separates the bfcache case and the heap reading separates the jetsam one.
+// Separates the three identical-looking iOS blank shells: jetsam (heap reading),
+// bfcache restore (pageshow.persisted), and WebKit #211018.
 export function installResumeDiagnostics(): void {
   window.addEventListener("pageshow", (e) => {
     const mem = performance.memory;
@@ -62,10 +60,8 @@ export function installResumeDiagnostics(): void {
   });
 }
 
-// Extensions that mutate the DOM (Translate, Dark Reader, Grammarly) detach
-// nodes React still owns, so its next commit on a big subtree swap throws
-// NotFoundError and white-screens the app. No-oping is safe: the node is
-// already in the desired state.
+// Extensions that mutate the DOM (Translate, Dark Reader, Grammarly) detach nodes
+// React still owns, so its next commit throws NotFoundError and white-screens the app.
 let domGuardInstalled = false;
 
 export function installDomReconciliationGuard(): void {

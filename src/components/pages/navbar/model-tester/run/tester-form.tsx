@@ -89,13 +89,8 @@ export function TesterForm() {
         apiKey: values.apiKey,
         model: values.model,
       });
-      // The error arm is checked first: a failed verification still returns its
-      // result so the probe evidence renders, so "result" in res is no longer
-      // enough to mean the run succeeded.
+      // Checked before "result": a failed verification still returns its probe evidence.
       if ("error" in res && res.error) {
-        // The server already says why it could not verify (bad key, unreachable,
-        // wrong format). Reporting only the generic failure left people
-        // re-running a test that could never pass.
         if (res.result) setResult(res.result);
         const reasonKey =
           res.error === "format-mismatch"
@@ -167,7 +162,6 @@ export function TesterForm() {
                   )}
                 />
               </div>
-              {/* baseUrl + apiKey share a row on desktop, stack on phone. */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <MyFormInput
                   control={form.control}
@@ -187,8 +181,6 @@ export function TesterForm() {
                   className={INPUT_CLASS}
                 />
               </div>
-              {/* Model is a curated list per format. Typing a known id auto-picks
-                  the right format so a gpt id never runs on the Anthropic wire. */}
               <Controller
                 control={form.control}
                 name="model"
@@ -224,9 +216,6 @@ export function TesterForm() {
                         <option key={m} value={m} />
                       ))}
                     </datalist>
-                    {/* This input is hand-rolled rather than a MyFormInput, so
-                        without this the required-model error had nowhere to
-                        render and submitting empty looked like a dead button. */}
                     <MyFormError
                       name="model"
                       schema={modelTesterForm}

@@ -17,9 +17,7 @@ type EngineState = {
   idleTimer?: ReturnType<typeof setTimeout>;
 };
 
-// Each live engine pins a 16MB WebAssembly.Memory that only global.close() releases. On the
-// server one module instance is shared by every request, so engines kept for the process
-// lifetime accumulate: measured 4 -> 9 WebAssembly.Memory over one load run, never freed.
+// Each live engine pins a 16MB WebAssembly.Memory only global.close() frees (measured 4 -> 9 over one load run).
 const ENGINE_IDLE_MS = 60_000;
 
 export const luaSafeIds = new Set<string>();
@@ -71,9 +69,7 @@ function closeEngine(state: EngineState): void {
   }
   try {
     state.engine?.global.close();
-  } catch {
-    // a close during a broken engine state must not mask the original failure
-  }
+  } catch {}
   state.engine = undefined;
   state.code = undefined;
 }
@@ -81,8 +77,7 @@ function closeEngine(state: EngineState): void {
 function scheduleIdleClose(state: EngineState): void {
   if (state.idleTimer) clearTimeout(state.idleTimer);
   state.idleTimer = setTimeout(() => closeEngine(state), ENGINE_IDLE_MS);
-  // Node keeps the event loop alive for pending timers; an idle-eviction timer must never be
-  // the reason the process will not exit.
+  // Without unref this pending timer keeps the node process alive.
   state.idleTimer.unref?.();
 }
 
@@ -368,8 +363,7 @@ export async function runLuaEditTrigger<T>(
         lowLevelAccess: false,
         data,
       });
-      // User-authored, so a result is adopted only when its runtime kind matches
-      // the input: a script returning a table for a string breaks T silently.
+      // Adopted only when the runtime kind matches: a script returning a table for a string breaks T silently.
       const next = result.res ?? data;
       if (
         Array.isArray(next) === Array.isArray(data) &&

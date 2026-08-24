@@ -217,7 +217,6 @@ export function ConsumptionChart() {
   const rankingData = [
     ...aggregateByModel(rows, "count", 20, otherLabel),
   ].reverse();
-  // Full ranked list for the legend: the bars only stack the top N.
   const legendNames = aggregateByModel(rows, "quota", Number.MAX_SAFE_INTEGER)
     .map((entry) => entry.name)
     .filter((name) => name !== otherLabel);
@@ -356,8 +355,7 @@ function DistributionChart(props: {
   chartType: "bar" | "area";
 }) {
   const distribution = props.distribution;
-  // Inlined per chart, not a shared fragment: recharts inspects its DIRECT
-  // children to find axes, so a wrapping fragment makes them disappear.
+  // Never wrap these in a fragment: recharts finds axes by DIRECT children only.
   function axes() {
     return [
       <CartesianGrid key="grid" strokeDasharray="3 3" vertical={false} />,

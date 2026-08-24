@@ -39,8 +39,7 @@ export const THIRTY_DAY_CACHE = {
   next: { revalidate: 60 * 60 * 24 * 30 },
 } as const;
 
-// providerOptions entries are read ONLY under this exact key; a mismatched key
-// is silently discarded.
+// providerOptions under any other key are silently discarded.
 export const CHAT_PROVIDER_NAME = "unorouter";
 
 export const NEW_API_USER = "New-Api-User";
@@ -60,8 +59,7 @@ export const SERVER_URL_KEY = "x-url" as const;
 
 export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30d
 
-// Used when an auth response omits access_expires_at, so it must track new-api's
-// AccessTokenTTL (30d, a fork override): longer leaves a logged-in UI that 401s.
+// Must track new-api's AccessTokenTTL (30d): longer leaves a logged-in UI that 401s.
 export const ACCESS_TOKEN_FALLBACK_MAX_AGE = COOKIE_MAX_AGE;
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
@@ -135,8 +133,7 @@ export const APP_VALUES = {
 };
 
 export const NONE_VALUE = "__none__";
-// "unpinned" provider group. Must match what groupHeader() drops
-// (server/constants.ts), so the two ends agree.
+// Must match what groupHeader() drops in server/constants.ts.
 export const AUTO_GROUP = "auto";
 
 export const UID_ALPHABET =
@@ -164,7 +161,6 @@ export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for t
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
-// Raced CONCURRENTLY by every short utility call, so keep this list small.
 export const UTILITY_RACE_MODELS = [
   "gpt-oss-120b:free",
   "gpt-oss-20b:free",

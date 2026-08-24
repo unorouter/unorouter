@@ -1,6 +1,3 @@
-// Markdown images have no metadata slot, so media kind and the inlay media id
-// ride the alt text and the src extension or data-URI.
-
 export type MarkdownMediaKind = "image" | "video" | "audio";
 
 const VIDEO_EXT_RE = /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i;
@@ -16,8 +13,6 @@ export type ResolvedMarkdownMedia = {
   height: number | null;
 };
 
-// The optional `@<w>x<h>` lets the renderer reserve the box before the bitmap
-// decodes; older tokens and unmeasured rows omit it.
 const INLAY_ALT_RE = /^inlay:([\w-]+)(?:@(\d+)x(\d+))?$/;
 const ASSET_ALT_RE = /^img:(.*?)(?:@(\d+)x(\d+))?$/;
 
@@ -54,10 +49,7 @@ export function resolveMarkdownMedia(
   };
 }
 
-// react-markdown's default urlTransform strips data: and blob: URLs as an XSS
-// defense; generated inline media needs image/audio/video data URIs and the
-// same-origin blob: that inlay/img tokens resolve to. Everything else keeps the
-// default protocol allowlist.
+// Replaces react-markdown's XSS urlTransform: widens it to media data:/blob: ONLY, everything else keeps the protocol allowlist.
 export function allowDataMediaUrls(url: string): string {
   if (url.startsWith("blob:")) return url;
   if (

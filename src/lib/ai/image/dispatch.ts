@@ -1,6 +1,5 @@
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 
-// Resolved by the gateway per model (metadata.imageParams.endpoint).
 export const SYNC_IMAGE_ENDPOINTS = [
   "image-generation",
   "openai",
@@ -61,10 +60,7 @@ type SubmitArgs = {
   background?: string;
   strength?: number;
   seed?: number;
-  /**
-   * Knobs the OpenAI image schema has no field for (steps, cfg, sampler, LoRA chains).
-   * They ride as extra top-level JSON keys; a provider that does not know a key ignores it.
-   */
+  /** Rides as extra top-level JSON keys, outside the OpenAI image schema. */
   diffusion?: Record<string, unknown>;
 };
 
@@ -97,7 +93,6 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
   }
   const form = new FormData();
   for (const [k, v] of fields) {
-    // Objects and arrays (a LoRA chain) survive multipart only as JSON text.
     form.append(k, typeof v === "object" ? JSON.stringify(v) : String(v));
   }
   for (const r of args.refs) {
@@ -193,8 +188,6 @@ export function extractResults(
     for (const entry of recArr(p.data)) {
       const url = str(entry.url);
       const b64 = str(entry.b64_json);
-      // Diffusion backends report the seed they actually used, which is the only way
-      // to reproduce a generation that did not pin one.
       const rawSeed = entry.seed;
       const seed = typeof rawSeed === "number" ? rawSeed : undefined;
       if (url) out.push({ uri: url, seed });

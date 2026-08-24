@@ -62,9 +62,6 @@ export async function prepareChatRequest(
   abortSignal?: AbortSignal,
 ) {
   throwIfAborted(abortSignal);
-  // Preset wins over the custom-provider row: one provider serves many models, so its
-  // per-model tokenizer is the coarser default. Empty/absent falls through to the
-  // model-name inference in tokenizerRefForModel.
   const presetTokenizer = rec(body.chatContext?.preset)?.tokenizer;
   const activeTokenizer = tokenizerRefForModel(
     (isTokenizerRef(presetTokenizer) ? presetTokenizer : undefined) ||
@@ -117,10 +114,6 @@ export async function prepareChatRequest(
     prompt.globalVarsIn,
   );
 
-  // Built once so the debug snapshot records what actually goes on the wire.
-  // The preset sampling above is what the user chose; these are what survived
-  // the model's supported-parameter strip, and a rejected request is explained
-  // by the second, not the first.
   const wireModelParams = buildModelParams(
     prompt.assembled,
     prompt.effectiveMaxOutputTokens,

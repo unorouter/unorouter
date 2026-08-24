@@ -25,8 +25,6 @@ type RpAnalyticsEntity = Parameters<
   typeof analytics.rp.entityAction
 >[0]["entity"];
 
-// Three of these share the dialog's action row, which is narrower than the
-// viewport; at default size their labels do not fit two per line on a phone.
 export const RP_ACTION_BUTTON = "max-sm:h-8 max-sm:px-2 max-sm:text-xs";
 
 export async function confirmRpDelete(
@@ -104,9 +102,6 @@ export function RpEntityRow(props: {
   );
 }
 
-// onFile is optional: presets are published as links but have no file format
-// here, so that list offers link import alone rather than a picker that can
-// only fail.
 export function RpImportControl(props: {
   entity: RpAnalyticsEntity;
   accept?: string;

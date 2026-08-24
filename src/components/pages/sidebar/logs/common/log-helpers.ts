@@ -108,8 +108,7 @@ export interface ParsedOther {
   cache_creation_tokens_1h?: number;
   frt?: number;
   request_path?: string;
-  // Upstream returns an ARRAY of conversion steps (e.g. ["OpenAI Compatible"]);
-  // older rows may still carry a plain string.
+  // Array of conversion steps; older rows carry a plain string.
   request_conversion?: string[] | string;
   billing?: string;
   billing_source?: "subscription" | "wallet" | string;
@@ -132,7 +131,7 @@ export interface ParsedOther {
   reasoning_effort?: string;
   is_model_mapped?: boolean;
   upstream_model_name?: string;
-  // Self-reported by the caller, never verified: attribution only.
+  // Self-reported by the caller, never verified.
   client_title?: string;
   client_referer?: string;
   client_user_agent?: string;
@@ -150,7 +149,6 @@ export function parseOther(
   }
 }
 
-// A positive per-user override wins over the group default.
 export function getEffectiveGroupRatio(
   other: ParsedOther | null,
 ): number | null {
@@ -174,7 +172,6 @@ export interface LogPricing {
   isTiered: boolean;
 }
 
-// Shared by the pricing cell and the detail panel so the two cannot disagree.
 export function computeLogPricing(
   other: ParsedOther | null,
 ): LogPricing | null {
@@ -204,14 +201,11 @@ export function getRequestConversionChain(other: ParsedOther | null): string[] {
   return [rc];
 }
 
-// A zero quota is not a free model: an ERROR row never bills, so keying off quota alone
-// badged every failed request on a paid model "free".
+// An ERROR row never bills, so a zero quota alone badges failed paid requests "free".
 export function isFreeRow(log: LogRow): boolean {
   if (log.type === LOG_TYPE_ERROR) return false;
   if (log.quota) return false;
   const other = parseOther(log.other);
-  // No pricing recorded at all: fall back to the quota, which is what older
-  // rows written before pricing was stored in `other` can be judged on.
   if (!other) return true;
   const modelPrice = other.model_price;
   if (typeof modelPrice === "number" && modelPrice > 0) return false;
@@ -228,7 +222,6 @@ export type ClientAttribution = {
 };
 
 function hostOf(url: string): string {
-  // URL() throws on the non-URL values some clients put in these headers.
   try {
     return new URL(url).host || url;
   } catch {
@@ -236,9 +229,6 @@ function hostOf(url: string): string {
   }
 }
 
-// Ordered by how much each header identifies the caller: a title is a deliberate
-// self-declaration; origin outranks the rest because browser-hosted frontends all send an
-// indistinguishable User-Agent; referer and User-Agent cover callers sending no origin.
 export function getClientAttribution(
   other: ParsedOther | null,
 ): ClientAttribution | null {

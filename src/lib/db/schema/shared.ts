@@ -80,8 +80,6 @@ export const conversations = sqliteTable(
     summaryAnchor: integer("summary_anchor"),
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     utilityModel: text("utility_model"),
-    // Null keeps titles on the free UTILITY_RACE_MODELS race; naming a model
-    // bills it once per new chat.
     titleModel: text("title_model"),
     titlePrompt: text("title_prompt"),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
@@ -227,8 +225,6 @@ export const characters = sqliteTable(
     triggers: text("triggers", { mode: "json" }),
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
     regexScripts: text("regex_scripts", { mode: "json" }),
-    // Named image assets rendered inline via {{img::name}} at display time.
-    // Bytes live in the media table; this holds only names and ids.
     assets: text("assets", { mode: "json" }).$type<
       { name: string; mediaId: string }[]
     >(),
@@ -337,7 +333,6 @@ export const samplingPresets = sqliteTable(
     chatMemory: integer("chat_memory"),
     utilityModel: text("utility_model"),
     // Provider lane for the model beside it, shipped as X-Group. Null = auto.
-    // A lane belongs to ONE model, so changing the model clears its group.
     utilityGroup: text("utility_group"),
     titleModel: text("title_model"),
     titleGroup: text("title_group"),
@@ -466,9 +461,7 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-// One theme per device, so one row, and `id` is always 1. The SQL column keeps
-// its old `user_id` name: renaming it buys nothing and would force every client
-// to rebuild the table on upgrade.
+// `user_id` is the legacy column name kept for compatibility; one row, id always 1.
 export const userThemes = sqliteTable("user_themes", {
   id: integer("user_id").primaryKey().default(1),
   themeJson: text("theme_json", { mode: "json" }).$type<UserTheme>().notNull(),
@@ -484,8 +477,7 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // Snapshot this image belongs to. The SQL column keeps its original name so no
-    // client OPFS migration is needed; no FK, since media rows outlive a deleted snapshot.
+    // `playground_id` is the legacy column name kept for compatibility.
     imageSnapshotId: text("playground_id"),
     sequenceIndex: integer("sequence_index"),
     upstreamResultUrl: text("upstream_result_url"),
@@ -498,9 +490,6 @@ export const media = sqliteTable(
     height: integer("height"),
     extractedText: text("extracted_text"),
     promptText: text("prompt_text"),
-    // The seed the provider actually used. Per image rather than per snapshot, since a
-    // batch draws a different one for each result, and without it a generation made
-    // without a pinned seed cannot be reproduced.
     seed: integer("seed"),
     createdAt: createdAtCol(),
   },

@@ -8,10 +8,7 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-// Publish dates are DATA, not git archaeology (the old generate-seo-timestamps
-// script derived them from git log, which breaks on file moves and history
-// rewrites). New guide/doc = add its date here; bump `updated` on real content
-// edits only.
+// New guide/doc = add its date here; bump `updated` on real content edits only.
 const GUIDE_DATES: Record<string, string> = {
   "claude-code": "2026-02-26",
   codex: "2026-03-23",

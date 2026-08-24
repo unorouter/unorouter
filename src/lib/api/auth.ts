@@ -13,8 +13,6 @@ function parseAuthResponse(raw: unknown): AuthResponseData | undefined {
   return authResponseChecker.Check(raw) ? raw : undefined;
 }
 
-// access_token is capped to the token's own lifetime, floored at 60s so a
-// near-expiry token still yields a usable cookie, never a negative maxAge.
 export async function setSessionCookies(
   cookie: Context["cookie"],
   userId: string | number,
@@ -22,7 +20,6 @@ export async function setSessionCookies(
   accessExpiresAt?: number,
 ): Promise<void> {
   const base: CookieOptions = { path: "/", sameSite: "lax" };
-  // httpOnly: only the server unseals this; the client reads the auth query cache.
   cookie[USER_ID_COOKIE].set({
     ...base,
     value: await signUserId(userId),
@@ -42,16 +39,13 @@ export async function setSessionCookies(
   });
 }
 
-// Writes an expiry rather than `.remove()`, which emits nothing for a cookie the
-// request did not send: that is the only way to retire a stale "local-user-id".
+// Not `.remove()`: it emits nothing for a cookie the request did not send, leaving a stale "local-user-id" alive.
 export function clearSessionCookies(cookie: Context["cookie"]): void {
   for (const name of [ACCESS_TOKEN_COOKIE, USER_ID_COOKIE, "local-user-id"]) {
     cookie[name].set({ value: "", path: "/", maxAge: 0, sameSite: "lax" });
   }
 }
 
-// `unknown` not Orval's LoginData: upstream returns a raw gin body wider than
-// the generated type.
 export async function handleAuthResponse(
   res: { data: unknown },
   cookie: Context["cookie"],
@@ -59,7 +53,6 @@ export async function handleAuthResponse(
   const body = parseAuthResponse(res.data);
   const data = body?.data;
   const id = data?.user?.id;
-  // No token means 2FA-required or register: the client drives the next step.
   if (data?.access_token && id) {
     await setSessionCookies(
       cookie,

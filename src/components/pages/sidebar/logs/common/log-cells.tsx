@@ -115,8 +115,6 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   if (!isConsumeLike(log.type) || !log.model_name) {
     return LOG_EMPTY;
   }
-  // VendorIcon substring-matches its registry keys, so a name carrying no vendor string
-  // (glm-5.2, laguna-xs-2.1) never resolves an icon without the catalog's real vendor.
   const vendorName =
     vendorsQuery.data?.model_vendors.find(
       (m) => m.model_name === log.model_name,
@@ -125,8 +123,6 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   const mapped = other?.is_model_mapped
     ? other?.upstream_model_name
     : undefined;
-  // Nearly every free model maps to its own name minus the suffix; only a genuinely
-  // different upstream (nvidia/nemotron-..., poolside/laguna-...) is worth showing.
   const upstream =
     mapped && mapped !== log.model_name.replace(/:free$/, "") ? mapped : null;
 
@@ -247,7 +243,6 @@ export function LogTokensCell(props: CellContext<TableFeats, LogRow>) {
     : 0;
   const prompt = log.prompt_tokens ?? 0;
   const completion = log.completion_tokens ?? 0;
-  // Error rows written before the count existed carry no prompt tokens at all.
   if (isError) {
     if (prompt <= 0) return LOG_EMPTY;
     return (
@@ -346,7 +341,6 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   );
 }
 
-// Blank rather than a bare browser User-Agent, which would read as a real app name.
 export function LogClientCell(props: CellContext<TableFeats, LogRow>) {
   const log = props.row.original;
   const client = getClientAttribution(parseOther(log.other));
@@ -390,8 +384,6 @@ export function LogStreamCell(props: CellContext<TableFeats, LogRow>) {
   );
 }
 
-// Six decimals for fraction-of-a-cent rows. The currency symbol is rendered separately,
-// so strip the one renderQuota adds.
 function formatLogSpend(quota: number | undefined) {
   return quota ? renderQuota(quota, 6).replace(/^\$/, "") : "0";
 }
@@ -489,8 +481,6 @@ export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
 
     const pricing = computeLogPricing(other);
     if (!pricing) {
-      // log.content is not a fallback here: it is a per-request note ("Model test") that
-      // repeats down the page. The details dialog still carries it.
       return LOG_EMPTY;
     }
 

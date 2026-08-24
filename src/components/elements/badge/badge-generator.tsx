@@ -28,8 +28,6 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import ShikiHighlighter from "react-shiki";
 
-// Uppercase<BadgeType> is the exact set of MAIN.ENUM leaves, so adding a badge
-// type without its label fails to compile instead of rendering the key.
 const badgeTypeKey = (type: BadgeType) =>
   `MAIN.ENUM.${type.toUpperCase() as Uppercase<BadgeType>}` as const;
 

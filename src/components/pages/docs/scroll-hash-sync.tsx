@@ -8,14 +8,11 @@ export function ScrollHashSync() {
     const headings = Array.from(
       root.querySelectorAll<HTMLHeadingElement>("h2[id]"),
     ).filter(
-      // The search dialog's visually-hidden DialogTitle h2 carries a Base UI useId
-      // (base-ui-_R_...) and must never drive the hash.
+      // Base UI useIds (base-ui-_R_...) are generated, never real anchors.
       (h) => !h.id.startsWith("base-ui") && !h.closest(".sr-only"),
     );
     if (headings.length === 0) return;
 
-    // Every real anchor lives inside <main>, so a hash resolving nowhere there is stale
-    // (a useId a prior build wrote) and safe to clear.
     const current = decodeURIComponent(window.location.hash.slice(1));
     const isRealTarget =
       !current.startsWith("base-ui") &&
@@ -30,8 +27,6 @@ export function ScrollHashSync() {
     }
 
     const bare = () => window.location.pathname + window.location.search;
-    // Headings sit below the sticky header, so "reached" means crossing that
-    // line rather than the viewport edge.
     const TRIGGER_LINE = 96;
 
     function apply() {
@@ -50,8 +45,6 @@ export function ScrollHashSync() {
       }
     }
 
-    // <main> is the scroll container (the shell caps it at max-h-dvh), so the window
-    // scroll event never fires there; listen on both so either layout works.
     const scroller = document.querySelector("main");
     let queued = false;
     const onScroll = () => {
@@ -63,8 +56,7 @@ export function ScrollHashSync() {
       });
     };
 
-    // No initial apply(): a deep link has not been scrolled to yet, so it would clear the
-    // anchor the visitor arrived on.
+    // No initial apply(): it would clear the deep-link anchor before the scroll to it.
     scroller?.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
 

@@ -38,11 +38,6 @@ function isPdfFilePart(part: unknown): part is PdfFilePart {
   );
 }
 
-// Text attachments need the same treatment as PDFs: a data URI reaches the model
-// as an opaque blob most cannot read, so the content is inlined as text instead.
-// Kept broad because editors label the same file inconsistently (text/markdown,
-// application/json, text/x-log), and anything mislabelled simply decodes to its
-// own contents.
 const TEXT_MEDIA_TYPE = /^text\/|^application\/(json|xml|x-yaml|yaml)$/;
 
 type TextFilePart = {
@@ -94,8 +89,7 @@ export async function inlinePdfText(
       if (m.role !== "user" || !Array.isArray(m.parts)) return m;
       const parts = await Promise.all(
         m.parts.map(async (part) => {
-          // PDF first: its mediaType is a literal, so checking the broader text
-          // guard ahead of it narrows this branch away entirely.
+          // PDF must stay FIRST: the broader text guard narrows it away entirely.
           if (isPdfFilePart(part)) {
             const name = part.filename ?? "document.pdf";
             const comma = part.url.indexOf(",");

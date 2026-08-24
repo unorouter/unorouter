@@ -11,20 +11,15 @@ import {
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 
-// One database per DEVICE, adopted from the per-user pools. A signed-in
-// database wins; guest is adopted only when it is the only one present.
-// Nothing is deleted: every `unorouter-N.sqlite3` pool stays on disk, so this
-// is reversible and the Recover action can still read them.
+// Nothing is deleted: every `unorouter-N.sqlite3` pool stays on disk so this is
+// reversible and the Recover action can still read them.
 export async function adoptSingleDatabase(targetPath: string): Promise<void> {
   const root = await navigator.storage.getDirectory();
 
-  // Already adopted: the pool directory for the new path exists.
   try {
     await root.getDirectoryHandle(sahPoolDirName(targetPath));
     return;
-  } catch {
-    // Not adopted yet.
-  }
+  } catch {}
 
   const candidates = (await listLocalDatabases()).filter(
     (c) => c.legacyUserId !== null,
@@ -50,7 +45,7 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
   });
 
   // The Blob is a VIEW, not a copy: these files reach hundreds of MB and
-  // materializing one is enough to OOM a phone.
+  // materializing one OOMs a phone.
   const salvaged = await salvagePoolDatabases(source.dbPath);
   const live = salvaged.find((s) => s.isLive) ?? salvaged[0];
   if (!live) {
@@ -77,8 +72,7 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
       bytes: live.sizeBytes,
     });
   } catch (err) {
-    // The next open must find a verified database or none at all, never a torn
-    // one.
+    // The next open must find a verified database or none at all, never a torn one.
     await target.deleteDatabaseFile().catch(() => {});
     logChatDebug("db.adopt.failed", { error: String(err).slice(0, 200) });
     logger.error("Single-database adoption failed", {

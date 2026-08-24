@@ -203,12 +203,7 @@ export function useApplyCardMutation() {
   });
 }
 
-// A card file holds IDS, not the entities: it is a bundle OF things already on
-// this device, so the same file on another device points at characters that do
-// not exist there. Rather than write a card full of dangling references, the
-// import keeps only what resolves locally and reports what it dropped, so the
-// user learns their card arrived half-empty instead of discovering it when the
-// chat is missing a character.
+// A card file holds IDS, not entities, so import keeps only what resolves locally.
 export function useImportCardFromFileMutation() {
   const t = useTranslations();
   const qc = useQueryClient();

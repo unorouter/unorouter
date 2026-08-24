@@ -64,8 +64,8 @@ export function ForgotPasswordForm() {
     >
       <div className="space-y-6">
         {sent ? (
-          // Upstream answers the same whether or not the address is registered,
-          // so this copy must not imply an account was found.
+          // Upstream answers identically for unregistered addresses; this copy
+          // must not imply an account was found.
           <p className="text-muted-foreground text-center text-sm">
             {t("AUTH.FORGOT_PASSWORD.SENT")}
           </p>

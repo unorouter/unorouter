@@ -8,8 +8,6 @@ const StreakCanvas = dynamic(
   { ssr: false },
 );
 
-// ssr:false defers the chunk to the client, so it needs a boundary to suspend
-// against while that chunk loads.
 export function StreakCanvasLazy(props: ComponentProps<typeof StreakCanvas>) {
   return <StreakCanvas {...props} />;
 }

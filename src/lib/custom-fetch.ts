@@ -8,8 +8,6 @@ const upstreamApiUrl =
 
 const REQUEST_TIMEOUT = 30_000;
 
-// Thrown on a non-ok response. A plain object, not an Error subclass, so `catch`
-// sees `unknown`; isUpstreamError narrows it without a call-site cast.
 export type UpstreamError = {
   status: number;
   data: unknown;
@@ -25,8 +23,8 @@ export function isUpstreamError(e: unknown): e is UpstreamError {
   );
 }
 
-// HeadersInit is a Headers instance, an entry array OR a record; spreading the
-// first two yields {}, so every caller reads through this normalized form.
+// Spreading a Headers instance or an entry array yields {}, silently dropping
+// every header.
 function toHeaderRecord(
   headers: HeadersInit | undefined,
 ): Record<string, string> {
@@ -43,9 +41,8 @@ function getHeader(
   return headers[key] ?? headers[key.toLowerCase()];
 }
 
-// Cloudflare sends the visitor address as cf-connecting-ip. Returns "" with no
-// request scope (build scripts, jobs): upstream must then record NO client IP
-// rather than the socket peer, which is this pod masquerading as a user.
+// "" with no request scope: upstream must record NO client IP rather than the
+// socket peer, which is this pod masquerading as a user.
 async function getServerClientIp(): Promise<string> {
   if (typeof window !== "undefined") return "";
   try {

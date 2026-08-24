@@ -5,11 +5,6 @@ import type {
   SahPoolDiagnosis,
 } from "./sahpool/sahpool-worker";
 
-// The app's sahpool worker (opfs-sahpool VFS, no cross-origin isolation)
-// instead of sqlocal's default worker (opfs VFS, SharedArrayBuffer,
-// COOP/COEP-gated). One worker per database, since the driver keeps a pool per
-// database path and concurrent databases (live + import/export scratch) must
-// not contend for one pool.
 const workers = new WeakMap<SQLocalDrizzle, Worker>();
 
 export function newSql(dbPath: string): SQLocalDrizzle {
@@ -30,9 +25,7 @@ export function newSql(dbPath: string): SQLocalDrizzle {
 
 let controlSeq = 0;
 
-// Addressed to the worker directly because sqlocal's processor protocol has no
-// pause/resume; the worker intercepts these before delegating, and sqlocal's
-// own handler ignores unknown message types.
+// Addressed to the worker directly: sqlocal's processor protocol has no pause/resume.
 function control(
   sql: SQLocalDrizzle,
   type: SahPoolControlMessage["type"],
@@ -61,10 +54,8 @@ export async function pauseSql(sql: SQLocalDrizzle): Promise<void> {
   await control(sql, "sahpool-pause");
 }
 
-// destroy() leaves the worker alive, and with it the pool's sync access
-// handles, so a retry loop abandoning one client per attempt ends with a row of
-// workers holding the same file and the next install failing
-// NoModificationAllowedError, blaming "another tab".
+// destroy() leaves the worker and its sync access handles alive, so a retry loop
+// ends with stacked workers on one file and NoModificationAllowedError.
 export function terminateSql(sql: SQLocalDrizzle): void {
   const worker = workers.get(sql);
   if (!worker) return;

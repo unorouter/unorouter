@@ -16,10 +16,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 
-// Single owner of chatModelAtom. Forward: resolve the atom (conv model -> pending
-// pick -> free fallback), gated on hydration so the cookie-backed pick is never
-// clobbered during the null hydration window. Reverse: persist atom changes to
-// the conversation's defaultModel. Replaces the old useModelSync 3-way race.
+// Single owner of chatModelAtom. Gated on hydration: writing before it clobbers the
+// cookie-backed pick during the null hydration window.
 export function useResolvedChatModel(remoteId: string | null | undefined) {
   const hydrated = useHydrated();
   const setChatModel = useSetAtom(chatModelAtom);
@@ -29,8 +27,6 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
   const serverModel = conversationQuery.data?.model ?? null;
 
-  // The auth prefetch always seeds the cache (the user, or null for a guest),
-  // so a success state IS the settled answer for both.
   const authSettled = authQuery.isSuccess;
 
   const pricingReady = pricingQuery.isSuccess;

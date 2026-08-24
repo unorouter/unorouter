@@ -34,8 +34,6 @@ type Props = {
 type ImgDraft =
   { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
 
-// A row holds either `mediaId` (already in the media table) or `dataUrl` (fresh upload),
-// never both.
 type AssetRow = {
   rowId: string;
   name: string;
@@ -74,8 +72,6 @@ export function CharacterEditor(props: Props) {
         ? existingAvatarSrc
         : null;
 
-  // Local rows rather than form fields: a row must keep its identity while the text
-  // changes, so typing in one does not remount the others.
   const [greetingRows, setGreetingRows] = useState<GreetingRow[] | null>(null);
   const greetings =
     greetingRows ??
@@ -95,7 +91,6 @@ export function CharacterEditor(props: Props) {
   const [assetRows, setAssetRows] = useState<AssetRow[] | null>(null);
   const assetInputRef = useRef<HTMLInputElement | null>(null);
   const pendingAssetRowId = useRef<string | null>(null);
-  // Seed the asset rows once from the loaded character; null = not seeded yet.
   const rows =
     assetRows ??
     (existing?.assets ?? []).map((a) => ({
@@ -127,7 +122,6 @@ export function CharacterEditor(props: Props) {
     ? formDefaults(characterFormSchema, {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
-        // The CSV field is turnTriggers, NOT the triggers column (imported V2 scripts).
         triggers: Array.isArray(existing.turnTriggers)
           ? existing.turnTriggers.join(", ")
           : "",
@@ -190,9 +184,8 @@ export function CharacterEditor(props: Props) {
   };
 
   const onSubmit = async (data: CharacterForm) => {
-    // The form's CSV `triggers` is turn-gating words; the DB column of that name holds
-    // imported scripts. Omit the key entirely, since an explicit undefined still
-    // overwrites them.
+    // The DB `triggers` column holds imported scripts, not these words; the key must be
+    // omitted entirely, since an explicit undefined still overwrites them.
     const { triggers: triggerWords, ...rest } = data;
     const body = {
       ...rest,

@@ -5,8 +5,6 @@ import { useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 
-// The /models browse and /compare pages: catalog rows plus the blurb and the
-// metadata they filter on, without the group maps only the detail sheet reads.
 export function usePricingBrowseQuery(enabled = true) {
   return useElysiaQuery(
     queryKeys.pricingBrowse(),
@@ -55,8 +53,7 @@ export function useModelDetailQuery(name: string | null) {
   );
 }
 
-// The model selector's dropdown data: ~143KB vs the 481KB full list, because it
-// carries no description and no metadata blob.
+// ~143KB vs 481KB for the full list.
 export function usePricingCatalogQuery(enabled = true) {
   return useElysiaQuery(
     queryKeys.pricingCatalog(),
@@ -65,9 +62,7 @@ export function usePricingCatalogQuery(enabled = true) {
   );
 }
 
-// The group-pin dropdown needs the ACTIVE model's servable groups and their
-// ratios. Fetched per model (~1KB) rather than shipping every model's groups in
-// the catalog, which was 57KB of the old payload for one dropdown.
+// Per model (~1KB); shipping every model's groups was 57KB of the old payload.
 export function useModelGroupsQuery(name: string | null) {
   return useElysiaQuery(
     queryKeys.pricingModelGroups(name ?? ""),

@@ -205,15 +205,10 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
   });
 }
 
-// Lorebooks published standalone rather than attached to a card: a JanitorAI
-// script link, a chub /lorebooks/ project, or a risu character whose book
-// travels with it. The fetcher normalises all three.
 export function useImportLorebookFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
       runUrlImport(input, async (result) => {
-        // A JanitorAI "advanced" script builds its entries in code, so there are
-        // no rows to write; it becomes a plugin that runs each turn instead.
         if (result.kind === "plugin" && result.plugin) {
           const now = dayjs().toDate();
           await upsertLocalJsPlugin({
@@ -230,7 +225,6 @@ export function useImportLorebookFromUrlMutation() {
             importedAsPreset: null,
           };
         }
-        // Lorebooks attached to a published preset fall through to the writer below.
         const preset = "preset" in result ? result.preset : null;
         if (preset) {
           const now = dayjs().toDate();
@@ -247,8 +241,6 @@ export function useImportLorebookFromUrlMutation() {
           return { importedAsPlugin: null, importedAsPreset: preset.name };
         }
         if (books.length === 0) {
-          // The source lists these but the author kept the contents private, so
-          // nobody can fetch them. Named so the failure is not a silent empty.
           const withheld = ("skipped" in result ? result.skipped : [])
             .map((s) => s.title)
             .join(", ");
@@ -297,7 +289,6 @@ export function useImportLorebookFromUrlMutation() {
           importedAsPreset: preset?.name ?? null,
         };
       }),
-    // One link can land in any of these three, depending on what the source published.
     invalidates: [
       queryKeys.lorebooks(),
       queryKeys.jsPlugins(),

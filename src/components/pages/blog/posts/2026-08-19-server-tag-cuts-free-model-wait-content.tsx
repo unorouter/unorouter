@@ -10,7 +10,6 @@ const P = "BLOG.POSTS.SERVER_TAG_CUTS_FREE_MODEL_WAIT";
 export async function ServerTagCutsFreeModelWaitContent() {
   const locale = await getLocale();
   const t = await getTranslations();
-  // Payout figures come from the bot at render, never hardcoded here.
   const rewards = await getRewardAmounts(locale);
 
   const discord = (chunks: React.ReactNode) =>

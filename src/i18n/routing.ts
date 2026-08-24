@@ -1081,7 +1081,6 @@ export const privateRoutes = {
     "/offline",
     "/ai-api-model-tester/history",
     "/image",
-    // Transactional, and /reset carries a token in the query.
     "/forgot-password",
     "/reset",
   ],

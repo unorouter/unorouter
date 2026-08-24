@@ -42,11 +42,6 @@ export function ChatControls() {
     if (pathname !== "/chat") router.push("/chat");
   };
 
-  // The group pin is stored per model (chatGroupAtom keys groupByModel by the
-  // active model), so switching models needs no pin bookkeeping here: the new
-  // model reads its own pinned group, the old model keeps its pin for when the
-  // user returns. Validity against the model's available groups is enforced in
-  // the model selector.
   const handleModelChange = (nextModel: string) => {
     setNewChatModel(nextModel);
   };
@@ -187,7 +182,6 @@ export function CharacterBackground(props: { convId?: string }) {
         className="absolute inset-0 -z-10 bg-cover bg-center"
         style={{ backgroundImage: `url(${src})` }}
       />
-      {/* Readability scrim; thread bg goes transparent so the image shows. */}
       <div className="bg-background/55 absolute inset-0 -z-10" />
       <style>{".aui-thread-root{background-color:transparent}"}</style>
     </>

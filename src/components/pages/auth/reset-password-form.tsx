@@ -22,8 +22,7 @@ export function ResetPasswordForm(props: Props) {
 
   async function onConfirm() {
     if (!props.email || !props.token) return;
-    // Upstream generates the password and returns it in `data`; it never accepts
-    // one, so this screen shows the result rather than collecting a new value.
+    // Upstream GENERATES the password and returns it; it never accepts one.
     const result = await resetMutation.mutateAsync({
       body: { email: props.email, token: props.token },
     });

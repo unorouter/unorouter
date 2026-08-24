@@ -25,16 +25,11 @@ type Args = {
   effectiveModels: ImageModelDescriptor[];
 };
 
-/**
- * `draftRestoredTab` gates the tab-fit hook: the model list arrives after mount, and
- * fitting first reads the still-default model and swaps away the one the draft restores.
- */
 export function useDraftPersistence(args: Args) {
   const form = args.form;
   const [draft, setDraft] = useAtom(draftAtomFor(args.tab));
 
-  // State, not a ref: the tab-fit effect has to re-run once the restore lands, and a
-  // ref mutation does not schedule that.
+  // Not a ref: the tab-fit effect must re-render when the restore lands.
   const [draftRestoredTab, setDraftRestoredTab] = useState<string | null>(null);
 
   useEffect(() => {
@@ -63,8 +58,7 @@ export function useDraftPersistence(args: Args) {
     args.effectiveModels,
   ]);
 
-  // ONE debounce timer for the autosave. RHF ignores a cleanup returned from inside the
-  // watch callback, so the timer must live out here to actually be cleared.
+  // RHF ignores a cleanup returned from inside watch(), so the timer lives out here.
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const subscription = form.watch(() => {

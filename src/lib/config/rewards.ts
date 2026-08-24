@@ -2,7 +2,6 @@ import { rec, recArr } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
 
-// Numerals only: each locale writes its own currency symbol around the number.
 export interface RewardAmounts {
   connectReward: string;
   voteReward: string;
@@ -27,8 +26,7 @@ interface RewardsResponse {
   levelTotal: number;
 }
 
-// Last-known-good, rendered only when the bot is unreachable. NOT the place to
-// change a reward: the bot's env is the source of truth.
+// NOT the place to change a payout: the bot's env is the source of truth.
 const FALLBACK: RewardsResponse = {
   amounts: {
     connect: 0.5,
@@ -51,8 +49,6 @@ const FALLBACK: RewardsResponse = {
   levelTotal: 21.96,
 };
 
-// Keeps the cents pair a price expects (0.50, not 0.5) while still showing a
-// third decimal when the amount has one (0.025).
 function money(value: number, locale: string): string {
   const places = (String(value).split(".")[1] ?? "").length;
   const decimals = Math.min(3, Math.max(2, places));
@@ -62,8 +58,6 @@ function money(value: number, locale: string): string {
   }).format(value);
 }
 
-// A partial payload would otherwise reach money() as undefined and throw during
-// render instead of falling back.
 function parseRewards(raw: unknown): RewardsResponse | null {
   const body = rec(raw);
   const amounts = body && rec(body.amounts);
@@ -105,8 +99,6 @@ async function fetchRewards(): Promise<RewardsResponse> {
   }
 }
 
-// Live from the bot, so changing a reward is a bot env change with no site
-// deploy and no translation edits.
 export async function getRewardAmounts(locale: string): Promise<RewardAmounts> {
   const data = await fetchRewards();
   const fmt = (value: number) => money(value, locale);

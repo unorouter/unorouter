@@ -71,7 +71,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
 
   return (
     <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl">
-      {/* sidebar */}
       <div className="border-border/60 bg-muted/30 hidden w-40 shrink-0 flex-col border-r p-2.5 sm:flex">
         <div className="mb-3 flex items-center gap-1.5 px-1">
           <LogoImage width={16} height={16} className="h-4 w-4" />
@@ -91,7 +90,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           </span>
         </div>
         <div className="space-y-0.5">
-          {/* Freshly-created conversation row during the new-chat beat */}
           {state.newConvTitle ? (
             <div className="bg-accent text-foreground flex items-center gap-1.5 rounded px-2 py-1.5 transition-colors">
               <span className="flex size-3 shrink-0 items-center justify-center">
@@ -123,9 +121,7 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
         </div>
       </div>
 
-      {/* main pane */}
       <div className="relative flex min-w-0 flex-1 flex-col">
-        {/* top bar */}
         <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
           <div
             data-demo="modelPill"
@@ -149,7 +145,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
             />
           </span>
 
-          {/* model dropdown */}
           {state.modelOpen ? (
             <div className="border-border bg-popover absolute top-9 left-3 z-20 w-44 overflow-hidden rounded-md border shadow-xl">
               {data.models.map((m, i) => (
@@ -175,18 +170,15 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           ) : null}
         </div>
 
-        {/* message */}
         <div className="flex-1 space-y-2 overflow-hidden px-4 py-3">
           {state.isNewChat ? (
             state.userMsg ? (
               <div className="space-y-3">
-                {/* user turn */}
                 <div className="flex justify-end">
                   <span className="bg-primary/15 text-foreground/90 max-w-[80%] rounded-lg px-3 py-1.5 text-[12px] leading-relaxed">
                     {state.userMsg}
                   </span>
                 </div>
-                {/* assistant turn: typing dots, then streamed reply */}
                 {state.aiTyping ? (
                   <div className="flex items-center gap-1 px-1">
                     <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full [animation-delay:-0.2s]" />
@@ -224,7 +216,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
               <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
                 {activeConvData?.message}
               </p>
-              {/* Appended exchange typed into this existing chat (a 2nd message) */}
               {state.userMsg ? (
                 <div className="space-y-3 pt-1">
                   <div className="flex justify-end">
@@ -257,7 +248,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           )}
         </div>
 
-        {/* input - shows the message being "typed" during the new-chat sim */}
         <div className="border-border/60 border-t px-3 py-2.5">
           <div
             data-demo="input"
@@ -276,7 +266,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           </div>
         </div>
 
-        {/* RP feature menu, floating like the real one */}
         {state.rpOpen ? (
           <div className="border-border bg-popover absolute top-9 right-2 z-20 w-44 overflow-hidden rounded-md border shadow-xl">
             <div className="border-border/50 text-muted-foreground border-b px-3 py-1.5 font-mono text-[8px] tracking-[0.2em] uppercase">
@@ -302,7 +291,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           </div>
         ) : null}
 
-        {/* RP feature dialog: opening a menu row pops its real panel over the pane */}
         {state.rpDialog !== null && data.dialogs[state.rpDialog] ? (
           <div className="bg-background/70 absolute inset-0 z-30 flex items-center justify-center p-4 backdrop-blur-sm">
             <div className="border-border bg-card animate-in fade-in zoom-in-95 flex max-h-full w-full max-w-72 flex-col overflow-hidden rounded-lg border shadow-2xl duration-150">

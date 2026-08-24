@@ -25,11 +25,8 @@ export async function resolveBestKey(
   const tokens = res.data?.data?.items;
   if (!tokens?.length) return createAutoToken(headers);
 
-  // Group-pinned tokens (billing group locked to one channel-group) are NEVER
-  // eligible: if that group's channel churns away, every request through the
-  // token dies with get_channel_failed while writing no usage rows. An account
-  // with only pinned tokens gets null here, which falls through to the guest
-  // key instead of a silently broken pin.
+  // Group-pinned tokens are NEVER eligible: when that group's channel churns
+  // away every request dies with get_channel_failed, writing no usage rows.
   const enabled = tokens.filter((tok) => tok && tok.status === 1);
   const unpinned = (group?: string | null) =>
     !group || group === "auto" || group === "default";
@@ -49,8 +46,6 @@ export async function resolveBestKey(
   return keyRes.data?.data?.key ?? null;
 }
 
-// Account has no usable unpinned token: mint a fresh auto-group one instead of
-// falling back to a pinned token or the guest key.
 async function createAutoToken(
   headers: Record<string, string>,
 ): Promise<string | null> {

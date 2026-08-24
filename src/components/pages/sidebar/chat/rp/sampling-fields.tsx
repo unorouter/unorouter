@@ -61,8 +61,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
       <div className="flex flex-col gap-4">
         {SAMPLING_PARAMS.map((param) => {
           const disabled = isUnsupported(param.apiKey);
-          // The model's real output ceiling replaces the generic slider max in BOTH directions:
-          // free models cap below it, and big-output models (Claude thinking 128K) raise it above.
+          // The cap moves the slider max in BOTH directions, never only downward.
           const hasCap =
             param.apiKey === "max_tokens" && props.maxTokensCap != null;
           const fieldMax = hasCap ? props.maxTokensCap! : param.max;

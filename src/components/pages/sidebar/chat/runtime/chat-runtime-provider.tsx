@@ -53,8 +53,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// Per-device rather than per-user is fine for this activation metric: PostHog
-// stitches identity via distinctId.
 const FIRST_CHAT_KEY = "uno_first_chat_done";
 function markFirstChatDone(): boolean {
   try {
@@ -77,9 +75,8 @@ function useHistoryAdapter(getConvId: () => string | null) {
   return { adapter: adapterRef.current, persistRef };
 }
 
-// assistant-ui exposes neither: error is read-only runtime state, and its import()
-// does not re-render live messages. Registered per conversation so a result computed
-// for one chat cannot be applied to whichever thread is mounted when it lands.
+// Registered PER CONVERSATION so a result computed for one chat cannot be
+// applied to whichever thread is mounted when it lands.
 function useLiveOpsBridge(
   chat: ReturnType<typeof useChat<ChatUIMessage>>,
   convId: string | null,
@@ -154,8 +151,6 @@ function ChatRuntimeHook() {
     onError: (e) => {
       releaseStreamLock();
       const detail = extractErrorDetail(e);
-      // An upstream rejection nests its real cause several JSON levels deep, so a
-      // short prefix stops before it: a GMICloud 400 cut at 200 chars ended mid-key.
       logChatDebug("stream.error", {
         threadId,
         remoteId,
@@ -195,18 +190,12 @@ function ChatRuntimeHook() {
       const parts = message.parts ?? [];
       const partText = (p: (typeof parts)[number]) =>
         "text" in p && typeof p.text === "string" ? p.text : "";
-      // Several <think> blocks render one Thinking box each, and an echoed "[Name]:"
-      // speaker tag lands in the visible body. Both get reported as "it sent me 5
-      // responses", so record the shape that produced it.
       const reasoningParts = parts.filter((p) => p.type === "reasoning").length;
       const speakerTagHits = parts
         .filter((p) => p.type === "text")
         .flatMap(
           (p) => partText(p).match(/\[[^\]\n]{1,40}\]\s*:/g) ?? [],
         ).length;
-      // Two delivery paths fail differently: leaked tags in the visible text mean the
-      // <think> extraction missed them, while no tags AND no reasoning part means the
-      // gateway's thinking_to_content never wrapped the separate upstream field.
       const visibleText = parts
         .filter((p) => p.type === "text")
         .map(partText)
@@ -254,9 +243,8 @@ function ChatRuntimeHook() {
     },
   });
 
-  // useChat appends the user message before sendMessage returns its promise, so the
-  // turn is readable mid-stream. Writing it now is what survives a stream that never
-  // terminates: the completion path is otherwise the only writer and never runs.
+  // Writing the turn NOW is what survives a stream that never terminates: the
+  // completion path is otherwise the only writer and never runs.
   const persistUserTurn = async () => {
     const persist = history.persistRef.current;
     if (!persist) return;
@@ -276,10 +264,8 @@ function ChatRuntimeHook() {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
       if (hasText && !remoteId) {
-        // Seed BEFORE useChat snapshots its state, so the greeting rows exist when
-        // the request history is captured. No remote id means a NEW chat, so it mints
-        // its own id rather than adopting the atom, which still holds the
-        // conversation the route re-activated.
+        // Seed BEFORE useChat snapshots its state, so the greeting rows exist
+        // when the request history is captured.
         try {
           await seedConversation({
             convId: freshConvId(threadId),
@@ -339,9 +325,7 @@ function ChatRuntimeHook() {
   useLiveOpsBridge(chat, remoteId ?? null);
 
   return useAISDKRuntime(wrappedChat, {
-    // assistant-ui otherwise folds a run of assistant messages into ONE bubble, so
-    // deleting the user turn between two replies merges them. Our messages are branch
-    // nodes with their own ids, never chunks of one turn, so there is nothing to join.
+    // assistant-ui otherwise folds a run of assistant messages into ONE bubble.
     joinStrategy: "none",
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
@@ -360,10 +344,6 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   useJsPluginLoader();
   const adapterRef = useRef(createThreadListAdapter(queryClient, t));
 
-  // Presets and Cards are routes, so returning lands on /chat with no convId and the
-  // open conversation looks gone. This provider sits in the shared (chat) layout and
-  // does NOT remount across those navigations, so the store still holds the last
-  // activated conversation and it is the right thing to reopen.
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,

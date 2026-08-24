@@ -2,14 +2,10 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import type { SatoriOptions } from "satori";
 
-// Satori does NO automatic font fallback: a glyph absent from the Latin brand
-// fonts renders as tofu. Loading is LAZY per script and nothing outside the
-// badge render path imports this, so the ~30MB of CJK fonts never touch another
-// page's memory or bundle.
-//
-// Arabic is deliberately absent: every Noto Arabic uses GSUB lookupType 5
-// (contextual joining), which Satori's opentype.js engine cannot shape and
-// throws on. Arabic goes through arabic-shaper.ts instead.
+// Satori does NO automatic font fallback; loading is LAZY per script to keep ~30MB
+// of CJK fonts out of other pages. Arabic is deliberately absent: every Noto Arabic
+// uses GSUB lookupType 5, which Satori's opentype.js cannot shape and throws on, so
+// Arabic goes through arabic-shaper.ts instead.
 
 type FallbackFont = NonNullable<SatoriOptions["fonts"]>[number];
 
@@ -29,9 +25,7 @@ type ScriptDef = {
   test: RegExp;
 };
 
-// Order matters only for disjoint ranges; each range is exclusive to one script
-// except CJK, where SC is the broadest Han coverage and handles TC/JP/KR Han too
-// (kana/hangul ranges pick JP/KR explicitly before the shared Han check).
+// SC is the broadest Han coverage, so kana/hangul must be tested BEFORE the Han range.
 const SCRIPTS: ScriptDef[] = [
   { file: "NotoSansJP-Regular.otf", name: "Noto Sans JP", test: /[぀-ヿ]/ }, // kana
   { file: "NotoSansKR-Regular.otf", name: "Noto Sans KR", test: /[가-힣ᄀ-ᇿ]/ }, // hangul

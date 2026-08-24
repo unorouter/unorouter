@@ -45,7 +45,6 @@ const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
 const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
 const bool = (v: unknown): boolean | null =>
   typeof v === "boolean" ? v : null;
-// A JSON round trip turns the exported Date into an ISO string.
 const date = (v: unknown): Date | null => {
   if (v instanceof Date) return Number.isNaN(v.getTime()) ? null : v;
   if (typeof v !== "string" && typeof v !== "number") return null;
@@ -72,9 +71,8 @@ export function mapNativeImport(native: NativeImport): MappedImport {
   const presetIdMap = buildIdMap(native.preset ? [native.preset] : []);
   const msgIdMap = buildIdMap(native.messages);
 
-  // Spread the exported row and override only what the import must change (new
-  // id, remapped references, ownership flags). Re-listing columns here silently
-  // dropped every field the list forgot, and the export writes whole rows.
+  // Spread the exported row, override only what must change. Re-listing columns
+  // silently drops every field the list forgets.
   const persona = native.persona
     ? {
         ...native.persona,
@@ -155,9 +153,8 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     })
     .filter((b) => b != null);
 
-  // The column default is second-granularity, so a whole import would share one
-  // timestamp and readLocalMessages orders by it. Distinct values per row keep
-  // the branch walk's array-order fallbacks meaningful.
+  // The column default is second-granularity: without distinct per-row values a
+  // whole import shares one timestamp and readLocalMessages orders by it.
   const baseTime = new Date();
   const messages = (native.messages ?? []).map((m, i) => {
     const oldParent = str(m.parentId);

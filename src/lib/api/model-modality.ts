@@ -3,8 +3,6 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 
 type ModalityModel = { type: string; metadata?: ModelMetadata };
 
-// The picker list carries no metadata; a detail surface handed one of those rows
-// renders empty fields rather than crashing on a missing object.
 export const EMPTY_METADATA: ModelMetadata = { releaseTs: 0 };
 type PricedModel = ModalityModel &
   (
@@ -40,15 +38,14 @@ export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
 export const AGE_STEPS_DAYS = [0, 7, 30, 90, 365] as const;
 
-// Per-call image/video pricing splits a model into a per-token base and a
-// flat-priced `:flat` twin (new-api-sync pricing/image-per-call.ts).
+// Per-call pricing splits a model into a per-token base and a `:flat` twin.
 export const isFlatVariant = (model: { model_name: string }): boolean =>
   model.model_name.endsWith(":flat");
 
 type ConcreteModality = Exclude<OutputModality, "all">;
 
-// Both `type` and outputModalities are upstream-supplied and each has been
-// wrong, so either one alone classifies (gpt-4o-image reports modality `text`).
+// `type` and outputModalities have each been wrong upstream, so either one alone
+// classifies (gpt-4o-image reports modality `text`).
 export function deriveOutputModality(model: ModalityModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata?.outputModalities ?? [];
@@ -81,9 +78,8 @@ export function countByOutputModality(
 
 export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
 
-// A fixed-price model carries ONE price: image/video bill it per output
-// artifact, everything else per input. The unused side is 0 (null for the
-// pre-discount original) so callers render both columns uniformly.
+// A fixed-price model carries ONE price: image/video bill it per output artifact,
+// everything else per input.
 export function modelPriceColumns(model: PricedModel) {
   const modality = deriveOutputModality(model);
   const onOutput = modality === "image" || modality === "video";
@@ -161,8 +157,6 @@ export function fixedPriceUnitLabel(
   return "request";
 }
 
-// Fixed-price image/video bill per image/second, so their per-token input price
-// is meaningless rather than zero.
 export function inputPriceUnit(
   modality: OutputModality,
   isFixedPrice?: boolean,

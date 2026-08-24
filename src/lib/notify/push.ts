@@ -54,8 +54,6 @@ export async function getPushSubscription(): Promise<PushSubscription | null> {
   try {
     return await reg.pushManager.getSubscription();
   } catch {
-    // Firefox/Brave with the push service disabled reject even the READ with
-    // AbortError "Error retrieving push subscription".
     return null;
   }
 }
@@ -85,15 +83,10 @@ export async function subscribePush(): Promise<PushSubscription | null> {
       applicationServerKey: urlBase64ToUint8Array(key),
     });
   } catch {
-    // AbortError "push service error": Brave with Google push services off.
-    // Permission is still granted, so only closed-tab delivery is lost.
     return null;
   }
 }
 
-// Re-attaches the subscription on app open because pushsubscriptionchange is
-// unreliable on every engine. Never prompts: an ungranted permission means the
-// user declined, and subscribePush would re-ask.
 export async function revalidatePush(
   topics: string[],
   locale: string,
@@ -138,8 +131,6 @@ export async function syncPushTopics(
   return res?.data.success === true;
 }
 
-// Prefers the service worker path so the banner behaves identically to real web
-// push (tag collapse, click handling).
 export async function showOsBanner(title: string, body: string, tag: string) {
   if (!pushAvailableHere() || Notification.permission !== "granted") return;
   const options: NotificationOptions = {
@@ -152,8 +143,7 @@ export async function showOsBanner(title: string, body: string, tag: string) {
     await reg.showNotification(title, options);
     return;
   }
-  // Mobile Chrome/Android bans `new Notification()` ("Illegal constructor") and
-  // allows only the SW path, so skip rather than throw.
+  // Mobile Chrome/Android bans `new Notification()` ("Illegal constructor").
   try {
     new Notification(title, options);
   } catch {}

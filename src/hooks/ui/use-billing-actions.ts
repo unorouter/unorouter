@@ -46,8 +46,6 @@ export function useBillingActions() {
   const enableCrypto = enableNowPayments;
   const enablePayPal = enableDeloPay;
   const discount = topUpInfo?.discount ?? {};
-  // PayPal's fixed per-transaction fee makes the smallest tiers a loss, so
-  // upstream enforces a floor and REJECTS amounts below it at the pay call.
   const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
   const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
   const deloPayFeePercent = topUpInfo?.delopay_fee_percent ?? 0;
@@ -105,9 +103,6 @@ export function useBillingActions() {
     return factor ? Math.round(amount * factor * 100) / 100 : amount;
   }
 
-  // Mirrors the gateway's surcharge helpers: the buyer covers the processing fee
-  // on top of the credited amount, only up to the threshold, rounded UP to the
-  // cent so a tile never understates the charge.
   function chargedWithFee(
     credited: number,
     fixed: number,
@@ -129,8 +124,6 @@ export function useBillingActions() {
     );
   }
 
-  // Creem applies its fee to a CUSTOM amount only; preset products keep the
-  // price configured upstream.
   function creemChargedAmount(amount: number): number {
     return chargedWithFee(
       amount,
@@ -275,8 +268,6 @@ export function useBillingActions() {
     );
   }
 
-  // custom: send the amount so upstream overrides the product price via Creem's
-  // custom_price. Preset tiles omit it and charge the product's own price.
   function payCreem(productId: string, amount?: number, custom?: boolean) {
     analytics.billing.topUpInitiated({ provider: "creem", amount });
     creemTopUpMutation.mutate(

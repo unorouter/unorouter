@@ -2,16 +2,9 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Blob, Buffer as HbBuffer, Face, Font, shape } from "harfbuzzjs";
 
-// Satori's opentype.js engine cannot shape Arabic (its fonts use GSUB
-// lookupType 5, contextual joining, which the engine rejects). So HarfBuzz
-// shapes it here and the connected outlines go to Satori as a self-contained
-// SVG <img>, bypassing its text engine entirely.
-//
-// Badge labels routinely mix Arabic with Latin brand names ("واجهات Claude
-// وGPT وGemini"), so text is segmented into Arabic vs Latin runs, each shaped
-// with its own font, then laid out right-to-left (Arabic base direction, Latin
-// words internally LTR). Runs normalize to a 1000 unit em so the fonts line up.
-
+// Satori's opentype.js engine rejects GSUB lookupType 5 (contextual joining),
+// so HarfBuzz shapes Arabic here and the outlines ship to Satori as an SVG
+// <img>. Runs normalize to a 1000 unit em so the two fonts line up.
 const EM = 1000;
 
 // Arabic block + presentation forms.
@@ -19,8 +12,7 @@ const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
 function isArabicChar(ch: string): boolean {
   return ARABIC_RE.test(ch);
 }
-// Direction-neutral chars attach to the current run rather than starting a new
-// one, so "GPT" stays one Latin run.
+// Direction-neutral chars attach to the current run, so "GPT" stays one run.
 function isNeutralChar(ch: string): boolean {
   return /[\s0-9.,:;!?/()[\]{}<>|@#%&*+=_~'"^-]/.test(ch);
 }
@@ -102,7 +94,6 @@ function shapeRun(run: Run): { paths: string; advance: number } {
 
 export type ShapedText = { src: string; width: number; height: number };
 
-// Null when the text has no Arabic: the caller renders it as normal Satori text.
 export function shapeArabic(
   text: string,
   pxSize: number,
@@ -113,7 +104,7 @@ export function shapeArabic(
   const runs = segment(text).map((r) => ({ ...r, ...shapeRun(r) }));
   const total = runs.reduce((sum, r) => sum + r.advance, 0) || EM;
 
-  // Lay runs out right-to-left: the first logical run sits at the right edge.
+  // RTL: the first logical run sits at the right edge.
   let cursor = total;
   let body = "";
   for (const run of runs) {
@@ -124,8 +115,7 @@ export function shapeArabic(
   const scale = pxSize / EM;
   const width = Math.ceil(total * scale);
   const height = Math.ceil(pxSize);
-  // Font space is y-up, baseline at 0; place the baseline near the bottom of
-  // the em box and flip Y into SVG's y-down space.
+  // Font space is y-up with baseline at 0; SVG is y-down, hence the flip below.
   const baseline = EM * 0.8;
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${total} ${EM}">` +

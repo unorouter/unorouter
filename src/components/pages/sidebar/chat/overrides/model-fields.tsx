@@ -171,8 +171,7 @@ function GroupRow(props: {
     ? groupEntries.find((e) => e.group === pinned)
     : null;
 
-  // Reset ONLY once settled: the upstream list is a 5-minute cache, and resetting off a
-  // partial one deletes the pin permanently.
+  // Reset ONLY once settled: resetting off a partial list deletes the pin permanently.
   const candidateGroupsKey = candidateGroups.join("|");
   const groupsSettled = groupsQuery.isSuccess && !groupsQuery.isFetching;
   useEffect(() => {
@@ -259,8 +258,6 @@ function GroupRow(props: {
   );
 }
 
-// groupName is optional because only presets pin a provider lane; the conversation drawer
-// deliberately does not (see CLAUDE.md on the model-keyed navbar pin).
 export function UtilityModelField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   name: FieldPath<TForm>;
@@ -311,7 +308,6 @@ export function UtilityModelField<TForm extends FieldValues>(props: {
   );
 }
 
-// A custom provider IS the endpoint, so it has no lanes to choose between.
 function ModelGroupField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   groupName?: FieldPath<TForm>;

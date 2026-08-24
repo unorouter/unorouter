@@ -38,11 +38,8 @@ function htmlResponse(body: JSX.Element): Response {
   return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
 }
 
-// sharp's SVG loader can fail at runtime in a long-lived process (loader poisoning: the
-// same buffer converts fine in a fresh process on the same pod). Every og:image then 500s
-// silently because nothing logged here. Retry the conversion in a short-lived child
-// process (spawn cost is fine: PNGs sit behind a 1h edge cache), and only if that also
-// fails serve the SVG so link unfurlers at least get something.
+// sharp's SVG loader poisons in a long-lived process: the same buffer converts fine
+// in a fresh one, so the child-process retry is the recovery, not a fallback.
 async function pngResponse(svg: string): Promise<Response> {
   try {
     const png = await svgToPng(svg);

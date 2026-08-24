@@ -45,9 +45,8 @@ export function UserDropdown(props: UserDropdownProps) {
       !!s.subscription && s.subscription.status === "active",
   );
 
-  // Base UI's Menu.Trigger adds interactive attrs to the trigger button on the client
-  // only, so hydration must compare the plain child against itself, never against the
-  // decorated trigger or against a null (auth not yet in the client cache).
+  // Must be the plain child, never null or the decorated trigger: Base UI's Menu.Trigger
+  // adds client-only attrs, so anything else mismatches hydration.
   if (!mounted) return props.children;
 
   if (!userDisplay.user) return null;

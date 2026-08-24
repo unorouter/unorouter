@@ -35,8 +35,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
   const hydrated = useHydrated();
   const navRowRef = useRef<HTMLDivElement>(null);
 
-  // Gate on hydrated: the first client render must match the server-rendered
-  // logged-out shell or React regenerates the whole tree.
+  // Gate on hydrated or the first client render mismatches the logged-out shell.
   const navItems = navigation(hydrated && !!authQuery.data).filter(
     (item) => !item.hidden,
   );

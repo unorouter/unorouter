@@ -141,9 +141,8 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
-// Many upstreams (qwen, mistral-nemo derivatives, several openai-compatible
-// resellers) reject a system message outside the leading run, and xAI's
-// Responses API rejects system inside `messages` outright.
+// qwen and mistral-nemo derivatives reject a system message outside the leading
+// run; xAI's Responses API rejects system inside `messages` outright.
 export function demoteLateSystem(messages: StreamMessages): StreamMessages {
   let seenNonSystem = false;
   return messages.map((m) => {
@@ -156,8 +155,6 @@ export function demoteLateSystem(messages: StreamMessages): StreamMessages {
   });
 }
 
-// The whole turn goes, not just the error part: the partial text beside it is a
-// truncated reply the model would otherwise read as canon.
 export function dropFailedAssistantTurns(
   messages: StreamMessages,
 ): StreamMessages {
@@ -258,9 +255,8 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   return out;
 }
 
-// Anthropic validates every text BLOCK, not just the message ("text content
-// blocks must contain non-whitespace text"), so a message mixing an empty part
-// with a real one is rejected wholesale.
+// Anthropic validates every text BLOCK, not just the message: "text content
+// blocks must contain non-whitespace text".
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   const out: StreamMessages = [];
   for (const m of messages) {
@@ -358,9 +354,8 @@ export function collectHistory(
       continue;
     }
     const text = textOf(m.parts);
-    // StreamMessages is Omit<UIMessage,"id">, so there is no id to key `times`
-    // by: every `time` is undefined and the {{message_time}} macros in macros.ts
-    // always fall back to OLD_VERSION_TIME. The fix is plumbing real ids through.
+    // No id on StreamMessages to key `times` by, so {{message_time}} always
+    // falls back to OLD_VERSION_TIME.
     if (text) out.push({ role: m.role, text, time: undefined });
   }
   return out;
@@ -390,13 +385,13 @@ export function estimateTokens(text: string | undefined): number {
 }
 
 export function messageTokens(m: StreamMessages[number]): number {
-  let n = 4; // per-message role/format overhead
+  let n = 4;
   if (!Array.isArray(m.parts)) return n;
   for (const part of m.parts) {
     if (part.type === "text" && typeof part.text === "string") {
       n += countTokens(part.text);
     } else {
-      n += 256; // flat estimate for an image/file/other part
+      n += 256;
     }
   }
   return n;

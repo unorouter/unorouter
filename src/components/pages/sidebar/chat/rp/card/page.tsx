@@ -32,9 +32,6 @@ import {
 } from "../shared/rp-list-parts";
 import { CardForm } from "./form";
 
-// What is IN the bundle, which is the thing that tells two cards apart. Names
-// rather than counts where they fit: "Alice, Bob" identifies a card, "2
-// characters" does not.
 function useCardSummary() {
   const t = useTranslations();
   return (card: {

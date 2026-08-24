@@ -34,12 +34,8 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     "/by-request",
     async ({ query }) => {
       const empty = Value.Create(byRequestResponse);
-      // Admin-scoped on purpose: new-api writes the consume log under the user
-      // id that carried the relay, which is NOT always the caller (best-key
-      // fallthrough, guest key, shared provider tokens). getUserLogs ANDs
-      // logs.user_id = caller, so those rows are invisible to it and the cost
-      // enrichment never lands. Request ids are unguessable and the row holds
-      // only quota/tokens/channel for one request.
+      // Admin-scoped on purpose; keep the response reduced to this one request's
+      // quota/tokens/channel, since the caller may not own the row.
       const res = await getAllLogs(
         { request_id: query.request_id, page_size: 1 },
         { headers: ADMIN_HEADERS },

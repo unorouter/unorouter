@@ -23,17 +23,14 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
-// Never SW-intercept these: a cached stale worker/wasm pair desyncs from the app bundle
-// and breaks OPFS opens.
 const isOpfsAsset = (url: URL, destination: RequestDestination): boolean =>
   destination === "worker" ||
   destination === "sharedworker" ||
   url.pathname.endsWith(".wasm") ||
   url.pathname.includes("sqlocal");
 
-// The turbopack manifest lists Next static assets build-relative, so `.next/static/...`
-// resolves against the worker scope to `/sw-worker/.next/static/...` and 404s
-// (bad-precaching-response). The CacheFirst rule below covers them at runtime.
+// The turbopack manifest lists Next static assets build-relative, so they
+// resolve against the worker scope and 404 (bad-precaching-response).
 const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
   const url = typeof entry === "string" ? entry : entry.url;
   return !url.includes("next/static/");
@@ -41,9 +38,6 @@ const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
 
 const OFFLINE_URL = "/en/offline";
 
-// `handlerDidError` fires only when a fetch REJECTS, and a HUNG fetch never rejects, so
-// without this race a stalled radio dies as "no-response" with no fallback. Resolves ONLY
-// to the precached offline page, never to `pages` (see CLAUDE.md for why not a timeout).
 const NAV_HANG_MS = 10_000;
 
 const navStrategy = new NetworkFirst({ cacheName: "pages" });
@@ -122,8 +116,7 @@ const serwist = new Serwist({
     entries: [
       {
         url: OFFLINE_URL,
-        // A top-level navigation that FAILS reports destination "" (not "document"), so a
-        // destination-only matcher misses it and Serwist rejects with "no-response".
+        // A FAILING top-level navigation reports destination "", not "document".
         matcher: ({ request }) =>
           request.destination === "document" || request.mode === "navigate",
       },
@@ -131,9 +124,6 @@ const serwist = new Serwist({
   },
 });
 
-// Everything a deploy can invalidate. `next-static` belongs here: keeping content-hashed
-// chunks across deploys produced ChunkLoadError on stale clients. Fonts and images are
-// content-addressed and safe to keep.
 const BUILD_SCOPED_CACHES = [
   "pages",
   "pages-rsc",
@@ -194,8 +184,8 @@ function pushPayload(raw: unknown): PushPayload {
   };
 }
 
-// A push MUST always end in a visible notification: Chrome shows a generic "site updated in
-// background" and Safari revokes the subscription after a few silent pushes.
+// A push MUST always end in a visible notification: Safari revokes the
+// subscription after a few silent ones.
 self.addEventListener("push", (event) => {
   let payload: PushPayload = {};
   try {

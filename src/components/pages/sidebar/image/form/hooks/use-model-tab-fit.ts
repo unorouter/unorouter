@@ -17,11 +17,6 @@ type Args = {
   draftRestoredTab: string | null;
 };
 
-/**
- * Keeps the selected model legal: guests only run free models, and a model outside the
- * active tab swaps for one inside it. An UNKNOWN model is never swapped, being either a
- * hand-resolved passthrough checkpoint or a not-yet-loaded catalog entry.
- */
 export function useModelTabFit(args: Args) {
   const form = args.form;
   const effectiveModels = args.effectiveModels;
@@ -39,7 +34,6 @@ export function useModelTabFit(args: Args) {
 
   useEffect(() => {
     if (effectiveModels.length === 0) return;
-    // Must not fire before the draft restore (see useDraftPersistence).
     if (args.draftRestoredTab === null && !args.remixId) return;
     const current = form.getValues("model") ?? "";
     const desc = effectiveModels.find((m) => m.model_name === current);

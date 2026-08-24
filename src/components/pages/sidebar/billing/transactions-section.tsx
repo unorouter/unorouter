@@ -21,12 +21,8 @@ import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-// Providers whose hosted portal can mint an invoice on demand. Crypto, balance
-// and manual grants have no portal, so those rows fall back to the trade number.
 const PORTAL_PROVIDERS = ["stripe", "creem"];
 
-// Only a settled payment has an invoice behind it; abandoned checkouts sit at
-// pending forever and failed/expired ones were never charged.
 const PAID_STATUSES = ["success", "paid"];
 
 type TransactionRow = {
@@ -47,7 +43,6 @@ function statusVariant(status: string) {
   return "destructive";
 }
 
-// next-intl needs literal keys, so the runtime status maps to a fixed key here.
 const STATUS_KEYS = {
   pending: "BILLING.TRANSACTIONS.STATUS_PENDING",
   success: "BILLING.TRANSACTIONS.STATUS_SUCCESS",

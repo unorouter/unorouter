@@ -11,8 +11,6 @@ import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
-// The four legal pages differ only in their slug: the metadata, breadcrumb and
-// article schema all derive from it.
 type LegalSlug = "aup" | "privacy" | "refund" | "terms";
 
 const nsOf = (slug: LegalSlug) => slug.toUpperCase();

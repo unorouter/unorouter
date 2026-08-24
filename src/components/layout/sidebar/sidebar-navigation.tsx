@@ -163,8 +163,6 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const aui = useAui();
 
-  // On /chat the Chat entry starts a new thread rather than navigating to the
-  // route the reader is already on.
   const newThread = () => aui.threads().switchToNewThread();
 
   if (props.authenticated) {

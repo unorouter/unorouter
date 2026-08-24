@@ -92,7 +92,6 @@ export async function assemblePrompt(
   const memorySettings = {
     memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
     utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
-    // The preset's lane only applies to the model the preset pinned.
     utilityGroup: convSettings?.utilityModel
       ? null
       : presetDefaults?.utilityGroup,
@@ -186,8 +185,6 @@ export async function assemblePrompt(
     chatMemory: assembled.chatMemory ?? null,
     afterCount: countSliced.length,
     afterBudget: slicedMessages.length,
-    // Split per stage: a summary rollup and a budget slice are indistinguishable
-    // from the counts above, and both read as "it forgot things" in a report.
     droppedBySummary: messages.length - unsummarized.length,
     droppedByChatMemory: unsummarized.length - countSliced.length,
     droppedByBudget: countSliced.length - slicedMessages.length,
@@ -317,9 +314,7 @@ function clampOutputTokens(
   );
 }
 
-// JanitorAI-compat scripts may rewrite ONLY the primary character's personality,
-// scenario and example_dialogs, for this turn only: the override rides a cloned
-// context so the stored conversation is never mutated.
+// Returns a CLONED context: user scripts must never mutate the stored conversation.
 async function applyJanitorScripts(
   convCtx: LoadedConvContext,
   messages: StreamMessages,
@@ -370,8 +365,6 @@ async function applyJanitorScripts(
       last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
       user_name: convCtx.persona?.name ?? "",
       conversation_id: body.convId ?? "",
-      // StreamMessages is Omit<UIMessage,"id">, so there is no id to key
-      // body.messageTimes by until real ids are plumbed through.
       message_created_at: null,
     },
   });

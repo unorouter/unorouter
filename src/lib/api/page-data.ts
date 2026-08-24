@@ -40,7 +40,6 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
-// rankings/perf are non-critical, so a failure there leaves the page renderable.
 async function seedCatalogClient() {
   const qc = new QueryClient();
   const [browse, rankings, perf] = await Promise.all([
@@ -84,9 +83,7 @@ export async function getComparePageData(slugs: readonly string[]) {
   return { dehydrated: dehydrate(seeded.qc), models, missing };
 }
 
-// A transient upstream /pricing 5xx otherwise rejected the whole models/compare
-// server render (~200 RSC errors/day). NOT cached, so a momentary failure cannot
-// stick; the client refetches live pricing.
+// Must NOT be cached, or a momentary upstream 5xx sticks (~200 RSC errors/day).
 export function emptyPageData() {
   return {
     dehydrated: dehydrate(new QueryClient()),
@@ -97,9 +94,6 @@ export function emptyPageData() {
   };
 }
 
-// Not in utils/server: that module is reachable from client bundles and this
-// reads the whole server-side pricing catalog. Returns plain data so the result
-// stays serializable to the client.
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const data = await getCatalog();
   const models = data.models.map((m) => ({

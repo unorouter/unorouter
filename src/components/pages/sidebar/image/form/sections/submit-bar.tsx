@@ -19,11 +19,6 @@ type Props = {
   isPending: boolean;
 };
 
-/**
- * Sticky submit area (the result mounting above pushes it below the fold mid-run).
- * Subscribes to the prompt/params it prices itself, so typing re-renders this bar and
- * not the whole form.
- */
 export function SubmitBar(props: Props) {
   const t = useTranslations();
   const nav = useImageNav();
@@ -61,7 +56,6 @@ export function SubmitBar(props: Props) {
     <div className="bg-background sticky bottom-0 z-10 flex flex-col gap-2 py-2">
       <Button
         type="submit"
-        // Inpainting has its own prompt; either one describes what to generate.
         disabled={props.isPending || !(prompt || inpaintPrompt)}
         size="lg"
       >
@@ -73,7 +67,6 @@ export function SubmitBar(props: Props) {
           ? t("IMAGE.SUBMITTING")
           : `${t("IMAGE.SUBMIT")} ${priceLabel}`}
       </Button>
-      {/* A disabled button with no stated reason reads as broken. */}
       {!props.isPending && !prompt && (
         <p className="text-muted-foreground text-xs">
           {t("IMAGE.SUBMIT_NEEDS_PROMPT")}

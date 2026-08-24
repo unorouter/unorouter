@@ -80,7 +80,6 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const table = useTable<TableFeats, TData>({
-    // v9 registers row models as slots on `features`, next to the feature objects.
     features: {
       ...tableFeatures,
       coreRowModel: createCoreRowModel(),
@@ -119,8 +118,6 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
   });
 
   const rows = table.getRowModel().rows;
-  // The window virtualizer renders no rows until it can measure, so SSR HTML would hold an
-  // empty tbody and the table would paint only after hydration (late LCP on /models).
   /* eslint-disable react-hooks/set-state-in-effect -- mount latch, see above */
   const [virtualReady, setVirtualReady] = useState(false);
   useEffect(() => {

@@ -5,9 +5,7 @@ import { upstreamApiUrl } from "@/server/constants";
 import sharp from "sharp";
 
 // The request's width/height are not authoritative: the gateway clamps to 1MP
-// and hosted models pick their own size. The client persists these on the media
-// row so renders reserve the exact box instead of growing from zero height when
-// the bitmap decodes (the mid-stream scroll snap).
+// and hosted models pick their own size.
 export async function probeImageSize(
   buffer: Buffer,
 ): Promise<{ width: number | null; height: number | null }> {
@@ -19,8 +17,8 @@ export async function probeImageSize(
   }
 }
 
-// JSON bodies pass VERBATIM: the image client extracts .error.message from them,
-// and any prefix leaves the string neither plain text nor parseable JSON.
+// JSON bodies pass VERBATIM: the client parses .error.message, and any prefix
+// leaves the string neither plain text nor parseable JSON.
 function formatUpstreamError(status: number, body: string): string {
   const trimmed = body.trim();
   if (trimmed.startsWith("{") || trimmed.startsWith("[")) return trimmed;
@@ -38,8 +36,6 @@ export class UpstreamImageError extends Error {
 
 export type UpstreamSize = { width: number; height: number };
 
-// A hires pass re-diffuses rather than resampling: the multiplier becomes the
-// requested size and the source rides along as init image.
 export function sizeOf(
   params: ImageSubmitBody["params"],
 ): UpstreamSize | undefined {
@@ -62,8 +58,6 @@ export type UpstreamImageResponse = {
   requestId: string | null;
 };
 
-// The parse is guarded because an edge 5xx serves HTML, which must surface as an
-// upstream error rather than a raw SyntaxError.
 export async function postImageRequest(
   built: Built,
   apiKey: string,
@@ -88,7 +82,6 @@ export async function postImageRequest(
     throw new UpstreamImageError(res.status, text.slice(0, 300));
   }
   return {
-    // The real charge is only knowable from the gateway's log row, keyed by this id.
     requestId: res.headers.get("x-oneapi-request-id"),
     payload,
   };
@@ -121,7 +114,6 @@ export function collectImages(
   );
 }
 
-// Hosted image APIs take a native n; everything else is one call per image.
 export function batchPlan(endpointSupportsBatch: boolean, count: number) {
   return {
     calls: endpointSupportsBatch ? 1 : count,

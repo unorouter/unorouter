@@ -6,8 +6,8 @@ export type ChatDebugEntry = {
 
 const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
-// setItem is synchronous and scales with SERIALIZED size: a full 2000-entry buffer
-// (~400KB) parks the main thread for seconds per write. Memory keeps full history.
+// setItem is synchronous and scales with SERIALIZED size: a full 2000-entry
+// buffer (~400KB) parks the main thread for seconds per write.
 const MAX_PERSISTED_ENTRIES = 200;
 const SAVE_DEBOUNCE_MS = 1000;
 const STORAGE_KEY = "unorouter-chat-debug-log";
@@ -16,8 +16,8 @@ let buffer: ChatDebugEntry[] | null = null;
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 let persistDisabled = false;
 
-// Lazy, NOT at module init: load() is a blocking getItem + JSON.parse and the chat
-// runtime imports this module on every page load.
+// Lazy, NOT at module init: load() is a blocking getItem + JSON.parse and the
+// chat runtime imports this module on every page load.
 function getBuffer(): ChatDebugEntry[] {
   if (buffer === null) buffer = load();
   return buffer;
@@ -48,8 +48,7 @@ function save(): void {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tail));
     } catch {
-      // Over quota or blocked: latch off, a sync write per second can never land.
-      // The in-memory buffer still serves this session's export.
+      // Over quota or blocked: latch off, a sync write per second cannot land.
       persistDisabled = true;
       try {
         localStorage.removeItem(STORAGE_KEY);
@@ -108,10 +107,8 @@ export type FailedRequestCapture = {
   message?: string;
 };
 
-// NEVER put message text in a capture: users paste the export into public channels
-// and the assembled prompt is their persona, cards, lorebook and recent turns. A
-// rejected-body bug needs the SHAPE of the bytes, which is countable without
-// reproducing a word. This list is fixed, so only known markers can ever appear.
+// NEVER put message text in a capture: users paste the export into public
+// channels. This list is fixed, so only known markers can ever appear.
 const TAG_PATTERNS = [
   "{{user}}",
   "{{char}}",
@@ -163,14 +160,11 @@ export function fingerprintText(text: string): TextFingerprint {
   };
 }
 
-// Its own key rather than a debug-log entry: the log's 200-entry tail evicts a
-// capture within an hour of ordinary chatting, and failures get reported after the
-// fact, often after a reload.
 const MAX_FAILED_CAPTURES = 3;
 const FAILED_STORAGE_KEY = "unorouter-failed-requests";
 
-// In memory ONLY: it is written on every send and most sends succeed, so persisting
-// it would be a localStorage write per turn for data discarded moments later.
+// In memory ONLY: written on every send, so persisting it would be a
+// localStorage write per turn.
 let pending: FailedRequestCapture | null = null;
 let failed: FailedRequestCapture[] | null = null;
 let failedSaveTimer: ReturnType<typeof setTimeout> | null = null;
@@ -241,9 +235,8 @@ export type CaughtErrorEntry = {
   componentStack: string;
   url: string;
   count: number;
-  // The exception to the no-text rule: a render crash needs the exact input that
-  // defeated the parser plus the loadout that built it. ONE message, never a
-  // transcript, and kept on the NEWEST crash only.
+  // The exception to the no-text rule: ONE message, never a transcript, and
+  // kept on the NEWEST crash only.
   detail?: string;
   loadout?: CrashLoadout;
 };
@@ -259,9 +252,6 @@ export type CrashLoadout = {
   plugins: { name: string; kind: string; enabled: boolean; hooks: string[] }[];
 };
 
-// Persisted in FULL, unlike the debug log's 200-entry tail, since a chatty session
-// would evict the crash the export exists to explain. Repeats collapse onto one
-// entry so a boundary rethrowing every re-render cannot flush the older ones out.
 const MAX_CAUGHT_ERRORS = 25;
 const ERRORS_STORAGE_KEY = "unorouter-caught-errors";
 
@@ -347,8 +337,6 @@ export function getCaughtErrors(): CaughtErrorEntry[] {
   return getCaught().slice();
 }
 
-// componentDidCatch is synchronous but the loadout needs the local DB, so it lands
-// a moment later onto the entry that was just written.
 export function attachCrashLoadout(loadout: CrashLoadout): void {
   const entries = getCaught();
   const last = entries[entries.length - 1];

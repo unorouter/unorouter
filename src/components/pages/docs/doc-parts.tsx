@@ -70,8 +70,6 @@ export function DocPageLink(props: {
   );
 }
 
-// DocPageLink only routes inside /docs/platform/[slug]; this is for linking out to an
-// app route, whose localized pathname comes from i18n/routing.
 export function DocAppLink(props: {
   href: React.ComponentProps<typeof Link>["href"];
   children: React.ReactNode;

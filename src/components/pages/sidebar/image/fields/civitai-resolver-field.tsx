@@ -10,16 +10,10 @@ import type { CustomCheckpoint } from "../form/sections/model-picker";
 type Props = {
   value: CustomCheckpoint | null;
   onChange: (next: CustomCheckpoint | null) => void;
-  /** Persisted across remounts by the form; submitting navigates to the result and rebuilds this field. */
   query: string;
   onQueryChange: (next: string) => void;
 };
 
-/**
- * Paste a reference, check it, then pick a version. Checking first is what makes an
- * arbitrary checkpoint safe to offer (Civitai-sourced ids often do not load), and one
- * Civitai model is a family of versions that generate differently, so the user picks.
- */
 export function CivitaiResolverField(props: Props) {
   const t = useTranslations();
   const query = props.query;
@@ -33,7 +27,6 @@ export function CivitaiResolverField(props: Props) {
     const result = await lookup.mutateAsync(query.trim());
     const items = result?.items ?? [];
     setVersions(items);
-    // The version named in the reference leads, so a URL needs no second click.
     if (items[0]) props.onChange(items[0]);
   }
 
@@ -96,7 +89,6 @@ export function CivitaiResolverField(props: Props) {
         </div>
       )}
 
-      {/* A restored draft carries the checkpoint without its version list; show it. */}
       {!versions && props.value && (
         <div className="border-primary bg-primary/10 text-primary flex items-center gap-2 rounded-md border px-2 py-1.5 text-xs">
           <span className="min-w-0 flex-1 truncate">{props.value.name}</span>

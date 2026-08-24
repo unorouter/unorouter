@@ -42,13 +42,12 @@ const PRESET_HF_SOURCE: Partial<Record<TokenizerPreset, string>> = {
 
 const APPROXIMATE: Encoder = (text) => Math.ceil(text.length / 4);
 
-const instanceCache = new Map<string, Encoder>(); // keyed by resolved source
+const instanceCache = new Map<string, Encoder>();
 const inflight = new Map<string, Promise<Encoder>>();
-const degraded = new Set<string>(); // sources whose load failed into APPROXIMATE
+const degraded = new Set<string>();
 
-// cl100k is lazy too: gpt-tokenizer embeds ~2MB of BPE rank data, and a static
-// import put it in the chat entry chunk (983KB brotli). Counts are approximate
-// until the preload in prepareChatRequest resolves.
+// Keep cl100k lazy: gpt-tokenizer embeds ~2MB of BPE ranks and a static import
+// lands it in the chat entry chunk (983KB brotli).
 let active: Encoder = APPROXIMATE;
 let activeId = "approximate";
 
@@ -212,7 +211,6 @@ export async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
   const job = target
     .load()
     .catch(() => {
-      // Tracked so a debug export cannot name a tokenizer that never ran.
       degraded.add(target.source);
       return APPROXIMATE;
     })
@@ -231,14 +229,11 @@ export async function setActiveTokenizer(ref: TokenizerRef): Promise<void> {
   activeId = resolveSource(ref).source;
 }
 
-/** What is actually counting, which is not always what was asked for. */
 export function activeTokenizerState(): {
   source: string;
   exact: boolean;
   used: boolean;
 } {
-  // activeId leaves its default only once a request resolved one, so a report
-  // taken on a fresh page describes nothing that ran.
   const used = activeId !== "approximate";
   return { source: activeId, exact: used && !degraded.has(activeId), used };
 }

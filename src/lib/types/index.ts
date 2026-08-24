@@ -182,8 +182,6 @@ export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;
 export type StorePkValue = string | number;
 
-// React's CSSProperties has no index signature for custom properties, so a
-// `--foo` key is otherwise only expressible by asserting the key away.
 export type CssVars = CSSProperties & Record<`--${string}`, string | number>;
 
 export type SearchResult = {
@@ -193,9 +191,8 @@ export type SearchResult = {
   category: string;
 };
 
-// env.ts imports this module, so it must stay free of runtime imports: adding
-// utils/base makes constants -> env -> types -> base a cycle that dies at load
-// with "Cannot access 'env' before initialization".
+// env.ts imports this module: a runtime import here makes constants -> env ->
+// types -> base a cycle that dies at load, and tsc does not catch it.
 export function isSearchDoc(doc: unknown): doc is SearchResult {
   if (!doc || typeof doc !== "object" || Array.isArray(doc)) return false;
   return (
@@ -262,8 +259,6 @@ export type DocSlug = keyof typeof pathnames extends infer K
 
 type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 
-// Derived from the message tree, so adding FAQ copy to a post is all it takes
-// for the FAQPage schema to typecheck for it.
 export type FaqI18nKey = {
   [K in TranslationKey]: K extends `${infer P}.FAQ_1_Q` ? P : never;
 }[TranslationKey];

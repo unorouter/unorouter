@@ -78,11 +78,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   await validateColumns(sql, migrations);
 }
 
-// A partial/aborted migration (or an OPFS write that never landed the CREATE)
-// can leave the file missing a whole table, and every query against it dies
-// with "no such table". Recreating from the manifest DDL loses no data (the
-// table had none). Runs BEFORE validateColumns, which skips absent tables, so
-// the recreated table still gets column-checked.
+// Must run BEFORE validateColumns, which skips absent tables.
 async function ensureTables(
   sql: SQLocalDrizzle,
   migrations: MigrationManifest["migrations"],
@@ -97,8 +93,6 @@ async function ensureTables(
     if (existing.has(table)) continue;
     try {
       await sql.sql(buildCreate(ddl));
-      // One index that cannot be created must not cost the table the rest,
-      // several of which carry UNIQUE constraints other code relies on.
       for (const index of ddl.indexes) {
         try {
           await sql.sql(index);
@@ -127,7 +121,7 @@ async function migrateCursorTable(sql: SQLocalDrizzle): Promise<void> {
     `SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('local_meta', 'local_migrations')`,
   );
   const names = new Set(existing.map((r) => r.name));
-  if (!names.has("local_meta")) return; // fresh or already migrated
+  if (!names.has("local_meta")) return;
 
   if (names.has("local_migrations")) {
     await sql.sql(`DROP TABLE \`local_meta\``);
@@ -318,7 +312,7 @@ async function validateColumns(
   const existing = new Set(tableRows.map((r) => r.name));
 
   for (const [table, ddl] of expected) {
-    if (!existing.has(table)) continue; // absent tables are a separate (create) concern
+    if (!existing.has(table)) continue;
     const actual = await sql.sql<{ name: string }>(
       `PRAGMA table_info(\`${table}\`)`,
     );
@@ -408,8 +402,8 @@ async function forceRebuildWithDefaults(
     for (const def of ddl.colDefs) {
       const col = colName(def);
       if (!col) continue;
-      // A synthesized constant cannot satisfy a key: every row gets the same
-      // value and INSERT OR IGNORE then keeps exactly one of them.
+      // A synthesized constant cannot satisfy a key: every row gets the same value
+      // and INSERT OR IGNORE then keeps exactly one of them.
       if (!have.has(col) && /\b(PRIMARY KEY|UNIQUE)\b/i.test(def))
         return abort(`cannot synthesize key column ${col}`);
       targets.push(`\`${col}\``);
@@ -450,7 +444,6 @@ function isIdempotentMigrationError(err: unknown): boolean {
     /already exists/i.test(msg) ||
     /duplicate column name/i.test(msg) ||
     /index .* already exists/i.test(msg) ||
-    // replayed DROP after a partially applied migration (no transaction wrapper)
     /no such (index|column|table)/i.test(msg)
   );
 }

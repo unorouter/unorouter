@@ -23,8 +23,7 @@ export async function toSubmitBody(
 
   const params: ImageParams = { ...(values.params ?? {}), n: variants };
 
-  // A blob: URL means nothing outside this document; resolve to bytes before it leaves
-  // the browser or the provider gets a dead reference.
+  // A blob: URL means nothing outside this document; resolve to bytes before it leaves.
   if (params.initImageUrl?.startsWith("blob:")) {
     params.initImageUrl = await blobUrlToDataUri(params.initImageUrl);
   }
@@ -33,7 +32,6 @@ export async function toSubmitBody(
   const hasInitImage = !!params.initImageUrl;
   if (!hasInitImage) delete params.maskUrl;
 
-  // Every inpaint field is an override; empty reuses what the form holds.
   const inpaintActive = inpainting && !!ui.inpaintMaskDataUrl && hasInitImage;
   if (inpaintActive) {
     params.maskUrl = ui.inpaintMaskDataUrl;
@@ -42,9 +40,7 @@ export async function toSubmitBody(
     }
   }
 
-  // The inpaint checkpoint override applies to this request only. It must also switch to
-  // the passthrough model id: the AIR is what the provider loads, the catalog id is what
-  // routes there.
+  // The AIR is what the provider loads; the passthrough catalog id is what routes there.
   const inpaintingWithModel = inpainting && hasInitImage && !!ui.inpaintAir;
   const extraParams: SubmitExtraParams | undefined = inpaintingWithModel
     ? { air: ui.inpaintAir, airName: ui.inpaintAirName }

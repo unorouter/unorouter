@@ -91,16 +91,13 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  // Build date, not the clock: a scheduled post must not appear mid-session.
+  // Build date, not the clock: the clock publishes a scheduled post mid-session.
   const today = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
   return [...POSTS]
     .filter((p) => p.date <= today)
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-// Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema), flag driven
-// because t.raw is unsupported. A const tuple rather than Set<string> so
-// `${GeoI18nKey}.FAQ_1_Q` resolves to keys that exist and needs no cast.
 export const GEO_SLUGS = [
   "unorouter-vs-openrouter",
   "best-openrouter-alternatives-2026",
@@ -127,8 +124,6 @@ export function methodI18nKey(post: BlogPost): MethodI18nKey | null {
   return post.i18nKey as MethodI18nKey;
 }
 
-// Comparison posts whose competitor facts were verified against the rival's actual source
-// code, which is what the rendered METHOD leaf claims.
 export const METHOD_POSTS = new Set<string>([
   "unorouter-vs-risuai",
   "unorouter-vs-sillytavern",

@@ -35,10 +35,8 @@ export function UpscalerField(props: Props) {
     value: number,
   ) => form.setValue(name, value, { shouldDirty: true });
 
-  // The multiplier IS the feature: above 1 = enabled, no separate flag. The server reads
-  // scale <= 1 as no upscale.
+  // The server reads scale <= 1 as no upscale; there is no separate enable flag.
   const enabled = (multiplierValue ?? 1) > 1;
-  // Opens itself when a multiplier is set, so a restored snapshot shows what is in effect.
   const [open, setOpen] = useState(enabled);
 
   const multiplier = multiplierValue ?? DEFAULT_MULTIPLIER;
@@ -50,7 +48,6 @@ export function UpscalerField(props: Props) {
     <div className="rounded-md border">
       <button
         type="button"
-        // Tapping the header while off means "I want this": switch on and expand.
         onClick={() => {
           if (enabled) {
             setOpen((o) => !o);
@@ -67,7 +64,6 @@ export function UpscalerField(props: Props) {
         />
         {t("IMAGE.UPSCALE_SECTION")}
         <span className="ml-auto flex items-center gap-2">
-          {/* Show the multiplier on the closed header: it multiplies the cost. */}
           {enabled && (
             <span className="text-primary text-xs tabular-nums">
               {multiplier}x
@@ -105,7 +101,6 @@ export function UpscalerField(props: Props) {
                     activeMul === m.id
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border text-muted-foreground",
-                    // "Custom" lights up on its own when no preset matches; inert by markup.
                     m.value === null
                       ? "pointer-events-none"
                       : "hover:bg-accent hover:text-accent-foreground",
@@ -116,8 +111,6 @@ export function UpscalerField(props: Props) {
               ))}
             </div>
           </div>
-          {/* No upscaler-model picker: a hires pass IS a re-render at the target size,
-              and the backend has no upscaler category. */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <LabeledSlider
               label={t("IMAGE.UPSCALER_HIRES_STEPS")}

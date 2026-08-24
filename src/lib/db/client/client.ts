@@ -33,13 +33,10 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
 let cached: Promise<LocalClient> | null = null;
 
-// pagehide is the last point that runs on a same-tab navigation, and unlike
-// unload it fires on the iOS bfcache path. Without this the incoming page finds
-// the pool still held and fails TAB_LOCK.
+// Without this the incoming page finds the pool still held and fails TAB_LOCK.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", (e) => {
-    // bfcache: the page can come back, and the next getLocalDb would be served
-    // a destroyed client.
+    // bfcache: the page can come back to a destroyed client.
     if (e.persisted) return;
     const pending = cached;
     cached = null;
@@ -70,11 +67,9 @@ export const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
 
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
-  // Retrying an orphan re-opens the same empty replacement and reports success,
+  // Retrying an orphan reopens the same empty replacement and reports success,
   // hiding the user's data.
   if (s.includes(ORPHAN_MARKER)) return false;
-  // The lock is held for the owning tab's lifetime, and every attempt is
-  // another chance to tear a header.
   if (s.includes(TAB_LOCK_MARKER)) return false;
   return (
     s.includes("GetSyncHandleError") ||
@@ -87,8 +82,6 @@ function isRecoverable(err: unknown): boolean {
     s.includes("SQLITE_NOTADB") ||
     s.includes("file is not a database") ||
     s.includes("client has been destroyed") ||
-    // opfs-sahpool contention/exhaustion shapes: another tab's pool holds the
-    // sync access handles, or the pool ran out of file slots.
     s.includes("NoModificationAllowedError") ||
     s.includes("NotAllowedError") ||
     s.includes("OpfsSAHPool") ||
@@ -112,12 +105,10 @@ async function awaitOwnership(
   return false;
 }
 
-// Covers a FROZEN owner; a dead one releases its Web Lock and resolves early.
 const HANDOVER_TIMEOUT = 15_000;
 // BroadcastChannel does not queue for handlers registered later, so a single
 // `want` is lost when the owner has not finished its own open yet.
 const WANT_RETRY_MS = 2_000;
-// Two active tabs trade in batches instead of ping-ponging per statement.
 const MIN_HOLD_MS = 2_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
@@ -125,11 +116,9 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   for (let attempt = 0; ; attempt++) {
     try {
       // The sahpool worker silently falls back to in-memory when the pool
-      // install fails, which would persist nothing.
+      // install fails, which persists nothing.
       const info = await sql.getDatabaseInfo();
       if (info.storageType !== "opfs") {
-        // Several causes need opposite advice (another tab, OPFS blocked,
-        // quota) and were indistinguishable in a bug report.
         const diagnosis = await diagnoseSql(sql).catch(() => undefined);
         logChatDebug("db.open.in_memory", {
           attempt,
@@ -150,7 +139,7 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
           error: String(err).slice(0, 200),
         });
         // destroy() closes the database but the pool keeps its handles, so
-        // giving up without this locks the file against this very page.
+        // giving up without the pause locks the file against this very page.
         await pauseSql(sql).catch(() => {});
         await sql.destroy().catch(() => {});
         terminateSql(sql);
@@ -216,8 +205,6 @@ async function assertNotSilentlyEmptied(
   );
 }
 
-// One-time migration off the pre-sahpool driver, which stored the database as a
-// plain sqlite file at the OPFS root.
 async function migrateLegacySqliteFile(
   sql: SQLocalDrizzle,
   dbPath: string,
@@ -265,9 +252,8 @@ async function migrateLegacySqliteFile(
     logChatDebug("db.migrate.sahpool.backup_failed", {
       error: String(err).slice(0, 200),
     });
-    // No rollback copy, but the legacy file must STILL go: the next open would
-    // re-import it wholesale and discard everything written since. The import
-    // above already passed integrity_check, so the data is in the pool.
+    // The legacy file must STILL go: the next open would re-import it wholesale
+    // and discard everything written since.
     await root.removeEntry(dbPath).catch(() => {});
   }
   logChatDebug("db.migrate.sahpool.done", { bytes: file.size });
@@ -275,8 +261,6 @@ async function migrateLegacySqliteFile(
 
 async function openClient(): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
-  // Not keyed by user: the id resolves after mount, so a per-user path opened
-  // the empty guest file on first render and signing in stranded its writes.
   const dbPath = singleDbPath();
   // Take the Web Lock BEFORE any pool access: a second tab's failed install can
   // tear a pool header, after which the FIRST tab opens empty and looks wiped.
@@ -290,9 +274,8 @@ async function openClient(): Promise<LocalClient> {
       );
     }
   }
-  // Under the lock so two tabs cannot both adopt, and before any pool for the
-  // new path exists. Swallowing a failure here would open an empty database
-  // while the user's history sat in the old per-user pool.
+  // Never swallow: a failure here opens an empty database while the user's
+  // history sits in the old per-user pool.
   try {
     await adoptSingleDatabase(dbPath);
   } catch (err) {
@@ -328,7 +311,6 @@ async function openClient(): Promise<LocalClient> {
     releaseLock(lockKey);
     throw err;
   }
-  // Fire-and-forget: pure cleanup, must never delay or fail the open.
   void import("@/lib/db/client/data/chat/request-log")
     .then((m) => m.trimRequestLogPayloads())
     .then((n) => {
@@ -338,9 +320,8 @@ async function openClient(): Promise<LocalClient> {
 
   let reopening: Promise<void> | null = null;
 
-  // `parked` means this tab gave the pool away: VFS paused, lock released, so
-  // every statement path below must reacquire first. Transitions are
-  // single-flight through `transition` so park and unpark never interleave.
+  // `parked` = pool given away (VFS paused, lock released), so every statement
+  // path below must reacquire first.
   let parked = false;
   let transition: Promise<void> | null = null;
   let lastAcquiredAt = Date.now();
@@ -370,7 +351,7 @@ async function openClient(): Promise<LocalClient> {
       await resumeSql(sql);
     } catch (err) {
       // acquireLockWaiting short-circuits on a held key, so staying parked with
-      // the lock would spin instantly on every retry and starve the asking tab.
+      // the lock starves the asking tab.
       releaseLock(lockKey);
       throw err;
     }

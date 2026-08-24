@@ -80,8 +80,6 @@ function PriceCell(props: {
   );
 }
 
-// Null means no probe or no traffic in the window, which is NOT 0%: showing a
-// dash keeps an unmeasured model from reading as a broken one.
 function RateCell(props: { value: number | null | undefined }) {
   if (props.value == null) {
     return <span className="text-muted-foreground">-</span>;
@@ -246,8 +244,6 @@ export function buildModelColumns(opts: {
     },
     {
       id: "uptime",
-      // Unmeasured sorts below a measured 0%: -1 rather than 0, since a model
-      // with no probe is not a model that failed every probe.
       accessorFn: (m) => m.uptime_24h ?? -1,
       enableSorting: true,
       header: ({ column }) => (
@@ -282,8 +278,6 @@ export function buildModelColumns(opts: {
     },
     {
       id: "latency",
-      // Lower is better, so unmeasured sorts LAST by going high rather than
-      // negative like the rate columns.
       accessorFn: (m) => m.avg_latency_ms ?? Number.MAX_SAFE_INTEGER,
       enableSorting: true,
       header: ({ column }) => (

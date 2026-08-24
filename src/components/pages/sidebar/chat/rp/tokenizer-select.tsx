@@ -28,8 +28,7 @@ export const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] =
     },
   ];
 
-// `hf:<slug>` is stored as one string, so the select shows a sentinel and the slug
-// gets its own input. Empty means "auto".
+// Stored as one string `hf:<slug>`; empty means "auto".
 export function TokenizerSelect(props: {
   value: string;
   onChange: (next: string) => void;

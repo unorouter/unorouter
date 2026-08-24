@@ -6,10 +6,7 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-// Creem's custom_price bounds, mirrored from the upstream handler so the input
-// rejects the same amounts the API would. NowPayments shares them. The buyer
-// covers the processing fee on top of the floor, so a 1 top-up bills more than
-// 1 while still crediting 1.
+// Mirrors Creem's custom_price bounds in the upstream handler; NowPayments shares them.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 // DeloPay takes whole dollars only (int64 upstream).

@@ -17,8 +17,6 @@ export function recArr(v: unknown): Record<string, unknown>[] {
   return Array.isArray(v) ? v.filter(isRecord) : [];
 }
 
-// Builds the `v is T` guard from the union's own constant, so the type and its
-// runtime check cannot drift apart.
 export function isOneOf<const T extends readonly unknown[]>(
   values: T,
 ): (v: unknown) => v is T[number] {
@@ -89,9 +87,7 @@ export function copyToClipboardAsync(
   getData: () => Promise<string>,
 ): Promise<void> {
   const blob = getData().then((t) => new Blob([t], { type: "text/plain" }));
-  // ClipboardItem consumes this promise, but a getData rejection is still
-  // reported as UNHANDLED even though the caller catches write(). Marking it
-  // handled here does not stop write() rejecting into the caller's catch.
+  // Without this a getData rejection reports as UNHANDLED even though write() is caught.
   blob.catch(() => {});
   return navigator.clipboard.write([new ClipboardItem({ "text/plain": blob })]);
 }

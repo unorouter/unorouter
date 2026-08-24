@@ -18,11 +18,8 @@ export function prefetchElysia<T extends ElysiaResult>(
   });
 }
 
-// Seeds the cache by hand rather than through prefetchQuery, which discards a
-// throwing queryFn: /self's 419 would vanish and leave no entry, which reads
-// the same as a guest who was never fetched. A failure must never land in the
-// cache as error state either, since dehydrate() would then try to serialize
-// the Eden response object and RSC rejects its Response/Headers prototypes.
+// Never route this through prefetchQuery: it discards a throwing queryFn, so a
+// 419 leaves no entry and reads as a guest who was never fetched.
 export async function prefetchAuth(qc: QueryClient) {
   const res = await rpc.api.auth.account.self.get(await setCookies());
   qc.setQueryData(queryKeys.auth(), res.status === 200 ? res.data : null);
@@ -31,8 +28,6 @@ export async function prefetchAuth(qc: QueryClient) {
   return expired;
 }
 
-// fetchQuery over prefetchQuery: the home page READS the counts it prefetches,
-// and prefetchQuery resolves to void.
 export function fetchElysia<T extends ElysiaResult>(
   qc: QueryClient,
   queryKey: QueryKey,

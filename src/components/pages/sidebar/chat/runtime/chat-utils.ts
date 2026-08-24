@@ -26,9 +26,7 @@ export function extractFirstUserText(
   );
 }
 
-// The OS decides file.type, and it leaves it empty for extensions it has no
-// entry for (.md and .log most often), which would send the attachment as an
-// unlabelled blob. The extension is the only signal left at that point.
+// The OS leaves file.type empty for extensions it has no entry for (.md, .log).
 const TEXT_EXTENSIONS: Record<string, string> = {
   txt: "text/plain",
   md: "text/markdown",
@@ -51,9 +49,7 @@ export function createLocalAttachmentAdapter(
   getContext: () => { convId: string | null },
 ): AttachmentAdapter {
   return {
-    // Extensions carry weight here as well as mime types: a dropped .md or .log
-    // arrives with an empty or invented type on some platforms, and matching on
-    // type alone rejects it before the inliner ever sees it.
+    // The bare extensions are load-bearing: type-only matching rejects .md and .log.
     accept:
       "image/png,image/jpeg,image/webp,image/gif,application/pdf," +
       "text/plain,text/markdown,text/csv,application/json,text/xml,application/xml," +

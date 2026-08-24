@@ -32,8 +32,7 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
-// Risu ships plugin metadata as `//@name` header comments; keep reading it so a
-// plugin file imported from there names itself.
+// Risu ships plugin metadata as `//@name` header comments.
 function parsePluginName(source: string, fallback: string): string {
   const match = /^\s*\/\/\s*@(?:display-)?name\s+(.+)$/m.exec(source);
   return match ? match[1].trim().slice(0, 200) : fallback;

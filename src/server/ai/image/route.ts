@@ -19,10 +19,6 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
 }
 
 export const imageRoute = new Elysia({ prefix: "/image" })
-  // Eden Treaty only parses error bodies served as JSON; Elysia's default
-  // text/plain error reaches the client as an unreadable stream, collapsing
-  // every toast to a generic message. The `never` casts keep this hook's
-  // Response out of Eden's inferred success types.
   .onError(({ error }): undefined => {
     const asJson = (status: number, body: string) =>
       new Response(body, {
@@ -78,8 +74,6 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
   )
-  // A Civitai model is a family of versions that generate differently, so a
-  // reference resolves to all of them rather than silently choosing one.
   .post(
     "/civitai-versions",
     async ({ body }) => ({

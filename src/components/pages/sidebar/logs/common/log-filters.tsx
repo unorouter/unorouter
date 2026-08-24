@@ -69,9 +69,7 @@ export function LogFilters(props: {
 }) {
   const t = useTranslations();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
-  // Group and token names identify other people's tenancy on a shared gateway,
-  // so they are maskable for screen sharing. Deliberately not persisted: the
-  // safe state is masked, and a remembered "visible" defeats the point.
+  // Never persist this: masked is the safe state.
   const [sensitiveVisible, setSensitiveVisible] = useState(false);
 
   const startOfDay = formatDateForInput(dayjs().startOf("day"));
@@ -86,10 +84,6 @@ export function LogFilters(props: {
   const group = props.filters.group ?? "";
   const subscriptionPlan = props.filters.subscription_plan ?? "";
 
-  // A filter counts as active only when the user moved it off the default (the
-  // date range defaults to today, so a range change counts; every other filter
-  // is only present in `filters` once set). Drives the Reset button's badge +
-  // primary styling, mirroring the models page.
   const dateChanged =
     (props.filters.start_date != null &&
       props.filters.start_date !== startOfDay) ||
