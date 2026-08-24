@@ -1,5 +1,4 @@
 import type { Pathname, pathnames } from "@/i18n/routing";
-import { isRecord } from "@/lib/utils/base";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type {
@@ -190,9 +189,17 @@ export type SearchResult = {
   category: string;
 };
 
+// env.ts imports this module, so it stays free of runtime imports: pulling in
+// utils/base here makes constants -> env -> types -> base a cycle that fails at
+// load with "Cannot access 'env' before initialization".
 export function isSearchDoc(doc: unknown): doc is SearchResult {
-  if (!isRecord(doc)) return false;
-  return typeof doc.title === "string" && typeof doc.url === "string";
+  if (!doc || typeof doc !== "object" || Array.isArray(doc)) return false;
+  return (
+    "title" in doc &&
+    typeof doc.title === "string" &&
+    "url" in doc &&
+    typeof doc.url === "string"
+  );
 }
 
 export type LocalAnyRow = Record<string, unknown> & { id: string };
