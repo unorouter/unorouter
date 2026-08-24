@@ -621,6 +621,8 @@ const HideReasoning: FC = () => null;
 const AssistantMessage: FC = () => {
   const [editing, setEditing] = useState(false);
   const showReasoning = useShowReasoning();
+  // Read here, handed to the boundary as a thunk it calls ONLY on a crash.
+  const messageContent = useAuiState((s) => s.message.content);
   return (
     <AssistantEditContext.Provider value={() => setEditing(true)}>
       <MessagePrimitive.Root
@@ -638,7 +640,18 @@ const AssistantMessage: FC = () => {
                   used to unmount the whole thread through the outer boundary,
                   so the conversation stayed blank on every later visit and the
                   user lost every other message with it. */}
-              <SectionBoundary source="chat.message_parts">
+              <SectionBoundary
+                source="chat.message_parts"
+                detail={() =>
+                  messageContent
+                    .map((p) =>
+                      p.type === "text" || p.type === "reasoning"
+                        ? `[${p.type}]\n${p.text}`
+                        : `[${p.type}]`,
+                    )
+                    .join("\n\n")
+                }
+              >
                 <MessagePrimitive.Parts
                   components={{
                     Text: MarkdownText,

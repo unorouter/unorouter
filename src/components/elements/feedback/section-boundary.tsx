@@ -3,7 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { analytics } from "@/lib/analytics";
-import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
+import {
+  attachCrashLoadout,
+  captureCaughtError,
+  logChatDebug,
+} from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
 import {
   Component,
@@ -45,6 +49,9 @@ export class SectionBoundary extends Component<
   PropsWithChildren<{
     fallback?: (props: FallbackProps) => ReactNode;
     source?: string;
+    // Returns the input that was being rendered when it threw. Called ONLY on a
+    // crash, so a boundary that never fires costs nothing.
+    detail?: () => string | null;
   }>,
   State
 > {
@@ -62,7 +69,14 @@ export class SectionBoundary extends Component<
       source,
       error,
       componentStack: info.componentStack ?? null,
+      detail: this.props.detail?.() ?? null,
     });
+    if (this.props.detail) {
+      void import("@/lib/utils/crash-loadout")
+        .then((m) => m.collectCrashLoadout())
+        .then(attachCrashLoadout)
+        .catch(() => {});
+    }
     logChatDebug("section.error", {
       source,
       name: error.name,

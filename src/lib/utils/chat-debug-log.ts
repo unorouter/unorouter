@@ -253,6 +253,26 @@ export type CaughtErrorEntry = {
   componentStack: string;
   url: string;
   count: number;
+  // The input that threw plus the loadout that produced it, kept on the NEWEST
+  // crash only. A render crash is the one case where the shape of the text is
+  // not enough: something in it defeats the parser, and no amount of counting
+  // says what. The text alone is not enough either, since reproducing it needs
+  // the preset, characters, lorebooks and plugins that built it. It is ONE
+  // message, not a transcript, and it is dropped from every older entry as soon
+  // as the next crash arrives.
+  detail?: string;
+  loadout?: CrashLoadout;
+};
+
+export type CrashLoadout = {
+  convId: string | null;
+  model: string | null;
+  presetId: string | null;
+  presetName: string | null;
+  personaId: string | null;
+  characterIds: string[];
+  lorebookIds: string[];
+  plugins: { name: string; kind: string; enabled: boolean; hooks: string[] }[];
 };
 
 // Errors persist in FULL, unlike the debug log's 200-entry tail: a render crash
@@ -289,10 +309,14 @@ function saveCaught(): void {
   }, SAVE_DEBOUNCE_MS);
 }
 
+const MAX_DETAIL_CHARS = 20_000;
+
 export function captureCaughtError(detail: {
   source: string;
   error: unknown;
   componentStack?: string | null;
+  detail?: string | null;
+  loadout?: CrashLoadout | null;
 }): void {
   const err = detail.error;
   const isError = err instanceof Error;
@@ -305,6 +329,11 @@ export function captureCaughtError(detail: {
     last.ts = Date.now();
     saveCaught();
     return;
+  }
+  // Only the newest crash keeps its text and loadout.
+  for (const e of entries) {
+    delete e.detail;
+    delete e.loadout;
   }
   entries.push({
     ts: Date.now(),
@@ -322,6 +351,10 @@ export function captureCaughtError(detail: {
       .join("\n"),
     url: typeof location === "undefined" ? "" : location.pathname,
     count: 1,
+    ...(detail.detail
+      ? { detail: detail.detail.slice(0, MAX_DETAIL_CHARS) }
+      : {}),
+    ...(detail.loadout ? { loadout: detail.loadout } : {}),
   });
   if (entries.length > MAX_CAUGHT_ERRORS)
     entries.splice(0, entries.length - MAX_CAUGHT_ERRORS);
@@ -330,6 +363,16 @@ export function captureCaughtError(detail: {
 
 export function getCaughtErrors(): CaughtErrorEntry[] {
   return getCaught().slice();
+}
+
+// componentDidCatch is synchronous but the loadout needs the local DB, so it
+// lands a moment later onto the entry that was just written.
+export function attachCrashLoadout(loadout: CrashLoadout): void {
+  const entries = getCaught();
+  const last = entries[entries.length - 1];
+  if (!last) return;
+  last.loadout = loadout;
+  saveCaught();
 }
 
 export function clearCaughtErrors(): void {
