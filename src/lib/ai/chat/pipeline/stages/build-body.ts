@@ -14,8 +14,8 @@ function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   ) as Partial<T>;
 }
 
-// Both spellings resolve, because the sliders arrive camelCase while extraBody
-// is hand-written on the wire names.
+// Both spellings resolve: sliders arrive camelCase, extraBody is hand-written on
+// the wire names.
 const PARAM_API_KEY: Record<string, string> = {
   maxOutputTokens: "max_tokens",
   temperature: "temperature",
@@ -35,8 +35,7 @@ const PARAM_API_KEY: Record<string, string> = {
   logit_bias: "logit_bias",
 };
 
-// Null and undefined both mean "the model states no restriction", so every
-// parameter passes.
+// Nullish means "the model states no restriction", so every parameter passes.
 function stripUnsupported<T extends Record<string, unknown>>(
   o: T,
   supported: string[] | null | undefined,
@@ -60,9 +59,8 @@ export function buildModelParams(
   effectiveMaxOutputTokens: number,
   modelInfo: PricingCatalogDetail | undefined,
 ) {
-  // Only put max_tokens on the wire when the user set one (or a free-model cap
-  // applies). Metadata output ceilings drift from what upstreams enforce, and a
-  // too-high literal max_tokens is a hard 400 on strict providers.
+  // Metadata output ceilings drift from what upstreams enforce, and a too-high
+  // literal max_tokens is a hard 400 on strict providers.
   const userSetMax = assembled.sampling.maxOutputTokens != null;
   return stripUnsupported(
     defined({
@@ -101,11 +99,10 @@ export function buildProviderOptions(
       : assembled.extraBody;
 
   return {
-    // openai-compatible reads providerOptions ONLY under its provider name;
-    // any other key (this object once sat under "openai") is silently dropped
-    // and none of these fields ever reach the wire.
+    // openai-compatible reads providerOptions ONLY under its provider name; any
+    // other key is silently dropped and nothing here reaches the wire.
     [CHAT_PROVIDER_NAME]: {
-      // extraBody goes through the same strip as the sliders: a hand-written
+      // extraBody takes the same strip as the sliders: a hand-written
       // repetition_penalty reached hosts that reject it and 400d the request.
       ...stripUnsupported(
         safeExtraBody ?? {},
@@ -120,8 +117,8 @@ export function buildProviderOptions(
         modelInfo?.metadata?.supportedParameters,
       ),
       ...defined({
-        // camelCase: the sdk maps its known reasoningEffort option to
-        // reasoning_effort on the wire; the snake_case name is not recognized.
+        // camelCase: the sdk maps reasoningEffort to reasoning_effort on the
+        // wire and does not recognize the snake_case name.
         reasoningEffort: assembled.reasoningEffort,
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
@@ -190,16 +187,11 @@ export function buildWritebacks(
 }
 
 // A request log is written PER MESSAGE and stores the whole assembled
-// conversation, so a 75-turn chat writes turn 1 seventy-five times: the table
-// grows quadratically with thread length. That is survivable for text, but an
-// inline `data:` URI (a pasted image, an attachment, a generated video - single
-// parts of 3-4MB were measured on a real profile) gets copied into every
-// subsequent log in the thread and is what drives these databases past 500MB,
-// at which point they can no longer be exported or imported on a phone.
-//
-// The log exists to reproduce a request (curl) and inspect the prompt, and
-// neither needs the bytes. Keep the shape and the text; replace media payloads
-// with a marker and cap runaway text.
+// conversation, so the table grows quadratically with thread length. Survivable
+// for text, but an inline `data:` URI (single parts of 3-4MB measured on a real
+// profile) is copied into every later log in the thread and drives these
+// databases past 500MB, where they can no longer be exported or imported on a
+// phone. The log only has to reproduce a request and show the prompt.
 const MAX_LOGGED_TEXT = 20_000;
 const DATA_URI_IN_TEXT = /data:[\w.+-]+\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g;
 
@@ -212,15 +204,14 @@ function leanParts(parts: unknown): unknown {
       const v = out[key];
       if (typeof v !== "string") continue;
       if (v.startsWith("data:")) {
-        // Keep the mime type, drop the payload.
         out[key] =
           `${v.slice(0, v.indexOf(",") + 1)}<${v.length} bytes elided>`;
       } else if (v.includes(";base64,")) {
         // The heaviest rows measured were markdown wrapping a data URI
         // (`![video](data:video/mp4;base64,...)`), which does not START with
-        // `data:` and so would only get length-truncated, keeping megabytes.
-        // Gate on a plain substring, not regex.test: a /g regex carries
-        // lastIndex between calls and would skip matches on later strings.
+        // `data:` and would only get length-truncated, keeping megabytes.
+        // Gate on a substring, not regex.test: a /g regex carries lastIndex
+        // between calls and would skip matches on later strings.
         out[key] = v.replace(
           DATA_URI_IN_TEXT,
           (m) => `${m.slice(0, m.indexOf(",") + 1)}<${m.length} bytes elided>`,
@@ -256,11 +247,9 @@ export function buildDebugSnapshot(
   }));
   const preset = ctx?.preset;
   return {
-    // Every knob that shapes the request, so a quality report can be diagnosed
-    // from the export alone instead of asking the user to recite settings.
-    // What the request actually carries, after the model's supported-parameter
-    // strip. `settings.sampling` below is what the user configured, and the two
-    // differ exactly when a rejection needs explaining.
+    // What the request actually carries, after the supported-parameter strip.
+    // `settings.sampling` below is what the user configured, and the two differ
+    // exactly when a rejection needs explaining.
     sent: wire
       ? {
           modelParams: wire.modelParams,
@@ -328,9 +317,9 @@ export function buildDebugSnapshot(
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    // The system block is identical on every turn of a conversation and is
-    // routinely tens of KB (a character card plus lorebook entries), so storing
-    // it whole per message is the second multiplier after the messages array.
+    // Identical on every turn and routinely tens of KB (character card plus
+    // lorebook entries), so storing it whole per message is the second
+    // multiplier after the messages array.
     assembledSystem: effectiveSystem
       ? effectiveSystem.length > MAX_LOGGED_TEXT
         ? `${effectiveSystem.slice(0, MAX_LOGGED_TEXT)}<truncated ${effectiveSystem.length - MAX_LOGGED_TEXT} chars>`

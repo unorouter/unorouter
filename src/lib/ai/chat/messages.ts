@@ -47,14 +47,10 @@ export function walkActiveBranch<
     isActiveBranch?: boolean | null;
   },
 >(messages: M[]): { path: M[]; tipId: string | undefined } {
-  // Walk DOWN from the root, choosing exactly one active child per level, and stay
-  // deterministic under the two corruptions this data has actually hit.
-  //
-  // A parentId naming a row that does not exist severs the chain: the walk stops at the
-  // greeting and every turn past the orphan is unreachable, so the request ships one
-  // message out of a full conversation. The load path repairs these rows, but the send
-  // path reads straight from the DB. Treat an unresolvable parent as the row's own
-  // predecessor by array order.
+  // A parentId naming a missing row severs the chain: the walk stops at the greeting
+  // and the request ships one message out of a full conversation. The load path repairs
+  // these rows, but the send path reads straight from the DB, so treat an unresolvable
+  // parent as the row's predecessor by array order.
   const ids = new Set(messages.map((m) => m.id));
   const childrenOf = new Map<string | null, M[]>();
   for (let i = 0; i < messages.length; i++) {
@@ -67,9 +63,8 @@ export function walkActiveBranch<
   }
   // Every sibling deactivated is corruption, not a choice (a branch switch given an
   // unknown id once deactivated a whole root row of greetings). "Newest" is the wrong
-  // tiebreak there: it picks a childless sibling and the walk stops dead, so the
-  // request carries one greeting and none of the conversation. The sibling that was
-  // actually continued is the one with children; prefer it, newest only among equals.
+  // tiebreak there: it picks a childless sibling and the walk stops dead. Prefer the
+  // sibling with children, newest only among equals.
   const pickChild = (kids: M[] | undefined): M | undefined => {
     if (!kids || kids.length === 0) return undefined;
     const active = kids.filter((k) => k.isActiveBranch !== false);
@@ -107,9 +102,8 @@ export function joinItemsToMessages<
 // One reasoning box per reply. `extractReasoningMiddleware` emits a part for
 // EVERY <think> pair, and models that think between paragraphs produce a handful
 // per turn, which rendered as a stack of collapsed boxes interleaved with the
-// prose ("it gave me 5 responses"). Every comparable client that merges keeps
-// reasoning as a single field and joins the segments, so collapse them here, at
-// the one boundary both the persist and the reload path cross.
+// prose ("it gave me 5 responses"). Collapse them at the one boundary both the
+// persist and the reload path cross.
 const REASONING_JOIN = "\n\n";
 
 export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
@@ -127,8 +121,7 @@ export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
       out.push(part);
       continue;
     }
-    // Keep the FIRST slot: reasoning that precedes its prose reads as a preamble,
-    // whereas hoisting it below the text it explains reverses the order.
+    // Keep the FIRST slot: reasoning reads as a preamble to the prose it explains.
     if (placed) continue;
     out.push({ ...part, text: merged });
     placed = true;
@@ -164,8 +157,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
         });
       }
     } else if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
-      // ai-sdk v6+ typed tool parts (tool-<name> / dynamic-tool). Without this
-      // branch they fell through and tool blocks vanished on reload.
+      // ai-sdk v6+ typed tool parts (tool-<name> / dynamic-tool).
       const toolCallId = String(part.toolCallId ?? "");
       const toolName =
         part.type === "dynamic-tool"
@@ -296,8 +288,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         break;
     }
   }
-  // Also on the way OUT: rows written before the merge existed still hold one
-  // row per <think> block, and a reply must not change shape between the live
-  // stream and the reload that follows it.
+  // Rows written before the merge existed still hold one row per <think> block,
+  // and a reply must not change shape between the live stream and the reload.
   return mergeReasoningParts(parts);
 }

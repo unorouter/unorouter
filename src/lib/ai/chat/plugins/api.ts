@@ -2,12 +2,9 @@ import { sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../triggers/types";
 
-// The host API surface a plugin reaches through the sandbox RPC. Mirrors the
-// Lua binding set over the same TriggerContext, minus the JSON marshalling the
-// Lua bridge needs. Chat/char accessors only work while a hook invocation has
-// an active context; pure utilities work any time. The Lua capability tokens
-// have no analog here: the sandbox boundary already scopes what a plugin can
-// reach, so gating is by hook mode alone (display handlers are read-only).
+// Mirrors the Lua binding set over the same TriggerContext, minus the JSON
+// marshalling the Lua bridge needs. The Lua capability tokens have no analog:
+// the sandbox boundary already scopes reach, so gating is by hook mode alone.
 
 export type PluginHookMode = "input" | "output" | "request" | "display";
 
@@ -201,9 +198,9 @@ export function buildPluginApi(
     sleep: (time: number) =>
       new Promise((r) => setTimeout(() => r(true), Math.min(time, 10_000))),
 
-    // Same egress policy as the Lua `request` binding: client-only, https GET
-    // only, short URLs, 5 per minute. The iframe cannot fetch at all
-    // (connect-src 'none'), so this is a plugin's only network access.
+    // Same egress policy as the Lua `request` binding: client-only, https GET,
+    // short URLs, 5 per minute. The iframe cannot fetch at all (connect-src
+    // 'none'), so this is a plugin's ONLY network access.
     httpRequest: async (url: string) => {
       if (typeof window === "undefined") {
         return { status: 400, data: "request is not allowed server-side" };
@@ -241,18 +238,14 @@ export function buildPluginApi(
   };
 }
 
-// ---------------------------------------------------------------------------
 // JanitorAI compat mode. Their contract (official guide): scripts run once per
 // turn before prompt build, synchronously, fresh state each turn, silent
-// failure; they mutate `context` where ONLY character.personality,
-// character.scenario and character.example_dialogs are writable, and the final
-// strings become that turn's prompt sections. No RPC needed: the snapshot
-// travels in, three strings travel back.
+// failure, mutating `context` where ONLY character.personality, .scenario and
+// .example_dialogs are writable.
 //
-// Scripts do not persist across turns. State survives only by being encoded
-// into the model's reply (zero-width unicode or a visible flag string) and
-// re-parsed from chat.last_messages next turn, so message text must round-trip
-// unmodified.
+// Nothing persists across turns. State survives only by being encoded into the
+// model's reply (zero-width unicode or a visible flag string) and re-parsed from
+// chat.last_messages next turn, so message text must round-trip unmodified.
 
 export type JanitorContextSnapshot = {
   character: {
@@ -268,8 +261,8 @@ export type JanitorContextSnapshot = {
     last_message: string;
     lastMessage: string;
     message_count: number;
-    // Oldest first: their templates read recent history as slice(-n) and scan
-    // backward from the end for the newest match.
+    // Oldest first: their templates slice(-n) and scan backward for the newest
+    // match.
     last_messages: { message: string }[];
     user_name: string;
     conversation_id: string;
@@ -284,8 +277,8 @@ export type JanitorRunResult = {
   logs: string[];
 };
 
-// Guest source executed via the sandbox EXECUTE_CODE channel. Scripts share one
-// context and run in order; a throwing script is skipped (their semantics).
+// Scripts share one context and run in order; a throwing script is skipped
+// (their semantics).
 export function buildJanitorRunSource(
   snapshot: JanitorContextSnapshot,
   scripts: string[],
@@ -302,9 +295,8 @@ export function buildJanitorRunSource(
     const scripts = ${scriptsJson};
     for (const src of scripts) {
       try {
-        // Each script becomes a FUNCTION BODY, not a program: their scripts use
-        // top-level \`return\` as an early exit, which is a syntax error under
-        // eval. \`context\` is a parameter, so nothing lexical leaks in either.
+        // A FUNCTION BODY, not a program: their scripts use top-level
+        // \`return\` as an early exit, a syntax error under eval.
         globalThis.context = context;
         new Function('context', src)(context);
       } catch (e) {

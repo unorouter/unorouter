@@ -12,13 +12,9 @@ import type {
   PluginHookMode,
 } from "./api";
 
-// Instance manager for sandboxed JS plugins. One hidden iframe per enabled
-// plugin, created once at chat-runtime mount and fully reloaded whenever a
-// plugin row changes (Risu's lifecycle). Janitor-kind scripts do not run at
-// load: they execute per turn through a shared scratch sandbox.
-//
-// Every entry no-ops without a window: the pipeline stages that call the run
-// functions are isomorphic, but plugins are a browser-only feature.
+// One hidden iframe per enabled plugin, created at chat-runtime mount and fully
+// reloaded whenever a plugin row changes (Risu's lifecycle). Janitor-kind
+// scripts instead run per turn through a shared scratch sandbox.
 
 export type LoadedJsPlugin = {
   id: string;
@@ -43,14 +39,14 @@ let scratchHost: {
 let scratchTerminate: (() => void) | null = null;
 let loadedKey = "";
 
-// The hook invocation sets the context the host API operates on; outside an
-// invocation chat accessors throw. Handlers run sequentially, so one slot.
+// Chat accessors throw outside a hook invocation. Handlers run sequentially,
+// so one slot suffices.
 let activeCtx: TriggerContext | null = null;
 
 const HANDLER_TIMEOUT_MS = 5_000;
-// Janitor scripts are whole programs rather than a single handler: real ones
-// run to 130k characters and iterate hundreds of lore entries, and a timeout
-// discards the turn's entire script output.
+// Janitor scripts are whole programs, not one handler: real ones reach 130k
+// characters and iterate hundreds of lore entries, and a timeout discards the
+// turn's entire script output.
 const JANITOR_TIMEOUT_MS = 15_000;
 
 function withTimeout<T>(
@@ -66,8 +62,7 @@ function withTimeout<T>(
   ]);
 }
 
-// Which ecosystem a pasted script came from, so either can be dropped in as-is:
-// a Janitor script mutates a bare `context`, a Risu plugin registers handlers.
+// A Janitor script mutates a bare `context`, a Risu plugin registers handlers.
 export function detectPluginKind(script: string): JsPluginKind {
   return /\bcontext\s*\./.test(script) && !/registerHandler/.test(script)
     ? "janitor"
@@ -94,15 +89,14 @@ export function unloadJsPlugins(): void {
     scratchHost = null;
   }
   loadedKey = "";
-  // Rendered messages hold display-transformed text from the previous plugin
-  // set; without dropping the cache a disabled plugin's edits stay on screen.
+  // Without dropping the cache a disabled plugin's display edits stay on screen.
   invalidateJsDisplayCache();
 }
 
 export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   if (typeof window === "undefined") return;
   const enabled = rows.filter((r) => r.enabled);
-  // Cheap idempotence: the runtime provider calls this on every query refresh.
+  // The runtime provider calls this on every query refresh.
   const key = enabled.map((r) => `${r.id}:${r.script.length}`).join("|");
   if (key === loadedKey) return;
   unloadJsPlugins();
@@ -136,9 +130,9 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
           const set = handlers.get(mode) ?? new Set();
           set.add(fn);
           handlers.set(mode, set);
-          // A sandbox boots asynchronously, so a display handler registers
-          // after the thread has already rendered; without this the messages
-          // keep their untransformed text until something else re-renders.
+          // A sandbox boots async, so a display handler registers after the
+          // thread rendered; without this the untransformed text stays until
+          // something else re-renders.
           if (mode === "display") invalidateJsDisplayCache();
         },
         removeHandler: (mode, fn) => {
@@ -170,17 +164,15 @@ export function hasJsHandlers(mode: PluginHookMode): boolean {
   return instances.some((i) => (i.handlers.get(mode)?.size ?? 0) > 0);
 }
 
-// Plugin code is untrusted, so a handler result is only adopted when its
-// runtime kind matches what was passed in. Without this a plugin returning a
-// number for a message's text would put a number where a string is declared.
+// Plugin code is untrusted: without a kind check a plugin returning a number
+// for a message's text puts a number where a string is declared.
 function sameKind(a: unknown, b: unknown): boolean {
   if (Array.isArray(a) !== Array.isArray(b)) return false;
   return typeof a === typeof b;
 }
 
-// The fold every hook site uses: content passes through each live handler in
-// registration order; a nullish return keeps the previous value; any throw or
-// timeout is swallowed and the fold continues. Fail-open like runLuaEditTrigger.
+// Fail-open fold, like runLuaEditTrigger: a nullish return keeps the previous
+// value, and a throw or timeout is swallowed so the fold continues.
 export async function runJsEditTrigger<T>(
   mode: PluginHookMode,
   ctx: TriggerContext,
@@ -218,10 +210,9 @@ export function hasJanitorScripts(): boolean {
   return janitorScripts.length > 0;
 }
 
-// Display handlers run through the async RPC, but the markdown preprocess is
-// synchronous, so results resolve into a cache and a version bump re-renders
-// (the same shape as the inlay/img token resolvers). The untransformed text
-// shows for the first paint only.
+// Display handlers are async RPC but the markdown preprocess is sync, so results
+// land in a cache and a version bump re-renders (same shape as the inlay/img
+// token resolvers). Untransformed text shows for the first paint only.
 export const jsDisplayVersionAtom = atom(0);
 const displayCache = new Map<string, string>();
 const displayPending = new Set<string>();

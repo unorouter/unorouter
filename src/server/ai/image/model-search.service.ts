@@ -16,11 +16,9 @@ type RunwareSearchResult = {
   capabilities?: string[];
 };
 
-// Runware's catalog includes entries that cannot render an image: a LoRA TRAINING model
-// answers the same checkpoint search but only accepts `train` tasks, so offering it in the
-// model picker guarantees a failed generation ("FLUX.2 [klein] 9B Style LoRA Training" was
-// listed beside real checkpoints). Anything advertising a generation capability stays;
-// entries that declare none are kept too, since the field is not always populated.
+// A Runware LoRA TRAINING model answers the same checkpoint search but only accepts `train`
+// tasks, so picking one guarantees a failed generation. Entries declaring no capability at
+// all are kept, since the field is not always populated.
 const NON_GENERATIVE_CAPABILITIES = new Set(["train"]);
 
 function canGenerate(row: RunwareSearchResult): boolean {
@@ -39,8 +37,8 @@ function searchTask(task: Record<string, unknown>): Promise<RunwareEnvelope> {
   return runwareTask<SearchPage>(task, SEARCH_TIMEOUT_MS);
 }
 
-// An errored envelope carries no `results`, so reading it as an empty page turns
-// a hard API failure into a silent "no models found". Log once, here.
+// An errored envelope carries no `results`, so reading it as an empty page turns a hard API
+// failure into a silent "no models found".
 function logSearchError(envelope: RunwareEnvelope, context: string): void {
   logger.warn("runware model search failed", {
     context: "image.catalog",
@@ -128,8 +126,7 @@ export async function searchModelCatalog(
     return { items: hit?.items ?? [] };
   }
 
-  // Stale beats empty, so an errored envelope keeps whatever the cache holds
-  // rather than the [] every other caller is happy with.
+  // Stale beats empty.
   if (envelope.errors?.length) {
     logSearchError(envelope, category);
     return { items: hit?.items ?? [] };
@@ -149,13 +146,12 @@ export type ResolvedCheckpoint = {
   architecture: string | null;
   heroImage: string | null;
   nsfwLevel: number | null;
-  // LoRA-only fields; the resolve path is shared between categories.
+  // LoRA-only; the resolve path is shared between categories.
   triggerWords: string | null;
   defaultWeight: number | null;
 };
 
-// Every way a user might name a checkpoint. A reference identifies one specific model, so it
-// resolves to that; anything else is treated as a name to search for.
+// Accepted forms:
 //   civitai.com/models/288584/autismmix-sdxl?modelVersionId=324619
 //   288584
 //   civitai:288584@324619
@@ -202,8 +198,6 @@ function toResolved(
 
 type Ref = NonNullable<ReturnType<typeof parseCivitaiReference>>;
 
-// One provider search per reference; the model-id filter narrows to the family the
-// reference names.
 async function searchByReference(ref: Ref, category: "checkpoint" | "lora") {
   const envelope = await searchTask({
     taskType: "modelSearch",
@@ -218,8 +212,6 @@ async function searchByReference(ref: Ref, category: "checkpoint" | "lora") {
   };
 }
 
-// The resolve core, taking an already-parsed ref so callers that parsed to decide
-// which path to take do not parse a second time.
 async function resolveRef(
   ref: Ref,
   category: "checkpoint" | "lora",
@@ -235,11 +227,9 @@ async function resolveRef(
 }
 
 /**
- * One entry point for everything a user can type into the model search: a Civitai URL,
- * a bare id, an AIR, or a plain name. A reference resolves to its one model; a name
- * searches the provider catalog. Resolution goes through Runware's catalog, not
- * Civitai's API: Runware pins its own version ids, and a resolve succeeding is
- * necessary but not sufficient (some models still fail to load at generation time).
+ * Resolves through Runware's catalog, not Civitai's API: Runware pins its own version ids,
+ * and a successful resolve is necessary but not sufficient (some models still fail to load
+ * at generation time).
  */
 export async function findCheckpoints(
   input: string,
@@ -264,10 +254,7 @@ export async function findCheckpoints(
     .map((row) => toResolved(row));
 }
 
-/**
- * Every version of the model a reference points at, best match first. A Civitai model is
- * a family whose variants generate differently, so the user chooses.
- */
+/** A Civitai model is a family whose variants generate differently, so the user chooses. */
 export async function listCheckpointVersions(
   input: string,
   category: "checkpoint" | "lora" = "checkpoint",

@@ -4,42 +4,23 @@ import { env } from "@/lib/config/env";
 import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
-// opfs-sahpool stores each pool file with a 4096-byte header (the logical
-// filename + flags + a digest of them) followed by the real SQLite bytes. The
-// VFS verifies that digest on every pool install and, when it fails, SILENTLY
-// drops the name mapping and returns the slot to the free list - the data is
-// untouched but nothing points at it, so the next open creates a fresh empty
-// database under the same logical name.
-//
-// A torn header is exactly what an abrupt process kill produces: setAssociatedPath
-// writes the body and the digest in two separate calls, and iOS Safari discards
-// background tabs mid-write. Hence this salvage path: read every file in the pool
-// directory past the header and recover the ones that are real databases.
+// Each pool file is a 4096-byte header (logical filename + flags + digest)
+// followed by the real SQLite bytes.
 const HEADER_BYTES = 4096;
 const SQLITE_MAGIC = "SQLite format 3\0";
 
 export type SalvagedDb = {
   fileName: string;
   sizeBytes: number;
-  // "pool" = an opaque slot file inside the pool directory (the orphan case).
-  // "root" = a plain database at the OPFS root, e.g. a `.pre-sahpool` rollback
-  // copy, which is a NORMAL post-migration leftover and not evidence of loss.
+  // "root" is a plain OPFS-root database (a `.pre-sahpool` rollback copy), a
+  // NORMAL post-migration leftover, not evidence of loss.
   source: "pool" | "root";
-  // Last write time, so an operator can tell a fresh orphan from a months-old
-  // rollback copy without opening either.
   modifiedAt: number;
-  // True for the database this page currently has open. Without it a user
-  // picking from the list cannot tell their recovered data from the empty
-  // replacement they are already looking at.
   isLive: boolean;
-  // SQLite page count x page size, both read out of the 100-byte file header.
-  // Cheap (one 100-byte read) and enough to rank candidates by real content.
   pageSize: number;
   pageCount: number;
-  // A Blob VIEW of the database bytes, not a copy: scanning must never pull
-  // candidates into memory. These files run to hundreds of MB (media is inlined
-  // base64), and materializing even one is enough to OOM a phone - which is
-  // exactly the device this recovery path exists for.
+  // A Blob VIEW, never a copy: these run to hundreds of MB (media is inlined
+  // base64) and materializing one OOMs a phone.
   blob: Blob;
 };
 
@@ -51,8 +32,8 @@ function hasSqliteMagic(head: Uint8Array): boolean {
   return true;
 }
 
-// SQLite's 100-byte header: page size is a big-endian u16 at offset 16 (the
-// value 1 means 65536), page count a big-endian u32 at offset 28.
+// SQLite header: page size is a big-endian u16 at offset 16 (1 means 65536),
+// page count a big-endian u32 at offset 28.
 function readHeaderGeometry(head: Uint8Array): {
   pageSize: number;
   pageCount: number;
@@ -66,18 +47,11 @@ function readHeaderGeometry(head: Uint8Array): {
   };
 }
 
-// Every SQLite database this browser holds: the live one plus the legacy
-// per-user pools that single-database adoption deliberately left on disk. Each
-// db gets its own pool directory named from its path, so the root listing IS
-// that set. Without the legacy entries a backup silently omits the pools that
-// still hold a pre-adoption account's chats.
 export type LocalDatabase = {
-  // The account the file was named for, back when there was one database per
-  // user. Null for the live device database, which is not named for anyone.
+  // Null for the live device database, which is not named for any account.
   legacyUserId: number | null;
   dbPath: string;
-  // Bytes of real SQLite content, header excluded. Size is what tells a leftover
-  // empty guest pool apart from the one holding the roleplay.
+  // Real SQLite content, pool header excluded.
   sizeBytes: number;
   modifiedAt: number;
 };
@@ -97,15 +71,13 @@ export async function listLocalDatabases(): Promise<LocalDatabase[]> {
   } catch {
     return [];
   }
-  // Live database first, then the legacy pools by account.
   found.sort((a, b) => (a.legacyUserId ?? -1) - (b.legacyUserId ?? -1));
   logChatDebug("db.list_local", { databases: found });
   return found;
 }
 
-// The pool directory name is a pure function of the database path, so a
-// candidate path is confirmed by rebuilding its directory name rather than by
-// parsing the directory's.
+// The pool directory name is a pure function of the db path, so a candidate is
+// confirmed by rebuilding the directory name, not by parsing it.
 function describePool(
   dirName: string,
   appName: string,
@@ -121,8 +93,8 @@ function describePool(
     : null;
 }
 
-// Sum only slots that actually hold a database: the pool preallocates empty
-// slots, so a raw directory size would report the same number for every account.
+// Sum only slots holding a database: the pool preallocates empty slots, so a
+// raw directory size reports the same number for every account.
 async function measurePool(
   poolDir: FileSystemDirectoryHandle,
 ): Promise<{ sizeBytes: number; modifiedAt: number }> {
@@ -147,14 +119,13 @@ async function measurePool(
       modifiedAt = Math.max(modifiedAt, file.lastModified);
     }
   } catch {
-    // A slot held by a live access handle cannot be read; it just goes uncounted.
+    // A slot held by a live access handle cannot be read.
   }
   return { sizeBytes, modifiedAt };
 }
 
-// Every SQLite database in the pool directory, largest first. Includes the
-// LIVE database as well as orphaned ones; the caller picks (the live db is
-// usually the small freshly-migrated one, the orphan is the big one).
+// Largest first, live db included: after an orphaning the live db is the small
+// freshly-migrated one and the orphan is the big one.
 export async function salvagePoolDatabases(
   dbPath: string,
 ): Promise<SalvagedDb[]> {
@@ -165,7 +136,6 @@ export async function salvagePoolDatabases(
   } catch {
     return [];
   }
-  // The VFS keeps its slot files inside an ".opaque" subdirectory.
   let filesDir: FileSystemDirectoryHandle = poolDir;
   try {
     filesDir = await poolDir.getDirectoryHandle(".opaque");
@@ -173,10 +143,8 @@ export async function salvagePoolDatabases(
     // Older layouts kept the slot files directly under the pool directory.
   }
 
-  // Which slot currently holds the live database. The slot's own 4096-byte
-  // header carries the logical filename it is associated with, so read that
-  // rather than guessing: an orphan's header still parses as SQLite but no
-  // longer names the live db (that is the whole failure mode).
+  // Read the slot header's associated filename rather than guessing: an orphan
+  // still parses as SQLite but no longer names the live db.
   const liveNames = new Set<string>();
   for await (const [name, handle] of filesDir.entries()) {
     if (handle.kind !== "file") continue;
@@ -184,13 +152,13 @@ export async function salvagePoolDatabases(
       const file = await handle.getFile();
       if (file.size <= HEADER_BYTES) continue;
       const raw = new Uint8Array(await file.slice(0, 128).arrayBuffer());
-      // The path is a NUL-terminated string at the start of the pool header.
+      // The pool header starts with the path as a NUL-terminated string.
       let end = 0;
       while (end < raw.length && raw[end] !== 0) end++;
       const assoc = new TextDecoder().decode(raw.subarray(0, end));
       if (assoc === `/${dbPath}` || assoc === dbPath) liveNames.add(name);
     } catch {
-      // Unreadable slot: it simply won't be marked live.
+      // Unreadable slot: it will not be marked live.
     }
   }
 
@@ -220,10 +188,8 @@ export async function salvagePoolDatabases(
     }
   }
 
-  // Also sweep the OPFS ROOT: a `.pre-sahpool` rollback copy or a leftover
-  // pre-migration file is a plain SQLite database with no pool header, and it
-  // is just as recoverable. Without this a user whose pool is genuinely empty
-  // would be told nothing exists while their old file sits one level up.
+  // OPFS root too: a `.pre-sahpool` rollback copy is a plain SQLite file with
+  // no pool header, and is just as recoverable when the pool is genuinely empty.
   for await (const [name, handle] of root.entries()) {
     if (handle.kind !== "file") continue;
     if (!name.includes(".sqlite3")) continue;

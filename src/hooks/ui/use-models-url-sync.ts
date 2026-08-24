@@ -48,16 +48,12 @@ export function ModelsUrlSync() {
   const [params, setParams] = useQueryStates(PARSERS);
 
   useEffect(() => {
-    // The seed below writes the atom twice (reset + set). Each write notifies
-    // this subscriber, which calls setParams, which can re-enter the atom via
-    // nuqs' URL update -> a self-feeding render loop that overflowed the stack
-    // on iOS ("Maximum call stack size exceeded" on /models with filters).
-    // Mute the writeback while the seed applies; it runs once after.
+    // setParams writes the URL and the atom is cookie-persisted, so its own
+    // setItem re-notifies this subscriber. Both guards below break that loop,
+    // which otherwise overflowed the stack on iOS ("Maximum call stack size
+    // exceeded" on /models with filters): mute while the seed's two writes
+    // apply, and only push a genuinely new value.
     let seeding = false;
-    // Every setParams writes the URL, and the atom is cookie-persisted, so its
-    // own setItem re-notifies this subscriber. Without an equality gate that
-    // round trip re-enters setParams forever and overflows the stack on iOS,
-    // whose limit is far lower than desktop. Only push a genuinely new value.
     let lastPushed = "";
     const writeback = () => {
       if (seeding) return;
