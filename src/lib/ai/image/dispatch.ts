@@ -9,7 +9,12 @@ export const SYNC_IMAGE_ENDPOINTS = [
 ] as const;
 export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
 import { safeFetchBytes } from "@/lib/config/safe-fetch";
-import { base64ToDataUri, rec, recArr } from "@/lib/utils/base";
+import {
+  base64ToDataUri,
+  nonEmptyString as str,
+  rec,
+  recArr,
+} from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 
@@ -167,10 +172,6 @@ export function buildBody(
     case "gemini":
       return buildGeminiGenerateBody(args);
   }
-}
-
-function str(v: unknown): string | undefined {
-  return typeof v === "string" && v.length > 0 ? v : undefined;
 }
 
 export function extractResultUris(
