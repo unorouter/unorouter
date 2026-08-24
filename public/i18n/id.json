@@ -4379,6 +4379,7 @@
     "CARD_IMPORT_EMPTY": "Tidak ada yang bisa diimpor dari tautan itu.",
     "CARD_IMPORT_TIMED_OUT": "Sumbernya terlalu lama merespons. Coba lagi sebentar.",
     "CARD_IMPORT_JOB_GONE": "Impor itu kedaluwarsa sebelum selesai. Kirim tautannya lagi.",
+    "CARD_IMPORT_UNAVAILABLE": "Layanan impor sedang tidak dapat dijangkau. Coba lagi beberapa menit lagi.",
     "CARD_FILE_INVALID": "Berkas itu bukan hasil ekspor kartu."
   },
   "BADGE": {

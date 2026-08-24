@@ -1,3 +1,4 @@
+import { msg } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 
 // Orval mutator for the uno-import client. The generated fetchers build a
@@ -8,16 +9,32 @@ export async function unoImportFetch<T>(
   url: string,
   init?: RequestInit,
 ): Promise<T> {
-  const res = await fetch(`${serverEnv.unoImportUrl}${url}`, {
-    ...init,
-    headers: {
-      ...init?.headers,
-      authorization: `Bearer ${serverEnv.unoImportToken}`,
-      "content-type": "application/json",
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${serverEnv.unoImportUrl}${url}`, {
+      ...init,
+      headers: {
+        ...init?.headers,
+        authorization: `Bearer ${serverEnv.unoImportToken}`,
+        "content-type": "application/json",
+      },
+    });
+  } catch {
+    // Service unreachable. Left uncaught, undici's bare "fetch failed" is what
+    // the user reads as the whole explanation of a failed import.
+    throw new Error(msg("ERRORS.CARD_IMPORT_UNAVAILABLE"));
+  }
 
   const text = [204, 205, 304].includes(res.status) ? null : await res.text();
-  const data: unknown = text ? JSON.parse(text) : {};
+  let data: unknown = {};
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      // A gateway 502 page is HTML, and a parse throw here escapes before any
+      // status check, so a routing outage reads as a JSON syntax error.
+      data = { error: text.slice(0, 300) };
+    }
+  }
   return { data, status: res.status, headers: res.headers } as T;
 }

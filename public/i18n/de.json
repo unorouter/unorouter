@@ -4379,6 +4379,7 @@
     "CARD_IMPORT_EMPTY": "Unter diesem Link war nichts Importierbares.",
     "CARD_IMPORT_TIMED_OUT": "Die Quelle hat zu lange gebraucht. Versuche es in einer Minute erneut.",
     "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut.",
+    "CARD_IMPORT_UNAVAILABLE": "Der Importdienst ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten erneut.",
     "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export."
   },
   "BADGE": {

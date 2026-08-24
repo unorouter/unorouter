@@ -4379,6 +4379,7 @@
     "CARD_IMPORT_EMPTY": "Không có gì để nhập ở liên kết đó.",
     "CARD_IMPORT_TIMED_OUT": "Nguồn phản hồi quá lâu. Hãy thử lại sau một phút.",
     "CARD_IMPORT_JOB_GONE": "Lượt nhập đó đã hết hạn trước khi hoàn tất. Hãy gửi lại liên kết.",
+    "CARD_IMPORT_UNAVAILABLE": "Hiện không kết nối được dịch vụ nhập. Vui lòng thử lại sau vài phút.",
     "CARD_FILE_INVALID": "Tệp đó không phải là bản xuất thẻ."
   },
   "BADGE": {

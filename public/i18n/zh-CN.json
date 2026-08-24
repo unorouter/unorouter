@@ -4379,6 +4379,7 @@
     "CARD_IMPORT_EMPTY": "该链接中没有可导入的内容。",
     "CARD_IMPORT_TIMED_OUT": "来源响应超时。请稍后再试。",
     "CARD_IMPORT_JOB_GONE": "该导入在完成前已过期。请重新提交链接。",
+    "CARD_IMPORT_UNAVAILABLE": "导入服务当前无法访问。请在几分钟后重试。",
     "CARD_FILE_INVALID": "该文件不是卡片导出文件。"
   },
   "BADGE": {
