@@ -2920,7 +2920,9 @@
       "EMAIL": "邮箱",
       "EMAIL_PLACEHOLDER": "请输入邮箱",
       "VERIFICATION_CODE": "验证码",
-      "VERIFICATION_CODE_PLACEHOLDER": "请输入发送到您邮箱的验证码"
+      "VERIFICATION_CODE_PLACEHOLDER": "请输入发送到您邮箱的验证码",
+      "AFF_CODE": "推荐码（可选）",
+      "AFF_CODE_PLACEHOLDER": "如果您有推荐码，请在此输入"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

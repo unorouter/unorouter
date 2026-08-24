@@ -2920,7 +2920,9 @@
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Digite seu email",
       "VERIFICATION_CODE": "Código de verificação",
-      "VERIFICATION_CODE_PLACEHOLDER": "Digite o código enviado para seu email"
+      "VERIFICATION_CODE_PLACEHOLDER": "Digite o código enviado para seu email",
+      "AFF_CODE": "Código de indicação (opcional)",
+      "AFF_CODE_PLACEHOLDER": "Digite um código de indicação, se você tiver um"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

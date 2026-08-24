@@ -2920,7 +2920,9 @@
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Nhập email của bạn",
       "VERIFICATION_CODE": "Mã xác minh",
-      "VERIFICATION_CODE_PLACEHOLDER": "Nhập mã đã gửi đến email của bạn"
+      "VERIFICATION_CODE_PLACEHOLDER": "Nhập mã đã gửi đến email của bạn",
+      "AFF_CODE": "Mã giới thiệu (tùy chọn)",
+      "AFF_CODE_PLACEHOLDER": "Nhập mã giới thiệu nếu bạn có"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

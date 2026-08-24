@@ -2920,7 +2920,9 @@
       "EMAIL": "البريد الإلكتروني",
       "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
       "VERIFICATION_CODE": "رمز التحقّق",
-      "VERIFICATION_CODE_PLACEHOLDER": "أدخل الرمز المُرسل إلى بريدك"
+      "VERIFICATION_CODE_PLACEHOLDER": "أدخل الرمز المُرسل إلى بريدك",
+      "AFF_CODE": "رمز الإحالة (اختياري)",
+      "AFF_CODE_PLACEHOLDER": "أدخل رمز الإحالة إن كان لديك واحد"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

@@ -2920,7 +2920,9 @@
       "EMAIL": "電子郵件",
       "EMAIL_PLACEHOLDER": "請輸入電子郵件",
       "VERIFICATION_CODE": "驗證碼",
-      "VERIFICATION_CODE_PLACEHOLDER": "請輸入寄到您信箱的驗證碼"
+      "VERIFICATION_CODE_PLACEHOLDER": "請輸入寄到您信箱的驗證碼",
+      "AFF_CODE": "推薦碼（選填）",
+      "AFF_CODE_PLACEHOLDER": "如果您有推薦碼，請在此輸入"
     },
     "OAUTH": {
       "GITHUB": "GitHub",
