@@ -1,3 +1,4 @@
+import { rec } from "@/lib/utils/base";
 type ParsedPersona = {
   name: string;
   description?: string;
@@ -24,12 +25,9 @@ function pickPersona(raw: Record<string, unknown>): ParsedPersona | null {
 }
 
 export function parsePersonaJson(raw: unknown): ParsedPersona[] {
-  if (!raw || typeof raw !== "object") return [];
-  const root = raw as Record<string, unknown>;
-  const data =
-    root.data && typeof root.data === "object"
-      ? (root.data as Record<string, unknown>)
-      : root;
+  const root = rec(raw);
+  if (!root) return [];
+  const data = rec(root.data) ?? root;
 
   const flat = pickPersona(data);
   if (flat) return [flat];

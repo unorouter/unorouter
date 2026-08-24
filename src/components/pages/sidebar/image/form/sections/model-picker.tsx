@@ -135,8 +135,8 @@ export function ModelPicker(props: Props) {
     </CommandItem>
   );
 
-  const saved = (savedModels.data ?? []) as CustomCheckpoint[];
-  const found = (remoteSearch.data?.items ?? []) as CustomCheckpoint[];
+  const saved = savedModels.data ?? [];
+  const found = remoteSearch.data?.items ?? [];
   const savedAirs = new Set(saved.map((c) => c.air));
   // Saved models already have their own group, so a search hit that is already saved would
   // otherwise appear twice.

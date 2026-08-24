@@ -131,6 +131,10 @@ export enum OS {
 
 export const OS_VALUES = Object.values(OS);
 
+export function isOS(value: string): value is OS {
+  return OS_VALUES.some((os) => os === value);
+}
+
 export enum DataTableId {
   MODELS = "MODELS",
   TOKENS = "TOKENS",

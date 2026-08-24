@@ -21,6 +21,11 @@ export type TokenizerPreset = (typeof TOKENIZER_PRESETS)[number];
 
 export type TokenizerRef = TokenizerPreset | `hf:${string}`;
 
+export function isTokenizerRef(v: unknown): v is TokenizerRef {
+  if (typeof v !== "string") return false;
+  return v.startsWith("hf:") || TOKENIZER_PRESETS.some((p) => p === v);
+}
+
 export const DEFAULT_TOKENIZER: TokenizerPreset = "auto";
 
 const PRESET_HF_SOURCE: Partial<Record<TokenizerPreset, string>> = {

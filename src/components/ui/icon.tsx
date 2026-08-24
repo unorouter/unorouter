@@ -41,7 +41,7 @@ type Props = React.SVGAttributes<SVGSVGElement> & {
 
 export function Icon(props: Props) {
   const theme = useAtomValue(userThemeAtom);
-  const lib = (theme.iconLibrary ?? "lucide") as IconLibraryName;
+  const lib = theme.iconLibrary ?? "lucide";
   const { name, size, ...rest } = props;
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
 

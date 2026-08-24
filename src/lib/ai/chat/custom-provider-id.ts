@@ -1,6 +1,11 @@
 const PREFIX = "custom:::";
 const SEP = ":::";
 
+export class ModelListError extends Error {
+  status?: number;
+  notJson?: boolean;
+}
+
 export function isCustomModelId(id: string | null | undefined): boolean {
   return typeof id === "string" && id.startsWith(PREFIX);
 }
@@ -50,16 +55,16 @@ export async function fetchCustomProviderModels(
     },
   });
   if (!res.ok) {
-    const err = new Error(`Model list request failed (${res.status})`);
-    (err as { status?: number }).status = res.status;
+    const err = new ModelListError(`Model list request failed (${res.status})`);
+    err.status = res.status;
     throw err;
   }
   // A bot-protection page answers 200 with HTML. Parsing that as JSON throws a
   // syntax error that reads like a bug in us, so name what actually happened.
   const contentType = res.headers.get("content-type") ?? "";
   if (!contentType.includes("json")) {
-    const err = new Error("Model list response was not JSON");
-    (err as { notJson?: boolean }).notJson = true;
+    const err = new ModelListError("Model list response was not JSON");
+    err.notJson = true;
     throw err;
   }
   const data = (await res.json()) as { data?: Array<{ id?: string }> };

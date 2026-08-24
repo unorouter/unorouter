@@ -21,7 +21,7 @@ const MAX_REF_BYTES = 5 * 1024 * 1024;
 
 function parseRefIds(raw: string | null | undefined): string[] {
   try {
-    const parsed = JSON.parse(raw ?? "[]") as unknown;
+    const parsed: unknown = JSON.parse(raw ?? "[]");
     return Array.isArray(parsed)
       ? parsed.filter((x): x is string => typeof x === "string")
       : [];
@@ -49,9 +49,7 @@ export function ImageRefsField(props: { convId: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [thumbs, setThumbs] = useState<{ id: string; src: string }[]>([]);
 
-  const refIds = parseRefIds(
-    (settingsQuery.data as { imageRefIds?: string | null } | null)?.imageRefIds,
-  );
+  const refIds = parseRefIds(settingsQuery.data?.imageRefIds);
   const refIdsKey = refIds.join(",");
 
   useEffect(() => {

@@ -16,6 +16,7 @@ import { expandMacros } from "@/lib/ai/chat/macros";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
+import type { ChatUIMessage } from "@/lib/types";
 import type { PricingCatalogData } from "@/openapi";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
@@ -28,7 +29,6 @@ import {
   setLiveMessages,
   greetingIndexAtom,
   INITIAL_CHAT_STATE,
-  type ChatState,
 } from "@/store/chat-store";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { QueryClient } from "@tanstack/react-query";
@@ -79,7 +79,7 @@ async function seed(args: SeedArgs): Promise<void> {
   const cookieState = jotaiCookieStorage.getItem(
     CHAT_STORE_KEY,
     INITIAL_CHAT_STATE,
-  ) as ChatState;
+  );
   const atomDefaults = chatStore.get(chatDefaultsAtom);
   const defaults = {
     ...(cookieState.defaults ?? {}),
@@ -220,7 +220,7 @@ async function seed(args: SeedArgs): Promise<void> {
       if (seededGreeting) {
         // Show the seeded greeting in the fresh thread immediately; the DB row
         // + invalidate below are the source of truth on reload.
-        const greetingMessage = {
+        const greetingMessage: ChatUIMessage = {
           id: seededGreeting.id,
           role: "assistant",
           parts: [{ type: "text", text: seededGreeting.text }],

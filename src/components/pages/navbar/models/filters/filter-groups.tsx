@@ -283,7 +283,8 @@ export function ModelAgeGroup(props: {
   onChange: (next: number) => void;
 }) {
   const t = useTranslations();
-  const idx = Math.max(0, AGE_STEPS_DAYS.indexOf(props.value as never));
+  const steps: readonly number[] = AGE_STEPS_DAYS;
+  const idx = Math.max(0, steps.indexOf(props.value));
   const ageLabel = (days: number) =>
     days === 0
       ? t("MODELS.FILTER.ANY")

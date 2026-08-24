@@ -86,7 +86,7 @@ function MultiPicker(props: {
         items={options.map((o) => o.id)}
         multiple
         value={props.value}
-        onValueChange={(next) => props.onChange(next as string[])}
+        onValueChange={(next) => props.onChange(next)}
         itemToStringLabel={(id) => lookup.get(id) ?? id}
       >
         <ComboboxChips>

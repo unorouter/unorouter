@@ -135,7 +135,7 @@ export function ThemeCustomizerBody() {
   const importTheme = async (file: File) => {
     try {
       const text = await file.text();
-      const parsed = JSON.parse(text) as UserTheme;
+      const parsed = JSON.parse(text);
       if (typeof parsed !== "object" || parsed === null) throw new Error();
       setTheme(parsed);
       toast.success(t("THEME.IMPORT_DONE"));

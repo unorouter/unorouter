@@ -23,10 +23,9 @@ import {
   registerSchema,
   type RegisterSchema,
 } from "@/lib/validation/auth";
-import { safeParse } from "@/lib/validation/helpers";
+import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -42,7 +41,7 @@ export function RegisterForm() {
 
   const form = useForm({
     resolver: typeboxResolver(registerSchema),
-    defaultValues: Value.Default(registerSchema, {}) as RegisterSchema,
+    defaultValues: formDefaults(registerSchema),
   });
 
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();

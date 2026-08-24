@@ -176,13 +176,41 @@ type PushPayload = {
   event?: { type?: string; data?: { model?: string } };
 };
 
+function rec(value: unknown): Record<string, unknown> | undefined {
+  return !!value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : undefined;
+}
+
+function str(value: unknown): string | undefined {
+  return typeof value === "string" ? value : undefined;
+}
+
+function pushPayload(raw: unknown): PushPayload {
+  const root = rec(raw);
+  if (!root) return {};
+  const event = rec(root.event);
+  const data = event && rec(event.data);
+  return {
+    title: str(root.title),
+    body: str(root.body),
+    url: str(root.url),
+    ...(event && {
+      event: {
+        type: str(event.type),
+        ...(data && { data: { model: str(data.model) } }),
+      },
+    }),
+  };
+}
+
 // A push MUST always end in a visible notification: Chrome shows a generic
 // "site updated in background" and Safari revokes the subscription after a
 // few silent pushes. Never bail early, never fetch here.
 self.addEventListener("push", (event) => {
   let payload: PushPayload = {};
   try {
-    payload = (event.data?.json() ?? {}) as PushPayload;
+    payload = pushPayload(event.data?.json());
   } catch {
     payload = { body: event.data?.text() };
   }
@@ -201,7 +229,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = (event.notification.data as { url?: string })?.url ?? "/";
+  const target = str(rec(event.notification.data)?.url) || "/";
   event.waitUntil(
     self.clients
       .matchAll({ type: "window", includeUncontrolled: true })

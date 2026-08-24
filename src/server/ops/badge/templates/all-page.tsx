@@ -24,7 +24,7 @@ function pageUrl(
   shared: BuildBadgeUrlOptions,
   format?: BadgeFormat,
 ): string {
-  return buildBadgeUrl(type as BadgeType, { ...shared, size, format });
+  return buildBadgeUrl(type, { ...shared, size, format });
 }
 
 function copyScript(

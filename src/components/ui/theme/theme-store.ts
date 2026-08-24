@@ -1,4 +1,5 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import type { IconLibraryName } from "@/lib/config/icon-map";
 import { atomWithStorage } from "jotai/utils";
 
 export type ChatMarkdownColors = {
@@ -56,7 +57,7 @@ export type UserTheme = {
   assetImageMaxWidth?: number; // rem; caps {{img::name}} asset image width
   radius?: string;
   style?: string;
-  iconLibrary?: string;
+  iconLibrary?: IconLibraryName;
   menu?: string;
   menuAccent?: string;
   markdown?: ChatMarkdownColors;
@@ -65,13 +66,18 @@ export type UserTheme = {
   background?: BackgroundSettings;
 };
 
+function isSurfaceTheme(
+  surface: SurfaceTheme | SurfaceColors,
+): surface is SurfaceTheme {
+  return "light" in surface || "dark" in surface;
+}
+
 export function normalizeSurface(
   surface: UserTheme["surface"] | SurfaceColors | undefined,
 ): SurfaceTheme {
   if (!surface) return {};
-  if ("light" in surface || "dark" in surface) return surface as SurfaceTheme;
-  const flat = surface as SurfaceColors;
-  return { light: flat, dark: flat };
+  if (isSurfaceTheme(surface)) return surface;
+  return { light: surface, dark: surface };
 }
 
 export const USER_THEME_KEY = "user-theme";

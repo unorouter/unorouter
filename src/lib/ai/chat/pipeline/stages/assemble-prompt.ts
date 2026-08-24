@@ -353,12 +353,14 @@ async function applyJanitorScripts(
   for (const m of messages) {
     if (!Array.isArray(m.parts)) continue;
     const text = m.parts
-      .filter((p) => p.type === "text" && typeof p.text === "string")
-      .map((p) => (p as { text: string }).text)
+      .filter((p) => p.type === "text")
+      .map((p) => p.text)
       .join("\n");
     if (text) texts.push({ role: m.role, text });
   }
   const lastUser = [...texts].reverse().find((t) => t.role === "user");
+  // StreamMessages is Omit<UIMessage,"id">: no id survives, so message_created_at
+  // below is always null.
   const lastId = (messages[messages.length - 1] as { id?: string } | undefined)
     ?.id;
 
@@ -396,7 +398,7 @@ async function applyJanitorScripts(
       ? {
           ...b,
           character: {
-            ...(b.character as Record<string, unknown>),
+            ...b.character,
             personality: result.personality,
             scenario: result.scenario,
             exampleMessages: result.example_dialogs,
@@ -404,8 +406,5 @@ async function applyJanitorScripts(
         }
       : b,
   );
-  return {
-    ...convCtx,
-    boundCharacters,
-  } as LoadedConvContext;
+  return { ...convCtx, boundCharacters };
 }

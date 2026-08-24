@@ -1,6 +1,7 @@
 "use client";
 
 import { useApiMutation } from "@/lib/react-query/hooks";
+import { isRecord } from "@/lib/utils/base";
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
   readLocalConversation,
@@ -25,7 +26,6 @@ import {
   looksLikeSillyTavernChat,
 } from "@/lib/db/client/data/transfer/sillytavern";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { NativeImport, OrpgImport } from "@/lib/types";
 import type {
   UpdateConversationBindingsBody,
   UpdateConversationSettingsBody,
@@ -116,18 +116,21 @@ export function useImportConversationMutation() {
         return importSillyTavernChat(text);
       }
 
-      let parsed: Record<string, unknown>;
+      let parsed: unknown;
       try {
         parsed = JSON.parse(text);
       } catch {
         throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
       }
+      if (!isRecord(parsed)) {
+        throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
+      }
 
       if (parsed.version === NATIVE_VERSION) {
-        return persistMappedImport(mapNativeImport(parsed as NativeImport));
+        return persistMappedImport(mapNativeImport(parsed));
       }
       if (parsed.version === ORPG_VERSION) {
-        return persistMappedImport(mapOrpgImport(parsed as OrpgImport));
+        return persistMappedImport(mapOrpgImport(parsed));
       }
       throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
     },

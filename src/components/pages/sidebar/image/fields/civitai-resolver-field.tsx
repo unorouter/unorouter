@@ -31,7 +31,7 @@ export function CivitaiResolverField(props: Props) {
     setVersions(null);
     props.onChange(null);
     const result = await lookup.mutateAsync(query.trim());
-    const items = (result?.items ?? []) as CustomCheckpoint[];
+    const items = result?.items ?? [];
     setVersions(items);
     // The version named in the reference leads, so a URL needs no second click.
     if (items[0]) props.onChange(items[0]);

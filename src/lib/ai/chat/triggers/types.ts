@@ -1,10 +1,17 @@
-export type TriggerEventMode =
-  | "start" // before send (server, during assembly)
-  | "input" // after user input (client)
-  | "output" // after AI output (client)
-  | "display" // render time, sandboxed (client)
-  | "request" // on the formated array, sandboxed (server)
-  | "manual"; // invoked by name
+export const TRIGGER_EVENT_MODES = [
+  "start", // before send (server, during assembly)
+  "input", // after user input (client)
+  "output", // after AI output (client)
+  "display", // render time, sandboxed (client)
+  "request", // on the formated array, sandboxed (server)
+  "manual", // invoked by name
+] as const;
+
+export type TriggerEventMode = (typeof TRIGGER_EVENT_MODES)[number];
+
+export function isTriggerEventMode(v: unknown): v is TriggerEventMode {
+  return TRIGGER_EVENT_MODES.some((m) => m === v);
+}
 
 export type ConditionType = "var" | "value" | "chatindex" | "exists";
 export type ConditionOperator =

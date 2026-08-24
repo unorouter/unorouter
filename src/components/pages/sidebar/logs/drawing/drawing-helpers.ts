@@ -32,10 +32,8 @@ const MJ_STATUS = {
   MODAL: "MODAL",
 } as const;
 
-type MjStatus = (typeof MJ_STATUS)[keyof typeof MJ_STATUS];
-
 export function getMjStatusColor(status: string): string {
-  const normalized = status?.toUpperCase() as MjStatus;
+  const normalized = status?.toUpperCase();
   switch (normalized) {
     case MJ_STATUS.SUCCESS:
       return "bg-green-500/10 text-green-700 dark:text-green-400";
@@ -112,6 +110,16 @@ export interface DrawingFilterValues {
   end_date?: string;
 }
 
+const DRAWING_FILTER_KEYS: readonly (keyof DrawingFilterValues)[] = [
+  "mj_id",
+  "start_date",
+  "end_date",
+];
+
+function isDrawingFilterKey(id: string): id is keyof DrawingFilterValues {
+  return DRAWING_FILTER_KEYS.some((k) => k === id);
+}
+
 export function buildDrawingFilters(
   columnFilters: Array<{ id: string; value: unknown }>,
   pagination: { pageIndex: number; pageSize: number },
@@ -127,8 +135,8 @@ export function buildDrawingFilters(
 } {
   const filterValues: DrawingFilterValues = {};
   for (const f of columnFilters) {
-    if (typeof f.value === "string" && f.value) {
-      (filterValues as Record<string, string>)[f.id] = f.value;
+    if (typeof f.value === "string" && f.value && isDrawingFilterKey(f.id)) {
+      filterValues[f.id] = f.value;
     }
   }
 

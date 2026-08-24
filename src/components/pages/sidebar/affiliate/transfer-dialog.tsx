@@ -26,10 +26,10 @@ import {
   type TransferSchema,
 } from "@/lib/validation/affiliate";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 type TransferDialogProps = {
   open: boolean;
@@ -44,7 +44,7 @@ export function TransferDialog(props: TransferDialogProps) {
 
   const form = useForm({
     resolver: typeboxResolver(transferSchema),
-    defaultValues: Value.Default(transferSchema, {}) as TransferSchema,
+    defaultValues: formDefaults(transferSchema),
   });
 
   function onSubmit(data: TransferSchema) {

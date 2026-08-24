@@ -120,12 +120,9 @@ function walkTemplate(
   const parts = assembled.promptParts;
   let lead = 0;
   if (!noSystemRole) {
-    while (
-      lead < parts.length &&
-      parts[lead].kind === "message" &&
-      (parts[lead] as { role: string }).role === "system"
-    ) {
-      lead++;
+    for (; lead < parts.length; lead++) {
+      const p = parts[lead];
+      if (p.kind !== "message" || p.role !== "system") break;
     }
   }
   const out: StreamMessages = [];
@@ -155,10 +152,9 @@ function collectTrailingReasoning(
   if (last?.role !== "assistant" || !Array.isArray(last.parts))
     return undefined;
   const thoughts = last.parts
-    .filter(
-      (p) => p.type === "reasoning" && typeof p.text === "string" && p.text,
-    )
-    .map((p) => (p as { text: string }).text);
+    .filter((p) => p.type === "reasoning")
+    .map((p) => p.text)
+    .filter((t) => typeof t === "string" && t.length > 0);
   return thoughts.length > 0 ? thoughts.join("\n") : undefined;
 }
 
@@ -190,15 +186,13 @@ function retagEmittedPrefill(
     const m = messages[i];
     if (m.role !== "assistant" || !Array.isArray(m.parts)) continue;
     const idx = m.parts.findIndex(
-      (p) => p.type === "text" && (p as { text?: string }).text === rawPrefill,
+      (p) => p.type === "text" && p.text === rawPrefill,
     );
     if (idx === -1) continue;
     const parts = m.parts.map((p, j) =>
       j === idx ? { ...p, text: tagged } : p,
     );
-    return messages.map((msg, j) =>
-      j === i ? ({ ...msg, parts } as (typeof messages)[number]) : msg,
-    );
+    return messages.map((msg, j) => (j === i ? { ...msg, parts } : msg));
   }
   return messages;
 }
@@ -226,8 +220,8 @@ async function applyLuaEditRequest(
     role: m.role,
     content: Array.isArray(m.parts)
       ? m.parts
-          .filter((p) => p.type === "text" && typeof p.text === "string")
-          .map((p) => (p as { text: string }).text)
+          .filter((p) => p.type === "text")
+          .map((p) => p.text)
           .join("\n")
       : "",
   }));
@@ -243,10 +237,7 @@ async function applyLuaEditRequest(
     edited[i] &&
     typeof edited[i].content === "string" &&
     edited[i].content !== formated[i].content
-      ? ({
-          ...m,
-          parts: [{ type: "text", text: edited[i].content }],
-        } as (typeof messages)[number])
+      ? { ...m, parts: [{ type: "text" as const, text: edited[i].content }] }
       : m,
   );
 }
@@ -272,8 +263,8 @@ async function applyJsEditRequest(
     role: m.role,
     content: Array.isArray(m.parts)
       ? m.parts
-          .filter((p) => p.type === "text" && typeof p.text === "string")
-          .map((p) => (p as { text: string }).text)
+          .filter((p) => p.type === "text")
+          .map((p) => p.text)
           .join("\n")
       : "",
   }));
@@ -284,10 +275,7 @@ async function applyJsEditRequest(
     edited[i] &&
     typeof edited[i].content === "string" &&
     edited[i].content !== formated[i].content
-      ? ({
-          ...m,
-          parts: [{ type: "text", text: edited[i].content }],
-        } as (typeof messages)[number])
+      ? { ...m, parts: [{ type: "text" as const, text: edited[i].content }] }
       : m,
   );
 }

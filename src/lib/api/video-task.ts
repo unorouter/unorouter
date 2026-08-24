@@ -1,3 +1,5 @@
+import { isRecord } from "@/lib/utils/base";
+
 export type UpstreamSubmitResp = {
   id?: string;
   task_id?: string;
@@ -47,8 +49,8 @@ export function digErrorMessage(value: unknown): string | null {
       }
       continue;
     }
-    if (!node || typeof node !== "object") continue;
-    const obj = node as Record<string, unknown>;
+    if (!isRecord(node)) continue;
+    const obj = node;
     for (const key of ["message", "detail"]) {
       const val = obj[key];
       if (typeof val === "string" && val.trim()) {

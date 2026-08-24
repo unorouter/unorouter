@@ -1,7 +1,6 @@
 import type { SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { getImageModels } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
-import type { ImageSubmitBody } from "@/lib/validation/image";
 import { submitSyncImage } from "./sync-image";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 
@@ -33,7 +32,7 @@ export async function generateInlayImage(
       model: model.model_name,
       prompt,
       references: opts?.references,
-    } as ImageSubmitBody,
+    },
     endpoint,
     n: 1,
     // Only when the user pinned this model's lane: a group belongs to the model

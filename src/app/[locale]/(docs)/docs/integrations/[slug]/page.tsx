@@ -2,7 +2,6 @@ import { CCSwitchContent } from "@/components/pages/docs/cli/cc-switch/cc-switch
 import { ClaudeCodeContent } from "@/components/pages/docs/cli/claude-code/claude-code-content";
 import { SetupGuideTemplate } from "@/components/pages/docs/setup-guide-template";
 import { getSetupGuide } from "@/components/pages/docs/setup-guides";
-import type { Pathname } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
@@ -29,7 +28,7 @@ export async function generateMetadata(props: PageProps) {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: guide.href as Pathname,
+    href: guide.href,
     title: t(prefixKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES),
     description: t(prefixKey(guide.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
     keywords: t(prefixKey(guide.i18nPrefix, "META.KEYWORDS"), APP_VALUES),

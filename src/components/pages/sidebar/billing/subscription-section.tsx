@@ -25,7 +25,7 @@ import {
   RESET_PERIOD_LABEL_KEYS,
   RESET_TRANSLATION_KEYS,
 } from "@/lib/api/subscription";
-import { quotaToDollars, type TranslationKey } from "@/lib/config/constants";
+import { quotaToDollars } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -296,10 +296,13 @@ export function SubscriptionSection() {
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                       {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
-                      {t(
-                        RESET_PERIOD_LABEL_KEYS[plan.plan.quota_reset_period] ??
-                          (plan.plan.quota_reset_period as TranslationKey),
-                      )}
+                      {RESET_PERIOD_LABEL_KEYS[plan.plan.quota_reset_period]
+                        ? t(
+                            RESET_PERIOD_LABEL_KEYS[
+                              plan.plan.quota_reset_period
+                            ],
+                          )
+                        : plan.plan.quota_reset_period}
                     </div>
                     {quotaUsd > 0 && (
                       <div className="flex items-center gap-2">

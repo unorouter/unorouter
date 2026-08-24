@@ -27,7 +27,6 @@ import {
   StatusComponentTitle,
   StatusComponentUptime,
 } from "@/components/ui/status/status-component";
-import type { StatusBucket } from "@/lib/types";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
@@ -117,7 +116,10 @@ export function StatusPage() {
             <VendorFilter vendorCounts={vendorCounts} />
             <Select
               value={s.bucket}
-              onValueChange={(v) => s.setBucket(v as StatusBucket)}
+              onValueChange={(v) => {
+                const option = BUCKET_OPTIONS.find((o) => o.value === v);
+                if (option) s.setBucket(option.value);
+              }}
             >
               <SelectTrigger
                 aria-label={t("STATUS.FILTER.TIME_WINDOW")}

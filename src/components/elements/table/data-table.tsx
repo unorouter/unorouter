@@ -19,6 +19,7 @@ import {
   type Row,
   type RowData,
   type ReactTable,
+  type TableFeatures,
   type TableState,
   createCoreRowModel,
   createExpandedRowModel,
@@ -33,11 +34,17 @@ import React, { type ReactNode, useEffect, useRef, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
-type Meta = {
-  title?: string;
-  headerClassName?: string;
-  cellClassName?: string;
-};
+declare module "@tanstack/react-table" {
+  interface ColumnMeta<
+    TFeatures extends TableFeatures,
+    TData extends RowData,
+    TValue,
+  > {
+    title?: string;
+    headerClassName?: string;
+    cellClassName?: string;
+  }
+}
 
 interface DataTableProps<TData extends RowData> {
   id: DataTableId;
@@ -157,7 +164,7 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
           }
         >
           {row.getVisibleCells().map((cell) => {
-            const meta = cell.column.columnDef.meta as Meta;
+            const meta = cell.column.columnDef.meta;
             return (
               <TableCell key={cell.id} className={cn(meta?.cellClassName)}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -203,7 +210,7 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="hover:bg-transparent">
                 {headerGroup.headers.map((header) => {
-                  const meta = header.column.columnDef.meta as Meta;
+                  const meta = header.column.columnDef.meta;
                   return (
                     <TableHead
                       key={header.id}

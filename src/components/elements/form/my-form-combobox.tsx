@@ -19,8 +19,9 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { isStringArray } from "@/lib/utils/base";
 import type { ReactNode } from "react";
-import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
 
 type NamedEntity = { id: string; name: string };
 
@@ -39,7 +40,7 @@ export function MyFormCombobox<T extends FieldValues>(props: {
       control={props.control}
       name={props.name}
       render={({ field }) => {
-        const ids = field.value as string[];
+        const ids = isStringArray(field.value) ? field.value : [];
         const lookup = new Map(options.map((o) => [o.id, o.name]));
         const orderedItems = ids
           .map((id) => ({ id, name: lookup.get(id) ?? id }))
@@ -52,9 +53,7 @@ export function MyFormCombobox<T extends FieldValues>(props: {
                 items={options.map((o) => o.id)}
                 multiple
                 value={ids}
-                onValueChange={(next) =>
-                  field.onChange(next as PathValue<T, Path<T>>)
-                }
+                onValueChange={(next) => field.onChange(next)}
                 itemToStringLabel={(id) => lookup.get(id) ?? id}
               >
                 <ComboboxChips>
@@ -89,9 +88,7 @@ export function MyFormCombobox<T extends FieldValues>(props: {
                 </p>
                 <SortableList
                   items={orderedItems}
-                  onReorder={(orderedIds) =>
-                    field.onChange(orderedIds as PathValue<T, Path<T>>)
-                  }
+                  onReorder={(orderedIds) => field.onChange(orderedIds)}
                   renderItem={(item, handle) => (
                     <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
                       {handle}

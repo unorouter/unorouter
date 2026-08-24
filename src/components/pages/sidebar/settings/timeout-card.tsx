@@ -20,11 +20,11 @@ import {
   type TimeoutSettingSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 type ServerSetting = {
   max_first_token_seconds?: number;
@@ -39,10 +39,7 @@ export function TimeoutCard() {
 
   const form = useForm({
     resolver: typeboxResolver(timeoutSettingSchema),
-    defaultValues: Value.Default(
-      timeoutSettingSchema,
-      {},
-    ) as TimeoutSettingSchema,
+    defaultValues: formDefaults(timeoutSettingSchema),
   });
 
   const timeoutEnabled = form.watch("timeout_enabled");

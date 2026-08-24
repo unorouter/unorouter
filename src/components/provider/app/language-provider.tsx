@@ -9,14 +9,10 @@ export async function LanguageProvider(props: { children: ReactNode }) {
     getTimeZone(),
     getMessages(),
   ]);
-  const pruned = pruneClientMessages(messages as Record<string, unknown>);
+  const pruned = pruneClientMessages(messages);
 
   return (
-    <ClientIntlProvider
-      locale={locale}
-      timeZone={timeZone}
-      messages={pruned as Parameters<typeof ClientIntlProvider>[0]["messages"]}
-    >
+    <ClientIntlProvider locale={locale} timeZone={timeZone} messages={pruned}>
       {props.children}
     </ClientIntlProvider>
   );

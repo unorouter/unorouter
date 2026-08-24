@@ -13,7 +13,10 @@ import {
   useCustomProviderQuery,
   useUpdateCustomProviderMutation,
 } from "@/hooks/ai/custom-providers-hook";
-import { fetchCustomProviderModels } from "@/lib/ai/chat/custom-provider-id";
+import {
+  fetchCustomProviderModels,
+  ModelListError,
+} from "@/lib/ai/chat/custom-provider-id";
 import { toast } from "sonner";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
@@ -78,8 +81,8 @@ export function CustomProviderEditor(props: Props) {
           modelsArray.append({ key: id, label: id, tokenizer: "auto" });
       }
     } catch (e) {
-      const status = (e as { status?: number }).status;
-      const notJson = (e as { notJson?: boolean }).notJson;
+      const status = e instanceof ModelListError ? e.status : undefined;
+      const notJson = e instanceof ModelListError ? e.notJson : undefined;
       // Three distinct failures the old single message conflated: the endpoint
       // answered with an error code, it answered with a challenge page instead
       // of JSON, or the browser blocked the response outright (no CORS headers,

@@ -89,6 +89,16 @@ export interface TaskFilterValues {
   end_date?: string;
 }
 
+const TASK_FILTER_KEYS: readonly (keyof TaskFilterValues)[] = [
+  "task_id",
+  "start_date",
+  "end_date",
+];
+
+function isTaskFilterKey(id: string): id is keyof TaskFilterValues {
+  return TASK_FILTER_KEYS.some((k) => k === id);
+}
+
 export function buildTaskFilters(
   columnFilters: Array<{ id: string; value: unknown }>,
   pagination: { pageIndex: number; pageSize: number },
@@ -104,8 +114,8 @@ export function buildTaskFilters(
 } {
   const filterValues: TaskFilterValues = {};
   for (const f of columnFilters) {
-    if (typeof f.value === "string" && f.value) {
-      (filterValues as Record<string, string>)[f.id] = f.value;
+    if (typeof f.value === "string" && f.value && isTaskFilterKey(f.id)) {
+      filterValues[f.id] = f.value;
     }
   }
 

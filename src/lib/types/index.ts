@@ -1,4 +1,5 @@
 import type { Pathname, pathnames } from "@/i18n/routing";
+import { isRecord } from "@/lib/utils/base";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type {
@@ -190,9 +191,8 @@ export type SearchResult = {
 };
 
 export function isSearchDoc(doc: unknown): doc is SearchResult {
-  if (typeof doc !== "object" || doc === null) return false;
-  const d = doc as Record<string, unknown>;
-  return typeof d.title === "string" && typeof d.url === "string";
+  if (!isRecord(doc)) return false;
+  return typeof doc.title === "string" && typeof doc.url === "string";
 }
 
 export type LocalAnyRow = Record<string, unknown> & { id: string };
@@ -358,18 +358,18 @@ export type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {
   version?: string;
-  conversation: { id?: string; title?: string | null };
-  settings: Record<string, unknown> | null;
-  messages: ExportRow[];
-  items: ExportRow[];
-  characters: ExportRow[];
-  persona: ExportRow | null;
-  preset: ExportRow | null;
-  lorebooks: ExportRow[];
-  lorebookEntries: ExportRow[];
-  bindings: {
-    characters: Array<Record<string, unknown>>;
-    lorebooks: Array<Record<string, unknown>>;
+  conversation?: { id?: string; title?: string | null };
+  settings?: Record<string, unknown> | null;
+  messages?: ExportRow[];
+  items?: ExportRow[];
+  characters?: ExportRow[];
+  persona?: ExportRow | null;
+  preset?: ExportRow | null;
+  lorebooks?: ExportRow[];
+  lorebookEntries?: ExportRow[];
+  bindings?: {
+    characters?: Array<Record<string, unknown>>;
+    lorebooks?: Array<Record<string, unknown>>;
   };
 };
 

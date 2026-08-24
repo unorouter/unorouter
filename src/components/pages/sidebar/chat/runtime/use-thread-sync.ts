@@ -1,6 +1,7 @@
 "use client";
 
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
+import { rec } from "@/lib/utils/base";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import {
   activeConvOverridesAtom,
@@ -27,7 +28,7 @@ export function useConvIdSync(remoteId: string | null | undefined) {
   }, [remoteId]);
 }
 
-const OVERRIDE_KEYS = [
+const OVERRIDE_KEYS: readonly (keyof StreamOverrides)[] = [
   "reasoningEffort",
   "temperature",
   "topP",
@@ -64,11 +65,11 @@ export function useSettingsSync(remoteId: string | null | undefined) {
     if (!settings || remoteId === lastSyncedIdRef.current) return;
     lastSyncedIdRef.current = remoteId;
     const overrides: StreamOverrides = {};
-    const row = settings as Record<string, unknown>;
+    const row = rec(settings) ?? {};
     for (const k of OVERRIDE_KEYS) {
       const v = row[k];
       if (v !== null && v !== undefined) {
-        (overrides as Record<string, unknown>)[k] = v;
+        Object.assign(overrides, { [k]: v });
       }
     }
     setActiveOverrides(overrides);

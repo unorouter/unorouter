@@ -54,7 +54,7 @@ export async function forwardCustomProvider(args: {
     const v = upstream.headers.get(h);
     if (v) headers.set(h, v);
   }
-  return new Response(upstream.body as BodyInit | null, {
+  return new Response(upstream.body, {
     status: upstream.status,
     headers,
   });

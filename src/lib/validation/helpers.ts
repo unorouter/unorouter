@@ -24,7 +24,7 @@ export function safeParse<T extends TSchema>(
   if (isValid) {
     return {
       success: true,
-      data: value as Static<T>,
+      data: value,
     };
   }
 

@@ -78,11 +78,14 @@ function resolveSamplingFromPreset(
   src: SamplerSource,
   preset: InheritSource | null,
 ): ReturnType<typeof samplingValues> {
-  const out = {} as ReturnType<typeof samplingValues>;
-  for (const field of SAMPLING_FIELDS) {
-    out[field] = resolveNum(src[field], preset?.[field]);
-  }
-  return out;
+  return samplingValues(
+    Object.fromEntries(
+      SAMPLING_FIELDS.map((field) => [
+        field,
+        resolveNum(src[field], preset?.[field]),
+      ]),
+    ),
+  );
 }
 
 export function writeSamplerMemory(
@@ -301,11 +304,14 @@ function samplingOverrides(
   data: ConversationOverridesForm,
   preset: InheritSource | null,
 ): ReturnType<typeof samplingValues> {
-  const out = {} as ReturnType<typeof samplingValues>;
-  for (const field of SAMPLING_FIELDS) {
-    out[field] = numOverrideOrInherit(data[field], preset?.[field]);
-  }
-  return out;
+  return samplingValues(
+    Object.fromEntries(
+      SAMPLING_FIELDS.map((field) => [
+        field,
+        numOverrideOrInherit(data[field], preset?.[field]),
+      ]),
+    ),
+  );
 }
 
 export function buildSettingsBody(

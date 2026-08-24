@@ -15,6 +15,7 @@ import { useRef } from "react";
 import { AnalyticsSection } from "./analytics-section";
 import { FlowSection } from "./flow-section";
 import { OverviewSection } from "./overview-section";
+import { upper } from "@/lib/utils/base";
 
 type DashboardProps = {
   serverTimestamps: TimeRange;
@@ -26,7 +27,6 @@ const SECTIONS = [
   { value: "flow", Component: FlowSection },
 ] as const;
 const SECTION_VALUES = SECTIONS.map((section) => section.value);
-type DashboardSection = (typeof SECTIONS)[number]["value"];
 
 export function Dashboard(props: DashboardProps) {
   const setDashboardStore = useSetAtom(dashboardStoreAtom);
@@ -91,9 +91,7 @@ export function Dashboard(props: DashboardProps) {
               value={section.value}
               className="font-mono text-xs"
             >
-              {t(
-                `DASHBOARD.SECTION.${section.value.toUpperCase() as Uppercase<DashboardSection>}`,
-              )}
+              {t(`DASHBOARD.SECTION.${upper(section.value)}`)}
             </TabsTrigger>
           ))}
         </TabsList>

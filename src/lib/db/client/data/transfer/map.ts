@@ -94,13 +94,13 @@ export function mapNativeImport(native: NativeImport): MappedImport {
       }
     : null;
 
-  const characters = native.characters.map((c) => ({
+  const characters = (native.characters ?? []).map((c) => ({
     ...c,
     id: charIdMap.get(c.id)!,
     name: str(c.name) ?? "",
   }));
 
-  const lorebooks = native.lorebooks.map((l) => {
+  const lorebooks = (native.lorebooks ?? []).map((l) => {
     const newLbId = lbIdMap.get(l.id)!;
     return {
       lorebook: {
@@ -111,7 +111,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
         tokenBudget: num(l.tokenBudget) ?? 1500,
         recursiveScanning: bool(l.recursiveScanning) ?? false,
       },
-      entries: native.lorebookEntries
+      entries: (native.lorebookEntries ?? [])
         .filter((e) => e.lorebookId === l.id)
         .map((e) => ({
           ...e,
@@ -128,7 +128,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     };
   });
 
-  const conversationCharacters = native.bindings.characters
+  const conversationCharacters = (native.bindings?.characters ?? [])
     .map((b) => {
       const newCharId = charIdMap.get(str(b.characterId) ?? "");
       if (!newCharId) return null;
@@ -143,7 +143,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     })
     .filter((b) => b != null);
 
-  const conversationLorebooks = native.bindings.lorebooks
+  const conversationLorebooks = (native.bindings?.lorebooks ?? [])
     .map((b) => {
       const newLbId = lbIdMap.get(str(b.lorebookId) ?? "");
       if (!newLbId) return null;
@@ -159,7 +159,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
   // timestamp and readLocalMessages orders by it. Distinct values per row keep
   // the branch walk's array-order fallbacks meaningful.
   const baseTime = new Date();
-  const messages = native.messages.map((m, i) => {
+  const messages = (native.messages ?? []).map((m, i) => {
     const oldParent = str(m.parentId);
     const oldChar = str(m.characterId);
     const createdAt =
@@ -179,7 +179,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     };
   });
 
-  const messageItems = native.items.map((it) => ({
+  const messageItems = (native.items ?? []).map((it) => ({
     ...it,
     id: uid(),
     messageId: msgIdMap.get(str(it.messageId) ?? "")!,
@@ -195,7 +195,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     characters,
     lorebooks,
     bundle: {
-      conversation: { id: convId, title: native.conversation.title ?? null },
+      conversation: { id: convId, title: native.conversation?.title ?? null },
       settings: {
         convId,
         defaultModel: str(s?.defaultModel) ?? "",

@@ -197,10 +197,10 @@ export function ConsumptionChart() {
 
   const allModels = [
     ...new Set(dashboard.rawData.map((r) => r.model_name).filter(Boolean)),
-  ].sort() as string[];
+  ].sort();
   const allGroups = [
     ...new Set(dashboard.rawData.map((r) => r.use_group).filter(Boolean)),
-  ].sort() as string[];
+  ].sort();
 
   const rows = dashboard.rawData.filter(
     (row) =>

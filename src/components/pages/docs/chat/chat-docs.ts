@@ -1,4 +1,4 @@
-import type { LinkHref } from "@/i18n/routing";
+import type { Pathname } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 import type { DocI18nPrefix } from "@/lib/types";
@@ -19,14 +19,14 @@ export interface ChatDocHeading {
 
 export interface ChatDoc {
   slug: string;
-  href: LinkHref;
+  href: Pathname;
   i18nPrefix: DocI18nPrefix;
   section: ChatDocSection;
   iconName: IconName;
   headings: ChatDocHeading[];
 }
 
-const chatDocHref = (slug: string): LinkHref => ({
+const chatDocHref = (slug: string): Pathname => ({
   pathname: "/docs/chat/[slug]",
   params: { slug },
 });
@@ -301,14 +301,14 @@ export function getChatDoc(slug: string): ChatDoc | undefined {
 }
 
 export function chatDocsBySection(): Record<ChatDocSection, ChatDoc[]> {
-  const out = {
+  const out: Record<ChatDocSection, ChatDoc[]> = {
     GETTING_STARTED: [],
     ENTITIES: [],
     PROMPTING: [],
     SCRIPTING: [],
     CONTEXT_MEDIA: [],
     DATA: [],
-  } as Record<ChatDocSection, ChatDoc[]>;
+  };
   for (const doc of CHAT_DOCS) out[doc.section].push(doc);
   return out;
 }

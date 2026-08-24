@@ -1,3 +1,5 @@
+import { rec } from "@/lib/utils/base";
+
 type Messages = Record<string, unknown>;
 
 export const CLIENT_STRIPPED_NAMESPACES = [
@@ -43,9 +45,8 @@ function pruneDocsNamespace(
   }
   for (const [key, value] of Object.entries(docs)) {
     if (pruned[key] !== undefined) continue;
-    if (typeof value !== "object" || value === null) continue;
-    const guide = value as Messages;
-    if (typeof guide.TITLE !== "string") continue;
+    const guide = rec(value);
+    if (!guide || typeof guide.TITLE !== "string") continue;
     const leaves: Messages = {};
     for (const leaf of CLIENT_DOCS_GUIDE_LEAVES) {
       if (guide[leaf] !== undefined) leaves[leaf] = guide[leaf];

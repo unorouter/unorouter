@@ -30,12 +30,12 @@ import {
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 export function AccountCard() {
   const t = useTranslations();
@@ -60,7 +60,7 @@ export function AccountCard() {
 
   const form = useForm({
     resolver: typeboxResolver(emailBindSchema),
-    defaultValues: Value.Default(emailBindSchema, {}) as EmailBindSchema,
+    defaultValues: formDefaults(emailBindSchema),
   });
 
   useEffect(() => {
@@ -110,7 +110,7 @@ export function AccountCard() {
           analytics.settings.emailBound();
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));
           setShowEmailForm(false);
-          form.reset(Value.Default(emailBindSchema, {}) as EmailBindSchema);
+          form.reset(formDefaults(emailBindSchema));
           turnstileRef.current?.reset();
           setTurnstileToken(undefined);
         },
@@ -324,9 +324,7 @@ export function AccountCard() {
                       className="mt-0.5"
                       onClick={() => {
                         setShowEmailForm(false);
-                        form.reset(
-                          Value.Default(emailBindSchema, {}) as EmailBindSchema,
-                        );
+                        form.reset(formDefaults(emailBindSchema));
                         turnstileRef.current?.reset();
                         setTurnstileToken(undefined);
                       }}

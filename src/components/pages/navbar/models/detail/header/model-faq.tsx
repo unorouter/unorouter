@@ -3,6 +3,7 @@
 import type { ModelMetadata } from "@/openapi";
 
 import { findContextTag } from "@/lib/api/pricing";
+import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import type { PricingCatalogDetail } from "@/openapi";
 
 import { Icon } from "@/components/ui/icon";
@@ -23,7 +24,7 @@ export function ModelFaq(props: { model: PricingCatalogDetail }) {
   const m = props.model;
   // The detail record always carries metadata; the list shape does not, so the
   // default keeps this readable instead of chaining every access.
-  const meta: ModelMetadata = m.metadata ?? ({} as ModelMetadata);
+  const meta: ModelMetadata = m.metadata ?? EMPTY_METADATA;
   const name = m.model_name;
   const theme = getVendorTheme(m.vendor);
   const items: FaqItem[] = [];

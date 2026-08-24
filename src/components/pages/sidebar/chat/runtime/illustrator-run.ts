@@ -9,7 +9,7 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { rpc } from "@/lib/rpc";
-import { handleElysia, uid } from "@/lib/utils/base";
+import { handleElysia, rec, uid } from "@/lib/utils/base";
 import {
   readLocalMedia,
   upsertLocalMedia,
@@ -40,30 +40,19 @@ export type IllustratorConvSettings = {
 export async function resolveIllustratorSettings(
   convId: string,
 ): Promise<IllustratorConvSettings | null> {
-  const s = (await readLocalConversationSettings(convId)) as {
-    imageEnabled?: boolean | null;
-    utilityModel?: string | null;
-    defaultModel?: string | null;
-    presetId?: string | null;
-    promptInstruction?: string | null;
-    imageModel?: string | null;
-    imagePreview?: boolean | null;
-    imageRefIds?: string | null;
-    useCharAvatarRef?: boolean | null;
-  } | null;
+  const s = await readLocalConversationSettings(convId);
   if (!s) return null;
   const preset = s.presetId ? await readLocalPreset(s.presetId) : null;
   let refMediaIds: string[] = [];
   try {
-    const parsed = JSON.parse(s.imageRefIds ?? "[]") as unknown;
+    const parsed: unknown = JSON.parse(s.imageRefIds ?? "[]");
     if (Array.isArray(parsed)) {
       refMediaIds = parsed.filter((x): x is string => typeof x === "string");
     }
   } catch {}
   if (s.useCharAvatarRef ?? preset?.useCharAvatarRef) {
     const primary = await readPrimaryCharacter(convId);
-    const avatarId = (primary as { avatarMediaId?: string | null } | null)
-      ?.avatarMediaId;
+    const avatarId = primary?.avatarMediaId;
     if (avatarId) refMediaIds = [avatarId, ...refMediaIds];
   }
   return {
@@ -227,8 +216,7 @@ export async function runIllustrator(
   const rewritten = mine
     .map((it) => {
       const isPlaceholder =
-        it.type === "task" &&
-        (it.data as { task_id?: string })?.task_id === input.taskId;
+        it.type === "task" && rec(it.data)?.task_id === input.taskId;
       if (!isPlaceholder) return it;
       if (image && image.type === "inlay_image") {
         return {

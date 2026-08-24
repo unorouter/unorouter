@@ -327,9 +327,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                   )}
                   <CommandList
                     className="max-h-72"
-                    onScroll={(e) =>
-                      setScrollTop((e.target as HTMLElement).scrollTop)
-                    }
+                    onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
                   >
                     <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
                     <CommandGroup>

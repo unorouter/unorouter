@@ -111,10 +111,10 @@ export function useImageForm() {
   // A preset picks a model deliberately, so the TAB follows the model (the fit hook
   // resolves the other direction and would swap the preset's model out).
   const adoptModelTab = (modelId: string) => {
-    const desc = effectiveModels.find((m) => m.model_name === modelId);
-    if (!desc || isModelInTab(desc, nav.tab)) return;
-    const target: GenerateTab =
-      (desc as ImageModelDescriptor).tabs?.[0] ?? "text2img";
+    if (!effectiveModels.some((m) => m.model_name === modelId)) return;
+    const desc = findDescriptor(modelId);
+    if (isModelInTab(desc, nav.tab)) return;
+    const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
     nav.setTab(target);
     drafts.setDraftRestoredTab(target);
   };

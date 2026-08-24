@@ -1,3 +1,5 @@
+import { rec } from "@/lib/utils/base";
+
 export type PromptItemRole = "system" | "user" | "assistant";
 
 export type SlotName =
@@ -97,8 +99,8 @@ export function parsePromptTemplate(
     const out: PromptItem[] = [];
     let lorebookPlaced = false;
     for (const c of parsed) {
-      if (!c || typeof c !== "object") continue;
-      const item = c as Record<string, unknown>;
+      const item = rec(c);
+      if (!item) continue;
       if (item.type === "slot" && typeof item.slot === "string") {
         const slot = (
           LEGACY_LORE_SLOTS.has(item.slot) ? "lorebook" : item.slot

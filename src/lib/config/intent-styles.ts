@@ -10,9 +10,11 @@ const INTENT_BADGE_CLASS: Record<IntentType, string> = {
 
 const NEUTRAL_BADGE_CLASS = "bg-muted text-muted-foreground";
 
+const isIntentType = (v: string): v is IntentType => v in INTENT_BADGE_CLASS;
+
 export function intentBadgeClass(type: string | undefined): string {
-  if (!type) return NEUTRAL_BADGE_CLASS;
-  return INTENT_BADGE_CLASS[type as IntentType] ?? NEUTRAL_BADGE_CLASS;
+  if (!type || !isIntentType(type)) return NEUTRAL_BADGE_CLASS;
+  return INTENT_BADGE_CLASS[type];
 }
 
 const INTENT_DOT_CLASS: Record<IntentType, { bg: string; dot: string }> = {

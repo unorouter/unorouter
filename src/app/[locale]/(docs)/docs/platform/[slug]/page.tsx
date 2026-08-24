@@ -10,7 +10,6 @@ import {
   platformDocKey,
 } from "@/components/pages/docs/platform/platform-doc-template";
 import { getPlatformDoc } from "@/components/pages/docs/platform/platform-docs";
-import type { Pathname } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -31,7 +30,7 @@ export async function generateMetadata(props: PageProps) {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: doc.href as Pathname,
+    href: doc.href,
     title: t(platformDocKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
     description: t(
       platformDocKey(doc.i18nPrefix, "META.DESCRIPTION"),

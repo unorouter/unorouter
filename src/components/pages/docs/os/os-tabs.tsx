@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { analytics } from "@/lib/analytics";
-import { OS } from "@/lib/types/enums";
+import { isOS, OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
 
 import { Icon } from "@/components/ui/icon";
@@ -26,7 +26,7 @@ export function OSTabs(props: OSTabsProps) {
       value={docs.os}
       onValueChange={(v) => {
         analytics.docs.osTabChanged({ os: v });
-        docs.setOs(v as OS);
+        if (isOS(v)) docs.setOs(v);
       }}
       className="mt-8"
     >

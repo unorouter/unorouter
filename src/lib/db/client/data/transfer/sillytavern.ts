@@ -3,7 +3,7 @@
 import { joinItemsToMessages, walkActiveBranch } from "@/lib/ai/chat/messages";
 import { msg } from "@/lib/config/constants";
 import type { StMessage, StMetadata } from "@/lib/types";
-import { exportSlug } from "@/lib/utils/base";
+import { exportSlug, rec } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
@@ -36,7 +36,7 @@ function buildBranchView(messages: MessageRow[], items: MessageItemRow[]) {
 function renderItemsAsText(items: MessageItemRow[]): string {
   const parts: string[] = [];
   for (const it of items) {
-    const data = it.data as Record<string, unknown>;
+    const data = rec(it.data) ?? {};
     if (it.type === "text" && typeof data.text === "string") {
       parts.push(data.text);
     } else if (it.type === "image" || it.type === "file") {
@@ -79,8 +79,11 @@ export async function exportLocalConversationSillyTavern(
     if (m.role === "system") continue;
     const items = itemsByMsg.get(m.id) ?? [];
     const text = renderItemsAsText(items);
-    const reasoning = items.find((it) => it.type === "reasoning")?.data as
-      { text?: string } | undefined;
+    const reasoningText = rec(
+      items.find((it) => it.type === "reasoning")?.data,
+    )?.text;
+    const reasoning =
+      typeof reasoningText === "string" ? reasoningText : undefined;
 
     const line: StMessage = {
       name:
@@ -94,7 +97,7 @@ export async function exportLocalConversationSillyTavern(
       send_date: dayjs(m.createdAt ?? undefined).toISOString(),
       mes: text,
       extra: {
-        ...(reasoning?.text ? { reasoning: reasoning.text } : {}),
+        ...(reasoning ? { reasoning } : {}),
         ...(m.outputTokens != null ? { token_count: m.outputTokens } : {}),
         ...(m.model ? { model: m.model } : {}),
       },

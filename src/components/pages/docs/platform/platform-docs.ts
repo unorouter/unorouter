@@ -1,4 +1,4 @@
-import type { LinkHref } from "@/i18n/routing";
+import type { Pathname } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 import type { DocI18nPrefix } from "@/lib/types";
@@ -13,14 +13,14 @@ export interface PlatformDocHeading {
 
 export interface PlatformDoc {
   slug: string;
-  href: LinkHref;
+  href: Pathname;
   i18nPrefix: DocI18nPrefix;
   section: PlatformDocSection;
   iconName: IconName;
   headings: PlatformDocHeading[];
 }
 
-const platformDocHref = (slug: string): LinkHref => ({
+const platformDocHref = (slug: string): Pathname => ({
   pathname: "/docs/platform/[slug]",
   params: { slug },
 });
@@ -178,10 +178,10 @@ export function platformDocsBySection(): Record<
   PlatformDocSection,
   PlatformDoc[]
 > {
-  const out = { GUIDE: [], FAQ: [] } as Record<
-    PlatformDocSection,
-    PlatformDoc[]
-  >;
+  const out: Record<PlatformDocSection, PlatformDoc[]> = {
+    GUIDE: [],
+    FAQ: [],
+  };
   for (const doc of PLATFORM_DOCS) out[doc.section].push(doc);
   return out;
 }

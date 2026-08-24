@@ -43,7 +43,6 @@ import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -52,6 +51,7 @@ import type { TokenRow } from "./token-columns";
 import { TokenGroupMapping, type GroupMapping } from "./token-group-mapping";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
+import { formDefaults } from "@/lib/validation/helpers";
 
 type TokenDialogProps = {
   open: boolean;
@@ -80,14 +80,14 @@ export function TokenDialog(props: TokenDialogProps) {
   const userGroupsQuery = useUserGroupsQuery();
   const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
-    defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
+    defaultValues: formDefaults(tokenFormSchema),
   });
 
   const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
-  const [revealSession, setRevealSession] = useState({
-    key: sessionKey,
-    value: null as string | null,
-  });
+  const [revealSession, setRevealSession] = useState<{
+    key: string;
+    value: string | null;
+  }>({ key: sessionKey, value: null });
   if (revealSession.key !== sessionKey) {
     setRevealSession({ key: sessionKey, value: null });
   }
@@ -100,8 +100,7 @@ export function TokenDialog(props: TokenDialogProps) {
     if (!props.open) return;
     if (props.token) {
       let tokenMapping: GroupMapping = {};
-      const rawMapping = (props.token as { group_mapping?: string })
-        .group_mapping;
+      const rawMapping = props.token.group_mapping;
       if (rawMapping) {
         try {
           tokenMapping = JSON.parse(rawMapping);
@@ -121,7 +120,7 @@ export function TokenDialog(props: TokenDialogProps) {
         group_mapping: tokenMapping,
       });
     } else {
-      form.reset(Value.Default(tokenFormSchema, {}) as TokenFormSchema);
+      form.reset(formDefaults(tokenFormSchema));
     }
   }, [props.open, props.token, form]);
 

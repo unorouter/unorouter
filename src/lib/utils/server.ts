@@ -63,7 +63,7 @@ export const getCookieValue = async <T>(
 ): Promise<T | undefined> => {
   const cookieStore = await cookies();
   try {
-    return JSON.parse(cookieStore.get(key)?.value ?? "") as T;
+    return JSON.parse(cookieStore.get(key)?.value ?? "");
   } catch {
     return undefined;
   }
@@ -123,6 +123,8 @@ export async function redirectFromAuth(): Promise<never> {
   const stored = String(
     (await getCookie(AUTH_REDIRECT_COOKIE, { cookies })) ?? "",
   );
+  // A sanitized path is an arbitrary runtime string; Redirect["href"] is the
+  // closed union of statically-known pathnames, which it cannot be proven to be.
   const target = sanitizeRedirectPath(stored) as Redirect["href"] | null;
   return redirect({ href: target || "/dashboard", locale });
 }

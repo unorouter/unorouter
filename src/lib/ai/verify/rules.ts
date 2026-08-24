@@ -28,7 +28,7 @@ export const DETECTION_EXCEPTIONS: readonly DetectionExceptionId[] = [
   "threshold",
 ];
 
-export function ruleIdForSignal(signal: ProbeSignal): DetectionRuleId | null {
+export function ruleIdForSignal(signal: string): DetectionRuleId | null {
   if (signal === "coding-tool") return "coding-tool";
   if (signal === "scam") return "scam";
   if (signal === "cjk-leak") return "cjk-leak";

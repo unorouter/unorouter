@@ -1,3 +1,4 @@
+import { rec } from "@/lib/utils/base";
 import { foreignPatternsExcept } from "../patterns";
 import {
   normalizeProbeBaseUrl,
@@ -36,7 +37,7 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
 }
 
 function extractText(data: unknown): string | null {
-  const d = data as GeminiResponse;
+  const d: GeminiResponse = rec(data) ?? {};
   if (d.error) return null;
   const parts = d.candidates?.[0]?.content?.parts;
   if (!parts) return null;
@@ -47,7 +48,7 @@ function extractText(data: unknown): string | null {
 }
 
 function extractMeta(data: unknown) {
-  const d = data as GeminiResponse;
+  const d: GeminiResponse = rec(data) ?? {};
   const u = d.usageMetadata;
   return {
     detectedModel: d.modelVersion ?? null,

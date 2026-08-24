@@ -41,7 +41,7 @@ async function fetchAuthRequestInfo(
   );
   if (!res.ok) return null;
   const json: unknown = await res.json();
-  const parsed = safeParse(authRequestInfoChecker, json as AuthRequestInfo);
+  const parsed = safeParse(authRequestInfoChecker, json);
   return parsed.success ? parsed.data : null;
 }
 

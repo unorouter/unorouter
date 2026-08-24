@@ -58,9 +58,10 @@ export const VENDOR_PATTERNS = {
 export type VendorKey = keyof typeof VENDOR_PATTERNS;
 
 export function foreignPatternsExcept(home: VendorKey): string[] {
-  return (Object.keys(VENDOR_PATTERNS) as VendorKey[])
-    .filter((k) => k !== home)
-    .flatMap((k) => [...VENDOR_PATTERNS[k]]);
+  const keys: VendorKey[] = Object.keys(VENDOR_PATTERNS).filter(
+    (k): k is VendorKey => k in VENDOR_PATTERNS,
+  );
+  return keys.filter((k) => k !== home).flatMap((k) => [...VENDOR_PATTERNS[k]]);
 }
 
 // prettier-ignore

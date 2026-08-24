@@ -25,6 +25,7 @@ import {
 } from "./posts";
 import { PrevNextNav } from "./prev-next-nav";
 import { RelatedPosts } from "./related-posts";
+import { upper } from "@/lib/utils/base";
 
 interface BlogPostProps {
   slug: string;
@@ -44,9 +45,7 @@ export async function BlogPost(props: BlogPostProps) {
   const minutes = estimateReadingMinutes(post.wordCount);
   const adjacent = getAdjacentPosts(post.slug);
   const related = getRelatedPosts(post.slug);
-  const categoryLabel = t(
-    `BLOG.CATEGORY.${post.category.toUpperCase() as Uppercase<typeof post.category>}`,
-  );
+  const categoryLabel = t(`BLOG.CATEGORY.${upper(post.category)}`);
 
   const tocItems: TOCItemType[] = post.headings.map((h) => ({
     url: `#${h.id}`,

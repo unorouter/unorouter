@@ -26,11 +26,11 @@ function getIcon(vendor: string): IconComponent | null {
   const key = Object.keys(LOADERS).find((k) => normalized.includes(k));
   if (!key) return null;
 
-  const Icon = dynamic(LOADERS[key], {
+  const Icon: IconComponent = dynamic(LOADERS[key], {
     loading: () => (
       <span className="bg-muted/50 inline-block size-full rounded-sm" />
     ),
-  }) as IconComponent;
+  });
   cache.set(vendor, Icon);
   return Icon;
 }

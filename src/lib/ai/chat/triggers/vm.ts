@@ -1,3 +1,5 @@
+import { rec } from "@/lib/utils/base";
+import { isTriggerEventMode } from "./types";
 import { runDataOpcode, type VarResolver } from "./opcodes";
 import type {
   TriggerCondition,
@@ -502,12 +504,13 @@ export function parseTriggerScripts(raw: unknown): TriggerScript[] {
   if (!Array.isArray(arr)) return [];
   const out: TriggerScript[] = [];
   for (const c of arr) {
-    if (!c || typeof c !== "object") continue;
-    const o = c as Record<string, unknown>;
-    if (typeof o.type !== "string" || !Array.isArray(o.effect)) continue;
+    const o = rec(c);
+    if (!o) continue;
+    const mode = o.type;
+    if (!isTriggerEventMode(mode) || !Array.isArray(o.effect)) continue;
     out.push({
       comment: typeof o.comment === "string" ? o.comment : "",
-      type: o.type as TriggerScript["type"],
+      type: mode,
       conditions: Array.isArray(o.conditions) ? o.conditions : [],
       effect: o.effect,
       lowLevelAccess: !!o.lowLevelAccess,

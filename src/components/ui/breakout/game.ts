@@ -137,7 +137,7 @@ const POWER_UP_DEFS = {
     duration: 10,
     label: "THROTTLE",
   },
-} as const;
+};
 
 type Mode = "serve" | "playing" | "transition" | "game-over";
 type SequenceKind = "opening" | "intro" | "clear";

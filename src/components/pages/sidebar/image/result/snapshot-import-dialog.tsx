@@ -69,7 +69,9 @@ export function SnapshotImportDialog(props: Props) {
         <div className="flex flex-col gap-3">
           <Select
             value={importMode}
-            onValueChange={(v) => setImportMode(v as ImageCloneMode)}
+            onValueChange={(v) =>
+              setImportMode(v === "regenerate" ? "regenerate" : "restore")
+            }
           >
             <SelectTrigger>
               <SelectValue />

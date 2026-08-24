@@ -19,12 +19,12 @@ import {
   type DeleteAccountSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 export function DeleteAccountDialog(props: {
   open: boolean;
@@ -39,15 +39,12 @@ export function DeleteAccountDialog(props: {
 
   const form = useForm({
     resolver: typeboxResolver(deleteAccountSchema),
-    defaultValues: Value.Default(
-      deleteAccountSchema,
-      {},
-    ) as DeleteAccountSchema,
+    defaultValues: formDefaults(deleteAccountSchema),
   });
 
   useEffect(() => {
     if (props.open) {
-      form.reset(Value.Default(deleteAccountSchema, {}) as DeleteAccountSchema);
+      form.reset(formDefaults(deleteAccountSchema));
     }
   }, [props.open, form]);
 

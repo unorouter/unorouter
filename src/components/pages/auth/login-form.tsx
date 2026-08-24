@@ -17,11 +17,10 @@ import {
   loginSchema,
   type LoginSchema,
 } from "@/lib/validation/auth";
-import { safeParse } from "@/lib/validation/helpers";
+import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -35,7 +34,7 @@ export function LoginForm() {
 
   const form = useForm({
     resolver: typeboxResolver(loginSchema),
-    defaultValues: Value.Default(loginSchema, {}) as LoginSchema,
+    defaultValues: formDefaults(loginSchema),
   });
 
   const [show2FA, setShow2FA] = useState(false);
@@ -63,11 +62,12 @@ export function LoginForm() {
         },
       });
       if (result && "require_2fa" in result && result.require_2fa) {
-        const hasFlow =
-          "flow_token" in result && typeof result.flow_token === "string";
-        logChatDebug("auth.2fa_required", { hasFlowToken: hasFlow });
-        if (hasFlow) {
-          setTwoFAFlowToken(result.flow_token as string);
+        logChatDebug("auth.2fa_required", {
+          hasFlowToken:
+            "flow_token" in result && typeof result.flow_token === "string",
+        });
+        if ("flow_token" in result && typeof result.flow_token === "string") {
+          setTwoFAFlowToken(result.flow_token);
         }
         setShow2FA(true);
         return;

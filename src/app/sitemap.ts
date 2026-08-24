@@ -10,6 +10,7 @@ import {
 } from "@/i18n/registry";
 import {
   type Pathname,
+  type StaticRoute,
   pathnames,
   privateRoutes,
   routing,
@@ -60,7 +61,7 @@ function localizedEntries(
   }));
 }
 
-function sectionOptions(route: string): EntryOptions {
+function sectionOptions(route: StaticRoute): EntryOptions {
   return route in SECTION_PRIORITIES
     ? SECTION_PRIORITIES[route as keyof typeof SECTION_PRIORITIES]
     : DEFAULT_PRIORITY;
@@ -70,7 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const topLevelRoutes = (
     Object.keys(pathnames) as (keyof typeof pathnames)[]
   ).filter(
-    (route) =>
+    (route): route is StaticRoute =>
       !route.includes("[") &&
       !privateSet.has(route) &&
       !docPathSet.has(route) &&
@@ -113,10 +114,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...topLevelRoutes.flatMap((route) =>
-      localizedEntries(route as Pathname, sectionOptions(route)),
+      localizedEntries(route, sectionOptions(route)),
     ),
     ...DOCS_REGISTRY.flatMap((doc) =>
-      localizedEntries(doc.path as Pathname, {
+      localizedEntries(doc.path, {
         priority: doc.priority,
         changeFrequency: doc.changeFrequency,
         lastModified: doc.slug,

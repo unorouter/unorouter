@@ -11,7 +11,7 @@ import { COOKIE_MAX_AGE } from "./constants";
 // Server-side reads yield the initial value; the real cookie is seeded into those
 // atoms by the store providers, which read it through `getCookieValue`.
 export const jotaiCookieStorage = {
-  getItem(key: string, initialValue: unknown) {
+  getItem<T>(key: string, initialValue: T): T {
     if (isServer) return initialValue;
     const value = getCookie(key);
     if (!value) return initialValue;

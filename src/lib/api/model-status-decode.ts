@@ -48,12 +48,12 @@ type ComponentDTO = {
 };
 
 export type CompactPagePayload = {
-  components: ComponentDTO[];
-  incidents: IncidentDTO[];
+  components: ComponentDTO[] | null;
+  incidents: IncidentDTO[] | null;
   bucket_start: number;
   bucket_sec: number;
   bucket_count: number;
-  bars: Record<string, CompactBar>;
+  bars: Record<string, CompactBar> | null;
 };
 
 type DecodedStatusPage = {
@@ -127,8 +127,9 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
   const incidents = p.incidents ?? [];
   for (const inc of incidents) incidentById.set(inc.id, inc);
 
-  for (const name of Object.keys(p.bars ?? {})) {
-    const cb = p.bars[name];
+  const rawBars = p.bars ?? {};
+  for (const name of Object.keys(rawBars)) {
+    const cb = rawBars[name];
     const out: StatusBarData[] = new Array(cb.buckets.length);
     for (let i = 0; i < cb.buckets.length; i++) {
       const b = cb.buckets[i];

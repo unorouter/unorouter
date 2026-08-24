@@ -1,3 +1,5 @@
+import { rec } from "@/lib/utils/base";
+
 export type RegexScriptMode =
   | "editinput" // user input before send
   | "editoutput" // model output after generation
@@ -243,8 +245,8 @@ export function parseRegexScripts(raw: unknown): RegexScript[] {
   if (!Array.isArray(arr)) return [];
   const out: RegexScript[] = [];
   for (const c of arr) {
-    if (!c || typeof c !== "object") continue;
-    const o = c as Record<string, unknown>;
+    const o = rec(c);
+    if (!o) continue;
     if (typeof o.in !== "string" || typeof o.out !== "string") continue;
     const type = o.type;
     if (

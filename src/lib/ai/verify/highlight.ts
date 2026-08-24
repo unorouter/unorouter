@@ -5,7 +5,7 @@ import {
   SCAM_PAGE_PATTERNS,
 } from "./patterns";
 import { PROVIDER_CONFIGS } from "./providers/config";
-import type { ProbeLabel, VerifyProvider } from "./types";
+import type { VerifyProvider } from "./types";
 
 export type HighlightKind =
   "foreign" | "cjk" | "coding-tool" | "scam" | "home" | null;
@@ -33,7 +33,7 @@ function collectPhrase(lower: string, phrases: string[], kind: HighlightKind) {
 export function highlightSpans(
   text: string,
   providerKind: VerifyProvider,
-  probeLabel: ProbeLabel,
+  probeLabel: string,
 ): HighlightSegment[] {
   if (!text) return [];
   const cfg = PROVIDER_CONFIGS[providerKind];

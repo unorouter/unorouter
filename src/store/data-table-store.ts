@@ -77,8 +77,8 @@ function buildFieldAtoms(
       (_get, set, updaterOrValue: T | ((prev: T) => T)) => {
         set(base, (prev) => {
           const resolved =
-            typeof updaterOrValue === "function"
-              ? (updaterOrValue as (prev: T) => T)(selector(prev))
+            updaterOrValue instanceof Function
+              ? updaterOrValue(selector(prev))
               : updaterOrValue;
           return updater(prev, resolved);
         });

@@ -7,7 +7,6 @@ import {
 import { chatDocKey } from "@/components/pages/docs/chat/chat-doc-template";
 import { Icon } from "@/components/ui/icon";
 import { Link, localeUrl } from "@/i18n/navigation";
-import type { Pathname } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -64,7 +63,7 @@ export default async function ChatDocsIndexPage(props: {
           url: localeUrl(locale, "/docs/chat"),
           items: allDocs.map((doc) => ({
             name: t(chatDocKey(doc.i18nPrefix, "TITLE"), APP_VALUES),
-            url: localeUrl(locale, doc.href as Pathname),
+            url: localeUrl(locale, doc.href),
             description: t(chatDocKey(doc.i18nPrefix, "SUBTITLE"), APP_VALUES),
           })),
         })}

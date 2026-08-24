@@ -77,14 +77,14 @@ export function useVerifyAndPublish() {
   const userId = useAuthUserId();
   return useApiMutation<VerifyPublishResult, VerifyPublishVars>({
     mutationFn: async (vars) => {
-      const res = (await handleElysia(
+      const res = await handleElysia(
         await rpc.api.models["model-tester"]["verify-and-publish"].post({
           provider: vars.provider,
           baseUrl: vars.baseUrl.replace(/\/+$/, ""),
           apiKey: vars.apiKey,
           model: vars.model,
         }),
-      )) as VerifyPublishResult;
+      );
       // A connectivity failure now returns its result for display, but there is
       // no verdict worth keeping, so only a real run reaches history.
       if ("result" in res && res.result && !("error" in res && res.error))

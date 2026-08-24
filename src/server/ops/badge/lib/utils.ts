@@ -2,8 +2,7 @@ import {
   VENDOR_COLOR_SVGS,
   VENDOR_SVGS,
 } from "@/server/ops/badge/lib/vendor-svgs";
-import { Vendor } from "@/lib/types/enums";
-import { escapeRegex } from "@/lib/utils/base";
+import { escapeRegex, isRecord } from "@/lib/utils/base";
 import satori from "satori";
 import {
   processCipherMarkers,
@@ -29,11 +28,8 @@ function collectText(node: unknown, out: string[]): void {
     for (const child of node) collectText(child, out);
     return;
   }
-  if (node && typeof node === "object" && "props" in node) {
-    collectText(
-      (node as { props?: { children?: unknown } }).props?.children,
-      out,
-    );
+  if (isRecord(node) && isRecord(node.props)) {
+    collectText(node.props.children, out);
   }
 }
 
@@ -73,22 +69,24 @@ export function computeSize(
   return { W, H };
 }
 
-export function getVendorIcon(vendor: string): string | null {
-  const key = vendor.toLowerCase() as Vendor;
-  if (VENDOR_SVGS[key]) return VENDOR_SVGS[key];
-  for (const [k, svg] of Object.entries(VENDOR_SVGS)) {
-    if (key.includes(k)) return svg;
+function vendorSvg(
+  svgs: Record<string, string | undefined>,
+  vendor: string,
+): string | null {
+  const key = vendor.toLowerCase();
+  if (svgs[key]) return svgs[key];
+  for (const [k, svg] of Object.entries(svgs)) {
+    if (key.includes(k) && svg) return svg;
   }
   return null;
 }
 
+export function getVendorIcon(vendor: string): string | null {
+  return vendorSvg(VENDOR_SVGS, vendor);
+}
+
 export function getVendorColorIcon(vendor: string): string | null {
-  const key = vendor.toLowerCase() as Vendor;
-  if (VENDOR_COLOR_SVGS[key]) return VENDOR_COLOR_SVGS[key];
-  for (const [k, svg] of Object.entries(VENDOR_COLOR_SVGS)) {
-    if (key.includes(k)) return svg;
-  }
-  return null;
+  return vendorSvg(VENDOR_COLOR_SVGS, vendor);
 }
 
 export const POPULAR_VENDORS = [

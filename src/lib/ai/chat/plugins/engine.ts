@@ -1,4 +1,5 @@
-"use client";
+import { rec } from "@/lib/utils/base";
+("use client");
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
@@ -282,13 +283,8 @@ export async function runJanitorScriptsForTurn(
       "janitor scripts",
       JANITOR_TIMEOUT_MS,
     );
-    if (!result || typeof result !== "object") return null;
-    const r = result as {
-      personality?: unknown;
-      scenario?: unknown;
-      example_dialogs?: unknown;
-      logs?: unknown;
-    };
+    const r = rec(result);
+    if (!r) return null;
     return {
       personality: String(r.personality ?? snapshot.character.personality),
       scenario: String(r.scenario ?? snapshot.character.scenario),

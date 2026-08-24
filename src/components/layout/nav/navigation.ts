@@ -24,8 +24,8 @@ const docsSubmenu = (): NavigationItem[] => {
       iconName: "layout-grid",
     },
     ...CHAT_DOCS.slice(0, 3).map((doc): NavigationItem => ({
-      name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
-      subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
+      name: `${doc.i18nPrefix}.TITLE`,
+      subtitle: `${doc.i18nPrefix}.SUBTITLE`,
       href: doc.href,
       group: "DOCS_CHAT.COMMON.TAB_CHAT",
       iconName: doc.iconName,
@@ -40,8 +40,8 @@ const docsSubmenu = (): NavigationItem[] => {
       iconName: "layout-grid",
     },
     ...PLATFORM_DOCS.map((doc): NavigationItem => ({
-      name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
-      subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
+      name: `${doc.i18nPrefix}.TITLE`,
+      subtitle: `${doc.i18nPrefix}.SUBTITLE`,
       href: doc.href,
       group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM",
       iconName: doc.iconName,
@@ -90,7 +90,7 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-const fillParams = (path: string, params?: Record<string, string>) => {
+const fillParams = (path: string, params?: Record<string, unknown>) => {
   if (!params) return path;
   let out = path;
   for (const [key, value] of Object.entries(params)) {
@@ -101,10 +101,7 @@ const fillParams = (path: string, params?: Record<string, string>) => {
 
 const resolveHref = (href: LinkHref) => {
   if (typeof href === "string") return href;
-  const hrefParams =
-    "params" in href && href.params
-      ? (href.params as Record<string, string>)
-      : undefined;
+  const hrefParams = "params" in href && href.params ? href.params : undefined;
   return fillParams(href.pathname, hrefParams);
 };
 
@@ -112,7 +109,7 @@ export const isActiveLink = (
   pathname: string,
   href: LinkHref,
   exact?: boolean,
-  routeParams?: Record<string, string>,
+  routeParams?: Record<string, unknown>,
 ) => {
   const cleanPathname =
     fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
