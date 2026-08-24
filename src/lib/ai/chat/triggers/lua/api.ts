@@ -1,4 +1,4 @@
-import { sha256Hex } from "@/lib/utils/base";
+import { recArr, sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
@@ -33,10 +33,12 @@ export function buildLuaApi(
       return JSON.stringify({ success: false, result: "LLM unsupported" });
     }
     try {
-      const prompt = JSON.parse(promptStr) as {
-        role: string;
-        content: string;
-      }[];
+      // promptStr comes from user-authored Lua across the wasm boundary, so
+      // every entry is shaped here before it is interpolated into ChatML.
+      const prompt = recArr(JSON.parse(promptStr)).map((p) => ({
+        role: typeof p.role === "string" ? p.role : "user",
+        content: typeof p.content === "string" ? p.content : "",
+      }));
       const result = await ctx.ops.runLLM(promptToChatML(prompt));
       return JSON.stringify({
         success: !result.startsWith("Error:"),
@@ -101,9 +103,10 @@ export function buildLuaApi(
       ),
     setFullChatMain: (id: string, value: string) => {
       if (!safe(id)) return;
-      const real = JSON.parse(value) as { role: string; data: string }[];
+      const real = recArr(JSON.parse(value));
       ctx.chat.length = 0;
       for (const v of real) {
+        if (typeof v.role !== "string" || typeof v.data !== "string") continue;
         ctx.chat.push({ role: fromLuaRole(v.role), data: v.data });
       }
     },

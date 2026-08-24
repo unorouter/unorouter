@@ -14,16 +14,24 @@ import { msg } from "@/lib/config/constants";
 // cluster-internal base URL come from the unoImportFetch mutator.
 
 // uno-import owns the source list, so its rejection is the one the user sees.
+// Every rejection except "unsupported source" used to collapse into "could not
+// download", so a rate limit read as a server error and told the user to retry
+// the one thing guaranteed to fail again.
+const IMPORT_ERRORS: Record<string, string> = {
+  "unsupported source": msg("ERRORS.CARD_IMPORT_UNSUPPORTED"),
+  "too many jobs in flight": msg("ERRORS.CARD_IMPORT_TOO_MANY"),
+  "invalid url": msg("ERRORS.CARD_IMPORT_INVALID_URL"),
+  "https only": msg("ERRORS.CARD_IMPORT_INVALID_URL"),
+  "not found": msg("ERRORS.CARD_IMPORT_JOB_GONE"),
+};
+
 function importError(data: unknown): Error {
   const error =
     typeof data === "object" && data !== null && "error" in data
       ? (data as { error?: unknown }).error
       : undefined;
-  return new Error(
-    error === "unsupported source"
-      ? msg("ERRORS.CARD_IMPORT_UNSUPPORTED")
-      : msg("ERRORS.CARD_IMPORT_FETCH_FAILED"),
-  );
+  const known = typeof error === "string" ? IMPORT_ERRORS[error] : undefined;
+  return new Error(known ?? msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
 }
 
 export async function submitImport(

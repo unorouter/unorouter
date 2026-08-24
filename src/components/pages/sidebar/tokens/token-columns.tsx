@@ -158,7 +158,7 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
   const models = pricingQuery.data?.model_vendors ?? [];
 
   let mapping: Record<string, string[]> = {};
-  const rawMapping = (token as { group_mapping?: string }).group_mapping;
+  const rawMapping = token.group_mapping;
   if (rawMapping) {
     try {
       mapping = JSON.parse(rawMapping);

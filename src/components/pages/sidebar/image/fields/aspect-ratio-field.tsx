@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import type { ImageFormValues } from "@/lib/validation/image";
+import type { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -34,7 +35,7 @@ type Preset = {
   id: "portrait" | "landscape" | "square" | "custom";
   width: number;
   height: number;
-  i18nKey: string;
+  i18nKey: TranslationKey;
 };
 
 const PRESETS: ReadonlyArray<Preset> = [
@@ -154,9 +155,7 @@ export function AspectRatioField(props: {
               props.disabled && "cursor-not-allowed opacity-50",
             )}
           >
-            <span className="font-medium">
-              {t(p.i18nKey as Parameters<typeof t>[0])}
-            </span>
+            <span className="font-medium">{t(p.i18nKey)}</span>
             {p.id !== "custom" && (
               <span className="text-[10px] tabular-nums">
                 {p.width}x{p.height}

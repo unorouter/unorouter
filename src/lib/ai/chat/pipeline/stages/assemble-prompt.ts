@@ -10,7 +10,7 @@ import type { LoadedConvContext } from "@/lib/types";
 import { runStartTriggers } from "../../triggers/run-triggers";
 import type { AssemblerDeps, InlayImage } from "../deps";
 import { type MemoryContext } from "../../context/memory.service";
-import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
+import { createAgentPipeline, resolveAgent } from "@/lib/ai/agents/pipeline";
 import { summaryAgent } from "@/lib/ai/agents/builtin/summary/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
 import {
@@ -249,14 +249,11 @@ async function buildMemoryViaAgent(
   };
   const pipeline = createAgentPipeline(
     [
-      {
-        def: summaryAgent,
-        settings: {
-          memoryEnabled: true,
-          priorSummary: settings.summaryMemory ?? "",
-          priorAnchor: settings.summaryAnchor ?? 0,
-        },
-      },
+      resolveAgent(summaryAgent, {
+        memoryEnabled: true,
+        priorSummary: settings.summaryMemory ?? "",
+        priorAnchor: settings.summaryAnchor ?? 0,
+      }),
     ],
     {
       apiKey,
@@ -359,10 +356,6 @@ async function applyJanitorScripts(
     if (text) texts.push({ role: m.role, text });
   }
   const lastUser = [...texts].reverse().find((t) => t.role === "user");
-  // StreamMessages is Omit<UIMessage,"id">: no id survives, so message_created_at
-  // below is always null.
-  const lastId = (messages[messages.length - 1] as { id?: string } | undefined)
-    ?.id;
 
   const result = await runJanitorScriptsForTurn({
     character: {
@@ -381,7 +374,10 @@ async function applyJanitorScripts(
       last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
       user_name: convCtx.persona?.name ?? "",
       conversation_id: body.convId ?? "",
-      message_created_at: lastId ? (body.messageTimes?.[lastId] ?? null) : null,
+      // StreamMessages is Omit<UIMessage,"id">, so there is never an id to key
+      // body.messageTimes by. Restoring a lookup here cannot work; real ids
+      // would have to be plumbed through the stream types first.
+      message_created_at: null,
     },
   });
   if (!result) return convCtx;

@@ -304,7 +304,7 @@ export const GEMINI_SAFETY_OFF = [
   "HARM_CATEGORY_HARASSMENT",
   "HARM_CATEGORY_DANGEROUS_CONTENT",
   "HARM_CATEGORY_CIVIC_INTEGRITY",
-].map((category) => ({ category, threshold: "OFF" as const }));
+].map((category) => ({ category, threshold: "OFF" }));
 
 export function collectRecentUserTexts(
   messages: StreamMessages,
@@ -364,12 +364,11 @@ export function collectHistory(
       continue;
     }
     const text = textOf(m.parts);
-    // StreamMessages is Omit<UIMessage,"id">: no id survives the conversion, so
-    // this lookup yields undefined and message times never reach the history.
-    const id = (m as { id?: string }).id;
-    if (text) {
-      out.push({ role: m.role, text, time: id ? times?.[id] : undefined });
-    }
+    // StreamMessages is Omit<UIMessage,"id">, so there is no id to key `times`
+    // by and every `time` is undefined. The {{message_time}} macro family in
+    // macros.ts reads this and therefore always falls back to OLD_VERSION_TIME.
+    // Fixing it means plumbing real ids through, not restoring a lookup.
+    if (text) out.push({ role: m.role, text, time: undefined });
   }
   return out;
 }

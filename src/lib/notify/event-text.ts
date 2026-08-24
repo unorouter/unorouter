@@ -1,6 +1,7 @@
 "use client";
 
-import type { NotifyEvent } from "@/store/notify-store";
+import type { NotifyEvent, NotifyEventType } from "@/store/notify-store";
+import type { TranslationKey } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 
 type Translator = ReturnType<typeof useTranslations<never>>;
@@ -10,13 +11,17 @@ function fmtRatio(value: number | undefined): string {
   return `${Number(value.toPrecision(3))}`;
 }
 
-const BULK_KEYS = {
+const BULK_KEYS: Record<
+  Exclude<NotifyEventType, "model_bulk_change"> | "default",
+  TranslationKey
+> = {
+  model_online: "NOTIFY.EVENT.BULK_ONLINE",
   model_offline: "NOTIFY.EVENT.BULK_OFFLINE",
   model_price_change: "NOTIFY.EVENT.BULK_PRICE_CHANGE",
   model_removed: "NOTIFY.EVENT.BULK_REMOVED",
   model_added: "NOTIFY.EVENT.BULK_ADDED",
   default: "NOTIFY.EVENT.BULK_ONLINE",
-} as const;
+};
 
 export function notifyEventText(
   t: Translator,
@@ -62,11 +67,9 @@ export function notifyEventText(
     case "model_bulk_change": {
       const sample = (evt.data.models ?? []).join(", ");
       return {
-        title: t(
-          BULK_KEYS[evt.data.bulk_event as keyof typeof BULK_KEYS] ??
-            BULK_KEYS.default,
-          { count: evt.data.bulk_count ?? 0 },
-        ),
+        title: t(BULK_KEYS[evt.data.bulk_event ?? "default"], {
+          count: evt.data.bulk_count ?? 0,
+        }),
         body: sample
           ? t("NOTIFY.EVENT.BULK_BODY", { sample })
           : t("NOTIFY.EVENT.BULK_BODY_EMPTY"),

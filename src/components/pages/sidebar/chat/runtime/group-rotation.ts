@@ -7,21 +7,17 @@ import {
   readLocalMessages,
 } from "@/lib/db/client/data/chat/chat";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
+import { rec, recArr } from "@/lib/utils/base";
 
 function sendArgText(arg: unknown): string {
   if (typeof arg === "string") return arg;
-  if (arg && typeof arg === "object") {
-    const o = arg as {
-      text?: string;
-      parts?: { type: string; text?: string }[];
-    };
+  const o = rec(arg);
+  if (o) {
     if (typeof o.text === "string") return o.text;
-    if (Array.isArray(o.parts)) {
-      return o.parts
-        .filter((p) => p.type === "text" && typeof p.text === "string")
-        .map((p) => p.text)
-        .join(" ");
-    }
+    return recArr(o.parts)
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => p.text)
+      .join(" ");
   }
   return "";
 }
@@ -42,11 +38,8 @@ export async function computeSpeakingOrder(
       const ch = await readLocalCharacter(b.characterId);
       return {
         id: b.characterId,
-        name: (ch as { name?: string } | null)?.name ?? "",
-        talkness:
-          typeof (b as { talkness?: number }).talkness === "number"
-            ? (b as { talkness: number }).talkness
-            : null,
+        name: ch?.name ?? "",
+        talkness: typeof b.talkness === "number" ? b.talkness : null,
         orderIndex: b.orderIndex ?? 0,
       };
     }),
@@ -58,9 +51,7 @@ export async function computeSpeakingOrder(
       .find((m) => m.role === "assistant" && m.characterId)?.characterId ??
     null;
   return groupOrder(members, sendArgText(sendArg), {
-    orderByOrder:
-      (settings as { groupOrderByOrder?: boolean } | null)
-        ?.groupOrderByOrder === true,
+    orderByOrder: settings?.groupOrderByOrder === true,
     lastSpeakerId,
   }).map((m) => m.id);
 }

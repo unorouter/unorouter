@@ -1,7 +1,7 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
-import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
+import { createAgentPipeline, resolveAgent } from "@/lib/ai/agents/pipeline";
 import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
 import {
@@ -184,14 +184,11 @@ export async function runIllustrator(
   };
   const pipeline = createAgentPipeline(
     [
-      {
-        def: illustratorAgent,
-        settings: {
-          imageEnabled: true,
-          promptInstruction: input.promptInstruction,
-          reviewPrompt: input.reviewPrompt,
-        },
-      },
+      resolveAgent(illustratorAgent, {
+        imageEnabled: true,
+        promptInstruction: input.promptInstruction,
+        reviewPrompt: input.reviewPrompt,
+      }),
     ],
     {
       apiKey: target.apiKey,

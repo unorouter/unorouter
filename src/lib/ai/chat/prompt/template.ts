@@ -89,6 +89,24 @@ const LEGACY_LORE_SLOTS = new Set([
   "loreAfterChar",
 ]);
 
+const SLOT_NAMES: readonly SlotName[] = [
+  "main",
+  "description",
+  "persona",
+  "lorebook",
+  "prefill",
+  "postHistory",
+  "systemPrompt",
+];
+
+// promptTemplate is user-editable preset JSON, so an unrecognized slot name
+// must be dropped: admitting it yields a TemplateSlots lookup of undefined and
+// the whole slot silently renders nothing.
+function toSlotName(raw: string): SlotName | null {
+  const name = LEGACY_LORE_SLOTS.has(raw) ? "lorebook" : raw;
+  return SLOT_NAMES.find((s) => s === name) ?? null;
+}
+
 export function parsePromptTemplate(
   raw: string | null | undefined,
 ): PromptItem[] | null {
@@ -102,9 +120,8 @@ export function parsePromptTemplate(
       const item = rec(c);
       if (!item) continue;
       if (item.type === "slot" && typeof item.slot === "string") {
-        const slot = (
-          LEGACY_LORE_SLOTS.has(item.slot) ? "lorebook" : item.slot
-        ) as SlotName;
+        const slot = toSlotName(item.slot);
+        if (!slot) continue;
         if (slot === "lorebook") {
           if (lorebookPlaced) continue;
           lorebookPlaced = true;

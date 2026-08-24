@@ -20,7 +20,7 @@ export function isStandalone(): boolean {
   if (typeof window === "undefined") return false;
   return (
     window.matchMedia("(display-mode: standalone)").matches ||
-    (navigator as { standalone?: boolean }).standalone === true
+    ("standalone" in navigator && navigator.standalone === true)
   );
 }
 
@@ -39,7 +39,7 @@ export function pushAvailableHere(): boolean {
   return true;
 }
 
-function urlBase64ToUint8Array(base64: string): Uint8Array {
+function urlBase64ToUint8Array(base64: string): Uint8Array<ArrayBuffer> {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const normalized = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
   return base64ToUint8(normalized);
@@ -82,7 +82,7 @@ export async function subscribePush(): Promise<PushSubscription | null> {
   try {
     return await reg.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(key) as BufferSource,
+      applicationServerKey: urlBase64ToUint8Array(key),
     });
   } catch {
     // AbortError "push service error": Brave with Google services for push

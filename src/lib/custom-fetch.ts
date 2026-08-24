@@ -26,11 +26,22 @@ export function isUpstreamError(e: unknown): e is UpstreamError {
   );
 }
 
+// HeadersInit is a Headers instance, an entry array OR a record; spreading the
+// first two yields {}, so every caller reads through this normalized form.
+function toHeaderRecord(
+  headers: HeadersInit | undefined,
+): Record<string, string> {
+  if (!headers) return {};
+  if (headers instanceof Headers) return Object.fromEntries(headers.entries());
+  if (Array.isArray(headers)) return Object.fromEntries(headers);
+  return headers;
+}
+
 function getHeader(
-  headers: Record<string, string> | undefined,
+  headers: Record<string, string>,
   key: string,
 ): string | undefined {
-  return headers?.[key] ?? headers?.[key.toLowerCase()];
+  return headers[key] ?? headers[key.toLowerCase()];
 }
 
 // Cloudflare sends the visitor address as cf-connecting-ip; x-forwarded-for is
@@ -80,7 +91,7 @@ export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
-  const headers = options.headers as Record<string, string> | undefined;
+  const headers = toHeaderRecord(options.headers);
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");

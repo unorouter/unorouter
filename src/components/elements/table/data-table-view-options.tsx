@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { TranslationKey } from "@/lib/config/constants";
 import type { ReactTable, RowData } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
@@ -42,7 +41,7 @@ export function DataTableViewOptions<TData extends RowData>(
           .getAllColumns()
           .filter((column) => column.getCanHide())
           .map((column) => {
-            const meta = column.columnDef.meta as { title?: TranslationKey };
+            const meta = column.columnDef.meta;
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}

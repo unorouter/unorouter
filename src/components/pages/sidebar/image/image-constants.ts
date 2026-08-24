@@ -1,4 +1,5 @@
 import { MAX_IMAGES_PER_GEN, type ImageModelId } from "@/lib/validation/image";
+import { rec } from "@/lib/utils/base";
 
 export const INITIAL_MODEL: ImageModelId = "pony";
 
@@ -58,7 +59,7 @@ export function snapshotModelLabel(
   extraParams: unknown,
 ): string {
   if (model !== CUSTOM_CIVITAI_MODEL_ID) return model;
-  const extras = extraParams as { airName?: unknown } | null | undefined;
+  const extras = rec(extraParams);
   return typeof extras?.airName === "string" && extras.airName
     ? extras.airName
     : model;

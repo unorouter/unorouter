@@ -59,7 +59,7 @@ export function Setup2FADialog(props: {
   function handleSetup() {
     setup2FAMutation.mutate(undefined, {
       onSuccess: (data) => {
-        setSetupData(data as typeof setupData);
+        setSetupData({ ...data, backup_codes: data.backup_codes ?? [] });
         setStep("qr");
       },
       onError: (error) => {

@@ -63,7 +63,10 @@ function normalizeFlag(p: ParsedScript, outScript: string): string {
   return flag;
 }
 
-function expandRefs(template: string, match: RegExpMatchArray): string {
+function expandRefs(
+  template: string,
+  match: readonly (string | undefined)[],
+): string {
   return template.replace(/\$\$[0-9]+|\$([0-9]+)|\$&/g, (m, idx) => {
     if (m.startsWith("$$")) return m; // escaped, stays verbatim
     if (idx !== undefined) {
@@ -82,11 +85,10 @@ function plainReplace(
 ): string {
   const replaced = data.replace(reg, (...args) => {
     const offsetIdx = args.findIndex((a) => typeof a === "number");
-    const m = args.slice(
-      0,
-      offsetIdx === -1 ? args.length : offsetIdx,
-    ) as unknown as RegExpMatchArray;
-    return expandRefs(outScript, m);
+    const groups: (string | undefined)[] = args
+      .slice(0, offsetIdx === -1 ? args.length : offsetIdx)
+      .map((a) => (typeof a === "string" ? a : undefined));
+    return expandRefs(outScript, groups);
   });
   return expand ? expand(replaced) : replaced;
 }

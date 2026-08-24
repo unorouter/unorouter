@@ -1,3 +1,4 @@
+import { rec, recArr } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
 
@@ -67,11 +68,41 @@ function money(value: number, locale: string): string {
   }).format(value);
 }
 
+// The FALLBACK below exists because this body is not trustworthy, so it has to
+// be checked: a partial payload would otherwise reach money() as undefined and
+// throw during render instead of falling back.
+function parseRewards(raw: unknown): RewardsResponse | null {
+  const body = rec(raw);
+  const amounts = body && rec(body.amounts);
+  if (!body || !amounts) return null;
+  const keys = ["connect", "vote", "boost", "invite", "serverTag"] as const;
+  const out = { connect: 0, vote: 0, boost: 0, invite: 0, serverTag: 0 };
+  for (const k of keys) {
+    if (typeof amounts[k] !== "number") return null;
+    out[k] = amounts[k];
+  }
+  const levels: RewardsResponse["levels"] = [];
+  for (const l of recArr(body.levels)) {
+    if (
+      typeof l.role !== "string" ||
+      typeof l.messages !== "number" ||
+      typeof l.dollars !== "number"
+    ) {
+      return null;
+    }
+    levels.push({ role: l.role, messages: l.messages, dollars: l.dollars });
+  }
+  if (typeof body.levelTotal !== "number") return null;
+  return { amounts: out, levels, levelTotal: body.levelTotal };
+}
+
 async function fetchRewards(): Promise<RewardsResponse> {
   try {
     const res = await fetch(`${serverEnv.botInternalUrl}/rewards`);
     if (!res.ok) throw new Error(`bot /rewards returned ${res.status}`);
-    return (await res.json()) as RewardsResponse;
+    const parsed = parseRewards(await res.json());
+    if (!parsed) throw new Error("bot /rewards returned an unexpected shape");
+    return parsed;
   } catch (error) {
     logger.error("bot /rewards unreachable, serving fallback amounts", {
       context: "getRewardAmounts",

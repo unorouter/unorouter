@@ -1,3 +1,5 @@
+import { rec, recArr } from "@/lib/utils/base";
+
 const PREFIX = "custom:::";
 const SEP = ":::";
 
@@ -67,8 +69,8 @@ export async function fetchCustomProviderModels(
     err.notJson = true;
     throw err;
   }
-  const data = (await res.json()) as { data?: Array<{ id?: string }> };
-  return (data.data ?? [])
+  const data = rec(await res.json());
+  return recArr(data?.data)
     .map((m) => m.id)
     .filter((id): id is string => typeof id === "string" && id.length > 0)
     .sort();

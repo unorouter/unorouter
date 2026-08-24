@@ -141,9 +141,8 @@ function buildDefaultsForm(
   return {
     personaId: NONE_VALUE,
     presetId: NONE_VALUE,
-    reasoningEffort: (modelMemory.reasoningEffort ??
-      chatDefaults.reasoningEffort ??
-      NONE_VALUE) as ReasoningEffort,
+    reasoningEffort:
+      modelMemory.reasoningEffort ?? chatDefaults.reasoningEffort ?? NONE_VALUE,
     chatMemory: chatDefaults.chatMemory ?? null,
     authorNoteDepth: chatDefaults.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
     systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
@@ -362,7 +361,7 @@ export function buildBindingsBody(
   existing?: { characters: ExistingCharBinding[] } | null,
 ) {
   const existingByCharId = new Map(
-    (existing?.characters ?? []).map((c) => [c.characterId, c] as const),
+    (existing?.characters ?? []).map((c) => [c.characterId, c]),
   );
   return {
     characters: data.characterIds.map((id, i) => {

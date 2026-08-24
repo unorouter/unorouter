@@ -15,7 +15,7 @@ import {
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { uid } from "@/lib/utils/base";
+import { recArr, uid } from "@/lib/utils/base";
 import type { ChatUIMessage } from "@/lib/types";
 import type { PricingCatalogData } from "@/openapi";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -227,9 +227,7 @@ async function seed(args: SeedArgs): Promise<void> {
         };
         setLiveMessages(
           (msgs) =>
-            (msgs as Array<{ id?: string }>).some(
-              (m) => m.id === seededGreeting.id,
-            )
+            recArr(msgs).some((m) => m.id === seededGreeting.id)
               ? msgs
               : [greetingMessage, ...msgs],
           id,

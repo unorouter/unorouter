@@ -7,10 +7,10 @@ import snapshot from "@/lib/ai/image/runware-schemas.json";
 // waste a generation. Where no spec resolves, the caller's own inference stands - a model
 // we cannot look up keeps exactly the behaviour it had before this existed.
 
-const SNAPSHOT = snapshot as {
+const SNAPSHOT: {
   byAir: Record<string, ModelParamSpec>;
   byArchitecture: Record<string, ModelParamSpec>;
-};
+} = snapshot;
 
 // The catalog labels a checkpoint's lineage with `series` ("Pony", "Illustrious", ...);
 // Runware documents the same lineages as architecture slugs. This is the join between them,

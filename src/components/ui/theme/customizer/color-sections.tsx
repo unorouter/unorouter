@@ -135,10 +135,7 @@ export function SurfaceColorsSection(props: {
         </span>
         {/* RisuAI parity: custom colors are per-scheme; this picks which one the
             fields below edit. */}
-        <Tabs
-          value={props.mode}
-          onValueChange={(v) => props.onModeChange(v as "light" | "dark")}
-        >
+        <Tabs value={props.mode} onValueChange={(v) => props.onModeChange(v)}>
           <TabsList className="h-7">
             <TabsTrigger value="light" className="text-xs">
               {t("THEME.MODE_LIGHT")}

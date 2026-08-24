@@ -1,4 +1,5 @@
 import { getLocalDb } from "@/lib/db/client/client";
+import { rec, recArr } from "@/lib/utils/base";
 import {
   readLocalConversations,
   readLocalMessageMetaForConv,
@@ -305,14 +306,11 @@ async function buildDiagnosticsHead() {
 function messageShape(finalMessages: unknown): unknown {
   if (!Array.isArray(finalMessages)) return null;
   return finalMessages.map((m) => {
-    const msg = m as {
-      role?: string;
-      parts?: { type?: string; text?: string }[];
-    };
+    const msg = rec(m);
     return {
-      role: msg.role,
-      parts: Array.isArray(msg.parts)
-        ? msg.parts.map((p) => ({
+      role: msg?.role,
+      parts: Array.isArray(msg?.parts)
+        ? recArr(msg.parts).map((p) => ({
             type: p.type,
             chars: typeof p.text === "string" ? p.text.length : undefined,
           }))
@@ -382,7 +380,7 @@ const PLUGIN_HOOKS = [
   "editOutput",
   "editInput",
   "editProcess",
-] as const;
+];
 
 async function describeJsPlugins() {
   try {

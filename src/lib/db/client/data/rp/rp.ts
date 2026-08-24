@@ -11,7 +11,6 @@ import {
   samplingPresets,
 } from "@/lib/db/schema/shared";
 import { asc, desc, eq } from "drizzle-orm";
-import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   makeTableStore,
@@ -19,6 +18,15 @@ import {
 } from "@/lib/db/client/data/table-store";
 
 import type { LocalAnyRow as AnyRow, LocalRowInput } from "@/lib/types";
+import { isStringArray } from "@/lib/utils/base";
+import {
+  LOREBOOK_INJECTION_ROLES,
+  type LorebookInjectionRole,
+} from "@/lib/validation/rp";
+
+function isInjectionRole(v: unknown): v is LorebookInjectionRole {
+  return LOREBOOK_INJECTION_ROLES.some((r) => r === v);
+}
 
 const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: desc(characters.updatedAt),
@@ -120,7 +128,28 @@ export async function upsertLocalLorebookBundle(bundle: {
     lorebookEntries.lorebookId,
     bundle.lorebook.id,
     bundle.entries,
-    (row) => row as InferInsertModel<typeof lorebookEntries>,
+    (row) => ({
+      id: row.id,
+      // Forced to the bundle's book: an imported entry can carry a foreign
+      // lorebook_id, which would attach it to the wrong book.
+      lorebookId: bundle.lorebook.id,
+      comment: typeof row.comment === "string" ? row.comment : null,
+      keys: isStringArray(row.keys) ? row.keys : [],
+      secondaryKeys: isStringArray(row.secondaryKeys)
+        ? row.secondaryKeys
+        : null,
+      content: typeof row.content === "string" ? row.content : "",
+      constant: row.constant === true,
+      selective: row.selective === true,
+      priority: typeof row.priority === "number" ? row.priority : 100,
+      enabled: row.enabled !== false,
+      orderIndex: typeof row.orderIndex === "number" ? row.orderIndex : 0,
+      matchWholeWords: row.matchWholeWords === true,
+      injectionRole: isInjectionRole(row.injectionRole)
+        ? row.injectionRole
+        : "system",
+      chance: typeof row.chance === "number" ? row.chance : null,
+    }),
   );
 }
 

@@ -13,13 +13,19 @@ function closingTagIndex(buffer: string): number | null {
   return null;
 }
 
-type StreamChunk = {
-  type: string;
-  id?: string;
-  delta?: string;
-  finishReason?: string;
-  [key: string]: unknown;
-};
+// The SDK exports no name for its stream-part union, so derive it from the
+// middleware type: a hand-written stand-in silently drifts from the real union
+// and then needs a cast at every boundary to paper the difference over.
+type StreamChunk =
+  Awaited<
+    ReturnType<
+      Parameters<
+        NonNullable<LanguageModelMiddleware["wrapStream"]>
+      >[0]["doStream"]
+    >
+  >["stream"] extends ReadableStream<infer P>
+    ? P
+    : never;
 
 // For requests whose trailing assistant prefill left an open <think> tag: the
 // model's reply begins INSIDE its reasoning, but what arrives depends on the
@@ -68,7 +74,7 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
       let forcedAccum = "";
       let reasoningClosed = false;
 
-      const transformed = (stream as ReadableStream<StreamChunk>).pipeThrough(
+      const transformed = stream.pipeThrough(
         new TransformStream<StreamChunk, StreamChunk>({
           transform(chunk, controller) {
             if (mode === "passthrough" || mode === "text") {
@@ -165,8 +171,15 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
               if (!reasoningClosed) {
                 controller.enqueue({ type: "reasoning-end", id: REASONING_ID });
                 reasoningClosed = true;
-                if (chunk.finishReason !== "length" && forcedAccum.trim()) {
-                  const textId = pendingTextStarts[0]?.id ?? "prefill-think-t";
+                if (
+                  chunk.finishReason.unified !== "length" &&
+                  forcedAccum.trim()
+                ) {
+                  const firstStart = pendingTextStarts[0];
+                  const startId =
+                    firstStart && "id" in firstStart ? firstStart.id : null;
+                  const textId =
+                    typeof startId === "string" ? startId : "prefill-think-t";
                   controller.enqueue({ type: "text-start", id: textId });
                   controller.enqueue({
                     type: "text-delta",
@@ -187,9 +200,7 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
         }),
       );
 
-      return { stream: transformed, ...rest } as Awaited<
-        ReturnType<typeof doStream>
-      >;
+      return { stream: transformed, ...rest };
     },
   };
 }

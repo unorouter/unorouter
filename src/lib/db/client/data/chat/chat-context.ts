@@ -76,9 +76,7 @@ export async function buildChatContextFromLocalDb(
     .filter((l) => l != null)
     .map((l) => ({
       ...l,
-      entries: l.entries.filter(
-        (e) => (e as { enabled?: boolean | null }).enabled !== false,
-      ),
+      entries: l.entries.filter((e) => e.enabled !== false),
     }));
 
   return { persona, characters, lorebooks, preset, settings };

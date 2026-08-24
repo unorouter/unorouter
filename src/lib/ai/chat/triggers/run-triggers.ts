@@ -20,8 +20,7 @@ export async function runStartTriggers(
   history: { role: "user" | "assistant" | "system"; text: string }[],
   ops?: TriggerOps,
 ): Promise<StartTriggerResult> {
-  const primary = convCtx.boundCharacters[0]?.character as
-    { triggers?: unknown; name?: string } | undefined;
+  const primary = convCtx.boundCharacters[0]?.character;
   const scripts = parseTriggerScripts(primary?.triggers);
   if (scripts.length === 0) {
     return { extraSystemPrompt: "", stopSending: false, alerts: [] };
@@ -36,18 +35,17 @@ export async function runStartTriggers(
   }));
 
   const charName = primary?.name ?? "Assistant";
-  const userName = (convCtx.persona as { name?: string })?.name ?? "User";
-  const charDesc = (primary as { description?: string })?.description ?? "";
-  const personaDesc =
-    (convCtx.persona as { description?: string })?.description ?? "";
+  const userName = convCtx.persona?.name ?? "User";
+  const charDesc = primary?.description ?? "";
+  const personaDesc = convCtx.persona?.description ?? "";
 
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
     user_description: personaDesc,
     char_description: charDesc,
-    scenario: (primary as { scenario?: string })?.scenario ?? "",
-    personality: (primary as { personality?: string })?.personality ?? "",
+    scenario: primary?.scenario ?? "",
+    personality: primary?.personality ?? "",
     vars,
     globalVars,
     tempVars: {},

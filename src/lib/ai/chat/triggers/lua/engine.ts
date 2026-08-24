@@ -26,7 +26,7 @@ export const luaSafeIds = new Set<string>();
 export const luaEditDisplayIds = new Set<string>();
 export const luaLowLevelIds = new Set<string>();
 
-let factoryPromise: Promise<unknown> | null = null;
+let factoryPromise: Promise<LuaFactoryLike> | null = null;
 const engines = new Map<string, EngineState>();
 
 async function loadJsonLua(): Promise<string> {
@@ -39,7 +39,11 @@ async function loadJsonLua(): Promise<string> {
   return res.ok ? res.text() : "";
 }
 
-async function getFactory(): Promise<unknown> {
+type LuaFactoryLike = {
+  createEngine: (o: object) => Promise<LuaEngineLike>;
+};
+
+async function getFactory(): Promise<LuaFactoryLike> {
   if (!factoryPromise) {
     factoryPromise = (async () => {
       const { LuaFactory } = await import("wasmoon");
@@ -256,9 +260,7 @@ export async function runScripted(
     const flags = { stopSending: false };
     if (args.code !== state.code) {
       closeEngine(state);
-      const factory = (await getFactory()) as {
-        createEngine: (o: object) => Promise<LuaEngineLike>;
-      };
+      const factory = await getFactory();
       state.engine = await factory.createEngine({ injectObjects: true });
       const api = buildLuaApi(args.ctx, flags);
       for (const [name, fn] of Object.entries(api)) {
@@ -366,7 +368,16 @@ export async function runLuaEditTrigger<T>(
         lowLevelAccess: false,
         data,
       });
-      data = result.res ?? data;
+      // Lua scripts are user-authored, so a result is only adopted when its
+      // runtime kind matches the input's. Otherwise a script returning a table
+      // where a string was passed puts the wrong type behind T.
+      const next = result.res ?? data;
+      if (
+        Array.isArray(next) === Array.isArray(data) &&
+        typeof next === typeof data
+      ) {
+        data = next;
+      }
     }
     return data as T;
   } catch {

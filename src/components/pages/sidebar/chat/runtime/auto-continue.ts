@@ -74,19 +74,14 @@ export async function maybeAutoContinue(
   if (chatStore.get(speakingCharacterIdAtom) != null) return;
   const text = message.parts
     .filter((p) => p.type === "text")
-    .map((p) => (p as { text: string }).text)
+    .map((p) => p.text)
     .join("");
   if (!text.trim() || endsTerminally(text)) {
     autoContinueDepth.delete(remoteId);
     return;
   }
   const settings = await readLocalConversationSettings(remoteId);
-  if (
-    !settings ||
-    (settings as { autoContinue?: boolean }).autoContinue !== true
-  ) {
-    return;
-  }
+  if (!settings || settings.autoContinue !== true) return;
   const depth = autoContinueDepth.get(remoteId) ?? 0;
   if (depth >= MAX_AUTO_CONTINUE) {
     autoContinueDepth.delete(remoteId);

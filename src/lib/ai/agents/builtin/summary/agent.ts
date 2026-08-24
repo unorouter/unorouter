@@ -4,7 +4,6 @@ import type {
   AgentDefinition,
   AgentResult,
   AgentRuntime,
-  AgentSettings,
 } from "../../types";
 
 const HISTORY_TRIGGER = 20;
@@ -18,12 +17,11 @@ type SummarySettings = {
   historyTrigger?: number;
 };
 
-export const summaryAgent: AgentDefinition = {
+export const summaryAgent: AgentDefinition<SummarySettings> = {
   id: "summary",
   phase: "pre_generation",
   capabilities: ["inject_context"],
-  enabled(ctx: AgentContext, settings: AgentSettings) {
-    const s = settings as SummarySettings;
+  enabled(ctx: AgentContext, s: SummarySettings) {
     return (
       !!s.memoryEnabled &&
       ctx.recentMessages.length > (s.historyTrigger ?? HISTORY_TRIGGER)
@@ -32,9 +30,8 @@ export const summaryAgent: AgentDefinition = {
   async run(
     ctx: AgentContext,
     runtime: AgentRuntime,
-    settings: AgentSettings,
+    s: SummarySettings,
   ): Promise<AgentResult> {
-    const s = settings as SummarySettings;
     const rolled = await rollSummary({
       apiKey: ctx.apiKey,
       race: {

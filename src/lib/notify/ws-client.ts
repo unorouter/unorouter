@@ -2,9 +2,13 @@
 
 import { env } from "@/lib/config/env";
 import { getPushSubscription } from "@/lib/notify/push";
-import { sha256Hex } from "@/lib/utils/base";
+import { isStringArray, rec, sha256Hex } from "@/lib/utils/base";
 import { chatStore } from "@/store/chat-store";
-import { notifyConnectedAtom, type NotifyEvent } from "@/store/notify-store";
+import {
+  notifyConnectedAtom,
+  type NotifyEvent,
+  type NotifyEventType,
+} from "@/store/notify-store";
 import { getNotifyEvents } from "@/openapi";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
@@ -39,6 +43,63 @@ channel?.addEventListener(
     }
   },
 );
+
+const NOTIFY_EVENT_TYPES: readonly NotifyEventType[] = [
+  "model_online",
+  "model_offline",
+  "model_price_change",
+  "model_added",
+  "model_removed",
+  "model_bulk_change",
+];
+
+function eventType(v: unknown): NotifyEventType | null {
+  const found = NOTIFY_EVENT_TYPES.find((t) => t === v);
+  return found ?? null;
+}
+
+function num(v: unknown): number | undefined {
+  return typeof v === "number" ? v : undefined;
+}
+
+function bool(v: unknown): boolean | undefined {
+  return typeof v === "boolean" ? v : undefined;
+}
+
+// The generated openapi NotifyEvent is WIDER than the store's (`type: string`,
+// nullable topics) and omits the bulk_* digest fields entirely, so an upstream
+// body is not a store event until it has been checked field by field.
+function parseNotifyEvent(raw: unknown): NotifyEvent | null {
+  const e = rec(raw);
+  const d = e && rec(e.data);
+  const type = eventType(e?.type);
+  if (!e || !d || !type) return null;
+  if (typeof e.id !== "string" || typeof e.ts !== "number") return null;
+  if (typeof d.model !== "string") return null;
+  const bulkEventType = eventType(d.bulk_event);
+  return {
+    id: e.id,
+    type,
+    ts: e.ts,
+    topics: isStringArray(e.topics) ? e.topics : [],
+    data: {
+      model: d.model,
+      free: d.free === true,
+      online: bool(d.online),
+      cheapest_ratio: num(d.cheapest_ratio),
+      prev_cheapest_ratio: num(d.prev_cheapest_ratio),
+      cheapest_group:
+        typeof d.cheapest_group === "string" ? d.cheapest_group : undefined,
+      bulk_event:
+        bulkEventType && bulkEventType !== "model_bulk_change"
+          ? bulkEventType
+          : undefined,
+      bulk_count: num(d.bulk_count),
+      bulk_free: num(d.bulk_free),
+      models: isStringArray(d.models) ? d.models : undefined,
+    },
+  };
+}
 
 function deliver(evt: NotifyEvent, relay: boolean) {
   if (seenIds.has(evt.id)) return;
@@ -76,7 +137,10 @@ async function catchUp() {
       topics: wantedTopics.join(","),
     });
     if (!res.data.success) return;
-    for (const evt of res.data.data ?? []) deliver(evt as NotifyEvent, true);
+    for (const raw of res.data.data ?? []) {
+      const evt = parseNotifyEvent(raw);
+      if (evt) deliver(evt, true);
+    }
   } catch {
     // Missed catch-up is acceptable: the feed is session-ephemeral.
   }
@@ -111,11 +175,10 @@ function connect() {
 
   socket.addEventListener("message", (event: MessageEvent<string>) => {
     try {
-      const frame = JSON.parse(event.data) as {
-        op: string;
-        event?: NotifyEvent;
-      };
-      if (frame.op === "event" && frame.event) deliver(frame.event, true);
+      const frame = rec(JSON.parse(event.data));
+      if (frame?.op !== "event") return;
+      const evt = parseNotifyEvent(frame.event);
+      if (evt) deliver(evt, true);
     } catch {
       // Ignore malformed frames.
     }

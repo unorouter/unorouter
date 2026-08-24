@@ -285,9 +285,7 @@ export function selectLorebookEntries(
     1500,
   );
 
-  const enabledEntries = entries.filter(
-    (e) => (e as { enabled?: boolean | null }).enabled !== false,
-  );
+  const enabledEntries = entries.filter((e) => e.enabled !== false);
   const prepared: Prepared[] = enabledEntries.map((e) => {
     const book = books.get(e.lorebookId);
     const dec = parseDecorators(e.content);
