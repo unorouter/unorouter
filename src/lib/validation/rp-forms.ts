@@ -103,9 +103,9 @@ export const SAMPLING_PARAMS = [
 export type SamplingParam = (typeof SAMPLING_PARAMS)[number];
 
 export type SamplingFieldName = SamplingParam["field"];
-export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
+export const SAMPLING_FIELDS: SamplingFieldName[] = SAMPLING_PARAMS.map(
   (p) => p.field,
-) as SamplingFieldName[];
+);
 
 export const RP_TABS = [
   "characters",

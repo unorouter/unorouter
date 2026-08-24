@@ -185,7 +185,7 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
             {channelBadge}
             {upstream ? (
               <span className="truncate">
-                {t("LOGS.MAPPED_VIA", { upstream: upstream as string })}
+                {t("LOGS.MAPPED_VIA", { upstream })}
               </span>
             ) : null}
           </span>

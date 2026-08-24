@@ -1,3 +1,4 @@
+import { rec } from "@/lib/utils/base";
 import { foreignPatternsExcept } from "../patterns";
 import {
   normalizeProbeBaseUrl,
@@ -39,14 +40,14 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
 }
 
 function extractText(data: unknown): string | null {
-  const d = data as OpenAIChatResponse;
+  const d: OpenAIChatResponse = rec(data) ?? {};
   if (d.error) return null;
   const content = d.choices?.[0]?.message?.content;
   return typeof content === "string" ? content.toLowerCase() : null;
 }
 
 function extractMeta(data: unknown) {
-  const d = data as OpenAIChatResponse;
+  const d: OpenAIChatResponse = rec(data) ?? {};
   const u = d.usage;
   return {
     detectedModel: d.model ?? null,

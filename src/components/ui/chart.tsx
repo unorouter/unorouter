@@ -4,8 +4,9 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
+import { rec } from "@/lib/utils/base";
 
-const THEMES = { light: "", dark: ".dark" } as const;
+const THEMES = { light: "", dark: ".dark" };
 
 export type ChartConfig = {
   [k in string]: {
@@ -339,32 +340,20 @@ function getPayloadConfigFromPayload(
   payload: unknown,
   key: string,
 ) {
-  if (typeof payload !== "object" || payload === null) {
+  const row = rec(payload);
+  if (!row) {
     return undefined;
   }
 
-  const payloadPayload =
-    "payload" in payload &&
-    typeof payload.payload === "object" &&
-    payload.payload !== null
-      ? payload.payload
-      : undefined;
-
   let configLabelKey: string = key;
 
-  if (
-    key in payload &&
-    typeof payload[key as keyof typeof payload] === "string"
-  ) {
-    configLabelKey = payload[key as keyof typeof payload] as string;
-  } else if (
-    payloadPayload &&
-    key in payloadPayload &&
-    typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
-  ) {
-    configLabelKey = payloadPayload[
-      key as keyof typeof payloadPayload
-    ] as string;
+  const fromPayload = row[key];
+  const fromInner = rec(row.payload)?.[key];
+
+  if (typeof fromPayload === "string") {
+    configLabelKey = fromPayload;
+  } else if (typeof fromInner === "string") {
+    configLabelKey = fromInner;
   }
 
   return configLabelKey in config ? config[configLabelKey] : config[key];

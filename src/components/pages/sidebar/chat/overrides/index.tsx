@@ -37,7 +37,6 @@ import {
   samplerMemoryByModelAtom,
 } from "@/store/chat-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
@@ -58,6 +57,7 @@ import {
   OverridesGenerationFields,
   OverridesPromptFields,
 } from "./override-fields";
+import { formDefaults } from "@/lib/validation/helpers";
 
 type DrawerProps = {
   convId: string | null;
@@ -143,10 +143,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
 
   const form = useForm({
     resolver: typeboxResolver(conversationOverridesFormSchema),
-    defaultValues: Value.Default(
-      conversationOverridesFormSchema,
-      {},
-    ) as ConversationOverridesForm,
+    defaultValues: formDefaults(conversationOverridesFormSchema),
     values: formValues,
     resetOptions: { keepDirtyValues: true },
   });

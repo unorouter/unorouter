@@ -1,3 +1,4 @@
+import { rec } from "@/lib/utils/base";
 import { foreignPatternsExcept } from "../patterns";
 import {
   normalizeProbeBaseUrl,
@@ -41,7 +42,7 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
 }
 
 function extractText(data: unknown): string | null {
-  const d = data as AnthropicResponse;
+  const d: AnthropicResponse = rec(data) ?? {};
   if (d.type === "error") return null;
   return (d.content ?? [])
     .filter((b) => b.type === "text")
@@ -51,7 +52,7 @@ function extractText(data: unknown): string | null {
 }
 
 function extractMeta(data: unknown) {
-  const d = data as AnthropicResponse;
+  const d: AnthropicResponse = rec(data) ?? {};
   const u = d.usage;
   const prompt = u?.input_tokens ?? null;
   const completion = u?.output_tokens ?? null;

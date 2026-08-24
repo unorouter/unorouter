@@ -45,7 +45,7 @@ export function useSnapshotRestore(args: Args) {
       model: desc.model_name,
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
-      params: mergedParams as ImageFormValues["params"],
+      params: mergedParams,
       loras: restorePayload.loras ?? undefined,
       references: restorePayload.references ?? undefined,
       ui: restorePayload.extraParams ?? { variants: 1 },

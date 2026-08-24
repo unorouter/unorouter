@@ -50,7 +50,7 @@ export const docsNavItemsOverview: DocsNavItem[] = [
 
 export const chatDocsNavItemsOverview: DocsNavItem[] = [
   {
-    name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
+    name: "DOCS_CHAT.INDEX.TITLE",
     href: "/docs/chat",
     iconName: "layout-grid",
     exact: true,
@@ -66,7 +66,7 @@ export const chatDocsNavGroups: DocsNavGroup[] = (() => {
       {
         labelKey: CHAT_DOC_SECTION_LABELS[section],
         items: docs.map((doc) => ({
-          name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+          name: `${doc.i18nPrefix}.TITLE`,
           href: doc.href,
           iconName: doc.iconName,
         })),
@@ -77,7 +77,7 @@ export const chatDocsNavGroups: DocsNavGroup[] = (() => {
 
 export const platformDocsNavItemsOverview: DocsNavItem[] = [
   {
-    name: "DOCS_PLATFORM.INDEX.TITLE" as TranslationKey,
+    name: "DOCS_PLATFORM.INDEX.TITLE",
     href: "/docs/platform",
     iconName: "layout-grid",
     exact: true,
@@ -93,7 +93,7 @@ export const platformDocsNavGroups: DocsNavGroup[] = (() => {
       {
         labelKey: PLATFORM_DOC_SECTION_LABELS[section],
         items: docs.map((doc) => ({
-          name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+          name: `${doc.i18nPrefix}.TITLE`,
           href: doc.href,
           iconName: doc.iconName,
         })),

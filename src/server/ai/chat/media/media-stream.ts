@@ -498,10 +498,10 @@ export async function generateEmbedding(
     "stream.embedding",
     group,
   );
-  const json = (await res.json()) as {
+  const json: {
     data?: { embedding?: number[] }[];
     usage?: UpstreamUsage;
-  };
+  } = await res.json();
   const vector = json.data?.[0]?.embedding ?? [];
   return {
     dims: vector.length,

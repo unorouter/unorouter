@@ -7,7 +7,7 @@ import {
 } from "@/lib/config/constants";
 import { verifyUserId } from "@/lib/utils/server";
 import { addToken, getTokenKey, searchTokens } from "@/openapi";
-import { getApiKey } from "@/server/constants";
+import { cookieString, getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import type { Cookie } from "elysia";
@@ -83,8 +83,8 @@ async function createAutoToken(
 async function authedUpstreamHeaders(
   cookie: Record<string, Cookie<unknown>>,
 ): Promise<Record<string, string> | null> {
-  const accessToken = cookie[ACCESS_TOKEN_COOKIE]?.value as string | undefined;
-  const signedUserId = cookie[USER_ID_COOKIE]?.value as string | undefined;
+  const accessToken = cookieString(cookie[ACCESS_TOKEN_COOKIE]?.value);
+  const signedUserId = cookieString(cookie[USER_ID_COOKIE]?.value);
   const userId = await verifyUserId(signedUserId);
   if (!accessToken || userId === null) return null;
   return { Authorization: accessToken, [NEW_API_USER]: String(userId) };

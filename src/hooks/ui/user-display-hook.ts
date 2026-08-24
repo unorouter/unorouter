@@ -20,8 +20,8 @@ export function useUserDisplay() {
       isLoading: authQuery.isLoading,
       displayName: "",
       initials: "",
-      roleKey: undefined as TranslationKey | undefined,
-      balanceDisplay: null as string | null,
+      roleKey: undefined,
+      balanceDisplay: null,
     };
   }
 

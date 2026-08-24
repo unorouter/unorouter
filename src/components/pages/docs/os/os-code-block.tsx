@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import type { IconName } from "@/lib/config/icon-map";
-import { OS } from "@/lib/types/enums";
+import { isOS, OS } from "@/lib/types/enums";
 
 export type OSCodeVariant = {
   code: string;
@@ -30,7 +30,7 @@ export function OSCodeBlock(props: OSCodeBlockProps) {
   const docs = useApiKey();
 
   return (
-    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)}>
+    <Tabs value={docs.os} onValueChange={(v) => isOS(v) && docs.setOs(v)}>
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>

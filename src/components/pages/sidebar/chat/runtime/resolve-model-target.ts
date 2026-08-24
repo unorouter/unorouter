@@ -41,7 +41,7 @@ export async function resolveModelTarget(
       apiKey: provider.apiKey,
       baseURL: proxied ? `${origin}/api/ai/chat/custom-forward` : target,
       deps: buildClientDeps(provider),
-      tokenizer: (modelRow?.tokenizer as TokenizerRef | undefined) ?? undefined,
+      tokenizer: modelRow?.tokenizer ?? undefined,
       ...(proxied ? { extraHeaders: { "x-proxy-target": target } } : {}),
     };
   }

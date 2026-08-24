@@ -27,14 +27,15 @@ export const OAUTH_SCOPE_TRANSLATION_KEYS: Record<
   openid: "AUTH.CONSENT.SCOPE.OPENID",
 };
 
+type KnownScope = OAuthScope | "openid";
+
+const isKnownScope = (v: string): v is KnownScope =>
+  v in OAUTH_SCOPE_TRANSLATION_KEYS;
+
 export function getScopeTranslationKey(
   scope: string,
 ): TranslationKey | undefined {
-  return Object.hasOwn(OAUTH_SCOPE_TRANSLATION_KEYS, scope)
-    ? OAUTH_SCOPE_TRANSLATION_KEYS[
-        scope as keyof typeof OAUTH_SCOPE_TRANSLATION_KEYS
-      ]
-    : undefined;
+  return isKnownScope(scope) ? OAUTH_SCOPE_TRANSLATION_KEYS[scope] : undefined;
 }
 
 export type ScopeKind = "read" | "write" | "danger";
@@ -61,7 +62,5 @@ const DEFAULT_SCOPE_META: ScopeMeta = {
 };
 
 export function getScopeMeta(scope: string): ScopeMeta {
-  return Object.hasOwn(SCOPE_META, scope)
-    ? SCOPE_META[scope as keyof typeof SCOPE_META]
-    : DEFAULT_SCOPE_META;
+  return isKnownScope(scope) ? SCOPE_META[scope] : DEFAULT_SCOPE_META;
 }

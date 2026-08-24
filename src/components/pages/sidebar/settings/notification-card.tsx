@@ -44,11 +44,11 @@ import {
   type NotificationSettingSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 export function NotificationCard() {
   const t = useTranslations();
@@ -58,10 +58,7 @@ export function NotificationCard() {
 
   const form = useForm({
     resolver: typeboxResolver(notificationSettingSchema),
-    defaultValues: Value.Default(
-      notificationSettingSchema,
-      {},
-    ) as NotificationSettingSchema,
+    defaultValues: formDefaults(notificationSettingSchema),
   });
 
   const notifyType = form.watch("notify_type");

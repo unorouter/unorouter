@@ -8,11 +8,7 @@ import { highlightSpans } from "@/lib/ai/verify/highlight";
 import type { HighlightKind } from "@/lib/ai/verify/highlight";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { ruleIdForSignal } from "@/lib/ai/verify/rules";
-import type {
-  ProbeLabel,
-  ProbeSignal,
-  VerifyProvider,
-} from "@/lib/ai/verify/types";
+import type { VerifyProvider } from "@/lib/ai/verify/types";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -139,11 +135,7 @@ function HighlightedResponse(props: {
   label: string;
 }) {
   const t = useTranslations();
-  const segments = highlightSpans(
-    props.text,
-    props.provider,
-    props.label as ProbeLabel,
-  );
+  const segments = highlightSpans(props.text, props.provider, props.label);
   const kinds = Array.from(
     new Set(
       segments
@@ -192,9 +184,7 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
   const [open, setOpen] = useState(false);
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
-  const ruleId = probe.signal
-    ? ruleIdForSignal(probe.signal as ProbeSignal)
-    : null;
+  const ruleId = probe.signal ? ruleIdForSignal(probe.signal) : null;
   const ruleTitleKey = ruleId ? RULE_TITLE_KEY[ruleId] : undefined;
   const ruleWhyKey = ruleId ? RULE_WHY_KEY[ruleId] : undefined;
   const intentChecksKey = PROBE_INTENT_CHECKS[probe.label];

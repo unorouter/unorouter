@@ -177,7 +177,7 @@ export class SQLiteSahPoolDriver
       // only accepts a plain ArrayBuffer (the opfs driver returns
       // file.arrayBuffer()); exportFile's Uint8Array view over WASM memory
       // is untransferable (DataCloneError). Copy into a standalone buffer.
-      const data = new Uint8Array(raw).buffer as ArrayBuffer;
+      const data = new Uint8Array(raw).buffer;
       return { name, data };
     } finally {
       this.poolUtil.unlink(tempName);

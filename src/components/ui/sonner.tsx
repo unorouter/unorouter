@@ -4,12 +4,15 @@ import { useTheme } from "next-themes";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 import { Icon } from "@/components/ui/icon";
 
+const toasterTheme = (v: string): ToasterProps["theme"] =>
+  v === "light" || v === "dark" ? v : "system";
+
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={toasterTheme(theme)}
       className="toaster group"
       icons={{
         success: <Icon name="circle-check" className="size-4" />,

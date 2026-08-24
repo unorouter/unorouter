@@ -21,11 +21,11 @@ export function mkMsg(
   return { role, parts: [{ type: "text", text }] };
 }
 
-function textOf(parts: unknown): string {
+function textOf(parts: StreamMessages[number]["parts"] | undefined): string {
   if (!Array.isArray(parts)) return "";
   return parts
-    .filter((p) => p.type === "text" && typeof p.text === "string")
-    .map((p) => (p as { text: string }).text)
+    .filter((p) => p.type === "text")
+    .map((p) => p.text)
     .join("\n");
 }
 
@@ -74,11 +74,7 @@ export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
     const refs: ImageRef[] = [];
     for (const part of msg.parts) {
       if (part.type !== "file" && part.type !== "source-url") continue;
-      const p = part as {
-        url?: unknown;
-        mediaType?: unknown;
-        mimeType?: unknown;
-      };
+      const p: Record<string, unknown> = part;
       const url = typeof p.url === "string" ? p.url : "";
       const mimeType =
         (typeof p.mediaType === "string" && p.mediaType) ||
@@ -216,9 +212,7 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
 function hasRenderableContent(parts: StreamMessages[number]["parts"]): boolean {
   return (
     Array.isArray(parts) &&
-    parts.some((p) =>
-      p.type === "text" ? ((p.text as string) ?? "").trim() !== "" : true,
-    )
+    parts.some((p) => (p.type === "text" ? p.text.trim() !== "" : true))
   );
 }
 
@@ -370,6 +364,8 @@ export function collectHistory(
       continue;
     }
     const text = textOf(m.parts);
+    // StreamMessages is Omit<UIMessage,"id">: no id survives the conversion, so
+    // this lookup yields undefined and message times never reach the history.
     const id = (m as { id?: string }).id;
     if (text) {
       out.push({ role: m.role, text, time: id ? times?.[id] : undefined });

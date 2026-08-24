@@ -8,6 +8,7 @@ import {
   useTaskStatusQuery,
 } from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
+import { rec, recArr } from "@/lib/utils/base";
 import { replaceMessageParts } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
@@ -21,16 +22,17 @@ type TaskPart = {
   kind?: string;
 };
 
-type AnyPart = { type: string; [k: string]: unknown };
-
-function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
-  if (!source?.taskId || !source.model) return null;
+function buildTaskPart(source: unknown): TaskPart | null {
+  const row = rec(source);
+  if (typeof row?.taskId !== "string" || typeof row.model !== "string") {
+    return null;
+  }
   return {
-    taskId: source.taskId,
-    status: source.status ?? "SUBMITTED",
-    progress: source.progress ?? "10%",
-    model: source.model,
-    ...(source.kind && { kind: source.kind }),
+    taskId: row.taskId,
+    status: typeof row.status === "string" ? row.status : "SUBMITTED",
+    progress: typeof row.progress === "string" ? row.progress : "10%",
+    model: row.model,
+    ...(typeof row.kind === "string" && { kind: row.kind }),
   };
 }
 
@@ -154,11 +156,11 @@ export function TaskCard(props: Props) {
               type: "text",
               text: `![${alt}](${result.url})`,
             };
-            const isTaskPart = (p: { type: string; name?: unknown }) =>
+            const isTaskPart = (p: Record<string, unknown>) =>
               p.type === "data-task" ||
               (p.type === "data" && p.name === "task");
             replaceMessageParts(props.msgId, (parts) =>
-              (parts as Array<{ type: string; name?: unknown }>)
+              recArr(parts)
                 .filter((p) => !isTaskPart(p))
                 .concat(newPart),
             );
@@ -239,13 +241,13 @@ export function TaskCard(props: Props) {
 
 export function TaskCardRenderer() {
   const convId = useAuiState((s) => s.threadListItem?.remoteId ?? "");
-  const parts = useAuiState((s) => s.message.parts) as unknown as AnyPart[];
+  const parts = useAuiState((s) => s.message.parts);
   const msgId = useAuiState((s) => s.message.id);
 
   const taskParts: TaskPart[] = [];
-  for (const part of parts) {
+  for (const part of recArr(parts)) {
     if (part.type === "data" && part.name === "task") {
-      const built = buildTaskPart(part.data as Partial<TaskPart>);
+      const built = buildTaskPart(part.data);
       if (built) taskParts.push(built);
     }
   }

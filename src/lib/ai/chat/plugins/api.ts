@@ -57,7 +57,7 @@ export function buildPluginApi(
   };
 
   const isMode = (v: unknown): v is PluginHookMode =>
-    PLUGIN_HOOK_MODES.includes(v as PluginHookMode);
+    PLUGIN_HOOK_MODES.some((m) => m === v);
 
   return {
     registerHandler: (mode: unknown, fn: PluginHandler) => {

@@ -13,10 +13,9 @@ import {
   forgotPasswordSchema,
   type ForgotPasswordSchema,
 } from "@/lib/validation/auth";
-import { safeParse } from "@/lib/validation/helpers";
+import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -28,10 +27,7 @@ export function ForgotPasswordForm() {
 
   const form = useForm({
     resolver: typeboxResolver(forgotPasswordSchema),
-    defaultValues: Value.Default(
-      forgotPasswordSchema,
-      {},
-    ) as ForgotPasswordSchema,
+    defaultValues: formDefaults(forgotPasswordSchema),
   });
 
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();

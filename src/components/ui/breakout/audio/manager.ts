@@ -4,6 +4,12 @@ import {
   type MusicPattern,
   type MusicVoice,
 } from "./music";
+
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+  }
+}
 import {
   playBrickSfx,
   playGameOverSfx,
@@ -117,10 +123,7 @@ class GameAudioManager {
     if (this.context !== null) return;
     if (typeof window === "undefined") return;
 
-    const AudioContextCtor =
-      window.AudioContext ||
-      (window as Window & { webkitAudioContext?: typeof AudioContext })
-        .webkitAudioContext;
+    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
 
     if (AudioContextCtor === undefined) return;
 

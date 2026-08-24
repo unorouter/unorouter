@@ -29,9 +29,10 @@ export function PaymentMethodToggle(props: {
       )}
       <Tabs
         value={billing.paymentMethod}
-        onValueChange={(value) =>
-          billing.setPaymentMethod(value as PaymentMethod)
-        }
+        onValueChange={(value) => {
+          const method = billing.availableMethods.find((m) => m === value);
+          if (method) billing.setPaymentMethod(method);
+        }}
       >
         <TabsList>
           {billing.availableMethods.includes("card") && (

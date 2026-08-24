@@ -90,6 +90,7 @@ function ImageTile(props: {
   const quick = (target: QuickTarget) => {
     props.onQuickAction?.(props.src, target);
   };
+  const seed = props.seed;
   return (
     <div
       className={
@@ -122,10 +123,10 @@ function ImageTile(props: {
         <Icon name="download" className="h-4 w-4" />
       </button>
       {/* The provider-chosen seed is the only way to reproduce an unpinned generation. */}
-      {typeof props.seed === "number" && (
+      {typeof seed === "number" && (
         <button
           type="button"
-          onClick={() => props.onReuseSeed?.(props.seed as number)}
+          onClick={() => props.onReuseSeed?.(seed)}
           disabled={!props.onReuseSeed}
           title={t("IMAGE.REUSE_SEED")}
           className="bg-background/80 text-foreground absolute top-2 left-2 cursor-pointer rounded-md px-1.5 py-1 font-mono text-[10px] tabular-nums opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 disabled:cursor-default max-md:opacity-100"

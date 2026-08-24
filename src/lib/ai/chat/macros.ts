@@ -488,11 +488,11 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "element":
     case "ele": {
       try {
-        let cur = arg0;
+        let cur: unknown = arg0;
         for (const a of args.slice(1)) {
-          const parsed = JSON.parse(cur);
-          if (parsed === null || typeof parsed !== "object") return "null";
-          cur = (parsed as Record<string, unknown>)[a] as string;
+          const obj = rec(JSON.parse(String(cur)));
+          if (!obj) return "null";
+          cur = obj[a];
           if (cur == null) return "null";
         }
         return elemStr(cur);

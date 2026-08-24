@@ -1,4 +1,4 @@
-import { parseStringMap } from "@/lib/utils/base";
+import { parseStringMap, rec } from "@/lib/utils/base";
 import {
   DEFAULT_AUTHOR_NOTE_DEPTH,
   DEFAULT_CHAT_MEMORY,
@@ -118,13 +118,13 @@ function applyCharOverrides<T extends Record<string, unknown>>(
   character: T,
   overrides: unknown,
 ): T {
-  if (!overrides || typeof overrides !== "object") return character;
-  const ov = overrides as Record<string, unknown>;
-  const merged = { ...character };
+  const ov = rec(overrides);
+  if (!ov) return character;
+  const merged: Record<string, unknown> = { ...character };
   for (const f of CHAR_OVERRIDE_FIELDS) {
-    if (ov[f] != null) (merged as Record<string, unknown>)[f] = ov[f];
+    if (ov[f] != null) merged[f] = ov[f];
   }
-  return merged;
+  return merged as T;
 }
 
 type ProviderRouting = {
@@ -139,11 +139,8 @@ function parseProviderRouting(
 ): ProviderRouting | undefined {
   if (!raw) return undefined;
   try {
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return undefined;
-    }
-    const src = parsed as Record<string, unknown>;
+    const src = rec(JSON.parse(raw));
+    if (!src) return undefined;
     const out: ProviderRouting = {};
     for (const k of ["order", "only", "ignore"] as const) {
       const v = src[k];
@@ -335,7 +332,7 @@ export async function assembleForStream(
   const lorebookBlocks = selected
     .map((e) => ({
       text: expand(e.content),
-      role: (e.injectionRole ?? "system") as PromptItemRole,
+      role: e.injectionRole ?? "system",
     }))
     .filter((b) => b.text.trim().length > 0);
 

@@ -15,7 +15,6 @@ import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
   ProviderAggregateRow,
   RankingAggregateRow,
-  RankingRecentRow,
   TestResultDetail,
   VerifyAndPublishBody,
 } from "@/lib/api/typebox/model-tester";
@@ -306,8 +305,9 @@ export async function getProviders(
   return {
     rows: rows.map((r) => ({
       ...r,
+      baseUrlHost: r.baseUrlHost ?? "",
       p95LatencyMs: p95.get(r.baseUrlHost ?? "") ?? null,
-    })) as ProviderAggregateRow[],
+    })),
     total: distinct[0]?.c ?? 0,
     page,
     pageSize,
@@ -345,15 +345,18 @@ export async function getProviderDetail(host: string): Promise<{
 
   return {
     provider: provider[0]
-      ? ({
+      ? {
           ...provider[0],
+          baseUrlHost: provider[0].baseUrlHost ?? "",
           p95LatencyMs: p95.get(host) ?? null,
-        } as ProviderAggregateRow)
+        }
       : null,
     models: models.map((m) => ({
       ...m,
+      model: m.model ?? "",
+      baseUrlHost: m.baseUrlHost ?? "",
       p95LatencyMs: p95.get(`${host}:::${m.model}`) ?? null,
-    })) as RankingAggregateRow[],
+    })),
   };
 }
 
@@ -417,15 +420,12 @@ export async function getRankingDetail(host: string, model: string) {
 
   return {
     aggregate: agg[0]
-      ? ({
-          ...agg[0],
-          p95LatencyMs: p95.get(`${host}:::${model}`) ?? null,
-        } as RankingAggregateRow)
+      ? { ...agg[0], p95LatencyMs: p95.get(`${host}:::${model}`) ?? null }
       : null,
     recent: recent.map((r) => ({
       ...r,
       testedAt: r.testedAt.getTime(),
-    })) as RankingRecentRow[],
+    })),
   };
 }
 
@@ -450,7 +450,7 @@ export async function getPublishedTestDetail(
   return {
     model: test.requestedModel ?? "",
     baseUrlHost: test.baseUrlHost ?? "",
-    provider: (test.kind ?? "openai") as VerifyProviderValue,
+    provider: test.kind ?? "openai",
     verdict: test.verdict,
     versionUnverifiable: test.versionUnverifiable,
     detectedModel: test.detectedModel,

@@ -49,7 +49,7 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
               pathname,
               item.href,
               item.exact,
-              params as Record<string, string>,
+              params,
             );
             return (
               <SidebarMenuItem key={item.name}>

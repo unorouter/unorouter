@@ -253,6 +253,11 @@ export function capitalize(s: string): string {
   return s.length === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+// toUpperCase() widens to string, dropping the literal a translation key needs.
+export function upper<T extends string>(s: T): Uppercase<T> {
+  return s.toUpperCase() as Uppercase<T>;
+}
+
 export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }

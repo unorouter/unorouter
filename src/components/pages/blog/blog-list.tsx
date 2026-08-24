@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { upper } from "@/lib/utils/base";
 
 interface BlogListProps {
   posts: BlogListPost[];
@@ -27,7 +28,7 @@ export function BlogList(props: BlogListProps) {
     { key: "all" as const, label: t("BLOG.FILTER.ALL") },
     ...BLOG_CATEGORIES.map((c) => ({
       key: c,
-      label: t(`BLOG.CATEGORY.${c.toUpperCase() as Uppercase<typeof c>}`),
+      label: t(`BLOG.CATEGORY.${upper(c)}`),
     })),
   ];
 
@@ -89,9 +90,7 @@ export function BlogList(props: BlogListProps) {
             const sectionNumber = String(
               filter.filtered.length - index,
             ).padStart(2, "0");
-            const categoryLabel = t(
-              `BLOG.CATEGORY.${post.category.toUpperCase() as Uppercase<typeof post.category>}`,
-            );
+            const categoryLabel = t(`BLOG.CATEGORY.${upper(post.category)}`);
 
             return (
               <li key={post.slug}>

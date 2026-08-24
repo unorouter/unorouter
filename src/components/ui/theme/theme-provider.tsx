@@ -32,7 +32,7 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
   }, [theme]);
 
   useEffect(() => {
-    let el = document.getElementById(BG_STYLE_ID) as HTMLStyleElement | null;
+    let el = document.getElementById(BG_STYLE_ID);
     if (!el) {
       el = document.createElement("style");
       el.id = BG_STYLE_ID;

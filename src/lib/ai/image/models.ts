@@ -20,14 +20,22 @@ export function imageParams(m: ImageModelDescriptor): Partial<ImageParams> {
 /** What a form starts at, as the gateway resolved it for this model. */
 export function defaultParams(m: ImageModelDescriptor) {
   const p = imageParams(m);
-  return {
+  const out: {
+    width: number;
+    height: number;
+    steps: number;
+    cfg: number | undefined;
+    sampler: string;
+    scheduler: string | undefined;
+  } = {
     width: p.defaultWidth ?? 1024,
     height: p.defaultHeight ?? 1024,
     steps: p.defaultSteps ?? 20,
     cfg: p.defaultCfg ?? undefined,
     sampler: p.defaultSampler ?? "Default",
-    scheduler: undefined as string | undefined,
+    scheduler: undefined,
   };
+  return out;
 }
 
 // An id we cannot resolve borrows NOTHING but the shape: prompt and size are the

@@ -11,7 +11,11 @@ import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/types";
 import type { ReactNode } from "react";
 
-const SUB_NAV: { href: LinkHref; labelKey: TranslationKey; icon: string }[] = [
+const SUB_NAV: {
+  href: Extract<LinkHref, string>;
+  labelKey: TranslationKey;
+  icon: string;
+}[] = [
   {
     href: "/ai-api-model-tester",
     labelKey: "MODEL_TESTER.TABS.TEST",
@@ -67,7 +71,7 @@ export function TesterShell(props: { children: ReactNode }) {
           className="border-border/60 flex items-center gap-1 border-b"
         >
           {SUB_NAV.map((item) => {
-            const href = item.href as string;
+            const href = item.href;
             const isTester = href === "/ai-api-model-tester";
             const active = isTester
               ? pathname.endsWith("/ai-api-model-tester")

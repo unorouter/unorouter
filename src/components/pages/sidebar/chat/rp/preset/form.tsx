@@ -1,5 +1,6 @@
 "use client";
 
+import { rec } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
@@ -50,9 +51,9 @@ function parseProviderRouting(raw: string | null | undefined): {
 } {
   if (!raw) return { slugs: "", only: false };
   try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const only = Array.isArray(parsed.only);
-    const list = (only ? parsed.only : parsed.order) as unknown;
+    const parsed = rec(JSON.parse(raw));
+    const only = Array.isArray(parsed?.only);
+    const list = only ? parsed?.only : parsed?.order;
     const slugs = Array.isArray(list) ? list.map(String).join(", ") : "";
     return { slugs, only };
   } catch {

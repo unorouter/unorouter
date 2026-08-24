@@ -17,11 +17,11 @@ import {
   type ChangePasswordSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 export function ChangePasswordDialog(props: {
   open: boolean;
@@ -34,17 +34,12 @@ export function ChangePasswordDialog(props: {
 
   const form = useForm({
     resolver: typeboxResolver(changePasswordSchema),
-    defaultValues: Value.Default(
-      changePasswordSchema,
-      {},
-    ) as ChangePasswordSchema,
+    defaultValues: formDefaults(changePasswordSchema),
   });
 
   useEffect(() => {
     if (props.open) {
-      form.reset(
-        Value.Default(changePasswordSchema, {}) as ChangePasswordSchema,
-      );
+      form.reset(formDefaults(changePasswordSchema));
     }
   }, [props.open, form]);
 

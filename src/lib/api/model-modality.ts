@@ -8,7 +8,7 @@ type ModalityModel = { type: string; metadata?: ModelMetadata };
 
 // The picker list carries no metadata; a detail surface handed one of those rows
 // renders empty fields rather than crashing on a missing object.
-export const EMPTY_METADATA = {} as ModelMetadata;
+export const EMPTY_METADATA: ModelMetadata = { releaseTs: 0 };
 type PricedModel = ModalityModel &
   (
     | {

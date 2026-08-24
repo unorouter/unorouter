@@ -1,3 +1,5 @@
+import type { IconLibraryName } from "@/lib/config/icon-map";
+
 export type ThemeCssVars = Record<string, string>;
 
 export type ShadcnTheme = {
@@ -1246,7 +1248,7 @@ export function findRadius(name: string | undefined): RadiusOption | null {
   return RADII.find((r) => r.name === name) ?? null;
 }
 
-export type IconLibraryOption = { name: string; label: string };
+export type IconLibraryOption = { name: IconLibraryName; label: string };
 export const ICON_LIBRARIES: IconLibraryOption[] = [
   { name: "lucide", label: "Lucide" },
   { name: "tabler", label: "Tabler Icons" },

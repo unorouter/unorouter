@@ -139,20 +139,15 @@ export function LorebookEntryForm(props: {
 
   const onSubmit = async (data: LorebookEntryFormValues) => {
     const secondary = csvToArray(data.secondaryKeys);
+    const { probability, entryScanDepth, ...rest } = data;
     const body = {
-      ...data,
+      ...rest,
       comment: data.comment.trim() || null,
-      content: embedDecorators(
-        data.content,
-        data.probability,
-        data.entryScanDepth,
-      ),
+      content: embedDecorators(data.content, probability, entryScanDepth),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
       injectionRole: data.injectionRole,
     };
-    delete (body as { probability?: number }).probability;
-    delete (body as { entryScanDepth?: number }).entryScanDepth;
     if (props.editingId === "new") {
       await createMut.mutateAsync(body);
     } else {

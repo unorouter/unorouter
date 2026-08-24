@@ -8,7 +8,7 @@ import {
 import { useStore } from "jotai";
 import { type ReactNode, useEffect, useSyncExternalStore } from "react";
 
-const EMPTY_STORES = {} as DataTableStores;
+const EMPTY_STORES: Partial<DataTableStores> = {};
 
 export function DataTableProvider(props: {
   children: ReactNode;

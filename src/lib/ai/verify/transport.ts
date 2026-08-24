@@ -1,4 +1,4 @@
-import { errMessage } from "@/lib/utils/base";
+import { errMessage, rec } from "@/lib/utils/base";
 import type { VerifyProvider, TransportMode } from "./types";
 
 export type TransportResult = {
@@ -82,11 +82,9 @@ async function viaServer(args: TransportArgs): Promise<TransportResult> {
       }),
       signal: AbortSignal.timeout(args.timeoutMs + 5000),
     });
-    const wrapped = (await res.json().catch(() => null)) as {
-      data?: { status: number; data: unknown };
-    } | null;
-    const inner = wrapped?.data;
-    if (!inner)
+    const wrapped = rec(await res.json().catch(() => null));
+    const inner = rec(wrapped?.data);
+    if (!inner || typeof inner.status !== "number")
       return {
         status: null,
         data: null,

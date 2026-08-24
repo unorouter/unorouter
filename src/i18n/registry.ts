@@ -1,7 +1,6 @@
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
 import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
-import type { Pathname } from "@/i18n/routing";
 import {
   BlogEntry,
   DocEntry,
@@ -53,7 +52,7 @@ function guideDate(slug: string): string {
 
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   slug: `docs/integrations/${guide.slug}`,
-  path: guide.href as Pathname,
+  path: guide.href,
   i18nPrefix: guide.i18nPrefix,
   date: guideDate(guide.slug),
   priority: 0.7,
@@ -64,7 +63,7 @@ const CHAT_PLATFORM_DOCS_DATE = "2026-07-05";
 
 const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   slug: `docs/chat/${doc.slug}`,
-  path: doc.href as Pathname,
+  path: doc.href,
   i18nPrefix: doc.i18nPrefix,
   date: CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
@@ -83,7 +82,7 @@ const PLATFORM_DOC_UPDATED: Record<string, string> = {
 
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
   slug: `docs/platform/${doc.slug}`,
-  path: doc.href as Pathname,
+  path: doc.href,
   i18nPrefix: doc.i18nPrefix,
   date: PLATFORM_DOC_DATES[doc.slug] ?? CHAT_PLATFORM_DOCS_DATE,
   updated: PLATFORM_DOC_UPDATED[doc.slug],

@@ -7,7 +7,6 @@ import { billingDomainRoute } from "@/server/billing/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
 import { fromTypes, openapi } from "@elysiajs/openapi";
-import { AdditionalReferences } from "@elysiajs/openapi/types";
 import { Elysia } from "elysia";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -31,7 +30,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(
     openapi({
       path: "/openapi",
-      references: openapiRefs as AdditionalReferences,
+      references: openapiRefs,
       documentation: {
         openapi: "3.1.0",
         info: {

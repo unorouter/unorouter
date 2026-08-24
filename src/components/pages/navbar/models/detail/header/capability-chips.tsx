@@ -2,7 +2,6 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
-import type { IconName } from "@/lib/config/icon-map";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -36,7 +35,7 @@ export function CapabilityChips(props: Props) {
             isCard && "px-1.5 py-0",
           )}
         >
-          <Icon name={chip.icon as IconName} className="mr-1 h-3 w-3" />
+          <Icon name={chip.icon} className="mr-1 h-3 w-3" />
           {chip.count != null
             ? t(chip.labelKey, { count: chip.count })
             : t(chip.labelKey)}

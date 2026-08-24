@@ -1,3 +1,4 @@
+import { rec } from "@/lib/utils/base";
 import { calcString } from "../calc";
 import type { TriggerContext, TriggerEffect } from "./types";
 
@@ -41,10 +42,11 @@ function parseArr(s: string): string[] {
 }
 
 function parseDict(s: string): Record<string, string> {
-  const v = JSON.parse(s);
-  if (!v || typeof v !== "object" || Array.isArray(v))
-    throw new Error("not-dict");
-  return v as Record<string, string>;
+  const v = rec(JSON.parse(s));
+  if (!v) throw new Error("not-dict");
+  const out: Record<string, string> = {};
+  for (const [k, val] of Object.entries(v)) out[k] = String(val);
+  return out;
 }
 
 function withArrVar(
@@ -259,9 +261,9 @@ export function runDataOpcode(
         const re = new RegExp(pattern, flags);
         setOut(
           source.replace(re, (...args) => {
-            const match = args[0] as string;
+            const match = String(args[0]);
             const offsetIdx = args.findIndex((a) => typeof a === "number");
-            const groups = args.slice(1, offsetIdx) as string[];
+            const groups = args.slice(1, offsetIdx).map(String);
             const target = fmt.match(/^\$(\d+)$/);
             if (target) {
               const idx = Number(target[1]);

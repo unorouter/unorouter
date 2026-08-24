@@ -173,8 +173,8 @@ export function ViewportDebugLogger() {
         if (r.height < 1) continue;
         flow.push({
           tag: el.tagName,
-          id: (el as HTMLElement).id || undefined,
-          cls: String((el as HTMLElement).className).slice(0, 80),
+          id: el.id || undefined,
+          cls: String(el.className).slice(0, 80),
           h: Math.round(r.height),
           top: Math.round(r.top),
         });

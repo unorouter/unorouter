@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Slider } from "@/components/ui/slider";
 import { Picker } from "@/components/ui/theme/picker";
-import type {
-  BackgroundFit,
-  BackgroundSettings,
-} from "@/components/ui/theme/theme-store";
+import type { BackgroundSettings } from "@/components/ui/theme/theme-store";
 import { fileToScaledDataUrl } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
@@ -85,7 +82,11 @@ export function BackgroundImageSection(props: {
               { value: "contain", label: t("THEME.BG_FIT_CONTAIN") },
               { value: "tile", label: t("THEME.BG_FIT_TILE") },
             ]}
-            onValueChange={(v) => props.onChange({ fit: v as BackgroundFit })}
+            onValueChange={(v) =>
+              props.onChange({
+                fit: v === "contain" || v === "tile" ? v : "cover",
+              })
+            }
           />
           <div className="flex flex-col gap-1.5 px-1">
             <div className="text-muted-foreground flex justify-between text-xs">

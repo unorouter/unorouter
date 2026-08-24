@@ -1,8 +1,8 @@
 import { ParamError } from "@/lib/types";
 
 export const serverEnv = {
-  systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN as string,
-  sessionSecret: process.env.SESSION_SECRET as string,
+  systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN ?? "",
+  sessionSecret: process.env.SESSION_SECRET ?? "",
   guestApiKey: process.env.GUEST_API_KEY,
   runwareApiKey: process.env.RUNWARE_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,

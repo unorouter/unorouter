@@ -1,9 +1,11 @@
+import { rec } from "@/lib/utils/base";
 import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
 import {
   activeTokenizerState,
   setActiveTokenizer,
+  isTokenizerRef,
   tokenizerRefForModel,
   type TokenizerRef,
 } from "@/lib/ai/chat/tokenizer";
@@ -63,11 +65,10 @@ export async function prepareChatRequest(
   // Preset wins over the custom-provider row: one provider serves many models, so its
   // per-model tokenizer is the coarser default. Empty/absent falls through to the
   // model-name inference in tokenizerRefForModel.
-  const presetTokenizer = (
-    body.chatContext?.preset as { tokenizer?: string } | null | undefined
-  )?.tokenizer;
+  const presetTokenizer = rec(body.chatContext?.preset)?.tokenizer;
   const activeTokenizer = tokenizerRefForModel(
-    (presetTokenizer as TokenizerRef | undefined) || body.tokenizer,
+    (isTokenizerRef(presetTokenizer) ? presetTokenizer : undefined) ||
+      body.tokenizer,
     body.model,
   );
   await setActiveTokenizer(activeTokenizer);

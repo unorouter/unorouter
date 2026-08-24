@@ -27,12 +27,12 @@ import {
   type TwoFACodeSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { formDefaults } from "@/lib/validation/helpers";
 
 export function Setup2FADialog(props: {
   open: boolean;
@@ -53,7 +53,7 @@ export function Setup2FADialog(props: {
 
   const form = useForm({
     resolver: typeboxResolver(twoFACodeSchema),
-    defaultValues: Value.Default(twoFACodeSchema, {}) as TwoFACodeSchema,
+    defaultValues: formDefaults(twoFACodeSchema),
   });
 
   function handleSetup() {
@@ -105,7 +105,7 @@ export function Setup2FADialog(props: {
   function resetState() {
     setStep("init");
     setSetupData(null);
-    form.reset(Value.Default(twoFACodeSchema, {}) as TwoFACodeSchema);
+    form.reset(formDefaults(twoFACodeSchema));
   }
 
   function copyBackupCodes() {

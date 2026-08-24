@@ -7,7 +7,7 @@ function localizedPath(
   locale: Locale,
   isDynamic: boolean,
 ): string {
-  const config = pathnames[route] as string | Record<string, string>;
+  const config: string | Record<string, string | undefined> = pathnames[route];
   const localized =
     typeof config === "string" ? config : (config[locale] ?? route);
   const bracketAt = localized.indexOf("/[");

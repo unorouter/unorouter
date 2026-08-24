@@ -60,7 +60,7 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
     if (!wanted || plugin) return;
     void import("rehype-mathjax")
       .then((m) => {
-        cachedMathjax = m.default as Pluggable;
+        cachedMathjax = m.default;
         setPlugin(() => cachedMathjax);
       })
       .catch(() => {});

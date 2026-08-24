@@ -126,9 +126,7 @@ export function PromptTemplateEditor(props: Props) {
   const resetDefault = () => commit(toCards(DEFAULT_PROMPT_TEMPLATE));
 
   const usedSlots = new Set(
-    cards
-      .filter((c) => c.type === "slot")
-      .map((c) => (c as { slot: SlotName }).slot),
+    cards.filter((c) => c.type === "slot").map((c) => c.slot),
   );
   const hasChat = cards.some((c) => c.type === "chat");
 

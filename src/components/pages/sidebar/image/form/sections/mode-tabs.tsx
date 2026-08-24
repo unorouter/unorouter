@@ -40,7 +40,10 @@ export function ModeTabs() {
   return (
     <Tabs
       value={nav.tab}
-      onValueChange={(next) => nav.setTab(next as GenerateTab)}
+      onValueChange={(next) => {
+        const tab = TABS.find((t) => t.id === next);
+        if (tab) nav.setTab(tab.id);
+      }}
     >
       <TabsList>
         {TABS.map((tab) => (

@@ -32,16 +32,15 @@ import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
 const xPaymentInfo = (
   method: "stripe" | "creem" | "nowpayments" | "delopay",
   description: string,
-) =>
-  ({
-    "x-payment-info": {
-      intent: "session",
-      method,
-      amount: null,
-      currency: "USD",
-      description,
-    },
-  }) as Record<string, unknown>;
+): Record<string, unknown> => ({
+  "x-payment-info": {
+    intent: "session",
+    method,
+    amount: null,
+    currency: "USD",
+    description,
+  },
+});
 
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)

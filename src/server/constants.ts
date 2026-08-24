@@ -44,14 +44,18 @@ export async function getUserId(
   cookie: Record<string, Cookie<unknown>>,
   optional?: boolean,
 ): Promise<number | null> {
-  const raw = cookie[USER_ID_COOKIE]?.value;
-  const signed = typeof raw === "string" ? raw : undefined;
-  const verified = await verifyUserId(signed);
+  const verified = await verifyUserId(
+    cookieString(cookie[USER_ID_COOKIE]?.value),
+  );
   if (verified === null) {
     if (optional) return null;
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
   return verified;
+}
+
+export function cookieString(value: unknown): string | undefined {
+  return typeof value === "string" && value ? value : undefined;
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {

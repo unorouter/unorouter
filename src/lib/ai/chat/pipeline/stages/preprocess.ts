@@ -78,9 +78,7 @@ async function applyLuaEditInput(
         : p,
     ),
   );
-  return messages.map((mm, i) =>
-    i === lastUserIdx ? ({ ...mm, parts } as (typeof messages)[number]) : mm,
-  );
+  return messages.map((mm, i) => (i === lastUserIdx ? { ...mm, parts } : mm));
 }
 
 // JS plugin input handlers, same shape as the Lua pass: only the last user
@@ -118,7 +116,5 @@ async function applyJsEditInput(
         : p,
     ),
   );
-  return messages.map((mm, i) =>
-    i === lastUserIdx ? ({ ...mm, parts } as (typeof messages)[number]) : mm,
-  );
+  return messages.map((mm, i) => (i === lastUserIdx ? { ...mm, parts } : mm));
 }

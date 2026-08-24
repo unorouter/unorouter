@@ -50,7 +50,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
       props.onSuccess();
     } catch (e) {
       logChatDebug("auth.2fa_failed", {
-        error: String((e as Error)?.message ?? e).slice(0, 200),
+        error: String(e instanceof Error ? e.message : e).slice(0, 200),
       });
       setCode("");
     } finally {

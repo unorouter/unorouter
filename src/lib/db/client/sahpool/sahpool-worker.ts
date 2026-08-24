@@ -1,3 +1,4 @@
+import { errMessage, rec } from "@/lib/utils/base";
 import { SQLocalProcessor } from "sqlocal";
 import { SQLiteSahPoolDriver } from "./sqlite-sahpool-driver";
 
@@ -33,7 +34,7 @@ export type SahPoolDiagnosis = {
 };
 
 function isControlMessage(data: unknown): data is SahPoolControlMessage {
-  const type = (data as SahPoolControlMessage | null)?.type;
+  const type = rec(data)?.type;
   return (
     type === "sahpool-pause" ||
     type === "sahpool-resume" ||
@@ -52,7 +53,7 @@ async function diagnose(): Promise<SahPoolDiagnosis> {
     await navigator.storage.getDirectory();
     result.opfsReachable = true;
   } catch (err) {
-    result.opfsError = String((err as Error)?.message ?? err).slice(0, 200);
+    result.opfsError = errMessage(err).slice(0, 200);
   }
   try {
     const estimate = await navigator.storage.estimate();

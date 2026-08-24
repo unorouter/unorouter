@@ -17,7 +17,7 @@ import {
   readLocalRequestLog,
 } from "@/lib/db/client/data/chat/request-log";
 import { queryKeys } from "@/lib/react-query/keys";
-import { formatJson } from "@/lib/utils/base";
+import { formatJson, rec } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
@@ -47,10 +47,7 @@ export function RequestLogSheet(props: {
 
   const upstreamBody = row
     ? {
-        model:
-          row.requestBody && typeof row.requestBody === "object"
-            ? (row.requestBody as { model?: string }).model
-            : undefined,
+        model: rec(row.requestBody)?.model,
         ...(row.assembledSystem ? { system: row.assembledSystem } : {}),
         messages: row.finalMessages,
       }

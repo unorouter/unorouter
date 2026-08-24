@@ -7,6 +7,7 @@ import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { dayjs } from "@/lib/utils/format/date";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import { upper } from "@/lib/utils/base";
 
 interface RelatedPostsProps {
   posts: BlogPost[];
@@ -27,9 +28,7 @@ export async function RelatedPosts(props: RelatedPostsProps) {
           const theme = getBlogTheme(post.category);
           const minutes = estimateReadingMinutes(post.wordCount);
           const tr = translated(t, post);
-          const categoryLabel = t(
-            `BLOG.CATEGORY.${post.category.toUpperCase() as Uppercase<typeof post.category>}`,
-          );
+          const categoryLabel = t(`BLOG.CATEGORY.${upper(post.category)}`);
           return (
             <Link
               key={post.slug}

@@ -10,7 +10,7 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import manifest from "./migrations.json" with { type: "json" };
 
 export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
-  const { migrations } = manifest as MigrationManifest;
+  const { migrations }: MigrationManifest = manifest;
   if (migrations.length === 0) return;
 
   await sql.sql`PRAGMA foreign_keys = ON`;

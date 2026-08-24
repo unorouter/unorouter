@@ -2,7 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { OS } from "@/lib/types/enums";
+import { isOS, OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/config/icon-map";
@@ -21,7 +21,7 @@ export function OSQuickStart(props: Props) {
   const docs = useApiKey();
 
   return (
-    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)}>
+    <Tabs value={docs.os} onValueChange={(v) => isOS(v) && docs.setOs(v)}>
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>

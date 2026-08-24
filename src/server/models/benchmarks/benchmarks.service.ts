@@ -58,7 +58,7 @@ async function fetchJson<T>(
       });
       return null;
     }
-    return (await res.json()) as T;
+    return await res.json();
   } catch (err) {
     logger.warn("Benchmark source fetch failed", {
       context: "benchmarks",

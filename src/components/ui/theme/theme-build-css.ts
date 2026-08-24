@@ -427,5 +427,5 @@ export function themeDataAttrs(theme: UserTheme) {
     "data-menu": theme.menu ?? "default",
     "data-menu-accent": theme.menuAccent ?? "subtle",
     "data-icon-library": theme.iconLibrary ?? "lucide",
-  } as const;
+  };
 }

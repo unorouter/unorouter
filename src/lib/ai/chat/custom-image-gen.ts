@@ -2,7 +2,7 @@
 
 import { normalizeBaseUrl } from "@/lib/ai/chat/custom-provider-id";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
-import { base64ToUint8, uid, uint8ToBase64 } from "@/lib/utils/base";
+import { base64ToUint8, rec, uid, uint8ToBase64 } from "@/lib/utils/base";
 
 type OaiImageResponse = {
   data?: Array<{ b64_json?: string; url?: string }>;
@@ -32,7 +32,7 @@ async function refToBlob(url: string): Promise<Blob | null> {
 }
 
 async function extractImage(res: Response): Promise<InlayImage> {
-  const body = (await res.json()) as OaiImageResponse;
+  const body: OaiImageResponse = rec(await res.json()) ?? {};
   if (!res.ok) {
     throw new Error(
       body.error?.message || `Image request failed (${res.status})`,

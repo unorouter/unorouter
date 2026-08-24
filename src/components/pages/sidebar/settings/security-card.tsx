@@ -43,18 +43,12 @@ export function SecurityCard() {
   const authQuery = useAuthQuery();
   const twoFAEnabled = twoFAStatusQuery.data?.enabled === true;
   const passkeyRegistered = passkeyStatusQuery.data?.enabled === true;
-  const hasPassword =
-    (authQuery.data as { has_password?: boolean } | undefined)?.has_password ??
-    true;
+  const hasPassword = authQuery.data?.has_password ?? true;
 
   function handleGenerateToken() {
     generateTokenMutation.mutate(undefined, {
       onSuccess: (data) => {
-        const token =
-          typeof data === "string"
-            ? data
-            : (data as { data?: string })?.data || "";
-        setAccessToken(token);
+        setAccessToken(data);
         analytics.settings.accessTokenGenerated();
         toast.success(t("SETTINGS.SECURITY.TOKEN_GENERATED"));
       },
@@ -78,21 +72,18 @@ export function SecurityCard() {
   async function handleRegisterPasskey() {
     try {
       const beginData = await passkeyRegisterBeginMutation.mutateAsync();
-      const options =
-        (beginData as { options?: unknown })?.options || beginData;
       const credential = await navigator.credentials.create({
-        publicKey: options as PublicKeyCredentialCreationOptions,
+        publicKey: beginData.options as PublicKeyCredentialCreationOptions,
       });
-      if (!credential) return;
+      if (!(credential instanceof PublicKeyCredential)) return;
 
-      const attestationResponse = credential as PublicKeyCredential;
-      const response =
-        attestationResponse.response as AuthenticatorAttestationResponse;
+      const response = credential.response;
+      if (!(response instanceof AuthenticatorAttestationResponse)) return;
 
       const credentialData = {
-        id: attestationResponse.id,
-        rawId: arrayBufferToBase64(attestationResponse.rawId),
-        type: attestationResponse.type as "public-key",
+        id: credential.id,
+        rawId: arrayBufferToBase64(credential.rawId),
+        type: "public-key" as const,
         response: {
           attestationObject: arrayBufferToBase64(response.attestationObject),
           clientDataJSON: arrayBufferToBase64(response.clientDataJSON),

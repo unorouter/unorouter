@@ -7,6 +7,7 @@ import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { UsageLogs } from "./common/usage-logs";
 import { DrawingLogs } from "./drawing/drawing-logs";
 import { TaskLogs } from "./task/task-logs";
+import { upper } from "@/lib/utils/base";
 
 const TABS = [
   { value: "common", Component: UsageLogs },
@@ -14,7 +15,6 @@ const TABS = [
   { value: "task", Component: TaskLogs },
 ] as const;
 const TAB_VALUES = TABS.map((tab) => tab.value);
-type LogsTab = (typeof TABS)[number]["value"];
 
 export function LogsShell() {
   const t = useTranslations();
@@ -48,7 +48,7 @@ export function LogsShell() {
         <TabsList variant="line">
           {TABS.map((tab) => (
             <TabsTrigger key={tab.value} value={tab.value}>
-              {t(`LOGS.TABS.${tab.value.toUpperCase() as Uppercase<LogsTab>}`)}
+              {t(`LOGS.TABS.${upper(tab.value)}`)}
             </TabsTrigger>
           ))}
         </TabsList>

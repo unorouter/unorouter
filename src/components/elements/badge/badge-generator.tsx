@@ -98,7 +98,13 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           <span className="text-muted-foreground text-xs">
             {t("AFFILIATE.BADGE_GENERATOR.TYPE")}
           </span>
-          <Select value={type} onValueChange={(v) => setType(v as BadgeType)}>
+          <Select
+            value={type}
+            onValueChange={(v) => {
+              const next = BADGE_TYPES.find((bt) => bt === v);
+              if (next) setType(next);
+            }}
+          >
             <SelectTrigger size="sm" className="w-32">
               <SelectValue>
                 {t(`MAIN.ENUM.${type.toUpperCase()}` as "MAIN.ENUM.BANNER")}
