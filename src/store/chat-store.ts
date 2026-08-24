@@ -1,4 +1,4 @@
-import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { jotaiCookieStorage, storeFieldAtom } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
@@ -75,14 +75,8 @@ export const chatStoreAtom = atomWithStorage<ChatState>(
   { getOnInit: true },
 );
 
-function storeField<K extends keyof ChatState>(key: K) {
-  return atom(
-    (get) => get(chatStoreAtom)[key] ?? INITIAL_CHAT_STATE[key],
-    (get, set, value: ChatState[K]) => {
-      set(chatStoreAtom, { ...get(chatStoreAtom), [key]: value });
-    },
-  );
-}
+const storeField = <K extends keyof ChatState>(key: K) =>
+  storeFieldAtom(chatStoreAtom, INITIAL_CHAT_STATE, key);
 
 export const chatModelAtom = storeField("model");
 export const chatWebSearchAtom = storeField("webSearch");
