@@ -11,14 +11,13 @@ import { CatalogChainPicker } from "./catalog-chain-picker";
 export type { LoraEntry };
 
 type Props = {
-  /** The active passthrough checkpoint's Runware architecture tag. The provider
-   *  rejects a LoRA whose architecture differs from the checkpoint's, so the
-   *  catalog narrows to it and resolved links get a compatibility check. */
+  /** The active passthrough checkpoint's Runware architecture tag. The provider rejects a
+   *  LoRA whose architecture differs from the checkpoint's. */
   checkpointArchitecture?: string | null;
   value: LoraEntry[];
   onChange: (next: LoraEntry[]) => void;
-  /** Appends the LoRA's trigger words to the prompt on add; a gated LoRA does nothing
-   *  without them. Lands in the prompt box, so it stays editable. */
+  /** Appends the LoRA's trigger words to the prompt on add: a gated LoRA does nothing
+   *  without them. */
   onAppendPrompt?: (words: string) => void;
 };
 
@@ -45,8 +44,7 @@ export function LoraPicker(props: Props) {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // A reference resolves through the versions endpoint: a Civitai LoRA is a family
-  // whose weights differ between versions, so the user picks.
+  // A Civitai LoRA is a family whose weights differ between versions, so the user picks.
   const versions = useCivitaiLoraVersionsQuery(
     isReference ? debounced : undefined,
   );
@@ -66,8 +64,7 @@ export function LoraPicker(props: Props) {
       tags: [],
       downloadCount: null,
     }))
-    // The provider rejects a LoRA whose architecture differs from the checkpoint's,
-    // so compatible versions list first; the row shows each one's architecture.
+    // Compatible architectures first; the row shows each one's.
     .sort(
       (a, b) =>
         Number(compatible(b.architecture)) - Number(compatible(a.architecture)),

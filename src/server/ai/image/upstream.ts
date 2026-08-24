@@ -4,11 +4,10 @@ import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { upstreamApiUrl } from "@/server/constants";
 import sharp from "sharp";
 
-// Pixel dimensions from the delivered file's header (sharp metadata reads the
-// header, not the bitmap). The request's width/height are not authoritative:
-// the gateway clamps to 1MP and hosted models pick their own size. The client
-// persists these on the media row so renders reserve the exact box instead of
-// growing from zero height when the bitmap decodes (the mid-stream scroll snap).
+// The request's width/height are not authoritative: the gateway clamps to 1MP
+// and hosted models pick their own size. The client persists these on the media
+// row so renders reserve the exact box instead of growing from zero height when
+// the bitmap decodes (the mid-stream scroll snap).
 export async function probeImageSize(
   buffer: Buffer,
 ): Promise<{ width: number | null; height: number | null }> {
@@ -20,16 +19,14 @@ export async function probeImageSize(
   }
 }
 
-// JSON bodies pass VERBATIM: the image client extracts .error.message from them, and
-// any prefix makes the string neither plain text nor parseable JSON.
+// JSON bodies pass VERBATIM: the image client extracts .error.message from them,
+// and any prefix leaves the string neither plain text nor parseable JSON.
 function formatUpstreamError(status: number, body: string): string {
   const trimmed = body.trim();
   if (trimmed.startsWith("{") || trimmed.startsWith("[")) return trimmed;
   return trimmed ? `${status}: ${trimmed.slice(0, 300)}` : `upstream ${status}`;
 }
 
-// One transport error for all three submit paths; callers that need a different
-// user-facing shape (the chat stream digs a plain message) re-format from status/body.
 export class UpstreamImageError extends Error {
   constructor(
     public status: number,
@@ -41,8 +38,8 @@ export class UpstreamImageError extends Error {
 
 export type UpstreamSize = { width: number; height: number };
 
-// A hires pass is the same render at a larger size: the multiplier becomes the
-// requested size and the source rides as init image (re-diffused, not resampled).
+// A hires pass re-diffuses rather than resampling: the multiplier becomes the
+// requested size and the source rides along as init image.
 export function sizeOf(
   params: ImageSubmitBody["params"],
 ): UpstreamSize | undefined {
@@ -65,9 +62,8 @@ export type UpstreamImageResponse = {
   requestId: string | null;
 };
 
-// Posts one built request to the gateway; json and multipart bodies dispatch the same
-// way. Guards the parse: an edge 5xx serves HTML, which must surface as an upstream
-// error rather than a raw SyntaxError.
+// The parse is guarded because an edge 5xx serves HTML, which must surface as an
+// upstream error rather than a raw SyntaxError.
 export async function postImageRequest(
   built: Built,
   apiKey: string,

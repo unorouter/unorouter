@@ -171,10 +171,8 @@ function GroupRow(props: {
     ? groupEntries.find((e) => e.group === pinned)
     : null;
 
-  // Reset ONLY once the list has settled. The upstream group list is served from
-  // a 5-minute cache, so a model transiently returns without lanes it will have
-  // again seconds later, and resetting off that partial list deletes the pin
-  // permanently for a condition that already resolved.
+  // Reset ONLY once settled: the upstream list is a 5-minute cache, and resetting off a
+  // partial one deletes the pin permanently.
   const candidateGroupsKey = candidateGroups.join("|");
   const groupsSettled = groupsQuery.isSuccess && !groupsQuery.isFetching;
   useEffect(() => {
@@ -219,8 +217,6 @@ function GroupRow(props: {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        // A model can expose 20+ groups, which overflows the viewport and leaves
-        // the cheapest ones unreachable.
         className="max-h-[min(20rem,var(--available-height,20rem))] w-60 gap-0 overflow-y-auto p-1"
       >
         <button
@@ -263,9 +259,7 @@ function GroupRow(props: {
   );
 }
 
-// Serves utilityModel and titleModel: both pick one text model from the same
-// catalogue, so they share the picker rather than duplicating it. groupName is
-// optional because only presets pin a provider lane; the conversation drawer
+// groupName is optional because only presets pin a provider lane; the conversation drawer
 // deliberately does not (see CLAUDE.md on the model-keyed navbar pin).
 export function UtilityModelField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
@@ -317,8 +311,7 @@ export function UtilityModelField<TForm extends FieldValues>(props: {
   );
 }
 
-// A custom provider IS the endpoint, so it has no lanes to choose between, and
-// an unset model has nothing to look them up by.
+// A custom provider IS the endpoint, so it has no lanes to choose between.
 function ModelGroupField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   groupName?: FieldPath<TForm>;

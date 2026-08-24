@@ -142,9 +142,8 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
 }
 
 // Many upstreams (qwen, mistral-nemo derivatives, several openai-compatible
-// resellers) reject a system message that is not part of the leading run, and
-// xAI's Responses API rejects system inside `messages` outright. The leading run
-// is left alone because role-transform hoists it into the `system` param.
+// resellers) reject a system message outside the leading run, and xAI's
+// Responses API rejects system inside `messages` outright.
 export function demoteLateSystem(messages: StreamMessages): StreamMessages {
   let seenNonSystem = false;
   return messages.map((m) => {
@@ -157,10 +156,8 @@ export function demoteLateSystem(messages: StreamMessages): StreamMessages {
   });
 }
 
-// A stream that failed leaves the partial text it managed to emit next to the
-// error item. Sending that fragment back as a normal assistant turn makes the
-// model read a truncated reply as canon and remark on the broken story; a failed
-// generation produced no turn at all, so the whole message goes.
+// The whole turn goes, not just the error part: the partial text beside it is a
+// truncated reply the model would otherwise read as canon.
 export function dropFailedAssistantTurns(
   messages: StreamMessages,
 ): StreamMessages {
@@ -261,10 +258,9 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   return out;
 }
 
-// Anthropic validates every text block, not just the message, so a message
-// mixing an empty part with a real one is rejected wholesale ("text content
-// blocks must contain non-whitespace text"). Strip the empty parts before
-// deciding whether the message itself still carries anything.
+// Anthropic validates every text BLOCK, not just the message ("text content
+// blocks must contain non-whitespace text"), so a message mixing an empty part
+// with a real one is rejected wholesale.
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   const out: StreamMessages = [];
   for (const m of messages) {
@@ -281,9 +277,7 @@ export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   return out;
 }
 
-// Anthropic rejects a whitespace-only text block ("text content blocks must
-// contain non-whitespace text"), so the stub carries a character rather than a
-// space.
+// A character, not a space: Anthropic rejects a whitespace-only text block.
 const USER_STUB_TEXT = ".";
 
 export function prependUserStub(messages: StreamMessages): StreamMessages {
@@ -365,9 +359,8 @@ export function collectHistory(
     }
     const text = textOf(m.parts);
     // StreamMessages is Omit<UIMessage,"id">, so there is no id to key `times`
-    // by and every `time` is undefined. The {{message_time}} macro family in
-    // macros.ts reads this and therefore always falls back to OLD_VERSION_TIME.
-    // Fixing it means plumbing real ids through, not restoring a lookup.
+    // by: every `time` is undefined and the {{message_time}} macros in macros.ts
+    // always fall back to OLD_VERSION_TIME. The fix is plumbing real ids through.
     if (text) out.push({ role: m.role, text, time: undefined });
   }
   return out;

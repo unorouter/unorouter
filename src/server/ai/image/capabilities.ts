@@ -3,10 +3,8 @@ import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageParams, LoraEntry } from "@/lib/validation/image";
 
 /**
- * Strips params the resolved model does not support, server-side, so the rule holds for
- * any caller (not just the form) and runs on the same descriptor the renderer reads.
- * Unsupported params drop rather than reject: a remix carrying an SDXL knob onto a Flux
- * model still generates, minus the knob.
+ * Unsupported params drop rather than reject, so a remix carrying an SDXL knob
+ * onto a Flux model still generates, minus the knob.
  */
 export function filterParamsToCapabilities(
   descriptor: ImageModelDescriptor,
@@ -38,7 +36,7 @@ export function filterParamsToCapabilities(
     drop("hiresDenoise");
     drop("hiresSteps");
   }
-  // No strength = no init-image inputs; don't forward multi-MB data URIs to a rejector.
+  // No strength = no init-image inputs; do not send multi-MB data URIs to a rejector.
   if (!caps.supportsStrength) {
     drop("strength");
     drop("initImageUrl");
@@ -46,9 +44,7 @@ export function filterParamsToCapabilities(
   }
   // ADetailer is a second billed pass; a model that does not declare it must not run one.
   if (!caps.supportsAdetailer) drop("adetailer");
-  // No Runware schema defines a watermark or guidance field, so neither is ever
-  // forwardable. Dropped unconditionally rather than gated on a descriptor flag
-  // nothing can set.
+  // No Runware schema defines a watermark or guidance field.
   drop("watermark");
   drop("guidance");
   // The provider enum IS the capability: no accepted values means the field is
@@ -61,7 +57,6 @@ export function filterParamsToCapabilities(
   if (!caps.qualityChoices?.length) drop("quality");
   if (!caps.outputFormatChoices?.length) drop("outputFormat");
 
-  // Enum knobs also check the model's own choices; an unknown value is still rejected.
   const quality = caps.qualityChoices;
   if (quality && typeof source.quality === "string") {
     if (!quality.includes(source.quality)) drop("quality");

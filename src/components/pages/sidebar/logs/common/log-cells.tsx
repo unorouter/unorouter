@@ -115,10 +115,8 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   if (!isConsumeLike(log.type) || !log.model_name) {
     return LOG_EMPTY;
   }
-  // VendorIcon substring-matches its registry keys, so a model whose name
-  // carries no vendor string (glm-5.2, laguna-xs-2.1) never resolves an icon.
-  // The catalog knows the real vendor; fall back to the name for models it
-  // does not list, which is what the registry aliases already cover.
+  // VendorIcon substring-matches its registry keys, so a name carrying no vendor string
+  // (glm-5.2, laguna-xs-2.1) never resolves an icon without the catalog's real vendor.
   const vendorName =
     vendorsQuery.data?.model_vendors.find(
       (m) => m.model_name === log.model_name,
@@ -127,9 +125,8 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
   const mapped = other?.is_model_mapped
     ? other?.upstream_model_name
     : undefined;
-  // Nearly every free model maps to its own name minus the suffix, so the
-  // subline restated the row above it. Keep it only where the upstream is a
-  // genuinely different model (nvidia/nemotron-..., poolside/laguna-...).
+  // Nearly every free model maps to its own name minus the suffix; only a genuinely
+  // different upstream (nvidia/nemotron-..., poolside/laguna-...) is worth showing.
   const upstream =
     mapped && mapped !== log.model_name.replace(/:free$/, "") ? mapped : null;
 
@@ -160,9 +157,6 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
     </TooltipProvider>
   );
 
-  // The channel id rides along with the model rather than owning a column: on
-  // its own it was a bare "#8924" whose name (chat13-glm-5.2-free) restated the
-  // model beside it, so the pair cost two columns to say one thing.
   const channelBadge = log.channel ? (
     <code
       className="flex min-w-0 items-center gap-1 rounded px-1 py-0.5 font-mono text-[10px]"
@@ -253,9 +247,7 @@ export function LogTokensCell(props: CellContext<TableFeats, LogRow>) {
     : 0;
   const prompt = log.prompt_tokens ?? 0;
   const completion = log.completion_tokens ?? 0;
-  // A failed request has an input size but produced no output, so show the input
-  // alone rather than "N / 0", which would read as a model that returned nothing
-  // when it was never asked. Older error rows predate the count and stay blank.
+  // Error rows written before the count existed carry no prompt tokens at all.
   if (isError) {
     if (prompt <= 0) return LOG_EMPTY;
     return (
@@ -305,9 +297,6 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   const firstTokenLabel =
     frt && frt > 0 ? `${(frt / 1000).toFixed(1)}s` : t("LOGS.NOT_AVAILABLE");
 
-  // A label per line beats a row of pills: the two numbers mean different
-  // things, and a bare pill pair left the reader to guess which was which.
-  // The bar carries the colour the pills used to, split when both are shown.
   return (
     <div className="flex items-stretch gap-2">
       <span
@@ -357,9 +346,7 @@ export function LogTimingCell(props: CellContext<TableFeats, LogRow>) {
   );
 }
 
-// Which tool made the request, from the headers it volunteered. Blank for the
-// many clients that send nothing identifying: an empty cell is honest, whereas
-// showing a bare browser User-Agent here would read as a real app name.
+// Blank rather than a bare browser User-Agent, which would read as a real app name.
 export function LogClientCell(props: CellContext<TableFeats, LogRow>) {
   const log = props.row.original;
   const client = getClientAttribution(parseOther(log.other));
@@ -403,9 +390,8 @@ export function LogStreamCell(props: CellContext<TableFeats, LogRow>) {
   );
 }
 
-// Six decimals is what a fraction-of-a-cent row needs, but free rows are most
-// of the table and "0.000000" is seven characters of nothing on every one. The
-// currency symbol is rendered separately, so strip the one renderQuota adds.
+// Six decimals for fraction-of-a-cent rows. The currency symbol is rendered separately,
+// so strip the one renderQuota adds.
 function formatLogSpend(quota: number | undefined) {
   return quota ? renderQuota(quota, 6).replace(/^\$/, "") : "0";
 }
@@ -503,9 +489,8 @@ export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
 
     const pricing = computeLogPricing(other);
     if (!pricing) {
-      // A consume row with no pricing has nothing to say in a PRICING column,
-      // and log.content here is a per-request note ("Model test") that repeats
-      // down the page. The details dialog still carries it.
+      // log.content is not a fallback here: it is a per-request note ("Model test") that
+      // repeats down the page. The details dialog still carries it.
       return LOG_EMPTY;
     }
 
@@ -518,8 +503,6 @@ export function LogPricingDetailsCell(props: CellContext<TableFeats, LogRow>) {
       ? t("LOGS.PRICING.TIERED")
       : t("LOGS.PRICING.STANDARD");
 
-    // A free model prices at 0/0 on every row, so the cell would repeat
-    // "Standard - $0 / $0/M" down the whole table and say nothing.
     if (!pricing.isTiered && !hasDiscount && !inputPrice && !outputPrice) {
       return LOG_EMPTY;
     }

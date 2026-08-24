@@ -1,9 +1,6 @@
 import { formatPrice } from "@/lib/utils/format/number";
 import type { ModelMetadata } from "@/lib/api/pricing";
 
-// These helpers read a handful of fields, so they are typed by what they touch
-// rather than by one concrete row shape: the browse list and the full detail
-// record both satisfy them.
 type ModalityModel = { type: string; metadata?: ModelMetadata };
 
 // The picker list carries no metadata; a detail surface handed one of those rows
@@ -50,10 +47,8 @@ export const isFlatVariant = (model: { model_name: string }): boolean =>
 
 type ConcreteModality = Exclude<OutputModality, "all">;
 
-// `type` is checked first and outputModalities second on purpose: both are
-// upstream-supplied and each has been wrong. A model mistyped `text` upstream is
-// caught by its modality, and a model whose modality upstream reports as `text`
-// (gpt-4o-image) is caught by its type.
+// Both `type` and outputModalities are upstream-supplied and each has been
+// wrong, so either one alone classifies (gpt-4o-image reports modality `text`).
 export function deriveOutputModality(model: ModalityModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata?.outputModalities ?? [];
@@ -86,10 +81,9 @@ export function countByOutputModality(
 
 export type PriceUnit = "perM" | "perImage" | "perSecond" | "perChars" | "dash";
 
-// A fixed-price model carries ONE price, and which column it belongs in depends
-// on the modality: image/video bill per output artifact, everything else per
-// input. The unused side is 0 (or null for the pre-discount original) so callers
-// can render both columns uniformly.
+// A fixed-price model carries ONE price: image/video bill it per output
+// artifact, everything else per input. The unused side is 0 (null for the
+// pre-discount original) so callers render both columns uniformly.
 export function modelPriceColumns(model: PricedModel) {
   const modality = deriveOutputModality(model);
   const onOutput = modality === "image" || modality === "video";

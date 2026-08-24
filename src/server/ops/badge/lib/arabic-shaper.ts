@@ -3,28 +3,24 @@ import { join } from "path";
 import { Blob, Buffer as HbBuffer, Face, Font, shape } from "harfbuzzjs";
 
 // Satori's opentype.js engine cannot shape Arabic (its fonts use GSUB
-// lookupType 5, contextual joining, which the engine rejects). So we shape
-// Arabic ourselves with HarfBuzz, emit the connected glyph outlines as a
-// self-contained SVG, and hand Satori that SVG as an <img> - bypassing its
-// text engine entirely. Lazy + badge-only, same isolation as the fallback
-// fonts: nothing outside the badge render path imports this.
+// lookupType 5, contextual joining, which the engine rejects). So HarfBuzz
+// shapes it here and the connected outlines go to Satori as a self-contained
+// SVG <img>, bypassing its text engine entirely.
 //
 // Badge labels routinely mix Arabic with Latin brand names ("واجهات Claude
-// وGPT وGemini"), so we segment the text into Arabic vs Latin runs and shape
-// each with its own font, then lay the runs out right-to-left (Arabic base
-// direction, Latin words internally LTR). All runs are normalized to a 1000
-// unit em so the two fonts line up.
+// وGPT وGemini"), so text is segmented into Arabic vs Latin runs, each shaped
+// with its own font, then laid out right-to-left (Arabic base direction, Latin
+// words internally LTR). Runs normalize to a 1000 unit em so the fonts line up.
 
 const EM = 1000;
 
 // Arabic block + presentation forms.
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
-// Runs that carry Arabic (letters, or neutral chars glued to Arabic).
 function isArabicChar(ch: string): boolean {
   return ARABIC_RE.test(ch);
 }
-// Digits/space/punctuation are direction-neutral: they attach to the current
-// run instead of starting a new one, so "GPT" stays one Latin run.
+// Direction-neutral chars attach to the current run rather than starting a new
+// one, so "GPT" stays one Latin run.
 function isNeutralChar(ch: string): boolean {
   return /[\s0-9.,:;!?/()[\]{}<>|@#%&*+=_~'"^-]/.test(ch);
 }
@@ -81,8 +77,7 @@ function segment(text: string): Run[] {
   return runs;
 }
 
-// Shapes one run at its own em, emits glyph paths from x=0 scaled to EM units,
-// returns the paths + the run's advance (also in EM units).
+// Shapes at the font's own upem; paths and advance come back scaled to EM.
 function shapeRun(run: Run): { paths: string; advance: number } {
   const { font, upem } = run.arabic ? arabicFont() : latinFont();
   const buf = new HbBuffer();
@@ -107,9 +102,7 @@ function shapeRun(run: Run): { paths: string; advance: number } {
 
 export type ShapedText = { src: string; width: number; height: number };
 
-// Shapes `text` at `pxSize` in `color` and returns an <img>-ready SVG data URI
-// plus its pixel box. Returns null if the text has no Arabic (caller renders it
-// as normal Satori text).
+// Null when the text has no Arabic: the caller renders it as normal Satori text.
 export function shapeArabic(
   text: string,
   pxSize: number,

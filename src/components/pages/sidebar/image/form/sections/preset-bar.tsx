@@ -38,10 +38,7 @@ type Props = {
   onApply: (preset: ImagePreset) => void;
 };
 
-/**
- * Saved generation setups. The positive prompt is deliberately excluded (it changes per
- * generation); the negative prompt is the boilerplate a setup exists to carry.
- */
+/** The positive prompt is deliberately excluded; the negative prompt is not. */
 export function PresetBar(props: Props) {
   const t = useTranslations();
   const presetsQuery = useImagePresetsQuery();

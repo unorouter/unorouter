@@ -78,14 +78,11 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   await validateColumns(sql, migrations);
 }
 
-// Recreate any manifest table entirely absent from the DB. A partial/aborted
-// migration (or an OPFS write that never landed the CREATE) can leave the file
-// missing a whole table, and every query against it dies with "no such table"
-// (e.g. the media attachment adapter). validateColumns deliberately skips
-// absent tables; this is the create half. The whole schema is idempotent, so
-// recreating from the manifest DDL is safe and loses no data (the table had
-// none). Runs BEFORE validateColumns so the freshly created table also gets
-// column-checked.
+// A partial/aborted migration (or an OPFS write that never landed the CREATE)
+// can leave the file missing a whole table, and every query against it dies
+// with "no such table". Recreating from the manifest DDL loses no data (the
+// table had none). Runs BEFORE validateColumns, which skips absent tables, so
+// the recreated table still gets column-checked.
 async function ensureTables(
   sql: SQLocalDrizzle,
   migrations: MigrationManifest["migrations"],
@@ -100,7 +97,7 @@ async function ensureTables(
     if (existing.has(table)) continue;
     try {
       await sql.sql(buildCreate(ddl));
-      // Per index: one that cannot be created must not cost the table the rest,
+      // One index that cannot be created must not cost the table the rest,
       // several of which carry UNIQUE constraints other code relies on.
       for (const index of ddl.indexes) {
         try {

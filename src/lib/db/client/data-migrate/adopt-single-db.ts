@@ -11,18 +11,10 @@ import {
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 
-// One database per DEVICE, replacing one per signed-in user. The old layout
-// stranded a guest's chats the moment they logged in (nothing ever migrated
-// them, and nothing opened `unorouter-0.sqlite3` again), kept a second pool
-// alive for the rest of the session on every login, and left people unable to
-// tell which of three files held their roleplay.
-//
-// The signed-in database wins. Guest is adopted only when it is the only one
-// present, since a real account's history is the one worth keeping and the user
-// was told to back that up.
-//
-// Nothing is deleted. Every `unorouter-N.sqlite3` pool stays on disk, so this is
-// reversible and the Recover action can still read them.
+// One database per DEVICE, adopted from the per-user pools. A signed-in
+// database wins; guest is adopted only when it is the only one present.
+// Nothing is deleted: every `unorouter-N.sqlite3` pool stays on disk, so this
+// is reversible and the Recover action can still read them.
 export async function adoptSingleDatabase(targetPath: string): Promise<void> {
   const root = await navigator.storage.getDirectory();
 
@@ -34,8 +26,6 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
     // Not adopted yet.
   }
 
-  // Legacy pools only. The live database is the thing being created here, so
-  // adopting it into itself would be a no-op at best.
   const candidates = (await listLocalDatabases()).filter(
     (c) => c.legacyUserId !== null,
   );
@@ -59,9 +49,8 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
     })),
   });
 
-  // Read the real SQLite bytes straight out of the source pool. The Blob is a
-  // VIEW, not a copy: these files reach hundreds of MB and materializing one is
-  // enough to OOM a phone.
+  // The Blob is a VIEW, not a copy: these files reach hundreds of MB and
+  // materializing one is enough to OOM a phone.
   const salvaged = await salvagePoolDatabases(source.dbPath);
   const live = salvaged.find((s) => s.isLive) ?? salvaged[0];
   if (!live) {
@@ -88,8 +77,8 @@ export async function adoptSingleDatabase(targetPath: string): Promise<void> {
       bytes: live.sizeBytes,
     });
   } catch (err) {
-    // Leave nothing half-written: the next open must either find a verified
-    // database or none at all, never a torn one.
+    // The next open must find a verified database or none at all, never a torn
+    // one.
     await target.deleteDatabaseFile().catch(() => {});
     logChatDebug("db.adopt.failed", { error: String(err).slice(0, 200) });
     logger.error("Single-database adoption failed", {

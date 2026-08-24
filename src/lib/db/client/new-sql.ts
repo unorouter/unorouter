@@ -5,11 +5,11 @@ import type {
   SahPoolDiagnosis,
 } from "./sahpool/sahpool-worker";
 
-// Every database runs on the app's sahpool worker (opfs-sahpool VFS, no
-// cross-origin isolation needed) instead of sqlocal's default worker (opfs
-// VFS, SharedArrayBuffer, COOP/COEP-gated). One worker per database: the
-// sahpool driver keeps a pool per database path, so concurrent databases
-// (live db + import/export scratch files) never contend for one pool.
+// The app's sahpool worker (opfs-sahpool VFS, no cross-origin isolation)
+// instead of sqlocal's default worker (opfs VFS, SharedArrayBuffer,
+// COOP/COEP-gated). One worker per database, since the driver keeps a pool per
+// database path and concurrent databases (live + import/export scratch) must
+// not contend for one pool.
 const workers = new WeakMap<SQLocalDrizzle, Worker>();
 
 export function newSql(dbPath: string): SQLocalDrizzle {
@@ -30,10 +30,9 @@ export function newSql(dbPath: string): SQLocalDrizzle {
 
 let controlSeq = 0;
 
-// Pool handover RPC, addressed to the worker directly: sqlocal's processor
-// protocol has no pause/resume, so these bypass it (the worker intercepts
-// them before delegating). Replies are matched by key; sqlocal's own message
-// handler ignores unknown message types.
+// Addressed to the worker directly because sqlocal's processor protocol has no
+// pause/resume; the worker intercepts these before delegating, and sqlocal's
+// own handler ignores unknown message types.
 function control(
   sql: SQLocalDrizzle,
   type: SahPoolControlMessage["type"],
@@ -62,11 +61,10 @@ export async function pauseSql(sql: SQLocalDrizzle): Promise<void> {
   await control(sql, "sahpool-pause");
 }
 
-// destroy() closes the database but leaves the worker alive, and with it the
-// pool's sync access handles. A discarded client must therefore be terminated
-// as well: a retry loop that abandons one client per attempt otherwise leaves
-// a row of workers all holding the same file, and the next install fails with
-// NoModificationAllowedError blaming "another tab".
+// destroy() leaves the worker alive, and with it the pool's sync access
+// handles, so a retry loop abandoning one client per attempt ends with a row of
+// workers holding the same file and the next install failing
+// NoModificationAllowedError, blaming "another tab".
 export function terminateSql(sql: SQLocalDrizzle): void {
   const worker = workers.get(sql);
   if (!worker) return;

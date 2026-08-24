@@ -40,7 +40,6 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
-// Models browse and compare seed the same keys off one pricing fetch;
 // rankings/perf are non-critical, so a failure there leaves the page renderable.
 async function seedCatalogClient() {
   const qc = new QueryClient();
@@ -55,7 +54,6 @@ async function seedCatalogClient() {
   return { qc, browse };
 }
 
-// Models browse: the detail sheet fetches the full model on open.
 export async function getModelsPageData() {
   const seeded = await seedCatalogClient();
   return {
@@ -74,7 +72,6 @@ export async function getModelsPageData() {
   };
 }
 
-// Compare pages: resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {
   const seeded = await seedCatalogClient();
   const models = slugs
@@ -87,9 +84,9 @@ export async function getComparePageData(slugs: readonly string[]) {
   return { dehydrated: dehydrate(seeded.qc), models, missing };
 }
 
-// A transient upstream /pricing 5xx would otherwise reject the whole server
-// render of models/compare (~200 RSC errors/day). Deliberately NOT cached, so a
-// momentary failure cannot stick; the client refetches live pricing.
+// A transient upstream /pricing 5xx otherwise rejected the whole models/compare
+// server render (~200 RSC errors/day). NOT cached, so a momentary failure cannot
+// stick; the client refetches live pricing.
 export function emptyPageData() {
   return {
     dehydrated: dehydrate(new QueryClient()),
@@ -100,9 +97,9 @@ export function emptyPageData() {
   };
 }
 
-// Lives here, not in utils/server: that module is reachable from client bundles
-// and this reads the whole server-side pricing catalog just to name models in
-// snippets. Plain data only, so the result stays serializable to the client.
+// Not in utils/server: that module is reachable from client bundles and this
+// reads the whole server-side pricing catalog. Returns plain data so the result
+// stays serializable to the client.
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const data = await getCatalog();
   const models = data.models.map((m) => ({

@@ -113,9 +113,8 @@ async function backfillSnapshotCost(
   }
 }
 
-// Content-derived dedupe key with a time bucket: collapses a double-click's second bill
-// without swallowing a deliberate regenerate (content alone hashed identically forever
-// and made Generate look dead). The column carries a UNIQUE index.
+// Time bucket in the dedupe hash: content alone hashed identically forever, so a
+// deliberate regenerate was swallowed and Generate looked dead.
 const SUBMIT_DEDUPE_WINDOW_MS = 5_000;
 
 function submittedKeyFor(body: SubmitArgs): string {
@@ -236,7 +235,6 @@ async function runSubmit(
     result.images.map((img, i) => imageToMediaRow(snapshotId, i, img)),
   );
 
-  // Cost is only known after the run; patched in so the image renders immediately.
   void backfillSnapshotCost(snapshotId, sessionId, result.requestIds, qc);
   await bumpLocalSessionCounts(sessionId, {
     snapshots: 1,

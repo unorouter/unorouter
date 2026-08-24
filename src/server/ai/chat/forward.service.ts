@@ -61,8 +61,6 @@ export async function forwardChatCompletions(args: {
     },
   );
 
-  // Fast path: upstream headers within the grace window flow through verbatim
-  // (real status + the meta headers the client's finish collector reads).
   const winner = await Promise.race([
     upstreamPromise,
     new Promise<"slow">((res) => setTimeout(() => res("slow"), EARLY_FLUSH_MS)),
@@ -77,16 +75,13 @@ export async function forwardChatCompletions(args: {
     return new Response(upstream.body, { status: upstream.status, headers });
   }
 
-  // Slow path: upstream is still retrying across channels. Cloudflare kills a
-  // byte-less origin response at ~100s (524, its raw HTML then lands in the
-  // chat as the "reply"), so commit to a 200 SSE now and heartbeat with SSE
-  // comments until upstream produces headers. A late upstream error is
-  // re-framed as an OpenAI-style error chunk, which the ai-sdk client surfaces
-  // through its normal stream-error path.
+  // Cloudflare kills a byte-less origin response at ~100s (524, whose raw HTML
+  // then lands in the chat as the "reply"), so commit to a 200 SSE now and
+  // heartbeat until upstream produces headers.
   const enc = new TextEncoder();
-  // Pull-driven on purpose: the consumer's reads pace upstream. Enqueueing in a free-running
-  // loop lets a stalled or half-dead client accumulate the entire completion in the
-  // controller queue, and those stranded queues stay pinned until the stream is collected.
+  // Pull-driven on purpose: the consumer's reads pace upstream. A free-running
+  // enqueue loop lets a stalled client accumulate the whole completion in the
+  // controller queue, and those queues stay pinned until the stream is collected.
   let reader: ReadableStreamDefaultReader<Uint8Array> | null = null;
   let ping: ReturnType<typeof setInterval> | null = null;
   const stopPing = () => {
@@ -172,8 +167,7 @@ export async function forwardChatCompletions(args: {
 const EARLY_FLUSH_MS = 30_000;
 const KEEPALIVE_MS = 15_000;
 
-// An upstream error body can be a full Cloudflare HTML page; strip markup and
-// cap it so the chat shows a short line instead of 4KB of raw HTML.
+// An upstream error body can be a full Cloudflare HTML page.
 function compactErrorText(text: string, status: number): string {
   const plain = text
     .replace(/<script[\s\S]*?<\/script>/gi, " ")

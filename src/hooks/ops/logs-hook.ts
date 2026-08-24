@@ -8,16 +8,15 @@ import type { EdenQuery } from "@/lib/types/eden";
 import { tablesHydratedAtom } from "@/store/data-table-store";
 import { useAtomValue } from "jotai";
 
-// Logs are live upstream data: the global staleTime:Infinity default would show
-// a stale snapshot after navigating away and back. A short staleTime keeps
-// returning to the page fresh (stale data refetches on mount by default) while
-// still honoring the server prefetch on first load; refetchOnMount:"always"
-// duplicated every dehydrated query the instant it hydrated.
+// Logs are live upstream data, so the global staleTime:Infinity would serve a
+// stale snapshot after navigating away and back. A short staleTime still honors
+// the server prefetch on first load; refetchOnMount:"always" instead duplicated
+// every dehydrated query the instant it hydrated.
 const FRESH_ON_NAV = { staleTime: 10_000 } as const;
 
-// All params here derive from the cookie-persisted table filters, which land
-// one effect-tick after mount; fetching before that fires a throwaway
-// default-filter request pair.
+// Every param derives from the cookie-persisted table filters, which land one
+// effect-tick after mount; fetching before that fires a throwaway default-filter
+// request pair.
 function useFreshOnNav() {
   const hydrated = useAtomValue(tablesHydratedAtom);
   return { ...FRESH_ON_NAV, enabled: hydrated };

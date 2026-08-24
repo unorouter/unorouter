@@ -61,13 +61,8 @@ export const INITIAL_CHAT_STATE: ChatState = {
   showStatsMessages: false,
 };
 
-// Both halves are load-bearing, and this is the only cookie store whose values
-// reach server-rendered HTML (the model name in ChatControls). getOnInit makes
-// the client's first pass read the cookie; ChatStoreProvider makes the server
-// read the same one, so both renders start identical. Without getOnInit a write
-// during the deferred window spreads INITIAL_CHAT_STATE back over the cookie and
-// drops every field it did not name (the provider pin, the maxTokens revert of
-// 1a080093). Without the provider the two renders differ: React #418.
+// getOnInit is a load-bearing PAIR with ChatStoreProvider. Neither may be
+// removed alone; see CLAUDE.md "State".
 export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
@@ -169,9 +164,8 @@ export const greetingIndexAtom = runtimeField("greetingIndex");
 
 export const assistantRuntimeAtom = atom<AssistantRuntime | null>(null);
 
-// Editing state is per-message in assistant-ui, but the scroll-to-bottom button
-// lives at thread level and sits directly over the edit box, so it needs to know
-// that some message is being edited.
+// assistant-ui keeps editing state per-message; the thread-level scroll-to-bottom
+// button sits over the edit box and needs to know some message is being edited.
 export const messageEditingAtom = atom(false);
 
 export const chatStore = createStore();
@@ -181,9 +175,8 @@ type LiveThreadOps = {
   clearError: () => void;
 };
 
-// Threads overlap during a conversation switch: the outgoing one unmounts AFTER the
-// incoming one mounts. Keyed by conversation so an unmounting thread can only remove
-// its own entry, and an async result reaches the chat it was computed for.
+// Threads overlap on a conversation switch: the outgoing one unmounts AFTER the
+// incoming one mounts, so entries are keyed by conversation rather than singular.
 const liveThreads = new Map<string, LiveThreadOps>();
 
 export function registerLiveThread(
@@ -242,19 +235,15 @@ export function ensureConvId(): string {
   return id;
 }
 
-// A new chat must get a FRESH id and never inherit whatever convIdAtom holds: the
-// route still points at the previous conversation after New Chat, so that thread
-// re-activates and refills the atom, and adopting it appended the new chat's first
-// message to the old conversation (the merge bug, regressed once already).
-//
-// Keyed by the aui-local thread id so the two creation paths agree: whichever of
-// the send wrapper and the thread-list initializer runs first mints, the other
-// adopts, and neither can pick up a DIFFERENT thread's conversation.
+// A new chat must never inherit convIdAtom: the route still points at the previous
+// conversation after New Chat, so that thread re-activates and refills the atom,
+// and adopting it appended the new chat's first message to the old conversation
+// (the merge bug, regressed once already). Keyed by aui-local thread id so the send
+// wrapper and the thread-list initializer agree on one id per thread.
 const convIdByLocalThread = new Map<string, string>();
 
-// Which id a new chat got is not the useful fact; whether it was MINTED or picked
-// up from somewhere is. `displaced` is what the atom held at the time, so a merge
-// shows up directly as a claim landing on a conversation that already existed.
+// `displaced` is what the atom held at claim time, so a merge shows up as a claim
+// landing on a conversation that already existed.
 function logConvIdClaim(
   kind: "mint" | "reuse",
   convId: string,

@@ -33,9 +33,9 @@ export type ModelsStoreState = {
   selectedVendors: string[];
   selectedModelName: string | null;
   viewMode: ViewMode;
-  // Ordered: index 0 is the primary key, later keys break its ties. The UI
-  // numbers them from this order. Empty = the sortOrder default below, which
-  // stays because a shared link carries ?order= and must keep working.
+  // Ordered: index 0 is primary, later keys break its ties, and the UI numbers
+  // them from this order. Empty falls back to sortOrder, which only still exists
+  // because shared links carry ?order=.
   sortKeys: SortOrder[];
   sortOrder: SortOrder;
   collapsedVendors: string[];
@@ -99,14 +99,11 @@ export const viewModeAtom = field("viewMode", (v) =>
   v === "table" || v === "list" ? v : "table",
 );
 export const sortOrderAtom = field("sortOrder");
-// Drops unknown values rather than passing them through: the list is
-// cookie-persisted and URL-seeded, so a stale or hand-edited key would reach the
-// comparator and silently sort by nothing.
+// Cookie-persisted and URL-seeded, so a stale or hand-edited key would otherwise
+// reach the comparator and silently sort by nothing.
 export const sortKeysAtom = field("sortKeys", (v) =>
   Array.isArray(v) ? v.filter((k) => SORT_VALUES.includes(k)) : [],
 );
-// The keys actually applied, in priority order. Falls back to the single
-// sortOrder so an untouched page and an ?order= link both still sort.
 export const effectiveSortKeysAtom = atom<SortOrder[]>((get) => {
   const keys = get(sortKeysAtom);
   return keys.length > 0 ? keys : [get(sortOrderAtom)];
@@ -138,8 +135,7 @@ export const toggleVendorCollapsedAtom = atom(
   },
 );
 
-// Reset everything except collapsedVendors + selectedModelName (UI state, not
-// filters).
+// collapsedVendors and selectedModelName survive: UI state, not filters.
 export const clearFiltersAtom = atom(null, (get, set) => {
   const s = get(modelsStoreAtom);
   set(modelsStoreAtom, {
@@ -149,9 +145,8 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   });
 });
 
-// Count of ACTIVE content filters (excludes sort + view-mode, which don't hide
-// rows). Drives the reset-button badge so mobile users notice a filter is on
-// when the list looks unexpectedly short.
+// Content filters only: sort and view-mode are excluded because they hide no rows.
+// Drives the reset badge, so mobile users notice why the list looks short.
 export const activeFilterCountAtom = atom((get) => {
   let n = 0;
   if (get(searchAtom).trim().length > 0) n++;

@@ -231,9 +231,8 @@ function GroupSubmenu(props: {
         side="right"
         align="start"
         sideOffset={4}
-        // A model can expose 20+ provider groups, which overflowed the viewport
-        // and left the cheapest ones unreachable. --available-height is the room
-        // the positioner actually has on the chosen side.
+        // 20+ provider groups overflow the viewport; --available-height is the room the
+        // positioner has on the chosen side.
         className="max-h-[min(20rem,var(--available-height,20rem))] w-60 gap-0 overflow-y-auto p-1"
       >
         <button
@@ -332,14 +331,10 @@ export function ModelSelector(props: ModelSelectorProps) {
     : Object.keys(groupRatioMap);
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
 
-  // A pinned group must exist among the model's servable groups or new-api
-  // silently falls back to auto while the UI still claims the pin. Reset to auto
-  // only once the list is SETTLED: a non-empty list is not proof it is complete.
-  // The upstream group list is served from a 5-minute cache, and while that cache
-  // repopulates a model can come back missing lanes it will have again seconds
-  // later (users saw a paid provider vanish from the dropdown and return on the
-  // next reload). Resetting off that partial list deleted a pin permanently, for
-  // a condition that had already resolved.
+  // An unservable pin makes new-api silently fall back to auto while the UI still claims
+  // it. Reset only once SETTLED: the upstream list is a 5-minute cache, and a model
+  // repopulating it returns without lanes it regains seconds later, so a non-empty list
+  // is not proof it is complete and resetting off a partial one deletes the pin forever.
   const candidateGroupsKey = candidateGroups.join("|");
   const groupsSettled =
     modelGroupsQuery.isSuccess && !modelGroupsQuery.isFetching;
@@ -448,8 +443,7 @@ export function ModelSelector(props: ModelSelectorProps) {
               />
             )}
           </CommandList>
-          {/* Billing group routes via new-api's X-Group; custom models fire browser -> user endpoint and never
-              hit new-api, so the group selector is meaningless for them. */}
+          {/* The group is new-api's X-Group, and custom models never reach new-api. */}
           {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
             <GroupSubmenu
               value={props.value}

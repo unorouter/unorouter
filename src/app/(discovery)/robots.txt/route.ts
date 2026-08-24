@@ -16,11 +16,9 @@ function localizedPath(
 }
 
 function buildDisallowList(): string[] {
-  // /*_rsc=: Next router-prefetch payloads. Googlebot executes the Link
-  // prefetches while rendering and each fetch counts as a crawl - they were
-  // 72% of all crawl requests in Search Console crawl stats, starving HTML
-  // discovery. Page content is fully server-rendered, so blocking them
-  // costs nothing.
+  // /*_rsc=: Googlebot executes Next's Link prefetches while rendering and each
+  // fetch counts as a crawl. They were 72% of all crawl requests in Search
+  // Console, starving HTML discovery, and the pages are server-rendered anyway.
   const disallow = new Set<string>(["/api/", "/*_rsc="]);
   for (const route of privateRoutes.static) {
     for (const locale of routing.locales) {
@@ -47,9 +45,8 @@ function buildAllowList(): string[] {
   return Array.from(allow).sort();
 }
 
-// AI answer engines convert far better than classic search; keep their
-// crawlers explicitly allowed so GEO visibility never depends on the
-// generic block or a CDN default flipping to block-AI.
+// Named explicitly so GEO visibility never depends on the generic block or on a
+// CDN default flipping to block-AI.
 const AI_CRAWLERS = [
   "GPTBot",
   "OAI-SearchBot",

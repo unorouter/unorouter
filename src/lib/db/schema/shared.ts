@@ -227,8 +227,8 @@ export const characters = sqliteTable(
     triggers: text("triggers", { mode: "json" }),
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
     regexScripts: text("regex_scripts", { mode: "json" }),
-    // RisuAI-style named image assets, rendered inline via {{img::name}} at
-    // display time (see img-render.ts). Bytes live in the media table.
+    // Named image assets rendered inline via {{img::name}} at display time.
+    // Bytes live in the media table; this holds only names and ids.
     assets: text("assets", { mode: "json" }).$type<
       { name: string; mediaId: string }[]
     >(),

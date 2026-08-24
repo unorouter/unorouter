@@ -39,9 +39,8 @@ export const THIRTY_DAY_CACHE = {
   next: { revalidate: 60 * 60 * 24 * 30 },
 } as const;
 
-// ai-sdk provider name for both chat text paths. providerOptions entries are
-// read ONLY under this exact key (openai-compatible matches its provider name);
-// a mismatched key is silently discarded.
+// providerOptions entries are read ONLY under this exact key; a mismatched key
+// is silently discarded.
 export const CHAT_PROVIDER_NAME = "unorouter";
 
 export const NEW_API_USER = "New-Api-User";
@@ -61,10 +60,8 @@ export const SERVER_URL_KEY = "x-url" as const;
 
 export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30d
 
-// Fallback when an auth response omits access_expires_at. Must track new-api's
-// AccessTokenTTL (currently 30d, a fork override of upstream's 15min): too long
-// and the cookie outlives the token, leaving the user in a logged-in UI whose
-// every request 401s.
+// Used when an auth response omits access_expires_at, so it must track new-api's
+// AccessTokenTTL (30d, a fork override): longer leaves a logged-in UI that 401s.
 export const ACCESS_TOKEN_FALLBACK_MAX_AGE = COOKIE_MAX_AGE;
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
@@ -138,8 +135,8 @@ export const APP_VALUES = {
 };
 
 export const NONE_VALUE = "__none__";
-// "let the gateway route" for a provider group. Matches what groupHeader() drops
-// (server/constants.ts), so the two ends agree on what "unpinned" looks like.
+// "unpinned" provider group. Must match what groupHeader() drops
+// (server/constants.ts), so the two ends agree.
 export const AUTO_GROUP = "auto";
 
 export const UID_ALPHABET =
@@ -167,9 +164,7 @@ export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for t
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
-// The fixed pool every short utility call races: title generation, web-search
-// classification, rolling-summary folding. Raced concurrently with maxRetries 0,
-// so keep it small; individually flaky free models are covered by Promise.any.
+// Raced CONCURRENTLY by every short utility call, so keep this list small.
 export const UTILITY_RACE_MODELS = [
   "gpt-oss-120b:free",
   "gpt-oss-20b:free",

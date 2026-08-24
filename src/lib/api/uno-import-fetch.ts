@@ -1,10 +1,9 @@
 import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 
-// Orval mutator for the uno-import client. The generated fetchers build a
-// relative path, so this is what puts the service's own origin in front of it.
-// Called from the BROWSER: the import endpoints take no token and allow this
-// origin, so there is nothing here a page may not do for itself.
+// Orval mutator: the generated fetchers build a relative path, so this puts the
+// service origin in front. Called from the BROWSER, safe because the import
+// endpoints take no token and allow this origin.
 export async function unoImportFetch<T>(
   url: string,
   init?: RequestInit,
@@ -16,8 +15,7 @@ export async function unoImportFetch<T>(
       headers: { ...init?.headers, "content-type": "application/json" },
     });
   } catch {
-    // Service unreachable. Left uncaught this surfaces as the browser's bare
-    // "Failed to fetch", which is the whole explanation the user would get.
+    // Uncaught this surfaces as the browser's bare "Failed to fetch".
     throw new Error(msg("ERRORS.CARD_IMPORT_UNAVAILABLE"));
   }
 
@@ -27,8 +25,8 @@ export async function unoImportFetch<T>(
     try {
       data = JSON.parse(text);
     } catch {
-      // A gateway 502 page is HTML, and a parse throw here escapes before any
-      // status check, so a routing outage reads as a JSON syntax error.
+      // A gateway 502 page is HTML; a parse throw escapes before any status
+      // check, so a routing outage would read as a JSON syntax error.
       data = { error: text.slice(0, 300) };
     }
   }

@@ -13,10 +13,8 @@ import { useSyncExternalStore } from "react";
 
 type AuthLogin = typeof rpc.api.auth.account.login;
 
-// Read-only: every route serves auth from a server prefetch (NavAuth, the
-// sidebar layout, chat/docs/status AuthHydration), so this fetches only when
-// the prefetch reported an expired session. Login/logout and profile edits
-// write the cache via setQueryData, which is what keeps consumers current.
+// Every route serves auth from a server prefetch, so this only fetches when the
+// prefetch reported an expired session.
 export function useAuthQuery() {
   const expired = useAuthCache(queryKeys.sessionExpired()) === true;
   return useElysiaQuery(
@@ -34,8 +32,6 @@ export function useAuthUserId(): number {
   return Number(useAuthUser()?.id ?? GUEST_USER_ID);
 }
 
-// Same source, for the non-React callers (the chat transport) that need the id
-// at send time rather than at render.
 export function authUserId(): number {
   return Number(
     getQueryClient().getQueryData<UserSelfData>(queryKeys.auth())?.id ??
@@ -43,12 +39,12 @@ export function authUserId(): number {
   );
 }
 
-// Reads the cache WITHOUT a useQuery: observing a key registers it at render
-// time, and HydrationBoundary hydrates an already-registered query in an
-// effect rather than during render, so every consumer below the boundary
-// renders logged-out on the server and logged-in on the client (React #418).
-// The cache notifies synchronously while HydrationBoundary is still rendering,
-// so the microtask keeps this out of another component's render.
+// No useQuery: observing a key registers it at render time, and HydrationBoundary
+// then hydrates it in an effect instead of during render, so consumers below the
+// boundary render logged-out on the server and logged-in on the client (React
+// #418). The microtask is because the cache notifies synchronously while
+// HydrationBoundary is still rendering. A present-but-null entry is a definite
+// guest; an absent one means not-yet-fetched.
 function useAuthCache<T>(key: QueryKey): T | undefined {
   const queryClient = useQueryClient();
   return useSyncExternalStore(

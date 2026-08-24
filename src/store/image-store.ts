@@ -32,8 +32,8 @@ export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
   null,
 );
 
-// Persisted: submitting remounts the form, and the equipped preset must survive that (and
-// a reload) or the Overwrite button disappears while the preset's values are still in effect.
+// Persisted because submitting remounts the form: losing this leaves the Overwrite
+// button gone while the preset's values are still in effect.
 export const selectedPresetIdAtom = localAtom<string>(
   "image-selected-preset-v1",
   "",
@@ -49,14 +49,13 @@ export type GenerateDraft = {
   extraParams: ImageFormUi;
 };
 
-// getOnInit: the first render must see the draft or the form restores defaults. Safe here
-// because the page is client-only and these are localStorage, not the cookie-backed atoms
-// whose async load avoids SSR hydration mismatches.
+// getOnInit is safe here only because the page is client-only and these are
+// localStorage, not the cookie-backed atoms whose deferred load avoids the SSR
+// mismatch. Without it the first render misses the draft and the form resets.
 function localAtom<T>(key: string, initial: T) {
   return atomWithStorage<T>(key, initial, undefined, { getOnInit: true });
 }
 
-// One draft per tab so switching between them does not lose work.
 export const text2imgDraftAtom = localAtom<GenerateDraft | null>(
   "image-draft-text2img-v1",
   null,
@@ -72,7 +71,6 @@ export const editDraftAtom = localAtom<GenerateDraft | null>(
 
 type ModelParamsMemory = Record<string, Partial<ImageParams>>;
 
-// Params last used per model, restored when the model is picked again.
 export const samplerMemoryAtom = localAtom<ModelParamsMemory>(
   "image-sampler-memory-v1",
   {},

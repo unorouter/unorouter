@@ -24,9 +24,8 @@ import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
-// Conversation value wins over the preset, matching how utilityModel resolves in
-// the assembler. Reading settings must never break title generation, so a failed
-// read just means the free race.
+// Conversation value wins over the preset, matching how utilityModel resolves in the
+// assembler. A failed read degrades to the free race rather than throwing.
 async function readTitleOverrides(convId: string): Promise<{
   titleModel?: string;
   titleGroup?: string;
@@ -80,10 +79,8 @@ export function createThreadListAdapter(
     },
 
     async initialize(localThreadId) {
-      // Keyed by the local thread, so this returns the id the send wrapper already
-      // minted for THIS chat, or mints one when initialize runs first (attachment
-      // before any send). Never the atom's, which the route keeps pointed at the
-      // previous conversation. seedConversation is idempotent per convId.
+      // Keyed by the local thread, never the atom, which the route keeps pointed at the
+      // PREVIOUS conversation.
       const id = freshConvId(localThreadId);
       await seedConversation({
         convId: id,
@@ -135,9 +132,8 @@ export function createThreadListAdapter(
         const model =
           selected && !isCustomModelId(selected) ? selected : undefined;
         const titleOverrides = await readTitleOverrides(id);
-        // Title gen is best-effort: an unauthorized/expired session or a flaky
-        // free-model race must not surface as an unhandled error. Fall back to a
-        // trimmed first-message title so the thread still gets a name.
+        // Best-effort: an expired session or a flaky free-model race must not surface as
+        // an unhandled error, so the thread still gets a name.
         let title: string;
         try {
           const res = await rpc.api.ai.chat.title.post({

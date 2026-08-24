@@ -91,18 +91,16 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  // Build date, not the clock: scheduled posts go live with the first deploy
-  // on or after their date, rather than mid-session for whoever is reading.
+  // Build date, not the clock: a scheduled post must not appear mid-session.
   const today = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
   return [...POSTS]
     .filter((p) => p.date <= today)
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-// Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema).
-// Gate is flag driven because t.raw is unsupported repo wide. Declared as a
-// const tuple, not Set<string>: `${GeoI18nKey}.FAQ_1_Q` then resolves to keys
-// that actually exist, so the FAQ lookups typecheck without a cast.
+// Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema), flag driven
+// because t.raw is unsupported. A const tuple rather than Set<string> so
+// `${GeoI18nKey}.FAQ_1_Q` resolves to keys that exist and needs no cast.
 export const GEO_SLUGS = [
   "unorouter-vs-openrouter",
   "best-openrouter-alternatives-2026",
@@ -114,10 +112,6 @@ export const GEO_SLUGS = [
 export type GeoSlug = (typeof GEO_SLUGS)[number];
 export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
 
-// Narrows i18nKey to namespaces that actually have FAQ leaves, which is what
-// lets `${key}.FAQ_1_Q` typecheck. The runtime check stays the slug set; the
-// type side is derived from the message tree, so the two cannot silently
-// disagree about which posts have FAQ copy.
 export function faqI18nKey(post: BlogPost): FaqI18nKey | null {
   if (!GEO_POSTS.has(post.slug)) return null;
   return post.i18nKey as FaqI18nKey;
@@ -133,9 +127,8 @@ export function methodI18nKey(post: BlogPost): MethodI18nKey | null {
   return post.i18nKey as MethodI18nKey;
 }
 
-// Comparison posts whose competitor facts were verified against the rival's
-// actual source code. They render a "how we verified" note (METHOD leaf) that
-// turns assertions into checkable provenance.
+// Comparison posts whose competitor facts were verified against the rival's actual source
+// code, which is what the rendered METHOD leaf claims.
 export const METHOD_POSTS = new Set<string>([
   "unorouter-vs-risuai",
   "unorouter-vs-sillytavern",

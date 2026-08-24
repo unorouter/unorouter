@@ -368,9 +368,8 @@ export async function runLuaEditTrigger<T>(
         lowLevelAccess: false,
         data,
       });
-      // Lua scripts are user-authored, so a result is only adopted when its
-      // runtime kind matches the input's. Otherwise a script returning a table
-      // where a string was passed puts the wrong type behind T.
+      // User-authored, so a result is adopted only when its runtime kind matches
+      // the input: a script returning a table for a string breaks T silently.
       const next = result.res ?? data;
       if (
         Array.isArray(next) === Array.isArray(data) &&

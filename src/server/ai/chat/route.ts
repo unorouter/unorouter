@@ -26,11 +26,8 @@ import { resolveWebSearch } from "./web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
-  // Opt-in CORS-bypass proxy for custom providers (the per-provider "proxy"
-  // toggle). Custom providers are a local-first BYOK feature guests use too,
-  // so this is open to guests; the caller's own Authorization is REQUIRED,
-  // which is what stops it being a free open relay. We never resolve, log or
-  // store a key here.
+  // Open to guests by design; the caller's own Authorization is what stops this
+  // being a free open relay. No chat key is resolved, logged or stored here.
   .post("/custom-forward/chat/completions", async ({ request }) => {
     return forwardCustomProvider({
       targetBase: request.headers.get("x-proxy-target"),
@@ -61,9 +58,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: finalizeTaskBody },
   )
 
-  // Every route below needs the resolved chat key; the ones above must not
-  // resolve one (custom-forward's open-relay protection is the caller's own
-  // Authorization).
+  // Ordering is load-bearing: routes above must NOT resolve a chat key.
   .resolve(async ({ cookie }) => ({
     apiKey: await resolveChatApiKey(cookie),
     userId: (await getUserId(cookie, true)) ?? GUEST_USER_ID,
@@ -73,8 +68,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/title",
     async ({ body, apiKey, userId }) => {
       await assertGuestFreeModel(userId, body.model);
-      // The title model is billed too, so it needs the same guest check as the
-      // chat model rather than riding in on the chat model's approval.
+      // The title model is billed separately, so it needs its own guest check.
       await assertGuestFreeModel(userId, body.titleModel);
       const data = await generateChatTitle(apiKey, body.text, {
         titleModel: body.titleModel,

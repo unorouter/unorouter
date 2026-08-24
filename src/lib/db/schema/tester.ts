@@ -1,12 +1,7 @@
-// Model-tester tables: the ONE schema definition serving BOTH databases. The
-// client holds a user's private test history under their real userId; the server
-// holds the public leaderboard written with userId = GUEST_USER_ID, so the
-// unique (userId, kind, baseUrlHost) key acts as a global (kind, host) there.
-//
-// Split out of shared.ts because drizzle.server.config.ts generates Turso
-// migrations from schema/index.ts: while that re-exported shared.ts, editing a
-// CHAT table emitted a destructive server migration against tables no server
-// code has ever read.
+// One definition serving BOTH databases: the client holds private history under
+// a real userId, the server holds the public leaderboard written with
+// userId = GUEST_USER_ID, so the unique (userId, kind, baseUrlHost) key acts as
+// a global (kind, host) there.
 import {
   index,
   integer,

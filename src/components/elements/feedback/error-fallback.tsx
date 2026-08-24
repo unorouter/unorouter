@@ -38,16 +38,14 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   useEffect(() => {
     console.error(props.error);
     posthog.captureException(props.error);
-    // Chunk load failures after a deploy mean this tab holds stale HTML pointing at chunks the new
-    // build replaced. Hard-reload once (fetching fresh HTML) instead of showing an error page; the
-    // sessionStorage guard prevents a reload loop if the chunk is genuinely gone.
+    // A chunk load failure means this tab holds pre-deploy HTML pointing at replaced
+    // chunks. The sessionStorage guard stops a reload loop if the chunk is genuinely gone.
     if (isChunkLoadError(props.error)) {
       const KEY = "chunk-reload-once";
       if (!sessionStorage.getItem(KEY)) {
         sessionStorage.setItem(KEY, "1");
-        // A plain reload is served BY the service worker, so it hands back the very HTML
-        // that asked for the missing chunk and the page fails identically. Drop the build
-        // scoped caches and let the waiting worker take over, THEN reload.
+        // A plain reload is served BY the service worker, handing back the very HTML that
+        // asked for the missing chunk, so the caches must go first.
         void (async () => {
           try {
             const names = await caches.keys();
@@ -61,8 +59,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
               .catch(() => []);
             await Promise.all((regs ?? []).map((r) => r.update()));
           } catch {
-            // Cache APIs can be unavailable (private mode, older Safari); the reload below
-            // is still worth attempting.
+            // Cache APIs are unavailable in private mode and older Safari; still reload.
           }
           window.location.reload();
         })();

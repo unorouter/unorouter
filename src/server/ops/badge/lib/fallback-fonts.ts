@@ -3,15 +3,13 @@ import { join } from "path";
 import type { SatoriOptions } from "satori";
 
 // Satori does NO automatic font fallback: a glyph absent from the Latin brand
-// fonts renders as tofu. These Noto fallbacks cover the non-Latin badge locales
-// (CJK, Hebrew, Devanagari). They are LAZY + per-script: a font file is read
-// only the first time a badge actually contains that script, and each is cached
-// for the process lifetime. Nothing outside the badge render path imports this,
-// so the ~30MB of CJK fonts never touch any other page's memory or bundle.
+// fonts renders as tofu. Loading is LAZY per script and nothing outside the
+// badge render path imports this, so the ~30MB of CJK fonts never touch another
+// page's memory or bundle.
 //
-// Arabic is intentionally absent: every Noto Arabic uses GSUB lookupType 5
-// (contextual joining) which Satori's opentype.js engine cannot shape, so it
-// would throw. Arabic badges keep their prior (tofu) rendering rather than 500.
+// Arabic is deliberately absent: every Noto Arabic uses GSUB lookupType 5
+// (contextual joining), which Satori's opentype.js engine cannot shape and
+// throws on. Arabic goes through arabic-shaper.ts instead.
 
 type FallbackFont = NonNullable<SatoriOptions["fonts"]>[number];
 
@@ -28,7 +26,6 @@ const dir = join(
 type ScriptDef = {
   file: string;
   name: string;
-  // Unicode ranges that should trigger this font.
   test: RegExp;
 };
 
@@ -70,7 +67,6 @@ function load(def: ScriptDef): FallbackFont {
   return font;
 }
 
-// Returns the fallback fonts whose script appears in `text`, loading each lazily.
 export function fallbackFontsFor(text: string): FallbackFont[] {
   if (!text) return [];
   const out: FallbackFont[] = [];

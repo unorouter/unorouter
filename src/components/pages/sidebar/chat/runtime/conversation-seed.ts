@@ -41,10 +41,7 @@ type SeedArgs = {
   noModelsError: string;
 };
 
-// Creating a conversation is reached from TWO places that assistant-ui runs
-// concurrently without ordering: the send wrapper (which must not build a request
-// until the greeting rows exist) and the thread-list adapter's initialize. Keyed
-// on convId so whichever arrives first does the work and the other awaits it.
+// Idempotency key for the send-wrapper vs initialize race assistant-ui runs unordered.
 const seeding = new Map<string, Promise<void>>();
 
 export function seedConversation(args: SeedArgs): Promise<void> {
@@ -72,10 +69,8 @@ async function seed(args: SeedArgs): Promise<void> {
 
   const now = dayjs().toDate();
 
-  // Read defaults from the persisted cookie directly, not just the atom: the
-  // cookie-backed atom hydrates asynchronously after mount, so a fast new-chat
-  // creation during that window would read the empty INITIAL defaults and seed
-  // a null maxTokens (no cap), wiping the user's sticky reply-length control.
+  // Cookie directly, not just the atom: the atom hydrates after mount, so a new chat
+  // created in that window reads empty INITIAL defaults and seeds a null maxTokens.
   const cookieState = jotaiCookieStorage.getItem(
     CHAT_STORE_KEY,
     INITIAL_CHAT_STATE,
@@ -89,9 +84,8 @@ async function seed(args: SeedArgs): Promise<void> {
   const hasPreset = !!loadout.presetId;
   const seedField = <K extends keyof typeof defaults>(key: K) =>
     hasPreset ? null : (defaults[key] ?? null);
-  // Max tokens is the user's reply-length control and must stay sticky across new chats. A bound preset
-  // that doesn't set its own maxTokens should NOT wipe the last-used default to null (which sends no cap
-  // and lets the provider apply a small one). Seed it from defaults unless the preset supplies its own.
+  // maxTokens stays sticky across new chats: a preset that sets none must not null it,
+  // since no cap lets the provider apply its own small one.
   const boundPreset = loadout.presetId
     ? await readLocalPreset(loadout.presetId)
     : null;
@@ -218,8 +212,6 @@ async function seed(args: SeedArgs): Promise<void> {
       }
       chatStore.set(greetingIndexAtom, 0);
       if (seededGreeting) {
-        // Show the seeded greeting in the fresh thread immediately; the DB row
-        // + invalidate below are the source of truth on reload.
         const greetingMessage: ChatUIMessage = {
           id: seededGreeting.id,
           role: "assistant",

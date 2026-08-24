@@ -8,9 +8,7 @@ import {
   type Response as UndiciResponse,
 } from "undici";
 
-// SSRF-safe remote fetch toolkit (extracted from the former config/r2.ts). Used
-// by character-card import, web-bot-auth directory fetch, model-tester verify,
-// model verify-proxy, and image-gen reference-image fetch. No R2/S3 or DB deps.
+// SSRF-safe remote fetch toolkit. Mandatory for any remote fetch.
 
 const BLOCKED_HOSTS = new Set([
   "localhost",
@@ -141,19 +139,16 @@ function parseAndCheckUrl(url: string): URL {
   return parsed;
 }
 
-// A separate agent for STREAMING responses (SSE): the download agent's 10s
-// body timeout would kill any generation longer than that. Headers still time
-// out, so a dead host cannot hold a connection open silently; the body flows
-// as long as the model streams.
+// Separate agent for SSE: the download agent's 10s body timeout would kill any
+// longer generation. Headers still time out, so a dead host cannot hang open.
 const safeStreamAgent = new Agent({
   connect: { lookup: filteringLookup },
   headersTimeout: 30_000,
   bodyTimeout: 0,
 });
 
-// SSRF-guarded fetch that returns the live response for piping (the custom
-// provider proxy). Same URL/DNS/port policy as every other safe fetch here;
-// redirects refused so the check cannot be bypassed by a hop.
+// Returns the live response for piping. Redirects are refused so the URL/DNS
+// policy cannot be bypassed by a hop.
 export async function safeFetchStream(
   url: string,
   opts: {

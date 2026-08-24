@@ -14,9 +14,8 @@ import {
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-// The resolver forwards only `message` to the field, dropping the schema, so a
-// key whose text interpolates a bound has to carry that bound with it. The JSON
-// shape is what pickMessage already reads.
+// The resolver forwards only `message` to the field and drops the schema, so a
+// key whose text interpolates a bound must carry that bound with it.
 function formError(
   key: TranslationKey,
   params?: Record<string, string | number>,
@@ -118,9 +117,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   return { message, params: found?.params, code, status, requestId };
 }
 
-// Resolves what SetErrorFunction produced: a bare key, or a key plus the bound
-// its text interpolates. A non-key message (a hand-set form.setError string)
-// passes through untouched.
+// Resolves what SetErrorFunction produced: a bare key, or a key plus its bound.
+// A hand-set form.setError string passes through untouched.
 export function translateFormError(
   message: string,
   t: ReturnType<typeof useTranslations<never>>,
@@ -132,7 +130,7 @@ export function translateFormError(
     : key;
 }
 
-// Buckets a stream error into a coarse type for analytics (never user-facing).
+// For analytics only, never user-facing.
 export function classifyStreamError(detail: ErrorDetail): string {
   const s = detail.status;
   if (s === 429) return "rate_limit";
@@ -266,8 +264,8 @@ export function downloadBlob(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-// Streams to disk via File System Access where available so a large file never
-// materializes in the JS heap; iOS falls through to Web Share, then a blob.
+// File System Access where available, so a large file never materializes in the
+// JS heap; iOS falls through to Web Share, then a blob.
 export async function streamFileToDisk(
   file: File,
   filename: string,
@@ -319,7 +317,6 @@ export async function streamFileToDisk(
         logChatDebug("save.cancelled", { path: "fsa" });
         return "cancelled";
       }
-      // Any other failure (partial write, permission) falls through to blob.
       logChatDebug("save.fsa_failed", { error: String(err).slice(0, 200) });
     }
   }
@@ -352,7 +349,6 @@ export async function streamFileToDisk(
         logChatDebug("save.cancelled", { path: "share" });
         return "cancelled";
       }
-      // Share unavailable in practice: fall through to the blob anchor.
       logChatDebug("save.share_failed", { error: String(err).slice(0, 200) });
     }
   }

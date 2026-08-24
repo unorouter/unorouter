@@ -17,15 +17,13 @@ export type QuickTarget = {
   remix?: boolean;
 };
 
-// One builder for every explicit restore (quick actions, reuse-seed): browsing history
-// never auto-restores the form.
+// Every restore is EXPLICIT: browsing history must never auto-restore the form.
 export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const nav = useImageNav();
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
 
-  // The gallery src is a blob: URL, which dies with the document: persisted into the
-  // form draft it comes back dead after a reload and the inpaint canvas mounts on an
-  // unloadable image. Resolve the media row's bytes into a durable data: URI instead.
+  // The gallery src is a blob: URL, which dies with the document, so persisting one into
+  // the form draft mounts the inpaint canvas on an unloadable image after a reload.
   const durableInitUrl = async (src: string): Promise<string | undefined> => {
     const image = data?.images.find((i) => i.src === src);
     if (!image) return src;
@@ -58,9 +56,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     });
   };
 
-  // Each quick action pre-fills the one thing it promises. Remix must not carry an
-  // init image (that would turn it into img2img of the old result); its seed comes
-  // from the clicked image, each batch result has its own.
+  // Remix must not carry an init image: that would make it img2img of the old result.
   const quickOverrides = (
     target: QuickTarget,
     remixSeed: number | null | undefined,
@@ -78,8 +74,8 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
     nav.setNav({ tab: target.tab, subPill: target.subPill });
     const remixSeed = data.images.find((i) => i.src === src)?.seed;
     const durable = target.remix ? undefined : await durableInitUrl(src);
-    // Edit models take their input as a reference image, and reusing the seed
-    // would regenerate the original instead of editing it.
+    // Edit models take their input as a reference image, and reusing the seed would
+    // regenerate the original instead of editing it.
     const editing = target.tab === "edit";
     restore({
       tab: target.tab,
@@ -94,7 +90,6 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
 
   const onReuseSeed = (seed: number) => {
     if (!data) return;
-    // A seed is only useful with the rest of the generation reproduced around it.
     restore({ params: { ...data.params, seed } });
   };
 

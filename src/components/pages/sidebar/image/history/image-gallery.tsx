@@ -32,7 +32,7 @@ function aspectRatioOf(img: ImageView): string | undefined {
   return `${img.width} / ${img.height}`;
 }
 
-// Always visible on touch (no hover there); 32px targets, tappable without covering the tile.
+// Always visible on touch, which has no hover.
 function QuickButton(props: {
   icon: string;
   label: string;
@@ -51,9 +51,8 @@ function QuickButton(props: {
   );
 }
 
-// The extension must match the actual bytes: Runware serves jpeg/webp, and a
-// jpeg saved as ".png" comes back from an iOS photo roll as a file nothing
-// accepts, including our own img2img upload.
+// The extension must match the actual bytes: Runware serves jpeg/webp, and a jpeg saved
+// as ".png" comes back from an iOS photo roll as a file nothing accepts, ours included.
 function imageExt(mimeType: string | null | undefined): string {
   if (mimeType === "image/jpeg") return "jpg";
   if (mimeType === "image/webp") return "webp";
@@ -122,7 +121,6 @@ function ImageTile(props: {
       >
         <Icon name="download" className="h-4 w-4" />
       </button>
-      {/* The provider-chosen seed is the only way to reproduce an unpinned generation. */}
       {typeof seed === "number" && (
         <button
           type="button"
@@ -136,7 +134,6 @@ function ImageTile(props: {
       )}
       {props.onQuickAction && (
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
-          {/* Per-image: each batch result carries its own seed. */}
           <QuickButton
             icon="sparkles"
             label={t("IMAGE.REMIX")}

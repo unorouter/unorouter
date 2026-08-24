@@ -21,8 +21,7 @@ export const onRequestError: Instrumentation.onRequestError = async (
         : request.headers.cookie,
     );
 
-    // Correlates this server stack to the opaque digest-only error the client
-    // reports.
+    // Correlates this stack to the opaque digest-only error the client reports.
     const digest =
       err && typeof err === "object" && "digest" in err
         ? String((err as { digest?: unknown }).digest ?? "")
@@ -37,13 +36,13 @@ export const onRequestError: Instrumentation.onRequestError = async (
     const message = err instanceof Error ? err.message : String(err ?? "");
     if (message.includes("failed to pipe response")) return;
 
-    // Those same signals can arrive with digest AND message stripped, which the
-    // check above cannot catch. Flooded 25k+ events per 48h, twice.
+    // Those same signals can arrive with digest AND message stripped, past the
+    // check above. Flooded 25k+ events per 48h, twice.
     if (!message.trim()) return;
 
     // Bots POST garbage that Next routes here and parses as Server Action
-    // FormData. Unreachable surface, so scoped to the route rather than the
-    // message, keeping real FormData faults reportable.
+    // FormData. Scoped to the route, not the message, so real FormData faults
+    // stay reportable.
     if (context.routePath === "/_not-found/page") return;
 
     posthog.captureException(err, distinctId, {

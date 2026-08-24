@@ -205,10 +205,9 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
   });
 }
 
-// Standalone lorebooks published on their own, rather than attached to a card:
-// a JanitorAI script link, a chub /lorebooks/ project, or a risu character
-// whose book travels with it. The fetcher normalises all three, so this only
-// has to write rows.
+// Lorebooks published standalone rather than attached to a card: a JanitorAI
+// script link, a chub /lorebooks/ project, or a risu character whose book
+// travels with it. The fetcher normalises all three.
 export function useImportLorebookFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
@@ -231,8 +230,7 @@ export function useImportLorebookFromUrlMutation() {
             importedAsPreset: null,
           };
         }
-        // The fetcher emits a finished prompt template, so a published preset is
-        // one row write. Its lorebooks, if any, fall through to the writer below.
+        // Lorebooks attached to a published preset fall through to the writer below.
         const preset = "preset" in result ? result.preset : null;
         if (preset) {
           const now = dayjs().toDate();
@@ -249,8 +247,8 @@ export function useImportLorebookFromUrlMutation() {
           return { importedAsPlugin: null, importedAsPreset: preset.name };
         }
         if (books.length === 0) {
-          // Named rather than silent: the source lists these but the author kept
-          // the contents private, and nobody can fetch them.
+          // The source lists these but the author kept the contents private, so
+          // nobody can fetch them. Named so the failure is not a silent empty.
           const withheld = ("skipped" in result ? result.skipped : [])
             .map((s) => s.title)
             .join(", ");
@@ -299,8 +297,7 @@ export function useImportLorebookFromUrlMutation() {
           importedAsPreset: preset?.name ?? null,
         };
       }),
-    // One link can land in any of three lists depending on what the source
-    // published, so all three are invalidated rather than guessing.
+    // One link can land in any of these three, depending on what the source published.
     invalidates: [
       queryKeys.lorebooks(),
       queryKeys.jsPlugins(),

@@ -407,23 +407,20 @@ export function useDeleteMessageMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      // Prune UI before the awaited splice: the node may have no DB row.
       getThreadRuntime()?.deleteMessage(args.msgId);
-      // deleteMessage prunes the runtime repository, but the RENDER SOURCE (and
-      // the history the transport sends) is the useChat array. Drop the node
-      // from it here, BEFORE the await: a failed-run node can have no DB row and
-      // the SQLocal splice can throw on iOS, and a throw past this point would
-      // leave a deleted message on screen and still in the model's history.
+      // deleteMessage only prunes the runtime repository; the render source and
+      // the transport's history is the useChat array. Both must be pruned BEFORE
+      // the await: a failed-run node can have no DB row and the SQLocal splice
+      // can throw on iOS, leaving a deleted message on screen and in history.
       setLiveMessages((msgs) =>
         (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
       );
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(args.convId, args.msgId);
-      // The DB is authoritative once the splice lands: rebuild from it so a
-      // branch re-walk (siblings promoted after the delete) is reflected too.
-      // Best-effort, since the prune above already removed the node: a throwing
-      // reader must not report a delete that actually succeeded as failed.
+      // Rebuild from the DB so a branch re-walk (siblings promoted by the splice)
+      // is reflected. Best-effort: the prune above already removed the node, so a
+      // throwing reader must not report a succeeded delete as failed.
       try {
         await reloadLiveThreadFromDb(args.convId);
       } catch {

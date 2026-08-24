@@ -4,8 +4,8 @@
 // control for it could only ever produce a failed generation.
 //
 // The raw schema is 24-65KB per model; this keeps the ~1.5KB that decides which controls
-// render and within which bounds. Pure and isomorphic (no fetch), so the build script and
-// the client cache share one implementation.
+// render and within which bounds. Pure and isomorphic, so the build script and the client
+// cache share one implementation.
 
 import { rec } from "@/lib/utils/base";
 
@@ -87,9 +87,8 @@ export function distillSchema(raw: unknown): ModelParamSpec | null {
       ? references.maxItems
       : 0;
 
-  // providerSettings nests one object per vendor (openai.quality, bfl.safetyTolerance).
-  // Flattened to "<vendor>.<field>" so a caller reads one map instead of walking two
-  // levels for a value that is still just a parameter.
+  // providerSettings nests one object per vendor (openai.quality, bfl.safetyTolerance),
+  // flattened here to "<vendor>.<field>".
   const providerSettings: Record<string, ParamSpec> = {};
   const settingsRoot = asObject(properties.providerSettings);
   for (const [vendor, vendorSchema] of Object.entries(

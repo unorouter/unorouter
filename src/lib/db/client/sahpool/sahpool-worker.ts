@@ -2,10 +2,9 @@ import { errMessage, rec } from "@/lib/utils/base";
 import { SQLocalProcessor } from "sqlocal";
 import { SQLiteSahPoolDriver } from "./sqlite-sahpool-driver";
 
-// Dedicated worker hosting the sahpool driver: OPFS sync access handles are
-// only available in worker scope. Mirrors sqlocal's own worker entry, which
-// hardwires the isolation-requiring opfs driver; sqlocal's client accepts
-// this worker via its `processor` config.
+// OPFS sync access handles exist in worker scope only. Mirrors sqlocal's own
+// worker entry, which hardwires the isolation-requiring opfs driver; its client
+// accepts this one via the `processor` config.
 const driver = new SQLiteSahPoolDriver();
 const processor = new SQLocalProcessor(driver);
 
@@ -21,9 +20,8 @@ export type SahPoolControlReply = {
   diagnosis?: SahPoolDiagnosis;
 };
 
-// Why the pool did not install. Everything here is read INSIDE the worker,
-// because OPFS sync access handles exist in worker scope only, so the page
-// cannot probe any of it directly.
+// Why the pool did not install. Gathered INSIDE the worker, since the page
+// cannot probe sync access handles itself.
 export type SahPoolDiagnosis = {
   poolError?: string;
   opfsReachable: boolean;
@@ -48,8 +46,8 @@ async function diagnose(): Promise<SahPoolDiagnosis> {
     opfsReachable: false,
   };
   try {
-    // Reaching the root at all separates "OPFS is blocked" from "OPFS works
-    // but this pool cannot be claimed", which need opposite advice.
+    // Separates "OPFS is blocked" from "OPFS works but this pool cannot be
+    // claimed", which need opposite advice.
     await navigator.storage.getDirectory();
     result.opfsReachable = true;
   } catch (err) {
@@ -66,9 +64,8 @@ async function diagnose(): Promise<SahPoolDiagnosis> {
   return result;
 }
 
-// Pool handover control channel, handled here because SQLocalProcessor's
-// message switch is a fixed set with no pause/resume. The client drains all
-// in-flight statements before posting a pause, so this never races an exec.
+// The client drains all in-flight statements before posting a pause, so this
+// never races an exec.
 async function handleControl(message: SahPoolControlMessage): Promise<void> {
   const reply: SahPoolControlReply = {
     type: "sahpool-control-done",

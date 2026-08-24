@@ -11,7 +11,7 @@ export function HeroSubtitle() {
   return (
     // modelCount comes from the 5min pricing snapshot, which can refresh
     // between the server render and hydration, so the two legitimately differ.
-    // Suppress the hydration text mismatch (React #418) - the client value wins.
+    // Suppress the hydration text mismatch (React #418): the client value wins.
     <p
       suppressHydrationWarning
       className="text-muted-foreground mx-auto max-w-lg font-mono text-base leading-relaxed font-light lg:mx-0"

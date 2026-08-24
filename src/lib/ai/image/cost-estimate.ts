@@ -1,7 +1,6 @@
-// Price preview for GPU-time-billed image models. Measured live: cost tracks megapixels,
-// NOT steps, and the same request varies up to 5.9x with GPU wall-clock. A fitted formula
-// mispredicted Flux by 200%, so the quote is typical price per megapixel plus an exact
-// ceiling from the gateway's clamp.
+// Measured live: cost tracks megapixels, NOT steps, and the same request varies up to
+// 5.9x with GPU wall-clock. A fitted formula mispredicted Flux by 200%, hence a typical
+// price per megapixel plus an exact ceiling from the gateway's clamp.
 
 // Must mirror the adaptor's clamp (new-api relay/channel/runware/types.go).
 export const CLAMP_MAX_PIXELS = 1024 * 1024;
@@ -52,7 +51,6 @@ export function estimateImageCost(input: CostEstimateInput): CostEstimate {
   };
 }
 
-/** True when a request will be scaled down or have its steps capped before it runs. */
 export function willClamp(width: number, height: number, steps: number) {
   return width * height > CLAMP_MAX_PIXELS || steps > CLAMP_MAX_STEPS;
 }

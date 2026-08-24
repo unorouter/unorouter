@@ -47,8 +47,7 @@ export function useBillingActions() {
   const enablePayPal = enableDeloPay;
   const discount = topUpInfo?.discount ?? {};
   // PayPal's fixed per-transaction fee makes the smallest tiers a loss, so
-  // upstream enforces its own floor and advertises it here. Honor it in the UI
-  // instead of offering amounts the pay call would reject.
+  // upstream enforces a floor and REJECTS amounts below it at the pay call.
   const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
   const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
   const deloPayFeePercent = topUpInfo?.delopay_fee_percent ?? 0;
@@ -106,10 +105,9 @@ export function useBillingActions() {
     return factor ? Math.round(amount * factor * 100) / 100 : amount;
   }
 
-  // What the gateway actually bills: the buyer covers the processing fee on top
-  // of the credited amount, and only up to the threshold. Mirrors the upstream
-  // surcharge helpers, rounding up to the cent, so a tile never understates the
-  // charge.
+  // Mirrors the gateway's surcharge helpers: the buyer covers the processing fee
+  // on top of the credited amount, only up to the threshold, rounded UP to the
+  // cent so a tile never understates the charge.
   function chargedWithFee(
     credited: number,
     fixed: number,

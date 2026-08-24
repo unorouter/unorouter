@@ -30,9 +30,8 @@ const LABEL_KEY = {
   name: "MODELS.SORT.NAME",
 } as const satisfies Record<SortOrder, string>;
 
-// Picking the opposite direction of a key already chosen replaces it rather than
-// stacking: "cheapest, then dearest" cannot both be true, and leaving both in
-// makes the second one dead weight the user cannot see the effect of.
+// An opposite direction replaces rather than stacks: "cheapest, then dearest" cannot both
+// be true, so the second key would be unreachable.
 const OPPOSITE: Partial<Record<SortOrder, SortOrder>> = {
   priceAsc: "priceDesc",
   priceDesc: "priceAsc",
@@ -43,8 +42,6 @@ export function SortFilter() {
   const active = useAtomValue(effectiveSortKeysAtom);
   const t = useTranslations();
 
-  // The trigger names the primary key and how many others refine it, so the
-  // button still reads as one thing at a glance.
   const label =
     active.length > 1
       ? t("MODELS.SORT.MULTI", {
@@ -90,17 +87,14 @@ export function SortFilter() {
           return (
             <DropdownMenuItem
               key={key}
-              // Without this the menu closes on the first pick, so building a
-              // chain would mean reopening it for every key.
               closeOnClick={false}
               onClick={() => toggle(key)}
               className="flex items-center justify-between gap-2"
             >
               <span>{t(LABEL_KEY[key])}</span>
               {rank >= 0 && (
-                // The menu item forces text-accent-foreground onto every
-                // descendant while focused, which erased this number against
-                // its own background. Pin the colour so it survives hover.
+                // The menu item forces text-accent-foreground onto every descendant while
+                // focused, erasing this number against its own background.
                 <span className="bg-primary text-primary-foreground! flex h-5 w-5 shrink-0 items-center justify-center rounded font-mono text-[10px]">
                   {rank + 1}
                 </span>

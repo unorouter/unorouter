@@ -1,14 +1,10 @@
 import { safeFetchStream } from "@/lib/config/safe-fetch";
 import { msg } from "@/lib/config/constants";
 
-// Opt-in server proxy for custom providers whose endpoints lack CORS: the
-// browser cannot call them directly, so the request detours through here and
-// gets raw-piped both ways. The user's own key rides the Authorization header
-// verbatim and is never logged or stored; the target comes from a header and
-// passes the same SSRF policy as every other server-side fetch (public DNS
-// only, http/https on 80/443, redirects refused). Open to guests (BYOK is a
-// local-first feature), so a caller-supplied Authorization is mandatory: it is
-// what keeps this from being a free anonymous relay.
+// Opt-in CORS-bypass proxy for custom providers, open to guests. The
+// caller-supplied Authorization is mandatory: it is the only thing keeping this
+// from being a free anonymous relay. The key is piped verbatim, never logged or
+// stored, and the header-supplied target passes the shared SSRF policy.
 
 const FORWARD_RESPONSE_HEADERS = ["content-type"] as const;
 

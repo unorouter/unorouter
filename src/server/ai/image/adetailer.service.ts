@@ -5,10 +5,10 @@ import { runwareTask } from "./runware";
 
 const ADETAILER_TIMEOUT_MS = 60_000;
 
-// ADetailer = detect (mask) + inpaint the region; the provider exposes both halves but
-// nothing that chains them. Detectors are addressed by AIR, the picker keeps the A1111
-// filenames users recognise. FACE ONLY: the hand/person slots in this AIR family return
-// no detections even on an image that is nothing but hands (live-verified).
+// The provider exposes masking and inpainting but nothing that chains them, so
+// ADetailer is both halves run here. Keyed by the A1111 filenames the picker
+// shows. FACE ONLY: the hand/person slots in this AIR family return no
+// detections even on an image that is nothing but hands (live-verified).
 const DETECTOR_AIR: Record<string, string> = {
   "bbox/face_yolov8n.pt": "runware:35@1",
   "bbox/face_yolov8n_v2.pt": "runware:35@2",
@@ -23,8 +23,8 @@ function detectorAirFor(yoloModel: string | undefined): string | null {
   return DETECTOR_AIR[yoloModel] ?? null;
 }
 
-// The pass goes direct to the provider, so a passthrough model needs the resolved AIR,
-// not our routing placeholder. Same AIR validation as the main submit path.
+// The pass goes direct to the provider, so a passthrough model needs the resolved
+// AIR, not our routing placeholder.
 export function adetailerCheckpoint(body: {
   model: string;
   extraParams?: { air?: string };
@@ -35,10 +35,7 @@ export function adetailerCheckpoint(body: {
 
 type MaskResult = { maskImageURL: string; detections: unknown[] };
 
-/**
- * One ADetailer pass over a finished image; returns the redrawn URL or null. Best-effort:
- * the source is already paid for, so any failure leaves the original untouched.
- */
+/** Best-effort: the source is already paid for, so any failure leaves it untouched. */
 export async function runAdetailerPass(args: {
   imageUrl: string;
   adetailer: AdetailerParams;
@@ -77,7 +74,6 @@ export async function runAdetailerPass(args: {
   }
 
   const first = mask.data?.[0];
-  // No detections is normal for an image with no face in it.
   if (!first?.maskImageURL || !first.detections?.length) {
     logger.info("adetailer found nothing to fix", {
       context: "image.adetailer",
@@ -86,8 +82,8 @@ export async function runAdetailerPass(args: {
     return null;
   }
 
-  // Detail prompt when given, else the original (an empty prompt would redraw a face
-  // from nothing). Steps 0 = inherit (the form's toggle-off state).
+  // An empty prompt would redraw a face from nothing, so fall back to the
+  // original. Steps 0 = inherit (the form's toggle-off state).
   const steps = args.adetailer.steps;
   const negativePrompt =
     args.adetailer.negativePrompt?.trim() || args.negativePrompt;

@@ -5,10 +5,7 @@ export const ACCEPTED_IMAGE_MIMES = ["image/png", "image/jpeg", "image/webp"];
 /** Providers reject oversized inline payloads, so every data URI gets capped here. */
 export const MAX_LONG_EDGE = 1024;
 
-/**
- * Sniffs the container rather than trusting file.type, which is attacker supplied
- * and wrong often enough on real uploads.
- */
+/** Sniffs the container: file.type is attacker supplied and wrong on real uploads. */
 export function sniffImageMime(bytes: Uint8Array): string | null {
   if (
     bytes.length >= 8 &&
@@ -56,10 +53,6 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/**
- * Reads a picked file entirely in the browser and returns a downscaled data URI.
- * Throws when the bytes are not a supported image.
- */
 export async function fileToScaledDataUri(file: File): Promise<string> {
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
