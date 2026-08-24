@@ -2,13 +2,15 @@
 
 import { env } from "@/lib/config/env";
 import { getPushSubscription } from "@/lib/notify/push";
-import { isStringArray, rec, sha256Hex } from "@/lib/utils/base";
-import { chatStore } from "@/store/chat-store";
+import { rec, sha256Hex } from "@/lib/utils/base";
 import {
-  notifyConnectedAtom,
+  notifyEventChecker,
+  notifyEventSchema,
   type NotifyEvent,
-  type NotifyEventType,
-} from "@/store/notify-store";
+} from "@/lib/validation/notify";
+import { Value } from "@sinclair/typebox/value";
+import { chatStore } from "@/store/chat-store";
+import { notifyConnectedAtom } from "@/store/notify-store";
 import { getNotifyEvents } from "@/openapi";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
@@ -44,61 +46,11 @@ channel?.addEventListener(
   },
 );
 
-const NOTIFY_EVENT_TYPES: readonly NotifyEventType[] = [
-  "model_online",
-  "model_offline",
-  "model_price_change",
-  "model_added",
-  "model_removed",
-  "model_bulk_change",
-];
-
-function eventType(v: unknown): NotifyEventType | null {
-  const found = NOTIFY_EVENT_TYPES.find((t) => t === v);
-  return found ?? null;
-}
-
-function num(v: unknown): number | undefined {
-  return typeof v === "number" ? v : undefined;
-}
-
-function bool(v: unknown): boolean | undefined {
-  return typeof v === "boolean" ? v : undefined;
-}
-
-// The generated openapi NotifyEvent is WIDER than the store's (`type: string`,
-// nullable topics) and omits the bulk_* digest fields entirely, so an upstream
-// body is not a store event until it has been checked field by field.
+// Upstream is checked, not trusted: the generated NotifyEvent is wider than the
+// store's and omits the bulk_* digest fields entirely.
 function parseNotifyEvent(raw: unknown): NotifyEvent | null {
-  const e = rec(raw);
-  const d = e && rec(e.data);
-  const type = eventType(e?.type);
-  if (!e || !d || !type) return null;
-  if (typeof e.id !== "string" || typeof e.ts !== "number") return null;
-  if (typeof d.model !== "string") return null;
-  const bulkEventType = eventType(d.bulk_event);
-  return {
-    id: e.id,
-    type,
-    ts: e.ts,
-    topics: isStringArray(e.topics) ? e.topics : [],
-    data: {
-      model: d.model,
-      free: d.free === true,
-      online: bool(d.online),
-      cheapest_ratio: num(d.cheapest_ratio),
-      prev_cheapest_ratio: num(d.prev_cheapest_ratio),
-      cheapest_group:
-        typeof d.cheapest_group === "string" ? d.cheapest_group : undefined,
-      bulk_event:
-        bulkEventType && bulkEventType !== "model_bulk_change"
-          ? bulkEventType
-          : undefined,
-      bulk_count: num(d.bulk_count),
-      bulk_free: num(d.bulk_free),
-      models: isStringArray(d.models) ? d.models : undefined,
-    },
-  };
+  const withDefaults = Value.Default(notifyEventSchema, raw);
+  return notifyEventChecker.Check(withDefaults) ? withDefaults : null;
 }
 
 function deliver(evt: NotifyEvent, relay: boolean) {
