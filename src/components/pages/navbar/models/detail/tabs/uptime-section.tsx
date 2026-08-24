@@ -11,7 +11,7 @@ import type { StatusBucket } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { StatCard } from "./stat-card";
 import { formatPct } from "@/lib/utils/format/number";
-import { type StatIntent, successIntent } from "@/lib/utils/format/math";
+import { successIntent } from "@/lib/utils/format/math";
 import { useTranslations } from "next-intl";
 import { StatusBox } from "../shared/status-box";
 

@@ -21,7 +21,7 @@ import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
 import { StatCard } from "./stat-card";
 import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";
-import { type StatIntent, successIntent } from "@/lib/utils/format/math";
+import { successIntent } from "@/lib/utils/format/math";
 import { Icon } from "@/components/ui/icon";
 import { modelSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
