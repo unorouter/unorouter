@@ -2,8 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { analytics } from "@/lib/analytics";
+import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
-import { Component, type PropsWithChildren, type ReactNode } from "react";
+import {
+  Component,
+  type ErrorInfo,
+  type PropsWithChildren,
+  type ReactNode,
+} from "react";
 
 type FallbackProps = { error: Error; reset: () => void };
 
@@ -35,13 +42,37 @@ function SectionFallback(props: FallbackProps) {
 type State = { error: Error | null };
 
 export class SectionBoundary extends Component<
-  PropsWithChildren<{ fallback?: (props: FallbackProps) => ReactNode }>,
+  PropsWithChildren<{
+    fallback?: (props: FallbackProps) => ReactNode;
+    source?: string;
+  }>,
   State
 > {
   state: State = { error: null };
 
   static getDerivedStateFromError(error: Error) {
     return { error };
+  }
+
+  // Without this the fallback renders and the cause is gone: the export shows a
+  // user staring at "failed to load" with nothing recording what threw.
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    const source = this.props.source ?? "section";
+    captureCaughtError({
+      source,
+      error,
+      componentStack: info.componentStack ?? null,
+    });
+    logChatDebug("section.error", {
+      source,
+      name: error.name,
+      message: String(error.message).slice(0, 300),
+    });
+    analytics.chat.sectionFailed({
+      source,
+      name: error.name,
+      message: String(error.message).slice(0, 300),
+    });
   }
 
   reset = () => this.setState({ error: null });

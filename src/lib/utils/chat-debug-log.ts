@@ -244,6 +244,103 @@ export function clearFailedRequestCaptures(): void {
   }
 }
 
+export type CaughtErrorEntry = {
+  ts: number;
+  source: string;
+  name: string;
+  message: string;
+  stack: string;
+  componentStack: string;
+  url: string;
+  count: number;
+};
+
+// Errors persist in FULL, unlike the debug log's 200-entry tail: a render crash
+// is what the export exists to explain, and a chatty session evicts it long
+// before the user gets around to exporting. Repeats collapse onto one entry so a
+// boundary that rethrows on every re-render cannot flush the older ones out.
+const MAX_CAUGHT_ERRORS = 25;
+const ERRORS_STORAGE_KEY = "unorouter-caught-errors";
+
+let caught: CaughtErrorEntry[] | null = null;
+let caughtSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+function getCaught(): CaughtErrorEntry[] {
+  if (caught === null) {
+    if (typeof localStorage === "undefined") return (caught = []);
+    try {
+      const raw = localStorage.getItem(ERRORS_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      caught = Array.isArray(parsed) ? parsed : [];
+    } catch {
+      caught = [];
+    }
+  }
+  return caught;
+}
+
+function saveCaught(): void {
+  if (caughtSaveTimer !== null || typeof localStorage === "undefined") return;
+  caughtSaveTimer = setTimeout(() => {
+    caughtSaveTimer = null;
+    try {
+      localStorage.setItem(ERRORS_STORAGE_KEY, JSON.stringify(getCaught()));
+    } catch {}
+  }, SAVE_DEBOUNCE_MS);
+}
+
+export function captureCaughtError(detail: {
+  source: string;
+  error: unknown;
+  componentStack?: string | null;
+}): void {
+  const err = detail.error;
+  const isError = err instanceof Error;
+  const name = isError ? err.name : typeof err;
+  const message = String(isError ? err.message : err).slice(0, 500);
+  const entries = getCaught();
+  const last = entries[entries.length - 1];
+  if (last && last.source === detail.source && last.message === message) {
+    last.count++;
+    last.ts = Date.now();
+    saveCaught();
+    return;
+  }
+  entries.push({
+    ts: Date.now(),
+    source: detail.source,
+    name,
+    message,
+    stack: (isError ? (err.stack ?? "") : "")
+      .split("\n")
+      .slice(0, 12)
+      .join("\n"),
+    componentStack: (detail.componentStack ?? "")
+      .split("\n")
+      .filter((l) => l.trim())
+      .slice(0, 12)
+      .join("\n"),
+    url: typeof location === "undefined" ? "" : location.pathname,
+    count: 1,
+  });
+  if (entries.length > MAX_CAUGHT_ERRORS)
+    entries.splice(0, entries.length - MAX_CAUGHT_ERRORS);
+  saveCaught();
+}
+
+export function getCaughtErrors(): CaughtErrorEntry[] {
+  return getCaught().slice();
+}
+
+export function clearCaughtErrors(): void {
+  caught = [];
+  if (typeof localStorage !== "undefined") {
+    try {
+      localStorage.removeItem(ERRORS_STORAGE_KEY);
+    } catch {}
+  }
+}
+
 export function clearChatDebugLog(): void {
   buffer = [];
   persistDisabled = false;

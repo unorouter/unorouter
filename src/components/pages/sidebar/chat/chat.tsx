@@ -60,7 +60,7 @@ export function Chat(props: ChatProps) {
     <div className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col">
       <CharacterBackground convId={effectiveId} />
       <ActiveConfigBadge />
-      <SectionBoundary>
+      <SectionBoundary source="chat.thread">
         <Thread />
       </SectionBoundary>
     </div>

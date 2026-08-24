@@ -205,7 +205,9 @@ export function ConversationList() {
     <>
       {searchInput}
       <div className="mt-2">
-        <SectionBoundary>{conversationItems}</SectionBoundary>
+        <SectionBoundary source="chat.conversation_list">
+          {conversationItems}
+        </SectionBoundary>
       </div>
     </>
   );

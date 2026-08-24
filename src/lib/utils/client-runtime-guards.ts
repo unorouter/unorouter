@@ -1,4 +1,4 @@
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
 
 let errorCaptureInstalled = false;
 
@@ -9,6 +9,10 @@ export function installDebugErrorCapture(): void {
   errorCaptureInstalled = true;
 
   window.addEventListener("error", (e) => {
+    captureCaughtError({
+      source: `window.error ${e.filename ?? ""}:${e.lineno ?? 0}`,
+      error: e.error ?? e.message,
+    });
     logChatDebug("window.error", {
       message: String(e.message ?? "").slice(0, 200),
       source: e.filename,
@@ -20,6 +24,7 @@ export function installDebugErrorCapture(): void {
 
   window.addEventListener("unhandledrejection", (e) => {
     const reason = e.reason;
+    captureCaughtError({ source: "window.unhandledrejection", error: reason });
     logChatDebug("window.unhandledrejection", {
       message: String(reason?.message ?? reason ?? "").slice(0, 200),
       stack: reason?.stack ? String(reason.stack).slice(0, 500) : undefined,
