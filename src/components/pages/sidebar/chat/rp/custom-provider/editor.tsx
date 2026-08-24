@@ -83,10 +83,6 @@ export function CustomProviderEditor(props: Props) {
     } catch (e) {
       const status = e instanceof ModelListError ? e.status : undefined;
       const notJson = e instanceof ModelListError ? e.notJson : undefined;
-      // Three distinct failures the old single message conflated: the endpoint
-      // answered with an error code, it answered with a challenge page instead
-      // of JSON, or the browser blocked the response outright (no CORS headers,
-      // which bot protection in front of an endpoint typically causes).
       toast.error(
         status
           ? t("CHAT.CUSTOM_PROVIDER.FETCH_FAILED", { status })

@@ -24,8 +24,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
-// Conversation value wins over the preset, matching how utilityModel resolves in the
-// assembler. A failed read degrades to the free race rather than throwing.
 async function readTitleOverrides(convId: string): Promise<{
   titleModel?: string;
   titleGroup?: string;
@@ -37,8 +35,6 @@ async function readTitleOverrides(convId: string): Promise<{
     const preset = presetId ? await readLocalPreset(presetId) : null;
     const titleModel = conv?.titleModel || preset?.titleModel || "";
     const titlePrompt = conv?.titlePrompt || preset?.titlePrompt || "";
-    // The lane belongs to whichever source supplied the model: a preset's pin is
-    // meaningless once the conversation overrides the model it was chosen for.
     const titleGroup = conv?.titleModel ? "" : preset?.titleGroup || "";
     return {
       ...(titleModel ? { titleModel } : {}),
@@ -79,8 +75,7 @@ export function createThreadListAdapter(
     },
 
     async initialize(localThreadId) {
-      // Keyed by the local thread, never the atom, which the route keeps pointed at the
-      // PREVIOUS conversation.
+      // Never key off the atom: the route keeps it on the PREVIOUS conversation.
       const id = freshConvId(localThreadId);
       await seedConversation({
         convId: id,
@@ -132,8 +127,6 @@ export function createThreadListAdapter(
         const model =
           selected && !isCustomModelId(selected) ? selected : undefined;
         const titleOverrides = await readTitleOverrides(id);
-        // Best-effort: an expired session or a flaky free-model race must not surface as
-        // an unhandled error, so the thread still gets a name.
         let title: string;
         try {
           const res = await rpc.api.ai.chat.title.post({

@@ -8,8 +8,6 @@ import { rpc } from "@/lib/rpc";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-// The personalized markup and its hydration state travel together, so shell
-// components never race the auth cache (the source of earlier mismatches).
 export async function NavAuth() {
   const t = await getTranslations();
   const queryClient = getQueryClient();

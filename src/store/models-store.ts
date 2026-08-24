@@ -33,9 +33,7 @@ export type ModelsStoreState = {
   selectedVendors: string[];
   selectedModelName: string | null;
   viewMode: ViewMode;
-  // Ordered: index 0 is primary, later keys break its ties, and the UI numbers
-  // them from this order. Empty falls back to sortOrder, which only still exists
-  // because shared links carry ?order=.
+  // Index 0 is primary, later keys break its ties; empty falls back to sortOrder.
   sortKeys: SortOrder[];
   sortOrder: SortOrder;
   collapsedVendors: string[];
@@ -84,8 +82,6 @@ export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
 
 const arr = (val: unknown): string[] => (Array.isArray(val) ? val : []);
 
-// normalize also repairs WRONG-TYPED cookie values (schema drift), not just
-// missing ones; `?? INITIAL` alone would pass garbage through.
 const field = <K extends keyof ModelsStoreState>(
   key: K,
   normalize?: (v: ModelsStoreState[K]) => ModelsStoreState[K],
@@ -99,8 +95,6 @@ export const viewModeAtom = field("viewMode", (v) =>
   v === "table" || v === "list" ? v : "table",
 );
 export const sortOrderAtom = field("sortOrder");
-// Cookie-persisted and URL-seeded, so a stale or hand-edited key would otherwise
-// reach the comparator and silently sort by nothing.
 export const sortKeysAtom = field("sortKeys", (v) =>
   Array.isArray(v) ? v.filter((k) => SORT_VALUES.includes(k)) : [],
 );
@@ -135,7 +129,6 @@ export const toggleVendorCollapsedAtom = atom(
   },
 );
 
-// collapsedVendors and selectedModelName survive: UI state, not filters.
 export const clearFiltersAtom = atom(null, (get, set) => {
   const s = get(modelsStoreAtom);
   set(modelsStoreAtom, {
@@ -145,8 +138,6 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   });
 });
 
-// Content filters only: sort and view-mode are excluded because they hide no rows.
-// Drives the reset badge, so mobile users notice why the list looks short.
 export const activeFilterCountAtom = atom((get) => {
   let n = 0;
   if (get(searchAtom).trim().length > 0) n++;

@@ -18,8 +18,7 @@ export function getPostHogServer() {
   return posthogInstance;
 }
 
-// Never USER_ID_COOKIE: that one is an iron-session seal, so it yields a
-// per-session blob rather than a stable id.
+// Never USER_ID_COOKIE: it is an iron-session seal, so it is not a stable id.
 export function extractDistinctId(
   cookieHeader: string | undefined,
 ): string | undefined {

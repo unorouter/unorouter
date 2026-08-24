@@ -18,8 +18,6 @@ export type ReconcileImportResult = {
 
 const INSERT_BATCH = 200;
 
-// local_migrations is excluded: the replacement keeps the migration cursor
-// runMigrations gave it.
 const GRAFT_FROM_LIVE = LOCAL_ONLY_TABLES.filter(
   (t) => t !== "local_migrations",
 );
@@ -123,7 +121,7 @@ async function readBytes(sql: SQLocalDrizzle): Promise<ArrayBuffer> {
   return file.arrayBuffer();
 }
 
-// Drops only a legacy plain file at the OPFS root. Pool contents need
+// Drops only a legacy plain file at the OPFS root; pool contents need
 // deleteDatabaseFile as well, else a scratch pool keeps a full-size copy.
 async function removeOpfsFile(path: string): Promise<void> {
   try {
@@ -154,9 +152,8 @@ async function cleanup(
       error: String(err).slice(0, 200),
     }),
   );
-  // destroy() leaves the worker running and with it the pool's sync access
-  // handles. An import spins up ~10, so without terminate they survive the page
-  // and the next open fails NoModificationAllowedError.
+  // destroy() leaves the worker (and the pool's sync access handles) alive, so
+  // without terminate the next open fails NoModificationAllowedError.
   terminateSql(handle);
   if (removePath) await removeOpfsFile(removePath);
 }
@@ -189,7 +186,7 @@ export async function reconcileImport(
 
   logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
   try {
-    // Phase 0: snapshot live to backup (durable rollback token).
+    // Phase 0: snapshot live to backup.
     {
       const src = newSql(livePath);
       let liveBytes: ArrayBuffer;
@@ -211,12 +208,12 @@ export async function reconcileImport(
       });
     }
 
-    // Phase 1: forward-migrate the uploaded dump into the work db.
+    // Phase 1: forward-migrate the dump.
     work = newSql(workPath);
     await work.overwriteDatabaseFile(buffer);
     await runMigrations(work);
 
-    // Phase 2: build the replacement in a detached `final` db.
+    // Phase 2: build the replacement detached.
     final = newSql(finalPath);
     await runMigrations(final);
     await final.sql`PRAGMA foreign_keys = OFF`;
@@ -276,8 +273,8 @@ export async function reconcileImport(
     await cleanup(final, "final", finalPath);
     await cleanup(liveSrc, "liveSrc", null);
     await cleanup(live, "live", null);
-    // A failed rollback leaves live half-written and this copy the only intact
-    // one, which recoverPendingImport finds by its presence.
+    // A failed rollback leaves this copy the only intact one; its presence is
+    // what recoverPendingImport keys on.
     if (!swapped || rolledBack) await deleteBackup(backupPath);
   }
 }
@@ -359,8 +356,7 @@ function backupImportPath(appName: string): string {
   return `${appName}-import-backup.sqlite3`;
 }
 
-// A backup file on disk means the previous import did not finish cleanly.
-// Must run BEFORE openMigratedSql.
+// MUST run BEFORE openMigratedSql.
 export async function recoverPendingImport(
   livePath: string,
   appName: string,

@@ -1,10 +1,6 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord } from "@/lib/utils/base";
 
-// Cache Storage plus the worker registration, and NOTHING else. A stale service
-// worker can serve a dead page whose only known cure was an incognito window, but
-// the usual advice ("clear site data") also destroys the OPFS chat database, which
-// is the sole copy of a user's conversations. Neither of these touches OPFS.
 export async function clearServiceWorkerCaches() {
   logChatDebug("recovery.clear_sw_caches");
   try {
@@ -25,6 +21,8 @@ export async function clearServiceWorkerCaches() {
   }
 }
 
+// Wipes OPFS, DESTROYING the local chat DB, which is the user's only copy. For a
+// caching problem use clearServiceWorkerCaches instead.
 export async function clearAllClientStorage() {
   logChatDebug("recovery.clear_storage");
   try {
@@ -83,8 +81,6 @@ export async function clearAllClientStorage() {
   }
 }
 
-// A code-split chunk failed to load: stale HTML from a previous build references a chunk the current
-// build replaced. Matches Turbopack/webpack ChunkLoadError + the dynamic-import fetch failure variants.
 export function isChunkLoadError(error: unknown): boolean {
   if (!isRecord(error)) return false;
   const name = typeof error.name === "string" ? error.name : "";

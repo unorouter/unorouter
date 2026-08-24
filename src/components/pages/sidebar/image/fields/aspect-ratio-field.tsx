@@ -14,8 +14,6 @@ import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { patchParams } from "../form/logic/form-helpers";
 
-// Connected wrapper: subscribes to its own params so size changes do not re-render the
-// form root.
 export function AspectRatioSection() {
   const form = useFormContext<ImageFormValues>();
   const width =
@@ -55,9 +53,7 @@ const PRESETS: ReadonlyArray<Preset> = [
   { id: "custom", width: 0, height: 0, i18nKey: "IMAGE.ASPECT_CUSTOM" },
 ];
 
-// Clamping on every keystroke makes the box uneditable: typing "5" toward 512 is rewritten to
-// the minimum before the next key lands, and an empty box (mid-retype) is rejected outright.
-// Hold the raw text while the user is typing and only clamp when they commit.
+// Clamping per keystroke makes the box uneditable: "5" toward 512 is rewritten before key 2.
 function DimensionInput(props: {
   label: string;
   value: number;
@@ -140,7 +136,6 @@ export function AspectRatioField(props: {
           <button
             key={p.id}
             type="button"
-            // "Custom" lights up on its own when no preset matches; inert by markup.
             disabled={props.disabled}
             aria-pressed={activeId === p.id}
             onClick={() => onPickPreset(p)}

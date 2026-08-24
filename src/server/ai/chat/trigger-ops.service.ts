@@ -7,13 +7,8 @@ import { generateText } from "ai";
 
 const TRIGGER_LLM_MAX_TOKENS = 1024;
 
-// THROWS on failure. This is shared by the Lua trigger VM and the illustrator,
-// and they need opposite things from an upstream rejection: the VM wants a
-// string a script can inspect (it formats its own "Error: ..." around this
-// call), while the illustrator treats whatever comes back as the image prompt.
-// Returning the message as text made the illustrator generate from it, so a
-// model that rejected the request put "Error: Invalid prompt: System messages
-// are not allowed..." into the review dialog as if the model had written it.
+// Must THROW, never return the error as text: the illustrator treats whatever
+// comes back as the image prompt and would generate from the rejection message.
 export async function runTriggerLLM(
   apiKey: string,
   model: string,

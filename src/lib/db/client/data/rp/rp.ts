@@ -52,10 +52,6 @@ export const readLocalLorebooks = () => lorebookStore.list();
 export const readLocalPresets = () => presetStore.list();
 export const readLocalPreset = (id: string) => presetStore.get(id);
 
-// Names, not ids: a card is a BUNDLE, so a list row showing only its own name
-// says nothing about which one to apply. Three queries for the whole list rather
-// than per-card joins, since the counts are small and the alternative is a
-// waterfall.
 export async function readLocalCards() {
   const local = await getLocalDb();
   if (!local) return [];
@@ -157,8 +153,7 @@ export async function upsertLocalLorebookBundle(bundle: {
     bundle.entries,
     (row) => ({
       id: row.id,
-      // Forced to the bundle's book: an imported entry can carry a foreign
-      // lorebook_id, which would attach it to the wrong book.
+      // Forced: an imported entry can carry a foreign lorebook_id.
       lorebookId: bundle.lorebook.id,
       comment: typeof row.comment === "string" ? row.comment : null,
       keys: isStringArray(row.keys) ? row.keys : [],

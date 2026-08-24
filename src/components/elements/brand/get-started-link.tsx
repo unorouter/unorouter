@@ -16,9 +16,7 @@ export function GetStartedLink(props: {
 }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  // Gate on hydrated: the first client render must match the server-rendered
-  // logged-out shell (the auth cache may already be filled by NavAuth when
-  // this hydrates).
+  // Gate on hydrated or the first client render mismatches the logged-out shell.
   const hydrated = useHydrated();
   const label = t(props.translationKey ?? "HOME.HERO.CTA_PRIMARY");
 

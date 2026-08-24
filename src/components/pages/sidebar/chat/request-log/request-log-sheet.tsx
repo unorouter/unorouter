@@ -37,9 +37,8 @@ export function RequestLogSheet(props: {
 
   const row = log.data;
 
-  // Retention empties the heavy columns on older rows rather than deleting them,
-  // so the sheet still opens but every payload tab renders as `[]`. Say so once
-  // instead of showing an empty array that reads as a failed capture.
+  // Retention EMPTIES the heavy columns rather than deleting the row, so an old
+  // log opens with every payload as `[]` and no other signal that it was trimmed.
   const trimmed =
     !!row &&
     (row.finalMessages == null ||

@@ -22,18 +22,13 @@ type SnapshotRestorePayload = {
   tab?: GenerateTab;
   subPill?: Img2ImgSubPill;
   initImageUrl?: string;
-  /** Merged over the snapshot's own params, so a quick action can set the knobs it implies. */
   paramOverrides?: Partial<ImageParams>;
 };
 
-// One-shot mailbox: the form consumes this and clears it, so a remount cannot re-apply a
-// stale restore.
 export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
   null,
 );
 
-// Persisted because submitting remounts the form: losing this leaves the Overwrite
-// button gone while the preset's values are still in effect.
 export const selectedPresetIdAtom = localAtom<string>(
   "image-selected-preset-v1",
   "",
@@ -49,9 +44,7 @@ export type GenerateDraft = {
   extraParams: ImageFormUi;
 };
 
-// getOnInit is safe here only because the page is client-only and these are
-// localStorage, not the cookie-backed atoms whose deferred load avoids the SSR
-// mismatch. Without it the first render misses the draft and the form resets.
+// localStorage + client-only page, so getOnInit cannot cause the SSR mismatch the cookie atoms defer for.
 function localAtom<T>(key: string, initial: T) {
   return atomWithStorage<T>(key, initial, undefined, { getOnInit: true });
 }

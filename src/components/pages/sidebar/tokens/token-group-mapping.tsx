@@ -26,7 +26,6 @@ import type { Control } from "react-hook-form";
 import type { TokenFormSchema } from "@/lib/validation/token";
 
 const GROUP_SEARCH_THRESHOLD = 8;
-// The usable set holds thousands of per-channel groups; window the model list.
 const MODEL_ROW_PX = 33;
 const LIST_VIEWPORT_PX = 288;
 
@@ -45,10 +44,8 @@ type GroupOption = {
   ratio: number | null;
 };
 
-// Group descs are emitted by the channel sync as "model via provider (vendor)".
 const DESC_RE = /^(.+) via (.+) \((.+)\)$/;
 
-// model name -> its pinnable groups, cheapest first.
 export function buildModelGroupOptions(
   groups: Record<string, UserGroupInfo>,
 ): Map<string, GroupOption[]> {
@@ -195,8 +192,6 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("Text");
   const [openModel, setOpenModel] = useState<string | null>(null);
-  // Controlled so opening re-renders and the virtualizer picks up the freshly
-  // mounted scroll element (an uncontrolled popover would leave it null).
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const modelGroups = buildModelGroupOptions(props.groups);
@@ -221,7 +216,6 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
   const activeTag = tags.includes(typeFilter) ? typeFilter : (tags[0] ?? null);
 
-  // The search spans ALL types; the tag tabs only scope the browse view.
   const visibleModels = overridableModels
     .filter((m) =>
       query ? m.model_name.toLowerCase().includes(query) : m.tag === activeTag,

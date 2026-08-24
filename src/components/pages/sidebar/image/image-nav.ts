@@ -27,11 +27,6 @@ export const IMAGE_URL_PARSERS = {
     .withOptions({ history: "replace", clearOnDefault: true }),
 };
 
-/**
- * The URL is the single owner of image navigation state: the session id lives in the
- * route path (/image/[id]) and snapshot/tab/subPill in query params. Everything reads
- * and writes through here; there are no mirrored atoms.
- */
 export function useImageNav() {
   const params = useParams<{ id?: string }>();
   const [urlState, setUrlState] = useQueryStates(IMAGE_URL_PARSERS);
@@ -41,7 +36,6 @@ export function useImageNav() {
     snapshotId: urlState.snap,
     tab: urlState.tab,
     subPill: urlState.mode,
-    /** Snapshot swaps within a session; pushes history so back walks results. */
     showSnapshot: (snap: string) => void setUrlState({ snap }),
     replaceSnapshot: (snap: string) =>
       void setUrlState({ snap }, { history: "replace" }),

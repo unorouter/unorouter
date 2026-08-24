@@ -33,10 +33,6 @@ const LEGAL_LINKS = [
   { href: "/refund", key: msg("FOOTER.REFUND") },
 ] as const;
 
-// width is the intrinsic ratio hint (badges render at h-6). liveFrom is a scheduled
-// listing launch, shown a day early so the directory can verify before going live.
-// lightBg puts a chip behind dark-on-transparent artwork rather than swapping the src, so
-// the bytes their verifier fetches stay identical.
 const FOOTER_BADGES: {
   href: string;
   src: string;
@@ -298,7 +294,7 @@ const FOOTER_BADGES: {
   },
 ] as const;
 
-// Directories that require a plain text backlink and delist us if it is removed.
+// These directories delist us when their plain text backlink is removed.
 const FOOTER_TEXT_LINKS = [
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
   { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
@@ -342,7 +338,6 @@ export function Footer() {
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
 
-  // Build date, not the clock, so server and client agree on what is visible.
   const visibleBadges = FOOTER_BADGES.filter(
     (badge) =>
       !("liveFrom" in badge) ||
@@ -494,11 +489,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* EVERY badge and text link must stay in the server-rendered DOM: directories
-            verify by fetching this HTML and grepping for their own link, and several
-            (huzzler, dododirectory, saasbison) auto-delist when it is missing. Hence a
-            DUPLICATED track for the seam rather than virtualisation, with the copy
-            aria-hidden + inert. */}
+        {/* Every badge and text link must stay in the server-rendered DOM: huzzler,
+            dododirectory and saasbison auto-delist when their link is missing. */}
         <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
           {badgeRows.map((row, rowIndex) => (
             <div

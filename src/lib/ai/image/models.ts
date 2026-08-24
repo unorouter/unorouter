@@ -1,9 +1,6 @@
 import type { ImageParams, PricingCatalogModel } from "@/openapi";
 import type { ImageModelId } from "@/lib/validation/image";
 
-// The catalog row as the gateway sends it. The extras below exist only for a
-// user-picked checkpoint, resolved in the form at generation time, never by the
-// catalog.
 export type ImageModelDescriptor = PricingCatalogModel & {
   model_name: ImageModelId;
   supportsEmbedding?: boolean;
@@ -36,10 +33,8 @@ export function defaultParams(m: ImageModelDescriptor) {
   return out;
 }
 
-// An unresolved id borrows NOTHING but the shape. Inheriting another model's
-// capability flags renders that model's controls under a different name: an
-// unresolved flux once showed the SDXL sampler and hid its own reference
-// uploader, while the request still ran flux.
+// An unresolved id must borrow NOTHING but the shape: inherited capability flags
+// render another model's controls while the request runs this one.
 export function getModelDescriptor(id: ImageModelId): ImageModelDescriptor {
   return {
     model_name: id,

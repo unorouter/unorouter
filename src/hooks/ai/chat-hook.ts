@@ -250,8 +250,6 @@ export function useTaskStatusQuery(
     {
       enabled: enabled && !!taskId,
       retry: false,
-      // FAILURE is the one terminal state that never finalizes away the card,
-      // so it is the only status that stops the poll.
       refetchInterval: (query) =>
         query.state.data?.status === "FAILURE" ? false : pollInterval,
       refetchIntervalInBackground: true,
@@ -408,24 +406,16 @@ export function useDeleteMessageMutation() {
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
       getThreadRuntime()?.deleteMessage(args.msgId);
-      // deleteMessage only prunes the runtime repository; the render source and
-      // the transport's history is the useChat array. Both must be pruned BEFORE
-      // the await: a failed-run node can have no DB row and the SQLocal splice
-      // can throw on iOS, leaving a deleted message on screen and in history.
+      // Prune the live array BEFORE the await: the splice can throw and leave a deleted message on screen and in request history.
       setLiveMessages((msgs) =>
         (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
       );
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(args.convId, args.msgId);
-      // Rebuild from the DB so a branch re-walk (siblings promoted by the splice)
-      // is reflected. Best-effort: the prune above already removed the node, so a
-      // throwing reader must not report a succeeded delete as failed.
       try {
         await reloadLiveThreadFromDb(args.convId);
-      } catch {
-        // Already pruned from the live array; the next mount reads the DB.
-      }
+      } catch {}
       return { id: args.msgId };
     },
     onError: (e) => handleError(e, t),

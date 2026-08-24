@@ -50,9 +50,6 @@ import { UptimeSection } from "./tabs/uptime-section";
 import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
-  // The list row, which carries only what a card renders. Everything below the
-  // header needs the full record, so the sheet renders off `detailQuery` and
-  // uses this for the name it fetches by.
   model: { model_name: string } | null;
   endpointMap: Record<string, EndpointInfo>;
   open: boolean;
@@ -83,11 +80,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
   const locale = useLocale();
   const setChatModel = useSetAtom(chatModelAtom);
-  // The list carries the lean model (truncated description, no parameter
-  // defaults); the full record loads on open and swaps in reactively.
   const detailQuery = useModelDetailQuery(props.model?.model_name ?? null);
-  // The detail route always returns metadata; defaulting once here keeps every
-  // child prop typed instead of threading a fallback through each one.
   const detail = detailQuery.data;
   const model = detail && {
     ...detail,
@@ -269,7 +262,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             />
           )}
 
-          {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
           {model.enable_groups.length > 0 && !model.is_tiered && (
             <GroupPricingSection
               model={model}

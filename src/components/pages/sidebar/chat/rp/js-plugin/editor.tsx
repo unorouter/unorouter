@@ -49,9 +49,6 @@ export function JsPluginEditor(props: Props) {
     props.onDone();
   };
 
-  // Authors paste scripts written for either platform; guessing the kind from
-  // the source spares them a setting they would have to understand first. The
-  // select stays editable for the cases the guess gets wrong.
   const handleScriptPaste = (value: string) => {
     if (!isNew || !value.trim()) return;
     form.setValue("kind", detectPluginKind(value), { shouldDirty: true });

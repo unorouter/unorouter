@@ -8,12 +8,6 @@ type PresetTarget = {
   changeModel: (modelId: string) => void;
 };
 
-/**
- * Applies a saved setup. The positive prompt is never applied (it is what the user is
- * actively writing); the negative prompt is the boilerplate a preset exists to carry.
- * The ui write is a deliberate bulk apply (reset-like): a preset with its own checkpoint
- * replaces the whole ui, one without must keep the current checkpoint fields.
- */
 export function applyPreset(target: PresetTarget, preset: ImagePreset): void {
   const form = target.form;
   target.adoptModelTab(preset.model);

@@ -33,12 +33,10 @@ type PresetValues = {
 };
 
 type Props = {
-  /** Read at SAVE time, so the bar does not subscribe to every form field. */
   getCurrent: () => PresetValues;
   onApply: (preset: ImagePreset) => void;
 };
 
-/** The positive prompt is deliberately excluded; the negative prompt is not. */
 export function PresetBar(props: Props) {
   const t = useTranslations();
   const presetsQuery = useImagePresetsQuery();
@@ -51,7 +49,6 @@ export function PresetBar(props: Props) {
   const presets = presetsQuery.data ?? [];
   const selectedPreset = presets.find((p) => p.id === selectedId) ?? null;
 
-  // Saving is keyed by NAME (the data layer overwrites a same-named row).
   const onOverwrite = async () => {
     if (!selectedPreset) return;
     const ok = await confirm({
@@ -111,7 +108,6 @@ export function PresetBar(props: Props) {
         <Select
           value={selectedId}
           onValueChange={(id) => {
-            // Clearing only forgets the equipped preset; applied values stay put.
             if (id === NONE_ID) {
               setSelectedId("");
               return;
@@ -128,7 +124,6 @@ export function PresetBar(props: Props) {
             aria-label={t("IMAGE.PRESET_LABEL")}
             className="min-w-0 flex-1"
           >
-            {/* From the row, not SelectValue: items only mount while the list is open. */}
             {selectedPreset ? (
               <span className="truncate">{selectedPreset.name}</span>
             ) : (

@@ -46,9 +46,6 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
 
-// Same counter the lorebook budget uses at assembly, so the number is comparable
-// to the tokenBudget setting. Subscribes to its own field: the whole form must not
-// re-render per keystroke in the content box.
 function EntryTokenEstimate(props: {
   control: Control<LorebookEntryFormValues>;
 }) {
@@ -187,9 +184,6 @@ export function LorebookEntryForm(props: {
             <EntryTokenEstimate control={form.control} />
           </div>
 
-          {/* Headline toggle (RisuAI mental model): an entry is either
-              always-active or key-triggered. When always-active, the
-              trigger fields are hidden because they never apply. */}
           <div className="flex flex-col gap-1">
             <MyFormSwitch
               control={form.control}
@@ -203,8 +197,7 @@ export function LorebookEntryForm(props: {
 
           {!alwaysActive && (
             <>
-              {/* DB column + JSON field stay named `keys` for SillyTavern/
-                  RisuAI import-export compat. Label is "Activation keys". */}
+              {/* `keys` is the SillyTavern/RisuAI import-export field name; do not rename. */}
               <div className="flex flex-col gap-1">
                 <MyFormInput
                   control={form.control}

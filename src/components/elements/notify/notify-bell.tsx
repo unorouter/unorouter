@@ -81,9 +81,7 @@ export function NotifyBell() {
     );
   };
 
-  // Free-text watch: any model name is accepted, including models currently
-  // offline or churned out of the catalog (the point of a comeback alert).
-  // One '*' wildcard covers a family (glm-*); server enforces the same rules.
+  // The server enforces these same rules; keep them in step.
   const raw = query.trim();
   const rawValid =
     /^[A-Za-z0-9:._/*-]{1,150}$/.test(raw) &&
@@ -110,10 +108,6 @@ export function NotifyBell() {
     try {
       const sub = await subscribePush();
       if (pushAvailableHere()) setPermission(Notification.permission);
-      // Granted permission without a push subscription still counts as
-      // enabled: OS notifications for open tabs need only the permission (no
-      // service worker registered on the dev server, so subscribePush yields
-      // null there).
       if (!sub && Notification.permission !== "granted") return;
       setPushEnabled(true);
       if (sub && activeTopics.length > 0) {

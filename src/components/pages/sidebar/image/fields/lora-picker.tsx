@@ -11,17 +11,13 @@ import { CatalogChainPicker } from "./catalog-chain-picker";
 export type { LoraEntry };
 
 type Props = {
-  /** The active passthrough checkpoint's Runware architecture tag. The provider rejects a
-   *  LoRA whose architecture differs from the checkpoint's. */
+  /** The provider rejects a LoRA whose architecture differs from the checkpoint's. */
   checkpointArchitecture?: string | null;
   value: LoraEntry[];
   onChange: (next: LoraEntry[]) => void;
-  /** Appends the LoRA's trigger words to the prompt on add: a gated LoRA does nothing
-   *  without them. */
   onAppendPrompt?: (words: string) => void;
 };
 
-// A pasted Civitai link/id names ONE model and resolves; anything else searches the catalog.
 function isCivitaiReference(input: string): boolean {
   const trimmed = input.trim();
   if (!trimmed) return false;
@@ -35,8 +31,8 @@ function isCivitaiReference(input: string): boolean {
 export function LoraPicker(props: Props) {
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
-  // From the DEBOUNCED value: a half-typed url is briefly a bare id, and the live value
-  // flip-flopped the panel between catalog and resolver per keystroke.
+  // DEBOUNCED, not live: a half-typed url is briefly a bare id, flip-flopping the
+  // panel between catalog and resolver per keystroke.
   const isReference = isCivitaiReference(debounced);
 
   useEffect(() => {
@@ -44,7 +40,6 @@ export function LoraPicker(props: Props) {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // A Civitai LoRA is a family whose weights differ between versions, so the user picks.
   const versions = useCivitaiLoraVersionsQuery(
     isReference ? debounced : undefined,
   );
@@ -64,7 +59,6 @@ export function LoraPicker(props: Props) {
       tags: [],
       downloadCount: null,
     }))
-    // Compatible architectures first; the row shows each one's.
     .sort(
       (a, b) =>
         Number(compatible(b.architecture)) - Number(compatible(a.architecture)),
@@ -85,7 +79,7 @@ export function LoraPicker(props: Props) {
       emptyKey="IMAGE.LORAS_EMPTY"
       items={isReference ? resolved : (catalog.data?.items ?? [])}
       // isFetching, not isLoading: placeholder data keeps isLoading false during the
-      // 8-22s search, and stale rows with no pending marker look like a dead search box.
+      // 8-22s search.
       isFetching={isReference ? versions.isFetching : catalog.isFetching}
       isLoading={isReference ? versions.isLoading : catalog.isLoading}
       value={props.value}

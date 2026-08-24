@@ -2,9 +2,8 @@
 // Copyright (C) 2024 Kwaroran, GPL-3.0. Combined into this AGPL-3.0 work under
 // GPLv3 section 13.
 //
-// SECURITY: guest JS gets `allow-scripts` only (opaque origin, no DOM/cookie/OPFS
-// reach) under a CSP with `connect-src 'none'`, so postMessage into the host api
-// object is a plugin's only channel out.
+// SECURITY: guest JS gets `allow-scripts` only, under a CSP with
+// `connect-src 'none'`. postMessage is a plugin's only channel out.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -36,8 +35,7 @@ type AbortSignalRef = {
   aborted: boolean;
 };
 
-// Marked objects go to the guest BY REFERENCE (a proxy that RPCs per method
-// call) instead of being cloned.
+// Marked objects go to the guest BY REFERENCE, not cloned.
 export const REMOTE_REQUIRED = "REMOTE_REQUIRED";
 
 const GUEST_BRIDGE_SCRIPT = `
@@ -377,8 +375,8 @@ await (async function() {
 })();
 `;
 
-// User code is spliced into a <script> block, so a literal closing tag would end
-// the element early and run the rest as markup outside the nonce.
+// SECURITY: a literal closing tag would end the <script> early and run the rest
+// as markup outside the nonce.
 function escapeForScriptBlock(code: string): string {
   return code.replace(/<\/(script)/gi, "<\\/$1");
 }
@@ -387,10 +385,8 @@ export class SandboxHost {
   private iframe: HTMLIFrameElement | null = null;
   private apiFactory: Record<string, unknown>;
   private nonce = crypto.randomUUID();
-  // 'unsafe-eval' is REQUIRED, not an oversight: evaluating guest strings IS this
-  // frame's purpose, and without it every plugin fails CSP and the feature is
-  // inert. It does not widen the boundary: opaque origin and connect-src 'none'
-  // still deny all network.
+  // 'unsafe-eval' is REQUIRED, not an oversight: without it every plugin fails
+  // CSP. `connect-src 'none'` is what denies network.
   private csp = `connect-src 'none'; script-src 'nonce-${this.nonce}' 'unsafe-eval' 'wasm-unsafe-eval'; frame-src 'none'; object-src 'none'; style-src * 'unsafe-inline'; default-src 'none'; img-src * data: blob:; font-src * data: blob:; media-src * data: blob:; base-uri 'none';`;
 
   private instanceRegistry = new Map<string, any>();
@@ -402,8 +398,8 @@ export class SandboxHost {
     { resolve: (v: unknown) => void; reject: (e: unknown) => void }
   >();
 
-  // MessagePort has no 'close' event, so without an explicit teardown hook the
-  // far side of a live stream waits forever once the iframe is gone.
+  // MessagePort has no 'close' event, so without explicit teardown the far side
+  // of a live stream waits forever once the iframe is gone.
   private activeStreamCleanups = new Set<() => void>();
 
   constructor(apiFactory: Record<string, unknown>) {
@@ -499,8 +495,7 @@ export class SandboxHost {
             const reqId = "cb_req_" + Math.random().toString(36).substring(2);
             this.pendingCallbacks.set(reqId, { resolve, reject });
 
-            // AbortSignal is not structured-cloneable; send a ref and forward
-            // the abort event as its own message.
+            // AbortSignal is not structured-cloneable.
             const sanitizedArgs = innerArgs.map((inner) => {
               if (!(inner instanceof AbortSignal)) return inner;
               const abortId =
@@ -723,7 +718,7 @@ export class SandboxHost {
       try {
         cleanup();
       } catch {
-        // a failed cleanup must not stop the rest
+        // noop
       }
     }
     this.activeStreamCleanups.clear();
@@ -797,7 +792,7 @@ export class SandboxHost {
           try {
             cleanup();
           } catch {
-            // a failed rollback must not mask the original error
+            // noop
           }
         }
         streamCleanups = [];
@@ -861,8 +856,8 @@ export class SandboxHost {
     this.messageHandlerRef = messageHandler;
     window.addEventListener("message", this.messageHandlerRef);
 
-    // The first guest statement drops the meta CSP: the policy stays in force
-    // once applied, and removing the tag denies plugin code the nonce.
+    // The meta CSP stays in force once applied; the guest removes the tag so
+    // plugin code cannot read the nonce.
     frame.srcdoc = `<!DOCTYPE html>
 <html>
 <head>

@@ -10,9 +10,8 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { StatusBucket } from "@/lib/types";
 
-// select is passed by reference, never as an inline arrow, in this file and
-// below: react-query memoizes on (data, select) identity, so a fresh closure per
-// render re-decodes all ~36k buckets on every keystroke in the page's search box.
+// Every `select` here must stay a module-level reference: an inline arrow re-decodes
+// all ~36k buckets on every render.
 export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
   return useElysiaQuery(
     queryKeys.modelStatusPage(bucket, hours),
@@ -63,9 +62,6 @@ function toStatusMap(
   return map;
 }
 
-// Shares useStatusComponents' query key deliberately: one /components fetch, no
-// bar series, keyed by model name so a drawer row gets a reliability dot without
-// a per-row query.
 export function useModelStatusMap(): ReadonlyMap<string, ModelStatusInfo> {
   const query = useElysiaQuery(
     queryKeys.modelStatusComponents(),

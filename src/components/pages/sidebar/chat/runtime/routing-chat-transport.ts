@@ -55,7 +55,7 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
 // toUIMessageStream flattens the stream error to a STRING, so the detail ships as a
-// JSON envelope the card parses back. Plain strings without the marker render as-is.
+// JSON envelope the card parses back.
 function streamErrorText(error: unknown): string {
   const detail = extractErrorDetail(error);
   return JSON.stringify({
@@ -67,8 +67,7 @@ function streamErrorText(error: unknown): string {
   });
 }
 
-// A prefill ending inside an open <think> tag makes the model stream reasoning as
-// plain content with no opening tag in the RESPONSE, so the extractor must start in
+// Reasoning then streams with NO opening tag, so the extractor must start in
 // reasoning mode or the chain of thought lands in the visible reply.
 function prefillOpensThink(
   messages: ReadonlyArray<{
@@ -93,9 +92,6 @@ function isMediaModel(model: string): boolean {
   return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
-// A regenerate slices the captured array to the parent while the DB still holds the
-// sliced reply as active, so the DB base is TRIMMED at the deepest captured id:
-// everything past it was deliberately cut by the caller.
 async function mergeDbHistory(
   convId: string | null,
   captured: ChatUIMessage[],
@@ -109,21 +105,18 @@ async function mergeDbHistory(
     dbBranch: branch.length,
     dbTotal: db.allIds.size,
     captured: captured.length,
-    // Against the ACTIVE row count: swipes and alternate greetings leave inactive
-    // siblings, so comparing to the total flags healthy conversations.
     walkTruncated: db.activeCount > branch.length + 1,
   });
   if (branch.length === 0) return captured;
   const capturedIds = new Set(captured.map((m) => m.id));
   let trimEnd = branch.length;
   while (trimEnd > 0 && !capturedIds.has(branch[trimEnd - 1].id)) trimEnd--;
-  // No shared id with the screen while the screen shows persisted rows means the
-  // branch flags are corrupt (a mass-deactivated root does this): trust the render.
+  // No shared id while the screen shows persisted rows means the branch flags are
+  // corrupt (a mass-deactivated root): trust the render.
   if (trimEnd === 0 && captured.some((m) => db.allIds.has(m.id))) {
     logChatDebug("send.history_walk_mismatch", { convId });
     return captured;
   }
-  // Fresh thread pre-append: keep the whole branch so the seeded greeting is included.
   const base = trimEnd === 0 ? branch : branch.slice(0, trimEnd);
   const baseIds = new Set(base.map((m) => m.id));
   // Only the tail BEYOND the deepest persisted match may join: an earlier unmatched
@@ -167,11 +160,7 @@ async function runClientStream(args: {
     args.options.abortSignal,
   );
 
-  // Read once and reused for the X-Group header below, so the debug log records
-  // exactly the group that ships.
   const group = chatStore.get(chatGroupAtom);
-  // Only the keys ship, never the pinned values: they separate a cleared pin from
-  // one held under a key that no longer matches the active model.
   const pinnedModels = group
     ? null
     : Object.keys(chatStore.get(groupByModelAtom));
@@ -259,8 +248,8 @@ async function runClientStream(args: {
     });
   }
 
-  // The sdk builds the wire body itself, so the billing-group pin cannot ride a body
-  // field and must travel as X-Group.
+  // The sdk builds the wire body itself, so the billing-group pin cannot ride a
+  // body field and ships as X-Group.
   const sdk = createOpenAICompatible({
     name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
@@ -281,7 +270,7 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      // Last entry wraps the model first: prefillThinkMiddleware must see the raw
+      // Last entry wraps the model FIRST: prefillThinkMiddleware must see the raw
       // upstream stream and the tag extractor post-process its output.
       middleware: [
         extractReasoningMiddleware({ tagName: "think" }),
@@ -293,8 +282,8 @@ async function runClientStream(args: {
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
     maxRetries: 0,
-    // Streaming errors arrive here OFF the send-promise, so useChat's onError never
-    // sees them and this is the only place the real cause can be captured.
+    // Streaming errors arrive OFF the send-promise: useChat's onError never sees
+    // them, so this is the only place the real cause can be captured.
     onError: (event) => {
       const detail = extractErrorDetail(event.error);
       const isEmptyStream = detail.message
@@ -319,8 +308,7 @@ async function runClientStream(args: {
   });
 
   // ai-sdk rejects these terminal promises with AI_NoOutputGeneratedError on a
-  // zero-content close, and nothing awaits them, so unmarked they land as UNHANDLED
-  // rejections that bypass onError and posthog's before_send drop.
+  // zero-content close; unawaited they land as UNHANDLED rejections.
   void Promise.resolve(result.text).catch(() => {});
   void Promise.resolve(result.finishReason).catch(() => {});
 
@@ -343,9 +331,8 @@ async function runClientStream(args: {
     },
   });
 
-  // ALWAYS wrap, even with no start alerts: returning the raw stream leaks the
-  // zero-content AI_NoOutputGeneratedError as an unhandled rejection
-  // (vercel/ai#6879), while writer.merge funnels it into this stream's onError.
+  // ALWAYS wrap, even with no start alerts: the raw stream leaks the zero-content
+  // AI_NoOutputGeneratedError as an unhandled rejection (vercel/ai#6879).
   return createUIMessageStream({
     onError: (error) => streamErrorText(error),
     execute: ({ writer }) => {

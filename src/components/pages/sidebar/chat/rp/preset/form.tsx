@@ -73,10 +73,8 @@ function toPresetBody(data: SamplingPresetForm) {
   const promptTemplate = data.promptTemplate?.trim()
     ? data.promptTemplate
     : null;
-  // The pickers write the sentinels rather than "", and both are TRUTHY, so
-  // storing them verbatim would send "__none__" upstream as a model name (the
-  // readers are `settings.utilityModel || body.model`) and pin a lane called
-  // "auto" that no channel serves.
+  // Both sentinels are TRUTHY, so storing them verbatim ships "__none__" upstream
+  // as a model name and pins an "auto" lane no channel serves.
   const unset = (v: string) => (v && v !== NONE_VALUE ? v : null);
   const unpinned = (v: string) => (v && v !== AUTO_GROUP ? v : null);
   const body: Omit<

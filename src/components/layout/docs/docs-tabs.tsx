@@ -20,9 +20,7 @@ export function DocsTabs() {
         : "text-muted-foreground hover:text-foreground border-transparent",
     );
 
-  // Opaque, and above the sidebar's own z-10: at equal layers the fixed sidebar
-  // won the paint order, so its links scrolled through the translucent bar and
-  // stayed there as ghost text.
+  // Must stay opaque and above the sidebar's z-10, else its links ghost through.
   return (
     <div className="border-border bg-background sticky top-12 z-20 border-b">
       <nav className="flex gap-4 px-4 md:px-6">

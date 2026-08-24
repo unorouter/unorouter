@@ -43,11 +43,7 @@ type VendorIconProps = {
 
 export function VendorIcon(props: VendorIconProps) {
   const size = props.size ?? 20;
-  // The lazy icon only renders after mount: dynamic() is called at runtime
-  // (no preload manifest entry), so during SSR the server inlines the svg but
-  // the client suspends into the loading fallback mid-hydration - an
-  // element-type mismatch (React #418). Pre-mount both sides render the
-  // deterministic letter fallback instead.
+  // Rendering the lazy icon before mount is an element-type mismatch (React #418).
   const mounted = useSyncExternalStore(
     noopSubscribe,
     () => true,

@@ -5,17 +5,11 @@ import { useState } from "react";
 
 type Props = {
   title: string;
-  /** Shown on the closed header, for settings worth seeing without opening it. */
   summary?: string;
   defaultOpen?: boolean;
   children: React.ReactNode;
 };
 
-/**
- * One disclosure for a group of settings. The form is long enough that a user tuning a
- * prompt scrolls past every knob on each iteration, so the groups that are set once collapse
- * and the prompt stays near the top.
- */
 export function CollapsibleSection(props: Props) {
   const [open, setOpen] = useState(props.defaultOpen ?? false);
 

@@ -6,9 +6,7 @@ import { getSelf, type UserSelfData } from "@/openapi";
 import { deriveUpstream } from "@/server/constants";
 import type { Context } from "elysia";
 
-// Passing `cookie` opts into session repair: a 401 despite a verified cookie
-// means the cookie outlived the upstream token, and clearing it is what stops
-// the client sitting half-logged-in where every action 401s.
+// Passing `cookie` opts into session repair (token writeback + clear on 401).
 export async function resolveSelf(
   request: Request,
   cookie?: Context["cookie"],
@@ -17,9 +15,7 @@ export async function resolveSelf(
   if (!upstream.headers[NEW_API_USER]) return { user: null, expired: false };
   try {
     const user = unwrap(await getSelf(upstream)).data;
-    // Upstream re-issues once the token is past half its life, so writing it
-    // back here is what keeps an active session from ever reaching the hard
-    // expiry. Absent on a fresh token and for API-key callers.
+    // Upstream re-issues past half-life; dropping this writeback expires active sessions.
     if (cookie && user.access_token && user.id) {
       await setSessionCookies(
         cookie,

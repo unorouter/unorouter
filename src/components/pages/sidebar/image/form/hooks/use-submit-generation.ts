@@ -38,12 +38,10 @@ export function useSubmitGeneration(args: Args) {
         ? {
             extraParams: {
               air: activeCheckpoint.air,
-              // Name persisted so history shows the checkpoint, not the routing id.
               airName: activeCheckpoint.name,
               ...(activeCheckpoint.architecture
                 ? { airArchitecture: activeCheckpoint.architecture }
                 : {}),
-              // A per-request inpaint override beats the form's checkpoint.
               ...(body.extraParams ?? {}),
             },
           }
@@ -51,7 +49,6 @@ export function useSubmitGeneration(args: Args) {
       sessionId: nav.sessionId ?? undefined,
     });
 
-    // Saved only once it has produced an image, so the list is checkpoints actually used.
     if (activeCheckpoint) rememberModel.mutate(activeCheckpoint);
 
     if (mode === "inpaint") {
@@ -61,9 +58,7 @@ export function useSubmitGeneration(args: Args) {
     args.setSamplerMemory(data.params ?? {}, data.model ?? INITIAL_MODEL);
     args.setDraft(data);
 
-    // replace: a submit must not add a back entry between the form and its own result.
-    // nuqs owns the snap param, so a plain router navigation changing only the query
-    // desyncs it after nuqs has pushed once (the viewer stuck on the old snapshot).
+    // nuqs owns snap: a router navigation changing only the query desyncs it silently.
     if (nav.sessionId === submitted.sessionId) {
       nav.replaceSnapshot(submitted.snapshotId);
     } else {

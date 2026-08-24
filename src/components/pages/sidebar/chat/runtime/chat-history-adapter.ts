@@ -269,8 +269,8 @@ async function persistInlayMedia(
       width: m.width,
       height: m.height,
     });
-    // The streamed part rendered before this persist, so the token resolver cached a
-    // resolved-empty marker; without dropping it the image stays blank until reload.
+    // The token resolver cached a resolved-empty marker while streaming; without
+    // dropping it the image stays blank until reload.
     invalidateInlay(m.id);
   }
 }
@@ -281,9 +281,9 @@ type BranchPlacement = {
   nextBranchIndex: number;
 };
 
-// Existing siblings MUST be deactivated and the new one take the next branchIndex: leaving them
-// all isActiveBranch=1/branchIndex=0 makes walkActiveBranch pick the wrong tip and a branch
-// switch render an empty thread.
+// Existing siblings MUST be deactivated and the new one take the next
+// branchIndex, else walkActiveBranch picks the wrong tip and a branch switch
+// renders an empty thread.
 async function placeOnBranch(
   convId: string,
   messageId: string,
@@ -297,8 +297,7 @@ async function placeOnBranch(
   if (existing.length > 0) {
     const tipRow = walkActiveBranch(existing).path.at(-1);
     if (parentId === null && tipRow) parentId = tipRow.id;
-    // A requested parent that isn't persisted (greeting-sibling race, cross-tab
-    // desync) would FK-fail the insert. Fall back to the active tip, else root.
+    // A requested parent that isn't persisted would FK-fail the insert.
     if (parentId && !existing.some((m) => m.id === parentId)) {
       parentId = tipRow?.id ?? null;
     }
@@ -426,9 +425,7 @@ function fireIllustrator(
 }
 
 // assistant-ui appends a turn only once it completes, so a stream that never
-// terminates persists NEITHER side. Publishing append lets the send path write the
-// user turn immediately; append() dedups on message id, so a later re-append is a
-// no-op. The concrete message type is only known inside withFormat, hence `object`.
+// terminates persists NEITHER side. append() dedups on message id.
 export type PersistTurn = (message: object) => Promise<void>;
 
 export function createChatHistoryAdapter(
@@ -462,8 +459,8 @@ export function createChatHistoryAdapter(
             type Cached = { pages: MsgPage[]; pageParams: number[] };
 
             let allMessages: ApiMessage[] = [];
-            // getQueryData matches the key EXACTLY, and the infinite query keys by
-            // [convId, userId]: a hand-built [convId] key never hits.
+            // getQueryData matches the key EXACTLY: a hand-built [convId] key
+            // never hits the infinite query's [convId, userId].
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
             ]);
@@ -639,8 +636,6 @@ export function createChatHistoryAdapter(
       };
 
       onFormatReady?.(async (message) => {
-        // TMessage is whatever the mounted runtime formats, so validation is
-        // structural: getId throwing or yielding nothing means a foreign message.
         let messageId: string | undefined;
         try {
           messageId = formatAdapter.getId(message as TMessage);

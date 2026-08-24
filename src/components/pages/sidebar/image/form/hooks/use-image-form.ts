@@ -47,17 +47,14 @@ export function useImageForm() {
 
   const selectedModel = form.watch("model") ?? INITIAL_MODEL;
   const baseDescriptor = findDescriptor(selectedModel);
-  // The passthrough row has no lineage, but Runware documents one schema per
-  // architecture, so the resolved checkpoint decides which knobs it accepts. Hosted API
-  // models (FLUX.2, gpt-image, seedream) are picked by AIR and carry NO architecture, so
-  // requiring one leaves them on the passthrough's blank descriptor.
+  // Hosted API models (FLUX.2, gpt-image, seedream) carry NO architecture, so requiring
+  // one leaves them on the passthrough's blank descriptor.
   const pickedArchitecture = form.watch("ui.airArchitecture");
   const pickedAir = form.watch("ui.air");
   const checkpointSpec =
     pickedAir || pickedArchitecture
       ? lookupParamSpec(pickedAir, pickedArchitecture)
       : null;
-  // Merged onto the row so every consumer keeps reading metadata.imageParams.
   const descriptor: ImageModelDescriptor = checkpointSpec
     ? {
         ...baseDescriptor,

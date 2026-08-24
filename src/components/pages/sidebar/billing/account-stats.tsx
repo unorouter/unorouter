@@ -7,10 +7,7 @@ import { useBurnRate } from "@/hooks/billing/use-burn-rate";
 import { quotaToDollars, renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 
-// Below this the balance reads as a warning rather than a plain figure.
 const LOW_BALANCE_DOLLARS = 5;
-// When the burn rate is known it decides instead: a small balance that still covers months
-// of use is not low, and warning about it reads as noise.
 const LOW_BALANCE_DAYS = 14;
 
 export function AccountStats() {
@@ -68,9 +65,7 @@ export function AccountStats() {
             <span className="text-muted-foreground mt-2 block font-mono text-xs">
               {t("BILLING.BALANCE.RUNWAY", {
                 days: burn.daysRemaining,
-                // Two decimals rounds a sub-cent burn to $0.02, and the reader divides the
-                // balance by that and gets a different day count than the one shown. Keep
-                // enough precision that the two figures reconcile.
+                // 2dp rounds a sub-cent burn so balance/rate no longer reconciles with days.
                 rate: `$${burn.dollarsPerDay.toFixed(
                   burn.dollarsPerDay < 0.1 ? 4 : 2,
                 )}`,

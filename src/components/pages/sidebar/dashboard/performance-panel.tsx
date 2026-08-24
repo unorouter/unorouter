@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 
 const TOP_MODELS = 6;
 
-// Traffic-weighted so one flaky low-volume model cannot dominate the headline.
 function aggregate(models: { success_rate: number; request_count: number }[]) {
   let weighted = 0;
   let total = 0;

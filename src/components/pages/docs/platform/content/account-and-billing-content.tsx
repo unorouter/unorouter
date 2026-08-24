@@ -15,7 +15,6 @@ const P = "DOCS_PLATFORM.ACCOUNT_AND_BILLING";
 export async function AccountAndBillingContent() {
   const t = await getTranslations();
   const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
-  // <a> in the message becomes a link to the page the sentence is describing.
   const kLink = (leaf: string, href: DocHref) =>
     t.rich(platformDocKey(P, leaf), {
       ...APP_VALUES,

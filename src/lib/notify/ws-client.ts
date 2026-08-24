@@ -45,8 +45,6 @@ channel?.addEventListener(
   },
 );
 
-// Upstream is checked, not trusted: the generated NotifyEvent is wider than the
-// store's and omits the bulk_* digest fields entirely.
 function parseNotifyEvent(raw: unknown): NotifyEvent | null {
   const withDefaults = Value.Default(notifyEventSchema, raw);
   return notifyEventChecker.Check(withDefaults) ? withDefaults : null;
@@ -66,8 +64,7 @@ function deliver(evt: NotifyEvent, relay: boolean) {
   }
 }
 
-// partysocket buffers sends while disconnected and flushes on (re)open, so
-// this can fire regardless of the current connection state.
+// partysocket buffers sends while disconnected and flushes on (re)open.
 async function sendSubscribe() {
   if (!ws) return;
   const sub = await getPushSubscription().catch(() => null);
@@ -92,9 +89,7 @@ async function catchUp() {
       const evt = parseNotifyEvent(raw);
       if (evt) deliver(evt, true);
     }
-  } catch {
-    // Missed catch-up is acceptable: the feed is session-ephemeral.
-  }
+  } catch {}
 }
 
 function stopPing() {
@@ -130,9 +125,7 @@ function connect() {
       if (frame?.op !== "event") return;
       const evt = parseNotifyEvent(frame.event);
       if (evt) deliver(evt, true);
-    } catch {
-      // Ignore malformed frames.
-    }
+    } catch {}
   });
 
   socket.addEventListener("close", () => {
@@ -153,7 +146,7 @@ function requestLeadership() {
   if (leaderRequested) return;
   leaderRequested = true;
   if (typeof navigator === "undefined" || !("locks" in navigator)) {
-    // No Web Locks (rare): every tab connects; dedupe by event id copes.
+    // No Web Locks: every tab connects; dedupe by event id copes.
     isLeader = true;
     connect();
     return;
@@ -170,7 +163,6 @@ export function setNotifyEventHandler(fn: EventHandler | null) {
   handler = fn;
 }
 
-// The single entry point: call with the current watch list whenever it changes.
 // An empty list tears the connection down.
 export function syncNotifyTopics(topics: string[]) {
   wantedTopics = [...topics];
@@ -189,8 +181,6 @@ export function syncNotifyTopics(topics: string[]) {
   }
 }
 
-// Re-sends the subscribe frame after the push subscription appears, so the
-// server learns the endpoint hash.
 export function refreshNotifyPresence() {
   void sendSubscribe();
 }

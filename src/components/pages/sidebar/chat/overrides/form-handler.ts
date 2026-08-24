@@ -110,12 +110,8 @@ function buildDefaultsForm(
   modelMemory: ModelSamplerMemory,
   pendingPreset?: InheritSource | null,
 ): ConversationOverridesForm {
-  // A conversation row only exists after the first send, so before that the
-  // drawer showed defaults while seedConversation was already binding the
-  // selected preset. The values sent and the values displayed disagreed, and
-  // users read that as the preset not applying. Layer the pending preset here
-  // on the same precedence seedConversation uses: preset over defaults, except
-  // maxTokens, which stays sticky unless the preset sets its own.
+  // Precedence must stay identical to seedConversation's, else the drawer shows
+  // values that differ from the ones sent.
   const p = pendingPreset ?? {};
   const layered = {
     temperature:

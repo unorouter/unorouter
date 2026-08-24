@@ -61,9 +61,7 @@ function matchesFreeKeyword(query: string): boolean {
   return FREE_KEYWORDS.some((word) => word.toLowerCase().includes(query));
 }
 
-// Highest first, but null sorts LAST rather than as 0: a model nobody has called
-// yet is unmeasured, and ranking it level with one measured at 0% buries the
-// healthy long tail under every untouched row.
+// null sorts LAST, not as 0: unmeasured is not the same as measured at 0%.
 function byReliability(
   a: number | null | undefined,
   b: number | null | undefined,
@@ -188,8 +186,7 @@ export function useModelsFilter() {
     matchesModality(model, outputModality),
   );
 
-  // Every key MUST return 0 on a tie so the next one decides. Breaking a tie by
-  // name inline here would make every later key dead code.
+  // Every key MUST return 0 on a tie, or every later key is dead code.
   const compareBy = (
     key: SortOrder,
     a: PricingCatalogModel,
@@ -225,8 +222,7 @@ export function useModelsFilter() {
       const diff = compareBy(key, a, b);
       if (diff !== 0) return diff;
     }
-    // Name last so the order is total: without it two models equal on every
-    // chosen key would land in input order, which shifts between renders.
+    // Name last so the order is total; input order shifts between renders.
     return a.model_name.localeCompare(b.model_name);
   });
 

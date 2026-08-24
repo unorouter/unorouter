@@ -13,8 +13,6 @@ function closingTagIndex(buffer: string): number | null {
   return null;
 }
 
-// The SDK exports no name for its stream-part union, so it is derived: a
-// hand-written stand-in drifts and then needs a cast at every boundary.
 type StreamChunk =
   Awaited<
     ReturnType<
@@ -26,17 +24,9 @@ type StreamChunk =
     ? P
     : never;
 
-// When a trailing assistant prefill left an open <think>, three shapes arrive
-// depending on upstream channel and model:
-//   1. Channel parses the template: native reasoning parts + clean answer text.
-//   2. Channel forwards the raw continuation: "CoT</think>answer" as plain text,
-//      no opening tag.
-//   3. Model ignores the trick (non-GLM-style): plain answer, no tags, no
-//      native reasoning.
-// A static startWithReasoning flag swallows the answer into the thinking box on
-// 1 and 3, so the shape is decided per stream. A clean finish that never closed
-// was shape 3, and the accumulated text is re-emitted as the reply; a length-cut
-// finish stays reasoning, being truncated thinking rather than an answer.
+// Three shapes arrive depending on channel/model, so the verdict is per stream:
+// native reasoning parts; raw "CoT</think>answer" with no opening tag; or plain
+// answer with no tags at all. A clean finish that never closed was the third.
 export function prefillThinkMiddleware(): LanguageModelMiddleware {
   return {
     wrapGenerate: async ({ doGenerate }) => {
@@ -149,8 +139,6 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
             }
 
             if (chunk.type === "text-end") {
-              // The never-closed verdict waits for `finish`, which carries the
-              // finishReason that decides it.
               if (buffer) {
                 forcedAccum += buffer;
                 controller.enqueue({

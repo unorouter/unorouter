@@ -10,17 +10,13 @@ import { sahPoolDirName, sahPoolSlug } from "./pool-name";
 
 type SAHPoolUtil = Awaited<ReturnType<Sqlite3["installOpfsSAHPoolVfs"]>>;
 
-// One pool per database path, each in its own OPFS directory: the VFS holds
-// every pool file handle exclusively, so no two pool instances may share a
-// directory. Logical filenames inside a pool MUST be absolute ("/name"), else
-// the VFS resolves import and open to different files.
-//
-// A slot is one pre-opened OPFS file handle and a database plus journal/temp
-// needs ~3, so 4 gives headroom without the O(capacity) handle-open cost.
+// No two pool instances may share an OPFS directory (the VFS holds every file
+// handle exclusively). Logical filenames inside a pool MUST be absolute
+// ("/name"), else the VFS resolves import and open to different files.
 const POOL_CAPACITY = 4;
 
-// installOpfsSAHPoolVfs rejects on re-registering a VFS name, and the pool
-// survives db close, so re-init after destroy() must reuse the cached util.
+// installOpfsSAHPoolVfs rejects on re-registering a VFS name, so re-init after
+// destroy() must reuse the cached util.
 const poolCache = new Map<string, Promise<SAHPoolUtil>>();
 
 function absName(databasePath: string): string {
@@ -31,8 +27,6 @@ export class SQLiteSahPoolDriver
   extends SQLiteMemoryDriver
   implements SQLocalDriver
 {
-  // "opfs" so consumers keyed on persistent-vs-memory storage (fallback
-  // detection, diagnostics) treat this like the original opfs driver.
   override readonly storageType: Sqlite3StorageType = "opfs";
 
   protected poolUtil?: SAHPoolUtil;
@@ -65,9 +59,6 @@ export class SQLiteSahPoolDriver
           return util;
         });
       poolCache.set(name, pool);
-      // The install rejection reason is the only thing distinguishing the
-      // causes of the in-memory fallback (another tab's lock, OPFS blocked by
-      // policy, quota, a torn pool directory).
       pool.catch((err) => {
         poolCache.delete(name);
         this.lastPoolError = String(
@@ -89,8 +80,8 @@ export class SQLiteSahPoolDriver
 
     this.poolUtil = await this.getPool(databasePath);
 
-    // The cached pool survives destroy(), so one left paused by a handover
-    // would be handed back paused and every statement would fail.
+    // The cached pool survives destroy(), so one left paused by a handover is
+    // handed back paused and every statement fails.
     if (this.poolUtil.isPaused()) {
       await this.poolUtil.unpauseVfs();
     }
@@ -120,8 +111,6 @@ export class SQLiteSahPoolDriver
 
     await this.destroy();
 
-    // Streams feed importDb's chunked-callback form so a large database is
-    // never materialized in memory.
     let data:
       | ArrayBuffer
       | Uint8Array<ArrayBuffer>
@@ -151,8 +140,7 @@ export class SQLiteSahPoolDriver
     const name = absName(this.config.databasePath).slice(1);
     const tempName = `/backup-${Date.now()}--${name}`;
 
-    // VACUUM INTO lands a compacted copy in the pool, then exportFile reads it
-    // back as plain SQLite bytes (pool files carry a private header).
+    // Pool files carry a private header; exportFile reads back plain SQLite bytes.
     this.db.exec({ sql: "VACUUM INTO ?", bind: [tempName] });
     try {
       const raw = await this.poolUtil.exportFile(tempName);
@@ -169,8 +157,7 @@ export class SQLiteSahPoolDriver
     await this.purgeOrphans();
   }
 
-  // Not on the published sqlocal 0.18.0 driver interface yet, so not an
-  // override.
+  // Not on the published sqlocal 0.18.0 driver interface, so not an override.
   async purgeOrphans(): Promise<string[]> {
     if (!this.poolUtil || !this.config?.databasePath) {
       throw new Error("Driver not initialized");
@@ -194,9 +181,7 @@ export class SQLiteSahPoolDriver
     return removed;
   }
 
-  // Multi-tab handover: pause releases every sync access handle so another
-  // tab's pool can acquire them. pauseVfs throws while any db is open, hence
-  // the close first.
+  // pauseVfs throws while any db is open, hence the close first.
   async pause(): Promise<void> {
     if (!this.poolUtil || this.poolUtil.isPaused()) return;
     this.closeDb();

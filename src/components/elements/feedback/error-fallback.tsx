@@ -38,14 +38,12 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   useEffect(() => {
     console.error(props.error);
     posthog.captureException(props.error);
-    // A chunk load failure means this tab holds pre-deploy HTML pointing at replaced
-    // chunks. The sessionStorage guard stops a reload loop if the chunk is genuinely gone.
+    // The sessionStorage guard stops an infinite reload loop when the chunk is truly gone.
     if (isChunkLoadError(props.error)) {
       const KEY = "chunk-reload-once";
       if (!sessionStorage.getItem(KEY)) {
         sessionStorage.setItem(KEY, "1");
-        // A plain reload is served BY the service worker, handing back the very HTML that
-        // asked for the missing chunk, so the caches must go first.
+        // Caches must go BEFORE the reload: the SW would serve back the same stale HTML.
         void (async () => {
           try {
             const names = await caches.keys();

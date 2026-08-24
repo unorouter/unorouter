@@ -14,8 +14,6 @@ function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   ) as Partial<T>;
 }
 
-// Both spellings resolve: sliders arrive camelCase, extraBody is hand-written on
-// the wire names.
 const PARAM_API_KEY: Record<string, string> = {
   maxOutputTokens: "max_tokens",
   temperature: "temperature",
@@ -35,7 +33,6 @@ const PARAM_API_KEY: Record<string, string> = {
   logit_bias: "logit_bias",
 };
 
-// Nullish means "the model states no restriction", so every parameter passes.
 function stripUnsupported<T extends Record<string, unknown>>(
   o: T,
   supported: string[] | null | undefined,
@@ -59,8 +56,6 @@ export function buildModelParams(
   effectiveMaxOutputTokens: number,
   modelInfo: PricingCatalogDetail | undefined,
 ) {
-  // Metadata output ceilings drift from what upstreams enforce, and a too-high
-  // literal max_tokens is a hard 400 on strict providers.
   const userSetMax = assembled.sampling.maxOutputTokens != null;
   return stripUnsupported(
     defined({
@@ -100,10 +95,8 @@ export function buildProviderOptions(
 
   return {
     // openai-compatible reads providerOptions ONLY under its provider name; any
-    // other key is silently dropped and nothing here reaches the wire.
+    // other key is silently dropped and never reaches the wire.
     [CHAT_PROVIDER_NAME]: {
-      // extraBody takes the same strip as the sliders: a hand-written
-      // repetition_penalty reached hosts that reject it and 400d the request.
       ...stripUnsupported(
         safeExtraBody ?? {},
         modelInfo?.metadata?.supportedParameters,
@@ -117,8 +110,8 @@ export function buildProviderOptions(
         modelInfo?.metadata?.supportedParameters,
       ),
       ...defined({
-        // camelCase: the sdk maps reasoningEffort to reasoning_effort on the
-        // wire and does not recognize the snake_case name.
+        // camelCase only: the sdk maps this to reasoning_effort on the wire and
+        // does not recognize the snake_case name.
         reasoningEffort: assembled.reasoningEffort,
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
@@ -186,12 +179,9 @@ export function buildWritebacks(
   return { varsWriteback, globalVarsWriteback };
 }
 
-// A request log is written PER MESSAGE and stores the whole assembled
-// conversation, so the table grows quadratically with thread length. Survivable
-// for text, but an inline `data:` URI (single parts of 3-4MB measured on a real
-// profile) is copied into every later log in the thread and drives these
-// databases past 500MB, where they can no longer be exported or imported on a
-// phone. The log only has to reproduce a request and show the prompt.
+// Request logs are per-message and grow quadratically with thread length; an
+// inline `data:` URI (3-4MB parts measured) drives the DB past 500MB, where it
+// can no longer be exported or imported on a phone.
 const MAX_LOGGED_TEXT = 20_000;
 const DATA_URI_IN_TEXT = /data:[\w.+-]+\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g;
 
@@ -207,9 +197,6 @@ function leanParts(parts: unknown): unknown {
         out[key] =
           `${v.slice(0, v.indexOf(",") + 1)}<${v.length} bytes elided>`;
       } else if (v.includes(";base64,")) {
-        // The heaviest rows measured were markdown wrapping a data URI
-        // (`![video](data:video/mp4;base64,...)`), which does not START with
-        // `data:` and would only get length-truncated, keeping megabytes.
         // Gate on a substring, not regex.test: a /g regex carries lastIndex
         // between calls and would skip matches on later strings.
         out[key] = v.replace(
@@ -247,9 +234,8 @@ export function buildDebugSnapshot(
   }));
   const preset = ctx?.preset;
   return {
-    // What the request actually carries, after the supported-parameter strip.
-    // `settings.sampling` below is what the user configured, and the two differ
-    // exactly when a rejection needs explaining.
+    // After the supported-parameter strip; `settings.sampling` below is what
+    // the user configured.
     sent: wire
       ? {
           modelParams: wire.modelParams,
@@ -271,12 +257,9 @@ export function buildDebugSnapshot(
       extraBody: assembled?.extraBody ?? null,
       providerRouting: assembled?.providerRouting ?? null,
       tokenizer: tokenizer?.source ?? null,
-      // false means the load failed and counts are ~4 chars/token, whatever
-      // name sits above.
+      // false = tokenizer load failed, counts are ~4 chars/token.
       tokenizerExact: tokenizer?.exact ?? null,
       promptTokens: assembled?.promptTokens ?? null,
-      // Ordering decides whether post-history sits above or below the chat,
-      // which changes how strongly it holds at depth.
       promptPartKinds: assembled?.promptParts.map((p) => p.kind) ?? null,
       preset: preset
         ? {
@@ -317,9 +300,6 @@ export function buildDebugSnapshot(
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    // Identical on every turn and routinely tens of KB (character card plus
-    // lorebook entries), so storing it whole per message is the second
-    // multiplier after the messages array.
     assembledSystem: effectiveSystem
       ? effectiveSystem.length > MAX_LOGGED_TEXT
         ? `${effectiveSystem.slice(0, MAX_LOGGED_TEXT)}<truncated ${effectiveSystem.length - MAX_LOGGED_TEXT} chars>`

@@ -2,9 +2,7 @@ import { sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../triggers/types";
 
-// Mirrors the Lua binding set over the same TriggerContext, minus the JSON
-// marshalling the Lua bridge needs. The Lua capability tokens have no analog:
-// the sandbox boundary already scopes reach, so gating is by hook mode alone.
+// Mirrors the Lua binding set over the same TriggerContext.
 
 export type PluginHookMode = "input" | "output" | "request" | "display";
 
@@ -198,9 +196,9 @@ export function buildPluginApi(
     sleep: (time: number) =>
       new Promise((r) => setTimeout(() => r(true), Math.min(time, 10_000))),
 
-    // Same egress policy as the Lua `request` binding: client-only, https GET,
-    // short URLs, 5 per minute. The iframe cannot fetch at all (connect-src
-    // 'none'), so this is a plugin's ONLY network access.
+    // SECURITY: connect-src 'none' blocks the iframe entirely, so this is a
+    // plugin's ONLY network access. Egress policy: client-only, https GET,
+    // <=120 chars, 5 per minute.
     httpRequest: async (url: string) => {
       if (typeof window === "undefined") {
         return { status: 400, data: "request is not allowed server-side" };
@@ -238,15 +236,9 @@ export function buildPluginApi(
   };
 }
 
-// JanitorAI compat mode. Their contract (official guide): scripts run once per
-// turn before prompt build, synchronously, fresh state each turn, silent
-// failure, mutating `context` where ONLY character.personality, .scenario and
-// .example_dialogs are writable.
-//
-// Nothing persists across turns. State survives only by being encoded into the
-// model's reply (zero-width unicode or a visible flag string) and re-parsed from
-// chat.last_messages next turn, so message text must round-trip unmodified.
-
+// JanitorAI compat: ONLY character.personality, .scenario and .example_dialogs
+// are writable, and message text must round-trip UNMODIFIED (scripts encode
+// cross-turn state into the reply and re-parse it from chat.last_messages).
 export type JanitorContextSnapshot = {
   character: {
     name: string;
@@ -261,8 +253,7 @@ export type JanitorContextSnapshot = {
     last_message: string;
     lastMessage: string;
     message_count: number;
-    // Oldest first: their templates slice(-n) and scan backward for the newest
-    // match.
+    // Oldest first: their templates slice(-n) and scan backward.
     last_messages: { message: string }[];
     user_name: string;
     conversation_id: string;
@@ -277,8 +268,6 @@ export type JanitorRunResult = {
   logs: string[];
 };
 
-// Scripts share one context and run in order; a throwing script is skipped
-// (their semantics).
 export function buildJanitorRunSource(
   snapshot: JanitorContextSnapshot,
   scripts: string[],

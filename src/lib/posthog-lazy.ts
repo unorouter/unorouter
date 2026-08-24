@@ -11,8 +11,6 @@ function ensureLoaded() {
     return;
   }
   loading = true;
-  // posthog-js (~63KB gz) plus the session recorder otherwise compete with hydration inside
-  // the TBT/LCP window. Events queue in `run` meanwhile, so nothing is dropped.
   const idle = (cb: () => void) =>
     "requestIdleCallback" in window
       ? window.requestIdleCallback(cb, { timeout: 5000 })
@@ -24,10 +22,8 @@ function ensureLoaded() {
   afterLoad(() => idle(loadNow));
 }
 
-// Never a generic phrase a real bug could share: precision must come from the match string,
-// because stack-based scoping is impossible here. posthog-js hardcodes in_app:true on every
-// client-side frame and only ingestion symbolification assigns the real value, so before_send
-// cannot tell first-party frames from bundled-vendor ones.
+// Never add a generic phrase a real bug could share: stack-based scoping is
+// impossible here (posthog-js hardcodes in_app:true on every client frame).
 const DROP_EXCEPTIONS = [
   "resizeobserver loop",
   "script error.", // cross-origin, message+stack both stripped by the browser
@@ -52,21 +48,14 @@ const DROP_EXCEPTIONS = [
   "parameter 1 is not of type 'element'", // floating-ui positioning an unmounted anchor
   "getsynchandleerror", // documented OPFS in-memory fallback
   "fell back to in-memory",
-  // Duplicate of chat_stream_failed (error_type "empty_stream"), which carries the upstream
-  // request id + model this does not.
-  "no output generated",
+  "no output generated", // duplicate of chat_stream_failed "empty_stream"
   "ai_nooutputgeneratederror",
   "webassembly is not defined", // wasm disabled by hardened-browser config; shiki falls back to plain text
-  // assistant-ui MessageRepository invariant from its useExternalStoreRuntime adapter swap;
-  // upstream bug, nothing actionable here.
-  "a message with the same id already exists in the parent tree",
+  "a message with the same id already exists in the parent tree", // assistant-ui upstream bug
 ];
 
-// Could-be-real but high-volume and mostly external. Dropping these entirely would hide a
-// genuine outage, so a sample keeps a real spike visible in the trend.
+// Sampled, not dropped: a full drop would hide a genuine outage.
 const SAMPLE_EXCEPTIONS = [
-  // 140 in 7 days, 137 from 2 Chrome iOS users (122 from ONE), empty stacks, on pages
-  // sharing no code path. Reads as an injected script, not first-party recursion.
   "maximum call stack size exceeded",
   "network error",
   "networkerror",
@@ -119,17 +108,13 @@ function loadNow() {
       api_host: env.posthogHost,
       ui_host: "https://eu.posthog.com",
       defaults: "2026-01-30",
-      // These were ~48% of ingested events ($autocapture 34%, $web_vitals 8.5%,
-      // $dead_click/$dead_swipe 6%) against a 1M/month tier projected to overrun 5.7x, and
-      // nothing reads them. Instrument an explicit event in analytics.ts instead.
+      // ~48% of ingested events against a 1M/month tier, and nothing reads them.
       autocapture: false,
       capture_performance: false,
       capture_heatmaps: false,
       capture_dead_clicks: false,
-      // Replay volume is bounded server-side by the project's 5% sampling + 8s minimum
-      // duration (PostHog project settings, not this file). Rendered TEXT is deliberately
-      // unmasked: `maskTextSelector: "*"` turned every recording into a wall of asterisks.
-      // maskAllInputs stays on, so typed passwords and API keys are never captured.
+      // maskAllInputs stays ON: it is what keeps typed passwords and API keys out
+      // of recordings. Rendered text is deliberately unmasked.
       disable_session_recording: false,
       enable_recording_console_log: false,
       session_recording: {
@@ -151,7 +136,6 @@ function loadNow() {
   });
 }
 
-// Stable labels so link clicks group in PostHog instead of splitting across raw hostnames.
 const OUTBOUND_PLATFORMS: Array<[RegExp, string]> = [
   [/discord\.(gg|com)/, "discord"],
   [/reddit\.com/, "reddit"],
@@ -170,8 +154,6 @@ function outboundPlatform(host: string): string {
   return "other";
 }
 
-// One delegated listener covers every external anchor, current and future, instead of
-// instrumenting each of the ~12 render sites.
 function installOutboundLinkTracking(ph: PostHog) {
   if (typeof document === "undefined") return;
   const handler = (e: MouseEvent) => {

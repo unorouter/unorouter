@@ -14,11 +14,6 @@ type Args = {
   findDescriptor: (id: ImageModelId) => ImageModelDescriptor;
 };
 
-/**
- * Seeds the form from a ?remix=<snapshotId> link, once per snapshot. The hires/inpaint
- * variants must carry the snapshot's own image as the init image, since those passes
- * re-render it and would otherwise run a fresh generation.
- */
 export function useRemixSeed(args: Args): { remixId: string | null } {
   const form = args.form;
   const findDescriptor = args.findDescriptor;
@@ -64,9 +59,6 @@ export function useRemixSeed(args: Args): { remixId: string | null } {
       visibility: "private",
       ui: { variants: 1 },
     });
-    // Consume the one-shot params in the same URL write as the tab change: the
-    // post-submit remount resets the ref guard, so leaving them re-runs this reset over
-    // the user's edits.
     const url = new URL(window.location.href);
     for (const key of ["remix", "hires", "inpaint"]) {
       url.searchParams.delete(key);

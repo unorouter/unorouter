@@ -158,9 +158,7 @@ function collectTrailingReasoning(
   return thoughts.length > 0 ? thoughts.join("\n") : undefined;
 }
 
-// Reopen the reasoning block so the model resumes thinking instead of answering straight away.
-// Applied to the prefill STRING before it is appended, so a doubled trailing assistant folding
-// during mergeAlternateRoles keeps the tag on the prefill segment, not the merged turn.
+// Tag the prefill STRING, not the appended message: merge folds a doubled trailing assistant.
 function openThinkForPrefill(
   prefill: string | undefined,
   enabled: boolean,
@@ -171,8 +169,7 @@ function openThinkForPrefill(
   return `<think>\n${prefill}`;
 }
 
-// A prefill can also reach the list as a template card emitted by walkTemplate, which skips
-// appendPrefill entirely; retag that card so the tag lands whichever way the prefill arrived.
+// A prefill emitted as a template card skips appendPrefill, so retag it in place.
 function retagEmittedPrefill(
   messages: StreamMessages,
   rawPrefill: string,
@@ -238,7 +235,6 @@ async function applyLuaEditRequest(
   );
 }
 
-// Dynamically imported to keep the plugin engine out of the server bundle.
 async function applyJsEditRequest(
   messages: StreamMessages,
 ): Promise<StreamMessages> {

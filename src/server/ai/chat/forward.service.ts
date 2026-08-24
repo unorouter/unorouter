@@ -39,8 +39,6 @@ export async function forwardChatCompletions(args: {
     );
   }
 
-  // The sdk transport builds the wire body itself, so the billing-group pin
-  // rides the X-Group request header; body.group covers legacy callers.
   const group = args.body.group ?? args.group;
   const wire = { ...args.body };
   delete wire.group;
@@ -76,12 +74,10 @@ export async function forwardChatCompletions(args: {
   }
 
   // Cloudflare kills a byte-less origin response at ~100s (524, whose raw HTML
-  // then lands in the chat as the "reply"), so commit to a 200 SSE now and
-  // heartbeat until upstream produces headers.
+  // lands in the chat as the "reply"), so commit to a 200 SSE now and heartbeat.
   const enc = new TextEncoder();
-  // Pull-driven on purpose: the consumer's reads pace upstream. A free-running
-  // enqueue loop lets a stalled client accumulate the whole completion in the
-  // controller queue, and those queues stay pinned until the stream is collected.
+  // Pull-driven on purpose: a free-running enqueue loop lets a stalled client
+  // accumulate the whole completion in the controller queue.
   let reader: ReadableStreamDefaultReader<Uint8Array> | null = null;
   let ping: ReturnType<typeof setInterval> | null = null;
   const stopPing = () => {
@@ -97,9 +93,7 @@ export async function forwardChatCompletions(args: {
         enc.encode(`data: ${JSON.stringify({ error: { message } })}\n\n`),
       );
       controller.enqueue(enc.encode("data: [DONE]\n\n"));
-    } catch {
-      // consumer already gone
-    }
+    } catch {}
   };
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -126,9 +120,7 @@ export async function forwardChatCompletions(args: {
         writeError(controller, String(e).slice(0, 300));
         try {
           controller.close();
-        } catch {
-          // already closed by cancel
-        }
+        } catch {}
       }
     },
     async pull(controller) {
@@ -146,9 +138,7 @@ export async function forwardChatCompletions(args: {
         writeError(controller, String(e).slice(0, 300));
         try {
           controller.close();
-        } catch {
-          // already closed by cancel
-        }
+        } catch {}
       }
     },
     cancel() {
@@ -167,7 +157,6 @@ export async function forwardChatCompletions(args: {
 const EARLY_FLUSH_MS = 30_000;
 const KEEPALIVE_MS = 15_000;
 
-// An upstream error body can be a full Cloudflare HTML page.
 function compactErrorText(text: string, status: number): string {
   const plain = text
     .replace(/<script[\s\S]*?<\/script>/gi, " ")

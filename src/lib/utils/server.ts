@@ -55,8 +55,6 @@ const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   }
 };
 
-// Seeds a store atom before the first render; undefined falls back to the
-// atom's own initial value.
 export const getCookieValue = async <T>(
   key: string,
 ): Promise<T | undefined> => {
@@ -79,14 +77,9 @@ export const serverLocale = async (props?: {
   return candidate && hasLocale(LOCALES, candidate) ? candidate : LOCALES[0];
 };
 
-// Two jobs on an attacker-settable client-written cookie:
-// 1. OPEN REDIRECT. "//evil.com" is protocol-relative yet passes a naive
-//    startsWith("/"), and "/\\evil.com" passes both string checks but parses as
-//    a host. Reject rather than rewrite: normalizing "//evil.com/steal" to a
-//    valid-looking "/steal" hides the attempt.
-// 2. ENCODING. Localized pathnames are UTF-8 (/ru/модели) and a Location header
-//    takes BYTES, so a raw one throws "Cannot convert argument to a ByteString".
-// The localhost base is a parser seed only; the result is rebuilt from parts.
+// Attacker-settable cookie: "//evil.com" and "/\evil.com" are open redirects that
+// pass a naive startsWith("/"). Reparsing also encodes UTF-8 pathnames (/ru/модели),
+// which a Location header rejects raw as "Cannot convert argument to a ByteString".
 export function sanitizeRedirectPath(target: string): string | null {
   if (!target.startsWith("/") || target.startsWith("//")) return null;
   try {
@@ -109,15 +102,11 @@ export async function redirectToLogin(): Promise<never> {
   });
 }
 
-// For an ALREADY authenticated visitor: back where they were headed before the
-// login wall, else the dashboard.
 export async function redirectFromAuth(): Promise<never> {
   const locale = await serverLocale();
   const stored = String(
     (await getCookie(AUTH_REDIRECT_COOKIE, { cookies })) ?? "",
   );
-  // Redirect["href"] is the closed union of statically-known pathnames, which a
-  // runtime-sanitized string cannot be proven to belong to.
   const target = sanitizeRedirectPath(stored) as Redirect["href"] | null;
   return redirect({ href: target || "/dashboard", locale });
 }

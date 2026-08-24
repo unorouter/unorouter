@@ -24,8 +24,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-// Push revalidates on every app open: pushsubscriptionchange is unreliable on
-// every engine.
 export function NotifyProvider() {
   const t = useTranslations();
   const locale = useLocale();
@@ -43,8 +41,6 @@ export function NotifyProvider() {
       const text = notifyEventText(t, evt);
       toast(text.title, { description: text.body });
       if (soundEnabled) playNotifySound();
-      // A focused tab already has toast + chime + badge, and Brave/Linux is
-      // unreliable about focused-tab banners.
       if (pushEnabled && !document.hasFocus()) {
         void showOsBanner(
           text.title,
@@ -56,7 +52,7 @@ export function NotifyProvider() {
     return () => setNotifyEventHandler(null);
   }, [t, setNotifications, soundEnabled, pushEnabled]);
 
-  // Observer, not a one-shot write: Next swaps the title on every navigation.
+  // Must be an observer: Next swaps the title on every navigation.
   useEffect(() => {
     const apply = () => {
       const bare = document.title.replace(/^\(\d+\+?\) /, "");

@@ -5,13 +5,8 @@ import type { UseFormReturn } from "react-hook-form";
 import type { ImageFormValues } from "@/lib/validation/image";
 import type { CustomCheckpoint } from "../sections/model-picker";
 
-/**
- * The selected passthrough checkpoint. ui.air* is the single source of truth: it
- * survives the post-submit remount, rides in drafts, and restores from snapshots.
- * The picked state only carries picker metadata (hero image, nsfw level) that is not
- * worth persisting; it enriches the derived checkpoint while the same air stays
- * selected and is never read as the selection itself.
- */
+// ui.air* is the single source of truth; lastPicked only enriches it with unpersisted
+// picker metadata and is never the selection itself.
 export function useCheckpoint(form: UseFormReturn<ImageFormValues>) {
   const [lastPicked, setLastPicked] = useState<CustomCheckpoint | null>(null);
 

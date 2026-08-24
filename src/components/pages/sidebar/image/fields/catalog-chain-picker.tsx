@@ -33,15 +33,10 @@ type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
   emptyKey: TranslationKey;
   items: TItem[];
   isLoading: boolean;
-  /** A search is in flight while PREVIOUS results are still on screen. Distinct from
-   *  isLoading, which is only true when there is nothing to show at all. */
   isFetching?: boolean;
   value: TEntry[];
   onAddPayload: (item: TItem) => TEntry;
   onChange: (next: TEntry[]) => void;
-  /** Present = show a search box. The catalog holds tens of thousands of entries, so the
-   *  default page of 24 is a lottery without one. Owned by the caller since it drives the
-   *  query. */
   search?: string;
   onSearchChange?: (next: string) => void;
 };
@@ -116,8 +111,6 @@ export function CatalogChainPicker<
             <Icon name="plus" className="mr-2" />
             {t(props.titleKey)}
           </PopoverTrigger>
-          {/* Fixed-height result area: the popup repositions on size changes, so a
-              growing list made the panel jump per keystroke. Only the contents scroll. */}
           <PopoverContent className="flex w-80 flex-col p-0" align="start">
             {props.onSearchChange && (
               <div className="border-b p-2">
@@ -128,7 +121,6 @@ export function CatalogChainPicker<
                     placeholder={t("IMAGE.CATALOG_SEARCH_PLACEHOLDER")}
                     onChange={(e) => props.onSearchChange?.(e.target.value)}
                   />
-                  {/* 8-22s searches keep stale rows on screen; mark the pending one. */}
                   {props.isFetching ? (
                     <Icon
                       name="loader"
@@ -138,7 +130,6 @@ export function CatalogChainPicker<
                 </div>
               </div>
             )}
-            {/* Also viewport-capped: a constant 20rem spills past a short screen. */}
             <div className="h-[min(20rem,50dvh)] overflow-y-auto">
               {props.isLoading && (
                 <div className="text-muted-foreground p-4 text-sm">
@@ -161,7 +152,6 @@ export function CatalogChainPicker<
                 <div
                   className={cn(
                     "flex flex-col py-2",
-                    // Rows on screen during a fetch belong to the PREVIOUS search term.
                     props.isFetching && "opacity-50",
                   )}
                 >

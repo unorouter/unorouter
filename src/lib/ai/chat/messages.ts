@@ -47,10 +47,9 @@ export function walkActiveBranch<
     isActiveBranch?: boolean | null;
   },
 >(messages: M[]): { path: M[]; tipId: string | undefined } {
-  // A parentId naming a missing row severs the chain: the walk stops at the greeting
-  // and the request ships one message out of a full conversation. The load path repairs
-  // these rows, but the send path reads straight from the DB, so treat an unresolvable
-  // parent as the row's predecessor by array order.
+  // A parentId naming a missing row severs the chain and the request ships one
+  // message out of a full conversation, so an unresolvable parent falls back to
+  // the row's predecessor by array order.
   const ids = new Set(messages.map((m) => m.id));
   const childrenOf = new Map<string | null, M[]>();
   for (let i = 0; i < messages.length; i++) {
@@ -61,10 +60,8 @@ export function walkActiveBranch<
     arr.push(m);
     childrenOf.set(key, arr);
   }
-  // Every sibling deactivated is corruption, not a choice (a branch switch given an
-  // unknown id once deactivated a whole root row of greetings). "Newest" is the wrong
-  // tiebreak there: it picks a childless sibling and the walk stops dead. Prefer the
-  // sibling with children, newest only among equals.
+  // Every sibling deactivated is corruption, not a choice, and "newest" is the
+  // wrong tiebreak there: it picks a childless sibling and the walk stops dead.
   const pickChild = (kids: M[] | undefined): M | undefined => {
     if (!kids || kids.length === 0) return undefined;
     const active = kids.filter((k) => k.isActiveBranch !== false);
@@ -99,11 +96,6 @@ export function joinItemsToMessages<
   return msgs.map((m) => ({ ...m, items: byMsg.get(m.id) ?? [] }));
 }
 
-// One reasoning box per reply. `extractReasoningMiddleware` emits a part for
-// EVERY <think> pair, and models that think between paragraphs produce a handful
-// per turn, which rendered as a stack of collapsed boxes interleaved with the
-// prose ("it gave me 5 responses"). Collapse them at the one boundary both the
-// persist and the reload path cross.
 const REASONING_JOIN = "\n\n";
 
 export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
@@ -121,7 +113,7 @@ export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
       out.push(part);
       continue;
     }
-    // Keep the FIRST slot: reasoning reads as a preamble to the prose it explains.
+    // Keep the FIRST slot.
     if (placed) continue;
     out.push({ ...part, text: merged });
     placed = true;
@@ -157,7 +149,6 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
         });
       }
     } else if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
-      // ai-sdk v6+ typed tool parts (tool-<name> / dynamic-tool).
       const toolCallId = String(part.toolCallId ?? "");
       const toolName =
         part.type === "dynamic-tool"
@@ -288,7 +279,6 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         break;
     }
   }
-  // Rows written before the merge existed still hold one row per <think> block,
-  // and a reply must not change shape between the live stream and the reload.
+  // Rows written before the merge existed still hold one row per <think> block.
   return mergeReasoningParts(parts);
 }

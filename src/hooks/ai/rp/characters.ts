@@ -183,9 +183,6 @@ export function useImportCharacterFromUrlMutation() {
   });
 }
 
-// The fetcher returns lorebooks already normalised, so the card reuses the
-// drag-and-drop file path and the books are attached after, not re-parsed
-// out of the PNG.
 async function persistImportedCard(result: ImportedResult) {
   if (!("card" in result)) {
     throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
@@ -196,9 +193,6 @@ async function persistImportedCard(result: ImportedResult) {
   const file = new File([json], "card.json", { type: "application/json" });
   const setup = await persistCharacterSetupFromFile(file);
 
-  // A card fetched as JSON carries no image and the file path's avatar
-  // extraction only reads PNGs, so without this every link import lands
-  // without a picture while a dropped file keeps one.
   if (result.avatar) {
     const mediaId = uid();
     await upsertLocalMedia({
@@ -243,8 +237,6 @@ async function persistImportedCard(result: ImportedResult) {
     });
   }
 
-  // RisuRealm ships scripts and extra assets beside the card; the engine reads
-  // them off the character, and the file path above cannot carry them.
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of rich?.assets ?? []) {
     const mediaId = uid();

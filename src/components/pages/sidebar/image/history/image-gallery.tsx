@@ -26,13 +26,11 @@ import { useState } from "react";
 
 type QuickHandler = (src: string, target: QuickTarget) => void;
 
-// Falls back to square only when the row carries no dimensions (older rows predate them).
 function aspectRatioOf(img: ImageView): string | undefined {
   if (!img.width || !img.height) return undefined;
   return `${img.width} / ${img.height}`;
 }
 
-// Always visible on touch, which has no hover.
 function QuickButton(props: {
   icon: string;
   label: string;
@@ -51,8 +49,8 @@ function QuickButton(props: {
   );
 }
 
-// The extension must match the actual bytes: Runware serves jpeg/webp, and a jpeg saved
-// as ".png" comes back from an iOS photo roll as a file nothing accepts, ours included.
+// Extension MUST match the actual bytes: a jpeg saved as ".png" returns from an
+// iOS photo roll as a file nothing accepts.
 function imageExt(mimeType: string | null | undefined): string {
   if (mimeType === "image/jpeg") return "jpg";
   if (mimeType === "image/webp") return "webp";
@@ -70,7 +68,6 @@ function ImageTile(props: {
   alt: string;
   filename: string;
   className?: string;
-  /** CSS aspect-ratio. Absent keeps whatever the className sets. */
   aspectRatio?: string;
   seed?: number | null;
   onZoom: () => void;
@@ -109,7 +106,6 @@ function ImageTile(props: {
           alt={props.alt}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          // contain when the box matches the image: never crop a paid result.
           className={props.aspectRatio ? "object-contain" : "object-cover"}
         />
       </button>
@@ -185,7 +181,7 @@ export function BatchGrid(props: {
         src={sorted[0].src}
         alt={props.prompt}
         filename={`${props.snapshotId}.${imageExt(sorted[0].mimeType)}`}
-        // aspect-square only as fallback: a fill image in a height-less box collapses.
+        // A fill image in a height-less box collapses.
         className={aspectRatioOf(sorted[0]) ? "w-full" : "aspect-square w-full"}
         aspectRatio={aspectRatioOf(sorted[0])}
         seed={sorted[0].seed}

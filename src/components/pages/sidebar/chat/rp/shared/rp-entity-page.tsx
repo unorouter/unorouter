@@ -20,15 +20,11 @@ type RpEntityPageProps = {
   onBack: () => void;
   editor: ReactNode;
   list: ReactNode;
-  // Rendered beside the New button, hidden while editing like New itself.
   headerActions?: ReactNode;
 };
 
 export function RpEntityPage(props: RpEntityPageProps) {
   const t = useTranslations();
-  // Presets and Cards are routes rather than dialogs, so leaving one lands on
-  // /chat, which renders the welcome placeholder instead of whatever the user
-  // was in the middle of. Send them back to the conversation itself.
   const convId = useAtomValue(convIdAtom);
 
   return (

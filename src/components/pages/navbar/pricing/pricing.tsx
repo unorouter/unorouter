@@ -26,13 +26,10 @@ type TopUpOption = {
   handler: () => void;
 };
 
-// How much of the free-model wait each tier removes, by card position. Must match what the
-// subscription writes to the user's rate-limit discount or the card promises a speed the
-// gateway does not give. 100 is a real bypass, not a floored window.
+// Must match the rate-limit discount the subscription writes, or the card promises a speed
+// the gateway does not give.
 const FREE_RATE_LIMIT_PCT_BY_TIER = [50, 75, 100];
 
-// Mirrors the upstream Creem handler's bounds so the field rejects what the API would. The
-// buyer covers the processing fee on top, so a 1 top-up bills more than 1 and credits 1.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 // DeloPay takes whole dollars only (int64 upstream).
@@ -52,8 +49,7 @@ export function Pricing() {
   const topUpInfo = billing.topUpInfo;
   const [customAmount, setCustomAmount] = useState("");
 
-  // Creem still requires a product_id even for a custom amount; the cheapest gives the
-  // finest price/quota ratio to scale from.
+  // Creem still requires a product_id even for a custom amount.
   const customTopUpProductId =
     billing.paymentMethod === "card" && billing.enableCreem
       ? ((topUpInfo?.creemProducts ?? [])
@@ -69,8 +65,6 @@ export function Pricing() {
     !!customTopUpProductId || cryptoCustomEnabled || paypalCustomEnabled;
   const customMax = paypalCustomEnabled ? DELOPAY_MAX : CUSTOM_MAX;
   const customMin = paypalCustomEnabled ? billing.deloPayMinTopUp : CUSTOM_MIN;
-  // The tiles show the credit, not the charge, so checkout must not be the first place a
-  // higher number appears.
   const paypalFee = billing.deloPayChargedAmount(1) - 1;
   const paypalFeeNotice =
     paypalFee > 0
@@ -162,8 +156,6 @@ export function Pricing() {
     return [];
   }
 
-  // Only what differs by tier: "all models", failover and the OpenAI-compatible endpoint
-  // are true of the free tier too.
   function buildFeatures(index: number): PricingFeature[] {
     const pct = FREE_RATE_LIMIT_PCT_BY_TIER[index];
     return [
@@ -173,7 +165,6 @@ export function Pricing() {
           pct === 100
             ? t("PRICING.FEATURE.NO_FREE_WAIT")
             : t("PRICING.FEATURE.FREE_WAIT", { percent: String(pct) }),
-        // The limit removed is ours; upstream free tiers are shared and still fail.
         note: t("PRICING.FEATURE.FREE_WAIT_NOTE"),
       },
     ];

@@ -2,17 +2,12 @@ import type { ImageParams } from "@/openapi";
 import type { ModelParamSpec } from "@/lib/ai/image/schema-spec";
 import snapshot from "@/lib/ai/image/runware-schemas.json";
 
-// Where no spec resolves, the caller's own inference stands: a model that cannot be
-// looked up keeps the behaviour it would have had without any snapshot.
-
 const SNAPSHOT: {
   byAir: Record<string, ModelParamSpec>;
   byArchitecture: Record<string, ModelParamSpec>;
 } = snapshot;
 
-// The catalog labels lineage with `series` ("Pony", "Illustrious"); Runware uses
-// architecture slugs. This join is what lets an arbitrary Civitai checkpoint resolve
-// without a per-model entry.
+// Catalog `series` ("Pony", "Illustrious") to Runware architecture slug.
 const SERIES_TO_ARCHITECTURE: Record<string, string> = {
   sdxl: "sdxl",
   pony: "pony",
@@ -23,9 +18,8 @@ const SERIES_TO_ARCHITECTURE: Record<string, string> = {
   hidream: "hidream-i1-dev",
 };
 
-// Provider-hosted catalog rows carry neither an AIR nor a series, so both tiers below miss
-// and they fall back to generic diffusion inference: a Steps slider and a CFG field on
-// FLUX.2 max, which rejects both. The published name is all those rows carry.
+// Provider-hosted rows carry neither AIR nor series, so both lookup tiers miss and they
+// fall back to generic diffusion inference, offering Steps and CFG that FLUX.2 rejects.
 const MODEL_NAME_TO_AIR: Record<string, string> = {
   "flux.2-max": "bfl:7@1",
   "flux.2-pro": "bfl:5@1",
@@ -42,7 +36,6 @@ export function airForModelName(
   return MODEL_NAME_TO_AIR[name.trim().toLowerCase()] ?? null;
 }
 
-// AIR is exact; architecture is the fallback tier.
 export function lookupParamSpec(
   air: string | null | undefined,
   series: string | null | undefined,
@@ -54,8 +47,7 @@ export function lookupParamSpec(
   const direct =
     SNAPSHOT.byArchitecture[mapped] ?? SNAPSHOT.byArchitecture[key];
   if (direct) return direct;
-  // Runware labels variants off the base architecture ("pony_v7", "sdxl_lightning") and a
-  // variant takes its base's parameters, so an unseen suffix need not drop every control.
+  // Runware variant slugs ("pony_v7", "sdxl_lightning") inherit the base architecture.
   const base = key.split(/[_-]/)[0];
   const baseSlug = SERIES_TO_ARCHITECTURE[base] ?? base;
   return SNAPSHOT.byArchitecture[baseSlug] ?? null;
@@ -65,8 +57,6 @@ function numeric(value: unknown): number | undefined {
   return typeof value === "number" ? value : undefined;
 }
 
-// Deliberately the same shape the gateway sends, so the form can merge a user-picked
-// checkpoint onto the catalog row and every consumer keeps reading one field.
 export function specToImageParams(spec: ModelParamSpec): ImageParams {
   const params = spec.params;
   const vendorParam = (name: string) =>
@@ -97,7 +87,6 @@ export function specToImageParams(spec: ModelParamSpec): ImageParams {
     outputFormatChoices: params.outputFormat?.enum,
     qualityChoices: vendorParam("quality")?.enum,
     backgroundChoices: vendorParam("background")?.enum,
-    // A checkpoint always runs the diffusion endpoint, which takes a size.
     endpoint: "image-generation",
     supportsSize: true,
     defaultWidth: 1024,

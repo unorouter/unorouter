@@ -21,28 +21,22 @@ export const onRequestError: Instrumentation.onRequestError = async (
         : request.headers.cookie,
     );
 
-    // Correlates this stack to the opaque digest-only error the client reports.
     const digest =
       err && typeof err === "object" && "digest" in err
         ? String((err as { digest?: unknown }).digest ?? "")
         : "";
 
-    // notFound()/redirect() are control flow, not faults.
     if (/NEXT_HTTP_ERROR_FALLBACK|NEXT_REDIRECT|NEXT_NOT_FOUND/.test(digest)) {
       return;
     }
 
-    // The peer hung up mid-stream.
     const message = err instanceof Error ? err.message : String(err ?? "");
     if (message.includes("failed to pipe response")) return;
 
-    // Those same signals can arrive with digest AND message stripped, past the
-    // check above. Flooded 25k+ events per 48h, twice.
+    // Stripped-digest control-flow signals; 25k+ events per 48h when reported.
     if (!message.trim()) return;
 
-    // Bots POST garbage that Next routes here and parses as Server Action
-    // FormData. Scoped to the route, not the message, so real FormData faults
-    // stay reportable.
+    // Bot POSTs Next parses as Server Action FormData.
     if (context.routePath === "/_not-found/page") return;
 
     posthog.captureException(err, distinctId, {

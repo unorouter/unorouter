@@ -231,8 +231,6 @@ function GroupSubmenu(props: {
         side="right"
         align="start"
         sideOffset={4}
-        // 20+ provider groups overflow the viewport; --available-height is the room the
-        // positioner has on the chosen side.
         className="max-h-[min(20rem,var(--available-height,20rem))] w-60 gap-0 overflow-y-auto p-1"
       >
         <button
@@ -331,10 +329,8 @@ export function ModelSelector(props: ModelSelectorProps) {
     : Object.keys(groupRatioMap);
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
 
-  // An unservable pin makes new-api silently fall back to auto while the UI still claims
-  // it. Reset only once SETTLED: the upstream list is a 5-minute cache, and a model
-  // repopulating it returns without lanes it regains seconds later, so a non-empty list
-  // is not proof it is complete and resetting off a partial one deletes the pin forever.
+  // Reset only once SETTLED: the upstream list is a 5-minute cache, so a non-empty
+  // list is not proof it is complete and a partial one deletes the pin forever.
   const candidateGroupsKey = candidateGroups.join("|");
   const groupsSettled =
     modelGroupsQuery.isSuccess && !modelGroupsQuery.isFetching;
@@ -443,7 +439,6 @@ export function ModelSelector(props: ModelSelectorProps) {
               />
             )}
           </CommandList>
-          {/* The group is new-api's X-Group, and custom models never reach new-api. */}
           {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
             <GroupSubmenu
               value={props.value}

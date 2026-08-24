@@ -5,8 +5,6 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import type { PaymentMethod } from "@/store/client-store";
 import { useTranslations } from "next-intl";
 
-// compact: sits inside a section header that already says what it applies to,
-// so the standalone "Payment method" label would just repeat the context.
 export function PaymentMethodToggle(props: {
   centered?: boolean;
   compact?: boolean;

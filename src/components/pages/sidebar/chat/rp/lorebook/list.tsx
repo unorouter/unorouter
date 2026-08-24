@@ -117,8 +117,6 @@ export function LorebookList(props: Props) {
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}
                   onUrl={(input) =>
                     importUrlMut.mutateAsync(input).then((r) => {
-                      // It lands in Scripts, not this list, so saying nothing
-                      // reads as an import that silently did nothing.
                       if (r?.importedAsPlugin) {
                         toast.success(
                           t("RP.LOREBOOKS_IMPORTED_AS_SCRIPT", {

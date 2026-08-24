@@ -14,8 +14,8 @@ import {
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-// The resolver forwards only `message` to the field and drops the schema, so a
-// key whose text interpolates a bound must carry that bound with it.
+// The resolver forwards only `message` and drops the schema, so a key whose
+// text interpolates a bound must carry that bound with it.
 function formError(
   key: TranslationKey,
   params?: Record<string, string | number>,
@@ -117,8 +117,6 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   return { message, params: found?.params, code, status, requestId };
 }
 
-// Resolves what SetErrorFunction produced: a bare key, or a key plus its bound.
-// A hand-set form.setError string passes through untouched.
 export function translateFormError(
   message: string,
   t: ReturnType<typeof useTranslations<never>>,
@@ -130,7 +128,6 @@ export function translateFormError(
     : key;
 }
 
-// For analytics only, never user-facing.
 export function classifyStreamError(detail: ErrorDetail): string {
   const s = detail.status;
   if (s === 429) return "rate_limit";
@@ -227,8 +224,8 @@ export function handleError(
   toast.error(title, { duration: 5000, id: toastId, description });
 }
 
-// Gated on the auth cache because 401 is legitimate for a guest (BYOK, paid
-// model without a session) and redirecting them would hide the real error.
+// Gated on the auth cache because 401 is legitimate for a guest (BYOK), and
+// redirecting them would hide the real error.
 function redirectToLoginPreservingLocation() {
   if (typeof window === "undefined") return;
   if (!getQueryClient().getQueryData(queryKeys.auth())) return;
@@ -264,8 +261,6 @@ export function downloadBlob(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-// File System Access where available, so a large file never materializes in the
-// JS heap; iOS falls through to Web Share, then a blob.
 export async function streamFileToDisk(
   file: File,
   filename: string,
@@ -320,8 +315,8 @@ export async function streamFileToDisk(
       logChatDebug("save.fsa_failed", { error: String(err).slice(0, 200) });
     }
   }
-  // octet-stream and no title: iOS has no x-sqlite3 handler, so the share sheet
-  // degrades to sharing the title as text (9MB DB saved as a 45-byte txt).
+  // iOS has no x-sqlite3 handler and degrades to sharing the title as text
+  // (9MB DB saved as a 45-byte txt), hence octet-stream and no title.
   const shareFile = new File([file], filename, {
     type: "application/octet-stream",
   });

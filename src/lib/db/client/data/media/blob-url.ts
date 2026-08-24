@@ -2,13 +2,7 @@
 
 import { base64ToUint8 } from "@/lib/utils/base";
 
-// A base64 `data:` URI for a multi-megabyte image is a multi-megabyte STRING
-// in React state, re-parsed by the browser on every paint; a blob: URL is ~40
-// chars over bytes decoded once.
-//
-// Blob URLs are per-document and leak until revoked, hence the keyed cache.
-// NEVER persist or export one: it is meaningless in another document and after
-// a reload. The stored form stays the media id.
+// NEVER persist or export a blob: URL; it is dead after a reload. Store the media id.
 const urls = new Map<string, string>();
 
 export function mediaBlobUrl(
@@ -32,8 +26,6 @@ export function revokeMediaBlobUrl(key: string): void {
   URL.revokeObjectURL(url);
 }
 
-// For values that LEAVE the document: a blob: URL means nothing to a server, so
-// anything forwarded upstream (an init image, a reference) has to carry bytes.
 export async function blobUrlToDataUri(url: string): Promise<string> {
   const blob = await (await fetch(url)).blob();
   return new Promise((resolve, reject) => {

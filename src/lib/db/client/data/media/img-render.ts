@@ -10,15 +10,9 @@ import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
 import { atom } from "jotai";
 
-// RisuAI-style named character image assets. The CBS macro engine strips
-// `{{img::...}}` to "" at request build, so the token is author-emitted in the
-// reply and resolved ONLY here, at display time, by name against the bound
-// characters' `assets`.
-
 export const imgVersionAtom = atom(0);
 
-// A resolved-empty marker (src "") prevents re-resolving an unknown name every
-// render.
+// src "" is the resolved-empty marker; without it an unknown name re-resolves every render.
 type ResolvedAsset = {
   src: string;
   width: number | null;
@@ -33,8 +27,7 @@ function key(convId: string, nameLower: string): string {
   return `${convId}:${nameLower}`;
 }
 
-// A bump re-runs the full markdown pipeline for every message with an img
-// token, so N assets resolving in one tick coalesce into one re-render.
+// A bump re-runs the full markdown pipeline for every message with an img token.
 let bumpScheduled = false;
 function bump(): void {
   if (bumpScheduled) return;
@@ -51,7 +44,6 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
     (c) => c.characterId,
   );
   const chars = await Promise.all(charIds.map((id) => readLocalCharacter(id)));
-  // First bound character with a matching asset wins (group-chat friendly).
   let mediaId: string | undefined;
   for (const char of chars) {
     const hit = (char?.assets ?? []).find(
@@ -71,9 +63,7 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
     : "";
-  // The renderer reserves the box from `@WxH` in the alt text, so an image
-  // popping in mid-stream cannot grow the thread under the reader. Unmeasured
-  // rows are measured here (off the render path) and backfilled.
+  // The renderer reserves the box from `@WxH` in the alt text.
   let width = row?.width ?? null;
   let height = row?.height ?? null;
   if (src && row?.dataBase64 && (!width || !height)) {

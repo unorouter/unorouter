@@ -54,8 +54,6 @@ export function RegisterForm() {
     return () => clearTimeout(id);
   }, [resendSeconds]);
 
-  // The cookie only survives same-browser visits, so a user who clicked the
-  // link elsewhere has to type the code. Prefill rather than hide the field.
   useEffect(() => {
     const stored = getCookie(AFF_CODE_KEY);
     if (typeof stored === "string" && stored && !form.getValues("aff_code")) {

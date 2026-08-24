@@ -1,8 +1,7 @@
 import type { IconComponent } from "@/lib/config/vendor-registry";
 
-// Thinking Machines Lab ships no logo: their brand is the wordmark "THINKING
-// MACHINES" set in GT America Thin. These are the real T and M outlines from that
-// face, kept as geometry so no licensed font file is redistributed.
+// GT America Thin T and M outlines kept as geometry: the font file is licensed
+// and must not be redistributed.
 const ThinkingMachinesIcon: IconComponent = (props) => (
   <svg
     role="img"

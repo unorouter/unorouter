@@ -24,9 +24,6 @@ export function normalizeTaskStatus(raw: string | undefined): string {
   return lower;
 }
 
-// T is the caller's all-optional view of an untyped upstream body, so it cannot
-// be proven here; a record is the most that can be established. Every field is
-// optional and read with `?.`, which is what keeps the claim harmless.
 export function unwrapTaskData<T extends object>(raw: unknown): T | null {
   const body = rec(raw);
   if (!body) return null;
@@ -34,9 +31,6 @@ export function unwrapTaskData<T extends object>(raw: unknown): T | null {
   return (inner ?? body) as T;
 }
 
-// Walks an arbitrary error value (parsed upstream JSON, or the {status, data,
-// headers} object customFetch throws on non-2xx) for the first human-readable
-// message. Upstream nests these differently per provider, hence the search.
 export function digErrorMessage(value: unknown): string | null {
   const stack: unknown[] = [value];
   while (stack.length > 0) {

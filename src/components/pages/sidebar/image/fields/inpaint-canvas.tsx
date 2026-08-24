@@ -26,8 +26,6 @@ export function InpaintCanvas(props: Props) {
   const form = useFormContext<ImageFormValues>();
   const editorRef = useRef<MaskEditorCanvasRef | null>(null);
 
-  // The editor scales the canvas into a fixed 300px-tall box, so a portrait render paints
-  // at ~200px wide. Size the box to the source aspect ratio instead.
   const [aspect, setAspect] = useState<number | null>(null);
   useEffect(() => {
     let alive = true;
@@ -43,9 +41,7 @@ export function InpaintCanvas(props: Props) {
     };
   }, [props.imageUrl]);
 
-  // react-canvas-masker listens for mouse events only, and iOS Safari synthesizes compat
-  // mouse events for taps but not drags, so touch users could only dab dots. Two-finger
-  // gestures pass through untouched for its pinch zoom.
+  // iOS Safari synthesizes compat mouse events for taps but not drags, and react-canvas-masker listens for mouse only.
   const wrapRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -94,8 +90,7 @@ export function InpaintCanvas(props: Props) {
   const setMask = (value: string | undefined) =>
     form.setValue("ui.inpaintMaskDataUrl", value, { shouldDirty: true });
 
-  // Empty canvas means no mask, not an all-black one. The canvas is unsized until the
-  // source image loads and toMask throws IndexSizeError on a zero dimension.
+  // toMask throws IndexSizeError on a zero-dimension canvas (unsized until the source loads).
   const syncMaskFromCanvas = () => {
     const canvas = editorRef.current?.maskCanvas;
     if (!canvas || !canvas.width || !canvas.height) {
@@ -114,8 +109,6 @@ export function InpaintCanvas(props: Props) {
     syncMaskFromCanvas();
   };
 
-  // The editor paints the in-progress stroke on its last-child cursor overlay canvas and
-  // wipes it only on the next stroke, so undo/redo/clear leaves a ghost until then.
   const clearCursorGhost = () => {
     const overlay = [...(wrapRef.current?.querySelectorAll("canvas") ?? [])].at(
       -1,

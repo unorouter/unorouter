@@ -20,8 +20,6 @@ const pending = new Set<string>();
 
 const INLAY_TOKEN_RE = /\{\{inlay::([\w-]+)\}\}/g;
 
-// Written back by the renderer on first decode, so every later render of the
-// same image reserves its box up front.
 export function rememberInlayDimensions(
   id: string,
   width: number,
@@ -32,8 +30,6 @@ export function rememberInlayDimensions(
   cache.set(id, { ...hit, width, height });
 }
 
-// A bump re-runs the full markdown pipeline for every message holding an inlay
-// token, so N rows resolving in one tick coalesce into one re-render.
 let bumpScheduled = false;
 function scheduleBump(): void {
   if (bumpScheduled) return;
@@ -49,17 +45,12 @@ export function requestInlay(id: string): void {
   pending.add(id);
   void readLocalMedia(id)
     .then(async (row) => {
-      // A resolved-empty marker ("") for a missing/dataless row stops an
-      // unknown inlay re-hitting OPFS every render and pinning the main thread.
       const src =
         (row?.dataBase64
           ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
           : (row?.r2Url ?? null)) ?? "";
       let width = row?.width ?? null;
       let height = row?.height ?? null;
-      // Measured here, not from the img's onLoad, so the alt token carries
-      // `@WxH` on the FIRST render: a box reserved only after decode still
-      // grows the thread under the reader once per unmeasured row.
       if (src && row?.dataBase64 && (!width || !height)) {
         try {
           const bmp = await createImageBitmap(await (await fetch(src)).blob());

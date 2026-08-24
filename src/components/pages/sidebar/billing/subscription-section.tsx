@@ -30,7 +30,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-// Expired plans stay visible for a grace window, then drop off the list.
 const EXPIRED_RETENTION_DAYS = 30;
 
 export function SubscriptionSection() {
@@ -242,9 +241,6 @@ export function SubscriptionSection() {
           </span>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {plans.map((plan, i) => {
-              // Middle tier, matching the pricing page. Derived from the plan
-              // list rather than a fixed index so it still lands on the middle
-              // card if a plan is added or reordered.
               const recommended = i === Math.floor((plans.length - 1) / 2);
               const multiplier =
                 plan.plan.price_amount > 0

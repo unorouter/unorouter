@@ -33,9 +33,6 @@ const PARSERS = {
   max_output_price: parseAsFloat,
   max_age_days: parseAsInteger,
   modality: parseAsStringLiteral(OUTPUT_MODALITIES),
-  // Comma separated so a chain travels in one param: ?order=priceAsc,successDesc.
-  // A single value still parses, so every ?order=newest link already shared keeps
-  // working.
   order: parseAsArrayOf(parseAsStringLiteral(SORT_VALUES)),
   tools: parseAsBoolean,
   paid: parseAsBoolean,
@@ -48,11 +45,9 @@ export function ModelsUrlSync() {
   const [params, setParams] = useQueryStates(PARSERS);
 
   useEffect(() => {
-    // setParams writes the URL and the atom is cookie-persisted, so its own
-    // setItem re-notifies this subscriber. Both guards below break that loop,
-    // which otherwise overflowed the stack on iOS ("Maximum call stack size
-    // exceeded" on /models with filters): mute while the seed's two writes
-    // apply, and only push a genuinely new value.
+    // setParams writes the URL and the atom's own setItem re-notifies this
+    // subscriber. Both guards below break that loop, which overflowed the stack
+    // on iOS: mute during the seed's writes, and only push a NEW value.
     let seeding = false;
     let lastPushed = "";
     const writeback = () => {
@@ -74,8 +69,8 @@ export function ModelsUrlSync() {
           s.outputPriceMax < PRICE_MAX ? s.outputPriceMax : null,
         max_age_days: s.maxAgeDays > 0 ? s.maxAgeDays : null,
         modality: s.outputModality !== "all" ? s.outputModality : null,
-        // Read defensively: this runs against the RAW cookie value, and a
-        // cookie written before sortKeys existed has no such field.
+        // Runs against the RAW cookie value: one written before sortKeys
+        // existed has no such field.
         order: nonEmptyArray<string>(s.sortKeys)
           ? s.sortKeys
           : s.sortOrder !== "newest"
@@ -93,14 +88,13 @@ export function ModelsUrlSync() {
     };
     const unsub = store.sub(modelsStoreAtom, writeback);
 
-    // The closure holds the mount-time params (the link's own values):
-    // subscribing above mounts the storage atom, whose cookie-hydration set
-    // fires the writeback and rewrites the URL before the deferred seed runs.
+    // Mount-time params: subscribing above mounts the storage atom, whose
+    // cookie-hydration fires the writeback and rewrites the URL first.
     const seed = params;
 
     // Deferred one tick: this effect runs BEFORE the page components' own
-    // subscription effects (child before parent), and jotai does not
-    // reconcile a value that changed between their render and subscribe.
+    // subscription effects (child before parent), and jotai does not reconcile
+    // a value that changed between their render and subscribe.
     const timer = setTimeout(() => {
       const cur = store.get(modelsStoreAtom);
       const next: ModelsStoreState = { ...cur };
@@ -156,8 +150,6 @@ export function ModelsUrlSync() {
       } finally {
         seeding = false;
       }
-      // One deliberate sync after the seed settles, so the URL reflects the
-      // final state without the intermediate reset ever reaching nuqs.
       writeback();
     }, 0);
     return () => {

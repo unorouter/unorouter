@@ -50,11 +50,6 @@ const docsSubmenu = (): NavigationItem[] => {
   return [
     ...platformItems,
     ...chatItems,
-    // One row per category rather than one per guide. Listing all 24 integrations
-    // here made the panel taller than the viewport and put a scrollbar inside a
-    // menu; nobody scans two dozen logos to find their client, they go to the
-    // index and search. Platform and Chat stay expanded: those are the pages the
-    // navbar exists to reach.
     ...CATEGORY_ORDER.flatMap((category): NavigationItem[] => {
       const guides = byCategory[category];
       if (guides.length === 0) return [];

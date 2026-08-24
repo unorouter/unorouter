@@ -50,8 +50,6 @@ export function TimeoutCard() {
     const perAttempt = s.max_first_token_seconds ?? 0;
     form.reset({
       timeout_enabled: perAttempt > 0,
-      // Keep the placeholder default visible when the feature is off, so the
-      // field is not a bare 0 the moment the switch is flipped on.
       max_first_token_seconds: perAttempt > 0 ? perAttempt : 60,
       max_chain_first_token_seconds: s.max_chain_first_token_seconds ?? 0,
     });

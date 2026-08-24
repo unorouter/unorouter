@@ -19,13 +19,9 @@ export type TransportArgs = {
 
 export type TransportFn = (args: TransportArgs) => Promise<TransportResult>;
 
-// A CORS block and a dead host both surface as an opaque TypeError
-// (https://github.com/whatwg/fetch/issues/1123). A "no-cors" retry separates
-// them: it skips the CORS check, so it resolves when only CORS was in the way and
-// still rejects when nothing is listening. It is deliberately NOT the original
-// request, since no-cors strips Authorization and forces a safelisted
-// content-type: it proves reachability only, and the opaque response is never
-// inspected.
+// CORS block and dead host both surface as an opaque TypeError
+// (whatwg/fetch#1123). no-cors strips Authorization, so this proves reachability
+// ONLY and its opaque response must never be inspected.
 async function corsBlockedNotUnreachable(
   url: string,
   timeoutMs: number,

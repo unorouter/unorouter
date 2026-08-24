@@ -78,7 +78,6 @@ function imageToMediaRow(
   };
 }
 
-// The gateway writes its log row after answering; retry briefly, give up = no price.
 async function backfillSnapshotCost(
   snapshotId: string,
   sessionId: string,
@@ -113,8 +112,8 @@ async function backfillSnapshotCost(
   }
 }
 
-// Time bucket in the dedupe hash: content alone hashed identically forever, so a
-// deliberate regenerate was swallowed and Generate looked dead.
+// The time bucket is load-bearing: without it a deliberate regenerate hashes
+// identically forever and is silently swallowed.
 const SUBMIT_DEDUPE_WINDOW_MS = 5_000;
 
 function submittedKeyFor(body: SubmitArgs): string {
@@ -336,8 +335,6 @@ export function useImportGenerationMutation() {
         : [args.payload];
       let sessionId = "";
       for (const snap of snapshots) {
-        // Snapshot payload fields are stored loosely for restore-lenience; regenerating
-        // resubmits them, so anything that fails the schema is dropped, not forwarded.
         const params = safeParse(imageParamsChecker, snap.params);
         const loras = safeParse(imageLorasChecker, snap.loras);
         const references = safeParse(imageReferencesChecker, snap.references);

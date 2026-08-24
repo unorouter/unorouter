@@ -24,13 +24,10 @@ export type TableStorageStat = {
   rows: number;
   bytes: number;
   size: string;
-  // dbstat reports table totals only, which names a table but not the column
-  // that grew it.
+  // dbstat reports table totals only, never per-column.
   columnBytes?: Record<string, number>;
 };
 
-// request_logs stores finalMessages (the ENTIRE assembled conversation) per
-// message, so storage is QUADRATIC in thread length, images or not.
 const HEAVY_COLUMNS: Record<string, string[]> = {
   request_logs: ["final_messages", "request_body", "assembled_system"],
   message_items: ["data"],
@@ -212,8 +209,7 @@ async function buildDiagnosticsHead() {
   }
 
   // Every read past here is best-effort: the export must still be produceable
-  // on the DB-unavailable path, which is exactly when it is needed. The debug
-  // log is in localStorage and survives regardless.
+  // on the DB-unavailable path, which is exactly when it is needed.
   let convs: Awaited<ReturnType<typeof readLocalConversations>> = [];
   try {
     convs = (await readLocalConversations()) ?? [];
@@ -348,8 +344,6 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     dbInfo: head.dbInfo,
     conversations: head.conversations,
     presets: head.presets,
-    // A failed tokenizer load still counts, at ~4 chars per token, under the
-    // requested name, so the name alone does not say which one ran.
     tokenizer: activeTokenizerState(),
     messagesByConv,
     requestLogsByConv,
@@ -360,9 +354,7 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
   };
 }
 
-// A display plugin rewrites reply text on its way INTO the markdown parser, so
-// it is the first suspect when a render throws. The script itself is NEVER
-// included: it is user-authored and this file gets pasted into public channels.
+// The script body is NEVER included: this file gets pasted into public channels.
 const PLUGIN_HOOKS = [
   "display",
   "editRequest",
@@ -380,8 +372,6 @@ async function describeJsPlugins() {
       kind: p.kind,
       enabled: p.enabled,
       scriptChars: p.script.length,
-      // Registration is a plain call in the script body, so a substring match
-      // names the hooks without executing it.
       hooks: PLUGIN_HOOKS.filter((h) => p.script.includes(h)),
     }));
   } catch {

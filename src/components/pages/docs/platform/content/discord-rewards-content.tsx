@@ -17,7 +17,6 @@ export async function DiscordRewardsContent() {
   const t = await getTranslations();
   const locale = await getLocale();
   const rewards = await getRewardAmounts(locale);
-  // ICU values take scalars, so the level rows stay out of this object.
   const values = {
     ...APP_VALUES,
     connectReward: rewards.connectReward,

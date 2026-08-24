@@ -6,8 +6,6 @@ import { useState } from "react";
 
 const PER_PAGE = 24;
 
-// The bars only stack the top N models, so the full ranked list would otherwise
-// be invisible. Paginate it rather than silently truncating.
 export function PagedChartLegend(props: { names: string[] }) {
   const [page, setPage] = useState(0);
   const pageCount = Math.max(1, Math.ceil(props.names.length / PER_PAGE));
