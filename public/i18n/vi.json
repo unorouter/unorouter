@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Tạo âm thanh thất bại",
     "NO_AUDIO_PROMPT": "Không có văn bản để tạo giọng nói",
     "EMBEDDING_FAILED": "Tạo embedding thất bại",
-    "NO_EMBEDDING_INPUT": "Không có văn bản để nhúng"
+    "NO_EMBEDDING_INPUT": "Không có văn bản để nhúng",
+    "CARD_IMPORT_TOO_MANY": "Bạn đang có các lượt nhập đang chạy. Hãy đợi chúng hoàn tất rồi thử lại.",
+    "CARD_IMPORT_NOT_FOUND": "Nhân vật đó không còn tồn tại ở nguồn, hoặc đã được đặt ở chế độ riêng tư.",
+    "CARD_IMPORT_PRIVATE": "Tác giả để ở chế độ riêng tư nên không thể tải về.",
+    "CARD_IMPORT_EMPTY": "Không có gì để nhập ở liên kết đó.",
+    "CARD_IMPORT_TIMED_OUT": "Nguồn phản hồi quá lâu. Hãy thử lại sau một phút.",
+    "CARD_IMPORT_JOB_GONE": "Lượt nhập đó đã hết hạn trước khi hoàn tất. Hãy gửi lại liên kết."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

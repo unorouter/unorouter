@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Generowanie dźwięku nie powiodło się",
     "NO_AUDIO_PROMPT": "Nie podano tekstu do generowania mowy",
     "EMBEDDING_FAILED": "Generowanie osadzenia nie powiodło się",
-    "NO_EMBEDDING_INPUT": "Nie podano tekstu do osadzenia"
+    "NO_EMBEDDING_INPUT": "Nie podano tekstu do osadzenia",
+    "CARD_IMPORT_TOO_MANY": "Masz już trwające importy. Poczekaj, aż się zakończą, i spróbuj ponownie.",
+    "CARD_IMPORT_NOT_FOUND": "Tej postaci już nie ma w źródle albo została ustawiona jako prywatna.",
+    "CARD_IMPORT_PRIVATE": "Autor zachował to jako prywatne, więc nie da się pobrać.",
+    "CARD_IMPORT_EMPTY": "Pod tym linkiem nie było nic do zaimportowania.",
+    "CARD_IMPORT_TIMED_OUT": "Źródło odpowiadało zbyt długo. Spróbuj ponownie za minutę.",
+    "CARD_IMPORT_JOB_GONE": "Ten import wygasł przed zakończeniem. Wyślij link ponownie."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

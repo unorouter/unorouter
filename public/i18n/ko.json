@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "오디오 생성에 실패했습니다",
     "NO_AUDIO_PROMPT": "음성 생성을 위한 텍스트가 없습니다",
     "EMBEDDING_FAILED": "임베딩 생성에 실패했습니다",
-    "NO_EMBEDDING_INPUT": "임베딩할 텍스트가 없습니다"
+    "NO_EMBEDDING_INPUT": "임베딩할 텍스트가 없습니다",
+    "CARD_IMPORT_TOO_MANY": "이미 진행 중인 가져오기가 있습니다. 완료된 뒤 다시 시도하세요.",
+    "CARD_IMPORT_NOT_FOUND": "해당 캐릭터가 원본에 더 이상 없거나 비공개로 전환되었습니다.",
+    "CARD_IMPORT_PRIVATE": "작성자가 비공개로 설정해 두어 내려받을 수 없습니다.",
+    "CARD_IMPORT_EMPTY": "그 링크에는 가져올 수 있는 내용이 없었습니다.",
+    "CARD_IMPORT_TIMED_OUT": "원본 응답이 너무 오래 걸렸습니다. 잠시 후 다시 시도하세요.",
+    "CARD_IMPORT_JOB_GONE": "해당 가져오기가 끝나기 전에 만료되었습니다. 링크를 다시 보내세요."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

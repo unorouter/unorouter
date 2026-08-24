@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Pembuatan audio gagal",
     "NO_AUDIO_PROMPT": "Tidak ada teks untuk pembuatan suara",
     "EMBEDDING_FAILED": "Pembuatan embedding gagal",
-    "NO_EMBEDDING_INPUT": "Tidak ada teks untuk disematkan"
+    "NO_EMBEDDING_INPUT": "Tidak ada teks untuk disematkan",
+    "CARD_IMPORT_TOO_MANY": "Kamu sudah punya impor yang berjalan. Tunggu sampai selesai, lalu coba lagi.",
+    "CARD_IMPORT_NOT_FOUND": "Karakter itu sudah tidak ada di sumbernya, atau dijadikan privat.",
+    "CARD_IMPORT_PRIVATE": "Pembuatnya menyetel ini privat, jadi tidak bisa diunduh.",
+    "CARD_IMPORT_EMPTY": "Tidak ada yang bisa diimpor dari tautan itu.",
+    "CARD_IMPORT_TIMED_OUT": "Sumbernya terlalu lama merespons. Coba lagi sebentar.",
+    "CARD_IMPORT_JOB_GONE": "Impor itu kedaluwarsa sebelum selesai. Kirim tautannya lagi."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

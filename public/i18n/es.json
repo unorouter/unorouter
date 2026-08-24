@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Error al generar el audio",
     "NO_AUDIO_PROMPT": "No se proporcionó texto para generar voz",
     "EMBEDDING_FAILED": "Error al generar el embedding",
-    "NO_EMBEDDING_INPUT": "No se proporcionó texto para incrustar"
+    "NO_EMBEDDING_INPUT": "No se proporcionó texto para incrustar",
+    "CARD_IMPORT_TOO_MANY": "Ya tienes importaciones en curso. Espera a que terminen e inténtalo de nuevo.",
+    "CARD_IMPORT_NOT_FOUND": "Ese personaje ya no existe en el origen, o se hizo privado.",
+    "CARD_IMPORT_PRIVATE": "El autor lo mantuvo privado, así que no se puede descargar.",
+    "CARD_IMPORT_EMPTY": "No había nada importable en ese enlace.",
+    "CARD_IMPORT_TIMED_OUT": "El origen tardó demasiado en responder. Inténtalo de nuevo en un minuto.",
+    "CARD_IMPORT_JOB_GONE": "Esa importación caducó antes de terminar. Envía el enlace de nuevo."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",

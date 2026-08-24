@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Audio generation failed",
     "NO_AUDIO_PROMPT": "No text provided for speech generation",
     "EMBEDDING_FAILED": "Embedding generation failed",
-    "NO_EMBEDDING_INPUT": "No text provided to embed"
+    "NO_EMBEDDING_INPUT": "No text provided to embed",
+    "CARD_IMPORT_TOO_MANY": "You already have imports running. Wait for those to finish, then try again.",
+    "CARD_IMPORT_NOT_FOUND": "That character no longer exists at the source, or it was made private.",
+    "CARD_IMPORT_PRIVATE": "The author kept this private, so it cannot be downloaded.",
+    "CARD_IMPORT_EMPTY": "There was nothing importable at that link.",
+    "CARD_IMPORT_TIMED_OUT": "The source took too long to respond. Try again in a minute.",
+    "CARD_IMPORT_JOB_GONE": "That import expired before it finished. Please submit the link again."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",
