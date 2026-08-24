@@ -298,9 +298,14 @@ export function selectLorebookEntries(
       dec,
       scanText: recentUserTexts.slice(0, scanDepth).join("\n"),
       effectivePriority: dec.ignoreOnMaxContext ? -1000 : basePriority,
-      probPass:
-        dec.probability === undefined ||
-        seededRand(`${rollSeed}:${e.id}`) * 100 <= dec.probability,
+      // A @@probability decorator in the content wins over the stored column,
+      // since it is the per-entry authoring surface; the column is what an
+      // cannot be gated twice.
+      probPass: (() => {
+        const pct = dec.probability ?? e.chance ?? undefined;
+        if (pct === undefined) return true;
+        return seededRand(`${rollSeed}:${e.id}`) * 100 <= pct;
+      })(),
     };
   });
 

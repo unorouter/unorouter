@@ -126,6 +126,13 @@ export function LorebookList(props: Props) {
                           }),
                         );
                       }
+                      if (r?.importedAsPreset) {
+                        toast.success(
+                          t("RP.LOREBOOKS_IMPORTED_AS_PRESET", {
+                            name: r.importedAsPreset,
+                          }),
+                        );
+                      }
                     })
                   }
                   urlLabelKey="RP.LOREBOOKS_IMPORT_LINK"

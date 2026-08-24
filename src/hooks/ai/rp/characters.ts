@@ -187,7 +187,13 @@ export function useImportCharacterFromUrlMutation() {
 // goes through the same file path as a drag-and-drop import and the lorebooks
 // are attached afterwards rather than being re-parsed out of the PNG.
 async function persistImportedCard(result: ImportedResult) {
-  if (!result.card) throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+  // Two kinds carry a card: a plain one and RisuRealm's, which also ships
+  // scripts and assets. Narrowing once here is what lets every read below be
+  // type-checked instead of assumed.
+  if (!("card" in result)) {
+    throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+  }
+  const rich = result.kind === "rich-character" ? result : null;
 
   const json = JSON.stringify(result.card);
   const file = new File([json], "card.json", { type: "application/json" });
@@ -245,7 +251,7 @@ async function persistImportedCard(result: ImportedResult) {
   // character because that is where the engine reads them from, and the file
   // path above has no way to carry them.
   const assets: { name: string; mediaId: string }[] = [];
-  for (const asset of result.assets ?? []) {
+  for (const asset of rich?.assets ?? []) {
     const mediaId = uid();
     const bytes = base64ToUint8(asset.base64);
     await upsertLocalMedia({
@@ -258,13 +264,13 @@ async function persistImportedCard(result: ImportedResult) {
     assets.push({ name: asset.name, mediaId });
   }
 
-  if (result.regexScripts || result.triggers || assets.length > 0) {
+  if (rich?.regexScripts || rich?.triggers || assets.length > 0) {
     const existing = await readLocalCharacter(setup.characterId);
     await upsertLocalCharacter({
       ...existing,
       id: setup.characterId,
-      regexScripts: result.regexScripts ?? null,
-      triggers: result.triggers ?? null,
+      regexScripts: rich?.regexScripts ?? null,
+      triggers: rich?.triggers ?? null,
       assets: assets.length > 0 ? assets : (existing?.assets ?? null),
       updatedAt: dayjs().toDate(),
     });
