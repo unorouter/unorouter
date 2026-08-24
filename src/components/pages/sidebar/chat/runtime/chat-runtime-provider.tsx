@@ -53,9 +53,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// Activation signal: true the first time a chat stream completes on this device.
-// localStorage-backed so a reload does not re-flag; per-device is fine for an
-// aha-moment metric (identity stitching happens PostHog-side via distinctId).
+// Per-device rather than per-user is fine for this activation metric: PostHog
+// stitches identity via distinctId.
 const FIRST_CHAT_KEY = "uno_first_chat_done";
 function markFirstChatDone(): boolean {
   try {
@@ -78,11 +77,9 @@ function useHistoryAdapter(getConvId: () => string | null) {
   return { adapter: adapterRef.current, persistRef };
 }
 
-// Publishes the two useChat operations assistant-ui's runtime does not expose:
-// clearError (error is read-only runtime state) and setMessages (no single-message
-// part mutator, and the AI-SDK runtime's import() does not re-render live messages).
-// Registered per conversation so a result computed for one chat cannot be applied
-// to whichever thread happens to be mounted when it lands.
+// assistant-ui exposes neither: error is read-only runtime state, and its import()
+// does not re-render live messages. Registered per conversation so a result computed
+// for one chat cannot be applied to whichever thread is mounted when it lands.
 function useLiveOpsBridge(
   chat: ReturnType<typeof useChat<ChatUIMessage>>,
   convId: string | null,
@@ -157,10 +154,8 @@ function ChatRuntimeHook() {
     onError: (e) => {
       releaseStreamLock();
       const detail = extractErrorDetail(e);
-      // An upstream rejection nests its real cause several JSON levels deep
-      // (provider name, vendor code, vendor request id), so a short prefix
-      // stops before any of it: a GMICloud 400 truncated at 200 chars ended
-      // mid-key, hiding the code that identified it as a body rejection.
+      // An upstream rejection nests its real cause several JSON levels deep, so a
+      // short prefix stops before it: a GMICloud 400 cut at 200 chars ended mid-key.
       logChatDebug("stream.error", {
         threadId,
         remoteId,
@@ -200,23 +195,18 @@ function ChatRuntimeHook() {
       const parts = message.parts ?? [];
       const partText = (p: (typeof parts)[number]) =>
         "text" in p && typeof p.text === "string" ? p.text : "";
-      // A reply that emits several <think> blocks renders one Thinking box per
-      // reasoning part, and a model echoing a "[Name]:" speaker tag from the
-      // user's own cards puts it in the VISIBLE body. Both are reported as "it
-      // sent me 5 responses", so record the shape that produced it.
+      // Several <think> blocks render one Thinking box each, and an echoed "[Name]:"
+      // speaker tag lands in the visible body. Both get reported as "it sent me 5
+      // responses", so record the shape that produced it.
       const reasoningParts = parts.filter((p) => p.type === "reasoning").length;
       const speakerTagHits = parts
         .filter((p) => p.type === "text")
         .flatMap(
           (p) => partText(p).match(/\[[^\]\n]{1,40}\]\s*:/g) ?? [],
         ).length;
-      // Reasoning reaches us two ways and they fail differently: a channel that
-      // sends <think> tags is extracted into a reasoning part, while one that
-      // sends the reasoning as a separate upstream field needs the gateway's
-      // thinking_to_content to wrap it first. Both surface to the user as "the
-      // thoughts are in the reply", so record which one happened: tags still in
-      // the visible text mean extraction missed them, no tags and no reasoning
-      // part means the gateway never converted the field.
+      // Two delivery paths fail differently: leaked tags in the visible text mean the
+      // <think> extraction missed them, while no tags AND no reasoning part means the
+      // gateway's thinking_to_content never wrapped the separate upstream field.
       const visibleText = parts
         .filter((p) => p.type === "text")
         .map(partText)
@@ -264,11 +254,9 @@ function ChatRuntimeHook() {
     },
   });
 
-  // useChat has appended the user message to its array by the time sendMessage
-  // returns its promise, so the turn is readable here even though the stream is
-  // still open. Persisting it now is what survives a stream that never
-  // terminates: the completion path would otherwise be the only writer, and it
-  // never runs, losing the user's own text along with the reply.
+  // useChat appends the user message before sendMessage returns its promise, so the
+  // turn is readable mid-stream. Writing it now is what survives a stream that never
+  // terminates: the completion path is otherwise the only writer and never runs.
   const persistUserTurn = async () => {
     const persist = history.persistRef.current;
     if (!persist) return;
@@ -288,12 +276,10 @@ function ChatRuntimeHook() {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
       if (hasText && !remoteId) {
-        // Seed BEFORE useChat snapshots its state: the greeting rows and the
-        // live-array greeting patch must exist when the request history is
-        // captured. Idempotent, so the thread-list initializer seeding the same
-        // convId is a no-op for whichever runs second. A thread with no remote id
-        // is a NEW chat, so it mints its own id rather than adopting the atom,
-        // which still holds the conversation the route re-activated.
+        // Seed BEFORE useChat snapshots its state, so the greeting rows exist when
+        // the request history is captured. No remote id means a NEW chat, so it mints
+        // its own id rather than adopting the atom, which still holds the
+        // conversation the route re-activated.
         try {
           await seedConversation({
             convId: freshConvId(threadId),
@@ -353,11 +339,9 @@ function ChatRuntimeHook() {
   useLiveOpsBridge(chat, remoteId ?? null);
 
   return useAISDKRuntime(wrappedChat, {
-    // The converter otherwise folds a run of assistant messages into ONE rendered
-    // message, so deleting the user turn between two replies leaves them sharing a
-    // single bubble: two reasoning boxes, one action bar, and an edit box holding
-    // both texts. Our messages are branch nodes with their own ids, never chunks of
-    // one turn, so there is nothing to join.
+    // assistant-ui otherwise folds a run of assistant messages into ONE bubble, so
+    // deleting the user turn between two replies merges them. Our messages are branch
+    // nodes with their own ids, never chunks of one turn, so there is nothing to join.
     joinStrategy: "none",
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
@@ -376,12 +360,10 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   useJsPluginLoader();
   const adapterRef = useRef(createThreadListAdapter(queryClient, t));
 
-  // Presets and Cards are routes rather than dialogs, so visiting one and
-  // coming back lands on /chat with no convId and the user's open conversation
-  // looks gone: they had to press New Chat and reselect it. This provider sits
-  // in the shared (chat) layout and does NOT remount across those navigations,
-  // so the last activated conversation is still in the store and is the right
-  // thing to reopen when the URL does not name one.
+  // Presets and Cards are routes, so returning lands on /chat with no convId and the
+  // open conversation looks gone. This provider sits in the shared (chat) layout and
+  // does NOT remount across those navigations, so the store still holds the last
+  // activated conversation and it is the right thing to reopen.
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,

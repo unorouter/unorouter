@@ -38,7 +38,6 @@ function imageCountFor(body: ImageSubmitBody): number {
   return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
 }
 
-// The provider spellings for the base knobs (CFGScale, scheduler as one field).
 // Unknown keys are silently ignored upstream, so a wrong spelling means a dead control.
 function baseDiffusionKnobs(
   params: Record<string, unknown>,
@@ -60,11 +59,8 @@ function baseDiffusionKnobs(
   // guidance is the flux-family spelling of the same knob; cfg wins when both exist.
   const cfg = params.cfg ?? params.guidance;
   if (typeof cfg === "number") out.CFGScale = cfg;
-  // One scheduler field upstream. Allowlisted because an unknown scheduler is a HARD
-  // failure (old drafts still carry ComfyUI spellings); unrecognised falls back to the
-  // model default instead of failing the request.
-  // Validated against the model's OWN accepted list rather than a shared
-  // vocabulary: a value outside it is a hard upstream rejection.
+  // A scheduler outside the model's OWN accepted list is a hard upstream rejection, and old
+  // drafts still carry ComfyUI spellings, so an unrecognised one falls back to the default.
   const scheduler = [params.scheduler, params.sampler].find(
     (v): v is string =>
       typeof v === "string" &&
@@ -76,8 +72,7 @@ function baseDiffusionKnobs(
   return out;
 }
 
-// Init image, mask, and the hires overrides. A hires pass is the only render
-// happening, so its denoise/steps REPLACE the base strength/steps.
+// A hires pass is the only render happening, so its denoise/steps REPLACE base strength/steps.
 function initImageKnobs(
   params: Record<string, unknown>,
 ): Record<string, unknown> {
@@ -94,7 +89,6 @@ function initImageKnobs(
   return out;
 }
 
-// LoRA/embedding chains and the VAE; the provider keys each model by `model`.
 function modelChainKnobs(
   params: Record<string, unknown>,
   loras: LoraEntry[],
@@ -117,8 +111,8 @@ function modelChainKnobs(
   return out;
 }
 
-// Diffusion knobs the OpenAI image schema has no field for; they ride as extra
-// top-level keys and the gateway adaptor maps them onto the provider's own names.
+// Knobs the OpenAI image schema has no field for: they ride as extra top-level keys and the
+// gateway adaptor maps them onto the provider's own names.
 function diffusionParams(
   mode: ImageSubmitBody["mode"],
   params: Record<string, unknown>,
@@ -128,12 +122,10 @@ function diffusionParams(
   bodyNegativePrompt?: string,
 ): Record<string, unknown> {
   return {
-    // The passthrough checkpoint; without it every custom-civitai request runs the
-    // channel's default model.
+    // Without this every custom-civitai request runs the channel's default model.
     ...(isValidAir(extraParams?.air) ? { air: extraParams.air } : {}),
     ...baseDiffusionKnobs(params, acceptedSamplers, bodyNegativePrompt),
-    // A stale initImageUrl in a text2img request would silently turn it into
-    // img2img of an old base; the mode the user chose wins over leftover params.
+    // A stale initImageUrl would silently turn a text2img request into img2img of an old base.
     ...(mode === "txt2img" ? {} : initImageKnobs(params)),
     ...modelChainKnobs(params, loras),
   };
@@ -156,7 +148,6 @@ function redactImageValues(
   return out;
 }
 
-// Pin a routing group only when the model lives exclusively in a non-default one.
 function resolveRoutingGroup(groups: string[] | undefined): string | undefined {
   const usable = (groups ?? []).filter((g) => g && g !== "auto");
   if (!usable.length) return undefined;
@@ -178,7 +169,6 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     });
     throw new Error(msg("ERRORS.NOT_FOUND"));
   }
-  // Capabilities enforced server-side; a non-form caller must not smuggle knobs.
   const raw = info.metadata?.imageParams?.endpoint;
   const endpoint = SYNC_IMAGE_ENDPOINTS.find((e) => e === raw);
   if (!endpoint) {
@@ -201,8 +191,8 @@ async function refineWithAdetailer(
 ): Promise<string> {
   const adetailer = params.adetailer;
   if (!adetailer || uri.startsWith("data:")) return uri;
-  // ADetailer runs on the finished result, best-effort: any failure keeps the
-  // original rather than losing a generation the user already paid for.
+  // Best-effort: any failure keeps the original rather than losing a generation the user
+  // already paid for.
   const refined = await runAdetailerPass({
     imageUrl: uri,
     adetailer,
@@ -211,7 +201,6 @@ async function refineWithAdetailer(
     loras: adetailer.loras?.length ? adetailer.loras : loras,
     scheduler: params.scheduler,
     cfg: params.cfg,
-    // Renders at the size actually requested, hires multiplier included.
     width: size?.width ?? 1024,
     height: size?.height ?? 1024,
   }).catch((err) => {
@@ -237,7 +226,6 @@ export async function submitGeneration(
   body: ImageSubmitBody,
 ): Promise<SubmitGenerationResult> {
   const resolved = await resolveModel(body.model);
-  // The detail row carries the same imageParams the capability gate reads.
   const descriptor = resolved.info;
   const endpoint = resolved.endpoint;
 
@@ -284,8 +272,8 @@ export async function submitGeneration(
       ),
     });
 
-    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob
-    // from a sent-and-ignored one.
+    // Log what the provider ACTUALLY receives: the only way to tell a dropped knob from a
+    // sent-and-ignored one.
     logger.info("image generation request", {
       context: "image.submit",
       model: body.model,

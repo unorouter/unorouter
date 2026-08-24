@@ -18,9 +18,8 @@ export type ReconcileImportResult = {
 
 const INSERT_BATCH = 200;
 
-// Live-only tables grafted from the current DB into the freshly-built replacement
-// so a cross-account import never loses the user's local bookkeeping. local_migrations
-// is excluded: the replacement keeps its own current migration cursor from runMigrations.
+// local_migrations is excluded: the replacement keeps the migration cursor
+// runMigrations gave it.
 const GRAFT_FROM_LIVE = LOCAL_ONLY_TABLES.filter(
   (t) => t !== "local_migrations",
 );
@@ -92,8 +91,6 @@ async function copyTable(
   return after - before;
 }
 
-// Copy the intersecting columns of every shared table from `source` into
-// `target`, counting skips.
 async function copySharedTables(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
@@ -120,24 +117,20 @@ async function copySharedTables(
 }
 
 async function readBytes(sql: SQLocalDrizzle): Promise<ArrayBuffer> {
-  // overwriteDatabaseFile wants a transferable ArrayBuffer; structured-cloning
-  // a File/Blob across the worker boundary triggered DataCloneError, so always
-  // round-trip through arrayBuffer().
+  // Structured-cloning a File/Blob across the worker boundary throws
+  // DataCloneError, so overwriteDatabaseFile only ever gets an ArrayBuffer.
   const file = await sql.getDatabaseFile();
   return file.arrayBuffer();
 }
 
-// Databases live in per-path sahpool pools (opaque managed files), with
-// legacy plain files possibly still at the OPFS root. Removing one means:
-// unlink the pool contents through the driver (deleteDatabaseFile -> pool
-// unlink; without it a scratch/final pool retains a full-size database copy),
-// then drop any legacy root entry.
+// Drops only a legacy plain file at the OPFS root. Pool contents need
+// deleteDatabaseFile as well, else a scratch pool keeps a full-size copy.
 async function removeOpfsFile(path: string): Promise<void> {
   try {
     const root = await navigator.storage.getDirectory();
     await root.removeEntry(path).catch(() => {});
   } catch {
-    // OPFS unavailable; nothing to remove.
+    // OPFS unavailable.
   }
 }
 
@@ -161,22 +154,19 @@ async function cleanup(
       error: String(err).slice(0, 200),
     }),
   );
-  // destroy() closes the database but leaves the worker running, and with it the
-  // pool's sync access handles. An import spins up ~10 of these, so without the
-  // terminate they accumulate for the life of the page and collide with the next
-  // open as NoModificationAllowedError.
+  // destroy() leaves the worker running and with it the pool's sync access
+  // handles. An import spins up ~10, so without terminate they survive the page
+  // and the next open fails NoModificationAllowedError.
   terminateSql(handle);
   if (removePath) await removeOpfsFile(removePath);
 }
 
-// The live file is written exactly once, after a complete replacement is built
-// in a detached file, so a crash can never leave it half-imported.
+// INVARIANT: live is written EXACTLY ONCE, after a complete replacement is
+// built in a detached file, so a crash can never leave it half-imported.
 export async function reconcileImport(
   buffer: ArrayBuffer,
 ): Promise<ReconcileImportResult> {
   const appName = env.appName.toLowerCase();
-  // The live path is the ONE device database. Keyed by user it would have
-  // written the import into a file the app no longer opens.
   const livePath = singleDbPath();
   const workPath = `${appName}-import.sqlite3`;
   const finalPath = `${appName}-final.sqlite3`;
@@ -199,7 +189,7 @@ export async function reconcileImport(
 
   logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
   try {
-    // Phase 0: snapshot live to backup (durable rollback token). Fail here = live intact.
+    // Phase 0: snapshot live to backup (durable rollback token).
     {
       const src = newSql(livePath);
       let liveBytes: ArrayBuffer;
@@ -226,12 +216,11 @@ export async function reconcileImport(
     await work.overwriteDatabaseFile(buffer);
     await runMigrations(work);
 
-    // Phase 2: build the replacement in a detached `final` db (live untouched).
+    // Phase 2: build the replacement in a detached `final` db.
     final = newSql(finalPath);
     await runMigrations(final);
     await final.sql`PRAGMA foreign_keys = OFF`;
     await copySharedTables(work, final, result);
-    // Graft live-only bookkeeping (pending tasks, tokenizer cache) from the live db.
     liveSrc = newSql(livePath);
     const finalTables = new Set(await tableNames(final));
     const liveTables = new Set(await tableNames(liveSrc));
@@ -248,7 +237,7 @@ export async function reconcileImport(
     terminateSql(liveSrc);
     liveSrc = null;
 
-    // Phase 3: single atomic-as-possible swap. Never overwrite live with a corrupt build.
+    // Phase 3: the single write to live.
     if (!(await integrityOk(final))) {
       throw new Error("built import db failed integrity_check");
     }
@@ -257,7 +246,7 @@ export async function reconcileImport(
     await live.overwriteDatabaseFile(finalBytes);
     swapped = true;
 
-    // Phase 4: verify the now-live db; a corrupt swap routes into rollback.
+    // Phase 4: a corrupt swap routes into rollback.
     if (!(await integrityOk(live))) {
       throw new Error("live db failed integrity_check after swap");
     }
@@ -277,7 +266,7 @@ export async function reconcileImport(
       context: "local-db.reconcile-import",
       error: String(err),
     });
-    // Phase 5: if the live file was already touched, restore it from the backup.
+    // Phase 5: rollback.
     if (swapped) {
       rolledBack = await restoreLiveFromBackup(livePath, backupPath, live);
     }
@@ -287,9 +276,8 @@ export async function reconcileImport(
     await cleanup(final, "final", finalPath);
     await cleanup(liveSrc, "liveSrc", null);
     await cleanup(live, "live", null);
-    // Backup is only safe to drop once the swap succeeded (or never happened).
-    // A failed rollback leaves the live file half-written, and this copy is then
-    // the only intact one; recoverPendingImport finds it by its presence.
+    // A failed rollback leaves live half-written and this copy the only intact
+    // one, which recoverPendingImport finds by its presence.
     if (!swapped || rolledBack) await deleteBackup(backupPath);
   }
 }
@@ -339,9 +327,8 @@ async function deleteBackup(backupPath: string): Promise<void> {
   }
 }
 
-// Probe for a database's pool WITHOUT opening it (opening auto-creates the
-// pool). Directory presence alone is not "backup exists" - an emptied pool
-// keeps its directory - so callers still content-check via sqlite_master.
+// Probes WITHOUT opening, because opening auto-creates the pool. An emptied
+// pool keeps its directory, so presence alone is not "backup exists".
 async function sahPoolDirExists(databasePath: string): Promise<boolean> {
   try {
     const root = await navigator.storage.getDirectory();
@@ -372,11 +359,8 @@ function backupImportPath(appName: string): string {
   return `${appName}-import-backup.sqlite3`;
 }
 
-/**
- * Boot-time recovery for an import that crashed mid-swap. If a backup file is
- * present, the previous import did not finish cleanly: keep the live db if it is
- * intact, otherwise restore it from the backup. Either way the orphan is removed.
- */
+// A backup file on disk means the previous import did not finish cleanly.
+// Must run BEFORE openMigratedSql.
 export async function recoverPendingImport(
   livePath: string,
   appName: string,
@@ -394,8 +378,7 @@ export async function recoverPendingImport(
   } catch {
     return;
   }
-  // Backups written since the sahpool migration live in the backup path's
-  // pool, not at the OPFS root.
+  // Non-legacy backups live in the backup path's pool, not at the OPFS root.
   if (!exists) exists = await sahPoolBackupHasContent(backupPath);
   if (!exists) return;
 

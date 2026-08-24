@@ -24,16 +24,13 @@ export type TableStorageStat = {
   rows: number;
   bytes: number;
   size: string;
-  // Summed length of the columns known to dominate a table, when the table has
-  // any. dbstat alone reports table totals, which names a table but not the
-  // reason it grew.
+  // dbstat reports table totals only, which names a table but not the column
+  // that grew it.
   columnBytes?: Record<string, number>;
 };
 
-// The columns that actually carry weight. request_logs stores finalMessages
-// (the ENTIRE assembled conversation) per message, so a 75-turn chat writes
-// turn 1 once, turn 2 twice ... turn 75 seventy-five times: growth is
-// quadratic in thread length, independent of whether the chat has any images.
+// request_logs stores finalMessages (the ENTIRE assembled conversation) per
+// message, so storage is QUADRATIC in thread length, images or not.
 const HEAVY_COLUMNS: Record<string, string[]> = {
   request_logs: ["final_messages", "request_body", "assembled_system"],
   message_items: ["data"],
@@ -102,10 +99,6 @@ async function getTableStorageStats(): Promise<
       );
       const rows = Number(countRes.rows[0]?.[0] ?? 0);
       const bytes = bytesForTable(table);
-      // dbstat gives bytes per TABLE, which is not enough to act on: it says
-      // "request_logs is huge" without saying that one column is the reason.
-      // Measure the known-heavy columns too, so a bloat report names the
-      // culprit instead of prompting another round of guessing.
       const cols = HEAVY_COLUMNS[table];
       let columnBytes: Record<string, number> | undefined;
       if (cols && rows > 0) {
@@ -218,11 +211,9 @@ async function buildDiagnosticsHead() {
     });
   }
 
-  // Every read past here is best-effort. A diagnostics export whose whole point
-  // is explaining a broken database must not need that database to work: this
-  // threw on the unavailable-DB path, so the users who most needed to send a
-  // report were the only ones who could not produce one. The debug log itself
-  // lives in localStorage and survives regardless.
+  // Every read past here is best-effort: the export must still be produceable
+  // on the DB-unavailable path, which is exactly when it is needed. The debug
+  // log is in localStorage and survives regardless.
   let convs: Awaited<ReturnType<typeof readLocalConversations>> = [];
   try {
     convs = (await readLocalConversations()) ?? [];
@@ -357,8 +348,8 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     dbInfo: head.dbInfo,
     conversations: head.conversations,
     presets: head.presets,
-    // Which tokenizer is counting, and whether it is the real one: a failed
-    // load still counts, at ~4 chars per token, under the requested name.
+    // A failed tokenizer load still counts, at ~4 chars per token, under the
+    // requested name, so the name alone does not say which one ran.
     tokenizer: activeTokenizerState(),
     messagesByConv,
     requestLogsByConv,
@@ -369,11 +360,9 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
   };
 }
 
-// A display plugin rewrites the reply text on its way INTO the markdown parser,
-// so a plugin is the first thing to suspect when a render throws. The script is
-// user-authored and can hold anything they typed, and this file gets pasted into
-// public channels, so it is described rather than included: which hooks it
-// registers is what says whether it could have touched the render at all.
+// A display plugin rewrites reply text on its way INTO the markdown parser, so
+// it is the first suspect when a render throws. The script itself is NEVER
+// included: it is user-authored and this file gets pasted into public channels.
 const PLUGIN_HOOKS = [
   "display",
   "editRequest",
@@ -392,7 +381,7 @@ async function describeJsPlugins() {
       enabled: p.enabled,
       scriptChars: p.script.length,
       // Registration is a plain call in the script body, so a substring match
-      // names the hooks without executing anything.
+      // names the hooks without executing it.
       hooks: PLUGIN_HOOKS.filter((h) => p.script.includes(h)),
     }));
   } catch {

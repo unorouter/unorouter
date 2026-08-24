@@ -2,12 +2,9 @@
 // Copyright (C) 2024 Kwaroran, GPL-3.0. Combined into this AGPL-3.0 work under
 // GPLv3 section 13.
 //
-// User JavaScript runs inside an iframe with `allow-scripts` and NOTHING else,
-// so it lands on an opaque origin: no reach into our DOM, cookies, OPFS or
-// localStorage. The CSP additionally sets `connect-src 'none'`, so a plugin
-// cannot open its own network connections and every request it makes has to go
-// through a host API method we chose to expose. postMessage is the only channel,
-// and the host answers exactly the method names present on the api object.
+// SECURITY: guest JS gets `allow-scripts` only (opaque origin, no DOM/cookie/OPFS
+// reach) under a CSP with `connect-src 'none'`, so postMessage into the host api
+// object is a plugin's only channel out.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -39,8 +36,8 @@ type AbortSignalRef = {
   aborted: boolean;
 };
 
-// Objects carrying this marker are passed to the guest BY REFERENCE (the guest
-// gets a proxy that RPCs back per method call) instead of being cloned.
+// Marked objects go to the guest BY REFERENCE (a proxy that RPCs per method
+// call) instead of being cloned.
 export const REMOTE_REQUIRED = "REMOTE_REQUIRED";
 
 const GUEST_BRIDGE_SCRIPT = `
@@ -380,9 +377,8 @@ await (async function() {
 })();
 `;
 
-// User code is spliced into a <script> block, so a literal closing tag inside a
-// plugin would end the element early and run the rest as markup outside the
-// nonce. Break the sequence; the escape is invisible to the parsed program.
+// User code is spliced into a <script> block, so a literal closing tag would end
+// the element early and run the rest as markup outside the nonce.
 function escapeForScriptBlock(code: string): string {
   return code.replace(/<\/(script)/gi, "<\\/$1");
 }
@@ -391,13 +387,10 @@ export class SandboxHost {
   private iframe: HTMLIFrameElement | null = null;
   private apiFactory: Record<string, unknown>;
   private nonce = crypto.randomUUID();
-  // 'unsafe-eval' is REQUIRED, not an oversight: running guest code IS this
-  // frame's purpose, and both eval and new Function are string evaluation. The
-  // meta tag applies the policy at parse and removing it later cannot lift it,
-  // so without this every plugin fails with "Evaluating a string as JavaScript
-  // violates ... Content Security Policy" and the whole feature is inert.
-  // It does not widen the boundary that matters: the frame is an opaque origin
-  // with allow-scripts only, and connect-src 'none' still denies all network.
+  // 'unsafe-eval' is REQUIRED, not an oversight: evaluating guest strings IS this
+  // frame's purpose, and without it every plugin fails CSP and the feature is
+  // inert. It does not widen the boundary: opaque origin and connect-src 'none'
+  // still deny all network.
   private csp = `connect-src 'none'; script-src 'nonce-${this.nonce}' 'unsafe-eval' 'wasm-unsafe-eval'; frame-src 'none'; object-src 'none'; style-src * 'unsafe-inline'; default-src 'none'; img-src * data: blob:; font-src * data: blob:; media-src * data: blob:; base-uri 'none';`;
 
   private instanceRegistry = new Map<string, any>();
@@ -410,7 +403,7 @@ export class SandboxHost {
   >();
 
   // MessagePort has no 'close' event, so without an explicit teardown hook the
-  // far side of a live stream would wait forever once the iframe is gone.
+  // far side of a live stream waits forever once the iframe is gone.
   private activeStreamCleanups = new Set<() => void>();
 
   constructor(apiFactory: Record<string, unknown>) {
@@ -753,8 +746,7 @@ export class SandboxHost {
     frame.sandbox.add("allow-scripts");
     frame.sandbox.add("allow-modals");
 
-    // Chromium-only; the meta tag in the document below is what enforces the
-    // same policy everywhere else.
+    // Chromium-only; the meta tag below enforces the same policy elsewhere.
     frame.setAttribute("csp", this.csp);
 
     const messageHandler = async (event: MessageEvent) => {
@@ -869,9 +861,8 @@ export class SandboxHost {
     this.messageHandlerRef = messageHandler;
     window.addEventListener("message", this.messageHandlerRef);
 
-    // The meta CSP is removed by the first guest statement: the policy stays in
-    // force once applied, and dropping the tag keeps plugin code from reading
-    // the nonce back out of the document.
+    // The first guest statement drops the meta CSP: the policy stays in force
+    // once applied, and removing the tag denies plugin code the nonce.
     frame.srcdoc = `<!DOCTYPE html>
 <html>
 <head>

@@ -142,7 +142,6 @@ function assistantTextOf(content: EncodedContent): string {
     .join("\n");
 }
 
-// Regex editoutput scripts, Lua editoutput hooks, then output-mode triggers.
 async function applyAssistantOutputTransforms(
   convId: string,
   parts: MessagePart[],
@@ -206,8 +205,6 @@ async function applyAssistantOutputTransforms(
   return out;
 }
 
-// A stream failure within the last 30s rides the persisted assistant turn as
-// an error item so the failure survives reloads.
 function appendStreamErrorItem(
   items: MessageItem[],
   resolvedModel: string | null,
@@ -272,9 +269,8 @@ async function persistInlayMedia(
       width: m.width,
       height: m.height,
     });
-    // The streamed part renders before this persist runs, so the token resolver
-    // has already cached its resolved-empty marker for the missing row. Drop it
-    // now that the row exists, else the image stays blank until a reload.
+    // The streamed part rendered before this persist, so the token resolver cached a
+    // resolved-empty marker; without dropping it the image stays blank until reload.
     invalidateInlay(m.id);
   }
 }
@@ -285,10 +281,9 @@ type BranchPlacement = {
   nextBranchIndex: number;
 };
 
-// Siblings already under this parent: a reroll adds a NEW branch, so the existing ones must be
-// deactivated and the new one gets the next branchIndex. Without this every sibling kept
-// isActiveBranch=1/branchIndex=0, so walkActiveBranch picked the wrong tip and switching branches
-// rendered an empty thread.
+// Existing siblings MUST be deactivated and the new one take the next branchIndex: leaving them
+// all isActiveBranch=1/branchIndex=0 makes walkActiveBranch pick the wrong tip and a branch
+// switch render an empty thread.
 async function placeOnBranch(
   convId: string,
   messageId: string,
@@ -393,8 +388,6 @@ async function bumpConversationTotals(
   });
 }
 
-// Fire-and-forget: the reply is already persisted; the image lands later by
-// rewriting the placeholder task item (the async-amend pattern).
 function fireIllustrator(
   queryClient: QueryClient,
   job: IllustratorJob,
@@ -432,16 +425,10 @@ function fireIllustrator(
   })();
 }
 
-// assistant-ui appends a turn only once it completes, so a stream that opens and
-// never terminates persists NEITHER side: the reply is lost AND the user's own
-// message with it, leaving a conversation row with zero messages. Publishing
-// append lets the send path write the user turn immediately, which is what
-// "the user turn stays persisted and the user resends manually" requires.
-// append() dedups on the message id, so the completion path re-appending the
-// same turn is a no-op.
-// Takes the runtime's own message object. The concrete type is assistant-ui's
-// and is only known inside withFormat, so the caller hands the value straight
-// back and the encoder that produced the format does the decoding.
+// assistant-ui appends a turn only once it completes, so a stream that never
+// terminates persists NEITHER side. Publishing append lets the send path write the
+// user turn immediately; append() dedups on message id, so a later re-append is a
+// no-op. The concrete message type is only known inside withFormat, hence `object`.
 export type PersistTurn = (message: object) => Promise<void>;
 
 export function createChatHistoryAdapter(
@@ -475,9 +462,8 @@ export function createChatHistoryAdapter(
             type Cached = { pages: MsgPage[]; pageParams: number[] };
 
             let allMessages: ApiMessage[] = [];
-            // The infinite query keys by [convId, userId]; getQueryData matches
-            // exactly, so without the userId this always missed and the cache
-            // fast-path was dead code.
+            // getQueryData matches the key EXACTLY, and the infinite query keys by
+            // [convId, userId]: a hand-built [convId] key never hits.
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
             ]);
@@ -653,9 +639,8 @@ export function createChatHistoryAdapter(
       };
 
       onFormatReady?.(async (message) => {
-        // withFormat's TMessage is whatever the mounted runtime formats, so the
-        // value can only be validated structurally: getId throwing (or yielding
-        // nothing) means this is not that runtime's message and must not persist.
+        // TMessage is whatever the mounted runtime formats, so validation is
+        // structural: getId throwing or yielding nothing means a foreign message.
         let messageId: string | undefined;
         try {
           messageId = formatAdapter.getId(message as TMessage);

@@ -6,9 +6,8 @@ export type ChatDebugEntry = {
 
 const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
-// Persist a bounded tail, not the whole buffer: setItem is synchronous and its
-// cost scales with SERIALIZED size, so a saturated 2000-entry buffer (~400KB)
-// parked the main thread for seconds per write. Memory keeps full history.
+// setItem is synchronous and scales with SERIALIZED size: a full 2000-entry buffer
+// (~400KB) parks the main thread for seconds per write. Memory keeps full history.
 const MAX_PERSISTED_ENTRIES = 200;
 const SAVE_DEBOUNCE_MS = 1000;
 const STORAGE_KEY = "unorouter-chat-debug-log";
@@ -17,8 +16,8 @@ let buffer: ChatDebugEntry[] | null = null;
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 let persistDisabled = false;
 
-// Lazy, NOT at module init: load() is a blocking getItem + JSON.parse, and the
-// chat runtime imports this module on every page load.
+// Lazy, NOT at module init: load() is a blocking getItem + JSON.parse and the chat
+// runtime imports this module on every page load.
 function getBuffer(): ChatDebugEntry[] {
   if (buffer === null) buffer = load();
   return buffer;
@@ -35,7 +34,6 @@ function load(): ChatDebugEntry[] {
   }
 }
 
-// Debounced so a burst coalesces into one serialize+store.
 function save(): void {
   if (
     saveTimer !== null ||
@@ -50,8 +48,8 @@ function save(): void {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tail));
     } catch {
-      // Over quota or blocked: stop retrying, a sync write per second can never
-      // land. The in-memory buffer still serves this session's export.
+      // Over quota or blocked: latch off, a sync write per second can never land.
+      // The in-memory buffer still serves this session's export.
       persistDisabled = true;
       try {
         localStorage.removeItem(STORAGE_KEY);
@@ -110,16 +108,10 @@ export type FailedRequestCapture = {
   message?: string;
 };
 
-// NEVER put message text in here. A capture is exported into a file users paste
-// into a public channel, and the assembled prompt is their persona, character
-// cards, lorebook and recent turns: the most private content in the app.
-//
-// What a rejected-body bug actually needs is the SHAPE of the bytes, not the
-// bytes. An upstream that 400s a payload its peers accept is reacting to
-// something structural (an encoding artifact, a control character, an unpaired
-// surrogate from a sliced emoji), and each of those is countable without
-// reproducing a single word. Template tags are matched against a fixed list, so
-// only known markers can ever appear, never user text.
+// NEVER put message text in a capture: users paste the export into public channels
+// and the assembled prompt is their persona, cards, lorebook and recent turns. A
+// rejected-body bug needs the SHAPE of the bytes, which is countable without
+// reproducing a word. This list is fixed, so only known markers can ever appear.
 const TAG_PATTERNS = [
   "{{user}}",
   "{{char}}",
@@ -141,8 +133,7 @@ export function fingerprintText(text: string): TextFingerprint {
   for (let i = 0; i < text.length; i++) {
     const c = text.charCodeAt(i);
     if (c > 127) nonAscii++;
-    // Tab/LF/CR are normal prose; the rest of C0 plus DEL and the C1 block are
-    // what a mangled re-encode leaves behind.
+    // Tab/LF/CR are normal prose; the rest of C0 plus DEL is re-encode damage.
     if ((c < 32 && c !== 9 && c !== 10 && c !== 13) || c === 127)
       controlChars++;
     if (c === 0xfffd) replacementChars++;
@@ -172,17 +163,14 @@ export function fingerprintText(text: string): TextFingerprint {
   };
 }
 
-// Its own key rather than a debug-log entry, because the two need opposite
-// retention: the log persists a 200-entry tail to bound setItem cost, and a
-// chat writes several entries per turn, so a capture parked in that ring is
-// evicted by ordinary chatting within an hour. A failure is reported after the
-// fact, often after a reload, which is precisely when it must still be there.
+// Its own key rather than a debug-log entry: the log's 200-entry tail evicts a
+// capture within an hour of ordinary chatting, and failures get reported after the
+// fact, often after a reload.
 const MAX_FAILED_CAPTURES = 3;
 const FAILED_STORAGE_KEY = "unorouter-failed-requests";
 
-// The pending payload stays in memory ONLY: it is written on every send and
-// most sends succeed, so persisting it would be a localStorage write per turn
-// to store something that is discarded moments later.
+// In memory ONLY: it is written on every send and most sends succeed, so persisting
+// it would be a localStorage write per turn for data discarded moments later.
 let pending: FailedRequestCapture | null = null;
 let failed: FailedRequestCapture[] | null = null;
 let failedSaveTimer: ReturnType<typeof setTimeout> | null = null;
@@ -253,13 +241,9 @@ export type CaughtErrorEntry = {
   componentStack: string;
   url: string;
   count: number;
-  // The input that threw plus the loadout that produced it, kept on the NEWEST
-  // crash only. A render crash is the one case where the shape of the text is
-  // not enough: something in it defeats the parser, and no amount of counting
-  // says what. The text alone is not enough either, since reproducing it needs
-  // the preset, characters, lorebooks and plugins that built it. It is ONE
-  // message, not a transcript, and it is dropped from every older entry as soon
-  // as the next crash arrives.
+  // The exception to the no-text rule: a render crash needs the exact input that
+  // defeated the parser plus the loadout that built it. ONE message, never a
+  // transcript, and kept on the NEWEST crash only.
   detail?: string;
   loadout?: CrashLoadout;
 };
@@ -275,10 +259,9 @@ export type CrashLoadout = {
   plugins: { name: string; kind: string; enabled: boolean; hooks: string[] }[];
 };
 
-// Errors persist in FULL, unlike the debug log's 200-entry tail: a render crash
-// is what the export exists to explain, and a chatty session evicts it long
-// before the user gets around to exporting. Repeats collapse onto one entry so a
-// boundary that rethrows on every re-render cannot flush the older ones out.
+// Persisted in FULL, unlike the debug log's 200-entry tail, since a chatty session
+// would evict the crash the export exists to explain. Repeats collapse onto one
+// entry so a boundary rethrowing every re-render cannot flush the older ones out.
 const MAX_CAUGHT_ERRORS = 25;
 const ERRORS_STORAGE_KEY = "unorouter-caught-errors";
 
@@ -330,7 +313,6 @@ export function captureCaughtError(detail: {
     saveCaught();
     return;
   }
-  // Only the newest crash keeps its text and loadout.
   for (const e of entries) {
     delete e.detail;
     delete e.loadout;
@@ -365,8 +347,8 @@ export function getCaughtErrors(): CaughtErrorEntry[] {
   return getCaught().slice();
 }
 
-// componentDidCatch is synchronous but the loadout needs the local DB, so it
-// lands a moment later onto the entry that was just written.
+// componentDidCatch is synchronous but the loadout needs the local DB, so it lands
+// a moment later onto the entry that was just written.
 export function attachCrashLoadout(loadout: CrashLoadout): void {
   const entries = getCaught();
   const last = entries[entries.length - 1];

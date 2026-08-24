@@ -31,19 +31,15 @@ import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
-// One database per device, so one entry. Keying this by user leaves the previous
-// pool open on sign-in: two workers holding sync access handles on one origin,
-// which surfaces later as NoModificationAllowedError blaming another tab.
 let cached: Promise<LocalClient> | null = null;
 
-// A reload does not collect this page's worker before the next one opens, so the
-// incoming page finds the pool held and fails TAB_LOCK, which is non-recoverable.
 // pagehide is the last point that runs on a same-tab navigation, and unlike
-// unload it fires on the iOS bfcache path.
+// unload it fires on the iOS bfcache path. Without this the incoming page finds
+// the pool still held and fails TAB_LOCK.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", (e) => {
-    // persisted means bfcache: the page can come back, and the next getLocalDb
-    // would be served a destroyed client.
+    // bfcache: the page can come back, and the next getLocalDb would be served
+    // a destroyed client.
     if (e.persisted) return;
     const pending = cached;
     cached = null;
@@ -74,11 +70,11 @@ export const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
 
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
-  // An orphaned pool file is NOT contention: retrying just re-opens the same
-  // empty replacement and would report success, hiding the user's data.
+  // Retrying an orphan re-opens the same empty replacement and reports success,
+  // hiding the user's data.
   if (s.includes(ORPHAN_MARKER)) return false;
-  // Another tab holds the pool. Retrying cannot help (the lock is held for that
-  // tab's lifetime) and every attempt is another chance to tear a header.
+  // The lock is held for the owning tab's lifetime, and every attempt is
+  // another chance to tear a header.
   if (s.includes(TAB_LOCK_MARKER)) return false;
   return (
     s.includes("GetSyncHandleError") ||
@@ -116,30 +112,24 @@ async function awaitOwnership(
   return false;
 }
 
-// Handover wait cap: covers a frozen owner tab (a dead one releases its Web
-// Lock automatically and the wait resolves early).
+// Covers a FROZEN owner; a dead one releases its Web Lock and resolves early.
 const HANDOVER_TIMEOUT = 15_000;
-// `want` is re-broadcast on this interval while waiting: a single shot is
-// lost when the owner has not finished its own open yet (BroadcastChannel
-// does not queue for handlers registered later).
+// BroadcastChannel does not queue for handlers registered later, so a single
+// `want` is lost when the owner has not finished its own open yet.
 const WANT_RETRY_MS = 2_000;
-// A tab that just took the pool keeps it at least this long before honouring
-// the next want, so two active tabs trade in batches instead of ping-ponging
-// on every statement.
+// Two active tabs trade in batches instead of ping-ponging per statement.
 const MIN_HOLD_MS = 2_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
-      // The sahpool worker silently falls back to an in-memory driver when the
-      // pool install fails. Accepting it would serve a database that persists
-      // nothing, so make it recoverable and let the retry loop handle handover.
+      // The sahpool worker silently falls back to in-memory when the pool
+      // install fails, which would persist nothing.
       const info = await sql.getDatabaseInfo();
       if (info.storageType !== "opfs") {
-        // Ask the worker WHY before throwing: this branch has several causes
-        // that need opposite advice (another tab holds the pool, OPFS blocked
-        // outright, quota) and they were indistinguishable in a bug report.
+        // Several causes need opposite advice (another tab, OPFS blocked,
+        // quota) and were indistinguishable in a bug report.
         const diagnosis = await diagnoseSql(sql).catch(() => undefined);
         logChatDebug("db.open.in_memory", {
           attempt,
@@ -160,8 +150,7 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
           error: String(err).slice(0, 200),
         });
         // destroy() closes the database but the pool keeps its handles, so
-        // giving up without this locks the file against this very page and
-        // every later attempt blames another tab for our own abandoned worker.
+        // giving up without this locks the file against this very page.
         await pauseSql(sql).catch(() => {});
         await sql.destroy().catch(() => {});
         terminateSql(sql);
@@ -185,10 +174,8 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   }
 }
 
-// An empty database while the pool holds a strictly larger sqlite file means
-// opfs-sahpool dropped a torn-header file's logical name and handed back a
-// fresh empty one under it. Non-recoverable on purpose: the retry loop must not
-// reopen the same replacement and report success.
+// Empty DB + a strictly larger file still in the pool means opfs-sahpool
+// dropped a torn-header file's logical name and handed back a fresh empty one.
 async function assertNotSilentlyEmptied(
   sql: SQLocalDrizzle,
   dbPath: string,
@@ -205,17 +192,15 @@ async function assertNotSilentlyEmptied(
     const { salvagePoolDatabases } =
       await import("@/lib/db/client/sahpool/salvage");
     for (const candidate of await salvagePoolDatabases(dbPath)) {
-      // A root `.pre-sahpool` copy is the normal leftover of a successful
-      // migration and is routinely larger than a fresh empty db, so counting it
-      // would lock out every user who migrated cleanly.
+      // A root `.pre-sahpool` copy is the normal leftover of a clean migration
+      // and is routinely larger than a fresh empty db.
       if (candidate.source !== "pool") continue;
       if (candidate.sizeBytes > liveBytes) {
         orphanBytes = Math.max(orphanBytes, candidate.sizeBytes);
       }
     }
   } catch {
-    // Can't inspect the pool (permissions, layout change): fall through rather
-    // than block a legitimately empty first-run database.
+    // Cannot inspect the pool: never block a legitimately empty first run.
     return;
   }
   if (orphanBytes === 0) return;
@@ -232,9 +217,7 @@ async function assertNotSilentlyEmptied(
 }
 
 // One-time migration off the pre-sahpool driver, which stored the database as a
-// plain sqlite file at the OPFS root. If the legacy file cannot be moved aside
-// the open ABORTS: leaving it means a later open re-imports it wholesale over
-// everything written since.
+// plain sqlite file at the OPFS root.
 async function migrateLegacySqliteFile(
   sql: SQLocalDrizzle,
   dbPath: string,
@@ -262,9 +245,8 @@ async function migrateLegacySqliteFile(
     );
   }
   await runMigrations(sql);
-  // Safari has no main-thread FileSystemFileHandle.move(), and deleting the
-  // legacy file outright cost every iPhone user their only pre-migration copy.
-  // createWritable works there, so copy first and keep the original if it fails.
+  // Safari has no main-thread FileSystemFileHandle.move() but createWritable
+  // works, so copy first and keep the original if it fails.
   try {
     const movable: FileSystemFileHandle & {
       move?: (name: string) => Promise<void>;
@@ -283,10 +265,9 @@ async function migrateLegacySqliteFile(
     logChatDebug("db.migrate.sahpool.backup_failed", {
       error: String(err).slice(0, 200),
     });
-    // The copy failed, so there is no rollback. The legacy file must still go:
-    // leaving it means the NEXT open re-imports it wholesale and discards
-    // everything written since this migration. The import above already
-    // succeeded and passed integrity_check, so the data is in the pool.
+    // No rollback copy, but the legacy file must STILL go: the next open would
+    // re-import it wholesale and discard everything written since. The import
+    // above already passed integrity_check, so the data is in the pool.
     await root.removeEntry(dbPath).catch(() => {});
   }
   logChatDebug("db.migrate.sahpool.done", { bytes: file.size });
@@ -294,14 +275,11 @@ async function migrateLegacySqliteFile(
 
 async function openClient(): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
-  // ONE database per device. It is not keyed by user: the id resolves after
-  // mount, so a per-user path opened the empty guest file on the first render of
-  // every load, and signing in stranded whatever the guest had written.
+  // Not keyed by user: the id resolves after mount, so a per-user path opened
+  // the empty guest file on first render and signing in stranded its writes.
   const dbPath = singleDbPath();
-  // ONE tab holds the pool at a time. A second tab's install attempt fails by
-  // design, but a failed attempt can tear a pool file's header, after which the
-  // FIRST tab opens an empty database and the user sees a wipe. So take the Web
-  // Lock BEFORE any pool access, and on contention ask the owner to hand over.
+  // Take the Web Lock BEFORE any pool access: a second tab's failed install can
+  // tear a pool header, after which the FIRST tab opens empty and looks wiped.
   const lockKey = `db:${dbPath}`;
   if (!(await acquireLock(lockKey))) {
     logChatDebug("db.open.handover_wait");
@@ -312,9 +290,9 @@ async function openClient(): Promise<LocalClient> {
       );
     }
   }
-  // Under the lock, so two tabs cannot both adopt, and before any pool for the
-  // new path exists. A failure here must not be swallowed: continuing would open
-  // an empty database while the user's history sat in the old per-user pool.
+  // Under the lock so two tabs cannot both adopt, and before any pool for the
+  // new path exists. Swallowing a failure here would open an empty database
+  // while the user's history sat in the old per-user pool.
   try {
     await adoptSingleDatabase(dbPath);
   } catch (err) {
@@ -330,9 +308,8 @@ async function openClient(): Promise<LocalClient> {
       error: String(err).slice(0, 200),
     });
   }
-  // A successful open holds the lock for the tab's lifetime, but a FAILED one
-  // must hand it back: otherwise the next attempt waits 15s on a handover from
-  // a tab that is never coming.
+  // A FAILED open must hand the lock back, else the next attempt waits the
+  // full HANDOVER_TIMEOUT on a tab that is never coming.
   let sql: SQLocalDrizzle;
   try {
     sql = await openMigratedSql(dbPath);
@@ -351,8 +328,7 @@ async function openClient(): Promise<LocalClient> {
     releaseLock(lockKey);
     throw err;
   }
-  // Reclaim the pre-cap request-log payloads once per open. Fire-and-forget:
-  // it is pure cleanup and must never delay or fail the open.
+  // Fire-and-forget: pure cleanup, must never delay or fail the open.
   void import("@/lib/db/client/data/chat/request-log")
     .then((m) => m.trimRequestLogPayloads())
     .then((n) => {
@@ -362,10 +338,9 @@ async function openClient(): Promise<LocalClient> {
 
   let reopening: Promise<void> | null = null;
 
-  // Cooperative handover state. `parked` means this tab gave the pool away:
-  // the VFS is paused, the Web Lock released, and every statement path below
-  // must reacquire before touching the database. Transitions are single-flight
-  // through `transition` so park and unpark never interleave.
+  // `parked` means this tab gave the pool away: VFS paused, lock released, so
+  // every statement path below must reacquire first. Transitions are
+  // single-flight through `transition` so park and unpark never interleave.
   let parked = false;
   let transition: Promise<void> | null = null;
   let lastAcquiredAt = Date.now();
@@ -394,9 +369,8 @@ async function openClient(): Promise<LocalClient> {
     try {
       await resumeSql(sql);
     } catch (err) {
-      // Staying parked with the lock still held wedges the tab: acquireLockWaiting
-      // short-circuits on a held key, so every retry would reacquire instantly,
-      // fail the same way, and starve the tab that asked for the pool.
+      // acquireLockWaiting short-circuits on a held key, so staying parked with
+      // the lock would spin instantly on every retry and starve the asking tab.
       releaseLock(lockKey);
       throw err;
     }
