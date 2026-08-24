@@ -8,6 +8,7 @@ import {
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
+import { readLocalJsPlugins } from "@/lib/db/client/data/rp/js-plugins";
 import {
   getCaughtErrors,
   getChatDebugLog,
@@ -365,6 +366,38 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     requestLogsByConv,
     failedRequests: getFailedRequestCaptures(),
     caughtErrors: getCaughtErrors(),
+    jsPlugins: await describeJsPlugins(),
     debugLog: head.debugLog,
   };
+}
+
+// A display plugin rewrites the reply text on its way INTO the markdown parser,
+// so a plugin is the first thing to suspect when a render throws. The script is
+// user-authored and can hold anything they typed, and this file gets pasted into
+// public channels, so it is described rather than included: which hooks it
+// registers is what says whether it could have touched the render at all.
+const PLUGIN_HOOKS = [
+  "display",
+  "editRequest",
+  "editOutput",
+  "editInput",
+  "editProcess",
+] as const;
+
+async function describeJsPlugins() {
+  try {
+    const rows = (await readLocalJsPlugins()) ?? [];
+    return rows.map((p) => ({
+      id: p.id,
+      name: p.name,
+      kind: p.kind,
+      enabled: p.enabled,
+      scriptChars: p.script.length,
+      // Registration is a plain call in the script body, so a substring match
+      // names the hooks without executing anything.
+      hooks: PLUGIN_HOOKS.filter((h) => p.script.includes(h)),
+    }));
+  } catch {
+    return [];
+  }
 }

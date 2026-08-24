@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
 import { GreetingPreview } from "@/components/pages/sidebar/chat/greeting-preview";
@@ -633,21 +634,27 @@ const AssistantMessage: FC = () => {
             <AssistantMessageHeader />
             <div className="aui-assistant-message-content text-foreground px-2 leading-relaxed wrap-break-word">
               <StreamingIndicator />
-              <MessagePrimitive.Parts
-                components={{
-                  Text: MarkdownText,
-                  Reasoning: showReasoning ? Reasoning : HideReasoning,
-                  ReasoningGroup: showReasoning
-                    ? ReasoningGroup
-                    : HideReasoning,
-                  tools: {
-                    Fallback: ToolFallback,
-                  },
-                  data: {
-                    by_name: { task: () => null, error: PersistedErrorPart },
-                  },
-                }}
-              />
+              {/* Per MESSAGE, not per thread: a reply whose markdown throws
+                  used to unmount the whole thread through the outer boundary,
+                  so the conversation stayed blank on every later visit and the
+                  user lost every other message with it. */}
+              <SectionBoundary source="chat.message_parts">
+                <MessagePrimitive.Parts
+                  components={{
+                    Text: MarkdownText,
+                    Reasoning: showReasoning ? Reasoning : HideReasoning,
+                    ReasoningGroup: showReasoning
+                      ? ReasoningGroup
+                      : HideReasoning,
+                    tools: {
+                      Fallback: ToolFallback,
+                    },
+                    data: {
+                      by_name: { task: () => null, error: PersistedErrorPart },
+                    },
+                  }}
+                />
+              </SectionBoundary>
               <TaskCardRenderer />
               <MessageError />
             </div>
