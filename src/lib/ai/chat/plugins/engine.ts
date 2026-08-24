@@ -1,6 +1,6 @@
-import { rec } from "@/lib/utils/base";
-("use client");
+"use client";
 
+import { rec } from "@/lib/utils/base";
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 import type { JsPluginKind } from "@/lib/validation/js-plugin";
