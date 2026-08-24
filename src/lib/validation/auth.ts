@@ -64,3 +64,34 @@ export const authRequestInfoChecker = TypeCompiler.Compile(
   authRequestInfoSchema,
 );
 export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;
+
+// Upstream returns a raw gin body wider than its declared type, so this
+// validates only the fields the cookie helpers read and tolerates the rest.
+// Every field is optional: a 2FA-required or register response carries no
+// token and no user. access_expires_at is unix seconds.
+export const authResponseSchema = t.Object(
+  {
+    success: t.Optional(t.Boolean()),
+    message: t.Optional(t.String()),
+    data: t.Optional(
+      t.Object(
+        {
+          access_token: t.Optional(t.String()),
+          access_expires_at: t.Optional(t.Number()),
+          user: t.Optional(
+            t.Object(
+              { id: t.Optional(t.Union([t.String(), t.Number()])) },
+              { additionalProperties: true },
+            ),
+          ),
+          require_2fa: t.Optional(t.Boolean()),
+          flow_token: t.Optional(t.String()),
+        },
+        { additionalProperties: true },
+      ),
+    ),
+  },
+  { additionalProperties: true },
+);
+export const authResponseChecker = TypeCompiler.Compile(authResponseSchema);
+export type AuthResponseData = Static<typeof authResponseSchema>;
