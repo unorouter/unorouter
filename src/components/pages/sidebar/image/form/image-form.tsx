@@ -245,7 +245,7 @@ export function ImageForm() {
 function VariantsField() {
   const t = useTranslations();
   return (
-    <Controller<ImageFormValues, "ui.variants">
+    <FormField<ImageFormValues, "ui.variants">
       name="ui.variants"
       render={({ field }) => {
         const variants = clampVariants(field.value);

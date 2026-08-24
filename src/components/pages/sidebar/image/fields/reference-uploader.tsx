@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { FormItem, FormLabel } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { handleError } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
@@ -66,13 +66,13 @@ export function ReferenceUploader(props: Props) {
   };
 
   return (
-    <FormItem>
-      <FormLabel>
+    <div className="grid gap-2">
+      <Label>
         {t(props.labelKey ?? "IMAGE.REFERENCES_TITLE")}
         <span className="text-muted-foreground ml-2 text-xs font-normal">
           {value.length}/{cap}
         </span>
-      </FormLabel>
+      </Label>
 
       {value.length > 0 && (
         <div className="mb-2 grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -142,6 +142,6 @@ export function ReferenceUploader(props: Props) {
           </Button>
         </div>
       )}
-    </FormItem>
+    </div>
   );
 }

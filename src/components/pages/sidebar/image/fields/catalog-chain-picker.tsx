@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { FormItem, FormLabel } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -65,8 +65,8 @@ export function CatalogChainPicker<
   };
 
   return (
-    <FormItem>
-      <FormLabel>{t(props.titleKey)}</FormLabel>
+    <div className="grid gap-2">
+      <Label>{t(props.titleKey)}</Label>
 
       <div className="flex flex-col gap-3">
         {value.map((entry, i) => (
@@ -216,6 +216,6 @@ export function CatalogChainPicker<
           </PopoverContent>
         </Popover>
       </div>
-    </FormItem>
+    </div>
   );
 }
