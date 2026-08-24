@@ -1,8 +1,11 @@
 import type { RpEntityKind } from "@/lib/db/schema/client";
 import { posthog } from "@/lib/posthog-lazy";
 
+// js_plugins is not an ENTITY_KIND: those are the sync-tracked tables, and
+// plugins are local-only. It reports here because the import control it shares
+// with the others is what emits these events.
 type RpAnalyticsEntity =
-  Exclude<RpEntityKind, "conversations"> | "lorebook_entries";
+  Exclude<RpEntityKind, "conversations"> | "lorebook_entries" | "js_plugins";
 
 type RpAnalyticsAction =
   | "create_started"

@@ -104,12 +104,15 @@ export function RpEntityRow(props: {
   );
 }
 
+// onFile is optional: presets are published as links but have no file format
+// here, so that list offers link import alone rather than a picker that can
+// only fail.
 export function RpImportControl(props: {
   entity: RpAnalyticsEntity;
-  accept: string;
+  accept?: string;
   labelKey: TranslationKey;
   isPending: boolean;
-  onFile: (file: File) => Promise<void>;
+  onFile?: (file: File) => Promise<void>;
   onUrl?: (input: string) => Promise<void>;
   urlLabelKey?: TranslationKey;
   urlPlaceholderKey?: TranslationKey;
@@ -126,7 +129,7 @@ export function RpImportControl(props: {
         accept={props.accept}
         onChange={async (e) => {
           const file = e.target.files?.[0];
-          if (!file) return;
+          if (!file || !props.onFile) return;
           e.target.value = "";
           try {
             await props.onFile(file);
@@ -143,21 +146,23 @@ export function RpImportControl(props: {
         }}
         className="hidden"
       />
-      <Button
-        variant="outline"
-        onClick={() => {
-          analytics.rp.entityAction({
-            entity: props.entity,
-            action: "import_picker_opened",
-          });
-          fileInputRef.current?.click();
-        }}
-        disabled={props.isPending}
-        className={RP_ACTION_BUTTON}
-      >
-        <Icon name="upload" className="size-4" />
-        {t(props.labelKey)}
-      </Button>
+      {props.onFile && (
+        <Button
+          variant="outline"
+          onClick={() => {
+            analytics.rp.entityAction({
+              entity: props.entity,
+              action: "import_picker_opened",
+            });
+            fileInputRef.current?.click();
+          }}
+          disabled={props.isPending}
+          className={RP_ACTION_BUTTON}
+        >
+          <Icon name="upload" className="size-4" />
+          {t(props.labelKey)}
+        </Button>
+      )}
       {props.onUrl && (
         <Popover open={linkOpen} onOpenChange={setLinkOpen}>
           <PopoverTrigger

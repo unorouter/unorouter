@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   useDeletePresetMutation,
   useDuplicatePresetMutation,
+  useImportPresetFromUrlMutation,
   usePresetsQuery,
 } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
@@ -18,6 +19,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  RpImportControl,
 } from "../shared/rp-list-parts";
 
 export function PresetsPage() {
@@ -26,6 +28,7 @@ export function PresetsPage() {
   const deleteMut = useDeletePresetMutation();
   const duplicateMut = useDuplicatePresetMutation();
   const exportMut = useRpExportMutation();
+  const importUrlMut = useImportPresetFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
   const handleExport = (id: string) =>
@@ -58,6 +61,16 @@ export function PresetsPage() {
         setEditingId("new");
       }}
       onBack={() => setEditingId(null)}
+      headerActions={
+        <RpImportControl
+          entity="presets"
+          labelKey="RP.PRESETS_IMPORT_LINK"
+          isPending={importUrlMut.isPending}
+          onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
+          urlLabelKey="RP.PRESETS_IMPORT_LINK"
+          urlPlaceholderKey="RP.PRESETS_IMPORT_LINK_PLACEHOLDER"
+        />
+      }
       editor={
         editingId && (
           <PresetForm

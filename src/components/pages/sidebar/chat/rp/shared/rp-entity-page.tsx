@@ -20,6 +20,8 @@ type RpEntityPageProps = {
   onBack: () => void;
   editor: ReactNode;
   list: ReactNode;
+  // Rendered beside the New button, hidden while editing like New itself.
+  headerActions?: ReactNode;
 };
 
 export function RpEntityPage(props: RpEntityPageProps) {
@@ -64,10 +66,13 @@ export function RpEntityPage(props: RpEntityPageProps) {
               {t(props.backLabelKey)}
             </Button>
           ) : (
-            <Button onClick={props.onNew}>
-              <Icon name="plus" className="mr-2 size-4" />
-              {t(props.newLabelKey)}
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+              {props.headerActions}
+              <Button onClick={props.onNew}>
+                <Icon name="plus" className="mr-2 size-4" />
+                {t(props.newLabelKey)}
+              </Button>
+            </div>
           )}
         </div>
 

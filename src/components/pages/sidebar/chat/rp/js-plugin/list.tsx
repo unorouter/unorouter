@@ -12,16 +12,18 @@ import { Icon } from "@/components/ui/icon";
 import {
   useCreateJsPluginMutation,
   useDeleteJsPluginMutation,
+  useImportJsPluginFromUrlMutation,
   useJsPluginsQuery,
 } from "@/hooks/ai/js-plugins-hook";
 import { detectPluginKind } from "@/lib/ai/chat/plugins/engine";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  RpImportControl,
 } from "../shared/rp-list-parts";
 import { JsPluginEditor } from "./editor";
 
@@ -42,8 +44,8 @@ export function JsPluginList(props: Props) {
   const pluginsQuery = useJsPluginsQuery();
   const deleteMut = useDeleteJsPluginMutation();
   const createMut = useCreateJsPluginMutation();
+  const importUrlMut = useImportJsPluginFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
@@ -83,21 +85,16 @@ export function JsPluginList(props: Props) {
 
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap justify-end gap-2">
-            <input
-              ref={fileRef}
-              type="file"
+            <RpImportControl
+              entity="js_plugins"
               accept=".js,.ts,text/javascript,text/plain"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                e.target.value = "";
-                if (file) void handleImport(file);
-              }}
+              labelKey="CHAT.JS_PLUGIN.IMPORT"
+              isPending={createMut.isPending || importUrlMut.isPending}
+              onFile={handleImport}
+              onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
+              urlLabelKey="CHAT.JS_PLUGIN.IMPORT_LINK"
+              urlPlaceholderKey="CHAT.JS_PLUGIN.IMPORT_LINK_PLACEHOLDER"
             />
-            <Button variant="outline" onClick={() => fileRef.current?.click()}>
-              <Icon name="upload" className="size-4" />
-              <span className="truncate">{t("CHAT.JS_PLUGIN.IMPORT")}</span>
-            </Button>
             <Button onClick={() => setEditingId("new")}>
               <Icon name="plus" className="size-4" />
               <span className="truncate">{t("CHAT.JS_PLUGIN.NEW")}</span>
