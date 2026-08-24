@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Modello immagine per la generazione in chat. Vuoto significa automatico.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Tokenizzatore",
-    "PRESET_TOKENIZER_HINT": "Usato solo per contare il contesto in locale (taglio della cronologia, budget del lorebook). Non viene mai inviato al modello. Auto sceglie il tokenizzatore in base al modello."
+    "PRESET_TOKENIZER_HINT": "Usato solo per contare il contesto in locale (taglio della cronologia, budget del lorebook). Non viene mai inviato al modello. Auto sceglie il tokenizzatore in base al modello.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} personaggi",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
+    "CARDS_IMPORT": "Importa carta",
+    "CARDS_IMPORT_PARTIAL": "Carta importata, ma {count} elementi non erano su questo dispositivo e sono stati saltati."
   },
   "ERRORS": {
     "MISSING_ENV": "Variabile d'ambiente richiesta mancante: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "L'autore lo ha reso privato, quindi non può essere scaricato.",
     "CARD_IMPORT_EMPTY": "A quel link non c'era nulla di importabile.",
     "CARD_IMPORT_TIMED_OUT": "La fonte ha impiegato troppo a rispondere. Riprova tra un minuto.",
-    "CARD_IMPORT_JOB_GONE": "Quell'importazione è scaduta prima di finire. Invia di nuovo il link."
+    "CARD_IMPORT_JOB_GONE": "Quell'importazione è scaduta prima di finire. Invia di nuovo il link.",
+    "CARD_FILE_INVALID": "Quel file non è un'esportazione di una carta."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",

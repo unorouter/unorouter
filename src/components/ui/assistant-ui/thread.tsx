@@ -1,5 +1,6 @@
 "use client";
 
+import type { CssVars } from "@/lib/types";
 import { Link } from "@/i18n/navigation";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
@@ -97,16 +98,18 @@ const MarkdownText = dynamic<TextMessagePartProps>(
 
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
+const THREAD_VARS: CssVars = {
+  "--thread-max-width": "44rem",
+  "--composer-radius": "24px",
+  "--composer-padding": "10px",
+};
+
 export const Thread: FC = () => {
   const autoScrollStream = useAtomValue(autoScrollStreamAtom);
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root bg-background @container flex min-h-0 flex-1 flex-col"
-      style={{
-        ["--thread-max-width" as string]: "44rem",
-        ["--composer-radius" as string]: "24px",
-        ["--composer-padding" as string]: "10px",
-      }}
+      style={THREAD_VARS}
     >
       {/* autoScroll alone only gates the content-resize branch; the run-start
           jump is a separate default that still fired with the setting off, so

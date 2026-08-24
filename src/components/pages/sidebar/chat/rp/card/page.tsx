@@ -14,6 +14,7 @@ import {
   useApplyCardMutation,
   useCardsQuery,
   useDeleteCardMutation,
+  useImportCardFromFileMutation,
 } from "@/hooks/ai/rp/cards";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { useAuiState } from "@assistant-ui/react";
@@ -27,15 +28,48 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  RpImportControl,
 } from "../shared/rp-list-parts";
 import { CardForm } from "./form";
 
+// What is IN the bundle, which is the thing that tells two cards apart. Names
+// rather than counts where they fit: "Alice, Bob" identifies a card, "2
+// characters" does not.
+function useCardSummary() {
+  const t = useTranslations();
+  return (card: {
+    personaName: string | null;
+    characterNames: string[];
+    lorebookNames: string[];
+  }) => {
+    const parts: string[] = [];
+    if (card.personaName) parts.push(card.personaName);
+    if (card.characterNames.length > 0) {
+      parts.push(
+        card.characterNames.length > 3
+          ? t("RP.CARDS_SUMMARY_CHARACTERS", {
+              count: card.characterNames.length,
+            })
+          : card.characterNames.join(", "),
+      );
+    }
+    if (card.lorebookNames.length > 0) {
+      parts.push(
+        t("RP.CARDS_SUMMARY_LOREBOOKS", { count: card.lorebookNames.length }),
+      );
+    }
+    return parts.join(", ");
+  };
+}
+
 export function CardsPage() {
   const t = useTranslations();
+  const cardSummary = useCardSummary();
   const cardsQuery = useCardsQuery();
   const deleteMut = useDeleteCardMutation();
   const applyMut = useApplyCardMutation();
   const exportMut = useRpExportMutation();
+  const importMut = useImportCardFromFileMutation();
   const activeConvId = useAuiState((s) => s.threadListItem?.remoteId);
   const [editingId, setEditingId] = useState<EntityEditId>(null);
   const [applyTarget, setApplyTarget] = useState<{
@@ -81,6 +115,15 @@ export function CardsPage() {
         isEditing={editingId !== null}
         onNew={() => setEditingId("new")}
         onBack={() => setEditingId(null)}
+        headerActions={
+          <RpImportControl
+            entity="cards"
+            accept="application/json"
+            labelKey="RP.CARDS_IMPORT"
+            isPending={importMut.isPending}
+            onFile={(file) => importMut.mutateAsync(file).then(() => {})}
+          />
+        }
         editor={
           editingId && (
             <CardForm
@@ -100,7 +143,7 @@ export function CardsPage() {
                 key={c.id}
                 onOpen={() => setEditingId(c.id)}
                 name={c.name}
-                description={c.description}
+                description={cardSummary(c) || c.description}
                 actions={
                   <>
                     <Button

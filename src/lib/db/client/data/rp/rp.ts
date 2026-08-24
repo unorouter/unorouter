@@ -58,7 +58,40 @@ export const readLocalLorebooks = () => lorebookStore.list();
 export const readLocalPresets = () => presetStore.list();
 export const readLocalPreset = (id: string) => presetStore.get(id);
 
-export const readLocalCards = () => cardStore.list();
+// Names, not ids: a card is a BUNDLE, so a list row showing only its own name
+// says nothing about which one to apply. Three queries for the whole list rather
+// than per-card joins, since the counts are small and the alternative is a
+// waterfall.
+export async function readLocalCards() {
+  const local = await getLocalDb();
+  if (!local) return [];
+  const [rows, chars, lbs, personas, characters, lorebooks] = await Promise.all(
+    [
+      cardStore.list(),
+      local.db.select().from(cardCharacters),
+      local.db.select().from(cardLorebooks),
+      personaStore.list(),
+      characterStore.list(),
+      lorebookStore.list(),
+    ],
+  );
+  const nameOf = <T extends { id: string; name: string }>(
+    list: T[] | null | undefined,
+    id: string | null,
+  ) => (id ? (list ?? []).find((x) => x.id === id)?.name : undefined);
+  return (rows ?? []).map((card) => ({
+    ...card,
+    personaName: nameOf(personas, card.personaId) ?? null,
+    characterNames: chars
+      .filter((c) => c.cardId === card.id)
+      .map((c) => nameOf(characters, c.characterId))
+      .filter((n): n is string => !!n),
+    lorebookNames: lbs
+      .filter((l) => l.cardId === card.id)
+      .map((l) => nameOf(lorebooks, l.lorebookId))
+      .filter((n): n is string => !!n),
+  }));
+}
 
 export async function readLocalLorebook(id: string) {
   const local = await getLocalDb();

@@ -28,6 +28,11 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import ShikiHighlighter from "react-shiki";
 
+// Uppercase<BadgeType> is the exact set of MAIN.ENUM leaves, so adding a badge
+// type without its label fails to compile instead of rendering the key.
+const badgeTypeKey = (type: BadgeType) =>
+  `MAIN.ENUM.${type.toUpperCase() as Uppercase<BadgeType>}` as const;
+
 type BadgeGeneratorProps = {
   defaultType?: BadgeType;
   refCode?: string;
@@ -106,14 +111,12 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
             }}
           >
             <SelectTrigger size="sm" className="w-32">
-              <SelectValue>
-                {t(`MAIN.ENUM.${type.toUpperCase()}` as "MAIN.ENUM.BANNER")}
-              </SelectValue>
+              <SelectValue>{t(badgeTypeKey(type))}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {BADGE_TYPES.map((bt) => (
                 <SelectItem key={bt} value={bt}>
-                  {t(`MAIN.ENUM.${bt.toUpperCase()}` as "MAIN.ENUM.BANNER")}
+                  {t(badgeTypeKey(bt))}
                 </SelectItem>
               ))}
             </SelectContent>

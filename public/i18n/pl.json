@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Model obrazów do generowania na czacie. Puste oznacza automatycznie.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} tokenów",
     "PRESET_TOKENIZER": "Tokenizator",
-    "PRESET_TOKENIZER_HINT": "Używany tylko do lokalnego liczenia kontekstu (przycinanie historii, budżet lorebooka). Nigdy nie jest wysyłany do modelu. Auto dobiera tokenizator do modelu."
+    "PRESET_TOKENIZER_HINT": "Używany tylko do lokalnego liczenia kontekstu (przycinanie historii, budżet lorebooka). Nigdy nie jest wysyłany do modelu. Auto dobiera tokenizator do modelu.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} postaci",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooków",
+    "CARDS_IMPORT": "Importuj kartę",
+    "CARDS_IMPORT_PARTIAL": "Zaimportowano kartę, ale {count} elementów nie ma na tym urządzeniu i zostało pominiętych."
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "Autor zachował to jako prywatne, więc nie da się pobrać.",
     "CARD_IMPORT_EMPTY": "Pod tym linkiem nie było nic do zaimportowania.",
     "CARD_IMPORT_TIMED_OUT": "Źródło odpowiadało zbyt długo. Spróbuj ponownie za minutę.",
-    "CARD_IMPORT_JOB_GONE": "Ten import wygasł przed zakończeniem. Wyślij link ponownie."
+    "CARD_IMPORT_JOB_GONE": "Ten import wygasł przed zakończeniem. Wyślij link ponownie.",
+    "CARD_FILE_INVALID": "Ten plik nie jest eksportem karty."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

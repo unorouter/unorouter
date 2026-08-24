@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Mô hình hình ảnh dùng để tạo ảnh trong trò chuyện. Để trống là tự động.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Bộ tách token",
-    "PRESET_TOKENIZER_HINT": "Chỉ dùng để đếm ngữ cảnh cục bộ (cắt lịch sử, ngân sách lorebook). Không bao giờ gửi tới mô hình. Auto sẽ chọn bộ tách token khớp với mô hình."
+    "PRESET_TOKENIZER_HINT": "Chỉ dùng để đếm ngữ cảnh cục bộ (cắt lịch sử, ngân sách lorebook). Không bao giờ gửi tới mô hình. Auto sẽ chọn bộ tách token khớp với mô hình.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} nhân vật",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
+    "CARDS_IMPORT": "Nhập thẻ",
+    "CARDS_IMPORT_PARTIAL": "Đã nhập thẻ, nhưng {count} mục không có trên thiết bị này và đã bị bỏ qua."
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "Tác giả để ở chế độ riêng tư nên không thể tải về.",
     "CARD_IMPORT_EMPTY": "Không có gì để nhập ở liên kết đó.",
     "CARD_IMPORT_TIMED_OUT": "Nguồn phản hồi quá lâu. Hãy thử lại sau một phút.",
-    "CARD_IMPORT_JOB_GONE": "Lượt nhập đó đã hết hạn trước khi hoàn tất. Hãy gửi lại liên kết."
+    "CARD_IMPORT_JOB_GONE": "Lượt nhập đó đã hết hạn trước khi hoàn tất. Hãy gửi lại liên kết.",
+    "CARD_FILE_INVALID": "Tệp đó không phải là bản xuất thẻ."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

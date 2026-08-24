@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Sohbet içi görsel oluşturma için görsel modeli. Boş bırakılırsa otomatik.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Tokenleştirici",
-    "PRESET_TOKENIZER_HINT": "Yalnızca bağlamı yerel olarak saymak için kullanılır (geçmiş kırpma, lorebook bütçesi). Modele asla gönderilmez. Auto, tokenleştiriciyi seçili modele göre eşleştirir."
+    "PRESET_TOKENIZER_HINT": "Yalnızca bağlamı yerel olarak saymak için kullanılır (geçmiş kırpma, lorebook bütçesi). Modele asla gönderilmez. Auto, tokenleştiriciyi seçili modele göre eşleştirir.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} karakter",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
+    "CARDS_IMPORT": "Kart içe aktar",
+    "CARDS_IMPORT_PARTIAL": "Kart içe aktarıldı, ancak {count} öge bu cihazda yoktu ve atlandı."
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "Yazar bunu gizli tuttuğu için indirilemiyor.",
     "CARD_IMPORT_EMPTY": "Bu bağlantıda içe aktarılabilecek bir şey yoktu.",
     "CARD_IMPORT_TIMED_OUT": "Kaynak yanıt vermekte çok gecikti. Bir dakika sonra tekrar deneyin.",
-    "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin."
+    "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin.",
+    "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

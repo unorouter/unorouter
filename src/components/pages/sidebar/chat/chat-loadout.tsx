@@ -19,14 +19,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCardsQuery } from "@/hooks/ai/rp/cards";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { readLocalCard } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { chatLoadoutAtom, type ChatLoadout } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 type NamedEntity = { id: string; name: string; title?: string | null };
 
@@ -124,9 +127,24 @@ export function ChatLoadout() {
   const personas = usePersonasQuery().data;
   const characters = useCharactersQuery().data;
   const lorebooks = useLorebooksQuery().data;
+  const cards = useCardsQuery().data;
 
   const patch = (next: Partial<ChatLoadout>) =>
     setLoadout({ ...loadout, ...next });
+
+  // Applying a card here patches the LOADOUT rather than calling the apply
+  // mutation: that one writes conversation bindings, and this panel is what a
+  // new chat is configured with before a conversation exists.
+  const applyCard = async (cardId: string) => {
+    const card = await readLocalCard(cardId);
+    if (!card) return;
+    patch({
+      personaId: card.personaId ?? null,
+      characterIds: card.cardCharacters.map((c) => c.characterId),
+      lorebookIds: card.cardLorebooks.map((l) => l.lorebookId),
+    });
+    toast.success(t("RP.CARDS_APPLIED"));
+  };
 
   const hasNothing =
     (presets?.length ?? 0) === 0 &&
@@ -172,6 +190,15 @@ export function ChatLoadout() {
         options={lorebooks}
         onChange={(ids) => patch({ lorebookIds: ids })}
       />
+      {(cards?.length ?? 0) > 0 && (
+        <EntityPicker
+          label={t("RP.CARDS_TITLE")}
+          noneLabel={t("CHAT.OVERRIDES.NONE")}
+          value={null}
+          options={cards}
+          onChange={(id) => id && void applyCard(id)}
+        />
+      )}
       <p className="text-muted-foreground text-xs">{t("CHAT.LOADOUT.HINT")}</p>
     </div>
   );

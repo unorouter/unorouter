@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使う画像モデル。空欄なら自動。",
     "LOREBOOK_ENTRY_TOKENS": "約 {count} トークン",
     "PRESET_TOKENIZER": "トークナイザー",
-    "PRESET_TOKENIZER_HINT": "ローカルでのコンテキスト計算にのみ使用します（履歴の切り詰め、ロアブックの割り当て）。モデルへ送信されることはありません。Auto は選択中のモデルに合わせて自動選択します。"
+    "PRESET_TOKENIZER_HINT": "ローカルでのコンテキスト計算にのみ使用します（履歴の切り詰め、ロアブックの割り当て）。モデルへ送信されることはありません。Auto は選択中のモデルに合わせて自動選択します。",
+    "CARDS_SUMMARY_CHARACTERS": "{count}体のキャラクター",
+    "CARDS_SUMMARY_LOREBOOKS": "ロアブック{count}冊",
+    "CARDS_IMPORT": "カードをインポート",
+    "CARDS_IMPORT_PARTIAL": "カードを取り込みましたが、この端末にない{count}件はスキップされました。"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "作者が非公開にしているため、ダウンロードできません。",
     "CARD_IMPORT_EMPTY": "そのリンクには取り込める内容がありませんでした。",
     "CARD_IMPORT_TIMED_OUT": "配布元の応答に時間がかかりすぎました。少し待って再試行してください。",
-    "CARD_IMPORT_JOB_GONE": "そのインポートは完了前に期限切れになりました。もう一度リンクを送信してください。"
+    "CARD_IMPORT_JOB_GONE": "そのインポートは完了前に期限切れになりました。もう一度リンクを送信してください。",
+    "CARD_FILE_INVALID": "このファイルはカードのエクスポートではありません。"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

@@ -12,12 +12,17 @@ import {
   deleteLocalCard,
   readLocalCard,
   readLocalCards,
+  readLocalCharacters,
+  readLocalLorebooks,
+  readLocalPersonas,
   upsertLocalCardBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { CardBody } from "@/lib/validation/rp";
-import { uid } from "@/lib/utils/base";
+import { isRecord, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
+import { msg } from "@/lib/config/constants";
+import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
@@ -193,6 +198,84 @@ export function useApplyCardMutation() {
       qc.invalidateQueries({
         queryKey: queryKeys.chatSettings(args.body.convId),
       });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+// A card file holds IDS, not the entities: it is a bundle OF things already on
+// this device, so the same file on another device points at characters that do
+// not exist there. Rather than write a card full of dangling references, the
+// import keeps only what resolves locally and reports what it dropped, so the
+// user learns their card arrived half-empty instead of discovering it when the
+// chat is missing a character.
+export function useImportCardFromFileMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const parsed: unknown = JSON.parse(await file.text());
+      if (!isRecord(parsed) || typeof parsed.name !== "string") {
+        throw new Error(msg("ERRORS.CARD_FILE_INVALID"));
+      }
+      const ids = (v: unknown): string[] =>
+        Array.isArray(v)
+          ? v.filter((x): x is string => typeof x === "string")
+          : [];
+      const wantCharacters = ids(parsed.characterIds);
+      const wantLorebooks = ids(parsed.lorebookIds);
+
+      const [characters, lorebooks, personas] = await Promise.all([
+        readLocalCharacters(),
+        readLocalLorebooks(),
+        readLocalPersonas(),
+      ]);
+      const has = (list: { id: string }[] | null, id: string) =>
+        (list ?? []).some((x) => x.id === id);
+
+      const characterIds = wantCharacters.filter((id) => has(characters, id));
+      const lorebookIds = wantLorebooks.filter((id) => has(lorebooks, id));
+      const personaId =
+        typeof parsed.personaId === "string" && has(personas, parsed.personaId)
+          ? parsed.personaId
+          : null;
+
+      const id = uid();
+      const now = dayjs().toDate();
+      await upsertLocalCardBundle({
+        card: {
+          id,
+          name: parsed.name,
+          description:
+            typeof parsed.description === "string" ? parsed.description : null,
+          personaId,
+          createdAt: now,
+          updatedAt: now,
+        },
+        cardCharacters: characterIds.map((characterId, orderIndex) => ({
+          cardId: id,
+          characterId,
+          orderIndex,
+        })),
+        cardLorebooks: lorebookIds.map((lorebookId, orderIndex) => ({
+          cardId: id,
+          lorebookId,
+          orderIndex,
+        })),
+      });
+      return {
+        name: parsed.name,
+        missing:
+          wantCharacters.length -
+          characterIds.length +
+          (wantLorebooks.length - lorebookIds.length),
+      };
+    },
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: queryKeys.cards() });
+      if (res.missing > 0) {
+        toast.warning(t("RP.CARDS_IMPORT_PARTIAL", { count: res.missing }));
+      }
     },
     onError: (e) => handleError(e, t),
   });
