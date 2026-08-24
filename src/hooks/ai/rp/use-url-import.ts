@@ -19,6 +19,27 @@ const POLL_TIMEOUT_MS = 180_000;
 // hand-write a mirror of it.
 export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;
 
+// A job error is an internal string built for the logs ("datacat: not_found (at
+// <url>)"), so it names the adapter and the page rather than telling the reader
+// what to do. Translate the ones a user can act on and keep the raw text only
+// when it is genuinely the best description available.
+function importFailureMessage(raw: string | null | undefined): string {
+  const e = (raw ?? "").toLowerCase();
+  if (!e) return msg("ERRORS.CARD_IMPORT_FETCH_FAILED");
+  if (e.includes("timed out")) return msg("ERRORS.CARD_IMPORT_TIMED_OUT");
+  if (e.includes("private") || e.includes("downloads disabled"))
+    return msg("ERRORS.CARD_IMPORT_PRIVATE");
+  // The upstream said the id is gone. Ours retries a transient rejection to its
+  // deadline, so reaching the user means it stayed gone.
+  if (e.includes("not_found") || e.includes("no longer exists"))
+    return msg("ERRORS.CARD_IMPORT_NOT_FOUND");
+  if (e.includes("no character id") || e.includes("no lorebook id"))
+    return msg("ERRORS.CARD_IMPORT_INVALID_URL");
+  if (e.includes("empty") || e.includes("no importable"))
+    return msg("ERRORS.CARD_IMPORT_EMPTY");
+  return msg("ERRORS.CARD_IMPORT_FETCH_FAILED");
+}
+
 // Submit a link, wait for the job, hand the result to `persist`. Every entity
 // shares this; only the persist step differs.
 export async function runUrlImport<T>(
@@ -39,7 +60,7 @@ export async function runUrlImport<T>(
       await rpc.api.ai["character-cards"].import({ jobId: job.jobId }).get(),
     );
     if (state.status === "failed") {
-      throw new Error(state.error || msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+      throw new Error(importFailureMessage(state.error));
     }
     if (state.status !== "done" || !state.result) continue;
     return persist(state.result);
