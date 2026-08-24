@@ -1,4 +1,3 @@
-import { FormMessage } from "@/components/ui/form";
 import type { TObject } from "@sinclair/typebox/type";
 import { safeT } from "@/lib/utils/i18n";
 import { useTranslations } from "next-intl";
@@ -34,5 +33,11 @@ export function MyFormError(props: MyFormErrorProps) {
     minimum: property?.minimum,
   });
 
-  return <FormMessage className="text-xs font-bold">{error}</FormMessage>;
+  if (!error) return null;
+
+  return (
+    <p data-slot="form-message" className="text-destructive text-xs font-bold">
+      {error}
+    </p>
+  );
 }
