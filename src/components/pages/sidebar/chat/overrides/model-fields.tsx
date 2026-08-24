@@ -63,7 +63,10 @@ export function ModelIdPicker(props: {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
+      <PopoverTrigger
+        type="button"
+        className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs"
+      >
         <span
           className={cn(
             "truncate",
@@ -192,7 +195,10 @@ function GroupRow(props: {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="hover:bg-accent flex w-full items-center justify-between rounded-md px-1 py-1 text-xs">
+      <PopoverTrigger
+        type="button"
+        className="hover:bg-accent flex w-full items-center justify-between rounded-md px-1 py-1 text-xs"
+      >
         <span className="text-muted-foreground">{t("CHAT.GROUP.SELECT")}</span>
         <span className="flex items-center gap-1.5">
           <span className="truncate font-mono text-xs">

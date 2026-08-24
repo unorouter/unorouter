@@ -37,6 +37,7 @@ export function RpEntityPage(props: RpEntityPageProps) {
         <Button
           variant="ghost"
           size="sm"
+          nativeButton={false}
           className="text-muted-foreground -ml-2 self-start"
           render={
             <Link
