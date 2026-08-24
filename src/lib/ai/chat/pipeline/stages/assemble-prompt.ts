@@ -83,11 +83,20 @@ export async function assemblePrompt(
       }
     | undefined;
   const presetDefaults = convCtx?.preset as
-    | { memoryEnabled?: boolean | null; utilityModel?: string | null }
+    | {
+        memoryEnabled?: boolean | null;
+        utilityModel?: string | null;
+        utilityGroup?: string | null;
+      }
     | undefined;
   const memorySettings = {
     memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
     utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
+    // Only the preset pins a lane, and only for the model it pinned: a
+    // conversation-level utility model overrides it, so the lane goes with it.
+    utilityGroup: convSettings?.utilityModel
+      ? null
+      : presetDefaults?.utilityGroup,
     summaryMemory: convSettings?.summaryMemory,
     summaryAnchor: convSettings?.summaryAnchor,
   };
@@ -217,6 +226,7 @@ async function buildMemoryViaAgent(
         summaryMemory?: string | null;
         summaryAnchor?: number | null;
         utilityModel?: string | null;
+        utilityGroup?: string | null;
       }
     | undefined,
   history: { role: "user" | "assistant" | "system"; text: string }[],
@@ -231,9 +241,11 @@ async function buildMemoryViaAgent(
   if (!settings?.memoryEnabled) return out;
 
   const utilityModel = settings.utilityModel || body.model;
+  const utilityGroup = settings.utilityModel ? settings.utilityGroup : null;
   const runtime: AgentRuntime = {
     listFreeModels: async () => [utilityModel],
-    generate: deps.runUtilityLLM,
+    generate: (modelName, opts) =>
+      deps.runUtilityLLM(modelName, { ...opts, group: utilityGroup }),
   };
   const pipeline = createAgentPipeline(
     [
