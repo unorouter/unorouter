@@ -1,3 +1,4 @@
+import { isOneOf } from "@/lib/utils/base";
 import { msg, type TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import type { TaskDto } from "@/openapi";
@@ -95,9 +96,7 @@ const TASK_FILTER_KEYS: readonly (keyof TaskFilterValues)[] = [
   "end_date",
 ];
 
-function isTaskFilterKey(id: string): id is keyof TaskFilterValues {
-  return TASK_FILTER_KEYS.some((k) => k === id);
-}
+const isTaskFilterKey = isOneOf(TASK_FILTER_KEYS);
 
 export function buildTaskFilters(
   columnFilters: Array<{ id: string; value: unknown }>,

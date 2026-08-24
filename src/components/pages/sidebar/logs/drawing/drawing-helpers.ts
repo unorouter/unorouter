@@ -1,3 +1,4 @@
+import { isOneOf } from "@/lib/utils/base";
 import { msg, type TranslationKey } from "@/lib/config/constants";
 import type { Midjourney } from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
@@ -116,9 +117,7 @@ const DRAWING_FILTER_KEYS: readonly (keyof DrawingFilterValues)[] = [
   "end_date",
 ];
 
-function isDrawingFilterKey(id: string): id is keyof DrawingFilterValues {
-  return DRAWING_FILTER_KEYS.some((k) => k === id);
-}
+const isDrawingFilterKey = isOneOf(DRAWING_FILTER_KEYS);
 
 export function buildDrawingFilters(
   columnFilters: Array<{ id: string; value: unknown }>,

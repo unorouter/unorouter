@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { bytesEqual, finiteNumber, nonEmptyString } from "@/lib/utils/base";
 import { Icon } from "@/components/ui/icon";
 import type { ImageFormValues } from "@/lib/validation/image";
 import { useTranslations } from "next-intl";
@@ -9,13 +10,6 @@ import { useFormContext } from "react-hook-form";
 import { patchParams } from "../logic/form-helpers";
 
 const PNG_SIGNATURE = [137, 80, 78, 71, 13, 10, 26, 10] as const;
-
-function bytesEqual(a: Uint8Array, b: readonly number[], offset = 0): boolean {
-  for (let i = 0; i < b.length; i++) {
-    if (a[offset + i] !== b[i]) return false;
-  }
-  return true;
-}
 
 function readPngTextChunks(buffer: ArrayBuffer): Record<string, string> | null {
   const bytes = new Uint8Array(buffer);
@@ -68,14 +62,6 @@ type ComfyNode = {
   inputs?: Record<string, unknown>;
 };
 
-function asNumber(v: unknown): number | undefined {
-  return typeof v === "number" && Number.isFinite(v) ? v : undefined;
-}
-
-function asString(v: unknown): string | undefined {
-  return typeof v === "string" && v.length > 0 ? v : undefined;
-}
-
 function extractFromComfyGraph(graph: unknown): RestoredFromPng {
   if (!graph || typeof graph !== "object") return {};
   const g = graph as Record<string, ComfyNode>;
@@ -88,27 +74,27 @@ function extractFromComfyGraph(graph: unknown): RestoredFromPng {
     const inputs = node.inputs ?? {};
 
     if (cls === "CLIPTextEncode") {
-      const text = asString(inputs.text);
+      const text = nonEmptyString(inputs.text);
       if (text) textEncodes.push(text);
     } else if (cls === "KSampler") {
-      out.seed ??= asNumber(inputs.seed);
-      out.steps ??= asNumber(inputs.steps);
-      out.cfg ??= asNumber(inputs.cfg);
-      out.sampler ??= asString(inputs.sampler_name);
-      out.scheduler ??= asString(inputs.scheduler);
+      out.seed ??= finiteNumber(inputs.seed);
+      out.steps ??= finiteNumber(inputs.steps);
+      out.cfg ??= finiteNumber(inputs.cfg);
+      out.sampler ??= nonEmptyString(inputs.sampler_name);
+      out.scheduler ??= nonEmptyString(inputs.scheduler);
     } else if (cls === "RandomNoise") {
-      out.seed ??= asNumber(inputs.noise_seed);
+      out.seed ??= finiteNumber(inputs.noise_seed);
     } else if (cls === "FluxGuidance") {
-      out.guidance ??= asNumber(inputs.guidance);
+      out.guidance ??= finiteNumber(inputs.guidance);
     } else if (cls === "Flux2Scheduler") {
-      out.steps ??= asNumber(inputs.steps);
-      out.width ??= asNumber(inputs.width);
-      out.height ??= asNumber(inputs.height);
+      out.steps ??= finiteNumber(inputs.steps);
+      out.width ??= finiteNumber(inputs.width);
+      out.height ??= finiteNumber(inputs.height);
     } else if (cls === "EmptyLatentImage" || cls === "EmptyFlux2LatentImage") {
-      out.width ??= asNumber(inputs.width);
-      out.height ??= asNumber(inputs.height);
+      out.width ??= finiteNumber(inputs.width);
+      out.height ??= finiteNumber(inputs.height);
     } else if (cls === "KSamplerSelect") {
-      out.sampler ??= asString(inputs.sampler_name);
+      out.sampler ??= nonEmptyString(inputs.sampler_name);
     }
   }
 

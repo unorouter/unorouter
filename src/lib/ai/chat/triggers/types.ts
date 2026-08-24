@@ -1,3 +1,4 @@
+import { isOneOf } from "@/lib/utils/base";
 export const TRIGGER_EVENT_MODES = [
   "start", // before send (server, during assembly)
   "input", // after user input (client)
@@ -9,9 +10,7 @@ export const TRIGGER_EVENT_MODES = [
 
 export type TriggerEventMode = (typeof TRIGGER_EVENT_MODES)[number];
 
-export function isTriggerEventMode(v: unknown): v is TriggerEventMode {
-  return TRIGGER_EVENT_MODES.some((m) => m === v);
-}
+export const isTriggerEventMode = isOneOf(TRIGGER_EVENT_MODES);
 
 export type ConditionType = "var" | "value" | "chatindex" | "exists";
 export type ConditionOperator =
