@@ -21,8 +21,11 @@ export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;
 
 // A job error is an internal string built for the logs ("datacat: not_found (at
 // <url>)"), so it names the adapter and the page rather than telling the reader
-// what to do. Translate the ones a user can act on and keep the raw text only
-// when it is genuinely the best description available.
+// what to do. Matching substrings is the weak part of this: uno-import's ROUTE
+// errors are fixed codes, but its 45 adapter errors are prose, and giving them
+// codes is a change across every adapter rather than a message fix. It fails
+// safe (an unmatched error keeps the generic message), so the cost of drift is
+// a vaguer sentence, never a wrong one.
 function importFailureMessage(raw: string | null | undefined): string {
   const e = (raw ?? "").toLowerCase();
   if (!e) return msg("ERRORS.CARD_IMPORT_FETCH_FAILED");
