@@ -153,6 +153,13 @@ const chat = {
       message: props.message,
     });
   },
+  sectionFailed: (props: { source: string; name: string; message: string }) => {
+    posthog.capture("chat_section_failed", {
+      source: props.source,
+      name: props.name,
+      message: props.message,
+    });
+  },
   modelAutoPicked: (props: { to: string }) => {
     posthog.capture("chat_model_auto_picked", { to_model: props.to });
   },

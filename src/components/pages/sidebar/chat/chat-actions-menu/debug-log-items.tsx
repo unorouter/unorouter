@@ -3,6 +3,7 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import {
+  clearCaughtErrors,
   clearChatDebugLog,
   clearFailedRequestCaptures,
 } from "@/lib/utils/chat-debug-log";
@@ -34,6 +35,7 @@ export function DebugLogItems() {
         onClick={() => {
           clearChatDebugLog();
           clearFailedRequestCaptures();
+          clearCaughtErrors();
           toast.success(t("CHAT.MORE.DEBUG_CLEARED"));
         }}
       >

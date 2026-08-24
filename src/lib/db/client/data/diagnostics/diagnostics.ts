@@ -9,6 +9,7 @@ import {
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
 import {
+  getCaughtErrors,
   getChatDebugLog,
   getFailedRequestCaptures,
   logChatDebug,
@@ -363,6 +364,7 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     messagesByConv,
     requestLogsByConv,
     failedRequests: getFailedRequestCaptures(),
+    caughtErrors: getCaughtErrors(),
     debugLog: head.debugLog,
   };
 }
