@@ -73,7 +73,7 @@ export function filterParamsToCapabilities(
     }
   }
 
-  return { params: source as ImageParams, dropped };
+  return { params: source, dropped };
 }
 
 export function filterLorasToCapabilities(

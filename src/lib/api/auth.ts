@@ -1,4 +1,5 @@
 import { Context } from "elysia";
+import type { CookieOptions } from "elysia/cookies";
 import {
   ACCESS_TOKEN_COOKIE,
   ACCESS_TOKEN_FALLBACK_MAX_AGE,
@@ -6,20 +7,11 @@ import {
   USER_ID_COOKIE,
 } from "../config/constants";
 import { signUserId } from "../utils/server";
+import { authResponseChecker, type AuthResponseData } from "../validation/auth";
 
-// Every field optional: 2FA-required and register responses carry no token or
-// user. access_expires_at is unix seconds.
-type AuthResponseData = {
-  success?: boolean;
-  message?: string;
-  data?: {
-    access_token?: string;
-    access_expires_at?: number;
-    user?: { id?: string | number };
-    require_2fa?: boolean;
-    flow_token?: string;
-  };
-};
+function parseAuthResponse(raw: unknown): AuthResponseData | undefined {
+  return authResponseChecker.Check(raw) ? raw : undefined;
+}
 
 // The identity cookie outlives the token deliberately: it only selects identity
 // + the OPFS file. access_token is capped to the token's own lifetime, floored
@@ -33,7 +25,7 @@ export async function setSessionCookies(
   accessToken: string,
   accessExpiresAt?: number,
 ): Promise<void> {
-  const base = { path: "/" as const, sameSite: "lax" as const };
+  const base: CookieOptions = { path: "/", sameSite: "lax" };
   // httpOnly: only the server unseals this. The client learns it is logged in
   // from the auth query cache, which the prefetch always seeds.
   cookie[USER_ID_COOKIE].set({
@@ -69,7 +61,7 @@ export async function handleAuthResponse(
   res: { data: unknown },
   cookie: Context["cookie"],
 ) {
-  const body = res.data as AuthResponseData | undefined;
+  const body = parseAuthResponse(res.data);
   const data = body?.data;
   const id = data?.user?.id;
   // No token means 2FA-required or register: the client drives the next step.

@@ -176,10 +176,12 @@ type PushPayload = {
   event?: { type?: string; data?: { model?: string } };
 };
 
+function isRec(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
 function rec(value: unknown): Record<string, unknown> | undefined {
-  return !!value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : undefined;
+  return isRec(value) ? value : undefined;
 }
 
 function str(value: unknown): string | undefined {
