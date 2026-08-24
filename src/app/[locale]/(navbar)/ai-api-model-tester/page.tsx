@@ -1,24 +1,19 @@
 import { TesterForm } from "@/components/pages/navbar/model-tester/run/tester-form";
-import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "MODEL_TESTER",
     href: "/ai-api-model-tester",
-    title: t("MODEL_TESTER.META.TITLE", APP_VALUES),
-    description: t("MODEL_TESTER.META.DESCRIPTION", APP_VALUES),
-    keywords: t("MODEL_TESTER.META.KEYWORDS"),
-    ogImage: ogBadge("tester", locale),
+    badge: "tester",
   });
 }
 

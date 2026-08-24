@@ -5,7 +5,7 @@ import { getPlansData } from "@/lib/api/page-data";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
@@ -17,18 +17,14 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "PRICING",
     href: "/pricing",
-    title: t("PRICING.META.TITLE", APP_VALUES),
-    description: t("PRICING.META.DESCRIPTION"),
-    keywords: t("PRICING.META.KEYWORDS"),
-    ogImage: ogBadge("pricing", locale),
+    badge: "pricing",
   });
 }
 

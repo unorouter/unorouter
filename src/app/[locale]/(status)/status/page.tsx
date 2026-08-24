@@ -1,29 +1,24 @@
 import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { StatusPage } from "@/components/pages/navbar/status/status-page";
 import { localeUrl } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "STATUS",
     href: "/status",
-    title: t("STATUS.META.TITLE", APP_VALUES),
-    description: t("STATUS.META.DESCRIPTION", APP_VALUES),
-    keywords: t("STATUS.META.KEYWORDS"),
-    ogImage: ogBadge("sponsor", locale),
+    badge: "sponsor",
   });
 }
 

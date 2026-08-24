@@ -32,7 +32,7 @@ export async function generateMetadata(props: {
       locale,
       href: "/compare",
       title: t("MODELS.COMPARE.META.TITLE", APP_VALUES),
-      description: t("MODELS.COMPARE.META.DESCRIPTION"),
+      description: t("MODELS.COMPARE.META.DESCRIPTION", APP_VALUES),
       keywords: t("MODELS.COMPARE.META.KEYWORDS"),
       ogImage: ogBadge("sponsor", locale),
     });

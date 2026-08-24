@@ -8,7 +8,9 @@ import {
 } from "@/i18n/registry";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
-import { LANGUAGES, LOCALES } from "../config/constants";
+import { APP_VALUES, LANGUAGES, LOCALES } from "../config/constants";
+import { serverLocale } from "../utils/server";
+import { getTranslations } from "next-intl/server";
 import { env } from "../config/env";
 import {
   buildBadgeUrl,
@@ -58,6 +60,33 @@ type MetadataParams = {
   ogImage?: string;
   robots?: boolean;
 };
+
+// Every static route builds its metadata the same way: resolve the locale, read
+// META.TITLE, META.DESCRIPTION and META.KEYWORDS off one namespace, and pick an
+// og badge. Only those three inputs differ.
+export async function pageMetadata(opts: {
+  props: { params: Promise<{ locale: string }> };
+  namespace: string;
+  href: Pathname;
+  badge?: Parameters<typeof ogBadge>[0];
+  canonicalHref?: Pathname;
+  robots?: boolean;
+}): Promise<Metadata> {
+  const locale = await serverLocale(opts.props);
+  const t = await getTranslations({ locale });
+  const key = (leaf: string) =>
+    `${opts.namespace}.META.${leaf}` as Parameters<typeof t>[0];
+  return getPageMetadata({
+    locale,
+    href: opts.href,
+    canonicalHref: opts.canonicalHref,
+    robots: opts.robots,
+    title: t(key("TITLE"), APP_VALUES),
+    description: t(key("DESCRIPTION"), APP_VALUES),
+    keywords: t(key("KEYWORDS"), APP_VALUES),
+    ogImage: opts.badge ? ogBadge(opts.badge, locale) : undefined,
+  });
+}
 
 export function getPageMetadata(params: MetadataParams): Metadata {
   const canonicalTarget = params.canonicalHref ?? params.href;

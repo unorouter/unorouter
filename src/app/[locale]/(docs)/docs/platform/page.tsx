@@ -9,7 +9,7 @@ import { Icon } from "@/components/ui/icon";
 import { Link, localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
@@ -17,18 +17,14 @@ import {
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata(props: {
+export function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
+  return pageMetadata({
+    props,
+    namespace: "DOCS_PLATFORM.INDEX",
     href: "/docs/platform",
-    title: t("DOCS_PLATFORM.INDEX.META.TITLE", APP_VALUES),
-    description: t("DOCS_PLATFORM.INDEX.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS_PLATFORM.INDEX.META.KEYWORDS", APP_VALUES),
-    ogImage: ogBadge("hero", locale),
+    badge: "hero",
   });
 }
 
