@@ -13,6 +13,7 @@ import {
   jsDisplayVersionAtom,
   transformDisplayJsSync,
 } from "@/lib/ai/chat/plugins/engine";
+import { rehypeDropHoles } from "@/components/ui/assistant-ui/rehype-drop-holes";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
   imgVersionAtom,
@@ -102,7 +103,15 @@ const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={mathjax ? [mathjax, rehypeQuoteSpans] : [rehypeQuoteSpans]}
+      // rehypeDropHoles brackets the chain: a plugin that removes a node
+      // mid-traversal leaves an undefined in parent.children, and the NEXT
+      // visitor throws on it. Running it before and after means neither an
+      // inherited hole nor one made by mathjax/quote-spans reaches a visitor.
+      rehypePlugins={
+        mathjax
+          ? [rehypeDropHoles, mathjax, rehypeQuoteSpans, rehypeDropHoles]
+          : [rehypeDropHoles, rehypeQuoteSpans, rehypeDropHoles]
+      }
       urlTransform={allowDataMediaUrls}
       className="aui-md"
       components={defaultComponents}
