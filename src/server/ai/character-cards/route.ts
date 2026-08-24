@@ -11,11 +11,14 @@ export const characterCardsRoute = new Elysia({ prefix: "/character-cards" })
   // only survive as keys through a JSON body the client can look up.
   .onError(({ error }) => {
     const key = error instanceof Error ? error.message : "";
-    return key.startsWith("ERRORS.")
-      ? status(400, { error: { message: key } })
-      : status(502, {
-          error: { message: msg("ERRORS.CARD_IMPORT_FETCH_FAILED") },
-        });
+    if (!key.startsWith("ERRORS."))
+      return status(502, {
+        error: { message: msg("ERRORS.CARD_IMPORT_FETCH_FAILED") },
+      });
+    // 400 blames the link, which is right for a bad URL and wrong for our own
+    // import service being down; those two arrive here as the same shape.
+    const ours = key === msg("ERRORS.CARD_IMPORT_UNAVAILABLE");
+    return status(ours ? 502 : 400, { error: { message: key } });
   })
   .post(
     "/import",
