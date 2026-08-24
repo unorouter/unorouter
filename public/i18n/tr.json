@@ -2920,7 +2920,9 @@
       "EMAIL": "E-posta",
       "EMAIL_PLACEHOLDER": "E-postanızı girin",
       "VERIFICATION_CODE": "Doğrulama Kodu",
-      "VERIFICATION_CODE_PLACEHOLDER": "E-postanıza gönderilen kodu girin"
+      "VERIFICATION_CODE_PLACEHOLDER": "E-postanıza gönderilen kodu girin",
+      "AFF_CODE": "Referans kodu (isteğe bağlı)",
+      "AFF_CODE_PLACEHOLDER": "Bir referans kodunuz varsa girin"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

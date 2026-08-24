@@ -2920,7 +2920,9 @@
       "EMAIL": "דואר אלקטרוני",
       "EMAIL_PLACEHOLDER": "הזינו את כתובת הדואר האלקטרוני שלכם",
       "VERIFICATION_CODE": "קוד אימות",
-      "VERIFICATION_CODE_PLACEHOLDER": "הזינו את הקוד שנשלח לדוא\"ל שלכם"
+      "VERIFICATION_CODE_PLACEHOLDER": "הזינו את הקוד שנשלח לדוא\"ל שלכם",
+      "AFF_CODE": "קוד הפניה (אופציונלי)",
+      "AFF_CODE_PLACEHOLDER": "הזינו קוד הפניה אם יש לכם"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

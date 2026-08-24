@@ -2920,7 +2920,9 @@
       "EMAIL": "メールアドレス",
       "EMAIL_PLACEHOLDER": "メールアドレスを入力",
       "VERIFICATION_CODE": "認証コード",
-      "VERIFICATION_CODE_PLACEHOLDER": "メールに送信されたコードを入力"
+      "VERIFICATION_CODE_PLACEHOLDER": "メールに送信されたコードを入力",
+      "AFF_CODE": "紹介コード（任意）",
+      "AFF_CODE_PLACEHOLDER": "紹介コードをお持ちの場合は入力してください"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

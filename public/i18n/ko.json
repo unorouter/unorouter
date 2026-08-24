@@ -2920,7 +2920,9 @@
       "EMAIL": "이메일",
       "EMAIL_PLACEHOLDER": "이메일을 입력하세요",
       "VERIFICATION_CODE": "인증 코드",
-      "VERIFICATION_CODE_PLACEHOLDER": "이메일로 받은 코드를 입력하세요"
+      "VERIFICATION_CODE_PLACEHOLDER": "이메일로 받은 코드를 입력하세요",
+      "AFF_CODE": "추천인 코드 (선택)",
+      "AFF_CODE_PLACEHOLDER": "추천인 코드가 있으면 입력하세요"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

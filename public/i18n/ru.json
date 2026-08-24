@@ -2920,7 +2920,9 @@
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Введите email",
       "VERIFICATION_CODE": "Код подтверждения",
-      "VERIFICATION_CODE_PLACEHOLDER": "Введите код, отправленный на email"
+      "VERIFICATION_CODE_PLACEHOLDER": "Введите код, отправленный на email",
+      "AFF_CODE": "Реферальный код (необязательно)",
+      "AFF_CODE_PLACEHOLDER": "Введите реферальный код, если он у вас есть"
     },
     "OAUTH": {
       "GITHUB": "GitHub",

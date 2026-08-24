@@ -55,6 +55,15 @@ export function RegisterForm() {
     return () => clearTimeout(id);
   }, [resendSeconds]);
 
+  // The cookie only survives same-browser visits, so a user who clicked the
+  // link elsewhere has to type the code. Prefill rather than hide the field.
+  useEffect(() => {
+    const stored = getCookie(AFF_CODE_KEY);
+    if (typeof stored === "string" && stored && !form.getValues("aff_code")) {
+      form.setValue("aff_code", stored);
+    }
+  }, [form]);
+
   async function handleSendCode() {
     const email = form.getValues("email");
     if (!email?.trim()) return;
@@ -72,7 +81,7 @@ export function RegisterForm() {
 
   async function onSubmit(data: RegisterSchema) {
     try {
-      const affCodeRaw = getCookie(AFF_CODE_KEY);
+      const affCodeRaw = data.aff_code?.trim() || getCookie(AFF_CODE_KEY);
       const affCode = typeof affCodeRaw === "string" ? affCodeRaw : undefined;
       const email = data.email?.trim() || undefined;
       const username = status?.email_verification
@@ -216,6 +225,16 @@ export function RegisterForm() {
                     </div>
                   </div>
                 )}
+                <MyFormInput
+                  control={form.control}
+                  name="aff_code"
+                  schema={registerSchema}
+                  label={t("AUTH.FORM.AFF_CODE")}
+                  type="text"
+                  autoComplete="off"
+                  placeholder={t("AUTH.FORM.AFF_CODE_PLACEHOLDER")}
+                  className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
+                />
               </div>
 
               {turnstileRequired && status?.turnstile_site_key && (

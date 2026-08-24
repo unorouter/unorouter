@@ -2920,7 +2920,9 @@
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Masukkan email Anda",
       "VERIFICATION_CODE": "Kode Verifikasi",
-      "VERIFICATION_CODE_PLACEHOLDER": "Masukkan kode yang dikirim ke email Anda"
+      "VERIFICATION_CODE_PLACEHOLDER": "Masukkan kode yang dikirim ke email Anda",
+      "AFF_CODE": "Kode referral (opsional)",
+      "AFF_CODE_PLACEHOLDER": "Masukkan kode referral jika Anda memilikinya"
     },
     "OAUTH": {
       "GITHUB": "GitHub",
