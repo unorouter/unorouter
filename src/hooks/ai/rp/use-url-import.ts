@@ -1,13 +1,19 @@
 "use client";
 
-import type { GetApiJobsById200 } from "@/lib/api/uno-import";
+import {
+  getApiJobsById,
+  postApiJobs,
+  type GetApiJobsById200,
+} from "@/lib/api/uno-import";
 import { msg } from "@/lib/config/constants";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 
-// A fetch runs a real browser and may rotate its VPN exit mid-job, so the server
-// hands back a job id and the client polls. Holding the request open instead
-// turns a slow import into a browser timeout with nothing to report.
+// The import service is called straight from the browser: it takes no token,
+// its sources are a fixed whitelist, and it allows this origin. A BFF hop in
+// front of it added a second error shape to translate and nothing else.
+//
+// A fetch runs a real browser and may rotate its VPN exit mid-job, so the
+// service hands back a job id and the client polls. Holding the request open
+// instead turns a slow import into a browser timeout with nothing to report.
 //
 // The server retries to its own deadline, so this one only has to outlast a
 // normal fetch plus a few exit rotations.
@@ -18,6 +24,15 @@ const POLL_TIMEOUT_MS = 180_000;
 // compile error here rather than a shape the client silently ignores. Do not
 // hand-write a mirror of it.
 export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;
+
+// Rejections from the ROUTE, which are fixed codes rather than prose.
+const SUBMIT_ERRORS: Record<string, string> = {
+  "unsupported source": msg("ERRORS.CARD_IMPORT_UNSUPPORTED"),
+  "too many jobs in flight": msg("ERRORS.CARD_IMPORT_TOO_MANY"),
+  "invalid url": msg("ERRORS.CARD_IMPORT_INVALID_URL"),
+  "https only": msg("ERRORS.CARD_IMPORT_INVALID_URL"),
+  "not found": msg("ERRORS.CARD_IMPORT_JOB_GONE"),
+};
 
 // A job error is an internal string built for the logs ("datacat: not_found (at
 // <url>)"), so it names the adapter and the page rather than telling the reader
@@ -43,15 +58,35 @@ function importFailureMessage(raw: string | null | undefined): string {
   return msg("ERRORS.CARD_IMPORT_FETCH_FAILED");
 }
 
+// The route's own rejections are {error: <literal>}, but a 422 is Elysia's
+// validation shape and carries no error field at all. A body we cannot read
+// keeps the generic message rather than inventing one.
+function rejected(body: object): Error {
+  const code =
+    "error" in body && typeof body.error === "string" ? body.error : "";
+  return new Error(
+    SUBMIT_ERRORS[code] ?? msg("ERRORS.CARD_IMPORT_FETCH_FAILED"),
+  );
+}
+
 // Submit a link, wait for the job, hand the result to `persist`. Every entity
 // shares this; only the persist step differs.
 export async function runUrlImport<T>(
   url: string,
   persist: (result: ImportedResult) => Promise<T>,
 ): Promise<T> {
-  const job = handleElysia(
-    await rpc.api.ai["character-cards"].import.post({ url }),
-  );
+  let parsed: URL;
+  try {
+    parsed = new URL(url.trim());
+  } catch {
+    throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
+  }
+  if (parsed.protocol !== "https:") {
+    throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
+  }
+
+  const submitted = await postApiJobs({ url: parsed.href });
+  if (submitted.status !== 200) throw rejected(submitted.data);
 
   const deadline = Date.now() + POLL_TIMEOUT_MS;
   for (;;) {
@@ -59,9 +94,10 @@ export async function runUrlImport<T>(
       throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
     }
     await new Promise((r) => setTimeout(r, POLL_MS));
-    const state = handleElysia(
-      await rpc.api.ai["character-cards"].import({ jobId: job.jobId }).get(),
-    );
+    const polled = await getApiJobsById(submitted.data.jobId);
+    if (polled.status !== 200) throw rejected(polled.data);
+
+    const state: GetApiJobsById200 = polled.data;
     if (state.status === "failed") {
       throw new Error(importFailureMessage(state.error));
     }

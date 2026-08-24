@@ -17,8 +17,8 @@ export default defineConfig({
     },
     hooks: { afterAllFilesWrite: "prettier --write" },
   },
-  // Only the OpenAPI document is published; /api/* answers 404 at the edge, so
-  // the client generated here is usable from inside the cluster only.
+  // Called straight from the browser: the import endpoints take no token and
+  // allow this origin, so there is no BFF route in front of them.
   unoImport: {
     input: "https://cards.unorouter.com/openapi/json",
     output: {

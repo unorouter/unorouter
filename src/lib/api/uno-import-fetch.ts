@@ -1,27 +1,23 @@
 import { msg } from "@/lib/config/constants";
-import { serverEnv } from "@/server/env";
+import { env } from "@/lib/config/env";
 
 // Orval mutator for the uno-import client. The generated fetchers build a
-// relative path and send no credentials, and uno-import is reachable only from
-// inside the cluster behind a bearer token, so every call goes through here to
-// get the base URL and the header attached.
+// relative path, so this is what puts the service's own origin in front of it.
+// Called from the BROWSER: the import endpoints take no token and allow this
+// origin, so there is nothing here a page may not do for itself.
 export async function unoImportFetch<T>(
   url: string,
   init?: RequestInit,
 ): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${serverEnv.unoImportUrl}${url}`, {
+    res = await fetch(`${env.cardsUrl}${url}`, {
       ...init,
-      headers: {
-        ...init?.headers,
-        authorization: `Bearer ${serverEnv.unoImportToken}`,
-        "content-type": "application/json",
-      },
+      headers: { ...init?.headers, "content-type": "application/json" },
     });
   } catch {
-    // Service unreachable. Left uncaught, undici's bare "fetch failed" is what
-    // the user reads as the whole explanation of a failed import.
+    // Service unreachable. Left uncaught this surfaces as the browser's bare
+    // "Failed to fetch", which is the whole explanation the user would get.
     throw new Error(msg("ERRORS.CARD_IMPORT_UNAVAILABLE"));
   }
 
