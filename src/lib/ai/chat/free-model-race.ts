@@ -5,6 +5,10 @@ export type FreeModelGenerate = (
     prompt: string;
     maxOutputTokens: number;
     abortSignal?: AbortSignal;
+    // Provider lane for THIS call. Per-call rather than baked into the deps,
+    // because one generate is reused across a race whose models do not share
+    // lanes, so a lane pinned for one of them is wrong for the rest.
+    group?: string | null;
   },
 ) => Promise<{ text: string }>;
 

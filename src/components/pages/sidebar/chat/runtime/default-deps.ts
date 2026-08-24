@@ -35,7 +35,7 @@ async function fetchModelInfo(
 const generate: FreeModelGenerate = llmCall("");
 
 const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
-  llmCall(modelName)("", opts);
+  llmCall(modelName, opts.group)("", opts);
 
 export function buildDefaultClientDeps(): AssemblerDeps {
   return {
