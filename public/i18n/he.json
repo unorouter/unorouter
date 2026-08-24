@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "מודל התמונות ליצירת תמונות בצ'אט. ריק פירושו אוטומטי.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} טוקנים",
     "PRESET_TOKENIZER": "מפצל טוקנים",
-    "PRESET_TOKENIZER_HINT": "משמש רק לספירת הקשר מקומית (קיצוץ היסטוריה, תקציב ספר הידע). לעולם אינו נשלח למודל. Auto בוחר את המפצל בהתאם למודל."
+    "PRESET_TOKENIZER_HINT": "משמש רק לספירת הקשר מקומית (קיצוץ היסטוריה, תקציב ספר הידע). לעולם אינו נשלח למודל. Auto בוחר את המפצל בהתאם למודל.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} דמויות",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} ספרי לור",
+    "CARDS_IMPORT": "ייבוא כרטיס",
+    "CARDS_IMPORT_PARTIAL": "הכרטיס יובא, אך {count} פריטים לא נמצאו במכשיר הזה ודולגו."
   },
   "ERRORS": {
     "MISSING_ENV": "חסר משתנה סביבה נדרש: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "היוצר השאיר את זה פרטי, ולכן אי אפשר להוריד.",
     "CARD_IMPORT_EMPTY": "לא היה שם דבר שניתן לייבא.",
     "CARD_IMPORT_TIMED_OUT": "המקור לקח יותר מדי זמן להגיב. נסה שוב בעוד דקה.",
-    "CARD_IMPORT_JOB_GONE": "הייבוא פג לפני שהסתיים. שלח את הקישור שוב."
+    "CARD_IMPORT_JOB_GONE": "הייבוא פג לפני שהסתיים. שלח את הקישור שוב.",
+    "CARD_FILE_INVALID": "הקובץ הזה אינו ייצוא של כרטיס."
   },
   "BADGE": {
     "TOKENS_SERVED": "טוקנים שהוגשו",

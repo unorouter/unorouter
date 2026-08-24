@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的圖像模型。留空則自動選擇。",
     "LOREBOOK_ENTRY_TOKENS": "約 {count} 個 token",
     "PRESET_TOKENIZER": "分詞器",
-    "PRESET_TOKENIZER_HINT": "僅用於本機計算上下文（裁剪歷史、世界書預算），絕不會傳送給模型。Auto 會依所選模型自動比對分詞器。"
+    "PRESET_TOKENIZER_HINT": "僅用於本機計算上下文（裁剪歷史、世界書預算），絕不會傳送給模型。Auto 會依所選模型自動比對分詞器。",
+    "CARDS_SUMMARY_CHARACTERS": "{count} 個角色",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} 本設定集",
+    "CARDS_IMPORT": "匯入卡片",
+    "CARDS_IMPORT_PARTIAL": "卡片已匯入，但有 {count} 項不在此裝置上，已略過。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "作者將其設為私密，因此無法下載。",
     "CARD_IMPORT_EMPTY": "該連結中沒有可匯入的內容。",
     "CARD_IMPORT_TIMED_OUT": "來源回應逾時。請稍後再試。",
-    "CARD_IMPORT_JOB_GONE": "該匯入在完成前已過期。請重新提交連結。"
+    "CARD_IMPORT_JOB_GONE": "該匯入在完成前已過期。請重新提交連結。",
+    "CARD_FILE_INVALID": "該檔案不是卡片匯出檔。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

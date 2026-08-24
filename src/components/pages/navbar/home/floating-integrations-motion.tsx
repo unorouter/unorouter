@@ -1,5 +1,6 @@
 "use client";
 
+import type { CssVars } from "@/lib/types";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
@@ -36,6 +37,15 @@ const PLACED = SETUP_GUIDES.map((guide, i) => {
   };
 });
 
+const chipVars = (item: (typeof PLACED)[number]): CssVars => ({
+  top: item.top,
+  left: item.left,
+  animationDuration: item.duration,
+  animationDelay: item.delay,
+  "--fx": item.fx,
+  "--fy": item.fy,
+});
+
 export function FloatingIntegrationsMotion(props: {
   titles: Record<string, string>;
 }) {
@@ -47,14 +57,7 @@ export function FloatingIntegrationsMotion(props: {
           href={item.href}
           aria-label={props.titles[item.slug] ?? item.slug}
           title={props.titles[item.slug] ?? item.slug}
-          style={{
-            top: item.top,
-            left: item.left,
-            animationDuration: item.duration,
-            animationDelay: item.delay,
-            ["--fx" as string]: item.fx,
-            ["--fy" as string]: item.fy,
-          }}
+          style={chipVars(item)}
           className="animate-float-chip border-border/60 bg-card/60 hover:border-foreground/40 hover:bg-card pointer-events-auto absolute flex size-11 items-center justify-center rounded-full border opacity-70 transition-[opacity,border-color] duration-200 hover:opacity-100"
         >
           <GuideIcon

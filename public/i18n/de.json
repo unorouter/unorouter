@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Bildmodell für die Bildgenerierung im Chat. Leer bedeutet automatisch.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} Tokens",
     "PRESET_TOKENIZER": "Tokenizer",
-    "PRESET_TOKENIZER_HINT": "Wird nur zur lokalen Kontextzählung verwendet (Verlaufskürzung, Lorebook-Budget). Er wird nie an das Modell gesendet. Auto wählt den Tokenizer passend zum Modell."
+    "PRESET_TOKENIZER_HINT": "Wird nur zur lokalen Kontextzählung verwendet (Verlaufskürzung, Lorebook-Budget). Er wird nie an das Modell gesendet. Auto wählt den Tokenizer passend zum Modell.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} Charaktere",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} Lorebooks",
+    "CARDS_IMPORT": "Karte importieren",
+    "CARDS_IMPORT_PARTIAL": "Karte importiert, aber {count} Einträge sind nicht auf diesem Gerät und wurden übersprungen."
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "Der Autor hat das privat gehalten, es kann daher nicht geladen werden.",
     "CARD_IMPORT_EMPTY": "Unter diesem Link war nichts Importierbares.",
     "CARD_IMPORT_TIMED_OUT": "Die Quelle hat zu lange gebraucht. Versuche es in einer Minute erneut.",
-    "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut."
+    "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut.",
+    "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Modèle d'image pour la génération dans le chat. Vide signifie automatique.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} jetons",
     "PRESET_TOKENIZER": "Tokeniseur",
-    "PRESET_TOKENIZER_HINT": "Sert uniquement à compter le contexte en local (élagage de l'historique, budget du lorebook). Il n'est jamais envoyé au modèle. Auto choisit le tokeniseur selon le modèle."
+    "PRESET_TOKENIZER_HINT": "Sert uniquement à compter le contexte en local (élagage de l'historique, budget du lorebook). Il n'est jamais envoyé au modèle. Auto choisit le tokeniseur selon le modèle.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} personnages",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
+    "CARDS_IMPORT": "Importer une carte",
+    "CARDS_IMPORT_PARTIAL": "Carte importée, mais {count} éléments absents de cet appareil ont été ignorés."
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "L'auteur l'a gardé privé, il ne peut donc pas être téléchargé.",
     "CARD_IMPORT_EMPTY": "Il n'y avait rien d'importable à ce lien.",
     "CARD_IMPORT_TIMED_OUT": "La source a mis trop de temps à répondre. Réessaie dans une minute.",
-    "CARD_IMPORT_JOB_GONE": "Cet import a expiré avant de se terminer. Renvoie le lien."
+    "CARD_IMPORT_JOB_GONE": "Cet import a expiré avant de se terminer. Renvoie le lien.",
+    "CARD_FILE_INVALID": "Ce fichier n'est pas un export de carte."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

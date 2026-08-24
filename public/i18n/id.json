@@ -4335,7 +4335,11 @@
     "PRESET_IMAGE_MODEL_HINT": "Model gambar untuk generasi gambar di chat. Kosong berarti otomatis.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Tokenizer",
-    "PRESET_TOKENIZER_HINT": "Hanya dipakai untuk menghitung konteks secara lokal (pemangkasan riwayat, anggaran lorebook). Tidak pernah dikirim ke model. Auto menyesuaikan tokenizer dengan model."
+    "PRESET_TOKENIZER_HINT": "Hanya dipakai untuk menghitung konteks secara lokal (pemangkasan riwayat, anggaran lorebook). Tidak pernah dikirim ke model. Auto menyesuaikan tokenizer dengan model.",
+    "CARDS_SUMMARY_CHARACTERS": "{count} karakter",
+    "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
+    "CARDS_IMPORT": "Impor kartu",
+    "CARDS_IMPORT_PARTIAL": "Kartu diimpor, tetapi {count} item tidak ada di perangkat ini dan dilewati."
   },
   "ERRORS": {
     "MISSING_ENV": "Env yang diperlukan hilang: {var}",
@@ -4374,7 +4378,8 @@
     "CARD_IMPORT_PRIVATE": "Pembuatnya menyetel ini privat, jadi tidak bisa diunduh.",
     "CARD_IMPORT_EMPTY": "Tidak ada yang bisa diimpor dari tautan itu.",
     "CARD_IMPORT_TIMED_OUT": "Sumbernya terlalu lama merespons. Coba lagi sebentar.",
-    "CARD_IMPORT_JOB_GONE": "Impor itu kedaluwarsa sebelum selesai. Kirim tautannya lagi."
+    "CARD_IMPORT_JOB_GONE": "Impor itu kedaluwarsa sebelum selesai. Kirim tautannya lagi.",
+    "CARD_FILE_INVALID": "Berkas itu bukan hasil ekspor kartu."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

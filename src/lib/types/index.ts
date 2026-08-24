@@ -22,7 +22,7 @@ import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 import type { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 import type { MetadataRoute } from "next";
 import type { useTranslations } from "next-intl";
-import type { ComponentType } from "react";
+import type { ComponentType, CSSProperties } from "react";
 
 export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>
@@ -181,6 +181,10 @@ export type ScopedTable = SQLiteTable;
 export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;
 export type StorePkValue = string | number;
+
+// React's CSSProperties has no index signature for custom properties, so a
+// `--foo` key is otherwise only expressible by asserting the key away.
+export type CssVars = CSSProperties & Record<`--${string}`, string | number>;
 
 export type SearchResult = {
   title: string;
