@@ -19,10 +19,16 @@ function truncateToTitle(text: string): string {
 export async function generateChatTitle(
   apiKey: string,
   text: string,
-  opts?: { titleModel?: string; titlePrompt?: string },
+  opts?: { titleModel?: string; titleGroup?: string; titlePrompt?: string },
 ) {
-  const deps = serverFreeModelRaceDeps(apiKey);
   const titleModel = opts?.titleModel?.trim();
+  // A lane belongs to the model it was pinned for, so it may only ship when that
+  // model actually races. Passing it with the free trio would stamp a lane those
+  // models do not serve, and the gateway would silently fall back to auto.
+  const deps = serverFreeModelRaceDeps(
+    apiKey,
+    titleModel ? opts?.titleGroup : null,
+  );
   try {
     // Think-tags are stripped because an unclosed <think> would become the
     // visible title.

@@ -27,17 +27,23 @@ import { extractFirstUserText } from "./chat-utils";
 // Conversation value wins over the preset, matching how utilityModel resolves in
 // the assembler. Reading settings must never break title generation, so a failed
 // read just means the free race.
-async function readTitleOverrides(
-  convId: string,
-): Promise<{ titleModel?: string; titlePrompt?: string }> {
+async function readTitleOverrides(convId: string): Promise<{
+  titleModel?: string;
+  titleGroup?: string;
+  titlePrompt?: string;
+}> {
   try {
     const conv = await readLocalConversation(convId);
     const presetId = chatStore.get(chatLoadoutAtom).presetId;
     const preset = presetId ? await readLocalPreset(presetId) : null;
     const titleModel = conv?.titleModel || preset?.titleModel || "";
     const titlePrompt = conv?.titlePrompt || preset?.titlePrompt || "";
+    // The lane belongs to whichever source supplied the model: a preset's pin is
+    // meaningless once the conversation overrides the model it was chosen for.
+    const titleGroup = conv?.titleModel ? "" : preset?.titleGroup || "";
     return {
       ...(titleModel ? { titleModel } : {}),
+      ...(titleModel && titleGroup ? { titleGroup } : {}),
       ...(titlePrompt ? { titlePrompt } : {}),
     };
   } catch {

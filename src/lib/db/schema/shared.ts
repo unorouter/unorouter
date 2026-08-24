@@ -336,12 +336,17 @@ export const samplingPresets = sqliteTable(
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
     utilityModel: text("utility_model"),
+    // Provider lane for the model beside it, shipped as X-Group. Null = auto.
+    // A lane belongs to ONE model, so changing the model clears its group.
+    utilityGroup: text("utility_group"),
     titleModel: text("title_model"),
+    titleGroup: text("title_group"),
     titlePrompt: text("title_prompt"),
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
     promptInstruction: text("prompt_instruction"),
     imageModel: text("image_model"),
+    imageGroup: text("image_group"),
     imagePreview: integer("image_preview", { mode: "boolean" }),
     useCharAvatarRef: integer("use_char_avatar_ref", { mode: "boolean" }),
     extraBody: text("extra_body"),

@@ -18,6 +18,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { analytics } from "@/lib/analytics";
+import { AUTO_GROUP } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   buildGroupEntries,
@@ -43,8 +44,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-
-const AUTO_GROUP = "auto";
 
 type ModelSelectorProps = {
   value: string | null;

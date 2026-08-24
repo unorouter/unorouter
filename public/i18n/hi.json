@@ -4332,7 +4332,7 @@
     "PRESET_IMAGE_PREVIEW": "इमेज प्रॉम्प्ट की समीक्षा",
     "PRESET_USE_CHAR_AVATAR_REF": "अवतार को संदर्भ इमेज बनाएं",
     "PRESET_IMAGE_MODEL": "इमेज मॉडल",
-    "PRESET_IMAGE_MODEL_HINT": "चैट में इमेज जनरेशन के लिए कैटलॉग इमेज मॉडल। खाली रखने पर स्वचालित।",
+    "PRESET_IMAGE_MODEL_HINT": "चैट में इमेज जनरेशन के लिए इमेज मॉडल। खाली रखने पर स्वचालित।",
     "LOREBOOK_ENTRY_TOKENS": "~{count} tokens",
     "PRESET_TOKENIZER": "टोकनाइज़र",
     "PRESET_TOKENIZER_HINT": "केवल स्थानीय रूप से संदर्भ गिनने के लिए (इतिहास छँटाई, लोरबुक बजट)। यह कभी मॉडल को नहीं भेजा जाता। Auto चयनित मॉडल के अनुसार टोकनाइज़र चुनता है।"

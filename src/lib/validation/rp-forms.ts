@@ -1,7 +1,12 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort, webSearchContextSize, webSearchEngine } from "./chat";
-import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
+import {
+  AUTO_GROUP,
+  msg,
+  NONE_VALUE,
+  type TranslationKey,
+} from "../config/constants";
 import {
   LOREBOOK_INJECTION_ROLES,
   MAX_DESC_LEN,
@@ -174,10 +179,13 @@ export const samplingPresetFormSchema = t.Object({
   memoryEnabled: nullable(t.Boolean()),
   imageEnabled: nullable(t.Boolean()),
   utilityModel: t.String({ default: "", maxLength: 256 }),
+  utilityGroup: t.String({ default: AUTO_GROUP, maxLength: 128 }),
   titleModel: t.String({ default: "", maxLength: 256 }),
+  titleGroup: t.String({ default: AUTO_GROUP, maxLength: 128 }),
   titlePrompt: t.String({ default: "", maxLength: 4_096 }),
   promptInstruction: t.String({ default: "", maxLength: 4_096 }),
   imageModel: t.String({ default: "", maxLength: 512 }),
+  imageGroup: t.String({ default: AUTO_GROUP, maxLength: 128 }),
   imagePreview: nullable(t.Boolean()),
   useCharAvatarRef: nullable(t.Boolean()),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),

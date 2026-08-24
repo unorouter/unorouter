@@ -321,6 +321,7 @@ export type StreamBody = Static<typeof streamBody>;
 export const triggerLlmBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   model: t.String({ maxLength: MAX_MODEL_LEN }),
+  group: t.Optional(t.String({ maxLength: 128 })),
 });
 export const triggerSimilarityBody = t.Object({
   source: t.String({ maxLength: MAX_TEXT_LEN }),
@@ -330,6 +331,7 @@ export const triggerImggenBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
   model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  group: t.Optional(t.String({ maxLength: 128 })),
   references: t.Optional(
     t.Array(t.Object({ url: t.String({ maxLength: 15_000_000 }) }), {
       maxItems: 6,
@@ -343,6 +345,7 @@ export const titleGenerationBody = t.Object({
   // titleModel, which is what actually generates the title.
   model: t.Optional(t.String()),
   titleModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  titleGroup: t.Optional(t.String({ maxLength: 128 })),
   titlePrompt: t.Optional(t.String({ maxLength: 4_096 })),
 });
 

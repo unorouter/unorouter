@@ -8,7 +8,11 @@ import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 export async function generateInlayImage(
   apiKey: string,
   prompt: string,
-  opts?: { model?: string; references?: { url: string }[] },
+  opts?: {
+    model?: string;
+    group?: string | null;
+    references?: { url: string }[];
+  },
 ): Promise<InlayImage | null> {
   // Already scoped to image models the gateway can submit synchronously, and
   // ordered newest first, so the fallbacks below pick a current model.
@@ -32,6 +36,9 @@ export async function generateInlayImage(
     } as ImageSubmitBody,
     endpoint,
     n: 1,
+    // Only when the user pinned this model's lane: a group belongs to the model
+    // it was chosen for, and the fallbacks above may have picked a different one.
+    ...(opts?.model === model.model_name ? { group: opts?.group } : {}),
   });
   const img = images[0];
   if (!img) return null;

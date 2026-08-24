@@ -1,34 +1,17 @@
 "use client";
 
-import { imageParams } from "@/lib/ai/image/models";
-
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  InfoPopover,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { InfoPopover } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,24 +26,15 @@ import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
-import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import {
-  useImageModelsQuery,
-  usePricingCatalogQuery,
-} from "@/hooks/models/pricing-hook";
-import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
+  ImageModelField,
+  UtilityModelField,
+} from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
-import {
-  DEFAULT_CHAT_MEMORY,
-  msg,
-  NONE_VALUE,
-  type TranslationKey,
-} from "@/lib/config/constants";
-import { cn } from "@/lib/utils";
+import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { useFormContext, type Control } from "react-hook-form";
 import {
   REASONING_EFFORT_KEY,
@@ -386,191 +360,15 @@ export function OverridesGenerationFields(props: {
             hintKey="CHAT.OVERRIDES.TITLE_MODEL_HINT"
           />
           <TitlePromptField control={props.control} />
-          <ImageModelField control={props.control} />
+          <ImageModelField
+            control={props.control}
+            name="imageModel"
+            labelKey="CHAT.OVERRIDES.IMAGE_MODEL"
+          />
           <ImagePromptInstructionField control={props.control} />
         </div>
       )}
     </>
-  );
-}
-
-type UtilityModelOption = { id: string; name: string };
-
-function UtilityModelPicker(props: {
-  value: string;
-  onPick: (id: string) => void;
-  customOptions: UtilityModelOption[];
-  catalogModels: { model_name: string; is_free: boolean; vendor: string }[];
-}) {
-  const t = useTranslations();
-  const [open, setOpen] = useState(false);
-  const customName = props.customOptions.find(
-    (o) => o.id === props.value,
-  )?.name;
-
-  function pick(id: string) {
-    props.onPick(id);
-    setOpen(false);
-  }
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
-        <span
-          className={cn(
-            "truncate",
-            props.value === NONE_VALUE ? "text-muted-foreground" : "font-mono",
-          )}
-        >
-          {props.value === NONE_VALUE
-            ? t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")
-            : (customName ?? props.value)}
-        </span>
-        <Icon
-          name="chevrons-up-down"
-          className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0"
-        />
-      </PopoverTrigger>
-      <PopoverContent
-        className="w-[calc(100vw-1rem)] p-0 sm:w-96"
-        align="start"
-      >
-        <Command>
-          <CommandInput
-            placeholder={t("CHAT.MODEL.SEARCH")}
-            className="h-8 text-xs"
-          />
-          <CommandList>
-            <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
-            <CommandGroup>
-              <CommandItem
-                value={NONE_VALUE}
-                onSelect={() => pick(NONE_VALUE)}
-                className="text-xs"
-              >
-                {t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
-              </CommandItem>
-            </CommandGroup>
-            {props.customOptions.length > 0 && (
-              <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
-                {props.customOptions.map((o) => (
-                  <CommandItem
-                    key={o.id}
-                    value={o.id}
-                    keywords={[o.name]}
-                    onSelect={() => pick(o.id)}
-                    className="text-xs"
-                  >
-                    <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
-                    <span className="min-w-0 flex-1 truncate font-mono">
-                      {o.name}
-                    </span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-            <CommandGroup>
-              {props.catalogModels.map((m) => (
-                <CommandItem
-                  key={m.model_name}
-                  value={m.model_name}
-                  keywords={[m.vendor, ...(m.is_free ? ["free"] : [])]}
-                  onSelect={() => pick(m.model_name)}
-                  className="text-xs"
-                >
-                  <VendorIcon vendor={m.vendor} size={14} />
-                  <span className="min-w-0 flex-1 truncate font-mono">
-                    {m.model_name}
-                  </span>
-                  {m.is_free && (
-                    <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-                      {t("CHAT.MODEL.FREE_BADGE")}
-                    </span>
-                  )}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-// Serves utilityModel and titleModel: both pick one text model from the same
-// catalogue, so they share the picker rather than duplicating it.
-function UtilityModelField(props: {
-  control: Control<ConversationOverridesForm>;
-  name: "utilityModel" | "titleModel";
-  labelKey: TranslationKey;
-  hintKey?: TranslationKey;
-}) {
-  const t = useTranslations();
-  const catalogQuery = usePricingCatalogQuery();
-  const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = (catalogQuery.data?.models ?? []).filter(
-    (m) => m.type === "text",
-  );
-  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
-    provider.models
-      .filter((m) => m.type !== "image")
-      .map((m) => ({
-        id: makeCustomModelId(provider.id, m.key),
-        name: `${provider.name} / ${m.label}`,
-      })),
-  );
-  return (
-    <FormField
-      control={props.control}
-      name={props.name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-muted-foreground text-xs">
-            {t(props.labelKey)}
-          </FormLabel>
-          <UtilityModelPicker
-            value={field.value}
-            onPick={field.onChange}
-            customOptions={customOptions}
-            catalogModels={catalogModels}
-          />
-          {props.hintKey && (
-            <p className="text-muted-foreground text-xs">{t(props.hintKey)}</p>
-          )}
-        </FormItem>
-      )}
-    />
-  );
-}
-
-function ImageModelField(props: {
-  control: Control<ConversationOverridesForm>;
-}) {
-  const t = useTranslations();
-  const imageModels = useImageModelsQuery().data;
-  const customProvidersQuery = useCustomProvidersQuery();
-  const catalogOptions = (imageModels ?? []).map((m) => ({
-    id: m.model_name,
-    name: imageParams(m).maxReferenceImages
-      ? `${m.model_name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: imageParams(m).maxReferenceImages ?? 0 })})`
-      : m.model_name,
-  }));
-  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
-    provider.models
-      .filter((m) => m.type === "image")
-      .map((m) => ({
-        id: makeCustomModelId(provider.id, m.key),
-        name: `${provider.name} / ${m.label}`,
-      })),
-  );
-  return (
-    <MyFormEntitySelect
-      control={props.control}
-      name="imageModel"
-      label={t("CHAT.OVERRIDES.IMAGE_MODEL")}
-      noneLabel={t("CHAT.OVERRIDES.IMAGE_MODEL_AUTO")}
-      options={[...customOptions, ...catalogOptions]}
-    />
   );
 }
 

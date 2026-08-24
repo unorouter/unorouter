@@ -4332,7 +4332,7 @@
     "PRESET_IMAGE_PREVIEW": "Rivedi il prompt dell'immagine",
     "PRESET_USE_CHAR_AVATAR_REF": "Avatar come immagine di riferimento",
     "PRESET_IMAGE_MODEL": "Modello immagine",
-    "PRESET_IMAGE_MODEL_HINT": "Modello immagine del catalogo per la generazione in chat. Vuoto significa automatico.",
+    "PRESET_IMAGE_MODEL_HINT": "Modello immagine per la generazione in chat. Vuoto significa automatico.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Tokenizzatore",
     "PRESET_TOKENIZER_HINT": "Usato solo per contare il contesto in locale (taglio della cronologia, budget del lorebook). Non viene mai inviato al modello. Auto sceglie il tokenizzatore in base al modello."

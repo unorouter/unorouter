@@ -4332,7 +4332,7 @@
     "PRESET_IMAGE_PREVIEW": "画像プロンプトの確認",
     "PRESET_USE_CHAR_AVATAR_REF": "アバターを参照画像に使用",
     "PRESET_IMAGE_MODEL": "画像モデル",
-    "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使うカタログの画像モデル。空欄なら自動。",
+    "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使う画像モデル。空欄なら自動。",
     "LOREBOOK_ENTRY_TOKENS": "約 {count} トークン",
     "PRESET_TOKENIZER": "トークナイザー",
     "PRESET_TOKENIZER_HINT": "ローカルでのコンテキスト計算にのみ使用します（履歴の切り詰め、ロアブックの割り当て）。モデルへ送信されることはありません。Auto は選択中のモデルに合わせて自動選択します。"
