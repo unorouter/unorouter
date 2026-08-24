@@ -221,8 +221,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
   const activeTag = tags.includes(typeFilter) ? typeFilter : (tags[0] ?? null);
 
-  // Only models with at least one pinnable group are overridable. The search
-  // spans ALL types; the tag tabs only scope the browse view.
+  // The search spans ALL types; the tag tabs only scope the browse view.
   const visibleModels = overridableModels
     .filter((m) =>
       query ? m.model_name.toLowerCase().includes(query) : m.tag === activeTag,
@@ -234,7 +233,6 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
       return b.release_ts - a.release_ts;
     });
 
-  // Hand-rolled windowing: fixed row height, padding divs, slice on scroll.
   const [scrollTop, setScrollTop] = useState(0);
   const startIdx = Math.max(0, Math.floor(scrollTop / MODEL_ROW_PX) - 10);
   const endIdx = Math.min(

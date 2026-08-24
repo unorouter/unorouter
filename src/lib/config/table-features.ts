@@ -13,14 +13,11 @@ import {
   rowSortingFeature,
 } from "@tanstack/react-table";
 
-// v9 makes features opt-in per table. Every DataTable shares this one set, so
-// TableFeats is the single TFeatures argument threaded through the generics.
+// v9 makes features opt-in per table; every DataTable shares this one set.
 export const tableFeatures = {
   columnFilteringFeature,
-  // Only makes column.getSize() exist; the width still has to be written to the
-  // DOM, which DataTable does with a colgroup. A column that declares no size
-  // resolves to the library default (150), so a table where none do keeps the
-  // browser's even split.
+  // Only makes column.getSize() exist; DataTable writes the width via colgroup.
+  // A column declaring no size resolves to the library default (150).
   columnSizingFeature,
   columnVisibilityFeature,
   globalFilteringFeature,
@@ -31,8 +28,7 @@ export const tableFeatures = {
 };
 
 // Row-model factories live in the same `features` object as the features
-// themselves. Which ones a table registers stays per-table, so the slots are
-// declared optional here rather than baked into the shared value.
+// themselves, but which ones a table registers is per-table.
 export type TableFeats = typeof tableFeatures & {
   coreRowModel?: ReturnType<typeof createCoreRowModel>;
   expandedRowModel?: ReturnType<typeof createExpandedRowModel>;

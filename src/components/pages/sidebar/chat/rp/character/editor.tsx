@@ -34,9 +34,8 @@ type Props = {
 type ImgDraft =
   { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
 
-// One named image asset in the editor. `mediaId` is set for an existing/saved
-// asset (image already in the media table); `dataUrl` is set for a fresh upload
-// not yet persisted. A row keeps one or the other.
+// A row holds either `mediaId` (already in the media table) or `dataUrl` (fresh upload),
+// never both.
 type AssetRow = {
   rowId: string;
   name: string;
@@ -75,9 +74,8 @@ export function CharacterEditor(props: Props) {
         ? existingAvatarSrc
         : null;
 
-  // Alternate greetings are kept as local rows rather than form fields: the
-  // count is variable, and a row must keep its identity while the text changes
-  // so typing in one does not remount the others.
+  // Local rows rather than form fields: a row must keep its identity while the text
+  // changes, so typing in one does not remount the others.
   const [greetingRows, setGreetingRows] = useState<GreetingRow[] | null>(null);
   const greetings =
     greetingRows ??
@@ -129,9 +127,7 @@ export function CharacterEditor(props: Props) {
     ? formDefaults(characterFormSchema, {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
-        // The CSV field is the turn-gating word list (turnTriggers), NOT the
-        // triggers column: that one holds imported V2 trigger scripts and
-        // embedded Lua, which a save must never overwrite.
+        // The CSV field is turnTriggers, NOT the triggers column (imported V2 scripts).
         triggers: Array.isArray(existing.turnTriggers)
           ? existing.turnTriggers.join(", ")
           : "",
@@ -194,9 +190,9 @@ export function CharacterEditor(props: Props) {
   };
 
   const onSubmit = async (data: CharacterForm) => {
-    // The form's CSV `triggers` field holds turn-gating words; the DB `triggers`
-    // column holds imported trigger scripts. Omit the key entirely so the update
-    // spread cannot clobber scripts (an explicit undefined still overwrites).
+    // The form's CSV `triggers` is turn-gating words; the DB column of that name holds
+    // imported scripts. Omit the key entirely, since an explicit undefined still
+    // overwrites them.
     const { triggers: triggerWords, ...rest } = data;
     const body = {
       ...rest,

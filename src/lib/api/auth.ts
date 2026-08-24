@@ -13,12 +13,8 @@ function parseAuthResponse(raw: unknown): AuthResponseData | undefined {
   return authResponseChecker.Check(raw) ? raw : undefined;
 }
 
-// The identity cookie outlives the token deliberately: it only selects identity
-// + the OPFS file. access_token is capped to the token's own lifetime, floored
-// at 60s so a near-expiry token still yields a usable cookie, never a negative
-// maxAge.
-// accessToken is REQUIRED: an identity cookie without one is the half-logged-in
-// state the middleware retracts on sight.
+// access_token is capped to the token's own lifetime, floored at 60s so a
+// near-expiry token still yields a usable cookie, never a negative maxAge.
 export async function setSessionCookies(
   cookie: Context["cookie"],
   userId: string | number,
@@ -26,8 +22,7 @@ export async function setSessionCookies(
   accessExpiresAt?: number,
 ): Promise<void> {
   const base: CookieOptions = { path: "/", sameSite: "lax" };
-  // httpOnly: only the server unseals this. The client learns it is logged in
-  // from the auth query cache, which the prefetch always seeds.
+  // httpOnly: only the server unseals this; the client reads the auth query cache.
   cookie[USER_ID_COOKIE].set({
     ...base,
     value: await signUserId(userId),

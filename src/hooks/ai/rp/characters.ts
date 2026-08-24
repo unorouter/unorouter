@@ -183,13 +183,10 @@ export function useImportCharacterFromUrlMutation() {
   });
 }
 
-// The fetcher returns a card with its lorebooks already normalised, so the card
-// goes through the same file path as a drag-and-drop import and the lorebooks
-// are attached afterwards rather than being re-parsed out of the PNG.
+// The fetcher returns lorebooks already normalised, so the card reuses the
+// drag-and-drop file path and the books are attached after, not re-parsed
+// out of the PNG.
 async function persistImportedCard(result: ImportedResult) {
-  // Two kinds carry a card: a plain one and RisuRealm's, which also ships
-  // scripts and assets. Narrowing once here is what lets every read below be
-  // type-checked instead of assumed.
   if (!("card" in result)) {
     throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
   }
@@ -199,10 +196,9 @@ async function persistImportedCard(result: ImportedResult) {
   const file = new File([json], "card.json", { type: "application/json" });
   const setup = await persistCharacterSetupFromFile(file);
 
-  // A card fetched as JSON carries no image, and the avatar extraction in the
-  // file path only reads PNGs, so without this every link import lands without
-  // a picture while a dropped file keeps one. The fetcher returns the bytes it
-  // already had rather than making the browser fetch them again.
+  // A card fetched as JSON carries no image and the file path's avatar
+  // extraction only reads PNGs, so without this every link import lands
+  // without a picture while a dropped file keeps one.
   if (result.avatar) {
     const mediaId = uid();
     await upsertLocalMedia({
@@ -247,9 +243,8 @@ async function persistImportedCard(result: ImportedResult) {
     });
   }
 
-  // RisuRealm ships scripts and extra assets beside the card. They live on the
-  // character because that is where the engine reads them from, and the file
-  // path above has no way to carry them.
+  // RisuRealm ships scripts and extra assets beside the card; the engine reads
+  // them off the character, and the file path above cannot carry them.
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of rich?.assets ?? []) {
     const mediaId = uid();

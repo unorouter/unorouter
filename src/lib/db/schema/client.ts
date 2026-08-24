@@ -76,8 +76,8 @@ export const customProviders = sqliteTable("custom_providers", {
   baseUrl: text("base_url").notNull(),
   apiKey: text("api_key").notNull().default(""),
   format: text("format").$type<CustomProviderFormat>().notNull(),
-  // Route requests through our server (CORS-bypass); default stays
-  // browser-direct so the server never sees the user's endpoint or key.
+  // Routes through our server for endpoints serving no CORS headers. Default
+  // browser-direct, so the server never sees the user's endpoint or key.
   proxy: integer("proxy", { mode: "boolean" }).notNull().default(false),
   models: text("models", { mode: "json" })
     .$type<CustomProviderModel[]>()
@@ -90,10 +90,9 @@ export const customProviders = sqliteTable("custom_providers", {
     .default(sql`(unixepoch() * 1000)`),
 });
 
-// Sandboxed user-JS plugins (global). `kind` names the ECOSYSTEM a script came
-// from, and each has its own calling convention: "risu" plugins register hook
-// handlers through the RPC api (a port of RisuAI's apiV3), "janitor" scripts
-// run per turn against a JanitorAI-shaped context snapshot.
+// `kind` selects the calling convention: "risu" scripts register hook handlers
+// through the RPC api (a port of RisuAI's apiV3), "janitor" scripts run per
+// turn against a JanitorAI-shaped context snapshot.
 export const jsPlugins = sqliteTable("js_plugins", {
   id: text("id")
     .primaryKey()
@@ -139,9 +138,9 @@ export const LOCAL_MIGRATION_KEYS = {
   migrationVersion: "migration_version",
 } as const;
 
-// Checkpoints the user brought themselves, addressed by AIR. Saved on first successful
-// generation rather than on resolve, so the list is models actually used and not every one
-// glanced at. Client only, like custom_providers: nothing here belongs on a server.
+// User-supplied checkpoints, written on first successful generation rather than
+// on resolve, so the list is models actually used and not every one glanced at.
+// Client only, like custom_providers.
 export const imageModels = sqliteTable(
   "image_models",
   {
@@ -162,10 +161,9 @@ export const imageModels = sqliteTable(
 
 export type ImageModel = typeof imageModels.$inferSelect;
 
-// A saved generation setup: everything the form holds, prompts included, since the constant
-// part of a prompt is what users retype every visit. Mirrors the snapshot columns rather than a column per knob,
-// since the params are already one validated JSON blob and a new knob would otherwise mean
-// a migration. Client only: a generation setup is a local preference, not account state.
+// Mirrors the snapshot columns rather than a column per knob: the params are
+// already one validated JSON blob, so a new knob would otherwise mean a
+// migration. Client only, a generation setup is a local preference.
 export const imagePresets = sqliteTable(
   "image_presets",
   {
@@ -212,8 +210,8 @@ export const imageSessions = sqliteTable(
   ],
 );
 
-// One generation within a session. Each row carries its FULL param set, which is what
-// makes navigating back to it able to restore the form exactly as it was.
+// Each row carries its FULL param set, so navigating back to one restores the
+// form exactly as it was.
 export const imageSnapshots = sqliteTable(
   "image_snapshots",
   {
@@ -224,9 +222,9 @@ export const imageSnapshots = sqliteTable(
       .notNull()
       .references(() => imageSessions.id, { onDelete: "cascade" }),
     sessionOrder: integer("session_order").notNull(),
-    // Which snapshot this one was generated from. A session is an ordered list, so
-    // without this a branch off an older snapshot appends at the end and the fork is
-    // invisible. Null for the first snapshot of a session.
+    // A session is an ordered list, so without this a branch off an older
+    // snapshot appends at the end and the fork is invisible. Null for the
+    // first snapshot of a session.
     parentSnapshotId: text("parent_snapshot_id").references(
       (): AnySQLiteColumn => imageSnapshots.id,
       { onDelete: "set null" },

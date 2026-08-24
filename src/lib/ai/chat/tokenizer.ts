@@ -46,9 +46,9 @@ const instanceCache = new Map<string, Encoder>(); // keyed by resolved source
 const inflight = new Map<string, Promise<Encoder>>();
 const degraded = new Set<string>(); // sources whose load failed into APPROXIMATE
 
-// cl100k is lazy too: gpt-tokenizer embeds ~2MB of BPE rank data, which a
-// static import put into the chat entry chunk (983KB brotli). Counts are
-// approximate until the preload in prepareChatRequest resolves.
+// cl100k is lazy too: gpt-tokenizer embeds ~2MB of BPE rank data, and a static
+// import put it in the chat entry chunk (983KB brotli). Counts are approximate
+// until the preload in prepareChatRequest resolves.
 let active: Encoder = APPROXIMATE;
 let activeId = "approximate";
 
@@ -212,8 +212,7 @@ export async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
   const job = target
     .load()
     .catch(() => {
-      // A failed load still counts, just at ~4 chars per token. Silent before,
-      // which let a debug export name a tokenizer that was never running.
+      // Tracked so a debug export cannot name a tokenizer that never ran.
       degraded.add(target.source);
       return APPROXIMATE;
     })
@@ -238,8 +237,8 @@ export function activeTokenizerState(): {
   exact: boolean;
   used: boolean;
 } {
-  // activeId only leaves its default once a request has resolved one, so a
-  // report taken on a fresh page describes nothing that ran.
+  // activeId leaves its default only once a request resolved one, so a report
+  // taken on a fresh page describes nothing that ran.
   const used = activeId !== "approximate";
   return { source: activeId, exact: used && !degraded.has(activeId), used };
 }

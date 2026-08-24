@@ -13,9 +13,8 @@ function closingTagIndex(buffer: string): number | null {
   return null;
 }
 
-// The SDK exports no name for its stream-part union, so derive it from the
-// middleware type: a hand-written stand-in silently drifts from the real union
-// and then needs a cast at every boundary to paper the difference over.
+// The SDK exports no name for its stream-part union, so it is derived: a
+// hand-written stand-in drifts and then needs a cast at every boundary.
 type StreamChunk =
   Awaited<
     ReturnType<
@@ -27,20 +26,17 @@ type StreamChunk =
     ? P
     : never;
 
-// For requests whose trailing assistant prefill left an open <think> tag: the
-// model's reply begins INSIDE its reasoning, but what arrives depends on the
-// upstream channel and model. Observed shapes:
+// When a trailing assistant prefill left an open <think>, three shapes arrive
+// depending on upstream channel and model:
 //   1. Channel parses the template: native reasoning parts + clean answer text.
-//   2. Channel forwards the raw continuation: "CoT</think>answer" as plain text
-//      with no opening tag.
-//   3. Model ignores the trick (non-GLM-style models): plain answer text, no
-//      tags, no native reasoning.
-// A static startWithReasoning flag breaks 1 and 3 (swallows the answer into
-// the thinking box), so decide per stream: native reasoning first => pass
-// through; text first => route it to reasoning until the closing tag. If the
-// stream finishes cleanly without ever closing, it was shape 3 - re-emit the
-// accumulated text as the reply (a length-cut finish stays reasoning: that is
-// truncated thinking, not an answer).
+//   2. Channel forwards the raw continuation: "CoT</think>answer" as plain text,
+//      no opening tag.
+//   3. Model ignores the trick (non-GLM-style): plain answer, no tags, no
+//      native reasoning.
+// A static startWithReasoning flag swallows the answer into the thinking box on
+// 1 and 3, so the shape is decided per stream. A clean finish that never closed
+// was shape 3, and the accumulated text is re-emitted as the reply; a length-cut
+// finish stays reasoning, being truncated thinking rather than an answer.
 export function prefillThinkMiddleware(): LanguageModelMiddleware {
   return {
     wrapGenerate: async ({ doGenerate }) => {
@@ -153,8 +149,8 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
             }
 
             if (chunk.type === "text-end") {
-              // Stream may still tell us how it finished; defer the verdict on
-              // the never-closed reasoning block to the finish chunk.
+              // The never-closed verdict waits for `finish`, which carries the
+              // finishReason that decides it.
               if (buffer) {
                 forcedAccum += buffer;
                 controller.enqueue({

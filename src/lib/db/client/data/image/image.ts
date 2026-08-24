@@ -89,12 +89,11 @@ export const upsertLocalImageSession = (row: AnyRow) =>
 
 export const deleteLocalImageSession = (id: string) => sessionStore.drop(id);
 
-// A snapshot's params carry the img2img source and inpaint mask, and both accept
-// base64 data URIs up to 8MB. Kept verbatim they outweigh every generated image:
-// each edit stores its INPUT forever on top of the output already in `media`.
-// The restore path never reads them back (quick actions rebuild the init image
-// from the media row's bytes via durableInitUrl), so keep https URLs and drop the
-// inline copies. `extraParams.inpaintMaskDataUrl` is the same canvas-drawn mask.
+// A snapshot's params carry the img2img source and inpaint mask as base64 data
+// URIs up to 8MB each, so kept verbatim every edit stores its INPUT forever on
+// top of the output already in `media`. The restore path never reads them back
+// (quick actions rebuild the init image from the media row's bytes via
+// durableInitUrl), so only https URLs survive here.
 function stripInlineImages(row: SnapshotInput): SnapshotInput {
   const params = isRecord(row.params) ? row.params : undefined;
   const extra = isRecord(row.extraParams) ? row.extraParams : undefined;
@@ -131,9 +130,9 @@ export async function deleteLocalSnapshot(id: string) {
   await snapshotStore.drop(id);
 }
 
-// toImageView hands out a blob: URL keyed by media.id, and those pin the decoded
-// bytes for the document's lifetime. Deleting the rows without revoking leaves
-// the whole weight of every deleted image in memory until a reload.
+// toImageView's blob: URLs pin the decoded bytes for the document's lifetime,
+// so deleting rows without revoking keeps every deleted image in memory until
+// a reload.
 async function revokeMediaUrlsForSnapshots(
   local: LocalClient,
   snapshotIds: string[],
@@ -145,10 +144,9 @@ async function revokeMediaUrlsForSnapshots(
   for (const row of rows) revokeMediaBlobUrl(row.id);
 }
 
-// Snapshots cascade with the session row, but `media.playground_id` is a plain
-// column with no FK, so the generated images (the bulk of the bytes) would be
-// orphaned and keep the space. Delete them explicitly, before the cascade takes
-// away the snapshot ids that identify them.
+// Snapshots cascade with the session row, but `media.playground_id` has no FK,
+// so the images (the bulk of the bytes) orphan and keep the space. Delete them
+// BEFORE the cascade takes away the snapshot ids that identify them.
 export async function deleteLocalImageSessionDeep(sessionId: string) {
   const local = await getLocalDb();
   if (!local) return;
@@ -224,8 +222,8 @@ export async function readLocalSessionBundle(sessionId: string) {
   return { session, snapshots, media: images };
 }
 
-// Sidebar previews: ONE latest snapshot + ONE image per session. The full-bundle read
-// loads every base64 image of every session, which is far too heavy for thumbnails.
+// ONE latest snapshot + ONE image per session: the full-bundle read loads every
+// base64 image of every session, far too heavy for thumbnails.
 export async function readLocalSessionPreviews() {
   const local = await getLocalDb();
   if (!local) return [];
@@ -262,7 +260,8 @@ export async function readLocalSessionPreviews() {
   return out;
 }
 
-// Direct id lookup: callers poll this, and a session scan loads every base64 image.
+// Direct id lookup because callers POLL this; a session scan would load every
+// base64 image each tick.
 export async function readLocalSnapshotView(
   snapshotId: string,
 ): Promise<SnapshotView | null> {
@@ -308,7 +307,6 @@ const imageModelStore = makeTableStore(imageModels, imageModels.air);
 
 export const readLocalImageModels = () => imageModelStore.list();
 
-// Recorded on generation, not on search, so the list stays what the user actually uses.
 export async function rememberLocalImageModel(model: {
   air: string;
   name: string;

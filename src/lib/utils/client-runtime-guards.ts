@@ -2,8 +2,6 @@ import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
 
 let errorCaptureInstalled = false;
 
-// Mirrors uncaught errors into the exportable debug log, so a bug report
-// arrives with a stack instead of "it broke".
 export function installDebugErrorCapture(): void {
   if (errorCaptureInstalled || typeof window === "undefined") return;
   errorCaptureInstalled = true;
@@ -33,7 +31,7 @@ export function installDebugErrorCapture(): void {
 }
 
 // Without this the browser can evict OPFS under storage pressure, taking every
-// local conversation with it. The grant is not guaranteed, hence the log line.
+// local conversation with it. The grant is not guaranteed.
 export function requestPersistentStorage(): void {
   void navigator.storage
     ?.persist?.()
@@ -45,17 +43,14 @@ export function requestPersistentStorage(): void {
     );
 }
 
-// A blank shell on iOS has three causes that look identical to the user, and
-// only one is ours: the WebContent process being killed for memory, a bfcache
-// restore handing back a heap whose listeners no longer match the DOM, or a
+// A blank shell on iOS has three causes that look identical: WebContent killed
+// for memory, a bfcache restore whose listeners no longer match the DOM, or a
 // resume-time reload that never lands (WebKit #211018). pageshow.persisted
-// separates the bfcache case, and the memory reading separates the jetsam one,
-// so a report can name the cause instead of guessing at it.
+// separates the bfcache case and the heap reading separates the jetsam one.
 export function installResumeDiagnostics(): void {
   window.addEventListener("pageshow", (e) => {
     const mem = performance.memory;
     logChatDebug("page.show", {
-      // true means the heap came back from bfcache rather than being rebuilt.
       bfcache: e.persisted,
       heapMB: mem?.usedJSHeapSize
         ? Math.round(mem.usedJSHeapSize / 1048576)
@@ -69,8 +64,8 @@ export function installResumeDiagnostics(): void {
 
 // Extensions that mutate the DOM (Translate, Dark Reader, Grammarly) detach
 // nodes React still owns, so its next commit on a big subtree swap throws
-// NotFoundError and white-screens the app. The node is already in the desired
-// state, so no-oping is safe. Standard React + Google-Translate survival patch.
+// NotFoundError and white-screens the app. No-oping is safe: the node is
+// already in the desired state.
 let domGuardInstalled = false;
 
 export function installDomReconciliationGuard(): void {

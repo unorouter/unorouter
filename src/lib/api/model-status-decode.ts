@@ -1,5 +1,3 @@
-// Both model-status endpoints decode into the StatusBar component's
-// StatusBarData[]: /page_compact via int tuples, /buckets via the verbose DTO.
 import type {
   StatusBarData,
   StatusEventType,
@@ -177,8 +175,8 @@ const EVENT_TYPES: readonly StatusEventType[] = [
   "maintenance",
 ];
 
-// Unknown values degrade to a renderable default rather than reaching a
-// component that switches on them: the DTO types these as bare strings.
+// The DTO types these as bare strings; unknown values must not reach a
+// component that switches on them.
 function toStatus(s: string): StatusType {
   return STATUS_TYPES.find((v) => v === s) ?? STATUS_EMPTY;
 }
@@ -187,8 +185,6 @@ function toEventType(s: string): StatusEventType {
   return EVENT_TYPES.find((v) => v === s) ?? "incident";
 }
 
-// The per-model /buckets endpoint returns the verbose StatusBarDataDTO[]
-// (nullable arrays, string enums) instead of the page's int tuples.
 export function decodeBucketDtos(
   dtos: StatusBarDataDTO[] | null | undefined,
 ): StatusBarData[] {

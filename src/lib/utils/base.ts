@@ -17,7 +17,7 @@ export function recArr(v: unknown): Record<string, unknown>[] {
   return Array.isArray(v) ? v.filter(isRecord) : [];
 }
 
-// Builds the `v is T` guard for a literal-union constant, so a union and its
+// Builds the `v is T` guard from the union's own constant, so the type and its
 // runtime check cannot drift apart.
 export function isOneOf<const T extends readonly unknown[]>(
   values: T,
@@ -89,10 +89,9 @@ export function copyToClipboardAsync(
   getData: () => Promise<string>,
 ): Promise<void> {
   const blob = getData().then((t) => new Blob([t], { type: "text/plain" }));
-  // ClipboardItem consumes the promise internally, but if getData rejects the
-  // browser still reports the blob promise as an UNHANDLED rejection even
-  // though the caller catches the write() promise. Mark it handled in a
-  // parallel branch; write() below still rejects into the caller's catch.
+  // ClipboardItem consumes this promise, but a getData rejection is still
+  // reported as UNHANDLED even though the caller catches write(). Marking it
+  // handled here does not stop write() rejecting into the caller's catch.
   blob.catch(() => {});
   return navigator.clipboard.write([new ClipboardItem({ "text/plain": blob })]);
 }
@@ -178,7 +177,6 @@ export async function sha256Hex(value: string): Promise<string> {
     .join("");
 }
 
-// Byte-prefix comparison, the shape every magic-number sniff needs.
 export function bytesEqual(
   bytes: Uint8Array,
   expected: readonly number[],

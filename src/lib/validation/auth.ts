@@ -35,11 +35,9 @@ export const registerSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  // Mirrors new-api's RegisterRequest tag. 72 is bcrypt's hard ceiling
-  // (Password2Hash errors above it), and upstream reports a violation as a bare
-  // "Invalid parameters" naming no field, so catch it before submit. NOT applied
-  // to loginSchema: login has no upstream max, and capping it would lock out
-  // anyone whose existing password is longer.
+  // 72 is bcrypt's hard ceiling and upstream reports a violation as a bare
+  // "Invalid parameters" naming no field, so catch it before submit. NOT on
+  // loginSchema: capping there locks out anyone whose password is longer.
   password: t.String({
     minLength: 8,
     maxLength: 72,
@@ -65,10 +63,10 @@ export const authRequestInfoChecker = TypeCompiler.Compile(
 );
 export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;
 
-// Upstream returns a raw gin body wider than its declared type, so this
+// Upstream returns a raw gin body WIDER than its declared type, so this
 // validates only the fields the cookie helpers read and tolerates the rest.
-// Every field is optional: a 2FA-required or register response carries no
-// token and no user. access_expires_at is unix seconds.
+// Every field is optional: a 2FA-required or register response carries no token
+// and no user. access_expires_at is unix seconds.
 export const authResponseSchema = t.Object(
   {
     success: t.Optional(t.Boolean()),

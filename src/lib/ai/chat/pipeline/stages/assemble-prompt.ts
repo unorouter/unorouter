@@ -92,8 +92,7 @@ export async function assemblePrompt(
   const memorySettings = {
     memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
     utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
-    // Only the preset pins a lane, and only for the model it pinned: a
-    // conversation-level utility model overrides it, so the lane goes with it.
+    // The preset's lane only applies to the model the preset pinned.
     utilityGroup: convSettings?.utilityModel
       ? null
       : presetDefaults?.utilityGroup,
@@ -187,9 +186,8 @@ export async function assemblePrompt(
     chatMemory: assembled.chatMemory ?? null,
     afterCount: countSliced.length,
     afterBudget: slicedMessages.length,
-    // Which stage actually removed history, and how much it cost in tokens.
-    // Message counts alone cannot tell a summary rollup apart from a budget
-    // slice, and both look identical to a user reporting "it forgot things".
+    // Split per stage: a summary rollup and a budget slice are indistinguishable
+    // from the counts above, and both read as "it forgot things" in a report.
     droppedBySummary: messages.length - unsummarized.length,
     droppedByChatMemory: unsummarized.length - countSliced.length,
     droppedByBudget: countSliced.length - slicedMessages.length,
@@ -319,11 +317,9 @@ function clampOutputTokens(
   );
 }
 
-// JanitorAI-compat scripts run once per turn before assembly and may rewrite
-// ONLY the primary character's personality, scenario and example_dialogs for
-// this turn. The override rides a cloned context so the caller's conversation
-// data is never mutated. Browser-only; a turn without janitor plugins passes
-// through.
+// JanitorAI-compat scripts may rewrite ONLY the primary character's personality,
+// scenario and example_dialogs, for this turn only: the override rides a cloned
+// context so the stored conversation is never mutated.
 async function applyJanitorScripts(
   convCtx: LoadedConvContext,
   messages: StreamMessages,
@@ -374,9 +370,8 @@ async function applyJanitorScripts(
       last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
       user_name: convCtx.persona?.name ?? "",
       conversation_id: body.convId ?? "",
-      // StreamMessages is Omit<UIMessage,"id">, so there is never an id to key
-      // body.messageTimes by. Restoring a lookup here cannot work; real ids
-      // would have to be plumbed through the stream types first.
+      // StreamMessages is Omit<UIMessage,"id">, so there is no id to key
+      // body.messageTimes by until real ids are plumbed through.
       message_created_at: null,
     },
   });

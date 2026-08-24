@@ -14,10 +14,8 @@ export async function downloadDiagnostics(filename: string): Promise<void> {
     logChatDebug("export.diagnostics.done", { filename });
   } catch (e) {
     logChatDebug("export.diagnostics.error", { error: String(e) });
-    // Last resort: emit the localStorage-backed log on its own. It needs no
-    // database, and a report from a user whose database is dead is exactly the
-    // one worth having, so failing outright here left us blind to the only
-    // bugs this export exists for.
+    // The localStorage-backed log needs no database, and a report from a user
+    // whose database is dead is exactly the one worth having.
     try {
       const { getChatDebugLog } = await import("@/lib/utils/chat-debug-log");
       downloadJson(
@@ -56,9 +54,8 @@ function resolveOptions(opts?: DbExportOptions): Required<DbExportOptions> {
   };
 }
 
-// Tables cleared when includeChats is off: the conversation transcript and
-// everything hanging off a conversation. The reusable RP library (characters,
-// personas, lorebooks, presets, cards, themes) is kept.
+// Cleared when includeChats is off. The reusable RP library (characters,
+// personas, lorebooks, presets, cards, themes) is deliberately kept.
 const CHAT_TABLES = [
   "conversations",
   "chat_groups",
@@ -92,8 +89,7 @@ export async function downloadLocalDb(
   }
 }
 
-// Build the export as a shrunken COPY so the live DB is never mutated. Excluded
-// tables are deleted on the scratch, then VACUUM reclaims the freed pages.
+// A shrunken COPY, so the live DB is never mutated.
 async function buildExportFile(
   opts: Required<DbExportOptions>,
 ): Promise<{ file: File; cleanup: () => Promise<void> }> {
@@ -107,12 +103,12 @@ async function buildExportFile(
 
   const scratch = newSql(scratchPath);
   const cleanup = async () => {
-    // Unlink THROUGH the driver, as reconcile-import does: the scratch runs on the
-    // sahpool VFS, so its bytes live in a pool slot and not under `scratchPath`.
-    // Removing that root name deleted nothing, so every export left a full copy of
-    // the database behind (one report showed 6.5MB of tables against 31.4MB of
-    // OPFS usage, climbing with each export). Terminate the worker too, or it holds
-    // the pool's access handles for the life of the page.
+    // Unlink THROUGH the driver: the scratch runs on the sahpool VFS, so its
+    // bytes live in a pool slot, not under `scratchPath`. Removing that root
+    // name deletes nothing and leaves a full copy of the database behind per
+    // export (one report: 6.5MB of tables against 31.4MB of OPFS usage).
+    // Terminate the worker too, or it holds the pool's access handles for the
+    // life of the page.
     await scratch.deleteDatabaseFile().catch((err) =>
       logChatDebug("export.db.cleanup_failed", {
         stage: "delete",
@@ -132,18 +128,17 @@ async function buildExportFile(
     }
   };
   try {
-    // Stream rather than buffer: arrayBuffer() materialized the WHOLE database in
-    // memory, which is what makes a large backup fail to save at all.
+    // Stream, never arrayBuffer(): materializing the WHOLE database in memory
+    // is what makes a large backup fail to save at all.
     await scratch.overwriteDatabaseFile(srcFile.stream());
     await scratch.sql`PRAGMA foreign_keys = OFF`;
 
     const before = await scratchSize(scratch);
     const deleted = await deleteExcluded(scratch, opts);
-    // Provider API keys stay in this file. It is a LOCAL BACKUP, restored on
-    // the user's own device; the file shared for debugging is the diagnostics
-    // JSON, which never reads custom_providers at all. Stripping them here
-    // protected the wrong artifact and silently broke restores: everything
-    // else came back and the key alone was blank.
+    // Provider API keys stay in this file: it is a LOCAL BACKUP restored on the
+    // user's own device, while the artifact shared for debugging is the
+    // diagnostics JSON, which never reads custom_providers. Stripping them here
+    // silently breaks restores, everything back except a blank key.
     await scratch.sql`VACUUM`;
     const after = await scratchSize(scratch);
     logChatDebug("export.db.shrink", { before, after, deletedTables: deleted });
@@ -177,7 +172,6 @@ async function deleteExcluded(
   if (!opts.includeMedia) {
     await drop("media");
   } else if (!opts.includeChats) {
-    // Chats gone but media kept: drop only conversation-scoped media, keep image-generation media.
     await drop("media", "conv_id IS NOT NULL");
   }
   return deleted;

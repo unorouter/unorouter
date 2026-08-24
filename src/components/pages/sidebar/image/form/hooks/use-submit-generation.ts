@@ -59,15 +59,11 @@ export function useSubmitGeneration(args: Args) {
     }
 
     args.setSamplerMemory(data.params ?? {}, data.model ?? INITIAL_MODEL);
-    // The draft is the whole setup and survives the submit; the checkpoint is already
-    // in data.ui, so nothing needs merging back.
     args.setDraft(data);
 
     // replace: a submit must not add a back entry between the form and its own result.
-    // Same session goes through nuqs, which owns the snap param: a plain router
-    // navigation that only changes the query desyncs nuqs after it has pushed once
-    // (arrowing to an older snapshot, then generating, left the viewer on the old
-    // snapshot while the URL pointed at the new one).
+    // nuqs owns the snap param, so a plain router navigation changing only the query
+    // desyncs it after nuqs has pushed once (the viewer stuck on the old snapshot).
     if (nav.sessionId === submitted.sessionId) {
       nav.replaceSnapshot(submitted.snapshotId);
     } else {

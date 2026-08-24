@@ -47,21 +47,17 @@ export function useImageForm() {
 
   const selectedModel = form.watch("model") ?? INITIAL_MODEL;
   const baseDescriptor = findDescriptor(selectedModel);
-  // The passthrough row carries no lineage of its own, so its controls would come from a
-  // generic guess. The checkpoint the user resolved DOES know its architecture, and
-  // Runware documents one schema per architecture, so the picked checkpoint decides which
-  // knobs a passthrough generation actually accepts.
-  // Hosted API models (FLUX.2, gpt-image, seedream) are picked by AIR and carry no
-  // architecture, so gating the lookup on one skipped them entirely and left them on the
-  // passthrough's blank descriptor: no reference uploader on a model that takes ten.
+  // The passthrough row has no lineage, but Runware documents one schema per
+  // architecture, so the resolved checkpoint decides which knobs it accepts. Hosted API
+  // models (FLUX.2, gpt-image, seedream) are picked by AIR and carry NO architecture, so
+  // requiring one leaves them on the passthrough's blank descriptor.
   const pickedArchitecture = form.watch("ui.airArchitecture");
   const pickedAir = form.watch("ui.air");
   const checkpointSpec =
     pickedAir || pickedArchitecture
       ? lookupParamSpec(pickedAir, pickedArchitecture)
       : null;
-  // Merged onto the row so every consumer keeps reading metadata.imageParams,
-  // whether the controls came from the catalog or the picked checkpoint.
+  // Merged onto the row so every consumer keeps reading metadata.imageParams.
   const descriptor: ImageModelDescriptor = checkpointSpec
     ? {
         ...baseDescriptor,
@@ -108,8 +104,8 @@ export function useImageForm() {
   });
   useSnapshotRestore({ form, findDescriptor });
 
-  // A preset picks a model deliberately, so the TAB follows the model (the fit hook
-  // resolves the other direction and would swap the preset's model out).
+  // The TAB follows the model here; the fit hook resolves the other direction and would
+  // swap a preset's model out.
   const adoptModelTab = (modelId: string) => {
     if (!effectiveModels.some((m) => m.model_name === modelId)) return;
     const desc = findDescriptor(modelId);

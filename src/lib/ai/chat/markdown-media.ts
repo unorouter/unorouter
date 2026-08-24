@@ -1,7 +1,5 @@
-// Markdown images have no metadata slot, so media kind + the inlay media id ride
-// the alt text (`alt === "video"`, `alt` starting `inlay:`) and the src extension
-// or data-URI. One resolver centralizes that sniffing so the render component and
-// the data-URL allowlist stay in agreement.
+// Markdown images have no metadata slot, so media kind and the inlay media id
+// ride the alt text and the src extension or data-URI.
 
 export type MarkdownMediaKind = "image" | "video" | "audio";
 
@@ -18,9 +16,8 @@ export type ResolvedMarkdownMedia = {
   height: number | null;
 };
 
-// `inlay:<id>` and `img:<name>` optionally carry the decoded size as `@<w>x<h>`,
-// so the renderer can reserve the exact box before the bitmap decodes. Older
-// tokens (and rows whose size has not been measured yet) simply omit the suffix.
+// The optional `@<w>x<h>` lets the renderer reserve the box before the bitmap
+// decodes; older tokens and unmeasured rows omit it.
 const INLAY_ALT_RE = /^inlay:([\w-]+)(?:@(\d+)x(\d+))?$/;
 const ASSET_ALT_RE = /^img:(.*?)(?:@(\d+)x(\d+))?$/;
 
@@ -57,12 +54,11 @@ export function resolveMarkdownMedia(
   };
 }
 
-// react-markdown's default urlTransform strips all data: URLs as an XSS defense;
-// generated inline media needs image/audio/video data URIs permitted. Everything
-// else keeps the default protocol allowlist.
+// react-markdown's default urlTransform strips data: and blob: URLs as an XSS
+// defense; generated inline media needs image/audio/video data URIs and the
+// same-origin blob: that inlay/img tokens resolve to. Everything else keeps the
+// default protocol allowlist.
 export function allowDataMediaUrls(url: string): string {
-  // blob: is same-origin media resolved at render time (inlay/img tokens); the
-  // default transform would strip it as an unknown protocol.
   if (url.startsWith("blob:")) return url;
   if (
     url.startsWith("data:image/") ||

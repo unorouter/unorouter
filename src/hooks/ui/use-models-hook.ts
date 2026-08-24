@@ -61,10 +61,9 @@ function matchesFreeKeyword(query: string): boolean {
   return FREE_KEYWORDS.some((word) => word.toLowerCase().includes(query));
 }
 
-// Highest first, but "no measurement" sorts last rather than as 0: a model
-// nobody has called yet is unmeasured, and ranking it level with one measured
-// at 0% buries the healthy long tail under every untouched row. Ties return 0
-// so a later sort key can decide.
+// Highest first, but null sorts LAST rather than as 0: a model nobody has called
+// yet is unmeasured, and ranking it level with one measured at 0% buries the
+// healthy long tail under every untouched row.
 function byReliability(
   a: number | null | undefined,
   b: number | null | undefined,
@@ -189,9 +188,8 @@ export function useModelsFilter() {
     matchesModality(model, outputModality),
   );
 
-  // One comparator per key, each returning 0 on a tie so the NEXT key decides.
-  // The old single-sort versions broke ties by name inline, which as a chained
-  // key would make every later key dead code.
+  // Every key MUST return 0 on a tie so the next one decides. Breaking a tie by
+  // name inline here would make every later key dead code.
   const compareBy = (
     key: SortOrder,
     a: PricingCatalogModel,
@@ -216,9 +214,6 @@ export function useModelsFilter() {
     }
     if (key === "priceAsc") return effectivePrice(a) - effectivePrice(b);
     if (key === "priceDesc") return effectivePrice(b) - effectivePrice(a);
-    // Reliability ranks "no data" last rather than as 0: a model nobody has
-    // called yet is unmeasured, and sorting it level with one measured at 0%
-    // buries the healthy long tail under every untouched row.
     if (key === "uptimeDesc") return byReliability(a.uptime_24h, b.uptime_24h);
     if (key === "successDesc")
       return byReliability(a.success_rate, b.success_rate);
@@ -235,7 +230,6 @@ export function useModelsFilter() {
     return a.model_name.localeCompare(b.model_name);
   });
 
-  // Fire one models_searched when the query settles (not per keystroke).
   const trimmedQuery = search.trim();
   const resultCount = filtered.length;
   useEffect(() => {

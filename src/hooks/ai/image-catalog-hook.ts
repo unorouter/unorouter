@@ -24,10 +24,8 @@ export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
   return useElysiaQuery(
     queryKeys.loraCatalog(query),
     () => rpc.api.ai.image.catalog.loras.get({ query: query ?? {} }),
-    // Hold the previous results while the next search resolves, so the list does not empty
-    // and collapse the popup on every keystroke. The caller MUST surface isFetching with
-    // this: the provider takes 8 to 22 seconds, and stale rows with no pending indicator
-    // read as a search box that ignores what you type.
+    // The provider takes 8 to 22 seconds, so the caller MUST surface isFetching
+    // alongside this: stale rows with no pending indicator read as a dead search box.
     { placeholderData: (prev) => prev },
   );
 }
@@ -38,8 +36,8 @@ export function useEmbeddingCatalogQuery(query?: CatalogSearchQuery) {
   );
 }
 
-// Resolving is a separate step from generating: Runware pins its own version ids, so a
-// Civitai-sourced reference often does not load, and finding out here costs nothing.
+// Resolved separately from generating because Runware pins its own version ids, so a
+// Civitai-sourced reference often does not load.
 export function useCivitaiVersionsMutation() {
   const t = useTranslations();
   return useMutation({
@@ -51,8 +49,8 @@ export function useCivitaiVersionsMutation() {
   });
 }
 
-// LoRA twin of useCivitaiVersionsMutation. A query, not a mutation: the picker resolves
-// as the user types, and a repeat link should hit cache instead of a second 8-22s call.
+// A query, not a mutation like its checkpoint twin: the picker resolves as the user
+// types, so a repeat link should hit cache instead of a second 8-22s call.
 export function useCivitaiLoraVersionsQuery(query: string | undefined) {
   return useElysiaQuery(
     queryKeys.civitaiLoraVersions(query ?? ""),
@@ -64,8 +62,7 @@ export function useCivitaiLoraVersionsQuery(query: string | undefined) {
   );
 }
 
-// Debounced by the caller through the query key; a reference resolves to one model and a
-// name searches the provider catalog, so one hook covers both.
+// Debounced by the caller through the query key.
 export function useCheckpointSearchQuery(q: string) {
   return useElysiaQuery(
     queryKeys.checkpointSearch(q),

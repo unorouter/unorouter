@@ -16,8 +16,8 @@ type Args = {
 
 /**
  * Seeds the form from a ?remix=<snapshotId> link, once per snapshot. The hires/inpaint
- * variants carry the snapshot's own image along as the init image (the pass re-renders
- * it; without it the control would silently run a fresh generation).
+ * variants must carry the snapshot's own image as the init image, since those passes
+ * re-render it and would otherwise run a fresh generation.
  */
 export function useRemixSeed(args: Args): { remixId: string | null } {
   const form = args.form;
@@ -64,9 +64,9 @@ export function useRemixSeed(args: Args): { remixId: string | null } {
       visibility: "private",
       ui: { variants: 1 },
     });
-    // Consume the one-shot params in the same URL write that lands the user on the tab
-    // showing the init image; the post-submit remount resets the ref guard, so leaving
-    // them would re-run this reset over the user's edits.
+    // Consume the one-shot params in the same URL write as the tab change: the
+    // post-submit remount resets the ref guard, so leaving them re-runs this reset over
+    // the user's edits.
     const url = new URL(window.location.href);
     for (const key of ["remix", "hires", "inpaint"]) {
       url.searchParams.delete(key);

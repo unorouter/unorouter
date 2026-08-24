@@ -47,10 +47,10 @@ function localizedEntries(
     lastModified ?? process.env.NEXT_PUBLIC_BUILD_DATE,
   ).toDate();
 
-  // No per-URL hreflang alternates here: every page already declares the full
-  // set in its HTML head, and duplicating them for 18 locales pushed the
-  // single sitemap file past Google's 50MB hard limit (53MB, ~416k
-  // xhtml:link entries), so Google stopped reading it fully.
+  // No per-URL hreflang alternates: every page declares the full set in its
+  // head already, and duplicating them for 18 locales pushed this file past
+  // Google's 50MB hard limit (53MB, ~416k xhtml:link entries), after which
+  // Google stopped reading it fully.
   return routing.locales.map((locale) => ({
     url: `${env.siteOrigin}${getPathname({ locale, href })}`,
     lastModified: resolved,
@@ -79,7 +79,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.startsWith("/docs/integrations/"),
   );
 
-  // getCatalog already retries 3x with backoff internally.
   const pricing = await getCatalog().catch(() => null);
   if (!pricing?.models?.length)
     console.error(
@@ -140,10 +139,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         {
           priority: 0.6,
           changeFrequency: "weekly",
-          // Falling back to the build date stamps every model page with
-          // "changed today" on every deploy. Once lastModified is provably
-          // unreliable Google ignores it and crawls the set on its own
-          // schedule, which is what stalled recrawl of ~5.6k model URLs.
+          // Falling back to the build date stamps every model page "changed
+          // today" on every deploy. Google then treats lastModified as
+          // unreliable and ignores it, which stalled recrawl of ~5.6k model URLs.
           lastModified: nameToReleaseDate.get(name),
         },
       );

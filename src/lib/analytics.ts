@@ -163,7 +163,7 @@ const chat = {
   modelAutoPicked: (props: { to: string }) => {
     posthog.capture("chat_model_auto_picked", { to_model: props.to });
   },
-  // Rerolling for a better response - the strongest RP engagement signal.
+  // Rerolling for a better response: the strongest RP engagement signal.
   messageSwiped: (props: { direction: "prev" | "next"; is_rp: boolean }) => {
     posthog.capture("chat_message_swiped", {
       direction: props.direction,

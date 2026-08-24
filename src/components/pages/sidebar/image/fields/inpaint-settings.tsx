@@ -11,16 +11,12 @@ import { CivitaiResolverField } from "./civitai-resolver-field";
 import type { CustomCheckpoint } from "../form/sections/model-picker";
 
 /**
- * Overrides for the manual inpaint pass, rendered next to the mask canvas; empty fields
- * reuse what the form holds. Each field binds its own Controller so keystrokes do not
- * re-render the whole form (canvas included). Distinct from ADetailer, which detects a
- * region instead of taking a painted one.
+ * Overrides for the manual inpaint pass; empty fields reuse what the form holds. Each
+ * field binds its own Controller so keystrokes do not re-render the mask canvas.
  */
 export function InpaintSettings() {
   const t = useTranslations();
   const form = useFormContext<ImageFormValues>();
-  // The form's own prompt is the placeholder, so it is obvious what runs when the
-  // override is left empty.
   const fallbackPrompt =
     useWatch({ control: form.control, name: "prompt" }) ?? "";
 

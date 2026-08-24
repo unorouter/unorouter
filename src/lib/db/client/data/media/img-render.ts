@@ -10,17 +10,15 @@ import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
 import { atom } from "jotai";
 
-// RisuAI-style named character image assets: `{{img::name}}` resolves at DISPLAY
-// time (markdown preprocess) to the image an author uploaded to the conversation's
-// character(s), NOT via the macro engine. The token is keyed by NAME, so the
-// resolver maps a name to a media id through the bound characters' `assets`. The CBS
-// macro engine already strips `{{img::...}}` to "" at request build, so the token
-// is author-emitted in the reply and only ever resolved here on render.
+// RisuAI-style named character image assets. The CBS macro engine strips
+// `{{img::...}}` to "" at request build, so the token is author-emitted in the
+// reply and resolved ONLY here, at display time, by name against the bound
+// characters' `assets`.
 
 export const imgVersionAtom = atom(0);
 
-// name-src cache keyed by `${convId}:${nameLower}`; a resolved-empty marker
-// (src "") prevents re-resolving an unknown name every render.
+// A resolved-empty marker (src "") prevents re-resolving an unknown name every
+// render.
 type ResolvedAsset = {
   src: string;
   width: number | null;
@@ -35,10 +33,8 @@ function key(convId: string, nameLower: string): string {
   return `${convId}:${nameLower}`;
 }
 
-// Coalesced: a bump re-runs the full markdown pipeline for every message with an
-// img token, and each resolved src is an inlined base64 data URI. A thread
-// opening with N named assets resolves them in the same tick, so batch the
-// bumps into one re-render instead of N.
+// A bump re-runs the full markdown pipeline for every message with an img
+// token, so N assets resolving in one tick coalesce into one re-render.
 let bumpScheduled = false;
 function bump(): void {
   if (bumpScheduled) return;
@@ -75,10 +71,9 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
     : "";
-  // The renderer reserves the asset's exact box from `@WxH` in the alt text, so
-  // an image popping in mid-stream cannot grow the thread under the reader. Rows
-  // without stored dimensions are measured here once (decode is off the render
-  // path) and backfilled.
+  // The renderer reserves the box from `@WxH` in the alt text, so an image
+  // popping in mid-stream cannot grow the thread under the reader. Unmeasured
+  // rows are measured here (off the render path) and backfilled.
   let width = row?.width ?? null;
   let height = row?.height ?? null;
   if (src && row?.dataBase64 && (!width || !height)) {

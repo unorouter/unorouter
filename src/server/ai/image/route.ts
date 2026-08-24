@@ -19,10 +19,10 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
 }
 
 export const imageRoute = new Elysia({ prefix: "/image" })
-  // Eden Treaty only parses error bodies served as JSON; Elysia's default text/plain
-  // error response reaches the client as an unreadable stream and every toast collapsed
-  // to a generic message. Upstream JSON bodies pass through verbatim. The `never` casts
-  // keep the hook's Response out of Eden's inferred success types for every route.
+  // Eden Treaty only parses error bodies served as JSON; Elysia's default
+  // text/plain error reaches the client as an unreadable stream, collapsing
+  // every toast to a generic message. The `never` casts keep this hook's
+  // Response out of Eden's inferred success types.
   .onError(({ error }): undefined => {
     const asJson = (status: number, body: string) =>
       new Response(body, {
@@ -70,7 +70,6 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: catalogSearchQuery },
   )
-  // One search for every reference form plus plain names, so the picker needs no mode switch.
   .get(
     "/checkpoints",
     async ({ query }) => ({
@@ -79,8 +78,8 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
   )
-  // A Civitai model is a family of versions that generate differently, so resolving a
-  // reference returns all of them rather than silently choosing.
+  // A Civitai model is a family of versions that generate differently, so a
+  // reference resolves to all of them rather than silently choosing one.
   .post(
     "/civitai-versions",
     async ({ body }) => ({
@@ -89,7 +88,6 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     }),
     { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
   )
-  // LoRA twin of /civitai-versions; only the search category differs.
   .get(
     "/civitai-lora-versions",
     async ({ query }) => ({

@@ -2,28 +2,20 @@
 
 import { useEffect } from "react";
 
-// Mirrors the section scrolled into view into the URL hash (history.replaceState,
-// no navigation/scroll jump) so the address bar always points at the visible
-// section and can be copied/shared. Observes the DocSection h2[id] headings
-// inside <main> only, so portalled dialog titles (the search command dialog's
-// visually-hidden h2 carries a Base UI useId) never leak into the hash.
 export function ScrollHashSync() {
   useEffect(() => {
     const root = document.querySelector("main") ?? document;
     const headings = Array.from(
       root.querySelectorAll<HTMLHeadingElement>("h2[id]"),
     ).filter(
-      // The search command dialog renders a visually-hidden DialogTitle h2
-      // whose id is a Base UI useId (base-ui-_R_...); it sits in the shell
-      // header, not the article, and must never drive the hash.
+      // The search dialog's visually-hidden DialogTitle h2 carries a Base UI useId
+      // (base-ui-_R_...) and must never drive the hash.
       (h) => !h.id.startsWith("base-ui") && !h.closest(".sr-only"),
     );
     if (headings.length === 0) return;
 
-    // Drop a stale/garbage hash (e.g. a portalled dialog's Base UI useId that a
-    // prior build wrote) that points at no in-content target, so links stay
-    // clean. Any real section/step anchor lives inside <main>, so a hash that
-    // resolves nowhere there is safe to clear.
+    // Every real anchor lives inside <main>, so a hash resolving nowhere there is stale
+    // (a useId a prior build wrote) and safe to clear.
     const current = decodeURIComponent(window.location.hash.slice(1));
     const isRealTarget =
       !current.startsWith("base-ui") &&
@@ -49,8 +41,6 @@ export function ScrollHashSync() {
         else break;
       }
 
-      // Above the first heading the page is the hero, not a section, so the
-      // bare URL is the one worth copying.
       if (!currentId) {
         if (window.location.hash) window.history.replaceState(null, "", bare());
         return;
@@ -60,8 +50,8 @@ export function ScrollHashSync() {
       }
     }
 
-    // <main> is the scroll container (the shell caps it at max-h-dvh), so the
-    // window scroll event never fires; listen on both so either layout works.
+    // <main> is the scroll container (the shell caps it at max-h-dvh), so the window
+    // scroll event never fires there; listen on both so either layout works.
     const scroller = document.querySelector("main");
     let queued = false;
     const onScroll = () => {
@@ -73,8 +63,8 @@ export function ScrollHashSync() {
       });
     };
 
-    // No initial apply(): an incoming deep link has not been scrolled to yet,
-    // and clearing it here would break the anchor the visitor arrived on.
+    // No initial apply(): a deep link has not been scrolled to yet, so it would clear the
+    // anchor the visitor arrived on.
     scroller?.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
 

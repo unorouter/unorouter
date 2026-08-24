@@ -61,9 +61,6 @@ type MetadataParams = {
   robots?: boolean;
 };
 
-// Every static route builds its metadata the same way: resolve the locale, read
-// META.TITLE, META.DESCRIPTION and META.KEYWORDS off one namespace, and pick an
-// og badge. Only those three inputs differ.
 export async function pageMetadata(opts: {
   props: { params: Promise<{ locale: string }> };
   namespace: string;
@@ -175,13 +172,10 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   };
 }
 
-// Head for a route that resolves to notFound(). The head streams before the
-// page body runs, so the response is already committed as 200 and notFound()
-// can only swap the body. Returning an empty
-// metadata object would inherit the parent's "index, follow" plus a canonical
-// pointing at the locale root, which is exactly what Google reports as a soft
-// 404. This keeps the status at 200 (unavoidable while streaming) but makes
-// the head unambiguously non-indexable.
+// Head for a route resolving to notFound(). The head streams before the body,
+// so the 200 is already committed and cannot be changed. An empty metadata
+// object would inherit the parent's "index, follow" plus a locale-root
+// canonical, which Google reports as a soft 404.
 export function notFoundMetadata(): Metadata {
   return {
     title: "Not Found",

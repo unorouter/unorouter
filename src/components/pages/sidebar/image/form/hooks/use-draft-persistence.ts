@@ -26,9 +26,8 @@ type Args = {
 };
 
 /**
- * Per-tab draft restore + autosave. `draftRestoredTab` also gates the tab-fit hook: the
- * model list arrives after mount, and fitting before the draft restore would read the
- * still-default model and swap away the one the draft was about to bring back.
+ * `draftRestoredTab` gates the tab-fit hook: the model list arrives after mount, and
+ * fitting first reads the still-default model and swaps away the one the draft restores.
  */
 export function useDraftPersistence(args: Args) {
   const form = args.form;

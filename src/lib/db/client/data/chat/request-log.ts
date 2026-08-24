@@ -83,16 +83,9 @@ export async function insertLocalRequestLog(row: RequestLogRow): Promise<void> {
   }
 }
 
-// Request logs are debug data with no retention: they accumulate for the life
-// of the database, and each one stored the full assembled conversation, so long
-// threads grew them quadratically. Shrinking what NEW logs store does nothing
-// for a user already carrying hundreds of MB, so reclaim the old ones by
-// emptying the heavy columns on everything but the most recent few per
-// conversation. The rows stay (cost/token history is read from them); only the
-// reproduce-the-request payload goes.
-// 40 was chosen for debugging headroom, but a payload averages ~38KB, so a
-// heavy user carries tens of MB of request bodies to reproduce turns nobody
-// will look at. Ten is still enough to inspect a reported problem.
+// Each log stores the full assembled conversation (~38KB average), so a long
+// thread grows them quadratically. Only the reproduce-the-request payload is
+// emptied; the rows stay, since cost/token history is read from them.
 const KEEP_FULL_LOGS_PER_CONV = 10;
 
 export async function trimRequestLogPayloads(): Promise<number> {

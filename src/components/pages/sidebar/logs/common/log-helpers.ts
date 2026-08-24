@@ -150,8 +150,7 @@ export function parseOther(
   }
 }
 
-// The group ratio actually applied to this request: a positive per-user override
-// wins over the group default. Returns null when no meaningful discount applies.
+// A positive per-user override wins over the group default.
 export function getEffectiveGroupRatio(
   other: ParsedOther | null,
 ): number | null {
@@ -175,9 +174,7 @@ export interface LogPricing {
   isTiered: boolean;
 }
 
-// Derives per-1M input/output prices from the stored ratios so the pricing cell
-// and the detail panel show identical numbers. Returns null when the row carries
-// no usable model ratio (non-consume, or ratio missing).
+// Shared by the pricing cell and the detail panel so the two cannot disagree.
 export function computeLogPricing(
   other: ParsedOther | null,
 ): LogPricing | null {
@@ -200,8 +197,6 @@ export function computeLogPricing(
   };
 }
 
-// Normalizes request_conversion (upstream sends an array; legacy rows a string)
-// into a display chain. Returns [] when absent.
 export function getRequestConversionChain(other: ParsedOther | null): string[] {
   const rc = other?.request_conversion;
   if (!rc) return [];
@@ -209,9 +204,8 @@ export function getRequestConversionChain(other: ParsedOther | null): string[] {
   return [rc];
 }
 
-// A zero quota is not the same as a free model. An ERROR row never bills, so
-// keying the free badge off quota alone labelled every failed request on a paid
-// model "free". Read the model's own price instead, and never badge an error.
+// A zero quota is not a free model: an ERROR row never bills, so keying off quota alone
+// badged every failed request on a paid model "free".
 export function isFreeRow(log: LogRow): boolean {
   if (log.type === LOG_TYPE_ERROR) return false;
   if (log.quota) return false;
@@ -242,11 +236,9 @@ function hostOf(url: string): string {
   }
 }
 
-// Ordered by how much each header actually identifies the caller. A title is a
-// deliberate self-declaration, so it wins. Origin comes next: browser-hosted
-// frontends all send an indistinguishable browser User-Agent, and their origin
-// is the only thing naming the platform. Referer then User-Agent cover native
-// and server-side callers, which send no origin at all.
+// Ordered by how much each header identifies the caller: a title is a deliberate
+// self-declaration; origin outranks the rest because browser-hosted frontends all send an
+// indistinguishable User-Agent; referer and User-Agent cover callers sending no origin.
 export function getClientAttribution(
   other: ParsedOther | null,
 ): ClientAttribution | null {

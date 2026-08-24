@@ -38,7 +38,6 @@ const channel =
 channel?.addEventListener(
   "message",
   (event: MessageEvent<{ type: string; event?: NotifyEvent }>) => {
-    // Followers render events relayed by the leader tab.
     if (isLeader) return;
     if (event.data?.type === "event" && event.data.event) {
       deliver(event.data.event, false);
@@ -167,13 +166,12 @@ function requestLeadership() {
   });
 }
 
-// setNotifyEventHandler registers the React-side renderer (toast + inbox).
 export function setNotifyEventHandler(fn: EventHandler | null) {
   handler = fn;
 }
 
-// syncNotifyTopics is the single entry point: call with the current watch
-// list whenever it changes. Empty list tears the connection down.
+// The single entry point: call with the current watch list whenever it changes.
+// An empty list tears the connection down.
 export function syncNotifyTopics(topics: string[]) {
   wantedTopics = [...topics];
   if (typeof window === "undefined") return;
@@ -191,8 +189,8 @@ export function syncNotifyTopics(topics: string[]) {
   }
 }
 
-// refreshNotifyPresence re-sends the subscribe frame (e.g. after the push
-// subscription appears) so the server learns the endpoint hash.
+// Re-sends the subscribe frame after the push subscription appears, so the
+// server learns the endpoint hash.
 export function refreshNotifyPresence() {
   void sendSubscribe();
 }

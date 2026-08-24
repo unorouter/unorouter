@@ -23,7 +23,7 @@ export function ViewportDebugLogger() {
     const isIos = /iP(hone|ad|od)/.test(navigator.userAgent);
     // Off iOS the ResizeObserver fired per content-shrink (every reasoning-box
     // collapse / streaming reflow), each a synchronous full-buffer
-    // localStorage write in logChatDebug - a main-thread storm that froze
+    // localStorage write in logChatDebug: a main-thread storm that froze
     // desktop chat. Bail before wiring anything when not on iOS.
     if (!isIos) return;
 
@@ -63,7 +63,7 @@ export function ViewportDebugLogger() {
       const vv = window.visualViewport;
       // How far the composer's bottom edge sits above the bottom of the
       // VISIBLE area. Negative = the composer (send button) is cut off by
-      // that many px - the exact symptom, measured instead of inferred.
+      // that many px: the exact symptom, measured instead of inferred.
       const footerGap =
         vv && footer
           ? Math.round(
@@ -139,7 +139,7 @@ export function ViewportDebugLogger() {
     // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard
     // dismiss or pinch-zoom-out (WebKit 297779, only partially fixed in 26.1),
     // so the whole shell sits too low with the composer cut off until the user
-    // swipes the page itself - a window-level scroll resets it. The scrollBy
+    // swipes the page itself: a window-level scroll resets it. The scrollBy
     // jiggle is the automated version of that swipe. The chat shell is a
     // full-height overflow-hidden box, so any window scroll is the same stuck
     // state; send it back to 0 too. Skip while pinch-zoomed: a panned viewport
@@ -219,7 +219,7 @@ export function ViewportDebugLogger() {
     const onPageShow = () => setTimeout(() => onTrigger("pageshow"), 100);
 
     // The layout tag + live meta prove WHICH build/architecture an export came
-    // from - one report was already misread because the user had landed back
+    // from: one report was already misread because the user had landed back
     // on the previous production build without noticing.
     logChatDebug("viewport.mount", {
       ios: isIos,

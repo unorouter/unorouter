@@ -15,15 +15,14 @@ export type ResolvedModel = {
   models: PricingCatalogModel[];
 };
 
-// /models/[vendor] is a vendor listing; /models/[vendor]/[model] is a detail
-// page. One catch-all route serves both, so the segment count decides which.
+// One catch-all serves both /models/[vendor] and /models/[vendor]/[model].
 function modelSegment(slug: string[]): string {
   if (slug.length !== 2) return "";
   return slug[1] ?? "";
 }
 
-// One resolve per request: generateMetadata and the page both need this, and
-// without cache() each pays a full pricing fetch for the same slug.
+// generateMetadata and the page both resolve the same slug; without cache() each pays its
+// own pricing fetch.
 export const resolveSlug = cache(
   async (
     slug: string[],
@@ -37,8 +36,7 @@ export const resolveSlug = cache(
     if (model) return { kind: "model", model };
     const vendor = await resolveVendor(slug);
     if (vendor) return { kind: "vendor", vendor };
-    // A bare model name, which is the shape every pre-vendor-prefix link still
-    // uses. Vendor wins the segment, so this only runs once that misses.
+    // A bare model name, the shape every pre-vendor-prefix link still uses.
     if (slug.length === 1) {
       const legacy = await resolveModel(slug[0]!);
       if (legacy) return { kind: "redirect", model: legacy.model };
@@ -52,16 +50,15 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   const catalog = await getCatalog().catch(() => null);
   const models = catalog?.models ?? [];
   const live = models.find((m) => modelMatchesSlug(m.model_name, slug));
-  // The catalog row cannot drive the detail page (no ratios, groups or grid
-  // pricing), so a hit still fetches the full record by name.
+  // The catalog row carries no ratios, groups or grid pricing, so a hit still needs the
+  // full record.
   if (live) {
     const full = await getModelByName(live.model_name).catch(() => null);
     if (full) return { model: full, atCapacity: !live.online, models };
   }
-  // A model whose channels are all disabled never reaches /pricing, which filters
-  // by servable group. The by-name route applies no such filter, so the detail
-  // page still renders. modelSlug only percent-encodes []/, so the name decodes
-  // straight back.
+  // /pricing filters by servable group, so a model with every channel disabled is absent
+  // from it; the by-name route applies no such filter. modelSlug only percent-encodes []/,
+  // so the name decodes straight back.
   let name = slug;
   try {
     name = decodeURIComponent(slug);
@@ -71,9 +68,8 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   return null;
 }
 
-// Upstream matches a vendor by slug as well as by exact name, so the segment
-// goes straight to it rather than pulling every vendor name back to translate
-// it here. The rows carry the real name, which is what the page renders.
+// Upstream matches a vendor by slug as well as by exact name, so the segment goes straight
+// to it rather than pulling every vendor name back to translate here.
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
   const res = await rpc.api.models.pricing.vendor.get({

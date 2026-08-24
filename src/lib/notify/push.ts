@@ -45,8 +45,8 @@ function urlBase64ToUint8Array(base64: string): Uint8Array<ArrayBuffer> {
   return base64ToUint8(normalized);
 }
 
-// getRegistration, NOT .ready: with no service worker registered (dev server)
-// .ready never resolves and would hang every caller forever.
+// getRegistration, NOT .ready: with no SW registered (dev server) .ready never
+// resolves and hangs every caller.
 export async function getPushSubscription(): Promise<PushSubscription | null> {
   if (!pushSupported()) return null;
   const reg = await navigator.serviceWorker.getRegistration();
@@ -85,17 +85,15 @@ export async function subscribePush(): Promise<PushSubscription | null> {
       applicationServerKey: urlBase64ToUint8Array(key),
     });
   } catch {
-    // AbortError "push service error": Brave with Google services for push
-    // messaging disabled. Permission itself is granted, so in-page OS
-    // banners still work; only closed-tab delivery is unavailable.
+    // AbortError "push service error": Brave with Google push services off.
+    // Permission is still granted, so only closed-tab delivery is lost.
     return null;
   }
 }
 
-// Re-attaches the push subscription on app open (pushsubscriptionchange is
-// unreliable on every engine) and re-syncs topics. Returns false when the user
-// revoked permission, so the caller can drop its toggle. Never prompts: an
-// ungranted permission means they declined, and subscribePush would re-ask.
+// Re-attaches the subscription on app open because pushsubscriptionchange is
+// unreliable on every engine. Never prompts: an ungranted permission means the
+// user declined, and subscribePush would re-ask.
 export async function revalidatePush(
   topics: string[],
   locale: string,
@@ -107,8 +105,6 @@ export async function revalidatePush(
   return true;
 }
 
-// True when web push is structurally possible here but subscribing failed
-// (push service unavailable), as opposed to no service worker at all.
 export async function pushServiceBroken(): Promise<boolean> {
   if (!pushSupported() || Notification.permission !== "granted") return false;
   const reg = await navigator.serviceWorker.getRegistration();
@@ -142,8 +138,8 @@ export async function syncPushTopics(
   return res?.data.success === true;
 }
 
-// OS banner for an in-page event; prefers the service worker path so the
-// banner behaves identically to real web push (tag collapse, click handling).
+// Prefers the service worker path so the banner behaves identically to real web
+// push (tag collapse, click handling).
 export async function showOsBanner(title: string, body: string, tag: string) {
   if (!pushAvailableHere() || Notification.permission !== "granted") return;
   const options: NotificationOptions = {
@@ -156,9 +152,8 @@ export async function showOsBanner(title: string, body: string, tag: string) {
     await reg.showNotification(title, options);
     return;
   }
-  // Mobile Chrome/Android bans the `new Notification()` constructor outright
-  // (throws "Illegal constructor"); it only allows the SW path. With no SW
-  // registration there is no banner to show, so skip rather than throw.
+  // Mobile Chrome/Android bans `new Notification()` ("Illegal constructor") and
+  // allows only the SW path, so skip rather than throw.
   try {
     new Notification(title, options);
   } catch {}

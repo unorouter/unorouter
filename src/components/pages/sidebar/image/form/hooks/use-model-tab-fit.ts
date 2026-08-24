@@ -18,10 +18,9 @@ type Args = {
 };
 
 /**
- * Keeps the selected model legal: guests only run free models, and a model that does not
- * belong to the active tab swaps for one that does. An UNKNOWN model is never swapped:
- * it is a hand-resolved passthrough checkpoint or a not-yet-loaded catalog entry, and
- * replacing it would spend the generation on a model the user did not choose.
+ * Keeps the selected model legal: guests only run free models, and a model outside the
+ * active tab swaps for one inside it. An UNKNOWN model is never swapped, being either a
+ * hand-resolved passthrough checkpoint or a not-yet-loaded catalog entry.
  */
 export function useModelTabFit(args: Args) {
   const form = args.form;

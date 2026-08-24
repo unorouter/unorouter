@@ -158,11 +158,9 @@ function collectTrailingReasoning(
   return thoughts.length > 0 ? thoughts.join("\n") : undefined;
 }
 
-// Reopen the reasoning block on the prefill so the model resumes thinking instead of answering
-// straight away (see prefillOpensThink). Applied to the prefill STRING, before it is appended, so
-// that a doubled trailing assistant folding into one message during mergeAlternateRoles keeps the
-// tag attached to the prefill segment rather than to the whole merged turn. Left alone when the
-// text already opens one: that is the hand-written shape prefillThinkMiddleware was built for.
+// Reopen the reasoning block so the model resumes thinking instead of answering straight away.
+// Applied to the prefill STRING before it is appended, so a doubled trailing assistant folding
+// during mergeAlternateRoles keeps the tag on the prefill segment, not the merged turn.
 function openThinkForPrefill(
   prefill: string | undefined,
   enabled: boolean,
@@ -173,10 +171,8 @@ function openThinkForPrefill(
   return `<think>\n${prefill}`;
 }
 
-// The prefill can also reach the message list as a template card emitted by walkTemplate, which
-// skips appendPrefill entirely. Retag that card so the tag lands whichever way the prefill arrived.
-// Matches the LAST assistant message carrying the raw prefill text, since that is the trailing turn
-// the model continues from.
+// A prefill can also reach the list as a template card emitted by walkTemplate, which skips
+// appendPrefill entirely; retag that card so the tag lands whichever way the prefill arrived.
 function retagEmittedPrefill(
   messages: StreamMessages,
   rawPrefill: string,
@@ -242,9 +238,7 @@ async function applyLuaEditRequest(
   );
 }
 
-// JS plugin request handlers over the same flattened {role, content}[] the Lua
-// pass uses, with the same length guard. Dynamically imported so the plugin
-// engine stays out of the server bundle; no-ops without registered handlers.
+// Dynamically imported to keep the plugin engine out of the server bundle.
 async function applyJsEditRequest(
   messages: StreamMessages,
 ): Promise<StreamMessages> {

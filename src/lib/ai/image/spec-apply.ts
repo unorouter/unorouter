@@ -2,19 +2,17 @@ import type { ImageParams } from "@/openapi";
 import type { ModelParamSpec } from "@/lib/ai/image/schema-spec";
 import snapshot from "@/lib/ai/image/runware-schemas.json";
 
-// Turns a Runware parameter spec into descriptor flags. The spec is authoritative: a
-// control the schema does not list would be rejected upstream, so rendering it could only
-// waste a generation. Where no spec resolves, the caller's own inference stands - a model
-// we cannot look up keeps exactly the behaviour it had before this existed.
+// Where no spec resolves, the caller's own inference stands: a model that cannot be
+// looked up keeps the behaviour it would have had without any snapshot.
 
 const SNAPSHOT: {
   byAir: Record<string, ModelParamSpec>;
   byArchitecture: Record<string, ModelParamSpec>;
 } = snapshot;
 
-// The catalog labels a checkpoint's lineage with `series` ("Pony", "Illustrious", ...);
-// Runware documents the same lineages as architecture slugs. This is the join between them,
-// and it is what lets an arbitrary Civitai checkpoint resolve without a per-model entry.
+// The catalog labels lineage with `series` ("Pony", "Illustrious"); Runware uses
+// architecture slugs. This join is what lets an arbitrary Civitai checkpoint resolve
+// without a per-model entry.
 const SERIES_TO_ARCHITECTURE: Record<string, string> = {
   sdxl: "sdxl",
   pony: "pony",
@@ -25,10 +23,9 @@ const SERIES_TO_ARCHITECTURE: Record<string, string> = {
   hidream: "hidream-i1-dev",
 };
 
-// Catalog rows for provider-hosted models carry neither an AIR nor a series, so neither
-// tier below resolves and they fall back to generic diffusion inference: a Steps slider
-// and a CFG field on FLUX.2 max, which rejects both. The published name is the one thing
-// those rows do carry, so map it to the AIR we route it under.
+// Provider-hosted catalog rows carry neither an AIR nor a series, so both tiers below miss
+// and they fall back to generic diffusion inference: a Steps slider and a CFG field on
+// FLUX.2 max, which rejects both. The published name is all those rows carry.
 const MODEL_NAME_TO_AIR: Record<string, string> = {
   "flux.2-max": "bfl:7@1",
   "flux.2-pro": "bfl:5@1",
@@ -45,8 +42,7 @@ export function airForModelName(
   return MODEL_NAME_TO_AIR[name.trim().toLowerCase()] ?? null;
 }
 
-// AIR is exact; architecture is the fallback tier. A model matching neither returns null
-// and keeps the caller's own inference.
+// AIR is exact; architecture is the fallback tier.
 export function lookupParamSpec(
   air: string | null | undefined,
   series: string | null | undefined,
@@ -58,9 +54,8 @@ export function lookupParamSpec(
   const direct =
     SNAPSHOT.byArchitecture[mapped] ?? SNAPSHOT.byArchitecture[key];
   if (direct) return direct;
-  // Runware labels variants off the base architecture ("pony_v7", "sdxl_lightning"), and
-  // a variant takes the same parameters as its base. Falling back to the base beats
-  // dropping every control because of a suffix we have not seen before.
+  // Runware labels variants off the base architecture ("pony_v7", "sdxl_lightning") and a
+  // variant takes its base's parameters, so an unseen suffix need not drop every control.
   const base = key.split(/[_-]/)[0];
   const baseSlug = SERIES_TO_ARCHITECTURE[base] ?? base;
   return SNAPSHOT.byArchitecture[baseSlug] ?? null;
@@ -70,8 +65,8 @@ function numeric(value: unknown): number | undefined {
   return typeof value === "number" ? value : undefined;
 }
 
-// A user-picked checkpoint resolves to the same shape the gateway sends, so the
-// form can merge it onto the row and every consumer keeps reading one field.
+// Deliberately the same shape the gateway sends, so the form can merge a user-picked
+// checkpoint onto the catalog row and every consumer keeps reading one field.
 export function specToImageParams(spec: ModelParamSpec): ImageParams {
   const params = spec.params;
   const vendorParam = (name: string) =>

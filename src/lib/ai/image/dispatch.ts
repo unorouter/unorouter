@@ -1,7 +1,6 @@
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 
-// Which upstream serves a synchronous image request. Resolved by the gateway per
-// model (metadata.imageParams.endpoint); this is the shape the send paths switch on.
+// Resolved by the gateway per model (metadata.imageParams.endpoint).
 export const SYNC_IMAGE_ENDPOINTS = [
   "image-generation",
   "openai",
@@ -63,9 +62,8 @@ type SubmitArgs = {
   strength?: number;
   seed?: number;
   /**
-   * Diffusion knobs the OpenAI image schema has no field for (steps, cfg, sampler, LoRA
-   * chains). They ride along as extra top-level JSON keys, which the gateway's adaptor picks
-   * up; providers that do not understand a key ignore it.
+   * Knobs the OpenAI image schema has no field for (steps, cfg, sampler, LoRA chains).
+   * They ride as extra top-level JSON keys; a provider that does not know a key ignores it.
    */
   diffusion?: Record<string, unknown>;
 };
@@ -181,7 +179,6 @@ export function extractResultUris(
   return extractResults(endpoint, payload).map((r) => r.uri);
 }
 
-/** A result plus whatever the provider reported about how it was produced. */
 export type ExtractedResult = { uri: string; seed?: number };
 
 export function extractResults(

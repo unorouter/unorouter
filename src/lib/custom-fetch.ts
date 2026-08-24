@@ -8,9 +8,8 @@ const upstreamApiUrl =
 
 const REQUEST_TIMEOUT = 30_000;
 
-// What customFetch throws on a non-ok response. A plain object rather than an
-// Error subclass, so `catch` sees `unknown`; isUpstreamError is what narrows it
-// without every call site hand-casting the shape.
+// Thrown on a non-ok response. A plain object, not an Error subclass, so `catch`
+// sees `unknown`; isUpstreamError narrows it without a call-site cast.
 export type UpstreamError = {
   status: number;
   data: unknown;
@@ -44,11 +43,9 @@ function getHeader(
   return headers[key] ?? headers[key.toLowerCase()];
 }
 
-// Cloudflare sends the visitor address as cf-connecting-ip; x-forwarded-for is
-// the fallback for any other hop. Returns "" when there is no request scope
-// (build scripts, background jobs), where no visitor exists to name.
-// Upstream must then record NO client IP rather than fall back to the socket
-// peer, which is this pod and would masquerade as a real user address.
+// Cloudflare sends the visitor address as cf-connecting-ip. Returns "" with no
+// request scope (build scripts, jobs): upstream must then record NO client IP
+// rather than the socket peer, which is this pod masquerading as a user.
 async function getServerClientIp(): Promise<string> {
   if (typeof window !== "undefined") return "";
   try {

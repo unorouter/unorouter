@@ -24,8 +24,8 @@ export const imageVisibility = t.Union([
 ]);
 export type ImageVisibility = Static<typeof imageVisibility>;
 
-// The submit path is synchronous: a failed submit throws before any row is written, so
-// only these two states ever persist.
+// The submit path is synchronous and a failed submit throws before any row is
+// written, so no pending state ever persists.
 export const imageGenerationStatus = t.Union([
   t.Literal("success"),
   t.Literal("failure"),
@@ -64,8 +64,8 @@ export const imageAdetailer = t.Object({
 
 export type AdetailerParams = Static<typeof imageAdetailer>;
 
-// No object storage: the browser sends a downscaled base64 data URI or an https URL,
-// nothing else. The cap bounds the body while fitting a 1024px long edge.
+// No object storage: the browser sends a downscaled base64 data URI or an https
+// URL, nothing else. The cap bounds the body while fitting a 1024px long edge.
 const MAX_IMAGE_SOURCE_LENGTH = 8 * 1024 * 1024;
 export const imageSource = t.String({
   pattern: "^(data:image/(png|jpeg|webp);base64,|https://)",
@@ -78,8 +78,8 @@ export const imageParams = t.Object({
   steps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
   cfg: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
   guidance: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
-  // Free-form: each backend has its own sampler vocabulary; the descriptor decides
-  // which names to offer and the submit path drops values a model does not take.
+  // Free-form because each backend has its own sampler vocabulary; the submit
+  // path drops values a model does not take.
   sampler: t.Optional(t.String({ maxLength: 64 })),
   scheduler: t.Optional(t.String({ maxLength: 64 })),
   seed: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
@@ -131,16 +131,16 @@ export const imageFormUi = t.Object({
   ),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
-  // The inpaint pass can run a different checkpoint than the form's (a realism model
-  // fixing a hand on an anime render). Empty = use the form's.
+  // The inpaint pass can run a different checkpoint than the form's (a realism
+  // model fixing a hand on an anime render). Empty = use the form's.
   inpaintAir: t.Optional(t.String({ maxLength: 256 })),
   inpaintAirName: t.Optional(t.String({ maxLength: 256 })),
   inpaintAirQuery: t.Optional(t.String({ maxLength: 2048 })),
   inpaintPrompt: t.Optional(t.String({ maxLength: 8000 })),
   inpaintNegativePrompt: t.Optional(t.String({ maxLength: 4000 })),
   inpaintStrength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
-  // The user-brought checkpoint and the reference it was resolved from. Submitting navigates
-  // to the result and rebuilds the form, so a field-local copy does not survive a generation.
+  // Submitting navigates to the result and rebuilds the form, so the
+  // user-brought checkpoint cannot live in field-local state.
   air: t.Optional(t.String({ maxLength: 256 })),
   airName: t.Optional(t.String({ maxLength: 256 })),
   airArchitecture: t.Optional(t.String({ maxLength: 64 })),
@@ -148,8 +148,8 @@ export const imageFormUi = t.Object({
 });
 export type ImageFormUi = Static<typeof imageFormUi>;
 
-// The only extraParams the server reads: the passthrough checkpoint and its display
-// metadata. Elysia's normalize strips anything else a stale client still sends.
+// The only extraParams the server reads. Elysia's normalize strips anything
+// else a stale client still sends.
 export const submitExtraParams = t.Object({
   air: t.Optional(t.String({ maxLength: 256 })),
   airName: t.Optional(t.String({ maxLength: 256 })),
@@ -217,13 +217,14 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-// Uploaded import files are arbitrary JSON; check the envelope before any DB write.
+// Uploaded import files are arbitrary JSON; check the envelope before any DB
+// write.
 export const importPayloadChecker = TypeCompiler.Compile(
   t.Union([imageSnapshotExport, sessionSnapshot]),
 );
 
-// Snapshot payload fields are t.Unknown for restore-lenience; the regenerate path
-// narrows them through these before resubmitting.
+// Snapshot payload fields are t.Unknown for restore-lenience; the regenerate
+// path narrows them through these before resubmitting.
 export const imageParamsChecker = TypeCompiler.Compile(imageParams);
 export const imageLorasChecker = TypeCompiler.Compile(
   t.Array(imageLoraEntry, { maxItems: 12 }),
@@ -238,19 +239,19 @@ export const generatedImage = t.Object({
   mimeType: t.String(),
   sizeBytes: t.Integer(),
   // Probed from the delivered bytes, not echoed from the request: the gateway
-  // clamps to 1MP and hosted models pick their own size, so only the file knows.
-  // Null when the header probe fails on an exotic format.
+  // clamps to 1MP and hosted models pick their own size. Null when the header
+  // probe fails on an exotic format.
   width: t.Union([t.Integer(), t.Null()]),
   height: t.Union([t.Integer(), t.Null()]),
-  // Diffusion backends pick a seed when the request omits one. Per image, not per
-  // snapshot: a batch gets a different seed for each result.
+  // Diffusion backends pick a seed when the request omits one. Per image, not
+  // per snapshot: a batch gets a different seed for each result.
   seed: t.Optional(t.Integer()),
 });
 export type GeneratedImage = Static<typeof generatedImage>;
 
-// Runware exposes ~277k LoRAs addressed by AIR, so the catalog is a live keyword search
-// against its modelSearch task rather than a fixed list. `architecture` narrows to models
-// compatible with the selected checkpoint (a Pony LoRA does not apply to Flux).
+// Runware exposes ~277k LoRAs, so the catalog is a live keyword search against
+// its modelSearch task rather than a fixed list. `architecture` narrows to the
+// selected checkpoint (a Pony LoRA does not apply to Flux).
 export const catalogSearchQuery = t.Object({
   search: t.Optional(t.String({ maxLength: 128 })),
   architecture: t.Optional(t.String({ maxLength: 32 })),
@@ -266,10 +267,11 @@ export const catalogItem = t.Object({
   heroImage: t.Union([t.String(), t.Null()]),
   defaultWeight: t.Number(),
   nsfwLevel: t.Union([t.Integer(), t.Null()]),
-  // A LoRA gated behind a trigger word does nothing until that word is in the prompt.
+  // A LoRA gated behind a trigger word does nothing until that word is in the
+  // prompt.
   triggerWords: t.Union([t.String(), t.Null()]),
-  // Catalog names are frequently unreadable; tags plus download count are what tell a
-  // user what a LoRA is for.
+  // Catalog names are frequently unreadable; tags plus download count are what
+  // tell a user what a LoRA is for.
   tags: t.Array(t.String()),
   downloadCount: t.Union([t.Integer(), t.Null()]),
 });
