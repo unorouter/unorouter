@@ -135,7 +135,13 @@ export function ChatLoadout() {
   // Applying a card here patches the LOADOUT rather than calling the apply
   // mutation: that one writes conversation bindings, and this panel is what a
   // new chat is configured with before a conversation exists.
-  const applyCard = async (cardId: string) => {
+  const applyCard = async (cardId: string | null) => {
+    // None clears what the card put there, so picking a card is undoable
+    // without hand-emptying three fields.
+    if (!cardId) {
+      patch({ personaId: null, characterIds: [], lorebookIds: [] });
+      return;
+    }
     const card = await readLocalCard(cardId);
     if (!card) return;
     patch({
@@ -196,7 +202,7 @@ export function ChatLoadout() {
           noneLabel={t("CHAT.OVERRIDES.NONE")}
           value={null}
           options={cards}
-          onChange={(id) => id && void applyCard(id)}
+          onChange={(id) => void applyCard(id)}
         />
       )}
       <p className="text-muted-foreground text-xs">{t("CHAT.LOADOUT.HINT")}</p>

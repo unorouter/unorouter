@@ -16,17 +16,11 @@ import {
   makeTableStore,
   replaceChildRows,
 } from "@/lib/db/client/data/table-store";
-
 import type { LocalAnyRow as AnyRow, LocalRowInput } from "@/lib/types";
-import { isStringArray } from "@/lib/utils/base";
-import {
-  LOREBOOK_INJECTION_ROLES,
-  type LorebookInjectionRole,
-} from "@/lib/validation/rp";
+import { isStringArray, isOneOf } from "@/lib/utils/base";
+import { LOREBOOK_INJECTION_ROLES } from "@/lib/validation/rp";
 
-function isInjectionRole(v: unknown): v is LorebookInjectionRole {
-  return LOREBOOK_INJECTION_ROLES.some((r) => r === v);
-}
+const isInjectionRole = isOneOf(LOREBOOK_INJECTION_ROLES);
 
 const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: desc(characters.updatedAt),

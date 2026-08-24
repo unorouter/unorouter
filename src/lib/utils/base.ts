@@ -17,8 +17,20 @@ export function recArr(v: unknown): Record<string, unknown>[] {
   return Array.isArray(v) ? v.filter(isRecord) : [];
 }
 
+// Builds the `v is T` guard for a literal-union constant, so a union and its
+// runtime check cannot drift apart.
+export function isOneOf<const T extends readonly unknown[]>(
+  values: T,
+): (v: unknown) => v is T[number] {
+  return (v): v is T[number] => values.some((x) => x === v);
+}
+
 export function nonEmptyString(v: unknown): string | undefined {
   return typeof v === "string" && v.length > 0 ? v : undefined;
+}
+
+export function finiteNumber(v: unknown): number | undefined {
+  return typeof v === "number" && Number.isFinite(v) ? v : undefined;
 }
 
 export function isStringArray(v: unknown): v is string[] {
@@ -164,6 +176,19 @@ export async function sha256Hex(value: string): Promise<string> {
   return [...new Uint8Array(buf)]
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
+}
+
+// Byte-prefix comparison, the shape every magic-number sniff needs.
+export function bytesEqual(
+  bytes: Uint8Array,
+  expected: readonly number[],
+  offset = 0,
+): boolean {
+  if (bytes.length < offset + expected.length) return false;
+  for (let i = 0; i < expected.length; i++) {
+    if (bytes[offset + i] !== expected[i]) return false;
+  }
+  return true;
 }
 
 export function uint8ToBase64(bytes: Uint8Array): string {

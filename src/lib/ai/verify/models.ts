@@ -1,3 +1,4 @@
+import { isOneOf } from "@/lib/utils/base";
 import type { VerifyProvider } from "./types";
 
 const VERIFY_PROVIDERS: readonly VerifyProvider[] = [
@@ -6,9 +7,7 @@ const VERIFY_PROVIDERS: readonly VerifyProvider[] = [
   "gemini",
 ];
 
-function isVerifyProvider(v: unknown): v is VerifyProvider {
-  return VERIFY_PROVIDERS.some((p) => p === v);
-}
+const isVerifyProvider = isOneOf(VERIFY_PROVIDERS);
 
 export const CURATED_MODELS: Record<VerifyProvider, readonly string[]> = {
   anthropic: [

@@ -1,3 +1,4 @@
+import { isOneOf } from "@/lib/utils/base";
 export enum StoreId {
   DATA_TABLES_STORE = "DATA_TABLES_STORE",
 }
@@ -131,9 +132,7 @@ export enum OS {
 
 export const OS_VALUES = Object.values(OS);
 
-export function isOS(value: string): value is OS {
-  return OS_VALUES.some((os) => os === value);
-}
+export const isOS = isOneOf(OS_VALUES);
 
 export enum DataTableId {
   MODELS = "MODELS",
