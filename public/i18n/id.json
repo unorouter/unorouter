@@ -4332,7 +4332,7 @@
     "PRESET_IMAGE_PREVIEW": "Tinjau prompt gambar",
     "PRESET_USE_CHAR_AVATAR_REF": "Avatar sebagai gambar referensi",
     "PRESET_IMAGE_MODEL": "Model gambar",
-    "PRESET_IMAGE_MODEL_HINT": "Model gambar katalog untuk generasi gambar di chat. Kosong berarti otomatis.",
+    "PRESET_IMAGE_MODEL_HINT": "Model gambar untuk generasi gambar di chat. Kosong berarti otomatis.",
     "LOREBOOK_ENTRY_TOKENS": "~{count} token",
     "PRESET_TOKENIZER": "Tokenizer",
     "PRESET_TOKENIZER_HINT": "Hanya dipakai untuk menghitung konteks secara lokal (pemangkasan riwayat, anggaran lorebook). Tidak pernah dikirim ke model. Auto menyesuaikan tokenizer dengan model."

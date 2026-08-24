@@ -1,5 +1,6 @@
 import {
   ACCESS_TOKEN_COOKIE,
+  AUTO_GROUP,
   msg,
   NEW_API_USER,
   USER_ID_COOKIE,
@@ -28,7 +29,7 @@ export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 // "auto" means let the gateway pick, so the header is omitted entirely rather
 // than sent with a sentinel value.
 export function groupHeader(group?: string | null): Record<string, string> {
-  return group && group !== "auto" ? { "X-Group": group } : {};
+  return group && group !== AUTO_GROUP ? { "X-Group": group } : {};
 }
 
 export async function getUserId(
@@ -68,11 +69,17 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   }
 }
 
-export function getProvider(apiKey: string, opts?: BodyMutations) {
+export function getProvider(
+  apiKey: string,
+  opts?: BodyMutations,
+  group?: string | null,
+) {
+  const headers = groupHeader(group);
   return createOpenAICompatible({
     name: env.appName,
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
+    ...(Object.keys(headers).length > 0 ? { headers } : {}),
     ...(hasBodyMutation(opts) ? { fetch: makeBodyMutationFetch(opts!) } : {}),
   });
 }

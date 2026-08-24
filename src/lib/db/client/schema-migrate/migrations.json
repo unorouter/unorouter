@@ -79,6 +79,10 @@
     {
       "tag": "0019_lorebook_entry_chance",
       "sql": "ALTER TABLE `lorebook_entries` ADD `chance` integer;\n"
+    },
+    {
+      "tag": "0020_preset_model_groups",
+      "sql": "ALTER TABLE `sampling_presets` ADD `utility_group` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_group` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `image_group` text;\n"
     }
   ]
 }

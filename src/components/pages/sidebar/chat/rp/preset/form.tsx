@@ -13,7 +13,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  ImageModelField,
+  UtilityModelField,
+} from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
+import { AUTO_GROUP, NONE_VALUE } from "@/lib/config/constants";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
   useCreatePresetMutation,
@@ -67,13 +72,41 @@ function toPresetBody(data: SamplingPresetForm) {
   const promptTemplate = data.promptTemplate?.trim()
     ? data.promptTemplate
     : null;
-  const body = { ...data, providers, promptTemplate } as Omit<
+  // The pickers write the sentinels rather than "", and both are TRUTHY, so
+  // storing them verbatim would send "__none__" upstream as a model name (the
+  // readers are `settings.utilityModel || body.model`) and pin a lane called
+  // "auto" that no channel serves.
+  const unset = (v: string) => (v && v !== NONE_VALUE ? v : null);
+  const unpinned = (v: string) => (v && v !== AUTO_GROUP ? v : null);
+  const body = {
+    ...data,
+    providers,
+    promptTemplate,
+    utilityModel: unset(data.utilityModel),
+    titleModel: unset(data.titleModel),
+    imageModel: unset(data.imageModel),
+    utilityGroup: unpinned(data.utilityGroup),
+    titleGroup: unpinned(data.titleGroup),
+    imageGroup: unpinned(data.imageGroup),
+  } as Omit<
     SamplingPresetForm,
-    "providersOnly"
+    | "providersOnly"
+    | "utilityModel"
+    | "titleModel"
+    | "imageModel"
+    | "utilityGroup"
+    | "titleGroup"
+    | "imageGroup"
   > & {
     providers: string | null;
     promptTemplate: string | null;
     providersOnly?: boolean;
+    utilityModel: string | null;
+    titleModel: string | null;
+    imageModel: string | null;
+    utilityGroup: string | null;
+    titleGroup: string | null;
+    imageGroup: string | null;
   };
   delete body.providersOnly;
   return body;
@@ -247,28 +280,20 @@ export function PresetForm(props: Props) {
                   name="imageEnabled"
                   label={t("RP.PRESET_IMAGE_ENABLED")}
                 />
-                <div className="flex flex-col gap-1">
-                  <MyFormInput
-                    control={form.control}
-                    name="utilityModel"
-                    schema={samplingPresetFormSchema}
-                    label={t("RP.PRESET_UTILITY_MODEL")}
-                  />
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_UTILITY_MODEL_HINT")}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <MyFormInput
-                    control={form.control}
-                    name="titleModel"
-                    schema={samplingPresetFormSchema}
-                    label={t("RP.PRESET_TITLE_MODEL")}
-                  />
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_TITLE_MODEL_HINT")}
-                  </p>
-                </div>
+                <UtilityModelField
+                  control={form.control}
+                  name="utilityModel"
+                  groupName="utilityGroup"
+                  labelKey="RP.PRESET_UTILITY_MODEL"
+                  hintKey="RP.PRESET_UTILITY_MODEL_HINT"
+                />
+                <UtilityModelField
+                  control={form.control}
+                  name="titleModel"
+                  groupName="titleGroup"
+                  labelKey="RP.PRESET_TITLE_MODEL"
+                  hintKey="RP.PRESET_TITLE_MODEL_HINT"
+                />
                 <MyFormTextarea
                   control={form.control}
                   name="titlePrompt"
@@ -285,17 +310,13 @@ export function PresetForm(props: Props) {
                   name="useCharAvatarRef"
                   label={t("RP.PRESET_USE_CHAR_AVATAR_REF")}
                 />
-                <div className="flex flex-col gap-1">
-                  <MyFormInput
-                    control={form.control}
-                    name="imageModel"
-                    schema={samplingPresetFormSchema}
-                    label={t("RP.PRESET_IMAGE_MODEL")}
-                  />
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_IMAGE_MODEL_HINT")}
-                  </p>
-                </div>
+                <ImageModelField
+                  control={form.control}
+                  name="imageModel"
+                  groupName="imageGroup"
+                  labelKey="RP.PRESET_IMAGE_MODEL"
+                  hintKey="RP.PRESET_IMAGE_MODEL_HINT"
+                />
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">

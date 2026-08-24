@@ -138,6 +138,9 @@ export const APP_VALUES = {
 };
 
 export const NONE_VALUE = "__none__";
+// "let the gateway route" for a provider group. Matches what groupHeader() drops
+// (server/constants.ts), so the two ends agree on what "unpinned" looks like.
+export const AUTO_GROUP = "auto";
 
 export const UID_ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

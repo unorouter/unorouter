@@ -4332,7 +4332,7 @@
     "PRESET_IMAGE_PREVIEW": "審核圖像提示詞",
     "PRESET_USE_CHAR_AVATAR_REF": "頭像作為參考圖",
     "PRESET_IMAGE_MODEL": "圖像模型",
-    "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的目錄圖像模型。留空則自動選擇。",
+    "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的圖像模型。留空則自動選擇。",
     "LOREBOOK_ENTRY_TOKENS": "約 {count} 個 token",
     "PRESET_TOKENIZER": "分詞器",
     "PRESET_TOKENIZER_HINT": "僅用於本機計算上下文（裁剪歷史、世界書預算），絕不會傳送給模型。Auto 會依所選模型自動比對分詞器。"

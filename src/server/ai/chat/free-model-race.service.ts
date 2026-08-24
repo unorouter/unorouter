@@ -9,8 +9,13 @@ import { generateText } from "ai";
 
 export function serverFreeModelRaceDeps(
   apiKey: string,
+  group?: string | null,
 ): Pick<FreeModelRaceArgs, "listFreeModels" | "generate"> {
-  const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
+  const provider = getProvider(
+    apiKey ?? serverEnv.guestApiKey,
+    undefined,
+    group,
+  );
   const generate: FreeModelGenerate = (modelName, opts) =>
     generateText({
       model: provider.chatModel(modelName),

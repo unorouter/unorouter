@@ -4,6 +4,7 @@ import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
 import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
+import { groupHeader } from "@/server/constants";
 import {
   batchPlan,
   collectImages,
@@ -18,6 +19,7 @@ export async function submitSyncImage(args: {
   body: ImageSubmitBody;
   endpoint: SyncImageEndpoint;
   n: number;
+  group?: string | null;
 }): Promise<GeneratedImage[]> {
   const params = args.body.params ?? {};
   const size = formatSize(sizeOf(args.body.params));
@@ -48,7 +50,11 @@ export async function submitSyncImage(args: {
       seed: params.seed,
     });
 
-    const res = await postImageRequest(built, args.apiKey);
+    const res = await postImageRequest(
+      built,
+      args.apiKey,
+      groupHeader(args.group),
+    );
     if (res.requestId) {
       // Nothing enriches inlay cost yet; keep the id traceable in logs.
       logger.info("inlay image generated", {

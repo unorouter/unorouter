@@ -18,10 +18,11 @@ export async function runTriggerLLM(
   apiKey: string,
   model: string,
   prompt: string,
+  group?: string | null,
 ): Promise<string> {
   const parsed = parseChatML(prompt);
   const messages = parsed ?? [{ role: "user" as const, content: prompt }];
-  const provider = getProvider(apiKey);
+  const provider = getProvider(apiKey, undefined, group);
   const result = await generateText({
     model: provider.chatModel(model),
     messages,

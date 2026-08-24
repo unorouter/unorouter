@@ -78,6 +78,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       await assertGuestFreeModel(userId, body.titleModel);
       const data = await generateChatTitle(apiKey, body.text, {
         titleModel: body.titleModel,
+        titleGroup: body.titleGroup,
         titlePrompt: body.titlePrompt,
       });
       return { success: true, data };
@@ -121,7 +122,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/trigger-op/llm",
     async ({ body, cookie, apiKey }) => {
       await getUserId(cookie);
-      const data = await runTriggerLLM(apiKey, body.model, body.prompt);
+      const data = await runTriggerLLM(
+        apiKey,
+        body.model,
+        body.prompt,
+        body.group,
+      );
       return { success: true, data };
     },
     { body: triggerLlmBody },
@@ -141,6 +147,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       await getUserId(cookie);
       const data = await generateInlayImage(apiKey, body.prompt, {
         model: body.model,
+        group: body.group,
         references: body.references,
       });
       return { success: true, data };

@@ -28,9 +28,11 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 export type IllustratorConvSettings = {
   imageEnabled: boolean;
   utilityModel: string | null;
+  utilityGroup: string | null;
   defaultModel: string | null;
   promptInstruction: string | undefined;
   imageModel: string | null;
+  imageGroup: string | null;
   imagePreview: boolean;
   refMediaIds: string[];
 };
@@ -50,16 +52,7 @@ export async function resolveIllustratorSettings(
     useCharAvatarRef?: boolean | null;
   } | null;
   if (!s) return null;
-  const preset = s.presetId
-    ? ((await readLocalPreset(s.presetId)) as {
-        imageEnabled?: boolean | null;
-        utilityModel?: string | null;
-        promptInstruction?: string | null;
-        imageModel?: string | null;
-        imagePreview?: boolean | null;
-        useCharAvatarRef?: boolean | null;
-      } | null)
-    : null;
+  const preset = s.presetId ? await readLocalPreset(s.presetId) : null;
   let refMediaIds: string[] = [];
   try {
     const parsed = JSON.parse(s.imageRefIds ?? "[]") as unknown;
@@ -76,10 +69,14 @@ export async function resolveIllustratorSettings(
   return {
     imageEnabled: !!(s.imageEnabled ?? preset?.imageEnabled),
     utilityModel: (s.utilityModel ?? preset?.utilityModel) || null,
+    // A lane is only valid for the model it was pinned for, so it rides along
+    // only when the preset also supplied that model.
+    utilityGroup: (s.utilityModel ? null : preset?.utilityGroup) || null,
     defaultModel: s.defaultModel ?? null,
     promptInstruction:
       s.promptInstruction ?? preset?.promptInstruction ?? undefined,
     imageModel: (s.imageModel ?? preset?.imageModel) || null,
+    imageGroup: (s.imageModel ? null : preset?.imageGroup) || null,
     imagePreview: !!(s.imagePreview ?? preset?.imagePreview),
     refMediaIds,
   };
@@ -87,7 +84,11 @@ export async function resolveIllustratorSettings(
 
 export async function requestImggen(
   prompt: string,
-  opts: { imageModel?: string | null; refUrls?: string[] },
+  opts: {
+    imageModel?: string | null;
+    imageGroup?: string | null;
+    refUrls?: string[];
+  },
 ) {
   if (opts.imageModel && isCustomModelId(opts.imageModel)) {
     const parsed = parseCustomModelId(opts.imageModel);
@@ -107,6 +108,7 @@ export async function requestImggen(
     await rpc.api.ai.chat["trigger-op"].imggen.post({
       prompt,
       model: opts.imageModel || undefined,
+      group: opts.imageGroup || undefined,
       references: opts.refUrls?.length
         ? opts.refUrls.map((url) => ({ url }))
         : undefined,
@@ -129,7 +131,11 @@ export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
 
 function makeGenerateImage(
   convId: string,
-  opts: { imageModel?: string | null; refUrls?: string[] },
+  opts: {
+    imageModel?: string | null;
+    imageGroup?: string | null;
+    refUrls?: string[];
+  },
 ): NonNullable<AgentRuntime["generateImage"]> {
   return async (prompt) => {
     const img = await requestImggen(prompt, opts);
@@ -163,8 +169,10 @@ export type IllustratorRunInput = {
   taskId: string;
   responseText: string;
   utilityModel: string;
+  utilityGroup?: string | null;
   promptInstruction?: string;
   imageModel?: string | null;
+  imageGroup?: string | null;
   refMediaIds?: string[];
   reviewPrompt?: (prompt: string) => Promise<string | null>;
 };
@@ -181,6 +189,7 @@ export async function runIllustrator(
     generate: target.deps.runUtilityLLM,
     generateImage: makeGenerateImage(input.convId, {
       imageModel: input.imageModel,
+      imageGroup: input.imageGroup,
       refUrls,
     }),
   };
