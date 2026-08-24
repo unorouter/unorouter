@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "יצירת האודיו נכשלה",
     "NO_AUDIO_PROMPT": "לא סופק טקסט ליצירת דיבור",
     "EMBEDDING_FAILED": "יצירת ההטמעה נכשלה",
-    "NO_EMBEDDING_INPUT": "לא סופק טקסט להטמעה"
+    "NO_EMBEDDING_INPUT": "לא סופק טקסט להטמעה",
+    "CARD_IMPORT_TOO_MANY": "כבר יש לך ייבואים פעילים. המתן שיסתיימו ונסה שוב.",
+    "CARD_IMPORT_NOT_FOUND": "הדמות הזו כבר לא קיימת במקור, או שהוגדרה כפרטית.",
+    "CARD_IMPORT_PRIVATE": "היוצר השאיר את זה פרטי, ולכן אי אפשר להוריד.",
+    "CARD_IMPORT_EMPTY": "לא היה שם דבר שניתן לייבא.",
+    "CARD_IMPORT_TIMED_OUT": "המקור לקח יותר מדי זמן להגיב. נסה שוב בעוד דקה.",
+    "CARD_IMPORT_JOB_GONE": "הייבוא פג לפני שהסתיים. שלח את הקישור שוב."
   },
   "BADGE": {
     "TOKENS_SERVED": "טוקנים שהוגשו",

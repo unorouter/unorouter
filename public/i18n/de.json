@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Audioerzeugung fehlgeschlagen",
     "NO_AUDIO_PROMPT": "Kein Text für die Spracherzeugung angegeben",
     "EMBEDDING_FAILED": "Embedding-Erzeugung fehlgeschlagen",
-    "NO_EMBEDDING_INPUT": "Kein Text zum Einbetten angegeben"
+    "NO_EMBEDDING_INPUT": "Kein Text zum Einbetten angegeben",
+    "CARD_IMPORT_TOO_MANY": "Es laufen bereits Importe. Warte, bis sie fertig sind, und versuche es erneut.",
+    "CARD_IMPORT_NOT_FOUND": "Diesen Charakter gibt es an der Quelle nicht mehr, oder er wurde auf privat gestellt.",
+    "CARD_IMPORT_PRIVATE": "Der Autor hat das privat gehalten, es kann daher nicht geladen werden.",
+    "CARD_IMPORT_EMPTY": "Unter diesem Link war nichts Importierbares.",
+    "CARD_IMPORT_TIMED_OUT": "Die Quelle hat zu lange gebraucht. Versuche es in einer Minute erneut.",
+    "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

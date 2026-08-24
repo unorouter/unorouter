@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "音频生成失败",
     "NO_AUDIO_PROMPT": "未提供用于语音生成的文本",
     "EMBEDDING_FAILED": "向量生成失败",
-    "NO_EMBEDDING_INPUT": "未提供需要向量化的文本"
+    "NO_EMBEDDING_INPUT": "未提供需要向量化的文本",
+    "CARD_IMPORT_TOO_MANY": "你已有正在进行的导入。请等待完成后再试。",
+    "CARD_IMPORT_NOT_FOUND": "该角色在来源站点已不存在，或已被设为私密。",
+    "CARD_IMPORT_PRIVATE": "作者将其设为私密，因此无法下载。",
+    "CARD_IMPORT_EMPTY": "该链接中没有可导入的内容。",
+    "CARD_IMPORT_TIMED_OUT": "来源响应超时。请稍后再试。",
+    "CARD_IMPORT_JOB_GONE": "该导入在完成前已过期。请重新提交链接。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

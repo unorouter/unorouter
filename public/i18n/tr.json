@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Ses oluşturma başarısız oldu",
     "NO_AUDIO_PROMPT": "Konuşma oluşturma için metin verilmedi",
     "EMBEDDING_FAILED": "Gömme oluşturma başarısız oldu",
-    "NO_EMBEDDING_INPUT": "Gömülecek metin verilmedi"
+    "NO_EMBEDDING_INPUT": "Gömülecek metin verilmedi",
+    "CARD_IMPORT_TOO_MANY": "Zaten devam eden içe aktarmalarınız var. Bitmelerini bekleyip tekrar deneyin.",
+    "CARD_IMPORT_NOT_FOUND": "Bu karakter kaynakta artık yok ya da gizli yapılmış.",
+    "CARD_IMPORT_PRIVATE": "Yazar bunu gizli tuttuğu için indirilemiyor.",
+    "CARD_IMPORT_EMPTY": "Bu bağlantıda içe aktarılabilecek bir şey yoktu.",
+    "CARD_IMPORT_TIMED_OUT": "Kaynak yanıt vermekte çok gecikti. Bir dakika sonra tekrar deneyin.",
+    "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

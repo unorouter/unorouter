@@ -4368,7 +4368,13 @@
     "AUDIO_GENERATION_FAILED": "Generazione audio non riuscita",
     "NO_AUDIO_PROMPT": "Nessun testo fornito per la generazione vocale",
     "EMBEDDING_FAILED": "Generazione dell'embedding non riuscita",
-    "NO_EMBEDDING_INPUT": "Nessun testo fornito da incorporare"
+    "NO_EMBEDDING_INPUT": "Nessun testo fornito da incorporare",
+    "CARD_IMPORT_TOO_MANY": "Hai già delle importazioni in corso. Aspetta che finiscano e riprova.",
+    "CARD_IMPORT_NOT_FOUND": "Quel personaggio non esiste più sulla fonte, oppure è stato reso privato.",
+    "CARD_IMPORT_PRIVATE": "L'autore lo ha reso privato, quindi non può essere scaricato.",
+    "CARD_IMPORT_EMPTY": "A quel link non c'era nulla di importabile.",
+    "CARD_IMPORT_TIMED_OUT": "La fonte ha impiegato troppo a rispondere. Riprova tra un minuto.",
+    "CARD_IMPORT_JOB_GONE": "Quell'importazione è scaduta prima di finire. Invia di nuovo il link."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",
