@@ -12,11 +12,8 @@ export type PostApiJobsBodyOne = {
    * @maxLength 2048
    */
   url: string;
-  /**
-   * @minLength 1
-   * @maxLength 64
-   */
-  userId: string;
+  /** @maxLength 64 */
+  userId?: string;
 };
 
 export type PostApiJobsBodyTwo = {
@@ -25,11 +22,8 @@ export type PostApiJobsBodyTwo = {
    * @maxLength 2048
    */
   url: string;
-  /**
-   * @minLength 1
-   * @maxLength 64
-   */
-  userId: string;
+  /** @maxLength 64 */
+  userId?: string;
 };
 
 export type PostApiJobsBodyThree = {
@@ -38,11 +32,8 @@ export type PostApiJobsBodyThree = {
    * @maxLength 2048
    */
   url: string;
-  /**
-   * @minLength 1
-   * @maxLength 64
-   */
-  userId: string;
+  /** @maxLength 64 */
+  userId?: string;
 };
 
 export type PostApiJobs200 = {

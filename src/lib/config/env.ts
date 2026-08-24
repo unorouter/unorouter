@@ -4,9 +4,12 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const appUrl = process.env.NEXT_PUBLIC_URL;
 const appName = process.env.NEXT_PUBLIC_APP_NAME;
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
+const cardsUrl = process.env.NEXT_PUBLIC_CARDS_URL;
 
 if (!apiUrl)
   throw new ParamError("ERRORS.MISSING_ENV", { var: "NEXT_PUBLIC_API_URL" });
+if (!cardsUrl)
+  throw new ParamError("ERRORS.MISSING_ENV", { var: "NEXT_PUBLIC_CARDS_URL" });
 if (!appUrl)
   throw new ParamError("ERRORS.MISSING_ENV", { var: "NEXT_PUBLIC_URL" });
 if (!appName)
@@ -21,6 +24,7 @@ statusUrlObj.hostname = `status.${statusUrlObj.hostname.replace(/^www\./, "")}`;
 
 export const env = {
   apiUrl,
+  cardsUrl,
   appName,
   appUrl,
   siteOrigin: new URL(appUrl).origin,
