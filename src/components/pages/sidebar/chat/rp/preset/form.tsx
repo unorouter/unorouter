@@ -78,18 +78,10 @@ function toPresetBody(data: SamplingPresetForm) {
   // "auto" that no channel serves.
   const unset = (v: string) => (v && v !== NONE_VALUE ? v : null);
   const unpinned = (v: string) => (v && v !== AUTO_GROUP ? v : null);
-  const body = {
-    ...data,
-    providers,
-    promptTemplate,
-    utilityModel: unset(data.utilityModel),
-    titleModel: unset(data.titleModel),
-    imageModel: unset(data.imageModel),
-    utilityGroup: unpinned(data.utilityGroup),
-    titleGroup: unpinned(data.titleGroup),
-    imageGroup: unpinned(data.imageGroup),
-  } as Omit<
+  const body: Omit<
     SamplingPresetForm,
+    | "providers"
+    | "promptTemplate"
     | "providersOnly"
     | "utilityModel"
     | "titleModel"
@@ -107,6 +99,16 @@ function toPresetBody(data: SamplingPresetForm) {
     utilityGroup: string | null;
     titleGroup: string | null;
     imageGroup: string | null;
+  } = {
+    ...data,
+    providers,
+    promptTemplate,
+    utilityModel: unset(data.utilityModel),
+    titleModel: unset(data.titleModel),
+    imageModel: unset(data.imageModel),
+    utilityGroup: unpinned(data.utilityGroup),
+    titleGroup: unpinned(data.titleGroup),
+    imageGroup: unpinned(data.imageGroup),
   };
   delete body.providersOnly;
   return body;
