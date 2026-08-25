@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,6 +28,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RpExportMenu,
   RP_ACTION_BUTTON,
   RpImportControl,
@@ -41,6 +43,7 @@ type Props = {
 export function CharacterList(props: Props) {
   const t = useTranslations();
   const charsQuery = useCharactersQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteCharacterMutation();
   const duplicateMut = useDuplicateCharacterMutation();
   const importMut = useImportCharacterCardMutation();
@@ -113,9 +116,24 @@ export function CharacterList(props: Props) {
               <RpEmptyCard labelKey="RP.CHARACTERS_EMPTY" />
             )}
 
+            <Input
+              value={rpQuery}
+
+              onChange={(e) => setRpQuery(e.target.value)}
+
+              placeholder={t("RP.LIST_SEARCH")}
+
+              aria-label={t("RP.LIST_SEARCH")}
+            />
+
             <div className="flex flex-col gap-2">
-              {charsQuery.data?.map((c) => (
+              {rpFilter(charsQuery.data, rpQuery, (c) => [
+                c.name,
+                c.description,
+              ]).map((c) => (
                 <RpEntityRow
+                  createdAt={c.createdAt}
+                  updatedAt={c.updatedAt}
                   key={c.id}
                   onOpen={() => {
                     analytics.rp.entityAction({

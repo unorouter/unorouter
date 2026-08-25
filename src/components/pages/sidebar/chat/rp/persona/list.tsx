@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,6 +25,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
@@ -37,6 +39,7 @@ type Props = {
 export function PersonaList(props: Props) {
   const t = useTranslations();
   const personasQuery = usePersonasQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeletePersonaMutation();
   const duplicateMut = useDuplicatePersonaMutation();
   const importMut = useImportPersonaMutation();
@@ -108,45 +111,59 @@ export function PersonaList(props: Props) {
           )}
 
           {!editingId && (
-            <div className="flex flex-col gap-2">
-              {personasQuery.data?.map((p) => (
-                <RpEntityRow
-                  key={p.id}
-                  onOpen={() => {
-                    analytics.rp.entityAction({
-                      entity: "personas",
-                      action: "edit_started",
-                    });
-                    setEditingId(p.id);
-                  }}
-                  leading={
-                    <Avatar className="size-10">
-                      <AvatarFallback>
-                        {p.name[0]?.toUpperCase() ?? "?"}
-                      </AvatarFallback>
-                    </Avatar>
-                  }
-                  name={
-                    <>
-                      {p.title || p.name}
-                      {p.title && (
-                        <span className="text-muted-foreground ml-2 text-xs">
-                          {p.name}
-                        </span>
-                      )}
-                      {p.isDefault && (
-                        <span className="text-muted-foreground ml-2 text-xs">
-                          ({t("RP.PERSONA_DEFAULT").toLowerCase()})
-                        </span>
-                      )}
-                    </>
-                  }
-                  description={p.description}
-                  onDuplicate={() => duplicateMut.mutate(p.id)}
-                  onDelete={() => handleDelete(p.id)}
-                />
-              ))}
-            </div>
+            <>
+              <Input
+                value={rpQuery}
+                onChange={(e) => setRpQuery(e.target.value)}
+                placeholder={t("RP.LIST_SEARCH")}
+                aria-label={t("RP.LIST_SEARCH")}
+              />
+
+              <div className="flex flex-col gap-2">
+                {rpFilter(personasQuery.data, rpQuery, (p) => [
+                  p.name,
+                  p.description,
+                ]).map((p) => (
+                  <RpEntityRow
+                    createdAt={p.createdAt}
+                    updatedAt={p.updatedAt}
+                    key={p.id}
+                    onOpen={() => {
+                      analytics.rp.entityAction({
+                        entity: "personas",
+                        action: "edit_started",
+                      });
+                      setEditingId(p.id);
+                    }}
+                    leading={
+                      <Avatar className="size-10">
+                        <AvatarFallback>
+                          {p.name[0]?.toUpperCase() ?? "?"}
+                        </AvatarFallback>
+                      </Avatar>
+                    }
+                    name={
+                      <>
+                        {p.title || p.name}
+                        {p.title && (
+                          <span className="text-muted-foreground ml-2 text-xs">
+                            {p.name}
+                          </span>
+                        )}
+                        {p.isDefault && (
+                          <span className="text-muted-foreground ml-2 text-xs">
+                            ({t("RP.PERSONA_DEFAULT").toLowerCase()})
+                          </span>
+                        )}
+                      </>
+                    }
+                    description={p.description}
+                    onDuplicate={() => duplicateMut.mutate(p.id)}
+                    onDelete={() => handleDelete(p.id)}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </DialogContent>

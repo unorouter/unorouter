@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
 import type { TranslationKey } from "@/lib/config/constants";
 import { convIdAtom } from "@/store/chat-store";
@@ -21,6 +22,10 @@ type RpEntityPageProps = {
   editor: ReactNode;
   list: ReactNode;
   headerActions?: ReactNode;
+  // Owned by the page so it can filter its own rows; rendered here so every
+  // entity list gets the same box in the same place.
+  search?: string;
+  onSearchChange?: (value: string) => void;
 };
 
 export function RpEntityPage(props: RpEntityPageProps) {
@@ -72,6 +77,15 @@ export function RpEntityPage(props: RpEntityPageProps) {
             </div>
           )}
         </div>
+
+        {!props.isEditing && props.onSearchChange && (
+          <Input
+            value={props.search ?? ""}
+            onChange={(e) => props.onSearchChange!(e.target.value)}
+            placeholder={t("RP.LIST_SEARCH")}
+            aria-label={t("RP.LIST_SEARCH")}
+          />
+        )}
 
         {props.isEditing ? (
           <Card className="shrink-0 p-4">{props.editor}</Card>

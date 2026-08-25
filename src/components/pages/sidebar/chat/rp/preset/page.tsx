@@ -19,12 +19,14 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RpImportControl,
 } from "../shared/rp-list-parts";
 
 export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeletePresetMutation();
   const duplicateMut = useDuplicatePresetMutation();
   const exportMut = useRpExportMutation();
@@ -48,6 +50,8 @@ export function PresetsPage() {
 
   return (
     <RpEntityPage
+      search={rpQuery}
+      onSearchChange={setRpQuery}
       titleKey="RP.PRESETS_TITLE"
       subtitleKey="RP.PRESETS_PAGE_SUBTITLE"
       newLabelKey="RP.PRESETS_NEW"
@@ -85,9 +89,11 @@ export function PresetsPage() {
           {presetsQuery.data?.length === 0 && (
             <RpEmptyCard labelKey="RP.PRESETS_EMPTY" />
           )}
-          {presetsQuery.data?.map((p) => (
+          {rpFilter(presetsQuery.data, rpQuery, (p) => [p.name]).map((p) => (
             <RpEntityRow
               key={p.id}
+              createdAt={p.createdAt}
+              updatedAt={p.updatedAt}
               onOpen={() => {
                 analytics.rp.entityAction({
                   entity: "presets",
