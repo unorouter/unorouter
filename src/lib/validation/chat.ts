@@ -8,7 +8,10 @@ const MAX_ID_LEN = 64;
 const MAX_TEXT_LEN = 100_000;
 const MAX_MODEL_LEN = 128;
 const MAX_URL_LEN = 2048;
-const MAX_TITLE_SEED_LEN = 10_000;
+// Exported: the sender truncates to it. A first message longer than this used
+// to be posted whole and 422'd, so pasting a script meant the chat silently
+// never got a title.
+export const MAX_TITLE_SEED_LEN = 10_000;
 const MAX_MESSAGES_PER_STREAM = 200;
 
 const itemTextData = t.Object({ text: t.String({ maxLength: MAX_TEXT_LEN }) });
