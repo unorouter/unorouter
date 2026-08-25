@@ -42,13 +42,38 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
 
-function normalizeMathDelimiters(text: string): string {
+// Fenced blocks, inline spans, and an UNCLOSED fence, which is every code block
+// mid-stream. Splitting on this keeps the math passes out of code, where a
+// backslash belongs to the language and not to LaTeX.
+const CODE_SPAN_RE = /(```[\s\S]*?```|```[\s\S]*$|~~~[\s\S]*?~~~|`[^`\n]*`)/g;
+
+function outsideCode(text: string, fn: (chunk: string) => string): string {
   return text
-    .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)
-    .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
+    .split(CODE_SPAN_RE)
+    .map((part, i) => (i % 2 === 1 ? part : fn(part)))
+    .join("");
+}
+
+// A regex literal like /\(\(([^()]+)\)\)/ is not math, but rewriting its
+// backslash-parens to $...$ made it math, which loaded mathjax, which mutated
+// its own tree mid-visit and left a hole every later visitor threw on. The
+// delimiters only mean LaTeX outside code.
+function normalizeMathDelimiters(text: string): string {
+  return outsideCode(text, (chunk) =>
+    chunk
+      .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)
+      .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`),
+  );
 }
 
 const MATH_DELIMITER_RE = /\$|\\\(|\\\[/;
+// Loading mathjax is what the crash needs, so the check that gates it has to
+// ignore code for the same reason the rewrite does.
+function hasMathOutsideCode(text: string): boolean {
+  return text
+    .split(CODE_SPAN_RE)
+    .some((part, i) => i % 2 === 0 && MATH_DELIMITER_RE.test(part));
+}
 // Inert stand-in so the media-version subscriptions stay conditional on token
 // presence without changing the hook count between renders.
 const ZERO_ATOM = atom(0);
@@ -71,7 +96,7 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
 const MarkdownTextImpl = () => {
   const hasMath = useAuiState((s) =>
     s.message.content.some(
-      (p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text),
+      (p) => p.type === "text" && hasMathOutsideCode(p.text),
     ),
   );
   const mathjax = useRehypeMathjax(hasMath);
