@@ -210,7 +210,9 @@ async function persistImportedCard(result: ImportedResult) {
     });
   }
 
-  const now = new Date().toISOString();
+  // A Date, not an ISO string: the timestamp columns are timestamp_ms, so
+  // drizzle calls .getTime() on whatever it is given and a string throws.
+  const now = dayjs().toDate();
   for (const book of result.lorebooks ?? []) {
     if (book.entries.length === 0) continue;
     const lorebookId = uid();
