@@ -8,7 +8,10 @@ import {
 import { msg } from "@/lib/config/constants";
 
 const POLL_MS = 1500;
-const POLL_TIMEOUT_MS = 180_000;
+// Must outlast the worker's own deadline. At 3 minutes this gave up while the
+// job was still rolling exits and later succeeded, so a card that WOULD have
+// imported was reported as a failure to the user.
+const POLL_TIMEOUT_MS = 16 * 60_000;
 
 // Never hand-write a mirror: this is generated from uno-import's OpenAPI doc.
 export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;

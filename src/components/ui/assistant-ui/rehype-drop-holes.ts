@@ -1,7 +1,8 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord } from "@/lib/utils/base";
-import type { Plugin } from "unified";
+import type { Pluggable, Plugin, Processor } from "unified";
 import type { Root } from "hast";
+import type { VFile } from "vfile";
 
 // A rehype plugin that removes a node by splicing its parent's children while
 // unist-util-visit is mid-traversal leaves a HOLE: visit re-reads
@@ -10,10 +11,12 @@ import type { Root } from "hast";
 // 'children' in undefined", which unmounts the whole message.
 //
 // Running last, this drops those holes plus any non-object entry before the
-// remaining visitors walk the tree. It fixes the SYMPTOM deliberately: the
-// plugin doing the mutating is unidentified (five candidates were reproduced
-// against the real pipeline and none threw), and a reader should not lose their
-// reply to a library's traversal bug while that is being chased.
+// remaining visitors walk the tree.
+//
+// The mutator is rehype-mathjax: it calls visitParents itself and replaces
+// nodes during that walk. Bracketing it is NOT enough, because the throw
+// happens inside its own traversal, before any later plugin runs; see
+// withHoleRepair below for the wrapper that survives it.
 function prune(node: unknown): void {
   if (!isRecord(node)) return;
   const kids = node.children;
@@ -33,6 +36,42 @@ function prune(node: unknown): void {
 
 let droppedHoles = 0;
 let reported = false;
+
+// Runs a plugin so its own traversal cannot take the message down with it. The
+// throw happens INSIDE rehype-mathjax's visitParents, so a repair pass after it
+// never gets to run; catching means a reply with unrenderable math still
+// renders as text instead of the whole message unmounting to an error card.
+export function withHoleRepair(plugin: Pluggable): Pluggable {
+  const [fn, ...opts] = Array.isArray(plugin) ? plugin : [plugin];
+  if (typeof fn !== "function") return plugin;
+  return function (this: Processor, ...args: unknown[]) {
+    const transformer = fn.apply(this, opts.length ? opts : args);
+    if (typeof transformer !== "function") return transformer;
+    // Arity is the contract: unified decides sync vs async by how many
+    // parameters the transformer declares, so passing a `next` it never asked
+    // for turns a sync plugin into an async one and runSync then throws
+    // "`runSync` finished async".
+    return (tree: Root, file: VFile) => {
+      prune(tree);
+      try {
+        const out = transformer(tree, file);
+        prune(tree);
+        return out;
+      } catch (err) {
+        prune(tree);
+        if (!mathFailed) {
+          mathFailed = true;
+          logChatDebug("markdown.math_failed", {
+            error: String(err).slice(0, 200),
+          });
+        }
+        return tree;
+      }
+    };
+  };
+}
+
+let mathFailed = false;
 
 export const rehypeDropHoles: Plugin<[], Root> = () => {
   return (tree: Root) => {
