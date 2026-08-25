@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import {
   useCreateJsPluginMutation,
   useDeleteJsPluginMutation,
@@ -23,6 +24,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { JsPluginEditor } from "./editor";
@@ -41,6 +43,7 @@ function parsePluginName(source: string, fallback: string): string {
 export function JsPluginList(props: Props) {
   const t = useTranslations();
   const pluginsQuery = useJsPluginsQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteJsPluginMutation();
   const createMut = useCreateJsPluginMutation();
   const importUrlMut = useImportJsPluginFromUrlMutation();
@@ -113,30 +116,43 @@ export function JsPluginList(props: Props) {
           )}
 
           {!editingId && (
-            <div className="flex flex-col gap-2">
-              {pluginsQuery.data?.map((plugin) => (
-                <RpEntityRow
-                  key={plugin.id}
-                  onOpen={() => setEditingId(plugin.id)}
-                  leading={
-                    <Avatar className="size-10">
-                      <AvatarFallback>
-                        <Icon name="code" className="size-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                  }
-                  name={plugin.name}
-                  description={t(
-                    plugin.enabled
-                      ? plugin.kind === "janitor"
-                        ? "CHAT.JS_PLUGIN.SUMMARY_JANITOR"
-                        : "CHAT.JS_PLUGIN.SUMMARY_UNO"
-                      : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
-                  )}
-                  onDelete={() => handleDelete(plugin.id)}
-                />
-              ))}
-            </div>
+            <>
+              <Input
+                value={rpQuery}
+                onChange={(e) => setRpQuery(e.target.value)}
+                placeholder={t("RP.LIST_SEARCH")}
+                aria-label={t("RP.LIST_SEARCH")}
+              />
+
+              <div className="flex flex-col gap-2">
+                {rpFilter(pluginsQuery.data, rpQuery, (plugin) => [
+                  plugin.name,
+                ]).map((plugin) => (
+                  <RpEntityRow
+                    createdAt={plugin.createdAt}
+                    updatedAt={plugin.updatedAt}
+                    key={plugin.id}
+                    onOpen={() => setEditingId(plugin.id)}
+                    leading={
+                      <Avatar className="size-10">
+                        <AvatarFallback>
+                          <Icon name="code" className="size-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    }
+                    name={plugin.name}
+                    description={t(
+                      plugin.enabled
+                        ? plugin.kind === "janitor"
+                          ? "CHAT.JS_PLUGIN.SUMMARY_JANITOR"
+                          : "CHAT.JS_PLUGIN.SUMMARY_UNO"
+                        : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
+                    )}
+                    onDelete={() => handleDelete(plugin.id)}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </DialogContent>

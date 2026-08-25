@@ -1,6 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,6 +27,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RpExportMenu,
   RP_ACTION_BUTTON,
   RpImportControl,
@@ -40,6 +42,7 @@ type Props = {
 export function LorebookList(props: Props) {
   const t = useTranslations();
   const lorebooksQuery = useLorebooksQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
   const duplicateMut = useDuplicateLorebookMutation();
@@ -150,9 +153,24 @@ export function LorebookList(props: Props) {
                 <RpEmptyCard labelKey="RP.LOREBOOKS_EMPTY" />
               )}
 
+              <Input
+                value={rpQuery}
+
+                onChange={(e) => setRpQuery(e.target.value)}
+
+                placeholder={t("RP.LIST_SEARCH")}
+
+                aria-label={t("RP.LIST_SEARCH")}
+              />
+
               <div className="flex flex-col gap-2">
-                {lorebooksQuery.data?.map((l) => (
+                {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
+                  l.name,
+                  l.description,
+                ]).map((l) => (
                   <RpEntityRow
+                    createdAt={l.createdAt}
+                    updatedAt={l.updatedAt}
                     key={l.id}
                     onOpen={() => {
                       analytics.rp.entityAction({

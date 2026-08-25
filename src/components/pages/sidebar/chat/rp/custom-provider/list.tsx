@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import {
   useCustomProvidersQuery,
   useDeleteCustomProviderMutation,
@@ -20,6 +21,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
 } from "../shared/rp-list-parts";
 import { CustomProviderEditor } from "./editor";
 
@@ -31,6 +33,7 @@ type Props = {
 export function CustomProviderList(props: Props) {
   const t = useTranslations();
   const providersQuery = useCustomProvidersQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteCustomProviderMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -78,26 +81,40 @@ export function CustomProviderList(props: Props) {
           )}
 
           {!editingId && (
-            <div className="flex flex-col gap-2">
-              {providersQuery.data?.map((provider) => (
-                <RpEntityRow
-                  key={provider.id}
-                  onOpen={() => setEditingId(provider.id)}
-                  leading={
-                    <Avatar className="size-10">
-                      <AvatarFallback>
-                        <Icon name="server" className="size-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                  }
-                  name={provider.name}
-                  description={t("CHAT.CUSTOM_PROVIDER.MODEL_COUNT", {
-                    count: provider.models.length,
-                  })}
-                  onDelete={() => handleDelete(provider.id)}
-                />
-              ))}
-            </div>
+            <>
+              <Input
+                value={rpQuery}
+                onChange={(e) => setRpQuery(e.target.value)}
+                placeholder={t("RP.LIST_SEARCH")}
+                aria-label={t("RP.LIST_SEARCH")}
+              />
+
+              <div className="flex flex-col gap-2">
+                {rpFilter(providersQuery.data, rpQuery, (provider) => [
+                  provider.name,
+                  provider.baseUrl,
+                ]).map((provider) => (
+                  <RpEntityRow
+                    createdAt={provider.createdAt}
+                    updatedAt={provider.updatedAt}
+                    key={provider.id}
+                    onOpen={() => setEditingId(provider.id)}
+                    leading={
+                      <Avatar className="size-10">
+                        <AvatarFallback>
+                          <Icon name="server" className="size-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    }
+                    name={provider.name}
+                    description={t("CHAT.CUSTOM_PROVIDER.MODEL_COUNT", {
+                      count: provider.models.length,
+                    })}
+                    onDelete={() => handleDelete(provider.id)}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </DialogContent>

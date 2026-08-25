@@ -28,6 +28,7 @@ import {
   confirmRpDelete,
   RpEmptyCard,
   RpEntityRow,
+  rpFilter,
   RpImportControl,
 } from "../shared/rp-list-parts";
 import { CardForm } from "./form";
@@ -63,6 +64,7 @@ export function CardsPage() {
   const t = useTranslations();
   const cardSummary = useCardSummary();
   const cardsQuery = useCardsQuery();
+  const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteCardMutation();
   const applyMut = useApplyCardMutation();
   const exportMut = useRpExportMutation();
@@ -105,6 +107,8 @@ export function CardsPage() {
   return (
     <>
       <RpEntityPage
+        search={rpQuery}
+        onSearchChange={setRpQuery}
         titleKey="RP.CARDS_TITLE"
         subtitleKey="RP.CARDS_PAGE_SUBTITLE"
         newLabelKey="RP.CARDS_NEW"
@@ -135,8 +139,13 @@ export function CardsPage() {
             {cardsQuery.data?.length === 0 && (
               <RpEmptyCard labelKey="RP.CARDS_EMPTY" />
             )}
-            {cardsQuery.data?.map((c) => (
+            {rpFilter(cardsQuery.data, rpQuery, (c) => [
+              c.name,
+              c.description,
+            ]).map((c) => (
               <RpEntityRow
+                createdAt={c.createdAt}
+                updatedAt={c.updatedAt}
                 key={c.id}
                 onOpen={() => setEditingId(c.id)}
                 name={c.name}

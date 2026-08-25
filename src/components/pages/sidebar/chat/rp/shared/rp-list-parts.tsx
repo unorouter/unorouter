@@ -17,8 +17,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { analytics } from "@/lib/analytics";
+import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { type ReactNode, useRef, useState } from "react";
 
 type RpAnalyticsEntity = Parameters<
@@ -50,12 +51,49 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
   );
 }
 
+function toUnix(
+  value: Date | string | number | null | undefined,
+): number | null {
+  if (value == null) return null;
+  const ms = value instanceof Date ? value.getTime() : dayjs(value).valueOf();
+  return Number.isNaN(ms) ? null : Math.floor(ms / 1000);
+}
+
+// Relative, and only shows "edited" when the row actually changed after it was
+// created: every import writes both stamps in the same tick, so printing both
+// unconditionally would put the same value on the line twice.
+function RpEntityDates(props: {
+  created: Date | string | number | null | undefined;
+  updated: Date | string | number | null | undefined;
+}) {
+  const t = useTranslations();
+  const locale = useLocale();
+  const created = toUnix(props.created);
+  const updated = toUnix(props.updated);
+  if (created === null && updated === null) return null;
+  const edited = created !== null && updated !== null && updated - created > 60;
+  return (
+    <span className="text-muted-foreground/70 truncate text-[11px]">
+      {created !== null &&
+        t("RP.LIST_CREATED", { when: formatRelativeUnix(created, locale) })}
+      {edited && updated !== null && (
+        <>
+          {created !== null && " · "}
+          {t("RP.LIST_EDITED", { when: formatRelativeUnix(updated, locale) })}
+        </>
+      )}
+    </span>
+  );
+}
+
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
   description?: ReactNode;
   leading?: ReactNode;
   actions?: ReactNode;
+  createdAt?: Date | string | number | null;
+  updatedAt?: Date | string | number | null;
   onDuplicate?: () => void | Promise<void>;
   onDelete: () => void | Promise<void>;
 }) {
@@ -73,6 +111,7 @@ export function RpEntityRow(props: {
             {props.description}
           </span>
         )}
+        <RpEntityDates created={props.createdAt} updated={props.updatedAt} />
       </div>
       {props.actions}
       {props.onDuplicate && (
@@ -248,5 +287,19 @@ export function RpExportMenu(props: {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+// Case-insensitive substring over whichever fields a list wants searchable.
+// Shared so seven lists agree on what "search" means.
+export function rpFilter<T>(
+  rows: T[] | null | undefined,
+  query: string,
+  fields: (row: T) => (string | null | undefined)[],
+): T[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return rows ?? [];
+  return (rows ?? []).filter((row) =>
+    fields(row).some((v) => (v ?? "").toLowerCase().includes(q)),
   );
 }
