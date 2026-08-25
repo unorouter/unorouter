@@ -5,6 +5,7 @@ import {
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
+import { MAX_TITLE_SEED_LEN } from "@/lib/validation/chat";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -130,7 +131,7 @@ export function createThreadListAdapter(
         let title: string;
         try {
           const res = await rpc.api.ai.chat.title.post({
-            text,
+            text: text.slice(0, MAX_TITLE_SEED_LEN),
             model,
             ...titleOverrides,
           });

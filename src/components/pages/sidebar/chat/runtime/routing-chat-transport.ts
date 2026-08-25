@@ -224,6 +224,11 @@ async function runClientStream(args: {
   const startedAt = Date.now();
   const buildUsage = makeBuildUsage(prepared, startedAt, Date.now);
   let sawText = false;
+  // Counted so a failure can report how far the stream got: an upstream that
+  // returned nothing and one truncated mid-reply raise the same error, and
+  // only this number tells them apart.
+  let streamedChars = 0;
+  let streamedReasoning = 0;
   const finishMeta = (
     totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
     finishReason?: string,
@@ -299,6 +304,21 @@ async function runClientStream(args: {
         request_id: collector.requestId,
         message: detail.message.slice(0, 300),
       });
+      // analytics does not reach the diagnostics export, and a cut-off is
+      // reported by the user rather than caught here, so the counts have to be
+      // in the log they send back.
+      logChatDebug("stream.failed", {
+        model: args.model,
+        group: group ?? null,
+        requestId: collector.requestId,
+        status: detail.status ?? null,
+        code: detail.code ?? null,
+        emptyStream: isEmptyStream,
+        streamedChars,
+        streamedReasoning,
+        elapsedMs: Date.now() - startedAt,
+        message: detail.message.slice(0, 300),
+      });
     },
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
@@ -318,12 +338,33 @@ async function runClientStream(args: {
     generateMessageId: () => responseMessageId,
     onError: (error) => streamErrorText(error),
     messageMetadata: ({ part }) => {
-      if (part.type === "text-delta" && part.text) sawText = true;
+      if (part.type === "text-delta" && part.text) {
+        sawText = true;
+        streamedChars += part.text.length;
+      }
+      if (part.type === "reasoning-delta" && part.text)
+        streamedReasoning += part.text.length;
       if (part.type === "finish-step") {
         collector.captureHeaders(part.response.headers);
         return undefined;
       }
       if (part.type === "finish") {
+        // A reply that ends because the model hit its cap raises NO error, so
+        // "it just cut off" reaches us with nothing recorded anywhere. Log the
+        // reason and the size whenever the stop was not a natural one.
+        if (part.finishReason && part.finishReason !== "stop") {
+          logChatDebug("stream.truncated", {
+            model: args.model,
+            group: group ?? null,
+            requestId: collector.requestId,
+            finishReason: part.finishReason,
+            streamedChars,
+            streamedReasoning,
+            maxOutputTokens: prepared.modelParams.maxOutputTokens ?? null,
+            outputTokens: part.totalUsage?.outputTokens ?? null,
+            elapsedMs: Date.now() - startedAt,
+          });
+        }
         const meta = finishMeta(part.totalUsage, part.finishReason);
         return Object.keys(meta).length > 0 ? meta : undefined;
       }
