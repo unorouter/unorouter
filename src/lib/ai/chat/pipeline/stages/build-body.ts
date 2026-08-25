@@ -56,13 +56,17 @@ export function buildModelParams(
   effectiveMaxOutputTokens: number,
   modelInfo: PricingCatalogDetail | undefined,
 ) {
+  // Only put max_tokens on the wire when the user asked for one. Metadata
+  // output ceilings drift from what upstreams enforce (262144 published against
+  // a 131072 limit, on the same model), and a too-high literal is a hard 400 on
+  // strict providers, so an absent field is safer than a computed one. The
+  // gateway fills in the model's own cap when nothing arrives.
   const userSetMax = assembled.sampling.maxOutputTokens != null;
   return stripUnsupported(
     defined({
-      maxOutputTokens:
-        userSetMax || modelInfo?.is_free
-          ? effectiveMaxOutputTokens || undefined
-          : undefined,
+      maxOutputTokens: userSetMax
+        ? effectiveMaxOutputTokens || undefined
+        : undefined,
       temperature: assembled.sampling.temperature,
       topP: assembled.sampling.topP,
       topK: assembled.sampling.topK,

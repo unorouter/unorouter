@@ -22,7 +22,7 @@ import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
-import { FREE_MODEL_OUTPUT_CAP, NONE_VALUE } from "@/lib/config/constants";
+import { NONE_VALUE } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -79,11 +79,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const activeModelName = useAtomValue(chatModelAtom);
   const activeModel = useModelDetailQuery(activeModelName ?? null).data;
   const activeModelMetadata = activeModel?.metadata;
-  const maxTokensCap = activeModel
-    ? activeModel.is_free
-      ? FREE_MODEL_OUTPUT_CAP
-      : activeModelMetadata?.maxOutputTokens
-    : undefined;
+  const maxTokensCap = activeModelMetadata?.maxOutputTokens;
   const settingsQuery = useChatSettingsQuery(
     !isDefaultsMode ? props.convId! : undefined,
   );

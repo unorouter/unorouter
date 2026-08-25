@@ -1,6 +1,5 @@
 import {
   CONTEXT_SAFETY_MARGIN,
-  FREE_MODEL_OUTPUT_CAP,
   UNKNOWN_MODEL_OUTPUT_CAP,
 } from "@/lib/config/constants";
 import { parseStringMap } from "@/lib/utils/base";
@@ -310,7 +309,6 @@ function clampOutputTokens(
   return Math.min(
     assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
     ceiling ?? Number.POSITIVE_INFINITY,
-    ...(modelInfo?.is_free ? [FREE_MODEL_OUTPUT_CAP] : []),
   );
 }
 
