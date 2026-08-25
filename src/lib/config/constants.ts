@@ -141,8 +141,6 @@ export const UID_ALPHABET =
 
 export const IMAGE_MAX_DIM = 2048;
 
-export const FREE_MODEL_OUTPUT_CAP = 8192;
-
 export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 
 export const CONTEXT_SAFETY_MARGIN = 2048;
