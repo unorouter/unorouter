@@ -44,9 +44,25 @@ if (typeof window !== "undefined") {
   });
 }
 
+// An import owns the live file exclusively: it reads the live DB to graft
+// local-only tables, then overwrites it. Nulling the cache is not enough, since
+// any query hook that calls getLocalDb() re-opens live and takes the write lock,
+// and the import then blocks on it forever with the copied data already built.
+let liveSuspended = false;
+
+export function suspendLocalDb() {
+  liveSuspended = true;
+  cached = null;
+}
+
+export function resumeLocalDb() {
+  liveSuspended = false;
+}
+
 export async function getLocalDb(): Promise<LocalClient | null> {
   if (typeof window === "undefined" || typeof indexedDB === "undefined")
     return null;
+  if (liveSuspended) return null;
   if (cached) return cached;
   const promise = openClient();
   cached = promise;
