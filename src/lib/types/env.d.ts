@@ -12,7 +12,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_POSTHOG_HOST?: string;
     NEXT_PUBLIC_POSTHOG_DISABLED?: string;
 
-    SYSTEM_ACCESS_TOKEN: string;
     SESSION_SECRET: string;
     INTERNAL_API_URL?: string;
 
@@ -22,10 +21,6 @@ declare namespace NodeJS {
     TAVILY_API_KEY?: string;
     LLM_STATS_API_KEY?: string;
     GUEST_API_KEY?: string;
-
-    CREEM_API_KEY: string;
-    CREEM_API_URL: string;
-    CREEM_MODERATION_ENABLED: "0" | "1";
 
     GOOGLE_SITE_VERIFICATION?: string;
 

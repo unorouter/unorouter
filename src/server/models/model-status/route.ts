@@ -10,15 +10,12 @@ import {
   getModelStatusPageCompact,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { ADMIN_HEADERS } from "@/server/constants";
 
 export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get(
     "/page_compact",
     async ({ query }) => {
-      const res = await getModelStatusPageCompact(query, {
-        headers: ADMIN_HEADERS,
-      });
+      const res = await getModelStatusPageCompact(query);
       return unwrap(res).data as CompactPagePayload;
     },
     { query: modelStatusPageCompactQuery },
@@ -26,16 +23,12 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get(
     "/buckets",
     async ({ query }) => {
-      const res = await getModelStatusBuckets(query, {
-        headers: ADMIN_HEADERS,
-      });
+      const res = await getModelStatusBuckets(query);
       return unwrap(res).data;
     },
     { query: modelStatusBucketsQuery },
   )
   .get("/components", async () => {
-    const res = await getModelStatusComponents({
-      headers: ADMIN_HEADERS,
-    });
+    const res = await getModelStatusComponents();
     return unwrap(res).data;
   });

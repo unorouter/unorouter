@@ -1,7 +1,6 @@
 import { ParamError } from "@/lib/types";
 
 export const serverEnv = {
-  systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN ?? "",
   sessionSecret: process.env.SESSION_SECRET ?? "",
   guestApiKey: process.env.GUEST_API_KEY,
   runwareApiKey: process.env.RUNWARE_API_KEY,
@@ -17,8 +16,6 @@ export const serverEnv = {
 } as const;
 
 if (typeof window === "undefined" && !process.env.NEXT_PHASE) {
-  if (!serverEnv.systemAccessToken)
-    throw new ParamError("ERRORS.MISSING_ENV", { var: "SYSTEM_ACCESS_TOKEN" });
   if (!serverEnv.sessionSecret)
     throw new ParamError("ERRORS.MISSING_ENV", { var: "SESSION_SECRET" });
   if (serverEnv.sessionSecret.length < 32)
