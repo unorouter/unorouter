@@ -16,12 +16,11 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export function DatabaseSubmenu() {
   const t = useTranslations();
-  const uploadInputRef = useRef<HTMLInputElement | null>(null);
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
@@ -127,19 +126,28 @@ export function DatabaseSubmenu() {
     location.reload();
   };
 
+  // Not rendered: clicking the menu item CLOSES the menu, which unmounts
+  // anything rendered alongside it, so a ref to a JSX input is already null by
+  // the time the handler runs and .click() silently no-ops. The picker has to
+  // outlive the menu, so it lives on document.body.
+  const pickFile = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".sqlite,.sqlite3,.db,application/octet-stream";
+    input.style.display = "none";
+    input.addEventListener("change", () => {
+      const file = input.files?.[0];
+      input.remove();
+      if (file) void upload(file);
+    });
+    // Cancelling the dialog fires no change event, so the node would leak.
+    input.addEventListener("cancel", () => input.remove());
+    document.body.appendChild(input);
+    input.click();
+  };
+
   return (
     <>
-      <input
-        ref={uploadInputRef}
-        type="file"
-        accept=".sqlite,.sqlite3,.db,application/octet-stream"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          e.target.value = "";
-          if (file) void upload(file);
-        }}
-      />
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
           <Icon name="database" className="size-4" />
@@ -172,7 +180,7 @@ export function DatabaseSubmenu() {
             <Icon name="download" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => uploadInputRef.current?.click()}>
+          <DropdownMenuItem onClick={pickFile}>
             <Icon name="upload" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
           </DropdownMenuItem>
