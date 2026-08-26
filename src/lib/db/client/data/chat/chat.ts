@@ -380,16 +380,34 @@ export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
   const target = msgs.find((m) => m.id === msgId);
   const newParentId = target?.parentId ?? null;
   const now = dayjs().toDate();
-  const childIds: string[] = [];
-  for (const m of msgs) {
-    if (m.parentId === msgId) {
-      childIds.push(m.id);
-      await upsertLocalMessage({
-        ...m,
-        parentId: newParentId,
-        updatedAt: now,
-      });
+  const children = msgs.filter((m) => m.parentId === msgId);
+
+  // Re-parenting N children onto the parent turns one deletion into N new
+  // siblings, and sibling count IS the branch count, so deleting a message with
+  // several retries under it made the counter go UP (2 children -> 4 branches).
+  // Only a single child is an unambiguous splice; anything else is a fork whose
+  // subtree goes with it.
+  if (children.length > 1) {
+    const doomed = new Set<string>([msgId]);
+    for (let grew = true; grew; ) {
+      grew = false;
+      for (const m of msgs) {
+        if (!doomed.has(m.id) && m.parentId && doomed.has(m.parentId)) {
+          doomed.add(m.id);
+          grew = true;
+        }
+      }
     }
+    logChatDebug("delete.subtree", { msgId, removed: doomed.size });
+    for (const id of doomed) await deleteLocalMessage(id);
+    await bumpLocalConvUpdatedAt(convId);
+    return;
+  }
+
+  const childIds: string[] = [];
+  for (const m of children) {
+    childIds.push(m.id);
+    await upsertLocalMessage({ ...m, parentId: newParentId, updatedAt: now });
   }
   if (childIds.length > 0) {
     const check = (await readLocalMessages(convId)) ?? [];
