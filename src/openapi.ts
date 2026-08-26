@@ -235,25 +235,25 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
+export interface ClaudeServerToolUse {
+  web_search_requests: number;
 }
 
 export interface BillingUsage {
   billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface BoundChannel {
@@ -438,11 +438,6 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
 /**
  * ClaudeMessageResponse schema
  */
@@ -456,10 +451,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeServerToolUse {
-  web_search_requests: number;
 }
 
 export interface ClaudeUsage {
@@ -977,38 +968,34 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
 }
 
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
 }
 
 export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 /**
@@ -1175,22 +1162,6 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
 
 /**
@@ -1312,6 +1283,15 @@ export interface ImageParams {
   supportsStrength: boolean;
 }
 
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
 export interface InvitedUser {
   commission_count: number;
   display_name: string;
@@ -1369,6 +1349,16 @@ export interface Log {
   use_time: number;
   user_id: number;
   username: string;
+}
+
+export interface LogByRequestData {
+  channel: string;
+  completion_tokens: number;
+  group: string;
+  model_name: string;
+  prompt_tokens: number;
+  quota: number;
+  use_time: number;
 }
 
 export interface LogCleanupResult {
@@ -1879,6 +1869,13 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 }
 
 export interface OverwriteField {
@@ -3010,6 +3007,15 @@ export interface ResponseDtoHardwareTypesResponse {
  */
 export interface ResponseDtoLocationsListResponse {
   data: LocationsListResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LogByRequestData schema
+ */
+export interface ResponseDtoLogByRequestData {
+  data: LogByRequestData;
   message: string;
   success: boolean;
 }
@@ -4816,6 +4822,13 @@ export type GetAllLogsParams = {
   subscription_plan?: string;
 };
 
+export type GetLogByRequestParams = {
+  /**
+   * Full request ID naming exactly one log row
+   */
+  request_id?: string;
+};
+
 export type GetChannelAffinityUsageCacheStatsParams = {
   /**
    * Filter by rule name
@@ -5685,7 +5698,9 @@ export const addChannel = async (
   addChannelRequest: AddChannelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addChannelResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -5731,7 +5746,9 @@ export const updateChannel = async (
   patchChannel: PatchChannel,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateChannelResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -5777,7 +5794,9 @@ export const deleteChannelBatch = async (
   channelBatch: ChannelBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<deleteChannelBatchResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -5823,7 +5842,9 @@ export const batchSetChannelTag = async (
   channelBatch: ChannelBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<batchSetChannelTagResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -5869,7 +5890,9 @@ export const completeCodexOAuth = async (
   codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<completeCodexOAuthResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6192,7 +6215,9 @@ export const fetchModels = async (
   fetchModelsRequest: FetchModelsRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchModelsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6381,7 +6406,9 @@ export const manageMultiKeys = async (
   multiKeyManageRequest: MultiKeyManageRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<manageMultiKeysResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6427,7 +6454,9 @@ export const ollamaDeleteModel = async (
   ollamaModelRequest: OllamaModelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<ollamaDeleteModelResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6473,7 +6502,9 @@ export const ollamaPullModel = async (
   ollamaModelRequest: OllamaModelRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<ollamaPullModelResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6711,7 +6742,9 @@ export const editTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<editTagChannelsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6757,7 +6790,9 @@ export const disableTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<disableTagChannelsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -6803,7 +6838,9 @@ export const enableTagChannels = async (
   channelTag: ChannelTag,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<enableTagChannelsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -7275,7 +7312,9 @@ export const completeCodexOAuthForChannel = async (
   codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<completeCodexOAuthForChannelResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -7547,7 +7586,9 @@ export const createCustomOAuthProvider = async (
   createCustomOAuthProviderRequest: CreateCustomOAuthProviderRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createCustomOAuthProviderResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -7597,7 +7638,9 @@ export const fetchCustomOAuthDiscovery = async (
   fetchCustomOAuthDiscoveryRequest: FetchCustomOAuthDiscoveryRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchCustomOAuthDiscoveryResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -7726,7 +7769,9 @@ export const updateCustomOAuthProvider = async (
   updateCustomOAuthProviderRequest: UpdateCustomOAuthProviderRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateCustomOAuthProviderResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8111,7 +8156,9 @@ export const createDeployment = async (
   deploymentRequest: DeploymentRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createDeploymentResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8329,7 +8376,9 @@ export const getPriceEstimation = async (
   priceEstimationRequest: PriceEstimationRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getPriceEstimationResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8463,7 +8512,9 @@ export const testIoNetConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<testIoNetConnectionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8510,7 +8561,9 @@ export const postApiDeploymentsTestConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<postApiDeploymentsTestConnectionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8630,7 +8683,9 @@ export const updateDeployment = async (
   updateDeploymentRequest: UpdateDeploymentRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateDeploymentResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8755,7 +8810,9 @@ export const extendDeployment = async (
   extendDurationRequest: ExtendDurationRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<extendDeploymentResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -8856,7 +8913,9 @@ export const updateDeploymentName = async (
   updateDeploymentNameRequest: UpdateDeploymentNameRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateDeploymentNameResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -9034,6 +9093,53 @@ export const getAllLogs = async (
   options?: Parameters<typeof customFetch>[1],
 ): Promise<getAllLogsResponse> => {
   return customFetch<getAllLogsResponse>(getGetAllLogsUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getLogByRequestResponse200ApplicationJson = {
+  data: ResponseDtoLogByRequestData;
+  status: 200;
+};
+
+export type getLogByRequestResponse200ApplicationXml = {
+  data: ResponseDtoLogByRequestData;
+  status: 200;
+};
+
+export type getLogByRequestResponseSuccess = (
+  | getLogByRequestResponse200ApplicationJson
+  | getLogByRequestResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getLogByRequestResponse = getLogByRequestResponseSuccess;
+
+export const getGetLogByRequestUrl = (params?: GetLogByRequestParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/log/by-request?${stringifiedParams}`
+    : `/api/log/by-request`;
+};
+
+/**
+ * @summary Get Log By Request
+ */
+export const getLogByRequest = async (
+  params?: GetLogByRequestParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getLogByRequestResponse> => {
+  return customFetch<getLogByRequestResponse>(getGetLogByRequestUrl(params), {
     ...options,
     method: "GET",
   });
@@ -9723,7 +9829,9 @@ export const createModelMeta = async (
   model: Model,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createModelMetaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -9782,7 +9890,9 @@ export const updateModelMeta = async (
   params?: UpdateModelMetaParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateModelMetaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -9993,7 +10103,9 @@ export const syncUpstreamModels = async (
   syncRequest: SyncRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<syncUpstreamModelsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -10241,7 +10353,9 @@ export const unsubscribeNotifyPush = async (
   notifyUnsubscribeRequest: NotifyUnsubscribeRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<unsubscribeNotifyPushResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -10290,7 +10404,9 @@ export const subscribeNotifyPush = async (
   notifySubscriptionRequest: NotifySubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscribeNotifyPushResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -10450,7 +10566,9 @@ export const exchangeOAuthCode = async (
   oAuthExchangeRequest: OAuthExchangeRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<exchangeOAuthCodeResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -10822,7 +10940,9 @@ export const updateOption = async (
   optionUpdateRequest: OptionUpdateRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateOptionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -10998,7 +11118,9 @@ export const confirmPaymentCompliance = async (
   paymentComplianceRequest: PaymentComplianceRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<confirmPaymentComplianceResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -11622,7 +11744,9 @@ export const createPrefillGroup = async (
   prefillGroup: PrefillGroup,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createPrefillGroupResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -11668,7 +11792,9 @@ export const updatePrefillGroup = async (
   prefillGroup: PrefillGroup,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updatePrefillGroupResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12201,7 +12327,9 @@ export const fetchUpstreamRatios = async (
   upstreamRequest: UpstreamRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchUpstreamRatiosResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12297,7 +12425,9 @@ export const addRedemption = async (
   redemption: Redemption,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addRedemptionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12356,7 +12486,9 @@ export const updateRedemption = async (
   params?: UpdateRedemptionParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateRedemptionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12645,7 +12777,9 @@ export const postSetup = async (
   setupRequest: SetupRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<postSetupResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12792,7 +12926,9 @@ export const adminBindSubscription = async (
   adminBindSubscriptionRequest: AdminBindSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminBindSubscriptionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12880,7 +13016,9 @@ export const adminCreateSubscriptionPlan = async (
   adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCreateSubscriptionPlanResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12931,7 +13069,9 @@ export const adminUpdateSubscriptionPlanStatus = async (
   adminUpdateSubscriptionPlanStatusRequest: AdminUpdateSubscriptionPlanStatusRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminUpdateSubscriptionPlanStatusResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -12982,7 +13122,9 @@ export const adminUpdateSubscriptionPlan = async (
   adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminUpdateSubscriptionPlanResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13033,7 +13175,9 @@ export const adminResetPlanSubscriptions = async (
   adminResetSubscriptionRequest: AdminResetSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminResetPlanSubscriptionsResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13201,7 +13345,9 @@ export const adminCreateUserSubscription = async (
   adminCreateUserSubscriptionRequest: AdminCreateUserSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCreateUserSubscriptionResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13252,7 +13398,9 @@ export const adminResetUserSubscriptionsByPlan = async (
   adminResetSubscriptionRequest: AdminResetSubscriptionRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminResetUserSubscriptionsByPlanResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13302,7 +13450,9 @@ export const subscriptionRequestBalancePay = async (
   subscriptionBalancePayRequest: SubscriptionBalancePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestBalancePayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13352,7 +13502,9 @@ export const subscriptionRequestCreemPay = async (
   subscriptionCreemPayRequest: SubscriptionCreemPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestCreemPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13402,7 +13554,9 @@ export const subscriptionRequestDeloPayPay = async (
   subscriptionDeloPayPayRequest: SubscriptionDeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestDeloPayPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13528,7 +13682,9 @@ export const subscriptionRequestEpay = async (
   subscriptionEpayPayRequest: SubscriptionEpayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestEpayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13654,7 +13810,9 @@ export const subscriptionRequestNowPaymentsPay = async (
   subscriptionNowPaymentsPayRequest: SubscriptionNowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestNowPaymentsPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13828,7 +13986,9 @@ export const updateSubscriptionPreference = async (
   billingPreferenceRequest: BillingPreferenceRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateSubscriptionPreferenceResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -13878,7 +14038,9 @@ export const subscriptionRequestStripePay = async (
   subscriptionStripePayRequest: SubscriptionStripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<subscriptionRequestStripePayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14102,7 +14264,9 @@ export const addToken = async (
   createTokenRequest: CreateTokenRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<addTokenResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14160,7 +14324,9 @@ export const updateToken = async (
   params?: UpdateTokenParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateTokenResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14240,7 +14406,9 @@ export const deleteTokenBatch = async (
   tokenBatch: TokenBatch,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<deleteTokenBatchResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14615,7 +14783,9 @@ export const createUser = async (
   user: User,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createUserResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14660,7 +14830,9 @@ export const updateUser = async (
   user: User,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateUserResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14707,7 +14879,9 @@ export const regenerateBackupCodes = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<regenerateBackupCodesResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14755,7 +14929,9 @@ export const disable2FA = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<disable2FAResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -14800,7 +14976,9 @@ export const enable2FA = async (
   setup2FARequest: Setup2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<enable2FAResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15079,7 +15257,9 @@ export const transferAffQuota = async (
   transferAffQuotaRequest: TransferAffQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<transferAffQuotaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15125,7 +15305,9 @@ export const requestAmount = async (
   amountRequest: AmountRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestAmountResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15349,7 +15531,9 @@ export const requestCreemPay = async (
   creemPayRequest: CreemPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestCreemPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15395,7 +15579,9 @@ export const requestDeloPayAmount = async (
   deloPayPayRequest: DeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestDeloPayAmountResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15444,7 +15630,9 @@ export const requestDeloPayPay = async (
   deloPayPayRequest: DeloPayPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestDeloPayPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15490,7 +15678,9 @@ export const grantDiscordQuota = async (
   grantDiscordQuotaRequest: GrantDiscordQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<grantDiscordQuotaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15536,7 +15726,9 @@ export const transferDiscordQuota = async (
   transferDiscordQuotaRequest: TransferDiscordQuotaRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<transferDiscordQuotaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15701,7 +15893,9 @@ export const login = async (
   params?: LoginParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<loginResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15747,7 +15941,9 @@ export const verify2FALogin = async (
   verify2FARequest: Verify2FARequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<verify2FALoginResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15825,7 +16021,9 @@ export const manageUser = async (
   manageRequest: ManageRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<manageUserResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15906,7 +16104,9 @@ export const requestNowPaymentsAmount = async (
   nowPaymentsPayRequest: NowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestNowPaymentsAmountResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -15956,7 +16156,9 @@ export const requestNowPaymentsPay = async (
   nowPaymentsPayRequest: NowPaymentsPayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestNowPaymentsPayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16358,7 +16560,9 @@ export const requestEpay = async (
   epayRequest: EpayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestEpayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16416,7 +16620,9 @@ export const register = async (
   params?: RegisterParams,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<registerResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16462,7 +16668,9 @@ export const resetPassword = async (
   passwordResetRequest: PasswordResetRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<resetPasswordResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16691,7 +16899,9 @@ export const updateTimeoutPreference = async (
   timeoutPreferenceRequest: TimeoutPreferenceRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateTimeoutPreferenceResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16850,7 +17060,9 @@ export const updateUserSetting = async (
   updateUserSettingRequest: UpdateUserSettingRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateUserSettingResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16896,7 +17108,9 @@ export const requestStripeAmount = async (
   stripePayRequest: StripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestStripeAmountResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -16942,7 +17156,9 @@ export const requestStripePay = async (
   stripePayRequest: StripePayRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<requestStripePayResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -17067,7 +17283,9 @@ export const topUp = async (
   topUpRequest: TopUpRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<topUpResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -17113,7 +17331,9 @@ export const adminCompleteTopUp = async (
   adminCompleteTopupRequest: AdminCompleteTopupRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<adminCompleteTopUpResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -17693,7 +17913,9 @@ export const createVendorMeta = async (
   vendor: Vendor,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<createVendorMetaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);
@@ -17739,7 +17961,9 @@ export const updateVendorMeta = async (
   vendor: Vendor,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<updateVendorMetaResponse> => {
-  const getHeaders = (h?: HeadersInit | Headers): Record<string, string> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
     if (Array.isArray(h)) return Object.fromEntries(h);

@@ -2,7 +2,6 @@ import { FAR_FUTURE } from "@/lib/config/constants";
 import { errMessage, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getQuotaDataSummary } from "@/openapi";
-import { ADMIN_HEADERS } from "@/server/constants";
 import {
   getCatalog,
   getModelByName,
@@ -11,10 +10,7 @@ import type { PricingCatalogDetail, PricingCatalogModel } from "@/openapi";
 import type { BadgePricing, BadgeStats } from "./types";
 
 export function getStats(): Promise<BadgeStats> {
-  return getQuotaDataSummary(
-    { start_timestamp: 0, end_timestamp: FAR_FUTURE },
-    { headers: ADMIN_HEADERS },
-  )
+  return getQuotaDataSummary({ start_timestamp: 0, end_timestamp: FAR_FUTURE })
     .then((res) => unwrap(res).data)
     .catch((err) => {
       logger.warn("badge getStats: upstream failed, falling back to zero", {

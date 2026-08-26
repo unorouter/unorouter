@@ -19,11 +19,6 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";
 
-export const ADMIN_HEADERS = {
-  Authorization: serverEnv.systemAccessToken,
-  [NEW_API_USER]: "1",
-};
-
 export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
 // "auto" means let the gateway pick, so the header is omitted entirely rather

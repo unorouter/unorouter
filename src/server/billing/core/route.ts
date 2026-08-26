@@ -27,7 +27,7 @@ import {
   updateSubscriptionPreference,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
+import { deriveUpstream } from "@/server/constants";
 
 const xPaymentInfo = (
   method: "stripe" | "creem" | "nowpayments" | "delopay",
@@ -45,17 +45,11 @@ const xPaymentInfo = (
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
-    const hasUser = !!upstream.headers.cookie;
-    const res = await getTopUpInfo(
-      hasUser ? { headers: upstream.headers } : { headers: ADMIN_HEADERS },
-    );
+    const res = await getTopUpInfo({ headers: upstream.headers });
     return unwrap(res);
   })
   .get("/subscription-plans", async ({ upstream }) => {
-    const hasUser = !!upstream.headers.cookie;
-    const res = await getSubscriptionPlans(
-      hasUser ? { headers: upstream.headers } : { headers: ADMIN_HEADERS },
-    );
+    const res = await getSubscriptionPlans({ headers: upstream.headers });
     if (res.status !== 200) return [];
     return res.data.data;
   })
