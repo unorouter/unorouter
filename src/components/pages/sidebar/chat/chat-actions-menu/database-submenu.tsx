@@ -55,14 +55,16 @@ export function DatabaseSubmenu() {
     if (!ok) return;
     try {
       const buffer = await file.arrayBuffer();
-      const { getLocalDb, resetLocalDbCache } =
+      const { getLocalDb, suspendLocalDb, resumeLocalDb } =
         await import("@/lib/db/client/client");
       const local = await getLocalDb();
+      // Suspend BEFORE destroy: a query hook racing the close would otherwise
+      // reopen live and hold the write lock the import needs to graft from it.
+      suspendLocalDb();
       if (local) await local.destroy();
-      resetLocalDbCache();
       const { reconcileImport } =
         await import("@/lib/db/client/data-migrate/reconcile-import");
-      const res = await reconcileImport(buffer);
+      const res = await reconcileImport(buffer).finally(resumeLocalDb);
       toast.success(
         t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
           imported: res.imported,
@@ -78,7 +80,9 @@ export function DatabaseSubmenu() {
         error: String(err),
       });
       toast.error(String(err));
-      const { resetLocalDbCache } = await import("@/lib/db/client/client");
+      const { resetLocalDbCache, resumeLocalDb } =
+        await import("@/lib/db/client/client");
+      resumeLocalDb();
       resetLocalDbCache();
     }
   };
