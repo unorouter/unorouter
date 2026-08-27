@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Yükleyin ve kuruluma başlayın",
       "STEP_1_DESC": "OpenClaw'u npm ile global olarak yükleyin, ardından yapılandırmayı oluşturmak için `openclaw onboard` çalıştırın.",
       "STEP_2_TITLE": "Sağlayıcıyı {appName}''e yönlendirin",
-      "STEP_2_DESC": "`~/.openclaw/config.json` dosyasını düzenleyin. openai sağlayıcısını {appName}''in temel URL''sine yönlendirin, anahtarı `OPENAI_API_KEY` üzerinden okuyun ve varsayılan modelinizi agents altında belirleyin.",
+      "STEP_2_DESC": "`~/.openclaw/openclaw.json` dosyasını düzenleyin. openai sağlayıcısını {appName}''in temel URL''sine yönlendirin, anahtarı `OPENAI_API_KEY` üzerinden okuyun ve varsayılan modelinizi agents altında belirleyin.",
       "STEP_3_TITLE": "OpenClaw'u başlatın",
       "STEP_3_DESC": "Ajanı {appName}''e karşı başlatmak için `openclaw start` çalıştırın.",
       "TS_1_DESC": "~/.openclaw/openclaw.json dosyasındaki models.providers.openai.baseUrl değerini denetleyin. En üst düzeydeki bir providers bloğu yok sayılır.",

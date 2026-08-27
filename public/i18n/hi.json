@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "इंस्टॉल करें और ऑनबोर्ड करें",
       "STEP_1_DESC": "npm के साथ OpenClaw को ग्लोबली इंस्टॉल करें, फिर कॉन्फ़िग बनाने के लिए `openclaw onboard` चलाएँ।",
       "STEP_2_TITLE": "प्रोवाइडर को {appName} की ओर इंगित करें",
-      "STEP_2_DESC": "`~/.openclaw/config.json` संपादित करें। openai प्रदाता को {appName} के बेस URL की ओर मोड़ें, कुंजी `OPENAI_API_KEY` से पढ़ें, और अपना डिफ़ॉल्ट मॉडल agents के नीचे सेट करें।",
+      "STEP_2_DESC": "`~/.openclaw/openclaw.json` संपादित करें। openai प्रदाता को {appName} के बेस URL की ओर मोड़ें, कुंजी `OPENAI_API_KEY` से पढ़ें, और अपना डिफ़ॉल्ट मॉडल agents के नीचे सेट करें।",
       "STEP_3_TITLE": "OpenClaw शुरू करें",
       "STEP_3_DESC": "{appName} के विरुद्ध एजेंट लॉन्च करने के लिए `openclaw start` चलाएँ।",
       "TS_1_DESC": "~/.openclaw/openclaw.json में models.providers.openai.baseUrl की जाँच करें। सबसे ऊपरी स्तर पर रखे गए providers ब्लॉक को अनदेखा कर दिया जाता है।",

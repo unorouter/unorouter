@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Pasang dan jalankan onboarding",
       "STEP_1_DESC": "Pasang OpenClaw secara global dengan npm, lalu jalankan `openclaw onboard` untuk membuat kerangka konfigurasi.",
       "STEP_2_TITLE": "Arahkan penyedia ke {appName}",
-      "STEP_2_DESC": "Sunting `~/.openclaw/config.json`. Arahkan penyedia openai ke base URL {appName}, baca kuncinya dari `OPENAI_API_KEY`, dan tetapkan model default Anda di bawah agents.",
+      "STEP_2_DESC": "Sunting `~/.openclaw/openclaw.json`. Arahkan penyedia openai ke base URL {appName}, baca kuncinya dari `OPENAI_API_KEY`, dan tetapkan model default Anda di bawah agents.",
       "STEP_3_TITLE": "Mulai OpenClaw",
       "STEP_3_DESC": "Jalankan `openclaw start` untuk meluncurkan agen terhadap {appName}.",
       "TS_1_DESC": "Periksa models.providers.openai.baseUrl di ~/.openclaw/openclaw.json. Blok providers di tingkat teratas akan diabaikan.",

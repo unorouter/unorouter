@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "설치 및 온보딩",
       "STEP_1_DESC": "npm으로 OpenClaw를 전역 설치한 다음 `openclaw onboard`를 실행하여 설정을 생성하세요.",
       "STEP_2_TITLE": "프로바이더를 {appName}으로 지정",
-      "STEP_2_DESC": "`~/.openclaw/config.json`을 편집하세요. openai 제공자를 {appName}의 기본 URL로 향하게 하고, 키는 `OPENAI_API_KEY`에서 읽게 하며, 기본 모델은 agents 아래에 지정하세요.",
+      "STEP_2_DESC": "`~/.openclaw/openclaw.json`을 편집하세요. openai 제공자를 {appName}의 기본 URL로 향하게 하고, 키는 `OPENAI_API_KEY`에서 읽게 하며, 기본 모델은 agents 아래에 지정하세요.",
       "STEP_3_TITLE": "OpenClaw 시작",
       "STEP_3_DESC": "`openclaw start`를 실행하여 {appName}을 대상으로 에이전트를 시작하세요.",
       "TS_1_DESC": "~/.openclaw/openclaw.json의 models.providers.openai.baseUrl을 확인하세요. 최상위에 둔 providers 블록은 무시됩니다.",
