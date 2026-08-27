@@ -35,6 +35,9 @@ import { editingTokenAtom } from "./token-list";
 export type TokenRow = NonNullable<TokenResponse>;
 
 const MODEL_PREVIEW_CAP = 12;
+// A token spanning every vendor rendered ~45 icons, widening the row past the
+// viewport. The tooltip already lists the models behind them.
+const VENDOR_ICON_CAP = 8;
 
 export function TokenStatusCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
@@ -191,9 +194,16 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
           <span className="text-primary font-mono text-xs">
             +{mappedModels.length}
           </span>
-          {[...vendors].map((vendor) => (
+          {[...vendors].slice(0, VENDOR_ICON_CAP).map((vendor) => (
             <VendorIcon key={vendor} vendor={vendor} size={16} />
           ))}
+          {vendors.size > VENDOR_ICON_CAP && (
+            <span className="text-muted-foreground font-mono text-[11px]">
+              {t("TOKEN.MODELS_MORE", {
+                count: vendors.size - VENDOR_ICON_CAP,
+              })}
+            </span>
+          )}
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
           <ul className="space-y-0.5 text-xs">
@@ -252,9 +262,16 @@ export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger className="flex items-center gap-1">
-          {[...vendorModels.keys()].map((vendor) => (
+          {[...vendorModels.keys()].slice(0, VENDOR_ICON_CAP).map((vendor) => (
             <VendorIcon key={vendor} vendor={vendor} size={16} />
           ))}
+          {vendorModels.size > VENDOR_ICON_CAP && (
+            <span className="text-muted-foreground font-mono text-[11px]">
+              {t("TOKEN.MODELS_MORE", {
+                count: vendorModels.size - VENDOR_ICON_CAP,
+              })}
+            </span>
+          )}
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
           <ul className="space-y-0.5 text-xs">
