@@ -3860,7 +3860,14 @@
       "UNIT_MS": "毫秒",
       "UNIT_TOK_PER_S": "词元/秒",
       "BADGE_PROVIDER": "提供商",
-      "TRIMMED": "该消息的完整请求未保留：每个对话仅最近的请求会保存完整内容。"
+      "TRIMMED": "该消息的完整请求未保留：每个对话仅最近的请求会保存完整内容。",
+      "LIST_TITLE": "请求日志",
+      "LIST_EMPTY": "此对话没有记录任何请求。",
+      "LIST_SUMMARY": "{count} 个请求 · 输入 {in} · 输出 {out} · {cost} 美元",
+      "COL_TIME": "时间",
+      "COL_MODEL": "模型",
+      "COL_COST": "费用",
+      "LIST_CAPPED": "每个对话仅保留最近的 {max} 条请求，更早的会被删除。"
     },
     "NEW_CONVERSATION": "新对话",
     "GENERATION_LOCKED_OTHER_TAB": "另一个标签页正在为此对话生成回复。请等待其完成或切换到该标签页。",

@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "Tok/s",
       "BADGE_PROVIDER": "Anbieter",
-      "TRIMMED": "Vollständige Anfrage für diese Nachricht nicht gespeichert. Nur die neuesten Anfragen eines Chats behalten ihren kompletten Inhalt."
+      "TRIMMED": "Vollständige Anfrage für diese Nachricht nicht gespeichert. Nur die neuesten Anfragen eines Chats behalten ihren kompletten Inhalt.",
+      "LIST_TITLE": "Anfrageprotokolle",
+      "LIST_EMPTY": "Keine Anfragen für diesen Chat protokolliert.",
+      "LIST_SUMMARY": "{count} Anfragen · {in} rein · {out} raus · ${cost}",
+      "COL_TIME": "Zeit",
+      "COL_MODEL": "Modell",
+      "COL_COST": "Kosten",
+      "LIST_CAPPED": "Es werden nur die {max} neuesten Anfragen pro Chat gespeichert; ältere werden gelöscht."
     },
     "NEW_CONVERSATION": "Neuer Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Ein anderer Tab generiert bereits für diese Unterhaltung. Warte, bis er fertig ist, oder wechsle den Tab.",

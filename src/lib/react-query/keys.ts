@@ -86,6 +86,8 @@ export const queryKeys = {
     ["embedding-catalog", params] as const,
 
   requestLog: (msgId: string) => ["request-log", msgId] as const,
+  requestLogList: (convId: string | null) =>
+    ["request-log-list", convId] as const,
 
   pricingBrowse: () => ["pricing", "browse"] as const,
   pricingCounts: () => ["pricing", "counts"] as const,

@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
       "BADGE_PROVIDER": "sağlayıcı",
-      "TRIMMED": "Bu mesaj için tam istek saklanmadı. Bir sohbette yalnızca en son istekler tüm içeriğini saklar."
+      "TRIMMED": "Bu mesaj için tam istek saklanmadı. Bir sohbette yalnızca en son istekler tüm içeriğini saklar.",
+      "LIST_TITLE": "İstek kayıtları",
+      "LIST_EMPTY": "Bu sohbet için kayıtlı istek yok.",
+      "LIST_SUMMARY": "{count} istek · {in} giriş · {out} çıkış · {cost} $",
+      "COL_TIME": "Saat",
+      "COL_MODEL": "Model",
+      "COL_COST": "Maliyet",
+      "LIST_CAPPED": "Sohbet başına yalnızca en son {max} istek saklanır; daha eskiler silinir."
     },
     "NEW_CONVERSATION": "Yeni Sohbet",
     "GENERATION_LOCKED_OTHER_TAB": "Başka bir sekme zaten bu sohbet için üretim yapıyor. Bitmesini bekleyin veya sekmeyi değiştirin.",

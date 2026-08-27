@@ -23,6 +23,7 @@ import { ImportExportSubmenu } from "./import-export-submenu";
 
 type Props = {
   convId: string | null;
+  onOpenRequestLogs: () => void;
 };
 
 export function ToolsSubmenu(props: Props) {
@@ -72,35 +73,44 @@ export function ToolsSubmenu(props: Props) {
   };
 
   return (
-    <DropdownMenuSub>
-      <DropdownMenuSubTrigger>
-        <Icon name="wrench" className="size-4" />
-        {t("CHAT.MORE.TOOLS")}
-      </DropdownMenuSubTrigger>
-      <DropdownMenuSubContent>
-        <DropdownMenuItem
-          disabled={!hasConv || duplicateMut.isPending}
-          onClick={handleDuplicate}
-        >
-          <Icon name="copy" className="size-4" />
-          {t("CHAT.MORE.DUPLICATE")}
-        </DropdownMenuItem>
-        <DropdownMenuItem disabled={!hasConv} onClick={handleCopyChat}>
-          <Icon name="clipboard-copy" className="size-4" />
-          {t("CHAT.MORE.COPY_CHAT")}
-        </DropdownMenuItem>
-        <ImportExportSubmenu convId={props.convId} />
-        <DatabaseSubmenu />
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          variant="destructive"
-          disabled={!hasConv || clearMut.isPending}
-          onClick={handleClear}
-        >
-          <Icon name="trash-2" className="size-4" />
-          {t("CHAT.MORE.CLEAR")}
-        </DropdownMenuItem>
-      </DropdownMenuSubContent>
-    </DropdownMenuSub>
+    <>
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>
+          <Icon name="wrench" className="size-4" />
+          {t("CHAT.MORE.TOOLS")}
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent>
+          <DropdownMenuItem
+            disabled={!hasConv || duplicateMut.isPending}
+            onClick={handleDuplicate}
+          >
+            <Icon name="copy" className="size-4" />
+            {t("CHAT.MORE.DUPLICATE")}
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled={!hasConv} onClick={handleCopyChat}>
+            <Icon name="clipboard-copy" className="size-4" />
+            {t("CHAT.MORE.COPY_CHAT")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!hasConv}
+            onClick={props.onOpenRequestLogs}
+          >
+            <Icon name="terminal" className="size-4" />
+            {t("CHAT.REQUEST_LOG.LIST_TITLE")}
+          </DropdownMenuItem>
+          <ImportExportSubmenu convId={props.convId} />
+          <DatabaseSubmenu />
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            variant="destructive"
+            disabled={!hasConv || clearMut.isPending}
+            onClick={handleClear}
+          >
+            <Icon name="trash-2" className="size-4" />
+            {t("CHAT.MORE.CLEAR")}
+          </DropdownMenuItem>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
+    </>
   );
 }

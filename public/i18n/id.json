@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/d",
       "BADGE_PROVIDER": "penyedia",
-      "TRIMMED": "Permintaan lengkap tidak disimpan untuk pesan ini. Hanya permintaan terbaru dalam sebuah obrolan yang menyimpan seluruh isinya."
+      "TRIMMED": "Permintaan lengkap tidak disimpan untuk pesan ini. Hanya permintaan terbaru dalam sebuah obrolan yang menyimpan seluruh isinya.",
+      "LIST_TITLE": "Log permintaan",
+      "LIST_EMPTY": "Tidak ada permintaan yang tercatat untuk obrolan ini.",
+      "LIST_SUMMARY": "{count} permintaan · {in} masuk · {out} keluar · {cost} $",
+      "COL_TIME": "Waktu",
+      "COL_MODEL": "Model",
+      "COL_COST": "Biaya",
+      "LIST_CAPPED": "Hanya {max} permintaan terbaru per obrolan yang disimpan; yang lebih lama dihapus."
     },
     "NEW_CONVERSATION": "Chat Baru",
     "GENERATION_LOCKED_OTHER_TAB": "Tab lain sudah membuat untuk sohbet ini. Tunggu sampai selesai atau ganti tab.",

@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { AppearanceSubmenu } from "./appearance-submenu";
 import { RpNavItems } from "./rp-nav-items";
+import { RequestLogListSheet } from "../request-log/request-log-list-sheet";
 import { ToolsSubmenu } from "./tools-submenu";
 
 type Props = {
@@ -40,6 +41,7 @@ const ThemeCustomizerSheet = dynamic(
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
   const [themeOpen, setThemeOpen] = useState(false);
+  const [logsOpen, setLogsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useAtom(conversationSettingsOpenAtom);
 
   return (
@@ -71,7 +73,10 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuSeparator />
           {/* Everything else grouped: look-and-feel + utilities. */}
           <AppearanceSubmenu onOpenCustomizer={() => setThemeOpen(true)} />
-          <ToolsSubmenu convId={props.convId} />
+          <ToolsSubmenu
+            convId={props.convId}
+            onOpenRequestLogs={() => setLogsOpen(true)}
+          />
         </DropdownMenuContent>
       </DropdownMenu>
       {settingsOpen && (
@@ -83,6 +88,13 @@ export function ChatActionsMenu(props: Props) {
       )}
       {themeOpen && (
         <ThemeCustomizerSheet open={themeOpen} onOpenChange={setThemeOpen} />
+      )}
+      {logsOpen && props.convId && (
+        <RequestLogListSheet
+          convId={props.convId}
+          open={logsOpen}
+          onOpenChange={setLogsOpen}
+        />
       )}
     </>
   );

@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
       "BADGE_PROVIDER": "dostawca",
-      "TRIMMED": "Pełne żądanie nie zostało zachowane dla tej wiadomości. Tylko najnowsze żądania w czacie przechowują całą zawartość."
+      "TRIMMED": "Pełne żądanie nie zostało zachowane dla tej wiadomości. Tylko najnowsze żądania w czacie przechowują całą zawartość.",
+      "LIST_TITLE": "Dzienniki żądań",
+      "LIST_EMPTY": "Brak zarejestrowanych żądań dla tego czatu.",
+      "LIST_SUMMARY": "{count} żądań · {in} wejście · {out} wyjście · {cost} $",
+      "COL_TIME": "Czas",
+      "COL_MODEL": "Model",
+      "COL_COST": "Koszt",
+      "LIST_CAPPED": "Przechowywane jest tylko {max} najnowszych żądań na czat; starsze są usuwane."
     },
     "NEW_CONVERSATION": "Nowy chat",
     "GENERATION_LOCKED_OTHER_TAB": "Inna karta już generuje dla tej rozmowy. Poczekaj na zakończenie lub przełącz karty.",
