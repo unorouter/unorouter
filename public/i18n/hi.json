@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "npm से Codex CLI को ग्लोबल इंस्टॉल करें।",
       "STEP_2_TITLE": "मॉडल प्रोवाइडर कॉन्फ़िगर करें",
       "STEP_2_DESC": "`~/.codex/config.toml` संपादित करें। अपना मॉडल id सेट करें और responses वायर API के साथ {appName} के बेस URL वाला एक कस्टम प्रदाता जोड़ें।",
-      "STEP_3_TITLE": "अपनी API कुंजी जोड़ें",
-      "STEP_3_DESC": "अपनी {appName} API कुंजी `~/.codex/auth.json` में लिखें।",
+      "STEP_3_TITLE": "अपनी API कुंजी export करें",
+      "STEP_3_DESC": "env_key में बताए गए वेरिएबल को export करें। Codex कस्टम प्रदाता की कुंजी परिवेश से पढ़ता है; auth.json सिर्फ़ OpenAI में साइन इन करने के लिए है।",
       "STEP_4_TITLE": "Codex शुरू करें",
       "STEP_4_DESC": "अपनी परियोजना की डायरेक्टरी में `codex` चलाएँ।",
       "TS_1_DESC": "असमर्थित एंडपॉइंट की त्रुटि आने पर पुष्टि करें कि `wire_api` का मान `responses` है और बेस URL `/v1` पर खत्म होता है।",
-      "TS_2_DESC": "401 का मतलब है कि `~/.codex/auth.json` की कुंजी गायब है या पुरानी हो चुकी है। अपने {appName} डैशबोर्ड से नई कुंजी पेस्ट करें।",
-      "TS_3_DESC": "अगर Codex आपके प्रदाता को अनदेखा करे तो `config.toml` में टेबल का नाम जाँचें। प्रदाता ID में अंडरस्कोर चलते हैं, हाइफ़न नहीं (`model_providers.my_provider` सही है, `my-provider` नहीं)। `openai` आरक्षित है और उसे बदला नहीं जा सकता।"
+      "TS_2_DESC": "अगर अनुरोध बिना प्रमाणीकरण के जा रहे हों, तो जाँचें कि env_key जिस वेरिएबल का नाम बताता है वह codex चलाने वाले शेल में सचमुच export किया गया है या नहीं।",
+      "TS_3_DESC": "आरक्षित आईडी openai को किसी कस्टम प्रदाता के लिए दोबारा इस्तेमाल नहीं किया जा सकता। कोई भी दूसरी आईडी काम करेगी, [model_providers.<id>] में भी और model_provider में भी।"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "`~/.openclaw/config.json` संपादित करें। openai प्रदाता को {appName} के बेस URL की ओर मोड़ें, कुंजी `OPENAI_API_KEY` से पढ़ें, और अपना डिफ़ॉल्ट मॉडल agents के नीचे सेट करें।",
       "STEP_3_TITLE": "OpenClaw शुरू करें",
       "STEP_3_DESC": "{appName} के विरुद्ध एजेंट लॉन्च करने के लिए `openclaw start` चलाएँ।",
-      "TS_1_DESC": "यदि OpenClaw API तक नहीं पहुँच पाता, तो पुष्टि करें कि `providers.openai.baseUrl` `/v1` पर समाप्त होता है और `OPENAI_API_KEY` उसी शेल में निर्यात किया गया है।",
+      "TS_1_DESC": "~/.openclaw/openclaw.json में models.providers.openai.baseUrl की जाँच करें। सबसे ऊपरी स्तर पर रखे गए providers ब्लॉक को अनदेखा कर दिया जाता है।",
       "TS_2_DESC": "मॉडल अस्वीकार हो तो `agents.defaults.model.primary` में {appName} के मॉडल पेज से कॉपी किया हुआ मान्य id `openai/` उपसर्ग के साथ डालें।"
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "अपनी {appName} API कुंजी `~/.hermes/.env` में `OPENAI_API_KEY` के रूप में रखें।",
       "STEP_4_TITLE": "Hermes चलाएँ",
       "STEP_4_DESC": "`hermes --tui` से TUI शुरू करें।",
-      "TS_1_DESC": "Hermes स्टार्टअप पर 64,000 टोकन संदर्भ से कम वाले मॉडलों को अस्वीकार करता है। {appName} मॉडल पृष्ठ से बड़े संदर्भ वाला मॉडल चुनें।",
+      "TS_1_DESC": "अगर आप सारांश के लिए अलग मॉडल तय करते हैं, तो उसे कम से कम मुख्य मॉडल जितनी बड़ी कॉन्टेक्स्ट विंडो दें।",
       "TS_2_DESC": "अगर शुरुआत में `/v1/models` की जाँच विफल हो, तो पुष्टि करें कि `model.base_url` `/v1` पर खत्म होता है और `~/.hermes/.env` में `OPENAI_API_KEY` सेट है।"
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "Model",
       "QUICK_CONFIG_NOTE": "केवल बेस URL पेस्ट करें। SillyTavern `/chat/completions` खुद जोड़ता है। खुद जोड़ने पर 400 त्रुटि मिलती है।",
       "STEPS": "Step-by-step सेटअप",
-      "STEP_1_TITLE": "AI Response कॉन्फ़िगरेशन खोलें",
+      "STEP_1_TITLE": "API Connections खोलें",
       "STEP_1_DESC": "API Connections पैनल खोलने के लिए ऊपर बने प्लग आइकन पर क्लिक करें।",
       "STEP_2_TITLE": "Chat Completion चुनें",
       "STEP_2_DESC": "API type को Chat Completion पर सेट करें।",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "Model dropdown behavior",
       "TOC_TROUBLESHOOTING": "Troubleshooting",
       "GOTCHA_1": "केवल `/v1` पर खत्म होने वाला बेस URL पेस्ट करें। SillyTavern `/chat/completions` खुद जोड़ता है; खुद जोड़ने पर 400 त्रुटि मिलती है।",
-      "GOTCHA_2": "मॉडल ड्रॉपडाउन खाली होने का मतलब है कि कनेक्शन विफल रहा। बेस URL दोबारा जाँचें, फिर Bypass API Status Check चालू करें।",
+      "GOTCHA_2": "मॉडल की खाली ड्रॉपडाउन का मतलब है कि कनेक्शन विफल रहा। बेस URL दोबारा जाँचें, फिर Bypass API status check चालू करें।",
       "GOTCHA_3": "401 का अर्थ है कि कुंजी समाप्त हो गई है या गलत टाइप की गई है। अपने {appName} डैशबोर्ड में एक नई कुंजी बनाएँ और इसे आगे या पीछे रिक्त स्थान के बिना पेस्ट करें।",
       "GOTCHA_4": "स्ट्रीमिंग वाक्य के बीच में कट जाए तो वजह पक्की करने के लिए Streaming बंद करें, फिर दोबारा चालू कर दें। `data:` उपसर्ग हटाने वाली कॉर्पोरेट प्रॉक्सी भी इसे तोड़ देती हैं।"
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "एक मॉडल slot चुनें",
       "STEP_2_DESC": "Chat Bot मॉडल चयनकर्ता पर क्लिक करें, सबसे नीचे तक स्क्रॉल करें और Custom Models चुनें।",
       "STEP_3_TITLE": "Autofill Request URL uncheck करें",
-      "STEP_3_DESC": "कुछ भी पेस्ट करने से पहले यह टॉगल बंद होना चाहिए। ऊपर दी चेतावनी देखें।",
-      "STEP_4_TITLE": "Request URL पेस्ट करें",
-      "STEP_4_DESC": "`/v1/chat/completions` में समाप्त होने वाला पूरा URL पेस्ट करें।",
+      "STEP_3_DESC": "Advanced Settings की सूची में Autofill Request URL खोजें और कुछ भी चिपकाने से पहले इसे बंद कर दें। ऊपर दी गई चेतावनी देखें।",
+      "STEP_4_TITLE": "URL चिपकाएँ",
+      "STEP_4_DESC": "`/v1/chat/completions` पर समाप्त होने वाला पूरा URL, URL फ़ील्ड में चिपकाएँ और Format को OpenAICompatible पर सेट करें।",
       "STEP_5_TITLE": "API key पेस्ट करें",
-      "STEP_5_DESC": "अपनी {appName} API कुंजी API Key खाने में पेस्ट करें। कुछ बिल्ड इसे Authorization लिखते हैं; API Key न मिले तो वही खाना इस्तेमाल करें।",
-      "STEP_6_TITLE": "Model ID पेस्ट करें",
-      "STEP_6_DESC": "{appName} के मॉडल पेज से मॉडल का सटीक नाम पेस्ट करें।",
+      "STEP_5_DESC": "अपनी {appName} API कुंजी Key/Password फ़ील्ड में चिपकाएँ।",
+      "STEP_6_TITLE": "Request Model भरें",
+      "STEP_6_DESC": "{appName} के मॉडल पृष्ठ पर दिया गया सटीक मॉडल नाम Request Model में डालें।",
       "STEP_7_TITLE": "Save",
       "STEP_7_DESC": "सेटिंग्स पैनल बंद करें। RisuAI कॉन्फ़िगरेशन स्थानीय स्टोरेज में लिख देता है।",
       "STEP_8_TITLE": "एक test message भेजें",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "पहले काम करता था, अब कोई response नहीं।",
       "TS_2_DESC": "कोई RisuAI अपडेट चुपचाप Autofill Request URL फिर चालू कर सकता है। Custom Models खोलें और पुष्टि करें कि यह बंद है।",
       "TS_3_TITLE": "401 Unauthorized।",
-      "TS_3_DESC": "कुछ RisuAI बिल्ड API Key और Authorization दोनों दिखाते हैं, पर हर संस्करण उनमें से एक ही पढ़ता है। अपनी कुंजी दूसरे खाने में डालें।",
+      "TS_3_DESC": "पक्का करें कि कुंजी Key/Password में है और उसके शुरू या अंत में कोई खाली जगह नहीं है।",
       "TS_4_TITLE": "Model not found।",
       "TS_4_DESC": "Model ID किसी मॉडल के नाम से पूरी तरह मेल खाना चाहिए। इसे {appName} के मॉडल पेज से कॉपी करके पेस्ट करें।",
       "TS_5_TITLE": "Translation या summary feature टूटा हुआ है।",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Auxiliary Model कॉन्फ़िगर करें",
       "TOC_TROUBLESHOOTING": "Troubleshooting",
       "GOTCHA_1": "कुछ भी पेस्ट करने से पहले Autofill Request URL से टिक हटाएँ। चालू रहते हुए RisuAI आपके URL को अपने डिफ़ॉल्ट में बदल देता है और चुपचाप कनेक्शन तोड़ देता है।",
-      "GOTCHA_2": "कोई RisuAI अपडेट Autofill Request URL अपने आप फिर चालू कर सकता है। अगर पहले से चल रहा सेटअप जवाब देना बंद कर दे, तो Custom Models दोबारा खोलें और पुष्टि करें कि टॉगल बंद है।",
-      "GOTCHA_3": "कुछ RisuAI बिल्ड API Key खाना और Authorization खाना दोनों दिखाते हैं, पर हर संस्करण उनमें से एक ही पढ़ता है। 401 आने पर अपनी कुंजी दूसरे खाने में डालें।",
+      "GOTCHA_2": "Autofill Request URL, Advanced Settings का एक वैश्विक टॉगल है, इसलिए यह हर कस्टम मॉडल स्लॉट पर लागू होता है। अगर कोई चलती हुई सेटिंग अचानक जवाब देना बंद कर दे, तो इसे वहीं जाँचें।",
+      "GOTCHA_3": "कुंजी Key/Password में जाती है। इसके बजाय कोई अतिरिक्त हेडर भेजना हो तो Additional Parameters में header::Authorization वाक्यरचना का उपयोग करें।",
       "GOTCHA_4": "Custom Models में मॉडल ड्रॉपडाउन नहीं है। दोबारा टाइप करने के बजाय {appName} के मॉडल पेज से सटीक मॉडल नाम कॉपी करके पेस्ट करें।"
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "{appName} को Open WebUI से एक नेटिव OpenAI कनेक्शन के रूप में जोड़ें।",
       "OVERVIEW_DESC": "Open WebUI के एडमिन कई OpenAI-संगत कनेक्शन जोड़ सकते हैं। {appName} जोड़ें और मॉडल चयनकर्ता कैटलॉग से भर जाता है।",
       "STEP_1_TITLE": "एडमिन पैनल खोलें",
-      "STEP_1_DESC": "एडमिन के रूप में साइन इन करें, Admin Panel, Settings, फिर Connections खोलें।",
+      "STEP_1_DESC": "व्यवस्थापक के रूप में साइन इन करें, फिर Settings, Admin, Connections खोलें।",
       "STEP_2_TITLE": "एक नया OpenAI कनेक्शन जोड़ें",
-      "STEP_2_DESC": "OpenAI API के नीचे कनेक्शन जोड़ने के लिए + पर क्लिक करें।",
+      "STEP_2_DESC": "Manage OpenAI API Connections के नीचे Add Connection पर क्लिक करें।",
       "STEP_3_TITLE": "कनेक्शन भरें",
       "STEP_3_DESC": "बेस URL और अपनी {appName} API कुंजी दर्ज करें।",
       "STEP_4_TITLE": "सहेजें और एक मॉडल चुनें",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "LLM Preference खोलें",
       "STEP_1_DESC": "साइडबार में Settings खोलें, फिर LLM Preference।",
       "STEP_2_TITLE": "Generic OpenAI चुनें",
-      "STEP_2_DESC": "LLM Provider को Generic OpenAI पर सेट करें और फ़ॉर्म भरें।",
+      "STEP_2_DESC": "LLM Provider को Generic OpenAI पर सेट करें और फ़ॉर्म भरें। Max Tokens का डिफ़ॉल्ट मान 1024 है और यह हर उत्तर को सीमित कर देता है, इसलिए इसे बढ़ाएँ।",
       "STEP_3_TITLE": "सहेजें",
       "STEP_3_DESC": "सहेजें। AnythingLLM चैट वर्कस्पेस के लिए {appName} इस्तेमाल करता है।",
-      "TS_1_DESC": "Generic OpenAI कैटलॉग नहीं लाता। मॉडल का नाम और संदर्भ विंडो हाथ से भरें।",
+      "TS_1_DESC": "Base URL और API Key सेट होते ही Generic OpenAI मॉडल सूची ले आता है। अगर यह विफल हो जाए तो यह फ़ील्ड एक टेक्स्ट बॉक्स बन जाती है, ऐसे में मॉडल आईडी खुद टाइप करें।",
       "TS_2_DESC": "Embedding Preference अलग टैब है। जब तक आपके प्लान में {appName} एम्बेडिंग न दे, इसे किसी चालू एम्बेडिंग प्रदाता पर ही रहने दें।"
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "{appName} को Cherry Studio से OpenAI प्रदाता के रूप में जोड़ें।",
       "OVERVIEW_DESC": "Cherry Studio एक ही इंटरफ़ेस में कई प्रदाताओं का समर्थन करता है। {appName} को OpenAI प्रदाता के रूप में जोड़ें और मॉडल अलग-अलग प्रविष्टियों के रूप में लोड करें।",
       "STEP_1_TITLE": "Model Provider खोलें",
-      "STEP_1_DESC": "Settings, Model Provider, फिर Add Provider में जाएँ।",
+      "STEP_1_DESC": "Settings पर जाएँ, फिर Model Services, और उसके बाद + Add Provider चुनें।",
       "STEP_2_TITLE": "OpenAI चुनें",
       "STEP_2_DESC": "प्रदाता का प्रकार OpenAI रखें। नाम, होस्ट और कुंजी भरें।",
       "STEP_3_TITLE": "मॉडल जोड़ें",
       "STEP_3_DESC": "Models के तहत Manage पर क्लिक करें, फिर Add Model। {appName} मॉडल आईडी एक प्रति पंक्ति पेस्ट करें।",
-      "TS_1_DESC": "OpenAI प्रदाता प्रकार इस्तेमाल करें और होस्ट में /v1 खुद जोड़ें। दूसरे प्रकार अपना पथ खुद जोड़ते हैं।",
+      "TS_1_DESC": "Cherry Studio संस्करण पथ खुद जोड़ लेता है, इसलिए होस्ट को /v1 के बिना दर्ज करें। किसी पते को हूबहू भेजना हो तो पूरा URL टाइप करें और उसके अंत में # लगाएँ।",
       "TS_2_DESC": "Cherry का Test बटन चैट कम्पलीशन पर एक टोकन की जाँच भेजता है। तर्क वाले मॉडलों पर length से खत्म होना भी प्रमाणीकरण की पुष्टि कर देता है।"
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind किसी भी OpenAI-संगत एंडपॉइंट को कस्टम मॉडल के रूप में स्वीकार करता है। कैटलॉग का कोई भी मॉडल इस्तेमाल करने के लिए {appName} जोड़ें।",
       "STEP_1_TITLE": "Models खोलें",
       "STEP_1_DESC": "गियर आइकन पर क्लिक करें, Models पर जाएँ, फिर Add Custom Models।",
-      "STEP_2_TITLE": "API प्रकार के रूप में OpenAI चुनें",
-      "STEP_2_DESC": "TypingMind कस्टम एंडपॉइंट के लिए OpenAI Chat Completions स्कीमा का उपयोग करता है।",
+      "STEP_2_TITLE": "कस्टम मॉडल जोड़ें",
+      "STEP_2_DESC": "कस्टम एंडपॉइंट के लिए TypingMind, OpenAI Chat Completions की स्कीमा का उपयोग करता है।",
       "STEP_3_TITLE": "एंडपॉइंट भरें",
-      "STEP_3_DESC": "बेस URL, अपनी {appName} API कुंजी और एक मॉडल आईडी दर्ज करें।",
+      "STEP_3_DESC": "पूरा chat completions URL और एक मॉडल आईडी दर्ज करें। कस्टम मॉडलों में API कुंजी की फ़ील्ड नहीं होती: कुंजी को Add Custom Headers के अंतर्गत Authorization हेडर के रूप में जोड़ें।",
       "STEP_4_TITLE": "परीक्षण करें और जोड़ें",
       "STEP_4_DESC": "Plugins या Vision तभी चालू करें जब मॉडल उन्हें सहारा देता हो। Test पर क्लिक करें, फिर Add Model।",
       "TS_1_DESC": "Plugins (फ़ंक्शन कॉलिंग) के लिए ऐसा मॉडल चाहिए जो मूल रूप से टूल का समर्थन करता हो।",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Models सेटिंग्स खोलें",
       "STEP_1_DESC": "BoltAI की सेटिंग्स खोलें, Models में जाएँ, + पर क्लिक करें, फिर OpenAI-compatible Server चुनें।",
       "STEP_2_TITLE": "सर्वर भरें",
-      "STEP_2_DESC": "नाम, बेस URL, कुंजी, मॉडल आईडी और कॉन्टेक्स्ट लंबाई दर्ज करें।",
+      "STEP_2_DESC": "नाम, पूरा chat completions URL, कुंजी, मॉडल आईडी और कॉन्टेक्स्ट लंबाई दर्ज करें।",
       "STEP_3_TITLE": "स्ट्रीमिंग चालू करें",
       "STEP_3_DESC": "टोकन आते ही देखने के लिए Streaming चालू करें।",
       "TS_1_DESC": "यह कनेक्टर मॉडल सूची नहीं लाता। हर {appName} मॉडल के लिए एक प्रविष्टि हाथ से बनानी होती है।",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "{appName} को Chatbox से OpenAI API Compatible मोड का उपयोग करके जोड़ें।",
       "OVERVIEW_DESC": "Chatbox किसी भी OpenAI-संगत बेस का समर्थन करता है। OpenAI API Compatible मोड का उपयोग करें और URL को Host और Path में बाँटें।",
       "STEP_1_TITLE": "Add Custom Provider खोलें",
-      "STEP_1_DESC": "Settings, Display, AI Provider, फिर Add Custom Provider में जाएँ।",
+      "STEP_1_DESC": "Settings पर जाएँ, फिर Model Provider, और उसके बाद Add चुनें।",
       "STEP_2_TITLE": "OpenAI API Compatible मोड चुनें",
       "STEP_2_DESC": "जब तक आप वाकई Responses मार्ग नहीं चाहते, Responses API वाला विकल्प न चुनें।",
       "STEP_3_TITLE": "होस्ट और पथ बाँटें",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "अपनी {appName} API कुंजी और API एंडपॉइंट दर्ज करें।",
       "STEP_3_TITLE": "मॉडल ताज़ा करें",
       "STEP_3_DESC": "सूची ताज़ा करने के लिए Models पर क्लिक करें। Big-AGI {appName} का कैटलॉग खींच लेता है।",
-      "TS_1_DESC": "Helicone Key खाली छोड़ें। यह होस्ट को किसी दूसरे डोमेन पर मोड़ देती है।",
-      "TS_2_DESC": "Moderation टॉगल बंद करें। {appName} में कोई मॉडरेशन एंडपॉइंट नहीं है।"
+      "TS_1_DESC": "अगर Big-AGI की किसी पुरानी सेटिंग से कोई Helicone होस्ट रह गया हो तो उसे हटा दें। मौजूदा बिल्ड इसे अपने आप हटा देते हैं।",
+      "TS_2_DESC": "Big-AGI मॉडल सूची एंडपॉइंट से लेता है, इसलिए व्यापक अनुमति वाली कुंजी चयन सूची को {appName} के पूरे कैटलॉग से भर देती है।"
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "सेटिंग्स खोलें",
       "STEP_2_DESC": "Kilo Code के साइडबार आइकन पर क्लिक करें, फिर ऊपर दाईं ओर बने गियर आइकन पर।",
       "STEP_3_TITLE": "एक कस्टम प्रोवाइडर जोड़ें",
-      "STEP_3_DESC": "Providers खोलें, Custom Provider के बगल में + Connect पर क्लिक करें और फॉर्म भरें।",
+      "STEP_3_DESC": "प्रदाताओं की सूची में सबसे नीचे तक स्क्रॉल करें और Custom provider पर क्लिक करें।",
       "STEP_4_TITLE": "कनेक्शन फॉर्म भरें",
       "STEP_4_DESC": "इन मानों का उपयोग करें। मॉडल खाना {appName} कैटलॉग का कोई भी id स्वीकार करता है।",
       "STEP_5_TITLE": "सहेजें और चैट करें",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "OpenAI-संगत विकल्प चुनें और इन मानों का उपयोग करें।",
       "STEP_4_TITLE": "एक मॉडल चुनें",
       "STEP_4_DESC": "मॉडल चयनकर्ता में अपना {appName} प्रदाता चुनें और एक मॉडल चुनें।",
-      "GOTCHA_1": "प्रदाता ID में केवल छोटे अक्षर, अंक, हाइफ़न या अंडरस्कोर हो सकते हैं।",
-      "GOTCHA_2": "API कुंजी वाला खाना वैकल्पिक है क्योंकि कुछ उपयोगकर्ता हेडर से प्रमाणीकरण करते हैं। {appName} के लिए अपनी असली कुंजी पेस्ट करें।"
+      "GOTCHA_1": "available_models में हर मॉडल के लिए name और max_tokens ज़रूरी हैं। Zed का Add Provider फ़ॉर्म कॉन्टेक्स्ट विंडो भी पूछता है।",
+      "GOTCHA_2": "Zed API कुंजी को settings.json में नहीं, बल्कि अपनी कीचेन में रखता है। प्रदाता को Agent Settings से जोड़ें और कुंजी को फ़ाइल से बाहर ही रखें।"
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "API Provider के अंतर्गत OpenAI Compatible चुनें।",
       "STEP_4_TITLE": "कनेक्शन भरें",
       "STEP_4_DESC": "इन मानों का उपयोग करें। Model ID कोई भी {appName} मॉडल स्वीकार करता है।",
-      "GOTCHA_1": "Cline में नए मॉडलों के लिए Responses API मोड है। चैट कम्पलीशन पर यह XML टूल रैपिंग पर लौट आता है, जिससे टूल कॉल दोहराए जा सकते हैं। स्थिरता के लिए चैट वाले मॉडल इस्तेमाल करें।",
+      "GOTCHA_1": "Cline का OpenAI Compatible प्रदाता केवल chat completions को कॉल करता है। चुनने के लिए Responses API का कोई विकल्प नहीं है।",
       "GOTCHA_2": "नेटिव टूल कॉलिंग वाला एक मॉडल चुनें ताकि Cline शेल और फ़ाइल संपादन विश्वसनीय रूप से चला सके।"
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "कनेक्शन भरें",
       "STEP_4_DESC": "इन मानों का उपयोग करें। पहली कॉल के बाद मॉडल चयनकर्ता भी भर सकता है।",
       "GOTCHA_1": "Codebase Indexing के नीचे Embedder Provider चैट से अलग है। जो चैट प्रदाता चाहिए उसे कॉन्फ़िगर करें।",
-      "GOTCHA_2": "Roo की कुछ एजेंट भूमिकाएँ अपेक्षा से ज़्यादा अनुरोध भेजती हैं। अपनी {appName} दर सीमा पर ध्यान रखें।"
+      "GOTCHA_2": "Roo Code को नेटिव टूल कॉलिंग चाहिए। जिस मॉडल में यह क्षमता नहीं है उसका उपयोग नहीं किया जा सकता, इसलिए बदलने से पहले कैटलॉग देख लें।"
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "सहेजें और पुनः लोड करें",
       "STEP_3_DESC": "Continue कॉन्फ़िग को हॉट-रीलोड कर देता है। पैनल के नीचे मॉडल चयनकर्ता से {appName} चुनें।",
       "GOTCHA_1": "पुराने config.json के बजाय config.yaml का उपयोग करें।",
-      "GOTCHA_2": "अगर कोई मॉडल अतिरिक्त पैरामीटर अस्वीकार करे, तो उस प्रविष्टि पर requestOptions.dropParams: ['frequency_penalty','presence_penalty'] सेट करें।"
+      "GOTCHA_2": "requestOptions केवल प्रलेखित कुंजियाँ स्वीकार करता है, जैसे headers और extraBodyProperties। कोई अनजान कुंजी अनदेखी नहीं होती, बल्कि सत्यापन विफल कर देती है।"
     },
     "AIDER": {
       "META": {

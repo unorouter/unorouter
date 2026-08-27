@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "Installez Codex CLI globalement avec npm.",
       "STEP_2_TITLE": "Configurer le fournisseur de modèle",
       "STEP_2_DESC": "Modifiez `~/.codex/config.toml`. Définissez votre id de modèle et ajoutez un fournisseur personnalisé avec l''URL de base de {appName}, via l''API filaire responses.",
-      "STEP_3_TITLE": "Ajouter votre clé API",
-      "STEP_3_DESC": "Inscrivez votre clé API {appName} dans `~/.codex/auth.json`.",
+      "STEP_3_TITLE": "Exporter votre clé API",
+      "STEP_3_DESC": "Exportez la variable désignée par env_key. Codex lit la clé d'un fournisseur personnalisé depuis l'environnement ; auth.json ne sert qu'à la connexion à OpenAI.",
       "STEP_4_TITLE": "Démarrer Codex",
       "STEP_4_DESC": "Lancez `codex` dans le répertoire de votre projet.",
       "TS_1_DESC": "En cas d'erreur de point de terminaison non pris en charge, vérifiez que `wire_api` vaut `responses` et que l'URL de base se termine par `/v1`.",
-      "TS_2_DESC": "Un 401 signifie que la clé dans `~/.codex/auth.json` est absente ou périmée. Collez une nouvelle clé depuis votre tableau de bord {appName}.",
-      "TS_3_DESC": "Si Codex ignore votre fournisseur, vérifiez le nom de la table dans `config.toml`. Les identifiants de fournisseur acceptent les tirets bas, pas les traits d'union (`model_providers.my_provider`, jamais `my-provider`). `openai` est réservé et ne peut pas être redéfini."
+      "TS_2_DESC": "Si les requêtes ne sont pas authentifiées, vérifiez que env_key désigne une variable réellement exportée dans le shell qui exécute codex.",
+      "TS_3_DESC": "Vous ne pouvez pas réutiliser l'identifiant réservé openai pour un fournisseur personnalisé. Tout autre identifiant fonctionne, aussi bien dans [model_providers.<id>] que dans model_provider."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "Modifiez `~/.openclaw/config.json`. Pointez le fournisseur openai vers l''URL de base de {appName}, lisez la clé depuis `OPENAI_API_KEY` et définissez votre modèle par défaut sous agents.",
       "STEP_3_TITLE": "Démarrer OpenClaw",
       "STEP_3_DESC": "Lancez `openclaw start` pour démarrer l''agent avec {appName}.",
-      "TS_1_DESC": "Si OpenClaw ne parvient pas à atteindre l'API, vérifiez que `providers.openai.baseUrl` se termine par `/v1` et que `OPENAI_API_KEY` est exporté dans le même shell.",
+      "TS_1_DESC": "Vérifiez models.providers.openai.baseUrl dans ~/.openclaw/openclaw.json. Un bloc providers placé au niveau racine est ignoré.",
       "TS_2_DESC": "Si le modèle est refusé, définissez `agents.defaults.model.primary` sur un id valide préfixé par `openai/`, copié depuis la page des modèles de {appName}."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "Stockez votre clé API {appName} sous `OPENAI_API_KEY` dans `~/.hermes/.env`.",
       "STEP_4_TITLE": "Lancer Hermes",
       "STEP_4_DESC": "Démarrez la TUI avec `hermes --tui`.",
-      "TS_1_DESC": "Hermes rejette au démarrage les modèles disposant de moins de 64 000 tokens de contexte. Choisissez un modèle à contexte plus large depuis la page des modèles de {appName}.",
+      "TS_1_DESC": "Si vous définissez un modèle distinct pour les résumés, donnez-lui une fenêtre de contexte au moins aussi grande que celle du modèle principal.",
       "TS_2_DESC": "Si la vérification `/v1/models` au démarrage échoue, vérifiez que `model.base_url` se termine par `/v1` et que `OPENAI_API_KEY` est définie dans `~/.hermes/.env`."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "Modèle",
       "QUICK_CONFIG_NOTE": "Collez uniquement l'URL de base. SillyTavern ajoute `/chat/completions` lui-même. L'ajouter vous-même renvoie une erreur 400.",
       "STEPS": "Configuration pas à pas",
-      "STEP_1_TITLE": "Ouvrir la configuration des réponses IA",
+      "STEP_1_TITLE": "Ouvrir API Connections",
       "STEP_1_DESC": "Cliquez sur l'icône de prise en haut pour ouvrir le panneau API Connections.",
       "STEP_2_TITLE": "Sélectionner Chat Completion",
       "STEP_2_DESC": "Définissez le type d'API sur Chat Completion.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "Comportement du dropdown des modèles",
       "TOC_TROUBLESHOOTING": "Dépannage",
       "GOTCHA_1": "Collez uniquement l'URL de base se terminant par `/v1`. SillyTavern ajoute `/chat/completions` lui-même ; l'ajouter renvoie une erreur 400.",
-      "GOTCHA_2": "Une liste de modèles vide signifie que la connexion a échoué. Revérifiez l'URL de base, puis activez Bypass API Status Check.",
+      "GOTCHA_2": "Une liste de modèles vide signifie que la connexion a échoué. Revérifiez l'URL de base, puis activez Bypass API status check.",
       "GOTCHA_3": "Un 401 signifie que la clé est expirée ou mal saisie. Générez une nouvelle clé dans votre tableau de bord {appName} et collez-la sans espace en début ni en fin.",
       "GOTCHA_4": "Si le flux se coupe en pleine phrase, désactivez Streaming pour confirmer la cause, puis réactivez-le. Les proxys d'entreprise qui suppriment le préfixe `data:` le cassent aussi."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "Choisir un emplacement de modèle",
       "STEP_2_DESC": "Cliquez sur le sélecteur de modèle Chat Bot, descendez tout en bas et choisissez Custom Models.",
       "STEP_3_TITLE": "Décocher Autofill Request URL",
-      "STEP_3_DESC": "Cette option doit être DÉSACTIVÉE avant de coller quoi que ce soit. Voir l'avertissement ci-dessus.",
-      "STEP_4_TITLE": "Coller la Request URL",
-      "STEP_4_DESC": "Collez l'URL complète se terminant par `/v1/chat/completions`.",
+      "STEP_3_DESC": "Repérez Autofill Request URL dans la liste Advanced Settings et désactivez-le avant de coller quoi que ce soit. Voyez l'avertissement ci-dessus.",
+      "STEP_4_TITLE": "Coller l'URL",
+      "STEP_4_DESC": "Collez l'URL complète se terminant par `/v1/chat/completions` dans le champ URL, et réglez Format sur OpenAICompatible.",
       "STEP_5_TITLE": "Coller la clé API",
-      "STEP_5_DESC": "Collez votre clé API {appName} dans le champ API Key. Certaines versions l''appellent Authorization ; utilisez ce champ si API Key est absent.",
-      "STEP_6_TITLE": "Coller l'ID du modèle",
-      "STEP_6_DESC": "Collez le nom exact du modèle depuis la page des modèles de {appName}.",
+      "STEP_5_DESC": "Collez votre clé API {appName} dans le champ Key/Password.",
+      "STEP_6_TITLE": "Remplir Request Model",
+      "STEP_6_DESC": "Indiquez dans Request Model le nom exact du modèle tel qu'il figure sur la page des modèles de {appName}.",
       "STEP_7_TITLE": "Enregistrer",
       "STEP_7_DESC": "Fermez le panneau de paramètres. RisuAI écrit la configuration dans le stockage local.",
       "STEP_8_TITLE": "Envoyer un message de test",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "Cela fonctionnait avant, plus aucune réponse maintenant.",
       "TS_2_DESC": "Une mise à jour de RisuAI peut réactiver Autofill Request URL en silence. Ouvrez Custom Models et vérifiez qu'elle est désactivée.",
       "TS_3_TITLE": "Erreur 401 Unauthorized.",
-      "TS_3_DESC": "Certaines versions de RisuAI exposent à la fois API Key et Authorization, et une seule est lue selon la version. Déplacez votre clé dans l'autre champ.",
+      "TS_3_DESC": "Vérifiez que la clé se trouve bien dans Key/Password et qu'elle ne comporte aucune espace en début ou en fin.",
       "TS_4_TITLE": "Modèle introuvable.",
       "TS_4_DESC": "Le Model ID doit correspondre exactement à un nom de modèle. Copiez-collez-le depuis la page des modèles de {appName}.",
       "TS_5_TITLE": "La fonctionnalité de traduction ou de résumé est cassée.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Configurer le modèle auxiliaire",
       "TOC_TROUBLESHOOTING": "Dépannage",
       "GOTCHA_1": "Décochez Autofill Request URL avant de coller quoi que ce soit. Tant qu'elle est active, RisuAI réécrit votre URL vers sa valeur par défaut et casse la connexion en silence.",
-      "GOTCHA_2": "Une mise à jour de RisuAI peut réactiver Autofill Request URL d'elle-même. Si une configuration qui marchait cesse de répondre, rouvrez Custom Models et vérifiez que l'option est désactivée.",
-      "GOTCHA_3": "Certaines versions de RisuAI exposent à la fois un champ API Key et un champ Authorization, et une seule est lue selon la version. Sur un 401, déplacez votre clé dans l'autre champ.",
+      "GOTCHA_2": "Autofill Request URL est un interrupteur global des Advanced Settings : il s'applique donc à chaque emplacement de modèle personnalisé. Si une configuration qui fonctionnait cesse de répondre, vérifiez-le à cet endroit.",
+      "GOTCHA_3": "La clé se place dans Key/Password. Pour envoyer plutôt un en-tête supplémentaire, utilisez Additional Parameters avec la syntaxe header::Authorization.",
       "GOTCHA_4": "Custom Models n''a pas de liste de modèles. Copiez-collez le nom exact du modèle depuis la page des modèles de {appName} au lieu de le retaper."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "Connectez {appName} a Open WebUI comme connexion OpenAI native.",
       "OVERVIEW_DESC": "Les administrateurs d''Open WebUI peuvent ajouter plusieurs connexions compatibles OpenAI. Ajoutez {appName} et le sélecteur de modèles se remplit depuis le catalogue.",
       "STEP_1_TITLE": "Ouvrez le panneau d'administration",
-      "STEP_1_DESC": "Connectez-vous en administrateur, ouvrez Admin Panel, Settings, puis Connections.",
+      "STEP_1_DESC": "Connectez-vous en tant qu'administrateur, puis ouvrez Settings, Admin, Connections.",
       "STEP_2_TITLE": "Ajoutez une nouvelle connexion OpenAI",
-      "STEP_2_DESC": "Sous OpenAI API, cliquez sur + pour ajouter une connexion.",
+      "STEP_2_DESC": "Sous Manage OpenAI API Connections, cliquez sur Add Connection.",
       "STEP_3_TITLE": "Remplissez la connexion",
       "STEP_3_DESC": "Saisissez l''URL de base et votre clé d''API {appName}.",
       "STEP_4_TITLE": "Enregistrez et choisissez un modèle",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "Ouvrez LLM Préférence",
       "STEP_1_DESC": "Ouvrez Settings dans la barre latérale, puis LLM Preference.",
       "STEP_2_TITLE": "Choisissez Generic OpenAI",
-      "STEP_2_DESC": "Réglez LLM Provider sur Generic OpenAI et remplissez le formulaire.",
+      "STEP_2_DESC": "Réglez LLM Provider sur Generic OpenAI et remplissez le formulaire. Max Tokens vaut 1024 par défaut et limite chaque réponse, augmentez donc cette valeur.",
       "STEP_3_TITLE": "Enregistrez",
       "STEP_3_DESC": "Enregistrez. AnythingLLM utilise {appName} pour les espaces de chat.",
-      "TS_1_DESC": "Generic OpenAI ne récupère pas le catalogue. Saisissez le nom du modèle et la fenêtre de contexte manuellement.",
+      "TS_1_DESC": "Generic OpenAI récupère le catalogue dès que Base URL et API Key sont renseignés. Si la récupération échoue, le champ redevient une zone de texte : saisissez alors l'identifiant du modèle à la main.",
       "TS_2_DESC": "Embedding Preference est un onglet distinct. Laissez-le sur un fournisseur d''embeddings fonctionnel, sauf si {appName} expose des embeddings sur votre offre."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "Connectez {appName} a Cherry Studio comme fournisseur OpenAI.",
       "OVERVIEW_DESC": "Cherry Studio gère de nombreux fournisseurs dans une seule interface. Ajoutez {appName} comme fournisseur OpenAI et chargez les modèles comme entrées distinctes.",
       "STEP_1_TITLE": "Ouvrez Model Provider",
-      "STEP_1_DESC": "Allez dans Settings, Model Provider, puis Add Provider.",
+      "STEP_1_DESC": "Ouvrez Settings, puis Model Services, puis + Add Provider.",
       "STEP_2_TITLE": "Choisissez OpenAI",
       "STEP_2_DESC": "Réglez le type de fournisseur sur OpenAI. Renseignez le nom, l'hôte et la clé.",
       "STEP_3_TITLE": "Ajoutez des modèles",
       "STEP_3_DESC": "Cliquez sur Manage sous Models puis Add Model. Collez les identifiants de modèle {appName}, un par ligne.",
-      "TS_1_DESC": "Utilisez le type de fournisseur OpenAI et incluez vous-même /v1 dans l'hôte. Les autres types ajoutent leur propre chemin.",
+      "TS_1_DESC": "Cherry Studio ajoute lui-même le chemin de version, saisissez donc l'hôte sans /v1. Pour envoyer une adresse telle quelle, tapez l'URL complète et terminez-la par #.",
       "TS_2_DESC": "Le bouton Test de Cherry envoie une sonde d'un jeton vers chat completions. Un arrêt pour longueur sur les modèles de raisonnement confirme quand même l'authentification."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind accepte tout point de terminaison compatible OpenAI comme modèle personnalisé. Ajoutez {appName} pour utiliser tous les modèles du catalogue.",
       "STEP_1_TITLE": "Ouvrez Models",
       "STEP_1_DESC": "Cliquez sur l'icône d'engrenage, allez dans Models puis Add Custom Models.",
-      "STEP_2_TITLE": "Choisissez OpenAI comme type d'API",
-      "STEP_2_DESC": "TypingMind utilise le schema OpenAI Chat Completions pour les endpoints personnalisés.",
+      "STEP_2_TITLE": "Ajouter un modèle personnalisé",
+      "STEP_2_DESC": "TypingMind utilise le schéma OpenAI Chat Completions pour les points de terminaison personnalisés.",
       "STEP_3_TITLE": "Remplissez l'endpoint",
-      "STEP_3_DESC": "Saisissez l''URL de base, votre clé d''API {appName} et un identifiant de modèle.",
+      "STEP_3_DESC": "Saisissez l'URL complète des chat completions et un identifiant de modèle. Les modèles personnalisés n'ont pas de champ pour la clé API : ajoutez la clé sous Add Custom Headers, en tant qu'en-tête Authorization.",
       "STEP_4_TITLE": "Testez et ajoutez",
       "STEP_4_DESC": "N'activez Plugins ou Vision que si le modèle les prend en charge. Cliquez sur Test, puis sur Add Model.",
       "TS_1_DESC": "Plugins (appel de fonctions) exige un modèle avec prise en charge native des outils.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Ouvrez les réglages Models",
       "STEP_1_DESC": "Ouvrez les paramètres de BoltAI, allez dans Models, cliquez sur +, puis sur OpenAI-compatible Server.",
       "STEP_2_TITLE": "Remplissez le serveur",
-      "STEP_2_DESC": "Saisissez le nom, l'URL de base, la clé, l'identifiant de modèle et la longueur de contexte.",
+      "STEP_2_DESC": "Saisissez le nom, l'URL complète des chat completions, la clé, l'identifiant du modèle et la longueur de contexte.",
       "STEP_3_TITLE": "Activez le streaming",
       "STEP_3_DESC": "Activez Streaming pour voir les jetons arriver au fil de l'eau.",
       "TS_1_DESC": "Ce connecteur ne récupère pas la liste des modèles. Chaque modèle {appName} est une entrée manuelle.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "Connectez {appName} a Chatbox en mode OpenAI API Compatible.",
       "OVERVIEW_DESC": "Chatbox prend en charge toute base compatible OpenAI. Utilisez le mode OpenAI API Compatible et separez l'URL en Host et Path.",
       "STEP_1_TITLE": "Ouvrez Add Custom Provider",
-      "STEP_1_DESC": "Allez dans Settings, Display, AI Provider, puis Add Custom Provider.",
+      "STEP_1_DESC": "Ouvrez Settings, puis Model Provider, puis Add.",
       "STEP_2_TITLE": "Choisissez le mode OpenAI API Compatible",
       "STEP_2_DESC": "Ne choisissez pas l'option Responses API sauf si vous voulez la route Responses.",
       "STEP_3_TITLE": "Separez host et path",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "Saisissez votre clé d''API {appName} et l''endpoint de l''API.",
       "STEP_3_TITLE": "Actualisez les modèles",
       "STEP_3_DESC": "Cliquez sur Models pour actualiser la liste. Big-AGI récupère le catalogue {appName}.",
-      "TS_1_DESC": "Laissez le champ Helicone Key vide. Il force l'hôte vers un autre domaine.",
-      "TS_2_DESC": "Désactivez l''option Moderation. {appName} n''a pas de point de terminaison de modération."
+      "TS_1_DESC": "Si une ancienne configuration de Big-AGI a laissé un hôte Helicone, effacez-le. Les versions actuelles le suppriment automatiquement.",
+      "TS_2_DESC": "Big-AGI récupère la liste des modèles depuis le point de terminaison : une clé aux droits étendus remplit donc le sélecteur avec tout le catalogue de {appName}."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "Ouvrir les paramètres",
       "STEP_2_DESC": "Cliquez sur l'icône Kilo Code dans la barre latérale, puis sur l'icône d'engrenage en haut à droite.",
       "STEP_3_TITLE": "Ajouter un fournisseur personnalisé",
-      "STEP_3_DESC": "Ouvrez Providers, cliquez sur + Connect à côté de Custom Provider et remplissez le formulaire.",
+      "STEP_3_DESC": "Faites défiler jusqu'au bas de la liste des fournisseurs et cliquez sur Custom provider.",
       "STEP_4_TITLE": "Remplir le formulaire de connexion",
       "STEP_4_DESC": "Utilisez ces valeurs. Le champ model accepte tout id du catalogue {appName}.",
       "STEP_5_TITLE": "Enregistrer et discuter",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "Choisissez l'option compatible OpenAI et utilisez ces valeurs.",
       "STEP_4_TITLE": "Choisir un modèle",
       "STEP_4_DESC": "Sélectionnez votre fournisseur {appName} dans le sélecteur de modèles et choisissez un modèle.",
-      "GOTCHA_1": "L'identifiant du fournisseur doit se composer de minuscules, de chiffres, de traits d'union ou de tirets bas.",
-      "GOTCHA_2": "Le champ de clé API est facultatif, car certains utilisateurs s''authentifient par en-têtes. Pour {appName}, collez votre vraie clé."
+      "GOTCHA_1": "Chaque modèle de available_models a besoin d'un name et d'un max_tokens. Le formulaire Add Provider de Zed demande en plus la fenêtre de contexte.",
+      "GOTCHA_2": "Zed conserve la clé API dans son trousseau, pas dans settings.json. Ajoutez le fournisseur via Agent Settings et laissez la clé hors du fichier."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "Sous API Provider, choisissez OpenAI Compatible.",
       "STEP_4_TITLE": "Remplir la connexion",
       "STEP_4_DESC": "Utilisez ces valeurs. Model ID accepte tout modèle {appName}.",
-      "GOTCHA_1": "Cline dispose d'un mode Responses API pour les modèles récents. Sur chat completions, il retombe sur un enrobage XML des outils, ce qui peut répéter des appels. Préférez les modèles de type chat pour la stabilité.",
+      "GOTCHA_1": "Le fournisseur OpenAI Compatible de Cline appelle uniquement les chat completions. Aucune option d'API Responses n'est proposée.",
       "GOTCHA_2": "Choisissez un modèle avec appel d'outils natif pour que Cline puisse exécuter le shell et les modifications de fichiers de manière fiable."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "Remplir la connexion",
       "STEP_4_DESC": "Utilisez ces valeurs. Le sélecteur de modèles peut aussi se remplir après le premier appel.",
       "GOTCHA_1": "Codebase Indexing > Embedder Provider est distinct du chat. Configurez le fournisseur de chat que vous voulez.",
-      "GOTCHA_2": "Certains rôles d''agent de Roo envoient plus de requêtes que prévu. Surveillez votre limite de débit {appName}."
+      "GOTCHA_2": "Roo Code exige l'appel d'outils natif. Un modèle qui en est dépourvu est inutilisable, vérifiez donc le catalogue avant de changer."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "Enregistrer et recharger",
       "STEP_3_DESC": "Continue recharge la configuration à chaud. Choisissez {appName} dans le sélecteur de modèle en bas du panneau.",
       "GOTCHA_1": "Utilisez config.yaml, pas l'ancien config.json.",
-      "GOTCHA_2": "Si un modèle refuse des paramètres supplémentaires, définissez requestOptions.dropParams: ['frequency_penalty','presence_penalty'] sur cette entrée."
+      "GOTCHA_2": "requestOptions n'accepte que des clés documentées telles que headers et extraBodyProperties. Une clé inconnue provoque une erreur de validation au lieu d'être ignorée."
     },
     "AIDER": {
       "META": {

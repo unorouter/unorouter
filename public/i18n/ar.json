@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "ثبّت Codex CLI عالميًا عبر npm.",
       "STEP_2_TITLE": "اضبط موفر النموذج",
       "STEP_2_DESC": "حرّر `~/.codex/config.toml`. اضبط معرّف نموذجك وأضف مزوّدًا مخصّصًا بالرابط الأساسي لـ {appName} باستخدام واجهة responses.",
-      "STEP_3_TITLE": "أضف مفتاح API",
-      "STEP_3_DESC": "اكتب مفتاح API الخاصّ بـ {appName} في `~/.codex/auth.json`.",
+      "STEP_3_TITLE": "صدّر مفتاح الـ API الخاص بك",
+      "STEP_3_DESC": "صدّر المتغير المذكور في env_key. يقرأ Codex مفتاح المزوّد المخصص من بيئة التشغيل؛ أما auth.json فهو لتسجيل الدخول إلى OpenAI فقط.",
       "STEP_4_TITLE": "ابدأ Codex",
       "STEP_4_DESC": "شغّل `codex` في مجلّد مشروعك.",
       "TS_1_DESC": "عند خطأ نقطة نهاية غير مدعومة، تأكّد أنّ `wire_api` هو `responses` وأنّ الرابط الأساسي ينتهي بـ `/v1`.",
-      "TS_2_DESC": "الخطأ 401 يعني أنّ المفتاح في `~/.codex/auth.json` مفقود أو قديم. الصق مفتاحًا جديدًا من لوحة تحكّم {appName}.",
-      "TS_3_DESC": "إن تجاهل Codex مزوّدك، فتحقّق من اسم الجدول في `config.toml`. معرّفات المزوّدين تسمح بالشرطة السفلية لا الواصلة (`model_providers.my_provider`، وليس `my-provider`). و`openai` محجوز ولا يمكن تجاوزه."
+      "TS_2_DESC": "إذا كانت الطلبات غير موثّقة، فتحقق من أن env_key يشير إلى متغير مُصدَّر فعليًا في الصدفة التي تشغّل codex.",
+      "TS_3_DESC": "لا يمكنك إعادة استخدام المعرّف المحجوز openai لمزوّد مخصص. أي معرّف آخر يعمل، سواء في [model_providers.<id>] أو في model_provider."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "حرّر `~/.openclaw/config.json`. وجّه مزوّد openai إلى الرابط الأساسي لـ {appName}، واقرأ المفتاح من `OPENAI_API_KEY`، واضبط نموذجك الافتراضي تحت agents.",
       "STEP_3_TITLE": "ابدأ OpenClaw",
       "STEP_3_DESC": "شغّل `openclaw start` لإطلاق الوكيل مقابل {appName}.",
-      "TS_1_DESC": "إذا تعذّر على OpenClaw الوصول إلى API، فتأكد من أن `providers.openai.baseUrl` ينتهي بـ `/v1` وأن `OPENAI_API_KEY` مُصدّر في الصدفة نفسها.",
+      "TS_1_DESC": "تحقق من models.providers.openai.baseUrl في ~/.openclaw/openclaw.json. أما كتلة providers الموضوعة في المستوى الأعلى فيتم تجاهلها.",
       "TS_2_DESC": "إن رُفض النموذج، فاضبط `agents.defaults.model.primary` على معرّف صالح مسبوق بـ `openai/`، منسوخ من صفحة النماذج في {appName}."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "خزّن مفتاح API الخاصّ بـ {appName} باسم `OPENAI_API_KEY` في `~/.hermes/.env`.",
       "STEP_4_TITLE": "شغّل Hermes",
       "STEP_4_DESC": "شغّل واجهة TUI بأمر `hermes --tui`.",
-      "TS_1_DESC": "يرفض Hermes النماذج التي يقل سياقها عن 64,000 رمز عند بدء التشغيل. اختر نموذجا بسياق أكبر من صفحة نماذج {appName}.",
+      "TS_1_DESC": "إذا حددت نموذجًا منفصلًا للتلخيص، فامنحه نافذة سياق لا تقل عن نافذة النموذج الأساسي.",
       "TS_2_DESC": "إن فشل فحص `/v1/models` عند الإقلاع، فتأكّد أنّ `model.base_url` ينتهي بـ `/v1` وأنّ `OPENAI_API_KEY` مضبوط في `~/.hermes/.env`."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "النموذج",
       "QUICK_CONFIG_NOTE": "الصق الرابط الأساسي فقط. يضيف SillyTavern `/chat/completions` بنفسه. إضافته يدويًا تعيد الخطأ 400.",
       "STEPS": "الإعداد خطوة بخطوة",
-      "STEP_1_TITLE": "افتح تهيئة استجابة الذكاء الاصطناعي",
+      "STEP_1_TITLE": "افتح API Connections",
       "STEP_1_DESC": "انقر أيقونة القابس في الأعلى لفتح لوحة API Connections.",
       "STEP_2_TITLE": "اختر Chat Completion",
       "STEP_2_DESC": "اضبط نوع API على Chat Completion.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "سلوك القائمة المنسدلة للنماذج",
       "TOC_TROUBLESHOOTING": "حلّ المشاكل",
       "GOTCHA_1": "الصق الرابط الأساسي المنتهي بـ `/v1` فقط. يضيف SillyTavern `/chat/completions` بنفسه؛ وإضافتها تعيد الخطأ 400.",
-      "GOTCHA_2": "قائمة النماذج الفارغة تعني فشل الاتّصال. راجع الرابط الأساسي، ثمّ فعّل Bypass API Status Check.",
+      "GOTCHA_2": "خلوّ قائمة النماذج المنسدلة يعني أن الاتصال قد فشل. راجع الرابط الأساسي من جديد، ثم فعّل Bypass API status check.",
       "GOTCHA_3": "خطأ 401 يعني أن المفتاح منتهٍ أو مكتوب خطأ. أنشئ مفتاحا جديدا في لوحة تحكم {appName} والصقه دون مسافات في البداية أو النهاية.",
       "GOTCHA_4": "إن انقطع البثّ في منتصف الجملة، فعطّل Streaming لتأكيد السبب ثمّ أعد تفعيله. كما تعطّله البروكسيات المؤسّسية التي تحذف البادئة `data:`."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "اختر فتحة نموذج",
       "STEP_2_DESC": "انقر منتقي نموذج Chat Bot، ومرّر إلى الأسفل، واختر Custom Models.",
       "STEP_3_TITLE": "ألغِ تفعيل Autofill Request URL",
-      "STEP_3_DESC": "يجب أن يكون هذا المبدّل معطّلًا قبل أن تلصق أي شيء. راجع التحذير أعلاه.",
-      "STEP_4_TITLE": "الصق Request URL",
-      "STEP_4_DESC": "الصق الرابط الكامل المنتهي بـ `/v1/chat/completions`.",
+      "STEP_3_DESC": "ابحث عن Autofill Request URL في قائمة Advanced Settings وأوقفه قبل أن تلصق أي شيء. راجع التحذير أعلاه.",
+      "STEP_4_TITLE": "الصق الرابط",
+      "STEP_4_DESC": "الصق الرابط الكامل المنتهي بـ `/v1/chat/completions` في حقل URL، واضبط Format على OpenAICompatible.",
       "STEP_5_TITLE": "الصق مفتاح API",
-      "STEP_5_DESC": "الصق مفتاح API الخاصّ بـ {appName} في حقل API Key. تسمّيه بعض الإصدارات Authorization؛ استخدم ذلك الحقل إن غاب API Key.",
-      "STEP_6_TITLE": "الصق معرّف النموذج",
-      "STEP_6_DESC": "الصق اسم النموذج تمامًا كما في صفحة النماذج في {appName}.",
+      "STEP_5_DESC": "الصق مفتاح {appName} الخاص بك في حقل Key/Password.",
+      "STEP_6_TITLE": "املأ حقل Request Model",
+      "STEP_6_DESC": "ضع في Request Model اسم النموذج تمامًا كما يظهر في صفحة نماذج {appName}.",
       "STEP_7_TITLE": "احفظ",
       "STEP_7_DESC": "أغلق لوحة الإعدادات. يكتب RisuAI الإعداد في التخزين المحلّي.",
       "STEP_8_TITLE": "أرسل رسالة اختبار",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "كان يعمل من قبل، لا استجابة الآن.",
       "TS_2_DESC": "قد يعيد تحديث RisuAI تفعيل Autofill Request URL بصمت. افتح Custom Models وتأكّد أنّه معطّل.",
       "TS_3_TITLE": "401 Unauthorized.",
-      "TS_3_DESC": "بعض إصدارات RisuAI تعرض حقلي API Key وAuthorization معًا، ويُقرأ واحد فقط في كلّ إصدار. انقل مفتاحك إلى الحقل الآخر.",
+      "TS_3_DESC": "تأكد من أن المفتاح موجود في Key/Password وأنه خالٍ من المسافات في بدايته أو نهايته.",
       "TS_4_TITLE": "النموذج غير موجود.",
       "TS_4_DESC": "يجب أن يطابق Model ID اسم النموذج تمامًا. انسخه والصقه من صفحة النماذج في {appName}.",
       "TS_5_TITLE": "ميزة الترجمة أو التلخيص معطّلة.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "اضبط النموذج المساعد",
       "TOC_TROUBLESHOOTING": "حلّ المشاكل",
       "GOTCHA_1": "ألغِ تفعيل Autofill Request URL قبل لصق أي شيء. ما دام مفعّلًا، يعيد RisuAI كتابة رابطك إلى قيمته الافتراضية ويعطّل الاتّصال بصمت.",
-      "GOTCHA_2": "قد يعيد تحديث RisuAI تفعيل Autofill Request URL من تلقاء نفسه. إن توقّف إعداد كان يعمل، فأعد فتح Custom Models وتأكّد أنّ المبدّل معطّل.",
-      "GOTCHA_3": "بعض إصدارات RisuAI تعرض حقل API Key وحقل Authorization معًا، ويُقرأ واحد فقط في كلّ إصدار. عند الخطأ 401، انقل مفتاحك إلى الحقل الآخر.",
+      "GOTCHA_2": "إن Autofill Request URL مفتاح عام في Advanced Settings، لذا فهو يسري على كل خانة نموذج مخصص. وإذا توقف إعداد كان يعمل عن الاستجابة، فتحقق منه هناك.",
+      "GOTCHA_3": "يوضع المفتاح في Key/Password. ولإرسال ترويسة إضافية بدلًا من ذلك، استخدم Additional Parameters بصيغة header::Authorization.",
       "GOTCHA_4": "لا توجد قائمة نماذج منسدلة في Custom Models. انسخ اسم النموذج تمامًا من صفحة النماذج في {appName} بدل كتابته يدويًا."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "اربط {appName} بـ Open WebUI كاتصال OpenAI أصلي.",
       "OVERVIEW_DESC": "يستطيع مشرفو Open WebUI إضافة عدّة اتّصالات متوافقة مع OpenAI. أضف {appName} فيُملأ منتقي النماذج من الكتالوج.",
       "STEP_1_TITLE": "افتح لوحة الإدارة",
-      "STEP_1_DESC": "سجّل الدخول كمشرف، وافتح Admin Panel ثمّ Settings ثمّ Connections.",
+      "STEP_1_DESC": "سجّل الدخول بحساب مسؤول، ثم افتح Settings ثم Admin ثم Connections.",
       "STEP_2_TITLE": "أضف اتصال OpenAI جديد",
-      "STEP_2_DESC": "تحت OpenAI API، انقر + لإضافة اتّصال.",
+      "STEP_2_DESC": "ضمن Manage OpenAI API Connections، انقر على Add Connection.",
       "STEP_3_TITLE": "املأ الاتصال",
       "STEP_3_DESC": "أدخل عنوان URL الأساسي ومفتاح API الخاص بـ {appName}.",
       "STEP_4_TITLE": "احفظ واختر نموذجا",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "افتح LLM Preference",
       "STEP_1_DESC": "افتح Settings من الشريط الجانبي، ثمّ LLM Preference.",
       "STEP_2_TITLE": "اختر Generic OpenAI",
-      "STEP_2_DESC": "اضبط LLM Provider على Generic OpenAI واملأ النموذج.",
+      "STEP_2_DESC": "اضبط LLM Provider على Generic OpenAI واملأ النموذج. القيمة الافتراضية لـ Max Tokens هي 1024 وهي تحدّ كل رد، لذا ارفعها.",
       "STEP_3_TITLE": "احفظ",
       "STEP_3_DESC": "احفظ. يستخدم AnythingLLM بعدها {appName} في مساحات عمل الدردشة.",
-      "TS_1_DESC": "لا يجلب Generic OpenAI الكتالوج. اكتب اسم النموذج ونافذة السياق يدويًا.",
+      "TS_1_DESC": "يجلب Generic OpenAI قائمة النماذج بمجرد ضبط Base URL و API Key. وإذا فشل الجلب يتحول الحقل إلى مربع نص، فاكتب معرّف النموذج يدويًا.",
       "TS_2_DESC": "Embedding Preference تبويب منفصل. اتركه على مزوّد تضمينات يعمل ما لم يكن {appName} يوفّر التضمينات في خطّتك."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "اربط {appName} بـ Cherry Studio كموفر OpenAI.",
       "OVERVIEW_DESC": "يدعم Cherry Studio مزوّدين كثيرين في واجهة واحدة. أضف {appName} كمزوّد OpenAI وحمّل النماذج كمدخلات منفصلة.",
       "STEP_1_TITLE": "افتح Model Provider",
-      "STEP_1_DESC": "اذهب إلى Settings ثمّ Model Provider ثمّ Add Provider.",
+      "STEP_1_DESC": "انتقل إلى Settings ثم Model Services ثم + Add Provider.",
       "STEP_2_TITLE": "اختر OpenAI",
       "STEP_2_DESC": "اضبط نوع المزوّد على OpenAI. املأ الاسم والمضيف والمفتاح.",
       "STEP_3_TITLE": "أضف النماذج",
       "STEP_3_DESC": "انقر Manage تحت Models ثم Add Model. الصق معرّفات نماذج {appName}، واحدا لكل سطر.",
-      "TS_1_DESC": "استخدم نوع مزوّد OpenAI وأضف ‎/v1 إلى المضيف بنفسك. الأنواع الأخرى تضيف مسارها الخاصّ.",
+      "TS_1_DESC": "يضيف Cherry Studio مسار الإصدار من تلقاء نفسه، لذا أدخل المضيف من دون /v1. ولإرسال العنوان كما هو تمامًا، اكتب الرابط الكامل وأنهه بعلامة #.",
       "TS_2_DESC": "يرسل زرّ Test في Cherry فحصًا برمز واحد إلى chat completions. وانتهاء بسبب الطول على نماذج الاستدلال يؤكّد المصادقة أيضًا."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "يقبل TypingMind أي نقطة نهاية متوافقة مع OpenAI كنموذج مخصّص. أضف {appName} لاستخدام أي نموذج في الكتالوج.",
       "STEP_1_TITLE": "افتح Models",
       "STEP_1_DESC": "انقر أيقونة الترس، انتقل إلى Models ثم Add Custom Models.",
-      "STEP_2_TITLE": "اختر OpenAI كنوع API",
+      "STEP_2_TITLE": "أضف نموذجًا مخصصًا",
       "STEP_2_DESC": "يستخدم TypingMind مخطط OpenAI Chat Completions لنقاط النهاية المخصصة.",
       "STEP_3_TITLE": "املأ نقطة النهاية",
-      "STEP_3_DESC": "أدخل عنوان URL الأساسي ومفتاح API الخاص بـ {appName} ومعرّف نموذج.",
+      "STEP_3_DESC": "أدخل رابط chat completions الكامل ومعرّف نموذج. النماذج المخصصة ليس فيها حقل لمفتاح الـ API: أضف المفتاح ضمن Add Custom Headers بصفته ترويسة Authorization.",
       "STEP_4_TITLE": "اختبر وأضف",
       "STEP_4_DESC": "فعّل Plugins أو Vision فقط إن كان النموذج يدعمها. انقر Test ثمّ Add Model.",
       "TS_1_DESC": "تحتاج Plugins (استدعاء الدوال) إلى نموذج يدعم الأدوات أصلًا.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "افتح إعدادات Models",
       "STEP_1_DESC": "افتح إعدادات BoltAI، واذهب إلى Models، وانقر +، ثمّ OpenAI-compatible Server.",
       "STEP_2_TITLE": "املأ الخادم",
-      "STEP_2_DESC": "أدخل الاسم وعنوان URL الأساسي والمفتاح ومعرّف النموذج وطول السياق.",
+      "STEP_2_DESC": "أدخل الاسم ورابط chat completions الكامل والمفتاح ومعرّف النموذج وطول السياق.",
       "STEP_3_TITLE": "فعّل البث",
       "STEP_3_DESC": "فعّل Streaming لرؤية الرموز فور وصولها.",
       "TS_1_DESC": "لا يجلب هذا الموصّل قائمة النماذج. كلّ نموذج من {appName} مدخل يدوي واحد.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "اربط {appName} بـ Chatbox باستخدام وضع OpenAI API Compatible.",
       "OVERVIEW_DESC": "يدعم Chatbox أي قاعدة متوافقة مع OpenAI. استخدم وضع OpenAI API Compatible وقسّم عنوان URL إلى Host و Path.",
       "STEP_1_TITLE": "افتح Add Custom Provider",
-      "STEP_1_DESC": "اذهب إلى Settings ثمّ Display ثمّ AI Provider ثمّ Add Custom Provider.",
+      "STEP_1_DESC": "انتقل إلى Settings ثم Model Provider ثم Add.",
       "STEP_2_TITLE": "اختر وضع OpenAI API Compatible",
       "STEP_2_DESC": "لا تختر خيار Responses API إلّا إن كنت تريد مسار Responses.",
       "STEP_3_TITLE": "قسّم host و path",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "أدخل مفتاح API الخاص بـ {appName} ونقطة نهاية API.",
       "STEP_3_TITLE": "حدّث النماذج",
       "STEP_3_DESC": "انقر Models لتحديث القائمة. يسحب Big-AGI كتالوج {appName}.",
-      "TS_1_DESC": "اترك حقل Helicone Key فارغًا. فهو يجبر المضيف على نطاق مختلف.",
-      "TS_2_DESC": "عطّل مبدّل Moderation. لا توجد نقطة نهاية للإشراف في {appName}."
+      "TS_1_DESC": "إذا تركت إعدادات قديمة من Big-AGI مضيف Helicone، فامسحه. الإصدارات الحالية تزيله تلقائيًا.",
+      "TS_2_DESC": "يجلب Big-AGI قائمة النماذج من نقطة النهاية، لذا فإن مفتاحًا واسع الصلاحيات يملأ القائمة بكامل كتالوج {appName}."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "افتح الإعدادات",
       "STEP_2_DESC": "انقر أيقونة Kilo Code في الشريط الجانبي، ثمّ أيقونة الترس أعلى اليمين.",
       "STEP_3_TITLE": "أضف موفرا مخصصا",
-      "STEP_3_DESC": "افتح Providers، انقر + Connect بجانب Custom Provider، واملأ النموذج.",
+      "STEP_3_DESC": "مرّر إلى أسفل قائمة المزوّدين وانقر على Custom provider.",
       "STEP_4_TITLE": "املأ نموذج الاتصال",
       "STEP_4_DESC": "استخدم هذه القيم. يقبل حقل النموذج أي معرّف من كتالوج {appName}.",
       "STEP_5_TITLE": "احفظ وابدأ المحادثة",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "اختر الخيار المتوافق مع OpenAI واستخدم هذه القيم.",
       "STEP_4_TITLE": "اختر نموذجا",
       "STEP_4_DESC": "اختر مزوّد {appName} من منتقي النماذج واختر نموذجًا.",
-      "GOTCHA_1": "يجب أن يتكوّن معرّف المزوّد من حروف لاتينية صغيرة أو أرقام أو واصلات أو شرطات سفلية.",
-      "GOTCHA_2": "حقل مفتاح API اختياري لأنّ بعض المستخدمين يصادقون عبر الترويسات. أمّا مع {appName} فالصق مفتاحك الحقيقي."
+      "GOTCHA_1": "يحتاج كل نموذج في available_models إلى name و max_tokens. كما يطلب نموذج Add Provider في Zed نافذة السياق أيضًا.",
+      "GOTCHA_2": "يحفظ Zed مفتاح الـ API في سلسلة مفاتيحه الخاصة، لا في settings.json. أضف المزوّد عبر Agent Settings واترك المفتاح خارج الملف."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "ضمن API Provider، اختر OpenAI Compatible.",
       "STEP_4_TITLE": "املأ الاتصال",
       "STEP_4_DESC": "استخدم هذه القيم. يقبل Model ID أي نموذج من {appName}.",
-      "GOTCHA_1": "لدى Cline وضع Responses API للنماذج الأحدث. وعلى chat completions يعود إلى تغليف الأدوات بـ XML، ما قد يكرّر استدعاءات الأدوات. استخدم نماذج الدردشة لثبات أعلى.",
+      "GOTCHA_1": "يستدعي مزوّد OpenAI Compatible في Cline نقطة chat completions فقط. ولا يوجد خيار Responses API لاختياره.",
       "GOTCHA_2": "اختر نموذجا يدعم استدعاء الأدوات أصليا حتى يتمكن Cline من تشغيل الصدفة وتحرير الملفات بموثوقية."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "املأ الاتصال",
       "STEP_4_DESC": "استخدم هذه القيم. وقد يُملأ منتقي النماذج أيضًا بعد أوّل استدعاء.",
       "GOTCHA_1": "‏Codebase Indexing > Embedder Provider منفصل عن الدردشة. اضبط مزوّد الدردشة الذي تريده.",
-      "GOTCHA_2": "بعض أدوار وكيل Roo ترسل طلبات أكثر من المتوقّع. راقب حدّ معدّلك في {appName}."
+      "GOTCHA_2": "يتطلب Roo Code استدعاء الأدوات بشكل أصلي. والنموذج الذي يفتقر إلى ذلك لا يمكن استخدامه، لذا راجع الكتالوج قبل التبديل."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "احفظ وأعد التحميل",
       "STEP_3_DESC": "يعيد Continue تحميل الإعداد تلقائيا. اختر {appName} من منتقي النماذج أسفل اللوحة.",
       "GOTCHA_1": "استخدم config.yaml وليس config.json القديم.",
-      "GOTCHA_2": "إن رفض نموذج معاملات إضافية، فاضبط requestOptions.dropParams: ['frequency_penalty','presence_penalty'] على ذلك المدخل."
+      "GOTCHA_2": "لا يقبل requestOptions إلا المفاتيح الموثّقة مثل headers و extraBodyProperties. والمفتاح غير المعروف يُسقِط التحقق بدل أن يُتجاهل."
     },
     "AIDER": {
       "META": {

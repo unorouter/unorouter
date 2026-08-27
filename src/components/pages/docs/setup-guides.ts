@@ -255,7 +255,8 @@ API Key: YOUR_API_KEY`,
           value: `Base URL: ${env.apiUrl}/v1
 API Key: YOUR_API_KEY
 Chat Model Name: YOUR_MODEL_ID
-Token context window: 50000`,
+Model context window: 50000
+Max Tokens: 8192`,
         },
       },
       {
@@ -328,6 +329,7 @@ API Key: YOUR_API_KEY`,
     logoSrc: "/icons/typingmind.png",
     color: guideColor("blue"),
     baseUrl: `${env.apiUrl}/v1`,
+    apiPath: "/chat/completions",
     compatibility: {
       chatCompletions: true,
       streaming: true,
@@ -348,8 +350,8 @@ API Key: YOUR_API_KEY`,
         bodyKey: "DOCS.TYPINGMIND.STEP_3_DESC",
         code: {
           lang: "text",
-          value: `Custom endpoint / Base URL: ${env.apiUrl}/v1
-API Key: YOUR_API_KEY
+          value: `Endpoint: ${env.apiUrl}/v1/chat/completions
+Custom header: Authorization: Bearer YOUR_API_KEY
 Model ID: YOUR_MODEL_ID`,
         },
       },
@@ -374,6 +376,7 @@ Model ID: YOUR_MODEL_ID`,
     logoMono: true,
     color: guideColor("indigo"),
     baseUrl: `${env.apiUrl}/v1`,
+    apiPath: "/chat/completions",
     compatibility: {
       chatCompletions: true,
       streaming: true,
@@ -1286,18 +1289,16 @@ model_provider = "unorouter"
 [model_providers.unorouter]
 name = "UnoRouter"
 base_url = "${env.apiUrl}/v1"
-wire_api = "responses"`,
+wire_api = "responses"
+env_key = "OPENAI_API_KEY"`,
         },
       },
       {
         titleKey: "DOCS.CODEX.STEP_3_TITLE",
         bodyKey: "DOCS.CODEX.STEP_3_DESC",
         code: {
-          lang: "json",
-          value: `// ~/.codex/auth.json
-{
-  "OPENAI_API_KEY": "YOUR_API_KEY"
-}`,
+          lang: "bash",
+          value: `export OPENAI_API_KEY="YOUR_API_KEY"`,
         },
       },
       {
@@ -1423,16 +1424,17 @@ openclaw onboard`,
         bodyKey: "DOCS.OPENCLAW.STEP_2_DESC",
         code: {
           lang: "json",
-          value: `// ~/.openclaw/config.json
+          value: `// ~/.openclaw/openclaw.json
 {
-  "env": { "OPENAI_API_KEY": "YOUR_API_KEY" },
   "agents": {
     "defaults": { "model": { "primary": "openai/YOUR_MODEL_ID" } }
   },
-  "providers": {
-    "openai": {
-      "baseUrl": "${env.apiUrl}/v1",
-      "apiKey": "env:OPENAI_API_KEY"
+  "models": {
+    "providers": {
+      "openai": {
+        "baseUrl": "${env.apiUrl}/v1",
+        "apiKey": "\${OPENAI_API_KEY}"
+      }
     }
   }
 }`,
@@ -1446,18 +1448,18 @@ openclaw onboard`,
     ],
     gotchaKeys: ["DOCS.OPENCLAW.TS_1_DESC", "DOCS.OPENCLAW.TS_2_DESC"],
     quickStart: {
-      windows: `# In %APPDATA%\\openclaw\\config.json set
-# providers.openai.baseUrl to "${env.apiUrl}/v1"
+      windows: `# In %APPDATA%\\openclaw\\openclaw.json set
+# models.providers.openai.baseUrl to "${env.apiUrl}/v1"
 $env:OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
-      macos: `# In ~/.openclaw/config.json set
-# providers.openai.baseUrl to "${env.apiUrl}/v1"
+      macos: `# In ~/.openclaw/openclaw.json set
+# models.providers.openai.baseUrl to "${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
-      linux: `# In ~/.openclaw/config.json set
-# providers.openai.baseUrl to "${env.apiUrl}/v1"
+      linux: `# In ~/.openclaw/openclaw.json set
+# models.providers.openai.baseUrl to "${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
@@ -1487,7 +1489,7 @@ openclaw onboard`,
         bodyKey: "DOCS.HERMES.STEP_1_DESC",
         code: {
           lang: "bash",
-          value: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`,
+          value: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`,
         },
       },
       {
@@ -1525,14 +1527,14 @@ OPENAI_API_KEY=YOUR_API_KEY`,
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 hermes --tui`,
-      macos: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+      macos: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 
 # In ~/.hermes/config.yaml set model.provider: "custom"
 # and model.base_url: "${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 hermes --tui`,
-      linux: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+      linux: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 
 # In ~/.hermes/config.yaml set model.provider: "custom"
 # and model.base_url: "${env.apiUrl}/v1"
@@ -1564,7 +1566,7 @@ hermes --tui`,
         code: {
           lang: "bash",
           value: `UNOROUTER_API_KEY=YOUR_API_KEY
-UNOROUTER_BASE_URL=${env.apiUrl}/v1`,
+UNOROUTER_BASE_URL=${env.apiUrl}`,
         },
       },
       {

@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "Instal Codex CLI secara global dengan npm.",
       "STEP_2_TITLE": "Konfigurasikan penyedia model",
       "STEP_2_DESC": "Sunting `~/.codex/config.toml`. Atur id model Anda dan tambahkan penyedia kustom dengan base URL {appName} memakai wire API responses.",
-      "STEP_3_TITLE": "Tambahkan kunci API Anda",
-      "STEP_3_DESC": "Tulis kunci API {appName} Anda ke `~/.codex/auth.json`.",
+      "STEP_3_TITLE": "Ekspor kunci API Anda",
+      "STEP_3_DESC": "Ekspor variabel yang disebut oleh env_key. Codex membaca kunci penyedia kustom dari environment; auth.json hanya untuk masuk ke OpenAI.",
       "STEP_4_TITLE": "Mulai Codex",
       "STEP_4_DESC": "Jalankan `codex` di direktori proyek Anda.",
       "TS_1_DESC": "Jika muncul error endpoint tidak didukung, pastikan `wire_api` bernilai `responses` dan base URL diakhiri `/v1`.",
-      "TS_2_DESC": "401 berarti kunci di `~/.codex/auth.json` hilang atau kedaluwarsa. Tempel kunci baru dari dasbor {appName} Anda.",
-      "TS_3_DESC": "Jika Codex mengabaikan penyedia Anda, periksa nama tabel di `config.toml`. ID penyedia boleh memakai garis bawah, bukan tanda hubung (`model_providers.my_provider`, jangan `my-provider`). `openai` bersifat khusus dan tidak bisa ditimpa."
+      "TS_2_DESC": "Jika permintaan tidak terautentikasi, periksa apakah env_key menunjuk variabel yang benar-benar diekspor di shell tempat codex berjalan.",
+      "TS_3_DESC": "Anda tidak bisa memakai ulang id khusus openai untuk penyedia kustom. Id lain apa pun bisa dipakai, baik di [model_providers.<id>] maupun di model_provider."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "Sunting `~/.openclaw/config.json`. Arahkan penyedia openai ke base URL {appName}, baca kuncinya dari `OPENAI_API_KEY`, dan tetapkan model default Anda di bawah agents.",
       "STEP_3_TITLE": "Mulai OpenClaw",
       "STEP_3_DESC": "Jalankan `openclaw start` untuk meluncurkan agen terhadap {appName}.",
-      "TS_1_DESC": "Jika OpenClaw tidak dapat menjangkau API, pastikan `providers.openai.baseUrl` berakhir dengan `/v1` dan `OPENAI_API_KEY` diekspor di shell yang sama.",
+      "TS_1_DESC": "Periksa models.providers.openai.baseUrl di ~/.openclaw/openclaw.json. Blok providers di tingkat teratas akan diabaikan.",
       "TS_2_DESC": "Jika model ditolak, setel `agents.defaults.model.primary` ke id valid berawalan `openai/`, disalin dari halaman model {appName}."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "Simpan kunci API {appName} Anda sebagai `OPENAI_API_KEY` di `~/.hermes/.env`.",
       "STEP_4_TITLE": "Jalankan Hermes",
       "STEP_4_DESC": "Jalankan TUI dengan `hermes --tui`.",
-      "TS_1_DESC": "Hermes menolak model dengan konteks di bawah 64.000 token saat startup. Pilih model berkonteks lebih besar dari halaman model {appName}.",
+      "TS_1_DESC": "Jika Anda menetapkan model ringkasan terpisah, beri model itu jendela konteks minimal sebesar milik model utama.",
       "TS_2_DESC": "Jika pemeriksaan `/v1/models` saat mulai gagal, pastikan `model.base_url` diakhiri `/v1` dan `OPENAI_API_KEY` sudah diatur di `~/.hermes/.env`."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "Model",
       "QUICK_CONFIG_NOTE": "Tempel base URL saja. SillyTavern menambahkan `/chat/completions` sendiri. Menambahkannya sendiri menghasilkan error 400.",
       "STEPS": "Setup langkah demi langkah",
-      "STEP_1_TITLE": "Buka AI Response Configuration",
+      "STEP_1_TITLE": "Buka API Connections",
       "STEP_1_DESC": "Klik ikon colokan di bagian atas untuk membuka panel API Connections.",
       "STEP_2_TITLE": "Pilih Chat Completion",
       "STEP_2_DESC": "Atur tipe API ke Chat Completion.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "Perilaku dropdown model",
       "TOC_TROUBLESHOOTING": "Pemecahan Masalah",
       "GOTCHA_1": "Tempel base URL yang berakhir di `/v1` saja. SillyTavern menambahkan `/chat/completions` sendiri; menambahkannya menghasilkan error 400.",
-      "GOTCHA_2": "Dropdown model yang kosong berarti koneksi gagal. Periksa ulang base URL, lalu aktifkan Bypass API Status Check.",
+      "GOTCHA_2": "Daftar model yang kosong berarti koneksinya gagal. Periksa lagi URL dasarnya, lalu aktifkan Bypass API status check.",
       "GOTCHA_3": "Error 401 berarti kunci kedaluwarsa atau salah ketik. Buat kunci baru di dasbor {appName} Anda dan tempel tanpa spasi di awal atau akhir.",
       "GOTCHA_4": "Jika streaming terputus di tengah kalimat, nonaktifkan Streaming untuk memastikan penyebabnya, lalu aktifkan kembali. Proxy perusahaan yang membuang awalan `data:` juga merusaknya."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "Pilih slot model",
       "STEP_2_DESC": "Klik pemilih model Chat Bot, gulir ke paling bawah, lalu pilih Custom Models.",
       "STEP_3_TITLE": "Hapus centang Autofill Request URL",
-      "STEP_3_DESC": "Tombol ini harus MATI sebelum Anda menempel apa pun. Lihat peringatan di atas.",
-      "STEP_4_TITLE": "Tempel Request URL",
-      "STEP_4_DESC": "Tempel URL lengkap yang berakhir di `/v1/chat/completions`.",
+      "STEP_3_DESC": "Cari Autofill Request URL di daftar Advanced Settings dan matikan sebelum Anda menempelkan apa pun. Lihat peringatan di atas.",
+      "STEP_4_TITLE": "Tempelkan URL",
+      "STEP_4_DESC": "Tempelkan URL lengkap yang berakhiran `/v1/chat/completions` ke kolom URL, lalu atur Format ke OpenAICompatible.",
       "STEP_5_TITLE": "Tempel kunci API",
-      "STEP_5_DESC": "Tempel kunci API {appName} Anda ke kolom API Key. Sebagian build menamainya Authorization; pakai kolom itu jika API Key tidak ada.",
-      "STEP_6_TITLE": "Tempel ID Model",
-      "STEP_6_DESC": "Tempel nama model persis dari halaman model {appName}.",
+      "STEP_5_DESC": "Tempelkan kunci API {appName} Anda ke kolom Key/Password.",
+      "STEP_6_TITLE": "Isi Request Model",
+      "STEP_6_DESC": "Masukkan nama model persis seperti di halaman model {appName} ke dalam Request Model.",
       "STEP_7_TITLE": "Simpan",
       "STEP_7_DESC": "Tutup panel pengaturan. RisuAI menulis konfigurasi ke local storage.",
       "STEP_8_TITLE": "Kirim pesan uji",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "Bekerja sebelumnya, tidak ada respons sekarang.",
       "TS_2_DESC": "Pembaruan RisuAI bisa mengaktifkan kembali Autofill Request URL tanpa pemberitahuan. Buka Custom Models dan pastikan tombolnya mati.",
       "TS_3_TITLE": "401 Unauthorized.",
-      "TS_3_DESC": "Sebagian build RisuAI menampilkan kolom API Key dan Authorization sekaligus, dan tiap versi hanya membaca salah satunya. Pindahkan kunci Anda ke kolom yang satunya.",
+      "TS_3_DESC": "Pastikan kuncinya ada di Key/Password dan tidak ada spasi di awal maupun di akhir.",
       "TS_4_TITLE": "Model tidak ditemukan.",
       "TS_4_DESC": "Model ID harus sama persis dengan sebuah nama model. Salin-tempel dari halaman model {appName}.",
       "TS_5_TITLE": "Fitur terjemahan atau ringkasan rusak.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Konfigurasi Model Auxiliary",
       "TOC_TROUBLESHOOTING": "Pemecahan Masalah",
       "GOTCHA_1": "Matikan Autofill Request URL sebelum menempel apa pun. Selagi aktif, RisuAI menulis ulang URL Anda ke nilai bawaannya dan merusak koneksi tanpa pemberitahuan.",
-      "GOTCHA_2": "Pembaruan RisuAI bisa mengaktifkan kembali Autofill Request URL dengan sendirinya. Jika penyiapan yang tadinya jalan berhenti merespons, buka lagi Custom Models dan pastikan tombolnya mati.",
-      "GOTCHA_3": "Sebagian build RisuAI menampilkan kolom API Key dan kolom Authorization sekaligus, dan tiap versi hanya membaca salah satunya. Saat muncul 401, pindahkan kunci Anda ke kolom yang satunya.",
+      "GOTCHA_2": "Autofill Request URL adalah sakelar global di Advanced Settings, jadi berlaku untuk setiap slot model kustom. Jika konfigurasi yang tadinya jalan berhenti merespons, periksa sakelar itu di sana.",
+      "GOTCHA_3": "Kuncinya diisikan di Key/Password. Untuk mengirim header tambahan, pakai Additional Parameters dengan sintaks header::Authorization.",
       "GOTCHA_4": "Custom Models tidak punya dropdown model. Salin-tempel nama model persis dari halaman model {appName} alih-alih mengetiknya ulang."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "Hubungkan {appName} ke Open WebUI sebagai koneksi OpenAI bawaan.",
       "OVERVIEW_DESC": "Admin Open WebUI dapat menambahkan beberapa koneksi yang kompatibel dengan OpenAI. Tambahkan {appName} dan pemilih model terisi dari katalog.",
       "STEP_1_TITLE": "Buka panel admin",
-      "STEP_1_DESC": "Masuk sebagai admin, buka Admin Panel, Settings, lalu Connections.",
+      "STEP_1_DESC": "Masuk sebagai admin, lalu buka Settings, Admin, Connections.",
       "STEP_2_TITLE": "Tambahkan koneksi OpenAI baru",
-      "STEP_2_DESC": "Di bawah OpenAI API, klik + untuk menambahkan koneksi.",
+      "STEP_2_DESC": "Di bagian Manage OpenAI API Connections, klik Add Connection.",
       "STEP_3_TITLE": "Isi koneksi",
       "STEP_3_DESC": "Masukkan URL dasar dan kunci API {appName} Anda.",
       "STEP_4_TITLE": "Simpan dan pilih model",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "Buka LLM Preference",
       "STEP_1_DESC": "Buka Settings di bilah samping, lalu LLM Preference.",
       "STEP_2_TITLE": "Pilih Generic OpenAI",
-      "STEP_2_DESC": "Setel LLM Provider ke Generic OpenAI lalu isi formulirnya.",
+      "STEP_2_DESC": "Atur LLM Provider ke Generic OpenAI lalu isi formulirnya. Max Tokens secara bawaan bernilai 1024 dan membatasi setiap balasan, jadi naikkan nilainya.",
       "STEP_3_TITLE": "Simpan",
       "STEP_3_DESC": "Simpan. AnythingLLM memakai {appName} untuk ruang kerja obrolan.",
-      "TS_1_DESC": "Generic OpenAI tidak menarik katalog. Ketik nama model dan jendela konteks secara manual.",
+      "TS_1_DESC": "Generic OpenAI mengambil katalog begitu Base URL dan API Key diisi. Jika pengambilan gagal, kolomnya berubah menjadi kotak teks, jadi ketik id model secara manual.",
       "TS_2_DESC": "Embedding Preference adalah tab terpisah. Biarkan pada penyedia embedding yang berfungsi kecuali {appName} menyediakan embedding di paket Anda."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "Hubungkan {appName} ke Cherry Studio sebagai penyedia OpenAI.",
       "OVERVIEW_DESC": "Cherry Studio mendukung banyak penyedia dalam satu UI. Tambahkan {appName} sebagai penyedia OpenAI dan muat model sebagai entri terpisah.",
       "STEP_1_TITLE": "Buka Model Provider",
-      "STEP_1_DESC": "Buka Settings, Model Provider, lalu Add Provider.",
+      "STEP_1_DESC": "Buka Settings, lalu Model Services, kemudian + Add Provider.",
       "STEP_2_TITLE": "Pilih OpenAI",
       "STEP_2_DESC": "Setel tipe penyedia ke OpenAI. Isi nama, host, dan kunci.",
       "STEP_3_TITLE": "Tambahkan model",
       "STEP_3_DESC": "Klik Manage di bawah Models, lalu Add Model. Tempel ID model {appName}, satu per baris.",
-      "TS_1_DESC": "Pakai tipe penyedia OpenAI dan sertakan sendiri /v1 pada host. Tipe lain menambahkan jalurnya sendiri.",
+      "TS_1_DESC": "Cherry Studio menambahkan jalur versi sendiri, jadi masukkan host tanpa /v1. Untuk mengirim alamat apa adanya, ketik URL lengkap dan akhiri dengan #.",
       "TS_2_DESC": "Tombol Test milik Cherry mengirim uji satu token ke chat completions. Penghentian karena length pada model penalaran tetap membuktikan autentikasi berhasil."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind menerima endpoint apa pun yang kompatibel dengan OpenAI sebagai model kustom. Tambahkan {appName} untuk memakai model apa pun di katalog.",
       "STEP_1_TITLE": "Buka Models",
       "STEP_1_DESC": "Klik ikon roda gigi, pergi ke Models, lalu Add Custom Models.",
-      "STEP_2_TITLE": "Pilih OpenAI sebagai tipe API",
-      "STEP_2_DESC": "TypingMind menggunakan skema OpenAI Chat Completions untuk endpoint kustom.",
+      "STEP_2_TITLE": "Tambahkan model kustom",
+      "STEP_2_DESC": "TypingMind memakai skema OpenAI Chat Completions untuk endpoint kustom.",
       "STEP_3_TITLE": "Isi endpoint",
-      "STEP_3_DESC": "Masukkan URL dasar, kunci API {appName} Anda, dan ID model.",
+      "STEP_3_DESC": "Masukkan URL chat completions lengkap dan sebuah id model. Model kustom tidak punya kolom kunci API: tambahkan kuncinya di Add Custom Headers sebagai header Authorization.",
       "STEP_4_TITLE": "Uji dan tambahkan",
       "STEP_4_DESC": "Aktifkan Plugins atau Vision hanya jika modelnya mendukung. Klik Test, lalu Add Model.",
       "TS_1_DESC": "Plugins (function calling) membutuhkan model dengan dukungan alat bawaan.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Buka pengaturan Models",
       "STEP_1_DESC": "Buka pengaturan BoltAI, masuk ke Models, klik +, lalu OpenAI-compatible Server.",
       "STEP_2_TITLE": "Isi server",
-      "STEP_2_DESC": "Masukkan nama, URL dasar, kunci, ID model, dan panjang konteks.",
+      "STEP_2_DESC": "Masukkan nama, URL chat completions lengkap, kunci, id model, dan panjang konteks.",
       "STEP_3_TITLE": "Aktifkan streaming",
       "STEP_3_DESC": "Aktifkan Streaming untuk melihat token saat berdatangan.",
       "TS_1_DESC": "Konektor ini tidak menarik daftar model. Tiap model {appName} adalah satu entri manual.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "Hubungkan {appName} ke Chatbox menggunakan mode OpenAI API Compatible.",
       "OVERVIEW_DESC": "Chatbox mendukung basis apa pun yang kompatibel dengan OpenAI. Gunakan mode OpenAI API Compatible dan bagi URL menjadi Host dan Path.",
       "STEP_1_TITLE": "Buka Add Custom Provider",
-      "STEP_1_DESC": "Buka Settings, Display, AI Provider, lalu Add Custom Provider.",
+      "STEP_1_DESC": "Buka Settings, lalu Model Provider, kemudian Add.",
       "STEP_2_TITLE": "Pilih mode OpenAI API Compatible",
       "STEP_2_DESC": "Jangan pilih opsi Responses API kecuali Anda memang menginginkan rute Responses.",
       "STEP_3_TITLE": "Bagi host dan path",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "Masukkan kunci API {appName} Anda dan endpoint API.",
       "STEP_3_TITLE": "Segarkan model",
       "STEP_3_DESC": "Klik Models untuk menyegarkan daftarnya. Big-AGI menarik katalog {appName}.",
-      "TS_1_DESC": "Biarkan Helicone Key kosong. Isian itu memaksa host ke domain lain.",
-      "TS_2_DESC": "Nonaktifkan tombol Moderation. {appName} tidak punya endpoint moderasi."
+      "TS_1_DESC": "Jika konfigurasi Big-AGI lama meninggalkan host Helicone, hapus saja. Build terbaru menghilangkannya secara otomatis.",
+      "TS_2_DESC": "Big-AGI mengambil daftar model dari endpoint, sehingga kunci berjangkauan luas akan memenuhi pemilih model dengan seluruh katalog {appName}."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "Buka pengaturan",
       "STEP_2_DESC": "Klik ikon Kilo Code di bilah samping, lalu ikon roda gigi di kanan atas.",
       "STEP_3_TITLE": "Tambahkan penyedia kustom",
-      "STEP_3_DESC": "Buka Providers, klik + Connect di samping Custom Provider, dan isi formulir.",
+      "STEP_3_DESC": "Gulir ke bagian paling bawah daftar penyedia lalu klik Custom provider.",
       "STEP_4_TITLE": "Isi formulir koneksi",
       "STEP_4_DESC": "Gunakan nilai berikut. Kolom model menerima id apa pun dari katalog {appName}.",
       "STEP_5_TITLE": "Simpan dan mulai mengobrol",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "Pilih opsi yang kompatibel dengan OpenAI dan gunakan nilai berikut.",
       "STEP_4_TITLE": "Pilih model",
       "STEP_4_DESC": "Pilih penyedia {appName} Anda di pemilih model lalu pilih sebuah model.",
-      "GOTCHA_1": "ID penyedia harus berupa huruf kecil, angka, tanda hubung, atau garis bawah.",
-      "GOTCHA_2": "Kolom kunci API bersifat opsional karena sebagian pengguna berautentikasi lewat header. Untuk {appName}, tempel kunci asli Anda."
+      "GOTCHA_1": "Setiap model di available_models memerlukan name dan max_tokens. Formulir Add Provider di Zed juga menanyakan jendela konteks.",
+      "GOTCHA_2": "Zed menyimpan kunci API di keychain miliknya, bukan di settings.json. Tambahkan penyedia lewat Agent Settings dan jangan menaruh kunci di berkas itu."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "Di bawah API Provider, pilih OpenAI Compatible.",
       "STEP_4_TITLE": "Isi koneksi",
       "STEP_4_DESC": "Gunakan nilai berikut. Model ID menerima model {appName} apa pun.",
-      "GOTCHA_1": "Cline punya mode Responses API untuk model yang lebih baru. Pada chat completions, ia beralih ke pembungkusan alat berbasis XML, yang bisa mengulang pemanggilan alat. Pakai model bergaya chat agar lebih stabil.",
+      "GOTCHA_1": "Penyedia OpenAI Compatible pada Cline hanya memanggil chat completions. Tidak ada pilihan Responses API yang bisa dipilih.",
       "GOTCHA_2": "Pilih model dengan pemanggilan alat bawaan agar Cline dapat menjalankan shell dan penyuntingan file dengan andal."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "Isi koneksi",
       "STEP_4_DESC": "Gunakan nilai berikut. Pemilih model juga bisa terisi setelah panggilan pertama.",
       "GOTCHA_1": "Codebase Indexing > Embedder Provider terpisah dari obrolan. Konfigurasikan penyedia obrolan yang Anda inginkan.",
-      "GOTCHA_2": "Sebagian peran agen Roo mengirim lebih banyak permintaan dari perkiraan. Perhatikan batas laju {appName} Anda."
+      "GOTCHA_2": "Roo Code mewajibkan pemanggilan tool bawaan. Model tanpa kemampuan itu tidak bisa dipakai, jadi periksa katalog sebelum berpindah."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "Simpan dan muat ulang",
       "STEP_3_DESC": "Continue memuat ulang konfigurasi secara langsung. Pilih {appName} dari pemilih model di bagian bawah panel.",
       "GOTCHA_1": "Gunakan config.yaml, bukan config.json yang lawas.",
-      "GOTCHA_2": "Jika sebuah model menolak parameter tambahan, setel requestOptions.dropParams: ['frequency_penalty','presence_penalty'] pada entri tersebut."
+      "GOTCHA_2": "requestOptions hanya menerima kunci yang terdokumentasi seperti headers dan extraBodyProperties. Kunci yang tidak dikenal membuat validasi gagal, bukan sekadar diabaikan."
     },
     "AIDER": {
       "META": {

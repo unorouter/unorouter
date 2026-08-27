@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "npm で Codex CLI をグローバルにインストールします。",
       "STEP_2_TITLE": "モデルプロバイダーを設定する",
       "STEP_2_DESC": "`~/.codex/config.toml` を編集します。モデルIDを設定し、responses ワイヤAPIを使って {appName} のベースURLでカスタムプロバイダーを追加します。",
-      "STEP_3_TITLE": "API キーを追加する",
-      "STEP_3_DESC": "{appName} のAPIキーを `~/.codex/auth.json` に書き込みます。",
+      "STEP_3_TITLE": "API キーを export する",
+      "STEP_3_DESC": "env_key で指定した変数を export してください。Codex はカスタムプロバイダーのキーを環境変数から読み取ります。auth.json は OpenAI へのサインイン専用です。",
       "STEP_4_TITLE": "Codex を起動する",
       "STEP_4_DESC": "プロジェクトディレクトリで `codex` を実行します。",
       "TS_1_DESC": "未対応エンドポイントのエラーが出たら、`wire_api` が `responses` であること、ベースURLが `/v1` で終わることを確認します。",
-      "TS_2_DESC": "401 は `~/.codex/auth.json` のキーが未設定か古いことを意味します。{appName} のダッシュボードから新しいキーを貼り付けてください。",
-      "TS_3_DESC": "Codex がプロバイダーを無視する場合は、`config.toml` のテーブル名を確認します。プロバイダーIDにはアンダースコアが使えますがハイフンは使えません（`model_providers.my_provider` は可、`my-provider` は不可）。`openai` は予約語で上書きできません。"
+      "TS_2_DESC": "リクエストが未認証になる場合は、env_key が指す変数が codex を実行しているシェルで実際に export されているか確認してください。",
+      "TS_3_DESC": "予約済みの ID である openai をカスタムプロバイダーに再利用することはできません。[model_providers.<id>] でも model_provider でも、それ以外の ID なら使用できます。"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "`~/.openclaw/config.json` を編集します。openai プロバイダーを {appName} のベースURLに向け、キーは `OPENAI_API_KEY` から読み込み、既定モデルを agents 配下に設定します。",
       "STEP_3_TITLE": "OpenClaw を起動する",
       "STEP_3_DESC": "`openclaw start` を実行して {appName} に対してエージェントを起動します。",
-      "TS_1_DESC": "OpenClaw が API に到達できない場合は、`providers.openai.baseUrl` が `/v1` で終わり、`OPENAI_API_KEY` が同じシェルでエクスポートされているか確認してください。",
+      "TS_1_DESC": "~/.openclaw/openclaw.json の models.providers.openai.baseUrl を確認してください。最上位に置いた providers ブロックは無視されます。",
       "TS_2_DESC": "モデルが拒否される場合は、`agents.defaults.model.primary` に {appName} のモデルページからコピーした有効なIDを `openai/` 接頭辞付きで設定してください。"
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "{appName} のAPIキーを `~/.hermes/.env` に `OPENAI_API_KEY` として保存します。",
       "STEP_4_TITLE": "Hermes を実行する",
       "STEP_4_DESC": "`hermes --tui` で TUI を起動します。",
-      "TS_1_DESC": "Hermes は起動時にコンテキストが 64,000 トークン未満のモデルを拒否します。{appName} のモデルページからコンテキストの大きいモデルを選んでください。",
+      "TS_1_DESC": "要約用に別のモデルを設定する場合は、メインのモデルと同等以上のコンテキストウィンドウを持つモデルにしてください。",
       "TS_2_DESC": "起動時の `/v1/models` チェックが失敗する場合は、`model.base_url` が `/v1` で終わり、`OPENAI_API_KEY` が `~/.hermes/.env` に設定されていることを確認してください。"
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "モデル",
       "QUICK_CONFIG_NOTE": "ベースURLのみを貼り付けてください。SillyTavern が `/chat/completions` を自動で付加します。自分で付けると 400 エラーになります。",
       "STEPS": "手順ごとのセットアップ",
-      "STEP_1_TITLE": "AI Response Configuration を開く",
+      "STEP_1_TITLE": "API Connections を開く",
       "STEP_1_DESC": "上部のプラグアイコンをクリックして API Connections パネルを開きます。",
       "STEP_2_TITLE": "Chat Completion を選択",
       "STEP_2_DESC": "API タイプを Chat Completion に設定します。",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "モデルドロップダウンの挙動",
       "TOC_TROUBLESHOOTING": "トラブルシューティング",
       "GOTCHA_1": "`/v1` で終わるベースURLのみを貼り付けてください。SillyTavern が `/chat/completions` を自動で付加するため、自分で付けると 400 エラーになります。",
-      "GOTCHA_2": "モデルのドロップダウンが空なら接続に失敗しています。ベースURLを再確認し、Bypass API Status Check を有効にしてください。",
+      "GOTCHA_2": "モデルのドロップダウンが空の場合は、接続に失敗しています。ベース URL を確認し直したうえで、Bypass API status check を有効にしてください。",
       "GOTCHA_3": "401 はキーが期限切れか誤入力であることを意味します。{appName} ダッシュボードで新しいキーを生成し、前後に空白を入れずに貼り付けてください。",
       "GOTCHA_4": "ストリーミングが文の途中で切れる場合は、Streaming を無効にして原因を確認し、その後再度有効にしてください。`data:` 接頭辞を除去する企業プロキシも原因になります。"
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "モデルスロットを選ぶ",
       "STEP_2_DESC": "Chat Bot のモデルセレクタをクリックし、一番下までスクロールして Custom Models を選びます。",
       "STEP_3_TITLE": "Autofill Request URL のチェックを外す",
-      "STEP_3_DESC": "何かを貼り付ける前に、このトグルをオフにする必要があります。上記の警告を参照してください。",
-      "STEP_4_TITLE": "Request URL を貼り付ける",
-      "STEP_4_DESC": "末尾が `/v1/chat/completions` で終わる完全な URL を貼り付けます。",
+      "STEP_3_DESC": "Advanced Settings の一覧から Autofill Request URL を見つけ、何かを貼り付ける前にオフにしてください。上の警告を参照してください。",
+      "STEP_4_TITLE": "URL を貼り付ける",
+      "STEP_4_DESC": "`/v1/chat/completions` で終わる完全な URL を URL 欄に貼り付け、Format を OpenAICompatible に設定します。",
       "STEP_5_TITLE": "API キーを貼り付ける",
-      "STEP_5_DESC": "{appName} のAPIキーを API Key 欄に貼り付けます。ビルドによっては Authorization と表示されます。API Key がない場合はそちらを使ってください。",
-      "STEP_6_TITLE": "Model ID を貼り付ける",
-      "STEP_6_DESC": "{appName} のモデルページから正確なモデル名を貼り付けます。",
+      "STEP_5_DESC": "{appName} の API キーを Key/Password 欄に貼り付けます。",
+      "STEP_6_TITLE": "Request Model を入力する",
+      "STEP_6_DESC": "{appName} のモデルページに記載されている正確なモデル名を Request Model に入力します。",
       "STEP_7_TITLE": "保存",
       "STEP_7_DESC": "設定パネルを閉じます。RisuAI が設定をローカルストレージに書き込みます。",
       "STEP_8_TITLE": "テストメッセージを送信",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "以前は動作していたのに、今は応答がない。",
       "TS_2_DESC": "RisuAI の更新で Autofill Request URL が黙って再び有効になることがあります。Custom Models を開いてオフであることを確認してください。",
       "TS_3_TITLE": "401 Unauthorized。",
-      "TS_3_DESC": "一部の RisuAI ビルドは API Key と Authorization の両方を表示しますが、読み取られるのはバージョンごとに片方だけです。キーをもう一方の欄に移してください。",
+      "TS_3_DESC": "キーが Key/Password に入力されていること、前後に空白が入っていないことを確認してください。",
       "TS_4_TITLE": "Model not found。",
       "TS_4_DESC": "Model ID はモデル名と完全に一致する必要があります。{appName} のモデルページからコピー＆ペーストしてください。",
       "TS_5_TITLE": "翻訳または要約機能が壊れている。",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Auxiliary Model の設定",
       "TOC_TROUBLESHOOTING": "トラブルシューティング",
       "GOTCHA_1": "何かを貼り付ける前に Autofill Request URL のチェックを外してください。オンの間、RisuAI はURLを独自の既定値に書き換え、接続を静かに壊します。",
-      "GOTCHA_2": "RisuAI の更新で Autofill Request URL がひとりでに再有効化されることがあります。動いていた設定が応答しなくなったら、Custom Models を開き直してトグルがオフか確認してください。",
-      "GOTCHA_3": "一部の RisuAI ビルドは API Key 欄と Authorization 欄の両方を表示しますが、読み取られるのはバージョンごとに片方だけです。401 の場合はキーをもう一方の欄に移してください。",
+      "GOTCHA_2": "Autofill Request URL は Advanced Settings 内のグローバルな切り替えなので、すべてのカスタムモデル枠に適用されます。動いていた設定が応答しなくなった場合は、そこを確認してください。",
+      "GOTCHA_3": "キーは Key/Password に入力します。代わりに追加のヘッダーを送りたい場合は、Additional Parameters で header::Authorization の書式を使ってください。",
       "GOTCHA_4": "Custom Models にはモデルのドロップダウンがありません。手入力せず、{appName} のモデルページから正確なモデル名をコピー＆ペーストしてください。"
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "{appName} を Open WebUI にネイティブな OpenAI 接続として追加します。",
       "OVERVIEW_DESC": "Open WebUI の管理者は複数のOpenAI互換接続を追加できます。{appName} を追加するとモデル選択がカタログから埋まります。",
       "STEP_1_TITLE": "管理パネルを開く",
-      "STEP_1_DESC": "管理者でサインインし、Admin Panel、Settings、続いて Connections を開きます。",
+      "STEP_1_DESC": "管理者としてサインインし、Settings、Admin、Connections を開きます。",
       "STEP_2_TITLE": "新しい OpenAI 接続を追加する",
-      "STEP_2_DESC": "OpenAI API の下で + をクリックして接続を追加します。",
+      "STEP_2_DESC": "Manage OpenAI API Connections の下にある Add Connection をクリックします。",
       "STEP_3_TITLE": "接続を入力する",
       "STEP_3_DESC": "ベース URL と {appName} の API キーを入力します。",
       "STEP_4_TITLE": "保存してモデルを選ぶ",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "LLM Preference を開く",
       "STEP_1_DESC": "サイドバーで Settings を開き、続いて LLM Preference を開きます。",
       "STEP_2_TITLE": "Generic OpenAI を選ぶ",
-      "STEP_2_DESC": "LLM Provider を Generic OpenAI に設定してフォームを埋めます。",
+      "STEP_2_DESC": "LLM Provider を Generic OpenAI に設定し、フォームを入力します。Max Tokens は既定値が 1024 で、すべての応答がその値で制限されるため、値を上げてください。",
       "STEP_3_TITLE": "保存する",
       "STEP_3_DESC": "保存します。AnythingLLM がチャットワークスペースで {appName} を使います。",
-      "TS_1_DESC": "Generic OpenAI はカタログを取得しません。モデル名とコンテキストウィンドウを手入力してください。",
+      "TS_1_DESC": "Base URL と API Key を設定すると、Generic OpenAI がカタログを取得します。取得に失敗した場合、この欄はテキスト入力に切り替わるので、モデル ID を手入力してください。",
       "TS_2_DESC": "Embedding Preference は別のタブです。{appName} がプランで埋め込みを提供していない限り、動作する埋め込みプロバイダーのままにしてください。"
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "{appName} を Cherry Studio に OpenAI プロバイダーとして接続します。",
       "OVERVIEW_DESC": "Cherry Studio は多数のプロバイダーを1つのUIで扱えます。{appName} を OpenAI プロバイダーとして追加し、モデルを個別のエントリとして読み込みます。",
       "STEP_1_TITLE": "Model Provider を開く",
-      "STEP_1_DESC": "Settings、Model Provider、続いて Add Provider を開きます。",
+      "STEP_1_DESC": "Settings を開き、Model Services、続いて + Add Provider に進みます。",
       "STEP_2_TITLE": "OpenAI を選ぶ",
       "STEP_2_DESC": "プロバイダー種別を OpenAI にします。名前、ホスト、キーを入力します。",
       "STEP_3_TITLE": "モデルを追加する",
       "STEP_3_DESC": "Models の下の Manage、次に Add Model をクリックします。{appName} のモデル ID を 1 行に 1 つずつ貼り付けます。",
-      "TS_1_DESC": "OpenAI のプロバイダー種別を使い、ホストに /v1 を自分で含めてください。他の種別は独自のパスを付加します。",
+      "TS_1_DESC": "Cherry Studio はバージョンのパスを自動で付加するため、ホストは /v1 を付けずに入力してください。アドレスをそのまま送信したい場合は、完全な URL を入力し、末尾を # で終わらせます。",
       "TS_2_DESC": "Cherry の Test ボタンはチャット補完に1トークンの試験リクエストを送ります。推論モデルで length 終了になっても、認証の確認としては有効です。"
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind は任意のOpenAI互換エンドポイントをカスタムモデルとして受け付けます。{appName} を追加すればカタログ内のどのモデルでも使えます。",
       "STEP_1_TITLE": "Models を開く",
       "STEP_1_DESC": "歯車アイコンをクリックし、Models、次に Add Custom Models へ進みます。",
-      "STEP_2_TITLE": "API タイプとして OpenAI を選ぶ",
-      "STEP_2_DESC": "TypingMind はカスタムエンドポイントに OpenAI Chat Completions スキーマを使います。",
+      "STEP_2_TITLE": "カスタムモデルを追加する",
+      "STEP_2_DESC": "TypingMind はカスタムエンドポイントに OpenAI Chat Completions のスキーマを使用します。",
       "STEP_3_TITLE": "エンドポイントを入力する",
-      "STEP_3_DESC": "ベース URL、{appName} の API キー、モデル ID を入力します。",
+      "STEP_3_DESC": "chat completions の完全な URL とモデル ID を入力します。カスタムモデルには API キーの欄がありません。キーは Add Custom Headers で Authorization ヘッダーとして追加してください。",
       "STEP_4_TITLE": "テストして追加する",
       "STEP_4_DESC": "Plugins や Vision は、モデルが対応している場合のみ有効にしてください。Test をクリックしてから Add Model を押します。",
       "TS_1_DESC": "Plugins（関数呼び出し）にはネイティブのツール対応を持つモデルが必要です。",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Models 設定を開く",
       "STEP_1_DESC": "BoltAI の設定を開き、Models へ進み、+ をクリックしてから OpenAI-compatible Server を選びます。",
       "STEP_2_TITLE": "サーバーを入力する",
-      "STEP_2_DESC": "名前、ベース URL、キー、モデル ID、コンテキスト長を入力します。",
+      "STEP_2_DESC": "名前、chat completions の完全な URL、キー、モデル ID、コンテキスト長を入力します。",
       "STEP_3_TITLE": "ストリーミングをオンにする",
       "STEP_3_DESC": "Streaming をオンにすると、トークンが届くたびに表示されます。",
       "TS_1_DESC": "このコネクタはモデル一覧を取得しません。{appName} の各モデルを手動で1件ずつ追加します。",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "OpenAI API Compatible モードで {appName} を Chatbox に接続します。",
       "OVERVIEW_DESC": "Chatbox は任意の OpenAI 互換ベースに対応します。OpenAI API Compatible モードを使い、URL を Host と Path に分けます。",
       "STEP_1_TITLE": "Add Custom Provider を開く",
-      "STEP_1_DESC": "Settings、Display、AI Provider、続いて Add Custom Provider を開きます。",
+      "STEP_1_DESC": "Settings を開き、Model Provider、続いて Add に進みます。",
       "STEP_2_TITLE": "OpenAI API Compatible モードを選ぶ",
       "STEP_2_DESC": "Responses ルートを使いたい場合を除き、Responses API のオプションは選ばないでください。",
       "STEP_3_TITLE": "ホストとパスを分ける",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "{appName} の API キーと API エンドポイントを入力します。",
       "STEP_3_TITLE": "モデルを更新する",
       "STEP_3_DESC": "Models をクリックして一覧を更新します。Big-AGI が {appName} のカタログを取り込みます。",
-      "TS_1_DESC": "Helicone Key は空欄のままにしてください。ホストが別のドメインに強制されます。",
-      "TS_2_DESC": "Moderation のトグルを無効にしてください。{appName} にモデレーションのエンドポイントはありません。"
+      "TS_1_DESC": "以前の Big-AGI の設定に Helicone のホストが残っている場合は削除してください。現在のビルドでは自動的に取り除かれます。",
+      "TS_2_DESC": "Big-AGI はエンドポイントからモデル一覧を取得するため、権限の広いキーを使うと選択欄が {appName} のカタログ全体で埋まります。"
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "設定を開く",
       "STEP_2_DESC": "Kilo Code のサイドバーアイコンをクリックし、続いて右上の歯車アイコンをクリックします。",
       "STEP_3_TITLE": "カスタムプロバイダーを追加する",
-      "STEP_3_DESC": "Providers を開き、Custom Provider の横にある + Connect をクリックしてフォームに入力します。",
+      "STEP_3_DESC": "プロバイダー一覧の一番下までスクロールし、Custom provider をクリックします。",
       "STEP_4_TITLE": "接続フォームに入力する",
       "STEP_4_DESC": "これらの値を使います。モデル欄は {appName} のカタログの任意のIDを受け付けます。",
       "STEP_5_TITLE": "保存してチャットする",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "OpenAI 互換オプションを選び、以下の値を使用します。",
       "STEP_4_TITLE": "モデルを選択する",
       "STEP_4_DESC": "モデル選択で {appName} のプロバイダーを選び、モデルを選択します。",
-      "GOTCHA_1": "プロバイダーIDは英小文字、数字、ハイフン、アンダースコアのみです。",
-      "GOTCHA_2": "ヘッダーで認証するユーザーがいるため、APIキー欄は任意です。{appName} では実際のキーを貼り付けてください。"
+      "GOTCHA_1": "available_models の各モデルには name と max_tokens が必要です。Zed の Add Provider フォームではさらにコンテキストウィンドウも尋ねられます。",
+      "GOTCHA_2": "Zed は API キーを settings.json ではなく独自のキーチェーンに保存します。プロバイダーは Agent Settings から追加し、キーはファイルに書かないでください。"
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "API Provider で OpenAI Compatible を選択します。",
       "STEP_4_TITLE": "接続情報を入力する",
       "STEP_4_DESC": "これらの値を使います。Model ID は任意の {appName} モデルを受け付けます。",
-      "GOTCHA_1": "Cline には新しいモデル向けの Responses API モードがあります。チャット補完では XML でのツールラッピングにフォールバックし、ツール呼び出しを繰り返すことがあります。安定性を求めるならチャット系のモデルを使ってください。",
+      "GOTCHA_1": "Cline の OpenAI Compatible プロバイダーは chat completions だけを呼び出します。選択できる Responses API のオプションはありません。",
       "GOTCHA_2": "Cline がシェルやファイル編集を確実に実行できるよう、ネイティブのツール呼び出しに対応したモデルを選んでください。"
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "接続情報を入力する",
       "STEP_4_DESC": "これらの値を使います。モデル選択は最初の呼び出し後に埋まることもあります。",
       "GOTCHA_1": "Codebase Indexing の Embedder Provider はチャットとは別です。使いたいチャットプロバイダーを設定してください。",
-      "GOTCHA_2": "Roo のエージェントロールによっては想定より多くのリクエストを送ります。{appName} のレート制限に注意してください。"
+      "GOTCHA_2": "Roo Code はネイティブのツール呼び出しを必須とします。この機能がないモデルは使用できないため、切り替える前にカタログを確認してください。"
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "保存して再読み込みする",
       "STEP_3_DESC": "Continue は設定をホットリロードします。パネル下部のモデルセレクターから {appName} を選択します。",
       "GOTCHA_1": "従来の config.json ではなく config.yaml を使用してください。",
-      "GOTCHA_2": "モデルが追加パラメータを拒否する場合は、そのエントリに requestOptions.dropParams: ['frequency_penalty','presence_penalty'] を設定してください。"
+      "GOTCHA_2": "requestOptions は headers や extraBodyProperties など、文書化されたキーのみを受け付けます。未知のキーは無視されるのではなく、検証エラーになります。"
     },
     "AIDER": {
       "META": {
