@@ -21,6 +21,12 @@ import type { Cookie } from "elysia";
 
 export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
+// True when upstream calls leave through Cloudflare, which happens only in local
+// dev: the cluster sets INTERNAL_API_URL to the ClusterIP.
+export const upstreamIsProxied = new URL(upstreamApiUrl).hostname.endsWith(
+  "unorouter.com",
+);
+
 // "auto" means let the gateway pick, so the header is omitted entirely rather
 // than sent with a sentinel value.
 export function groupHeader(group?: string | null): Record<string, string> {
@@ -104,7 +110,9 @@ export async function deriveUpstream({ request }: { request: Request }) {
   // meant the gateway discarded it and audited the BFF pod address instead, so
   // 64% of logins became unattributable and the alerts keyed on logs.ip went
   // blind on every request that arrives through this site.
-  if (clientIp) headers["CF-Connecting-IP"] = clientIp;
+  // Skipped when the upstream is the public hostname (local dev): Cloudflare
+  // reserves this header and rejects any request carrying one with error 1000.
+  if (clientIp && !upstreamIsProxied) headers["CF-Connecting-IP"] = clientIp;
 
   if (cookieHeader) {
     const parsed = parseCookie(cookieHeader);

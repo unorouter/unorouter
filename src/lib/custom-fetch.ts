@@ -6,6 +6,15 @@ const upstreamApiUrl =
     ? (process.env.INTERNAL_API_URL ?? env.apiUrl)
     : env.apiUrl;
 
+// Cloudflare reserves CF-Connecting-IP for itself and answers 1000 "DNS points
+// to prohibited IP" to any request that sends one, whatever its value. In the
+// cluster INTERNAL_API_URL is the ClusterIP so the header reaches new-api and
+// carries real attribution; local dev is rewritten to the public hostname, where
+// forwarding it fails every request.
+const upstreamIsProxied = new URL(upstreamApiUrl).hostname.endsWith(
+  "unorouter.com",
+);
+
 const REQUEST_TIMEOUT = 30_000;
 
 export type UpstreamError = {
@@ -90,7 +99,9 @@ export const customFetch = async <T>(
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
   const clientIp =
-    hasExplicitAuth || getHeader(headers, "CF-Connecting-IP")
+    hasExplicitAuth ||
+    upstreamIsProxied ||
+    getHeader(headers, "CF-Connecting-IP")
       ? ""
       : await getServerClientIp();
 
