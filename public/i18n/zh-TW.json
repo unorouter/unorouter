@@ -3860,7 +3860,14 @@
       "UNIT_MS": "毫秒",
       "UNIT_TOK_PER_S": "詞元/秒",
       "BADGE_PROVIDER": "提供商",
-      "TRIMMED": "此訊息的完整請求未保留：每個對話僅最近的請求會保存完整內容。"
+      "TRIMMED": "此訊息的完整請求未保留：每個對話僅最近的請求會保存完整內容。",
+      "LIST_TITLE": "請求日誌",
+      "LIST_EMPTY": "此對話沒有記錄任何請求。",
+      "LIST_SUMMARY": "{count} 個請求 · 輸入 {in} · 輸出 {out} · {cost} 美元",
+      "COL_TIME": "時間",
+      "COL_MODEL": "模型",
+      "COL_COST": "費用",
+      "LIST_CAPPED": "每個對話僅保留最近的 {max} 筆請求，更早的會被刪除。"
     },
     "NEW_CONVERSATION": "新對話",
     "GENERATION_LOCKED_OTHER_TAB": "另一個分頁正在為此對話生成回覆。請等待其完成或切換到該分頁。",

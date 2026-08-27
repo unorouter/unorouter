@@ -2,13 +2,15 @@
 
 import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
-import { requestLogs } from "@/lib/db/schema/shared";
+import { conversations, requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
-import { and, desc, eq, notInArray } from "drizzle-orm";
+import { and, desc, eq, notInArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import { rec, recArr } from "@/lib/utils/base";
 
-const MAX_REQUEST_LOGS = 200;
+// Rows past this are DELETED, not trimmed, so this is the real ceiling on how
+// far back a request log can be read.
+export const MAX_REQUEST_LOGS = 200;
 
 function wireMessage(m: unknown): { role: string; content: string } {
   const msg = rec(m);
@@ -172,6 +174,54 @@ export type RequestLogMeta = {
   inputTokens: number | null;
   createdAt: Date | null;
 };
+
+// One row per request, WITHOUT the payload columns: those average ~38KB each,
+// so selecting them for a 700-message thread would pull tens of megabytes to
+// render a table that shows none of it. Retention empties those columns anyway
+// while keeping these, so this list stays complete for the whole history.
+export type RequestLogListRow = {
+  msgId: string;
+  convId: string;
+  convTitle: string | null;
+  model: string | null;
+  channelName: string | null;
+  inputTokens: number | null;
+  outputTokens: number | null;
+  cost: number | null;
+  durationMs: number | null;
+  tokensPerSecond: number | null;
+  createdAt: Date | null;
+};
+
+export async function readRequestLogList(
+  convId: string | null,
+): Promise<RequestLogListRow[]> {
+  const local = await getLocalDb();
+  if (!local) return [];
+  const rows = await local.db
+    .select({
+      msgId: requestLogs.msgId,
+      convId: requestLogs.convId,
+      convTitle: conversations.title,
+      // model lives inside the request body; json_extract keeps the blob out of
+      // the result set instead of parsing 700 payloads in JS.
+      model: sql<
+        string | null
+      >`json_extract(${requestLogs.requestBody}, '$.model')`,
+      channelName: requestLogs.channelName,
+      inputTokens: requestLogs.inputTokens,
+      outputTokens: requestLogs.outputTokens,
+      cost: requestLogs.cost,
+      durationMs: requestLogs.durationMs,
+      tokensPerSecond: requestLogs.tokensPerSecond,
+      createdAt: requestLogs.createdAt,
+    })
+    .from(requestLogs)
+    .leftJoin(conversations, eq(conversations.id, requestLogs.convId))
+    .where(convId ? eq(requestLogs.convId, convId) : undefined)
+    .orderBy(desc(requestLogs.createdAt));
+  return rows;
+}
 
 export async function readLocalRequestLogMetaForConv(
   convId: string,

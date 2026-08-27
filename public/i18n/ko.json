@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "토큰/초",
       "BADGE_PROVIDER": "제공자",
-      "TRIMMED": "이 메시지의 전체 요청은 보관되지 않습니다. 채팅에서 가장 최근 요청만 전체 내용을 저장합니다."
+      "TRIMMED": "이 메시지의 전체 요청은 보관되지 않습니다. 채팅에서 가장 최근 요청만 전체 내용을 저장합니다.",
+      "LIST_TITLE": "요청 로그",
+      "LIST_EMPTY": "이 채팅에 기록된 요청이 없습니다.",
+      "LIST_SUMMARY": "요청 {count}건 · 입력 {in} · 출력 {out} · {cost} 달러",
+      "COL_TIME": "시간",
+      "COL_MODEL": "모델",
+      "COL_COST": "비용",
+      "LIST_CAPPED": "채팅당 최근 {max}건의 요청만 보관되며 이전 기록은 삭제됩니다."
     },
     "NEW_CONVERSATION": "새 채팅",
     "GENERATION_LOCKED_OTHER_TAB": "다른 탭이 이 대화를 위해 이미 생성 중입니다. 완료될 때까지 기다리거나 탭을 전환하세요.",

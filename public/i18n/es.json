@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
       "BADGE_PROVIDER": "proveedor",
-      "TRIMMED": "La solicitud completa no se conserva para este mensaje. Solo las solicitudes más recientes de un chat guardan todo su contenido."
+      "TRIMMED": "La solicitud completa no se conserva para este mensaje. Solo las solicitudes más recientes de un chat guardan todo su contenido.",
+      "LIST_TITLE": "Registros de solicitudes",
+      "LIST_EMPTY": "No hay solicitudes registradas para este chat.",
+      "LIST_SUMMARY": "{count} solicitudes · {in} entrada · {out} salida · {cost} $",
+      "COL_TIME": "Hora",
+      "COL_MODEL": "Modelo",
+      "COL_COST": "Coste",
+      "LIST_CAPPED": "Solo se conservan las {max} solicitudes más recientes por chat; las anteriores se eliminan."
     },
     "NEW_CONVERSATION": "Nuevo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Otra pestaña ya está generando para esta conversación. Espera a que termine o cambia de pestaña.",

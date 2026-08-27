@@ -3860,7 +3860,14 @@
       "UNIT_MS": "ms",
       "UNIT_TOK_PER_S": "tok/s",
       "BADGE_PROVIDER": "provedor",
-      "TRIMMED": "A requisição completa não foi mantida para esta mensagem. Apenas as requisições mais recentes de uma conversa guardam todo o conteúdo."
+      "TRIMMED": "A requisição completa não foi mantida para esta mensagem. Apenas as requisições mais recentes de uma conversa guardam todo o conteúdo.",
+      "LIST_TITLE": "Registros de solicitações",
+      "LIST_EMPTY": "Nenhuma solicitação registrada para esta conversa.",
+      "LIST_SUMMARY": "{count} solicitações · {in} entrada · {out} saída · {cost} $",
+      "COL_TIME": "Hora",
+      "COL_MODEL": "Modelo",
+      "COL_COST": "Custo",
+      "LIST_CAPPED": "Apenas as {max} solicitações mais recentes por conversa são mantidas; as anteriores são excluídas."
     },
     "NEW_CONVERSATION": "Novo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Outra aba já está gerando para esta conversa. Espere terminar ou troque de aba.",
