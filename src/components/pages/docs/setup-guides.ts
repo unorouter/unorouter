@@ -856,15 +856,18 @@ API Key: YOUR_API_KEY`,
         osCode: {
           windows: {
             lang: "powershell",
-            value: `Invoke-Item $env:USERPROFILE\\.config\\opencode\\opencode.json`,
+            value: `$f = "$env:USERPROFILE\\.config\\opencode\\opencode.json"
+md -Force (Split-Path $f) | Out-Null; New-Item $f -ea 0 | Out-Null; Invoke-Item $f`,
           },
           macos: {
             lang: "bash",
-            value: `open -t ~/.config/opencode/opencode.json`,
+            value: `mkdir -p ~/.config/opencode && touch ~/.config/opencode/opencode.json
+open -t ~/.config/opencode/opencode.json`,
           },
           linux: {
             lang: "bash",
-            value: `xdg-open ~/.config/opencode/opencode.json`,
+            value: `mkdir -p ~/.config/opencode && touch ~/.config/opencode/opencode.json
+xdg-open ~/.config/opencode/opencode.json`,
           },
         },
       },
