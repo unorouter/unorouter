@@ -1,7 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 import { nullable, samplingNullable } from "./helpers";
-import { reasoningEffort } from "./chat";
 import { tokenizerRef } from "./tokenizer";
 
 export const MAX_NAME_LEN = 200;
@@ -11,42 +10,7 @@ export const MAX_TAGS = 32;
 export const MAX_KEYS_PER_ENTRY = 64;
 export const MAX_KEY_LEN = 200;
 
-export const characterBody = t.Object({
-  name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  avatarMediaId: nullable(t.String({ maxLength: 64 })),
-  backgroundMediaId: nullable(t.String({ maxLength: 64 })),
-  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  personality: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  scenario: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  firstMessage: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  alternateGreetings: nullable(
-    t.Array(t.String({ maxLength: MAX_DESC_LEN }), { maxItems: 32 }),
-  ),
-  exampleMessages: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  systemPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  postHistoryInstructions: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  defaultReasoningEffort: nullable(reasoningEffort),
-  tags: nullable(
-    t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
-  ),
-  triggers: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
-  turnTriggers: nullable(
-    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-      maxItems: MAX_KEYS_PER_ENTRY,
-    }),
-  ),
-  regexScripts: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
-  alwaysActive: t.Boolean({ default: true }),
-  matchWholeWords: t.Boolean({ default: false }),
-});
 
-export const personaBody = t.Object({
-  name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  title: nullable(t.String({ maxLength: MAX_NAME_LEN })),
-  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
-  avatarMediaId: nullable(t.String({ maxLength: 64 })),
-  isDefault: t.Optional(t.Boolean()),
-});
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),

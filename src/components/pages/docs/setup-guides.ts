@@ -4,7 +4,7 @@ import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";
 import type { DocI18nPrefix } from "@/lib/types";
 import type { OS } from "@/lib/types/enums";
-import type { IntegrationColor, IntegrationIconKey } from "./integrations";
+import type { IntegrationColor, IntegrationIconKey } from "./integration-types";
 
 export type SetupCategory = "coding" | "roleplay" | "general" | "cli";
 

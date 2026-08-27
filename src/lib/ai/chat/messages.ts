@@ -1,16 +1,6 @@
 import type { PersistMessageItem } from "@/lib/validation/chat";
 
 export type MessageItemData = PersistMessageItem;
-
-export type PersistMessage = {
-  id?: string;
-  parentId?: string | null;
-  characterId?: string | null;
-  role: "system" | "user" | "assistant" | "tool";
-  model?: string;
-  items: MessageItemData[];
-};
-
 export type MessagePart = {
   type: string;
   data?: Record<string, unknown>;

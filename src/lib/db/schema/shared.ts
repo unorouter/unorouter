@@ -495,7 +495,4 @@ export const media = sqliteTable(
   },
   (table) => [index("idx_media_conv").on(table.convId)],
 );
-
-export type Message = typeof messages.$inferSelect;
-export type MessageItem = typeof messageItems.$inferSelect;
 export type Media = typeof media.$inferSelect;

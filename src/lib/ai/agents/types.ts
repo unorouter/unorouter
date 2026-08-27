@@ -27,12 +27,6 @@ export type AgentResult =
 
 export type AgentCapability =
   "inject_context" | "generate_image" | "write_vars" | "write_lorebook";
-
-export const DESTRUCTIVE_CAPABILITIES: readonly AgentCapability[] = [
-  "write_vars",
-  "write_lorebook",
-];
-
 export const RESULT_CAPABILITY: Record<
   AgentResult["type"],
   AgentCapability | null

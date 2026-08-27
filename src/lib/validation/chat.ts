@@ -319,7 +319,6 @@ export const streamBody = t.Object({
     }),
   ),
 });
-export type StreamBody = Static<typeof streamBody>;
 
 export const triggerLlmBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),

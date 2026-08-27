@@ -14,7 +14,7 @@ import {
   CATEGORY_ORDER,
   setupGuidesByCategory,
 } from "@/components/pages/docs/setup-guides";
-import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
+import type { IntegrationIconKey } from "@/components/pages/docs/integration-types";
 import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";

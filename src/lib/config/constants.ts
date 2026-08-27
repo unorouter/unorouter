@@ -150,9 +150,6 @@ export const DEFAULT_CHAT_MEMORY = 200;
 export const DEFAULT_AUTHOR_NOTE_DEPTH = 4;
 
 export const TAVILY_TIMEOUT_MS = 5_000;
-
-export const MODERATION_TIMEOUT_MS = 5_000;
-
 export const MAX_RECURSIVE_LOREBOOK_PASSES = 3;
 
 export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for this conversation based on the user's message.

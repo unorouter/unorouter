@@ -151,9 +151,6 @@ export const imageModels = sqliteTable(
   },
   (table) => [index("idx_image_models_last_used").on(table.lastUsedAt)],
 );
-
-export type ImageModel = typeof imageModels.$inferSelect;
-
 export const imagePresets = sqliteTable(
   "image_presets",
   {
@@ -251,6 +248,4 @@ export const imageSnapshots = sqliteTable(
     uniqueIndex("idx_image_snapshot_submitted").on(table.submittedKey),
   ],
 );
-
-export type ImageSession = typeof imageSessions.$inferSelect;
 export type ImageSnapshot = typeof imageSnapshots.$inferSelect;

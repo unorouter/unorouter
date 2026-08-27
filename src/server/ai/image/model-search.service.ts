@@ -257,11 +257,3 @@ export async function listCheckpointVersions(
   }
   return versions.map((row) => toResolved(row, { versionSuffix: true }));
 }
-
-export async function resolveCivitaiCheckpoint(
-  input: string,
-  category: "checkpoint" | "lora" = "checkpoint",
-): Promise<ResolvedCheckpoint | null> {
-  const ref = parseCivitaiReference(input);
-  return ref ? resolveRef(ref, category) : null;
-}

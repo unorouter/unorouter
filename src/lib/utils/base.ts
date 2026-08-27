@@ -96,10 +96,6 @@ export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
 }
 
-export function baseModelName(name: string): string {
-  return name.endsWith(":free") ? name.slice(0, -":free".length) : name;
-}
-
 export function modelMatchesSlug(name: string, slug: string): boolean {
   let decoded = slug;
   try {
@@ -237,10 +233,6 @@ export function fileToBase64(file: File): Promise<string> {
   });
 }
 
-export function quoteIdent(s: string): string {
-  return `"${s.replace(/"/g, '""')}"`;
-}
-
 export function csvToArray(value: string): string[] {
   return value
     .split(",")
@@ -258,10 +250,6 @@ export function errMessage(err: unknown): string {
 
 export function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-export function unixSec(): number {
-  return Math.floor(Date.now() / 1000);
 }
 
 export function sleep(ms: number): Promise<void> {

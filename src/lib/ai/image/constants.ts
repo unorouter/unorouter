@@ -12,4 +12,3 @@ export function isValidAir(value: unknown): value is string {
 export const IMAGE_SESSION_TITLE_MAX = 60;
 
 export const MAX_INLAY_REFS = 6;
-export const MAX_CHAT_IMAGE_REFS = 4;

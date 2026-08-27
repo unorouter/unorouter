@@ -11,8 +11,6 @@ export const TRIGGER_EVENT_MODES = [
 export type TriggerEventMode = (typeof TRIGGER_EVENT_MODES)[number];
 
 export const isTriggerEventMode = isOneOf(TRIGGER_EVENT_MODES);
-
-export type ConditionType = "var" | "value" | "chatindex" | "exists";
 export type ConditionOperator =
   "=" | "!=" | ">" | "<" | ">=" | "<=" | "null" | "true";
 
