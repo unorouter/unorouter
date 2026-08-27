@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "프로젝트 디렉터리에서 `codex`를 실행하세요.",
       "TS_1_DESC": "지원하지 않는 엔드포인트 오류가 나면 `wire_api`가 `responses`인지, 기본 URL이 `/v1`로 끝나는지 확인하세요.",
       "TS_2_DESC": "요청이 인증되지 않는다면, env_key가 가리키는 변수가 codex를 실행하는 셸에서 실제로 export되어 있는지 확인하세요.",
-      "TS_3_DESC": "예약된 ID인 openai는 사용자 지정 공급자에 다시 사용할 수 없습니다. [model_providers.<id>]에서든 model_provider에서든 다른 ID라면 무엇이든 동작합니다."
+      "TS_3_DESC": "예약된 ID인 openai는 사용자 지정 공급자에 다시 사용할 수 없습니다. model_providers에서든 model_provider에서든 다른 ID라면 무엇이든 동작합니다."
     },
     "GEMINI_CLI": {
       "META": {

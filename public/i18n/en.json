@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Run `codex` in your project directory.",
       "TS_1_DESC": "On an unsupported endpoint error, confirm `wire_api` is `responses` and the base URL ends in `/v1`.",
       "TS_2_DESC": "If requests are unauthenticated, check that env_key names a variable that is actually exported in the shell running codex.",
-      "TS_3_DESC": "You cannot reuse the reserved id openai for a custom provider. Any other id works, in [model_providers.<id>] and model_provider alike."
+      "TS_3_DESC": "You cannot reuse the reserved id openai for a custom provider. Any other id works, in the model_providers section and model_provider alike."
     },
     "GEMINI_CLI": {
       "META": {

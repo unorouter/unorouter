@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Proje dizininizde `codex` komutunu çalıştırın.",
       "TS_1_DESC": "Desteklenmeyen endpoint hatasında `wire_api` değerinin `responses` olduğunu ve temel URL'nin `/v1` ile bittiğini doğrulayın.",
       "TS_2_DESC": "İstekler kimliksiz gidiyorsa, env_key ile belirtilen değişkenin codex'i çalıştıran kabukta gerçekten dışa aktarılmış olup olmadığını denetleyin.",
-      "TS_3_DESC": "Ayrılmış openai kimliğini özel bir sağlayıcı için yeniden kullanamazsınız. Hem [model_providers.<id>] içinde hem de model_provider içinde başka herhangi bir kimlik çalışır."
+      "TS_3_DESC": "Ayrılmış openai kimliğini özel bir sağlayıcı için yeniden kullanamazsınız. Hem model_providers içinde hem de model_provider içinde başka herhangi bir kimlik çalışır."
     },
     "GEMINI_CLI": {
       "META": {

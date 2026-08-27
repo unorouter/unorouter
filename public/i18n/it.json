@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Esegui `codex` nella cartella del progetto.",
       "TS_1_DESC": "In caso di errore di endpoint non supportato, verifica che `wire_api` sia `responses` e che l'URL base termini con `/v1`.",
       "TS_2_DESC": "Se le richieste risultano non autenticate, verifica che env_key indichi una variabile davvero esportata nella shell in cui gira codex.",
-      "TS_3_DESC": "Non puoi riusare l'id riservato openai per un provider personalizzato. Qualsiasi altro id funziona, sia in [model_providers.<id>] sia in model_provider."
+      "TS_3_DESC": "Non puoi riusare l'id riservato openai per un provider personalizzato. Qualsiasi altro id funziona, sia in model_providers sia in model_provider."
     },
     "GEMINI_CLI": {
       "META": {

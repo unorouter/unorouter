@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Ejecuta `codex` en el directorio de tu proyecto.",
       "TS_1_DESC": "Si aparece un error de endpoint no compatible, confirma que `wire_api` sea `responses` y que la URL base termine en `/v1`.",
       "TS_2_DESC": "Si las peticiones no están autenticadas, comprueba que env_key nombra una variable realmente exportada en la shell donde se ejecuta codex.",
-      "TS_3_DESC": "No puedes reutilizar el identificador reservado openai para un proveedor personalizado. Cualquier otro identificador funciona, tanto en [model_providers.<id>] como en model_provider."
+      "TS_3_DESC": "No puedes reutilizar el identificador reservado openai para un proveedor personalizado. Cualquier otro identificador funciona, tanto en model_providers como en model_provider."
     },
     "GEMINI_CLI": {
       "META": {

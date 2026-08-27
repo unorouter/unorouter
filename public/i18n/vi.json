@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Chạy `codex` trong thư mục dự án.",
       "TS_1_DESC": "Khi gặp lỗi điểm cuối không được hỗ trợ, hãy xác nhận `wire_api` là `responses` và URL cơ sở kết thúc bằng `/v1`.",
       "TS_2_DESC": "Nếu các yêu cầu không được xác thực, hãy kiểm tra xem env_key có trỏ tới một biến thực sự đã được export trong shell đang chạy codex hay không.",
-      "TS_3_DESC": "Bạn không thể dùng lại mã dành riêng openai cho một nhà cung cấp tuỳ chỉnh. Mọi mã khác đều dùng được, cả trong [model_providers.<id>] lẫn trong model_provider."
+      "TS_3_DESC": "Bạn không thể dùng lại mã dành riêng openai cho một nhà cung cấp tuỳ chỉnh. Mọi mã khác đều dùng được, cả trong model_providers lẫn trong model_provider."
     },
     "GEMINI_CLI": {
       "META": {
