@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "用 npm 全域安裝 Codex CLI。",
       "STEP_2_TITLE": "設定模型提供者",
       "STEP_2_DESC": "編輯 `~/.codex/config.toml`。設定模型 id，並用 responses 線路 API 新增一個指向 {appName} 基礎網址的自訂供應商。",
-      "STEP_3_TITLE": "加入 API 金鑰",
-      "STEP_3_DESC": "把 {appName} 的 API 金鑰寫入 `~/.codex/auth.json`。",
+      "STEP_3_TITLE": "匯出你的 API 金鑰",
+      "STEP_3_DESC": "匯出 env_key 所指定的那個變數。Codex 會從環境變數讀取自訂供應商的金鑰；auth.json 只用於登入 OpenAI。",
       "STEP_4_TITLE": "啟動 Codex",
       "STEP_4_DESC": "在專案目錄中執行 `codex`。",
       "TS_1_DESC": "出現端點不支援的錯誤時，請確認 `wire_api` 是 `responses`，且基礎網址以 `/v1` 結尾。",
-      "TS_2_DESC": "401 表示 `~/.codex/auth.json` 裡的金鑰缺少或已失效。請從 {appName} 主控台貼上新的金鑰。",
-      "TS_3_DESC": "若 Codex 忽略你的供應商，請檢查 `config.toml` 中的表格名稱。供應商 ID 允許底線，不允許連字號（`model_providers.my_provider` 可以，`my-provider` 不行）。`openai` 是保留名稱，無法覆寫。"
+      "TS_2_DESC": "如果請求處於未驗證狀態，請檢查 env_key 指定的變數在執行 codex 的 shell 中是否真的已經匯出。",
+      "TS_3_DESC": "你無法把保留 ID openai 重複用於自訂供應商。換成其他任意 ID 都可以，無論是在 [model_providers.<id>] 中還是在 model_provider 中。"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "編輯 `~/.openclaw/config.json`。把 openai 供應商指向 {appName} 的基礎網址，從 `OPENAI_API_KEY` 讀取金鑰，並在 agents 底下設定預設模型。",
       "STEP_3_TITLE": "啟動 OpenClaw",
       "STEP_3_DESC": "執行 `openclaw start` 以針對 {appName} 啟動代理。",
-      "TS_1_DESC": "如果 OpenClaw 無法存取 API，請確認 `providers.openai.baseUrl` 以 `/v1` 結尾，且 `OPENAI_API_KEY` 已在同一 shell 中匯出。",
+      "TS_1_DESC": "檢查 ~/.openclaw/openclaw.json 中的 models.providers.openai.baseUrl。寫在最上層的 providers 區塊會被忽略。",
       "TS_2_DESC": "若模型被拒絕，請把 `agents.defaults.model.primary` 設為從 {appName} 模型頁面複製的有效 id，並加上 `openai/` 前綴。"
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "把 {appName} 的 API 金鑰以 `OPENAI_API_KEY` 存入 `~/.hermes/.env`。",
       "STEP_4_TITLE": "執行 Hermes",
       "STEP_4_DESC": "用 `hermes --tui` 啟動 TUI。",
-      "TS_1_DESC": "Hermes 在啟動時會拒絕上下文低於 64,000 個 token 的模型。請從 {appName} 模型頁面選擇上下文更大的模型。",
+      "TS_1_DESC": "如果你另外指定了用於摘要的模型，請給它至少與主要模型一樣大的上下文視窗。",
       "TS_2_DESC": "若啟動時的 `/v1/models` 檢查失敗，請確認 `model.base_url` 以 `/v1` 結尾，且 `~/.hermes/.env` 中已設定 `OPENAI_API_KEY`。"
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "模型",
       "QUICK_CONFIG_NOTE": "只要貼上基礎網址。SillyTavern 會自行補上 `/chat/completions`。自己加上會回傳 400 錯誤。",
       "STEPS": "逐步設定",
-      "STEP_1_TITLE": "開啟 AI Response Configuration",
+      "STEP_1_TITLE": "開啟 API Connections",
       "STEP_1_DESC": "點選上方的插頭圖示，開啟 API Connections 面板。",
       "STEP_2_TITLE": "選擇 Chat Completion",
       "STEP_2_DESC": "將 API 類型設為 Chat Completion。",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "模型下拉式選單的行為",
       "TOC_TROUBLESHOOTING": "疑難排解",
       "GOTCHA_1": "只貼上以 `/v1` 結尾的基礎網址。SillyTavern 會自行補上 `/chat/completions`，自己加上會回傳 400 錯誤。",
-      "GOTCHA_2": "模型下拉選單是空的，表示連線失敗。請重新檢查基礎網址，再啟用 Bypass API Status Check。",
+      "GOTCHA_2": "模型下拉選單為空表示連線失敗。請重新核對基礎網址，然後啟用 Bypass API status check。",
       "GOTCHA_3": "401 表示金鑰已過期或輸入有誤。請在 {appName} 儀表板產生新金鑰，貼上時不要帶前後空白。",
       "GOTCHA_4": "如果串流輸出在句子中途中斷，先關閉 Streaming 確認原因，再重新開啟。會移除 `data:` 前綴的公司代理同樣會破壞它。"
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "選擇一個模型欄位",
       "STEP_2_DESC": "點選 Chat Bot 模型選擇器，捲到最下方，選擇 Custom Models。",
       "STEP_3_TITLE": "取消勾選 Autofill Request URL",
-      "STEP_3_DESC": "在貼上任何內容之前，這個開關必須關閉。請參閱上方的警告。",
-      "STEP_4_TITLE": "貼上 Request URL",
-      "STEP_4_DESC": "貼上以 `/v1/chat/completions` 結尾的完整 URL。",
+      "STEP_3_DESC": "在 Advanced Settings 清單中找到 Autofill Request URL，貼上任何內容之前先把它關掉。請參閱上面的警告。",
+      "STEP_4_TITLE": "貼上 URL",
+      "STEP_4_DESC": "把以 `/v1/chat/completions` 結尾的完整網址貼到 URL 欄位，並把 Format 設為 OpenAICompatible。",
       "STEP_5_TITLE": "貼上 API 金鑰",
-      "STEP_5_DESC": "把 {appName} 的 API 金鑰貼到 API Key 欄位。有些版本會標示為 Authorization，若沒有 API Key 就用那個欄位。",
-      "STEP_6_TITLE": "貼上模型 ID",
-      "STEP_6_DESC": "從 {appName} 的模型頁面貼上精確的模型名稱。",
+      "STEP_5_DESC": "把你的 {appName} API 金鑰貼到 Key/Password 欄位。",
+      "STEP_6_TITLE": "填寫 Request Model",
+      "STEP_6_DESC": "把 {appName} 模型頁面上的準確模型名稱填入 Request Model。",
       "STEP_7_TITLE": "儲存",
       "STEP_7_DESC": "關閉設定面板。RisuAI 會把設定寫進本機儲存空間。",
       "STEP_8_TITLE": "送出測試訊息",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "先前能用，現在沒有回應。",
       "TS_2_DESC": "RisuAI 的更新可能會悄悄重新啟用 Autofill Request URL。請開啟 Custom Models 確認它是關閉的。",
       "TS_3_TITLE": "401 Unauthorized。",
-      "TS_3_DESC": "有些 RisuAI 版本同時提供 API Key 與 Authorization，但每個版本只讀取其中一個。請把金鑰改填到另一個欄位。",
+      "TS_3_DESC": "確認金鑰填在 Key/Password 中，並且前後沒有多餘的空白。",
       "TS_4_TITLE": "找不到模型。",
       "TS_4_DESC": "Model ID 必須與模型名稱完全相同。請從 {appName} 的模型頁面複製貼上。",
       "TS_5_TITLE": "翻譯或摘要功能失效。",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "設定 Auxiliary Model",
       "TOC_TROUBLESHOOTING": "疑難排解",
       "GOTCHA_1": "在貼上任何內容之前，先取消勾選 Autofill Request URL。它開著時，RisuAI 會把你的網址改寫成自己的預設值，並在無聲無息中弄壞連線。",
-      "GOTCHA_2": "RisuAI 的更新可能自行重新啟用 Autofill Request URL。如果原本正常的設定突然沒有回應，請重新開啟 Custom Models 確認該開關已關閉。",
-      "GOTCHA_3": "有些 RisuAI 版本同時提供 API Key 欄位與 Authorization 欄位，但每個版本只讀取其中一個。遇到 401 時，請把金鑰改填到另一個欄位。",
+      "GOTCHA_2": "Autofill Request URL 是 Advanced Settings 中的全域開關，因此會套用到每一個自訂模型欄位。如果原本正常的設定突然沒有回應，請到那裡檢查這個開關。",
+      "GOTCHA_3": "金鑰要填在 Key/Password 中。如果想改為送出一個額外的標頭，請在 Additional Parameters 中使用 header::Authorization 語法。",
       "GOTCHA_4": "Custom Models 沒有模型下拉選單。請從 {appName} 的模型頁面複製貼上精確的模型名稱，不要手動重打。"
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "將 {appName} 作為原生 OpenAI 連線加入 Open WebUI。",
       "OVERVIEW_DESC": "Open WebUI 的管理員可以新增多個 OpenAI 相容連線。加入 {appName} 後，模型選擇器就會由目錄填滿。",
       "STEP_1_TITLE": "開啟管理面板",
-      "STEP_1_DESC": "以管理員身分登入，開啟 Admin Panel、Settings，接著進入 Connections。",
+      "STEP_1_DESC": "以管理員身分登入，然後依序開啟 Settings、Admin、Connections。",
       "STEP_2_TITLE": "加入新的 OpenAI 連線",
-      "STEP_2_DESC": "在 OpenAI API 底下點選 + 新增一個連線。",
+      "STEP_2_DESC": "在 Manage OpenAI API Connections 底下點選 Add Connection。",
       "STEP_3_TITLE": "填寫連線",
       "STEP_3_DESC": "輸入基礎 URL 和你的 {appName} API 金鑰。",
       "STEP_4_TITLE": "儲存並選擇模型",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "開啟 LLM Preference",
       "STEP_1_DESC": "在側邊欄開啟 Settings，接著進入 LLM Preference。",
       "STEP_2_TITLE": "選擇 Generic OpenAI",
-      "STEP_2_DESC": "把 LLM Provider 設為 Generic OpenAI 並填好表單。",
+      "STEP_2_DESC": "把 LLM Provider 設為 Generic OpenAI 並填寫表單。Max Tokens 預設為 1024，會限制每一則回覆，所以請調高它。",
       "STEP_3_TITLE": "儲存",
       "STEP_3_DESC": "儲存。AnythingLLM 會在聊天工作區中使用 {appName}。",
-      "TS_1_DESC": "Generic OpenAI 不會抓取目錄。請手動輸入模型名稱與上下文視窗。",
+      "TS_1_DESC": "填好 Base URL 與 API Key 後，Generic OpenAI 會自動抓取模型目錄。若抓取失敗，該欄位會退回成文字方塊，此時請手動輸入模型 ID。",
       "TS_2_DESC": "Embedding Preference 是另一個分頁。除非你的方案在 {appName} 上提供嵌入，否則請保留一個可用的嵌入供應商。"
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "將 {appName} 作為 OpenAI 供應商連接到 Cherry Studio。",
       "OVERVIEW_DESC": "Cherry Studio 可以在同一個介面中管理多個供應商。把 {appName} 加為 OpenAI 供應商，並把模型當作獨立項目載入。",
       "STEP_1_TITLE": "開啟 Model Provider",
-      "STEP_1_DESC": "前往 Settings、Model Provider，接著點選 Add Provider。",
+      "STEP_1_DESC": "依序開啟 Settings、Model Services，然後點選 + Add Provider。",
       "STEP_2_TITLE": "選擇 OpenAI",
       "STEP_2_DESC": "把供應商類型設為 OpenAI。填入名稱、主機與金鑰。",
       "STEP_3_TITLE": "加入模型",
       "STEP_3_DESC": "在 Models 下點擊 Manage，然後 Add Model。貼上 {appName} 模型 ID，每行一個。",
-      "TS_1_DESC": "請使用 OpenAI 供應商類型，並自行在主機中加上 /v1。其他類型會補上自己的路徑。",
+      "TS_1_DESC": "Cherry Studio 會自行補上版本路徑，所以填寫主機位址時不要帶 /v1。若想原樣送出某個位址，請輸入完整 URL 並以 # 結尾。",
       "TS_2_DESC": "Cherry 的 Test 按鈕會對聊天完成送出一次單 token 的探測。在推理模型上以 length 結束，同樣能確認驗證有效。"
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind 接受任何 OpenAI 相容端點作為自訂模型。加入 {appName} 即可使用目錄中的任何模型。",
       "STEP_1_TITLE": "開啟 Models",
       "STEP_1_DESC": "點擊齒輪圖示，進入 Models，然後 Add Custom Models。",
-      "STEP_2_TITLE": "選擇 OpenAI 作為 API 類型",
-      "STEP_2_DESC": "TypingMind 對自訂端點使用 OpenAI Chat Completions 架構。",
+      "STEP_2_TITLE": "新增自訂模型",
+      "STEP_2_DESC": "對於自訂端點，TypingMind 採用 OpenAI Chat Completions 的資料結構。",
       "STEP_3_TITLE": "填寫端點",
-      "STEP_3_DESC": "輸入基礎 URL、你的 {appName} API 金鑰和一個模型 ID。",
+      "STEP_3_DESC": "填入完整的 chat completions 網址與一組模型 ID。自訂模型沒有 API 金鑰欄位：請在 Add Custom Headers 中以 Authorization 標頭的形式加入金鑰。",
       "STEP_4_TITLE": "測試並加入",
       "STEP_4_DESC": "只有在模型支援時才開啟 Plugins 或 Vision。點選 Test，再點選 Add Model。",
       "TS_1_DESC": "Plugins（函式呼叫）需要原生支援工具的模型。",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "開啟 Models 設定",
       "STEP_1_DESC": "開啟 BoltAI 設定，前往 Models，點選 +，再選擇 OpenAI-compatible Server。",
       "STEP_2_TITLE": "填寫伺服器",
-      "STEP_2_DESC": "輸入名稱、基礎 URL、金鑰、模型 ID 和上下文長度。",
+      "STEP_2_DESC": "填入名稱、完整的 chat completions 網址、金鑰、模型 ID 與上下文長度。",
       "STEP_3_TITLE": "開啟串流",
       "STEP_3_DESC": "開啟 Streaming，就能在 token 抵達時逐步看到內容。",
       "TS_1_DESC": "這個連接器不會抓取模型清單。每個 {appName} 模型都要手動新增一筆。",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "使用 OpenAI API Compatible 模式將 {appName} 連接到 Chatbox。",
       "OVERVIEW_DESC": "Chatbox 支援任何相容 OpenAI 的基礎位址。使用 OpenAI API Compatible 模式，並將 URL 拆分為 Host 和 Path。",
       "STEP_1_TITLE": "開啟 Add Custom Provider",
-      "STEP_1_DESC": "前往 Settings、Display、AI Provider，接著點選 Add Custom Provider。",
+      "STEP_1_DESC": "依序開啟 Settings、Model Provider，然後點選 Add。",
       "STEP_2_TITLE": "選擇 OpenAI API Compatible 模式",
       "STEP_2_DESC": "除非你真的想走 Responses 路線，否則不要選擇 Responses API 選項。",
       "STEP_3_TITLE": "拆分主機和路徑",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "輸入你的 {appName} API 金鑰和 API 端點。",
       "STEP_3_TITLE": "重新整理模型",
       "STEP_3_DESC": "點選 Models 重新整理清單。Big-AGI 會載入 {appName} 的目錄。",
-      "TS_1_DESC": "請把 Helicone Key 留空。它會把主機強制指向另一個網域。",
-      "TS_2_DESC": "請關閉 Moderation 開關。{appName} 沒有審核端點。"
+      "TS_1_DESC": "如果舊版 Big-AGI 設定殘留了 Helicone 主機，請清除它。目前的版本會自動去掉這一項。",
+      "TS_2_DESC": "Big-AGI 會從端點抓取模型清單，因此權限範圍較廣的金鑰會把整個 {appName} 目錄填進選單。"
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "開啟設定",
       "STEP_2_DESC": "點選 Kilo Code 側邊欄圖示，接著點選右上角的齒輪圖示。",
       "STEP_3_TITLE": "加入自訂提供者",
-      "STEP_3_DESC": "開啟 Providers，點選 Custom Provider 旁邊的 + Connect，然後填寫表單。",
+      "STEP_3_DESC": "捲動到供應商清單的最底部，然後點選 Custom provider。",
       "STEP_4_TITLE": "填寫連線表單",
       "STEP_4_DESC": "請使用這些值。模型欄位接受 {appName} 目錄中的任何 id。",
       "STEP_5_TITLE": "儲存並聊天",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "選擇相容 OpenAI 的選項並使用以下值。",
       "STEP_4_TITLE": "選擇模型",
       "STEP_4_DESC": "在模型選擇器中選擇你的 {appName} 供應商並挑一個模型。",
-      "GOTCHA_1": "供應商 ID 只能使用小寫英文字母、數字、連字號或底線。",
-      "GOTCHA_2": "API 金鑰欄位是選填的，因為有些使用者透過標頭驗證。對 {appName}，請貼上你真正的金鑰。"
+      "GOTCHA_1": "available_models 中的每個模型都需要 name 與 max_tokens。Zed 的 Add Provider 表單還會要求填寫上下文視窗。",
+      "GOTCHA_2": "Zed 會把 API 金鑰存放在自己的鑰匙圈裡，而不是 settings.json 中。請透過 Agent Settings 新增供應商，不要把金鑰寫進檔案。"
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "在 API Provider 下選擇 OpenAI Compatible。",
       "STEP_4_TITLE": "填寫連線資訊",
       "STEP_4_DESC": "請使用這些值。Model ID 接受任何 {appName} 模型。",
-      "GOTCHA_1": "Cline 為較新的模型提供 Responses API 模式。在聊天完成上它會退回 XML 工具包裝，可能重複呼叫工具。若想要穩定，請使用聊天類模型。",
+      "GOTCHA_1": "Cline 的 OpenAI Compatible 供應商只會呼叫 chat completions，沒有 Responses API 選項可挑。",
       "GOTCHA_2": "請選擇支援原生工具呼叫的模型，以便 Cline 能可靠地執行 shell 與檔案編輯。"
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "填寫連線資訊",
       "STEP_4_DESC": "請使用這些值。模型選擇器也可能在第一次呼叫之後才填滿。",
       "GOTCHA_1": "Codebase Indexing 底下的 Embedder Provider 與聊天是分開的。請設定你想用的聊天供應商。",
-      "GOTCHA_2": "有些 Roo 代理角色送出的請求比預期多。請留意你的 {appName} 速率限制。"
+      "GOTCHA_2": "Roo Code 要求模型支援原生工具呼叫。不具備該能力的模型無法使用，所以切換之前請先查看模型目錄。"
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "儲存並重新載入",
       "STEP_3_DESC": "Continue 會熱重載設定。從面板底部的模型選擇器中選擇 {appName}。",
       "GOTCHA_1": "請使用 config.yaml，而不是舊版的 config.json。",
-      "GOTCHA_2": "如果某個模型拒絕額外參數，請在該項目上設定 requestOptions.dropParams: ['frequency_penalty','presence_penalty']。"
+      "GOTCHA_2": "requestOptions 只接受文件中列出的鍵，例如 headers 與 extraBodyProperties。未知的鍵不會被忽略，而是會導致驗證失敗。"
     },
     "AIDER": {
       "META": {

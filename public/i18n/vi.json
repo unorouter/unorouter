@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "Cài Codex CLI toàn cục bằng npm.",
       "STEP_2_TITLE": "Cấu hình nhà cung cấp mô hình",
       "STEP_2_DESC": "Sửa `~/.codex/config.toml`. Đặt model id của bạn và thêm một nhà cung cấp tùy chỉnh trỏ tới URL cơ sở của {appName}, dùng wire API responses.",
-      "STEP_3_TITLE": "Thêm khoá API của bạn",
-      "STEP_3_DESC": "Ghi khóa API {appName} của bạn vào `~/.codex/auth.json`.",
+      "STEP_3_TITLE": "Export khoá API của bạn",
+      "STEP_3_DESC": "Hãy export biến được nêu trong env_key. Codex đọc khoá của nhà cung cấp tuỳ chỉnh từ môi trường; auth.json chỉ dùng để đăng nhập vào OpenAI.",
       "STEP_4_TITLE": "Khởi động Codex",
       "STEP_4_DESC": "Chạy `codex` trong thư mục dự án.",
       "TS_1_DESC": "Khi gặp lỗi điểm cuối không được hỗ trợ, hãy xác nhận `wire_api` là `responses` và URL cơ sở kết thúc bằng `/v1`.",
-      "TS_2_DESC": "Mã 401 nghĩa là khóa trong `~/.codex/auth.json` bị thiếu hoặc đã cũ. Dán một khóa mới từ bảng điều khiển {appName} của bạn.",
-      "TS_3_DESC": "Nếu Codex bỏ qua nhà cung cấp của bạn, hãy kiểm tra tên bảng trong `config.toml`. ID nhà cung cấp cho phép dấu gạch dưới, không cho phép dấu gạch nối (`model_providers.my_provider` thì được, `my-provider` thì không). `openai` là tên dành riêng và không thể ghi đè."
+      "TS_2_DESC": "Nếu các yêu cầu không được xác thực, hãy kiểm tra xem env_key có trỏ tới một biến thực sự đã được export trong shell đang chạy codex hay không.",
+      "TS_3_DESC": "Bạn không thể dùng lại mã dành riêng openai cho một nhà cung cấp tuỳ chỉnh. Mọi mã khác đều dùng được, cả trong [model_providers.<id>] lẫn trong model_provider."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "Sửa `~/.openclaw/config.json`. Trỏ nhà cung cấp openai tới URL cơ sở của {appName}, đọc khóa từ `OPENAI_API_KEY`, và đặt mô hình mặc định dưới mục agents.",
       "STEP_3_TITLE": "Khởi động OpenClaw",
       "STEP_3_DESC": "Chạy `openclaw start` để khởi chạy tác nhân với {appName}.",
-      "TS_1_DESC": "Nếu OpenClaw không thể kết nối API, hãy xác nhận `providers.openai.baseUrl` kết thúc bằng `/v1` và `OPENAI_API_KEY` được export trong cùng shell.",
+      "TS_1_DESC": "Hãy kiểm tra models.providers.openai.baseUrl trong ~/.openclaw/openclaw.json. Khối providers đặt ở cấp cao nhất sẽ bị bỏ qua.",
       "TS_2_DESC": "Nếu mô hình bị từ chối, hãy đặt `agents.defaults.model.primary` thành một id hợp lệ có tiền tố `openai/`, sao chép từ trang mô hình của {appName}."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "Lưu khóa API {appName} của bạn dưới tên `OPENAI_API_KEY` trong `~/.hermes/.env`.",
       "STEP_4_TITLE": "Chạy Hermes",
       "STEP_4_DESC": "Khởi động TUI bằng `hermes --tui`.",
-      "TS_1_DESC": "Hermes từ chối các mô hình dưới 64.000 token ngữ cảnh khi khởi động. Hãy chọn một mô hình có ngữ cảnh lớn hơn từ trang mô hình của {appName}.",
+      "TS_1_DESC": "Nếu bạn đặt một model riêng để tóm tắt, hãy cho nó cửa sổ ngữ cảnh ít nhất bằng của model chính.",
       "TS_2_DESC": "Nếu bước kiểm tra `/v1/models` lúc khởi động thất bại, hãy xác nhận `model.base_url` kết thúc bằng `/v1` và `OPENAI_API_KEY` đã được đặt trong `~/.hermes/.env`."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "Mô hình",
       "QUICK_CONFIG_NOTE": "Chỉ dán URL cơ sở. SillyTavern tự thêm `/chat/completions`. Nếu bạn tự thêm sẽ nhận lỗi 400.",
       "STEPS": "Thiết lập từng bước",
-      "STEP_1_TITLE": "Mở AI Response Configuration",
+      "STEP_1_TITLE": "Mở API Connections",
       "STEP_1_DESC": "Nhấp biểu tượng phích cắm ở trên cùng để mở bảng API Connections.",
       "STEP_2_TITLE": "Chọn Chat Completion",
       "STEP_2_DESC": "Đặt kiểu API thành Chat Completion.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "Cách hoạt động của danh sách mô hình",
       "TOC_TROUBLESHOOTING": "Xử lý sự cố",
       "GOTCHA_1": "Chỉ dán URL cơ sở kết thúc bằng `/v1`. SillyTavern tự thêm `/chat/completions`; nếu bạn tự thêm sẽ nhận lỗi 400.",
-      "GOTCHA_2": "Danh sách mô hình trống nghĩa là kết nối thất bại. Kiểm tra lại URL cơ sở, rồi bật Bypass API Status Check.",
+      "GOTCHA_2": "Danh sách model trống nghĩa là kết nối đã thất bại. Hãy kiểm tra lại URL gốc, rồi bật Bypass API status check.",
       "GOTCHA_3": "Lỗi 401 nghĩa là khoá đã hết hạn hoặc gõ sai. Hãy tạo một khoá mới trong bảng điều khiển {appName} và dán nó mà không có khoảng trắng ở đầu hoặc cuối.",
       "GOTCHA_4": "Nếu luồng bị cắt giữa câu, hãy tắt Streaming để xác nhận nguyên nhân, rồi bật lại. Các proxy doanh nghiệp cắt bỏ tiền tố `data:` cũng làm hỏng nó."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "Chọn một ô mô hình",
       "STEP_2_DESC": "Nhấp bộ chọn mô hình Chat Bot, cuộn xuống dưới cùng và chọn Custom Models.",
       "STEP_3_TITLE": "Bỏ tick Autofill Request URL",
-      "STEP_3_DESC": "Công tắc này phải TẮT trước khi bạn dán bất cứ thứ gì. Xem cảnh báo ở trên.",
-      "STEP_4_TITLE": "Dán Request URL",
-      "STEP_4_DESC": "Dán URL đầy đủ kết thúc bằng `/v1/chat/completions`.",
+      "STEP_3_DESC": "Tìm Autofill Request URL trong danh sách Advanced Settings và tắt nó đi trước khi dán bất cứ thứ gì. Xem cảnh báo ở trên.",
+      "STEP_4_TITLE": "Dán URL",
+      "STEP_4_DESC": "Dán URL đầy đủ kết thúc bằng `/v1/chat/completions` vào ô URL, và đặt Format thành OpenAICompatible.",
       "STEP_5_TITLE": "Dán khóa API",
-      "STEP_5_DESC": "Dán khóa API {appName} của bạn vào ô API Key. Một số bản ghi nhãn là Authorization; hãy dùng ô đó nếu không có API Key.",
-      "STEP_6_TITLE": "Dán Model ID",
-      "STEP_6_DESC": "Dán đúng tên mô hình lấy từ trang mô hình của {appName}.",
+      "STEP_5_DESC": "Dán khoá API {appName} của bạn vào ô Key/Password.",
+      "STEP_6_TITLE": "Điền Request Model",
+      "STEP_6_DESC": "Hãy điền vào Request Model đúng tên model như trên trang model của {appName}.",
       "STEP_7_TITLE": "Lưu",
       "STEP_7_DESC": "Đóng bảng cài đặt. RisuAI ghi cấu hình vào bộ nhớ cục bộ.",
       "STEP_8_TITLE": "Gửi tin nhắn thử",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "Trước đây hoạt động, giờ không phản hồi.",
       "TS_2_DESC": "Một bản cập nhật RisuAI có thể âm thầm bật lại Autofill Request URL. Mở Custom Models và xác nhận nó đang tắt.",
       "TS_3_TITLE": "Lỗi 401 Unauthorized.",
-      "TS_3_DESC": "Một số bản RisuAI hiển thị cả API Key lẫn Authorization, và mỗi phiên bản chỉ đọc một trong hai. Hãy chuyển khóa của bạn sang ô còn lại.",
+      "TS_3_DESC": "Hãy xác nhận khoá nằm trong Key/Password và không có dấu cách thừa ở đầu hay cuối.",
       "TS_4_TITLE": "Không tìm thấy mô hình.",
       "TS_4_DESC": "Model ID phải khớp chính xác với tên mô hình. Hãy sao chép và dán từ trang mô hình của {appName}.",
       "TS_5_TITLE": "Chức năng dịch hoặc tóm tắt bị hỏng.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Cấu hình Auxiliary Model",
       "TOC_TROUBLESHOOTING": "Xử lý sự cố",
       "GOTCHA_1": "Bỏ chọn Autofill Request URL trước khi dán bất cứ thứ gì. Khi còn bật, RisuAI viết lại URL của bạn về giá trị mặc định của nó và âm thầm làm hỏng kết nối.",
-      "GOTCHA_2": "Một bản cập nhật RisuAI có thể tự bật lại Autofill Request URL. Nếu một thiết lập đang chạy tốt bỗng ngừng phản hồi, hãy mở lại Custom Models và xác nhận công tắc đang tắt.",
-      "GOTCHA_3": "Một số bản RisuAI hiển thị cả ô API Key lẫn ô Authorization, và mỗi phiên bản chỉ đọc một trong hai. Khi gặp 401, hãy chuyển khóa của bạn sang ô còn lại.",
+      "GOTCHA_2": "Autofill Request URL là một công tắc chung trong Advanced Settings, nên nó áp dụng cho mọi ô model tuỳ chỉnh. Nếu một cấu hình đang chạy tốt bỗng ngừng phản hồi, hãy kiểm tra nó ở đó.",
+      "GOTCHA_3": "Khoá được nhập vào Key/Password. Nếu muốn gửi thêm một header, hãy dùng Additional Parameters với cú pháp header::Authorization.",
       "GOTCHA_4": "Custom Models không có danh sách mô hình thả xuống. Hãy sao chép và dán đúng tên mô hình từ trang mô hình của {appName} thay vì gõ lại."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "Kết nối {appName} với Open WebUI như một kết nối OpenAI gốc.",
       "OVERVIEW_DESC": "Quản trị viên Open WebUI có thể thêm nhiều kết nối tương thích OpenAI. Thêm {appName} và bộ chọn mô hình sẽ được lấp đầy từ danh mục.",
       "STEP_1_TITLE": "Mở bảng quản trị",
-      "STEP_1_DESC": "Đăng nhập với quyền quản trị, mở Admin Panel, Settings, rồi Connections.",
+      "STEP_1_DESC": "Đăng nhập với quyền quản trị, rồi mở Settings, Admin, Connections.",
       "STEP_2_TITLE": "Thêm kết nối OpenAI mới",
-      "STEP_2_DESC": "Dưới mục OpenAI API, nhấp + để thêm một kết nối.",
+      "STEP_2_DESC": "Trong phần Manage OpenAI API Connections, hãy nhấn Add Connection.",
       "STEP_3_TITLE": "Điền kết nối",
       "STEP_3_DESC": "Nhập URL cơ sở và khoá API {appName} của bạn.",
       "STEP_4_TITLE": "Lưu và chọn mô hình",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "Mở LLM Preference",
       "STEP_1_DESC": "Mở Settings ở thanh bên, rồi vào LLM Preference.",
       "STEP_2_TITLE": "Chọn Generic OpenAI",
-      "STEP_2_DESC": "Đặt LLM Provider thành Generic OpenAI và điền vào biểu mẫu.",
+      "STEP_2_DESC": "Đặt LLM Provider thành Generic OpenAI rồi điền biểu mẫu. Max Tokens mặc định là 1024 và giới hạn mọi câu trả lời, vì vậy hãy tăng giá trị này.",
       "STEP_3_TITLE": "Lưu",
       "STEP_3_DESC": "Lưu lại. AnythingLLM sẽ dùng {appName} cho các không gian trò chuyện.",
-      "TS_1_DESC": "Generic OpenAI không tải danh mục. Hãy nhập tên mô hình và cửa sổ ngữ cảnh thủ công.",
+      "TS_1_DESC": "Generic OpenAI sẽ tải danh mục ngay khi bạn điền Base URL và API Key. Nếu việc tải thất bại, ô này chuyển thành ô nhập văn bản, khi đó hãy tự gõ mã model.",
       "TS_2_DESC": "Embedding Preference là một thẻ riêng. Hãy giữ nó ở một nhà cung cấp embedding đang hoạt động, trừ khi {appName} cung cấp embedding trong gói của bạn."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "Kết nối {appName} với Cherry Studio như nhà cung cấp OpenAI.",
       "OVERVIEW_DESC": "Cherry Studio hỗ trợ nhiều nhà cung cấp trong cùng một giao diện. Thêm {appName} làm nhà cung cấp OpenAI và tải các mô hình dưới dạng mục riêng.",
       "STEP_1_TITLE": "Mở Model Provider",
-      "STEP_1_DESC": "Vào Settings, Model Provider, rồi Add Provider.",
+      "STEP_1_DESC": "Vào Settings, rồi Model Services, sau đó chọn + Add Provider.",
       "STEP_2_TITLE": "Chọn OpenAI",
       "STEP_2_DESC": "Đặt kiểu nhà cung cấp là OpenAI. Điền tên, máy chủ và khóa.",
       "STEP_3_TITLE": "Thêm mô hình",
       "STEP_3_DESC": "Nhấn Manage dưới Models, rồi Add Model. Dán các ID mô hình {appName}, mỗi dòng một ID.",
-      "TS_1_DESC": "Dùng kiểu nhà cung cấp OpenAI và tự thêm /v1 vào máy chủ. Các kiểu khác sẽ tự thêm đường dẫn riêng.",
+      "TS_1_DESC": "Cherry Studio tự thêm phần đường dẫn phiên bản, vì vậy hãy nhập máy chủ mà không có /v1. Nếu muốn gửi địa chỉ nguyên văn, hãy gõ URL đầy đủ và kết thúc bằng dấu #.",
       "TS_2_DESC": "Nút Test của Cherry gửi một lượt thử một token tới chat completions. Kết thúc kiểu length trên các mô hình suy luận vẫn xác nhận rằng xác thực hợp lệ."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind nhận mọi điểm cuối tương thích OpenAI làm mô hình tùy chỉnh. Thêm {appName} để dùng mọi mô hình trong danh mục.",
       "STEP_1_TITLE": "Mở Models",
       "STEP_1_DESC": "Nhấn biểu tượng bánh răng, vào Models rồi Add Custom Models.",
-      "STEP_2_TITLE": "Chọn OpenAI làm loại API",
-      "STEP_2_DESC": "TypingMind dùng lược đồ OpenAI Chat Completions cho các endpoint tùy chỉnh.",
+      "STEP_2_TITLE": "Thêm model tuỳ chỉnh",
+      "STEP_2_DESC": "TypingMind dùng lược đồ OpenAI Chat Completions cho các endpoint tuỳ chỉnh.",
       "STEP_3_TITLE": "Điền endpoint",
-      "STEP_3_DESC": "Nhập URL cơ sở, khoá API {appName} của bạn và một ID mô hình.",
+      "STEP_3_DESC": "Nhập URL chat completions đầy đủ và một mã model. Model tuỳ chỉnh không có ô nhập khoá API: hãy thêm khoá trong Add Custom Headers dưới dạng header Authorization.",
       "STEP_4_TITLE": "Kiểm tra và thêm",
       "STEP_4_DESC": "Chỉ bật Plugins hoặc Vision nếu mô hình hỗ trợ chúng. Nhấp Test, rồi Add Model.",
       "TS_1_DESC": "Plugins (gọi hàm) cần một mô hình hỗ trợ công cụ ở mức gốc.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Mở cài đặt Models",
       "STEP_1_DESC": "Mở cài đặt BoltAI, vào Models, nhấp +, rồi chọn OpenAI-compatible Server.",
       "STEP_2_TITLE": "Điền máy chủ",
-      "STEP_2_DESC": "Nhập tên, URL cơ sở, khoá, ID mô hình và độ dài ngữ cảnh.",
+      "STEP_2_DESC": "Nhập tên, URL chat completions đầy đủ, khoá, mã model và độ dài ngữ cảnh.",
       "STEP_3_TITLE": "Bật truyền phát",
       "STEP_3_DESC": "Bật Streaming để thấy các token ngay khi chúng đến.",
       "TS_1_DESC": "Trình kết nối này không tải danh sách mô hình. Mỗi mô hình {appName} là một mục nhập thủ công.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "Kết nối {appName} với Chatbox bằng chế độ OpenAI API Compatible.",
       "OVERVIEW_DESC": "Chatbox hỗ trợ mọi cơ sở tương thích OpenAI. Dùng chế độ OpenAI API Compatible và chia URL thành Host và Path.",
       "STEP_1_TITLE": "Mở Add Custom Provider",
-      "STEP_1_DESC": "Vào Settings, Display, AI Provider, rồi Add Custom Provider.",
+      "STEP_1_DESC": "Vào Settings, rồi Model Provider, sau đó chọn Add.",
       "STEP_2_TITLE": "Chọn chế độ OpenAI API Compatible",
       "STEP_2_DESC": "Đừng chọn tùy chọn Responses API trừ khi bạn thực sự muốn đi theo lộ trình Responses.",
       "STEP_3_TITLE": "Chia host và path",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "Nhập khoá API {appName} của bạn và endpoint API.",
       "STEP_3_TITLE": "Làm mới mô hình",
       "STEP_3_DESC": "Nhấp Models để làm mới danh sách. Big-AGI sẽ kéo về danh mục của {appName}.",
-      "TS_1_DESC": "Để trống Helicone Key. Nó sẽ buộc máy chủ chuyển sang một tên miền khác.",
-      "TS_2_DESC": "Tắt công tắc Moderation. {appName} không có điểm cuối kiểm duyệt."
+      "TS_1_DESC": "Nếu một cấu hình Big-AGI cũ còn để lại máy chủ Helicone, hãy xoá nó đi. Các bản dựng hiện tại tự động loại bỏ nó.",
+      "TS_2_DESC": "Big-AGI lấy danh sách model từ endpoint, nên một khoá có phạm vi rộng sẽ đổ toàn bộ danh mục của {appName} vào ô chọn."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "Mở cài đặt",
       "STEP_2_DESC": "Nhấp biểu tượng Kilo Code ở thanh bên, rồi nhấp biểu tượng bánh răng ở góc trên bên phải.",
       "STEP_3_TITLE": "Thêm một nhà cung cấp tùy chỉnh",
-      "STEP_3_DESC": "Mở Providers, nhấp + Connect bên cạnh Custom Provider và điền vào biểu mẫu.",
+      "STEP_3_DESC": "Cuộn xuống cuối danh sách nhà cung cấp và nhấn Custom provider.",
       "STEP_4_TITLE": "Điền biểu mẫu kết nối",
       "STEP_4_DESC": "Dùng các giá trị này. Ô mô hình nhận mọi id từ danh mục {appName}.",
       "STEP_5_TITLE": "Lưu và trò chuyện",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "Chọn tùy chọn tương thích OpenAI và sử dụng các giá trị này.",
       "STEP_4_TITLE": "Chọn một mô hình",
       "STEP_4_DESC": "Chọn nhà cung cấp {appName} của bạn trong bộ chọn mô hình và chọn một mô hình.",
-      "GOTCHA_1": "ID nhà cung cấp chỉ được chứa chữ thường, số, dấu gạch nối hoặc dấu gạch dưới.",
-      "GOTCHA_2": "Ô khóa API là tùy chọn vì một số người dùng xác thực qua header. Với {appName}, hãy dán khóa thật của bạn."
+      "GOTCHA_1": "Mỗi model trong available_models cần có name và max_tokens. Biểu mẫu Add Provider của Zed còn hỏi thêm cửa sổ ngữ cảnh.",
+      "GOTCHA_2": "Zed lưu khoá API trong keychain của nó chứ không phải trong settings.json. Hãy thêm nhà cung cấp qua Agent Settings và đừng đặt khoá vào tệp."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "Trong mục API Provider, chọn OpenAI Compatible.",
       "STEP_4_TITLE": "Điền thông tin kết nối",
       "STEP_4_DESC": "Dùng các giá trị này. Model ID nhận mọi mô hình {appName}.",
-      "GOTCHA_1": "Cline có chế độ Responses API cho các mô hình mới hơn. Trên chat completions, nó lùi về kiểu bọc công cụ bằng XML, vốn có thể lặp lại lời gọi công cụ. Hãy dùng các mô hình kiểu chat để ổn định hơn.",
+      "GOTCHA_1": "Nhà cung cấp OpenAI Compatible của Cline chỉ gọi chat completions. Không có tuỳ chọn Responses API để chọn.",
       "GOTCHA_2": "Chọn một mô hình có gọi công cụ gắn liền để Cline có thể chạy shell và chỉnh sửa tệp một cách đáng tin cậy."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "Điền thông tin kết nối",
       "STEP_4_DESC": "Dùng các giá trị này. Bộ chọn mô hình cũng có thể được lấp đầy sau lượt gọi đầu tiên.",
       "GOTCHA_1": "Codebase Indexing > Embedder Provider tách biệt với phần trò chuyện. Hãy cấu hình nhà cung cấp trò chuyện mà bạn muốn.",
-      "GOTCHA_2": "Một số vai tác nhân của Roo gửi nhiều yêu cầu hơn dự kiến. Hãy để ý giới hạn tần suất của {appName}."
+      "GOTCHA_2": "Roo Code yêu cầu khả năng gọi công cụ gốc. Model không có khả năng này thì không dùng được, vì vậy hãy xem danh mục trước khi chuyển đổi."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "Lưu và tải lại",
       "STEP_3_DESC": "Continue tải lại cấu hình ngay lập tức. Chọn {appName} từ trình chọn mô hình ở dưới cùng của bảng.",
       "GOTCHA_1": "Sử dụng config.yaml, không dùng config.json cũ.",
-      "GOTCHA_2": "Nếu một mô hình từ chối tham số dư, hãy đặt requestOptions.dropParams: ['frequency_penalty','presence_penalty'] cho mục đó."
+      "GOTCHA_2": "requestOptions chỉ nhận các khoá đã có tài liệu như headers và extraBodyProperties. Một khoá lạ sẽ khiến việc kiểm tra thất bại chứ không bị bỏ qua."
     },
     "AIDER": {
       "META": {

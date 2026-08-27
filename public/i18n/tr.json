@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "Codex CLI'yi npm ile global olarak kurun.",
       "STEP_2_TITLE": "Model sağlayıcısını yapılandırın",
       "STEP_2_DESC": "`~/.codex/config.toml` dosyasını düzenleyin. Model id''nizi belirleyin ve responses wire API''sini kullanarak {appName}''in temel URL''si ile özel bir sağlayıcı ekleyin.",
-      "STEP_3_TITLE": "API anahtarınızı ekleyin",
-      "STEP_3_DESC": "{appName} API anahtarınızı `~/.codex/auth.json` içine yazın.",
+      "STEP_3_TITLE": "API anahtarınızı dışa aktarın",
+      "STEP_3_DESC": "env_key ile adlandırılan değişkeni dışa aktarın. Codex, özel bir sağlayıcının anahtarını ortamdan okur; auth.json yalnızca OpenAI'ye giriş yapmak içindir.",
       "STEP_4_TITLE": "Codex'i başlatın",
       "STEP_4_DESC": "Proje dizininizde `codex` komutunu çalıştırın.",
       "TS_1_DESC": "Desteklenmeyen endpoint hatasında `wire_api` değerinin `responses` olduğunu ve temel URL'nin `/v1` ile bittiğini doğrulayın.",
-      "TS_2_DESC": "401, `~/.codex/auth.json` içindeki anahtarın eksik veya eski olduğu anlamına gelir. {appName} panelinizden yeni bir anahtar yapıştırın.",
-      "TS_3_DESC": "Codex sağlayıcınızı yok sayıyorsa `config.toml` içindeki tablo adını kontrol edin. Sağlayıcı IDleri alt çizgiye izin verir, tireye izin vermez (`model_providers.my_provider`, asla `my-provider`). `openai` ayrılmıştır ve geçersiz kılınamaz."
+      "TS_2_DESC": "İstekler kimliksiz gidiyorsa, env_key ile belirtilen değişkenin codex'i çalıştıran kabukta gerçekten dışa aktarılmış olup olmadığını denetleyin.",
+      "TS_3_DESC": "Ayrılmış openai kimliğini özel bir sağlayıcı için yeniden kullanamazsınız. Hem [model_providers.<id>] içinde hem de model_provider içinde başka herhangi bir kimlik çalışır."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "`~/.openclaw/config.json` dosyasını düzenleyin. openai sağlayıcısını {appName}''in temel URL''sine yönlendirin, anahtarı `OPENAI_API_KEY` üzerinden okuyun ve varsayılan modelinizi agents altında belirleyin.",
       "STEP_3_TITLE": "OpenClaw'u başlatın",
       "STEP_3_DESC": "Ajanı {appName}''e karşı başlatmak için `openclaw start` çalıştırın.",
-      "TS_1_DESC": "OpenClaw API'ye ulaşamıyorsa, `providers.openai.baseUrl` değerinin `/v1` ile bittiğini ve `OPENAI_API_KEY` değerinin aynı kabukta export edildiğini doğrulayın.",
+      "TS_1_DESC": "~/.openclaw/openclaw.json dosyasındaki models.providers.openai.baseUrl değerini denetleyin. En üst düzeydeki bir providers bloğu yok sayılır.",
       "TS_2_DESC": "Model reddedilirse `agents.defaults.model.primary` değerini {appName}''in modeller sayfasından kopyalanmış, `openai/` önekli geçerli bir id olarak ayarlayın."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "{appName} API anahtarınızı `~/.hermes/.env` içinde `OPENAI_API_KEY` olarak saklayın.",
       "STEP_4_TITLE": "Hermes'i çalıştırın",
       "STEP_4_DESC": "TUI'yi `hermes --tui` ile başlatın.",
-      "TS_1_DESC": "Hermes, başlangıçta 64.000 jetonun altında bağlama sahip modelleri reddeder. {appName} modeller sayfasından daha büyük bağlamlı bir model seçin.",
+      "TS_1_DESC": "Özetleme için ayrı bir model belirlerseniz, ona en az ana model kadar geniş bir bağlam penceresi verin.",
       "TS_2_DESC": "Başlangıçtaki `/v1/models` kontrolü başarısız olursa `model.base_url` değerinin `/v1` ile bittiğini ve `OPENAI_API_KEY` değerinin `~/.hermes/.env` içinde tanımlı olduğunu doğrulayın."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "Model",
       "QUICK_CONFIG_NOTE": "Yalnızca temel URL'yi yapıştırın. SillyTavern `/chat/completions` kısmını kendisi ekler. Kendiniz eklerseniz 400 hatası alırsınız.",
       "STEPS": "Adım adım kurulum",
-      "STEP_1_TITLE": "AI Response Configuration aç",
+      "STEP_1_TITLE": "API Connections bölümünü açın",
       "STEP_1_DESC": "API Connections panelini açmak için üstteki fiş simgesine tıklayın.",
       "STEP_2_TITLE": "Chat Completion seç",
       "STEP_2_DESC": "API tipini Chat Completion olarak ayarlayın.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "Model dropdown davranışı",
       "TOC_TROUBLESHOOTING": "Sorun Giderme",
       "GOTCHA_1": "Yalnızca `/v1` ile biten temel URL'yi yapıştırın. SillyTavern `/chat/completions` kısmını kendisi ekler; siz eklerseniz 400 hatası döner.",
-      "GOTCHA_2": "Boş model açılır listesi bağlantının başarısız olduğu anlamına gelir. Temel URL'yi tekrar kontrol edin, ardından Bypass API Status Check seçeneğini etkinleştirin.",
+      "GOTCHA_2": "Boş bir model açılır listesi bağlantının başarısız olduğu anlamına gelir. Temel URL'yi yeniden denetleyin, ardından Bypass API status check seçeneğini etkinleştirin.",
       "GOTCHA_3": "401 hatası, anahtarın süresi dolmuş veya yanlış yazılmış demektir. {appName} panonuzda yeni bir anahtar oluşturun ve başta veya sonda boşluk olmadan yapıştırın.",
       "GOTCHA_4": "Akış cümle ortasında kesiliyorsa nedeni doğrulamak için Streaming'i kapatın, sonra tekrar açın. `data:` önekini kaldıran kurumsal proxyler de bunu bozar."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "Bir model slotu seç",
       "STEP_2_DESC": "Chat Bot model seçicisine tıklayın, en alta kaydırın ve Custom Models seçeneğini seçin.",
       "STEP_3_TITLE": "Autofill Request URL'yi kaldır",
-      "STEP_3_DESC": "Bir şey yapıştırmadan önce bu anahtar KAPALI olmalıdır. Yukarıdaki uyarıya bakın.",
-      "STEP_4_TITLE": "Request URL'yi yapıştır",
-      "STEP_4_DESC": "`/v1/chat/completions` ile biten tam URL'yi yapıştırın.",
+      "STEP_3_DESC": "Advanced Settings listesinde Autofill Request URL seçeneğini bulun ve herhangi bir şey yapıştırmadan önce kapatın. Yukarıdaki uyarıya bakın.",
+      "STEP_4_TITLE": "URL'yi yapıştırın",
+      "STEP_4_DESC": "`/v1/chat/completions` ile biten tam URL'yi URL alanına yapıştırın ve Format değerini OpenAICompatible yapın.",
       "STEP_5_TITLE": "API anahtarını yapıştır",
-      "STEP_5_DESC": "{appName} API anahtarınızı API Key alanına yapıştırın. Bazı sürümler bu alanı Authorization olarak etiketler; API Key yoksa o alanı kullanın.",
-      "STEP_6_TITLE": "Model ID'yi yapıştır",
-      "STEP_6_DESC": "{appName}''in modeller sayfasındaki model adını birebir yapıştırın.",
+      "STEP_5_DESC": "{appName} API anahtarınızı Key/Password alanına yapıştırın.",
+      "STEP_6_TITLE": "Request Model alanını doldurun",
+      "STEP_6_DESC": "{appName} model sayfasındaki tam model adını Request Model alanına yazın.",
       "STEP_7_TITLE": "Kaydet",
       "STEP_7_DESC": "Ayarlar panelini kapatın. RisuAI yapılandırmayı yerel depolamaya yazar.",
       "STEP_8_TITLE": "Test mesajı gönder",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "Daha önce çalıştı, şimdi yanıt yok.",
       "TS_2_DESC": "Bir RisuAI güncellemesi Autofill Request URL seçeneğini sessizce açabilir. Custom Models bölümünü açın ve kapalı olduğunu doğrulayın.",
       "TS_3_TITLE": "401 Unauthorized.",
-      "TS_3_DESC": "Bazı RisuAI sürümleri hem API Key hem Authorization alanını gösterir ve sürüm başına yalnızca biri okunur. Anahtarınızı diğer alana taşıyın.",
+      "TS_3_DESC": "Anahtarın Key/Password alanında olduğunu ve başında ya da sonunda boşluk bulunmadığını doğrulayın.",
       "TS_4_TITLE": "Model bulunamadı.",
       "TS_4_DESC": "Model ID bir model adıyla birebir eşleşmelidir. {appName}''in modeller sayfasından kopyalayıp yapıştırın.",
       "TS_5_TITLE": "Çeviri veya özet özelliği bozuk.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "Auxiliary Model'i Yapılandır",
       "TOC_TROUBLESHOOTING": "Sorun Giderme",
       "GOTCHA_1": "Bir şey yapıştırmadan önce Autofill Request URL işaretini kaldırın. Açıkken RisuAI URL'nizi kendi varsayılanına çevirir ve bağlantıyı sessizce bozar.",
-      "GOTCHA_2": "Bir RisuAI güncellemesi Autofill Request URL seçeneğini kendiliğinden açabilir. Çalışan bir kurulum yanıt vermemeye başlarsa Custom Models bölümünü yeniden açın ve anahtarın kapalı olduğunu doğrulayın.",
-      "GOTCHA_3": "Bazı RisuAI sürümleri hem API Key hem Authorization alanını gösterir ve sürüm başına yalnızca biri okunur. 401 alırsanız anahtarınızı diğer alana taşıyın.",
+      "GOTCHA_2": "Autofill Request URL, Advanced Settings içinde genel bir anahtardır, bu yüzden her özel model yuvası için geçerlidir. Çalışan bir kurulum yanıt vermeyi bırakırsa oradan denetleyin.",
+      "GOTCHA_3": "Anahtar Key/Password alanına girilir. Bunun yerine ek bir başlık göndermek isterseniz Additional Parameters bölümünde header::Authorization söz dizimini kullanın.",
       "GOTCHA_4": "Custom Models bölümünde model açılır listesi yoktur. Model adını yeniden yazmak yerine {appName}''in modeller sayfasından birebir kopyalayıp yapıştırın."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "{appName}''i Open WebUI''ye yerel bir OpenAI bağlantısı olarak bağlayın.",
       "OVERVIEW_DESC": "Open WebUI yöneticileri birden fazla OpenAI uyumlu bağlantı ekleyebilir. {appName}''i ekleyin, model seçici kataloğdan dolsun.",
       "STEP_1_TITLE": "Yönetici panelini açın",
-      "STEP_1_DESC": "Yönetici olarak giriş yapın, Admin Panel, Settings, ardından Connections bölümünü açın.",
+      "STEP_1_DESC": "Yönetici olarak oturum açın, ardından Settings, Admin, Connections bölümünü açın.",
       "STEP_2_TITLE": "Yeni bir OpenAI bağlantısı ekleyin",
-      "STEP_2_DESC": "OpenAI API altında bağlantı eklemek için + düğmesine tıklayın.",
+      "STEP_2_DESC": "Manage OpenAI API Connections altında Add Connection düğmesine tıklayın.",
       "STEP_3_TITLE": "Bağlantıyı doldurun",
       "STEP_3_DESC": "Temel URL''yi ve {appName} API anahtarınızı girin.",
       "STEP_4_TITLE": "Kaydedin ve bir model seçin",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "LLM Preference'i açın",
       "STEP_1_DESC": "Kenar çubuğundan Settings, ardından LLM Preference bölümünü açın.",
       "STEP_2_TITLE": "Generic OpenAI'yi seçin",
-      "STEP_2_DESC": "LLM Provider değerini Generic OpenAI yapın ve formu doldurun.",
+      "STEP_2_DESC": "LLM Provider ayarını Generic OpenAI yapın ve formu doldurun. Max Tokens varsayılan olarak 1024'tür ve her yanıtı sınırlar, bu yüzden değeri yükseltin.",
       "STEP_3_TITLE": "Kaydedin",
       "STEP_3_DESC": "Kaydedin. AnythingLLM sohbet çalışma alanları için {appName}''i kullanır.",
-      "TS_1_DESC": "Generic OpenAI kataloğu çekmez. Model adını ve bağlam penceresini elle yazın.",
+      "TS_1_DESC": "Base URL ve API Key girildiğinde Generic OpenAI kataloğu çeker. Çekme işlemi başarısız olursa alan bir metin kutusuna döner, o zaman model kimliğini elle yazın.",
       "TS_2_DESC": "Embedding Preference ayrı bir sekmedir. {appName} planınızda embedding sunmuyorsa çalışan bir embedding sağlayıcısında bırakın."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "{appName}''i Cherry Studio''ya OpenAI sağlayıcısı olarak bağlayın.",
       "OVERVIEW_DESC": "Cherry Studio tek arayüzde birçok sağlayıcıyı destekler. {appName}''i OpenAI sağlayıcısı olarak ekleyin ve modelleri ayrı kayıtlar olarak yükleyin.",
       "STEP_1_TITLE": "Model Provider'i açın",
-      "STEP_1_DESC": "Settings, Model Provider, ardından Add Provider bölümüne gidin.",
+      "STEP_1_DESC": "Settings, ardından Model Services ve sonra + Add Provider yolunu izleyin.",
       "STEP_2_TITLE": "OpenAI'yi seçin",
       "STEP_2_DESC": "Sağlayıcı türünü OpenAI yapın. Ad, host ve anahtarı doldurun.",
       "STEP_3_TITLE": "Modeller ekleyin",
       "STEP_3_DESC": "Models altında Manage''a, ardından Add Model''e tıklayın. {appName} model kimliklerini satır başına bir tane yapıştırın.",
-      "TS_1_DESC": "OpenAI sağlayıcı türünü kullanın ve /v1 kısmını hosta kendiniz ekleyin. Diğer türler kendi yollarını ekler.",
+      "TS_1_DESC": "Cherry Studio sürüm yolunu kendisi ekler, bu yüzden sunucu adresini /v1 olmadan girin. Bir adresi olduğu gibi göndermek isterseniz tam URL'yi yazın ve sonuna # koyun.",
       "TS_2_DESC": "Cherry'nin Test düğmesi chat completions uçlarına tek tokenlık bir sonda gönderir. Akıl yürütme modellerinde length ile biten yanıt da kimlik doğrulamayı teyit eder."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind, OpenAI uyumlu her endpointi özel model olarak kabul eder. Kataloğdaki her modeli kullanmak için {appName}''i ekleyin.",
       "STEP_1_TITLE": "Models'i açın",
       "STEP_1_DESC": "Dişli simgesine tıklayın, Models'e, ardından Add Custom Models'e gidin.",
-      "STEP_2_TITLE": "API türü olarak OpenAI'yi seçin",
-      "STEP_2_DESC": "TypingMind özel uç noktalar için OpenAI Chat Completions şemasını kullanır.",
+      "STEP_2_TITLE": "Özel bir model ekleyin",
+      "STEP_2_DESC": "TypingMind, özel uç noktalar için OpenAI Chat Completions şemasını kullanır.",
       "STEP_3_TITLE": "Uç noktayı doldurun",
-      "STEP_3_DESC": "Temel URL''yi, {appName} API anahtarınızı ve bir model kimliğini girin.",
+      "STEP_3_DESC": "Tam chat completions URL'sini ve bir model kimliğini girin. Özel modellerde API anahtarı alanı yoktur: anahtarı Add Custom Headers altında bir Authorization başlığı olarak ekleyin.",
       "STEP_4_TITLE": "Test edin ve ekleyin",
       "STEP_4_DESC": "Plugins veya Vision seçeneklerini yalnızca model destekliyorsa açın. Test'e, ardından Add Model'e tıklayın.",
       "TS_1_DESC": "Plugins (fonksiyon çağırma) yerel araç desteği olan bir model gerektirir.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Models ayarlarını açın",
       "STEP_1_DESC": "BoltAI ayarlarını açın, Models bölümüne gidin, + düğmesine, ardından OpenAI-compatible Server seçeneğine tıklayın.",
       "STEP_2_TITLE": "Sunucuyu doldurun",
-      "STEP_2_DESC": "Adı, temel URL'yi, anahtarı, model kimliğini ve bağlam uzunluğunu girin.",
+      "STEP_2_DESC": "Adı, tam chat completions URL'sini, anahtarı, model kimliğini ve bağlam uzunluğunu girin.",
       "STEP_3_TITLE": "Akışı açın",
       "STEP_3_DESC": "Tokenları geldikçe görmek için Streaming'i açın.",
       "TS_1_DESC": "Bu bağlayıcı model listesini çekmez. Her {appName} modeli elle eklenen bir kayıttır.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "{appName}''i Chatbox''a OpenAI API Compatible modunu kullanarak bağlayın.",
       "OVERVIEW_DESC": "Chatbox OpenAI uyumlu her tabanı destekler. OpenAI API Compatible modunu kullanın ve URL'yi Host ve Path olarak ayırın.",
       "STEP_1_TITLE": "Add Custom Provider'i açın",
-      "STEP_1_DESC": "Settings, Display, AI Provider, ardından Add Custom Provider bölümüne gidin.",
+      "STEP_1_DESC": "Settings, ardından Model Provider ve sonra Add yolunu izleyin.",
       "STEP_2_TITLE": "OpenAI API Compatible modunu seçin",
       "STEP_2_DESC": "Responses rotasını istemiyorsanız Responses API seçeneğini seçmeyin.",
       "STEP_3_TITLE": "Host ve path'i ayırın",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "{appName} API anahtarınızı ve API uç noktasını girin.",
       "STEP_3_TITLE": "Modelleri yenileyin",
       "STEP_3_DESC": "Listeyi yenilemek için Models''e tıklayın. Big-AGI {appName} kataloğunu çeker.",
-      "TS_1_DESC": "Helicone Key alanını boş bırakın. Hostu farklı bir alan adına zorlar.",
-      "TS_2_DESC": "Moderation seçeneğini kapatın. {appName}''in moderation endpointi yoktur."
+      "TS_1_DESC": "Eski bir Big-AGI kurulumu geride bir Helicone sunucusu bıraktıysa onu temizleyin. Güncel sürümler bunu otomatik olarak kaldırır.",
+      "TS_2_DESC": "Big-AGI model listesini uç noktadan çeker, bu yüzden geniş yetkili bir anahtar seçim kutusunu {appName} kataloğunun tamamıyla doldurur."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "Ayarları açın",
       "STEP_2_DESC": "Kilo Code kenar çubuğu simgesine, ardından sağ üstteki dişli simgesine tıklayın.",
       "STEP_3_TITLE": "Özel bir sağlayıcı ekleyin",
-      "STEP_3_DESC": "Providers bölümünü açın, Custom Provider yanındaki + Connect düğmesine tıklayın ve formu doldurun.",
+      "STEP_3_DESC": "Sağlayıcı listesinin en altına kaydırın ve Custom provider seçeneğine tıklayın.",
       "STEP_4_TITLE": "Bağlantı formunu doldurun",
       "STEP_4_DESC": "Bu değerleri kullanın. Model alanı {appName} kataloğundaki her id''yi kabul eder.",
       "STEP_5_TITLE": "Kaydedin ve sohbet edin",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "OpenAI uyumlu seçeneğini seçin ve bu değerleri kullanın.",
       "STEP_4_TITLE": "Bir model seçin",
       "STEP_4_DESC": "Model seçicide {appName} sağlayıcınızı seçin ve bir model belirleyin.",
-      "GOTCHA_1": "Sağlayıcı IDsi yalnızca küçük harf, rakam, tire veya alt çizgi içermelidir.",
-      "GOTCHA_2": "API anahtarı alanı isteğe bağlıdır çünkü bazı kullanıcılar başlıklarla kimlik doğrular. {appName} için gerçek anahtarınızı yapıştırın."
+      "GOTCHA_1": "available_models içindeki her modelin name ve max_tokens değerleri olmalıdır. Zed'in Add Provider formu ayrıca bağlam penceresini de sorar.",
+      "GOTCHA_2": "Zed, API anahtarını settings.json içinde değil kendi anahtar zincirinde saklar. Sağlayıcıyı Agent Settings üzerinden ekleyin ve anahtarı dosyaya yazmayın."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "API Provider altında OpenAI Compatible seçeneğini seçin.",
       "STEP_4_TITLE": "Bağlantıyı doldurun",
       "STEP_4_DESC": "Bu değerleri kullanın. Model ID her {appName} modelini kabul eder.",
-      "GOTCHA_1": "Cline'ın yeni modeller için bir Responses API modu vardır. Chat completions üzerinde XML araç sarmalamasına geri döner, bu da araç çağrılarını tekrarlayabilir. Kararlılık için chat tarzı modeller kullanın.",
+      "GOTCHA_1": "Cline'ın OpenAI Compatible sağlayıcısı yalnızca chat completions çağırır. Seçilebilecek bir Responses API seçeneği yoktur.",
       "GOTCHA_2": "Cline'in kabuk ve dosya düzenlemelerini güvenilir şekilde çalıştırabilmesi için yerleşik araç çağrısı olan bir model seçin."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "Bağlantıyı doldurun",
       "STEP_4_DESC": "Bu değerleri kullanın. Model seçici ilk çağrıdan sonra da dolabilir.",
       "GOTCHA_1": "Codebase Indexing > Embedder Provider sohbetten ayrıdır. İstediğiniz sohbet sağlayıcısını yapılandırın.",
-      "GOTCHA_2": "Bazı Roo ajan rolleri beklenenden fazla istek gönderir. {appName} hız sınırınızı takip edin."
+      "GOTCHA_2": "Roo Code yerel araç çağırma özelliği ister. Bu özelliği olmayan bir model kullanılamaz, bu yüzden geçiş yapmadan önce kataloğu denetleyin."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "Kaydedin ve yeniden yükleyin",
       "STEP_3_DESC": "Continue yapılandırmayı anında yeniden yükler. Panelin altındaki model seçicisinden {appName}''i seçin.",
       "GOTCHA_1": "Eski config.json yerine config.yaml kullanın.",
-      "GOTCHA_2": "Bir model ek parametreleri reddederse o kayıtta requestOptions.dropParams: ['frequency_penalty','presence_penalty'] tanımlayın."
+      "GOTCHA_2": "requestOptions yalnızca headers ve extraBodyProperties gibi belgelenmiş anahtarları kabul eder. Bilinmeyen bir anahtar yok sayılmaz, doğrulamayı başarısız kılar."
     },
     "AIDER": {
       "META": {

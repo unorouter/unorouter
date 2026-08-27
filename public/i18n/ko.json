@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "npm으로 Codex CLI를 전역 설치하세요.",
       "STEP_2_TITLE": "모델 프로바이더 구성",
       "STEP_2_DESC": "`~/.codex/config.toml`을 편집하세요. 모델 id를 지정하고, responses 와이어 API로 {appName}의 기본 URL을 쓰는 커스텀 제공자를 추가하세요.",
-      "STEP_3_TITLE": "API 키 추가",
-      "STEP_3_DESC": "{appName} API 키를 `~/.codex/auth.json`에 기록하세요.",
+      "STEP_3_TITLE": "API 키 내보내기",
+      "STEP_3_DESC": "env_key에 지정한 변수를 export하세요. Codex는 사용자 지정 공급자의 키를 환경 변수에서 읽습니다. auth.json은 OpenAI 로그인 전용입니다.",
       "STEP_4_TITLE": "Codex 시작",
       "STEP_4_DESC": "프로젝트 디렉터리에서 `codex`를 실행하세요.",
       "TS_1_DESC": "지원하지 않는 엔드포인트 오류가 나면 `wire_api`가 `responses`인지, 기본 URL이 `/v1`로 끝나는지 확인하세요.",
-      "TS_2_DESC": "401은 `~/.codex/auth.json`의 키가 없거나 오래되었다는 뜻입니다. {appName} 대시보드에서 새 키를 붙여 넣으세요.",
-      "TS_3_DESC": "Codex가 제공자를 무시하면 `config.toml`의 테이블 이름을 확인하세요. 제공자 ID에는 밑줄은 되지만 하이픈은 안 됩니다(`model_providers.my_provider`는 되고 `my-provider`는 안 됩니다). `openai`는 예약어라 덮어쓸 수 없습니다."
+      "TS_2_DESC": "요청이 인증되지 않는다면, env_key가 가리키는 변수가 codex를 실행하는 셸에서 실제로 export되어 있는지 확인하세요.",
+      "TS_3_DESC": "예약된 ID인 openai는 사용자 지정 공급자에 다시 사용할 수 없습니다. [model_providers.<id>]에서든 model_provider에서든 다른 ID라면 무엇이든 동작합니다."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "`~/.openclaw/config.json`을 편집하세요. openai 제공자를 {appName}의 기본 URL로 향하게 하고, 키는 `OPENAI_API_KEY`에서 읽게 하며, 기본 모델은 agents 아래에 지정하세요.",
       "STEP_3_TITLE": "OpenClaw 시작",
       "STEP_3_DESC": "`openclaw start`를 실행하여 {appName}을 대상으로 에이전트를 시작하세요.",
-      "TS_1_DESC": "OpenClaw가 API에 접근하지 못하면 `providers.openai.baseUrl`이 `/v1`로 끝나고 `OPENAI_API_KEY`가 동일한 셸에서 내보내졌는지 확인하세요.",
+      "TS_1_DESC": "~/.openclaw/openclaw.json의 models.providers.openai.baseUrl을 확인하세요. 최상위에 둔 providers 블록은 무시됩니다.",
       "TS_2_DESC": "모델이 거부되면 `agents.defaults.model.primary`에 {appName} 모델 페이지에서 복사한 유효한 id를 `openai/` 접두사와 함께 지정하세요."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "{appName} API 키를 `~/.hermes/.env`에 `OPENAI_API_KEY`로 저장하세요.",
       "STEP_4_TITLE": "Hermes 실행",
       "STEP_4_DESC": "`hermes --tui`로 TUI를 시작하세요.",
-      "TS_1_DESC": "Hermes는 시작 시 컨텍스트가 64,000 토큰 미만인 모델을 거부합니다. {appName} 모델 페이지에서 더 큰 컨텍스트의 모델을 선택하세요.",
+      "TS_1_DESC": "요약용 모델을 따로 지정한다면, 그 모델의 컨텍스트 창을 최소한 주 모델만큼 크게 잡으세요.",
       "TS_2_DESC": "시작 시 `/v1/models` 확인이 실패하면 `model.base_url`이 `/v1`로 끝나는지, `OPENAI_API_KEY`가 `~/.hermes/.env`에 있는지 확인하세요."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "모델",
       "QUICK_CONFIG_NOTE": "기본 URL만 붙여 넣으세요. SillyTavern이 `/chat/completions`를 직접 붙입니다. 직접 넣으면 400 오류가 납니다.",
       "STEPS": "단계별 설정",
-      "STEP_1_TITLE": "AI Response Configuration 열기",
+      "STEP_1_TITLE": "API Connections 열기",
       "STEP_1_DESC": "위쪽의 플러그 아이콘을 눌러 API Connections 패널을 여세요.",
       "STEP_2_TITLE": "Chat Completion 선택",
       "STEP_2_DESC": "API 유형을 Chat Completion으로 설정하세요.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "모델 드롭다운 동작",
       "TOC_TROUBLESHOOTING": "문제 해결",
       "GOTCHA_1": "`/v1`로 끝나는 기본 URL만 붙여 넣으세요. SillyTavern이 `/chat/completions`를 직접 붙이므로 직접 넣으면 400 오류가 납니다.",
-      "GOTCHA_2": "모델 드롭다운이 비어 있다면 연결에 실패한 것입니다. 기본 URL을 다시 확인한 뒤 Bypass API Status Check를 켜세요.",
+      "GOTCHA_2": "모델 드롭다운이 비어 있다면 연결에 실패한 것입니다. 기본 URL을 다시 확인한 뒤 Bypass API status check를 켜세요.",
       "GOTCHA_3": "401은 키가 만료되었거나 잘못 입력되었음을 의미합니다. {appName} 대시보드에서 새 키를 생성하고 앞뒤 공백 없이 붙여넣으세요.",
       "GOTCHA_4": "스트리밍이 문장 도중에 끊기면 Streaming을 꺼서 원인을 확인한 뒤 다시 켜세요. `data:` 접두사를 제거하는 사내 프록시도 문제를 일으킵니다."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "모델 슬롯 선택",
       "STEP_2_DESC": "Chat Bot 모델 선택기를 누르고 맨 아래로 내려 Custom Models를 고르세요.",
       "STEP_3_TITLE": "Autofill Request URL 체크 해제",
-      "STEP_3_DESC": "무엇이든 붙여 넣기 전에 이 토글을 꺼야 합니다. 위 경고를 참고하세요.",
-      "STEP_4_TITLE": "Request URL 붙여넣기",
-      "STEP_4_DESC": "`/v1/chat/completions`으로 끝나는 전체 URL을 붙여넣으세요.",
+      "STEP_3_DESC": "Advanced Settings 목록에서 Autofill Request URL을 찾아, 무언가를 붙여넣기 전에 꺼두세요. 위의 경고를 참고하세요.",
+      "STEP_4_TITLE": "URL 붙여넣기",
+      "STEP_4_DESC": "`/v1/chat/completions`로 끝나는 전체 URL을 URL 항목에 붙여넣고, Format을 OpenAICompatible로 설정하세요.",
       "STEP_5_TITLE": "API 키 붙여넣기",
-      "STEP_5_DESC": "{appName} API 키를 API Key 항목에 붙여 넣으세요. 일부 빌드는 Authorization이라고 표시합니다. API Key가 없으면 그 항목을 쓰세요.",
-      "STEP_6_TITLE": "Model ID 붙여넣기",
-      "STEP_6_DESC": "{appName} 모델 페이지에서 정확한 모델 이름을 붙여 넣으세요.",
+      "STEP_5_DESC": "{appName} API 키를 Key/Password 항목에 붙여넣으세요.",
+      "STEP_6_TITLE": "Request Model 입력",
+      "STEP_6_DESC": "{appName}의 모델 페이지에 나온 정확한 모델 이름을 Request Model에 입력하세요.",
       "STEP_7_TITLE": "저장",
       "STEP_7_DESC": "설정 패널을 닫으세요. RisuAI가 설정을 로컬 저장소에 기록합니다.",
       "STEP_8_TITLE": "테스트 메시지 보내기",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "전에는 작동했는데 지금 응답이 없음.",
       "TS_2_DESC": "RisuAI 업데이트가 Autofill Request URL을 조용히 다시 켤 수 있습니다. Custom Models를 열어 꺼져 있는지 확인하세요.",
       "TS_3_TITLE": "401 Unauthorized.",
-      "TS_3_DESC": "일부 RisuAI 빌드는 API Key와 Authorization을 모두 보여주지만 버전마다 하나만 읽습니다. 키를 다른 항목으로 옮기세요.",
+      "TS_3_DESC": "키가 Key/Password에 들어 있고 앞뒤에 공백이 없는지 확인하세요.",
       "TS_4_TITLE": "모델을 찾을 수 없음.",
       "TS_4_DESC": "Model ID는 모델 이름과 정확히 일치해야 합니다. {appName} 모델 페이지에서 복사해 붙여 넣으세요.",
       "TS_5_TITLE": "번역 또는 요약 기능이 작동하지 않음.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "보조 모델 설정",
       "TOC_TROUBLESHOOTING": "문제 해결",
       "GOTCHA_1": "무엇이든 붙여 넣기 전에 Autofill Request URL을 끄세요. 켜져 있는 동안 RisuAI는 URL을 자체 기본값으로 고쳐 써서 연결을 조용히 망가뜨립니다.",
-      "GOTCHA_2": "RisuAI 업데이트가 Autofill Request URL을 스스로 다시 켤 수 있습니다. 잘 되던 설정이 응답하지 않으면 Custom Models를 다시 열어 토글이 꺼져 있는지 확인하세요.",
-      "GOTCHA_3": "일부 RisuAI 빌드는 API Key 항목과 Authorization 항목을 모두 보여주지만 버전마다 하나만 읽습니다. 401이 나면 키를 다른 항목으로 옮기세요.",
+      "GOTCHA_2": "Autofill Request URL은 Advanced Settings의 전역 토글이라 모든 사용자 지정 모델 슬롯에 적용됩니다. 잘 되던 설정이 갑자기 응답하지 않으면 그곳을 확인하세요.",
+      "GOTCHA_3": "키는 Key/Password에 넣습니다. 대신 추가 헤더를 보내려면 Additional Parameters에서 header::Authorization 문법을 사용하세요.",
       "GOTCHA_4": "Custom Models에는 모델 드롭다운이 없습니다. 직접 타이핑하지 말고 {appName} 모델 페이지에서 정확한 모델 이름을 복사해 붙여 넣으세요."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "{appName}을 Open WebUI에 네이티브 OpenAI 연결로 추가하세요.",
       "OVERVIEW_DESC": "Open WebUI 관리자는 OpenAI 호환 연결을 여러 개 추가할 수 있습니다. {appName}을 추가하면 모델 선택기가 카탈로그로 채워집니다.",
       "STEP_1_TITLE": "관리자 패널 열기",
-      "STEP_1_DESC": "관리자로 로그인해 Admin Panel, Settings, 이어서 Connections를 여세요.",
+      "STEP_1_DESC": "관리자로 로그인한 다음 Settings, Admin, Connections를 여세요.",
       "STEP_2_TITLE": "새 OpenAI 연결 추가",
-      "STEP_2_DESC": "OpenAI API 아래에서 +를 눌러 연결을 추가하세요.",
+      "STEP_2_DESC": "Manage OpenAI API Connections 아래에서 Add Connection을 클릭하세요.",
       "STEP_3_TITLE": "연결 입력",
       "STEP_3_DESC": "기본 URL과 {appName} API 키를 입력하세요.",
       "STEP_4_TITLE": "저장하고 모델 선택",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "LLM Preference 열기",
       "STEP_1_DESC": "사이드바에서 Settings를 열고 이어서 LLM Preference를 여세요.",
       "STEP_2_TITLE": "Generic OpenAI 선택",
-      "STEP_2_DESC": "LLM Provider를 Generic OpenAI로 두고 양식을 채우세요.",
+      "STEP_2_DESC": "LLM Provider를 Generic OpenAI로 설정하고 양식을 채우세요. Max Tokens는 기본값이 1024이며 모든 응답을 제한하므로 값을 올리세요.",
       "STEP_3_TITLE": "저장",
       "STEP_3_DESC": "저장하세요. AnythingLLM이 채팅 워크스페이스에서 {appName}을 사용합니다.",
-      "TS_1_DESC": "Generic OpenAI는 카탈로그를 가져오지 않습니다. 모델 이름과 컨텍스트 창을 직접 입력하세요.",
+      "TS_1_DESC": "Base URL과 API Key를 설정하면 Generic OpenAI가 카탈로그를 가져옵니다. 가져오기에 실패하면 해당 항목이 텍스트 입력란으로 바뀌므로 모델 ID를 직접 입력하세요.",
       "TS_2_DESC": "Embedding Preference는 별도 탭입니다. {appName}이 사용 중인 요금제에서 임베딩을 제공하지 않는 한 동작하는 임베딩 제공자로 두세요."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "{appName}을 Cherry Studio에 OpenAI 공급자로 연결하세요.",
       "OVERVIEW_DESC": "Cherry Studio는 여러 제공자를 하나의 UI에서 다룹니다. {appName}을 OpenAI 제공자로 추가하고 모델을 개별 항목으로 불러오세요.",
       "STEP_1_TITLE": "Model Provider 열기",
-      "STEP_1_DESC": "Settings, Model Provider, 이어서 Add Provider로 이동하세요.",
+      "STEP_1_DESC": "Settings로 이동한 뒤 Model Services, 그다음 + Add Provider를 여세요.",
       "STEP_2_TITLE": "OpenAI 선택",
       "STEP_2_DESC": "제공자 유형을 OpenAI로 두세요. 이름, 호스트, 키를 채우세요.",
       "STEP_3_TITLE": "모델 추가",
       "STEP_3_DESC": "Models 아래의 Manage, 그다음 Add Model을 클릭하세요. {appName} 모델 ID를 한 줄에 하나씩 붙여넣으세요.",
-      "TS_1_DESC": "OpenAI 제공자 유형을 쓰고 호스트에 /v1을 직접 넣으세요. 다른 유형은 자체 경로를 붙입니다.",
+      "TS_1_DESC": "Cherry Studio가 버전 경로를 알아서 덧붙이므로 호스트는 /v1 없이 입력하세요. 주소를 입력한 그대로 보내려면 전체 URL을 입력하고 끝에 #을 붙이세요.",
       "TS_2_DESC": "Cherry의 Test 버튼은 채팅 완성에 1토큰짜리 시험 요청을 보냅니다. 추론 모델에서 length로 끝나도 인증 확인은 됩니다."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind는 OpenAI 호환 엔드포인트를 커스텀 모델로 받습니다. {appName}을 추가하면 카탈로그의 모든 모델을 쓸 수 있습니다.",
       "STEP_1_TITLE": "Models 열기",
       "STEP_1_DESC": "톱니바퀴 아이콘을 클릭하고 Models, 그다음 Add Custom Models로 이동하세요.",
-      "STEP_2_TITLE": "API 유형으로 OpenAI 선택",
+      "STEP_2_TITLE": "사용자 지정 모델 추가",
       "STEP_2_DESC": "TypingMind는 사용자 지정 엔드포인트에 OpenAI Chat Completions 스키마를 사용합니다.",
       "STEP_3_TITLE": "엔드포인트 입력",
-      "STEP_3_DESC": "기본 URL, {appName} API 키, 모델 ID를 입력하세요.",
+      "STEP_3_DESC": "전체 chat completions URL과 모델 ID를 입력하세요. 사용자 지정 모델에는 API 키 항목이 없으므로, 키는 Add Custom Headers에서 Authorization 헤더로 추가하세요.",
       "STEP_4_TITLE": "테스트하고 추가",
       "STEP_4_DESC": "모델이 지원할 때만 Plugins나 Vision을 켜세요. Test를 누른 뒤 Add Model을 누르세요.",
       "TS_1_DESC": "Plugins(함수 호출)에는 네이티브 도구 지원이 있는 모델이 필요합니다.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "Models 설정 열기",
       "STEP_1_DESC": "BoltAI 설정을 열고 Models로 이동한 뒤 +를 누르고 OpenAI-compatible Server를 고르세요.",
       "STEP_2_TITLE": "서버 입력",
-      "STEP_2_DESC": "이름, 기본 URL, 키, 모델 ID, 컨텍스트 길이를 입력하세요.",
+      "STEP_2_DESC": "이름, 전체 chat completions URL, 키, 모델 ID, 컨텍스트 길이를 입력하세요.",
       "STEP_3_TITLE": "스트리밍 켜기",
       "STEP_3_DESC": "Streaming을 켜면 토큰이 도착하는 대로 보입니다.",
       "TS_1_DESC": "이 커넥터는 모델 목록을 가져오지 않습니다. {appName} 모델마다 항목을 하나씩 직접 추가해야 합니다.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "OpenAI API Compatible 모드로 {appName}을 Chatbox에 연결하세요.",
       "OVERVIEW_DESC": "Chatbox는 OpenAI 호환 베이스를 지원합니다. OpenAI API Compatible 모드를 사용하고 URL을 Host와 Path로 나누세요.",
       "STEP_1_TITLE": "Add Custom Provider 열기",
-      "STEP_1_DESC": "Settings, Display, AI Provider, 이어서 Add Custom Provider로 이동하세요.",
+      "STEP_1_DESC": "Settings로 이동한 뒤 Model Provider, 그다음 Add를 누르세요.",
       "STEP_2_TITLE": "OpenAI API Compatible 모드 선택",
       "STEP_2_DESC": "Responses 경로를 쓰려는 것이 아니라면 Responses API 옵션을 고르지 마세요.",
       "STEP_3_TITLE": "호스트와 경로 나누기",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "{appName} API 키와 API 엔드포인트를 입력하세요.",
       "STEP_3_TITLE": "모델 새로 고침",
       "STEP_3_DESC": "Models를 눌러 목록을 새로 고치세요. Big-AGI가 {appName} 카탈로그를 불러옵니다.",
-      "TS_1_DESC": "Helicone Key는 비워 두세요. 호스트가 다른 도메인으로 강제됩니다.",
-      "TS_2_DESC": "Moderation 토글을 끄세요. {appName}에는 모더레이션 엔드포인트가 없습니다."
+      "TS_1_DESC": "이전 Big-AGI 설정에 Helicone 호스트가 남아 있다면 지우세요. 최신 빌드는 이를 자동으로 제거합니다.",
+      "TS_2_DESC": "Big-AGI는 엔드포인트에서 모델 목록을 가져오므로, 권한 범위가 넓은 키를 쓰면 선택 목록이 {appName}의 전체 카탈로그로 채워집니다."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "설정 열기",
       "STEP_2_DESC": "Kilo Code 사이드바 아이콘을 누른 뒤 오른쪽 위 톱니 아이콘을 누르세요.",
       "STEP_3_TITLE": "사용자 지정 프로바이더 추가",
-      "STEP_3_DESC": "Providers를 열고 Custom Provider 옆의 + Connect를 클릭한 후 양식을 작성하세요.",
+      "STEP_3_DESC": "공급자 목록의 맨 아래까지 스크롤한 뒤 Custom provider를 클릭하세요.",
       "STEP_4_TITLE": "연결 양식 작성",
       "STEP_4_DESC": "이 값들을 쓰세요. 모델 항목은 {appName} 카탈로그의 아무 id나 받습니다.",
       "STEP_5_TITLE": "저장 후 채팅",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "OpenAI 호환 옵션을 선택하고 다음 값을 사용하세요.",
       "STEP_4_TITLE": "모델 선택",
       "STEP_4_DESC": "모델 선택기에서 {appName} 제공자를 고르고 모델을 선택하세요.",
-      "GOTCHA_1": "제공자 ID는 영소문자, 숫자, 하이픈, 밑줄만 쓸 수 있습니다.",
-      "GOTCHA_2": "일부 사용자는 헤더로 인증하기 때문에 API 키 항목은 선택입니다. {appName}에서는 실제 키를 붙여 넣으세요."
+      "GOTCHA_1": "available_models의 각 모델에는 name과 max_tokens가 필요합니다. Zed의 Add Provider 양식은 컨텍스트 창도 함께 묻습니다.",
+      "GOTCHA_2": "Zed는 API 키를 settings.json이 아니라 자체 키체인에 저장합니다. 공급자는 Agent Settings에서 추가하고 키는 파일에 넣지 마세요."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "API Provider에서 OpenAI Compatible을 선택하세요.",
       "STEP_4_TITLE": "연결 정보 입력",
       "STEP_4_DESC": "이 값들을 쓰세요. Model ID는 아무 {appName} 모델이나 받습니다.",
-      "GOTCHA_1": "Cline에는 최신 모델용 Responses API 모드가 있습니다. 채팅 완성에서는 XML 도구 래핑으로 물러나며 도구 호출을 반복할 수 있습니다. 안정성을 원하면 채팅 계열 모델을 쓰세요.",
+      "GOTCHA_1": "Cline의 OpenAI Compatible 공급자는 chat completions만 호출합니다. 선택할 수 있는 Responses API 옵션은 없습니다.",
       "GOTCHA_2": "Cline이 셸과 파일 편집을 안정적으로 실행할 수 있도록 네이티브 도구 호출을 지원하는 모델을 선택하세요."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "연결 정보 입력",
       "STEP_4_DESC": "이 값들을 쓰세요. 모델 선택기는 첫 호출 이후에 채워지기도 합니다.",
       "GOTCHA_1": "Codebase Indexing의 Embedder Provider는 채팅과 별개입니다. 원하는 채팅 제공자를 설정하세요.",
-      "GOTCHA_2": "일부 Roo 에이전트 역할은 예상보다 많은 요청을 보냅니다. {appName} 속도 제한에 주의하세요."
+      "GOTCHA_2": "Roo Code는 네이티브 도구 호출을 요구합니다. 이 기능이 없는 모델은 사용할 수 없으므로 전환하기 전에 카탈로그를 확인하세요."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "저장 후 다시 불러오기",
       "STEP_3_DESC": "Continue는 설정을 핫 리로드합니다. 패널 하단의 모델 선택기에서 {appName}을 선택하세요.",
       "GOTCHA_1": "기존 config.json이 아니라 config.yaml을 사용하세요.",
-      "GOTCHA_2": "모델이 추가 매개변수를 거부하면 해당 항목에 requestOptions.dropParams: ['frequency_penalty','presence_penalty']를 지정하세요."
+      "GOTCHA_2": "requestOptions는 headers, extraBodyProperties처럼 문서에 있는 키만 받습니다. 알 수 없는 키는 무시되지 않고 검증 오류를 냅니다."
     },
     "AIDER": {
       "META": {

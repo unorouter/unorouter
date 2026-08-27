@@ -1775,13 +1775,13 @@
       "STEP_1_DESC": "התקינו את Codex CLI גלובלית עם npm.",
       "STEP_2_TITLE": "הגדירו את ספק המודל",
       "STEP_2_DESC": "ערכו את `~/.codex/config.toml`. הגדירו את מזהה המודל שלכם והוסיפו ספק מותאם עם כתובת הבסיס של {appName} תוך שימוש ב-wire API מסוג responses.",
-      "STEP_3_TITLE": "הוסיפו את מפתח ה-API",
-      "STEP_3_DESC": "כתבו את מפתח ה-API של {appName} לתוך `~/.codex/auth.json`.",
+      "STEP_3_TITLE": "ייצוא מפתח ה-API שלכם",
+      "STEP_3_DESC": "ייצאו את המשתנה שצוין ב-env_key. ‏Codex קורא את המפתח של ספק מותאם אישית מתוך הסביבה; הקובץ auth.json משמש רק להתחברות אל OpenAI.",
       "STEP_4_TITLE": "הפעילו את Codex",
       "STEP_4_DESC": "הריצו `codex` בתיקיית הפרויקט שלכם.",
       "TS_1_DESC": "בשגיאת נקודת קצה לא נתמכת, ודאו ש-`wire_api` הוא `responses` ושכתובת הבסיס מסתיימת ב-`/v1`.",
-      "TS_2_DESC": "שגיאת 401 פירושה שהמפתח ב-`~/.codex/auth.json` חסר או ישן. הדביקו מפתח חדש מלוח הבקרה של {appName}.",
-      "TS_3_DESC": "אם Codex מתעלם מהספק שלכם, בדקו את שם הטבלה ב-`config.toml`. מזהי ספק מאפשרים קווים תחתונים, לא מקפים (`model_providers.my_provider`, אף פעם לא `my-provider`). השם `openai` שמור ולא ניתן לדריסה."
+      "TS_2_DESC": "אם הבקשות יוצאות ללא אימות, בדקו ש-env_key מצביע על משתנה שאכן יוצא בפועל במעטפת שבה רץ codex.",
+      "TS_3_DESC": "אי אפשר להשתמש שוב במזהה השמור openai עבור ספק מותאם אישית. כל מזהה אחר יעבוד, הן ב-[model_providers.<id>] והן ב-model_provider."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1890,7 +1890,7 @@
       "STEP_2_DESC": "ערכו את `~/.openclaw/config.json`. כוונו את ספק openai לכתובת הבסיס של {appName}, קראו את המפתח מ-`OPENAI_API_KEY`, והגדירו את מודל ברירת המחדל תחת agents.",
       "STEP_3_TITLE": "הפעילו את OpenClaw",
       "STEP_3_DESC": "הריצו `openclaw start` כדי להפעיל את הסוכן מול {appName}.",
-      "TS_1_DESC": "אם OpenClaw לא מצליח להגיע ל-API, ודאו ש-`providers.openai.baseUrl` מסתיים ב-`/v1` ושמשתנה `OPENAI_API_KEY` מיוצא באותו shell.",
+      "TS_1_DESC": "בדקו את models.providers.openai.baseUrl בקובץ ~/.openclaw/openclaw.json. המערכת מתעלמת מבלוק providers שממוקם ברמה העליונה.",
       "TS_2_DESC": "אם המודל נדחה, הגדירו את `agents.defaults.model.primary` למזהה תקין עם הקידומת `openai/`, מועתק מדף המודלים של {appName}."
     },
     "HERMES": {
@@ -1953,7 +1953,7 @@
       "STEP_3_DESC": "שמרו את מפתח ה-API של {appName} כ-`OPENAI_API_KEY` בקובץ `~/.hermes/.env`.",
       "STEP_4_TITLE": "הריצו את Hermes",
       "STEP_4_DESC": "הפעילו את ה-TUI עם `hermes --tui`.",
-      "TS_1_DESC": "Hermes דוחה בהפעלה מודלים עם פחות מ-64,000 טוקנים של הקשר. בחרו מודל עם הקשר גדול יותר מדף המודלים של {appName}.",
+      "TS_1_DESC": "אם הגדרתם דגם נפרד לסיכומים, העניקו לו חלון הקשר גדול לפחות כמו זה של הדגם הראשי.",
       "TS_2_DESC": "אם בדיקת `/v1/models` בהפעלה נכשלת, ודאו ש-`model.base_url` מסתיים ב-`/v1` ושה-`OPENAI_API_KEY` מוגדר ב-`~/.hermes/.env`."
     },
     "MCP": {
@@ -2000,7 +2000,7 @@
       "QUICK_CONFIG_MODEL_LABEL": "מודל",
       "QUICK_CONFIG_NOTE": "הדביקו את כתובת הבסיס בלבד. SillyTavern מוסיף `/chat/completions` בעצמו. הוספה ידנית מחזירה שגיאת 400.",
       "STEPS": "הגדרה שלב אחר שלב",
-      "STEP_1_TITLE": "פתחו את תצורת תגובת AI",
+      "STEP_1_TITLE": "פתחו את API Connections",
       "STEP_1_DESC": "לחצו על סמל התקע למעלה כדי לפתוח את פאנל API Connections.",
       "STEP_2_TITLE": "בחרו Chat Completion",
       "STEP_2_DESC": "הגדירו את סוג ה-API ל-Chat Completion.",
@@ -2040,7 +2040,7 @@
       "TOC_MODELS_DROPDOWN": "התנהגות תפריט המודלים",
       "TOC_TROUBLESHOOTING": "פתרון בעיות",
       "GOTCHA_1": "הדביקו רק את כתובת הבסיס המסתיימת ב-`/v1`. SillyTavern מוסיף `/chat/completions` בעצמו; הוספה שלו מחזירה שגיאת 400.",
-      "GOTCHA_2": "תפריט מודלים ריק פירושו שהחיבור נכשל. בדקו שוב את כתובת הבסיס, ואז הפעילו את Bypass API Status Check.",
+      "GOTCHA_2": "רשימת דגמים ריקה פירושה שהחיבור נכשל. בדקו שוב את כתובת הבסיס, ולאחר מכן הפעילו את Bypass API status check.",
       "GOTCHA_3": "שגיאת 401 פירושה שהמפתח פג או הוקלד שגוי. צרו מפתח חדש בלוח הבקרה של {appName} והדביקו אותו ללא רווחים בהתחלה או בסוף.",
       "GOTCHA_4": "אם ההזרמה נקטעת באמצע משפט, כבו את Streaming כדי לאשר את הסיבה, ואז הפעילו מחדש. גם פרוקסי ארגוני שמסיר את הקידומת `data:` שובר זאת."
     },
@@ -2143,13 +2143,13 @@
       "STEP_2_TITLE": "בחרו חריץ מודל",
       "STEP_2_DESC": "לחצו על בורר מודל ה-Chat Bot, גללו לתחתית ובחרו Custom Models.",
       "STEP_3_TITLE": "בטלו את Autofill Request URL",
-      "STEP_3_DESC": "המתג הזה חייב להיות כבוי לפני שתדביקו משהו. ראו את האזהרה למעלה.",
-      "STEP_4_TITLE": "הדביקו את ה-Request URL",
-      "STEP_4_DESC": "הדביקו את ה-URL המלא המסתיים ב-`/v1/chat/completions`.",
+      "STEP_3_DESC": "אתרו את Autofill Request URL ברשימת Advanced Settings וכבו אותו לפני שתדביקו משהו. ראו את האזהרה שלמעלה.",
+      "STEP_4_TITLE": "הדביקו את הכתובת",
+      "STEP_4_DESC": "הדביקו בשדה URL את הכתובת המלאה שמסתיימת ב-`/v1/chat/completions`, והגדירו את Format לערך OpenAICompatible.",
       "STEP_5_TITLE": "הדביקו את מפתח ה-API",
-      "STEP_5_DESC": "הדביקו את מפתח ה-API של {appName} בשדה API Key. בחלק מהגרסאות הוא מסומן כ-Authorization; השתמשו בשדה הזה אם API Key חסר.",
-      "STEP_6_TITLE": "הדביקו את ה-Model ID",
-      "STEP_6_DESC": "הדביקו את שם המודל המדויק מדף המודלים של {appName}.",
+      "STEP_5_DESC": "הדביקו את מפתח ה-API שלכם מ-{appName} בשדה Key/Password.",
+      "STEP_6_TITLE": "מילוי השדה Request Model",
+      "STEP_6_DESC": "הזינו בשדה Request Model את שם הדגם המדויק כפי שהוא מופיע בעמוד הדגמים של {appName}.",
       "STEP_7_TITLE": "שמרו",
       "STEP_7_DESC": "סגרו את פאנל ההגדרות. RisuAI כותב את התצורה לאחסון המקומי.",
       "STEP_8_TITLE": "שלחו הודעת בדיקה",
@@ -2164,7 +2164,7 @@
       "TS_2_TITLE": "עבד קודם, אין תגובה עכשיו.",
       "TS_2_DESC": "עדכון של RisuAI יכול להפעיל מחדש את Autofill Request URL בשקט. פתחו את Custom Models וודאו שהיא כבויה.",
       "TS_3_TITLE": "401 Unauthorized.",
-      "TS_3_DESC": "חלק מגרסאות RisuAI חושפות גם API Key וגם Authorization, ורק אחד מהם נקרא בכל גרסה. העבירו את המפתח שלכם לשדה השני.",
+      "TS_3_DESC": "ודאו שהמפתח נמצא בשדה Key/Password ושאין בו רווחים בהתחלה או בסוף.",
       "TS_4_TITLE": "מודל לא נמצא.",
       "TS_4_DESC": "השדה Model ID חייב להתאים במדויק לשם מודל. העתיקו והדביקו אותו מדף המודלים של {appName}.",
       "TS_5_TITLE": "תכונת תרגום או סיכום שבורה.",
@@ -2185,8 +2185,8 @@
       "TOC_AUX_MODEL": "הגדירו את המודל המשני",
       "TOC_TROUBLESHOOTING": "פתרון בעיות",
       "GOTCHA_1": "בטלו את הסימון של Autofill Request URL לפני שתדביקו משהו. כשהוא פעיל, RisuAI כותב את הכתובת שלכם מחדש לברירת המחדל שלו ושובר את החיבור בשקט.",
-      "GOTCHA_2": "עדכון של RisuAI יכול להפעיל מחדש את Autofill Request URL מעצמו. אם הגדרה שעבדה מפסיקה להגיב, פתחו שוב את Custom Models וודאו שהמתג כבוי.",
-      "GOTCHA_3": "חלק מגרסאות RisuAI חושפות גם שדה API Key וגם שדה Authorization, ורק אחד מהם נקרא בכל גרסה. בשגיאת 401, העבירו את המפתח לשדה השני.",
+      "GOTCHA_2": "‏Autofill Request URL הוא מתג גלובלי ב-Advanced Settings, ולכן הוא חל על כל משבצת של דגם מותאם אישית. אם הגדרה שעבדה מפסיקה להגיב, בדקו אותו שם.",
+      "GOTCHA_3": "המפתח מוזן בשדה Key/Password. כדי לשלוח במקום זאת כותרת נוספת, השתמשו ב-Additional Parameters עם התחביר header::Authorization.",
       "GOTCHA_4": "ל-Custom Models אין תפריט מודלים נפתח. העתיקו והדביקו את שם המודל המדויק מדף המודלים של {appName} במקום להקליד אותו מחדש."
     },
     "CHUB": {
@@ -2293,9 +2293,9 @@
       "SUBTITLE": "חברו את {appName} אל Open WebUI כחיבור OpenAI מובנה.",
       "OVERVIEW_DESC": "מנהלי Open WebUI יכולים להוסיף כמה חיבורים תואמי OpenAI. הוסיפו את {appName} ובורר המודלים יתמלא מהקטלוג.",
       "STEP_1_TITLE": "פתחו את לוח הניהול",
-      "STEP_1_DESC": "התחברו כמנהל, פתחו Admin Panel, Settings, ואז Connections.",
+      "STEP_1_DESC": "היכנסו כמנהל, ולאחר מכן פתחו את Settings, ‏Admin, ‏Connections.",
       "STEP_2_TITLE": "הוסיפו חיבור OpenAI חדש",
-      "STEP_2_DESC": "תחת OpenAI API, לחצו + כדי להוסיף חיבור.",
+      "STEP_2_DESC": "תחת Manage OpenAI API Connections, לחצו על Add Connection.",
       "STEP_3_TITLE": "מלאו את החיבור",
       "STEP_3_DESC": "הזינו את כתובת ה URL הבסיסית ואת מפתח ה API של {appName}.",
       "STEP_4_TITLE": "שמרו ובחרו מודל",
@@ -2335,10 +2335,10 @@
       "STEP_1_TITLE": "פתחו את LLM Preference",
       "STEP_1_DESC": "פתחו Settings בסרגל הצד, ואז LLM Preference.",
       "STEP_2_TITLE": "בחרו Generic OpenAI",
-      "STEP_2_DESC": "הגדירו את LLM Provider ל-Generic OpenAI ומלאו את הטופס.",
+      "STEP_2_DESC": "הגדירו את LLM Provider לערך Generic OpenAI ומלאו את הטופס. ברירת המחדל של Max Tokens היא 1024 והיא מגבילה כל תשובה, לכן העלו אותה.",
       "STEP_3_TITLE": "שמרו",
       "STEP_3_DESC": "שמרו. AnythingLLM משתמש ב-{appName} עבור סביבות עבודה של שיחות.",
-      "TS_1_DESC": "Generic OpenAI לא מושך את הקטלוג. הקלידו את שם המודל ואת חלון ההקשר ידנית.",
+      "TS_1_DESC": "לאחר הגדרת Base URL ו-API Key, ‏Generic OpenAI מושך את קטלוג הדגמים. אם המשיכה נכשלת, השדה הופך לתיבת טקסט, ואז יש להקליד את מזהה הדגם ידנית.",
       "TS_2_DESC": "Embedding Preference הוא לשונית נפרדת. השאירו אותה על ספק הטמעות שעובד, אלא אם {appName} חושף הטמעות בתוכנית שלכם."
     },
     "CHERRY_STUDIO": {
@@ -2352,12 +2352,12 @@
       "SUBTITLE": "חברו את {appName} אל Cherry Studio כספק OpenAI.",
       "OVERVIEW_DESC": "Cherry Studio תומך בספקים רבים בממשק אחד. הוסיפו את {appName} כספק OpenAI וטענו מודלים כרשומות נפרדות.",
       "STEP_1_TITLE": "פתחו את Model Provider",
-      "STEP_1_DESC": "עברו אל Settings, Model Provider, ואז Add Provider.",
+      "STEP_1_DESC": "עברו אל Settings, לאחר מכן Model Services ואז + Add Provider.",
       "STEP_2_TITLE": "בחרו OpenAI",
       "STEP_2_DESC": "הגדירו את סוג הספק ל-OpenAI. מלאו שם, מארח ומפתח.",
       "STEP_3_TITLE": "הוסיפו מודלים",
       "STEP_3_DESC": "לחצו Manage תחת Models ואז Add Model. הדביקו את מזהי המודלים של {appName}, אחד בכל שורה.",
-      "TS_1_DESC": "השתמשו בסוג הספק OpenAI וכללו בעצמכם ‎/v1 במארח. סוגים אחרים מוסיפים נתיב משלהם.",
+      "TS_1_DESC": "‏Cherry Studio מוסיף בעצמו את נתיב הגרסה, לכן הזינו את המארח בלי /v1. כדי לשלוח כתובת בדיוק כפי שהיא, הקלידו את הכתובת המלאה וסיימו אותה בסימן #.",
       "TS_2_DESC": "כפתור Test של Cherry שולח בדיקה של טוקן אחד אל chat completions. סיום בשל אורך במודלי היסק עדיין מאשר את האימות."
     },
     "TYPINGMIND": {
@@ -2372,10 +2372,10 @@
       "OVERVIEW_DESC": "TypingMind מקבל כל נקודת קצה תואמת OpenAI כמודל מותאם. הוסיפו את {appName} כדי להשתמש בכל מודל בקטלוג.",
       "STEP_1_TITLE": "פתחו את Models",
       "STEP_1_DESC": "לחצו על סמל גלגל השיניים, עברו ל Models ואז Add Custom Models.",
-      "STEP_2_TITLE": "בחרו OpenAI כסוג ה API",
-      "STEP_2_DESC": "TypingMind משתמש בסכמת OpenAI Chat Completions עבור נקודות קצה מותאמות.",
+      "STEP_2_TITLE": "הוספת דגם מותאם אישית",
+      "STEP_2_DESC": "‏TypingMind משתמש בסכמה של OpenAI Chat Completions עבור נקודות קצה מותאמות אישית.",
       "STEP_3_TITLE": "מלאו את נקודת הקצה",
-      "STEP_3_DESC": "הזינו את כתובת ה URL הבסיסית, את מפתח ה API של {appName} ומזהה מודל.",
+      "STEP_3_DESC": "הזינו את כתובת chat completions המלאה ומזהה דגם. לדגמים מותאמים אישית אין שדה למפתח API: הוסיפו את המפתח תחת Add Custom Headers ככותרת Authorization.",
       "STEP_4_TITLE": "בדקו והוסיפו",
       "STEP_4_DESC": "הפעילו את Plugins או Vision רק אם המודל תומך בהם. לחצו Test, ואז Add Model.",
       "TS_1_DESC": "Plugins (קריאה לפונקציות) דורש מודל עם תמיכת כלים מובנית.",
@@ -2394,7 +2394,7 @@
       "STEP_1_TITLE": "פתחו את הגדרות Models",
       "STEP_1_DESC": "פתחו את הגדרות BoltAI, עברו אל Models, לחצו +, ואז OpenAI-compatible Server.",
       "STEP_2_TITLE": "מלאו את השרת",
-      "STEP_2_DESC": "הזינו את השם, כתובת ה URL הבסיסית, המפתח, מזהה המודל ואורך ההקשר.",
+      "STEP_2_DESC": "הזינו את השם, את כתובת chat completions המלאה, את המפתח, את מזהה הדגם ואת אורך ההקשר.",
       "STEP_3_TITLE": "הפעילו סטרימינג",
       "STEP_3_DESC": "הפעילו את Streaming כדי לראות טוקנים ברגע שהם מגיעים.",
       "TS_1_DESC": "המחבר הזה לא מושך את רשימת המודלים. כל מודל של {appName} הוא רשומה ידנית אחת.",
@@ -2432,7 +2432,7 @@
       "SUBTITLE": "חברו את {appName} אל Chatbox במצב OpenAI API Compatible.",
       "OVERVIEW_DESC": "Chatbox תומך בכל בסיס תואם OpenAI. השתמשו במצב OpenAI API Compatible ופצלו את כתובת ה URL ל Host ו Path.",
       "STEP_1_TITLE": "פתחו את Add Custom Provider",
-      "STEP_1_DESC": "עברו אל Settings, Display, AI Provider, ואז Add Custom Provider.",
+      "STEP_1_DESC": "עברו אל Settings, לאחר מכן Model Provider ואז Add.",
       "STEP_2_TITLE": "בחרו את מצב OpenAI API Compatible",
       "STEP_2_DESC": "אל תבחרו באפשרות Responses API אלא אם אתם רוצים את מסלול Responses.",
       "STEP_3_TITLE": "פצלו host ו path",
@@ -2458,8 +2458,8 @@
       "STEP_2_DESC": "הזינו את מפתח ה API של {appName} ואת נקודת הקצה של ה API.",
       "STEP_3_TITLE": "רעננו את המודלים",
       "STEP_3_DESC": "לחצו Models כדי לרענן את הרשימה. Big-AGI מושך את קטלוג {appName}.",
-      "TS_1_DESC": "השאירו את Helicone Key ריק. הוא מאלץ את המארח לדומיין אחר.",
-      "TS_2_DESC": "כבו את המתג Moderation. ל-{appName} אין נקודת קצה של מודרציה."
+      "TS_1_DESC": "אם הגדרה ישנה של Big-AGI השאירה מארח Helicone, מחקו אותו. הגרסאות הנוכחיות מסירות אותו אוטומטית.",
+      "TS_2_DESC": "‏Big-AGI מושך את רשימת הדגמים מנקודת הקצה, ולכן מפתח בעל הרשאות רחבות ימלא את הבורר בכל הקטלוג של {appName}."
     },
     "OPENCODE": {
       "META": {
@@ -2499,7 +2499,7 @@
       "STEP_2_TITLE": "פתחו הגדרות",
       "STEP_2_DESC": "לחצו על סמל Kilo Code בסרגל הצד, ואז על סמל גלגל השיניים בפינה הימנית העליונה.",
       "STEP_3_TITLE": "הוסיפו ספק מותאם",
-      "STEP_3_DESC": "פתחו את Providers, לחצו + Connect ליד Custom Provider ומלאו את הטופס.",
+      "STEP_3_DESC": "גללו לתחתית רשימת הספקים ולחצו על Custom provider.",
       "STEP_4_TITLE": "מלאו את טופס החיבור",
       "STEP_4_DESC": "השתמשו בערכים האלה. שדה המודל מקבל כל מזהה מקטלוג {appName}.",
       "STEP_5_TITLE": "שמרו ושוחחו",
@@ -2526,8 +2526,8 @@
       "STEP_3_DESC": "בחרו באפשרות התואמת OpenAI והשתמשו בערכים האלה.",
       "STEP_4_TITLE": "בחרו מודל",
       "STEP_4_DESC": "בחרו את ספק {appName} שלכם בבורר המודלים ובחרו מודל.",
-      "GOTCHA_1": "מזהה הספק חייב להיות אותיות קטנות, ספרות, מקפים או קווים תחתונים.",
-      "GOTCHA_2": "שדה מפתח ה-API הוא אופציונלי כי חלק מהמשתמשים מאמתים דרך כותרות. עבור {appName}, הדביקו את המפתח האמיתי שלכם."
+      "GOTCHA_1": "כל דגם ב-available_models זקוק ל-name ול-max_tokens. הטופס Add Provider של Zed מבקש בנוסף גם את חלון ההקשר.",
+      "GOTCHA_2": "‏Zed שומר את מפתח ה-API במחזיק המפתחות שלו, ולא בקובץ settings.json. הוסיפו את הספק דרך Agent Settings והשאירו את המפתח מחוץ לקובץ."
     },
     "CLINE": {
       "META": {
@@ -2547,7 +2547,7 @@
       "STEP_3_DESC": "תחת API Provider בחרו OpenAI Compatible.",
       "STEP_4_TITLE": "מלאו את החיבור",
       "STEP_4_DESC": "השתמשו בערכים האלה. השדה Model ID מקבל כל מודל של {appName}.",
-      "GOTCHA_1": "ל-Cline יש מצב Responses-API למודלים חדשים יותר. ב-chat completions הוא נופל חזרה לעטיפת כלים ב-XML, שיכולה לחזור על קריאות לכלים. השתמשו במודלים מסוג chat ליציבות.",
+      "GOTCHA_1": "הספק OpenAI Compatible של Cline קורא רק ל-chat completions. אין אפשרות של Responses API לבחירה.",
       "GOTCHA_2": "בחרו מודל עם קריאת כלים מובנית כדי ש-Cline יוכל להריץ shell ועריכת קבצים באמינות."
     },
     "ROO_CODE": {
@@ -2569,7 +2569,7 @@
       "STEP_4_TITLE": "מלאו את החיבור",
       "STEP_4_DESC": "השתמשו בערכים האלה. בורר המודלים יכול גם להתמלא אחרי הקריאה הראשונה.",
       "GOTCHA_1": "ההגדרה Codebase Indexing > Embedder Provider נפרדת מהצ'אט. הגדירו את ספק הצ'אט הרצוי לכם.",
-      "GOTCHA_2": "חלק מתפקידי הסוכן של Roo שולחים יותר בקשות מהצפוי. עקבו אחרי מגבלת הקצב שלכם ב-{appName}."
+      "GOTCHA_2": "‏Roo Code מחייב קריאת כלים מובנית. דגם שאין לו יכולת כזו אינו שמיש, לכן בדקו את הקטלוג לפני מעבר."
     },
     "CONTINUE_DEV": {
       "META": {
@@ -2588,7 +2588,7 @@
       "STEP_3_TITLE": "שמרו וטענו מחדש",
       "STEP_3_DESC": "Continue טוען מחדש את ההגדרה בזמן ריצה. בחרו {appName} מבורר המודלים בתחתית הלוח.",
       "GOTCHA_1": "השתמשו ב-config.yaml ולא ב-config.json הישן.",
-      "GOTCHA_2": "אם מודל דוחה פרמטרים נוספים, הגדירו requestOptions.dropParams: ['frequency_penalty','presence_penalty'] ברשומה הזו."
+      "GOTCHA_2": "‏requestOptions מקבל רק מפתחות מתועדים כגון headers ו-extraBodyProperties. מפתח לא מוכר מכשיל את האימות במקום להיות מתעלם ממנו."
     },
     "AIDER": {
       "META": {
