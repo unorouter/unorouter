@@ -2,16 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { Input } from "@/components/ui/input";
 import { useVerify2FAMutation } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
@@ -55,12 +49,21 @@ export function TwoFAForm(props: TwoFAFormProps) {
     }
   }
 
+  // Plain input on purpose: the segmented input-otp widget paints an invisible
+  // input under decorative slots, and password managers cannot fill it
+  // (guilhermerodz/input-otp#92, open, no upstream fix). Extensions fill a real
+  // visible input reliably.
+  function handleChange(raw: string) {
+    const digits = raw.replace(/\D/g, "").slice(0, 6);
+    setCode(digits);
+    if (digits.length === 6) void onSubmit(digits);
+  }
+
   return (
     <GlassAuthCard
       title={t("AUTH.TWO_FA.TITLE")}
       description={t("AUTH.TWO_FA.DESCRIPTION")}
     >
-      {/* Password managers scope "fill verification code" to a form ancestor; without one the fill is a no-op. */}
       <form
         className="space-y-6"
         onSubmit={(e) => {
@@ -69,29 +72,20 @@ export function TwoFAForm(props: TwoFAFormProps) {
         }}
       >
         <div className="flex justify-center">
-          <InputOTP
+          <Input
+            name="otp"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
             maxLength={6}
-            pattern={REGEXP_ONLY_DIGITS}
             value={code}
-            onChange={setCode}
-            onComplete={onSubmit}
+            onChange={(e) => handleChange(e.target.value)}
             disabled={verify2FA.isPending}
             autoFocus
-            name="otp"
-            autoComplete="one-time-code"
-          >
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
+            placeholder="000000"
+            aria-label={t("AUTH.TWO_FA.TITLE")}
+            className="h-14 max-w-56 text-center font-mono text-2xl tracking-[0.6em]"
+          />
         </div>
 
         {verify2FA.error && (
