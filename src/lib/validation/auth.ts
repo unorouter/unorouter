@@ -63,26 +63,32 @@ export const authRequestInfoChecker = TypeCompiler.Compile(
 export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;
 
 // access_expires_at is unix SECONDS.
+// data must admit null: gin marshals the error envelope as {"success":false,
+// "message":"...","data":null}, and an Optional-only field rejects that body,
+// which made handleAuthResponse return undefined and a wrong password "log in".
 export const authResponseSchema = t.Object(
   {
     success: t.Optional(t.Boolean()),
     message: t.Optional(t.String()),
     data: t.Optional(
-      t.Object(
-        {
-          access_token: t.Optional(t.String()),
-          access_expires_at: t.Optional(t.Number()),
-          user: t.Optional(
-            t.Object(
-              { id: t.Optional(t.Union([t.String(), t.Number()])) },
-              { additionalProperties: true },
+      t.Union([
+        t.Null(),
+        t.Object(
+          {
+            access_token: t.Optional(t.String()),
+            access_expires_at: t.Optional(t.Number()),
+            user: t.Optional(
+              t.Object(
+                { id: t.Optional(t.Union([t.String(), t.Number()])) },
+                { additionalProperties: true },
+              ),
             ),
-          ),
-          require_2fa: t.Optional(t.Boolean()),
-          flow_token: t.Optional(t.String()),
-        },
-        { additionalProperties: true },
-      ),
+            require_2fa: t.Optional(t.Boolean()),
+            flow_token: t.Optional(t.String()),
+          },
+          { additionalProperties: true },
+        ),
+      ]),
     ),
   },
   { additionalProperties: true },
