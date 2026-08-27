@@ -3976,6 +3976,8 @@
       "DISPLAY": "Tampilan",
       "DUPLICATE": "Duplikat chat",
       "DUPLICATE_SUCCESS": "Sohbet diduplikasi",
+      "COPY_CHAT": "Salin obrolan",
+      "COPY_CHAT_SUCCESS": "Percakapan disalin",
       "EXPORT_FAILED": "Ekspor gagal",
       "EXPORT_NATIVE": "Ekspor (native)",
       "EXPORT_ORPG": "Ekspor (OpenRouter)",

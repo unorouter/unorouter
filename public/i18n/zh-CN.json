@@ -3976,6 +3976,8 @@
       "DISPLAY": "显示",
       "DUPLICATE": "复制对话",
       "DUPLICATE_SUCCESS": "对话已复制",
+      "COPY_CHAT": "复制对话",
+      "COPY_CHAT_SUCCESS": "已复制对话",
       "EXPORT_FAILED": "导出失败",
       "EXPORT_NATIVE": "导出（原生）",
       "EXPORT_ORPG": "导出（OpenRouter）",

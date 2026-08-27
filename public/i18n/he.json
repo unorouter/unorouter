@@ -3976,6 +3976,8 @@
       "DISPLAY": "תצוגה",
       "DUPLICATE": "שכפל צ'אט",
       "DUPLICATE_SUCCESS": "השיחה שוכפלה",
+      "COPY_CHAT": "העתקת הצ'אט",
+      "COPY_CHAT_SUCCESS": "השיחה הועתקה",
       "EXPORT_FAILED": "הייצוא נכשל",
       "EXPORT_NATIVE": "ייצוא (מובנה)",
       "EXPORT_ORPG": "ייצוא (OpenRouter)",

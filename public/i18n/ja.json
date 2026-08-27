@@ -3976,6 +3976,8 @@
       "DISPLAY": "表示",
       "DUPLICATE": "チャットを複製",
       "DUPLICATE_SUCCESS": "会話を複製しました",
+      "COPY_CHAT": "チャットをコピー",
+      "COPY_CHAT_SUCCESS": "会話をコピーしました",
       "EXPORT_FAILED": "エクスポートに失敗しました",
       "EXPORT_NATIVE": "エクスポート (ネイティブ)",
       "EXPORT_ORPG": "エクスポート (OpenRouter)",

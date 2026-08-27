@@ -14,6 +14,7 @@ import {
   useDuplicateConversationMutation,
 } from "@/hooks/ai/chat-hook";
 import { analytics } from "@/lib/analytics";
+import { copyToClipboardAsync } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -38,6 +39,20 @@ export function ToolsSubmenu(props: Props) {
     analytics.chat.conversationDuplicated();
     aui.threads().switchToThread(data.id);
     toast.success(t("CHAT.MORE.DUPLICATE_SUCCESS"));
+  };
+
+  // Passed as a promise rather than awaited first: Safari only honours a
+  // clipboard write started in the same tick as the click.
+  const handleCopyChat = () => {
+    if (!props.convId) return;
+    const convId = props.convId;
+    copyToClipboardAsync(async () => {
+      const { readActiveBranchTranscript } =
+        await import("@/lib/db/client/data/chat/chat");
+      return readActiveBranchTranscript(convId);
+    })
+      .then(() => toast.success(t("CHAT.MORE.COPY_CHAT_SUCCESS")))
+      .catch((e) => toast.error(String(e)));
   };
 
   const handleClear = async () => {
@@ -69,6 +84,10 @@ export function ToolsSubmenu(props: Props) {
         >
           <Icon name="copy" className="size-4" />
           {t("CHAT.MORE.DUPLICATE")}
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={!hasConv} onClick={handleCopyChat}>
+          <Icon name="clipboard-copy" className="size-4" />
+          {t("CHAT.MORE.COPY_CHAT")}
         </DropdownMenuItem>
         <ImportExportSubmenu convId={props.convId} />
         <DatabaseSubmenu />

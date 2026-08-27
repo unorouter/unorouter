@@ -3976,6 +3976,8 @@
       "DISPLAY": "표시",
       "DUPLICATE": "채팅 복제",
       "DUPLICATE_SUCCESS": "대화 복제됨",
+      "COPY_CHAT": "채팅 복사",
+      "COPY_CHAT_SUCCESS": "대화를 복사했습니다",
       "EXPORT_FAILED": "내보내기 실패",
       "EXPORT_NATIVE": "내보내기 (네이티브)",
       "EXPORT_ORPG": "내보내기 (OpenRouter)",

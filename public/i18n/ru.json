@@ -3976,6 +3976,8 @@
       "DISPLAY": "Отображение",
       "DUPLICATE": "Дублировать чат",
       "DUPLICATE_SUCCESS": "Беседа продублирована",
+      "COPY_CHAT": "Копировать чат",
+      "COPY_CHAT_SUCCESS": "Разговор скопирован",
       "EXPORT_FAILED": "Не удалось экспортировать",
       "EXPORT_NATIVE": "Экспорт (нативный)",
       "EXPORT_ORPG": "Экспорт (OpenRouter)",
