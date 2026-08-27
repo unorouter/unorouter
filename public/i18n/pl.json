@@ -3976,6 +3976,8 @@
       "DISPLAY": "Wyświetlanie",
       "DUPLICATE": "Duplikuj chat",
       "DUPLICATE_SUCCESS": "Rozmowa zduplikowana",
+      "COPY_CHAT": "Kopiuj czat",
+      "COPY_CHAT_SUCCESS": "Skopiowano rozmowę",
       "EXPORT_FAILED": "Eksport nie powiódł się",
       "EXPORT_NATIVE": "Eksportuj (natywny)",
       "EXPORT_ORPG": "Eksportuj (OpenRouter)",

@@ -1033,6 +1033,16 @@ const UserActionBar: FC = () => {
       autohide={useIsMobile() ? undefined : "not-last"}
       className="aui-user-action-bar-root text-muted-foreground flex gap-1"
     >
+      <ActionBarPrimitive.Copy asChild>
+        <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
+          <AuiIf condition={(s) => s.message.isCopied}>
+            <Icon name="check" />
+          </AuiIf>
+          <AuiIf condition={(s) => !s.message.isCopied}>
+            <Icon name="copy" />
+          </AuiIf>
+        </TooltipIconButton>
+      </ActionBarPrimitive.Copy>
       {beginEdit && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />

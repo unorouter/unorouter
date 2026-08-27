@@ -3976,6 +3976,8 @@
       "DISPLAY": "प्रदर्शन",
       "DUPLICATE": "Chat duplicate करें",
       "DUPLICATE_SUCCESS": "बातचीत duplicated",
+      "COPY_CHAT": "चैट कॉपी करें",
+      "COPY_CHAT_SUCCESS": "बातचीत कॉपी हो गई",
       "EXPORT_FAILED": "Export विफल",
       "EXPORT_NATIVE": "Export (native)",
       "EXPORT_ORPG": "Export (OpenRouter)",

@@ -3976,6 +3976,8 @@
       "DISPLAY": "Görünüm",
       "DUPLICATE": "Sohbeti çoğalt",
       "DUPLICATE_SUCCESS": "Sohbet çoğaltıldı",
+      "COPY_CHAT": "Sohbeti kopyala",
+      "COPY_CHAT_SUCCESS": "Konuşma kopyalandı",
       "EXPORT_FAILED": "Dışa aktarma başarısız",
       "EXPORT_NATIVE": "Dışa Aktar (yerel)",
       "EXPORT_ORPG": "Dışa Aktar (OpenRouter)",

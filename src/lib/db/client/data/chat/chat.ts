@@ -146,6 +146,25 @@ export async function readActiveBranchParts(convId: string) {
   }));
 }
 
+// The visible conversation as plain text: active branch only, and only the
+// parts a reader sees. Reasoning, tool calls and media are left out, since the
+// point is to paste the conversation somewhere, not to reproduce the request.
+export async function readActiveBranchTranscript(
+  convId: string,
+): Promise<string> {
+  const branch = await readActiveBranchParts(convId);
+  return branch
+    .map((m) => {
+      const text = m.parts
+        .flatMap((p) => (p.type === "text" ? [p.text] : []))
+        .join("\n\n")
+        .trim();
+      return text ? `${m.role === "user" ? "User" : "Assistant"}:\n${text}` : "";
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
 export async function readConvHistoryForSend(convId: string) {
   const joined = await readJoinedMessages(convId);
   return {

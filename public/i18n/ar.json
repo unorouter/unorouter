@@ -3976,6 +3976,8 @@
       "DISPLAY": "العرض",
       "DUPLICATE": "تكرار الدردشة",
       "DUPLICATE_SUCCESS": "تمّ تكرار المحادثة",
+      "COPY_CHAT": "نسخ المحادثة",
+      "COPY_CHAT_SUCCESS": "تم نسخ المحادثة",
       "EXPORT_FAILED": "فشل التصدير",
       "EXPORT_NATIVE": "تصدير (أصلي)",
       "EXPORT_ORPG": "تصدير (OpenRouter)",
