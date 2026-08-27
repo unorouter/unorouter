@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "`codex` im Projektverzeichnis ausführen.",
       "TS_1_DESC": "Bei einem Fehler wegen nicht unterstütztem Endpunkt prüfen, ob `wire_api` auf `responses` steht und die Basis-URL auf `/v1` endet.",
       "TS_2_DESC": "Sind die Anfragen nicht authentifiziert, prüfen Sie, ob env_key eine Variable benennt, die in der Shell, in der codex läuft, auch tatsächlich exportiert ist.",
-      "TS_3_DESC": "Die reservierte ID openai lässt sich für einen eigenen Provider nicht wiederverwenden. Jede andere ID funktioniert, sowohl in [model_providers.<id>] als auch in model_provider."
+      "TS_3_DESC": "Die reservierte ID openai lässt sich für einen eigenen Provider nicht wiederverwenden. Jede andere ID funktioniert, sowohl in model_providers als auch in model_provider."
     },
     "GEMINI_CLI": {
       "META": {

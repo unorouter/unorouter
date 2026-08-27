@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Jalankan `codex` di direktori proyek Anda.",
       "TS_1_DESC": "Jika muncul error endpoint tidak didukung, pastikan `wire_api` bernilai `responses` dan base URL diakhiri `/v1`.",
       "TS_2_DESC": "Jika permintaan tidak terautentikasi, periksa apakah env_key menunjuk variabel yang benar-benar diekspor di shell tempat codex berjalan.",
-      "TS_3_DESC": "Anda tidak bisa memakai ulang id khusus openai untuk penyedia kustom. Id lain apa pun bisa dipakai, baik di [model_providers.<id>] maupun di model_provider."
+      "TS_3_DESC": "Anda tidak bisa memakai ulang id khusus openai untuk penyedia kustom. Id lain apa pun bisa dipakai, baik di model_providers maupun di model_provider."
     },
     "GEMINI_CLI": {
       "META": {

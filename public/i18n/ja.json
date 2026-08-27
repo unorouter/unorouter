@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "プロジェクトディレクトリで `codex` を実行します。",
       "TS_1_DESC": "未対応エンドポイントのエラーが出たら、`wire_api` が `responses` であること、ベースURLが `/v1` で終わることを確認します。",
       "TS_2_DESC": "リクエストが未認証になる場合は、env_key が指す変数が codex を実行しているシェルで実際に export されているか確認してください。",
-      "TS_3_DESC": "予約済みの ID である openai をカスタムプロバイダーに再利用することはできません。[model_providers.<id>] でも model_provider でも、それ以外の ID なら使用できます。"
+      "TS_3_DESC": "予約済みの ID である openai をカスタムプロバイダーに再利用することはできません。model_providers でも model_provider でも、それ以外の ID なら使用できます。"
     },
     "GEMINI_CLI": {
       "META": {

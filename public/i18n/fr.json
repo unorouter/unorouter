@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Lancez `codex` dans le répertoire de votre projet.",
       "TS_1_DESC": "En cas d'erreur de point de terminaison non pris en charge, vérifiez que `wire_api` vaut `responses` et que l'URL de base se termine par `/v1`.",
       "TS_2_DESC": "Si les requêtes ne sont pas authentifiées, vérifiez que env_key désigne une variable réellement exportée dans le shell qui exécute codex.",
-      "TS_3_DESC": "Vous ne pouvez pas réutiliser l'identifiant réservé openai pour un fournisseur personnalisé. Tout autre identifiant fonctionne, aussi bien dans [model_providers.<id>] que dans model_provider."
+      "TS_3_DESC": "Vous ne pouvez pas réutiliser l'identifiant réservé openai pour un fournisseur personnalisé. Tout autre identifiant fonctionne, aussi bien dans model_providers que dans model_provider."
     },
     "GEMINI_CLI": {
       "META": {

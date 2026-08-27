@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "在專案目錄中執行 `codex`。",
       "TS_1_DESC": "出現端點不支援的錯誤時，請確認 `wire_api` 是 `responses`，且基礎網址以 `/v1` 結尾。",
       "TS_2_DESC": "如果請求處於未驗證狀態，請檢查 env_key 指定的變數在執行 codex 的 shell 中是否真的已經匯出。",
-      "TS_3_DESC": "你無法把保留 ID openai 重複用於自訂供應商。換成其他任意 ID 都可以，無論是在 [model_providers.<id>] 中還是在 model_provider 中。"
+      "TS_3_DESC": "你無法把保留 ID openai 重複用於自訂供應商。換成其他任意 ID 都可以，無論是在 model_providers 中還是在 model_provider 中。"
     },
     "GEMINI_CLI": {
       "META": {

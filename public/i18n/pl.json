@@ -1781,7 +1781,7 @@
       "STEP_4_DESC": "Uruchom `codex` w katalogu projektu.",
       "TS_1_DESC": "Przy błędzie nieobsługiwanego punktu końcowego sprawdź, czy `wire_api` ma wartość `responses`, a bazowy adres URL kończy się na `/v1`.",
       "TS_2_DESC": "Jeśli żądania są nieuwierzytelnione, sprawdź, czy env_key wskazuje zmienną faktycznie wyeksportowaną w powłoce, w której działa codex.",
-      "TS_3_DESC": "Nie możesz użyć zarezerwowanego identyfikatora openai dla własnego dostawcy. Każdy inny identyfikator zadziała, zarówno w [model_providers.<id>], jak i w model_provider."
+      "TS_3_DESC": "Nie możesz użyć zarezerwowanego identyfikatora openai dla własnego dostawcy. Każdy inny identyfikator zadziała, zarówno w model_providers, jak i w model_provider."
     },
     "GEMINI_CLI": {
       "META": {
