@@ -6,56 +6,71 @@ export type ChatDebugEntry = {
 
 const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
-// setItem is synchronous and scales with SERIALIZED size: a full 2000-entry
-// buffer (~400KB) parks the main thread for seconds per write.
 const MAX_PERSISTED_ENTRIES = 200;
 const SAVE_DEBOUNCE_MS = 1000;
-const STORAGE_KEY = "unorouter-chat-debug-log";
 
-let buffer: ChatDebugEntry[] | null = null;
-let saveTimer: ReturnType<typeof setTimeout> | null = null;
-let persistDisabled = false;
+// Each log is lazily read once (getItem + parse blocks, and the chat runtime
+// imports this module on every page load) then written on a debounce, because
+// setItem is synchronous and scales with SERIALIZED size: a full 2000-entry
+// buffer (~400KB) parks the main thread for seconds per write.
+function makeLog<T>(key: string, cap: number, persistCap = cap) {
+  let items: T[] | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let disabled = false;
 
-// Lazy, NOT at module init: load() is a blocking getItem + JSON.parse and the
-// chat runtime imports this module on every page load.
-function getBuffer(): ChatDebugEntry[] {
-  if (buffer === null) buffer = load();
-  return buffer;
-}
-
-function load(): ChatDebugEntry[] {
-  if (typeof localStorage === "undefined") return [];
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function save(): void {
-  if (
-    saveTimer !== null ||
-    persistDisabled ||
-    typeof localStorage === "undefined"
-  )
-    return;
-  saveTimer = setTimeout(() => {
-    saveTimer = null;
-    const entries = getBuffer();
-    const tail = entries.slice(-MAX_PERSISTED_ENTRIES);
+  const get = (): T[] => {
+    if (items !== null) return items;
+    items = [];
+    if (typeof localStorage === "undefined") return items;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tail));
-    } catch {
-      // Over quota or blocked: latch off, a sync write per second cannot land.
-      persistDisabled = true;
+      const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
+      if (Array.isArray(parsed)) items = parsed;
+    } catch {}
+    return items;
+  };
+
+  const save = (): void => {
+    if (timer !== null || disabled || typeof localStorage === "undefined")
+      return;
+    timer = setTimeout(() => {
+      timer = null;
       try {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+      } catch {
+        // Over quota or blocked: latch off, a sync write per second cannot land.
+        disabled = true;
+        try {
+          localStorage.removeItem(key);
+        } catch {}
+      }
+    }, SAVE_DEBOUNCE_MS);
+  };
+
+  return {
+    get,
+    save,
+    push(entry: T): void {
+      const all = get();
+      all.push(entry);
+      if (all.length > cap) all.splice(0, all.length - cap);
+      save();
+    },
+    clear(): void {
+      items = [];
+      disabled = false;
+      if (typeof localStorage === "undefined") return;
+      try {
+        localStorage.removeItem(key);
       } catch {}
-    }
-  }, SAVE_DEBOUNCE_MS);
+    },
+  };
 }
+
+const debugLog = makeLog<ChatDebugEntry>(
+  "unorouter-chat-debug-log",
+  MAX_ENTRIES,
+  MAX_PERSISTED_ENTRIES,
+);
 
 export function logChatDebug(
   event: string,
@@ -71,15 +86,11 @@ export function logChatDebug(
       entry = { ts: Date.now(), event, _unserializable: true };
     }
   }
-  const entries = getBuffer();
-  entries.push(entry);
-  if (entries.length > MAX_ENTRIES)
-    entries.splice(0, entries.length - MAX_ENTRIES);
-  save();
+  debugLog.push(entry);
 }
 
 export function getChatDebugLog(): ChatDebugEntry[] {
-  return getBuffer().slice();
+  return debugLog.get().slice();
 }
 
 export type TextFingerprint = {
@@ -161,37 +172,14 @@ export function fingerprintText(text: string): TextFingerprint {
 }
 
 const MAX_FAILED_CAPTURES = 3;
-const FAILED_STORAGE_KEY = "unorouter-failed-requests";
+const failedLog = makeLog<FailedRequestCapture>(
+  "unorouter-failed-requests",
+  MAX_FAILED_CAPTURES,
+);
 
 // In memory ONLY: written on every send, so persisting it would be a
 // localStorage write per turn.
 let pending: FailedRequestCapture | null = null;
-let failed: FailedRequestCapture[] | null = null;
-let failedSaveTimer: ReturnType<typeof setTimeout> | null = null;
-
-function getFailed(): FailedRequestCapture[] {
-  if (failed === null) {
-    failed = [];
-    if (typeof localStorage !== "undefined") {
-      try {
-        const raw = localStorage.getItem(FAILED_STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        if (Array.isArray(parsed)) failed = parsed;
-      } catch {}
-    }
-  }
-  return failed;
-}
-
-function saveFailed(): void {
-  if (failedSaveTimer !== null || typeof localStorage === "undefined") return;
-  failedSaveTimer = setTimeout(() => {
-    failedSaveTimer = null;
-    try {
-      localStorage.setItem(FAILED_STORAGE_KEY, JSON.stringify(getFailed()));
-    } catch {}
-  }, SAVE_DEBOUNCE_MS);
-}
 
 export function stashOutgoingRequest(capture: FailedRequestCapture): void {
   pending = capture;
@@ -204,26 +192,17 @@ export function captureFailedRequest(detail: {
   message?: string;
 }): void {
   if (!pending) return;
-  const entries = getFailed();
-  entries.push({ ...pending, ...detail });
+  failedLog.push({ ...pending, ...detail });
   pending = null;
-  if (entries.length > MAX_FAILED_CAPTURES)
-    entries.splice(0, entries.length - MAX_FAILED_CAPTURES);
-  saveFailed();
 }
 
 export function getFailedRequestCaptures(): FailedRequestCapture[] {
-  return getFailed().slice();
+  return failedLog.get().slice();
 }
 
 export function clearFailedRequestCaptures(): void {
-  failed = [];
+  failedLog.clear();
   pending = null;
-  if (typeof localStorage !== "undefined") {
-    try {
-      localStorage.removeItem(FAILED_STORAGE_KEY);
-    } catch {}
-  }
 }
 
 export type CaughtErrorEntry = {
@@ -253,34 +232,10 @@ export type CrashLoadout = {
 };
 
 const MAX_CAUGHT_ERRORS = 25;
-const ERRORS_STORAGE_KEY = "unorouter-caught-errors";
-
-let caught: CaughtErrorEntry[] | null = null;
-let caughtSaveTimer: ReturnType<typeof setTimeout> | null = null;
-
-function getCaught(): CaughtErrorEntry[] {
-  if (caught === null) {
-    if (typeof localStorage === "undefined") return (caught = []);
-    try {
-      const raw = localStorage.getItem(ERRORS_STORAGE_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      caught = Array.isArray(parsed) ? parsed : [];
-    } catch {
-      caught = [];
-    }
-  }
-  return caught;
-}
-
-function saveCaught(): void {
-  if (caughtSaveTimer !== null || typeof localStorage === "undefined") return;
-  caughtSaveTimer = setTimeout(() => {
-    caughtSaveTimer = null;
-    try {
-      localStorage.setItem(ERRORS_STORAGE_KEY, JSON.stringify(getCaught()));
-    } catch {}
-  }, SAVE_DEBOUNCE_MS);
-}
+const caughtLog = makeLog<CaughtErrorEntry>(
+  "unorouter-caught-errors",
+  MAX_CAUGHT_ERRORS,
+);
 
 const MAX_DETAIL_CHARS = 20_000;
 
@@ -295,19 +250,19 @@ export function captureCaughtError(detail: {
   const isError = err instanceof Error;
   const name = isError ? err.name : typeof err;
   const message = String(isError ? err.message : err).slice(0, 500);
-  const entries = getCaught();
+  const entries = caughtLog.get();
   const last = entries[entries.length - 1];
   if (last && last.source === detail.source && last.message === message) {
     last.count++;
     last.ts = Date.now();
-    saveCaught();
+    caughtLog.save();
     return;
   }
   for (const e of entries) {
     delete e.detail;
     delete e.loadout;
   }
-  entries.push({
+  caughtLog.push({
     ts: Date.now(),
     source: detail.source,
     name,
@@ -328,38 +283,24 @@ export function captureCaughtError(detail: {
       : {}),
     ...(detail.loadout ? { loadout: detail.loadout } : {}),
   });
-  if (entries.length > MAX_CAUGHT_ERRORS)
-    entries.splice(0, entries.length - MAX_CAUGHT_ERRORS);
-  saveCaught();
 }
 
 export function getCaughtErrors(): CaughtErrorEntry[] {
-  return getCaught().slice();
+  return caughtLog.get().slice();
 }
 
 export function attachCrashLoadout(loadout: CrashLoadout): void {
-  const entries = getCaught();
+  const entries = caughtLog.get();
   const last = entries[entries.length - 1];
   if (!last) return;
   last.loadout = loadout;
-  saveCaught();
+  caughtLog.save();
 }
 
 export function clearCaughtErrors(): void {
-  caught = [];
-  if (typeof localStorage !== "undefined") {
-    try {
-      localStorage.removeItem(ERRORS_STORAGE_KEY);
-    } catch {}
-  }
+  caughtLog.clear();
 }
 
 export function clearChatDebugLog(): void {
-  buffer = [];
-  persistDisabled = false;
-  if (typeof localStorage !== "undefined") {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {}
-  }
+  debugLog.clear();
 }
