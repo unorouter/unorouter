@@ -11,9 +11,7 @@ const upstreamApiUrl =
 // cluster INTERNAL_API_URL is the ClusterIP so the header reaches new-api and
 // carries real attribution; local dev is rewritten to the public hostname, where
 // forwarding it fails every request.
-const upstreamIsProxied = new URL(upstreamApiUrl).hostname.endsWith(
-  "unorouter.com",
-);
+const upstreamIsProxied = upstreamApiUrl === env.apiUrl;
 
 const REQUEST_TIMEOUT = 30_000;
 
