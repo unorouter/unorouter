@@ -4,16 +4,6 @@ export type StatusReportUpdateType =
   "investigating" | "identified" | "monitoring" | "resolved";
 
 export type ThemeValue = "light" | "dark" | "system";
-
-export interface Maintenance {
-  id: number;
-  title: string;
-  affected: string[];
-  message: string;
-  from: Date;
-  to: Date;
-}
-
 export type StatusBarData = {
   day: string;
   bar: {

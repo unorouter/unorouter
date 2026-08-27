@@ -11,14 +11,6 @@ export const verifyProviderValue = t.Union(
 );
 export type VerifyProviderValue = Static<typeof verifyProviderValue>;
 
-export const probeOutcome = t.Object({
-  label: t.String(),
-  pass: t.Boolean(),
-  signal: t.Union([t.String(), t.Null()]),
-  muxFailure: t.Boolean(),
-  transient: t.Boolean(),
-  latencyMs: t.Number(),
-});
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;

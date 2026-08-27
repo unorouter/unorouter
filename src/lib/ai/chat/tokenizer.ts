@@ -26,8 +26,6 @@ export function isTokenizerRef(v: unknown): v is TokenizerRef {
   return v.startsWith("hf:") || TOKENIZER_PRESETS.some((p) => p === v);
 }
 
-export const DEFAULT_TOKENIZER: TokenizerPreset = "auto";
-
 const PRESET_HF_SOURCE: Partial<Record<TokenizerPreset, string>> = {
   glm5: "zai-org/GLM-5.1",
   glm4: "zai-org/GLM-4.6",

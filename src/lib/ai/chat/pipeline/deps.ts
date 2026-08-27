@@ -12,12 +12,6 @@ export type InlayImage = {
   width: number | null;
   height: number | null;
 };
-
-export type WebSearchResolution = {
-  effectiveWebSearch: boolean;
-  searchSystemMessage: string | undefined;
-};
-
 export type SemanticHit = { id: string; text: string };
 
 export type ConvSettings = NonNullable<LoadedConvContext>["settings"];

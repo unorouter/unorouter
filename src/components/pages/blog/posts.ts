@@ -105,8 +105,6 @@ export const GEO_SLUGS = [
   "what-is-an-llm-gateway",
   "free-models-aggregated",
 ] as const;
-
-export type GeoSlug = (typeof GEO_SLUGS)[number];
 export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
 
 export function faqI18nKey(post: BlogPost): FaqI18nKey | null {

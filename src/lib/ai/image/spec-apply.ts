@@ -20,21 +20,6 @@ const SERIES_TO_ARCHITECTURE: Record<string, string> = {
 
 // Provider-hosted rows carry neither AIR nor series, so both lookup tiers miss and they
 // fall back to generic diffusion inference, offering Steps and CFG that FLUX.2 rejects.
-const MODEL_NAME_TO_AIR: Record<string, string> = {
-  "flux.2-max": "bfl:7@1",
-  "flux.2-pro": "bfl:5@1",
-  "flux.2-flex": "bfl:6@1",
-  "flux.2-dev": "runware:400@1",
-  "flux.2-klein-9b": "runware:400@2",
-  "flux.2-klein-4b": "runware:400@4",
-};
-
-export function airForModelName(
-  name: string | null | undefined,
-): string | null {
-  if (!name) return null;
-  return MODEL_NAME_TO_AIR[name.trim().toLowerCase()] ?? null;
-}
 
 export function lookupParamSpec(
   air: string | null | undefined,

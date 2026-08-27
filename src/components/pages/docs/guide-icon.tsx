@@ -16,7 +16,7 @@ import OpenWebUI from "@lobehub/icons/es/OpenWebUI";
 import RooCode from "@lobehub/icons/es/RooCode";
 import SillyTavern from "@lobehub/icons/es/SillyTavern";
 import type { ComponentType } from "react";
-import type { IntegrationIconKey } from "./integrations";
+import type { IntegrationIconKey } from "./integration-types";
 
 type LobeIcon = ComponentType<{ className?: string; size?: number }>;
 

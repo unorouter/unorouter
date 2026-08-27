@@ -1,4 +1,4 @@
-import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
+import type { IntegrationIconKey } from "@/components/pages/docs/integration-types";
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
 import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import {

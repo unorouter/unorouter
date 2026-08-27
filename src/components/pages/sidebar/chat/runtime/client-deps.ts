@@ -56,7 +56,7 @@ export function buildClientDeps(provider: CustomProviderRow): AssemblerDeps {
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
       if (!firstModel || candidates.length === 0) return [];
       try {
-        const model = sdk.textEmbeddingModel(firstModel);
+        const model = sdk.embeddingModel(firstModel);
         const [{ embedding: q }, { embeddings: cand }] = await Promise.all([
           embed({ model, value: query }),
           embedMany({ model, values: candidates.map((c) => c.text) }),

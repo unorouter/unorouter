@@ -134,9 +134,6 @@ export type LocalRawExec = (
   columns: string[];
   numAffectedRows?: number;
 }>;
-
-export type CopyPeer = { exec: LocalRawExec };
-
 export type LocalClient = {
   db: LocalDb;
   exec: LocalRawExec;
@@ -164,19 +161,6 @@ export type CopyRowFailure = {
   row: Record<string, unknown>;
   error: unknown;
 };
-
-export type CopyOptions = {
-  rewrite?: Record<string, unknown>;
-  skipTables?: readonly string[];
-  onRowError?: (e: CopyRowFailure) => void;
-};
-
-export type CopyResult = {
-  copied: number;
-  failures: CopyRowFailure[];
-  tables: string[];
-};
-
 export type ScopedTable = SQLiteTable;
 export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;

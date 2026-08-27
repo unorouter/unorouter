@@ -12,8 +12,6 @@ export function clampVariants(value: unknown): VariantChoice {
   return VARIANT_CHOICES.find((v) => v === value) ?? 1;
 }
 
-export const CLIP_TOKEN_CAP = 77;
-
 export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   id: string;
   value: number | null;

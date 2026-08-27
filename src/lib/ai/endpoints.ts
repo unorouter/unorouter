@@ -6,5 +6,3 @@ export const API_ENDPOINTS = {
   audioTranscriptions: "/v1/audio/transcriptions",
   embeddings: "/v1/embeddings",
 } as const;
-
-export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS];
