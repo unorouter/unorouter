@@ -2472,17 +2472,17 @@
       "SUBTITLE": "把 {appName} 添加为 OpenCode 的自定义提供商，并选择任意模型作为活动智能体。",
       "OVERVIEW_DESC": "OpenCode 从 JSON 配置中读取提供商。用 OpenAI 兼容适配器添加 {appName}，即可使用任意 {appName} 模型。",
       "STEP_1_TITLE": "打开 OpenCode 配置文件",
-      "STEP_1_DESC": "在 OpenCode 中按 Ctrl + O 并粘贴路径。在 Windows 上，请把 YOUR_USER 替换成你的用户名。",
+      "STEP_1_DESC": "用文本编辑器打开 OpenCode 配置文件。如果文件不存在，请新建一个。",
       "STEP_2_TITLE": "替换文件内容",
-      "STEP_2_DESC": "清空文件并粘贴 {appName} 的提供商配置块。填入你的 API 密钥，并从目录中选一个模型。",
-      "STEP_3_TITLE": "保存并重新加载",
-      "STEP_3_DESC": "按 Ctrl + S，然后按 Ctrl + Shift + P 运行 Developer: Reload Window。",
+      "STEP_2_DESC": "把 {appName} 的 provider 配置块添加到你的配置中。请与现有文件合并，保留你已有的 mcp 或 agent 配置块。",
+      "STEP_3_TITLE": "验证模型是否加载",
+      "STEP_3_DESC": "保存文件，然后在终端运行 opencode models。你列出的每个 id 都应显示出来，并带上你的 provider 键作为前缀。",
       "STEP_4_TITLE": "选择模型",
       "STEP_4_DESC": "打开模型选择器并切换到新模型。适配器会处理流式输出和工具调用。",
-      "GOTCHA_1": "设置 \"discoverModels\": true 后，OpenCode 启动时会从 /v1/models 拉取 {appName} 的完整目录，因此无需逐条列出，所有模型都会出现在选择器中。",
-      "GOTCHA_2": "如果 Developer: Reload Window 之后仍看不到你的提供商，请检查保存的 JSON 是否有多余的尾逗号。",
-      "GOTCHA_3": "使用 {appName} 目录中的精确模型 id。复制粘贴时带上的提供商前缀请删掉。",
-      "GOTCHA_4": "没有自动发现时，较旧的 OpenCode 需要一个列出精确 id 的 \"models\" 配置块（例如 '{\"gemini-3.1-flash-lite\": {}}'）并重启。"
+      "GOTCHA_1": "OpenCode 对 OpenAI 兼容的 provider 没有实时模型发现功能。你想使用的每个模型，都必须以准确的 id 写进 \"models\" 配置块。",
+      "GOTCHA_2": "不要把 provider 键直接命名为 \"unorouter\"。该 id 已存在于 models.dev 注册表中，OpenCode 会改用注册表的列表而不是你的列表，导致较新的模型缺失。上面的 \"-live\" 后缀可以避开冲突。",
+      "GOTCHA_3": "请使用 {appName} 目录中准确的模型 id。删除复制粘贴时带上的 provider 前缀，若 id 带有 :free 后缀则保留。",
+      "GOTCHA_4": "自定义 provider 键若缺少 \"models\" 配置块，就会加载到零个模型，该 provider 会从选择器中彻底消失。"
     },
     "KILO_CODE": {
       "META": {

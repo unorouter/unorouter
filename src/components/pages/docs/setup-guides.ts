@@ -1,8 +1,8 @@
-import type { IconName } from "@/lib/config/icon-map";
-import type { DocI18nPrefix } from "@/lib/types";
 import type { Pathname } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import type { IconName } from "@/lib/config/icon-map";
+import type { DocI18nPrefix } from "@/lib/types";
 import type { OS } from "@/lib/types/enums";
 import type { IntegrationColor, IntegrationIconKey } from "./integrations";
 
@@ -21,6 +21,8 @@ export interface SetupStep {
   titleKey: TranslationKey;
   bodyKey: TranslationKey;
   code?: { lang: string; value: string };
+  /** Per-OS command for this step, rendered as OS tabs in place. */
+  osCode?: Record<OS, { lang: string; value: string }>;
 }
 
 export interface SetupGuide {
@@ -848,9 +850,19 @@ API Key: YOUR_API_KEY`,
       {
         titleKey: "DOCS.OPENCODE.STEP_1_TITLE",
         bodyKey: "DOCS.OPENCODE.STEP_1_DESC",
-        code: {
-          lang: "text",
-          value: "C:/Users/YOUR_USER/.config/opencode/opencode.json",
+        osCode: {
+          windows: {
+            lang: "powershell",
+            value: `notepad %USERPROFILE%\\.config\\opencode\\opencode.json`,
+          },
+          macos: {
+            lang: "bash",
+            value: `open -t ~/.config/opencode/opencode.json`,
+          },
+          linux: {
+            lang: "bash",
+            value: `xdg-open ~/.config/opencode/opencode.json`,
+          },
         },
       },
       {
@@ -861,13 +873,15 @@ API Key: YOUR_API_KEY`,
           value: `{
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "${env.appName.toLowerCase()}": {
+    "${env.appName.toLowerCase()}-live": {
       "name": "${env.appName}",
       "npm": "@ai-sdk/openai-compatible",
-      "discoverModels": true,
       "options": {
         "apiKey": "YOUR_API_KEY",
         "baseURL": "${env.apiUrl}/v1"
+      },
+      "models": {
+__FREE_MODEL_KEYS__
       }
     }
   }
@@ -877,6 +891,7 @@ API Key: YOUR_API_KEY`,
       {
         titleKey: "DOCS.OPENCODE.STEP_3_TITLE",
         bodyKey: "DOCS.OPENCODE.STEP_3_DESC",
+        code: { lang: "bash", value: "opencode models" },
       },
       {
         titleKey: "DOCS.OPENCODE.STEP_4_TITLE",

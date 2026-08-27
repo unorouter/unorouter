@@ -2472,17 +2472,17 @@
       "SUBTITLE": "{appName}''i OpenCode''a özel sağlayıcı olarak ekleyin ve herhangi bir modeli aktif ajan yapın.",
       "OVERVIEW_DESC": "OpenCode sağlayıcıları bir JSON yapılandırmasından okur. Her {appName} modelini kullanmak için {appName}''i OpenAI uyumlu adaptörle ekleyin.",
       "STEP_1_TITLE": "OpenCode yapılandırma dosyasını açın",
-      "STEP_1_DESC": "OpenCode içinde Ctrl + O tuşlarına basın ve yolu yapıştırın. Windows'ta YOUR_USER yerine kullanıcı adınızı yazın.",
+      "STEP_1_DESC": "OpenCode yapılandırmanı bir metin düzenleyicide aç. Dosya yoksa oluştur.",
       "STEP_2_TITLE": "Dosya içeriğini değiştirin",
-      "STEP_2_DESC": "Dosyayı temizleyin ve {appName} sağlayıcı bloğunu yapıştırın. API anahtarınızı ekleyin ve kataloğdan bir model seçin.",
-      "STEP_3_TITLE": "Kaydedin ve yeniden yükleyin",
-      "STEP_3_DESC": "Ctrl + S, ardından Ctrl + Shift + P tuşlarına basın ve Developer: Reload Window komutunu çalıştırın.",
+      "STEP_2_DESC": "{appName} sağlayıcı bloğunu yapılandırmana ekle. Mevcut dosyayla birleştir ve sahip olduğun mcp veya agent bloklarını koru.",
+      "STEP_3_TITLE": "Modellerin yüklendiğini doğrula",
+      "STEP_3_DESC": "Dosyayı kaydet ve terminalde opencode models komutunu çalıştır. Listelediğin her kimlik, sağlayıcı anahtarın ön ekiyle görünmelidir.",
       "STEP_4_TITLE": "Bir model seçin",
       "STEP_4_DESC": "Model seçiciyi açın ve yeni modelinize geçin. Adaptör akış ve araç çağırma işlerini üstlenir.",
-      "GOTCHA_1": "\"discoverModels\": true ile OpenCode başlangıçta tüm {appName} kataloğunu /v1/models üzerinden çeker, böylece elle listelemeden her model seçicide görünür.",
-      "GOTCHA_2": "Developer: Reload Window sağlayıcınızı göstermiyorsa JSON'un sondaki virgüller olmadan kaydedildiğini kontrol edin.",
-      "GOTCHA_3": "{appName} kataloğundaki model id''lerini birebir kullanın. Kopyalama sırasında eklenen sağlayıcı öneklerini kaldırın.",
-      "GOTCHA_4": "Otomatik keşif olmadan eski OpenCode sürümleri birebir idleri listeleyen bir \"models\" bloğu (örn. '{\"gemini-3.1-flash-lite\": {}}') ve yeniden başlatma gerektirir."
+      "GOTCHA_1": "OpenCode, OpenAI uyumlu sağlayıcılar için canlı model keşfi sunmaz. İstediğin her model, tam kimliğiyle \"models\" bloğunda yer almalıdır.",
+      "GOTCHA_2": "Sağlayıcı anahtarına yalnızca \"unorouter\" adını verme. Bu kimlik models.dev kaydında zaten var ve OpenCode seninki yerine oradaki listeyi kullanır, böylece yeni modeller eksik kalır. Yukarıdaki \"-live\" soneki çakışmayı önler.",
+      "GOTCHA_3": "{appName} kataloğundaki tam model kimliklerini kullan. Kopyala yapıştır sırasında eklenen sağlayıcı ön ekini kaldır ve kimlikte varsa :free sonekini koru.",
+      "GOTCHA_4": "\"models\" bloğu olmayan özel bir sağlayıcı anahtarı sıfır model yükler, bu yüzden sağlayıcı seçiciden tamamen kaybolur."
     },
     "KILO_CODE": {
       "META": {

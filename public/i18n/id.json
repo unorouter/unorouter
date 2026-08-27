@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Tambahkan {appName} sebagai penyedia kustom di OpenCode lalu pilih model apa pun sebagai agen aktif.",
       "OVERVIEW_DESC": "OpenCode membaca penyedia dari konfigurasi JSON. Tambahkan {appName} dengan adapter kompatibel OpenAI untuk memakai model {appName} apa pun.",
       "STEP_1_TITLE": "Buka file konfigurasi OpenCode",
-      "STEP_1_DESC": "Tekan Ctrl + O di dalam OpenCode lalu tempel jalurnya. Di Windows, ganti YOUR_USER dengan nama pengguna Anda.",
+      "STEP_1_DESC": "Buka konfigurasi OpenCode Anda di editor teks. Buat berkasnya jika belum ada.",
       "STEP_2_TITLE": "Ganti isi file",
-      "STEP_2_DESC": "Kosongkan file itu lalu tempel blok penyedia {appName}. Tambahkan kunci API Anda dan pilih model dari katalog.",
-      "STEP_3_TITLE": "Simpan dan muat ulang",
-      "STEP_3_DESC": "Tekan Ctrl + S, lalu Ctrl + Shift + P dan jalankan Developer: Reload Window.",
+      "STEP_2_DESC": "Tambahkan blok penyedia {appName} ke konfigurasi Anda. Gabungkan ke berkas yang sudah ada dan pertahankan blok mcp atau agent yang Anda miliki.",
+      "STEP_3_TITLE": "Verifikasi model termuat",
+      "STEP_3_DESC": "Simpan berkas lalu jalankan opencode models di terminal. Setiap id yang Anda daftarkan harus muncul dengan awalan kunci penyedia Anda.",
       "STEP_4_TITLE": "Pilih model",
       "STEP_4_DESC": "Buka pemilih model lalu beralih ke model baru Anda. Adapter menangani streaming dan pemanggilan alat.",
-      "GOTCHA_1": "Dengan \"discoverModels\": true, OpenCode menarik seluruh katalog {appName} dari /v1/models saat mulai, sehingga semua model muncul di pemilih tanpa perlu didaftarkan manual.",
-      "GOTCHA_2": "Jika Developer: Reload Window tidak memunculkan penyedia Anda, periksa apakah JSON tersimpan tanpa koma di akhir.",
-      "GOTCHA_3": "Pakai id model persis dari katalog {appName}. Buang awalan penyedia yang mungkin ikut tersalin.",
-      "GOTCHA_4": "Tanpa penemuan otomatis, OpenCode versi lama membutuhkan blok \"models\" berisi daftar id persis (mis. '{\"gemini-3.1-flash-lite\": {}}') dan mulai ulang."
+      "GOTCHA_1": "OpenCode tidak memiliki penemuan model langsung untuk penyedia yang kompatibel dengan OpenAI. Setiap model yang Anda inginkan harus dicantumkan di blok \"models\" dengan id persis.",
+      "GOTCHA_2": "Jangan menamai kunci penyedia hanya \"unorouter\". Id itu sudah ada di registri models.dev, dan OpenCode akan memakai daftar mereka alih-alih daftar Anda sehingga model terbaru hilang. Akhiran \"-live\" di atas menghindari benturan itu.",
+      "GOTCHA_3": "Gunakan id model yang persis dari katalog {appName}. Hapus awalan penyedia yang ikut tersalin, dan pertahankan akhiran :free bila id memilikinya.",
+      "GOTCHA_4": "Kunci penyedia khusus tanpa blok \"models\" memuat nol model, sehingga penyedia hilang sepenuhnya dari pemilih."
     },
     "KILO_CODE": {
       "META": {
