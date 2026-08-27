@@ -65,16 +65,12 @@ jobs:
           role: unorouter-ci
           exportEnv: true
           secrets: |
-            secret/data/unorouter-env CREEM_API_KEY ;
-            secret/data/unorouter-env CREEM_API_URL ;
-            secret/data/unorouter-env CREEM_MODERATION_ENABLED ;
             secret/data/unorouter-env GUEST_API_KEY ;
             secret/data/unorouter-env INDEXNOW_KEY ;
             secret/data/unorouter-env POSTHOG_API_KEY ;
             secret/data/unorouter-env POSTHOG_ENV_ID ;
             secret/data/unorouter-env POSTHOG_PROXY_HOST ;
             secret/data/unorouter-env SESSION_SECRET ;
-            secret/data/unorouter-env SYSTEM_ACCESS_TOKEN ;
             secret/data/unorouter-env TAVILY_API_KEY ;
             secret/data/unorouter-env TURSO_AUTH_TOKEN ;
             secret/data/unorouter-env TURSO_DATABASE_URL ;
@@ -86,9 +82,8 @@ jobs:
       - name: Create env file
         run: |
           cp .env.public .env
-          for k in CREEM_API_KEY CREEM_API_URL CREEM_MODERATION_ENABLED GUEST_API_KEY \
-                   INDEXNOW_KEY POSTHOG_API_KEY POSTHOG_ENV_ID POSTHOG_PROXY_HOST \
-                   SESSION_SECRET SYSTEM_ACCESS_TOKEN TAVILY_API_KEY TURSO_AUTH_TOKEN \
+          for k in GUEST_API_KEY INDEXNOW_KEY POSTHOG_API_KEY POSTHOG_ENV_ID \
+                   POSTHOG_PROXY_HOST SESSION_SECRET TAVILY_API_KEY TURSO_AUTH_TOKEN \
                    TURSO_DATABASE_URL WEB_BOT_AUTH_PRIVATE_JWK WEB_BOT_AUTH_PUBLIC_JWKS; do
             printf '%s=%s\n' "$k" "${!k}" >> .env
           done
