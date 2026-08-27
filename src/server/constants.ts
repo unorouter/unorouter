@@ -23,9 +23,7 @@ export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
 // True when upstream calls leave through Cloudflare, which happens only in local
 // dev: the cluster sets INTERNAL_API_URL to the ClusterIP.
-export const upstreamIsProxied = new URL(upstreamApiUrl).hostname.endsWith(
-  "unorouter.com",
-);
+export const upstreamIsProxied = upstreamApiUrl === env.apiUrl;
 
 // "auto" means let the gateway pick, so the header is omitted entirely rather
 // than sent with a sentinel value.
