@@ -60,7 +60,14 @@ export function TwoFAForm(props: TwoFAFormProps) {
       title={t("AUTH.TWO_FA.TITLE")}
       description={t("AUTH.TWO_FA.DESCRIPTION")}
     >
-      <div className="space-y-6">
+      {/* Password managers scope "fill verification code" to a form ancestor; without one the fill is a no-op. */}
+      <form
+        className="space-y-6"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(code);
+        }}
+      >
         <div className="flex justify-center">
           <InputOTP
             maxLength={6}
@@ -70,6 +77,8 @@ export function TwoFAForm(props: TwoFAFormProps) {
             onComplete={onSubmit}
             disabled={verify2FA.isPending}
             autoFocus
+            name="otp"
+            autoComplete="one-time-code"
           >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -92,16 +101,15 @@ export function TwoFAForm(props: TwoFAFormProps) {
         )}
 
         <Button
-          type="button"
+          type="submit"
           disabled={code.length !== 6 || verify2FA.isPending}
-          onClick={() => onSubmit(code)}
           className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
         >
           {verify2FA.isPending
             ? t("AUTH.TWO_FA.VERIFYING")
             : t("AUTH.TWO_FA.SUBMIT")}
         </Button>
-      </div>
+      </form>
     </GlassAuthCard>
   );
 }
