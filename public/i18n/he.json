@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "התקינו והגדירו",
       "STEP_1_DESC": "התקינו את OpenClaw גלובלית עם npm, ואז הריצו `openclaw onboard` כדי לייצר את ההגדרה.",
       "STEP_2_TITLE": "הפנו את הספק אל {appName}",
-      "STEP_2_DESC": "ערכו את `~/.openclaw/config.json`. כוונו את ספק openai לכתובת הבסיס של {appName}, קראו את המפתח מ-`OPENAI_API_KEY`, והגדירו את מודל ברירת המחדל תחת agents.",
+      "STEP_2_DESC": "ערכו את `~/.openclaw/openclaw.json`. כוונו את ספק openai לכתובת הבסיס של {appName}, קראו את המפתח מ-`OPENAI_API_KEY`, והגדירו את מודל ברירת המחדל תחת agents.",
       "STEP_3_TITLE": "הפעילו את OpenClaw",
       "STEP_3_DESC": "הריצו `openclaw start` כדי להפעיל את הסוכן מול {appName}.",
       "TS_1_DESC": "בדקו את models.providers.openai.baseUrl בקובץ ~/.openclaw/openclaw.json. המערכת מתעלמת מבלוק providers שממוקם ברמה העליונה.",

@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Установите и пройдите онбординг",
       "STEP_1_DESC": "Установите OpenClaw глобально через npm, затем выполните `openclaw onboard`, чтобы создать конфигурацию.",
       "STEP_2_TITLE": "Направьте провайдера на {appName}",
-      "STEP_2_DESC": "Отредактируйте `~/.openclaw/config.json`. Направьте провайдера openai на базовый URL {appName}, читайте ключ из `OPENAI_API_KEY` и задайте модель по умолчанию в разделе agents.",
+      "STEP_2_DESC": "Отредактируйте `~/.openclaw/openclaw.json`. Направьте провайдера openai на базовый URL {appName}, читайте ключ из `OPENAI_API_KEY` и задайте модель по умолчанию в разделе agents.",
       "STEP_3_TITLE": "Запустите OpenClaw",
       "STEP_3_DESC": "Выполните `openclaw start`, чтобы запустить агента через {appName}.",
       "TS_1_DESC": "Проверьте models.providers.openai.baseUrl в файле ~/.openclaw/openclaw.json. Блок providers на верхнем уровне игнорируется.",

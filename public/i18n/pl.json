@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Zainstaluj i przejdź onboarding",
       "STEP_1_DESC": "Zainstaluj OpenClaw globalnie za pomocą npm, a następnie uruchom `openclaw onboard`, aby utworzyć szkielet konfiguracji.",
       "STEP_2_TITLE": "Skieruj dostawcę na {appName}",
-      "STEP_2_DESC": "Edytuj `~/.openclaw/config.json`. Skieruj dostawcę openai na bazowy adres URL {appName}, czytaj klucz z `OPENAI_API_KEY` i ustaw domyślny model w sekcji agents.",
+      "STEP_2_DESC": "Edytuj `~/.openclaw/openclaw.json`. Skieruj dostawcę openai na bazowy adres URL {appName}, czytaj klucz z `OPENAI_API_KEY` i ustaw domyślny model w sekcji agents.",
       "STEP_3_TITLE": "Uruchom OpenClaw",
       "STEP_3_DESC": "Uruchom `openclaw start`, aby uruchomić agenta wobec {appName}.",
       "TS_1_DESC": "Sprawdź models.providers.openai.baseUrl w pliku ~/.openclaw/openclaw.json. Blok providers na najwyższym poziomie jest ignorowany.",

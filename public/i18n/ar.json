@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "ثبّت وابدأ الإعداد",
       "STEP_1_DESC": "ثبّت OpenClaw عالميا باستخدام npm، ثم شغّل `openclaw onboard` لإنشاء الإعداد.",
       "STEP_2_TITLE": "وجّه الموفر إلى {appName}",
-      "STEP_2_DESC": "حرّر `~/.openclaw/config.json`. وجّه مزوّد openai إلى الرابط الأساسي لـ {appName}، واقرأ المفتاح من `OPENAI_API_KEY`، واضبط نموذجك الافتراضي تحت agents.",
+      "STEP_2_DESC": "حرّر `~/.openclaw/openclaw.json`. وجّه مزوّد openai إلى الرابط الأساسي لـ {appName}، واقرأ المفتاح من `OPENAI_API_KEY`، واضبط نموذجك الافتراضي تحت agents.",
       "STEP_3_TITLE": "ابدأ OpenClaw",
       "STEP_3_DESC": "شغّل `openclaw start` لإطلاق الوكيل مقابل {appName}.",
       "TS_1_DESC": "تحقق من models.providers.openai.baseUrl في ~/.openclaw/openclaw.json. أما كتلة providers الموضوعة في المستوى الأعلى فيتم تجاهلها.",

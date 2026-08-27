@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "安裝並初始化",
       "STEP_1_DESC": "使用 npm 全域安裝 OpenClaw，然後執行 `openclaw onboard` 來產生設定。",
       "STEP_2_TITLE": "將提供者指向 {appName}",
-      "STEP_2_DESC": "編輯 `~/.openclaw/config.json`。把 openai 供應商指向 {appName} 的基礎網址，從 `OPENAI_API_KEY` 讀取金鑰，並在 agents 底下設定預設模型。",
+      "STEP_2_DESC": "編輯 `~/.openclaw/openclaw.json`。把 openai 供應商指向 {appName} 的基礎網址，從 `OPENAI_API_KEY` 讀取金鑰，並在 agents 底下設定預設模型。",
       "STEP_3_TITLE": "啟動 OpenClaw",
       "STEP_3_DESC": "執行 `openclaw start` 以針對 {appName} 啟動代理。",
       "TS_1_DESC": "檢查 ~/.openclaw/openclaw.json 中的 models.providers.openai.baseUrl。寫在最上層的 providers 區塊會被忽略。",

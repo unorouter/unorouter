@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Cài đặt và khởi tạo",
       "STEP_1_DESC": "Cài đặt OpenClaw ở phạm vi toàn cục bằng npm, sau đó chạy `openclaw onboard` để tạo khung cấu hình.",
       "STEP_2_TITLE": "Trỏ nhà cung cấp đến {appName}",
-      "STEP_2_DESC": "Sửa `~/.openclaw/config.json`. Trỏ nhà cung cấp openai tới URL cơ sở của {appName}, đọc khóa từ `OPENAI_API_KEY`, và đặt mô hình mặc định dưới mục agents.",
+      "STEP_2_DESC": "Sửa `~/.openclaw/openclaw.json`. Trỏ nhà cung cấp openai tới URL cơ sở của {appName}, đọc khóa từ `OPENAI_API_KEY`, và đặt mô hình mặc định dưới mục agents.",
       "STEP_3_TITLE": "Khởi động OpenClaw",
       "STEP_3_DESC": "Chạy `openclaw start` để khởi chạy tác nhân với {appName}.",
       "TS_1_DESC": "Hãy kiểm tra models.providers.openai.baseUrl trong ~/.openclaw/openclaw.json. Khối providers đặt ở cấp cao nhất sẽ bị bỏ qua.",

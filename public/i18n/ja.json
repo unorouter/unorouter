@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "インストールしてオンボードする",
       "STEP_1_DESC": "npm で OpenClaw をグローバルにインストールし、`openclaw onboard` を実行して設定の雛形を作成します。",
       "STEP_2_TITLE": "プロバイダーを {appName} に向ける",
-      "STEP_2_DESC": "`~/.openclaw/config.json` を編集します。openai プロバイダーを {appName} のベースURLに向け、キーは `OPENAI_API_KEY` から読み込み、既定モデルを agents 配下に設定します。",
+      "STEP_2_DESC": "`~/.openclaw/openclaw.json` を編集します。openai プロバイダーを {appName} のベースURLに向け、キーは `OPENAI_API_KEY` から読み込み、既定モデルを agents 配下に設定します。",
       "STEP_3_TITLE": "OpenClaw を起動する",
       "STEP_3_DESC": "`openclaw start` を実行して {appName} に対してエージェントを起動します。",
       "TS_1_DESC": "~/.openclaw/openclaw.json の models.providers.openai.baseUrl を確認してください。最上位に置いた providers ブロックは無視されます。",

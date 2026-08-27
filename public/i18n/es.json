@@ -1887,7 +1887,7 @@
       "STEP_1_TITLE": "Instalar y configurar",
       "STEP_1_DESC": "Instala OpenClaw de forma global con npm y luego ejecuta `openclaw onboard` para generar la configuración.",
       "STEP_2_TITLE": "Apuntar el proveedor a {appName}",
-      "STEP_2_DESC": "Edita `~/.openclaw/config.json`. Apunta el proveedor openai a la URL base de {appName}, lee la clave desde `OPENAI_API_KEY` y define tu modelo por defecto en agents.",
+      "STEP_2_DESC": "Edita `~/.openclaw/openclaw.json`. Apunta el proveedor openai a la URL base de {appName}, lee la clave desde `OPENAI_API_KEY` y define tu modelo por defecto en agents.",
       "STEP_3_TITLE": "Iniciar OpenClaw",
       "STEP_3_DESC": "Ejecuta `openclaw start` para lanzar el agente contra {appName}.",
       "TS_1_DESC": "Revisa models.providers.openai.baseUrl en ~/.openclaw/openclaw.json. Un bloque providers en el nivel superior se ignora.",
