@@ -2472,17 +2472,17 @@
       "SUBTITLE": "{appName} als eigenen Provider in OpenCode eintragen und ein beliebiges Modell als aktiven Agenten wählen.",
       "OVERVIEW_DESC": "OpenCode liest Provider aus einer JSON-Konfiguration. {appName} mit dem OpenAI-kompatiblen Adapter eintragen, um jedes Modell von {appName} zu nutzen.",
       "STEP_1_TITLE": "Die OpenCode-Konfigurationsdatei öffnen",
-      "STEP_1_DESC": "In OpenCode Strg + O drücken und den Pfad einfügen. Unter Windows YOUR_USER durch den eigenen Benutzernamen ersetzen.",
+      "STEP_1_DESC": "Öffne deine OpenCode-Konfiguration in einem Texteditor. Lege die Datei an, falls sie noch nicht existiert.",
       "STEP_2_TITLE": "Den Dateiinhalt ersetzen",
-      "STEP_2_DESC": "Die Datei leeren und den Provider-Block von {appName} einfügen. Den eigenen API-Schlüssel ergänzen und ein Modell aus dem Katalog wählen.",
-      "STEP_3_TITLE": "Speichern und neu laden",
-      "STEP_3_DESC": "Strg + S drücken, dann Strg + Umschalt + P und Developer: Reload Window ausführen.",
+      "STEP_2_DESC": "Füge den {appName}-Provider-Block zu deiner Konfiguration hinzu. Füge ihn in die bestehende Datei ein und behalte vorhandene mcp- oder agent-Blöcke bei.",
+      "STEP_3_TITLE": "Laden der Modelle prüfen",
+      "STEP_3_DESC": "Speichere die Datei und führe im Terminal opencode models aus. Jede aufgeführte ID sollte erscheinen, mit deinem Provider-Schlüssel als Präfix.",
       "STEP_4_TITLE": "Ein Modell wählen",
       "STEP_4_DESC": "Die Modellauswahl öffnen und auf das neue Modell wechseln. Der Adapter übernimmt Streaming und Werkzeugaufrufe.",
-      "GOTCHA_1": "Mit \"discoverModels\": true lädt OpenCode beim Start den vollständigen Katalog von {appName} über /v1/models, sodass jedes Modell in der Auswahl erscheint, ohne es von Hand einzutragen.",
-      "GOTCHA_2": "Zeigt Developer: Reload Window den Provider nicht an, prüfen, ob das JSON ohne nachgestellte Kommas gespeichert wurde.",
-      "GOTCHA_3": "Exakte Modell-IDs aus dem Katalog von {appName} nutzen. Ein durch Kopieren entstandenes vorangestelltes Provider-Präfix entfernen.",
-      "GOTCHA_4": "Ohne automatische Erkennung braucht älteres OpenCode einen \"models\"-Block mit exakten IDs (z. B. '{\"gemini-3.1-flash-lite\": {}}') und einen Neustart."
+      "GOTCHA_1": "OpenCode besitzt keine Live-Modellerkennung für OpenAI-kompatible Provider. Jedes gewünschte Modell muss mit exakter ID im \"models\"-Block stehen.",
+      "GOTCHA_2": "Benenne den Provider-Schlüssel nicht einfach \"unorouter\". Diese ID existiert bereits in der models.dev-Registry, und OpenCode verwendet dann deren Liste statt deiner, wodurch neuere Modelle fehlen. Das Suffix \"-live\" oben vermeidet die Kollision.",
+      "GOTCHA_3": "Verwende exakte Modell-IDs aus dem {appName}-Katalog. Entferne ein beim Kopieren entstandenes Provider-Präfix und behalte das Suffix :free, wo die ID es hat.",
+      "GOTCHA_4": "Ein eigener Provider-Schlüssel ohne \"models\"-Block lädt null Modelle, wodurch der Provider vollständig aus der Auswahl verschwindet."
     },
     "KILO_CODE": {
       "META": {

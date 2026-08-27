@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Add {appName} as a custom provider in OpenCode and pick any model as the active agent.",
       "OVERVIEW_DESC": "OpenCode reads providers from a JSON config. Add {appName} with the OpenAI-compatible adapter to use any {appName} model.",
       "STEP_1_TITLE": "Open the OpenCode config file",
-      "STEP_1_DESC": "Press Ctrl + O inside OpenCode and paste the path. On Windows, replace YOUR_USER with your username.",
+      "STEP_1_DESC": "Open your OpenCode config in a text editor. Create the file if it does not exist.",
       "STEP_2_TITLE": "Replace the file contents",
-      "STEP_2_DESC": "Wipe the file and paste the {appName} provider block. Add your API key and pick a model from the catalog.",
-      "STEP_3_TITLE": "Save and reload",
-      "STEP_3_DESC": "Press Ctrl + S, then Ctrl + Shift + P and run Developer: Reload Window.",
+      "STEP_2_DESC": "Add the {appName} provider block to your config. Merge it into the existing file, keeping any mcp or agent blocks you already have.",
+      "STEP_3_TITLE": "Verify the models load",
+      "STEP_3_DESC": "Save the file and run opencode models in a terminal. Every id you listed should appear, prefixed with your provider key.",
       "STEP_4_TITLE": "Pick a model",
       "STEP_4_DESC": "Open the model picker and switch to your new model. The adapter handles streaming and tool calling.",
-      "GOTCHA_1": "With \"discoverModels\": true, OpenCode fetches the full {appName} catalog from /v1/models on startup, so every model appears in the picker without listing them by hand.",
-      "GOTCHA_2": "If Developer: Reload Window does not show your provider, check the JSON saved without trailing commas.",
-      "GOTCHA_3": "Use exact model ids from the {appName} catalog. Strip any leading provider prefix a copy-paste added.",
-      "GOTCHA_4": "Without auto-discovery, older OpenCode needs a \"models\" block listing exact ids (e.g. '{\"gemini-3.1-flash-lite\": {}}') and a restart."
+      "GOTCHA_1": "OpenCode has no live model discovery for OpenAI-compatible providers. Every model you want must be listed in the \"models\" block by exact id.",
+      "GOTCHA_2": "Do not name the provider key \"unorouter\" on its own. That id already exists in the models.dev registry, and OpenCode uses the registry list instead of yours, so newer models will be missing. The \"-live\" suffix above avoids the clash.",
+      "GOTCHA_3": "Use exact model ids from the {appName} catalog. Strip any leading provider prefix a copy-paste added, and keep the :free suffix where the id has one.",
+      "GOTCHA_4": "A custom provider key with no \"models\" block loads zero models, so the provider disappears from the picker entirely."
     },
     "KILO_CODE": {
       "META": {

@@ -18,7 +18,11 @@ import { OS } from "@/lib/types/enums";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
-import type { SetupCompatibility, SetupGuide } from "./setup-guides";
+import type {
+  SetupCompatibility,
+  SetupGuide,
+  SetupStep,
+} from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
 
@@ -111,10 +115,42 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
       })
     : null;
 
+  // OpenCode needs every model spelled out in its config, so the sample block
+  // is filled with real ids rather than a placeholder.
+  const freeModelKeys = models
+    .map((id) => `        "${id}": {}`)
+    .join(",\n");
+  const stepCode = (step: SetupStep) =>
+    step.code
+      ? step.code.value.replace("__FREE_MODEL_KEYS__", freeModelKeys)
+      : null;
+
   const stepCodeHtml = await Promise.all(
+    guide.steps.map((step) => {
+      const value = stepCode(step);
+      return value !== null && step.code
+        ? highlightCode(value, step.code.lang)
+        : Promise.resolve(null);
+    }),
+  );
+
+  const stepOsVariants = await Promise.all(
     guide.steps.map((step) =>
-      step.code
-        ? highlightCode(step.code.value, step.code.lang)
+      step.osCode
+        ? buildOSVariants({
+            windows: {
+              code: step.osCode[OS.WINDOWS].value,
+              language: step.osCode[OS.WINDOWS].lang,
+            },
+            macos: {
+              code: step.osCode[OS.MACOS].value,
+              language: step.osCode[OS.MACOS].lang,
+            },
+            linux: {
+              code: step.osCode[OS.LINUX].value,
+              language: step.osCode[OS.LINUX].lang,
+            },
+          })
         : Promise.resolve(null),
     ),
   );
@@ -219,8 +255,16 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                       <div className="mt-3">
                         <ApiKeyCodeBlock
                           html={stepCodeHtml[idx]!}
-                          code={step.code.value}
+                          code={stepCode(step)!}
                           language={step.code.lang}
+                          placeholder={docs.placeholder}
+                        />
+                      </div>
+                    ) : null}
+                    {stepOsVariants[idx] ? (
+                      <div className="mt-3">
+                        <OSCodeBlock
+                          variants={stepOsVariants[idx]!}
                           placeholder={docs.placeholder}
                         />
                       </div>

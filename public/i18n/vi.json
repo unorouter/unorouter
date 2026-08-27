@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Thêm {appName} làm nhà cung cấp tùy chỉnh trong OpenCode và chọn mô hình bất kỳ làm tác nhân đang dùng.",
       "OVERVIEW_DESC": "OpenCode đọc nhà cung cấp từ một tệp cấu hình JSON. Thêm {appName} với bộ chuyển đổi tương thích OpenAI để dùng mọi mô hình {appName}.",
       "STEP_1_TITLE": "Mở tệp cấu hình OpenCode",
-      "STEP_1_DESC": "Nhấn Ctrl + O trong OpenCode và dán đường dẫn. Trên Windows, hãy thay YOUR_USER bằng tên người dùng của bạn.",
+      "STEP_1_DESC": "Mở tệp cấu hình OpenCode bằng trình soạn thảo văn bản. Tạo tệp nếu nó chưa tồn tại.",
       "STEP_2_TITLE": "Thay thế nội dung tệp",
-      "STEP_2_DESC": "Xóa sạch tệp và dán khối nhà cung cấp {appName}. Thêm khóa API của bạn và chọn một mô hình từ danh mục.",
-      "STEP_3_TITLE": "Lưu và tải lại",
-      "STEP_3_DESC": "Nhấn Ctrl + S, rồi Ctrl + Shift + P và chạy Developer: Reload Window.",
+      "STEP_2_DESC": "Thêm khối nhà cung cấp {appName} vào cấu hình của bạn. Hợp nhất nó vào tệp hiện có và giữ lại các khối mcp hoặc agent bạn đang dùng.",
+      "STEP_3_TITLE": "Kiểm tra mô hình đã nạp",
+      "STEP_3_DESC": "Lưu tệp rồi chạy opencode models trong terminal. Mọi id bạn đã liệt kê đều phải xuất hiện, kèm tiền tố là khóa nhà cung cấp của bạn.",
       "STEP_4_TITLE": "Chọn một mô hình",
       "STEP_4_DESC": "Mở bộ chọn mô hình và chuyển sang mô hình mới của bạn. Bộ chuyển đổi lo phần luồng và gọi công cụ.",
-      "GOTCHA_1": "Với \"discoverModels\": true, OpenCode tải toàn bộ danh mục {appName} từ /v1/models khi khởi động, nên mọi mô hình đều xuất hiện trong bộ chọn mà không phải liệt kê thủ công.",
-      "GOTCHA_2": "Nếu Developer: Reload Window không hiện nhà cung cấp của bạn, hãy kiểm tra xem JSON đã lưu có dấu phẩy thừa ở cuối không.",
-      "GOTCHA_3": "Dùng đúng model id từ danh mục {appName}. Hãy bỏ tiền tố nhà cung cấp mà thao tác sao chép có thể đã thêm vào.",
-      "GOTCHA_4": "Không có tự động phát hiện, các bản OpenCode cũ cần một khối \"models\" liệt kê chính xác các id (ví dụ '{\"gemini-3.1-flash-lite\": {}}') và phải khởi động lại."
+      "GOTCHA_1": "OpenCode không có cơ chế tự phát hiện mô hình cho các nhà cung cấp tương thích OpenAI. Mọi mô hình bạn muốn dùng đều phải được liệt kê trong khối \"models\" với id chính xác.",
+      "GOTCHA_2": "Đừng đặt khóa nhà cung cấp chỉ là \"unorouter\". Id đó đã có trong sổ đăng ký models.dev, nên OpenCode sẽ dùng danh sách của họ thay vì của bạn và thiếu các mô hình mới. Hậu tố \"-live\" ở trên giúp tránh xung đột.",
+      "GOTCHA_3": "Dùng đúng id mô hình trong danh mục {appName}. Bỏ tiền tố nhà cung cấp do sao chép thêm vào, và giữ hậu tố :free ở những id có nó.",
+      "GOTCHA_4": "Khóa nhà cung cấp tùy chỉnh mà không có khối \"models\" sẽ nạp không mô hình nào, nên nhà cung cấp biến mất hoàn toàn khỏi bộ chọn."
     },
     "KILO_CODE": {
       "META": {

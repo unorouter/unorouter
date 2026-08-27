@@ -2472,17 +2472,17 @@
       "SUBTITLE": "{appName}을 OpenCode의 커스텀 제공자로 추가하고 아무 모델이나 활성 에이전트로 고르세요.",
       "OVERVIEW_DESC": "OpenCode는 JSON 설정에서 제공자를 읽습니다. OpenAI 호환 어댑터로 {appName}을 추가하면 모든 {appName} 모델을 쓸 수 있습니다.",
       "STEP_1_TITLE": "OpenCode 설정 파일 열기",
-      "STEP_1_DESC": "OpenCode 안에서 Ctrl + O를 누르고 경로를 붙여 넣으세요. Windows에서는 YOUR_USER를 사용자 이름으로 바꾸세요.",
+      "STEP_1_DESC": "OpenCode 설정 파일을 텍스트 편집기로 엽니다. 파일이 없으면 새로 만드세요.",
       "STEP_2_TITLE": "파일 내용 교체",
-      "STEP_2_DESC": "파일을 비우고 {appName} 제공자 블록을 붙여 넣으세요. API 키를 넣고 카탈로그에서 모델을 고르세요.",
-      "STEP_3_TITLE": "저장 후 다시 불러오기",
-      "STEP_3_DESC": "Ctrl + S를 누른 뒤 Ctrl + Shift + P로 Developer: Reload Window를 실행하세요.",
+      "STEP_2_DESC": "{appName} 공급자 블록을 설정에 추가합니다. 기존 파일에 병합하고 이미 사용 중인 mcp 또는 agent 블록은 그대로 두세요.",
+      "STEP_3_TITLE": "모델이 로드되는지 확인",
+      "STEP_3_DESC": "파일을 저장한 뒤 터미널에서 opencode models 를 실행하세요. 나열한 모든 id 가 공급자 키를 접두사로 하여 표시되어야 합니다.",
       "STEP_4_TITLE": "모델 선택",
       "STEP_4_DESC": "모델 선택기를 열고 새 모델로 바꾸세요. 어댑터가 스트리밍과 도구 호출을 처리합니다.",
-      "GOTCHA_1": "\"discoverModels\": true로 두면 OpenCode가 시작할 때 /v1/models에서 {appName} 전체 카탈로그를 가져오므로, 직접 나열하지 않아도 모든 모델이 선택기에 나타납니다.",
-      "GOTCHA_2": "Developer: Reload Window 후에도 제공자가 보이지 않으면 JSON이 끝쉼표 없이 저장되었는지 확인하세요.",
-      "GOTCHA_3": "{appName} 카탈로그의 정확한 모델 id를 쓰세요. 복사하면서 붙은 앞쪽 제공자 접두사는 지우세요.",
-      "GOTCHA_4": "자동 탐색이 없으면 예전 OpenCode는 정확한 id를 나열한 \"models\" 블록(예: '{\"gemini-3.1-flash-lite\": {}}')과 재시작이 필요합니다."
+      "GOTCHA_1": "OpenCode 에는 OpenAI 호환 공급자를 위한 실시간 모델 탐색 기능이 없습니다. 사용할 모델은 모두 정확한 id 로 \"models\" 블록에 적어야 합니다.",
+      "GOTCHA_2": "공급자 키 이름을 \"unorouter\" 로만 두지 마세요. 해당 id 는 models.dev 레지스트리에 이미 있어서 OpenCode 가 사용자의 목록 대신 레지스트리 목록을 사용하고, 최신 모델이 누락됩니다. 위의 \"-live\" 접미사가 충돌을 피해 줍니다.",
+      "GOTCHA_3": "{appName} 카탈로그의 정확한 모델 id 를 사용하세요. 복사하며 붙은 공급자 접두사는 지우고, id 에 :free 접미사가 있으면 그대로 유지하세요.",
+      "GOTCHA_4": "\"models\" 블록이 없는 사용자 지정 공급자 키는 모델을 하나도 불러오지 못하므로, 공급자가 선택 목록에서 완전히 사라집니다."
     },
     "KILO_CODE": {
       "META": {

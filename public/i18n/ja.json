@@ -2472,17 +2472,17 @@
       "SUBTITLE": "{appName} を OpenCode のカスタムプロバイダーとして追加し、任意のモデルをアクティブなエージェントとして選びます。",
       "OVERVIEW_DESC": "OpenCode は JSON 設定からプロバイダーを読み込みます。OpenAI互換アダプタで {appName} を追加すると、任意の {appName} モデルが使えます。",
       "STEP_1_TITLE": "OpenCode の設定ファイルを開く",
-      "STEP_1_DESC": "OpenCode 内で Ctrl + O を押してパスを貼り付けます。Windows では YOUR_USER を自分のユーザー名に置き換えてください。",
+      "STEP_1_DESC": "OpenCode の設定ファイルをテキストエディタで開きます。ファイルが無い場合は作成してください。",
       "STEP_2_TITLE": "ファイルの内容を置き換える",
-      "STEP_2_DESC": "ファイルを消して {appName} のプロバイダーブロックを貼り付けます。APIキーを追加し、カタログからモデルを選びます。",
-      "STEP_3_TITLE": "保存して再読み込みする",
-      "STEP_3_DESC": "Ctrl + S を押し、続いて Ctrl + Shift + P で Developer: Reload Window を実行します。",
+      "STEP_2_DESC": "{appName} のプロバイダーブロックを設定に追加します。既存のファイルに統合し、既にある mcp や agent のブロックはそのまま残してください。",
+      "STEP_3_TITLE": "モデルの読み込みを確認する",
+      "STEP_3_DESC": "ファイルを保存し、ターミナルで opencode models を実行します。記載したすべての ID が、プロバイダーキーを接頭辞として表示されるはずです。",
       "STEP_4_TITLE": "モデルを選択する",
       "STEP_4_DESC": "モデル選択を開いて新しいモデルに切り替えます。アダプタがストリーミングとツール呼び出しを処理します。",
-      "GOTCHA_1": "\"discoverModels\": true にすると、OpenCode が起動時に /v1/models から {appName} のカタログ全体を取得するため、手動で列挙しなくてもすべてのモデルが選択肢に現れます。",
-      "GOTCHA_2": "Developer: Reload Window でプロバイダーが表示されない場合は、JSON が末尾のカンマなしで保存されているか確認してください。",
-      "GOTCHA_3": "{appName} のカタログの正確なモデルIDを使ってください。コピー＆ペーストで付いた先頭のプロバイダー接頭辞は取り除きます。",
-      "GOTCHA_4": "自動検出がない場合、古い OpenCode では正確なIDを列挙した \"models\" ブロック（例：'{\"gemini-3.1-flash-lite\": {}}'）と再起動が必要です。"
+      "GOTCHA_1": "OpenCode には OpenAI 互換プロバイダー向けの動的なモデル検出がありません。使用したいモデルは、正確な ID を \"models\" ブロックにすべて記載する必要があります。",
+      "GOTCHA_2": "プロバイダーキーを \"unorouter\" のままにしないでください。その ID は models.dev のレジストリに既に存在するため、OpenCode はあなたの一覧ではなくレジストリの一覧を使い、新しいモデルが表示されません。上記の \"-live\" という接尾辞で衝突を回避できます。",
+      "GOTCHA_3": "{appName} のカタログにある正確なモデル ID を使用してください。コピー時に付いたプロバイダー接頭辞は削除し、ID に :free が付く場合はそのまま残します。",
+      "GOTCHA_4": "\"models\" ブロックのないカスタムプロバイダーキーは読み込むモデルが 0 件になるため、プロバイダー自体が選択画面から消えます。"
     },
     "KILO_CODE": {
       "META": {

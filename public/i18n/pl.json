@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Dodaj {appName} jako własnego dostawcę w OpenCode i wybierz dowolny model jako aktywnego agenta.",
       "OVERVIEW_DESC": "OpenCode czyta dostawców z konfiguracji JSON. Dodaj {appName} z adapterem zgodnym z OpenAI, aby korzystać z dowolnego modelu {appName}.",
       "STEP_1_TITLE": "Otwórz plik konfiguracyjny OpenCode",
-      "STEP_1_DESC": "Naciśnij Ctrl + O w OpenCode i wklej ścieżkę. Na Windows zamień YOUR_USER na swoją nazwę użytkownika.",
+      "STEP_1_DESC": "Otwórz konfigurację OpenCode w edytorze tekstu. Utwórz plik, jeśli jeszcze nie istnieje.",
       "STEP_2_TITLE": "Zastąp zawartość pliku",
-      "STEP_2_DESC": "Wyczyść plik i wklej blok dostawcy {appName}. Dodaj swój klucz API i wybierz model z katalogu.",
-      "STEP_3_TITLE": "Zapisz i przeładuj",
-      "STEP_3_DESC": "Naciśnij Ctrl + S, potem Ctrl + Shift + P i uruchom Developer: Reload Window.",
+      "STEP_2_DESC": "Dodaj blok dostawcy {appName} do swojej konfiguracji. Scal go z istniejącym plikiem, zachowując posiadane bloki mcp lub agent.",
+      "STEP_3_TITLE": "Sprawdź wczytywanie modeli",
+      "STEP_3_DESC": "Zapisz plik i uruchom opencode models w terminalu. Każdy wypisany identyfikator powinien się pojawić z przedrostkiem twojego klucza dostawcy.",
       "STEP_4_TITLE": "Wybierz model",
       "STEP_4_DESC": "Otwórz listę modeli i przełącz się na nowy model. Adapter obsługuje strumieniowanie i wywoływanie narzędzi.",
-      "GOTCHA_1": "Przy \"discoverModels\": true OpenCode pobiera przy starcie pełny katalog {appName} z /v1/models, więc każdy model pojawia się na liście bez ręcznego wypisywania.",
-      "GOTCHA_2": "Jeśli Developer: Reload Window nie pokazuje twojego dostawcy, sprawdź, czy JSON zapisał się bez przecinków na końcu list.",
-      "GOTCHA_3": "Używaj dokładnych identyfikatorów modeli z katalogu {appName}. Usuń przedrostek dostawcy, jeśli dokleiło go kopiowanie.",
-      "GOTCHA_4": "Bez automatycznego wykrywania starsze wersje OpenCode wymagają bloku \"models\" z dokładnymi identyfikatorami (np. '{\"gemini-3.1-flash-lite\": {}}') i restartu."
+      "GOTCHA_1": "OpenCode nie ma dynamicznego wykrywania modeli dla dostawców zgodnych z OpenAI. Każdy potrzebny model musi znaleźć się w bloku \"models\" z dokładnym identyfikatorem.",
+      "GOTCHA_2": "Nie nazywaj klucza dostawcy po prostu \"unorouter\". Ten identyfikator już istnieje w rejestrze models.dev, więc OpenCode użyje jego listy zamiast twojej i zabraknie nowszych modeli. Przyrostek \"-live\" powyżej pozwala uniknąć kolizji.",
+      "GOTCHA_3": "Używaj dokładnych identyfikatorów z katalogu {appName}. Usuń przedrostek dostawcy dodany przez kopiowanie i zachowaj końcówkę :free tam, gdzie identyfikator ją ma.",
+      "GOTCHA_4": "Własny klucz dostawcy bez bloku \"models\" wczytuje zero modeli, więc dostawca znika z listy wyboru całkowicie."
     },
     "KILO_CODE": {
       "META": {

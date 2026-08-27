@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Aggiungi {appName} come provider personalizzato in OpenCode e scegli un modello qualsiasi come agente attivo.",
       "OVERVIEW_DESC": "OpenCode legge i provider da una configurazione JSON. Aggiungi {appName} con l''adattatore compatibile con OpenAI per usare qualsiasi modello {appName}.",
       "STEP_1_TITLE": "Aprire il file di configurazione di OpenCode",
-      "STEP_1_DESC": "Premi Ctrl + O dentro OpenCode e incolla il percorso. Su Windows, sostituisci YOUR_USER con il tuo nome utente.",
+      "STEP_1_DESC": "Apri la configurazione di OpenCode in un editor di testo. Crea il file se non esiste ancora.",
       "STEP_2_TITLE": "Sostituire il contenuto del file",
-      "STEP_2_DESC": "Svuota il file e incolla il blocco provider di {appName}. Aggiungi la tua chiave API e scegli un modello dal catalogo.",
-      "STEP_3_TITLE": "Salvare e ricaricare",
-      "STEP_3_DESC": "Premi Ctrl + S, poi Ctrl + Shift + P ed esegui Developer: Reload Window.",
+      "STEP_2_DESC": "Aggiungi il blocco provider di {appName} alla configurazione. Uniscilo al file esistente mantenendo eventuali blocchi mcp o agent.",
+      "STEP_3_TITLE": "Verificare il caricamento dei modelli",
+      "STEP_3_DESC": "Salva il file ed esegui opencode models in un terminale. Ogni id elencato deve comparire, preceduto dalla tua chiave provider.",
       "STEP_4_TITLE": "Scegliere un modello",
       "STEP_4_DESC": "Apri il selettore dei modelli e passa al nuovo modello. L'adattatore gestisce lo streaming e le chiamate agli strumenti.",
-      "GOTCHA_1": "Con \"discoverModels\": true, OpenCode carica all''avvio l''intero catalogo {appName} da /v1/models, quindi ogni modello compare nel selettore senza doverli elencare a mano.",
-      "GOTCHA_2": "Se Developer: Reload Window non mostra il tuo provider, controlla che il JSON sia stato salvato senza virgole finali.",
-      "GOTCHA_3": "Usa gli id di modello esatti dal catalogo {appName}. Rimuovi eventuali prefissi provider aggiunti da un copia incolla.",
-      "GOTCHA_4": "Senza il rilevamento automatico, le versioni più vecchie di OpenCode richiedono un blocco \"models\" che elenchi gli id esatti (es. '{\"gemini-3.1-flash-lite\": {}}') e un riavvio."
+      "GOTCHA_1": "OpenCode non dispone di rilevamento dinamico dei modelli per i provider compatibili con OpenAI. Ogni modello desiderato va indicato nel blocco \"models\" con l'id esatto.",
+      "GOTCHA_2": "Non chiamare la chiave del provider semplicemente \"unorouter\". Quell'id esiste già nel registro models.dev e OpenCode userà quell'elenco invece del tuo, facendo mancare i modelli più recenti. Il suffisso \"-live\" sopra evita il conflitto.",
+      "GOTCHA_3": "Usa gli id esatti del catalogo {appName}. Rimuovi eventuali prefissi provider aggiunti da un copia e incolla e mantieni il suffisso :free dove l'id lo prevede.",
+      "GOTCHA_4": "Una chiave provider personalizzata senza blocco \"models\" carica zero modelli, quindi il provider sparisce del tutto dal selettore."
     },
     "KILO_CODE": {
       "META": {

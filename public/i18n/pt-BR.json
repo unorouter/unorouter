@@ -2472,17 +2472,17 @@
       "SUBTITLE": "Adicione o {appName} como provedor personalizado no OpenCode e escolha qualquer modelo como agente ativo.",
       "OVERVIEW_DESC": "O OpenCode lê os provedores de uma configuração JSON. Adicione o {appName} com o adaptador compatível com a OpenAI para usar qualquer modelo do {appName}.",
       "STEP_1_TITLE": "Abrir o arquivo de configuração do OpenCode",
-      "STEP_1_DESC": "Pressione Ctrl + O dentro do OpenCode e cole o caminho. No Windows, substitua YOUR_USER pelo seu nome de usuário.",
+      "STEP_1_DESC": "Abra sua configuração do OpenCode em um editor de texto. Crie o arquivo caso ele ainda não exista.",
       "STEP_2_TITLE": "Substituir o conteúdo do arquivo",
-      "STEP_2_DESC": "Apague o arquivo e cole o bloco do provedor {appName}. Adicione sua chave de API e escolha um modelo do catálogo.",
-      "STEP_3_TITLE": "Salvar e recarregar",
-      "STEP_3_DESC": "Pressione Ctrl + S, depois Ctrl + Shift + P e execute Developer: Reload Window.",
+      "STEP_2_DESC": "Adicione o bloco de provedor da {appName} à sua configuração. Combine-o com o arquivo existente, mantendo os blocos mcp ou agent que você já tiver.",
+      "STEP_3_TITLE": "Verificar o carregamento dos modelos",
+      "STEP_3_DESC": "Salve o arquivo e execute opencode models em um terminal. Todo id que você listou deve aparecer, prefixado pela sua chave de provedor.",
       "STEP_4_TITLE": "Escolher um modelo",
       "STEP_4_DESC": "Abra o seletor de modelos e troque para o seu novo modelo. O adaptador cuida do streaming e da chamada de ferramentas.",
-      "GOTCHA_1": "Com \"discoverModels\": true, o OpenCode busca o catálogo completo do {appName} em /v1/models na inicialização, então todos os modelos aparecem no seletor sem precisar listá-los manualmente.",
-      "GOTCHA_2": "Se Developer: Reload Window não mostrar seu provedor, verifique se o JSON foi salvo sem vírgulas sobrando.",
-      "GOTCHA_3": "Use ids de modelo exatos do catálogo do {appName}. Remova qualquer prefixo de provedor que a cópia tenha acrescentado.",
-      "GOTCHA_4": "Sem descoberta automática, versões antigas do OpenCode precisam de um bloco \"models\" listando os ids exatos (ex.: '{\"gemini-3.1-flash-lite\": {}}') e de um reinício."
+      "GOTCHA_1": "O OpenCode não faz descoberta dinâmica de modelos para provedores compatíveis com OpenAI. Todo modelo desejado precisa estar no bloco \"models\" com o id exato.",
+      "GOTCHA_2": "Não use apenas \"unorouter\" como chave do provedor. Esse id já existe no registro do models.dev, e o OpenCode passa a usar a lista dele em vez da sua, deixando de fora os modelos mais novos. O sufixo \"-live\" acima evita o conflito.",
+      "GOTCHA_3": "Use os ids exatos do catálogo da {appName}. Remova qualquer prefixo de provedor que um copiar e colar tenha acrescentado e mantenha o sufixo :free quando o id tiver um.",
+      "GOTCHA_4": "Uma chave de provedor personalizada sem bloco \"models\" carrega zero modelos, então o provedor some por completo do seletor."
     },
     "KILO_CODE": {
       "META": {

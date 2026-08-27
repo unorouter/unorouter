@@ -2472,17 +2472,17 @@
       "SUBTITLE": "把 {appName} 加為 OpenCode 的自訂供應商，並挑選任一模型作為使用中的代理程式。",
       "OVERVIEW_DESC": "OpenCode 會從 JSON 設定讀取供應商。用 OpenAI 相容轉接器加入 {appName}，就能使用任何 {appName} 模型。",
       "STEP_1_TITLE": "開啟 OpenCode 設定檔",
-      "STEP_1_DESC": "在 OpenCode 中按 Ctrl + O 並貼上路徑。在 Windows 上，請把 YOUR_USER 換成你的使用者名稱。",
+      "STEP_1_DESC": "用文字編輯器開啟 OpenCode 設定檔。若檔案不存在，請自行建立。",
       "STEP_2_TITLE": "取代檔案內容",
-      "STEP_2_DESC": "清空檔案並貼上 {appName} 的供應商設定區塊。填入你的 API 金鑰，並從目錄中挑一個模型。",
-      "STEP_3_TITLE": "儲存並重新載入",
-      "STEP_3_DESC": "按 Ctrl + S，接著按 Ctrl + Shift + P 執行 Developer: Reload Window。",
+      "STEP_2_DESC": "將 {appName} 的 provider 設定區塊加入你的設定。請與現有檔案合併，保留你已有的 mcp 或 agent 區塊。",
+      "STEP_3_TITLE": "確認模型已載入",
+      "STEP_3_DESC": "儲存檔案後，在終端機執行 opencode models。你列出的每個 id 都應該出現，並以你的 provider 鍵作為前綴。",
       "STEP_4_TITLE": "選擇模型",
       "STEP_4_DESC": "開啟模型選擇器並切換到新模型。轉接器會處理串流與工具呼叫。",
-      "GOTCHA_1": "設定 \"discoverModels\": true 後，OpenCode 啟動時會從 /v1/models 抓取 {appName} 的完整目錄，因此不必逐一列出，所有模型都會出現在選擇器中。",
-      "GOTCHA_2": "如果執行 Developer: Reload Window 之後仍看不到你的供應商，請檢查儲存的 JSON 是否有多餘的結尾逗號。",
-      "GOTCHA_3": "請使用 {appName} 目錄中的精確模型 id。複製貼上時帶上的供應商前綴請刪掉。",
-      "GOTCHA_4": "沒有自動探索時，較舊的 OpenCode 需要一個列出精確 id 的 \"models\" 設定區塊（例如 '{\"gemini-3.1-flash-lite\": {}}'）並重新啟動。"
+      "GOTCHA_1": "OpenCode 對相容 OpenAI 的 provider 並沒有即時模型探索功能。你想使用的每個模型，都必須以正確的 id 寫入 \"models\" 區塊。",
+      "GOTCHA_2": "不要把 provider 鍵直接命名為 \"unorouter\"。該 id 已存在於 models.dev 註冊表，OpenCode 會改用註冊表的清單而非你的清單，導致較新的模型不見。上面的 \"-live\" 後綴可以避開衝突。",
+      "GOTCHA_3": "請使用 {appName} 目錄中正確的模型 id。移除複製貼上時附帶的 provider 前綴，若 id 帶有 :free 後綴則保留。",
+      "GOTCHA_4": "自訂 provider 鍵若缺少 \"models\" 區塊，載入的模型數會是零，該 provider 會完全從選擇器中消失。"
     },
     "KILO_CODE": {
       "META": {
