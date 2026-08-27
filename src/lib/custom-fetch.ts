@@ -90,7 +90,7 @@ export const customFetch = async <T>(
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
   const clientIp =
-    hasExplicitAuth || getHeader(headers, "X-Forwarded-For")
+    hasExplicitAuth || getHeader(headers, "CF-Connecting-IP")
       ? ""
       : await getServerClientIp();
 
@@ -100,7 +100,7 @@ export const customFetch = async <T>(
     signal: AbortSignal.timeout(REQUEST_TIMEOUT),
     headers: {
       ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
-      ...(clientIp && { "X-Forwarded-For": clientIp }),
+      ...(clientIp && { "CF-Connecting-IP": clientIp }),
       ...headers,
     },
   });

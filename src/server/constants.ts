@@ -99,7 +99,12 @@ export async function deriveUpstream({ request }: { request: Request }) {
     request.headers.get("cf-connecting-ip") ??
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     request.headers.get("x-real-ip");
-  if (clientIp) headers["X-Forwarded-For"] = clientIp;
+  // CF-Connecting-IP, not X-Forwarded-For: the gateway trusts only the former,
+  // because XFF is append-style and any pod can prepend to it. Sending XFF here
+  // meant the gateway discarded it and audited the BFF pod address instead, so
+  // 64% of logins became unattributable and the alerts keyed on logs.ip went
+  // blind on every request that arrives through this site.
+  if (clientIp) headers["CF-Connecting-IP"] = clientIp;
 
   if (cookieHeader) {
     const parsed = parseCookie(cookieHeader);
