@@ -4390,6 +4390,7 @@
     "CARD_IMPORT_PRIVATE": "Yazar bunu gizli tuttuğu için indirilemiyor.",
     "CARD_IMPORT_EMPTY": "Bu bağlantıda içe aktarılabilecek bir şey yoktu.",
     "CARD_IMPORT_TIMED_OUT": "Kaynak yanıt vermekte çok gecikti. Bir dakika sonra tekrar deneyin.",
+    "CARD_IMPORT_BUSY": "İçe aktarma kuyruğu şu anda yoğun. Birazdan tekrar deneyin.",
     "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin.",
     "CARD_IMPORT_UNAVAILABLE": "İçe aktarma servisine şu anda ulaşılamıyor. Lütfen birkaç dakika sonra tekrar dene.",
     "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil."
