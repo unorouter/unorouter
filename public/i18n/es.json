@@ -4390,6 +4390,7 @@
     "CARD_IMPORT_PRIVATE": "El autor lo mantuvo privado, así que no se puede descargar.",
     "CARD_IMPORT_EMPTY": "No había nada importable en ese enlace.",
     "CARD_IMPORT_TIMED_OUT": "El origen tardó demasiado en responder. Inténtalo de nuevo en un minuto.",
+    "CARD_IMPORT_BUSY": "La cola de importación está ocupada ahora mismo. Inténtalo de nuevo en un momento.",
     "CARD_IMPORT_JOB_GONE": "Esa importación caducó antes de terminar. Envía el enlace de nuevo.",
     "CARD_IMPORT_UNAVAILABLE": "El servicio de importación no está disponible ahora mismo. Inténtalo de nuevo en unos minutos.",
     "CARD_FILE_INVALID": "Ese archivo no es una exportación de tarjeta."

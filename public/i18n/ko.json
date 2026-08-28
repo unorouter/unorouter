@@ -4390,6 +4390,7 @@
     "CARD_IMPORT_PRIVATE": "작성자가 비공개로 설정해 두어 내려받을 수 없습니다.",
     "CARD_IMPORT_EMPTY": "그 링크에는 가져올 수 있는 내용이 없었습니다.",
     "CARD_IMPORT_TIMED_OUT": "원본 응답이 너무 오래 걸렸습니다. 잠시 후 다시 시도하세요.",
+    "CARD_IMPORT_BUSY": "가져오기 대기열이 혼잡합니다. 잠시 후 다시 시도해 주세요.",
     "CARD_IMPORT_JOB_GONE": "해당 가져오기가 끝나기 전에 만료되었습니다. 링크를 다시 보내세요.",
     "CARD_IMPORT_UNAVAILABLE": "가져오기 서비스에 현재 연결할 수 없습니다. 몇 분 후에 다시 시도해 주세요.",
     "CARD_FILE_INVALID": "해당 파일은 카드 내보내기 파일이 아닙니다."

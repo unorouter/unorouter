@@ -29,6 +29,10 @@ const SUBMIT_ERRORS: Record<string, string> = {
 function importFailureMessage(raw: string | null | undefined): string {
   const e = (raw ?? "").toLowerCase();
   if (!e) return msg("ERRORS.CARD_IMPORT_FETCH_FAILED");
+  // The worker gave up early because other callers were queued behind it, so the
+  // upstream error it carries is incidental: reporting that would send the user
+  // looking for a missing card when the answer is simply to try again.
+  if (e.startsWith("busy:")) return msg("ERRORS.CARD_IMPORT_BUSY");
   if (e.includes("timed out")) return msg("ERRORS.CARD_IMPORT_TIMED_OUT");
   if (e.includes("private") || e.includes("downloads disabled"))
     return msg("ERRORS.CARD_IMPORT_PRIVATE");
