@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Gömülecek metin verilmedi",
     "CARD_IMPORT_TOO_MANY": "Zaten devam eden içe aktarmalarınız var. Bitmelerini bekleyip tekrar deneyin.",
     "CARD_IMPORT_NOT_FOUND": "Bu karakter kaynakta artık yok ya da gizli yapılmış.",
+    "CARD_IMPORT_NOT_INDEXED": "Bu karakter henüz datacat'te yok; JanitorAI kartları oradan alınıyor. Tarayıcı betiğini kullanın veya kart dosyasını doğrudan içe aktarın.",
     "CARD_IMPORT_PRIVATE": "Yazar bunu gizli tuttuğu için indirilemiyor.",
     "CARD_IMPORT_EMPTY": "Bu bağlantıda içe aktarılabilecek bir şey yoktu.",
     "CARD_IMPORT_TIMED_OUT": "Kaynak yanıt vermekte çok gecikti. Bir dakika sonra tekrar deneyin.",

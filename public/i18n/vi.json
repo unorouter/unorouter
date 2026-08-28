@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Không có văn bản để nhúng",
     "CARD_IMPORT_TOO_MANY": "Bạn đang có các lượt nhập đang chạy. Hãy đợi chúng hoàn tất rồi thử lại.",
     "CARD_IMPORT_NOT_FOUND": "Nhân vật đó không còn tồn tại ở nguồn, hoặc đã được đặt ở chế độ riêng tư.",
+    "CARD_IMPORT_NOT_INDEXED": "Nhân vật này chưa có trên datacat, nơi các thẻ JanitorAI được lấy về. Hãy dùng script trình duyệt hoặc nhập tệp thẻ trực tiếp.",
     "CARD_IMPORT_PRIVATE": "Tác giả để ở chế độ riêng tư nên không thể tải về.",
     "CARD_IMPORT_EMPTY": "Không có gì để nhập ở liên kết đó.",
     "CARD_IMPORT_TIMED_OUT": "Nguồn phản hồi quá lâu. Hãy thử lại sau một phút.",

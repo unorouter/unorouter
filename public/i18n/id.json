@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Tidak ada teks untuk disematkan",
     "CARD_IMPORT_TOO_MANY": "Kamu sudah punya impor yang berjalan. Tunggu sampai selesai, lalu coba lagi.",
     "CARD_IMPORT_NOT_FOUND": "Karakter itu sudah tidak ada di sumbernya, atau dijadikan privat.",
+    "CARD_IMPORT_NOT_INDEXED": "Karakter ini belum ada di datacat, tempat kartu JanitorAI diambil. Gunakan skrip peramban atau impor berkas kartu secara langsung.",
     "CARD_IMPORT_PRIVATE": "Pembuatnya menyetel ini privat, jadi tidak bisa diunduh.",
     "CARD_IMPORT_EMPTY": "Tidak ada yang bisa diimpor dari tautan itu.",
     "CARD_IMPORT_TIMED_OUT": "Sumbernya terlalu lama merespons. Coba lagi sebentar.",

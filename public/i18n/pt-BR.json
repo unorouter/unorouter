@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Nenhum texto fornecido para incorporar",
     "CARD_IMPORT_TOO_MANY": "Você já tem importações em andamento. Aguarde a conclusão e tente novamente.",
     "CARD_IMPORT_NOT_FOUND": "Esse personagem não existe mais na origem, ou foi tornado privado.",
+    "CARD_IMPORT_NOT_INDEXED": "Este personagem ainda não está no datacat, de onde os cards do JanitorAI são obtidos. Use o script do navegador ou importe o arquivo do card diretamente.",
     "CARD_IMPORT_PRIVATE": "O autor manteve isso privado, então não é possível baixar.",
     "CARD_IMPORT_EMPTY": "Não havia nada importável nesse link.",
     "CARD_IMPORT_TIMED_OUT": "A origem demorou demais para responder. Tente de novo em um minuto.",
