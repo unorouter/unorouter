@@ -36,6 +36,11 @@ function importFailureMessage(raw: string | null | undefined): string {
   if (e.includes("timed out")) return msg("ERRORS.CARD_IMPORT_TIMED_OUT");
   if (e.includes("private") || e.includes("downloads disabled"))
     return msg("ERRORS.CARD_IMPORT_PRIVATE");
+  // JanitorAI characters are fetched through datacat's crawl, so a card that
+  // exists on the site is still unavailable to us until datacat has indexed it.
+  // That is a different thing from a deleted card and needs its own wording.
+  if (e.includes("character not indexed"))
+    return msg("ERRORS.CARD_IMPORT_NOT_INDEXED");
   if (e.includes("not_found") || e.includes("no longer exists"))
     return msg("ERRORS.CARD_IMPORT_NOT_FOUND");
   if (e.includes("no character id") || e.includes("no lorebook id"))

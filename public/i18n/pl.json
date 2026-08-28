@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Nie podano tekstu do osadzenia",
     "CARD_IMPORT_TOO_MANY": "Masz już trwające importy. Poczekaj, aż się zakończą, i spróbuj ponownie.",
     "CARD_IMPORT_NOT_FOUND": "Tej postaci już nie ma w źródle albo została ustawiona jako prywatna.",
+    "CARD_IMPORT_NOT_INDEXED": "Tej postaci nie ma jeszcze na datacat, skąd pobierane są karty JanitorAI. Użyj skryptu przeglądarki lub zaimportuj plik karty bezpośrednio.",
     "CARD_IMPORT_PRIVATE": "Autor zachował to jako prywatne, więc nie da się pobrać.",
     "CARD_IMPORT_EMPTY": "Pod tym linkiem nie było nic do zaimportowania.",
     "CARD_IMPORT_TIMED_OUT": "Źródło odpowiadało zbyt długo. Spróbuj ponownie za minutę.",

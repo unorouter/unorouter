@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "未提供需要向量化的文字",
     "CARD_IMPORT_TOO_MANY": "你已有正在進行的匯入。請等待完成後再試。",
     "CARD_IMPORT_NOT_FOUND": "該角色在來源站點已不存在，或已被設為私密。",
+    "CARD_IMPORT_NOT_INDEXED": "該角色尚未收錄在 datacat 中，JanitorAI 的卡片是從那裡取得的。請使用瀏覽器指令碼，或直接匯入卡片檔案。",
     "CARD_IMPORT_PRIVATE": "作者將其設為私密，因此無法下載。",
     "CARD_IMPORT_EMPTY": "該連結中沒有可匯入的內容。",
     "CARD_IMPORT_TIMED_OUT": "來源回應逾時。請稍後再試。",

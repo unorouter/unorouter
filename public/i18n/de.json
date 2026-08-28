@@ -4387,6 +4387,7 @@
     "NO_EMBEDDING_INPUT": "Kein Text zum Einbetten angegeben",
     "CARD_IMPORT_TOO_MANY": "Es laufen bereits Importe. Warte, bis sie fertig sind, und versuche es erneut.",
     "CARD_IMPORT_NOT_FOUND": "Diesen Charakter gibt es an der Quelle nicht mehr, oder er wurde auf privat gestellt.",
+    "CARD_IMPORT_NOT_INDEXED": "Dieser Charakter ist noch nicht auf datacat, von wo JanitorAI-Karten geladen werden. Nutze das Browser-Skript oder importiere die Kartendatei direkt.",
     "CARD_IMPORT_PRIVATE": "Der Autor hat das privat gehalten, es kann daher nicht geladen werden.",
     "CARD_IMPORT_EMPTY": "Unter diesem Link war nichts Importierbares.",
     "CARD_IMPORT_TIMED_OUT": "Die Quelle hat zu lange gebraucht. Versuche es in einer Minute erneut.",
