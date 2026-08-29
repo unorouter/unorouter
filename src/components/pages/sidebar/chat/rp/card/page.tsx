@@ -135,7 +135,9 @@ export function CardsPage() {
           )
         }
         list={
-          <div className="flex flex-col gap-2">
+          // The ROWS scroll, not the page: an import can bring many items at
+          // once, and scrolling everything pushes the controls away.
+          <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
             {cardsQuery.data?.length === 0 && (
               <RpEmptyCard labelKey="RP.CARDS_EMPTY" />
             )}

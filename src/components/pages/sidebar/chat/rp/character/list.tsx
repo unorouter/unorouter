@@ -112,21 +112,21 @@ export function CharacterList(props: Props) {
               </Button>
             </div>
 
+            <Input
+              value={rpQuery}
+              onChange={(e) => setRpQuery(e.target.value)}
+              placeholder={t("RP.LIST_SEARCH")}
+              aria-label={t("RP.LIST_SEARCH")}
+            />
+
             {charsQuery.data?.length === 0 && (
               <RpEmptyCard labelKey="RP.CHARACTERS_EMPTY" />
             )}
 
-            <Input
-              value={rpQuery}
-
-              onChange={(e) => setRpQuery(e.target.value)}
-
-              placeholder={t("RP.LIST_SEARCH")}
-
-              aria-label={t("RP.LIST_SEARCH")}
-            />
-
-            <div className="flex flex-col gap-2">
+            {/* The ROWS scroll, not the dialog: importing a document brings 29
+                characters at once, and scrolling the whole card pushes the
+                search box and the import buttons off screen. */}
+            <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
               {rpFilter(charsQuery.data, rpQuery, (c) => [
                 c.name,
                 c.description,
