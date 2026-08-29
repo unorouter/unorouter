@@ -87,7 +87,7 @@ export function PresetsPage() {
       list={
         // The ROWS scroll, not the page: an import can bring many items at once,
         // and scrolling everything pushes the search and import controls away.
-        <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
+        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
           {presetsQuery.data?.length === 0 && (
             <RpEmptyCard labelKey="RP.PRESETS_EMPTY" />
           )}
