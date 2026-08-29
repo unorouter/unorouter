@@ -156,11 +156,6 @@ export type LocalClient = {
   };
 };
 
-export type CopyRowFailure = {
-  table: string;
-  row: Record<string, unknown>;
-  error: unknown;
-};
 export type ScopedTable = SQLiteTable;
 export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
 export type StoreRow = Record<string, unknown>;

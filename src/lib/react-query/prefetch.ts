@@ -12,10 +12,14 @@ export function prefetchElysia<T extends ElysiaResult>(
   queryKey: QueryKey,
   call: (cookies: CookieHeaders) => Promise<T>,
 ) {
-  return qc.prefetchQuery({
-    queryKey,
-    queryFn: async () => handleElysia(await call(await setCookies())),
-  });
+  // query() throws where prefetchQuery swallowed; a failed prefetch must stay
+  // a cache miss, not a crashed render.
+  return qc
+    .query({
+      queryKey,
+      queryFn: async () => handleElysia(await call(await setCookies())),
+    })
+    .catch(() => undefined);
 }
 
 // Never route this through prefetchQuery: it discards a throwing queryFn, so a
@@ -33,7 +37,7 @@ export function fetchElysia<T extends ElysiaResult>(
   queryKey: QueryKey,
   call: (cookies: CookieHeaders) => Promise<T>,
 ) {
-  return qc.fetchQuery({
+  return qc.query({
     queryKey,
     queryFn: async () => handleElysia(await call(await setCookies())),
   });

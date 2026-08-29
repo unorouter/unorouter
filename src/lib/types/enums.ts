@@ -3,15 +3,6 @@ export enum StoreId {
   DATA_TABLES_STORE = "DATA_TABLES_STORE",
 }
 
-export enum ModelTypeFilter {
-  ALL = "all",
-  TEXT = "text",
-  IMAGE = "image",
-  VIDEO = "video",
-  AUDIO = "audio",
-  EMBEDDING = "embedding",
-}
-
 export enum Vendor {
   OPENAI = "openai",
   ANTHROPIC = "anthropic",

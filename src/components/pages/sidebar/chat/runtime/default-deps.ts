@@ -21,7 +21,7 @@ async function fetchModelInfo(
 ): Promise<PricingCatalogDetail | undefined> {
   if (!model) return undefined;
   try {
-    const res = await getQueryClient().fetchQuery({
+    const res = await getQueryClient().query({
       queryKey: queryKeys.pricingModel(model),
       queryFn: () => rpc.api.models.pricing.detail.get({ query: { model } }),
       staleTime: 5 * 60 * 1000,
