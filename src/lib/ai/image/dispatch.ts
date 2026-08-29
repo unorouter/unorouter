@@ -6,7 +6,7 @@ export const SYNC_IMAGE_ENDPOINTS = [
   "gemini",
 ] as const;
 export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
-import { safeFetchBytes } from "@/lib/config/safe-fetch";
+import { safeFetchBytes, verifyMagicBytes } from "@/lib/config/safe-fetch";
 import {
   base64ToDataUri,
   nonEmptyString as str,
@@ -24,8 +24,10 @@ type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-  const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
-  const mime = contentType?.split(";")[0]?.trim() || "image/png";
+  const { buffer: buf } = await safeFetchBytes(url, MAX_REF_BYTES);
+  // Detected from the bytes, not the header: the URL is user-supplied and the
+  // result is re-sent upstream as a data URI.
+  const mime = await verifyMagicBytes(buf);
   const base64 = buf.toString("base64");
   return { buf, mime, base64, dataUri: base64ToDataUri(base64, mime) };
 }

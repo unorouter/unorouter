@@ -313,14 +313,17 @@ export async function verifyMagicBytes(
   return detected.mime;
 }
 
+// The mime comes from the BYTES, never from the header or data: prefix: a
+// backend declaring image/png for an html error page must fail here, not
+// after the payload is persisted and rendered.
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,
 ): Promise<{ buffer: Buffer; mime: string; sizeBytes: number }> {
   if (url.startsWith("data:")) {
-    const [header, base64] = url.split(",");
-    const mime = header.match(/data:([^;]+)/)?.[1] ?? "image/png";
+    const base64 = url.split(",")[1] ?? "";
     const buffer = Buffer.from(base64, "base64");
+    const mime = await verifyMagicBytes(buffer);
     return { buffer, mime, sizeBytes: buffer.length };
   }
   const headers = authToken
@@ -329,9 +332,6 @@ export async function downloadGenerationBytes(
   const res = await safeFetch(url, "GET", headers);
   if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   const buffer = await readBodyWithLimit(res);
-  return {
-    buffer,
-    mime: res.headers.get("content-type") ?? "image/png",
-    sizeBytes: buffer.length,
-  };
+  const mime = await verifyMagicBytes(buffer);
+  return { buffer, mime, sizeBytes: buffer.length };
 }

@@ -92,7 +92,7 @@ export async function submitVideoTask(
 
 export async function finalizeVideoTask(body: FinalizeTaskBody) {
   const bytes = await downloadGenerationBytes(body.resultUrl);
-  // AI Horde image tasks return webp; anything unrecognised defaults to mp4.
+  // AI Horde image tasks return webp.
   const isImage = bytes.mime.startsWith("image/");
   const isVideo = bytes.mime.startsWith("video/");
   const mime = isImage || isVideo ? bytes.mime : "video/mp4";
