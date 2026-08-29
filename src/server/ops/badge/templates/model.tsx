@@ -1,4 +1,5 @@
 import type { PricingCatalogModel } from "@/openapi";
+import type { ReactNode } from "react";
 import { IconCell } from "../elements/feature-badge";
 import { Brand } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
@@ -60,12 +61,87 @@ export function ModelStat(props: {
   );
 }
 
+export function PriceStats(props: {
+  ctx: BadgeCtx;
+  model: PricingCatalogModel;
+  gap: number;
+  valueFont?: number;
+  labelFont?: number;
+}) {
+  const model = props.model;
+  return (
+    <div style={{ display: "flex", gap: props.gap }}>
+      <ModelStat
+        value={fmtPrice(
+          model.is_fixed_price ? model.fixed_price : model.input_price,
+        )}
+        label={t(
+          props.ctx.locale,
+          model.is_fixed_price ? "BADGE.MODEL" : "BADGE.INPUT",
+        )}
+        valueFont={props.valueFont}
+        labelFont={props.labelFont}
+      />
+      {!model.is_fixed_price && (
+        <ModelStat
+          value={fmtPrice(model.output_price)}
+          label={t(props.ctx.locale, "BADGE.OUTPUT")}
+          valueFont={props.valueFont}
+          labelFont={props.labelFont}
+        />
+      )}
+    </div>
+  );
+}
+
+export async function renderOgFrame(opts: {
+  ctx: BadgeCtx;
+  focus: number;
+  justifyBetween?: boolean;
+  children: ReactNode;
+}): Promise<string> {
+  const node = (
+    <div
+      style={{ display: "flex", flexDirection: "column", width: W, height: H }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: W,
+          height: H - 1,
+          padding: `${PAD}px ${PAD}px ${Math.round(PAD * 0.75)}px`,
+          ...(opts.justifyBetween && { justifyContent: "space-between" }),
+        }}
+      >
+        <Brand c={THEME_COLORS.dark} logoSize={64} fontSize={40} />
+        {opts.children}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          width: W,
+          height: 1,
+          backgroundImage: RAINBOW,
+        }}
+      />
+    </div>
+  );
+
+  return renderBadgeTemplate({
+    node,
+    width: W,
+    height: H,
+    svgBackground: bgSvg(W, H, opts.focus, 0.7, "grid"),
+    staticMode: opts.ctx.staticMode,
+  });
+}
+
 export async function generateModel(
   ctx: BadgeCtx,
   model: PricingCatalogModel | null,
   requested: string,
 ): Promise<string> {
-  const c = THEME_COLORS.dark;
   const name = model?.model_name ?? requested;
   const vendorSvg = model ? getVendorColorIcon(model.vendor) : null;
   const contextWindow = model?.metadata?.contextWindow;
@@ -87,23 +163,7 @@ export async function generateModel(
             valueColor="#46d36a"
           />
         ) : (
-          <div style={{ display: "flex", gap: 64 }}>
-            <ModelStat
-              value={fmtPrice(
-                model.is_fixed_price ? model.fixed_price : model.input_price,
-              )}
-              label={t(
-                ctx.locale,
-                model.is_fixed_price ? "BADGE.MODEL" : "BADGE.INPUT",
-              )}
-            />
-            {!model.is_fixed_price && (
-              <ModelStat
-                value={fmtPrice(model.output_price)}
-                label={t(ctx.locale, "BADGE.OUTPUT")}
-              />
-            )}
-          </div>
+          <PriceStats ctx={ctx} model={model} gap={64} />
         )}
         {!model.is_free && (
           <span
@@ -142,21 +202,12 @@ export async function generateModel(
     </div>
   ) : null;
 
-  const node = (
-    <div
-      style={{ display: "flex", flexDirection: "column", width: W, height: H }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: W,
-          height: H - 1,
-          padding: `${PAD}px ${PAD}px ${Math.round(PAD * 0.75)}px`,
-          justifyContent: "space-between",
-        }}
-      >
-        <Brand c={c} logoSize={64} fontSize={40} />
+  return renderOgFrame({
+    ctx,
+    focus: 60,
+    justifyBetween: true,
+    children: (
+      <>
         <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
           {vendorSvg && (
             <IconCell svg={prepIconSvg(vendorSvg)} cell={168} iconSize={96} />
@@ -193,23 +244,7 @@ export async function generateModel(
           </div>
         </div>
         {stats}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: W,
-          height: 1,
-          backgroundImage: RAINBOW,
-        }}
-      />
-    </div>
-  );
-
-  return renderBadgeTemplate({
-    node,
-    width: W,
-    height: H,
-    svgBackground: bgSvg(W, H, 60, 0.7, "grid"),
-    staticMode: ctx.staticMode,
+      </>
+    ),
   });
 }

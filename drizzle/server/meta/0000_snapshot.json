@@ -76,10 +76,7 @@
       "indexes": {
         "uq_tester_model": {
           "name": "uq_tester_model",
-          "columns": [
-            "provider_id",
-            "requested_model"
-          ],
+          "columns": ["provider_id", "requested_model"],
           "isUnique": true
         }
       },
@@ -88,12 +85,8 @@
           "name": "tester_models_provider_id_tester_providers_id_fk",
           "tableFrom": "tester_models",
           "tableTo": "tester_providers",
-          "columnsFrom": [
-            "provider_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["provider_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -211,10 +204,7 @@
       "indexes": {
         "idx_tester_probe_test": {
           "name": "idx_tester_probe_test",
-          "columns": [
-            "test_id",
-            "order_index"
-          ],
+          "columns": ["test_id", "order_index"],
           "isUnique": false
         }
       },
@@ -223,12 +213,8 @@
           "name": "tester_probes_test_id_tester_tests_id_fk",
           "tableFrom": "tester_probes",
           "tableTo": "tester_tests",
-          "columnsFrom": [
-            "test_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["test_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -309,11 +295,7 @@
       "indexes": {
         "uq_tester_provider": {
           "name": "uq_tester_provider",
-          "columns": [
-            "user_id",
-            "kind",
-            "base_url_host"
-          ],
+          "columns": ["user_id", "kind", "base_url_host"],
           "isUnique": true
         }
       },
@@ -519,48 +501,32 @@
       "indexes": {
         "idx_tester_test_user_tested": {
           "name": "idx_tester_test_user_tested",
-          "columns": [
-            "user_id",
-            "tested_at"
-          ],
+          "columns": ["user_id", "tested_at"],
           "isUnique": false
         },
         "idx_tester_test_model": {
           "name": "idx_tester_test_model",
-          "columns": [
-            "model_id"
-          ],
+          "columns": ["model_id"],
           "isUnique": false
         },
         "idx_tester_test_published": {
           "name": "idx_tester_test_published",
-          "columns": [
-            "published_at"
-          ],
+          "columns": ["published_at"],
           "isUnique": false
         },
         "idx_tester_test_verified": {
           "name": "idx_tester_test_verified",
-          "columns": [
-            "verified_at"
-          ],
+          "columns": ["verified_at"],
           "isUnique": false
         },
         "idx_tester_test_host_model": {
           "name": "idx_tester_test_host_model",
-          "columns": [
-            "base_url_host",
-            "requested_model"
-          ],
+          "columns": ["base_url_host", "requested_model"],
           "isUnique": false
         },
         "idx_tester_test_submitter": {
           "name": "idx_tester_test_submitter",
-          "columns": [
-            "submitter_user_id",
-            "base_url_host",
-            "requested_model"
-          ],
+          "columns": ["submitter_user_id", "base_url_host", "requested_model"],
           "isUnique": false
         }
       },
@@ -569,12 +535,8 @@
           "name": "tester_tests_model_id_tester_models_id_fk",
           "tableFrom": "tester_tests",
           "tableTo": "tester_models",
-          "columnsFrom": [
-            "model_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["model_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

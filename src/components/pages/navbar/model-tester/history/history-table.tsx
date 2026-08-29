@@ -1,12 +1,10 @@
 "use client";
 
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { useHistoryProviders } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
-import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "../shared/rank-bar";
+import { ProviderRowBody } from "../shared/provider-row";
 import { totalSamples, weightedPassRate } from "../shared/stats";
 
 export function HistoryTable() {
@@ -47,51 +45,29 @@ export function HistoryTable() {
       </div>
 
       <div className="bg-card flex flex-col divide-y overflow-hidden rounded-lg border">
-        {rows.map((row) => {
-          const passPct = Math.round(row.avgPassRate * 100);
-          return (
-            <Link
-              key={row.baseUrlHost}
-              href={{
-                pathname: "/ai-api-model-tester/history/provider/[host]",
-                params: { host: encodeURIComponent(row.baseUrlHost) },
-              }}
-              className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
-            >
-              <VendorIcon
-                vendor={vendorForRow(row.provider)}
-                size={22}
-                className="shrink-0"
-              />
-              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="truncate text-sm font-medium">
-                    {row.baseUrlHost}
-                  </span>
-                  <span className="text-foreground/70 shrink-0 text-xs">
-                    {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                      when: dayjs(row.lastTestedAt).fromNow(),
-                    })}
-                  </span>
-                </div>
-                <RankBar pct={passPct} />
-                <span className="text-muted-foreground truncate text-xs">
-                  <span className="font-mono tabular-nums">
-                    {Math.round(row.avgLatencyMs)}ms
-                  </span>
-                  {" · "}
-                  {t("MODEL_TESTER.RANKINGS.MODELS_TRACKED", {
-                    count: row.modelCount,
-                  })}{" "}
-                  ·{" "}
-                  {t("MODEL_TESTER.RANKINGS.SAMPLES", {
-                    count: row.sampleCount,
-                  })}
-                </span>
-              </div>
-            </Link>
-          );
-        })}
+        {rows.map((row) => (
+          <Link
+            key={row.baseUrlHost}
+            href={{
+              pathname: "/ai-api-model-tester/history/provider/[host]",
+              params: { host: encodeURIComponent(row.baseUrlHost) },
+            }}
+            className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
+          >
+            <ProviderRowBody
+              vendor={vendorForRow(row.provider)}
+              name={row.baseUrlHost}
+              lastTestedAt={row.lastTestedAt}
+              passRate={row.avgPassRate}
+              latencyMs={row.avgLatencyMs}
+              meta={`${t("MODEL_TESTER.RANKINGS.MODELS_TRACKED", {
+                count: row.modelCount,
+              })} · ${t("MODEL_TESTER.RANKINGS.SAMPLES", {
+                count: row.sampleCount,
+              })}`}
+            />
+          </Link>
+        ))}
       </div>
     </div>
   );

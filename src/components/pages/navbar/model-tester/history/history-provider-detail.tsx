@@ -5,9 +5,8 @@ import { Icon } from "@/components/ui/icon";
 import { useHistoryModels } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
-import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "../shared/rank-bar";
+import { ProviderRowBody, StatCell } from "../shared/provider-row";
 import { totalSamples, weightedPassRate } from "../shared/stats";
 
 export function HistoryProviderDetail(props: { host: string }) {
@@ -48,81 +47,48 @@ export function HistoryProviderDetail(props: { host: string }) {
             </div>
           </header>
           <div className="grid grid-cols-3 divide-x border-t">
-            <HistoryStat
+            <StatCell
               label={t("MODEL_TESTER.RANKINGS.STAT_DETECTIONS")}
               value={sampleTotal.toLocaleString()}
             />
-            <HistoryStat
+            <StatCell
               label={t("MODEL_TESTER.RANKINGS.STAT_MODELS")}
               value={models.length.toLocaleString()}
             />
-            <HistoryStat
+            <StatCell
               label={t("MODEL_TESTER.RANKINGS.STAT_PASS_RATE")}
               value={`${passPercent}%`}
             />
           </div>
           <div className="divide-border divide-y border-t">
-            {models.map((model) => {
-              const passPct = Math.round(model.avgPassRate * 100);
-              return (
-                <Link
-                  key={model.requestedModel}
-                  href={{
-                    pathname:
-                      "/ai-api-model-tester/history/provider/[host]/[model]",
-                    params: {
-                      host: encodeURIComponent(props.host),
-                      model: encodeURIComponent(model.requestedModel),
-                    },
-                  }}
-                  className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
-                >
-                  <VendorIcon
-                    vendor={vendorForRow(model.provider, model.requestedModel)}
-                    size={22}
-                    className="shrink-0"
-                  />
-                  <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span className="truncate text-sm font-medium">
-                        {model.requestedModel}
-                      </span>
-                      <span className="text-foreground/70 shrink-0 text-xs">
-                        {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                          when: dayjs(model.lastTestedAt).fromNow(),
-                        })}
-                      </span>
-                    </div>
-                    <RankBar pct={passPct} />
-                    <span className="text-muted-foreground truncate text-xs">
-                      <span className="font-mono tabular-nums">
-                        {Math.round(model.avgLatencyMs)}ms
-                      </span>
-                      {" · "}
-                      {t("MODEL_TESTER.RANKINGS.SAMPLES", {
-                        count: model.sampleCount,
-                      })}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+            {models.map((model) => (
+              <Link
+                key={model.requestedModel}
+                href={{
+                  pathname:
+                    "/ai-api-model-tester/history/provider/[host]/[model]",
+                  params: {
+                    host: encodeURIComponent(props.host),
+                    model: encodeURIComponent(model.requestedModel),
+                  },
+                }}
+                className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
+              >
+                <ProviderRowBody
+                  vendor={vendorForRow(model.provider, model.requestedModel)}
+                  name={model.requestedModel}
+                  lastTestedAt={model.lastTestedAt}
+                  passRate={model.avgPassRate}
+                  latencyMs={model.avgLatencyMs}
+                  meta={t("MODEL_TESTER.RANKINGS.SAMPLES", {
+                    count: model.sampleCount,
+                  })}
+                />
+              </Link>
+            ))}
           </div>
         </section>
       )}
-    </div>
-  );
-}
-
-function HistoryStat(props: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col items-center gap-1 px-5 py-4 text-center">
-      <span className="font-mono text-xl font-semibold tabular-nums">
-        {props.value}
-      </span>
-      <span className="text-muted-foreground/80 text-[10px] font-medium tracking-widest uppercase">
-        {props.label}
-      </span>
     </div>
   );
 }

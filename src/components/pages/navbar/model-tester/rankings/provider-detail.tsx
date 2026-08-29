@@ -5,9 +5,8 @@ import { Icon } from "@/components/ui/icon";
 import { useProviderDetail } from "@/hooks/models/model-tester-rankings-hook";
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
-import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankBar } from "../shared/rank-bar";
+import { ProviderRowBody, StatCell } from "../shared/provider-row";
 
 export function ProviderDetail(props: { host: string }) {
   const t = useTranslations();
@@ -42,19 +41,19 @@ export function ProviderDetail(props: { host: string }) {
               <span className="text-base font-semibold">{props.host}</span>
             </header>
             <div className="grid grid-cols-2 divide-x divide-y border-t sm:grid-cols-4 sm:divide-y-0">
-              <Stat
+              <StatCell
                 label={t("MODEL_TESTER.RANKINGS.STAT_DETECTIONS")}
                 value={provider.sampleCount.toLocaleString()}
               />
-              <Stat
+              <StatCell
                 label={t("MODEL_TESTER.RANKINGS.STAT_MODELS")}
                 value={provider.modelCount.toLocaleString()}
               />
-              <Stat
+              <StatCell
                 label={t("MODEL_TESTER.RANKINGS.STAT_PASS_RATE")}
                 value={`${Math.round(provider.avgPassRate * 100)}%`}
               />
-              <Stat
+              <StatCell
                 label={t("MODEL_TESTER.RANKINGS.STAT_P95")}
                 value={
                   provider.p95LatencyMs !== null
@@ -73,7 +72,6 @@ export function ProviderDetail(props: { host: string }) {
             </header>
             <div className="divide-border divide-y">
               {models.map((model) => {
-                const passPct = Math.round(model.avgPassRate * 100);
                 const lowN = model.sampleCount < 5;
                 return (
                   <Link
@@ -87,38 +85,24 @@ export function ProviderDetail(props: { host: string }) {
                     }}
                     className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
                   >
-                    <VendorIcon
+                    <ProviderRowBody
                       vendor={vendorForRow(model.provider, model.model)}
-                      size={22}
-                      className="shrink-0"
-                    />
-                    <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="truncate text-sm font-medium">
-                          {model.model}
-                        </span>
-                        <span className="text-foreground/70 shrink-0 text-xs">
-                          {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                            when: dayjs(model.lastTestedAt).fromNow(),
-                          })}
-                        </span>
-                      </div>
-                      <RankBar pct={passPct} lowN={lowN} />
-                      <span className="text-muted-foreground truncate text-xs">
-                        <span className="font-mono tabular-nums">
-                          {Math.round(model.avgLatencyMs)}ms
-                        </span>
-                        {" · "}
-                        {t("MODEL_TESTER.RANKINGS.SAMPLES", {
+                      name={model.model}
+                      lastTestedAt={model.lastTestedAt}
+                      passRate={model.avgPassRate}
+                      lowN={lowN}
+                      latencyMs={model.avgLatencyMs}
+                      meta={
+                        t("MODEL_TESTER.RANKINGS.SAMPLES", {
                           count: model.sampleCount,
-                        })}
-                        {lowN
+                        }) +
+                        (lowN
                           ? ` · ${t("MODEL_TESTER.RANKINGS.LOW_CONFIDENCE", {
                               count: model.sampleCount,
                             })}`
-                          : ""}
-                      </span>
-                    </div>
+                          : "")
+                      }
+                    />
                   </Link>
                 );
               })}
@@ -126,19 +110,6 @@ export function ProviderDetail(props: { host: string }) {
           </section>
         </>
       )}
-    </div>
-  );
-}
-
-function Stat(props: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col items-center gap-1 px-5 py-4 text-center">
-      <span className="font-mono text-xl font-semibold tabular-nums">
-        {props.value}
-      </span>
-      <span className="text-muted-foreground/80 text-[10px] font-medium tracking-widest uppercase">
-        {props.label}
-      </span>
     </div>
   );
 }
