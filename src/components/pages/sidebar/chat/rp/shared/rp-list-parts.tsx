@@ -100,7 +100,10 @@ export function RpEntityRow(props: {
   const t = useTranslations();
   return (
     <Card
-      className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
+      // shrink-0 because the list is a flex column: without it a long list
+      // compresses every row to a fraction of its content height and the text
+      // of one row renders over the next.
+      className="hover:bg-accent flex shrink-0 cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
       onClick={props.onOpen}
     >
       {props.leading}
