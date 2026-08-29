@@ -1,11 +1,32 @@
+import { msg, type TranslationKey } from "@/lib/config/constants";
+import type { TableFeats } from "@/lib/config/table-features";
 import { dayjs } from "@/lib/utils/format/date";
 import type { GetLogsStatParams, GetUserLogsParams, Log } from "@/openapi";
 import { columnFilters as getColumnFilterValues } from "@/store/data-table-store";
-import type { ColumnFiltersState } from "@tanstack/react-table";
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  RowData,
+} from "@tanstack/react-table";
 export { formatDateForInput, formatTimestamp } from "@/lib/utils/format/date";
 export { formatPriceCompact } from "@/lib/utils/format/number";
 
 export type LogRow = NonNullable<Log>;
+
+export function logColumn<TData extends RowData>(
+  t: (key: TranslationKey) => string,
+  key: TranslationKey,
+  cell: ColumnDef<TableFeats, TData>["cell"],
+  column: { accessorKey: string } | { id: string },
+): ColumnDef<TableFeats, TData> {
+  return {
+    ...column,
+    meta: { title: msg(key) },
+    header: t(key),
+    enableSorting: false,
+    cell,
+  };
+}
 
 export const LOG_TYPE_TOPUP = 1;
 export const LOG_TYPE_CONSUME = 2;

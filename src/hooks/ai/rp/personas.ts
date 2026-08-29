@@ -55,6 +55,7 @@ export function useImportPersonaMutation() {
         id: uid(),
         name: p.name,
         description: p.description ?? null,
+        personality: p.personality ?? null,
         avatarMediaId: null,
         isDefault: false,
         notes: null,
@@ -70,9 +71,9 @@ export function useImportPersonaMutation() {
   });
 }
 
-// is private account data. Its extra fields (archetype, gender, pronouns, age,
-// traits) have no columns here, so they are folded into the description rather
-// than dropped.
+// is private account data. Its structured fields (archetype, gender, pronouns,
+// age, traits) land in personality, mirroring character cards, so the prose
+// description survives unmangled.
 export function useImportPersonaFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
@@ -90,8 +91,8 @@ export function useImportPersonaFromUrlMutation() {
           return {
             id: uid(),
             name: p.name,
-            description:
-              [p.description, attrs].filter(Boolean).join("\n\n") || null,
+            description: p.description ?? null,
+            personality: attrs || null,
             avatarMediaId: null,
             isDefault: false,
             notes: null,

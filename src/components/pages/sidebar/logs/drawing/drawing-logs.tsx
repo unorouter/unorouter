@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { useMidjourneyLogsQuery } from "@/hooks/ops/logs-hook";
-import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
@@ -28,6 +27,7 @@ import {
   PromptDialog,
 } from "./drawing-dialogs";
 import { IdFilterBar, LogsEmptyState } from "../common/id-filter-bar";
+import { logColumn } from "../common/log-helpers";
 import { buildDrawingFilters, type DrawingRow } from "./drawing-helpers";
 
 export function DrawingLogs() {
@@ -64,69 +64,33 @@ export function DrawingLogs() {
   }
 
   const columns: ColumnDef<TableFeats, DrawingRow>[] = [
-    {
+    logColumn(t, "LOGS.DRAWING.SUBMIT_TIME", DrawingTimeCell, {
       accessorKey: "submit_time",
-      meta: { title: msg("LOGS.DRAWING.SUBMIT_TIME") },
-      header: t("LOGS.DRAWING.SUBMIT_TIME"),
-      enableSorting: false,
-      cell: DrawingTimeCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TABLE.CHANNEL", DrawingChannelCell, {
       accessorKey: "channel_id",
-      meta: { title: msg("LOGS.TABLE.CHANNEL") },
-      header: t("LOGS.TABLE.CHANNEL"),
-      enableSorting: false,
-      cell: DrawingChannelCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.ACTION", DrawingActionCell, {
       accessorKey: "action",
-      meta: { title: msg("LOGS.DRAWING.ACTION") },
-      header: t("LOGS.DRAWING.ACTION"),
-      enableSorting: false,
-      cell: DrawingActionCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.TASK_ID", DrawingMjIdCell, {
       accessorKey: "mj_id",
-      meta: { title: msg("LOGS.DRAWING.TASK_ID") },
-      header: t("LOGS.DRAWING.TASK_ID"),
-      enableSorting: false,
-      cell: DrawingMjIdCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.DURATION", DrawingDurationCell, {
       id: "duration",
-      meta: { title: msg("LOGS.DRAWING.DURATION") },
-      header: t("LOGS.DRAWING.DURATION"),
-      enableSorting: false,
-      cell: DrawingDurationCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.PROGRESS", DrawingProgressCell, {
       accessorKey: "progress",
-      meta: { title: msg("LOGS.DRAWING.PROGRESS") },
-      header: t("LOGS.DRAWING.PROGRESS"),
-      enableSorting: false,
-      cell: DrawingProgressCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.IMAGE", DrawingImageCell, {
       accessorKey: "image_url",
-      meta: { title: msg("LOGS.DRAWING.IMAGE") },
-      header: t("LOGS.DRAWING.IMAGE"),
-      enableSorting: false,
-      cell: DrawingImageCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.PROMPT", DrawingPromptCell, {
       accessorKey: "prompt",
-      meta: { title: msg("LOGS.DRAWING.PROMPT") },
-      header: t("LOGS.DRAWING.PROMPT"),
-      enableSorting: false,
-      cell: DrawingPromptCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.DRAWING.FAIL_REASON", DrawingFailReasonCell, {
       accessorKey: "fail_reason",
-      meta: { title: msg("LOGS.DRAWING.FAIL_REASON") },
-      header: t("LOGS.DRAWING.FAIL_REASON"),
-      enableSorting: false,
-      cell: DrawingFailReasonCell,
-    },
+    }),
   ];
 
   return (
