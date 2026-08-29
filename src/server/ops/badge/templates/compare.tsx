@@ -1,20 +1,12 @@
 import type { PricingCatalogModel } from "@/openapi";
 import { IconCell } from "../elements/feature-badge";
-import { Brand } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
 import { t } from "../lib/assets";
-import { bgSvg, RAINBOW } from "../lib/glow";
-import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx } from "../lib/types";
-import {
-  getVendorColorIcon,
-  prepIconSvg,
-  renderBadgeTemplate,
-} from "../lib/utils";
-import { fmtPrice, ModelStat } from "./model";
+import { getVendorColorIcon, prepIconSvg } from "../lib/utils";
+import { PriceStats, renderOgFrame } from "./model";
 
 const W = 1200;
-const H = 630;
 const PAD = 64;
 
 function CompareSide(props: {
@@ -62,27 +54,13 @@ function CompareSide(props: {
             {t(props.ctx.locale, "BADGE.FREE").toUpperCase()}
           </span>
         ) : (
-          <div style={{ display: "flex", gap: 40 }}>
-            <ModelStat
-              value={fmtPrice(
-                model.is_fixed_price ? model.fixed_price : model.input_price,
-              )}
-              label={t(
-                props.ctx.locale,
-                model.is_fixed_price ? "BADGE.MODEL" : "BADGE.INPUT",
-              )}
-              valueFont={30}
-              labelFont={17}
-            />
-            {!model.is_fixed_price && (
-              <ModelStat
-                value={fmtPrice(model.output_price)}
-                label={t(props.ctx.locale, "BADGE.OUTPUT")}
-                valueFont={30}
-                labelFont={17}
-              />
-            )}
-          </div>
+          <PriceStats
+            ctx={props.ctx}
+            model={model}
+            gap={40}
+            valueFont={30}
+            labelFont={17}
+          />
         ))}
     </div>
   );
@@ -92,68 +70,39 @@ export async function generateCompare(
   ctx: BadgeCtx,
   pair: { model: PricingCatalogModel | null; requested: string }[],
 ): Promise<string> {
-  const c = THEME_COLORS.dark;
-
-  const node = (
-    <div
-      style={{ display: "flex", flexDirection: "column", width: W, height: H }}
-    >
+  return renderOgFrame({
+    ctx,
+    focus: 50,
+    children: (
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          width: W,
-          height: H - 1,
-          padding: `${PAD}px ${PAD}px ${Math.round(PAD * 0.75)}px`,
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <Brand c={c} logoSize={64} fontSize={40} />
-        <div
+        <CompareSide
+          ctx={ctx}
+          model={pair[0]?.model ?? null}
+          requested={pair[0]?.requested ?? ""}
+        />
+        <span
           style={{
-            display: "flex",
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "space-between",
+            fontFamily: FONT_MONO,
+            fontSize: 52,
+            fontWeight: 700,
+            color: "#9aa0a6",
           }}
         >
-          <CompareSide
-            ctx={ctx}
-            model={pair[0]?.model ?? null}
-            requested={pair[0]?.requested ?? ""}
-          />
-          <span
-            style={{
-              fontFamily: FONT_MONO,
-              fontSize: 52,
-              fontWeight: 700,
-              color: "#9aa0a6",
-            }}
-          >
-            VS
-          </span>
-          <CompareSide
-            ctx={ctx}
-            model={pair[1]?.model ?? null}
-            requested={pair[1]?.requested ?? ""}
-          />
-        </div>
+          VS
+        </span>
+        <CompareSide
+          ctx={ctx}
+          model={pair[1]?.model ?? null}
+          requested={pair[1]?.requested ?? ""}
+        />
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: W,
-          height: 1,
-          backgroundImage: RAINBOW,
-        }}
-      />
-    </div>
-  );
-
-  return renderBadgeTemplate({
-    node,
-    width: W,
-    height: H,
-    svgBackground: bgSvg(W, H, 50, 0.7, "grid"),
-    staticMode: ctx.staticMode,
+    ),
   });
 }

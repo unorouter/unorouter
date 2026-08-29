@@ -5,4 +5,3 @@ export const verifyProbeBody = t.Object({
   headers: t.Record(t.String(), t.String()),
   reqBody: t.Unknown(),
 });
-export type VerifyProbeBody = Static<typeof verifyProbeBody>;

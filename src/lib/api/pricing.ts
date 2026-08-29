@@ -1,8 +1,6 @@
 import type { PricingCatalogModel } from "@/openapi";
 import { escapeRegex } from "@/lib/utils/base";
 
-export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
-
 export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";
 }

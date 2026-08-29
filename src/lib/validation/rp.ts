@@ -6,8 +6,6 @@ import { reasoningEffort } from "./chat";
 
 export const MAX_NAME_LEN = 200;
 export const MAX_DESC_LEN = 200_000;
-export const MAX_TAG_LEN = 64;
-export const MAX_TAGS = 32;
 export const MAX_KEYS_PER_ENTRY = 64;
 export const MAX_KEY_LEN = 200;
 

@@ -8,8 +8,6 @@ export const RankingPeriodSchema = t.Union([
   t.Literal("all"),
 ]);
 
-export const RANKING_PERIODS = RankingPeriodSchema.anyOf.map((l) => l.const);
-
 export const rankingsQuery = t.Object({
   period: t.Optional(RankingPeriodSchema),
 });

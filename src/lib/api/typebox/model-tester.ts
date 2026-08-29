@@ -20,7 +20,6 @@ export const publishTestBody = t.Object({
   totalTokens: t.Optional(t.Union([t.Number({ minimum: 0 }), t.Null()])),
   testedAt: t.Number(),
 });
-export type PublishTestBody = Static<typeof publishTestBody>;
 
 export const verifyAndPublishBody = t.Object({
   provider: t.Union([

@@ -21,6 +21,3 @@ export const ModelRankingResponseSchema = t.Object({
   growth_pct: t.Number(),
   series: t.Array(ModelRankingPointSchema),
 });
-
-export type ModelRankingPoint = Static<typeof ModelRankingPointSchema>;
-export type ModelRankingResponse = Static<typeof ModelRankingResponseSchema>;
