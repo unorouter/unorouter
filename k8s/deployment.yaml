@@ -27,6 +27,17 @@ spec:
       labels: { app: unorouter }
     spec:
       affinity:
+        # keep these pods off node1: prometheus lives there, and this container's heap
+        # grows toward its 3Gi limit between the 2h restarts, which is exactly the burst
+        # that has tipped a co-located node into kernel OOM kills three times.
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values: [unorouter-node1]
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
