@@ -178,9 +178,23 @@ export function useImportCharacterCardMutation() {
 
 export function useImportCharacterFromUrlMutation() {
   return useApiMutation({
-    mutationFn: (input: string) => runUrlImport(input, persistImportedCard),
+    mutationFn: (input: string) => runUrlImport(input, persistImportedCards),
     invalidates: IMPORT_INVALIDATES,
   });
+}
+
+// One URL can carry many characters (a reference document holds 29), so this
+// takes the whole list and keeps every card in it. A source with nothing
+// card-shaped in it is the only failure: a mixed result whose other items
+// belong to lorebooks or presets is not this hook's problem.
+async function persistImportedCards(results: ImportedResult[]) {
+  const cards = results.filter((r) => "card" in r);
+  if (cards.length === 0) {
+    throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
+  }
+  let last: Awaited<ReturnType<typeof persistImportedCard>> | null = null;
+  for (const card of cards) last = await persistImportedCard(card);
+  return last!;
 }
 
 async function persistImportedCard(result: ImportedResult) {
