@@ -1,1 +1,0 @@
-ALTER TABLE `custom_providers` ADD `proxy` integer DEFAULT false NOT NULL;

@@ -1,1 +1,0 @@
-ALTER TABLE `image_presets` ADD `prompt` text;
