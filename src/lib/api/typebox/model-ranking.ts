@@ -1,5 +1,5 @@
 import { RankingPeriodSchema } from "@/lib/api/typebox/rankings";
-import { t, type Static } from "elysia";
+import { t } from "elysia";
 
 export const modelRankingQuery = t.Object({
   model: t.String(),

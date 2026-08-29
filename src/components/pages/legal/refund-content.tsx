@@ -1,94 +1,40 @@
-import { LegalSection } from "@/components/pages/legal/legal-section";
-import { Link } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
-import { getTranslations } from "next-intl/server";
+import {
+  LegalDoc,
+  type LegalDocSection,
+} from "@/components/pages/legal/legal-doc";
 
-export async function RefundContent() {
-  const t = await getTranslations();
+const SECTIONS: LegalDocSection[] = [
+  { title: "PAYMENTS_TITLE", para: { key: "PAYMENTS_CONTENT" } },
+  {
+    title: "ELIGIBILITY_TITLE",
+    intro: { key: "ELIGIBILITY_INTRO" },
+    items: [
+      "ELIGIBILITY_WINDOW",
+      "ELIGIBILITY_USAGE",
+      "ELIGIBILITY_COMPLIANCE",
+    ],
+  },
+  {
+    title: "NON_REFUNDABLE_TITLE",
+    intro: { key: "NON_REFUNDABLE_INTRO" },
+    items: [
+      "NON_REFUNDABLE_PARTIAL",
+      "NON_REFUNDABLE_FEES",
+      "NON_REFUNDABLE_TERMINATED",
+    ],
+  },
+  {
+    title: "REQUEST_TITLE",
+    intro: { key: "REQUEST_INTRO", values: true },
+    items: ["REQUEST_ACCOUNT", "REQUEST_PROOF", "REQUEST_REASON"],
+    outro: { key: "REQUEST_VERIFY" },
+  },
+  { title: "PROCESSING_TITLE", para: { key: "PROCESSING_CONTENT" } },
+  { title: "LAW_TITLE", para: { key: "LAW_CONTENT" } },
+  { title: "CHANGES_TITLE", para: { key: "CHANGES_CONTENT" } },
+  { title: "CONTACT_TITLE", para: { key: "CONTACT_CONTENT", values: true } },
+];
 
-  return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link
-        href="/"
-        className="text-muted-foreground hover:text-foreground mb-8 inline-block text-sm"
-      >
-        &larr; {t("REFUND.TITLE")}
-      </Link>
-
-      <h1 className="mb-2 text-3xl font-bold">{t("REFUND.TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 text-sm">
-        {t("REFUND.LAST_UPDATED")}
-      </p>
-
-      <p className="text-muted-foreground mb-10 leading-relaxed">
-        {t("REFUND.INTRO", APP_VALUES)}
-      </p>
-
-      <LegalSection title={t("REFUND.PAYMENTS_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("REFUND.PAYMENTS_CONTENT")}
-        </p>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.ELIGIBILITY_TITLE")}>
-        <p className="text-muted-foreground mb-3 leading-relaxed">
-          {t("REFUND.ELIGIBILITY_INTRO")}
-        </p>
-        <ul className="text-muted-foreground list-disc space-y-2 pl-6 leading-relaxed">
-          <li>{t("REFUND.ELIGIBILITY_WINDOW")}</li>
-          <li>{t("REFUND.ELIGIBILITY_USAGE")}</li>
-          <li>{t("REFUND.ELIGIBILITY_COMPLIANCE")}</li>
-        </ul>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.NON_REFUNDABLE_TITLE")}>
-        <p className="text-muted-foreground mb-3 leading-relaxed">
-          {t("REFUND.NON_REFUNDABLE_INTRO")}
-        </p>
-        <ul className="text-muted-foreground list-disc space-y-2 pl-6 leading-relaxed">
-          <li>{t("REFUND.NON_REFUNDABLE_PARTIAL")}</li>
-          <li>{t("REFUND.NON_REFUNDABLE_FEES")}</li>
-          <li>{t("REFUND.NON_REFUNDABLE_TERMINATED")}</li>
-        </ul>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.REQUEST_TITLE")}>
-        <p className="text-muted-foreground mb-3 leading-relaxed">
-          {t("REFUND.REQUEST_INTRO", APP_VALUES)}
-        </p>
-        <ul className="text-muted-foreground list-disc space-y-2 pl-6 leading-relaxed">
-          <li>{t("REFUND.REQUEST_ACCOUNT")}</li>
-          <li>{t("REFUND.REQUEST_PROOF")}</li>
-          <li>{t("REFUND.REQUEST_REASON")}</li>
-        </ul>
-        <p className="text-muted-foreground mt-3 leading-relaxed">
-          {t("REFUND.REQUEST_VERIFY")}
-        </p>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.PROCESSING_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("REFUND.PROCESSING_CONTENT")}
-        </p>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.LAW_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("REFUND.LAW_CONTENT")}
-        </p>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.CHANGES_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("REFUND.CHANGES_CONTENT")}
-        </p>
-      </LegalSection>
-
-      <LegalSection title={t("REFUND.CONTACT_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("REFUND.CONTACT_CONTENT", APP_VALUES)}
-        </p>
-      </LegalSection>
-    </main>
-  );
+export function RefundContent() {
+  return <LegalDoc ns="REFUND" sections={SECTIONS} />;
 }
