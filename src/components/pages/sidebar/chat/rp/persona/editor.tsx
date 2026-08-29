@@ -34,6 +34,7 @@ export function PersonaEditor(props: Props) {
       ? formDefaults(personaFormSchema, {
           ...existing,
           title: existing.title ?? "",
+          personality: existing.personality ?? "",
         })
       : undefined;
   const form = useRpForm(personaFormSchema, formValues);
@@ -78,6 +79,13 @@ export function PersonaEditor(props: Props) {
             schema={personaFormSchema}
             label={t("COMMON.DESCRIPTION")}
             rows={3}
+          />
+          <MyFormTextarea
+            control={form.control}
+            name="personality"
+            schema={personaFormSchema}
+            label={t("RP.CHARACTER_PERSONALITY")}
+            rows={2}
           />
           <MyFormSwitch
             control={form.control}

@@ -2,6 +2,7 @@ import { rec } from "@/lib/utils/base";
 type ParsedPersona = {
   name: string;
   description?: string;
+  personality?: string;
 };
 
 function firstString(
@@ -21,6 +22,7 @@ function pickPersona(raw: Record<string, unknown>): ParsedPersona | null {
   return {
     name,
     description: firstString(raw, ["description", "persona", "user_persona"]),
+    personality: firstString(raw, ["personality", "traits"]),
   };
 }
 

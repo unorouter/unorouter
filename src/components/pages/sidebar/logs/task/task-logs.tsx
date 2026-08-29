@@ -2,7 +2,6 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { useTaskLogsQuery } from "@/hooks/ops/logs-hook";
-import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
@@ -23,6 +22,7 @@ import {
   TaskTimeCell,
 } from "./task-cells";
 import { IdFilterBar, LogsEmptyState } from "../common/id-filter-bar";
+import { logColumn } from "../common/log-helpers";
 import { buildTaskFilters, type TaskRow } from "./task-helpers";
 
 export function TaskLogs() {
@@ -58,55 +58,27 @@ export function TaskLogs() {
   }
 
   const columns: ColumnDef<TableFeats, TaskRow>[] = [
-    {
+    logColumn(t, "LOGS.TASK.SUBMIT_TIME", TaskTimeCell, {
       accessorKey: "submit_time",
-      meta: { title: msg("LOGS.TASK.SUBMIT_TIME") },
-      header: t("LOGS.TASK.SUBMIT_TIME"),
-      enableSorting: false,
-      cell: TaskTimeCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TABLE.CHANNEL", TaskChannelCell, {
       accessorKey: "channel_id",
-      meta: { title: msg("LOGS.TABLE.CHANNEL") },
-      header: t("LOGS.TABLE.CHANNEL"),
-      enableSorting: false,
-      cell: TaskChannelCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TASK.TASK_ID", TaskIdCell, {
       accessorKey: "task_id",
-      meta: { title: msg("LOGS.TASK.TASK_ID") },
-      header: t("LOGS.TASK.TASK_ID"),
-      enableSorting: false,
-      cell: TaskIdCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TASK.DURATION", TaskDurationCell, {
       id: "duration",
-      meta: { title: msg("LOGS.TASK.DURATION") },
-      header: t("LOGS.TASK.DURATION"),
-      enableSorting: false,
-      cell: TaskDurationCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TASK.STATUS", TaskStatusCell, {
       accessorKey: "status",
-      meta: { title: msg("LOGS.TASK.STATUS") },
-      header: t("LOGS.TASK.STATUS"),
-      enableSorting: false,
-      cell: TaskStatusCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TASK.PROGRESS", TaskProgressCell, {
       accessorKey: "progress",
-      meta: { title: msg("LOGS.TASK.PROGRESS") },
-      header: t("LOGS.TASK.PROGRESS"),
-      enableSorting: false,
-      cell: TaskProgressCell,
-    },
-    {
+    }),
+    logColumn(t, "LOGS.TASK.DETAILS", TaskDetailsCell, {
       accessorKey: "fail_reason",
-      meta: { title: msg("LOGS.TASK.DETAILS") },
-      header: t("LOGS.TASK.DETAILS"),
-      enableSorting: false,
-      cell: TaskDetailsCell,
-    },
+    }),
   ];
 
   return (

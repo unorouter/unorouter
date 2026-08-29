@@ -379,6 +379,9 @@ export async function assembleForStream(
     ? joinNonEmpty([
         `# User persona: ${persona.name}`,
         expand(persona.description),
+        persona.personality
+          ? `## Personality\n${expand(persona.personality)}`
+          : "",
       ])
     : "";
 

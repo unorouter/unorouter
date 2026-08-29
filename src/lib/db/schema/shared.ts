@@ -254,6 +254,7 @@ export const personas = sqliteTable(
     name: text("name").notNull(),
     title: text("title"),
     description: text("description"),
+    personality: text("personality"),
     avatarMediaId: text("avatar_media_id"),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()

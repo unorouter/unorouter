@@ -8,6 +8,13 @@
       "when": 1788038670700,
       "tag": "0000_striped_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788040698583,
+      "tag": "0001_ambiguous_iceman",
+      "breakpoints": true
     }
   ]
 }

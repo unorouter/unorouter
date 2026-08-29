@@ -220,6 +220,7 @@ export const personaFormSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  personality: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   isDefault: t.Boolean({ default: false }),
 });
 export type PersonaForm = Static<typeof personaFormSchema>;
