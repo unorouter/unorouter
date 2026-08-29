@@ -1,7 +1,7 @@
 import { makeImgIcon } from "@/components/elements/brand/vendor-img-icon";
 
 const StealthIcon = makeImgIcon(
-  "/icons/vendors/stealth.svg",
+  "/images/icons/vendors/stealth.svg",
   "Stealth",
   "invertDark",
 );

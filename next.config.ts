@@ -86,6 +86,17 @@ const nextConfig: NextConfig = {
     // now the Platform tab. 301s keep indexed + externally linked URLs alive.
     const guideSlug = ":slug((?!chat$|platform$|integrations$)[^/]+)";
     return [
+      // Static assets moved under /images; hotlinks and indexed URLs live on.
+      {
+        source: "/icons/:path*",
+        destination: "/images/icons/:path*",
+        permanent: true,
+      },
+      {
+        source: "/badges/:path*",
+        destination: "/images/badges/:path*",
+        permanent: true,
+      },
       { source: "/docs", destination: "/docs/platform", permanent: true },
       {
         source: `${localePattern}/docs`,
