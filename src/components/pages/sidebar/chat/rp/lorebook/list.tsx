@@ -110,7 +110,7 @@ export function LorebookList(props: Props) {
               onDeleted={() => setOpenLbId(null)}
             />
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex min-h-0 flex-1 flex-col gap-3">
               <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                 <RpImportControl
                   entity="lorebooks"
@@ -167,7 +167,7 @@ export function LorebookList(props: Props) {
               {/* The ROWS scroll, not the dialog: an import can bring many items at
                 once, and scrolling the whole card pushes the search box and the
                 import buttons off screen. */}
-            <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
                 {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
                   l.name,
                   l.description,

@@ -62,7 +62,7 @@ export function CharacterList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85svh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {view.mode === "edit" && (
@@ -83,7 +83,7 @@ export function CharacterList(props: Props) {
         </DialogHeader>
 
         {view.mode === "list" ? (
-          <div className="flex flex-col gap-3">
+          <div className="flex min-h-0 flex-1 flex-col gap-3">
             <div className="flex flex-wrap items-center gap-2 sm:justify-end">
               <RpImportControl
                 entity="characters"
@@ -126,7 +126,7 @@ export function CharacterList(props: Props) {
             {/* The ROWS scroll, not the dialog: importing a document brings 29
                 characters at once, and scrolling the whole card pushes the
                 search box and the import buttons off screen. */}
-            <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
               {rpFilter(charsQuery.data, rpQuery, (c) => [
                 c.name,
                 c.description,

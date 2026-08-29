@@ -55,12 +55,12 @@ export function CustomProviderList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85svh] overflow-x-hidden overflow-y-auto sm:max-w-xl">
+      <DialogContent className="flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{t("CHAT.CUSTOM_PROVIDER.TITLE")}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex min-h-0 flex-1 flex-col gap-3">
           <div className="flex justify-end">
             <Button onClick={() => setEditingId("new")}>
               <Icon name="plus" className="size-4" />
@@ -93,7 +93,7 @@ export function CustomProviderList(props: Props) {
               {/* The ROWS scroll, not the dialog: an import can bring many items at
                 once, and scrolling the whole card pushes the search box and the
                 import buttons off screen. */}
-            <div className="flex max-h-[55svh] flex-col gap-2 overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
                 {rpFilter(providersQuery.data, rpQuery, (provider) => [
                   provider.name,
                   provider.baseUrl,
