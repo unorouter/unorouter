@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";

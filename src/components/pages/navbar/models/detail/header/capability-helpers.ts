@@ -1,4 +1,4 @@
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 import { TranslationKey } from "@/lib/config/constants";
 
 const CAPABILITY_ORDER: {

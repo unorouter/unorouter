@@ -1,6 +1,4 @@
-import type { ModelMetadata, PricingCatalogModel } from "@/openapi";
-
-export type { ModelMetadata };
+import type { PricingCatalogModel } from "@/openapi";
 import { escapeRegex } from "@/lib/utils/base";
 
 export type ModelType = "text" | "image" | "video" | "audio" | "embedding";

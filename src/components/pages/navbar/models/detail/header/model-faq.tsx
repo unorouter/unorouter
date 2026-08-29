@@ -1,10 +1,8 @@
 "use client";
 
-import type { ModelMetadata } from "@/openapi";
-
 import { findContextTag } from "@/lib/api/pricing";
 import { EMPTY_METADATA } from "@/lib/api/model-modality";
-import type { PricingCatalogDetail } from "@/openapi";
+import type { ModelMetadata, PricingCatalogDetail } from "@/openapi";
 
 import { Icon } from "@/components/ui/icon";
 import { APP_VALUES } from "@/lib/config/constants";

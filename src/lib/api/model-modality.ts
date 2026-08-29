@@ -1,5 +1,5 @@
 import { formatPrice } from "@/lib/utils/format/number";
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 
 type ModalityModel = { type: string; metadata?: ModelMetadata };
 
