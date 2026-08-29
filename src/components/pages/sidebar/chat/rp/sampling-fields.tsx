@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 import { useTranslations } from "next-intl";
 import type { Control, Path } from "react-hook-form";
 import { Controller } from "react-hook-form";

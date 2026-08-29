@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { IconName } from "@/lib/config/icon-map";
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 import { useTranslations } from "next-intl";
 
 const ICON_MAP: Record<string, IconName> = {

@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
-import type { ModelMetadata } from "@/lib/api/pricing";
+import type { ModelMetadata } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { deriveCapabilityChips } from "./capability-helpers";
