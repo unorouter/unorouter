@@ -206,45 +206,47 @@ export async function generateModel(
     ctx,
     focus: 60,
     justifyBetween: true,
-    children: (
-      <>
-        <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-          {vendorSvg && (
-            <IconCell svg={prepIconSvg(vendorSvg)} cell={168} iconSize={96} />
-          )}
-          <div
+    // Array, not a fragment: satori renders a fragment as a wrapper node.
+    children: [
+      <div
+        key="head"
+        style={{ display: "flex", alignItems: "center", gap: 40 }}
+      >
+        {vendorSvg && (
+          <IconCell svg={prepIconSvg(vendorSvg)} cell={168} iconSize={96} />
+        )}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+            maxWidth: W - PAD * 2 - 220,
+          }}
+        >
+          <span
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-              maxWidth: W - PAD * 2 - 220,
+              fontFamily: FONT_SANS,
+              fontSize: name.length > 28 ? 44 : 60,
+              fontWeight: 700,
+              color: "#ffffff",
             }}
           >
+            {name}
+          </span>
+          {model && (
             <span
               style={{
                 fontFamily: FONT_SANS,
-                fontSize: name.length > 28 ? 44 : 60,
-                fontWeight: 700,
-                color: "#ffffff",
+                fontSize: 28,
+                color: "#9aa0a6",
               }}
             >
-              {name}
+              {model.vendor}
             </span>
-            {model && (
-              <span
-                style={{
-                  fontFamily: FONT_SANS,
-                  fontSize: 28,
-                  color: "#9aa0a6",
-                }}
-              >
-                {model.vendor}
-              </span>
-            )}
-          </div>
+          )}
         </div>
-        {stats}
-      </>
-    ),
+      </div>,
+      stats,
+    ],
   });
 }

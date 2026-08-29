@@ -1,4 +1,4 @@
-import { t, type Static } from "elysia";
+import { t } from "elysia";
 
 export const verifyProbeBody = t.Object({
   url: t.String({ minLength: 1, maxLength: 2048 }),

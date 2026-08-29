@@ -2,57 +2,15 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
-import {
-  deriveOutputModality,
-  modelPriceColumns,
-  inputPriceUnit,
-  isFlatVariant,
-  outputPriceUnit,
-  fmtUnit,
-  type PriceUnit,
-} from "@/lib/api/model-modality";
+import { isFlatVariant } from "@/lib/api/model-modality";
 import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatMsDate } from "@/lib/utils/format/date";
-import {
-  discountPercent,
-  formatTokenCount,
-  formatTokens,
-} from "@/lib/utils/format/number";
+import { formatTokenCount, formatTokens } from "@/lib/utils/format/number";
+import { ModelPriceMetas } from "../model-price-meta";
 import { useLocale, useTranslations } from "next-intl";
-
-function PriceMeta(props: {
-  value: number;
-  original: number | null;
-  unit: PriceUnit;
-  label: string;
-  offLabel: (pct: number) => string;
-  perCall?: boolean;
-}) {
-  if (props.unit === "dash" || props.value <= 0) return null;
-  const pct = discountPercent(props.value, props.original);
-  return (
-    <span className="flex items-center gap-1">
-      <span>
-        {fmtUnit(props.value, props.unit, props.perCall)} {props.label}
-      </span>
-      {pct > 0 && (
-        <>
-          {props.original !== null && (
-            <span className="text-muted-foreground/50 line-through">
-              {fmtUnit(props.original, props.unit, props.perCall)}
-            </span>
-          )}
-          <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
-            {props.offLabel(pct)}
-          </span>
-        </>
-      )}
-    </span>
-  );
-}
 
 export function ModelListCard(props: {
   model: PricingCatalogModel;
@@ -63,11 +21,8 @@ export function ModelListCard(props: {
   const locale = useLocale();
   const model = props.model;
   const theme = getVendorTheme(model.vendor);
-  const modality = deriveOutputModality(model);
-  const price = modelPriceColumns(model);
   const ctx = model.metadata?.contextWindow ?? model.metadata?.maxInputTokens;
   const released = model.release_ts;
-  const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
   const category = model.tags.find(
     (tag) =>
       !["text", "image", "video", "audio", "embedding"].includes(
@@ -144,22 +99,7 @@ export function ModelListCard(props: {
             {formatTokenCount(ctx, locale)} {t("MODELS.LIST.CONTEXT")}
           </span>
         ) : null}
-        <PriceMeta
-          value={price.input}
-          original={price.originalInput}
-          unit={inputPriceUnit(modality, model.is_fixed_price)}
-          label={model.is_fixed_price ? "" : t("MODELS.LIST.INPUT")}
-          perCall={model.is_fixed_price}
-          offLabel={offLabel}
-        />
-        <PriceMeta
-          value={price.output}
-          original={price.originalOutput}
-          unit={outputPriceUnit(modality, model.is_fixed_price)}
-          label={model.is_fixed_price ? "" : t("MODELS.LIST.OUTPUT")}
-          perCall={model.is_fixed_price}
-          offLabel={offLabel}
-        />
+        <ModelPriceMetas model={model} />
       </div>
     </button>
   );
