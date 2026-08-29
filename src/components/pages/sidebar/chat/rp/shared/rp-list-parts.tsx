@@ -197,16 +197,18 @@ export function RpImportControl(props: {
           {t(props.labelKey)}
         </Button>
       )}
+      {/* An import runs for as long as the worker needs, and dismissing the
+          popover used to strand it: the trigger was disabled while pending, so
+          the progress and the eventual error had nowhere to appear. Hold it open
+          for the duration, and leave the trigger usable so a stray click outside
+          can be undone. */}
       {props.onUrl && (
-        <Popover open={linkOpen} onOpenChange={setLinkOpen}>
+        <Popover
+          open={linkOpen}
+          onOpenChange={(open) => setLinkOpen(open || props.isPending)}
+        >
           <PopoverTrigger
-            render={
-              <Button
-                variant="outline"
-                disabled={props.isPending}
-                className={RP_ACTION_BUTTON}
-              />
-            }
+            render={<Button variant="outline" className={RP_ACTION_BUTTON} />}
           >
             <Icon name="link" className="size-4" />
             {t(props.urlLabelKey ?? props.labelKey)}
@@ -235,6 +237,9 @@ export function RpImportControl(props: {
                     action: "imported",
                   });
                 } catch {
+                  // Leave the URL in the box: a failure the user can retry
+                  // should not make them paste the link again.
+                  setLinkOpen(true);
                   analytics.rp.entityAction({
                     entity: props.entity,
                     action: "import_failed",
