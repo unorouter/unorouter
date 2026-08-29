@@ -3867,7 +3867,10 @@
       "COL_TIME": "时间",
       "COL_MODEL": "模型",
       "COL_COST": "费用",
-      "LIST_CAPPED": "每个对话仅保留最近的 {max} 条请求，更早的会被删除。"
+      "LIST_CAPPED": "每个对话仅保留最近的 {max} 条请求，更早的会被删除。",
+      "TAB_SENT": "已发送参数",
+      "TAB_SENT_HINT": "剔除不支持的参数后交给SDK的采样与推理参数原文。如果你的推理强度设置出现在这里，说明确实已发送。",
+      "BADGE_REASONING": "推理"
     },
     "NEW_CONVERSATION": "新对话",
     "GENERATION_LOCKED_OTHER_TAB": "另一个标签页正在为此对话生成回复。请等待其完成或切换到该标签页。",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} 个角色",
     "CARDS_SUMMARY_LOREBOOKS": "{count} 本设定集",
     "CARDS_IMPORT": "导入卡片",
-    "CARDS_IMPORT_PARTIAL": "卡片已导入，但有 {count} 项不在此设备上，已跳过。"
+    "CARDS_IMPORT_PARTIAL": "卡片已导入，但有 {count} 项不在此设备上，已跳过。",
+    "PRESET_REASONING_EFFORT_HINT": "模型回答前思考的深度。聊天内设置会覆盖此项；留空表示使用模型默认值。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必需的环境变量：{var}",

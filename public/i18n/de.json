@@ -3867,7 +3867,10 @@
       "COL_TIME": "Zeit",
       "COL_MODEL": "Modell",
       "COL_COST": "Kosten",
-      "LIST_CAPPED": "Es werden nur die {max} neuesten Anfragen pro Chat gespeichert; ältere werden gelöscht."
+      "LIST_CAPPED": "Es werden nur die {max} neuesten Anfragen pro Chat gespeichert; ältere werden gelöscht.",
+      "TAB_SENT": "Gesendete Parameter",
+      "TAB_SENT_HINT": "Die exakten Sampling- und Reasoning-Parameter, die nach dem Entfernen nicht unterstützter Werte an das SDK übergeben wurden. Steht deine Reasoning-Einstellung hier, wurde sie gesendet.",
+      "BADGE_REASONING": "Reasoning"
     },
     "NEW_CONVERSATION": "Neuer Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Ein anderer Tab generiert bereits für diese Unterhaltung. Warte, bis er fertig ist, oder wechsle den Tab.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} Charaktere",
     "CARDS_SUMMARY_LOREBOOKS": "{count} Lorebooks",
     "CARDS_IMPORT": "Karte importieren",
-    "CARDS_IMPORT_PARTIAL": "Karte importiert, aber {count} Einträge sind nicht auf diesem Gerät und wurden übersprungen."
+    "CARDS_IMPORT_PARTIAL": "Karte importiert, aber {count} Einträge sind nicht auf diesem Gerät und wurden übersprungen.",
+    "PRESET_REASONING_EFFORT_HINT": "Wie intensiv das Modell vor der Antwort nachdenkt. Die Einstellung im Chat überschreibt diesen Wert; leer bedeutet Modellstandard."
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",

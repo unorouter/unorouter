@@ -27,6 +27,7 @@ const NULL_SAMPLING: Pick<
   | "streamingEnabled"
   | "autoScrollStream"
   | "showReasoning"
+  | "reasoningEffort"
   | "chatMemory"
 > = {
   topP: null,
@@ -44,6 +45,7 @@ const NULL_SAMPLING: Pick<
   streamingEnabled: null,
   autoScrollStream: null,
   showReasoning: null,
+  reasoningEffort: null,
   chatMemory: null,
 };
 

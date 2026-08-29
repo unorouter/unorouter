@@ -159,7 +159,6 @@ export function LorebookList(props: Props) {
                 aria-label={t("RP.LIST_SEARCH")}
               />
 
-
               {lorebooksQuery.data?.length === 0 && (
                 <RpEmptyCard labelKey="RP.LOREBOOKS_EMPTY" />
               )}
@@ -167,7 +166,7 @@ export function LorebookList(props: Props) {
               {/* The ROWS scroll, not the dialog: an import can bring many items at
                 once, and scrolling the whole card pushes the search box and the
                 import buttons off screen. */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
                 {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
                   l.name,
                   l.description,

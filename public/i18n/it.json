@@ -3867,7 +3867,10 @@
       "COL_TIME": "Ora",
       "COL_MODEL": "Modello",
       "COL_COST": "Costo",
-      "LIST_CAPPED": "Vengono conservate solo le {max} richieste più recenti per chat; quelle precedenti vengono eliminate."
+      "LIST_CAPPED": "Vengono conservate solo le {max} richieste più recenti per chat; quelle precedenti vengono eliminate.",
+      "TAB_SENT": "Parametri inviati",
+      "TAB_SENT_HINT": "I parametri esatti di campionamento e ragionamento passati all'SDK dopo la rimozione di quelli non supportati. Se la tua impostazione di sforzo di ragionamento è qui, è stata inviata.",
+      "BADGE_REASONING": "ragionamento"
     },
     "NEW_CONVERSATION": "Nuova chat",
     "GENERATION_LOCKED_OTHER_TAB": "Un'altra scheda sta già generando per questa conversazione. Aspetta che finisca o cambia scheda.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} personaggi",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Importa carta",
-    "CARDS_IMPORT_PARTIAL": "Carta importata, ma {count} elementi non erano su questo dispositivo e sono stati saltati."
+    "CARDS_IMPORT_PARTIAL": "Carta importata, ma {count} elementi non erano su questo dispositivo e sono stati saltati.",
+    "PRESET_REASONING_EFFORT_HINT": "Quanto il modello riflette prima di rispondere. L'impostazione della conversazione la sovrascrive; vuoto significa il valore predefinito del modello."
   },
   "ERRORS": {
     "MISSING_ENV": "Variabile d'ambiente richiesta mancante: {var}",

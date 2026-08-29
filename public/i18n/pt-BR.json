@@ -3867,7 +3867,10 @@
       "COL_TIME": "Hora",
       "COL_MODEL": "Modelo",
       "COL_COST": "Custo",
-      "LIST_CAPPED": "Apenas as {max} solicitações mais recentes por conversa são mantidas; as anteriores são excluídas."
+      "LIST_CAPPED": "Apenas as {max} solicitações mais recentes por conversa são mantidas; as anteriores são excluídas.",
+      "TAB_SENT": "Parâmetros enviados",
+      "TAB_SENT_HINT": "Os parâmetros exatos de amostragem e raciocínio entregues ao SDK após a remoção dos não suportados. Se sua configuração de esforço de raciocínio está aqui, ela foi enviada.",
+      "BADGE_REASONING": "raciocínio"
     },
     "NEW_CONVERSATION": "Novo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Outra aba já está gerando para esta conversa. Espere terminar ou troque de aba.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} personagens",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importar card",
-    "CARDS_IMPORT_PARTIAL": "Card importado, mas {count} itens não estavam neste dispositivo e foram ignorados."
+    "CARDS_IMPORT_PARTIAL": "Card importado, mas {count} itens não estavam neste dispositivo e foram ignorados.",
+    "PRESET_REASONING_EFFORT_HINT": "Quanto o modelo pensa antes de responder. A configuração da conversa substitui esta; vazio significa o padrão do modelo."
   },
   "ERRORS": {
     "MISSING_ENV": "Variável de ambiente obrigatória ausente: {var}",

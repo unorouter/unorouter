@@ -3867,7 +3867,10 @@
       "COL_TIME": "時刻",
       "COL_MODEL": "モデル",
       "COL_COST": "コスト",
-      "LIST_CAPPED": "チャットごとに最新の {max} 件のリクエストのみが保持され、古いものは削除されます。"
+      "LIST_CAPPED": "チャットごとに最新の {max} 件のリクエストのみが保持され、古いものは削除されます。",
+      "TAB_SENT": "送信パラメータ",
+      "TAB_SENT_HINT": "非対応のものを除去した後にSDKへ渡されたサンプリングと推論のパラメータそのものです。推論努力の設定がここにあれば、確かに送信されています。",
+      "BADGE_REASONING": "推論"
     },
     "NEW_CONVERSATION": "新しいチャット",
     "GENERATION_LOCKED_OTHER_TAB": "別のタブでこの会話の生成中です。完了するまで待つか、タブを切り替えてください。",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count}体のキャラクター",
     "CARDS_SUMMARY_LOREBOOKS": "ロアブック{count}冊",
     "CARDS_IMPORT": "カードをインポート",
-    "CARDS_IMPORT_PARTIAL": "カードを取り込みましたが、この端末にない{count}件はスキップされました。"
+    "CARDS_IMPORT_PARTIAL": "カードを取り込みましたが、この端末にない{count}件はスキップされました。",
+    "PRESET_REASONING_EFFORT_HINT": "回答前にモデルがどれだけ考えるか。チャット内の設定が優先されます。空欄はモデルの既定値です。"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",

@@ -183,6 +183,9 @@ export const requestLogs = sqliteTable(
     assembledSystem: text("assembled_system"),
     finalMessages: text("final_messages", { mode: "json" }).notNull(),
     responseHeaders: text("response_headers", { mode: "json" }),
+    // The post-strip wire params (modelParams + providerOptions) exactly as
+    // handed to the SDK; the proof that a reasoning-effort setting was sent.
+    sent: text("sent", { mode: "json" }),
     droppedParams: text("dropped_params"),
     requestId: text("request_id"),
     url: text("url"),
@@ -330,6 +333,7 @@ export const samplingPresets = sqliteTable(
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     autoScrollStream: integer("auto_scroll_stream", { mode: "boolean" }),
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
+    reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     chatMemory: integer("chat_memory"),
     utilityModel: text("utility_model"),
     // Provider lane for the model beside it, shipped as X-Group. Null = auto.

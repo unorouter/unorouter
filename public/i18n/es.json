@@ -3867,7 +3867,10 @@
       "COL_TIME": "Hora",
       "COL_MODEL": "Modelo",
       "COL_COST": "Coste",
-      "LIST_CAPPED": "Solo se conservan las {max} solicitudes más recientes por chat; las anteriores se eliminan."
+      "LIST_CAPPED": "Solo se conservan las {max} solicitudes más recientes por chat; las anteriores se eliminan.",
+      "TAB_SENT": "Parámetros enviados",
+      "TAB_SENT_HINT": "Los parámetros exactos de muestreo y razonamiento entregados al SDK tras eliminar los no compatibles. Si tu ajuste de esfuerzo de razonamiento aparece aquí, se envió.",
+      "BADGE_REASONING": "razonamiento"
     },
     "NEW_CONVERSATION": "Nuevo chat",
     "GENERATION_LOCKED_OTHER_TAB": "Otra pestaña ya está generando para esta conversación. Espera a que termine o cambia de pestaña.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} personajes",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importar tarjeta",
-    "CARDS_IMPORT_PARTIAL": "Tarjeta importada, pero {count} elementos no estaban en este dispositivo y se omitieron."
+    "CARDS_IMPORT_PARTIAL": "Tarjeta importada, pero {count} elementos no estaban en este dispositivo y se omitieron.",
+    "PRESET_REASONING_EFFORT_HINT": "Cuánto piensa el modelo antes de responder. El ajuste de la conversación lo anula; vacío significa el valor predeterminado del modelo."
   },
   "ERRORS": {
     "MISSING_ENV": "Variable de entorno requerida faltante: {var}",

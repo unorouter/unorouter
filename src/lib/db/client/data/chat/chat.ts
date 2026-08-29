@@ -159,7 +159,9 @@ export async function readActiveBranchTranscript(
         .flatMap((p) => (p.type === "text" ? [p.text] : []))
         .join("\n\n")
         .trim();
-      return text ? `${m.role === "user" ? "User" : "Assistant"}:\n${text}` : "";
+      return text
+        ? `${m.role === "user" ? "User" : "Assistant"}:\n${text}`
+        : "";
     })
     .filter(Boolean)
     .join("\n\n");
@@ -408,7 +410,7 @@ export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
   // subtree goes with it.
   if (children.length > 1) {
     const doomed = new Set<string>([msgId]);
-    for (let grew = true; grew; ) {
+    for (let grew = true; grew;) {
       grew = false;
       for (const m of msgs) {
         if (!doomed.has(m.id) && m.parentId && doomed.has(m.parentId)) {

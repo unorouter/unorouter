@@ -3867,7 +3867,10 @@
       "COL_TIME": "Time",
       "COL_MODEL": "Model",
       "COL_COST": "Cost",
-      "LIST_CAPPED": "Only the {max} most recent requests per chat are kept; older ones are deleted."
+      "LIST_CAPPED": "Only the {max} most recent requests per chat are kept; older ones are deleted.",
+      "TAB_SENT": "Sent params",
+      "TAB_SENT_HINT": "The exact sampling and reasoning parameters handed to the SDK after unsupported ones were stripped. If your reasoning effort setting is here, it was sent.",
+      "BADGE_REASONING": "reasoning"
     },
     "NEW_CONVERSATION": "New Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Another tab is already generating for this conversation. Wait for it to finish or switch tabs.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} characters",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Import card",
-    "CARDS_IMPORT_PARTIAL": "Card imported, but {count} items were not on this device and were skipped."
+    "CARDS_IMPORT_PARTIAL": "Card imported, but {count} items were not on this device and were skipped.",
+    "PRESET_REASONING_EFFORT_HINT": "How much the model thinks before answering. The in-chat conversation setting overrides this; empty means the model's default."
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",

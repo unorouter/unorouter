@@ -175,6 +175,9 @@ export const samplingPresetFormSchema = t.Object({
   streamingEnabled: nullable(t.Boolean()),
   autoScrollStream: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
+  reasoningEffort: t.Union([...reasoningEffort.anyOf, t.Literal(NONE_VALUE)], {
+    default: NONE_VALUE,
+  }),
   chatMemory: nullableNumber(1, 1000),
   memoryEnabled: nullable(t.Boolean()),
   imageEnabled: nullable(t.Boolean()),

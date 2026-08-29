@@ -3867,7 +3867,10 @@
       "COL_TIME": "시간",
       "COL_MODEL": "모델",
       "COL_COST": "비용",
-      "LIST_CAPPED": "채팅당 최근 {max}건의 요청만 보관되며 이전 기록은 삭제됩니다."
+      "LIST_CAPPED": "채팅당 최근 {max}건의 요청만 보관되며 이전 기록은 삭제됩니다.",
+      "TAB_SENT": "전송된 파라미터",
+      "TAB_SENT_HINT": "지원되지 않는 값을 제거한 뒤 SDK에 전달된 샘플링 및 추론 파라미터 그대로입니다. 추론 강도 설정이 여기에 있다면 실제로 전송된 것입니다.",
+      "BADGE_REASONING": "추론"
     },
     "NEW_CONVERSATION": "새 채팅",
     "GENERATION_LOCKED_OTHER_TAB": "다른 탭이 이 대화를 위해 이미 생성 중입니다. 완료될 때까지 기다리거나 탭을 전환하세요.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "캐릭터 {count}개",
     "CARDS_SUMMARY_LOREBOOKS": "로어북 {count}개",
     "CARDS_IMPORT": "카드 가져오기",
-    "CARDS_IMPORT_PARTIAL": "카드를 가져왔지만 이 기기에 없는 {count}개 항목은 건너뛰었습니다."
+    "CARDS_IMPORT_PARTIAL": "카드를 가져왔지만 이 기기에 없는 {count}개 항목은 건너뛰었습니다.",
+    "PRESET_REASONING_EFFORT_HINT": "모델이 답하기 전에 얼마나 깊이 생각할지 정합니다. 채팅 내 설정이 이 값을 덮어씁니다. 비워 두면 모델 기본값입니다."
   },
   "ERRORS": {
     "MISSING_ENV": "필수 환경 변수 누락: {var}",

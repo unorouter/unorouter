@@ -115,15 +115,14 @@ export function PersonaList(props: Props) {
                 aria-label={t("RP.LIST_SEARCH")}
               />
 
-
-          {personasQuery.data?.length === 0 && editingId !== "new" && (
-            <RpEmptyCard labelKey="RP.PERSONAS_EMPTY" />
-          )}
+              {personasQuery.data?.length === 0 && editingId !== "new" && (
+                <RpEmptyCard labelKey="RP.PERSONAS_EMPTY" />
+              )}
 
               {/* The ROWS scroll, not the dialog: an import can bring many items at
                 once, and scrolling the whole card pushes the search box and the
                 import buttons off screen. */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
                 {rpFilter(personasQuery.data, rpQuery, (p) => [
                   p.name,
                   p.description,

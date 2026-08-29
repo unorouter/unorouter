@@ -11,7 +11,6 @@ export const verifyProviderValue = t.Union(
 );
 export type VerifyProviderValue = Static<typeof verifyProviderValue>;
 
-
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
 

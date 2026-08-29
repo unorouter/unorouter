@@ -3867,7 +3867,10 @@
       "COL_TIME": "Czas",
       "COL_MODEL": "Model",
       "COL_COST": "Koszt",
-      "LIST_CAPPED": "Przechowywane jest tylko {max} najnowszych żądań na czat; starsze są usuwane."
+      "LIST_CAPPED": "Przechowywane jest tylko {max} najnowszych żądań na czat; starsze są usuwane.",
+      "TAB_SENT": "Wysłane parametry",
+      "TAB_SENT_HINT": "Dokładne parametry próbkowania i rozumowania przekazane do SDK po usunięciu nieobsługiwanych. Jeśli twoje ustawienie wysiłku rozumowania tu jest, zostało wysłane.",
+      "BADGE_REASONING": "rozumowanie"
     },
     "NEW_CONVERSATION": "Nowy chat",
     "GENERATION_LOCKED_OTHER_TAB": "Inna karta już generuje dla tej rozmowy. Poczekaj na zakończenie lub przełącz karty.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} postaci",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooków",
     "CARDS_IMPORT": "Importuj kartę",
-    "CARDS_IMPORT_PARTIAL": "Zaimportowano kartę, ale {count} elementów nie ma na tym urządzeniu i zostało pominiętych."
+    "CARDS_IMPORT_PARTIAL": "Zaimportowano kartę, ale {count} elementów nie ma na tym urządzeniu i zostało pominiętych.",
+    "PRESET_REASONING_EFFORT_HINT": "Jak intensywnie model myśli przed odpowiedzią. Ustawienie w czacie ma pierwszeństwo; puste oznacza domyślne ustawienie modelu."
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",
