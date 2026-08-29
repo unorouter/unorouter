@@ -44,21 +44,26 @@ export const useDeleteJsPluginMutation = jsPlugins.useDelete;
 export function useImportJsPluginFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
-      runUrlImport(input, async (result) => {
+      runUrlImport(input, async (results) => {
         const now = dayjs().toDate();
-        if ("plugin" in result) {
+        const plugin = results.flatMap((r) =>
+          "plugin" in r ? [r.plugin] : [],
+        )[0];
+        if (plugin) {
           await upsertLocalJsPlugin({
             id: uid(),
-            name: result.plugin.name,
-            script: result.plugin.script,
-            kind: detectPluginKind(result.plugin.script),
+            name: plugin.name,
+            script: plugin.script,
+            kind: detectPluginKind(plugin.script),
             enabled: true,
             createdAt: now,
             updatedAt: now,
           });
           return { importedAsLorebook: null };
         }
-        const books = "lorebooks" in result ? result.lorebooks : [];
+        const books = results.flatMap((r) =>
+          "lorebooks" in r ? r.lorebooks : [],
+        );
         if (books.length === 0) {
           throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
         }

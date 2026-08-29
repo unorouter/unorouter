@@ -13,8 +13,21 @@ const POLL_MS = 1500;
 // imported was reported as a failure to the user.
 const POLL_TIMEOUT_MS = 16 * 60_000;
 
-// Never hand-write a mirror: this is generated from uno-import's OpenAPI doc.
-export type ImportedResult = NonNullable<GetApiJobsById200["result"]>;
+// Still generated, not hand-written: the arms come from uno-import's OpenAPI
+// doc. Only the ARITY is repaired here. A job returns a list (one URL can hold
+// many characters), but fromTypes distributes an array across a union, so the
+// emitted schema reads "one of the six variants, or an array of the last one".
+// Flattening the array arm back out recovers the element type without
+// restating any variant, so a change upstream still flows through.
+type GeneratedResult = NonNullable<GetApiJobsById200["result"]>;
+export type ImportedResult =
+  GeneratedResult extends readonly (infer E)[]
+    ? E
+    : GeneratedResult extends infer U
+      ? U extends readonly (infer E2)[]
+        ? E2
+        : U
+      : never;
 
 const SUBMIT_ERRORS: Record<string, string> = {
   "unsupported source": msg("ERRORS.CARD_IMPORT_UNSUPPORTED"),
@@ -62,7 +75,7 @@ function rejected(body: object): Error {
 
 export async function runUrlImport<T>(
   url: string,
-  persist: (result: ImportedResult) => Promise<T>,
+  persist: (results: ImportedResult[]) => Promise<T>,
 ): Promise<T> {
   let parsed: URL;
   try {
@@ -91,6 +104,14 @@ export async function runUrlImport<T>(
       throw new Error(importFailureMessage(state.error));
     }
     if (state.status !== "done" || !state.result) continue;
-    return persist(state.result);
+    // Older workers answered with one object; normalise so a hook never has to
+    // care which it is talking to.
+    const list = (
+      Array.isArray(state.result) ? state.result : [state.result]
+    ) as ImportedResult[];
+    if (list.length === 0) {
+      throw new Error(msg("ERRORS.CARD_IMPORT_EMPTY"));
+    }
+    return persist(list);
   }
 }

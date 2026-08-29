@@ -39,19 +39,24 @@ export const useDuplicatePresetMutation = presets.useDuplicate;
 export function useImportPresetFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
-      runUrlImport(input, async (result) => {
-        if (!("preset" in result)) {
+      runUrlImport(input, async (results) => {
+        // Keep every preset the URL carried; a lorebary scenario returns one
+        // alongside its lorebooks, and a document could carry several.
+        const presets = results.flatMap((r) => ("preset" in r ? [r.preset] : []));
+        if (presets.length === 0) {
           throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
         }
         const now = dayjs().toDate();
-        await upsertLocalPreset({
-          id: uid(),
-          name: result.preset.name,
-          promptTemplate: result.preset.promptTemplate,
-          createdAt: now,
-          updatedAt: now,
-        });
-        return { name: result.preset.name };
+        for (const preset of presets) {
+          await upsertLocalPreset({
+            id: uid(),
+            name: preset.name,
+            promptTemplate: preset.promptTemplate,
+            createdAt: now,
+            updatedAt: now,
+          });
+        }
+        return { name: presets[0].name };
       }),
     invalidates: [queryKeys.presets()],
   });

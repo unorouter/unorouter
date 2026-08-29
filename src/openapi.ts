@@ -1827,6 +1827,14 @@ export interface OllamaVersionData {
   version: string;
 }
 
+/**
+ * OpenAIModelList schema
+ */
+export interface OpenAIModelList {
+  data: unknown;
+  object: string;
+}
+
 export interface OpenAIModels {
   context_length?: number;
   created: number;
@@ -3837,6 +3845,20 @@ export interface UpdateNameResponse {
  */
 export interface ResponseDtoUpdateNameResponse {
   data: UpdateNameResponse;
+  message: string;
+  success: boolean;
+}
+
+export interface UserBotViewData {
+  quota: number;
+  setting: string;
+}
+
+/**
+ * Response_dto.UserBotViewData schema
+ */
+export interface ResponseDtoUserBotViewData {
+  data: UserBotViewData;
   message: string;
   success: boolean;
 }
@@ -17720,6 +17742,41 @@ export const adminClearUserBinding = async (
   );
 };
 
+export type getUserBotViewResponse200ApplicationJson = {
+  data: ResponseDtoUserBotViewData;
+  status: 200;
+};
+
+export type getUserBotViewResponse200ApplicationXml = {
+  data: ResponseDtoUserBotViewData;
+  status: 200;
+};
+
+export type getUserBotViewResponseSuccess = (
+  | getUserBotViewResponse200ApplicationJson
+  | getUserBotViewResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getUserBotViewResponse = getUserBotViewResponseSuccess;
+
+export const getGetUserBotViewUrl = (id: string) => {
+  return `/api/user/${id}/bot_view`;
+};
+
+/**
+ * @summary Get User Bot View
+ */
+export const getUserBotView = async (
+  id: string,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getUserBotViewResponse> => {
+  return customFetch<getUserBotViewResponse>(getGetUserBotViewUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
 export type getUserOAuthBindingsByAdminResponse200ApplicationJson = {
   data: ResponseArrayDtoUserOAuthBindingResponse;
   status: 200;
@@ -20104,12 +20161,12 @@ export const relayMessages = async (
 };
 
 export type relayListModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAIModelList;
   status: 200;
 };
 
 export type relayListModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAIModelList;
   status: 200;
 };
 

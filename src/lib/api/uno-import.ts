@@ -232,26 +232,26 @@ export type GetApiJobsById200ResultAnyOfTwoone = {
   lorebooks: GetApiJobsById200ResultAnyOfTwooneLorebooksItem[];
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixAvatar = {
+export type GetApiJobsById200ResultAnyOfTwosixItemAvatar = {
   name: string;
   mimeType: string;
   base64: string;
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixCardData = {
+export type GetApiJobsById200ResultAnyOfTwosixItemCardData = {
   [key: string]: unknown;
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixCard = {
+export type GetApiJobsById200ResultAnyOfTwosixItemCard = {
   spec: string;
   spec_version?: string;
-  data: GetApiJobsById200ResultAnyOfTwosixCardData;
+  data: GetApiJobsById200ResultAnyOfTwosixItemCardData;
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixLorebooksItemEntriesItemInjectionRole =
+export type GetApiJobsById200ResultAnyOfTwosixItemLorebooksItemEntriesItemInjectionRole =
   "system" | "user" | "assistant";
 
-export type GetApiJobsById200ResultAnyOfTwosixLorebooksItemEntriesItem = {
+export type GetApiJobsById200ResultAnyOfTwosixItemLorebooksItemEntriesItem = {
   keys: string[];
   secondaryKeys?: string[];
   content: string;
@@ -262,32 +262,32 @@ export type GetApiJobsById200ResultAnyOfTwosixLorebooksItemEntriesItem = {
   priority: number;
   orderIndex: number;
   matchWholeWords: boolean;
-  injectionRole?: GetApiJobsById200ResultAnyOfTwosixLorebooksItemEntriesItemInjectionRole;
+  injectionRole?: GetApiJobsById200ResultAnyOfTwosixItemLorebooksItemEntriesItemInjectionRole;
   chance?: number;
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixLorebooksItem = {
+export type GetApiJobsById200ResultAnyOfTwosixItemLorebooksItem = {
   name: string;
   scanDepth?: number;
-  entries: GetApiJobsById200ResultAnyOfTwosixLorebooksItemEntriesItem[];
+  entries: GetApiJobsById200ResultAnyOfTwosixItemLorebooksItemEntriesItem[];
 };
 
-export type GetApiJobsById200ResultAnyOfTwosixAssetsItem = {
+export type GetApiJobsById200ResultAnyOfTwosixItemAssetsItem = {
   name: string;
   mimeType: string;
   base64: string;
 };
 
-export type GetApiJobsById200ResultAnyOfTwosix = {
+export type GetApiJobsById200ResultAnyOfTwosixItem = {
   kind: "rich-character";
   source: string;
   sourceUrl: string;
-  avatar?: GetApiJobsById200ResultAnyOfTwosixAvatar;
-  card: GetApiJobsById200ResultAnyOfTwosixCard;
-  lorebooks: GetApiJobsById200ResultAnyOfTwosixLorebooksItem[];
+  avatar?: GetApiJobsById200ResultAnyOfTwosixItemAvatar;
+  card: GetApiJobsById200ResultAnyOfTwosixItemCard;
+  lorebooks: GetApiJobsById200ResultAnyOfTwosixItemLorebooksItem[];
   regexScripts?: unknown;
   triggers?: unknown;
-  assets: GetApiJobsById200ResultAnyOfTwosixAssetsItem[];
+  assets: GetApiJobsById200ResultAnyOfTwosixItemAssetsItem[];
 };
 
 export type GetApiJobsById200Result =
@@ -296,7 +296,7 @@ export type GetApiJobsById200Result =
   | GetApiJobsById200ResultAnyOfOnesix
   | GetApiJobsById200ResultAnyOfOnenine
   | GetApiJobsById200ResultAnyOfTwoone
-  | GetApiJobsById200ResultAnyOfTwosix
+  | GetApiJobsById200ResultAnyOfTwosixItem[]
   | null;
 
 export type GetApiJobsById200Error = string | null;
@@ -305,6 +305,7 @@ export type GetApiJobsById200 = {
   status: string;
   result: GetApiJobsById200Result;
   error: GetApiJobsById200Error;
+  queuePosition: number;
 };
 
 export type GetApiJobsById404 = {
@@ -326,6 +327,23 @@ export type GetApiHealth200 = {
   exitUsable: boolean;
   exitIp: string;
   queueDepth: number;
+  failStreak: number;
+};
+
+export type GetApiHealthLive200 = {
+  ok: boolean;
+  exitUsable: boolean;
+  exitIp: string;
+  queueDepth: number;
+  failStreak: number;
+};
+
+export type GetApiHealthLive503 = {
+  ok: boolean;
+  exitUsable: boolean;
+  exitIp: string;
+  queueDepth: number;
+  failStreak: number;
 };
 
 export type PostV1ChatCompletions200ChoicesItemMessage = {
@@ -559,6 +577,39 @@ export const getApiHealth = async (
   options?: Parameters<typeof unoImportFetch>[1],
 ): Promise<getApiHealthResponse> => {
   return unoImportFetch<getApiHealthResponse>(getGetApiHealthUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getApiHealthLiveResponse200 = {
+  data: GetApiHealthLive200;
+  status: 200;
+};
+
+export type getApiHealthLiveResponse503 = {
+  data: GetApiHealthLive503;
+  status: 503;
+};
+
+export type getApiHealthLiveResponseSuccess = getApiHealthLiveResponse200 & {
+  headers: Headers;
+};
+export type getApiHealthLiveResponseError = getApiHealthLiveResponse503 & {
+  headers: Headers;
+};
+
+export type getApiHealthLiveResponse =
+  getApiHealthLiveResponseSuccess | getApiHealthLiveResponseError;
+
+export const getGetApiHealthLiveUrl = () => {
+  return `/api/health/live`;
+};
+
+export const getApiHealthLive = async (
+  options?: Parameters<typeof unoImportFetch>[1],
+): Promise<getApiHealthLiveResponse> => {
+  return unoImportFetch<getApiHealthLiveResponse>(getGetApiHealthLiveUrl(), {
     ...options,
     method: "GET",
   });

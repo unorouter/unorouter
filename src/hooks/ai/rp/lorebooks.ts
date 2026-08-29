@@ -208,24 +208,32 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
 export function useImportLorebookFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
-      runUrlImport(input, async (result) => {
-        if (result.kind === "plugin" && result.plugin) {
+      runUrlImport(input, async (results) => {
+        // A plugin URL carries exactly one script, so the first wins; the
+        // remaining branches gather across every item, since one URL can bring
+        // a preset and its books together.
+        const plugin = results.flatMap((r) =>
+          r.kind === "plugin" && r.plugin ? [r.plugin] : [],
+        )[0];
+        if (plugin) {
           const now = dayjs().toDate();
           await upsertLocalJsPlugin({
             id: uid(),
-            name: result.plugin.name,
-            script: result.plugin.script,
+            name: plugin.name,
+            script: plugin.script,
             kind: "janitor",
             enabled: true,
             createdAt: now,
             updatedAt: now,
           });
           return {
-            importedAsPlugin: result.plugin.name,
+            importedAsPlugin: plugin.name,
             importedAsPreset: null,
           };
         }
-        const preset = "preset" in result ? result.preset : null;
+        const preset = results.flatMap((r) =>
+          "preset" in r ? [r.preset] : [],
+        )[0];
         if (preset) {
           const now = dayjs().toDate();
           await upsertLocalPreset({
@@ -236,13 +244,16 @@ export function useImportLorebookFromUrlMutation() {
             updatedAt: now,
           });
         }
-        const books = "lorebooks" in result ? result.lorebooks : [];
+        const books = results.flatMap((r) =>
+          "lorebooks" in r ? r.lorebooks : [],
+        );
         if (books.length === 0 && preset) {
           return { importedAsPlugin: null, importedAsPreset: preset.name };
         }
         if (books.length === 0) {
-          const withheld = ("skipped" in result ? result.skipped : [])
-            .map((s) => s.title)
+          const withheld = results
+            .flatMap((r) => ("skipped" in r ? r.skipped : []))
+            .map((sk) => sk.title)
             .join(", ");
           throw new Error(
             withheld

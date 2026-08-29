@@ -77,8 +77,10 @@ export function useImportPersonaMutation() {
 export function useImportPersonaFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>
-      runUrlImport(input, async (result) => {
-        const found = "personas" in result ? result.personas : [];
+      runUrlImport(input, async (results) => {
+        const found = results.flatMap((r) =>
+          "personas" in r ? r.personas : [],
+        );
         if (found.length === 0)
           throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
         const now = dayjs().toDate();
