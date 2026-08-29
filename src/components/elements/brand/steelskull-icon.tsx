@@ -1,7 +1,7 @@
 import { makeImgIcon } from "@/components/elements/brand/vendor-img-icon";
 
 const SteelSkullIcon = makeImgIcon(
-  "/icons/vendors/steelskull.webp",
+  "/images/icons/vendors/steelskull.webp",
   "SteelSkull",
 );
 

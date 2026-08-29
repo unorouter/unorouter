@@ -13,7 +13,7 @@ export async function HowToConnectUnorouterToNevikaContent() {
       <figure className="not-prose my-6 flex justify-center">
         <a href="https://nevika.eu" rel="noopener" target="_blank">
           <Image
-            src="/icons/nevika.png"
+            src="/images/icons/nevika.png"
             alt="Nevika"
             width={256}
             height={256}

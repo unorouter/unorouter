@@ -1,7 +1,7 @@
 import { makeImgIcon } from "@/components/elements/brand/vendor-img-icon";
 
 const DeepReinforceIcon = makeImgIcon(
-  "/icons/vendors/deepreinforce.webp",
+  "/images/icons/vendors/deepreinforce.webp",
   "DeepReinforce",
 );
 

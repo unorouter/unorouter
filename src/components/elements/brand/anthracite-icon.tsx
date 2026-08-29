@@ -1,7 +1,7 @@
 import { makeImgIcon } from "@/components/elements/brand/vendor-img-icon";
 
 const AnthraciteIcon = makeImgIcon(
-  "/icons/vendors/anthracite.webp",
+  "/images/icons/vendors/anthracite.webp",
   "Anthracite",
 );
 

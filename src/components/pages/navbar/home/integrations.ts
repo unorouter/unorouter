@@ -77,7 +77,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "openclaw",
     href: "/docs/integrations/openclaw",
-    logoSrc: "/icons/openclaw.svg",
+    logoSrc: "/images/icons/openclaw.svg",
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
     descKey: msg("HOME.INTEGRATION.OPENCLAW.DESCRIPTION"),
@@ -90,7 +90,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "sillytavern",
     href: "/docs/integrations/sillytavern",
-    logoSrc: "/icons/sillytavern.png",
+    logoSrc: "/images/icons/sillytavern.png",
     badge: "SillyTavern",
     titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
     descKey: msg("HOME.INTEGRATION.SILLYTAVERN.DESCRIPTION"),
@@ -100,7 +100,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "janitor-ai",
     href: "/docs/integrations/janitor-ai",
-    logoSrc: "/icons/janitor-ai.png",
+    logoSrc: "/images/icons/janitor-ai.png",
     badge: "Janitor.AI",
     titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
     descKey: msg("HOME.INTEGRATION.JANITOR_AI.DESCRIPTION"),
@@ -110,7 +110,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "risuai",
     href: "/docs/integrations/risuai",
-    logoSrc: "/icons/risuai.png",
+    logoSrc: "/images/icons/risuai.png",
     badge: "RisuAI",
     titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
     descKey: msg("HOME.INTEGRATION.RISUAI.DESCRIPTION"),
@@ -120,7 +120,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "chub",
     href: "/docs/integrations/chub",
-    logoSrc: "/icons/chub-ai.png",
+    logoSrc: "/images/icons/chub-ai.png",
     logoBg: true,
     badge: "Chub / Venus",
     titleKey: msg("HOME.INTEGRATION.CHUB.TITLE"),
