@@ -1,1 +1,0 @@
-ALTER TABLE `sampling_presets` ADD `continue_prompt` text;

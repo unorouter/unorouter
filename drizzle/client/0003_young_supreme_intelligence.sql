@@ -1,1 +1,0 @@
-ALTER TABLE `personas` ADD `title` text;

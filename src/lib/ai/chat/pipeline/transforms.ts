@@ -354,9 +354,11 @@ export function collectHistory(
       continue;
     }
     const text = textOf(m.parts);
-    // No id on StreamMessages to key `times` by, so {{message_time}} always
-    // falls back to OLD_VERSION_TIME.
-    if (text) out.push({ role: m.role, text, time: undefined });
+    // The type is Omit<UIMessage, "id"> but the wire messages carry their DB
+    // id, which is what `times` is keyed by.
+    const id = "id" in m && typeof m.id === "string" ? m.id : undefined;
+    if (text)
+      out.push({ role: m.role, text, time: id ? times?.[id] : undefined });
   }
   return out;
 }

@@ -10,12 +10,7 @@ import {
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import {
-  base64ToUint8,
-  handleElysia,
-  uid,
-  uint8ToBase64,
-} from "@/lib/utils/base";
+import { base64ToUint8, uid, uint8ToBase64 } from "@/lib/utils/base";
 import { msg } from "@/lib/config/constants";
 import { runUrlImport, type ImportedResult } from "./use-url-import";
 import { useApiMutation } from "@/lib/react-query/hooks";

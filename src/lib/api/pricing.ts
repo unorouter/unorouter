@@ -3,8 +3,7 @@ import type { ModelMetadata, PricingCatalogModel } from "@/openapi";
 export type { ModelMetadata };
 import { escapeRegex } from "@/lib/utils/base";
 
-const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
-export type ModelType = (typeof MODEL_TYPES)[number];
+export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
 
 export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";

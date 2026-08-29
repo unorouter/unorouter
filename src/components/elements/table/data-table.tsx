@@ -36,6 +36,7 @@ import { DataTableViewOptions } from "./data-table-view-options";
 import type { TranslationKey } from "@/lib/config/constants";
 
 declare module "@tanstack/react-table" {
+  /* eslint-disable @typescript-eslint/no-unused-vars -- augmentation must repeat the library's exact type parameters */
   interface ColumnMeta<
     TFeatures extends TableFeatures,
     TData extends RowData,
@@ -45,6 +46,7 @@ declare module "@tanstack/react-table" {
     headerClassName?: string;
     cellClassName?: string;
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 interface DataTableProps<TData extends RowData> {

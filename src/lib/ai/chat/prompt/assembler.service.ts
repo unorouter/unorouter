@@ -17,7 +17,6 @@ import {
   DEFAULT_PROMPT_TEMPLATE,
   parsePromptTemplate,
   walkTemplate,
-  type PromptItemRole,
   type PromptPart,
   type SlotBlock,
   type TemplateSlots,
