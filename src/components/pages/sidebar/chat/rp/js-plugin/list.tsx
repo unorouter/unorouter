@@ -120,15 +120,14 @@ export function JsPluginList(props: Props) {
                 aria-label={t("RP.LIST_SEARCH")}
               />
 
-
-          {pluginsQuery.data?.length === 0 && editingId !== "new" && (
-            <RpEmptyCard labelKey="CHAT.JS_PLUGIN.EMPTY" />
-          )}
+              {pluginsQuery.data?.length === 0 && editingId !== "new" && (
+                <RpEmptyCard labelKey="CHAT.JS_PLUGIN.EMPTY" />
+              )}
 
               {/* The ROWS scroll, not the dialog: an import can bring many items at
                 once, and scrolling the whole card pushes the search box and the
                 import buttons off screen. */}
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
                 {rpFilter(pluginsQuery.data, rpQuery, (plugin) => [
                   plugin.name,
                 ]).map((plugin) => (

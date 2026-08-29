@@ -3867,7 +3867,10 @@
       "COL_TIME": "時間",
       "COL_MODEL": "模型",
       "COL_COST": "費用",
-      "LIST_CAPPED": "每個對話僅保留最近的 {max} 筆請求，更早的會被刪除。"
+      "LIST_CAPPED": "每個對話僅保留最近的 {max} 筆請求，更早的會被刪除。",
+      "TAB_SENT": "已傳送參數",
+      "TAB_SENT_HINT": "剔除不支援的參數後交給SDK的取樣與推理參數原文。如果你的推理強度設定出現在這裡，代表確實已傳送。",
+      "BADGE_REASONING": "推理"
     },
     "NEW_CONVERSATION": "新對話",
     "GENERATION_LOCKED_OTHER_TAB": "另一個分頁正在為此對話生成回覆。請等待其完成或切換到該分頁。",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} 個角色",
     "CARDS_SUMMARY_LOREBOOKS": "{count} 本設定集",
     "CARDS_IMPORT": "匯入卡片",
-    "CARDS_IMPORT_PARTIAL": "卡片已匯入，但有 {count} 項不在此裝置上，已略過。"
+    "CARDS_IMPORT_PARTIAL": "卡片已匯入，但有 {count} 項不在此裝置上，已略過。",
+    "PRESET_REASONING_EFFORT_HINT": "模型回答前思考的深度。聊天內設定會覆蓋此項；留空表示使用模型預設值。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",

@@ -83,6 +83,10 @@
     {
       "tag": "0020_preset_model_groups",
       "sql": "ALTER TABLE `sampling_presets` ADD `utility_group` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `title_group` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `image_group` text;\n"
+    },
+    {
+      "tag": "0021_nosy_darwin",
+      "sql": "PRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_js_plugins` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`name` text NOT NULL,\n\t`script` text NOT NULL,\n\t`kind` text DEFAULT 'risu' NOT NULL,\n\t`enabled` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_js_plugins`(\"id\", \"name\", \"script\", \"kind\", \"enabled\", \"created_at\", \"updated_at\") SELECT \"id\", \"name\", \"script\", \"kind\", \"enabled\", \"created_at\", \"updated_at\" FROM `js_plugins`;--> statement-breakpoint\nDROP TABLE `js_plugins`;--> statement-breakpoint\nALTER TABLE `__new_js_plugins` RENAME TO `js_plugins`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nALTER TABLE `request_logs` ADD `sent` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `reasoning_effort` text;\n"
     }
   ]
 }

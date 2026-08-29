@@ -3867,7 +3867,10 @@
       "COL_TIME": "Waktu",
       "COL_MODEL": "Model",
       "COL_COST": "Biaya",
-      "LIST_CAPPED": "Hanya {max} permintaan terbaru per obrolan yang disimpan; yang lebih lama dihapus."
+      "LIST_CAPPED": "Hanya {max} permintaan terbaru per obrolan yang disimpan; yang lebih lama dihapus.",
+      "TAB_SENT": "Parameter terkirim",
+      "TAB_SENT_HINT": "Parameter sampling dan penalaran persis yang diserahkan ke SDK setelah yang tidak didukung dihapus. Jika pengaturan upaya penalaran Anda ada di sini, berarti sudah terkirim.",
+      "BADGE_REASONING": "penalaran"
     },
     "NEW_CONVERSATION": "Chat Baru",
     "GENERATION_LOCKED_OTHER_TAB": "Tab lain sudah membuat untuk sohbet ini. Tunggu sampai selesai atau ganti tab.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} karakter",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Impor kartu",
-    "CARDS_IMPORT_PARTIAL": "Kartu diimpor, tetapi {count} item tidak ada di perangkat ini dan dilewati."
+    "CARDS_IMPORT_PARTIAL": "Kartu diimpor, tetapi {count} item tidak ada di perangkat ini dan dilewati.",
+    "PRESET_REASONING_EFFORT_HINT": "Seberapa dalam model berpikir sebelum menjawab. Pengaturan di dalam obrolan menimpa nilai ini; kosong berarti bawaan model."
   },
   "ERRORS": {
     "MISSING_ENV": "Env yang diperlukan hilang: {var}",

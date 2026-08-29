@@ -18,11 +18,7 @@ import { OS } from "@/lib/types/enums";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
-import type {
-  SetupCompatibility,
-  SetupGuide,
-  SetupStep,
-} from "./setup-guides";
+import type { SetupCompatibility, SetupGuide, SetupStep } from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
 
@@ -117,9 +113,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
 
   // OpenCode needs every model spelled out in its config, so the sample block
   // is filled with real ids rather than a placeholder.
-  const freeModelKeys = models
-    .map((id) => `        "${id}": {}`)
-    .join(",\n");
+  const freeModelKeys = models.map((id) => `        "${id}": {}`).join(",\n");
   const stepCode = (step: SetupStep) =>
     step.code
       ? step.code.value.replace("__FREE_MODEL_KEYS__", freeModelKeys)

@@ -2,6 +2,7 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import { nullable, samplingNullable } from "./helpers";
 import { tokenizerRef } from "./tokenizer";
+import { reasoningEffort } from "./chat";
 
 export const MAX_NAME_LEN = 200;
 export const MAX_DESC_LEN = 200_000;
@@ -9,8 +10,6 @@ export const MAX_TAG_LEN = 64;
 export const MAX_TAGS = 32;
 export const MAX_KEYS_PER_ENTRY = 64;
 export const MAX_KEY_LEN = 200;
-
-
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
@@ -57,6 +56,7 @@ export const samplingPresetBody = t.Object({
   streamingEnabled: nullable(t.Boolean()),
   autoScrollStream: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
+  reasoningEffort: nullable(t.Union(reasoningEffort.anyOf)),
   chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
   extraBody: nullable(t.String({ maxLength: 8_192 })),
   providers: nullable(t.String({ maxLength: 4_096 })),

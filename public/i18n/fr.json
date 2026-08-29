@@ -3867,7 +3867,10 @@
       "COL_TIME": "Heure",
       "COL_MODEL": "Modèle",
       "COL_COST": "Coût",
-      "LIST_CAPPED": "Seules les {max} requêtes les plus récentes par discussion sont conservées ; les plus anciennes sont supprimées."
+      "LIST_CAPPED": "Seules les {max} requêtes les plus récentes par discussion sont conservées ; les plus anciennes sont supprimées.",
+      "TAB_SENT": "Paramètres envoyés",
+      "TAB_SENT_HINT": "Les paramètres exacts d'échantillonnage et de raisonnement transmis au SDK après suppression de ceux non pris en charge. Si votre réglage d'effort de raisonnement figure ici, il a bien été envoyé.",
+      "BADGE_REASONING": "raisonnement"
     },
     "NEW_CONVERSATION": "Nouveau chat",
     "GENERATION_LOCKED_OTHER_TAB": "Un autre onglet est déjà en train de générer pour cette conversation. Attendez qu'il se termine ou changez d'onglet.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} personnages",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importer une carte",
-    "CARDS_IMPORT_PARTIAL": "Carte importée, mais {count} éléments absents de cet appareil ont été ignorés."
+    "CARDS_IMPORT_PARTIAL": "Carte importée, mais {count} éléments absents de cet appareil ont été ignorés.",
+    "PRESET_REASONING_EFFORT_HINT": "Intensité de réflexion du modèle avant de répondre. Le réglage de la conversation le remplace; vide signifie la valeur par défaut du modèle."
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",

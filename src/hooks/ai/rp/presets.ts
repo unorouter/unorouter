@@ -42,7 +42,9 @@ export function useImportPresetFromUrlMutation() {
       runUrlImport(input, async (results) => {
         // Keep every preset the URL carried; a lorebary scenario returns one
         // alongside its lorebooks, and a document could carry several.
-        const presets = results.flatMap((r) => ("preset" in r ? [r.preset] : []));
+        const presets = results.flatMap((r) =>
+          "preset" in r ? [r.preset] : [],
+        );
         if (presets.length === 0) {
           throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
         }

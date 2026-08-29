@@ -2,6 +2,8 @@
 
 import { rec } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
+import { REASONING_EFFORT_KEY } from "../../overrides/form-handler";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Form } from "@/components/ui/form";
@@ -19,7 +21,7 @@ import {
   UtilityModelField,
 } from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
-import { AUTO_GROUP, NONE_VALUE } from "@/lib/config/constants";
+import { AUTO_GROUP, msg, NONE_VALUE } from "@/lib/config/constants";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
   useCreatePresetMutation,
@@ -82,6 +84,7 @@ function toPresetBody(data: SamplingPresetForm) {
     | "providers"
     | "promptTemplate"
     | "providersOnly"
+    | "reasoningEffort"
     | "utilityModel"
     | "titleModel"
     | "imageModel"
@@ -98,10 +101,16 @@ function toPresetBody(data: SamplingPresetForm) {
     utilityGroup: string | null;
     titleGroup: string | null;
     imageGroup: string | null;
+    reasoningEffort: Exclude<
+      SamplingPresetForm["reasoningEffort"],
+      typeof NONE_VALUE
+    > | null;
   } = {
     ...data,
     providers,
     promptTemplate,
+    reasoningEffort:
+      data.reasoningEffort === NONE_VALUE ? null : data.reasoningEffort,
     utilityModel: unset(data.utilityModel),
     titleModel: unset(data.titleModel),
     imageModel: unset(data.imageModel),
@@ -130,6 +139,7 @@ export function PresetForm(props: Props) {
     providersOnly: routing.only,
     promptTemplate: editing?.promptTemplate ?? "",
     postHistoryRole: editing?.postHistoryRole ?? "system",
+    reasoningEffort: editing?.reasoningEffort ?? NONE_VALUE,
     streamingEnabled: editing?.streamingEnabled ?? true,
     autoScrollStream: editing?.autoScrollStream ?? true,
     showReasoning: editing?.showReasoning ?? true,
@@ -268,6 +278,25 @@ export function PresetForm(props: Props) {
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_SHOW_REASONING_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormKeyedSelect
+                  control={form.control}
+                  name="reasoningEffort"
+                  label={t("CHAT.OVERRIDES.REASONING_EFFORT")}
+                  fallback={NONE_VALUE}
+                  optionKeys={REASONING_EFFORT_KEY}
+                  leadingOptions={[
+                    {
+                      value: NONE_VALUE,
+                      labelKey: msg("CHAT.OVERRIDES.MODEL_DEFAULT"),
+                    },
+                    { value: "none", labelKey: msg("CHAT.OVERRIDES.OFF") },
+                  ]}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_REASONING_EFFORT_HINT")}
                 </p>
               </div>
               <div className="flex flex-col gap-3 border-t pt-3">

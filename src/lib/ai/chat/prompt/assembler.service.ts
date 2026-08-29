@@ -450,7 +450,10 @@ export async function assembleForStream(
     parseExtraBody(settings.extraBody) ?? parseExtraBody(preset?.extraBody);
 
   const reasoningEffort =
-    settings.reasoningEffort ?? primary?.defaultReasoningEffort ?? undefined;
+    settings.reasoningEffort ??
+    preset?.reasoningEffort ??
+    primary?.defaultReasoningEffort ??
+    undefined;
 
   logger.debug("Stream prompt assembled", {
     context: "stream.assembler",

@@ -20,14 +20,13 @@ const POLL_TIMEOUT_MS = 16 * 60_000;
 // Flattening the array arm back out recovers the element type without
 // restating any variant, so a change upstream still flows through.
 type GeneratedResult = NonNullable<GetApiJobsById200["result"]>;
-export type ImportedResult =
-  GeneratedResult extends readonly (infer E)[]
-    ? E
-    : GeneratedResult extends infer U
-      ? U extends readonly (infer E2)[]
-        ? E2
-        : U
-      : never;
+export type ImportedResult = GeneratedResult extends readonly (infer E)[]
+  ? E
+  : GeneratedResult extends infer U
+    ? U extends readonly (infer E2)[]
+      ? E2
+      : U
+    : never;
 
 const SUBMIT_ERRORS: Record<string, string> = {
   "unsupported source": msg("ERRORS.CARD_IMPORT_UNSUPPORTED"),

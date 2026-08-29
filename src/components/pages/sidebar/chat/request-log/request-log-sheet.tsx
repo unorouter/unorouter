@@ -44,6 +44,9 @@ export function RequestLogSheet(props: {
     (row.finalMessages == null ||
       (Array.isArray(row.finalMessages) && row.finalMessages.length === 0));
 
+  const sent = rec(row?.sent);
+  const sentReasoning = rec(sent?.providerOptions)?.reasoningEffort;
+
   const upstreamBody = row
     ? {
         model: rec(row.requestBody)?.model,
@@ -98,6 +101,11 @@ export function RequestLogSheet(props: {
                   {t("CHAT.REQUEST_LOG.UNIT_TOK_PER_S")}
                 </Badge>
               )}
+              {typeof sentReasoning === "string" && (
+                <Badge variant="outline">
+                  {t("CHAT.REQUEST_LOG.BADGE_REASONING")}: {sentReasoning}
+                </Badge>
+              )}
               {row.droppedParams && (
                 <Badge variant="destructive">
                   {t("CHAT.REQUEST_LOG.BADGE_DROPPED")}: {row.droppedParams}
@@ -144,6 +152,9 @@ export function RequestLogSheet(props: {
               <TabsTrigger value="request">
                 {t("CHAT.REQUEST_LOG.TAB_REQUEST")}
               </TabsTrigger>
+              <TabsTrigger value="sent">
+                {t("CHAT.REQUEST_LOG.TAB_SENT")}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="upstream" className="min-h-0 overflow-auto">
               <p className="text-muted-foreground mb-2 text-xs">
@@ -186,6 +197,12 @@ export function RequestLogSheet(props: {
                 {t("CHAT.REQUEST_LOG.TAB_REQUEST_HINT")}
               </p>
               <Highlight code={formatJson(row.requestBody)} />
+            </TabsContent>
+            <TabsContent value="sent" className="min-h-0 overflow-auto">
+              <p className="text-muted-foreground mb-2 text-xs">
+                {t("CHAT.REQUEST_LOG.TAB_SENT_HINT")}
+              </p>
+              <Highlight code={formatJson(row.sent)} />
             </TabsContent>
           </Tabs>
         )}

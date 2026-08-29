@@ -3867,7 +3867,10 @@
       "COL_TIME": "Saat",
       "COL_MODEL": "Model",
       "COL_COST": "Maliyet",
-      "LIST_CAPPED": "Sohbet başına yalnızca en son {max} istek saklanır; daha eskiler silinir."
+      "LIST_CAPPED": "Sohbet başına yalnızca en son {max} istek saklanır; daha eskiler silinir.",
+      "TAB_SENT": "Gönderilen parametreler",
+      "TAB_SENT_HINT": "Desteklenmeyenler ayıklandıktan sonra SDK'ya iletilen örnekleme ve akıl yürütme parametrelerinin tamamı. Akıl yürütme çabası ayarınız burada görünüyorsa gönderilmiştir.",
+      "BADGE_REASONING": "akıl yürütme"
     },
     "NEW_CONVERSATION": "Yeni Sohbet",
     "GENERATION_LOCKED_OTHER_TAB": "Başka bir sekme zaten bu sohbet için üretim yapıyor. Bitmesini bekleyin veya sekmeyi değiştirin.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} karakter",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Kart içe aktar",
-    "CARDS_IMPORT_PARTIAL": "Kart içe aktarıldı, ancak {count} öge bu cihazda yoktu ve atlandı."
+    "CARDS_IMPORT_PARTIAL": "Kart içe aktarıldı, ancak {count} öge bu cihazda yoktu ve atlandı.",
+    "PRESET_REASONING_EFFORT_HINT": "Modelin yanıtlamadan önce ne kadar düşüneceği. Sohbet ayarı bunu geçersiz kılar; boş, modelin varsayılanı demektir."
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",

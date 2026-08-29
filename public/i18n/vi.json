@@ -3867,7 +3867,10 @@
       "COL_TIME": "Thời gian",
       "COL_MODEL": "Mô hình",
       "COL_COST": "Chi phí",
-      "LIST_CAPPED": "Chỉ {max} yêu cầu gần nhất của mỗi cuộc trò chuyện được giữ lại; các yêu cầu cũ hơn sẽ bị xóa."
+      "LIST_CAPPED": "Chỉ {max} yêu cầu gần nhất của mỗi cuộc trò chuyện được giữ lại; các yêu cầu cũ hơn sẽ bị xóa.",
+      "TAB_SENT": "Tham số đã gửi",
+      "TAB_SENT_HINT": "Chính xác các tham số lấy mẫu và suy luận được chuyển cho SDK sau khi loại bỏ những tham số không được hỗ trợ. Nếu cài đặt mức suy luận của bạn có ở đây, nó đã được gửi.",
+      "BADGE_REASONING": "suy luận"
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "GENERATION_LOCKED_OTHER_TAB": "Tab khác đang tạo phản hồi cho cuộc trò chuyện này. Hãy đợi tab đó hoàn thành hoặc chuyển sang nó.",
@@ -4351,7 +4354,8 @@
     "CARDS_SUMMARY_CHARACTERS": "{count} nhân vật",
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Nhập thẻ",
-    "CARDS_IMPORT_PARTIAL": "Đã nhập thẻ, nhưng {count} mục không có trên thiết bị này và đã bị bỏ qua."
+    "CARDS_IMPORT_PARTIAL": "Đã nhập thẻ, nhưng {count} mục không có trên thiết bị này và đã bị bỏ qua.",
+    "PRESET_REASONING_EFFORT_HINT": "Mô hình suy nghĩ sâu đến đâu trước khi trả lời. Cài đặt trong cuộc trò chuyện sẽ ghi đè giá trị này; để trống nghĩa là dùng mặc định của mô hình."
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
