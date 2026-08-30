@@ -82,8 +82,6 @@ export const queryKeys = {
   imagePresets: () => ["image-presets"] as const,
   loraCatalog: (params?: unknown) => ["lora-catalog", params] as const,
   civitaiLoraVersions: (q: string) => ["civitai-lora-versions", q] as const,
-  embeddingCatalog: (params?: unknown) =>
-    ["embedding-catalog", params] as const,
 
   requestLog: (msgId: string) => ["request-log", msgId] as const,
   requestLogList: (convId: string | null) =>

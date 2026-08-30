@@ -1,26 +1,6 @@
 import { t, type Static } from "elysia";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 
-const verdict = t.Union([
-  t.Literal("genuine"),
-  t.Literal("suspicious"),
-  t.Literal("unverified"),
-]);
-
-export const publishTestBody = t.Object({
-  provider: t.String({ minLength: 1, maxLength: 64 }),
-  model: t.String({ minLength: 1, maxLength: 256 }),
-  baseUrlHost: t.String({ minLength: 1, maxLength: 256 }),
-  verdict,
-  versionUnverifiable: t.Boolean(),
-  detectedModel: t.Optional(t.Union([t.String({ maxLength: 256 }), t.Null()])),
-  probesPassed: t.Number({ minimum: 0 }),
-  probesTotal: t.Number({ minimum: 0 }),
-  latencyMs: t.Number({ minimum: 0 }),
-  totalTokens: t.Optional(t.Union([t.Number({ minimum: 0 }), t.Null()])),
-  testedAt: t.Number(),
-});
-
 export const verifyAndPublishBody = t.Object({
   provider: t.Union([
     t.Literal("anthropic"),

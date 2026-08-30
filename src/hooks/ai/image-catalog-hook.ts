@@ -30,12 +30,6 @@ export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
   );
 }
 
-export function useEmbeddingCatalogQuery(query?: CatalogSearchQuery) {
-  return useElysiaQuery(queryKeys.embeddingCatalog(query), () =>
-    rpc.api.ai.image.catalog.embeddings.get({ query: query ?? {} }),
-  );
-}
-
 export function useCivitaiVersionsMutation() {
   const t = useTranslations();
   return useMutation({
