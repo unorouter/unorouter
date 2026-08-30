@@ -93,6 +93,9 @@ export function DocImage(props: {
   // Set on the first image of a page: it is the LCP element, and lazy loading
   // it costs the paint.
   priority?: boolean;
+  // The optimizer picks a candidate from the viewport width unless told the
+  // real rendered size, which upscales a small screenshot into its own box.
+  sizes?: string;
 }) {
   return (
     <Image
@@ -101,6 +104,7 @@ export function DocImage(props: {
       width={props.width}
       height={props.height}
       priority={props.priority}
+      sizes={props.sizes}
       className={cn(
         "border-border w-full rounded-lg border",
         !props.natural && "max-w-xl",
