@@ -5,7 +5,13 @@ import { makeCipher } from "../elements/cipher";
 import { Brand, Card, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
 import { t } from "../lib/assets";
-import { renderBadgeTemplate } from "../lib/utils";
+import {
+  computeSize,
+  discount,
+  getVendorIcon,
+  renderBadgeTemplate,
+  svgDataUri,
+} from "../lib/utils";
 import { THEME_COLORS } from "../lib/theme";
 import type {
   BadgeCtx,
@@ -13,7 +19,6 @@ import type {
   BadgePricingRow,
   ThemeColors,
 } from "../lib/types";
-import { computeSize, discount, getVendorIcon, svgDataUri } from "../lib/utils";
 
 export interface Dims extends BadgeDimsBase {
   showOriginal: boolean;

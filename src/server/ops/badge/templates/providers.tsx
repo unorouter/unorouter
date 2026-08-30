@@ -4,10 +4,9 @@ import { FONT_MONO, FONT_SANS, MonoValue } from "../elements/typography";
 import { makeCipher } from "../elements/cipher";
 import { t } from "../lib/assets";
 import { Brand, Card, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/utils";
+import { getVendorIcon, renderBadgeTemplate, svgDataUri } from "../lib/utils";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase, ThemeColors } from "../lib/types";
-import { getVendorIcon, svgDataUri } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   headerFont: number;
