@@ -10,6 +10,7 @@ import {
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 
 // JanitorAI has no export of its own, so a full history arrives as the one file
 // the community bulk exporter writes: an object keyed by character_id, each
@@ -43,6 +44,9 @@ type JaiCard = {
   first_mes?: string;
   mes_example?: string;
   creator?: string;
+  // The avatar BYTES, not its url: janitorai rotates and deletes avatars, so a
+  // link would rot while the export is meant to outlive the account.
+  avatar_data?: { mimeType?: string; base64?: string } | null;
   // Present only when the creator hid the definition AND left allow_proxy on:
   // the prompt JanitorAI assembles still contains it, but already flattened, so
   // it cannot be split back into fields.
@@ -85,6 +89,12 @@ function asCharacter(value: unknown): JaiCharacter | null {
         first_mes: str(cardRow.first_mes),
         mes_example: str(cardRow.mes_example),
         creator: str(cardRow.creator),
+        avatar_data: (() => {
+          const img = rec(cardRow.avatar_data);
+          const base64 = str(img?.base64);
+          if (!base64) return null;
+          return { mimeType: str(img?.mimeType) ?? "image/png", base64 };
+        })(),
         assembled_prompt: str(cardRow.assembled_prompt) ?? null,
       }
     : undefined;
@@ -298,10 +308,24 @@ async function writeCharacter(character: JaiCharacter): Promise<string | null> {
   if (!name) return null;
   const characterId = uid();
   const now = dayjs().toDate();
+
+  let avatarMediaId: string | null = null;
+  const img = card.avatar_data;
+  if (img?.base64) {
+    avatarMediaId = uid();
+    await upsertLocalMedia({
+      id: avatarMediaId,
+      convId: null,
+      mimeType: img.mimeType ?? "image/png",
+      sizeBytes: Math.floor((img.base64.length * 3) / 4),
+      dataBase64: img.base64,
+    });
+  }
+
   await upsertLocalCharacter({
     id: characterId,
     name,
-    avatarMediaId: null,
+    avatarMediaId,
     description: card.description || null,
     personality: card.personality || null,
     scenario: card.scenario || null,

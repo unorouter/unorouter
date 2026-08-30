@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { confirm } from "@/components/ui/confirm";
@@ -38,7 +38,17 @@ export function RpAvatar(props: {
   const src = useMediaSrc(props.mediaId);
   return (
     <Avatar className={props.className ?? "size-10"}>
-      {src && <AvatarImage src={src} alt={props.name} />}
+      {/* A plain img, not AvatarImage: base-ui 1.7.0 re-runs its loading-status
+          effect on every render for a blob: URL and blows the update depth, which
+          crashes the whole list as soon as one avatar is present. */}
+      {src && (
+        // eslint-disable-next-line @next/next/no-img-element -- local blob URL, next/image cannot optimize it
+        <img
+          src={src}
+          alt={props.name}
+          className="absolute inset-0 aspect-square size-full rounded-full object-cover"
+        />
+      )}
       <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>
     </Avatar>
   );
