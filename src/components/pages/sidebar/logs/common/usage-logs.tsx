@@ -31,7 +31,8 @@ import {
 } from "./log-cells";
 import { LogDetailsDialog } from "./log-details-dialog";
 import { LogExpandedRow } from "./log-expanded-row";
-import { LogEmptyState, LogFilters } from "./log-filters";
+import { LogFilters } from "./log-filters";
+import { LogsEmptyState } from "./id-filter-bar";
 import {
   isConsumeLike,
   LOG_TYPE_ERROR,
@@ -244,7 +245,7 @@ export function UsageLogs() {
             onRefresh={() => logsQuery.refetch()}
           />
         )}
-        emptyState={<LogEmptyState />}
+        emptyState={<LogsEmptyState />}
       />
       <LogDetailsDialog
         log={detailsLog}

@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+import { serverLocale } from "@/lib/utils/server";
 import { APP_VALUES, type TranslationKey } from "./constants";
 import { env } from "./env";
 import { WEBMCP_TOOLS } from "./webmcp-tools";
@@ -41,4 +43,18 @@ export function buildMcpServerCard(t: Translator) {
     capabilities: { tools: {} },
     tools,
   };
+}
+
+// Both well-known URIs are published conventions, so each path keeps
+// responding; only the body is shared.
+export async function mcpServerCardResponse() {
+  const locale = await serverLocale();
+  const t = await getTranslations({ locale });
+  return Response.json(buildMcpServerCard(t), {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, max-age=3600",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 }

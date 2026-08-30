@@ -50,7 +50,7 @@ Dependency direction, one-way, no back-edges: `route.ts` (validate + delegate) -
 
 The isomorphic chat engine (`src/lib/ai/chat/`) is PURE of server-secret and data-source access. Anything touching a token, Tavily, embeddings or pricing is injected through the `AssemblerDeps` seam (`pipeline/deps.ts`), which is what lets the same code run in the browser for both text paths and be reused server-side for title/media. `src/lib/ai/providers/` and `agents/` are leaf modules: types + primitives, never routes or React. Keep it that way.
 
-Server routes are 5 domains under `src/server/`: `ai/`, `auth/`, `billing/`, `models/`, `ops/`. BFF entrypoint `src/app/api/[[...route]]/route.ts` mounts openapi, then `webBotAuthPlugin`, then the 5 domains. `src/openapi.ts` is Orval-generated, ~17k LOC, NEVER edit; regenerate with `bun openapi`.
+Server routes are 5 domains under `src/server/`: `ai/`, `auth/`, `billing/`, `models/`, `ops/`. BFF entrypoint `src/app/api/[[...route]]/route.ts` mounts openapi, then the 5 domains. `src/openapi.ts` is Orval-generated, ~17k LOC, NEVER edit; regenerate with `bun openapi`.
 
 `src/server/env.ts` fails fast at module load when `SYSTEM_ACCESS_TOKEN` or `SESSION_SECRET` is missing, or `SESSION_SECRET` is under 32 chars.
 
@@ -66,7 +66,7 @@ NO cross-origin isolation anywhere. The browser DB uses opfs-sahpool, which need
 
 Caching is DATA-ONLY. `cacheComponents` is OFF and `use cache`/`cacheLife` are gone. Component caching cost a DOUBLE RENDER per request (Next prerenders, hits request data, discards, renders again), pure waste when nearly every route reads cookies. Do not reintroduce either to "speed things up"; it measurably did the opposite.
 
-Two distinct mechanisms, do not conflate: (a) React `cache()` = per-REQUEST dedup, not a TTL (`getPricingSummary`, `getCatalog`); (b) module state + timestamp = a real TTL, and there are only three (web-bot-auth directory 10min, benchmarks permaslug 30d, runware catalog 30min). Should a URL-keyed fetch cache ever return, it MUST pair with `ADMIN_HEADERS`: `customFetch` auto-attaches the triggering user's cookies, so a URL-only key serves one user's response to everyone.
+Two distinct mechanisms, do not conflate: (a) React `cache()` = per-REQUEST dedup, not a TTL (`getPricingSummary`, `getCatalog`); (b) module state + timestamp = a real TTL, and there are only two (benchmarks permaslug 30d, runware catalog 30min). Should a URL-keyed fetch cache ever return, it MUST pair with `ADMIN_HEADERS`: `customFetch` auto-attaches the triggering user's cookies, so a URL-only key serves one user's response to everyone.
 
 ### Rendering
 
