@@ -21,8 +21,8 @@ export async function MultiplayerContent() {
         <DocImage
           src="/images/docs/multiplayer-menu.webp"
           alt={k("IMG_MENU_ALT")}
-          width={240}
-          height={354}
+          width={280}
+          height={200}
           natural
           priority
         />
@@ -30,8 +30,8 @@ export async function MultiplayerContent() {
         <DocImage
           src="/images/docs/multiplayer-host-panel.webp"
           alt={k("IMG_HOST_PANEL_ALT")}
-          width={400}
-          height={338}
+          width={280}
+          height={237}
           natural
         />
       </DocSection>
@@ -40,8 +40,8 @@ export async function MultiplayerContent() {
         <DocImage
           src="/images/docs/multiplayer-join.webp"
           alt={k("IMG_JOIN_ALT")}
-          width={400}
-          height={214}
+          width={280}
+          height={150}
           natural
         />
         <p>{k("P_GUEST_2")}</p>

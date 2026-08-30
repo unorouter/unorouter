@@ -2,7 +2,12 @@ import {
   openRpTabAtom,
   roomPanelOpenAtom,
 } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { useSetAtom } from "jotai";
@@ -35,18 +40,26 @@ export function RpNavItems() {
         <Icon name="layers" className="size-4" />
         {t("RP.SIDEBAR_TAB_CARDS")}
       </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => setOpenRpTab("custom-providers")}>
-        <Icon name="server" className="size-4" />
-        {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
-      </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => setOpenRpTab("js-plugins")}>
-        <Icon name="code" className="size-4" />
-        {t("CHAT.JS_PLUGIN.SIDEBAR_TAB")}
-      </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => setRoomOpen(true)}>
-        <Icon name="users" className="size-4" />
-        {t("ROOM.HOST_TITLE")}
-      </DropdownMenuItem>
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>
+          <Icon name="zap" className="size-4" />
+          {t("CHAT.MORE.EXTEND")}
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent>
+          <DropdownMenuItem onClick={() => setRoomOpen(true)}>
+            <Icon name="users" className="size-4" />
+            {t("ROOM.HOST_TITLE")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenRpTab("custom-providers")}>
+            <Icon name="server" className="size-4" />
+            {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenRpTab("js-plugins")}>
+            <Icon name="code" className="size-4" />
+            {t("CHAT.JS_PLUGIN.SIDEBAR_TAB")}
+          </DropdownMenuItem>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
     </>
   );
 }
