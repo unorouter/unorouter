@@ -25,6 +25,10 @@ import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 type JaiMessage = {
   id?: string;
   is_bot?: boolean;
+  // false marks a swipe the user rejected. It carries the timestamp of when it
+  // was generated, which can be LATER than the turn that replaced it, so
+  // importing one as a normal message reorders the conversation.
+  is_main?: boolean;
   message?: string;
   created_at?: string;
 };
@@ -33,7 +37,14 @@ type JaiChat = {
   chat_id?: string;
   summary?: string;
   updated_at?: string;
+  persona?: JaiPersona;
   messages?: JaiMessage[];
+};
+
+type JaiPersona = {
+  name?: string;
+  appearance?: string;
+  pronouns?: string | null;
 };
 
 type JaiCard = {
@@ -44,6 +55,8 @@ type JaiCard = {
   first_mes?: string;
   mes_example?: string;
   creator?: string;
+  alternate_greetings?: string[];
+  tags?: string[];
   // The avatar BYTES, not its url: janitorai rotates and deletes avatars, so a
   // link would rot while the export is meant to outlive the account.
   avatar_data?: { mimeType?: string; base64?: string } | null;
@@ -68,6 +81,11 @@ type JaiCharacter = {
   chats?: JaiChat[];
 };
 
+// Derived from JanitorAI's own ids so a re-import UPDATES what it created last
+// time instead of adding a second copy of every chat. Prefixed because these
+// ids share a table with locally created rows, whose uid() must never collide.
+const jaiId = (kind: string, id: string | number) => `jai-${kind}-${id}`;
+
 const asMessages = (value: unknown): JaiMessage[] =>
   Array.isArray(value)
     ? value.filter((m): m is JaiMessage => !!rec(m) && typeof m === "object")
@@ -89,6 +107,16 @@ function asCharacter(value: unknown): JaiCharacter | null {
         first_mes: str(cardRow.first_mes),
         mes_example: str(cardRow.mes_example),
         creator: str(cardRow.creator),
+        alternate_greetings: Array.isArray(cardRow.alternate_greetings)
+          ? cardRow.alternate_greetings.filter(
+              (g): g is string => typeof g === "string" && g.length > 0,
+            )
+          : undefined,
+        tags: Array.isArray(cardRow.tags)
+          ? cardRow.tags.filter(
+              (t): t is string => typeof t === "string" && t.length > 0,
+            )
+          : undefined,
         avatar_data: (() => {
           const img = rec(cardRow.avatar_data);
           const base64 = str(img?.base64);
@@ -130,6 +158,18 @@ function asCharacter(value: unknown): JaiCharacter | null {
           updated_at:
             typeof chat.updated_at === "string" ? chat.updated_at : undefined,
           messages: asMessages(chat.messages),
+          persona: (() => {
+            const p = rec(chat.persona);
+            if (!p) return undefined;
+            const name = typeof p.name === "string" ? p.name : undefined;
+            if (!name) return undefined;
+            return {
+              name,
+              appearance:
+                typeof p.appearance === "string" ? p.appearance : undefined,
+              pronouns: typeof p.pronouns === "string" ? p.pronouns : undefined,
+            };
+          })(),
         };
       })
       .filter((c): c is JaiChat => c !== null),
@@ -162,10 +202,13 @@ function mapChat(
   convId: string;
   bundle: Parameters<typeof upsertLocalConversationBundle>[0];
 } | null {
-  const source = chat.messages ?? [];
+  // Rejected swipes are dropped from the imported branch: they are timestamped
+  // when they were generated, so keeping them inline reorders the conversation
+  // and puts a discarded reply after the turn that replaced it.
+  const source = (chat.messages ?? []).filter((m) => m.is_main !== false);
   if (source.length === 0) return null;
 
-  const convId = uid();
+  const convId = chat.chat_id ? jaiId("conv", chat.chat_id) : uid();
   const charName = character.character_name?.trim() || "JanitorAI";
   // Several chats with the same character are common, so the summary is what
   // tells them apart in the list; it is JanitorAI's own label for the chat.
@@ -180,7 +223,7 @@ function mapChat(
   source.forEach((m, i) => {
     const text = typeof m.message === "string" ? m.message : "";
     if (!text) return;
-    const messageId = uid();
+    const messageId = m.id ? jaiId("msg", m.id) : uid();
     const parsedDate = m.created_at ? dayjs(m.created_at) : null;
     const createdAt =
       parsedDate && parsedDate.isValid()
@@ -200,7 +243,7 @@ function mapChat(
       updatedAt: createdAt,
     });
     messageItems.push({
-      id: uid(),
+      id: jaiId("item", messageId),
       messageId,
       sequenceIndex: 0,
       outputIndex: null,
@@ -276,7 +319,7 @@ async function writeLorebooks(character: JaiCharacter): Promise<string[]> {
     });
     if (!parsed) continue;
 
-    const lorebookId = uid();
+    const lorebookId = book.id ? jaiId("lore", book.id) : uid();
     const now = dayjs().toDate();
     await upsertLocalLorebookBundle({
       lorebook: {
@@ -291,7 +334,10 @@ async function writeLorebooks(character: JaiCharacter): Promise<string[]> {
         createdAt: now,
         updatedAt: now,
       },
-      entries: parsed.entries.map((e) => ({ id: uid(), ...e })),
+      entries: parsed.entries.map((e, i) => ({
+        id: jaiId("entry", `${lorebookId}-${i}`),
+        ...e,
+      })),
     });
     ids.push(lorebookId);
   }
@@ -306,13 +352,15 @@ async function writeCharacter(character: JaiCharacter): Promise<string | null> {
   if (!card) return null;
   const name = card.name?.trim() || character.character_name?.trim();
   if (!name) return null;
-  const characterId = uid();
+  const characterId = character.character_id
+    ? jaiId("char", character.character_id)
+    : uid();
   const now = dayjs().toDate();
 
   let avatarMediaId: string | null = null;
   const img = card.avatar_data;
   if (img?.base64) {
-    avatarMediaId = uid();
+    avatarMediaId = jaiId("avatar", characterId);
     await upsertLocalMedia({
       id: avatarMediaId,
       convId: null,
@@ -330,12 +378,14 @@ async function writeCharacter(character: JaiCharacter): Promise<string | null> {
     personality: card.personality || null,
     scenario: card.scenario || null,
     firstMessage: card.first_mes || null,
-    alternateGreetings: null,
+    alternateGreetings: card.alternate_greetings?.length
+      ? card.alternate_greetings
+      : null,
     exampleMessages: card.mes_example || null,
     systemPrompt: card.assembled_prompt || null,
     postHistoryInstructions: null,
     defaultReasoningEffort: null,
-    tags: null,
+    tags: card.tags?.length ? card.tags : null,
     triggers: null,
     alwaysActive: true,
     matchWholeWords: false,
