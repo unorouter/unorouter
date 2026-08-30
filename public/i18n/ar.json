@@ -548,7 +548,6 @@
     "TITLE": "المدوّنة",
     "SUBTITLE": "تحديثات المنتج وأدلّة التكامل وملاحظات من الفريق.",
     "READ_MORE": "اقرأ المزيد",
-    "PUBLISHED": "نُشر",
     "BY_AUTHOR": "بقلم {author}",
     "BACK_TO_BLOG": "العودة إلى كل المنشورات",
     "EMPTY": "لا توجد منشورات بعد. تحقّق لاحقاً.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "لا اشتراك نشط",
       "ACTIVE": "نشط",
       "EXPIRED": "منتهٍ",
       "SUBSCRIBE_NOW": "اشترك الآن",
@@ -4051,7 +4049,6 @@
     "PAID": "مدفوع",
     "LIVE_STATS": "إحصاءات مباشرة",
     "CHEAPEST_API": "أرخص API استدلال",
-    "MODELS_ONE_ENDPOINT": "40+ نموذج ذكاء اصطناعي، نقطة طرفية واحدة",
     "MODELS_ONE_ENDPOINT_SUFFIX": "نماذج ذكاء اصطناعي، نقطة طرفية واحدة",
     "MODEL": "النموذج",
     "PRICES_NOTE": "الأسعار لكل مليون token",

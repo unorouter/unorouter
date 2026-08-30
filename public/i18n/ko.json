@@ -548,7 +548,6 @@
     "TITLE": "블로그",
     "SUBTITLE": "팀의 제품 업데이트, 통합 가이드, 그리고 메모.",
     "READ_MORE": "더 읽기",
-    "PUBLISHED": "발행일",
     "BY_AUTHOR": "{author}",
     "BACK_TO_BLOG": "모든 글로 돌아가기",
     "EMPTY": "아직 글이 없습니다. 곧 다시 확인해 주세요.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "활성화 없음",
       "ACTIVE": "활성",
       "EXPIRED": "만료됨",
       "SUBSCRIBE_NOW": "지금 구독",
@@ -4051,7 +4049,6 @@
     "PAID": "유료",
     "LIVE_STATS": "실시간 통계",
     "CHEAPEST_API": "가장 저렴한 추론 API",
-    "MODELS_ONE_ENDPOINT": "40개 이상의 AI 모델, 하나의 엔드포인트",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI 모델, 하나의 엔드포인트",
     "MODEL": "모델",
     "PRICES_NOTE": "100만 토큰당 가격",

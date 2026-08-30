@@ -548,7 +548,6 @@
     "TITLE": "Blog",
     "SUBTITLE": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ.",
     "READ_MORE": "Đọc thêm",
-    "PUBLISHED": "Đã đăng",
     "BY_AUTHOR": "Bởi {author}",
     "BACK_TO_BLOG": "Quay lại mọi bài viết",
     "EMPTY": "Chưa có bài viết nào. Hãy ghé lại sớm.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "Không có gói đang hoạt động",
       "ACTIVE": "Đang hoạt động",
       "EXPIRED": "Đã hết hạn",
       "SUBSCRIBE_NOW": "Đăng ký ngay",
@@ -4051,7 +4049,6 @@
     "PAID": "Trả phí",
     "LIVE_STATS": "Thống kê trực tiếp",
     "CHEAPEST_API": "API suy luận rẻ nhất",
-    "MODELS_ONE_ENDPOINT": "Hơn 40 mô hình AI, một endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "mô hình AI, một endpoint",
     "MODEL": "Mô hình",
     "PRICES_NOTE": "Giá mỗi 1 triệu token",

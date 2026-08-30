@@ -548,7 +548,6 @@
     "TITLE": "ब्लॉग",
     "SUBTITLE": "टीम से उत्पाद अपडेट, एकीकरण गाइड और नोट्स।",
     "READ_MORE": "और पढ़ें",
-    "PUBLISHED": "प्रकाशित",
     "BY_AUTHOR": "{author} द्वारा",
     "BACK_TO_BLOG": "सभी पोस्ट पर वापस",
     "EMPTY": "अभी तक कोई पोस्ट नहीं। जल्द ही वापस आएं।",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "कोई active नहीं",
       "ACTIVE": "Active",
       "EXPIRED": "Expired",
       "SUBSCRIBE_NOW": "अभी subscribe करें",
@@ -4051,7 +4049,6 @@
     "PAID": "सशुल्क",
     "LIVE_STATS": "Live Stats",
     "CHEAPEST_API": "सबसे सस्ता Inference API",
-    "MODELS_ONE_ENDPOINT": "40+ AI मॉडल, एक endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI मॉडल, एक endpoint",
     "MODEL": "Model",
     "PRICES_NOTE": "प्रति 1M tokens कीमतें",

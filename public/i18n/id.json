@@ -548,7 +548,6 @@
     "TITLE": "Blog",
     "SUBTITLE": "Pembaruan produk, panduan integrasi, dan catatan dari tim.",
     "READ_MORE": "Baca selengkapnya",
-    "PUBLISHED": "Dipublikasikan",
     "BY_AUTHOR": "Oleh {author}",
     "BACK_TO_BLOG": "Kembali ke semua postingan",
     "EMPTY": "Belum ada postingan. Periksa lagi nanti.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "Tidak ada aktif",
       "ACTIVE": "Aktif",
       "EXPIRED": "Kedaluwarsa",
       "SUBSCRIBE_NOW": "Berlangganan sekarang",
@@ -4051,7 +4049,6 @@
     "PAID": "Berbayar",
     "LIVE_STATS": "Statistik Langsung",
     "CHEAPEST_API": "API Inferensi Termurah",
-    "MODELS_ONE_ENDPOINT": "40+ model AI, satu endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "model AI, satu endpoint",
     "MODEL": "Model",
     "PRICES_NOTE": "Harga per 1M token",

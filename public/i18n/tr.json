@@ -548,7 +548,6 @@
     "TITLE": "Blog",
     "SUBTITLE": "Ekipten ürün güncellemeleri, entegrasyon kılavuzları ve notlar.",
     "READ_MORE": "Daha fazla oku",
-    "PUBLISHED": "Yayınlandı",
     "BY_AUTHOR": "{author} tarafından",
     "BACK_TO_BLOG": "Tüm yazılara dön",
     "EMPTY": "Henüz yazı yok. Yakında tekrar kontrol edin.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "Aktif yok",
       "ACTIVE": "Aktif",
       "EXPIRED": "Süresi Doldu",
       "SUBSCRIBE_NOW": "Şimdi abone ol",
@@ -4051,7 +4049,6 @@
     "PAID": "Ücretli",
     "LIVE_STATS": "Canlı İstatistikler",
     "CHEAPEST_API": "En Ucuz Inference API",
-    "MODELS_ONE_ENDPOINT": "40+ AI modeli, tek endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI modeli, tek endpoint",
     "MODEL": "Model",
     "PRICES_NOTE": "1M token başına fiyatlar",

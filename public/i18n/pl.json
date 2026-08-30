@@ -548,7 +548,6 @@
     "TITLE": "Blog",
     "SUBTITLE": "Aktualizacje produktów, przewodniki integracji i notatki od zespołu.",
     "READ_MORE": "Czytaj więcej",
-    "PUBLISHED": "Opublikowano",
     "BY_AUTHOR": "Autor: {author}",
     "BACK_TO_BLOG": "Wróć do wszystkich postów",
     "EMPTY": "Brak postów. Sprawdź wkrótce.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "Brak aktywnych",
       "ACTIVE": "Aktywna",
       "EXPIRED": "Wygasła",
       "SUBSCRIBE_NOW": "Subskrybuj teraz",
@@ -4051,7 +4049,6 @@
     "PAID": "Płatne",
     "LIVE_STATS": "Statystyki na żywo",
     "CHEAPEST_API": "Najtańsze API inferencji",
-    "MODELS_ONE_ENDPOINT": "40+ modeli AI, jeden endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "modeli AI, jeden endpoint",
     "MODEL": "Model",
     "PRICES_NOTE": "Ceny za 1M tokenów",

@@ -548,7 +548,6 @@
     "TITLE": "בלוג",
     "SUBTITLE": "עדכוני מוצר, מדריכי אינטגרציה ורשימות מהצוות.",
     "READ_MORE": "קראו עוד",
-    "PUBLISHED": "פורסם",
     "BY_AUTHOR": "מאת {author}",
     "BACK_TO_BLOG": "חזרה לכל הפוסטים",
     "EMPTY": "אין פוסטים עדיין. חזרו בקרוב.",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "אין פעיל",
       "ACTIVE": "פעיל",
       "EXPIRED": "פג",
       "SUBSCRIBE_NOW": "הירשמו עכשיו",
@@ -4051,7 +4049,6 @@
     "PAID": "בתשלום",
     "LIVE_STATS": "סטטיסטיקה חיה",
     "CHEAPEST_API": "API ההסקה הזול ביותר",
-    "MODELS_ONE_ENDPOINT": "40+ מודלי AI, נקודת קצה אחת",
     "MODELS_ONE_ENDPOINT_SUFFIX": "מודלי AI, נקודת קצה אחת",
     "MODEL": "מודל",
     "PRICES_NOTE": "מחירים למיליון טוקנים",
