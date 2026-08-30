@@ -73,10 +73,13 @@ export function CharacterEditor(props: Props) {
         : null;
 
   const [greetingRows, setGreetingRows] = useState<GreetingRow[] | null>(null);
+  // Derived rows are re-created on every render, so their ids must come from
+  // position: uid() here would hand React a new key each time, remounting the
+  // textarea mid-keystroke and losing the edit the handler was closed over.
   const greetings =
     greetingRows ??
-    (existing?.alternateGreetings ?? []).map((text) => ({
-      rowId: uid(),
+    (existing?.alternateGreetings ?? []).map((text, i) => ({
+      rowId: `g${i}`,
       text,
     }));
   const addGreetingRow = () =>
@@ -93,8 +96,8 @@ export function CharacterEditor(props: Props) {
   const pendingAssetRowId = useRef<string | null>(null);
   const rows =
     assetRows ??
-    (existing?.assets ?? []).map((a) => ({
-      rowId: uid(),
+    (existing?.assets ?? []).map((a, i) => ({
+      rowId: `a${i}`,
       name: a.name,
       mediaId: a.mediaId,
       dataUrl: null,
