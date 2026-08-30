@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "掃描深度",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "為該條目的關鍵字掃描多少則最近訊息。0 = 使用書的預設值。",
     "PRESET_CHAT_MEMORY": "聊天記憶（訊息數）",
-    "PRESET_CHAT_MEMORY_HINT": "每次請求傳送多少則最近訊息。留空 = 預設（8）；聊天設定會覆寫此項。",
+    "PRESET_CHAT_MEMORY_HINT": "每次請求傳送的最近訊息數量。留空 = 預設（200），最大 1000；對話設定會覆蓋此項。",
     "PRESET_STREAMING": "串流輸出",
     "PRESET_STREAMING_HINT": "逐 token 串流回覆。關閉 = 一次接收完整回覆。聊天設定會覆寫此項。",
     "PRESET_AUTO_SCROLL_STREAM": "串流輸出時自動捲動",

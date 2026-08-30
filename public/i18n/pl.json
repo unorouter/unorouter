@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Głębokość skanowania",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Ile ostatnich wiadomości skanować pod kątem kluczy tego wpisu. 0 = domyślne książki.",
     "PRESET_CHAT_MEMORY": "Pamięć czatu (wiadomości)",
-    "PRESET_CHAT_MEMORY_HINT": "Ile ostatnich wiadomości wysyłać na żądanie. Puste = domyślne (8); ustawienie czatu ma pierwszeństwo.",
+    "PRESET_CHAT_MEMORY_HINT": "Ile ostatnich wiadomości wysyłać z każdym żądaniem. Puste = domyślne (200), maksymalnie 1000; ustawienie czatu ma pierwszeństwo.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Strumieniuj odpowiedź token po tokenie. Wył. = cała odpowiedź naraz. Ustawienie czatu ma pierwszeństwo.",
     "PRESET_AUTO_SCROLL_STREAM": "Autoprzewijanie podczas przesyłania",

@@ -1,4 +1,4 @@
-import { NONE_VALUE } from "@/lib/config/constants";
+import { MAX_CHAT_MEMORY, NONE_VALUE } from "@/lib/config/constants";
 import { isRecord } from "@/lib/utils/base";
 import type { Static } from "elysia";
 import { t } from "elysia";
@@ -179,7 +179,7 @@ export function formReasoningEffortToValue(
 export const streamOverrides = t.Object({
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   chatMemory: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()]),
+    t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
   ),
   systemPromptOverride: t.Optional(
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
@@ -215,7 +215,7 @@ export const updateConversationSettingsBody = t.Object({
   ),
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
   chatMemory: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()]),
+    t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
   ),
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   webSearchEnabled: t.Optional(t.Boolean()),

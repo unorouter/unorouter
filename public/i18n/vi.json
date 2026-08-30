@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Độ sâu quét",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Quét bao nhiêu tin nhắn gần đây cho khóa của mục này. 0 = dùng mặc định của sách.",
     "PRESET_CHAT_MEMORY": "Bộ nhớ trò chuyện (tin nhắn)",
-    "PRESET_CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi mỗi yêu cầu. Trống = mặc định (8); cài đặt trò chuyện ghi đè.",
+    "PRESET_CHAT_MEMORY_HINT": "Số tin nhắn gần nhất gửi kèm mỗi yêu cầu. Trống = mặc định (200), tối đa 1000; cài đặt của cuộc trò chuyện được ưu tiên.",
     "PRESET_STREAMING": "Truyền phát",
     "PRESET_STREAMING_HINT": "Truyền phản hồi theo từng token. Tắt = nhận toàn bộ phản hồi cùng lúc. Cài đặt trò chuyện ghi đè.",
     "PRESET_AUTO_SCROLL_STREAM": "Tự động cuộn khi truyền",

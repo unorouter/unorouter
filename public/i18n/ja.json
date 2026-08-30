@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "スキャン深度",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "このエントリーのキーを検索する直近メッセージ数。0 = ブックの既定値を使用。",
     "PRESET_CHAT_MEMORY": "チャットメモリ（メッセージ数）",
-    "PRESET_CHAT_MEMORY_HINT": "各リクエストで送る直近メッセージ数。空 = 既定（8）。チャット設定が優先します。",
+    "PRESET_CHAT_MEMORY_HINT": "各リクエストで送る直近メッセージ数。空 = 既定（200）、最大1000。チャット設定が優先します。",
     "PRESET_STREAMING": "ストリーミング",
     "PRESET_STREAMING_HINT": "応答をトークンごとにストリーミング。オフ = 応答全体を一度に受信。チャット設定が優先します。",
     "PRESET_AUTO_SCROLL_STREAM": "ストリーミング中の自動スクロール",

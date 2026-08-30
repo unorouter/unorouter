@@ -147,6 +147,8 @@ export const CONTEXT_SAFETY_MARGIN = 2048;
 
 export const DEFAULT_CHAT_MEMORY = 200;
 
+export const MAX_CHAT_MEMORY = 1000;
+
 export const DEFAULT_AUTHOR_NOTE_DEPTH = 4;
 
 export const TAVILY_TIMEOUT_MS = 5_000;

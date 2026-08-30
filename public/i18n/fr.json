@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Profondeur de scan",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Nombre de messages récents à analyser pour les clés de cette entrée. 0 = valeur par défaut du livre.",
     "PRESET_CHAT_MEMORY": "Mémoire du chat (messages)",
-    "PRESET_CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête. Vide = défaut (8) ; le réglage du chat l'emporte.",
+    "PRESET_CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête. Vide = défaut (200), max 1000 ; le réglage du chat est prioritaire.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Diffuser la réponse jeton par jeton. Désactivé = recevoir toute la réponse d'un coup. Le réglage du chat l'emporte.",
     "PRESET_AUTO_SCROLL_STREAM": "Défilement auto pendant le streaming",
