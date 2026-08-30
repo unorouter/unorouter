@@ -1,12 +1,7 @@
-import { ImagePage } from "@/components/pages/sidebar/image/image-page";
+import { ImagePageHydrated } from "@/components/pages/sidebar/image/image-page-hydrated";
 import { APP_VALUES } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
-import { rpc } from "@/lib/rpc";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -24,14 +19,6 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ImageRootPage() {
-  const queryClient = getQueryClient();
-  await prefetchElysia(queryClient, queryKeys.pricingImageModels(), () =>
-    rpc.api.models.pricing["image-models"].get(),
-  );
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <ImagePage />
-    </HydrationBoundary>
-  );
+export default function ImageRootPage() {
+  return <ImagePageHydrated />;
 }
