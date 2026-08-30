@@ -2877,7 +2877,9 @@
       "APPLY": "تطبيق"
     },
     "UPDATE_AVAILABLE": "يتوفر إصدار جديد",
-    "UPDATE_RELOAD": "إعادة التحميل"
+    "UPDATE_RELOAD": "إعادة التحميل",
+    "TOTAL_COUNT": "{count} إجمالاً",
+    "ROWS": "الصفوف"
   },
   "LANGUAGE": {
     "EN": "English",

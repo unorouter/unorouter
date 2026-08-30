@@ -2877,7 +2877,9 @@
       "APPLY": "Uygula"
     },
     "UPDATE_AVAILABLE": "Yeni bir sürüm mevcut",
-    "UPDATE_RELOAD": "Yeniden yükle"
+    "UPDATE_RELOAD": "Yeniden yükle",
+    "TOTAL_COUNT": "toplam {count}",
+    "ROWS": "Satır"
   },
   "LANGUAGE": {
     "EN": "English",

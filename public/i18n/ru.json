@@ -2877,7 +2877,9 @@
       "APPLY": "Применить"
     },
     "UPDATE_AVAILABLE": "Доступна новая версия",
-    "UPDATE_RELOAD": "Обновить"
+    "UPDATE_RELOAD": "Обновить",
+    "TOTAL_COUNT": "всего {count}",
+    "ROWS": "Строки"
   },
   "LANGUAGE": {
     "EN": "English",

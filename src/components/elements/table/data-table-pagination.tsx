@@ -12,6 +12,7 @@ import {
 import { PAGE_SIZE_OPTIONS } from "@/lib/config/constants";
 import type { ReactTable, RowData } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
+import { useTranslations } from "next-intl";
 
 interface DataTablePaginationProps<TData extends RowData> {
   table: ReactTable<TableFeats, TData>;
@@ -21,14 +22,18 @@ interface DataTablePaginationProps<TData extends RowData> {
 export function DataTablePagination<TData extends RowData>(
   props: DataTablePaginationProps<TData>,
 ) {
+  const t = useTranslations();
+
   return (
     <div className="flex items-center justify-between px-2">
       <div className="text-muted-foreground flex-1 font-mono text-xs">
-        {props.total ?? 0} total
+        {t("COMMON.TOTAL_COUNT", { count: props.total ?? 0 })}
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <span className="text-muted-foreground text-xs">Rows</span>
+          <span className="text-muted-foreground text-xs">
+            {t("COMMON.ROWS")}
+          </span>
           <Select
             value={`${props.table.state.pagination.pageSize}`}
             onValueChange={(value) => props.table.setPageSize(Number(value))}

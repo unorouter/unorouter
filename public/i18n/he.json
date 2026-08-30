@@ -2877,7 +2877,9 @@
       "APPLY": "החל"
     },
     "UPDATE_AVAILABLE": "גרסה חדשה זמינה",
-    "UPDATE_RELOAD": "רענון"
+    "UPDATE_RELOAD": "רענון",
+    "TOTAL_COUNT": "{count} סה״כ",
+    "ROWS": "שורות"
   },
   "LANGUAGE": {
     "EN": "English",

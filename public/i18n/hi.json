@@ -2877,7 +2877,9 @@
       "APPLY": "लागू करें"
     },
     "UPDATE_AVAILABLE": "नया संस्करण उपलब्ध है",
-    "UPDATE_RELOAD": "पुनः लोड करें"
+    "UPDATE_RELOAD": "पुनः लोड करें",
+    "TOTAL_COUNT": "कुल {count}",
+    "ROWS": "पंक्तियाँ"
   },
   "LANGUAGE": {
     "EN": "English",
