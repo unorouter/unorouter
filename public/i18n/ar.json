@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "الكتابة فوق قاعدة البيانات المحلية؟"
     },
     "COPIED": "تم النسخ",
+    "COPIED_CLIPBOARD": "تمّ النسخ إلى الحافظة",
     "DATE_RANGE": {
       "PICK": "اختر نطاق التواريخ",
       "FROM": "من",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "اعرض سجل طلبات API الخاصّة بك، واستخدام tokens، وتفاصيل الإنفاق.",
     "FILTERS": "المرشّحات",
     "RESET": "إعادة تعيين",
-    "COPIED": "تمّ النسخ إلى الحافظة",
     "CLICK_COPY": "انقر للنسخ",
     "NO_LOGS": "لا توجد سجلّات للفترة المحدّدة.",
     "CACHE_READ": "قراءة الذاكرة المؤقّتة",
@@ -3294,8 +3294,7 @@
       "UNBIND": "فكّ الربط",
       "UNBOUND": "تمّ فكّ ربط {provider} بنجاح",
       "UNBIND_CONFIRM_TITLE": "فكّ ربط {provider}؟",
-      "UNBIND_CONFIRM_DESCRIPTION": "سيُفصل حسابك في {provider}. يمكنك ربطه مجدّداً في أيّ وقت.",
-      "COPIED": "تمّ النسخ إلى الحافظة"
+      "UNBIND_CONFIRM_DESCRIPTION": "سيُفصل حسابك في {provider}. يمكنك ربطه مجدّداً في أيّ وقت."
     },
     "SECURITY": {
       "TITLE": "إعدادات الأمان",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "توليد Token",
       "TOKEN_GENERATED": "تمّ توليد token بنجاح",
       "COPY_TOKEN": "نسخ",
-      "TOKEN_COPIED": "تمّ النسخ إلى الحافظة",
       "PASSWORD": "كلمة المرور",
       "CHANGE_PASSWORD": "تغيير كلمة المرور",
       "SET_PASSWORD": "تعيين كلمة المرور",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "العرض",
       "DUPLICATE": "تكرار الدردشة",
       "DUPLICATE_SUCCESS": "تمّ تكرار المحادثة",
+      "EXTEND": "الإضافات",
       "COPY_CHAT": "نسخ المحادثة",
       "COPY_CHAT_SUCCESS": "تم نسخ المحادثة",
       "EXPORT_FAILED": "فشل التصدير",

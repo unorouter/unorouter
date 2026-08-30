@@ -61,7 +61,7 @@ export function SecurityCard() {
   function handleCopyToken() {
     if (!accessToken) return;
     copyToClipboard(accessToken);
-    toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
+    toast.success(t("COMMON.COPIED_CLIPBOARD"));
   }
 
   function handleCopyApiUrl() {

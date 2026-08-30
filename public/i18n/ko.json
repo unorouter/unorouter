@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?"
     },
     "COPIED": "복사됨",
+    "COPIED_CLIPBOARD": "클립보드에 복사됨",
     "DATE_RANGE": {
       "PICK": "기간 선택",
       "FROM": "시작",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "API 요청 내역, 토큰 사용량 및 지출 세부사항을 확인하세요.",
     "FILTERS": "필터",
     "RESET": "초기화",
-    "COPIED": "클립보드에 복사됨",
     "CLICK_COPY": "복사하려면 클릭",
     "NO_LOGS": "선택한 기간에 로그가 없습니다.",
     "CACHE_READ": "캐시 읽기",
@@ -3294,8 +3294,7 @@
       "UNBIND": "연결 해제",
       "UNBOUND": "{provider} 연결이 해제됨",
       "UNBIND_CONFIRM_TITLE": "{provider} 연결을 해제하시겠습니까?",
-      "UNBIND_CONFIRM_DESCRIPTION": "{provider} 계정이 연결 해제됩니다. 언제든지 다시 연결할 수 있습니다.",
-      "COPIED": "클립보드에 복사됨"
+      "UNBIND_CONFIRM_DESCRIPTION": "{provider} 계정이 연결 해제됩니다. 언제든지 다시 연결할 수 있습니다."
     },
     "SECURITY": {
       "TITLE": "보안 설정",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "토큰 생성",
       "TOKEN_GENERATED": "토큰이 성공적으로 생성됨",
       "COPY_TOKEN": "복사",
-      "TOKEN_COPIED": "클립보드에 복사됨",
       "PASSWORD": "비밀번호",
       "CHANGE_PASSWORD": "비밀번호 변경",
       "SET_PASSWORD": "비밀번호 설정",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "표시",
       "DUPLICATE": "채팅 복제",
       "DUPLICATE_SUCCESS": "대화 복제됨",
+      "EXTEND": "확장",
       "COPY_CHAT": "채팅 복사",
       "COPY_CHAT_SUCCESS": "대화를 복사했습니다",
       "EXPORT_FAILED": "내보내기 실패",

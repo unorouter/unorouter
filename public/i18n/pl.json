@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?"
     },
     "COPIED": "Skopiowano",
+    "COPIED_CLIPBOARD": "Skopiowano do schowka",
     "DATE_RANGE": {
       "PICK": "Wybierz zakres dat",
       "FROM": "Od",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "Zobacz historię zapytań API, użycie tokenów i szczegóły wydatków.",
     "FILTERS": "Filtry",
     "RESET": "Resetuj",
-    "COPIED": "Skopiowano do schowka",
     "CLICK_COPY": "Kliknij, aby skopiować",
     "NO_LOGS": "Nie znaleziono logów dla wybranego okresu.",
     "CACHE_READ": "Odczyt cache",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Odwiąż",
       "UNBOUND": "{provider} odwiązany pomyślnie",
       "UNBIND_CONFIRM_TITLE": "Odwiązać {provider}?",
-      "UNBIND_CONFIRM_DESCRIPTION": "Twoje konto {provider} zostanie odłączone. Możesz je powiązać ponownie w dowolnym momencie.",
-      "COPIED": "Skopiowano do schowka"
+      "UNBIND_CONFIRM_DESCRIPTION": "Twoje konto {provider} zostanie odłączone. Możesz je powiązać ponownie w dowolnym momencie."
     },
     "SECURITY": {
       "TITLE": "Ustawienia bezpieczeństwa",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Wygeneruj token",
       "TOKEN_GENERATED": "Token wygenerowany pomyślnie",
       "COPY_TOKEN": "Kopiuj",
-      "TOKEN_COPIED": "Skopiowano do schowka",
       "PASSWORD": "Hasło",
       "CHANGE_PASSWORD": "Zmień hasło",
       "SET_PASSWORD": "Ustaw hasło",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Wyświetlanie",
       "DUPLICATE": "Duplikuj chat",
       "DUPLICATE_SUCCESS": "Rozmowa zduplikowana",
+      "EXTEND": "Rozszerzenia",
       "COPY_CHAT": "Kopiuj czat",
       "COPY_CHAT_SUCCESS": "Skopiowano rozmowę",
       "EXPORT_FAILED": "Eksport nie powiódł się",

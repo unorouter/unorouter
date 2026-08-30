@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "覆盖本地数据库？"
     },
     "COPIED": "已复制",
+    "COPIED_CLIPBOARD": "已复制到剪贴板",
     "DATE_RANGE": {
       "PICK": "选择日期范围",
       "FROM": "从",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "查看您的 API 请求历史、Token 使用情况和消费详情。",
     "FILTERS": "筛选",
     "RESET": "重置",
-    "COPIED": "已复制到剪贴板",
     "CLICK_COPY": "点击复制",
     "NO_LOGS": "所选时段内没有日志。",
     "CACHE_READ": "缓存读取",
@@ -3294,8 +3294,7 @@
       "UNBIND": "解绑",
       "UNBOUND": "{provider} 解绑成功",
       "UNBIND_CONFIRM_TITLE": "解绑 {provider}？",
-      "UNBIND_CONFIRM_DESCRIPTION": "您的 {provider} 账号将被解除关联。您可以随时重新绑定。",
-      "COPIED": "已复制到剪贴板"
+      "UNBIND_CONFIRM_DESCRIPTION": "您的 {provider} 账号将被解除关联。您可以随时重新绑定。"
     },
     "SECURITY": {
       "TITLE": "安全设置",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "生成令牌",
       "TOKEN_GENERATED": "令牌生成成功",
       "COPY_TOKEN": "复制",
-      "TOKEN_COPIED": "已复制到剪贴板",
       "PASSWORD": "密码",
       "CHANGE_PASSWORD": "修改密码",
       "SET_PASSWORD": "设置密码",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "显示",
       "DUPLICATE": "复制对话",
       "DUPLICATE_SUCCESS": "对话已复制",
+      "EXTEND": "扩展",
       "COPY_CHAT": "复制对话",
       "COPY_CHAT_SUCCESS": "已复制对话",
       "EXPORT_FAILED": "导出失败",

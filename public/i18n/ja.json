@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
     },
     "COPIED": "コピーしました",
+    "COPIED_CLIPBOARD": "クリップボードにコピーしました",
     "DATE_RANGE": {
       "PICK": "期間を選択",
       "FROM": "開始",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "API リクエスト履歴、トークン使用量、支出の詳細を確認できます。",
     "FILTERS": "フィルター",
     "RESET": "リセット",
-    "COPIED": "クリップボードにコピーしました",
     "CLICK_COPY": "クリックしてコピー",
     "NO_LOGS": "選択した期間のログはありません。",
     "CACHE_READ": "キャッシュ読み取り",
@@ -3294,8 +3294,7 @@
       "UNBIND": "連携解除",
       "UNBOUND": "{provider} の連携を解除しました",
       "UNBIND_CONFIRM_TITLE": "{provider} の連携を解除しますか？",
-      "UNBIND_CONFIRM_DESCRIPTION": "{provider} アカウントの連携が解除されます。いつでも再度連携できます。",
-      "COPIED": "クリップボードにコピーしました"
+      "UNBIND_CONFIRM_DESCRIPTION": "{provider} アカウントの連携が解除されます。いつでも再度連携できます。"
     },
     "SECURITY": {
       "TITLE": "セキュリティ設定",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "トークンを生成",
       "TOKEN_GENERATED": "トークンを生成しました",
       "COPY_TOKEN": "コピー",
-      "TOKEN_COPIED": "クリップボードにコピーしました",
       "PASSWORD": "パスワード",
       "CHANGE_PASSWORD": "パスワードを変更",
       "SET_PASSWORD": "パスワードを設定",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "表示",
       "DUPLICATE": "チャットを複製",
       "DUPLICATE_SUCCESS": "会話を複製しました",
+      "EXTEND": "拡張機能",
       "COPY_CHAT": "チャットをコピー",
       "COPY_CHAT_SUCCESS": "会話をコピーしました",
       "EXPORT_FAILED": "エクスポートに失敗しました",

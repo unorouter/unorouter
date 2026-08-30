@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Overwrite local database?"
     },
     "COPIED": "Copied",
+    "COPIED_CLIPBOARD": "Copied to clipboard",
     "DATE_RANGE": {
       "PICK": "Pick a date range",
       "FROM": "From",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "View your API request history, token usage, and spending details.",
     "FILTERS": "Filters",
     "RESET": "Reset",
-    "COPIED": "Copied to clipboard",
     "CLICK_COPY": "Click to copy",
     "NO_LOGS": "No logs found for the selected period.",
     "CACHE_READ": "Cache Read",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Unbind",
       "UNBOUND": "{provider} unbound successfully",
       "UNBIND_CONFIRM_TITLE": "Unbind {provider}?",
-      "UNBIND_CONFIRM_DESCRIPTION": "Your {provider} account will be disconnected. You can bind it again at any time.",
-      "COPIED": "Copied to clipboard"
+      "UNBIND_CONFIRM_DESCRIPTION": "Your {provider} account will be disconnected. You can bind it again at any time."
     },
     "SECURITY": {
       "TITLE": "Security Settings",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Generate Token",
       "TOKEN_GENERATED": "Token generated successfully",
       "COPY_TOKEN": "Copy",
-      "TOKEN_COPIED": "Copied to clipboard",
       "PASSWORD": "Password",
       "CHANGE_PASSWORD": "Change Password",
       "SET_PASSWORD": "Set Password",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Display",
       "DUPLICATE": "Duplicate chat",
       "DUPLICATE_SUCCESS": "Conversation duplicated",
+      "EXTEND": "Extensions",
       "COPY_CHAT": "Copy chat",
       "COPY_CHAT_SUCCESS": "Conversation copied",
       "EXPORT_FAILED": "Export failed",

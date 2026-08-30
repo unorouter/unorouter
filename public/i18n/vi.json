@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
     },
     "COPIED": "Đã sao chép",
+    "COPIED_CLIPBOARD": "Đã sao chép vào bộ nhớ tạm",
     "DATE_RANGE": {
       "PICK": "Chọn khoảng thời gian",
       "FROM": "Từ",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "Xem lịch sử yêu cầu API, mức sử dụng token và chi tiết chi tiêu.",
     "FILTERS": "Bộ lọc",
     "RESET": "Đặt lại",
-    "COPIED": "Đã sao chép vào bộ nhớ tạm",
     "CLICK_COPY": "Nhấp để sao chép",
     "NO_LOGS": "Không tìm thấy nhật ký nào cho khoảng thời gian đã chọn.",
     "CACHE_READ": "Đọc bộ nhớ đệm",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Hủy liên kết",
       "UNBOUND": "Đã hủy liên kết {provider} thành công",
       "UNBIND_CONFIRM_TITLE": "Hủy liên kết {provider}?",
-      "UNBIND_CONFIRM_DESCRIPTION": "Tài khoản {provider} của bạn sẽ bị ngắt kết nối. Bạn có thể liên kết lại bất cứ lúc nào.",
-      "COPIED": "Đã sao chép vào bộ nhớ tạm"
+      "UNBIND_CONFIRM_DESCRIPTION": "Tài khoản {provider} của bạn sẽ bị ngắt kết nối. Bạn có thể liên kết lại bất cứ lúc nào."
     },
     "SECURITY": {
       "TITLE": "Cài đặt bảo mật",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Tạo Token",
       "TOKEN_GENERATED": "Tạo token thành công",
       "COPY_TOKEN": "Sao chép",
-      "TOKEN_COPIED": "Đã sao chép vào bộ nhớ tạm",
       "PASSWORD": "Mật khẩu",
       "CHANGE_PASSWORD": "Đổi mật khẩu",
       "SET_PASSWORD": "Đặt mật khẩu",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Hiển thị",
       "DUPLICATE": "Sao chép cuộc trò chuyện",
       "DUPLICATE_SUCCESS": "Đã sao chép cuộc trò chuyện",
+      "EXTEND": "Tiện ích mở rộng",
       "COPY_CHAT": "Sao chép trò chuyện",
       "COPY_CHAT_SUCCESS": "Đã sao chép cuộc trò chuyện",
       "EXPORT_FAILED": "Xuất thất bại",

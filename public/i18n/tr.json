@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Yerel veritabanının üzerine yaz?"
     },
     "COPIED": "Kopyalandı",
+    "COPIED_CLIPBOARD": "Panoya kopyalandı",
     "DATE_RANGE": {
       "PICK": "Tarih aralığı seçin",
       "FROM": "Başlangıç",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "API istek geçmişinizi, token kullanımınızı ve harcama detaylarınızı görüntüleyin.",
     "FILTERS": "Filtreler",
     "RESET": "Sıfırla",
-    "COPIED": "Panoya kopyalandı",
     "CLICK_COPY": "Kopyalamak için tıkla",
     "NO_LOGS": "Seçilen dönem için log bulunamadı.",
     "CACHE_READ": "Cache Okuma",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Bağlantıyı Kaldır",
       "UNBOUND": "{provider} bağlantısı başarıyla kaldırıldı",
       "UNBIND_CONFIRM_TITLE": "{provider} bağlantısını kaldır?",
-      "UNBIND_CONFIRM_DESCRIPTION": "{provider} hesabınızın bağlantısı kesilecek. Herhangi bir zamanda yeniden bağlayabilirsiniz.",
-      "COPIED": "Panoya kopyalandı"
+      "UNBIND_CONFIRM_DESCRIPTION": "{provider} hesabınızın bağlantısı kesilecek. Herhangi bir zamanda yeniden bağlayabilirsiniz."
     },
     "SECURITY": {
       "TITLE": "Güvenlik Ayarları",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Token Oluştur",
       "TOKEN_GENERATED": "Token başarıyla oluşturuldu",
       "COPY_TOKEN": "Kopyala",
-      "TOKEN_COPIED": "Panoya kopyalandı",
       "PASSWORD": "Şifre",
       "CHANGE_PASSWORD": "Şifre Değiştir",
       "SET_PASSWORD": "Şifre Belirle",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Görünüm",
       "DUPLICATE": "Sohbeti çoğalt",
       "DUPLICATE_SUCCESS": "Sohbet çoğaltıldı",
+      "EXTEND": "Uzantılar",
       "COPY_CHAT": "Sohbeti kopyala",
       "COPY_CHAT_SUCCESS": "Konuşma kopyalandı",
       "EXPORT_FAILED": "Dışa aktarma başarısız",

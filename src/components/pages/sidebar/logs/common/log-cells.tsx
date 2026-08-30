@@ -138,7 +138,7 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
                 e.stopPropagation();
                 copyToClipboard(log.model_name);
                 analytics.logs.modelNameCopied();
-                toast.success(t("LOGS.COPIED"));
+                toast.success(t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }
@@ -203,7 +203,7 @@ export function LogTokenNameCell(props: CellContext<TableFeats, LogRow>) {
                 e.stopPropagation();
                 copyToClipboard(log.token_name);
                 analytics.logs.tokenNameCopied();
-                toast.success(t("LOGS.COPIED"));
+                toast.success(t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }
