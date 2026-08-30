@@ -15,6 +15,7 @@ import { ImagesContent } from "@/components/pages/docs/chat/content/images-conte
 import { LorebooksContent } from "@/components/pages/docs/chat/content/lorebooks-content";
 import { MacrosContent } from "@/components/pages/docs/chat/content/macros-content";
 import { MemoryAndContextContent } from "@/components/pages/docs/chat/content/memory-and-context-content";
+import { MultiplayerContent } from "@/components/pages/docs/chat/content/multiplayer-content";
 import { PersonasContent } from "@/components/pages/docs/chat/content/personas-content";
 import { PresetsContent } from "@/components/pages/docs/chat/content/presets-content";
 import { PromptTemplateContent } from "@/components/pages/docs/chat/content/prompt-template-content";
@@ -57,6 +58,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   presets: PresetsContent,
   "prompt-template": PromptTemplateContent,
   "group-chats": GroupChatsContent,
+  multiplayer: MultiplayerContent,
   macros: MacrosContent,
   "regex-scripts": RegexScriptsContent,
   "triggers-and-lua": TriggersAndLuaContent,

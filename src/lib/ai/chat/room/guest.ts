@@ -1,6 +1,5 @@
 "use client";
 
-import { chatStore } from "@/store/chat-store";
 import {
   guestCharacterNameAtom,
   guestErrorAtom,
@@ -9,6 +8,7 @@ import {
   guestStatusAtom,
   guestTitleAtom,
   guestTurnAtom,
+  roomStore,
 } from "@/store/room-store";
 import type { DataConnection, Peer } from "peerjs";
 import {
@@ -25,9 +25,9 @@ let peer: Peer | null = null;
 let conn: DataConnection | null = null;
 
 function reset() {
-  chatStore.set(guestMessagesAtom, []);
-  chatStore.set(guestParticipantsAtom, []);
-  chatStore.set(guestTurnAtom, { kind: "idle" });
+  roomStore.set(guestMessagesAtom, []);
+  roomStore.set(guestParticipantsAtom, []);
+  roomStore.set(guestTurnAtom, { kind: "idle" });
 }
 
 function send(msg: GuestToHost) {
@@ -47,8 +47,8 @@ export function submitTurn(text: string) {
 export async function joinRoom(roomId: string, rawName: string): Promise<void> {
   if (peer) return;
   const name = sanitizeName(rawName);
-  chatStore.set(guestStatusAtom, "connecting");
-  chatStore.set(guestErrorAtom, null);
+  roomStore.set(guestStatusAtom, "connecting");
+  roomStore.set(guestErrorAtom, null);
   reset();
 
   const { Peer } = await import("peerjs");
@@ -58,8 +58,8 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
   created.on("error", (err) => {
     // peer-unavailable is the one a user actually hits: a stale or mistyped
     // room link. RisuAI shows nothing here and simply hangs.
-    chatStore.set(guestErrorAtom, err.type || "unknown");
-    chatStore.set(guestStatusAtom, "error");
+    roomStore.set(guestErrorAtom, err.type || "unknown");
+    roomStore.set(guestStatusAtom, "error");
   });
 
   created.on("open", () => {
@@ -67,7 +67,7 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
     conn = link;
 
     link.on("open", () => {
-      chatStore.set(guestStatusAtom, "waiting");
+      roomStore.set(guestStatusAtom, "waiting");
       send({ type: "join", version: ROOM_PROTOCOL_VERSION, name });
     });
 
@@ -76,25 +76,25 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
       if (!msg) return;
       switch (msg.type) {
         case "welcome":
-          chatStore.set(guestTitleAtom, msg.title);
-          chatStore.set(guestCharacterNameAtom, msg.characterName);
-          chatStore.set(guestMessagesAtom, msg.messages);
-          chatStore.set(guestParticipantsAtom, msg.participants);
-          chatStore.set(guestTurnAtom, msg.turn);
-          chatStore.set(guestStatusAtom, "joined");
+          roomStore.set(guestTitleAtom, msg.title);
+          roomStore.set(guestCharacterNameAtom, msg.characterName);
+          roomStore.set(guestMessagesAtom, msg.messages);
+          roomStore.set(guestParticipantsAtom, msg.participants);
+          roomStore.set(guestTurnAtom, msg.turn);
+          roomStore.set(guestStatusAtom, "joined");
           break;
         case "rejected":
-          chatStore.set(guestErrorAtom, msg.reason);
-          chatStore.set(guestStatusAtom, "rejected");
+          roomStore.set(guestErrorAtom, msg.reason);
+          roomStore.set(guestStatusAtom, "rejected");
           break;
         case "message-appended":
-          chatStore.set(guestMessagesAtom, (prev) => {
+          roomStore.set(guestMessagesAtom, (prev) => {
             const next = prev.filter((m) => m.id !== msg.message.id);
             return [...next, msg.message];
           });
           break;
         case "stream-delta":
-          chatStore.set(guestMessagesAtom, (prev) => {
+          roomStore.set(guestMessagesAtom, (prev) => {
             const found = prev.find((m) => m.id === msg.id);
             if (found)
               return prev.map((m) =>
@@ -105,7 +105,7 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
               {
                 id: msg.id,
                 role: "assistant" as const,
-                speaker: chatStore.get(guestCharacterNameAtom) ?? "Assistant",
+                speaker: roomStore.get(guestCharacterNameAtom) ?? "Assistant",
                 text: msg.text,
               },
             ];
@@ -114,23 +114,26 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
         case "stream-end":
           break;
         case "participants":
-          chatStore.set(guestParticipantsAtom, msg.participants);
+          roomStore.set(guestParticipantsAtom, msg.participants);
           break;
         case "turn-state":
-          chatStore.set(guestTurnAtom, msg.turn);
+          roomStore.set(guestTurnAtom, msg.turn);
+          // A new turn means the previous failure no longer describes anything.
+          if (msg.turn.kind !== "idle") roomStore.set(guestErrorAtom, null);
           break;
         case "turn-failed":
-          chatStore.set(guestErrorAtom, msg.reason);
+          roomStore.set(guestErrorAtom, msg.reason);
           break;
         case "closed":
-          chatStore.set(guestStatusAtom, "closed");
+          roomStore.set(guestErrorAtom, null);
+          roomStore.set(guestStatusAtom, "closed");
           break;
       }
     });
 
     link.on("close", () => {
-      if (chatStore.get(guestStatusAtom) === "joined")
-        chatStore.set(guestStatusAtom, "closed");
+      if (roomStore.get(guestStatusAtom) === "joined")
+        roomStore.set(guestStatusAtom, "closed");
     });
   });
 }

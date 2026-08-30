@@ -24,6 +24,9 @@ const CustomProviderList = dynamic(() =>
     (m) => m.CustomProviderList,
   ),
 );
+const RoomHostPanel = dynamic(() =>
+  import("@/components/pages/room/room-host-panel").then((m) => m.RoomHostPanel),
+);
 const JsPluginList = dynamic(() =>
   import("@/components/pages/sidebar/chat/rp/js-plugin/list").then(
     (m) => m.JsPluginList,
@@ -31,11 +34,14 @@ const JsPluginList = dynamic(() =>
 );
 
 export const openRpTabAtom = atom<RpTab | null>(null);
+export const roomPanelOpenAtom = atom(false);
 
 export function RpDialogs() {
   const [openTab, setOpenTab] = useAtom(openRpTabAtom);
+  const [roomOpen, setRoomOpen] = useAtom(roomPanelOpenAtom);
   return (
     <>
+      {roomOpen && <RoomHostPanel open onOpenChange={setRoomOpen} />}
       {openTab === "characters" && (
         <CharacterList
           open

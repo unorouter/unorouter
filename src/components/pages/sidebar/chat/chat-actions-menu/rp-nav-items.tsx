@@ -1,4 +1,7 @@
-import { openRpTabAtom } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
+import {
+  openRpTabAtom,
+  roomPanelOpenAtom,
+} from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
@@ -8,6 +11,7 @@ import { useTranslations } from "next-intl";
 export function RpNavItems() {
   const t = useTranslations();
   const setOpenRpTab = useSetAtom(openRpTabAtom);
+  const setRoomOpen = useSetAtom(roomPanelOpenAtom);
 
   return (
     <>
@@ -38,6 +42,10 @@ export function RpNavItems() {
       <DropdownMenuItem onClick={() => setOpenRpTab("js-plugins")}>
         <Icon name="code" className="size-4" />
         {t("CHAT.JS_PLUGIN.SIDEBAR_TAB")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => setRoomOpen(true)}>
+        <Icon name="users" className="size-4" />
+        {t("ROOM.HOST_TITLE")}
       </DropdownMenuItem>
     </>
   );
