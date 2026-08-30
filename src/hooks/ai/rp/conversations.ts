@@ -4,11 +4,10 @@ import { useApiMutation } from "@/lib/react-query/hooks";
 import { isRecord } from "@/lib/utils/base";
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
-  readLocalConversation,
+  bumpLocalConvUpdatedAt,
   readLocalConversationBindings,
   readLocalConversationSettings,
   replaceLocalConversationBindings,
-  upsertLocalConversation,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import {
@@ -93,14 +92,7 @@ export function useUpdateChatBindingsMutation() {
           lorebookId: lid,
         })),
       });
-      const now = dayjs().toDate();
-      const conv = await readLocalConversation(args.convId);
-      if (conv) {
-        await upsertLocalConversation({
-          ...conv,
-          updatedAt: now,
-        });
-      }
+      await bumpLocalConvUpdatedAt(args.convId);
       return { id: args.convId };
     },
     invalidates: (args) => [queryKeys.chatBindings(args.convId)],

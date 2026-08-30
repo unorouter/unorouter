@@ -21,8 +21,6 @@ type ConversationItemProps = {
     id: string;
     title: string | null;
     model: string | null;
-    totalCost?: number;
-    updatedAt: Date;
   };
   isSelected: boolean;
   onSelect: () => void;

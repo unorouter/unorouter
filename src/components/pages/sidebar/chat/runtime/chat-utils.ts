@@ -45,9 +45,7 @@ function resolveTextMime(file: File): string {
   return TEXT_EXTENSIONS[ext] ?? "text/plain";
 }
 
-export function createLocalAttachmentAdapter(
-  getContext: () => { convId: string | null },
-): AttachmentAdapter {
+export function createLocalAttachmentAdapter(): AttachmentAdapter {
   return {
     // The bare extensions are load-bearing: type-only matching rejects .md and .log.
     accept:
@@ -69,9 +67,8 @@ export function createLocalAttachmentAdapter(
     },
 
     async send(attachment) {
-      const ctx = getContext();
-
-      ctx.convId = ensureConvId();
+      // Side effect only: claims a convId for the send that follows.
+      ensureConvId();
 
       const file = attachment.file!;
       const base64 = await fileToBase64(file);

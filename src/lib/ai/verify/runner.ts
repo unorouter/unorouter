@@ -1,7 +1,7 @@
 import { sleep } from "@/lib/utils/base";
 import { echoesNonce, makeNonce } from "./nonce";
 import { runHandshake } from "./handshake";
-import { buildProbes, type ProbeDef } from "./probes";
+import { PROBES, type ProbeDef } from "./probes";
 import { PROVIDER_CONFIGS, type ProviderConfig } from "./providers/config";
 import { detectSignal, isTransientError } from "./signals";
 import { probeTransport, type TransportFn } from "./transport";
@@ -54,7 +54,6 @@ async function runProbe(args: {
 
     const res = await args.transport({
       mode: args.mode,
-      provider: args.cfg.provider,
       url: built.url,
       headers: built.headers,
       reqBody: built.body,
@@ -70,7 +69,6 @@ async function runProbe(args: {
         label: probe.label,
         pass: false,
         signal: null,
-        signalForVerdict: null,
         muxFailure: false,
         transient,
         latencyMs: Math.round(performance.now() - started),
@@ -91,7 +89,6 @@ async function runProbe(args: {
         label: probe.label,
         pass: false,
         signal: null,
-        signalForVerdict: null,
         muxFailure: false,
         transient: false,
         latencyMs: Math.round(performance.now() - started),
@@ -125,7 +122,6 @@ async function runProbe(args: {
       label: probe.label,
       pass,
       signal,
-      signalForVerdict: signal,
       muxFailure: false,
       transient: false,
       latencyMs: Math.round(performance.now() - started),
@@ -155,7 +151,6 @@ async function runProbe(args: {
       label: probe.label,
       pass,
       signal,
-      signalForVerdict: signal,
       muxFailure: false,
       transient: false,
       latencyMs: Math.round(performance.now() - started),
@@ -176,7 +171,6 @@ async function runProbe(args: {
     label: probe.label,
     pass: false,
     signal: null,
-    signalForVerdict: null,
     muxFailure: true,
     transient: false,
     latencyMs: Math.round(performance.now() - started),
@@ -273,10 +267,8 @@ export async function runVerification(opts: {
 
   const resolvedProvider = hs.resolvedProvider;
   const cfg = PROVIDER_CONFIGS[resolvedProvider];
-  const probes = buildProbes();
-
   const results = await Promise.all(
-    probes.map((probe) =>
+    PROBES.map((probe) =>
       runProbe({
         probe,
         cfg,

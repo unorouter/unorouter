@@ -18,7 +18,6 @@ import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -28,7 +27,6 @@ type Props = {
 export function ImportExportSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
   const hasConv = !!props.convId;
@@ -53,15 +51,7 @@ export function ImportExportSubmenu(props: Props) {
     analytics.chat.conversationExported({ format });
   };
 
-  const handleImportClick = () => {
-    analytics.chat.importPickerOpened();
-    fileInputRef.current?.click();
-  };
-
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = "";
+  const handleFile = async (file: File) => {
     const result = await importMut.mutateAsync(file);
     if (result?.id) {
       analytics.chat.conversationImported();
@@ -70,15 +60,29 @@ export function ImportExportSubmenu(props: Props) {
     }
   };
 
+  // Not rendered: clicking the menu item CLOSES the menu, which unmounts
+  // anything rendered alongside it, so a ref to a JSX input is already null by
+  // the time the handler runs and .click() silently no-ops. The picker has to
+  // outlive the menu, so it lives on document.body.
+  const handleImportClick = () => {
+    analytics.chat.importPickerOpened();
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json,application/jsonl,.json,.jsonl";
+    input.style.display = "none";
+    input.addEventListener("change", () => {
+      const file = input.files?.[0];
+      input.remove();
+      if (file) void handleFile(file);
+    });
+    // Cancelling the dialog fires no change event, so the node would leak.
+    input.addEventListener("cancel", () => input.remove());
+    document.body.appendChild(input);
+    input.click();
+  };
+
   return (
     <>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="application/json,application/jsonl,.json,.jsonl"
-        onChange={handleFile}
-        className="hidden"
-      />
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
           <Icon name="arrow-down-up" className="size-4" />

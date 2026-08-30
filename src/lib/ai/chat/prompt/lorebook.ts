@@ -54,10 +54,6 @@ export function keyHits(
     .includes(key.toLowerCase().replace(/ /g, ""));
 }
 
-function estimateTokens(text: string): number {
-  return countTokens(text);
-}
-
 export type EntryDecorators = {
   body: string;
   probability?: number;
@@ -365,7 +361,7 @@ export function selectLorebookEntries(
   let used = 0;
   const dropped: { id: string; cost: number; priority: number }[] = [];
   const survived = accepted.filter((p) => {
-    const cost = estimateTokens(p.dec.body);
+    const cost = countTokens(p.dec.body);
     if (used + cost > globalBudget) {
       dropped.push({
         id: p.entry.id,

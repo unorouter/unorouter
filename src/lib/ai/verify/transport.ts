@@ -1,5 +1,5 @@
 import { errMessage, rec } from "@/lib/utils/base";
-import type { VerifyProvider, TransportMode } from "./types";
+import type { TransportMode } from "./types";
 
 export type TransportResult = {
   status: number | null;
@@ -10,7 +10,6 @@ export type TransportResult = {
 
 export type TransportArgs = {
   mode: TransportMode;
-  provider: VerifyProvider;
   url: string;
   headers: Record<string, string>;
   reqBody: unknown;

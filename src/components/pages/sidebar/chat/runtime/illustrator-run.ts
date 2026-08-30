@@ -28,7 +28,6 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 export type IllustratorConvSettings = {
   imageEnabled: boolean;
   utilityModel: string | null;
-  utilityGroup: string | null;
   defaultModel: string | null;
   promptInstruction: string | undefined;
   imageModel: string | null;
@@ -58,9 +57,6 @@ export async function resolveIllustratorSettings(
   return {
     imageEnabled: !!(s.imageEnabled ?? preset?.imageEnabled),
     utilityModel: (s.utilityModel ?? preset?.utilityModel) || null,
-    // A lane is only valid for the model it was pinned for, so it rides along
-    // only when the preset also supplied that model.
-    utilityGroup: (s.utilityModel ? null : preset?.utilityGroup) || null,
     defaultModel: s.defaultModel ?? null,
     promptInstruction:
       s.promptInstruction ?? preset?.promptInstruction ?? undefined,
@@ -158,7 +154,6 @@ export type IllustratorRunInput = {
   taskId: string;
   responseText: string;
   utilityModel: string;
-  utilityGroup?: string | null;
   promptInstruction?: string;
   imageModel?: string | null;
   imageGroup?: string | null;

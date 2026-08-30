@@ -135,10 +135,7 @@ function submittedKeyFor(body: SubmitArgs): string {
 export function useSessionHistoryQuery() {
   return useQuery({
     queryKey: queryKeys.imageSessionList(undefined),
-    queryFn: async () => ({
-      items: await readLocalSessionPreviews(),
-      nextCursor: null,
-    }),
+    queryFn: async () => ({ items: await readLocalSessionPreviews() }),
   });
 }
 

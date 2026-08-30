@@ -79,7 +79,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const activeModelName = useAtomValue(chatModelAtom);
   const activeModel = useModelDetailQuery(activeModelName ?? null).data;
   const activeModelMetadata = activeModel?.metadata;
-  const maxTokensCap = activeModelMetadata?.maxOutputTokens;
   const settingsQuery = useChatSettingsQuery(
     !isDefaultsMode ? props.convId! : undefined,
   );
@@ -276,7 +275,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   maxTokens: "maxTokens",
                 }}
                 metadata={activeModelMetadata}
-                maxTokensCap={maxTokensCap}
                 onReset={() => resetSampling(form)}
               />
 

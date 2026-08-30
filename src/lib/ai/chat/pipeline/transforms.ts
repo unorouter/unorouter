@@ -382,10 +382,6 @@ export function dropSummarizedPrefix(
   return messages.slice(cutIdx);
 }
 
-export function estimateTokens(text: string | undefined): number {
-  return countTokens(text);
-}
-
 export function messageTokens(m: StreamMessages[number]): number {
   let n = 4;
   if (!Array.isArray(m.parts)) return n;
