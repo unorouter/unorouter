@@ -31,7 +31,12 @@ import {
   UtilityModelField,
 } from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
-import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
+import {
+  DEFAULT_CHAT_MEMORY,
+  MAX_CHAT_MEMORY,
+  msg,
+  NONE_VALUE,
+} from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
@@ -138,7 +143,7 @@ export function OverridesGenerationFields(props: {
               <FormControl>
                 <Slider
                   min={1}
-                  max={DEFAULT_CHAT_MEMORY}
+                  max={MAX_CHAT_MEMORY}
                   value={[field.value ?? DEFAULT_CHAT_MEMORY]}
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)

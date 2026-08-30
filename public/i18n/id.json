@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Kedalaman pindai",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Berapa banyak pesan terbaru yang dipindai untuk kunci entri ini. 0 = pakai default buku.",
     "PRESET_CHAT_MEMORY": "Memori chat (pesan)",
-    "PRESET_CHAT_MEMORY_HINT": "Berapa pesan terbaru yang dikirim per permintaan. Kosong = default (8); pengaturan chat menimpanya.",
+    "PRESET_CHAT_MEMORY_HINT": "Berapa banyak pesan terbaru yang dikirim pada setiap permintaan. Kosong = bawaan (200), maksimal 1000; pengaturan obrolan menimpa ini.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Streaming balasan token demi token. Mati = terima balasan penuh sekaligus. Pengaturan chat menimpanya.",
     "PRESET_AUTO_SCROLL_STREAM": "Gulir otomatis saat streaming",

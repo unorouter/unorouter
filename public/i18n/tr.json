@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Tarama derinliği",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Bu girdinin anahtarları için kaç son mesajın taranacağı. 0 = kitap varsayılanını kullan.",
     "PRESET_CHAT_MEMORY": "Sohbet belleği (mesaj)",
-    "PRESET_CHAT_MEMORY_HINT": "Her istekte gönderilecek son mesaj sayısı. Boş = varsayılan (8); sohbet ayarı geçersiz kılar.",
+    "PRESET_CHAT_MEMORY_HINT": "Her istekle gönderilecek son mesaj sayısı. Boş = varsayılan (200), en fazla 1000; sohbet ayarı bunu geçersiz kılar.",
     "PRESET_STREAMING": "Akış",
     "PRESET_STREAMING_HINT": "Yanıtı token token akıt. Kapalı = tüm yanıtı bir kerede al. Sohbet ayarı geçersiz kılar.",
     "PRESET_AUTO_SCROLL_STREAM": "Akış sırasında otomatik kaydırma",

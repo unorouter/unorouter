@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Profundidad de escaneo",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Cuántos mensajes recientes escanear para las claves de esta entrada. 0 = usar el valor del libro.",
     "PRESET_CHAT_MEMORY": "Memoria del chat (mensajes)",
-    "PRESET_CHAT_MEMORY_HINT": "Cuántos mensajes recientes enviar en cada solicitud. Vacío = predeterminado (8); el ajuste del chat lo anula.",
+    "PRESET_CHAT_MEMORY_HINT": "Cuántos mensajes recientes enviar en cada solicitud. Vacío = predeterminado (200), máximo 1000; el ajuste del chat tiene prioridad.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Transmite la respuesta token a token. Apagado = recibir toda la respuesta de una vez. El ajuste del chat lo anula.",
     "PRESET_AUTO_SCROLL_STREAM": "Autodesplazamiento al transmitir",

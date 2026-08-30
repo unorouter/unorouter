@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Scan depth",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "How many recent messages to scan for this entry's keys. 0 = use the book default.",
     "PRESET_CHAT_MEMORY": "Chat memory (messages)",
-    "PRESET_CHAT_MEMORY_HINT": "How many recent messages to send with each request. Empty = default (8); the chat setting overrides this.",
+    "PRESET_CHAT_MEMORY_HINT": "How many recent messages to send with each request. Empty = default (200), max 1000; the chat setting overrides this.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Stream the reply token-by-token. Off = receive the full reply at once. The chat setting overrides this.",
     "PRESET_AUTO_SCROLL_STREAM": "Auto-scroll while streaming",

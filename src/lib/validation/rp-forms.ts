@@ -3,6 +3,7 @@ import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort, webSearchContextSize, webSearchEngine } from "./chat";
 import {
   AUTO_GROUP,
+  MAX_CHAT_MEMORY,
   msg,
   NONE_VALUE,
   type TranslationKey,
@@ -134,7 +135,7 @@ export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: NONE_VALUE }),
   presetId: t.String({ default: NONE_VALUE }),
   reasoningEffort: t.Union(reasoningEffortLiterals, { default: NONE_VALUE }),
-  chatMemory: nullableNumber(1, 1000),
+  chatMemory: nullableNumber(1, MAX_CHAT_MEMORY),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   systemPromptOverride: t.String({ default: "" }),
   authorNote: t.String({ default: "" }),
@@ -178,7 +179,7 @@ export const samplingPresetFormSchema = t.Object({
   reasoningEffort: t.Union([...reasoningEffort.anyOf, t.Literal(NONE_VALUE)], {
     default: NONE_VALUE,
   }),
-  chatMemory: nullableNumber(1, 1000),
+  chatMemory: nullableNumber(1, MAX_CHAT_MEMORY),
   memoryEnabled: nullable(t.Boolean()),
   imageEnabled: nullable(t.Boolean()),
   utilityModel: t.String({ default: "", maxLength: 256 }),

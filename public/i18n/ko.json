@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "스캔 깊이",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "이 항목의 키를 검색할 최근 메시지 수입니다. 0 = 책 기본값 사용.",
     "PRESET_CHAT_MEMORY": "채팅 메모리(메시지)",
-    "PRESET_CHAT_MEMORY_HINT": "요청마다 보낼 최근 메시지 수. 비움 = 기본값(8); 채팅 설정이 우선합니다.",
+    "PRESET_CHAT_MEMORY_HINT": "요청마다 보낼 최근 메시지 수입니다. 비워두면 기본값(200), 최대 1000이며, 대화 설정이 우선합니다.",
     "PRESET_STREAMING": "스트리밍",
     "PRESET_STREAMING_HINT": "응답을 토큰 단위로 스트리밍. 끄면 전체 응답을 한 번에 받음. 채팅 설정이 우선합니다.",
     "PRESET_AUTO_SCROLL_STREAM": "스트리밍 중 자동 스크롤",

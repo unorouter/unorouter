@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "扫描深度",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "为该条目的关键词扫描多少条最近消息。0 = 使用书的默认值。",
     "PRESET_CHAT_MEMORY": "聊天记忆（消息数）",
-    "PRESET_CHAT_MEMORY_HINT": "每次请求发送多少条最近消息。留空 = 默认（8）；聊天设置会覆盖此项。",
+    "PRESET_CHAT_MEMORY_HINT": "每次请求发送的最近消息数量。留空 = 默认（200），最大 1000；对话设置会覆盖此项。",
     "PRESET_STREAMING": "流式输出",
     "PRESET_STREAMING_HINT": "逐 token 流式返回回复。关闭 = 一次性接收完整回复。聊天设置会覆盖此项。",
     "PRESET_AUTO_SCROLL_STREAM": "流式输出时自动滚动",

@@ -3996,7 +3996,7 @@
     "LOREBOOK_ENTRY_SCAN_DEPTH": "Scan-Tiefe",
     "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Wie viele letzte Nachrichten nach den Schlüsseln dieses Eintrags durchsucht werden. 0 = Standard des Buchs.",
     "PRESET_CHAT_MEMORY": "Chat-Speicher (Nachrichten)",
-    "PRESET_CHAT_MEMORY_HINT": "Anzahl der letzten Nachrichten pro Anfrage. Leer = Standard (8); die Chat-Einstellung überschreibt.",
+    "PRESET_CHAT_MEMORY_HINT": "Anzahl der letzten Nachrichten pro Anfrage. Leer = Standard (200), max. 1000; die Chat-Einstellung überschreibt.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Antwort Token für Token streamen. Aus = ganze Antwort auf einmal. Die Chat-Einstellung überschreibt.",
     "PRESET_AUTO_SCROLL_STREAM": "Auto-Scroll beim Streamen",
