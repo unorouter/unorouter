@@ -1,13 +1,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import type { TranslationKey } from "@/lib/config/constants";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { uid } from "@/lib/utils/base";
 import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export type ImgDraft =
   { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
@@ -43,6 +49,7 @@ export function RpImageField(props: {
 }) {
   const t = useTranslations();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [zoomed, setZoomed] = useState(false);
   return (
     <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
       <div className="text-foreground text-xs font-medium tracking-wide uppercase">
@@ -50,8 +57,11 @@ export function RpImageField(props: {
       </div>
       <p className="text-muted-foreground text-xs">{t(props.hintKey)}</p>
       {props.preview && (
-        <div
-          className={`border-border/40 relative overflow-hidden border ${
+        <button
+          type="button"
+          onClick={() => setZoomed(true)}
+          aria-label={t("COMMON.PREVIEW")}
+          className={`border-border/40 relative cursor-zoom-in overflow-hidden border ${
             props.shape === "circle"
               ? "size-24 rounded-full"
               : "h-28 w-full rounded-lg"
@@ -63,8 +73,26 @@ export function RpImageField(props: {
             alt=""
             className="h-full w-full object-cover"
           />
-        </div>
+        </button>
       )}
+
+      {/* The thumbnail is cropped to a circle or a banner, so it is the only
+          place the full image can actually be checked after upload. */}
+      <Dialog open={zoomed} onOpenChange={setZoomed}>
+        <DialogContent className="max-w-3xl" showCloseButton>
+          <DialogHeader className="sr-only">
+            <DialogTitle>{t(props.labelKey)}</DialogTitle>
+          </DialogHeader>
+          {props.preview && (
+            // eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it
+            <img
+              src={props.preview}
+              alt=""
+              className="max-h-[80svh] w-full rounded-md object-contain"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
       <div className="flex gap-2">
         <Button
           type="button"
