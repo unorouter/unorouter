@@ -10,7 +10,6 @@ interface UserInfoProps {
   className?: string;
   avatarClassName?: string;
   showBadge?: boolean;
-  badgePosition?: "inline" | "below";
   trailing?: React.ReactNode;
 }
 

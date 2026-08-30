@@ -3433,7 +3433,7 @@
       "DELETE": "삭제",
       "CONTINUE_SCENE": "장면 계속하기",
       "IMPERSONATE": "내 메시지 작성",
-      "IMPERSONATE_ENHANCE": "내 초안 다시 쓰기",
+      "IMPERSONATE_ENHANCE": "이 지시에 따라 내 메시지 작성",
       "IMPERSONATE_AS_CHAR": "메시지를 작성하지 못했습니다: 모델이 캐릭터로 응답했습니다."
     },
     "GATE": {

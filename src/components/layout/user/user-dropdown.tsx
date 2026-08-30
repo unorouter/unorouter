@@ -73,10 +73,7 @@ export function UserDropdown(props: UserDropdownProps) {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel className="p-0 font-normal">
-            <UserInfo
-              className="px-1 py-1.5 text-left text-sm"
-              badgePosition="below"
-            />
+            <UserInfo className="px-1 py-1.5 text-left text-sm" />
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         {activeSubs.length > 0 && (

@@ -3433,7 +3433,7 @@
       "DELETE": "Xóa",
       "CONTINUE_SCENE": "Tiếp tục cảnh",
       "IMPERSONATE": "Viết tin nhắn cho tôi",
-      "IMPERSONATE_ENHANCE": "Viết lại bản nháp của tôi",
+      "IMPERSONATE_ENHANCE": "Viết tin nhắn theo định hướng này",
       "IMPERSONATE_AS_CHAR": "Không thể viết tin nhắn: mô hình đã trả lời với tư cách nhân vật."
     },
     "GATE": {

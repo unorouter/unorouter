@@ -3433,7 +3433,7 @@
       "DELETE": "حذف",
       "CONTINUE_SCENE": "متابعة المشهد",
       "IMPERSONATE": "اكتب رسالتي",
-      "IMPERSONATE_ENHANCE": "أعد صياغة مسودتي",
+      "IMPERSONATE_ENHANCE": "اكتب رسالتي وفق هذا التوجيه",
       "IMPERSONATE_AS_CHAR": "تعذّرت كتابة الرسالة: أجاب النموذج بصفته الشخصية."
     },
     "GATE": {

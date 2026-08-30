@@ -3433,7 +3433,7 @@
       "DELETE": "מחק",
       "CONTINUE_SCENE": "המשך הסצנה",
       "IMPERSONATE": "כתוב את ההודעה שלי",
-      "IMPERSONATE_ENHANCE": "שכתב את הטיוטה שלי",
+      "IMPERSONATE_ENHANCE": "כתוב את ההודעה שלי לפי הנחיה זו",
       "IMPERSONATE_AS_CHAR": "לא ניתן לכתוב הודעה: המודל השיב בתור הדמות."
     },
     "GATE": {

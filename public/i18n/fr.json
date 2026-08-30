@@ -3433,7 +3433,7 @@
       "DELETE": "Supprimer",
       "CONTINUE_SCENE": "Continuer la scène",
       "IMPERSONATE": "Écrire mon message",
-      "IMPERSONATE_ENHANCE": "Réécrire mon brouillon",
+      "IMPERSONATE_ENHANCE": "Écrire mon message selon cette consigne",
       "IMPERSONATE_AS_CHAR": "Impossible d'écrire le message : le modèle a répondu en tant que personnage."
     },
     "GATE": {

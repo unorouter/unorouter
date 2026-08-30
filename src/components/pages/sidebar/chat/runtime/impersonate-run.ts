@@ -17,8 +17,11 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 const IMPERSONATE_PROMPT =
   "[Write your next reply from the point of view of {{user}}, using the chat history so far as a guideline for the writing style of {{user}}. Write 1 reply only in internet RP style. Don't write as {{char}} or system. Don't describe actions of {{char}}.]";
 
-const ENHANCE_PROMPT =
-  "[Rewrite the draft below as {{user}}'s next reply, keeping its meaning, intent and voice. Expand it into vivid prose that fits the chat's style. Write 1 reply only, as {{user}} and nobody else. Don't write as {{char}} or system, and don't describe actions of {{char}}.]";
+// Whatever is already in the composer steers the reply rather than being
+// rewritten literally, so both "be angry" and a half-written paragraph work:
+// one is direction, the other is a draft, and the model reads both as guidance.
+const DIRECTION_LINE =
+  "Additional direction for this reply, follow it closely: {{direction}}";
 
 const MAX_TOKENS = 1024;
 const HISTORY_TURNS = 12;
@@ -73,7 +76,11 @@ export async function runImpersonate(
   const presetId = bound(settings?.presetId) ?? bound(loadout.presetId);
   const preset = presetId ? await readLocalPreset(presetId) : null;
   const custom = preset?.impersonatePrompt?.trim();
-  const base = custom || (draft.trim() ? ENHANCE_PROMPT : IMPERSONATE_PROMPT);
+  const direction = draft.trim();
+  const base = [custom || IMPERSONATE_PROMPT, direction && DIRECTION_LINE]
+    .filter(Boolean)
+    .join("\n")
+    .replaceAll("{{direction}}", direction);
 
   const personaBlock = [
     persona?.description?.trim(),
@@ -93,13 +100,7 @@ export async function runImpersonate(
     const who = m.role === "user" ? userName : charName;
     return `${who}: ${partsToText(m.parts)}`;
   });
-  const prompt = [
-    recent.join("\n\n"),
-    draft.trim() && `\n[${userName}'s draft to rewrite]\n${draft.trim()}`,
-    `\n${userName}:`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const prompt = [recent.join("\n\n"), `\n${userName}:`].join("\n");
 
   const modelId = chatStore.get(chatModelAtom);
   if (!modelId) throw new Error("impersonate: no model selected");
