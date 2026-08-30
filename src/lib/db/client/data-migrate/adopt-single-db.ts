@@ -3,7 +3,6 @@
 import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { newSql, terminateSql } from "@/lib/db/client/new-sql";
-import { sahPoolDirName } from "@/lib/db/client/sahpool/pool-name";
 import {
   listLocalDatabases,
   salvagePoolDatabases,
@@ -14,16 +13,13 @@ import { logger } from "@/lib/utils/logger";
 // Nothing is deleted: every `unorouter-N.sqlite3` pool stays on disk so this is
 // reversible and the Recover action can still read them.
 export async function adoptSingleDatabase(targetPath: string): Promise<void> {
-  const root = await navigator.storage.getDirectory();
+  const local = await listLocalDatabases();
+  // Content, not directory presence: a failed adoption calls deleteDatabaseFile,
+  // which empties the pool but LEAVES its directory, and a presence check then
+  // skips adoption forever with the history still in the legacy pool.
+  if (local.some((c) => c.legacyUserId === null && c.sizeBytes > 0)) return;
 
-  try {
-    await root.getDirectoryHandle(sahPoolDirName(targetPath));
-    return;
-  } catch {}
-
-  const candidates = (await listLocalDatabases()).filter(
-    (c) => c.legacyUserId !== null,
-  );
+  const candidates = local.filter((c) => c.legacyUserId !== null);
   if (candidates.length === 0) {
     logChatDebug("db.adopt.fresh", { targetPath });
     return;

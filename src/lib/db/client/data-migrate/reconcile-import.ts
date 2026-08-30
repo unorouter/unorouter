@@ -240,8 +240,10 @@ export async function reconcileImport(
     }
     const finalBytes = await readBytes(final);
     live = newSql(livePath);
-    await live.overwriteDatabaseFile(finalBytes);
+    // Set BEFORE the write: a throw mid-overwrite leaves live torn, and the flag
+    // is what keeps the backup on disk for rollback and recoverPendingImport.
     swapped = true;
+    await live.overwriteDatabaseFile(finalBytes);
 
     // Phase 4: a corrupt swap routes into rollback.
     if (!(await integrityOk(live))) {
