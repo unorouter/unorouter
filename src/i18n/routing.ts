@@ -1123,7 +1123,7 @@ export const privateRoutes = {
     "/reset",
     "/vendor-icons",
   ],
-  dynamicParents: ["/chat/[convId]", "/image/[id]"],
+  dynamicParents: ["/chat/[convId]", "/image/[id]", "/room/[roomId]"],
   publicChildren: ["/chat/presets", "/chat/cards"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
