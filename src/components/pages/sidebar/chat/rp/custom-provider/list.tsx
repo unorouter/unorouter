@@ -69,11 +69,15 @@ export function CustomProviderList(props: Props) {
           </div>
 
           {editingId && (
-            <CustomProviderEditor
-              key={editingId}
-              editingId={editingId}
-              onDone={() => setEditingId(null)}
-            />
+            // The dialog itself does not scroll, so an editor taller than the
+            // viewport needs its own scroller or its footer is unreachable.
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <CustomProviderEditor
+                key={editingId}
+                editingId={editingId}
+                onDone={() => setEditingId(null)}
+              />
+            </div>
           )}
 
           {!editingId && (
