@@ -12,21 +12,8 @@ import type { VerifyProvider } from "@/lib/ai/verify/types";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import type { TestResultProbe } from "@/lib/api/typebox/model-tester";
 import type { TranslationKey } from "@/lib/types";
-
-export type ResultProbe = {
-  label: string;
-  pass: boolean;
-  transient: boolean;
-  signal: string | null;
-  reason: string | null;
-  prompt: string;
-  responseText: string | null;
-  httpStatus: number | null;
-  promptTokens: number | null;
-  completionTokens: number | null;
-  latencyMs: number;
-};
 
 export type ResultCardData = {
   model: string;
@@ -44,7 +31,7 @@ export type ResultCardData = {
   resolvedFormat: string;
   formatFellBack: boolean;
   connectivityError: string | null;
-  probes: ResultProbe[];
+  probes: TestResultProbe[];
 };
 
 type VerdictTone = {
@@ -179,7 +166,7 @@ function HighlightedResponse(props: {
   );
 }
 
-function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
+function ProbeRow(props: { probe: TestResultProbe; provider: VerifyProvider }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const probe = props.probe;
@@ -291,7 +278,7 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
 }
 
 type ProbeTone = "pass" | "transient" | "fail";
-function probeTone(probe: ResultProbe): ProbeTone {
+function probeTone(probe: TestResultProbe): ProbeTone {
   if (probe.pass) return "pass";
   return probe.transient ? "transient" : "fail";
 }
@@ -316,7 +303,7 @@ const PROBE_ROW_ICON_TONE: Record<ProbeTone, string> = {
   fail: "text-destructive",
 };
 
-function ProbePill(props: { probe: ResultProbe }) {
+function ProbePill(props: { probe: TestResultProbe }) {
   const t = useTranslations();
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
