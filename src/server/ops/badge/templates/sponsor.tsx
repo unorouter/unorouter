@@ -163,7 +163,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
           />
           <Stat
             value={requestCount}
-            label="REQUESTS"
+            label={t(ctx.locale, "BADGE.REQUESTS")}
             c={c}
             size={d.statSize}
             labelSize={d.labelSize}
@@ -339,7 +339,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
         </Row>
         <Stat
           value={requestCount}
-          label="REQUESTS"
+          label={t(ctx.locale, "BADGE.REQUESTS")}
           c={c}
           size={d.statSize}
           cipherMarker={m2}
