@@ -169,7 +169,7 @@ async function getTableStorageStats(): Promise<
   }
 }
 
-const MAX_LOG_CONVS = 25;
+const MAX_LOGS_PER_CONV = 25;
 
 async function buildDiagnosticsHead() {
   const device = {
@@ -307,7 +307,7 @@ function messageShape(finalMessages: unknown): unknown {
 const MAX_SHAPE_ROWS = 3;
 
 async function readRequestLogsForConvDiag(convId: string): Promise<unknown[]> {
-  const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOG_CONVS);
+  const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOGS_PER_CONV);
   const newest = await readLocalRequestLogsNewestForConv(
     convId,
     MAX_SHAPE_ROWS,
