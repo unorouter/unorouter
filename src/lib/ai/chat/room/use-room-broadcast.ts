@@ -19,8 +19,9 @@ const textOf = (msg: ChatUIMessage) =>
     .trim();
 
 // Guests see the room by watching the host's own runtime state rather than by
-// tapping the stream: whatever the host ends up rendering is exactly what is
-// broadcast, so a dropped or rewritten message cannot desync the two.
+// tapping the stream, so a message the host REWRITES is rebroadcast as a delta
+// and both sides converge. A message the host DELETES does not: the protocol
+// has no removal, so the guest keeps rendering it until the room closes.
 export function useRoomBroadcast(
   messages: ChatUIMessage[],
   isRunning: boolean,
