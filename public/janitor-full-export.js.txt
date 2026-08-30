@@ -134,7 +134,23 @@
     });
     if (!res.ok) return null;
     const body = await res.json().catch(() => null);
-    return (body?.messages ?? []).map((m) => m.content).join("\n") || null;
+    const system = (body?.messages ?? []).find((m) => m.role === "system");
+    return system?.content ?? null;
+  };
+
+  // A private lorebook 404s on its own endpoint, but its text is still in the
+  // assembled prompt, appended AFTER the tagged card blocks with no tag of its
+  // own. That tail is the only copy the account can reach. Measured against a
+  // real character: 7.3KB of lore in 13 blank-line separated blocks, which is
+  // as close to the original entries as this gets. The KEYS are gone for good,
+  // because the book was already resolved into flat text before it came back.
+  const LORE_MARKER = "</example_dialogs>";
+  const lorebookTail = (prompt) => {
+    if (!prompt) return null;
+    const at = prompt.lastIndexOf(LORE_MARKER);
+    if (at < 0) return null;
+    const tail = prompt.slice(at + LORE_MARKER.length).trim();
+    return tail.length > 200 ? tail : null;
   };
 
   const out = {};
@@ -173,9 +189,11 @@
     const hiddenDefinition =
       !meta.personality && (meta.token_counts?.personality_tokens ?? 0) > 0;
     let prompt = null;
-    if (hiddenDefinition && meta.allow_proxy && chats[0]) {
+    // Fetched whenever the proxy is open, not only for a hidden definition: the
+    // same call is what recovers a private lorebook below.
+    if (meta.allow_proxy && chats[0]) {
       prompt = await assembledPrompt(c.character_id, chats[0].chat_id);
-      if (!prompt) {
+      if (!prompt && hiddenDefinition) {
         skipped.push({
           character: c.name,
           what: "definition",
@@ -192,14 +210,11 @@
 
     // ---- lorebooks, only the ones the author left readable ---------------
     const lorebooks = [];
+    const privateBooks = [];
     for (const s of meta.scripts ?? []) {
       const book = await get("/hampter/script/" + s.id);
       if (!book?.script) {
-        skipped.push({
-          character: c.name,
-          what: "lorebook: " + (s.title || s.id),
-          why: "private (404 even with a session)",
-        });
+        privateBooks.push(s.title || s.id);
         continue;
       }
       let entries = [];
@@ -230,6 +245,38 @@
         entries,
         scan_depth: settings?.depth,
       });
+    }
+
+    // One recovered book for ALL private ones on this character: the prompt does
+    // not say where a book ended and the next began, so splitting per source
+    // would be invented structure rather than recovered structure.
+    const tail = privateBooks.length ? lorebookTail(prompt) : null;
+    if (tail) {
+      const entries = tail
+        .split(/\n{2,}/)
+        .map((para) => para.trim())
+        .filter((para) => para.length > 40)
+        // Keyless and constant on purpose: the keys did not survive assembly,
+        // and a keyless entry that is not always-on would never fire.
+        .map((content) => ({ key: [], content, constant: true, enabled: true }));
+      if (entries.length > 0) {
+        lorebooks.push({
+          id: "recovered-" + c.character_id,
+          title: "Recovered lore (" + privateBooks.join(", ") + ")",
+          recovered: true,
+          entries,
+        });
+      }
+    } else if (privateBooks.length) {
+      for (const title of privateBooks) {
+        skipped.push({
+          character: c.name,
+          what: "lorebook: " + title,
+          why: meta.allow_proxy
+            ? "private, and the prompt carried no lore to recover"
+            : "private (404) and allow_proxy is off",
+        });
+      }
     }
 
     out[c.character_id] = {
