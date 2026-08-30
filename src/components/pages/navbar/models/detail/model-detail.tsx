@@ -1,4 +1,4 @@
-import { EMPTY_METADATA } from "@/lib/api/model-modality";
+import { EMPTY_METADATA, fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
 import { CopyButton } from "@/components/elements/code/copy-button";
@@ -9,7 +9,6 @@ import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { findContextTag, findSimilarModels } from "@/lib/api/pricing";
 import type { PricingCatalogDetail, PricingCatalogModel } from "@/openapi";
-import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { modelHref } from "@/lib/utils/base";

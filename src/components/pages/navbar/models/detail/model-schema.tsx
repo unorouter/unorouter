@@ -1,5 +1,5 @@
 import { localeUrl } from "@/i18n/navigation";
-import { findContextTag } from "@/lib/api/pricing";
+import { findContextTag, vendorDisplayName } from "@/lib/api/pricing";
 import type { PricingCatalogDetail } from "@/openapi";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -10,7 +10,6 @@ import {
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
 import { formatPrice } from "@/lib/utils/format/number";
-import { vendorDisplayName } from "@/lib/api/pricing";
 import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { canonicalHref, vendorHref } from "./resolve-slug";

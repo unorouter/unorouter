@@ -15,7 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { analytics } from "@/lib/analytics";
-import { formatPrice } from "@/lib/utils/format/number";
+import { formatPrice, quotaToDollars } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";
 import {
   bucketKey,
@@ -41,7 +41,6 @@ import {
 } from "recharts";
 import { ALL_VALUE, AnalyticsToolbar } from "./analytics-toolbar";
 import { PagedChartLegend } from "./chart-legend-paged";
-import { quotaToDollars } from "@/lib/utils/format/number";
 import { aggregateByModel, type QuotaDataItem } from "./stats";
 
 function buildModelChartConfig(modelNames: string[]): ChartConfig {
