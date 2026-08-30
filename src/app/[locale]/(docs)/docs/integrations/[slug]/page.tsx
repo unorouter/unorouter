@@ -11,7 +11,6 @@ import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import type { SetupGuide } from "@/components/pages/docs/setup-guides";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -34,17 +33,6 @@ export async function generateMetadata(props: PageProps) {
     keywords: t(prefixKey(guide.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
     ogImage: ogBadge("banner", locale),
   });
-}
-
-function BespokeBody(props: { guide: SetupGuide }) {
-  switch (props.guide.customComponent) {
-    case "cc-switch":
-      return <CCSwitchContent />;
-    case "claude-code":
-      return <ClaudeCodeContent />;
-    default:
-      return <SetupGuideTemplate guide={props.guide} />;
-  }
 }
 
 export default async function SetupGuidePage(props: PageProps) {
@@ -76,8 +64,10 @@ export default async function SetupGuidePage(props: PageProps) {
           )}
         />
       )}
-      {guide.customComponent ? (
-        <BespokeBody guide={guide} />
+      {guide.customComponent === "cc-switch" ? (
+        <CCSwitchContent />
+      ) : guide.customComponent === "claude-code" ? (
+        <ClaudeCodeContent />
       ) : (
         <SetupGuideTemplate guide={guide} />
       )}

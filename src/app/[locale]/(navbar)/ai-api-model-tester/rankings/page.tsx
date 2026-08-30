@@ -27,7 +27,11 @@ export async function generateMetadata(props: {
   });
 }
 
-async function RankingsData() {
+export default async function ModelTesterRankingsPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
   await Promise.all([
@@ -40,19 +44,6 @@ async function RankingsData() {
       }),
     ),
   ]);
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <RankingsTable />
-    </HydrationBoundary>
-  );
-}
-
-export default async function ModelTesterRankingsPage(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
 
   return (
     <>
@@ -70,7 +61,9 @@ export default async function ModelTesterRankingsPage(props: {
           },
         ])}
       />
-      <RankingsData />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <RankingsTable />
+      </HydrationBoundary>
     </>
   );
 }

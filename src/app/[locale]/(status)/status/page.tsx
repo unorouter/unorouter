@@ -22,7 +22,11 @@ export function generateMetadata(props: {
   });
 }
 
-async function StatusData() {
+export default async function StatusRoute(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
   await Promise.all([
@@ -40,19 +44,6 @@ async function StatusData() {
   ]);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <StatusPage />
-    </HydrationBoundary>
-  );
-}
-
-export default async function StatusRoute(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-
-  return (
     <>
       <JsonLd
         id="status-breadcrumb"
@@ -61,7 +52,9 @@ export default async function StatusRoute(props: {
           { name: t("NAV.STATUS"), url: localeUrl(locale, "/status") },
         ])}
       />
-      <StatusData />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <StatusPage />
+      </HydrationBoundary>
     </>
   );
 }

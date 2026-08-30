@@ -13,13 +13,11 @@ export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });
 
-  const docSkills = DOCS_REGISTRY.filter((d) => d.slug !== "docs").map(
-    (doc) => ({
-      name: skillName(doc.slug),
-      description: `${t(`${doc.i18nPrefix}.TITLE`, APP_VALUES)}: ${t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES)}`,
-      homepage: `${env.siteOrigin}${localeUrl(locale, doc.path)}`,
-    }),
-  );
+  const docSkills = DOCS_REGISTRY.map((doc) => ({
+    name: skillName(doc.slug),
+    description: `${t(`${doc.i18nPrefix}.TITLE`, APP_VALUES)}: ${t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES)}`,
+    homepage: `${env.siteOrigin}${localeUrl(locale, doc.path)}`,
+  }));
 
   const body = {
     version: "0.2.0",
