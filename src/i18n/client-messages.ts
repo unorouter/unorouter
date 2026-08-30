@@ -12,6 +12,13 @@ const CLIENT_STRIPPED_NAMESPACES = [
 
 const CLIENT_STRIPPED_SUBTREES = ["BLOG.POSTS"] as const;
 
+// WEBMCP_TOOLS resolves these in a client effect, so stripping all of
+// WELL_KNOWN (4096 bytes) threw MISSING_MESSAGE; keeping the two leaves costs 1114.
+const CLIENT_KEPT_SUBTREES = [
+  "WELL_KNOWN.MCP.TOOLS",
+  "WELL_KNOWN.MCP.RESULTS",
+] as const;
+
 const CLIENT_DOCS_KEPT = [
   "SETUP",
   "SETUP_GUIDE",
@@ -92,6 +99,21 @@ export function pruneClientMessages(messages: Messages): Messages {
   }
   for (const ns of CLIENT_STRIPPED_NAMESPACES) {
     delete pruned[ns];
+  }
+  for (const subtree of CLIENT_KEPT_SUBTREES) {
+    const segments = subtree.split(".");
+    const leaf = segments.pop()!;
+    let source: unknown = messages;
+    let target: Messages = pruned;
+    for (const segment of segments) {
+      source = rec(source)?.[segment];
+      const existing = rec(target[segment]);
+      const clone: Messages = { ...existing };
+      target[segment] = clone;
+      target = clone;
+    }
+    const value = rec(source)?.[leaf];
+    if (value !== undefined) target[leaf] = value;
   }
   return pruned;
 }
