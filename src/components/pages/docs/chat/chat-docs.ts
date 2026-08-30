@@ -281,11 +281,9 @@ export const CHAT_DOCS: ChatDoc[] = [
     section: "DATA",
     iconName: "cloud-upload",
     headings: [
-      ["why", "H_WHY"],
       ["backup", "H_BACKUP"],
       ["restore", "H_RESTORE"],
       ["size", "H_SIZE"],
-      ["move", "H_MOVE"],
       ["troubleshoot", "H_TROUBLESHOOT"],
     ],
   }),
