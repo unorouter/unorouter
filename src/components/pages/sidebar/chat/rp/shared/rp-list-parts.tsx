@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { confirm } from "@/components/ui/confirm";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -21,8 +27,9 @@ import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import { analytics } from "@/lib/analytics";
 import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
+import type { EntityEditId } from "@/lib/types";
 import { useLocale, useTranslations } from "next-intl";
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 type RpAnalyticsEntity = Parameters<
   typeof analytics.rp.entityAction
@@ -118,6 +125,7 @@ export function RpEntityRow(props: {
   description?: ReactNode;
   leading?: ReactNode;
   actions?: ReactNode;
+  actionsClassName?: string;
   createdAt?: Date | string | number | null;
   updatedAt?: Date | string | number | null;
   onDuplicate?: () => void | Promise<void>;
@@ -335,5 +343,76 @@ export function rpFilter<T>(
   if (!q) return rows ?? [];
   return (rows ?? []).filter((row) =>
     fields(row).some((v) => (v ?? "").toLowerCase().includes(q)),
+  );
+}
+
+export function RpListDialog(props: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  titleKey: TranslationKey;
+  emptyKey: TranslationKey;
+  isEmpty: boolean;
+  editingId: EntityEditId;
+  setEditingId: (id: EntityEditId) => void;
+  query: string;
+  setQuery: (value: string) => void;
+  actions?: ReactNode;
+  actionsClassName?: string;
+  editor: ReactNode;
+  children: ReactNode;
+}) {
+  const t = useTranslations();
+  const setEditingId = props.setEditingId;
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
+    if (!props.open) setEditingId(null);
+  }, [props.open, setEditingId]);
+
+  return (
+    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
+      <DialogContent className="flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>{t(props.titleKey)}</DialogTitle>
+        </DialogHeader>
+
+        <div className="flex min-h-0 flex-1 flex-col gap-3">
+          <div
+            className={
+              props.actionsClassName ??
+              "flex flex-wrap items-center gap-2 sm:justify-end"
+            }
+          >
+            {props.actions}
+          </div>
+
+          {/* The dialog itself does not scroll, so an editor taller than the
+              viewport needs its own scroller or its footer is unreachable. */}
+          {props.editingId && (
+            <div className="min-h-0 flex-1 overflow-y-auto">{props.editor}</div>
+          )}
+
+          {!props.editingId && (
+            <>
+              <Input
+                value={props.query}
+                onChange={(e) => props.setQuery(e.target.value)}
+                placeholder={t("RP.LIST_SEARCH")}
+                aria-label={t("RP.LIST_SEARCH")}
+              />
+
+              {props.isEmpty && <RpEmptyCard labelKey={props.emptyKey} />}
+
+              {/* The ROWS scroll, not the dialog: an import can bring many items
+                  at once, and scrolling the whole card pushes the search box and
+                  the import buttons off screen. */}
+              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+                {props.children}
+              </div>
+            </>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
