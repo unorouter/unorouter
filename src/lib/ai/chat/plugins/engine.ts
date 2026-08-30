@@ -34,8 +34,11 @@ let scratchHost: {
 let scratchTerminate: (() => void) | null = null;
 let loadedKey = "";
 
-// Handlers run sequentially, so one slot suffices.
+// chat-history-adapter runs one call per message part inside Promise.all, so
+// calls overlap: the first to finish must not clear the slot out from under
+// the others, or their handlers get a null ctx and every capability throws.
 let activeCtx: TriggerContext | null = null;
+let activeCtxDepth = 0;
 
 const HANDLER_TIMEOUT_MS = 5_000;
 // Janitor scripts are whole programs, not one handler: real ones reach 130k
@@ -170,6 +173,7 @@ export async function runJsEditTrigger<T>(
   if (!hasJsHandlers(mode)) return content;
   let data = content;
   activeCtx = ctx;
+  activeCtxDepth++;
   try {
     for (const inst of instances) {
       const set = inst.handlers.get(mode);
@@ -189,7 +193,7 @@ export async function runJsEditTrigger<T>(
       }
     }
   } finally {
-    activeCtx = null;
+    if (--activeCtxDepth === 0) activeCtx = null;
   }
   return data;
 }
