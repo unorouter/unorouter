@@ -1,4 +1,4 @@
-import { ModelTickerLazy } from "@/components/elements/fx/model-ticker-lazy";
+import { ModelTicker } from "@/components/elements/fx/model-ticker";
 import { StreakCanvasLazy } from "@/components/elements/fx/streak-canvas-lazy";
 import React from "react";
 import { ChatSection } from "./chat-section";
@@ -14,7 +14,7 @@ export const Home: React.FC = () => {
       <StreakCanvasLazy />
       <HeroSection />
       <IntegrationBanner />
-      <ModelTickerLazy />
+      <ModelTicker />
       <PricingSection />
       <ChatSection />
       <CodeSection />

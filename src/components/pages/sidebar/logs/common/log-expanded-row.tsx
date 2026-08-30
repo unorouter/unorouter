@@ -4,11 +4,11 @@ import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
 import type { Row } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
+import { formatPriceCompact } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import type React from "react";
 import {
   computeLogPricing,
-  formatPriceCompact,
   getClientAttribution,
   getRequestConversionChain,
   parseOther,

@@ -11,15 +11,11 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
+import { formatTimestamp } from "@/lib/utils/format/date";
+import { formatPriceCompact } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import {
-  formatPriceCompact,
-  formatTimestamp,
-  getClientAttribution,
-  parseOther,
-  type LogRow,
-} from "./log-helpers";
+import { getClientAttribution, parseOther, type LogRow } from "./log-helpers";
 
 export function LogDetailsDialog(props: {
   log: LogRow | null;

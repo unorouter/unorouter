@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
+import { formatMsTimestamp as formatMjTimestamp } from "@/lib/utils/format/date";
+import { parsePercent as parseProgress } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import {
@@ -15,11 +17,9 @@ import {
 } from "../common/cell-primitives";
 import {
   formatMjDuration,
-  formatMjTimestamp,
   getMjActionColor,
   getMjStatusColor,
   getMjStatusKey,
-  parseProgress,
   type DrawingRow,
 } from "./drawing-helpers";
 

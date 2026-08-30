@@ -3,8 +3,6 @@ import { msg, type TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import type { TaskDto } from "@/openapi";
 
-export { formatSecTimestamp as formatTaskTimestamp } from "@/lib/utils/format/date";
-
 export type TaskRow = NonNullable<TaskDto>;
 
 const TASK_STATUS = {

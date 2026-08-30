@@ -4,6 +4,7 @@ import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { useTranslations } from "next-intl";
+import { PanelEmpty } from "./panel";
 
 export function ApiInfoPanel() {
   const t = useTranslations();
@@ -25,15 +26,7 @@ export function ApiInfoPanel() {
 
       <div className="flex-1">
         {apiInfo.length === 0 ? (
-          <div className="flex h-32 flex-col items-center justify-center gap-2">
-            <Icon
-              name="code"
-              className="text-muted-foreground h-8 w-8 opacity-20"
-            />
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.PANEL.NO_API_INFO")}
-            </span>
-          </div>
+          <PanelEmpty icon="code" label={t("DASHBOARD.PANEL.NO_API_INFO")} />
         ) : (
           <div className="divide-border divide-y">
             {apiInfo.map((entry, i) => (

@@ -3,9 +3,6 @@ import { msg, type TranslationKey } from "@/lib/config/constants";
 import type { Midjourney } from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
 
-export { formatMsTimestamp as formatMjTimestamp } from "@/lib/utils/format/date";
-export { parsePercent as parseProgress } from "@/lib/utils/format/number";
-
 const MJ_STATUS_KEYS: Record<string, TranslationKey> = {
   NOT_START: msg("LOGS.DRAWING.STATUS.NOT_START"),
   SUBMITTED: msg("LOGS.DRAWING.STATUS.SUBMITTED"),

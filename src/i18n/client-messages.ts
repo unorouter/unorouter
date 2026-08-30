@@ -2,7 +2,7 @@ import { rec } from "@/lib/utils/base";
 
 type Messages = Record<string, unknown>;
 
-export const CLIENT_STRIPPED_NAMESPACES = [
+const CLIENT_STRIPPED_NAMESPACES = [
   "TERMS",
   "PRIVACY",
   "REFUND",
@@ -10,9 +10,9 @@ export const CLIENT_STRIPPED_NAMESPACES = [
   "WELL_KNOWN",
 ] as const;
 
-export const CLIENT_STRIPPED_SUBTREES = ["BLOG.POSTS"] as const;
+const CLIENT_STRIPPED_SUBTREES = ["BLOG.POSTS"] as const;
 
-export const CLIENT_DOCS_KEPT = [
+const CLIENT_DOCS_KEPT = [
   "SETUP",
   "SETUP_GUIDE",
   "CC_SWITCH",
@@ -22,16 +22,16 @@ export const CLIENT_DOCS_KEPT = [
   "LINK_COPIED",
 ] as const;
 
-export const CLIENT_DOCS_GUIDE_LEAVES = [
+const CLIENT_DOCS_GUIDE_LEAVES = [
   "TITLE",
   "SUBTITLE",
   "CTA_SIGNUP",
   "CTA_DASHBOARD",
 ] as const;
 
-export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
+const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 
-export const CLIENT_DOCS_PLATFORM_KEPT = ["COMMON", "INDEX"] as const;
+const CLIENT_DOCS_PLATFORM_KEPT = ["COMMON", "INDEX"] as const;
 
 function pruneDocsNamespace(
   source: unknown,
