@@ -174,56 +174,7 @@ export function ContextGroup(props: {
 }
 
 export function PriceGroup(props: {
-  value: [number, number];
-  onChange: (next: [number, number]) => void;
-}) {
-  const t = useTranslations();
-  const max = props.value[1];
-  const commitMax = (raw: string) => {
-    if (raw.trim() === "") {
-      props.onChange([0, PRICE_MAX]);
-      return;
-    }
-    const n = Number(raw);
-    if (!Number.isFinite(n)) return;
-    props.onChange([0, Math.min(PRICE_MAX, Math.max(0, n))]);
-  };
-  return (
-    <GroupShell label={t("MODELS.FILTER.PROMPT_PRICING")}>
-      <div className="px-1.5 pt-2">
-        <Slider
-          aria-label={t("MODELS.FILTER.PROMPT_PRICING")}
-          min={0}
-          max={PRICE_MAX}
-          step={0.5}
-          value={max}
-          onValueChange={(v) =>
-            props.onChange([0, Array.isArray(v) ? v[0] : v])
-          }
-        />
-        <div className="text-muted-foreground mt-2 flex items-center justify-between font-mono text-[10px]">
-          <span>$0</span>
-          <div className="flex items-center gap-1">
-            <span>$</span>
-            <input
-              type="number"
-              min={0}
-              max={PRICE_MAX}
-              step={0.5}
-              aria-label={t("MODELS.FILTER.PROMPT_PRICING")}
-              value={max >= PRICE_MAX ? "" : max}
-              placeholder={t("MODELS.FILTER.ANY")}
-              onChange={(e) => commitMax(e.target.value)}
-              className="border-input focus-visible:ring-ring/50 w-16 [appearance:textfield] rounded-md border bg-transparent px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            />
-          </div>
-        </div>
-      </div>
-    </GroupShell>
-  );
-}
-
-export function OutputPriceGroup(props: {
+  label: string;
   value: number;
   onChange: (next: number) => void;
 }) {
@@ -239,10 +190,10 @@ export function OutputPriceGroup(props: {
     props.onChange(Math.min(PRICE_MAX, Math.max(0, n)));
   };
   return (
-    <GroupShell label={t("MODELS.FILTER.OUTPUT_PRICING")}>
+    <GroupShell label={props.label}>
       <div className="px-1.5 pt-2">
         <Slider
-          aria-label={t("MODELS.FILTER.OUTPUT_PRICING")}
+          aria-label={props.label}
           min={0}
           max={PRICE_MAX}
           step={0.5}
@@ -258,7 +209,7 @@ export function OutputPriceGroup(props: {
               min={0}
               max={PRICE_MAX}
               step={0.5}
-              aria-label={t("MODELS.FILTER.OUTPUT_PRICING")}
+              aria-label={props.label}
               value={max >= PRICE_MAX ? "" : max}
               placeholder={t("MODELS.FILTER.ANY")}
               onChange={(e) => commitMax(e.target.value)}

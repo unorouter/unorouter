@@ -26,8 +26,7 @@ function makeProvider(provider: CustomProviderRow, mutations?: BodyMutations) {
 
 export function buildClientDeps(provider: CustomProviderRow): AssemblerDeps {
   const sdk = makeProvider(provider);
-  const raceModels = provider.models.map((m) => m.key);
-  const firstModel = raceModels[0];
+  const firstModel = provider.models[0]?.key;
 
   const generate: FreeModelGenerate = (modelName, opts) =>
     generateText({
@@ -48,10 +47,6 @@ export function buildClientDeps(provider: CustomProviderRow): AssemblerDeps {
     },
     inlinePdfText,
     webSearch: async () => undefined,
-    runFreeModelRace: {
-      listFreeModels: async () => raceModels,
-      generate,
-    },
     runUtilityLLM: generate,
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
       if (!firstModel || candidates.length === 0) return [];

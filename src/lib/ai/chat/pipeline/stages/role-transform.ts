@@ -83,9 +83,19 @@ export async function transformRoles(
     processedMessages = appendUserStub(processedMessages);
 
   if (luaCodes.length > 0) {
-    processedMessages = await applyLuaEditRequest(processedMessages, luaCodes);
+    processedMessages = await applyRequestEdit(processedMessages, (ctx, f) =>
+      runLuaEditTrigger(luaCodes, "editrequest", ctx, f),
+    );
   }
-  processedMessages = await applyJsEditRequest(processedMessages);
+  if (typeof window !== "undefined") {
+    const { hasJsHandlers, runJsEditTrigger } =
+      await import("@/lib/ai/chat/plugins/engine");
+    if (hasJsHandlers("request")) {
+      processedMessages = await applyRequestEdit(processedMessages, (ctx, f) =>
+        runJsEditTrigger("request", ctx, f),
+      );
+    }
+  }
 
   logChatDebug("assembly.shape", {
     model,
@@ -199,9 +209,14 @@ function prefillEmitted(assembled: AssembledSystem): boolean {
   );
 }
 
-async function applyLuaEditRequest(
+type FormatedMessage = { role: string; content: string };
+
+async function applyRequestEdit(
   messages: StreamMessages,
-  luaCodes: string[],
+  run: (
+    ctx: ReturnType<typeof makeTriggerContext>,
+    formated: FormatedMessage[],
+  ) => Promise<FormatedMessage[]>,
 ): Promise<StreamMessages> {
   const editCtx = makeTriggerContext({
     mode: "request",
@@ -209,7 +224,7 @@ async function applyLuaEditRequest(
     globalVars: {},
     chat: [],
   });
-  const formated = messages.map((m) => ({
+  const formated: FormatedMessage[] = messages.map((m) => ({
     role: m.role,
     content: Array.isArray(m.parts)
       ? m.parts
@@ -218,47 +233,7 @@ async function applyLuaEditRequest(
           .join("\n")
       : "",
   }));
-  const edited = await runLuaEditTrigger(
-    luaCodes,
-    "editrequest",
-    editCtx,
-    formated,
-  );
-  if (!Array.isArray(edited) || edited.length !== formated.length)
-    return messages;
-  return messages.map((m, i) =>
-    edited[i] &&
-    typeof edited[i].content === "string" &&
-    edited[i].content !== formated[i].content
-      ? { ...m, parts: [{ type: "text" as const, text: edited[i].content }] }
-      : m,
-  );
-}
-
-async function applyJsEditRequest(
-  messages: StreamMessages,
-): Promise<StreamMessages> {
-  if (typeof window === "undefined") return messages;
-  const { hasJsHandlers, runJsEditTrigger } =
-    await import("@/lib/ai/chat/plugins/engine");
-  if (!hasJsHandlers("request")) return messages;
-
-  const editCtx = makeTriggerContext({
-    mode: "request",
-    vars: {},
-    globalVars: {},
-    chat: [],
-  });
-  const formated = messages.map((m) => ({
-    role: m.role,
-    content: Array.isArray(m.parts)
-      ? m.parts
-          .filter((p) => p.type === "text")
-          .map((p) => p.text)
-          .join("\n")
-      : "",
-  }));
-  const edited = await runJsEditTrigger("request", editCtx, formated);
+  const edited = await run(editCtx, formated);
   if (!Array.isArray(edited) || edited.length !== formated.length)
     return messages;
   return messages.map((m, i) =>

@@ -30,7 +30,6 @@ import {
   InputModalitiesGroup,
   ModelAgeGroup,
   MultiSelectGroup,
-  OutputPriceGroup,
   PriceGroup,
   ToolsGroup,
   PricingGroup,
@@ -107,8 +106,13 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
           <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
           <PricingGroup value={hideFree} onChange={setHideFree} />
           <ContextGroup value={contextMin} onChange={setContextMin} />
-          <PriceGroup value={priceRange} onChange={setPriceRange} />
-          <OutputPriceGroup
+          <PriceGroup
+            label={t("MODELS.FILTER.PROMPT_PRICING")}
+            value={priceRange[1]}
+            onChange={(n) => setPriceRange([0, n])}
+          />
+          <PriceGroup
+            label={t("MODELS.FILTER.OUTPUT_PRICING")}
             value={outputPriceMax}
             onChange={setOutputPriceMax}
           />

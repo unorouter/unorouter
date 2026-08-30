@@ -32,8 +32,6 @@ async function fetchModelInfo(
   }
 }
 
-const generate: FreeModelGenerate = llmCall("");
-
 const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
   llmCall(modelName, opts.group)("", opts);
 
@@ -51,10 +49,6 @@ export function buildDefaultClientDeps(): AssemblerDeps {
         await rpc.api.ai.chat["web-search"].post({ text: args.lastUserText }),
       );
       return data.block ?? undefined;
-    },
-    runFreeModelRace: {
-      listFreeModels: async () => ["free"],
-      generate,
     },
     runUtilityLLM,
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
