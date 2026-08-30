@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "متابعة المشهد",
       "IMPERSONATE": "اكتب رسالتي",
       "IMPERSONATE_ENHANCE": "اكتب رسالتي وفق هذا التوجيه",
-      "IMPERSONATE_AS_CHAR": "تعذّرت كتابة الرسالة: أجاب النموذج بصفته الشخصية."
+      "IMPERSONATE_AS_CHAR": "تعذّرت كتابة الرسالة: أجاب النموذج بصفته الشخصية.",
+      "IMPERSONATE_WORKING": "يكتب..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "مفتاح API مطلوب",

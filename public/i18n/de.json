@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "Szene fortsetzen",
       "IMPERSONATE": "Meine Nachricht schreiben",
       "IMPERSONATE_ENHANCE": "Meine Nachricht nach dieser Vorgabe schreiben",
-      "IMPERSONATE_AS_CHAR": "Nachricht nicht möglich: Das Modell hat als Charakter geantwortet."
+      "IMPERSONATE_AS_CHAR": "Nachricht nicht möglich: Das Modell hat als Charakter geantwortet.",
+      "IMPERSONATE_WORKING": "Schreibt..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",

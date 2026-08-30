@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "シーンを続ける",
       "IMPERSONATE": "メッセージを書いてもらう",
       "IMPERSONATE_ENHANCE": "この指示に沿ってメッセージを書いてもらう",
-      "IMPERSONATE_AS_CHAR": "メッセージを作成できませんでした：モデルがキャラクターとして応答しました。"
+      "IMPERSONATE_AS_CHAR": "メッセージを作成できませんでした：モデルがキャラクターとして応答しました。",
+      "IMPERSONATE_WORKING": "作成中..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "APIキーが必要です",

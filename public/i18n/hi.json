@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "दृश्य जारी रखें",
       "IMPERSONATE": "मेरा संदेश लिखें",
       "IMPERSONATE_ENHANCE": "इस निर्देश के अनुसार मेरा संदेश लिखें",
-      "IMPERSONATE_AS_CHAR": "संदेश नहीं लिखा जा सका: मॉडल ने किरदार बनकर उत्तर दिया।"
+      "IMPERSONATE_AS_CHAR": "संदेश नहीं लिखा जा सका: मॉडल ने किरदार बनकर उत्तर दिया।",
+      "IMPERSONATE_WORKING": "लिख रहा है..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",

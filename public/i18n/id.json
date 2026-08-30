@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "Lanjutkan adegan",
       "IMPERSONATE": "Tulis pesan saya",
       "IMPERSONATE_ENHANCE": "Tulis pesan saya sesuai arahan ini",
-      "IMPERSONATE_AS_CHAR": "Tidak bisa menulis pesan: model menjawab sebagai karakter."
+      "IMPERSONATE_AS_CHAR": "Tidak bisa menulis pesan: model menjawab sebagai karakter.",
+      "IMPERSONATE_WORKING": "Menulis..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",
