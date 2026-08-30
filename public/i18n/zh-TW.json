@@ -548,7 +548,6 @@
     "TITLE": "部落格",
     "SUBTITLE": "產品更新、整合指南與團隊筆記。",
     "READ_MORE": "繼續閱讀",
-    "PUBLISHED": "發佈於",
     "BY_AUTHOR": "作者：{author}",
     "BACK_TO_BLOG": "回到所有文章",
     "EMPTY": "尚無文章。請稍後再來查看。",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "尚無啟用中",
       "ACTIVE": "啟用中",
       "EXPIRED": "已到期",
       "SUBSCRIBE_NOW": "立即訂閱",
@@ -4051,7 +4049,6 @@
     "PAID": "付費",
     "LIVE_STATS": "即時統計",
     "CHEAPEST_API": "最便宜的推論 API",
-    "MODELS_ONE_ENDPOINT": "40+ 個 AI 模型，一個端點",
     "MODELS_ONE_ENDPOINT_SUFFIX": "個 AI 模型，一個端點",
     "MODEL": "模型",
     "PRICES_NOTE": "每百萬 tokens 價格",

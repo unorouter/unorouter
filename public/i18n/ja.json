@@ -548,7 +548,6 @@
     "TITLE": "ブログ",
     "SUBTITLE": "プロダクトアップデート、連携ガイド、チームのメモ。",
     "READ_MORE": "続きを読む",
-    "PUBLISHED": "公開日",
     "BY_AUTHOR": "著者：{author}",
     "BACK_TO_BLOG": "すべての投稿に戻る",
     "EMPTY": "投稿はまだありません。またご覧ください。",
@@ -3153,7 +3152,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "NO_ACTIVE": "有効なサブスクリプションなし",
       "ACTIVE": "有効",
       "EXPIRED": "期限切れ",
       "SUBSCRIBE_NOW": "今すぐサブスクライブ",
@@ -4051,7 +4049,6 @@
     "PAID": "有料",
     "LIVE_STATS": "ライブ統計",
     "CHEAPEST_API": "最安の推論 API",
-    "MODELS_ONE_ENDPOINT": "40以上の AI モデル、ひとつのエンドポイント",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI モデル、ひとつのエンドポイント",
     "MODEL": "モデル",
     "PRICES_NOTE": "100万トークンあたりの料金",
