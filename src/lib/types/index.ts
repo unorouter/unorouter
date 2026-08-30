@@ -147,7 +147,6 @@ export type LocalRawExec = (
 export type LocalClient = {
   db: LocalDb;
   exec: LocalRawExec;
-  transaction: <T>(cb: () => Promise<T>) => Promise<T>;
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;

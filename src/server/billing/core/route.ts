@@ -50,8 +50,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   })
   .get("/subscription-plans", async ({ upstream }) => {
     const res = await getSubscriptionPlans({ headers: upstream.headers });
-    if (res.status !== 200) return [];
-    return res.data.data;
+    return unwrap(res);
   })
   .get("/subscription-self", async ({ upstream }) => {
     const res = await getSubscriptionSelf({ headers: upstream.headers });

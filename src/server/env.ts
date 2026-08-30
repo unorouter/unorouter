@@ -11,7 +11,6 @@ export const serverEnv = {
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   tavilyApiKey: process.env.TAVILY_API_KEY,
   standalone: process.env.STANDALONE,
-  port: process.env.PORT ?? "3000",
 } as const;
 
 if (typeof window === "undefined" && !process.env.NEXT_PHASE) {
