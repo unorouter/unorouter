@@ -141,7 +141,7 @@ export function TransferDialog(props: TransferDialogProps) {
                 variant="outline"
                 onClick={() => props.onOpenChange(false)}
               >
-                {t("AFFILIATE.CANCEL")}
+                {t("COMMON.CANCEL")}
               </Button>
               <Button
                 type="submit"

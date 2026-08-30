@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Crea e gestisci chiavi API per accedere a modelli AI.",
     "CREATE": "Crea chiave",
     "EDIT": "Modifica chiave",
-    "CANCEL": "Annulla",
     "ENABLE": "Abilita",
     "DISABLE": "Disabilita",
     "UNLIMITED": "Illimitata",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Codice di riferimento",
     "CODE_COPIED": "Codice di riferimento copiato negli appunti",
     "AVAILABLE": "disponibile",
-    "CANCEL": "Annulla",
     "CONFIRM_TRANSFER": "Conferma trasferimento",
     "HOW_IT_WORKS": "Come funziona",
     "TAB_INVITEES": "Utenti invitati",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Consumo",
     "REQUEST_COUNT": "Richieste",
     "DEFAULT_GROUP": "Gruppo predefinito",
-    "CANCEL": "Annulla",
     "CONTINUE": "Continua",
     "BACK": "Indietro",
     "ACCOUNT": {

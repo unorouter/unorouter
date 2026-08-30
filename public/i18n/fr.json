@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Créez et gérez les clés API pour accéder aux modèles IA.",
     "CREATE": "Créer une clé",
     "EDIT": "Modifier la clé",
-    "CANCEL": "Annuler",
     "ENABLE": "Activer",
     "DISABLE": "Désactiver",
     "UNLIMITED": "Illimité",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Code de parrainage",
     "CODE_COPIED": "Code de parrainage copié dans le presse-papiers",
     "AVAILABLE": "disponible",
-    "CANCEL": "Annuler",
     "CONFIRM_TRANSFER": "Confirmer le transfert",
     "HOW_IT_WORKS": "Comment ça marche",
     "TAB_INVITEES": "Utilisateurs invités",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Consommation",
     "REQUEST_COUNT": "Requêtes",
     "DEFAULT_GROUP": "Groupe par défaut",
-    "CANCEL": "Annuler",
     "CONTINUE": "Continuer",
     "BACK": "Retour",
     "ACCOUNT": {

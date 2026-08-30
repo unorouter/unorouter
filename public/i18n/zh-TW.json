@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "建立並管理用於存取 AI 模型的 API 金鑰。",
     "CREATE": "建立金鑰",
     "EDIT": "編輯金鑰",
-    "CANCEL": "取消",
     "ENABLE": "啟用",
     "DISABLE": "停用",
     "UNLIMITED": "無限制",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "推薦碼",
     "CODE_COPIED": "推薦碼已複製到剪貼簿",
     "AVAILABLE": "可用",
-    "CANCEL": "取消",
     "CONFIRM_TRANSFER": "確認轉帳",
     "HOW_IT_WORKS": "運作方式",
     "TAB_INVITEES": "邀請的使用者",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "用量",
     "REQUEST_COUNT": "請求數",
     "DEFAULT_GROUP": "預設分組",
-    "CANCEL": "取消",
     "CONTINUE": "繼續",
     "BACK": "返回",
     "ACCOUNT": {

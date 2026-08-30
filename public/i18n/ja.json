@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "AI モデルにアクセスするためのAPIキーを作成・管理します。",
     "CREATE": "キーを作成",
     "EDIT": "キーを編集",
-    "CANCEL": "キャンセル",
     "ENABLE": "有効化",
     "DISABLE": "無効化",
     "UNLIMITED": "無制限",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "紹介コード",
     "CODE_COPIED": "紹介コードをクリップボードにコピーしました",
     "AVAILABLE": "利用可能",
-    "CANCEL": "キャンセル",
     "CONFIRM_TRANSFER": "振替を確定",
     "HOW_IT_WORKS": "仕組み",
     "TAB_INVITEES": "招待済みユーザー",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "消費",
     "REQUEST_COUNT": "リクエスト",
     "DEFAULT_GROUP": "デフォルトグループ",
-    "CANCEL": "キャンセル",
     "CONTINUE": "続行",
     "BACK": "戻る",
     "ACCOUNT": {

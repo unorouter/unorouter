@@ -626,7 +626,7 @@ export function TokenDialog(props: TokenDialogProps) {
                   variant="outline"
                   onClick={() => props.onOpenChange(false)}
                 >
-                  {t("TOKEN.CANCEL")}
+                  {t("COMMON.CANCEL")}
                 </Button>
                 <Button type="submit" disabled={isPending}>
                   {isEdit ? (

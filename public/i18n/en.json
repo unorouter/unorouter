@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Create and manage API keys for accessing AI models.",
     "CREATE": "Create Key",
     "EDIT": "Edit Key",
-    "CANCEL": "Cancel",
     "ENABLE": "Enable",
     "DISABLE": "Disable",
     "UNLIMITED": "Unlimited",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Referral Code",
     "CODE_COPIED": "Referral code copied to clipboard",
     "AVAILABLE": "available",
-    "CANCEL": "Cancel",
     "CONFIRM_TRANSFER": "Confirm Transfer",
     "HOW_IT_WORKS": "How It Works",
     "TAB_INVITEES": "Invited Users",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Consumption",
     "REQUEST_COUNT": "Requests",
     "DEFAULT_GROUP": "Default Group",
-    "CANCEL": "Cancel",
     "CONTINUE": "Continue",
     "BACK": "Back",
     "ACCOUNT": {

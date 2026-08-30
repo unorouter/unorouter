@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Buat dan kelola kunci API untuk mengakses model AI.",
     "CREATE": "Buat Kunci",
     "EDIT": "Edit Kunci",
-    "CANCEL": "Batal",
     "ENABLE": "Aktifkan",
     "DISABLE": "Nonaktifkan",
     "UNLIMITED": "Tak Terbatas",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Kode Referral",
     "CODE_COPIED": "Kode referral disalin ke clipboard",
     "AVAILABLE": "tersedia",
-    "CANCEL": "Batal",
     "CONFIRM_TRANSFER": "Konfirmasi Transfer",
     "HOW_IT_WORKS": "Cara Kerjanya",
     "TAB_INVITEES": "Pengguna Diundang",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Konsumsi",
     "REQUEST_COUNT": "Permintaan",
     "DEFAULT_GROUP": "Grup Default",
-    "CANCEL": "Batal",
     "CONTINUE": "Lanjutkan",
     "BACK": "Kembali",
     "ACCOUNT": {
