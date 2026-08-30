@@ -855,8 +855,10 @@ export class SandboxHost {
     this.messageHandlerRef = messageHandler;
     window.addEventListener("message", this.messageHandlerRef);
 
-    // The meta CSP stays in force once applied; the guest removes the tag so
-    // plugin code cannot read the nonce.
+    // A meta CSP stays in force once parsed, so removing the tag does not lift
+    // connect-src 'none'. The nonce stays readable off the script element and
+    // grants nothing: unsafe-eval is already allowed, and script-src has no
+    // host source, so a nonced remote script still cannot load.
     frame.srcdoc = `<!DOCTYPE html>
 <html>
 <head>
