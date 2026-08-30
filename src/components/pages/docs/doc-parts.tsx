@@ -1,6 +1,7 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { HeadingAnchor } from "@/components/pages/docs/heading-anchor";
 import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
@@ -86,6 +87,9 @@ export function DocImage(props: {
   alt: string;
   width: number;
   height: number;
+  // Screenshots of small UI (a menu, a single control) blur when stretched to
+  // the default column width, so they cap at their own pixel size instead.
+  natural?: boolean;
 }) {
   return (
     <Image
@@ -93,7 +97,11 @@ export function DocImage(props: {
       alt={props.alt}
       width={props.width}
       height={props.height}
-      className="border-border w-full max-w-xl rounded-lg border"
+      className={cn(
+        "border-border w-full rounded-lg border",
+        !props.natural && "max-w-xl",
+      )}
+      style={props.natural ? { maxWidth: props.width } : undefined}
     />
   );
 }
