@@ -3,7 +3,12 @@ import type {
   StatusEventType,
   StatusType,
 } from "@/components/ui/status/status.types";
-import type { StatusBarDataDTO } from "@/openapi";
+import type {
+  CompactPageDTO,
+  ComponentDTO,
+  EventDTO,
+  StatusBarDataDTO,
+} from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
 import { formatLatency } from "@/lib/utils/format/number";
 
@@ -17,43 +22,30 @@ type CompactBucket = [
   number, // p95
 ];
 
-type CompactBar = {
-  buckets: CompactBucket[];
-  events?: Record<string, number[]>;
-};
+type IncidentDTO = Omit<EventDTO, "type"> & { type: StatusEventType };
 
-type IncidentDTO = {
-  id: number;
-  name: string;
-  type: StatusEventType;
-  from: string;
-  to: string | null;
-  is_aggregated?: boolean;
-};
+const STATUS_EVENT_TYPES: StatusEventType[] = [
+  "incident",
+  "report",
+  "maintenance",
+];
 
-type ComponentDTO = {
-  id: number;
-  name: string;
-  description: string;
-  group_id?: number | null;
-  status: string;
-  up_channels: number;
-  total_channels: number;
-  probe_latency_ms: number;
-  uptime_24h: number;
-  uptime_30d: number;
-  open_incident_id?: number | null;
-  sampled_at: number;
-};
+// Upstream types EventDTO.type as a plain string, so narrow it here rather than
+// asserting the whole payload at the route.
+function toIncident(e: EventDTO): IncidentDTO {
+  const type = STATUS_EVENT_TYPES.find((t) => t === e.type) ?? "incident";
+  return { ...e, type };
+}
 
-export type CompactPagePayload = {
-  components: ComponentDTO[] | null;
-  incidents: IncidentDTO[] | null;
-  bucket_start: number;
-  bucket_sec: number;
-  bucket_count: number;
-  bars: Record<string, CompactBar> | null;
-};
+// the refinement this module exists to decode.
+export type CompactPagePayload = CompactPageDTO;
+
+// Upstream types a bucket as unknown[]; it is a fixed 7-number tuple.
+function toBucket(v: unknown): CompactBucket | null {
+  if (!Array.isArray(v) || v.length < 7) return null;
+  const n = v.slice(0, 7).map((x) => (typeof x === "number" ? x : 0));
+  return [n[0], n[1], n[2], n[3], n[4], n[5], n[6]];
+}
 
 type DecodedStatusPage = {
   components: ComponentDTO[];
@@ -118,15 +110,19 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
   const incidentById = new Map<number, IncidentDTO>();
   // Upstream deploy skew can serve a payload without these fields; a bare
   // `for...of undefined` took the whole status page SSR down in every locale.
-  const incidents = p.incidents ?? [];
+  const incidents = (p.incidents ?? []).map(toIncident);
   for (const inc of incidents) incidentById.set(inc.id, inc);
 
   const rawBars = p.bars ?? {};
   for (const name of Object.keys(rawBars)) {
     const cb = rawBars[name];
-    const out: StatusBarData[] = new Array(cb.buckets.length);
-    for (let i = 0; i < cb.buckets.length; i++) {
-      const b = cb.buckets[i];
+    const buckets = (cb.buckets ?? []).flatMap((v) => {
+      const b = toBucket(v);
+      return b ? [b] : [];
+    });
+    const out: StatusBarData[] = new Array(buckets.length);
+    for (let i = 0; i < buckets.length; i++) {
+      const b = buckets[i];
       const ts = (p.bucket_start + i * p.bucket_sec) * 1000;
       const eventIds = cb.events?.[String(i)];
       let events: StatusBarData["events"] = [];
