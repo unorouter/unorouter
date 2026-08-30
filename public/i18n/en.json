@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Copy link",
       "RENAME": "Rename",
       "DELETE": "Delete",
-      "CONTINUE_SCENE": "Continue scene"
+      "CONTINUE_SCENE": "Continue scene",
+      "IMPERSONATE": "Write my message",
+      "IMPERSONATE_ENHANCE": "Rewrite my draft",
+      "IMPERSONATE_AS_CHAR": "Could not write a message: the model answered as the character."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key Required",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Sent last as an assistant message. The LLM continues from this seed text. Powerful steering technique. Supports the user and char macros.",
     "PRESET_CONTINUE_PROMPT": "Continue prompt",
     "PRESET_CONTINUE_PROMPT_HINT": "Sent when you press the continue button. Leave empty to send (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Impersonate prompt",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Overrides the built-in instruction used when the AI writes your message. Leave empty for the default.",
     "PRESET_FLAGS_TITLE": "Custom flags",
     "PRESET_FLAGS_HINT": "Tweak the request body for picky models. These are auto-applied per model where needed; toggle to force on.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Force alternate roles",

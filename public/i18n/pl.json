@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Kopiuj link",
       "RENAME": "Zmień nazwę",
       "DELETE": "Usuń",
-      "CONTINUE_SCENE": "Kontynuuj scenę"
+      "CONTINUE_SCENE": "Kontynuuj scenę",
+      "IMPERSONATE": "Napisz moją wiadomość",
+      "IMPERSONATE_ENHANCE": "Przepisz mój szkic",
+      "IMPERSONATE_AS_CHAR": "Nie udało się napisać wiadomości: model odpowiedział jako postać."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Wymagany klucz API",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Wysłany na końcu jako wiadomość asystenta. LLM kontynuuje z tego tekstu nasiennego. Potężna technika sterowania. Obsługuje makra user i char.",
     "PRESET_CONTINUE_PROMPT": "Prompt kontynuacji",
     "PRESET_CONTINUE_PROMPT_HINT": "Wysyłane po naciśnięciu przycisku kontynuacji. Zostaw puste, aby wysłać (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Prompt wcielenia",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Zastępuje wbudowaną instrukcję używaną, gdy AI pisze twoją wiadomość. Zostaw puste, aby użyć domyślnej.",
     "PRESET_FLAGS_TITLE": "Niestandardowe flagi",
     "PRESET_FLAGS_HINT": "Dostosuj treść żądania dla wymagających modeli. Stosowane automatycznie dla modelu w razie potrzeby; włącz, aby wymusić.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Wymuś naprzemienne role",

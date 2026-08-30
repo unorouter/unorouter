@@ -368,6 +368,57 @@ const ComposerContinueButton: FC = () => {
 
 const CONTINUE_PROMPT = "(OOC: Continue.)";
 
+// Writes into the composer and never into history, so the draft stays the
+// user's to edit or discard. An empty composer asks for a fresh message; a
+// non-empty one rewrites what is already there rather than replacing it blind,
+// because losing a half-written draft to a misfire is the loudest complaint
+// about the equivalent feature elsewhere.
+const ComposerImpersonateButton: FC = () => {
+  const t = useTranslations();
+  const aui = useAui();
+  const convId = useAuiState((s) => s.threadListItem?.remoteId);
+  const draft = useAuiState((s) => s.composer.text);
+  const isRunning = useAuiState((s) => s.thread.isRunning);
+  const [busy, setBusy] = useState(false);
+  if (!convId || isRunning) return null;
+  const enhancing = draft.trim().length > 0;
+  return (
+    <TooltipIconButton
+      tooltip={t(
+        enhancing
+          ? "CHAT.ACTION.IMPERSONATE_ENHANCE"
+          : "CHAT.ACTION.IMPERSONATE",
+      )}
+      variant="ghost"
+      className="aui-composer-impersonate size-8 rounded-full"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        try {
+          const { runImpersonate } =
+            await import("@/components/pages/sidebar/chat/runtime/impersonate-run");
+          aui.composer().setText(await runImpersonate(convId, draft));
+        } catch (e) {
+          const { SpokeAsCharacterError } =
+            await import("@/components/pages/sidebar/chat/runtime/impersonate-run");
+          toast.error(
+            e instanceof SpokeAsCharacterError
+              ? t("CHAT.ACTION.IMPERSONATE_AS_CHAR")
+              : t("ERRORS.REQUEST_FAILED"),
+          );
+        } finally {
+          setBusy(false);
+        }
+      }}
+    >
+      <Icon
+        name={busy ? "loader-circle" : "sparkles"}
+        className={`size-4 ${busy ? "animate-spin" : ""}`}
+      />
+    </TooltipIconButton>
+  );
+};
+
 const ComposerAction: FC = () => {
   const t = useTranslations();
   const threadRuntime = useAui().thread;
@@ -386,6 +437,7 @@ const ComposerAction: FC = () => {
         <ComposerAddAttachment />
         <ComposerWebSearchToggle />
         <ComposerContinueButton />
+        <ComposerImpersonateButton />
       </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
         {emptySend ? (

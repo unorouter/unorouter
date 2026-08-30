@@ -541,6 +541,17 @@ export function PresetForm(props: Props) {
                   {t("RP.PRESET_CONTINUE_PROMPT_HINT")}
                 </p>
               </div>
+              <div className="flex flex-col gap-1">
+                <MyFormTextarea
+                  control={form.control}
+                  name="impersonatePrompt"
+                  label={t("RP.PRESET_IMPERSONATE_PROMPT")}
+                  schema={samplingPresetFormSchema}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_IMPERSONATE_PROMPT_HINT")}
+                </p>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

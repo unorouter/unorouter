@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Link copy करें",
       "RENAME": "Rename",
       "DELETE": "हटाएं",
-      "CONTINUE_SCENE": "दृश्य जारी रखें"
+      "CONTINUE_SCENE": "दृश्य जारी रखें",
+      "IMPERSONATE": "मेरा संदेश लिखें",
+      "IMPERSONATE_ENHANCE": "मेरा ड्राफ़्ट दोबारा लिखें",
+      "IMPERSONATE_AS_CHAR": "संदेश नहीं लिखा जा सका: मॉडल ने किरदार बनकर उत्तर दिया।"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Assistant message के रूप में अंतिम भेजा गया। LLM इस seed text से जारी रहता है। शक्तिशाली मार्गदर्शन तकनीक। User और char macros का समर्थन करता है।",
     "PRESET_CONTINUE_PROMPT": "जारी रखने का प्रॉम्प्ट",
     "PRESET_CONTINUE_PROMPT_HINT": "जारी रखने का बटन दबाने पर भेजा जाता है. (OOC: Continue.) भेजने के लिए खाली छोड़ें.",
+    "PRESET_IMPERSONATE_PROMPT": "इम्पर्सोनेट प्रॉम्प्ट",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "एआई आपका संदेश लिखते समय जिस अंतर्निहित निर्देश का उपयोग करता है, उसे बदल देता है। डिफ़ॉल्ट के लिए खाली छोड़ें।",
     "PRESET_FLAGS_TITLE": "Custom flags",
     "PRESET_FLAGS_HINT": "नख़रेबाज़ मॉडलों के लिए अनुरोध बॉडी समायोजित करें। आवश्यकता होने पर प्रति मॉडल स्वतः लागू; बाध्य करने के लिए चालू करें।",
     "PRESET_FORCE_ALTERNATE_ROLES": "Alternate roles को मजबूर करें",

@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Salin tautan",
       "RENAME": "Ganti nama",
       "DELETE": "Hapus",
-      "CONTINUE_SCENE": "Lanjutkan adegan"
+      "CONTINUE_SCENE": "Lanjutkan adegan",
+      "IMPERSONATE": "Tulis pesan saya",
+      "IMPERSONATE_ENHANCE": "Tulis ulang draf saya",
+      "IMPERSONATE_AS_CHAR": "Tidak bisa menulis pesan: model menjawab sebagai karakter."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Dikirim terakhir sebagai pesan assistant. LLM melanjutkan dari teks benih ini. Teknik pengarahan yang kuat. Mendukung makro user dan char.",
     "PRESET_CONTINUE_PROMPT": "Prompt lanjutkan",
     "PRESET_CONTINUE_PROMPT_HINT": "Dikirim saat menekan tombol lanjutkan. Biarkan kosong untuk mengirim (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Prompt impersonasi",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Menggantikan instruksi bawaan yang dipakai saat AI menulis pesan Anda. Kosongkan untuk memakai default.",
     "PRESET_FLAGS_TITLE": "Flag kustom",
     "PRESET_FLAGS_HINT": "Sesuaikan body permintaan untuk model rewel. Diterapkan otomatis per model bila perlu; aktifkan untuk memaksa.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Paksa pergantian peran",

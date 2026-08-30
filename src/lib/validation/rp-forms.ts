@@ -198,6 +198,7 @@ export const samplingPresetFormSchema = t.Object({
   }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   continuePrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  impersonatePrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   tokenizer: t.String({ default: "", maxLength: 256 }),
   providers: t.String({ default: "", maxLength: 2_048 }),
   providersOnly: t.Boolean({ default: false }),

@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Link kopieren",
       "RENAME": "Umbenennen",
       "DELETE": "Löschen",
-      "CONTINUE_SCENE": "Szene fortsetzen"
+      "CONTINUE_SCENE": "Szene fortsetzen",
+      "IMPERSONATE": "Meine Nachricht schreiben",
+      "IMPERSONATE_ENHANCE": "Meinen Entwurf umschreiben",
+      "IMPERSONATE_AS_CHAR": "Nachricht nicht möglich: Das Modell hat als Charakter geantwortet."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Wird zuletzt als Assistant-Nachricht gesendet. Das LLM setzt diesen Seed-Text fort. Mächtige Steuerungstechnik. Unterstützt die user- und char-Makros.",
     "PRESET_CONTINUE_PROMPT": "Fortsetzen-Prompt",
     "PRESET_CONTINUE_PROMPT_HINT": "Wird beim Klick auf die Fortsetzen-Schaltfläche gesendet. Leer lassen, um (OOC: Continue.) zu senden.",
+    "PRESET_IMPERSONATE_PROMPT": "Impersonate-Prompt",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Überschreibt die eingebaute Anweisung, mit der die KI deine Nachricht schreibt. Leer lassen für den Standard.",
     "PRESET_FLAGS_TITLE": "Eigene Flags",
     "PRESET_FLAGS_HINT": "Passe den Anfragetext für heikle Modelle an. Wird je Modell automatisch angewendet; einschalten zum Erzwingen.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rollen erzwungen alternieren",
