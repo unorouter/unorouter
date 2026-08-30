@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import type { ReactNode } from "react";
 import type { SocialSize, Theme } from "@/lib/validation/badge";
-import { env } from "@/lib/config/env";
 import { FONT_SANS } from "../elements/typography";
-import { Logo } from "../elements/primitives";
+import { brandTld, Logo } from "../elements/primitives";
 import { bgSvg, RAINBOW } from "../lib/glow";
 import {
   getVendorColorIcon,
@@ -12,8 +11,6 @@ import {
   renderBadgeTemplate,
   svgDataUri,
 } from "../lib/utils";
-
-const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
 
 interface SocialCtx {
   theme: Theme;

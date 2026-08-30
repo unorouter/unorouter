@@ -6,7 +6,7 @@ import type { ThemeColors } from "../lib/types";
 import { FONT_SANS } from "./typography";
 
 export const brandParts = env.appName.split(/(?=[A-Z])/).filter(Boolean);
-const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
+export const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
 
 export function Row(props: { style?: CSSProperties; children?: ReactNode }) {
   return (
