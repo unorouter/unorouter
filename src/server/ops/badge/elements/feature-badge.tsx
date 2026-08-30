@@ -1,14 +1,11 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
-import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
 import type { ReactNode } from "react";
 import { bgSvg, RAINBOW } from "../lib/glow";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { prepIconSvg, renderBadgeTemplate, svgDataUri } from "../lib/utils";
-import { Logo } from "./primitives";
+import { brandParts, Logo } from "./primitives";
 import { FONT_MONO, FONT_SANS, ShapedSpan } from "./typography";
-
-const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
 
 export interface FeatureBadgeDims extends BadgeDimsBase {
   logoSize: number;
