@@ -25,6 +25,7 @@ const LABEL_KEY = {
   priceAsc: "MODELS.SORT.PRICE_ASC",
   priceDesc: "MODELS.SORT.PRICE_DESC",
   contextDesc: "MODELS.SORT.CONTEXT_DESC",
+  discountDesc: "MODELS.SORT.DISCOUNT_DESC",
   uptimeDesc: "MODELS.SORT.UPTIME_DESC",
   successDesc: "MODELS.SORT.SUCCESS_DESC",
   name: "MODELS.SORT.NAME",

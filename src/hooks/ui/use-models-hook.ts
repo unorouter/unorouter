@@ -6,6 +6,7 @@ import type { SortOrder } from "@/store/models-store";
 import { usePricingBrowseQuery } from "@/hooks/models/pricing-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { dayjs } from "@/lib/utils/format/date";
+import { bestDiscountPercent } from "@/lib/utils/format/number";
 import {
   categoriesAtom,
   contextMinAtom,
@@ -22,6 +23,7 @@ import {
   effectiveSortKeysAtom,
   supportedParametersAtom,
   toolsOnlyAtom,
+  discountedOnlyAtom,
   hideFreeAtom,
   viewModeAtom,
 } from "@/store/models-store";
@@ -92,6 +94,7 @@ export function useModelsFilter() {
   const supportedParameters = useAtomValue(supportedParametersAtom);
   const toolsOnly = useAtomValue(toolsOnlyAtom);
   const hideFree = useAtomValue(hideFreeAtom);
+  const discountedOnly = useAtomValue(discountedOnlyAtom);
 
   const models = data?.models ?? [];
   const endpointMap = data?.supported_endpoint ?? {};
@@ -143,6 +146,7 @@ export function useModelsFilter() {
       supportedParameters.every((p) => modelParams.includes(p));
     const matchesTools = !toolsOnly || model.metadata?.supportsTools === true;
     const matchesPaid = !hideFree || !model.is_free;
+    const matchesDiscount = !discountedOnly || bestDiscountPercent(model) > 0;
     return (
       matchesSearch &&
       matchesVendor &&
@@ -155,7 +159,8 @@ export function useModelsFilter() {
       matchesCategories &&
       matchesParams &&
       matchesTools &&
-      matchesPaid
+      matchesPaid &&
+      matchesDiscount
     );
   });
 
@@ -188,6 +193,8 @@ export function useModelsFilter() {
     }
     if (key === "priceAsc") return effectivePrice(a) - effectivePrice(b);
     if (key === "priceDesc") return effectivePrice(b) - effectivePrice(a);
+    if (key === "discountDesc")
+      return bestDiscountPercent(b) - bestDiscountPercent(a);
     if (key === "uptimeDesc") return byReliability(a.uptime_24h, b.uptime_24h);
     if (key === "successDesc")
       return byReliability(a.success_rate, b.success_rate);

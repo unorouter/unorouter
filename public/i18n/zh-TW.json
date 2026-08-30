@@ -259,7 +259,8 @@
       "AGE_90D": "90天",
       "AGE_1Y": "1年",
       "PRICING": "價格",
-      "HIDE_FREE": "隱藏免費模型"
+      "HIDE_FREE": "隱藏免費模型",
+      "DISCOUNTED_ONLY": "僅顯示折扣模型"
     },
     "DETAIL": {
       "DESCRIPTION": "說明",
@@ -341,6 +342,7 @@
       "POPULAR": "最熱門",
       "TOP_WEEKLY": "本週熱門",
       "CONTEXT_DESC": "上下文（高到低）",
+      "DISCOUNT_DESC": "折扣（由高到低）",
       "UPTIME_DESC": "可用率（由高到低）",
       "SUCCESS_DESC": "成功率（由高到低）",
       "MULTI": "{first} + 另{count}項",

@@ -259,7 +259,8 @@
       "AGE_90D": "90 दिन",
       "AGE_1Y": "1 वर्ष",
       "PRICING": "मूल्य",
-      "HIDE_FREE": "मुफ़्त मॉडल छिपाएँ"
+      "HIDE_FREE": "मुफ़्त मॉडल छिपाएँ",
+      "DISCOUNTED_ONLY": "केवल छूट वाले मॉडल"
     },
     "DETAIL": {
       "DESCRIPTION": "विवरण",
@@ -341,6 +342,7 @@
       "POPULAR": "सर्वाधिक लोकप्रिय",
       "TOP_WEEKLY": "साप्ताहिक शीर्ष",
       "CONTEXT_DESC": "संदर्भ (अधिक)",
+      "DISCOUNT_DESC": "छूट (अधिक)",
       "UPTIME_DESC": "अपटाइम (अधिक)",
       "SUCCESS_DESC": "सफलता दर (अधिक)",
       "MULTI": "{first} + {count} और",

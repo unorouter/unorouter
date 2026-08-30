@@ -259,7 +259,8 @@
       "AGE_90D": "90 gün",
       "AGE_1Y": "1 yıl",
       "PRICING": "Fiyatlandırma",
-      "HIDE_FREE": "Ücretsiz modelleri gizle"
+      "HIDE_FREE": "Ücretsiz modelleri gizle",
+      "DISCOUNTED_ONLY": "Yalnızca indirimli modeller"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -341,6 +342,7 @@
       "POPULAR": "En Popüler",
       "TOP_WEEKLY": "Haftanın En İyileri",
       "CONTEXT_DESC": "Bağlam (Yüksek)",
+      "DISCOUNT_DESC": "İndirim (Yüksek)",
       "UPTIME_DESC": "Çalışma Süresi (Yüksek)",
       "SUCCESS_DESC": "Başarı Oranı (Yüksek)",
       "MULTI": "{first} + {count} tane daha",

@@ -115,3 +115,26 @@ export function formatPct(pct: number, decimals = 2): string {
   if (!Number.isFinite(pct)) return "-";
   return `${pct.toFixed(decimals)}%`;
 }
+
+// Best discount across the sides a model actually charges for, matching what the
+// price columns render: a fixed-price model discounts one side, a per-token model
+// can discount input and output independently.
+export function bestDiscountPercent(model: {
+  is_fixed_price: boolean;
+  fixed_price: number;
+  original_fixed_price?: number | null;
+  input_price: number;
+  output_price: number;
+  original_input_price?: number | null;
+  original_output_price?: number | null;
+}): number {
+  if (model.is_fixed_price)
+    return discountPercent(
+      model.fixed_price,
+      model.original_fixed_price ?? null,
+    );
+  return Math.max(
+    discountPercent(model.input_price, model.original_input_price ?? null),
+    discountPercent(model.output_price, model.original_output_price ?? null),
+  );
+}

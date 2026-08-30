@@ -21,6 +21,7 @@ import {
   seriesAtom,
   supportedParametersAtom,
   toolsOnlyAtom,
+  discountedOnlyAtom,
   hideFreeAtom,
 } from "@/store/models-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -55,6 +56,7 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
   const [hideFree, setHideFree] = useAtom(hideFreeAtom);
+  const [discountedOnly, setDiscountedOnly] = useAtom(discountedOnlyAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
@@ -104,7 +106,12 @@ export function ModelsFilterSidebar(props: { models: PricingCatalogModel[] }) {
             onChange={setInputModalities}
           />
           <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
-          <PricingGroup value={hideFree} onChange={setHideFree} />
+          <PricingGroup
+            value={hideFree}
+            onChange={setHideFree}
+            discountedOnly={discountedOnly}
+            onDiscountedOnlyChange={setDiscountedOnly}
+          />
           <ContextGroup value={contextMin} onChange={setContextMin} />
           <PriceGroup
             label={t("MODELS.FILTER.PROMPT_PRICING")}

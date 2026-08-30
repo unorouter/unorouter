@@ -36,6 +36,7 @@ const PARSERS = {
   order: parseAsArrayOf(parseAsStringLiteral(SORT_VALUES)),
   tools: parseAsBoolean,
   paid: parseAsBoolean,
+  discounted: parseAsBoolean,
   q: parseAsString,
   view: parseAsStringLiteral(["table", "list"] as const),
 };
@@ -78,6 +79,7 @@ export function ModelsUrlSync() {
             : null,
         tools: s.toolsOnly ? true : null,
         paid: s.hideFree ? true : null,
+        discounted: s.discountedOnly ? true : null,
         q: s.search ? s.search : null,
         view: s.viewMode !== "table" ? s.viewMode : null,
       };
@@ -137,6 +139,7 @@ export function ModelsUrlSync() {
         next.sortKeys = seed.order;
       if (seed.tools && !cur.toolsOnly) next.toolsOnly = true;
       if (seed.paid && !cur.hideFree) next.hideFree = true;
+      if (seed.discounted && !cur.discountedOnly) next.discountedOnly = true;
       if (seed.q && !cur.search) next.search = seed.q;
       if (seed.view === "list" && cur.viewMode === "table")
         next.viewMode = "list";

@@ -259,7 +259,8 @@
       "AGE_90D": "90 ימים",
       "AGE_1Y": "שנה אחת",
       "PRICING": "תמחור",
-      "HIDE_FREE": "הסתר מודלים חינמיים"
+      "HIDE_FREE": "הסתר מודלים חינמיים",
+      "DISCOUNTED_ONLY": "מודלים בהנחה בלבד"
     },
     "DETAIL": {
       "DESCRIPTION": "תיאור",
@@ -341,6 +342,7 @@
       "POPULAR": "הפופולריים ביותר",
       "TOP_WEEKLY": "המובילים השבוע",
       "CONTEXT_DESC": "הקשר (גבוה)",
+      "DISCOUNT_DESC": "הנחה (גבוהה)",
       "UPTIME_DESC": "זמינות (גבוהה)",
       "SUCCESS_DESC": "שיעור הצלחה (גבוה)",
       "MULTI": "{first} + {count} נוספים",

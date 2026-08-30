@@ -259,7 +259,8 @@
       "AGE_90D": "90 يومًا",
       "AGE_1Y": "سنة واحدة",
       "PRICING": "التسعير",
-      "HIDE_FREE": "إخفاء النماذج المجانية"
+      "HIDE_FREE": "إخفاء النماذج المجانية",
+      "DISCOUNTED_ONLY": "النماذج المخفّضة فقط"
     },
     "DETAIL": {
       "DESCRIPTION": "الوصف",
@@ -341,6 +342,7 @@
       "POPULAR": "الأكثر شهرة",
       "TOP_WEEKLY": "الأعلى أسبوعياً",
       "CONTEXT_DESC": "السياق (مرتفع)",
+      "DISCOUNT_DESC": "الخصم (الأعلى)",
       "UPTIME_DESC": "مدة التشغيل (الأعلى)",
       "SUCCESS_DESC": "معدل النجاح (الأعلى)",
       "MULTI": "{first} + {count} أخرى",

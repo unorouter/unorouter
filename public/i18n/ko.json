@@ -259,7 +259,8 @@
       "AGE_90D": "90일",
       "AGE_1Y": "1년",
       "PRICING": "가격",
-      "HIDE_FREE": "무료 모델 숨기기"
+      "HIDE_FREE": "무료 모델 숨기기",
+      "DISCOUNTED_ONLY": "할인 모델만"
     },
     "DETAIL": {
       "DESCRIPTION": "설명",
@@ -341,6 +342,7 @@
       "POPULAR": "인기순",
       "TOP_WEEKLY": "주간 인기",
       "CONTEXT_DESC": "컨텍스트 (높음)",
+      "DISCOUNT_DESC": "할인 (높은순)",
       "UPTIME_DESC": "가동률 (높은순)",
       "SUCCESS_DESC": "성공률 (높은순)",
       "MULTI": "{first} + {count}개 더",
