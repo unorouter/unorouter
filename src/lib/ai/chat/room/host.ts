@@ -328,6 +328,13 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
           conn.close();
           return;
         }
+        // Anyone holding the room id can open connections, so the waiting
+        // list needs the same ceiling as the room: it is rendered per entry.
+        if (pending.size + guests.size >= MAX_GUESTS) {
+          send(conn, { type: "rejected", reason: "full" });
+          conn.close();
+          return;
+        }
         const name = sanitizeName(msg.name);
         connName.set(conn.peer, name);
         pending.set(conn.peer, conn);
