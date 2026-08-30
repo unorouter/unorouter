@@ -1,6 +1,7 @@
 /** @jsxImportSource @kitajs/html */
 
 import { pick } from "@/lib/utils/base";
+import { createElement } from "react";
 
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
@@ -51,25 +52,23 @@ async function renderTextPath(
   fontSize: number,
   opts: SatoriOptions,
 ): Promise<string> {
-  const node = {
-    type: "div",
-    props: {
-      style: { display: "flex" },
-      children: {
-        type: "span",
-        props: {
-          style: {
-            fontFamily: FONT_MONO,
-            fontSize,
-            fontWeight: 700,
-            color: "#fff",
-          },
-          children: text,
+  const node = createElement(
+    "div",
+    { style: { display: "flex" } },
+    createElement(
+      "span",
+      {
+        style: {
+          fontFamily: FONT_MONO,
+          fontSize,
+          fontWeight: 700,
+          color: "#fff",
         },
       },
-    },
-  };
-  const svg = await satori(node as never, opts);
+      text,
+    ),
+  );
+  const svg = await satori(node, opts);
   const match = svg.match(/<path[^>]+d="(M[^"]+)"/);
   return match ? match[1] : "";
 }
