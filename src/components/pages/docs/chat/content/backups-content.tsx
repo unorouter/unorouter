@@ -25,6 +25,7 @@ export async function BackupsContent() {
           width={259}
           height={261}
           natural
+          priority
         />
         <p>{k("P_BACKUP_2")}</p>
       </DocSection>

@@ -90,6 +90,9 @@ export function DocImage(props: {
   // Screenshots of small UI (a menu, a single control) blur when stretched to
   // the default column width, so they cap at their own pixel size instead.
   natural?: boolean;
+  // Set on the first image of a page: it is the LCP element, and lazy loading
+  // it costs the paint.
+  priority?: boolean;
 }) {
   return (
     <Image
@@ -97,6 +100,7 @@ export function DocImage(props: {
       alt={props.alt}
       width={props.width}
       height={props.height}
+      priority={props.priority}
       className={cn(
         "border-border w-full rounded-lg border",
         !props.natural && "max-w-xl",
