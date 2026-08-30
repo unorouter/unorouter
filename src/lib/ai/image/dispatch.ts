@@ -6,6 +6,14 @@ export const SYNC_IMAGE_ENDPOINTS = [
   "gemini",
 ] as const;
 export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
+
+// The catalog types `endpoint` as a plain string, so it must be narrowed at
+// every read rather than asserted.
+export function toSyncImageEndpoint(
+  raw: string | undefined,
+): SyncImageEndpoint | undefined {
+  return SYNC_IMAGE_ENDPOINTS.find((e) => e === raw);
+}
 import { safeFetchBytes, verifyMagicBytes } from "@/lib/config/safe-fetch";
 import {
   base64ToDataUri,
@@ -58,7 +66,6 @@ type SubmitArgs = {
   n?: number;
   quality?: string;
   outputFormat?: string;
-  watermark?: boolean;
   background?: string;
   strength?: number;
   seed?: number;
@@ -79,7 +86,6 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
     ["quality", args.quality],
     ["output_format", args.outputFormat],
     ["background", args.background],
-    ["watermark", args.watermark],
     ["seed", args.seed],
   ];
   const fields = all.filter(([, v]) => v !== undefined && v !== "");
@@ -122,7 +128,6 @@ function buildChatCompletionsBody(args: SubmitArgs): Built {
     modalities: ["image", "text"],
     n: 1,
   };
-  if (args.watermark !== undefined) body.watermark = args.watermark;
   if (args.seed !== undefined) body.seed = args.seed;
   if (args.strength !== undefined) body.strength = args.strength;
   return {

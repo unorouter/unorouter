@@ -1,6 +1,5 @@
 import { THIRTY_DAY_CACHE } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
-import { serverEnv } from "@/server/env";
 import type {
   BenchmarksResponse,
   BenchLmResult,
@@ -195,6 +194,5 @@ export async function getBenchmarks(
     resolveBenchLm(target),
     resolveDesignArena(target),
   ]);
-  const llmStats = serverEnv.llmStatsApiKey ? null : null;
-  return { lmarena, benchlm, designArena, llmStats };
+  return { lmarena, benchlm, designArena, llmStats: null };
 }

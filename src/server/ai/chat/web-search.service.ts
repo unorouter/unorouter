@@ -97,7 +97,10 @@ export async function resolveWebSearch(
   text: string,
 ): Promise<string | null> {
   if (userId === GUEST_USER_ID) return null;
-  if (!text || !(await needsWebSearch(apiKey, text))) return null;
+  // Key check first: the classifier is an upstream LLM call, wasted when the
+  // search it gates cannot run.
+  if (!text || !serverEnv.tavilyApiKey) return null;
+  if (!(await needsWebSearch(apiKey, text))) return null;
   const result = await searchTavily(text);
   if (!result || result.results.length === 0) return null;
   return formatSearchContext(result);

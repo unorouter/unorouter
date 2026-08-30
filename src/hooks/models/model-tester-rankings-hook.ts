@@ -42,7 +42,7 @@ export function useDeletePublishedTest(host: string, model: string) {
     mutationFn: async (id) =>
       handleElysia(
         await rpc.api.models["model-tester"].published({ id }).delete(),
-      ) as { deleted: boolean },
+      ),
     invalidates: [
       queryKeys.modelTesterRankingDetail(host, model),
       queryKeys.modelTesterProviderDetail(host),

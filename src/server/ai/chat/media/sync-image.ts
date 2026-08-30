@@ -44,7 +44,6 @@ export async function submitSyncImage(args: {
       n: plan.perCallN,
       quality: params.quality,
       outputFormat: params.outputFormat,
-      watermark: params.watermark,
       background: params.background,
       strength: params.strength,
       seed: params.seed,

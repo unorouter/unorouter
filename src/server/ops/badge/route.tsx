@@ -135,7 +135,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   })
   .get(
     "/all",
-    async ({ query, locale, theme, size: _size }) => {
+    async ({ query, locale, theme }) => {
       const shared = {
         locale: query.locale,
         theme: query.theme,
