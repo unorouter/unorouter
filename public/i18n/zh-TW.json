@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
     },
     "COPIED": "已複製",
+    "COPIED_CLIPBOARD": "已複製到剪貼簿",
     "DATE_RANGE": {
       "PICK": "選擇日期範圍",
       "FROM": "從",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "檢視您的 API 請求歷史、token 用量與花費細節。",
     "FILTERS": "篩選",
     "RESET": "重設",
-    "COPIED": "已複製到剪貼簿",
     "CLICK_COPY": "點擊以複製",
     "NO_LOGS": "所選期間沒有任何紀錄。",
     "CACHE_READ": "快取讀取",
@@ -3294,8 +3294,7 @@
       "UNBIND": "解除綁定",
       "UNBOUND": "{provider} 解除綁定成功",
       "UNBIND_CONFIRM_TITLE": "解除綁定 {provider}？",
-      "UNBIND_CONFIRM_DESCRIPTION": "您的 {provider} 帳號將被解除關聯。您可以隨時重新綁定。",
-      "COPIED": "已複製到剪貼簿"
+      "UNBIND_CONFIRM_DESCRIPTION": "您的 {provider} 帳號將被解除關聯。您可以隨時重新綁定。"
     },
     "SECURITY": {
       "TITLE": "安全設定",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "產生權杖",
       "TOKEN_GENERATED": "權杖產生成功",
       "COPY_TOKEN": "複製",
-      "TOKEN_COPIED": "已複製到剪貼簿",
       "PASSWORD": "密碼",
       "CHANGE_PASSWORD": "變更密碼",
       "SET_PASSWORD": "設定密碼",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "顯示",
       "DUPLICATE": "複製對話",
       "DUPLICATE_SUCCESS": "對話已複製",
+      "EXTEND": "擴充功能",
       "COPY_CHAT": "複製對話",
       "COPY_CHAT_SUCCESS": "已複製對話",
       "EXPORT_FAILED": "匯出失敗",

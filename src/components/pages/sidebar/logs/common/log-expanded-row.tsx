@@ -36,7 +36,7 @@ function CopyableCode(props: { value: string; analyticsLabel: string }) {
       <CopyButton
         text={props.value}
         iconSize="h-3 w-3"
-        toastMessage={t("LOGS.COPIED")}
+        toastMessage={t("COMMON.COPIED_CLIPBOARD")}
         analyticsLabel={props.analyticsLabel}
       />
     </span>

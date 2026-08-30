@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Écraser la base de données locale ?"
     },
     "COPIED": "Copie",
+    "COPIED_CLIPBOARD": "Copié dans le presse-papiers",
     "DATE_RANGE": {
       "PICK": "Choisir une période",
       "FROM": "Du",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "Consultez l'historique de vos requêtes API, l'utilisation des jetons et les détails des dépenses.",
     "FILTERS": "Filtres",
     "RESET": "Réinitialiser",
-    "COPIED": "Copié dans le presse-papiers",
     "CLICK_COPY": "Cliquez pour copier",
     "NO_LOGS": "Aucun journal trouvé pour la période sélectionnée.",
     "CACHE_READ": "Lecture cache",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Délier",
       "UNBOUND": "{provider} délié avec succès",
       "UNBIND_CONFIRM_TITLE": "Délier {provider} ?",
-      "UNBIND_CONFIRM_DESCRIPTION": "Votre compte {provider} sera déconnecté. Vous pourrez le lier à nouveau à tout moment.",
-      "COPIED": "Copié dans le presse-papiers"
+      "UNBIND_CONFIRM_DESCRIPTION": "Votre compte {provider} sera déconnecté. Vous pourrez le lier à nouveau à tout moment."
     },
     "SECURITY": {
       "TITLE": "Paramètres de sécurité",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Générer un jeton",
       "TOKEN_GENERATED": "Jeton généré avec succès",
       "COPY_TOKEN": "Copier",
-      "TOKEN_COPIED": "Copié dans le presse-papiers",
       "PASSWORD": "Mot de passe",
       "CHANGE_PASSWORD": "Changer le mot de passe",
       "SET_PASSWORD": "Définir le mot de passe",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Affichage",
       "DUPLICATE": "Dupliquer la conversation",
       "DUPLICATE_SUCCESS": "Conversation dupliquee",
+      "EXTEND": "Extensions",
       "COPY_CHAT": "Copier la discussion",
       "COPY_CHAT_SUCCESS": "Conversation copiée",
       "EXPORT_FAILED": "Échec de l'export",

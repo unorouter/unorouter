@@ -185,7 +185,7 @@ export function AccountCard() {
                   <TooltipTrigger
                     onClick={() => {
                       void copyToClipboard(boundId);
-                      toast.success(t("SETTINGS.ACCOUNT.COPIED"));
+                      toast.success(t("COMMON.COPIED_CLIPBOARD"));
                     }}
                     className="hover:text-foreground flex items-center gap-1 transition-colors"
                   >

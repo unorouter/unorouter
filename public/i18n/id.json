@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "Timpa database lokal?"
     },
     "COPIED": "Disalin",
+    "COPIED_CLIPBOARD": "Disalin ke clipboard",
     "DATE_RANGE": {
       "PICK": "Pilih rentang tanggal",
       "FROM": "Dari",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "Lihat riwayat permintaan API Anda, penggunaan token, dan detail pengeluaran.",
     "FILTERS": "Filter",
     "RESET": "Reset",
-    "COPIED": "Disalin ke clipboard",
     "CLICK_COPY": "Klik untuk menyalin",
     "NO_LOGS": "Tidak ada log untuk periode terpilih.",
     "CACHE_READ": "Baca Cache",
@@ -3294,8 +3294,7 @@
       "UNBIND": "Lepaskan",
       "UNBOUND": "{provider} berhasil dilepas",
       "UNBIND_CONFIRM_TITLE": "Lepaskan {provider}?",
-      "UNBIND_CONFIRM_DESCRIPTION": "Akun {provider} Anda akan diputus. Anda dapat mengikatnya kembali kapan saja.",
-      "COPIED": "Disalin ke clipboard"
+      "UNBIND_CONFIRM_DESCRIPTION": "Akun {provider} Anda akan diputus. Anda dapat mengikatnya kembali kapan saja."
     },
     "SECURITY": {
       "TITLE": "Pengaturan Keamanan",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "Buat Token",
       "TOKEN_GENERATED": "Token berhasil dibuat",
       "COPY_TOKEN": "Salin",
-      "TOKEN_COPIED": "Disalin ke clipboard",
       "PASSWORD": "Kata Sandi",
       "CHANGE_PASSWORD": "Ubah Kata Sandi",
       "SET_PASSWORD": "Atur Kata Sandi",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "Tampilan",
       "DUPLICATE": "Duplikat chat",
       "DUPLICATE_SUCCESS": "Sohbet diduplikasi",
+      "EXTEND": "Ekstensi",
       "COPY_CHAT": "Salin obrolan",
       "COPY_CHAT_SUCCESS": "Percakapan disalin",
       "EXPORT_FAILED": "Ekspor gagal",

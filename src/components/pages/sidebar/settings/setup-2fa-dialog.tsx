@@ -111,7 +111,7 @@ export function Setup2FADialog(props: {
   function copyBackupCodes() {
     if (!setupData) return;
     copyToClipboard(setupData.backup_codes.join("\n"));
-    toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
+    toast.success(t("COMMON.COPIED_CLIPBOARD"));
   }
 
   if (props.mode === "disable") {
@@ -216,7 +216,7 @@ export function Setup2FADialog(props: {
                   size="sm"
                   onClick={() => {
                     copyToClipboard(setupData.secret);
-                    toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
+                    toast.success(t("COMMON.COPIED_CLIPBOARD"));
                   }}
                 >
                   <Icon name="copy" className="h-4 w-4" />

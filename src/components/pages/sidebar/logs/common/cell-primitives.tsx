@@ -43,7 +43,7 @@ export function CopyIdButton(props: { id: string; maxWidth?: string }) {
               className={`border-border/60 bg-muted/30 inline-flex w-fit cursor-pointer items-center gap-1 rounded-md border px-1.5 py-0.5 ${props.maxWidth ?? "max-w-44"}`}
               onClick={() => {
                 copyToClipboard(props.id);
-                toast.success(t("LOGS.COPIED"));
+                toast.success(t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }

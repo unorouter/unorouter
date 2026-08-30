@@ -59,7 +59,7 @@ export function ImagePreviewDialog(props: {
             size="sm"
             onClick={() => {
               copyToClipboard(url);
-              toast.success(t("LOGS.COPIED"));
+              toast.success(t("COMMON.COPIED_CLIPBOARD"));
             }}
           >
             <Icon name="copy" className="size-3.5" />
@@ -123,7 +123,7 @@ function PromptBlock(props: { label: string; value: string }) {
           className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
           onClick={() => {
             copyToClipboard(props.value);
-            toast.success(t("LOGS.COPIED"));
+            toast.success(t("COMMON.COPIED_CLIPBOARD"));
           }}
         >
           <Icon name="copy" className="size-3" />
@@ -159,7 +159,7 @@ export function FailReasonDialog(props: {
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
               onClick={() => {
                 copyToClipboard(props.failReason);
-                toast.success(t("LOGS.COPIED"));
+                toast.success(t("COMMON.COPIED_CLIPBOARD"));
               }}
             >
               <Icon name="copy" className="size-3" />

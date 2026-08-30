@@ -2500,6 +2500,7 @@
       "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?"
     },
     "COPIED": "הועתק",
+    "COPIED_CLIPBOARD": "הועתק ללוח",
     "DATE_RANGE": {
       "PICK": "בחר טווח תאריכים",
       "FROM": "מ",
@@ -2976,7 +2977,6 @@
     "DESCRIPTION": "צפו בהיסטוריית בקשות ה-API שלכם, שימוש בטוקנים ופרטי הוצאה.",
     "FILTERS": "מסננים",
     "RESET": "איפוס",
-    "COPIED": "הועתק ללוח",
     "CLICK_COPY": "לחצו להעתקה",
     "NO_LOGS": "לא נמצאו יומנים לתקופה הנבחרת.",
     "CACHE_READ": "קריאת מטמון",
@@ -3294,8 +3294,7 @@
       "UNBIND": "בטל קישור",
       "UNBOUND": "{provider} בוטל קישור בהצלחה",
       "UNBIND_CONFIRM_TITLE": "לבטל קישור של {provider}?",
-      "UNBIND_CONFIRM_DESCRIPTION": "חשבון {provider} שלכם ינותק. אתם יכולים לקשר אותו שוב בכל עת.",
-      "COPIED": "הועתק ללוח"
+      "UNBIND_CONFIRM_DESCRIPTION": "חשבון {provider} שלכם ינותק. אתם יכולים לקשר אותו שוב בכל עת."
     },
     "SECURITY": {
       "TITLE": "הגדרות אבטחה",
@@ -3308,7 +3307,6 @@
       "GENERATE_TOKEN": "ייצור טוקן",
       "TOKEN_GENERATED": "הטוקן נוצר בהצלחה",
       "COPY_TOKEN": "העתק",
-      "TOKEN_COPIED": "הועתק ללוח",
       "PASSWORD": "סיסמה",
       "CHANGE_PASSWORD": "שנה סיסמה",
       "SET_PASSWORD": "הגדר סיסמה",
@@ -3616,6 +3614,7 @@
       "DISPLAY": "תצוגה",
       "DUPLICATE": "שכפל צ'אט",
       "DUPLICATE_SUCCESS": "השיחה שוכפלה",
+      "EXTEND": "הרחבות",
       "COPY_CHAT": "העתקת הצ'אט",
       "COPY_CHAT_SUCCESS": "השיחה הועתקה",
       "EXPORT_FAILED": "הייצוא נכשל",

@@ -229,7 +229,7 @@ function DetailRow(props: {
             className="text-muted-foreground hover:text-foreground shrink-0"
             onClick={() => {
               copyToClipboard(props.value);
-              toast.success(t("LOGS.COPIED"));
+              toast.success(t("COMMON.COPIED_CLIPBOARD"));
             }}
           >
             <Icon name="copy" className="size-3" />
