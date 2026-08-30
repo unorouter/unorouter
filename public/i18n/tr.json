@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Preset mi lazım yoksa takıldın mı? Discord'da sor",
     "TRUNCATED_BEFORE_TEXT": "Model hâlâ düşünürken çıktı sınırına ulaşıldı, bu yüzden hiçbir yanıt yazılmadı. Maksimum token sayısını artırın veya bu model için akıl yürütmeyi kapatın.",
-    "LOCAL_ONLY_NOTICE": "Sohbetleriniz bu cihazda kalır. Onları hiç görmeyiz ve kopyasını saklamayız, bu yüzden yedeği kendiniz alın."
+    "LOCAL_ONLY_NOTICE": "Sohbetleriniz bu cihazda kalır. Onları hiç görmeyiz ve kopyasını saklamayız, bu yüzden yedeği kendiniz alın.",
+    "STORAGE_BLOCKED": "Tarayıcınız bu site için depolamayı engelliyor, bu yüzden sohbetler kaydedilemez ve sayfa yenilendiğinde kaybolur. Bu site için çerezlere ve site verilerine izin verin veya gizli moddan çıkın."
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",

@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Potrzebujesz presetu lub pomocy? Zapytaj na Discordzie",
     "TRUNCATED_BEFORE_TEXT": "Limit wyjścia został osiągnięty, gdy model wciąż rozumował, więc nie napisano żadnej odpowiedzi. Zwiększ maksymalną liczbę tokenów lub wyłącz rozumowanie dla tego modelu.",
-    "LOCAL_ONLY_NOTICE": "Twoje czaty zostają na tym urządzeniu. Nigdy ich nie widzimy i nie przechowujemy kopii, więc zrób kopię zapasową sam."
+    "LOCAL_ONLY_NOTICE": "Twoje czaty zostają na tym urządzeniu. Nigdy ich nie widzimy i nie przechowujemy kopii, więc zrób kopię zapasową sam.",
+    "STORAGE_BLOCKED": "Twoja przeglądarka blokuje pamięć dla tej witryny, więc czaty nie mogą zostać zapisane i znikną po odświeżeniu. Zezwól na pliki cookie i dane witryny albo wyjdź z trybu prywatnego."
   },
   "RP": {
     "CHARACTERS_TITLE": "Postacie",

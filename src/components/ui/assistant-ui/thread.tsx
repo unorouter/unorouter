@@ -75,6 +75,7 @@ import {
   type TextMessagePartProps,
 } from "@assistant-ui/react";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { useStorageBlocked } from "@/hooks/ai/use-storage-blocked";
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
@@ -232,6 +233,7 @@ const ThreadWelcome: FC = () => {
             <Icon name="shield-check" className="mt-0.5 size-3.5 shrink-0" />
             <span>{t("CHAT.LOCAL_ONLY_NOTICE")}</span>
           </Link>
+          <StorageBlockedNotice />
           <ChatLoadout />
           <GreetingPreview />
           {env.discordUrl && (
@@ -363,6 +365,23 @@ const ComposerContinueButton: FC = () => {
     >
       <Icon name="chevrons-right" className="size-4" />
     </TooltipIconButton>
+  );
+};
+
+// A browser that refuses storage cannot keep a single message, and every action
+// fails with a generic error that reads like our bug. Name the real cause.
+const StorageBlockedNotice: FC = () => {
+  const t = useTranslations();
+  const blocked = useStorageBlocked();
+  if (!blocked) return null;
+  return (
+    <div className="border-destructive/40 bg-destructive/10 text-foreground flex max-w-md items-start gap-2 rounded-lg border px-3 py-2 text-xs">
+      <Icon
+        name="triangle-alert"
+        className="text-destructive mt-0.5 size-3.5 shrink-0"
+      />
+      <span>{t("CHAT.STORAGE_BLOCKED")}</span>
+    </div>
   );
 };
 

@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Need a preset or stuck? Ask on Discord",
     "TRUNCATED_BEFORE_TEXT": "The output limit was reached while the model was still thinking, so no reply was written. Raise max tokens or turn off reasoning for this model.",
-    "LOCAL_ONLY_NOTICE": "Your chats stay on this device. We never see them, and we keep no copy, so back them up yourself."
+    "LOCAL_ONLY_NOTICE": "Your chats stay on this device. We never see them, and we keep no copy, so back them up yourself.",
+    "STORAGE_BLOCKED": "Your browser is blocking storage for this site, so chats cannot be saved and will vanish on reload. Allow cookies and site data for this site, or leave private browsing."
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",

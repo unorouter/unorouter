@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Ti serve un preset o aiuto? Chiedi su Discord",
     "TRUNCATED_BEFORE_TEXT": "Il limite di output è stato raggiunto mentre il modello stava ancora ragionando, quindi non è stata scritta alcuna risposta. Aumenta il numero massimo di token o disattiva il ragionamento per questo modello.",
-    "LOCAL_ONLY_NOTICE": "Le tue chat restano su questo dispositivo. Non le vediamo mai e non ne conserviamo copie, quindi il backup spetta a te."
+    "LOCAL_ONLY_NOTICE": "Le tue chat restano su questo dispositivo. Non le vediamo mai e non ne conserviamo copie, quindi il backup spetta a te.",
+    "STORAGE_BLOCKED": "Il tuo browser sta bloccando l'archiviazione per questo sito, quindi le chat non possono essere salvate e andranno perse al ricaricamento. Consenti i cookie e i dati del sito, oppure esci dalla navigazione privata."
   },
   "RP": {
     "CHARACTERS_TITLE": "Personaggi",
