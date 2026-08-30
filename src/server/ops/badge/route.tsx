@@ -34,8 +34,10 @@ import { generateTokensBanner } from "./templates/tokens-banner";
 import { generateTokensSquare } from "./templates/tokens-square";
 
 const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
-function htmlResponse(body: JSX.Element): Response {
-  return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
+// kitajs JSX is string | Promise<string>; awaiting narrows it, and a stray
+// Promise would otherwise reach the browser as "[object Promise]".
+async function htmlResponse(body: JSX.Element): Promise<Response> {
+  return new Response(await body, { headers: HTML_HEADERS });
 }
 
 // sharp's SVG loader poisons in a long-lived process: the same buffer converts fine
