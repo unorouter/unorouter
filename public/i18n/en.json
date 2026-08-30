@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "No personas yet.",
     "PERSONA_TITLE": "Display title",
     "PERSONA_TITLE_HINT": "Only for telling personas apart in your lists. Never sent to the model.",
+    "PERSONA_AVATAR": "Avatar",
+    "PERSONA_AVATAR_HINT": "Shown next to this persona in chats and lists.",
     "PERSONA_NAME_HINT": "Swapped in for the user placeholder in prompts. This is the name the model sees.",
     "PERSONA_DEFAULT": "Default persona",
     "LOREBOOKS_TITLE": "Lorebooks",

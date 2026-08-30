@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,10 +22,10 @@ import type { CharacterExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import {
   confirmRpDelete,
   RpEmptyCard,
+  RpAvatar,
   RpEntityRow,
   rpFilter,
   RpExportMenu,
@@ -142,9 +141,7 @@ export function CharacterList(props: Props) {
                     });
                     setView({ mode: "edit", id: c.id });
                   }}
-                  leading={
-                    <CharacterAvatar mediaId={c.avatarMediaId} name={c.name} />
-                  }
+                  leading={<RpAvatar mediaId={c.avatarMediaId} name={c.name} />}
                   name={c.name}
                   description={c.description}
                   actions={
@@ -193,15 +190,5 @@ export function CharacterList(props: Props) {
         )}
       </DialogContent>
     </Dialog>
-  );
-}
-
-function CharacterAvatar(props: { mediaId: string | null; name: string }) {
-  const src = useMediaSrc(props.mediaId);
-  return (
-    <Avatar className="size-10">
-      {src && <AvatarImage src={src} alt={props.name} />}
-      <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>
-    </Avatar>
   );
 }

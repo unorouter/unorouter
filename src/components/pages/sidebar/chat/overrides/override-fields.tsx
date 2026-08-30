@@ -62,6 +62,7 @@ export function OverridesBindingFields(props: {
           options={personasQuery.data?.map((p) => ({
             id: p.id,
             name: p.title ? `${p.title} (${p.name})` : p.name,
+            avatarMediaId: p.avatarMediaId,
           }))}
         />
         <MyFormEntitySelect

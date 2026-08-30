@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "अभी तक कोई personas नहीं।",
     "PERSONA_TITLE": "प्रदर्शन शीर्षक",
     "PERSONA_TITLE_HINT": "सिर्फ आपकी सूचियों में पर्सोना अलग पहचानने के लिए। मॉडल को कभी नहीं भेजा जाता।",
+    "PERSONA_AVATAR": "अवतार",
+    "PERSONA_AVATAR_HINT": "चैट और सूचियों में इस पर्सोना के आगे दिखाया जाता है।",
     "PERSONA_NAME_HINT": "प्रॉम्प्ट में यूज़र प्लेसहोल्डर की जगह लगता है। मॉडल यही नाम देखता है।",
     "PERSONA_DEFAULT": "Default persona",
     "LOREBOOKS_TITLE": "Lorebooks",

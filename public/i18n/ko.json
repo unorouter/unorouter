@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "아직 페르소나가 없습니다.",
     "PERSONA_TITLE": "표시 제목",
     "PERSONA_TITLE_HINT": "목록에서 페르소나를 구분하기 위한 용도입니다. 모델에는 전송되지 않습니다.",
+    "PERSONA_AVATAR": "아바타",
+    "PERSONA_AVATAR_HINT": "채팅과 목록에서 이 페르소나 옆에 표시됩니다.",
     "PERSONA_NAME_HINT": "프롬프트의 사용자 자리표시자를 대체합니다. 모델이 보는 이름입니다.",
     "PERSONA_DEFAULT": "기본 페르소나",
     "LOREBOOKS_TITLE": "로어북",

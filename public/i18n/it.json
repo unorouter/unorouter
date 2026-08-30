@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Ancora nessuna persona.",
     "PERSONA_TITLE": "Titolo visualizzato",
     "PERSONA_TITLE_HINT": "Serve solo a distinguere le persona nelle tue liste. Non viene mai inviato al modello.",
+    "PERSONA_AVATAR": "Avatar",
+    "PERSONA_AVATAR_HINT": "Mostrato accanto a questa persona nelle chat e negli elenchi.",
     "PERSONA_NAME_HINT": "Sostituisce il segnaposto utente nei prompt. Questo è il nome che vede il modello.",
     "PERSONA_DEFAULT": "Persona predefinita",
     "LOREBOOKS_TITLE": "Lorebook",

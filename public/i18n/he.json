@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "אין פרסונות עדיין.",
     "PERSONA_TITLE": "כותרת תצוגה",
     "PERSONA_TITLE_HINT": "רק כדי להבחין בין פרסונות ברשימות שלך. לעולם לא נשלח למודל.",
+    "PERSONA_AVATAR": "אוואטר",
+    "PERSONA_AVATAR_HINT": "מוצג לצד פרסונה זו בצ'אטים וברשימות.",
     "PERSONA_NAME_HINT": "מוחלף במקום מציין המיקום של המשתמש בפרומפטים. זה השם שהמודל רואה.",
     "PERSONA_DEFAULT": "פרסונת ברירת מחדל",
     "LOREBOOKS_TITLE": "Lorebooks",
