@@ -119,7 +119,7 @@ export function ChangePasswordDialog(props: {
                 variant="outline"
                 onClick={() => props.onOpenChange(false)}
               >
-                {t("SETTINGS.CANCEL")}
+                {t("COMMON.CANCEL")}
               </Button>
               <Button type="submit" disabled={updateSelfMutation.isPending}>
                 {hasPassword

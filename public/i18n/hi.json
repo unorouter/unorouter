@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "AI मॉडलों तक पहुंचने के लिए API keys बनाएं और प्रबंधित करें।",
     "CREATE": "Key बनाएं",
     "EDIT": "Key संपादित करें",
-    "CANCEL": "रद्द करें",
     "ENABLE": "सक्षम करें",
     "DISABLE": "अक्षम करें",
     "UNLIMITED": "असीमित",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Referral Code",
     "CODE_COPIED": "Referral code clipboard पर copy किया गया",
     "AVAILABLE": "उपलब्ध",
-    "CANCEL": "रद्द करें",
     "CONFIRM_TRANSFER": "स्थानांतरण की पुष्टि करें",
     "HOW_IT_WORKS": "यह कैसे काम करता है",
     "TAB_INVITEES": "Invited Users",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "खपत",
     "REQUEST_COUNT": "अनुरोध",
     "DEFAULT_GROUP": "Default Group",
-    "CANCEL": "रद्द करें",
     "CONTINUE": "जारी रखें",
     "BACK": "वापस",
     "ACCOUNT": {

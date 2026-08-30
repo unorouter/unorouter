@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Crea y gestiona claves API para acceder a modelos de IA.",
     "CREATE": "Crear clave",
     "EDIT": "Editar clave",
-    "CANCEL": "Cancelar",
     "ENABLE": "Activar",
     "DISABLE": "Desactivar",
     "UNLIMITED": "Ilimitada",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Código de referencia",
     "CODE_COPIED": "Código de referencia copiado al portapapeles",
     "AVAILABLE": "disponible",
-    "CANCEL": "Cancelar",
     "CONFIRM_TRANSFER": "Confirmar transferencia",
     "HOW_IT_WORKS": "Cómo funciona",
     "TAB_INVITEES": "Usuarios invitados",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Consumo",
     "REQUEST_COUNT": "Solicitudes",
     "DEFAULT_GROUP": "Grupo predeterminado",
-    "CANCEL": "Cancelar",
     "CONTINUE": "Continuar",
     "BACK": "Atrás",
     "ACCOUNT": {

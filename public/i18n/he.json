@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "צרו ונהלו מפתחות API לגישה למודלי AI.",
     "CREATE": "צור מפתח",
     "EDIT": "ערוך מפתח",
-    "CANCEL": "ביטול",
     "ENABLE": "הפעל",
     "DISABLE": "השבת",
     "UNLIMITED": "ללא הגבלה",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "קוד הפניה",
     "CODE_COPIED": "קוד ההפניה הועתק ללוח",
     "AVAILABLE": "זמין",
-    "CANCEL": "ביטול",
     "CONFIRM_TRANSFER": "אישור העברה",
     "HOW_IT_WORKS": "איך זה עובד",
     "TAB_INVITEES": "משתמשים שהוזמנו",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "צריכה",
     "REQUEST_COUNT": "בקשות",
     "DEFAULT_GROUP": "קבוצת ברירת מחדל",
-    "CANCEL": "ביטול",
     "CONTINUE": "המשך",
     "BACK": "חזרה",
     "ACCOUNT": {

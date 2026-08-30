@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "AI 모델에 액세스하기 위한 API 키를 생성하고 관리하세요.",
     "CREATE": "키 생성",
     "EDIT": "키 편집",
-    "CANCEL": "취소",
     "ENABLE": "활성화",
     "DISABLE": "비활성화",
     "UNLIMITED": "무제한",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "추천 코드",
     "CODE_COPIED": "추천 코드가 클립보드에 복사됨",
     "AVAILABLE": "사용 가능",
-    "CANCEL": "취소",
     "CONFIRM_TRANSFER": "이체 확인",
     "HOW_IT_WORKS": "작동 방식",
     "TAB_INVITEES": "초대한 사용자",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "소비",
     "REQUEST_COUNT": "요청",
     "DEFAULT_GROUP": "기본 그룹",
-    "CANCEL": "취소",
     "CONTINUE": "계속",
     "BACK": "뒤로",
     "ACCOUNT": {

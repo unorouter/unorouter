@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "AI modellerine erişmek için API anahtarları oluşturun ve yönetin.",
     "CREATE": "Anahtar Oluştur",
     "EDIT": "Anahtarı Düzenle",
-    "CANCEL": "İptal",
     "ENABLE": "Etkinleştir",
     "DISABLE": "Devre Dışı Bırak",
     "UNLIMITED": "Sınırsız",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Yönlendirme Kodu",
     "CODE_COPIED": "Yönlendirme kodu panoya kopyalandı",
     "AVAILABLE": "mevcut",
-    "CANCEL": "İptal",
     "CONFIRM_TRANSFER": "Transferi Onayla",
     "HOW_IT_WORKS": "Nasıl Çalışır",
     "TAB_INVITEES": "Davet Edilen Kullanıcılar",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Tüketim",
     "REQUEST_COUNT": "İstekler",
     "DEFAULT_GROUP": "Varsayılan Grup",
-    "CANCEL": "İptal",
     "CONTINUE": "Devam",
     "BACK": "Geri",
     "ACCOUNT": {

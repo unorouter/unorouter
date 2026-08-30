@@ -151,7 +151,7 @@ export function AccountCard() {
         provider: label,
       }),
       confirmLabel: t("SETTINGS.ACCOUNT.UNBIND"),
-      cancelLabel: t("SETTINGS.CANCEL"),
+      cancelLabel: t("COMMON.CANCEL"),
       destructive: true,
     });
     if (!ok) return;
@@ -327,7 +327,7 @@ export function AccountCard() {
                         setTurnstileToken(undefined);
                       }}
                     >
-                      {t("SETTINGS.CANCEL")}
+                      {t("COMMON.CANCEL")}
                     </Button>
                   </div>
                 </div>

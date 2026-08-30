@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "Twórz i zarządzaj kluczami API do uzyskiwania dostępu do modeli AI.",
     "CREATE": "Utwórz klucz",
     "EDIT": "Edytuj klucz",
-    "CANCEL": "Anuluj",
     "ENABLE": "Włącz",
     "DISABLE": "Wyłącz",
     "UNLIMITED": "Nieograniczone",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "Kod polecający",
     "CODE_COPIED": "Kod polecający skopiowany do schowka",
     "AVAILABLE": "dostępne",
-    "CANCEL": "Anuluj",
     "CONFIRM_TRANSFER": "Potwierdź transfer",
     "HOW_IT_WORKS": "Jak to działa",
     "TAB_INVITEES": "Zaproszeni użytkownicy",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "Zużycie",
     "REQUEST_COUNT": "Zapytania",
     "DEFAULT_GROUP": "Grupa domyślna",
-    "CANCEL": "Anuluj",
     "CONTINUE": "Kontynuuj",
     "BACK": "Wstecz",
     "ACCOUNT": {

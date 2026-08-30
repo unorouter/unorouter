@@ -2822,7 +2822,6 @@
     "DESCRIPTION": "أنشئ وأدِر مفاتيح API للوصول إلى نماذج الذكاء الاصطناعي.",
     "CREATE": "إنشاء مفتاح",
     "EDIT": "تحرير المفتاح",
-    "CANCEL": "إلغاء",
     "ENABLE": "تفعيل",
     "DISABLE": "تعطيل",
     "UNLIMITED": "غير محدود",
@@ -3051,7 +3050,6 @@
     "YOUR_CODE": "رمز الإحالة",
     "CODE_COPIED": "تمّ نسخ رمز الإحالة إلى الحافظة",
     "AVAILABLE": "متاح",
-    "CANCEL": "إلغاء",
     "CONFIRM_TRANSFER": "تأكيد التحويل",
     "HOW_IT_WORKS": "كيف يعمل",
     "TAB_INVITEES": "المستخدمون المدعوّون",
@@ -3275,7 +3273,6 @@
     "CONSUMPTION": "الاستهلاك",
     "REQUEST_COUNT": "الطلبات",
     "DEFAULT_GROUP": "المجموعة الافتراضية",
-    "CANCEL": "إلغاء",
     "CONTINUE": "متابعة",
     "BACK": "رجوع",
     "ACCOUNT": {
