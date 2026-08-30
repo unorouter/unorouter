@@ -1,4 +1,3 @@
-import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageMode } from "@/lib/validation/image";
 import type { GenerateTab, Img2ImgSubPill } from "../../image-nav";
 
@@ -11,11 +10,8 @@ export function deriveMode(
   return subPill;
 }
 
-// Descriptors without tabs are text2img-only by design (hosted catalog models).
-export function isModelInTab(
-  m: ImageModelDescriptor,
-  tab: GenerateTab,
-): boolean {
-  if (!m.tabs) return tab === "text2img";
-  return m.tabs.includes(tab);
+// Hosted catalog models are text2img-only; nothing upstream scopes a model to
+// the img2img or edit tab.
+export function isModelInTab(tab: GenerateTab): boolean {
+  return tab === "text2img";
 }

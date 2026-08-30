@@ -24,22 +24,6 @@ export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   { id: "custom", value: null },
 ];
 
-export const VAES: ReadonlyArray<{ value: string; label: string }> = [
-  { value: "automatic", label: "Automatic" },
-  { value: "none", label: "None" },
-  {
-    value: "vae-ft-mse-840000-ema-pruned.ckpt",
-    label: "vae-ft-mse-840000-ema-pruned.ckpt",
-  },
-  { value: "kl-f8-anime.ckpt", label: "kl-f8-anime.ckpt" },
-  { value: "kl-f8-anime2.ckpt", label: "kl-f8-anime2.ckpt" },
-  { value: "YOZORA.vae.pt", label: "YOZORA.vae.pt" },
-  { value: "orangemix.vae.pt", label: "orangemix.vae.pt" },
-  { value: "blessed2.vae.pt", label: "blessed2.vae.pt" },
-  { value: "animevae.pt", label: "animevae.pt" },
-  { value: "ClearVAE.safetensors", label: "ClearVAE.safetensors" },
-];
-
 // Face detectors only: the backend's hand/person detectors return no detections.
 export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "bbox/face_yolov8s.pt", label: "face_yolov8s.pt" },

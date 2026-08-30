@@ -19,7 +19,7 @@ import { samplerMemoryAtom } from "@/store/image-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
-import { useImageNav, type GenerateTab } from "../../image-nav";
+import { useImageNav } from "../../image-nav";
 import { INITIAL_MODEL } from "../../image-constants";
 import { isModelInTab } from "../logic/mode";
 import { defaultsFor } from "../logic/persistence";
@@ -105,11 +105,9 @@ export function useImageForm() {
   // swap a preset's model out.
   const adoptModelTab = (modelId: string) => {
     if (!effectiveModels.some((m) => m.model_name === modelId)) return;
-    const desc = findDescriptor(modelId);
-    if (isModelInTab(desc, nav.tab)) return;
-    const target: GenerateTab = desc.tabs?.[0] ?? "text2img";
-    nav.setTab(target);
-    drafts.setDraftRestoredTab(target);
+    if (isModelInTab(nav.tab)) return;
+    nav.setTab("text2img");
+    drafts.setDraftRestoredTab("text2img");
   };
 
   return {

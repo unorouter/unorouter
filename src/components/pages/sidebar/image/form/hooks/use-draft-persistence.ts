@@ -38,7 +38,7 @@ export function useDraftPersistence(args: Args) {
     setDraftRestoredTab(args.tab);
     if (!draft) {
       const fallback =
-        args.effectiveModels.find((m) => isModelInTab(m, args.tab)) ??
+        (isModelInTab(args.tab) ? args.effectiveModels[0] : undefined) ??
         getModelDescriptor(INITIAL_MODEL);
       form.reset(defaultsFor(fallback));
       return;

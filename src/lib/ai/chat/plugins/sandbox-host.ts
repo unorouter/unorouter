@@ -739,7 +739,6 @@ export class SandboxHost {
     frame.style.backgroundColor = "transparent";
 
     frame.sandbox.add("allow-scripts");
-    frame.sandbox.add("allow-modals");
 
     // Chromium-only; the meta tag below enforces the same policy elsewhere.
     frame.setAttribute("csp", this.csp);
