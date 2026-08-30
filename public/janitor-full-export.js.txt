@@ -162,9 +162,21 @@
     const meta = (await get("/hampter/characters/" + c.character_id)) ?? {};
 
     // ---- chats and messages ---------------------------------------------
-    const list = await get(`/hampter/chats/character/${c.character_id}/chats`);
+    // Paginated: this endpoint serves TEN chats per page and reports hasMore,
+    // so reading the first response only would silently drop every chat past
+    // the tenth for anyone who talks to one character a lot.
+    const chatRows = [];
+    for (let page = 1; ; page++) {
+      const list = await get(
+        `/hampter/chats/character/${c.character_id}/chats?page=${page}`,
+      );
+      const batch = list?.chats ?? [];
+      chatRows.push(...batch);
+      if (!list?.hasMore || batch.length === 0) break;
+    }
+
     const chats = [];
-    for (const row of list?.chats ?? []) {
+    for (const row of chatRows) {
       const full = await get("/hampter/chats/" + row.id);
       const messages = (full?.chatMessages ?? [])
         .map((m) => ({
