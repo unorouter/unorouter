@@ -458,20 +458,19 @@ export function createChatHistoryAdapter(
             type MsgPage = { messages: ApiMessage[]; total: number };
             type Cached = { pages: MsgPage[]; pageParams: number[] };
 
-            let allMessages: ApiMessage[] = [];
-            // getQueryData matches the key EXACTLY: a hand-built [convId] key
-            // never hits the infinite query's [convId, userId].
+            // useMessageMeta mounts the infinite query on the SAME key while
+            // the thread renders, so the cache is usually warm here. Repair
+            // either way: it is idempotent and returns its input untouched
+            // when the chain is whole.
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
             ]);
-            if (cached) {
-              allMessages = cached.pages.flatMap((p) => p.messages);
-            } else {
-              allMessages = await repairBrokenChain(
-                id,
-                await readJoinedMessages(id),
-              );
-            }
+            const allMessages = await repairBrokenChain(
+              id,
+              cached
+                ? cached.pages.flatMap((p) => p.messages)
+                : await readJoinedMessages(id),
+            );
 
             logChatDebug("history.load", {
               convId: id,
