@@ -182,11 +182,15 @@ export function CharacterList(props: Props) {
             </div>
           </div>
         ) : (
-          <CharacterEditor
-            key={view.id}
-            characterId={view.id}
-            onSaved={() => setView({ mode: "list" })}
-          />
+          // The dialog itself does not scroll, so an editor taller than the
+          // viewport needs its own scroller or its footer is unreachable.
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <CharacterEditor
+              key={view.id}
+              characterId={view.id}
+              onSaved={() => setView({ mode: "list" })}
+            />
+          </div>
         )}
       </DialogContent>
     </Dialog>
