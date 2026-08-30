@@ -37,9 +37,8 @@ export function useModelTabFit(args: Args) {
     if (args.draftRestoredTab === null && !args.remixId) return;
     const current = form.getValues("model") ?? "";
     const desc = effectiveModels.find((m) => m.model_name === current);
-    if (!desc || isModelInTab(desc, args.tab)) return;
-    const pool = effectiveModels.filter((m) => isModelInTab(m, args.tab));
-    if (pool.length > 0) changeModel(pool[0].model_name);
+    if (!desc || isModelInTab(args.tab)) return;
+    if (effectiveModels.length > 0) changeModel(effectiveModels[0].model_name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- changeModel is recreated per render; keying on tab/list/restore-state is the intent
   }, [args.tab, effectiveModels, args.draftRestoredTab, args.remixId]);
 }

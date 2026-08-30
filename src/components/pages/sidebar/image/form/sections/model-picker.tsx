@@ -152,9 +152,9 @@ export function ModelPicker(props: Props) {
       .toLowerCase()
       .includes(needle);
 
-  const hostedModels = props.models
-    .filter((m) => isModelInTab(m, props.activeTab))
-    .filter(matchesSearch);
+  const hostedModels = isModelInTab(props.activeTab)
+    ? props.models.filter(matchesSearch)
+    : [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

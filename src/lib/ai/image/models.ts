@@ -3,10 +3,6 @@ import type { ImageModelId } from "@/lib/validation/image";
 
 export type ImageModelDescriptor = PricingCatalogModel & {
   model_name: ImageModelId;
-  supportsEmbedding?: boolean;
-  supportsVae?: boolean;
-  supportsClipSkip?: boolean;
-  tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
 export function imageParams(m: ImageModelDescriptor): Partial<ImageParams> {
