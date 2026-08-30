@@ -2,7 +2,6 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { aiDomainRoute } from "@/server/ai/route";
 import { authDomainRoute } from "@/server/auth/route";
-import { webBotAuthPlugin } from "@/server/auth/web-bot-auth/route";
 import { billingDomainRoute } from "@/server/billing/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
@@ -57,7 +56,6 @@ export const app = new Elysia({ prefix: "/api" })
       },
     }),
   )
-  .use(webBotAuthPlugin)
   .use(aiDomainRoute)
   .use(authDomainRoute)
   .use(billingDomainRoute)
