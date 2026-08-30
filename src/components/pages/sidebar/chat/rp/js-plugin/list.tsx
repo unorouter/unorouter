@@ -2,14 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import {
   useCreateJsPluginMutation,
   useDeleteJsPluginMutation,
@@ -19,13 +12,13 @@ import {
 import { detectPluginKind } from "@/lib/ai/chat/plugins/engine";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   confirmRpDelete,
-  RpEmptyCard,
   RpEntityRow,
   rpFilter,
   RpImportControl,
+  RpListDialog,
 } from "../shared/rp-list-parts";
 import { JsPluginEditor } from "./editor";
 
@@ -48,11 +41,6 @@ export function JsPluginList(props: Props) {
   const createMut = useCreateJsPluginMutation();
   const importUrlMut = useImportJsPluginFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
-    if (!props.open) setEditingId(null);
-  }, [props.open]);
 
   const handleDelete = async (id: string) => {
     const ok = await confirmRpDelete(
@@ -79,90 +67,71 @@ export function JsPluginList(props: Props) {
   };
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl">
-        <DialogHeader>
-          <DialogTitle>{t("CHAT.JS_PLUGIN.TITLE")}</DialogTitle>
-        </DialogHeader>
-
-        <div className="flex min-h-0 flex-1 flex-col gap-3">
-          <div className="flex flex-wrap justify-end gap-2">
-            <RpImportControl
-              entity="js_plugins"
-              accept=".js,.ts,text/javascript,text/plain"
-              labelKey="CHAT.JS_PLUGIN.IMPORT"
-              isPending={createMut.isPending || importUrlMut.isPending}
-              onFile={handleImport}
-              onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
-              urlLabelKey="CHAT.JS_PLUGIN.IMPORT_LINK"
-              urlPlaceholderKey="CHAT.JS_PLUGIN.IMPORT_LINK_PLACEHOLDER"
-            />
-            <Button onClick={() => setEditingId("new")}>
-              <Icon name="plus" className="size-4" />
-              <span className="truncate">{t("CHAT.JS_PLUGIN.NEW")}</span>
-            </Button>
-          </div>
-
-          {editingId && (
-            // The dialog itself does not scroll, so an editor taller than the
-            // viewport needs its own scroller or its footer is unreachable.
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              <JsPluginEditor
-                key={editingId}
-                editingId={editingId}
-                onDone={() => setEditingId(null)}
-              />
-            </div>
-          )}
-
-          {!editingId && (
-            <>
-              <Input
-                value={rpQuery}
-                onChange={(e) => setRpQuery(e.target.value)}
-                placeholder={t("RP.LIST_SEARCH")}
-                aria-label={t("RP.LIST_SEARCH")}
-              />
-
-              {pluginsQuery.data?.length === 0 && editingId !== "new" && (
-                <RpEmptyCard labelKey="CHAT.JS_PLUGIN.EMPTY" />
-              )}
-
-              {/* The ROWS scroll, not the dialog: an import can bring many items at
-                once, and scrolling the whole card pushes the search box and the
-                import buttons off screen. */}
-              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-                {rpFilter(pluginsQuery.data, rpQuery, (plugin) => [
-                  plugin.name,
-                ]).map((plugin) => (
-                  <RpEntityRow
-                    createdAt={plugin.createdAt}
-                    updatedAt={plugin.updatedAt}
-                    key={plugin.id}
-                    onOpen={() => setEditingId(plugin.id)}
-                    leading={
-                      <Avatar className="size-10">
-                        <AvatarFallback>
-                          <Icon name="code" className="size-4" />
-                        </AvatarFallback>
-                      </Avatar>
-                    }
-                    name={plugin.name}
-                    description={t(
-                      plugin.enabled
-                        ? plugin.kind === "janitor"
-                          ? "CHAT.JS_PLUGIN.SUMMARY_JANITOR"
-                          : "CHAT.JS_PLUGIN.SUMMARY_UNO"
-                        : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
-                    )}
-                    onDelete={() => handleDelete(plugin.id)}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <RpListDialog
+      open={props.open}
+      onOpenChange={props.onOpenChange}
+      titleKey="CHAT.JS_PLUGIN.TITLE"
+      emptyKey="CHAT.JS_PLUGIN.EMPTY"
+      isEmpty={pluginsQuery.data?.length === 0 && editingId !== "new"}
+      editingId={editingId}
+      setEditingId={setEditingId}
+      query={rpQuery}
+      setQuery={setRpQuery}
+      actionsClassName="flex flex-wrap justify-end gap-2"
+      actions={
+        <>
+          <RpImportControl
+            entity="js_plugins"
+            accept=".js,.ts,text/javascript,text/plain"
+            labelKey="CHAT.JS_PLUGIN.IMPORT"
+            isPending={createMut.isPending || importUrlMut.isPending}
+            onFile={handleImport}
+            onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
+            urlLabelKey="CHAT.JS_PLUGIN.IMPORT_LINK"
+            urlPlaceholderKey="CHAT.JS_PLUGIN.IMPORT_LINK_PLACEHOLDER"
+          />
+          <Button onClick={() => setEditingId("new")}>
+            <Icon name="plus" className="size-4" />
+            <span className="truncate">{t("CHAT.JS_PLUGIN.NEW")}</span>
+          </Button>
+        </>
+      }
+      editor={
+        editingId && (
+          <JsPluginEditor
+            key={editingId}
+            editingId={editingId}
+            onDone={() => setEditingId(null)}
+          />
+        )
+      }
+    >
+      {rpFilter(pluginsQuery.data, rpQuery, (plugin) => [plugin.name]).map(
+        (plugin) => (
+          <RpEntityRow
+            createdAt={plugin.createdAt}
+            updatedAt={plugin.updatedAt}
+            key={plugin.id}
+            onOpen={() => setEditingId(plugin.id)}
+            leading={
+              <Avatar className="size-10">
+                <AvatarFallback>
+                  <Icon name="code" className="size-4" />
+                </AvatarFallback>
+              </Avatar>
+            }
+            name={plugin.name}
+            description={t(
+              plugin.enabled
+                ? plugin.kind === "janitor"
+                  ? "CHAT.JS_PLUGIN.SUMMARY_JANITOR"
+                  : "CHAT.JS_PLUGIN.SUMMARY_UNO"
+                : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
+            )}
+            onDelete={() => handleDelete(plugin.id)}
+          />
+        ),
+      )}
+    </RpListDialog>
   );
 }
