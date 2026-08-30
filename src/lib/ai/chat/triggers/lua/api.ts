@@ -1,6 +1,7 @@
 import { recArr, sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
+import { guestFetch } from "@/lib/ai/chat/guest-fetch";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
 
 type LuaFn = (...args: never[]) => unknown;
@@ -242,24 +243,7 @@ export function buildLuaApi(
         });
       }
       lastRequestsCount++;
-      try {
-        if (url.length > 120) {
-          return JSON.stringify({
-            status: 413,
-            data: "URL to large. max is 120 characters",
-          });
-        }
-        if (!url.startsWith("https://")) {
-          return JSON.stringify({
-            status: 400,
-            data: "Only https requests are allowed",
-          });
-        }
-        const d = await fetch(url, { method: "GET" });
-        return JSON.stringify({ status: d.status, data: await d.text() });
-      } catch {
-        return JSON.stringify({ status: 400, data: "internal error" });
-      }
+      return JSON.stringify(await guestFetch(url));
     },
     generateImage: async (id: string, value: string, negValue = "") => {
       if (!low(id)) return;
