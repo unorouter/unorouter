@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "Tiếp tục cảnh",
       "IMPERSONATE": "Viết tin nhắn cho tôi",
       "IMPERSONATE_ENHANCE": "Viết tin nhắn theo định hướng này",
-      "IMPERSONATE_AS_CHAR": "Không thể viết tin nhắn: mô hình đã trả lời với tư cách nhân vật."
+      "IMPERSONATE_AS_CHAR": "Không thể viết tin nhắn: mô hình đã trả lời với tư cách nhân vật.",
+      "IMPERSONATE_WORKING": "Đang viết..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",

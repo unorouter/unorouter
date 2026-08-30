@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "Continuar la escena",
       "IMPERSONATE": "Escribir mi mensaje",
       "IMPERSONATE_ENHANCE": "Escribir mi mensaje siguiendo esta indicación",
-      "IMPERSONATE_AS_CHAR": "No se pudo escribir el mensaje: el modelo respondió como el personaje."
+      "IMPERSONATE_AS_CHAR": "No se pudo escribir el mensaje: el modelo respondió como el personaje.",
+      "IMPERSONATE_WORKING": "Escribiendo..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Clave API requerida",

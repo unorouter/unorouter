@@ -399,7 +399,9 @@ const ComposerImpersonateButton: FC = () => {
   const draft = useAuiState((s) => s.composer.text);
   const isRunning = useAuiState((s) => s.thread.isRunning);
   const [busy, setBusy] = useState(false);
-  if (!convId || isRunning) return null;
+  // Shown without a conversation too: a blank new chat is exactly when a blank
+  // page is hardest to start.
+  if (isRunning) return null;
   const enhancing = draft.trim().length > 0;
   return (
     <TooltipIconButton
@@ -409,14 +411,14 @@ const ComposerImpersonateButton: FC = () => {
           : "CHAT.ACTION.IMPERSONATE",
       )}
       variant="ghost"
-      className="aui-composer-impersonate size-8 rounded-full"
+      className={`aui-composer-impersonate h-8 rounded-full ${busy ? "w-auto px-2.5" : "w-8"}`}
       disabled={busy}
       onClick={async () => {
         setBusy(true);
         try {
           const { runImpersonate } =
             await import("@/components/pages/sidebar/chat/runtime/impersonate-run");
-          aui.composer().setText(await runImpersonate(convId, draft));
+          aui.composer().setText(await runImpersonate(convId ?? null, draft));
         } catch (e) {
           const { SpokeAsCharacterError } =
             await import("@/components/pages/sidebar/chat/runtime/impersonate-run");
@@ -434,6 +436,11 @@ const ComposerImpersonateButton: FC = () => {
         name={busy ? "loader-circle" : "sparkles"}
         className={`size-4 ${busy ? "animate-spin" : ""}`}
       />
+      {busy && (
+        <span className="text-muted-foreground ml-1.5 text-xs">
+          {t("CHAT.ACTION.IMPERSONATE_WORKING")}
+        </span>
+      )}
     </TooltipIconButton>
   );
 };

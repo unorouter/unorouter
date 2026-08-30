@@ -58,18 +58,32 @@ function clean(raw: string, user: string, char: string): string {
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+// convId is optional because a brand new chat has none yet, and that is exactly
+// when a blank page is hardest to start: the persona and character then come
+// from the loadout instead of the conversation row.
+async function firstLoadoutCharacter(ids: string[]) {
+  const { readLocalCharacter } = await import("@/lib/db/client/data/rp/rp");
+  for (const id of ids) {
+    const row = await readLocalCharacter(id);
+    if (row) return row;
+  }
+  return null;
+}
+
 export async function runImpersonate(
-  convId: string,
+  convId: string | null,
   draft: string,
 ): Promise<string> {
-  const settings = await readLocalConversationSettings(convId);
+  const settings = convId ? await readLocalConversationSettings(convId) : null;
   const loadout = chatStore.get(chatLoadoutAtom);
   const bound = (id: string | null | undefined) =>
     id && id !== NONE_VALUE ? id : null;
 
   const personaId = bound(settings?.personaId) ?? bound(loadout.personaId);
   const persona = personaId ? await readLocalPersona(personaId) : null;
-  const character = await readPrimaryCharacter(convId);
+  const character = convId
+    ? await readPrimaryCharacter(convId)
+    : await firstLoadoutCharacter(loadout.characterIds);
   const userName = persona?.name || "User";
   const charName = character?.name || "the character";
 
@@ -95,8 +109,8 @@ export async function runImpersonate(
     .filter(Boolean)
     .join("\n\n");
 
-  const history = await readConvHistoryForSend(convId);
-  const recent = history.branch.slice(-HISTORY_TURNS).map((m) => {
+  const history = convId ? await readConvHistoryForSend(convId) : null;
+  const recent = (history?.branch ?? []).slice(-HISTORY_TURNS).map((m) => {
     const who = m.role === "user" ? userName : charName;
     return `${who}: ${partsToText(m.parts)}`;
   });

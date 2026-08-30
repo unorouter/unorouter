@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "Continuer la scène",
       "IMPERSONATE": "Écrire mon message",
       "IMPERSONATE_ENHANCE": "Écrire mon message selon cette consigne",
-      "IMPERSONATE_AS_CHAR": "Impossible d'écrire le message : le modèle a répondu en tant que personnage."
+      "IMPERSONATE_AS_CHAR": "Impossible d'écrire le message : le modèle a répondu en tant que personnage.",
+      "IMPERSONATE_WORKING": "Rédaction..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Clé API requise",

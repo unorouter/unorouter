@@ -3435,7 +3435,8 @@
       "CONTINUE_SCENE": "המשך הסצנה",
       "IMPERSONATE": "כתוב את ההודעה שלי",
       "IMPERSONATE_ENHANCE": "כתוב את ההודעה שלי לפי הנחיה זו",
-      "IMPERSONATE_AS_CHAR": "לא ניתן לכתוב הודעה: המודל השיב בתור הדמות."
+      "IMPERSONATE_AS_CHAR": "לא ניתן לכתוב הודעה: המודל השיב בתור הדמות.",
+      "IMPERSONATE_WORKING": "כותב..."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",
