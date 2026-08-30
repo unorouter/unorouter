@@ -78,17 +78,17 @@ export function DetectionRules() {
       </header>
 
       <div className="divide-border divide-y">
-        {DETECTION_RULES.map((rule, i) => {
+        {DETECTION_RULES.map((ruleId, i) => {
           const isOpen = open.includes(i);
           return (
-            <div key={rule.id}>
+            <div key={ruleId}>
               <button
                 type="button"
                 onClick={() => toggle(i)}
                 className="hover:bg-muted/40 flex w-full items-center gap-2 px-5 py-4 text-left transition-colors"
               >
                 <span className="text-foreground flex-1 text-sm font-medium">
-                  {t(RULE_TITLE[rule.id])}
+                  {t(RULE_TITLE[ruleId])}
                 </span>
                 <Icon
                   name="chevron-down"
@@ -100,18 +100,18 @@ export function DetectionRules() {
               </button>
               {isOpen ? (
                 <div className="text-muted-foreground flex flex-col gap-2 px-5 pt-0 pb-4 text-sm">
-                  <p>{t(RULE_MEANS[rule.id])}</p>
+                  <p>{t(RULE_MEANS[ruleId])}</p>
                   <p>
                     <span className="text-foreground/80 font-medium">
                       {t("MODEL_TESTER.RULES.WHY_LABEL")}{" "}
                     </span>
-                    {t(RULE_WHY[rule.id])}
+                    {t(RULE_WHY[ruleId])}
                   </p>
                   <p className="text-emerald-700 dark:text-emerald-400">
                     <span className="font-medium">
                       {t("MODEL_TESTER.RULES.NOT_FLAGGED_LABEL")}{" "}
                     </span>
-                    {t(RULE_EXCEPTION[rule.id])}
+                    {t(RULE_EXCEPTION[ruleId])}
                   </p>
                 </div>
               ) : null}

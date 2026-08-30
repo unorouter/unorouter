@@ -8,7 +8,6 @@ import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   categoriesAtom,
-  clearFiltersAtom,
   contextMinAtom,
   inputModalitiesAtom,
   maxAgeDaysAtom,
@@ -21,15 +20,13 @@ import {
   selectedVendorsAtom,
   seriesAtom,
   effectiveSortKeysAtom,
-  sortKeysAtom,
-  sortOrderAtom,
   supportedParametersAtom,
   toolsOnlyAtom,
   hideFreeAtom,
   viewModeAtom,
 } from "@/store/models-store";
 import { analytics } from "@/lib/analytics";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useEffect } from "react";
 
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -79,27 +76,22 @@ export function useModelsFilter() {
 
   const [search, setSearch] = useAtom(searchAtom);
   const [outputModality, setOutputModality] = useAtom(outputModalityAtom);
-  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  const selectedVendors = useAtomValue(selectedVendorsAtom);
   const [selectedModelName, setSelectedModelName] = useAtom(
     selectedModelNameAtom,
   );
-  const [viewMode, setViewMode] = useAtom(viewModeAtom);
-  const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
-  const [sortKeys, setSortKeys] = useAtom(sortKeysAtom);
+  const viewMode = useAtomValue(viewModeAtom);
   const activeSortKeys = useAtomValue(effectiveSortKeysAtom);
-  const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
-  const [contextMin, setContextMin] = useAtom(contextMinAtom);
-  const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
-  const [outputPriceMax, setOutputPriceMax] = useAtom(outputPriceMaxAtom);
-  const [maxAgeDays, setMaxAgeDays] = useAtom(maxAgeDaysAtom);
-  const [series, setSeries] = useAtom(seriesAtom);
-  const [categories, setCategories] = useAtom(categoriesAtom);
-  const [supportedParameters, setSupportedParameters] = useAtom(
-    supportedParametersAtom,
-  );
+  const inputModalities = useAtomValue(inputModalitiesAtom);
+  const contextMin = useAtomValue(contextMinAtom);
+  const priceRange = useAtomValue(priceRangeAtom);
+  const outputPriceMax = useAtomValue(outputPriceMaxAtom);
+  const maxAgeDays = useAtomValue(maxAgeDaysAtom);
+  const series = useAtomValue(seriesAtom);
+  const categories = useAtomValue(categoriesAtom);
+  const supportedParameters = useAtomValue(supportedParametersAtom);
   const toolsOnly = useAtomValue(toolsOnlyAtom);
   const hideFree = useAtomValue(hideFreeAtom);
-  const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
   const endpointMap = data?.supported_endpoint ?? {};
@@ -110,21 +102,6 @@ export function useModelsFilter() {
 
   const selectedModel =
     models.find((m) => m.model_name === selectedModelName) ?? null;
-
-  const hasActiveFilters =
-    search.trim().length > 0 ||
-    selectedVendors.length > 0 ||
-    inputModalities.length > 0 ||
-    series.length > 0 ||
-    categories.length > 0 ||
-    supportedParameters.length > 0 ||
-    toolsOnly ||
-    hideFree ||
-    contextMin > 0 ||
-    priceRange[0] > 0 ||
-    priceRange[1] < PRICE_MAX ||
-    outputPriceMax < PRICE_MAX ||
-    maxAgeDays > 0;
 
   const query = search.trim().toLowerCase();
   const ageCutoff =
@@ -244,34 +221,9 @@ export function useModelsFilter() {
     setSearch,
     outputModality,
     setOutputModality,
-    selectedVendors,
-    setSelectedVendors,
     selectedModel,
     setSelectedModelName,
     viewMode,
-    setViewMode,
-    sortOrder,
-    setSortOrder,
-    sortKeys,
-    setSortKeys,
-    inputModalities,
-    setInputModalities,
-    contextMin,
-    setContextMin,
-    priceRange,
-    setPriceRange,
-    outputPriceMax,
-    setOutputPriceMax,
-    maxAgeDays,
-    setMaxAgeDays,
-    series,
-    setSeries,
-    categories,
-    setCategories,
-    supportedParameters,
-    setSupportedParameters,
-    clearFilters,
-    hasActiveFilters,
     models,
     tabModels,
     filtered,

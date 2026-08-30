@@ -6,6 +6,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import type { Extracted } from "@/lib/types";
 import { asParams } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { isIOS } from "@/lib/notify/push";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
@@ -267,9 +268,7 @@ export async function streamFileToDisk(
 ): Promise<"fsa" | "share" | "blob" | "cancelled"> {
   const picker = window.showSaveFilePicker;
   // iOS 26 exposes showSaveFilePicker but its pipeTo silently truncates.
-  const likelyIos =
-    /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const likelyIos = isIOS();
   logChatDebug("save.begin", {
     bytes: file.size,
     filename,

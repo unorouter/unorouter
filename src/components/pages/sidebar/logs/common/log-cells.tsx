@@ -17,14 +17,14 @@ import type { TableFeats } from "@/lib/config/table-features";
 import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
 import type { CellContext } from "@tanstack/react-table";
+import { formatTimestamp } from "@/lib/utils/format/date";
+import { formatPriceCompact } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import { toast } from "sonner";
 import { StackedCell } from "./cell-primitives";
 import {
   computeLogPricing,
-  formatPriceCompact,
-  formatTimestamp,
   getClientAttribution,
   getEffectiveGroupRatio,
   getFrtTimingPill,

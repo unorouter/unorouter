@@ -5,6 +5,7 @@ import type {
 } from "@/components/ui/status/status.types";
 import type { StatusBarDataDTO } from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
+import { formatLatency } from "@/lib/utils/format/number";
 
 type CompactBucket = [
   number, // ok
@@ -65,11 +66,6 @@ const STATUS_DEGRADED: StatusType = "degraded";
 const STATUS_ERROR: StatusType = "error";
 const STATUS_EMPTY: StatusType = "empty";
 
-function formatMs(ms: number): string {
-  if (ms < 1000) return `${ms}ms`;
-  return `${(ms / 1000).toFixed(1)}s`;
-}
-
 function buildBar(b: CompactBucket): StatusBarData["bar"] {
   const ok = b[0];
   const deg = b[1];
@@ -108,7 +104,7 @@ function buildCard(b: CompactBucket): StatusBarData["card"] {
   if (deg > 0) items.push({ status: STATUS_DEGRADED, value: `${deg} min` });
   if (err > 0) items.push({ status: STATUS_ERROR, value: `${err} min` });
   if (reqSum > 0 || errSum > 0) {
-    const latency = p95 > 0 ? ` / p95 ${formatMs(p95)}` : "";
+    const latency = p95 > 0 ? ` / p95 ${formatLatency(p95, 1)}` : "";
     items.push({
       status: STATUS_SUCCESS,
       value: `${reqSum} req / ${errSum} err${latency}`,

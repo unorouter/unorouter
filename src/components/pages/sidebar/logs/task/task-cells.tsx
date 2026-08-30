@@ -9,6 +9,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
+import { formatSecTimestamp as formatTaskTimestamp } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
 import {
@@ -20,7 +21,6 @@ import {
 } from "../common/cell-primitives";
 import {
   formatTaskDuration,
-  formatTaskTimestamp,
   getTaskStatusColor,
   getTaskStatusKey,
   isAudioTask,

@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
-import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
+import { formatLongDate } from "@/lib/utils/format/date";
 import { Icon } from "@/components/ui/icon";
 import { useAffiliateCommissionsQuery } from "@/hooks/billing/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
@@ -33,7 +33,7 @@ export function CommissionsTab() {
       header: t("AFFILIATE.TABLE.DATE"),
       cell: ({ row }) => (
         <span className="text-muted-foreground font-mono text-xs">
-          {formatDate(row.original?.created_at)}
+          {formatLongDate(row.original?.created_at)}
         </span>
       ),
     },

@@ -1,5 +1,6 @@
 import { getLocalDb } from "@/lib/db/client/client";
 import { rec, recArr } from "@/lib/utils/base";
+import { isIOS, isStandalone } from "@/lib/notify/push";
 import {
   readLocalConversations,
   readLocalMessageMetaForConv,
@@ -176,14 +177,11 @@ async function buildDiagnosticsHead() {
     platform: navigator.platform,
     maxTouchPoints: navigator.maxTouchPoints,
     language: navigator.language,
-    likelyIos:
-      /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
+    likelyIos: isIOS(),
     viewport: { w: window.innerWidth, h: window.innerHeight },
     screen: { w: window.screen.width, h: window.screen.height },
     online: navigator.onLine,
-    standalone:
-      window.matchMedia?.("(display-mode: standalone)")?.matches ?? false,
+    standalone: isStandalone(),
   };
 
   const runtime = {

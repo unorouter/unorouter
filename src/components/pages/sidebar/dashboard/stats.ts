@@ -1,6 +1,4 @@
 import type { QuotaData } from "@/openapi";
-export { quotaToDollars, renderQuota } from "@/lib/config/constants";
-export { formatLongDate as formatDate } from "@/lib/utils/format/date";
 
 export type QuotaDataItem = NonNullable<QuotaData>;
 
@@ -69,22 +67,9 @@ export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
   const sortedKeys = [...byHour.keys()].sort((a, b) => a - b);
   const buckets = sortedKeys.map((k) => byHour.get(k)!);
 
-  const intervalMinutes =
-    sortedKeys.length >= 2
-      ? (sortedKeys[sortedKeys.length - 1] - sortedKeys[0]) /
-        60 /
-        Math.max(sortedKeys.length - 1, 1)
-      : 60;
-
   const countTrend = buckets.map((b) => b.count);
   const quotaTrend = buckets.map((b) => b.quota);
   const tokenTrend = buckets.map((b) => b.tokenUsed);
-  const rpmTrend = buckets.map((b) =>
-    intervalMinutes > 0 ? b.count / intervalMinutes : 0,
-  );
-  const tpmTrend = buckets.map((b) =>
-    intervalMinutes > 0 ? b.tokenUsed / intervalMinutes : 0,
-  );
 
   const avgRpm = periodMinutes > 0 ? totalCount / periodMinutes : 0;
   const avgTpm = periodMinutes > 0 ? totalTokens / periodMinutes : 0;
@@ -99,8 +84,6 @@ export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
       count: countTrend,
       quota: quotaTrend,
       tokens: tokenTrend,
-      rpm: rpmTrend,
-      tpm: tpmTrend,
     },
   };
 }

@@ -1,7 +1,7 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { fetchElysia, prefetchElysia } from "@/lib/react-query/prefetch";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -29,9 +29,9 @@ export default async function HomePage(props: {
 
   const queryClient = getQueryClient();
   const [counts] = await Promise.all([
-    fetchElysia(queryClient, queryKeys.pricingCounts(), () =>
+    prefetchElysia(queryClient, queryKeys.pricingCounts(), () =>
       rpc.api.models.pricing.counts.get(),
-    ).catch(() => null),
+    ),
     prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
       rpc.api.models.pricing.vendors.get(),
     ),

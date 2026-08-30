@@ -41,7 +41,8 @@ import {
 } from "recharts";
 import { ALL_VALUE, AnalyticsToolbar } from "./analytics-toolbar";
 import { PagedChartLegend } from "./chart-legend-paged";
-import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
+import { quotaToDollars } from "@/lib/utils/format/number";
+import { aggregateByModel, type QuotaDataItem } from "./stats";
 
 function buildModelChartConfig(modelNames: string[]): ChartConfig {
   const config: ChartConfig = {};

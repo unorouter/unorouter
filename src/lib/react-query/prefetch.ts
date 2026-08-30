@@ -31,14 +31,3 @@ export async function prefetchAuth(qc: QueryClient) {
   qc.setQueryData(queryKeys.sessionExpired(), expired);
   return expired;
 }
-
-export function fetchElysia<T extends ElysiaResult>(
-  qc: QueryClient,
-  queryKey: QueryKey,
-  call: (cookies: CookieHeaders) => Promise<T>,
-) {
-  return qc.query({
-    queryKey,
-    queryFn: async () => handleElysia(await call(await setCookies())),
-  });
-}

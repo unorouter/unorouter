@@ -4,9 +4,9 @@ import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import type { IconName } from "@/lib/config/icon-map";
-import { formatTokens } from "@/lib/utils/format/number";
+import { formatTokens, renderQuota } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
-import { processQuotaData, renderQuota } from "./stats";
+import { processQuotaData } from "./stats";
 
 type TileProps = {
   icon: IconName;

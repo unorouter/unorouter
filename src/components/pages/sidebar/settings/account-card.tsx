@@ -23,7 +23,7 @@ import {
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { copyToClipboard, handleElysia } from "@/lib/utils/base";
 import {
   emailBindSchema,
   type EmailBindSchema,
@@ -184,7 +184,7 @@ export function AccountCard() {
                 <Tooltip>
                   <TooltipTrigger
                     onClick={() => {
-                      navigator.clipboard.writeText(boundId);
+                      void copyToClipboard(boundId);
                       toast.success(t("SETTINGS.ACCOUNT.COPIED"));
                     }}
                     className="hover:text-foreground flex items-center gap-1 transition-colors"

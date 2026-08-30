@@ -131,8 +131,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       title: params.title,
       description: params.description,
       type: "website",
-      locale: LANGUAGES.find((l) => l.code === params.locale.toUpperCase())
-        ?.ogLocale,
+      locale: LANGUAGES.find((l) => l.locale === params.locale)?.ogLocale,
       alternateLocale: LANGUAGES.map((l) => l.ogLocale),
       siteName: env.appName,
       images: [

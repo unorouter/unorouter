@@ -12,11 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { dayjs } from "@/lib/utils/format/date";
+import { dayjs, formatDateForInput } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
-  formatDateForInput,
   LOG_TYPE_CONSUME,
   LOG_TYPE_ERROR,
   LOG_TYPE_MANAGE,

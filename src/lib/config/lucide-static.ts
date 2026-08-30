@@ -84,6 +84,7 @@ import Hash from "lucide-react/dist/esm/icons/hash.mjs";
 import Heart from "lucide-react/dist/esm/icons/heart.mjs";
 import HeartPulse from "lucide-react/dist/esm/icons/heart-pulse.mjs";
 import House from "lucide-react/dist/esm/icons/house.mjs";
+import Iconbrandinstagram from "@tabler/icons-react/dist/esm/icons/IconBrandInstagram.mjs";
 import Iconbrandtelegram from "@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs";
 import Iconbrandyoutube from "@tabler/icons-react/dist/esm/icons/IconBrandYoutube.mjs";
 import Image from "lucide-react/dist/esm/icons/image.mjs";
@@ -308,6 +309,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   "brand-reddit": RedditIcon,
   "brand-youtube": Iconbrandyoutube,
   "brand-telegram": Iconbrandtelegram,
+  "brand-instagram": Iconbrandinstagram,
   "brand-discord-si": DiscordSiIcon,
   broom: BroomIcon,
   "crab-claw": CrabClawIcon,

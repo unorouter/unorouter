@@ -22,12 +22,14 @@ import {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FixedPriceUnit } from "../shared/fixed-price-unit";
+import { AutoGroupChain } from "./auto-group-chain";
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
 export function GroupPricingSection(props: {
   model: PricingCatalogDetail;
   groupRatioMap: Record<string, number>;
+  autoGroups?: string[];
   theme: Theme;
 }) {
   const t = useTranslations();
@@ -40,6 +42,14 @@ export function GroupPricingSection(props: {
 
   return (
     <div className="mt-6 overflow-hidden rounded-md border">
+      {props.autoGroups && (
+        <AutoGroupChain
+          enableGroups={model.enable_groups}
+          autoGroups={props.autoGroups}
+          groupRatioMap={props.groupRatioMap}
+          className="border-border/60 border-b px-4 py-2"
+        />
+      )}
       <button
         type="button"
         onClick={() => setOpen(!open)}

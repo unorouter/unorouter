@@ -326,8 +326,6 @@ export function useBillingActions() {
     enableNowPayments,
     enableDeloPay,
     enableCard,
-    enableCrypto,
-    enablePayPal,
     deloPayMinTopUp,
     availableMethods,
     paymentMethod,
