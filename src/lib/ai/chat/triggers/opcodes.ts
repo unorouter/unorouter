@@ -31,10 +31,6 @@ function rnum(
   return Number(rv(e, ctx, vr, field));
 }
 
-function outName(e: TriggerEffect, ctx: TriggerContext): string {
-  return cbs(ctx, e.outputVar);
-}
-
 function parseArr(s: string): string[] {
   const v = JSON.parse(s);
   if (!Array.isArray(v)) throw new Error("not-array");
@@ -107,7 +103,7 @@ export function runDataOpcode(
   vr: VarResolver,
 ): boolean {
   const setOut = (v: string) => {
-    const name = outName(e, ctx);
+    const name = cbs(ctx, e.outputVar);
     if (name) vr.set(name, v);
   };
 
