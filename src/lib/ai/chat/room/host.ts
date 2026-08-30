@@ -3,10 +3,14 @@
 import {
   readConvHistoryForSend,
   readLocalConversation,
+  readLocalConversationBindings,
   readLocalConversationSettings,
   readPrimaryCharacter,
 } from "@/lib/db/client/data/chat/chat";
-import { readLocalPersona } from "@/lib/db/client/data/rp/rp";
+import {
+  readLocalCharacter,
+  readLocalPersona,
+} from "@/lib/db/client/data/rp/rp";
 import { uid } from "@/lib/utils/base";
 import {
   chatStore,
@@ -101,17 +105,15 @@ async function snapshot(): Promise<{
   messages: RoomMessage[];
 }> {
   if (!convId) return { title: "", characterName: null, messages: [] };
-  const [conv, character, history, persona] = await Promise.all([
+  const [conv, history] = await Promise.all([
     readLocalConversation(convId),
-    readPrimaryCharacter(convId),
     readConvHistoryForSend(convId),
-    hostPersonaName(),
   ]);
-  const charName = character?.name ?? null;
+  const charName = cachedCharacter;
   const messages = history.branch.map((m) => ({
     id: m.id,
     role: m.role === "user" ? ("user" as const) : ("assistant" as const),
-    speaker: m.role === "user" ? persona : (charName ?? "Assistant"),
+    speaker: m.role === "user" ? cachedPersona : (charName ?? "Assistant"),
     text: m.parts
       .filter((p) => p.type === "text" && p.text)
       .map((p) => p.text)
@@ -224,6 +226,37 @@ export function onRunStateChange(isRunning: boolean) {
   if (chatStore.get(roomTurnAtom).kind === "generating") releaseTurn();
 }
 
+// Names for the labels a guest sees. Resolved once when the room opens, since
+// a guest never receives the character or persona rows themselves.
+let cachedPersona = "User";
+let cachedCharacter: string | null = null;
+
+async function loadSpeakerNames() {
+  groupNames.clear();
+  cachedPersona = await hostPersonaName();
+  const primary = convId ? await readPrimaryCharacter(convId) : null;
+  cachedCharacter = primary?.name ?? null;
+  if (!convId) return;
+  const bindings = await readLocalConversationBindings(convId);
+  for (const bound of bindings?.conversationCharacters ?? []) {
+    const row = await readLocalCharacter(bound.characterId);
+    if (row?.name) groupNames.set(bound.characterId, row.name);
+  }
+}
+
+export function speakerName(
+  role: "user" | "assistant",
+  speakingCharacterId?: string,
+): string {
+  if (role === "user") return cachedPersona;
+  const named = speakingCharacterId
+    ? groupNames.get(speakingCharacterId)
+    : undefined;
+  return named ?? cachedCharacter ?? "Assistant";
+}
+
+const groupNames = new Map<string, string>();
+
 export function broadcastMessage(message: RoomMessage) {
   if (!peer) return;
   broadcast({ type: "message-appended", message });
@@ -243,9 +276,20 @@ export function isHosting() {
   return peer !== null;
 }
 
-export async function startRoom(): Promise<void> {
+// A failed start leaves status "error" behind; without this the panel reopens
+// still showing the old failure.
+export function clearRoomError() {
   if (peer) return;
-  const active = chatStore.get(convIdAtom);
+  chatStore.set(roomErrorAtom, null);
+  chatStore.set(roomHostStatusAtom, "off");
+}
+
+// convId is passed in rather than read from convIdAtom: the runtime resolves
+// the active conversation as `remoteId ?? convIdAtom`, and the atom alone is
+// null on a thread that was opened by URL rather than created in this tab.
+export async function startRoom(activeConvId: string | null): Promise<void> {
+  if (peer) return;
+  const active = activeConvId ?? chatStore.get(convIdAtom);
   if (!active) {
     chatStore.set(roomErrorAtom, "NO_CONVERSATION");
     chatStore.set(roomHostStatusAtom, "error");
@@ -254,6 +298,7 @@ export async function startRoom(): Promise<void> {
   convId = active;
   chatStore.set(roomHostStatusAtom, "starting");
   chatStore.set(roomErrorAtom, null);
+  await loadSpeakerNames();
   const { Peer } = await import("peerjs");
   const id = uid(24);
   const created = new Peer(id);

@@ -8,6 +8,7 @@ import {
   broadcastStreamEnd,
   isHosting,
   onRunStateChange,
+  speakerName,
 } from "./host";
 
 const textOf = (msg: ChatUIMessage) =>
@@ -23,7 +24,6 @@ const textOf = (msg: ChatUIMessage) =>
 export function useRoomBroadcast(
   messages: ChatUIMessage[],
   isRunning: boolean,
-  speakerFor: (msg: ChatUIMessage) => string,
 ) {
   const sentText = useRef(new Map<string, string>());
   const wasRunning = useRef(false);
@@ -43,14 +43,14 @@ export function useRoomBroadcast(
         broadcastMessage({
           id: msg.id,
           role: msg.role,
-          speaker: speakerFor(msg),
+          speaker: speakerName(msg.role, msg.metadata?.speakingCharacterId),
           text,
         });
       } else {
         broadcastDelta(msg.id, text);
       }
     }
-  }, [messages, speakerFor]);
+  }, [messages]);
 
   useEffect(() => {
     if (!isHosting()) return;

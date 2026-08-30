@@ -3,7 +3,12 @@ import type {
   RoomParticipant,
   TurnState,
 } from "@/lib/ai/chat/room/protocol";
-import { atom } from "jotai";
+import { atom, createStore } from "jotai";
+
+// The guest runs on its own store rather than the chat store: importing
+// chatStore would pull the entire local-first data layer into a route whose
+// whole point is that it never opens a database.
+export const roomStore = createStore();
 
 export type PendingJoin = {
   peerId: string;

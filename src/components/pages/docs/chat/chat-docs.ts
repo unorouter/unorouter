@@ -159,6 +159,19 @@ export const CHAT_DOCS: ChatDoc[] = [
     ],
   }),
   chatDoc({
+    slug: "multiplayer",
+    name: "MULTIPLAYER",
+    section: "PROMPTING",
+    iconName: "users",
+    headings: [
+      ["host", "H_HOST"],
+      ["guest", "H_GUEST"],
+      ["turns", "H_TURNS"],
+      ["limits", "H_LIMITS"],
+      ["troubleshooting", "H_TROUBLESHOOTING"],
+    ],
+  }),
+  chatDoc({
     slug: "macros",
     name: "MACROS",
     section: "SCRIPTING",

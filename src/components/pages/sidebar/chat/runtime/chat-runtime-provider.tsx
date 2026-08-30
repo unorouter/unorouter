@@ -21,6 +21,7 @@ import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/us
 import { useJsPluginLoader } from "@/hooks/ai/use-js-plugin-loader";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { analytics } from "@/lib/analytics";
+import { useRoomBroadcast } from "@/lib/ai/chat/room/use-room-broadcast";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -323,6 +324,10 @@ function ChatRuntimeHook() {
   };
 
   useLiveOpsBridge(chat, remoteId ?? null);
+  useRoomBroadcast(
+    chat.messages,
+    chat.status === "submitted" || chat.status === "streaming",
+  );
 
   return useAISDKRuntime(wrappedChat, {
     // assistant-ui otherwise folds a run of assistant messages into ONE bubble.
