@@ -1,0 +1,279 @@
+// Export your whole JanitorAI account from your own logged-in session: every
+// chat, the character cards behind them, and every lorebook that is reachable.
+//
+// It runs in YOUR browser because that is the only place the data exists for
+// you: janitorai answers 403 to a datacenter address, and a private card or
+// lorebook is only ever served to the session that owns the chat.
+//
+// WHAT IT CANNOT DO, and no tool can:
+//   - a lorebook the author set private returns 404 even WITH a valid session.
+//     Verified against a logged-in account: the ceiling is the author's setting,
+//     not authentication.
+//   - a card with showdefinition:false serves an empty personality/scenario.
+//     Recoverable ONLY when the author also left allow_proxy on, because the
+//     prompt JanitorAI assembles for a generation still contains it.
+// Everything unreachable is listed in `skipped` at the end rather than silently
+// exported as an empty card, so you can see exactly what did not come across.
+//
+// Paste into the devtools console on any janitorai.com page.
+
+(async () => {
+  const log = (m) => console.log("%c" + m, "color:#6cf");
+  const warn = (m) => console.warn("%c" + m, "color:#fc6");
+
+  const cookie = (n) => {
+    const m = document.cookie.match(
+      new RegExp(
+        "(?:^|; )" + n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "=([^;]*)",
+      ),
+    );
+    return m ? decodeURIComponent(m[1]) : "";
+  };
+
+  // The session is a SPLIT supabase cookie; localStorage holds no token here.
+  let token;
+  try {
+    const raw = (
+      cookie("sb-auth-auth-token.0") + cookie("sb-auth-auth-token.1")
+    ).replace("base64-", "");
+    token = JSON.parse(atob(raw)).access_token;
+  } catch {
+    token = null;
+  }
+  if (!token) {
+    console.error(
+      "%cNot logged in to janitorai.com.",
+      "color:#f66;font-weight:bold",
+    );
+    return;
+  }
+
+  const H = {
+    accept: "application/json",
+    "content-type": "application/json",
+    authorization: "Bearer " + token,
+  };
+  const get = async (path) => {
+    const r = await fetch(path, { headers: H, credentials: "include" });
+    return r.ok ? r.json() : null;
+  };
+
+  // ---- every character you have chatted with, paginated -------------------
+  const characters = [];
+  for (let page = 1; ; page++) {
+    const j = await get(`/hampter/chats/character-chats?page=${page}`);
+    const batch = j?.characters ?? [];
+    characters.push(...batch);
+    if (!j?.hasMore || batch.length === 0) break;
+  }
+  log(
+    `${characters.length} characters, ${characters[0] ? "" : "nothing to do"}`,
+  );
+
+  // ---- the assembled prompt, which is where hidden definitions live -------
+  // open_ai_mode "proxy" makes JanitorAI build the prompt and hand it back to
+  // its own caller instead of forwarding it, so one authenticated POST returns
+  // what the card page will not show. The proxy target is never contacted, but
+  // the userConfig must be COMPLETE or the server answers 502 while trying to
+  // call a provider for real.
+  const assembledPrompt = async (characterId, chatId) => {
+    const chat = await get("/hampter/chats/" + chatId);
+    if (!chat) return null;
+    const res = await fetch("/generateAlpha", {
+      method: "POST",
+      headers: H,
+      body: JSON.stringify({
+        chat: {
+          character_id: chat.chat?.character_id ?? characterId,
+          id: chat.chat?.id ?? chatId,
+          summary: chat.chat?.summary ?? "",
+          user_id: chat.chat?.user_id,
+        },
+        chatMessages: chat.chatMessages ?? [],
+        clientPlatform: "web",
+        forcedPromptGenerationCacheRefetch: {
+          character: false,
+          chat: false,
+          profile: false,
+          script: false,
+        },
+        generateMode: "NEW",
+        generateType: "CHAT",
+        profile: chat.personas?.[0] ?? null,
+        profiles: chat.personas ?? [],
+        userConfig: {
+          api: "openai",
+          open_ai_mode: "proxy",
+          open_ai_reverse_proxy: "https://example.invalid/v1/chat/completions",
+          reverseProxyKey: "extract",
+          openAiModel: "gpt-4",
+          openAIKey: null,
+          claudeApiKey: null,
+          claudeModel: "",
+          claude_jailbreak_prompt: "",
+          open_ai_jailbreak_prompt: "",
+          proxy_global_prompt: "",
+          llm_prompt: "",
+          bad_words: [],
+          allow_mobile_nsfw: true,
+          janitor_router_enabled: false,
+          text_streaming: false,
+          generation_settings: {
+            context_length: 50000,
+            enable_reasoning: false,
+            enable_reasoning_chat: false,
+            enable_router_temperature: false,
+            enable_short_responses: false,
+            max_new_token: 0,
+            prefill_enabled: false,
+            prefill_text: "",
+            temperature: 1,
+          },
+        },
+      }),
+    });
+    if (!res.ok) return null;
+    const body = await res.json().catch(() => null);
+    return (body?.messages ?? []).map((m) => m.content).join("\n") || null;
+  };
+
+  const out = {};
+  const skipped = [];
+  let chatCount = 0;
+
+  for (const [n, c] of characters.entries()) {
+    log(`[${n + 1}/${characters.length}] ${c.name}`);
+    const meta = (await get("/hampter/characters/" + c.character_id)) ?? {};
+
+    // ---- chats and messages ---------------------------------------------
+    const list = await get(`/hampter/chats/character/${c.character_id}/chats`);
+    const chats = [];
+    for (const row of list?.chats ?? []) {
+      const full = await get("/hampter/chats/" + row.id);
+      const messages = (full?.chatMessages ?? [])
+        .map((m) => ({
+          id: m.id,
+          is_bot: m.is_bot,
+          message: m.message,
+          created_at: m.created_at,
+        }))
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      if (messages.length === 0) continue;
+      chats.push({
+        chat_id: row.id,
+        summary: row.summary,
+        updated_at: row.updated_at,
+        chat_count: messages.length,
+        messages,
+      });
+      chatCount += messages.length;
+    }
+
+    // ---- the card, recovering a hidden definition where possible ---------
+    const hiddenDefinition =
+      !meta.personality && (meta.token_counts?.personality_tokens ?? 0) > 0;
+    let prompt = null;
+    if (hiddenDefinition && meta.allow_proxy && chats[0]) {
+      prompt = await assembledPrompt(c.character_id, chats[0].chat_id);
+      if (!prompt) {
+        skipped.push({
+          character: c.name,
+          what: "definition",
+          why: "proxy call failed",
+        });
+      }
+    } else if (hiddenDefinition) {
+      skipped.push({
+        character: c.name,
+        what: "definition",
+        why: "hidden by the creator and allow_proxy is off",
+      });
+    }
+
+    // ---- lorebooks, only the ones the author left readable ---------------
+    const lorebooks = [];
+    for (const s of meta.scripts ?? []) {
+      const book = await get("/hampter/script/" + s.id);
+      if (!book?.script) {
+        skipped.push({
+          character: c.name,
+          what: "lorebook: " + (s.title || s.id),
+          why: "private (404 even with a session)",
+        });
+        continue;
+      }
+      let entries = [];
+      try {
+        entries = JSON.parse(book.script);
+      } catch {
+        entries = [];
+      }
+      if (!Array.isArray(entries) || entries.length === 0) {
+        // "advanced" books are a program that builds entries at chat time, so
+        // there is nothing to export before it has run.
+        skipped.push({
+          character: c.name,
+          what: "lorebook: " + (s.title || s.id),
+          why: "script-based, has no static entries",
+        });
+        continue;
+      }
+      let settings = null;
+      try {
+        settings = JSON.parse(book.settings || "{}");
+      } catch {
+        settings = null;
+      }
+      lorebooks.push({
+        id: s.id,
+        title: book.title || s.title,
+        entries,
+        scan_depth: settings?.depth,
+      });
+    }
+
+    out[c.character_id] = {
+      character_id: c.character_id,
+      character_name: c.name,
+      card: {
+        name: meta.name || c.name,
+        description: meta.description || "",
+        personality: meta.personality || "",
+        scenario: meta.scenario || "",
+        first_mes: meta.first_message || "",
+        mes_example: meta.example_dialogs || "",
+        creator: meta.creator_name || meta.user_name || "",
+        avatar: c.avatar || meta.avatar || "",
+        // Present only when the definition was hidden AND recoverable. It is
+        // the whole assembled prompt, not split back into fields, because that
+        // is the form JanitorAI hands back.
+        assembled_prompt: prompt,
+      },
+      lorebooks,
+      chats,
+    };
+  }
+
+  const payload = {
+    exported_at: new Date().toISOString(),
+    characters: out,
+    skipped,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {
+    type: "application/json",
+  });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `janitorai-full-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+
+  const books = Object.values(out).reduce((n, c) => n + c.lorebooks.length, 0);
+  log(
+    `Done: ${characters.length} characters, ${chatCount} messages, ${books} lorebooks.`,
+  );
+  if (skipped.length) {
+    warn(`${skipped.length} item(s) could not be exported:`);
+    console.table(skipped);
+  }
+})();
