@@ -1,3 +1,4 @@
+import { guestFetch } from "@/lib/ai/chat/guest-fetch";
 import { sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../triggers/types";
@@ -198,7 +199,7 @@ export function buildPluginApi(
 
     // SECURITY: connect-src 'none' blocks the iframe entirely, so this is a
     // plugin's ONLY network access. Egress policy: client-only, https GET,
-    // <=120 chars, 5 per minute.
+    // <=120 chars, 5 per minute, and never this site (see guestFetch).
     httpRequest: async (url: string) => {
       if (typeof window === "undefined") {
         return { status: 400, data: "request is not allowed server-side" };
@@ -214,18 +215,7 @@ export function buildPluginApi(
         };
       }
       lastRequestsCount++;
-      try {
-        if (url.length > 120) {
-          return { status: 413, data: "URL too large. max is 120 characters" };
-        }
-        if (!url.startsWith("https://")) {
-          return { status: 400, data: "Only https requests are allowed" };
-        }
-        const d = await fetch(url, { method: "GET" });
-        return { status: d.status, data: await d.text() };
-      } catch {
-        return { status: 400, data: "internal error" };
-      }
+      return guestFetch(url);
     },
 
     _getPropertiesForInitialization: () => ({
