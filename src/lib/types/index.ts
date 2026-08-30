@@ -83,6 +83,16 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
+// What every RP entity picker needs to render a row: an id, a label, and the
+// avatar to show beside it. `title` only exists on personas, which display it
+// in preference to the name.
+export type NamedEntity = {
+  id: string;
+  name: string;
+  title?: string | null;
+  avatarMediaId?: string | null;
+};
+
 export type ImageView = {
   id: string;
   sequenceIndex: number;

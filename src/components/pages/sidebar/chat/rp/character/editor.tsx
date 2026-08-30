@@ -22,6 +22,11 @@ import {
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { csvToArray, uid } from "@/lib/utils/base";
 import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
+import {
+  RpImageField,
+  resolveMediaId,
+  type ImgDraft,
+} from "../shared/rp-image-field";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -30,9 +35,6 @@ type Props = {
   characterId?: string;
   onSaved: () => void;
 };
-
-type ImgDraft =
-  { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
 
 type AssetRow = {
   rowId: string;
@@ -51,8 +53,6 @@ export function CharacterEditor(props: Props) {
   const existing = characterQuery.data;
   const [bgDraft, setBgDraft] = useState<ImgDraft>({ kind: "keep" });
   const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
-  const bgFileInputRef = useRef<HTMLInputElement | null>(null);
-  const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const existingBgSrc = useMediaSrc(
     bgDraft.kind === "keep" ? existing?.backgroundMediaId : null,
   );
@@ -128,34 +128,6 @@ export function CharacterEditor(props: Props) {
       })
     : undefined;
   const form = useRpForm(characterFormSchema, formValues);
-
-  const pickBgFile = async (file: File) => {
-    const dataUrl = await fileToScaledDataUrl(file);
-    setBgDraft({ kind: "new", dataUrl });
-  };
-  const pickAvatarFile = async (file: File) => {
-    const dataUrl = await fileToScaledDataUrl(file);
-    setAvatarDraft({ kind: "new", dataUrl });
-  };
-
-  const resolveMediaId = async (
-    draft: ImgDraft,
-    existingId: string | null | undefined,
-  ): Promise<string | null> => {
-    if (draft.kind === "remove") return null;
-    if (draft.kind === "keep") return existingId ?? null;
-    const parts = splitDataUrl(draft.dataUrl);
-    if (!parts) return existingId ?? null;
-    const mediaId = uid();
-    await upsertLocalMedia({
-      id: mediaId,
-      convId: null,
-      mimeType: parts.mimeType,
-      sizeBytes: Math.floor((parts.base64.length * 3) / 4),
-      dataBase64: parts.base64,
-    });
-    return mediaId;
-  };
 
   const resolveAssets = async (): Promise<
     { name: string; mediaId: string }[]
@@ -316,112 +288,20 @@ export function CharacterEditor(props: Props) {
           label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
         />
-        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
-          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
-            {t("RP.CHARACTER_AVATAR")}
-          </div>
-          <p className="text-muted-foreground text-xs">
-            {t("RP.CHARACTER_AVATAR_HINT")}
-          </p>
-          {avatarPreview && (
-            <div className="border-border/40 relative size-24 overflow-hidden rounded-full border">
-              {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
-              <img
-                src={avatarPreview}
-                alt=""
-                className="h-full w-full object-cover"
-              />
-            </div>
-          )}
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={() => avatarFileInputRef.current?.click()}
-            >
-              <Icon name="upload" className="mr-1.5 size-3.5" />
-              {avatarPreview ? t("THEME.BG_REPLACE") : t("THEME.BG_UPLOAD")}
-            </Button>
-            {avatarPreview && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="flex-1"
-                onClick={() => setAvatarDraft({ kind: "remove" })}
-              >
-                <Icon name="trash-2" className="mr-1.5 size-3.5" />
-                {t("THEME.BG_REMOVE")}
-              </Button>
-            )}
-          </div>
-          <input
-            ref={avatarFileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) void pickAvatarFile(f);
-              e.target.value = "";
-            }}
-          />
-        </div>
-        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
-          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
-            {t("RP.CHARACTER_BACKGROUND")}
-          </div>
-          <p className="text-muted-foreground text-xs">
-            {t("RP.CHARACTER_BACKGROUND_HINT")}
-          </p>
-          {bgPreview && (
-            <div className="border-border/40 relative h-28 w-full overflow-hidden rounded-lg border">
-              {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
-              <img
-                src={bgPreview}
-                alt=""
-                className="h-full w-full object-cover"
-              />
-            </div>
-          )}
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={() => bgFileInputRef.current?.click()}
-            >
-              <Icon name="upload" className="mr-1.5 size-3.5" />
-              {bgPreview ? t("THEME.BG_REPLACE") : t("THEME.BG_UPLOAD")}
-            </Button>
-            {bgPreview && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="flex-1"
-                onClick={() => setBgDraft({ kind: "remove" })}
-              >
-                <Icon name="trash-2" className="mr-1.5 size-3.5" />
-                {t("THEME.BG_REMOVE")}
-              </Button>
-            )}
-          </div>
-          <input
-            ref={bgFileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) void pickBgFile(f);
-              e.target.value = "";
-            }}
-          />
-        </div>
+        <RpImageField
+          labelKey="RP.CHARACTER_AVATAR"
+          hintKey="RP.CHARACTER_AVATAR_HINT"
+          preview={avatarPreview}
+          onPick={setAvatarDraft}
+          shape="circle"
+        />
+        <RpImageField
+          labelKey="RP.CHARACTER_BACKGROUND"
+          hintKey="RP.CHARACTER_BACKGROUND_HINT"
+          preview={bgPreview}
+          onPick={setBgDraft}
+          shape="banner"
+        />
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
             {t("RP.CHARACTER_ASSETS_TITLE")}

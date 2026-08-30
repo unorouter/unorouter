@@ -13,11 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
 import { NONE_VALUE } from "@/lib/config/constants";
+import type { NamedEntity } from "@/lib/types";
 import type { ReactNode } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
-
-type NamedEntity = { id: string; name: string };
 
 export function MyFormEntitySelect<T extends FieldValues>(props: {
   control: Control<T>;
@@ -50,7 +50,14 @@ export function MyFormEntitySelect<T extends FieldValues>(props: {
                 <SelectItem value={NONE_VALUE}>{props.noneLabel}</SelectItem>
                 {props.options?.map((o) => (
                   <SelectItem key={o.id} value={o.id}>
-                    {o.name}
+                    <span className="flex min-w-0 items-center gap-2">
+                      <RpAvatar
+                        mediaId={o.avatarMediaId}
+                        name={o.name}
+                        className="size-5"
+                      />
+                      <span className="truncate">{o.name}</span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

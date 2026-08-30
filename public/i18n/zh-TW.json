@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "尚無人物。",
     "PERSONA_TITLE": "顯示標題",
     "PERSONA_TITLE_HINT": "僅用於在清單中區分人設，絕不會傳送給模型。",
+    "PERSONA_AVATAR": "頭像",
+    "PERSONA_AVATAR_HINT": "在聊天與清單中顯示於該人設旁邊。",
     "PERSONA_NAME_HINT": "會取代提示詞中的使用者佔位符，這是模型看到的名字。",
     "PERSONA_DEFAULT": "預設人物",
     "LOREBOOKS_TITLE": "知識庫",

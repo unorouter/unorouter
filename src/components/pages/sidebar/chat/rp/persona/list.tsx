@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,6 +23,7 @@ import { useEffect, useState } from "react";
 import {
   confirmRpDelete,
   RpEmptyCard,
+  RpAvatar,
   RpEntityRow,
   rpFilter,
   RP_ACTION_BUTTON,
@@ -139,11 +139,7 @@ export function PersonaList(props: Props) {
                       setEditingId(p.id);
                     }}
                     leading={
-                      <Avatar className="size-10">
-                        <AvatarFallback>
-                          {p.name[0]?.toUpperCase() ?? "?"}
-                        </AvatarFallback>
-                      </Avatar>
+                      <RpAvatar mediaId={p.avatarMediaId} name={p.name} />
                     }
                     name={
                       <>

@@ -221,6 +221,9 @@ export const personaFormSchema = t.Object({
   }),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   personality: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
+    default: null,
+  }),
   isDefault: t.Boolean({ default: false }),
 });
 export type PersonaForm = Static<typeof personaFormSchema>;

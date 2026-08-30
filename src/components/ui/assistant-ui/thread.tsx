@@ -74,6 +74,10 @@ import {
   useAuiState,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
+import { NONE_VALUE } from "@/lib/config/constants";
+import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
+import { usePersonasQuery } from "@/hooks/ai/rp/personas";
+import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
@@ -993,6 +997,30 @@ const AssistantActionBar: FC = () => {
   );
 };
 
+// The persona is the user's own face in an RP, so it belongs on their turns the
+// way a character avatar belongs on the reply. Null whenever no persona is
+// bound, which is the ordinary non-RP case.
+const UserPersonaAvatar: FC = () => {
+  const convId = useAuiState((s) => s.threadListItem?.remoteId);
+  const settings = useChatSettingsQuery(convId ?? undefined).data;
+  const personas = usePersonasQuery().data;
+  const personaId =
+    settings?.personaId && settings.personaId !== NONE_VALUE
+      ? settings.personaId
+      : null;
+  const persona = personas?.find((p) => p.id === personaId);
+  if (!persona) return null;
+  return (
+    <div className="col-start-1 row-start-2 flex justify-end pr-2">
+      <RpAvatar
+        mediaId={persona.avatarMediaId}
+        name={persona.title || persona.name}
+        className="size-7"
+      />
+    </div>
+  );
+};
+
 const UserMessage: FC = () => {
   const [editing, setEditing] = useState(false);
   return (
@@ -1007,6 +1035,7 @@ const UserMessage: FC = () => {
           </div>
         ) : (
           <>
+            <UserPersonaAvatar />
             <UserMessageAttachments />
 
             <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">

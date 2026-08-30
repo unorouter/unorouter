@@ -26,12 +26,12 @@ import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { readLocalCard } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { RpAvatar } from "./rp/shared/rp-list-parts";
+import type { NamedEntity } from "@/lib/types";
 import { chatLoadoutAtom, type ChatLoadout } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-
-type NamedEntity = { id: string; name: string; title?: string | null };
 
 const entityLabel = (o: NamedEntity) => o.title || o.name;
 
@@ -63,7 +63,14 @@ function EntityPicker(props: {
           <SelectItem value={NONE_VALUE}>{props.noneLabel}</SelectItem>
           {options.map((o) => (
             <SelectItem key={o.id} value={o.id}>
-              {entityLabel(o)}
+              <span className="flex min-w-0 items-center gap-2">
+                <RpAvatar
+                  mediaId={o.avatarMediaId}
+                  name={o.name}
+                  className="size-5"
+                />
+                <span className="truncate">{entityLabel(o)}</span>
+              </span>
             </SelectItem>
           ))}
         </SelectContent>
@@ -81,7 +88,7 @@ function MultiPicker(props: {
   onChange: (ids: string[]) => void;
 }) {
   const options = props.options ?? [];
-  const lookup = new Map(options.map((o) => [o.id, o.name]));
+  const lookup = new Map(options.map((o) => [o.id, o]));
   return (
     <div className="flex flex-col gap-1">
       <span className="text-muted-foreground text-xs">{props.label}</span>
@@ -90,14 +97,14 @@ function MultiPicker(props: {
         multiple
         value={props.value}
         onValueChange={(next) => props.onChange(next)}
-        itemToStringLabel={(id) => lookup.get(id) ?? id}
+        itemToStringLabel={(id) => lookup.get(id)?.name ?? id}
       >
         <ComboboxChips>
           <ComboboxValue>
             {(value: string[]) =>
               value.map((id) => (
-                <ComboboxChip key={id} aria-label={lookup.get(id)}>
-                  {lookup.get(id) ?? id}
+                <ComboboxChip key={id} aria-label={lookup.get(id)?.name}>
+                  {lookup.get(id)?.name ?? id}
                 </ComboboxChip>
               ))
             }
@@ -110,7 +117,14 @@ function MultiPicker(props: {
           <ComboboxList>
             {(id: string) => (
               <ComboboxItem key={id} value={id}>
-                {lookup.get(id) ?? id}
+                <span className="flex min-w-0 items-center gap-2">
+                  <RpAvatar
+                    mediaId={lookup.get(id)?.avatarMediaId}
+                    name={lookup.get(id)?.name ?? id}
+                    className="size-5"
+                  />
+                  <span className="truncate">{lookup.get(id)?.name ?? id}</span>
+                </span>
               </ComboboxItem>
             )}
           </ComboboxList>

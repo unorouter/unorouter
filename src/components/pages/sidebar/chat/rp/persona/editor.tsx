@@ -13,7 +13,14 @@ import {
 import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import {
+  RpImageField,
+  resolveMediaId,
+  type ImgDraft,
+} from "../shared/rp-image-field";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { FormFooter } from "../shared/form-footer";
 
 type Props = {
@@ -28,6 +35,16 @@ export function PersonaEditor(props: Props) {
   const createMut = useCreatePersonaMutation();
   const updateMut = useUpdatePersonaMutation();
   const existing = personaQuery.data;
+  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
+  const existingAvatarSrc = useMediaSrc(
+    avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
+  );
+  const avatarPreview =
+    avatarDraft.kind === "new"
+      ? avatarDraft.dataUrl
+      : avatarDraft.kind === "keep"
+        ? existingAvatarSrc
+        : null;
 
   const formValues =
     !isNew && existing
@@ -40,10 +57,14 @@ export function PersonaEditor(props: Props) {
   const form = useRpForm(personaFormSchema, formValues);
 
   const onSubmit = async (data: PersonaForm) => {
+    const body = {
+      ...data,
+      avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
+    };
     if (isNew) {
-      await createMut.mutateAsync({ body: data });
+      await createMut.mutateAsync({ body });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body: data });
+      await updateMut.mutateAsync({ id: props.editingId, body });
     }
     props.onDone();
   };
@@ -86,6 +107,13 @@ export function PersonaEditor(props: Props) {
             schema={personaFormSchema}
             label={t("RP.CHARACTER_PERSONALITY")}
             rows={2}
+          />
+          <RpImageField
+            labelKey="RP.PERSONA_AVATAR"
+            hintKey="RP.PERSONA_AVATAR_HINT"
+            preview={avatarPreview}
+            onPick={setAvatarDraft}
+            shape="circle"
           />
           <MyFormSwitch
             control={form.control}

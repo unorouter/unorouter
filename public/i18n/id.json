@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Belum ada persona.",
     "PERSONA_TITLE": "Judul tampilan",
     "PERSONA_TITLE_HINT": "Hanya untuk membedakan persona di daftar Anda. Tidak pernah dikirim ke model.",
+    "PERSONA_AVATAR": "Avatar",
+    "PERSONA_AVATAR_HINT": "Ditampilkan di samping persona ini di obrolan dan daftar.",
     "PERSONA_NAME_HINT": "Menggantikan placeholder pengguna dalam prompt. Ini nama yang dilihat model.",
     "PERSONA_DEFAULT": "Persona default",
     "LOREBOOKS_TITLE": "Lorebook",

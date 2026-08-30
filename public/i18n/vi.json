@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Chưa có persona.",
     "PERSONA_TITLE": "Tiêu đề hiển thị",
     "PERSONA_TITLE_HINT": "Chỉ để phân biệt các persona trong danh sách của bạn. Không bao giờ gửi đến mô hình.",
+    "PERSONA_AVATAR": "Ảnh đại diện",
+    "PERSONA_AVATAR_HINT": "Hiển thị bên cạnh persona này trong cuộc trò chuyện và danh sách.",
     "PERSONA_NAME_HINT": "Được thay vào chỗ giữ chỗ người dùng trong prompt. Đây là tên mà mô hình nhìn thấy.",
     "PERSONA_DEFAULT": "Persona mặc định",
     "LOREBOOKS_TITLE": "Lorebook",

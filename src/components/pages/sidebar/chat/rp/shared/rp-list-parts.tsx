@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { confirm } from "@/components/ui/confirm";
@@ -16,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import { analytics } from "@/lib/analytics";
 import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
@@ -27,6 +29,20 @@ type RpAnalyticsEntity = Parameters<
 >[0]["entity"];
 
 export const RP_ACTION_BUTTON = "max-sm:h-8 max-sm:px-2 max-sm:text-xs";
+
+export function RpAvatar(props: {
+  mediaId: string | null | undefined;
+  name: string;
+  className?: string;
+}) {
+  const src = useMediaSrc(props.mediaId);
+  return (
+    <Avatar className={props.className ?? "size-10"}>
+      {src && <AvatarImage src={src} alt={props.name} />}
+      <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>
+    </Avatar>
+  );
+}
 
 export async function confirmRpDelete(
   t: ReturnType<typeof useTranslations<never>>,

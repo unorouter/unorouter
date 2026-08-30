@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Henüz persona yok.",
     "PERSONA_TITLE": "Görünen başlık",
     "PERSONA_TITLE_HINT": "Yalnızca listelerinizde personaları ayırt etmek içindir. Modele asla gönderilmez.",
+    "PERSONA_AVATAR": "Avatar",
+    "PERSONA_AVATAR_HINT": "Sohbetlerde ve listelerde bu personanın yanında gösterilir.",
     "PERSONA_NAME_HINT": "Promptlarda kullanıcı yer tutucusunun yerine geçer. Modelin gördüğü isim budur.",
     "PERSONA_DEFAULT": "Varsayılan persona",
     "LOREBOOKS_TITLE": "Lorebookler",

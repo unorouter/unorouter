@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Aucune persona.",
     "PERSONA_TITLE": "Titre d'affichage",
     "PERSONA_TITLE_HINT": "Sert uniquement à distinguer les personas dans vos listes. Jamais envoyé au modèle.",
+    "PERSONA_AVATAR": "Avatar",
+    "PERSONA_AVATAR_HINT": "Affiché à côté de ce persona dans les discussions et les listes.",
     "PERSONA_NAME_HINT": "Inséré à la place du marqueur utilisateur dans les prompts. C'est le nom que voit le modèle.",
     "PERSONA_DEFAULT": "Persona par défaut",
     "LOREBOOKS_TITLE": "Lorebooks",

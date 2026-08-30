@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "Brak person.",
     "PERSONA_TITLE": "Tytuł wyświetlany",
     "PERSONA_TITLE_HINT": "Służy tylko do rozróżniania person na listach. Nigdy nie jest wysyłany do modelu.",
+    "PERSONA_AVATAR": "Awatar",
+    "PERSONA_AVATAR_HINT": "Wyświetlany obok tej persony na czatach i listach.",
     "PERSONA_NAME_HINT": "Wstawiane w miejsce znacznika użytkownika w promptach. To imię widzi model.",
     "PERSONA_DEFAULT": "Domyślna persona",
     "LOREBOOKS_TITLE": "Lorebooki",

@@ -4175,6 +4175,8 @@
     "PERSONAS_EMPTY": "ペルソナがありません。",
     "PERSONA_TITLE": "表示タイトル",
     "PERSONA_TITLE_HINT": "リスト内でペルソナを区別するためだけのものです。モデルには送信されません。",
+    "PERSONA_AVATAR": "アバター",
+    "PERSONA_AVATAR_HINT": "チャットやリストでこのペルソナの横に表示されます。",
     "PERSONA_NAME_HINT": "プロンプト内のユーザープレースホルダーに挿入されます。モデルに見える名前です。",
     "PERSONA_DEFAULT": "既定のペルソナ",
     "LOREBOOKS_TITLE": "ロアブック",
