@@ -2877,7 +2877,9 @@
       "APPLY": "套用"
     },
     "UPDATE_AVAILABLE": "有新版本可用",
-    "UPDATE_RELOAD": "重新載入"
+    "UPDATE_RELOAD": "重新載入",
+    "TOTAL_COUNT": "共 {count} 筆",
+    "ROWS": "每頁列數"
   },
   "LANGUAGE": {
     "EN": "English",

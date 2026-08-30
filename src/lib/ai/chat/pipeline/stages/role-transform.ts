@@ -218,12 +218,6 @@ async function applyRequestEdit(
     formated: FormatedMessage[],
   ) => Promise<FormatedMessage[]>,
 ): Promise<StreamMessages> {
-  const editCtx = makeTriggerContext({
-    mode: "request",
-    vars: {},
-    globalVars: {},
-    chat: [],
-  });
   const formated: FormatedMessage[] = messages.map((m) => ({
     role: m.role,
     content: Array.isArray(m.parts)
@@ -233,13 +227,23 @@ async function applyRequestEdit(
           .join("\n")
       : "",
   }));
+  // The v2*RequestState opcodes read and MUTATE ctx.formated in place, so the
+  // context has to carry the same array the result is compared against.
+  const before = formated.map((f) => f.content);
+  const editCtx = makeTriggerContext({
+    mode: "request",
+    vars: {},
+    globalVars: {},
+    chat: [],
+    formated,
+  });
   const edited = await run(editCtx, formated);
   if (!Array.isArray(edited) || edited.length !== formated.length)
     return messages;
   return messages.map((m, i) =>
     edited[i] &&
     typeof edited[i].content === "string" &&
-    edited[i].content !== formated[i].content
+    edited[i].content !== before[i]
       ? { ...m, parts: [{ type: "text" as const, text: edited[i].content }] }
       : m,
   );

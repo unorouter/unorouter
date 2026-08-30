@@ -80,6 +80,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
         : [];
       const img = await requestImggen(prompt.trim(), {
         imageModel: settings?.imageModel,
+        imageGroup: settings?.imageGroup,
         refUrls,
       });
       if (!img) throw new Error("ERRORS.UNEXPECTED_ERROR");
