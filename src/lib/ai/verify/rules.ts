@@ -1,20 +1,13 @@
-import type { ProbeSignal } from "./types";
-
 export type DetectionRuleId =
   "coding-tool" | "scam" | "cjk-leak" | "mux" | "foreign" | "tier-mismatch";
 
-export type DetectionRule = {
-  id: DetectionRuleId;
-  signal: ProbeSignal;
-};
-
-export const DETECTION_RULES: readonly DetectionRule[] = [
-  { id: "coding-tool", signal: "coding-tool" },
-  { id: "scam", signal: "scam" },
-  { id: "cjk-leak", signal: "cjk-leak" },
-  { id: "mux", signal: null },
-  { id: "foreign", signal: "foreign" },
-  { id: "tier-mismatch", signal: null },
+export const DETECTION_RULES: readonly DetectionRuleId[] = [
+  "coding-tool",
+  "scam",
+  "cjk-leak",
+  "mux",
+  "foreign",
+  "tier-mismatch",
 ];
 
 export type DetectionExceptionId =

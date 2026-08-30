@@ -55,7 +55,6 @@ async function tryFormat(args: {
   });
   const res = await args.transport({
     mode: args.mode,
-    provider: args.provider,
     url: built.url,
     headers: built.headers,
     reqBody: built.body,

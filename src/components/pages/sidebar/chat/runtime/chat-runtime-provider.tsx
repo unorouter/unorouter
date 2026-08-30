@@ -129,13 +129,6 @@ function ChatRuntimeHook() {
 
   const streamLockKeyRef = useRef<string | null>(null);
   const rotatingRef = useRef(false);
-  // Populated as the stream runs, so onError can report how much had arrived.
-  // Read from a ref rather than `chat`, which is not yet defined here.
-  const streamedRef = useRef<{ role: string; chars: number; types: string[] }>({
-    role: "",
-    chars: 0,
-    types: [],
-  });
   const releaseStreamLock = () => {
     if (rotatingRef.current) return;
     const key = streamLockKeyRef.current;
@@ -158,10 +151,6 @@ function ChatRuntimeHook() {
     onError: (e) => {
       releaseStreamLock();
       const detail = extractErrorDetail(e);
-      // How much arrived before it died is what separates a stream that never
-      // produced anything from one truncated mid-reply, and the error alone
-      // says neither. A cut-off report is unreadable without it.
-      const streamed = streamedRef.current;
       logChatDebug("stream.error", {
         threadId,
         remoteId,
@@ -171,8 +160,6 @@ function ChatRuntimeHook() {
         requestId: detail.requestId ?? null,
         message: detail.message,
         error: String(e).slice(0, 4000),
-        streamedChars: streamed.chars,
-        streamedParts: streamed.types,
       });
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
@@ -341,9 +328,7 @@ function ChatRuntimeHook() {
     // assistant-ui otherwise folds a run of assistant messages into ONE bubble.
     joinStrategy: "none",
     adapters: {
-      attachments: createLocalAttachmentAdapter(() => ({
-        convId: chatStore.get(convIdAtom),
-      })),
+      attachments: createLocalAttachmentAdapter(),
       history: historyAdapter,
     },
   });

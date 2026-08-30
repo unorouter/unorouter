@@ -152,7 +152,7 @@ export function ViewportDebugLogger() {
 
     const onTrigger = (reason: string) => {
       const g = geometry();
-      logChatDebug("viewport.change", { reason, ios: isIos, ...g });
+      logChatDebug("viewport.change", { reason, ...g });
       scanIntruders(g);
       requestAnimationFrame(composerFocused() ? repaintScroll : nudge);
       // While focused, offsetTop > 0 is Safari's own reveal pan: touching it
@@ -172,7 +172,6 @@ export function ViewportDebugLogger() {
     const onPageShow = () => setTimeout(() => onTrigger("pageshow"), 100);
 
     logChatDebug("viewport.mount", {
-      ios: isIos,
       layout: "dvh-sticky",
       viewportMeta:
         document

@@ -12,6 +12,14 @@ import type {
 
 const MAX_STEPS = 100000; // runaway-loop backstop
 
+type AlertKind = "normal" | "error" | "input" | "select";
+// TriggerEffect fields come from user-authored JSON, so narrow, never cast.
+function alertKind(raw: unknown): AlertKind {
+  return raw === "error" || raw === "input" || raw === "select"
+    ? raw
+    : "normal";
+}
+
 const SAFE_SUBSET = new Set([
   "v2SetVar",
   "v2If",
@@ -363,8 +371,7 @@ async function runEffects(
         continue;
       }
       case "showAlert": {
-        const kind = (e.alertType ?? "normal") as
-          "normal" | "error" | "input" | "select";
+        const kind = alertKind(e.alertType);
         const text = parse(e.value);
         let outv = "";
         if (ctx.ops?.alert) {

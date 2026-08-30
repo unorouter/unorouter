@@ -39,7 +39,6 @@ export type MacroScope = {
 };
 
 const MAX_RECURSION = 20;
-const MAX_CALC_LEN = 1000;
 const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
@@ -88,7 +87,6 @@ function pickFrom(args: string[], rand: () => number): string {
 }
 
 function calc(expr: string, scope: MacroScope): string {
-  if (!expr || expr.length > MAX_CALC_LEN) return "";
   const v = calcString(expr, {
     chatVar: (n) => scope.vars[n] ?? "",
     globalVar: (n) => scope.globalVars?.[n] ?? "",
@@ -730,7 +728,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
     ["\n", ["br", "newline"]],
-    ["", ["blank", "none", "comment", "hiddenkey"]],
+    ["", ["comment", "hiddenkey"]],
     ["(", ["displayescapedbracketopen", "debo", "("]],
     [")", ["displayescapedbracketclose", "debc", ")"]],
     ["<", ["displayescapedanglebracketopen", "deabo", "<"]],
@@ -1035,5 +1033,10 @@ function expandBlocks(text: string, scope: MacroScope, depth: number): string {
 
 export function expandMacros(text: string, scope: MacroScope): string {
   if (!text || !text.includes("{{")) return text;
-  return expandBlocks(text, scope, 0);
+  const out = expandBlocks(text, scope, 0);
+  // scope.vars is the conversation's live var map and becomes varsWriteback, so
+  // a leftover flag would truncate every later expansion and then persist.
+  delete scope.vars["__force_return__"];
+  delete scope.vars["__return__"];
+  return out;
 }

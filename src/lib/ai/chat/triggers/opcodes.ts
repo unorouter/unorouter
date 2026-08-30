@@ -82,6 +82,12 @@ function readJson<T>(
   }
 }
 
+type SysPromptLocation = "start" | "historyend" | "promptend";
+// TriggerEffect fields come from user-authored JSON, so narrow, never cast.
+function sysPromptLocation(raw: unknown): SysPromptLocation {
+  return raw === "start" || raw === "historyend" ? raw : "promptend";
+}
+
 function expandExtract(fmt: string, m: RegExpExecArray | null): string {
   if (!m) {
     return fmt
@@ -106,66 +112,32 @@ export function runDataOpcode(
   };
 
   switch (e.type) {
-    case "v2SetVar": {
-      const value = rv(e, ctx, vr, "value");
-      const varKey = cbs(ctx, e.var);
-      let cur = Number(vr.get(varKey));
-      if (Number.isNaN(cur)) cur = 0;
-      let next: string;
-      switch (e.operator) {
-        case "+=":
-          next = String(cur + Number(value));
-          break;
-        case "-=":
-          next = String(cur - Number(value));
-          break;
-        case "*=":
-          next = String(cur * Number(value));
-          break;
-        case "/=":
-          next = String(cur / Number(value));
-          break;
-        case "%=":
-          next = String(cur % Number(value));
-          break;
-        default:
-          next = value;
-      }
-      vr.set(varKey, next);
-      return true;
-    }
-
+    // v1 `setvar` reads value literally; v2 honours valueType. Same arithmetic.
+    case "v2SetVar":
     case "setvar": {
-      const value = cbs(ctx, e.value);
+      const value =
+        e.type === "v2SetVar" ? rv(e, ctx, vr, "value") : cbs(ctx, e.value);
       const varKey = cbs(ctx, e.var);
-      let cur = Number(vr.get(varKey));
-      if (Number.isNaN(cur)) cur = 0;
-      let next: string;
-      switch (e.operator) {
-        case "+=":
-          next = String(cur + Number(value));
-          break;
-        case "-=":
-          next = String(cur - Number(value));
-          break;
-        case "*=":
-          next = String(cur * Number(value));
-          break;
-        case "/=":
-          next = String(cur / Number(value));
-          break;
-        default:
-          next = value;
-      }
-      vr.set(varKey, next);
+      const cur = Number(vr.get(varKey));
+      const base = Number.isNaN(cur) ? 0 : cur;
+      const n = Number(value);
+      const ops: Record<string, () => string> = {
+        "+=": () => String(base + n),
+        "-=": () => String(base - n),
+        "*=": () => String(base * n),
+        "/=": () => String(base / n),
+        // v1 setvar never had %=, and there it must keep falling through to a
+        // plain assignment.
+        ...(e.type === "v2SetVar" ? { "%=": () => String(base % n) } : {}),
+      };
+      const op = typeof e.operator === "string" ? ops[e.operator] : undefined;
+      vr.set(varKey, op ? op() : value);
       return true;
     }
-    case "systemprompt": {
-      const loc = (e.location ?? "promptend") as
-        "start" | "historyend" | "promptend";
-      ctx.additionalSysPrompt[loc] += cbs(ctx, e.value) + "\n\n";
+    case "systemprompt":
+      ctx.additionalSysPrompt[sysPromptLocation(e.location)] +=
+        cbs(ctx, e.value) + "\n\n";
       return true;
-    }
     case "impersonate": {
       const role = e.role === "char" ? "assistant" : "user";
       ctx.chat.push({ role, data: cbs(ctx, e.value) });
@@ -671,12 +643,10 @@ export function runDataOpcode(
       ctx.replaceGlobalNote = rv(e, ctx, vr, "value");
       return true;
 
-    case "v2SystemPrompt": {
-      const loc = (e.location ?? "promptend") as
-        "start" | "historyend" | "promptend";
-      ctx.additionalSysPrompt[loc] += rv(e, ctx, vr, "value") + "\n\n";
+    case "v2SystemPrompt":
+      ctx.additionalSysPrompt[sysPromptLocation(e.location)] +=
+        rv(e, ctx, vr, "value") + "\n\n";
       return true;
-    }
     case "v2StopPromptSending":
       ctx.stopSending = true;
       return true;

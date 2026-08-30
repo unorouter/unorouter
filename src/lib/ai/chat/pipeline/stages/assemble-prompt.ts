@@ -3,6 +3,7 @@ import {
   UNKNOWN_MODEL_OUTPUT_CAP,
 } from "@/lib/config/constants";
 import { parseStringMap } from "@/lib/utils/base";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { PricingCatalogDetail } from "@/openapi";
 import type { LoadedConvContext } from "@/lib/types";
@@ -22,7 +23,6 @@ import {
   collectHistory,
   collectRecentUserTexts,
   dropSummarizedPrefix,
-  estimateTokens,
   expandMessageMacros,
   extractLastUserText,
   fitToTokenBudget,
@@ -161,7 +161,7 @@ export async function assemblePrompt(
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
     : effectiveMaxOutputTokens;
   const reserveTokens =
-    (assembled.promptTokens || estimateTokens(assembled.system)) +
+    (assembled.promptTokens || countTokens(assembled.system)) +
     outputReserve +
     CONTEXT_SAFETY_MARGIN;
   const slicedMessages = fitToTokenBudget(
@@ -190,7 +190,7 @@ export async function assemblePrompt(
     contextWindow: contextWindow ?? null,
     reserveTokens,
     outputReserve,
-    systemTokens: assembled.promptTokens || estimateTokens(assembled.system),
+    systemTokens: assembled.promptTokens || countTokens(assembled.system),
     historyTokens: slicedMessages.reduce((n, m) => n + messageTokens(m), 0),
   };
 
@@ -296,7 +296,7 @@ async function buildMemoryViaAgent(
     historyLen: history.length,
     priorAnchor: settings.summaryAnchor ?? 0,
     newAnchor: out.summaryWriteback?.anchor ?? null,
-    memoryBlockTokens: estimateTokens(out.memoryBlock),
+    memoryBlockTokens: countTokens(out.memoryBlock),
   });
   return out;
 }

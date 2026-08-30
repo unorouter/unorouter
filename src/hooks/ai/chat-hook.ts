@@ -205,21 +205,15 @@ export function useMessagesInfiniteQuery(id?: string) {
 export function useUpdateConversationMutation() {
   return useChatMutation(
     async (args: ConvIdArg & { body: UpdateConvBody }) => {
-      const existing = await readLocalConversation(args.id);
-      const now = dayjs().toDate();
-      const patch = {
+      // UPDATE ... WHERE id, so a missing row is already a no-op.
+      await updateLocalConversationSettings({
+        convId: args.id,
         ...(args.body.title !== undefined && { title: args.body.title }),
         ...(args.body.model !== undefined && {
           defaultModel: args.body.model,
         }),
-        updatedAt: now,
-      };
-      if (existing) {
-        await updateLocalConversationSettings({
-          convId: args.id,
-          ...patch,
-        });
-      }
+        updatedAt: dayjs().toDate(),
+      });
       return { id: args.id, ...args.body };
     },
     (args) =>

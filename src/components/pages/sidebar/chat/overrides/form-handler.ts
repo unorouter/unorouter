@@ -288,33 +288,12 @@ function overrideOrInherit(
   return formValue === inherited ? null : formValue;
 }
 
-function numOverrideOrInherit(
-  formValue: number | null | undefined,
-  _presetValue: number | null | undefined,
-): number | null {
-  return formValue ?? null;
-}
-
-function samplingOverrides(
-  data: ConversationOverridesForm,
-  preset: InheritSource | null,
-): ReturnType<typeof samplingValues> {
-  return samplingValues(
-    Object.fromEntries(
-      SAMPLING_FIELDS.map((field) => [
-        field,
-        numOverrideOrInherit(data[field], preset?.[field]),
-      ]),
-    ),
-  );
-}
-
 export function buildSettingsBody(
   data: ConversationOverridesForm,
   preset: InheritSource | null,
 ) {
   return {
-    chatMemory: numOverrideOrInherit(data.chatMemory, preset?.chatMemory),
+    chatMemory: data.chatMemory ?? null,
     authorNoteDepth: data.authorNoteDepth,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,
@@ -333,7 +312,7 @@ export function buildSettingsBody(
     imageModel: data.imageModel === NONE_VALUE ? null : data.imageModel,
     imagePreview: data.imagePreview,
     useCharAvatarRef: data.useCharAvatarRef,
-    ...samplingOverrides(data, preset),
+    ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: overrideOrInherit(
       data.streamingEnabled,

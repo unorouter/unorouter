@@ -21,7 +21,6 @@ export type LoadedJsPlugin = {
 };
 
 type PluginInstance = {
-  id: string;
   name: string;
   terminate: () => void;
   handlers: Map<PluginHookMode, Set<PluginHandler>>;
@@ -138,7 +137,7 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     frame.style.display = "none";
     document.body.appendChild(frame);
     const terminate = host.run(frame, code);
-    instances.push({ id: row.id, name: row.name, terminate, handlers });
+    instances.push({ name: row.name, terminate, handlers });
   }
 
   if (janitorScripts.length > 0) {

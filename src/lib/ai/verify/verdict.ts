@@ -7,10 +7,7 @@ import type {
   VerifyVerdict,
 } from "./types";
 
-export type ProbeEval = ProbeOutcome & {
-  signalForVerdict: ProbeSignal;
-  text: string | undefined;
-};
+export type ProbeEval = ProbeOutcome & { text: string | undefined };
 
 export type VerdictResult = {
   verdict: VerifyVerdict;
@@ -20,14 +17,12 @@ export type VerdictResult = {
 
 const labelsWith = (results: ProbeEval[], sig: ProbeSignal) =>
   results
-    .filter((r) => r.signalForVerdict === sig)
+    .filter((r) => r.signal === sig)
     .map((r) => r.label)
     .join(", ");
 
 const firstSignal = (results: ProbeEval[], sig: ProbeSignal) =>
-  results.some((r) => r.signalForVerdict === sig)
-    ? labelsWith(results, sig)
-    : null;
+  results.some((r) => r.signal === sig) ? labelsWith(results, sig) : null;
 
 export function aggregateVerdict(args: {
   model: string;
@@ -52,7 +47,7 @@ export function aggregateVerdict(args: {
 
   const foreignOnIdentity = results.some(
     (r) =>
-      r.signalForVerdict === "foreign" &&
+      r.signal === "foreign" &&
       (r.label === "model-name" || r.label === "identity"),
   );
   if (foreignOnIdentity)
@@ -86,7 +81,7 @@ export function aggregateVerdict(args: {
 
   const transientFails = failed.filter((r) => r.transient).length;
   const nonTransientFails = failed.filter(
-    (r) => !r.transient && r.signalForVerdict !== null,
+    (r) => !r.transient && r.signal !== null,
   ).length;
   if (transientFails > 0 && nonTransientFails === 0)
     return {

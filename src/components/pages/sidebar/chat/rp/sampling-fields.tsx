@@ -16,7 +16,6 @@ type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
   control: Control<TForm>;
   names: Record<SamplingFieldName, Path<TForm>>;
   metadata?: ModelMetadata;
-  maxTokensCap?: number;
   onReset?: () => void;
 };
 
@@ -26,6 +25,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
   const t = useTranslations();
 
   const supported = props.metadata?.supportedParameters;
+  const maxTokensCap = props.metadata?.maxOutputTokens;
   const isUnsupported = (apiKey: string): boolean => {
     if (!supported || supported.length === 0) return false;
     if (apiKey === "max_tokens") {
@@ -62,13 +62,12 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
         {SAMPLING_PARAMS.map((param) => {
           const disabled = isUnsupported(param.apiKey);
           // The cap moves the slider max in BOTH directions, never only downward.
-          const hasCap =
-            param.apiKey === "max_tokens" && props.maxTokensCap != null;
-          const fieldMax = hasCap ? props.maxTokensCap! : param.max;
+          const hasCap = param.apiKey === "max_tokens" && maxTokensCap != null;
+          const fieldMax = hasCap ? maxTokensCap : param.max;
           const label =
-            hasCap && props.maxTokensCap !== param.max
+            hasCap && maxTokensCap !== param.max
               ? t("RP.SAMPLING_MAX_TOKENS_CAP", {
-                  cap: props.maxTokensCap!.toLocaleString(),
+                  cap: maxTokensCap.toLocaleString(),
                 })
               : t(param.labelKey);
           return (

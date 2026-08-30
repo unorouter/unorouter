@@ -154,7 +154,7 @@ export function PromptTemplateEditor(props: Props) {
               {card.type === "slot" && (
                 <div className="flex flex-col gap-1.5">
                   <span className="text-sm font-medium">
-                    {SLOT_LABELS[card.slot] ?? card.slot}
+                    {SLOT_LABELS[card.slot]}
                   </span>
                   {card.slot === "prefill" && (
                     <>

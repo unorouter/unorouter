@@ -21,7 +21,6 @@ type EngineState = {
 const ENGINE_IDLE_MS = 60_000;
 
 export const luaSafeIds = new Set<string>();
-export const luaEditDisplayIds = new Set<string>();
 export const luaLowLevelIds = new Set<string>();
 
 let factoryPromise: Promise<LuaFactoryLike> | null = null;
@@ -272,9 +271,10 @@ export async function runScripted(
     const engine = state.engine;
     if (!engine) return { res: undefined, stopSending: false };
 
+    // editDisplay deliberately gets NO key: every safe()/low() check then fails,
+    // which is what makes display handlers read-only.
     const accessKey = crypto.randomUUID();
-    if (args.mode === "editDisplay") luaEditDisplayIds.add(accessKey);
-    else {
+    if (args.mode !== "editDisplay") {
       luaSafeIds.add(accessKey);
       if (args.lowLevelAccess) luaLowLevelIds.add(accessKey);
     }
@@ -319,7 +319,6 @@ export async function runScripted(
       return { res, stopSending: flags.stopSending };
     } finally {
       luaSafeIds.delete(accessKey);
-      luaEditDisplayIds.delete(accessKey);
       luaLowLevelIds.delete(accessKey);
       scheduleIdleClose(state);
     }
