@@ -24,16 +24,6 @@ import {
   LOG_TYPE_TOPUP,
 } from "./log-helpers";
 
-export function LogEmptyState() {
-  const t = useTranslations();
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <Icon name="scroll-text" className="text-muted-foreground h-8 w-8" />
-      <span className="text-muted-foreground text-sm">{t("LOGS.NO_LOGS")}</span>
-    </div>
-  );
-}
-
 function SearchFilterInput(props: {
   value: string;
   onChange: (value: string | undefined) => void;
