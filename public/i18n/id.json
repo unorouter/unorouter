@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Butuh preset atau bingung? Tanya di Discord",
     "TRUNCATED_BEFORE_TEXT": "Batas keluaran tercapai saat model masih menalar, sehingga tidak ada balasan yang ditulis. Naikkan token maksimum atau matikan penalaran untuk model ini.",
-    "LOCAL_ONLY_NOTICE": "Obrolan Anda tetap di perangkat ini. Kami tidak pernah melihatnya dan tidak menyimpan salinan, jadi cadangkan sendiri."
+    "LOCAL_ONLY_NOTICE": "Obrolan Anda tetap di perangkat ini. Kami tidak pernah melihatnya dan tidak menyimpan salinan, jadi cadangkan sendiri.",
+    "STORAGE_BLOCKED": "Peramban Anda memblokir penyimpanan untuk situs ini, sehingga obrolan tidak dapat disimpan dan akan hilang saat dimuat ulang. Izinkan cookie dan data situs, atau keluar dari mode penjelajahan pribadi."
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",

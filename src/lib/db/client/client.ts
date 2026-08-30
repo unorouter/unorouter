@@ -80,6 +80,11 @@ export function resetLocalDbCache() {
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
 const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
+// Firefox throws "Security error when calling GetDirectory" for OPFS whenever
+// site data is blocked for the origin: private windows, "block cookies", strict
+// ETP. No amount of retrying changes that, and the browser is the only place it
+// can be fixed, so it is a distinct verdict rather than a generic failure.
+const BLOCKED_MARKER = "OpfsSAHPool blocked";
 
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
@@ -87,6 +92,7 @@ function isRecoverable(err: unknown): boolean {
   // hiding the user's data.
   if (s.includes(ORPHAN_MARKER)) return false;
   if (s.includes(TAB_LOCK_MARKER)) return false;
+  if (s.includes(BLOCKED_MARKER)) return false;
   return (
     s.includes("GetSyncHandleError") ||
     s.includes("InvalidStateError") ||
@@ -142,7 +148,11 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
           persisted: info.persisted,
           ...diagnosis,
         });
-        throw new Error("OpfsSAHPool unavailable: fell back to in-memory");
+        throw new Error(
+          diagnosis?.opfsReachable === false
+            ? `${BLOCKED_MARKER}: the browser refused storage access for this site`
+            : "OpfsSAHPool unavailable: fell back to in-memory",
+        );
       }
       await runMigrations(sql);
       await assertNotSilentlyEmptied(sql, dbPath);

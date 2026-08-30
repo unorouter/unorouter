@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Besoin d'un preset ou d'aide ? Demandez sur Discord",
     "TRUNCATED_BEFORE_TEXT": "La limite de sortie a été atteinte pendant que le modèle réfléchissait encore, aucune réponse n'a donc été écrite. Augmentez le nombre maximal de tokens ou désactivez le raisonnement pour ce modèle.",
-    "LOCAL_ONLY_NOTICE": "Vos discussions restent sur cet appareil. Nous ne les voyons jamais et n’en gardons aucune copie : sauvegardez-les vous-même."
+    "LOCAL_ONLY_NOTICE": "Vos discussions restent sur cet appareil. Nous ne les voyons jamais et n’en gardons aucune copie : sauvegardez-les vous-même.",
+    "STORAGE_BLOCKED": "Votre navigateur bloque le stockage pour ce site, donc les discussions ne peuvent pas être enregistrées et seront perdues au rechargement. Autorisez les cookies et les données du site, ou quittez la navigation privée."
   },
   "RP": {
     "CHARACTERS_TITLE": "Personnages",

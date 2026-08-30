@@ -3754,7 +3754,8 @@
     },
     "DISCORD_CTA": "Cần preset hay đang bí? Hỏi trên Discord",
     "TRUNCATED_BEFORE_TEXT": "Đã đạt giới hạn đầu ra khi mô hình vẫn đang suy luận, nên không có câu trả lời nào được viết. Hãy tăng số token tối đa hoặc tắt suy luận cho mô hình này.",
-    "LOCAL_ONLY_NOTICE": "Cuộc trò chuyện của bạn nằm lại trên thiết bị này. Chúng tôi không bao giờ xem và cũng không giữ bản sao, nên hãy tự sao lưu."
+    "LOCAL_ONLY_NOTICE": "Cuộc trò chuyện của bạn nằm lại trên thiết bị này. Chúng tôi không bao giờ xem và cũng không giữ bản sao, nên hãy tự sao lưu.",
+    "STORAGE_BLOCKED": "Trình duyệt của bạn đang chặn lưu trữ cho trang này, nên các cuộc trò chuyện không thể được lưu và sẽ mất khi tải lại. Hãy cho phép cookie và dữ liệu trang, hoặc thoát chế độ duyệt web riêng tư."
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",
