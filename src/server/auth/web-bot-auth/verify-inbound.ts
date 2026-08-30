@@ -69,7 +69,7 @@ export async function verifyInboundRequest(
       return {
         signatureAgent: agentRaw,
         origin: agentOrigin,
-        keyid: (jwk as { kid?: string }).kid ?? "",
+        keyid: jwk.kid ?? "",
       };
     } catch {}
   }

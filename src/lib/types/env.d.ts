@@ -19,7 +19,6 @@ declare namespace NodeJS {
     TURSO_AUTH_TOKEN?: string;
 
     TAVILY_API_KEY?: string;
-    LLM_STATS_API_KEY?: string;
     GUEST_API_KEY?: string;
 
     GOOGLE_SITE_VERIFICATION?: string;

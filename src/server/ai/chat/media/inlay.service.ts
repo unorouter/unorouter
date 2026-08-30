@@ -1,4 +1,4 @@
-import type { SyncImageEndpoint } from "@/lib/ai/image/dispatch";
+import { toSyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { getImageModels } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
 import { submitSyncImage } from "./sync-image";
@@ -23,8 +23,7 @@ export async function generateInlayImage(
     models.find((m) => m.is_free) ??
     models[0];
   if (!model) return null;
-  const endpoint = model.metadata?.imageParams?.endpoint as
-    SyncImageEndpoint | undefined;
+  const endpoint = toSyncImageEndpoint(model.metadata?.imageParams?.endpoint);
   if (!endpoint) return null;
   const images = await submitSyncImage({
     apiKey,

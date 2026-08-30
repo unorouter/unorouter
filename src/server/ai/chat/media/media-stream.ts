@@ -8,8 +8,9 @@ import {
   buildBody,
   extractResultUris,
   loadRefs,
+  toSyncImageEndpoint,
+  type SyncImageEndpoint,
 } from "@/lib/ai/image/dispatch";
-import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { digErrorMessage } from "@/lib/api/video-task";
 import { groupHeader, upstreamApiUrl } from "@/server/constants";
@@ -298,8 +299,7 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
     }, body.model);
   }
 
-  const endpoint = model?.metadata?.imageParams?.endpoint as
-    SyncImageEndpoint | undefined;
+  const endpoint = toSyncImageEndpoint(model?.metadata?.imageParams?.endpoint);
   const maxRefs =
     model?.metadata?.imageParams?.maxReferenceImages || DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
@@ -527,5 +527,5 @@ export async function handleEmbeddingStream(
       durationMs: Date.now() - startedAt,
     });
     writeBufferedMessage(writer, text, meta);
-  });
+  }, body.model);
 }

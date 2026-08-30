@@ -10,7 +10,6 @@ export const serverEnv = {
   tursoUrl: process.env.TURSO_DATABASE_URL,
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   tavilyApiKey: process.env.TAVILY_API_KEY,
-  llmStatsApiKey: process.env.LLM_STATS_API_KEY,
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
 } as const;

@@ -20,6 +20,7 @@ import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import type { GenerateTab } from "../../image-nav";
+import { isModelInTab } from "../logic/mode";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -36,11 +37,6 @@ export type CustomCheckpoint = {
   heroImage: string | null;
   nsfwLevel: number | null;
 };
-
-function isModelInTab(m: ImageModelDescriptor, tab: GenerateTab): boolean {
-  if (!m.tabs) return tab === "text2img";
-  return m.tabs.includes(tab);
-}
 
 type Props = {
   models: ImageModelDescriptor[];

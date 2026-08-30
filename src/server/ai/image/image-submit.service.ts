@@ -1,8 +1,10 @@
 import { buildBody, extractResults, loadRefs } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import { type SyncImageEndpoint } from "@/lib/ai/image/dispatch";
+import {
+  toSyncImageEndpoint,
+  type SyncImageEndpoint,
+} from "@/lib/ai/image/dispatch";
 import { isValidAir } from "@/lib/ai/image/constants";
-import { SYNC_IMAGE_ENDPOINTS } from "@/lib/ai/image/dispatch";
 import { msg } from "@/lib/config/constants";
 import type {
   GeneratedImage,
@@ -56,9 +58,7 @@ function baseDiffusionKnobs(
   copy("clipSkip");
   copy("negativePrompt");
   copy("strength");
-  // guidance is the flux-family spelling of the same knob.
-  const cfg = params.cfg ?? params.guidance;
-  if (typeof cfg === "number") out.CFGScale = cfg;
+  if (typeof params.cfg === "number") out.CFGScale = params.cfg;
   // A scheduler outside the model's OWN accepted list is a hard upstream
   // rejection, so an unrecognised one falls back to the default.
   const scheduler = [params.scheduler, params.sampler].find(
@@ -167,8 +167,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
     });
     throw new Error(msg("ERRORS.NOT_FOUND"));
   }
-  const raw = info.metadata?.imageParams?.endpoint;
-  const endpoint = SYNC_IMAGE_ENDPOINTS.find((e) => e === raw);
+  const endpoint = toSyncImageEndpoint(info.metadata?.imageParams?.endpoint);
   if (!endpoint) {
     logger.warn("image model has no usable endpoint", {
       context: "image.submit",
@@ -252,7 +251,6 @@ export async function submitGeneration(
       n: plan.perCallN,
       quality: params.quality,
       outputFormat: params.outputFormat,
-      watermark: params.watermark,
       background: params.background,
       strength: params.strength,
       // A pinned seed on a multi-image batch offsets per call, else every call
