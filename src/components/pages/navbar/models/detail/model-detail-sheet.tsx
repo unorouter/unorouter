@@ -169,12 +169,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          <ModelHeaderChips
-            metadata={model.metadata ?? EMPTY_METADATA}
-            locale={locale}
-          />
+          <ModelHeaderChips metadata={model.metadata} locale={locale} />
 
-          <ModelMetaStats metadata={model.metadata ?? EMPTY_METADATA} />
+          <ModelMetaStats metadata={model.metadata} />
 
           <section>
             <SectionHeading theme={theme}>
@@ -276,9 +273,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <SectionHeading theme={theme}>
                 {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
               </SectionHeading>
-              <SupportedParameters
-                metadata={model.metadata ?? EMPTY_METADATA}
-              />
+              <SupportedParameters metadata={model.metadata} />
             </section>
           )}
 

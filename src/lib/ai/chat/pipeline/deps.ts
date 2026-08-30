@@ -29,11 +29,6 @@ export type AssemblerDeps = {
     settings: ConvSettings | undefined;
   }) => Promise<string | undefined>;
 
-  runFreeModelRace: {
-    listFreeModels: () => Promise<string[]>;
-    generate: FreeModelGenerate;
-  };
-
   runUtilityLLM: FreeModelGenerate;
 
   retrieveSemantic: (
@@ -48,10 +43,4 @@ export type AssemblerDeps = {
     model: string,
     inlayMedia: InlayImage[],
   ) => TriggerOps;
-
-  onWebSearchExecuted?: (info: {
-    engine: string;
-    contextSize: string;
-    resultCount: number;
-  }) => void;
 };

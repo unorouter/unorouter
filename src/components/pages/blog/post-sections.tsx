@@ -1,8 +1,9 @@
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
+import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/types";
 import { getTranslations } from "next-intl/server";
-import { Fragment, type ReactNode } from "react";
+import { Fragment, type ComponentType, type ReactNode } from "react";
 
 type Chunks = Record<string, (chunks: ReactNode) => ReactNode>;
 
@@ -11,11 +12,13 @@ const BODY_CHUNKS: Chunks = {
   s: (chunks) => <strong>{chunks}</strong>,
 };
 
-export async function PostSections(props: {
-  slug: BlogSlug;
-  chunks?: Chunks;
-  cta?: ReactNode;
-}) {
+const CTA_CHUNKS: Chunks = {
+  register: (chunks) => <Link href="/register">{chunks}</Link>,
+  models: (chunks) => <Link href="/models">{chunks}</Link>,
+  chat: (chunks) => <Link href="/chat">{chunks}</Link>,
+};
+
+export async function PostSections(props: { slug: BlogSlug; chunks?: Chunks }) {
   const entry = BLOG_REGISTRY.find((e) => e.slug === props.slug);
   if (!entry) return null;
   const t = await getTranslations();
@@ -34,7 +37,19 @@ export async function PostSections(props: {
         </Fragment>
       ))}
 
-      {props.cta}
+      <p>
+        {t.rich(key("CTA"), {
+          ...APP_VALUES,
+          ...CTA_CHUNKS,
+          ...props.chunks,
+        })}
+      </p>
     </>
   );
+}
+
+export function standardPost(slug: BlogSlug): ComponentType {
+  return function PostContent() {
+    return <PostSections slug={slug} />;
+  };
 }
