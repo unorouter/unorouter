@@ -387,7 +387,7 @@ export async function setLocalActiveBranch(convId: string, msgId: string) {
       });
     }
   }
-  if (parentId === null && target?.role === "assistant") {
+  if (parentId === null && target.role === "assistant") {
     await updateLocalConversationSettings({
       convId,
       firstMsgIndex: (target.branchIndex ?? 0) - 1,
@@ -549,9 +549,9 @@ export async function upsertLocalConversationBundle(bundle: {
   messageItems: Array<AnyRow & { messageId: string }>;
   media: Array<InferInsertModel<typeof media>>;
   requestLogs: ChildRow[];
-}): Promise<{ skippedLocalNewer: number }> {
+}): Promise<void> {
   const local = await getLocalDb();
-  if (!local) return { skippedLocalNewer: 0 };
+  if (!local) return;
   const convRow = bundle.settings
     ? {
         ...bundle.conversation,
@@ -592,15 +592,11 @@ export async function upsertLocalConversationBundle(bundle: {
   );
   const remoteMsgIds = new Set<string>();
   const replacedMsgIds: string[] = [];
-  let skippedLocalNewer = 0;
   for (const m of bundle.messages) {
     remoteMsgIds.add(m.id);
     const local = localMsgUpdatedAt.get(m.id);
     const remote = m.updatedAt ? new Date(m.updatedAt).getTime() : 0;
-    if (local !== undefined && local >= remote) {
-      if (local > remote) skippedLocalNewer++;
-      continue;
-    }
+    if (local !== undefined && local >= remote) continue;
     await messageStore.upsert(m);
     replacedMsgIds.push(m.id);
   }
@@ -610,9 +606,9 @@ export async function upsertLocalConversationBundle(bundle: {
       .delete(messageItems)
       .where(inArray(messageItems.messageId, replacedMsgIds));
   }
+  const replacedSet = new Set(replacedMsgIds);
   for (const it of bundle.messageItems) {
-    if (!remoteMsgIds.has(it.messageId)) continue;
-    if (!replacedMsgIds.includes(it.messageId)) continue;
+    if (!replacedSet.has(it.messageId)) continue;
     await local.db.insert(messageItems).values(it as never);
   }
 
@@ -672,5 +668,4 @@ export async function upsertLocalConversationBundle(bundle: {
       .values(log as never)
       .onConflictDoUpdate({ target: requestLogs.msgId, set: log });
   }
-  return { skippedLocalNewer };
 }

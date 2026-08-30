@@ -79,7 +79,7 @@ export function resetLocalDbCache() {
 }
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
-export const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
+const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
 
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
@@ -432,7 +432,6 @@ async function openClient(): Promise<LocalClient> {
   const wrapped: LocalClient = {
     db,
     exec: (q, params, method) => run((s) => s.exec(q, params, method)),
-    transaction: (cb) => run((s) => s.transaction(cb)),
     destroy: async () => {
       unsubscribeWant();
       await ensureOwned().catch(() => {});
