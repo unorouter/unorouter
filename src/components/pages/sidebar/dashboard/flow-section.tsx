@@ -54,7 +54,8 @@ function buildSankey(
 
   function addLink(source: string, target: string, value: number) {
     if (value <= 0) return;
-    const key = `${source}\0${target}`;
+    // Index here, not when emitting: node order is the band layout.
+    const key = `${nodeIndex(source)},${nodeIndex(target)}`;
     linkTotals.set(key, (linkTotals.get(key) ?? 0) + value);
   }
 
@@ -72,12 +73,8 @@ function buildSankey(
 
   const links: SankeyLink[] = [];
   for (const [key, value] of linkTotals) {
-    const [source, target] = key.split("\0");
-    links.push({
-      source: nodeIndex(source!),
-      target: nodeIndex(target!),
-      value,
-    });
+    const [source, target] = key.split(",");
+    links.push({ source: Number(source), target: Number(target), value });
   }
 
   return { nodes, links };
