@@ -3803,7 +3803,10 @@
       "COPY_LINK": "링크 복사",
       "RENAME": "이름 변경",
       "DELETE": "삭제",
-      "CONTINUE_SCENE": "장면 계속하기"
+      "CONTINUE_SCENE": "장면 계속하기",
+      "IMPERSONATE": "내 메시지 작성",
+      "IMPERSONATE_ENHANCE": "내 초안 다시 쓰기",
+      "IMPERSONATE_AS_CHAR": "메시지를 작성하지 못했습니다: 모델이 캐릭터로 응답했습니다."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API 키 필요",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "어시스턴트 메시지로 마지막에 전송됩니다. LLM이 이 시드 텍스트에서 계속합니다. 강력한 유도 기술. user와 char 매크로를 지원합니다.",
     "PRESET_CONTINUE_PROMPT": "이어가기 프롬프트",
     "PRESET_CONTINUE_PROMPT_HINT": "이어가기 버튼을 누르면 전송됩니다. 비워 두면 (OOC: Continue.) 를 보냅니다.",
+    "PRESET_IMPERSONATE_PROMPT": "대필 프롬프트",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "AI가 당신의 메시지를 작성할 때 사용하는 기본 지시문을 덮어씁니다. 비워 두면 기본값을 사용합니다.",
     "PRESET_FLAGS_TITLE": "커스텀 플래그",
     "PRESET_FLAGS_HINT": "까다로운 모델을 위해 요청 본문을 조정합니다. 필요 시 모델별로 자동 적용되며, 강제하려면 켜세요.",
     "PRESET_FORCE_ALTERNATE_ROLES": "역할 교대 강제",

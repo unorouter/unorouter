@@ -3803,7 +3803,10 @@
       "COPY_LINK": "העתק קישור",
       "RENAME": "שנה שם",
       "DELETE": "מחק",
-      "CONTINUE_SCENE": "המשך הסצנה"
+      "CONTINUE_SCENE": "המשך הסצנה",
+      "IMPERSONATE": "כתוב את ההודעה שלי",
+      "IMPERSONATE_ENHANCE": "שכתב את הטיוטה שלי",
+      "IMPERSONATE_AS_CHAR": "לא ניתן לכתוב הודעה: המודל השיב בתור הדמות."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "נשלח אחרון כהודעת assistant. ה-LLM ממשיך מהטקסט המקדים הזה. טכניקת הכוונה חזקה. תומך במאקרו user ו-char.",
     "PRESET_CONTINUE_PROMPT": "הנחיית המשך",
     "PRESET_CONTINUE_PROMPT_HINT": "נשלח בלחיצה על כפתור ההמשך. השאירו ריק כדי לשלוח (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "הנחיית התחזות",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "דורסת את ההוראה המובנית שבה ה-AI כותב את ההודעה שלך. השאירו ריק לברירת המחדל.",
     "PRESET_FLAGS_TITLE": "דגלים מותאמים אישית",
     "PRESET_FLAGS_HINT": "כוונן את גוף הבקשה למודלים רגישים. מוחל אוטומטית לכל מודל לפי הצורך; הפעל כדי לכפות.",
     "PRESET_FORCE_ALTERNATE_ROLES": "אלץ החלפת roles",

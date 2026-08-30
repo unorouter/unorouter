@@ -357,6 +357,7 @@ export const samplingPresets = sqliteTable(
     postHistoryRole: text("post_history_role"),
     prefill: text("prefill"),
     continuePrompt: text("continue_prompt"),
+    impersonatePrompt: text("impersonate_prompt"),
     forceAlternateRoles: integer("force_alternate_roles", { mode: "boolean" })
       .notNull()
       .default(false),

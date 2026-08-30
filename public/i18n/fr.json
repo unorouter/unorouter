@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Copier le lien",
       "RENAME": "Renommer",
       "DELETE": "Supprimer",
-      "CONTINUE_SCENE": "Continuer la scène"
+      "CONTINUE_SCENE": "Continuer la scène",
+      "IMPERSONATE": "Écrire mon message",
+      "IMPERSONATE_ENHANCE": "Réécrire mon brouillon",
+      "IMPERSONATE_AS_CHAR": "Impossible d'écrire le message : le modèle a répondu en tant que personnage."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Clé API requise",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Envoyé en dernier comme message assistant. Le LLM continue à partir de ce texte d'amorçage. Technique de pilotage puissante. Supporte les macros user et char.",
     "PRESET_CONTINUE_PROMPT": "Invite de continuation",
     "PRESET_CONTINUE_PROMPT_HINT": "Envoyé lorsque vous appuyez sur le bouton de continuation. Laissez vide pour envoyer (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Invite d'incarnation",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Remplace l'instruction intégrée utilisée quand l'IA écrit votre message. Laissez vide pour la valeur par défaut.",
     "PRESET_FLAGS_TITLE": "Drapeaux personnalisés",
     "PRESET_FLAGS_HINT": "Ajustez le corps de la requête pour les modèles capricieux. Appliqués automatiquement par modèle si besoin ; activez pour forcer.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forcer l'alternance des rôles",

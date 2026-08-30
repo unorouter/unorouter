@@ -3803,7 +3803,10 @@
       "COPY_LINK": "复制链接",
       "RENAME": "重命名",
       "DELETE": "删除",
-      "CONTINUE_SCENE": "继续场景"
+      "CONTINUE_SCENE": "继续场景",
+      "IMPERSONATE": "帮我写消息",
+      "IMPERSONATE_ENHANCE": "改写我的草稿",
+      "IMPERSONATE_AS_CHAR": "无法生成消息：模型以角色身份作出了回复。"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 密钥",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "作为最后一条助手消息发送。LLM 会从这段种子文本继续生成。强大的引导技巧。支持 user 与 char 宏。",
     "PRESET_CONTINUE_PROMPT": "继续提示词",
     "PRESET_CONTINUE_PROMPT_HINT": "按下继续按钮时发送。留空则发送 (OOC: Continue.)。",
+    "PRESET_IMPERSONATE_PROMPT": "代写提示词",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "覆盖 AI 代写你的消息时使用的内置指令。留空则使用默认值。",
     "PRESET_FLAGS_TITLE": "自定义标志",
     "PRESET_FLAGS_HINT": "为挑剔的模型调整请求体。需要时按模型自动应用；开启以强制启用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "强制角色交替",

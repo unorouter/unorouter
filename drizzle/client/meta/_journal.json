@@ -15,6 +15,13 @@
       "when": 1788040698583,
       "tag": "0001_ambiguous_iceman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788052319703,
+      "tag": "0002_true_the_enforcers",
+      "breakpoints": true
     }
   ]
 }

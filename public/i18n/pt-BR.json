@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Copiar link",
       "RENAME": "Renomear",
       "DELETE": "Deletar",
-      "CONTINUE_SCENE": "Continuar a cena"
+      "CONTINUE_SCENE": "Continuar a cena",
+      "IMPERSONATE": "Escrever minha mensagem",
+      "IMPERSONATE_ENHANCE": "Reescrever meu rascunho",
+      "IMPERSONATE_AS_CHAR": "Não foi possível escrever a mensagem: o modelo respondeu como o personagem."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Chave API necessária",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de direcionamento. Suporta as macros user e char.",
     "PRESET_CONTINUE_PROMPT": "Prompt de continuar",
     "PRESET_CONTINUE_PROMPT_HINT": "Enviado quando você aperta o botão de continuar. Deixe vazio para enviar (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Prompt de personificação",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Substitui a instrução interna usada quando a IA escreve a sua mensagem. Deixe vazio para o padrão.",
     "PRESET_FLAGS_TITLE": "Flags customizadas",
     "PRESET_FLAGS_HINT": "Ajuste o corpo da requisição para modelos exigentes. Aplicados automaticamente por modelo quando preciso; ative para forçar.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forçar papéis alternados",

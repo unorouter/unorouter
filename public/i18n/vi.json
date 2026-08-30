@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Sao chép liên kết",
       "RENAME": "Đổi tên",
       "DELETE": "Xóa",
-      "CONTINUE_SCENE": "Tiếp tục cảnh"
+      "CONTINUE_SCENE": "Tiếp tục cảnh",
+      "IMPERSONATE": "Viết tin nhắn cho tôi",
+      "IMPERSONATE_ENHANCE": "Viết lại bản nháp của tôi",
+      "IMPERSONATE_AS_CHAR": "Không thể viết tin nhắn: mô hình đã trả lời với tư cách nhân vật."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật định hướng mạnh. Hỗ trợ macro user và char.",
     "PRESET_CONTINUE_PROMPT": "Lời nhắc tiếp tục",
     "PRESET_CONTINUE_PROMPT_HINT": "Được gửi khi bạn nhấn nút tiếp tục. Để trống để gửi (OOC: Continue.).",
+    "PRESET_IMPERSONATE_PROMPT": "Lời nhắc nhập vai",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Ghi đè hướng dẫn mặc định được dùng khi AI viết tin nhắn của bạn. Để trống để dùng mặc định.",
     "PRESET_FLAGS_TITLE": "Cờ tuỳ chỉnh",
     "PRESET_FLAGS_HINT": "Tinh chỉnh nội dung yêu cầu cho các mô hình khó tính. Tự động áp dụng theo từng mô hình khi cần; bật để buộc.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Bắt buộc xen kẽ vai trò",

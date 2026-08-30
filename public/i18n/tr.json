@@ -3803,7 +3803,10 @@
       "COPY_LINK": "Bağlantıyı kopyala",
       "RENAME": "Yeniden Adlandır",
       "DELETE": "Sil",
-      "CONTINUE_SCENE": "Sahneye devam et"
+      "CONTINUE_SCENE": "Sahneye devam et",
+      "IMPERSONATE": "Mesajımı yaz",
+      "IMPERSONATE_ENHANCE": "Taslağımı yeniden yaz",
+      "IMPERSONATE_AS_CHAR": "Mesaj yazılamadı: model karakter olarak yanıt verdi."
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Anahtarı Gerekli",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü yönlendirme tekniği. user ve char makrolarını destekler.",
     "PRESET_CONTINUE_PROMPT": "Devam istemi",
     "PRESET_CONTINUE_PROMPT_HINT": "Devam düğmesine bastığında gönderilir. (OOC: Continue.) göndermek için boş bırak.",
+    "PRESET_IMPERSONATE_PROMPT": "Kimliğe bürünme istemi",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "Yapay zeka mesajınızı yazarken kullanılan yerleşik talimatı geçersiz kılar. Varsayılan için boş bırakın.",
     "PRESET_FLAGS_TITLE": "Özel flaglar",
     "PRESET_FLAGS_HINT": "Titiz modeller için istek gövdesini ayarlayın. Gerektiğinde model başına otomatik uygulanır; zorlamak için açın.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rolleri zorla değiştir",

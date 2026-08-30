@@ -3803,7 +3803,10 @@
       "COPY_LINK": "リンクをコピー",
       "RENAME": "名前を変更",
       "DELETE": "削除",
-      "CONTINUE_SCENE": "シーンを続ける"
+      "CONTINUE_SCENE": "シーンを続ける",
+      "IMPERSONATE": "メッセージを書いてもらう",
+      "IMPERSONATE_ENHANCE": "下書きを書き直す",
+      "IMPERSONATE_AS_CHAR": "メッセージを作成できませんでした：モデルがキャラクターとして応答しました。"
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "APIキーが必要です",
@@ -4260,6 +4263,8 @@
     "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力なステアリング技術。user および char マクロに対応。",
     "PRESET_CONTINUE_PROMPT": "続きのプロンプト",
     "PRESET_CONTINUE_PROMPT_HINT": "続きのボタンを押したときに送信されます。空のままにすると (OOC: Continue.) を送ります。",
+    "PRESET_IMPERSONATE_PROMPT": "なりきりプロンプト",
+    "PRESET_IMPERSONATE_PROMPT_HINT": "AIがあなたのメッセージを書くときの組み込み指示を上書きします。空欄にすると既定値を使用します。",
     "PRESET_FLAGS_TITLE": "カスタムフラグ",
     "PRESET_FLAGS_HINT": "気難しいモデル向けにリクエスト本文を調整します。必要に応じてモデルごとに自動適用されます。強制するにはオンにします。",
     "PRESET_FORCE_ALTERNATE_ROLES": "ロールの強制交互",

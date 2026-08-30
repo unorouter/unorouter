@@ -22,6 +22,7 @@ const NULL_SAMPLING: Pick<
   | "extraBody"
   | "prefill"
   | "continuePrompt"
+  | "impersonatePrompt"
   | "tokenizer"
   | "postHistoryRole"
   | "streamingEnabled"
@@ -40,6 +41,7 @@ const NULL_SAMPLING: Pick<
   extraBody: null,
   prefill: null,
   continuePrompt: null,
+  impersonatePrompt: null,
   tokenizer: null,
   postHistoryRole: null,
   streamingEnabled: null,

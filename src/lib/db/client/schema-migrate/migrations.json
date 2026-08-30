@@ -7,6 +7,10 @@
     {
       "tag": "0001_ambiguous_iceman",
       "sql": "ALTER TABLE `personas` ADD `personality` text;"
+    },
+    {
+      "tag": "0002_true_the_enforcers",
+      "sql": "ALTER TABLE `sampling_presets` ADD `impersonate_prompt` text;"
     }
   ]
 }

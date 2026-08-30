@@ -64,6 +64,7 @@ export const samplingPresetBody = t.Object({
   postHistoryRole: nullable(t.Union([t.Literal("system"), t.Literal("user")])),
   prefill: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   continuePrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  impersonatePrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   tokenizer: nullable(tokenizerRef),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
