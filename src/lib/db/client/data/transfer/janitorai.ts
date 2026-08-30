@@ -187,7 +187,11 @@ function charactersMap(parsed: unknown): Record<string, unknown> | null {
   const map = wrapped ?? root;
   const values = Object.values(map);
   if (values.length === 0) return null;
-  return values.every((v) => asCharacter(v) !== null) ? map : null;
+  // Recognised when MOST values are characters, not all of them. Requiring all
+  // meant one malformed entry, or a wrapper field sitting beside the map in the
+  // unwrapped shape, rejected the whole file as an unsupported version.
+  const characters = values.filter((v) => asCharacter(v) !== null).length;
+  return characters > 0 && characters >= values.length / 2 ? map : null;
 }
 
 export function looksLikeJanitorAiExport(parsed: unknown): boolean {
