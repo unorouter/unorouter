@@ -184,8 +184,10 @@ export function makeCipher() {
   };
 }
 
+// Distinct prefix from the pulse-dot sentinel (#fe0099), which is matched by
+// its own pass: a 2-digit #fe00NN space collides with it at index 99.
 export function cipherMarker(index: number): string {
-  return `#fe00${String(index).padStart(2, "0")}`;
+  return `#fd0${index.toString(16).padStart(3, "0")}`;
 }
 
 export function replacePulseDotMarker(
