@@ -136,14 +136,31 @@ export function OverridesGenerationFields(props: {
                   <FormLabel>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</FormLabel>
                   <InfoPopover text={t("CHAT.OVERRIDES.CHAT_MEMORY_HINT")} />
                 </div>
-                <span className="text-muted-foreground text-xs tabular-nums">
-                  {field.value ?? t("CHAT.OVERRIDES.INHERIT")}
-                </span>
+                <Input
+                  type="number"
+                  min={1}
+                  max={MAX_CHAT_MEMORY}
+                  step={1}
+                  inputMode="numeric"
+                  className="h-7 w-20 text-xs tabular-nums"
+                  placeholder={t("CHAT.OVERRIDES.INHERIT")}
+                  value={field.value ?? ""}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    if (raw === "") return field.onChange(null);
+                    const n = Math.round(Number(raw));
+                    if (!Number.isFinite(n)) return;
+                    field.onChange(Math.min(MAX_CHAT_MEMORY, Math.max(1, n)));
+                  }}
+                />
               </div>
               <FormControl>
+                {/* Without step the browser derives one from the range, and at
+                    1000 that lands between 8 and 12 where people actually work. */}
                 <Slider
                   min={1}
                   max={MAX_CHAT_MEMORY}
+                  step={1}
                   value={[field.value ?? DEFAULT_CHAT_MEMORY]}
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)
