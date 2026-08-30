@@ -383,9 +383,7 @@ export function buildBackgroundCss(
   // gradient defaults to the PAGE background. Once the box carries its own fill
   // the two colours meet at the edges and the fade reads as a grey haze ringing
   // the panel, so hand it the same colour the box is actually painted with.
-  const reasoning =
-    `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);` +
-    `--reasoning-fade-from:${bubbleMix("muted")};}`;
+  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`;
   // The composer is a .bg-background nested inside the thread's own, so the
   // nested-surface reset above stripped its fill AND its blur, leaving the raw
   // image to run straight through the type area behind the text. It reads as a
