@@ -802,7 +802,11 @@ export class SandboxHost {
         let result: unknown;
 
         if (data.type === "CALL_ROOT") {
-          const fn = this.apiFactory[data.method!];
+          // Own properties only: constructor/toString/valueOf are functions on
+          // Object.prototype and would otherwise satisfy the typeof check.
+          const fn = Object.hasOwn(this.apiFactory, data.method!)
+            ? this.apiFactory[data.method!]
+            : undefined;
           if (typeof fn !== "function")
             throw new Error(`API method ${data.method} not found`);
           result = await fn(...args);
