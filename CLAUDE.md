@@ -170,6 +170,8 @@ Messages PRECOMPILE at build, so `t.raw` is unsupported repo-wide and a typo'd I
 
 `src/proxy.ts` is thin: a header plus next-intl middleware. Everything else is matcher config, and the extension list omits `.js` ON PURPOSE, since an unexcluded chunk gets locale-rewritten to `/en/_next/...` and 404s.
 
+Consequence for `public/`: a `.js` file served from there is locale-rewritten and 404s, so the two console scripts users paste (`janitor-extract.js.txt`, `janitor-full-export.js.txt`) carry a `.txt` suffix to stay reachable. Do not rename them back.
+
 `src/i18n/routing.ts` also exports `privateRoutes`, the single source of truth for robots Disallow and sitemap exclusions. Add a new authenticated route THERE, not in two places. robots emits end-anchored pairs because a bare prefix once swallowed `/hi/login` via `/hi/log`.
 
 SEO timestamps are STATIC DATA on registry entries; nothing derives dates from git. New guide/doc/post = add its `date`; bump `updated` on real content edits.
