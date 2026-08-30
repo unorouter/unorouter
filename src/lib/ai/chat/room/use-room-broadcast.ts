@@ -1,0 +1,64 @@
+"use client";
+
+import type { ChatUIMessage } from "@/lib/types";
+import { useEffect, useRef } from "react";
+import {
+  broadcastDelta,
+  broadcastMessage,
+  broadcastStreamEnd,
+  isHosting,
+  onRunStateChange,
+} from "./host";
+
+const textOf = (msg: ChatUIMessage) =>
+  msg.parts
+    .filter((p) => p.type === "text" && p.text)
+    .map((p) => (p.type === "text" ? p.text : ""))
+    .join("\n")
+    .trim();
+
+// Guests see the room by watching the host's own runtime state rather than by
+// tapping the stream: whatever the host ends up rendering is exactly what is
+// broadcast, so a dropped or rewritten message cannot desync the two.
+export function useRoomBroadcast(
+  messages: ChatUIMessage[],
+  isRunning: boolean,
+  speakerFor: (msg: ChatUIMessage) => string,
+) {
+  const sentText = useRef(new Map<string, string>());
+  const wasRunning = useRef(false);
+
+  useEffect(() => {
+    if (!isHosting()) {
+      if (sentText.current.size) sentText.current.clear();
+      return;
+    }
+    for (const msg of messages) {
+      if (msg.role !== "user" && msg.role !== "assistant") continue;
+      const text = textOf(msg);
+      const previous = sentText.current.get(msg.id);
+      if (previous === text) continue;
+      sentText.current.set(msg.id, text);
+      if (previous === undefined) {
+        broadcastMessage({
+          id: msg.id,
+          role: msg.role,
+          speaker: speakerFor(msg),
+          text,
+        });
+      } else {
+        broadcastDelta(msg.id, text);
+      }
+    }
+  }, [messages, speakerFor]);
+
+  useEffect(() => {
+    if (!isHosting()) return;
+    onRunStateChange(isRunning);
+    if (wasRunning.current && !isRunning) {
+      const last = messages.at(-1);
+      if (last) broadcastStreamEnd(last.id);
+    }
+    wasRunning.current = isRunning;
+  }, [isRunning, messages]);
+}
