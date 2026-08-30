@@ -36,7 +36,6 @@ const ReasoningMarkdown = dynamic(
 
 const ANIMATION_DURATION = 200;
 
-const ReasoningPreviewContext = createContext(false);
 // Separate from the preview flag: the fade overlay is a look for the auto-opened peek, while
 // scroll follow has to run for ANY open box that is streaming.
 const ReasoningStreamingOpenContext = createContext(false);
@@ -84,12 +83,10 @@ function ReasoningRoot({
   const isOpen = isControlled
     ? controlledOpen
     : (userOpen ?? streaming ?? initialOpen);
-  const isAutoMode = isControlled || userOpen === null;
-  const isPreview = streaming === true && isOpen && isAutoMode;
-  // Scroll follow is about a box that is STREAMING and OPEN, whichever way it got opened.
-  // Gating it on isPreview (auto-mode only) left anyone who clicks the box open with no
-  // follow logic at all: no listener, no observer, just the browser shoving the view as the
-  // content grows.
+  // Scroll follow is about a box that is STREAMING and OPEN, whichever way it got
+  // opened. Gating it on auto-mode only left anyone who clicked the box open with
+  // no follow logic at all: no listener, no observer, just the browser shoving the
+  // view as the content grows.
   const isStreamingOpen = streaming === true && isOpen;
 
   const prevStreamingRef = useRef(streaming);
@@ -134,53 +131,10 @@ function ReasoningRoot({
       }
       {...props}
     >
-      <ReasoningPreviewContext.Provider value={isPreview}>
-        <ReasoningStreamingOpenContext.Provider value={isStreamingOpen}>
-          {children}
-        </ReasoningStreamingOpenContext.Provider>
-      </ReasoningPreviewContext.Provider>
+      <ReasoningStreamingOpenContext.Provider value={isStreamingOpen}>
+        {children}
+      </ReasoningStreamingOpenContext.Provider>
     </Collapsible>
-  );
-}
-
-function ReasoningFade({
-  side = "bottom",
-  className,
-  ...props
-}: React.ComponentProps<"div"> & { side?: "top" | "bottom" }) {
-  if (side === "top") {
-    return (
-      <div
-        data-slot="reasoning-fade"
-        className={cn(
-          "aui-reasoning-fade pointer-events-none absolute inset-x-0 top-0 z-10 h-8",
-          "bg-[linear-gradient(to_bottom,var(--reasoning-fade-from,var(--color-background)),transparent)]",
-          "fade-in-0 animate-in",
-          "duration-(--animation-duration)",
-          className,
-        )}
-        {...props}
-      />
-    );
-  }
-
-  return (
-    <div
-      data-slot="reasoning-fade"
-      className={cn(
-        "aui-reasoning-fade pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8",
-        "bg-[linear-gradient(to_top,var(--reasoning-fade-from,var(--color-background)),transparent)]",
-        "fade-in-0 animate-in",
-        "group-data-[state=open]/collapsible-content:animate-out",
-        "group-data-[state=open]/collapsible-content:fade-out-0",
-        "group-data-[state=open]/collapsible-content:delay-[calc(var(--animation-duration)*0.75)]",
-        "group-data-[state=open]/collapsible-content:fill-mode-forwards",
-        "duration-(--animation-duration)",
-        "group-data-[state=open]/collapsible-content:duration-(--animation-duration)",
-        className,
-      )}
-      {...props}
-    />
   );
 }
 
@@ -243,8 +197,6 @@ function ReasoningContent({
   children,
   ...props
 }: React.ComponentProps<typeof CollapsibleContent>) {
-  const isPreview = useContext(ReasoningPreviewContext);
-
   return (
     <CollapsibleContent
       data-slot="reasoning-content"
@@ -261,9 +213,7 @@ function ReasoningContent({
       )}
       {...props}
     >
-      {isPreview ? <ReasoningFade side="top" /> : null}
       {children}
-      <ReasoningFade />
     </CollapsibleContent>
   );
 }
