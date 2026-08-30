@@ -13,7 +13,8 @@ export type SortOrder =
   | "priceDesc"
   | "contextDesc"
   | "uptimeDesc"
-  | "successDesc";
+  | "successDesc"
+  | "discountDesc";
 
 export const SORT_VALUES: readonly SortOrder[] = [
   "popular",
@@ -22,6 +23,7 @@ export const SORT_VALUES: readonly SortOrder[] = [
   "priceAsc",
   "priceDesc",
   "contextDesc",
+  "discountDesc",
   "uptimeDesc",
   "successDesc",
   "name",
@@ -47,6 +49,7 @@ export type ModelsStoreState = {
   supportedParameters: string[];
   toolsOnly: boolean;
   hideFree: boolean;
+  discountedOnly: boolean;
 };
 
 export const MODELS_STORE_KEY = "models-store";
@@ -72,6 +75,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   supportedParameters: [],
   toolsOnly: false,
   hideFree: false,
+  discountedOnly: false,
 };
 
 export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
@@ -114,6 +118,7 @@ export const categoriesAtom = field("categories", arr);
 export const supportedParametersAtom = field("supportedParameters", arr);
 export const toolsOnlyAtom = field("toolsOnly", (v) => v === true);
 export const hideFreeAtom = field("hideFree", (v) => v === true);
+export const discountedOnlyAtom = field("discountedOnly", (v) => v === true);
 export const collapsedVendorsAtom = field("collapsedVendors", arr);
 
 export const toggleVendorCollapsedAtom = atom(
@@ -149,6 +154,7 @@ export const activeFilterCountAtom = atom((get) => {
   n += get(supportedParametersAtom).length;
   if (get(toolsOnlyAtom)) n++;
   if (get(hideFreeAtom)) n++;
+  if (get(discountedOnlyAtom)) n++;
   if (get(contextMinAtom) > 0) n++;
   if (get(priceRangeAtom)[1] < PRICE_MAX) n++;
   if (get(outputPriceMaxAtom) < PRICE_MAX) n++;

@@ -259,7 +259,8 @@
       "AGE_90D": "90 dias",
       "AGE_1Y": "1 ano",
       "PRICING": "Preços",
-      "HIDE_FREE": "Ocultar modelos gratuitos"
+      "HIDE_FREE": "Ocultar modelos gratuitos",
+      "DISCOUNTED_ONLY": "Somente modelos com desconto"
     },
     "DETAIL": {
       "DESCRIPTION": "Descrição",
@@ -341,6 +342,7 @@
       "POPULAR": "Mais populares",
       "TOP_WEEKLY": "Top da semana",
       "CONTEXT_DESC": "Contexto (alto)",
+      "DISCOUNT_DESC": "Desconto (Alto)",
       "UPTIME_DESC": "Disponibilidade (alta)",
       "SUCCESS_DESC": "Taxa de sucesso (alta)",
       "MULTI": "{first} + mais {count}",

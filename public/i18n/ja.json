@@ -259,7 +259,8 @@
       "AGE_90D": "90日間",
       "AGE_1Y": "1年間",
       "PRICING": "料金",
-      "HIDE_FREE": "無料モデルを非表示"
+      "HIDE_FREE": "無料モデルを非表示",
+      "DISCOUNTED_ONLY": "割引モデルのみ"
     },
     "DETAIL": {
       "DESCRIPTION": "説明",
@@ -341,6 +342,7 @@
       "POPULAR": "人気順",
       "TOP_WEEKLY": "週間トップ",
       "CONTEXT_DESC": "コンテキスト（大）",
+      "DISCOUNT_DESC": "割引（高い順）",
       "UPTIME_DESC": "稼働率（高い順）",
       "SUCCESS_DESC": "成功率（高い順）",
       "MULTI": "{first} + 他{count}件",

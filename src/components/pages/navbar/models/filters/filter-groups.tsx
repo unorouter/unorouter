@@ -127,6 +127,8 @@ export function ToolsGroup(props: {
 export function PricingGroup(props: {
   value: boolean;
   onChange: (next: boolean) => void;
+  discountedOnly: boolean;
+  onDiscountedOnlyChange: (next: boolean) => void;
 }) {
   const t = useTranslations();
   return (
@@ -135,6 +137,11 @@ export function PricingGroup(props: {
         label={t("MODELS.FILTER.HIDE_FREE")}
         checked={props.value}
         onToggle={() => props.onChange(!props.value)}
+      />
+      <CheckRow
+        label={t("MODELS.FILTER.DISCOUNTED_ONLY")}
+        checked={props.discountedOnly}
+        onToggle={() => props.onDiscountedOnlyChange(!props.discountedOnly)}
       />
     </GroupShell>
   );

@@ -259,7 +259,8 @@
       "AGE_90D": "90 ngày",
       "AGE_1Y": "1 năm",
       "PRICING": "Giá",
-      "HIDE_FREE": "Ẩn mô hình miễn phí"
+      "HIDE_FREE": "Ẩn mô hình miễn phí",
+      "DISCOUNTED_ONLY": "Chỉ mô hình giảm giá"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -341,6 +342,7 @@
       "POPULAR": "Phổ biến nhất",
       "TOP_WEEKLY": "Top tuần",
       "CONTEXT_DESC": "Ngữ cảnh (cao)",
+      "DISCOUNT_DESC": "Giảm giá (Cao)",
       "UPTIME_DESC": "Thời gian hoạt động (cao)",
       "SUCCESS_DESC": "Tỷ lệ thành công (cao)",
       "MULTI": "{first} + {count} nữa",

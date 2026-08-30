@@ -259,7 +259,8 @@
       "AGE_90D": "90 hari",
       "AGE_1Y": "1 tahun",
       "PRICING": "Harga",
-      "HIDE_FREE": "Sembunyikan model gratis"
+      "HIDE_FREE": "Sembunyikan model gratis",
+      "DISCOUNTED_ONLY": "Hanya model diskon"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -341,6 +342,7 @@
       "POPULAR": "Terpopuler",
       "TOP_WEEKLY": "Teratas Mingguan",
       "CONTEXT_DESC": "Konteks (Tinggi)",
+      "DISCOUNT_DESC": "Diskon (Tinggi)",
       "UPTIME_DESC": "Waktu Aktif (Tinggi)",
       "SUCCESS_DESC": "Tingkat Keberhasilan (Tinggi)",
       "MULTI": "{first} + {count} lagi",

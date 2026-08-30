@@ -259,7 +259,8 @@
       "AGE_90D": "90天",
       "AGE_1Y": "1年",
       "PRICING": "价格",
-      "HIDE_FREE": "隐藏免费模型"
+      "HIDE_FREE": "隐藏免费模型",
+      "DISCOUNTED_ONLY": "仅显示折扣模型"
     },
     "DETAIL": {
       "DESCRIPTION": "描述",
@@ -341,6 +342,7 @@
       "POPULAR": "最热门",
       "TOP_WEEKLY": "本周热门",
       "CONTEXT_DESC": "上下文（高到低）",
+      "DISCOUNT_DESC": "折扣（从高）",
       "UPTIME_DESC": "可用率（从高到低）",
       "SUCCESS_DESC": "成功率（从高到低）",
       "MULTI": "{first} + 另{count}项",

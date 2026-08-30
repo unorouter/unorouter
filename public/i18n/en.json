@@ -259,7 +259,8 @@
       "AGE_90D": "90 days",
       "AGE_1Y": "1 year",
       "PRICING": "Pricing",
-      "HIDE_FREE": "Hide free models"
+      "HIDE_FREE": "Hide free models",
+      "DISCOUNTED_ONLY": "Discounted only"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -341,6 +342,7 @@
       "POPULAR": "Most Popular",
       "TOP_WEEKLY": "Top Weekly",
       "CONTEXT_DESC": "Context (High)",
+      "DISCOUNT_DESC": "Discount (High)",
       "UPTIME_DESC": "Uptime (High)",
       "SUCCESS_DESC": "Success Rate (High)",
       "MULTI": "{first} + {count} more",
