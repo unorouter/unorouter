@@ -3433,7 +3433,7 @@
       "DELETE": "削除",
       "CONTINUE_SCENE": "シーンを続ける",
       "IMPERSONATE": "メッセージを書いてもらう",
-      "IMPERSONATE_ENHANCE": "下書きを書き直す",
+      "IMPERSONATE_ENHANCE": "この指示に沿ってメッセージを書いてもらう",
       "IMPERSONATE_AS_CHAR": "メッセージを作成できませんでした：モデルがキャラクターとして応答しました。"
     },
     "GATE": {

@@ -97,7 +97,6 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
 
 interface SidebarNavigationProps {
   navConfig?: SidebarNavConfig;
-  chatContent?: React.ReactNode;
 }
 
 export function SidebarNavigation(props: SidebarNavigationProps) {

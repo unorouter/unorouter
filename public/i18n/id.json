@@ -3433,7 +3433,7 @@
       "DELETE": "Hapus",
       "CONTINUE_SCENE": "Lanjutkan adegan",
       "IMPERSONATE": "Tulis pesan saya",
-      "IMPERSONATE_ENHANCE": "Tulis ulang draf saya",
+      "IMPERSONATE_ENHANCE": "Tulis pesan saya sesuai arahan ini",
       "IMPERSONATE_AS_CHAR": "Tidak bisa menulis pesan: model menjawab sebagai karakter."
     },
     "GATE": {

@@ -3433,7 +3433,7 @@
       "DELETE": "Eliminar",
       "CONTINUE_SCENE": "Continuar la escena",
       "IMPERSONATE": "Escribir mi mensaje",
-      "IMPERSONATE_ENHANCE": "Reescribir mi borrador",
+      "IMPERSONATE_ENHANCE": "Escribir mi mensaje siguiendo esta indicación",
       "IMPERSONATE_AS_CHAR": "No se pudo escribir el mensaje: el modelo respondió como el personaje."
     },
     "GATE": {

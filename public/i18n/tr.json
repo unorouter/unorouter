@@ -3433,7 +3433,7 @@
       "DELETE": "Sil",
       "CONTINUE_SCENE": "Sahneye devam et",
       "IMPERSONATE": "Mesajımı yaz",
-      "IMPERSONATE_ENHANCE": "Taslağımı yeniden yaz",
+      "IMPERSONATE_ENHANCE": "Mesajımı bu yönergeye göre yaz",
       "IMPERSONATE_AS_CHAR": "Mesaj yazılamadı: model karakter olarak yanıt verdi."
     },
     "GATE": {

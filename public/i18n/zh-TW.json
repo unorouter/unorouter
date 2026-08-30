@@ -3433,7 +3433,7 @@
       "DELETE": "刪除",
       "CONTINUE_SCENE": "繼續場景",
       "IMPERSONATE": "幫我寫訊息",
-      "IMPERSONATE_ENHANCE": "改寫我的草稿",
+      "IMPERSONATE_ENHANCE": "依此方向幫我寫訊息",
       "IMPERSONATE_AS_CHAR": "無法產生訊息：模型以角色身分作出了回覆。"
     },
     "GATE": {

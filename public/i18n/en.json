@@ -3433,7 +3433,7 @@
       "DELETE": "Delete",
       "CONTINUE_SCENE": "Continue scene",
       "IMPERSONATE": "Write my message",
-      "IMPERSONATE_ENHANCE": "Rewrite my draft",
+      "IMPERSONATE_ENHANCE": "Write my message from this direction",
       "IMPERSONATE_AS_CHAR": "Could not write a message: the model answered as the character."
     },
     "GATE": {
