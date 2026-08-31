@@ -65,6 +65,7 @@ export function TesterForm() {
         model: values.model,
         mode,
             checkSignature: true,
+      checkTokenTruth: true,
     });
       setResult(r);
       if (r.corsBlocked) {
