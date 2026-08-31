@@ -33,7 +33,11 @@ import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
-import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
+import {
+  useMessageMeta,
+  useShowReasoning,
+  useSpeakingCharacter,
+} from "@/hooks/ui/use-chat-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import {
@@ -904,7 +908,7 @@ const AssistantMessageMeta: FC = () => {
   );
 };
 
-const AssistantMessageHeader: FC = () => {
+const ModelLabel: FC = () => {
   const meta = useMessageMeta();
   const pricingQuery = usePricingCatalogQuery();
   const customProvidersQuery = useCustomProvidersQuery();
@@ -921,12 +925,12 @@ const AssistantMessageHeader: FC = () => {
       parsed?.modelKey ??
       meta.model;
     return (
-      <div className="text-muted-foreground mb-1 ml-2 flex items-center gap-1.5 text-[11px]">
+      <span className="flex items-center gap-1.5">
         <Icon name="server" className="size-3" />
         <span className="opacity-70">
           {provider ? `${provider.name} / ${label}` : label}
         </span>
-      </div>
+      </span>
     );
   }
 
@@ -936,9 +940,36 @@ const AssistantMessageHeader: FC = () => {
   const vendorName = modelData?.vendor ?? "";
 
   return (
-    <div className="text-muted-foreground mb-1 ml-2 flex items-center gap-1.5 text-[11px]">
+    <span className="flex items-center gap-1.5">
       {vendorName && <VendorIcon vendor={vendorName} size={12} />}
       <span className="opacity-70">{meta.model}</span>
+    </span>
+  );
+};
+
+const AssistantMessageHeader: FC = () => {
+  const character = useSpeakingCharacter();
+  const meta = useMessageMeta();
+
+  // A streaming reply has no persisted row yet, so the model label is absent
+  // while the character is already known.
+  if (!character && !meta?.model) return null;
+
+  return (
+    <div className="text-muted-foreground mb-1 ml-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]">
+      {character ? (
+        <span className="flex min-w-0 items-center gap-1.5">
+          <RpAvatar
+            mediaId={character.avatarMediaId}
+            name={character.name}
+            className="size-5"
+          />
+          <span className="text-foreground truncate font-medium">
+            {character.name}
+          </span>
+        </span>
+      ) : null}
+      <ModelLabel />
     </div>
   );
 };

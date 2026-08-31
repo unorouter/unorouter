@@ -1,7 +1,11 @@
 "use client";
 
 import { useMessagesInfiniteQuery } from "@/hooks/ai/chat-hook";
-import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
+import { useCharactersQuery } from "@/hooks/ai/rp/characters";
+import {
+  useChatBindingsQuery,
+  useChatSettingsQuery,
+} from "@/hooks/ai/rp/conversations";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import type { ApiMessage } from "@/lib/ai/chat/messages";
 import { chatLoadoutAtom } from "@/store/chat-store";
@@ -10,6 +14,7 @@ import { useAtomValue } from "jotai";
 
 type MessageMeta = {
   model: string | null;
+  characterId: string | null;
   inputTokens: number | null;
   outputTokens: number | null;
   cost: number | null;
@@ -57,10 +62,29 @@ export function useMessageMeta(): MessageMeta | null {
 
   return {
     model: msg.model ?? null,
+    characterId: msg.characterId ?? null,
     inputTokens: msg.inputTokens ?? null,
     outputTokens: msg.outputTokens ?? null,
     cost: msg.cost ?? null,
   };
+}
+
+// Only a GROUP turn stores a speaker: the rotation sets speakingCharacterId per
+// reply, while a single-character chat leaves it null, so the one bound
+// character is the speaker by definition. The binding comes from the
+// conversation rather than the loadout atom, which holds the cookie-persisted
+// new-chat defaults and says nothing about the chat being read.
+export function useSpeakingCharacter() {
+  const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
+  const meta = useMessageMeta();
+  const bindingsQuery = useChatBindingsQuery(remoteId ?? undefined);
+  const charactersQuery = useCharactersQuery();
+
+  const bound = bindingsQuery.data?.characters ?? [];
+  const charId =
+    meta?.characterId ?? (bound.length === 1 ? bound[0]?.characterId : null);
+  if (!charId) return null;
+  return charactersQuery.data?.find((c) => c.id === charId) ?? null;
 }
 
 export function useShowReasoning(): boolean {
