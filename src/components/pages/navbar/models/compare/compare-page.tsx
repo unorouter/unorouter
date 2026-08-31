@@ -38,9 +38,10 @@ export function ComparePage() {
     : params.slugs
       ? [params.slugs]
       : [];
-  const selectedModels = slugs
-    .map((slug) => models.find((m) => modelMatchesSlug(m.model_name, slug)))
-    .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  const selectedModels = slugs.flatMap((slug) => {
+    const found = models.find((m) => modelMatchesSlug(m.model_name, slug));
+    return found ? [found] : [];
+  });
   const selectedNames = selectedModels.map((m) => m.model_name);
 
   function goTo(names: string[]) {

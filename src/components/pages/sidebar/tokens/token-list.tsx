@@ -144,9 +144,7 @@ export function TokenList() {
 
       <DataTable
         id={DataTableId.TOKENS}
-        data={(tokensQuery.data?.items ?? []).filter(
-          (item): item is NonNullable<typeof item> => item != null,
-        )}
+        data={tokensQuery.data?.items ?? []}
         columns={columns}
         total={tokensQuery.data?.total ?? 0}
         isLoading={tokensQuery.isLoading}

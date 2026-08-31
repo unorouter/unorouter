@@ -206,20 +206,21 @@ export async function runIllustrator(
   const items = (await readLocalMessageItems(input.convId)) ?? [];
   const mine = items.filter((it) => it.messageId === input.messageId);
   const rewritten = mine
-    .map((it) => {
+    .flatMap((it) => {
       const isPlaceholder =
         it.type === "task" && rec(it.data)?.task_id === input.taskId;
-      if (!isPlaceholder) return it;
+      if (!isPlaceholder) return [it];
       if (image && image.type === "inlay_image") {
-        return {
-          ...it,
-          type: "text" as const,
-          data: { text: `\n\n${image.token}` },
-        };
+        return [
+          {
+            ...it,
+            type: "text" as const,
+            data: { text: `\n\n${image.token}` },
+          },
+        ];
       }
-      return null; // gen failed/noop: drop the placeholder
+      return []; // gen failed/noop: drop the placeholder
     })
-    .filter((it): it is NonNullable<typeof it> => it != null)
     .map((it, seq) => ({
       id: it.id ?? uid(),
       messageId: input.messageId,
