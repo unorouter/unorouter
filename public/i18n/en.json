@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Token accounting",
       "TOKEN_TRUTH_OK": "consistent",
       "TOKEN_TRUTH_BAD": "inconsistent",
+      "THROUGHPUT": "tokens/s",
+      "ENVELOPE": "Response envelope",
       "TOTAL_TOKENS": "{tokens} tokens",
       "FORMAT_FELL_BACK": "Native format not supported, tested via {format} instead.",
       "EVIDENCE": "Evidence",

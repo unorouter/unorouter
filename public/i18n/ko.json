@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "토큰 집계",
       "TOKEN_TRUTH_OK": "일치",
       "TOKEN_TRUTH_BAD": "불일치",
+      "THROUGHPUT": "토큰/초",
+      "ENVELOPE": "응답 외형",
       "TOTAL_TOKENS": "토큰 {tokens}개",
       "FORMAT_FELL_BACK": "네이티브 형식을 지원하지 않아 {format}로 테스트했습니다.",
       "EVIDENCE": "증거",

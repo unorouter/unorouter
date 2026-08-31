@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Token muhasebesi",
       "TOKEN_TRUTH_OK": "tutarlı",
       "TOKEN_TRUTH_BAD": "tutarsız",
+      "THROUGHPUT": "token/sn",
+      "ENVELOPE": "Yanıt zarfı",
       "TOTAL_TOKENS": "{tokens} token",
       "FORMAT_FELL_BACK": "Yerel bicim desteklenmiyor; bunun yerine {format} ile test edildi.",
       "EVIDENCE": "Kanıt",

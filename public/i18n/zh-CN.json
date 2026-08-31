@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Token 计量",
       "TOKEN_TRUTH_OK": "一致",
       "TOKEN_TRUTH_BAD": "不一致",
+      "THROUGHPUT": "token/秒",
+      "ENVELOPE": "响应外壳",
       "TOTAL_TOKENS": "{tokens} 个词元",
       "FORMAT_FELL_BACK": "不支持原生格式，已改用 {format} 检测。",
       "EVIDENCE": "证据",

@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "محاسبة الرموز",
       "TOKEN_TRUTH_OK": "متسقة",
       "TOKEN_TRUTH_BAD": "غير متسقة",
+      "THROUGHPUT": "رمز/ثانية",
+      "ENVELOPE": "غلاف الاستجابة",
       "TOTAL_TOKENS": "{tokens} رمز",
       "FORMAT_FELL_BACK": "التنسيق الاصلي غير مدعوم؛ تم الاختبار عبر {format} بدلا منه.",
       "EVIDENCE": "الدليل",

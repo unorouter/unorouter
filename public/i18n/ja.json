@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "トークン集計",
       "TOKEN_TRUTH_OK": "整合",
       "TOKEN_TRUTH_BAD": "不整合",
+      "THROUGHPUT": "トークン/秒",
+      "ENVELOPE": "レスポンス外形",
       "TOTAL_TOKENS": "{tokens} トークン",
       "FORMAT_FELL_BACK": "ネイティブ形式が非対応のため、{format}でテストしました。",
       "EVIDENCE": "証拠",

@@ -41,6 +41,9 @@ export type ResultCardData = {
   signature?: { state: string; signatureLength: number } | undefined;
   /** Only present when the run asked for the token-accounting check. */
   tokenTruth?: { ok: boolean | null } | undefined;
+  /** Free envelope observations; notes are descriptive, never a verdict. */
+  envelopeNotes?: string[] | undefined;
+  tokensPerSecond?: number | undefined;
   probes: TestResultProbe[];
 };
 
@@ -445,6 +448,11 @@ export function TestResultCard(props: {
                     : "MODEL_TESTER.RESULT.TOKEN_TRUTH_BAD",
                 )}
               </span>
+            </span>
+          ) : null}
+          {result.tokensPerSecond !== undefined ? (
+            <span>
+              {result.tokensPerSecond} {t("MODEL_TESTER.RESULT.THROUGHPUT")}
             </span>
           ) : null}
           {result.detectedModel ? (

@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "חשבונאות טוקנים",
       "TOKEN_TRUTH_OK": "עקבי",
       "TOKEN_TRUTH_BAD": "לא עקבי",
+      "THROUGHPUT": "טוקנים/שנייה",
+      "ENVELOPE": "מעטפת התגובה",
       "TOTAL_TOKENS": "{tokens} אסימונים",
       "FORMAT_FELL_BACK": "הפורמט המקורי אינו נתמך; נבדק דרך {format} במקום.",
       "EVIDENCE": "ראיות",

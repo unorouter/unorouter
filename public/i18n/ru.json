@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Учёт токенов",
       "TOKEN_TRUTH_OK": "согласован",
       "TOKEN_TRUTH_BAD": "несогласован",
+      "THROUGHPUT": "токенов/с",
+      "ENVELOPE": "Оболочка ответа",
       "TOTAL_TOKENS": "токенов: {tokens}",
       "FORMAT_FELL_BACK": "Нативный формат не поддерживается; проверено через {format}.",
       "EVIDENCE": "Доказательства",

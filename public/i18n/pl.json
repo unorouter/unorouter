@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Rozliczenie tokenów",
       "TOKEN_TRUTH_OK": "spójne",
       "TOKEN_TRUTH_BAD": "niespójne",
+      "THROUGHPUT": "tokenów/s",
+      "ENVELOPE": "Koperta odpowiedzi",
       "TOTAL_TOKENS": "{tokens} tokenow",
       "FORMAT_FELL_BACK": "Format natywny nieobslugiwany; przetestowano przez {format}.",
       "EVIDENCE": "Dowody",

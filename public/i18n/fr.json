@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Comptage des tokens",
       "TOKEN_TRUTH_OK": "cohérent",
       "TOKEN_TRUTH_BAD": "incohérent",
+      "THROUGHPUT": "tokens/s",
+      "ENVELOPE": "Enveloppe de réponse",
       "TOTAL_TOKENS": "{tokens} jetons",
       "FORMAT_FELL_BACK": "Format natif non pris en charge; teste via {format} a la place.",
       "EVIDENCE": "Preuves",
