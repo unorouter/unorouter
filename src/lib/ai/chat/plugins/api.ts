@@ -218,13 +218,20 @@ export function buildPluginApi(
       return guestFetch(url);
     },
 
-    _getPropertiesForInitialization: () => ({
-      list: ["apiVersion"],
-      apiVersion: "1.0",
-    }),
-    _getAliases: () => ({}),
+    ...PLUGIN_API_BOOTSTRAP,
   };
 }
+
+// The guest bridge calls these before any plugin code runs and logs a failure
+// if they are missing, so every api handed to a SandboxHost needs them, even
+// one that exposes nothing else.
+export const PLUGIN_API_BOOTSTRAP = {
+  _getPropertiesForInitialization: () => ({
+    list: ["apiVersion"],
+    apiVersion: "1.0",
+  }),
+  _getAliases: () => ({}),
+};
 
 // JanitorAI compat: ONLY character.personality, .scenario and .example_dialogs
 // are writable, and message text must round-trip UNMODIFIED (scripts encode
