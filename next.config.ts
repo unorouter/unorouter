@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
       // entrypoint that reaches it is never loaded; stub it out.
       "./sqlite3-worker1.mjs": { browser: "./src/lib/empty-module.ts" },
     },
+    // Four theme fonts are missing from the capsize metrics table next bundles,
+    // so it cannot synthesize a size-matched fallback for them and says so on
+    // every render. adjustFontFallback: false is the documented workaround and
+    // does nothing here, because turbopack warns from its own Rust font path
+    // rather than the JS loader that reads the flag.
+    ignoreIssue: [{ path: "**", title: /Failed to find font override values/ }],
   },
   // satori is external so turbopack does not bundle its emscripten loader: bundling
   // rewrites harfbuzz's locateFile base to the build-root token "/ROOT", so the
