@@ -4461,6 +4461,12 @@
         "WHY": "Claude può essere vago sulla versione esatta ma non confonde mai il proprio livello, quindi un livello inferiore nominato è un declassamento deliberato.",
         "EXCEPTION": "il modello non è sicuro del numero di versione; conta solo un livello diverso chiaramente nominato."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Sostituzione del modello",
+        "MEANS": "La risposta dell'endpoint indica un modello diverso da quello richiesto.",
+        "WHY": "La risposta contiene l'identificativo del modello che il server dichiara di aver usato. Se contraddice la richiesta, un modello più economico ha servito la chiamata mentre veniva fatturato quello richiesto.",
+        "EXCEPTION": "le differenze di scrittura non contano: snapshot datati, un prefisso del fornitore o un punto al posto di un trattino valgono come corrispondenza."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Vaghezza sulla versione",

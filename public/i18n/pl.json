@@ -4461,6 +4461,12 @@
         "WHY": "Claude bywa niejasny co do dokładnej wersji, ale nigdy nie myli swojego poziomu, więc wymieniony z nazwy niższy poziom to celowe obniżenie.",
         "EXCEPTION": "model nie jest pewny numeru swojej wersji; liczy się tylko wyraźnie wymieniony inny poziom."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Podmiana modelu",
+        "MEANS": "Odpowiedź endpointu wskazuje inny model niż żądany.",
+        "WHY": "Odpowiedź zawiera identyfikator modelu, który według serwera odpowiedział. Gdy przeczy on żądaniu, wywołanie obsłużył tańszy model, a rozliczono żądany.",
+        "EXCEPTION": "różnice w zapisie się nie liczą: datowane snapshoty, prefiks dostawcy czy kropka zamiast myślnika są traktowane jako zgodność."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Niejasność wersji",

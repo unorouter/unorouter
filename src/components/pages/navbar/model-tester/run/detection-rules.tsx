@@ -1,11 +1,11 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "@/lib/ai/verify/rules";
+import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "@unorouter/verify-core/rules";
 import type {
   DetectionExceptionId,
   DetectionRuleId,
-} from "@/lib/ai/verify/rules";
+} from "@unorouter/verify-core/rules";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CommunityLinks } from "./community-links";
@@ -19,6 +19,7 @@ const RULE_TITLE: Record<DetectionRuleId, TranslationKey> = {
   mux: "MODEL_TESTER.RULES.MUX.TITLE",
   foreign: "MODEL_TESTER.RULES.FOREIGN.TITLE",
   "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.TITLE",
+  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.TITLE",
 };
 const RULE_MEANS: Record<DetectionRuleId, TranslationKey> = {
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.MEANS",
@@ -27,6 +28,7 @@ const RULE_MEANS: Record<DetectionRuleId, TranslationKey> = {
   mux: "MODEL_TESTER.RULES.MUX.MEANS",
   foreign: "MODEL_TESTER.RULES.FOREIGN.MEANS",
   "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.MEANS",
+  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.MEANS",
 };
 const RULE_WHY: Record<DetectionRuleId, TranslationKey> = {
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.WHY",
@@ -35,6 +37,7 @@ const RULE_WHY: Record<DetectionRuleId, TranslationKey> = {
   mux: "MODEL_TESTER.RULES.MUX.WHY",
   foreign: "MODEL_TESTER.RULES.FOREIGN.WHY",
   "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.WHY",
+  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.WHY",
 };
 const RULE_EXCEPTION: Record<DetectionRuleId, TranslationKey> = {
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.EXCEPTION",
@@ -43,6 +46,7 @@ const RULE_EXCEPTION: Record<DetectionRuleId, TranslationKey> = {
   mux: "MODEL_TESTER.RULES.MUX.EXCEPTION",
   foreign: "MODEL_TESTER.RULES.FOREIGN.EXCEPTION",
   "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.EXCEPTION",
+  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.EXCEPTION",
 };
 
 const EXCEPTION_TITLE: Record<DetectionExceptionId, TranslationKey> = {

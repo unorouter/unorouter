@@ -8,8 +8,8 @@ import {
   testerTests,
 } from "@/lib/db/schema/tester";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { providerForModel } from "@/lib/ai/verify/models";
-import { runVerification } from "@/lib/ai/verify/runner";
+import { providerForModel } from "@unorouter/verify-core/models";
+import { runVerification } from "@unorouter/verify-core/runner";
 import { serverTransport } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
@@ -22,7 +22,7 @@ import type {
   VerifyProviderValue,
   VerifyVerdictValue,
 } from "@/lib/validation/model-tester";
-import type { VerifyResult } from "@/lib/ai/verify/types";
+import type { VerifyResult } from "@unorouter/verify-core/types";
 
 const DEDUPE_WINDOW_MS = 60_000;
 

@@ -4461,6 +4461,12 @@
         "WHY": "Claude mungkin samar tentang versi persisnya tetapi tak pernah salah menyebut tingkatnya, jadi tingkat lebih rendah yang disebut namanya adalah penurunan yang disengaja.",
         "EXCEPTION": "model tidak yakin akan nomor versinya; hanya tingkat berbeda yang disebut dengan jelas yang dihitung."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Penggantian model",
+        "MEANS": "Respons endpoint menyebut model yang berbeda dari yang Anda minta.",
+        "WHY": "Respons memuat id model yang menurut server menjawab. Bila bertentangan dengan permintaan, model yang lebih murah melayani panggilan sementara yang Anda minta tetap ditagihkan.",
+        "EXCEPTION": "perbedaan penulisan tidak dihitung: snapshot bertanggal, awalan vendor, atau titik alih-alih tanda hubung dianggap cocok."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Kesamaran versi",

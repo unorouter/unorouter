@@ -1,6 +1,6 @@
 import type { ResultCardData } from "./test-result-card";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
-import type { VerifyResult } from "@/lib/ai/verify/types";
+import type { VerifyResult } from "@unorouter/verify-core/types";
 
 export function fromVerifyResult(r: VerifyResult): ResultCardData {
   return {

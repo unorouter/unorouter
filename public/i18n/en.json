@@ -4461,6 +4461,12 @@
         "WHY": "Claude may be vague about its exact version but never confuses its tier, so a named lower tier is a deliberate downgrade.",
         "EXCEPTION": "the model is unsure of its version number. Only a clearly named different tier counts."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Model substitution",
+        "MEANS": "The endpoint's own response names a different model than the one you requested.",
+        "WHY": "The reply carries the model id the server says answered. When that contradicts the request, a cheaper model served the call while you were billed for the one you asked for.",
+        "EXCEPTION": "spelling differences do not count: dated snapshots, a vendor prefix, or a dot instead of a dash are all treated as a match."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Version vagueness",

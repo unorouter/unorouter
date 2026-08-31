@@ -4461,6 +4461,12 @@
         "WHY": "Claude có thể mơ hồ về phiên bản chính xác nhưng không bao giờ nhầm lẫn cấp bậc của mình, nên một bậc thấp hơn được nêu đích danh là một sự hạ cấp có chủ ý.",
         "EXCEPTION": "mô hình không chắc về số phiên bản của mình; chỉ một bậc khác được nêu rõ ràng mới được tính."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Thay thế mô hình",
+        "MEANS": "Phản hồi của endpoint nêu một mô hình khác với mô hình bạn yêu cầu.",
+        "WHY": "Phản hồi chứa mã mô hình mà máy chủ khai báo đã trả lời. Khi nó mâu thuẫn với yêu cầu, một mô hình rẻ hơn đã xử lý lệnh gọi trong khi bạn bị tính phí mô hình đã yêu cầu.",
+        "EXCEPTION": "khác biệt cách viết không tính: bản chụp có ngày, tiền tố nhà cung cấp hay dấu chấm thay cho dấu gạch ngang đều được xem là khớp."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Mơ hồ về phiên bản",

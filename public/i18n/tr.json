@@ -4461,6 +4461,12 @@
         "WHY": "Claude tam sürümü konusunda belirsiz olabilir ama kademesini asla karıştırmaz, bu yüzden adı verilmiş daha düşük bir kademe kasıtlı bir düşürmedir.",
         "EXCEPTION": "model sürüm numarasından emin değildir; yalnızca açıkça adlandırılmış farklı bir kademe sayılır."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Model değişimi",
+        "MEANS": "Uç noktanın yanıtı, istediğinizden farklı bir model adı veriyor.",
+        "WHY": "Yanıt, sunucunun yanıtladığını bildirdiği model kimliğini taşır. Bu istekle çelişiyorsa, çağrıyı daha ucuz bir model karşılamış ve istediğiniz model faturalandırılmıştır.",
+        "EXCEPTION": "yazım farkları sayılmaz: tarihli anlık görüntüler, sağlayıcı öneki veya tire yerine nokta eşleşme sayılır."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Sürüm belirsizliği",
