@@ -8,7 +8,7 @@ import {
   useModelTesterStats,
 } from "@/hooks/models/model-tester-rankings-hook";
 import { Link } from "@/i18n/navigation";
-import { vendorForRow } from "@unorouter/verify-core/models";
+import { vendorForRow } from "ai-model-verifier/models";
 import { APP_VALUES } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";

@@ -1,11 +1,11 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "@unorouter/verify-core/rules";
+import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "ai-model-verifier/rules";
 import type {
   DetectionExceptionId,
   DetectionRuleId,
-} from "@unorouter/verify-core/rules";
+} from "ai-model-verifier/rules";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CommunityLinks } from "./community-links";

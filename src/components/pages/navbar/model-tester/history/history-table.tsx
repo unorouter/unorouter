@@ -2,7 +2,7 @@
 
 import { useHistoryProviders } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
-import { vendorForRow } from "@unorouter/verify-core/models";
+import { vendorForRow } from "ai-model-verifier/models";
 import { useTranslations } from "next-intl";
 import { ProviderRowBody } from "../shared/provider-row";
 import { totalSamples, weightedPassRate } from "../shared/stats";

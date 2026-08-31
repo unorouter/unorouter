@@ -11,7 +11,7 @@ import { uid as genId } from "@/lib/utils/base";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
-import type { VerifyResult } from "@unorouter/verify-core/types";
+import type { VerifyResult } from "ai-model-verifier/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
 

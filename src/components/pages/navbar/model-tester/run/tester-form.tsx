@@ -11,8 +11,8 @@ import {
   useVerifyAndPublish,
 } from "@/hooks/ai/model-tester/tester-hooks";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { CURATED_MODELS, providerForModel } from "@unorouter/verify-core/models";
-import { runVerification } from "@unorouter/verify-core/runner";
+import { CURATED_MODELS, providerForModel } from "ai-model-verifier/models";
+import { runVerification } from "ai-model-verifier/runner";
 import {
   modelTesterForm,
   type ModelTesterForm,
@@ -25,7 +25,7 @@ import { ProviderCards } from "./provider-cards";
 import { fromVerifyResult } from "../shared/result-adapters";
 import { ScoreGauge, type GaugeArc } from "../shared/score-gauge";
 import { CONN_KEY, TestResultCard } from "../shared/test-result-card";
-import type { VerifyResult } from "@unorouter/verify-core/types";
+import type { VerifyResult } from "ai-model-verifier/types";
 
 const INPUT_CLASS = "bg-muted/40 font-mono text-sm shadow-none";
 
