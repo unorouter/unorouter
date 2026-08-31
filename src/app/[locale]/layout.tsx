@@ -9,7 +9,11 @@ import {
   themeDataAttrs,
 } from "@/components/ui/theme/theme-build-css";
 import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
-import { INITIAL_USER_THEME } from "@/components/ui/theme/theme-store";
+import {
+  INITIAL_USER_THEME,
+  USER_THEME_KEY,
+  type UserTheme,
+} from "@/components/ui/theme/theme-store";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -17,7 +21,7 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
-import { serverLocale } from "@/lib/utils/server";
+import { getCookieValue, serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { getTranslations } from "next-intl/server";
 import {
@@ -94,13 +98,18 @@ const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
+  // Shipping the default and letting UserThemeProvider swap it after mount
+  // costs a visible frame of the wrong palette on every load. The layout is
+  // already dynamic (serverLocale reads a cookie), so rendering the user's own
+  // theme here is free, and the client applies the identical string.
+  const userTheme = await getCookieValue<UserTheme>(USER_THEME_KEY);
+  const themeAttrs = userTheme
+    ? themeDataAttrs(userTheme)
+    : DEFAULT_THEME_ATTRS;
+  const themeCss = userTheme ? buildThemeCss(userTheme) : DEFAULT_THEME_CSS;
 
   return (
-    <html
-      lang={params.locale}
-      {...DEFAULT_THEME_ATTRS}
-      suppressHydrationWarning
-    >
+    <html lang={params.locale} {...themeAttrs} suppressHydrationWarning>
       <head>
         {/* A second head-level next-themes provider emits this script twice:
             next-themes does not dedupe across React trees. */}
@@ -111,10 +120,7 @@ export default async function LocaleLayout(props: Props) {
         />
         {/* Plain style, no href/precedence: React's float cache discards the
             textContent UserThemeProvider mutates for live edits. */}
-        <style
-          id="user-theme"
-          dangerouslySetInnerHTML={{ __html: DEFAULT_THEME_CSS }}
-        />
+        <style id="user-theme" dangerouslySetInnerHTML={{ __html: themeCss }} />
       </head>
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-dvh flex-col font-sans antialiased`}
