@@ -1,7 +1,6 @@
 "use client";
 
 import { sidebarNavigation } from "@/components/layout/nav/navigation";
-import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -12,17 +11,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth/auth-hook";
 import { useSubscriptionSelfQuery } from "@/hooks/billing/billing-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
+import { quotaToDollars } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
 import { DataSubmenu } from "./data-submenu";
 import { UserInfo } from "./user-info";
-import { quotaToDollars } from "@/lib/config/constants";
 
 interface UserDropdownProps {
   children: ReactElement;
@@ -40,9 +40,10 @@ export function UserDropdown(props: UserDropdownProps) {
   const subQuery = useSubscriptionSelfQuery();
   const mounted = useHydrated();
 
-  const activeSubs = (subQuery.data?.subscriptions ?? []).filter(
-    (s): s is typeof s & { subscription: NonNullable<typeof s.subscription> } =>
-      !!s.subscription && s.subscription.status === "active",
+  const activeSubs = (subQuery.data?.subscriptions ?? []).flatMap((s) =>
+    s.subscription?.status === "active"
+      ? [{ ...s, subscription: s.subscription }]
+      : [],
   );
 
   // Must be the plain child, never null or the decorated trigger: Base UI's Menu.Trigger
