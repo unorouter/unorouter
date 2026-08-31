@@ -1,4 +1,3 @@
-import { getCatalog } from "@/server/models/pricing/pricing.service";
 import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { getPathname } from "@/i18n/navigation";
 import {
@@ -19,6 +18,7 @@ import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import { getCatalog } from "@/server/models/pricing/pricing.service";
 import type { MetadataRoute } from "next";
 
 type EntryOptions = {
@@ -31,8 +31,14 @@ const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
 ]);
-const docPathSet = new Set<string>(
-  DOCS_REGISTRY.flatMap((d) => (typeof d.path === "string" ? [d.path] : [])),
+
+// next.config.ts redirects this permanently, so it is not a canonical URL.
+const REDIRECTED_ROUTES = new Set<string>(["/docs"]);
+
+const docUrlSet = new Set<string>(
+  DOCS_REGISTRY.map((doc) =>
+    getPathname({ locale: routing.defaultLocale, href: doc.path }),
+  ),
 );
 
 function localizedEntries(
@@ -66,15 +72,16 @@ function sectionOptions(route: StaticRoute): EntryOptions {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const topLevelRoutes = (
+  const staticRoutes = (
     Object.keys(pathnames) as (keyof typeof pathnames)[]
-  ).filter(
-    (route): route is StaticRoute =>
-      !route.includes("[") &&
+  ).filter((route): route is StaticRoute => !route.includes("["));
+  const topLevelRoutes = staticRoutes.filter(
+    (route) =>
       !privateSet.has(route) &&
-      !docPathSet.has(route) &&
-      route !== "/docs" &&
-      !route.startsWith("/docs/integrations/"),
+      !REDIRECTED_ROUTES.has(route) &&
+      !docUrlSet.has(
+        getPathname({ locale: routing.defaultLocale, href: route }),
+      ),
   );
 
   const pricing = await getCatalog().catch(() => null);
