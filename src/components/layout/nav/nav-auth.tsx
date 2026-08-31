@@ -25,22 +25,18 @@ export async function NavAuth() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {/* Explicit trigger id: Base UI's useId differs between the server
-          render and client hydration (React #418); a stable id keeps the
-          markup identical. UserDropdown
-          renders the plain button until mounted, then swaps in the interactive
-          Base UI trigger client-side, so hydration never compares the decorated
-          trigger against the streamed static button. */}
+      {/* Explicit trigger id: written for a React 18 useId instability that
+          19 fixed. Two SSR renders here now emit identical base-ui ids, so
+          this is belt-and-braces, not load-bearing. */}
       <UserDropdown side="bottom" align="end" triggerId="nav-user-trigger">
         <button className="cursor-pointer focus:outline-none">
-          {/* Deliberately NOT <UserAvatar />: its auth-query gate breaks
-              hydration inside this streamed hole. A shell component
-              (LocalUserIdSync) creates the auth query as pending before this
-              boundary renders, and TanStack HydrationBoundary defers EXISTING
-              queries to useEffect - which never runs during SSR - so the
-              server renders the null branch while the client, whose boundary
-              can hydrate first, renders the icon (React #418). This RSC only
-              reaches here when logged in, so render the icon directly. */}
+          {/* Deliberately NOT <UserAvatar />: it gates on the auth query, and
+              HydrationBoundary defers an already-cached query to useEffect,
+              which never runs during SSR, so the two sides can disagree on the
+              null branch (React #418). This is also what TanStack advises for
+              server components: prefetch there, do not render the query result.
+              The RSC above already proved the user is logged in, so the icon
+              needs no gate. */}
           <Icon name="user" className="size-4 shrink-0" />
         </button>
       </UserDropdown>
