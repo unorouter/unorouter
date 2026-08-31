@@ -4461,6 +4461,12 @@
         "WHY": "O Claude pode ser vago sobre sua versão exata mas nunca confunde seu nível, então um nível inferior nomeado é um rebaixamento deliberado.",
         "EXCEPTION": "o modelo não tem certeza do número da versão; só conta um nível diferente claramente nomeado."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Substituição de modelo",
+        "MEANS": "A resposta do endpoint indica um modelo diferente do solicitado.",
+        "WHY": "A resposta traz o identificador do modelo que o servidor diz ter respondido. Se ele contradiz a solicitação, um modelo mais barato atendeu a chamada enquanto o solicitado era cobrado.",
+        "EXCEPTION": "diferenças de grafia não contam: snapshots datados, um prefixo do fornecedor ou um ponto em vez de hífen são tratados como correspondência."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Imprecisão de versão",

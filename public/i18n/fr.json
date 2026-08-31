@@ -4461,6 +4461,12 @@
         "WHY": "Claude peut rester vague sur sa version exacte mais ne confond jamais son niveau, donc un niveau inférieur nommé est une rétrogradation délibérée.",
         "EXCEPTION": "le modèle n'est pas sûr de son numéro de version ; seul un niveau différent clairement nommé compte."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Substitution de modèle",
+        "MEANS": "La réponse du point de terminaison nomme un modèle différent de celui demandé.",
+        "WHY": "La réponse contient l'identifiant du modèle que le serveur déclare avoir répondu. S'il contredit la demande, un modèle moins cher a traité l'appel alors que celui demandé était facturé.",
+        "EXCEPTION": "les différences d'écriture ne comptent pas : instantanés datés, préfixe de fournisseur ou point au lieu d'un tiret sont considérés comme identiques."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Imprécision de version",

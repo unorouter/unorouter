@@ -4461,6 +4461,12 @@
         "WHY": "Claude ist über seine genaue Version manchmal unklar, verwechselt aber nie seine Stufe, daher ist eine namentlich genannte niedrigere Stufe eine bewusste Herabstufung.",
         "EXCEPTION": "Das Modell ist sich seiner Versionsnummer unsicher; nur eine eindeutig genannte andere Stufe zählt."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Modell ausgetauscht",
+        "MEANS": "Die Antwort des Endpunkts nennt ein anderes Modell als das angeforderte.",
+        "WHY": "Die Antwort enthält die Modell-ID, die der Server als Antwortendes angibt. Widerspricht sie der Anfrage, hat ein günstigeres Modell geantwortet, während das angeforderte abgerechnet wurde.",
+        "EXCEPTION": "Schreibweisen zählen nicht: datierte Snapshots, ein Anbieter-Präfix oder ein Punkt statt eines Bindestrichs gelten als Übereinstimmung."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Versionsunklarheit",

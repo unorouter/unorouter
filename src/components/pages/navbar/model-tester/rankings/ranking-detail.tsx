@@ -10,7 +10,7 @@ import {
 } from "@/hooks/models/model-tester-rankings-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
-import { vendorForRow } from "@/lib/ai/verify/models";
+import { vendorForRow } from "@unorouter/verify-core/models";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";

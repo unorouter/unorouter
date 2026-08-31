@@ -4,7 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useHistoryModels } from "@/hooks/ai/model-tester/tester-hooks";
 import { Link } from "@/i18n/navigation";
-import { vendorForRow } from "@/lib/ai/verify/models";
+import { vendorForRow } from "@unorouter/verify-core/models";
 import { useTranslations } from "next-intl";
 import { ProviderRowBody, StatCell } from "../shared/provider-row";
 import { totalSamples, weightedPassRate } from "../shared/stats";

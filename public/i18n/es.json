@@ -4461,6 +4461,12 @@
         "WHY": "Claude puede ser impreciso sobre su versión exacta pero nunca confunde su nivel, así que un nivel inferior nombrado es una degradación deliberada.",
         "EXCEPTION": "el modelo no está seguro de su número de versión; solo cuenta un nivel distinto nombrado con claridad."
       },
+      "SUBSTITUTED": {
+        "TITLE": "Sustitución de modelo",
+        "MEANS": "La respuesta del endpoint nombra un modelo distinto del solicitado.",
+        "WHY": "La respuesta incluye el identificador del modelo que el servidor dice haber usado. Si contradice la solicitud, un modelo más barato atendió la llamada mientras se facturaba el solicitado.",
+        "EXCEPTION": "las diferencias de escritura no cuentan: instantáneas con fecha, un prefijo de proveedor o un punto en vez de un guion se consideran coincidencia."
+      },
       "EXCEPTION": {
         "VERSION": {
           "TITLE": "Imprecisión de versión",
