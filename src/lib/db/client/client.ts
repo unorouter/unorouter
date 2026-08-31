@@ -9,6 +9,7 @@ import {
   newSql,
   pauseSql,
   resumeSql,
+  terminateAllSql,
   terminateSql,
 } from "@/lib/db/client/new-sql";
 import {
@@ -76,6 +77,41 @@ export async function getLocalDb(): Promise<LocalClient | null> {
 
 export function resetLocalDbCache() {
   cached = null;
+}
+
+async function removeOpfsEntries(): Promise<void> {
+  const root = await navigator.storage.getDirectory();
+  // Collect first: removing while async-iterating a directory skips entries.
+  const names: string[] = [];
+  for await (const [name] of root.entries()) names.push(name);
+  const failed: string[] = [];
+  for (const name of names) {
+    try {
+      await root.removeEntry(name, { recursive: true });
+    } catch (err) {
+      failed.push(`${name}: ${String(err).slice(0, 80)}`);
+    }
+  }
+  if (failed.length) throw new Error(`OPFS wipe failed: ${failed.join("; ")}`);
+}
+
+// A wipe must not need a working database: the user reaching for it usually has
+// one that failed to open, and the worker from that failed open still holds the
+// sync access handles that make removeEntry throw NoModificationAllowedError.
+export async function wipeLocalDb(): Promise<void> {
+  const pending = cached;
+  cached = null;
+  try {
+    const local = await pending;
+    await local?.wipe();
+    return;
+  } catch {
+    // Either the open never resolved, so there was no client to wipe through,
+    // or the removal was refused because a worker still holds the pool. Both
+    // are fixed the same way: kill every worker, then delete the files.
+  }
+  terminateAllSql();
+  await removeOpfsEntries();
 }
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
@@ -454,21 +490,7 @@ async function openClient(): Promise<LocalClient> {
       await sql.destroy().catch(() => {});
       terminateSql(sql);
       releaseLock(lockKey);
-      cached = null;
-      const root = await navigator.storage.getDirectory();
-      // Collect before removing: mutating a directory mid-iteration skips names.
-      const names: string[] = [];
-      for await (const [name] of root.entries()) names.push(name);
-      const failed: string[] = [];
-      for (const name of names) {
-        try {
-          await root.removeEntry(name, { recursive: true });
-        } catch (err) {
-          failed.push(`${name}: ${String(err).slice(0, 80)}`);
-        }
-      }
-      if (failed.length)
-        throw new Error(`OPFS wipe failed: ${failed.join("; ")}`);
+      await removeOpfsEntries();
     },
     deleteDatabaseFile: () => gated((s) => s.deleteDatabaseFile()),
     getDatabaseFile: () => gated((s) => s.getDatabaseFile()),

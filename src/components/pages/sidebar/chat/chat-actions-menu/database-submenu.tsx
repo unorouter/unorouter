@@ -98,9 +98,8 @@ export function DatabaseSubmenu() {
     if (!ok) return;
     logChatDebug("opfs.wipe.start");
     try {
-      const { getLocalDb } = await import("@/lib/db/client/client");
-      const local = await getLocalDb();
-      if (local) await local.wipe();
+      const { wipeLocalDb } = await import("@/lib/db/client/client");
+      await wipeLocalDb();
       logChatDebug("opfs.wipe.done", {});
     } catch (e) {
       // Reloading on a failed wipe lands the user back on the same database

@@ -6,6 +6,9 @@ import type {
 } from "./sahpool/sahpool-worker";
 
 const workers = new WeakMap<SQLocalDrizzle, Worker>();
+// A failed open leaves a worker nothing holds a handle to, and it keeps the
+// pool's sync access handles open, which is what makes a later wipe fail.
+const liveWorkers = new Set<Worker>();
 
 export function newSql(dbPath: string): SQLocalDrizzle {
   const worker = new Worker(
@@ -20,7 +23,13 @@ export function newSql(dbPath: string): SQLocalDrizzle {
     processor: worker,
   });
   workers.set(sql, worker);
+  liveWorkers.add(worker);
   return sql;
+}
+
+export function terminateAllSql(): void {
+  for (const worker of liveWorkers) worker.terminate();
+  liveWorkers.clear();
 }
 
 let controlSeq = 0;
@@ -61,6 +70,7 @@ export function terminateSql(sql: SQLocalDrizzle): void {
   if (!worker) return;
   worker.terminate();
   workers.delete(sql);
+  liveWorkers.delete(worker);
 }
 
 export async function resumeSql(sql: SQLocalDrizzle): Promise<void> {
