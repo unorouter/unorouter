@@ -73,11 +73,12 @@ export async function getModelsPageData() {
 
 export async function getComparePageData(slugs: readonly string[]) {
   const seeded = await seedCatalogClient();
-  const models = slugs
-    .map((slug) =>
-      seeded.browse.models.find((m) => modelMatchesSlug(m.model_name, slug)),
-    )
-    .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  const models = slugs.flatMap((slug) => {
+    const found = seeded.browse.models.find((m) =>
+      modelMatchesSlug(m.model_name, slug),
+    );
+    return found ? [found] : [];
+  });
   const missing =
     seeded.browse.models.length > 0 && models.length < slugs.length;
   return { dehydrated: dehydrate(seeded.qc), models, missing };
