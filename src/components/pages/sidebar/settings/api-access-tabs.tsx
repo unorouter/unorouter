@@ -39,6 +39,7 @@ export function ApiAccessTabs() {
   const userId = authQuery.data?.id;
   const isPartner = (authQuery.data?.topup_bonus_percent ?? 0) > 0;
   const token = accessToken ?? TOKEN_PLACEHOLDER;
+  const userIdValue = userId === undefined ? "YOUR_USER_ID" : String(userId);
 
   function handleGenerateToken() {
     generateTokenMutation.mutate(undefined, {
@@ -56,33 +57,58 @@ export function ApiAccessTabs() {
     toast.success(message);
   }
 
-  // The partner routes take no user id: the token identifies the caller. The id
-  // shown here is what a partner gives a customer so they can be granted balance.
+  // Every dashboard route takes the same two headers, so the snippets share
+  // them. Creating a key does not return the key: the response is a bare
+  // success, and the secret is revealed by a separate call against its id.
+  const auth = `-H "Authorization: Bearer ${token}" \\
+  -H "New-Api-User: ${userIdValue}"`;
+
   const curlExamples = [
     {
-      key: "balance",
-      title: t("SETTINGS.SECURITY.EXAMPLE_BALANCE"),
-      command: `curl "${env.apiUrl}/api/user/self" \\
-  -H "Authorization: Bearer ${token}"`,
+      key: "create-token",
+      title: t("SETTINGS.SECURITY.EXAMPLE_CREATE_TOKEN"),
+      command: `curl -X POST "${env.apiUrl}/api/token/" \\
+  ${auth} \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "my-api-key",
+    "expired_time": -1,
+    "unlimited_quota": true,
+    "group": "default"
+  }'`,
+    },
+    {
+      key: "list-tokens",
+      title: t("SETTINGS.SECURITY.EXAMPLE_LIST_TOKENS"),
+      command: `curl "${env.apiUrl}/api/token/?p=1&page_size=10" \\
+  ${auth}`,
+    },
+    {
+      key: "reveal-token",
+      title: t("SETTINGS.SECURITY.EXAMPLE_REVEAL_TOKEN"),
+      command: `curl -X POST "${env.apiUrl}/api/token/123/key" \\
+  ${auth}`,
     },
     {
       key: "chat",
       title: t("SETTINGS.SECURITY.EXAMPLE_CHAT"),
       command: `curl "${env.apiUrl}/v1/chat/completions" \\
-  -H "Authorization: Bearer ${token}" \\
+  -H "Authorization: Bearer sk-YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "model": "claude-sonnet-5-thinking",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`,
     },
+    // The partner routes identify the caller by token; the user_id in a grant is
+    // the RECIPIENT, which is why an account needs to be able to read its own.
     ...(isPartner
       ? [
           {
             key: "gift-card",
             title: t("SETTINGS.SECURITY.EXAMPLE_GIFT_CARD"),
             command: `curl -X POST "${env.apiUrl}/api/user/partner/redemption" \\
-  -H "Authorization: Bearer ${token}" \\
+  ${auth} \\
   -H "Content-Type: application/json" \\
   -d '{"name": "order-1042", "quota": 5000000, "expired_time": 0}'`,
           },
@@ -90,7 +116,7 @@ export function ApiAccessTabs() {
             key: "grant",
             title: t("SETTINGS.SECURITY.EXAMPLE_GRANT"),
             command: `curl -X POST "${env.apiUrl}/api/user/partner/grant" \\
-  -H "Authorization: Bearer ${token}" \\
+  ${auth} \\
   -H "Content-Type: application/json" \\
   -d '{"user_id": 12345, "quota": 5000000}'`,
           },
