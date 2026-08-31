@@ -2656,7 +2656,8 @@
     "LOGS": "Registros de uso",
     "AFFILIATE": "Afiliado",
     "BILLING": "Facturación",
-    "SETTINGS": "Configuración"
+    "SETTINGS": "Configuración",
+    "GIFT_CARDS": "Tarjetas regalo"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Este archivo no es una exportación de generación válida.",
     "CATALOG_ALL_ADDED": "Todo lo encontrado ya está añadido.",
     "EDIT_IMAGES_TITLE": "Imágenes a editar"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Tarjetas regalo",
+    "SUBTITLE": "Crea tarjetas regalo y transfiere saldo a tus clientes, financiado con tu propio saldo.",
+    "BALANCE": "Saldo disponible",
+    "CREATE": "Crear tarjeta regalo",
+    "GRANT": "Transferir saldo",
+    "VOID": "Anular",
+    "NAME": "Nombre",
+    "AMOUNT": "Importe",
+    "CODE": "Código",
+    "STATUS": "Estado",
+    "CREATED": "Creada",
+    "ACTIONS": "Acciones",
+    "RECIPIENT": "ID de usuario destinatario",
+    "EMPTY": "Aún no hay tarjetas regalo",
+    "STATUS_ACTIVE": "Activa",
+    "STATUS_USED": "Canjeada",
+    "STATUS_VOIDED": "Anulada",
+    "CREATE_DESC": "El importe se descuenta de tu saldo. Tu cliente canjea el código por su valor nominal.",
+    "GRANT_DESC": "Transfiere saldo directamente a otro usuario. El importe sale de tu saldo de inmediato.",
+    "SUCCESS_CREATE": "Tarjeta regalo creada",
+    "SUCCESS_VOID": "Tarjeta regalo anulada y reembolsada",
+    "SUCCESS_GRANT": "Saldo transferido",
+    "COPY": "Copiar código",
+    "COPIED": "Código copiado"
   }
 }

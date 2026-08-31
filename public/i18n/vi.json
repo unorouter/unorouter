@@ -2656,7 +2656,8 @@
     "LOGS": "Nhật ký sử dụng",
     "AFFILIATE": "Tiếp thị liên kết",
     "BILLING": "Thanh toán",
-    "SETTINGS": "Cài đặt"
+    "SETTINGS": "Cài đặt",
+    "GIFT_CARDS": "Thẻ quà tặng"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ.",
     "CATALOG_ALL_ADDED": "Tất cả kết quả tìm thấy đã được thêm.",
     "EDIT_IMAGES_TITLE": "Ảnh cần chỉnh sửa"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Thẻ quà tặng",
+    "SUBTITLE": "Tạo thẻ quà tặng và chuyển số dư cho khách hàng, lấy từ số dư của bạn.",
+    "BALANCE": "Số dư khả dụng",
+    "CREATE": "Tạo thẻ quà tặng",
+    "GRANT": "Chuyển số dư",
+    "VOID": "Hủy",
+    "NAME": "Tên",
+    "AMOUNT": "Số tiền",
+    "CODE": "Mã",
+    "STATUS": "Trạng thái",
+    "CREATED": "Ngày tạo",
+    "ACTIONS": "Thao tác",
+    "RECIPIENT": "ID người nhận",
+    "EMPTY": "Chưa có thẻ quà tặng",
+    "STATUS_ACTIVE": "Đang hoạt động",
+    "STATUS_USED": "Đã dùng",
+    "STATUS_VOIDED": "Đã hủy",
+    "CREATE_DESC": "Số tiền được trừ vào số dư của bạn. Khách hàng đổi mã theo đúng mệnh giá.",
+    "GRANT_DESC": "Chuyển số dư trực tiếp cho người dùng khác. Số tiền bị trừ ngay lập tức.",
+    "SUCCESS_CREATE": "Đã tạo thẻ quà tặng",
+    "SUCCESS_VOID": "Đã hủy thẻ và hoàn tiền",
+    "SUCCESS_GRANT": "Đã chuyển số dư",
+    "COPY": "Sao chép mã",
+    "COPIED": "Đã sao chép mã"
   }
 }

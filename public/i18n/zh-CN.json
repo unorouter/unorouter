@@ -2656,7 +2656,8 @@
     "LOGS": "使用日志",
     "AFFILIATE": "推广联盟",
     "BILLING": "账单",
-    "SETTINGS": "设置"
+    "SETTINGS": "设置",
+    "GIFT_CARDS": "礼品卡"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "此文件不是有效的生成导出文件。",
     "CATALOG_ALL_ADDED": "找到的条目均已添加。",
     "EDIT_IMAGES_TITLE": "要编辑的图片"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "礼品卡",
+    "SUBTITLE": "用您自己的余额创建礼品卡，或直接向客户发放余额。",
+    "BALANCE": "可用余额",
+    "CREATE": "创建礼品卡",
+    "GRANT": "发放余额",
+    "VOID": "作废",
+    "NAME": "名称",
+    "AMOUNT": "金额",
+    "CODE": "兑换码",
+    "STATUS": "状态",
+    "CREATED": "创建时间",
+    "ACTIONS": "操作",
+    "RECIPIENT": "接收方用户 ID",
+    "EMPTY": "暂无礼品卡",
+    "STATUS_ACTIVE": "有效",
+    "STATUS_USED": "已兑换",
+    "STATUS_VOIDED": "已作废",
+    "CREATE_DESC": "金额将从您的余额中扣除，客户按面值兑换该兑换码。",
+    "GRANT_DESC": "直接将余额转给其他用户，金额会立即从您的余额中扣除。",
+    "SUCCESS_CREATE": "礼品卡已创建",
+    "SUCCESS_VOID": "礼品卡已作废并退款",
+    "SUCCESS_GRANT": "余额已发放",
+    "COPY": "复制兑换码",
+    "COPIED": "兑换码已复制"
   }
 }

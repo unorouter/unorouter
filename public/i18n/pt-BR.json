@@ -2656,7 +2656,8 @@
     "LOGS": "Logs de uso",
     "AFFILIATE": "Afiliado",
     "BILLING": "Faturamento",
-    "SETTINGS": "Configurações"
+    "SETTINGS": "Configurações",
+    "GIFT_CARDS": "Cartões-presente"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Este arquivo não é uma exportação de geração válida.",
     "CATALOG_ALL_ADDED": "Tudo o que foi encontrado já está adicionado.",
     "EDIT_IMAGES_TITLE": "Imagens para editar"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Cartões-presente",
+    "SUBTITLE": "Crie cartões-presente e transfira saldo para seus clientes, financiado pelo seu próprio saldo.",
+    "BALANCE": "Saldo disponível",
+    "CREATE": "Criar cartão-presente",
+    "GRANT": "Transferir saldo",
+    "VOID": "Cancelar",
+    "NAME": "Nome",
+    "AMOUNT": "Valor",
+    "CODE": "Código",
+    "STATUS": "Status",
+    "CREATED": "Criado",
+    "ACTIONS": "Ações",
+    "RECIPIENT": "ID do usuário destinatário",
+    "EMPTY": "Ainda não há cartões-presente",
+    "STATUS_ACTIVE": "Ativo",
+    "STATUS_USED": "Resgatado",
+    "STATUS_VOIDED": "Cancelado",
+    "CREATE_DESC": "O valor é descontado do seu saldo. Seu cliente resgata o código pelo valor de face.",
+    "GRANT_DESC": "Transfira saldo diretamente para outro usuário. O valor sai do seu saldo imediatamente.",
+    "SUCCESS_CREATE": "Cartão-presente criado",
+    "SUCCESS_VOID": "Cartão-presente cancelado e reembolsado",
+    "SUCCESS_GRANT": "Saldo transferido",
+    "COPY": "Copiar código",
+    "COPIED": "Código copiado"
   }
 }

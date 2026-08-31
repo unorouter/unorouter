@@ -2656,7 +2656,8 @@
     "LOGS": "Usage Logs",
     "AFFILIATE": "Affiliate",
     "BILLING": "Billing",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "GIFT_CARDS": "Gift Cards"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "This file is not a valid generation export.",
     "CATALOG_ALL_ADDED": "Everything found is already added.",
     "EDIT_IMAGES_TITLE": "Images to edit"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Gift Cards",
+    "SUBTITLE": "Create gift cards and grant balance to your customers, funded from your own balance.",
+    "BALANCE": "Available balance",
+    "CREATE": "Create gift card",
+    "GRANT": "Grant balance",
+    "VOID": "Void",
+    "NAME": "Name",
+    "AMOUNT": "Amount",
+    "CODE": "Code",
+    "STATUS": "Status",
+    "CREATED": "Created",
+    "ACTIONS": "Actions",
+    "RECIPIENT": "Recipient user ID",
+    "EMPTY": "No gift cards yet",
+    "STATUS_ACTIVE": "Active",
+    "STATUS_USED": "Redeemed",
+    "STATUS_VOIDED": "Voided",
+    "CREATE_DESC": "The amount is deducted from your balance. Your customer redeems the code for its face value.",
+    "GRANT_DESC": "Move balance directly to another user. The amount leaves your balance immediately.",
+    "SUCCESS_CREATE": "Gift card created",
+    "SUCCESS_VOID": "Gift card voided and refunded",
+    "SUCCESS_GRANT": "Balance granted",
+    "COPY": "Copy code",
+    "COPIED": "Code copied"
   }
 }

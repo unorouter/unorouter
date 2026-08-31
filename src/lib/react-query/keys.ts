@@ -38,6 +38,10 @@ export const queryKeys = {
     params?: EdenQuery<typeof rpc.api.billing.affiliate.invitees>,
   ) => ["affiliate-invitees", params] as const,
 
+  partnerGiftCards: (
+    params?: EdenQuery<typeof rpc.api.billing.partner.redemption>,
+  ) => ["partner-gift-cards", params] as const,
+
   usageLogs: (params?: EdenQuery<typeof rpc.api.ops.logs>) =>
     ["usage-logs", params] as const,
   usageLogsStat: (params?: EdenQuery<typeof rpc.api.ops.logs.stat>) =>

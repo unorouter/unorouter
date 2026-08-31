@@ -144,7 +144,10 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     );
   }
 
-  const navItems = sidebarNavigation();
+  // A negotiated top-up bonus is what marks an enterprise partner account.
+  const navItems = sidebarNavigation(
+    (user?.topup_bonus_percent ?? 0) > 0,
+  ).filter((item) => !item.hidden);
   const sidebarPaths = new Set(navItems.map((item) => item.href));
   const mainNavItems = navigation(authenticated).filter(
     (item) => !item.hidden && !sidebarPaths.has(item.href),

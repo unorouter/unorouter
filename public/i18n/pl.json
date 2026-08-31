@@ -2656,7 +2656,8 @@
     "LOGS": "Logi użycia",
     "AFFILIATE": "Program partnerski",
     "BILLING": "Rozliczenia",
-    "SETTINGS": "Ustawienia"
+    "SETTINGS": "Ustawienia",
+    "GIFT_CARDS": "Karty podarunkowe"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Ten plik nie jest prawidłowym eksportem generacji.",
     "CATALOG_ALL_ADDED": "Wszystkie znalezione pozycje są już dodane.",
     "EDIT_IMAGES_TITLE": "Obrazy do edycji"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Karty podarunkowe",
+    "SUBTITLE": "Twórz karty podarunkowe i przekazuj saldo swoim klientom, finansowane z własnego salda.",
+    "BALANCE": "Dostępne saldo",
+    "CREATE": "Utwórz kartę podarunkową",
+    "GRANT": "Przekaż saldo",
+    "VOID": "Anuluj",
+    "NAME": "Nazwa",
+    "AMOUNT": "Kwota",
+    "CODE": "Kod",
+    "STATUS": "Status",
+    "CREATED": "Utworzono",
+    "ACTIONS": "Akcje",
+    "RECIPIENT": "Identyfikator użytkownika odbiorcy",
+    "EMPTY": "Brak kart podarunkowych",
+    "STATUS_ACTIVE": "Aktywna",
+    "STATUS_USED": "Zrealizowana",
+    "STATUS_VOIDED": "Anulowana",
+    "CREATE_DESC": "Kwota jest odejmowana od Twojego salda. Klient realizuje kod w jego wartości nominalnej.",
+    "GRANT_DESC": "Przekaż saldo bezpośrednio innemu użytkownikowi. Kwota od razu znika z Twojego salda.",
+    "SUCCESS_CREATE": "Karta podarunkowa utworzona",
+    "SUCCESS_VOID": "Karta anulowana, środki zwrócone",
+    "SUCCESS_GRANT": "Saldo przekazane",
+    "COPY": "Kopiuj kod",
+    "COPIED": "Kod skopiowany"
   }
 }

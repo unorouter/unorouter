@@ -159,7 +159,9 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   },
 ];
 
-export const sidebarNavigation = (): NavigationItem[] => [
+// isPartner gates the enterprise gift-card section. Presentation only: the
+// upstream API refuses a non-partner regardless of what the sidebar renders.
+export const sidebarNavigation = (isPartner = false): NavigationItem[] => [
   {
     name: "SIDEBAR.DASHBOARD",
     href: "/dashboard",
@@ -184,6 +186,12 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.AFFILIATE",
     href: "/affiliate",
     iconName: "gift",
+  },
+  {
+    name: "SIDEBAR.GIFT_CARDS",
+    href: "/gift-cards",
+    iconName: "ticket",
+    hidden: !isPartner,
   },
   {
     name: "SIDEBAR.SETTINGS",

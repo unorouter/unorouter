@@ -244,7 +244,7 @@ export interface ClaudeServerToolUse {
   web_search_requests: number;
 }
 
-export interface BillingUsage {
+export interface ClaudeUsage {
   billing_usage?: BillingUsage;
   cache_creation?: ClaudeCacheCreationUsage;
   cache_creation_input_tokens: number;
@@ -254,6 +254,70 @@ export interface BillingUsage {
   input_tokens: number;
   output_tokens: number;
   server_tool_use?: ClaudeServerToolUse;
+}
+
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
+export interface Usage {
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -451,18 +515,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -968,36 +1020,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
-export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1281,15 +1303,6 @@ export interface ImageParams {
   supportsSize: boolean;
   supportsSteps: boolean;
   supportsStrength: boolean;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1879,17 +1892,41 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-}
-
 export interface OverwriteField {
   /** @nullable */
   fields: string[] | null;
   model_name: string;
+}
+
+export interface PartnerGrantData {
+  balance_after: number;
+  granted: number;
+}
+
+/**
+ * PartnerGrantRequest schema
+ */
+export interface PartnerGrantRequest {
+  quota: number;
+  user_id: number;
+}
+
+export interface PartnerRedemptionData {
+  key: string;
+  quota: number;
+}
+
+/**
+ * PartnerRedemptionRequest schema
+ */
+export interface PartnerRedemptionRequest {
+  expired_time?: number;
+  name: string;
+  quota: number;
+}
+
+export interface PartnerVoidData {
+  refunded: number;
 }
 
 export interface PasskeyOptionsData {
@@ -3310,6 +3347,7 @@ export interface TopUp {
   id: number;
   invoice_url: string;
   money: number;
+  paid_amount: number;
   payment_method: string;
   payment_provider: string;
   provider_payment_id: string;
@@ -3382,6 +3420,7 @@ export interface User {
   status: number;
   stripe_customer: string;
   telegram_id: string;
+  topup_bonus_percent: number | null;
   used_quota: number;
   /** @maxLength 20 */
   username: string;
@@ -3429,6 +3468,33 @@ export type ResponseDtoPageDataModelVendorData = {
  */
 export interface ResponseDtoPageDataModelVendor {
   data: ResponseDtoPageDataModelVendorData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.PartnerGrantData schema
+ */
+export interface ResponseDtoPartnerGrantData {
+  data: PartnerGrantData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.PartnerRedemptionData schema
+ */
+export interface ResponseDtoPartnerRedemptionData {
+  data: PartnerRedemptionData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.PartnerVoidData schema
+ */
+export interface ResponseDtoPartnerVoidData {
+  data: PartnerVoidData;
   message: string;
   success: boolean;
 }
@@ -3891,6 +3957,7 @@ export interface UserSelfData {
   status: number;
   stripe_customer: string;
   telegram_id: string;
+  topup_bonus_percent: number;
   used_quota: number;
   username: string;
   wechat_id: string;
@@ -5471,6 +5538,17 @@ export type LoginParams = {
    * Cloudflare Turnstile verification token
    */
   turnstile?: string;
+};
+
+export type PartnerListRedemptionsParams = {
+  /**
+   * Page number (1-based)
+   */
+  p?: number;
+  /**
+   * Items per page
+   */
+  page_size?: number;
 };
 
 export type RegisterParams = {
@@ -16268,6 +16346,198 @@ export const unbindCustomOAuth = async (
 ): Promise<unbindCustomOAuthResponse> => {
   return customFetch<unbindCustomOAuthResponse>(
     getUnbindCustomOAuthUrl(providerId),
+    {
+      ...options,
+      method: "DELETE",
+    },
+  );
+};
+
+export type partnerGrantQuotaResponse200ApplicationJson = {
+  data: ResponseDtoPartnerGrantData;
+  status: 200;
+};
+
+export type partnerGrantQuotaResponse200ApplicationXml = {
+  data: ResponseDtoPartnerGrantData;
+  status: 200;
+};
+
+export type partnerGrantQuotaResponseSuccess = (
+  | partnerGrantQuotaResponse200ApplicationJson
+  | partnerGrantQuotaResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type partnerGrantQuotaResponse = partnerGrantQuotaResponseSuccess;
+
+export const getPartnerGrantQuotaUrl = () => {
+  return `/api/user/partner/grant`;
+};
+
+/**
+ * @summary Partner Grant Quota
+ */
+export const partnerGrantQuota = async (
+  partnerGrantRequest: PartnerGrantRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<partnerGrantQuotaResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
+  return customFetch<partnerGrantQuotaResponse>(getPartnerGrantQuotaUrl(), {
+    ...options,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
+    body: JSON.stringify(partnerGrantRequest),
+  });
+};
+
+export type partnerListRedemptionsResponse200ApplicationJson = {
+  data: ResponseDtoPageDataModelRedemption;
+  status: 200;
+};
+
+export type partnerListRedemptionsResponse200ApplicationXml = {
+  data: ResponseDtoPageDataModelRedemption;
+  status: 200;
+};
+
+export type partnerListRedemptionsResponseSuccess = (
+  | partnerListRedemptionsResponse200ApplicationJson
+  | partnerListRedemptionsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type partnerListRedemptionsResponse =
+  partnerListRedemptionsResponseSuccess;
+
+export const getPartnerListRedemptionsUrl = (
+  params?: PartnerListRedemptionsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/partner/redemption?${stringifiedParams}`
+    : `/api/user/partner/redemption`;
+};
+
+/**
+ * @summary Partner List Redemptions
+ */
+export const partnerListRedemptions = async (
+  params?: PartnerListRedemptionsParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<partnerListRedemptionsResponse> => {
+  return customFetch<partnerListRedemptionsResponse>(
+    getPartnerListRedemptionsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export type partnerCreateRedemptionResponse200ApplicationJson = {
+  data: ResponseDtoPartnerRedemptionData;
+  status: 200;
+};
+
+export type partnerCreateRedemptionResponse200ApplicationXml = {
+  data: ResponseDtoPartnerRedemptionData;
+  status: 200;
+};
+
+export type partnerCreateRedemptionResponseSuccess = (
+  | partnerCreateRedemptionResponse200ApplicationJson
+  | partnerCreateRedemptionResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type partnerCreateRedemptionResponse =
+  partnerCreateRedemptionResponseSuccess;
+
+export const getPartnerCreateRedemptionUrl = () => {
+  return `/api/user/partner/redemption`;
+};
+
+/**
+ * @summary Partner Create Redemption
+ */
+export const partnerCreateRedemption = async (
+  partnerRedemptionRequest: PartnerRedemptionRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<partnerCreateRedemptionResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
+  return customFetch<partnerCreateRedemptionResponse>(
+    getPartnerCreateRedemptionUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(partnerRedemptionRequest),
+    },
+  );
+};
+
+export type partnerVoidRedemptionResponse200ApplicationJson = {
+  data: ResponseDtoPartnerVoidData;
+  status: 200;
+};
+
+export type partnerVoidRedemptionResponse200ApplicationXml = {
+  data: ResponseDtoPartnerVoidData;
+  status: 200;
+};
+
+export type partnerVoidRedemptionResponseSuccess = (
+  | partnerVoidRedemptionResponse200ApplicationJson
+  | partnerVoidRedemptionResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type partnerVoidRedemptionResponse =
+  partnerVoidRedemptionResponseSuccess;
+
+export const getPartnerVoidRedemptionUrl = (id: string) => {
+  return `/api/user/partner/redemption/${id}`;
+};
+
+/**
+ * @summary Partner Void Redemption
+ */
+export const partnerVoidRedemption = async (
+  id: string,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<partnerVoidRedemptionResponse> => {
+  return customFetch<partnerVoidRedemptionResponse>(
+    getPartnerVoidRedemptionUrl(id),
     {
       ...options,
       method: "DELETE",

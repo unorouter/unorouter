@@ -2656,7 +2656,8 @@
     "LOGS": "Journaux d'utilisation",
     "AFFILIATE": "Affiliation",
     "BILLING": "Facturation",
-    "SETTINGS": "Paramètres"
+    "SETTINGS": "Paramètres",
+    "GIFT_CARDS": "Cartes cadeaux"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Ce fichier n’est pas un export de génération valide.",
     "CATALOG_ALL_ADDED": "Tout ce qui a été trouvé est déjà ajouté.",
     "EDIT_IMAGES_TITLE": "Images à modifier"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Cartes cadeaux",
+    "SUBTITLE": "Créez des cartes cadeaux et transférez du solde à vos clients, financé par votre propre solde.",
+    "BALANCE": "Solde disponible",
+    "CREATE": "Créer une carte cadeau",
+    "GRANT": "Transférer du solde",
+    "VOID": "Annuler",
+    "NAME": "Nom",
+    "AMOUNT": "Montant",
+    "CODE": "Code",
+    "STATUS": "Statut",
+    "CREATED": "Créé",
+    "ACTIONS": "Actions",
+    "RECIPIENT": "ID de l'utilisateur destinataire",
+    "EMPTY": "Aucune carte cadeau pour le moment",
+    "STATUS_ACTIVE": "Active",
+    "STATUS_USED": "Utilisée",
+    "STATUS_VOIDED": "Annulée",
+    "CREATE_DESC": "Le montant est déduit de votre solde. Votre client échange le code à sa valeur nominale.",
+    "GRANT_DESC": "Transférez du solde directement à un autre utilisateur. Le montant quitte votre solde immédiatement.",
+    "SUCCESS_CREATE": "Carte cadeau créée",
+    "SUCCESS_VOID": "Carte cadeau annulée et remboursée",
+    "SUCCESS_GRANT": "Solde transféré",
+    "COPY": "Copier le code",
+    "COPIED": "Code copié"
   }
 }

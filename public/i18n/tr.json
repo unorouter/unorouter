@@ -2656,7 +2656,8 @@
     "LOGS": "Kullanım Logları",
     "AFFILIATE": "Affiliate",
     "BILLING": "Faturalandırma",
-    "SETTINGS": "Ayarlar"
+    "SETTINGS": "Ayarlar",
+    "GIFT_CARDS": "Hediye kartları"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil.",
     "CATALOG_ALL_ADDED": "Bulunan her şey zaten eklendi.",
     "EDIT_IMAGES_TITLE": "Düzenlenecek görseller"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Hediye kartları",
+    "SUBTITLE": "Kendi bakiyenizden finanse ederek hediye kartı oluşturun ve müşterilerinize bakiye aktarın.",
+    "BALANCE": "Kullanılabilir bakiye",
+    "CREATE": "Hediye kartı oluştur",
+    "GRANT": "Bakiye aktar",
+    "VOID": "İptal et",
+    "NAME": "Ad",
+    "AMOUNT": "Tutar",
+    "CODE": "Kod",
+    "STATUS": "Durum",
+    "CREATED": "Oluşturuldu",
+    "ACTIONS": "İşlemler",
+    "RECIPIENT": "Alıcı kullanıcı kimliği",
+    "EMPTY": "Henüz hediye kartı yok",
+    "STATUS_ACTIVE": "Etkin",
+    "STATUS_USED": "Kullanıldı",
+    "STATUS_VOIDED": "İptal edildi",
+    "CREATE_DESC": "Tutar bakiyenizden düşülür. Müşteriniz kodu nominal değeriyle kullanır.",
+    "GRANT_DESC": "Bakiyeyi doğrudan başka bir kullanıcıya aktarın. Tutar bakiyenizden hemen çıkar.",
+    "SUCCESS_CREATE": "Hediye kartı oluşturuldu",
+    "SUCCESS_VOID": "Hediye kartı iptal edildi ve iade edildi",
+    "SUCCESS_GRANT": "Bakiye aktarıldı",
+    "COPY": "Kodu kopyala",
+    "COPIED": "Kod kopyalandı"
   }
 }

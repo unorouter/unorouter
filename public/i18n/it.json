@@ -2656,7 +2656,8 @@
     "LOGS": "Log di utilizzo",
     "AFFILIATE": "Affiliato",
     "BILLING": "Fatturazione",
-    "SETTINGS": "Impostazioni"
+    "SETTINGS": "Impostazioni",
+    "GIFT_CARDS": "Carte regalo"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida.",
     "CATALOG_ALL_ADDED": "Tutti i risultati trovati sono già stati aggiunti.",
     "EDIT_IMAGES_TITLE": "Immagini da modificare"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Carte regalo",
+    "SUBTITLE": "Crea carte regalo e trasferisci credito ai tuoi clienti, finanziato dal tuo saldo.",
+    "BALANCE": "Saldo disponibile",
+    "CREATE": "Crea carta regalo",
+    "GRANT": "Trasferisci credito",
+    "VOID": "Annulla",
+    "NAME": "Nome",
+    "AMOUNT": "Importo",
+    "CODE": "Codice",
+    "STATUS": "Stato",
+    "CREATED": "Creata",
+    "ACTIONS": "Azioni",
+    "RECIPIENT": "ID utente destinatario",
+    "EMPTY": "Nessuna carta regalo",
+    "STATUS_ACTIVE": "Attiva",
+    "STATUS_USED": "Riscattata",
+    "STATUS_VOIDED": "Annullata",
+    "CREATE_DESC": "L'importo viene detratto dal tuo saldo. Il cliente riscatta il codice al valore nominale.",
+    "GRANT_DESC": "Trasferisci credito direttamente a un altro utente. L'importo lascia subito il tuo saldo.",
+    "SUCCESS_CREATE": "Carta regalo creata",
+    "SUCCESS_VOID": "Carta regalo annullata e rimborsata",
+    "SUCCESS_GRANT": "Credito trasferito",
+    "COPY": "Copia codice",
+    "COPIED": "Codice copiato"
   }
 }

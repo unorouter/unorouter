@@ -2656,7 +2656,8 @@
     "LOGS": "Nutzungsprotokolle",
     "AFFILIATE": "Partnerprogramm",
     "BILLING": "Abrechnung",
-    "SETTINGS": "Einstellungen"
+    "SETTINGS": "Einstellungen",
+    "GIFT_CARDS": "Geschenkkarten"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Diese Datei ist kein gültiger Generierungs-Export.",
     "CATALOG_ALL_ADDED": "Alle gefundenen Einträge sind bereits hinzugefügt.",
     "EDIT_IMAGES_TITLE": "Zu bearbeitende Bilder"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Geschenkkarten",
+    "SUBTITLE": "Erstellen Sie Geschenkkarten und übertragen Sie Guthaben an Ihre Kunden, finanziert aus Ihrem eigenen Guthaben.",
+    "BALANCE": "Verfügbares Guthaben",
+    "CREATE": "Geschenkkarte erstellen",
+    "GRANT": "Guthaben übertragen",
+    "VOID": "Stornieren",
+    "NAME": "Name",
+    "AMOUNT": "Betrag",
+    "CODE": "Code",
+    "STATUS": "Status",
+    "CREATED": "Erstellt",
+    "ACTIONS": "Aktionen",
+    "RECIPIENT": "Empfänger-Benutzer-ID",
+    "EMPTY": "Noch keine Geschenkkarten",
+    "STATUS_ACTIVE": "Aktiv",
+    "STATUS_USED": "Eingelöst",
+    "STATUS_VOIDED": "Storniert",
+    "CREATE_DESC": "Der Betrag wird von Ihrem Guthaben abgezogen. Ihr Kunde löst den Code zum Nennwert ein.",
+    "GRANT_DESC": "Guthaben direkt an einen anderen Benutzer übertragen. Der Betrag wird sofort abgebucht.",
+    "SUCCESS_CREATE": "Geschenkkarte erstellt",
+    "SUCCESS_VOID": "Geschenkkarte storniert und erstattet",
+    "SUCCESS_GRANT": "Guthaben übertragen",
+    "COPY": "Code kopieren",
+    "COPIED": "Code kopiert"
   }
 }
