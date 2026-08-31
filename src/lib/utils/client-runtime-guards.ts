@@ -31,11 +31,18 @@ export function installDebugErrorCapture(): void {
 }
 
 // Without this the browser can evict OPFS under storage pressure, taking every
-// local conversation with it.
+// local conversation with it. Granted on the real origin; localhost is always
+// denied without a prompt, so repeating the request there only logs noise.
+let persistRequested = false;
+
 export function requestPersistentStorage(): void {
+  if (persistRequested) return;
+  persistRequested = true;
   void navigator.storage
     ?.persist?.()
-    .then((persisted) => logChatDebug("storage.persist", { persisted }))
+    .then((persisted) => {
+      if (!persisted) logChatDebug("storage.persist_denied");
+    })
     .catch((err) =>
       logChatDebug("storage.persist_error", {
         error: String(err).slice(0, 200),
@@ -43,16 +50,16 @@ export function requestPersistentStorage(): void {
     );
 }
 
-// Separates the three identical-looking iOS blank shells: jetsam (heap reading),
-// bfcache restore (pageshow.persisted), and WebKit #211018.
+// Separates the identical-looking blank shells a resumed tab can show: a
+// bfcache restore from a fresh load. heapMB would tell a jetsam kill from
+// WebKit #211018 apart, but performance.memory is Chromium-only, so it is
+// absent on exactly the iOS Safari those two are specific to.
 export function installResumeDiagnostics(): void {
   window.addEventListener("pageshow", (e) => {
-    const mem = performance.memory;
+    const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
       bfcache: e.persisted,
-      heapMB: mem?.usedJSHeapSize
-        ? Math.round(mem.usedJSHeapSize / 1048576)
-        : null,
+      ...(heapBytes && { heapMB: Math.round(heapBytes / 1048576) }),
     });
   });
   window.addEventListener("pagehide", (e) => {
