@@ -2656,7 +2656,8 @@
     "LOGS": "사용 로그",
     "AFFILIATE": "제휴",
     "BILLING": "결제",
-    "SETTINGS": "설정"
+    "SETTINGS": "설정",
+    "GIFT_CARDS": "기프트 카드"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "이 파일은 유효한 생성 내보내기가 아닙니다.",
     "CATALOG_ALL_ADDED": "검색된 항목은 모두 이미 추가되었습니다.",
     "EDIT_IMAGES_TITLE": "편집할 이미지"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "기프트 카드",
+    "SUBTITLE": "본인 잔액을 재원으로 기프트 카드를 발행하고 고객에게 잔액을 지급할 수 있습니다.",
+    "BALANCE": "사용 가능 잔액",
+    "CREATE": "기프트 카드 만들기",
+    "GRANT": "잔액 지급",
+    "VOID": "무효화",
+    "NAME": "이름",
+    "AMOUNT": "금액",
+    "CODE": "코드",
+    "STATUS": "상태",
+    "CREATED": "생성일",
+    "ACTIONS": "작업",
+    "RECIPIENT": "받는 사용자 ID",
+    "EMPTY": "아직 기프트 카드가 없습니다",
+    "STATUS_ACTIVE": "활성",
+    "STATUS_USED": "사용됨",
+    "STATUS_VOIDED": "무효",
+    "CREATE_DESC": "금액은 잔액에서 차감됩니다. 고객은 액면가 그대로 코드를 사용합니다.",
+    "GRANT_DESC": "다른 사용자에게 잔액을 직접 이전합니다. 금액은 즉시 차감됩니다.",
+    "SUCCESS_CREATE": "기프트 카드를 만들었습니다",
+    "SUCCESS_VOID": "기프트 카드를 무효화하고 환불했습니다",
+    "SUCCESS_GRANT": "잔액을 지급했습니다",
+    "COPY": "코드 복사",
+    "COPIED": "코드를 복사했습니다"
   }
 }

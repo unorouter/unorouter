@@ -2656,7 +2656,8 @@
     "LOGS": "使用紀錄",
     "AFFILIATE": "聯盟推廣",
     "BILLING": "帳務",
-    "SETTINGS": "設定"
+    "SETTINGS": "設定",
+    "GIFT_CARDS": "禮品卡"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "此檔案不是有效的生成匯出檔。",
     "CATALOG_ALL_ADDED": "找到的項目均已加入。",
     "EDIT_IMAGES_TITLE": "要編輯的圖片"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "禮品卡",
+    "SUBTITLE": "用您自己的餘額建立禮品卡，或直接向客戶發放餘額。",
+    "BALANCE": "可用餘額",
+    "CREATE": "建立禮品卡",
+    "GRANT": "發放餘額",
+    "VOID": "作廢",
+    "NAME": "名稱",
+    "AMOUNT": "金額",
+    "CODE": "兌換碼",
+    "STATUS": "狀態",
+    "CREATED": "建立時間",
+    "ACTIONS": "操作",
+    "RECIPIENT": "接收方使用者 ID",
+    "EMPTY": "尚無禮品卡",
+    "STATUS_ACTIVE": "有效",
+    "STATUS_USED": "已兌換",
+    "STATUS_VOIDED": "已作廢",
+    "CREATE_DESC": "金額將從您的餘額中扣除，客戶按面值兌換該兌換碼。",
+    "GRANT_DESC": "直接將餘額轉給其他使用者，金額會立即從您的餘額中扣除。",
+    "SUCCESS_CREATE": "禮品卡已建立",
+    "SUCCESS_VOID": "禮品卡已作廢並退款",
+    "SUCCESS_GRANT": "餘額已發放",
+    "COPY": "複製兌換碼",
+    "COPIED": "兌換碼已複製"
   }
 }

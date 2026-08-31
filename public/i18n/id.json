@@ -2656,7 +2656,8 @@
     "LOGS": "Log Penggunaan",
     "AFFILIATE": "Afiliasi",
     "BILLING": "Penagihan",
-    "SETTINGS": "Pengaturan"
+    "SETTINGS": "Pengaturan",
+    "GIFT_CARDS": "Kartu hadiah"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid.",
     "CATALOG_ALL_ADDED": "Semua yang ditemukan sudah ditambahkan.",
     "EDIT_IMAGES_TITLE": "Gambar yang akan diedit"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "Kartu hadiah",
+    "SUBTITLE": "Buat kartu hadiah dan berikan saldo kepada pelanggan Anda, didanai dari saldo Anda sendiri.",
+    "BALANCE": "Saldo tersedia",
+    "CREATE": "Buat kartu hadiah",
+    "GRANT": "Berikan saldo",
+    "VOID": "Batalkan",
+    "NAME": "Nama",
+    "AMOUNT": "Jumlah",
+    "CODE": "Kode",
+    "STATUS": "Status",
+    "CREATED": "Dibuat",
+    "ACTIONS": "Tindakan",
+    "RECIPIENT": "ID pengguna penerima",
+    "EMPTY": "Belum ada kartu hadiah",
+    "STATUS_ACTIVE": "Aktif",
+    "STATUS_USED": "Ditukarkan",
+    "STATUS_VOIDED": "Dibatalkan",
+    "CREATE_DESC": "Jumlahnya dipotong dari saldo Anda. Pelanggan menukarkan kode sesuai nilai nominalnya.",
+    "GRANT_DESC": "Pindahkan saldo langsung ke pengguna lain. Jumlahnya langsung keluar dari saldo Anda.",
+    "SUCCESS_CREATE": "Kartu hadiah dibuat",
+    "SUCCESS_VOID": "Kartu hadiah dibatalkan dan dana dikembalikan",
+    "SUCCESS_GRANT": "Saldo diberikan",
+    "COPY": "Salin kode",
+    "COPIED": "Kode disalin"
   }
 }

@@ -2656,7 +2656,8 @@
     "LOGS": "利用ログ",
     "AFFILIATE": "アフィリエイト",
     "BILLING": "請求",
-    "SETTINGS": "設定"
+    "SETTINGS": "設定",
+    "GIFT_CARDS": "ギフトカード"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -5580,5 +5581,31 @@
     "IMPORT_INVALID": "このファイルは有効な生成エクスポートではありません。",
     "CATALOG_ALL_ADDED": "見つかった項目はすべて追加済みです。",
     "EDIT_IMAGES_TITLE": "編集する画像"
+  },
+  "GIFT_CARDS": {
+    "TITLE": "ギフトカード",
+    "SUBTITLE": "ご自身の残高を原資として、ギフトカードの発行や顧客への残高付与ができます。",
+    "BALANCE": "利用可能残高",
+    "CREATE": "ギフトカードを作成",
+    "GRANT": "残高を付与",
+    "VOID": "無効化",
+    "NAME": "名称",
+    "AMOUNT": "金額",
+    "CODE": "コード",
+    "STATUS": "ステータス",
+    "CREATED": "作成日",
+    "ACTIONS": "操作",
+    "RECIPIENT": "受取ユーザーID",
+    "EMPTY": "ギフトカードはまだありません",
+    "STATUS_ACTIVE": "有効",
+    "STATUS_USED": "使用済み",
+    "STATUS_VOIDED": "無効",
+    "CREATE_DESC": "金額はお客様の残高から差し引かれます。顧客は額面どおりにコードを引き換えます。",
+    "GRANT_DESC": "他のユーザーに残高を直接移動します。金額はただちに残高から引かれます。",
+    "SUCCESS_CREATE": "ギフトカードを作成しました",
+    "SUCCESS_VOID": "ギフトカードを無効化し返金しました",
+    "SUCCESS_GRANT": "残高を付与しました",
+    "COPY": "コードをコピー",
+    "COPIED": "コードをコピーしました"
   }
 }
