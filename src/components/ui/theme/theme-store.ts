@@ -53,6 +53,7 @@ export type UserTheme = {
   chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
+  fontMono?: string;
   chatFontScale?: number;
   assetImageMaxWidth?: number; // rem; caps {{img::name}} asset image width
   radius?: string;
@@ -89,6 +90,7 @@ export const INITIAL_USER_THEME: UserTheme = {
   chartColor: "default",
   fontBody: "inherit",
   fontHeading: "inherit",
+  fontMono: "inherit",
   radius: "none",
   style: "nova",
   iconLibrary: "lucide",
