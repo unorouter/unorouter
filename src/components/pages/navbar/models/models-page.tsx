@@ -7,7 +7,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
-import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
+import { ModelsUrlSync } from "./models-url-sync";
 import { analytics } from "@/lib/analytics";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
