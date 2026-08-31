@@ -70,29 +70,14 @@ export function useBillingActions() {
     nowPaymentsTopUpMutation.isPending ||
     deloPayTopUpMutation.isPending;
 
+  // The stored choice can outlive its provider being switched off upstream, so
+  // fall back to the first one still offered.
+  const firstAvailable = availableMethods[0];
+  const methodOffered = availableMethods.includes(paymentMethod);
   useEffect(() => {
-    if (!topUpInfo) return;
-    const enabled =
-      (paymentMethod === "card" && enableCard) ||
-      (paymentMethod === "crypto" && enableCrypto) ||
-      (paymentMethod === "paypal" && enablePayPal);
-    if (enabled) return;
-    const fallback: PaymentMethod | undefined = enableCard
-      ? "card"
-      : enablePayPal
-        ? "paypal"
-        : enableCrypto
-          ? "crypto"
-          : undefined;
-    if (fallback) setPaymentMethod(fallback);
-  }, [
-    topUpInfo,
-    paymentMethod,
-    enableCard,
-    enableCrypto,
-    enablePayPal,
-    setPaymentMethod,
-  ]);
+    if (!topUpInfo || methodOffered || !firstAvailable) return;
+    setPaymentMethod(firstAvailable);
+  }, [topUpInfo, methodOffered, firstAvailable, setPaymentMethod]);
 
   function discountFactor(amount: number): number | undefined {
     return discount[String(amount)];
