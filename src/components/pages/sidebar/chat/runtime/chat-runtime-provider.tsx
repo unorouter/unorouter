@@ -39,6 +39,7 @@ import {
   freshConvId,
   lastStreamErrorAtom,
   registerLiveThread,
+  rotatingGroupTurnAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
@@ -299,6 +300,7 @@ function ChatRuntimeHook() {
         if (order.length > 1) {
           analytics.chat.groupTurn({ character_count: order.length });
           rotatingRef.current = true;
+          chatStore.set(rotatingGroupTurnAtom, true);
           try {
             for (let i = 0; i < order.length; i++) {
               chatStore.set(speakingCharacterIdAtom, order[i]);
@@ -310,6 +312,7 @@ function ChatRuntimeHook() {
             }
           } finally {
             chatStore.set(speakingCharacterIdAtom, null);
+            chatStore.set(rotatingGroupTurnAtom, false);
             rotatingRef.current = false;
             releaseStreamLock();
           }

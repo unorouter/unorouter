@@ -343,6 +343,7 @@ export function applyRegexScripts(
 export function collectHistory(
   messages: StreamMessages,
   times?: Record<string, number>,
+  speaker?: { id: string; names: Record<string, string> },
 ): { role: "user" | "assistant" | "system"; text: string; time?: number }[] {
   const out: {
     role: "user" | "assistant" | "system";
@@ -353,14 +354,34 @@ export function collectHistory(
     if (m.role !== "user" && m.role !== "assistant" && m.role !== "system") {
       continue;
     }
-    const text = textOf(m.parts);
+    let text = textOf(m.parts);
     // The type is Omit<UIMessage, "id"> but the wire messages carry their DB
     // id, which is what `times` is keyed by.
     const id = "id" in m && typeof m.id === "string" ? m.id : undefined;
+    // Only OTHER cast members get named. Labelling the speaker's own turns too
+    // would teach it that an assistant turn is a name-tagged multi-character
+    // block, which is the behaviour this whole path exists to stop.
+    if (speaker && m.role === "assistant" && text) {
+      const said = metaSpeakingCharacterId(m);
+      if (said && said !== speaker.id) {
+        const name = speaker.names[said];
+        if (name) text = `<${name}'s Message>\n${text}\n</${name}'s Message>`;
+      }
+    }
     if (text)
       out.push({ role: m.role, text, time: id ? times?.[id] : undefined });
   }
   return out;
+}
+
+function metaSpeakingCharacterId(
+  m: StreamMessages[number],
+): string | undefined {
+  if (!("metadata" in m) || typeof m.metadata !== "object" || !m.metadata)
+    return undefined;
+  const said = (m.metadata as { speakingCharacterId?: unknown })
+    .speakingCharacterId;
+  return typeof said === "string" ? said : undefined;
 }
 
 export function dropSummarizedPrefix(

@@ -145,7 +145,7 @@ function GuestSession(props: { roomId: string }) {
             </p>
             <p
               className={cn(
-                "max-w-full whitespace-pre-wrap wrap-break-word text-sm",
+                "max-w-full text-sm wrap-break-word whitespace-pre-wrap",
                 msg.role === "user"
                   ? "bg-muted text-foreground rounded-2xl px-4 py-2.5"
                   : "text-foreground leading-relaxed",

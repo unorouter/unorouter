@@ -448,6 +448,28 @@ async function openClient(): Promise<LocalClient> {
       await sql.destroy();
       releaseLock(lockKey);
     },
+    wipe: async () => {
+      unsubscribeWant();
+      await ensureOwned().catch(() => {});
+      await sql.destroy().catch(() => {});
+      terminateSql(sql);
+      releaseLock(lockKey);
+      cached = null;
+      const root = await navigator.storage.getDirectory();
+      // Collect before removing: mutating a directory mid-iteration skips names.
+      const names: string[] = [];
+      for await (const [name] of root.entries()) names.push(name);
+      const failed: string[] = [];
+      for (const name of names) {
+        try {
+          await root.removeEntry(name, { recursive: true });
+        } catch (err) {
+          failed.push(`${name}: ${String(err).slice(0, 80)}`);
+        }
+      }
+      if (failed.length)
+        throw new Error(`OPFS wipe failed: ${failed.join("; ")}`);
+    },
     deleteDatabaseFile: () => gated((s) => s.deleteDatabaseFile()),
     getDatabaseFile: () => gated((s) => s.getDatabaseFile()),
     getDatabaseInfo: () => gated((s) => s.getDatabaseInfo()),

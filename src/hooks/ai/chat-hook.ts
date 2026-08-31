@@ -387,6 +387,11 @@ export function useDuplicateConversationMutation() {
 export function useSetActiveBranchMutation() {
   return useChatMutation(
     async (args: { convId: string; msgId: string }) => {
+      // assistant-ui mints its own ids for optimistic and streaming messages.
+      // Those are not rows, so persisting one silently loses the swipe; wait
+      // for the real row to exist rather than writing a no-op.
+      const rows = await readLocalMessages(args.convId);
+      if (!rows?.some((m) => m.id === args.msgId)) return { id: args.msgId };
       await setLocalActiveBranch(args.convId, args.msgId);
       return { id: args.msgId };
     },

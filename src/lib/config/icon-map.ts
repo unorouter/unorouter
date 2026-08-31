@@ -1870,6 +1870,19 @@ export const ICON_MAP: Record<string, IconEntry> = {
     iconoir: () =>
       import("iconoir-react/regular").then((m) => ({ default: m.Terminal })),
   },
+  ticket: {
+    lucide: () => import("lucide-react/dist/esm/icons/ticket.mjs"),
+    tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTicket.mjs"),
+    phosphor: () =>
+      import("@phosphor-icons/react/dist/ssr/Ticket").then((m) => ({
+        default: m.Ticket,
+      })),
+    heroicons: () => import("@heroicons/react/24/outline/TicketIcon"),
+    remix: () =>
+      import("@remixicon/react").then((m) => ({
+        default: m.RiTicketLine,
+      })),
+  },
   trash: {
     lucide: () => import("lucide-react/dist/esm/icons/trash.mjs"),
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTrash.mjs"),

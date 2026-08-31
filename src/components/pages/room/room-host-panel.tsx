@@ -85,7 +85,11 @@ export function RoomHostPanel(props: {
             <div className="space-y-3">
               {link ? (
                 <div className="flex gap-2">
-                  <Input readOnly value={link} onFocus={(e) => e.target.select()} />
+                  <Input
+                    readOnly
+                    value={link}
+                    onFocus={(e) => e.target.select()}
+                  />
                   <Button
                     variant="outline"
                     onClick={() => {

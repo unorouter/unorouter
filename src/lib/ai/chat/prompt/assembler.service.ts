@@ -273,6 +273,7 @@ export async function assembleForStream(
   }
 
   const primary = boundCharacters[0]?.character;
+  const isGroupTurn = boundCharacters.length > 1;
   const userName = persona?.name ?? "User";
   const charName = primary?.name ?? "Assistant";
   const userDesc = persona?.description ?? "";
@@ -346,8 +347,13 @@ export async function assembleForStream(
 
   const charScanText = recentUserTexts.join("\n");
   const charBlocks: string[] = [];
-  for (let i = 0; i < boundCharacters.length; i++) {
-    const binding = boundCharacters[i];
+  // A group turn describes ONLY the speaking character. Handing the model every
+  // cast member's card is what made it answer as the whole cast in one reply.
+  const describedCharacters = isGroupTurn
+    ? boundCharacters.slice(0, 1)
+    : boundCharacters;
+  for (let i = 0; i < describedCharacters.length; i++) {
+    const binding = describedCharacters[i];
     const ch = applyCharOverrides(binding.character, binding.binding.overrides);
     const isPrimary = i === 0;
     const turnTriggers = ch.turnTriggers ?? null;
@@ -392,6 +398,8 @@ export async function assembleForStream(
   const postHistorySlot = joinNonEmpty([
     expand(primary?.postHistoryInstructions),
     expand(preset?.postHistory),
+    // Last instruction before generation, where it holds best.
+    isGroupTurn ? `[Write the next reply only as ${charName}]` : "",
   ]);
 
   const sys = (text: string): SlotBlock | null =>

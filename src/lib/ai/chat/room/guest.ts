@@ -10,6 +10,7 @@ import {
   guestTurnAtom,
   roomStore,
 } from "@/store/room-store";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { DataConnection, Peer } from "peerjs";
 import {
   MAX_TURN_CHARS,
@@ -68,6 +69,10 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
 
     link.on("open", () => {
       roomStore.set(guestStatusAtom, "waiting");
+      logChatDebug("room.guest_connect", {
+        roomId,
+        version: ROOM_PROTOCOL_VERSION,
+      });
       send({ type: "join", version: ROOM_PROTOCOL_VERSION, name });
     });
 
@@ -82,10 +87,17 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
           roomStore.set(guestParticipantsAtom, msg.participants);
           roomStore.set(guestTurnAtom, msg.turn);
           roomStore.set(guestStatusAtom, "joined");
+          logChatDebug("room.guest_welcome", {
+            messages: msg.messages.length,
+            blank: msg.messages.filter((m) => !m.text).length,
+            speakers: [...new Set(msg.messages.map((m) => m.speaker))].length,
+            hostVersion: msg.version,
+          });
           break;
         case "rejected":
           roomStore.set(guestErrorAtom, msg.reason);
           roomStore.set(guestStatusAtom, "rejected");
+          logChatDebug("room.guest_rejected", { reason: msg.reason });
           break;
         case "message-appended":
           roomStore.set(guestMessagesAtom, (prev) => {
@@ -127,6 +139,7 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
         case "closed":
           roomStore.set(guestErrorAtom, null);
           roomStore.set(guestStatusAtom, "closed");
+          logChatDebug("room.guest_closed", {});
           break;
       }
     });
