@@ -157,6 +157,17 @@
     overscroll-behavior: none;
   }
 
+  /* The customizer's heading font wrote --font-display and nothing ever read
+     it, so picking one changed nothing: headings inherited the body font. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+
   button {
     @apply cursor-pointer;
   }
