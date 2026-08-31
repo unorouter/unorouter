@@ -19,6 +19,14 @@ export function fromVerifyResult(r: VerifyResult): ResultCardData {
     resolvedFormat: r.resolvedProvider,
     formatFellBack: r.resolvedProvider !== r.provider,
     connectivityError: r.connectivityError,
+    ...(r.signature
+      ? {
+          signature: {
+            state: r.signature.state,
+            signatureLength: r.signature.signatureLength,
+          },
+        }
+      : {}),
     probes: r.probes.map((p) => ({
       label: p.label,
       pass: p.pass,

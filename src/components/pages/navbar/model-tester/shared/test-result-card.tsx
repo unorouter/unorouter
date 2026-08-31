@@ -15,6 +15,12 @@ import { useState } from "react";
 import type { TestResultProbe } from "@/lib/api/typebox/model-tester";
 import type { TranslationKey } from "@/lib/types";
 
+const SIGNATURE_LABEL: Record<string, TranslationKey> = {
+  signed: "MODEL_TESTER.RESULT.SIGNATURE_SIGNED",
+  unsigned: "MODEL_TESTER.RESULT.SIGNATURE_UNSIGNED",
+  "no-thinking": "MODEL_TESTER.RESULT.SIGNATURE_NO_THINKING",
+};
+
 export type ResultCardData = {
   model: string;
   baseUrlHost: string;
@@ -31,6 +37,8 @@ export type ResultCardData = {
   resolvedFormat: string;
   formatFellBack: boolean;
   connectivityError: string | null;
+  /** Only present when the run asked for the thinking-signature check. */
+  signature?: { state: string; signatureLength: number } | undefined;
   probes: TestResultProbe[];
 };
 
@@ -401,6 +409,22 @@ export function TestResultCard(props: {
               {t("MODEL_TESTER.RESULT.TOTAL_TOKENS", {
                 tokens: result.totalTokens,
               })}
+            </span>
+          ) : null}
+          {result.signature && result.signature.state !== "skipped" ? (
+            <span>
+              {t("MODEL_TESTER.RESULT.SIGNATURE")}:{" "}
+              <span
+                className={
+                  result.signature.state === "signed"
+                    ? "font-mono text-emerald-600 dark:text-emerald-400"
+                    : result.signature.state === "no-thinking"
+                      ? "font-mono text-red-600 dark:text-red-400"
+                      : "text-foreground font-mono"
+                }
+              >
+                {t(SIGNATURE_LABEL[result.signature.state] ?? "MODEL_TESTER.RESULT.SIGNATURE_UNSIGNED")}
+              </span>
             </span>
           ) : null}
           {result.detectedModel ? (
