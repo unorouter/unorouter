@@ -6,12 +6,6 @@
 import { log } from "console";
 import { jwkToKeyID } from "web-bot-auth";
 
-// web-bot-auth 0.2 stopped exporting `helpers`, but jwkToKeyID still takes the
-// same hash and decode callbacks, so these are its two former implementations.
-const sha256 = (b: BufferSource) => crypto.subtle.digest("SHA-256", b);
-const base64UrlDecode = (buf: ArrayBuffer) =>
-  Buffer.from(new Uint8Array(buf)).toString("base64url");
-
 async function main() {
   const keyPair = await crypto.subtle.generateKey("Ed25519", true, [
     "sign",
@@ -27,7 +21,12 @@ async function main() {
     keyPair.privateKey,
   )) as JsonWebKey;
 
-  const kid = await jwkToKeyID(publicJwk, sha256, base64UrlDecode);
+  // web-bot-auth 0.2 dropped the `helpers` export these two came from.
+  const kid = await jwkToKeyID(
+    publicJwk,
+    (b) => crypto.subtle.digest("SHA-256", b),
+    (buf) => Buffer.from(new Uint8Array(buf)).toString("base64url"),
+  );
 
   const now = Math.floor(Date.now() / 1000);
   const oneYear = 60 * 60 * 24 * 365;
