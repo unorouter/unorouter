@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "باقات الاشتراك",
       "QUOTA_TOPUP": "شحن الرصيد",
       "SUBSCRIPTIONS_HINT": "متكرر، يُعاد ضبطه أسبوعيًا",
-      "QUOTA_TOPUP_HINT": "دفعة واحدة، بلا انتهاء"
+      "QUOTA_TOPUP_HINT": "دفعة واحدة، بلا انتهاء",
+      "REDEEM": "استخدام رمز",
+      "REDEEM_HINT": "بطاقات الهدايا ورموز الشحن"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "أدخل بطاقة الهدية أو رمز الشحن",
+      "SUBMIT": "استخدام",
+      "SUCCESS": "تمت إضافة {amount} إلى رصيدك"
     }
   },
   "FORM": {

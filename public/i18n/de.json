@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Abonnements",
       "QUOTA_TOPUP": "Guthaben aufladen",
       "SUBSCRIPTIONS_HINT": "Wiederkehrend, wöchentlicher Reset",
-      "QUOTA_TOPUP_HINT": "Einmalig, ohne Ablaufdatum"
+      "QUOTA_TOPUP_HINT": "Einmalig, ohne Ablaufdatum",
+      "REDEEM": "Code einlösen",
+      "REDEEM_HINT": "Geschenkkarten und Gutscheincodes"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Geschenkkarte oder Gutscheincode eingeben",
+      "SUBMIT": "Einlösen",
+      "SUCCESS": "{amount} deinem Guthaben gutgeschrieben"
     }
   },
   "FORM": {

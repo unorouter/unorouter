@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "सदस्यता योजनाएँ",
       "QUOTA_TOPUP": "कोटा टॉप-अप",
       "SUBSCRIPTIONS_HINT": "आवर्ती, हर सप्ताह रीसेट",
-      "QUOTA_TOPUP_HINT": "एक बार, कभी समाप्त नहीं"
+      "QUOTA_TOPUP_HINT": "एक बार, कभी समाप्त नहीं",
+      "REDEEM": "कोड रिडीम करें",
+      "REDEEM_HINT": "गिफ्ट कार्ड और रिडेम्पशन कोड"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "अपना गिफ्ट कार्ड या रिडेम्पशन कोड दर्ज करें",
+      "SUBMIT": "रिडीम करें",
+      "SUCCESS": "आपके बैलेंस में {amount} जोड़े गए"
     }
   },
   "FORM": {

@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Plany subskrypcji",
       "QUOTA_TOPUP": "Doładowanie salda",
       "SUBSCRIPTIONS_HINT": "Cyklicznie, reset co tydzień",
-      "QUOTA_TOPUP_HINT": "Jednorazowo, bez wygaśnięcia"
+      "QUOTA_TOPUP_HINT": "Jednorazowo, bez wygaśnięcia",
+      "REDEEM": "Zrealizuj kod",
+      "REDEEM_HINT": "Karty podarunkowe i kody doładowania"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Wpisz kartę podarunkową lub kod doładowania",
+      "SUBMIT": "Zrealizuj",
+      "SUCCESS": "Dodano {amount} do Twojego salda"
     }
   },
   "FORM": {

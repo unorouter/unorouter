@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Planos de assinatura",
       "QUOTA_TOPUP": "Recarga de saldo",
       "SUBSCRIPTIONS_HINT": "Recorrente, reinicia semanalmente",
-      "QUOTA_TOPUP_HINT": "Pagamento único, sem validade"
+      "QUOTA_TOPUP_HINT": "Pagamento único, sem validade",
+      "REDEEM": "Resgatar um código",
+      "REDEEM_HINT": "Cartões-presente e códigos de resgate"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Digite seu cartão-presente ou código de resgate",
+      "SUBMIT": "Resgatar",
+      "SUCCESS": "{amount} adicionados ao seu saldo"
     }
   },
   "FORM": {

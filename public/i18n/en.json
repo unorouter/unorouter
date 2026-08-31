@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Subscription plans",
       "QUOTA_TOPUP": "Quota top-up",
       "SUBSCRIPTIONS_HINT": "Recurring, resets weekly",
-      "QUOTA_TOPUP_HINT": "One-time, never expires"
+      "QUOTA_TOPUP_HINT": "One-time, never expires",
+      "REDEEM": "Redeem a code",
+      "REDEEM_HINT": "Gift cards and redemption codes"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Enter your gift card or redemption code",
+      "SUBMIT": "Redeem",
+      "SUCCESS": "{amount} added to your balance"
     }
   },
   "FORM": {

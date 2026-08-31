@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "订阅套餐",
       "QUOTA_TOPUP": "额度充值",
       "SUBSCRIPTIONS_HINT": "周期扣费，每周重置",
-      "QUOTA_TOPUP_HINT": "一次性付款，永不过期"
+      "QUOTA_TOPUP_HINT": "一次性付款，永不过期",
+      "REDEEM": "兑换代码",
+      "REDEEM_HINT": "礼品卡与兑换码"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "输入礼品卡或兑换码",
+      "SUBMIT": "兑换",
+      "SUCCESS": "已向你的余额充值 {amount}"
     }
   },
   "FORM": {

@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "תוכניות מנוי",
       "QUOTA_TOPUP": "טעינת מכסה",
       "SUBSCRIPTIONS_HINT": "מתחדש, מתאפס מדי שבוע",
-      "QUOTA_TOPUP_HINT": "תשלום חד-פעמי, ללא תפוגה"
+      "QUOTA_TOPUP_HINT": "תשלום חד-פעמי, ללא תפוגה",
+      "REDEEM": "מימוש קוד",
+      "REDEEM_HINT": "כרטיסי מתנה וקודי טעינה"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "הזן כרטיס מתנה או קוד טעינה",
+      "SUBMIT": "מימוש",
+      "SUCCESS": "{amount} נוספו ליתרה שלך"
     }
   },
   "FORM": {
