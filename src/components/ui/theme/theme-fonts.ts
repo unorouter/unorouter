@@ -18,7 +18,6 @@ import {
   Bonbon,
   Borel,
   Caveat,
-  Comic_Relief,
   Coming_Soon,
   Cookie,
   Cormorant,
@@ -26,7 +25,6 @@ import {
   Cormorant_Infant,
   Cormorant_Upright,
   Crafty_Girls,
-  Edu_NSW_ACT_Cursive,
   Edu_NSW_ACT_Foundation,
   Edu_SA_Beginner,
   Fleur_De_Leah,
@@ -37,7 +35,6 @@ import {
   Ibarra_Real_Nova,
   Kalam,
   Kurale,
-  Libertinus_Serif,
   Mali,
   Metal,
   Pacifico,
@@ -48,7 +45,6 @@ import {
   Ruluko,
   Scheherazade_New,
   Simonetta,
-  Sirivennela,
   Sofia,
   Suranna,
 } from "next/font/google";
@@ -128,13 +124,6 @@ const robotoMono = Roboto_Mono({
   preload: false,
 });
 
-const sirivennela = Sirivennela({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-sirivennela",
-  display: "fallback",
-  preload: false,
-});
 const craftyGirls = Crafty_Girls({
   subsets: ["latin"],
   weight: "400",
@@ -198,13 +187,6 @@ const comingSoon = Coming_Soon({
   display: "fallback",
   preload: false,
 });
-const comicRelief = Comic_Relief({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-comic-relief",
-  display: "fallback",
-  preload: false,
-});
 const badScript = Bad_Script({
   subsets: ["latin"],
   weight: "400",
@@ -243,12 +225,6 @@ const ruluko = Ruluko({
 const eduSaBeginner = Edu_SA_Beginner({
   subsets: ["latin"],
   variable: "--font-edu-sa-beginner",
-  display: "fallback",
-  preload: false,
-});
-const eduNswActCursive = Edu_NSW_ACT_Cursive({
-  subsets: ["latin"],
-  variable: "--font-edu-nsw-act-cursive",
   display: "fallback",
   preload: false,
 });
@@ -324,13 +300,6 @@ const scheherazadeNew = Scheherazade_New({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-scheherazade-new",
-  display: "fallback",
-  preload: false,
-});
-const libertinusSerif = Libertinus_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-libertinus-serif",
   display: "fallback",
   preload: false,
 });
@@ -494,13 +463,6 @@ export const FONT_OPTIONS: FontOption[] = [
     kinds: ["mono"],
   },
   {
-    id: "sirivennela",
-    label: "Sirivennela",
-    cssVar: sirivennela.variable,
-    varName: "--font-sirivennela",
-    kinds: ["sans", "display"],
-  },
-  {
     id: "crafty-girls",
     label: "Crafty Girls",
     cssVar: craftyGirls.variable,
@@ -564,13 +526,6 @@ export const FONT_OPTIONS: FontOption[] = [
     kinds: ["display"],
   },
   {
-    id: "comic-relief",
-    label: "Comic Relief",
-    cssVar: comicRelief.variable,
-    varName: "--font-comic-relief",
-    kinds: ["display"],
-  },
-  {
     id: "bad-script",
     label: "Bad Script",
     cssVar: badScript.variable,
@@ -610,13 +565,6 @@ export const FONT_OPTIONS: FontOption[] = [
     label: "Edu SA Beginner",
     cssVar: eduSaBeginner.variable,
     varName: "--font-edu-sa-beginner",
-    kinds: ["display"],
-  },
-  {
-    id: "edu-nsw-act-cursive",
-    label: "Edu NSW ACT Cursive",
-    cssVar: eduNswActCursive.variable,
-    varName: "--font-edu-nsw-act-cursive",
     kinds: ["display"],
   },
   {
@@ -701,13 +649,6 @@ export const FONT_OPTIONS: FontOption[] = [
     label: "Scheherazade New",
     cssVar: scheherazadeNew.variable,
     varName: "--font-scheherazade-new",
-    kinds: ["sans", "display"],
-  },
-  {
-    id: "libertinus-serif",
-    label: "Libertinus Serif",
-    cssVar: libertinusSerif.variable,
-    varName: "--font-libertinus-serif",
     kinds: ["sans", "display"],
   },
   {
