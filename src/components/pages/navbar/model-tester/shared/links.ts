@@ -5,11 +5,13 @@ const ORG = (env.githubUrl ?? "https://github.com/unorouter").replace(
   "",
 );
 const REPO = `${ORG}/unorouter`;
-const VERIFY_DIR = `${REPO}/tree/main/src/lib/ai/verify`;
+// The detection engine lives in its own repo now, so "read the code" has to
+// point there rather than at a path in this one.
+const VERIFY_REPO = `${ORG}/verify-core`;
 
 export const TESTER_LINKS = {
   discord: env.discordUrl ?? "https://discord.gg/eRAeFd9aqy",
-  source: VERIFY_DIR,
+  source: VERIFY_REPO,
   issuesNew: `${REPO}/issues/new`,
 } as const;
 

@@ -127,7 +127,8 @@ export async function verifyAndPublish(
     model: body.model,
     mode: "direct",
     transport: serverTransport,
-  });
+        checkSignature: true,
+    });
   if (result.connectivityError)
     return { published: false, error: result.connectivityError, result };
 
