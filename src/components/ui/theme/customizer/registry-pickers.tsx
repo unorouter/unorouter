@@ -63,7 +63,10 @@ function withCustom(opts: PickerOption[], t: T): PickerOption[] {
   return [...opts, { value: CUSTOM, label: t("THEME.CUSTOM_COLOR") }];
 }
 
-const fontOptions = (kind: "sans" | "display", inheritLabel: string) => [
+const fontOptions = (
+  kind: "sans" | "display" | "mono",
+  inheritLabel: string,
+) => [
   { value: "inherit", label: inheritLabel },
   ...FONT_OPTIONS.filter((f) => f.kinds.includes(kind)).map((f) => ({
     value: f.id,
@@ -178,6 +181,15 @@ const PICKERS: PickerSpec[] = [
     field: "fontBody",
     labelKey: "THEME.BODY_FONT",
     options: (t) => fontOptions("sans", t("THEME.FONT_DEFAULT")),
+    valueLabel: (v, t) => fontLabel(v, t("THEME.FONT_DEFAULT")),
+    adornment: () => <FontGlyph />,
+  },
+  {
+    // The navbar, sidebar labels and table headers are monospace by design, so
+    // without this the body font appears to skip them.
+    field: "fontMono",
+    labelKey: "THEME.MONO_FONT",
+    options: (t) => fontOptions("mono", t("THEME.FONT_DEFAULT")),
     valueLabel: (v, t) => fontLabel(v, t("THEME.FONT_DEFAULT")),
     adornment: () => <FontGlyph />,
   },

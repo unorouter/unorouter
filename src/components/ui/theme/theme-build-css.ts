@@ -287,9 +287,11 @@ export function buildThemeCss(theme: UserTheme): string {
   const headingBody =
     theme.fontHeading === "inherit" ? theme.fontBody : theme.fontHeading;
   const headingFamily = fontFamilyFor(headingBody, "display");
+  const monoFamily = fontFamilyFor(theme.fontMono, "mono");
   const fontVars: ThemeCssVars = {};
   if (bodyFamily) fontVars["font-sans"] = `${bodyFamily} !important`;
   if (headingFamily) fontVars["font-display"] = `${headingFamily} !important`;
+  if (monoFamily) fontVars["font-mono"] = `${monoFamily} !important`;
   const bodyFontBlock = emitBlock("body", fontVars);
 
   return [

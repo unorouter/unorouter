@@ -3098,6 +3098,7 @@
     "CHART_COLOR": "图表色",
     "HEADING_FONT": "标题字体",
     "BODY_FONT": "正文字体",
+    "MONO_FONT": "等宽字体",
     "STYLE": "风格",
     "ICON_LIBRARY": "图标库",
     "MENU": "菜单",
