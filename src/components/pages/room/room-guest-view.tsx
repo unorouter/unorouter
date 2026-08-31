@@ -129,15 +129,26 @@ function GuestSession(props: { roomId: string }) {
       </header>
 
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
+        {/* Same treatment as the host thread: a written turn gets the muted
+            bubble and sits right, the reply runs full width. Without the
+            bubble the turns run together and scrolling back is a guess. */}
         {messages.map((msg) => (
-          <div key={msg.id} className="space-y-1">
-            <p className="text-muted-foreground text-xs font-medium">
+          <div
+            key={msg.id}
+            className={cn(
+              "flex flex-col gap-1",
+              msg.role === "user" && "items-end",
+            )}
+          >
+            <p className="text-muted-foreground px-1 text-xs font-medium">
               {msg.speaker}
             </p>
             <p
               className={cn(
-                "whitespace-pre-wrap wrap-break-word text-sm",
-                msg.role === "user" && "text-muted-foreground",
+                "max-w-full whitespace-pre-wrap wrap-break-word text-sm",
+                msg.role === "user"
+                  ? "bg-muted text-foreground rounded-2xl px-4 py-2.5"
+                  : "text-foreground leading-relaxed",
               )}
             >
               {msg.text}
