@@ -104,9 +104,13 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const pathname = usePathname();
   const { data: user } = useAuthQuery();
   const authenticated = !!user;
+  // A negotiated top-up bonus is what marks an enterprise partner account.
+  const isPartner = (user?.topup_bonus_percent ?? 0) > 0;
 
   if (props.navConfig === "chat") {
-    return <ChatSidebarNav authenticated={authenticated} />;
+    return (
+      <ChatSidebarNav authenticated={authenticated} isPartner={isPartner} />
+    );
   }
 
   if (props.navConfig === "generate") {
@@ -144,10 +148,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     );
   }
 
-  // A negotiated top-up bonus is what marks an enterprise partner account.
-  const navItems = sidebarNavigation(
-    (user?.topup_bonus_percent ?? 0) > 0,
-  ).filter((item) => !item.hidden);
+  const navItems = sidebarNavigation(isPartner).filter((item) => !item.hidden);
   const sidebarPaths = new Set(navItems.map((item) => item.href));
   const mainNavItems = navigation(authenticated).filter(
     (item) => !item.hidden && !sidebarPaths.has(item.href),
@@ -161,14 +162,14 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   );
 }
 
-function ChatSidebarNav(props: { authenticated: boolean }) {
+function ChatSidebarNav(props: { authenticated: boolean; isPartner: boolean }) {
   const t = useTranslations();
   const aui = useAui();
 
   const newThread = () => aui.threads().switchToNewThread();
 
   if (props.authenticated) {
-    const accountItems = sidebarNavigation();
+    const accountItems = sidebarNavigation(props.isPartner);
     const chatEntry = navigation(true).find((item) => item.href === "/chat");
     const items = chatEntry
       ? accountItems.toSpliced(1, 0, { ...chatEntry, onClick: newThread })

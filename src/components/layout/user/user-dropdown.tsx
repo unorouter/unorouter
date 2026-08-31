@@ -123,7 +123,9 @@ export function UserDropdown(props: UserDropdownProps) {
         )}
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {sidebarNavigation().map((item) => (
+          {sidebarNavigation(
+            (userDisplay.user?.topup_bonus_percent ?? 0) > 0,
+          ).map((item) => (
             <Link key={String(item.href)} href={item.href}>
               <DropdownMenuItem>
                 {item.iconName && <Icon name={item.iconName} />}
