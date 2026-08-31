@@ -18,10 +18,9 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
   const theme = useAtomValue(userThemeAtom);
   const backgroundImage = useAtomValue(themeBackgroundAtom);
 
-  // Applies on mount as well: the shell ships the default theme (the server
-  // no longer reads the theme cookie), so a custom theme must be applied as
-  // soon as the atom hydrates from the client cookie. Idempotent for the
-  // default theme.
+  // The layout already renders this same CSS from the cookie, so the mount pass
+  // rewrites an identical string. It stays because the atom is the live source
+  // for customizer edits, which must repaint without a reload.
   useEffect(() => {
     const html = document.documentElement;
     for (const [k, v] of Object.entries(themeDataAttrs(theme))) {
