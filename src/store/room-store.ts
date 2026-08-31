@@ -27,12 +27,7 @@ export const roomParticipantsAtom = atom<RoomParticipant[]>([]);
 export const roomTurnAtom = atom<TurnState>({ kind: "idle" });
 
 export type GuestStatus =
-  | "connecting"
-  | "waiting"
-  | "joined"
-  | "rejected"
-  | "closed"
-  | "error";
+  "connecting" | "waiting" | "joined" | "rejected" | "closed" | "error";
 
 // Guest side: the entire visible chat lives here, in memory, and dies with the
 // tab. No database is opened on a guest at any point.
