@@ -98,34 +98,20 @@ export function DatabaseSubmenu() {
     if (!ok) return;
     logChatDebug("opfs.wipe.start");
     try {
-      const { getLocalDb, resetLocalDbCache } =
-        await import("@/lib/db/client/client");
+      const { getLocalDb } = await import("@/lib/db/client/client");
       const local = await getLocalDb();
-      if (local) {
-        await local.destroy();
-        resetLocalDbCache();
-      }
-    } catch (e) {
-      logChatDebug("opfs.wipe.destroy_error", {
-        error: String(e).slice(0, 200),
-      });
-      logger.error("SQLocal destroy failed", {
-        context: "local-db.menu",
-        error: String(e),
-      });
-    }
-    try {
-      const root = await navigator.storage.getDirectory();
-      for await (const [name] of root.entries()) {
-        await root.removeEntry(name, { recursive: true }).catch(() => {});
-      }
+      if (local) await local.wipe();
       logChatDebug("opfs.wipe.done", {});
     } catch (e) {
+      // Reloading on a failed wipe lands the user back on the same database
+      // with no idea the button did nothing.
       logChatDebug("opfs.wipe.error", { error: String(e).slice(0, 200) });
       logger.error("OPFS wipe failed", {
         context: "local-db.menu",
         error: String(e),
       });
+      toast.error(String(e));
+      return;
     }
     location.reload();
   };

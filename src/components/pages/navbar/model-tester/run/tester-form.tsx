@@ -64,9 +64,9 @@ export function TesterForm() {
         apiKey: values.apiKey,
         model: values.model,
         mode,
-            checkSignature: true,
-      checkTokenTruth: true,
-    });
+        checkSignature: true,
+        checkTokenTruth: true,
+      });
       setResult(r);
       if (r.corsBlocked) {
         setCorsBlocked(true);

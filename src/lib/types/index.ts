@@ -148,6 +148,10 @@ export type LocalClient = {
   db: LocalDb;
   exec: LocalRawExec;
   destroy: () => Promise<void>;
+  // destroy() closes the database but leaves the worker holding its sync access
+  // handles, and OPFS refuses removeEntry while one is open. Only the worker's
+  // owner can terminate it, so a wipe has to start here.
+  wipe: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
   getDatabaseInfo: () => Promise<{

@@ -51,11 +51,29 @@ export async function clearAllClientStorage() {
       error: String(err).slice(0, 200),
     });
   }
+  // OPFS refuses removeEntry while the sqlocal worker holds a sync access
+  // handle, so closing the database is not enough: the worker has to go. This
+  // runs from global-error too, where the open may have failed and left no
+  // handle to terminate, so the removal below still has to happen on its own.
+  try {
+    await window.__local?.wipe();
+  } catch (err) {
+    logChatDebug("recovery.opfs_wipe_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     const root = await navigator.storage?.getDirectory?.();
     if (root) {
-      for await (const [name] of root.entries()) {
-        await root.removeEntry(name, { recursive: true }).catch(() => {});
+      const names: string[] = [];
+      for await (const [name] of root.entries()) names.push(name);
+      for (const name of names) {
+        await root.removeEntry(name, { recursive: true }).catch((err) => {
+          logChatDebug("recovery.opfs_entry_failed", {
+            name,
+            error: String(err).slice(0, 120),
+          });
+        });
       }
     }
   } catch (err) {

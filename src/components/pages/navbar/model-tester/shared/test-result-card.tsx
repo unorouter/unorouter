@@ -428,7 +428,10 @@ export function TestResultCard(props: {
                       : "text-foreground font-mono"
                 }
               >
-                {t(SIGNATURE_LABEL[result.signature.state] ?? "MODEL_TESTER.RESULT.SIGNATURE_UNSIGNED")}
+                {t(
+                  SIGNATURE_LABEL[result.signature.state] ??
+                    "MODEL_TESTER.RESULT.SIGNATURE_UNSIGNED",
+                )}
               </span>
             </span>
           ) : null}

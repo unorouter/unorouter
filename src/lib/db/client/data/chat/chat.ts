@@ -173,6 +173,7 @@ export async function readConvHistoryForSend(convId: string) {
     branch: walkActiveBranch(joined).path.map((m) => ({
       id: m.id,
       role: m.role,
+      characterId: m.characterId,
       parts: itemsToParts(m.items),
     })),
     allIds: new Set(joined.map((m) => m.id)),

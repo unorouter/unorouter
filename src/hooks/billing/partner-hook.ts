@@ -37,7 +37,9 @@ export function useVoidGiftCardMutation() {
   return useApiMutation({
     mutationFn: async (args: { id: number; quota: number }) =>
       handleElysia(
-        await rpc.api.billing.partner.redemption({ id: String(args.id) }).delete(),
+        await rpc.api.billing.partner
+          .redemption({ id: String(args.id) })
+          .delete(),
       ),
     onSuccess: (_, args, qc) => {
       qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>

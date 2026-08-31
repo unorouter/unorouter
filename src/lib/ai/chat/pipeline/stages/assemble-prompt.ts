@@ -56,7 +56,19 @@ export async function assemblePrompt(
   deps: AssemblerDeps,
 ): Promise<AssembledPrompt> {
   const recentUserTexts = collectRecentUserTexts(messages);
-  const history = collectHistory(messages, body.messageTimes);
+  const bound = convCtx?.boundCharacters ?? [];
+  const history = collectHistory(
+    messages,
+    body.messageTimes,
+    body.speakingCharacterId && bound.length > 1
+      ? {
+          id: body.speakingCharacterId,
+          names: Object.fromEntries(
+            bound.map((b) => [b.binding.characterId, b.character.name]),
+          ),
+        }
+      : undefined,
+  );
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
   const triggerVars: Record<string, string> = convCtx

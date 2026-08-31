@@ -3,7 +3,11 @@
 import { readLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
 import { analytics } from "@/lib/analytics";
 import type { ChatUIMessage } from "@/lib/types";
-import { chatStore, speakingCharacterIdAtom } from "@/store/chat-store";
+import {
+  chatStore,
+  rotatingGroupTurnAtom,
+  speakingCharacterIdAtom,
+} from "@/store/chat-store";
 
 const autoContinueDepth = new Map<string, number>();
 const MAX_AUTO_CONTINUE = 3;
@@ -62,7 +66,16 @@ function endsTerminally(text: string): boolean {
   if (!last) return true;
   if (TERMINAL_PUNCTUATION.has(last)) return true;
   const code = last.charCodeAt(0);
-  return code >= 0x02b0 && code <= 0x02ff;
+  return (
+    // spacing modifier letters
+    (code >= 0x02b0 && code <= 0x02ff) ||
+    // combining diacritical marks
+    (code >= 0x0300 && code <= 0x036f) ||
+    // hebrew punctuation
+    (code >= 0x0590 && code <= 0x05cf) ||
+    // CJK symbols and punctuation
+    (code >= 0x3000 && code <= 0x303f)
+  );
 }
 
 export async function maybeAutoContinue(
@@ -72,6 +85,11 @@ export async function maybeAutoContinue(
 ): Promise<void> {
   if (!remoteId) return;
   if (chatStore.get(speakingCharacterIdAtom) != null) return;
+  if (chatStore.get(rotatingGroupTurnAtom)) return;
+  // The atoms above are cleared in the rotation loop's finally, which can run
+  // before the last character's onFinish: the message itself is the only
+  // reliable witness that this generation belonged to a group turn.
+  if (message.metadata?.speakingCharacterId != null) return;
   const text = message.parts
     .filter((p) => p.type === "text")
     .map((p) => p.text)

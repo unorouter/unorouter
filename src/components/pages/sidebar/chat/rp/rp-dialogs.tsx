@@ -25,7 +25,9 @@ const CustomProviderList = dynamic(() =>
   ),
 );
 const RoomHostPanel = dynamic(() =>
-  import("@/components/pages/room/room-host-panel").then((m) => m.RoomHostPanel),
+  import("@/components/pages/room/room-host-panel").then(
+    (m) => m.RoomHostPanel,
+  ),
 );
 const JsPluginList = dynamic(() =>
   import("@/components/pages/sidebar/chat/rp/js-plugin/list").then(

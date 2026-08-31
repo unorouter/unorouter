@@ -12,11 +12,8 @@ import {
   readLocalPersona,
 } from "@/lib/db/client/data/rp/rp";
 import { uid } from "@/lib/utils/base";
-import {
-  chatStore,
-  convIdAtom,
-  getThreadRuntime,
-} from "@/store/chat-store";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { chatStore, convIdAtom, getThreadRuntime } from "@/store/chat-store";
 import {
   roomErrorAtom,
   roomHostStatusAtom,
@@ -83,6 +80,7 @@ function syncParticipants() {
 
 function setTurn(turn: TurnState) {
   chatStore.set(roomTurnAtom, turn);
+  logChatDebug("room.turn_state", { kind: turn.kind });
   broadcast({ type: "turn-state", turn });
 }
 
@@ -95,6 +93,14 @@ function releaseTurn() {
   clearTurnTimer();
   awaitingRunFor = null;
   setTurn({ kind: "idle" });
+}
+
+// The protocol carries text only, deliberately: an attachment is host data and
+// a guest never receives it. A named placeholder beats a blank message.
+const ATTACHMENT_PLACEHOLDER = "[attachment]";
+
+function hasNonTextPart(parts: { type: string }[]): boolean {
+  return parts.some((p) => p.type === "file");
 }
 
 // Host-side view of the conversation, flattened to what a guest is allowed to
@@ -110,16 +116,24 @@ async function snapshot(): Promise<{
     readConvHistoryForSend(convId),
   ]);
   const charName = cachedCharacter;
-  const messages = history.branch.map((m) => ({
-    id: m.id,
-    role: m.role === "user" ? ("user" as const) : ("assistant" as const),
-    speaker: m.role === "user" ? cachedPersona : (charName ?? "Assistant"),
-    text: m.parts
+  const messages = history.branch.map((m) => {
+    const role = m.role === "user" ? ("user" as const) : ("assistant" as const);
+    const text = m.parts
       .filter((p) => p.type === "text" && p.text)
       .map((p) => p.text)
       .join("\n")
-      .trim(),
-  }));
+      .trim();
+    return {
+      id: m.id,
+      role,
+      // Same resolution the live broadcast uses, or a joining guest sees every
+      // cast member's turn attributed to one name.
+      speaker: speakerName(role, m.characterId ?? undefined),
+      // A turn whose parts are all non-text (an image) would otherwise arrive
+      // as an empty string and render as a gap in the guest's history.
+      text: text || (hasNonTextPart(m.parts) ? ATTACHMENT_PLACEHOLDER : ""),
+    };
+  });
   return { title: conv?.title ?? "", characterName: charName, messages };
 }
 
@@ -141,6 +155,7 @@ async function admit(peerId: string) {
     chatStore.get(roomPendingAtom).filter((p) => p.peerId !== peerId),
   );
   if (guests.size >= MAX_GUESTS) {
+    logChatDebug("room.guest_rejected", { peerId, reason: "full" });
     send(conn, { type: "rejected", reason: "full" });
     conn.close();
     return;
@@ -157,6 +172,12 @@ async function admit(peerId: string) {
     participants: participants(),
     turn: chatStore.get(roomTurnAtom),
   });
+  logChatDebug("room.welcome_sent", {
+    peerId,
+    messages: snap.messages.length,
+    blank: snap.messages.filter((m) => !m.text).length,
+    guests: guests.size,
+  });
   syncParticipants();
 }
 
@@ -169,6 +190,7 @@ function reject(peerId: string) {
     chatStore.get(roomPendingAtom).filter((p) => p.peerId !== peerId),
   );
   if (conn) {
+    logChatDebug("room.guest_rejected", { peerId, reason: "declined" });
     send(conn, { type: "rejected", reason: "declined" });
     conn.close();
   }
@@ -178,6 +200,7 @@ function kick(peerId: string) {
   const guest = guests.get(peerId);
   if (!guest) return;
   guests.delete(peerId);
+  logChatDebug("room.guest_leave", { peerId, reason: "kicked" });
   send(guest.conn, { type: "closed" });
   guest.conn.close();
   // A kicked guest must not strand the queue on their unfinished turn.
@@ -190,20 +213,30 @@ async function onSubmitTurn(guest: Guest, text: string) {
   const trimmed = text.trim().slice(0, MAX_TURN_CHARS);
   if (!trimmed) return;
   if (chatStore.get(roomTurnAtom).kind !== "idle") {
+    logChatDebug("room.turn_failed", { peerId: guest.peerId, reason: "busy" });
     send(guest.conn, { type: "turn-failed", reason: "busy" });
     return;
   }
   const thread = getThreadRuntime();
   if (!thread) {
+    logChatDebug("room.turn_failed", { peerId: guest.peerId, reason: "error" });
     send(guest.conn, { type: "turn-failed", reason: "error" });
     return;
   }
+  logChatDebug("room.turn_submit", {
+    peerId: guest.peerId,
+    chars: trimmed.length,
+  });
   setTurn({ kind: "writing", peerId: guest.peerId, name: guest.name });
   awaitingRunFor = guest.peerId;
   clearTurnTimer();
   turnTimer = setTimeout(() => {
     if (!awaitingRunFor) return;
     const stalled = guests.get(awaitingRunFor);
+    logChatDebug("room.turn_failed", {
+      peerId: awaitingRunFor,
+      reason: "timeout",
+    });
     if (stalled) send(stalled.conn, { type: "turn-failed", reason: "timeout" });
     releaseTurn();
   }, TURN_START_TIMEOUT_MS);
@@ -296,6 +329,7 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
     return;
   }
   convId = active;
+  logChatDebug("room.start", { convId: active });
   chatStore.set(roomHostStatusAtom, "starting");
   chatStore.set(roomErrorAtom, null);
   await loadSpeakerNames();
@@ -324,6 +358,12 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
       if (msg.type === "join") {
         if (known || pending.has(conn.peer)) return;
         if (msg.version !== ROOM_PROTOCOL_VERSION) {
+          logChatDebug("room.guest_rejected", {
+            peerId: conn.peer,
+            reason: "version",
+            guestVersion: msg.version,
+            hostVersion: ROOM_PROTOCOL_VERSION,
+          });
           send(conn, { type: "rejected", reason: "version" });
           conn.close();
           return;
@@ -331,11 +371,16 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
         // Anyone holding the room id can open connections, so the waiting
         // list needs the same ceiling as the room: it is rendered per entry.
         if (pending.size + guests.size >= MAX_GUESTS) {
+          logChatDebug("room.guest_rejected", {
+            peerId: conn.peer,
+            reason: "full",
+          });
           send(conn, { type: "rejected", reason: "full" });
           conn.close();
           return;
         }
         const name = sanitizeName(msg.name);
+        logChatDebug("room.guest_join", { peerId: conn.peer, name });
         connName.set(conn.peer, name);
         pending.set(conn.peer, conn);
         chatStore.set(roomPendingAtom, [
@@ -353,6 +398,10 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
 
     conn.on("close", () => {
       if (guests.has(conn.peer)) {
+        logChatDebug("room.guest_leave", {
+          peerId: conn.peer,
+          reason: "closed",
+        });
         guests.delete(conn.peer);
         const turn = chatStore.get(roomTurnAtom);
         if (turn.kind === "writing" && turn.peerId === conn.peer) releaseTurn();
@@ -370,6 +419,7 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
 }
 
 export function stopRoom() {
+  if (peer) logChatDebug("room.stop", { guests: guests.size });
   clearTurnTimer();
   broadcast({ type: "closed" });
   for (const guest of guests.values()) guest.conn.close();

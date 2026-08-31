@@ -120,7 +120,9 @@ export function GiftCards() {
             onClick={() =>
               voidMutation.mutate(
                 { id: row.original.id, quota: row.original.quota },
-                { onSuccess: () => toast.success(t("GIFT_CARDS.SUCCESS_VOID")) },
+                {
+                  onSuccess: () => toast.success(t("GIFT_CARDS.SUCCESS_VOID")),
+                },
               )
             }
           >
