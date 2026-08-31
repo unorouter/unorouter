@@ -2,7 +2,6 @@ import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { ClientRuntimeGuards } from "@/components/provider/app/client-runtime-guards";
 import { SwRegister } from "@/components/provider/app/sw-register";
-import dynamic from "next/dynamic";
 import { Providers } from "@/components/provider/providers";
 import {
   buildThemeCss,
@@ -24,6 +23,7 @@ import {
 import { getCookieValue, serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { getTranslations } from "next-intl/server";
+import dynamic from "next/dynamic";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -98,10 +98,6 @@ const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
-  // Shipping the default and letting UserThemeProvider swap it after mount
-  // costs a visible frame of the wrong palette on every load. The layout is
-  // already dynamic (serverLocale reads a cookie), so rendering the user's own
-  // theme here is free, and the client applies the identical string.
   const userTheme = await getCookieValue<UserTheme>(USER_THEME_KEY);
   const themeAttrs = userTheme
     ? themeDataAttrs(userTheme)

@@ -9,6 +9,7 @@ export function SwRegister() {
   const t = useTranslations();
   const updateText = t("COMMON.UPDATE_AVAILABLE");
   const reloadText = t("COMMON.UPDATE_RELOAD");
+
   useEffect(() => {
     // Mounting proves this build's chunks loaded, so release error-fallback's one-shot guard.
     sessionStorage.removeItem("chunk-reload-once");
