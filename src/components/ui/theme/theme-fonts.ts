@@ -47,6 +47,32 @@ import {
   Simonetta,
   Sofia,
   Suranna,
+  Fira_Code,
+  Source_Code_Pro,
+  Space_Mono,
+  Inconsolata,
+  Ubuntu_Sans_Mono,
+  Victor_Mono,
+  Martian_Mono,
+  Azeret_Mono,
+  Red_Hat_Mono,
+  Spline_Sans_Mono,
+  Fragment_Mono,
+  Kode_Mono,
+  DM_Mono,
+  Anonymous_Pro,
+  Cousine,
+  PT_Mono,
+  Share_Tech_Mono,
+  Nova_Mono,
+  Syne_Mono,
+  Major_Mono_Display,
+  Xanh_Mono,
+  Lekton,
+  Oxygen_Mono,
+  Courier_Prime,
+  Overpass_Mono,
+  Chivo_Mono,
 } from "next/font/google";
 
 const inter = Inter({
@@ -360,6 +386,177 @@ const simonetta = Simonetta({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-simonetta",
+  display: "fallback",
+  preload: false,
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  variable: "--font-fira-code",
+  display: "fallback",
+  preload: false,
+});
+const sourceCodePro = Source_Code_Pro({
+  subsets: ["latin"],
+  variable: "--font-source-code-pro",
+  display: "fallback",
+  preload: false,
+});
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-space-mono",
+  display: "fallback",
+  preload: false,
+});
+const inconsolata = Inconsolata({
+  subsets: ["latin"],
+  variable: "--font-inconsolata",
+  display: "fallback",
+  preload: false,
+});
+const ubuntuSansMono = Ubuntu_Sans_Mono({
+  subsets: ["latin"],
+  variable: "--font-ubuntu-sans-mono",
+  display: "fallback",
+  preload: false,
+});
+const victorMono = Victor_Mono({
+  subsets: ["latin"],
+  variable: "--font-victor-mono",
+  display: "fallback",
+  preload: false,
+});
+const martianMono = Martian_Mono({
+  subsets: ["latin"],
+  variable: "--font-martian-mono",
+  display: "fallback",
+  preload: false,
+});
+const azeretMono = Azeret_Mono({
+  subsets: ["latin"],
+  variable: "--font-azeret-mono",
+  display: "fallback",
+  preload: false,
+});
+const redHatMono = Red_Hat_Mono({
+  subsets: ["latin"],
+  variable: "--font-red-hat-mono",
+  display: "fallback",
+  preload: false,
+});
+const splineSansMono = Spline_Sans_Mono({
+  subsets: ["latin"],
+  variable: "--font-spline-sans-mono",
+  display: "fallback",
+  preload: false,
+});
+const fragmentMono = Fragment_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-fragment-mono",
+  display: "fallback",
+  preload: false,
+});
+const kodeMono = Kode_Mono({
+  subsets: ["latin"],
+  variable: "--font-kode-mono",
+  display: "fallback",
+  preload: false,
+});
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-dm-mono",
+  display: "fallback",
+  preload: false,
+});
+const anonymousPro = Anonymous_Pro({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-anonymous-pro",
+  display: "fallback",
+  preload: false,
+});
+const cousine = Cousine({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-cousine",
+  display: "fallback",
+  preload: false,
+});
+const ptMono = PT_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-pt-mono",
+  display: "fallback",
+  preload: false,
+});
+const shareTechMono = Share_Tech_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-share-tech-mono",
+  display: "fallback",
+  preload: false,
+});
+const novaMono = Nova_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-nova-mono",
+  display: "fallback",
+  preload: false,
+});
+const syneMono = Syne_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-syne-mono",
+  display: "fallback",
+  preload: false,
+});
+const majorMonoDisplay = Major_Mono_Display({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-major-mono-display",
+  display: "fallback",
+  preload: false,
+});
+const xanhMono = Xanh_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-xanh-mono",
+  display: "fallback",
+  preload: false,
+});
+const lekton = Lekton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-lekton",
+  display: "fallback",
+  preload: false,
+});
+const oxygenMono = Oxygen_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-oxygen-mono",
+  display: "fallback",
+  preload: false,
+});
+const courierPrime = Courier_Prime({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-courier-prime",
+  display: "fallback",
+  preload: false,
+});
+const overpassMono = Overpass_Mono({
+  subsets: ["latin"],
+  variable: "--font-overpass-mono",
+  display: "fallback",
+  preload: false,
+});
+const chivoMono = Chivo_Mono({
+  subsets: ["latin"],
+  variable: "--font-chivo-mono",
   display: "fallback",
   preload: false,
 });
@@ -713,6 +910,188 @@ export const FONT_OPTIONS: FontOption[] = [
     cssVar: simonetta.variable,
     varName: "--font-simonetta",
     kinds: ["display"],
+  },
+  {
+    id: "fira-code",
+    label: "Fira Code",
+    cssVar: firaCode.variable,
+    varName: "--font-fira-code",
+    kinds: ["mono"],
+  },
+  {
+    id: "source-code-pro",
+    label: "Source Code Pro",
+    cssVar: sourceCodePro.variable,
+    varName: "--font-source-code-pro",
+    kinds: ["mono"],
+  },
+  {
+    id: "space-mono",
+    label: "Space Mono",
+    cssVar: spaceMono.variable,
+    varName: "--font-space-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "inconsolata",
+    label: "Inconsolata",
+    cssVar: inconsolata.variable,
+    varName: "--font-inconsolata",
+    kinds: ["mono"],
+  },
+  {
+    id: "ubuntu-sans-mono",
+    label: "Ubuntu Sans Mono",
+    cssVar: ubuntuSansMono.variable,
+    varName: "--font-ubuntu-sans-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "victor-mono",
+    label: "Victor Mono",
+    cssVar: victorMono.variable,
+    varName: "--font-victor-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "martian-mono",
+    label: "Martian Mono",
+    cssVar: martianMono.variable,
+    varName: "--font-martian-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "azeret-mono",
+    label: "Azeret Mono",
+    cssVar: azeretMono.variable,
+    varName: "--font-azeret-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "red-hat-mono",
+    label: "Red Hat Mono",
+    cssVar: redHatMono.variable,
+    varName: "--font-red-hat-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "spline-sans-mono",
+    label: "Spline Sans Mono",
+    cssVar: splineSansMono.variable,
+    varName: "--font-spline-sans-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "fragment-mono",
+    label: "Fragment Mono",
+    cssVar: fragmentMono.variable,
+    varName: "--font-fragment-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "kode-mono",
+    label: "Kode Mono",
+    cssVar: kodeMono.variable,
+    varName: "--font-kode-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "dm-mono",
+    label: "DM Mono",
+    cssVar: dmMono.variable,
+    varName: "--font-dm-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "anonymous-pro",
+    label: "Anonymous Pro",
+    cssVar: anonymousPro.variable,
+    varName: "--font-anonymous-pro",
+    kinds: ["mono"],
+  },
+  {
+    id: "cousine",
+    label: "Cousine",
+    cssVar: cousine.variable,
+    varName: "--font-cousine",
+    kinds: ["mono"],
+  },
+  {
+    id: "pt-mono",
+    label: "PT Mono",
+    cssVar: ptMono.variable,
+    varName: "--font-pt-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "share-tech-mono",
+    label: "Share Tech Mono",
+    cssVar: shareTechMono.variable,
+    varName: "--font-share-tech-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "nova-mono",
+    label: "Nova Mono",
+    cssVar: novaMono.variable,
+    varName: "--font-nova-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "syne-mono",
+    label: "Syne Mono",
+    cssVar: syneMono.variable,
+    varName: "--font-syne-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "major-mono-display",
+    label: "Major Mono Display",
+    cssVar: majorMonoDisplay.variable,
+    varName: "--font-major-mono-display",
+    kinds: ["mono"],
+  },
+  {
+    id: "xanh-mono",
+    label: "Xanh Mono",
+    cssVar: xanhMono.variable,
+    varName: "--font-xanh-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "lekton",
+    label: "Lekton",
+    cssVar: lekton.variable,
+    varName: "--font-lekton",
+    kinds: ["mono"],
+  },
+  {
+    id: "oxygen-mono",
+    label: "Oxygen Mono",
+    cssVar: oxygenMono.variable,
+    varName: "--font-oxygen-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "courier-prime",
+    label: "Courier Prime",
+    cssVar: courierPrime.variable,
+    varName: "--font-courier-prime",
+    kinds: ["mono"],
+  },
+  {
+    id: "overpass-mono",
+    label: "Overpass Mono",
+    cssVar: overpassMono.variable,
+    varName: "--font-overpass-mono",
+    kinds: ["mono"],
+  },
+  {
+    id: "chivo-mono",
+    label: "Chivo Mono",
+    cssVar: chivoMono.variable,
+    varName: "--font-chivo-mono",
+    kinds: ["mono"],
   },
 ];
 
