@@ -15,7 +15,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { handleElysia } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
-import type { VerifyResult } from "@unorouter/verify-core/types";
+import type { VerifyResult } from "ai-model-verifier/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 
 export function useHistoryProviders() {

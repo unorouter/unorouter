@@ -1,6 +1,6 @@
 import { errMessage, safeJsonParse } from "@/lib/utils/base";
 import { safeFetchRaw } from "@/lib/config/safe-fetch";
-import type { TransportArgs, TransportResult } from "@unorouter/verify-core/transport";
+import type { TransportArgs, TransportResult } from "ai-model-verifier/transport";
 
 const PROBE_MAX_BYTES = 256 * 1024;
 
