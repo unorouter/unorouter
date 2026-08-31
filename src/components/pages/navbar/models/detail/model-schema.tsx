@@ -95,7 +95,7 @@ export async function ModelSchema(props: {
           data={buildProductSchema({
             name: model.model_name,
             url,
-            isFree: model.model_name.endsWith(":free"),
+            isFree: model.is_free,
             inputPrice: model.input_price,
             outputPrice: model.output_price,
             description,
