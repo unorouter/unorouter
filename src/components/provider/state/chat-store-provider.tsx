@@ -5,6 +5,7 @@ import {
   INITIAL_CHAT_STATE,
   type ChatState,
 } from "@/store/chat-store";
+import { isServer } from "@tanstack/react-query";
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 
@@ -14,9 +15,16 @@ export function ChatStoreProvider(props: {
   children: ReactNode;
   data?: ChatState;
 }) {
-  // No dangerouslyForceHydrate: it re-runs store.set on EVERY render, which writes during
-  // render once any consumer has mounted.
-  useHydrateAtoms([[chatStoreAtom, props.data ?? INITIAL_CHAT_STATE]]);
+  // useHydrateAtoms records the atom in a WeakSet keyed by the store, and the store is a
+  // module singleton, so on the server it seeds the FIRST request of a process and every
+  // later one renders INITIAL_CHAT_STATE: the model button shipped "Select model" while
+  // the client read the cookie, which is the #418 text mismatch. Forcing is safe there
+  // because a server render happens once and never re-renders. On the client the flag is
+  // still wrong (b56c0328): it re-runs store.set on EVERY render, and once a consumer has
+  // mounted that writes during render.
+  useHydrateAtoms([[chatStoreAtom, props.data ?? INITIAL_CHAT_STATE]], {
+    dangerouslyForceHydrate: isServer,
+  });
 
   return <>{props.children}</>;
 }
