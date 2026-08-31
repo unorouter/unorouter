@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Hạch toán token",
       "TOKEN_TRUTH_OK": "nhất quán",
       "TOKEN_TRUTH_BAD": "không nhất quán",
+      "THROUGHPUT": "token/giây",
+      "ENVELOPE": "Vỏ phản hồi",
       "TOTAL_TOKENS": "{tokens} token",
       "FORMAT_FELL_BACK": "Dinh dang goc khong duoc ho tro; da kiem tra qua {format}.",
       "EVIDENCE": "Bằng chứng",

@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Token-Abrechnung",
       "TOKEN_TRUTH_OK": "stimmig",
       "TOKEN_TRUTH_BAD": "unstimmig",
+      "THROUGHPUT": "Token/s",
+      "ENVELOPE": "Antwort-Hülle",
       "TOTAL_TOKENS": "{tokens} Tokens",
       "FORMAT_FELL_BACK": "Natives Format nicht unterstuetzt; stattdessen ueber {format} getestet.",
       "EVIDENCE": "Belege",

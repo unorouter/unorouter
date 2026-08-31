@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Penghitungan token",
       "TOKEN_TRUTH_OK": "konsisten",
       "TOKEN_TRUTH_BAD": "tidak konsisten",
+      "THROUGHPUT": "token/dtk",
+      "ENVELOPE": "Amplop respons",
       "TOTAL_TOKENS": "{tokens} token",
       "FORMAT_FELL_BACK": "Format asli tidak didukung; diuji melalui {format}.",
       "EVIDENCE": "Bukti",

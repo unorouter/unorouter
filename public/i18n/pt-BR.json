@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "Contagem de tokens",
       "TOKEN_TRUTH_OK": "consistente",
       "TOKEN_TRUTH_BAD": "inconsistente",
+      "THROUGHPUT": "tokens/s",
+      "ENVELOPE": "Envelope da resposta",
       "TOTAL_TOKENS": "{tokens} tokens",
       "FORMAT_FELL_BACK": "Formato nativo nao suportado; testado via {format}.",
       "EVIDENCE": "Evidências",

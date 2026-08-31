@@ -4326,6 +4326,8 @@
       "TOKEN_TRUTH": "टोकन लेखांकन",
       "TOKEN_TRUTH_OK": "संगत",
       "TOKEN_TRUTH_BAD": "असंगत",
+      "THROUGHPUT": "टोकन/सेकंड",
+      "ENVELOPE": "प्रतिक्रिया आवरण",
       "TOTAL_TOKENS": "{tokens} टोकन",
       "FORMAT_FELL_BACK": "मूल प्रारूप समर्थित नहीं; इसके बजाय {format} के माध्यम से परखा गया।",
       "EVIDENCE": "प्रमाण",

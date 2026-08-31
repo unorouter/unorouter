@@ -28,6 +28,10 @@ export function fromVerifyResult(r: VerifyResult): ResultCardData {
         }
       : {}),
     ...(r.tokenTruth ? { tokenTruth: { ok: r.tokenTruth.ok } } : {}),
+    ...(r.responseMetadata?.notes.length
+      ? { envelopeNotes: r.responseMetadata.notes }
+      : {}),
+    ...(r.throughput ? { tokensPerSecond: r.throughput.tokensPerSecond } : {}),
     probes: r.probes.map((p) => ({
       label: p.label,
       pass: p.pass,
