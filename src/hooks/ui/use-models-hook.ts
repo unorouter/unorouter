@@ -37,8 +37,9 @@ function effectivePrice(model: PricingCatalogModel): number {
   return model.is_fixed_price ? model.fixed_price : model.input_price;
 }
 
+// "free" is deliberately absent: every free model carries a :free suffix, so
+// the name match already covers it. These are the words that find nothing.
 const FREE_KEYWORDS = [
-  "free",
   "gratis",
   "gratuit",
   "grátis",
@@ -55,9 +56,17 @@ const FREE_KEYWORDS = [
   "免費",
 ];
 
+// Free models carry no "free" in their name, so the word is matched against
+// the FLAG instead. Prefix for progressive typing ("fre"), contains for a
+// phrase ("show me free ones"); word.includes(query) would be neither, and
+// would make every two-letter fragment of any keyword ("ar", "ti", "re") match
+// the whole free catalogue.
 function matchesFreeKeyword(query: string): boolean {
   if (query.length < 2) return false;
-  return FREE_KEYWORDS.some((word) => word.toLowerCase().includes(query));
+  return FREE_KEYWORDS.some((raw) => {
+    const word = raw.toLowerCase();
+    return word.startsWith(query) || query.includes(word);
+  });
 }
 
 // null sorts LAST, not as 0: unmeasured is not the same as measured at 0%.
