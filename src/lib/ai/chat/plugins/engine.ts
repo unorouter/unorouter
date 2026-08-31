@@ -97,12 +97,15 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   loadedKey = key;
   if (enabled.length === 0) return;
 
-  const [{ SandboxHost }, { buildPluginApi }, { transpilePluginCode }] =
-    await Promise.all([
-      import("./sandbox-host"),
-      import("./api"),
-      import("./transpile"),
-    ]);
+  const [
+    { SandboxHost },
+    { buildPluginApi, PLUGIN_API_BOOTSTRAP },
+    { transpilePluginCode },
+  ] = await Promise.all([
+    import("./sandbox-host"),
+    import("./api"),
+    import("./transpile"),
+  ]);
 
   for (const row of enabled) {
     let code = row.script;
@@ -144,7 +147,9 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   }
 
   if (janitorScripts.length > 0) {
-    const host = new SandboxHost({});
+    // Janitor scripts reach the frame through executeInIframe and never touch
+    // the plugin api, so this host exposes only the bootstrap the bridge needs.
+    const host = new SandboxHost({ ...PLUGIN_API_BOOTSTRAP });
     const frame = document.createElement("iframe");
     frame.style.display = "none";
     document.body.appendChild(frame);
