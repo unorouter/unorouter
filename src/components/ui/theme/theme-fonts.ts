@@ -128,12 +128,18 @@ const robotoMono = Roboto_Mono({
   preload: false,
 });
 
+// adjustFontFallback is off on four families below because next derives the
+// fallback's size-adjust from a precalculated metrics table that these are
+// missing from, so the lookup throws and logs "Failed to find font override
+// values" on every render. It already produced no override for them; the flag
+// only stops the doomed lookup.
 const sirivennela = Sirivennela({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-sirivennela",
   display: "fallback",
   preload: false,
+  adjustFontFallback: false,
 });
 const craftyGirls = Crafty_Girls({
   subsets: ["latin"],
@@ -204,6 +210,7 @@ const comicRelief = Comic_Relief({
   variable: "--font-comic-relief",
   display: "fallback",
   preload: false,
+  adjustFontFallback: false,
 });
 const badScript = Bad_Script({
   subsets: ["latin"],
@@ -251,6 +258,7 @@ const eduNswActCursive = Edu_NSW_ACT_Cursive({
   variable: "--font-edu-nsw-act-cursive",
   display: "fallback",
   preload: false,
+  adjustFontFallback: false,
 });
 const eduNswActFoundation = Edu_NSW_ACT_Foundation({
   subsets: ["latin"],
@@ -333,6 +341,7 @@ const libertinusSerif = Libertinus_Serif({
   variable: "--font-libertinus-serif",
   display: "fallback",
   preload: false,
+  adjustFontFallback: false,
 });
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
