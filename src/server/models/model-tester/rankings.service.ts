@@ -128,6 +128,7 @@ export async function verifyAndPublish(
     mode: "direct",
     transport: serverTransport,
         checkSignature: true,
+      checkTokenTruth: true,
     });
   if (result.connectivityError)
     return { published: false, error: result.connectivityError, result };

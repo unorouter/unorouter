@@ -39,6 +39,8 @@ export type ResultCardData = {
   connectivityError: string | null;
   /** Only present when the run asked for the thinking-signature check. */
   signature?: { state: string; signatureLength: number } | undefined;
+  /** Only present when the run asked for the token-accounting check. */
+  tokenTruth?: { ok: boolean | null } | undefined;
   probes: TestResultProbe[];
 };
 
@@ -424,6 +426,24 @@ export function TestResultCard(props: {
                 }
               >
                 {t(SIGNATURE_LABEL[result.signature.state] ?? "MODEL_TESTER.RESULT.SIGNATURE_UNSIGNED")}
+              </span>
+            </span>
+          ) : null}
+          {result.tokenTruth && result.tokenTruth.ok !== null ? (
+            <span>
+              {t("MODEL_TESTER.RESULT.TOKEN_TRUTH")}:{" "}
+              <span
+                className={
+                  result.tokenTruth.ok
+                    ? "font-mono text-emerald-600 dark:text-emerald-400"
+                    : "font-mono text-red-600 dark:text-red-400"
+                }
+              >
+                {t(
+                  result.tokenTruth.ok
+                    ? "MODEL_TESTER.RESULT.TOKEN_TRUTH_OK"
+                    : "MODEL_TESTER.RESULT.TOKEN_TRUTH_BAD",
+                )}
               </span>
             </span>
           ) : null}

@@ -27,6 +27,7 @@ export function fromVerifyResult(r: VerifyResult): ResultCardData {
           },
         }
       : {}),
+    ...(r.tokenTruth ? { tokenTruth: { ok: r.tokenTruth.ok } } : {}),
     probes: r.probes.map((p) => ({
       label: p.label,
       pass: p.pass,
