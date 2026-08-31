@@ -15,7 +15,6 @@ import { Icon } from "@/components/ui/icon";
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth/auth-hook";
 import { useSubscriptionSelfQuery } from "@/hooks/billing/billing-hook";
-import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { quotaToDollars } from "@/lib/config/constants";
@@ -38,17 +37,12 @@ export function UserDropdown(props: UserDropdownProps) {
   const userDisplay = useUserDisplay();
   const logoutMutation = useLogoutMutation();
   const subQuery = useSubscriptionSelfQuery();
-  const mounted = useHydrated();
 
   const activeSubs = (subQuery.data?.subscriptions ?? []).flatMap((s) =>
     s.subscription?.status === "active"
       ? [{ ...s, subscription: s.subscription }]
       : [],
   );
-
-  // Must be the plain child, never null or the decorated trigger: Base UI's Menu.Trigger
-  // adds client-only attrs, so anything else mismatches hydration.
-  if (!mounted) return props.children;
 
   if (!userDisplay.user) return null;
 
