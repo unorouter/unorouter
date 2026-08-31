@@ -161,41 +161,45 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
 
 // isPartner gates the enterprise gift-card section. Presentation only: the
 // upstream API refuses a non-partner regardless of what the sidebar renders.
-export const sidebarNavigation = (isPartner = false): NavigationItem[] => [
-  {
-    name: "SIDEBAR.DASHBOARD",
-    href: "/dashboard",
-    iconName: "layout-dashboard",
-  },
-  {
-    name: "SIDEBAR.TOKENS",
-    href: "/token",
-    iconName: "key",
-  },
-  {
-    name: "SIDEBAR.LOGS",
-    href: "/logs",
-    iconName: "scroll-text",
-  },
-  {
-    name: "SIDEBAR.BILLING",
-    href: "/billing",
-    iconName: "wallet",
-  },
-  {
-    name: "SIDEBAR.AFFILIATE",
-    href: "/affiliate",
-    iconName: "gift",
-  },
-  {
-    name: "SIDEBAR.GIFT_CARDS",
-    href: "/gift-cards",
-    iconName: "ticket",
-    hidden: !isPartner,
-  },
-  {
-    name: "SIDEBAR.SETTINGS",
-    href: "/settings",
-    iconName: "settings",
-  },
-];
+// The entry is omitted rather than flagged `hidden`, because callers here render
+// the list as-is; only one of the three filters on `hidden`.
+export const sidebarNavigation = (isPartner = false): NavigationItem[] => {
+  const items: (NavigationItem | false)[] = [
+    {
+      name: "SIDEBAR.DASHBOARD",
+      href: "/dashboard",
+      iconName: "layout-dashboard",
+    },
+    {
+      name: "SIDEBAR.TOKENS",
+      href: "/token",
+      iconName: "key",
+    },
+    {
+      name: "SIDEBAR.LOGS",
+      href: "/logs",
+      iconName: "scroll-text",
+    },
+    {
+      name: "SIDEBAR.BILLING",
+      href: "/billing",
+      iconName: "wallet",
+    },
+    {
+      name: "SIDEBAR.AFFILIATE",
+      href: "/affiliate",
+      iconName: "gift",
+    },
+    isPartner && {
+      name: "SIDEBAR.GIFT_CARDS",
+      href: "/gift-cards",
+      iconName: "ticket",
+    },
+    {
+      name: "SIDEBAR.SETTINGS",
+      href: "/settings",
+      iconName: "settings",
+    },
+  ];
+  return items.filter((item) => item !== false);
+};
