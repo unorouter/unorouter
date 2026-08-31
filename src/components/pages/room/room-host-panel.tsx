@@ -71,7 +71,9 @@ export function RoomHostPanel(props: {
 
         <div className="space-y-4">
           <p className="text-muted-foreground text-sm">
-            {t(STATUS_KEY[status])}
+            {/* A room hosts an existing conversation, so an empty chat has
+                nothing to share. Saying so beats a disabled button. */}
+            {convId ? t(STATUS_KEY[status]) : t("ROOM.NEEDS_CONVERSATION")}
             {error ? ` (${error})` : ""}
           </p>
 
