@@ -4,6 +4,12 @@ export const subscriptionPreferenceBody = t.Object({
   billing_preference: t.String(),
 });
 
+// Redeeming a gift card or redemption code. Upstream deliberately returns one
+// generic failure for every reason, so a caller cannot probe a code's state.
+export const redeemBody = t.Object({
+  key: t.String({ minLength: 1 }),
+});
+
 export const stripePayBody = t.Object({
   amount: t.Number(),
   payment_method: t.String(),

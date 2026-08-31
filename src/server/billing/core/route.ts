@@ -3,6 +3,7 @@ import {
   creemPayBody,
   deloPayPayBody,
   nowPaymentsPayBody,
+  redeemBody,
   stripePayBody,
   subscriptionPayBody,
   subscriptionPreferenceBody,
@@ -24,6 +25,7 @@ import {
   subscriptionRequestDeloPayPay,
   subscriptionRequestNowPaymentsPay,
   subscriptionRequestStripePay,
+  topUp,
   updateSubscriptionPreference,
 } from "@/openapi";
 import { Elysia } from "elysia";
@@ -91,6 +93,14 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       return unwrap(res);
     },
     { body: subscriptionPreferenceBody },
+  )
+  .post(
+    "/redeem",
+    async ({ body, upstream }) => {
+      const res = await topUp(body, { headers: upstream.headers });
+      return unwrap(res);
+    },
+    { body: redeemBody },
   )
   .post(
     "/stripe-pay",

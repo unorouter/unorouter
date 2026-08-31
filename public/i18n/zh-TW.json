@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "訂閱方案",
       "QUOTA_TOPUP": "額度儲值",
       "SUBSCRIPTIONS_HINT": "週期扣款，每週重設",
-      "QUOTA_TOPUP_HINT": "一次性付款，永不過期"
+      "QUOTA_TOPUP_HINT": "一次性付款，永不過期",
+      "REDEEM": "兌換代碼",
+      "REDEEM_HINT": "禮品卡與兌換碼"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "輸入禮品卡或兌換碼",
+      "SUBMIT": "兌換",
+      "SUCCESS": "已為你的餘額儲值 {amount}"
     }
   },
   "FORM": {

@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "サブスクリプションプラン",
       "QUOTA_TOPUP": "クォータのチャージ",
       "SUBSCRIPTIONS_HINT": "継続課金、毎週リセット",
-      "QUOTA_TOPUP_HINT": "一回払い、有効期限なし"
+      "QUOTA_TOPUP_HINT": "一回払い、有効期限なし",
+      "REDEEM": "コードを利用する",
+      "REDEEM_HINT": "ギフトカードと引き換えコード"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "ギフトカードまたは引き換えコードを入力",
+      "SUBMIT": "利用する",
+      "SUCCESS": "残高に{amount}を追加しました"
     }
   },
   "FORM": {

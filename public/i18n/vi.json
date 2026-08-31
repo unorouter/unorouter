@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Gói đăng ký",
       "QUOTA_TOPUP": "Nạp hạn mức",
       "SUBSCRIPTIONS_HINT": "Định kỳ, đặt lại hằng tuần",
-      "QUOTA_TOPUP_HINT": "Một lần, không hết hạn"
+      "QUOTA_TOPUP_HINT": "Một lần, không hết hạn",
+      "REDEEM": "Sử dụng mã",
+      "REDEEM_HINT": "Thẻ quà tặng và mã nạp"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Nhập thẻ quà tặng hoặc mã nạp của bạn",
+      "SUBMIT": "Sử dụng",
+      "SUCCESS": "Đã cộng {amount} vào số dư của bạn"
     }
   },
   "FORM": {

@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Formules d'abonnement",
       "QUOTA_TOPUP": "Recharge de crédit",
       "SUBSCRIPTIONS_HINT": "Récurrent, réinitialisé chaque semaine",
-      "QUOTA_TOPUP_HINT": "Paiement unique, sans expiration"
+      "QUOTA_TOPUP_HINT": "Paiement unique, sans expiration",
+      "REDEEM": "Utiliser un code",
+      "REDEEM_HINT": "Cartes cadeaux et codes de recharge"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Saisissez votre carte cadeau ou code de recharge",
+      "SUBMIT": "Utiliser",
+      "SUCCESS": "{amount} ajoutés à votre solde"
     }
   },
   "FORM": {

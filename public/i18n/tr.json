@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Abonelik planları",
       "QUOTA_TOPUP": "Bakiye yükleme",
       "SUBSCRIPTIONS_HINT": "Yinelenen, haftalık sıfırlanır",
-      "QUOTA_TOPUP_HINT": "Tek seferlik, süresi dolmaz"
+      "QUOTA_TOPUP_HINT": "Tek seferlik, süresi dolmaz",
+      "REDEEM": "Kod kullan",
+      "REDEEM_HINT": "Hediye kartları ve kullanım kodları"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Hediye kartınızı veya kullanım kodunuzu girin",
+      "SUBMIT": "Kullan",
+      "SUCCESS": "Bakiyenize {amount} eklendi"
     }
   },
   "FORM": {

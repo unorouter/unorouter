@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "구독 요금제",
       "QUOTA_TOPUP": "쿼터 충전",
       "SUBSCRIPTIONS_HINT": "정기 결제, 매주 초기화",
-      "QUOTA_TOPUP_HINT": "일회성 결제, 만료 없음"
+      "QUOTA_TOPUP_HINT": "일회성 결제, 만료 없음",
+      "REDEEM": "코드 사용하기",
+      "REDEEM_HINT": "기프트 카드 및 교환 코드"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "기프트 카드 또는 교환 코드를 입력하세요",
+      "SUBMIT": "사용하기",
+      "SUCCESS": "잔액에 {amount}이(가) 추가되었습니다"
     }
   },
   "FORM": {

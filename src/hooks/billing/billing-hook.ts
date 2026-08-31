@@ -171,3 +171,13 @@ export function useSubscriptionOrdersQuery(
     { enabled: isLoggedIn },
   );
 }
+
+// Redeeming a gift card credits the caller's balance upstream, so both the
+// cached balance and the top-up history are stale afterwards.
+export function useRedeemMutation() {
+  return useApiMutation({
+    mutationFn: async (args: EdenArgs<Billing["redeem"], "post">) =>
+      handleElysia(await rpc.api.billing.core.redeem.post(args.body)),
+    invalidates: [queryKeys.auth(), queryKeys.topUpHistory()],
+  });
+}

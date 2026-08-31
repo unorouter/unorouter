@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Paket langganan",
       "QUOTA_TOPUP": "Isi ulang kuota",
       "SUBSCRIPTIONS_HINT": "Berulang, disetel ulang mingguan",
-      "QUOTA_TOPUP_HINT": "Sekali bayar, tanpa kedaluwarsa"
+      "QUOTA_TOPUP_HINT": "Sekali bayar, tanpa kedaluwarsa",
+      "REDEEM": "Tukarkan kode",
+      "REDEEM_HINT": "Kartu hadiah dan kode penukaran"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Masukkan kartu hadiah atau kode penukaran Anda",
+      "SUBMIT": "Tukarkan",
+      "SUCCESS": "{amount} ditambahkan ke saldo Anda"
     }
   },
   "FORM": {

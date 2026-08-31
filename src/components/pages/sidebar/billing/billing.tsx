@@ -9,6 +9,7 @@ import { env } from "@/lib/config/env";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { AccountStats } from "./account-stats";
+import { RedeemSection } from "./redeem-section";
 import { SubscriptionSection } from "./subscription-section";
 import { TopUpSection } from "./topup-section";
 import { TransactionsSection } from "./transactions-section";
@@ -83,6 +84,22 @@ export function Billing() {
             <div className="p-4">
               <SectionBoundary>
                 <TopUpSection />
+              </SectionBoundary>
+            </div>
+          </section>
+
+          <section className="border-border border">
+            <header className="border-border flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+              <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                {t("BILLING.SECTIONS.REDEEM")}
+              </span>
+              <span className="text-muted-foreground/70 text-xs">
+                {t("BILLING.SECTIONS.REDEEM_HINT")}
+              </span>
+            </header>
+            <div className="p-4">
+              <SectionBoundary>
+                <RedeemSection />
               </SectionBoundary>
             </div>
           </section>

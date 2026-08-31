@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Planes de suscripción",
       "QUOTA_TOPUP": "Recarga de saldo",
       "SUBSCRIPTIONS_HINT": "Recurrente, se reinicia cada semana",
-      "QUOTA_TOPUP_HINT": "Pago único, sin caducidad"
+      "QUOTA_TOPUP_HINT": "Pago único, sin caducidad",
+      "REDEEM": "Canjear un código",
+      "REDEEM_HINT": "Tarjetas de regalo y códigos de canje"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Introduce tu tarjeta de regalo o código de canje",
+      "SUBMIT": "Canjear",
+      "SUCCESS": "Se añadieron {amount} a tu saldo"
     }
   },
   "FORM": {

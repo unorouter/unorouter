@@ -3239,7 +3239,14 @@
       "SUBSCRIPTION_PLANS": "Piani di abbonamento",
       "QUOTA_TOPUP": "Ricarica credito",
       "SUBSCRIPTIONS_HINT": "Ricorrente, si azzera ogni settimana",
-      "QUOTA_TOPUP_HINT": "Una tantum, senza scadenza"
+      "QUOTA_TOPUP_HINT": "Una tantum, senza scadenza",
+      "REDEEM": "Riscatta un codice",
+      "REDEEM_HINT": "Carte regalo e codici di ricarica"
+    },
+    "REDEEM": {
+      "PLACEHOLDER": "Inserisci la tua carta regalo o codice di ricarica",
+      "SUBMIT": "Riscatta",
+      "SUCCESS": "{amount} aggiunti al tuo credito"
     }
   },
   "FORM": {
