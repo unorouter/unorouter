@@ -5,7 +5,7 @@ import {
   INITIAL_CHAT_STATE,
   type ChatState,
 } from "@/store/chat-store";
-import { isServer } from "@tanstack/react-query";
+import { environmentManager } from "@tanstack/react-query";
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 
@@ -23,7 +23,7 @@ export function ChatStoreProvider(props: {
   // still wrong (b56c0328): it re-runs store.set on EVERY render, and once a consumer has
   // mounted that writes during render.
   useHydrateAtoms([[chatStoreAtom, props.data ?? INITIAL_CHAT_STATE]], {
-    dangerouslyForceHydrate: isServer,
+    dangerouslyForceHydrate: environmentManager.isServer(),
   });
 
   return <>{props.children}</>;

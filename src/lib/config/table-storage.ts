@@ -1,5 +1,5 @@
 import type { StoreId } from "@/lib/types/enums";
-import { isServer } from "@tanstack/react-query";
+import { environmentManager } from "@tanstack/react-query";
 import type { TableState } from "@tanstack/react-table";
 import type { TableFeats } from "./table-features";
 import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
@@ -26,7 +26,7 @@ export function storeFieldAtom<S extends object, K extends keyof S>(
 
 export const jotaiCookieStorage = {
   getItem<T>(key: string, initialValue: T): T {
-    if (isServer) return initialValue;
+    if (environmentManager.isServer()) return initialValue;
     const value = getCookie(key);
     if (!value) return initialValue;
     try {
@@ -36,11 +36,11 @@ export const jotaiCookieStorage = {
     }
   },
   setItem(key: string, value: unknown) {
-    if (isServer) return;
+    if (environmentManager.isServer()) return;
     setCookie(key, JSON.stringify(value), { maxAge: COOKIE_MAX_AGE });
   },
   removeItem(key: string) {
-    if (isServer) return;
+    if (environmentManager.isServer()) return;
     deleteCookie(key);
   },
 };
@@ -62,7 +62,9 @@ export const loadDataFromCookie = <T = TableState<TableFeats>>(
   id: StoreId,
   cookie?: ReadonlyRequestCookies,
 ): T | undefined => {
-  const savedState = isServer ? cookie?.get(id)?.value : getCookie(id);
+  const savedState = environmentManager.isServer()
+    ? cookie?.get(id)?.value
+    : getCookie(id);
 
   return savedState ? JSON.parse(savedState) : undefined;
 };
