@@ -1,5 +1,10 @@
 import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
-import { MediaType } from "http-message-sig";
+
+// http-message-sig 0.3 dropped the MediaType enum. web-bot-auth exports a
+// same-named constant but it holds the well-known PATH, not the media type, so
+// it is not a substitute here.
+const SIGNATURES_DIRECTORY_MEDIA_TYPE =
+  "application/http-message-signatures-directory+json";
 
 export function GET() {
   const keys = parseJwks(process.env.WEB_BOT_AUTH_PUBLIC_JWKS).map(
@@ -9,7 +14,7 @@ export function GET() {
     { keys },
     {
       headers: {
-        "Content-Type": MediaType.HTTP_MESSAGE_SIGNATURES_DIRECTORY,
+        "Content-Type": SIGNATURES_DIRECTORY_MEDIA_TYPE,
         "Cache-Control": "public, max-age=3600",
       },
     },
