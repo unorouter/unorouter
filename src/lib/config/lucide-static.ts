@@ -142,6 +142,7 @@ import Square from "lucide-react/dist/esm/icons/square.mjs";
 import Sun from "lucide-react/dist/esm/icons/sun.mjs";
 import Tag from "lucide-react/dist/esm/icons/tag.mjs";
 import Terminal from "lucide-react/dist/esm/icons/terminal.mjs";
+import Ticket from "lucide-react/dist/esm/icons/ticket.mjs";
 import Trash from "lucide-react/dist/esm/icons/trash.mjs";
 import Trash2 from "lucide-react/dist/esm/icons/trash-2.mjs";
 import TrendingDown from "lucide-react/dist/esm/icons/trending-down.mjs";
@@ -284,6 +285,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   sun: Sun,
   tag: Tag,
   terminal: Terminal,
+  ticket: Ticket,
   trash: Trash,
   trophy: Trophy,
   type: Type,
