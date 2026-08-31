@@ -1,13 +1,11 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
-import { env } from "@/lib/config/env";
 import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
-import { arrayBufferToBase64, copyToClipboard } from "@/lib/utils/base";
+import { arrayBufferToBase64 } from "@/lib/utils/base";
 import {
   use2FAStatusQuery,
-  useGenerateAccessTokenMutation,
   usePasskeyDeleteMutation,
   usePasskeyRegisterBeginMutation,
   usePasskeyRegisterFinishMutation,
@@ -24,17 +22,16 @@ import { toast } from "sonner";
 import { ChangePasswordDialog } from "./change-password-dialog";
 import { Setup2FADialog } from "./setup-2fa-dialog";
 import { DeleteAccountDialog } from "./delete-account-dialog";
+import { ApiAccessTabs } from "./api-access-tabs";
 
 export function SecurityCard() {
   const t = useTranslations();
-  const generateTokenMutation = useGenerateAccessTokenMutation();
   const twoFAStatusQuery = use2FAStatusQuery();
   const passkeyStatusQuery = usePasskeyStatusQuery();
   const passkeyRegisterBeginMutation = usePasskeyRegisterBeginMutation();
   const passkeyRegisterFinishMutation = usePasskeyRegisterFinishMutation();
   const passkeyDeleteMutation = usePasskeyDeleteMutation();
 
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
   const [show2FADialog, setShow2FADialog] = useState(false);
   const [twoFAMode, setTwoFAMode] = useState<TwoFAMode>("setup");
@@ -44,30 +41,6 @@ export function SecurityCard() {
   const twoFAEnabled = twoFAStatusQuery.data?.enabled === true;
   const passkeyRegistered = passkeyStatusQuery.data?.enabled === true;
   const hasPassword = authQuery.data?.has_password ?? true;
-
-  function handleGenerateToken() {
-    generateTokenMutation.mutate(undefined, {
-      onSuccess: (data) => {
-        setAccessToken(data);
-        analytics.settings.accessTokenGenerated();
-        toast.success(t("SETTINGS.SECURITY.TOKEN_GENERATED"));
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
-  }
-
-  function handleCopyToken() {
-    if (!accessToken) return;
-    copyToClipboard(accessToken);
-    toast.success(t("COMMON.COPIED_CLIPBOARD"));
-  }
-
-  function handleCopyApiUrl() {
-    copyToClipboard(env.apiUrl);
-    toast.success(t("SETTINGS.SECURITY.API_URL_COPIED"));
-  }
 
   async function handleRegisterPasskey() {
     try {
@@ -119,71 +92,7 @@ export function SecurityCard() {
           <CardTitle>{t("SETTINGS.SECURITY.TITLE")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Icon name="key" className="text-muted-foreground h-4 w-4" />
-              <span className="font-medium">
-                {t("SETTINGS.SECURITY.ACCESS_TOKEN")}
-              </span>
-            </div>
-            <p className="text-muted-foreground text-xs">
-              {t("SETTINGS.SECURITY.ACCESS_TOKEN_DESC")}
-            </p>
-            <div className="flex items-center gap-2">
-              {accessToken ? (
-                <>
-                  <code className="bg-muted flex-1 truncate rounded-md p-2 text-xs">
-                    {accessToken}
-                  </code>
-                  <Button variant="outline" size="sm" onClick={handleCopyToken}>
-                    <Icon name="copy" className="mr-1 h-3 w-3" />
-                    {t("SETTINGS.SECURITY.COPY_TOKEN")}
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={generateTokenMutation.isPending}
-                  onClick={handleGenerateToken}
-                >
-                  <Icon name="key" className="mr-1 h-3 w-3" />
-                  {t("SETTINGS.SECURITY.GENERATE_TOKEN")}
-                </Button>
-              )}
-            </div>
-            <div className="bg-muted/40 mt-2 space-y-2 rounded-md border p-3">
-              <div className="flex items-center gap-2">
-                <Icon name="globe" className="text-muted-foreground h-4 w-4" />
-                <span className="font-medium">
-                  {t("SETTINGS.SECURITY.API_BASE_URL")}
-                </span>
-              </div>
-              <p className="text-muted-foreground text-xs">
-                {t("SETTINGS.SECURITY.API_BASE_URL_DESC")}
-              </p>
-              <div className="flex items-center gap-2">
-                <code className="bg-background flex-1 truncate rounded-md p-2 text-xs">
-                  {env.apiUrl}
-                </code>
-                <Button variant="outline" size="sm" onClick={handleCopyApiUrl}>
-                  <Icon name="copy" className="mr-1 h-3 w-3" />
-                  {t("SETTINGS.SECURITY.COPY_TOKEN")}
-                </Button>
-              </div>
-              <a
-                href={`${env.apiUrl}/swagger`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary inline-flex items-center gap-1 text-xs hover:underline"
-                onClick={() => analytics.settings.apiReferenceOpened()}
-              >
-                <Icon name="book-open" className="h-3 w-3" />
-                {t("SETTINGS.SECURITY.API_REFERENCE")}
-                <Icon name="external-link" className="h-3 w-3" />
-              </a>
-            </div>
-          </div>
+          <ApiAccessTabs />
 
           <Separator />
 
