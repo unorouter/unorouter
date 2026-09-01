@@ -34,10 +34,8 @@ export function PaymentMethodToggle(props: {
           if (method) billing.setPaymentMethod(method);
         }}
       >
-        {/* TabsList is inline-flex w-fit at a fixed height, so a long localized
-            label (vi: "The / Google & Apple Pay / Alipay") grows it past a
-            phone. Wrap to a second line rather than widening the page. */}
-        <TabsList className="h-auto max-w-full flex-wrap group-data-horizontal/tabs:h-auto">
+        {/* Long localized labels (vi) overflow a phone; wrap instead of widening. Trigger height is overridden because h-[calc(100%-1px)] resolves against the wrapped list. */}
+        <TabsList className="h-auto max-w-full flex-wrap group-data-horizontal/tabs:h-auto [&>button]:h-8 [&>button]:flex-none">
           {billing.availableMethods.includes("card") && (
             <TabsTrigger value="card">
               {t("BILLING.PAYMENT_METHOD.CARD")}
