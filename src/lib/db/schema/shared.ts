@@ -467,12 +467,21 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-// `user_id` is the legacy column name kept for compatibility; one row, id always 1.
-export const userThemes = sqliteTable("user_themes", {
-  id: integer("user_id").primaryKey().default(1),
-  themeJson: text("theme_json", { mode: "json" }).$type<UserTheme>().notNull(),
-  ...timestamps(),
-});
+// Theme history, newest row last: the customizer undo walks backwards through
+// it. `user_id` is the legacy column name, kept because renaming a primary key
+// costs a table rebuild for nothing. It held a single pinned row (id 1) while
+// nothing read the table back; it now autoincrements so each save is an entry.
+export const userThemes = sqliteTable(
+  "user_themes",
+  {
+    id: integer("user_id").primaryKey({ autoIncrement: true }),
+    themeJson: text("theme_json", { mode: "json" })
+      .$type<UserTheme>()
+      .notNull(),
+    ...timestamps(),
+  },
+  (table) => [index("idx_user_themes_created").on(table.createdAt)],
+);
 
 export const media = sqliteTable(
   "media",

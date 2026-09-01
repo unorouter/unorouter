@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "간격",
     "RESET_FIELD": "기본값으로 초기화",
     "RESET_ALL": "모두 초기화",
+    "UNDO": "실행 취소",
+    "UNDO_DONE": "마지막 변경을 되돌렸습니다",
     "RESET_DONE": "테마 초기화됨",
     "CUSTOMIZE": "테마 커스터마이즈...",
     "SHUFFLE": "셔플",

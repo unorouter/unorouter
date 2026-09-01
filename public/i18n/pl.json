@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Odstępy",
     "RESET_FIELD": "Resetuj do domyślnego",
     "RESET_ALL": "Resetuj wszystko",
+    "UNDO": "Cofnij",
+    "UNDO_DONE": "Cofnięto ostatnią zmianę",
     "RESET_DONE": "Motyw zresetowany",
     "CUSTOMIZE": "Dostosuj motyw...",
     "SHUFFLE": "Wymieszaj",
