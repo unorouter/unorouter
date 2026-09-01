@@ -116,12 +116,12 @@ export function SubscriptionSection() {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <Select
             value={billingPreference}
             onValueChange={handlePreferenceChange}
           >
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-full sm:w-48">
               <SelectValue>
                 {t(
                   BILLING_PREFERENCE_OPTIONS.find(
