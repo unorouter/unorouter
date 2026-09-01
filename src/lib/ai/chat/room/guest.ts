@@ -11,19 +11,24 @@ import {
   roomStore,
 } from "@/store/room-store";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import type { DataConnection, Peer } from "peerjs";
 import {
   MAX_TURN_CHARS,
   ROOM_PROTOCOL_VERSION,
   parseHostMessage,
+  roomMessageFrom,
   sanitizeName,
   type GuestToHost,
+  type RoomMessage,
 } from "./protocol";
+import {
+  fetchRoomHistory,
+  openRoomSocket,
+  type RoomSocket,
+} from "./room-socket";
 
 // The guest opens no database. Everything it knows lives in these atoms and is
 // gone when the tab closes, which is the whole reason a guest needs no account.
-let peer: Peer | null = null;
-let conn: DataConnection | null = null;
+let socket: RoomSocket | null = null;
 
 function reset() {
   roomStore.set(guestMessagesAtom, []);
@@ -32,11 +37,7 @@ function reset() {
 }
 
 function send(msg: GuestToHost) {
-  try {
-    if (conn?.open) conn.send(msg);
-  } catch {
-    // The close handler reports the failure.
-  }
+  socket?.send(msg);
 }
 
 export function submitTurn(text: string) {
@@ -46,53 +47,40 @@ export function submitTurn(text: string) {
 }
 
 export async function joinRoom(roomId: string, rawName: string): Promise<void> {
-  if (peer) return;
+  if (socket) return;
   const name = sanitizeName(rawName);
   roomStore.set(guestStatusAtom, "connecting");
   roomStore.set(guestErrorAtom, null);
   reset();
 
-  const { Peer } = await import("peerjs");
-  const created = new Peer();
-  peer = created;
-
-  created.on("error", (err) => {
-    // peer-unavailable is the one a user actually hits: a stale or mistyped
-    // room link. RisuAI shows nothing here and simply hangs.
-    roomStore.set(guestErrorAtom, err.type || "unknown");
-    roomStore.set(guestStatusAtom, "error");
-  });
-
-  created.on("open", () => {
-    const link = created.connect(roomId, { reliable: true });
-    conn = link;
-
-    link.on("open", () => {
+  socket = openRoomSocket(roomId, {
+    onOpen: () => {
       roomStore.set(guestStatusAtom, "waiting");
       logChatDebug("room.guest_connect", {
         roomId,
         version: ROOM_PROTOCOL_VERSION,
       });
       send({ type: "join", version: ROOM_PROTOCOL_VERSION, name });
-    });
-
-    link.on("data", (raw) => {
+    },
+    onClose: () => {
+      if (roomStore.get(guestStatusAtom) === "joined")
+        roomStore.set(guestStatusAtom, "closed");
+    },
+    onFrame: (raw) => {
       const msg = parseHostMessage(raw);
       if (!msg) return;
       switch (msg.type) {
         case "welcome":
           roomStore.set(guestTitleAtom, msg.title);
           roomStore.set(guestCharacterNameAtom, msg.characterName);
-          roomStore.set(guestMessagesAtom, msg.messages);
           roomStore.set(guestParticipantsAtom, msg.participants);
           roomStore.set(guestTurnAtom, msg.turn);
           roomStore.set(guestStatusAtom, "joined");
-          logChatDebug("room.guest_welcome", {
-            messages: msg.messages.length,
-            blank: msg.messages.filter((m) => !m.text).length,
-            speakers: [...new Set(msg.messages.map((m) => m.speaker))].length,
-            hostVersion: msg.version,
-          });
+          // The transcript arrives over HTTP: a long room is far past the
+          // socket's frame limit, and overflowing the outbound buffer would
+          // drop the connection this is restoring.
+          void loadHistory(roomId);
+          logChatDebug("room.guest_welcome", { hostVersion: msg.version });
           break;
         case "rejected":
           roomStore.set(guestErrorAtom, msg.reason);
@@ -142,20 +130,44 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
           logChatDebug("room.guest_closed", {});
           break;
       }
-    });
-
-    link.on("close", () => {
-      if (roomStore.get(guestStatusAtom) === "joined")
-        roomStore.set(guestStatusAtom, "closed");
-    });
+    },
   });
+}
+
+// Merges the stored transcript UNDER anything already received live, so a
+// message that arrived while this was in flight is not overwritten by an older
+// copy of itself.
+async function loadHistory(roomId: string) {
+  const { messages } = await fetchRoomHistory(roomId).catch(() => ({
+    messages: [] as unknown[],
+  }));
+  // Rows are stored as the frame that produced them, so a message-appended and
+  // a stream-delta unwrap differently.
+  const stored: RoomMessage[] = [];
+  for (const raw of messages) {
+    const frame = parseHostMessage(raw);
+    if (frame?.type === "message-appended") stored.push(frame.message);
+    else if (frame?.type === "stream-delta") {
+      const parsed = roomMessageFrom({
+        id: frame.id,
+        role: "assistant",
+        speaker: roomStore.get(guestCharacterNameAtom) ?? "Assistant",
+        text: frame.text,
+      });
+      if (parsed) stored.push(parsed);
+    }
+  }
+  if (!stored.length) return;
+  roomStore.set(guestMessagesAtom, (prev) => {
+    const live = new Set(prev.map((m) => m.id));
+    return [...stored.filter((m) => !live.has(m.id)), ...prev];
+  });
+  logChatDebug("room.guest_history", { messages: stored.length });
 }
 
 export function leaveRoom() {
   send({ type: "leave" });
-  conn?.close();
-  peer?.destroy();
-  conn = null;
-  peer = null;
+  socket?.close();
+  socket = null;
   reset();
 }
