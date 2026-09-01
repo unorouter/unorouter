@@ -31,10 +31,9 @@ const STATUS_KEY: Record<GuestStatus, TranslationKey> = {
   error: "ROOM.STATUS_ERROR",
 };
 
-// PeerJS error types plus our own rejection reasons. Anything unrecognised
-// falls back to a generic line rather than rendering a raw protocol token.
+// Rejection reasons from the host. Anything unrecognised falls back to a
+// generic line rather than rendering a raw protocol token.
 const ERROR_KEY: Record<string, TranslationKey> = {
-  "peer-unavailable": "ROOM.ERROR_NOT_FOUND",
   declined: "ROOM.ERROR_DECLINED",
   version: "ROOM.ERROR_VERSION",
   full: "ROOM.ERROR_FULL",

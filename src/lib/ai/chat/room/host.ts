@@ -22,7 +22,6 @@ import {
   roomPendingAtom,
   roomTurnAtom,
 } from "@/store/room-store";
-import type { DataConnection, Peer } from "peerjs";
 import {
   MAX_GUESTS,
   MAX_TURN_CHARS,
@@ -34,6 +33,7 @@ import {
   type RoomParticipant,
   type TurnState,
 } from "./protocol";
+import { openRoomSocket, type RoomSocket } from "./room-socket";
 
 // A guest turn is handed to the runtime via append(), which is fire and forget:
 // it swallows its own promise, so a turn that never starts (the conversation
@@ -45,27 +45,27 @@ const TURN_START_TIMEOUT_MS = 15_000;
 type Guest = {
   peerId: string;
   name: string;
-  conn: DataConnection;
 };
 
-let peer: Peer | null = null;
+let socket: RoomSocket | null = null;
 let convId: string | null = null;
 let guests = new Map<string, Guest>();
-let pending = new Map<string, DataConnection>();
+// Connections that have said "join" but have not been admitted. They are inert
+// until the host approves, so holding the room id cannot spend the host's
+// balance.
+let pending = new Set<string>();
 let turnTimer: ReturnType<typeof setTimeout> | null = null;
 let awaitingRunFor: string | null = null;
 const connName = new Map<string, string>();
 
-function send(conn: DataConnection, msg: HostToGuest) {
-  try {
-    if (conn.open) conn.send(msg);
-  } catch {
-    // A dead connection surfaces through its own close handler.
-  }
+// Addressed to one guest by connection id, which the server assigns and stamps
+// on every frame, so a guest cannot claim to be another.
+function send(peerId: string, msg: HostToGuest) {
+  socket?.send(msg, { to: peerId });
 }
 
-function broadcast(msg: HostToGuest) {
-  for (const guest of guests.values()) send(guest.conn, msg);
+function broadcast(msg: HostToGuest, opts?: { msgId?: string }) {
+  socket?.send(msg, opts);
 }
 
 function participants(): RoomParticipant[] {
@@ -147,8 +147,7 @@ async function hostPersonaName(): Promise<string> {
 }
 
 async function admit(peerId: string) {
-  const conn = pending.get(peerId);
-  if (!conn) return;
+  if (!pending.has(peerId)) return;
   pending.delete(peerId);
   chatStore.set(
     roomPendingAtom,
@@ -156,19 +155,20 @@ async function admit(peerId: string) {
   );
   if (guests.size >= MAX_GUESTS) {
     logChatDebug("room.guest_rejected", { peerId, reason: "full" });
-    send(conn, { type: "rejected", reason: "full" });
-    conn.close();
+    send(peerId, { type: "rejected", reason: "full" });
     return;
   }
   const name = connName.get(peerId) ?? "Guest";
-  guests.set(peerId, { peerId, name, conn });
+  guests.set(peerId, { peerId, name });
   const snap = await snapshot();
-  send(conn, {
+  // The transcript is published to the room's stored history, not carried in
+  // the welcome: a long room is megabytes and would overrun the socket.
+  publishSnapshot(snap);
+  send(peerId, {
     type: "welcome",
     version: ROOM_PROTOCOL_VERSION,
     title: snap.title,
     characterName: snap.characterName,
-    messages: snap.messages,
     participants: participants(),
     turn: chatStore.get(roomTurnAtom),
   });
@@ -182,17 +182,16 @@ async function admit(peerId: string) {
 }
 
 function reject(peerId: string) {
-  const conn = pending.get(peerId);
+  const wasPending = pending.has(peerId);
   pending.delete(peerId);
   connName.delete(peerId);
   chatStore.set(
     roomPendingAtom,
     chatStore.get(roomPendingAtom).filter((p) => p.peerId !== peerId),
   );
-  if (conn) {
+  if (wasPending) {
     logChatDebug("room.guest_rejected", { peerId, reason: "declined" });
-    send(conn, { type: "rejected", reason: "declined" });
-    conn.close();
+    send(peerId, { type: "rejected", reason: "declined" });
   }
 }
 
@@ -201,8 +200,7 @@ function kick(peerId: string) {
   if (!guest) return;
   guests.delete(peerId);
   logChatDebug("room.guest_leave", { peerId, reason: "kicked" });
-  send(guest.conn, { type: "closed" });
-  guest.conn.close();
+  send(peerId, { type: "closed" });
   // A kicked guest must not strand the queue on their unfinished turn.
   const turn = chatStore.get(roomTurnAtom);
   if (turn.kind === "writing" && turn.peerId === peerId) releaseTurn();
@@ -214,13 +212,13 @@ async function onSubmitTurn(guest: Guest, text: string) {
   if (!trimmed) return;
   if (chatStore.get(roomTurnAtom).kind !== "idle") {
     logChatDebug("room.turn_failed", { peerId: guest.peerId, reason: "busy" });
-    send(guest.conn, { type: "turn-failed", reason: "busy" });
+    send(guest.peerId, { type: "turn-failed", reason: "busy" });
     return;
   }
   const thread = getThreadRuntime();
   if (!thread) {
     logChatDebug("room.turn_failed", { peerId: guest.peerId, reason: "error" });
-    send(guest.conn, { type: "turn-failed", reason: "error" });
+    send(guest.peerId, { type: "turn-failed", reason: "error" });
     return;
   }
   logChatDebug("room.turn_submit", {
@@ -237,7 +235,8 @@ async function onSubmitTurn(guest: Guest, text: string) {
       peerId: awaitingRunFor,
       reason: "timeout",
     });
-    if (stalled) send(stalled.conn, { type: "turn-failed", reason: "timeout" });
+    if (stalled)
+      send(stalled.peerId, { type: "turn-failed", reason: "timeout" });
     releaseTurn();
   }, TURN_START_TIMEOUT_MS);
 
@@ -291,28 +290,30 @@ export function speakerName(
 const groupNames = new Map<string, string>();
 
 export function broadcastMessage(message: RoomMessage) {
-  if (!peer) return;
-  broadcast({ type: "message-appended", message });
+  if (!socket) return;
+  broadcast({ type: "message-appended", message }, { msgId: message.id });
 }
 
+// A delta carries the whole accumulated text, so storing it REPLACES the row
+// for that id rather than appending another copy of the same reply.
 export function broadcastDelta(id: string, text: string) {
-  if (!peer) return;
-  broadcast({ type: "stream-delta", id, text });
+  if (!socket) return;
+  broadcast({ type: "stream-delta", id, text }, { msgId: id });
 }
 
 export function broadcastStreamEnd(id: string) {
-  if (!peer) return;
+  if (!socket) return;
   broadcast({ type: "stream-end", id });
 }
 
 export function isHosting() {
-  return peer !== null;
+  return socket !== null;
 }
 
 // A failed start leaves status "error" behind; without this the panel reopens
 // still showing the old failure.
 export function clearRoomError() {
-  if (peer) return;
+  if (socket) return;
   chatStore.set(roomErrorAtom, null);
   chatStore.set(roomHostStatusAtom, "off");
 }
@@ -321,7 +322,7 @@ export function clearRoomError() {
 // the active conversation as `remoteId ?? convIdAtom`, and the atom alone is
 // null on a thread that was opened by URL rather than created in this tab.
 export async function startRoom(activeConvId: string | null): Promise<void> {
-  if (peer) return;
+  if (socket) return;
   const active = activeConvId ?? chatStore.get(convIdAtom);
   if (!active) {
     chatStore.set(roomErrorAtom, "NO_CONVERSATION");
@@ -333,59 +334,50 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
   chatStore.set(roomHostStatusAtom, "starting");
   chatStore.set(roomErrorAtom, null);
   await loadSpeakerNames();
-  const { Peer } = await import("peerjs");
   const id = uid(24);
-  const created = new Peer(id);
-  peer = created;
 
-  created.on("open", (openId) => {
-    chatStore.set(roomIdAtom, openId);
-    chatStore.set(roomHostStatusAtom, "open");
-  });
-
-  // RisuAI never handles this, so a broker outage or a duplicate id hangs on a
-  // spinner with nothing shown.
-  created.on("error", (err) => {
-    chatStore.set(roomErrorAtom, err.type || "unknown");
-    chatStore.set(roomHostStatusAtom, "error");
-  });
-
-  created.on("connection", (conn) => {
-    conn.on("data", (raw) => {
+  socket = openRoomSocket(id, {
+    onOpen: () => {
+      chatStore.set(roomIdAtom, id);
+      chatStore.set(roomHostStatusAtom, "open");
+      // Stored so a guest who reloads can name the room before the host has
+      // sent anything else.
+      void snapshot().then(publishSnapshot);
+    },
+    // The socket reconnects on its own, so a drop is not the end of the room.
+    // Only the host closing it is.
+    onClose: () => {},
+    onFrame: (raw, from) => {
+      if (!from) return;
       const msg = parseGuestMessage(raw);
       if (!msg) return;
-      const known = guests.get(conn.peer);
+      const known = guests.get(from);
       if (msg.type === "join") {
-        if (known || pending.has(conn.peer)) return;
+        if (known || pending.has(from)) return;
         if (msg.version !== ROOM_PROTOCOL_VERSION) {
           logChatDebug("room.guest_rejected", {
-            peerId: conn.peer,
+            peerId: from,
             reason: "version",
             guestVersion: msg.version,
             hostVersion: ROOM_PROTOCOL_VERSION,
           });
-          send(conn, { type: "rejected", reason: "version" });
-          conn.close();
+          send(from, { type: "rejected", reason: "version" });
           return;
         }
-        // Anyone holding the room id can open connections, so the waiting
-        // list needs the same ceiling as the room: it is rendered per entry.
+        // Anyone holding the room id can connect, so the waiting list needs
+        // the same ceiling as the room: it is rendered per entry.
         if (pending.size + guests.size >= MAX_GUESTS) {
-          logChatDebug("room.guest_rejected", {
-            peerId: conn.peer,
-            reason: "full",
-          });
-          send(conn, { type: "rejected", reason: "full" });
-          conn.close();
+          logChatDebug("room.guest_rejected", { peerId: from, reason: "full" });
+          send(from, { type: "rejected", reason: "full" });
           return;
         }
         const name = sanitizeName(msg.name);
-        logChatDebug("room.guest_join", { peerId: conn.peer, name });
-        connName.set(conn.peer, name);
-        pending.set(conn.peer, conn);
+        logChatDebug("room.guest_join", { peerId: from, name });
+        connName.set(from, name);
+        pending.add(from);
         chatStore.set(roomPendingAtom, [
           ...chatStore.get(roomPendingAtom),
-          { peerId: conn.peer, name },
+          { peerId: from, name },
         ]);
         return;
       }
@@ -394,41 +386,38 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
       if (!known) return;
       if (msg.type === "submit-turn") void onSubmitTurn(known, msg.text);
       if (msg.type === "leave") kick(known.peerId);
-    });
-
-    conn.on("close", () => {
-      if (guests.has(conn.peer)) {
-        logChatDebug("room.guest_leave", {
-          peerId: conn.peer,
-          reason: "closed",
-        });
-        guests.delete(conn.peer);
-        const turn = chatStore.get(roomTurnAtom);
-        if (turn.kind === "writing" && turn.peerId === conn.peer) releaseTurn();
-        syncParticipants();
-      }
-      if (pending.delete(conn.peer)) {
-        chatStore.set(
-          roomPendingAtom,
-          chatStore.get(roomPendingAtom).filter((p) => p.peerId !== conn.peer),
-        );
-      }
-      connName.delete(conn.peer);
-    });
+    },
   });
 }
 
+// Seeds the room's stored history. A guest fetches this over HTTP instead of
+// receiving it in the welcome, which a long room would not fit in.
+function publishSnapshot(snap: {
+  title: string;
+  characterName: string | null;
+  messages: RoomMessage[];
+}) {
+  socket?.send(
+    { title: snap.title, characterName: snap.characterName },
+    { meta: true },
+  );
+  for (const message of snap.messages) {
+    socket?.send({ type: "message-appended", message }, { msgId: message.id });
+  }
+}
+
 export function stopRoom() {
-  if (peer) logChatDebug("room.stop", { guests: guests.size });
+  if (socket) logChatDebug("room.stop", { guests: guests.size });
   clearTurnTimer();
   broadcast({ type: "closed" });
-  for (const guest of guests.values()) guest.conn.close();
-  for (const conn of pending.values()) conn.close();
-  peer?.destroy();
-  peer = null;
+  // Deleting the stored room is part of closing it: the 24h expiry is the
+  // backstop for a host who just closes the tab, not the normal path.
+  socket?.send({ type: "closed" }, { closeRoom: true });
+  socket?.close();
+  socket = null;
   convId = null;
   guests = new Map();
-  pending = new Map();
+  pending = new Set();
   connName.clear();
   awaitingRunFor = null;
   chatStore.set(roomHostStatusAtom, "off");

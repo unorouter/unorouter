@@ -25,11 +25,12 @@ export type TurnState =
 
 export type HostToGuest =
   | {
+      // No message history: a long room is megabytes, well past the socket's
+      // frame limit, so the guest fetches the transcript over HTTP instead.
       type: "welcome";
       version: number;
       title: string;
       characterName: string | null;
-      messages: RoomMessage[];
       participants: RoomParticipant[];
       turn: TurnState;
     }
@@ -70,6 +71,12 @@ export function parseGuestMessage(raw: unknown): GuestToHost | null {
 
 function str(v: unknown): string | null {
   return typeof v === "string" ? v : null;
+}
+
+// Exported as roomMessageFrom for the HTTP history backfill: rows come back as
+// stored JSON and are no more trustworthy than a socket frame.
+export function roomMessageFrom(v: unknown): RoomMessage | null {
+  return roomMessage(v);
 }
 
 function roomMessage(v: unknown): RoomMessage | null {
@@ -120,16 +127,14 @@ export function parseHostMessage(raw: unknown): HostToGuest | null {
   switch (msg.type) {
     case "welcome": {
       const title = str(msg.title);
-      const messages = mapAll(msg.messages, roomMessage);
       const participants = mapAll(msg.participants, participant);
       const turn = turnState(msg.turn);
-      if (title === null || !messages || !participants || !turn) return null;
+      if (title === null || !participants || !turn) return null;
       return {
         type: "welcome",
         version: typeof msg.version === "number" ? msg.version : 0,
         title,
         characterName: str(msg.characterName),
-        messages,
         participants,
         turn,
       };
