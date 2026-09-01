@@ -1,6 +1,6 @@
 "use client";
 
-import type { PricingCatalogDetail } from "@/openapi";
+import type { GroupResult, PricingCatalogDetail } from "@/openapi";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
@@ -11,9 +11,14 @@ import {
   gridPricingColumns,
   type GridPricingRow,
 } from "@/lib/api/pricing";
+import { usePerfMetricsQuery } from "@/hooks/models/perf-metrics-hook";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/format/number";
+import {
+  formatLatency,
+  formatPct,
+  formatPrice,
+} from "@/lib/utils/format/number";
 import {
   MINI_TABLE,
   MINI_TABLE_BODY_ROW,
@@ -37,6 +42,11 @@ export function GroupPricingSection(props: {
   const model = props.model;
   const hasGrid = !!model.grid_pricing?.length;
   const entries = buildGroupEntries(model.enable_groups, props.groupRatioMap);
+  // Passing null while collapsed leaves the query disabled, so opening the
+  // section is what pays for it. On the detail page the same key is already in
+  // flight for the performance panel, so this resolves from cache.
+  const perfQuery = usePerfMetricsQuery(open ? model.model_name : null, 24);
+  const health = buildHealthMap(perfQuery.data?.groups);
 
   if (entries.length === 0) return null;
 
@@ -75,6 +85,7 @@ export function GroupPricingSection(props: {
             <GroupGrid
               entries={entries}
               gridPricing={model.grid_pricing!}
+              health={health}
               theme={props.theme}
             />
           ) : model.is_fixed_price ? (
@@ -82,6 +93,7 @@ export function GroupPricingSection(props: {
               entries={entries}
               fixedPrice={model.original_fixed_price ?? model.fixed_price}
               model={model}
+              health={health}
               theme={props.theme}
             />
           ) : (
@@ -89,12 +101,86 @@ export function GroupPricingSection(props: {
               entries={entries}
               modelRatio={model.model_ratio}
               completionRatio={model.completion_ratio}
+              health={health}
               theme={props.theme}
             />
           )}
         </div>
       )}
     </div>
+  );
+}
+
+type GroupHealth = {
+  ttftMs: number;
+  successRate: number;
+  uptimePct: number | null;
+};
+
+function buildHealthMap(
+  groups: GroupResult[] | null | undefined,
+): Map<string, GroupHealth> {
+  const map = new Map<string, GroupHealth>();
+  for (const g of groups ?? [])
+    map.set(g.group, {
+      ttftMs: g.avg_ttft_ms,
+      successRate: g.success_rate,
+      // Uptime comes from channel transition history, so a group with no
+      // recorded flips has none rather than 0%.
+      uptimePct: g.uptime_percent ?? null,
+    });
+  return map;
+}
+
+// A group only appears here once it has served traffic in the window, so a
+// missing entry means "no data", never zero.
+function HealthCells(props: { health: GroupHealth | undefined }) {
+  const h = props.health;
+  return (
+    <>
+      <td className="text-muted-foreground py-1.5 text-right">
+        {h && h.ttftMs > 0 ? formatLatency(h.ttftMs) : "-"}
+      </td>
+      <td className="text-muted-foreground py-1.5 text-right">
+        {h ? formatPct(h.successRate) : "-"}
+      </td>
+      <td className="text-muted-foreground py-1.5 text-right">
+        {h?.uptimePct != null ? formatPct(h.uptimePct) : "-"}
+      </td>
+    </>
+  );
+}
+
+// The grid branch renders a sub-table per group, so its stats sit on the group
+// heading rather than as extra columns.
+function GroupHealthInline(props: { health: GroupHealth | undefined }) {
+  const t = useTranslations();
+  if (!props.health) return null;
+  return (
+    <span className="text-muted-foreground font-mono text-[10px]">
+      {props.health.ttftMs > 0 &&
+        `${t("MODELS.DETAIL.PERF_TTFT")} ${formatLatency(props.health.ttftMs)}, `}
+      {t("MODELS.DETAIL.PERF_SUCCESS")} {formatPct(props.health.successRate)}
+      {props.health.uptimePct != null &&
+        `, ${t("MODELS.DETAIL.UPTIME")} ${formatPct(props.health.uptimePct)}`}
+    </span>
+  );
+}
+
+function HealthHeaders() {
+  const t = useTranslations();
+  return (
+    <>
+      <th className="py-1.5 text-right font-normal">
+        {t("MODELS.DETAIL.PERF_TTFT")}
+      </th>
+      <th className="py-1.5 text-right font-normal">
+        {t("MODELS.DETAIL.PERF_SUCCESS")}
+      </th>
+      <th className="py-1.5 text-right font-normal">
+        {t("MODELS.DETAIL.UPTIME")}
+      </th>
+    </>
   );
 }
 
@@ -114,6 +200,7 @@ function GroupTokens(props: {
   entries: GroupEntry[];
   modelRatio: number;
   completionRatio: number;
+  health: Map<string, GroupHealth>;
   theme: Theme;
 }) {
   const t = useTranslations();
@@ -130,6 +217,7 @@ function GroupTokens(props: {
           <th className="py-1.5 text-right font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
           </th>
+          <HealthHeaders />
         </tr>
       </thead>
       <tbody>
@@ -147,6 +235,7 @@ function GroupTokens(props: {
               <td className={cn("py-1.5 text-right", props.theme.text)}>
                 {formatPrice(outputPrice)}
               </td>
+              <HealthCells health={props.health.get(ge.group)} />
             </tr>
           );
         })}
@@ -159,6 +248,7 @@ function GroupFixed(props: {
   entries: GroupEntry[];
   fixedPrice: number;
   model: PricingCatalogDetail;
+  health: Map<string, GroupHealth>;
   theme: Theme;
 }) {
   const t = useTranslations();
@@ -172,6 +262,7 @@ function GroupFixed(props: {
           <th className="py-1.5 text-right font-normal">
             {t("MODELS.DETAIL.PRICING")}
           </th>
+          <HealthHeaders />
         </tr>
       </thead>
       <tbody>
@@ -186,6 +277,7 @@ function GroupFixed(props: {
                 <FixedPriceUnit model={props.model} />
               </span>
             </td>
+            <HealthCells health={props.health.get(ge.group)} />
           </tr>
         ))}
       </tbody>
@@ -196,6 +288,7 @@ function GroupFixed(props: {
 function GroupGrid(props: {
   entries: GroupEntry[];
   gridPricing: GridPricingRow[];
+  health: Map<string, GroupHealth>;
   theme: Theme;
 }) {
   const t = useTranslations();
@@ -212,6 +305,7 @@ function GroupGrid(props: {
             <span className="text-muted-foreground font-mono text-[10px]">
               {ge.ratio}x
             </span>
+            <GroupHealthInline health={props.health.get(ge.group)} />
           </div>
           <div className="overflow-x-auto">
             <table className={MINI_TABLE}>
