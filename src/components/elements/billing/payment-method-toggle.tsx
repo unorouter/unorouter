@@ -16,7 +16,9 @@ export function PaymentMethodToggle(props: {
   return (
     <div
       className={
-        props.centered ? "flex flex-col items-center space-y-2" : "space-y-2"
+        props.centered
+          ? "flex min-w-0 flex-col items-center space-y-2"
+          : "min-w-0 space-y-2"
       }
     >
       {!props.compact && (
@@ -25,13 +27,17 @@ export function PaymentMethodToggle(props: {
         </p>
       )}
       <Tabs
+        className="min-w-0"
         value={billing.paymentMethod}
         onValueChange={(value) => {
           const method = billing.availableMethods.find((m) => m === value);
           if (method) billing.setPaymentMethod(method);
         }}
       >
-        <TabsList>
+        {/* Long localized labels (vi: "The / Google & Apple Pay / Alipay")
+            outgrow a phone, and TabsList is inline-flex w-fit so it cannot
+            shrink: scroll the strip instead of pushing the page wider. */}
+        <TabsList className="max-w-full overflow-x-auto">
           {billing.availableMethods.includes("card") && (
             <TabsTrigger value="card">
               {t("BILLING.PAYMENT_METHOD.CARD")}

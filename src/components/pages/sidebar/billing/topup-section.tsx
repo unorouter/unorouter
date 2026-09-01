@@ -38,7 +38,7 @@ function CustomAmountField(props: {
       <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
         {t("BILLING.TOPUP.CUSTOM_AMOUNT")}
       </span>
-      <div className="flex items-center gap-3">
+      <div className="flex min-w-0 flex-wrap items-center gap-3">
         <Input
           type="number"
           inputMode="decimal"
