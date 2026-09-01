@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Abstände",
     "RESET_FIELD": "Auf Standard zurücksetzen",
     "RESET_ALL": "Alles zurücksetzen",
+    "UNDO": "Rückgängig",
+    "UNDO_DONE": "Letzte Änderung rückgängig gemacht",
     "RESET_DONE": "Design zurückgesetzt",
     "CUSTOMIZE": "Design anpassen...",
     "SHUFFLE": "Zufällig",

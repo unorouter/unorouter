@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "間距",
     "RESET_FIELD": "還原為預設",
     "RESET_ALL": "全部還原",
+    "UNDO": "復原",
+    "UNDO_DONE": "已復原上一次變更",
     "RESET_DONE": "主題已重置",
     "CUSTOMIZE": "自訂主題……",
     "SHUFFLE": "隨機配色",

@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Khoảng cách",
     "RESET_FIELD": "Khôi phục mặc định",
     "RESET_ALL": "Khôi phục tất cả",
+    "UNDO": "Hoàn tác",
+    "UNDO_DONE": "Đã hoàn tác thay đổi cuối cùng",
     "RESET_DONE": "Đã khôi phục giao diện",
     "CUSTOMIZE": "Tùy chỉnh giao diện...",
     "SHUFFLE": "Trộn ngẫu nhiên",

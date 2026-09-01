@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Espacement",
     "RESET_FIELD": "Réinitialiser à la valeur par défaut",
     "RESET_ALL": "Tout réinitialiser",
+    "UNDO": "Annuler",
+    "UNDO_DONE": "Dernière modification annulée",
     "RESET_DONE": "Thème réinitialisé",
     "CUSTOMIZE": "Personnaliser le thème...",
     "SHUFFLE": "Mélanger",

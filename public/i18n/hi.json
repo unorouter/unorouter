@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Spacing",
     "RESET_FIELD": "Default पर रीसेट करें",
     "RESET_ALL": "सब रीसेट करें",
+    "UNDO": "पूर्ववत करें",
+    "UNDO_DONE": "अंतिम परिवर्तन पूर्ववत किया गया",
     "RESET_DONE": "Theme रीसेट किया गया",
     "CUSTOMIZE": "Theme अनुकूलित करें...",
     "SHUFFLE": "Shuffle",

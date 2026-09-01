@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "余白",
     "RESET_FIELD": "デフォルトに戻す",
     "RESET_ALL": "すべてリセット",
+    "UNDO": "元に戻す",
+    "UNDO_DONE": "直前の変更を元に戻しました",
     "RESET_DONE": "テーマをリセットしました",
     "CUSTOMIZE": "テーマをカスタマイズ...",
     "SHUFFLE": "シャッフル",

@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Spacing",
     "RESET_FIELD": "Reset to default",
     "RESET_ALL": "Reset all",
+    "UNDO": "Undo",
+    "UNDO_DONE": "Reverted the last change",
     "RESET_DONE": "Theme reset",
     "CUSTOMIZE": "Customize theme...",
     "SHUFFLE": "Shuffle",

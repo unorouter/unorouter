@@ -40,11 +40,16 @@ import {
   type UserTheme,
 } from "@/components/ui/theme/theme-store";
 import { env } from "@/lib/config/env";
-import { upsertLocalTheme } from "@/lib/db/client/data/theme";
+import {
+  countThemeHistory,
+  dropThemeEntry,
+  pushLocalTheme,
+  readPreviousTheme,
+} from "@/lib/db/client/data/theme";
 import { downloadJson } from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ColorField } from "@/components/ui/theme/customizer/color-field";
 import { FieldGroup, FieldSeparator } from "./field";
@@ -55,9 +60,31 @@ export function ThemeCustomizerBody() {
   const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [canUndo, setCanUndo] = useState(false);
+
+  useEffect(() => {
+    void countThemeHistory()
+      .then((n) => setCanUndo(n > 1))
+      .catch(() => {});
+  }, []);
+
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    void upsertLocalTheme(next).catch(() => {});
+    void pushLocalTheme(next)
+      .then(() => setCanUndo(true))
+      .catch(() => {});
+  };
+
+  // Applies WITHOUT pushing history: an undo that recorded itself would bury
+  // the entry it just restored and the next press would step nowhere.
+  const undo = async () => {
+    const previous = await readPreviousTheme().catch(() => null);
+    if (!previous) return setCanUndo(false);
+    setThemeRaw(previous.theme);
+    await dropThemeEntry(previous.dropId).catch(() => {});
+    const remaining = await countThemeHistory().catch(() => 0);
+    setCanUndo(remaining > 1);
+    toast.success(t("THEME.UNDO_DONE"));
   };
 
   const setMarkdown = (patch: Partial<ChatMarkdownColors>) => {
@@ -219,6 +246,16 @@ export function ThemeCustomizerBody() {
         </FieldGroup>
       </CardContent>
       <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => void undo()}
+          disabled={!canUndo}
+        >
+          <Icon name="rotate-ccw" className="mr-1.5 size-3.5" />
+          {t("THEME.UNDO")}
+        </Button>
         <Button type="button" variant="outline" size="sm" onClick={shuffle}>
           <Icon name="shuffle" className="mr-1.5 size-3.5" />
           {t("THEME.SHUFFLE")}

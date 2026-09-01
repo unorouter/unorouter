@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Jarak",
     "RESET_FIELD": "Reset ke default",
     "RESET_ALL": "Reset semua",
+    "UNDO": "Urungkan",
+    "UNDO_DONE": "Perubahan terakhir diurungkan",
     "RESET_DONE": "Tema direset",
     "CUSTOMIZE": "Kustomisasi tema...",
     "SHUFFLE": "Acak",

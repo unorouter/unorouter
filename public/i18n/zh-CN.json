@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "间距",
     "RESET_FIELD": "恢复默认",
     "RESET_ALL": "全部恢复",
+    "UNDO": "撤销",
+    "UNDO_DONE": "已撤销上一次更改",
     "RESET_DONE": "主题已重置",
     "CUSTOMIZE": "自定义主题……",
     "SHUFFLE": "随机配色",

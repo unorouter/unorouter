@@ -3083,6 +3083,8 @@
     "TAB_SPACING": "Aralık",
     "RESET_FIELD": "Varsayılana sıfırla",
     "RESET_ALL": "Tümünü sıfırla",
+    "UNDO": "Geri al",
+    "UNDO_DONE": "Son değişiklik geri alındı",
     "RESET_DONE": "Tema sıfırlandı",
     "CUSTOMIZE": "Temayı özelleştir...",
     "SHUFFLE": "Karıştır",
