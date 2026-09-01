@@ -723,7 +723,10 @@ const AssistantMessage: FC = () => {
         ) : (
           <>
             <AssistantMessageHeader />
-            <div className="aui-assistant-message-content text-foreground px-2 leading-relaxed wrap-break-word">
+            {/* Same bubble as the user turn, so a reply reads as its own block
+                rather than as loose text under the previous one. Header and
+                footer stay outside it, matching the user side. */}
+            <div className="aui-assistant-message-content bg-muted text-foreground mx-2 rounded-2xl px-4 py-2.5 leading-relaxed wrap-break-word empty:hidden">
               <StreamingIndicator />
               {/* Per MESSAGE, not per thread: a reply whose markdown throws
                   used to unmount the whole thread through the outer boundary,
@@ -761,7 +764,7 @@ const AssistantMessage: FC = () => {
               <MessageError />
             </div>
 
-            <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 flex-wrap items-center gap-y-1">
+            <div className="aui-assistant-message-footer mt-1 ml-4 flex min-h-6 flex-wrap items-center gap-y-1">
               <BranchPicker />
               <AssistantActionBar />
               <AssistantMessageMeta />
@@ -956,7 +959,7 @@ const AssistantMessageHeader: FC = () => {
   if (!character && !meta?.model) return null;
 
   return (
-    <div className="text-muted-foreground mb-1 ml-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]">
+    <div className="text-muted-foreground mb-1 ml-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px]">
       {character ? (
         <span className="flex min-w-0 items-center gap-1.5">
           <RpAvatar

@@ -45,6 +45,9 @@ export function SidebarLayout(props: SidebarLayoutProps) {
         analytics.navigation.sidebarToggled(next);
         setOpen(next);
       }}
+      // Marks the subtree the theme's chat palette applies to. Image generation
+      // counts: it is the same creative surface, and neither is the model list.
+      data-theme-scope={isChat ? "chat" : undefined}
       style={
         {
           "--sidebar-width": "16rem",

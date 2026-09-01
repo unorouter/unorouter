@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   ChatMarkdownColors,
   SurfaceColors,
+  SurfaceScope,
 } from "@/components/ui/theme/theme-store";
 import { useTranslations } from "next-intl";
 
@@ -123,7 +124,9 @@ const SURFACE_FIELDS = [
 export function SurfaceColorsSection(props: {
   surface: SurfaceColors | undefined;
   mode: "light" | "dark";
+  scope: SurfaceScope;
   onModeChange: (mode: "light" | "dark") => void;
+  onScopeChange: (scope: SurfaceScope) => void;
   onChange: (patch: Partial<SurfaceColors>) => void;
 }) {
   const t = useTranslations();
@@ -146,6 +149,26 @@ export function SurfaceColorsSection(props: {
           </TabsList>
         </Tabs>
       </div>
+      <div className="flex items-center justify-between gap-2 px-1">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.SURFACE_SCOPE")}
+        </span>
+        <Tabs value={props.scope} onValueChange={(v) => props.onScopeChange(v)}>
+          <TabsList className="h-7">
+            <TabsTrigger value="app" className="text-xs">
+              {t("THEME.SCOPE_APP")}
+            </TabsTrigger>
+            <TabsTrigger value="chat" className="text-xs">
+              {t("THEME.SCOPE_CHAT")}
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      {props.scope === "chat" && !props.surface ? (
+        <p className="text-muted-foreground px-1 text-[11px]">
+          {t("THEME.SCOPE_CHAT_INHERITS")}
+        </p>
+      ) : null}
       {SURFACE_FIELDS.map(([key, labelKey]) => (
         <ColorField
           key={key}
