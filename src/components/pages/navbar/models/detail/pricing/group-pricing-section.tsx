@@ -138,13 +138,13 @@ function HealthCells(props: { health: GroupHealth | undefined }) {
   const h = props.health;
   return (
     <>
-      <td className="text-muted-foreground py-1.5 text-right">
+      <td className="text-muted-foreground py-1.5 pl-4 text-right">
         {h && h.ttftMs > 0 ? formatLatency(h.ttftMs) : "-"}
       </td>
-      <td className="text-muted-foreground py-1.5 text-right">
+      <td className="text-muted-foreground py-1.5 pl-4 text-right">
         {h ? formatPct(h.successRate) : "-"}
       </td>
-      <td className="text-muted-foreground py-1.5 text-right">
+      <td className="text-muted-foreground py-1.5 pl-4 text-right">
         {h?.uptimePct != null ? formatPct(h.uptimePct) : "-"}
       </td>
     </>
@@ -171,13 +171,13 @@ function HealthHeaders() {
   const t = useTranslations();
   return (
     <>
-      <th className="py-1.5 text-right font-normal">
+      <th className="py-1.5 pl-4 text-right font-normal">
         {t("MODELS.DETAIL.PERF_TTFT")}
       </th>
-      <th className="py-1.5 text-right font-normal">
+      <th className="py-1.5 pl-4 text-right font-normal">
         {t("MODELS.DETAIL.PERF_SUCCESS")}
       </th>
-      <th className="py-1.5 text-right font-normal">
+      <th className="py-1.5 pl-4 text-right font-normal">
         {t("MODELS.DETAIL.UPTIME")}
       </th>
     </>
@@ -208,13 +208,13 @@ function GroupTokens(props: {
     <table className={MINI_TABLE}>
       <thead>
         <tr className={MINI_TABLE_HEAD_ROW}>
-          <th className="py-1.5 text-left font-normal">
+          <th className="w-full py-1.5 text-left font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
           </th>
-          <th className="py-1.5 text-right font-normal">
+          <th className="py-1.5 pl-4 text-right font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_INPUT")}
           </th>
-          <th className="py-1.5 text-right font-normal">
+          <th className="py-1.5 pl-4 text-right font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
           </th>
           <HealthHeaders />
@@ -229,10 +229,10 @@ function GroupTokens(props: {
               <td className="text-muted-foreground py-1.5">
                 <GroupNameCell group={ge.group} />
               </td>
-              <td className={cn("py-1.5 text-right", props.theme.text)}>
+              <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
                 {formatPrice(inputPrice)}
               </td>
-              <td className={cn("py-1.5 text-right", props.theme.text)}>
+              <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
                 {formatPrice(outputPrice)}
               </td>
               <HealthCells health={props.health.get(ge.group)} />
@@ -256,10 +256,10 @@ function GroupFixed(props: {
     <table className={MINI_TABLE}>
       <thead>
         <tr className={MINI_TABLE_HEAD_ROW}>
-          <th className="py-1.5 text-left font-normal">
+          <th className="w-full py-1.5 text-left font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
           </th>
-          <th className="py-1.5 text-right font-normal">
+          <th className="py-1.5 pl-4 text-right font-normal">
             {t("MODELS.DETAIL.PRICING")}
           </th>
           <HealthHeaders />
@@ -271,7 +271,7 @@ function GroupFixed(props: {
             <td className="text-muted-foreground py-1.5">
               <GroupNameCell group={ge.group} />
             </td>
-            <td className={cn("py-1.5 text-right", props.theme.text)}>
+            <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
               {formatPrice(props.fixedPrice * ge.ratio)}
               <span className="text-muted-foreground ml-1 text-[10px] font-normal">
                 <FixedPriceUnit model={props.model} />
@@ -316,7 +316,7 @@ function GroupGrid(props: {
                       {col}
                     </th>
                   ))}
-                  <th className="py-1.5 text-right font-normal">
+                  <th className="py-1.5 pl-4 text-right font-normal">
                     {t("MODELS.DETAIL.PRICING")}
                   </th>
                 </tr>
