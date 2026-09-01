@@ -10,6 +10,8 @@ import {
   normalizeSurface,
   type BackgroundSettings,
   type SurfaceColors,
+  type SurfaceScope,
+  type SurfaceTheme,
   type UserTheme,
 } from "@/components/ui/theme/theme-store";
 
@@ -187,11 +189,24 @@ function hasCustomForeground(surface: UserTheme["surface"]): boolean {
   return !!(palette.light?.foreground || palette.dark?.foreground);
 }
 
-function surfaceBlock(surface: UserTheme["surface"]): string {
+// The chat selector is a DESCENDANT of :root, so its declarations win inside
+// the chat subtree on nesting alone: custom properties inherit, and the nearest
+// ancestor that declares one supplies the value. No !important needed.
+export const CHAT_SCOPE_ATTR = "data-theme-scope";
+const CHAT_SELECTOR = `[${CHAT_SCOPE_ATTR}="chat"]`;
+
+function surfaceBlock(
+  surface: SurfaceTheme | undefined,
+  scope: SurfaceScope,
+): string {
   const palette = normalizeSurface(surface);
+  const [light, dark] =
+    scope === "chat"
+      ? [CHAT_SELECTOR, `.dark ${CHAT_SELECTOR}`]
+      : [":root", ".dark"];
   return [
-    emitBlock(":root", surfaceVars(palette.light)),
-    emitBlock(".dark", surfaceVars(palette.dark)),
+    emitBlock(light, surfaceVars(palette.light)),
+    emitBlock(dark, surfaceVars(palette.dark)),
   ]
     .filter(Boolean)
     .join("");
@@ -305,7 +320,9 @@ export function buildThemeCss(theme: UserTheme): string {
     markdownBlock(theme.markdown),
     chatFontSizeBlock(theme.chatFontScale),
     assetImageWidthBlock(theme.assetImageMaxWidth),
-    surfaceBlock(theme.surface),
+    surfaceBlock(theme.surface, "app"),
+    // After the app block, so a chat override wins on order as well as nesting.
+    surfaceBlock(theme.chatSurface, "chat"),
   ]
     .filter(Boolean)
     .join("\n");
@@ -375,7 +392,7 @@ export function buildBackgroundCss(
   // bubbles, or the reverse, so this rule cannot hang off panelOpacity < 1.
   const bubble =
     bubbleOpacity < 1
-      ? `[data-bg-active] .aui-user-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
+      ? `[data-bg-active] .aui-user-message-content,[data-bg-active] .aui-assistant-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
       : "";
   // The reasoning box ships as the `outline` variant: a border and no fill at
   // all. Against a wallpaper that is an empty frame with the artwork running

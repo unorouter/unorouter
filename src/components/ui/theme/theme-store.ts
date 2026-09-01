@@ -63,9 +63,15 @@ export type UserTheme = {
   menuAccent?: string;
   markdown?: ChatMarkdownColors;
   surface?: SurfaceTheme;
+  // Absent means the chat inherits `surface`. A palette tuned for reading long
+  // RP is unreadable on the model table, so the two surfaces are separable.
+  chatSurface?: SurfaceTheme;
   surfaceMode?: "light" | "dark";
+  surfaceScope?: SurfaceScope;
   background?: BackgroundSettings;
 };
+
+export type SurfaceScope = "app" | "chat";
 
 function isSurfaceTheme(
   surface: SurfaceTheme | SurfaceColors,
@@ -74,7 +80,7 @@ function isSurfaceTheme(
 }
 
 export function normalizeSurface(
-  surface: UserTheme["surface"] | SurfaceColors | undefined,
+  surface: SurfaceTheme | SurfaceColors | undefined,
 ): SurfaceTheme {
   if (!surface) return {};
   if (isSurfaceTheme(surface)) return surface;

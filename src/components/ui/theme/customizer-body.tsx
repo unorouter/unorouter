@@ -69,7 +69,9 @@ export function ThemeCustomizerBody() {
   };
 
   const surfaceMode = theme.surfaceMode ?? "dark";
-  const surfacePalette = normalizeSurface(theme.surface);
+  const surfaceScope = theme.surfaceScope ?? "app";
+  const surfaceField = surfaceScope === "chat" ? "chatSurface" : "surface";
+  const surfacePalette = normalizeSurface(theme[surfaceField]);
 
   const setSurface = (patch: Partial<SurfaceColors>) => {
     const next: SurfaceColors = {
@@ -81,7 +83,7 @@ export function ThemeCustomizerBody() {
     }
     setTheme({
       ...theme,
-      surface: { ...surfacePalette, [surfaceMode]: next },
+      [surfaceField]: { ...surfacePalette, [surfaceMode]: next },
     });
   };
 
@@ -168,7 +170,9 @@ export function ThemeCustomizerBody() {
           <SurfaceColorsSection
             surface={surfacePalette[surfaceMode]}
             mode={surfaceMode}
+            scope={surfaceScope}
             onModeChange={(m) => setTheme({ ...theme, surfaceMode: m })}
+            onScopeChange={(s) => setTheme({ ...theme, surfaceScope: s })}
             onChange={setSurface}
           />
           <FieldSeparator />
