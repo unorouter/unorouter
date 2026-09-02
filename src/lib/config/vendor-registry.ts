@@ -528,6 +528,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-sky-500/20",
     primary: "#0284c7",
   },
+  [Vendor.OPENBMB]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+    primary: "#315efe",
+  },
   [Vendor.AIHORDE]: {
     bg: "bg-rose-500/5",
     border: "border-rose-500/20",
@@ -865,6 +873,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.REGOLO]: () => import("@/components/elements/brand/regolo-icon"),
   [Vendor.SARVAM]: () => import("@/components/elements/brand/sarvam-icon"),
   [Vendor.TYPHOON]: () => import("@/components/elements/brand/typhoon-icon"),
+  [Vendor.OPENBMB]: () => import("@/components/elements/brand/openbmb-icon"),
   [Vendor.AIHORDE]: () => import("@/components/elements/brand/aihorde-icon"),
   [Vendor.STEALTH]: () => import("@/components/elements/brand/stealth-icon"),
   [Vendor.RUNWARE]: () => import("@/components/elements/brand/runware-icon"),
