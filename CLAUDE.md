@@ -2,7 +2,7 @@
 
 Next.js 16 AI chat app. React 19 compiler, Tailwind v4, shadcn/ui. Elysia BFF in front of an upstream `new-api` service. Local-first: a per-user SQLocal/OPFS DB in the browser is the SOLE source of truth for chat/RP state. Cross-device transfer is local export/import only.
 
-THE MIRROR IS GONE: no Turso mirror, no `/sync` route, no server context cache, no FNV-1a dedup, no 409 `context-required` retry. Turso holds ONLY the model-tester rankings tables. Anything that says "sync" means atom<->local-DB. Do not reintroduce a server-side copy of chat/RP state.
+Chat/RP state has exactly one copy, the browser DB. Turso holds ONLY the model-tester rankings tables. "Sync" in this codebase means atom<->local-DB. Do not add a server-side mirror, a `/sync` route, a server context cache, or a retry that expects the server to hold context.
 
 ## Commands
 
@@ -136,7 +136,7 @@ A failed assistant turn is dropped WHOLE from request history: the partial text 
 
 Tokenizers are for history-fit and lorebook budgeting ONLY, never billing (new-api bills authoritatively), so any load failure falls back to approximate counting and NEVER throws. Tokenizer files are not bundled; HF `tokenizer.json` loads on demand and caches in SQLocal.
 
-`freeModelRace` fires EVERY model `listFreeModels` returns concurrently, so that list must stay SHORT: server wiring passes the fixed `UTILITY_RACE_MODELS` trio, never the live free-model catalog (doing so cost ~172 upstream requests per title). Title gen races those models directly rather than through `freeModelRace`, and strips think-tags since an unclosed `<think>` would become the visible title.
+`freeModelRace` fires EVERY model `listFreeModels` returns concurrently, so that list must stay SHORT: server wiring passes the fixed `UTILITY_RACE_MODELS` trio, never the live free-model catalog (doing so cost ~172 upstream requests per title). Title gen goes through `freeModelRace` (a user-pinned title model replaces the trio, and its group pin is sent only then), and strips think-tags since an unclosed `<think>` would become the visible title.
 
 Agents (`src/lib/ai/agents/`) are built-in behaviors running an auxiliary LLM call around generation, distinct from the user-authored trigger VM. CAPABILITY GATE: an agent declares `capabilities` and the runner refuses to apply a result whose capability was not declared, so a misconfigured agent cannot silently corrupt state. Both built-ins call the UTILITY model with full context, not the small-context free race. The illustrator fires ASYNC after the reply persists so it never blocks the reply.
 
