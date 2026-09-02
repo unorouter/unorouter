@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Pobierz fakturę",
       "COPIED": "Skopiowano identyfikator transakcji",
       "EMPTY": "Brak transakcji.",
-      "TOPUP_DESCRIPTION": "Doładowanie o {amount} jednostek",
+      "TOPUP_DESCRIPTION": "Doładowanie salda",
       "STATUS_PENDING": "Oczekująca",
       "STATUS_SUCCESS": "Opłacona",
       "STATUS_PAID": "Opłacona",

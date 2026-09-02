@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "קבלת חשבונית",
       "COPIED": "מזהה העסקה הועתק",
       "EMPTY": "אין עסקאות עדיין.",
-      "TOPUP_DESCRIPTION": "טעינה של {amount} יחידות",
+      "TOPUP_DESCRIPTION": "טעינת יתרה",
       "STATUS_PENDING": "ממתין",
       "STATUS_SUCCESS": "שולם",
       "STATUS_PAID": "שולם",

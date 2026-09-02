@@ -216,9 +216,12 @@ function TopUpTransactions() {
       create_time: item.create_time,
       complete_time: item.complete_time,
       invoice_url: item.invoice_url,
-      description: t("BILLING.TRANSACTIONS.TOPUP_DESCRIPTION", {
-        amount: item.amount,
-      }),
+      // Deliberately not item.amount: providers disagree on its unit. Creem
+      // stores quota units (2500000 for $5) while NowPayments, Stripe and
+      // DeloPay store dollars (5), so rendering it showed the same $5 payment
+      // as "5 units" or "2500000 units" depending on how it was paid. The
+      // AMOUNT column already shows the money, which every provider agrees on.
+      description: t("BILLING.TRANSACTIONS.TOPUP_DESCRIPTION"),
     }),
   );
 

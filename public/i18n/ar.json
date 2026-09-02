@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "الحصول على الفاتورة",
       "COPIED": "تم نسخ معرف المعاملة",
       "EMPTY": "لا توجد معاملات بعد.",
-      "TOPUP_DESCRIPTION": "شحن {amount} وحدة",
+      "TOPUP_DESCRIPTION": "شحن الرصيد",
       "STATUS_PENDING": "قيد الانتظار",
       "STATUS_SUCCESS": "مدفوعة",
       "STATUS_PAID": "مدفوعة",

@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Получить счёт",
       "COPIED": "Идентификатор транзакции скопирован",
       "EMPTY": "Транзакций пока нет.",
-      "TOPUP_DESCRIPTION": "Пополнение на {amount} единиц",
+      "TOPUP_DESCRIPTION": "Пополнение баланса",
       "STATUS_PENDING": "В обработке",
       "STATUS_SUCCESS": "Оплачено",
       "STATUS_PAID": "Оплачено",

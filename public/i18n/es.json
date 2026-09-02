@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Obtener factura",
       "COPIED": "ID de transacción copiado",
       "EMPTY": "Aún no hay transacciones.",
-      "TOPUP_DESCRIPTION": "Recarga de {amount} unidades",
+      "TOPUP_DESCRIPTION": "Recarga de saldo",
       "STATUS_PENDING": "Pendiente",
       "STATUS_SUCCESS": "Pagado",
       "STATUS_PAID": "Pagado",

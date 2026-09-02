@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Ottieni fattura",
       "COPIED": "ID transazione copiato",
       "EMPTY": "Nessuna transazione al momento.",
-      "TOPUP_DESCRIPTION": "Ricarica di {amount} unità",
+      "TOPUP_DESCRIPTION": "Ricarica del credito",
       "STATUS_PENDING": "In sospeso",
       "STATUS_SUCCESS": "Pagato",
       "STATUS_PAID": "Pagato",

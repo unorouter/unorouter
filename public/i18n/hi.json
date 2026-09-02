@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "चालान प्राप्त करें",
       "COPIED": "लेन-देन आईडी कॉपी हो गई",
       "EMPTY": "अभी तक कोई लेन-देन नहीं।",
-      "TOPUP_DESCRIPTION": "{amount} यूनिट का टॉप-अप",
+      "TOPUP_DESCRIPTION": "बैलेंस टॉप-अप",
       "STATUS_PENDING": "लंबित",
       "STATUS_SUCCESS": "भुगतान हो गया",
       "STATUS_PAID": "भुगतान हो गया",
