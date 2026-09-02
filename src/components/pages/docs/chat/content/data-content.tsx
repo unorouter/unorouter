@@ -2,6 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
 import {
+  DocAppLink,
   DocKbd,
   DocSection,
   DocTable,
@@ -23,6 +24,20 @@ export async function DataContent() {
             [<DocKbd key="f">unorouter.1.0</DocKbd>, k("X_NATIVE")],
             [<DocKbd key="f">orpg.3.0</DocKbd>, k("X_ORPG")],
             [<DocKbd key="f">SillyTavern JSONL</DocKbd>, k("X_ST")],
+            [
+              <DocKbd key="f">JanitorAI JSON</DocKbd>,
+              <span key="u">
+                {k("X_JANITOR")}{" "}
+                <DocAppLink
+                  href={{
+                    pathname: "/docs/chat/[slug]",
+                    params: { slug: "janitorai-import" },
+                  }}
+                >
+                  {t("DOCS_CHAT.JANITORAI_IMPORT.TITLE")}
+                </DocAppLink>
+              </span>,
+            ],
           ]}
         />
       </DocSection>
