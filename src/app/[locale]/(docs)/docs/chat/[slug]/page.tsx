@@ -8,6 +8,7 @@ import { CharactersContent } from "@/components/pages/docs/chat/content/characte
 import { CustomProvidersContent } from "@/components/pages/docs/chat/content/custom-providers-content";
 import { PluginsContent } from "@/components/pages/docs/chat/content/plugins-content";
 import { DataContent } from "@/components/pages/docs/chat/content/data-content";
+import { JanitoraiImportContent } from "@/components/pages/docs/chat/content/janitorai-import-content";
 import { BackupsContent } from "@/components/pages/docs/chat/content/backups-content";
 import { GettingStartedContent } from "@/components/pages/docs/chat/content/getting-started-content";
 import { GroupChatsContent } from "@/components/pages/docs/chat/content/group-chats-content";
@@ -67,6 +68,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   "custom-providers": CustomProvidersContent,
   plugins: PluginsContent,
   data: DataContent,
+  "janitorai-import": JanitoraiImportContent,
   backups: BackupsContent,
 };
 

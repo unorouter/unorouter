@@ -276,6 +276,20 @@ export const CHAT_DOCS: ChatDoc[] = [
     ],
   }),
   chatDoc({
+    slug: "janitorai-import",
+    name: "JANITORAI_IMPORT",
+    section: "DATA",
+    iconName: "broom",
+    headings: [
+      ["how", "H_HOW"],
+      ["desktop", "H_DESKTOP"],
+      ["android", "H_ANDROID"],
+      ["import", "H_IMPORT"],
+      ["result", "H_RESULT"],
+      ["limits", "H_LIMITS"],
+    ],
+  }),
+  chatDoc({
     slug: "backups",
     name: "BACKUPS",
     section: "DATA",

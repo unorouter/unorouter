@@ -58,11 +58,15 @@ const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
 
 const CHAT_PLATFORM_DOCS_DATE = "2026-07-05";
 
+const CHAT_DOC_DATES: Record<string, string> = {
+  "janitorai-import": "2026-09-02",
+};
+
 const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   slug: `docs/chat/${doc.slug}`,
   path: doc.href,
   i18nPrefix: doc.i18nPrefix,
-  date: CHAT_PLATFORM_DOCS_DATE,
+  date: CHAT_DOC_DATES[doc.slug] ?? CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
   changeFrequency: "weekly",
 }));
