@@ -168,6 +168,10 @@ const HANDOVER_TIMEOUT = 15_000;
 // `want` is lost when the owner has not finished its own open yet.
 const WANT_RETRY_MS = 2_000;
 const MIN_HOLD_MS = 2_000;
+// A hidden tab gives the pool up on its own once idle this long. Android Chrome
+// stops running a background tab's JS, so a `want` sent to it is never
+// answered and the visible tab times out on a lock nobody is using.
+const HIDDEN_PARK_MS = 5_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   let sql = newSql(dbPath);
@@ -395,6 +399,26 @@ async function openClient(): Promise<LocalClient> {
       ? Promise.resolve()
       : new Promise<void>((resolve) => idleWaiters.push(resolve));
 
+  let lastRunAt = Date.now();
+  let hiddenTimer: ReturnType<typeof setTimeout> | null = null;
+  const onVisibility = () => {
+    if (hiddenTimer) clearTimeout(hiddenTimer);
+    hiddenTimer = null;
+    if (!document.hidden) return;
+    const tick = () => {
+      hiddenTimer = null;
+      if (!document.hidden || parked) return;
+      const idle = Date.now() - lastRunAt;
+      // A hidden tab still streaming a reply keeps writing; leave it alone.
+      if (idle < HIDDEN_PARK_MS) {
+        hiddenTimer = setTimeout(tick, HIDDEN_PARK_MS - idle);
+        return;
+      }
+      park();
+    };
+    hiddenTimer = setTimeout(tick, HIDDEN_PARK_MS);
+  };
+  document.addEventListener("visibilitychange", onVisibility);
   const parkNow = async () => {
     const heldFor = Date.now() - lastAcquiredAt;
     if (heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
@@ -420,6 +444,8 @@ async function openClient(): Promise<LocalClient> {
     parked = false;
     lastAcquiredAt = Date.now();
     logChatDebug("db.handover.resumed");
+    // A hidden tab's own queries pull the pool back; re-arm so it lets go again.
+    onVisibility();
   };
 
   const ensureOwned = async (): Promise<void> => {
@@ -429,15 +455,23 @@ async function openClient(): Promise<LocalClient> {
     await transition;
   };
 
-  const unsubscribeWant = subscribeWant(dbPath, () => {
+  const park = () => {
     if (parked || transition) return;
     transition = parkNow().finally(() => (transition = null));
-  });
+  };
+  const unsubscribeWant = subscribeWant(dbPath, park);
+
+  const detach = () => {
+    unsubscribeWant();
+    document.removeEventListener("visibilitychange", onVisibility);
+    if (hiddenTimer) clearTimeout(hiddenTimer);
+  };
 
   const gated = async <T>(
     fn: (s: SQLocalDrizzle) => Promise<T>,
   ): Promise<T> => {
     await ensureOwned();
+    lastRunAt = Date.now();
     inFlight++;
     try {
       return await fn(sql);
@@ -479,13 +513,13 @@ async function openClient(): Promise<LocalClient> {
     db,
     exec: (q, params, method) => run((s) => s.exec(q, params, method)),
     destroy: async () => {
-      unsubscribeWant();
+      detach();
       await ensureOwned().catch(() => {});
       await sql.destroy();
       releaseLock(lockKey);
     },
     wipe: async () => {
-      unsubscribeWant();
+      detach();
       await ensureOwned().catch(() => {});
       await sql.destroy().catch(() => {});
       terminateSql(sql);
