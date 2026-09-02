@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "청구서 받기",
       "COPIED": "거래 ID가 복사되었습니다",
       "EMPTY": "아직 거래가 없습니다.",
-      "TOPUP_DESCRIPTION": "{amount} 단위 충전",
+      "TOPUP_DESCRIPTION": "잔액 충전",
       "STATUS_PENDING": "대기 중",
       "STATUS_SUCCESS": "결제 완료",
       "STATUS_PAID": "결제 완료",

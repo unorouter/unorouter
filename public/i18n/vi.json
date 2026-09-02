@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Lấy hóa đơn",
       "COPIED": "Đã sao chép mã giao dịch",
       "EMPTY": "Chưa có giao dịch nào.",
-      "TOPUP_DESCRIPTION": "Nạp {amount} đơn vị",
+      "TOPUP_DESCRIPTION": "Nạp số dư",
       "STATUS_PENDING": "Đang chờ",
       "STATUS_SUCCESS": "Đã thanh toán",
       "STATUS_PAID": "Đã thanh toán",

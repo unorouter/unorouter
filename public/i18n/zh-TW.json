@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "取得發票",
       "COPIED": "交易編號已複製",
       "EMPTY": "尚無交易紀錄。",
-      "TOPUP_DESCRIPTION": "儲值 {amount} 單位",
+      "TOPUP_DESCRIPTION": "餘額儲值",
       "STATUS_PENDING": "處理中",
       "STATUS_SUCCESS": "已付款",
       "STATUS_PAID": "已付款",

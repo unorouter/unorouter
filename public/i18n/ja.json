@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "請求書を取得",
       "COPIED": "取引IDをコピーしました",
       "EMPTY": "取引はまだありません。",
-      "TOPUP_DESCRIPTION": "{amount}ユニットのチャージ",
+      "TOPUP_DESCRIPTION": "残高のチャージ",
       "STATUS_PENDING": "保留中",
       "STATUS_SUCCESS": "支払い済み",
       "STATUS_PAID": "支払い済み",

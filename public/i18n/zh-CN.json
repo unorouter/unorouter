@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "获取发票",
       "COPIED": "交易编号已复制",
       "EMPTY": "暂无交易记录。",
-      "TOPUP_DESCRIPTION": "充值 {amount} 单位",
+      "TOPUP_DESCRIPTION": "余额充值",
       "STATUS_PENDING": "处理中",
       "STATUS_SUCCESS": "已支付",
       "STATUS_PAID": "已支付",

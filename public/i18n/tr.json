@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Fatura al",
       "COPIED": "İşlem kimliği kopyalandı",
       "EMPTY": "Henüz işlem yok.",
-      "TOPUP_DESCRIPTION": "{amount} birim yükleme",
+      "TOPUP_DESCRIPTION": "Bakiye yükleme",
       "STATUS_PENDING": "Beklemede",
       "STATUS_SUCCESS": "Ödendi",
       "STATUS_PAID": "Ödendi",

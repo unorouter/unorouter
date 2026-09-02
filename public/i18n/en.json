@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Get invoice",
       "COPIED": "Transaction ID copied",
       "EMPTY": "No transactions yet.",
-      "TOPUP_DESCRIPTION": "Top-up of {amount} units",
+      "TOPUP_DESCRIPTION": "Balance top-up",
       "STATUS_PENDING": "Pending",
       "STATUS_SUCCESS": "Paid",
       "STATUS_PAID": "Paid",

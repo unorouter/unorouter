@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Dapatkan faktur",
       "COPIED": "ID transaksi disalin",
       "EMPTY": "Belum ada transaksi.",
-      "TOPUP_DESCRIPTION": "Isi ulang {amount} unit",
+      "TOPUP_DESCRIPTION": "Isi ulang saldo",
       "STATUS_PENDING": "Tertunda",
       "STATUS_SUCCESS": "Dibayar",
       "STATUS_PAID": "Dibayar",

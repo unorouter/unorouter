@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Rechnung anfordern",
       "COPIED": "Transaktions-ID kopiert",
       "EMPTY": "Noch keine Transaktionen.",
-      "TOPUP_DESCRIPTION": "Aufladung um {amount} Einheiten",
+      "TOPUP_DESCRIPTION": "Guthabenaufladung",
       "STATUS_PENDING": "Ausstehend",
       "STATUS_SUCCESS": "Bezahlt",
       "STATUS_PAID": "Bezahlt",

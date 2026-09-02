@@ -3225,7 +3225,7 @@
       "GET_INVOICE": "Obtenir la facture",
       "COPIED": "Identifiant de transaction copié",
       "EMPTY": "Aucune transaction pour le moment.",
-      "TOPUP_DESCRIPTION": "Recharge de {amount} unités",
+      "TOPUP_DESCRIPTION": "Recharge de solde",
       "STATUS_PENDING": "En attente",
       "STATUS_SUCCESS": "Payé",
       "STATUS_PAID": "Payé",
