@@ -110,6 +110,7 @@ export enum Vendor {
   REGOLO = "regolo",
   SARVAM = "sarvam",
   TYPHOON = "typhoon",
+  OPENBMB = "openbmb",
   AIHORDE = "aihorde",
   RUNWARE = "runware",
   STEALTH = "stealth",
