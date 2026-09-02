@@ -13,7 +13,7 @@ function closingTagIndex(buffer: string): number | null {
   return null;
 }
 
-type StreamChunk =
+export type StreamChunk =
   Awaited<
     ReturnType<
       Parameters<
