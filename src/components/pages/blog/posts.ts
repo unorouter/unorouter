@@ -8,6 +8,7 @@ import { FeaturedOnContent } from "@/components/pages/blog/posts/2026-06-12-feat
 import { OpenSourceOpenrouterAlternativeContent } from "@/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content";
 import { HowToConnectUnorouterToNevikaContent } from "@/components/pages/blog/posts/2026-08-01-how-to-connect-unorouter-to-nevika-content";
 import { ServerTagCutsFreeModelWaitContent } from "@/components/pages/blog/posts/2026-08-19-server-tag-cuts-free-model-wait-content";
+import { AiModelVerifierContent } from "@/components/pages/blog/posts/2026-09-03-ai-model-verifier-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type {
@@ -29,6 +30,7 @@ const CUSTOM_COMPONENTS: Partial<Record<BlogSlug, ComponentType>> = {
   "open-source-openrouter-alternative": OpenSourceOpenrouterAlternativeContent,
   "how-to-connect-unorouter-to-nevika": HowToConnectUnorouterToNevikaContent,
   "server-tag-cuts-free-model-wait": ServerTagCutsFreeModelWaitContent,
+  "ai-model-verifier": AiModelVerifierContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
