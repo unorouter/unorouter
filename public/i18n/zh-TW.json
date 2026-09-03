@@ -243,7 +243,7 @@
       "TITLE": "篩選",
       "INPUT_MODALITIES": "輸入模態",
       "CONTEXT_LENGTH": "上下文長度",
-      "PROMPT_PRICING": "提示詞價格",
+      "PROMPT_PRICING": "輸入價格",
       "CATEGORIES": "類別",
       "SUPPORTED_PARAMETERS": "支援的參數",
       "TOOLS": "工具",

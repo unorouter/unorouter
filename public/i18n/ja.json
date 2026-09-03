@@ -243,7 +243,7 @@
       "TITLE": "フィルター",
       "INPUT_MODALITIES": "入力モダリティ",
       "CONTEXT_LENGTH": "コンテキスト長",
-      "PROMPT_PRICING": "プロンプト料金",
+      "PROMPT_PRICING": "入力料金",
       "CATEGORIES": "カテゴリ",
       "SUPPORTED_PARAMETERS": "対応パラメータ",
       "TOOLS": "ツール",

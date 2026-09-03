@@ -243,7 +243,7 @@
       "TITLE": "Filter",
       "INPUT_MODALITIES": "Modalitas Input",
       "CONTEXT_LENGTH": "Panjang konteks",
-      "PROMPT_PRICING": "Harga prompt",
+      "PROMPT_PRICING": "Harga masukan",
       "CATEGORIES": "Kategori",
       "SUPPORTED_PARAMETERS": "Parameter yang Didukung",
       "TOOLS": "Alat",

@@ -243,7 +243,7 @@
       "TITLE": "מסננים",
       "INPUT_MODALITIES": "אופני קלט",
       "CONTEXT_LENGTH": "אורך הקשר",
-      "PROMPT_PRICING": "תמחור פרומפט",
+      "PROMPT_PRICING": "מחיר קלט",
       "CATEGORIES": "קטגוריות",
       "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
       "TOOLS": "כלים",

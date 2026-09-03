@@ -243,7 +243,7 @@
       "TITLE": "Filtreler",
       "INPUT_MODALITIES": "Girdi Modaliteleri",
       "CONTEXT_LENGTH": "Bağlam uzunluğu",
-      "PROMPT_PRICING": "İstem fiyatı",
+      "PROMPT_PRICING": "Giriş fiyatı",
       "CATEGORIES": "Kategoriler",
       "SUPPORTED_PARAMETERS": "Desteklenen Parametreler",
       "TOOLS": "Araçlar",

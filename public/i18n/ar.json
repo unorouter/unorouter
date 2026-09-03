@@ -243,7 +243,7 @@
       "TITLE": "المرشحات",
       "INPUT_MODALITIES": "وسائط الإدخال",
       "CONTEXT_LENGTH": "طول السياق",
-      "PROMPT_PRICING": "تسعير المطالبة",
+      "PROMPT_PRICING": "تسعير الإدخال",
       "CATEGORIES": "الفئات",
       "SUPPORTED_PARAMETERS": "المعلمات المدعومة",
       "TOOLS": "الأدوات",
