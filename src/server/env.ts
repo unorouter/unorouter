@@ -5,6 +5,8 @@ export const serverEnv = {
   guestApiKey: process.env.GUEST_API_KEY,
   runwareApiKey: process.env.RUNWARE_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,
+  // Lets a laptop BFF through the edge rules that challenge credential-less /api calls.
+  edgeDevToken: process.env.EDGE_DEV_TOKEN ?? "",
   // Proves to the gateway that a key resolution came from this server, not a
   // browser, so it is not audited as a human reveal. Optional: without it the
   // gateway simply keeps logging.
