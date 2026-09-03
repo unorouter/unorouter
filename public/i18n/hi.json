@@ -243,7 +243,7 @@
       "TITLE": "फ़िल्टर",
       "INPUT_MODALITIES": "इनपुट मोडैलिटी",
       "CONTEXT_LENGTH": "संदर्भ लंबाई",
-      "PROMPT_PRICING": "प्रॉम्प्ट मूल्य",
+      "PROMPT_PRICING": "इनपुट मूल्य",
       "CATEGORIES": "श्रेणियाँ",
       "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
       "TOOLS": "टूल",

@@ -243,7 +243,7 @@
       "TITLE": "Bộ lọc",
       "INPUT_MODALITIES": "Phương thức đầu vào",
       "CONTEXT_LENGTH": "Độ dài ngữ cảnh",
-      "PROMPT_PRICING": "Giá prompt",
+      "PROMPT_PRICING": "Giá đầu vào",
       "CATEGORIES": "Danh mục",
       "SUPPORTED_PARAMETERS": "Tham số được hỗ trợ",
       "TOOLS": "Công cụ",

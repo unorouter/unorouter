@@ -243,7 +243,7 @@
       "TITLE": "Фильтры",
       "INPUT_MODALITIES": "Входные модальности",
       "CONTEXT_LENGTH": "Длина контекста",
-      "PROMPT_PRICING": "Цена промпта",
+      "PROMPT_PRICING": "Цена ввода",
       "CATEGORIES": "Категории",
       "SUPPORTED_PARAMETERS": "Поддерживаемые параметры",
       "TOOLS": "Инструменты",

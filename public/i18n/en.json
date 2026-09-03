@@ -243,7 +243,7 @@
       "TITLE": "Filters",
       "INPUT_MODALITIES": "Input Modalities",
       "CONTEXT_LENGTH": "Context length",
-      "PROMPT_PRICING": "Prompt pricing",
+      "PROMPT_PRICING": "Input pricing",
       "CATEGORIES": "Categories",
       "SUPPORTED_PARAMETERS": "Supported Parameters",
       "TOOLS": "Tools",

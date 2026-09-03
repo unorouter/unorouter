@@ -243,7 +243,7 @@
       "TITLE": "필터",
       "INPUT_MODALITIES": "입력 모달리티",
       "CONTEXT_LENGTH": "컨텍스트 길이",
-      "PROMPT_PRICING": "프롬프트 가격",
+      "PROMPT_PRICING": "입력 가격",
       "CATEGORIES": "카테고리",
       "SUPPORTED_PARAMETERS": "지원 매개변수",
       "TOOLS": "도구",
