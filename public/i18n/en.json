@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "Entries",
     "LOREBOOK_GREETING": "Starting message",
     "LOREBOOK_GREETING_HINT": "Opens every new chat as the first message, as if the AI wrote it. A bound character's own first message takes priority. Leave blank to send nothing.",
+    "LOREBOOK_AVATAR": "Avatar",
+    "LOREBOOK_AVATAR_HINT": "Shown next to replies when no bound character has one. Characters take priority.",
     "DUPLICATE": "Duplicate",
     "LIST_SEARCH": "Search...",
     "LIST_CREATED": "created {when}",

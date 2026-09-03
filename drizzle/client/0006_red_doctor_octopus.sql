@@ -1,0 +1,1 @@
+ALTER TABLE `lorebooks` ADD `avatar_media_id` text;

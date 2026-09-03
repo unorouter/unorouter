@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "Entrées",
     "LOREBOOK_GREETING": "Message d'ouverture",
     "LOREBOOK_GREETING_HINT": "Ouvre chaque nouvelle discussion comme premier message, comme si l'IA l'avait écrit. Le premier message d'un personnage lié est prioritaire. Laissez vide pour ne rien envoyer.",
+    "LOREBOOK_AVATAR": "Avatar",
+    "LOREBOOK_AVATAR_HINT": "Affiché à côté des réponses quand aucun personnage lié n'en a. Les personnages sont prioritaires.",
     "DUPLICATE": "Dupliquer",
     "LIST_SEARCH": "Rechercher...",
     "LIST_CREATED": "créé {when}",

@@ -26,6 +26,7 @@ import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import {
   confirmRpDelete,
   RpEmptyCard,
+  RpAvatar,
   RpEntityRow,
   rpFilter,
   RpExportMenu,
@@ -182,6 +183,9 @@ export function LorebookList(props: Props) {
                       });
                       setOpenLbId(l.id);
                     }}
+                    leading={
+                      <RpAvatar mediaId={l.avatarMediaId} name={l.name} />
+                    }
                     name={l.name}
                     description={l.description}
                     actions={

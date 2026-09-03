@@ -6,6 +6,7 @@ import {
   useChatBindingsQuery,
   useChatSettingsQuery,
 } from "@/hooks/ai/rp/conversations";
+import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import type { ApiMessage } from "@/lib/ai/chat/messages";
 import { chatDefaultsAtom, chatLoadoutAtom } from "@/store/chat-store";
@@ -109,4 +110,24 @@ export function useStreamFlag(
   if (preset?.[key] != null) return preset[key];
 
   return defaults[key] ?? true;
+}
+
+// A lorebook used as a character card carries the face: with no speaking
+// character, the first bound lorebook that has an avatar stands in.
+export function useLorebookSpeaker(): {
+  name: string;
+  avatarMediaId: string | null;
+} | null {
+  const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
+  const bindingsQuery = useChatBindingsQuery(remoteId ?? undefined);
+  const lorebooksQuery = useLorebooksQuery();
+  const bound = [...(bindingsQuery.data?.lorebooks ?? [])].sort(
+    (a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0),
+  );
+  for (const b of bound) {
+    const book = lorebooksQuery.data?.find((l) => l.id === b.lorebookId);
+    if (book?.avatarMediaId)
+      return { name: book.name, avatarMediaId: book.avatarMediaId };
+  }
+  return null;
 }

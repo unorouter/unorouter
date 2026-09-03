@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "エントリ",
     "LOREBOOK_GREETING": "開始メッセージ",
     "LOREBOOK_GREETING_HINT": "新しいチャットを開くたびに、AIが書いたかのように最初のメッセージとして表示されます。紐付けたキャラクターの最初のメッセージが優先されます。空欄なら何も送信されません。",
+    "LOREBOOK_AVATAR": "アバター",
+    "LOREBOOK_AVATAR_HINT": "紐付けたキャラクターにアバターがない場合、返信の横に表示されます。キャラクターが優先されます。",
     "DUPLICATE": "複製",
     "LIST_SEARCH": "検索...",
     "LIST_CREATED": "作成：{when}",
