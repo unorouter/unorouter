@@ -1123,6 +1123,8 @@ export const routing = defineRouting({
   defaultLocale: LOCALES[0],
   localePrefix: "always",
   localeDetection: true,
+  // A Set-Cookie on anonymous pages makes them uncacheable at the edge.
+  localeCookie: false,
   pathnames,
 });
 
