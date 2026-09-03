@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "Entradas",
     "LOREBOOK_GREETING": "Mensagem inicial",
     "LOREBOOK_GREETING_HINT": "Abre cada novo chat como primeira mensagem, como se a IA a tivesse escrito. A primeira mensagem de um personagem vinculado tem prioridade. Deixe em branco para não enviar nada.",
+    "LOREBOOK_AVATAR": "Avatar",
+    "LOREBOOK_AVATAR_HINT": "Exibido ao lado das respostas quando nenhum personagem vinculado tem um. Personagens têm prioridade.",
     "DUPLICATE": "Duplicar",
     "LIST_SEARCH": "Pesquisar...",
     "LIST_CREATED": "criado {when}",

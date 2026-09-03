@@ -19,7 +19,14 @@ import {
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { formDefaults } from "@/lib/validation/helpers";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import {
+  RpImageField,
+  resolveMediaId,
+  type ImgDraft,
+} from "../shared/rp-image-field";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { LorebookEntries } from "./entries";
 
 type Props = {
@@ -37,9 +44,28 @@ export function LorebookEditor(props: Props) {
     ? formDefaults(lorebookFormSchema, lbQuery.data)
     : undefined;
   const form = useRpForm(lorebookFormSchema, formValues);
+  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
+  const existingAvatarSrc = useMediaSrc(
+    avatarDraft.kind === "keep" ? lbQuery.data?.avatarMediaId : null,
+  );
+  const avatarPreview =
+    avatarDraft.kind === "new"
+      ? avatarDraft.dataUrl
+      : avatarDraft.kind === "keep"
+        ? existingAvatarSrc
+        : null;
 
   const onSubmit = async (data: LorebookForm) => {
-    await updateLb.mutateAsync({ id: props.lorebookId, body: data });
+    await updateLb.mutateAsync({
+      id: props.lorebookId,
+      body: {
+        ...data,
+        avatarMediaId: await resolveMediaId(
+          avatarDraft,
+          lbQuery.data?.avatarMediaId,
+        ),
+      },
+    });
   };
 
   const handleDelete = async () => {
@@ -112,6 +138,13 @@ export function LorebookEditor(props: Props) {
               label={t("RP.LOREBOOK_GREETING")}
               description={t("RP.LOREBOOK_GREETING_HINT")}
               rows={4}
+            />
+            <RpImageField
+              labelKey="RP.LOREBOOK_AVATAR"
+              hintKey="RP.LOREBOOK_AVATAR_HINT"
+              preview={avatarPreview}
+              onPick={setAvatarDraft}
+              shape="circle"
             />
             <div className="flex justify-between">
               <Button type="button" variant="ghost" onClick={handleDelete}>

@@ -273,6 +273,7 @@ export const lorebooks = sqliteTable("lorebooks", {
   name: text("name").notNull(),
   description: text("description"),
   greeting: text("greeting"),
+  avatarMediaId: text("avatar_media_id"),
   scanDepth: integer("scan_depth").notNull().default(4),
   tokenBudget: integer("token_budget").notNull().default(1500),
   recursiveScanning: integer("recursive_scanning", { mode: "boolean" })

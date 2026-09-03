@@ -36,6 +36,7 @@ import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import {
   useMessageMeta,
   useStreamFlag,
+  useLorebookSpeaker,
   useSpeakingCharacter,
 } from "@/hooks/ui/use-chat-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
@@ -1082,7 +1083,9 @@ const ModelLabel: FC = () => {
 };
 
 const AssistantMessageHeader: FC = () => {
-  const character = useSpeakingCharacter();
+  const speakingCharacter = useSpeakingCharacter();
+  const lorebookSpeaker = useLorebookSpeaker();
+  const character = speakingCharacter ?? lorebookSpeaker;
   const meta = useMessageMeta();
 
   // A streaming reply has no persisted row yet, so the model label is absent

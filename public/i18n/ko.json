@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "항목",
     "LOREBOOK_GREETING": "시작 메시지",
     "LOREBOOK_GREETING_HINT": "새 채팅을 열 때마다 AI가 쓴 것처럼 첫 메시지로 표시됩니다. 연결된 캐릭터의 첫 메시지가 우선합니다. 비워 두면 아무것도 보내지 않습니다.",
+    "LOREBOOK_AVATAR": "아바타",
+    "LOREBOOK_AVATAR_HINT": "연결된 캐릭터에 아바타가 없을 때 답변 옆에 표시됩니다. 캐릭터가 우선합니다.",
     "DUPLICATE": "복제",
     "LIST_SEARCH": "검색...",
     "LIST_CREATED": "생성 {when}",

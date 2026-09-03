@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "条目",
     "LOREBOOK_GREETING": "开场消息",
     "LOREBOOK_GREETING_HINT": "每次新建聊天时作为第一条消息出现，就像由AI所写。已绑定角色自身的第一条消息优先。留空则不发送任何内容。",
+    "LOREBOOK_AVATAR": "头像",
+    "LOREBOOK_AVATAR_HINT": "当绑定的角色没有头像时显示在回复旁边。角色优先。",
     "DUPLICATE": "复制",
     "LIST_SEARCH": "搜索...",
     "LIST_CREATED": "创建于 {when}",

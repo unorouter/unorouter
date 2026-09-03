@@ -3915,6 +3915,8 @@
     "LOREBOOK_ENTRIES_TITLE": "Entri",
     "LOREBOOK_GREETING": "Pesan pembuka",
     "LOREBOOK_GREETING_HINT": "Membuka setiap obrolan baru sebagai pesan pertama, seolah ditulis oleh AI. Pesan pertama milik karakter yang terikat lebih diutamakan. Kosongkan agar tidak mengirim apa pun.",
+    "LOREBOOK_AVATAR": "Avatar",
+    "LOREBOOK_AVATAR_HINT": "Ditampilkan di samping balasan jika tidak ada karakter terikat yang memilikinya. Karakter lebih diutamakan.",
     "DUPLICATE": "Duplikat",
     "LIST_SEARCH": "Cari...",
     "LIST_CREATED": "dibuat {when}",
