@@ -16,6 +16,7 @@ import {
   readLocalCard,
   readLocalCharacter,
   readLocalLorebook,
+  readLocalPersona,
   readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
@@ -142,6 +143,26 @@ export async function exportLocalPreset(
       type: "application/json",
     }),
     filename: `${slug}.preset.json`,
+  };
+}
+
+export async function exportLocalPersona(
+  id: string,
+): Promise<LocalExportResult> {
+  const row = await readLocalPersona(id);
+  if (!row) throw new Error("Persona not found");
+  const portable = {
+    name: row.name,
+    title: row.title,
+    description: row.description,
+    personality: row.personality,
+  };
+  const slug = exportSlug(row.name, "persona");
+  return {
+    blob: new Blob([JSON.stringify(portable, null, 2)], {
+      type: "application/json",
+    }),
+    filename: `${slug}.persona.json`,
   };
 }
 

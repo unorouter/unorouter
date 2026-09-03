@@ -54,6 +54,7 @@ export function useImportPersonaMutation() {
       const rows = parsed.map((p) => ({
         id: uid(),
         name: p.name,
+        title: p.title ?? null,
         description: p.description ?? null,
         personality: p.personality ?? null,
         avatarMediaId: null,
