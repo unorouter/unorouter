@@ -18,6 +18,8 @@ bun db:generate      # drizzle-kit generate (server + client) then bundle migrat
 
 NEVER start, restart, or kill the dev server. Read `/tmp/next.log` for errors.
 
+Local SSR calls `api.unorouter.com` through the public edge without a session, which rule 5 (credential-less `/api/*`) challenges. `EDGE_DEV_TOKEN` in `.env` is sent as `x-edge-dev` and exempts the request; the value lives in `infra/infra/cloudflare/unorouter.com/rules*.sops.yaml`. Symptom when missing or stale: `Just a moment...` 403 in `/tmp/next.log`.
+
 NEVER run `bun run build` or `rm -rf .next` in this repo while dev may be running. They share the single-writer turbopack cache in `.next/cache`; a concurrent build corrupts it ("Unable to write SST file") and deleting `.next` kills the live dev server (ENOENT manifests, MODULE_NOT_FOUND chunks, every route 500s). Verify builds in a detached worktree:
 
 ```bash
