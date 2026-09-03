@@ -265,6 +265,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
         id: newId,
         name: str(l.name) ?? "",
         description: str(l.description),
+        greeting: str(l.greeting),
       },
       entries: (ext.lorebookEntries ?? [])
         .filter((e) => e.lorebookId === l.id)

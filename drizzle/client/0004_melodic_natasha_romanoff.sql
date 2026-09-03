@@ -1,0 +1,1 @@
+ALTER TABLE `lorebooks` ADD `greeting` text;

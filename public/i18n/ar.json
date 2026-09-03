@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "ميزانية tokens",
     "LOREBOOK_TOKEN_BUDGET_HINT": "أقصى tokens للمدخلات المحقونة لكل دور.",
     "LOREBOOK_ENTRIES_TITLE": "المدخلات",
+    "LOREBOOK_GREETING": "رسالة البداية",
+    "LOREBOOK_GREETING_HINT": "تفتح كل محادثة جديدة كأول رسالة، كما لو كتبها الذكاء الاصطناعي. الرسالة الأولى الخاصة بالشخصية المرتبطة لها الأولوية. اتركها فارغة لعدم إرسال أي شيء.",
     "DUPLICATE": "تكرار",
     "LIST_SEARCH": "بحث...",
     "LIST_CREATED": "أُنشئ {when}",

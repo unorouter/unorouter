@@ -9,10 +9,13 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import {
   readLocalCharacter,
+  readLocalLorebook,
   readLocalPersona,
   readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
+import { resolveGreetingSource } from "@/lib/ai/chat/greeting-source";
 import { expandMacros } from "@/lib/ai/chat/macros";
+import type { LorebookRow } from "@/lib/db/schema/rows";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { recArr, uid } from "@/lib/utils/base";
@@ -154,79 +157,86 @@ async function seed(args: SeedArgs): Promise<void> {
     });
   }
 
-  if (loadout.characterIds.length > 0) {
-    const char = await readLocalCharacter(loadout.characterIds[0]);
-    if (char?.firstMessage) {
-      const persona = loadout.personaId
-        ? await readLocalPersona(loadout.personaId)
-        : null;
-      const greetings = [char.firstMessage, ...(char.alternateGreetings ?? [])];
-      const picked = Math.min(
-        chatStore.get(greetingIndexAtom),
-        greetings.length - 1,
-      );
-      let seededGreeting: { id: string; text: string } | null = null;
-      for (let i = 0; i < greetings.length; i++) {
-        const msgId = uid();
-        await upsertLocalMessage({
-          id: msgId,
-          convId: id,
-          parentId: null,
-          characterId: char.id,
-          role: "assistant",
-          model: null,
-          branchIndex: i,
-          isActiveBranch: i === picked,
-          isEdited: false,
-          createdAt: now,
-          updatedAt: now,
-        });
-        const expandedGreeting = expandMacros(greetings[i], {
-          user: persona?.name ?? "User",
-          char: char.name,
-          user_description: persona?.description ?? "",
-          char_description: char.description ?? "",
-          scenario: char.scenario ?? "",
-          personality: char.personality ?? "",
-          vars: {},
-        });
-        await upsertLocalMessageItem({
-          id: uid(),
-          messageId: msgId,
-          sequenceIndex: 0,
-          type: "text",
-          data: { text: expandedGreeting },
-        });
-        if (i === picked) {
-          seededGreeting = { id: msgId, text: expandedGreeting };
-        }
+  const character = loadout.characterIds[0]
+    ? await readLocalCharacter(loadout.characterIds[0])
+    : null;
+  const persona = loadout.personaId
+    ? await readLocalPersona(loadout.personaId)
+    : null;
+  const greetingBooks: LorebookRow[] = [];
+  if (!character?.firstMessage) {
+    for (const lid of loadout.lorebookIds) {
+      const book = await readLocalLorebook(lid);
+      if (book?.greeting?.trim()) {
+        greetingBooks.push(book);
+        break;
       }
-      if (picked > 0) {
-        await updateLocalConversationSettings({
-          convId: id,
-          firstMsgIndex: picked - 1,
-          updatedAt: now,
-        });
+    }
+  }
+  const source = resolveGreetingSource({
+    character: character ?? null,
+    lorebooks: greetingBooks,
+    persona: persona ?? null,
+  });
+  if (source) {
+    const greetings = source.greetings;
+    const picked = Math.min(
+      chatStore.get(greetingIndexAtom),
+      greetings.length - 1,
+    );
+    let seededGreeting: { id: string; text: string } | null = null;
+    for (let i = 0; i < greetings.length; i++) {
+      const msgId = uid();
+      await upsertLocalMessage({
+        id: msgId,
+        convId: id,
+        parentId: null,
+        characterId: source.characterId,
+        role: "assistant",
+        model: null,
+        branchIndex: i,
+        isActiveBranch: i === picked,
+        isEdited: false,
+        createdAt: now,
+        updatedAt: now,
+      });
+      const expandedGreeting = expandMacros(greetings[i], source.scope);
+      await upsertLocalMessageItem({
+        id: uid(),
+        messageId: msgId,
+        sequenceIndex: 0,
+        type: "text",
+        data: { text: expandedGreeting },
+      });
+      if (i === picked) {
+        seededGreeting = { id: msgId, text: expandedGreeting };
       }
-      chatStore.set(greetingIndexAtom, 0);
-      if (seededGreeting) {
-        const greetingMessage: ChatUIMessage = {
-          id: seededGreeting.id,
-          role: "assistant",
-          parts: [{ type: "text", text: seededGreeting.text }],
-        };
-        setLiveMessages(
-          (msgs) =>
-            recArr(msgs).some((m) => m.id === seededGreeting.id)
-              ? msgs
-              : [greetingMessage, ...msgs],
-          id,
-        );
-      }
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.chatMessages(id),
+    }
+    if (picked > 0) {
+      await updateLocalConversationSettings({
+        convId: id,
+        firstMsgIndex: picked - 1,
+        updatedAt: now,
       });
     }
+    chatStore.set(greetingIndexAtom, 0);
+    if (seededGreeting) {
+      const greetingMessage: ChatUIMessage = {
+        id: seededGreeting.id,
+        role: "assistant",
+        parts: [{ type: "text", text: seededGreeting.text }],
+      };
+      setLiveMessages(
+        (msgs) =>
+          recArr(msgs).some((m) => m.id === seededGreeting.id)
+            ? msgs
+            : [greetingMessage, ...msgs],
+        id,
+      );
+    }
+    queryClient.invalidateQueries({
+      queryKey: queryKeys.chatMessages(id),
+    });
   }
 
   queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });

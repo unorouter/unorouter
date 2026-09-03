@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "トークン予算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "1ターンに挿入されるエントリの最大トークン数。",
     "LOREBOOK_ENTRIES_TITLE": "エントリ",
+    "LOREBOOK_GREETING": "開始メッセージ",
+    "LOREBOOK_GREETING_HINT": "新しいチャットを開くたびに、AIが書いたかのように最初のメッセージとして表示されます。紐付けたキャラクターの最初のメッセージが優先されます。空欄なら何も送信されません。",
     "DUPLICATE": "複製",
     "LIST_SEARCH": "検索...",
     "LIST_CREATED": "作成：{when}",

@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Token bütçesi",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Tür başına enjekte edilen girdilerin maksimum tokenları.",
     "LOREBOOK_ENTRIES_TITLE": "Girdiler",
+    "LOREBOOK_GREETING": "Başlangıç mesajı",
+    "LOREBOOK_GREETING_HINT": "Her yeni sohbeti, yapay zekâ yazmış gibi ilk mesaj olarak açar. Bağlı bir karakterin kendi ilk mesajı önceliklidir. Hiçbir şey göndermemek için boş bırakın.",
     "DUPLICATE": "Çoğalt",
     "LIST_SEARCH": "Ara...",
     "LIST_CREATED": "oluşturuldu {when}",

@@ -105,6 +105,14 @@ export function LorebookEditor(props: Props) {
                 </span>
               </div>
             </div>
+            <MyFormTextarea
+              control={form.control}
+              name="greeting"
+              schema={lorebookFormSchema}
+              label={t("RP.LOREBOOK_GREETING")}
+              description={t("RP.LOREBOOK_GREETING_HINT")}
+              rows={4}
+            />
             <div className="flex justify-between">
               <Button type="button" variant="ghost" onClick={handleDelete}>
                 <Icon name="trash-2" className="size-4" />

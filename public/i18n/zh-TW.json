@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Token 預算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "每輪注入條目的最大 Token 數。",
     "LOREBOOK_ENTRIES_TITLE": "條目",
+    "LOREBOOK_GREETING": "開場訊息",
+    "LOREBOOK_GREETING_HINT": "每次新建聊天時作為第一則訊息出現，就像由AI所寫。已綁定角色自身的第一則訊息優先。留空則不傳送任何內容。",
     "DUPLICATE": "複製",
     "LIST_SEARCH": "搜尋...",
     "LIST_CREATED": "建立於 {when}",

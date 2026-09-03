@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "토큰 예산",
     "LOREBOOK_TOKEN_BUDGET_HINT": "턴당 주입되는 항목의 최대 토큰.",
     "LOREBOOK_ENTRIES_TITLE": "항목",
+    "LOREBOOK_GREETING": "시작 메시지",
+    "LOREBOOK_GREETING_HINT": "새 채팅을 열 때마다 AI가 쓴 것처럼 첫 메시지로 표시됩니다. 연결된 캐릭터의 첫 메시지가 우선합니다. 비워 두면 아무것도 보내지 않습니다.",
     "DUPLICATE": "복제",
     "LIST_SEARCH": "검색...",
     "LIST_CREATED": "생성 {when}",
