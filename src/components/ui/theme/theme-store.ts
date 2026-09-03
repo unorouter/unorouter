@@ -1,3 +1,4 @@
+import { USER_THEME_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { IconLibraryName } from "@/lib/config/icon-map";
 import { atomWithStorage } from "jotai/utils";
@@ -87,7 +88,7 @@ export function normalizeSurface(
   return { light: surface, dark: surface };
 }
 
-export const USER_THEME_KEY = "user-theme";
+export const USER_THEME_KEY = USER_THEME_COOKIE;
 export const THEME_BG_KEY = "user-theme-bg";
 
 export const INITIAL_USER_THEME: UserTheme = {
