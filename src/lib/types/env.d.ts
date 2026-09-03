@@ -14,6 +14,7 @@ declare namespace NodeJS {
 
     SESSION_SECRET: string;
     INTERNAL_API_URL?: string;
+    EDGE_DEV_TOKEN?: string;
 
     TURSO_DATABASE_URL: string;
     TURSO_AUTH_TOKEN?: string;

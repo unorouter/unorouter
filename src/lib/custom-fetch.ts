@@ -105,6 +105,10 @@ export const customFetch = async <T>(
     headers: {
       ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
       ...(clientIp && { "CF-Connecting-IP": clientIp }),
+      ...(upstreamIsProxied &&
+        process.env.EDGE_DEV_TOKEN && {
+          "x-edge-dev": process.env.EDGE_DEV_TOKEN,
+        }),
       ...headers,
     },
   });

@@ -111,6 +111,8 @@ export async function deriveUpstream({ request }: { request: Request }) {
   // Skipped when the upstream is the public hostname (local dev): Cloudflare
   // reserves this header and rejects any request carrying one with error 1000.
   if (clientIp && !upstreamIsProxied) headers["CF-Connecting-IP"] = clientIp;
+  if (upstreamIsProxied && serverEnv.edgeDevToken)
+    headers["x-edge-dev"] = serverEnv.edgeDevToken;
 
   if (cookieHeader) {
     const parsed = parseCookie(cookieHeader);
