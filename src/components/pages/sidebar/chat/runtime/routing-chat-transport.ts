@@ -47,6 +47,8 @@ import {
 } from "@/store/chat-store";
 import { authUserId } from "@/hooks/auth/auth-hook";
 import getQueryClient from "@/lib/react-query/client";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType } from "@/lib/api/pricing";
 import type { PricingCatalogData } from "@/openapi";
@@ -86,10 +88,19 @@ function prefillOpensThink(
   return open !== -1 && !text.includes("</think>", open);
 }
 
-function isMediaModel(model: string): boolean {
-  const data = getQueryClient().getQueryData<PricingCatalogData>(
-    queryKeys.pricingCatalog(),
-  );
+// The catalog decides media versus text. An empty cache used to mean "text",
+// which sent an image model down chat completions.
+async function isMediaModel(model: string): Promise<boolean> {
+  const client = getQueryClient();
+  const data: PricingCatalogData | undefined =
+    client.getQueryData<PricingCatalogData>(queryKeys.pricingCatalog()) ??
+    (await client
+      .ensureQueryData({
+        queryKey: queryKeys.pricingCatalog(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.models.pricing.catalog.get()),
+      })
+      .catch(() => undefined));
   return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
@@ -413,9 +424,10 @@ export function makeRoutingTransport(
   };
 
   return {
-    sendMessages: (options) => {
+    sendMessages: async (options) => {
       const modelId = chatStore.get(chatModelAtom) ?? "";
-      if (isMediaModel(modelId)) return mediaTransport.sendMessages(options);
+      if (await isMediaModel(modelId))
+        return mediaTransport.sendMessages(options);
       return sendText(modelId, options);
     },
     reconnectToStream: async () => null,
