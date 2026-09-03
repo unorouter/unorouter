@@ -161,6 +161,20 @@ const MarkdownTextImpl = () => {
 
 export const MarkdownText = MarkdownTextImpl;
 
+// For text outside a chat runtime (a room guest's transcript): the same
+// components and quote styling, without the message-scope lookups that drive
+// math, inlays and plugins.
+export const StandaloneMarkdownText: FC = () => (
+  <MarkdownTextPrimitive
+    remarkPlugins={[remarkGfm]}
+    rehypePlugins={[rehypeDropHoles, rehypeQuoteSpans, rehypeDropHoles]}
+    urlTransform={allowDataMediaUrls}
+    className="aui-md"
+    components={defaultComponents}
+    preprocess={stripThinkForDisplay}
+  />
+);
+
 const CodeHeader: FC<CodeHeaderProps> = (props) => {
   const t = useTranslations();
   const { isCopied, copyToClipboard } = useCopyToClipboard();
