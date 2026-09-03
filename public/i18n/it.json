@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}” importato come script. I lorebook avanzati generano le voci tramite codice, quindi viene eseguito da Script.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” importato come preset. Selezionalo nel selettore dei preset per usarlo.",
     "PERSONAS_IMPORT": "Importa",
+    "PERSONAS_EXPORT": "Esporta persona",
     "PERSONAS_IMPORT_LINK": "Importa da link",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Incolla un link a una persona di LoreBary",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Inserisci sempre questa voce, ignorando le chiavi di attivazione.",

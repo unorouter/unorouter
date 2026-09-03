@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "تم استيراد “{name}” كبرنامج نصي. تنشئ كتب المعرفة المتقدمة مدخلاتها بالكود، لذلك يعمل من قسم البرامج النصية.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "تم استيراد “{name}” كإعداد مسبق. اختره من قائمة الإعدادات المسبقة لاستخدامه.",
     "PERSONAS_IMPORT": "استيراد",
+    "PERSONAS_EXPORT": "تصدير الشخصية",
     "PERSONAS_IMPORT_LINK": "الاستيراد من رابط",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "الصق رابط شخصية من LoreBary",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "حقن هذا المدخل دائمًا، مع تجاهل مفاتيح التفعيل.",

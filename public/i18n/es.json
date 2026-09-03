@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "Se importó «{name}» como script. Los lorebooks avanzados generan sus entradas mediante código, por eso se ejecuta desde Scripts.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "Se importó «{name}» como preajuste. Selecciónalo en el selector de preajustes para usarlo.",
     "PERSONAS_IMPORT": "Importar",
+    "PERSONAS_EXPORT": "Exportar persona",
     "PERSONAS_IMPORT_LINK": "Importar desde enlace",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Pega un enlace de persona de LoreBary",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Inserta siempre esta entrada, ignorando las claves de activación.",

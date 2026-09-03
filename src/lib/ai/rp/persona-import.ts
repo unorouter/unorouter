@@ -1,6 +1,7 @@
 import { rec } from "@/lib/utils/base";
 type ParsedPersona = {
   name: string;
+  title?: string;
   description?: string;
   personality?: string;
 };
@@ -21,6 +22,7 @@ function pickPersona(raw: Record<string, unknown>): ParsedPersona | null {
   if (!name) return null;
   return {
     name,
+    title: firstString(raw, ["title"]),
     description: firstString(raw, ["description", "persona", "user_persona"]),
     personality: firstString(raw, ["personality", "traits"]),
   };

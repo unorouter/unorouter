@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "「{name}」をスクリプトとしてインポートしました。高度なロアブックはコードでエントリを生成するため、スクリプトから実行されます。",
     "LOREBOOKS_IMPORTED_AS_PRESET": "「{name}」をプリセットとしてインポートしました。プリセット選択から選んでご利用ください。",
     "PERSONAS_IMPORT": "インポート",
+    "PERSONAS_EXPORT": "ペルソナをエクスポート",
     "PERSONAS_IMPORT_LINK": "リンクからインポート",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary のペルソナのリンクを貼り付けてください",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "アクティベーションキーを無視して、このエントリを常に挿入します。",

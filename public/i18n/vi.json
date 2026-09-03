@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "Đã nhập “{name}” dưới dạng script. Lorebook nâng cao tạo mục bằng mã, nên nó chạy từ mục Scripts.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "Đã nhập “{name}” dưới dạng preset. Chọn nó trong trình chọn preset để sử dụng.",
     "PERSONAS_IMPORT": "Nhập",
+    "PERSONAS_EXPORT": "Xuất persona",
     "PERSONAS_IMPORT_LINK": "Nhập từ liên kết",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết persona của LoreBary",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Luôn chèn mục này, bỏ qua các khóa kích hoạt.",

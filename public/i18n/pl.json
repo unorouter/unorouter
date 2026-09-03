@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "Zaimportowano „{name}” jako skrypt. Zaawansowane lorebooki tworzą wpisy w kodzie, więc działa on w sekcji Skrypty.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "Zaimportowano „{name}” jako ustawienie wstępne. Wybierz je na liście ustawień, aby go użyć.",
     "PERSONAS_IMPORT": "Importuj",
+    "PERSONAS_EXPORT": "Eksportuj personę",
     "PERSONAS_IMPORT_LINK": "Importuj z linku",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "Wklej link do persony z LoreBary",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Zawsze wstawiaj ten wpis, ignorując klucze aktywacji.",

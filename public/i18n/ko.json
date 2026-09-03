@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "“{name}”을(를) 스크립트로 가져왔습니다. 고급 로어북은 코드로 항목을 만들기 때문에 스크립트에서 실행됩니다.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}”을(를) 프리셋으로 가져왔습니다. 프리셋 선택기에서 골라 사용하세요.",
     "PERSONAS_IMPORT": "가져오기",
+    "PERSONAS_EXPORT": "페르소나 내보내기",
     "PERSONAS_IMPORT_LINK": "링크에서 가져오기",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary 페르소나 링크를 붙여넣으세요",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "활성화 키를 무시하고 이 항목을 항상 삽입합니다.",

@@ -4023,6 +4023,7 @@
     "LOREBOOKS_IMPORTED_AS_SCRIPT": "„{name}“ wurde als Skript importiert. Erweiterte Lorebooks erzeugen ihre Einträge im Code und laufen daher unter Skripte.",
     "LOREBOOKS_IMPORTED_AS_PRESET": "„{name}“ wurde als Preset importiert. Wähle es in der Preset-Auswahl aus, um es zu nutzen.",
     "PERSONAS_IMPORT": "Importieren",
+    "PERSONAS_EXPORT": "Persona exportieren",
     "PERSONAS_IMPORT_LINK": "Per Link importieren",
     "PERSONAS_IMPORT_LINK_PLACEHOLDER": "LoreBary-Persona-Link einfügen",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Diesen Eintrag immer einfügen, Aktivierungsschlüssel werden ignoriert.",

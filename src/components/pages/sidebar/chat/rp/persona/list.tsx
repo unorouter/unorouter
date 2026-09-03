@@ -23,6 +23,7 @@ import {
   RpListDialog,
 } from "../shared/rp-list-parts";
 import { PersonaEditor } from "./editor";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 
 type Props = {
   open: boolean;
@@ -35,6 +36,7 @@ export function PersonaList(props: Props) {
   const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeletePersonaMutation();
   const duplicateMut = useDuplicatePersonaMutation();
+  const exportMut = useRpExportMutation();
   const importMut = useImportPersonaMutation();
   const importUrlMut = useImportPersonaFromUrlMutation();
 
@@ -132,6 +134,19 @@ export function PersonaList(props: Props) {
             </>
           }
           description={p.description}
+          actions={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                exportMut.mutate({ kind: "personas", id: p.id });
+              }}
+              aria-label={t("RP.PERSONAS_EXPORT")}
+            >
+              <Icon name="download" className="size-4" />
+            </Button>
+          }
           onDuplicate={() => duplicateMut.mutate(p.id)}
           onDelete={() => handleDelete(p.id)}
         />
