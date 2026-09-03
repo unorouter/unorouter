@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Dodaj model",
       "FETCH_MODELS": "Pobierz modele",
       "FETCH_FAILED": "Nie udało się pobrać modeli (HTTP {status}). Sprawdź adres URL punktu końcowego i klucz API.",
+      "TOO_MANY_MODELS": "Za dużo modeli (maks. {max}). Usuń część przed zapisaniem.",
+      "FORM_INVALID": "Niektóre pola są nieprawidłowe. Sprawdź formularz i spróbuj ponownie.",
       "MODEL_KEY": "Klucz modelu",
       "MODEL_LABEL": "Nazwa wyświetlana",
       "MODEL_COUNT": "Modele: {count}",

@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Thêm mô hình",
       "FETCH_MODELS": "Lấy danh sách mô hình",
       "FETCH_FAILED": "Không thể lấy danh sách mô hình (HTTP {status}). Kiểm tra URL điểm cuối và khóa API.",
+      "TOO_MANY_MODELS": "Quá nhiều mô hình (tối đa {max}). Hãy bỏ bớt trước khi lưu.",
+      "FORM_INVALID": "Một số trường không hợp lệ. Kiểm tra biểu mẫu rồi thử lại.",
       "MODEL_KEY": "Khóa mô hình",
       "MODEL_LABEL": "Tên hiển thị",
       "MODEL_COUNT": "{count} mô hình",

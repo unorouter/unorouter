@@ -22,11 +22,16 @@ import { formDefaults } from "@/lib/validation/helpers";
 import {
   customProviderForm,
   type CustomProviderForm,
+  MAX_MODELS,
 } from "@/lib/validation/custom-provider";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useFieldArray, type UseFormReturn } from "react-hook-form";
+import {
+  type FieldErrors,
+  useFieldArray,
+  type UseFormReturn,
+} from "react-hook-form";
 import { FormFooter } from "../shared/form-footer";
 import { TokenizerSelect } from "../tokenizer-select";
 
@@ -55,6 +60,16 @@ export function CustomProviderEditor(props: Props) {
   const form = useRpForm(customProviderForm, formValues);
   const modelsArray = useFieldArray({ control: form.control, name: "models" });
 
+  // A model list past the cap failed the whole form with nothing on screen,
+  // since the array itself has no field to show the error on.
+  const onInvalid = (errors: FieldErrors<CustomProviderForm>) => {
+    toast.error(
+      errors.models
+        ? t("CHAT.CUSTOM_PROVIDER.TOO_MANY_MODELS", { max: MAX_MODELS })
+        : t("CHAT.CUSTOM_PROVIDER.FORM_INVALID"),
+    );
+  };
+
   const onSubmit = async (data: CustomProviderForm) => {
     if (isNew) {
       await createMut.mutateAsync({ body: data });
@@ -76,10 +91,21 @@ export function CustomProviderEditor(props: Props) {
         form.getValues("proxy"),
       );
       const existingKeys = new Set(form.getValues("models").map((m) => m.key));
+      let count = existingKeys.size;
+      let capped = false;
       for (const id of ids) {
-        if (!existingKeys.has(id))
-          modelsArray.append({ key: id, label: id, tokenizer: "auto" });
+        if (existingKeys.has(id)) continue;
+        if (count >= MAX_MODELS) {
+          capped = true;
+          break;
+        }
+        modelsArray.append({ key: id, label: id, tokenizer: "auto" });
+        count++;
       }
+      if (capped)
+        toast.error(
+          t("CHAT.CUSTOM_PROVIDER.TOO_MANY_MODELS", { max: MAX_MODELS }),
+        );
     } catch (e) {
       const status = e instanceof ModelListError ? e.status : undefined;
       const notJson = e instanceof ModelListError ? e.notJson : undefined;
@@ -99,7 +125,7 @@ export function CustomProviderEditor(props: Props) {
     <Card className="flex flex-col gap-3 p-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="flex flex-col gap-3"
         >
           <MyFormInput

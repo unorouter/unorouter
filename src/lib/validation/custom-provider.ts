@@ -10,7 +10,8 @@ export type CustomProviderFormat = Static<typeof customProviderFormat>;
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
-const MAX_MODELS = 256;
+// OpenRouter-sized lists run past 300; the old cap of 256 failed the form silently.
+export const MAX_MODELS = 1000;
 
 export const customProviderModelType = t.Union([
   t.Literal("text"),

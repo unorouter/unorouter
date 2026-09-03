@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Model ekle",
       "FETCH_MODELS": "Modelleri getir",
       "FETCH_FAILED": "Modeller getirilemedi (HTTP {status}). Uç nokta URL'sini ve API anahtarını kontrol edin.",
+      "TOO_MANY_MODELS": "Çok fazla model (en fazla {max}). Kaydetmeden önce bazılarını kaldırın.",
+      "FORM_INVALID": "Bazı alanlar geçersiz. Formu kontrol edip tekrar deneyin.",
       "MODEL_KEY": "Model anahtarı",
       "MODEL_LABEL": "Görünen ad",
       "MODEL_COUNT": "{count} model",

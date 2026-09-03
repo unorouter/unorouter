@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Add model",
       "FETCH_MODELS": "Fetch models",
       "FETCH_FAILED": "Could not fetch models (HTTP {status}). Check the endpoint URL and API key.",
+      "TOO_MANY_MODELS": "Too many models ({max} max). Remove some before saving.",
+      "FORM_INVALID": "Some fields are invalid. Check the form and try again.",
       "MODEL_KEY": "Model key",
       "MODEL_LABEL": "Display name",
       "MODEL_COUNT": "{count} model(s)",

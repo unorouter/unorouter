@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "新增模型",
       "FETCH_MODELS": "取得模型",
       "FETCH_FAILED": "無法取得模型（HTTP {status}）。請檢查端點 URL 與 API 金鑰。",
+      "TOO_MANY_MODELS": "模型過多（最多{max}個）。請移除部分後再儲存。",
+      "FORM_INVALID": "部分欄位無效。請檢查表單後重試。",
       "MODEL_KEY": "模型識別碼",
       "MODEL_LABEL": "顯示名稱",
       "MODEL_COUNT": "{count} 個模型",

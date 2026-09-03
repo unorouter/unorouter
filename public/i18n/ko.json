@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "모델 추가",
       "FETCH_MODELS": "모델 가져오기",
       "FETCH_FAILED": "모델을 가져올 수 없습니다 (HTTP {status}). 엔드포인트 URL과 API 키를 확인하세요.",
+      "TOO_MANY_MODELS": "모델이 너무 많습니다(최대 {max}개). 저장하기 전에 일부를 제거하세요.",
+      "FORM_INVALID": "일부 항목이 올바르지 않습니다. 양식을 확인하고 다시 시도하세요.",
       "MODEL_KEY": "모델 키",
       "MODEL_LABEL": "표시 이름",
       "MODEL_COUNT": "{count}개 모델",

@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Modell hinzufügen",
       "FETCH_MODELS": "Modelle abrufen",
       "FETCH_FAILED": "Modelle konnten nicht abgerufen werden (HTTP {status}). Überprüfe die Endpunkt-URL und den API-Schlüssel.",
+      "TOO_MANY_MODELS": "Zu viele Modelle (max. {max}). Entferne einige vor dem Speichern.",
+      "FORM_INVALID": "Einige Felder sind ungültig. Prüfe das Formular und versuche es erneut.",
       "MODEL_KEY": "Modell-Schlüssel",
       "MODEL_LABEL": "Anzeigename",
       "MODEL_COUNT": "{count} Modell(e)",
