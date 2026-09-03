@@ -2,6 +2,9 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
+import { Link } from "@/i18n/navigation";
+import { modelHref } from "@/lib/utils/base";
+import { formatPriceCompact } from "@/lib/utils/format/number";
 import {
   Command,
   CommandEmpty,
@@ -107,6 +110,8 @@ type CatalogModel = {
   vendor: string;
   is_free: boolean;
   type: string;
+  input_price?: number;
+  output_price?: number;
 };
 
 function CatalogModelItem(props: {
@@ -140,7 +145,26 @@ function CatalogModelItem(props: {
       <VendorIcon vendor={model.vendor} size={14} />
       <span className="min-w-0 flex-1 font-mono">{model.model_name}</span>
       <UptimeDot info={props.status} />
+      {!model.is_free &&
+        model.input_price !== undefined &&
+        model.output_price !== undefined && (
+          <span className="text-muted-foreground shrink-0 tabular-nums">
+            {formatPriceCompact(model.input_price)} /{" "}
+            {formatPriceCompact(model.output_price)}
+          </span>
+        )}
       {model.is_free && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
+      <Link
+        href={modelHref(model.model_name, model.vendor)}
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
+        className="text-muted-foreground hover:text-foreground shrink-0"
+        aria-label={t("CHAT.MODEL.OPEN_PAGE")}
+      >
+        <Icon name="external-link" className="h-3 w-3" />
+      </Link>
       {props.disabled && (
         <span
           className="text-muted-foreground shrink-0"

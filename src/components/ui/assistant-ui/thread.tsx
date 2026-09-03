@@ -54,6 +54,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatLoadoutAtom,
   chatModelAtom,
+  chatRunningAtom,
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
@@ -80,6 +81,7 @@ import {
 import { NONE_VALUE } from "@/lib/config/constants";
 import { useStorageBlocked } from "@/hooks/ai/use-storage-blocked";
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
+import { updateLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -158,6 +160,7 @@ export const Thread: FC = () => {
   const runningRef = useRef(false);
   useEffect(() => {
     runningRef.current = isRunning;
+    chatStore.set(chatRunningAtom, isRunning);
     if (!isRunning || autoScrollStream) return;
     viewportRef.current?.dispatchEvent(
       new PointerEvent("pointerdown", { bubbles: false }),
@@ -382,10 +385,40 @@ const ThreadSuggestionItem: FC = () => {
   );
 };
 
+// The draft lives on the conversation row, so a reload, a crash or a closed
+// tab hands it back. The stored copy is restored only into an empty composer
+// and only once per conversation, so clearing the input by hand stays cleared.
+function useComposerDraft(convId: string | null) {
+  const aui = useAui();
+  const text = useAuiState((s) => s.composer.text);
+  const settingsQuery = useChatSettingsQuery(convId ?? undefined);
+  const loaded = settingsQuery.data !== undefined;
+  const stored = settingsQuery.data?.draft ?? null;
+  const restoredFor = useRef<string | null>(null);
+  const lastSaved = useRef<string | null>(null);
+  useEffect(() => {
+    if (!convId || !loaded || restoredFor.current === convId) return;
+    restoredFor.current = convId;
+    lastSaved.current = stored;
+    if (stored && text === "") aui.composer().setText(stored);
+  }, [aui, convId, loaded, stored, text]);
+  useEffect(() => {
+    if (!convId || restoredFor.current !== convId) return;
+    const next = text || null;
+    if (next === lastSaved.current) return;
+    const timer = setTimeout(() => {
+      lastSaved.current = next;
+      void updateLocalConversationSettings({ convId, draft: next });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [convId, text]);
+}
+
 const Composer: FC = () => {
   const t = useTranslations();
   const isMobile = useIsMobile();
   const convId = useAuiState((s) => s.threadListItem?.remoteId);
+  useComposerDraft(convId ?? null);
   return (
     <ComposerPrimitive.Root className="aui-composer-root relative flex w-full flex-col">
       <ConversationStats convId={convId ?? undefined} />

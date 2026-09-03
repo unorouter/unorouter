@@ -7,6 +7,7 @@ import {
   exportLocalCharacter,
   exportLocalLorebook,
   exportLocalPersona,
+  exportLocalPlugin,
   exportLocalPreset,
 } from "@/lib/db/client/data/rp/rp-export";
 import { downloadBlob } from "@/lib/utils/client";
@@ -20,6 +21,7 @@ type ExportArgs =
   | { kind: "lorebooks"; id: string; format: LorebookExportFormat }
   | { kind: "presets"; id: string }
   | { kind: "personas"; id: string }
+  | { kind: "js_plugins"; id: string }
   | { kind: "cards"; id: string };
 
 export function useRpExportMutation() {
@@ -46,6 +48,8 @@ function runExport(args: ExportArgs) {
       return exportLocalPreset(args.id);
     case "personas":
       return exportLocalPersona(args.id);
+    case "js_plugins":
+      return exportLocalPlugin(args.id);
     case "cards":
       return exportLocalCard(args.id);
   }

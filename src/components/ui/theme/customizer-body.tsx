@@ -61,6 +61,10 @@ export function ThemeCustomizerBody() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [canUndo, setCanUndo] = useState(false);
+  // Redo is per session: undo drops its DB row on use, so the stepped-over
+  // theme only exists here until a new edit makes it unreachable.
+  const redoStack = useRef<UserTheme[]>([]);
+  const [canRedo, setCanRedo] = useState(false);
 
   useEffect(() => {
     void countThemeHistory()
@@ -69,6 +73,8 @@ export function ThemeCustomizerBody() {
   }, []);
 
   const setTheme = (next: UserTheme) => {
+    redoStack.current = [];
+    setCanRedo(false);
     setThemeRaw(next);
     void pushLocalTheme(next)
       .then(() => setCanUndo(true))
@@ -80,11 +86,24 @@ export function ThemeCustomizerBody() {
   const undo = async () => {
     const previous = await readPreviousTheme().catch(() => null);
     if (!previous) return setCanUndo(false);
+    redoStack.current.push(theme);
+    setCanRedo(true);
     setThemeRaw(previous.theme);
     await dropThemeEntry(previous.dropId).catch(() => {});
     const remaining = await countThemeHistory().catch(() => 0);
     setCanUndo(remaining > 1);
     toast.success(t("THEME.UNDO_DONE"));
+  };
+
+  const redo = () => {
+    const next = redoStack.current.pop();
+    setCanRedo(redoStack.current.length > 0);
+    if (!next) return;
+    setThemeRaw(next);
+    void pushLocalTheme(next)
+      .then(() => setCanUndo(true))
+      .catch(() => {});
+    toast.success(t("THEME.REDO_DONE"));
   };
 
   const setMarkdown = (patch: Partial<ChatMarkdownColors>) => {
@@ -201,6 +220,16 @@ export function ThemeCustomizerBody() {
             onModeChange={(m) => setTheme({ ...theme, surfaceMode: m })}
             onScopeChange={(s) => setTheme({ ...theme, surfaceScope: s })}
             onChange={setSurface}
+            onCopyToOtherMode={() => {
+              const other = surfaceMode === "light" ? "dark" : "light";
+              setTheme({
+                ...theme,
+                [surfaceField]: {
+                  ...surfacePalette,
+                  [other]: { ...(surfacePalette[surfaceMode] ?? {}) },
+                },
+              });
+            }}
           />
           <FieldSeparator />
           <BackgroundImageSection
@@ -255,6 +284,16 @@ export function ThemeCustomizerBody() {
         >
           <Icon name="rotate-ccw" className="mr-1.5 size-3.5" />
           {t("THEME.UNDO")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={redo}
+          disabled={!canRedo}
+        >
+          <Icon name="rotate-cw" className="mr-1.5 size-3.5" />
+          {t("THEME.REDO")}
         </Button>
         <Button type="button" variant="outline" size="sm" onClick={shuffle}>
           <Icon name="shuffle" className="mr-1.5 size-3.5" />

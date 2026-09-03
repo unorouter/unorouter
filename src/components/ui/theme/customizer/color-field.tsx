@@ -1,5 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
+import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 const HEX_RE = /^#[0-9a-fA-F]{6}$/;
@@ -25,6 +28,8 @@ export function ColorField(props: {
   value: string | undefined;
   onChange: (next: string | undefined) => void;
 }) {
+  const t = useTranslations();
+  const clipboard = useCopyToClipboard();
   const colorInputRef = useRef<HTMLInputElement | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [local, setLocal] = useState(props.value ?? "");
@@ -90,6 +95,18 @@ export function ColorField(props: {
           aria-label={props.label}
         />
       </div>
+      {HEX_RE.test(local) && (
+        <button
+          type="button"
+          onClick={() =>
+            void clipboard.copy(local, { withToast: t("THEME.COPY_HEX_DONE") })
+          }
+          className="text-muted-foreground hover:text-foreground"
+          aria-label={t("THEME.COPY_HEX")}
+        >
+          <Icon name="copy" className="size-3.5" />
+        </button>
+      )}
       {local && (
         <button
           type="button"
