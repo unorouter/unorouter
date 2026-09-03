@@ -29,7 +29,7 @@ import { useEffect, useRef, useState } from "react";
 const MarkdownText = dynamic(
   () =>
     import("@/components/ui/assistant-ui/markdown-text").then(
-      (m) => m.MarkdownText,
+      (m) => m.StandaloneMarkdownText,
     ),
   { ssr: false },
 );
