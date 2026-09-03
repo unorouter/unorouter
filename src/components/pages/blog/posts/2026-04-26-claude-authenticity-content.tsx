@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/table";
 import { getTranslations } from "next-intl/server";
 
-const REPO_URL =
-  "https://github.com/unorouter/new-api-sync/blob/main/src/core/models/testing/authenticity.ts";
+const REPO_URL = "https://github.com/unorouter/ai-model-verifier";
 
 const richMarks = {
   s: (chunks: React.ReactNode) => <strong>{chunks}</strong>,

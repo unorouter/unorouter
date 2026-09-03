@@ -135,6 +135,26 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "ai-model-verifier",
+    date: "2026-09-03",
+    tags: ["engineering", "announcement"],
+    i18nKey: "BLOG.POSTS.AI_MODEL_VERIFIER",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "engineering",
+    wordCount: 757,
+    headings: [
+      { id: "why-a-library", i18nLeaf: "H_WHY_A_LIBRARY", level: 2 },
+      { id: "what-is-new", i18nLeaf: "H_WHAT_IS_NEW", level: 2 },
+      {
+        id: "what-it-does-not-prove",
+        i18nLeaf: "H_WHAT_IT_DOES_NOT_PROVE",
+        level: 2,
+      },
+      { id: "use-it", i18nLeaf: "H_USE_IT", level: 2 },
+    ],
+  },
+  {
     slug: "server-tag-cuts-free-model-wait",
     date: "2026-08-19",
     tags: ["product"],
