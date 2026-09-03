@@ -5,6 +5,10 @@ export const serverEnv = {
   guestApiKey: process.env.GUEST_API_KEY,
   runwareApiKey: process.env.RUNWARE_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,
+  // Proves to the gateway that a key resolution came from this server, not a
+  // browser, so it is not audited as a human reveal. Optional: without it the
+  // gateway simply keeps logging.
+  bffServiceToken: process.env.BFF_SERVICE_TOKEN ?? "",
   // Cluster-internal Discord bot. Serves the live reward amounts; no public ingress.
   botInternalUrl: process.env.BOT_INTERNAL_URL ?? "http://unorouter-bot:4000",
   tursoUrl: process.env.TURSO_DATABASE_URL,

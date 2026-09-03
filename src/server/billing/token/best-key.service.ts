@@ -12,6 +12,14 @@ import { serverEnv } from "@/server/env";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import type { Cookie } from "elysia";
 
+// Only the chat resolve path carries the service secret. The dashboard's own
+// reveal route (billing/token/route.ts) must keep producing an audit row, since
+// that one is a person choosing to see a key.
+function resolveHeaders(headers: Record<string, string>) {
+  const token = serverEnv.bffServiceToken;
+  return token ? { ...headers, "X-Bff-Service-Token": token } : headers;
+}
+
 export async function assertGuestFreeModel(userId: number, model?: string) {
   if (userId !== GUEST_USER_ID || !model) return;
   if (!(await getModelByName(model))?.is_free)
@@ -42,7 +50,7 @@ export async function resolveBestKey(
 
   if (!best) return createAutoToken(headers);
 
-  const keyRes = await getTokenKey(String(best.id), { headers });
+  const keyRes = await getTokenKey(String(best.id), { headers: resolveHeaders(headers) });
   return keyRes.data?.data?.key ?? null;
 }
 
@@ -71,7 +79,7 @@ async function createAutoToken(
     (tok) => tok && tok.status === 1 && tok.name === "UnoRouter Chat",
   );
   if (!fresh) return null;
-  const keyRes = await getTokenKey(String(fresh.id), { headers });
+  const keyRes = await getTokenKey(String(fresh.id), { headers: resolveHeaders(headers) });
   return keyRes.data?.data?.key ?? null;
 }
 
