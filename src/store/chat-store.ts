@@ -105,13 +105,6 @@ export const chatGroupAtom = atom(
 
 export const activeConvOverridesAtom = atom<StreamOverrides | null>(null);
 
-export const autoScrollStreamAtom = atom((get) => {
-  const conv = get(activeConvOverridesAtom)?.autoScrollStream;
-  if (conv !== null && conv !== undefined) return conv;
-  const def = get(chatDefaultsAtom).autoScrollStream;
-  return def ?? true;
-});
-
 export const globalVarsAtom = atomWithStorage<string>(
   "rp-global-vars",
   "{}",

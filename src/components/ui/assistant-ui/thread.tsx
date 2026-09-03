@@ -35,7 +35,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import {
   useMessageMeta,
-  useShowReasoning,
+  useStreamFlag,
   useSpeakingCharacter,
 } from "@/hooks/ui/use-chat-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
@@ -52,7 +52,6 @@ import { copyToClipboard } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
-  autoScrollStreamAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -83,17 +82,18 @@ import { useStorageBlocked } from "@/hooks/ai/use-storage-blocked";
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import {
   createContext,
+  type FC,
   useContext,
   useEffect,
   useRef,
   useState,
-  type FC,
 } from "react";
 import { toast } from "sonner";
 
@@ -114,7 +114,57 @@ const THREAD_VARS: CssVars = {
 };
 
 export const Thread: FC = () => {
-  const autoScrollStream = useAtomValue(autoScrollStreamAtom);
+  const autoScrollStream = useStreamFlag("autoScrollStream");
+  const viewportRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    logChatDebug("viewport.autoscroll", { autoScrollStream });
+  }, [autoScrollStream]);
+  // Every programmatic scroll goes through scrollTo, so wrapping it names the
+  // caller in the debug export. A user who reports being pulled down with the
+  // setting off has, so far, never been reproducible from the outside.
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const native = el.scrollTo.bind(el);
+    let calls = 0;
+    let lastLog = 0;
+    let lastInput = 0;
+    const markInput = () => {
+      lastInput = Date.now();
+    };
+    el.addEventListener("wheel", markInput, { passive: true });
+    el.addEventListener("touchstart", markInput, { passive: true });
+    el.addEventListener("keydown", markInput);
+    el.scrollTo = (a?: ScrollToOptions | number, b?: number): void => {
+      calls++;
+      const now = Date.now();
+      if (now - lastLog > 1000) {
+        lastLog = now;
+        logChatDebug("viewport.scroll_to", {
+          calls,
+          arg: typeof a === "number" ? `${a},${b}` : JSON.stringify(a),
+          autoScrollStream,
+          fromBottom: Math.round(
+            el.scrollHeight - el.scrollTop - el.clientHeight,
+          ),
+          sinceInputMs: lastInput ? now - lastInput : null,
+          stack: (new Error().stack ?? "")
+            .split("\n")
+            .slice(2, 6)
+            .map((l) => l.trim().slice(0, 70))
+            .join(" | "),
+        });
+      }
+      if (typeof a === "number") native(a, b ?? 0);
+      else native(a);
+    };
+    return () => {
+      el.scrollTo = native;
+      el.removeEventListener("wheel", markInput);
+      el.removeEventListener("touchstart", markInput);
+      el.removeEventListener("keydown", markInput);
+    };
+  }, [autoScrollStream]);
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root bg-background @container flex min-h-0 flex-1 flex-col"
@@ -124,6 +174,7 @@ export const Thread: FC = () => {
           jump is a separate default that still fired with the setting off, so
           the toggle looked broken. Both follow the preference now. */}
       <ThreadPrimitive.Viewport
+        ref={viewportRef}
         autoScroll={autoScrollStream}
         scrollToBottomOnRunStart={autoScrollStream}
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
@@ -709,7 +760,7 @@ const HideReasoning: FC = () => null;
 
 const AssistantMessage: FC = () => {
   const [editing, setEditing] = useState(false);
-  const showReasoning = useShowReasoning();
+  const showReasoning = useStreamFlag("showReasoning");
   // Read here, handed to the boundary as a thunk it calls ONLY on a crash.
   const messageContent = useAuiState((s) => s.message.content);
   return (

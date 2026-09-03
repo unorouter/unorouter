@@ -8,7 +8,7 @@ import {
 } from "@/hooks/ai/rp/conversations";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import type { ApiMessage } from "@/lib/ai/chat/messages";
-import { chatLoadoutAtom } from "@/store/chat-store";
+import { chatDefaultsAtom, chatLoadoutAtom } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
 import { useAtomValue } from "jotai";
 
@@ -87,20 +87,26 @@ export function useSpeakingCharacter() {
   return charactersQuery.data?.find((c) => c.id === charId) ?? null;
 }
 
-export function useShowReasoning(): boolean {
+// Same precedence the settings drawer displays: the conversation row, then its
+// preset, then the sticky defaults. The drawer stores null when the form equals
+// the preset, so a resolver that skips the preset shows off and runs on.
+export function useStreamFlag(
+  key: "showReasoning" | "autoScrollStream",
+): boolean {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const loadout = useAtomValue(chatLoadoutAtom);
+  const defaults = useAtomValue(chatDefaultsAtom);
   const settingsQuery = useChatSettingsQuery(remoteId ?? undefined);
   const presetsQuery = usePresetsQuery();
 
   const settings = settingsQuery.data;
-  if (settings?.showReasoning != null) return settings.showReasoning;
+  if (settings?.[key] != null) return settings[key];
 
   const presetId = settings?.presetId ?? loadout.presetId;
   const preset = presetId
     ? presetsQuery.data?.find((p) => p.id === presetId)
     : undefined;
-  if (preset?.showReasoning != null) return preset.showReasoning;
+  if (preset?.[key] != null) return preset[key];
 
-  return true;
+  return defaults[key] ?? true;
 }
