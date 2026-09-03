@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Presupuesto de tokens",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Máximo de tokens de entradas inyectadas por turno.",
     "LOREBOOK_ENTRIES_TITLE": "Entradas",
+    "LOREBOOK_GREETING": "Mensaje inicial",
+    "LOREBOOK_GREETING_HINT": "Abre cada chat nuevo como primer mensaje, como si la IA lo hubiera escrito. El primer mensaje propio de un personaje vinculado tiene prioridad. Déjalo vacío para no enviar nada.",
     "DUPLICATE": "Duplicar",
     "LIST_SEARCH": "Buscar...",
     "LIST_CREATED": "creado {when}",

@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Budżet tokenów",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Maksymalna liczba tokenów wpisów wstrzykiwanych na turę.",
     "LOREBOOK_ENTRIES_TITLE": "Wpisy",
+    "LOREBOOK_GREETING": "Wiadomość początkowa",
+    "LOREBOOK_GREETING_HINT": "Otwiera każdy nowy czat jako pierwsza wiadomość, tak jakby napisała ją SI. Własna pierwsza wiadomość przypisanej postaci ma pierwszeństwo. Zostaw puste, aby nic nie wysyłać.",
     "DUPLICATE": "Duplikuj",
     "LIST_SEARCH": "Szukaj...",
     "LIST_CREATED": "utworzono {when}",

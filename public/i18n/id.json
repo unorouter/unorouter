@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Anggaran token",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Token maksimal entri yang disuntikkan per giliran.",
     "LOREBOOK_ENTRIES_TITLE": "Entri",
+    "LOREBOOK_GREETING": "Pesan pembuka",
+    "LOREBOOK_GREETING_HINT": "Membuka setiap obrolan baru sebagai pesan pertama, seolah ditulis oleh AI. Pesan pertama milik karakter yang terikat lebih diutamakan. Kosongkan agar tidak mengirim apa pun.",
     "DUPLICATE": "Duplikat",
     "LIST_SEARCH": "Cari...",
     "LIST_CREATED": "dibuat {when}",

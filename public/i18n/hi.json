@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Token budget",
     "LOREBOOK_TOKEN_BUDGET_HINT": "प्रति turn inject की गई entries के अधिकतम tokens।",
     "LOREBOOK_ENTRIES_TITLE": "Entries",
+    "LOREBOOK_GREETING": "आरंभिक संदेश",
+    "LOREBOOK_GREETING_HINT": "हर नई चैट को पहले संदेश के रूप में खोलता है, मानो इसे AI ने लिखा हो। जुड़े हुए पात्र का अपना पहला संदेश प्राथमिकता पाता है। कुछ न भेजने के लिए खाली छोड़ें।",
     "DUPLICATE": "डुप्लिकेट करें",
     "LIST_SEARCH": "खोजें...",
     "LIST_CREATED": "{when} बनाया गया",

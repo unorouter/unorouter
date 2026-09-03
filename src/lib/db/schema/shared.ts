@@ -271,6 +271,7 @@ export const lorebooks = sqliteTable("lorebooks", {
     .$defaultFn(() => uid()),
   name: text("name").notNull(),
   description: text("description"),
+  greeting: text("greeting"),
   scanDepth: integer("scan_depth").notNull().default(4),
   tokenBudget: integer("token_budget").notNull().default(1500),
   recursiveScanning: integer("recursive_scanning", { mode: "boolean" })

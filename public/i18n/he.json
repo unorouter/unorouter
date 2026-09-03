@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "תקציב טוקנים",
     "LOREBOOK_TOKEN_BUDGET_HINT": "טוקנים מקסימליים של רשומות שמוזרקות לתור.",
     "LOREBOOK_ENTRIES_TITLE": "רשומות",
+    "LOREBOOK_GREETING": "הודעת פתיחה",
+    "LOREBOOK_GREETING_HINT": "פותחת כל צ'אט חדש כהודעה הראשונה, כאילו הבינה המלאכותית כתבה אותה. ההודעה הראשונה של דמות מקושרת קודמת. השאירו ריק כדי לא לשלוח דבר.",
     "DUPLICATE": "שכפול",
     "LIST_SEARCH": "חיפוש...",
     "LIST_CREATED": "נוצר {when}",

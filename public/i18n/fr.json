@@ -3905,6 +3905,8 @@
     "LOREBOOK_TOKEN_BUDGET": "Budget de jetons",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Maximum de jetons d'entrées injectés par tour.",
     "LOREBOOK_ENTRIES_TITLE": "Entrées",
+    "LOREBOOK_GREETING": "Message d'ouverture",
+    "LOREBOOK_GREETING_HINT": "Ouvre chaque nouvelle discussion comme premier message, comme si l'IA l'avait écrit. Le premier message d'un personnage lié est prioritaire. Laissez vide pour ne rien envoyer.",
     "DUPLICATE": "Dupliquer",
     "LIST_SEARCH": "Rechercher...",
     "LIST_CREATED": "créé {when}",

@@ -13,6 +13,7 @@ export const MAX_KEY_LEN = 200;
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  greeting: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   tokenBudget: t.Number({ minimum: 100, maximum: 1_000_000, default: 1500 }),
   recursiveScanning: t.Boolean({ default: false }),
