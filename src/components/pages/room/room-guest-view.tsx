@@ -18,9 +18,21 @@ import {
   roomStore,
 } from "@/store/room-store";
 import type { TranslationKey } from "@/lib/types";
+import { TextMessagePartProvider } from "@assistant-ui/react";
 import { Provider, useAtomValue } from "jotai";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+
+// The host's own renderer, so a guest sees the same italics, bold and quote
+// styling instead of the raw asterisks.
+const MarkdownText = dynamic(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+);
 
 const STATUS_KEY: Record<GuestStatus, TranslationKey> = {
   connecting: "ROOM.STATUS_CONNECTING",
@@ -142,16 +154,18 @@ function GuestSession(props: { roomId: string }) {
             <p className="text-muted-foreground px-1 text-xs font-medium">
               {msg.speaker}
             </p>
-            <p
+            <div
               className={cn(
-                "max-w-full text-sm wrap-break-word whitespace-pre-wrap",
+                "max-w-full text-sm wrap-break-word",
                 msg.role === "user"
                   ? "bg-muted text-foreground rounded-2xl px-4 py-2.5"
                   : "text-foreground leading-relaxed",
               )}
             >
-              {msg.text}
-            </p>
+              <TextMessagePartProvider text={msg.text}>
+                <MarkdownText />
+              </TextMessagePartProvider>
+            </div>
           </div>
         ))}
         <div ref={bottomRef} />
