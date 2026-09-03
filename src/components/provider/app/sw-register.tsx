@@ -1,7 +1,7 @@
 "use client";
 
 import { logger } from "@/lib/utils/logger";
-import { chatRunningAtom, chatStore } from "@/store/chat-store";
+import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -56,9 +56,13 @@ export function SwRegister() {
     const onVisible = () => {
       if (document.visibilityState !== "visible") return;
       if (stale) {
-        // A reload mid-reply loses the half-written answer; the composer
-        // draft is on the conversation row and survives, this is not.
-        if (chatStore.get(chatRunningAtom)) {
+        // A reload mid-reply loses the half-written answer, and an editor
+        // with unsaved fields loses them; the composer draft is on the
+        // conversation row and survives.
+        if (
+          chatStore.get(chatRunningAtom) ||
+          chatStore.get(dirtyFormsAtom) > 0
+        ) {
           toast(updateText, {
             id: "sw-update",
             duration: Infinity,

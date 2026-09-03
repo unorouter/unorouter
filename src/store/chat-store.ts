@@ -127,6 +127,7 @@ export type ChatRuntimeState = {
   rotatingGroupTurn: boolean;
   greetingIndex: number;
   running: boolean;
+  dirtyForms: number;
 };
 
 const INITIAL_RUNTIME_STATE: ChatRuntimeState = {
@@ -138,6 +139,7 @@ const INITIAL_RUNTIME_STATE: ChatRuntimeState = {
   rotatingGroupTurn: false,
   greetingIndex: 0,
   running: false,
+  dirtyForms: 0,
 };
 
 const chatRuntimeAtom = atom<ChatRuntimeState>(INITIAL_RUNTIME_STATE);
@@ -159,6 +161,7 @@ export const speakingCharacterIdAtom = runtimeField("speakingCharacterId");
 export const rotatingGroupTurnAtom = runtimeField("rotatingGroupTurn");
 export const greetingIndexAtom = runtimeField("greetingIndex");
 export const chatRunningAtom = runtimeField("running");
+export const dirtyFormsAtom = runtimeField("dirtyForms");
 
 export const assistantRuntimeAtom = atom<AssistantRuntime | null>(null);
 
