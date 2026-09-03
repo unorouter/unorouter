@@ -21,6 +21,7 @@ import {
   RpListDialog,
 } from "../shared/rp-list-parts";
 import { JsPluginEditor } from "./editor";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 
 type Props = {
   open: boolean;
@@ -38,6 +39,7 @@ export function JsPluginList(props: Props) {
   const pluginsQuery = useJsPluginsQuery();
   const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteJsPluginMutation();
+  const exportMut = useRpExportMutation();
   const createMut = useCreateJsPluginMutation();
   const importUrlMut = useImportJsPluginFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
@@ -128,6 +130,19 @@ export function JsPluginList(props: Props) {
                   : "CHAT.JS_PLUGIN.SUMMARY_UNO"
                 : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
             )}
+            actions={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  exportMut.mutate({ kind: "js_plugins", id: plugin.id });
+                }}
+                aria-label={t("CHAT.JS_PLUGIN.EXPORT")}
+              >
+                <Icon name="download" className="size-4" />
+              </Button>
+            }
             onDelete={() => handleDelete(plugin.id)}
           />
         ),

@@ -44,6 +44,7 @@ export const conversations = sqliteTable(
     personaId: text("persona_id"),
     presetId: text("preset_id"),
     systemPromptOverride: text("system_prompt_override"),
+    draft: text("draft"),
     authorNote: text("author_note"),
     authorNoteDepth: integer("author_note_depth").notNull().default(4),
     chatMemory: integer("chat_memory"),

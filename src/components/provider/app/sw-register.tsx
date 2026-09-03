@@ -1,6 +1,7 @@
 "use client";
 
 import { logger } from "@/lib/utils/logger";
+import { chatRunningAtom, chatStore } from "@/store/chat-store";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -55,6 +56,19 @@ export function SwRegister() {
     const onVisible = () => {
       if (document.visibilityState !== "visible") return;
       if (stale) {
+        // A reload mid-reply loses the half-written answer; the composer
+        // draft is on the conversation row and survives, this is not.
+        if (chatStore.get(chatRunningAtom)) {
+          toast(updateText, {
+            id: "sw-update",
+            duration: Infinity,
+            action: {
+              label: reloadText,
+              onClick: () => window.location.reload(),
+            },
+          });
+          return;
+        }
         stale = false;
         window.location.reload();
         return;

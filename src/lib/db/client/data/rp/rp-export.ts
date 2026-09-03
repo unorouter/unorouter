@@ -19,6 +19,7 @@ import {
   readLocalPersona,
   readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
+import { readLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
 import { readLocalMedia } from "@/lib/db/client/data/media/media";
 
 type LocalExportResult = {
@@ -163,6 +164,17 @@ export async function exportLocalPersona(
       type: "application/json",
     }),
     filename: `${slug}.persona.json`,
+  };
+}
+
+export async function exportLocalPlugin(
+  id: string,
+): Promise<LocalExportResult> {
+  const row = await readLocalJsPlugin(id);
+  if (!row) throw new Error("Plugin not found");
+  return {
+    blob: new Blob([row.script], { type: "text/javascript" }),
+    filename: `${exportSlug(row.name, "plugin")}.js`,
   };
 }
 

@@ -8,6 +8,8 @@ import type {
   SurfaceColors,
   SurfaceScope,
 } from "@/components/ui/theme/theme-store";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 
 const FONT_SCALE_MIN = 0.85;
@@ -128,6 +130,7 @@ export function SurfaceColorsSection(props: {
   onModeChange: (mode: "light" | "dark") => void;
   onScopeChange: (scope: SurfaceScope) => void;
   onChange: (patch: Partial<SurfaceColors>) => void;
+  onCopyToOtherMode: () => void;
 }) {
   const t = useTranslations();
   return (
@@ -163,6 +166,22 @@ export function SurfaceColorsSection(props: {
             </TabsTrigger>
           </TabsList>
         </Tabs>
+      </div>
+      <div className="flex justify-end px-1">
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={props.onCopyToOtherMode}
+          disabled={!props.surface}
+        >
+          <Icon name="copy" className="mr-1.5 size-3.5" />
+          {t(
+            props.mode === "light"
+              ? "THEME.COPY_TO_DARK"
+              : "THEME.COPY_TO_LIGHT",
+          )}
+        </Button>
       </div>
       {props.scope === "chat" && !props.surface ? (
         <p className="text-muted-foreground px-1 text-[11px]">

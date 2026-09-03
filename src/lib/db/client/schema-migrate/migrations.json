@@ -19,6 +19,10 @@
     {
       "tag": "0004_melodic_natasha_romanoff",
       "sql": "ALTER TABLE `lorebooks` ADD `greeting` text;"
+    },
+    {
+      "tag": "0005_busy_mordo",
+      "sql": "ALTER TABLE `conversations` ADD `draft` text;"
     }
   ]
 }
