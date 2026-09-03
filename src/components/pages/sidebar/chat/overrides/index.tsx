@@ -1,5 +1,7 @@
 "use client";
 
+import { useMarkDirtyForm } from "@/hooks/ui/use-rp-form";
+
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
@@ -141,6 +143,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     values: formValues,
     resetOptions: { keepDirtyValues: true },
   });
+  useMarkDirtyForm(form.formState.isDirty);
 
   const webSearchEnabled = useWatch({
     control: form.control,
