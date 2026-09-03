@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Tambah model",
       "FETCH_MODELS": "Ambil model",
       "FETCH_FAILED": "Tidak dapat mengambil model (HTTP {status}). Periksa URL endpoint dan kunci API.",
+      "TOO_MANY_MODELS": "Terlalu banyak model (maks. {max}). Hapus beberapa sebelum menyimpan.",
+      "FORM_INVALID": "Beberapa kolom tidak valid. Periksa formulir lalu coba lagi.",
       "MODEL_KEY": "Kunci model",
       "MODEL_LABEL": "Nama tampilan",
       "MODEL_COUNT": "{count} model",

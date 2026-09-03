@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "モデルを追加",
       "FETCH_MODELS": "モデルを取得",
       "FETCH_FAILED": "モデルを取得できませんでした（HTTP {status}）。エンドポイントURLとAPIキーを確認してください。",
+      "TOO_MANY_MODELS": "モデルが多すぎます（最大{max}）。保存する前にいくつか削除してください。",
+      "FORM_INVALID": "入力に誤りがあります。フォームを確認してやり直してください。",
       "MODEL_KEY": "モデルキー",
       "MODEL_LABEL": "表示名",
       "MODEL_COUNT": "{count} モデル",

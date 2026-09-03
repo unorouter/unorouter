@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Añadir modelo",
       "FETCH_MODELS": "Obtener modelos",
       "FETCH_FAILED": "No se pudieron obtener los modelos (HTTP {status}). Comprueba la URL del endpoint y la clave de API.",
+      "TOO_MANY_MODELS": "Demasiados modelos (máx. {max}). Elimina algunos antes de guardar.",
+      "FORM_INVALID": "Algunos campos no son válidos. Revisa el formulario e inténtalo de nuevo.",
       "MODEL_KEY": "Clave del modelo",
       "MODEL_LABEL": "Nombre visible",
       "MODEL_COUNT": "{count} modelo(s)",

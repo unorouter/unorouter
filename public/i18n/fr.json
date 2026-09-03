@@ -3757,6 +3757,8 @@
       "ADD_MODEL": "Ajouter un modèle",
       "FETCH_MODELS": "Récupérer les modèles",
       "FETCH_FAILED": "Impossible de récupérer les modèles (HTTP {status}). Vérifiez l'URL du point de terminaison et la clé API.",
+      "TOO_MANY_MODELS": "Trop de modèles ({max} max). Supprimez-en avant d'enregistrer.",
+      "FORM_INVALID": "Certains champs sont invalides. Vérifiez le formulaire et réessayez.",
       "MODEL_KEY": "Clé du modèle",
       "MODEL_LABEL": "Nom affiché",
       "MODEL_COUNT": "{count} modèle(s)",
