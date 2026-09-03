@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Message array में inject करते समय उपयोग किया गया role। Mid-conversation system messages को reject करने वाले providers (जैसे Gemini) पर 'user' पर auto-falls back होता है।",
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "नया preset",
+    "PRESETS_IMPORT": "आयात करें",
     "PRESETS_IMPORT_LINK": "लिंक से आयात करें",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "LoreBary का प्रॉम्प्ट या परिदृश्य लिंक चिपकाएँ",
     "PRESETS_EXPORT": "Preset export करें",

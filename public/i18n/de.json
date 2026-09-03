@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rolle beim Einfügen in das Nachrichten-Array. Fällt automatisch auf 'Benutzer' zurück bei Anbietern, die Mid-Conversation-System-Nachrichten ablehnen (z. B. Gemini).",
     "PRESETS_TITLE": "Sampling-Voreinstellungen",
     "PRESETS_NEW": "Neue Voreinstellung",
+    "PRESETS_IMPORT": "Importieren",
     "PRESETS_IMPORT_LINK": "Per Link importieren",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Link zu einem LoreBary-Prompt oder -Szenario einfügen",
     "PRESETS_EXPORT": "Voreinstellung exportieren",

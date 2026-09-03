@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rol usado al inyectar en el array de mensajes. Recae automáticamente a 'user' en proveedores que rechazan mensajes de sistema a mitad de conversación (ej. Gemini).",
     "PRESETS_TITLE": "Presets de muestreo",
     "PRESETS_NEW": "Nuevo preset",
+    "PRESETS_IMPORT": "Importar",
     "PRESETS_IMPORT_LINK": "Importar desde enlace",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Pega un enlace de prompt o escenario de LoreBary",
     "PRESETS_EXPORT": "Exportar preset",

@@ -119,7 +119,7 @@ export function CardsPage() {
         headerActions={
           <RpImportControl
             entity="cards"
-            accept="application/json"
+            accept=".json,application/json"
             labelKey="RP.CARDS_IMPORT"
             isPending={importMut.isPending}
             onFile={(file) => importMut.mutateAsync(file).then(() => {})}

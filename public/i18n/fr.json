@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rôle utilisé lors de l'injection dans la liste des messages. Bascule automatiquement sur 'Utilisateur' pour les fournisseurs qui rejettent les messages système en cours de conversation (ex : Gemini).",
     "PRESETS_TITLE": "Préréglages d'échantillonnage",
     "PRESETS_NEW": "Nouveau préréglage",
+    "PRESETS_IMPORT": "Importer",
     "PRESETS_IMPORT_LINK": "Importer depuis un lien",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Collez un lien de prompt ou de scénario LoreBary",
     "PRESETS_EXPORT": "Exporter le préréglage",

@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "الدور المستخدم عند الحقن في مصفوفة الرسائل. يتراجع تلقائياً إلى 'user' على المزوّدين الذين يرفضون رسائل النظام في منتصف المحادثة (مثل Gemini).",
     "PRESETS_TITLE": "إعدادات العيّنات المسبقة",
     "PRESETS_NEW": "إعداد مسبق جديد",
+    "PRESETS_IMPORT": "استيراد",
     "PRESETS_IMPORT_LINK": "الاستيراد من رابط",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "الصق رابط موجّه أو سيناريو من LoreBary",
     "PRESETS_EXPORT": "تصدير إعداد مسبق",

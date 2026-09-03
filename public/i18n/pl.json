@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rola używana przy wstrzykiwaniu do tablicy wiadomości. Automatycznie wraca do 'user' u dostawców, którzy odrzucają wiadomości systemowe w środku rozmowy (np. Gemini).",
     "PRESETS_TITLE": "Presety samplowania",
     "PRESETS_NEW": "Nowy preset",
+    "PRESETS_IMPORT": "Importuj",
     "PRESETS_IMPORT_LINK": "Importuj z linku",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Wklej link do promptu albo scenariusza LoreBary",
     "PRESETS_EXPORT": "Eksportuj preset",

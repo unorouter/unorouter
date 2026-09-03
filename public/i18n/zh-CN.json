@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "注入消息数组时使用的角色。对于不接受会话中系统消息的提供商（如 Gemini），自动回退为「用户」。",
     "PRESETS_TITLE": "采样预设",
     "PRESETS_NEW": "新建预设",
+    "PRESETS_IMPORT": "导入",
     "PRESETS_IMPORT_LINK": "从链接导入",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "粘贴 LoreBary 提示词或场景链接",
     "PRESETS_EXPORT": "导出预设",

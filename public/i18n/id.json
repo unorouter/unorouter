@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Peran yang digunakan saat menyuntikkan ke dalam array pesan. Otomatis kembali ke 'user' pada penyedia yang menolak pesan sistem di tengah sohbet (mis. Gemini).",
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset baru",
+    "PRESETS_IMPORT": "Impor",
     "PRESETS_IMPORT_LINK": "Impor dari tautan",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Tempel tautan prompt atau skenario LoreBary",
     "PRESETS_EXPORT": "Ekspor preset",

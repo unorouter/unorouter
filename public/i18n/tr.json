@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Mesaj dizisine enjekte ederken kullanılan rol. Sohbet ortası system mesajlarını reddeden sağlayıcılarda (ör. Gemini) otomatik olarak 'user'a geri döner.",
     "PRESETS_TITLE": "Sampling presetleri",
     "PRESETS_NEW": "Yeni preset",
+    "PRESETS_IMPORT": "İçe Aktar",
     "PRESETS_IMPORT_LINK": "Bağlantıdan içe aktar",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "LoreBary istemi ya da senaryo bağlantısı yapıştır",
     "PRESETS_EXPORT": "Preset dışa aktar",

@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Vai trò khi chèn vào mảng tin nhắn. Tự động chuyển về 'Người dùng' với nhà cung cấp không nhận tin nhắn hệ thống giữa hội thoại (ví dụ: Gemini).",
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset mới",
+    "PRESETS_IMPORT": "Nhập",
     "PRESETS_IMPORT_LINK": "Nhập từ liên kết",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết prompt hoặc kịch bản LoreBary",
     "PRESETS_EXPORT": "Xuất preset",

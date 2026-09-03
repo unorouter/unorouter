@@ -36,6 +36,32 @@ export const useDuplicatePresetMutation = presets.useDuplicate;
 
 // LoreBary publishes prompts and scenarios, and the fetcher turns both into a
 // preset carrying a finished prompt template, so this only writes the row.
+export function useImportPresetMutation() {
+  return useApiMutation({
+    mutationFn: async (file: File) => {
+      let raw: unknown;
+      try {
+        raw = JSON.parse(await file.text());
+      } catch {
+        throw new Error("ERRORS.REQUEST_FAILED");
+      }
+      const parsed = (
+        await import("@/lib/ai/rp/preset-import")
+      ).parsePresetJson(raw);
+      if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
+      const now = dayjs().toDate();
+      await upsertLocalPreset({
+        ...parsed,
+        id: uid(),
+        createdAt: now,
+        updatedAt: now,
+      });
+      return { name: parsed.name };
+    },
+    invalidates: [queryKeys.presets()],
+  });
+}
+
 export function useImportPresetFromUrlMutation() {
   return useApiMutation({
     mutationFn: (input: string) =>

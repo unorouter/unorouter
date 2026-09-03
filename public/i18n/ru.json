@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Роль при вставке в массив сообщений. Автоматически возвращается к 'Пользователь' для провайдеров, не принимающих системные сообщения в середине диалога (например, Gemini).",
     "PRESETS_TITLE": "Пресеты сэмплинга",
     "PRESETS_NEW": "Новый пресет",
+    "PRESETS_IMPORT": "Импорт",
     "PRESETS_IMPORT_LINK": "Импорт по ссылке",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Вставьте ссылку на промпт или сценарий LoreBary",
     "PRESETS_EXPORT": "Экспорт пресета",

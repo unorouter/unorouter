@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Role used when injecting into the message array. Auto-falls back to 'user' on providers that reject mid-conversation system messages (e.g. Gemini).",
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "New preset",
+    "PRESETS_IMPORT": "Import",
     "PRESETS_IMPORT_LINK": "Import from link",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "Paste a LoreBary prompt or scenario link",
     "PRESETS_EXPORT": "Export preset",

@@ -3938,6 +3938,7 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Role שמשמש בהזרקה למערך ההודעות. נופל אוטומטית ל-'user' על ספקים שדוחים הודעות מערכת באמצע שיחה (לדוגמה Gemini).",
     "PRESETS_TITLE": "Presets של sampling",
     "PRESETS_NEW": "Preset חדש",
+    "PRESETS_IMPORT": "ייבוא",
     "PRESETS_IMPORT_LINK": "ייבוא מקישור",
     "PRESETS_IMPORT_LINK_PLACEHOLDER": "הדביקו קישור לפרומפט או לתרחיש של LoreBary",
     "PRESETS_EXPORT": "ייצוא preset",
