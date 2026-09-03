@@ -114,7 +114,7 @@ export function LorebookList(props: Props) {
               <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                 <RpImportControl
                   entity="lorebooks"
-                  accept="application/json"
+                  accept=".json,application/json"
                   labelKey="RP.LOREBOOKS_IMPORT"
                   isPending={importMut.isPending || importUrlMut.isPending}
                   onFile={(file) => importMut.mutateAsync(file).then(() => {})}

@@ -284,7 +284,7 @@ export function ThemeCustomizerBody() {
         <input
           ref={fileInputRef}
           type="file"
-          accept="application/json"
+          accept=".json,application/json"
           className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0];

@@ -6,6 +6,7 @@ import {
   useDeletePresetMutation,
   useDuplicatePresetMutation,
   useImportPresetFromUrlMutation,
+  useImportPresetMutation,
   usePresetsQuery,
 } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
@@ -30,6 +31,7 @@ export function PresetsPage() {
   const deleteMut = useDeletePresetMutation();
   const duplicateMut = useDuplicatePresetMutation();
   const exportMut = useRpExportMutation();
+  const importMut = useImportPresetMutation();
   const importUrlMut = useImportPresetFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -68,8 +70,10 @@ export function PresetsPage() {
       headerActions={
         <RpImportControl
           entity="presets"
-          labelKey="RP.PRESETS_IMPORT_LINK"
-          isPending={importUrlMut.isPending}
+          accept=".json,application/json"
+          labelKey="RP.PRESETS_IMPORT"
+          isPending={importMut.isPending || importUrlMut.isPending}
+          onFile={(file) => importMut.mutateAsync(file).then(() => {})}
           onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
           urlLabelKey="RP.PRESETS_IMPORT_LINK"
           urlPlaceholderKey="RP.PRESETS_IMPORT_LINK_PLACEHOLDER"

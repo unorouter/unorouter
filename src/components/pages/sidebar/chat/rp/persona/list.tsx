@@ -67,7 +67,7 @@ export function PersonaList(props: Props) {
         <>
           <RpImportControl
             entity="personas"
-            accept="application/json"
+            accept=".json,application/json"
             labelKey="RP.PERSONAS_IMPORT"
             isPending={importMut.isPending || importUrlMut.isPending}
             onFile={(file) => importMut.mutateAsync(file).then(() => {})}

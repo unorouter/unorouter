@@ -87,7 +87,7 @@ export function SnapshotImportDialog(props: Props) {
           </Select>
           <input
             type="file"
-            accept="application/json"
+            accept=".json,application/json"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) void onImportFile(file);
