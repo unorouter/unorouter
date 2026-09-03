@@ -116,12 +116,53 @@ const THREAD_VARS: CssVars = {
 export const Thread: FC = () => {
   const autoScrollStream = useStreamFlag("autoScrollStream");
   const viewportRef = useRef<HTMLDivElement>(null);
+  // The library's one jump on open fires before a long history has rendered,
+  // so a chat opened with the setting off landed partway up. Follow the
+  // bottom until the rendered history stops growing, then honor the setting.
+  const params = useParams<{ convId?: string }>();
+  const historyLoaded = useAtomValue(historyLoadedAtom);
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!historyLoaded || !el) return;
+    // Polled rather than observed: the nodes present at load are the skeleton,
+    // and the message list that replaces them is what grows.
+    let lastHeight = -1;
+    let stableSince = Date.now();
+    const started = Date.now();
+    const timer = setInterval(() => {
+      const now = Date.now();
+      if (el.scrollHeight !== lastHeight) {
+        lastHeight = el.scrollHeight;
+        stableSince = now;
+      }
+      if (now - stableSince > 400 || now - started > 8000) {
+        clearInterval(timer);
+        setSettled(true);
+      }
+    }, 100);
+    return () => clearInterval(timer);
+  }, [historyLoaded]);
+  const settling = !!params.convId && !settled;
   useEffect(() => {
     logChatDebug("viewport.autoscroll", { autoScrollStream });
   }, [autoScrollStream]);
-  // Every programmatic scroll goes through scrollTo, so wrapping it names the
-  // caller in the debug export. A user who reports being pulled down with the
-  // setting off has, so far, never been reproducible from the outside.
+  // The viewport library keeps a pending scroll-to-bottom that it re-applies
+  // on every content resize until it observes the bottom, ignoring autoScroll.
+  // Six weeks of chasing that state machine did not make the toggle reliable,
+  // so the invariant is enforced here instead: with the setting off, a
+  // programmatic scroll during a reply is dropped unless the user just
+  // touched the viewport. A synthetic pointerdown at run start is the
+  // library's own cancel path for that pending scroll.
+  const isRunning = useAuiState((s) => s.thread.isRunning);
+  const runningRef = useRef(false);
+  useEffect(() => {
+    runningRef.current = isRunning;
+    if (!isRunning || autoScrollStream) return;
+    viewportRef.current?.dispatchEvent(
+      new PointerEvent("pointerdown", { bubbles: false }),
+    );
+  }, [isRunning, autoScrollStream]);
   useEffect(() => {
     const el = viewportRef.current;
     if (!el) return;
@@ -129,19 +170,23 @@ export const Thread: FC = () => {
     let calls = 0;
     let lastLog = 0;
     let lastInput = 0;
-    const markInput = () => {
-      lastInput = Date.now();
+    const markInput = (e: Event) => {
+      if (e.isTrusted) lastInput = Date.now();
     };
     el.addEventListener("wheel", markInput, { passive: true });
     el.addEventListener("touchstart", markInput, { passive: true });
+    el.addEventListener("pointerdown", markInput);
     el.addEventListener("keydown", markInput);
     el.scrollTo = (a?: ScrollToOptions | number, b?: number): void => {
       calls++;
       const now = Date.now();
+      const blocked =
+        !autoScrollStream && runningRef.current && now - lastInput > 1000;
       if (now - lastLog > 1000) {
         lastLog = now;
         logChatDebug("viewport.scroll_to", {
           calls,
+          blocked,
           arg: typeof a === "number" ? `${a},${b}` : JSON.stringify(a),
           autoScrollStream,
           fromBottom: Math.round(
@@ -155,6 +200,7 @@ export const Thread: FC = () => {
             .join(" | "),
         });
       }
+      if (blocked) return;
       if (typeof a === "number") native(a, b ?? 0);
       else native(a);
     };
@@ -162,6 +208,7 @@ export const Thread: FC = () => {
       el.scrollTo = native;
       el.removeEventListener("wheel", markInput);
       el.removeEventListener("touchstart", markInput);
+      el.removeEventListener("pointerdown", markInput);
       el.removeEventListener("keydown", markInput);
     };
   }, [autoScrollStream]);
@@ -175,7 +222,7 @@ export const Thread: FC = () => {
           the toggle looked broken. Both follow the preference now. */}
       <ThreadPrimitive.Viewport
         ref={viewportRef}
-        autoScroll={autoScrollStream}
+        autoScroll={autoScrollStream || settling}
         scrollToBottomOnRunStart={autoScrollStream}
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
