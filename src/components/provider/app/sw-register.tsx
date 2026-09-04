@@ -1,5 +1,6 @@
 "use client";
 
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
 import { useTranslations } from "next-intl";
@@ -24,6 +25,13 @@ export function SwRegister() {
     // replies on the port it was handed, so this works for a worker that
     // does not control this page yet.
     const onMessage = (e: MessageEvent) => {
+      if (e.data?.type === "INSTALL_GATE") {
+        logChatDebug("sw.install_gate", {
+          waitedMs: e.data.waitedMs,
+          clients: e.data.clients,
+        });
+        return;
+      }
       if (e.data?.type !== "READY_STATE") return;
       e.ports[0]?.postMessage(document.readyState);
     };
@@ -35,8 +43,21 @@ export function SwRegister() {
         .register("/sw-worker/sw.js", { scope: "/", updateViaCache: "none" })
         .then((reg) => {
           registration = reg;
+          logChatDebug("sw.registered", {
+            controlled: !!navigator.serviceWorker.controller,
+            waiting: !!reg.waiting,
+            installing: !!reg.installing,
+          });
+          reg.addEventListener("updatefound", () =>
+            logChatDebug("sw.updatefound", {
+              visible: document.visibilityState === "visible",
+            }),
+          );
         })
         .catch((err) => {
+          logChatDebug("sw.register_failed", {
+            error: String(err).slice(0, 200),
+          });
           logger.warn("Service worker registration failed", {
             context: "pwa.sw-register",
             error: String(err),
@@ -55,6 +76,9 @@ export function SwRegister() {
     const onControllerChange = () => {
       if (!navigator.serviceWorker.controller) return;
       stale = true;
+      logChatDebug("sw.controllerchange", {
+        visible: document.visibilityState === "visible",
+      });
       if (document.visibilityState !== "visible") return;
       toast(updateText, {
         id: "sw-update",
@@ -91,6 +115,7 @@ export function SwRegister() {
           return;
         }
         stale = false;
+        logChatDebug("sw.reload", { reason: "stale_on_visible" });
         window.location.reload();
         return;
       }

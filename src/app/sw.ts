@@ -175,7 +175,23 @@ async function waitForPagesToLoad(): Promise<void> {
 }
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(waitForPagesToLoad());
+  event.waitUntil(
+    (async () => {
+      const t0 = Date.now();
+      await waitForPagesToLoad();
+      const clients = await self.clients.matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      });
+      for (const client of clients) {
+        client.postMessage({
+          type: "INSTALL_GATE",
+          waitedMs: Date.now() - t0,
+          clients: clients.length,
+        });
+      }
+    })(),
+  );
 });
 
 self.addEventListener("fetch", (event) => {

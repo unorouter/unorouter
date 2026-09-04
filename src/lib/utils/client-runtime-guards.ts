@@ -1,4 +1,10 @@
-import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
+import {
+  captureCaughtError,
+  flushChatDebugLog,
+  logChatDebug,
+} from "@/lib/utils/chat-debug-log";
+
+export const RELEASE = process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev";
 
 let errorCaptureInstalled = false;
 
@@ -41,7 +47,14 @@ export function requestPersistentStorage(): void {
   void navigator.storage
     ?.persist?.()
     .then((persisted) => {
-      if (!persisted) logChatDebug("storage.persist_denied");
+      if (persisted) return;
+      // Once per session: Safari denies a plain tab every time, and 18
+      // identical lines buried the entries that mattered in one export.
+      try {
+        if (sessionStorage.getItem("persist-denied-logged")) return;
+        sessionStorage.setItem("persist-denied-logged", "1");
+      } catch {}
+      logChatDebug("storage.persist_denied");
     })
     .catch((err) =>
       logChatDebug("storage.persist_error", {
@@ -55,6 +68,21 @@ export function requestPersistentStorage(): void {
 // WebKit #211018 apart, but performance.memory is Chromium-only, so it is
 // absent on exactly the iOS Safari those two are specific to.
 export function installResumeDiagnostics(): void {
+  // One line per boot naming the build and how the document arrived. A boot
+  // that logs this and nothing after it died before the app came up, which is
+  // the only trace a navigation killed by a worker update ever leaves.
+  const nav = performance.getEntriesByType("navigation")[0];
+  logChatDebug("boot", {
+    release: RELEASE,
+    readyState: document.readyState,
+    swControlled: !!navigator.serviceWorker?.controller,
+    ...(nav instanceof PerformanceNavigationTiming && {
+      navType: nav.type,
+      transferKB: Math.round(nav.transferSize / 1024),
+      responseEndMs: Math.round(nav.responseEnd),
+      domCompleteMs: Math.round(nav.domComplete),
+    }),
+  });
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
@@ -64,6 +92,7 @@ export function installResumeDiagnostics(): void {
   });
   window.addEventListener("pagehide", (e) => {
     logChatDebug("page.hide", { bfcached: e.persisted });
+    flushChatDebugLog();
   });
 }
 

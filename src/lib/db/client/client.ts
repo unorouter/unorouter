@@ -197,6 +197,7 @@ const MIN_HOLD_MS = 2_000;
 const HIDDEN_PARK_MS = 5_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
+  const t0 = Date.now();
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
@@ -219,7 +220,11 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
       }
       await runMigrations(sql);
       await assertNotSilentlyEmptied(sql, dbPath);
-      logChatDebug("db.open.done", { storageType: "opfs" });
+      logChatDebug("db.open.done", {
+        storageType: "opfs",
+        ms: Date.now() - t0,
+        attempt,
+      });
       return sql;
     } catch (err) {
       if (!isRecoverable(err) || attempt >= RETRIES) {
@@ -351,6 +356,7 @@ async function migrateLegacySqliteFile(
 async function openClient(): Promise<LocalClient> {
   const appName = env.appName.toLowerCase();
   const dbPath = singleDbPath();
+  logChatDebug("db.open.start");
   // Take the Web Lock BEFORE any pool access: a second tab's failed install can
   // tear a pool header, after which the FIRST tab opens empty and looks wiped.
   const lockKey = `db:${dbPath}`;
