@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import {
   AvatarPositionDialog,
+  AvatarSizeRow,
   type Focal,
 } from "@/components/pages/sidebar/chat/rp/shared/avatar-position-dialog";
 import { focalToObjectPosition } from "@/hooks/ai/use-media-src";
@@ -120,12 +121,14 @@ export function RpImageField(props: {
           )}
         </DialogContent>
       </Dialog>
-      <div className="flex gap-2">
+      {/* wrap + basis: three labels do not fit one phone-width row, and a
+          longer locale (de "Positionieren") overflows the card without it. */}
+      <div className="flex flex-wrap gap-2">
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="flex-1"
+          className="min-w-28 flex-1"
           onClick={() => inputRef.current?.click()}
         >
           <Icon name="upload" className="mr-1.5 size-3.5" />
@@ -137,7 +140,7 @@ export function RpImageField(props: {
               type="button"
               variant="outline"
               size="sm"
-              className="flex-1"
+              className="min-w-28 flex-1"
               onClick={() => setPositioning(true)}
             >
               <Icon name="maximize-2" className="mr-1.5 size-3.5" />
@@ -147,7 +150,7 @@ export function RpImageField(props: {
               type="button"
               variant="outline"
               size="sm"
-              className="flex-1"
+              className="min-w-28 flex-1"
               onClick={() => props.onPick({ kind: "remove" })}
             >
               <Icon name="trash-2" className="mr-1.5 size-3.5" />
@@ -156,6 +159,8 @@ export function RpImageField(props: {
           </>
         )}
       </div>
+
+      {props.shape === "circle" && <AvatarSizeRow />}
 
       {props.preview && (
         <AvatarPositionDialog
