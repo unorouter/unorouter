@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto her modeli mevcut en ucuz sağlayıcıya yönlendirir. Belirli sağlayıcı gruplarını sabitlemek için bir modeli açın; faturalandırma bu tarifelerle sınırlanır.",
       "GROUP_OVERRIDES_COUNT": "{count} geçersiz kılındı",
       "GROUP_CLEAR_ALL": "Tümünü temizle",
-      "GROUP_MODEL_SEARCH": "Model ara..."
+      "GROUP_MODEL_SEARCH": "Model ara...",
+      "GROUP_OFFLINE": "Bu gruptaki tüm sağlayıcılar şu anda çevrimdışı"
     },
     "ENUM": {
       "ENABLED": "Etkin",

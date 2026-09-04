@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto 會將每個模型路由到目前可用的最便宜供應商。開啟某個模型可固定特定供應商分組，該模型將僅按所選分組的費率計費。",
       "GROUP_OVERRIDES_COUNT": "已覆寫 {count} 個",
       "GROUP_CLEAR_ALL": "全部清除",
-      "GROUP_MODEL_SEARCH": "搜尋模型…"
+      "GROUP_MODEL_SEARCH": "搜尋模型…",
+      "GROUP_OFFLINE": "該分組的所有供應商目前均無法使用"
     },
     "ENUM": {
       "ENABLED": "已啟用",

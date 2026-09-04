@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto instrada ogni modello verso il fornitore disponibile più economico. Apri un modello per fissare gruppi di fornitori specifici; la fatturazione sarà vincolata alle loro tariffe.",
       "GROUP_OVERRIDES_COUNT": "{count} personalizzati",
       "GROUP_CLEAR_ALL": "Cancella tutto",
-      "GROUP_MODEL_SEARCH": "Cerca modelli..."
+      "GROUP_MODEL_SEARCH": "Cerca modelli...",
+      "GROUP_OFFLINE": "Tutti i fornitori di questo gruppo sono al momento non disponibili"
     },
     "ENUM": {
       "ENABLED": "Abilitata",

@@ -4050,6 +4050,7 @@ export interface ResponseMapIntArrayString {
 
 export interface UserGroupInfo {
   desc: string;
+  online?: boolean;
   ratio: unknown;
 }
 

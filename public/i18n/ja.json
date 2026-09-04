@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto は各モデルを利用可能な最安のプロバイダーへルーティングします。モデルを開いて特定のプロバイダーグループを固定すると、課金はそのレートに限定されます。",
       "GROUP_OVERRIDES_COUNT": "{count} 件を上書き",
       "GROUP_CLEAR_ALL": "すべてクリア",
-      "GROUP_MODEL_SEARCH": "モデルを検索..."
+      "GROUP_MODEL_SEARCH": "モデルを検索...",
+      "GROUP_OFFLINE": "このグループのプロバイダーはすべて現在停止しています"
     },
     "ENUM": {
       "ENABLED": "有効",

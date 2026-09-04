@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto는 각 모델을 사용 가능한 가장 저렴한 공급자로 라우팅합니다. 모델을 열어 특정 공급자 그룹을 고정하면 과금이 해당 요율로 제한됩니다.",
       "GROUP_OVERRIDES_COUNT": "{count}개 재정의됨",
       "GROUP_CLEAR_ALL": "모두 지우기",
-      "GROUP_MODEL_SEARCH": "모델 검색..."
+      "GROUP_MODEL_SEARCH": "모델 검색...",
+      "GROUP_OFFLINE": "이 그룹의 모든 공급자가 현재 중단되었습니다"
     },
     "ENUM": {
       "ENABLED": "활성화됨",

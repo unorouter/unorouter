@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto roteia cada modelo para o provedor disponível mais barato. Abra um modelo para fixar grupos de provedores específicos; a cobrança ficará limitada às tarifas deles.",
       "GROUP_OVERRIDES_COUNT": "{count} personalizados",
       "GROUP_CLEAR_ALL": "Limpar tudo",
-      "GROUP_MODEL_SEARCH": "Pesquisar modelos..."
+      "GROUP_MODEL_SEARCH": "Pesquisar modelos...",
+      "GROUP_OFFLINE": "Todos os provedores deste grupo estão fora do ar no momento"
     },
     "ENUM": {
       "ENABLED": "Ativada",

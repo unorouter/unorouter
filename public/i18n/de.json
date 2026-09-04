@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto leitet jedes Modell zum günstigsten verfügbaren Anbieter. Öffne ein Modell, um bestimmte Anbietergruppen festzulegen; die Abrechnung ist dann auf deren Tarife fixiert.",
       "GROUP_OVERRIDES_COUNT": "{count} überschrieben",
       "GROUP_CLEAR_ALL": "Alle zurücksetzen",
-      "GROUP_MODEL_SEARCH": "Modelle suchen..."
+      "GROUP_MODEL_SEARCH": "Modelle suchen...",
+      "GROUP_OFFLINE": "Alle Anbieter in dieser Gruppe sind derzeit offline"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",
