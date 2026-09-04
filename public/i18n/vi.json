@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép",
     "CHAT_FONT_SIZE": "Cỡ chữ tin nhắn",
     "ASSET_IMAGE_WIDTH": "Chiều rộng tối đa của ảnh tài nguyên",
+    "AVATAR_SCALE": "Kích thước ảnh đại diện trong trò chuyện",
     "SURFACE_COLORS": "Màu bề mặt",
     "MODE_LIGHT": "Sáng",
     "MODE_DARK": "Tối",

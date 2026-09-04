@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "双引号文本",
     "CHAT_FONT_SIZE": "消息字体大小",
     "ASSET_IMAGE_WIDTH": "素材图片最大宽度",
+    "AVATAR_SCALE": "聊天头像大小",
     "SURFACE_COLORS": "界面颜色",
     "MODE_LIGHT": "浅色",
     "MODE_DARK": "深色",

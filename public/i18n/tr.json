@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "Çift tırnaklı metin",
     "CHAT_FONT_SIZE": "Mesaj yazı boyutu",
     "ASSET_IMAGE_WIDTH": "Varlık görseli maksimum genişliği",
+    "AVATAR_SCALE": "Sohbet avatar boyutu",
     "SURFACE_COLORS": "Yüzey renkleri",
     "MODE_LIGHT": "Açık",
     "MODE_DARK": "Koyu",

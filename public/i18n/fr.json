@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "Texte entre guillemets",
     "CHAT_FONT_SIZE": "Taille du texte des messages",
     "ASSET_IMAGE_WIDTH": "Largeur maximale des images d'actifs",
+    "AVATAR_SCALE": "Taille des avatars du chat",
     "SURFACE_COLORS": "Couleurs de surface",
     "MODE_LIGHT": "Clair",
     "MODE_DARK": "Sombre",

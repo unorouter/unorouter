@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "טקסט במירכאות כפולות",
     "CHAT_FONT_SIZE": "גודל גופן ההודעות",
     "ASSET_IMAGE_WIDTH": "רוחב מרבי לתמונות נכסים",
+    "AVATAR_SCALE": "גודל תמונת הפרופיל בצ'אט",
     "SURFACE_COLORS": "צבעי משטח",
     "MODE_LIGHT": "בהיר",
     "MODE_DARK": "כהה",

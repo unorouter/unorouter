@@ -320,6 +320,7 @@ export function buildThemeCss(theme: UserTheme): string {
     markdownBlock(theme.markdown),
     chatFontSizeBlock(theme.chatFontScale),
     assetImageWidthBlock(theme.assetImageMaxWidth),
+    chatAvatarScaleBlock(theme.chatAvatarScale),
     surfaceBlock(theme.surface, "app"),
     // After the app block, so a chat override wins on order as well as nesting.
     surfaceBlock(theme.chatSurface, "chat"),
@@ -336,6 +337,13 @@ function chatFontSizeBlock(scale: number | undefined): string {
   // scale 1.2 made user messages 1.44x while assistant messages stayed 1.2x.
   // Scale the user bubble only; the markdown inside it inherits.
   return `:root{--chat-font-scale:${s};}.aui-user-message-content,.aui-md:not(.aui-user-message-content .aui-md){font-size:calc(1em * var(--chat-font-scale,1));}`;
+}
+
+// Always emitted: the in-chat avatars size themselves from these variables, so
+// an absent scale must still resolve to the 1.25rem / 1.75rem defaults.
+function chatAvatarScaleBlock(scale: number | undefined): string {
+  const s = Math.max(1, Math.min(3, scale ?? 1));
+  return `:root{--chat-avatar-sm:${1.25 * s}rem;--chat-avatar-md:${1.75 * s}rem;}`;
 }
 
 function assetImageWidthBlock(rem: number | undefined): string {
