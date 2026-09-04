@@ -98,6 +98,9 @@ export function installResumeDiagnostics(): void {
   // A boot with no db.open.start after it is a page whose content never
   // mounted: a chunk still loading, or hung. Name the chunk while it is
   // still in flight, since a user who gives up at 6s leaves nothing else.
+  // Only the local-first routes open the database on load; elsewhere the
+  // absence of db.open.start means nothing.
+  if (!/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) return;
   setTimeout(() => {
     const since = getChatDebugLog().filter((e) => e.ts >= bootAt);
     if (since.some((e) => e.event === "db.open.start")) return;
