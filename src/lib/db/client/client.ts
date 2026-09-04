@@ -6,11 +6,13 @@ import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
 import {
   diagnoseSql,
+  exportPoolFileSql,
   newSql,
   pauseSql,
   resumeSql,
   terminateAllSql,
   terminateSql,
+  unlinkPoolFileSql,
 } from "@/lib/db/client/new-sql";
 import {
   requestOwnership,
@@ -557,6 +559,12 @@ async function openClient(): Promise<LocalClient> {
     },
     deleteDatabaseFile: () => gated((s) => s.deleteDatabaseFile()),
     getDatabaseFile: () => gated((s) => s.getDatabaseFile()),
+    exportPoolFile: (name, filename) =>
+      gated(async (s) => {
+        const data = await exportPoolFileSql(s, name);
+        return new File([data], filename, { type: "application/x-sqlite3" });
+      }),
+    unlinkPoolFile: (name) => gated((s) => unlinkPoolFileSql(s, name)),
     getDatabaseInfo: () => gated((s) => s.getDatabaseInfo()),
     overwriteDatabaseFile: (file) =>
       gated((s) => s.overwriteDatabaseFile(file)),

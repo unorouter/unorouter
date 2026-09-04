@@ -153,6 +153,19 @@ export class SQLiteSahPoolDriver
     }
   }
 
+  // A pool file other than the live database, already written by VACUUM INTO
+  // on the live connection. One materialization, on this thread only.
+  async exportPoolFile(name: string): Promise<ArrayBuffer> {
+    if (!this.poolUtil) throw new Error("Driver not initialized");
+    const raw = await this.poolUtil.exportFile(name);
+    return new Uint8Array(raw).buffer;
+  }
+
+  unlinkPoolFile(name: string): void {
+    if (!this.poolUtil) throw new Error("Driver not initialized");
+    this.poolUtil.unlink(name);
+  }
+
   override async clear(): Promise<void> {
     await this.purgeOrphans();
   }

@@ -1,8 +1,6 @@
 import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
-import { env } from "@/lib/config/env";
 import { getLocalDb } from "@/lib/db/client/client";
-import { newSql, terminateSql } from "@/lib/db/client/new-sql";
-import type { SQLocalDrizzle } from "sqlocal/drizzle";
+import type { LocalClient } from "@/lib/types";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
@@ -86,56 +84,48 @@ export async function downloadLocalDb(
   }
 }
 
-// A shrunken COPY: the live DB is never mutated.
+// A shrunken COPY, built and shrunk INSIDE the live worker's pool: VACUUM INTO
+// a temp pool file, ATTACH it, delete what the options exclude, VACUUM it, then
+// export that one file. The previous shape read the whole database into the
+// main thread, streamed it into a second worker, and read it back out again:
+// four full copies plus a second WASM heap, which on an iPhone was the memory
+// pressure that later killed tabs (#33076). The live database is never mutated.
 async function buildExportFile(
   opts: Required<DbExportOptions>,
 ): Promise<{ file: File; cleanup: () => Promise<void> }> {
-  const appName = env.appName.toLowerCase();
-  const scratchPath = `${appName}-export.sqlite3`;
-
   const local = await getLocalDb();
   if (!local) throw new Error("SQLocal unavailable");
-  const srcFile = await local.getDatabaseFile();
-  logChatDebug("export.db.copy", { srcBytes: srcFile.size });
+  const info = await local.getDatabaseInfo();
+  const dbName = (info.databasePath ?? "unorouter.sqlite").replace(/^\/+/, "");
+  // Same shape purgeOrphans() recognises, so a crash mid-export leaves
+  // nothing a later open cannot clean up.
+  const tempName = `/backup-${Date.now()}--${dbName}`;
+  logChatDebug("export.db.copy", { srcBytes: info.databaseSizeBytes ?? 0 });
 
-  const scratch = newSql(scratchPath);
   const cleanup = async () => {
-    // Unlink THROUGH the driver: the scratch's bytes live in a pool slot, not
-    // under `scratchPath`, so removing that root name leaves a full copy of the
-    // database behind per export. Terminate too, or it holds the pool handles.
-    await scratch.deleteDatabaseFile().catch((err) =>
+    await local.unlinkPoolFile(tempName).catch((err) =>
       logChatDebug("export.db.cleanup_failed", {
-        stage: "delete",
+        stage: "unlink",
         error: String(err).slice(0, 200),
       }),
     );
-    await scratch.destroy().catch(() => {});
-    terminateSql(scratch);
-    try {
-      const root = await navigator.storage.getDirectory();
-      await root.removeEntry(scratchPath).catch(() => {});
-    } catch (err) {
-      logChatDebug("export.db.cleanup_failed", {
-        stage: "root",
-        error: String(err).slice(0, 200),
-      });
-    }
   };
+  await local.exec("VACUUM INTO ?", [tempName], "run");
   try {
-    // Stream, never arrayBuffer(): materializing the whole DB in memory is what
-    // makes a large backup fail to save at all.
-    await scratch.overwriteDatabaseFile(srcFile.stream());
-    await scratch.sql`PRAGMA foreign_keys = OFF`;
-
-    const before = await scratchSize(scratch);
-    const deleted = await deleteExcluded(scratch, opts);
-    // Provider API keys STAY: this is a local backup, and stripping them here
-    // silently breaks restores (everything back except a blank key).
-    await scratch.sql`VACUUM`;
-    const after = await scratchSize(scratch);
+    await local.exec("ATTACH DATABASE ? AS exp", [tempName], "run");
+    let before = 0;
+    let after = 0;
+    let deleted: string[] = [];
+    try {
+      before = await attachedSize(local);
+      deleted = await deleteExcluded(local, opts);
+      await local.exec("VACUUM exp", [], "run");
+      after = await attachedSize(local);
+    } finally {
+      await local.exec("DETACH DATABASE exp", [], "run");
+    }
     logChatDebug("export.db.shrink", { before, after, deletedTables: deleted });
-
-    const file = await scratch.getDatabaseFile();
+    const file = await local.exportPoolFile(tempName, dbName);
     return { file, cleanup };
   } catch (e) {
     await cleanup();
@@ -144,17 +134,24 @@ async function buildExportFile(
 }
 
 async function deleteExcluded(
-  scratch: SQLocalDrizzle,
+  local: LocalClient,
   opts: Required<DbExportOptions>,
 ): Promise<string[]> {
   const deleted: string[] = [];
   const drop = async (table: string, where?: string) => {
-    await scratch.sql(
-      `DELETE FROM \`${table}\`${where ? ` WHERE ${where}` : ""}`,
+    await local.exec(
+      `DELETE FROM exp.\`${table}\`${where ? ` WHERE ${where}` : ""}`,
+      [],
+      "run",
     );
     deleted.push(where ? `${table}(${where})` : table);
   };
 
+  // Deletes run child tables last on purpose, so foreign keys stay on: the
+  // live connection shares this pragma with every other query in flight.
+  // The tokenizer rows are a download cache, rebuilt on demand; on one phone
+  // they were 38MB of a 62MB backup.
+  await drop("tokenizers");
   if (!opts.includeChats) {
     for (const table of CHAT_TABLES) await drop(table);
   }
@@ -169,6 +166,14 @@ async function deleteExcluded(
   return deleted;
 }
 
-async function scratchSize(scratch: SQLocalDrizzle): Promise<number> {
-  return (await scratch.getDatabaseInfo()).databaseSizeBytes ?? 0;
+async function attachedSize(local: LocalClient): Promise<number> {
+  const scalar = async (sql: string) => {
+    const res = await local.exec(sql, [], "all");
+    const v = res.rows[0]?.[0];
+    return typeof v === "number" ? v : 0;
+  };
+  return (
+    (await scalar("PRAGMA exp.page_count")) *
+    (await scalar("PRAGMA exp.page_size"))
+  );
 }
