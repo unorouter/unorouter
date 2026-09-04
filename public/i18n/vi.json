@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Vừa khung",
     "BG_FIT_TILE": "Lát",
     "BG_OPACITY": "Độ mờ đục",
-    "BG_BLUR": "Làm mờ",
+    "BG_BLUR": "Làm mờ hình nền",
+    "BG_PANEL_BLUR": "Làm mờ bảng",
     "BG_PANEL_OPACITY": "Độ mờ của bảng",
     "BG_BUBBLE_OPACITY": "Do mo cua bong bong tin nhan",
     "BG_BUBBLE_OPACITY_HINT": "Ap dung cho tin nhan cua chinh ban, de nen co the hien qua chung doc lap voi cac bang."

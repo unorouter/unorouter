@@ -43,6 +43,10 @@ export type BackgroundSettings = {
   // reads differently on them: what frames a sidebar nicely leaves a bubble
   // looking like it overlaps the artwork. Defaults to panelOpacity.
   bubbleOpacity?: number; // 0..1
+  // The frost on the panels THEMSELVES, separate from `blur` which blurs the
+  // image. It was a fixed 8px no control could reach, so a wallpaper set to 0
+  // image blur still came through every surface heavily blurred.
+  panelBlur?: number; // px
 };
 
 export type UserTheme = {

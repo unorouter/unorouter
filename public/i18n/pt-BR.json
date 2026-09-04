@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Conter",
     "BG_FIT_TILE": "Lado a lado",
     "BG_OPACITY": "Opacidade",
-    "BG_BLUR": "Desfoque",
+    "BG_BLUR": "Desfoque da imagem",
+    "BG_PANEL_BLUR": "Desfoque dos painéis",
     "BG_PANEL_OPACITY": "Opacidade dos painéis",
     "BG_BUBBLE_OPACITY": "Opacidade dos baloes de mensagem",
     "BG_BUBBLE_OPACITY_HINT": "Vale para as suas proprias mensagens, para que o fundo apareca atraves delas independentemente dos paineis."

@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Zmieść",
     "BG_FIT_TILE": "Kafelki",
     "BG_OPACITY": "Krycie",
-    "BG_BLUR": "Rozmycie",
+    "BG_BLUR": "Rozmycie obrazu",
+    "BG_PANEL_BLUR": "Rozmycie paneli",
     "BG_PANEL_OPACITY": "Krycie paneli",
     "BG_BUBBLE_OPACITY": "Krycie dymkow wiadomosci",
     "BG_BUBBLE_OPACITY_HINT": "Dotyczy twoich wlasnych wiadomosci, dzieki czemu tlo moze przez nie przeswitywac niezaleznie od paneli."
