@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "包含聊天",
       "LOCAL_DB_EXPORT_LOGS": "包含請求日誌",
       "LOCAL_DB_EXPORT_MEDIA": "包含媒體",
+      "LOCAL_DB_EXPORT_DIRECT": "直接從磁碟儲存（測試）",
       "LOCAL_DB_WIPE": "清空本地資料庫並重新載入",
       "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 資料並重新載入？"
     },

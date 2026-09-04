@@ -25,6 +25,7 @@ export function DatabaseSubmenu() {
     includeChats: true,
     includeRequestLogs: false,
     includeMedia: true,
+    directFromDisk: false,
   });
 
   const download = async (options: DbExportOptions) => {
@@ -163,6 +164,13 @@ export function DatabaseSubmenu() {
             closeOnClick={false}
           >
             {t("CHAT.MORE.LOCAL_DB_EXPORT_MEDIA")}
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={opts.directFromDisk}
+            onCheckedChange={(v) => setOpts({ ...opts, directFromDisk: v })}
+            closeOnClick={false}
+          >
+            {t("CHAT.MORE.LOCAL_DB_EXPORT_DIRECT")}
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => download(opts)}>

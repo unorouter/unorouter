@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "채팅 포함",
       "LOCAL_DB_EXPORT_LOGS": "요청 로그 포함",
       "LOCAL_DB_EXPORT_MEDIA": "미디어 포함",
+      "LOCAL_DB_EXPORT_DIRECT": "디스크에서 바로 저장 (테스트)",
       "LOCAL_DB_WIPE": "로컬 데이터베이스 지우고 다시 로드",
       "LOCAL_DB_WIPE_CONFIRM": "모든 로컬 OPFS 데이터를 지우고 다시 로드하시겠습니까?"
     },

@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Incluir conversas",
       "LOCAL_DB_EXPORT_LOGS": "Incluir registros de solicitações",
       "LOCAL_DB_EXPORT_MEDIA": "Incluir mídia",
+      "LOCAL_DB_EXPORT_DIRECT": "Salvar direto do disco (teste)",
       "LOCAL_DB_WIPE": "Limpar banco de dados local e recarregar",
       "LOCAL_DB_WIPE_CONFIRM": "Limpar TODOS os dados OPFS locais e recarregar?"
     },

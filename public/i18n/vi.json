@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Bao gồm cuộc trò chuyện",
       "LOCAL_DB_EXPORT_LOGS": "Bao gồm nhật ký yêu cầu",
       "LOCAL_DB_EXPORT_MEDIA": "Bao gồm phương tiện",
+      "LOCAL_DB_EXPORT_DIRECT": "Lưu trực tiếp từ ổ đĩa (thử nghiệm)",
       "LOCAL_DB_WIPE": "Xóa CSDL cục bộ và tải lại",
       "LOCAL_DB_WIPE_CONFIRM": "Xóa TẤT CẢ dữ liệu OPFS cục bộ và tải lại?"
     },

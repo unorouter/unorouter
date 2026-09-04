@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "チャットを含める",
       "LOCAL_DB_EXPORT_LOGS": "リクエストログを含める",
       "LOCAL_DB_EXPORT_MEDIA": "メディアを含める",
+      "LOCAL_DB_EXPORT_DIRECT": "ディスクから直接保存（テスト）",
       "LOCAL_DB_WIPE": "ローカルDBを削除して再読み込み",
       "LOCAL_DB_WIPE_CONFIRM": "ローカルOPFSデータをすべて削除して再読み込みしますか？"
     },
