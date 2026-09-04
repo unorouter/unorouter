@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Panel-Unschärfe",
     "BG_PANEL_OPACITY": "Deckkraft der Flächen",
     "BG_BUBBLE_OPACITY": "Deckkraft der Nachrichtenblasen",
-    "BG_BUBBLE_OPACITY_HINT": "Gilt fuer deine eigenen Chatnachrichten, damit der Hintergrund unabhaengig von den Panels durchscheinen kann."
+    "BG_BUBBLE_OPACITY_HINT": "Gilt fuer deine eigenen Chatnachrichten, damit der Hintergrund unabhaengig von den Panels durchscheinen kann.",
+    "BG_COMPOSER_OPACITY": "Deckkraft des Eingabefelds",
+    "BG_COMPOSER_OPACITY_HINT": "Gilt für das Eingabefeld, damit dein Text auf einem unruhigen Hintergrund lesbar bleibt."
   },
   "BILLING": {
     "SUBSCRIPTION": {

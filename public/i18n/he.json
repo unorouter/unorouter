@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "טשטוש הפאנלים",
     "BG_PANEL_OPACITY": "אטימות הלוחות",
     "BG_BUBBLE_OPACITY": "אטימות בועות ההודעה",
-    "BG_BUBBLE_OPACITY_HINT": "חל על ההודעות שלך בצ'אט, כך שהרקע יוכל להציץ דרכן בנפרד מהפאנלים."
+    "BG_BUBBLE_OPACITY_HINT": "חל על ההודעות שלך בצ'אט, כך שהרקע יוכל להציץ דרכן בנפרד מהפאנלים.",
+    "BG_COMPOSER_OPACITY": "אטימות שדה הכתיבה",
+    "BG_COMPOSER_OPACITY_HINT": "חל על התיבה שבה אתה כותב, כדי שהטקסט שלך יישאר קריא על רקע עמוס."
   },
   "BILLING": {
     "SUBSCRIPTION": {

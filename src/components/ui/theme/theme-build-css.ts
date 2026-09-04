@@ -375,6 +375,11 @@ export function buildBackgroundCss(
     Math.max(0, bg?.bubbleOpacity ?? panelOpacity),
   );
   const bubblePct = Math.round(bubbleOpacity * 100);
+  const composerOpacity = Math.min(
+    1,
+    Math.max(0, bg?.composerOpacity ?? panelOpacity),
+  );
+  const composerPct = Math.round(composerOpacity * 100);
   const sizeRule =
     fit === "tile"
       ? "background-repeat:repeat;background-size:auto;"
@@ -382,6 +387,8 @@ export function buildBackgroundCss(
   const safeUrl = image.replace(/["\\]/g, "");
   const surfaceMix = (varName: string) =>
     `color-mix(in srgb, var(--${varName}) ${pct}%, transparent)`;
+  const composerMix = (varName: string) =>
+    `color-mix(in srgb, var(--${varName}) ${composerPct}%, transparent)`;
   const bubbleMix = (varName: string) =>
     `color-mix(in srgb, var(--${varName}) ${bubblePct}%, transparent)`;
   const translucent =
@@ -428,7 +435,7 @@ export function buildBackgroundCss(
     // Doubled attribute selector on purpose: the nested-surface reset above is
     // `.bg-background .bg-background` (three classes), which outranks a single
     // attribute selector, so the composer would keep the reset's transparency.
-    `[data-bg-active] [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${surfaceMix("background")} !important;${panelBlur > 0 ? `backdrop-filter:blur(${(panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
+    `[data-bg-active] [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${composerMix("background")} !important;${panelBlur > 0 ? `backdrop-filter:blur(${(panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
     // The footer wraps the composer, so tinting both stacks two translucent
     // layers and two blurs over the same pixels. The composer carries the glass;
     // its wrapper defers.

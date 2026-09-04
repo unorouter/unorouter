@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Panel blur",
     "BG_PANEL_OPACITY": "Panel opacity",
     "BG_BUBBLE_OPACITY": "Message bubble opacity",
-    "BG_BUBBLE_OPACITY_HINT": "Applies to your own chat messages, so the background can show through them independently of panels."
+    "BG_BUBBLE_OPACITY_HINT": "Applies to your own chat messages, so the background can show through them independently of panels.",
+    "BG_COMPOSER_OPACITY": "Type area opacity",
+    "BG_COMPOSER_OPACITY_HINT": "Applies to the box you type in, so your own text stays readable over a busy background."
   },
   "BILLING": {
     "SUBSCRIPTION": {

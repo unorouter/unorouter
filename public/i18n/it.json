@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Sfocatura pannelli",
     "BG_PANEL_OPACITY": "Opacità dei pannelli",
     "BG_BUBBLE_OPACITY": "Opacita dei fumetti dei messaggi",
-    "BG_BUBBLE_OPACITY_HINT": "Vale per i tuoi messaggi in chat, cosi lo sfondo puo trasparire indipendentemente dai pannelli."
+    "BG_BUBBLE_OPACITY_HINT": "Vale per i tuoi messaggi in chat, cosi lo sfondo puo trasparire indipendentemente dai pannelli.",
+    "BG_COMPOSER_OPACITY": "Opacità dell'area di scrittura",
+    "BG_COMPOSER_OPACITY_HINT": "Si applica al campo di testo, così quello che scrivi resta leggibile su uno sfondo movimentato."
   },
   "BILLING": {
     "SUBSCRIPTION": {

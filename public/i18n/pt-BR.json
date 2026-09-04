@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Desfoque dos painéis",
     "BG_PANEL_OPACITY": "Opacidade dos painéis",
     "BG_BUBBLE_OPACITY": "Opacidade dos baloes de mensagem",
-    "BG_BUBBLE_OPACITY_HINT": "Vale para as suas proprias mensagens, para que o fundo apareca atraves delas independentemente dos paineis."
+    "BG_BUBBLE_OPACITY_HINT": "Vale para as suas proprias mensagens, para que o fundo apareca atraves delas independentemente dos paineis.",
+    "BG_COMPOSER_OPACITY": "Opacidade da área de digitação",
+    "BG_COMPOSER_OPACITY_HINT": "Aplica-se à caixa de texto, para que o que você escreve continue legível sobre um fundo carregado."
   },
   "BILLING": {
     "SUBSCRIPTION": {

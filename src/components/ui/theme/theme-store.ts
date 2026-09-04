@@ -47,6 +47,10 @@ export type BackgroundSettings = {
   // image. It was a fixed 8px no control could reach, so a wallpaper set to 0
   // image blur still came through every surface heavily blurred.
   panelBlur?: number; // px
+  // The composer is where the user's own text is typed, so it needs to be
+  // readable at panel values that suit a sidebar: at 75% over a busy wallpaper
+  // the type area was reported as unreadable. Defaults to panelOpacity.
+  composerOpacity?: number; // 0..1
 };
 
 export type UserTheme = {

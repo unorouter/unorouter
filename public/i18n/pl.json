@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Rozmycie paneli",
     "BG_PANEL_OPACITY": "Krycie paneli",
     "BG_BUBBLE_OPACITY": "Krycie dymkow wiadomosci",
-    "BG_BUBBLE_OPACITY_HINT": "Dotyczy twoich wlasnych wiadomosci, dzieki czemu tlo moze przez nie przeswitywac niezaleznie od paneli."
+    "BG_BUBBLE_OPACITY_HINT": "Dotyczy twoich wlasnych wiadomosci, dzieki czemu tlo moze przez nie przeswitywac niezaleznie od paneli.",
+    "BG_COMPOSER_OPACITY": "Krycie pola tekstowego",
+    "BG_COMPOSER_OPACITY_HINT": "Dotyczy pola, w którym piszesz, aby twój tekst pozostał czytelny na niespokojnym tle."
   },
   "BILLING": {
     "SUBSCRIPTION": {

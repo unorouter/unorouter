@@ -179,6 +179,35 @@ export function BackgroundImageSection(props: {
               {t("THEME.BG_BUBBLE_OPACITY_HINT")}
             </p>
           </div>
+          <div className="flex flex-col gap-1.5 px-1">
+            <div className="text-muted-foreground flex justify-between text-xs">
+              <span>{t("THEME.BG_COMPOSER_OPACITY")}</span>
+              <span>
+                {Math.round(
+                  (props.background?.composerOpacity ??
+                    props.background?.panelOpacity ??
+                    0.75) * 100,
+                )}
+                %
+              </span>
+            </div>
+            <Slider
+              min={0}
+              max={1}
+              step={0.05}
+              value={
+                props.background?.composerOpacity ??
+                props.background?.panelOpacity ??
+                0.75
+              }
+              onValueChange={(v) =>
+                props.onChange({ composerOpacity: Array.isArray(v) ? v[0] : v })
+              }
+            />
+            <p className="text-muted-foreground text-[11px]">
+              {t("THEME.BG_COMPOSER_OPACITY_HINT")}
+            </p>
+          </div>
         </div>
       ) : (
         <Button

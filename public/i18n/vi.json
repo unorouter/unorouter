@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Làm mờ bảng",
     "BG_PANEL_OPACITY": "Độ mờ của bảng",
     "BG_BUBBLE_OPACITY": "Do mo cua bong bong tin nhan",
-    "BG_BUBBLE_OPACITY_HINT": "Ap dung cho tin nhan cua chinh ban, de nen co the hien qua chung doc lap voi cac bang."
+    "BG_BUBBLE_OPACITY_HINT": "Ap dung cho tin nhan cua chinh ban, de nen co the hien qua chung doc lap voi cac bang.",
+    "BG_COMPOSER_OPACITY": "Độ mờ của khung nhập",
+    "BG_COMPOSER_OPACITY_HINT": "Áp dụng cho khung bạn nhập, để chữ của bạn vẫn dễ đọc trên nền nhiều chi tiết."
   },
   "BILLING": {
     "SUBSCRIPTION": {

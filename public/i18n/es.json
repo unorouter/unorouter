@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Desenfoque de los paneles",
     "BG_PANEL_OPACITY": "Opacidad de los paneles",
     "BG_BUBBLE_OPACITY": "Opacidad de los globos de mensaje",
-    "BG_BUBBLE_OPACITY_HINT": "Se aplica a tus propios mensajes del chat, para que el fondo se vea a traves de ellos con independencia de los paneles."
+    "BG_BUBBLE_OPACITY_HINT": "Se aplica a tus propios mensajes del chat, para que el fondo se vea a traves de ellos con independencia de los paneles.",
+    "BG_COMPOSER_OPACITY": "Opacidad del área de escritura",
+    "BG_COMPOSER_OPACITY_HINT": "Se aplica al cuadro de texto, para que lo que escribes siga siendo legible sobre un fondo cargado."
   },
   "BILLING": {
     "SUBSCRIPTION": {
