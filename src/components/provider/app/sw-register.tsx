@@ -19,18 +19,35 @@ export function SwRegister() {
     if (process.env.NODE_ENV !== "production") return;
     if (!("serviceWorker" in navigator)) return;
 
+    // An installing worker asks every open page whether it has finished
+    // loading and holds its install until they all have (see sw.ts). It
+    // replies on the port it was handed, so this works for a worker that
+    // does not control this page yet.
+    const onMessage = (e: MessageEvent) => {
+      if (e.data?.type !== "READY_STATE") return;
+      e.ports[0]?.postMessage(document.readyState);
+    };
+    navigator.serviceWorker.addEventListener("message", onMessage);
+
     let registration: ServiceWorkerRegistration | undefined;
-    navigator.serviceWorker
-      .register("/sw-worker/sw.js", { scope: "/", updateViaCache: "none" })
-      .then((reg) => {
-        registration = reg;
-      })
-      .catch((err) => {
-        logger.warn("Service worker registration failed", {
-          context: "pwa.sw-register",
-          error: String(err),
+    const register = () => {
+      navigator.serviceWorker
+        .register("/sw-worker/sw.js", { scope: "/", updateViaCache: "none" })
+        .then((reg) => {
+          registration = reg;
+        })
+        .catch((err) => {
+          logger.warn("Service worker registration failed", {
+            context: "pwa.sw-register",
+            error: String(err),
+          });
         });
-      });
+    };
+    // Registering during hydration let an update install while this very
+    // page was still loading; after `load` the gate above has nothing to wait
+    // for on this page.
+    if (document.readyState === "complete") register();
+    else window.addEventListener("load", register, { once: true });
 
     // skipWaiting + clientsClaim wipe the build-scoped caches while this page keeps running
     // the PREVIOUS build's JavaScript, with no error to trigger ChunkLoadError recovery.
@@ -82,6 +99,8 @@ export function SwRegister() {
     document.addEventListener("visibilitychange", onVisible);
 
     return () => {
+      window.removeEventListener("load", register);
+      navigator.serviceWorker.removeEventListener("message", onMessage);
       document.removeEventListener("visibilitychange", onVisible);
       navigator.serviceWorker.removeEventListener(
         "controllerchange",
