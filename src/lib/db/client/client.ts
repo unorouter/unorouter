@@ -44,11 +44,17 @@ let cached: Promise<LocalClient> | null = null;
 // load in that SAME tab found the database locked by a ghost. A restore just
 // reopens (getLocalDb rebuilds the cache on demand), which costs one open;
 // the alternative cost the user every page in the tab until they killed it.
+//
+// The worker is terminated SYNCHRONOUSLY rather than through destroy(): that
+// path awaits a round trip to the worker before it terminates anything, and an
+// unloading page is not given the time, so the worker survived still holding
+// the pool's sync access handles. Closing the tab did not free them either
+// (a killed page runs no more code), which is why the only fix a user found
+// was quitting the whole browser.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", () => {
-    const pending = cached;
     cached = null;
-    void pending?.then((c) => c.destroy()).catch(() => {});
+    terminateAllSql();
   });
 }
 
