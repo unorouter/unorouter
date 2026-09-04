@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Pokazane ceny odzwierciedlają najniższą dostępną stawkę. Rzeczywisty koszt zależy od tego, który dostawca obsłuży twoje zapytanie.",
       "CUSTOM": "Rozliczenie niestandardowe",
       "TIERED": "Progowy",
-      "ORIGINAL": "Cena oryginalna",
       "CACHE_WRITE": "Zapis cache",
       "CACHE_READ": "Odczyt cache"
     },

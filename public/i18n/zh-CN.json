@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "此处显示的价格反映最低可用费率。实际费用取决于处理您请求的提供方。",
       "CUSTOM": "自定义计费",
       "TIERED": "阶梯计费",
-      "ORIGINAL": "原价",
       "CACHE_WRITE": "缓存写入",
       "CACHE_READ": "缓存读取"
     },

@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Les prix affichés reflètent le tarif le plus bas disponible. Le coût réel dépend du fournisseur qui traite votre requête.",
       "CUSTOM": "Facturation personnalisée",
       "TIERED": "Par paliers",
-      "ORIGINAL": "Prix d'origine",
       "CACHE_WRITE": "Écriture cache",
       "CACHE_READ": "Lecture du cache"
     },

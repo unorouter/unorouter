@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Harga yang ditampilkan mencerminkan tarif terendah yang tersedia. Biaya sebenarnya tergantung pada penyedia mana yang menangani permintaan Anda.",
       "CUSTOM": "Penagihan kustom",
       "TIERED": "Berjenjang",
-      "ORIGINAL": "Harga asli",
       "CACHE_WRITE": "Tulis cache",
       "CACHE_READ": "Baca cache"
     },

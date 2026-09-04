@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Prices shown reflect the lowest available rate. Actual cost depends on which provider handles your request.",
       "CUSTOM": "Custom billing",
       "TIERED": "Tiered",
-      "ORIGINAL": "Original price",
       "CACHE_WRITE": "Cache write",
       "CACHE_READ": "Cache read"
     },

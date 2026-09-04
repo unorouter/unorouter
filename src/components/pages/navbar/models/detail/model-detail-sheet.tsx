@@ -33,7 +33,7 @@ import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/format/number";
+import { discountPercent, formatPrice } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
 import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
 import { CachePricing } from "./pricing/cache-pricing";
@@ -87,6 +87,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   if (!model) return null;
 
   const theme = getVendorTheme(model.vendor);
+  const fixedPct = discountPercent(
+    model.fixed_price,
+    model.original_fixed_price ?? null,
+  );
+  // One badge for both columns: input and output are discounted off the same
+  // canonical list, so the deeper cut is the honest headline.
+  const tokenPct = Math.max(
+    discountPercent(model.input_price, model.original_input_price ?? null),
+    discountPercent(model.output_price, model.original_output_price ?? null),
+  );
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -188,12 +198,10 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                       <FixedPriceUnit model={model} />
                     </span>
                   </div>
-                  {model.original_fixed_price !== null && (
-                    <div className="text-muted-foreground/50 font-mono text-xs line-through">
-                      {t("MODELS.PRICE.ORIGINAL")}:{" "}
-                      {formatPrice(model.original_fixed_price ?? 0)}{" "}
-                      <FixedPriceUnit model={model} />
-                    </div>
+                  {fixedPct > 0 && (
+                    <span className="inline-block rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
+                      {t("MODELS.TABLE.OFF", { pct: fixedPct })}
+                    </span>
                   )}
                 </div>
               ) : (
@@ -232,15 +240,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                       </span>
                     </div>
                   </div>
-                  {model.original_input_price !== null &&
-                    model.original_output_price !== null && (
-                      <div className="text-muted-foreground/50 font-mono text-xs line-through">
-                        {t("MODELS.PRICE.ORIGINAL")}:{" "}
-                        {formatPrice(model.original_input_price ?? 0)}/
-                        {formatPrice(model.original_output_price ?? 0)}{" "}
-                        {t("MODELS.PRICE.PER_MILLION")}
-                      </div>
-                    )}
+                  {tokenPct > 0 && (
+                    <span className="inline-block rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
+                      {t("MODELS.TABLE.OFF", { pct: tokenPct })}
+                    </span>
+                  )}
                   <CachePricing model={model} theme={theme} />
                 </div>
               )}

@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Giá hiển thị là mức thấp nhất khả dụng. Chi phí thực tế phụ thuộc vào nhà cung cấp xử lý yêu cầu của bạn.",
       "CUSTOM": "Tính phí tùy chỉnh",
       "TIERED": "Theo cấp",
-      "ORIGINAL": "Giá gốc",
       "CACHE_WRITE": "Ghi cache",
       "CACHE_READ": "Đọc cache"
     },
