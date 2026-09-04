@@ -172,10 +172,22 @@ async function waitForPagesToLoad(): Promise<void> {
       type: "window",
       includeUncontrolled: true,
     });
-    const states = await Promise.all(clients.map(askReadyState));
-    // "unknown" is a page running a build without the responder, or one that
-    // is frozen; neither can be waited on usefully.
-    if (states.every((s) => s === "complete" || s === "unknown")) return;
+    const loading = await Promise.all(
+      clients.map(async (client) => {
+        const state = await askReadyState(client);
+        if (state === "complete") return false;
+        // No reply is what a page still streaming its HTML looks like: it has
+        // no JavaScript yet to answer with. Treating that as "not loading"
+        // let an install through at exactly the wrong moment (a user's
+        // /image tab, hung, showed up as clients:2 with the gate waiting 1s).
+        // Only a HIDDEN silent page is skipped: it is a frozen background
+        // tab, not a navigation in front of anyone, and the cap covers it.
+        if (state === "unknown" && client.visibilityState !== "visible")
+          return false;
+        return true;
+      }),
+    );
+    if (!loading.some(Boolean)) return;
     await new Promise((r) => setTimeout(r, INSTALL_POLL_MS));
   }
 }
