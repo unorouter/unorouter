@@ -29,7 +29,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
+import {
+  usePricingCatalogQuery,
+  usePricingVendorsQuery,
+} from "@/hooks/models/pricing-hook";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
@@ -77,6 +80,7 @@ export function TokenDialog(props: TokenDialogProps) {
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
   const pricingQuery = usePricingVendorsQuery();
+  const catalogQuery = usePricingCatalogQuery();
   const userGroupsQuery = useUserGroupsQuery();
   const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
@@ -268,6 +272,16 @@ export function TokenDialog(props: TokenDialogProps) {
       );
     }
   }
+
+  // The picker shows a group's ratio; multiplied by the 1x list price it can
+  // show what the lane actually costs, which is the number users compare.
+  const modelPrices = new Map<string, { input: number; output: number }>();
+  for (const m of catalogQuery.data?.models ?? [])
+    if (!m.is_free && !m.is_fixed_price)
+      modelPrices.set(m.model_name, {
+        input: m.input_price,
+        output: m.output_price,
+      });
 
   const modelsByVendorMap = new Map<
     string,
@@ -490,6 +504,7 @@ export function TokenDialog(props: TokenDialogProps) {
                     mapping={groupMapping}
                     groups={userGroupsQuery.data ?? {}}
                     models={pricingQuery.data?.model_vendors ?? []}
+                    prices={modelPrices}
                   />
                   <p className="text-muted-foreground text-[11px]">
                     {t("TOKEN.FORM.GROUP_MAPPING_HINT")}

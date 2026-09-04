@@ -36,6 +36,8 @@ type TokenGroupMappingProps = {
   mapping: GroupMapping;
   groups: Record<string, UserGroupInfo>;
   models: PricingVendorModel[];
+  /** 1x list price per model, so a group's real rate is price * ratio. */
+  prices: Map<string, { input: number; output: number }>;
 };
 
 type GroupOption = {
@@ -74,6 +76,19 @@ function ratioLabel(ratio: number | null): string {
   return ratio == null ? "" : `${ratio}x`;
 }
 
+/** Trailing zeros hide how cheap the cheapest lanes are, so keep 4 decimals. */
+function perMillion(value: number): string {
+  return `$${value < 1 ? value.toFixed(4) : value.toFixed(2)}`;
+}
+
+function priceLabel(
+  price: { input: number; output: number } | undefined,
+  ratio: number | null,
+): string {
+  if (!price || ratio == null) return "";
+  return `${perMillion(price.input * ratio)} / ${perMillion(price.output * ratio)}`;
+}
+
 function CheckBox(props: { checked: boolean }) {
   return (
     <div
@@ -91,6 +106,7 @@ function CheckBox(props: { checked: boolean }) {
 
 function ModelGroupPopover(props: {
   model: string;
+  price?: { input: number; output: number };
   options: GroupOption[];
   selected: string[];
   onChange: (groups: string[]) => void;
@@ -174,8 +190,13 @@ function ModelGroupPopover(props: {
                       props.model.replace(/:/g, "-"),
                     )}
                   </span>
-                  <span className="text-muted-foreground ml-auto shrink-0 pl-2 font-mono text-[11px]">
-                    {ratioLabel(option.ratio)}
+                  <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
+                    <span className="block">{ratioLabel(option.ratio)}</span>
+                    {priceLabel(props.price, option.ratio) && (
+                      <span className="block opacity-70">
+                        {priceLabel(props.price, option.ratio)}
+                      </span>
+                    )}
                   </span>
                 </CommandItem>
               ))}
@@ -340,6 +361,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                           <ModelGroupPopover
                             key={model.model_name}
                             model={model.model_name}
+                            price={props.prices.get(model.model_name)}
                             options={options}
                             selected={selected}
                             onChange={(groups) =>
