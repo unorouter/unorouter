@@ -44,7 +44,7 @@ export async function GroupPinningContent() {
           src="/images/docs/pinning-group-prices.webp"
           alt={k("ALT_GROUP_PRICES")}
           width={1220}
-          height={371}
+          height={446}
         />
       </DocSection>
       <DocSection id="pinning" title={k("H_PINNING")}>
@@ -56,8 +56,8 @@ export async function GroupPinningContent() {
         <DocImage
           src="/images/docs/pinning-token-mapping.webp"
           alt={k("ALT_MAPPING")}
-          width={928}
-          height={330}
+          width={943}
+          height={375}
         />
         <p>{k("P_PINNING_2")}</p>
       </DocSection>
