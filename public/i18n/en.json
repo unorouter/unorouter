@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Opens every new chat as the first message, as if the AI wrote it. A bound character's own first message takes priority. Leave blank to send nothing.",
     "LOREBOOK_AVATAR": "Avatar",
     "LOREBOOK_AVATAR_HINT": "Shown next to replies when no bound character has one. Characters take priority.",
+    "AVATAR_POSITION": "Position",
+    "AVATAR_POSITION_HINT": "Drag the image to choose which part shows. The original is kept.",
     "DUPLICATE": "Duplicate",
     "LIST_SEARCH": "Search...",
     "LIST_CREATED": "created {when}",

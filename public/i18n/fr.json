@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Ouvre chaque nouvelle discussion comme premier message, comme si l'IA l'avait écrit. Le premier message d'un personnage lié est prioritaire. Laissez vide pour ne rien envoyer.",
     "LOREBOOK_AVATAR": "Avatar",
     "LOREBOOK_AVATAR_HINT": "Affiché à côté des réponses quand aucun personnage lié n'en a. Les personnages sont prioritaires.",
+    "AVATAR_POSITION": "Positionner",
+    "AVATAR_POSITION_HINT": "Faites glisser l'image pour choisir la partie visible. L'original est conservé.",
     "DUPLICATE": "Dupliquer",
     "LIST_SEARCH": "Rechercher...",
     "LIST_CREATED": "créé {when}",

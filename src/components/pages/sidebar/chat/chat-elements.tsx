@@ -10,7 +10,7 @@ import {
 } from "@/hooks/ai/rp/conversations";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { NONE_VALUE } from "@/lib/config/constants";
@@ -175,12 +175,13 @@ export function CharacterBackground(props: { convId?: string }) {
     .sort((a, b) => a.orderIndex - b.orderIndex)[0];
   const character = useCharacterQuery(primary?.characterId);
   const src = useMediaSrc(character.data?.backgroundMediaId);
+  const backgroundPosition = useMediaFocal(character.data?.backgroundMediaId);
   if (!src) return null;
   return (
     <>
       <div
-        className="absolute inset-0 -z-10 bg-cover bg-center"
-        style={{ backgroundImage: `url(${src})` }}
+        className="absolute inset-0 -z-10 bg-cover"
+        style={{ backgroundImage: `url(${src})`, backgroundPosition }}
       />
       <div className="bg-background/55 absolute inset-0 -z-10" />
       <style>{".aui-thread-root{background-color:transparent}"}</style>

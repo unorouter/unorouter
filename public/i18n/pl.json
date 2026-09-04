@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Otwiera każdy nowy czat jako pierwsza wiadomość, tak jakby napisała ją SI. Własna pierwsza wiadomość przypisanej postaci ma pierwszeństwo. Zostaw puste, aby nic nie wysyłać.",
     "LOREBOOK_AVATAR": "Awatar",
     "LOREBOOK_AVATAR_HINT": "Wyświetlany obok odpowiedzi, gdy żadna przypisana postać go nie ma. Postacie mają pierwszeństwo.",
+    "AVATAR_POSITION": "Pozycjonuj",
+    "AVATAR_POSITION_HINT": "Przeciągnij obraz, aby wybrać widoczny fragment. Oryginał zostaje zachowany.",
     "DUPLICATE": "Duplikuj",
     "LIST_SEARCH": "Szukaj...",
     "LIST_CREATED": "utworzono {when}",

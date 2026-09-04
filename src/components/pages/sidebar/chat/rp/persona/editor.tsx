@@ -13,7 +13,7 @@ import {
 import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
 import {
   RpImageField,
   resolveMediaId,
@@ -39,6 +39,7 @@ export function PersonaEditor(props: Props) {
   const existingAvatarSrc = useMediaSrc(
     avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
   );
+  const existingAvatarFocal = useMediaFocalPoint(existing?.avatarMediaId);
   const avatarPreview =
     avatarDraft.kind === "new"
       ? avatarDraft.dataUrl
@@ -114,6 +115,8 @@ export function PersonaEditor(props: Props) {
             preview={avatarPreview}
             onPick={setAvatarDraft}
             shape="circle"
+            draft={avatarDraft}
+            storedFocal={existingAvatarFocal}
           />
           <MyFormSwitch
             control={form.control}

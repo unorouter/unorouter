@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Mở mỗi cuộc trò chuyện mới bằng tin nhắn đầu tiên, như thể do AI viết. Tin nhắn đầu tiên của nhân vật đã gắn được ưu tiên. Để trống nếu không muốn gửi gì.",
     "LOREBOOK_AVATAR": "Ảnh đại diện",
     "LOREBOOK_AVATAR_HINT": "Hiển thị bên cạnh câu trả lời khi không có nhân vật đã gắn nào có ảnh. Nhân vật được ưu tiên.",
+    "AVATAR_POSITION": "Định vị",
+    "AVATAR_POSITION_HINT": "Kéo hình ảnh để chọn phần hiển thị. Ảnh gốc được giữ nguyên.",
     "DUPLICATE": "Nhân bản",
     "LIST_SEARCH": "Tìm kiếm...",
     "LIST_CREATED": "đã tạo {when}",

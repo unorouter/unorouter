@@ -50,7 +50,9 @@ export async function resolveBestKey(
 
   if (!best) return createAutoToken(headers);
 
-  const keyRes = await getTokenKey(String(best.id), { headers: resolveHeaders(headers) });
+  const keyRes = await getTokenKey(String(best.id), {
+    headers: resolveHeaders(headers),
+  });
   return keyRes.data?.data?.key ?? null;
 }
 
@@ -79,7 +81,9 @@ async function createAutoToken(
     (tok) => tok && tok.status === 1 && tok.name === "UnoRouter Chat",
   );
   if (!fresh) return null;
-  const keyRes = await getTokenKey(String(fresh.id), { headers: resolveHeaders(headers) });
+  const keyRes = await getTokenKey(String(fresh.id), {
+    headers: resolveHeaders(headers),
+  });
   return keyRes.data?.data?.key ?? null;
 }
 

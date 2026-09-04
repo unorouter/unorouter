@@ -507,6 +507,9 @@ export const media = sqliteTable(
     width: integer("width"),
     height: integer("height"),
     extractedText: text("extracted_text"),
+    // Avatar framing as CSS object-position percentages; null renders centered.
+    focalX: integer("focal_x"),
+    focalY: integer("focal_y"),
     promptText: text("prompt_text"),
     seed: integer("seed"),
     createdAt: createdAtCol(),

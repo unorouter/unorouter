@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Apre ogni nuova chat come primo messaggio, come se l'avesse scritto l'IA. Il primo messaggio di un personaggio associato ha la priorità. Lascia vuoto per non inviare nulla.",
     "LOREBOOK_AVATAR": "Avatar",
     "LOREBOOK_AVATAR_HINT": "Mostrato accanto alle risposte quando nessun personaggio associato ne ha uno. I personaggi hanno la priorità.",
+    "AVATAR_POSITION": "Posiziona",
+    "AVATAR_POSITION_HINT": "Trascina l'immagine per scegliere la parte visibile. L'originale viene mantenuto.",
     "DUPLICATE": "Duplica",
     "LIST_SEARCH": "Cerca...",
     "LIST_CREATED": "creato {when}",
