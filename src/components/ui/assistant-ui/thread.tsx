@@ -1258,13 +1258,15 @@ const UserPersonaAvatar: FC = () => {
   if (!persona) return null;
   const name = persona.title || persona.name;
   return (
+    // Avatar first, like the assistant header: mirroring the order instead
+    // reads as a different component rather than the same one on the other side.
     <div className="text-muted-foreground col-span-full col-start-1 row-start-1 mr-4 mb-1 flex items-center justify-end gap-1.5 text-[11px]">
-      <span className="text-foreground truncate font-medium">{name}</span>
       <RpAvatar
         mediaId={persona.avatarMediaId}
         name={name}
         className="size-(--chat-avatar-sm)"
       />
+      <span className="text-foreground truncate font-medium">{name}</span>
     </div>
   );
 };
