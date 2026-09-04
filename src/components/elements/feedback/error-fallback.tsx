@@ -31,6 +31,19 @@ type ErrorFallbackProps = {
   className?: string;
 };
 
+// The chunk URL is in the message, and the failing entry is usually in the
+// BROWSER cache: a rollout 404 was once served with a one-year max-age, and no
+// edge purge reaches that. cache: "reload" refetches past the HTTP cache and
+// replaces the entry, so the reload after it can import the chunk again.
+async function repairChunks(error: unknown): Promise<void> {
+  const message = error instanceof Error ? error.message : String(error);
+  const urls = message.match(/\/_next\/static\/[^\s"')]+/g) ?? [];
+  await Promise.all(
+    urls.map((u) => fetch(u, { cache: "reload" }).catch(() => undefined)),
+  );
+  await clearServiceWorkerCaches().catch(() => {});
+}
+
 export function ErrorFallback(props: ErrorFallbackProps) {
   const t = useTranslations();
   const [clearing, setClearing] = useState(false);
@@ -53,9 +66,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
         // alone left a wedged worker serving the reload the same way, and the
         // once-guard then landed the user here with a destructive reset as
         // the most visible button.
-        void clearServiceWorkerCaches()
-          .catch(() => {})
-          .then(() => window.location.reload());
+        void repairChunks(props.error).then(() => window.location.reload());
       }
     }
   }, [props.error]);
@@ -71,7 +82,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
   const resetCaches = async () => {
     setClearingCaches(true);
-    await clearServiceWorkerCaches();
+    await repairChunks(props.error);
     window.location.reload();
   };
 
@@ -139,9 +150,16 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
             <Button
-              onClick={() =>
-                props.reset ? props.reset() : window.location.reload()
-              }
+              onClick={() => {
+                if (chunkError) {
+                  void repairChunks(props.error).then(() =>
+                    window.location.reload(),
+                  );
+                  return;
+                }
+                if (props.reset) props.reset();
+                else window.location.reload();
+              }}
               className="flex items-center gap-2"
             >
               <Icon name="refresh-cw" className="h-4 w-4" />
