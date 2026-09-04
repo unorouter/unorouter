@@ -9,6 +9,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { focalToObjectPosition } from "@/hooks/ai/use-media-src";
+import { pushLocalTheme } from "@/lib/db/client/data/theme";
+import { AVATAR_SIZES, userThemeAtom } from "@/components/ui/theme/theme-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
@@ -33,6 +36,7 @@ export function AvatarPositionDialog(props: {
     from: Focal;
   } | null>(null);
   const [focal, setFocal] = useState<Focal>(props.focal);
+  const [theme, setTheme] = useAtom(userThemeAtom);
 
   // Dragging the image right must reveal what sits to its left, so the focal
   // percentage moves against the pointer.
@@ -91,6 +95,35 @@ export function AvatarPositionDialog(props: {
             />
           </div>
         </div>
+        {props.shape === "circle" && (
+          <div className="flex flex-col gap-1.5">
+            <span className="text-muted-foreground text-xs">
+              {t("THEME.AVATAR_SCALE")}
+            </span>
+            <div className="flex gap-2">
+              {AVATAR_SIZES.map((size) => (
+                <Button
+                  key={size.scale}
+                  type="button"
+                  size="sm"
+                  className="flex-1"
+                  variant={
+                    (theme.chatAvatarScale ?? 1) === size.scale
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() => {
+                    const next = { ...theme, chatAvatarScale: size.scale };
+                    setTheme(next);
+                    void pushLocalTheme(next).catch(() => {});
+                  }}
+                >
+                  {t(size.labelKey)}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
         <DialogFooter>
           <Button
             type="button"
