@@ -12,6 +12,14 @@ const statusHost = [{ type: "host", value: "status\\..*" }] as const;
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  // Turbopack reuses chunk FILENAMES across builds while their bytes change
+  // (99% of shared names differed between two consecutive deploys), so a page
+  // from build N that lazy-loads a chunk gets build N+1's code under the same
+  // URL: a 200 with the wrong module, no ChunkLoadError, "x.filter is not a
+  // function" in a click handler. Stamping every asset URL with the build's
+  // commit makes the old page ask for the old bytes, and a version mismatch on
+  // navigation triggers a full reload instead of a client-side transition.
+  deploymentId: process.env.NEXT_DEPLOYMENT_ID,
   // Type errors gate the CI checks job (bun typecheck), not the deploy build;
   // checking types inside next build cost ~2.5min per deploy.
   typescript: { ignoreBuildErrors: true },

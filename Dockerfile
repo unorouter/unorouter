@@ -20,6 +20,9 @@ ENV STANDALONE=1
 # lets a later build's chunk hashes mismatch the uploaded maps).
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
+# Version-skew protection: every asset URL carries ?dpl=<sha>, so a tab still
+# running an older build keeps fetching that build's chunks (see next.config).
+ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 
 RUN --mount=type=cache,target=/app/.next/cache bun run build
 
@@ -27,6 +30,11 @@ FROM oven/bun:1.4-alpine AS prod
 WORKDIR /app
 
 ENV NODE_ENV=production
+# The builder's ENV does not survive the stage boundary, and the standalone
+# server reads this at runtime to stamp ?dpl= onto asset URLs. Same ARG, same
+# value as the build, or the HTML and the chunks would disagree.
+ARG GIT_SHA=dev
+ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 
 RUN addgroup -g 1001 -S appgroup && \
     adduser -S appuser -u 1001 -G appgroup
