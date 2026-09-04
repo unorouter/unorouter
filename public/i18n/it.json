@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Riprova",
-      "GO_HOME": "Vai alla home"
+      "GO_HOME": "Vai alla home",
+      "REPAIR": "Ripara l'app"
     },
     "OFFLINE": {
       "TITLE": "Sei offline",
       "DESCRIPTION": "Questa pagina non è ancora in cache. Controlla la tua connessione e riprova. Le pagine che hai già aperto rimangono disponibili offline."
+    },
+    "RECOVER": {
+      "TITLE": "Riparazione dell'app",
+      "DESCRIPTION": "Rimozione dei file dell'app nella cache e riavvio. Le tue chat sono salvate separatamente e non vengono toccate."
     }
   },
   "COMMON": {

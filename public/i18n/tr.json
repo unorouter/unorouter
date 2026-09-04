@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Tekrar Dene",
-      "GO_HOME": "Ana Sayfaya Git"
+      "GO_HOME": "Ana Sayfaya Git",
+      "REPAIR": "Uygulamayı onar"
     },
     "OFFLINE": {
       "TITLE": "Çevrimdışısınız",
       "DESCRIPTION": "Bu sayfa henüz önbelleğe alınmadı. Bağlantınızı kontrol edin ve yeniden deneyin. Daha önce açtığınız sayfalar çevrimdışı kullanılabilir kalır."
+    },
+    "RECOVER": {
+      "TITLE": "Uygulama onarılıyor",
+      "DESCRIPTION": "Önbelleğe alınan uygulama dosyaları kaldırılıyor ve uygulama yeniden başlatılıyor. Sohbetlerin ayrı saklanır ve dokunulmaz."
     }
   },
   "COMMON": {

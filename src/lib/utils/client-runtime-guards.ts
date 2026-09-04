@@ -71,6 +71,13 @@ export function installResumeDiagnostics(): void {
   // One line per boot naming the build and how the document arrived. A boot
   // that logs this and nothing after it died before the app came up, which is
   // the only trace a navigation killed by a worker update ever leaves.
+  try {
+    const at = Number(localStorage.getItem("uno-repair-at"));
+    if (at) {
+      localStorage.removeItem("uno-repair-at");
+      logChatDebug("recovery.inline_repair", { agoMs: Date.now() - at });
+    }
+  } catch {}
   const nav = performance.getEntriesByType("navigation")[0];
   logChatDebug("boot", {
     release: RELEASE,

@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Tentar novamente",
-      "GO_HOME": "Ir para o início"
+      "GO_HOME": "Ir para o início",
+      "REPAIR": "Reparar aplicativo"
     },
     "OFFLINE": {
       "TITLE": "Você está offline",
       "DESCRIPTION": "Esta página ainda não está em cache. Verifique sua conexão e tente novamente. Páginas que você já abriu permanecem disponíveis offline."
+    },
+    "RECOVER": {
+      "TITLE": "Reparando o aplicativo",
+      "DESCRIPTION": "Removendo os arquivos em cache do aplicativo e reiniciando. Suas conversas ficam armazenadas separadamente e não são afetadas."
     }
   },
   "COMMON": {

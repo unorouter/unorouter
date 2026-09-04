@@ -1,3 +1,4 @@
+import { InlineRepairScript } from "@/components/elements/feedback/inline-repair";
 import { OfflineFallback } from "@/components/elements/feedback/offline-fallback";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
@@ -18,5 +19,10 @@ export async function generateMetadata(props: {
 }
 
 export default function OfflinePage() {
-  return <OfflineFallback />;
+  return (
+    <>
+      <OfflineFallback />
+      <InlineRepairScript />
+    </>
+  );
 }

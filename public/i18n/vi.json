@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Thử lại",
-      "GO_HOME": "Về trang chủ"
+      "GO_HOME": "Về trang chủ",
+      "REPAIR": "Sửa ứng dụng"
     },
     "OFFLINE": {
       "TITLE": "Bạn đang ngoại tuyến",
       "DESCRIPTION": "Trang này chưa được lưu vào bộ nhớ đệm. Hãy kiểm tra kết nối và thử lại. Các trang đã mở vẫn dùng được khi ngoại tuyến."
+    },
+    "RECOVER": {
+      "TITLE": "Đang sửa ứng dụng",
+      "DESCRIPTION": "Đang xóa các tệp ứng dụng trong bộ nhớ đệm và khởi động lại. Các cuộc trò chuyện của bạn được lưu riêng và không bị ảnh hưởng."
     }
   },
   "COMMON": {
