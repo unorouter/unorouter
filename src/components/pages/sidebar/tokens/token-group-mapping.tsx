@@ -44,6 +44,8 @@ type GroupOption = {
   group: string;
   provider: string;
   ratio: number | null;
+  /** False when every channel behind the group is currently disabled. */
+  online: boolean;
 };
 
 const DESC_RE = /^(.+) via (.+) \((.+)\)$/;
@@ -61,13 +63,18 @@ export function buildModelGroupOptions(
       group,
       provider: match[2],
       ratio: typeof info.ratio === "number" ? info.ratio : null,
+      online: info.online !== false,
     };
     const list = byModel.get(match[1]);
     if (list) list.push(option);
     else byModel.set(match[1], [option]);
   }
   for (const list of byModel.values()) {
-    list.sort((a, b) => (a.ratio ?? Infinity) - (b.ratio ?? Infinity));
+    list.sort(
+      (a, b) =>
+        Number(b.online) - Number(a.online) ||
+        (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
+    );
   }
   return byModel;
 }
@@ -181,9 +188,22 @@ function ModelGroupPopover(props: {
                   className="[&>svg]:hidden"
                 >
                   <CheckBox checked={props.selected.includes(option.group)} />
+                  {!option.online && (
+                    <span
+                      className="mr-1.5 size-1.5 shrink-0 rounded-full bg-amber-500"
+                      title={t("TOKEN.FORM.GROUP_OFFLINE")}
+                    />
+                  )}
                   <span
-                    className="truncate font-mono text-xs"
-                    title={option.group}
+                    className={cn(
+                      "truncate font-mono text-xs",
+                      !option.online && "text-muted-foreground",
+                    )}
+                    title={
+                      option.online
+                        ? option.group
+                        : `${option.group} - ${t("TOKEN.FORM.GROUP_OFFLINE")}`
+                    }
                   >
                     {groupDisplayLabel(
                       option.group,

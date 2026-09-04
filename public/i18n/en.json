@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto routes every model to the cheapest available provider. Open a model to pin specific provider groups; its billing is then locked to their rates.",
       "GROUP_OVERRIDES_COUNT": "{count} overridden",
       "GROUP_CLEAR_ALL": "Clear all",
-      "GROUP_MODEL_SEARCH": "Search models..."
+      "GROUP_MODEL_SEARCH": "Search models...",
+      "GROUP_OFFLINE": "All providers in this group are down right now"
     },
     "ENUM": {
       "ENABLED": "Enabled",

@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto mengarahkan setiap model ke penyedia termurah yang tersedia. Buka model untuk menyematkan grup penyedia tertentu; penagihannya akan terkunci pada tarif mereka.",
       "GROUP_OVERRIDES_COUNT": "{count} diganti",
       "GROUP_CLEAR_ALL": "Hapus semua",
-      "GROUP_MODEL_SEARCH": "Cari model..."
+      "GROUP_MODEL_SEARCH": "Cari model...",
+      "GROUP_OFFLINE": "Semua penyedia di grup ini sedang tidak tersedia"
     },
     "ENUM": {
       "ENABLED": "Aktif",

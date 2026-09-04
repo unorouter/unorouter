@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto 会将每个模型路由到当前可用的最便宜供应商。打开某个模型可固定特定供应商分组，该模型将仅按所选分组的费率计费。",
       "GROUP_OVERRIDES_COUNT": "已覆盖 {count} 个",
       "GROUP_CLEAR_ALL": "全部清除",
-      "GROUP_MODEL_SEARCH": "搜索模型…"
+      "GROUP_MODEL_SEARCH": "搜索模型…",
+      "GROUP_OFFLINE": "该分组的所有供应商当前均不可用"
     },
     "ENUM": {
       "ENABLED": "已启用",

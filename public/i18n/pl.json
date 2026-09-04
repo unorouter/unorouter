@@ -2808,7 +2808,8 @@
       "GROUP_MAPPING_HINT": "Auto kieruje każdy model do najtańszego dostępnego dostawcy. Otwórz model, aby przypiąć konkretne grupy dostawców; rozliczenia będą ograniczone do ich stawek.",
       "GROUP_OVERRIDES_COUNT": "Nadpisano: {count}",
       "GROUP_CLEAR_ALL": "Wyczyść wszystko",
-      "GROUP_MODEL_SEARCH": "Szukaj modeli..."
+      "GROUP_MODEL_SEARCH": "Szukaj modeli...",
+      "GROUP_OFFLINE": "Wszyscy dostawcy w tej grupie są obecnie niedostępni"
     },
     "ENUM": {
       "ENABLED": "Włączony",
