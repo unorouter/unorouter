@@ -48,11 +48,14 @@ export function SwRegister() {
             waiting: !!reg.waiting,
             installing: !!reg.installing,
           });
-          reg.addEventListener("updatefound", () =>
+          if (reg.waiting) onUpdateReady();
+          watchInstalling(reg);
+          reg.addEventListener("updatefound", () => {
             logChatDebug("sw.updatefound", {
               visible: document.visibilityState === "visible",
-            }),
-          );
+            });
+            watchInstalling(reg);
+          });
         })
         .catch((err) => {
           logChatDebug("sw.register_failed", {
@@ -70,24 +73,63 @@ export function SwRegister() {
     if (document.readyState === "complete") register();
     else window.addEventListener("load", register, { once: true });
 
-    // skipWaiting + clientsClaim wipe the build-scoped caches while this page keeps running
-    // the PREVIOUS build's JavaScript, with no error to trigger ChunkLoadError recovery.
+    // A new worker installs and then WAITS (skipWaiting/clientsClaim are off
+    // in sw.ts). This page applies it with SKIP_WAITING on its next return to
+    // the foreground while nothing is mid-flight, or from the toast; the
+    // reload follows activation. Nothing is pulled out from under a page
+    // that is busy, hidden, or still booting.
     let stale = false;
+    const busy = () =>
+      chatStore.get(chatRunningAtom) || chatStore.get(dirtyFormsAtom) > 0;
+    const offer = (apply: () => void) =>
+      toast(updateText, {
+        id: "sw-update",
+        duration: Infinity,
+        action: { label: reloadText, onClick: apply },
+      });
+    const applyWaiting = (reason: string) => {
+      const worker = registration?.waiting;
+      if (!worker) {
+        // Activated elsewhere already; the reload alone picks it up.
+        logChatDebug("sw.reload", { reason });
+        window.location.reload();
+        return;
+      }
+      logChatDebug("sw.apply_update", { reason });
+      worker.addEventListener("statechange", () => {
+        if (worker.state !== "activated") return;
+        logChatDebug("sw.reload", { reason });
+        window.location.reload();
+      });
+      worker.postMessage({ type: "SKIP_WAITING" });
+    };
+    const onUpdateReady = () => {
+      // Only an update: a first install has no controller and needs no reload.
+      if (!navigator.serviceWorker.controller) return;
+      stale = true;
+      logChatDebug("sw.update_ready", {
+        visible: document.visibilityState === "visible",
+      });
+      if (document.visibilityState === "visible")
+        offer(() => applyWaiting("toast"));
+    };
+    const watchInstalling = (reg: ServiceWorkerRegistration) => {
+      const worker = reg.installing;
+      if (!worker) return;
+      worker.addEventListener("statechange", () => {
+        if (worker.state === "installed") onUpdateReady();
+      });
+    };
+    // Fallback: a controller change without our SKIP_WAITING (another tab
+    // applied it, or a first install claiming nothing) is treated the same.
     const onControllerChange = () => {
       if (!navigator.serviceWorker.controller) return;
       stale = true;
       logChatDebug("sw.controllerchange", {
         visible: document.visibilityState === "visible",
       });
-      if (document.visibilityState !== "visible") return;
-      toast(updateText, {
-        id: "sw-update",
-        duration: Infinity,
-        action: {
-          label: reloadText,
-          onClick: () => window.location.reload(),
-        },
-      });
+      if (document.visibilityState === "visible")
+        offer(() => applyWaiting("toast"));
     };
     navigator.serviceWorker.addEventListener(
       "controllerchange",
@@ -97,26 +139,12 @@ export function SwRegister() {
     const onVisible = () => {
       if (document.visibilityState !== "visible") return;
       if (stale) {
-        // A reload mid-reply loses the half-written answer, and an editor
-        // with unsaved fields loses them; the composer draft is on the
-        // conversation row and survives.
-        if (
-          chatStore.get(chatRunningAtom) ||
-          chatStore.get(dirtyFormsAtom) > 0
-        ) {
-          toast(updateText, {
-            id: "sw-update",
-            duration: Infinity,
-            action: {
-              label: reloadText,
-              onClick: () => window.location.reload(),
-            },
-          });
+        if (busy()) {
+          offer(() => applyWaiting("toast"));
           return;
         }
         stale = false;
-        logChatDebug("sw.reload", { reason: "stale_on_visible" });
-        window.location.reload();
+        applyWaiting("stale_on_visible");
         return;
       }
       registration?.update().catch(() => {});

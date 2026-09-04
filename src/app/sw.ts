@@ -59,8 +59,14 @@ const handleNavigation = async (
 
 const serwist = new Serwist({
   precacheEntries,
-  skipWaiting: true,
-  clientsClaim: true,
+  // Off on purpose. With both on, every deploy yanked the worker out from
+  // under every open tab at once and forced a reload on each: thirteen
+  // deploys in one evening meant thirteen forced reloads per user. A new
+  // worker now waits; a page applies it via SKIP_WAITING only when idle and
+  // visible (see sw-register), other tabs pick it up on their next
+  // navigation, and a first install still activates on its own.
+  skipWaiting: false,
+  clientsClaim: false,
   navigationPreload: false,
   runtimeCaching: [
     {
@@ -192,6 +198,10 @@ self.addEventListener("install", (event) => {
       }
     })(),
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") void self.skipWaiting();
 });
 
 self.addEventListener("fetch", (event) => {
