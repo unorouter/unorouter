@@ -23,7 +23,7 @@ export function OfflineFallback() {
           <p className="text-muted-foreground text-sm">
             {t("MAIN.OFFLINE.DESCRIPTION")}
           </p>
-          <div className="flex justify-center">
+          <div className="flex flex-wrap justify-center gap-2">
             <Button
               onClick={() => window.location.reload()}
               className="flex items-center gap-2"
@@ -31,6 +31,16 @@ export function OfflineFallback() {
               <Icon name="refresh-cw" className="h-4 w-4" />
               {t("MAIN.ACTIONS.TRY_AGAIN")}
             </Button>
+            {/* A plain element by id: the inline script on the offline page
+                wires it, so it works while no chunk can load and React never
+                hydrates. Not a <Button>, whose handler would need React. */}
+            <button
+              id="uno-repair"
+              type="button"
+              className="border-input bg-background hover:bg-accent inline-flex h-9 items-center gap-2 rounded-md border px-4 text-sm font-medium"
+            >
+              {t("MAIN.ACTIONS.REPAIR")}
+            </button>
           </div>
         </CardContent>
       </Card>

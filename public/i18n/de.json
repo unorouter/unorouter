@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Erneut versuchen",
-      "GO_HOME": "Zur Startseite"
+      "GO_HOME": "Zur Startseite",
+      "REPAIR": "App reparieren"
     },
     "OFFLINE": {
       "TITLE": "Du bist offline",
       "DESCRIPTION": "Diese Seite ist noch nicht zwischengespeichert. Prüfe deine Verbindung und versuche es erneut. Bereits geöffnete Seiten bleiben offline verfügbar."
+    },
+    "RECOVER": {
+      "TITLE": "App wird repariert",
+      "DESCRIPTION": "Die zwischengespeicherten App-Dateien werden entfernt und die App neu gestartet. Deine Chats sind separat gespeichert und bleiben unberührt."
     }
   },
   "COMMON": {

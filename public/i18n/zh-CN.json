@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "重试",
-      "GO_HOME": "返回首页"
+      "GO_HOME": "返回首页",
+      "REPAIR": "修复应用"
     },
     "OFFLINE": {
       "TITLE": "您已离线",
       "DESCRIPTION": "此页面尚未缓存。请检查网络连接后重试。已打开过的页面在离线时仍可访问。"
+    },
+    "RECOVER": {
+      "TITLE": "正在修复应用",
+      "DESCRIPTION": "正在清除缓存的应用文件并重新启动。你的聊天记录单独保存，不会受到影响。"
     }
   },
   "COMMON": {

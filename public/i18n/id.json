@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Coba Lagi",
-      "GO_HOME": "Ke Beranda"
+      "GO_HOME": "Ke Beranda",
+      "REPAIR": "Perbaiki aplikasi"
     },
     "OFFLINE": {
       "TITLE": "Anda offline",
       "DESCRIPTION": "Halaman ini belum di-cache. Periksa koneksi Anda dan coba lagi. Halaman yang sudah Anda buka tetap tersedia secara offline."
+    },
+    "RECOVER": {
+      "TITLE": "Memperbaiki aplikasi",
+      "DESCRIPTION": "Menghapus berkas aplikasi yang tersimpan di cache dan memulai ulang. Obrolanmu disimpan terpisah dan tidak disentuh."
     }
   },
   "COMMON": {

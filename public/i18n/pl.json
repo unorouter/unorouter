@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Spróbuj ponownie",
-      "GO_HOME": "Wróć do strony głównej"
+      "GO_HOME": "Wróć do strony głównej",
+      "REPAIR": "Napraw aplikację"
     },
     "OFFLINE": {
       "TITLE": "Jesteś offline",
       "DESCRIPTION": "Ta strona nie jest jeszcze w cache. Sprawdź połączenie i spróbuj ponownie. Strony, które już otwarłeś, pozostają dostępne offline."
+    },
+    "RECOVER": {
+      "TITLE": "Naprawianie aplikacji",
+      "DESCRIPTION": "Usuwanie plików aplikacji z pamięci podręcznej i ponowne uruchomienie. Twoje czaty są przechowywane osobno i pozostają nietknięte."
     }
   },
   "COMMON": {

@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Réessayer",
-      "GO_HOME": "Retour à l'accueil"
+      "GO_HOME": "Retour à l'accueil",
+      "REPAIR": "Réparer l'application"
     },
     "OFFLINE": {
       "TITLE": "Vous êtes hors ligne",
       "DESCRIPTION": "Cette page n'est pas encore en cache. Vérifiez votre connexion et réessayez. Les pages déjà ouvertes restent accessibles hors ligne."
+    },
+    "RECOVER": {
+      "TITLE": "Réparation de l'application",
+      "DESCRIPTION": "Suppression des fichiers mis en cache et redémarrage. Vos conversations sont stockées séparément et ne sont pas touchées."
     }
   },
   "COMMON": {

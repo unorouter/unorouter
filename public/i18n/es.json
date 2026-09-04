@@ -2483,11 +2483,16 @@
     },
     "ACTIONS": {
       "TRY_AGAIN": "Intentar de nuevo",
-      "GO_HOME": "Ir al inicio"
+      "GO_HOME": "Ir al inicio",
+      "REPAIR": "Reparar la aplicación"
     },
     "OFFLINE": {
       "TITLE": "Estás sin conexión",
       "DESCRIPTION": "Esta página aún no está en caché. Verifica tu conexión e inténtalo de nuevo. Las páginas que ya abriste permanecen disponibles sin conexión."
+    },
+    "RECOVER": {
+      "TITLE": "Reparando la aplicación",
+      "DESCRIPTION": "Se eliminan los archivos en caché de la aplicación y se reinicia. Tus chats se guardan aparte y no se tocan."
     }
   },
   "COMMON": {
