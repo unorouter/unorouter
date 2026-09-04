@@ -25,6 +25,13 @@ const openapiRefs =
       })()
     : fromTypes("src/app/api/[[...route]]/route.ts");
 
+const PUBLIC_READ_TTL: { match: (p: string) => boolean; ttl: number }[] = [
+  { match: (p) => p.startsWith("/api/models/pricing/"), ttl: 300 },
+  { match: (p) => p.startsWith("/api/models/model-status/"), ttl: 45 },
+  { match: (p) => p.startsWith("/api/models/perf-metrics"), ttl: 300 },
+  { match: (p) => p === "/api/models/rankings", ttl: 300 },
+];
+
 export const app = new Elysia({ prefix: "/api" })
   .use(
     openapi({
@@ -56,6 +63,20 @@ export const app = new Elysia({ prefix: "/api" })
       },
     }),
   )
+  // Anonymous public reads that only mirror upstream catalog/status data. Cloudflare
+  // caches on CDN-Cache-Control and strips it from the client response, so browsers keep
+  // revalidating while a flood of the same URL is absorbed at the edge. Anything carrying
+  // a credential is left alone: the header is set only when the request has neither an
+  // Authorization header nor a session cookie.
+  .onAfterHandle(({ request, path, set }) => {
+    const ttl = PUBLIC_READ_TTL.find((e) => e.match(path))?.ttl;
+    if (ttl === undefined) return;
+    if (request.method !== "GET") return;
+    if (request.headers.get("authorization")) return;
+    if (request.headers.get("cookie")?.includes("session=")) return;
+    set.headers["cdn-cache-control"] =
+      `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`;
+  })
   .use(aiDomainRoute)
   .use(authDomainRoute)
   .use(billingDomainRoute)
