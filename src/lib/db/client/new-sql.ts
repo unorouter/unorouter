@@ -35,10 +35,17 @@ export function terminateAllSql(): void {
 let controlSeq = 0;
 
 // Addressed to the worker directly: sqlocal's processor protocol has no pause/resume.
+// Omit over a union collapses the discriminant; distribute it instead.
+type ControlRequest = SahPoolControlMessage extends infer M
+  ? M extends { key: string }
+    ? Omit<M, "key">
+    : never
+  : never;
+
 function control(
   sql: SQLocalDrizzle,
-  type: SahPoolControlMessage["type"],
-): Promise<SahPoolDiagnosis | undefined> {
+  message: ControlRequest,
+): Promise<SahPoolControlReply | undefined> {
   const worker = workers.get(sql);
   if (!worker) return Promise.resolve(undefined);
   const key = `sahpool-control-${++controlSeq}`;
@@ -52,15 +59,32 @@ function control(
       }
       worker.removeEventListener("message", onMessage);
       if (event.data.error) reject(new Error(event.data.error));
-      else resolve(event.data.diagnosis);
+      else resolve(event.data);
     };
     worker.addEventListener("message", onMessage);
-    worker.postMessage({ type, key } satisfies SahPoolControlMessage);
+    const full: SahPoolControlMessage = { ...message, key };
+    worker.postMessage(full);
   });
 }
 
+export async function exportPoolFileSql(
+  sql: SQLocalDrizzle,
+  name: string,
+): Promise<ArrayBuffer> {
+  const reply = await control(sql, { type: "sahpool-export-file", name });
+  if (!reply?.data) throw new Error(`export of ${name} returned no data`);
+  return reply.data;
+}
+
+export async function unlinkPoolFileSql(
+  sql: SQLocalDrizzle,
+  name: string,
+): Promise<void> {
+  await control(sql, { type: "sahpool-unlink-file", name });
+}
+
 export async function pauseSql(sql: SQLocalDrizzle): Promise<void> {
-  await control(sql, "sahpool-pause");
+  await control(sql, { type: "sahpool-pause" });
 }
 
 // destroy() leaves the worker and its sync access handles alive, so a retry loop
@@ -74,11 +98,11 @@ export function terminateSql(sql: SQLocalDrizzle): void {
 }
 
 export async function resumeSql(sql: SQLocalDrizzle): Promise<void> {
-  await control(sql, "sahpool-resume");
+  await control(sql, { type: "sahpool-resume" });
 }
 
 export function diagnoseSql(
   sql: SQLocalDrizzle,
 ): Promise<SahPoolDiagnosis | undefined> {
-  return control(sql, "sahpool-diagnose");
+  return control(sql, { type: "sahpool-diagnose" }).then((r) => r?.diagnosis);
 }

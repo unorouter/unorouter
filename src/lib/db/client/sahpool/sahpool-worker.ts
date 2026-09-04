@@ -7,16 +7,23 @@ import { SQLiteSahPoolDriver } from "./sqlite-sahpool-driver";
 const driver = new SQLiteSahPoolDriver();
 const processor = new SQLocalProcessor(driver);
 
-export type SahPoolControlMessage = {
-  type: "sahpool-pause" | "sahpool-resume" | "sahpool-diagnose";
-  key: string;
-};
+export type SahPoolControlMessage =
+  | {
+      type: "sahpool-pause" | "sahpool-resume" | "sahpool-diagnose";
+      key: string;
+    }
+  | {
+      type: "sahpool-export-file" | "sahpool-unlink-file";
+      key: string;
+      name: string;
+    };
 
 export type SahPoolControlReply = {
   type: "sahpool-control-done";
   key: string;
   error?: string;
   diagnosis?: SahPoolDiagnosis;
+  data?: ArrayBuffer;
 };
 
 export type SahPoolDiagnosis = {
@@ -33,7 +40,9 @@ function isControlMessage(data: unknown): data is SahPoolControlMessage {
   return (
     type === "sahpool-pause" ||
     type === "sahpool-resume" ||
-    type === "sahpool-diagnose"
+    type === "sahpool-diagnose" ||
+    type === "sahpool-export-file" ||
+    type === "sahpool-unlink-file"
   );
 }
 
@@ -65,11 +74,16 @@ async function handleControl(message: SahPoolControlMessage): Promise<void> {
   try {
     if (message.type === "sahpool-diagnose") reply.diagnosis = await diagnose();
     else if (message.type === "sahpool-pause") await driver.pause();
+    else if (message.type === "sahpool-export-file")
+      reply.data = await driver.exportPoolFile(message.name);
+    else if (message.type === "sahpool-unlink-file")
+      driver.unlinkPoolFile(message.name);
     else await driver.resume();
   } catch (err) {
     reply.error = String(err);
   }
-  self.postMessage(reply);
+  if (reply.data) self.postMessage(reply, [reply.data]);
+  else self.postMessage(reply);
 }
 
 self.onmessage = (message) => {

@@ -154,6 +154,9 @@ export type LocalClient = {
   wipe: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
+  // A copy written by VACUUM INTO on the live connection; unlink it after.
+  exportPoolFile: (name: string, filename: string) => Promise<File>;
+  unlinkPoolFile: (name: string) => Promise<void>;
   getDatabaseInfo: () => Promise<{
     databasePath?: string;
     databaseSizeBytes?: number;
