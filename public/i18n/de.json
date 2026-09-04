@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Angezeigte Preise entsprechen dem niedrigsten verfügbaren Tarif. Die tatsächlichen Kosten hängen vom jeweiligen Anbieter ab.",
       "CUSTOM": "Individuelle Abrechnung",
       "TIERED": "Gestaffelt",
-      "ORIGINAL": "Originalpreis",
       "CACHE_WRITE": "Cache-Schreiben",
       "CACHE_READ": "Cache-Lesen"
     },

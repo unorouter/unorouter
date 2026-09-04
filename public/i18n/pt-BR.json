@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Os preços mostrados refletem a menor taxa disponível. O custo real depende de qual provedor atender sua solicitação.",
       "CUSTOM": "Cobrança customizada",
       "TIERED": "Por níveis",
-      "ORIGINAL": "Preço original",
       "CACHE_WRITE": "Escrita em cache",
       "CACHE_READ": "Leitura de cache"
     },

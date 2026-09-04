@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "Gösterilen fiyatlar mevcut en düşük oranı yansıtır. Gerçek maliyet, isteğinizi hangi sağlayıcının yönettiğine bağlıdır.",
       "CUSTOM": "Özel faturalandırma",
       "TIERED": "Kademeli",
-      "ORIGINAL": "Orijinal fiyat",
       "CACHE_WRITE": "Önbellek yazma",
       "CACHE_READ": "Önbellek okuma"
     },

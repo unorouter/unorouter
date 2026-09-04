@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "표시된 가격은 가용 최저가입니다. 실제 비용은 어떤 공급자가 요청을 처리하느냐에 따라 달라집니다.",
       "CUSTOM": "맞춤 청구",
       "TIERED": "구간별",
-      "ORIGINAL": "원래 가격",
       "CACHE_WRITE": "캐시 쓰기",
       "CACHE_READ": "캐시 읽기"
     },

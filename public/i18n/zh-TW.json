@@ -330,7 +330,6 @@
       "VARIES_TOOLTIP": "顯示的價格為目前最低費率。實際費用依處理您請求的供應商而定。",
       "CUSTOM": "自訂計費",
       "TIERED": "階梯計費",
-      "ORIGINAL": "原始價格",
       "CACHE_WRITE": "快取寫入",
       "CACHE_READ": "快取讀取"
     },

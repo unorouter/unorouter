@@ -533,14 +533,9 @@ function PriceCell(props: {
           {props.unit}
         </span>
         {pct > 0 && props.original !== null && (
-          <>
-            <span className="text-muted-foreground/50 font-mono text-[11px] line-through">
-              {formatPrice(props.original)}
-            </span>
-            <span className="rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
-              {props.offLabel(pct)}
-            </span>
-          </>
+          <span className="rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
+            {props.offLabel(pct)}
+          </span>
         )}
       </div>
     </div>
