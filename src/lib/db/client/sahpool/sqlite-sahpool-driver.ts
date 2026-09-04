@@ -13,7 +13,10 @@ type SAHPoolUtil = Awaited<ReturnType<Sqlite3["installOpfsSAHPoolVfs"]>>;
 // No two pool instances may share an OPFS directory (the VFS holds every file
 // handle exclusively). Logical filenames inside a pool MUST be absolute
 // ("/name"), else the VFS resolves import and open to different files.
-const POOL_CAPACITY = 4;
+// An export needs up to five at once: the live file, its journal while a reply
+// is being written, the VACUUM INTO copy, that copy's journal during the
+// deletes, and VACUUM's scratch. Four fit only on an idle tab.
+const POOL_CAPACITY = 8;
 
 // installOpfsSAHPoolVfs rejects on re-registering a VFS name, so re-init after
 // destroy() must reuse the cached util.
