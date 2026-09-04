@@ -49,29 +49,19 @@ export function ErrorFallback(props: ErrorFallbackProps) {
       });
       if (!sessionStorage.getItem(KEY)) {
         sessionStorage.setItem(KEY, "1");
-        // Caches must go BEFORE the reload: the SW would serve back the same stale HTML.
-        void (async () => {
-          try {
-            const names = await caches.keys();
-            await Promise.all(
-              names
-                .filter((n) => n !== "fonts" && n !== "images")
-                .map((n) => caches.delete(n)),
-            );
-            const regs = await navigator.serviceWorker
-              ?.getRegistrations?.()
-              .catch(() => []);
-            await Promise.all((regs ?? []).map((r) => r.update()));
-          } catch {
-            // Cache APIs are unavailable in private mode and older Safari; still reload.
-          }
-          window.location.reload();
-        })();
+        // Caches AND the worker must go before the reload. Deleting caches
+        // alone left a wedged worker serving the reload the same way, and the
+        // once-guard then landed the user here with a destructive reset as
+        // the most visible button.
+        void clearServiceWorkerCaches()
+          .catch(() => {})
+          .then(() => window.location.reload());
       }
     }
   }, [props.error]);
 
   const details = formatError(props.error);
+  const chunkError = isChunkLoadError(props.error);
 
   const resetData = async () => {
     setClearing(true);
@@ -112,7 +102,9 @@ export function ErrorFallback(props: ErrorFallbackProps) {
         </CardHeader>
         <CardContent className="space-y-4 text-center">
           <p className="text-muted-foreground text-sm">
-            {t("MAIN.ERROR.UNEXPECTED_ERROR_OCCURRED")}
+            {chunkError
+              ? t("MAIN.ERROR.RESET_APP_CACHE_HINT")
+              : t("MAIN.ERROR.UNEXPECTED_ERROR_OCCURRED")}
           </p>
 
           {env.discordUrl && (
@@ -166,8 +158,8 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
           <div className="space-y-1">
             <Button
-              variant="outline"
-              size="sm"
+              variant={chunkError ? "default" : "outline"}
+              size={chunkError ? "default" : "sm"}
               disabled={clearingCaches}
               onClick={resetCaches}
               className="w-full"
@@ -181,22 +173,24 @@ export function ErrorFallback(props: ErrorFallbackProps) {
             </p>
           </div>
 
-          <div className="space-y-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled={clearing}
-              onClick={resetData}
-              className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full"
-            >
-              {clearing
-                ? t("MAIN.ERROR.RESETTING")
-                : t("MAIN.ERROR.RESET_APP_DATA")}
-            </Button>
-            <p className="text-muted-foreground text-xs">
-              {t("MAIN.ERROR.RESET_APP_DATA_HINT")}
-            </p>
-          </div>
+          {!chunkError && (
+            <div className="space-y-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={clearing}
+                onClick={resetData}
+                className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full"
+              >
+                {clearing
+                  ? t("MAIN.ERROR.RESETTING")
+                  : t("MAIN.ERROR.RESET_APP_DATA")}
+              </Button>
+              <p className="text-muted-foreground text-xs">
+                {t("MAIN.ERROR.RESET_APP_DATA_HINT")}
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -87,10 +87,11 @@ export default function proxy(request: NextRequest) {
     response.status === 200 &&
     isAnonymousPageRequest(request)
   ) {
-    response.headers.set(
-      "CDN-Cache-Control",
-      `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`,
-    );
+    // No stale-while-revalidate: it let the edge serve a previous build's
+    // HTML for up to 3x ttl after a deploy, and that HTML names chunks the
+    // new pods no longer have. The deploy purges these URLs; this is the
+    // bound if that purge ever fails.
+    response.headers.set("CDN-Cache-Control", `public, s-maxage=${ttl}`);
   }
   return response;
 }
