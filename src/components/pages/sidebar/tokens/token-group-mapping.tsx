@@ -252,13 +252,10 @@ function ModelGroupPopover(props: {
       )
     : props.options;
   const selected = props.entry.groups;
-  const hasOverride =
-    props.entry.groups.length > 0 ||
-    props.entry.min !== undefined ||
-    props.entry.max !== undefined;
-  // Auto is the absence of an override, so an entry configuring nothing reads
-  // as auto rather than as a third state that looks off but routes like auto.
-  const isAuto = props.entry.auto === true || !hasOverride;
+  // Purely the stored flag. Deriving it from "nothing is configured" made the
+  // toggle impossible to switch off: turning it off cleared the flag, the
+  // derivation saw an empty entry and turned it straight back on.
+  const isAuto = props.entry.auto === true;
   const hasBand =
     props.entry.min !== undefined || props.entry.max !== undefined;
   const bandLow = props.entry.min ?? 0;
@@ -314,7 +311,6 @@ function ModelGroupPopover(props: {
           </div>
           <Switch
             checked={isAuto}
-            disabled={!hasOverride}
             onCheckedChange={(checked) =>
               props.onChange({ ...props.entry, auto: checked || undefined })
             }
@@ -332,7 +328,6 @@ function ModelGroupPopover(props: {
             </span>
           </div>
           <Slider
-            disabled={isAuto}
             min={0}
             max={BAND_STEPS}
             step={1}
