@@ -175,7 +175,8 @@ export function buildModelGroupOptions(
   for (const [model, entry] of Object.entries(mapping)) {
     const list = byModel.get(model);
     const known = new Set((list ?? []).map((o) => o.group));
-    const ghosts = entry.groups
+    const pinned = Array.isArray(entry) ? entry : (entry?.groups ?? []);
+    const ghosts = pinned
       .filter((group) => !known.has(group))
       .map((group) => ({
         group,
@@ -251,7 +252,13 @@ function ModelGroupPopover(props: {
       )
     : props.options;
   const selected = props.entry.groups;
-  const isAuto = props.entry.auto === true;
+  const hasOverride =
+    props.entry.groups.length > 0 ||
+    props.entry.min !== undefined ||
+    props.entry.max !== undefined;
+  // Auto is the absence of an override, so an entry configuring nothing reads
+  // as auto rather than as a third state that looks off but routes like auto.
+  const isAuto = props.entry.auto === true || !hasOverride;
   const hasBand =
     props.entry.min !== undefined || props.entry.max !== undefined;
   const bandLow = props.entry.min ?? 0;
@@ -307,6 +314,7 @@ function ModelGroupPopover(props: {
           </div>
           <Switch
             checked={isAuto}
+            disabled={!hasOverride}
             onCheckedChange={(checked) =>
               props.onChange({ ...props.entry, auto: checked || undefined })
             }
@@ -382,20 +390,6 @@ function ModelGroupPopover(props: {
           <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
             <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
             <CommandGroup>
-              {!query && (
-                <CommandItem
-                  value="auto"
-                  onSelect={() => props.onChange({ groups: [], auto: true })}
-                  className="[&>svg]:hidden"
-                >
-                  <CheckBox checked={isAuto} />
-                  <Icon
-                    name="shuffle"
-                    className="text-muted-foreground h-3.5 w-3.5 shrink-0"
-                  />
-                  <span className="font-mono text-xs">auto</span>
-                </CommandItem>
-              )}
               {options.map((option) => (
                 <CommandItem
                   key={option.group}
