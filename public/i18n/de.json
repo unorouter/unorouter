@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Modelle suchen...",
       "GROUP_OFFLINE": "Alle Anbieter in dieser Gruppe sind derzeit offline",
       "GROUP_MISSING": "Nicht mehr verfügbar, zum Entfernen abwählen",
-      "GROUP_MISSING_SHORT": "weg"
+      "GROUP_MISSING_SHORT": "weg",
+      "BAND_LABEL": "Preisbereich",
+      "BAND_AUTO": "Automatisch",
+      "BAND_AUTO_HINT": "Über die normale Kette vom günstigsten Anbieter aus leiten",
+      "BAND_OFF": "Beliebiger Preis",
+      "BAND_HINT": "Ziehen, um nur über Anbieter in einem Preisbereich zu leiten",
+      "BAND_CAUGHT": "{count} Anbieter im Bereich",
+      "BAND_CLEAR": "Bereich zurücksetzen"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Kombiniere ein Pinning mit einer Beobachtung, um von Preisänderungen oder Ausfällen der Gruppen zu erfahren, siehe",
       "P_PINNING_1_PRE": "Öffne ",
       "P_PINNING_1_LINK": "API-Schlüssel",
-      "P_PINNING_1_POST": ", einen Schlüssel erstellen oder bearbeiten und die Gruppenauswahl öffnen. Ein Modell suchen, anklicken und eine oder mehrere Gruppen ankreuzen, sortiert nach dem günstigsten Preis. Unberührte Modelle bleiben auf auto."
+      "P_PINNING_1_POST": ", einen Schlüssel erstellen oder bearbeiten und die Gruppenauswahl öffnen. Ein Modell suchen, anklicken und eine oder mehrere Gruppen ankreuzen, sortiert nach dem günstigsten Preis. Unberührte Modelle bleiben auf auto.",
+      "H_PRICE_BAND": "Preisbereiche",
+      "P_PRICE_BAND_1": "Statt Anbieter einzeln anzuhaken, ziehen Sie den Preisbereich mit zwei Reglern, um nur über Anbieter zu leiten, deren Rate darin liegt. Da die Auswahl über den Preis statt über den Namen läuft, werden neue Anbieter im Bereich automatisch berücksichtigt.",
+      "P_PRICE_BAND_2": "Bereich und angeheftete Anbieter werden vereinigt: Der Bereich deckt die günstigen Anbieter ab, und eine Anheftung behält einen bestimmten teuren Anbieter als Ausweichoption, auch wenn er außerhalb liegt. Es wird weiterhin zuerst der günstigste versucht, die Ausweichoption also erst, wenn alles Günstigere fehlschlägt.",
+      "P_PRICE_BAND_3": "Automatisch setzt ein Modell auf die normale Kette vom günstigsten Anbieter zurück. Bereich und Anheftungen bleiben gespeichert, aber inaktiv, sodass beim Ausschalten genau die vorherige Konfiguration zurückkehrt.",
+      "ALT_PRICE_BAND": "Preisbereichsregler an einem Modell mit den erfassten Anbietern",
+      "ALT_AUTO_GREYED": "Automatisch aktiviert, gespeicherter Preisbereich ausgegraut, aber erhalten"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

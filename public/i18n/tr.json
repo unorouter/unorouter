@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Model ara...",
       "GROUP_OFFLINE": "Bu gruptaki tüm sağlayıcılar şu anda çevrimdışı",
       "GROUP_MISSING": "Artık sunulmuyor, kaldırmak için işareti kaldırın",
-      "GROUP_MISSING_SHORT": "yok"
+      "GROUP_MISSING_SHORT": "yok",
+      "BAND_LABEL": "Fiyat aralığı",
+      "BAND_AUTO": "Otomatik",
+      "BAND_AUTO_HINT": "En ucuzdan başlayan normal zincir üzerinden yönlendir",
+      "BAND_OFF": "Herhangi bir fiyat",
+      "BAND_HINT": "Yalnızca bir fiyat aralığındaki sağlayıcılar üzerinden yönlendirmek için sürükleyin",
+      "BAND_CAUGHT": "Aralıktaki sağlayıcı: {count}",
+      "BAND_CLEAR": "Aralığı temizle"
     },
     "ENUM": {
       "ENABLED": "Etkin",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Grupları fiyat değiştirdiğinde veya düştüğünde haberdar olmak için sabitlemeyi izlemeyle birleştirin, bkz.",
       "P_PINNING_1_PRE": "",
       "P_PINNING_1_LINK": "API Anahtarları",
-      "P_PINNING_1_POST": ", bir anahtar oluşturun veya düzenleyin ve grup seçicisini açın. Bir model arayın, tıklayın ve en ucuzdan sıralanmış bir veya daha fazla grubu işaretleyin. Dokunulmayan modeller auto durumunda kalır."
+      "P_PINNING_1_POST": ", bir anahtar oluşturun veya düzenleyin ve grup seçicisini açın. Bir model arayın, tıklayın ve en ucuzdan sıralanmış bir veya daha fazla grubu işaretleyin. Dokunulmayan modeller auto durumunda kalır.",
+      "H_PRICE_BAND": "Fiyat aralıkları",
+      "P_PRICE_BAND_1": "Sağlayıcıları tek tek işaretlemek yerine, bir modeldeki çift tutamaçlı fiyat aralığını sürükleyerek yalnızca ücreti bu aralığa giren sağlayıcılar üzerinden yönlendirin. Seçim isme göre değil fiyata göre yapıldığından, aralığa giren yeni sağlayıcılar otomatik olarak dahil edilir.",
+      "P_PRICE_BAND_2": "Aralık ile sabitlenen sağlayıcılar birleşim olarak çalışır: aralık ucuz sağlayıcıları kapsar, sabitleme ise aralık dışında kalsa bile belirli bir pahalı sağlayıcıyı yedek olarak tutar. Yönlendirme yine en ucuzdan başlar, bu yüzden yedeğe ancak daha ucuz olan her şey başarısız olduğunda ulaşılır.",
+      "P_PRICE_BAND_3": "Otomatik, modeli en ucuzdan başlayan normal zincire döndürür. Aralığı ve sabitlemeleri kayıtlı ama etkisiz kalır; kapattığınızda önceki yapılandırma aynen geri gelir.",
+      "ALT_PRICE_BAND": "Bir modeldeki fiyat aralığı kaydırıcısı ve kapsadığı sağlayıcılar",
+      "ALT_AUTO_GREYED": "Otomatik açık, kaydedilen aralık soluk ama korunuyor"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

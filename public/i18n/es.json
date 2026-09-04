@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Buscar modelos...",
       "GROUP_OFFLINE": "Todos los proveedores de este grupo están caídos ahora mismo",
       "GROUP_MISSING": "Ya no se ofrece, desmarca para quitarlo",
-      "GROUP_MISSING_SHORT": "no está"
+      "GROUP_MISSING_SHORT": "no está",
+      "BAND_LABEL": "Rango de precio",
+      "BAND_AUTO": "Automático",
+      "BAND_AUTO_HINT": "Enrutar por la cadena normal, del más barato al más caro",
+      "BAND_OFF": "Cualquier precio",
+      "BAND_HINT": "Arrastra para enrutar solo por proveedores dentro de un rango de precio",
+      "BAND_CAUGHT": "{count} proveedores en el rango",
+      "BAND_CLEAR": "Borrar rango"
     },
     "ENUM": {
       "ENABLED": "Activada",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Combina una fijación con una vigilancia para enterarte cuando sus grupos cambien de precio o caigan, consulta",
       "P_PINNING_1_PRE": "Abre ",
       "P_PINNING_1_LINK": "Claves API",
-      "P_PINNING_1_POST": ", crea o edita una clave y abre el selector de grupos. Busca un modelo, haz clic en él y marca uno o varios grupos, ordenados del más barato al más caro. Los modelos que no toques siguen en auto."
+      "P_PINNING_1_POST": ", crea o edita una clave y abre el selector de grupos. Busca un modelo, haz clic en él y marca uno o varios grupos, ordenados del más barato al más caro. Los modelos que no toques siguen en auto.",
+      "H_PRICE_BAND": "Rangos de precio",
+      "P_PRICE_BAND_1": "En lugar de marcar proveedores uno a uno, arrastra el rango de precio de dos controles en un modelo para enrutar solo por proveedores cuya tarifa quede dentro. Como la selección es por precio y no por nombre, los proveedores nuevos que entren en el rango se incluyen automáticamente.",
+      "P_PRICE_BAND_2": "El rango y los proveedores fijados se combinan como unión: el rango cubre los proveedores baratos y un anclaje mantiene un proveedor caro concreto como reserva aunque quede fuera del rango. El enrutado sigue probando primero el más barato, así que la reserva solo se alcanza cuando falla todo lo más económico.",
+      "P_PRICE_BAND_3": "Automático devuelve el modelo a la cadena normal de más barato primero. Su rango y sus anclajes siguen guardados pero inactivos, de modo que al desactivarlo se restaura exactamente lo configurado antes.",
+      "ALT_PRICE_BAND": "Control de rango de precio en un modelo, con los proveedores que abarca",
+      "ALT_AUTO_GREYED": "Automático activado, con el rango guardado atenuado pero conservado"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Szukaj modeli...",
       "GROUP_OFFLINE": "Wszyscy dostawcy w tej grupie są obecnie niedostępni",
       "GROUP_MISSING": "Już niedostępny, odznacz aby usunąć",
-      "GROUP_MISSING_SHORT": "brak"
+      "GROUP_MISSING_SHORT": "brak",
+      "BAND_LABEL": "Zakres cen",
+      "BAND_AUTO": "Automatycznie",
+      "BAND_AUTO_HINT": "Kieruj przez zwykły łańcuch, od najtańszego",
+      "BAND_OFF": "Dowolna cena",
+      "BAND_HINT": "Przeciągnij, aby kierować tylko przez dostawców w zakresie cen",
+      "BAND_CAUGHT": "Dostawcy w zakresie: {count}",
+      "BAND_CLEAR": "Wyczyść zakres"
     },
     "ENUM": {
       "ENABLED": "Włączony",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Połącz przypięcie z obserwacją, by wiedzieć, kiedy grupy zmieniają cenę lub padają, zobacz",
       "P_PINNING_1_PRE": "Otwórz ",
       "P_PINNING_1_LINK": "Klucze API",
-      "P_PINNING_1_POST": ", utwórz albo edytuj klucz i otwórz selektor grup. Wyszukaj model, kliknij go i zaznacz jedną lub więcej grup, ułożonych od najtańszej. Nieruszone modele zostają w trybie auto."
+      "P_PINNING_1_POST": ", utwórz albo edytuj klucz i otwórz selektor grup. Wyszukaj model, kliknij go i zaznacz jedną lub więcej grup, ułożonych od najtańszej. Nieruszone modele zostają w trybie auto.",
+      "H_PRICE_BAND": "Zakresy cen",
+      "P_PRICE_BAND_1": "Zamiast zaznaczać dostawców ręcznie, przeciągnij dwusuwakowy zakres cen przy modelu, aby kierować ruch tylko przez dostawców z ceną w tym zakresie. Wybór odbywa się według ceny, a nie nazwy, więc nowi dostawcy mieszczący się w zakresie są uwzględniani automatycznie.",
+      "P_PRICE_BAND_2": "Zakres i przypięci dostawcy łączą się jako suma: zakres obejmuje tanich dostawców, a przypięcie zachowuje konkretnego drogiego dostawcę jako rezerwę, nawet gdy jest poza zakresem. Najpierw i tak próbowany jest najtańszy, więc rezerwa działa dopiero, gdy zawiedzie wszystko tańsze.",
+      "P_PRICE_BAND_3": "Tryb automatyczny przywraca model do zwykłego łańcucha od najtańszego. Zakres i przypięcia pozostają zapisane, ale nieaktywne, więc wyłączenie przywraca dokładnie poprzednią konfigurację.",
+      "ALT_PRICE_BAND": "Suwak zakresu cen przy modelu z pasującymi dostawcami",
+      "ALT_AUTO_GREYED": "Tryb automatyczny włączony, zapisany zakres wyszarzony, ale zachowany"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

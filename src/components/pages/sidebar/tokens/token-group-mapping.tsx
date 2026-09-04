@@ -23,13 +23,107 @@ import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Control } from "react-hook-form";
-import type { TokenFormSchema } from "@/lib/validation/token";
+import type { TokenFormSchema, TokenPinEntry } from "@/lib/validation/token";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 const GROUP_SEARCH_THRESHOLD = 8;
 const MODEL_ROW_PX = 33;
 const LIST_VIEWPORT_PX = 288;
 
-export type GroupMapping = Record<string, string[]>;
+export type GroupMapping = Record<string, TokenPinEntry>;
+
+/**
+ * Slider geometry. The interesting choices are all cheap: of the live non-zero
+ * lanes 66% sit under 1x and the median is 0.70x, so a linear 0-4 track would
+ * squeeze every real decision into its left quarter. The first 150 steps cover
+ * 0-1x and the last 50 cover 1-4x, which keeps the 0.02x-0.04x lanes on
+ * distinct steps. The stored value is always the RATIO, never the position, so
+ * this curve can be retuned later without rewriting anyone's saved band.
+ */
+const BAND_STEPS = 200;
+const BAND_KNEE_POS = 150;
+const BAND_MAX = 4;
+
+export function bandPosToRatio(pos: number): number {
+  if (pos <= BAND_KNEE_POS) return pos / BAND_KNEE_POS;
+  return (
+    1 + ((pos - BAND_KNEE_POS) / (BAND_STEPS - BAND_KNEE_POS)) * (BAND_MAX - 1)
+  );
+}
+
+export function bandRatioToPos(ratio: number): number {
+  if (ratio <= 1) return Math.round(ratio * BAND_KNEE_POS);
+  return Math.round(
+    BAND_KNEE_POS +
+      ((ratio - 1) / (BAND_MAX - 1)) * (BAND_STEPS - BAND_KNEE_POS),
+  );
+}
+
+function bandRatioLabel(ratio: number, atCeiling: boolean): string {
+  if (atCeiling) return `${BAND_MAX}x+`;
+  return ratio < 1 ? `${ratio.toFixed(3)}x` : `${ratio.toFixed(2)}x`;
+}
+
+/** Groups the band currently catches, cheapest first. */
+function groupsInBand(
+  options: GroupOption[],
+  min: number | undefined,
+  max: number | undefined,
+): GroupOption[] {
+  if (min === undefined && max === undefined) return [];
+  return options.filter(
+    (o) =>
+      o.ratio != null &&
+      o.online &&
+      (min === undefined || o.ratio >= min) &&
+      (max === undefined || o.ratio <= max),
+  );
+}
+
+export const EMPTY_ENTRY: TokenPinEntry = { groups: [] };
+
+/**
+ * Parses stored group_mapping JSON into the entry shape. Unknown input is a
+ * runtime value, not a trusted type, so every field is checked rather than
+ * asserted. The legacy array form is still accepted here because a key edited
+ * before the gateway migration runs would otherwise lose its pins silently.
+ */
+export function normalizeGroupMapping(raw: unknown): GroupMapping {
+  if (typeof raw !== "object" || raw === null) return {};
+  const out: GroupMapping = {};
+  for (const [model, value] of Object.entries(raw)) {
+    if (Array.isArray(value)) {
+      out[model] = { groups: value.filter((g) => typeof g === "string") };
+      continue;
+    }
+    if (typeof value !== "object" || value === null) continue;
+    const entry: Record<string, unknown> = { ...value };
+    const groups = Array.isArray(entry.groups)
+      ? entry.groups.filter((g): g is string => typeof g === "string")
+      : [];
+    out[model] = {
+      groups,
+      min: typeof entry.min === "number" ? entry.min : undefined,
+      max: typeof entry.max === "number" ? entry.max : undefined,
+      auto: entry.auto === true ? true : undefined,
+    };
+  }
+  return out;
+}
+
+function entryOf(mapping: GroupMapping, model: string): TokenPinEntry {
+  return mapping[model] ?? EMPTY_ENTRY;
+}
+
+function entryIsEmpty(entry: TokenPinEntry): boolean {
+  return (
+    entry.groups.length === 0 &&
+    entry.min === undefined &&
+    entry.max === undefined &&
+    !entry.auto
+  );
+}
 
 type TokenGroupMappingProps = {
   control: Control<TokenFormSchema>;
@@ -78,10 +172,10 @@ export function buildModelGroupOptions(
     else byModel.set(match[1], [option]);
   }
   // Re-add anything the key still pins that the catalogue no longer lists.
-  for (const [model, pinned] of Object.entries(mapping)) {
+  for (const [model, entry] of Object.entries(mapping)) {
     const list = byModel.get(model);
     const known = new Set((list ?? []).map((o) => o.group));
-    const ghosts = pinned
+    const ghosts = entry.groups
       .filter((group) => !known.has(group))
       .map((group) => ({
         group,
@@ -140,8 +234,8 @@ function ModelGroupPopover(props: {
   model: string;
   price?: { input: number; output: number };
   options: GroupOption[];
-  selected: string[];
-  onChange: (groups: string[]) => void;
+  entry: TokenPinEntry;
+  onChange: (entry: TokenPinEntry) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children: React.ReactElement;
@@ -156,13 +250,35 @@ function ModelGroupPopover(props: {
           o.group.toLowerCase().includes(query),
       )
     : props.options;
-  const isAuto = props.selected.length === 0;
+  const selected = props.entry.groups;
+  const isAuto = props.entry.auto === true;
+  const hasBand =
+    props.entry.min !== undefined || props.entry.max !== undefined;
+  const bandLow = props.entry.min ?? 0;
+  const bandHigh = props.entry.max ?? BAND_MAX;
+  const caught = groupsInBand(
+    props.options,
+    props.entry.min,
+    props.entry.max,
+  );
 
   function toggleGroup(group: string) {
-    const next = props.selected.includes(group)
-      ? props.selected.filter((g) => g !== group)
-      : [...props.selected, group];
-    props.onChange(next);
+    const next = selected.includes(group)
+      ? selected.filter((g) => g !== group)
+      : [...selected, group];
+    props.onChange({ ...props.entry, groups: next, auto: undefined });
+  }
+
+  function setBand(low: number, high: number) {
+    // The top thumb means "and above", so it stores no upper bound at all: a
+    // provider that later prices above the ceiling must not be silently
+    // excluded by a slider someone parked at the top.
+    props.onChange({
+      ...props.entry,
+      min: low <= 0 ? undefined : low,
+      max: high >= BAND_MAX ? undefined : high,
+      auto: undefined,
+    });
   }
 
   return (
@@ -180,6 +296,81 @@ function ModelGroupPopover(props: {
         sideOffset={6}
         className="w-72 p-0"
       >
+        <div className="flex items-center justify-between gap-2 border-b px-3 py-2">
+          <div className="min-w-0">
+            <div className="text-xs font-medium">
+              {t("TOKEN.FORM.BAND_AUTO")}
+            </div>
+            <div className="text-muted-foreground text-[10px]">
+              {t("TOKEN.FORM.BAND_AUTO_HINT")}
+            </div>
+          </div>
+          <Switch
+            checked={isAuto}
+            onCheckedChange={(checked) =>
+              props.onChange({ ...props.entry, auto: checked || undefined })
+            }
+          />
+        </div>
+        <div className={cn("border-b px-3 py-2", isAuto && "opacity-50")}>
+          <div className="mb-1.5 flex items-center justify-between gap-2">
+            <span className="text-xs font-medium">
+              {t("TOKEN.FORM.BAND_LABEL")}
+            </span>
+            <span className="text-muted-foreground font-mono text-[11px]">
+              {hasBand
+                ? `${bandRatioLabel(bandLow, false)} - ${bandRatioLabel(bandHigh, props.entry.max === undefined)}`
+                : t("TOKEN.FORM.BAND_OFF")}
+            </span>
+          </div>
+          <Slider
+            disabled={isAuto}
+            min={0}
+            max={BAND_STEPS}
+            step={1}
+            value={[bandRatioToPos(bandLow), bandRatioToPos(bandHigh)]}
+            aria-label={t("TOKEN.FORM.BAND_LABEL")}
+            onValueChange={(value) => {
+              if (!Array.isArray(value)) return;
+              const [low, high] = value;
+              setBand(bandPosToRatio(low), bandPosToRatio(high));
+            }}
+          />
+          <div className="mt-1.5 flex items-center justify-between gap-2">
+            <span className="text-muted-foreground text-[10px]">
+              {hasBand
+                ? t("TOKEN.FORM.BAND_CAUGHT", { count: caught.length })
+                : t("TOKEN.FORM.BAND_HINT")}
+            </span>
+            {hasBand && (
+              <button
+                type="button"
+                className="text-muted-foreground hover:text-foreground text-[10px] underline"
+                onClick={() =>
+                  props.onChange({
+                    ...props.entry,
+                    min: undefined,
+                    max: undefined,
+                  })
+                }
+              >
+                {t("TOKEN.FORM.BAND_CLEAR")}
+              </button>
+            )}
+          </div>
+          {hasBand && caught.length > 0 && (
+            <div className="text-muted-foreground mt-1 truncate font-mono text-[10px]">
+              {caught
+                .slice(0, 3)
+                .map((o) =>
+                  groupDisplayLabel(o.group, props.model.replace(/:/g, "-")),
+                )
+                .join(", ")}
+              {caught.length > 3 &&
+                ` +${caught.length - 3}`}
+            </div>
+          )}
+        </div>
         <Command shouldFilter={false}>
           {props.options.length > GROUP_SEARCH_THRESHOLD && (
             <CommandInput
@@ -188,13 +379,13 @@ function ModelGroupPopover(props: {
               onValueChange={setSearch}
             />
           )}
-          <CommandList className="max-h-60">
+          <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
             <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
             <CommandGroup>
               {!query && (
                 <CommandItem
                   value="auto"
-                  onSelect={() => props.onChange([])}
+                  onSelect={() => props.onChange({ groups: [], auto: true })}
                   className="[&>svg]:hidden"
                 >
                   <CheckBox checked={isAuto} />
@@ -215,7 +406,7 @@ function ModelGroupPopover(props: {
                     !option.online && "opacity-50",
                   )}
                 >
-                  <CheckBox checked={props.selected.includes(option.group)} />
+                  <CheckBox checked={selected.includes(option.group)} />
                   {/* Same taxonomy as the chat model drawer's UptimeDot:
                       destructive = nothing behind it is serving right now. */}
                   <span
@@ -327,10 +518,10 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
       control={props.control}
       name="group_mapping"
       render={({ field }) => {
-        function setModelGroups(model: string, groups: string[]) {
+        function setModelEntry(model: string, entry: TokenPinEntry) {
           const next: GroupMapping = { ...props.mapping };
-          if (groups.length === 0) delete next[model];
-          else next[model] = groups;
+          if (entryIsEmpty(entry)) delete next[model];
+          else next[model] = entry;
           field.onChange(next);
         }
 
@@ -417,21 +608,27 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                         />
                       )}
                       {windowedModels.map((model) => {
-                        const selected = props.mapping[model.model_name] ?? [];
+                        const entry = entryOf(props.mapping, model.model_name);
                         const options = modelGroups.get(model.model_name) ?? [];
-                        const overridden = selected.length > 0;
+                        const bandOn =
+                          entry.min !== undefined || entry.max !== undefined;
+                        const overridden =
+                          !entry.auto && (entry.groups.length > 0 || bandOn);
                         const cheapest = options.find((o) =>
-                          selected.includes(o.group),
+                          entry.groups.includes(o.group),
                         );
+                        const bandCount = bandOn
+                          ? groupsInBand(options, entry.min, entry.max).length
+                          : 0;
                         return (
                           <ModelGroupPopover
                             key={model.model_name}
                             model={model.model_name}
                             price={props.prices.get(model.model_name)}
                             options={options}
-                            selected={selected}
-                            onChange={(groups) =>
-                              setModelGroups(model.model_name, groups)
+                            entry={entry}
+                            onChange={(next) =>
+                              setModelEntry(model.model_name, next)
                             }
                             open={openModel === model.model_name}
                             onOpenChange={(open) =>
@@ -463,8 +660,10 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                               )}
                               {overridden ? (
                                 <Badge className="ml-2 shrink-0 rounded-sm px-1.5 py-0.5 font-mono text-[10px]">
-                                  {selected.length}
-                                  {cheapest?.ratio != null &&
+                                  {entry.groups.length + bandCount}
+                                  {bandOn && " ~"}
+                                  {!bandOn &&
+                                    cheapest?.ratio != null &&
                                     ` ${ratioLabel(cheapest.ratio)}`}
                                 </Badge>
                               ) : (

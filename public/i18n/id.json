@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Cari model...",
       "GROUP_OFFLINE": "Semua penyedia di grup ini sedang tidak tersedia",
       "GROUP_MISSING": "Tidak lagi tersedia, hapus centang untuk membuangnya",
-      "GROUP_MISSING_SHORT": "hilang"
+      "GROUP_MISSING_SHORT": "hilang",
+      "BAND_LABEL": "Rentang harga",
+      "BAND_AUTO": "Otomatis",
+      "BAND_AUTO_HINT": "Rutekan melalui rantai normal, termurah lebih dulu",
+      "BAND_OFF": "Harga berapa pun",
+      "BAND_HINT": "Seret untuk merutekan hanya melalui penyedia dalam rentang harga",
+      "BAND_CAUGHT": "{count} penyedia dalam rentang",
+      "BAND_CLEAR": "Hapus rentang"
     },
     "ENUM": {
       "ENABLED": "Aktif",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Padukan sematan dengan pantauan agar tahu saat grupnya berubah harga atau tumbang, lihat",
       "P_PINNING_1_PRE": "Buka ",
       "P_PINNING_1_LINK": "Kunci API",
-      "P_PINNING_1_POST": ", buat atau sunting sebuah kunci, lalu buka pemilih grup. Cari sebuah model, klik, lalu centang satu grup atau lebih, diurutkan dari termurah. Model yang tidak disentuh tetap memakai auto."
+      "P_PINNING_1_POST": ", buat atau sunting sebuah kunci, lalu buka pemilih grup. Cari sebuah model, klik, lalu centang satu grup atau lebih, diurutkan dari termurah. Model yang tidak disentuh tetap memakai auto.",
+      "H_PRICE_BAND": "Rentang harga",
+      "P_PRICE_BAND_1": "Alih-alih mencentang penyedia satu per satu, seret rentang harga bergagang ganda pada sebuah model untuk merutekan hanya melalui penyedia yang tarifnya berada di dalamnya. Karena pemilihan berdasarkan harga dan bukan nama, penyedia baru yang masuk rentang akan dipakai otomatis.",
+      "P_PRICE_BAND_2": "Rentang dan penyedia yang disematkan digabungkan sebagai gabungan: rentang mencakup penyedia murah, sedangkan sematan mempertahankan satu penyedia mahal tertentu sebagai cadangan meski berada di luar rentang. Perutean tetap mencoba yang termurah dulu, jadi cadangan baru dipakai ketika semua yang lebih murah gagal.",
+      "P_PRICE_BAND_3": "Otomatis mengembalikan model ke rantai normal termurah lebih dulu. Rentang dan sematannya tetap tersimpan tetapi nonaktif, sehingga mematikannya memulihkan persis konfigurasi sebelumnya.",
+      "ALT_PRICE_BAND": "Penggeser rentang harga pada sebuah model beserta penyedia yang tercakup",
+      "ALT_AUTO_GREYED": "Otomatis aktif, rentang tersimpan diredupkan tetapi tetap disimpan"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

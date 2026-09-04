@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Cerca modelli...",
       "GROUP_OFFLINE": "Tutti i fornitori di questo gruppo sono al momento non disponibili",
       "GROUP_MISSING": "Non più disponibile, deseleziona per rimuoverlo",
-      "GROUP_MISSING_SHORT": "assente"
+      "GROUP_MISSING_SHORT": "assente",
+      "BAND_LABEL": "Fascia di prezzo",
+      "BAND_AUTO": "Automatico",
+      "BAND_AUTO_HINT": "Instrada tramite la catena normale, dal più economico",
+      "BAND_OFF": "Qualsiasi prezzo",
+      "BAND_HINT": "Trascina per instradare solo tramite fornitori in una fascia di prezzo",
+      "BAND_CAUGHT": "{count} fornitori nella fascia",
+      "BAND_CLEAR": "Cancella fascia"
     },
     "ENUM": {
       "ENABLED": "Abilitata",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Abbina un blocco a un'osservazione per sapere quando i suoi gruppi cambiano prezzo o cadono, vedi",
       "P_PINNING_1_PRE": "Apri ",
       "P_PINNING_1_LINK": "Chiavi API",
-      "P_PINNING_1_POST": ", crea o modifica una chiave e apri il selettore dei gruppi. Cerca un modello, cliccalo e spunta uno o più gruppi, ordinati dal più economico. I modelli non toccati restano su auto."
+      "P_PINNING_1_POST": ", crea o modifica una chiave e apri il selettore dei gruppi. Cerca un modello, cliccalo e spunta uno o più gruppi, ordinati dal più economico. I modelli non toccati restano su auto.",
+      "H_PRICE_BAND": "Fasce di prezzo",
+      "P_PRICE_BAND_1": "Invece di spuntare i fornitori a mano, trascina la fascia di prezzo a due maniglie su un modello per instradare solo tramite fornitori la cui tariffa vi rientra. Poiché la selezione avviene per prezzo e non per nome, i nuovi fornitori che rientrano nella fascia vengono inclusi automaticamente.",
+      "P_PRICE_BAND_2": "Fascia e fornitori fissati si combinano come unione: la fascia copre i fornitori economici e un blocco mantiene un fornitore costoso come riserva anche se resta fuori fascia. L'instradamento prova comunque prima il più economico, quindi la riserva viene raggiunta solo quando tutto il resto fallisce.",
+      "P_PRICE_BAND_3": "Automatico riporta il modello alla normale catena dal più economico. Fascia e blocchi restano salvati ma inattivi, così disattivandolo si ripristina esattamente la configurazione precedente.",
+      "ALT_PRICE_BAND": "Cursore della fascia di prezzo su un modello, con i fornitori inclusi",
+      "ALT_AUTO_GREYED": "Automatico attivo, fascia salvata in grigio ma conservata"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

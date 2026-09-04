@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Tìm kiếm mô hình...",
       "GROUP_OFFLINE": "Tất cả nhà cung cấp trong nhóm này hiện đang ngừng hoạt động",
       "GROUP_MISSING": "Không còn được cung cấp, bỏ chọn để xóa",
-      "GROUP_MISSING_SHORT": "đã mất"
+      "GROUP_MISSING_SHORT": "đã mất",
+      "BAND_LABEL": "Khoảng giá",
+      "BAND_AUTO": "Tự động",
+      "BAND_AUTO_HINT": "Định tuyến theo chuỗi thông thường, rẻ nhất trước",
+      "BAND_OFF": "Mọi mức giá",
+      "BAND_HINT": "Kéo để chỉ định tuyến qua các nhà cung cấp trong một khoảng giá",
+      "BAND_CAUGHT": "{count} nhà cung cấp trong khoảng",
+      "BAND_CLEAR": "Xóa khoảng giá"
     },
     "ENUM": {
       "ENABLED": "Đã bật",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Kết hợp ghim với theo dõi để biết khi các nhóm đổi giá hoặc ngừng hoạt động, xem",
       "P_PINNING_1_PRE": "Mở ",
       "P_PINNING_1_LINK": "Khóa API",
-      "P_PINNING_1_POST": ", tạo hoặc sửa một khóa, rồi mở bộ chọn nhóm. Tìm một mô hình, nhấp vào nó, và đánh dấu một hoặc nhiều nhóm, sắp xếp theo giá tăng dần. Các mô hình không đụng tới vẫn giữ auto."
+      "P_PINNING_1_POST": ", tạo hoặc sửa một khóa, rồi mở bộ chọn nhóm. Tìm một mô hình, nhấp vào nó, và đánh dấu một hoặc nhiều nhóm, sắp xếp theo giá tăng dần. Các mô hình không đụng tới vẫn giữ auto.",
+      "H_PRICE_BAND": "Khoảng giá",
+      "P_PRICE_BAND_1": "Thay vì tích chọn từng nhà cung cấp, hãy kéo thanh khoảng giá hai đầu trên một mô hình để chỉ định tuyến qua các nhà cung cấp có mức giá nằm trong khoảng đó. Vì việc chọn dựa trên giá chứ không phải tên, các nhà cung cấp mới rơi vào khoảng này sẽ được dùng tự động.",
+      "P_PRICE_BAND_2": "Khoảng giá và các nhà cung cấp đã ghim kết hợp theo phép hợp: khoảng giá bao phủ các nhà cung cấp rẻ, còn việc ghim giữ lại một nhà cung cấp đắt cụ thể làm phương án dự phòng dù nằm ngoài khoảng. Hệ thống vẫn thử nhà cung cấp rẻ nhất trước, nên chỉ dùng dự phòng khi mọi lựa chọn rẻ hơn đều thất bại.",
+      "P_PRICE_BAND_3": "Chế độ tự động đưa mô hình trở lại chuỗi thông thường, rẻ nhất trước. Khoảng giá và các ghim vẫn được lưu nhưng không hoạt động, nên khi tắt sẽ khôi phục đúng cấu hình trước đó.",
+      "ALT_PRICE_BAND": "Thanh trượt khoảng giá trên một mô hình, hiển thị các nhà cung cấp phù hợp",
+      "ALT_AUTO_GREYED": "Đã bật chế độ tự động, khoảng giá đã lưu bị làm mờ nhưng vẫn giữ"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
