@@ -19,6 +19,41 @@ export type Focal = { x: number; y: number };
 
 const clamp = (n: number) => Math.min(100, Math.max(0, Math.round(n)));
 
+// Global preference, not per entity: it sets how big avatars render in chat.
+export function AvatarSizeRow() {
+  const t = useTranslations();
+  const [theme, setTheme] = useAtom(userThemeAtom);
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-muted-foreground text-xs">
+        {t("THEME.AVATAR_SCALE")}
+      </span>
+      <div className="flex flex-wrap gap-2">
+        {AVATAR_SIZES.map((size) => (
+          <Button
+            key={size.scale}
+            type="button"
+            size="sm"
+            className="min-w-20 flex-1"
+            variant={
+              (theme.chatAvatarScale ?? 1) === size.scale
+                ? "default"
+                : "outline"
+            }
+            onClick={() => {
+              const next = { ...theme, chatAvatarScale: size.scale };
+              setTheme(next);
+              void pushLocalTheme(next).catch(() => {});
+            }}
+          >
+            {t(size.labelKey)}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function AvatarPositionDialog(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -36,7 +71,6 @@ export function AvatarPositionDialog(props: {
     from: Focal;
   } | null>(null);
   const [focal, setFocal] = useState<Focal>(props.focal);
-  const [theme, setTheme] = useAtom(userThemeAtom);
 
   // Dragging the image right must reveal what sits to its left, so the focal
   // percentage moves against the pointer.
@@ -95,35 +129,7 @@ export function AvatarPositionDialog(props: {
             />
           </div>
         </div>
-        {props.shape === "circle" && (
-          <div className="flex flex-col gap-1.5">
-            <span className="text-muted-foreground text-xs">
-              {t("THEME.AVATAR_SCALE")}
-            </span>
-            <div className="flex gap-2">
-              {AVATAR_SIZES.map((size) => (
-                <Button
-                  key={size.scale}
-                  type="button"
-                  size="sm"
-                  className="flex-1"
-                  variant={
-                    (theme.chatAvatarScale ?? 1) === size.scale
-                      ? "default"
-                      : "outline"
-                  }
-                  onClick={() => {
-                    const next = { ...theme, chatAvatarScale: size.scale };
-                    setTheme(next);
-                    void pushLocalTheme(next).catch(() => {});
-                  }}
-                >
-                  {t(size.labelKey)}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
+        {props.shape === "circle" && <AvatarSizeRow />}
         <DialogFooter>
           <Button
             type="button"
