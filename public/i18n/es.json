@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} personalizados",
       "GROUP_CLEAR_ALL": "Borrar todo",
       "GROUP_MODEL_SEARCH": "Buscar modelos...",
-      "GROUP_OFFLINE": "Todos los proveedores de este grupo están caídos ahora mismo"
+      "GROUP_OFFLINE": "Todos los proveedores de este grupo están caídos ahora mismo",
+      "GROUP_MISSING": "Ya no se ofrece, desmarca para quitarlo",
+      "GROUP_MISSING_SHORT": "no está"
     },
     "ENUM": {
       "ENABLED": "Activada",

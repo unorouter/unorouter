@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} נדרסו",
       "GROUP_CLEAR_ALL": "נקה הכול",
       "GROUP_MODEL_SEARCH": "חיפוש מודלים...",
-      "GROUP_OFFLINE": "כל הספקים בקבוצה זו מושבתים כרגע"
+      "GROUP_OFFLINE": "כל הספקים בקבוצה זו מושבתים כרגע",
+      "GROUP_MISSING": "לא מוצע עוד, בטל סימון כדי להסיר",
+      "GROUP_MISSING_SHORT": "חסר"
     },
     "ENUM": {
       "ENABLED": "מופעל",

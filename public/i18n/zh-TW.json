@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "已覆寫 {count} 個",
       "GROUP_CLEAR_ALL": "全部清除",
       "GROUP_MODEL_SEARCH": "搜尋模型…",
-      "GROUP_OFFLINE": "該分組的所有供應商目前均無法使用"
+      "GROUP_OFFLINE": "該分組的所有供應商目前均無法使用",
+      "GROUP_MISSING": "已不再提供，取消勾選即可移除",
+      "GROUP_MISSING_SHORT": "已下架"
     },
     "ENUM": {
       "ENABLED": "已啟用",

@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "Переопределено: {count}",
       "GROUP_CLEAR_ALL": "Сбросить всё",
       "GROUP_MODEL_SEARCH": "Поиск моделей...",
-      "GROUP_OFFLINE": "Все провайдеры в этой группе сейчас недоступны"
+      "GROUP_OFFLINE": "Все провайдеры в этой группе сейчас недоступны",
+      "GROUP_MISSING": "Больше не предлагается, снимите отметку",
+      "GROUP_MISSING_SHORT": "нет"
     },
     "ENUM": {
       "ENABLED": "Включён",

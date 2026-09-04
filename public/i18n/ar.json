@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "تم تجاوز {count}",
       "GROUP_CLEAR_ALL": "مسح الكل",
       "GROUP_MODEL_SEARCH": "ابحث عن النماذج...",
-      "GROUP_OFFLINE": "جميع المزودين في هذه المجموعة متوقفون حاليًا"
+      "GROUP_OFFLINE": "جميع المزودين في هذه المجموعة متوقفون حاليًا",
+      "GROUP_MISSING": "لم يعد متاحًا، ألغِ التحديد لإزالته",
+      "GROUP_MISSING_SHORT": "مفقود"
     },
     "ENUM": {
       "ENABLED": "مُفعّل",

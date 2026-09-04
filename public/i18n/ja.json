@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} 件を上書き",
       "GROUP_CLEAR_ALL": "すべてクリア",
       "GROUP_MODEL_SEARCH": "モデルを検索...",
-      "GROUP_OFFLINE": "このグループのプロバイダーはすべて現在停止しています"
+      "GROUP_OFFLINE": "このグループのプロバイダーはすべて現在停止しています",
+      "GROUP_MISSING": "提供終了、チェックを外すと削除されます",
+      "GROUP_MISSING_SHORT": "なし"
     },
     "ENUM": {
       "ENABLED": "有効",
