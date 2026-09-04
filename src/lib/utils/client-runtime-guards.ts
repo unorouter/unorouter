@@ -1,10 +1,12 @@
 import {
   captureCaughtError,
   flushChatDebugLog,
+  getChatDebugLog,
   logChatDebug,
 } from "@/lib/utils/chat-debug-log";
 
 export const RELEASE = process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev";
+const STALL_AFTER_MS = 8_000;
 
 let errorCaptureInstalled = false;
 
@@ -79,8 +81,11 @@ export function installResumeDiagnostics(): void {
     }
   } catch {}
   const nav = performance.getEntriesByType("navigation")[0];
+  const bootAt = Date.now();
   logChatDebug("boot", {
     release: RELEASE,
+    path: location.pathname,
+    visible: document.visibilityState === "visible",
     readyState: document.readyState,
     swControlled: !!navigator.serviceWorker?.controller,
     ...(nav instanceof PerformanceNavigationTiming && {
@@ -90,6 +95,35 @@ export function installResumeDiagnostics(): void {
       domCompleteMs: Math.round(nav.domComplete),
     }),
   });
+  // A boot with no db.open.start after it is a page whose content never
+  // mounted: a chunk still loading, or hung. Name the chunk while it is
+  // still in flight, since a user who gives up at 6s leaves nothing else.
+  setTimeout(() => {
+    const since = getChatDebugLog().filter((e) => e.ts >= bootAt);
+    if (since.some((e) => e.event === "db.open.start")) return;
+    const resources = performance
+      .getEntriesByType("resource")
+      .filter(
+        (r): r is PerformanceResourceTiming =>
+          r instanceof PerformanceResourceTiming,
+      );
+    const inflight = resources
+      .filter((r) => r.responseEnd === 0)
+      .map((r) => r.name.replace(location.origin, "").slice(0, 80));
+    const scripts = resources.filter((r) => /\.js(\?|$)/.test(r.name));
+    logChatDebug("boot.stalled", {
+      path: location.pathname,
+      sinceMs: Date.now() - bootAt,
+      readyState: document.readyState,
+      visible: document.visibilityState === "visible",
+      scriptsLoaded: scripts.filter((r) => r.responseEnd > 0).length,
+      slowestScriptMs: Math.round(
+        Math.max(0, ...scripts.map((r) => r.duration)),
+      ),
+      inflight: inflight.slice(0, 12),
+    });
+    flushChatDebugLog();
+  }, STALL_AFTER_MS);
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
@@ -98,7 +132,13 @@ export function installResumeDiagnostics(): void {
     });
   });
   window.addEventListener("pagehide", (e) => {
-    logChatDebug("page.hide", { bfcached: e.persisted });
+    logChatDebug("page.hide", {
+      bfcached: e.persisted,
+      sinceBootMs: Date.now() - bootAt,
+      opened: getChatDebugLog().some(
+        (x) => x.ts >= bootAt && x.event === "db.open.start",
+      ),
+    });
     flushChatDebugLog();
   });
 }
