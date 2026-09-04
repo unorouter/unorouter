@@ -75,6 +75,12 @@ export type UserTheme = {
 
 export type SurfaceScope = "app" | "chat";
 
+export const AVATAR_SIZES = [
+  { scale: 1, labelKey: "THEME.AVATAR_SIZE_SMALL" },
+  { scale: 2, labelKey: "THEME.AVATAR_SIZE_MEDIUM" },
+  { scale: 3, labelKey: "THEME.AVATAR_SIZE_LARGE" },
+] as const;
+
 function isSurfaceTheme(
   surface: SurfaceTheme | SurfaceColors,
 ): surface is SurfaceTheme {

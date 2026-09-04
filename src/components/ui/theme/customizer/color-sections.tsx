@@ -3,6 +3,7 @@
 import { ColorField } from "@/components/ui/theme/customizer/color-field";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AVATAR_SIZES } from "@/components/ui/theme/theme-store";
 import type {
   ChatMarkdownColors,
   SurfaceColors,
@@ -46,9 +47,6 @@ export function FontSizeSection(props: {
   );
 }
 
-const AVATAR_SCALE_MIN = 1;
-const AVATAR_SCALE_MAX = 3;
-const AVATAR_SCALE_STEP = 0.25;
 const AVATAR_SCALE_DEFAULT = 1;
 
 const ASSET_WIDTH_MIN = 4;
@@ -94,24 +92,23 @@ export function AvatarScaleSection(props: {
   const value = props.scale ?? AVATAR_SCALE_DEFAULT;
   return (
     <div className="flex flex-col gap-1.5 px-1 pt-1">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-muted-foreground text-xs">
-          {t("THEME.AVATAR_SCALE")}
-        </span>
-        <span className="text-muted-foreground font-mono text-xs tabular-nums">
-          {value.toFixed(2)}x
-        </span>
+      <span className="text-muted-foreground text-xs">
+        {t("THEME.AVATAR_SCALE")}
+      </span>
+      <div className="flex gap-2">
+        {AVATAR_SIZES.map((size) => (
+          <Button
+            key={size.scale}
+            type="button"
+            size="sm"
+            className="flex-1"
+            variant={value === size.scale ? "default" : "outline"}
+            onClick={() => props.onChange(size.scale)}
+          >
+            {t(size.labelKey)}
+          </Button>
+        ))}
       </div>
-      <Slider
-        aria-label={t("THEME.AVATAR_SCALE")}
-        min={AVATAR_SCALE_MIN}
-        max={AVATAR_SCALE_MAX}
-        step={AVATAR_SCALE_STEP}
-        value={value}
-        onValueChange={(v) =>
-          props.onChange(Array.isArray(v) ? (v[0] ?? AVATAR_SCALE_DEFAULT) : v)
-        }
-      />
     </div>
   );
 }
