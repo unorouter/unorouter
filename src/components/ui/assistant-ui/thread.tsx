@@ -1256,12 +1256,14 @@ const UserPersonaAvatar: FC = () => {
       : null;
   const persona = personas?.find((p) => p.id === personaId);
   if (!persona) return null;
+  const name = persona.title || persona.name;
   return (
-    <div className="col-start-1 row-start-2 flex justify-end pr-2">
+    <div className="text-muted-foreground col-span-full col-start-1 row-start-1 mr-4 mb-1 flex items-center justify-end gap-1.5 text-[11px]">
+      <span className="text-foreground truncate font-medium">{name}</span>
       <RpAvatar
         mediaId={persona.avatarMediaId}
-        name={persona.title || persona.name}
-        className="size-(--chat-avatar-md)"
+        name={name}
+        className="size-(--chat-avatar-sm)"
       />
     </div>
   );
@@ -1284,11 +1286,11 @@ const UserMessage: FC = () => {
             <UserPersonaAvatar />
             <UserMessageAttachments />
 
-            <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
+            <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 row-start-3 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
               <MessagePrimitive.Parts components={{ Text: MarkdownText }} />
             </div>
 
-            <div className="aui-user-message-footer col-span-full col-start-1 row-start-3 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
+            <div className="aui-user-message-footer col-span-full col-start-1 row-start-4 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
               <UserActionBar />
               <BranchPicker className="aui-user-branch-picker -mr-1" />
             </div>
