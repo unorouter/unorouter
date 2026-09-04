@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Contain",
     "BG_FIT_TILE": "Tile",
     "BG_OPACITY": "Opacity",
-    "BG_BLUR": "Blur",
+    "BG_BLUR": "Image blur",
+    "BG_PANEL_BLUR": "Panel blur",
     "BG_PANEL_OPACITY": "Panel opacity",
     "BG_BUBBLE_OPACITY": "Message bubble opacity",
     "BG_BUBBLE_OPACITY_HINT": "Applies to your own chat messages, so the background can show through them independently of panels."

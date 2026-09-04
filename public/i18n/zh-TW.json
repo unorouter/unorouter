@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "包含",
     "BG_FIT_TILE": "平鋪",
     "BG_OPACITY": "不透明度",
-    "BG_BLUR": "模糊",
+    "BG_BLUR": "圖片模糊",
+    "BG_PANEL_BLUR": "面板模糊",
     "BG_PANEL_OPACITY": "面板不透明度",
     "BG_BUBBLE_OPACITY": "訊息泡泡不透明度",
     "BG_BUBBLE_OPACITY_HINT": "作用於你自己傳送的訊息，讓背景可以獨立於面板透出來。"

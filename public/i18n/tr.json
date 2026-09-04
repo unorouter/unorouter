@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Sığdır",
     "BG_FIT_TILE": "Döşe",
     "BG_OPACITY": "Saydamlık",
-    "BG_BLUR": "Bulanıklık",
+    "BG_BLUR": "Görsel bulanıklığı",
+    "BG_PANEL_BLUR": "Panel bulanıklığı",
     "BG_PANEL_OPACITY": "Panel saydamlığı",
     "BG_BUBBLE_OPACITY": "Mesaj balonu opakligi",
     "BG_BUBBLE_OPACITY_HINT": "Kendi sohbet mesajlarina uygulanir, boylece arka plan panellerden bagimsiz olarak gorunebilir."

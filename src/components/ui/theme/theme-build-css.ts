@@ -360,6 +360,14 @@ export function buildBackgroundCss(
   const fit = bg?.fit ?? "cover";
   const opacity = bg?.opacity ?? 1;
   const blur = bg?.blur ?? 0;
+  // Frost on the panels, independent of the image blur above. 8 keeps the look
+  // every existing theme was built against; 0 makes the surfaces plain glass so
+  // a sharp wallpaper stays sharp through them.
+  const panelBlur = Math.min(24, Math.max(0, bg?.panelBlur ?? 8));
+  const frost = (scale = 1) =>
+    panelBlur > 0
+      ? `backdrop-filter:blur(${(panelBlur * scale).toFixed(1)}px);`
+      : "";
   const panelOpacity = Math.min(1, Math.max(0, bg?.panelOpacity ?? 0.75));
   const pct = Math.round(panelOpacity * 100);
   const bubbleOpacity = Math.min(
@@ -379,8 +387,8 @@ export function buildBackgroundCss(
   const translucent =
     panelOpacity < 1
       ? [
-          `[data-bg-active] .bg-background{background-color:${surfaceMix("background")} !important;backdrop-filter:blur(8px);}`,
-          `[data-bg-active] .bg-sidebar{background-color:${surfaceMix("sidebar")} !important;backdrop-filter:blur(8px);}`,
+          `[data-bg-active] .bg-background{background-color:${surfaceMix("background")} !important;${frost()}}`,
+          `[data-bg-active] .bg-sidebar{background-color:${surfaceMix("sidebar")} !important;${frost()}}`,
           `[data-bg-active] .bg-card{background-color:${surfaceMix("card")} !important;}`,
           `[data-bg-active] .bg-muted{background-color:${surfaceMix("muted")} !important;}`,
           // A translucent surface nested in another one multiplies: the chat
@@ -392,7 +400,7 @@ export function buildBackgroundCss(
           // that column showed the image raw and unblurred against the frosted
           // panels either side of it. The container covers the border box, so
           // the panel inside it must not tint the same pixels twice.
-          `[data-bg-active] [data-slot="sidebar-container"]{background-color:${surfaceMix("sidebar")};backdrop-filter:blur(8px);}`,
+          `[data-bg-active] [data-slot="sidebar-container"]{background-color:${surfaceMix("sidebar")};${frost()}}`,
           `[data-bg-active] [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
@@ -400,7 +408,7 @@ export function buildBackgroundCss(
   // bubbles, or the reverse, so this rule cannot hang off panelOpacity < 1.
   const bubble =
     bubbleOpacity < 1
-      ? `[data-bg-active] .aui-user-message-content,[data-bg-active] .aui-assistant-message-content{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`
+      ? `[data-bg-active] .aui-user-message-content,[data-bg-active] .aui-assistant-message-content{background-color:${bubbleMix("muted")} !important;${frost()}}`
       : "";
   // The reasoning box ships as the `outline` variant: a border and no fill at
   // all. Against a wallpaper that is an empty frame with the artwork running
@@ -410,7 +418,7 @@ export function buildBackgroundCss(
   // gradient defaults to the PAGE background. Once the box carries its own fill
   // the two colours meet at the edges and the fade reads as a grey haze ringing
   // the panel, so hand it the same colour the box is actually painted with.
-  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;backdrop-filter:blur(8px);}`;
+  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;${frost()}}`;
   // The composer is a .bg-background nested inside the thread's own, so the
   // nested-surface reset above stripped its fill AND its blur, leaving the raw
   // image to run straight through the type area behind the text. It reads as a
@@ -420,7 +428,7 @@ export function buildBackgroundCss(
     // Doubled attribute selector on purpose: the nested-surface reset above is
     // `.bg-background .bg-background` (three classes), which outranks a single
     // attribute selector, so the composer would keep the reset's transparency.
-    `[data-bg-active] [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${surfaceMix("background")} !important;backdrop-filter:blur(16px) saturate(1.4) !important;}`,
+    `[data-bg-active] [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${surfaceMix("background")} !important;${panelBlur > 0 ? `backdrop-filter:blur(${(panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
     // The footer wraps the composer, so tinting both stacks two translucent
     // layers and two blurs over the same pixels. The composer carries the glass;
     // its wrapper defers.

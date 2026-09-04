@@ -3187,7 +3187,8 @@
     "BG_FIT_CONTAIN": "Contenir",
     "BG_FIT_TILE": "Mosaïque",
     "BG_OPACITY": "Opacité",
-    "BG_BLUR": "Flou",
+    "BG_BLUR": "Flou de l'image",
+    "BG_PANEL_BLUR": "Flou des panneaux",
     "BG_PANEL_OPACITY": "Opacité des panneaux",
     "BG_BUBBLE_OPACITY": "Opacite des bulles de message",
     "BG_BUBBLE_OPACITY_HINT": "S'applique a vos propres messages, pour que l'arriere-plan transparaisse independamment des panneaux."
