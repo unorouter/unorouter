@@ -137,6 +137,47 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Safari kills the OLD worker the moment a new one finishes installing, even
+// without skipWaiting, and a page whose navigation is still in flight under
+// the old worker then never finishes loading: stuck progress bar, stop button
+// dead, every page in that browser session wedged until the app is quit. Our
+// install takes milliseconds and a cold mobile boot takes seconds, so under
+// frequent deploys a direct load of a heavy route lost that race routinely.
+// Hold install until no open page is still loading, capped so a frozen
+// background tab cannot block updates forever.
+const INSTALL_GATE_MS = 60_000;
+const INSTALL_POLL_MS = 1_000;
+
+const askReadyState = (client: Client): Promise<string> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel();
+    const timer = setTimeout(() => resolve("unknown"), INSTALL_POLL_MS);
+    channel.port1.onmessage = (e) => {
+      clearTimeout(timer);
+      resolve(typeof e.data === "string" ? e.data : "unknown");
+    };
+    client.postMessage({ type: "READY_STATE" }, [channel.port2]);
+  });
+
+async function waitForPagesToLoad(): Promise<void> {
+  const deadline = Date.now() + INSTALL_GATE_MS;
+  while (Date.now() < deadline) {
+    const clients = await self.clients.matchAll({
+      type: "window",
+      includeUncontrolled: true,
+    });
+    const states = await Promise.all(clients.map(askReadyState));
+    // "unknown" is a page running a build without the responder, or one that
+    // is frozen; neither can be waited on usefully.
+    if (states.every((s) => s === "complete" || s === "unknown")) return;
+    await new Promise((r) => setTimeout(r, INSTALL_POLL_MS));
+  }
+}
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(waitForPagesToLoad());
+});
+
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (
