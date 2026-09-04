@@ -185,20 +185,27 @@ function ModelGroupPopover(props: {
                   key={option.group}
                   value={option.group}
                   onSelect={() => toggleGroup(option.group)}
-                  className="[&>svg]:hidden"
+                  className={cn(
+                    "[&>svg]:hidden",
+                    !option.online && "opacity-50",
+                  )}
                 >
                   <CheckBox checked={props.selected.includes(option.group)} />
-                  {!option.online && (
-                    <span
-                      className="mr-1.5 size-1.5 shrink-0 rounded-full bg-amber-500"
-                      title={t("TOKEN.FORM.GROUP_OFFLINE")}
-                    />
-                  )}
+                  {/* Same taxonomy as the chat model drawer's UptimeDot:
+                      destructive = nothing behind it is serving right now. */}
                   <span
                     className={cn(
-                      "truncate font-mono text-xs",
-                      !option.online && "text-muted-foreground",
+                      "mr-1.5 h-2 w-2 shrink-0 rounded-full",
+                      option.online
+                        ? "bg-[var(--success)]"
+                        : "bg-[var(--destructive)]",
                     )}
+                    title={
+                      option.online ? undefined : t("TOKEN.FORM.GROUP_OFFLINE")
+                    }
+                  />
+                  <span
+                    className="truncate font-mono text-xs"
                     title={
                       option.online
                         ? option.group
