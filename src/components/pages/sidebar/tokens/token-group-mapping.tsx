@@ -260,11 +260,7 @@ function ModelGroupPopover(props: {
     props.entry.min !== undefined || props.entry.max !== undefined;
   const bandLow = props.entry.min ?? 0;
   const bandHigh = props.entry.max ?? BAND_MAX;
-  const caught = groupsInBand(
-    props.options,
-    props.entry.min,
-    props.entry.max,
-  );
+  const caught = groupsInBand(props.options, props.entry.min, props.entry.max);
 
   function toggleGroup(group: string) {
     const next = selected.includes(group)
@@ -369,8 +365,7 @@ function ModelGroupPopover(props: {
                   groupDisplayLabel(o.group, props.model.replace(/:/g, "-")),
                 )
                 .join(", ")}
-              {caught.length > 3 &&
-                ` +${caught.length - 3}`}
+              {caught.length > 3 && ` +${caught.length - 3}`}
             </div>
           )}
         </div>

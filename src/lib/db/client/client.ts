@@ -20,6 +20,7 @@ import {
   acquireLock,
   acquireLockWaiting,
   releaseLock,
+  stealLock,
 } from "@/lib/db/client/outbox/resource-lock";
 import { runMigrations } from "@/lib/db/client/schema-migrate/migrations";
 import {
@@ -160,7 +161,17 @@ async function awaitOwnership(
     const slice = Math.min(WANT_RETRY_MS, deadline - Date.now());
     if (await acquireLockWaiting(lockKey, slice)) return true;
   }
-  return false;
+  // Nobody answered in HANDOVER_TIMEOUT, so the holder is gone or frozen (an
+  // Android background tab runs no JS and can never reply). Its lock outlives
+  // it only while the process does, and waiting longer never resolves: the user
+  // saw a dead page until they closed every tab.
+  //
+  // Stealing is safe HERE and nowhere else. It does not create a second writer:
+  // the SAH pool refuses to initialise twice, so if the holder really is alive
+  // the open below still fails cleanly with the same tab-locked error. What it
+  // does fix is the far more common case where the holder is already gone.
+  logChatDebug("db.open.handover_steal");
+  return stealLock(lockKey);
 }
 
 const HANDOVER_TIMEOUT = 15_000;
