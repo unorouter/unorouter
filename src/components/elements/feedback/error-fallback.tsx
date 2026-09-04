@@ -1,5 +1,7 @@
 "use client";
 
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { env } from "@/lib/config/env";
@@ -41,6 +43,10 @@ export function ErrorFallback(props: ErrorFallbackProps) {
     // The sessionStorage guard stops an infinite reload loop when the chunk is truly gone.
     if (isChunkLoadError(props.error)) {
       const KEY = "chunk-reload-once";
+      logChatDebug("chunk.load_error", {
+        message: String(props.error?.message ?? "").slice(0, 200),
+        willReload: !sessionStorage.getItem(KEY),
+      });
       if (!sessionStorage.getItem(KEY)) {
         sessionStorage.setItem(KEY, "1");
         // Caches must go BEFORE the reload: the SW would serve back the same stale HTML.

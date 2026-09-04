@@ -49,6 +49,17 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
   return {
     get,
     save,
+    // Synchronous write for pagehide: the debounce above loses whatever was
+    // logged in the last second before a kill, which on a reload storm is the
+    // one second that mattered.
+    flush(): void {
+      if (timer !== null) clearTimeout(timer);
+      timer = null;
+      if (disabled || typeof localStorage === "undefined") return;
+      try {
+        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+      } catch {}
+    },
     push(entry: T): void {
       const all = get();
       all.push(entry);
@@ -87,6 +98,10 @@ export function logChatDebug(
     }
   }
   debugLog.push(entry);
+}
+
+export function flushChatDebugLog(): void {
+  debugLog.flush();
 }
 
 export function getChatDebugLog(): ChatDebugEntry[] {

@@ -19,6 +19,7 @@ import {
 } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
+import { RELEASE } from "@/lib/utils/client-runtime-guards";
 
 export type TableStorageStat = {
   table: string;
@@ -171,6 +172,28 @@ async function getTableStorageStats(): Promise<
 
 const MAX_LOGS_PER_CONV = 25;
 
+// Which worker controls the page and whether an update is mid-flight: a
+// navigation killed by a worker update leaves no log, so this is the only
+// direct evidence of the install that did it.
+async function serviceWorkerState() {
+  const sw = navigator.serviceWorker;
+  if (!sw) return { supported: false };
+  try {
+    const reg = await sw.getRegistration();
+    const cacheNames = "caches" in window ? await caches.keys() : [];
+    return {
+      supported: true,
+      controlled: !!sw.controller,
+      active: reg?.active?.state ?? null,
+      waiting: reg?.waiting?.state ?? null,
+      installing: reg?.installing?.state ?? null,
+      cacheNames,
+    };
+  } catch (e) {
+    return { supported: true, error: String(e).slice(0, 200) };
+  }
+}
+
 async function buildDiagnosticsHead() {
   const device = {
     userAgent: navigator.userAgent,
@@ -186,8 +209,10 @@ async function buildDiagnosticsHead() {
 
   const runtime = {
     url: location.href,
+    release: RELEASE,
     convIdAtom: chatStore.get(convIdAtom),
     historyLoaded: chatStore.get(historyLoadedAtom),
+    sw: await serviceWorkerState(),
   };
 
   let dbInfo: Record<string, unknown> = {};
