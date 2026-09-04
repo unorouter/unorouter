@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} overridden",
       "GROUP_CLEAR_ALL": "Clear all",
       "GROUP_MODEL_SEARCH": "Search models...",
-      "GROUP_OFFLINE": "All providers in this group are down right now"
+      "GROUP_OFFLINE": "All providers in this group are down right now",
+      "GROUP_MISSING": "No longer offered, untick to remove",
+      "GROUP_MISSING_SHORT": "gone"
     },
     "ENUM": {
       "ENABLED": "Enabled",

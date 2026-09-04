@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} diganti",
       "GROUP_CLEAR_ALL": "Hapus semua",
       "GROUP_MODEL_SEARCH": "Cari model...",
-      "GROUP_OFFLINE": "Semua penyedia di grup ini sedang tidak tersedia"
+      "GROUP_OFFLINE": "Semua penyedia di grup ini sedang tidak tersedia",
+      "GROUP_MISSING": "Tidak lagi tersedia, hapus centang untuk membuangnya",
+      "GROUP_MISSING_SHORT": "hilang"
     },
     "ENUM": {
       "ENABLED": "Aktif",

@@ -46,12 +46,20 @@ type GroupOption = {
   ratio: number | null;
   /** False when every channel behind the group is currently disabled. */
   online: boolean;
+  /**
+   * Pinned by this key but absent from the catalogue: the provider left, or is
+   * between syncs. Rendered anyway so the owner can untick it -- options come
+   * from the live group list, so otherwise the row simply would not exist and
+   * the pin could never be removed from the UI.
+   */
+  missing?: boolean;
 };
 
 const DESC_RE = /^(.+) via (.+) \((.+)\)$/;
 
 export function buildModelGroupOptions(
   groups: Record<string, UserGroupInfo>,
+  mapping: GroupMapping = {},
 ): Map<string, GroupOption[]> {
   const byModel = new Map<string, GroupOption[]>();
   for (const [group, info] of Object.entries(groups)) {
@@ -68,6 +76,23 @@ export function buildModelGroupOptions(
     const list = byModel.get(match[1]);
     if (list) list.push(option);
     else byModel.set(match[1], [option]);
+  }
+  // Re-add anything the key still pins that the catalogue no longer lists.
+  for (const [model, pinned] of Object.entries(mapping)) {
+    const list = byModel.get(model);
+    const known = new Set((list ?? []).map((o) => o.group));
+    const ghosts = pinned
+      .filter((group) => !known.has(group))
+      .map((group) => ({
+        group,
+        provider: group,
+        ratio: null,
+        online: false,
+        missing: true,
+      }));
+    if (ghosts.length === 0) continue;
+    if (list) list.push(...ghosts);
+    else byModel.set(model, ghosts);
   }
   for (const list of byModel.values()) {
     list.sort(
@@ -201,7 +226,13 @@ function ModelGroupPopover(props: {
                         : "bg-[var(--destructive)]",
                     )}
                     title={
-                      option.online ? undefined : t("TOKEN.FORM.GROUP_OFFLINE")
+                      option.online
+                        ? undefined
+                        : t(
+                            option.missing
+                              ? "TOKEN.FORM.GROUP_MISSING"
+                              : "TOKEN.FORM.GROUP_OFFLINE",
+                          )
                     }
                   />
                   <span
@@ -209,7 +240,11 @@ function ModelGroupPopover(props: {
                     title={
                       option.online
                         ? option.group
-                        : `${option.group} - ${t("TOKEN.FORM.GROUP_OFFLINE")}`
+                        : `${option.group} - ${t(
+                            option.missing
+                              ? "TOKEN.FORM.GROUP_MISSING"
+                              : "TOKEN.FORM.GROUP_OFFLINE",
+                          )}`
                     }
                   >
                     {groupDisplayLabel(
@@ -218,7 +253,11 @@ function ModelGroupPopover(props: {
                     )}
                   </span>
                   <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
-                    <span className="block">{ratioLabel(option.ratio)}</span>
+                    <span className="block">
+                      {option.missing
+                        ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
+                        : ratioLabel(option.ratio)}
+                    </span>
                     {priceLabel(props.price, option.ratio) && (
                       <span className="block opacity-70">
                         {priceLabel(props.price, option.ratio)}
@@ -242,7 +281,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const [openModel, setOpenModel] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  const modelGroups = buildModelGroupOptions(props.groups);
+  const modelGroups = buildModelGroupOptions(props.groups, props.mapping);
   const query = search.trim().toLowerCase();
 
   const overriddenCount = Object.keys(props.mapping).length;

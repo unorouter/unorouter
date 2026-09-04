@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} ओवरराइड किए गए",
       "GROUP_CLEAR_ALL": "सभी साफ़ करें",
       "GROUP_MODEL_SEARCH": "मॉडल खोजें...",
-      "GROUP_OFFLINE": "इस समूह के सभी प्रदाता अभी बंद हैं"
+      "GROUP_OFFLINE": "इस समूह के सभी प्रदाता अभी बंद हैं",
+      "GROUP_MISSING": "अब उपलब्ध नहीं, हटाने के लिए अनचेक करें",
+      "GROUP_MISSING_SHORT": "नहीं"
     },
     "ENUM": {
       "ENABLED": "सक्षम",

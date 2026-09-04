@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "Nadpisano: {count}",
       "GROUP_CLEAR_ALL": "Wyczyść wszystko",
       "GROUP_MODEL_SEARCH": "Szukaj modeli...",
-      "GROUP_OFFLINE": "Wszyscy dostawcy w tej grupie są obecnie niedostępni"
+      "GROUP_OFFLINE": "Wszyscy dostawcy w tej grupie są obecnie niedostępni",
+      "GROUP_MISSING": "Już niedostępny, odznacz aby usunąć",
+      "GROUP_MISSING_SHORT": "brak"
     },
     "ENUM": {
       "ENABLED": "Włączony",

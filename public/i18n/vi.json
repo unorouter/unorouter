@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "Đã ghi đè {count}",
       "GROUP_CLEAR_ALL": "Xóa tất cả",
       "GROUP_MODEL_SEARCH": "Tìm kiếm mô hình...",
-      "GROUP_OFFLINE": "Tất cả nhà cung cấp trong nhóm này hiện đang ngừng hoạt động"
+      "GROUP_OFFLINE": "Tất cả nhà cung cấp trong nhóm này hiện đang ngừng hoạt động",
+      "GROUP_MISSING": "Không còn được cung cấp, bỏ chọn để xóa",
+      "GROUP_MISSING_SHORT": "đã mất"
     },
     "ENUM": {
       "ENABLED": "Đã bật",

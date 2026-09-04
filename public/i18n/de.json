@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} überschrieben",
       "GROUP_CLEAR_ALL": "Alle zurücksetzen",
       "GROUP_MODEL_SEARCH": "Modelle suchen...",
-      "GROUP_OFFLINE": "Alle Anbieter in dieser Gruppe sind derzeit offline"
+      "GROUP_OFFLINE": "Alle Anbieter in dieser Gruppe sind derzeit offline",
+      "GROUP_MISSING": "Nicht mehr verfügbar, zum Entfernen abwählen",
+      "GROUP_MISSING_SHORT": "weg"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",

@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count}개 재정의됨",
       "GROUP_CLEAR_ALL": "모두 지우기",
       "GROUP_MODEL_SEARCH": "모델 검색...",
-      "GROUP_OFFLINE": "이 그룹의 모든 공급자가 현재 중단되었습니다"
+      "GROUP_OFFLINE": "이 그룹의 모든 공급자가 현재 중단되었습니다",
+      "GROUP_MISSING": "더 이상 제공되지 않음, 체크 해제하여 제거",
+      "GROUP_MISSING_SHORT": "없음"
     },
     "ENUM": {
       "ENABLED": "활성화됨",

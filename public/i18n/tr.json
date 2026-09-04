@@ -2809,7 +2809,9 @@
       "GROUP_OVERRIDES_COUNT": "{count} geçersiz kılındı",
       "GROUP_CLEAR_ALL": "Tümünü temizle",
       "GROUP_MODEL_SEARCH": "Model ara...",
-      "GROUP_OFFLINE": "Bu gruptaki tüm sağlayıcılar şu anda çevrimdışı"
+      "GROUP_OFFLINE": "Bu gruptaki tüm sağlayıcılar şu anda çevrimdışı",
+      "GROUP_MISSING": "Artık sunulmuyor, kaldırmak için işareti kaldırın",
+      "GROUP_MISSING_SHORT": "yok"
     },
     "ENUM": {
       "ENABLED": "Etkin",
