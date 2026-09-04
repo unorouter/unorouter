@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { analytics } from "@/lib/analytics";
 import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
@@ -43,6 +43,7 @@ export function RpAvatar(props: {
   className?: string;
 }) {
   const src = useMediaSrc(props.mediaId);
+  const objectPosition = useMediaFocal(props.mediaId);
   return (
     <Avatar className={props.className ?? "size-10"}>
       {/* A plain img, not AvatarImage: base-ui 1.7.0 re-runs its loading-status
@@ -54,6 +55,7 @@ export function RpAvatar(props: {
           src={src}
           alt={props.name}
           className="absolute inset-0 aspect-square size-full rounded-full object-cover"
+          style={{ objectPosition }}
         />
       )}
       <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>

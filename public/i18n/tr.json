@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Her yeni sohbeti, yapay zekâ yazmış gibi ilk mesaj olarak açar. Bağlı bir karakterin kendi ilk mesajı önceliklidir. Hiçbir şey göndermemek için boş bırakın.",
     "LOREBOOK_AVATAR": "Avatar",
     "LOREBOOK_AVATAR_HINT": "Bağlı hiçbir karakterin avatarı yoksa yanıtların yanında gösterilir. Karakterler önceliklidir.",
+    "AVATAR_POSITION": "Konumlandır",
+    "AVATAR_POSITION_HINT": "Görünecek bölümü seçmek için görseli sürükleyin. Orijinal korunur.",
     "DUPLICATE": "Çoğalt",
     "LIST_SEARCH": "Ara...",
     "LIST_CREATED": "oluşturuldu {when}",

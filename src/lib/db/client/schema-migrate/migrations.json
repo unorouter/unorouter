@@ -27,6 +27,10 @@
     {
       "tag": "0006_red_doctor_octopus",
       "sql": "ALTER TABLE `lorebooks` ADD `avatar_media_id` text;"
+    },
+    {
+      "tag": "0007_majestic_franklin_storm",
+      "sql": "ALTER TABLE `media` ADD `focal_x` integer;--> statement-breakpoint\nALTER TABLE `media` ADD `focal_y` integer;"
     }
   ]
 }

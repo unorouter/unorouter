@@ -9,14 +9,24 @@ import {
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import type { TranslationKey } from "@/lib/config/constants";
-import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  setLocalMediaFocal,
+  upsertLocalMedia,
+} from "@/lib/db/client/data/media/media";
 import { uid } from "@/lib/utils/base";
 import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import {
+  AvatarPositionDialog,
+  type Focal,
+} from "@/components/pages/sidebar/chat/rp/shared/avatar-position-dialog";
+import { focalToObjectPosition } from "@/hooks/ai/use-media-src";
 
 export type ImgDraft =
-  { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
+  | { kind: "keep"; focal?: Focal }
+  | { kind: "remove" }
+  | { kind: "new"; dataUrl: string; focal?: Focal };
 
 // Minting a new media id on every replace leaves the previous row orphaned.
 // Long-standing behavior, kept as is: deleting here would break an avatar that
@@ -26,7 +36,12 @@ export async function resolveMediaId(
   existingId: string | null | undefined,
 ): Promise<string | null> {
   if (draft.kind === "remove") return null;
-  if (draft.kind === "keep") return existingId ?? null;
+  if (draft.kind === "keep") {
+    if (draft.focal && existingId) {
+      await setLocalMediaFocal(existingId, draft.focal.x, draft.focal.y);
+    }
+    return existingId ?? null;
+  }
   const parts = splitDataUrl(draft.dataUrl);
   if (!parts) return existingId ?? null;
   const mediaId = uid();
@@ -36,6 +51,8 @@ export async function resolveMediaId(
     mimeType: parts.mimeType,
     sizeBytes: Math.floor((parts.base64.length * 3) / 4),
     dataBase64: parts.base64,
+    focalX: draft.focal?.x,
+    focalY: draft.focal?.y,
   });
   return mediaId;
 }
@@ -46,10 +63,17 @@ export function RpImageField(props: {
   preview: string | null;
   onPick: (draft: ImgDraft) => void;
   shape: "circle" | "banner";
+  draft?: ImgDraft;
+  storedFocal?: { x: number; y: number };
 }) {
   const t = useTranslations();
   const inputRef = useRef<HTMLInputElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  const [positioning, setPositioning] = useState(false);
+  const focal =
+    props.draft?.kind !== "remove"
+      ? (props.draft?.focal ?? props.storedFocal)
+      : undefined;
   return (
     <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
       <div className="text-foreground text-xs font-medium tracking-wide uppercase">
@@ -72,6 +96,9 @@ export function RpImageField(props: {
             src={props.preview}
             alt=""
             className="h-full w-full object-cover"
+            style={{
+              objectPosition: focalToObjectPosition(focal?.x, focal?.y),
+            }}
           />
         </button>
       )}
@@ -105,18 +132,48 @@ export function RpImageField(props: {
           {props.preview ? t("THEME.BG_REPLACE") : t("THEME.BG_UPLOAD")}
         </Button>
         {props.preview && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="flex-1"
-            onClick={() => props.onPick({ kind: "remove" })}
-          >
-            <Icon name="trash-2" className="mr-1.5 size-3.5" />
-            {t("THEME.BG_REMOVE")}
-          </Button>
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => setPositioning(true)}
+            >
+              <Icon name="maximize-2" className="mr-1.5 size-3.5" />
+              {t("RP.AVATAR_POSITION")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => props.onPick({ kind: "remove" })}
+            >
+              <Icon name="trash-2" className="mr-1.5 size-3.5" />
+              {t("THEME.BG_REMOVE")}
+            </Button>
+          </>
         )}
       </div>
+
+      {props.preview && (
+        <AvatarPositionDialog
+          open={positioning}
+          onOpenChange={setPositioning}
+          src={props.preview}
+          shape={props.shape}
+          focal={focal ?? { x: 50, y: 50 }}
+          onConfirm={(next) => {
+            const draft = props.draft;
+            props.onPick(
+              draft?.kind === "new"
+                ? { ...draft, focal: next }
+                : { kind: "keep", focal: next },
+            );
+          }}
+        />
+      )}
       <input
         ref={inputRef}
         type="file"

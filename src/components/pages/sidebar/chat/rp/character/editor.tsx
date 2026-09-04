@@ -13,7 +13,7 @@ import {
   useCreateCharacterMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/ai/rp/characters";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   characterFormSchema,
@@ -59,6 +59,8 @@ export function CharacterEditor(props: Props) {
   const existingAvatarSrc = useMediaSrc(
     avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
   );
+  const existingAvatarFocal = useMediaFocalPoint(existing?.avatarMediaId);
+  const existingBgFocal = useMediaFocalPoint(existing?.backgroundMediaId);
   const bgPreview =
     bgDraft.kind === "new"
       ? bgDraft.dataUrl
@@ -297,6 +299,8 @@ export function CharacterEditor(props: Props) {
           preview={avatarPreview}
           onPick={setAvatarDraft}
           shape="circle"
+          draft={avatarDraft}
+          storedFocal={existingAvatarFocal}
         />
         <RpImageField
           labelKey="RP.CHARACTER_BACKGROUND"
@@ -304,6 +308,8 @@ export function CharacterEditor(props: Props) {
           preview={bgPreview}
           onPick={setBgDraft}
           shape="banner"
+          draft={bgDraft}
+          storedFocal={existingBgFocal}
         />
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">

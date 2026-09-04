@@ -72,6 +72,8 @@ function imageToMediaRow(
     width: img.width,
     height: img.height,
     extractedText: null,
+    focalX: null,
+    focalY: null,
     promptText: null,
     seed: img.seed ?? null,
     createdAt: dayjs().toDate(),

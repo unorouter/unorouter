@@ -50,6 +50,13 @@
       "when": 1788450571622,
       "tag": "0006_red_doctor_octopus",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1788480459965,
+      "tag": "0007_majestic_franklin_storm",
+      "breakpoints": true
     }
   ]
 }

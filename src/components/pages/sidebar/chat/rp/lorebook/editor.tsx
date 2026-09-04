@@ -19,7 +19,7 @@ import {
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { formDefaults } from "@/lib/validation/helpers";
-import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
 import {
   RpImageField,
   resolveMediaId,
@@ -48,6 +48,7 @@ export function LorebookEditor(props: Props) {
   const existingAvatarSrc = useMediaSrc(
     avatarDraft.kind === "keep" ? lbQuery.data?.avatarMediaId : null,
   );
+  const existingAvatarFocal = useMediaFocalPoint(lbQuery.data?.avatarMediaId);
   const avatarPreview =
     avatarDraft.kind === "new"
       ? avatarDraft.dataUrl
@@ -145,6 +146,8 @@ export function LorebookEditor(props: Props) {
               preview={avatarPreview}
               onPick={setAvatarDraft}
               shape="circle"
+              draft={avatarDraft}
+              storedFocal={existingAvatarFocal}
             />
             <div className="flex justify-between">
               <Button type="button" variant="ghost" onClick={handleDelete}>

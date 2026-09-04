@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "Eröffnet jeden neuen Chat als erste Nachricht, so als hätte die KI sie geschrieben. Die eigene erste Nachricht eines gebundenen Charakters hat Vorrang. Leer lassen, um nichts zu senden.",
     "LOREBOOK_AVATAR": "Avatar",
     "LOREBOOK_AVATAR_HINT": "Wird neben Antworten angezeigt, wenn kein gebundener Charakter einen hat. Charaktere haben Vorrang.",
+    "AVATAR_POSITION": "Positionieren",
+    "AVATAR_POSITION_HINT": "Ziehe das Bild, um den sichtbaren Ausschnitt zu wählen. Das Original bleibt erhalten.",
     "DUPLICATE": "Duplizieren",
     "LIST_SEARCH": "Suchen...",
     "LIST_CREATED": "erstellt {when}",

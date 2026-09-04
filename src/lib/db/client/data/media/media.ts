@@ -16,6 +16,12 @@ export const setLocalMediaDimensions = (
   height: number,
 ) => mediaStore.update(id, { width, height });
 
+export const setLocalMediaFocal = (
+  id: string,
+  focalX: number | null,
+  focalY: number | null,
+) => mediaStore.update(id, { focalX, focalY });
+
 export async function upsertLocalMedia(row: {
   id: string;
   convId?: string | null;
@@ -28,6 +34,8 @@ export async function upsertLocalMedia(row: {
   height?: number | null;
   extractedText?: string | null;
   promptText?: string | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }) {
   logChatDebug("media.write", {
     id: row.id,
@@ -48,6 +56,9 @@ export async function upsertLocalMedia(row: {
       // which would null out already-measured dimensions.
       ...(row.width != null && row.height != null
         ? { width: row.width, height: row.height }
+        : {}),
+      ...(row.focalX != null && row.focalY != null
+        ? { focalX: row.focalX, focalY: row.focalY }
         : {}),
       extractedText: row.extractedText ?? null,
       promptText: row.promptText ?? null,

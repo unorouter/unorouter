@@ -3919,6 +3919,8 @@
     "LOREBOOK_GREETING_HINT": "每次新建聊天時作為第一則訊息出現，就像由AI所寫。已綁定角色自身的第一則訊息優先。留空則不傳送任何內容。",
     "LOREBOOK_AVATAR": "頭像",
     "LOREBOOK_AVATAR_HINT": "當綁定的角色沒有頭像時顯示於回覆旁邊。角色優先。",
+    "AVATAR_POSITION": "調整位置",
+    "AVATAR_POSITION_HINT": "拖曳圖片以選擇顯示的部分。原圖保持不變。",
     "DUPLICATE": "複製",
     "LIST_SEARCH": "搜尋...",
     "LIST_CREATED": "建立於 {when}",
