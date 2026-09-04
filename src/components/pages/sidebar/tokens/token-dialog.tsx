@@ -51,7 +51,11 @@ import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
-import { TokenGroupMapping, type GroupMapping } from "./token-group-mapping";
+import {
+  TokenGroupMapping,
+  normalizeGroupMapping,
+  type GroupMapping,
+} from "./token-group-mapping";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
 import { formDefaults } from "@/lib/validation/helpers";
@@ -107,7 +111,7 @@ export function TokenDialog(props: TokenDialogProps) {
       const rawMapping = props.token.group_mapping;
       if (rawMapping) {
         try {
-          tokenMapping = JSON.parse(rawMapping);
+          tokenMapping = normalizeGroupMapping(JSON.parse(rawMapping));
         } catch {
           tokenMapping = {};
         }
@@ -227,7 +231,10 @@ export function TokenDialog(props: TokenDialogProps) {
       model_limits_enabled: payload.model_limits_enabled,
       model_count: data.model_limits_enabled ? data.model_limits.length : 0,
       group_pinned: Object.keys(data.group_mapping).length > 0,
-      group_count: Object.values(data.group_mapping).flat().length,
+      group_count: Object.values(data.group_mapping).reduce(
+        (total, entry) => total + entry.groups.length,
+        0,
+      ),
     };
 
     if (isEdit) {

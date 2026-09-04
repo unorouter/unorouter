@@ -61,6 +61,25 @@ export async function GroupPinningContent() {
         />
         <p>{k("P_PINNING_2")}</p>
       </DocSection>
+      <DocSection id="price-band" title={k("H_PRICE_BAND")}>
+        <p>{k("P_PRICE_BAND_1")}</p>
+        <DocImage
+          src="/images/docs/pinning-price-band.webp"
+          alt={k("ALT_PRICE_BAND")}
+          width={375}
+          height={590}
+          natural
+        />
+        <p>{k("P_PRICE_BAND_2")}</p>
+        <p>{k("P_PRICE_BAND_3")}</p>
+        <DocImage
+          src="/images/docs/pinning-auto-greyed.webp"
+          alt={k("ALT_AUTO_GREYED")}
+          width={375}
+          height={590}
+          natural
+        />
+      </DocSection>
       <DocSection id="routing" title={k("H_ROUTING")}>
         <p>{k("P_ROUTING_1")}</p>
         <p>

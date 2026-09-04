@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Rechercher des modèles...",
       "GROUP_OFFLINE": "Tous les fournisseurs de ce groupe sont actuellement hors service",
       "GROUP_MISSING": "Plus proposé, décochez pour retirer",
-      "GROUP_MISSING_SHORT": "absent"
+      "GROUP_MISSING_SHORT": "absent",
+      "BAND_LABEL": "Plage de prix",
+      "BAND_AUTO": "Automatique",
+      "BAND_AUTO_HINT": "Router via la chaîne habituelle, du moins cher au plus cher",
+      "BAND_OFF": "Tous les prix",
+      "BAND_HINT": "Faites glisser pour ne router que via les offres d'une plage de prix",
+      "BAND_CAUGHT": "{count} offres dans la plage",
+      "BAND_CLEAR": "Effacer la plage"
     },
     "ENUM": {
       "ENABLED": "Activée",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Associez un épinglage à une surveillance pour savoir quand ses groupes changent de prix ou tombent, voir",
       "P_PINNING_1_PRE": "Ouvrez ",
       "P_PINNING_1_LINK": "Clés API",
-      "P_PINNING_1_POST": ", créez ou modifiez une clé, et ouvrez le sélecteur de groupes. Cherchez un modèle, cliquez dessus et cochez un ou plusieurs groupes, triés du moins cher au plus cher. Les modèles non touchés restent sur auto."
+      "P_PINNING_1_POST": ", créez ou modifiez une clé, et ouvrez le sélecteur de groupes. Cherchez un modèle, cliquez dessus et cochez un ou plusieurs groupes, triés du moins cher au plus cher. Les modèles non touchés restent sur auto.",
+      "H_PRICE_BAND": "Plages de prix",
+      "P_PRICE_BAND_1": "Au lieu de cocher les offres une à une, faites glisser la plage de prix à deux poignées sur un modèle pour ne router que via les fournisseurs dont le tarif s'y trouve. Comme la sélection se fait par prix et non par nom, les nouveaux fournisseurs entrant dans la plage sont pris en compte automatiquement.",
+      "P_PRICE_BAND_2": "Une plage et des offres épinglées se combinent en une union : la plage couvre les fournisseurs bon marché, et un épinglage conserve un fournisseur coûteux précis en secours même s'il sort de la plage. Le routage essaie toujours le moins cher d'abord, le secours n'est donc atteint que si tout le reste échoue.",
+      "P_PRICE_BAND_3": "Automatique rend le modèle à la chaîne habituelle du moins cher au plus cher. Sa plage et ses épinglages restent enregistrés mais inactifs : les désactiver restaure exactement la configuration précédente.",
+      "ALT_PRICE_BAND": "Curseur de plage de prix sur un modèle, montrant les offres retenues",
+      "ALT_AUTO_GREYED": "Automatique activé, la plage enregistrée grisée mais conservée"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Search models...",
       "GROUP_OFFLINE": "All providers in this group are down right now",
       "GROUP_MISSING": "No longer offered, untick to remove",
-      "GROUP_MISSING_SHORT": "gone"
+      "GROUP_MISSING_SHORT": "gone",
+      "BAND_LABEL": "Price range",
+      "BAND_AUTO": "Automatic",
+      "BAND_AUTO_HINT": "Route on the normal cheapest-first chain",
+      "BAND_OFF": "Any price",
+      "BAND_HINT": "Drag to route only through lanes in a price range",
+      "BAND_CAUGHT": "{count} lanes in range",
+      "BAND_CLEAR": "Clear range"
     },
     "ENUM": {
       "ENABLED": "Enabled",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Pair a pin with a watch to hear when its groups change price or go down, see",
       "P_PINNING_1_PRE": "Open ",
       "P_PINNING_1_LINK": "API Keys",
-      "P_PINNING_1_POST": ", create or edit a key, and open the group selector. Search a model, click it, and tick one or more groups, sorted cheapest first. Untouched models stay on auto."
+      "P_PINNING_1_POST": ", create or edit a key, and open the group selector. Search a model, click it, and tick one or more groups, sorted cheapest first. Untouched models stay on auto.",
+      "H_PRICE_BAND": "Price ranges",
+      "P_PRICE_BAND_1": "Instead of ticking lanes by hand, drag the two-handle price range on a model to route only through providers whose rate falls inside it. Because it selects by price rather than by name, new providers that land in the range are picked up automatically.",
+      "P_PRICE_BAND_2": "A range and pinned lanes combine as a union: the range covers the cheap providers, and a pin keeps a specific expensive provider as a fallback even though it sits outside the range. Routing still tries the cheapest first, so the fallback is only reached when everything cheaper fails.",
+      "P_PRICE_BAND_3": "Automatic returns a model to the normal cheapest-first chain. Its range and pins stay saved but inactive, so turning it off restores exactly what was configured before.",
+      "ALT_PRICE_BAND": "Price range slider on a model, showing the lanes it catches",
+      "ALT_AUTO_GREYED": "Automatic turned on, with the saved price range greyed out but kept"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {

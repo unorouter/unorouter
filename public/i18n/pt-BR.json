@@ -2811,7 +2811,14 @@
       "GROUP_MODEL_SEARCH": "Pesquisar modelos...",
       "GROUP_OFFLINE": "Todos os provedores deste grupo estão fora do ar no momento",
       "GROUP_MISSING": "Não é mais oferecido, desmarque para remover",
-      "GROUP_MISSING_SHORT": "ausente"
+      "GROUP_MISSING_SHORT": "ausente",
+      "BAND_LABEL": "Faixa de preço",
+      "BAND_AUTO": "Automático",
+      "BAND_AUTO_HINT": "Roteia pela cadeia normal, do mais barato ao mais caro",
+      "BAND_OFF": "Qualquer preço",
+      "BAND_HINT": "Arraste para rotear apenas por provedores em uma faixa de preço",
+      "BAND_CAUGHT": "{count} provedores na faixa",
+      "BAND_CLEAR": "Limpar faixa"
     },
     "ENUM": {
       "ENABLED": "Ativada",
@@ -5348,7 +5355,13 @@
       "P_SEE_NOTIFY": "Combine uma fixação com um acompanhamento para saber quando os grupos mudam de preço ou caem, veja",
       "P_PINNING_1_PRE": "Abra ",
       "P_PINNING_1_LINK": "Chaves de API",
-      "P_PINNING_1_POST": ", crie ou edite uma chave e abra o seletor de grupos. Procure um modelo, clique nele e marque um ou mais grupos, ordenados do mais barato ao mais caro. Modelos não alterados continuam em auto."
+      "P_PINNING_1_POST": ", crie ou edite uma chave e abra o seletor de grupos. Procure um modelo, clique nele e marque um ou mais grupos, ordenados do mais barato ao mais caro. Modelos não alterados continuam em auto.",
+      "H_PRICE_BAND": "Faixas de preço",
+      "P_PRICE_BAND_1": "Em vez de marcar provedores um a um, arraste a faixa de preço de duas alças em um modelo para rotear apenas por provedores cuja taxa esteja dentro dela. Como a seleção é por preço e não por nome, novos provedores que entrem na faixa são incluídos automaticamente.",
+      "P_PRICE_BAND_2": "A faixa e os provedores fixados se combinam como união: a faixa cobre os provedores baratos e uma fixação mantém um provedor caro específico como reserva mesmo fora da faixa. O roteamento continua tentando o mais barato primeiro, então a reserva só é alcançada quando tudo mais barato falha.",
+      "P_PRICE_BAND_3": "Automático devolve o modelo à cadeia normal do mais barato primeiro. Sua faixa e fixações continuam salvas, porém inativas, de modo que desligá-lo restaura exatamente o que estava configurado antes.",
+      "ALT_PRICE_BAND": "Controle de faixa de preço em um modelo, mostrando os provedores incluídos",
+      "ALT_AUTO_GREYED": "Automático ativado, com a faixa salva esmaecida mas preservada"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
