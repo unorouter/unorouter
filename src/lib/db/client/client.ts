@@ -36,10 +36,16 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 let cached: Promise<LocalClient> | null = null;
 
 // Without this the incoming page finds the pool still held and fails TAB_LOCK.
+//
+// bfcache is released too, though the page may come back. Holding through it
+// was the safer-looking choice and is the worse one: Android discards a
+// bfcached page under memory pressure without ever restoring it, so the pool
+// and its Web Lock stayed held by a page that no longer exists and the next
+// load in that SAME tab found the database locked by a ghost. A restore just
+// reopens (getLocalDb rebuilds the cache on demand), which costs one open;
+// the alternative cost the user every page in the tab until they killed it.
 if (typeof window !== "undefined") {
-  window.addEventListener("pagehide", (e) => {
-    // bfcache: the page can come back to a destroyed client.
-    if (e.persisted) return;
+  window.addEventListener("pagehide", () => {
     const pending = cached;
     cached = null;
     void pending?.then((c) => c.destroy()).catch(() => {});
