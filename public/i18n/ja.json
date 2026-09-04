@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
     "CHAT_FONT_SIZE": "メッセージの文字サイズ",
     "ASSET_IMAGE_WIDTH": "アセット画像の最大幅",
+    "AVATAR_SCALE": "チャットのアイコンサイズ",
     "SURFACE_COLORS": "表面の色",
     "MODE_LIGHT": "ライト",
     "MODE_DARK": "ダーク",

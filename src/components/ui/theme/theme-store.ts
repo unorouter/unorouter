@@ -57,6 +57,7 @@ export type UserTheme = {
   fontMono?: string;
   chatFontScale?: number;
   assetImageMaxWidth?: number; // rem; caps {{img::name}} asset image width
+  chatAvatarScale?: number; // multiplies in-chat avatar size
   radius?: string;
   style?: string;
   iconLibrary?: IconLibraryName;

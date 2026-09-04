@@ -15,6 +15,7 @@ import { BackgroundImageSection } from "@/components/ui/theme/customizer/backgro
 import { RegistryPickers } from "@/components/ui/theme/customizer/registry-pickers";
 import {
   AssetImageWidthSection,
+  AvatarScaleSection,
   ChatTextSection,
   FontSizeSection,
   SurfaceColorsSection,
@@ -210,6 +211,12 @@ export function ThemeCustomizerBody() {
             width={theme.assetImageMaxWidth}
             onChange={(assetImageMaxWidth) =>
               setTheme({ ...theme, assetImageMaxWidth })
+            }
+          />
+          <AvatarScaleSection
+            scale={theme.chatAvatarScale}
+            onChange={(chatAvatarScale) =>
+              setTheme({ ...theme, chatAvatarScale })
             }
           />
           <FieldSeparator />

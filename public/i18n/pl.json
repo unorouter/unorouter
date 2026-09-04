@@ -3165,6 +3165,7 @@
     "MD_DOUBLE_QUOTE": "Tekst w podwójnych cudzysłowach",
     "CHAT_FONT_SIZE": "Rozmiar czcionki wiadomości",
     "ASSET_IMAGE_WIDTH": "Maksymalna szerokość obrazów zasobów",
+    "AVATAR_SCALE": "Rozmiar awatara na czacie",
     "SURFACE_COLORS": "Kolory powierzchni",
     "MODE_LIGHT": "Jasny",
     "MODE_DARK": "Ciemny",

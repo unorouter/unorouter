@@ -46,6 +46,11 @@ export function FontSizeSection(props: {
   );
 }
 
+const AVATAR_SCALE_MIN = 1;
+const AVATAR_SCALE_MAX = 3;
+const AVATAR_SCALE_STEP = 0.25;
+const AVATAR_SCALE_DEFAULT = 1;
+
 const ASSET_WIDTH_MIN = 4;
 const ASSET_WIDTH_MAX = 40;
 const ASSET_WIDTH_STEP = 1;
@@ -75,6 +80,36 @@ export function AssetImageWidthSection(props: {
         value={value}
         onValueChange={(v) =>
           props.onChange(Array.isArray(v) ? (v[0] ?? ASSET_WIDTH_DEFAULT) : v)
+        }
+      />
+    </div>
+  );
+}
+
+export function AvatarScaleSection(props: {
+  scale: number | undefined;
+  onChange: (scale: number) => void;
+}) {
+  const t = useTranslations();
+  const value = props.scale ?? AVATAR_SCALE_DEFAULT;
+  return (
+    <div className="flex flex-col gap-1.5 px-1 pt-1">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.AVATAR_SCALE")}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {value.toFixed(2)}x
+        </span>
+      </div>
+      <Slider
+        aria-label={t("THEME.AVATAR_SCALE")}
+        min={AVATAR_SCALE_MIN}
+        max={AVATAR_SCALE_MAX}
+        step={AVATAR_SCALE_STEP}
+        value={value}
+        onValueChange={(v) =>
+          props.onChange(Array.isArray(v) ? (v[0] ?? AVATAR_SCALE_DEFAULT) : v)
         }
       />
     </div>
