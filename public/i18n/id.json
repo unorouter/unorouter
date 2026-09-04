@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Sertakan obrolan",
       "LOCAL_DB_EXPORT_LOGS": "Sertakan log permintaan",
       "LOCAL_DB_EXPORT_MEDIA": "Sertakan media",
+      "LOCAL_DB_EXPORT_DIRECT": "Simpan langsung dari disk (uji coba)",
       "LOCAL_DB_WIPE": "Hapus database lokal dan muat ulang",
       "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?"
     },

@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "चैट शामिल करें",
       "LOCAL_DB_EXPORT_LOGS": "अनुरोध लॉग शामिल करें",
       "LOCAL_DB_EXPORT_MEDIA": "मीडिया शामिल करें",
+      "LOCAL_DB_EXPORT_DIRECT": "सीधे डिस्क से सहेजें (परीक्षण)",
       "LOCAL_DB_WIPE": "Local database wipe करें और reload करें",
       "LOCAL_DB_WIPE_CONFIRM": "सभी local OPFS डेटा wipe करें और reload करें?"
     },

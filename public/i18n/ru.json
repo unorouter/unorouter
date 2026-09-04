@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Включить чаты",
       "LOCAL_DB_EXPORT_LOGS": "Включить журналы запросов",
       "LOCAL_DB_EXPORT_MEDIA": "Включить медиафайлы",
+      "LOCAL_DB_EXPORT_DIRECT": "Сохранять напрямую с диска (тест)",
       "LOCAL_DB_WIPE": "Очистить локальную БД и перезагрузить",
       "LOCAL_DB_WIPE_CONFIRM": "Удалить ВСЕ локальные данные OPFS и перезагрузить?"
     },

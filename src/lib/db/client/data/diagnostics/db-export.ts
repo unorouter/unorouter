@@ -1,5 +1,6 @@
 import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
 import { getLocalDb } from "@/lib/db/client/client";
+import { findPoolFile } from "@/lib/db/client/sahpool/pool-file";
 import type { LocalClient } from "@/lib/types";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -40,6 +41,10 @@ export type DbExportOptions = {
   includeChats?: boolean;
   includeRequestLogs?: boolean;
   includeMedia?: boolean;
+  // Hand the save sheet a disk-backed File instead of a copy in memory. The
+  // path iOS has never been given: every export there so far went through the
+  // JS heap, which is the memory pressure that later kills tabs (#33076).
+  directFromDisk?: boolean;
 };
 
 function resolveOptions(opts?: DbExportOptions): Required<DbExportOptions> {
@@ -47,6 +52,7 @@ function resolveOptions(opts?: DbExportOptions): Required<DbExportOptions> {
     includeChats: opts?.includeChats ?? true,
     includeRequestLogs: opts?.includeRequestLogs ?? false,
     includeMedia: opts?.includeMedia ?? true,
+    directFromDisk: opts?.directFromDisk ?? false,
   };
 }
 
@@ -67,10 +73,21 @@ export async function downloadLocalDb(
 ): Promise<void> {
   const opts = resolveOptions(options);
   logChatDebug("export.db.start", { filename, options: opts });
-  let built: { file: File; cleanup: () => Promise<void> } | null = null;
+  let built: {
+    file: File;
+    lazy: boolean;
+    cleanup: () => Promise<void>;
+  } | null = null;
+  let deferCleanup = false;
   try {
     built = await buildExportFile(opts);
     const path = await streamFileToDisk(built.file, filename);
+    // A blob download returns before the browser has read anything, and a
+    // disk-backed File reads the pool slot while it downloads: unlinking it
+    // now hands the browser a file that changed underneath it. The share and
+    // picker paths resolve only once the bytes are written, so they clean up
+    // at once. The next open purges a /backup- slot left by a closed tab.
+    deferCleanup = built.lazy && path === "blob";
     logChatDebug("export.db.done", {
       filename,
       bytes: built.file.size,
@@ -80,7 +97,10 @@ export async function downloadLocalDb(
     logChatDebug("export.db.error", { error: String(e) });
     throw e;
   } finally {
-    await built?.cleanup();
+    if (built) {
+      if (deferCleanup) setTimeout(() => void built?.cleanup(), 60_000);
+      else await built.cleanup();
+    }
   }
 }
 
@@ -92,7 +112,7 @@ export async function downloadLocalDb(
 // pressure that later killed tabs (#33076). The live database is never mutated.
 async function buildExportFile(
   opts: Required<DbExportOptions>,
-): Promise<{ file: File; cleanup: () => Promise<void> }> {
+): Promise<{ file: File; lazy: boolean; cleanup: () => Promise<void> }> {
   const local = await getLocalDb();
   if (!local) throw new Error("SQLocal unavailable");
   const info = await local.getDatabaseInfo();
@@ -125,8 +145,24 @@ async function buildExportFile(
       await local.exec("DETACH DATABASE exp", [], "run");
     }
     logChatDebug("export.db.shrink", { before, after, deletedTables: deleted });
+    if (opts.directFromDisk) {
+      try {
+        const lazy = await findPoolFile(dbName, tempName, dbName);
+        if (lazy) {
+          logChatDebug("export.db.direct", { bytes: lazy.size });
+          return { file: lazy, lazy: true, cleanup };
+        }
+        logChatDebug("export.db.direct_unavailable", {
+          reason: "slot not found",
+        });
+      } catch (err) {
+        logChatDebug("export.db.direct_unavailable", {
+          reason: String(err).slice(0, 200),
+        });
+      }
+    }
     const file = await local.exportPoolFile(tempName, dbName);
-    return { file, cleanup };
+    return { file, lazy: false, cleanup };
   } catch (e) {
     await cleanup();
     throw e;

@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Uwzględnij czaty",
       "LOCAL_DB_EXPORT_LOGS": "Uwzględnij dzienniki żądań",
       "LOCAL_DB_EXPORT_MEDIA": "Uwzględnij multimedia",
+      "LOCAL_DB_EXPORT_DIRECT": "Zapisuj bezpośrednio z dysku (test)",
       "LOCAL_DB_WIPE": "Wymaż lokalną bazę danych i przeładuj",
       "LOCAL_DB_WIPE_CONFIRM": "Wymazać WSZYSTKIE lokalne dane OPFS i przeładować?"
     },

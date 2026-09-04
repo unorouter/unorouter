@@ -3714,6 +3714,7 @@
       "LOCAL_DB_EXPORT_CHATS": "Incluir chats",
       "LOCAL_DB_EXPORT_LOGS": "Incluir registros de solicitudes",
       "LOCAL_DB_EXPORT_MEDIA": "Incluir multimedia",
+      "LOCAL_DB_EXPORT_DIRECT": "Guardar directamente desde el disco (prueba)",
       "LOCAL_DB_WIPE": "Borrar base de datos local y recargar",
       "LOCAL_DB_WIPE_CONFIRM": "¿Borrar TODOS los datos OPFS locales y recargar?"
     },
