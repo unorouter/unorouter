@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Flou des panneaux",
     "BG_PANEL_OPACITY": "Opacité des panneaux",
     "BG_BUBBLE_OPACITY": "Opacite des bulles de message",
-    "BG_BUBBLE_OPACITY_HINT": "S'applique a vos propres messages, pour que l'arriere-plan transparaisse independamment des panneaux."
+    "BG_BUBBLE_OPACITY_HINT": "S'applique a vos propres messages, pour que l'arriere-plan transparaisse independamment des panneaux.",
+    "BG_COMPOSER_OPACITY": "Opacité de la zone de saisie",
+    "BG_COMPOSER_OPACITY_HINT": "S'applique au champ de saisie, pour que votre texte reste lisible sur un fond chargé."
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "面板模糊",
     "BG_PANEL_OPACITY": "面板不透明度",
     "BG_BUBBLE_OPACITY": "訊息泡泡不透明度",
-    "BG_BUBBLE_OPACITY_HINT": "作用於你自己傳送的訊息，讓背景可以獨立於面板透出來。"
+    "BG_BUBBLE_OPACITY_HINT": "作用於你自己傳送的訊息，讓背景可以獨立於面板透出來。",
+    "BG_COMPOSER_OPACITY": "輸入框不透明度",
+    "BG_COMPOSER_OPACITY_HINT": "套用於輸入框，讓你輸入的文字在複雜背景上依然清晰。"
   },
   "BILLING": {
     "SUBSCRIPTION": {

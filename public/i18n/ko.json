@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "패널 흐림",
     "BG_PANEL_OPACITY": "패널 불투명도",
     "BG_BUBBLE_OPACITY": "메시지 말풍선 불투명도",
-    "BG_BUBBLE_OPACITY_HINT": "내가 보낸 메시지에 적용되어, 패널과 별개로 배경이 비쳐 보이게 합니다."
+    "BG_BUBBLE_OPACITY_HINT": "내가 보낸 메시지에 적용되어, 패널과 별개로 배경이 비쳐 보이게 합니다.",
+    "BG_COMPOSER_OPACITY": "입력창 불투명도",
+    "BG_COMPOSER_OPACITY_HINT": "입력하는 상자에 적용되어 복잡한 배경 위에서도 글이 잘 보입니다."
   },
   "BILLING": {
     "SUBSCRIPTION": {

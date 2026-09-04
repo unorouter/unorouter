@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "パネルのぼかし",
     "BG_PANEL_OPACITY": "パネルの不透明度",
     "BG_BUBBLE_OPACITY": "メッセージバブルの不透明度",
-    "BG_BUBBLE_OPACITY_HINT": "自分のチャットメッセージに適用され、パネルとは別に背景を透けさせられます。"
+    "BG_BUBBLE_OPACITY_HINT": "自分のチャットメッセージに適用され、パネルとは別に背景を透けさせられます。",
+    "BG_COMPOSER_OPACITY": "入力欄の不透明度",
+    "BG_COMPOSER_OPACITY_HINT": "入力欄に適用され、背景が賑やかでも自分の文字が読みやすくなります。"
   },
   "BILLING": {
     "SUBSCRIPTION": {

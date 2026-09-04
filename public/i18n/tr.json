@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Panel bulanıklığı",
     "BG_PANEL_OPACITY": "Panel saydamlığı",
     "BG_BUBBLE_OPACITY": "Mesaj balonu opakligi",
-    "BG_BUBBLE_OPACITY_HINT": "Kendi sohbet mesajlarina uygulanir, boylece arka plan panellerden bagimsiz olarak gorunebilir."
+    "BG_BUBBLE_OPACITY_HINT": "Kendi sohbet mesajlarina uygulanir, boylece arka plan panellerden bagimsiz olarak gorunebilir.",
+    "BG_COMPOSER_OPACITY": "Yazma alanı opaklığı",
+    "BG_COMPOSER_OPACITY_HINT": "Yazdığınız kutuya uygulanır, böylece metniniz hareketli bir arka planda okunaklı kalır."
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "Buram panel",
     "BG_PANEL_OPACITY": "Opasitas panel",
     "BG_BUBBLE_OPACITY": "Opasitas balon pesan",
-    "BG_BUBBLE_OPACITY_HINT": "Berlaku untuk pesan obrolan Anda sendiri, sehingga latar dapat terlihat menembusnya secara terpisah dari panel."
+    "BG_BUBBLE_OPACITY_HINT": "Berlaku untuk pesan obrolan Anda sendiri, sehingga latar dapat terlihat menembusnya secara terpisah dari panel.",
+    "BG_COMPOSER_OPACITY": "Opasitas kotak ketik",
+    "BG_COMPOSER_OPACITY_HINT": "Berlaku untuk kotak tempat kamu mengetik, agar teksmu tetap terbaca di atas latar yang ramai."
   },
   "BILLING": {
     "SUBSCRIPTION": {

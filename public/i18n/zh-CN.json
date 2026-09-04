@@ -3193,7 +3193,9 @@
     "BG_PANEL_BLUR": "面板模糊",
     "BG_PANEL_OPACITY": "面板不透明度",
     "BG_BUBBLE_OPACITY": "消息气泡不透明度",
-    "BG_BUBBLE_OPACITY_HINT": "作用于你自己发送的消息，让背景可以独立于面板透出来。"
+    "BG_BUBBLE_OPACITY_HINT": "作用于你自己发送的消息，让背景可以独立于面板透出来。",
+    "BG_COMPOSER_OPACITY": "输入框不透明度",
+    "BG_COMPOSER_OPACITY_HINT": "应用于输入框，让你输入的文字在复杂背景上依然清晰。"
   },
   "BILLING": {
     "SUBSCRIPTION": {
