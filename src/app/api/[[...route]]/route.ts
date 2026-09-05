@@ -1,5 +1,12 @@
-import { APP_VALUES } from "@/lib/config/constants";
+import { setEdgeSessionCookie } from "@/lib/api/auth";
+import {
+  APP_VALUES,
+  EDGE_SESSION_COOKIE,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { verifyUserId } from "@/lib/utils/session-cookie";
+import { serverEnv } from "@/server/env";
 import { aiDomainRoute } from "@/server/ai/route";
 import { authDomainRoute } from "@/server/auth/route";
 import { billingDomainRoute } from "@/server/billing/route";
@@ -76,6 +83,15 @@ export const app = new Elysia({ prefix: "/api" })
     if (request.headers.get("cookie")?.includes("session=")) return;
     set.headers["cdn-cache-control"] =
       `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`;
+  })
+  // Sessions that predate the edge cookie get it from their next API call.
+  .onAfterHandle(async ({ cookie }) => {
+    if (!serverEnv.edgeSessionSecret || cookie[EDGE_SESSION_COOKIE].value)
+      return;
+    const sealed = cookie[USER_ID_COOKIE].value;
+    if (typeof sealed !== "string") return;
+    const userId = await verifyUserId(sealed);
+    if (userId !== null) setEdgeSessionCookie(cookie, userId);
   })
   .use(aiDomainRoute)
   .use(authDomainRoute)
