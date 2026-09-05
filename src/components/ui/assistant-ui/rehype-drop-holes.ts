@@ -1,12 +1,6 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord } from "@/lib/utils/base";
-import type {
-  Pluggable,
-  Plugin,
-  Processor,
-  TransformCallback,
-  Transformer,
-} from "unified";
+import type { Pluggable, Plugin, Processor, TransformCallback } from "unified";
 import type { Root } from "hast";
 import type { VFile } from "vfile";
 
@@ -60,14 +54,13 @@ export function withHoleRepair(plugin: Pluggable): Pluggable {
     return (tree: Root, file: VFile) => {
       prune(tree);
       try {
-        // unified's Transformer type requires `next`, but a sync transformer is
-        // called without one; the boundary declares it optional.
-        const run: (
-          tree: Root,
-          file: VFile,
-          next?: TransformCallback,
-        ) => ReturnType<Transformer> = transformer;
-        const out = run(tree, file);
+        // A transformer that declared `next` would be async under unified and
+        // cannot run inside this sync wrapper; hand it a callback that only
+        // surfaces its error so the catch below still sees it.
+        const settle: TransformCallback = (error) => {
+          if (error) throw error;
+        };
+        const out = transformer(tree, file, settle);
         prune(tree);
         return out;
       } catch (err) {
