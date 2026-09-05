@@ -28,10 +28,7 @@ import {
   createMetaCollector,
   makeBuildUsage,
 } from "@/lib/ai/chat/pipeline/finish-meta";
-import {
-  hasBodyMutation,
-  makeBodyMutationFetch,
-} from "@/lib/ai/chat/provider-mutations";
+import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import {
@@ -279,9 +276,7 @@ async function runClientStream(args: {
           },
         }
       : {}),
-    ...(hasBodyMutation(prepared.bodyMutations)
-      ? { fetch: makeBodyMutationFetch(prepared.bodyMutations) }
-      : {}),
+    fetch: makeUpstreamFetch(prepared.bodyMutations),
   });
 
   const result = streamText({

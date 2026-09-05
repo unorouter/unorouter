@@ -12,8 +12,7 @@ import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import {
   type BodyMutations,
-  hasBodyMutation,
-  makeBodyMutationFetch,
+  makeUpstreamFetch,
 } from "@/lib/ai/chat/provider-mutations";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
@@ -83,7 +82,7 @@ export function getProvider(
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
     ...(Object.keys(headers).length > 0 ? { headers } : {}),
-    ...(hasBodyMutation(opts) ? { fetch: makeBodyMutationFetch(opts!) } : {}),
+    fetch: makeUpstreamFetch(opts),
   });
 }
 
