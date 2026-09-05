@@ -5,6 +5,7 @@ import { Thread } from "@/components/ui/assistant-ui/thread";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
@@ -37,6 +38,10 @@ export function Chat(props: ChatProps) {
     const url = threadId ? `/${locale}/chat/${threadId}` : `/${locale}/chat`;
     window.history.replaceState(null, "", url);
   }, [threadId, locale, props.convId]);
+
+  useEffect(() => {
+    logChatDebug("chat.gate", { needsToken: gate.needsToken });
+  }, [gate.needsToken]);
 
   useEffect(() => {
     const convTitle = convQuery.data?.title;

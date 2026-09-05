@@ -102,8 +102,8 @@ export function installResumeDiagnostics(): void {
   // absence of db.open.start means nothing.
   if (!/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) return;
   setTimeout(() => {
-    const since = getChatDebugLog().filter((e) => e.ts >= bootAt);
-    if (since.some((e) => e.event === "db.open.start")) return;
+    const since = getChatDebugLog().filter((e) => e.ts >= bootAt - 10_000);
+    if (since.some((e) => e.event.startsWith("db.open"))) return;
     const resources = performance
       .getEntriesByType("resource")
       .filter(
