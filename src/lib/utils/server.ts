@@ -1,8 +1,6 @@
 import { redirect } from "@/i18n/navigation";
 import type { Redirect } from "@/i18n/routing";
-import { serverEnv } from "@/server/env";
 import { getCookie } from "cookies-next/server";
-import { sealData, unsealData } from "iron-session";
 import { hasLocale, type Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
@@ -11,7 +9,6 @@ import {
   AUTH_REDIRECT_QUERY,
   LOCALE_COOKIE,
   LOCALES,
-  msg,
   SERVER_URL_KEY,
 } from "../config/constants";
 
@@ -23,29 +20,6 @@ export const setCookies = async () => {
 
   return { headers: { cookie } };
 };
-
-export async function signUserId(userId: number | string): Promise<string> {
-  const id = Number(userId);
-  if (!Number.isFinite(id) || id <= 0)
-    throw new Error(msg("ERRORS.INVALID_USER_ID"));
-  return sealData({ uid: id }, { password: serverEnv.sessionSecret });
-}
-
-export async function verifyUserId(
-  sealed: string | undefined,
-): Promise<number | null> {
-  if (!sealed) return null;
-  let data: { uid?: number };
-  try {
-    data = await unsealData<{ uid?: number }>(sealed, {
-      password: serverEnv.sessionSecret,
-    });
-  } catch {
-    return null;
-  }
-  const n = Number(data?.uid);
-  return Number.isFinite(n) && n > 0 ? n : null;
-}
 
 const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   try {

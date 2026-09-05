@@ -176,7 +176,7 @@ The SW is served by an APP ROUTE, not `public/sw.js`. Every rule below exists be
 
 Messages PRECOMPILE at build, so `t.raw` is unsupported repo-wide and a typo'd ICU placeholder FAILS THE BUILD. Client payload is pruned in `src/i18n/client-messages.ts` and `ClientIntlProvider` THROWS on MISSING_MESSAGE in dev, so stripped-key use fails loudly.
 
-`src/proxy.ts` is thin: a header plus next-intl middleware. Everything else is matcher config, and the extension list omits `.js` ON PURPOSE, since an unexcluded chunk gets locale-rewritten to `/en/_next/...` and 404s.
+`src/proxy.ts` is thin: a header, next-intl middleware, and the `edge-session` cookie for a signed `user-id` that lacks one. Everything else is matcher config, and the extension list omits `.js` ON PURPOSE, since an unexcluded chunk gets locale-rewritten to `/en/_next/...` and 404s.
 
 Consequence for `public/`: a `.js` file served from there is locale-rewritten and 404s, so the two console scripts users paste (`janitor-extract.js.txt`, `janitor-full-export.js.txt`) carry a `.txt` suffix to stay reachable. Do not rename them back.
 

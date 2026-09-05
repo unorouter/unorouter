@@ -3,11 +3,15 @@ import { NextRequest } from "next/server";
 import { pathnames, routing } from "./i18n/routing";
 import {
   ACCESS_TOKEN_COOKIE,
+  COOKIE_MAX_AGE,
+  EDGE_SESSION_COOKIE,
   LOCALES,
   SERVER_URL_KEY,
   USER_ID_COOKIE,
   USER_THEME_COOKIE,
 } from "./lib/config/constants";
+import { edgeSessionValue, verifyUserId } from "./lib/utils/session-cookie";
+import { serverEnv } from "./server/env";
 
 // Anonymous renders of these routes are identical for everyone. Cloudflare caches a page
 // only when this header is present, so the list of cacheable routes lives here, next to
@@ -78,9 +82,29 @@ function isAnonymousPageRequest(request: NextRequest): boolean {
   return !PERSONAL_COOKIES.some((name) => request.cookies.has(name));
 }
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   request.headers.set(SERVER_URL_KEY, request.url);
   const response = createMiddleware(routing)(request);
+  // Sessions that predate the edge cookie get it on their next page load.
+  if (
+    serverEnv.edgeSessionSecret &&
+    request.cookies.has(USER_ID_COOKIE) &&
+    !request.cookies.has(EDGE_SESSION_COOKIE)
+  ) {
+    const userId = await verifyUserId(
+      request.cookies.get(USER_ID_COOKIE)?.value,
+    );
+    if (userId !== null) {
+      response.cookies.set({
+        name: EDGE_SESSION_COOKIE,
+        value: edgeSessionValue(userId),
+        path: "/",
+        maxAge: COOKIE_MAX_AGE,
+        httpOnly: true,
+        sameSite: "lax",
+      });
+    }
+  }
   const ttl = cacheTtlFor(request.nextUrl.pathname);
   if (
     ttl !== undefined &&
