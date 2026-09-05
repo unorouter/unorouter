@@ -1,6 +1,12 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord } from "@/lib/utils/base";
-import type { Pluggable, Plugin, Processor } from "unified";
+import type {
+  Pluggable,
+  Plugin,
+  Processor,
+  TransformCallback,
+  Transformer,
+} from "unified";
 import type { Root } from "hast";
 import type { VFile } from "vfile";
 
@@ -54,7 +60,14 @@ export function withHoleRepair(plugin: Pluggable): Pluggable {
     return (tree: Root, file: VFile) => {
       prune(tree);
       try {
-        const out = transformer(tree, file);
+        // unified's Transformer type requires `next`, but a sync transformer is
+        // called without one; the boundary declares it optional.
+        const run: (
+          tree: Root,
+          file: VFile,
+          next?: TransformCallback,
+        ) => ReturnType<Transformer> = transformer;
+        const out = run(tree, file);
         prune(tree);
         return out;
       } catch (err) {
