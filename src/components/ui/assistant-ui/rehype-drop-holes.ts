@@ -57,7 +57,7 @@ export function withHoleRepair(plugin: Pluggable): Pluggable {
         // A transformer that declared `next` would be async under unified and
         // cannot run inside this sync wrapper; hand it a callback that only
         // surfaces its error so the catch below still sees it.
-        const settle: TransformCallback = (error) => {
+        const settle: TransformCallback = (error?: Error | null) => {
           if (error) throw error;
         };
         const out = transformer(tree, file, settle);
