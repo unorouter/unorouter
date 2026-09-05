@@ -219,13 +219,16 @@ jobs:
           role: unorouter-ci
           exportEnv: true
           secrets: |
-            secret/data/unorouter-env INDEXNOW_KEY
+            secret/data/unorouter-env INDEXNOW_KEY ;
+            secret/data/unorouter-env EDGE_DEV_TOKEN
 
+      # The edge challenges datacenter IPs without a session, which is what a
+      # runner is; x-edge-dev is the skip the rules already grant local SSR.
       - name: Wait for this build to be live
         run: |
           # 40min budget: ArgoCD polls git every ~3min, then the rollout + probes.
           for i in {1..240}; do
-            live="$(curl -fsS --max-time 10 "https://unorouter.com/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
+            live="$(curl -fsS --max-time 10 -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
             if [ "$live" = "${{ github.sha }}" ]; then
               echo "live version matches ${{ github.sha }}"
               exit 0
@@ -240,7 +243,7 @@ jobs:
         run: |
           # Guards the localhost-self-call / build-prerender regression that
           # silently emptied every model page from the sitemap.
-          sitemap="$(curl -fsS "https://unorouter.com/sitemap.xml")"
+          sitemap="$(curl -fsS -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/sitemap.xml")"
           total="$(printf '%s' "$sitemap" | grep -oc '<loc>' || true)"
           models="$(printf '%s' "$sitemap" \
             | grep -oE '<loc>[^<]*</loc>' \
@@ -270,18 +273,31 @@ jobs:
     needs: post-deploy
     continue-on-error: true
     timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
     steps:
+      - name: Fetch edge bypass token from OpenBao
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://openbao-ci.unorouter.com
+          method: jwt
+          path: jwt-github
+          role: unorouter-ci
+          exportEnv: true
+          secrets: |
+            secret/data/unorouter-env EDGE_DEV_TOKEN
       - name: Warm ISR cache from sitemap
         run: |
           # Depth <= 2 only (locale home + section pages, ~700 urls). The full
           # sitemap is ~22k urls (model pages x locales) which were never
           # build-prerendered anyway; those stay ISR-on-first-hit.
-          curl -fsS "https://unorouter.com/sitemap.xml" \
+          curl -fsS -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/sitemap.xml" \
             | grep -oE '<loc>[^<]+</loc>' \
             | sed -E 's#</?loc>##g' \
             | awk -F/ 'NF<=5' > urls.txt
           echo "warming $(wc -l < urls.txt) urls"
           timeout 12m xargs -P 12 -n 1 -a urls.txt -I{} \
-            curl -s -o /dev/null -w '%{http_code} {}\n' --max-time 15 {} > codes.txt || true
+            curl -s -o /dev/null -H "x-edge-dev: $EDGE_DEV_TOKEN" -w '%{http_code} {}\n' --max-time 15 {} > codes.txt || true
           sort codes.txt | cut -d' ' -f1 | uniq -c
           grep -v '^200 ' codes.txt | head -50 || true
