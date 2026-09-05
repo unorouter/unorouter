@@ -181,6 +181,71 @@ export const Thread: FC = () => {
     el.addEventListener("touchstart", markInput, { passive: true });
     el.addEventListener("pointerdown", markInput);
     el.addEventListener("keydown", markInput);
+    // Direct scrollTop writes get a stack; any other move during a run that no
+    // input explains (focus, scroll anchoring) is logged with what preceded it.
+    let lastFocus = 0;
+    let lastSetter = 0;
+    let lastTop = el.scrollTop;
+    let lastMoveLog = 0;
+    const markFocus = () => {
+      lastFocus = Date.now();
+    };
+    document.addEventListener("focusin", markFocus);
+    document.addEventListener("selectionchange", markFocus);
+    const stackOf = () =>
+      (new Error().stack ?? "")
+        .split("\n")
+        .slice(2, 6)
+        .map((l) => l.trim().slice(0, 70))
+        .join(" | ");
+    const desc = Object.getOwnPropertyDescriptor(
+      Element.prototype,
+      "scrollTop",
+    );
+    const getter = desc?.get;
+    const setter = desc?.set;
+    if (getter && setter) {
+      Object.defineProperty(el, "scrollTop", {
+        configurable: true,
+        get: () => getter.call(el),
+        set: (value: number) => {
+          const now = Date.now();
+          if (runningRef.current && now - lastSetter > 1000) {
+            logChatDebug("viewport.scroll_top_set", {
+              value: Math.round(value),
+              top: Math.round(getter.call(el)),
+              autoScrollStream,
+              stack: stackOf(),
+            });
+          }
+          lastSetter = now;
+          setter.call(el, value);
+        },
+      });
+    }
+    const onScroll = () => {
+      const top = el.scrollTop;
+      const delta = top - lastTop;
+      lastTop = top;
+      const now = Date.now();
+      if (!runningRef.current || Math.abs(delta) < 4) return;
+      if (now - lastInput < 1000 || now - lastMoveLog < 1000) return;
+      lastMoveLog = now;
+      logChatDebug("viewport.moved", {
+        delta: Math.round(delta),
+        top: Math.round(top),
+        fromBottom: Math.round(el.scrollHeight - top - el.clientHeight),
+        autoScrollStream,
+        sinceInputMs: lastInput ? now - lastInput : null,
+        sinceFocusMs: lastFocus ? now - lastFocus : null,
+        sinceSetterMs: lastSetter ? now - lastSetter : null,
+        active: document.activeElement?.tagName ?? null,
+        reasoningOpen: el.querySelectorAll(
+          '[data-slot="reasoning-content"][data-state="open"]',
+        ).length,
+      });
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
     el.scrollTo = (a?: ScrollToOptions | number, b?: number): void => {
       calls++;
       const now = Date.now();
@@ -197,11 +262,7 @@ export const Thread: FC = () => {
             el.scrollHeight - el.scrollTop - el.clientHeight,
           ),
           sinceInputMs: lastInput ? now - lastInput : null,
-          stack: (new Error().stack ?? "")
-            .split("\n")
-            .slice(2, 6)
-            .map((l) => l.trim().slice(0, 70))
-            .join(" | "),
+          stack: stackOf(),
         });
       }
       if (blocked) return;
@@ -210,6 +271,10 @@ export const Thread: FC = () => {
     };
     return () => {
       el.scrollTo = native;
+      Reflect.deleteProperty(el, "scrollTop");
+      el.removeEventListener("scroll", onScroll);
+      document.removeEventListener("focusin", markFocus);
+      document.removeEventListener("selectionchange", markFocus);
       el.removeEventListener("wheel", markInput);
       el.removeEventListener("touchstart", markInput);
       el.removeEventListener("pointerdown", markInput);
