@@ -41,6 +41,7 @@ import {
 } from "@/lib/validation/image";
 import { safeParse } from "@/lib/validation/helpers";
 import { fnv1aHex, handleElysia, uid } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -237,6 +238,12 @@ async function runSubmit(
   await bumpLocalSessionCounts(sessionId, {
     snapshots: 1,
     images: result.images.length,
+  });
+  logChatDebug("image.persist", {
+    sessionId,
+    snapshotId,
+    images: result.images.length,
+    model: body.model,
   });
 
   return { sessionId, snapshotId };
