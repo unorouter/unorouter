@@ -115,6 +115,8 @@ React Query defaults are `staleTime: Infinity` + `refetchOnWindowFocus: false`, 
 
 Auth cookies: `access_token` (httpOnly, 30d, NO refresh flow: the fork pins both `AccessTokenTTL` and `LoginSessionTTL` to 30d, so a leaked token stays valid until then; re-adding revocation means a shorter TTL or a session-row check, NOT restoring `/auth/refresh`), `user-id` (httpOnly, iron-session signed, needs `SESSION_SECRET` >= 32; the ONLY user-id cookie, since the unsigned `local-user-id` twin is gone and logout exists to clear the stale ones), `client-store` (JSON, holds the user's own API key).
 
+`edge-session` (httpOnly, 30d) is `<userId>.<issued>-<base64url hmac>` signed with `EDGE_SESSION_SECRET`; the first Cloudflare custom rule verifies it with `is_timed_hmac_valid_v0` and skips rate limits, bot fight and the block/challenge rules for logged-in browsers. The secret lives in OpenBao `secret/unorouter-env` AND inside `infra/cloudflare/unorouter.com/rules*.sops.yaml`; rotate both together or every logged-in user drops back to guest rules.
+
 `user-id` is httpOnly and the client NEVER reads it: the seal is server-side integrity only. "Am I logged in" comes from the auth query cache, which `prefetchAuth` always seeds (the user object, or an explicit `null` for a guest), so a present-but-null entry is a definite guest and an absent one means not-yet-fetched. Do not reintroduce a `document.cookie` presence check.
 
 If an upstream sync changes the login response shape, update `AuthResponseData` in `src/lib/api/auth.ts`: the generated `LoginData` is stale because upstream returns a raw gin body wider than its declared type, so `handleAuthResponse` reads the body structurally, not through the Orval type.

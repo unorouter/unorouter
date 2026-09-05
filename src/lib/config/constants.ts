@@ -45,6 +45,7 @@ export const CHAT_PROVIDER_NAME = "unorouter";
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
+export const EDGE_SESSION_COOKIE = "edge-session" as const;
 export const USER_THEME_COOKIE = "user-theme" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
