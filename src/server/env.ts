@@ -7,6 +7,9 @@ export const serverEnv = {
   internalApiUrl: process.env.INTERNAL_API_URL,
   // Lets a laptop BFF through the edge rules that challenge credential-less /api calls.
   edgeDevToken: process.env.EDGE_DEV_TOKEN ?? "",
+  // Signs the edge-session cookie the Cloudflare skip rule verifies with
+  // is_timed_hmac_valid_v0; the same value sits in the encrypted rules file.
+  edgeSessionSecret: process.env.EDGE_SESSION_SECRET ?? "",
   // Proves to the gateway that a key resolution came from this server, not a
   // browser, so it is not audited as a human reveal. Optional: without it the
   // gateway simply keeps logging.
@@ -32,6 +35,10 @@ if (typeof globalThis !== "undefined" && !process.env.NEXT_PHASE) {
   const warnings: string[] = [];
   if (!serverEnv.guestApiKey)
     warnings.push("GUEST_API_KEY (guest chat disabled)");
+  if (!serverEnv.edgeSessionSecret)
+    warnings.push(
+      "EDGE_SESSION_SECRET (logged-in users get no edge exemption)",
+    );
   if (!serverEnv.tavilyApiKey)
     warnings.push("TAVILY_API_KEY (web search disabled)");
   if (!serverEnv.tursoUrl)
