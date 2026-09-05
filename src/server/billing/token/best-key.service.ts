@@ -5,7 +5,7 @@ import {
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
-import { verifyUserId } from "@/lib/utils/server";
+import { verifyUserId } from "@/lib/utils/session-cookie";
 import { addToken, getTokenKey, searchTokens } from "@/openapi";
 import { cookieString, getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";

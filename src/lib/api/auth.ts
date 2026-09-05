@@ -1,6 +1,5 @@
 import { Context } from "elysia";
 import type { CookieOptions } from "elysia/cookies";
-import { createHmac } from "node:crypto";
 import {
   ACCESS_TOKEN_COOKIE,
   ACCESS_TOKEN_FALLBACK_MAX_AGE,
@@ -9,18 +8,7 @@ import {
   USER_ID_COOKIE,
 } from "../config/constants";
 import { serverEnv } from "@/server/env";
-import { signUserId } from "../utils/server";
-
-// Cloudflare's is_timed_hmac_valid_v0 layout: message, one separator byte, a
-// 10-digit issue timestamp, "-", base64url MAC over message + timestamp.
-function edgeSessionValue(userId: string | number): string {
-  const message = String(userId);
-  const issued = String(Math.floor(Date.now() / 1000));
-  const mac = createHmac("sha256", serverEnv.edgeSessionSecret)
-    .update(message + issued)
-    .digest("base64url");
-  return `${message}.${issued}-${mac}`;
-}
+import { edgeSessionValue, signUserId } from "../utils/session-cookie";
 import { authResponseChecker, type AuthResponseData } from "../validation/auth";
 
 function parseAuthResponse(raw: unknown): AuthResponseData | undefined {
@@ -51,14 +39,21 @@ export async function setSessionCookies(
       : ACCESS_TOKEN_FALLBACK_MAX_AGE,
     httpOnly: true,
   });
-  if (serverEnv.edgeSessionSecret) {
-    cookie[EDGE_SESSION_COOKIE].set({
-      ...base,
-      value: edgeSessionValue(userId),
-      maxAge: COOKIE_MAX_AGE,
-      httpOnly: true,
-    });
-  }
+  setEdgeSessionCookie(cookie, userId);
+}
+
+export function setEdgeSessionCookie(
+  cookie: Context["cookie"],
+  userId: string | number,
+): void {
+  if (!serverEnv.edgeSessionSecret) return;
+  cookie[EDGE_SESSION_COOKIE].set({
+    path: "/",
+    sameSite: "lax",
+    value: edgeSessionValue(userId),
+    maxAge: COOKIE_MAX_AGE,
+    httpOnly: true,
+  });
 }
 
 // Not `.remove()`: it emits nothing for a cookie the request did not send, leaving a stale "local-user-id" alive.

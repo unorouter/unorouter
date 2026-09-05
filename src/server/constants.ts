@@ -7,7 +7,7 @@ import {
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { isRecord } from "@/lib/utils/base";
-import { verifyUserId } from "@/lib/utils/server";
+import { verifyUserId } from "@/lib/utils/session-cookie";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import {
