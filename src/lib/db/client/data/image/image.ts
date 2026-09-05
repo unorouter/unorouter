@@ -5,6 +5,7 @@ import {
   revokeMediaBlobUrl,
 } from "@/lib/db/client/data/media/blob-url";
 import { isRecord } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   type ImageSnapshot,
@@ -151,11 +152,21 @@ export async function deleteLocalImageSessionDeep(sessionId: string) {
     .from(imageSnapshots)
     .where(eq(imageSnapshots.sessionId, sessionId));
   const ids = snapshots.map((s) => s.id);
+  let images = 0;
   if (ids.length > 0) {
     await revokeMediaUrlsForSnapshots(local, ids);
-    await local.db.delete(media).where(inArray(media.imageSnapshotId, ids));
+    const deleted = await local.db
+      .delete(media)
+      .where(inArray(media.imageSnapshotId, ids))
+      .returning({ id: media.id });
+    images = deleted.length;
   }
   await sessionStore.drop(sessionId);
+  logChatDebug("image.session.delete", {
+    sessionId,
+    snapshots: ids.length,
+    images,
+  });
 }
 
 export async function bumpLocalSessionCounts(
