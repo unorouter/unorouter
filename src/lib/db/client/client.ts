@@ -193,10 +193,13 @@ const HANDOVER_TIMEOUT = 15_000;
 // `want` is lost when the owner has not finished its own open yet.
 const WANT_RETRY_MS = 2_000;
 const MIN_HOLD_MS = 2_000;
-// A hidden tab gives the pool up on its own once idle this long. Android Chrome
-// stops running a background tab's JS, so a `want` sent to it is never
-// answered and the visible tab times out on a lock nobody is using.
-const HIDDEN_PARK_MS = 5_000;
+// A hidden tab gives the pool up as soon as nothing is in flight, polling this
+// often while something is. Android Chrome stops running a background tab's
+// JS, so a `want` sent to it is never answered; iOS Safari freezes the tab
+// within seconds of hiding, and a frozen owner keeps its OPFS access handles,
+// which no lock steal can take back: the next tab opens with no database until
+// every tab is closed.
+const HIDDEN_PARK_POLL_MS = 250;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   const t0 = Date.now();
@@ -430,7 +433,6 @@ async function openClient(): Promise<LocalClient> {
       ? Promise.resolve()
       : new Promise<void>((resolve) => idleWaiters.push(resolve));
 
-  let lastRunAt = Date.now();
   let hiddenTimer: ReturnType<typeof setTimeout> | null = null;
   const onVisibility = () => {
     if (hiddenTimer) clearTimeout(hiddenTimer);
@@ -439,20 +441,19 @@ async function openClient(): Promise<LocalClient> {
     const tick = () => {
       hiddenTimer = null;
       if (!document.hidden || parked) return;
-      const idle = Date.now() - lastRunAt;
-      // A hidden tab still streaming a reply keeps writing; leave it alone.
-      if (idle < HIDDEN_PARK_MS) {
-        hiddenTimer = setTimeout(tick, HIDDEN_PARK_MS - idle);
+      if (inFlight > 0) {
+        hiddenTimer = setTimeout(tick, HIDDEN_PARK_POLL_MS);
         return;
       }
-      park();
+      park(true);
     };
-    hiddenTimer = setTimeout(tick, HIDDEN_PARK_MS);
+    tick();
   };
   document.addEventListener("visibilitychange", onVisibility);
-  const parkNow = async () => {
+  document.addEventListener("freeze", onVisibility);
+  const parkNow = async (hidden: boolean) => {
     const heldFor = Date.now() - lastAcquiredAt;
-    if (heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
+    if (!hidden && heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
     await waitForIdle();
     await pauseSql(sql);
     parked = true;
@@ -486,15 +487,16 @@ async function openClient(): Promise<LocalClient> {
     await transition;
   };
 
-  const park = () => {
+  const park = (hidden = false) => {
     if (parked || transition) return;
-    transition = parkNow().finally(() => (transition = null));
+    transition = parkNow(hidden).finally(() => (transition = null));
   };
-  const unsubscribeWant = subscribeWant(dbPath, park);
+  const unsubscribeWant = subscribeWant(dbPath, () => park());
 
   const detach = () => {
     unsubscribeWant();
     document.removeEventListener("visibilitychange", onVisibility);
+    document.removeEventListener("freeze", onVisibility);
     if (hiddenTimer) clearTimeout(hiddenTimer);
   };
 
@@ -502,7 +504,6 @@ async function openClient(): Promise<LocalClient> {
     fn: (s: SQLocalDrizzle) => Promise<T>,
   ): Promise<T> => {
     await ensureOwned();
-    lastRunAt = Date.now();
     inFlight++;
     try {
       return await fn(sql);
