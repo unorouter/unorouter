@@ -47,8 +47,21 @@ function applyCacheControl(body: Record<string, unknown>) {
   }
 }
 
-export function makeBodyMutationFetch(opts: BodyMutations): typeof fetch {
+// Firefox honors a user-agent set on fetch; the SDK's "ai-sdk/..." value then
+// replaces the browser's and trips the edge's browser-only rule on /api/ai/.
+function withoutUserAgent(
+  init: RequestInit | undefined,
+): RequestInit | undefined {
+  if (typeof window === "undefined" || !init?.headers) return init;
+  const headers = new Headers(init.headers);
+  headers.delete("user-agent");
+  return { ...init, headers };
+}
+
+export function makeUpstreamFetch(opts?: BodyMutations): typeof fetch {
   return async (input, init) => {
+    init = withoutUserAgent(init);
+    if (!opts || !hasBodyMutation(opts)) return fetch(input, init);
     try {
       if (init?.body && typeof init.body === "string") {
         const body = rec(JSON.parse(init.body));

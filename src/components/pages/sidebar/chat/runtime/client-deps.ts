@@ -8,19 +8,18 @@ import { normalizeBaseUrl } from "@/lib/ai/chat/custom-provider-id";
 import { inlinePdfText } from "@/lib/ai/chat/pdf-extract";
 import { cosineSimilarity } from "@/lib/utils/base";
 import {
-  makeBodyMutationFetch,
+  makeUpstreamFetch,
   type BodyMutations,
 } from "@/lib/ai/chat/provider-mutations";
 import { makeClientTriggerOps } from "./trigger-ops-client";
 import type { CustomProviderRow } from "@/lib/db/schema/rows";
 
 function makeProvider(provider: CustomProviderRow, mutations?: BodyMutations) {
-  const hasMutation = !!mutations;
   return createOpenAICompatible({
     name: "custom",
     baseURL: normalizeBaseUrl(provider.baseUrl),
     apiKey: provider.apiKey,
-    ...(hasMutation ? { fetch: makeBodyMutationFetch(mutations) } : {}),
+    fetch: makeUpstreamFetch(mutations),
   });
 }
 
