@@ -37,7 +37,7 @@ export function buildMcpServerCard(t: Translator) {
         registryType: "npm",
         identifier: "unorouter-mcp",
         transport: { type: "stdio" },
-        repository: "https://github.com/0-don/unorouter-mcp",
+        repository: "https://github.com/unorouter/unorouter-mcp",
       },
     ],
     capabilities: { tools: {} },
