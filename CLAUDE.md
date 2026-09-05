@@ -123,7 +123,7 @@ If an upstream sync changes the login response shape, update `AuthResponseData` 
 
 Text chat is ISOMORPHIC and assembles IN THE BROWSER for both paths. Keep `src/lib/ai/chat/` free of server-only imports.
 
-- DEFAULT (catalog model): the browser assembles, then `streamText` points at a same-origin proxy that injects the upstream token server-side. The token NEVER reaches the browser. `forward.service.ts` is JUST A PIPE: no assembly, no streamText, no finish-meta, no body mutation. Body mutations were already applied client-side by `makeBodyMutationFetch`, so re-applying them here would double them.
+- DEFAULT (catalog model): the browser assembles, then `streamText` points at a same-origin proxy that injects the upstream token server-side. The token NEVER reaches the browser. `forward.service.ts` is JUST A PIPE: no assembly, no streamText, no finish-meta, no body mutation. Body mutations were already applied client-side by `makeUpstreamFetch`, so re-applying them here would double them. That wrapper also strips the SDK's `user-agent` in the browser: Firefox honors it, and the edge blocks `/api/ai/` for non-browser agents.
 - CUSTOM (BYOK, `custom:::<providerId>:::<modelKey>`): browser streams DIRECTLY to the user's endpoint with the user's key, server never involved, UNLESS the provider row sets `proxy`, which routes through `custom-forward` for endpoints that serve no CORS headers.
 
 `resolve-model-target.ts` is the SINGLE model-id -> target resolver. Every caller that reaches a model goes through it (live transport, dry-run, illustrator), so a custom-provider model uses the user's endpoint everywhere. This branch used to be copy-pasted across three files and the illustrator's copy was custom-blind.
