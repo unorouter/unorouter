@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    # A pin-only commit (build-local.sh or this workflow) must not rebuild the
+    # same tree and roll the pods a second time.
+    paths-ignore:
+      - k8s/deployment.yaml
 
 concurrency:
   group: ghcr-${{ github.ref }}
