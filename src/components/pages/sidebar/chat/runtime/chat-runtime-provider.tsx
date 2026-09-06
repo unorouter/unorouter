@@ -55,6 +55,9 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
+// One notice per model and parameter set per page load; the gateway repeats the header on every reply.
+const announcedDroppedParams = new Set<string>();
+
 const FIRST_CHAT_KEY = "uno_first_chat_done";
 function markFirstChatDone(): boolean {
   try {
@@ -234,9 +237,13 @@ function ChatRuntimeHook() {
         analytics.chat.memoryFolded();
       }
       if (message.metadata?.droppedParams) {
-        toast.warning(
-          t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
-        );
+        const key = `${chatStore.get(chatModelAtom) ?? ""}|${message.metadata.droppedParams}`;
+        if (!announcedDroppedParams.has(key)) {
+          announcedDroppedParams.add(key);
+          toast.info(
+            t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
+          );
+        }
       }
       if (message.metadata?.truncatedBeforeText) {
         toast.warning(t("CHAT.TRUNCATED_BEFORE_TEXT"));

@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "אין",
     "CARD_CHARACTERS": "דמויות",
     "CARD_LOREBOOKS": "Lorebooks",
-    "DROPPED_PARAMS": "{params} לא נתמך על-ידי המודל הזה ולכן הוסר.",
+    "DROPPED_PARAMS": "מודל זה מתעלם מ-{params}.",
     "LOREBOOKS_IMPORT": "ייבוא",
     "LOREBOOKS_IMPORT_LINK": "ייבוא מקישור",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "הדביקו קישור לספר לור או לדמות שכוללת אחד",

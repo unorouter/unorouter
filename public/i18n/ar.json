@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "لا شيء",
     "CARD_CHARACTERS": "الشخصيات",
     "CARD_LOREBOOKS": "كتب التاريخ",
-    "DROPPED_PARAMS": "{params} غير مدعومة من هذا النموذج وتمّ تجاهلها.",
+    "DROPPED_PARAMS": "هذا النموذج يتجاهل {params}.",
     "LOREBOOKS_IMPORT": "استيراد",
     "LOREBOOKS_IMPORT_LINK": "الاستيراد من رابط",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "الصق رابط كتاب مرجعي أو شخصية تتضمن واحدًا",

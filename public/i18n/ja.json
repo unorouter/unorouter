@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "なし",
     "CARD_CHARACTERS": "キャラクター",
     "CARD_LOREBOOKS": "ロアブック",
-    "DROPPED_PARAMS": "{params} はこのモデルで未対応のため無視されました。",
+    "DROPPED_PARAMS": "このモデルは {params} を無視します。",
     "LOREBOOKS_IMPORT": "インポート",
     "LOREBOOKS_IMPORT_LINK": "リンクからインポート",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "ロアブックのリンク、またはロアブックを同梱するキャラクターのリンクを貼り付け",
