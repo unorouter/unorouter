@@ -2,6 +2,8 @@ import { ParamError } from "@/lib/types";
 
 export const serverEnv = {
   sessionSecret: process.env.SESSION_SECRET ?? "",
+  // Cookies sealed before a rotation keep verifying until they expire (30d).
+  sessionSecretPrevious: process.env.SESSION_SECRET_PREVIOUS ?? "",
   guestApiKey: process.env.GUEST_API_KEY,
   runwareApiKey: process.env.RUNWARE_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,

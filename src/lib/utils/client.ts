@@ -236,6 +236,12 @@ function redirectToLoginPreservingLocation() {
   window.location.assign(loginHref());
 }
 
+// The i18n usePathname() returns the route template ("/chat/[convId]"), so a
+// redirect target must come from window.location, never from that hook.
+export function currentPathForRedirect(): string {
+  return stripLocale(window.location.pathname + window.location.search);
+}
+
 function stripLocale(path: string): string {
   const stripped = path.replace(/^\/[a-z]{2}(-[A-Z]{2})?(?=\/|$)/, "");
   return stripped.startsWith("/") ? stripped : `/${stripped}`;
