@@ -17,10 +17,11 @@ export async function verifyUserId(
   const secrets = [serverEnv.sessionSecret, serverEnv.sessionSecretPrevious];
   for (const password of secrets) {
     if (password.length < 32) continue;
+    // A wrong password does not throw: iron-session hands back {} instead.
     try {
       const data = await unsealData<{ uid?: number }>(sealed, { password });
       const n = Number(data?.uid);
-      return Number.isFinite(n) && n > 0 ? n : null;
+      if (Number.isFinite(n) && n > 0) return n;
     } catch {}
   }
   return null;
