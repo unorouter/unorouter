@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { currentPathForRedirect } from "@/lib/utils/client";
 import { setCookie } from "cookies-next";
 
 // Client-side counterpart to redirectToLogin() in lib/utils/server: parks where
@@ -10,10 +11,11 @@ import { setCookie } from "cookies-next";
 // to (a static marketing page sending its own route, say).
 export function useLoginRedirect() {
   const router = useRouter();
-  const pathname = usePathname();
 
   return (target?: string) => {
-    setCookie(AUTH_REDIRECT_COOKIE, target ?? pathname, { maxAge: 300 });
+    setCookie(AUTH_REDIRECT_COOKIE, target ?? currentPathForRedirect(), {
+      maxAge: 300,
+    });
     router.push("/login");
   };
 }
