@@ -115,7 +115,7 @@
       "STEP1_DESC": "Bir dakikadan kısa sürede hesap oluşturun. Başlamak için kredi kartı gerekmez.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Yükle veya abone ol",
-      "STEP2_DESC": "Kartsız, ücretsiz başla. Yalnızca ücretli modelleri isteyince yükle ya da plan seç. Krediler asla sona ermez.",
+      "STEP2_DESC": "Kartsız, ücretsiz başla. Yalnızca ücretli modelleri isteyince yükle ya da plan seç. Kullandıkça öde kredileri asla sona ermez.",
       "TOPUP_FREE_LABEL": "Ücretsiz",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "ay",
       "VALUE_HERO": "aylık API kredisi",
       "VALUE_EXPLAIN": "{paid}/ay öde, {credit} API kredisi al. Her modelde kullan.",
-      "DELIVERED": "Her {period} {amount} yeniler."
+      "DELIVERED": "Her {period} {amount} yeniler.",
+      "RESET_NOTE": "Kullanılmayan kredi bir sonraki {period} dönemine devredilmez."
     },
     "META": {
       "TITLE": "Fiyatlandırma - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Buradan başla",
       "LABEL": "Kullandıkça öde",
       "DESC": "Kredi ekle, herhangi bir modeli kullan.",
-      "FOOTNOTE": "Krediler asla sona ermez.",
+      "FOOTNOTE": "Kullandıkça öde kredileri asla sona ermez.",
       "PAYPAL_FEE": "PayPal ödeme sırasında {fee} işlem ücreti ekler."
     },
     "BRIDGE": {

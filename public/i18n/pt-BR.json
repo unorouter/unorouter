@@ -115,7 +115,7 @@
       "STEP1_DESC": "Crie uma conta em menos de um minuto. Sem cartão de crédito para começar.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Recarregue ou assine",
-      "STEP2_DESC": "Comece grátis, sem cartão. Recarregue ou escolha um plano só quando quiser os modelos pagos. Os créditos nunca expiram.",
+      "STEP2_DESC": "Comece grátis, sem cartão. Recarregue ou escolha um plano só quando quiser os modelos pagos. O crédito pré-pago nunca expira.",
       "TOPUP_FREE_LABEL": "Grátis",
       "TOPUP_FREE_AMOUNT": "R$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "mês",
       "VALUE_HERO": "crédito de API / mês",
       "VALUE_EXPLAIN": "Pague {paid}/mês, ganhe {credit} em crédito de API. Use em qualquer modelo.",
-      "DELIVERED": "Recarrega {amount} a cada {period}."
+      "DELIVERED": "Recarrega {amount} a cada {period}.",
+      "RESET_NOTE": "O crédito não usado não é transferido para a próxima {period}."
     },
     "META": {
       "TITLE": "Preços - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Comece aqui",
       "LABEL": "Pague conforme o uso",
       "DESC": "Adicione crédito, use qualquer modelo.",
-      "FOOTNOTE": "O crédito nunca expira.",
+      "FOOTNOTE": "O crédito pré-pago nunca expira.",
       "PAYPAL_FEE": "O PayPal adiciona uma taxa de processamento de {fee} no checkout."
     },
     "BRIDGE": {

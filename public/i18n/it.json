@@ -115,7 +115,7 @@
       "STEP1_DESC": "Crea un account in meno di un minuto. Nessuna carta di credito per iniziare.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Ricarica o abbonati",
-      "STEP2_DESC": "Inizia gratis, senza carta. Ricarica o scegli un piano solo quando vuoi i modelli a pagamento. I crediti non scadono mai.",
+      "STEP2_DESC": "Inizia gratis, senza carta. Ricarica o scegli un piano solo quando vuoi i modelli a pagamento. Il credito a consumo non scade mai.",
       "TOPUP_FREE_LABEL": "Gratis",
       "TOPUP_FREE_AMOUNT": "0 $",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "mese",
       "VALUE_HERO": "credito API / mese",
       "VALUE_EXPLAIN": "Paghi {paid}/mese, ottieni {credit} di credito API. Usalo su qualsiasi modello.",
-      "DELIVERED": "Ricarica {amount} ogni {period}."
+      "DELIVERED": "Ricarica {amount} ogni {period}.",
+      "RESET_NOTE": "Il credito non utilizzato non viene riportato alla {period} successiva."
     },
     "META": {
       "TITLE": "Prezzi - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Inizia qui",
       "LABEL": "Pagamento a consumo",
       "DESC": "Aggiungi credito, usa qualsiasi modello.",
-      "FOOTNOTE": "Il credito non scade mai.",
+      "FOOTNOTE": "Il credito a consumo non scade mai.",
       "PAYPAL_FEE": "PayPal aggiunge una commissione di {fee} al momento del pagamento."
     },
     "BRIDGE": {
