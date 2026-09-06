@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Zurücksetzung in",
       "RESETS_AT": "Zurücksetzung am",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Krypto-Abo erstellt. Prüfe deine E-Mails für die erste Rechnung.",
       "CURRENT_PLAN": "Aktueller Tarif",
       "NO_ACTIVE_PLAN": "Kein aktives Abonnement",
       "RENEWS_ON": "Verlängert sich am {date}"

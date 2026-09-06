@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Đặt lại sau",
       "RESETS_AT": "Đặt lại lúc",
       "PLAN_FALLBACK": "Gói #{planId}",
-      "CRYPTO_EMAIL_SENT": "Đã tạo gói đăng ký crypto. Kiểm tra email để xem hoá đơn đầu tiên.",
       "CURRENT_PLAN": "Gói hiện tại",
       "NO_ACTIVE_PLAN": "Chưa có gói đăng ký",
       "RENEWS_ON": "Gia hạn vào {date}"

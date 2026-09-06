@@ -3230,7 +3230,6 @@
       "RESETS_IN": "تُعاد بعد",
       "RESETS_AT": "تُعاد في",
       "PLAN_FALLBACK": "خطّة #{planId}",
-      "CRYPTO_EMAIL_SENT": "تمّ إنشاء اشتراك العملات المشفّرة. تحقّق من بريدك للفاتورة الأولى.",
       "CURRENT_PLAN": "الباقة الحالية",
       "NO_ACTIVE_PLAN": "لا يوجد اشتراك نشط",
       "RENEWS_ON": "يتجدد في {date}"

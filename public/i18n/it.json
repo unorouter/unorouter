@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Si reimposta in",
       "RESETS_AT": "Si reimposta alle",
       "PLAN_FALLBACK": "Piano #{planId}",
-      "CRYPTO_EMAIL_SENT": "Abbonamento crypto creato. Controlla la tua email per la prima fattura.",
       "CURRENT_PLAN": "Piano attuale",
       "NO_ACTIVE_PLAN": "Nessun abbonamento attivo",
       "RENEWS_ON": "Si rinnova il {date}"

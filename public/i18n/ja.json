@@ -3230,7 +3230,6 @@
       "RESETS_IN": "リセットまで",
       "RESETS_AT": "リセット日時",
       "PLAN_FALLBACK": "プラン #{planId}",
-      "CRYPTO_EMAIL_SENT": "暗号通貨サブスクリプションを作成しました。最初の請求書はメールをご確認ください。",
       "CURRENT_PLAN": "現在のプラン",
       "NO_ACTIVE_PLAN": "有効なサブスクリプションはありません",
       "RENEWS_ON": "{date}に更新"

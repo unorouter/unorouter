@@ -3230,7 +3230,6 @@
       "RESETS_IN": "다음 초기화까지",
       "RESETS_AT": "초기화 시점",
       "PLAN_FALLBACK": "플랜 #{planId}",
-      "CRYPTO_EMAIL_SENT": "암호화폐 구독이 생성되었습니다. 첫 청구서는 이메일을 확인하세요.",
       "CURRENT_PLAN": "현재 요금제",
       "NO_ACTIVE_PLAN": "활성 구독 없음",
       "RENEWS_ON": "{date}에 갱신"
