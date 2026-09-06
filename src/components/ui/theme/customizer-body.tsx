@@ -177,8 +177,13 @@ export function ThemeCustomizerBody() {
     });
   };
 
+  // The wallpaper lives in its own storage atom, not in the theme row, so the
+  // file carries it as a data URL or an import lands without it.
   const exportTheme = () => {
-    downloadJson(theme, `${env.appName.toLowerCase()}-theme.json`);
+    downloadJson(
+      { ...theme, ...(backgroundImage ? { backgroundImage } : {}) },
+      `${env.appName.toLowerCase()}-theme.json`,
+    );
   };
 
   const importTheme = async (file: File) => {
@@ -186,7 +191,11 @@ export function ThemeCustomizerBody() {
       const text = await file.text();
       const parsed = JSON.parse(text);
       if (typeof parsed !== "object" || parsed === null) throw new Error();
-      setTheme(parsed);
+      const { backgroundImage: image, ...rest } = parsed;
+      if (typeof image === "string" && image.startsWith("data:image/")) {
+        setBackgroundImage(image);
+      }
+      setTheme(rest);
       toast.success(t("THEME.IMPORT_DONE"));
     } catch {
       toast.error(t("THEME.IMPORT_FAILED"));
