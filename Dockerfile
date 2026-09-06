@@ -43,6 +43,11 @@ COPY --from=builder --chown=appuser:appgroup /app/.next/standalone ./
 COPY --from=builder --chown=appuser:appgroup /app/drizzle ./drizzle
 COPY --from=builder --chown=appuser:appgroup /app/.next/static ./.next/static
 COPY --from=builder --chown=appuser:appgroup /app/public ./public
+# The build needs the full .env (Next.js inlines NEXT_PUBLIC_* and the SSG prerender
+# calls the gateway), and standalone output copies that file along. The pod gets every
+# secret from the unorouter-env Secret at runtime, so the image keeps only the public
+# half: a pulled image must never hand out credentials.
+COPY --chown=appuser:appgroup .env.public ./.env
 
 # sharp is a native module, so standalone tracing leaves it out of the bundle.
 # Both stages are bun-alpine, so the builder's binary is ABI-compatible and can
