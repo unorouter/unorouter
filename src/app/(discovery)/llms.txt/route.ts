@@ -35,7 +35,7 @@ export async function GET() {
     "- Endpoints: /v1/chat/completions, /v1/responses, /v1/embeddings, Anthropic native /v1/messages, Gemini native /v1beta. Base URL https://api.unorouter.com/v1.",
   );
   lines.push(
-    "- Paid models bill pay as you go per token, credits never expire, top up from $1.",
+    "- Paid models bill pay as you go per token, pay as you go credit never expires, top up from $1. Subscription credit resets weekly and unused credit does not carry over.",
   );
   lines.push(
     "- The entire stack is open source under OSI licenses: https://github.com/unorouter",

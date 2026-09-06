@@ -212,7 +212,7 @@
       "STEP1_DESC": "一分鐘內完成註冊，開始時無需信用卡。",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "儲值或訂閱",
-      "STEP2_DESC": "免費開始，無需信用卡。只有想用付費模型時再儲值或選方案。額度永不過期。",
+      "STEP2_DESC": "免費開始，無需信用卡。只有想用付費模型時再儲值或選方案。按量付費額度永不過期。",
       "TOPUP_FREE_LABEL": "免費",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "月",
       "VALUE_HERO": "API 額度 / 月",
       "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
-      "DELIVERED": "每{period}補充 {amount}。"
+      "DELIVERED": "每{period}補充 {amount}。",
+      "RESET_NOTE": "未用完的額度不會結轉到下一{period}。"
     },
     "META": {
       "TITLE": "價格：{appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "從這裡開始",
       "LABEL": "按量付費",
       "DESC": "儲值額度，暢用任意模型。",
-      "FOOTNOTE": "額度永不過期。",
+      "FOOTNOTE": "按量付費額度永不過期。",
       "PAYPAL_FEE": "PayPal 結帳時會加收 {fee} 手續費。"
     },
     "BRIDGE": {

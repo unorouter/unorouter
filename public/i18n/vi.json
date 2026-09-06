@@ -212,7 +212,7 @@
       "STEP1_DESC": "Tạo tài khoản trong chưa tới một phút. Không cần thẻ để bắt đầu.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Nạp hoặc đăng ký gói",
-      "STEP2_DESC": "Bắt đầu miễn phí, không cần thẻ. Nạp thêm hoặc chọn gói chỉ khi bạn muốn các mô hình trả phí. Tín dụng không bao giờ hết hạn.",
+      "STEP2_DESC": "Bắt đầu miễn phí, không cần thẻ. Nạp thêm hoặc chọn gói chỉ khi bạn muốn các mô hình trả phí. Tín dụng trả theo mức dùng không bao giờ hết hạn.",
       "TOPUP_FREE_LABEL": "Miễn phí",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "tháng",
       "VALUE_HERO": "tín dụng API / tháng",
       "VALUE_EXPLAIN": "Trả {paid}/tháng, nhận {credit} tín dụng API. Dùng trên mọi mô hình.",
-      "DELIVERED": "Nạp lại {amount} mỗi {period}."
+      "DELIVERED": "Nạp lại {amount} mỗi {period}.",
+      "RESET_NOTE": "Tín dụng chưa dùng không được chuyển sang {period} tiếp theo."
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Bắt đầu ở đây",
       "LABEL": "Trả theo dùng",
       "DESC": "Thêm tín dụng, dùng mọi mô hình.",
-      "FOOTNOTE": "Tín dụng không bao giờ hết hạn.",
+      "FOOTNOTE": "Tín dụng trả theo mức dùng không bao giờ hết hạn.",
       "PAYPAL_FEE": "PayPal tính thêm phí xử lý {fee} khi thanh toán."
     },
     "BRIDGE": {

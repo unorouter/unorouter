@@ -115,7 +115,7 @@
       "STEP1_DESC": "Utwórz konto w mniej niż minutę. Karta kredytowa nie jest potrzebna do startu.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Doładuj lub subskrybuj",
-      "STEP2_DESC": "Zacznij za darmo, bez karty. Doładuj lub wybierz plan tylko gdy chcesz płatne modele. Kredyty nigdy nie wygasają.",
+      "STEP2_DESC": "Zacznij za darmo, bez karty. Doładuj lub wybierz plan tylko gdy chcesz płatne modele. Kredyt pay as you go nigdy nie wygasa.",
       "TOPUP_FREE_LABEL": "Darmowy",
       "TOPUP_FREE_AMOUNT": "0 $",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "miesiąc",
       "VALUE_HERO": "kredyt API / miesiąc",
       "VALUE_EXPLAIN": "Zapłać {paid}/mies., otrzymaj {credit} kredytu API. Użyj na dowolnym modelu.",
-      "DELIVERED": "Doładowuje {amount} co {period}."
+      "DELIVERED": "Doładowuje {amount} co {period}.",
+      "RESET_NOTE": "Niewykorzystany kredyt nie przechodzi na kolejny {period}."
     },
     "META": {
       "TITLE": "Cennik - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Zacznij tutaj",
       "LABEL": "Płacisz za użycie",
       "DESC": "Dodaj kredyt, używaj dowolnego modelu.",
-      "FOOTNOTE": "Kredyt nigdy nie wygasa.",
+      "FOOTNOTE": "Kredyt pay as you go nigdy nie wygasa.",
       "PAYPAL_FEE": "PayPal dolicza {fee} opłaty za obsługę płatności przy kasie."
     },
     "BRIDGE": {

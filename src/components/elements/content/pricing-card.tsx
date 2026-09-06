@@ -16,6 +16,7 @@ type Props = {
   price: number;
   value: number;
   deliveryLabel?: string;
+  resetNote?: string;
   features: PricingFeature[];
   popular?: boolean;
   cta: string;
@@ -75,6 +76,11 @@ export function PricingCard(props: Props) {
       {props.deliveryLabel && (
         <p className="text-muted-foreground mt-1 font-mono text-[10px] tracking-wide">
           {props.deliveryLabel}
+        </p>
+      )}
+      {props.resetNote && (
+        <p className="mt-1 font-mono text-[10px] tracking-wide text-amber-700 dark:text-amber-400">
+          {props.resetNote}
         </p>
       )}
 

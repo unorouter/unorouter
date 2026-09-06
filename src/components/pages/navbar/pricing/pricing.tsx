@@ -179,6 +179,12 @@ export function Pricing() {
     });
   }
 
+  function resetNoteFor(plan: SubscriptionPlanDTO): string | undefined {
+    const periodKey = PERIOD_WORD_KEYS[plan.plan.quota_reset_period];
+    if (plan.quota_per_reset_usd <= 0 || !periodKey) return undefined;
+    return t("PRICING.CARD.RESET_NOTE", { period: t(periodKey) });
+  }
+
   const topUpOptions = buildTopUpOptions();
 
   return (
@@ -311,6 +317,7 @@ export function Pricing() {
                 price={plan.plan.price_amount}
                 value={plan.estimated_total_usd}
                 deliveryLabel={deliveryLabelFor(plan)}
+                resetNote={resetNoteFor(plan)}
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}

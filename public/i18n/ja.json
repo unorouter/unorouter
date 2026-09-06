@@ -212,7 +212,7 @@
       "STEP1_DESC": "1分以内にアカウント作成。クレジットカードは不要です。",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "チャージまたはサブスク",
-      "STEP2_DESC": "カード不要で無料スタート。有料モデルが欲しいときだけチャージかプランを選択。クレジットは失効しません。",
+      "STEP2_DESC": "カード不要で無料スタート。有料モデルが欲しいときだけチャージかプランを選択。従量課金のクレジットは失効しません。",
       "TOPUP_FREE_LABEL": "無料",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "月",
       "VALUE_HERO": "APIクレジット / 月",
       "VALUE_EXPLAIN": "{paid}/月で{credit}分のAPIクレジット。どのモデルでも使えます。",
-      "DELIVERED": "{period}ごとに{amount}を補充。"
+      "DELIVERED": "{period}ごとに{amount}を補充。",
+      "RESET_NOTE": "未使用のクレジットは次の{period}に繰り越されません。"
     },
     "META": {
       "TITLE": "料金 {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "ここから始める",
       "LABEL": "従量課金",
       "DESC": "クレジットを追加して、どのモデルでも利用。",
-      "FOOTNOTE": "クレジットは無期限です。",
+      "FOOTNOTE": "従量課金のクレジットは失効しません。",
       "PAYPAL_FEE": "PayPal では決済時に {fee} の手数料が加算されます。"
     },
     "BRIDGE": {

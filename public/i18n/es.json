@@ -115,7 +115,7 @@
       "STEP1_DESC": "Crea una cuenta en menos de un minuto. No se necesita tarjeta de crédito para empezar.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Recarga o suscríbete",
-      "STEP2_DESC": "Empieza gratis, sin tarjeta. Recarga o elige un plan solo cuando quieras los modelos de pago. Los créditos no caducan.",
+      "STEP2_DESC": "Empieza gratis, sin tarjeta. Recarga o elige un plan solo cuando quieras los modelos de pago. El crédito de pago por uso no caduca.",
       "TOPUP_FREE_LABEL": "Gratis",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "mes",
       "VALUE_HERO": "crédito de API / mes",
       "VALUE_EXPLAIN": "Paga {paid}/mes, obtén {credit} en crédito de API. Úsalo en cualquier modelo.",
-      "DELIVERED": "Recarga {amount} cada {period}."
+      "DELIVERED": "Recarga {amount} cada {period}.",
+      "RESET_NOTE": "El crédito no usado no se traslada a la siguiente {period}."
     },
     "META": {
       "TITLE": "Precios - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Empieza aquí",
       "LABEL": "Pago por uso",
       "DESC": "Agrega crédito, usa cualquier modelo.",
-      "FOOTNOTE": "El crédito nunca caduca.",
+      "FOOTNOTE": "El crédito de pago por uso nunca caduca.",
       "PAYPAL_FEE": "PayPal añade una comisión de procesamiento de {fee} al pagar."
     },
     "BRIDGE": {

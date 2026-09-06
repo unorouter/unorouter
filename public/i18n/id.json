@@ -115,7 +115,7 @@
       "STEP1_DESC": "Buat akun dalam kurang dari satu menit. Tidak perlu kartu kredit untuk memulai.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Isi ulang atau berlangganan",
-      "STEP2_DESC": "Mulai gratis, tanpa kartu. Isi ulang atau pilih paket hanya saat kamu mau model berbayar. Kredit tidak pernah hangus.",
+      "STEP2_DESC": "Mulai gratis, tanpa kartu. Isi ulang atau pilih paket hanya saat kamu mau model berbayar. Kredit bayar sesuai pemakaian tidak pernah hangus.",
       "TOPUP_FREE_LABEL": "Gratis",
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "bulan",
       "VALUE_HERO": "kredit API / bulan",
       "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
-      "DELIVERED": "Mengisi ulang {amount} setiap {period}."
+      "DELIVERED": "Mengisi ulang {amount} setiap {period}.",
+      "RESET_NOTE": "Kredit yang tidak terpakai tidak dibawa ke {period} berikutnya."
     },
     "META": {
       "TITLE": "Harga - {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Mulai di sini",
       "LABEL": "Bayar sesuai pakai",
       "DESC": "Tambah kredit, gunakan model apa pun.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa.",
+      "FOOTNOTE": "Kredit bayar sesuai pemakaian tidak pernah hangus.",
       "PAYPAL_FEE": "PayPal menambahkan biaya pemrosesan {fee} saat pembayaran."
     },
     "BRIDGE": {

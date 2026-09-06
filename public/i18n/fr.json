@@ -212,7 +212,7 @@
       "STEP1_DESC": "Créez un compte en moins d'une minute. Pas de carte bancaire pour démarrer.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Rechargez ou abonnez-vous",
-      "STEP2_DESC": "Commencez gratuitement, sans carte. Rechargez ou choisissez un plan seulement quand vous voulez les modèles payants. Les crédits n'expirent jamais.",
+      "STEP2_DESC": "Commencez gratuitement, sans carte. Rechargez ou choisissez un plan seulement quand vous voulez les modèles payants. Le crédit à l'usage n'expire jamais.",
       "TOPUP_FREE_LABEL": "Gratuit",
       "TOPUP_FREE_AMOUNT": "0 $",
       "STEP3_NUM": "3",
@@ -1345,7 +1345,8 @@
       "PERIOD_MONTH": "mois",
       "VALUE_HERO": "crédit API / mois",
       "VALUE_EXPLAIN": "Payez {paid}/mois, obtenez {credit} de crédit API. Utilisable sur tout modèle.",
-      "DELIVERED": "Recharge {amount} chaque {period}."
+      "DELIVERED": "Recharge {amount} chaque {period}.",
+      "RESET_NOTE": "Le crédit non utilisé n'est pas reporté sur la {period} suivante."
     },
     "META": {
       "TITLE": "Tarifs, {appName}",
@@ -1382,7 +1383,7 @@
       "STEP": "Commencez ici",
       "LABEL": "Paiement à l'usage",
       "DESC": "Ajoutez du crédit, utilisez n'importe quel modèle.",
-      "FOOTNOTE": "Le crédit n'expire jamais.",
+      "FOOTNOTE": "Le crédit à l'usage n'expire jamais.",
       "PAYPAL_FEE": "PayPal ajoute des frais de traitement de {fee} au paiement."
     },
     "BRIDGE": {
