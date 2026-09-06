@@ -1,191 +1,90 @@
-> **Scope:** this file is ONLY things that stop you breaking something: rules, invariants, load-bearing pairs, and traps whose cause is invisible at the call site. It is not a tour of the codebase. Do not add "file X does Y" entries; open file X. When a change makes a rule here wrong, fix the rule in the same commit.
+> **Scope:** ONLY rules, invariants, load-bearing pairs and traps invisible at the call site. Not a tour: open the file. Where the code already comments the trap, one line here. When a change makes a rule wrong, fix it in the same commit.
 
-Next.js 16 AI chat app. React 19 compiler, Tailwind v4, shadcn/ui. Elysia BFF in front of an upstream `new-api` service. Local-first: a per-user SQLocal/OPFS DB in the browser is the SOLE source of truth for chat/RP state. Cross-device transfer is local export/import only.
+Next.js 16 + Elysia BFF over our `new-api` fork. Local-first: one SQLocal/OPFS DB per device in the browser is the SOLE copy of chat/RP state; Turso holds only the model-tester rankings. "Sync" means atom<->local DB. Never add a server-side mirror, a `/sync` route, a server context cache, or a retry that expects the server to hold context.
 
-Chat/RP state has exactly one copy, the browser DB. Turso holds ONLY the model-tester rankings tables. "Sync" in this codebase means atom<->local-DB. Do not add a server-side mirror, a `/sync` route, a server context cache, or a retry that expects the server to hold context.
+## Dev
 
-## Commands
-
-```bash
-bun dev:log          # dev server (logs to /tmp/next.log)
-bun build            # prebuild: search index + bundled migrations. postbuild: openapi refs
-bun lint             # eslint
-bun typecheck        # tsc --noEmit
-bun prettier         # format the repo
-bun openapi          # regenerate openapi.ts from upstream spec (Orval)
-bun db:generate      # drizzle-kit generate (server + client) then bundle migrations
-```
-
-NEVER start, restart, or kill the dev server. Read `/tmp/next.log` for errors.
-
-Local SSR calls `api.unorouter.com` through the public edge without a session, which rule 5 (credential-less `/api/*`) challenges. `EDGE_DEV_TOKEN` in `.env` is sent as `x-edge-dev` and exempts the request; the value lives in `infra/infra/cloudflare/unorouter.com/rules*.sops.yaml`. Symptom when missing or stale: `Just a moment...` 403 in `/tmp/next.log`.
-
-NEVER run `bun run build` or `rm -rf .next` in this repo while dev may be running. They share the single-writer turbopack cache in `.next/cache`; a concurrent build corrupts it ("Unable to write SST file") and deleting `.next` kills the live dev server (ENOENT manifests, MODULE_NOT_FOUND chunks, every route 500s). Verify builds in a detached worktree:
+- NEVER start, restart or kill the dev server (`bun dev:log`, logs in `/tmp/next.log`). Read the log.
+- NEVER `bun run build` or `rm -rf .next` while dev may run: shared turbopack cache, corrupts or kills the live server. Verify builds in a worktree:
 
 ```bash
 git worktree add /tmp/uno-build HEAD && cd /tmp/uno-build && bun install && bun run build
 git worktree remove --force /tmp/uno-build
 ```
 
+- Local SSR hits `api.unorouter.com` without a session; `EDGE_DEV_TOKEN` in `.env` (value in `infra/infra/cloudflare/unorouter.com/rules*.sops.yaml`) exempts it. Symptom when stale: `Just a moment...` 403 in the log.
+- `src/openapi.ts` is Orval output, never edit; `bun openapi`.
+
 ## Rules
 
-- Translation keys UPPER_SNAKE nested: `t("BILLING.CURRENT_BALANCE")`; `msg()` in non-React code.
-- Query keys from `src/lib/react-query/keys.ts`.
-- Named exports for components. `"use client"` at the top of client components. Kebab-case files. Suffixes `*.service.ts`, `route.ts`, `*-hook.ts`, `*-store.ts`, `*-adapter.ts`.
-- Dates via the shared `dayjs` singleton (`src/lib/utils/format/date.ts`). Never raw `Date` or `toLocaleDateString`.
-- Enum-like types are a TypeBox `t.Union([t.Literal(...)])` plus a derived type. No new TS `enum`; the block in `src/lib/types/enums.ts` is grandfathered, do not add to it. Drizzle text columns narrow via `.$type<>()` from those unions.
-- `as`: the global rule applies. Verify by deleting the cast and running `bun typecheck`; if it still passes the cast was dead.
-- Never refactor files directly under `src/components/ui/` for conciseness. That exact path only (shadcn/assistant-ui primitives); touch them only for real bugs or requested features.
-- **No `sql.transaction()` in client SQLocal code.** The transactionMutex deadlocks every later DB call if any statement throws. Use bare exec loops + `ON CONFLICT DO NOTHING` / `INSERT OR IGNORE`.
-- After a mutation writes the local DB, `invalidateQueries`. No network round-trip, so no `setQueryData` patches or optimistic rollback.
-- **ONE local database per device, and no client code selects it by user.** `getLocalDb()` takes no argument. The only client tables still carrying `userId` are the model-tester ones, whose id comes from `useAuthUserId()`/`authUserId()` (the auth query cache), never from a cookie mirror. Do not reintroduce a client-side user-id atom or a per-user OPFS path.
-- **Pass upstream shapes through, and fix the shape upstream when it is wrong.** new-api is ours, so "the gateway does not return that" is a task (add the field, query param or route in new-api), not a reason to remap, filter, sort, count or cache in the BFF (`/vendor` pulled 341 models to render 12 until `?vendor=` existed). `snake_case` from the gateway is fine. Target body for a route in `src/server/**/route.ts`: `async () => getSomething()`. The BFF keeps auth, cookies, composing SEVERAL upstream calls, and unorouter-only view state (which vendors the homepage features, capability knobs the image UI renders). Corollary: `handleElysia` unwraps any `{success, data, ...}` body to `data` and DROPS the siblings, so a route over our own DTOs must not use that envelope; name the field for what it holds (`models`, not `data`).
+- Translation keys UPPER_SNAKE nested, `msg()` outside React. `de.d.json.ts` is generated, not a locale.
+- Dates via the `dayjs` singleton (`src/lib/utils/format/date.ts`), never raw `Date`.
+- Enum-likes are TypeBox `t.Union([t.Literal()])` + derived type. No new TS `enum`; `src/lib/types/enums.ts` is grandfathered.
+- `as`: delete the cast and run `bun typecheck`; still green means it was dead.
+- Never refactor `src/components/ui/` for conciseness (shadcn/assistant-ui primitives).
+- Local DB mutation, then `invalidateQueries`. No `setQueryData` patches, no optimistic rollback. React Query defaults `staleTime: Infinity`, no focus refetch, so nothing invalidates itself.
+- ONE local database per device: `getLocalDb()` takes no argument. Only the model-tester tables carry `userId`, from `useAuthUserId()`/`authUserId()`. No client user-id atom, no per-user OPFS path.
+- Pass upstream shapes through; when the shape is wrong, fix it in new-api (ours), never remap, filter, sort, count or cache in the BFF. Target route body: `async () => getSomething()`. BFF keeps auth, cookies, composing several upstream calls and unorouter-only view state. `handleElysia` unwraps `{success, data}` and DROPS siblings, so our own DTOs never use that envelope. Pass-through routes `return unwrap(res)`; local-logic routes (`ai/chat`, `ops/health`) `return { success, data }`; never mix in one route. No try/catch in handlers.
+- Dependency direction one way: `route.ts` -> `*.service.ts` -> data. `src/lib/ai/chat/` is PURE of secrets and data sources; everything injected through `AssemblerDeps` (`pipeline/deps.ts`). `providers/` and `agents/` are leaf modules.
+- Any remote fetch goes through `src/lib/config/safe-fetch.ts` (SSRF policy). Analytics events only via `src/lib/analytics.ts`; posthog-js is never statically imported.
+- nuqs owns URL filter state; never `useSearchParams` + `router.replace`. `/models` bridges nuqs to jotai at the store level (cookie hydration lands after first-commit subscribers).
+- jotai: `chatStore.set(atom, fn)` runs fn as an updater. `set(atom, () => fn)`.
 
-## Architecture
+## Rendering and caching
 
-Dependency direction, one-way, no back-edges: `route.ts` (validate + delegate) -> `*.service.ts` (domain logic) -> db/data layer. Routes never hold domain logic; services never import routes.
-
-The isomorphic chat engine (`src/lib/ai/chat/`) is PURE of server-secret and data-source access. Anything touching a token, Tavily, embeddings or pricing is injected through the `AssemblerDeps` seam (`pipeline/deps.ts`), which is what lets the same code run in the browser for both text paths and be reused server-side for title/media. `src/lib/ai/providers/` and `agents/` are leaf modules: types + primitives, never routes or React. Keep it that way.
-
-Server routes are 5 domains under `src/server/`: `ai/`, `auth/`, `billing/`, `models/`, `ops/`. BFF entrypoint `src/app/api/[[...route]]/route.ts` mounts openapi, then the 5 domains. `src/openapi.ts` is Orval-generated, ~17k LOC, NEVER edit; regenerate with `bun openapi`.
-
-`src/server/env.ts` fails fast at module load when `SYSTEM_ACCESS_TOKEN` or `SESSION_SECRET` is missing, or `SESSION_SECRET` is under 32 chars.
-
-**Route return conventions**, pick by domain and never mix within a route: pass-throughs (`auth`, most `billing`, `models`, `ops/logs`) `return unwrap(res)`; local-logic routes (`ai/chat`, `ops/health`) `return { success: true, data }` so `handleElysia()` can distinguish success from typed failure.
-
-**Validation lives in two TypeBox folders by route type:** `src/lib/validation/` for the `ai/chat` vertical, badge, media, settings and RP forms; `src/lib/api/typebox/` for BFF pass-throughs mirroring upstream.
-
-Elysia routes validate with TypeBox, derive upstream headers with `.derive(deriveUpstream)`, then call the Orval client or a `*.service.ts`. No try/catch in handlers. Hooks call Eden Treaty, unwrap with `handleElysia()`, and use `handleError(e, t)` in `onError` for i18n toasts.
-
-### Cross-origin and caching
-
-NO cross-origin isolation anywhere. The browser DB uses opfs-sahpool, which needs no COOP/COEP. Do not reintroduce COEP: it forced full document reloads at route-group boundaries and broke third-party embeds. The badge route sets CORP `cross-origin` on its OWN responses so third parties can embed badges.
-
-Caching is DATA-ONLY. `cacheComponents` is OFF and `use cache`/`cacheLife` are gone. Component caching cost a DOUBLE RENDER per request (Next prerenders, hits request data, discards, renders again), pure waste when nearly every route reads cookies. Do not reintroduce either to "speed things up"; it measurably did the opposite.
-
-Two distinct mechanisms, do not conflate: (a) React `cache()` = per-REQUEST dedup, not a TTL (`getCatalog`); (b) module state + timestamp = a real TTL, and there are only two (benchmarks permaslug 30d, runware catalog 30min). Anything feeding a module-level cache must fetch with pinned admin auth: `customFetch` auto-attaches the triggering user's cookies, so a URL-only key serves one user's response to everyone.
-
-### Rendering
-
-Every route is dynamic. Nothing prerenders. The one surviving `generateStaticParams` is `sw-worker/[path]/route.ts`, which genuinely emits static assets.
-
-ZERO `<Suspense>` in `src/`, deliberately: the boundaries that existed were prerender ceremony, painting a static shell around a request-bound hole on a page that is rendered per request anyway. Consequence before adding one back: a suspending client hook (`useSearchParams`, `useQueryState`) or a `next/dynamic` chunk now suspends to the ROOT, so a slow chunk blanks the page. If that appears on a real connection, add ONE targeted boundary at the component, never restore layout-level gates.
-
-The `(sidebar)` layout IS the auth gate: it awaits the cookie-bound self lookup and `redirectToLogin()`s on empty, so it must stay a plain async layout. A Suspense wrapper would commit a 200 before the redirect could fire.
-
-Next 16 never fires `[locale]/not-found.tsx` for `notFound()` bubbling out of child segments. Every route group whose pages call `notFound()` needs its OWN `not-found.tsx`.
+- No COOP/COEP anywhere (opfs-sahpool needs none; COEP forced full reloads and broke embeds). Badge route sets CORP on its own responses.
+- `cacheComponents` OFF, no `use cache`: it double-rendered every cookie-reading route. React `cache()` is per-request dedup; the only TTL caches are module-state (benchmarks permaslug 30d, runware catalog 30min). Anything feeding a module cache must NOT fetch with `customFetch` defaults: it attaches the caller's cookies, so a URL key serves one user's data to all.
+- ZERO `<Suspense>` in `src/`. A suspending hook or `next/dynamic` chunk suspends to the ROOT; if that bites, one targeted boundary at the component, never a layout gate.
+- `(sidebar)` layout IS the auth gate (awaits self lookup, `redirectToLogin()`); it stays a plain async layout, a Suspense wrapper commits 200 before the redirect.
+- Next 16 does not fire `[locale]/not-found.tsx` for child `notFound()`; each route group needs its own.
 
 ## Client DB (SQLocal / opfs-sahpool)
 
-One pool, one file `${appName}.sqlite` (`singleDbPath()`). Pre-adoption `${appName}-${userId}.sqlite3` pools stay on disk as the rollback and are still readable by salvage. Four subsystems, each guarding a real data-loss mode. Read the code before changing any of them.
+Four guards in `src/lib/db/client/`, each commented at the site with its data-loss mode. Read before touching: orphaned-pool guard (`assertNotSilentlyEmptied`, non-recoverable ON PURPOSE, bytes stay for `sahpool/salvage.ts`), never-blind-wipe retries in `openMigratedSql`, multi-tab handover (`want` re-sent on an interval; hidden tab parks immediately because frozen owners never answer), Safari legacy copy (legacy file removed even when the copy fails, else it re-imports over newer data).
 
-- **Orphaned-pool guard** (`assertNotSilentlyEmptied`): opfs-sahpool verifies a digest in each pool file's 4096-byte header on install and, on failure, SILENTLY drops the logical name and frees the slot, so the next open creates an empty DB under the same name and the app looks WIPED. A torn header is what an abrupt iOS Safari tab kill produces; one user lost a long RP this way. So an empty DB whose pool still holds a strictly larger sqlite file throws non-recoverable `OpfsSAHPool orphan`, deliberately excluded from `isRecoverable` (else the retry loop reopens the same empty replacement and reports success). The user gets DB-unavailable with bytes intact, recoverable via `sahpool/salvage.ts`.
-- **Never blind-wipe** (`openMigratedSql`): recoverable open errors retry with capped backoff leaving files untouched; non-recoverable rethrow. The per-statement `run` wrapper reopens and replays once on a recoverable mid-session failure.
-- **Multi-tab handover**: one tab owns a pool at a time (single-writer, so no torn headers), but ownership moves on demand via a BroadcastChannel `want` + waiting Web Lock. `want` MUST be re-sent on an interval, since a one-shot is lost when the owner has not finished its own open. The owner drains in-flight statements, pauses its VFS, then releases. A minimum hold stops per-statement ping-pong. A HIDDEN tab parks itself as soon as nothing is in flight (and again after every re-acquire), because Android Chrome freezes background tabs regardless of Web Locks, and a frozen owner never answers `want`; iOS Safari freezes within seconds of hiding and a frozen owner KEEPS its OPFS access handles, which no lock steal recovers, so the old 5s idle delay left the next tab without a database until every tab was closed. Only a hung owner reaches DB-unavailable (`TAB_LOCK_MARKER`, non-recoverable as the backstop).
-- **Legacy migration**: Safari has no main-thread `FileSystemFileHandle.move()`, so the rollback copy goes through `createWritable` before removing the original. If the copy itself fails the legacy file must STILL be removed: keeping it means the next open re-imports it wholesale and discards everything written since.
+- Migrations: forward-only, NO transaction wrapper, three passes (replay, `reconcileSchema` which aborts rather than drop ROWS, `validateColumns`).
+- `reconcileImport`: invariants are commented inline (live written exactly once, backup kept until verified, `LOCAL_ONLY_TABLES` never copied, `ArrayBuffer` only). `recoverPendingImport` runs BEFORE `openMigratedSql`.
+- Schema: `shared.ts` both DBs, `client.ts` client-only, `rows.ts` row types. Model-tester tables are ONE definition; server rows use `userId = 0` so `(userId, kind, host)` acts as a global key.
+- `messages.branch_vars` isolates sibling swipes: assembly seeds from the ACTIVE TIP, falls back to `conversations.vars`; persist writes this turn's `varsWriteback` else the parent's. Output-mode triggers still write `conversations.vars` directly (known).
+- Settings > Database export runs inside the live pool (`VACUUM INTO` temp slot, drop `tokenizers`, export via `sahpool-export-file`), one materialization; the old copy-to-main-thread shape OOM-killed iPhone tabs. Wipe destroys the SyncAccessHandle first.
+- `clearServiceWorkerCaches` is the safe fix for a stuck user; `clearAllClientStorage` wipes OPFS, the only copy. Never suggest "clear site data".
 
-**Migrations** run forward-only with NO transaction wrapper, in three passes, each a fallback for the last, so a column the live code SELECTs always exists after open instead of dying as a runtime "no such column": forward replay; then `reconcileSchema` (12-step rebuild on DDL drift, but it ABORTS rather than drop ROWS: dropping columns is intended, dropping rows never is); then `validateColumns` (`ALTER ADD` for nullable, `forceRebuildWithDefaults` backfilling a synthesized default for a missing NOT NULL).
+## State and auth
 
-**`reconcileImport`** is not a byte-overwrite, which would adopt a foreign file's drift wholesale. Invariants that must survive any edit: live is written EXACTLY ONCE, after a complete replacement is built; a byte-identical backup stays on disk until the swap verifies; `LOCAL_ONLY_TABLES` are never copied from the dump. `overwriteDatabaseFile` must get an `ArrayBuffer` (structured-cloning a File/Blob across the worker boundary throws DataCloneError). A mid-swap crash is healed by `recoverPendingImport`, which runs in `openClient` BEFORE `openMigratedSql`.
-
-**Schema layout**: `schema/shared.ts` = both DBs, `client.ts` = client-only, `rows.ts` = canonical row types. The model-tester tables are ONE definition serving both: client holds private history with a real `userId`, server holds the public board written with `userId = 0` so the unique `(userId, kind, host)` key acts as a global `(kind, host)`, gated on `verified_at IS NOT NULL`.
-
-**Branch-scoped vars**: `messages.branch_vars` snapshots chat vars per branch. Assembly seeds from the ACTIVE TIP, falling back to `conversations.vars`. On persist a turn's snapshot is this turn's `varsWriteback` else the PARENT's. This is what isolates sibling swipes so a regenerate cannot read another swipe's setvar state. Known partial: output-mode triggers still write `conversations.vars` directly.
-
-Media has no object storage: bytes live inline as base64 in the OPFS `media` table.
-
-## State
-
-Jotai atoms load their cookie AFTER mount (no `getOnInit`), so the first client render matches the server-rendered INITIAL state.
-
-**`chatStoreAtom` is the exception and BOTH HALVES ARE LOAD-BEARING**: `getOnInit: true` PAIRED with `ChatStoreProvider` seeding it server-side. Neither may be removed alone. `getOnInit` without the provider reintroduces the React #418 mismatch on the chat model button. The deferred load without `getOnInit` reopens the window where any write spreads `INITIAL_CHAT_STATE` over the cookie and silently drops every field it did not name (provider-pin loss, `maxTokens` revert). Selector atoms fall back to INITIAL per field, defending against cookie-schema drift.
-
-**`useSettingsSync` MUST NOT write `chatDefaultsAtom`.** That atom is the cookie-persisted STICKY new-chat defaults, written only by the drawer's defaults-mode save; mirroring a sparse conv row into it wiped the user's defaults for every later new chat (the all-samplers-off regression). The provider-group pin is deliberately NOT conversation-synced: it keys by active model, because the old `useGroupSync` lost a conv-load race and persisted a null pin.
-
-jotai footgun: storing a FUNCTION via `chatStore.set(atom, fn)` runs it as an updater. Always `set(atom, () => fn)`.
-
-nuqs owns URL filter state; never hand-roll `useSearchParams` + `router.replace` (static-shell bailout + an RSC round-trip per change). The `/models` page bridges nuqs to the jotai store at the STORE level, because atomWithStorage's cookie hydration lands after the first commit's subscribers register and its notify does not reliably reach them.
-
-React Query defaults are `staleTime: Infinity` + `refetchOnWindowFocus: false`, so caches never auto-invalidate and mutations must invalidate explicitly.
-
-Auth cookies: `access_token` (httpOnly, 30d, NO refresh flow: the fork pins both `AccessTokenTTL` and `LoginSessionTTL` to 30d, so a leaked token stays valid until then; re-adding revocation means a shorter TTL or a session-row check, NOT restoring `/auth/refresh`), `user-id` (httpOnly, iron-session signed, needs `SESSION_SECRET` >= 32; the ONLY user-id cookie, since the unsigned `local-user-id` twin is gone and logout exists to clear the stale ones), `client-store` (JSON, holds the user's own API key).
-
-`edge-session` (httpOnly, 30d) is `<userId>.<issued>-<base64url hmac>` signed with `EDGE_SESSION_SECRET`; the first Cloudflare custom rule verifies it with `is_timed_hmac_valid_v0` and skips rate limits, bot fight and the block/challenge rules for logged-in browsers. The secret lives in OpenBao `secret/unorouter-env` AND inside `infra/cloudflare/unorouter.com/rules*.sops.yaml`; rotate both together or every logged-in user drops back to guest rules.
-
-`user-id` is httpOnly and the client NEVER reads it: the seal is server-side integrity only. "Am I logged in" comes from the auth query cache, which `prefetchAuth` always seeds (the user object, or an explicit `null` for a guest), so a present-but-null entry is a definite guest and an absent one means not-yet-fetched. Do not reintroduce a `document.cookie` presence check.
-
-If an upstream sync changes the login response shape, update `AuthResponseData` in `src/lib/api/auth.ts`: the generated `LoginData` is stale because upstream returns a raw gin body wider than its declared type, so `handleAuthResponse` reads the body structurally, not through the Orval type.
+- Atoms load their cookie AFTER mount (no `getOnInit`). `chatStoreAtom` is the one exception: `getOnInit: true` PAIRED with server-side `ChatStoreProvider` seeding; removing either brings back the #418 mismatch or the cookie-spread data loss.
+- `useSettingsSync` MUST NOT write `chatDefaultsAtom` (sticky new-chat defaults, drawer save only). Provider-group pin keys by active model, not conversation.
+- Cookies: `access_token` (30d, no refresh flow; revocation means shorter TTL or session-row check, not `/auth/refresh`), `user-id` (iron-session, `SESSION_SECRET` >= 32, client never reads it), `client-store` (user's API key), `edge-session` (HMAC with `EDGE_SESSION_SECRET`, verified by the first Cloudflare rule; secret lives in OpenBao AND the sops rules file, rotate both or every logged-in user drops to guest rules).
+- "Am I logged in" comes from the auth query cache seeded by `prefetchAuth` (user or explicit `null`); never a `document.cookie` check.
+- Login response is a raw gin body wider than `LoginData`; `handleAuthResponse` reads it structurally via `AuthResponseData` in `src/lib/api/auth.ts`.
 
 ## Chat engine
 
-Text chat is ISOMORPHIC and assembles IN THE BROWSER for both paths. Keep `src/lib/ai/chat/` free of server-only imports.
+- Assembles IN THE BROWSER for both paths. Catalog: same-origin proxy injects the token; `forward.service.ts` is JUST A PIPE (mutations already applied by `makeUpstreamFetch`, which also strips the SDK `user-agent` for the edge). BYOK: browser to user endpoint directly, `custom-forward` only when the provider row sets `proxy`.
+- `resolve-model-target.ts` is the single model-id -> target resolver; every caller uses it.
+- Chat route order is load-bearing (commented in `route.ts`): `/custom-forward/*` and `/task/finalize` above the key-resolving `.resolve`.
+- Stream transform order in `pipeline/stages/role-transform.ts` is LOCKED and has no marker: `dropFailedAssistantTurns`, `stripReasoningParts`, `stripSystemRole`, `demoteLateSystem`, `dropEmptyMessages`, `appendPrefill`, `mergeAlternateRoles`, `prependUserStub`, `appendUserStub` (skipped when a prefill is the intended trailing assistant). Each earlier step exists so a later one can fold or cannot recreate what it removed.
+- Provider adapters: ordered list, FIRST MATCH WINS (deepseek before glm, gemini-thinking before gemini, claude opus-5 before 4.5 before legacy). New family = module + registry line. Flags OR with preset flags. o-series renames are upstream's job.
+- Failed assistant turns are dropped WHOLE from history. No auto-replay: `maxRetries: 0` on the client, only server media retries on 429/5xx.
+- Tokenizers are for budgeting only, never billing; load failure falls back to approximate, never throws. Loaded on demand from HF, cached in SQLocal.
+- `freeModelRace` fires every model in its list concurrently, so server wiring passes the fixed `UTILITY_RACE_MODELS` trio, never the live free catalog (was 172 requests per title). Title gen strips think-tags.
+- Agents: capability gate, runner refuses results whose capability was not declared. Illustrator fires async after persist.
+- Request history is DB-sourced (`mergeDbHistory`); the useChat array is a render projection. `seedConversation` is the one creation path and MUST be awaited before send.
+- `triggers/lua/`: lazy import + `serverExternalPackages` + turbopack alias to `empty-module.ts`; removing any lands wasmoon's node path in the client bundle.
+- Plugins (`plugins/`, RisuAI apiV3 port, GPL-3.0 Kwaroran) run in an `allow-scripts`-only iframe with `connect-src 'none'`; `httpRequest` is the only egress and carries the Lua policy. Bridged capabilities execute on the HOST origin: check ambient authority before exposing one.
 
-- DEFAULT (catalog model): the browser assembles, then `streamText` points at a same-origin proxy that injects the upstream token server-side. The token NEVER reaches the browser. `forward.service.ts` is JUST A PIPE: no assembly, no streamText, no finish-meta, no body mutation. Body mutations were already applied client-side by `makeUpstreamFetch`, so re-applying them here would double them. That wrapper also strips the SDK's `user-agent` in the browser: Firefox honors it, and the edge blocks `/api/ai/` for non-browser agents.
-- CUSTOM (BYOK, `custom:::<providerId>:::<modelKey>`): browser streams DIRECTLY to the user's endpoint with the user's key, server never involved, UNLESS the provider row sets `proxy`, which routes through `custom-forward` for endpoints that serve no CORS headers.
+## Service worker and edge
 
-`resolve-model-target.ts` is the SINGLE model-id -> target resolver. Every caller that reaches a model goes through it (live transport, dry-run, illustrator), so a custom-provider model uses the user's endpoint everywhere.
+`src/app/sw.ts` and `sw-register.tsx` comment every rule with its incident. Not in the code:
 
-**Chat route ordering is load-bearing.** `/custom-forward/*` and `/task/finalize` sit ABOVE the `.resolve` that injects `apiKey`/`userId`, so they never resolve a chat key; everything below does. custom-forward needs NO session because BYOK works for guests; what stops it being an anonymous open relay is that the caller's OWN `Authorization` is mandatory. The target arrives on `x-proxy-target` and passes the SSRF policy; no key is ever resolved, logged or stored.
+- Cloudflare `/_next/static/` rule (1y) MUST carry `status_code_ttl 400-599 = -1`; anonymous HTML cache rule needs `status_code_ttl 300-599 = -1` and `browser_ttl bypass`. A cached rollout 404 killed every page on a colo, twice. `build-local.sh` purges page URLs post-deploy (`purge_token` in OpenBao `secret/cloudflare-edge`); never `purge_everything`.
+- `build-local.sh` refuses a second deploy inside 30 min without `--now` (each deploy is a SW update for every open tab).
+- Point a stuck user at `unorouter.com/en/recover` (inline script, precached, works while the worker is wedged).
+- `/en/offline` is in `additionalPrecacheEntries`; the serwist glob never covers rendered HTML.
 
-**Stream-order rules are LOCKED** (the transform block in `pipeline/stages/role-transform.ts`; there is no marker comment, so keep this in step with the code): `dropFailedAssistantTurns` FIRST, before the strip pass erases the `data-error` part it keys on; `stripReasoningParts`; `stripSystemRole` BEFORE merge so system-as-user can collapse; `demoteLateSystem`; `dropEmptyMessages` BEFORE merge (dropping after can recreate consecutive same-role messages strict upstreams reject); `appendPrefill` BEFORE merge so a doubled trailing assistant folds; `mergeAlternateRoles`; `prependUserStub` after merge so merge cannot fold it; `appendUserStub` LAST (GLM "last role must be user"), skipped when a prefill is the intentional trailing assistant.
+## i18n and routing
 
-Provider role flags resolve through an ORDERED adapter list, FIRST MATCH WINS, so order matters: deepseek before glm, gemini-thinking before gemini, claude opus-5 before 4.5 before legacy. Adding a family = a new module + a registry line, never a central table edit. Flags OR with the preset's manual flags; a manual flag is never silently turned off. Request-mutation flags are consumed GENERICALLY by `build-body.ts`, never by provider-branching. o-series system->developer and max_completion_tokens renames are upstream's job, never re-mapped here.
-
-A failed assistant turn is dropped WHOLE from request history: the partial text is a truncated reply, and sending it back made the model treat the fragment as canon and remark on the broken story.
-
-Tokenizers are for history-fit and lorebook budgeting ONLY, never billing (new-api bills authoritatively), so any load failure falls back to approximate counting and NEVER throws. Tokenizer files are not bundled; HF `tokenizer.json` loads on demand and caches in SQLocal.
-
-`freeModelRace` fires EVERY model `listFreeModels` returns concurrently, so that list must stay SHORT: server wiring passes the fixed `UTILITY_RACE_MODELS` trio, never the live free-model catalog (doing so cost ~172 upstream requests per title). Title gen goes through `freeModelRace` (a user-pinned title model replaces the trio, and its group pin is sent only then), and strips think-tags since an unclosed `<think>` would become the visible title.
-
-Agents (`src/lib/ai/agents/`) are built-in behaviors running an auxiliary LLM call around generation, distinct from the user-authored trigger VM. CAPABILITY GATE: an agent declares `capabilities` and the runner refuses to apply a result whose capability was not declared, so a misconfigured agent cannot silently corrupt state. Both built-ins call the UTILITY model with full context, not the small-context free race. The illustrator fires ASYNC after the reply persists so it never blocks the reply.
-
-Send-failure semantics (Risu parity): NO auto-replay. Client `streamText` uses `maxRetries: 0`; only server media generation retries, and only RETRYABLE 429/5xx/network. The user turn stays persisted and the user resends manually.
-
-REQUEST HISTORY IS DB-SOURCED. `mergeDbHistory` takes the DB active branch as the base and appends only the captured tail the DB does not know yet. The useChat array is a RENDER PROJECTION, never the request source.
-
-`seedConversation` is the ONE conversation-creation path, idempotent per convId, and MUST be awaited before send. assistant-ui runs `initialize` and the send wrapper concurrently with no ordering, so a fast first send assembled without the greeting.
-
-`triggers/lua/` keeps wasmoon out of browser bundles via lazy import + `serverExternalPackages` + a turbopack alias to `src/lib/empty-module.ts`. Removing either lands wasmoon's node path in the client bundle.
-
-Plugins (`src/lib/ai/chat/plugins/`) are the SANDBOXED user-JS surface, a port of RisuAI's apiV3 (GPL-3.0, Copyright Kwaroran; combinable into this AGPL work under GPLv3 sec. 13). THE SECURITY BOUNDARY: user code runs in an iframe with `sandbox="allow-scripts"` ONLY, on an opaque origin with no reach into DOM/cookies/OPFS, under a CSP whose `connect-src 'none'` means a plugin CANNOT open its own network connections. `httpRequest` carries the Lua binding's exact egress policy (browser-only, https GET, length-capped, rate-limited). Display-mode handlers are read-only. A per-handler timeout means a broken plugin can never block a reply.
-
-## PWA / service worker
-
-The SW is served by an APP ROUTE, not `public/sw.js`. Every rule below exists because its absence broke production:
-
-- `force-dynamic` + `no-store` (in BOTH `next.config.ts` headers and the handler response): the factory default `force-static` emits `s-maxage=1yr`, which once poisoned the Cloudflare edge un-purgeably.
-- `navigationPreload` OFF so navigations route through the SW fetch and the offline fallback fires deterministically.
-- `stopImmediatePropagation` for ALL cross-origin requests (defaultCache's catch-all would NetworkFirst third-party fetches, erroring when adblocked and caching opaque responses) and for worker/wasm/sqlocal (a cached stale worker/wasm pair desyncs from the app bundle and breaks OPFS opens).
-- Navigations are `NetworkFirst` with NO networkTimeoutSeconds: a timeout served the PREVIOUS build's HTML on slow links, 404ing its chunks after deploys and killing every handler. The nav rule is a FUNCTION racing that strategy against `NAV_HANG_MS`, resolving only to the precached offline page, never to `pages`. Serwist serves `fallbacks` from `handlerDidError`, which fires only when a fetch REJECTS; a HUNG fetch never rejects, so without the race a stalled radio dies as `no-response` with no fallback. Because the handler is a function and not a `Strategy`, Serwist does NOT attach the fallback plugin to it, so it must resolve `matchPrecache` itself.
-- `/en/recover` and the offline page's "Repair app" button run an INLINE script (`inline-repair.tsx`) that unregisters the worker and clears Cache Storage, then redirects. Inline and precached on purpose: a wedged worker hangs every chunk request, so a React button on the offline page was dead in exactly the state that needed it (a user could tap nothing and only quitting Safari helped). OPFS is never touched. Point a stuck user at `unorouter.com/en/recover`.
-- `/en/offline` precached explicitly via `additionalPrecacheEntries`, because the serwist glob covers `_next` + `public/` but NOT rendered app-route HTML, so without it the fallback never matches.
-- `skipWaiting` and `clientsClaim` are OFF. A new worker waits; a page applies it with `SKIP_WAITING` on its next return to the foreground while idle, or from the toast, and reloads after activation; other tabs pick it up on their next navigation; a first install still activates alone. With both on, every deploy forced a reload on every open tab at once. `build-local.sh` refuses a second deploy inside 30 minutes unless given `--now`.
-- `install` waits (60s cap) until every VISIBLE open page reports `readyState === "complete"` over a MessageChannel; a visible page that does not answer counts as loading (it has no JS yet to answer with), only a hidden silent one is skipped. The page registers the SW only after `load`. Safari kills the OLD worker as soon as a new one installs, even without skipWaiting, and a navigation still in flight under it then never completes: stuck progress bar, dead stop button, whole browser session wedged. With deploys minutes apart, every direct cold load of a heavy route (`/image`) lost that race.
-- Edge side of the same problem: the Cloudflare rule for `/_next/static/` caches for a year and MUST carry `status_code_ttl 400-599 = -1`. A rollout answers a chunk request from a pod of the other build with a 404; cached, that 404 killed every page for everyone on that colo (twice). Anonymous HTML is edge-cached by a cache rule with an explicit edge TTL, no stale-while-revalidate, `status_code_ttl 300-599 = -1` and `browser_ttl bypass`; never let a browser TTL override reach HTML or chunks: one such override stamped max-age=1y onto rollout 404s, so affected browsers kept a dead chunk for a year and no purge could reach it (the error screen's chunk repair refetches with `cache: "reload"` for exactly that). `build-local.sh` purges the page URLs once the new build is live (token `purge_token` in OpenBao `secret/cloudflare-edge`; the edge token cannot purge). Never `purge_everything` casually: it evicts the immutable chunks open tabs still lazy-load.
-- Build-scoped caches wiped in `activate`, so a deploy cannot mix old-build HTML/RSC with new chunks. The precache (`serwist-precache-v2-<scope>`) is NOT in that list, which is why the offline page survives a deploy.
-- Two recovery paths in `recovery.ts` and they are NOT interchangeable: `clearServiceWorkerCaches` (Cache Storage + unregister) is safe and is what a stuck user should run; `clearAllClientStorage` also wipes OPFS, DESTROYING the local chat DB, which is the only copy. Never suggest "clear site data" to a user for a caching problem.
-
-## i18n
-
-18 locales in `public/i18n/`. `de.d.json.ts` is a GENERATED type declaration, not a locale: never hand-edit it, never count it when auditing coverage.
-
-Messages PRECOMPILE at build, so `t.raw` is unsupported repo-wide and a typo'd ICU placeholder FAILS THE BUILD. Client payload is pruned in `src/i18n/client-messages.ts` and `ClientIntlProvider` THROWS on MISSING_MESSAGE in dev, so stripped-key use fails loudly.
-
-`src/proxy.ts` is thin: a header plus next-intl middleware, and it stays that way. Cache eligibility of anonymous pages is decided by the Cloudflare cache rules (generated from `pathnames`, in `infra/cloudflare/unorouter.com/rules*.sops.yaml`), not by a header from here; a new cacheable route is added to that rule. Everything else is matcher config, and the extension list omits `.js` ON PURPOSE, since an unexcluded chunk gets locale-rewritten to `/en/_next/...` and 404s.
-
-Consequence for `public/`: a `.js` file served from there is locale-rewritten and 404s, so the two console scripts users paste (`janitor-extract.js.txt`, `janitor-full-export.js.txt`) carry a `.txt` suffix to stay reachable. Do not rename them back.
-
-`src/i18n/routing.ts` also exports `privateRoutes`, the single source of truth for robots Disallow and sitemap exclusions. Add a new authenticated route THERE, not in two places. robots emits end-anchored pairs because a bare prefix once swallowed `/hi/login` via `/hi/log`.
-
-SEO timestamps are STATIC DATA on registry entries; nothing derives dates from git. New guide/doc/post = add its `date`; bump `updated` on real content edits.
-
-Setup guides render from ONE dynamic route driven by the `SETUP_GUIDES` array, and `DOCS_REGISTRY` derives from it, so adding a guide is one object plus a `GUIDE_DATES` entry, never a new route or file.
-
-## Misc traps
-
-- Discord reward figures are FETCHED from the bot at render, not hardcoded and not in locale files. `FALLBACK` in `rewards.ts` is a last-known-good net, NOT the place to change a payout. Locale values carry the currency symbol; do not put `$` in the fetched value.
-- Analytics: add events to `src/lib/analytics.ts` only, never call `posthog.capture` from a component. posthog-js is NEVER statically imported (63KiB gzip into every page bundle); all client callers use the queue-buffered shim.
-- SSRF-safe fetch (`src/lib/config/safe-fetch.ts`) is mandatory for any remote fetch: CIDR + hostname blocklists, port allowlist, `redirect: "manual"`, a DNS resolver rejecting non-public addresses at connect time, a 50MB cap, and magic-byte verification against the declared content-type.
-- Settings > Database wipe destroys the SyncAccessHandle FIRST, else `removeEntry` is no-op'd by the lock. Export is NON-DESTRUCTIVE and stays inside the live worker's pool: `VACUUM INTO` a `/backup-<id>` temp pool file, `ATTACH` it, delete the excluded tables there (`tokenizers` always, it is a download cache), `VACUUM exp`, `DETACH`, export that one file through the `sahpool-export-file` control op, unlink. One materialization. The "Save straight from disk (test)" toggle skips even that: the temp slot is found in the pool directory by its header path and handed to the save sheet as a lazy `getFile().slice(4096)`, nothing in the JS heap; Chromium hands that out while the worker holds the handle, iOS is what the toggle exists to find out. A blob download reads the slot after the call returns, so its unlink is deferred 60s. The earlier shape made four full copies plus a second WASM heap, which pushed iPhones into tab-killing memory pressure.
-- `confirm()` (`src/components/ui/confirm.tsx`) replaces `window.confirm` and is callable from any handler without context.
-- Pending-task queue: ONE task type (`logEnrich`), deliberately not a generic engine. `resource-lock.ts` is NOT used by the queue; its callers are pool ownership and the per-conversation stream lock.
+- 18 locales in `public/i18n/`. Messages precompile: `t.raw` unsupported, bad ICU fails the build, missing key throws in dev.
+- `src/proxy.ts` stays thin. Edge cacheability of anonymous pages is decided by Cloudflare rules generated from `pathnames` (sops file above), not headers here. The matcher omits `.js` on purpose, so `.js` files in `public/` 404 (hence `janitor-*.js.txt`).
+- `privateRoutes` in `src/i18n/routing.ts` is the single source for robots Disallow and sitemap exclusion; robots emits end-anchored pairs.
+- SEO dates are static registry data (`GUIDE_DATES`); setup guides are one route over `SETUP_GUIDES`, `DOCS_REGISTRY` derives from it.
+- Discord reward figures are fetched from the bot at render; `FALLBACK` in `rewards.ts` is not where payouts change.
