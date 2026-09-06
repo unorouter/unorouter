@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "无",
     "CARD_CHARACTERS": "角色",
     "CARD_LOREBOOKS": "知识库",
-    "DROPPED_PARAMS": "{params} 不被该模型支持，已忽略。",
+    "DROPPED_PARAMS": "该模型会忽略 {params}。",
     "LOREBOOKS_IMPORT": "导入",
     "LOREBOOKS_IMPORT_LINK": "从链接导入",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "粘贴世界书链接，或附带世界书的角色链接",

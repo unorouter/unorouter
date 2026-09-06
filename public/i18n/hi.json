@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "कोई नहीं",
     "CARD_CHARACTERS": "Characters",
     "CARD_LOREBOOKS": "Lorebooks",
-    "DROPPED_PARAMS": "{params} इस मॉडल द्वारा समर्थित नहीं और अनदेखा किए गए।",
+    "DROPPED_PARAMS": "यह मॉडल {params} को अनदेखा करता है।",
     "LOREBOOKS_IMPORT": "Import",
     "LOREBOOKS_IMPORT_LINK": "लिंक से आयात करें",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "लोरबुक का लिंक या ऐसे किरदार का लिंक चिपकाएँ जो एक साथ लाता हो",

@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "Ninguna",
     "CARD_CHARACTERS": "Personajes",
     "CARD_LOREBOOKS": "Lorebooks",
-    "DROPPED_PARAMS": "{params} no son compatibles con este modelo y fueron ignorados.",
+    "DROPPED_PARAMS": "Este modelo ignora {params}.",
     "LOREBOOKS_IMPORT": "Importar",
     "LOREBOOKS_IMPORT_LINK": "Importar desde enlace",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Pega un enlace de lorebook o de un personaje que incluya uno",

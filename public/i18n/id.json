@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "Tidak ada",
     "CARD_CHARACTERS": "Karakter",
     "CARD_LOREBOOKS": "Lorebook",
-    "DROPPED_PARAMS": "{params} tidak didukung oleh model ini dan diabaikan.",
+    "DROPPED_PARAMS": "Model ini mengabaikan {params}.",
     "LOREBOOKS_IMPORT": "Impor",
     "LOREBOOKS_IMPORT_LINK": "Impor dari tautan",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Tempel tautan lorebook atau karakter yang menyertakannya",

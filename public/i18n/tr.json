@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "Yok",
     "CARD_CHARACTERS": "Karakterler",
     "CARD_LOREBOOKS": "Lorebookler",
-    "DROPPED_PARAMS": "{params} bu model tarafından desteklenmiyor ve yok sayıldı.",
+    "DROPPED_PARAMS": "Bu model {params} ayarını yok sayar.",
     "LOREBOOKS_IMPORT": "İçe Aktar",
     "LOREBOOKS_IMPORT_LINK": "Bağlantıdan içe aktar",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Lorebook bağlantısı ya da lorebook içeren bir karakter yapıştır",

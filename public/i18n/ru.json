@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "Нет",
     "CARD_CHARACTERS": "Персонажи",
     "CARD_LOREBOOKS": "Лорбуки",
-    "DROPPED_PARAMS": "{params} не поддерживается этой моделью и было проигнорировано.",
+    "DROPPED_PARAMS": "Эта модель игнорирует {params}.",
     "LOREBOOKS_IMPORT": "Импорт",
     "LOREBOOKS_IMPORT_LINK": "Импорт по ссылке",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Вставьте ссылку на лорбук или на персонажа с лорбуком",

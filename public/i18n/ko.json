@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "없음",
     "CARD_CHARACTERS": "캐릭터",
     "CARD_LOREBOOKS": "로어북",
-    "DROPPED_PARAMS": "{params}은(는) 이 모델에서 지원되지 않아 무시되었습니다.",
+    "DROPPED_PARAMS": "이 모델은 {params}을(를) 무시합니다.",
     "LOREBOOKS_IMPORT": "가져오기",
     "LOREBOOKS_IMPORT_LINK": "링크에서 가져오기",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "로어북 링크 또는 로어북이 포함된 캐릭터 링크를 붙여넣으세요",

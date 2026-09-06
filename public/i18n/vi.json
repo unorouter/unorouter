@@ -4052,7 +4052,7 @@
     "CARD_PERSONA_NONE": "Không",
     "CARD_CHARACTERS": "Nhân vật",
     "CARD_LOREBOOKS": "Lorebook",
-    "DROPPED_PARAMS": "{params} không được mô hình này hỗ trợ và đã bị bỏ qua.",
+    "DROPPED_PARAMS": "Mô hình này bỏ qua {params}.",
     "LOREBOOKS_IMPORT": "Nhập",
     "LOREBOOKS_IMPORT_LINK": "Nhập từ liên kết",
     "LOREBOOKS_IMPORT_LINK_PLACEHOLDER": "Dán liên kết lorebook hoặc nhân vật có kèm theo",
