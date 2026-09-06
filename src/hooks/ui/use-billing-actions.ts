@@ -161,13 +161,7 @@ export function useBillingActions() {
       nowPaymentsSubMutation.mutate(
         { body: { plan_id: plan.plan.id } },
         {
-          onSuccess: (data) => {
-            if (data?.pay_link) {
-              openPayLink(data.pay_link);
-            } else {
-              toast.success(t("BILLING.SUBSCRIPTION.CRYPTO_EMAIL_SENT"));
-            }
-          },
+          onSuccess: (data) => openPayLink(data?.pay_link),
           onError: failToast,
         },
       );

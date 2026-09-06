@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Reset dalam",
       "RESETS_AT": "Reset pada",
       "PLAN_FALLBACK": "Paket #{planId}",
-      "CRYPTO_EMAIL_SENT": "Langganan crypto dibuat. Periksa email Anda untuk faktur pertama.",
       "CURRENT_PLAN": "Paket saat ini",
       "NO_ACTIVE_PLAN": "Tidak ada langganan aktif",
       "RENEWS_ON": "Diperpanjang pada {date}"

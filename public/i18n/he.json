@@ -3230,7 +3230,6 @@
       "RESETS_IN": "מתאפס בעוד",
       "RESETS_AT": "מתאפס ב",
       "PLAN_FALLBACK": "תוכנית #{planId}",
-      "CRYPTO_EMAIL_SENT": "מנוי קריפטו נוצר. בדקו את הדואר האלקטרוני שלכם לחשבונית הראשונה.",
       "CURRENT_PLAN": "התוכנית הנוכחית",
       "NO_ACTIVE_PLAN": "אין מנוי פעיל",
       "RENEWS_ON": "מתחדש ב-{date}"

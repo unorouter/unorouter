@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Сброс через",
       "RESETS_AT": "Сброс в",
       "PLAN_FALLBACK": "Тариф #{planId}",
-      "CRYPTO_EMAIL_SENT": "Крипто-подписка создана. Проверьте почту для первого счёта.",
       "CURRENT_PLAN": "Текущий тариф",
       "NO_ACTIVE_PLAN": "Нет активной подписки",
       "RENEWS_ON": "Продлевается {date}"

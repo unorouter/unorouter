@@ -3230,7 +3230,6 @@
       "RESETS_IN": "रीसेट होता है",
       "RESETS_AT": "रीसेट होता है",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto subscription बनाई गई। पहले invoice के लिए अपना ईमेल जांचें।",
       "CURRENT_PLAN": "वर्तमान योजना",
       "NO_ACTIVE_PLAN": "कोई सक्रिय सदस्यता नहीं",
       "RENEWS_ON": "{date} को नवीनीकृत होगा"

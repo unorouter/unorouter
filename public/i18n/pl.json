@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Resetuje za",
       "RESETS_AT": "Resetuje o",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Subskrypcja krypto utworzona. Sprawdź e-mail w sprawie pierwszej faktury.",
       "CURRENT_PLAN": "Bieżący plan",
       "NO_ACTIVE_PLAN": "Brak aktywnej subskrypcji",
       "RENEWS_ON": "Odnawia się {date}"

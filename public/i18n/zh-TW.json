@@ -3230,7 +3230,6 @@
       "RESETS_IN": "重置剩餘",
       "RESETS_AT": "重置時間",
       "PLAN_FALLBACK": "方案 #{planId}",
-      "CRYPTO_EMAIL_SENT": "加密貨幣訂閱已建立，請查收郵件中的首張帳單。",
       "CURRENT_PLAN": "目前方案",
       "NO_ACTIVE_PLAN": "尚無有效訂閱",
       "RENEWS_ON": "將於 {date} 續訂"

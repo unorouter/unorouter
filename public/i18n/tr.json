@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Sıfırlanır",
       "RESETS_AT": "Sıfırlanma tarihi",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto aboneliği oluşturuldu. İlk fatura için e-postanızı kontrol edin.",
       "CURRENT_PLAN": "Mevcut plan",
       "NO_ACTIVE_PLAN": "Etkin abonelik yok",
       "RENEWS_ON": "{date} tarihinde yenilenir"

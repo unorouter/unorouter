@@ -3230,7 +3230,6 @@
       "RESETS_IN": "Resets in",
       "RESETS_AT": "Resets at",
       "PLAN_FALLBACK": "Plan #{planId}",
-      "CRYPTO_EMAIL_SENT": "Crypto subscription created. Check your email for the first invoice.",
       "CURRENT_PLAN": "Current plan",
       "NO_ACTIVE_PLAN": "No active subscription",
       "RENEWS_ON": "Renews on {date}"
