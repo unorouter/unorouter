@@ -8,9 +8,9 @@ import { quotaToDollars, renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 
 const LOW_BALANCE_DOLLARS = 5;
-const LOW_BALANCE_DAYS = 14;
+const LOW_BALANCE_DAYS = 7;
 const CRITICAL_BALANCE_DOLLARS = 1;
-const CRITICAL_BALANCE_DAYS = 3;
+const CRITICAL_BALANCE_DAYS = 2;
 
 export function AccountStats() {
   const t = useTranslations();
