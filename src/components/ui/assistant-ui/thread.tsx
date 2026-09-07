@@ -474,7 +474,13 @@ function useComposerDraft(convId: string | null) {
     if (next === lastSaved.current) return;
     const timer = setTimeout(() => {
       lastSaved.current = next;
-      void updateLocalConversationSettings({ convId, draft: next });
+      // An unsaved keystroke is not worth an error report: the local DB rejects
+      // this write while a pool handover is in flight, and as a bare void it
+      // became an unhandled rejection. Clearing lastSaved lets the next
+      // keystroke retry the save instead of assuming it landed.
+      updateLocalConversationSettings({ convId, draft: next }).catch(() => {
+        if (lastSaved.current === next) lastSaved.current = null;
+      });
     }, 300);
     return () => clearTimeout(timer);
   }, [convId, text]);
