@@ -420,7 +420,8 @@ function ModelGroupPopover(props: {
         </div>
         <Command shouldFilter={false}>
           {props.options.length > GROUP_SEARCH_THRESHOLD && (
-            <div className="flex items-center border-b pl-2">
+            <div className="flex items-center border-b pl-3">
+              {/* pl-3 matches the row checkboxes: CommandGroup p-1 + CommandItem px-2 */}
               {/* Scoped to what the search shows, so with a filter active this
                   takes a whole vendor's lanes in one click. */}
               <button
