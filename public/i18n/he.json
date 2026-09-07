@@ -2823,7 +2823,11 @@
       "BAND_OFF": "כל מחיר",
       "BAND_HINT": "גררו כדי לנתב רק דרך ספקים בטווח מחירים",
       "BAND_CAUGHT": "{count} ספקים בטווח",
-      "BAND_CLEAR": "נקה טווח"
+      "BAND_CLEAR": "נקה טווח",
+      "BAND_MIN": "יחס מחיר מינימלי",
+      "BAND_MAX": "יחס מחיר מקסימלי",
+      "GROUP_SELECT_ALL": "בחר הכל",
+      "GROUP_SELECT_NONE": "בטל בחירה"
     },
     "ENUM": {
       "ENABLED": "מופעל",

@@ -2823,7 +2823,11 @@
       "BAND_OFF": "不限價格",
       "BAND_HINT": "拖曳以僅透過某一價格區間內的通道路由",
       "BAND_CAUGHT": "區間內通道：{count}",
-      "BAND_CLEAR": "清除區間"
+      "BAND_CLEAR": "清除區間",
+      "BAND_MIN": "最低價格倍率",
+      "BAND_MAX": "最高價格倍率",
+      "GROUP_SELECT_ALL": "全選",
+      "GROUP_SELECT_NONE": "取消全選"
     },
     "ENUM": {
       "ENABLED": "已啟用",

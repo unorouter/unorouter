@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Harga berapa pun",
       "BAND_HINT": "Seret untuk merutekan hanya melalui penyedia dalam rentang harga",
       "BAND_CAUGHT": "{count} penyedia dalam rentang",
-      "BAND_CLEAR": "Hapus rentang"
+      "BAND_CLEAR": "Hapus rentang",
+      "BAND_MIN": "Rasio harga minimum",
+      "BAND_MAX": "Rasio harga maksimum",
+      "GROUP_SELECT_ALL": "Pilih semua",
+      "GROUP_SELECT_NONE": "Batalkan semua"
     },
     "ENUM": {
       "ENABLED": "Aktif",

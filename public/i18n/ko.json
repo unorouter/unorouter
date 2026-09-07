@@ -2823,7 +2823,11 @@
       "BAND_OFF": "가격 무관",
       "BAND_HINT": "드래그하면 지정한 가격 범위의 레인만 사용합니다",
       "BAND_CAUGHT": "범위 내 레인 {count}개",
-      "BAND_CLEAR": "범위 지우기"
+      "BAND_CLEAR": "범위 지우기",
+      "BAND_MIN": "최소 가격 배율",
+      "BAND_MAX": "최대 가격 배율",
+      "GROUP_SELECT_ALL": "모두 선택",
+      "GROUP_SELECT_NONE": "선택 해제"
     },
     "ENUM": {
       "ENABLED": "활성화됨",

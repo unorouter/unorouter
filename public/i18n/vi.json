@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Mọi mức giá",
       "BAND_HINT": "Kéo để chỉ định tuyến qua các nhà cung cấp trong một khoảng giá",
       "BAND_CAUGHT": "{count} nhà cung cấp trong khoảng",
-      "BAND_CLEAR": "Xóa khoảng giá"
+      "BAND_CLEAR": "Xóa khoảng giá",
+      "BAND_MIN": "Tỷ lệ giá tối thiểu",
+      "BAND_MAX": "Tỷ lệ giá tối đa",
+      "GROUP_SELECT_ALL": "Chọn tất cả",
+      "GROUP_SELECT_NONE": "Bỏ chọn tất cả"
     },
     "ENUM": {
       "ENABLED": "Đã bật",

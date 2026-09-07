@@ -2823,7 +2823,11 @@
       "BAND_OFF": "أي سعر",
       "BAND_HINT": "اسحب للتوجيه عبر المزودين ضمن نطاق سعري فقط",
       "BAND_CAUGHT": "{count} مزودًا ضمن النطاق",
-      "BAND_CLEAR": "مسح النطاق"
+      "BAND_CLEAR": "مسح النطاق",
+      "BAND_MIN": "أدنى نسبة سعر",
+      "BAND_MAX": "أعلى نسبة سعر",
+      "GROUP_SELECT_ALL": "تحديد الكل",
+      "GROUP_SELECT_NONE": "إلغاء تحديد الكل"
     },
     "ENUM": {
       "ENABLED": "مُفعّل",

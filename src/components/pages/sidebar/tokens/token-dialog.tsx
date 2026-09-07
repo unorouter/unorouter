@@ -282,12 +282,16 @@ export function TokenDialog(props: TokenDialogProps) {
 
   // The picker shows a group's ratio; multiplied by the 1x list price it can
   // show what the lane actually costs, which is the number users compare.
+  // original_* is the 1x sticker; input_price already carries the CHEAPEST
+  // group's ratio, so using it multiplied every lane by that ratio a second
+  // time and quoted glm-5.3 at 1/27th of its real rate. It is only populated
+  // when a discount applies, so plain input_price IS the sticker otherwise.
   const modelPrices = new Map<string, { input: number; output: number }>();
   for (const m of catalogQuery.data?.models ?? [])
     if (!m.is_free && !m.is_fixed_price)
       modelPrices.set(m.model_name, {
-        input: m.input_price,
-        output: m.output_price,
+        input: m.original_input_price ?? m.input_price,
+        output: m.original_output_price ?? m.output_price,
       });
 
   const modelsByVendorMap = new Map<
