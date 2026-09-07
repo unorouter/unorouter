@@ -1,4 +1,5 @@
 import { msg } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { fileTypeFromBuffer } from "file-type";
 import ipaddr from "ipaddr.js";
 import { lookup as dnsLookup } from "node:dns";
@@ -15,6 +16,20 @@ const BLOCKED_HOSTS = new Set([
   "metadata.google.internal",
   "metadata.goog",
 ]);
+// Our own zones are never a legitimate target for a caller-supplied URL: the app
+// reaches the gateway and the bot directly. A request that leaves through a node
+// address arrives at the gateway as trusted with the caller's address lost, which
+// turned custom-forward into an anonymous relay for probing every host we run.
+const OWN_DOMAINS = [
+  ...new Set(
+    [env.apiOrigin, env.siteOrigin].map((o) =>
+      new URL(o).hostname.split(".").slice(-2).join("."),
+    ),
+  ),
+];
+function isOwnHost(host: string): boolean {
+  return OWN_DOMAINS.some((d) => host === d || host.endsWith("." + d));
+}
 const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
@@ -130,7 +145,7 @@ function parseAndCheckUrl(url: string): URL {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   const host = parsed.hostname.toLowerCase();
-  if (BLOCKED_HOSTS.has(host) || host.endsWith(".internal")) {
+  if (BLOCKED_HOSTS.has(host) || host.endsWith(".internal") || isOwnHost(host)) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   if (ipaddr.isValid(host) && !isPublicIp(host)) {
