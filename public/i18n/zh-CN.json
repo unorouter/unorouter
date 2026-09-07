@@ -2822,7 +2822,6 @@
       "BAND_AUTO_HINT": "按常规链路由，优先选择最便宜的通道",
       "BAND_OFF": "不限价格",
       "BAND_HINT": "拖动以仅通过某一价格区间内的通道路由",
-      "BAND_CAUGHT": "区间内通道：{count}",
       "BAND_CLEAR": "清除区间",
       "BAND_MIN": "最低价格倍率",
       "BAND_MAX": "最高价格倍率",
