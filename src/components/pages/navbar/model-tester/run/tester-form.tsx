@@ -94,15 +94,19 @@ export function TesterForm() {
       // Checked before "result": a failed verification still returns its probe evidence.
       if ("error" in res && res.error) {
         if (res.result) setResult(res.result);
-        const reasonKey =
-          res.error === "format-mismatch"
-            ? "MODEL_TESTER.PUBLISH.FORMAT_MISMATCH"
-            : CONN_KEY[res.error];
-        setPublishMsg(
-          reasonKey
-            ? `${t("MODEL_TESTER.PUBLISH.FAILED")} ${t(reasonKey)}`
-            : t("MODEL_TESTER.PUBLISH.FAILED"),
-        );
+        if (res.error === "unverified-run")
+          setPublishMsg(t("MODEL_TESTER.PUBLISH.UNVERIFIED_RUN"));
+        else {
+          const reasonKey =
+            res.error === "format-mismatch"
+              ? "MODEL_TESTER.PUBLISH.FORMAT_MISMATCH"
+              : CONN_KEY[res.error];
+          setPublishMsg(
+            reasonKey
+              ? `${t("MODEL_TESTER.PUBLISH.FAILED")} ${t(reasonKey)}`
+              : t("MODEL_TESTER.PUBLISH.FAILED"),
+          );
+        }
       } else if ("deduped" in res && res.deduped)
         setPublishMsg(t("MODEL_TESTER.PUBLISH.DEDUPED"));
       else if ("result" in res && res.result) {

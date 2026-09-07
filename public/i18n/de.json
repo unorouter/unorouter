@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Von unserem Server verifiziert, aber die öffentliche Rangliste ist derzeit nicht verfügbar, daher wurde das Ergebnis nicht gespeichert. Es wird unten angezeigt.",
       "DEDUPED": "Fuer diesen Endpunkt bereits kuerzlich veroeffentlicht.",
       "FAILED": "Endpunkt konnte nicht verifiziert werden. Nichts veroeffentlicht.",
+      "UNVERIFIED_RUN": "Der Lauf konnte nicht abgeschlossen werden: Die Prüfungen liefen in Rate-Limits oder Timeouts, daher wurde nichts veröffentlicht. Versuche es gleich noch einmal.",
       "FORMAT_MISMATCH": "Die Modell-ID passt nicht zum gewählten API-Format."
     },
     "TRUST": {

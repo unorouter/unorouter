@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Vérifié par notre serveur, mais le classement public est indisponible pour le moment, donc le résultat n'a pas été enregistré. Il s'affiche ci-dessous.",
       "DEDUPED": "Deja publie recemment pour ce point de terminaison.",
       "FAILED": "Impossible de verifier ce point de terminaison. Rien n'a ete publie.",
+      "UNVERIFIED_RUN": "Le test n'a pas pu aboutir : les sondes ont rencontré des limites de débit ou des délais dépassés, donc rien n'a été publié. Réessayez dans un instant.",
       "FORMAT_MISMATCH": "L'identifiant du modèle ne correspond pas au format d'API sélectionné."
     },
     "TRUST": {

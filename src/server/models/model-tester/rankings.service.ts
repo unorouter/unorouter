@@ -132,6 +132,12 @@ export async function verifyAndPublish(
   });
   if (result.connectivityError)
     return { published: false, error: result.connectivityError, result };
+  // A run whose probes died on 429/5xx/timeouts proves nothing about the
+  // endpoint, and the rankings count unverified rows as a category of their
+  // own: publishing one would score a provider on our bad luck, not on its
+  // behaviour. The caller still gets the result to look at.
+  if (result.verdict === "unverified")
+    return { published: false, error: "unverified-run", result };
 
   const now = new Date();
   try {
