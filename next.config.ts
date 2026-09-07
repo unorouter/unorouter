@@ -11,7 +11,12 @@ const acceptMarkdown = [
 const statusHost = [{ type: "host", value: "status\\..*" }] as const;
 
 const nextConfig: NextConfig = {
-  output: process.env.STANDALONE ? "standalone" : undefined,
+  // The build adapter assembles its own traced tree; Next's standalone
+  // post-processing then fails on files the adapter pruned.
+  output:
+    process.env.STANDALONE && !process.env.NEXT_ADAPTER_PATH
+      ? "standalone"
+      : undefined,
   // Turbopack reuses chunk FILENAMES across builds while their bytes change
   // (99% of shared names differed between two consecutive deploys), so a page
   // from build N that lazy-loads a chunk gets build N+1's code under the same

@@ -1,0 +1,204 @@
+Upstream PRs: https://github.com/ramonmalcolm10/next-bun-compile/pull/69 (scoped
+turbopack aliases), /pull/70 (--compile-autoload-package-json), /pull/71 (exports
+map resolution), /pull/72 (embed traced project files). dist/index.js rebuilt from
+the v1.5.3 tag with those four commits. Remove this patch once a release has them.
+
+diff --git a/dist/index.js b/dist/index.js
+index f09ab2ff727992ce59ec03663cd891f34b431793..f05a641d736213037b6af1e3aaf63b94764bc92a 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -6,11 +6,10 @@ import {
+   readdirSync,
+   statSync,
+   lstatSync,
+-  realpathSync,
+   mkdirSync,
+   copyFileSync
+ } from "node:fs";
+-import { join, relative, basename } from "node:path";
++import { join, relative } from "node:path";
+ import { createHash } from "node:crypto";
+ import { gzipSync } from "node:zlib";
+ function tryStat(p) {
+@@ -153,7 +152,7 @@ function findTurbopackAliases(standaloneNextDir) {
+   };
+   const serverDir = join(standaloneNextDir, "server");
+   if (existsSync(serverDir)) {
+-    const re = /["']([^"'\s/]+-[0-9a-f]{16})(?:\/([^"'\s]+))?["']/g;
++    const re = /["']((?:@[^"'\s/]+\/)?[^"'\s/]+-[0-9a-f]{16})(?:\/([^"'\s]+))?["']/g;
+     for (const f of walkDir(serverDir)) {
+       if (!f.absolutePath.endsWith(".js"))
+         continue;
+@@ -173,7 +172,16 @@ function findTurbopackAliases(standaloneNextDir) {
+   }
+   const nodeModulesDir = join(standaloneNextDir, "node_modules");
+   if (existsSync(nodeModulesDir)) {
+-    for (const name of readdirSync(nodeModulesDir)) {
++    const entries = readdirSync(nodeModulesDir).flatMap((top) => {
++      if (!top.startsWith("@"))
++        return [top];
++      try {
++        return readdirSync(join(nodeModulesDir, top)).map((sub) => `${top}/${sub}`);
++      } catch {
++        return [];
++      }
++    });
++    for (const name of entries) {
+       if (!/-[0-9a-f]{16}$/.test(name))
+         continue;
+       if (seen.has(name))
+@@ -182,10 +190,7 @@ function findTurbopackAliases(standaloneNextDir) {
+       try {
+         if (!lstatSync(aliasPath).isSymbolicLink())
+           continue;
+-        seen.set(name, {
+-          target: basename(realpathSync(aliasPath)),
+-          subpaths: new Set
+-        });
++        ensure(name);
+       } catch {
+         continue;
+       }
+@@ -197,6 +202,52 @@ function findTurbopackAliases(standaloneNextDir) {
+     subpaths: Array.from(subpaths)
+   }));
+ }
++var EXPORT_CONDITIONS = ["node", "import", "module", "default", "require"];
++function exportsCandidates(exportsField, subpath) {
++  if (!exportsField)
++    return [];
++  const out = [];
++  const leaves = (target, replacement) => {
++    if (typeof target === "string") {
++      const file = replacement === null ? target : target.replace("*", replacement);
++      out.push(file.replace(/^\.\//, ""));
++    } else if (Array.isArray(target)) {
++      for (const t of target)
++        leaves(t, replacement);
++    } else if (target && typeof target === "object") {
++      const obj = target;
++      for (const c of EXPORT_CONDITIONS)
++        if (c in obj)
++          leaves(obj[c], replacement);
++      for (const [k, v] of Object.entries(obj)) {
++        if (!EXPORT_CONDITIONS.includes(k) && !k.startsWith("."))
++          leaves(v, replacement);
++      }
++    }
++  };
++  const isSubpathMap = typeof exportsField === "object" && !Array.isArray(exportsField) && Object.keys(exportsField).some((k) => k.startsWith("."));
++  if (!isSubpathMap) {
++    if (subpath === ".")
++      leaves(exportsField, null);
++    return out;
++  }
++  const map = exportsField;
++  if (subpath in map) {
++    leaves(map[subpath], null);
++    return out;
++  }
++  for (const [key, target] of Object.entries(map)) {
++    const star = key.indexOf("*");
++    if (star === -1)
++      continue;
++    const prefix = key.slice(0, star);
++    const suffix = key.slice(star + 1);
++    if (subpath.startsWith(prefix) && subpath.endsWith(suffix) && subpath.length >= key.length - 1) {
++      leaves(target, subpath.slice(prefix.length, subpath.length - suffix.length));
++    }
++  }
++  return out;
++}
+ function buildCanonicalResolutions(externalRoot, aliases) {
+   const out = new Map;
+   const findFile = (dir, candidates) => {
+@@ -209,17 +260,18 @@ function buildCanonicalResolutions(externalRoot, aliases) {
+     }
+     return null;
+   };
+-  const resolveMain = (canonicalDir) => {
+-    const pkgPath = join(canonicalDir, "package.json");
+-    let main = "index.js";
+-    if (existsSync(pkgPath)) {
+-      try {
+-        const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
+-        if (typeof pkg.main === "string")
+-          main = pkg.main;
+-      } catch {}
++  const readPkg = (canonicalDir) => {
++    try {
++      return JSON.parse(readFileSync(join(canonicalDir, "package.json"), "utf-8"));
++    } catch {
++      return {};
+     }
++  };
++  const resolveMain = (canonicalDir) => {
++    const pkg = readPkg(canonicalDir);
++    const main = typeof pkg.main === "string" ? pkg.main : "index.js";
+     return findFile(canonicalDir, [
++      ...exportsCandidates(pkg.exports, "."),
+       main,
+       main + ".js",
+       main + ".cjs",
+@@ -227,6 +279,7 @@ function buildCanonicalResolutions(externalRoot, aliases) {
+       join(main, "index.js"),
+       join(main, "index.cjs"),
+       join(main, "index.mjs"),
++      ...typeof pkg.module === "string" ? [pkg.module] : [],
+       "index.js",
+       "index.cjs",
+       "index.mjs"
+@@ -235,6 +288,8 @@ function buildCanonicalResolutions(externalRoot, aliases) {
+   const resolveSub = (canonicalDir, sub) => {
+     const stripped = sub.replace(/\.(?:js|cjs|mjs|json)$/, "");
+     return findFile(canonicalDir, [
++      ...exportsCandidates(readPkg(canonicalDir).exports, "./" + sub),
++      ...exportsCandidates(readPkg(canonicalDir).exports, "./" + stripped),
+       sub,
+       stripped + ".mjs",
+       stripped + ".js",
+@@ -685,12 +740,21 @@ function generateEntryPoint(options) {
+   const turbopackAliases = findTurbopackAliases(standaloneNextDir);
+   const aliasNames = new Set(turbopackAliases.map((a) => a.alias));
+   const runtimeFiles = walkDir(standaloneNextDir).filter((f) => {
+-    const m = f.relativePath.replace(/\\/g, "/").match(/^node_modules\/([^/]+)/);
++    const m = f.relativePath.replace(/\\/g, "/").match(/^node_modules\/((?:@[^/]+\/)?[^/]+)/);
+     return !(m && aliasNames.has(m[1]));
+   }).map((f) => ({
+     ...f,
+     urlPath: `__runtime/.next/${f.relativePath.replace(/\\/g, "/")}`
+   }));
++  const generated = new Set(["server.js", "server-entry.js", "assets.generated.js", "nbc-serve.js"]);
++  const projectFiles = walkDir(serverDir).filter((f) => {
++    const rel = f.relativePath.replace(/\\/g, "/");
++    return !rel.startsWith(".next/") && !rel.startsWith("node_modules/") && !generated.has(rel);
++  }).map((f) => ({ ...f, urlPath: `__runtime/${f.relativePath.replace(/\\/g, "/")}` }));
++  runtimeFiles.push(...projectFiles);
++  if (projectFiles.length > 0) {
++    console.log(`next-bun-compile: Embedding ${projectFiles.length} traced project files`);
++  }
+   const externalModules = collectExternalModules(standaloneDir);
+   const externalDir = join(serverDir, ".next/__external");
+   for (const { mod, src } of externalModules) {
+@@ -1071,6 +1135,7 @@ function compile(options) {
+     entryPoint,
+     "--production",
+     "--compile",
++    "--compile-autoload-package-json",
+     "--minify",
+     "--sourcemap",
+     "--external",
+@@ -1349,9 +1414,9 @@ var adapter = {
+ };
+ var adapter_default = adapter;
+ export {
+-  runBuild,
+-  generateEntryPoint,
+-  adapter_default as default,
++  adapter_default as adapter,
+   compile,
+-  adapter_default as adapter
++  adapter_default as default,
++  generateEntryPoint,
++  runBuild
+ };
