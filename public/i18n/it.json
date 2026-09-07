@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Verificato dal nostro server, ma la classifica pubblica non è al momento disponibile, quindi il risultato non è stato salvato. Viene mostrato qui sotto.",
       "DEDUPED": "Gia pubblicato di recente per questo endpoint.",
       "FAILED": "Impossibile verificare questo endpoint. Nulla e stato pubblicato.",
+      "UNVERIFIED_RUN": "Il test non è stato completato: le sonde hanno incontrato limiti di frequenza o timeout, quindi non è stato pubblicato nulla. Riprova tra poco.",
       "FORMAT_MISMATCH": "L'identificativo del modello non corrisponde al formato API selezionato."
     },
     "TRUST": {

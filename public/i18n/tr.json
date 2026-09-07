@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Sunucumuz tarafından doğrulandı, ancak genel sıralama şu anda kullanılamıyor, bu yüzden sonuç kaydedilmedi. Aşağıda gösteriliyor.",
       "DEDUPED": "Bu uc nokta icin yakin zamanda zaten yayinlandi.",
       "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi.",
+      "UNVERIFIED_RUN": "Test tamamlanamadı: sondalar hız sınırlarına takıldı veya zaman aşımına uğradı, bu yüzden hiçbir şey yayımlanmadı. Birazdan tekrar deneyin.",
       "FORMAT_MISMATCH": "Model kimliği seçilen API biçimiyle eşleşmiyor."
     },
     "TRUST": {

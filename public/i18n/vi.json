@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Đã được máy chủ của chúng tôi xác minh, nhưng bảng xếp hạng công khai hiện không khả dụng nên kết quả chưa được lưu. Kết quả hiển thị bên dưới.",
       "DEDUPED": "Da dang gan day cho diem cuoi nay.",
       "FAILED": "Khong the xac minh diem cuoi nay. Khong co gi duoc dang.",
+      "UNVERIFIED_RUN": "Không thể hoàn tất lần chạy: các phép thử gặp giới hạn tần suất hoặc hết thời gian chờ, nên không có gì được đăng. Hãy thử lại sau giây lát.",
       "FORMAT_MISMATCH": "Mã mô hình không khớp với định dạng API đã chọn."
     },
     "TRUST": {

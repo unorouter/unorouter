@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Verified by our server, but the public rankings are unavailable right now, so the result was not saved. It is shown below.",
       "DEDUPED": "Already published recently for this endpoint.",
       "FAILED": "Could not verify this endpoint. Nothing was published.",
+      "UNVERIFIED_RUN": "The run could not be completed: probes hit rate limits or timeouts, so nothing was published. Try again in a moment.",
       "FORMAT_MISMATCH": "The model id does not match the selected API format."
     },
     "TRUST": {

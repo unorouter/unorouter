@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Verificado por nuestro servidor, pero las clasificaciones públicas no están disponibles ahora mismo, así que el resultado no se guardó. Se muestra abajo.",
       "DEDUPED": "Ya publicado recientemente para este endpoint.",
       "FAILED": "No se pudo verificar este endpoint. No se publico nada.",
+      "UNVERIFIED_RUN": "La prueba no pudo completarse: los sondeos alcanzaron límites de tasa o expiraron, así que no se publicó nada. Inténtalo de nuevo en un momento.",
       "FORMAT_MISMATCH": "El identificador del modelo no coincide con el formato de API seleccionado."
     },
     "TRUST": {

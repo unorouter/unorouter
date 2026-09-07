@@ -4513,6 +4513,7 @@
       "NOT_SAVED": "Zweryfikowane przez nasz serwer, ale publiczny ranking jest teraz niedostępny, więc wynik nie został zapisany. Jest pokazany poniżej.",
       "DEDUPED": "Juz niedawno opublikowano dla tego punktu koncowego.",
       "FAILED": "Nie udalo sie zweryfikowac tego punktu koncowego. Nic nie opublikowano.",
+      "UNVERIFIED_RUN": "Nie udało się ukończyć testu: sondy napotkały limity zapytań lub przekroczenia czasu, więc nic nie opublikowano. Spróbuj ponownie za chwilę.",
       "FORMAT_MISMATCH": "Identyfikator modelu nie pasuje do wybranego formatu API."
     },
     "TRUST": {
