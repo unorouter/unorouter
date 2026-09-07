@@ -4501,6 +4501,8 @@
       "CORS": "Endpoint memblokir permintaan browser. Gunakan uji backend.",
       "UNREACHABLE": "Endpoint tidak dapat dijangkau. Periksa URL dasar.",
       "INVALID_KEY": "Kunci API tidak valid.",
+      "MODEL_REJECTED": "Endpoint menolak nama model. Periksa apakah ada salah ketik, atau pilih model yang disediakan endpoint.",
+      "ENDPOINT_BUSY": "Endpoint sedang kelebihan beban atau terkena batas laju. Coba lagi sebentar lagi.",
       "NO_FORMAT": "Endpoint tidak menerima format API yang didukung."
     },
     "PUBLISH": {

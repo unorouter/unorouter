@@ -4501,7 +4501,9 @@
       "CORS": "Diem cuoi chan yeu cau tu trinh duyet. Hay dung kiem tra qua may chu.",
       "UNREACHABLE": "Khong the ket noi diem cuoi. Kiem tra URL co so.",
       "INVALID_KEY": "Khoa API khong hop le.",
-      "NO_FORMAT": "Diem cuoi khong chap nhan dinh dang API nao duoc ho tro."
+      "MODEL_REJECTED": "Điểm cuối đã từ chối tên mô hình. Hãy kiểm tra lỗi chính tả hoặc chọn mô hình mà điểm cuối có phục vụ.",
+      "ENDPOINT_BUSY": "Điểm cuối hiện đang quá tải hoặc bị giới hạn tần suất. Hãy thử lại sau giây lát.",
+      "NO_FORMAT": "Điểm cuối không chấp nhận định dạng API nào được hỗ trợ."
     },
     "PUBLISH": {
       "WARN_TITLE": "Thao tac nay gui khoa cua ban den backend cua chung toi",

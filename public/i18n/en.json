@@ -4501,6 +4501,8 @@
       "CORS": "Endpoint blocks browser requests. Use the backend test.",
       "UNREACHABLE": "Endpoint unreachable. Check the base URL.",
       "INVALID_KEY": "Invalid API key.",
+      "MODEL_REJECTED": "Endpoint rejected the model name. Check the model for typos, or pick one the endpoint serves.",
+      "ENDPOINT_BUSY": "Endpoint is rate-limited or overloaded right now. Try again in a moment.",
       "NO_FORMAT": "Endpoint did not accept any supported API format."
     },
     "PUBLISH": {

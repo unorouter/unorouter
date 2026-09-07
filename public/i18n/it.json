@@ -4501,6 +4501,8 @@
       "CORS": "L'endpoint blocca le richieste del browser. Usa il test lato server.",
       "UNREACHABLE": "Endpoint irraggiungibile. Controlla l'URL di base.",
       "INVALID_KEY": "Chiave API non valida.",
+      "MODEL_REJECTED": "L'endpoint ha rifiutato il nome del modello. Controlla se ci sono errori di battitura o scegli un modello offerto dall'endpoint.",
+      "ENDPOINT_BUSY": "L'endpoint è sovraccarico o soggetto a limite di frequenza in questo momento. Riprova tra poco.",
       "NO_FORMAT": "L'endpoint non ha accettato alcun formato API supportato."
     },
     "PUBLISH": {
