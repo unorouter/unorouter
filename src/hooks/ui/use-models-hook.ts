@@ -230,14 +230,25 @@ export function useModelsFilter() {
   useEffect(() => {
     resultCountRef.current = resultCount;
   }, [resultCount]);
+  // One event per search, not per pause: a typist who stops twice while typing
+  // "deepseek" used to bill both prefixes. Continuing to refine the same query
+  // is the same search, so it is only reported once the typist moves on to an
+  // unrelated one. The 3s wait means an abandoned query still reports.
+  const reportedQueryRef = useRef("");
   useEffect(() => {
     if (trimmedQuery.length < 2) return;
+    const previous = reportedQueryRef.current;
+    if (previous && trimmedQuery.startsWith(previous)) {
+      reportedQueryRef.current = trimmedQuery;
+      return;
+    }
     const id = setTimeout(() => {
+      reportedQueryRef.current = trimmedQuery;
       analytics.models.searched({
         query_length: trimmedQuery.length,
         has_results: resultCountRef.current > 0,
       });
-    }, 800);
+    }, 3000);
     return () => clearTimeout(id);
   }, [trimmedQuery]);
 

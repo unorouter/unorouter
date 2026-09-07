@@ -6,11 +6,28 @@ import { posthog } from "@/lib/posthog-lazy";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+// Module scope, not a ref: the provider itself remounts (route groups, the
+// error boundary), and a ref resets with it, which is how one visitor billed
+// 44 views of one path in half an hour. A real revisit is still counted; only
+// a repeat of the same path within the window is treated as a remount.
+const SAME_PATH_WINDOW_MS = 30_000;
+let lastCapturedPath: string | null = null;
+let lastCapturedAt = 0;
+
 function PostHogPageView() {
   const pathname = usePathname();
 
   useEffect(() => {
     if (IS_DEV || !pathname) return;
+    const now = Date.now();
+    if (
+      pathname === lastCapturedPath &&
+      now - lastCapturedAt < SAME_PATH_WINDOW_MS
+    ) {
+      return;
+    }
+    lastCapturedPath = pathname;
+    lastCapturedAt = now;
     // Path only, never search params: nuqs rewrites the query on every filter
     // keystroke, and keying on it billed /models at 12-22 pageviews per visitor
     // against the 1M/month tier while every other page sat at 2.5.
