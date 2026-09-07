@@ -70,13 +70,33 @@ const CHILD_CONVERT_SCRIPT =
   'try{const s=require("sharp");const b=await s(Buffer.concat(cs)).png().toBuffer();' +
   "process.stdout.write(b)}catch(e){console.error(e.message);process.exit(1)}})";
 
+// A compiled server binary is its own execPath; BUN_BE_BUN makes it act as the
+// bun CLI, and sharp then sits under the extracted .next tree rather than cwd.
+async function childCwd(): Promise<string> {
+  const { existsSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const cwd = process.cwd();
+  const nested = join(cwd, ".next");
+  return existsSync(join(nested, "node_modules", "sharp")) &&
+    !existsSync(join(cwd, "node_modules", "sharp"))
+    ? nested
+    : cwd;
+}
+
 async function svgToPngChild(svg: string): Promise<Buffer> {
   const cp = await import("node:child_process");
+  const cwd = await childCwd();
   return new Promise((resolve, reject) => {
     const child = cp.execFile(
       process.execPath,
       ["-e", CHILD_CONVERT_SCRIPT],
-      { encoding: "buffer", maxBuffer: 32 * 1024 * 1024, timeout: 15000 },
+      {
+        cwd,
+        env: { ...process.env, BUN_BE_BUN: "1" },
+        encoding: "buffer",
+        maxBuffer: 32 * 1024 * 1024,
+        timeout: 15000,
+      },
       (err, stdout, stderr) => {
         if (err || stdout.length === 0) {
           reject(
