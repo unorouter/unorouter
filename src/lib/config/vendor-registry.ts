@@ -803,8 +803,11 @@ export const DEFAULT_THEME: VendorTheme = {
   primary: "#94a3b8",
 };
 
-export function getVendorTheme(vendor: string): VendorTheme {
-  const normalized = vendor.toLowerCase();
+// The catalog declares vendor as required but ships rows without it, so this
+// takes the widened type rather than throwing on every card that renders one.
+export function getVendorTheme(vendor: string | undefined): VendorTheme {
+  const normalized = vendor?.toLowerCase();
+  if (!normalized) return DEFAULT_THEME;
   for (const [key, theme] of Object.entries(VENDOR_THEMES)) {
     if (normalized.includes(key)) return theme;
   }
