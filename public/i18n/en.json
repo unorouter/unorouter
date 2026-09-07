@@ -2822,7 +2822,6 @@
       "BAND_AUTO_HINT": "Route on the normal cheapest-first chain",
       "BAND_OFF": "Any price",
       "BAND_HINT": "Drag to route only through lanes in a price range",
-      "BAND_CAUGHT": "{count} lanes in range",
       "BAND_CLEAR": "Clear range",
       "BAND_MIN": "Minimum price ratio",
       "BAND_MAX": "Maximum price ratio",

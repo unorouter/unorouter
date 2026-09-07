@@ -2822,7 +2822,6 @@
       "BAND_AUTO_HINT": "Router via la chaîne habituelle, du moins cher au plus cher",
       "BAND_OFF": "Tous les prix",
       "BAND_HINT": "Faites glisser pour ne router que via les offres d'une plage de prix",
-      "BAND_CAUGHT": "{count} offres dans la plage",
       "BAND_CLEAR": "Effacer la plage",
       "BAND_MIN": "Ratio de prix minimum",
       "BAND_MAX": "Ratio de prix maximum",

@@ -2822,7 +2822,6 @@
       "BAND_AUTO_HINT": "Roteia pela cadeia normal, do mais barato ao mais caro",
       "BAND_OFF": "Qualquer preço",
       "BAND_HINT": "Arraste para rotear apenas por provedores em uma faixa de preço",
-      "BAND_CAUGHT": "{count} provedores na faixa",
       "BAND_CLEAR": "Limpar faixa",
       "BAND_MIN": "Proporção de preço mínima",
       "BAND_MAX": "Proporção de preço máxima",

@@ -2822,7 +2822,6 @@
       "BAND_AUTO_HINT": "Instrada tramite la catena normale, dal più economico",
       "BAND_OFF": "Qualsiasi prezzo",
       "BAND_HINT": "Trascina per instradare solo tramite fornitori in una fascia di prezzo",
-      "BAND_CAUGHT": "{count} fornitori nella fascia",
       "BAND_CLEAR": "Cancella fascia",
       "BAND_MIN": "Rapporto di prezzo minimo",
       "BAND_MAX": "Rapporto di prezzo massimo",

@@ -303,7 +303,6 @@ function ModelGroupPopover(props: {
     props.entry.min !== undefined || props.entry.max !== undefined;
   const bandLow = props.entry.min ?? 0;
   const bandHigh = props.entry.max ?? BAND_MAX;
-  const caught = groupsInBand(props.options, props.entry.min, props.entry.max);
   const allShownSelected =
     options.length > 0 && options.every((o) => selected.includes(o.group));
 
@@ -400,9 +399,7 @@ function ModelGroupPopover(props: {
           </div>
           <div className="mt-1.5 flex items-center justify-between gap-2">
             <span className="text-muted-foreground text-[10px]">
-              {hasBand
-                ? t("TOKEN.FORM.BAND_CAUGHT", { count: caught.length })
-                : t("TOKEN.FORM.BAND_HINT")}
+              {hasBand ? "" : t("TOKEN.FORM.BAND_HINT")}
             </span>
             {hasBand && (
               <button
@@ -420,17 +417,6 @@ function ModelGroupPopover(props: {
               </button>
             )}
           </div>
-          {hasBand && caught.length > 0 && (
-            <div className="text-muted-foreground mt-1 truncate font-mono text-[10px]">
-              {caught
-                .slice(0, 3)
-                .map((o) =>
-                  groupDisplayLabel(o.group, props.model.replace(/:/g, "-")),
-                )
-                .join(", ")}
-              {caught.length > 3 && ` +${caught.length - 3}`}
-            </div>
-          )}
         </div>
         <Command shouldFilter={false}>
           {props.options.length > GROUP_SEARCH_THRESHOLD && (
