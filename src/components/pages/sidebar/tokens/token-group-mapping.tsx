@@ -380,7 +380,7 @@ function ModelGroupPopover(props: {
               setBand(bandPosToRatio(low), bandPosToRatio(high));
             }}
           />
-          <div className="mt-1.5 flex items-center justify-center gap-1.5">
+          <div className="mt-1.5 flex items-center justify-between gap-1.5">
             <BandNumber
               value={props.entry.min}
               placeholder="0"
@@ -389,7 +389,6 @@ function ModelGroupPopover(props: {
                 setBand(next ?? 0, props.entry.max ?? BAND_MAX)
               }
             />
-            <span className="text-muted-foreground text-[10px]">-</span>
             <BandNumber
               value={props.entry.max}
               placeholder={String(BAND_MAX)}
@@ -464,11 +463,13 @@ function ModelGroupPopover(props: {
               >
                 <CheckBox checked={allShownSelected} />
               </button>
+              {/* The primitive wraps the input in a block div, which in this
+                  flex row would shrink to the placeholder's width. */}
               <CommandInput
                 placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
                 value={search}
                 onValueChange={setSearch}
-                className="border-b-0"
+                wrapperClassName="flex-1 pb-1"
               />
             </div>
           )}
