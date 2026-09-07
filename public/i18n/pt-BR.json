@@ -4501,7 +4501,9 @@
       "CORS": "O endpoint bloqueia requisicoes do navegador. Use o teste pelo servidor.",
       "UNREACHABLE": "Endpoint inacessivel. Verifique a URL base.",
       "INVALID_KEY": "Chave de API invalida.",
-      "NO_FORMAT": "O endpoint nao aceitou nenhum formato de API suportado."
+      "MODEL_REJECTED": "O endpoint rejeitou o nome do modelo. Verifique se há erros de digitação ou escolha um modelo que o endpoint ofereça.",
+      "ENDPOINT_BUSY": "O endpoint está sobrecarregado ou com limite de taxa agora. Tente novamente em instantes.",
+      "NO_FORMAT": "O endpoint não aceitou nenhum formato de API suportado."
     },
     "PUBLISH": {
       "WARN_TITLE": "Isto envia sua chave ao nosso servidor",

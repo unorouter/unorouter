@@ -4501,7 +4501,9 @@
       "CORS": "Punkt koncowy blokuje zadania przegladarki. Uzyj testu serwerowego.",
       "UNREACHABLE": "Punkt koncowy nieosiagalny. Sprawdz bazowy adres URL.",
       "INVALID_KEY": "Nieprawidlowy klucz API.",
-      "NO_FORMAT": "Punkt koncowy nie zaakceptowal zadnego obslugiwanego formatu API."
+      "MODEL_REJECTED": "Punkt końcowy odrzucił nazwę modelu. Sprawdź, czy nie ma literówek, albo wybierz model, który ten punkt obsługuje.",
+      "ENDPOINT_BUSY": "Punkt końcowy jest przeciążony lub ograniczony limitem zapytań. Spróbuj ponownie za chwilę.",
+      "NO_FORMAT": "Punkt końcowy nie zaakceptował żadnego obsługiwanego formatu API."
     },
     "PUBLISH": {
       "WARN_TITLE": "To wysyla twoj klucz do naszego serwera",

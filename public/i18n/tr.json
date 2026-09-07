@@ -4501,7 +4501,9 @@
       "CORS": "Uc nokta tarayici isteklerini engelliyor. Sunucu testini kullanin.",
       "UNREACHABLE": "Uc noktaya ulasilamiyor. Temel URL'yi kontrol edin.",
       "INVALID_KEY": "Gecersiz API anahtari.",
-      "NO_FORMAT": "Uc nokta desteklenen hicbir API bicimini kabul etmedi."
+      "MODEL_REJECTED": "Uç nokta model adını reddetti. Yazım hatası olup olmadığını kontrol edin veya uç noktanın sunduğu bir model seçin.",
+      "ENDPOINT_BUSY": "Uç nokta şu anda aşırı yüklü veya hız sınırına takıldı. Birazdan tekrar deneyin.",
+      "NO_FORMAT": "Uç nokta desteklenen hiçbir API biçimini kabul etmedi."
     },
     "PUBLISH": {
       "WARN_TITLE": "Bu, anahtarinizi sunucumuza gonderir",

@@ -4501,7 +4501,9 @@
       "CORS": "Le point de terminaison bloque les requetes du navigateur. Utilisez le test serveur.",
       "UNREACHABLE": "Point de terminaison injoignable. Verifiez l'URL de base.",
       "INVALID_KEY": "Cle d'API invalide.",
-      "NO_FORMAT": "Le point de terminaison n'a accepte aucun format d'API pris en charge."
+      "MODEL_REJECTED": "Le point de terminaison a rejeté le nom du modèle. Vérifiez l'orthographe ou choisissez un modèle qu'il propose.",
+      "ENDPOINT_BUSY": "Le point de terminaison est saturé ou limité en débit pour le moment. Réessayez dans un instant.",
+      "NO_FORMAT": "Le point de terminaison n'a accepté aucun format d'API pris en charge."
     },
     "PUBLISH": {
       "WARN_TITLE": "Ceci envoie votre cle a notre serveur",

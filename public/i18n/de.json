@@ -4501,7 +4501,9 @@
       "CORS": "Endpunkt blockiert Browser-Anfragen. Nutze den Server-Test.",
       "UNREACHABLE": "Endpunkt nicht erreichbar. Pruefe die Basis-URL.",
       "INVALID_KEY": "Ungueltiger API-Schluessel.",
-      "NO_FORMAT": "Endpunkt akzeptierte kein unterstuetztes API-Format."
+      "MODEL_REJECTED": "Endpunkt hat den Modellnamen abgelehnt. Prüfe den Namen auf Tippfehler oder wähle ein Modell, das der Endpunkt anbietet.",
+      "ENDPOINT_BUSY": "Endpunkt ist gerade überlastet oder rate-limitiert. Versuche es gleich noch einmal.",
+      "NO_FORMAT": "Endpunkt akzeptierte kein unterstütztes API-Format."
     },
     "PUBLISH": {
       "WARN_TITLE": "Dies sendet deinen Schluessel an unseren Server",

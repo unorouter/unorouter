@@ -95,6 +95,8 @@ export const CONN_KEY: Record<string, TranslationKey> = {
   "cors-needs-backend": "MODEL_TESTER.CONNECTIVITY.CORS",
   unreachable: "MODEL_TESTER.CONNECTIVITY.UNREACHABLE",
   "invalid-key": "MODEL_TESTER.CONNECTIVITY.INVALID_KEY",
+  "model-rejected": "MODEL_TESTER.CONNECTIVITY.MODEL_REJECTED",
+  "endpoint-busy": "MODEL_TESTER.CONNECTIVITY.ENDPOINT_BUSY",
   "no-format": "MODEL_TESTER.CONNECTIVITY.NO_FORMAT",
 };
 
