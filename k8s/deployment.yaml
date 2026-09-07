@@ -1,5 +1,5 @@
-# unorouter (Next.js BFF). NEXT_PUBLIC_* baked at build; server env at runtime wins over the
-# image's .env (dotenv semantics). PRIVATE image (build bakes secrets) -> ghcr-pull.
+# unorouter (Next.js BFF, one compiled Bun binary on distroless). NEXT_PUBLIC_* baked at build;
+# every other value comes from the unorouter-env Secret at runtime; the image carries no .env.
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,21 +53,14 @@ spec:
           # NEVER set this back to :latest -- a floating tag never changes the manifest, so
           # ArgoCD sees no diff and the deploy silently does not happen.
           image: ghcr.io/unorouter/unorouter:e4fa4a5c66811a1f0eddbda6422dd238026b1a72
-          # heaviest service on the fleet: ~950Mi steady (Next.js SSR). Request must match
-          # that or the scheduler overpacks nodes; limit is ~2x peak.
+          # heaviest service on the fleet: ~1.1Gi steady as a compiled binary (the whole
+          # static tree is served from memory). Request must match that or the scheduler
+          # overpacks nodes; limit is ~2x peak.
           resources:
-            requests: { memory: 1Gi, cpu: "1" }
+            requests: { memory: 1536Mi, cpu: "1" }
             limits: { memory: 3Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
-          env:
-            # V8 sizes its heap from the HOST's RAM, not the cgroup limit, so it picked a
-            # ~1120MB ceiling and hit "Ineffective mark-compacts" while half the limit sat
-            # unused. Keep this below the limit so V8 GCs hard before the kernel OOM-kills.
-            # Headroom over the steady ~1GB absorbs an unidentified slow climb that was
-            # OOM-killing both replicas hourly and 524ing the site.
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=2560"
           ports:
             - containerPort: 3000
           # readiness gates traffic on deps (db/upstream); generous timeout, deps can be slow
