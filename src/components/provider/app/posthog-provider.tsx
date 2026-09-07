@@ -3,22 +3,19 @@
 import { useAuthUser } from "@/hooks/auth/auth-hook";
 import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { posthog } from "@/lib/posthog-lazy";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 function PostHogPageView() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (IS_DEV || !pathname) return;
-
-    let url = window.origin + pathname;
-    if (searchParams?.toString()) {
-      url = url + `?${searchParams.toString()}`;
-    }
-    posthog.capture("$pageview", { $current_url: url });
-  }, [pathname, searchParams]);
+    // Path only, never search params: nuqs rewrites the query on every filter
+    // keystroke, and keying on it billed /models at 12-22 pageviews per visitor
+    // against the 1M/month tier while every other page sat at 2.5.
+    posthog.capture("$pageview", { $current_url: window.origin + pathname });
+  }, [pathname]);
 
   return null;
 }
