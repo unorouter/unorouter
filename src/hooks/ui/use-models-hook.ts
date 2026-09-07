@@ -33,6 +33,12 @@ import { useEffect, useRef } from "react";
 
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
 
+// One event per search, not per pause and not per component: the toolbar and
+// the page both call useModelsFilter, so a ref gave each its own copy and both
+// billed the same keystroke. Refining a query is the same search, so it is
+// reported once the typist moves on; the 3s wait still reports an abandoned one.
+let lastReportedQuery = "";
+
 function effectivePrice(model: PricingCatalogModel): number {
   return model.is_fixed_price ? model.fixed_price : model.input_price;
 }
@@ -230,20 +236,14 @@ export function useModelsFilter() {
   useEffect(() => {
     resultCountRef.current = resultCount;
   }, [resultCount]);
-  // One event per search, not per pause: a typist who stops twice while typing
-  // "deepseek" used to bill both prefixes. Continuing to refine the same query
-  // is the same search, so it is only reported once the typist moves on to an
-  // unrelated one. The 3s wait means an abandoned query still reports.
-  const reportedQueryRef = useRef("");
   useEffect(() => {
     if (trimmedQuery.length < 2) return;
-    const previous = reportedQueryRef.current;
-    if (previous && trimmedQuery.startsWith(previous)) {
-      reportedQueryRef.current = trimmedQuery;
+    if (lastReportedQuery && trimmedQuery.startsWith(lastReportedQuery)) {
+      lastReportedQuery = trimmedQuery;
       return;
     }
     const id = setTimeout(() => {
-      reportedQueryRef.current = trimmedQuery;
+      lastReportedQuery = trimmedQuery;
       analytics.models.searched({
         query_length: trimmedQuery.length,
         has_results: resultCountRef.current > 0,
