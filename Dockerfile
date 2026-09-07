@@ -14,7 +14,7 @@ ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
 ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 RUN --mount=type=cache,target=/app/.next/cache NBC_TARGET=bun-linux-$([ "$TARGETARCH" = arm64 ] && echo arm64 || echo x64) bun run build
 
-FROM gcr.io/distroless/cc-debian12:nonroot AS prod
+FROM gcr.io/distroless/cc-debian12:nonroot@sha256:9dac0a79194e45a7da0158a9c6da57b217585af0786db3845d1f0ec1a0dd182f AS prod
 WORKDIR /app
 ENV NODE_ENV=production
 ARG GIT_SHA=dev
