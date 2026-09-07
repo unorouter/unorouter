@@ -16,7 +16,6 @@ export const verifyRoute = new Elysia({ prefix: "/verify" }).post(
       headers: { ...body.headers, "content-type": "application/json" },
       body: JSON.stringify(body.reqBody),
       maxBytes: PROBE_MAX_BYTES,
-      allowPublicGateway: true,
     })
       .then((res) => ({
         status: res.status,

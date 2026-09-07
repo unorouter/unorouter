@@ -30,11 +30,6 @@ const OWN_DOMAINS = [
 function isOwnHost(host: string): boolean {
   return OWN_DOMAINS.some((d) => host === d || host.endsWith("." + d));
 }
-// The public gateway host is a legitimate probe target for the model tester:
-// it is the endpoint users are verifying, and it is reachable from the open
-// internet anyway, so allowing it grants no access the caller lacks. Only this
-// exact host, never the rest of our zones (isOwnHost still guards those).
-const PUBLIC_GATEWAY_HOST = new URL(env.apiOrigin).hostname.toLowerCase();
 const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
@@ -131,7 +126,7 @@ const safeAgent = new Agent({
   bodyTimeout: DOWNLOAD_TIMEOUT,
 });
 
-function parseAndCheckUrl(url: string, allowPublicGateway = false): URL {
+function parseAndCheckUrl(url: string): URL {
   let parsed: URL;
   try {
     parsed = new URL(url);
@@ -150,11 +145,16 @@ function parseAndCheckUrl(url: string, allowPublicGateway = false): URL {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   const host = parsed.hostname.toLowerCase();
-  const gatewayAllowed = allowPublicGateway && host === PUBLIC_GATEWAY_HOST;
+  // A trailing dot names the same host to DNS and to Cloudflare but not to a
+  // suffix match; "api.unorouter.com." walked past isOwnHost (2026-09-07).
+  // The public gateway is never a valid target either, whatever the caller
+  // says it is testing: a request from a node address reaches it as trusted
+  // with the caller's identity lost.
   if (
+    host.endsWith(".") ||
     BLOCKED_HOSTS.has(host) ||
     host.endsWith(".internal") ||
-    (isOwnHost(host) && !gatewayAllowed)
+    isOwnHost(host)
   ) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
@@ -289,12 +289,10 @@ export async function safeFetchRaw(
     headers?: Record<string, string>;
     body?: string;
     maxBytes?: number;
-    /** Model tester only: probe the public gateway host as any client would. */
-    allowPublicGateway?: boolean;
   } = {},
 ): Promise<{ buffer: Buffer; contentType: string | null; status: number }> {
   const maxBytes = opts.maxBytes ?? MAX_DOWNLOAD_BYTES;
-  parseAndCheckUrl(url, opts.allowPublicGateway ?? false);
+  parseAndCheckUrl(url);
   const res = await undiciFetch(url, {
     method: opts.method ?? "GET",
     headers: opts.headers,
