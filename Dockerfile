@@ -25,6 +25,10 @@ ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
 ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 
 RUN --mount=type=cache,target=/app/.next/cache bun run build
+# Standalone output copies the build .env next to server.js. Drop it HERE, in the
+# builder: a file removed or overwritten in a later stage still sits in the layer
+# that copied it, and every layer ships with the image.
+RUN rm -f .next/standalone/.env
 
 FROM oven/bun:1.4-alpine AS prod
 WORKDIR /app
@@ -43,10 +47,8 @@ COPY --from=builder --chown=appuser:appgroup /app/.next/standalone ./
 COPY --from=builder --chown=appuser:appgroup /app/drizzle ./drizzle
 COPY --from=builder --chown=appuser:appgroup /app/.next/static ./.next/static
 COPY --from=builder --chown=appuser:appgroup /app/public ./public
-# The build needs the full .env (Next.js inlines NEXT_PUBLIC_* and the SSG prerender
-# calls the gateway), and standalone output copies that file along. The pod gets every
-# secret from the unorouter-env Secret at runtime, so the image keeps only the public
-# half: a pulled image must never hand out credentials.
+# The pod gets every secret from the unorouter-env Secret at runtime; the image carries
+# only the public half.
 COPY --chown=appuser:appgroup .env.public ./.env
 
 # sharp is a native module, so standalone tracing leaves it out of the bundle.
