@@ -30,6 +30,11 @@ const OWN_DOMAINS = [
 function isOwnHost(host: string): boolean {
   return OWN_DOMAINS.some((d) => host === d || host.endsWith("." + d));
 }
+// The public gateway host is a legitimate probe target for the model tester:
+// it is the endpoint users are verifying, and it is reachable from the open
+// internet anyway, so allowing it grants no access the caller lacks. Only this
+// exact host, never the rest of our zones (isOwnHost still guards those).
+const PUBLIC_GATEWAY_HOST = new URL(env.apiOrigin).hostname.toLowerCase();
 const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
@@ -126,7 +131,7 @@ const safeAgent = new Agent({
   bodyTimeout: DOWNLOAD_TIMEOUT,
 });
 
-function parseAndCheckUrl(url: string): URL {
+function parseAndCheckUrl(url: string, allowPublicGateway = false): URL {
   let parsed: URL;
   try {
     parsed = new URL(url);
@@ -145,7 +150,12 @@ function parseAndCheckUrl(url: string): URL {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   const host = parsed.hostname.toLowerCase();
-  if (BLOCKED_HOSTS.has(host) || host.endsWith(".internal") || isOwnHost(host)) {
+  const gatewayAllowed = allowPublicGateway && host === PUBLIC_GATEWAY_HOST;
+  if (
+    BLOCKED_HOSTS.has(host) ||
+    host.endsWith(".internal") ||
+    (isOwnHost(host) && !gatewayAllowed)
+  ) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   if (ipaddr.isValid(host) && !isPublicIp(host)) {
@@ -279,10 +289,12 @@ export async function safeFetchRaw(
     headers?: Record<string, string>;
     body?: string;
     maxBytes?: number;
+    /** Model tester only: probe the public gateway host as any client would. */
+    allowPublicGateway?: boolean;
   } = {},
 ): Promise<{ buffer: Buffer; contentType: string | null; status: number }> {
   const maxBytes = opts.maxBytes ?? MAX_DOWNLOAD_BYTES;
-  parseAndCheckUrl(url);
+  parseAndCheckUrl(url, opts.allowPublicGateway ?? false);
   const res = await undiciFetch(url, {
     method: opts.method ?? "GET",
     headers: opts.headers,

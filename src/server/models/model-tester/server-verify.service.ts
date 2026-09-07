@@ -18,6 +18,7 @@ export async function serverTransport(
       headers: { ...args.headers, "content-type": "application/json" },
       body: JSON.stringify(args.reqBody),
       maxBytes: PROBE_MAX_BYTES,
+      allowPublicGateway: true,
     });
     return {
       status: res.status,
