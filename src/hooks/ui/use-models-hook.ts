@@ -29,7 +29,7 @@ import {
 } from "@/store/models-store";
 import { analytics } from "@/lib/analytics";
 import { useAtom, useAtomValue } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -119,10 +119,12 @@ export function useModelsFilter() {
   const ageCutoff =
     maxAgeDays > 0 ? dayjs().valueOf() - maxAgeDays * 86_400_000 : 0;
   const tabModels = models.filter((model) => {
+    // vendor is declared required but the gateway ships rows without it, and an
+    // undefined here threw on every keystroke that reached those rows.
     const matchesSearch =
       query.length === 0 ||
       model.model_name.toLowerCase().includes(query) ||
-      model.vendor.toLowerCase().includes(query) ||
+      (model.vendor?.toLowerCase().includes(query) ?? false) ||
       (model.is_free && matchesFreeKeyword(query));
     const matchesVendor =
       selectedVendors.length === 0 || selectedVendors.includes(model.vendor);
@@ -221,16 +223,23 @@ export function useModelsFilter() {
 
   const trimmedQuery = search.trim();
   const resultCount = filtered.length;
+  // The count is mirrored into a ref instead of being a dependency: as a
+  // dependency it restarted the debounce and re-fired the event for a single
+  // query every time the filtered list changed size.
+  const resultCountRef = useRef(0);
+  useEffect(() => {
+    resultCountRef.current = resultCount;
+  }, [resultCount]);
   useEffect(() => {
     if (trimmedQuery.length < 2) return;
     const id = setTimeout(() => {
       analytics.models.searched({
         query_length: trimmedQuery.length,
-        has_results: resultCount > 0,
+        has_results: resultCountRef.current > 0,
       });
     }, 800);
     return () => clearTimeout(id);
-  }, [trimmedQuery, resultCount]);
+  }, [trimmedQuery]);
 
   return {
     search,
