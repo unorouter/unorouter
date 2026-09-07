@@ -52,6 +52,9 @@ const DROP_EXCEPTIONS = [
   "ai_nooutputgeneratederror",
   "webassembly is not defined", // wasm disabled by hardened-browser config; shiki falls back to plain text
   "a message with the same id already exists in the parent tree", // assistant-ui upstream bug
+  "window.ethereum", // crypto wallet extension writing to the page
+  "java object is gone", // android webview tearing down its js bridge
+  "can't find variable: config", // in-app browser injecting a stripped global
 ];
 
 // Sampled, not dropped: a full drop would hide a genuine outage.
@@ -71,6 +74,11 @@ const SAMPLE_EXCEPTIONS = [
   "clipboard",
   "write permission denied", // firefox clipboard permission denial
   "connection closed",
+  // Ours raise these (SW registration, token copy) when the browser blocks
+  // storage or a permission, so they are sampled, not dropped: a real
+  // regression in those paths still shows up.
+  "the operation is insecure",
+  "not allowed by the user agent",
 ];
 const SAMPLE_KEEP_RATE = 0.1;
 
@@ -113,6 +121,9 @@ function loadNow() {
       capture_performance: false,
       capture_heatmaps: false,
       capture_dead_clicks: false,
+      // On by default under `defaults`, ~800k events a month, and no insight
+      // reads it. $pageview still carries every funnel.
+      capture_pageleave: false,
       // maskAllInputs stays ON: it is what keeps typed passwords and API keys out
       // of recordings. Rendered text is deliberately unmasked.
       disable_session_recording: false,
