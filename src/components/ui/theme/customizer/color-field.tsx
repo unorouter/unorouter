@@ -20,7 +20,35 @@ function normalizeHex(v: string, expandShort = true): string | null {
   if (expandShort && /^#[0-9a-fA-F]{3}$/.test(s)) {
     s = `#${s[1]}${s[1]}${s[2]}${s[2]}${s[3]}${s[3]}`;
   }
-  return HEX_RE.test(s) ? s.toLowerCase() : null;
+  if (HEX_RE.test(s)) return s.toLowerCase();
+  return expandShort ? cssColorToHex(v.trim()) : null;
+}
+
+// "red" and "rgb(255 0 0)" are what people type; without this the field just
+// emptied itself on blur and read as broken. The browser does the parsing, but
+// an invalid value leaves the PREVIOUS fillStyle in place rather than
+// reporting failure, so the probe runs twice from different sentinels: a value
+// the browser refused keeps both, a real colour makes them agree.
+function cssColorToHex(input: string): string | null {
+  // currentColor resolves against the canvas rather than the field, so it
+  // would silently mean black.
+  if (
+    typeof document === "undefined" ||
+    !/^[a-z0-9(),.%/\s-]+$/i.test(input) ||
+    /^currentcolor$/i.test(input)
+  ) {
+    return null;
+  }
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) return null;
+  const read = (sentinel: string): string => {
+    ctx.fillStyle = sentinel;
+    ctx.fillStyle = input;
+    return typeof ctx.fillStyle === "string" ? ctx.fillStyle.toLowerCase() : "";
+  };
+  const first = read("#000000");
+  if (first !== read("#ffffff")) return null;
+  return HEX_RE.test(first) ? first : null;
 }
 
 export function ColorField(props: {
