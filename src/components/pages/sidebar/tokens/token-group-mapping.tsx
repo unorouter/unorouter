@@ -216,6 +216,49 @@ function priceLabel(
   return `${perMillion(price.input * ratio)} / ${perMillion(price.output * ratio)}`;
 }
 
+// Typing a ratio is the only way to reach a value between two slider steps,
+// and the low end is where the steps are coarsest relative to the prices.
+function BandNumber(props: {
+  value: number | undefined;
+  placeholder: string;
+  ariaLabel: string;
+  onCommit: (next: number | undefined) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  // A slider step lands on values like 0.2266666: show it rounded, but only
+  // while the user is not typing, so their own digits are never rewritten.
+  const shown =
+    draft ??
+    (props.value === undefined ? "" : String(Number(props.value.toFixed(3))));
+
+  const commit = () => {
+    if (draft === null) return;
+    setDraft(null);
+    const trimmed = draft.trim();
+    if (trimmed === "") return props.onCommit(undefined);
+    const parsed = Number(trimmed);
+    if (!Number.isFinite(parsed) || parsed < 0) return;
+    props.onCommit(Math.min(parsed, BAND_MAX));
+  };
+
+  return (
+    <input
+      type="text"
+      inputMode="decimal"
+      value={shown}
+      placeholder={props.placeholder}
+      aria-label={props.ariaLabel}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.currentTarget.blur();
+        if (e.key === "Escape") setDraft(null);
+      }}
+      className="border-input bg-background focus-visible:ring-ring/50 h-6 w-16 rounded border px-1.5 text-center font-mono text-[11px] outline-none focus-visible:ring-2"
+    />
+  );
+}
+
 function CheckBox(props: { checked: boolean }) {
   return (
     <div
@@ -261,6 +304,8 @@ function ModelGroupPopover(props: {
   const bandLow = props.entry.min ?? 0;
   const bandHigh = props.entry.max ?? BAND_MAX;
   const caught = groupsInBand(props.options, props.entry.min, props.entry.max);
+  const allShownSelected =
+    options.length > 0 && options.every((o) => selected.includes(o.group));
 
   function toggleGroup(group: string) {
     const next = selected.includes(group)
@@ -335,6 +380,25 @@ function ModelGroupPopover(props: {
               setBand(bandPosToRatio(low), bandPosToRatio(high));
             }}
           />
+          <div className="mt-1.5 flex items-center justify-center gap-1.5">
+            <BandNumber
+              value={props.entry.min}
+              placeholder="0"
+              ariaLabel={t("TOKEN.FORM.BAND_MIN")}
+              onCommit={(next) =>
+                setBand(next ?? 0, props.entry.max ?? BAND_MAX)
+              }
+            />
+            <span className="text-muted-foreground text-[10px]">-</span>
+            <BandNumber
+              value={props.entry.max}
+              placeholder={String(BAND_MAX)}
+              ariaLabel={t("TOKEN.FORM.BAND_MAX")}
+              onCommit={(next) =>
+                setBand(props.entry.min ?? 0, next ?? BAND_MAX)
+              }
+            />
+          </div>
           <div className="mt-1.5 flex items-center justify-between gap-2">
             <span className="text-muted-foreground text-[10px]">
               {hasBand
@@ -371,11 +435,42 @@ function ModelGroupPopover(props: {
         </div>
         <Command shouldFilter={false}>
           {props.options.length > GROUP_SEARCH_THRESHOLD && (
-            <CommandInput
-              placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
-              value={search}
-              onValueChange={setSearch}
-            />
+            <div className="flex items-center border-b pl-2">
+              {/* Scoped to what the search shows, so with a filter active this
+                  takes a whole vendor's lanes in one click. */}
+              <button
+                type="button"
+                aria-label={t(
+                  allShownSelected
+                    ? "TOKEN.FORM.GROUP_SELECT_NONE"
+                    : "TOKEN.FORM.GROUP_SELECT_ALL",
+                )}
+                title={t(
+                  allShownSelected
+                    ? "TOKEN.FORM.GROUP_SELECT_NONE"
+                    : "TOKEN.FORM.GROUP_SELECT_ALL",
+                )}
+                onClick={() => {
+                  const shown = options.map((o) => o.group);
+                  const next = allShownSelected
+                    ? selected.filter((g) => !shown.includes(g))
+                    : [...new Set([...selected, ...shown])];
+                  props.onChange({
+                    ...props.entry,
+                    groups: next,
+                    auto: undefined,
+                  });
+                }}
+              >
+                <CheckBox checked={allShownSelected} />
+              </button>
+              <CommandInput
+                placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
+                value={search}
+                onValueChange={setSearch}
+                className="border-b-0"
+              />
+            </div>
           )}
           <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
             <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>

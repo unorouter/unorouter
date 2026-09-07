@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Cualquier precio",
       "BAND_HINT": "Arrastra para enrutar solo por proveedores dentro de un rango de precio",
       "BAND_CAUGHT": "{count} proveedores en el rango",
-      "BAND_CLEAR": "Borrar rango"
+      "BAND_CLEAR": "Borrar rango",
+      "BAND_MIN": "Ratio de precio mínimo",
+      "BAND_MAX": "Ratio de precio máximo",
+      "GROUP_SELECT_ALL": "Seleccionar todo",
+      "GROUP_SELECT_NONE": "No seleccionar ninguno"
     },
     "ENUM": {
       "ENABLED": "Activada",

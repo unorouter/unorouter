@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Any price",
       "BAND_HINT": "Drag to route only through lanes in a price range",
       "BAND_CAUGHT": "{count} lanes in range",
-      "BAND_CLEAR": "Clear range"
+      "BAND_CLEAR": "Clear range",
+      "BAND_MIN": "Minimum price ratio",
+      "BAND_MAX": "Maximum price ratio",
+      "GROUP_SELECT_ALL": "Select all",
+      "GROUP_SELECT_NONE": "Select none"
     },
     "ENUM": {
       "ENABLED": "Enabled",

@@ -1,6 +1,7 @@
 import { msg, type TranslationKey } from "@/lib/config/constants";
 import type { TableFeats } from "@/lib/config/table-features";
 import { dayjs } from "@/lib/utils/format/date";
+import { QUOTA_TO_USD } from "@/lib/utils/format/number";
 import type { GetLogsStatParams, GetUserLogsParams, Log } from "@/openapi";
 import { columnFilters as getColumnFilterValues } from "@/store/data-table-store";
 import type {
@@ -196,7 +197,7 @@ export function computeLogPricing(
 ): LogPricing | null {
   const modelRatio = other?.model_ratio;
   if (!other || !modelRatio || modelRatio <= 0) return null;
-  const inputPrice = modelRatio * 2;
+  const inputPrice = modelRatio * QUOTA_TO_USD;
   const outputPrice = other.completion_ratio
     ? inputPrice * other.completion_ratio
     : inputPrice;

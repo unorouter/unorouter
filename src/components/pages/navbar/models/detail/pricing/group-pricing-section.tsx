@@ -18,6 +18,7 @@ import {
   formatLatency,
   formatPct,
   formatPrice,
+  QUOTA_TO_USD,
 } from "@/lib/utils/format/number";
 import {
   MINI_TABLE,
@@ -222,7 +223,7 @@ function GroupTokens(props: {
       </thead>
       <tbody>
         {props.entries.map((ge) => {
-          const inputPrice = props.modelRatio * 2 * ge.ratio;
+          const inputPrice = props.modelRatio * QUOTA_TO_USD * ge.ratio;
           const outputPrice = inputPrice * props.completionRatio;
           return (
             <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>

@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Qualsiasi prezzo",
       "BAND_HINT": "Trascina per instradare solo tramite fornitori in una fascia di prezzo",
       "BAND_CAUGHT": "{count} fornitori nella fascia",
-      "BAND_CLEAR": "Cancella fascia"
+      "BAND_CLEAR": "Cancella fascia",
+      "BAND_MIN": "Rapporto di prezzo minimo",
+      "BAND_MAX": "Rapporto di prezzo massimo",
+      "GROUP_SELECT_ALL": "Seleziona tutto",
+      "GROUP_SELECT_NONE": "Deseleziona tutto"
     },
     "ENUM": {
       "ENABLED": "Abilitata",

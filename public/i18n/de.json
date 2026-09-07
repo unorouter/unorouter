@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Beliebiger Preis",
       "BAND_HINT": "Ziehen, um nur über Anbieter in einem Preisbereich zu leiten",
       "BAND_CAUGHT": "{count} Anbieter im Bereich",
-      "BAND_CLEAR": "Bereich zurücksetzen"
+      "BAND_CLEAR": "Bereich zurücksetzen",
+      "BAND_MIN": "Minimales Preisverhältnis",
+      "BAND_MAX": "Maximales Preisverhältnis",
+      "GROUP_SELECT_ALL": "Alle auswählen",
+      "GROUP_SELECT_NONE": "Keine auswählen"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",

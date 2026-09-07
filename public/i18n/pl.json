@@ -2823,7 +2823,11 @@
       "BAND_OFF": "Dowolna cena",
       "BAND_HINT": "Przeciągnij, aby kierować tylko przez dostawców w zakresie cen",
       "BAND_CAUGHT": "Dostawcy w zakresie: {count}",
-      "BAND_CLEAR": "Wyczyść zakres"
+      "BAND_CLEAR": "Wyczyść zakres",
+      "BAND_MIN": "Minimalny współczynnik ceny",
+      "BAND_MAX": "Maksymalny współczynnik ceny",
+      "GROUP_SELECT_ALL": "Zaznacz wszystko",
+      "GROUP_SELECT_NONE": "Odznacz wszystko"
     },
     "ENUM": {
       "ENABLED": "Włączony",

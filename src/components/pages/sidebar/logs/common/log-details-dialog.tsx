@@ -12,7 +12,7 @@ import { Icon } from "@/components/ui/icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
 import { formatTimestamp } from "@/lib/utils/format/date";
-import { formatPriceCompact } from "@/lib/utils/format/number";
+import { formatPriceCompact, QUOTA_TO_USD } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { getClientAttribution, parseOther, type LogRow } from "./log-helpers";
@@ -43,7 +43,7 @@ export function LogDetailsDialog(props: {
   const billingMode = other?.billing_mode;
   const matchedTier = other?.matched_tier;
 
-  const inputPrice = modelRatio * 2;
+  const inputPrice = modelRatio * QUOTA_TO_USD;
   const outputPrice = inputPrice * completionRatio;
   const cacheReadPrice = cacheRatio != null ? inputPrice * cacheRatio : null;
   const cacheCreatePrice =
