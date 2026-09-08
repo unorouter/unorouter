@@ -71,6 +71,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          secrets: |
+            posthog_upload_key=${{ secrets.POSTHOG_UPLOAD_KEY }}
           platforms: ${{ matrix.platform }}
           build-args: |
             GIT_SHA=${{ github.sha }}
