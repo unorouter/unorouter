@@ -45,11 +45,11 @@ function getHeader(
 
 // "" with no request scope: upstream must record NO client IP rather than the
 // socket peer, which is this pod masquerading as a user.
-async function getServerCountry(): Promise<string> {
+async function getServerHeader(name: string): Promise<string> {
   if (typeof window !== "undefined") return "";
   try {
     const { headers } = await import("next/headers");
-    return (await headers()).get("cf-ipcountry")?.trim() ?? "";
+    return (await headers()).get(name)?.trim() ?? "";
   } catch {
     return "";
   }
@@ -107,10 +107,19 @@ export const customFetch = async <T>(
     getHeader(headers, "CF-Connecting-IP")
       ? ""
       : await getServerClientIp();
+  const edgeOnly = hasExplicitAuth || upstreamIsProxied;
   const country =
-    hasExplicitAuth || upstreamIsProxied || getHeader(headers, "CF-IPCountry")
+    edgeOnly || getHeader(headers, "CF-IPCountry")
       ? ""
-      : await getServerCountry();
+      : await getServerHeader("cf-ipcountry");
+  const ray =
+    edgeOnly || getHeader(headers, "CF-Ray")
+      ? ""
+      : await getServerHeader("cf-ray");
+  const userAgent =
+    hasExplicitAuth || getHeader(headers, "User-Agent")
+      ? ""
+      : await getServerHeader("user-agent");
 
   const res = await fetch(new URL(url, upstreamApiUrl).toString(), {
     ...options,
@@ -120,6 +129,8 @@ export const customFetch = async <T>(
       ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
       ...(clientIp && { "CF-Connecting-IP": clientIp }),
       ...(country && { "CF-IPCountry": country }),
+      ...(ray && { "CF-Ray": ray }),
+      ...(userAgent && { "User-Agent": userAgent }),
       ...(upstreamIsProxied &&
         process.env.EDGE_DEV_TOKEN && {
           "x-edge-dev": process.env.EDGE_DEV_TOKEN,

@@ -112,6 +112,12 @@ export async function deriveUpstream({ request }: { request: Request }) {
   if (clientIp && !upstreamIsProxied) headers["CF-Connecting-IP"] = clientIp;
   const country = request.headers.get("cf-ipcountry");
   if (country && !upstreamIsProxied) headers["CF-IPCountry"] = country;
+  const ray = request.headers.get("cf-ray");
+  if (ray && !upstreamIsProxied) headers["CF-Ray"] = ray;
+  // The gateway keys login sessions and audit rows on the User-Agent; without
+  // this every web login reads as the server runtime.
+  const userAgent = request.headers.get("user-agent");
+  if (userAgent) headers["User-Agent"] = userAgent;
   if (upstreamIsProxied && serverEnv.edgeDevToken)
     headers["x-edge-dev"] = serverEnv.edgeDevToken;
 
