@@ -3839,7 +3839,7 @@
     "DISCORD_CTA": "Brauchst du ein Preset oder Hilfe? Frag auf Discord",
     "TRUNCATED_BEFORE_TEXT": "Das Ausgabelimit wurde erreicht, während das Modell noch nachdachte, daher wurde keine Antwort geschrieben. Erhöhe die maximale Tokenzahl oder deaktiviere das Reasoning für dieses Modell.",
     "LOCAL_ONLY_NOTICE": "Deine Chats bleiben auf diesem Gerät. Wir sehen sie nie und bewahren keine Kopie auf, also sichere sie selbst.",
-    "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gesichert werden und gehen beim Neuladen verloren. Erlaube Cookies und Website-Daten für diese Seite oder verlasse den privaten Modus."
+    "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gespeichert werden und Nachrichten verschwinden beim Senden. Erlaube Cookies und Websitedaten für diese Seite, deaktiviere das Löschen der Daten beim Schließen und verlasse den privaten Modus. Datenschutzorientierte Chromium-Varianten blockieren das standardmäßig."
   },
   "ROOM": {
     "HOST_TITLE": "Mehrspieler-Raum",
