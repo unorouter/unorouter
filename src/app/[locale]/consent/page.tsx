@@ -5,7 +5,7 @@ import { APP_VALUES, AUTH_REDIRECT_QUERY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
-import { serverLocale, setCookies } from "@/lib/utils/server";
+import { serverLocale, serverRequestHeaders } from "@/lib/utils/server";
 import {
   authRequestInfoChecker,
   type AuthRequestInfo,
@@ -56,7 +56,9 @@ export default async function ConsentPage(props: ConsentPageProps) {
   const t = await getTranslations();
   const authRequestID = params.authRequestID ?? "";
 
-  const response = await rpc.api.auth.account.self.get(await setCookies());
+  const response = await rpc.api.auth.account.self.get(
+    await serverRequestHeaders(),
+  );
   if (response.status !== 200) {
     redirect({
       href: {

@@ -12,7 +12,11 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  AUTH_REDIRECT_COOKIE,
+  AUTH_REDIRECT_QUERY,
+  LOCALES,
+} from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import { sanitizeRedirectPath } from "@/lib/utils/server";
 import {
@@ -30,7 +34,8 @@ import {
 } from "@/openapi";
 import { resolveSelf } from "@/server/auth/account/self.service";
 import { deriveUpstream } from "@/server/constants";
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
+import { hasLocale } from "next-intl";
 
 export const authRoute = new Elysia({ prefix: "/account" })
   .derive(deriveUpstream)
@@ -81,6 +86,25 @@ export const authRoute = new Elysia({ prefix: "/account" })
     clearSessionCookies(cookie);
     return unwrap(res);
   })
+
+  // Server Components find expired sessions but cannot write cookies; they
+  // redirect here so the dead token is cleared before /login.
+  .get(
+    "/expired",
+    ({ cookie, query, set }) => {
+      clearSessionCookies(cookie);
+      const locale = hasLocale(LOCALES, query.locale)
+        ? query.locale
+        : LOCALES[0];
+      const next = query.next ? sanitizeRedirectPath(query.next) : null;
+      const search = next
+        ? `?${new URLSearchParams({ [AUTH_REDIRECT_QUERY]: next })}`
+        : "";
+      set.status = 302;
+      set.headers.location = `/${locale}/login${search}`;
+    },
+    { query: t.Object({ locale: t.String(), next: t.Optional(t.String()) }) },
+  )
 
   // 419 is the expired-session status; 401 is a plain guest.
   .get("/self", async ({ cookie, request, status }) => {

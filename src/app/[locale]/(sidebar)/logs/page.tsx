@@ -12,7 +12,7 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { setCookies } from "@/lib/utils/server";
+import { serverRequestHeaders } from "@/lib/utils/server";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";
@@ -44,7 +44,7 @@ export default async function LogsPage() {
     taskTable.pagination,
   );
 
-  const serverCookies = await setCookies();
+  const serverCookies = await serverRequestHeaders();
 
   await Promise.all([
     prefetchAuth(queryClient),
