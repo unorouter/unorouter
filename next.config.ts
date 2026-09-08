@@ -1,4 +1,3 @@
-import { withPostHogConfig } from "@posthog/nextjs-config";
 import { withSerwist } from "@serwist/turbopack";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
@@ -207,26 +206,5 @@ const withNextIntl = createNextIntlPlugin({
 
 const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
-// Read the flag directly: the constants-module indirection evaluated before
-// env loading in the Docker build and the sourcemap upload kept running.
-export default process.env.STANDALONE &&
-process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
-  ? withPostHogConfig(configWithNextIntl, {
-      personalApiKey: process.env.POSTHOG_API_KEY!,
-      envId: process.env.POSTHOG_ENV_ID!,
-      host: "https://eu.i.posthog.com",
-      sourcemaps: {
-        enabled: true,
-        releaseName: process.env.NEXT_PUBLIC_APP_NAME,
-        // Symbolication itself is keyed on the //# chunkId= comment the plugin
-        // injects, so this version does NOT gate whether stack traces resolve.
-        // It is the release LABEL PostHog shows over each error, so a static
-        // "1.0.0" made every error read as the same release. Use the build's
-        // commit SHA (Docker ARG) so triage shows which commit produced it.
-        releaseVersion:
-          process.env.NEXT_PUBLIC_RELEASE_VERSION ||
-          new Date().toISOString().slice(0, 10),
-        deleteAfterUpload: true,
-      },
-    })
-  : configWithNextIntl;
+// Source-map uploads require a private API key and do not belong in this build.
+export default configWithNextIntl;

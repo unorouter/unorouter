@@ -5,6 +5,8 @@ COPY package.json ./
 COPY patches ./patches
 RUN bun install
 COPY . .
+# The Docker context excludes all private env files.
+RUN cp .env.public .env
 ENV STANDALONE=1
 ENV NEXT_ADAPTER_PATH=next-bun-compile
 ENV NEXT_BUN_COMPILE_VERBOSE=1
