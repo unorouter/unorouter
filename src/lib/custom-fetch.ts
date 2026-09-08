@@ -45,6 +45,16 @@ function getHeader(
 
 // "" with no request scope: upstream must record NO client IP rather than the
 // socket peer, which is this pod masquerading as a user.
+async function getServerCountry(): Promise<string> {
+  if (typeof window !== "undefined") return "";
+  try {
+    const { headers } = await import("next/headers");
+    return (await headers()).get("cf-ipcountry")?.trim() ?? "";
+  } catch {
+    return "";
+  }
+}
+
 async function getServerClientIp(): Promise<string> {
   if (typeof window !== "undefined") return "";
   try {
@@ -97,6 +107,10 @@ export const customFetch = async <T>(
     getHeader(headers, "CF-Connecting-IP")
       ? ""
       : await getServerClientIp();
+  const country =
+    hasExplicitAuth || upstreamIsProxied || getHeader(headers, "CF-IPCountry")
+      ? ""
+      : await getServerCountry();
 
   const res = await fetch(new URL(url, upstreamApiUrl).toString(), {
     ...options,
@@ -105,6 +119,7 @@ export const customFetch = async <T>(
     headers: {
       ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
       ...(clientIp && { "CF-Connecting-IP": clientIp }),
+      ...(country && { "CF-IPCountry": country }),
       ...(upstreamIsProxied &&
         process.env.EDGE_DEV_TOKEN && {
           "x-edge-dev": process.env.EDGE_DEV_TOKEN,

@@ -31,8 +31,9 @@ export async function generateMetadata(props: {
 
 export default async function DashboardLayout(props: DashboardLayoutProps) {
   const queryClient = getQueryClient();
-  await prefetchAuth(queryClient);
-  if (!queryClient.getQueryData(queryKeys.auth())) await redirectToLogin();
+  const expired = await prefetchAuth(queryClient);
+  if (!queryClient.getQueryData(queryKeys.auth()))
+    await redirectToLogin({ expired });
 
   await prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
     rpc.api.billing.core["subscription-self"].get(cookies),
