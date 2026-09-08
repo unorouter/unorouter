@@ -119,6 +119,7 @@ const THREAD_VARS: CssVars = {
 export const Thread: FC = () => {
   const autoScrollStream = useStreamFlag("autoScrollStream");
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [viewportEl, setViewportEl] = useState<HTMLDivElement | null>(null);
   // The library's one jump on open fires before a long history has rendered,
   // so a chat opened with the setting off landed partway up. Follow the
   // bottom until the rendered history stops growing, then honor the setting.
@@ -290,7 +291,10 @@ export const Thread: FC = () => {
           jump is a separate default that still fired with the setting off, so
           the toggle looked broken. Both follow the preference now. */}
       <ThreadPrimitive.Viewport
-        ref={viewportRef}
+        ref={(el: HTMLDivElement | null) => {
+          viewportRef.current = el;
+          setViewportEl(el);
+        }}
         autoScroll={autoScrollStream || settling}
         scrollToBottomOnRunStart={autoScrollStream}
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
@@ -312,7 +316,7 @@ export const Thread: FC = () => {
             scroller's coordinate space; it is also what assistant-ui's docs
             recommend for ViewportFooter. */}
         <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background sticky bottom-0 z-10 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
-          <ThreadScrollToBottom />
+          <ThreadScrollToBottom viewportEl={viewportEl} />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
       </ThreadPrimitive.Viewport>
@@ -328,22 +332,88 @@ const ThreadMessage: FC = () => {
   return <AssistantMessage />;
 };
 
-const ThreadScrollToBottom: FC = () => {
+// Distance under which the button hides. One line of text, so a reply that is
+// mid-token does not make it flicker in and out while the user is already
+// reading the bottom.
+const AT_BOTTOM_PX = 48;
+// A stream keeps growing scrollHeight, so a single scroll lands short. Re-aim
+// until the height stops moving, and give up rather than fight a long run.
+const JUMP_TIMEOUT_MS = 3000;
+
+const ThreadScrollToBottom: FC<{ viewportEl: HTMLDivElement | null }> = (
+  props,
+) => {
   const t = useTranslations();
   // It floats directly above the composer, which is where the edit box opens,
   // so while editing it covers the line being typed.
   const isEditingMessage = useAtomValue(messageEditingAtom);
-  if (isEditingMessage) return null;
+  const viewport = props.viewportEl;
+  const [far, setFar] = useState(false);
+
+  useEffect(() => {
+    if (!viewport) return;
+    const read = () =>
+      setFar(
+        viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight >
+          AT_BOTTOM_PX,
+      );
+    read();
+    viewport.addEventListener("scroll", read, { passive: true });
+    // The distance also changes when content grows under a still viewport.
+    const observer = new ResizeObserver(read);
+    observer.observe(viewport);
+    for (const child of viewport.children) observer.observe(child);
+    return () => {
+      viewport.removeEventListener("scroll", read);
+      observer.disconnect();
+    };
+  }, [viewport]);
+
+  // The library's own ScrollToBottom animates through the viewport's
+  // scroll-smooth and goes through our streaming scroll block, so on a phone it
+  // crept down a little per tap. This writes scrollTop directly, which neither
+  // the block nor CSS smooth scrolling can intercept.
+  const jump = () => {
+    const el = document.querySelector<HTMLDivElement>(".aui-thread-viewport");
+    if (!el) return;
+    const started = Date.now();
+    // The viewport sets scroll-behavior: smooth, which animates scrollTop
+    // WRITES as well, so re-aiming each frame restarts the animation and the
+    // view only creeps down. Land instantly instead, then restore the class.
+    const previousBehavior = el.style.scrollBehavior;
+    el.style.scrollBehavior = "auto";
+    // Any touch or wheel means the user took over; chasing the bottom past
+    // that would fight them for as long as the loop runs.
+    let cancelled = false;
+    const cancel = () => {
+      cancelled = true;
+    };
+    el.addEventListener("wheel", cancel, { passive: true, once: true });
+    el.addEventListener("touchstart", cancel, { passive: true, once: true });
+    const step = () => {
+      const target = el.scrollHeight - el.clientHeight;
+      if (Math.abs(el.scrollTop - target) > 1) el.scrollTop = target;
+      if (!cancelled && Date.now() - started < JUMP_TIMEOUT_MS) {
+        requestAnimationFrame(step);
+        return;
+      }
+      el.style.scrollBehavior = previousBehavior;
+      el.removeEventListener("wheel", cancel);
+      el.removeEventListener("touchstart", cancel);
+    };
+    step();
+  };
+
+  if (isEditingMessage || !far) return null;
   return (
-    <ThreadPrimitive.ScrollToBottom asChild>
-      <TooltipIconButton
-        tooltip={t("CHAT.ACTION.SCROLL_TO_BOTTOM")}
-        variant="outline"
-        className="aui-thread-scroll-to-bottom dark:border-border dark:bg-background dark:hover:bg-accent absolute -top-12 z-10 self-center rounded-full p-4 disabled:invisible"
-      >
-        <Icon name="arrow-down" />
-      </TooltipIconButton>
-    </ThreadPrimitive.ScrollToBottom>
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.SCROLL_TO_BOTTOM")}
+      variant="outline"
+      onClick={jump}
+      className="aui-thread-scroll-to-bottom dark:border-border dark:bg-background dark:hover:bg-accent absolute -top-12 z-10 self-center rounded-full p-4"
+    >
+      <Icon name="arrow-down" />
+    </TooltipIconButton>
   );
 };
 
