@@ -14,16 +14,19 @@ import {
 } from "../config/constants";
 
 // Forwarded on every Server Component call into the BFF. Only what the gateway
-// audit reads: the edge-set client IP and country (a pod cannot forge those
+// records: the edge-set client IP, country and ray id (a pod cannot forge those
 // past Cloudflare, X-Forwarded-For it can), the request id for correlation,
-// and Accept-Language, which the audit keeps as a first-tag locale signal.
+// the browser's User-Agent (login sessions and audit rows otherwise show the
+// server runtime) and Accept-Language, kept as a first-tag locale signal.
 // Never the whole header set: Authorization would switch customFetch into
 // explicit-auth mode and drop the cookie jar, and transport headers (host,
 // content-length, accept-encoding) belong to the outer request.
 const FORWARDED_REQUEST_HEADERS = [
   "cf-connecting-ip",
   "cf-ipcountry",
+  "cf-ray",
   "x-request-id",
+  "user-agent",
   "accept-language",
 ] as const;
 
