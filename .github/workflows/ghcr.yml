@@ -2,14 +2,63 @@ name: GHCR Image
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    # A pin-only commit (build-local.sh or this workflow) must not rebuild the
+    # same tree and roll the pods a second time.
+    paths-ignore:
+      - k8s/deployment.yaml
+
+concurrency:
+  group: ghcr-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  # Deploy build skips typecheck/lint (next.config.ts ignoreBuildErrors);
+  # this job is the gate for those instead, off the deploy critical path.
+  checks:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [typecheck, lint]
+    # Lint has pre-existing react-hooks errors; advisory until they are fixed.
+    continue-on-error: ${{ matrix.check == 'lint' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run ${{ matrix.check }}
+
+  build:
+    # Per-arch native runners (arm64 host builds arm64 natively; QEMU-emulating the
+    # Next/turbopack compile is prohibitively slow). Each pushes a per-arch digest;
+    # the manifest job stitches them into one multi-arch tag.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-24.04
+            arch: amd64
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
-      id-token: write
+      packages: write
+      id-token: write # required: the OIDC JWT is what authenticates us to OpenBao
+
     steps:
+      - uses: actions/checkout@v4
+
+      # Same full .env as the don build: Next.js inlines NEXT_PUBLIC_* and the SSG
+      # prerender needs server creds. The image therefore CONTAINS secrets -> the
+      # ghcr package MUST stay PRIVATE (repo is public; verify package visibility).
+      # No GitHub secrets: the runner proves identity with a GitHub-signed OIDC JWT and
+      # OpenBao returns a 10-minute token scoped to one KV path. OpenBao stays the single
+      # source of truth instead of every value being duplicated into repo settings.
       - name: Fetch build secrets from OpenBao
         id: vault
         uses: hashicorp/vault-action@v3
@@ -32,25 +81,223 @@ jobs:
             secret/data/unorouter-env WEB_BOT_AUTH_PRIVATE_JWK ;
             secret/data/unorouter-env WEB_BOT_AUTH_PUBLIC_JWKS
 
-      - name: Collect
+      # NEXT_PUBLIC_* live in the committed .env.public: Next.js inlines them into the
+      # browser bundle, so they are public by construction and are not secrets.
+      - name: Create env file
         run: |
-          python3 - <<'PY'
-          import os, pathlib
-          keys = [
-            "GUEST_API_KEY","INDEXNOW_KEY","POSTHOG_API_KEY","POSTHOG_ENV_ID",
-            "POSTHOG_PROXY_HOST","SESSION_SECRET","TAVILY_API_KEY","TURSO_AUTH_TOKEN",
-            "TURSO_DATABASE_URL","WEB_BOT_AUTH_PRIVATE_JWK","WEB_BOT_AUTH_PUBLIC_JWKS",
-          ]
-          p = pathlib.Path(os.environ["RUNNER_TEMP"]) / "build.env"
-          with p.open("w") as f:
-              for k in keys:
-                  f.write("%s=%s\n" % (k, os.environ.get(k, "")))
-          print("wrote", p.stat().st_size, "bytes")
-          PY
+          cp .env.public .env
+          for k in GUEST_API_KEY INDEXNOW_KEY POSTHOG_API_KEY POSTHOG_ENV_ID \
+                   POSTHOG_PROXY_HOST SESSION_SECRET TAVILY_API_KEY TURSO_AUTH_TOKEN \
+                   TURSO_DATABASE_URL WEB_BOT_AUTH_PRIVATE_JWK WEB_BOT_AUTH_PUBLIC_JWKS; do
+            printf '%s=%s\n' "$k" "${!k}" >> .env
+          done
+          echo "wrote $(wc -l < .env) vars"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build+push a per-arch DIGEST only (no shared tag; two runners pushing the
+      # same tag would clobber each other). The manifest job assembles the tags.
+      - id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+          outputs: type=image,name=ghcr.io/unorouter/unorouter,push-by-digest=true,name-canonical=true,push=true
+          # Per-arch cache scope so the amd64 and arm64 GHA caches never overwrite.
+          cache-from: type=gha,scope=unorouter-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=unorouter-${{ matrix.arch }}
+
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          echo "${{ steps.build.outputs.digest }}" > "/tmp/digests/${{ matrix.arch }}"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: build-cache
-          path: ${{ runner.temp }}/build.env
+          name: digest-${{ matrix.arch }}
+          path: /tmp/digests/*
           retention-days: 1
-          if-no-files-found: error
+
+  # Stitch the two per-arch digests into one multi-arch manifest under the real tags.
+  manifest:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: /tmp/digests
+          pattern: digest-*
+          merge-multiple: true
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create + push manifest list
+        run: |
+          IMAGE=ghcr.io/unorouter/unorouter
+          REFS=""
+          for f in /tmp/digests/*; do REFS="$REFS $IMAGE@$(cat "$f")"; done
+          for TAG in latest ${{ github.sha }}; do
+            docker buildx imagetools create -t "$IMAGE:$TAG" $REFS
+          done
+          docker buildx imagetools inspect "$IMAGE:${{ github.sha }}"
+
+  # Pin the new image in this repo's own k8s/ manifests. ArgoCD discovers this repo by
+  # its k8s/ directory and rolls the Deployment out, so nothing here talks to the cluster
+  # and no cross-repo token is needed -- the built-in GITHUB_TOKEN is enough.
+  #
+  # The tag is the git SHA, never :latest -- with a floating tag the manifest never
+  # changes, ArgoCD sees nothing to do, and the deploy silently never happens (which
+  # is exactly what used to require a manual `kubectl rollout restart`).
+  deploy:
+    runs-on: ubuntu-latest
+    needs: manifest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Pin unorouter image to this commit
+        run: |
+          set -euo pipefail
+          F=k8s/deployment.yaml
+          OLD=$(grep -oP 'image: ghcr\.io/unorouter/unorouter:\K\S+' "$F")
+          if [ "$OLD" = "${{ github.sha }}" ]; then
+            echo "already pinned to ${{ github.sha }}, nothing to do"
+            exit 0
+          fi
+          sed -i "s|image: ghcr.io/unorouter/unorouter:.*|image: ghcr.io/unorouter/unorouter:${{ github.sha }}|" "$F"
+          git config user.name  "unorouter-ci"
+          git config user.email "ci@unorouter.com"
+          git add "$F"
+          git commit -m "deploy(unorouter): ${{ github.sha }}
+
+          Was: $OLD
+          Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+          # main can move between checkout and push (a concurrent push, or a human commit)
+          for i in 1 2 3; do
+            git push origin main && exit 0
+            echo "push rejected, rebasing (attempt $i)"
+            git pull --rebase origin main
+          done
+          echo "::error::could not push image pin after 3 attempts"
+          exit 1
+
+  # ArgoCD picks up the pin above and rolls out (RollingUpdate + probes), so this job
+  # GATES on the live site serving THIS build (health exposes the baked GIT_SHA)
+  # before running the steps that only make sense post-swap.
+  post-deploy:
+    runs-on: ubuntu-latest
+    needs: deploy
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      id-token: write # required: the OIDC JWT is what authenticates us to OpenBao
+    steps:
+      - name: Fetch post-deploy secrets from OpenBao
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://openbao-ci.unorouter.com
+          method: jwt
+          path: jwt-github
+          role: unorouter-ci
+          exportEnv: true
+          secrets: |
+            secret/data/unorouter-env INDEXNOW_KEY ;
+            secret/data/unorouter-env EDGE_DEV_TOKEN
+
+      # The edge challenges datacenter IPs without a session, which is what a
+      # runner is; x-edge-dev is the skip the rules already grant local SSR.
+      - name: Wait for this build to be live
+        run: |
+          # 40min budget: ArgoCD polls git every ~3min, then the rollout + probes.
+          for i in {1..240}; do
+            live="$(curl -fsS --max-time 10 -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
+            if [ "$live" = "${{ github.sha }}" ]; then
+              echo "live version matches ${{ github.sha }}"
+              exit 0
+            fi
+            echo "live=$live want=${{ github.sha }} ... $i/240"
+            sleep 10
+          done
+          echo "::error::build never went live (check the deploy job's commit + ArgoCD sync)"
+          exit 1
+
+      - name: Assert sitemap has model pages
+        run: |
+          # Guards the localhost-self-call / build-prerender regression that
+          # silently emptied every model page from the sitemap.
+          sitemap="$(curl -fsS -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/sitemap.xml")"
+          total="$(printf '%s' "$sitemap" | grep -oc '<loc>' || true)"
+          models="$(printf '%s' "$sitemap" \
+            | grep -oE '<loc>[^<]*</loc>' \
+            | grep -E '/(models|modeles|modelle|moxing|mo-hinh|moderu|modelli|modelos|modeu|modeller|model|modele)/[^<]+' \
+            | grep -vc '/blog/' || true)"
+          echo "sitemap: $total total URLs, $models model pages"
+          if [ "${models:-0}" -lt 100 ]; then
+            echo "::error::sitemap has $models model pages (expected >=100). Pricing self-call likely failing; see src/lib/rpc.ts + sitemap.ts."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Submit to IndexNow
+        env:
+          INDEXNOW_KEY: ${{ env.INDEXNOW_KEY }}
+          NEXT_PUBLIC_URL: https://unorouter.com
+        run: |
+          bun add indexnow-submitter --no-save && bun scripts/indexnow.ts
+        continue-on-error: true
+
+  # Only the default locale prerenders at build (PRERENDER_LOCALES); walk the
+  # sitemap after deploy so the remaining locale pages ISR-render warm instead
+  # of on a visitor's first hit.
+  warm:
+    runs-on: ubuntu-latest
+    needs: post-deploy
+    continue-on-error: true
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Fetch edge bypass token from OpenBao
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://openbao-ci.unorouter.com
+          method: jwt
+          path: jwt-github
+          role: unorouter-ci
+          exportEnv: true
+          secrets: |
+            secret/data/unorouter-env EDGE_DEV_TOKEN
+      - name: Warm ISR cache from sitemap
+        run: |
+          # Depth <= 2 only (locale home + section pages, ~700 urls). The full
+          # sitemap is ~22k urls (model pages x locales) which were never
+          # build-prerendered anyway; those stay ISR-on-first-hit.
+          curl -fsS -H "x-edge-dev: $EDGE_DEV_TOKEN" "https://unorouter.com/sitemap.xml" \
+            | grep -oE '<loc>[^<]+</loc>' \
+            | sed -E 's#</?loc>##g' \
+            | awk -F/ 'NF<=5' > urls.txt
+          echo "warming $(wc -l < urls.txt) urls"
+          timeout 12m xargs -P 12 -n 1 -a urls.txt -I{} \
+            curl -s -o /dev/null -H "x-edge-dev: $EDGE_DEV_TOKEN" -w '%{http_code} {}\n' --max-time 15 {} > codes.txt || true
+          sort codes.txt | cut -d' ' -f1 | uniq -c
+          grep -v '^200 ' codes.txt | head -50 || true
