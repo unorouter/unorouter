@@ -239,8 +239,12 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
         });
         // destroy() closes the database but the pool keeps its handles, so
         // giving up without the pause locks the file against this very page.
+        // skipOptimize because sqlocal runs `PRAGMA optimize` FIRST: with no
+        // db (the open just failed) that throws "Driver not initialized" and
+        // takes the close with it, so every retry stacked another worker on
+        // the same file and the contention never cleared.
         await pauseSql(sql).catch(() => {});
-        await sql.destroy().catch(() => {});
+        await sql.destroy(true).catch(() => {});
         terminateSql(sql);
         throw err;
       }
@@ -254,7 +258,7 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
         error: String(err),
       });
       await pauseSql(sql).catch(() => {});
-      await sql.destroy().catch(() => {});
+      await sql.destroy(true).catch(() => {});
       terminateSql(sql);
       await sleep(Math.min(50 * 2 ** attempt, MAX_BACKOFF));
       sql = newSql(dbPath);
@@ -406,7 +410,7 @@ async function openClient(): Promise<LocalClient> {
     logChatDebug("db.migrate.sahpool.failed", {
       error: String(err).slice(0, 200),
     });
-    await sql.destroy().catch(() => {});
+    await sql.destroy(true).catch(() => {});
     terminateSql(sql);
     releaseLock(lockKey);
     throw err;
@@ -527,7 +531,7 @@ async function openClient(): Promise<LocalClient> {
             error: String(err).slice(0, 200),
           });
           await pauseSql(sql).catch(() => {});
-          await sql.destroy().catch(() => {});
+          await sql.destroy(true).catch(() => {});
           terminateSql(sql);
           sql = await openMigratedSql(dbPath);
         })().finally(() => (reopening = null));
@@ -553,7 +557,7 @@ async function openClient(): Promise<LocalClient> {
     wipe: async () => {
       detach();
       await ensureOwned().catch(() => {});
-      await sql.destroy().catch(() => {});
+      await sql.destroy(true).catch(() => {});
       terminateSql(sql);
       releaseLock(lockKey);
       await removeOpfsEntries();
