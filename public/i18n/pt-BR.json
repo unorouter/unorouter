@@ -3839,7 +3839,7 @@
     "DISCORD_CTA": "Precisa de um preset ou ajuda? Pergunte no Discord",
     "TRUNCATED_BEFORE_TEXT": "O limite de saída foi atingido enquanto o modelo ainda estava raciocinando, então nenhuma resposta foi escrita. Aumente o máximo de tokens ou desative o raciocínio para este modelo.",
     "LOCAL_ONLY_NOTICE": "Suas conversas ficam neste aparelho. Nunca as vemos e não guardamos cópia, então faça o backup você mesmo.",
-    "STORAGE_BLOCKED": "Seu navegador está bloqueando o armazenamento deste site, então as conversas não podem ser salvas e serão perdidas ao recarregar. Permita cookies e dados do site, ou saia da navegação privada."
+    "STORAGE_BLOCKED": "Seu navegador está bloqueando o armazenamento deste site, então as conversas não podem ser salvas e as mensagens somem ao enviar. Permita cookies e dados do site, desative a limpeza de dados ao fechar e saia da navegação privada. Versões do Chromium focadas em privacidade bloqueiam isso por padrão."
   },
   "ROOM": {
     "HOST_TITLE": "Sala multijogador",

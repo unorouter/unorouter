@@ -83,11 +83,30 @@ export async function getLocalDb(): Promise<LocalClient | null> {
   const promise = openClient();
   cached = promise;
   try {
-    return await promise;
+    const client = await promise;
+    dbOpenFailed = false;
+    return client;
   } catch (err) {
     cached = null;
+    // The banner cannot ask the DB whether the DB opened, and a browser that
+    // refuses the pool (ungoogled-chromium forks with site data off) still
+    // answers getDirectory(), so the probe alone reports nothing wrong.
+    dbOpenFailed = true;
+    for (const listener of openFailureListeners) listener();
     throw err;
   }
+}
+
+let dbOpenFailed = false;
+const openFailureListeners = new Set<() => void>();
+
+export function localDbOpenFailed(): boolean {
+  return dbOpenFailed;
+}
+
+export function subscribeLocalDbOpenFailure(listener: () => void): () => void {
+  openFailureListeners.add(listener);
+  return () => openFailureListeners.delete(listener);
 }
 
 export function resetLocalDbCache() {
