@@ -19,6 +19,7 @@ import {
 } from "@/lib/validation/auth";
 import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { extractErrorDetail } from "@/lib/utils/client";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { deleteCookie, getCookie } from "cookies-next/client";
@@ -78,7 +79,8 @@ export function LoginForm() {
       logChatDebug("auth.login_done", { via: "password", to: String(to) });
       router.push(to);
       router.refresh();
-    } catch {
+    } catch (e) {
+      logChatDebug("auth.login_error", { error: extractErrorDetail(e) });
       turnstileRef.current?.reset();
       setTurnstileToken(undefined);
     }
