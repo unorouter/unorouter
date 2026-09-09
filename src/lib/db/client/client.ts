@@ -21,6 +21,7 @@ import {
 import {
   acquireLock,
   acquireLockWaiting,
+  releaseAllLocks,
   releaseLock,
   stealLock,
 } from "@/lib/db/client/outbox/resource-lock";
@@ -57,6 +58,11 @@ if (typeof window !== "undefined") {
   window.addEventListener("pagehide", () => {
     cached = null;
     terminateAllSql();
+    // iOS fires pagehide on an app switch and keeps the page alive; with the
+    // worker gone the park that follows can never finish, so without this the
+    // pool lock stays held until the page dies and every other tab waits the
+    // whole handover timeout out.
+    releaseAllLocks();
   });
 }
 
@@ -478,10 +484,13 @@ async function openClient(): Promise<LocalClient> {
     const heldFor = Date.now() - lastAcquiredAt;
     if (!hidden && heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
     await waitForIdle();
-    await pauseSql(sql);
-    parked = true;
-    releaseLock(lockKey);
-    logChatDebug("db.handover.parked");
+    try {
+      await pauseSql(sql);
+    } finally {
+      parked = true;
+      releaseLock(lockKey);
+      logChatDebug("db.handover.parked");
+    }
   };
 
   const unparkNow = async () => {

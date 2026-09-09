@@ -127,6 +127,19 @@ export function installResumeDiagnostics(): void {
     });
     flushChatDebugLog();
   }, STALL_AFTER_MS);
+  // A Link click starts a client navigation that logs nothing until the
+  // target route boots, so a fetch that hangs in the worker leaves no trace.
+  document.addEventListener(
+    "click",
+    (e) => {
+      const a =
+        e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (!(a instanceof HTMLAnchorElement) || a.origin !== location.origin)
+        return;
+      logChatDebug("nav.click", { href: a.pathname });
+    },
+    true,
+  );
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {

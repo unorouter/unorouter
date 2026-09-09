@@ -83,3 +83,7 @@ export function releaseLock(key: string): void {
   held.get(key)?.();
   held.delete(key);
 }
+
+export function releaseAllLocks(): void {
+  for (const key of [...held.keys()]) releaseLock(key);
+}
