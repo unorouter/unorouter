@@ -64,8 +64,12 @@ export class SQLiteSahPoolDriver
       poolCache.set(name, pool);
       pool.catch((err) => {
         poolCache.delete(name);
-        this.lastPoolError = String(
-          err instanceof Error ? (err.stack ?? err.message) : err,
+        // A DOMException carries an empty stack in Firefox, and `??` keeps an
+        // empty string, which is how a whole export arrived with poolError "".
+        this.lastPoolError = (
+          err instanceof Error
+            ? `${err.name}: ${err.message}${err.stack ? `\n${err.stack}` : ""}`
+            : String(err)
         ).slice(0, 400);
       });
     }
