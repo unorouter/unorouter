@@ -97,6 +97,7 @@ export async function getLocalDb(): Promise<LocalClient | null> {
   if (cached) return cached;
   const promise = openClient();
   cached = promise;
+  logChatDebug("db.open.scheduled");
   try {
     const client = await promise;
     dbOpenFailed = false;

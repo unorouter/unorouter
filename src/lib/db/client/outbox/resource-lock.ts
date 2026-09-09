@@ -28,6 +28,14 @@ export function acquireLock(key: string): Promise<boolean> {
       .catch(() => resolveAcquire(false));
     logChatDebug("db.lock.requested");
     void pending;
+    // Phase fences for the iOS freeze that follows this line: the missing one
+    // says whether the thread died in this task, in its microtasks, before the
+    // next task, or before the next frame.
+    queueMicrotask(() => logChatDebug("db.lock.fence", { phase: "microtask" }));
+    setTimeout(() => logChatDebug("db.lock.fence", { phase: "task" }), 0);
+    requestAnimationFrame(() =>
+      logChatDebug("db.lock.fence", { phase: "frame" }),
+    );
   });
 }
 
