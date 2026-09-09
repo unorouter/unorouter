@@ -1,5 +1,7 @@
 "use client";
 
+import { debugFlag } from "@/lib/utils/chat-debug-log";
+
 import {
   buildBackgroundCss,
   buildThemeCss,
@@ -37,7 +39,12 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
       el.id = BG_STYLE_ID;
       document.head.appendChild(el);
     }
-    const css = buildBackgroundCss(backgroundImage, theme.background);
+    // `?dbg=nobg` keeps the wallpaper stored but never paints it: the iOS
+    // freeze sits in the rendering update, and this is the one theme layer
+    // that changes what the compositor has to draw.
+    const css = debugFlag("nobg")
+      ? ""
+      : buildBackgroundCss(backgroundImage, theme.background);
     el.textContent = css;
     document.documentElement.toggleAttribute("data-bg-active", Boolean(css));
   }, [backgroundImage, theme.background]);
