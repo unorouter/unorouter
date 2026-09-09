@@ -413,9 +413,12 @@ export function buildBackgroundCss(
       : "";
   // Separate from the panel block: a user can want solid panels with see-through
   // bubbles, or the reverse, so this rule cannot hang off panelOpacity < 1.
+  // Tint only, no backdrop-filter: a long thread paints hundreds of bubbles,
+  // and on iOS each blurred one is its own full-resolution GPU surface over
+  // the wallpaper. That is what froze whole tabs the moment a chat mounted.
   const bubble =
     bubbleOpacity < 1
-      ? `[data-bg-active] .aui-user-message-content,[data-bg-active] .aui-assistant-message-content{background-color:${bubbleMix("muted")} !important;${frost()}}`
+      ? `[data-bg-active] .aui-user-message-content,[data-bg-active] .aui-assistant-message-content{background-color:${bubbleMix("muted")} !important;}`
       : "";
   // The reasoning box ships as the `outline` variant: a border and no fill at
   // all. Against a wallpaper that is an empty frame with the artwork running
@@ -425,7 +428,7 @@ export function buildBackgroundCss(
   // gradient defaults to the PAGE background. Once the box carries its own fill
   // the two colours meet at the edges and the fade reads as a grey haze ringing
   // the panel, so hand it the same colour the box is actually painted with.
-  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;${frost()}}`;
+  const reasoning = `[data-bg-active] .aui-reasoning-root{background-color:${bubbleMix("muted")} !important;}`;
   // The composer is a .bg-background nested inside the thread's own, so the
   // nested-surface reset above stripped its fill AND its blur, leaving the raw
   // image to run straight through the type area behind the text. It reads as a

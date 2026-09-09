@@ -1,4 +1,8 @@
-import { AUTH_REDIRECT_COOKIE, IMAGE_MAX_DIM } from "@/lib/config/constants";
+import {
+  AUTH_REDIRECT_COOKIE,
+  IMAGE_MAX_DIM,
+  WALLPAPER_MAX_DIM_TOUCH,
+} from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import getQueryClient from "@/lib/react-query/client";
@@ -368,6 +372,38 @@ export function downloadJson(
   downloadBlob(blob, filename);
 }
 
+// A phone composites the wallpaper at 3x behind every frosted panel; 2048px
+// there is four times the pixels of anything it can show.
+export function wallpaperMaxDim(): number {
+  return typeof matchMedia !== "undefined" &&
+    matchMedia("(pointer: coarse)").matches
+    ? WALLPAPER_MAX_DIM_TOUCH
+    : IMAGE_MAX_DIM;
+}
+
+export async function scaleDataUrl(
+  dataUrl: string,
+  maxDim: number,
+  mime: string,
+  sizeHint = Number.POSITIVE_INFINITY,
+): Promise<string> {
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error("decode failed"));
+    el.src = dataUrl;
+  });
+  const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+  if (scale >= 1 && sizeHint < 1_500_000) return dataUrl;
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return dataUrl;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL(mime === "image/png" ? mime : "image/jpeg", 0.9);
+}
+
 export async function fileToScaledDataUrl(file: File): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -375,22 +411,7 @@ export async function fileToScaledDataUrl(file: File): Promise<string> {
     reader.onerror = () => reject(new Error("read failed"));
     reader.readAsDataURL(file);
   });
-  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-    const el = new Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error("decode failed"));
-    el.src = dataUrl;
-  });
-  const scale = Math.min(1, IMAGE_MAX_DIM / Math.max(img.width, img.height));
-  if (scale >= 1 && file.size < 1_500_000) return dataUrl;
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.round(img.width * scale);
-  canvas.height = Math.round(img.height * scale);
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return dataUrl;
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
-  return canvas.toDataURL(mime, 0.9);
+  return scaleDataUrl(dataUrl, IMAGE_MAX_DIM, file.type, file.size);
 }
 
 export function splitDataUrl(dataUrl: string): {

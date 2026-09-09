@@ -47,7 +47,11 @@ import {
   pushLocalTheme,
   readPreviousTheme,
 } from "@/lib/db/client/data/theme";
-import { downloadJson } from "@/lib/utils/client";
+import {
+  downloadJson,
+  scaleDataUrl,
+  wallpaperMaxDim,
+} from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -193,7 +197,8 @@ export function ThemeCustomizerBody() {
       if (typeof parsed !== "object" || parsed === null) throw new Error();
       const { backgroundImage: image, ...rest } = parsed;
       if (typeof image === "string" && image.startsWith("data:image/")) {
-        setBackgroundImage(image);
+        const mime = image.slice(5, image.indexOf(";"));
+        setBackgroundImage(await scaleDataUrl(image, wallpaperMaxDim(), mime));
       }
       setTheme(rest);
       toast.success(t("THEME.IMPORT_DONE"));
