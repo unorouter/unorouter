@@ -13,6 +13,7 @@ import {
   terminateAllSql,
   terminateSql,
   unlinkPoolFileSql,
+  pauseAllSql,
   unloadAllSql,
 } from "@/lib/db/client/new-sql";
 import {
@@ -32,7 +33,7 @@ import {
   singleDbPath,
 } from "@/lib/db/client/data-migrate/adopt-single-db";
 import type { LocalClient } from "@/lib/types";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { debugFlag, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -57,6 +58,13 @@ let cached: Promise<LocalClient> | null = null;
 // was quitting the whole browser.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", () => {
+    if (debugFlag("nounload")) {
+      logChatDebug("db.pagehide", { mode: "pause" });
+      pauseAllSql();
+      releaseAllLocks();
+      return;
+    }
+    logChatDebug("db.pagehide", { mode: "unload" });
     cached = null;
     unloadAllSql(UNLOAD_GRACE_MS);
     // iOS fires pagehide on an app switch and keeps the page alive; with the

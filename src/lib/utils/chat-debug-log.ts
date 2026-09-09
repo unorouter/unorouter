@@ -366,3 +366,24 @@ export function clearCaughtErrors(): void {
 export function clearChatDebugLog(): void {
   debugLog.clear();
 }
+
+// Device-side A/B switches: `?dbg=nounload` stores the flag, `?dbg=off` clears
+// it, so one build can run both arms on a phone no debugger reaches.
+export function debugFlag(name: string): boolean {
+  try {
+    return (localStorage.getItem("uno-dbg") ?? "").split(",").includes(name);
+  } catch {
+    return false;
+  }
+}
+
+export function applyDebugFlagParam(): string | null {
+  try {
+    const v = new URLSearchParams(location.search).get("dbg");
+    if (v === "off") localStorage.removeItem("uno-dbg");
+    else if (v) localStorage.setItem("uno-dbg", v);
+    return localStorage.getItem("uno-dbg");
+  } catch {
+    return null;
+  }
+}
