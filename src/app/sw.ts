@@ -101,25 +101,51 @@ const rscPrefetchStrategy = new NetworkFirst({
   plugins: rscPlugins(),
 });
 
-const handleRsc = async (
-  options: RouteHandlerCallbackOptions,
-): Promise<Response> => {
-  const path = options.url.pathname;
-  const t0 = Date.now();
-  void swLog("sw.rsc.start", { path });
-  try {
-    const res = await rscStrategy.handle(options);
-    void swLog("sw.rsc.done", { path, ms: Date.now() - t0, status: res.status });
-    return res;
-  } catch (err) {
-    void swLog("sw.rsc.done", {
-      path,
-      ms: Date.now() - t0,
-      error: String(err).slice(0, 120),
-    });
-    throw err;
-  }
-};
+const SLOW_FETCH_MS = 1_500;
+
+// Wraps a handler with a start line and an outcome line. `slowMs` limits the
+// outcome to slow or failed requests for the high-volume classes.
+const timed =
+  (
+    handler: (options: RouteHandlerCallbackOptions) => Promise<Response>,
+    event: string,
+    slowMs = 0,
+  ) =>
+  async (options: RouteHandlerCallbackOptions): Promise<Response> => {
+    const path = options.url.pathname;
+    const t0 = Date.now();
+    if (!slowMs) void swLog(`${event}.start`, { path });
+    try {
+      const res = await handler(options);
+      const ms = Date.now() - t0;
+      if (!slowMs || ms > slowMs)
+        void swLog(`${event}.done`, { path, ms, status: res.status });
+      return res;
+    } catch (err) {
+      void swLog(`${event}.done`, {
+        path,
+        ms: Date.now() - t0,
+        error: String(err).slice(0, 120),
+      });
+      throw err;
+    }
+  };
+
+const handleRsc = timed((o) => rscStrategy.handle(o), "sw.rsc");
+const handleRscPrefetch = timed(
+  (o) => rscPrefetchStrategy.handle(o),
+  "sw.rsc_prefetch",
+  SLOW_FETCH_MS,
+);
+const staticStrategy = new CacheFirst({
+  cacheName: "next-static",
+  plugins: [new ExpirationPlugin({ maxEntries: 2000 })],
+});
+const handleStatic = timed(
+  (o) => staticStrategy.handle(o),
+  "sw.static",
+  SLOW_FETCH_MS,
+);
 
 const isRsc = (request: Request, sameOrigin: boolean, pathname: string) =>
   sameOrigin &&
@@ -149,10 +175,7 @@ const serwist = new Serwist({
         sameOrigin &&
         url.pathname.startsWith("/_next/static") &&
         !isOpfsAsset(url, request.destination),
-      handler: new CacheFirst({
-        cacheName: "next-static",
-        plugins: [new ExpirationPlugin({ maxEntries: 2000 })],
-      }),
+      handler: handleStatic,
     },
     {
       matcher: ({ request, sameOrigin }) =>
@@ -189,7 +212,7 @@ const serwist = new Serwist({
       matcher: ({ request, sameOrigin, url }) =>
         isRsc(request, sameOrigin, url.pathname) &&
         request.headers.get("Next-Router-Prefetch") === "1",
-      handler: rscPrefetchStrategy,
+      handler: handleRscPrefetch,
     },
     {
       matcher: ({ request, sameOrigin, url }) =>

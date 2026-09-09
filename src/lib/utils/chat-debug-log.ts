@@ -9,6 +9,10 @@ export type ChatDebugEntry = {
 // taken from the healthy tab is the only record of the stuck one.
 const TAB = Math.random().toString(36).slice(2, 6);
 
+export function chatDebugTab(): string {
+  return TAB;
+}
+
 const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
 const MAX_PERSISTED_ENTRIES = 200;
@@ -112,6 +116,11 @@ const debugLog = makeLog<ChatDebugEntry>(
   MAX_PERSISTED_ENTRIES,
 );
 
+// A main thread that hangs inside the save debounce never writes the line
+// that preceded the hang, which is the one line that mattered. These are rare
+// enough for a synchronous write each.
+const FLUSH_NOW = /^(nav\.click|db\.open|db\.handover|db\.park|db\.gated|sw\.)/;
+
 export function logChatDebug(
   event: string,
   data?: Record<string, unknown>,
@@ -127,6 +136,7 @@ export function logChatDebug(
     }
   }
   debugLog.push(entry);
+  if (FLUSH_NOW.test(event)) debugLog.flush();
 }
 
 export function flushChatDebugLog(): void {

@@ -13,6 +13,7 @@ import {
   terminateAllSql,
   terminateSql,
   unlinkPoolFileSql,
+  unloadAllSql,
 } from "@/lib/db/client/new-sql";
 import {
   requestOwnership,
@@ -57,7 +58,7 @@ let cached: Promise<LocalClient> | null = null;
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", () => {
     cached = null;
-    terminateAllSql();
+    unloadAllSql(UNLOAD_GRACE_MS);
     // iOS fires pagehide on an app switch and keeps the page alive; with the
     // worker gone the park that follows can never finish, so without this the
     // pool lock stays held until the page dies and every other tab waits the
@@ -91,9 +92,16 @@ export async function getLocalDb(): Promise<LocalClient | null> {
   try {
     const client = await promise;
     dbOpenFailed = false;
+    lastOpenError = null;
     return client;
   } catch (err) {
-    cached = null;
+    // Every query hook calls this, and a pool another page still holds fails
+    // the same way for all of them: a fresh open per hook spawned a worker
+    // each and ran the phone hot. One failure is shared for a while instead.
+    setTimeout(() => {
+      if (cached === promise) cached = null;
+    }, FAIL_HOLD_MS);
+    lastOpenError = String(err);
     // The banner cannot ask the DB whether the DB opened, and a browser that
     // refuses the pool (ungoogled-chromium forks with site data off) still
     // answers getDirectory(), so the probe alone reports nothing wrong.
@@ -103,11 +111,36 @@ export async function getLocalDb(): Promise<LocalClient | null> {
   }
 }
 
+const FAIL_HOLD_MS = 10_000;
+const UNLOAD_GRACE_MS = 300;
 let dbOpenFailed = false;
+let lastOpenError: string | null = null;
 const openFailureListeners = new Set<() => void>();
 
 export function localDbOpenFailed(): boolean {
   return dbOpenFailed;
+}
+
+// "held" is another page's worker still on the pool (a tab in the background,
+// or the page this one replaced); "blocked" is the browser refusing storage.
+export function localDbOpenErrorKind(): "blocked" | "held" | null {
+  if (!dbOpenFailed || !lastOpenError) return null;
+  if (lastOpenError.includes(BLOCKED_MARKER)) return "blocked";
+  if (
+    lastOpenError.includes(TAB_LOCK_MARKER) ||
+    lastOpenError.includes("NoModificationAllowedError") ||
+    lastOpenError.includes("available file slots") ||
+    lastOpenError.includes("OpfsSAHPool")
+  )
+    return "held";
+  return "blocked";
+}
+
+export function retryLocalDbOpen(): void {
+  cached = null;
+  dbOpenFailed = false;
+  lastOpenError = null;
+  for (const listener of openFailureListeners) listener();
 }
 
 export function subscribeLocalDbOpenFailure(listener: () => void): () => void {
@@ -187,7 +220,9 @@ function isRecoverable(err: unknown): boolean {
   );
 }
 
-const RETRIES = 7;
+// A pool held by a page that is still shutting down frees up on WebKit's own
+// schedule, well past the few seconds a fixed retry count covered.
+const CONTENDED_BUDGET_MS = 20_000;
 const MAX_BACKOFF = 1500;
 
 async function awaitOwnership(
@@ -225,6 +260,13 @@ const MIN_HOLD_MS = 2_000;
 // which no lock steal can take back: the next tab opens with no database until
 // every tab is closed.
 const HIDDEN_PARK_POLL_MS = 250;
+const PARK_DEFER_LOG_MS = 2_000;
+const GATED_SLOW_MS = 5_000;
+// A hidden tab that still reports work in flight after this long is not going
+// to finish it before iOS freezes the tab, and a frozen owner keeps its
+// handles. Park anyway; a worker that does not answer the pause is killed.
+const FORCE_PARK_MS = 10_000;
+const WORKER_REPLY_MS = 3_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   const t0 = Date.now();
@@ -257,7 +299,7 @@ async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
       });
       return sql;
     } catch (err) {
-      if (!isRecoverable(err) || attempt >= RETRIES) {
+      if (!isRecoverable(err) || Date.now() - t0 > CONTENDED_BUDGET_MS) {
         logChatDebug("db.open.failed", {
           attempt,
           error: String(err).slice(0, 200),
@@ -467,29 +509,70 @@ async function openClient(): Promise<LocalClient> {
     if (hiddenTimer) clearTimeout(hiddenTimer);
     hiddenTimer = null;
     if (!document.hidden) return;
+    const hiddenAt = Date.now();
+    let deferralLogged = false;
     const tick = () => {
       hiddenTimer = null;
       if (!document.hidden || parked) return;
-      if (inFlight > 0) {
+      if (inFlight > 0 && Date.now() - hiddenAt < FORCE_PARK_MS) {
+        // Two exports in a row showed the image tab never parking after it
+        // was hidden; this names the statement that kept it.
+        if (!deferralLogged && Date.now() - hiddenAt > PARK_DEFER_LOG_MS) {
+          deferralLogged = true;
+          logChatDebug("db.park.deferred", {
+            inFlight,
+            sinceMs: Date.now() - hiddenAt,
+            labels: [...inFlightLabels].slice(0, 4),
+          });
+        }
         hiddenTimer = setTimeout(tick, HIDDEN_PARK_POLL_MS);
         return;
       }
-      park(true);
+      park(true, inFlight > 0);
     };
     tick();
   };
   document.addEventListener("visibilitychange", onVisibility);
   document.addEventListener("freeze", onVisibility);
-  const parkNow = async (hidden: boolean) => {
+  // A worker that stops answering keeps the pool's handles until it is
+  // killed; every call that was waiting on it is dead with it.
+  let workerDead = false;
+  const killWorker = (reason: string) => {
+    logChatDebug("db.worker.killed", {
+      reason,
+      inFlight,
+      labels: [...inFlightLabels].slice(0, 4),
+    });
+    terminateSql(sql);
+    workerDead = true;
+    inFlight = 0;
+    inFlightLabels.clear();
+    idleWaiters.forEach((resolve) => resolve());
+    idleWaiters = [];
+  };
+  const answered = async (op: Promise<unknown>): Promise<boolean> => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<false>((resolve) => {
+      timer = setTimeout(() => resolve(false), WORKER_REPLY_MS);
+    });
+    try {
+      return await Promise.race([op.then(() => true), timeout]);
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
+  const parkNow = async (hidden: boolean, force: boolean) => {
     const heldFor = Date.now() - lastAcquiredAt;
     if (!hidden && heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
-    await waitForIdle();
+    if (!force) await waitForIdle();
     try {
-      await pauseSql(sql);
+      if (!workerDead && !(await answered(pauseSql(sql))))
+        killWorker("pause_timeout");
     } finally {
       parked = true;
       releaseLock(lockKey);
-      logChatDebug("db.handover.parked");
+      logChatDebug("db.handover.parked", { ...(force && { forced: true }) });
     }
   };
 
@@ -498,7 +581,14 @@ async function openClient(): Promise<LocalClient> {
       throw new Error(`${TAB_LOCK_MARKER}: handover of ${dbPath} timed out`);
     }
     try {
-      await resumeSql(sql);
+      if (workerDead) {
+        sql = await openMigratedSql(dbPath);
+        workerDead = false;
+      } else if (!(await answered(resumeSql(sql)))) {
+        killWorker("resume_timeout");
+        sql = await openMigratedSql(dbPath);
+        workerDead = false;
+      }
     } catch (err) {
       // acquireLockWaiting short-circuits on a held key, so staying parked with
       // the lock starves the asking tab.
@@ -519,9 +609,13 @@ async function openClient(): Promise<LocalClient> {
     await transition;
   };
 
-  const park = (hidden = false) => {
-    if (parked || transition) return;
-    transition = parkNow(hidden).finally(() => (transition = null));
+  const park = (hidden = false, force = false) => {
+    if (parked || transition) {
+      if (hidden && transition)
+        logChatDebug("db.park.skipped", { reason: "transition" });
+      return;
+    }
+    transition = parkNow(hidden, force).finally(() => (transition = null));
   };
   const unsubscribeWant = subscribeWant(dbPath, () => park());
 
@@ -532,15 +626,29 @@ async function openClient(): Promise<LocalClient> {
     if (hiddenTimer) clearTimeout(hiddenTimer);
   };
 
+  const inFlightLabels = new Set<string>();
   const gated = async <T>(
     fn: (s: SQLocalDrizzle) => Promise<T>,
+    label = "op",
   ): Promise<T> => {
     await ensureOwned();
     inFlight++;
+    inFlightLabels.add(label);
+    const t0 = Date.now();
+    const slow = setTimeout(() => {
+      logChatDebug("db.gated.slow", {
+        label,
+        ms: Date.now() - t0,
+        hidden: document.hidden,
+        parked,
+      });
+    }, GATED_SLOW_MS);
     try {
       return await fn(sql);
     } finally {
+      clearTimeout(slow);
       inFlight--;
+      inFlightLabels.delete(label);
       if (inFlight === 0) {
         idleWaiters.forEach((resolve) => resolve());
         idleWaiters = [];
@@ -548,7 +656,10 @@ async function openClient(): Promise<LocalClient> {
     }
   };
 
-  const run = <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> =>
+  const run = <T>(
+    fn: (s: SQLocalDrizzle) => Promise<T>,
+    label?: string,
+  ): Promise<T> =>
     gated(async () => {
       try {
         return await fn(sql);
@@ -566,11 +677,12 @@ async function openClient(): Promise<LocalClient> {
         await reopening;
         return fn(sql);
       }
-    });
+    }, label);
 
   const db = drizzle(
-    (q, params, method) => run((s) => s.driver(q, params, method)),
-    (queries) => run((s) => s.batchDriver(queries)),
+    (q, params, method) =>
+      run((s) => s.driver(q, params, method), q.slice(0, 60)),
+    (queries) => run((s) => s.batchDriver(queries), "batch"),
     { schema: { ...shared, ...client } },
   );
   const wrapped: LocalClient = {

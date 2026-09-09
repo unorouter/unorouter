@@ -3839,6 +3839,7 @@
     "DISCORD_CTA": "Brauchst du ein Preset oder Hilfe? Frag auf Discord",
     "TRUNCATED_BEFORE_TEXT": "Das Ausgabelimit wurde erreicht, während das Modell noch nachdachte, daher wurde keine Antwort geschrieben. Erhöhe die maximale Tokenzahl oder deaktiviere das Reasoning für dieses Modell.",
     "LOCAL_ONLY_NOTICE": "Deine Chats bleiben auf diesem Gerät. Wir sehen sie nie und bewahren keine Kopie auf, also sichere sie selbst.",
+    "DB_HELD": "Ein anderer Tab oder eine gerade geschlossene Seite hält die lokale Datenbank noch, deshalb können Chats nicht geladen werden. Schließe andere UnoRouter-Tabs oder beende den Browser und öffne ihn erneut, dann versuche es noch einmal.",
     "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gespeichert werden und Nachrichten verschwinden beim Senden. Erlaube Cookies und Websitedaten für diese Seite, deaktiviere das Löschen der Daten beim Schließen und verlasse den privaten Modus. Datenschutzorientierte Chromium-Varianten blockieren das standardmäßig."
   },
   "ROOM": {

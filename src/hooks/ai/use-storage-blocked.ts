@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  localDbOpenFailed,
+  localDbOpenErrorKind,
   subscribeLocalDbOpenFailure,
 } from "@/lib/db/client/client";
 import { useEffect, useState, useSyncExternalStore } from "react";
@@ -11,7 +11,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 // Safari does the same in some lockdown configurations. The chat DB is the only
 // copy of a user's chats, so a browser that cannot open it must say so rather
 // than failing every action with a generic error.
-export function useStorageBlocked(): boolean {
+export function useStorageBlocked(): "blocked" | "held" | null {
   const [probeFailed, setProbeFailed] = useState(false);
   useEffect(() => {
     let alive = true;
@@ -27,11 +27,11 @@ export function useStorageBlocked(): boolean {
   // reached OPFS but every open failed, so the retry loop just logged and the
   // page stayed silently unusable. A terminal open failure says the same thing
   // to the user, whatever refused it.
-  const openFailed = useSyncExternalStore(
+  const openError = useSyncExternalStore(
     subscribeLocalDbOpenFailure,
-    localDbOpenFailed,
-    () => false,
+    localDbOpenErrorKind,
+    () => null,
   );
 
-  return probeFailed || openFailed;
+  return openError ?? (probeFailed ? "blocked" : null);
 }
