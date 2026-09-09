@@ -2590,6 +2590,7 @@
     "OAUTH": {
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
+      "GOOGLE": "Google",
       "OIDC": "SSO",
       "LINUXDO": "LinuxDO"
     },
@@ -3359,6 +3360,7 @@
       "OAUTH_BINDINGS": "OAuth 綁定",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
+      "GOOGLE": "Google",
       "NOT_BOUND": "尚未綁定",
       "BIND": "綁定",
       "UNBIND": "解除綁定",

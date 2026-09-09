@@ -36,6 +36,7 @@ export const oauthUnbindParams = t.Object({
   binding_type: t.Union([
     t.Literal("github"),
     t.Literal("discord"),
+    t.Literal("google"),
     t.Literal("oidc"),
     t.Literal("wechat"),
     t.Literal("telegram"),

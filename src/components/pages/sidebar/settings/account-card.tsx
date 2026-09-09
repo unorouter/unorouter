@@ -142,7 +142,7 @@ export function AccountCard() {
   }
 
   async function handleOAuthUnbind(
-    provider: "github" | "discord",
+    provider: "github" | "discord" | "google",
     label: string,
   ) {
     const ok = await confirm({
@@ -171,7 +171,7 @@ export function AccountCard() {
     label: string,
     boundId: string | undefined,
     idLabel: string,
-    provider: "github" | "discord",
+    provider: "github" | "discord" | "google",
   ) {
     return (
       <div className="flex items-center justify-between rounded-md border p-3">
@@ -354,6 +354,13 @@ export function AccountCard() {
               user.discord_id,
               "Discord ID",
               "discord",
+            )}
+            {renderOAuthBinding(
+              <Icon name="brand-google" className="h-5 w-5" />,
+              t("SETTINGS.ACCOUNT.GOOGLE"),
+              user.google_id,
+              "Google ID",
+              "google",
             )}
           </div>
         </div>
