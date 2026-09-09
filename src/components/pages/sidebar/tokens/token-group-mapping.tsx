@@ -149,7 +149,7 @@ type GroupOption = {
   missing?: boolean;
 };
 
-const DESC_RE = /^(.+) via (.+) \((.+)\)$/;
+const DESC_RE = /^(.+?) via (.+?)(?: \((.+)\))?$/;
 
 export function buildModelGroupOptions(
   groups: Record<string, UserGroupInfo>,
