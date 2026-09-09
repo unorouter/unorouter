@@ -345,6 +345,28 @@ async function deleteBackup(backupPath: string): Promise<void> {
     await backup.destroy().catch(() => {});
     terminateSql(backup);
   }
+  await removePoolDir(backupPath);
+}
+
+// The directory itself, not only the files in it: while it exists, every
+// open spawns a probe worker to learn the pool is empty, which on a phone is
+// the 3 to 8 s every export showed between listing the pool and spawning the
+// live worker.
+// Retried: the probe worker that just got terminated releases its handles a
+// beat later, and the first removal lands while they are still open.
+const POOL_DIR_REMOVE_TRIES = 10;
+const POOL_DIR_REMOVE_WAIT_MS = 150;
+async function removePoolDir(databasePath: string): Promise<void> {
+  const name = sahPoolDirName(databasePath);
+  for (let i = 0; i < POOL_DIR_REMOVE_TRIES; i++) {
+    try {
+      const root = await navigator.storage.getDirectory();
+      await root.removeEntry(name, { recursive: true });
+      return;
+    } catch {
+      await new Promise((r) => setTimeout(r, POOL_DIR_REMOVE_WAIT_MS));
+    }
+  }
 }
 
 // Probes WITHOUT opening, because opening auto-creates the pool. An emptied
@@ -361,18 +383,26 @@ async function sahPoolDirExists(databasePath: string): Promise<boolean> {
 
 async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
   if (!(await sahPoolDirExists(backupPath))) return false;
+  const started = Date.now();
   const probe = newSql(backupPath);
+  let hasContent = false;
   try {
     const rows = await probe.sql<{ n: number }>(
       "SELECT count(*) AS n FROM sqlite_master",
     );
-    return (rows[0]?.n ?? 0) > 0;
+    hasContent = (rows[0]?.n ?? 0) > 0;
   } catch {
-    return false;
+    hasContent = false;
   } finally {
     await probe.destroy().catch(() => {});
     terminateSql(probe);
   }
+  logChatDebug("import.reconcile.backup_probe", {
+    ms: Date.now() - started,
+    hasContent,
+  });
+  if (!hasContent) await removePoolDir(backupPath);
+  return hasContent;
 }
 
 function backupImportPath(appName: string): string {
