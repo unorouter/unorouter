@@ -6,6 +6,8 @@ import { AFF_CODE_KEY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { extractErrorDetail } from "@/lib/utils/client";
 import type { StatusData } from "@/openapi";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
@@ -103,6 +105,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
   async function handleOAuth(provider: OAuthProvider) {
     setLoading(provider.key);
     analytics.auth.oauthInitiated(provider.key);
+    logChatDebug("auth.oauth.start", { provider: provider.key });
     try {
       const callbackUrl = `${window.location.origin}/api/auth/account/oauth/callback`;
       const affCode = getCookie(AFF_CODE_KEY);
@@ -116,7 +119,22 @@ export function OAuthButtons(props: OAuthButtonsProps) {
         }),
       );
       const url = buildOAuthAuthorizeUrl(provider.key, props.status, state);
-      if (url) window.location.href = url;
+      if (!url) {
+        logChatDebug("auth.oauth.no_url", { provider: provider.key });
+        return;
+      }
+      logChatDebug("auth.oauth.redirect", {
+        provider: provider.key,
+        host: new URL(url).host,
+        hasClientId: !url.includes("client_id=undefined"),
+      });
+      window.location.assign(url);
+    } catch (e) {
+      logChatDebug("auth.oauth.error", {
+        provider: provider.key,
+        error: extractErrorDetail(e),
+      });
+      throw e;
     } finally {
       setLoading(null);
     }

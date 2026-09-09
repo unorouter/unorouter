@@ -27,6 +27,7 @@ import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { deleteCookie, getCookie } from "cookies-next/client";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -99,6 +100,7 @@ export function RegisterForm() {
       router.push("/login");
     } catch (e) {
       const detail = extractErrorDetail(e);
+      logChatDebug("auth.register_error", { error: detail });
       analytics.auth.registerFailed({
         reason: classifyStreamError(detail),
       });
