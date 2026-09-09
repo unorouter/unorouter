@@ -28,15 +28,14 @@ import {
   useModelDetailQuery,
   useModelGroupsQuery,
 } from "@/hooks/models/pricing-hook";
-import { FixedPriceUnit } from "./shared/fixed-price-unit";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
-import { discountPercent, formatPrice } from "@/lib/utils/format/number";
+import { formatPrice } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
 import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
-import { CachePricing } from "./pricing/cache-pricing";
+import { PriceRows } from "./pricing/price-rows";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
 import { ModelDescription } from "./header/model-description";
 import { hasAnyParameter } from "./header/capability-helpers";
@@ -87,16 +86,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   if (!model) return null;
 
   const theme = getVendorTheme(model.vendor);
-  const fixedPct = discountPercent(
-    model.fixed_price,
-    model.original_fixed_price ?? null,
-  );
-  // One badge for both columns: input and output are discounted off the same
-  // canonical list, so the deeper cut is the honest headline.
-  const tokenPct = Math.max(
-    discountPercent(model.input_price, model.original_input_price ?? null),
-    discountPercent(model.output_price, model.original_output_price ?? null),
-  );
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -183,72 +172,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <SectionHeading theme={theme}>
               {t("MODELS.DETAIL.PRICING")}
             </SectionHeading>
-            <div
-              className={cn("rounded-lg border p-4", theme.bg, theme.border)}
-            >
-              {model.is_fixed_price ? (
-                <div className="space-y-1">
-                  <div className="flex items-baseline gap-2">
-                    <span
-                      className={cn("font-mono text-lg font-bold", theme.text)}
-                    >
-                      {formatPrice(model.fixed_price)}
-                    </span>
-                    <span className="text-muted-foreground font-mono text-xs">
-                      <FixedPriceUnit model={model} />
-                    </span>
-                  </div>
-                  {fixedPct > 0 && (
-                    <span className="inline-block rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
-                      {t("MODELS.TABLE.OFF", { pct: fixedPct })}
-                    </span>
-                  )}
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                        {t("MODELS.PRICE.INPUT")}
-                      </span>
-                      <div
-                        className={cn(
-                          "font-mono text-lg font-bold",
-                          theme.text,
-                        )}
-                      >
-                        {formatPrice(model.input_price)}
-                      </div>
-                      <span className="text-muted-foreground font-mono text-[10px]">
-                        {t("MODELS.PRICE.PER_MILLION")}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                        {t("MODELS.PRICE.OUTPUT")}
-                      </span>
-                      <div
-                        className={cn(
-                          "font-mono text-lg font-bold",
-                          theme.text,
-                        )}
-                      >
-                        {formatPrice(model.output_price)}
-                      </div>
-                      <span className="text-muted-foreground font-mono text-[10px]">
-                        {t("MODELS.PRICE.PER_MILLION")}
-                      </span>
-                    </div>
-                  </div>
-                  {tokenPct > 0 && (
-                    <span className="inline-block rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
-                      {t("MODELS.TABLE.OFF", { pct: tokenPct })}
-                    </span>
-                  )}
-                  <CachePricing model={model} theme={theme} />
-                </div>
-              )}
-            </div>
+            <PriceRows model={model} theme={theme} />
           </section>
 
           {model.grid_pricing && (
