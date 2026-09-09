@@ -117,6 +117,7 @@ export function installResumeDiagnostics(): void {
   if (!probesInstalled) {
     probesInstalled = true;
     installStallDetector();
+    installFrameGapDetector();
     installSyncCallTimers();
   }
   let wallpaperKB = 0;
@@ -160,33 +161,34 @@ export function installResumeDiagnostics(): void {
   // still in flight, since a user who gives up at 6s leaves nothing else.
   // Only the local-first routes open the database on load; elsewhere the
   // absence of db.open.start means nothing.
-  if (!/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) return;
-  setTimeout(() => {
-    const since = getChatDebugLog().filter((e) => e.ts >= bootAt - 10_000);
-    if (since.some((e) => e.event.startsWith("db.open"))) return;
-    const resources = performance
-      .getEntriesByType("resource")
-      .filter(
-        (r): r is PerformanceResourceTiming =>
-          r instanceof PerformanceResourceTiming,
-      );
-    const inflight = resources
-      .filter((r) => r.responseEnd === 0)
-      .map((r) => r.name.replace(location.origin, "").slice(0, 80));
-    const scripts = resources.filter((r) => /\.js(\?|$)/.test(r.name));
-    logChatDebug("boot.stalled", {
-      path: location.pathname,
-      sinceMs: Date.now() - bootAt,
-      readyState: document.readyState,
-      visible: document.visibilityState === "visible",
-      scriptsLoaded: scripts.filter((r) => r.responseEnd > 0).length,
-      slowestScriptMs: Math.round(
-        Math.max(0, ...scripts.map((r) => r.duration)),
-      ),
-      inflight: inflight.slice(0, 12),
-    });
-    flushChatDebugLog();
-  }, STALL_AFTER_MS);
+  if (/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) {
+    setTimeout(() => {
+      const since = getChatDebugLog().filter((e) => e.ts >= bootAt - 10_000);
+      if (since.some((e) => e.event.startsWith("db.open"))) return;
+      const resources = performance
+        .getEntriesByType("resource")
+        .filter(
+          (r): r is PerformanceResourceTiming =>
+            r instanceof PerformanceResourceTiming,
+        );
+      const inflight = resources
+        .filter((r) => r.responseEnd === 0)
+        .map((r) => r.name.replace(location.origin, "").slice(0, 80));
+      const scripts = resources.filter((r) => /\.js(\?|$)/.test(r.name));
+      logChatDebug("boot.stalled", {
+        path: location.pathname,
+        sinceMs: Date.now() - bootAt,
+        readyState: document.readyState,
+        visible: document.visibilityState === "visible",
+        scriptsLoaded: scripts.filter((r) => r.responseEnd > 0).length,
+        slowestScriptMs: Math.round(
+          Math.max(0, ...scripts.map((r) => r.duration)),
+        ),
+        inflight: inflight.slice(0, 12),
+      });
+      flushChatDebugLog();
+    }, STALL_AFTER_MS);
+  }
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
@@ -309,4 +311,27 @@ function installSyncCallTimers(): void {
       proto.setItem = timed("localStorage.setItem", proto.setItem);
     }
   } catch {}
+}
+
+// Frames, not timers: a gap here with no main.stall beside it is the
+// compositor or GPU, which the script thread never sees.
+const FRAME_GAP_MS = 400;
+const FRAME_LOG_EVERY_MS = 5000;
+function installFrameGapDetector(): void {
+  let last = performance.now();
+  let lastLogged = 0;
+  const tick = (now: number) => {
+    const gap = now - last;
+    last = now;
+    if (
+      gap >= FRAME_GAP_MS &&
+      document.visibilityState === "visible" &&
+      now - lastLogged >= FRAME_LOG_EVERY_MS
+    ) {
+      lastLogged = now;
+      logChatDebug("frame.gap", { gapMs: Math.round(gap) });
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
