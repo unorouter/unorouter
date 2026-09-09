@@ -3712,6 +3712,7 @@
       "DATA": "Veriler",
       "LOCAL_DB_DOWNLOAD": "Yerel SQLite dosyasını indir",
       "LOCAL_DB_UPLOAD": "SQLite dosyasını içe aktar (yereli değiştirir)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Bitene kadar bu sekmeyi açık ve ön planda tutun; telefon arka plandaki sekmeyi dondurur ve içe aktarma da onunla birlikte durur.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Bu dosyadaki kayıtlar içe aktarılsın mı? Geçerli şemaya taşınır ve yerel verilerinizin yerini alır; kayıtlar bu oturuma devredilir.",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables} tabloda {imported} kayıt içe aktarıldı ({skipped} atlandı).",
       "LOCAL_DB_EXPORT_CHATS": "Sohbetleri dahil et",

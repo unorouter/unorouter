@@ -3712,6 +3712,7 @@
       "DATA": "Données",
       "LOCAL_DB_DOWNLOAD": "Télécharger le fichier SQLite local",
       "LOCAL_DB_UPLOAD": "Importer un fichier SQLite (remplace la base locale)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Gardez cet onglet ouvert et au premier plan jusqu'à la fin ; un téléphone gèle un onglet en arrière-plan et l'import s'arrête avec lui.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Importer les enregistrements de ce fichier ? Il est migré vers le schéma actuel et remplace vos données locales ; les enregistrements sont réattribués à cette session.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} enregistrements importés dans {tables} tables ({skipped} ignorés).",
       "LOCAL_DB_EXPORT_CHATS": "Inclure les discussions",

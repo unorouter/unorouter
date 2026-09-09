@@ -3712,6 +3712,7 @@
       "DATA": "Dữ liệu",
       "LOCAL_DB_DOWNLOAD": "Tải xuống tệp SQLite cục bộ",
       "LOCAL_DB_UPLOAD": "Nhập tệp SQLite (thay thế cục bộ)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Giữ thẻ này mở và ở phía trước cho đến khi hoàn tất; điện thoại sẽ đóng băng thẻ chạy nền và việc nhập sẽ dừng theo.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Nhập bản ghi từ tệp này? Tệp được di chuyển sang lược đồ hiện tại và thay thế dữ liệu cục bộ của bạn; các bản ghi được chuyển quyền sở hữu sang phiên này.",
       "LOCAL_DB_IMPORT_SUMMARY": "Đã nhập {imported} bản ghi trên {tables} bảng ({skipped} bị bỏ qua).",
       "LOCAL_DB_EXPORT_CHATS": "Bao gồm cuộc trò chuyện",

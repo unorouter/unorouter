@@ -3712,6 +3712,7 @@
       "DATA": "数据",
       "LOCAL_DB_DOWNLOAD": "下载本地 SQLite 文件",
       "LOCAL_DB_UPLOAD": "导入 SQLite 文件（替换本地）",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "完成前请保持此标签页打开并处于前台；手机会冻结后台标签页，导入也会随之停止。",
       "LOCAL_DB_UPLOAD_CONFIRM": "从此文件导入记录？它会迁移到当前架构并替换你的本地数据；记录将归属当前会话。",
       "LOCAL_DB_IMPORT_SUMMARY": "已将 {imported} 条记录导入 {tables} 个表（跳过 {skipped} 条）。",
       "LOCAL_DB_EXPORT_CHATS": "包含聊天",

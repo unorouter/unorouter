@@ -3712,6 +3712,7 @@
       "DATA": "Dane",
       "LOCAL_DB_DOWNLOAD": "Pobierz lokalny plik SQLite",
       "LOCAL_DB_UPLOAD": "Importuj plik SQLite (zastępuje lokalny)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Zostaw tę kartę otwartą i na pierwszym planie do końca; telefon zamraża kartę w tle i import zatrzymuje się razem z nią.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Zaimportować rekordy z tego pliku? Zostanie zmigrowany do bieżącego schematu i zastąpi Twoje dane lokalne; rekordy są przypisywane do tej sesji.",
       "LOCAL_DB_IMPORT_SUMMARY": "Zaimportowano {imported} rekordów w {tables} tabelach (pominięto {skipped}).",
       "LOCAL_DB_EXPORT_CHATS": "Uwzględnij czaty",

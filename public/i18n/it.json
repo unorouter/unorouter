@@ -3712,6 +3712,7 @@
       "DATA": "Dati",
       "LOCAL_DB_DOWNLOAD": "Scarica file SQLite locale",
       "LOCAL_DB_UPLOAD": "Importa file SQLite (sostituisce locale)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Tieni questa scheda aperta e in primo piano fino alla fine; un telefono congela una scheda in secondo piano e l'importazione si blocca con essa.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Importare i record da questo file? Viene migrato allo schema attuale e sostituisce i tuoi dati locali; i record vengono riassegnati a questa sessione.",
       "LOCAL_DB_IMPORT_SUMMARY": "Importati {imported} record in {tables} tabelle ({skipped} ignorati).",
       "LOCAL_DB_EXPORT_CHATS": "Includi le chat",

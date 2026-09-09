@@ -3712,6 +3712,7 @@
       "DATA": "डेटा",
       "LOCAL_DB_DOWNLOAD": "Local SQLite फ़ाइल download करें",
       "LOCAL_DB_UPLOAD": "SQLite फ़ाइल इम्पोर्ट करें (local को बदलता है)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "पूरा होने तक इस टैब को खुला और सामने रखें; फ़ोन बैकग्राउंड टैब को फ़्रीज़ कर देता है और इम्पोर्ट उसके साथ रुक जाता है।",
       "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से records इम्पोर्ट करें? यह मौजूदा schema में माइग्रेट होती है और आपके local data को बदल देती है; records इस session के स्वामित्व में आ जाते हैं।",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables} tables में {imported} records इम्पोर्ट किए गए ({skipped} छोड़े गए)।",
       "LOCAL_DB_EXPORT_CHATS": "चैट शामिल करें",
