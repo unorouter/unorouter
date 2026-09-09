@@ -40,11 +40,31 @@ const OFFLINE_URL = "/en/offline";
 
 const NAV_HANG_MS = 10_000;
 
+// The worker has no log of its own, and a navigation or RSC fetch that hangs
+// in here leaves nothing in the page log either: the page that asked never
+// boots. Every open page gets the line, so a sibling tab records what the
+// stuck one cannot.
+const swLog = async (
+  event: string,
+  data: Record<string, unknown>,
+): Promise<void> => {
+  const clients = await self.clients.matchAll({
+    type: "window",
+    includeUncontrolled: true,
+  });
+  for (const client of clients) {
+    client.postMessage({ type: "SW_LOG", event, data });
+  }
+};
+
 const navStrategy = new NetworkFirst({ cacheName: "pages" });
 
 const handleNavigation = async (
   options: RouteHandlerCallbackOptions,
 ): Promise<Response> => {
+  const path = options.url.pathname;
+  const t0 = Date.now();
+  void swLog("sw.nav.start", { path });
   let timer: ReturnType<typeof setTimeout> | undefined;
   const raced = await Promise.race([
     navStrategy.handle(options).catch(() => undefined),
@@ -53,9 +73,58 @@ const handleNavigation = async (
     }),
   ]);
   if (timer) clearTimeout(timer);
+  void swLog("sw.nav.done", {
+    path,
+    ms: Date.now() - t0,
+    status: raced?.status ?? null,
+    offline: !raced,
+  });
   if (raced) return raced;
   return (await serwist.matchPrecache(OFFLINE_URL)) ?? Response.error();
 };
+
+// Serwist's own RSC entries are NetworkFirst with no timeout, so a client-side
+// Link click on a bad connection waits on the socket forever with no UI: the
+// page looks frozen. Same cap as navigations; on timeout the cached payload is
+// served, and with none Next falls back to a document navigation.
+const rscPlugins = () => [
+  new ExpirationPlugin({ maxEntries: 32, maxAgeSeconds: 60 * 60 * 24 }),
+];
+const rscStrategy = new NetworkFirst({
+  cacheName: "pages-rsc",
+  networkTimeoutSeconds: NAV_HANG_MS / 1000,
+  plugins: rscPlugins(),
+});
+const rscPrefetchStrategy = new NetworkFirst({
+  cacheName: "pages-rsc-prefetch",
+  networkTimeoutSeconds: NAV_HANG_MS / 1000,
+  plugins: rscPlugins(),
+});
+
+const handleRsc = async (
+  options: RouteHandlerCallbackOptions,
+): Promise<Response> => {
+  const path = options.url.pathname;
+  const t0 = Date.now();
+  void swLog("sw.rsc.start", { path });
+  try {
+    const res = await rscStrategy.handle(options);
+    void swLog("sw.rsc.done", { path, ms: Date.now() - t0, status: res.status });
+    return res;
+  } catch (err) {
+    void swLog("sw.rsc.done", {
+      path,
+      ms: Date.now() - t0,
+      error: String(err).slice(0, 120),
+    });
+    throw err;
+  }
+};
+
+const isRsc = (request: Request, sameOrigin: boolean, pathname: string) =>
+  sameOrigin &&
+  request.headers.get("RSC") === "1" &&
+  !pathname.startsWith("/api/");
 
 const serwist = new Serwist({
   precacheEntries,
@@ -115,6 +184,17 @@ const serwist = new Serwist({
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
       handler: handleNavigation,
+    },
+    {
+      matcher: ({ request, sameOrigin, url }) =>
+        isRsc(request, sameOrigin, url.pathname) &&
+        request.headers.get("Next-Router-Prefetch") === "1",
+      handler: rscPrefetchStrategy,
+    },
+    {
+      matcher: ({ request, sameOrigin, url }) =>
+        isRsc(request, sameOrigin, url.pathname),
+      handler: handleRsc,
     },
     ...defaultCache,
   ],

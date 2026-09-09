@@ -47,7 +47,8 @@ function control(
   message: ControlRequest,
 ): Promise<SahPoolControlReply | undefined> {
   const worker = workers.get(sql);
-  if (!worker) return Promise.resolve(undefined);
+  // A terminated worker never replies; the promise would hang forever.
+  if (!worker || !liveWorkers.has(worker)) return Promise.resolve(undefined);
   const key = `sahpool-control-${++controlSeq}`;
   return new Promise((resolve, reject) => {
     const onMessage = (event: MessageEvent<SahPoolControlReply>) => {

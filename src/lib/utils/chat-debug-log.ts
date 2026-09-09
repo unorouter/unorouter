@@ -1,8 +1,13 @@
 export type ChatDebugEntry = {
   ts: number;
   event: string;
+  tab?: string;
   [key: string]: unknown;
 };
+
+// Which page wrote a line. Two tabs share one localStorage key, and an export
+// taken from the healthy tab is the only record of the stuck one.
+const TAB = Math.random().toString(36).slice(2, 6);
 
 const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
@@ -13,20 +18,42 @@ const SAVE_DEBOUNCE_MS = 1000;
 // imports this module on every page load) then written on a debounce, because
 // setItem is synchronous and scales with SERIALIZED size: a full 2000-entry
 // buffer (~400KB) parks the main thread for seconds per write.
-function makeLog<T>(key: string, cap: number, persistCap = cap) {
+function makeLog<T extends { ts: number; tab?: string }>(
+  key: string,
+  cap: number,
+  persistCap = cap,
+) {
   let items: T[] | null = null;
   let timer: ReturnType<typeof setTimeout> | null = null;
   let disabled = false;
 
-  const get = (): T[] => {
-    if (items !== null) return items;
-    items = [];
-    if (typeof localStorage === "undefined") return items;
+  const stored = (): T[] => {
+    if (typeof localStorage === "undefined") return [];
     try {
       const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
-      if (Array.isArray(parsed)) items = parsed;
+      if (Array.isArray(parsed)) return parsed;
     } catch {}
+    return [];
+  };
+
+  const get = (): T[] => {
+    if (items === null) items = stored();
     return items;
+  };
+
+  // Every tab writes the whole array back, so without this the last tab to
+  // save erases what the others logged since it loaded.
+  const merged = (): T[] => {
+    const mine = get().filter((e) => e.tab === TAB);
+    const theirs = stored().filter((e) => e.tab !== TAB);
+    const all = [...theirs, ...mine].sort((a, b) => a.ts - b.ts);
+    return all.slice(-cap);
+  };
+
+  const write = (): void => {
+    const all = merged();
+    items = all;
+    localStorage.setItem(key, JSON.stringify(all.slice(-persistCap)));
   };
 
   const save = (): void => {
@@ -35,7 +62,7 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
     timer = setTimeout(() => {
       timer = null;
       try {
-        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+        write();
       } catch {
         // Over quota or blocked: latch off, a sync write per second cannot land.
         disabled = true;
@@ -48,6 +75,7 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
 
   return {
     get,
+    all: merged,
     save,
     // Synchronous write for pagehide: the debounce above loses whatever was
     // logged in the last second before a kill, which on a reload storm is the
@@ -57,10 +85,11 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
       timer = null;
       if (disabled || typeof localStorage === "undefined") return;
       try {
-        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+        write();
       } catch {}
     },
     push(entry: T): void {
+      entry.tab = TAB;
       const all = get();
       all.push(entry);
       if (all.length > cap) all.splice(0, all.length - cap);
@@ -105,7 +134,7 @@ export function flushChatDebugLog(): void {
 }
 
 export function getChatDebugLog(): ChatDebugEntry[] {
-  return debugLog.get().slice();
+  return debugLog.all();
 }
 
 export type TextFingerprint = {
@@ -121,6 +150,7 @@ export type TextFingerprint = {
 
 export type FailedRequestCapture = {
   ts: number;
+  tab?: string;
   model: string;
   group: string | null;
   url: string | null;
@@ -212,7 +242,7 @@ export function captureFailedRequest(detail: {
 }
 
 export function getFailedRequestCaptures(): FailedRequestCapture[] {
-  return failedLog.get().slice();
+  return failedLog.all();
 }
 
 export function clearFailedRequestCaptures(): void {
@@ -222,6 +252,7 @@ export function clearFailedRequestCaptures(): void {
 
 export type CaughtErrorEntry = {
   ts: number;
+  tab?: string;
   source: string;
   name: string;
   message: string;
@@ -267,7 +298,12 @@ export function captureCaughtError(detail: {
   const message = String(isError ? err.message : err).slice(0, 500);
   const entries = caughtLog.get();
   const last = entries[entries.length - 1];
-  if (last && last.source === detail.source && last.message === message) {
+  if (
+    last &&
+    last.tab === TAB &&
+    last.source === detail.source &&
+    last.message === message
+  ) {
     last.count++;
     last.ts = Date.now();
     caughtLog.save();
@@ -301,7 +337,7 @@ export function captureCaughtError(detail: {
 }
 
 export function getCaughtErrors(): CaughtErrorEntry[] {
-  return caughtLog.get().slice();
+  return caughtLog.all();
 }
 
 export function attachCrashLoadout(loadout: CrashLoadout): void {
