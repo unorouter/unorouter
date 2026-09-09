@@ -3400,6 +3400,7 @@ export interface User {
   created_at: number;
   creem_customer: string;
   discord_id: string;
+  google_id: string;
   /** @maxLength 20 */
   display_name: string;
   /** @maxLength 50 */
@@ -3600,6 +3601,8 @@ export interface StatusData {
   demo_site_enabled: boolean;
   discord_client_id: string;
   discord_oauth: boolean;
+  google_client_id: string;
+  google_oauth: boolean;
   display_in_currency: boolean;
   docs_link: string;
   email_verification: boolean;
@@ -3947,6 +3950,7 @@ export interface UserSelfData {
   aff_history_quota: number;
   aff_quota: number;
   discord_id: string;
+  google_id: string;
   display_name: string;
   email: string;
   github_id: string;

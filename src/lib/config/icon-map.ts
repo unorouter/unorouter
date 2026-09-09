@@ -2135,6 +2135,14 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("@tabler/icons-react/dist/esm/icons/IconBrandGithub.mjs"),
   },
+  "brand-google": {
+    lucide: () =>
+      import("@/components/ui/local-icons").then((m) => ({
+        default: m.GoogleIcon,
+      })),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconBrandGoogle.mjs"),
+  },
   "brand-linux": {
     lucide: () =>
       import("@/components/ui/local-icons").then((m) => ({

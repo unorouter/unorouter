@@ -50,16 +50,19 @@ export function useBindEmailMutation() {
   });
 }
 
-type OAuthBindingField = "github_id" | "discord_id";
+type OAuthBindingField = "github_id" | "discord_id" | "google_id";
 
 const oauthBindingFieldMap: Record<string, OAuthBindingField> = {
   github: "github_id",
   discord: "discord_id",
+  google: "google_id",
 };
 
 export function useUnbindOAuthMutation() {
   return useApiMutation({
-    mutationFn: async (args: { bindingType: "github" | "discord" }) =>
+    mutationFn: async (args: {
+      bindingType: "github" | "discord" | "google";
+    }) =>
       handleElysia(
         await rpc.api.auth.account
           .bindings({ binding_type: args.bindingType })

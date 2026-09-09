@@ -38,6 +38,8 @@ export function buildOAuthAuthorizeUrl(
       return `https://github.com/login/oauth/authorize?client_id=${status.github_client_id}&state=${state}&scope=user:email&redirect_uri=${encodedRedirect}`;
     case "discord":
       return `https://discord.com/api/oauth2/authorize?client_id=${status.discord_client_id}&state=${state}&response_type=code&scope=identify+email&redirect_uri=${encodedRedirect}`;
+    case "google":
+      return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${status.google_client_id}&state=${state}&response_type=code&scope=openid+email+profile&redirect_uri=${encodedRedirect}`;
     case "oidc":
       return `${status.oidc_authorization_endpoint}?client_id=${status.oidc_client_id}&state=${state}&response_type=code&scope=openid+profile+email&redirect_uri=${encodedRedirect}`;
     case "linuxdo":
@@ -75,6 +77,13 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "discord",
       label: t("AUTH.OAUTH.DISCORD"),
       icon: <Icon name="brand-discord" className="h-4 w-4" />,
+    });
+  }
+  if (props.status.google_oauth) {
+    providers.push({
+      key: "google",
+      label: t("AUTH.OAUTH.GOOGLE"),
+      icon: <Icon name="brand-google" className="h-4 w-4" />,
     });
   }
   if (props.status.oidc_enabled) {

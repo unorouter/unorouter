@@ -2590,6 +2590,7 @@
     "OAUTH": {
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
+      "GOOGLE": "Google",
       "OIDC": "SSO",
       "LINUXDO": "LinuxDO"
     },
@@ -3359,6 +3360,7 @@
       "OAUTH_BINDINGS": "OAuth-Verknüpfungen",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
+      "GOOGLE": "Google",
       "NOT_BOUND": "Nicht verknüpft",
       "BIND": "Verknüpfen",
       "UNBIND": "Trennen",
