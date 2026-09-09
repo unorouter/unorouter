@@ -3843,6 +3843,7 @@
     "TRUNCATED_BEFORE_TEXT": "Il limite di output è stato raggiunto mentre il modello stava ancora ragionando, quindi non è stata scritta alcuna risposta. Aumenta il numero massimo di token o disattiva il ragionamento per questo modello.",
     "LOCAL_ONLY_NOTICE": "Le tue chat restano su questo dispositivo. Non le vediamo mai e non ne conserviamo copie, quindi il backup spetta a te.",
     "DB_HELD": "Un'altra scheda, o una pagina appena chiusa, trattiene ancora il database locale, quindi le chat non possono essere caricate. Chiudi le altre schede di UnoRouter, oppure esci dal browser e riaprilo, poi riprova.",
+    "DB_HELD_DOWNLOAD": "Scarica il file grezzo del database",
     "STORAGE_BLOCKED": "Il browser sta bloccando l'archiviazione per questo sito, quindi le chat non possono essere salvate e i messaggi spariscono all'invio. Consenti i cookie e i dati del sito, disattiva la cancellazione dei dati alla chiusura ed esci dalla navigazione privata. Le versioni di Chromium orientate alla privacy lo bloccano per impostazione predefinita."
   },
   "ROOM": {

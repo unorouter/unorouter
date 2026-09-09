@@ -708,18 +708,51 @@ const StorageBlockedNotice: FC = () => {
         </span>
       </div>
       {kind === "held" && (
-        <Button
-          variant="outline"
-          size="sm"
-          className="self-end"
-          onClick={retry}
-        >
-          {t("MAIN.ACTIONS.TRY_AGAIN")}
-        </Button>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={downloadRawDatabase}>
+            {t("CHAT.DB_HELD_DOWNLOAD")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={retry}>
+            {t("MAIN.ACTIONS.TRY_AGAIN")}
+          </Button>
+        </div>
       )}
     </div>
   );
 };
+
+// The pool's slot files stay readable through getFile() while the sync access
+// handles are held elsewhere, so a user locked out of the database can still
+// walk away with the bytes. The live slot, or the largest SQLite slot when
+// none names the live path.
+async function downloadRawDatabase() {
+  const [{ salvagePoolDatabases }, { singleDbPath }, { streamFileToDisk }] =
+    await Promise.all([
+      import("@/lib/db/client/sahpool/salvage"),
+      import("@/lib/db/client/data-migrate/adopt-single-db"),
+      import("@/lib/utils/client"),
+    ]);
+  const candidates = await salvagePoolDatabases(singleDbPath());
+  const pick =
+    candidates.find((c) => c.isLive) ??
+    candidates.reduce<(typeof candidates)[number] | null>(
+      (a, b) => (!a || b.sizeBytes > a.sizeBytes ? b : a),
+      null,
+    );
+  logChatDebug("db.salvage.download", {
+    candidates: candidates.length,
+    bytes: pick?.sizeBytes,
+    isLive: pick?.isLive,
+  });
+  if (!pick) return;
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  await streamFileToDisk(
+    new File([pick.blob], `unorouter-raw-${stamp}.sqlite`, {
+      type: "application/x-sqlite3",
+    }),
+    `unorouter-raw-${stamp}.sqlite`,
+  );
+}
 
 const CONTINUE_PROMPT = "(OOC: Continue.)";
 

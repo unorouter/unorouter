@@ -3843,6 +3843,7 @@
     "TRUNCATED_BEFORE_TEXT": "Model hâlâ düşünürken çıktı sınırına ulaşıldı, bu yüzden hiçbir yanıt yazılmadı. Maksimum token sayısını artırın veya bu model için akıl yürütmeyi kapatın.",
     "LOCAL_ONLY_NOTICE": "Sohbetleriniz bu cihazda kalır. Onları hiç görmeyiz ve kopyasını saklamayız, bu yüzden yedeği kendiniz alın.",
     "DB_HELD": "Başka bir sekme ya da az önce kapatılan bir sayfa yerel veritabanını hâlâ tutuyor, bu yüzden sohbetler yüklenemiyor. Diğer UnoRouter sekmelerini kapatın veya tarayıcıdan çıkıp yeniden açın, ardından tekrar deneyin.",
+    "DB_HELD_DOWNLOAD": "Ham veritabanı dosyasını indir",
     "STORAGE_BLOCKED": "Tarayıcınız bu site için depolamayı engelliyor, bu yüzden sohbetler kaydedilemiyor ve mesajlar gönderildiğinde kayboluyor. Bu site için çerezlere ve site verilerine izin verin, kapatırken verileri silen ayarı kapatın ve gizli moddan çıkın. Gizlilik odaklı Chromium sürümleri bunu varsayılan olarak engeller."
   },
   "ROOM": {
