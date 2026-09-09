@@ -27,12 +27,44 @@ export function newSql(dbPath: string): SQLocalDrizzle {
   return sql;
 }
 
+let controlSeq = 0;
+
 export function terminateAllSql(): void {
   for (const worker of liveWorkers) worker.terminate();
   liveWorkers.clear();
 }
 
-let controlSeq = 0;
+// Unload path. A killed worker leaves its sync access handles for WebKit to
+// drop on its own schedule, and a same-tab reload opens the pool before that
+// happens; asking the worker to pause first closes them in a few ms. The
+// reply is the signal, the timer covers a page frozen before it arrives.
+export function unloadAllSql(graceMs: number): void {
+  const workers = [...liveWorkers];
+  liveWorkers.clear();
+  for (const worker of workers) {
+    const key = `sahpool-control-${++controlSeq}`;
+    let done = false;
+    const kill = () => {
+      if (done) return;
+      done = true;
+      worker.terminate();
+    };
+    const timer = setTimeout(kill, graceMs);
+    worker.addEventListener(
+      "message",
+      (event: MessageEvent<SahPoolControlReply>) => {
+        if (
+          event.data?.type !== "sahpool-control-done" ||
+          event.data.key !== key
+        )
+          return;
+        clearTimeout(timer);
+        kill();
+      },
+    );
+    worker.postMessage({ type: "sahpool-pause", key });
+  }
+}
 
 // Addressed to the worker directly: sqlocal's processor protocol has no pause/resume.
 // Omit over a union collapses the discriminant; distribute it instead.

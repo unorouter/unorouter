@@ -65,6 +65,7 @@ import {
   replaceMessageParts,
 } from "@/store/chat-store";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { retryLocalDbOpen } from "@/lib/db/client/client";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -98,6 +99,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 const MarkdownText = dynamic<TextMessagePartProps>(
@@ -649,15 +651,29 @@ const ComposerContinueButton: FC = () => {
 // fails with a generic error that reads like our bug. Name the real cause.
 const StorageBlockedNotice: FC = () => {
   const t = useTranslations();
-  const blocked = useStorageBlocked();
-  if (!blocked) return null;
+  const qc = useQueryClient();
+  const kind = useStorageBlocked();
+  if (!kind) return null;
+  const retry = () => {
+    retryLocalDbOpen();
+    void qc.invalidateQueries();
+  };
   return (
-    <div className="border-destructive/40 bg-destructive/10 text-foreground flex max-w-md items-start gap-2 rounded-lg border px-3 py-2 text-xs">
-      <Icon
-        name="triangle-alert"
-        className="text-destructive mt-0.5 size-3.5 shrink-0"
-      />
-      <span>{t("CHAT.STORAGE_BLOCKED")}</span>
+    <div className="border-destructive/40 bg-destructive/10 text-foreground flex max-w-md flex-col gap-2 rounded-lg border px-3 py-2 text-xs">
+      <div className="flex items-start gap-2">
+        <Icon
+          name="triangle-alert"
+          className="text-destructive mt-0.5 size-3.5 shrink-0"
+        />
+        <span>
+          {t(kind === "held" ? "CHAT.DB_HELD" : "CHAT.STORAGE_BLOCKED")}
+        </span>
+      </div>
+      {kind === "held" && (
+        <Button variant="outline" size="sm" className="self-end" onClick={retry}>
+          {t("MAIN.ACTIONS.TRY_AGAIN")}
+        </Button>
+      )}
     </div>
   );
 };

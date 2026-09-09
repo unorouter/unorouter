@@ -3,6 +3,7 @@ import {
   flushChatDebugLog,
   getChatDebugLog,
   logChatDebug,
+  chatDebugTab,
 } from "@/lib/utils/chat-debug-log";
 
 export const RELEASE = process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev";
@@ -82,10 +83,41 @@ export function installResumeDiagnostics(): void {
   } catch {}
   const nav = performance.getEntriesByType("navigation")[0];
   const bootAt = Date.now();
+  // The visible tab stamps a heartbeat so the next boot can place a hang: the
+  // gap between the last stamp and the last logged line is where the main
+  // thread stopped, which no log line can record from inside the hang.
+  const ALIVE_KEY = "uno-alive";
+  let prevAlive: { agoMs: number; tab: string } | undefined;
+  try {
+    const raw = localStorage.getItem(ALIVE_KEY);
+    const prev: unknown = raw ? JSON.parse(raw) : null;
+    if (
+      prev &&
+      typeof prev === "object" &&
+      "ts" in prev &&
+      typeof prev.ts === "number" &&
+      "tab" in prev &&
+      typeof prev.tab === "string"
+    ) {
+      prevAlive = { agoMs: bootAt - prev.ts, tab: prev.tab };
+    }
+  } catch {}
+  const beat = () => {
+    if (document.visibilityState !== "visible") return;
+    try {
+      localStorage.setItem(
+        ALIVE_KEY,
+        JSON.stringify({ ts: Date.now(), tab: chatDebugTab() }),
+      );
+    } catch {}
+  };
+  beat();
+  setInterval(beat, 2000);
   logChatDebug("boot", {
     release: RELEASE,
     path: location.pathname,
     visible: document.visibilityState === "visible",
+    ...(prevAlive && { prevAlive }),
     readyState: document.readyState,
     swControlled: !!navigator.serviceWorker?.controller,
     ...(nav instanceof PerformanceNavigationTiming && {
@@ -95,6 +127,19 @@ export function installResumeDiagnostics(): void {
       domCompleteMs: Math.round(nav.domComplete),
     }),
   });
+  // A Link click starts a client navigation that logs nothing until the
+  // target route boots, so a fetch that hangs in the worker leaves no trace.
+  document.addEventListener(
+    "click",
+    (e) => {
+      const a =
+        e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (!(a instanceof HTMLAnchorElement) || a.origin !== location.origin)
+        return;
+      logChatDebug("nav.click", { href: a.pathname, tab: chatDebugTab() });
+    },
+    true,
+  );
   // A boot with no db.open.start after it is a page whose content never
   // mounted: a chunk still loading, or hung. Name the chunk while it is
   // still in flight, since a user who gives up at 6s leaves nothing else.
@@ -127,19 +172,6 @@ export function installResumeDiagnostics(): void {
     });
     flushChatDebugLog();
   }, STALL_AFTER_MS);
-  // A Link click starts a client navigation that logs nothing until the
-  // target route boots, so a fetch that hangs in the worker leaves no trace.
-  document.addEventListener(
-    "click",
-    (e) => {
-      const a =
-        e.target instanceof Element ? e.target.closest("a[href]") : null;
-      if (!(a instanceof HTMLAnchorElement) || a.origin !== location.origin)
-        return;
-      logChatDebug("nav.click", { href: a.pathname });
-    },
-    true,
-  );
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
