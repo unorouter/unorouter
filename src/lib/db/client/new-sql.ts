@@ -29,6 +29,18 @@ export function newSql(dbPath: string): SQLocalDrizzle {
 
 let controlSeq = 0;
 
+// Closes the pool's sync access handles without killing the worker: the
+// page may still be alive (iOS app switch), and a killed worker is the one
+// thing the device tests have not yet ruled out.
+export function pauseAllSql(): void {
+  for (const worker of liveWorkers) {
+    worker.postMessage({
+      type: "sahpool-pause",
+      key: `sahpool-control-${++controlSeq}`,
+    });
+  }
+}
+
 export function terminateAllSql(): void {
   for (const worker of liveWorkers) worker.terminate();
   liveWorkers.clear();

@@ -1,4 +1,5 @@
 import {
+  applyDebugFlagParam,
   captureCaughtError,
   flushChatDebugLog,
   getChatDebugLog,
@@ -119,9 +120,11 @@ export function installResumeDiagnostics(): void {
       (localStorage.getItem("user-theme-bg")?.length ?? 0) / 1024,
     );
   } catch {}
+  const dbg = applyDebugFlagParam();
   logChatDebug("boot", {
     release: RELEASE,
     path: location.pathname,
+    ...(dbg && { dbg }),
     visible: document.visibilityState === "visible",
     ...(prevAlive && { prevAlive }),
     ...(wallpaperKB && { wallpaperKB }),
