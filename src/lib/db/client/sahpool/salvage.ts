@@ -59,10 +59,12 @@ export async function listLocalDatabases(): Promise<LocalDatabase[]> {
   const found: LocalDatabase[] = [];
   try {
     const root = await navigator.storage.getDirectory();
+    logChatDebug("db.open.dir");
     for await (const [name, handle] of root.entries()) {
       if (handle.kind !== "directory") continue;
       const entry = describePool(name, appName);
       if (!entry) continue;
+      logChatDebug("db.open.measure", { name });
       const stats = await measurePool(handle);
       found.push({ ...entry, ...stats });
     }

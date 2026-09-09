@@ -439,7 +439,9 @@ async function openClient(): Promise<LocalClient> {
   // Take the Web Lock BEFORE any pool access: a second tab's failed install can
   // tear a pool header, after which the FIRST tab opens empty and looks wiped.
   const lockKey = `db:${dbPath}`;
-  if (!(await acquireLock(lockKey))) {
+  const lockOk = await acquireLock(lockKey);
+  logChatDebug("db.open.lock", { ok: lockOk });
+  if (!lockOk) {
     logChatDebug("db.open.handover_wait");
     if (!(await awaitOwnership(dbPath, lockKey))) {
       logChatDebug("db.open.tab_locked");
@@ -469,6 +471,7 @@ async function openClient(): Promise<LocalClient> {
   // full HANDOVER_TIMEOUT on a tab that is never coming.
   let sql: SQLocalDrizzle;
   try {
+    logChatDebug("db.open.worker_spawn");
     sql = await openMigratedSql(dbPath);
   } catch (err) {
     releaseLock(lockKey);

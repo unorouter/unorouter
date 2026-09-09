@@ -186,6 +186,14 @@ export function installResumeDiagnostics(): void {
       ...(heapBytes && { heapMB: Math.round(heapBytes / 1048576) }),
     });
   });
+  // Tells a frozen main thread (heartbeat stops, no line here) from a tab
+  // iOS merely backgrounded (heartbeat stops after this line).
+  document.addEventListener("visibilitychange", () => {
+    logChatDebug("page.visibility", {
+      state: document.visibilityState,
+      sinceBootMs: Date.now() - bootAt,
+    });
+  });
   window.addEventListener("pagehide", (e) => {
     logChatDebug("page.hide", {
       bfcached: e.persisted,
