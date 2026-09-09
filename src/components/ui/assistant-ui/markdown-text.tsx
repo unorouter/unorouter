@@ -83,7 +83,12 @@ const ZERO_ATOM = atom(0);
 let cachedMathjax: Pluggable | null = null;
 
 function useRehypeMathjax(wanted: boolean): Pluggable | null {
-  const [plugin, setPlugin] = useState<Pluggable | null>(cachedMathjax);
+  // Lazy form on purpose: the cached plugin is a function, and useState calls
+  // a function initial value, which stored mathjax's TRANSFORMER as the plugin.
+  // unified then ran that transformer as an attacher with no tree, and every
+  // math-bearing message after the first in a session unmounted the thread with
+  // "Cannot use 'in' operator to search for 'children' in undefined".
+  const [plugin, setPlugin] = useState<Pluggable | null>(() => cachedMathjax);
   useEffect(() => {
     if (!wanted || plugin) return;
     void import("rehype-mathjax")
