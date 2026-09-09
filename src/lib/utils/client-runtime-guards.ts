@@ -114,6 +114,11 @@ export function installResumeDiagnostics(): void {
   };
   beat();
   setInterval(beat, 2000);
+  if (!probesInstalled) {
+    probesInstalled = true;
+    installStallDetector();
+    installSyncCallTimers();
+  }
   let wallpaperKB = 0;
   try {
     wallpaperKB = Math.round(
@@ -245,4 +250,63 @@ export function installDomReconciliationGuard(): void {
       referenceNode,
     );
   };
+}
+
+// A tick that lands late by more than a second means the main thread was
+// busy or blocked for that long. The line names the last thing logged
+// before it, which is the only pointer a stall leaves.
+let probesInstalled = false;
+const STALL_TICK_MS = 250;
+const STALL_MIN_MS = 1000;
+function installStallDetector(): void {
+  let last = performance.now();
+  setInterval(() => {
+    const now = performance.now();
+    const gap = now - last - STALL_TICK_MS;
+    last = now;
+    if (gap < STALL_MIN_MS || document.visibilityState !== "visible") return;
+    const prev = getChatDebugLog().at(-1);
+    logChatDebug("main.stall", {
+      gapMs: Math.round(gap),
+      lastEvent: prev?.event,
+      sinceLastEventMs: prev ? Date.now() - prev.ts : undefined,
+    });
+  }, STALL_TICK_MS);
+}
+
+// document.cookie and localStorage are the two calls on the chat mount path
+// that go synchronously into the browser process; a slow one names itself.
+const SYNC_SLOW_MS = 200;
+function timed<TArgs extends unknown[], TResult>(
+  api: string,
+  fn: (...args: TArgs) => TResult,
+): (...args: TArgs) => TResult {
+  return function (this: unknown, ...args: TArgs) {
+    const t = performance.now();
+    try {
+      return fn.apply(this, args);
+    } finally {
+      const ms = performance.now() - t;
+      if (ms >= SYNC_SLOW_MS)
+        logChatDebug("sync.slow", { api, ms: Math.round(ms) });
+    }
+  };
+}
+function installSyncCallTimers(): void {
+  try {
+    const desc = Object.getOwnPropertyDescriptor(Document.prototype, "cookie");
+    if (desc?.get && desc.set && desc.configurable) {
+      Object.defineProperty(Document.prototype, "cookie", {
+        configurable: true,
+        enumerable: desc.enumerable,
+        get: timed("cookie.get", desc.get),
+        set: timed("cookie.set", desc.set),
+      });
+    }
+    const proto = Object.getPrototypeOf(localStorage);
+    if (proto && typeof proto.getItem === "function") {
+      proto.getItem = timed("localStorage.getItem", proto.getItem);
+      proto.setItem = timed("localStorage.setItem", proto.setItem);
+    }
+  } catch {}
 }
