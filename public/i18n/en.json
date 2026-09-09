@@ -3712,6 +3712,7 @@
       "DATA": "Data",
       "LOCAL_DB_DOWNLOAD": "Download local SQLite file",
       "LOCAL_DB_UPLOAD": "Import SQLite file (replaces local)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Keep this tab open and in the foreground until it finishes; a phone freezes a background tab and the import stalls with it.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Import records from this file? It is migrated to the current schema and replaces your local data; records are re-owned by this session.",
       "LOCAL_DB_IMPORT_SUMMARY": "Imported {imported} records across {tables} tables ({skipped} skipped).",
       "LOCAL_DB_EXPORT_CHATS": "Include chats",

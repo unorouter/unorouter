@@ -3712,6 +3712,7 @@
       "DATA": "Daten",
       "LOCAL_DB_DOWNLOAD": "Lokale SQLite-Datei herunterladen",
       "LOCAL_DB_UPLOAD": "SQLite-Datei importieren (ersetzt lokal)",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "Lass diesen Tab bis zum Ende geöffnet und im Vordergrund; ein Handy friert einen Hintergrund-Tab ein und der Import bleibt mit ihm stehen.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Datensätze aus dieser Datei importieren? Sie wird auf das aktuelle Schema migriert und ersetzt deine lokalen Daten; die Datensätze werden dieser Sitzung zugeordnet.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} Datensätze in {tables} Tabellen importiert ({skipped} übersprungen).",
       "LOCAL_DB_EXPORT_CHATS": "Chats einschließen",

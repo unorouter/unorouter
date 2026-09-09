@@ -119,7 +119,8 @@ const debugLog = makeLog<ChatDebugEntry>(
 // A main thread that hangs inside the save debounce never writes the line
 // that preceded the hang, which is the one line that mattered. These are rare
 // enough for a synchronous write each.
-const FLUSH_NOW = /^(nav\.click|db\.open|db\.handover|db\.park|db\.gated|sw\.)/;
+const FLUSH_NOW =
+  /^(nav\.click|db\.open|db\.handover|db\.park|db\.gated|db\.worker|sw\.|import\.)/;
 
 export function logChatDebug(
   event: string,

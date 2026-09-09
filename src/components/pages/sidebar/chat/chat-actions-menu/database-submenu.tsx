@@ -48,7 +48,7 @@ export function DatabaseSubmenu() {
   const upload = async (file: File) => {
     const ok = await confirm({
       title: t("COMMON.CONFIRM.UPLOAD_DB_TITLE"),
-      description: t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM"),
+      description: `${t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
       confirmLabel: t("COMMON.CONFIRM.CONTINUE"),
       cancelLabel: t("COMMON.CANCEL"),
       destructive: true,

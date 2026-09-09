@@ -3712,6 +3712,7 @@
       "DATA": "データ",
       "LOCAL_DB_DOWNLOAD": "ローカルSQLiteファイルをダウンロード",
       "LOCAL_DB_UPLOAD": "SQLiteファイルをインポート（ローカルを置き換え）",
+      "LOCAL_DB_UPLOAD_KEEP_OPEN": "完了するまでこのタブを開いたまま前面に置いてください。スマートフォンはバックグラウンドのタブを停止させるため、インポートも一緒に止まります。",
       "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからレコードをインポートしますか？現在のスキーマに移行され、ローカルデータを置き換えます。レコードはこのセッションに再割り当てされます。",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables}個のテーブルに{imported}件のレコードをインポートしました（{skipped}件スキップ）。",
       "LOCAL_DB_EXPORT_CHATS": "チャットを含める",

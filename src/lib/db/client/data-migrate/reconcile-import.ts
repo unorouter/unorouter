@@ -185,7 +185,15 @@ export async function reconcileImport(
   let rolledBack = false;
 
   logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
+  const t0 = Date.now();
+  const phase = (name: string) =>
+    logChatDebug("import.reconcile.phase", { name, ms: Date.now() - t0 });
   try {
+    // A previous attempt that never reached cleanup (iOS freezes a hidden tab
+    // mid-import) leaves these pools full; INSERT OR IGNORE into them counts
+    // nothing and the user reads "0 records" over a complete import.
+    await purgeScratch(workPath);
+    await purgeScratch(finalPath);
     // Phase 0: snapshot live to backup.
     {
       const src = newSql(livePath);
@@ -212,6 +220,7 @@ export async function reconcileImport(
     work = newSql(workPath);
     await work.overwriteDatabaseFile(buffer);
     await runMigrations(work);
+    phase("dump_migrated");
 
     // Phase 2: build the replacement detached.
     final = newSql(finalPath);
@@ -233,17 +242,20 @@ export async function reconcileImport(
     await liveSrc.destroy().catch(() => {});
     terminateSql(liveSrc);
     liveSrc = null;
+    phase("final_built");
 
     // Phase 3: the single write to live.
     if (!(await integrityOk(final))) {
       throw new Error("built import db failed integrity_check");
     }
     const finalBytes = await readBytes(final);
+    phase("final_read");
     live = newSql(livePath);
     // Set BEFORE the write: a throw mid-overwrite leaves live torn, and the flag
     // is what keeps the backup on disk for rollback and recoverPendingImport.
     swapped = true;
     await live.overwriteDatabaseFile(finalBytes);
+    phase("live_written");
 
     // Phase 4: a corrupt swap routes into rollback.
     if (!(await integrityOk(live))) {
@@ -314,6 +326,15 @@ async function restoreLiveFromBackup(
     });
     return false;
   }
+}
+
+async function purgeScratch(path: string): Promise<void> {
+  if (!(await sahPoolDirExists(path))) return;
+  const stale = newSql(path);
+  await stale.deleteDatabaseFile().catch(() => {});
+  await stale.destroy().catch(() => {});
+  terminateSql(stale);
+  logChatDebug("import.reconcile.purged_scratch", { path });
 }
 
 async function deleteBackup(backupPath: string): Promise<void> {
