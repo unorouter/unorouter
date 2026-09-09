@@ -110,6 +110,21 @@ const MarkdownText = dynamic<TextMessagePartProps>(
   { ssr: false },
 );
 
+// One message whose markdown tree breaks a visitor must not unmount the
+// whole thread: the boundary shows that message as plain text instead.
+function GuardedMarkdownText(props: TextMessagePartProps) {
+  return (
+    <SectionBoundary
+      source="chat.markdown"
+      fallback={() => (
+        <pre className="aui-md font-sans whitespace-pre-wrap">{props.text}</pre>
+      )}
+    >
+      <MarkdownText {...props} />
+    </SectionBoundary>
+  );
+}
+
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
 const THREAD_VARS: CssVars = {
@@ -670,7 +685,12 @@ const StorageBlockedNotice: FC = () => {
         </span>
       </div>
       {kind === "held" && (
-        <Button variant="outline" size="sm" className="self-end" onClick={retry}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="self-end"
+          onClick={retry}
+        >
           {t("MAIN.ACTIONS.TRY_AGAIN")}
         </Button>
       )}
@@ -1035,7 +1055,7 @@ const AssistantMessage: FC = () => {
               >
                 <MessagePrimitive.Parts
                   components={{
-                    Text: MarkdownText,
+                    Text: GuardedMarkdownText,
                     Reasoning: showReasoning ? Reasoning : HideReasoning,
                     ReasoningGroup: showReasoning
                       ? ReasoningGroup
