@@ -120,7 +120,7 @@ const debugLog = makeLog<ChatDebugEntry>(
 // that preceded the hang, which is the one line that mattered. These are rare
 // enough for a synchronous write each.
 const FLUSH_NOW =
-  /^(nav\.click|db\.open|db\.lock|db\.handover|db\.park|db\.gated|db\.worker|sw\.|import\.|page\.|main\.|frame\.|sync\.|auth\.)/;
+  /^(nav\.click|db\.open|db\.lock|db\.handover|db\.park|db\.gated|db\.worker|sw\.|import\.|page\.|main\.|frame\.|sync\.|auth\.|markdown\.)/;
 
 export function logChatDebug(
   event: string,
