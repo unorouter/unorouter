@@ -3843,6 +3843,7 @@
     "TRUNCATED_BEFORE_TEXT": "Limit wyjścia został osiągnięty, gdy model wciąż rozumował, więc nie napisano żadnej odpowiedzi. Zwiększ maksymalną liczbę tokenów lub wyłącz rozumowanie dla tego modelu.",
     "LOCAL_ONLY_NOTICE": "Twoje czaty zostają na tym urządzeniu. Nigdy ich nie widzimy i nie przechowujemy kopii, więc zrób kopię zapasową sam.",
     "DB_HELD": "Inna karta lub właśnie zamknięta strona nadal przetrzymuje lokalną bazę danych, więc czaty nie mogą się załadować. Zamknij pozostałe karty UnoRouter albo zamknij i ponownie otwórz przeglądarkę, a potem spróbuj jeszcze raz.",
+    "DB_HELD_DOWNLOAD": "Pobierz surowy plik bazy danych",
     "STORAGE_BLOCKED": "Przeglądarka blokuje pamięć dla tej witryny, więc czaty nie mogą być zapisywane, a wiadomości znikają po wysłaniu. Zezwól na pliki cookie i dane witryny, wyłącz usuwanie danych przy zamykaniu i wyjdź z trybu prywatnego. Warianty Chromium nastawione na prywatność blokują to domyślnie."
   },
   "ROOM": {
