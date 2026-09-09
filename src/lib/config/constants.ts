@@ -142,6 +142,7 @@ export const UID_ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 export const IMAGE_MAX_DIM = 2048;
+export const WALLPAPER_MAX_DIM_TOUCH = 1280;
 
 export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 

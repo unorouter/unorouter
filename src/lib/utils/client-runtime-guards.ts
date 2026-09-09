@@ -113,11 +113,18 @@ export function installResumeDiagnostics(): void {
   };
   beat();
   setInterval(beat, 2000);
+  let wallpaperKB = 0;
+  try {
+    wallpaperKB = Math.round(
+      (localStorage.getItem("user-theme-bg")?.length ?? 0) / 1024,
+    );
+  } catch {}
   logChatDebug("boot", {
     release: RELEASE,
     path: location.pathname,
     visible: document.visibilityState === "visible",
     ...(prevAlive && { prevAlive }),
+    ...(wallpaperKB && { wallpaperKB }),
     readyState: document.readyState,
     swControlled: !!navigator.serviceWorker?.controller,
     ...(nav instanceof PerformanceNavigationTiming && {

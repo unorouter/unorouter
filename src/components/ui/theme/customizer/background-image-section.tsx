@@ -5,7 +5,11 @@ import { Icon } from "@/components/ui/icon";
 import { Slider } from "@/components/ui/slider";
 import { Picker } from "@/components/ui/theme/picker";
 import type { BackgroundSettings } from "@/components/ui/theme/theme-store";
-import { fileToScaledDataUrl } from "@/lib/utils/client";
+import {
+  fileToScaledDataUrl,
+  scaleDataUrl,
+  wallpaperMaxDim,
+} from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -21,7 +25,8 @@ export function BackgroundImageSection(props: {
 
   const upload = async (file: File) => {
     try {
-      props.setImage(await fileToScaledDataUrl(file));
+      const scaled = await fileToScaledDataUrl(file);
+      props.setImage(await scaleDataUrl(scaled, wallpaperMaxDim(), file.type));
       props.onChange({ enabled: true });
     } catch {
       toast.error(t("THEME.IMPORT_FAILED"));

@@ -266,7 +266,10 @@ const GATED_SLOW_MS = 5_000;
 // to finish it before iOS freezes the tab, and a frozen owner keeps its
 // handles. Park anyway; a worker that does not answer the pause is killed.
 const FORCE_PARK_MS = 10_000;
-const WORKER_REPLY_MS = 3_000;
+// Closing the pool's eight sync access handles is one IPC each on iOS and
+// exceeded 3 s on a phone with a tiny database, so the worker was killed and
+// reopened on nearly every hide.
+const WORKER_REPLY_MS = 8_000;
 
 async function openMigratedSql(dbPath: string): Promise<SQLocalDrizzle> {
   const t0 = Date.now();
@@ -566,13 +569,18 @@ async function openClient(): Promise<LocalClient> {
     const heldFor = Date.now() - lastAcquiredAt;
     if (!hidden && heldFor < MIN_HOLD_MS) await sleep(MIN_HOLD_MS - heldFor);
     if (!force) await waitForIdle();
+    const t0 = Date.now();
     try {
       if (!workerDead && !(await answered(pauseSql(sql))))
         killWorker("pause_timeout");
     } finally {
       parked = true;
       releaseLock(lockKey);
-      logChatDebug("db.handover.parked", { ...(force && { forced: true }) });
+      logChatDebug("db.handover.parked", {
+        pauseMs: Date.now() - t0,
+        hidden,
+        ...(force && { forced: true }),
+      });
     }
   };
 
