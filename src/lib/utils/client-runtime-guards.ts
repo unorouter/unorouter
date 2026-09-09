@@ -259,7 +259,7 @@ export function installDomReconciliationGuard(): void {
 // before it, which is the only pointer a stall leaves.
 let probesInstalled = false;
 const STALL_TICK_MS = 250;
-const STALL_MIN_MS = 1000;
+const STALL_MIN_MS = 500;
 function installStallDetector(): void {
   let last = performance.now();
   setInterval(() => {
@@ -314,22 +314,48 @@ function installSyncCallTimers(): void {
 }
 
 // Frames, not timers: a gap here with no main.stall beside it is the
-// compositor or GPU, which the script thread never sees.
+// compositor or GPU, which the script thread never sees. The window catches
+// sustained jank that never reaches a single long gap: five seconds of
+// 100 ms frames is the lag people report, and no gap detector fires on it.
 const FRAME_GAP_MS = 400;
 const FRAME_LOG_EVERY_MS = 5000;
+const FRAME_WINDOW_MS = 5000;
+const FRAME_JANK_P95_MS = 100;
 function installFrameGapDetector(): void {
   let last = performance.now();
   let lastLogged = 0;
+  let windowStart = last;
+  let intervals: number[] = [];
+  document.addEventListener("visibilitychange", () => {
+    last = performance.now();
+    windowStart = last;
+    intervals = [];
+  });
   const tick = (now: number) => {
     const gap = now - last;
     last = now;
-    if (
-      gap >= FRAME_GAP_MS &&
-      document.visibilityState === "visible" &&
-      now - lastLogged >= FRAME_LOG_EVERY_MS
-    ) {
+    if (document.visibilityState !== "visible") {
+      requestAnimationFrame(tick);
+      return;
+    }
+    intervals.push(gap);
+    if (gap >= FRAME_GAP_MS && now - lastLogged >= FRAME_LOG_EVERY_MS) {
       lastLogged = now;
       logChatDebug("frame.gap", { gapMs: Math.round(gap) });
+    }
+    if (now - windowStart >= FRAME_WINDOW_MS) {
+      const sorted = [...intervals].sort((a, b) => a - b);
+      const p95 = sorted[Math.floor(sorted.length * 0.95)] ?? 0;
+      if (p95 >= FRAME_JANK_P95_MS) {
+        logChatDebug("frame.jank", {
+          frames: sorted.length,
+          p95Ms: Math.round(p95),
+          maxMs: Math.round(sorted[sorted.length - 1] ?? 0),
+          lastEvent: getChatDebugLog().at(-1)?.event,
+        });
+      }
+      windowStart = now;
+      intervals = [];
     }
     requestAnimationFrame(tick);
   };
