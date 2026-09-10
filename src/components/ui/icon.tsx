@@ -11,32 +11,36 @@ import { debugFlag } from "@/lib/utils/chat-debug-log";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
-// Resolved library icons, keyed by name and library. Nothing here suspends:
-// a lazy icon suspended to the nearest boundary, which on the chat page is
-// the route, so a non-default icon set flipped the whole page to its loading
-// skeleton and back once per icon, about fifty times per open, while fifty
-// chunks streamed through the service worker. That paint storm is what froze
-// iPhones. The static icon renders at once and swaps when the chunk lands.
-const resolved = new Map<string, IconComponent>();
-const pending = new Map<string, Promise<void>>();
+// One chunk per library, loaded on first use: the map used to import one
+// module per icon, so a non-default set cost about fifty requests per page.
+// Nothing here suspends: a lazy icon suspended to the nearest boundary, which
+// on the chat page is the route, so the whole page flipped to its loading
+// skeleton and back once per icon. That paint storm is what froze iPhones.
+// The static icon renders at once and swaps when the set lands.
+type IconSet = Record<string, IconComponent>;
+type LibraryName = Exclude<IconLibraryName, "lucide">;
+const SETS: Record<LibraryName, () => Promise<{ ICONS: IconSet }>> = {
+  tabler: () => import("@/lib/config/icon-sets/tabler"),
+  phosphor: () => import("@/lib/config/icon-sets/phosphor"),
+  heroicons: () => import("@/lib/config/icon-sets/heroicons"),
+  remix: () => import("@/lib/config/icon-sets/remix"),
+  iconoir: () => import("@/lib/config/icon-sets/iconoir"),
+};
+const loaded = new Map<LibraryName, IconSet>();
+const pending = new Map<LibraryName, Promise<void>>();
 
-function load(name: IconName, lib: IconLibraryName): Promise<void> {
-  const key = `${name}::${lib}`;
-  const inFlight = pending.get(key);
+function loadSet(lib: LibraryName): Promise<void> {
+  const inFlight = pending.get(lib);
   if (inFlight) return inFlight;
-  const p = import("@/lib/config/icon-map")
+  const p = SETS[lib]()
     .then((m) => {
-      const loader = m.ICON_MAP[name]?.[lib];
-      return loader ? loader() : null;
-    })
-    .then((mod) => {
-      if (mod) resolved.set(key, mod.default);
+      loaded.set(lib, m.ICONS);
     })
     .catch(() => {})
     .finally(() => {
-      pending.delete(key);
+      pending.delete(lib);
     });
-  pending.set(key, p);
+  pending.set(lib, p);
   return p;
 }
 
@@ -45,24 +49,23 @@ type Props = React.SVGAttributes<SVGSVGElement> & {
   size?: number | string;
 };
 
-function LibraryIcon(props: Props & { lib: IconLibraryName }) {
+function LibraryIcon(props: Props & { lib: LibraryName }) {
   const { name, lib, size, ...rest } = props;
-  const key = `${name}::${lib}`;
   const [, bump] = useState(0);
-  const Loaded = resolved.get(key);
+  const set = loaded.get(lib);
   useEffect(() => {
-    if (resolved.has(key)) return;
+    if (loaded.has(lib)) return;
     let alive = true;
-    void load(name, lib).then(() => {
-      if (alive && resolved.has(key)) bump((n) => n + 1);
+    void loadSet(lib).then(() => {
+      if (alive && loaded.has(lib)) bump((n) => n + 1);
     });
     return () => {
       alive = false;
     };
-  }, [key, name, lib]);
+  }, [lib]);
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
   /* eslint-disable react-hooks/static-components -- module-scope maps, referentially stable per (name, lib) pair */
-  const Comp = Loaded ?? LUCIDE_STATIC[name];
+  const Comp = set?.[name] ?? LUCIDE_STATIC[name];
   return Comp ? <Comp {...sized} /> : null;
   /* eslint-enable react-hooks/static-components */
 }
