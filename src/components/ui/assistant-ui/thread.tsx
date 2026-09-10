@@ -112,36 +112,13 @@ const MarkdownText = dynamic<TextMessagePartProps>(
 
 // One message whose markdown tree breaks a visitor must not unmount the
 // whole thread: the boundary shows that message as plain text instead.
-const failedMarkdownLogged = new Set<string>();
-function logFailedMarkdown(text: string, error: Error) {
-  const key = `${text.length}:${text.slice(0, 64)}`;
-  if (failedMarkdownLogged.has(key)) return;
-  failedMarkdownLogged.add(key);
-  const count = (re: RegExp) => (text.match(re) ?? []).length;
-  logChatDebug("markdown.failed_text", {
-    error: String(error.message).slice(0, 200),
-    length: text.length,
-    fences: count(/```/g),
-    backticks: count(/`/g),
-    dollars: count(/\$/g),
-    lt: count(/</g),
-    quotes: count(/["\u201c\u201d]/g),
-    stars: count(/\*/g),
-    text: text.slice(0, 2000),
-  });
-}
 function GuardedMarkdownText(props: TextMessagePartProps) {
   return (
     <SectionBoundary
       source="chat.markdown"
-      fallback={(f) => {
-        logFailedMarkdown(props.text, f.error);
-        return (
-          <pre className="aui-md font-sans whitespace-pre-wrap">
-            {props.text}
-          </pre>
-        );
-      }}
+      fallback={() => (
+        <pre className="aui-md font-sans whitespace-pre-wrap">{props.text}</pre>
+      )}
     >
       <MarkdownText {...props} />
     </SectionBoundary>

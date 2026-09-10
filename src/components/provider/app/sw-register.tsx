@@ -25,10 +25,6 @@ export function SwRegister() {
     // replies on the port it was handed, so this works for a worker that
     // does not control this page yet.
     const onMessage = (e: MessageEvent) => {
-      if (e.data?.type === "SW_LOG" && typeof e.data.event === "string") {
-        logChatDebug(e.data.event, e.data.data);
-        return;
-      }
       if (e.data?.type === "INSTALL_GATE") {
         logChatDebug("sw.install_gate", {
           waitedMs: e.data.waitedMs,
