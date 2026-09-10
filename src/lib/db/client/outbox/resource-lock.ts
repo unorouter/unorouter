@@ -1,7 +1,5 @@
 "use client";
 
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
-
 const held = new Map<string, () => void>();
 
 const supported = () =>
@@ -11,10 +9,7 @@ export function acquireLock(key: string): Promise<boolean> {
   if (!supported()) return Promise.resolve(true);
   if (held.has(key)) return Promise.resolve(true);
   return new Promise((resolveAcquire) => {
-    // Two iOS exports end between db.open.start and the lock result with the
-    // main thread stopped; these bracket the one native call in between.
-    logChatDebug("db.lock.request", { key });
-    const pending = navigator.locks
+    navigator.locks
       .request(key, { ifAvailable: true }, (lock) => {
         if (!lock) {
           resolveAcquire(false);
@@ -26,16 +21,6 @@ export function acquireLock(key: string): Promise<boolean> {
         });
       })
       .catch(() => resolveAcquire(false));
-    logChatDebug("db.lock.requested");
-    void pending;
-    // Phase fences for the iOS freeze that follows this line: the missing one
-    // says whether the thread died in this task, in its microtasks, before the
-    // next task, or before the next frame.
-    queueMicrotask(() => logChatDebug("db.lock.fence", { phase: "microtask" }));
-    setTimeout(() => logChatDebug("db.lock.fence", { phase: "task" }), 0);
-    requestAnimationFrame(() =>
-      logChatDebug("db.lock.fence", { phase: "frame" }),
-    );
   });
 }
 

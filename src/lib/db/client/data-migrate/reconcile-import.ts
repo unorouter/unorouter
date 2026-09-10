@@ -185,9 +185,6 @@ export async function reconcileImport(
   let rolledBack = false;
 
   logChatDebug("import.reconcile.start", { bytes: buffer.byteLength });
-  const t0 = Date.now();
-  const phase = (name: string) =>
-    logChatDebug("import.reconcile.phase", { name, ms: Date.now() - t0 });
   try {
     // A previous attempt that never reached cleanup (iOS freezes a hidden tab
     // mid-import) leaves these pools full; INSERT OR IGNORE into them counts
@@ -220,7 +217,6 @@ export async function reconcileImport(
     work = newSql(workPath);
     await work.overwriteDatabaseFile(buffer);
     await runMigrations(work);
-    phase("dump_migrated");
 
     // Phase 2: build the replacement detached.
     final = newSql(finalPath);
@@ -242,20 +238,17 @@ export async function reconcileImport(
     await liveSrc.destroy().catch(() => {});
     terminateSql(liveSrc);
     liveSrc = null;
-    phase("final_built");
 
     // Phase 3: the single write to live.
     if (!(await integrityOk(final))) {
       throw new Error("built import db failed integrity_check");
     }
     const finalBytes = await readBytes(final);
-    phase("final_read");
     live = newSql(livePath);
     // Set BEFORE the write: a throw mid-overwrite leaves live torn, and the flag
     // is what keeps the backup on disk for rollback and recoverPendingImport.
     swapped = true;
     await live.overwriteDatabaseFile(finalBytes);
-    phase("live_written");
 
     // Phase 4: a corrupt swap routes into rollback.
     if (!(await integrityOk(live))) {
@@ -383,7 +376,6 @@ async function sahPoolDirExists(databasePath: string): Promise<boolean> {
 
 async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
   if (!(await sahPoolDirExists(backupPath))) return false;
-  const started = Date.now();
   const probe = newSql(backupPath);
   let hasContent = false;
   try {
@@ -397,10 +389,6 @@ async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
     await probe.destroy().catch(() => {});
     terminateSql(probe);
   }
-  logChatDebug("import.reconcile.backup_probe", {
-    ms: Date.now() - started,
-    hasContent,
-  });
   if (!hasContent) await removePoolDir(backupPath);
   return hasContent;
 }

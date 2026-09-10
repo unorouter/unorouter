@@ -1,10 +1,8 @@
 import {
-  applyDebugFlagParam,
   captureCaughtError,
   flushChatDebugLog,
   getChatDebugLog,
   logChatDebug,
-  chatDebugTab,
 } from "@/lib/utils/chat-debug-log";
 
 export const RELEASE = process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev";
@@ -84,56 +82,10 @@ export function installResumeDiagnostics(): void {
   } catch {}
   const nav = performance.getEntriesByType("navigation")[0];
   const bootAt = Date.now();
-  // The visible tab stamps a heartbeat so the next boot can place a hang: the
-  // gap between the last stamp and the last logged line is where the main
-  // thread stopped, which no log line can record from inside the hang.
-  const ALIVE_KEY = "uno-alive";
-  let prevAlive: { agoMs: number; tab: string } | undefined;
-  try {
-    const raw = localStorage.getItem(ALIVE_KEY);
-    const prev: unknown = raw ? JSON.parse(raw) : null;
-    if (
-      prev &&
-      typeof prev === "object" &&
-      "ts" in prev &&
-      typeof prev.ts === "number" &&
-      "tab" in prev &&
-      typeof prev.tab === "string"
-    ) {
-      prevAlive = { agoMs: bootAt - prev.ts, tab: prev.tab };
-    }
-  } catch {}
-  const beat = () => {
-    if (document.visibilityState !== "visible") return;
-    try {
-      localStorage.setItem(
-        ALIVE_KEY,
-        JSON.stringify({ ts: Date.now(), tab: chatDebugTab() }),
-      );
-    } catch {}
-  };
-  beat();
-  setInterval(beat, 2000);
-  if (!probesInstalled) {
-    probesInstalled = true;
-    installStallDetector();
-    installFrameGapDetector();
-    installSyncCallTimers();
-  }
-  let wallpaperKB = 0;
-  try {
-    wallpaperKB = Math.round(
-      (localStorage.getItem("user-theme-bg")?.length ?? 0) / 1024,
-    );
-  } catch {}
-  const dbg = applyDebugFlagParam();
   logChatDebug("boot", {
     release: RELEASE,
     path: location.pathname,
-    ...(dbg && { dbg }),
     visible: document.visibilityState === "visible",
-    ...(prevAlive && { prevAlive }),
-    ...(wallpaperKB && { wallpaperKB }),
     readyState: document.readyState,
     swControlled: !!navigator.serviceWorker?.controller,
     ...(nav instanceof PerformanceNavigationTiming && {
@@ -143,65 +95,43 @@ export function installResumeDiagnostics(): void {
       domCompleteMs: Math.round(nav.domComplete),
     }),
   });
-  // A Link click starts a client navigation that logs nothing until the
-  // target route boots, so a fetch that hangs in the worker leaves no trace.
-  document.addEventListener(
-    "click",
-    (e) => {
-      const a =
-        e.target instanceof Element ? e.target.closest("a[href]") : null;
-      if (!(a instanceof HTMLAnchorElement) || a.origin !== location.origin)
-        return;
-      logChatDebug("nav.click", { href: a.pathname, tab: chatDebugTab() });
-    },
-    true,
-  );
   // A boot with no db.open.start after it is a page whose content never
   // mounted: a chunk still loading, or hung. Name the chunk while it is
   // still in flight, since a user who gives up at 6s leaves nothing else.
   // Only the local-first routes open the database on load; elsewhere the
   // absence of db.open.start means nothing.
-  if (/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) {
-    setTimeout(() => {
-      const since = getChatDebugLog().filter((e) => e.ts >= bootAt - 10_000);
-      if (since.some((e) => e.event.startsWith("db.open"))) return;
-      const resources = performance
-        .getEntriesByType("resource")
-        .filter(
-          (r): r is PerformanceResourceTiming =>
-            r instanceof PerformanceResourceTiming,
-        );
-      const inflight = resources
-        .filter((r) => r.responseEnd === 0)
-        .map((r) => r.name.replace(location.origin, "").slice(0, 80));
-      const scripts = resources.filter((r) => /\.js(\?|$)/.test(r.name));
-      logChatDebug("boot.stalled", {
-        path: location.pathname,
-        sinceMs: Date.now() - bootAt,
-        readyState: document.readyState,
-        visible: document.visibilityState === "visible",
-        scriptsLoaded: scripts.filter((r) => r.responseEnd > 0).length,
-        slowestScriptMs: Math.round(
-          Math.max(0, ...scripts.map((r) => r.duration)),
-        ),
-        inflight: inflight.slice(0, 12),
-      });
-      flushChatDebugLog();
-    }, STALL_AFTER_MS);
-  }
+  if (!/^\/[a-zA-Z-]+\/(chat|image)(\/|$)/.test(location.pathname)) return;
+  setTimeout(() => {
+    const since = getChatDebugLog().filter((e) => e.ts >= bootAt - 10_000);
+    if (since.some((e) => e.event.startsWith("db.open"))) return;
+    const resources = performance
+      .getEntriesByType("resource")
+      .filter(
+        (r): r is PerformanceResourceTiming =>
+          r instanceof PerformanceResourceTiming,
+      );
+    const inflight = resources
+      .filter((r) => r.responseEnd === 0)
+      .map((r) => r.name.replace(location.origin, "").slice(0, 80));
+    const scripts = resources.filter((r) => /\.js(\?|$)/.test(r.name));
+    logChatDebug("boot.stalled", {
+      path: location.pathname,
+      sinceMs: Date.now() - bootAt,
+      readyState: document.readyState,
+      visible: document.visibilityState === "visible",
+      scriptsLoaded: scripts.filter((r) => r.responseEnd > 0).length,
+      slowestScriptMs: Math.round(
+        Math.max(0, ...scripts.map((r) => r.duration)),
+      ),
+      inflight: inflight.slice(0, 12),
+    });
+    flushChatDebugLog();
+  }, STALL_AFTER_MS);
   window.addEventListener("pageshow", (e) => {
     const heapBytes = performance.memory?.usedJSHeapSize;
     logChatDebug("page.show", {
       bfcache: e.persisted,
       ...(heapBytes && { heapMB: Math.round(heapBytes / 1048576) }),
-    });
-  });
-  // Tells a frozen main thread (heartbeat stops, no line here) from a tab
-  // iOS merely backgrounded (heartbeat stops after this line).
-  document.addEventListener("visibilitychange", () => {
-    logChatDebug("page.visibility", {
-      state: document.visibilityState,
-      sinceBootMs: Date.now() - bootAt,
     });
   });
   window.addEventListener("pagehide", (e) => {
@@ -252,112 +182,4 @@ export function installDomReconciliationGuard(): void {
       referenceNode,
     );
   };
-}
-
-// A tick that lands late by more than a second means the main thread was
-// busy or blocked for that long. The line names the last thing logged
-// before it, which is the only pointer a stall leaves.
-let probesInstalled = false;
-const STALL_TICK_MS = 250;
-const STALL_MIN_MS = 500;
-function installStallDetector(): void {
-  let last = performance.now();
-  setInterval(() => {
-    const now = performance.now();
-    const gap = now - last - STALL_TICK_MS;
-    last = now;
-    if (gap < STALL_MIN_MS || document.visibilityState !== "visible") return;
-    const prev = getChatDebugLog().at(-1);
-    logChatDebug("main.stall", {
-      gapMs: Math.round(gap),
-      lastEvent: prev?.event,
-      sinceLastEventMs: prev ? Date.now() - prev.ts : undefined,
-    });
-  }, STALL_TICK_MS);
-}
-
-// document.cookie and localStorage are the two calls on the chat mount path
-// that go synchronously into the browser process; a slow one names itself.
-const SYNC_SLOW_MS = 200;
-function timed<TArgs extends unknown[], TResult>(
-  api: string,
-  fn: (...args: TArgs) => TResult,
-): (...args: TArgs) => TResult {
-  return function (this: unknown, ...args: TArgs) {
-    const t = performance.now();
-    try {
-      return fn.apply(this, args);
-    } finally {
-      const ms = performance.now() - t;
-      if (ms >= SYNC_SLOW_MS)
-        logChatDebug("sync.slow", { api, ms: Math.round(ms) });
-    }
-  };
-}
-function installSyncCallTimers(): void {
-  try {
-    const desc = Object.getOwnPropertyDescriptor(Document.prototype, "cookie");
-    if (desc?.get && desc.set && desc.configurable) {
-      Object.defineProperty(Document.prototype, "cookie", {
-        configurable: true,
-        enumerable: desc.enumerable,
-        get: timed("cookie.get", desc.get),
-        set: timed("cookie.set", desc.set),
-      });
-    }
-    const proto = Object.getPrototypeOf(localStorage);
-    if (proto && typeof proto.getItem === "function") {
-      proto.getItem = timed("localStorage.getItem", proto.getItem);
-      proto.setItem = timed("localStorage.setItem", proto.setItem);
-    }
-  } catch {}
-}
-
-// Frames, not timers: a gap here with no main.stall beside it is the
-// compositor or GPU, which the script thread never sees. The window catches
-// sustained jank that never reaches a single long gap: five seconds of
-// 100 ms frames is the lag people report, and no gap detector fires on it.
-const FRAME_GAP_MS = 400;
-const FRAME_LOG_EVERY_MS = 5000;
-const FRAME_WINDOW_MS = 5000;
-const FRAME_JANK_P95_MS = 100;
-function installFrameGapDetector(): void {
-  let last = performance.now();
-  let lastLogged = 0;
-  let windowStart = last;
-  let intervals: number[] = [];
-  document.addEventListener("visibilitychange", () => {
-    last = performance.now();
-    windowStart = last;
-    intervals = [];
-  });
-  const tick = (now: number) => {
-    const gap = now - last;
-    last = now;
-    if (document.visibilityState !== "visible") {
-      requestAnimationFrame(tick);
-      return;
-    }
-    intervals.push(gap);
-    if (gap >= FRAME_GAP_MS && now - lastLogged >= FRAME_LOG_EVERY_MS) {
-      lastLogged = now;
-      logChatDebug("frame.gap", { gapMs: Math.round(gap) });
-    }
-    if (now - windowStart >= FRAME_WINDOW_MS) {
-      const sorted = [...intervals].sort((a, b) => a - b);
-      const p95 = sorted[Math.floor(sorted.length * 0.95)] ?? 0;
-      if (p95 >= FRAME_JANK_P95_MS) {
-        logChatDebug("frame.jank", {
-          frames: sorted.length,
-          p95Ms: Math.round(p95),
-          maxMs: Math.round(sorted[sorted.length - 1] ?? 0),
-          lastEvent: getChatDebugLog().at(-1)?.event,
-        });
-      }
-      windowStart = now;
-      intervals = [];
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
 }

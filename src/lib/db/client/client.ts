@@ -13,7 +13,6 @@ import {
   terminateAllSql,
   terminateSql,
   unlinkPoolFileSql,
-  pauseAllSql,
   unloadAllSql,
 } from "@/lib/db/client/new-sql";
 import {
@@ -33,7 +32,7 @@ import {
   singleDbPath,
 } from "@/lib/db/client/data-migrate/adopt-single-db";
 import type { LocalClient } from "@/lib/types";
-import { debugFlag, logChatDebug } from "@/lib/utils/chat-debug-log";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -58,13 +57,6 @@ let cached: Promise<LocalClient> | null = null;
 // was quitting the whole browser.
 if (typeof window !== "undefined") {
   window.addEventListener("pagehide", () => {
-    if (debugFlag("nounload")) {
-      logChatDebug("db.pagehide", { mode: "pause" });
-      pauseAllSql();
-      releaseAllLocks();
-      return;
-    }
-    logChatDebug("db.pagehide", { mode: "unload" });
     cached = null;
     unloadAllSql(UNLOAD_GRACE_MS);
     // iOS fires pagehide on an app switch and keeps the page alive; with the
@@ -97,7 +89,6 @@ export async function getLocalDb(): Promise<LocalClient | null> {
   if (cached) return cached;
   const promise = openClient();
   cached = promise;
-  logChatDebug("db.open.scheduled");
   try {
     const client = await promise;
     dbOpenFailed = false;
@@ -269,8 +260,6 @@ const MIN_HOLD_MS = 2_000;
 // which no lock steal can take back: the next tab opens with no database until
 // every tab is closed.
 const HIDDEN_PARK_POLL_MS = 250;
-const PARK_DEFER_LOG_MS = 2_000;
-const GATED_SLOW_MS = 5_000;
 // A hidden tab that still reports work in flight after this long is not going
 // to finish it before iOS freezes the tab, and a frozen owner keeps its
 // handles. Park anyway; a worker that does not answer the pause is killed.
@@ -448,9 +437,7 @@ async function openClient(): Promise<LocalClient> {
   // Take the Web Lock BEFORE any pool access: a second tab's failed install can
   // tear a pool header, after which the FIRST tab opens empty and looks wiped.
   const lockKey = `db:${dbPath}`;
-  const lockOk = await acquireLock(lockKey);
-  logChatDebug("db.open.lock", { ok: lockOk });
-  if (!lockOk) {
+  if (!(await acquireLock(lockKey))) {
     logChatDebug("db.open.handover_wait");
     if (!(await awaitOwnership(dbPath, lockKey))) {
       logChatDebug("db.open.tab_locked");
@@ -480,7 +467,6 @@ async function openClient(): Promise<LocalClient> {
   // full HANDOVER_TIMEOUT on a tab that is never coming.
   let sql: SQLocalDrizzle;
   try {
-    logChatDebug("db.open.worker_spawn");
     sql = await openMigratedSql(dbPath);
   } catch (err) {
     releaseLock(lockKey);
@@ -525,21 +511,10 @@ async function openClient(): Promise<LocalClient> {
     hiddenTimer = null;
     if (!document.hidden) return;
     const hiddenAt = Date.now();
-    let deferralLogged = false;
     const tick = () => {
       hiddenTimer = null;
       if (!document.hidden || parked) return;
       if (inFlight > 0 && Date.now() - hiddenAt < FORCE_PARK_MS) {
-        // Two exports in a row showed the image tab never parking after it
-        // was hidden; this names the statement that kept it.
-        if (!deferralLogged && Date.now() - hiddenAt > PARK_DEFER_LOG_MS) {
-          deferralLogged = true;
-          logChatDebug("db.park.deferred", {
-            inFlight,
-            sinceMs: Date.now() - hiddenAt,
-            labels: [...inFlightLabels].slice(0, 4),
-          });
-        }
         hiddenTimer = setTimeout(tick, HIDDEN_PARK_POLL_MS);
         return;
       }
@@ -553,15 +528,10 @@ async function openClient(): Promise<LocalClient> {
   // killed; every call that was waiting on it is dead with it.
   let workerDead = false;
   const killWorker = (reason: string) => {
-    logChatDebug("db.worker.killed", {
-      reason,
-      inFlight,
-      labels: [...inFlightLabels].slice(0, 4),
-    });
+    logChatDebug("db.worker.killed", { reason, inFlight });
     terminateSql(sql);
     workerDead = true;
     inFlight = 0;
-    inFlightLabels.clear();
     idleWaiters.forEach((resolve) => resolve());
     idleWaiters = [];
   };
@@ -630,11 +600,7 @@ async function openClient(): Promise<LocalClient> {
   };
 
   const park = (hidden = false, force = false) => {
-    if (parked || transition) {
-      if (hidden && transition)
-        logChatDebug("db.park.skipped", { reason: "transition" });
-      return;
-    }
+    if (parked || transition) return;
     transition = parkNow(hidden, force).finally(() => (transition = null));
   };
   const unsubscribeWant = subscribeWant(dbPath, () => park());
@@ -646,29 +612,15 @@ async function openClient(): Promise<LocalClient> {
     if (hiddenTimer) clearTimeout(hiddenTimer);
   };
 
-  const inFlightLabels = new Set<string>();
   const gated = async <T>(
     fn: (s: SQLocalDrizzle) => Promise<T>,
-    label = "op",
   ): Promise<T> => {
     await ensureOwned();
     inFlight++;
-    inFlightLabels.add(label);
-    const t0 = Date.now();
-    const slow = setTimeout(() => {
-      logChatDebug("db.gated.slow", {
-        label,
-        ms: Date.now() - t0,
-        hidden: document.hidden,
-        parked,
-      });
-    }, GATED_SLOW_MS);
     try {
       return await fn(sql);
     } finally {
-      clearTimeout(slow);
       inFlight--;
-      inFlightLabels.delete(label);
       if (inFlight === 0) {
         idleWaiters.forEach((resolve) => resolve());
         idleWaiters = [];
@@ -676,10 +628,7 @@ async function openClient(): Promise<LocalClient> {
     }
   };
 
-  const run = <T>(
-    fn: (s: SQLocalDrizzle) => Promise<T>,
-    label?: string,
-  ): Promise<T> =>
+  const run = <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> =>
     gated(async () => {
       try {
         return await fn(sql);
@@ -697,12 +646,11 @@ async function openClient(): Promise<LocalClient> {
         await reopening;
         return fn(sql);
       }
-    }, label);
+    });
 
   const db = drizzle(
-    (q, params, method) =>
-      run((s) => s.driver(q, params, method), q.slice(0, 60)),
-    (queries) => run((s) => s.batchDriver(queries), "batch"),
+    (q, params, method) => run((s) => s.driver(q, params, method)),
+    (queries) => run((s) => s.batchDriver(queries)),
     { schema: { ...shared, ...client } },
   );
   const wrapped: LocalClient = {

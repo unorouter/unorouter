@@ -7,7 +7,6 @@ import type {
 } from "@/lib/config/icon-map";
 import { LUCIDE_STATIC } from "@/lib/config/lucide-static";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
-import { debugFlag } from "@/lib/utils/chat-debug-log";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
@@ -72,8 +71,7 @@ function LibraryIcon(props: Props & { lib: LibraryName }) {
 
 export function Icon(props: Props) {
   const theme = useAtomValue(userThemeAtom);
-  // `?dbg=noicons` pins the static set; it is the run that first survived.
-  const lib = debugFlag("noicons") ? "lucide" : (theme.iconLibrary ?? "lucide");
+  const lib = theme.iconLibrary ?? "lucide";
   const { name, size, ...rest } = props;
 
   // SSR and hydration always render the default library (the cookie-backed
