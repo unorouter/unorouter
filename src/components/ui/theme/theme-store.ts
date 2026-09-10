@@ -122,10 +122,13 @@ export const INITIAL_USER_THEME: UserTheme = {
   surfaceMode: "dark",
 };
 
+// getOnInit is a load-bearing PAIR with UserThemeStoreProvider; neither may be
+// removed alone. See CLAUDE.md "State".
 export const userThemeAtom = atomWithStorage<UserTheme>(
   USER_THEME_KEY,
   INITIAL_USER_THEME,
   jotaiCookieStorage,
+  { getOnInit: true },
 );
 
 export const themeBackgroundAtom = atomWithStorage<string | null>(

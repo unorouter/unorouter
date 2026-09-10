@@ -123,7 +123,7 @@ export default async function LocaleLayout(props: Props) {
       >
         <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />
-        <Providers>
+        <Providers userTheme={userTheme ?? undefined}>
           <Toaster richColors />
           <SwRegister />
           <NotifyProvider />

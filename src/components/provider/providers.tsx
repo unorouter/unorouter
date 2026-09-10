@@ -6,26 +6,33 @@ import { LanguageProvider } from "./app/language-provider";
 import { PostHogProvider } from "./app/posthog-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserThemeProvider } from "@/components/ui/theme/theme-provider";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { WebMcpProvider } from "./app/webmcp-provider";
 import { JotaiProvider } from "./state/jotai-provider";
+import { UserThemeStoreProvider } from "./state/user-theme-store-provider";
 import { QueryProvider } from "./state/query-provider";
 
-export function Providers(props: { children: ReactNode }) {
+export function Providers(props: {
+  children: ReactNode;
+  userTheme?: UserTheme;
+}) {
   return (
     <QueryProvider>
       <JotaiProvider>
-        <LanguageProvider>
-          <ThemeProvider>
-            <UserThemeProvider>
-              <PostHogProvider>
-                <WebMcpProvider />
-                <ConfirmProvider />
-                <TriggerAlertProvider />
-                <TooltipProvider>{props.children}</TooltipProvider>
-              </PostHogProvider>
-            </UserThemeProvider>
-          </ThemeProvider>
-        </LanguageProvider>
+        <UserThemeStoreProvider data={props.userTheme}>
+          <LanguageProvider>
+            <ThemeProvider>
+              <UserThemeProvider>
+                <PostHogProvider>
+                  <WebMcpProvider />
+                  <ConfirmProvider />
+                  <TriggerAlertProvider />
+                  <TooltipProvider>{props.children}</TooltipProvider>
+                </PostHogProvider>
+              </UserThemeProvider>
+            </ThemeProvider>
+          </LanguageProvider>
+        </UserThemeStoreProvider>
       </JotaiProvider>
     </QueryProvider>
   );
