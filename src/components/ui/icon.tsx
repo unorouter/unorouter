@@ -7,6 +7,7 @@ import type {
 } from "@/lib/config/icon-map";
 import { LUCIDE_STATIC } from "@/lib/config/lucide-static";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
+import { debugFlag } from "@/lib/utils/chat-debug-log";
 import { useAtomValue } from "jotai";
 import { lazy } from "react";
 
@@ -41,7 +42,10 @@ type Props = React.SVGAttributes<SVGSVGElement> & {
 
 export function Icon(props: Props) {
   const theme = useAtomValue(userThemeAtom);
-  const lib = theme.iconLibrary ?? "lucide";
+  // `?dbg=noicons` pins the static set: any other library turns every icon on
+  // a page into a lazy component with its own chunk fetch, the one theme
+  // mechanism on the chat page that is not a colour value.
+  const lib = debugFlag("noicons") ? "lucide" : (theme.iconLibrary ?? "lucide");
   const { name, size, ...rest } = props;
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
 
