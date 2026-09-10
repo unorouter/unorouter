@@ -37,6 +37,7 @@ import {
   type TranslationKey,
 } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils/format/number";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -167,6 +168,22 @@ function GroupRow(props: {
     candidateGroups,
     groupRatioMap,
   );
+  // The raw group ratio is half of a product whose other half (the model base)
+  // the user never sees, so 47x reads as a markup and is not one. The catalog's
+  // headline price is the cheapest enabled group's, so every row is headline
+  // scaled by its ratio over the cheapest.
+  const catalogQuery = usePricingCatalogQuery();
+  const catalogModel = (catalogQuery.data?.models ?? []).find(
+    (m) => m.model_name === props.model,
+  );
+  const cheapestRatio = groupEntries[0]?.ratio;
+  const rowPrice = (ratio: number): string | null => {
+    if (!catalogModel || !cheapestRatio || cheapestRatio <= 0) return null;
+    const scale = ratio / cheapestRatio;
+    if (catalogModel.is_fixed_price)
+      return formatPrice(catalogModel.fixed_price * scale);
+    return `${formatPrice(catalogModel.input_price * scale)} / ${formatPrice(catalogModel.output_price * scale)}`;
+  };
   const selectedEntry = pinned
     ? groupEntries.find((e) => e.group === pinned)
     : null;
@@ -204,7 +221,7 @@ function GroupRow(props: {
               : t("CHAT.GROUP.AUTO")}
             {selectedEntry && (
               <span className="text-muted-foreground ml-1">
-                {selectedEntry.ratio}x
+                {rowPrice(selectedEntry.ratio) ?? `${selectedEntry.ratio}x`}
               </span>
             )}
           </span>
@@ -246,7 +263,9 @@ function GroupRow(props: {
               {groupDisplayLabel(entry.group, props.model)}
             </span>
             <span className="flex shrink-0 items-center gap-1.5">
-              <span className="text-muted-foreground">{entry.ratio}x</span>
+              <span className="text-muted-foreground">
+                {rowPrice(entry.ratio) ?? `${entry.ratio}x`}
+              </span>
               {entry.group === pinned && (
                 <Icon name="check" className="h-3.5 w-3.5" />
               )}
