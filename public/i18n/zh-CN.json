@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "消息气泡不透明度",
     "BG_BUBBLE_OPACITY_HINT": "作用于你自己发送的消息，让背景可以独立于面板透出来。",
     "BG_COMPOSER_OPACITY": "输入框不透明度",
-    "BG_COMPOSER_OPACITY_HINT": "应用于输入框，让你输入的文字在复杂背景上依然清晰。"
+    "BG_COMPOSER_OPACITY_HINT": "应用于输入框，让你输入的文字在复杂背景上依然清晰。",
+    "FONT_CUSTOM": "自定义（Google Fonts）",
+    "FONT_CUSTOM_PLACEHOLDER": "字体名称或 Google Fonts 链接",
+    "FONT_CUSTOM_HINT": "任意免费 Google 字体。使用时从 Google 加载。",
+    "FONT_CUSTOM_INVALID": "请填写 Google 字体名称，仅限字母和数字。",
+    "TEXT_WEIGHT": "文字粗细"
   },
   "BILLING": {
     "SUBSCRIPTION": {

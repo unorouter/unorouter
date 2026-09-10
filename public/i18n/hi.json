@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "संदेश बबल की अपारदर्शिता",
     "BG_BUBBLE_OPACITY_HINT": "यह आपके अपने चैट संदेशों पर लागू होता है, ताकि पृष्ठभूमि पैनलों से स्वतंत्र रूप से उनके पीछे दिखाई दे।",
     "BG_COMPOSER_OPACITY": "टाइप क्षेत्र की अपारदर्शिता",
-    "BG_COMPOSER_OPACITY_HINT": "जिस बॉक्स में आप लिखते हैं उस पर लागू होता है, ताकि व्यस्त पृष्ठभूमि पर आपका टेक्स्ट पढ़ने योग्य रहे।"
+    "BG_COMPOSER_OPACITY_HINT": "जिस बॉक्स में आप लिखते हैं उस पर लागू होता है, ताकि व्यस्त पृष्ठभूमि पर आपका टेक्स्ट पढ़ने योग्य रहे।",
+    "FONT_CUSTOM": "कस्टम (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "फ़ॉन्ट नाम या Google Fonts लिंक",
+    "FONT_CUSTOM_HINT": "कोई भी मुफ़्त Google फ़ॉन्ट। उपयोग करने पर Google से लोड होता है।",
+    "FONT_CUSTOM_INVALID": "Google फ़ॉन्ट नाम दें, केवल अक्षर और अंक।",
+    "TEXT_WEIGHT": "टेक्स्ट की मोटाई"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/theme/customizer/glyphs";
 import { FieldSeparator } from "@/components/ui/theme/field";
 import { ColorField } from "@/components/ui/theme/customizer/color-field";
+import { FontNameField } from "@/components/ui/theme/customizer/font-name-field";
 import {
   ColorSwatch,
   FontGlyph,
@@ -52,6 +53,7 @@ const CUSTOM_FALLBACK = "#7c3aed";
 type PickerSpec = {
   field: keyof UserTheme & string;
   customField?: keyof UserTheme & string;
+  customKind?: "color" | "font";
   labelKey: string;
   separatorBefore?: boolean;
   options: (t: T) => PickerOption[];
@@ -66,18 +68,26 @@ function withCustom(opts: PickerOption[], t: T): PickerOption[] {
 const fontOptions = (
   kind: "sans" | "display" | "mono",
   inheritLabel: string,
+  customLabel?: string,
 ) => [
   { value: "inherit", label: inheritLabel },
   ...FONT_OPTIONS.filter((f) => f.kinds.includes(kind)).map((f) => ({
     value: f.id,
     label: f.label,
   })),
+  ...(customLabel ? [{ value: CUSTOM, label: customLabel }] : []),
 ];
 
-const fontLabel = (value: string, inheritLabel: string) =>
+const fontLabel = (
+  value: string,
+  inheritLabel: string,
+  customLabel?: string,
+) =>
   value === "inherit"
     ? inheritLabel
-    : (FONT_OPTIONS.find((f) => f.id === value)?.label ?? inheritLabel);
+    : value === CUSTOM && customLabel
+      ? customLabel
+      : (FONT_OPTIONS.find((f) => f.id === value)?.label ?? inheritLabel);
 
 const PICKERS: PickerSpec[] = [
   {
@@ -171,17 +181,29 @@ const PICKERS: PickerSpec[] = [
   },
   {
     field: "fontHeading",
+    customField: "fontHeadingCustom",
+    customKind: "font",
     labelKey: "THEME.HEADING_FONT",
     separatorBefore: true,
-    options: (t) => fontOptions("display", t("THEME.FONT_HEADING_INHERIT")),
-    valueLabel: (v, t) => fontLabel(v, t("THEME.FONT_HEADING_INHERIT")),
+    options: (t) =>
+      fontOptions(
+        "display",
+        t("THEME.FONT_HEADING_INHERIT"),
+        t("THEME.FONT_CUSTOM"),
+      ),
+    valueLabel: (v, t) =>
+      fontLabel(v, t("THEME.FONT_HEADING_INHERIT"), t("THEME.FONT_CUSTOM")),
     adornment: () => <FontGlyph />,
   },
   {
     field: "fontBody",
+    customField: "fontBodyCustom",
+    customKind: "font",
     labelKey: "THEME.BODY_FONT",
-    options: (t) => fontOptions("sans", t("THEME.FONT_DEFAULT")),
-    valueLabel: (v, t) => fontLabel(v, t("THEME.FONT_DEFAULT")),
+    options: (t) =>
+      fontOptions("sans", t("THEME.FONT_DEFAULT"), t("THEME.FONT_CUSTOM")),
+    valueLabel: (v, t) =>
+      fontLabel(v, t("THEME.FONT_DEFAULT"), t("THEME.FONT_CUSTOM")),
     adornment: () => <FontGlyph />,
   },
   {
@@ -258,7 +280,18 @@ export const RegistryPickers: FC<{
                 props.setTheme({ ...props.theme, [spec.field]: v })
               }
             />
-            {isCustom && (
+            {isCustom && spec.customKind === "font" && (
+              <FontNameField
+                label={t(spec.labelKey)}
+                value={
+                  String(props.theme[spec.customField!] ?? "") || undefined
+                }
+                onChange={(name) =>
+                  props.setTheme({ ...props.theme, [spec.customField!]: name })
+                }
+              />
+            )}
+            {isCustom && spec.customKind !== "font" && (
               <ColorField
                 label={t(spec.labelKey)}
                 value={

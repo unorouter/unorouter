@@ -5,6 +5,7 @@ import { SwRegister } from "@/components/provider/app/sw-register";
 import { Providers } from "@/components/provider/providers";
 import {
   buildThemeCss,
+  googleFontHref,
   themeDataAttrs,
 } from "@/components/ui/theme/theme-build-css";
 import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
@@ -103,6 +104,15 @@ export default async function LocaleLayout(props: Props) {
     ? themeDataAttrs(userTheme)
     : DEFAULT_THEME_ATTRS;
   const themeCss = userTheme ? buildThemeCss(userTheme) : DEFAULT_THEME_CSS;
+  const fontHref =
+    googleFontHref(
+      userTheme?.fontBody === "custom" ? userTheme.fontBodyCustom : undefined,
+    ) ??
+    googleFontHref(
+      userTheme?.fontHeading === "custom"
+        ? userTheme.fontHeadingCustom
+        : undefined,
+    );
 
   return (
     <html lang={params.locale} {...themeAttrs} suppressHydrationWarning>
@@ -117,6 +127,9 @@ export default async function LocaleLayout(props: Props) {
         {/* Plain style, no href/precedence: React's float cache discards the
             textContent UserThemeProvider mutates for live edits. */}
         <style id="user-theme" dangerouslySetInnerHTML={{ __html: themeCss }} />
+        {fontHref && (
+          <link id="user-theme-font" rel="stylesheet" href={fontHref} />
+        )}
       </head>
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-dvh flex-col font-sans antialiased`}

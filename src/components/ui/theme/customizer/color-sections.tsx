@@ -47,6 +47,40 @@ export function FontSizeSection(props: {
   );
 }
 
+const WEIGHT_MIN = 400;
+const WEIGHT_MAX = 700;
+const WEIGHT_STEP = 100;
+
+export function TextWeightSection(props: {
+  weight: number | undefined;
+  onChange: (weight: number) => void;
+}) {
+  const t = useTranslations();
+  const value = props.weight ?? WEIGHT_MIN;
+  return (
+    <div className="flex flex-col gap-1.5 px-1 pt-1">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.TEXT_WEIGHT")}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {value}
+        </span>
+      </div>
+      <Slider
+        aria-label={t("THEME.TEXT_WEIGHT")}
+        min={WEIGHT_MIN}
+        max={WEIGHT_MAX}
+        step={WEIGHT_STEP}
+        value={value}
+        onValueChange={(v) =>
+          props.onChange(Array.isArray(v) ? (v[0] ?? WEIGHT_MIN) : v)
+        }
+      />
+    </div>
+  );
+}
+
 const AVATAR_SCALE_DEFAULT = 1;
 
 const ASSET_WIDTH_MIN = 4;

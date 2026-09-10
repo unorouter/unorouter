@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "Message bubble opacity",
     "BG_BUBBLE_OPACITY_HINT": "Applies to your own chat messages, so the background can show through them independently of panels.",
     "BG_COMPOSER_OPACITY": "Type area opacity",
-    "BG_COMPOSER_OPACITY_HINT": "Applies to the box you type in, so your own text stays readable over a busy background."
+    "BG_COMPOSER_OPACITY_HINT": "Applies to the box you type in, so your own text stays readable over a busy background.",
+    "FONT_CUSTOM": "Custom (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "Family name or Google Fonts link",
+    "FONT_CUSTOM_HINT": "Any free Google font. Loaded from Google when you use it.",
+    "FONT_CUSTOM_INVALID": "Use a Google font family name, letters and numbers only.",
+    "TEXT_WEIGHT": "Text weight"
   },
   "BILLING": {
     "SUBSCRIPTION": {

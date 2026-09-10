@@ -63,7 +63,12 @@ export type UserTheme = {
   fontBody?: string;
   fontHeading?: string;
   fontMono?: string;
+  // Google font family names, used when the matching picker is set to "custom".
+  // A name, never a URL: the URL is rebuilt from it so only one host is ever hit.
+  fontBodyCustom?: string;
+  fontHeadingCustom?: string;
   chatFontScale?: number;
+  chatFontWeight?: number;
   assetImageMaxWidth?: number; // rem; caps {{img::name}} asset image width
   chatAvatarScale?: number; // multiplies in-chat avatar size
   radius?: string;

@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "メッセージバブルの不透明度",
     "BG_BUBBLE_OPACITY_HINT": "自分のチャットメッセージに適用され、パネルとは別に背景を透けさせられます。",
     "BG_COMPOSER_OPACITY": "入力欄の不透明度",
-    "BG_COMPOSER_OPACITY_HINT": "入力欄に適用され、背景が賑やかでも自分の文字が読みやすくなります。"
+    "BG_COMPOSER_OPACITY_HINT": "入力欄に適用され、背景が賑やかでも自分の文字が読みやすくなります。",
+    "FONT_CUSTOM": "カスタム (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "フォント名または Google Fonts のリンク",
+    "FONT_CUSTOM_HINT": "無料の Google フォント。使用時に Google から読み込みます。",
+    "FONT_CUSTOM_INVALID": "Google のフォント名を英数字のみで入力してください。",
+    "TEXT_WEIGHT": "文字の太さ"
   },
   "BILLING": {
     "SUBSCRIPTION": {
