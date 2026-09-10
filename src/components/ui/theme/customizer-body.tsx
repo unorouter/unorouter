@@ -10,7 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { Textarea } from "@/components/ui/textarea";
 import { BackgroundImageSection } from "@/components/ui/theme/customizer/background-image-section";
 import { RegistryPickers } from "@/components/ui/theme/customizer/registry-pickers";
 import {
@@ -183,6 +191,9 @@ export function ThemeCustomizerBody() {
 
   // The wallpaper lives in its own storage atom, not in the theme row, so the
   // file carries it as a data URL or an import lands without it.
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState("");
+
   const exportTheme = () => {
     downloadJson(
       { ...theme, ...(backgroundImage ? { backgroundImage } : {}) },
@@ -190,9 +201,15 @@ export function ThemeCustomizerBody() {
     );
   };
 
-  const importTheme = async (file: File) => {
+  const importTheme = (file: File) =>
+    file.text().then(importThemeText, () => {
+      toast.error(t("THEME.IMPORT_FAILED"));
+    });
+
+  // Pasting exists for devices with no usable file picker (a remote or
+  // managed iPhone), which is also where themes need the most debugging.
+  const importThemeText = async (text: string) => {
     try {
-      const text = await file.text();
       const parsed = JSON.parse(text);
       if (typeof parsed !== "object" || parsed === null) throw new Error();
       const { backgroundImage: image, ...rest } = parsed;
@@ -352,11 +369,49 @@ export function ThemeCustomizerBody() {
             e.target.value = "";
           }}
         />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setPasteOpen(true)}
+        >
+          <Icon name="clipboard-copy" className="mr-1.5 size-3.5" />
+          {t("THEME.IMPORT_PASTE")}
+        </Button>
         <Button type="button" variant="outline" size="sm" onClick={exportTheme}>
           <Icon name="download" className="mr-1.5 size-3.5" />
           {t("THEME.EXPORT")}
         </Button>
       </CardFooter>
+      <Dialog open={pasteOpen} onOpenChange={setPasteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("THEME.IMPORT_PASTE")}</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={pasteText}
+            onChange={(e) => setPasteText(e.target.value)}
+            placeholder={t("THEME.IMPORT_PASTE_HINT")}
+            rows={8}
+            className="font-mono text-xs"
+          />
+          <DialogFooter>
+            <Button
+              type="button"
+              size="sm"
+              disabled={pasteText.trim().length === 0}
+              onClick={() => {
+                void importThemeText(pasteText).then(() => {
+                  setPasteText("");
+                  setPasteOpen(false);
+                });
+              }}
+            >
+              {t("THEME.IMPORT_PASTE_APPLY")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }
