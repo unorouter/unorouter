@@ -15,17 +15,45 @@ import {
   type UserTheme,
 } from "@/components/ui/theme/theme-store";
 
+export const CUSTOM_FONT_ID = "custom";
+
+// A theme arrives from pasted JSON with no validation and is compiled into a
+// server-rendered <style>, so the stored name must never reach the CSS as
+// typed. Anchored allowlist, and the emitted string is rebuilt from the match.
+const FAMILY_RE = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
+const FAMILY_MAX = 50;
+
+export function normFontFamily(v: string | undefined): string | null {
+  const name = (v ?? "").trim().replace(/[+_]/g, " ").replace(/\s+/g, " ");
+  if (!name || name.length > FAMILY_MAX || !FAMILY_RE.test(name)) return null;
+  return name;
+}
+
+// We build the URL, so only fonts.googleapis.com is ever reachable. The weight
+// list is the point: a family loaded at 400 alone leaves every bold synthetic.
+export function googleFontHref(family: string | undefined): string | null {
+  const name = normFontFamily(family);
+  if (!name) return null;
+  const spec = `${encodeURIComponent(name)}:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700`;
+  return `https://fonts.googleapis.com/css2?family=${spec}&display=swap`;
+}
+
 function fontFamilyFor(
   fontId: string | undefined,
   kind: "sans" | "mono" | "display",
+  custom?: string,
 ): string | null {
   if (!fontId || fontId === "inherit") return null;
+  const fallback =
+    kind === "mono" ? "ui-monospace, monospace" : "ui-sans-serif, system-ui";
+  if (fontId === CUSTOM_FONT_ID) {
+    const name = normFontFamily(custom);
+    return name ? `"${name}", ${fallback}` : null;
+  }
   const opt = FONT_OPTIONS.find(
     (f) => f.id === fontId && f.kinds.includes(kind),
   );
   if (!opt) return null;
-  const fallback =
-    kind === "mono" ? "ui-monospace, monospace" : "ui-sans-serif, system-ui";
   return `var(${opt.varName}), ${fallback}`;
 }
 
@@ -298,10 +326,18 @@ export function buildThemeCss(theme: UserTheme): string {
     light.radius = radius.value;
   }
 
-  const bodyFamily = fontFamilyFor(theme.fontBody, "sans");
-  const headingBody =
-    theme.fontHeading === "inherit" ? theme.fontBody : theme.fontHeading;
-  const headingFamily = fontFamilyFor(headingBody, "display");
+  const bodyFamily = fontFamilyFor(
+    theme.fontBody,
+    "sans",
+    theme.fontBodyCustom,
+  );
+  const inheritHeading = theme.fontHeading === "inherit";
+  const headingBody = inheritHeading ? theme.fontBody : theme.fontHeading;
+  const headingFamily = fontFamilyFor(
+    headingBody,
+    "display",
+    inheritHeading ? theme.fontBodyCustom : theme.fontHeadingCustom,
+  );
   const monoFamily = fontFamilyFor(theme.fontMono, "mono");
   const fontVars: ThemeCssVars = {};
   if (bodyFamily) fontVars["font-sans"] = `${bodyFamily} !important`;
@@ -319,6 +355,7 @@ export function buildThemeCss(theme: UserTheme): string {
     menuAccentBlock(theme.menuAccent),
     markdownBlock(theme.markdown),
     chatFontSizeBlock(theme.chatFontScale),
+    chatFontWeightBlock(theme.chatFontWeight),
     assetImageWidthBlock(theme.assetImageMaxWidth),
     chatAvatarScaleBlock(theme.chatAvatarScale),
     surfaceBlock(theme.surface, "app"),
@@ -337,6 +374,18 @@ function chatFontSizeBlock(scale: number | undefined): string {
   // scale 1.2 made user messages 1.44x while assistant messages stayed 1.2x.
   // Scale the user bubble only; the markdown inside it inherits.
   return `:root{--chat-font-scale:${s};}.aui-user-message-content,.aui-md:not(.aui-user-message-content .aui-md){font-size:calc(1em * var(--chat-font-scale,1));}`;
+}
+
+// `strong` is set explicitly rather than left to Preflight's `font-weight:
+// bolder`, which is relative and jumps 600 straight to 900: a weight almost no
+// family ships, so the browser synthesises it right back.
+const WEIGHT_STEPS = [400, 500, 600, 700];
+const BOLD_LIFT = 200;
+function chatFontWeightBlock(weight: number | undefined): string {
+  if (!weight || weight === 400) return "";
+  const w = WEIGHT_STEPS.includes(weight) ? weight : 400;
+  if (w === 400) return "";
+  return `.aui-md p,.aui-md li{font-weight:${w};}.aui-md strong{font-weight:${Math.min(900, w + BOLD_LIFT)};}`;
 }
 
 // Always emitted: the in-chat avatars size themselves from these variables, so

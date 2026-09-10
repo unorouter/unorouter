@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "메시지 말풍선 불투명도",
     "BG_BUBBLE_OPACITY_HINT": "내가 보낸 메시지에 적용되어, 패널과 별개로 배경이 비쳐 보이게 합니다.",
     "BG_COMPOSER_OPACITY": "입력창 불투명도",
-    "BG_COMPOSER_OPACITY_HINT": "입력하는 상자에 적용되어 복잡한 배경 위에서도 글이 잘 보입니다."
+    "BG_COMPOSER_OPACITY_HINT": "입력하는 상자에 적용되어 복잡한 배경 위에서도 글이 잘 보입니다.",
+    "FONT_CUSTOM": "사용자 지정 (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "글꼴 이름 또는 Google Fonts 링크",
+    "FONT_CUSTOM_HINT": "무료 Google 글꼴. 사용할 때 Google에서 불러옵니다.",
+    "FONT_CUSTOM_INVALID": "Google 글꼴 이름을 영문과 숫자로만 입력하세요.",
+    "TEXT_WEIGHT": "글자 굵기"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -26,6 +26,7 @@ import {
   AvatarScaleSection,
   ChatTextSection,
   FontSizeSection,
+  TextWeightSection,
   SurfaceColorsSection,
 } from "@/components/ui/theme/customizer/color-sections";
 import { STYLES } from "@/components/ui/theme/shadcn-styles";
@@ -237,6 +238,12 @@ export function ThemeCustomizerBody() {
           <FontSizeSection
             scale={theme.chatFontScale}
             onChange={(chatFontScale) => setTheme({ ...theme, chatFontScale })}
+          />
+          <TextWeightSection
+            weight={theme.chatFontWeight}
+            onChange={(chatFontWeight) =>
+              setTheme({ ...theme, chatFontWeight })
+            }
           />
           <AssetImageWidthSection
             width={theme.assetImageMaxWidth}

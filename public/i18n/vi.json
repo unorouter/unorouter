@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "Do mo cua bong bong tin nhan",
     "BG_BUBBLE_OPACITY_HINT": "Ap dung cho tin nhan cua chinh ban, de nen co the hien qua chung doc lap voi cac bang.",
     "BG_COMPOSER_OPACITY": "Độ mờ của khung nhập",
-    "BG_COMPOSER_OPACITY_HINT": "Áp dụng cho khung bạn nhập, để chữ của bạn vẫn dễ đọc trên nền nhiều chi tiết."
+    "BG_COMPOSER_OPACITY_HINT": "Áp dụng cho khung bạn nhập, để chữ của bạn vẫn dễ đọc trên nền nhiều chi tiết.",
+    "FONT_CUSTOM": "Tùy chỉnh (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "Tên phông chữ hoặc liên kết Google Fonts",
+    "FONT_CUSTOM_HINT": "Mọi phông chữ Google miễn phí. Tải từ Google khi bạn dùng.",
+    "FONT_CUSTOM_INVALID": "Dùng tên phông chữ Google, chỉ chữ cái và số.",
+    "TEXT_WEIGHT": "Độ đậm chữ"
   },
   "BILLING": {
     "SUBSCRIPTION": {

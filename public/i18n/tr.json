@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "Mesaj balonu opakligi",
     "BG_BUBBLE_OPACITY_HINT": "Kendi sohbet mesajlarina uygulanir, boylece arka plan panellerden bagimsiz olarak gorunebilir.",
     "BG_COMPOSER_OPACITY": "Yazma alanı opaklığı",
-    "BG_COMPOSER_OPACITY_HINT": "Yazdığınız kutuya uygulanır, böylece metniniz hareketli bir arka planda okunaklı kalır."
+    "BG_COMPOSER_OPACITY_HINT": "Yazdığınız kutuya uygulanır, böylece metniniz hareketli bir arka planda okunaklı kalır.",
+    "FONT_CUSTOM": "Özel (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "Yazı tipi adı veya Google Fonts bağlantısı",
+    "FONT_CUSTOM_HINT": "Herhangi bir ücretsiz Google yazı tipi. Kullanınca Google'dan yüklenir.",
+    "FONT_CUSTOM_INVALID": "Google yazı tipi adı kullanın, yalnızca harf ve rakam.",
+    "TEXT_WEIGHT": "Yazı kalınlığı"
   },
   "BILLING": {
     "SUBSCRIPTION": {

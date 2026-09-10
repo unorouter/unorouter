@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "تعتيم فقاعات الرسائل",
     "BG_BUBBLE_OPACITY_HINT": "ينطبق على رسائلك أنت في المحادثة، بحيث تظهر الخلفية من خلفها بشكل مستقل عن اللوحات.",
     "BG_COMPOSER_OPACITY": "عتامة حقل الكتابة",
-    "BG_COMPOSER_OPACITY_HINT": "تنطبق على حقل الكتابة، ليبقى نصك واضحًا فوق خلفية مزدحمة."
+    "BG_COMPOSER_OPACITY_HINT": "تنطبق على حقل الكتابة، ليبقى نصك واضحًا فوق خلفية مزدحمة.",
+    "FONT_CUSTOM": "مخصص (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "اسم الخط أو رابط Google Fonts",
+    "FONT_CUSTOM_HINT": "أي خط مجاني من Google. يُحمّل من Google عند استخدامه.",
+    "FONT_CUSTOM_INVALID": "استخدم اسم خط من Google، حروف وأرقام فقط.",
+    "TEXT_WEIGHT": "سماكة النص"
   },
   "BILLING": {
     "SUBSCRIPTION": {

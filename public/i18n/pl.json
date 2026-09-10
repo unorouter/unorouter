@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "Krycie dymkow wiadomosci",
     "BG_BUBBLE_OPACITY_HINT": "Dotyczy twoich wlasnych wiadomosci, dzieki czemu tlo moze przez nie przeswitywac niezaleznie od paneli.",
     "BG_COMPOSER_OPACITY": "Krycie pola tekstowego",
-    "BG_COMPOSER_OPACITY_HINT": "Dotyczy pola, w którym piszesz, aby twój tekst pozostał czytelny na niespokojnym tle."
+    "BG_COMPOSER_OPACITY_HINT": "Dotyczy pola, w którym piszesz, aby twój tekst pozostał czytelny na niespokojnym tle.",
+    "FONT_CUSTOM": "Własny (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "Nazwa kroju lub link Google Fonts",
+    "FONT_CUSTOM_HINT": "Dowolny darmowy font Google. Ładowany z Google podczas użycia.",
+    "FONT_CUSTOM_INVALID": "Podaj nazwę kroju Google, tylko litery i cyfry.",
+    "TEXT_WEIGHT": "Grubość tekstu"
   },
   "BILLING": {
     "SUBSCRIPTION": {

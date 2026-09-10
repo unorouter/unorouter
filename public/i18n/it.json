@@ -3214,7 +3214,12 @@
     "BG_BUBBLE_OPACITY": "Opacita dei fumetti dei messaggi",
     "BG_BUBBLE_OPACITY_HINT": "Vale per i tuoi messaggi in chat, cosi lo sfondo puo trasparire indipendentemente dai pannelli.",
     "BG_COMPOSER_OPACITY": "Opacità dell'area di scrittura",
-    "BG_COMPOSER_OPACITY_HINT": "Si applica al campo di testo, così quello che scrivi resta leggibile su uno sfondo movimentato."
+    "BG_COMPOSER_OPACITY_HINT": "Si applica al campo di testo, così quello che scrivi resta leggibile su uno sfondo movimentato.",
+    "FONT_CUSTOM": "Personalizzato (Google Fonts)",
+    "FONT_CUSTOM_PLACEHOLDER": "Nome della famiglia o link di Google Fonts",
+    "FONT_CUSTOM_HINT": "Qualsiasi font Google gratuito. Caricato da Google quando lo usi.",
+    "FONT_CUSTOM_INVALID": "Usa un nome di famiglia Google, solo lettere e numeri.",
+    "TEXT_WEIGHT": "Spessore del testo"
   },
   "BILLING": {
     "SUBSCRIPTION": {
