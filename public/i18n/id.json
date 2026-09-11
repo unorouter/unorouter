@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Nama font atau tautan Google Fonts",
     "FONT_CUSTOM_HINT": "Font Google gratis apa pun. Dimuat dari Google saat dipakai.",
     "FONT_CUSTOM_INVALID": "Gunakan nama font Google, hanya huruf dan angka.",
-    "TEXT_WEIGHT": "Ketebalan teks"
+    "TEXT_WEIGHT": "Ketebalan teks",
+    "WEIGHT_REGULAR": "Normal",
+    "WEIGHT_MEDIUM": "Sedang",
+    "WEIGHT_SEMIBOLD": "Semitebal",
+    "WEIGHT_BOLD": "Tebal"
   },
   "BILLING": {
     "SUBSCRIPTION": {

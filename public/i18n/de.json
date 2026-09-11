@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Schriftname oder Google-Fonts-Link",
     "FONT_CUSTOM_HINT": "Jede kostenlose Google-Schrift. Wird bei Nutzung von Google geladen.",
     "FONT_CUSTOM_INVALID": "Bitte einen Google-Schriftnamen verwenden, nur Buchstaben und Zahlen.",
-    "TEXT_WEIGHT": "Schriftstärke"
+    "TEXT_WEIGHT": "Schriftstärke",
+    "WEIGHT_REGULAR": "Normal",
+    "WEIGHT_MEDIUM": "Mittel",
+    "WEIGHT_SEMIBOLD": "Halbfett",
+    "WEIGHT_BOLD": "Fett"
   },
   "BILLING": {
     "SUBSCRIPTION": {

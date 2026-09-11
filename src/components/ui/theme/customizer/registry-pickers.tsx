@@ -258,6 +258,9 @@ const PICKERS: PickerSpec[] = [
 export const RegistryPickers: FC<{
   theme: UserTheme;
   setTheme: (next: UserTheme) => void;
+  // Extra controls rendered under a given row, so a setting that belongs with a
+  // picker can sit beside it without joining the picker data array.
+  afterField?: Partial<Record<string, ReactNode>>;
 }> = (props) => {
   const t = useTranslations() as unknown as T;
   return (
@@ -286,8 +289,12 @@ export const RegistryPickers: FC<{
                 value={
                   String(props.theme[spec.customField!] ?? "") || undefined
                 }
-                onChange={(name) =>
-                  props.setTheme({ ...props.theme, [spec.customField!]: name })
+                onChange={(name, weight) =>
+                  props.setTheme({
+                    ...props.theme,
+                    [spec.customField!]: name,
+                    ...(weight === undefined ? {} : { chatFontWeight: weight }),
+                  })
                 }
               />
             )}
@@ -305,6 +312,7 @@ export const RegistryPickers: FC<{
                 }
               />
             )}
+            {props.afterField?.[spec.field]}
           </div>
         );
       })}

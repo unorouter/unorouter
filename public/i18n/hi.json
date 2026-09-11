@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "फ़ॉन्ट नाम या Google Fonts लिंक",
     "FONT_CUSTOM_HINT": "कोई भी मुफ़्त Google फ़ॉन्ट। उपयोग करने पर Google से लोड होता है।",
     "FONT_CUSTOM_INVALID": "Google फ़ॉन्ट नाम दें, केवल अक्षर और अंक।",
-    "TEXT_WEIGHT": "टेक्स्ट की मोटाई"
+    "TEXT_WEIGHT": "टेक्स्ट की मोटाई",
+    "WEIGHT_REGULAR": "सामान्य",
+    "WEIGHT_MEDIUM": "मध्यम",
+    "WEIGHT_SEMIBOLD": "अर्ध-मोटा",
+    "WEIGHT_BOLD": "मोटा"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "שם הגופן או קישור Google Fonts",
     "FONT_CUSTOM_HINT": "כל גופן חינמי של Google. נטען מ‑Google בעת השימוש.",
     "FONT_CUSTOM_INVALID": "יש להזין שם גופן של Google, אותיות וספרות בלבד.",
-    "TEXT_WEIGHT": "עובי הטקסט"
+    "TEXT_WEIGHT": "עובי הטקסט",
+    "WEIGHT_REGULAR": "רגיל",
+    "WEIGHT_MEDIUM": "בינוני",
+    "WEIGHT_SEMIBOLD": "חצי מודגש",
+    "WEIGHT_BOLD": "מודגש"
   },
   "BILLING": {
     "SUBSCRIPTION": {

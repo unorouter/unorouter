@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Название семейства или ссылка Google Fonts",
     "FONT_CUSTOM_HINT": "Любой бесплатный шрифт Google. Загружается из Google при использовании.",
     "FONT_CUSTOM_INVALID": "Укажите название шрифта Google, только буквы и цифры.",
-    "TEXT_WEIGHT": "Насыщенность текста"
+    "TEXT_WEIGHT": "Насыщенность текста",
+    "WEIGHT_REGULAR": "Обычный",
+    "WEIGHT_MEDIUM": "Средний",
+    "WEIGHT_SEMIBOLD": "Полужирный",
+    "WEIGHT_BOLD": "Жирный"
   },
   "BILLING": {
     "SUBSCRIPTION": {

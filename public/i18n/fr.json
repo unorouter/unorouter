@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Nom de la police ou lien Google Fonts",
     "FONT_CUSTOM_HINT": "Toute police Google gratuite. Chargée depuis Google à l'utilisation.",
     "FONT_CUSTOM_INVALID": "Utilisez un nom de police Google, lettres et chiffres uniquement.",
-    "TEXT_WEIGHT": "Graisse du texte"
+    "TEXT_WEIGHT": "Graisse du texte",
+    "WEIGHT_REGULAR": "Normal",
+    "WEIGHT_MEDIUM": "Moyen",
+    "WEIGHT_SEMIBOLD": "Demi-gras",
+    "WEIGHT_BOLD": "Gras"
   },
   "BILLING": {
     "SUBSCRIPTION": {

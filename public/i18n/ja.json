@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "フォント名または Google Fonts のリンク",
     "FONT_CUSTOM_HINT": "無料の Google フォント。使用時に Google から読み込みます。",
     "FONT_CUSTOM_INVALID": "Google のフォント名を英数字のみで入力してください。",
-    "TEXT_WEIGHT": "文字の太さ"
+    "TEXT_WEIGHT": "文字の太さ",
+    "WEIGHT_REGULAR": "標準",
+    "WEIGHT_MEDIUM": "中太",
+    "WEIGHT_SEMIBOLD": "半太字",
+    "WEIGHT_BOLD": "太字"
   },
   "BILLING": {
     "SUBSCRIPTION": {

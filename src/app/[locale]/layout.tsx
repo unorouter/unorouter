@@ -104,15 +104,12 @@ export default async function LocaleLayout(props: Props) {
     ? themeDataAttrs(userTheme)
     : DEFAULT_THEME_ATTRS;
   const themeCss = userTheme ? buildThemeCss(userTheme) : DEFAULT_THEME_CSS;
-  const fontHref =
-    googleFontHref(
-      userTheme?.fontBody === "custom" ? userTheme.fontBodyCustom : undefined,
-    ) ??
-    googleFontHref(
-      userTheme?.fontHeading === "custom"
-        ? userTheme.fontHeadingCustom
-        : undefined,
-    );
+  const fontHref = googleFontHref([
+    userTheme?.fontBody === "custom" ? userTheme.fontBodyCustom : undefined,
+    userTheme?.fontHeading === "custom"
+      ? userTheme.fontHeadingCustom
+      : undefined,
+  ]);
 
   return (
     <html lang={params.locale} {...themeAttrs} suppressHydrationWarning>

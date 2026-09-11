@@ -35,13 +35,10 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
   // The layout renders this link from the cookie too, so a reload paints the
   // custom family on first frame; this keeps customizer edits live.
   useEffect(() => {
-    const href =
-      googleFontHref(
-        theme.fontBody === "custom" ? theme.fontBodyCustom : undefined,
-      ) ??
-      googleFontHref(
-        theme.fontHeading === "custom" ? theme.fontHeadingCustom : undefined,
-      );
+    const href = googleFontHref([
+      theme.fontBody === "custom" ? theme.fontBodyCustom : undefined,
+      theme.fontHeading === "custom" ? theme.fontHeadingCustom : undefined,
+    ]);
     const existing = document.getElementById(FONT_LINK_ID);
     if (!href) {
       existing?.remove();

@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "글꼴 이름 또는 Google Fonts 링크",
     "FONT_CUSTOM_HINT": "무료 Google 글꼴. 사용할 때 Google에서 불러옵니다.",
     "FONT_CUSTOM_INVALID": "Google 글꼴 이름을 영문과 숫자로만 입력하세요.",
-    "TEXT_WEIGHT": "글자 굵기"
+    "TEXT_WEIGHT": "글자 굵기",
+    "WEIGHT_REGULAR": "보통",
+    "WEIGHT_MEDIUM": "중간",
+    "WEIGHT_SEMIBOLD": "약간 굵게",
+    "WEIGHT_BOLD": "굵게"
   },
   "BILLING": {
     "SUBSCRIPTION": {

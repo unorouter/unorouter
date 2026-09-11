@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "字型名稱或 Google Fonts 連結",
     "FONT_CUSTOM_HINT": "任何免費 Google 字型。使用時從 Google 載入。",
     "FONT_CUSTOM_INVALID": "請填寫 Google 字型名稱，僅限字母和數字。",
-    "TEXT_WEIGHT": "文字粗細"
+    "TEXT_WEIGHT": "文字粗細",
+    "WEIGHT_REGULAR": "標準",
+    "WEIGHT_MEDIUM": "中等",
+    "WEIGHT_SEMIBOLD": "半粗",
+    "WEIGHT_BOLD": "粗體"
   },
   "BILLING": {
     "SUBSCRIPTION": {
