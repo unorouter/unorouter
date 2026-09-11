@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { Input } from "@/components/ui/input";
 import { useVerify2FAMutation } from "@/hooks/auth/auth-hook";
+import {
+  VERIFICATION_METHOD_TWOFA,
+  type VerificationMethod,
+} from "@/lib/validation/auth";
 import { analytics } from "@/lib/analytics";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
@@ -11,6 +15,7 @@ import { useRef, useState } from "react";
 
 interface TwoFAFormProps {
   flowToken?: string;
+  methods?: VerificationMethod[];
   onSuccess: () => void;
 }
 
@@ -18,6 +23,14 @@ export function TwoFAForm(props: TwoFAFormProps) {
   const t = useTranslations();
   const verify2FA = useVerify2FAMutation();
   const [code, setCode] = useState("");
+
+  // Drive off what upstream advertised rather than assuming TOTP. An absent
+  // methods array means a challenge shape we did not recognise, which upstream
+  // only ever answers with 2fa today, so treat it as usable.
+  const twoFA = props.methods?.find(
+    (m) => m.method === VERIFICATION_METHOD_TWOFA,
+  );
+  const unavailable = props.methods !== undefined && !twoFA?.available;
 
   // A double submit reuses a consumed flow_token, which surfaces as a wrong-code error.
   const submitting = useRef(false);
@@ -34,7 +47,11 @@ export function TwoFAForm(props: TwoFAFormProps) {
     });
     try {
       await verify2FA.mutateAsync({
-        body: { code: value.trim(), flow_token: props.flowToken },
+        body: {
+          code: value.trim(),
+          flow_token: props.flowToken,
+          method: VERIFICATION_METHOD_TWOFA,
+        },
       });
       logChatDebug("auth.2fa_verified", {});
       analytics.auth.twoFAVerified();
@@ -57,6 +74,18 @@ export function TwoFAForm(props: TwoFAFormProps) {
     const digits = raw.replace(/\D/g, "").slice(0, 6);
     setCode(digits);
     if (digits.length === 6) void onSubmit(digits);
+  }
+
+  // Upstream said a factor is required but the one we implement is not usable,
+  // so show its reason rather than a code box that can never succeed.
+  if (unavailable) {
+    return (
+      <GlassAuthCard title={t("AUTH.TWO_FA.TITLE")}>
+        <p className="text-destructive text-center text-xs font-medium">
+          {twoFA?.reason ?? t("ERRORS.UNEXPECTED_ERROR")}
+        </p>
+      </GlassAuthCard>
+    );
   }
 
   return (

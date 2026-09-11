@@ -19,4 +19,7 @@ export const twoFACodeBody = t.Object({
 export const twoFALoginBody = t.Object({
   code: t.String(),
   flow_token: t.Optional(t.String()),
+  // Upstream defaults an empty method to "2fa" and rejects anything else, so
+  // send it explicitly rather than relying on that default holding.
+  method: t.Optional(t.String()),
 });
