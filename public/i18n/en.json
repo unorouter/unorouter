@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Family name or Google Fonts link",
     "FONT_CUSTOM_HINT": "Any free Google font. Loaded from Google when you use it.",
     "FONT_CUSTOM_INVALID": "Use a Google font family name, letters and numbers only.",
-    "TEXT_WEIGHT": "Text weight"
+    "TEXT_WEIGHT": "Text weight",
+    "WEIGHT_REGULAR": "Regular",
+    "WEIGHT_MEDIUM": "Medium",
+    "WEIGHT_SEMIBOLD": "Semibold",
+    "WEIGHT_BOLD": "Bold"
   },
   "BILLING": {
     "SUBSCRIPTION": {

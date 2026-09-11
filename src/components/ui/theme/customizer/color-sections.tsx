@@ -50,6 +50,14 @@ export function FontSizeSection(props: {
 const WEIGHT_MIN = 400;
 const WEIGHT_MAX = 700;
 const WEIGHT_STEP = 100;
+// A bare 400 tells a user nothing; "Bold (700)" is what they were looking for
+// when they went hunting for the number in Google's embed snippet.
+const WEIGHT_LABELS = [
+  { weight: 400, labelKey: "THEME.WEIGHT_REGULAR" },
+  { weight: 500, labelKey: "THEME.WEIGHT_MEDIUM" },
+  { weight: 600, labelKey: "THEME.WEIGHT_SEMIBOLD" },
+  { weight: 700, labelKey: "THEME.WEIGHT_BOLD" },
+] as const;
 
 export function TextWeightSection(props: {
   weight: number | undefined;
@@ -63,8 +71,12 @@ export function TextWeightSection(props: {
         <span className="text-muted-foreground text-xs">
           {t("THEME.TEXT_WEIGHT")}
         </span>
-        <span className="text-muted-foreground font-mono text-xs tabular-nums">
-          {value}
+        <span className="text-muted-foreground text-xs tabular-nums">
+          {t(
+            WEIGHT_LABELS.find((w) => w.weight === value)?.labelKey ??
+              "THEME.WEIGHT_REGULAR",
+          )}{" "}
+          ({value})
         </span>
       </div>
       <Slider

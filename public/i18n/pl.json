@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Nazwa kroju lub link Google Fonts",
     "FONT_CUSTOM_HINT": "Dowolny darmowy font Google. Ładowany z Google podczas użycia.",
     "FONT_CUSTOM_INVALID": "Podaj nazwę kroju Google, tylko litery i cyfry.",
-    "TEXT_WEIGHT": "Grubość tekstu"
+    "TEXT_WEIGHT": "Grubość tekstu",
+    "WEIGHT_REGULAR": "Zwykła",
+    "WEIGHT_MEDIUM": "Średnia",
+    "WEIGHT_SEMIBOLD": "Półgruba",
+    "WEIGHT_BOLD": "Pogrubiona"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "اسم الخط أو رابط Google Fonts",
     "FONT_CUSTOM_HINT": "أي خط مجاني من Google. يُحمّل من Google عند استخدامه.",
     "FONT_CUSTOM_INVALID": "استخدم اسم خط من Google، حروف وأرقام فقط.",
-    "TEXT_WEIGHT": "سماكة النص"
+    "TEXT_WEIGHT": "سماكة النص",
+    "WEIGHT_REGULAR": "عادي",
+    "WEIGHT_MEDIUM": "متوسط",
+    "WEIGHT_SEMIBOLD": "نصف عريض",
+    "WEIGHT_BOLD": "عريض"
   },
   "BILLING": {
     "SUBSCRIPTION": {

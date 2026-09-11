@@ -5,21 +5,50 @@ import { normFontFamily } from "@/components/ui/theme/theme-build-css";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+export type PastedFont = { family: string; weight?: number };
+
+const WEIGHT_MIN = 400;
+const WEIGHT_MAX = 700;
+
+function weightFromSpec(spec: string): number | undefined {
+  // `wght@700`, `wght@400;700`, and the italic form `ital,wght@0,400;1,700`
+  // where each tuple's LAST number is the weight.
+  const axis = /wght@([0-9,;]+)/i.exec(spec)?.[1];
+  if (!axis) return undefined;
+  const weights = new Set<number>();
+  for (const tuple of axis.split(";")) {
+    const last = tuple.split(",").at(-1);
+    const n = Number(last);
+    if (Number.isFinite(n) && n >= 100) weights.add(n);
+  }
+  // Several weights means the user wanted a RANGE, not heavier body text:
+  // picking 400 and 700 in Google is "regular, with bold available".
+  if (weights.size !== 1) return undefined;
+  const only = [...weights][0];
+  if (only === undefined || only === WEIGHT_MIN) return undefined;
+  const stepped = Math.round(Math.min(WEIGHT_MAX, only) / 100) * 100;
+  return stepped === WEIGHT_MIN ? undefined : stepped;
+}
+
 // Accepts what a user actually has in hand: a family name, or the whole
-// fonts.googleapis.com link copied off the Google Fonts page. Only the family
+// fonts.googleapis.com embed copied off the Google Fonts page. Only the family
 // name is ever stored, so no user-supplied URL reaches the theme.
-export function familyFromInput(raw: string): string {
+export function parseFontInput(raw: string): PastedFont {
   const text = raw.trim();
-  const family = /fonts\.googleapis\.com/i.test(text)
-    ? (/[?&]family=([^&:]+)/i.exec(text)?.[1] ?? "")
-    : text;
-  return decodeURIComponent(family).replace(/[+_]/g, " ").trim();
+  if (!/fonts\.googleapis\.com/i.test(text)) return { family: text };
+  const value = /[?&]family=([^&"'\s>]+)/i.exec(text)?.[1] ?? "";
+  const [name, ...rest] = value.split(":");
+  const family = decodeURIComponent(name ?? "")
+    .replace(/[+_]/g, " ")
+    .trim();
+  const weight = rest.length ? weightFromSpec(rest.join(":")) : undefined;
+  return weight === undefined ? { family } : { family, weight };
 }
 
 export function FontNameField(props: {
   label: string;
   value: string | undefined;
-  onChange: (name: string | undefined) => void;
+  onChange: (name: string | undefined, weight?: number) => void;
 }) {
   const t = useTranslations();
   const [invalid, setInvalid] = useState(false);
@@ -32,9 +61,10 @@ export function FontNameField(props: {
       props.onChange(undefined);
       return;
     }
-    const name = normFontFamily(familyFromInput(raw));
+    const parsed = parseFontInput(raw);
+    const name = normFontFamily(parsed.family);
     setInvalid(!name);
-    if (name) props.onChange(name);
+    if (name) props.onChange(name, parsed.weight);
   };
 
   return (

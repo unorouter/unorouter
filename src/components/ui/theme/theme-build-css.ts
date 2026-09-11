@@ -31,11 +31,23 @@ export function normFontFamily(v: string | undefined): string | null {
 
 // We build the URL, so only fonts.googleapis.com is ever reachable. The weight
 // list is the point: a family loaded at 400 alone leaves every bold synthetic.
-export function googleFontHref(family: string | undefined): string | null {
-  const name = normFontFamily(family);
-  if (!name) return null;
-  const spec = `${encodeURIComponent(name)}:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700`;
-  return `https://fonts.googleapis.com/css2?family=${spec}&display=swap`;
+// Several families ride one request, since body and heading can each be custom.
+export function googleFontHref(
+  families: ReadonlyArray<string | undefined>,
+): string | null {
+  const names: string[] = [];
+  for (const f of families) {
+    const name = normFontFamily(f);
+    if (name && !names.includes(name)) names.push(name);
+  }
+  if (names.length === 0) return null;
+  const query = names
+    .map(
+      (n) =>
+        `family=${encodeURIComponent(n)}:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700`,
+    )
+    .join("&");
+  return `https://fonts.googleapis.com/css2?${query}&display=swap`;
 }
 
 function fontFamilyFor(

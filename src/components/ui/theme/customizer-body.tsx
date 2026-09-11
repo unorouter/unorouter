@@ -65,7 +65,6 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { ColorField } from "@/components/ui/theme/customizer/color-field";
 import { FieldGroup, FieldSeparator } from "./field";
 
 export function ThemeCustomizerBody() {
@@ -232,18 +231,25 @@ export function ThemeCustomizerBody() {
       </CardHeader>
       <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
         <FieldGroup>
-          <RegistryPickers theme={theme} setTheme={setTheme} />
+          <RegistryPickers
+            theme={theme}
+            setTheme={setTheme}
+            afterField={{
+              fontBody: (
+                <TextWeightSection
+                  weight={theme.chatFontWeight}
+                  onChange={(chatFontWeight) =>
+                    setTheme({ ...theme, chatFontWeight })
+                  }
+                />
+              ),
+            }}
+          />
           <FieldSeparator />
           <ChatTextSection markdown={theme.markdown} onChange={setMarkdown} />
           <FontSizeSection
             scale={theme.chatFontScale}
             onChange={(chatFontScale) => setTheme({ ...theme, chatFontScale })}
-          />
-          <TextWeightSection
-            weight={theme.chatFontWeight}
-            onChange={(chatFontWeight) =>
-              setTheme({ ...theme, chatFontWeight })
-            }
           />
           <AssetImageWidthSection
             width={theme.assetImageMaxWidth}
@@ -282,40 +288,6 @@ export function ThemeCustomizerBody() {
             setImage={setBackgroundImage}
             background={theme.background}
             onChange={setBackground}
-          />
-          <FieldSeparator />
-          <div className="text-muted-foreground px-1 pt-1 text-xs">
-            {t("THEME.CHAT_TEXT")}
-          </div>
-          <ColorField
-            label={t("THEME.MD_NORMAL")}
-            value={theme.markdown?.normal}
-            onChange={(v) => setMarkdown({ normal: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_ITALIC")}
-            value={theme.markdown?.italic}
-            onChange={(v) => setMarkdown({ italic: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_BOLD")}
-            value={theme.markdown?.bold}
-            onChange={(v) => setMarkdown({ bold: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_ITALIC_BOLD")}
-            value={theme.markdown?.italicBold}
-            onChange={(v) => setMarkdown({ italicBold: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_SINGLE_QUOTE")}
-            value={theme.markdown?.singleQuote}
-            onChange={(v) => setMarkdown({ singleQuote: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_DOUBLE_QUOTE")}
-            value={theme.markdown?.doubleQuote}
-            onChange={(v) => setMarkdown({ doubleQuote: v })}
           />
         </FieldGroup>
       </CardContent>

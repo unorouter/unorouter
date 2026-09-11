@@ -3219,7 +3219,11 @@
     "FONT_CUSTOM_PLACEHOLDER": "Tên phông chữ hoặc liên kết Google Fonts",
     "FONT_CUSTOM_HINT": "Mọi phông chữ Google miễn phí. Tải từ Google khi bạn dùng.",
     "FONT_CUSTOM_INVALID": "Dùng tên phông chữ Google, chỉ chữ cái và số.",
-    "TEXT_WEIGHT": "Độ đậm chữ"
+    "TEXT_WEIGHT": "Độ đậm chữ",
+    "WEIGHT_REGULAR": "Thường",
+    "WEIGHT_MEDIUM": "Vừa",
+    "WEIGHT_SEMIBOLD": "Nửa đậm",
+    "WEIGHT_BOLD": "Đậm"
   },
   "BILLING": {
     "SUBSCRIPTION": {
