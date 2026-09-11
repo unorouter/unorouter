@@ -28,6 +28,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LorebookEntries } from "./entries";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 type Props = {
   lorebookId: string;
@@ -44,6 +45,7 @@ export function LorebookEditor(props: Props) {
     ? formDefaults(lorebookFormSchema, lbQuery.data)
     : undefined;
   const form = useRpForm(lorebookFormSchema, formValues);
+  const onInvalid = useInvalidToast(lorebookFormSchema);
   const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
   const existingAvatarSrc = useMediaSrc(
     avatarDraft.kind === "keep" ? lbQuery.data?.avatarMediaId : null,
@@ -88,7 +90,7 @@ export function LorebookEditor(props: Props) {
       <Card className="flex flex-col gap-3 p-4">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit, onInvalid)}
             className="flex flex-col gap-3"
           >
             <MyFormInput

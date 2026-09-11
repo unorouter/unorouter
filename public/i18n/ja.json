@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "この項目は必須です",
+      "INVALID": "該当の項目を確認してください",
       "MIN_LENGTH": "{minLength} 文字以上で入力してください",
       "MAX_LENGTH": "{maxLength} 文字以下で入力してください",
       "MIN_VALUE": "0 より大きい値を入力してください"

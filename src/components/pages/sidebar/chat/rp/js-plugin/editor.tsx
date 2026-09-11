@@ -17,6 +17,7 @@ import { formDefaults } from "@/lib/validation/helpers";
 import { jsPluginForm, type JsPluginForm } from "@/lib/validation/js-plugin";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 const KIND_KEYS = {
   risu: "CHAT.JS_PLUGIN.KIND_RISU",
@@ -39,6 +40,7 @@ export function JsPluginEditor(props: Props) {
   const formValues =
     !isNew && existing ? formDefaults(jsPluginForm, existing) : undefined;
   const form = useRpForm(jsPluginForm, formValues);
+  const onInvalid = useInvalidToast(jsPluginForm);
 
   const onSubmit = async (data: JsPluginForm) => {
     if (isNew) {
@@ -58,7 +60,7 @@ export function JsPluginEditor(props: Props) {
     <Card className="flex flex-col gap-3 p-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="flex flex-col gap-3"
         >
           <MyFormInput

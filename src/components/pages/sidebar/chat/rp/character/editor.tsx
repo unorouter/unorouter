@@ -30,6 +30,7 @@ import {
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 type Props = {
   characterId?: string;
@@ -133,6 +134,7 @@ export function CharacterEditor(props: Props) {
       })
     : undefined;
   const form = useRpForm(characterFormSchema, formValues);
+  const onInvalid = useInvalidToast(characterFormSchema);
 
   const resolveAssets = async (): Promise<
     { name: string; mediaId: string }[]
@@ -189,7 +191,7 @@ export function CharacterEditor(props: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
         className="flex flex-col gap-4"
       >
         <MyFormInput

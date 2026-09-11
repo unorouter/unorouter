@@ -38,6 +38,7 @@ import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useWatch, type Control } from "react-hook-form";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
   {
@@ -124,6 +125,7 @@ export function LorebookEntryForm(props: {
       })
     : undefined;
   const form = useRpForm(lorebookEntryFormSchema, formValues);
+  const onInvalid = useInvalidToast(lorebookEntryFormSchema);
 
   const reset = form.reset;
   useEffect(() => {
@@ -157,7 +159,7 @@ export function LorebookEntryForm(props: {
     <Card className="flex flex-col gap-3 p-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="flex flex-col gap-3"
         >
           <div className="flex flex-col gap-1">

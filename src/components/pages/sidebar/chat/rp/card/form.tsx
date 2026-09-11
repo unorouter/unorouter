@@ -19,6 +19,7 @@ import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 type Props = {
   editingId: string | "new";
@@ -47,6 +48,7 @@ export function CardForm(props: Props) {
       })
     : undefined;
   const form = useRpForm(cardFormSchema, formValues);
+  const onInvalid = useInvalidToast(cardFormSchema);
 
   const onSubmit = async (data: CardForm) => {
     const body = {
@@ -65,7 +67,7 @@ export function CardForm(props: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
         className="flex flex-col gap-4"
       >
         <MyFormInput

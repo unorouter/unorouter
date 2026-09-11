@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "This field is required",
+      "INVALID": "Check the highlighted field",
       "MIN_LENGTH": "Must be at least {minLength} characters",
       "MAX_LENGTH": "Must be at most {maxLength} characters",
       "MIN_VALUE": "Must be greater than 0"

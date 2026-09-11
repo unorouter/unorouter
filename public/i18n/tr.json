@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "Bu alan zorunludur",
+      "INVALID": "İşaretli alanı kontrol et",
       "MIN_LENGTH": "En az {minLength} karakter olmalıdır",
       "MAX_LENGTH": "En fazla {maxLength} karakter olmalıdır",
       "MIN_VALUE": "0'dan büyük olmalıdır"
