@@ -29,14 +29,17 @@ type MyFormErrorProps = {
   name: string;
 };
 
-export function MyFormError(props: MyFormErrorProps) {
-  const t = useTranslations();
+// Shared with the submit-failure toast, which has to name a field whose own
+// message may be rendered in an unmounted tab.
+export function formatFieldError(
+  t: ReturnType<typeof useTranslations>,
+  schema: TObject,
+  name: string,
+  error: string,
+): { label: string; message: string } {
+  const property = schema.properties[name];
 
-  if (!props.error) return null;
-
-  const property = props.schema.properties[props.name];
-
-  const cleanedName = props.name.replace(/\.\d+\./g, ".");
+  const cleanedName = name.replace(/\.\d+\./g, ".");
 
   const humanized = cleanedName
     .replace(/[._]/g, " ")
@@ -46,18 +49,34 @@ export function MyFormError(props: MyFormErrorProps) {
   // built at runtime. One widening here keeps it out of both lookups below.
   const translate = t as (key: string, values?: Values) => string;
 
-  const type = safeT(
+  const label = safeT(
     translate,
     `FORM.TYPE.${cleanedName.toUpperCase()}`,
     humanized,
   );
 
-  const error = safeT(translate, props.error, props.error, {
-    type,
-    minLength: property?.minLength,
-    maxLength: property?.maxLength,
-    minimum: property?.minimum,
-  });
+  return {
+    label,
+    message: safeT(translate, error, error, {
+      type: label,
+      minLength: property?.minLength,
+      maxLength: property?.maxLength,
+      minimum: property?.minimum,
+    }),
+  };
+}
+
+export function MyFormError(props: MyFormErrorProps) {
+  const t = useTranslations();
+
+  if (!props.error) return null;
+
+  const error = formatFieldError(
+    t,
+    props.schema,
+    props.name,
+    props.error,
+  ).message;
 
   if (!error) return null;
 

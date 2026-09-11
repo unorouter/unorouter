@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "هذا الحقل مطلوب",
+      "INVALID": "تحقق من الحقل المحدد",
       "MIN_LENGTH": "يجب ألا يقل عن {minLength} أحرف",
       "MAX_LENGTH": "يجب ألا يتجاوز {maxLength} حرفًا",
       "MIN_VALUE": "يجب أن تكون القيمة أكبر من 0"

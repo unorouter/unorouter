@@ -41,6 +41,7 @@ import type { Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
 import { TokenizerSelect } from "../tokenizer-select";
 import { PromptTemplateEditor } from "./prompt-template-editor";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 type Props = {
   editingId: string | "new";
@@ -145,6 +146,7 @@ export function PresetForm(props: Props) {
     showReasoning: editing?.showReasoning ?? true,
   });
   const form = useRpForm(samplingPresetFormSchema, formValues);
+  const onInvalid = useInvalidToast(samplingPresetFormSchema);
 
   const resetSampling = () => {
     SAMPLING_FIELDS.forEach((k) =>
@@ -169,7 +171,7 @@ export function PresetForm(props: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
         className="flex flex-col gap-4"
       >
         <MyFormInput

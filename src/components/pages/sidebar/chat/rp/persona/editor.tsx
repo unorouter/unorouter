@@ -22,6 +22,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FormFooter } from "../shared/form-footer";
+import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
 type Props = {
   editingId: string | "new";
@@ -56,6 +57,7 @@ export function PersonaEditor(props: Props) {
         })
       : undefined;
   const form = useRpForm(personaFormSchema, formValues);
+  const onInvalid = useInvalidToast(personaFormSchema);
 
   const onSubmit = async (data: PersonaForm) => {
     const body = {
@@ -74,7 +76,7 @@ export function PersonaEditor(props: Props) {
     <Card className="flex flex-col gap-3 p-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="flex flex-col gap-3"
         >
           <MyFormInput

@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "Este campo é obrigatório",
+      "INVALID": "Verifique o campo destacado",
       "MIN_LENGTH": "Deve ter pelo menos {minLength} caracteres",
       "MAX_LENGTH": "Deve ter no máximo {maxLength} caracteres",
       "MIN_VALUE": "Deve ser maior que 0"

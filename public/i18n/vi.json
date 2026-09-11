@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "Trường này là bắt buộc",
+      "INVALID": "Kiểm tra trường được đánh dấu",
       "MIN_LENGTH": "Phải có ít nhất {minLength} ký tự",
       "MAX_LENGTH": "Không được vượt quá {maxLength} ký tự",
       "MIN_VALUE": "Phải lớn hơn 0"

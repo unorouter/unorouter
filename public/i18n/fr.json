@@ -3327,6 +3327,7 @@
   "FORM": {
     "ERROR": {
       "REQUIRED": "Ce champ est requis",
+      "INVALID": "Vérifiez le champ signalé",
       "MIN_LENGTH": "Doit contenir au moins {minLength} caractères",
       "MAX_LENGTH": "Ne doit pas dépasser {maxLength} caractères",
       "MIN_VALUE": "Doit être supérieur à 0"
