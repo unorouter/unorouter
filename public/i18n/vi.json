@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Checkpoint Civitai tùy chỉnh",
     "CIVITAI_PLACEHOLDER": "URL hoặc ID CivitAI (ví dụ: 288584)",
     "CIVITAI_RESOLVE": "Phân giải",
+    "CIVITAI_NEEDS_MASK": "cần mặt nạ",
     "CIVITAI_RESOLVING": "Đang phân giải...",
     "CIVITAI_FAILED": "Không thể phân giải mô hình này. Một số mô hình thất bại do giới hạn của nhà cung cấp.",
     "CIVITAI_HINT": "Dán liên kết mô hình CivitAI, sau đó phân giải trước khi tạo ảnh.",

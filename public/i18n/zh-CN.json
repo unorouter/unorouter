@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "自定义 Civitai 模型",
     "CIVITAI_PLACEHOLDER": "CivitAI 链接或 ID（例如：288584）",
     "CIVITAI_RESOLVE": "解析",
+    "CIVITAI_NEEDS_MASK": "需要蒙版",
     "CIVITAI_RESOLVING": "解析中……",
     "CIVITAI_FAILED": "无法解析该模型。受供应商限制，部分模型无法解析。",
     "CIVITAI_HINT": "粘贴 CivitAI 模型链接，解析成功后再生成。",

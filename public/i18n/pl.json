@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Własny checkpoint Civitai",
     "CIVITAI_PLACEHOLDER": "Adres URL lub ID CivitAI (np. 288584)",
     "CIVITAI_RESOLVE": "Rozwiąż",
+    "CIVITAI_NEEDS_MASK": "wymaga maski",
     "CIVITAI_RESOLVING": "Rozwiązywanie...",
     "CIVITAI_FAILED": "Nie udało się rozwiązać tego modelu. Część modeli zawodzi z powodu ograniczeń dostawcy.",
     "CIVITAI_HINT": "Wklej link do modelu CivitAI, a przed generowaniem rozwiąż go.",

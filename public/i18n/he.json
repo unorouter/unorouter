@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "נקודת בדיקה מותאמת של Civitai",
     "CIVITAI_PLACEHOLDER": "כתובת או מזהה CivitAI (למשל 288584)",
     "CIVITAI_RESOLVE": "פענוח",
+    "CIVITAI_NEEDS_MASK": "דורש מסכה",
     "CIVITAI_RESOLVING": "מפענח...",
     "CIVITAI_FAILED": "לא ניתן לפענח את המודל הזה. חלק מהמודלים נכשלים בגלל מגבלות הספק.",
     "CIVITAI_HINT": "הדביקו קישור למודל ב-CivitAI ופענחו אותו לפני היצירה.",

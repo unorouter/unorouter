@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "نقطة تفتيش Civitai مخصصة",
     "CIVITAI_PLACEHOLDER": "رابط أو معرف CivitAI (مثال: 288584)",
     "CIVITAI_RESOLVE": "تحليل",
+    "CIVITAI_NEEDS_MASK": "يتطلب قناعا",
     "CIVITAI_RESOLVING": "جارٍ التحليل...",
     "CIVITAI_FAILED": "تعذر تحليل هذا النموذج. بعض النماذج تفشل بسبب قيود المزود.",
     "CIVITAI_HINT": "الصق رابط نموذج من CivitAI ثم حلله قبل التوليد.",

@@ -33,6 +33,7 @@ import {
 export type CustomCheckpoint = {
   air: string;
   name: string;
+  isInpaint?: boolean;
   architecture: string | null;
   heroImage: string | null;
   nsfwLevel: number | null;

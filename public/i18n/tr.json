@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Özel Civitai kontrol noktası",
     "CIVITAI_PLACEHOLDER": "CivitAI bağlantısı veya kimliği (ör. 288584)",
     "CIVITAI_RESOLVE": "Çözümle",
+    "CIVITAI_NEEDS_MASK": "maske gerekir",
     "CIVITAI_RESOLVING": "Çözümleniyor...",
     "CIVITAI_FAILED": "Bu model çözümlenemedi. Sağlayıcı kısıtları nedeniyle bazı modeller çözümlenemez.",
     "CIVITAI_HINT": "Bir CivitAI model bağlantısı yapıştırın, üretmeden önce çözümleyin.",

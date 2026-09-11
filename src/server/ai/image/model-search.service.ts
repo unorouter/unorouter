@@ -14,6 +14,8 @@ type RunwareSearchResult = {
   tags?: string[];
   downloadCount?: number;
   capabilities?: string[];
+  type?: string | null;
+  addedUnixTimestamp?: number | null;
 };
 
 // A Runware LoRA TRAINING model answers the same checkpoint search but only
@@ -24,6 +26,16 @@ function canGenerate(row: RunwareSearchResult): boolean {
   const caps = row.capabilities;
   if (!caps || caps.length === 0) return true;
   return !caps.every((c) => NON_GENERATIVE_CAPABILITIES.has(c));
+}
+
+// An inpaint checkpoint rejects every generation that carries no maskImage, so
+// it can only ever be a deliberate choice, never a default.
+function isInpaintOnly(row: {
+  type?: string | null;
+  capabilities?: string[];
+}): boolean {
+  if (row.type === "inpainting") return true;
+  return (row.capabilities ?? []).includes("op:inpaint");
 }
 
 type SearchPage = { results?: RunwareSearchResult[]; totalResults?: number };
@@ -134,6 +146,7 @@ export async function searchModelCatalog(
 export type ResolvedCheckpoint = {
   air: string;
   name: string;
+  isInpaint: boolean;
   architecture: string | null;
   heroImage: string | null;
   nsfwLevel: number | null;
@@ -177,6 +190,7 @@ function toResolved(
       opts.versionSuffix && row.version
         ? `${row.name} (${row.version})`
         : row.name,
+    isInpaint: isInpaintOnly(row),
     architecture: row.architecture ?? null,
     heroImage: row.heroImage ?? null,
     nsfwLevel: row.nsfwLevel ?? null,
@@ -201,6 +215,19 @@ async function searchByReference(ref: Ref, category: "checkpoint" | "lora") {
   };
 }
 
+// Runware answers modelSearch in relevance order, not recency: for model 139562
+// it returns the inpaint variant first and the newest release last.
+function pickDefaultVersion(
+  pool: RunwareSearchResult[],
+): RunwareSearchResult | undefined {
+  const usable = pool.filter((row) => !isInpaintOnly(row));
+  return (usable.length ? usable : pool)
+    .slice()
+    .sort(
+      (a, b) => (b.addedUnixTimestamp ?? 0) - (a.addedUnixTimestamp ?? 0),
+    )[0];
+}
+
 async function resolveRef(
   ref: Ref,
   category: "checkpoint" | "lora",
@@ -211,8 +238,8 @@ async function resolveRef(
   const exact = ref.versionId
     ? pool.find((row) => row.air?.endsWith(`@${ref.versionId}`))
     : undefined;
-  const picked = exact ?? pool[0];
-  return picked?.air ? toResolved(picked) : null;
+  const picked = exact ?? pickDefaultVersion(pool);
+  return picked?.air ? toResolved(picked, { versionSuffix: true }) : null;
 }
 
 export async function findCheckpoints(

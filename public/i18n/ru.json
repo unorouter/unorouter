@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Свой чекпоинт Civitai",
     "CIVITAI_PLACEHOLDER": "Ссылка или ID CivitAI (например, 288584)",
     "CIVITAI_RESOLVE": "Найти",
+    "CIVITAI_NEEDS_MASK": "нужна маска",
     "CIVITAI_RESOLVING": "Поиск...",
     "CIVITAI_FAILED": "Не удалось найти эту модель. Некоторые модели недоступны из-за ограничений провайдера.",
     "CIVITAI_HINT": "Вставьте ссылку на модель CivitAI и найдите её перед генерацией.",

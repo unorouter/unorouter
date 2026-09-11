@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "कस्टम Civitai चेकपॉइंट",
     "CIVITAI_PLACEHOLDER": "CivitAI URL या ID (जैसे 288584)",
     "CIVITAI_RESOLVE": "हल करें",
+    "CIVITAI_NEEDS_MASK": "मास्क चाहिए",
     "CIVITAI_RESOLVING": "हल किया जा रहा है...",
     "CIVITAI_FAILED": "यह मॉडल हल नहीं हो सका। प्रदाता की सीमाओं के कारण कुछ मॉडल हल नहीं होते।",
     "CIVITAI_HINT": "CivitAI मॉडल लिंक चिपकाएँ, फिर बनाने से पहले उसे हल करें।",
