@@ -23,6 +23,7 @@ import {
   rpFilter,
   RpImportControl,
 } from "../shared/rp-list-parts";
+import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 
 export function PresetsPage() {
   const t = useTranslations();
@@ -31,6 +32,7 @@ export function PresetsPage() {
   const deleteMut = useDeletePresetMutation();
   const duplicateMut = useDuplicatePresetMutation();
   const exportMut = useRpExportMutation();
+  const favoriteMut = useToggleFavoriteMutation("preset");
   const importMut = useImportPresetMutation();
   const importUrlMut = useImportPresetFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
@@ -100,6 +102,11 @@ export function PresetsPage() {
               key={p.id}
               createdAt={p.createdAt}
               updatedAt={p.updatedAt}
+              favorite={{
+                on: p.isFavorite,
+                onToggle: () =>
+                  favoriteMut.mutate({ id: p.id, isFavorite: !p.isFavorite }),
+              }}
               onOpen={() => {
                 analytics.rp.entityAction({
                   entity: "presets",

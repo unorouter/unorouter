@@ -140,6 +140,7 @@ import Shuffle from "lucide-react/dist/esm/icons/shuffle.mjs";
 import SlidersHorizontal from "lucide-react/dist/esm/icons/sliders-horizontal.mjs";
 import Sparkles from "lucide-react/dist/esm/icons/sparkles.mjs";
 import Square from "lucide-react/dist/esm/icons/square.mjs";
+import Star from "lucide-react/dist/esm/icons/star.mjs";
 import Sun from "lucide-react/dist/esm/icons/sun.mjs";
 import Tag from "lucide-react/dist/esm/icons/tag.mjs";
 import Terminal from "lucide-react/dist/esm/icons/terminal.mjs";
@@ -283,6 +284,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   shuffle: Shuffle,
   "sliders-horizontal": SlidersHorizontal,
   sparkles: Sparkles,
+  star: Star,
   sun: Sun,
   tag: Tag,
   terminal: Terminal,

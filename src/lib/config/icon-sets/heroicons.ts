@@ -103,32 +103,33 @@ import i99 from "@heroicons/react/24/outline/ShieldCheckIcon";
 import i100 from "@heroicons/react/24/outline/ShieldCheckIcon";
 import i101 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
 import i102 from "@heroicons/react/24/outline/SparklesIcon";
-import i103 from "@heroicons/react/24/outline/SunIcon";
-import i104 from "@heroicons/react/24/outline/TagIcon";
-import i105 from "@heroicons/react/24/outline/CommandLineIcon";
-import i106 from "@heroicons/react/24/outline/TicketIcon";
-import i107 from "@heroicons/react/24/outline/TrashIcon";
-import i108 from "@heroicons/react/24/outline/TrophyIcon";
-import i109 from "@heroicons/react/24/outline/ArrowUpTrayIcon";
-import i110 from "@heroicons/react/24/outline/UserIcon";
-import i111 from "@heroicons/react/24/outline/UserPlusIcon";
-import i112 from "@heroicons/react/24/outline/UsersIcon";
-import i113 from "@heroicons/react/24/outline/VideoCameraIcon";
-import i114 from "@heroicons/react/24/outline/WalletIcon";
-import i115 from "@heroicons/react/24/outline/SparklesIcon";
-import i116 from "@heroicons/react/24/outline/BoltIcon";
-import i117 from "@heroicons/react/24/outline/TableCellsIcon";
-import i118 from "@heroicons/react/24/outline/ArrowsPointingOutIcon";
-import i119 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
-import i120 from "@heroicons/react/24/outline/TrashIcon";
-import i121 from "@heroicons/react/24/outline/XCircleIcon";
-import i122 from "@heroicons/react/24/outline/ExclamationCircleIcon";
-import i123 from "@heroicons/react/24/outline/DocumentTextIcon";
-import i124 from "@heroicons/react/24/outline/StopIcon";
-import i125 from "@heroicons/react/24/outline/WrenchIcon";
-import i126 from "@heroicons/react/24/outline/ListBulletIcon";
-import i127 from "@heroicons/react/24/outline/PlusCircleIcon";
-import i128 from "@heroicons/react/24/outline/CreditCardIcon";
+import i103 from "@heroicons/react/24/outline/StarIcon";
+import i104 from "@heroicons/react/24/outline/SunIcon";
+import i105 from "@heroicons/react/24/outline/TagIcon";
+import i106 from "@heroicons/react/24/outline/CommandLineIcon";
+import i107 from "@heroicons/react/24/outline/TicketIcon";
+import i108 from "@heroicons/react/24/outline/TrashIcon";
+import i109 from "@heroicons/react/24/outline/TrophyIcon";
+import i110 from "@heroicons/react/24/outline/ArrowUpTrayIcon";
+import i111 from "@heroicons/react/24/outline/UserIcon";
+import i112 from "@heroicons/react/24/outline/UserPlusIcon";
+import i113 from "@heroicons/react/24/outline/UsersIcon";
+import i114 from "@heroicons/react/24/outline/VideoCameraIcon";
+import i115 from "@heroicons/react/24/outline/WalletIcon";
+import i116 from "@heroicons/react/24/outline/SparklesIcon";
+import i117 from "@heroicons/react/24/outline/BoltIcon";
+import i118 from "@heroicons/react/24/outline/TableCellsIcon";
+import i119 from "@heroicons/react/24/outline/ArrowsPointingOutIcon";
+import i120 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
+import i121 from "@heroicons/react/24/outline/TrashIcon";
+import i122 from "@heroicons/react/24/outline/XCircleIcon";
+import i123 from "@heroicons/react/24/outline/ExclamationCircleIcon";
+import i124 from "@heroicons/react/24/outline/DocumentTextIcon";
+import i125 from "@heroicons/react/24/outline/StopIcon";
+import i126 from "@heroicons/react/24/outline/WrenchIcon";
+import i127 from "@heroicons/react/24/outline/ListBulletIcon";
+import i128 from "@heroicons/react/24/outline/PlusCircleIcon";
+import i129 from "@heroicons/react/24/outline/CreditCardIcon";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -234,30 +235,31 @@ export const ICONS: Record<string, IconComponent> = {
   "shield-check": i100,
   "sliders-horizontal": i101,
   sparkles: i102,
-  sun: i103,
-  tag: i104,
-  terminal: i105,
-  ticket: i106,
-  trash: i107,
-  trophy: i108,
-  upload: i109,
-  user: i110,
-  "user-plus": i111,
-  users: i112,
-  video: i113,
-  wallet: i114,
-  wand: i115,
-  zap: i116,
-  "grid-3x3": i117,
-  "maximize-2": i118,
-  "settings-2": i119,
-  "trash-2": i120,
-  "x-circle": i121,
-  "alert-circle": i122,
-  "file-text": i123,
-  square: i124,
-  wrench: i125,
-  list: i126,
-  "plus-circle": i127,
-  "credit-card": i128,
+  star: i103,
+  sun: i104,
+  tag: i105,
+  terminal: i106,
+  ticket: i107,
+  trash: i108,
+  trophy: i109,
+  upload: i110,
+  user: i111,
+  "user-plus": i112,
+  users: i113,
+  video: i114,
+  wallet: i115,
+  wand: i116,
+  zap: i117,
+  "grid-3x3": i118,
+  "maximize-2": i119,
+  "settings-2": i120,
+  "trash-2": i121,
+  "x-circle": i122,
+  "alert-circle": i123,
+  "file-text": i124,
+  square: i125,
+  wrench: i126,
+  list: i127,
+  "plus-circle": i128,
+  "credit-card": i129,
 };

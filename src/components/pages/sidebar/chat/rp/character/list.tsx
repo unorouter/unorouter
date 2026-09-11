@@ -32,6 +32,7 @@ import {
   RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
+import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { CharacterEditor } from "./editor";
 
 type Props = {
@@ -48,6 +49,7 @@ export function CharacterList(props: Props) {
   const importMut = useImportCharacterCardMutation();
   const importUrlMut = useImportCharacterFromUrlMutation();
   const exportMut = useRpExportMutation();
+  const favoriteMut = useToggleFavoriteMutation("character");
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
 
@@ -134,6 +136,14 @@ export function CharacterList(props: Props) {
                   createdAt={c.createdAt}
                   updatedAt={c.updatedAt}
                   key={c.id}
+                  favorite={{
+                    on: c.isFavorite,
+                    onToggle: () =>
+                      favoriteMut.mutate({
+                        id: c.id,
+                        isFavorite: !c.isFavorite,
+                      }),
+                  }}
                   onOpen={() => {
                     analytics.rp.entityAction({
                       entity: "characters",

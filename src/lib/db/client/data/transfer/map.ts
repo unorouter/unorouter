@@ -80,6 +80,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
         name: str(native.persona.name) ?? "",
         avatarMediaId: null,
         isDefault: false,
+        isFavorite: false,
       }
     : null;
 
@@ -89,6 +90,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
         id: presetIdMap.get(native.preset.id)!,
         name: str(native.preset.name) ?? "",
         isDefault: false,
+        isFavorite: false,
       }
     : null;
 
@@ -96,6 +98,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     ...c,
     id: charIdMap.get(c.id)!,
     name: str(c.name) ?? "",
+    isFavorite: false,
   }));
 
   const lorebooks = (native.lorebooks ?? []).map((l) => {
@@ -108,6 +111,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
         scanDepth: num(l.scanDepth) ?? 4,
         tokenBudget: num(l.tokenBudget) ?? 1500,
         recursiveScanning: bool(l.recursiveScanning) ?? false,
+        isFavorite: false,
       },
       entries: (native.lorebookEntries ?? [])
         .filter((e) => e.lorebookId === l.id)

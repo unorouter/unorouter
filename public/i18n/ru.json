@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "создано {when}",
     "LIST_EDITED": "изменено {when}",
     "COPY_SUFFIX": "копия",
+    "FAVORITE": "Добавить в избранное",
+    "UNFAVORITE": "Удалить из избранного",
     "LOREBOOK_ENTRY_NEW": "Новая запись",
     "LOREBOOK_ENTRY_COMMENT": "Название",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Необязательная метка для этой записи",

@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "{when} बनाया गया",
     "LIST_EDITED": "{when} संपादित",
     "COPY_SUFFIX": "कॉपी",
+    "FAVORITE": "पसंदीदा में जोड़ें",
+    "UNFAVORITE": "पसंदीदा से हटाएं",
     "LOREBOOK_ENTRY_NEW": "नई entry",
     "LOREBOOK_ENTRY_COMMENT": "नाम",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "इस प्रविष्टि के लिए वैकल्पिक लेबल",

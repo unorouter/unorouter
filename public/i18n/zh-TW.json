@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "建立於 {when}",
     "LIST_EDITED": "編輯於 {when}",
     "COPY_SUFFIX": "副本",
+    "FAVORITE": "加入收藏",
+    "UNFAVORITE": "從收藏中移除",
     "LOREBOOK_ENTRY_NEW": "新增條目",
     "LOREBOOK_ENTRY_COMMENT": "名稱",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "此條目的選用標籤",

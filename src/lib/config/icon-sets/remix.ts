@@ -113,35 +113,36 @@ import { RiShieldCheckLine as i109 } from "@remixicon/react";
 import { RiShuffleLine as i110 } from "@remixicon/react";
 import { RiEqualizerLine as i111 } from "@remixicon/react";
 import { RiSparklingLine as i112 } from "@remixicon/react";
-import { RiSunLine as i113 } from "@remixicon/react";
-import { RiPriceTag3Line as i114 } from "@remixicon/react";
-import { RiTerminalLine as i115 } from "@remixicon/react";
-import { RiTicketLine as i116 } from "@remixicon/react";
-import { RiDeleteBinLine as i117 } from "@remixicon/react";
-import { RiTrophyLine as i118 } from "@remixicon/react";
-import { RiText as i119 } from "@remixicon/react";
-import { RiUploadLine as i120 } from "@remixicon/react";
-import { RiUserLine as i121 } from "@remixicon/react";
-import { RiUserAddLine as i122 } from "@remixicon/react";
-import { RiGroupLine as i123 } from "@remixicon/react";
-import { RiVideoLine as i124 } from "@remixicon/react";
-import { RiWalletLine as i125 } from "@remixicon/react";
-import { RiMagicLine as i126 } from "@remixicon/react";
-import { RiFlashlightLine as i127 } from "@remixicon/react";
-import { RiGridLine as i128 } from "@remixicon/react";
-import { RiExpandDiagonalLine as i129 } from "@remixicon/react";
-import { RiSettings2Line as i130 } from "@remixicon/react";
-import { RiDeleteBin2Line as i131 } from "@remixicon/react";
-import { RiBrainLine as i132 } from "@remixicon/react";
-import { RiWifiOffLine as i133 } from "@remixicon/react";
-import { RiCloseCircleLine as i134 } from "@remixicon/react";
-import { RiErrorWarningLine as i135 } from "@remixicon/react";
-import { RiFileTextLine as i136 } from "@remixicon/react";
-import { RiSquareLine as i137 } from "@remixicon/react";
-import { RiWrenchLine as i138 } from "@remixicon/react";
-import { RiListUnordered as i139 } from "@remixicon/react";
-import { RiAddCircleLine as i140 } from "@remixicon/react";
-import { RiBankCardLine as i141 } from "@remixicon/react";
+import { RiStarLine as i113 } from "@remixicon/react";
+import { RiSunLine as i114 } from "@remixicon/react";
+import { RiPriceTag3Line as i115 } from "@remixicon/react";
+import { RiTerminalLine as i116 } from "@remixicon/react";
+import { RiTicketLine as i117 } from "@remixicon/react";
+import { RiDeleteBinLine as i118 } from "@remixicon/react";
+import { RiTrophyLine as i119 } from "@remixicon/react";
+import { RiText as i120 } from "@remixicon/react";
+import { RiUploadLine as i121 } from "@remixicon/react";
+import { RiUserLine as i122 } from "@remixicon/react";
+import { RiUserAddLine as i123 } from "@remixicon/react";
+import { RiGroupLine as i124 } from "@remixicon/react";
+import { RiVideoLine as i125 } from "@remixicon/react";
+import { RiWalletLine as i126 } from "@remixicon/react";
+import { RiMagicLine as i127 } from "@remixicon/react";
+import { RiFlashlightLine as i128 } from "@remixicon/react";
+import { RiGridLine as i129 } from "@remixicon/react";
+import { RiExpandDiagonalLine as i130 } from "@remixicon/react";
+import { RiSettings2Line as i131 } from "@remixicon/react";
+import { RiDeleteBin2Line as i132 } from "@remixicon/react";
+import { RiBrainLine as i133 } from "@remixicon/react";
+import { RiWifiOffLine as i134 } from "@remixicon/react";
+import { RiCloseCircleLine as i135 } from "@remixicon/react";
+import { RiErrorWarningLine as i136 } from "@remixicon/react";
+import { RiFileTextLine as i137 } from "@remixicon/react";
+import { RiSquareLine as i138 } from "@remixicon/react";
+import { RiWrenchLine as i139 } from "@remixicon/react";
+import { RiListUnordered as i140 } from "@remixicon/react";
+import { RiAddCircleLine as i141 } from "@remixicon/react";
+import { RiBankCardLine as i142 } from "@remixicon/react";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -257,33 +258,34 @@ export const ICONS: Record<string, IconComponent> = {
   shuffle: i110,
   "sliders-horizontal": i111,
   sparkles: i112,
-  sun: i113,
-  tag: i114,
-  terminal: i115,
-  ticket: i116,
-  trash: i117,
-  trophy: i118,
-  type: i119,
-  upload: i120,
-  user: i121,
-  "user-plus": i122,
-  users: i123,
-  video: i124,
-  wallet: i125,
-  wand: i126,
-  zap: i127,
-  "grid-3x3": i128,
-  "maximize-2": i129,
-  "settings-2": i130,
-  "trash-2": i131,
-  brain: i132,
-  "wifi-off": i133,
-  "x-circle": i134,
-  "alert-circle": i135,
-  "file-text": i136,
-  square: i137,
-  wrench: i138,
-  list: i139,
-  "plus-circle": i140,
-  "credit-card": i141,
+  star: i113,
+  sun: i114,
+  tag: i115,
+  terminal: i116,
+  ticket: i117,
+  trash: i118,
+  trophy: i119,
+  type: i120,
+  upload: i121,
+  user: i122,
+  "user-plus": i123,
+  users: i124,
+  video: i125,
+  wallet: i126,
+  wand: i127,
+  zap: i128,
+  "grid-3x3": i129,
+  "maximize-2": i130,
+  "settings-2": i131,
+  "trash-2": i132,
+  brain: i133,
+  "wifi-off": i134,
+  "x-circle": i135,
+  "alert-circle": i136,
+  "file-text": i137,
+  square: i138,
+  wrench: i139,
+  list: i140,
+  "plus-circle": i141,
+  "credit-card": i142,
 };

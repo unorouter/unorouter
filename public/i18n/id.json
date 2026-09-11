@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "dibuat {when}",
     "LIST_EDITED": "diubah {when}",
     "COPY_SUFFIX": "salinan",
+    "FAVORITE": "Tambahkan ke favorit",
+    "UNFAVORITE": "Hapus dari favorit",
     "LOREBOOK_ENTRY_NEW": "Entri baru",
     "LOREBOOK_ENTRY_COMMENT": "Nama",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Label opsional untuk entri ini",

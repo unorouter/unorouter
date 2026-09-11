@@ -114,35 +114,36 @@ import { ShieldCheck as i110 } from "@phosphor-icons/react/dist/ssr/ShieldCheck"
 import { Shuffle as i111 } from "@phosphor-icons/react/dist/ssr/Shuffle";
 import { SlidersHorizontal as i112 } from "@phosphor-icons/react/dist/ssr/SlidersHorizontal";
 import { Sparkle as i113 } from "@phosphor-icons/react/dist/ssr/Sparkle";
-import { Sun as i114 } from "@phosphor-icons/react/dist/ssr/Sun";
-import { Tag as i115 } from "@phosphor-icons/react/dist/ssr/Tag";
-import { Terminal as i116 } from "@phosphor-icons/react/dist/ssr/Terminal";
-import { Ticket as i117 } from "@phosphor-icons/react/dist/ssr/Ticket";
-import { Trash as i118 } from "@phosphor-icons/react/dist/ssr/Trash";
-import { Trophy as i119 } from "@phosphor-icons/react/dist/ssr/Trophy";
-import { TextT as i120 } from "@phosphor-icons/react/dist/ssr/TextT";
-import { Upload as i121 } from "@phosphor-icons/react/dist/ssr/Upload";
-import { User as i122 } from "@phosphor-icons/react/dist/ssr/User";
-import { UserPlus as i123 } from "@phosphor-icons/react/dist/ssr/UserPlus";
-import { Users as i124 } from "@phosphor-icons/react/dist/ssr/Users";
-import { Video as i125 } from "@phosphor-icons/react/dist/ssr/Video";
-import { Wallet as i126 } from "@phosphor-icons/react/dist/ssr/Wallet";
-import { MagicWand as i127 } from "@phosphor-icons/react/dist/ssr/MagicWand";
-import { Lightning as i128 } from "@phosphor-icons/react/dist/ssr/Lightning";
-import { GridNine as i129 } from "@phosphor-icons/react/dist/ssr/GridNine";
-import { ArrowsOutSimple as i130 } from "@phosphor-icons/react/dist/ssr/ArrowsOutSimple";
-import { SlidersHorizontal as i131 } from "@phosphor-icons/react/dist/ssr/SlidersHorizontal";
-import { Trash as i132 } from "@phosphor-icons/react/dist/ssr/Trash";
-import { Brain as i133 } from "@phosphor-icons/react/dist/ssr/Brain";
-import { WifiSlash as i134 } from "@phosphor-icons/react/dist/ssr/WifiSlash";
-import { XCircle as i135 } from "@phosphor-icons/react/dist/ssr/XCircle";
-import { WarningCircle as i136 } from "@phosphor-icons/react/dist/ssr/WarningCircle";
-import { FileText as i137 } from "@phosphor-icons/react/dist/ssr/FileText";
-import { Square as i138 } from "@phosphor-icons/react/dist/ssr/Square";
-import { Wrench as i139 } from "@phosphor-icons/react/dist/ssr/Wrench";
-import { List as i140 } from "@phosphor-icons/react/dist/ssr/List";
-import { PlusCircle as i141 } from "@phosphor-icons/react/dist/ssr/PlusCircle";
-import { CreditCard as i142 } from "@phosphor-icons/react/dist/ssr/CreditCard";
+import { Star as i114 } from "@phosphor-icons/react/dist/ssr/Star";
+import { Sun as i115 } from "@phosphor-icons/react/dist/ssr/Sun";
+import { Tag as i116 } from "@phosphor-icons/react/dist/ssr/Tag";
+import { Terminal as i117 } from "@phosphor-icons/react/dist/ssr/Terminal";
+import { Ticket as i118 } from "@phosphor-icons/react/dist/ssr/Ticket";
+import { Trash as i119 } from "@phosphor-icons/react/dist/ssr/Trash";
+import { Trophy as i120 } from "@phosphor-icons/react/dist/ssr/Trophy";
+import { TextT as i121 } from "@phosphor-icons/react/dist/ssr/TextT";
+import { Upload as i122 } from "@phosphor-icons/react/dist/ssr/Upload";
+import { User as i123 } from "@phosphor-icons/react/dist/ssr/User";
+import { UserPlus as i124 } from "@phosphor-icons/react/dist/ssr/UserPlus";
+import { Users as i125 } from "@phosphor-icons/react/dist/ssr/Users";
+import { Video as i126 } from "@phosphor-icons/react/dist/ssr/Video";
+import { Wallet as i127 } from "@phosphor-icons/react/dist/ssr/Wallet";
+import { MagicWand as i128 } from "@phosphor-icons/react/dist/ssr/MagicWand";
+import { Lightning as i129 } from "@phosphor-icons/react/dist/ssr/Lightning";
+import { GridNine as i130 } from "@phosphor-icons/react/dist/ssr/GridNine";
+import { ArrowsOutSimple as i131 } from "@phosphor-icons/react/dist/ssr/ArrowsOutSimple";
+import { SlidersHorizontal as i132 } from "@phosphor-icons/react/dist/ssr/SlidersHorizontal";
+import { Trash as i133 } from "@phosphor-icons/react/dist/ssr/Trash";
+import { Brain as i134 } from "@phosphor-icons/react/dist/ssr/Brain";
+import { WifiSlash as i135 } from "@phosphor-icons/react/dist/ssr/WifiSlash";
+import { XCircle as i136 } from "@phosphor-icons/react/dist/ssr/XCircle";
+import { WarningCircle as i137 } from "@phosphor-icons/react/dist/ssr/WarningCircle";
+import { FileText as i138 } from "@phosphor-icons/react/dist/ssr/FileText";
+import { Square as i139 } from "@phosphor-icons/react/dist/ssr/Square";
+import { Wrench as i140 } from "@phosphor-icons/react/dist/ssr/Wrench";
+import { List as i141 } from "@phosphor-icons/react/dist/ssr/List";
+import { PlusCircle as i142 } from "@phosphor-icons/react/dist/ssr/PlusCircle";
+import { CreditCard as i143 } from "@phosphor-icons/react/dist/ssr/CreditCard";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -259,33 +260,34 @@ export const ICONS: Record<string, IconComponent> = {
   shuffle: i111,
   "sliders-horizontal": i112,
   sparkles: i113,
-  sun: i114,
-  tag: i115,
-  terminal: i116,
-  ticket: i117,
-  trash: i118,
-  trophy: i119,
-  type: i120,
-  upload: i121,
-  user: i122,
-  "user-plus": i123,
-  users: i124,
-  video: i125,
-  wallet: i126,
-  wand: i127,
-  zap: i128,
-  "grid-3x3": i129,
-  "maximize-2": i130,
-  "settings-2": i131,
-  "trash-2": i132,
-  brain: i133,
-  "wifi-off": i134,
-  "x-circle": i135,
-  "alert-circle": i136,
-  "file-text": i137,
-  square: i138,
-  wrench: i139,
-  list: i140,
-  "plus-circle": i141,
-  "credit-card": i142,
+  star: i114,
+  sun: i115,
+  tag: i116,
+  terminal: i117,
+  ticket: i118,
+  trash: i119,
+  trophy: i120,
+  type: i121,
+  upload: i122,
+  user: i123,
+  "user-plus": i124,
+  users: i125,
+  video: i126,
+  wallet: i127,
+  wand: i128,
+  zap: i129,
+  "grid-3x3": i130,
+  "maximize-2": i131,
+  "settings-2": i132,
+  "trash-2": i133,
+  brain: i134,
+  "wifi-off": i135,
+  "x-circle": i136,
+  "alert-circle": i137,
+  "file-text": i138,
+  square: i139,
+  wrench: i140,
+  list: i141,
+  "plus-circle": i142,
+  "credit-card": i143,
 };

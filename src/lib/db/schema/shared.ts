@@ -238,6 +238,9 @@ export const characters = sqliteTable(
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })
       .notNull()
       .default(false),
+    isFavorite: integer("is_favorite", { mode: "boolean" })
+      .notNull()
+      .default(false),
     ...timestamps(),
   },
   (table) => [
@@ -261,6 +264,9 @@ export const personas = sqliteTable(
       .notNull()
       .default(false),
     notes: text("notes"),
+    isFavorite: integer("is_favorite", { mode: "boolean" })
+      .notNull()
+      .default(false),
     ...timestamps(),
   },
   (table) => [index("idx_persona_default").on(table.isDefault)],
@@ -277,6 +283,9 @@ export const lorebooks = sqliteTable("lorebooks", {
   scanDepth: integer("scan_depth").notNull().default(4),
   tokenBudget: integer("token_budget").notNull().default(1500),
   recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  isFavorite: integer("is_favorite", { mode: "boolean" })
     .notNull()
     .default(false),
   ...timestamps(),
@@ -378,6 +387,9 @@ export const samplingPresets = sqliteTable(
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
+    isFavorite: integer("is_favorite", { mode: "boolean" })
+      .notNull()
+      .default(false),
     ...timestamps(),
   },
   (table) => [index("idx_preset_name").on(table.name)],
@@ -431,6 +443,9 @@ export const cards = sqliteTable(
     name: text("name").notNull(),
     description: text("description"),
     personaId: text("persona_id"),
+    isFavorite: integer("is_favorite", { mode: "boolean" })
+      .notNull()
+      .default(false),
     ...timestamps(),
   },
   (table) => [index("idx_card_updated").on(table.updatedAt)],

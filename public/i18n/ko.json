@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "생성 {when}",
     "LIST_EDITED": "편집 {when}",
     "COPY_SUFFIX": "사본",
+    "FAVORITE": "즐겨찾기에 추가",
+    "UNFAVORITE": "즐겨찾기에서 제거",
     "LOREBOOK_ENTRY_NEW": "새 항목",
     "LOREBOOK_ENTRY_COMMENT": "이름",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "이 항목의 선택적 라벨",

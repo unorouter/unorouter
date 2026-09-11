@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "נוצר {when}",
     "LIST_EDITED": "נערך {when}",
     "COPY_SUFFIX": "עותק",
+    "FAVORITE": "הוספה למועדפים",
+    "UNFAVORITE": "הסרה מהמועדפים",
     "LOREBOOK_ENTRY_NEW": "רשומה חדשה",
     "LOREBOOK_ENTRY_COMMENT": "שם",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "תווית אופציונלית לרשומה זו",

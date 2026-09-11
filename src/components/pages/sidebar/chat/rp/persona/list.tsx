@@ -22,6 +22,7 @@ import {
   RpImportControl,
   RpListDialog,
 } from "../shared/rp-list-parts";
+import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { PersonaEditor } from "./editor";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 
@@ -37,6 +38,7 @@ export function PersonaList(props: Props) {
   const deleteMut = useDeletePersonaMutation();
   const duplicateMut = useDuplicatePersonaMutation();
   const exportMut = useRpExportMutation();
+  const favoriteMut = useToggleFavoriteMutation("persona");
   const importMut = useImportPersonaMutation();
   const importUrlMut = useImportPersonaFromUrlMutation();
 
@@ -110,6 +112,11 @@ export function PersonaList(props: Props) {
           createdAt={p.createdAt}
           updatedAt={p.updatedAt}
           key={p.id}
+          favorite={{
+            on: p.isFavorite,
+            onToggle: () =>
+              favoriteMut.mutate({ id: p.id, isFavorite: !p.isFavorite }),
+          }}
           onOpen={() => {
             analytics.rp.entityAction({
               entity: "personas",
