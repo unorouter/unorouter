@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Checkpoint Civitai personalizzato",
     "CIVITAI_PLACEHOLDER": "URL o ID CivitAI (es. 288584)",
     "CIVITAI_RESOLVE": "Risolvi",
+    "CIVITAI_NEEDS_MASK": "serve maschera",
     "CIVITAI_RESOLVING": "Risoluzione...",
     "CIVITAI_FAILED": "Impossibile risolvere questo modello. Alcuni modelli falliscono per limiti del fornitore.",
     "CIVITAI_HINT": "Incolla un link a un modello CivitAI, poi risolvilo prima di generare.",

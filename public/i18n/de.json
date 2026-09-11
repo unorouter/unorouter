@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Eigener Civitai-Checkpoint",
     "CIVITAI_PLACEHOLDER": "CivitAI-URL oder ID (z. B. 288584)",
     "CIVITAI_RESOLVE": "Auflösen",
+    "CIVITAI_NEEDS_MASK": "braucht Maske",
     "CIVITAI_RESOLVING": "Wird aufgelöst...",
     "CIVITAI_FAILED": "Dieses Modell konnte nicht aufgelöst werden. Manche Modelle lassen sich wegen Einschränkungen des Anbieters nicht auflösen.",
     "CIVITAI_HINT": "Füge einen CivitAI-Modelllink ein und löse ihn auf, bevor du generierst.",

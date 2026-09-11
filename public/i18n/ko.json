@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "사용자 지정 Civitai 체크포인트",
     "CIVITAI_PLACEHOLDER": "CivitAI URL 또는 ID (예: 288584)",
     "CIVITAI_RESOLVE": "확인",
+    "CIVITAI_NEEDS_MASK": "마스크 필요",
     "CIVITAI_RESOLVING": "확인 중...",
     "CIVITAI_FAILED": "이 모델을 확인할 수 없습니다. 공급자 제한으로 일부 모델은 확인되지 않습니다.",
     "CIVITAI_HINT": "CivitAI 모델 링크를 붙여넣고 생성 전에 확인하세요.",

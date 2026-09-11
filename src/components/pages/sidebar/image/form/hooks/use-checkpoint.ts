@@ -19,6 +19,7 @@ export function useCheckpoint(form: UseFormReturn<ImageFormValues>) {
     ? {
         air,
         name: airName ?? air,
+        isInpaint: picked?.isInpaint,
         architecture: airArchitecture ?? null,
         heroImage: picked?.heroImage ?? null,
         nsfwLevel: picked?.nsfwLevel ?? null,

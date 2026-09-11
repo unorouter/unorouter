@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "カスタム Civitai チェックポイント",
     "CIVITAI_PLACEHOLDER": "CivitAI の URL または ID（例: 288584）",
     "CIVITAI_RESOLVE": "解決",
+    "CIVITAI_NEEDS_MASK": "マスクが必要",
     "CIVITAI_RESOLVING": "解決中...",
     "CIVITAI_FAILED": "このモデルを解決できませんでした。プロバイダーの制限により解決できないモデルもあります。",
     "CIVITAI_HINT": "CivitAI のモデルリンクを貼り付け、生成前に解決してください。",

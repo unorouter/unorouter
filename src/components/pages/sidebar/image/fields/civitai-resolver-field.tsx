@@ -78,6 +78,11 @@ export function CivitaiResolverField(props: Props) {
                 }
               >
                 <span className="min-w-0 flex-1 truncate">{v.name}</span>
+                {v.isInpaint && (
+                  <span className="shrink-0 rounded bg-amber-500/15 px-1 text-[10px] text-amber-600 dark:text-amber-400">
+                    {t("IMAGE.CIVITAI_NEEDS_MASK")}
+                  </span>
+                )}
                 {v.architecture && (
                   <span className="text-muted-foreground shrink-0 text-[10px] uppercase">
                     {v.architecture}
@@ -92,6 +97,11 @@ export function CivitaiResolverField(props: Props) {
       {!versions && props.value && (
         <div className="border-primary bg-primary/10 text-primary flex items-center gap-2 rounded-md border px-2 py-1.5 text-xs">
           <span className="min-w-0 flex-1 truncate">{props.value.name}</span>
+          {props.value.isInpaint && (
+            <span className="shrink-0 rounded bg-amber-500/15 px-1 text-[10px] text-amber-600 dark:text-amber-400">
+              {t("IMAGE.CIVITAI_NEEDS_MASK")}
+            </span>
+          )}
           {props.value.architecture && (
             <span className="shrink-0 text-[10px] uppercase opacity-70">
               {props.value.architecture}

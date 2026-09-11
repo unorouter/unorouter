@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "Checkpoint Civitai kustom",
     "CIVITAI_PLACEHOLDER": "URL atau ID CivitAI (mis. 288584)",
     "CIVITAI_RESOLVE": "Selesaikan",
+    "CIVITAI_NEEDS_MASK": "perlu mask",
     "CIVITAI_RESOLVING": "Menyelesaikan...",
     "CIVITAI_FAILED": "Model itu tidak dapat diselesaikan. Sebagian model gagal karena batasan penyedia.",
     "CIVITAI_HINT": "Tempel tautan model CivitAI, lalu selesaikan sebelum membuat gambar.",

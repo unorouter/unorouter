@@ -5726,6 +5726,7 @@
     "CIVITAI_TITLE": "自訂 Civitai 模型",
     "CIVITAI_PLACEHOLDER": "CivitAI 連結或 ID（例如：288584）",
     "CIVITAI_RESOLVE": "解析",
+    "CIVITAI_NEEDS_MASK": "需要遮罩",
     "CIVITAI_RESOLVING": "解析中……",
     "CIVITAI_FAILED": "無法解析該模型。受供應商限制，部分模型無法解析。",
     "CIVITAI_HINT": "貼上 CivitAI 模型連結，解析成功後再生成。",
