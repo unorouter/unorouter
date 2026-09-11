@@ -10,6 +10,7 @@ import type { InferInsertModel, InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
+import { msg } from "@/lib/config/constants";
 
 // drizzle's values()/set() overloads only resolve against a CONCRETE table, so a
 // generic TTable cannot reach them. This shim states what the runtime accepts;
@@ -56,6 +57,16 @@ export async function mergeChildRows<TTable extends ScopedTable, T>(
   }
 }
 
+// getLocalDb answers null while the database is unavailable: during an import,
+// and for the hold after a failed open. Returning quietly discarded the row
+// while the caller's mutation still reported success, so an editor closed on
+// work that was never written.
+async function requireLocalDb() {
+  const local = await getLocalDb();
+  if (!local) throw new Error(msg("ERRORS.DB_UNAVAILABLE"));
+  return local;
+}
+
 export function makeTableStore<TTable extends ScopedTable>(
   table: TTable,
   pk: SQLiteColumn,
@@ -88,8 +99,7 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
 
     async upsert(row: StoreRow): Promise<void> {
-      const local = await getLocalDb();
-      if (!local) return;
+      const local = await requireLocalDb();
       await local.db
         .insert(table)
         .values(row as never)
@@ -97,8 +107,7 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
 
     async update(id: StorePkValue, patch: Partial<StoreRow>): Promise<void> {
-      const local = await getLocalDb();
-      if (!local) return;
+      const local = await requireLocalDb();
       await local.db
         .update(table)
         .set(patch as never)
@@ -106,8 +115,7 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
 
     async drop(id: StorePkValue): Promise<void> {
-      const local = await getLocalDb();
-      if (!local) return;
+      const local = await requireLocalDb();
       await local.db.delete(table).where(eq(pk, id));
     },
   };

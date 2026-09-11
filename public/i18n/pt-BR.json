@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Não foi possível baixar este personagem. Tente novamente.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "O autor manteve estes lorebooks privados, portanto não podem ser baixados",
     "UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+    "DB_UNAVAILABLE": "Não foi possível salvar seus dados porque o banco de dados local está ocupado. Tente novamente em instantes.",
     "AUDIO_GENERATION_FAILED": "Falha na geração de áudio",
     "NO_AUDIO_PROMPT": "Nenhum texto fornecido para geração de voz",
     "EMBEDDING_FAILED": "Falha na geração do embedding",

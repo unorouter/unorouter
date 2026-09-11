@@ -102,10 +102,14 @@ async function repairBrokenChain(
       convId,
       repaired: repaired.map((m) => m.id),
     });
-    for (const m of repaired) {
-      const { items: _items, ...row } = m;
-      await upsertLocalMessage({ ...row, convId });
-    }
+    // Opportunistic: the repaired chain is already in `out`, so a write that
+    // cannot land must not take the history render down with it.
+    try {
+      for (const m of repaired) {
+        const { items: _items, ...row } = m;
+        await upsertLocalMessage({ ...row, convId });
+      }
+    } catch {}
   }
   return out;
 }
