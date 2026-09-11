@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Nie udało się pobrać tej postaci. Spróbuj ponownie.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Autor zachował te lorebooki jako prywatne, więc nie można ich pobrać",
     "UNEXPECTED_ERROR": "Wystąpił nieoczekiwany błąd",
+    "DB_UNAVAILABLE": "Nie udało się zapisać danych, ponieważ lokalna baza danych jest zajęta. Spróbuj ponownie za chwilę.",
     "AUDIO_GENERATION_FAILED": "Generowanie dźwięku nie powiodło się",
     "NO_AUDIO_PROMPT": "Nie podano tekstu do generowania mowy",
     "EMBEDDING_FAILED": "Generowanie osadzenia nie powiodło się",

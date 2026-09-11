@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "无法下载该角色，请重试。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者将这些世界书设为私密，因此无法下载",
     "UNEXPECTED_ERROR": "发生意外错误",
+    "DB_UNAVAILABLE": "本地数据库正忙，数据未能保存。请稍后再试。",
     "AUDIO_GENERATION_FAILED": "音频生成失败",
     "NO_AUDIO_PROMPT": "未提供用于语音生成的文本",
     "EMBEDDING_FAILED": "向量生成失败",

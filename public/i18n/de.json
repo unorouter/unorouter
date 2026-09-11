@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Dieser Charakter konnte nicht heruntergeladen werden. Bitte versuche es erneut.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Der Autor hat diese Lorebooks privat gehalten, sie lassen sich daher nicht herunterladen",
     "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten",
+    "DB_UNAVAILABLE": "Deine Daten konnten nicht gespeichert werden, weil die lokale Datenbank gerade belegt ist. Versuche es gleich noch einmal.",
     "AUDIO_GENERATION_FAILED": "Audioerzeugung fehlgeschlagen",
     "NO_AUDIO_PROMPT": "Kein Text für die Spracherzeugung angegeben",
     "EMBEDDING_FAILED": "Embedding-Erzeugung fehlgeschlagen",

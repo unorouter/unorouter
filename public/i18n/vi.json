@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Không thể tải nhân vật này. Vui lòng thử lại.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Tác giả đã để riêng tư các lorebook này, nên không thể tải xuống",
     "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
+    "DB_UNAVAILABLE": "Không thể lưu dữ liệu của bạn vì cơ sở dữ liệu cục bộ đang bận. Hãy thử lại sau giây lát.",
     "AUDIO_GENERATION_FAILED": "Tạo âm thanh thất bại",
     "NO_AUDIO_PROMPT": "Không có văn bản để tạo giọng nói",
     "EMBEDDING_FAILED": "Tạo embedding thất bại",

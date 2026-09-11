@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "이 캐릭터를 내려받지 못했습니다. 다시 시도해 주세요.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "작성자가 이 로어북을 비공개로 두어 다운로드할 수 없습니다",
     "UNEXPECTED_ERROR": "예상치 못한 오류가 발생함",
+    "DB_UNAVAILABLE": "로컬 데이터베이스가 사용 중이어서 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.",
     "AUDIO_GENERATION_FAILED": "오디오 생성에 실패했습니다",
     "NO_AUDIO_PROMPT": "음성 생성을 위한 텍스트가 없습니다",
     "EMBEDDING_FAILED": "임베딩 생성에 실패했습니다",

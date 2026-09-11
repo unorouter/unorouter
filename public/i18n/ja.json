@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "このキャラクターをダウンロードできませんでした。もう一度お試しください。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者がこれらのロアブックを非公開にしているため、ダウンロードできません",
     "UNEXPECTED_ERROR": "予期しないエラーが発生しました",
+    "DB_UNAVAILABLE": "ローカルデータベースが使用中のため保存できませんでした。少し待ってからもう一度お試しください。",
     "AUDIO_GENERATION_FAILED": "音声の生成に失敗しました",
     "NO_AUDIO_PROMPT": "音声生成用のテキストが指定されていません",
     "EMBEDDING_FAILED": "埋め込みの生成に失敗しました",

@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Bu karakter indirilemedi. Lütfen tekrar deneyin.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Yazar bu lorebook'ları gizli tuttu, bu yüzden indirilemiyorlar",
     "UNEXPECTED_ERROR": "Beklenmedik bir hata oluştu",
+    "DB_UNAVAILABLE": "Yerel veritabanı meşgul olduğu için verilerin kaydedilemedi. Birazdan tekrar dene.",
     "AUDIO_GENERATION_FAILED": "Ses oluşturma başarısız oldu",
     "NO_AUDIO_PROMPT": "Konuşma oluşturma için metin verilmedi",
     "EMBEDDING_FAILED": "Gömme oluşturma başarısız oldu",

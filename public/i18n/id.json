@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Tidak dapat mengunduh karakter ini. Silakan coba lagi.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Penulis merahasiakan lorebook ini, jadi tidak dapat diunduh",
     "UNEXPECTED_ERROR": "Terjadi error tak terduga",
+    "DB_UNAVAILABLE": "Data kamu tidak dapat disimpan karena basis data lokal sedang sibuk. Coba lagi sebentar.",
     "AUDIO_GENERATION_FAILED": "Pembuatan audio gagal",
     "NO_AUDIO_PROMPT": "Tidak ada teks untuk pembuatan suara",
     "EMBEDDING_FAILED": "Pembuatan embedding gagal",

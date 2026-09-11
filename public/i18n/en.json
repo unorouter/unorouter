@@ -4170,6 +4170,7 @@
     "CARD_IMPORT_FETCH_FAILED": "Could not download this character. Please try again.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "The author kept these lorebooks private, so they cannot be downloaded",
     "UNEXPECTED_ERROR": "An unexpected error occurred",
+    "DB_UNAVAILABLE": "Your data could not be saved because the local database is busy. Try again in a moment.",
     "AUDIO_GENERATION_FAILED": "Audio generation failed",
     "NO_AUDIO_PROMPT": "No text provided for speech generation",
     "EMBEDDING_FAILED": "Embedding generation failed",
