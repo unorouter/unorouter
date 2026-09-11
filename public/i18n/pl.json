@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Szukaj rozmów...",
     "NO_RESULTS": "Brak pasujących rozmów",
     "NO_CONVERSATIONS": "Brak rozmów",
+    "SELECT": "Zaznacz",
+    "SELECT_ALL": "Zaznacz wszystko",
+    "SELECT_NONE": "Wyczyść",
+    "DELETE_SELECTED": "Usuń ({count})",
+    "DELETE_SELECTED_TITLE": "Usunąć zaznaczone czaty?",
+    "DELETE_SELECTED_DESC": "Zaznaczone czaty i wszystkie ich wiadomości zostaną trwale usunięte. Tej operacji nie można cofnąć.",
     "EMPTY_TITLE": "Rozpocznij rozmowę",
     "EMPTY_DESCRIPTION": "Wybierz model i zacznij czatować, aby przetestować dowolny model AI.",
     "LOADOUT": {

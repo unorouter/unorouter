@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Sohbetleri ara...",
     "NO_RESULTS": "Eşleşen sohbet yok",
     "NO_CONVERSATIONS": "Henüz sohbet yok",
+    "SELECT": "Seç",
+    "SELECT_ALL": "Tümünü seç",
+    "SELECT_NONE": "Temizle",
+    "DELETE_SELECTED": "Sil ({count})",
+    "DELETE_SELECTED_TITLE": "Seçili sohbetler silinsin mi?",
+    "DELETE_SELECTED_DESC": "Seçili sohbetler ve tüm mesajları kalıcı olarak silinir. Bu işlem geri alınamaz.",
     "EMPTY_TITLE": "Sohbet Başlat",
     "EMPTY_DESCRIPTION": "Herhangi bir AI modelini test etmek için bir model seçin ve sohbete başlayın.",
     "LOADOUT": {

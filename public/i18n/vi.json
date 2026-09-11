@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Tìm hội thoại...",
     "NO_RESULTS": "Không có hội thoại nào khớp",
     "NO_CONVERSATIONS": "Chưa có hội thoại nào",
+    "SELECT": "Chọn",
+    "SELECT_ALL": "Chọn tất cả",
+    "SELECT_NONE": "Bỏ chọn",
+    "DELETE_SELECTED": "Xóa ({count})",
+    "DELETE_SELECTED_TITLE": "Xóa các cuộc trò chuyện đã chọn?",
+    "DELETE_SELECTED_DESC": "Các cuộc trò chuyện đã chọn và toàn bộ tin nhắn sẽ bị xóa vĩnh viễn. Không thể hoàn tác.",
     "EMPTY_TITLE": "Bắt đầu một hội thoại",
     "EMPTY_DESCRIPTION": "Chọn mô hình và bắt đầu trò chuyện để thử nghiệm bất kỳ mô hình AI nào.",
     "LOADOUT": {

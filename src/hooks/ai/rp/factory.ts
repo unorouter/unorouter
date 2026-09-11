@@ -5,6 +5,7 @@ import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 type WithId = { id: string };
 
@@ -83,6 +84,7 @@ export function makeRpEntity<
         },
         onSuccess: () => {
           invalidateAndBroadcast(qc, [opts.listKey()]);
+          toast.success(t("COMMON.SAVED"));
         },
         onError: (e) => handleError(e, t),
       });
@@ -106,6 +108,7 @@ export function makeRpEntity<
         },
         onSuccess: (_data, args) => {
           invalidateAndBroadcast(qc, [opts.listKey(), opts.itemKey(args.id)]);
+          toast.success(t("COMMON.SAVED"));
         },
         onError: (e) => handleError(e, t),
       });

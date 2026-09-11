@@ -78,6 +78,7 @@ export function useCreateCardMutation() {
       return card;
     },
     invalidates: [queryKeys.cards()],
+    successKey: "COMMON.SAVED",
   });
 }
 
@@ -115,6 +116,7 @@ export function useUpdateCardMutation() {
       return updatedCard;
     },
     invalidates: (args) => [queryKeys.cards(), queryKeys.card(args.id)],
+    successKey: "COMMON.SAVED",
   });
 }
 

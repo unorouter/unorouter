@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Cari sohbet...",
     "NO_RESULTS": "Tidak ada sohbet cocok",
     "NO_CONVERSATIONS": "Belum ada sohbet",
+    "SELECT": "Pilih",
+    "SELECT_ALL": "Pilih semua",
+    "SELECT_NONE": "Bersihkan",
+    "DELETE_SELECTED": "Hapus ({count})",
+    "DELETE_SELECTED_TITLE": "Hapus obrolan terpilih?",
+    "DELETE_SELECTED_DESC": "Obrolan terpilih dan semua pesannya akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.",
     "EMPTY_TITLE": "Mulai Sohbet",
     "EMPTY_DESCRIPTION": "Pilih model dan mulai chatting untuk menguji model AI apa pun.",
     "LOADOUT": {

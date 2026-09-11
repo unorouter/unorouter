@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Cerca conversazioni...",
     "NO_RESULTS": "Nessuna conversazione corrispondente",
     "NO_CONVERSATIONS": "Ancora nessuna conversazione",
+    "SELECT": "Seleziona",
+    "SELECT_ALL": "Seleziona tutto",
+    "SELECT_NONE": "Annulla",
+    "DELETE_SELECTED": "Elimina ({count})",
+    "DELETE_SELECTED_TITLE": "Eliminare le chat selezionate?",
+    "DELETE_SELECTED_DESC": "Le chat selezionate e tutti i loro messaggi verranno eliminati definitivamente. L'operazione non è reversibile.",
     "EMPTY_TITLE": "Inizia una conversazione",
     "EMPTY_DESCRIPTION": "Seleziona un modello e inizia a chattare per testare qualsiasi modello AI.",
     "LOADOUT": {

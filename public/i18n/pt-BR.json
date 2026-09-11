@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Buscar conversas...",
     "NO_RESULTS": "Sem conversas correspondentes",
     "NO_CONVERSATIONS": "Ainda sem conversas",
+    "SELECT": "Selecionar",
+    "SELECT_ALL": "Selecionar tudo",
+    "SELECT_NONE": "Limpar",
+    "DELETE_SELECTED": "Excluir ({count})",
+    "DELETE_SELECTED_TITLE": "Excluir as conversas selecionadas?",
+    "DELETE_SELECTED_DESC": "As conversas selecionadas e todas as suas mensagens serão excluídas permanentemente. Isso não pode ser desfeito.",
     "EMPTY_TITLE": "Iniciar uma conversa",
     "EMPTY_DESCRIPTION": "Selecione um modelo e comece a conversar para testar qualquer modelo de IA.",
     "LOADOUT": {

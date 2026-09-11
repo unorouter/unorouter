@@ -10,6 +10,8 @@ import {
   type QueryKey,
   type UseQueryOptions,
 } from "@tanstack/react-query";
+import type { TranslationKey } from "@/lib/config/constants";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
 export function useApiMutation<TData, TVariables = void>(opts: {
@@ -17,6 +19,9 @@ export function useApiMutation<TData, TVariables = void>(opts: {
   invalidates?:
     | readonly QueryKey[]
     | ((vars: TVariables, data: TData) => readonly QueryKey[]);
+  // A save that writes to the local database closes nothing and moves nothing,
+  // so without this it is indistinguishable from a button that did not work.
+  successKey?: TranslationKey;
   onSuccess?: (data: TData, vars: TVariables, qc: QueryClient) => void;
 }) {
   const t = useTranslations();
@@ -30,6 +35,7 @@ export function useApiMutation<TData, TVariables = void>(opts: {
           ? opts.invalidates(vars, data)
           : (opts.invalidates ?? []);
       for (const queryKey of keys) qc.invalidateQueries({ queryKey });
+      if (opts.successKey) toast.success(t(opts.successKey));
       opts.onSuccess?.(data, vars, qc);
     },
   });

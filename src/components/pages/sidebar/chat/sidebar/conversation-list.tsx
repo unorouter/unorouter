@@ -23,8 +23,10 @@ import {
   useConversationsInfiniteQuery,
   useCreateChatGroupMutation,
   useDeleteConversationMutation,
+  useDeleteConversationsMutation,
   useToggleChatGroupFoldedMutation,
 } from "@/hooks/ai/chat-hook";
+import { confirm } from "@/components/ui/confirm";
 import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
@@ -40,6 +42,7 @@ export function ConversationList() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string> | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,6 +54,7 @@ export function ConversationList() {
     debouncedSearch || undefined,
   );
   const deleteMutation = useDeleteConversationMutation();
+  const deleteManyMutation = useDeleteConversationsMutation();
   const groupsQuery = useChatGroupsQuery();
   const createGroup = useCreateChatGroupMutation();
   const toggleFolded = useToggleChatGroupFoldedMutation();
@@ -109,6 +113,31 @@ export function ConversationList() {
     if (activeThreadId === id) aui.threads().switchToNewThread();
   };
 
+  const toggleSelected = (id: string) =>
+    setSelectedIds((prev) => {
+      const next = new Set(prev ?? []);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  const handleDeleteSelected = async () => {
+    const ids = [...(selectedIds ?? [])];
+    if (ids.length === 0) return;
+    const ok = await confirm({
+      title: t("CHAT.DELETE_SELECTED_TITLE"),
+      description: t("CHAT.DELETE_SELECTED_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
+    await deleteManyMutation.mutateAsync({ ids });
+    if (activeThreadId && ids.includes(activeThreadId))
+      aui.threads().switchToNewThread();
+    setSelectedIds(null);
+  };
+
   const searchInput = (
     <div className="relative">
       <Icon
@@ -131,6 +160,14 @@ export function ConversationList() {
       isSelected={conv.id === activeThreadId}
       onSelect={() => handleSelect(conv.id)}
       onDelete={() => handleDelete(conv.id)}
+      selection={
+        selectedIds
+          ? {
+              checked: selectedIds.has(conv.id),
+              onToggle: () => toggleSelected(conv.id),
+            }
+          : undefined
+      }
     />
   );
 
@@ -148,18 +185,62 @@ export function ConversationList() {
         </div>
       ) : (
         <>
-          {!debouncedSearch && (
+          <div className="flex items-center justify-between gap-1">
+            {!debouncedSearch ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground h-7 justify-start gap-1.5 px-2 text-xs"
+                onClick={() =>
+                  createGroup.mutate({ name: t("CHAT.GROUPS.GROUP_UNTITLED") })
+                }
+              >
+                <Icon name="plus-circle" className="size-3.5" />
+                {t("CHAT.GROUPS.NEW_GROUP")}
+              </Button>
+            ) : (
+              <span />
+            )}
             <Button
               variant="ghost"
               size="sm"
-              className="text-muted-foreground h-7 justify-start gap-1.5 px-2 text-xs"
-              onClick={() =>
-                createGroup.mutate({ name: t("CHAT.GROUPS.GROUP_UNTITLED") })
-              }
+              className="text-muted-foreground h-7 gap-1.5 px-2 text-xs"
+              onClick={() => setSelectedIds(selectedIds ? null : new Set())}
             >
-              <Icon name="plus-circle" className="size-3.5" />
-              {t("CHAT.GROUPS.NEW_GROUP")}
+              {selectedIds ? t("COMMON.CANCEL") : t("CHAT.SELECT")}
             </Button>
+          </div>
+
+          {selectedIds && (
+            <div className="flex items-center justify-between gap-1 px-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground h-7 px-1 text-xs"
+                onClick={() =>
+                  setSelectedIds(
+                    selectedIds.size === conversations.length
+                      ? new Set()
+                      : new Set(conversations.map((c) => c.id)),
+                  )
+                }
+              >
+                {selectedIds.size === conversations.length
+                  ? t("CHAT.SELECT_NONE")
+                  : t("CHAT.SELECT_ALL")}
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="h-7 px-2 text-xs"
+                disabled={
+                  selectedIds.size === 0 || deleteManyMutation.isPending
+                }
+                onClick={handleDeleteSelected}
+              >
+                {t("CHAT.DELETE_SELECTED", { count: selectedIds.size })}
+              </Button>
+            </div>
           )}
 
           {grouped &&
