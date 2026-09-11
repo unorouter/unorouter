@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "대화 검색...",
     "NO_RESULTS": "일치하는 대화 없음",
     "NO_CONVERSATIONS": "아직 대화가 없음",
+    "SELECT": "선택",
+    "SELECT_ALL": "전체 선택",
+    "SELECT_NONE": "해제",
+    "DELETE_SELECTED": "삭제 ({count})",
+    "DELETE_SELECTED_TITLE": "선택한 채팅을 삭제할까요?",
+    "DELETE_SELECTED_DESC": "선택한 채팅과 모든 메시지가 영구적으로 삭제됩니다. 되돌릴 수 없습니다.",
     "EMPTY_TITLE": "대화 시작",
     "EMPTY_DESCRIPTION": "모델을 선택하고 채팅을 시작하여 AI 모델을 테스트하세요.",
     "LOADOUT": {

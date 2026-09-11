@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",
     "NO_RESULTS": "Keine passenden Unterhaltungen",
     "NO_CONVERSATIONS": "Noch keine Unterhaltungen",
+    "SELECT": "Auswählen",
+    "SELECT_ALL": "Alle auswählen",
+    "SELECT_NONE": "Aufheben",
+    "DELETE_SELECTED": "Löschen ({count})",
+    "DELETE_SELECTED_TITLE": "Ausgewählte Chats löschen?",
+    "DELETE_SELECTED_DESC": "Die ausgewählten Chats und alle ihre Nachrichten werden endgültig gelöscht. Das lässt sich nicht rückgängig machen.",
     "EMPTY_TITLE": "Unterhaltung starten",
     "EMPTY_DESCRIPTION": "Wähle ein Modell aus und teste beliebige KI-Modelle im Chat.",
     "LOADOUT": {

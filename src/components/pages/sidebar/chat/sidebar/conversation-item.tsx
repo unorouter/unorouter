@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
@@ -25,6 +26,7 @@ type ConversationItemProps = {
   isSelected: boolean;
   onSelect: () => void;
   onDelete: () => void;
+  selection?: { checked: boolean; onToggle: () => void };
 };
 
 export function ConversationItem(props: ConversationItemProps) {
@@ -77,8 +79,11 @@ export function ConversationItem(props: ConversationItemProps) {
     <div
       role="button"
       tabIndex={0}
-      onClick={props.onSelect}
-      onKeyDown={(e) => e.key === "Enter" && props.onSelect()}
+      onClick={props.selection ? props.selection.onToggle : props.onSelect}
+      onKeyDown={(e) =>
+        e.key === "Enter" &&
+        (props.selection ? props.selection.onToggle() : props.onSelect())
+      }
       data-active={props.isSelected || undefined}
       className={cn(
         "group/conv flex min-h-12 cursor-pointer items-center gap-2 rounded-lg transition-colors",
@@ -94,6 +99,19 @@ export function ConversationItem(props: ConversationItemProps) {
         />
       ) : (
         <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-start text-sm">
+          {props.selection && (
+            <Checkbox
+              checked={props.selection.checked}
+              onCheckedChange={props.selection.onToggle}
+              // The row itself toggles, so without this the click lands twice
+              // and the box never changes.
+              onClick={(e) => e.stopPropagation()}
+              aria-label={
+                props.conversation.title || t("CHAT.NEW_CONVERSATION")
+              }
+              className="shrink-0"
+            />
+          )}
           {isCustom ? (
             <span
               title={customTooltip}
@@ -130,8 +148,8 @@ export function ConversationItem(props: ConversationItemProps) {
           <div
             className={cn(
               "flex min-w-0 flex-1 flex-col transition-[padding]",
-              (menuOpen || props.isSelected) && "pr-7",
-              "group-hover/conv:pr-7",
+              !props.selection && (menuOpen || props.isSelected) && "pr-7",
+              !props.selection && "group-hover/conv:pr-7",
             )}
           >
             <span
@@ -141,14 +159,16 @@ export function ConversationItem(props: ConversationItemProps) {
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
           </div>
-          <ConversationItemMenu
-            conversationId={props.conversation.id}
-            isSelected={props.isSelected}
-            open={menuOpen}
-            onOpenChange={setMenuOpen}
-            onRename={startEditing}
-            onDelete={props.onDelete}
-          />
+          {!props.selection && (
+            <ConversationItemMenu
+              conversationId={props.conversation.id}
+              isSelected={props.isSelected}
+              open={menuOpen}
+              onOpenChange={setMenuOpen}
+              onRename={startEditing}
+              onDelete={props.onDelete}
+            />
+          )}
         </div>
       )}
     </div>

@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "חיפוש שיחות...",
     "NO_RESULTS": "אין שיחות תואמות",
     "NO_CONVERSATIONS": "אין שיחות עדיין",
+    "SELECT": "בחירה",
+    "SELECT_ALL": "בחירת הכול",
+    "SELECT_NONE": "ניקוי",
+    "DELETE_SELECTED": "מחיקה ({count})",
+    "DELETE_SELECTED_TITLE": "למחוק את השיחות שנבחרו?",
+    "DELETE_SELECTED_DESC": "השיחות שנבחרו וכל ההודעות שלהן יימחקו לצמיתות. לא ניתן לבטל את הפעולה.",
     "EMPTY_TITLE": "התחילו שיחה",
     "EMPTY_DESCRIPTION": "בחרו מודל והתחילו לצ'אט כדי לבדוק כל מודל AI.",
     "LOADOUT": {

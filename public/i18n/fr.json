@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Rechercher des conversations...",
     "NO_RESULTS": "Aucune conversation correspondante",
     "NO_CONVERSATIONS": "Aucune conversation pour le moment",
+    "SELECT": "Sélectionner",
+    "SELECT_ALL": "Tout sélectionner",
+    "SELECT_NONE": "Effacer",
+    "DELETE_SELECTED": "Supprimer ({count})",
+    "DELETE_SELECTED_TITLE": "Supprimer les discussions sélectionnées ?",
+    "DELETE_SELECTED_DESC": "Les discussions sélectionnées et tous leurs messages seront définitivement supprimés. Cette action est irréversible.",
     "EMPTY_TITLE": "Démarrer une conversation",
     "EMPTY_DESCRIPTION": "Sélectionnez un modèle et commencez à discuter pour tester n'importe quel modèle IA.",
     "LOADOUT": {

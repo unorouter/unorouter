@@ -48,6 +48,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 type ConvIdArg = { id: string };
@@ -64,7 +65,7 @@ type EditMessageBody = {
 function useChatMutation<TArgs, TData>(
   fn: (args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
-  onAfter?: (data: TData, args: TArgs) => void,
+  onAfter?: (data: TData, args: TArgs, qc: QueryClient) => void,
 ) {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -73,7 +74,7 @@ function useChatMutation<TArgs, TData>(
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       invalidateAndBroadcast(qc, keysFor(args));
-      onAfter?.(data, args);
+      onAfter?.(data, args, qc);
     },
   });
 }
@@ -223,6 +224,19 @@ export function useUpdateConversationMutation() {
   );
 }
 
+// The list key is a prefix of every search variant, so invalidating it covers
+// them all. The per-conversation keys are not, and would otherwise serve a
+// deleted chat's messages if its id came back.
+function dropConversationCaches(qc: QueryClient, ids: readonly string[]) {
+  for (const id of ids) {
+    qc.removeQueries({ queryKey: queryKeys.chatMeta(id) });
+    qc.removeQueries({ queryKey: queryKeys.chatMessages(id) });
+    qc.removeQueries({ queryKey: queryKeys.chatSettings(id) });
+    qc.removeQueries({ queryKey: queryKeys.chatBindings(id) });
+    qc.removeQueries({ queryKey: queryKeys.requestLogList(id) });
+  }
+}
+
 export function useDeleteConversationMutation() {
   return useChatMutation(
     async (args: ConvIdArg) => {
@@ -230,6 +244,21 @@ export function useDeleteConversationMutation() {
       return { id: args.id };
     },
     () => [queryKeys.conversations()],
+    (data, _args, qc) => dropConversationCaches(qc, [data.id]),
+  );
+}
+
+// Deleting the rows one at a time is the whole job: every child table hangs off
+// conversations with ON DELETE CASCADE and the pragma is on, so a hand written
+// multi table delete would only be a second place to forget one.
+export function useDeleteConversationsMutation() {
+  return useChatMutation(
+    async (args: { ids: readonly string[] }) => {
+      for (const id of args.ids) await deleteLocalConversation(id);
+      return { ids: args.ids };
+    },
+    () => [queryKeys.conversations()],
+    (data, _args, qc) => dropConversationCaches(qc, data.ids),
   );
 }
 

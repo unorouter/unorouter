@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "बातचीत खोजें...",
     "NO_RESULTS": "कोई मेल खाने वाली बातचीत नहीं",
     "NO_CONVERSATIONS": "अभी तक कोई बातचीत नहीं",
+    "SELECT": "चुनें",
+    "SELECT_ALL": "सभी चुनें",
+    "SELECT_NONE": "हटाएँ",
+    "DELETE_SELECTED": "मिटाएँ ({count})",
+    "DELETE_SELECTED_TITLE": "चुनी गई चैट मिटाएँ?",
+    "DELETE_SELECTED_DESC": "चुनी गई चैट और उनके सभी संदेश स्थायी रूप से मिट जाएँगे। इसे पहले जैसा नहीं किया जा सकता।",
     "EMPTY_TITLE": "बातचीत शुरू करें",
     "EMPTY_DESCRIPTION": "एक मॉडल चुनें और किसी भी AI मॉडल का परीक्षण करने के लिए chat करना शुरू करें।",
     "LOADOUT": {

@@ -76,6 +76,7 @@ export function useUpdateLorebookMutation() {
       return updated;
     },
     invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
+    successKey: "COMMON.SAVED",
   });
 }
 
@@ -151,6 +152,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
       return row;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
+    successKey: "COMMON.SAVED",
   });
 }
 
@@ -171,6 +173,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       return updated;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
+    successKey: "COMMON.SAVED",
   });
 }
 

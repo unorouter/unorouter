@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "Search conversations...",
     "NO_RESULTS": "No matching conversations",
     "NO_CONVERSATIONS": "No conversations yet",
+    "SELECT": "Select",
+    "SELECT_ALL": "Select all",
+    "SELECT_NONE": "Clear",
+    "DELETE_SELECTED": "Delete ({count})",
+    "DELETE_SELECTED_TITLE": "Delete selected chats?",
+    "DELETE_SELECTED_DESC": "This permanently deletes the selected chats and all of their messages. It cannot be undone.",
     "EMPTY_TITLE": "Start a Conversation",
     "EMPTY_DESCRIPTION": "Select a model and start chatting to test any AI model.",
     "LOADOUT": {

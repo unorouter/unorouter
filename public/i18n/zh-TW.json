@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "搜尋對話...",
     "NO_RESULTS": "沒有符合的對話",
     "NO_CONVERSATIONS": "尚無對話",
+    "SELECT": "選取",
+    "SELECT_ALL": "全選",
+    "SELECT_NONE": "取消選取",
+    "DELETE_SELECTED": "刪除 ({count})",
+    "DELETE_SELECTED_TITLE": "刪除選取的聊天？",
+    "DELETE_SELECTED_DESC": "選取的聊天及其所有訊息將被永久刪除，且無法復原。",
     "EMPTY_TITLE": "開始一段對話",
     "EMPTY_DESCRIPTION": "選擇模型並開始聊天，就能測試任何 AI 模型。",
     "LOADOUT": {

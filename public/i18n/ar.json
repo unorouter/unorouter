@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "بحث المحادثات...",
     "NO_RESULTS": "لا توجد محادثات مطابقة",
     "NO_CONVERSATIONS": "لا توجد محادثات بعد",
+    "SELECT": "تحديد",
+    "SELECT_ALL": "تحديد الكل",
+    "SELECT_NONE": "مسح",
+    "DELETE_SELECTED": "حذف ({count})",
+    "DELETE_SELECTED_TITLE": "حذف المحادثات المحددة؟",
+    "DELETE_SELECTED_DESC": "سيتم حذف المحادثات المحددة وكل رسائلها نهائيا. لا يمكن التراجع عن هذا الإجراء.",
     "EMPTY_TITLE": "ابدأ محادثة",
     "EMPTY_DESCRIPTION": "اختر نموذجاً وابدأ الدردشة لاختبار أيّ نموذج ذكاء اصطناعي.",
     "LOADOUT": {

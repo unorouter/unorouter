@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "会話を検索...",
     "NO_RESULTS": "一致する会話がありません",
     "NO_CONVERSATIONS": "会話はまだありません",
+    "SELECT": "選択",
+    "SELECT_ALL": "すべて選択",
+    "SELECT_NONE": "解除",
+    "DELETE_SELECTED": "削除 ({count})",
+    "DELETE_SELECTED_TITLE": "選択したチャットを削除しますか？",
+    "DELETE_SELECTED_DESC": "選択したチャットとそのメッセージがすべて完全に削除されます。元に戻すことはできません。",
     "EMPTY_TITLE": "会話を始めましょう",
     "EMPTY_DESCRIPTION": "モデルを選んでチャットを始め、どんな AI モデルでも試せます。",
     "LOADOUT": {

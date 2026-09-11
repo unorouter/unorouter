@@ -3605,6 +3605,12 @@
     "SEARCH_PLACEHOLDER": "搜索对话...",
     "NO_RESULTS": "没有匹配的对话",
     "NO_CONVERSATIONS": "还没有对话",
+    "SELECT": "选择",
+    "SELECT_ALL": "全选",
+    "SELECT_NONE": "取消选择",
+    "DELETE_SELECTED": "删除 ({count})",
+    "DELETE_SELECTED_TITLE": "删除选中的聊天？",
+    "DELETE_SELECTED_DESC": "选中的聊天及其全部消息将被永久删除，且无法恢复。",
     "EMPTY_TITLE": "开始一段对话",
     "EMPTY_DESCRIPTION": "选择一个模型并开始对话，测试任意 AI 模型。",
     "LOADOUT": {
