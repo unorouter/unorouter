@@ -118,52 +118,53 @@ import i114 from "@tabler/icons-react/dist/esm/icons/IconShieldCheck.mjs";
 import i115 from "@tabler/icons-react/dist/esm/icons/IconArrowsShuffle.mjs";
 import i116 from "@tabler/icons-react/dist/esm/icons/IconAdjustmentsHorizontal.mjs";
 import i117 from "@tabler/icons-react/dist/esm/icons/IconSparkles.mjs";
-import i118 from "@tabler/icons-react/dist/esm/icons/IconSun.mjs";
-import i119 from "@tabler/icons-react/dist/esm/icons/IconTag.mjs";
-import i120 from "@tabler/icons-react/dist/esm/icons/IconTerminal2.mjs";
-import i121 from "@tabler/icons-react/dist/esm/icons/IconTicket.mjs";
-import i122 from "@tabler/icons-react/dist/esm/icons/IconTrash.mjs";
-import i123 from "@tabler/icons-react/dist/esm/icons/IconTrophy.mjs";
-import i124 from "@tabler/icons-react/dist/esm/icons/IconTypography.mjs";
-import i125 from "@tabler/icons-react/dist/esm/icons/IconUpload.mjs";
-import i126 from "@tabler/icons-react/dist/esm/icons/IconUser.mjs";
-import i127 from "@tabler/icons-react/dist/esm/icons/IconUserPlus.mjs";
-import i128 from "@tabler/icons-react/dist/esm/icons/IconUsers.mjs";
-import i129 from "@tabler/icons-react/dist/esm/icons/IconVideo.mjs";
-import i130 from "@tabler/icons-react/dist/esm/icons/IconWallet.mjs";
-import i131 from "@tabler/icons-react/dist/esm/icons/IconWand.mjs";
-import i132 from "@tabler/icons-react/dist/esm/icons/IconBolt.mjs";
-import i133 from "@tabler/icons-react/dist/esm/icons/IconGrid3x3.mjs";
-import i134 from "@tabler/icons-react/dist/esm/icons/IconMaximize.mjs";
-import i135 from "@tabler/icons-react/dist/esm/icons/IconAdjustments.mjs";
-import i136 from "@tabler/icons-react/dist/esm/icons/IconTrash.mjs";
-import i137 from "@tabler/icons-react/dist/esm/icons/IconBrandApple.mjs";
-import i138 from "@tabler/icons-react/dist/esm/icons/IconBrandDiscord.mjs";
-import i139 from "@tabler/icons-react/dist/esm/icons/IconBrandGithub.mjs";
-import i140 from "@tabler/icons-react/dist/esm/icons/IconBrandGoogle.mjs";
-import i141 from "@tabler/icons-react/dist/esm/icons/IconBrandUbuntu.mjs";
-import i142 from "@tabler/icons-react/dist/esm/icons/IconBrandWindows.mjs";
-import { TrustpilotIcon as i143 } from "@/components/ui/local-icons";
-import i144 from "@tabler/icons-react/dist/esm/icons/IconBrandX.mjs";
-import i145 from "@tabler/icons-react/dist/esm/icons/IconBrandReddit.mjs";
-import i146 from "@tabler/icons-react/dist/esm/icons/IconBrandYoutube.mjs";
-import i147 from "@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs";
-import i148 from "@tabler/icons-react/dist/esm/icons/IconBrandInstagram.mjs";
-import i149 from "@tabler/icons-react/dist/esm/icons/IconBrandDiscord.mjs";
-import { BroomIcon as i150 } from "@/components/ui/local-icons";
-import { CrabClawIcon as i151 } from "@/components/ui/local-icons";
-import { FoxIcon as i152 } from "@/components/ui/local-icons";
-import i153 from "@tabler/icons-react/dist/esm/icons/IconDots.mjs";
-import i154 from "@tabler/icons-react/dist/esm/icons/IconBrain.mjs";
-import i155 from "@tabler/icons-react/dist/esm/icons/IconWifiOff.mjs";
-import i156 from "@tabler/icons-react/dist/esm/icons/IconCircleX.mjs";
-import i157 from "@tabler/icons-react/dist/esm/icons/IconAlertCircle.mjs";
-import i158 from "@tabler/icons-react/dist/esm/icons/IconFileText.mjs";
-import i159 from "@tabler/icons-react/dist/esm/icons/IconSquare.mjs";
-import i160 from "@tabler/icons-react/dist/esm/icons/IconTool.mjs";
-import i161 from "@tabler/icons-react/dist/esm/icons/IconList.mjs";
-import i162 from "@tabler/icons-react/dist/esm/icons/IconCirclePlus.mjs";
-import i163 from "@tabler/icons-react/dist/esm/icons/IconCreditCard.mjs";
+import i118 from "@tabler/icons-react/dist/esm/icons/IconStar.mjs";
+import i119 from "@tabler/icons-react/dist/esm/icons/IconSun.mjs";
+import i120 from "@tabler/icons-react/dist/esm/icons/IconTag.mjs";
+import i121 from "@tabler/icons-react/dist/esm/icons/IconTerminal2.mjs";
+import i122 from "@tabler/icons-react/dist/esm/icons/IconTicket.mjs";
+import i123 from "@tabler/icons-react/dist/esm/icons/IconTrash.mjs";
+import i124 from "@tabler/icons-react/dist/esm/icons/IconTrophy.mjs";
+import i125 from "@tabler/icons-react/dist/esm/icons/IconTypography.mjs";
+import i126 from "@tabler/icons-react/dist/esm/icons/IconUpload.mjs";
+import i127 from "@tabler/icons-react/dist/esm/icons/IconUser.mjs";
+import i128 from "@tabler/icons-react/dist/esm/icons/IconUserPlus.mjs";
+import i129 from "@tabler/icons-react/dist/esm/icons/IconUsers.mjs";
+import i130 from "@tabler/icons-react/dist/esm/icons/IconVideo.mjs";
+import i131 from "@tabler/icons-react/dist/esm/icons/IconWallet.mjs";
+import i132 from "@tabler/icons-react/dist/esm/icons/IconWand.mjs";
+import i133 from "@tabler/icons-react/dist/esm/icons/IconBolt.mjs";
+import i134 from "@tabler/icons-react/dist/esm/icons/IconGrid3x3.mjs";
+import i135 from "@tabler/icons-react/dist/esm/icons/IconMaximize.mjs";
+import i136 from "@tabler/icons-react/dist/esm/icons/IconAdjustments.mjs";
+import i137 from "@tabler/icons-react/dist/esm/icons/IconTrash.mjs";
+import i138 from "@tabler/icons-react/dist/esm/icons/IconBrandApple.mjs";
+import i139 from "@tabler/icons-react/dist/esm/icons/IconBrandDiscord.mjs";
+import i140 from "@tabler/icons-react/dist/esm/icons/IconBrandGithub.mjs";
+import i141 from "@tabler/icons-react/dist/esm/icons/IconBrandGoogle.mjs";
+import i142 from "@tabler/icons-react/dist/esm/icons/IconBrandUbuntu.mjs";
+import i143 from "@tabler/icons-react/dist/esm/icons/IconBrandWindows.mjs";
+import { TrustpilotIcon as i144 } from "@/components/ui/local-icons";
+import i145 from "@tabler/icons-react/dist/esm/icons/IconBrandX.mjs";
+import i146 from "@tabler/icons-react/dist/esm/icons/IconBrandReddit.mjs";
+import i147 from "@tabler/icons-react/dist/esm/icons/IconBrandYoutube.mjs";
+import i148 from "@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs";
+import i149 from "@tabler/icons-react/dist/esm/icons/IconBrandInstagram.mjs";
+import i150 from "@tabler/icons-react/dist/esm/icons/IconBrandDiscord.mjs";
+import { BroomIcon as i151 } from "@/components/ui/local-icons";
+import { CrabClawIcon as i152 } from "@/components/ui/local-icons";
+import { FoxIcon as i153 } from "@/components/ui/local-icons";
+import i154 from "@tabler/icons-react/dist/esm/icons/IconDots.mjs";
+import i155 from "@tabler/icons-react/dist/esm/icons/IconBrain.mjs";
+import i156 from "@tabler/icons-react/dist/esm/icons/IconWifiOff.mjs";
+import i157 from "@tabler/icons-react/dist/esm/icons/IconCircleX.mjs";
+import i158 from "@tabler/icons-react/dist/esm/icons/IconAlertCircle.mjs";
+import i159 from "@tabler/icons-react/dist/esm/icons/IconFileText.mjs";
+import i160 from "@tabler/icons-react/dist/esm/icons/IconSquare.mjs";
+import i161 from "@tabler/icons-react/dist/esm/icons/IconTool.mjs";
+import i162 from "@tabler/icons-react/dist/esm/icons/IconList.mjs";
+import i163 from "@tabler/icons-react/dist/esm/icons/IconCirclePlus.mjs";
+import i164 from "@tabler/icons-react/dist/esm/icons/IconCreditCard.mjs";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -284,50 +285,51 @@ export const ICONS: Record<string, IconComponent> = {
   shuffle: i115,
   "sliders-horizontal": i116,
   sparkles: i117,
-  sun: i118,
-  tag: i119,
-  terminal: i120,
-  ticket: i121,
-  trash: i122,
-  trophy: i123,
-  type: i124,
-  upload: i125,
-  user: i126,
-  "user-plus": i127,
-  users: i128,
-  video: i129,
-  wallet: i130,
-  wand: i131,
-  zap: i132,
-  "grid-3x3": i133,
-  "maximize-2": i134,
-  "settings-2": i135,
-  "trash-2": i136,
-  "brand-apple": i137,
-  "brand-discord": i138,
-  "brand-github": i139,
-  "brand-google": i140,
-  "brand-linux": i141,
-  "brand-windows": i142,
-  "brand-trustpilot": i143,
-  "brand-x-twitter": i144,
-  "brand-reddit": i145,
-  "brand-youtube": i146,
-  "brand-telegram": i147,
-  "brand-instagram": i148,
-  "brand-discord-si": i149,
-  broom: i150,
-  "crab-claw": i151,
-  fox: i152,
-  "dots-horizontal": i153,
-  brain: i154,
-  "wifi-off": i155,
-  "x-circle": i156,
-  "alert-circle": i157,
-  "file-text": i158,
-  square: i159,
-  wrench: i160,
-  list: i161,
-  "plus-circle": i162,
-  "credit-card": i163,
+  star: i118,
+  sun: i119,
+  tag: i120,
+  terminal: i121,
+  ticket: i122,
+  trash: i123,
+  trophy: i124,
+  type: i125,
+  upload: i126,
+  user: i127,
+  "user-plus": i128,
+  users: i129,
+  video: i130,
+  wallet: i131,
+  wand: i132,
+  zap: i133,
+  "grid-3x3": i134,
+  "maximize-2": i135,
+  "settings-2": i136,
+  "trash-2": i137,
+  "brand-apple": i138,
+  "brand-discord": i139,
+  "brand-github": i140,
+  "brand-google": i141,
+  "brand-linux": i142,
+  "brand-windows": i143,
+  "brand-trustpilot": i144,
+  "brand-x-twitter": i145,
+  "brand-reddit": i146,
+  "brand-youtube": i147,
+  "brand-telegram": i148,
+  "brand-instagram": i149,
+  "brand-discord-si": i150,
+  broom: i151,
+  "crab-claw": i152,
+  fox: i153,
+  "dots-horizontal": i154,
+  brain: i155,
+  "wifi-off": i156,
+  "x-circle": i157,
+  "alert-circle": i158,
+  "file-text": i159,
+  square: i160,
+  wrench: i161,
+  list: i162,
+  "plus-circle": i163,
+  "credit-card": i164,
 };

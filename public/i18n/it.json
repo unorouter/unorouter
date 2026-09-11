@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "creato {when}",
     "LIST_EDITED": "modificato {when}",
     "COPY_SUFFIX": "copia",
+    "FAVORITE": "Aggiungi ai preferiti",
+    "UNFAVORITE": "Rimuovi dai preferiti",
     "LOREBOOK_ENTRY_NEW": "Nuova voce",
     "LOREBOOK_ENTRY_COMMENT": "Nome",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Etichetta facoltativa per questa voce",

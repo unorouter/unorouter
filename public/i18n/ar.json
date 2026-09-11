@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "أُنشئ {when}",
     "LIST_EDITED": "عُدّل {when}",
     "COPY_SUFFIX": "نسخة",
+    "FAVORITE": "إضافة إلى المفضلة",
+    "UNFAVORITE": "إزالة من المفضلة",
     "LOREBOOK_ENTRY_NEW": "مدخل جديد",
     "LOREBOOK_ENTRY_COMMENT": "الاسم",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "تسمية اختيارية لهذا المُدخل",

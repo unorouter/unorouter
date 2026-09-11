@@ -70,7 +70,8 @@ export function makeTableStore<TTable extends ScopedTable>(
       let query = local.db.select().from(table).$dynamic();
       const orderBy = config.defaultOrderBy;
       if (orderBy) {
-        query = query.orderBy(orderBy);
+        const cols = Array.isArray(orderBy) ? orderBy : [orderBy];
+        if (cols.length > 0) query = query.orderBy(...cols);
       }
       return await query;
     },

@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "oluşturuldu {when}",
     "LIST_EDITED": "düzenlendi {when}",
     "COPY_SUFFIX": "kopya",
+    "FAVORITE": "Favorilere ekle",
+    "UNFAVORITE": "Favorilerden çıkar",
     "LOREBOOK_ENTRY_NEW": "Yeni girdi",
     "LOREBOOK_ENTRY_COMMENT": "Ad",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Bu giriş için isteğe bağlı etiket",

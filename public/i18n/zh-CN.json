@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "创建于 {when}",
     "LIST_EDITED": "编辑于 {when}",
     "COPY_SUFFIX": "副本",
+    "FAVORITE": "添加到收藏",
+    "UNFAVORITE": "从收藏中移除",
     "LOREBOOK_ENTRY_NEW": "新建条目",
     "LOREBOOK_ENTRY_COMMENT": "名称",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "此条目的可选标签",

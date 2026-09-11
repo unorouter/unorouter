@@ -1824,6 +1824,21 @@ export const ICON_MAP: Record<string, IconEntry> = {
     iconoir: () =>
       import("iconoir-react/regular").then((m) => ({ default: m.Sparks })),
   },
+  star: {
+    lucide: () => import("lucide-react/dist/esm/icons/star.mjs"),
+    tabler: () => import("@tabler/icons-react/dist/esm/icons/IconStar.mjs"),
+    phosphor: () =>
+      import("@phosphor-icons/react/dist/ssr/Star").then((m) => ({
+        default: m.Star,
+      })),
+    heroicons: () => import("@heroicons/react/24/outline/StarIcon"),
+    remix: () =>
+      import("@remixicon/react").then((m) => ({
+        default: m.RiStarLine,
+      })),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Star })),
+  },
   sun: {
     lucide: () => import("lucide-react/dist/esm/icons/sun.mjs"),
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSun.mjs"),

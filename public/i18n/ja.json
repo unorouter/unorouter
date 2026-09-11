@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "作成：{when}",
     "LIST_EDITED": "編集：{when}",
     "COPY_SUFFIX": "コピー",
+    "FAVORITE": "お気に入りに追加",
+    "UNFAVORITE": "お気に入りから削除",
     "LOREBOOK_ENTRY_NEW": "新しいエントリ",
     "LOREBOOK_ENTRY_COMMENT": "名前",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "このエントリーの任意のラベル",

@@ -23,19 +23,22 @@ import { LOREBOOK_INJECTION_ROLES } from "@/lib/validation/rp";
 const isInjectionRole = isOneOf(LOREBOOK_INJECTION_ROLES);
 
 const characterStore = makeTableStore(characters, characters.id, {
-  defaultOrderBy: desc(characters.updatedAt),
+  defaultOrderBy: [desc(characters.isFavorite), desc(characters.updatedAt)],
 });
 const personaStore = makeTableStore(personas, personas.id, {
-  defaultOrderBy: desc(personas.updatedAt),
+  defaultOrderBy: [desc(personas.isFavorite), desc(personas.updatedAt)],
 });
 const lorebookStore = makeTableStore(lorebooks, lorebooks.id, {
-  defaultOrderBy: desc(lorebooks.updatedAt),
+  defaultOrderBy: [desc(lorebooks.isFavorite), desc(lorebooks.updatedAt)],
 });
 const presetStore = makeTableStore(samplingPresets, samplingPresets.id, {
-  defaultOrderBy: desc(samplingPresets.updatedAt),
+  defaultOrderBy: [
+    desc(samplingPresets.isFavorite),
+    desc(samplingPresets.updatedAt),
+  ],
 });
 const cardStore = makeTableStore(cards, cards.id, {
-  defaultOrderBy: desc(cards.updatedAt),
+  defaultOrderBy: [desc(cards.isFavorite), desc(cards.updatedAt)],
 });
 
 const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id, {
@@ -132,6 +135,22 @@ export const upsertLocalPreset = (row: LocalRowInput & { id: string }) =>
 export const deleteLocalPreset = (id: string) => presetStore.drop(id);
 
 export const deleteLocalCard = (id: string) => cardStore.drop(id);
+
+const favoriteStores = {
+  character: characterStore,
+  persona: personaStore,
+  lorebook: lorebookStore,
+  preset: presetStore,
+  card: cardStore,
+};
+
+export type RpFavoriteKind = keyof typeof favoriteStores;
+
+export const setLocalFavorite = (
+  kind: RpFavoriteKind,
+  id: string,
+  isFavorite: boolean,
+) => favoriteStores[kind].update(id, { isFavorite });
 
 export const upsertLocalLorebookEntry = (
   row: LocalRowInput & { id: string; lorebookId: string },

@@ -31,6 +31,10 @@
     {
       "tag": "0007_majestic_franklin_storm",
       "sql": "ALTER TABLE `media` ADD `focal_x` integer;--> statement-breakpoint\nALTER TABLE `media` ADD `focal_y` integer;"
+    },
+    {
+      "tag": "0008_faithful_wendigo",
+      "sql": "ALTER TABLE `cards` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `characters` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `lorebooks` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `personas` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `is_favorite` integer DEFAULT false NOT NULL;"
     }
   ]
 }

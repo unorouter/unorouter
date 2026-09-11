@@ -57,6 +57,13 @@
       "when": 1788480459965,
       "tag": "0007_majestic_franklin_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1789152422927,
+      "tag": "0008_faithful_wendigo",
+      "breakpoints": true
     }
   ]
 }

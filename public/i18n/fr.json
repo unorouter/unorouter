@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "créé {when}",
     "LIST_EDITED": "modifié {when}",
     "COPY_SUFFIX": "copie",
+    "FAVORITE": "Ajouter aux favoris",
+    "UNFAVORITE": "Retirer des favoris",
     "LOREBOOK_ENTRY_NEW": "Nouvelle entrée",
     "LOREBOOK_ENTRY_COMMENT": "Nom",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Libellé facultatif pour cette entrée",

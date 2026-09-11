@@ -33,6 +33,7 @@ import {
   RP_ACTION_BUTTON,
   RpImportControl,
 } from "../shared/rp-list-parts";
+import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { LorebookEditor } from "./editor";
 
 type Props = {
@@ -50,6 +51,7 @@ export function LorebookList(props: Props) {
   const importMut = useImportLorebookMutation();
   const importUrlMut = useImportLorebookFromUrlMutation();
   const exportMut = useRpExportMutation();
+  const favoriteMut = useToggleFavoriteMutation("lorebook");
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
 
@@ -176,6 +178,14 @@ export function LorebookList(props: Props) {
                     createdAt={l.createdAt}
                     updatedAt={l.updatedAt}
                     key={l.id}
+                    favorite={{
+                      on: l.isFavorite,
+                      onToggle: () =>
+                        favoriteMut.mutate({
+                          id: l.id,
+                          isFavorite: !l.isFavorite,
+                        }),
+                    }}
                     onOpen={() => {
                       analytics.rp.entityAction({
                         entity: "lorebooks",

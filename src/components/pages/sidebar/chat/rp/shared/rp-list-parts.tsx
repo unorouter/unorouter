@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { analytics } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
 import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { EntityEditId } from "@/lib/types";
@@ -128,6 +129,7 @@ export function RpEntityRow(props: {
   leading?: ReactNode;
   actions?: ReactNode;
   actionsClassName?: string;
+  favorite?: { on: boolean; onToggle: () => void };
   createdAt?: Date | string | number | null;
   updatedAt?: Date | string | number | null;
   onDuplicate?: () => void | Promise<void>;
@@ -152,6 +154,25 @@ export function RpEntityRow(props: {
         )}
         <RpEntityDates created={props.createdAt} updated={props.updatedAt} />
       </div>
+      {props.favorite && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t(props.favorite.on ? "RP.UNFAVORITE" : "RP.FAVORITE")}
+          onClick={(e) => {
+            e.stopPropagation();
+            props.favorite!.onToggle();
+          }}
+        >
+          <Icon
+            name="star"
+            className={cn(
+              "size-4",
+              props.favorite.on && "fill-current text-amber-500",
+            )}
+          />
+        </Button>
+      )}
       {props.actions}
       {props.onDuplicate && (
         <Button

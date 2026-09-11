@@ -3968,6 +3968,8 @@
     "LIST_CREATED": "đã tạo {when}",
     "LIST_EDITED": "đã sửa {when}",
     "COPY_SUFFIX": "bản sao",
+    "FAVORITE": "Thêm vào yêu thích",
+    "UNFAVORITE": "Xóa khỏi yêu thích",
     "LOREBOOK_ENTRY_NEW": "Mục mới",
     "LOREBOOK_ENTRY_COMMENT": "Tên",
     "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Nhãn tùy chọn cho mục này",

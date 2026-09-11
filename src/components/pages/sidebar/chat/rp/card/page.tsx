@@ -31,6 +31,7 @@ import {
   rpFilter,
   RpImportControl,
 } from "../shared/rp-list-parts";
+import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { CardForm } from "./form";
 
 function useCardSummary() {
@@ -68,6 +69,7 @@ export function CardsPage() {
   const deleteMut = useDeleteCardMutation();
   const applyMut = useApplyCardMutation();
   const exportMut = useRpExportMutation();
+  const favoriteMut = useToggleFavoriteMutation("card");
   const importMut = useImportCardFromFileMutation();
   const activeConvId = useAuiState((s) => s.threadListItem?.remoteId);
   const [editingId, setEditingId] = useState<EntityEditId>(null);
@@ -149,6 +151,11 @@ export function CardsPage() {
                 createdAt={c.createdAt}
                 updatedAt={c.updatedAt}
                 key={c.id}
+                favorite={{
+                  on: c.isFavorite,
+                  onToggle: () =>
+                    favoriteMut.mutate({ id: c.id, isFavorite: !c.isFavorite }),
+                }}
                 onOpen={() => setEditingId(c.id)}
                 name={c.name}
                 description={cardSummary(c) || c.description}
