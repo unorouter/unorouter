@@ -16,6 +16,7 @@ import {
   loginChecker,
   loginSchema,
   type LoginSchema,
+  type VerificationMethod,
 } from "@/lib/validation/auth";
 import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -40,6 +41,10 @@ export function LoginForm() {
 
   const [show2FA, setShow2FA] = useState(false);
   const [twoFAFlowToken, setTwoFAFlowToken] = useState<string | undefined>();
+  const [challengeMethods, setChallengeMethods] = useState<
+    VerificationMethod[] | undefined
+  >();
+  const [formError, setFormError] = useState<string | undefined>();
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
 
@@ -54,6 +59,7 @@ export function LoginForm() {
   }
 
   async function onSubmit(data: LoginSchema) {
+    setFormError(undefined);
     try {
       const result = await loginMutation.mutateAsync({
         body: {
@@ -62,15 +68,32 @@ export function LoginForm() {
           turnstile: turnstileToken,
         },
       });
-      if (result && "require_2fa" in result && result.require_2fa) {
-        logChatDebug("auth.2fa_required", {
+      if (
+        result &&
+        "require_verification" in result &&
+        result.require_verification
+      ) {
+        logChatDebug("auth.verification_required", {
           hasFlowToken:
             "flow_token" in result && typeof result.flow_token === "string",
         });
         if ("flow_token" in result && typeof result.flow_token === "string") {
           setTwoFAFlowToken(result.flow_token);
         }
+        if ("methods" in result && Array.isArray(result.methods)) {
+          setChallengeMethods(result.methods);
+        }
         setShow2FA(true);
+        return;
+      }
+
+      // No session and no challenge means the response contract moved under us.
+      // Navigating here is what turned the require_2fa rename into a silent
+      // bounce: the redirect cookie gets eaten and the auth gate sends the user
+      // straight back with nothing on screen.
+      if (!result || !("access_token" in result) || !result.access_token) {
+        logChatDebug("auth.login_no_session", {});
+        setFormError(t("ERRORS.UNEXPECTED_ERROR"));
         return;
       }
 
@@ -90,6 +113,7 @@ export function LoginForm() {
     return (
       <TwoFAForm
         flowToken={twoFAFlowToken}
+        methods={challengeMethods}
         onSuccess={() => {
           const to = getRedirectPath();
           logChatDebug("auth.login_done", { via: "2fa", to: String(to) });
@@ -167,9 +191,9 @@ export function LoginForm() {
                   </div>
                 )}
 
-              {loginMutation.error && (
+              {(formError || loginMutation.error) && (
                 <p className="text-destructive text-center text-xs font-medium">
-                  {loginMutation.error.message}
+                  {formError ?? loginMutation.error?.message}
                 </p>
               )}
 

@@ -62,7 +62,9 @@ export const authRequestInfoChecker = TypeCompiler.Compile(
 );
 export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;
 
-// access_expires_at is unix SECONDS.
+// access_expires_at and expires_at are unix SECONDS.
+// A challenge carries require_verification + flow_token + methods and NO
+// access_token, so it must be branched on before the session-cookie write.
 // data must admit null: gin marshals the error envelope as {"success":false,
 // "message":"...","data":null}, and an Optional-only field rejects that body,
 // which made handleAuthResponse return undefined and a wrong password "log in".
@@ -83,8 +85,21 @@ export const authResponseSchema = t.Object(
                 { additionalProperties: true },
               ),
             ),
-            require_2fa: t.Optional(t.Boolean()),
+            require_verification: t.Optional(t.Boolean()),
             flow_token: t.Optional(t.String()),
+            expires_at: t.Optional(t.Number()),
+            methods: t.Optional(
+              t.Array(
+                t.Object(
+                  {
+                    method: t.String(),
+                    available: t.Boolean(),
+                    reason: t.Optional(t.String()),
+                  },
+                  { additionalProperties: true },
+                ),
+              ),
+            ),
           },
           { additionalProperties: true },
         ),
@@ -95,3 +110,13 @@ export const authResponseSchema = t.Object(
 );
 export const authResponseChecker = TypeCompiler.Compile(authResponseSchema);
 export type AuthResponseData = Static<typeof authResponseSchema>;
+
+// Upstream offers "2fa" and "passkey" for the login scope. Only "2fa" is
+// implemented here; a passkey is refused by policy while passkey.enabled is off,
+// so it never reaches a client as an available method.
+export type VerificationMethod = {
+  method: string;
+  available: boolean;
+  reason?: string;
+};
+export const VERIFICATION_METHOD_TWOFA = "2fa";
