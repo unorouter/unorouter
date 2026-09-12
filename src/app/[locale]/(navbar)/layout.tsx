@@ -20,7 +20,12 @@ export default async function NavbarLayout(props: Props) {
           {props.children}
         </ContentBoundary>
       </main>
-      <Footer />
+      {/* The footer paints bg-muted/30, and the theme's tint rule matches the
+          bare .bg-muted class, not the /30 opacity variant, so it never gets a
+          surface of its own and the wallpaper runs through it. */}
+      <div className="bg-background">
+        <Footer />
+      </div>
     </>
   );
 }
