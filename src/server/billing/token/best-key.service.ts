@@ -26,6 +26,12 @@ export async function assertGuestFreeModel(userId: number, model?: string) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
 }
 
+function isGuestToken(maskedKey: string | undefined): boolean {
+  const prefix = (maskedKey ?? "").replace(/\*+$/, "");
+  if (prefix.length < 4 || !serverEnv.guestApiKey) return false;
+  return serverEnv.guestApiKey.startsWith(`sk-${prefix}`);
+}
+
 export async function resolveBestKey(
   headers: Record<string, string>,
 ): Promise<string | null> {
@@ -35,7 +41,11 @@ export async function resolveBestKey(
 
   // Group-pinned tokens are NEVER eligible: when that group's channel churns
   // away every request dies with get_channel_failed, writing no usage rows.
-  const enabled = tokens.filter((tok) => tok && tok.status === 1);
+  // The guest key is a token on the admin account: picked here it would put
+  // that account on free models only. The list masks keys to a prefix.
+  const enabled = tokens.filter(
+    (tok) => tok && tok.status === 1 && !isGuestToken(tok.key),
+  );
   const unpinned = (group?: string | null) =>
     !group || group === "auto" || group === "default";
   const best =
