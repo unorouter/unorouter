@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Informações da API",
       "NO_API_INFO": "Sem informações da API",
-      "BURN_RATE": "Ritmo de gasto",
-      "RUNWAY": "Autonomia",
-      "PER_DAY": "{amount}/dia",
-      "DAYS_LEFT": "{days} dias",
       "PERFORMANCE": "Desempenho",
       "API_KEYS": "Gasto por chave de API",
       "UNNAMED_KEY": "Chave sem nome",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Histórico de assinaturas"
     },
     "BALANCE": {
-      "RUNWAY": "~{days} dias restantes a {rate}/dia",
       "LOW": "Saldo baixo, recarregue para manter as requisições ativas"
     },
     "SECTIONS": {

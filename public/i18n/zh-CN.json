@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API 信息",
       "NO_API_INFO": "暂无 API 信息",
-      "BURN_RATE": "消耗速度",
-      "RUNWAY": "可用天数",
-      "PER_DAY": "{amount}/天",
-      "DAYS_LEFT": "{days} 天",
       "PERFORMANCE": "性能",
       "API_KEYS": "API 密钥消费",
       "UNNAMED_KEY": "未命名密钥",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "订阅记录"
     },
     "BALANCE": {
-      "RUNWAY": "按每天 {rate} 计算，约剩 {days} 天",
       "LOW": "余额不足，请充值以保持请求正常运行"
     },
     "SECTIONS": {

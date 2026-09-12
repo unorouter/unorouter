@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Informacje API",
       "NO_API_INFO": "Brak informacji API",
-      "BURN_RATE": "Tempo wydatków",
-      "RUNWAY": "Zapas środków",
-      "PER_DAY": "{amount}/dzień",
-      "DAYS_LEFT": "{days} dni",
       "PERFORMANCE": "Wydajność",
       "API_KEYS": "Wydatki wg klucza API",
       "UNNAMED_KEY": "Klucz bez nazwy",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Historia subskrypcji"
     },
     "BALANCE": {
-      "RUNWAY": "~{days} dni przy zużyciu {rate}/dzień",
       "LOW": "Niskie saldo, doładuj, aby zapytania działały dalej"
     },
     "SECTIONS": {

@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API 정보",
       "NO_API_INFO": "API 정보가 없습니다",
-      "BURN_RATE": "소진 속도",
-      "RUNWAY": "남은 기간",
-      "PER_DAY": "{amount}/일",
-      "DAYS_LEFT": "{days}일",
       "PERFORMANCE": "성능",
       "API_KEYS": "API 키별 지출",
       "UNNAMED_KEY": "이름 없는 키",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "구독 내역"
     },
     "BALANCE": {
-      "RUNWAY": "하루 {rate} 기준 약 {days}일 남음",
       "LOW": "잔액이 부족합니다. 요청을 계속하려면 충전하세요"
     },
     "SECTIONS": {

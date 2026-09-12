@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Информация об API",
       "NO_API_INFO": "Нет информации об API",
-      "BURN_RATE": "Скорость расхода",
-      "RUNWAY": "Хватит на",
-      "PER_DAY": "{amount}/день",
-      "DAYS_LEFT": "{days} дн.",
       "PERFORMANCE": "Производительность",
       "API_KEYS": "Расходы по API-ключам",
       "UNNAMED_KEY": "Ключ без названия",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "История подписок"
     },
     "BALANCE": {
-      "RUNWAY": "осталось ~{days} дн. при расходе {rate}/день",
       "LOW": "Низкий баланс, пополните, чтобы запросы не прерывались"
     },
     "SECTIONS": {

@@ -12,8 +12,8 @@ export default async function BillingPage() {
 
   await Promise.all([
     prefetchAuth(queryClient),
-    // The days-left estimate reads the same day-aligned 7-day quota window the
-    // dashboard prefetches; without this the tile fetches client-side.
+    // The low-balance color reads the same day-aligned 7-day quota window the
+    // dashboard prefetches; without this it fetches client-side.
     prefetchElysia(queryClient, queryKeys.dashboardQuota(burn), (cookies) =>
       rpc.api.billing.dashboard.quota.get({ ...cookies, query: burn }),
     ),

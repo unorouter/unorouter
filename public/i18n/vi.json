@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Thông tin API",
       "NO_API_INFO": "Không có thông tin API",
-      "BURN_RATE": "Tốc độ chi tiêu",
-      "RUNWAY": "Thời gian còn lại",
-      "PER_DAY": "{amount}/ngày",
-      "DAYS_LEFT": "{days} ngày",
       "PERFORMANCE": "Hiệu năng",
       "API_KEYS": "Chi tiêu theo khóa API",
       "UNNAMED_KEY": "Khóa chưa đặt tên",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Lịch sử đăng ký"
     },
     "BALANCE": {
-      "RUNWAY": "còn ~{days} ngày với {rate}/ngày",
       "LOW": "Số dư thấp, hãy nạp thêm để duy trì yêu cầu"
     },
     "SECTIONS": {

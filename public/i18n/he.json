@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "מידע API",
       "NO_API_INFO": "אין מידע API",
-      "BURN_RATE": "קצב הוצאה",
-      "RUNWAY": "זמן שנותר",
-      "PER_DAY": "{amount}/יום",
-      "DAYS_LEFT": "{days} ימים",
       "PERFORMANCE": "ביצועים",
       "API_KEYS": "הוצאות לפי מפתח API",
       "UNNAMED_KEY": "מפתח ללא שם",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "היסטוריית מנויים"
     },
     "BALANCE": {
-      "RUNWAY": "נותרו כ-{days} ימים בקצב של {rate} ליום",
       "LOW": "היתרה נמוכה, טען כדי שהבקשות ימשיכו לפעול"
     },
     "SECTIONS": {
