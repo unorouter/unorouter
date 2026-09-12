@@ -185,8 +185,9 @@ export function buildWritebacks(
 
 // Request logs are per-message and grow quadratically with thread length; an
 // inline `data:` URI (3-4MB parts measured) drives the DB past 500MB, where it
-// can no longer be exported or imported on a phone.
-const MAX_LOGGED_TEXT = 20_000;
+// can no longer be exported or imported on a phone. Text is kept whole: the
+// log is the only way to see what went upstream, and retention already empties
+// all but the newest payloads per conversation.
 const DATA_URI_IN_TEXT = /data:[\w.+-]+\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g;
 
 function leanParts(parts: unknown): unknown {
@@ -207,9 +208,6 @@ function leanParts(parts: unknown): unknown {
           DATA_URI_IN_TEXT,
           (m) => `${m.slice(0, m.indexOf(",") + 1)}<${m.length} bytes elided>`,
         );
-      } else if (v.length > MAX_LOGGED_TEXT) {
-        out[key] =
-          `${v.slice(0, MAX_LOGGED_TEXT)}<truncated ${v.length - MAX_LOGGED_TEXT} chars>`;
       }
     }
     return out;
@@ -304,11 +302,7 @@ export function buildDebugSnapshot(
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    assembledSystem: effectiveSystem
-      ? effectiveSystem.length > MAX_LOGGED_TEXT
-        ? `${effectiveSystem.slice(0, MAX_LOGGED_TEXT)}<truncated ${effectiveSystem.length - MAX_LOGGED_TEXT} chars>`
-        : effectiveSystem
-      : null,
+    assembledSystem: effectiveSystem || null,
     finalMessages: leanMessages,
     endpoint: target?.endpoint ?? null,
     url: target?.url ?? null,
