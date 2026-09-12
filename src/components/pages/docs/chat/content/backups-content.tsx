@@ -40,6 +40,7 @@ export async function BackupsContent() {
         />
         <p>{k("P_RESTORE_1")}</p>
         <p>{k("P_RESTORE_2")}</p>
+        <p>{k("P_TRANSFER")}</p>
       </DocSection>
 
       <DocSection id="size" title={k("H_SIZE")}>

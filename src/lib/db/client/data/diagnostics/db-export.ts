@@ -110,7 +110,7 @@ export async function downloadLocalDb(
 // main thread, streamed it into a second worker, and read it back out again:
 // four full copies plus a second WASM heap, which on an iPhone was the memory
 // pressure that later killed tabs (#33076). The live database is never mutated.
-async function buildExportFile(
+export async function buildExportFile(
   opts: Required<DbExportOptions>,
 ): Promise<{ file: File; lazy: boolean; cleanup: () => Promise<void> }> {
   const local = await getLocalDb();
