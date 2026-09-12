@@ -86,7 +86,7 @@ export function ModelsPage() {
               so the column labels stay flush below the tab row. h pinned: a
               transient hydration reflow inside the tab strip briefly grew this
               row 24px and shifted everything below (CLS). */}
-          <div className="bg-background sticky top-14 z-20 flex h-9.75 items-center gap-2 overflow-hidden">
+          <div className="scroll-surface sticky top-14 z-20 flex h-9.75 items-center gap-2 overflow-hidden">
             <SidebarTrigger
               aria-label={t("MODELS.FILTER.TITLE")}
               className="size-8 shrink-0 border"
