@@ -1,5 +1,6 @@
 import { jotaiCookieStorage, storeFieldAtom } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
+import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
@@ -104,6 +105,11 @@ export const chatGroupAtom = atom(
 );
 
 export const activeConvOverridesAtom = atom<StreamOverrides | null>(null);
+
+export type DbTransferRequest =
+  | { mode: "send"; opts: Required<DbExportOptions> }
+  | { mode: "receive"; code?: string };
+export const dbTransferAtom = atom<DbTransferRequest | null>(null);
 
 export const globalVarsAtom = atomWithStorage<string>(
   "rp-global-vars",

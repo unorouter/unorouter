@@ -198,6 +198,15 @@ const chat = {
   memoryFolded: () => {
     posthog.capture("chat_memory_folded");
   },
+  dbTransferSent: (props: { host: string; bytes: number }) => {
+    posthog.capture("chat_db_transfer_sent", props);
+  },
+  dbTransferReceived: (props: { host: string }) => {
+    posthog.capture("chat_db_transfer_received", props);
+  },
+  dbTransferFailed: (props: { stage: string; host?: string }) => {
+    posthog.capture("chat_db_transfer_failed", props);
+  },
 };
 
 const billing = {

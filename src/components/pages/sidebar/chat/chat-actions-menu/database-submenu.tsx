@@ -15,12 +15,15 @@ import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
+import { dbTransferAtom } from "@/store/chat-store";
+import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export function DatabaseSubmenu() {
   const t = useTranslations();
+  const setTransfer = useSetAtom(dbTransferAtom);
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
@@ -55,17 +58,9 @@ export function DatabaseSubmenu() {
     });
     if (!ok) return;
     try {
-      const buffer = await file.arrayBuffer();
-      const { getLocalDb, suspendLocalDb, resumeLocalDb } =
-        await import("@/lib/db/client/client");
-      const local = await getLocalDb();
-      // Suspend BEFORE destroy: a query hook racing the close would otherwise
-      // reopen live and hold the write lock the import needs to graft from it.
-      suspendLocalDb();
-      if (local) await local.destroy();
-      const { reconcileImport } =
-        await import("@/lib/db/client/data-migrate/reconcile-import");
-      const res = await reconcileImport(buffer).finally(resumeLocalDb);
+      const { importDatabaseBuffer } =
+        await import("@/lib/db/client/transfer/transfer");
+      const res = await importDatabaseBuffer(await file.arrayBuffer());
       toast.success(
         t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
           imported: res.imported,
@@ -75,16 +70,11 @@ export function DatabaseSubmenu() {
       );
       setTimeout(() => location.reload(), 1200);
     } catch (err) {
-      logChatDebug("opfs.import.error", { error: String(err).slice(0, 200) });
       logger.error("DB reconcile-import failed", {
         context: "local-db.menu",
         error: String(err),
       });
       toast.error(String(err));
-      const { resetLocalDbCache, resumeLocalDb } =
-        await import("@/lib/db/client/client");
-      resumeLocalDb();
-      resetLocalDbCache();
     }
   };
 
@@ -180,6 +170,15 @@ export function DatabaseSubmenu() {
           <DropdownMenuItem onClick={pickFile}>
             <Icon name="upload" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setTransfer({ mode: "send", opts })}>
+            <Icon name="send" className="size-4" />
+            {t("CHAT.MORE.LOCAL_DB_SEND")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTransfer({ mode: "receive" })}>
+            <Icon name="download" className="size-4" />
+            {t("CHAT.MORE.LOCAL_DB_RECEIVE")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onClick={wipe}>
