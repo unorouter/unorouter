@@ -326,6 +326,19 @@ export const upsertLocalConversation = (row: LocalRowInput & { id: string }) =>
 export const deleteLocalConversation = (id: string) =>
   conversationStore.drop(id);
 
+export async function bumpLocalConversationTotals(
+  convId: string,
+  delta: { inputTokens: number; outputTokens: number; cost: number },
+): Promise<void> {
+  const conv = await conversationStore.get(convId);
+  if (!conv) return;
+  await conversationStore.update(convId, {
+    totalInputTokens: conv.totalInputTokens + delta.inputTokens,
+    totalOutputTokens: conv.totalOutputTokens + delta.outputTokens,
+    totalCost: conv.totalCost + delta.cost,
+  });
+}
+
 export const upsertLocalMessage = (
   row: LocalRowInput & { id: string; convId: string },
 ) => messageStore.upsert(row);
