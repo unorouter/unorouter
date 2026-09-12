@@ -31,12 +31,14 @@ function Slider({
               key={index}
               index={index}
               aria-label={ariaLabel}
+              data-slot="slider-thumb"
               className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border-2 shadow-sm transition-shadow focus-visible:ring-4 focus-visible:outline-hidden disabled:opacity-50"
             />
           ))
         ) : (
           <SliderPrimitive.Thumb
             aria-label={ariaLabel}
+            data-slot="slider-thumb"
             className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border-2 shadow-sm transition-shadow focus-visible:ring-4 focus-visible:outline-hidden disabled:opacity-50"
           />
         )}

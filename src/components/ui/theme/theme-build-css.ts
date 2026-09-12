@@ -452,17 +452,22 @@ export function buildBackgroundCss(
     `color-mix(in srgb, var(--${varName}) ${composerPct}%, transparent)`;
   const bubbleMix = (varName: string) =>
     `color-mix(in srgb, var(--${varName}) ${bubblePct}%, transparent)`;
+  // Switch and slider thumbs fill themselves with .bg-background, but a knob is
+  // not a surface: the nested reset below painted them fully transparent, so a
+  // toggle over a wallpaper rendered as a bare coloured pill with no knob.
+  const notKnob =
+    ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
   const translucent =
     panelOpacity < 1
       ? [
-          `[data-bg-active] .bg-background{background-color:${surfaceMix("background")} !important;${frost()}}`,
+          `[data-bg-active] .bg-background${notKnob}{background-color:${surfaceMix("background")} !important;${frost()}}`,
           `[data-bg-active] .bg-sidebar{background-color:${surfaceMix("sidebar")} !important;${frost()}}`,
           `[data-bg-active] .bg-card{background-color:${surfaceMix("card")} !important;}`,
           `[data-bg-active] .bg-muted{background-color:${surfaceMix("muted")} !important;}`,
           // A translucent surface nested in another one multiplies: the chat
           // thread inside <main> left only ~6% of the image visible, and blurred
           // it twice. Inner surfaces defer to the outer one.
-          `[data-bg-active] .bg-background .bg-background{background-color:transparent !important;backdrop-filter:none;}`,
+          `[data-bg-active] .bg-background .bg-background${notKnob}{background-color:transparent !important;backdrop-filter:none;}`,
           `[data-bg-active] .bg-sidebar .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
           // The sidebar's 1px border sits outside its panel's painted area, so
           // that column showed the image raw and unblurred against the frosted

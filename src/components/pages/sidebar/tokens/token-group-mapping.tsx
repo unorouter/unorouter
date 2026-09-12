@@ -229,12 +229,21 @@ function priceLabel(
   return `${perMillion(price.input * scale)} / ${perMillion(price.output * scale)}`;
 }
 
-/** Lowest ratio across every listed group, matching the catalogue's basis. */
+/**
+ * Lowest ratio among ONLINE groups, matching the catalogue price's basis: the
+ * gateway derives it from the enabled groups only. Counting offline ones here
+ * quoted every lane 2.3% low the moment a cheaper group went dark. Falls back
+ * to the full list so a model whose groups are all offline still shows a price.
+ */
 function cheapestOptionRatio(options: GroupOption[]): number | null {
-  let min: number | null = null;
-  for (const o of options)
-    if (o.ratio != null && (min == null || o.ratio < min)) min = o.ratio;
-  return min;
+  let online: number | null = null;
+  let any: number | null = null;
+  for (const o of options) {
+    if (o.ratio == null) continue;
+    if (any == null || o.ratio < any) any = o.ratio;
+    if (o.online && (online == null || o.ratio < online)) online = o.ratio;
+  }
+  return online ?? any;
 }
 
 // Typing a ratio is the only way to reach a value between two slider steps,
