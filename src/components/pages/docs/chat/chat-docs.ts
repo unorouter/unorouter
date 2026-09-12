@@ -297,6 +297,7 @@ export const CHAT_DOCS: ChatDoc[] = [
     headings: [
       ["backup", "H_BACKUP"],
       ["restore", "H_RESTORE"],
+      ["transfer", "H_TRANSFER"],
       ["size", "H_SIZE"],
       ["troubleshoot", "H_TROUBLESHOOT"],
     ],
