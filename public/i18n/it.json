@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Informazioni API",
       "NO_API_INFO": "Nessuna informazione API",
-      "BURN_RATE": "Ritmo di spesa",
-      "RUNWAY": "Autonomia",
-      "PER_DAY": "{amount}/giorno",
-      "DAYS_LEFT": "{days} giorni",
       "PERFORMANCE": "Prestazioni",
       "API_KEYS": "Spesa per chiave API",
       "UNNAMED_KEY": "Chiave senza nome",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Cronologia abbonamenti"
     },
     "BALANCE": {
-      "RUNWAY": "~{days} giorni rimasti a {rate}/giorno",
       "LOW": "Saldo basso, ricarica per non interrompere le richieste"
     },
     "SECTIONS": {

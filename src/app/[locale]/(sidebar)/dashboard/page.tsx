@@ -23,8 +23,8 @@ export default async function DashboardPage() {
     prefetchElysia(queryClient, queryKeys.dashboardQuota(quota), (cookies) =>
       rpc.api.billing.dashboard.quota.get({ ...cookies, query: quota }),
     ),
-    // useBurnRate runs its own day-aligned 7-day query; without this the tile
-    // reads zero rows on first paint and renders a dash.
+    // useBurnRate runs its own day-aligned 7-day query; without this the credit
+    // health dot reads zero rows on first paint and always claims healthy.
     prefetchElysia(queryClient, queryKeys.dashboardQuota(burn), (cookies) =>
       rpc.api.billing.dashboard.quota.get({ ...cookies, query: burn }),
     ),

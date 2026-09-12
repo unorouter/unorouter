@@ -71,17 +71,6 @@ export function AccountStats() {
               {renderQuota(user?.quota)}
             </span>
           )}
-          {!isLoading && burn.available && (
-            <span className="text-muted-foreground mt-2 block font-mono text-xs">
-              {t("BILLING.BALANCE.RUNWAY", {
-                days: burn.daysRemaining,
-                // 2dp rounds a sub-cent burn so balance/rate no longer reconciles with days.
-                rate: `$${burn.dollarsPerDay.toFixed(
-                  burn.dollarsPerDay < 0.1 ? 4 : 2,
-                )}`,
-              })}
-            </span>
-          )}
           {!isLoading && isCritical && (
             <span className="text-destructive mt-2 block font-mono text-xs">
               {t("BILLING.BALANCE.LOW")}

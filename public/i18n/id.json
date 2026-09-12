@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "Informasi API",
       "NO_API_INFO": "Tidak ada informasi API",
-      "BURN_RATE": "Laju Pengeluaran",
-      "RUNWAY": "Sisa Waktu",
-      "PER_DAY": "{amount}/hari",
-      "DAYS_LEFT": "{days} hari",
       "PERFORMANCE": "Performa",
       "API_KEYS": "Pengeluaran per Kunci API",
       "UNNAMED_KEY": "Kunci tanpa nama",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Riwayat langganan"
     },
     "BALANCE": {
-      "RUNWAY": "~{days} hari tersisa pada {rate}/hari",
       "LOW": "Saldo rendah, isi ulang agar permintaan tetap berjalan"
     },
     "SECTIONS": {

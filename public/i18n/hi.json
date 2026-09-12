@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API जानकारी",
       "NO_API_INFO": "कोई API जानकारी नहीं",
-      "BURN_RATE": "व्यय दर",
-      "RUNWAY": "शेष अवधि",
-      "PER_DAY": "{amount}/दिन",
-      "DAYS_LEFT": "{days} दिन",
       "PERFORMANCE": "प्रदर्शन",
       "API_KEYS": "API कुंजी व्यय",
       "UNNAMED_KEY": "अनामित कुंजी",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "सदस्यता इतिहास"
     },
     "BALANCE": {
-      "RUNWAY": "{rate}/दिन की दर से लगभग {days} दिन शेष",
       "LOW": "शेष राशि कम है, अनुरोध चालू रखने के लिए टॉप-अप करें"
     },
     "SECTIONS": {

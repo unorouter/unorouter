@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API Information",
       "NO_API_INFO": "No API information",
-      "BURN_RATE": "Burn Rate",
-      "RUNWAY": "Runway",
-      "PER_DAY": "{amount}/day",
-      "DAYS_LEFT": "{days} days",
       "PERFORMANCE": "Performance",
       "API_KEYS": "API Key Spend",
       "UNNAMED_KEY": "Unnamed key",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Subscription history"
     },
     "BALANCE": {
-      "RUNWAY": "~{days} days left at {rate}/day",
       "LOW": "Low balance, top up to keep requests running"
     },
     "SECTIONS": {

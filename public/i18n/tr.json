@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API Bilgisi",
       "NO_API_INFO": "API bilgisi yok",
-      "BURN_RATE": "Harcama hızı",
-      "RUNWAY": "Kalan süre",
-      "PER_DAY": "{amount}/gün",
-      "DAYS_LEFT": "{days} gün",
       "PERFORMANCE": "Performans",
       "API_KEYS": "API anahtarı harcaması",
       "UNNAMED_KEY": "Adsız anahtar",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "Abonelik geçmişi"
     },
     "BALANCE": {
-      "RUNWAY": "günlük {rate} ile ~{days} gün kaldı",
       "LOW": "Bakiye düşük, isteklerin sürmesi için yükleme yapın"
     },
     "SECTIONS": {

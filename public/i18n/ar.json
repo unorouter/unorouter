@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "معلومات API",
       "NO_API_INFO": "لا توجد معلومات API",
-      "BURN_RATE": "معدل الإنفاق",
-      "RUNWAY": "المدة المتبقية",
-      "PER_DAY": "{amount}/يوم",
-      "DAYS_LEFT": "{days} يوم",
       "PERFORMANCE": "الأداء",
       "API_KEYS": "الإنفاق حسب مفتاح API",
       "UNNAMED_KEY": "مفتاح بلا اسم",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "سجل الاشتراكات"
     },
     "BALANCE": {
-      "RUNWAY": "يتبقى نحو {days} يوم بمعدل {rate}/يوم",
       "LOW": "الرصيد منخفض، اشحن للحفاظ على استمرار الطلبات"
     },
     "SECTIONS": {

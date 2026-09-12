@@ -6,7 +6,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useBurnRate } from "@/hooks/billing/use-burn-rate";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import type { IconName } from "@/lib/config/icon-map";
-import { formatPrice, renderQuota } from "@/lib/utils/format/number";
+import { renderQuota } from "@/lib/utils/format/number";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
@@ -148,33 +148,6 @@ export function UsageGlance() {
             {renderQuota(user?.quota)}
           </span>
         )}
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="border-border flex flex-col gap-1 border p-3">
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.PANEL.BURN_RATE")}
-            </span>
-            <span className="text-foreground font-mono text-xs font-semibold tabular-nums">
-              {burnRate.available
-                ? t("DASHBOARD.PANEL.PER_DAY", {
-                    amount: formatPrice(burnRate.dollarsPerDay),
-                  })
-                : "-"}
-            </span>
-          </div>
-          <div className="border-border flex flex-col gap-1 border p-3">
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.PANEL.RUNWAY")}
-            </span>
-            <span className="text-foreground font-mono text-xs font-semibold tabular-nums">
-              {burnRate.available
-                ? t("DASHBOARD.PANEL.DAYS_LEFT", {
-                    days: burnRate.daysRemaining,
-                  })
-                : "-"}
-            </span>
-          </div>
-        </div>
 
         <Link
           href="/billing"

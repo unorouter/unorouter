@@ -2720,10 +2720,6 @@
     "PANEL": {
       "API_INFORMATION": "API 情報",
       "NO_API_INFO": "API 情報はありません",
-      "BURN_RATE": "消費ペース",
-      "RUNWAY": "残り日数",
-      "PER_DAY": "{amount}/日",
-      "DAYS_LEFT": "{days}日",
       "PERFORMANCE": "パフォーマンス",
       "API_KEYS": "APIキー別の利用額",
       "UNNAMED_KEY": "名称未設定のキー",
@@ -3307,7 +3303,6 @@
       "SUBSCRIPTION_TRANSACTIONS": "サブスクリプション履歴"
     },
     "BALANCE": {
-      "RUNWAY": "1日あたり{rate}で残り約{days}日",
       "LOW": "残高が少なくなっています。チャージしてリクエストを継続してください"
     },
     "SECTIONS": {
