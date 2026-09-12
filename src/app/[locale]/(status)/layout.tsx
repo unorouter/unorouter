@@ -7,7 +7,7 @@ type Props = {
 
 export default async function StatusLayout(props: Props) {
   return (
-    <main className="flex-1">
+    <main className="bg-background flex-1">
       <ContentBoundary>{props.children}</ContentBoundary>
     </main>
   );

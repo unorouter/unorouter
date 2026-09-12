@@ -12,7 +12,10 @@ export default async function NavbarLayout(props: Props) {
   return (
     <>
       <Navbar authSlot={<NavAuth />} />
-      <main className="flex-1">
+      {/* bg-background is what the wallpaper theme tints down to panelOpacity.
+          Without it these pages have no surface at all and the image runs
+          straight behind the tables. SidebarInset gives the other groups theirs. */}
+      <main className="bg-background flex-1">
         <ContentBoundary className="pt-20 pb-24">
           {props.children}
         </ContentBoundary>
