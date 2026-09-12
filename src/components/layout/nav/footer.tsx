@@ -44,7 +44,7 @@ const FOOTER_BADGES: {
 }[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
-    src: "/images/badges/startupfame.webp",
+    src: "https://startupfa.me/badges/featured-badge.webp",
     name: "Startup Fame",
     width: 76,
   },
@@ -57,7 +57,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://twelve.tools/unorouter",
-    src: "/images/badges/twelvetools.svg",
+    src: "https://twelve.tools/badge1-white.svg",
     name: "Twelve Tools",
     width: 89,
   },
@@ -75,7 +75,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://thesaasdir.com/product/unorouter?ref=badge",
-    src: "/images/badges/thesaasdir.svg",
+    src: "https://thesaasdir.com/badge/unorouter.svg",
     name: "TheSaaSDir",
     width: 182,
   },
@@ -123,7 +123,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://neeed.directory/products/unorouter?utm_source=unorouter",
-    src: "/images/badges/neeed.svg",
+    src: "https://neeed.directory/badges/neeed-badge-light.svg",
     name: "Neeed Directory",
     width: 139,
   },
@@ -141,7 +141,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://dofollow.tools",
-    src: "/images/badges/dofollow.svg",
+    src: "https://dofollow.tools/badge/badge_light.svg",
     name: "Dofollow.Tools",
     width: 150,
   },
