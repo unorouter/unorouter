@@ -130,7 +130,10 @@ type TokenGroupMappingProps = {
   mapping: GroupMapping;
   groups: Record<string, UserGroupInfo>;
   models: PricingVendorModel[];
-  /** 1x list price per model, so a group's real rate is price * ratio. */
+  /**
+   * Catalogue price per model, which already includes the cheapest enabled
+   * group's ratio. A row's rate is this scaled by its ratio over the cheapest.
+   */
   prices: Map<string, { input: number; output: number }>;
 };
 
@@ -208,12 +211,30 @@ function perMillion(value: number): string {
   return `$${value < 1 ? value.toFixed(4) : value.toFixed(2)}`;
 }
 
+// The catalogue price already carries the CHEAPEST enabled group's ratio, so a
+// row is that price scaled by its ratio over the cheapest, never by its raw
+// ratio. Multiplying by the raw ratio applied the cheapest ratio a second time
+// and quoted glm-5.3 at $0.2709/$0.8515 against the $0.051/$0.160 actually
+// charged, 5.3125x too high. Deriving the scale here rather than reading a 1x
+// sticker keeps it correct for markups too: original_* is only populated when
+// the cheapest ratio is a discount.
 function priceLabel(
   price: { input: number; output: number } | undefined,
   ratio: number | null,
+  cheapestRatio: number | null,
 ): string {
-  if (!price || ratio == null) return "";
-  return `${perMillion(price.input * ratio)} / ${perMillion(price.output * ratio)}`;
+  if (!price || ratio == null || cheapestRatio == null || cheapestRatio <= 0)
+    return "";
+  const scale = ratio / cheapestRatio;
+  return `${perMillion(price.input * scale)} / ${perMillion(price.output * scale)}`;
+}
+
+/** Lowest ratio across every listed group, matching the catalogue's basis. */
+function cheapestOptionRatio(options: GroupOption[]): number | null {
+  let min: number | null = null;
+  for (const o of options)
+    if (o.ratio != null && (min == null || o.ratio < min)) min = o.ratio;
+  return min;
 }
 
 // Typing a ratio is the only way to reach a value between two slider steps,
@@ -286,6 +307,8 @@ function ModelGroupPopover(props: {
 }) {
   const t = useTranslations();
   const [search, setSearch] = useState("");
+  // Unfiltered: searching must not change what a lane costs.
+  const cheapestRatio = cheapestOptionRatio(props.options);
   const query = search.trim().toLowerCase();
   const options = query
     ? props.options.filter(
@@ -479,9 +502,7 @@ function ModelGroupPopover(props: {
                   <span
                     className={cn(
                       "mr-1.5 h-2 w-2 shrink-0 rounded-full",
-                      option.online
-                        ? "bg-success"
-                        : "bg-destructive",
+                      option.online ? "bg-success" : "bg-destructive",
                     )}
                     title={
                       option.online
@@ -516,9 +537,9 @@ function ModelGroupPopover(props: {
                         ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
                         : ratioLabel(option.ratio)}
                     </span>
-                    {priceLabel(props.price, option.ratio) && (
+                    {priceLabel(props.price, option.ratio, cheapestRatio) && (
                       <span className="block opacity-70">
-                        {priceLabel(props.price, option.ratio)}
+                        {priceLabel(props.price, option.ratio, cheapestRatio)}
                       </span>
                     )}
                   </span>
