@@ -152,6 +152,7 @@ async function runClientStream(args: {
   getConvId: () => string | null;
   tokenizer?: TokenizerRef;
   extraHeaders?: Record<string, string>;
+  includeUsage?: boolean;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const history = await mergeDbHistory(args.getConvId(), args.options.messages);
   const fields = await buildChatRequestBody(args.getConvId);
@@ -268,6 +269,9 @@ async function runClientStream(args: {
     name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
     apiKey: args.apiKey,
+    // Without stream_options.include_usage the gateway only relays usage when
+    // the upstream volunteers it, and most lanes do not.
+    ...(args.includeUsage ? { includeUsage: true } : {}),
     ...((group && group !== "auto") || args.extraHeaders
       ? {
           headers: {
@@ -415,6 +419,7 @@ export function makeRoutingTransport(
       getConvId,
       ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
       ...(target.extraHeaders ? { extraHeaders: target.extraHeaders } : {}),
+      ...(target.isCustom ? {} : { includeUsage: true }),
     });
   };
 
