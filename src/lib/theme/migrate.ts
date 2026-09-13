@@ -1,4 +1,4 @@
-import { normHex } from "@/lib/theme/palette";
+import { joinAlpha, normHex } from "@/lib/theme/palette";
 import { CUSTOM, DEFAULT } from "@/lib/theme/presets";
 import {
   INITIAL_USER_THEME,
@@ -51,6 +51,8 @@ function modeValues(v: unknown): ModeValues {
 
 // "none" was v1's default for everyone, so it stays unset and lets a Style
 // preset supply the radius.
+const TINTED_V1 = ["background", "card", "popover", "sidebar", "muted"];
+
 const V1_RADIUS: Record<string, number> = {
   small: 0.45,
   medium: 0.625,
@@ -189,6 +191,21 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
     if (blur) all["wallpaper-blur"] = blur;
     const panelOpacity = num(bg.panelOpacity);
     if (panelOpacity !== undefined) all["panel-opacity"] = panelOpacity;
+    // v1 tinted custom surface colours by panel opacity under a wallpaper; a
+    // chosen colour is final now, so the tint is baked into its alpha.
+    if (panelOpacity !== undefined && panelOpacity < 1) {
+      for (const layer of [global, chat]) {
+        for (const mode of ["light", "dark"] as const) {
+          const values = layer[mode];
+          if (!values) continue;
+          for (const id of TINTED_V1) {
+            const hex = values[id];
+            if (typeof hex === "string" && hex.length === 7)
+              values[id] = joinAlpha(hex, panelOpacity);
+          }
+        }
+      }
+    }
     const panelBlur = num(bg.panelBlur);
     if (panelBlur !== undefined) all["panel-blur"] = panelBlur;
   }
