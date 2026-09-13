@@ -73,7 +73,6 @@
   --bubble-assistant: var(--muted);
   --footer: color-mix(in srgb, var(--muted) 30%, transparent);
   --overlay: color-mix(in srgb, var(--card) 95%, transparent);
-  --sidebar-header: transparent;
   --chat-avatar-sm: calc(1.25rem * var(--chat-avatar, 1));
   --chat-avatar-md: calc(1.75rem * var(--chat-avatar, 1));
   --background: #ffffff;
@@ -183,10 +182,6 @@
 
   button {
     @apply cursor-pointer;
-  }
-
-  [data-slot="sidebar-header"] {
-    background-color: var(--sidebar-header);
   }
 
   .aui-user-message-content,

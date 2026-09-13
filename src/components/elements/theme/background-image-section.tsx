@@ -53,14 +53,7 @@ export function BackgroundImageSection(props: {
     <>
       <div className="flex items-center justify-end px-1">{props.modeTabs}</div>
       {surfaceFields(
-        [
-          "background",
-          "header",
-          "sidebar",
-          "sidebar-header",
-          "footer",
-          "overlay",
-        ],
+        ["background", "header", "sidebar", "footer", "overlay"],
         editor,
       )}
       {shown ? (

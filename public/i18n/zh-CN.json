@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "页脚磨砂",
       "OVERLAY": "面板与抽屉",
       "OVERLAY_BLUR": "面板与抽屉磨砂",
-      "SIDEBAR_HEADER": "侧边栏顶部",
-      "SIDEBAR_HEADER_BLUR": "侧边栏顶部磨砂",
       "CARD_BLUR": "卡片磨砂",
       "POPOVER_BLUR": "菜单磨砂"
     },

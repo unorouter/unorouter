@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "フッターのすりガラス",
       "OVERLAY": "パネルとシート",
       "OVERLAY_BLUR": "パネルとシートのすりガラス",
-      "SIDEBAR_HEADER": "サイドバー上部",
-      "SIDEBAR_HEADER_BLUR": "サイドバー上部のすりガラス",
       "CARD_BLUR": "カードのすりガラス",
       "POPOVER_BLUR": "メニューのすりガラス"
     },

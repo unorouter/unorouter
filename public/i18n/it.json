@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "Effetto vetro piè di pagina",
       "OVERLAY": "Pannelli e schede",
       "OVERLAY_BLUR": "Effetto vetro pannelli e schede",
-      "SIDEBAR_HEADER": "Parte alta della barra laterale",
-      "SIDEBAR_HEADER_BLUR": "Effetto vetro parte alta barra laterale",
       "CARD_BLUR": "Effetto vetro schede",
       "POPOVER_BLUR": "Effetto vetro menu"
     },

@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "Page footer frost",
       "OVERLAY": "Panels and sheets",
       "OVERLAY_BLUR": "Panels and sheets frost",
-      "SIDEBAR_HEADER": "Sidebar top",
-      "SIDEBAR_HEADER_BLUR": "Sidebar top frost",
       "CARD_BLUR": "Card frost",
       "POPOVER_BLUR": "Menu frost"
     },
