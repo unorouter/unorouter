@@ -83,21 +83,23 @@ const COLOR_GROUPS: readonly {
     labelKey: "THEME.GROUP.SIDEBAR",
     hintKey: "THEME.GROUP.SIDEBAR_HINT",
   },
+  {
+    group: "prose",
+    labelKey: "THEME.CATEGORY.CHAT_TEXT",
+    hintKey: "THEME.GROUP.PROSE_HINT",
+  },
 ];
 
 type SectionDef = { id: string; labelKey: MessageKey; appOnly?: boolean };
 
 const SECTIONS: readonly SectionDef[] = [
-  { id: "presets", labelKey: "THEME.CATEGORY.PRESETS", appOnly: true },
+  { id: "presets", labelKey: "THEME.CATEGORY.PRESETS" },
   { id: "colors", labelKey: "THEME.CATEGORY.COLORS" },
   { id: "typography", labelKey: "THEME.CATEGORY.TYPOGRAPHY" },
   { id: "shape", labelKey: "THEME.CATEGORY.SHAPE" },
-  { id: "icons", labelKey: "THEME.CATEGORY.ICONS", appOnly: true },
   { id: "charts", labelKey: "THEME.CATEGORY.CHARTS" },
   { id: "regions", labelKey: "THEME.CATEGORY.REGIONS" },
-  { id: "prose", labelKey: "THEME.CATEGORY.CHAT_TEXT" },
   { id: "wallpaper", labelKey: "THEME.CATEGORY.WALLPAPER" },
-  { id: "saved", labelKey: "THEME.CATEGORY.SAVED" },
 ];
 
 function Section(props: {
@@ -247,8 +249,8 @@ export function ThemeCustomizerBody() {
     {
       labelKey: "THEME.RESET_ALL",
       icon: "refresh-ccw",
-      disabled: editor.isDefault,
-      onClick: editor.resetAll,
+      disabled: editor.scopeIsDefault,
+      onClick: editor.resetScope,
     },
   ];
   const FOOTER_AFTER_IMPORT: FooterAction[] = [
@@ -288,72 +290,68 @@ export function ThemeCustomizerBody() {
             {t(mode === "light" ? "THEME.COPY_TO_DARK" : "THEME.COPY_TO_LIGHT")}
           </Button>
         </div>
-        {COLOR_GROUPS.map((g) => (
-          <div key={g.group} className="flex flex-col gap-2.5">
-            <div className="px-1 pt-2">
-              <div className="text-foreground text-xs font-medium">
-                {t(g.labelKey)}
+        {COLOR_GROUPS.filter((g) => tokensIn(g.group, scope).length).map(
+          (g) => (
+            <div key={g.group} className="flex flex-col gap-2.5">
+              <div className="px-1 pt-2">
+                <div className="text-foreground text-xs font-medium">
+                  {t(g.labelKey)}
+                </div>
+                <div className="text-muted-foreground text-[11px]">
+                  {t(g.hintKey)}
+                </div>
               </div>
-              <div className="text-muted-foreground text-[11px]">
-                {t(g.hintKey)}
-              </div>
+              {fields(g.group)}
             </div>
-            {fields(g.group)}
-          </div>
-        ))}
+          ),
+        )}
       </>
     ),
-    typography: fields("typography"),
+    typography: [...fields("typography"), ...fields("icons")],
     shape: fields("shape"),
-    icons: fields("icons"),
     charts: (
       <>
-        {scope === "app" && <ChartPresetSection editor={editor} />}
+        <ChartPresetSection editor={editor} />
         {fields("chart")}
       </>
     ),
-    prose: (
-      <>
-        <div className="flex items-center justify-end px-1">{colorTabs}</div>
-        {fields("prose")}
-      </>
-    ),
-    regions: (
-      <>
-        <div className="flex items-center justify-end px-1">{colorTabs}</div>
-        {fields("regions")}
-      </>
-    ),
     wallpaper: <BackgroundImageSection editor={editor} modeTabs={colorTabs} />,
-    saved: <SavedThemesSection editor={editor} />,
   };
 
   return (
     <Card className="bg-overlay relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
-      <CardHeader className="flex flex-col gap-3 border-b py-4">
+      <CardHeader className="flex flex-row items-center justify-between border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
-        <Tabs
-          value={scope}
-          onValueChange={(v) =>
-            setScope(THEME_SCOPES.find((s) => s === v) ?? "app")
-          }
-        >
-          <TabsList className="w-full">
-            {THEME_SCOPES.map((s) => (
-              <TabsTrigger key={s} value={s} className="text-xs">
-                {t(SCOPE_LABEL[s])}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-        {scope !== "app" && (
-          <p className="text-muted-foreground text-[11px]">
-            {t("THEME.SCOPE_HINT")}
-          </p>
-        )}
       </CardHeader>
       <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
         <FieldGroup>
+          <Section
+            id="saved"
+            label={t("THEME.CATEGORY.SAVED")}
+            open={editor.editor.section === "saved"}
+            onToggle={() => toggleSection("saved")}
+          >
+            <SavedThemesSection editor={editor} />
+          </Section>
+          <Tabs
+            value={scope}
+            onValueChange={(v) =>
+              setScope(THEME_SCOPES.find((s) => s === v) ?? "app")
+            }
+          >
+            <TabsList className="w-full">
+              {THEME_SCOPES.map((s) => (
+                <TabsTrigger key={s} value={s} className="text-xs">
+                  {t(SCOPE_LABEL[s])}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+          {scope !== "app" && (
+            <p className="text-muted-foreground px-1 text-[11px]">
+              {t("THEME.SCOPE_HINT")}
+            </p>
+          )}
           {SECTIONS.filter((s) => !s.appOnly || scope === "app").map((s) => (
             <Section
               key={s.id}

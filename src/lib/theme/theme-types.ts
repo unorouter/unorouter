@@ -11,6 +11,8 @@ export type ModeValues = {
   all?: TokenValues;
   light?: TokenValues;
   dark?: TokenValues;
+  // A scope may pick its own presets; the app's live in UserTheme.presets.
+  presets?: ThemePresets;
 };
 export type ThemePresets = {
   palette?: string;
@@ -53,7 +55,28 @@ export function modeValues(theme: UserTheme, scope: ThemeScope): ModeValues {
   return scope === "app" ? theme.global : (theme.scopes[scope] ?? {});
 }
 
-function slot(def: TokenDef, mode: ThemeMode): keyof ModeValues {
+export function presetsOf(theme: UserTheme, scope: ThemeScope): ThemePresets {
+  return scope === "app" ? theme.presets : (theme.scopes[scope]?.presets ?? {});
+}
+
+export function writePresets(
+  theme: UserTheme,
+  scope: ThemeScope,
+  presets: ThemePresets,
+): UserTheme {
+  if (scope === "app") return { ...theme, presets };
+  return {
+    ...theme,
+    scopes: {
+      ...theme.scopes,
+      [scope]: { ...(theme.scopes[scope] ?? {}), presets },
+    },
+  };
+}
+
+type Slot = "all" | "light" | "dark";
+
+function slot(def: TokenDef, mode: ThemeMode): Slot {
   return def.perMode ? mode : "all";
 }
 

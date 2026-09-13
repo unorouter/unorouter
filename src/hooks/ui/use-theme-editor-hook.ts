@@ -25,7 +25,9 @@ import {
 import {
   INITIAL_USER_THEME,
   modeValues,
+  presetsOf,
   readToken,
+  writePresets,
   writeToken,
   type ModeValues,
   type ThemeImages,
@@ -222,8 +224,9 @@ export function useThemeEditor() {
     else setTheme({ ...theme, scopes: { ...theme.scopes, [scope]: next } });
   };
 
+  const presets = presetsOf(theme, scope);
   const setPreset = (key: keyof ThemePresets, id: string) =>
-    setTheme({ ...theme, presets: { ...theme.presets, [key]: id } });
+    setTheme(writePresets(theme, scope, { ...presets, [key]: id }));
 
   const setImage = (target: ThemeScope, dataUrl: string | null) =>
     imageSetters[target](dataUrl);
@@ -234,70 +237,57 @@ export function useThemeEditor() {
       imageSetters[s](bundle.backgroundImages[s] ?? null);
   };
 
-  const resetAll = () =>
-    applyBundle({ name: "", theme: INITIAL_USER_THEME, backgroundImages: {} });
+  // App resets its presets and tokens; Chat and Image drop their overrides.
+  const resetScope = () => {
+    if (scope === "app") {
+      setTheme({ ...theme, presets: INITIAL_USER_THEME.presets, global: {} });
+    } else {
+      const scopes = { ...theme.scopes };
+      delete scopes[scope];
+      setTheme({ ...theme, scopes });
+    }
+    imageSetters[scope](null);
+  };
+  const scopeIsDefault =
+    scope === "app"
+      ? JSON.stringify(theme.presets) ===
+          JSON.stringify(INITIAL_USER_THEME.presets) &&
+        Object.keys(theme.global).length === 0 &&
+        !images.app
+      : !theme.scopes[scope] && !images[scope];
 
-  // App shuffles the presets; Chat and Image shuffle their own overrides,
-  // fed to the same generator, so the rest of the app stays put.
+  // Presets for the current tab, fonts and radius alongside; a scope's
+  // picks go through the same generator and leave the app theme alone.
   const shuffle = () => {
     const sans = pick(FONT_OPTIONS.filter((f) => f.kinds.includes("sans")));
     const display = pick(
       FONT_OPTIONS.filter((f) => f.kinds.includes("display")),
     );
-    const heading = Math.random() < 0.5 ? display.id : undefined;
-    if (scope === "app") {
-      const all: TokenValues = {
-        ...(theme.global.all ?? {}),
-        radius: pick(RADIUS_CHOICES),
-        "font-sans": sans.id,
-        "icon-library": pick(ICON_LIBRARY_OPTIONS).value,
-      };
-      if (heading) all["font-display"] = heading;
-      else delete all["font-display"];
-      setTheme({
-        ...theme,
-        presets: {
-          style: pick(STYLES).id,
-          palette: pick([DEFAULT, ...PALETTES.map((p) => p.id)]),
-          accent: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
-          chart: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
-        },
-        global: { ...theme.global, all },
-      });
-      return;
-    }
-    const palette = pick(PALETTES);
-    const accent = pick(ACCENTS);
-    const current = theme.scopes[scope] ?? {};
+    const values = modeValues(theme, scope);
     const all: TokenValues = {
-      ...(current.all ?? {}),
+      ...(values.all ?? {}),
       radius: pick(RADIUS_CHOICES),
       "font-sans": sans.id,
     };
-    if (heading) all["font-display"] = heading;
+    if (Math.random() < 0.5) all["font-display"] = display.id;
     else delete all["font-display"];
-    setTheme({
-      ...theme,
-      scopes: {
-        ...theme.scopes,
-        [scope]: {
-          all,
-          light: {
-            ...(current.light ?? {}),
-            "palette-base": palette.base.light,
-            "accent-base": accent.hex.light,
-          },
-          dark: {
-            ...(current.dark ?? {}),
-            "palette-base": palette.base.dark,
-            "accent-base": accent.hex.dark,
-          },
-        },
-      },
-    });
+    if (scope === "app") all["icon-library"] = pick(ICON_LIBRARY_OPTIONS).value;
+    const picked: ThemePresets = {
+      style: pick(STYLES).id,
+      palette: pick([DEFAULT, ...PALETTES.map((p) => p.id)]),
+      accent: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
+      chart: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
+    };
+    const next = writePresets(theme, scope, picked);
+    if (scope === "app") setTheme({ ...next, global: { ...next.global, all } });
+    else
+      setTheme({
+        ...next,
+        scopes: { ...next.scopes, [scope]: { ...next.scopes[scope], all } },
+      });
   };
 
-  const isCustom = (key: keyof ThemePresets) => theme.presets[key] === CUSTOM;
+  const isCustom = (key: keyof ThemePresets) => presets[key] === CUSTOM;
 
   return {
     theme,
@@ -312,21 +302,18 @@ export function useThemeEditor() {
     read,
     write,
     inherited,
+    presets,
     setPreset,
     isCustom,
     copyModeToOther,
     applyBundle,
-    resetAll,
+    resetScope,
+    scopeIsDefault,
     shuffle,
     undo,
     redo,
     canUndo,
     canRedo,
-    isDefault:
-      JSON.stringify(theme) === JSON.stringify(INITIAL_USER_THEME) &&
-      !images.app &&
-      !images.chat &&
-      !images.image,
   };
 }
 

@@ -3175,7 +3175,6 @@
       "COLORS": "カラー",
       "TYPOGRAPHY": "タイポグラフィ",
       "SHAPE": "形状",
-      "ICONS": "アイコン",
       "CHARTS": "チャート",
       "SAVED": "保存したテーマ",
       "WALLPAPER": "背景",
@@ -3282,7 +3281,8 @@
       "STATUS": "状態",
       "STATUS_HINT": "エラー、成功、警告、情報の色。",
       "SIDEBAR": "サイドバーの詳細",
-      "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。"
+      "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。",
+      "PROSE_HINT": "メッセージの文字、引用、アバターのサイズ、画像の幅。"
     }
   },
   "BILLING": {

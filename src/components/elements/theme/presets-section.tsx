@@ -26,7 +26,7 @@ export function PresetsSection(props: { editor: ThemeEditor }) {
   const t = useTranslations();
   const { editor } = props;
   const mode = editor.mode;
-  const presets = editor.theme.presets;
+  const presets = editor.presets;
   const custom = { value: CUSTOM, label: t("THEME.CUSTOM_COLOR") };
   const none = { value: DEFAULT, label: t("THEME.PRESET.DEFAULT") };
 
@@ -111,7 +111,7 @@ export function PresetsSection(props: { editor: ThemeEditor }) {
 export function ChartPresetSection(props: { editor: ThemeEditor }) {
   const t = useTranslations();
   const { editor } = props;
-  const presets = editor.theme.presets;
+  const presets = editor.presets;
   const chart = findAccent(presets.chart);
   const shades = [1, 2, 3, 4, 5].map((i) =>
     String(editor.effective[`chart-${i}`] ?? `var(--chart-${i})`),

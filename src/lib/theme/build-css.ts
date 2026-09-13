@@ -15,6 +15,7 @@ import {
 } from "@/lib/theme/presets";
 import {
   modeValues,
+  presetsOf,
   type ThemeImages,
   type TokenValues,
   type UserTheme,
@@ -108,24 +109,24 @@ function hexOf(values: TokenValues | undefined, id: string): string | null {
 // Presets and custom inputs share one path: a base colour becomes the surface
 // set, an accent becomes the control set, a chart colour becomes the shades.
 function generatorVars(
-  presets: UserTheme["presets"] | null,
+  presets: UserTheme["presets"],
   explicit: TokenValues,
   mode: ThemeMode,
 ): TokenValues {
   const light = mode === "light";
   const out: TokenValues = {};
-  const palette = presets ? findPalette(presets.palette) : null;
+  const palette = findPalette(presets.palette);
   const paletteBase = hexOf(explicit, "palette-base") ?? palette?.base[mode];
   if (paletteBase) Object.assign(out, generatePalette(paletteBase));
 
-  const accent = presets ? findAccent(presets.accent) : null;
+  const accent = findAccent(presets.accent);
   const accentHex =
     hexOf(explicit, "accent-base") ??
     accent?.hex[mode] ??
     palette?.accent?.[mode];
   if (accentHex) Object.assign(out, accentVars(accentHex));
 
-  const chart = presets ? findAccent(presets.chart) : null;
+  const chart = findAccent(presets.chart);
   const chartHex =
     hexOf(explicit, "chart-base") ?? chart?.hex[mode] ?? accentHex;
   if (chartHex) Object.assign(out, chartShades(chartHex, light));
@@ -157,14 +158,10 @@ export function resolveVars(
     ...(values[mode] ?? {}),
   };
   const out: TokenValues = {};
-  if (scope === "app") {
-    const style = findStyle(theme.presets.style);
-    if (style) Object.assign(out, styleVars(style));
-  }
-  Object.assign(
-    out,
-    generatorVars(scope === "app" ? theme.presets : null, explicit, mode),
-  );
+  const presets = presetsOf(theme, scope);
+  const style = findStyle(presets.style);
+  if (style) Object.assign(out, styleVars(style));
+  Object.assign(out, generatorVars(presets, explicit, mode));
   Object.assign(out, explicit);
 
   const vars: TokenValues = {};

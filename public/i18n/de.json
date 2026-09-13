@@ -3175,7 +3175,6 @@
       "COLORS": "Farben",
       "TYPOGRAPHY": "Typografie",
       "SHAPE": "Form",
-      "ICONS": "Icons",
       "CHARTS": "Diagramme",
       "SAVED": "Gespeicherte Themes",
       "WALLPAPER": "Hintergrund",
@@ -3282,7 +3281,8 @@
       "STATUS": "Status",
       "STATUS_HINT": "Farben für Fehler, Erfolg, Warnung und Info.",
       "SIDEBAR": "Seitenleiste im Detail",
-      "SIDEBAR_HINT": "Aktiver Eintrag, Hover und Rahmen in der Seitenleiste."
+      "SIDEBAR_HINT": "Aktiver Eintrag, Hover und Rahmen in der Seitenleiste.",
+      "PROSE_HINT": "Nachrichtentext, Zitate, Avatargröße und Bildbreite."
     }
   },
   "BILLING": {

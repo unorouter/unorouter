@@ -3175,7 +3175,6 @@
       "COLORS": "Colori",
       "TYPOGRAPHY": "Tipografia",
       "SHAPE": "Forma",
-      "ICONS": "Icone",
       "CHARTS": "Grafici",
       "SAVED": "Temi salvati",
       "WALLPAPER": "Sfondo",
@@ -3282,7 +3281,8 @@
       "STATUS": "Stato",
       "STATUS_HINT": "Colori di errore, successo, avviso e informazione.",
       "SIDEBAR": "Dettagli della barra laterale",
-      "SIDEBAR_HINT": "Voce attiva, hover e bordo nella barra laterale."
+      "SIDEBAR_HINT": "Voce attiva, hover e bordo nella barra laterale.",
+      "PROSE_HINT": "Testo dei messaggi, citazioni, dimensione avatar e larghezza immagini."
     }
   },
   "BILLING": {

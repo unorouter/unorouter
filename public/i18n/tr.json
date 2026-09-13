@@ -3175,7 +3175,6 @@
       "COLORS": "Renkler",
       "TYPOGRAPHY": "Tipografi",
       "SHAPE": "Biçim",
-      "ICONS": "Simgeler",
       "CHARTS": "Grafikler",
       "SAVED": "Kayıtlı temalar",
       "WALLPAPER": "Arka plan",
@@ -3282,7 +3281,8 @@
       "STATUS": "Durum",
       "STATUS_HINT": "Hata, başarı, uyarı ve bilgi renkleri.",
       "SIDEBAR": "Kenar çubuğu ayrıntıları",
-      "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık."
+      "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık.",
+      "PROSE_HINT": "Mesaj metni, alıntılar, avatar boyutu ve görsel genişliği."
     }
   },
   "BILLING": {

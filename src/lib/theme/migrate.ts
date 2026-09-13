@@ -3,6 +3,7 @@ import { CUSTOM, DEFAULT } from "@/lib/theme/presets";
 import {
   INITIAL_USER_THEME,
   type ModeValues,
+  type ThemePresets,
   type TokenValues,
   type UserTheme,
 } from "@/lib/theme/theme-types";
@@ -37,6 +38,14 @@ function modeValues(v: unknown): ModeValues {
   if (all) out.all = all;
   if (light) out.light = light;
   if (dark) out.dark = dark;
+  if (isRecord(v.presets)) {
+    const presets: ThemePresets = {};
+    for (const k of ["palette", "accent", "chart", "style"] as const) {
+      const id = str(v.presets[k]);
+      if (id && id !== DEFAULT) presets[k] = id;
+    }
+    if (Object.keys(presets).length) out.presets = presets;
+  }
   return out;
 }
 
