@@ -3277,7 +3277,11 @@
       "FOOTER": "पेज फ़ुटर",
       "FOOTER_BLUR": "पेज फ़ुटर धुंध",
       "OVERLAY": "पैनल और शीट",
-      "OVERLAY_BLUR": "पैनल और शीट धुंध"
+      "OVERLAY_BLUR": "पैनल और शीट धुंध",
+      "SIDEBAR_HEADER": "साइडबार का ऊपरी भाग",
+      "SIDEBAR_HEADER_BLUR": "साइडबार ऊपरी भाग धुंध",
+      "CARD_BLUR": "कार्ड धुंध",
+      "POPOVER_BLUR": "मेनू धुंध"
     },
     "GROUP": {
       "SURFACE": "सतहें",

@@ -3277,7 +3277,11 @@
       "FOOTER": "페이지 하단",
       "FOOTER_BLUR": "페이지 하단 반투명 효과",
       "OVERLAY": "패널과 시트",
-      "OVERLAY_BLUR": "패널과 시트 반투명 효과"
+      "OVERLAY_BLUR": "패널과 시트 반투명 효과",
+      "SIDEBAR_HEADER": "사이드바 상단",
+      "SIDEBAR_HEADER_BLUR": "사이드바 상단 반투명 효과",
+      "CARD_BLUR": "카드 반투명 효과",
+      "POPOVER_BLUR": "메뉴 반투명 효과"
     },
     "GROUP": {
       "SURFACE": "면",

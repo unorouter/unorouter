@@ -186,10 +186,10 @@ export const REGIONS: readonly {
     selector: ".bg-header",
   },
   {
-    id: "sidebar",
-    labelKey: "THEME.TOKEN.SIDEBAR",
-    blurKey: "THEME.REGION.SIDEBAR_BLUR",
-    selector: "[data-slot=sidebar-inner]",
+    id: "sidebar-header",
+    labelKey: "THEME.REGION.SIDEBAR_HEADER",
+    blurKey: "THEME.REGION.SIDEBAR_HEADER_BLUR",
+    selector: "[data-slot=sidebar-header]",
   },
   {
     id: "composer",
@@ -231,8 +231,44 @@ export const TOKENS: readonly TokenDef[] = [
 
   color("background", "surface", "THEME.TOKEN.BACKGROUND"),
   color("card", "surface", "THEME.TOKEN.CARD"),
+  {
+    ...number(
+      "card-blur",
+      "surface",
+      "THEME.REGION.CARD_BLUR",
+      { min: 0, max: 24, step: 1, unit: "px", defaultValue: 0 },
+      ALL,
+      "--card-blur",
+    ),
+    rule: (value: string, root: string) =>
+      `${root === ":root" ? "" : `${root} `}.bg-card{backdrop-filter:blur(${value}) !important;}`,
+  },
   color("popover", "surface", "THEME.TOKEN.POPOVER"),
+  {
+    ...number(
+      "popover-blur",
+      "surface",
+      "THEME.REGION.POPOVER_BLUR",
+      { min: 0, max: 24, step: 1, unit: "px", defaultValue: 0 },
+      ALL,
+      "--popover-blur",
+    ),
+    rule: (value: string, root: string) =>
+      `${root === ":root" ? "" : `${root} `}[data-slot=dropdown-menu-content],[data-slot=dropdown-menu-sub-content],[data-slot=popover-content]{backdrop-filter:blur(${value}) !important;}`,
+  },
   color("sidebar", "surface", "THEME.TOKEN.SIDEBAR"),
+  {
+    ...number(
+      "sidebar-blur",
+      "surface",
+      "THEME.REGION.SIDEBAR_BLUR",
+      { min: 0, max: 24, step: 1, unit: "px", defaultValue: 0 },
+      ALL,
+      "--sidebar-blur",
+    ),
+    rule: (value: string, root: string) =>
+      `${root === ":root" ? "" : `${root} `}[data-slot=sidebar-container]{backdrop-filter:blur(${value}) !important;}`,
+  },
 
   color("foreground", "text", "THEME.TOKEN.FOREGROUND"),
   color("card-foreground", "text", "THEME.TOKEN.CARD_FOREGROUND"),
@@ -402,7 +438,7 @@ export const TOKENS: readonly TokenDef[] = [
         `--${r.id}-blur`,
       ),
       rule: (value: string, root: string) =>
-        `${root === ":root" ? "" : `${root} `}${r.selector}{backdrop-filter:blur(${value});}`,
+        `${root === ":root" ? "" : `${root} `}${r.selector}{backdrop-filter:blur(${value}) !important;}`,
     },
   ]),
 
