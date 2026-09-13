@@ -3282,9 +3282,7 @@
       "SIDEBAR": "Detalhes da barra lateral",
       "SIDEBAR_HINT": "Item ativo, hover e borda dentro da barra lateral.",
       "PROSE_HINT": "Texto das mensagens, citações, tamanho do avatar e largura das imagens."
-    },
-    "BG_BUBBLE_OPACITY": "Opacidade dos balões de mensagem",
-    "BG_COMPOSER_OPACITY": "Opacidade da área de digitação"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {

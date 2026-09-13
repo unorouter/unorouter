@@ -51,6 +51,8 @@ function modeValues(v: unknown): ModeValues {
 
 // "none" was v1's default for everyone, so it stays unset and lets a Style
 // preset supply the radius.
+const TINTED_V1 = ["background", "card", "popover", "sidebar", "muted"];
+
 const V1_RADIUS: Record<string, number> = {
   small: 0.45,
   medium: 0.625,
@@ -199,11 +201,30 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
     if (blur) all["wallpaper-blur"] = blur;
     const panelOpacity = num(bg.panelOpacity);
     if (panelOpacity !== undefined) all["panel-opacity"] = panelOpacity;
+    // v1 sliders tinted surfaces the user had coloured; a colour now carries
+    // its own alpha, so each slider is baked into the colours it governed.
+    // Bubbles and the type area inherit muted and background when uncoloured.
+    const bake = (ids: readonly string[], alpha: number, from?: string) => {
+      for (const mode of ["light", "dark"] as const) {
+        const values = global[mode];
+        if (!values) continue;
+        for (const id of ids) {
+          const hex = values[id] ?? (from ? values[from] : undefined);
+          if (typeof hex === "string" && hex.length === 7)
+            values[id] = joinAlpha(hex, alpha);
+        }
+      }
+    };
+    // Bubbles and the type area first: their fallbacks are surfaces the
+    // panel bake would otherwise have already given an alpha.
     const bubbleOpacity = num(bg.bubbleOpacity);
-    if (bubbleOpacity !== undefined) all["bubble-opacity"] = bubbleOpacity;
+    if (bubbleOpacity !== undefined && bubbleOpacity < 1)
+      bake(["bubble-user", "bubble-assistant"], bubbleOpacity, "muted");
     const composerOpacity = num(bg.composerOpacity);
-    if (composerOpacity !== undefined)
-      all["composer-opacity"] = composerOpacity;
+    if (composerOpacity !== undefined && composerOpacity < 1)
+      bake(["composer"], composerOpacity, "background");
+    if (panelOpacity !== undefined && panelOpacity < 1)
+      bake(TINTED_V1, panelOpacity);
     const panelBlur = num(bg.panelBlur);
     if (panelBlur !== undefined) all["panel-blur"] = panelBlur;
   }
@@ -212,37 +233,14 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   return { v: 2, presets, global, scopes: {} };
 }
 
-// An earlier v2 migration baked the v1 panel opacity into these colours'
-// alpha while the panel-opacity token stayed set, so the tint applied twice.
-// An alpha that equals the token's is that bake and comes back out.
-const BAKED_V1 = ["background", "card", "popover", "sidebar", "muted"];
-
-function unbake(layer: ModeValues, panelOpacity: number | undefined): void {
-  if (panelOpacity === undefined || panelOpacity >= 1) return;
-  const suffix = joinAlpha("#000000", panelOpacity).slice(7);
-  for (const mode of ["light", "dark"] as const) {
-    const values = layer[mode];
-    if (!values) continue;
-    for (const id of BAKED_V1) {
-      const hex = values[id];
-      if (typeof hex === "string" && hex.length === 9 && hex.endsWith(suffix))
-        values[id] = hex.slice(0, 7);
-    }
-  }
-}
-
 export function migrateTheme(raw: unknown): UserTheme {
   if (!isRecord(raw)) return INITIAL_USER_THEME;
   if (raw.v !== 2) return fromV1(raw);
   const presets = isRecord(raw.presets) ? raw.presets : {};
   const scopesRaw = isRecord(raw.scopes) ? raw.scopes : {};
-  const global = modeValues(raw.global);
-  const panelOpacity = num(global.all?.["panel-opacity"]);
-  unbake(global, panelOpacity);
   const scopes: UserTheme["scopes"] = {};
   for (const key of ["chat", "image"] as const) {
     const values = modeValues(scopesRaw[key]);
-    unbake(values, num(values.all?.["panel-opacity"]) ?? panelOpacity);
     if (Object.keys(values).length) scopes[key] = values;
   }
   return {
@@ -253,7 +251,7 @@ export function migrateTheme(raw: unknown): UserTheme {
       chart: str(presets.chart) ?? DEFAULT,
       style: str(presets.style) ?? DEFAULT,
     },
-    global,
+    global: modeValues(raw.global),
     scopes,
   };
 }

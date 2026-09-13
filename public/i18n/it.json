@@ -3282,9 +3282,7 @@
       "SIDEBAR": "Dettagli della barra laterale",
       "SIDEBAR_HINT": "Voce attiva, hover e bordo nella barra laterale.",
       "PROSE_HINT": "Testo dei messaggi, citazioni, dimensione avatar e larghezza immagini."
-    },
-    "BG_BUBBLE_OPACITY": "Opacità dei fumetti dei messaggi",
-    "BG_COMPOSER_OPACITY": "Opacità dell'area di scrittura"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {

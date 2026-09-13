@@ -3282,9 +3282,7 @@
       "SIDEBAR": "サイドバーの詳細",
       "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。",
       "PROSE_HINT": "メッセージの文字、引用、アバターのサイズ、画像の幅。"
-    },
-    "BG_BUBBLE_OPACITY": "メッセージバブルの不透明度",
-    "BG_COMPOSER_OPACITY": "入力欄の不透明度"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {
