@@ -3165,8 +3165,6 @@
     "BG_BLUR": "छवि धुंधलापन",
     "BG_PANEL_BLUR": "पैनल धुंधलापन",
     "BG_PANEL_OPACITY": "पैनल अपारदर्शिता",
-    "BG_BUBBLE_OPACITY": "संदेश बबल की अपारदर्शिता",
-    "BG_COMPOSER_OPACITY": "टाइप क्षेत्र की अपारदर्शिता",
     "FONT_CUSTOM": "कस्टम (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "फ़ॉन्ट नाम या Google Fonts लिंक",
     "FONT_CUSTOM_HINT": "कोई भी मुफ़्त Google फ़ॉन्ट। उपयोग करने पर Google से लोड होता है।",

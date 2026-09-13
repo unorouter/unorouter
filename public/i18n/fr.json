@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Flou de l'image",
     "BG_PANEL_BLUR": "Flou des panneaux",
     "BG_PANEL_OPACITY": "Opacité des panneaux",
-    "BG_BUBBLE_OPACITY": "Opacite des bulles de message",
-    "BG_COMPOSER_OPACITY": "Opacité de la zone de saisie",
     "FONT_CUSTOM": "Personnalisée (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Nom de la police ou lien Google Fonts",
     "FONT_CUSTOM_HINT": "Toute police Google gratuite. Chargée depuis Google à l'utilisation.",

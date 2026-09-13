@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Desenfoque de la imagen",
     "BG_PANEL_BLUR": "Desenfoque de los paneles",
     "BG_PANEL_OPACITY": "Opacidad de los paneles",
-    "BG_BUBBLE_OPACITY": "Opacidad de los globos de mensaje",
-    "BG_COMPOSER_OPACITY": "Opacidad del área de escritura",
     "FONT_CUSTOM": "Personalizada (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Nombre de la familia o enlace de Google Fonts",
     "FONT_CUSTOM_HINT": "Cualquier fuente gratuita de Google. Se carga desde Google al usarla.",

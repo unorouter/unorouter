@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Bildunschärfe",
     "BG_PANEL_BLUR": "Panel-Unschärfe",
     "BG_PANEL_OPACITY": "Deckkraft der Flächen",
-    "BG_BUBBLE_OPACITY": "Deckkraft der Nachrichtenblasen",
-    "BG_COMPOSER_OPACITY": "Deckkraft des Eingabefelds",
     "FONT_CUSTOM": "Eigene (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Schriftname oder Google-Fonts-Link",
     "FONT_CUSTOM_HINT": "Jede kostenlose Google-Schrift. Wird bei Nutzung von Google geladen.",

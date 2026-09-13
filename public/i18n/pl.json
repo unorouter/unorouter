@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Rozmycie obrazu",
     "BG_PANEL_BLUR": "Rozmycie paneli",
     "BG_PANEL_OPACITY": "Krycie paneli",
-    "BG_BUBBLE_OPACITY": "Krycie dymkow wiadomosci",
-    "BG_COMPOSER_OPACITY": "Krycie pola tekstowego",
     "FONT_CUSTOM": "Własny (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Nazwa kroju lub link Google Fonts",
     "FONT_CUSTOM_HINT": "Dowolny darmowy font Google. Ładowany z Google podczas użycia.",

@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Làm mờ hình nền",
     "BG_PANEL_BLUR": "Làm mờ bảng",
     "BG_PANEL_OPACITY": "Độ mờ của bảng",
-    "BG_BUBBLE_OPACITY": "Do mo cua bong bong tin nhan",
-    "BG_COMPOSER_OPACITY": "Độ mờ của khung nhập",
     "FONT_CUSTOM": "Tùy chỉnh (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Tên phông chữ hoặc liên kết Google Fonts",
     "FONT_CUSTOM_HINT": "Mọi phông chữ Google miễn phí. Tải từ Google khi bạn dùng.",

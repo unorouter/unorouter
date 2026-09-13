@@ -454,20 +454,6 @@ export const TOKENS: readonly TokenDef[] = [
     defaultValue: 8,
     unit: "px",
   }),
-  number(
-    "bubble-opacity",
-    "wallpaper",
-    "THEME.BG_BUBBLE_OPACITY",
-    { min: 0, max: 1, step: 0.05, defaultValue: 0.75, unit: "%" },
-    CHAT,
-  ),
-  number(
-    "composer-opacity",
-    "wallpaper",
-    "THEME.BG_COMPOSER_OPACITY",
-    { min: 0, max: 1, step: 0.05, defaultValue: 0.75, unit: "%" },
-    ["chat"],
-  ),
 ];
 
 export const TOKEN_BY_ID: ReadonlyMap<string, TokenDef> = new Map(
