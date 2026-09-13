@@ -267,6 +267,11 @@ export function buildThemeCss(theme: UserTheme): string {
       blocks.push(def.rule(tokenCss(def, raw), scopeSelector(scope)));
     }
   }
+  // Menus and popups stay readable whatever alpha their colour carries; a
+  // migrated wallpaper theme can bring popover in fully clear.
+  blocks.push(
+    ".bg-popover{background-color:rgb(from var(--popover) r g b / max(alpha, 0.85)) !important;}",
+  );
   return blocks.filter(Boolean).join("\n");
 }
 
