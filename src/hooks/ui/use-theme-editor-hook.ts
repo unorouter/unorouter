@@ -191,13 +191,20 @@ export function useThemeEditor() {
       .catch(() => {});
   }, []);
 
+  // A slider drag fires per pixel; the history row lands once the hand
+  // rests, or a long drag writes hundreds of rows and stalls the page.
+  const pushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const setTheme = (next: UserTheme) => {
     redoStack.current = [];
     setCanRedo(false);
     setThemeRaw(next);
-    void pushLocalTheme(next)
-      .then(() => setCanUndo(true))
-      .catch(() => {});
+    if (pushTimer.current) clearTimeout(pushTimer.current);
+    pushTimer.current = setTimeout(() => {
+      pushTimer.current = null;
+      void pushLocalTheme(next)
+        .then(() => setCanUndo(true))
+        .catch(() => {});
+    }, 400);
   };
 
   // Applies WITHOUT pushing history: an undo that recorded itself would bury
