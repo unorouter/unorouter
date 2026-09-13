@@ -3184,7 +3184,8 @@
       "CHARTS": "الرسوم البيانية",
       "SAVED": "السمات المحفوظة",
       "WALLPAPER": "الخلفية",
-      "CHAT_TEXT": "ألوان نصّ الدردشة"
+      "CHAT_TEXT": "ألوان نصّ الدردشة",
+      "REGIONS": "المناطق"
     },
     "INHERITED": "موروث",
     "SCOPE_IMAGE": "الصور",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, zero {لم يتم استيراد أي سمة} one {تم استيراد سمة واحدة} two {تم استيراد سمتين} few {تم استيراد # سمات} many {تم استيراد # سمة} other {تم استيراد # سمة}}",
       "IMPORTED_NAME": "سمة مستوردة",
       "CURRENT": "الحالية",
-      "DEFAULT_NAME": "سمتي"
+      "DEFAULT_NAME": "سمتي",
+      "HINT": "السمة المحفوظة تضم إعدادات التطبيق والدردشة والصور معًا."
+    },
+    "OPACITY": "العتامة",
+    "REGION": {
+      "HEADER": "الشريط العلوي",
+      "HEADER_BLUR": "ضبابية الشريط العلوي",
+      "SIDEBAR_BLUR": "ضبابية الشريط الجانبي",
+      "COMPOSER": "منطقة الكتابة",
+      "COMPOSER_BLUR": "ضبابية منطقة الكتابة",
+      "BUBBLE_USER": "رسائلك",
+      "BUBBLE_USER_BLUR": "ضبابية رسائلك",
+      "BUBBLE_ASSISTANT": "ردود الذكاء الاصطناعي",
+      "BUBBLE_ASSISTANT_BLUR": "ضبابية الردود",
+      "FOOTER": "تذييل الصفحة",
+      "FOOTER_BLUR": "ضبابية تذييل الصفحة",
+      "OVERLAY": "اللوحات والأوراق",
+      "OVERLAY_BLUR": "ضبابية اللوحات والأوراق"
     }
   },
   "BILLING": {

@@ -194,6 +194,8 @@ export function resolveVars(
       continue;
     vars[def.cssVar.slice(2)] = tokenCss(def, raw);
   }
+  // The sidebar token is a colour in two groups: the shadcn family and the
+  // region list. Nothing to reconcile, both write --sidebar.
   // A body font with no heading font of its own is the heading font too.
   if (vars["font-sans"] && !vars["font-display"])
     vars["font-display"] = vars["font-sans"];
@@ -299,6 +301,15 @@ export function buildThemeCss(theme: UserTheme): string {
       }
     }
   }
+  for (const scope of THEME_SCOPES) {
+    if (scope !== "app" && !theme.scopes[scope]) continue;
+    const all = modeValues(theme, scope).all ?? {};
+    for (const def of TOKENS) {
+      const raw = all[def.id];
+      if (!def.rule || raw === undefined) continue;
+      blocks.push(def.rule(tokenCss(def, raw), scopeSelector(scope)));
+    }
+  }
   const all = theme.global.all ?? {};
   const explicitForeground = Boolean(
     theme.global.light?.foreground || theme.global.dark?.foreground,
@@ -393,6 +404,7 @@ function panelRules(scope: ThemeScope, w: Wallpaper): string {
     w.panelOpacity < 1
       ? [
           `${at} .bg-background${notKnob}{background-color:${mix("background", pct)} !important;${frost()}}`,
+          `${at} .bg-header{background-color:${mix("header", pct)} !important;${frost()}}`,
           `${at} .bg-sidebar{background-color:${mix("sidebar", pct)} !important;${frost()}}`,
           `${at} .bg-card{background-color:${mix("card", pct)} !important;}`,
           `${at} .bg-muted{background-color:${mix("muted", pct)} !important;}`,
@@ -410,7 +422,7 @@ function panelRules(scope: ThemeScope, w: Wallpaper): string {
   // full-resolution GPU surface, and a long thread froze whole tabs.
   const bubble =
     w.bubbleOpacity < 1
-      ? `${at} .aui-user-message-content,${at} .aui-assistant-message-content{background-color:${mix("muted", bubblePct)} !important;}`
+      ? `${at} .aui-user-message-content{background-color:${mix("bubble-user", bubblePct)} !important;}${at} .aui-assistant-message-content{background-color:${mix("bubble-assistant", bubblePct)} !important;}`
       : "";
   // The reasoning box ships as the outline variant with no fill, so it needs
   // one at every bubble opacity.
@@ -419,7 +431,7 @@ function panelRules(scope: ThemeScope, w: Wallpaper): string {
   const composer = [
     // Doubled attribute selector on purpose: it must outrank the
     // three-class nested-surface reset above.
-    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${mix("background", composerPct)} !important;${w.panelBlur > 0 ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
+    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${mix("composer", composerPct)} !important;${w.panelBlur > 0 ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
     `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
   ].join("");
   return translucent + bubble + reasoning + composer;

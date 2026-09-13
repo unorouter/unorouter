@@ -402,7 +402,7 @@ export function Footer() {
   ] as const;
 
   return (
-    <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
+    <footer className="bg-footer relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
       <div className="absolute inset-0 -z-10">
         <div className="bg-primary/30 dark:bg-primary/10 absolute bottom-0 left-0 h-64 w-64 rounded-full blur-3xl"></div>
         <div className="bg-primary/30 dark:bg-primary/10 absolute top-1/4 right-0 h-72 w-72 rounded-full blur-3xl"></div>

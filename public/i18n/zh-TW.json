@@ -3184,7 +3184,8 @@
       "CHARTS": "圖表",
       "SAVED": "已儲存的主題",
       "WALLPAPER": "背景",
-      "CHAT_TEXT": "聊天文字顏色"
+      "CHAT_TEXT": "聊天文字顏色",
+      "REGIONS": "區域"
     },
     "INHERITED": "繼承",
     "SCOPE_IMAGE": "圖像",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {已匯入 # 個主題}}",
       "IMPORTED_NAME": "匯入的主題",
       "CURRENT": "目前",
-      "DEFAULT_NAME": "我的主題"
+      "DEFAULT_NAME": "我的主題",
+      "HINT": "儲存的主題會同時包含應用程式、聊天和圖像的設定。"
+    },
+    "OPACITY": "不透明度",
+    "REGION": {
+      "HEADER": "頂欄",
+      "HEADER_BLUR": "頂欄磨砂",
+      "SIDEBAR_BLUR": "側邊欄磨砂",
+      "COMPOSER": "輸入區",
+      "COMPOSER_BLUR": "輸入區磨砂",
+      "BUBBLE_USER": "我的訊息",
+      "BUBBLE_USER_BLUR": "我的訊息磨砂",
+      "BUBBLE_ASSISTANT": "AI 回覆",
+      "BUBBLE_ASSISTANT_BLUR": "AI 回覆磨砂",
+      "FOOTER": "頁尾",
+      "FOOTER_BLUR": "頁尾磨砂",
+      "OVERLAY": "面板與抽屜",
+      "OVERLAY_BLUR": "面板與抽屜磨砂"
     }
   },
   "BILLING": {

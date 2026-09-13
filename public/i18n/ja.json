@@ -3184,7 +3184,8 @@
       "CHARTS": "チャート",
       "SAVED": "保存したテーマ",
       "WALLPAPER": "背景",
-      "CHAT_TEXT": "チャットテキストの色"
+      "CHAT_TEXT": "チャットテキストの色",
+      "REGIONS": "領域"
     },
     "INHERITED": "継承",
     "SCOPE_IMAGE": "画像",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {#件のテーマをインポートしました}}",
       "IMPORTED_NAME": "インポートしたテーマ",
       "CURRENT": "現在",
-      "DEFAULT_NAME": "マイテーマ"
+      "DEFAULT_NAME": "マイテーマ",
+      "HINT": "保存したテーマにはアプリ、チャット、画像の設定がまとめて含まれます。"
+    },
+    "OPACITY": "不透明度",
+    "REGION": {
+      "HEADER": "ヘッダーバー",
+      "HEADER_BLUR": "ヘッダーのすりガラス",
+      "SIDEBAR_BLUR": "サイドバーのすりガラス",
+      "COMPOSER": "入力欄",
+      "COMPOSER_BLUR": "入力欄のすりガラス",
+      "BUBBLE_USER": "自分のメッセージ",
+      "BUBBLE_USER_BLUR": "自分のメッセージのすりガラス",
+      "BUBBLE_ASSISTANT": "AIの返信",
+      "BUBBLE_ASSISTANT_BLUR": "AIの返信のすりガラス",
+      "FOOTER": "フッター",
+      "FOOTER_BLUR": "フッターのすりガラス",
+      "OVERLAY": "パネルとシート",
+      "OVERLAY_BLUR": "パネルとシートのすりガラス"
     }
   },
   "BILLING": {

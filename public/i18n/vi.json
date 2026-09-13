@@ -3184,7 +3184,8 @@
       "CHARTS": "Biểu đồ",
       "SAVED": "Chủ đề đã lưu",
       "WALLPAPER": "Nền",
-      "CHAT_TEXT": "Màu văn bản chat"
+      "CHAT_TEXT": "Màu văn bản chat",
+      "REGIONS": "Khu vực"
     },
     "INHERITED": "kế thừa",
     "SCOPE_IMAGE": "Hình ảnh",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {Đã nhập # chủ đề}}",
       "IMPORTED_NAME": "Chủ đề đã nhập",
       "CURRENT": "Hiện tại",
-      "DEFAULT_NAME": "Chủ đề của tôi"
+      "DEFAULT_NAME": "Chủ đề của tôi",
+      "HINT": "Chủ đề đã lưu giữ chung Ứng dụng, Trò chuyện và Hình ảnh."
+    },
+    "OPACITY": "Độ mờ",
+    "REGION": {
+      "HEADER": "Thanh đầu trang",
+      "HEADER_BLUR": "Hiệu ứng mờ thanh đầu trang",
+      "SIDEBAR_BLUR": "Hiệu ứng mờ thanh bên",
+      "COMPOSER": "Ô soạn tin",
+      "COMPOSER_BLUR": "Hiệu ứng mờ ô soạn tin",
+      "BUBBLE_USER": "Tin nhắn của bạn",
+      "BUBBLE_USER_BLUR": "Hiệu ứng mờ tin nhắn của bạn",
+      "BUBBLE_ASSISTANT": "Trả lời của AI",
+      "BUBBLE_ASSISTANT_BLUR": "Hiệu ứng mờ trả lời của AI",
+      "FOOTER": "Chân trang",
+      "FOOTER_BLUR": "Hiệu ứng mờ chân trang",
+      "OVERLAY": "Bảng và ngăn kéo",
+      "OVERLAY_BLUR": "Hiệu ứng mờ bảng và ngăn kéo"
     }
   },
   "BILLING": {

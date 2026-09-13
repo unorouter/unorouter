@@ -25,6 +25,7 @@ export type TokenGroup =
   | "icons"
   | "menus"
   | "prose"
+  | "regions"
   | "wallpaper";
 
 export type TokenDef = {
@@ -44,6 +45,9 @@ export type TokenDef = {
   // What the app renders when the token is unset, shown greyed in the editor.
   defaultValue?: number;
   options?: readonly TokenOption[];
+  // A rule emitted only while the token is set, for effects that must not
+  // exist at rest (a backdrop-filter promotes its element to a GPU layer).
+  rule?: (value: string, root: string) => string;
 };
 
 // Proper nouns (icon sets) carry a literal label; everything else translates.
@@ -165,6 +169,59 @@ export const AVATAR_OPTIONS = [
   { value: "2", labelKey: "THEME.AVATAR_SIZE_MEDIUM" },
   { value: "3", labelKey: "THEME.AVATAR_SIZE_LARGE" },
 ] as const;
+
+// Regions beyond the main content, each with its own surface colour and
+// frost. Their variables fall back to the shadcn token they used to share, in
+// globals.css, so an untouched region looks exactly as before.
+export const REGIONS: readonly {
+  id: string;
+  labelKey: MessageKey;
+  blurKey: MessageKey;
+  selector: string;
+}[] = [
+  {
+    id: "header",
+    labelKey: "THEME.REGION.HEADER",
+    blurKey: "THEME.REGION.HEADER_BLUR",
+    selector: ".bg-header",
+  },
+  {
+    id: "sidebar",
+    labelKey: "THEME.TOKEN.SIDEBAR",
+    blurKey: "THEME.REGION.SIDEBAR_BLUR",
+    selector: "[data-slot=sidebar-inner]",
+  },
+  {
+    id: "composer",
+    labelKey: "THEME.REGION.COMPOSER",
+    blurKey: "THEME.REGION.COMPOSER_BLUR",
+    selector: "[data-slot=composer-shell]",
+  },
+  {
+    id: "bubble-user",
+    labelKey: "THEME.REGION.BUBBLE_USER",
+    blurKey: "THEME.REGION.BUBBLE_USER_BLUR",
+    selector: ".aui-user-message-content",
+  },
+  {
+    id: "bubble-assistant",
+    labelKey: "THEME.REGION.BUBBLE_ASSISTANT",
+    blurKey: "THEME.REGION.BUBBLE_ASSISTANT_BLUR",
+    selector: ".aui-assistant-message-content",
+  },
+  {
+    id: "footer",
+    labelKey: "THEME.REGION.FOOTER",
+    blurKey: "THEME.REGION.FOOTER_BLUR",
+    selector: ".bg-footer",
+  },
+  {
+    id: "overlay",
+    labelKey: "THEME.REGION.OVERLAY",
+    blurKey: "THEME.REGION.OVERLAY_BLUR",
+    selector: ".bg-overlay",
+  },
+];
 
 export const TOKENS: readonly TokenDef[] = [
   // Inputs to the palette generator. Only shown when a preset is "custom".
@@ -332,6 +389,22 @@ export const TOKENS: readonly TokenDef[] = [
     CHAT,
     "--asset-img-max-width",
   ),
+
+  ...REGIONS.flatMap((r) => [
+    color(r.id, "regions", r.labelKey),
+    {
+      ...number(
+        `${r.id}-blur`,
+        "regions",
+        r.blurKey,
+        { min: 0, max: 24, step: 1, unit: "px", defaultValue: 0 },
+        ALL,
+        `--${r.id}-blur`,
+      ),
+      rule: (value: string, root: string) =>
+        `${root === ":root" ? "" : `${root} `}${r.selector}{backdrop-filter:blur(${value});}`,
+    },
+  ]),
 
   select("wallpaper-fit", "wallpaper", "THEME.BG_FIT", FIT_OPTIONS),
   number("wallpaper-opacity", "wallpaper", "THEME.BG_OPACITY", {

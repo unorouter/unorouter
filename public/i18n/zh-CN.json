@@ -3184,7 +3184,8 @@
       "CHARTS": "图表",
       "SAVED": "已保存的主题",
       "WALLPAPER": "背景",
-      "CHAT_TEXT": "聊天文本颜色"
+      "CHAT_TEXT": "聊天文本颜色",
+      "REGIONS": "区域"
     },
     "INHERITED": "继承",
     "SCOPE_IMAGE": "图像",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {已导入 # 个主题}}",
       "IMPORTED_NAME": "导入的主题",
       "CURRENT": "当前",
-      "DEFAULT_NAME": "我的主题"
+      "DEFAULT_NAME": "我的主题",
+      "HINT": "保存的主题会同时包含应用、聊天和图像的设置。"
+    },
+    "OPACITY": "不透明度",
+    "REGION": {
+      "HEADER": "顶栏",
+      "HEADER_BLUR": "顶栏磨砂",
+      "SIDEBAR_BLUR": "侧边栏磨砂",
+      "COMPOSER": "输入区",
+      "COMPOSER_BLUR": "输入区磨砂",
+      "BUBBLE_USER": "我的消息",
+      "BUBBLE_USER_BLUR": "我的消息磨砂",
+      "BUBBLE_ASSISTANT": "AI 回复",
+      "BUBBLE_ASSISTANT_BLUR": "AI 回复磨砂",
+      "FOOTER": "页脚",
+      "FOOTER_BLUR": "页脚磨砂",
+      "OVERLAY": "面板与抽屉",
+      "OVERLAY_BLUR": "面板与抽屉磨砂"
     }
   },
   "BILLING": {

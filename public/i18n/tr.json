@@ -3184,7 +3184,8 @@
       "CHARTS": "Grafikler",
       "SAVED": "Kayıtlı temalar",
       "WALLPAPER": "Arka plan",
-      "CHAT_TEXT": "Sohbet metin renkleri"
+      "CHAT_TEXT": "Sohbet metin renkleri",
+      "REGIONS": "Bölgeler"
     },
     "INHERITED": "devralındı",
     "SCOPE_IMAGE": "Görsel",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# tema içe aktarıldı} other {# tema içe aktarıldı}}",
       "IMPORTED_NAME": "İçe aktarılan tema",
       "CURRENT": "Geçerli",
-      "DEFAULT_NAME": "Temam"
+      "DEFAULT_NAME": "Temam",
+      "HINT": "Kayıtlı bir tema Uygulama, Sohbet ve Görseli birlikte tutar."
+    },
+    "OPACITY": "Opaklık",
+    "REGION": {
+      "HEADER": "Üst çubuk",
+      "HEADER_BLUR": "Üst çubuk buzlu cam",
+      "SIDEBAR_BLUR": "Kenar çubuğu buzlu cam",
+      "COMPOSER": "Yazma alanı",
+      "COMPOSER_BLUR": "Yazma alanı buzlu cam",
+      "BUBBLE_USER": "Senin mesajların",
+      "BUBBLE_USER_BLUR": "Mesajların buzlu cam",
+      "BUBBLE_ASSISTANT": "Yapay zeka yanıtları",
+      "BUBBLE_ASSISTANT_BLUR": "Yanıtlar buzlu cam",
+      "FOOTER": "Sayfa altbilgisi",
+      "FOOTER_BLUR": "Altbilgi buzlu cam",
+      "OVERLAY": "Paneller ve yan sayfalar",
+      "OVERLAY_BLUR": "Paneller buzlu cam"
     }
   },
   "BILLING": {

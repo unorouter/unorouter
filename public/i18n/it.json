@@ -3184,7 +3184,8 @@
       "CHARTS": "Grafici",
       "SAVED": "Temi salvati",
       "WALLPAPER": "Sfondo",
-      "CHAT_TEXT": "Colori testo chat"
+      "CHAT_TEXT": "Colori testo chat",
+      "REGIONS": "Aree"
     },
     "INHERITED": "ereditato",
     "SCOPE_IMAGE": "Immagine",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# tema importato} other {# temi importati}}",
       "IMPORTED_NAME": "Tema importato",
       "CURRENT": "Attuale",
-      "DEFAULT_NAME": "Il mio tema"
+      "DEFAULT_NAME": "Il mio tema",
+      "HINT": "Un tema salvato include App, Chat e Immagine insieme."
+    },
+    "OPACITY": "Opacità",
+    "REGION": {
+      "HEADER": "Barra superiore",
+      "HEADER_BLUR": "Effetto vetro barra superiore",
+      "SIDEBAR_BLUR": "Effetto vetro barra laterale",
+      "COMPOSER": "Area di scrittura",
+      "COMPOSER_BLUR": "Effetto vetro area di scrittura",
+      "BUBBLE_USER": "I tuoi messaggi",
+      "BUBBLE_USER_BLUR": "Effetto vetro dei tuoi messaggi",
+      "BUBBLE_ASSISTANT": "Risposte dell'IA",
+      "BUBBLE_ASSISTANT_BLUR": "Effetto vetro delle risposte",
+      "FOOTER": "Piè di pagina",
+      "FOOTER_BLUR": "Effetto vetro piè di pagina",
+      "OVERLAY": "Pannelli e schede",
+      "OVERLAY_BLUR": "Effetto vetro pannelli e schede"
     }
   },
   "BILLING": {

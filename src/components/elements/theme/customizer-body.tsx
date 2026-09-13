@@ -71,9 +71,10 @@ const SECTIONS: readonly SectionDef[] = [
   { id: "icons", labelKey: "THEME.CATEGORY.ICONS", appOnly: true },
   { id: "menus", labelKey: "THEME.CATEGORY.MENUS", appOnly: true },
   { id: "charts", labelKey: "THEME.CATEGORY.CHARTS" },
+  { id: "regions", labelKey: "THEME.CATEGORY.REGIONS" },
   { id: "prose", labelKey: "THEME.CATEGORY.CHAT_TEXT" },
   { id: "wallpaper", labelKey: "THEME.CATEGORY.WALLPAPER" },
-  { id: "saved", labelKey: "THEME.CATEGORY.SAVED", appOnly: true },
+  { id: "saved", labelKey: "THEME.CATEGORY.SAVED" },
 ];
 
 function Section(props: {
@@ -283,12 +284,18 @@ export function ThemeCustomizerBody() {
         {fields("prose")}
       </>
     ),
+    regions: (
+      <>
+        <div className="flex items-center justify-end px-1">{colorTabs}</div>
+        {fields("regions")}
+      </>
+    ),
     wallpaper: <BackgroundImageSection editor={editor} modeTabs={colorTabs} />,
     saved: <SavedThemesSection editor={editor} />,
   };
 
   return (
-    <Card className="bg-card/95 relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
+    <Card className="bg-overlay relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
       <CardHeader className="flex flex-col gap-3 border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
         <Tabs

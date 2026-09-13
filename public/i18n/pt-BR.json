@@ -3184,7 +3184,8 @@
       "CHARTS": "Gráficos",
       "SAVED": "Temas salvos",
       "WALLPAPER": "Plano de fundo",
-      "CHAT_TEXT": "Cores de texto do chat"
+      "CHAT_TEXT": "Cores de texto do chat",
+      "REGIONS": "Regiões"
     },
     "INHERITED": "herdado",
     "SCOPE_IMAGE": "Imagem",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# tema importado} other {# temas importados}}",
       "IMPORTED_NAME": "Tema importado",
       "CURRENT": "Atual",
-      "DEFAULT_NAME": "Meu tema"
+      "DEFAULT_NAME": "Meu tema",
+      "HINT": "Um tema salvo guarda App, Chat e Imagem juntos."
+    },
+    "OPACITY": "Opacidade",
+    "REGION": {
+      "HEADER": "Barra superior",
+      "HEADER_BLUR": "Vidro fosco da barra superior",
+      "SIDEBAR_BLUR": "Vidro fosco da barra lateral",
+      "COMPOSER": "Área de digitação",
+      "COMPOSER_BLUR": "Vidro fosco da área de digitação",
+      "BUBBLE_USER": "Suas mensagens",
+      "BUBBLE_USER_BLUR": "Vidro fosco das suas mensagens",
+      "BUBBLE_ASSISTANT": "Respostas da IA",
+      "BUBBLE_ASSISTANT_BLUR": "Vidro fosco das respostas",
+      "FOOTER": "Rodapé",
+      "FOOTER_BLUR": "Vidro fosco do rodapé",
+      "OVERLAY": "Painéis e folhas",
+      "OVERLAY_BLUR": "Vidro fosco de painéis e folhas"
     }
   },
   "BILLING": {

@@ -42,6 +42,12 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-header: var(--header);
+  --color-composer: var(--composer);
+  --color-bubble-user: var(--bubble-user);
+  --color-bubble-assistant: var(--bubble-assistant);
+  --color-footer: var(--footer);
+  --color-overlay: var(--overlay);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -60,6 +66,13 @@
 :root {
   --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 0;
+  /* Region surfaces default to the shadcn token they used to share. */
+  --header: var(--background);
+  --composer: var(--background);
+  --bubble-user: var(--muted);
+  --bubble-assistant: var(--muted);
+  --footer: color-mix(in srgb, var(--muted) 30%, transparent);
+  --overlay: color-mix(in srgb, var(--card) 95%, transparent);
   --chat-avatar-sm: calc(1.25rem * var(--chat-avatar, 1));
   --chat-avatar-md: calc(1.75rem * var(--chat-avatar, 1));
   --background: #ffffff;
@@ -350,7 +363,7 @@
     backdrop-filter: blur(0);
   }
   100% {
-    background-color: color-mix(in srgb, var(--background) 90%, transparent);
+    background-color: color-mix(in srgb, var(--header) 90%, transparent);
     border-color: var(--border);
     backdrop-filter: blur(12px);
   }
@@ -374,7 +387,7 @@
 @supports not (animation-timeline: scroll()) {
   .navbar-scroll,
   .scroll-surface {
-    background-color: color-mix(in srgb, var(--background) 90%, transparent);
+    background-color: color-mix(in srgb, var(--header) 90%, transparent);
     border-color: var(--border);
     backdrop-filter: blur(12px);
   }
