@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "새 그룹",
       "EMPTY": "채팅 없음",
       "DELETE_CONFIRM_TITLE": "그룹을 삭제할까요？",
-      "DELETE_CONFIRM_DESC": "그룹은 삭제되지만 채팅은 유지되며 그룹 없음이 됩니다."
+      "DELETE_CONFIRM_DESC": "그룹이 삭제되며 그 안의 채팅과 하위 그룹은 한 단계 위로 이동합니다.",
+      "NEW_SUBGROUP": "새 하위 그룹",
+      "MOVE_GROUP_TO": "이동",
+      "TOP_LEVEL": "최상위"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "사용자 지정 공급자",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "가져오기 대기열이 혼잡합니다. 잠시 후 다시 시도해 주세요.",
     "CARD_IMPORT_JOB_GONE": "해당 가져오기가 끝나기 전에 만료되었습니다. 링크를 다시 보내세요.",
     "CARD_IMPORT_UNAVAILABLE": "가져오기 서비스에 현재 연결할 수 없습니다. 몇 분 후에 다시 시도해 주세요.",
-    "CARD_FILE_INVALID": "해당 파일은 카드 내보내기 파일이 아닙니다."
+    "CARD_FILE_INVALID": "해당 파일은 카드 내보내기 파일이 아닙니다.",
+    "GROUP_CYCLE": "그룹을 자기 자신 안으로 이동할 수 없습니다."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

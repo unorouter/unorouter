@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Novo grupo",
       "EMPTY": "Nenhuma conversa",
       "DELETE_CONFIRM_TITLE": "Excluir grupo?",
-      "DELETE_CONFIRM_DESC": "O grupo é removido; suas conversas são mantidas e ficam sem grupo."
+      "DELETE_CONFIRM_DESC": "O grupo é removido; seus chats e subgrupos sobem um nível.",
+      "NEW_SUBGROUP": "Novo subgrupo",
+      "MOVE_GROUP_TO": "Mover para",
+      "TOP_LEVEL": "Nível superior"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Provedores personalizados",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "A fila de importação está ocupada no momento. Tente novamente em instantes.",
     "CARD_IMPORT_JOB_GONE": "Essa importação expirou antes de terminar. Envie o link novamente.",
     "CARD_IMPORT_UNAVAILABLE": "O serviço de importação está inacessível agora. Tente novamente em alguns minutos.",
-    "CARD_FILE_INVALID": "Esse arquivo não é uma exportação de card."
+    "CARD_FILE_INVALID": "Esse arquivo não é uma exportação de card.",
+    "GROUP_CYCLE": "Um grupo não pode ser movido para dentro de si mesmo."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens processados",

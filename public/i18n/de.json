@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Neue Gruppe",
       "EMPTY": "Keine Chats",
       "DELETE_CONFIRM_TITLE": "Gruppe löschen?",
-      "DELETE_CONFIRM_DESC": "Die Gruppe wird entfernt; ihre Chats bleiben erhalten und sind dann ohne Gruppe."
+      "DELETE_CONFIRM_DESC": "Die Gruppe wird entfernt; ihre Chats und Untergruppen rücken eine Ebene nach oben.",
+      "NEW_SUBGROUP": "Neue Untergruppe",
+      "MOVE_GROUP_TO": "Verschieben nach",
+      "TOP_LEVEL": "Oberste Ebene"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Eigene Anbieter",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "Die Import-Warteschlange ist gerade ausgelastet. Bitte gleich noch einmal versuchen.",
     "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut.",
     "CARD_IMPORT_UNAVAILABLE": "Der Importdienst ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten erneut.",
-    "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export."
+    "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export.",
+    "GROUP_CYCLE": "Eine Gruppe kann nicht in sich selbst verschoben werden."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

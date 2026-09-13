@@ -108,9 +108,13 @@ export const chatGroups = sqliteTable(
     name: text("name").notNull(),
     orderIndex: integer("order_index").notNull().default(0),
     folded: integer("folded", { mode: "boolean" }).notNull().default(false),
+    parentId: text("parent_id"),
     ...timestamps(),
   },
-  (table) => [index("idx_chat_group_order").on(table.orderIndex)],
+  (table) => [
+    index("idx_chat_group_order").on(table.orderIndex),
+    index("idx_chat_group_parent").on(table.parentId),
+  ],
 );
 
 export const messages = sqliteTable(

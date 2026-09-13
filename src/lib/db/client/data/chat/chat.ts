@@ -1,6 +1,7 @@
 "use client";
 
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { isDescendant } from "@/lib/db/client/data/chat/group-tree";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   characters,
@@ -89,14 +90,33 @@ export const readLocalChatGroups = async () => {
 export const upsertLocalChatGroup = (row: LocalRowInput & { id: string }) =>
   chatGroupStore.upsert(row);
 
+// Chats and subgroups move up one level, so deleting a top-level group
+// ungroups them.
 export const deleteLocalChatGroup = async (groupId: string) => {
   const local = await getLocalDb();
   if (!local) return;
+  const parentId = (await chatGroupStore.get(groupId))?.parentId ?? null;
   await local.db
     .update(conversations)
-    .set({ groupId: null })
+    .set({ groupId: parentId })
     .where(eq(conversations.groupId, groupId));
+  await local.db
+    .update(chatGroups)
+    .set({ parentId })
+    .where(eq(chatGroups.parentId, groupId));
   await chatGroupStore.drop(groupId);
+};
+
+export const setChatGroupParent = async (
+  groupId: string,
+  parentId: string | null,
+) => {
+  if (parentId) {
+    const groups = await readLocalChatGroups();
+    if (parentId === groupId || isDescendant(groups, groupId, parentId))
+      throw new Error("ERRORS.GROUP_CYCLE");
+  }
+  await chatGroupStore.update(groupId, { parentId });
 };
 
 export const renameLocalChatGroup = (groupId: string, name: string) =>

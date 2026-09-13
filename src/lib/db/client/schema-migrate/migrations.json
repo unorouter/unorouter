@@ -39,6 +39,10 @@
     {
       "tag": "0009_chunky_wrecking_crew",
       "sql": "CREATE TABLE `saved_themes` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`name` text NOT NULL,\n\t`theme_json` text NOT NULL,\n\t`background_images` text DEFAULT '{}' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_saved_themes_updated` ON `saved_themes` (`updated_at`);"
+    },
+    {
+      "tag": "0010_gray_jean_grey",
+      "sql": "ALTER TABLE `chat_groups` ADD `parent_id` text;--> statement-breakpoint\nCREATE INDEX `idx_chat_group_parent` ON `chat_groups` (`parent_id`);"
     }
   ]
 }

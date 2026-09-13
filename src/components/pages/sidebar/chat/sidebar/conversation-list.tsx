@@ -30,7 +30,11 @@ import { confirm } from "@/components/ui/confirm";
 import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  buildGroupTree,
+  type GroupNode,
+} from "@/lib/db/client/data/chat/group-tree";
 import { ConversationItem } from "./conversation-item";
 import { ChatGroupSection } from "./chat-group-section";
 
@@ -173,6 +177,34 @@ export function ConversationList() {
 
   const ungrouped = conversations.filter((c) => !c.groupId);
 
+  const subtreeCount = (node: GroupNode): number =>
+    conversations.filter((c) => c.groupId === node.group.id).length +
+    node.children.reduce((sum, child) => sum + subtreeCount(child), 0);
+
+  const renderGroup = (node: GroupNode, depth: number): ReactNode => {
+    const items = conversations.filter((c) => c.groupId === node.group.id);
+    return (
+      <ChatGroupSection
+        key={node.group.id}
+        group={node.group}
+        depth={depth}
+        count={subtreeCount(node)}
+        onToggle={() =>
+          toggleFolded.mutate({ id: node.group.id, folded: !node.group.folded })
+        }
+      >
+        {node.children.map((child) => renderGroup(child, depth + 1))}
+        {items.length === 0 && node.children.length === 0 ? (
+          <div className="text-muted-foreground px-2 py-1 text-xs">
+            {t("CHAT.GROUPS.EMPTY")}
+          </div>
+        ) : (
+          items.map(renderItem)
+        )}
+      </ChatGroupSection>
+    );
+  };
+
   const conversationItems = (
     <div className="flex flex-col gap-1">
       {conversationsQuery.isPending ? (
@@ -244,27 +276,7 @@ export function ConversationList() {
           )}
 
           {grouped &&
-            groups.map((g) => {
-              const items = conversations.filter((c) => c.groupId === g.id);
-              return (
-                <ChatGroupSection
-                  key={g.id}
-                  group={g}
-                  count={items.length}
-                  onToggle={() =>
-                    toggleFolded.mutate({ id: g.id, folded: !g.folded })
-                  }
-                >
-                  {items.length === 0 ? (
-                    <div className="text-muted-foreground px-2 py-1 text-xs">
-                      {t("CHAT.GROUPS.EMPTY")}
-                    </div>
-                  ) : (
-                    items.map(renderItem)
-                  )}
-                </ChatGroupSection>
-              );
-            })}
+            buildGroupTree(groups).map((node) => renderGroup(node, 1))}
 
           {ungrouped.map(renderItem)}
 

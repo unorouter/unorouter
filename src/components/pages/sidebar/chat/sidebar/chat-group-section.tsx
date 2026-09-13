@@ -5,13 +5,26 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import {
+  useChatGroupsQuery,
+  useCreateChatGroupMutation,
   useDeleteChatGroupMutation,
+  useMoveChatGroupMutation,
   useRenameChatGroupMutation,
 } from "@/hooks/ai/chat-hook";
+import {
+  buildGroupTree,
+  canNestUnder,
+  flattenGroupTree,
+  MAX_GROUP_DEPTH,
+} from "@/lib/db/client/data/chat/group-tree";
 import type { ChatGroupRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -19,6 +32,7 @@ import type { ReactNode } from "react";
 
 type Props = {
   group: ChatGroupRow;
+  depth: number;
   count: number;
   onToggle: () => void;
   children: ReactNode;
@@ -28,6 +42,12 @@ export function ChatGroupSection(props: Props) {
   const t = useTranslations();
   const renameGroup = useRenameChatGroupMutation();
   const deleteGroup = useDeleteChatGroupMutation();
+  const createGroup = useCreateChatGroupMutation();
+  const moveGroup = useMoveChatGroupMutation();
+  const groups = useChatGroupsQuery().data ?? [];
+  const targets = flattenGroupTree(buildGroupTree(groups)).filter((entry) =>
+    canNestUnder(groups, props.group.id, entry.group.id),
+  );
   const [renaming, setRenaming] = useState(false);
   const [name, setName] = useState(props.group.name);
 
@@ -104,6 +124,55 @@ export function ChatGroupSection(props: Props) {
               <Icon name="pencil" className="size-4" />
               {t("CHAT.GROUPS.RENAME")}
             </DropdownMenuItem>
+            {props.depth < MAX_GROUP_DEPTH && (
+              <DropdownMenuItem
+                onClick={() => {
+                  createGroup.mutate({
+                    name: t("CHAT.GROUPS.GROUP_UNTITLED"),
+                    parentId: props.group.id,
+                  });
+                  if (props.group.folded) props.onToggle();
+                }}
+              >
+                <Icon name="plus-circle" className="size-4" />
+                {t("CHAT.GROUPS.NEW_SUBGROUP")}
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Icon name="layers" className="size-4" />
+                {t("CHAT.GROUPS.MOVE_GROUP_TO")}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem
+                  disabled={!props.group.parentId}
+                  onClick={() =>
+                    moveGroup.mutate({ id: props.group.id, parentId: null })
+                  }
+                >
+                  <Icon name="x" className="size-4" />
+                  {t("CHAT.GROUPS.TOP_LEVEL")}
+                </DropdownMenuItem>
+                {targets.length > 0 && <DropdownMenuSeparator />}
+                {targets.map((entry) => (
+                  <DropdownMenuItem
+                    key={entry.group.id}
+                    disabled={entry.group.id === props.group.parentId}
+                    style={{ paddingLeft: `${entry.depth * 12 - 4}px` }}
+                    onClick={() =>
+                      moveGroup.mutate({
+                        id: props.group.id,
+                        parentId: entry.group.id,
+                      })
+                    }
+                  >
+                    <Icon name="layers" className="size-4" />
+                    <span className="truncate">{entry.group.name}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleDelete}
               className="text-destructive"

@@ -16,6 +16,10 @@ import {
   useCreateChatGroupMutation,
   useMoveConversationToGroupMutation,
 } from "@/hooks/ai/chat-hook";
+import {
+  buildGroupTree,
+  flattenGroupTree,
+} from "@/lib/db/client/data/chat/group-tree";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -31,7 +35,7 @@ export function ConversationItemMenu(props: {
   const groupsQuery = useChatGroupsQuery();
   const moveToGroup = useMoveConversationToGroupMutation();
   const createGroup = useCreateChatGroupMutation();
-  const groups = groupsQuery.data ?? [];
+  const groups = flattenGroupTree(buildGroupTree(groupsQuery.data ?? []));
 
   const move = (groupId: string | null) => {
     moveToGroup.mutate({ convId: props.conversationId, groupId });
@@ -71,14 +75,15 @@ export function ConversationItemMenu(props: {
               {t("CHAT.GROUPS.UNGROUPED")}
             </DropdownMenuItem>
             {groups.length > 0 && <DropdownMenuSeparator />}
-            {groups.map((g) => (
+            {groups.map((entry) => (
               <DropdownMenuItem
-                key={g.id}
-                onClick={() => move(g.id)}
+                key={entry.group.id}
+                onClick={() => move(entry.group.id)}
                 className="gap-2"
+                style={{ paddingLeft: `${entry.depth * 12 - 4}px` }}
               >
                 <Icon name="layers" className="size-4" />
-                <span className="truncate">{g.name}</span>
+                <span className="truncate">{entry.group.name}</span>
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
