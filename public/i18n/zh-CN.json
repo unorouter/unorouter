@@ -3282,9 +3282,7 @@
       "SIDEBAR": "侧边栏细节",
       "SIDEBAR_HINT": "侧边栏内的选中项、悬停和边框。",
       "PROSE_HINT": "消息文字、引用、头像大小和图片宽度。"
-    },
-    "BG_BUBBLE_OPACITY": "消息气泡不透明度",
-    "BG_COMPOSER_OPACITY": "输入框不透明度"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3282,9 +3282,7 @@
       "SIDEBAR": "側邊欄細節",
       "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。",
       "PROSE_HINT": "訊息文字、引用、頭像大小和圖片寬度。"
-    },
-    "BG_BUBBLE_OPACITY": "訊息泡泡不透明度",
-    "BG_COMPOSER_OPACITY": "輸入框不透明度"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {

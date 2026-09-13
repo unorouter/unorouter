@@ -276,8 +276,6 @@ type Wallpaper = {
   blur: number;
   panelOpacity: number;
   panelBlur: number;
-  bubbleOpacity: number;
-  composerOpacity: number;
 };
 
 function num(v: string | number | undefined, fallback: number): number {
@@ -301,14 +299,6 @@ function wallpaperFor(theme: UserTheme, scope: ThemeScope): Wallpaper {
     panelOpacity,
     // 8 keeps the look every existing theme was built against.
     panelBlur: Math.min(24, Math.max(0, num(values["panel-blur"], 8))),
-    bubbleOpacity: Math.min(
-      1,
-      Math.max(0, num(values["bubble-opacity"], panelOpacity)),
-    ),
-    composerOpacity: Math.min(
-      1,
-      Math.max(0, num(values["composer-opacity"], panelOpacity)),
-    ),
   };
 }
 
@@ -361,7 +351,6 @@ function setIn(layer: ModeValues | undefined, id: string): boolean {
   return layer?.light?.[id] !== undefined || layer?.dark?.[id] !== undefined;
 }
 
-
 function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const at =
     scope === "app"
@@ -380,12 +369,15 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // not a surface.
   const notKnob =
     ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
-  // Panel opacity tints every surface, chosen colours included, so the
-  // sliders always reveal the wallpaper.
-  const tint = (id: string, p = pct) =>
-    `background-color:${mix(id, p)} !important;`;
-  const bubblePct = Math.round(w.bubbleOpacity * 100);
-  const composerPct = Math.round(w.composerOpacity * 100);
+  // A chosen colour carries its own alpha and is final: the app layer skips
+  // the tint, a scope restores its own value over the app-level rule.
+  // Untouched surfaces take the generic panel tint.
+  const tint = (id: string, p = pct) => {
+    if (scope !== "app" && setIn(theme.scopes[scope], id))
+      return `background-color:var(--${id}) !important;`;
+    if (setIn(theme.global, id)) return "";
+    return `background-color:${mix(id, p)} !important;`;
+  };
   const translucent =
     w.panelOpacity < 1
       ? [
@@ -408,10 +400,10 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // Tint only, no backdrop-filter: on iOS each blurred bubble is its own
   // full-resolution GPU surface, and a long thread froze whole tabs.
   const bubble =
-    w.bubbleOpacity < 1
+    w.panelOpacity < 1
       ? [
-          `${at} .aui-user-message-content{${tint("bubble-user", bubblePct)}}`,
-          `${at} .aui-assistant-message-content{${tint("bubble-assistant", bubblePct)}}`,
+          `${at} .aui-user-message-content{${tint("bubble-user")}}`,
+          `${at} .aui-assistant-message-content{${tint("bubble-assistant")}}`,
         ].join("")
       : "";
   // The reasoning box ships as the outline variant with no fill, so it needs
@@ -427,10 +419,13 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const composer = [
     // Doubled attribute selector on purpose: it must outrank the
     // three-class nested-surface reset above.
-    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${tint("composer", composerPct)}${composerFrost}}`,
+    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${tint("composer")}${composerFrost}}`,
     `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
   ].join("");
-  return translucent + bubble + reasoning + composer;
+  // The editor itself stays readable at any panel setting, or a panel
+  // opacity of 0 leaves the sliders floating over the chat.
+  const editorPanel = `${at} [data-theme-editor]{background-color:rgb(from var(--popover) r g b / 0.92) !important;backdrop-filter:blur(16px);}`;
+  return translucent + bubble + reasoning + composer + editorPanel;
 }
 
 export function buildBackgroundCss(

@@ -325,7 +325,10 @@ export function ThemeCustomizerBody() {
   };
 
   return (
-    <Card className="bg-overlay relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
+    <Card
+      data-theme-editor
+      className="bg-overlay relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl"
+    >
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b px-3 py-2">
         <CardTitle className="shrink-0 text-sm">{t("THEME.TITLE")}</CardTitle>
         <div className="flex items-center gap-1">

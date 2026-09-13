@@ -3282,9 +3282,7 @@
       "SIDEBAR": "Chi tiết thanh bên",
       "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên.",
       "PROSE_HINT": "Chữ tin nhắn, trích dẫn, cỡ ảnh đại diện và chiều rộng hình ảnh."
-    },
-    "BG_BUBBLE_OPACITY": "Độ mờ của bong bóng tin nhắn",
-    "BG_COMPOSER_OPACITY": "Độ mờ của khung nhập"
+    }
   },
   "BILLING": {
     "SUBSCRIPTION": {
