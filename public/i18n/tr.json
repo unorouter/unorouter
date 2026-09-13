@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "Maliyeti göster",
       "SHOW_TOKENS": "Token'ları göster",
-      "SHOW_MESSAGES": "Mesaj sayısını göster"
+      "SHOW_MESSAGES": "Mesaj sayısını göster",
+      "SHOW_THINKING_TOKENS": "Düşünme jetonlarını göster"
     },
     "GROUPS": {
       "NEW_GROUP": "Yeni grup",

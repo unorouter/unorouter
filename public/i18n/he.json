@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "הצג עלות",
       "SHOW_TOKENS": "הצג טוקנים",
-      "SHOW_MESSAGES": "הצג מספר הודעות"
+      "SHOW_MESSAGES": "הצג מספר הודעות",
+      "SHOW_THINKING_TOKENS": "הצג טוקני חשיבה"
     },
     "GROUPS": {
       "NEW_GROUP": "קבוצה חדשה",

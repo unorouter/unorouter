@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "लागत दिखाएं",
       "SHOW_TOKENS": "टोकन दिखाएं",
-      "SHOW_MESSAGES": "संदेश संख्या दिखाएँ"
+      "SHOW_MESSAGES": "संदेश संख्या दिखाएँ",
+      "SHOW_THINKING_TOKENS": "सोच टोकन दिखाएँ"
     },
     "GROUPS": {
       "NEW_GROUP": "नया समूह",

@@ -9,6 +9,8 @@ import { Icon } from "@/components/ui/icon";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { formatTokens } from "@/lib/utils/format/number";
 import { cn } from "@/lib/utils";
+import { showThinkingTokensAtom } from "@/store/chat-store";
+import { useAtomValue } from "jotai";
 import {
   useAuiState,
   useScrollLock,
@@ -326,8 +328,9 @@ const ReasoningGroup: ReasoningGroupComponent = ({
 
   // Counted with the active tokenizer once the stream ends; the gateway only
   // reports reasoning inside the total output count.
+  const showTokens = useAtomValue(showThinkingTokensAtom);
   const reasoningText = useAuiState((s) => {
-    if (s.message.status?.type === "running") return "";
+    if (!showTokens || s.message.status?.type === "running") return "";
     return s.message.parts
       .slice(startIndex, endIndex + 1)
       .map((p) => (p.type === "reasoning" ? p.text : ""))

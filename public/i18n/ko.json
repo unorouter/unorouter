@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "비용 표시",
       "SHOW_TOKENS": "토큰 표시",
-      "SHOW_MESSAGES": "메시지 수 표시"
+      "SHOW_MESSAGES": "메시지 수 표시",
+      "SHOW_THINKING_TOKENS": "사고 토큰 표시"
     },
     "GROUPS": {
       "NEW_GROUP": "새 그룹",
