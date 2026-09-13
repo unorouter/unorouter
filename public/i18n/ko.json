@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "작게",
     "AVATAR_SIZE_MEDIUM": "보통",
     "AVATAR_SIZE_LARGE": "크게",
-    "SCOPE_APP": "앱",
-    "SCOPE_CHAT": "채팅",
+    "SCOPE_APP": "전체",
+    "SCOPE_CHAT": "채팅만",
     "BG_UPLOAD": "이미지 업로드",
     "BG_REPLACE": "교체",
     "BG_REMOVE": "제거",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "채팅 면"
     },
     "INHERITED": "상속됨",
-    "SCOPE_IMAGE": "이미지",
-    "SCOPE_HINT": "여기서 비워 둔 항목은 앱 테마를 따릅니다.",
+    "SCOPE_IMAGE": "이미지만",
+    "SCOPE_HINT": "이 페이지만 변경합니다. 여기서 비워 둔 항목은 전체 설정을 따릅니다.",
     "PRESET": {
       "DEFAULT": "기본",
       "PALETTE": "팔레트",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "사이드바 세부",
       "SIDEBAR_HINT": "사이드바 안의 선택 항목, 호버, 테두리.",
       "PROSE_HINT": "메시지 글자, 인용, 아바타 크기, 이미지 너비."
-    }
+    },
+    "SCOPE_HINT_APP": "채팅을 포함한 모든 페이지의 기본 테마입니다."
   },
   "BILLING": {
     "SUBSCRIPTION": {

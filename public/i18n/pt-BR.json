@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Pequeno",
     "AVATAR_SIZE_MEDIUM": "Médio",
     "AVATAR_SIZE_LARGE": "Grande",
-    "SCOPE_APP": "Aplicativo",
-    "SCOPE_CHAT": "Conversa",
+    "SCOPE_APP": "Em todo lugar",
+    "SCOPE_CHAT": "Só no chat",
     "BG_UPLOAD": "Enviar imagem",
     "BG_REPLACE": "Substituir",
     "BG_REMOVE": "Remover",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Superfícies do chat"
     },
     "INHERITED": "herdado",
-    "SCOPE_IMAGE": "Imagem",
-    "SCOPE_HINT": "Tudo que ficar em branco aqui segue o tema do app.",
+    "SCOPE_IMAGE": "Só na imagem",
+    "SCOPE_HINT": "Muda só esta página. O que ficar em branco aqui segue Em todo lugar.",
     "PRESET": {
       "DEFAULT": "Padrão",
       "PALETTE": "Paleta",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Detalhes da barra lateral",
       "SIDEBAR_HINT": "Item ativo, hover e borda dentro da barra lateral.",
       "PROSE_HINT": "Texto das mensagens, citações, tamanho do avatar e largura das imagens."
-    }
+    },
+    "SCOPE_HINT_APP": "O tema base para todas as páginas, chat incluído."
   },
   "BILLING": {
     "SUBSCRIPTION": {

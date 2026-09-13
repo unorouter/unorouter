@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "קטן",
     "AVATAR_SIZE_MEDIUM": "בינוני",
     "AVATAR_SIZE_LARGE": "גדול",
-    "SCOPE_APP": "אפליקציה",
-    "SCOPE_CHAT": "צ'אט",
+    "SCOPE_APP": "בכל מקום",
+    "SCOPE_CHAT": "צ'אט בלבד",
     "BG_UPLOAD": "העלאת תמונה",
     "BG_REPLACE": "החלפה",
     "BG_REMOVE": "הסרה",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "משטחי הצ'אט"
     },
     "INHERITED": "בירושה",
-    "SCOPE_IMAGE": "תמונה",
-    "SCOPE_HINT": "כל מה שנשאר ריק כאן עוקב אחרי ערכת הנושא של האפליקציה.",
+    "SCOPE_IMAGE": "תמונה בלבד",
+    "SCOPE_HINT": "משנה רק את הדף הזה. כל מה שנשאר ריק כאן עוקב אחרי בכל מקום.",
     "PRESET": {
       "DEFAULT": "ברירת מחדל",
       "PALETTE": "פלטה",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "פרטי סרגל הצד",
       "SIDEBAR_HINT": "פריט פעיל, ריחוף ומסגרת בתוך סרגל הצד.",
       "PROSE_HINT": "טקסט ההודעות, ציטוטים, גודל האווטאר ורוחב התמונות."
-    }
+    },
+    "SCOPE_HINT_APP": "ערכת הבסיס לכל הדפים, כולל הצ'אט."
   },
   "BILLING": {
     "SUBSCRIPTION": {

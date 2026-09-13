@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Kecil",
     "AVATAR_SIZE_MEDIUM": "Sedang",
     "AVATAR_SIZE_LARGE": "Besar",
-    "SCOPE_APP": "Aplikasi",
-    "SCOPE_CHAT": "Obrolan",
+    "SCOPE_APP": "Di mana saja",
+    "SCOPE_CHAT": "Hanya obrolan",
     "BG_UPLOAD": "Unggah gambar",
     "BG_REPLACE": "Ganti",
     "BG_REMOVE": "Hapus",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Permukaan obrolan"
     },
     "INHERITED": "diwarisi",
-    "SCOPE_IMAGE": "Gambar",
-    "SCOPE_HINT": "Apa pun yang dibiarkan kosong di sini mengikuti tema aplikasi.",
+    "SCOPE_IMAGE": "Hanya gambar",
+    "SCOPE_HINT": "Hanya mengubah halaman ini. Apa pun yang dikosongkan di sini mengikuti Di mana saja.",
     "PRESET": {
       "DEFAULT": "Bawaan",
       "PALETTE": "Palet",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Detail bilah samping",
       "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping.",
       "PROSE_HINT": "Teks pesan, kutipan, ukuran avatar, dan lebar gambar."
-    }
+    },
+    "SCOPE_HINT_APP": "Tema dasar untuk semua halaman, termasuk obrolan."
   },
   "BILLING": {
     "SUBSCRIPTION": {

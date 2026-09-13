@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Small",
     "AVATAR_SIZE_MEDIUM": "Medium",
     "AVATAR_SIZE_LARGE": "Large",
-    "SCOPE_APP": "App",
-    "SCOPE_CHAT": "Chat",
+    "SCOPE_APP": "Everywhere",
+    "SCOPE_CHAT": "Chat only",
     "BG_UPLOAD": "Upload image",
     "BG_REPLACE": "Replace",
     "BG_REMOVE": "Remove",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Chat surfaces"
     },
     "INHERITED": "inherited",
-    "SCOPE_IMAGE": "Image",
-    "SCOPE_HINT": "Anything left blank here follows the App theme.",
+    "SCOPE_IMAGE": "Image only",
+    "SCOPE_HINT": "Only changes this page. Anything left blank here follows Everywhere.",
     "PRESET": {
       "DEFAULT": "Default",
       "PALETTE": "Palette",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Sidebar details",
       "SIDEBAR_HINT": "Active item, hover and border inside the sidebar.",
       "PROSE_HINT": "Message text, quotes, avatar size and inline image width."
-    }
+    },
+    "SCOPE_HINT_APP": "The base theme for every page, chat included."
   },
   "BILLING": {
     "SUBSCRIPTION": {

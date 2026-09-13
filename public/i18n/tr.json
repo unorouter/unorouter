@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Küçük",
     "AVATAR_SIZE_MEDIUM": "Orta",
     "AVATAR_SIZE_LARGE": "Büyük",
-    "SCOPE_APP": "Uygulama",
-    "SCOPE_CHAT": "Sohbet",
+    "SCOPE_APP": "Her yerde",
+    "SCOPE_CHAT": "Yalnızca sohbet",
     "BG_UPLOAD": "Resim yükle",
     "BG_REPLACE": "Değiştir",
     "BG_REMOVE": "Kaldır",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Sohbet yüzeyleri"
     },
     "INHERITED": "devralındı",
-    "SCOPE_IMAGE": "Görsel",
-    "SCOPE_HINT": "Burada boş bırakılan her şey uygulama temasını izler.",
+    "SCOPE_IMAGE": "Yalnızca görsel",
+    "SCOPE_HINT": "Yalnızca bu sayfayı değiştirir. Burada boş bırakılan her şey Her yerde ayarını izler.",
     "PRESET": {
       "DEFAULT": "Varsayılan",
       "PALETTE": "Palet",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Kenar çubuğu ayrıntıları",
       "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık.",
       "PROSE_HINT": "Mesaj metni, alıntılar, avatar boyutu ve görsel genişliği."
-    }
+    },
+    "SCOPE_HINT_APP": "Sohbet dahil her sayfa için temel tema."
   },
   "BILLING": {
     "SUBSCRIPTION": {
