@@ -51,7 +51,8 @@ function modeValues(v: unknown): ModeValues {
 
 // "none" was v1's default for everyone, so it stays unset and lets a Style
 // preset supply the radius.
-const TINTED_V1 = ["background", "card", "popover", "sidebar", "muted"];
+// popover stays out: menus at the panel opacity were unreadable.
+const TINTED_V1 = ["background", "card", "sidebar", "muted"];
 
 const V1_RADIUS: Record<string, number> = {
   small: 0.45,
