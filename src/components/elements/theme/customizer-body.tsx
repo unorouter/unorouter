@@ -16,17 +16,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/config/icon-map";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   useSaveThemeMutation,
   useSavedThemesQuery,
@@ -47,7 +44,7 @@ import {
 } from "@/lib/theme/tokens";
 import { downloadJson } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { toast } from "sonner";
 
 const SCOPE_LABEL: Record<ThemeScope, MessageKey> = {
@@ -115,8 +112,6 @@ export function ThemeCustomizerBody() {
   const saved = useSavedThemesQuery();
   const saveTheme = useSaveThemeMutation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [pasteOpen, setPasteOpen] = useState(false);
-  const [pasteText, setPasteText] = useState("");
 
   const setScope = (next: ThemeScope) =>
     editor.setEditor({ ...editor.editor, scope: next });
@@ -156,7 +151,7 @@ export function ThemeCustomizerBody() {
     try {
       bundles = parseThemeFile(text, t("THEME.SAVED.IMPORTED_NAME"));
     } catch {
-      toast.error(t("THEME.IMPORT_FAILED"));
+      toast.error(t("THEME.IMPORT_FAILED"), { position: "top-center" });
       return;
     }
     for (const bundle of bundles) {
@@ -168,6 +163,7 @@ export function ThemeCustomizerBody() {
     }
     const only = bundles.length === 1 ? bundles[0] : undefined;
     toast.success(t("THEME.SAVED.IMPORTED_COUNT", { count: bundles.length }), {
+      position: "top-center",
       action: only
         ? {
             label: t("THEME.SAVED.APPLY"),
@@ -178,7 +174,11 @@ export function ThemeCustomizerBody() {
   };
 
   const importFile = (file: File) =>
-    file.text().then(importText, () => toast.error(t("THEME.IMPORT_FAILED")));
+    file
+      .text()
+      .then(importText, () =>
+        toast.error(t("THEME.IMPORT_FAILED"), { position: "top-center" }),
+      );
 
   type FooterAction = {
     labelKey: MessageKey;
@@ -187,53 +187,47 @@ export function ThemeCustomizerBody() {
     disabled?: boolean;
   };
   const iconButton = (a: FooterAction) => (
-    <Button
-      key={a.labelKey}
-      type="button"
-      variant="outline"
-      size="icon-sm"
-      className="size-7"
-      aria-label={t(a.labelKey)}
-      title={t(a.labelKey)}
-      disabled={a.disabled}
-      onClick={a.onClick}
-    >
-      <Icon name={a.icon} className="size-4" />
-    </Button>
+    <Tooltip key={a.labelKey}>
+      <TooltipTrigger
+        render={
+          <Button
+            type="button"
+            variant="outline"
+            size="icon-sm"
+            className="size-7"
+            aria-label={t(a.labelKey)}
+            disabled={a.disabled}
+            onClick={a.onClick}
+          />
+        }
+      >
+        <Icon name={a.icon} className="size-4" />
+      </TooltipTrigger>
+      <TooltipContent>{t(a.labelKey)}</TooltipContent>
+    </Tooltip>
   );
   const FOOTER_ACTIONS: FooterAction[] = [
     {
       labelKey: "THEME.UNDO",
       icon: "rotate-ccw",
       disabled: !editor.canUndo,
-      onClick: () =>
-        void editor
-          .undo()
-          .then((ok) => ok && toast.success(t("THEME.UNDO_DONE"))),
+      onClick: () => void editor.undo(),
     },
     {
       labelKey: "THEME.REDO",
       icon: "rotate-cw",
       disabled: !editor.canRedo,
-      onClick: () => editor.redo() && toast.success(t("THEME.REDO_DONE")),
+      onClick: editor.redo,
     },
     { labelKey: "THEME.SHUFFLE", icon: "shuffle", onClick: editor.shuffle },
     {
       labelKey: "THEME.RESET_ALL",
       icon: "refresh-ccw",
       disabled: editor.isDefault,
-      onClick: () => {
-        editor.resetAll();
-        toast.success(t("THEME.RESET_DONE"));
-      },
+      onClick: editor.resetAll,
     },
   ];
   const FOOTER_AFTER_IMPORT: FooterAction[] = [
-    {
-      labelKey: "THEME.IMPORT_PASTE",
-      icon: "clipboard-copy",
-      onClick: () => setPasteOpen(true),
-    },
     { labelKey: "THEME.EXPORT", icon: "download", onClick: exportThemes },
   ];
 
@@ -334,17 +328,23 @@ export function ThemeCustomizerBody() {
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-center gap-1 border-t px-3 pt-3 pb-3">
         {FOOTER_ACTIONS.map(iconButton)}
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          className="size-7"
-          aria-label={t("THEME.IMPORT")}
-          title={t("THEME.IMPORT")}
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Icon name="upload" className="size-4" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                type="button"
+                variant="outline"
+                size="icon-sm"
+                className="size-7"
+                aria-label={t("THEME.IMPORT")}
+                onClick={() => fileInputRef.current?.click()}
+              />
+            }
+          >
+            <Icon name="upload" className="size-4" />
+          </TooltipTrigger>
+          <TooltipContent>{t("THEME.IMPORT")}</TooltipContent>
+        </Tooltip>
         {FOOTER_AFTER_IMPORT.map(iconButton)}
         <input
           ref={fileInputRef}
@@ -358,35 +358,6 @@ export function ThemeCustomizerBody() {
           }}
         />
       </CardFooter>
-      <Dialog open={pasteOpen} onOpenChange={setPasteOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("THEME.IMPORT_PASTE")}</DialogTitle>
-          </DialogHeader>
-          <Textarea
-            value={pasteText}
-            onChange={(e) => setPasteText(e.target.value)}
-            placeholder={t("THEME.IMPORT_PASTE_HINT")}
-            rows={8}
-            className="font-mono text-xs"
-          />
-          <DialogFooter>
-            <Button
-              type="button"
-              size="sm"
-              disabled={pasteText.trim().length === 0}
-              onClick={() => {
-                void importText(pasteText).then(() => {
-                  setPasteText("");
-                  setPasteOpen(false);
-                });
-              }}
-            >
-              {t("THEME.IMPORT_PASTE_APPLY")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </Card>
   );
 }

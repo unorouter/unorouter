@@ -32,7 +32,7 @@ export function BackgroundImageSection(props: { editor: ThemeEditor }) {
         await scaleDataUrl(scaled, wallpaperMaxDim(), file.type),
       );
     } catch {
-      toast.error(t("THEME.IMPORT_FAILED"));
+      toast.error(t("THEME.IMPORT_FAILED"), { position: "top-center" });
     }
   };
 
