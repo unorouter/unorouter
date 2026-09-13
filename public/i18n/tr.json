@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Kenar çubuğu ayrıntıları",
       "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık.",
       "PROSE_HINT": "Mesaj metni, alıntılar, avatar boyutu ve görsel genişliği."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Mesaj balonu opaklığı",
+    "BG_COMPOSER_OPACITY": "Yazma alanı opaklığı"
   },
   "BILLING": {
     "SUBSCRIPTION": {

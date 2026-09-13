@@ -276,6 +276,8 @@ type Wallpaper = {
   blur: number;
   panelOpacity: number;
   panelBlur: number;
+  bubbleOpacity: number;
+  composerOpacity: number;
 };
 
 function num(v: string | number | undefined, fallback: number): number {
@@ -299,6 +301,14 @@ function wallpaperFor(theme: UserTheme, scope: ThemeScope): Wallpaper {
     panelOpacity,
     // 8 keeps the look every existing theme was built against.
     panelBlur: Math.min(24, Math.max(0, num(values["panel-blur"], 8))),
+    bubbleOpacity: Math.min(
+      1,
+      Math.max(0, num(values["bubble-opacity"], panelOpacity)),
+    ),
+    composerOpacity: Math.min(
+      1,
+      Math.max(0, num(values["composer-opacity"], panelOpacity)),
+    ),
   };
 }
 
@@ -329,7 +339,7 @@ function imageRules(scope: ThemeScope, image: string, w: Wallpaper): string {
     `background-image:url("${safeUrl}");background-position:center;`,
     sizeRule,
     `opacity:${w.opacity};`,
-    w.blur > 0 ? `filter:blur(${w.blur}px);` : "",
+    `filter:${w.blur > 0 ? `blur(${w.blur}px)` : "none"};`,
     "}",
   ].join("");
 }
@@ -351,6 +361,14 @@ function setIn(layer: ModeValues | undefined, id: string): boolean {
   return layer?.light?.[id] !== undefined || layer?.dark?.[id] !== undefined;
 }
 
+// A colour picked with its own alpha is final; a plain hex takes the panel
+// tint like every untouched surface.
+function ownAlpha(layer: ModeValues | undefined, id: string): boolean {
+  return [layer?.light?.[id], layer?.dark?.[id]].some(
+    (v) => typeof v === "string" && v.length > 7,
+  );
+}
+
 function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const at =
     scope === "app"
@@ -367,15 +385,19 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // not a surface.
   const notKnob =
     ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
-  // A colour the user set keeps its own alpha: the app layer skips the tint,
-  // a scope restores its own value over the app-level rule. Untouched
-  // surfaces take the generic panel tint. Frost is the wallpaper's either way.
   const tint = (id: string, p = pct) => {
-    if (scope !== "app" && setIn(theme.scopes[scope], id))
+    const layer =
+      scope !== "app" && setIn(theme.scopes[scope], id)
+        ? theme.scopes[scope]
+        : setIn(theme.global, id)
+          ? theme.global
+          : undefined;
+    if (layer && ownAlpha(layer, id))
       return `background-color:var(--${id}) !important;`;
-    if (setIn(theme.global, id)) return "";
     return `background-color:${mix(id, p)} !important;`;
   };
+  const bubblePct = Math.round(w.bubbleOpacity * 100);
+  const composerPct = Math.round(w.composerOpacity * 100);
   const translucent =
     w.panelOpacity < 1
       ? [
@@ -398,10 +420,10 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // Tint only, no backdrop-filter: on iOS each blurred bubble is its own
   // full-resolution GPU surface, and a long thread froze whole tabs.
   const bubble =
-    w.panelOpacity < 1
+    w.bubbleOpacity < 1
       ? [
-          `${at} .aui-user-message-content{${tint("bubble-user")}}`,
-          `${at} .aui-assistant-message-content{${tint("bubble-assistant")}}`,
+          `${at} .aui-user-message-content{${tint("bubble-user", bubblePct)}}`,
+          `${at} .aui-assistant-message-content{${tint("bubble-assistant", bubblePct)}}`,
         ].join("")
       : "";
   // The reasoning box ships as the outline variant with no fill, so it needs
@@ -417,7 +439,7 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const composer = [
     // Doubled attribute selector on purpose: it must outrank the
     // three-class nested-surface reset above.
-    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${tint("composer")}${composerFrost}}`,
+    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${tint("composer", composerPct)}${composerFrost}}`,
     `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
   ].join("");
   return translucent + bubble + reasoning + composer;

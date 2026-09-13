@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Detail bilah samping",
       "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping.",
       "PROSE_HINT": "Teks pesan, kutipan, ukuran avatar, dan lebar gambar."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Opasitas balon pesan",
+    "BG_COMPOSER_OPACITY": "Opasitas kotak ketik"
   },
   "BILLING": {
     "SUBSCRIPTION": {
