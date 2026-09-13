@@ -52,7 +52,7 @@ spec:
           # pinned by the unorouter repo's GHCR workflow (deploy job); ArgoCD rolls it out.
           # NEVER set this back to :latest -- a floating tag never changes the manifest, so
           # ArgoCD sees no diff and the deploy silently does not happen.
-          image: ghcr.io/unorouter/unorouter:3cb20a3997089ee7af9017a30f83a492449eedeb
+          image: ghcr.io/unorouter/unorouter:bf25b1aafe305ec9559ee28550fd3747a368c019
           # heaviest service on the fleet: ~1.1Gi steady as a compiled binary (the whole
           # static tree is served from memory). Request must match that or the scheduler
           # overpacks nodes; limit is ~2x peak.
