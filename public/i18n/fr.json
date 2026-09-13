@@ -3184,7 +3184,8 @@
       "CHARTS": "Graphiques",
       "SAVED": "Thèmes enregistrés",
       "WALLPAPER": "Arrière-plan",
-      "CHAT_TEXT": "Couleurs du texte du chat"
+      "CHAT_TEXT": "Couleurs du texte du chat",
+      "REGIONS": "Zones"
     },
     "INHERITED": "hérité",
     "SCOPE_IMAGE": "Image",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# thème importé} other {# thèmes importés}}",
       "IMPORTED_NAME": "Thème importé",
       "CURRENT": "Actuel",
-      "DEFAULT_NAME": "Mon thème"
+      "DEFAULT_NAME": "Mon thème",
+      "HINT": "Un thème enregistré regroupe App, Chat et Image."
+    },
+    "OPACITY": "Opacité",
+    "REGION": {
+      "HEADER": "Barre d'en-tête",
+      "HEADER_BLUR": "Givre de l'en-tête",
+      "SIDEBAR_BLUR": "Givre de la barre latérale",
+      "COMPOSER": "Zone de saisie",
+      "COMPOSER_BLUR": "Givre de la zone de saisie",
+      "BUBBLE_USER": "Vos messages",
+      "BUBBLE_USER_BLUR": "Givre de vos messages",
+      "BUBBLE_ASSISTANT": "Réponses de l'IA",
+      "BUBBLE_ASSISTANT_BLUR": "Givre des réponses",
+      "FOOTER": "Pied de page",
+      "FOOTER_BLUR": "Givre du pied de page",
+      "OVERLAY": "Panneaux et volets",
+      "OVERLAY_BLUR": "Givre des panneaux et volets"
     }
   },
   "BILLING": {

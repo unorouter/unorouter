@@ -66,6 +66,9 @@ export function SavedThemesSection(props: { editor: ThemeEditor }) {
 
   return (
     <>
+      <p className="text-muted-foreground px-1 text-[11px]">
+        {t("THEME.SAVED.HINT")}
+      </p>
       <Button
         type="button"
         variant="outline"

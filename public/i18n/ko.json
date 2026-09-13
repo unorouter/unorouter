@@ -3184,7 +3184,8 @@
       "CHARTS": "차트",
       "SAVED": "저장된 테마",
       "WALLPAPER": "배경",
-      "CHAT_TEXT": "채팅 텍스트 색상"
+      "CHAT_TEXT": "채팅 텍스트 색상",
+      "REGIONS": "영역"
     },
     "INHERITED": "상속됨",
     "SCOPE_IMAGE": "이미지",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {테마 #개를 가져왔습니다}}",
       "IMPORTED_NAME": "가져온 테마",
       "CURRENT": "현재",
-      "DEFAULT_NAME": "내 테마"
+      "DEFAULT_NAME": "내 테마",
+      "HINT": "저장된 테마에는 앱, 채팅, 이미지 설정이 함께 담깁니다."
+    },
+    "OPACITY": "불투명도",
+    "REGION": {
+      "HEADER": "상단 바",
+      "HEADER_BLUR": "상단 바 반투명 효과",
+      "SIDEBAR_BLUR": "사이드바 반투명 효과",
+      "COMPOSER": "입력창",
+      "COMPOSER_BLUR": "입력창 반투명 효과",
+      "BUBBLE_USER": "내 메시지",
+      "BUBBLE_USER_BLUR": "내 메시지 반투명 효과",
+      "BUBBLE_ASSISTANT": "AI 답변",
+      "BUBBLE_ASSISTANT_BLUR": "AI 답변 반투명 효과",
+      "FOOTER": "페이지 하단",
+      "FOOTER_BLUR": "페이지 하단 반투명 효과",
+      "OVERLAY": "패널과 시트",
+      "OVERLAY_BLUR": "패널과 시트 반투명 효과"
     }
   },
   "BILLING": {

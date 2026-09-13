@@ -3,15 +3,29 @@
 
 export type Oklch = { l: number; c: number; h: number };
 
-const HEX_RE = /^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/;
+const HEX_RE =
+  /^#?([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})$/;
 
+// Six or eight digits; a trailing "ff" alpha is dropped so opaque stays short.
 export function normHex(v: string | number | undefined): string | null {
   if (v === undefined) return null;
   const m = HEX_RE.exec(String(v).trim());
   if (!m) return null;
-  let h = m[1];
-  if (h.length === 3) h = `${h[0]}${h[0]}${h[1]}${h[1]}${h[2]}${h[2]}`;
-  return `#${h.toLowerCase()}`;
+  let h = m[1].toLowerCase();
+  if (h.length <= 4) h = [...h].map((c) => c + c).join("");
+  if (h.length === 8 && h.endsWith("ff")) h = h.slice(0, 6);
+  return `#${h}`;
+}
+
+export function splitAlpha(hex: string): { rgb: string; alpha: number } {
+  return hex.length === 9
+    ? { rgb: hex.slice(0, 7), alpha: parseInt(hex.slice(7), 16) / 255 }
+    : { rgb: hex, alpha: 1 };
+}
+
+export function joinAlpha(rgb: string, alpha: number): string {
+  const a = Math.round(Math.min(1, Math.max(0, alpha)) * 255);
+  return a >= 255 ? rgb : `${rgb}${a.toString(16).padStart(2, "0")}`;
 }
 
 function srgbToLinear(c: number): number {
@@ -64,7 +78,7 @@ export function chartShades(
 }
 
 export function accentVars(hex: string): Record<string, string> {
-  const fg = css(contrastText(hexToOklch(hex)));
+  const fg = css(contrastText(hexToOklch(splitAlpha(hex).rgb)));
   return {
     primary: hex,
     "primary-foreground": fg,
@@ -76,7 +90,8 @@ export function accentVars(hex: string): Record<string, string> {
 
 // The whole surface set from one base colour. Shifts run toward the contrast
 // side, so a light base darkens into cards and borders and a dark base lightens.
-export function generatePalette(baseHex: string): Record<string, string> {
+export function generatePalette(baseHexIn: string): Record<string, string> {
+  const { rgb: baseHex } = splitAlpha(baseHexIn);
   const base = hexToOklch(baseHex);
   const light = base.l > 0.6;
   const dir = light ? -1 : 1;
@@ -96,7 +111,7 @@ export function generatePalette(baseHex: string): Record<string, string> {
   const input = css(step(0.14));
   const sidebar = css(step(0.02));
   return {
-    background: baseHex,
+    background: baseHexIn,
     foreground,
     card: surface,
     "card-foreground": foreground,

@@ -584,7 +584,7 @@ const Composer: FC = () => {
       <ComposerPrimitive.AttachmentDropzone asChild>
         <div
           data-slot="composer-shell"
-          className="bg-background focus-within:border-ring/75 focus-within:ring-ring/20 data-[dragging=true]:border-ring data-[dragging=true]:bg-accent/50 flex w-full flex-col gap-2 rounded-(--composer-radius) border p-(--composer-padding) transition-shadow focus-within:ring-2 data-[dragging=true]:border-dashed"
+          className="bg-composer focus-within:border-ring/75 focus-within:ring-ring/20 data-[dragging=true]:border-ring data-[dragging=true]:bg-accent/50 flex w-full flex-col gap-2 rounded-(--composer-radius) border p-(--composer-padding) transition-shadow focus-within:ring-2 data-[dragging=true]:border-dashed"
         >
           <ComposerAttachments />
           <ComposerPrimitive.Input
@@ -1068,7 +1068,7 @@ const AssistantMessage: FC = () => {
             {/* Same bubble as the user turn, so a reply reads as its own block
                 rather than as loose text under the previous one. Header and
                 footer stay outside it, matching the user side. */}
-            <div className="aui-assistant-message-content bg-muted text-foreground mx-2 rounded-2xl px-4 py-2.5 leading-relaxed wrap-break-word empty:hidden">
+            <div className="aui-assistant-message-content bg-bubble-assistant text-foreground mx-2 rounded-2xl px-4 py-2.5 leading-relaxed wrap-break-word empty:hidden">
               <StreamingIndicator />
               {/* Per MESSAGE, not per thread: a reply whose markdown throws
                   used to unmount the whole thread through the outer boundary,
@@ -1498,7 +1498,7 @@ const UserMessage: FC = () => {
             <UserPersonaAvatar />
             <UserMessageAttachments />
 
-            <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 row-start-3 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
+            <div className="aui-user-message-content peer bg-bubble-user text-foreground col-start-2 row-start-3 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
               <MessagePrimitive.Parts components={{ Text: MarkdownText }} />
             </div>
 

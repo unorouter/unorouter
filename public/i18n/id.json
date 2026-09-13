@@ -3184,7 +3184,8 @@
       "CHARTS": "Grafik",
       "SAVED": "Tema tersimpan",
       "WALLPAPER": "Latar belakang",
-      "CHAT_TEXT": "Warna teks chat"
+      "CHAT_TEXT": "Warna teks chat",
+      "REGIONS": "Area"
     },
     "INHERITED": "diwarisi",
     "SCOPE_IMAGE": "Gambar",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, other {# tema diimpor}}",
       "IMPORTED_NAME": "Tema impor",
       "CURRENT": "Saat ini",
-      "DEFAULT_NAME": "Tema saya"
+      "DEFAULT_NAME": "Tema saya",
+      "HINT": "Tema tersimpan menyimpan Aplikasi, Obrolan, dan Gambar bersama."
+    },
+    "OPACITY": "Opasitas",
+    "REGION": {
+      "HEADER": "Bilah atas",
+      "HEADER_BLUR": "Efek kaca bilah atas",
+      "SIDEBAR_BLUR": "Efek kaca bilah samping",
+      "COMPOSER": "Area ketik",
+      "COMPOSER_BLUR": "Efek kaca area ketik",
+      "BUBBLE_USER": "Pesan Anda",
+      "BUBBLE_USER_BLUR": "Efek kaca pesan Anda",
+      "BUBBLE_ASSISTANT": "Balasan AI",
+      "BUBBLE_ASSISTANT_BLUR": "Efek kaca balasan AI",
+      "FOOTER": "Kaki halaman",
+      "FOOTER_BLUR": "Efek kaca kaki halaman",
+      "OVERLAY": "Panel dan lembar",
+      "OVERLAY_BLUR": "Efek kaca panel dan lembar"
     }
   },
   "BILLING": {

@@ -1,11 +1,13 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
+import { Slider } from "@/components/ui/slider";
 import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
+import { joinAlpha, normHex, splitAlpha } from "@/lib/theme/palette";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
-const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+const HEX_RE = /^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/;
 
 const COMMIT_DELAY_MS = 100;
 
@@ -17,10 +19,8 @@ function normalizeHex(v: string, expandShort = true): string | null {
   let s = v.trim();
   if (!s) return null;
   if (!s.startsWith("#")) s = `#${s}`;
-  if (expandShort && /^#[0-9a-fA-F]{3}$/.test(s)) {
-    s = `#${s[1]}${s[1]}${s[2]}${s[2]}${s[3]}${s[3]}`;
-  }
-  if (HEX_RE.test(s)) return s.toLowerCase();
+  if (HEX_RE.test(s)) return normHex(s);
+  if (expandShort && /^#[0-9a-fA-F]{3,4}$/.test(s)) return normHex(s);
   return expandShort ? cssColorToHex(v.trim()) : null;
 }
 
@@ -48,7 +48,7 @@ function cssColorToHex(input: string): string | null {
   };
   const first = read("#000000");
   if (first !== read("#ffffff")) return null;
-  return HEX_RE.test(first) ? first : null;
+  return HEX_RE.test(first) ? normHex(first) : null;
 }
 
 export function ColorField(props: {
@@ -80,75 +80,108 @@ export function ColorField(props: {
     timer.current = setTimeout(() => props.onChange(next), COMMIT_DELAY_MS);
   };
 
+  const valid = HEX_RE.test(local);
+  const { rgb, alpha } = valid
+    ? splitAlpha(local)
+    : { rgb: "#000000", alpha: 1 };
+
   return (
-    <div className="ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none">
-      <button
-        type="button"
-        onClick={() => colorInputRef.current?.click()}
-        className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
-        style={{ backgroundColor: local || props.placeholder || "transparent" }}
-        aria-label={`${props.label} swatch`}
-      />
-      <input
-        ref={colorInputRef}
-        type="color"
-        value={local || "#000000"}
-        onChange={(e) => {
-          const hex = e.target.value.toLowerCase();
-          setLocal(hex);
-          debouncedChange(hex);
-        }}
-        className="sr-only"
-        tabIndex={-1}
-        aria-hidden
-      />
-      <div className="flex min-w-0 flex-1 flex-col justify-start">
-        <div className="text-muted-foreground text-xs">{props.label}</div>
-        <input
-          type="text"
-          value={local}
-          placeholder={props.placeholder ?? "#rrggbb"}
-          onChange={(e) => {
-            const raw = e.target.value;
-            setLocal(raw);
-            if (raw === "") return debouncedChange(undefined);
-            const hex = normalizeHex(raw, false);
-            if (hex) debouncedChange(hex); // valid hex commits; blur normalizes the rest
+    <div className="ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 flex-col gap-1.5 rounded-lg px-3 py-2 ring-1 select-none">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => colorInputRef.current?.click()}
+          className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
+          style={{
+            backgroundColor: local || props.placeholder || "transparent",
           }}
-          onBlur={(e) => {
-            const hex = normalizeHex(e.target.value);
-            setLocal(hex ?? "");
-            props.onChange(hex ?? undefined);
-          }}
-          className="text-foreground bg-transparent text-sm font-medium outline-none"
-          spellCheck={false}
-          aria-label={props.label}
+          aria-label={`${props.label} swatch`}
         />
-      </div>
-      {HEX_RE.test(local) && (
-        <button
-          type="button"
-          onClick={() =>
-            void clipboard.copy(local, { withToast: t("THEME.COPY_HEX_DONE") })
-          }
-          className="text-muted-foreground hover:text-foreground"
-          aria-label={t("THEME.COPY_HEX")}
-        >
-          <Icon name="copy" className="size-3.5" />
-        </button>
-      )}
-      {local && (
-        <button
-          type="button"
-          onClick={() => {
-            setLocal("");
-            props.onChange(undefined);
+        <input
+          ref={colorInputRef}
+          type="color"
+          value={rgb}
+          onChange={(e) => {
+            const hex = joinAlpha(e.target.value.toLowerCase(), alpha);
+            setLocal(hex);
+            debouncedChange(hex);
           }}
-          className="text-muted-foreground hover:text-foreground text-xs"
-          aria-label="reset"
-        >
-          ×
-        </button>
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-start">
+          <div className="text-muted-foreground text-xs">{props.label}</div>
+          <input
+            type="text"
+            value={local}
+            placeholder={props.placeholder ?? "#rrggbb"}
+            onChange={(e) => {
+              const raw = e.target.value;
+              setLocal(raw);
+              if (raw === "") return debouncedChange(undefined);
+              const hex = normalizeHex(raw, false);
+              if (hex) debouncedChange(hex); // valid hex commits; blur normalizes the rest
+            }}
+            onBlur={(e) => {
+              const hex = normalizeHex(e.target.value);
+              setLocal(hex ?? "");
+              props.onChange(hex ?? undefined);
+            }}
+            className="text-foreground bg-transparent text-sm font-medium outline-none"
+            spellCheck={false}
+            aria-label={props.label}
+          />
+        </div>
+        {valid && (
+          <button
+            type="button"
+            onClick={() =>
+              void clipboard.copy(local, {
+                withToast: t("THEME.COPY_HEX_DONE"),
+              })
+            }
+            className="text-muted-foreground hover:text-foreground"
+            aria-label={t("THEME.COPY_HEX")}
+          >
+            <Icon name="copy" className="size-3.5" />
+          </button>
+        )}
+        {local && (
+          <button
+            type="button"
+            onClick={() => {
+              setLocal("");
+              props.onChange(undefined);
+            }}
+            className="text-muted-foreground hover:text-foreground text-xs"
+            aria-label="reset"
+          >
+            ×
+          </button>
+        )}
+      </div>
+      {valid && (
+        <div className="flex items-center gap-2">
+          <span className="text-muted-foreground w-14 shrink-0 text-[11px]">
+            {t("THEME.OPACITY")}
+          </span>
+          <Slider
+            aria-label={`${props.label} ${t("THEME.OPACITY")}`}
+            min={0}
+            max={1}
+            step={0.05}
+            value={alpha}
+            onValueChange={(v) => {
+              const hex = joinAlpha(rgb, Array.isArray(v) ? (v[0] ?? 1) : v);
+              setLocal(hex);
+              debouncedChange(hex);
+            }}
+          />
+          <span className="text-muted-foreground w-9 shrink-0 text-right font-mono text-[11px] tabular-nums">
+            {Math.round(alpha * 100)}%
+          </span>
+        </div>
       )}
     </div>
   );

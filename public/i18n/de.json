@@ -3184,7 +3184,8 @@
       "CHARTS": "Diagramme",
       "SAVED": "Gespeicherte Themes",
       "WALLPAPER": "Hintergrund",
-      "CHAT_TEXT": "Chat-Textfarben"
+      "CHAT_TEXT": "Chat-Textfarben",
+      "REGIONS": "Bereiche"
     },
     "INHERITED": "geerbt",
     "SCOPE_IMAGE": "Bild",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# Theme importiert} other {# Themes importiert}}",
       "IMPORTED_NAME": "Importiertes Theme",
       "CURRENT": "Aktuell",
-      "DEFAULT_NAME": "Mein Theme"
+      "DEFAULT_NAME": "Mein Theme",
+      "HINT": "Ein gespeichertes Theme enthält App, Chat und Bild zusammen."
+    },
+    "OPACITY": "Deckkraft",
+    "REGION": {
+      "HEADER": "Kopfleiste",
+      "HEADER_BLUR": "Kopfleiste Milchglas",
+      "SIDEBAR_BLUR": "Seitenleiste Milchglas",
+      "COMPOSER": "Eingabebereich",
+      "COMPOSER_BLUR": "Eingabebereich Milchglas",
+      "BUBBLE_USER": "Deine Nachrichten",
+      "BUBBLE_USER_BLUR": "Deine Nachrichten Milchglas",
+      "BUBBLE_ASSISTANT": "KI-Antworten",
+      "BUBBLE_ASSISTANT_BLUR": "KI-Antworten Milchglas",
+      "FOOTER": "Seitenfuß",
+      "FOOTER_BLUR": "Seitenfuß Milchglas",
+      "OVERLAY": "Panels und Sheets",
+      "OVERLAY_BLUR": "Panels und Sheets Milchglas"
     }
   },
   "BILLING": {

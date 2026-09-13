@@ -3184,7 +3184,8 @@
       "CHARTS": "תרשימים",
       "SAVED": "ערכות נושא שמורות",
       "WALLPAPER": "רקע",
-      "CHAT_TEXT": "צבעי טקסט צ'אט"
+      "CHAT_TEXT": "צבעי טקסט צ'אט",
+      "REGIONS": "אזורים"
     },
     "INHERITED": "בירושה",
     "SCOPE_IMAGE": "תמונה",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {יובאה ערכת נושא אחת} two {יובאו שתי ערכות נושא} many {יובאו # ערכות נושא} other {יובאו # ערכות נושא}}",
       "IMPORTED_NAME": "ערכת נושא מיובאת",
       "CURRENT": "נוכחית",
-      "DEFAULT_NAME": "ערכת הנושא שלי"
+      "DEFAULT_NAME": "ערכת הנושא שלי",
+      "HINT": "ערכת נושא שמורה כוללת יחד את האפליקציה, הצ'אט והתמונה."
+    },
+    "OPACITY": "אטימות",
+    "REGION": {
+      "HEADER": "סרגל עליון",
+      "HEADER_BLUR": "טשטוש הסרגל העליון",
+      "SIDEBAR_BLUR": "טשטוש סרגל הצד",
+      "COMPOSER": "אזור ההקלדה",
+      "COMPOSER_BLUR": "טשטוש אזור ההקלדה",
+      "BUBBLE_USER": "ההודעות שלך",
+      "BUBBLE_USER_BLUR": "טשטוש ההודעות שלך",
+      "BUBBLE_ASSISTANT": "תשובות ה-AI",
+      "BUBBLE_ASSISTANT_BLUR": "טשטוש תשובות ה-AI",
+      "FOOTER": "כותרת תחתונה",
+      "FOOTER_BLUR": "טשטוש הכותרת התחתונה",
+      "OVERLAY": "פאנלים וגיליונות",
+      "OVERLAY_BLUR": "טשטוש פאנלים וגיליונות"
     }
   },
   "BILLING": {

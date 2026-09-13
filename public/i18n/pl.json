@@ -3184,7 +3184,8 @@
       "CHARTS": "Wykresy",
       "SAVED": "Zapisane motywy",
       "WALLPAPER": "Tło",
-      "CHAT_TEXT": "Kolory tekstu chatu"
+      "CHAT_TEXT": "Kolory tekstu chatu",
+      "REGIONS": "Obszary"
     },
     "INHERITED": "dziedziczone",
     "SCOPE_IMAGE": "Obraz",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {Zaimportowano # motyw} few {Zaimportowano # motywy} many {Zaimportowano # motywów} other {Zaimportowano # motywu}}",
       "IMPORTED_NAME": "Zaimportowany motyw",
       "CURRENT": "Bieżący",
-      "DEFAULT_NAME": "Mój motyw"
+      "DEFAULT_NAME": "Mój motyw",
+      "HINT": "Zapisany motyw obejmuje razem Aplikację, Czat i Obraz."
+    },
+    "OPACITY": "Krycie",
+    "REGION": {
+      "HEADER": "Pasek górny",
+      "HEADER_BLUR": "Szron paska górnego",
+      "SIDEBAR_BLUR": "Szron paska bocznego",
+      "COMPOSER": "Pole pisania",
+      "COMPOSER_BLUR": "Szron pola pisania",
+      "BUBBLE_USER": "Twoje wiadomości",
+      "BUBBLE_USER_BLUR": "Szron twoich wiadomości",
+      "BUBBLE_ASSISTANT": "Odpowiedzi AI",
+      "BUBBLE_ASSISTANT_BLUR": "Szron odpowiedzi AI",
+      "FOOTER": "Stopka",
+      "FOOTER_BLUR": "Szron stopki",
+      "OVERLAY": "Panele i arkusze",
+      "OVERLAY_BLUR": "Szron paneli i arkuszy"
     }
   },
   "BILLING": {

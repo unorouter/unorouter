@@ -3184,7 +3184,8 @@
       "CHARTS": "Charts",
       "SAVED": "Saved themes",
       "WALLPAPER": "Background",
-      "CHAT_TEXT": "Chat text colors"
+      "CHAT_TEXT": "Chat text colors",
+      "REGIONS": "Regions"
     },
     "INHERITED": "inherited",
     "SCOPE_IMAGE": "Image",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# theme imported} other {# themes imported}}",
       "IMPORTED_NAME": "Imported theme",
       "CURRENT": "Current",
-      "DEFAULT_NAME": "My theme"
+      "DEFAULT_NAME": "My theme",
+      "HINT": "A saved theme keeps App, Chat and Image together."
+    },
+    "OPACITY": "Opacity",
+    "REGION": {
+      "HEADER": "Header bar",
+      "HEADER_BLUR": "Header frost",
+      "SIDEBAR_BLUR": "Sidebar frost",
+      "COMPOSER": "Type area",
+      "COMPOSER_BLUR": "Type area frost",
+      "BUBBLE_USER": "Your messages",
+      "BUBBLE_USER_BLUR": "Your messages frost",
+      "BUBBLE_ASSISTANT": "AI replies",
+      "BUBBLE_ASSISTANT_BLUR": "AI replies frost",
+      "FOOTER": "Page footer",
+      "FOOTER_BLUR": "Page footer frost",
+      "OVERLAY": "Panels and sheets",
+      "OVERLAY_BLUR": "Panels and sheets frost"
     }
   },
   "BILLING": {

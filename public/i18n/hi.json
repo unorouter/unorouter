@@ -3184,7 +3184,8 @@
       "CHARTS": "चार्ट",
       "SAVED": "सहेजी गई थीम",
       "WALLPAPER": "पृष्ठभूमि",
-      "CHAT_TEXT": "Chat text रंग"
+      "CHAT_TEXT": "Chat text रंग",
+      "REGIONS": "क्षेत्र"
     },
     "INHERITED": "विरासत में",
     "SCOPE_IMAGE": "छवि",
@@ -3259,7 +3260,24 @@
       "IMPORTED_COUNT": "{count, plural, one {# थीम आयात की गई} other {# थीम आयात की गईं}}",
       "IMPORTED_NAME": "आयातित थीम",
       "CURRENT": "वर्तमान",
-      "DEFAULT_NAME": "मेरी थीम"
+      "DEFAULT_NAME": "मेरी थीम",
+      "HINT": "सहेजी गई थीम में ऐप, चैट और छवि एक साथ रहते हैं।"
+    },
+    "OPACITY": "अपारदर्शिता",
+    "REGION": {
+      "HEADER": "शीर्ष पट्टी",
+      "HEADER_BLUR": "शीर्ष पट्टी धुंध",
+      "SIDEBAR_BLUR": "साइडबार धुंध",
+      "COMPOSER": "टाइपिंग क्षेत्र",
+      "COMPOSER_BLUR": "टाइपिंग क्षेत्र धुंध",
+      "BUBBLE_USER": "आपके संदेश",
+      "BUBBLE_USER_BLUR": "आपके संदेशों की धुंध",
+      "BUBBLE_ASSISTANT": "AI के उत्तर",
+      "BUBBLE_ASSISTANT_BLUR": "AI उत्तरों की धुंध",
+      "FOOTER": "पेज फ़ुटर",
+      "FOOTER_BLUR": "पेज फ़ुटर धुंध",
+      "OVERLAY": "पैनल और शीट",
+      "OVERLAY_BLUR": "पैनल और शीट धुंध"
     }
   },
   "BILLING": {
