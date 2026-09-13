@@ -361,13 +361,6 @@ function setIn(layer: ModeValues | undefined, id: string): boolean {
   return layer?.light?.[id] !== undefined || layer?.dark?.[id] !== undefined;
 }
 
-// A colour picked with its own alpha is final; a plain hex takes the panel
-// tint like every untouched surface.
-function ownAlpha(layer: ModeValues | undefined, id: string): boolean {
-  return [layer?.light?.[id], layer?.dark?.[id]].some(
-    (v) => typeof v === "string" && v.length > 7,
-  );
-}
 
 function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const at =
@@ -375,27 +368,22 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
       ? "[data-bg-active]"
       : `[data-bg-active] ${scopeSelector(scope)}`;
   const pct = Math.round(w.panelOpacity * 100);
+  // An explicit none at 0: several panels ship with their own backdrop
+  // blur class, which would otherwise return the moment the slider hits 0.
   const frost = (scale = 1) =>
     w.panelBlur > 0
       ? `backdrop-filter:blur(${(w.panelBlur * scale).toFixed(1)}px);`
-      : "";
+      : "backdrop-filter:none;";
   const mix = (varName: string, p: number) =>
     `color-mix(in srgb, var(--${varName}) ${p}%, transparent)`;
   // Switch and slider thumbs fill themselves with .bg-background, but a knob is
   // not a surface.
   const notKnob =
     ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
-  const tint = (id: string, p = pct) => {
-    const layer =
-      scope !== "app" && setIn(theme.scopes[scope], id)
-        ? theme.scopes[scope]
-        : setIn(theme.global, id)
-          ? theme.global
-          : undefined;
-    if (layer && ownAlpha(layer, id))
-      return `background-color:var(--${id}) !important;`;
-    return `background-color:${mix(id, p)} !important;`;
-  };
+  // Panel opacity tints every surface, chosen colours included, so the
+  // sliders always reveal the wallpaper.
+  const tint = (id: string, p = pct) =>
+    `background-color:${mix(id, p)} !important;`;
   const bubblePct = Math.round(w.bubbleOpacity * 100);
   const composerPct = Math.round(w.composerOpacity * 100);
   const translucent =
@@ -435,7 +423,7 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const composerFrost =
     w.panelBlur > 0
       ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4);`
-      : "";
+      : "backdrop-filter:none;";
   const composer = [
     // Doubled attribute selector on purpose: it must outrank the
     // three-class nested-surface reset above.

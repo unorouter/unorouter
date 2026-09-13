@@ -1,4 +1,4 @@
-import { normHex } from "@/lib/theme/palette";
+import { joinAlpha, normHex } from "@/lib/theme/palette";
 import { CUSTOM, DEFAULT } from "@/lib/theme/presets";
 import {
   INITIAL_USER_THEME,
@@ -205,14 +205,37 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   return { v: 2, presets, global, scopes };
 }
 
+// An earlier v2 migration baked the v1 panel opacity into these colours'
+// alpha while the panel-opacity token stayed set, so the tint applied twice.
+// An alpha that equals the token's is that bake and comes back out.
+const BAKED_V1 = ["background", "card", "popover", "sidebar", "muted"];
+
+function unbake(layer: ModeValues, panelOpacity: number | undefined): void {
+  if (panelOpacity === undefined || panelOpacity >= 1) return;
+  const suffix = joinAlpha("#000000", panelOpacity).slice(7);
+  for (const mode of ["light", "dark"] as const) {
+    const values = layer[mode];
+    if (!values) continue;
+    for (const id of BAKED_V1) {
+      const hex = values[id];
+      if (typeof hex === "string" && hex.length === 9 && hex.endsWith(suffix))
+        values[id] = hex.slice(0, 7);
+    }
+  }
+}
+
 export function migrateTheme(raw: unknown): UserTheme {
   if (!isRecord(raw)) return INITIAL_USER_THEME;
   if (raw.v !== 2) return fromV1(raw);
   const presets = isRecord(raw.presets) ? raw.presets : {};
   const scopesRaw = isRecord(raw.scopes) ? raw.scopes : {};
+  const global = modeValues(raw.global);
+  const panelOpacity = num(global.all?.["panel-opacity"]);
+  unbake(global, panelOpacity);
   const scopes: UserTheme["scopes"] = {};
   for (const key of ["chat", "image"] as const) {
     const values = modeValues(scopesRaw[key]);
+    unbake(values, num(values.all?.["panel-opacity"]) ?? panelOpacity);
     if (Object.keys(values).length) scopes[key] = values;
   }
   return {
@@ -223,7 +246,7 @@ export function migrateTheme(raw: unknown): UserTheme {
       chart: str(presets.chart) ?? DEFAULT,
       style: str(presets.style) ?? DEFAULT,
     },
-    global: modeValues(raw.global),
+    global,
     scopes,
   };
 }
