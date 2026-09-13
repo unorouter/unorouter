@@ -419,6 +419,19 @@ export const TOKENS: readonly TokenDef[] = [
     },
   ]),
 
+  {
+    ...color("chat-icon", "regions", "THEME.REGION.CHAT_ICONS", CHAT),
+    // The composer's own filled buttons keep their primary-foreground glyph.
+    rule: (value: string, root: string) =>
+      [
+        ".aui-assistant-action-bar-root .aui-button-icon",
+        ".aui-user-action-bar-root .aui-button-icon",
+        ".aui-composer-action-wrapper .aui-button-icon:not(.aui-composer-send)",
+      ]
+        .map((s) => `${root} ${s}`)
+        .join(",") + `{color:${value} !important;}`,
+  },
+
   select("wallpaper-fit", "wallpaper", "THEME.BG_FIT", FIT_OPTIONS),
   number("wallpaper-opacity", "wallpaper", "THEME.BG_OPACITY", {
     min: 0.1,

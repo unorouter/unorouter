@@ -3267,7 +3267,8 @@
       "OVERLAY": "Panele i arkusze",
       "OVERLAY_BLUR": "Szron paneli i arkuszy",
       "CARD_BLUR": "Szron kart",
-      "POPOVER_BLUR": "Szron menu"
+      "POPOVER_BLUR": "Szron menu",
+      "CHAT_ICONS": "Ikony czatu"
     },
     "GROUP": {
       "SURFACE": "Powierzchnie",

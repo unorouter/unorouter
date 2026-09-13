@@ -251,10 +251,19 @@ export function buildThemeCss(theme: UserTheme): string {
   }
   for (const scope of THEME_SCOPES) {
     if (scope !== "app" && !theme.scopes[scope]) continue;
-    const all = modeValues(theme, scope).all ?? {};
+    const values = modeValues(theme, scope);
     for (const def of TOKENS) {
-      const raw = all[def.id];
-      if (!def.rule || raw === undefined) continue;
+      if (!def.rule) continue;
+      if (def.perMode) {
+        const set =
+          values.light?.[def.id] !== undefined ||
+          values.dark?.[def.id] !== undefined;
+        if (set && def.cssVar)
+          blocks.push(def.rule(`var(${def.cssVar})`, scopeSelector(scope)));
+        continue;
+      }
+      const raw = values.all?.[def.id];
+      if (raw === undefined) continue;
       blocks.push(def.rule(tokenCss(def, raw), scopeSelector(scope)));
     }
   }

@@ -3267,7 +3267,8 @@
       "OVERLAY": "Panels and sheets",
       "OVERLAY_BLUR": "Panels and sheets frost",
       "CARD_BLUR": "Card frost",
-      "POPOVER_BLUR": "Menu frost"
+      "POPOVER_BLUR": "Menu frost",
+      "CHAT_ICONS": "Chat icons"
     },
     "GROUP": {
       "SURFACE": "Surfaces",

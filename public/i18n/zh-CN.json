@@ -3267,7 +3267,8 @@
       "OVERLAY": "面板与抽屉",
       "OVERLAY_BLUR": "面板与抽屉磨砂",
       "CARD_BLUR": "卡片磨砂",
-      "POPOVER_BLUR": "菜单磨砂"
+      "POPOVER_BLUR": "菜单磨砂",
+      "CHAT_ICONS": "聊天图标"
     },
     "GROUP": {
       "SURFACE": "表面",

@@ -3267,7 +3267,8 @@
       "OVERLAY": "Paneller ve yan sayfalar",
       "OVERLAY_BLUR": "Paneller buzlu cam",
       "CARD_BLUR": "Kart buzlu cam",
-      "POPOVER_BLUR": "Menü buzlu cam"
+      "POPOVER_BLUR": "Menü buzlu cam",
+      "CHAT_ICONS": "Sohbet simgeleri"
     },
     "GROUP": {
       "SURFACE": "Yüzeyler",

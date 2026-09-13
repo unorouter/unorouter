@@ -3267,7 +3267,8 @@
       "OVERLAY": "Painéis e folhas",
       "OVERLAY_BLUR": "Vidro fosco de painéis e folhas",
       "CARD_BLUR": "Vidro fosco dos cartões",
-      "POPOVER_BLUR": "Vidro fosco dos menus"
+      "POPOVER_BLUR": "Vidro fosco dos menus",
+      "CHAT_ICONS": "Ícones do chat"
     },
     "GROUP": {
       "SURFACE": "Superfícies",

@@ -3267,7 +3267,8 @@
       "OVERLAY": "Paneles y hojas",
       "OVERLAY_BLUR": "Escarcha de paneles y hojas",
       "CARD_BLUR": "Escarcha de tarjetas",
-      "POPOVER_BLUR": "Escarcha de menús"
+      "POPOVER_BLUR": "Escarcha de menús",
+      "CHAT_ICONS": "Iconos del chat"
     },
     "GROUP": {
       "SURFACE": "Superficies",

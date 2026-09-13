@@ -3267,7 +3267,8 @@
       "OVERLAY": "פאנלים וגיליונות",
       "OVERLAY_BLUR": "טשטוש פאנלים וגיליונות",
       "CARD_BLUR": "טשטוש כרטיסים",
-      "POPOVER_BLUR": "טשטוש תפריטים"
+      "POPOVER_BLUR": "טשטוש תפריטים",
+      "CHAT_ICONS": "סמלי הצ׳אט"
     },
     "GROUP": {
       "SURFACE": "משטחים",
