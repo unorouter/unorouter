@@ -53,7 +53,12 @@ export function SavedThemesSection(props: { editor: ThemeEditor }) {
     } else {
       save.mutate(
         { name, themeJson: editor.theme, backgroundImages: editor.images },
-        { onSuccess: () => toast.success(t("THEME.SAVED.SAVED_DONE")) },
+        {
+          onSuccess: () =>
+            toast.success(t("THEME.SAVED.SAVED_DONE"), {
+              position: "top-center",
+            }),
+        },
       );
     }
     setPrompt(null);
@@ -126,7 +131,10 @@ export function SavedThemesSection(props: { editor: ThemeEditor }) {
               });
               if (ok)
                 remove.mutate(row.id, {
-                  onSuccess: () => toast.success(t("THEME.SAVED.DELETED_DONE")),
+                  onSuccess: () =>
+                    toast.success(t("THEME.SAVED.DELETED_DONE"), {
+                      position: "top-center",
+                    }),
                 });
             }}
           >
