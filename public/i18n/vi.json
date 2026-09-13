@@ -3267,7 +3267,8 @@
       "OVERLAY": "Bảng và ngăn kéo",
       "OVERLAY_BLUR": "Hiệu ứng mờ bảng và ngăn kéo",
       "CARD_BLUR": "Hiệu ứng mờ thẻ",
-      "POPOVER_BLUR": "Hiệu ứng mờ trình đơn"
+      "POPOVER_BLUR": "Hiệu ứng mờ trình đơn",
+      "CHAT_ICONS": "Biểu tượng trò chuyện"
     },
     "GROUP": {
       "SURFACE": "Bề mặt",

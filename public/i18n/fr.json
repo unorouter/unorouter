@@ -3267,7 +3267,8 @@
       "OVERLAY": "Panneaux et volets",
       "OVERLAY_BLUR": "Givre des panneaux et volets",
       "CARD_BLUR": "Givre des cartes",
-      "POPOVER_BLUR": "Givre des menus"
+      "POPOVER_BLUR": "Givre des menus",
+      "CHAT_ICONS": "Icônes du chat"
     },
     "GROUP": {
       "SURFACE": "Surfaces",

@@ -3267,7 +3267,8 @@
       "OVERLAY": "Panel dan lembar",
       "OVERLAY_BLUR": "Efek kaca panel dan lembar",
       "CARD_BLUR": "Efek kaca kartu",
-      "POPOVER_BLUR": "Efek kaca menu"
+      "POPOVER_BLUR": "Efek kaca menu",
+      "CHAT_ICONS": "Ikon obrolan"
     },
     "GROUP": {
       "SURFACE": "Permukaan",

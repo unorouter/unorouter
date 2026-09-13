@@ -3267,7 +3267,8 @@
       "OVERLAY": "Panels und Sheets",
       "OVERLAY_BLUR": "Panels und Sheets Milchglas",
       "CARD_BLUR": "Karten Milchglas",
-      "POPOVER_BLUR": "Menü Milchglas"
+      "POPOVER_BLUR": "Menü Milchglas",
+      "CHAT_ICONS": "Chat-Symbole"
     },
     "GROUP": {
       "SURFACE": "Flächen",

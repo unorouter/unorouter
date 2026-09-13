@@ -3267,7 +3267,8 @@
       "OVERLAY": "पैनल और शीट",
       "OVERLAY_BLUR": "पैनल और शीट धुंध",
       "CARD_BLUR": "कार्ड धुंध",
-      "POPOVER_BLUR": "मेनू धुंध"
+      "POPOVER_BLUR": "मेनू धुंध",
+      "CHAT_ICONS": "चैट आइकन"
     },
     "GROUP": {
       "SURFACE": "सतहें",

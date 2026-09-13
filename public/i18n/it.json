@@ -3267,7 +3267,8 @@
       "OVERLAY": "Pannelli e schede",
       "OVERLAY_BLUR": "Effetto vetro pannelli e schede",
       "CARD_BLUR": "Effetto vetro schede",
-      "POPOVER_BLUR": "Effetto vetro menu"
+      "POPOVER_BLUR": "Effetto vetro menu",
+      "CHAT_ICONS": "Icone della chat"
     },
     "GROUP": {
       "SURFACE": "Superfici",

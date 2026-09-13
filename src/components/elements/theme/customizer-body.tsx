@@ -315,7 +315,10 @@ export function ThemeCustomizerBody() {
     regions: (
       <>
         <div className="flex items-center justify-end px-1">{colorTabs}</div>
-        {surfaceFields(["composer", "bubble-user", "bubble-assistant"], editor)}
+        {surfaceFields(
+          ["composer", "bubble-user", "bubble-assistant", "chat-icon"],
+          editor,
+        )}
       </>
     ),
     wallpaper: <BackgroundImageSection editor={editor} modeTabs={colorTabs} />,

@@ -3267,7 +3267,8 @@
       "OVERLAY": "パネルとシート",
       "OVERLAY_BLUR": "パネルとシートのすりガラス",
       "CARD_BLUR": "カードのすりガラス",
-      "POPOVER_BLUR": "メニューのすりガラス"
+      "POPOVER_BLUR": "メニューのすりガラス",
+      "CHAT_ICONS": "チャットのアイコン"
     },
     "GROUP": {
       "SURFACE": "面",

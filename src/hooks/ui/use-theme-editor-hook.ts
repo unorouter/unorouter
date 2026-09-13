@@ -117,6 +117,48 @@ function themeStylesSnapshot(): string {
   ).join("\n");
 }
 
+// The page paints one mode, so the other mode's defaults come from the
+// stylesheet rules themselves (`:root` and `.dark`), later rules winning.
+function rootDeclarations(mode: ThemeMode): CSSStyleDeclaration[] {
+  const selector = mode === "dark" ? ".dark" : ":root";
+  const out: CSSStyleDeclaration[] = [];
+  const walk = (rules: CSSRuleList) => {
+    for (const rule of rules) {
+      if (rule instanceof CSSStyleRule && rule.selectorText === selector) {
+        out.push(rule.style);
+      } else if (rule instanceof CSSGroupingRule) {
+        walk(rule.cssRules);
+      }
+    }
+  };
+  for (const sheet of document.styleSheets) {
+    try {
+      walk(sheet.cssRules);
+    } catch {
+      // cross-origin sheet
+    }
+  }
+  return out;
+}
+
+function stylesheetVar(cssVar: string, mode: ThemeMode): string | undefined {
+  const decls = rootDeclarations(mode);
+  const lookup = (name: string): string => {
+    for (let i = decls.length - 1; i >= 0; i--) {
+      const v = decls[i]?.getPropertyValue(name).trim();
+      if (v) return v;
+    }
+    return "";
+  };
+  let value = lookup(cssVar);
+  for (let hops = 0; hops < 4; hops++) {
+    const ref = /^var\((--[\w-]+)\)$/.exec(value);
+    if (!ref?.[1]) break;
+    value = lookup(ref[1]);
+  }
+  return value || undefined;
+}
+
 export function useThemeEditor() {
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
   const [editor, setEditor] = useAtom(themeEditorAtom);
@@ -212,7 +254,9 @@ export function useThemeEditor() {
     )
       ? "dark"
       : "light";
-    if (def.perMode && pageMode !== mode) return undefined;
+    if (def.perMode && pageMode !== mode) {
+      return def.cssVar ? stylesheetVar(def.cssVar, mode) : undefined;
+    }
     const root =
       (scope !== "app" &&
         document.querySelector(`[data-theme-scope="${scope}"]`)) ||
