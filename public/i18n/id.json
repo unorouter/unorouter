@@ -3946,7 +3946,8 @@
     "LOCAL_ONLY_NOTICE": "Obrolan Anda tetap di perangkat ini. Kami tidak pernah melihatnya dan tidak menyimpan salinan, jadi cadangkan sendiri.",
     "DB_HELD": "Tab lain, atau halaman yang baru saja ditutup, masih memegang basis data lokal sehingga obrolan tidak dapat dimuat. Tutup tab UnoRouter lainnya, atau keluar dari peramban lalu buka kembali, kemudian coba lagi.",
     "DB_HELD_DOWNLOAD": "Unduh berkas basis data mentah",
-    "STORAGE_BLOCKED": "Browser Anda memblokir penyimpanan untuk situs ini, sehingga obrolan tidak dapat disimpan dan pesan hilang saat dikirim. Izinkan cookie dan data situs, matikan pengaturan yang menghapus data saat ditutup, dan keluar dari mode penjelajahan pribadi. Varian Chromium yang berfokus pada privasi memblokirnya secara bawaan."
+    "STORAGE_BLOCKED": "Browser Anda memblokir penyimpanan untuk situs ini, sehingga obrolan tidak dapat disimpan dan pesan hilang saat dikirim. Izinkan cookie dan data situs, matikan pengaturan yang menghapus data saat ditutup, dan keluar dari mode penjelajahan pribadi. Varian Chromium yang berfokus pada privasi memblokirnya secara bawaan.",
+    "THOUGHT_TOKENS": "{count} token"
   },
   "ROOM": {
     "HOST_TITLE": "Ruang multipemain",
