@@ -24,6 +24,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -179,6 +180,63 @@ export function ThemeCustomizerBody() {
   const importFile = (file: File) =>
     file.text().then(importText, () => toast.error(t("THEME.IMPORT_FAILED")));
 
+  type FooterAction = {
+    labelKey: MessageKey;
+    icon: IconName;
+    onClick: () => void;
+    disabled?: boolean;
+  };
+  const iconButton = (a: FooterAction) => (
+    <Button
+      key={a.labelKey}
+      type="button"
+      variant="outline"
+      size="icon-sm"
+      className="size-7"
+      aria-label={t(a.labelKey)}
+      title={t(a.labelKey)}
+      disabled={a.disabled}
+      onClick={a.onClick}
+    >
+      <Icon name={a.icon} className="size-4" />
+    </Button>
+  );
+  const FOOTER_ACTIONS: FooterAction[] = [
+    {
+      labelKey: "THEME.UNDO",
+      icon: "rotate-ccw",
+      disabled: !editor.canUndo,
+      onClick: () =>
+        void editor
+          .undo()
+          .then((ok) => ok && toast.success(t("THEME.UNDO_DONE"))),
+    },
+    {
+      labelKey: "THEME.REDO",
+      icon: "rotate-cw",
+      disabled: !editor.canRedo,
+      onClick: () => editor.redo() && toast.success(t("THEME.REDO_DONE")),
+    },
+    { labelKey: "THEME.SHUFFLE", icon: "shuffle", onClick: editor.shuffle },
+    {
+      labelKey: "THEME.RESET_ALL",
+      icon: "refresh-ccw",
+      disabled: editor.isDefault,
+      onClick: () => {
+        editor.resetAll();
+        toast.success(t("THEME.RESET_DONE"));
+      },
+    },
+  ];
+  const FOOTER_AFTER_IMPORT: FooterAction[] = [
+    {
+      labelKey: "THEME.IMPORT_PASTE",
+      icon: "clipboard-copy",
+      onClick: () => setPasteOpen(true),
+    },
+    { labelKey: "THEME.EXPORT", icon: "download", onClick: exportThemes },
+  ];
+
   const colorTabs = (
     <Tabs
       value={mode}
@@ -199,17 +257,18 @@ export function ThemeCustomizerBody() {
     presets: <PresetsSection editor={editor} />,
     colors: (
       <>
-        <div className="flex items-center justify-between gap-2 px-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+          {colorTabs}
           <Button
             type="button"
             variant="ghost"
             size="sm"
+            className="h-7 px-2 text-xs"
             onClick={editor.copyModeToOther}
           >
-            <Icon name="copy" className="mr-1.5 size-3.5" />
+            <Icon name="copy" className="mr-1 size-3.5" />
             {t(mode === "light" ? "THEME.COPY_TO_DARK" : "THEME.COPY_TO_LIGHT")}
           </Button>
-          {colorTabs}
         </div>
         {COLOR_GROUPS.flatMap((g) => fields(g))}
       </>
@@ -273,62 +332,20 @@ export function ThemeCustomizerBody() {
           ))}
         </FieldGroup>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
+      <CardFooter className="flex flex-wrap items-center justify-center gap-1 border-t px-3 pt-3 pb-3">
+        {FOOTER_ACTIONS.map(iconButton)}
         <Button
           type="button"
           variant="outline"
-          size="sm"
-          onClick={() =>
-            void editor
-              .undo()
-              .then((ok) => ok && toast.success(t("THEME.UNDO_DONE")))
-          }
-          disabled={!editor.canUndo}
-        >
-          <Icon name="rotate-ccw" className="mr-1.5 size-3.5" />
-          {t("THEME.UNDO")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => editor.redo() && toast.success(t("THEME.REDO_DONE"))}
-          disabled={!editor.canRedo}
-        >
-          <Icon name="rotate-cw" className="mr-1.5 size-3.5" />
-          {t("THEME.REDO")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={editor.shuffle}
-        >
-          <Icon name="shuffle" className="mr-1.5 size-3.5" />
-          {t("THEME.SHUFFLE")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            editor.resetAll();
-            toast.success(t("THEME.RESET_DONE"));
-          }}
-          disabled={editor.isDefault}
-        >
-          <Icon name="refresh-ccw" className="mr-1.5 size-3.5" />
-          {t("THEME.RESET_ALL")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
+          size="icon-sm"
+          className="size-7"
+          aria-label={t("THEME.IMPORT")}
+          title={t("THEME.IMPORT")}
           onClick={() => fileInputRef.current?.click()}
         >
-          <Icon name="upload" className="mr-1.5 size-3.5" />
-          {t("THEME.IMPORT")}
+          <Icon name="upload" className="size-4" />
         </Button>
+        {FOOTER_AFTER_IMPORT.map(iconButton)}
         <input
           ref={fileInputRef}
           type="file"
@@ -340,24 +357,6 @@ export function ThemeCustomizerBody() {
             e.target.value = "";
           }}
         />
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => setPasteOpen(true)}
-        >
-          <Icon name="clipboard-copy" className="mr-1.5 size-3.5" />
-          {t("THEME.IMPORT_PASTE")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={exportThemes}
-        >
-          <Icon name="download" className="mr-1.5 size-3.5" />
-          {t("THEME.EXPORT")}
-        </Button>
       </CardFooter>
       <Dialog open={pasteOpen} onOpenChange={setPasteOpen}>
         <DialogContent>
