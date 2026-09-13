@@ -6,6 +6,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Icon } from "@/components/ui/icon";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
+import { formatTokens } from "@/lib/utils/format/number";
 import { cn } from "@/lib/utils";
 import {
   useAuiState,
@@ -140,17 +142,19 @@ function ReasoningRoot({
 
 function ReasoningTrigger({
   active,
+  tokens,
   className,
   ...props
 }: React.ComponentProps<typeof CollapsibleTrigger> & {
   active?: boolean;
+  tokens?: number;
 }) {
   const t = useTranslations();
   return (
     <CollapsibleTrigger
       data-slot="reasoning-trigger"
       className={cn(
-        "aui-reasoning-trigger group/trigger text-muted-foreground hover:text-foreground flex max-w-[75%] items-center gap-2 py-1 text-sm transition-colors",
+        "aui-reasoning-trigger group/trigger text-muted-foreground hover:text-foreground flex w-full items-center gap-2 py-1 text-sm transition-colors",
         className,
       )}
       {...props}
@@ -188,6 +192,14 @@ function ReasoningTrigger({
           "group-data-[state=open]/trigger:rotate-0",
         )}
       />
+      {tokens ? (
+        <span
+          data-slot="reasoning-trigger-tokens"
+          className="aui-reasoning-trigger-tokens ml-auto shrink-0 text-xs tabular-nums"
+        >
+          {t("CHAT.THOUGHT_TOKENS", { count: formatTokens(tokens) })}
+        </span>
+      ) : null}
     </CollapsibleTrigger>
   );
 }
@@ -312,9 +324,20 @@ const ReasoningGroup: ReasoningGroupComponent = ({
     return lastIndex >= startIndex && lastIndex <= endIndex;
   });
 
+  // Counted with the active tokenizer once the stream ends; the gateway only
+  // reports reasoning inside the total output count.
+  const reasoningText = useAuiState((s) => {
+    if (s.message.status?.type === "running") return "";
+    return s.message.parts
+      .slice(startIndex, endIndex + 1)
+      .map((p) => (p.type === "reasoning" ? p.text : ""))
+      .join("\n");
+  });
+  const tokens = reasoningText ? countTokens(reasoningText) : 0;
+
   return (
     <ReasoningRoot streaming={isReasoningStreaming}>
-      <ReasoningTrigger active={isReasoningStreaming} />
+      <ReasoningTrigger active={isReasoningStreaming} tokens={tokens} />
       <ReasoningContent aria-busy={isReasoningStreaming}>
         <ReasoningText>{children}</ReasoningText>
       </ReasoningContent>
