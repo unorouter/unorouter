@@ -169,12 +169,6 @@ export const REGIONS: readonly {
     selector: ".bg-header",
   },
   {
-    id: "sidebar-header",
-    labelKey: "THEME.REGION.SIDEBAR_HEADER",
-    blurKey: "THEME.REGION.SIDEBAR_HEADER_BLUR",
-    selector: "[data-slot=sidebar-header]",
-  },
-  {
     id: "composer",
     labelKey: "THEME.REGION.COMPOSER",
     blurKey: "THEME.REGION.COMPOSER_BLUR",

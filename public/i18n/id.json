@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "Efek kaca kaki halaman",
       "OVERLAY": "Panel dan lembar",
       "OVERLAY_BLUR": "Efek kaca panel dan lembar",
-      "SIDEBAR_HEADER": "Bagian atas bilah samping",
-      "SIDEBAR_HEADER_BLUR": "Efek kaca bagian atas bilah samping",
       "CARD_BLUR": "Efek kaca kartu",
       "POPOVER_BLUR": "Efek kaca menu"
     },

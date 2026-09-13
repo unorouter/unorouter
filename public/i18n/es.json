@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "Escarcha del pie de página",
       "OVERLAY": "Paneles y hojas",
       "OVERLAY_BLUR": "Escarcha de paneles y hojas",
-      "SIDEBAR_HEADER": "Parte superior de la barra lateral",
-      "SIDEBAR_HEADER_BLUR": "Escarcha superior de la barra lateral",
       "CARD_BLUR": "Escarcha de tarjetas",
       "POPOVER_BLUR": "Escarcha de menús"
     },

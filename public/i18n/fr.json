@@ -3266,8 +3266,6 @@
       "FOOTER_BLUR": "Givre du pied de page",
       "OVERLAY": "Panneaux et volets",
       "OVERLAY_BLUR": "Givre des panneaux et volets",
-      "SIDEBAR_HEADER": "Haut de la barre latérale",
-      "SIDEBAR_HEADER_BLUR": "Givre du haut de la barre latérale",
       "CARD_BLUR": "Givre des cartes",
       "POPOVER_BLUR": "Givre des menus"
     },
