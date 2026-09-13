@@ -47,6 +47,8 @@ export type TokenDef = {
   // A rule emitted only while the token is set, for effects that must not
   // exist at rest (a backdrop-filter promotes its element to a GPU layer).
   rule?: (value: string, root: string) => string;
+  // Element whose computed backdrop-filter shows the value in force.
+  probe?: string;
 };
 
 // Proper nouns (icon sets) carry a literal label; everything else translates.
@@ -223,6 +225,7 @@ export const TOKENS: readonly TokenDef[] = [
     ),
     rule: (value: string, root: string) =>
       `${root === ":root" ? "" : `${root} `}.bg-card{backdrop-filter:blur(${value}) !important;}`,
+    probe: ".bg-card",
   },
   color("popover", "surface", "THEME.TOKEN.POPOVER"),
   {
@@ -236,6 +239,7 @@ export const TOKENS: readonly TokenDef[] = [
     ),
     rule: (value: string, root: string) =>
       `${root === ":root" ? "" : `${root} `}[data-slot=dropdown-menu-content],[data-slot=dropdown-menu-sub-content],[data-slot=popover-content]{backdrop-filter:blur(${value}) !important;}`,
+    probe: "[data-slot=dropdown-menu-content]",
   },
   color("sidebar", "surface", "THEME.TOKEN.SIDEBAR"),
   {
@@ -249,6 +253,7 @@ export const TOKENS: readonly TokenDef[] = [
     ),
     rule: (value: string, root: string) =>
       `${root === ":root" ? "" : `${root} `}[data-slot=sidebar-container]{backdrop-filter:blur(${value}) !important;}`,
+    probe: "[data-slot=sidebar-container]",
   },
 
   color("foreground", "text", "THEME.TOKEN.FOREGROUND"),
@@ -416,6 +421,7 @@ export const TOKENS: readonly TokenDef[] = [
       ),
       rule: (value: string, root: string) =>
         `${root === ":root" ? "" : `${root} `}${r.selector}{backdrop-filter:blur(${value}) !important;}`,
+      probe: r.selector,
     },
   ]),
 

@@ -171,12 +171,43 @@ export function useThemeEditor() {
   const read = (def: TokenDef) => readToken(theme, scope, mode, def);
   const write = (def: TokenDef, value: string | number | undefined) =>
     setTheme(writeToken(theme, scope, mode, def, value));
+  // What is in force when the token is unset: the app layer of the theme,
+  // else whatever globals.css and the wallpaper rules currently paint, read
+  // off the live page. The page only shows one mode, so the DOM answer is
+  // used when the editor's mode tab matches it.
   const inherited = (def: TokenDef): string | number | undefined => {
     if (scope !== "app") {
       const own = readToken(theme, "app", mode, def);
       if (own !== undefined) return own;
     }
-    return def.cssVar ? effective[def.cssVar.slice(2)] : undefined;
+    const derived = def.cssVar ? effective[def.cssVar.slice(2)] : undefined;
+    if (derived !== undefined || typeof document === "undefined")
+      return derived;
+    const pageMode: ThemeMode = document.documentElement.classList.contains(
+      "dark",
+    )
+      ? "dark"
+      : "light";
+    if (def.perMode && pageMode !== mode) return undefined;
+    const root =
+      (scope !== "app" &&
+        document.querySelector(`[data-theme-scope="${scope}"]`)) ||
+      document.documentElement;
+    if (def.probe) {
+      const el = document.querySelector(def.probe);
+      const blur = el
+        ? /blur\((\d+(?:\.\d+)?)px\)/.exec(getComputedStyle(el).backdropFilter)
+        : null;
+      return blur ? Number(blur[1]) : undefined;
+    }
+    if (!def.cssVar) return undefined;
+    const raw = getComputedStyle(root).getPropertyValue(def.cssVar).trim();
+    if (!raw) return undefined;
+    if (def.kind === "number") {
+      const n = parseFloat(raw);
+      return Number.isFinite(n) ? n : undefined;
+    }
+    return raw;
   };
 
   // Every per-mode value of the current scope, copied over the other mode.
