@@ -101,11 +101,21 @@ function bothModes(values: ModeValues, id: string, hex: string): void {
   values.dark = { ...(values.dark ?? {}), [id]: hex };
 }
 
+// A v1 file was one theme, so it fills the App scope alone and the chat and
+// image scopes start empty: chat colours override the app palette, chat-only
+// tokens land on :root where the chat page inherits them.
 function fromV1(raw: Record<string, unknown>): UserTheme {
-  const global: ModeValues = v1Surface(raw.surface);
-  const chat: ModeValues = v1Surface(raw.chatSurface);
+  const surface = v1Surface(raw.surface);
+  const chatSurface = v1Surface(raw.chatSurface);
+  const global: ModeValues = {
+    ...(surface.light || chatSurface.light
+      ? { light: { ...(surface.light ?? {}), ...(chatSurface.light ?? {}) } }
+      : {}),
+    ...(surface.dark || chatSurface.dark
+      ? { dark: { ...(surface.dark ?? {}), ...(chatSurface.dark ?? {}) } }
+      : {}),
+  };
   const all: TokenValues = {};
-  const chatAll: TokenValues = {};
   const presets = { ...INITIAL_USER_THEME.presets };
 
   const base = str(raw.baseColor);
@@ -165,18 +175,18 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
     };
     for (const [k, id] of Object.entries(ids)) {
       const hex = normHex(str(raw.markdown[k]));
-      if (hex) bothModes(chat, id, hex);
+      if (hex) bothModes(global, id, hex);
     }
   }
 
   const scale = num(raw.chatFontScale);
-  if (scale && scale !== 1) chatAll["prose-scale"] = scale;
+  if (scale && scale !== 1) all["prose-scale"] = scale;
   const weight = num(raw.chatFontWeight);
-  if (weight && weight !== 400) chatAll["font-weight"] = weight;
+  if (weight && weight !== 400) all["font-weight"] = weight;
   const avatar = num(raw.chatAvatarScale);
-  if (avatar && avatar !== 1) chatAll["chat-avatar"] = String(avatar);
+  if (avatar && avatar !== 1) all["chat-avatar"] = String(avatar);
   const assetWidth = num(raw.assetImageMaxWidth);
-  if (assetWidth) chatAll["asset-img-max-width"] = assetWidth;
+  if (assetWidth) all["asset-img-max-width"] = assetWidth;
 
   if (isRecord(raw.background)) {
     const bg = raw.background;
@@ -199,10 +209,7 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   }
 
   if (Object.keys(all).length) global.all = all;
-  if (Object.keys(chatAll).length) chat.all = chatAll;
-  const scopes: UserTheme["scopes"] = {};
-  if (Object.keys(chat).length) scopes.chat = chat;
-  return { v: 2, presets, global, scopes };
+  return { v: 2, presets, global, scopes: {} };
 }
 
 // An earlier v2 migration baked the v1 panel opacity into these colours'
