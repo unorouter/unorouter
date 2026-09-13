@@ -113,6 +113,14 @@ export function ConversationList() {
   };
 
   const handleDelete = async (id: string) => {
+    const ok = await confirm({
+      title: t("CHAT.DELETE_CHAT_TITLE"),
+      description: t("CHAT.DELETE_CHAT_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteMutation.mutateAsync({ id });
     if (activeThreadId === id) aui.threads().switchToNewThread();
   };

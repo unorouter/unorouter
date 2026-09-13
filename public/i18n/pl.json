@@ -3948,7 +3948,9 @@
     "DB_HELD": "Inna karta lub właśnie zamknięta strona nadal przetrzymuje lokalną bazę danych, więc czaty nie mogą się załadować. Zamknij pozostałe karty UnoRouter albo zamknij i ponownie otwórz przeglądarkę, a potem spróbuj jeszcze raz.",
     "DB_HELD_DOWNLOAD": "Pobierz surowy plik bazy danych",
     "STORAGE_BLOCKED": "Przeglądarka blokuje pamięć dla tej witryny, więc czaty nie mogą być zapisywane, a wiadomości znikają po wysłaniu. Zezwól na pliki cookie i dane witryny, wyłącz usuwanie danych przy zamykaniu i wyjdź z trybu prywatnego. Warianty Chromium nastawione na prywatność blokują to domyślnie.",
-    "THOUGHT_TOKENS": "{count} tokenów"
+    "THOUGHT_TOKENS": "{count} tokenów",
+    "DELETE_CHAT_TITLE": "Usunąć ten czat?",
+    "DELETE_CHAT_DESC": "Czat i wszystkie jego wiadomości zostaną trwale usunięte. Tej operacji nie można cofnąć."
   },
   "ROOM": {
     "HOST_TITLE": "Pokój wieloosobowy",
