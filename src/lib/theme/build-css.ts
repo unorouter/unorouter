@@ -345,24 +345,30 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // not a surface.
   const notKnob =
     ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
+  const untouched = (id: string) => !regionSet(theme, id);
+  // Tint only what the user has not coloured; a chosen colour carries its
+  // own alpha. Frost is the wallpaper's regardless.
+  const tint = (id: string, p = pct) =>
+    untouched(id) ? `background-color:${mix(id, p)} !important;` : "";
   const translucent =
     w.panelOpacity < 1
       ? [
-          `${at} .bg-background${notKnob}{background-color:${mix("background", pct)} !important;${frost()}}`,
-          `${at} .bg-header{background-color:${mix("header", pct)} !important;${frost()}}`,
-          `${at} .bg-sidebar{background-color:${mix("sidebar", pct)} !important;${frost()}}`,
-          `${at} .bg-card{background-color:${mix("card", pct)} !important;}`,
-          `${at} .bg-muted{background-color:${mix("muted", pct)} !important;}`,
+          `${at} .bg-background${notKnob}{${tint("background")}${frost()}}`,
+          `${at} .bg-header{${tint("header")}${frost()}}`,
+          `${at} .bg-sidebar{${tint("sidebar")}${frost()}}`,
+          `${at} .bg-card{${tint("card")}}`,
+          `${at} .bg-overlay{${tint("overlay")}${frost()}}`,
+          `${at} .bg-footer{${tint("footer")}}`,
+          `${at} .bg-muted{${tint("muted")}}`,
           // A translucent surface nested in another one multiplies; inner
           // surfaces defer to the outer one.
           `${at} .bg-background .bg-background${notKnob}{background-color:transparent !important;backdrop-filter:none;}`,
           `${at} .bg-sidebar .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
           // The sidebar's 1px border sits outside its panel's painted area.
-          `${at} [data-slot="sidebar-container"]{background-color:${mix("sidebar", pct)};${frost()}}`,
+          `${at} [data-slot="sidebar-container"]{${untouched("sidebar") ? `background-color:${mix("sidebar", pct)};` : "background-color:var(--sidebar);"}${frost()}}`,
           `${at} [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
-  const untouched = (id: string) => !regionSet(theme, id);
   // Tint only, no backdrop-filter: on iOS each blurred bubble is its own
   // full-resolution GPU surface, and a long thread froze whole tabs.
   const bubble =
@@ -379,14 +385,19 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // The reasoning box ships as the outline variant with no fill, so it needs
   // one at every panel opacity.
   const reasoning = `${at} .aui-reasoning-root{background-color:${mix("muted", pct)} !important;}`;
-  const composer = untouched("composer")
-    ? [
-        // Doubled attribute selector on purpose: it must outrank the
-        // three-class nested-surface reset above.
-        `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${mix("composer", pct)} !important;${w.panelBlur > 0 ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
-        `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
-      ].join("")
-    : `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`;
+  // The type area is frosted harder than a panel so it stays legible over
+  // any artwork. A user colour replaces the tint, never the frost; the
+  // region's own frost token then outranks this with !important.
+  const composerFrost =
+    w.panelBlur > 0
+      ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4);`
+      : "";
+  const composer = [
+    // Doubled attribute selector on purpose: it must outrank the
+    // three-class nested-surface reset above.
+    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${untouched("composer") ? `background-color:${mix("composer", pct)} !important;` : ""}${composerFrost}}`,
+    `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
+  ].join("");
   return translucent + bubble + reasoning + composer;
 }
 
