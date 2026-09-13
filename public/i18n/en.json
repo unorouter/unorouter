@@ -3175,7 +3175,6 @@
       "COLORS": "Colors",
       "TYPOGRAPHY": "Typography",
       "SHAPE": "Shape",
-      "ICONS": "Icons",
       "CHARTS": "Charts",
       "SAVED": "Saved themes",
       "WALLPAPER": "Background",
@@ -3282,7 +3281,8 @@
       "STATUS": "Status",
       "STATUS_HINT": "Error, success, warning and info colours.",
       "SIDEBAR": "Sidebar details",
-      "SIDEBAR_HINT": "Active item, hover and border inside the sidebar."
+      "SIDEBAR_HINT": "Active item, hover and border inside the sidebar.",
+      "PROSE_HINT": "Message text, quotes, avatar size and inline image width."
     }
   },
   "BILLING": {

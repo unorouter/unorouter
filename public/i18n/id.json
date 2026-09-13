@@ -3175,7 +3175,6 @@
       "COLORS": "Warna",
       "TYPOGRAPHY": "Tipografi",
       "SHAPE": "Bentuk",
-      "ICONS": "Ikon",
       "CHARTS": "Grafik",
       "SAVED": "Tema tersimpan",
       "WALLPAPER": "Latar belakang",
@@ -3282,7 +3281,8 @@
       "STATUS": "Status",
       "STATUS_HINT": "Warna galat, sukses, peringatan, dan info.",
       "SIDEBAR": "Detail bilah samping",
-      "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping."
+      "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping.",
+      "PROSE_HINT": "Teks pesan, kutipan, ukuran avatar, dan lebar gambar."
     }
   },
   "BILLING": {

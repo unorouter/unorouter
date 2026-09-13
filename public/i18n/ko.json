@@ -3175,7 +3175,6 @@
       "COLORS": "색상",
       "TYPOGRAPHY": "타이포그래피",
       "SHAPE": "형태",
-      "ICONS": "아이콘",
       "CHARTS": "차트",
       "SAVED": "저장된 테마",
       "WALLPAPER": "배경",
@@ -3282,7 +3281,8 @@
       "STATUS": "상태",
       "STATUS_HINT": "오류, 성공, 경고, 정보 색상.",
       "SIDEBAR": "사이드바 세부",
-      "SIDEBAR_HINT": "사이드바 안의 선택 항목, 호버, 테두리."
+      "SIDEBAR_HINT": "사이드바 안의 선택 항목, 호버, 테두리.",
+      "PROSE_HINT": "메시지 글자, 인용, 아바타 크기, 이미지 너비."
     }
   },
   "BILLING": {

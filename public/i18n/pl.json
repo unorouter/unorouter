@@ -3175,7 +3175,6 @@
       "COLORS": "Kolory",
       "TYPOGRAPHY": "Typografia",
       "SHAPE": "Kształt",
-      "ICONS": "Ikony",
       "CHARTS": "Wykresy",
       "SAVED": "Zapisane motywy",
       "WALLPAPER": "Tło",
@@ -3282,7 +3281,8 @@
       "STATUS": "Stany",
       "STATUS_HINT": "Kolory błędu, sukcesu, ostrzeżenia i informacji.",
       "SIDEBAR": "Szczegóły paska bocznego",
-      "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym."
+      "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym.",
+      "PROSE_HINT": "Tekst wiadomości, cytaty, rozmiar awatara i szerokość obrazów."
     }
   },
   "BILLING": {

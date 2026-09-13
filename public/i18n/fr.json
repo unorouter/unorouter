@@ -3175,7 +3175,6 @@
       "COLORS": "Couleurs",
       "TYPOGRAPHY": "Typographie",
       "SHAPE": "Forme",
-      "ICONS": "Icônes",
       "CHARTS": "Graphiques",
       "SAVED": "Thèmes enregistrés",
       "WALLPAPER": "Arrière-plan",
@@ -3282,7 +3281,8 @@
       "STATUS": "États",
       "STATUS_HINT": "Couleurs d'erreur, de succès, d'avertissement et d'information.",
       "SIDEBAR": "Détails de la barre latérale",
-      "SIDEBAR_HINT": "Élément actif, survol et bordure dans la barre latérale."
+      "SIDEBAR_HINT": "Élément actif, survol et bordure dans la barre latérale.",
+      "PROSE_HINT": "Texte des messages, citations, taille de l'avatar et largeur des images."
     }
   },
   "BILLING": {

@@ -3175,7 +3175,6 @@
       "COLORS": "顏色",
       "TYPOGRAPHY": "排版",
       "SHAPE": "形狀",
-      "ICONS": "圖示",
       "CHARTS": "圖表",
       "SAVED": "已儲存的主題",
       "WALLPAPER": "背景",
@@ -3282,7 +3281,8 @@
       "STATUS": "狀態",
       "STATUS_HINT": "錯誤、成功、警告和資訊的顏色。",
       "SIDEBAR": "側邊欄細節",
-      "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。"
+      "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。",
+      "PROSE_HINT": "訊息文字、引用、頭像大小和圖片寬度。"
     }
   },
   "BILLING": {

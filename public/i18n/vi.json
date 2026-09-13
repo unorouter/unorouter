@@ -3175,7 +3175,6 @@
       "COLORS": "Màu sắc",
       "TYPOGRAPHY": "Kiểu chữ",
       "SHAPE": "Hình dạng",
-      "ICONS": "Biểu tượng",
       "CHARTS": "Biểu đồ",
       "SAVED": "Chủ đề đã lưu",
       "WALLPAPER": "Nền",
@@ -3282,7 +3281,8 @@
       "STATUS": "Trạng thái",
       "STATUS_HINT": "Màu lỗi, thành công, cảnh báo và thông tin.",
       "SIDEBAR": "Chi tiết thanh bên",
-      "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên."
+      "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên.",
+      "PROSE_HINT": "Chữ tin nhắn, trích dẫn, cỡ ảnh đại diện và chiều rộng hình ảnh."
     }
   },
   "BILLING": {
