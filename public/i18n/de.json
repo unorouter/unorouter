@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Seitenleiste im Detail",
       "SIDEBAR_HINT": "Aktiver Eintrag, Hover und Rahmen in der Seitenleiste.",
       "PROSE_HINT": "Nachrichtentext, Zitate, Avatargröße und Bildbreite."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Deckkraft der Nachrichtenblasen",
+    "BG_COMPOSER_OPACITY": "Deckkraft des Eingabefelds"
   },
   "BILLING": {
     "SUBSCRIPTION": {

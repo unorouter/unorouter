@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Sidebar details",
       "SIDEBAR_HINT": "Active item, hover and border inside the sidebar.",
       "PROSE_HINT": "Message text, quotes, avatar size and inline image width."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Message bubble opacity",
+    "BG_COMPOSER_OPACITY": "Type area opacity"
   },
   "BILLING": {
     "SUBSCRIPTION": {

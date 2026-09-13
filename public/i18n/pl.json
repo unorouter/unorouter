@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Szczegóły paska bocznego",
       "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym.",
       "PROSE_HINT": "Tekst wiadomości, cytaty, rozmiar awatara i szerokość obrazów."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Krycie dymków wiadomości",
+    "BG_COMPOSER_OPACITY": "Krycie pola tekstowego"
   },
   "BILLING": {
     "SUBSCRIPTION": {

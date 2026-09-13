@@ -3282,7 +3282,9 @@
       "SIDEBAR": "Détails de la barre latérale",
       "SIDEBAR_HINT": "Élément actif, survol et bordure dans la barre latérale.",
       "PROSE_HINT": "Texte des messages, citations, taille de l'avatar et largeur des images."
-    }
+    },
+    "BG_BUBBLE_OPACITY": "Opacité des bulles de message",
+    "BG_COMPOSER_OPACITY": "Opacité de la zone de saisie"
   },
   "BILLING": {
     "SUBSCRIPTION": {
