@@ -1,6 +1,9 @@
 "use client";
 
-import { BackgroundImageSection } from "@/components/elements/theme/background-image-section";
+import {
+  BackgroundImageSection,
+  surfaceFields,
+} from "@/components/elements/theme/background-image-section";
 import { FieldGroup } from "@/components/elements/theme/field";
 import {
   ChartPresetSection,
@@ -9,13 +12,7 @@ import {
 import { SavedThemesSection } from "@/components/elements/theme/saved-themes-section";
 import { TokenField } from "@/components/elements/theme/token-field";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/config/icon-map";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -98,7 +95,7 @@ const SECTIONS: readonly SectionDef[] = [
   { id: "typography", labelKey: "THEME.CATEGORY.TYPOGRAPHY" },
   { id: "shape", labelKey: "THEME.CATEGORY.SHAPE" },
   { id: "charts", labelKey: "THEME.CATEGORY.CHARTS" },
-  { id: "regions", labelKey: "THEME.CATEGORY.REGIONS" },
+  { id: "regions", labelKey: "THEME.CATEGORY.CHAT_SURFACES" },
   { id: "wallpaper", labelKey: "THEME.CATEGORY.WALLPAPER" },
 ];
 
@@ -318,7 +315,7 @@ export function ThemeCustomizerBody() {
     regions: (
       <>
         <div className="flex items-center justify-end px-1">{colorTabs}</div>
-        {fields("regions")}
+        {surfaceFields(["composer", "bubble-user", "bubble-assistant"], editor)}
       </>
     ),
     wallpaper: <BackgroundImageSection editor={editor} modeTabs={colorTabs} />,
@@ -326,10 +323,42 @@ export function ThemeCustomizerBody() {
 
   return (
     <Card className="bg-overlay relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
-      <CardHeader className="flex flex-row items-center justify-between border-b py-4">
-        <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b px-3 py-2">
+        <CardTitle className="shrink-0 text-sm">{t("THEME.TITLE")}</CardTitle>
+        <div className="flex items-center gap-1">
+          {FOOTER_ACTIONS.map(iconButton)}
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon-sm"
+                  className="size-7"
+                  aria-label={t("THEME.IMPORT")}
+                  onClick={() => fileInputRef.current?.click()}
+                />
+              }
+            >
+              <Icon name="upload" className="size-4" />
+            </TooltipTrigger>
+            <TooltipContent>{t("THEME.IMPORT")}</TooltipContent>
+          </Tooltip>
+          {FOOTER_AFTER_IMPORT.map(iconButton)}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void importFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
       </CardHeader>
-      <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
+      <CardContent className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
         <FieldGroup>
           <Section
             id="saved"
@@ -371,38 +400,6 @@ export function ThemeCustomizerBody() {
           ))}
         </FieldGroup>
       </CardContent>
-      <CardFooter className="flex flex-wrap items-center justify-center gap-1 border-t px-3 pt-3 pb-3">
-        {FOOTER_ACTIONS.map(iconButton)}
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <Button
-                type="button"
-                variant="outline"
-                size="icon-sm"
-                className="size-7"
-                aria-label={t("THEME.IMPORT")}
-                onClick={() => fileInputRef.current?.click()}
-              />
-            }
-          >
-            <Icon name="upload" className="size-4" />
-          </TooltipTrigger>
-          <TooltipContent>{t("THEME.IMPORT")}</TooltipContent>
-        </Tooltip>
-        {FOOTER_AFTER_IMPORT.map(iconButton)}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json,application/json"
-          className="hidden"
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) void importFile(f);
-            e.target.value = "";
-          }}
-        />
-      </CardFooter>
     </Card>
   );
 }

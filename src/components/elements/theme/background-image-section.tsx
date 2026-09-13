@@ -4,7 +4,7 @@ import { TokenField } from "@/components/elements/theme/token-field";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { ThemeEditor } from "@/hooks/ui/use-theme-editor-hook";
-import { TOKEN_BY_ID, tokensIn } from "@/lib/theme/tokens";
+import { TOKEN_BY_ID, tokensIn, type TokenDef } from "@/lib/theme/tokens";
 import {
   fileToScaledDataUrl,
   scaleDataUrl,
@@ -13,6 +13,16 @@ import {
 import { useTranslations } from "next-intl";
 import { useRef, type ReactNode } from "react";
 import { toast } from "sonner";
+
+// Each surface colour followed by its frost slider when it has one.
+export function surfaceFields(ids: readonly string[], editor: ThemeEditor) {
+  return ids.flatMap((id) =>
+    [TOKEN_BY_ID.get(id), TOKEN_BY_ID.get(`${id}-blur`)]
+      .filter((def): def is TokenDef => Boolean(def))
+      .filter((def) => def.scopes.includes(editor.scope))
+      .map((def) => <TokenField key={def.id} def={def} editor={editor} />),
+  );
+}
 
 export function BackgroundImageSection(props: {
   editor: ThemeEditor;
@@ -42,9 +52,17 @@ export function BackgroundImageSection(props: {
   return (
     <>
       <div className="flex items-center justify-end px-1">{props.modeTabs}</div>
-      {["background", "header", "sidebar", "sidebar-header"].map((id) => (
-        <TokenField key={id} def={TOKEN_BY_ID.get(id)!} editor={editor} />
-      ))}
+      {surfaceFields(
+        [
+          "background",
+          "header",
+          "sidebar",
+          "sidebar-header",
+          "footer",
+          "overlay",
+        ],
+        editor,
+      )}
       {shown ? (
         <div className="ring-foreground/10 relative h-24 w-full overflow-hidden rounded-lg ring-1">
           {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
