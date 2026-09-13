@@ -60,7 +60,6 @@ export function ColorField(props: {
 }) {
   const t = useTranslations();
   const clipboard = useCopyToClipboard();
-  const colorInputRef = useRef<HTMLInputElement | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [local, setLocal] = useState(props.value ?? "");
   const [prevValue, setPrevValue] = useState(props.value);
@@ -88,28 +87,26 @@ export function ColorField(props: {
   return (
     <div className="ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 flex-col gap-1.5 rounded-lg px-3 py-2 ring-1 select-none">
       <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => colorInputRef.current?.click()}
-          className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
+        {/* The native picker only opens on a real click, so the input sits
+            over the swatch instead of being clicked for it. */}
+        <span
+          className="ring-foreground/15 relative size-6 shrink-0 overflow-hidden rounded-full ring-1"
           style={{
             backgroundColor: local || props.placeholder || "transparent",
           }}
-          aria-label={`${props.label} swatch`}
-        />
-        <input
-          ref={colorInputRef}
-          type="color"
-          value={rgb}
-          onChange={(e) => {
-            const hex = joinAlpha(e.target.value.toLowerCase(), alpha);
-            setLocal(hex);
-            debouncedChange(hex);
-          }}
-          className="sr-only"
-          tabIndex={-1}
-          aria-hidden
-        />
+        >
+          <input
+            type="color"
+            value={rgb}
+            onChange={(e) => {
+              const hex = joinAlpha(e.target.value.toLowerCase(), alpha);
+              setLocal(hex);
+              debouncedChange(hex);
+            }}
+            className="absolute inset-0 size-full cursor-pointer opacity-0"
+            aria-label={`${props.label} swatch`}
+          />
+        </span>
         <div className="flex min-w-0 flex-1 flex-col justify-start">
           <div className="text-muted-foreground text-xs">{props.label}</div>
           <input
