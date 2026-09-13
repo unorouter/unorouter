@@ -237,28 +237,63 @@ export function useThemeEditor() {
   const resetAll = () =>
     applyBundle({ name: "", theme: INITIAL_USER_THEME, backgroundImages: {} });
 
+  // App shuffles the presets; Chat and Image shuffle their own overrides,
+  // fed to the same generator, so the rest of the app stays put.
   const shuffle = () => {
     const sans = pick(FONT_OPTIONS.filter((f) => f.kinds.includes("sans")));
     const display = pick(
       FONT_OPTIONS.filter((f) => f.kinds.includes("display")),
     );
+    const heading = Math.random() < 0.5 ? display.id : undefined;
+    if (scope === "app") {
+      const all: TokenValues = {
+        ...(theme.global.all ?? {}),
+        radius: pick(RADIUS_CHOICES),
+        "font-sans": sans.id,
+        "icon-library": pick(ICON_LIBRARY_OPTIONS).value,
+      };
+      if (heading) all["font-display"] = heading;
+      else delete all["font-display"];
+      setTheme({
+        ...theme,
+        presets: {
+          style: pick(STYLES).id,
+          palette: pick([DEFAULT, ...PALETTES.map((p) => p.id)]),
+          accent: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
+          chart: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
+        },
+        global: { ...theme.global, all },
+      });
+      return;
+    }
+    const palette = pick(PALETTES);
+    const accent = pick(ACCENTS);
+    const current = theme.scopes[scope] ?? {};
     const all: TokenValues = {
-      ...(theme.global.all ?? {}),
+      ...(current.all ?? {}),
       radius: pick(RADIUS_CHOICES),
       "font-sans": sans.id,
-      "icon-library": pick(ICON_LIBRARY_OPTIONS).value,
     };
-    if (Math.random() < 0.5) all["font-display"] = display.id;
+    if (heading) all["font-display"] = heading;
     else delete all["font-display"];
     setTheme({
       ...theme,
-      presets: {
-        style: pick(STYLES).id,
-        palette: pick([DEFAULT, ...PALETTES.map((p) => p.id)]),
-        accent: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
-        chart: pick([DEFAULT, ...ACCENTS.map((a) => a.id)]),
+      scopes: {
+        ...theme.scopes,
+        [scope]: {
+          all,
+          light: {
+            ...(current.light ?? {}),
+            "palette-base": palette.base.light,
+            "accent-base": accent.hex.light,
+          },
+          dark: {
+            ...(current.dark ?? {}),
+            "palette-base": palette.base.dark,
+            "accent-base": accent.hex.dark,
+          },
+        },
       },
-      global: { ...theme.global, all },
     });
   };
 
