@@ -3138,8 +3138,6 @@
     "MONO_FONT": "Моноширинный шрифт",
     "STYLE": "Стиль",
     "ICON_LIBRARY": "Библиотека иконок",
-    "MENU": "Меню",
-    "MENU_ACCENT": "Акцент меню",
     "LETTER_SPACING": "Межбуквенный интервал",
     "RADIUS": "Радиус скругления",
     "MD_NORMAL": "Обычный текст",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "Типографика",
       "SHAPE": "Форма",
       "ICONS": "Иконки",
-      "MENUS": "Меню",
       "CHARTS": "Графики",
       "SAVED": "Сохранённые темы",
       "WALLPAPER": "Фон",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "Нет",
       "SHADOW_SOFT": "Мягкие",
       "SHADOW_MEDIUM": "Средние",
-      "SHADOW_STRONG": "Сильные",
-      "MENU_DEFAULT": "Обычное",
-      "MENU_INVERTED": "Инвертированное",
-      "MENU_DEFAULT_TRANSLUCENT": "Полупрозрачное",
-      "MENU_INVERTED_TRANSLUCENT": "Инвертированное полупрозрачное",
-      "ACCENT_SUBTLE": "Сдержанный",
-      "ACCENT_BOLD": "Яркий"
+      "SHADOW_STRONG": "Сильные"
     },
     "TOKEN": {
       "POPOVER": "Всплывающее окно",

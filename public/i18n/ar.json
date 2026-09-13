@@ -3138,8 +3138,6 @@
     "MONO_FONT": "خط أحادي المسافة",
     "STYLE": "النمط",
     "ICON_LIBRARY": "مكتبة الأيقونات",
-    "MENU": "القائمة",
-    "MENU_ACCENT": "لون تمييز القائمة",
     "LETTER_SPACING": "تباعد الحروف",
     "RADIUS": "نصف قطر الحدود",
     "MD_NORMAL": "نصّ عادي",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "الطباعة",
       "SHAPE": "الشكل",
       "ICONS": "الأيقونات",
-      "MENUS": "القوائم",
       "CHARTS": "الرسوم البيانية",
       "SAVED": "السمات المحفوظة",
       "WALLPAPER": "الخلفية",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "بدون",
       "SHADOW_SOFT": "خفيف",
       "SHADOW_MEDIUM": "متوسط",
-      "SHADOW_STRONG": "قوي",
-      "MENU_DEFAULT": "افتراضي",
-      "MENU_INVERTED": "معكوس",
-      "MENU_DEFAULT_TRANSLUCENT": "شبه شفاف",
-      "MENU_INVERTED_TRANSLUCENT": "معكوس شبه شفاف",
-      "ACCENT_SUBTLE": "هادئ",
-      "ACCENT_BOLD": "بارز"
+      "SHADOW_STRONG": "قوي"
     },
     "TOKEN": {
       "POPOVER": "النافذة المنبثقة",

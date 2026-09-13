@@ -35,8 +35,6 @@ import {
 } from "@/lib/theme/theme-types";
 import {
   ICON_LIBRARY_OPTIONS,
-  MENU_ACCENT_OPTIONS,
-  MENU_OPTIONS,
   THEME_SCOPES,
   type ThemeMode,
   type ThemeScope,
@@ -217,8 +215,6 @@ export function useThemeEditor() {
       ...(theme.global.all ?? {}),
       radius: pick(RADIUS_CHOICES),
       "font-sans": sans.id,
-      menu: pick(MENU_OPTIONS).value,
-      "menu-accent": pick(MENU_ACCENT_OPTIONS).value,
       "icon-library": pick(ICON_LIBRARY_OPTIONS).value,
     };
     if (Math.random() < 0.5) all["font-display"] = display.id;

@@ -3138,8 +3138,6 @@
     "MONO_FONT": "Font monospace",
     "STYLE": "Gaya",
     "ICON_LIBRARY": "Perpustakaan ikon",
-    "MENU": "Menu",
-    "MENU_ACCENT": "Aksen menu",
     "LETTER_SPACING": "Jarak huruf",
     "RADIUS": "Radius border",
     "MD_NORMAL": "Teks normal",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "Tipografi",
       "SHAPE": "Bentuk",
       "ICONS": "Ikon",
-      "MENUS": "Menu",
       "CHARTS": "Grafik",
       "SAVED": "Tema tersimpan",
       "WALLPAPER": "Latar belakang",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "Tidak ada",
       "SHADOW_SOFT": "Lembut",
       "SHADOW_MEDIUM": "Sedang",
-      "SHADOW_STRONG": "Kuat",
-      "MENU_DEFAULT": "Bawaan",
-      "MENU_INVERTED": "Terbalik",
-      "MENU_DEFAULT_TRANSLUCENT": "Tembus pandang",
-      "MENU_INVERTED_TRANSLUCENT": "Terbalik tembus pandang",
-      "ACCENT_SUBTLE": "Halus",
-      "ACCENT_BOLD": "Tegas"
+      "SHADOW_STRONG": "Kuat"
     },
     "TOKEN": {
       "POPOVER": "Popover",

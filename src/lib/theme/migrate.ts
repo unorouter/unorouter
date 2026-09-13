@@ -144,10 +144,6 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
 
   const icons = str(raw.iconLibrary);
   if (icons && icons !== "lucide") all["icon-library"] = icons;
-  const menu = str(raw.menu);
-  if (menu && menu !== DEFAULT) all.menu = menu;
-  const menuAccent = str(raw.menuAccent);
-  if (menuAccent && menuAccent !== "subtle") all["menu-accent"] = menuAccent;
 
   if (isRecord(raw.markdown)) {
     const ids: Record<string, string> = {

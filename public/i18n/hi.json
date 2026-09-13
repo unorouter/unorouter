@@ -3138,8 +3138,6 @@
     "MONO_FONT": "मोनोस्पेस फ़ॉन्ट",
     "STYLE": "Style",
     "ICON_LIBRARY": "Icon library",
-    "MENU": "Menu",
-    "MENU_ACCENT": "Menu accent",
     "LETTER_SPACING": "Letter spacing",
     "RADIUS": "Border radius",
     "MD_NORMAL": "सामान्य text",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "टाइपोग्राफी",
       "SHAPE": "आकार",
       "ICONS": "आइकन",
-      "MENUS": "मेनू",
       "CHARTS": "चार्ट",
       "SAVED": "सहेजी गई थीम",
       "WALLPAPER": "पृष्ठभूमि",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "कोई नहीं",
       "SHADOW_SOFT": "हल्की",
       "SHADOW_MEDIUM": "मध्यम",
-      "SHADOW_STRONG": "गहरी",
-      "MENU_DEFAULT": "डिफ़ॉल्ट",
-      "MENU_INVERTED": "उल्टा",
-      "MENU_DEFAULT_TRANSLUCENT": "पारभासी",
-      "MENU_INVERTED_TRANSLUCENT": "उल्टा पारभासी",
-      "ACCENT_SUBTLE": "हल्का",
-      "ACCENT_BOLD": "गहरा"
+      "SHADOW_STRONG": "गहरी"
     },
     "TOKEN": {
       "POPOVER": "पॉपओवर",

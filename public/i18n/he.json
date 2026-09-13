@@ -3138,8 +3138,6 @@
     "MONO_FONT": "גופן ברוחב קבוע",
     "STYLE": "סגנון",
     "ICON_LIBRARY": "ספריית אייקונים",
-    "MENU": "תפריט",
-    "MENU_ACCENT": "צבע הדגשה של תפריט",
     "LETTER_SPACING": "ריווח אותיות",
     "RADIUS": "רדיוס מסגרת",
     "MD_NORMAL": "טקסט רגיל",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "טיפוגרפיה",
       "SHAPE": "צורה",
       "ICONS": "אייקונים",
-      "MENUS": "תפריטים",
       "CHARTS": "תרשימים",
       "SAVED": "ערכות נושא שמורות",
       "WALLPAPER": "רקע",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "ללא",
       "SHADOW_SOFT": "עדין",
       "SHADOW_MEDIUM": "בינוני",
-      "SHADOW_STRONG": "חזק",
-      "MENU_DEFAULT": "ברירת מחדל",
-      "MENU_INVERTED": "הפוך",
-      "MENU_DEFAULT_TRANSLUCENT": "שקוף למחצה",
-      "MENU_INVERTED_TRANSLUCENT": "הפוך ושקוף למחצה",
-      "ACCENT_SUBTLE": "עדין",
-      "ACCENT_BOLD": "בולט"
+      "SHADOW_STRONG": "חזק"
     },
     "TOKEN": {
       "POPOVER": "חלון קופץ",

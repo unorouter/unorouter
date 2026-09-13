@@ -3138,8 +3138,6 @@
     "MONO_FONT": "等宽字体",
     "STYLE": "风格",
     "ICON_LIBRARY": "图标库",
-    "MENU": "菜单",
-    "MENU_ACCENT": "菜单强调",
     "LETTER_SPACING": "字间距",
     "RADIUS": "圆角",
     "MD_NORMAL": "普通文本",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "排版",
       "SHAPE": "形状",
       "ICONS": "图标",
-      "MENUS": "菜单",
       "CHARTS": "图表",
       "SAVED": "已保存的主题",
       "WALLPAPER": "背景",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "无",
       "SHADOW_SOFT": "柔和",
       "SHADOW_MEDIUM": "中等",
-      "SHADOW_STRONG": "强烈",
-      "MENU_DEFAULT": "默认",
-      "MENU_INVERTED": "反色",
-      "MENU_DEFAULT_TRANSLUCENT": "半透明",
-      "MENU_INVERTED_TRANSLUCENT": "反色半透明",
-      "ACCENT_SUBTLE": "淡雅",
-      "ACCENT_BOLD": "醒目"
+      "SHADOW_STRONG": "强烈"
     },
     "TOKEN": {
       "POPOVER": "弹出层",

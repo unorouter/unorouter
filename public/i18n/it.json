@@ -3138,8 +3138,6 @@
     "MONO_FONT": "Carattere monospazio",
     "STYLE": "Stile",
     "ICON_LIBRARY": "Libreria icone",
-    "MENU": "Menu",
-    "MENU_ACCENT": "Accento menu",
     "LETTER_SPACING": "Spaziatura lettere",
     "RADIUS": "Raggio bordo",
     "MD_NORMAL": "Testo normale",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "Tipografia",
       "SHAPE": "Forma",
       "ICONS": "Icone",
-      "MENUS": "Menu",
       "CHARTS": "Grafici",
       "SAVED": "Temi salvati",
       "WALLPAPER": "Sfondo",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "Nessuna",
       "SHADOW_SOFT": "Morbida",
       "SHADOW_MEDIUM": "Media",
-      "SHADOW_STRONG": "Forte",
-      "MENU_DEFAULT": "Predefinito",
-      "MENU_INVERTED": "Invertito",
-      "MENU_DEFAULT_TRANSLUCENT": "Traslucido",
-      "MENU_INVERTED_TRANSLUCENT": "Invertito traslucido",
-      "ACCENT_SUBTLE": "Discreto",
-      "ACCENT_BOLD": "Marcato"
+      "SHADOW_STRONG": "Forte"
     },
     "TOKEN": {
       "POPOVER": "Popover",
