@@ -74,6 +74,20 @@ export const CHAT_DOCS: ChatDoc[] = [
     ],
   }),
   chatDoc({
+    slug: "theme",
+    name: "THEME",
+    section: "GETTING_STARTED",
+    iconName: "paintbrush",
+    headings: [
+      ["open", "H_OPEN"],
+      ["scopes", "H_SCOPES"],
+      ["opacity", "H_OPACITY"],
+      ["wallpaper", "H_WALLPAPER"],
+      ["saved", "H_SAVED"],
+      ["troubleshoot", "H_TROUBLESHOOT"],
+    ],
+  }),
+  chatDoc({
     slug: "characters",
     name: "CHARACTERS",
     section: "ENTITIES",

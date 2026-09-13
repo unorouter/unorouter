@@ -60,6 +60,7 @@ const CHAT_PLATFORM_DOCS_DATE = "2026-07-05";
 
 const CHAT_DOC_DATES: Record<string, string> = {
   "janitorai-import": "2026-09-02",
+  theme: "2026-09-14",
 };
 
 const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
