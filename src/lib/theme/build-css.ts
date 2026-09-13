@@ -16,6 +16,7 @@ import {
 import {
   modeValues,
   presetsOf,
+  type ModeValues,
   type ThemeImages,
   type TokenValues,
   type UserTheme,
@@ -292,10 +293,16 @@ function wallpaperFor(theme: UserTheme, scope: ThemeScope): Wallpaper {
   };
 }
 
+// A scope needs its own block when it changes a wallpaper slider or colours
+// a surface the wallpaper would otherwise tint.
 function wallpaperOverridden(theme: UserTheme, scope: ThemeScope): boolean {
   if (scope === "app") return false;
-  const all = theme.scopes[scope]?.all ?? {};
-  return TOKENS.some((t) => t.group === "wallpaper" && all[t.id] !== undefined);
+  const values = theme.scopes[scope];
+  const all = values?.all ?? {};
+  return (
+    TOKENS.some((t) => t.group === "wallpaper" && all[t.id] !== undefined) ||
+    TINTED.some((id) => setIn(values, id))
+  );
 }
 
 function imageRules(scope: ThemeScope, image: string, w: Wallpaper): string {
@@ -304,7 +311,9 @@ function imageRules(scope: ThemeScope, image: string, w: Wallpaper): string {
       ? "background-repeat:repeat;background-size:auto;"
       : `background-repeat:no-repeat;background-size:${w.fit};`;
   const safeUrl = image.replace(/["\\]/g, "");
-  const host = scope === "app" ? "body" : scopeSelector(scope);
+  // The image is painted once, on body, so a scope restyles that same layer
+  // while one of its pages is mounted rather than stacking a second copy.
+  const host = scope === "app" ? "body" : `body:has(${scopeSelector(scope)})`;
   return [
     `${host}::before{`,
     'content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;',
@@ -316,14 +325,21 @@ function imageRules(scope: ThemeScope, image: string, w: Wallpaper): string {
   ].join("");
 }
 
-// A region the user coloured keeps that colour (alpha included) under a
-// wallpaper; only untouched regions get the generic panel tint. Any scope
-// counts: the app-level rule reaches into every page.
-function regionSet(theme: UserTheme, id: string): boolean {
-  const layers = [theme.global, ...Object.values(theme.scopes)];
-  return layers.some(
-    (l) => l.light?.[id] !== undefined || l.dark?.[id] !== undefined,
-  );
+const TINTED = [
+  "background",
+  "header",
+  "sidebar",
+  "card",
+  "overlay",
+  "footer",
+  "muted",
+  "bubble-user",
+  "bubble-assistant",
+  "composer",
+];
+
+function setIn(layer: ModeValues | undefined, id: string): boolean {
+  return layer?.light?.[id] !== undefined || layer?.dark?.[id] !== undefined;
 }
 
 function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
@@ -342,11 +358,15 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   // not a surface.
   const notKnob =
     ':not([data-slot="switch-thumb"]):not([data-slot="slider-thumb"])';
-  const untouched = (id: string) => !regionSet(theme, id);
-  // Tint only what the user has not coloured; a chosen colour carries its
-  // own alpha. Frost is the wallpaper's regardless.
-  const tint = (id: string, p = pct) =>
-    untouched(id) ? `background-color:${mix(id, p)} !important;` : "";
+  // A colour the user set keeps its own alpha: the app layer skips the tint,
+  // a scope restores its own value over the app-level rule. Untouched
+  // surfaces take the generic panel tint. Frost is the wallpaper's either way.
+  const tint = (id: string, p = pct) => {
+    if (scope !== "app" && setIn(theme.scopes[scope], id))
+      return `background-color:var(--${id}) !important;`;
+    if (setIn(theme.global, id)) return "";
+    return `background-color:${mix(id, p)} !important;`;
+  };
   const translucent =
     w.panelOpacity < 1
       ? [
@@ -362,7 +382,7 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
           `${at} .bg-background .bg-background${notKnob}{background-color:transparent !important;backdrop-filter:none;}`,
           `${at} .bg-sidebar .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
           // The sidebar's 1px border sits outside its panel's painted area.
-          `${at} [data-slot="sidebar-container"]{${untouched("sidebar") ? `background-color:${mix("sidebar", pct)};` : "background-color:var(--sidebar);"}${frost()}}`,
+          `${at} [data-slot="sidebar-container"]{${tint("sidebar").replace(" !important", "") || "background-color:var(--sidebar);"}${frost()}}`,
           `${at} [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
@@ -371,12 +391,8 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const bubble =
     w.panelOpacity < 1
       ? [
-          untouched("bubble-user")
-            ? `${at} .aui-user-message-content{background-color:${mix("bubble-user", pct)} !important;}`
-            : "",
-          untouched("bubble-assistant")
-            ? `${at} .aui-assistant-message-content{background-color:${mix("bubble-assistant", pct)} !important;}`
-            : "",
+          `${at} .aui-user-message-content{${tint("bubble-user")}}`,
+          `${at} .aui-assistant-message-content{${tint("bubble-assistant")}}`,
         ].join("")
       : "";
   // The reasoning box ships as the outline variant with no fill, so it needs
@@ -392,7 +408,7 @@ function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const composer = [
     // Doubled attribute selector on purpose: it must outrank the
     // three-class nested-surface reset above.
-    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${untouched("composer") ? `background-color:${mix("composer", pct)} !important;` : ""}${composerFrost}}`,
+    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{${tint("composer")}${composerFrost}}`,
     `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
   ].join("");
   return translucent + bubble + reasoning + composer;
@@ -415,7 +431,8 @@ export function buildBackgroundCss(
     const own = Boolean(image) || wallpaperOverridden(theme, scope);
     if (scope === "app" ? !image : !own) continue;
     const w = wallpaperFor(theme, scope);
-    if (image) blocks.push(imageRules(scope, image, w));
+    const painted = image ?? images.app;
+    if (painted) blocks.push(imageRules(scope, painted, w));
     blocks.push(panelRules(theme, scope, w));
   }
   return blocks.join("");
