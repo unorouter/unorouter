@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Hiệu ứng mờ chân trang",
       "OVERLAY": "Bảng và ngăn kéo",
       "OVERLAY_BLUR": "Hiệu ứng mờ bảng và ngăn kéo"
+    },
+    "GROUP": {
+      "SURFACE": "Bề mặt",
+      "SURFACE_HINT": "Trang, thẻ, trình đơn và thanh bên.",
+      "TEXT": "Chữ",
+      "TEXT_HINT": "Chữ trên từng bề mặt đó.",
+      "CONTROL": "Điều khiển",
+      "CONTROL_HINT": "Nút, thẻ nhỏ, ô nhập, viền và vòng tiêu điểm.",
+      "STATUS": "Trạng thái",
+      "STATUS_HINT": "Màu lỗi, thành công, cảnh báo và thông tin.",
+      "SIDEBAR": "Chi tiết thanh bên",
+      "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên."
     }
   },
   "BILLING": {

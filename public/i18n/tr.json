@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Altbilgi buzlu cam",
       "OVERLAY": "Paneller ve yan sayfalar",
       "OVERLAY_BLUR": "Paneller buzlu cam"
+    },
+    "GROUP": {
+      "SURFACE": "Yüzeyler",
+      "SURFACE_HINT": "Sayfa, kartlar, menüler ve kenar çubuğu.",
+      "TEXT": "Metin",
+      "TEXT_HINT": "Bu yüzeylerin her birindeki metin.",
+      "CONTROL": "Denetimler",
+      "CONTROL_HINT": "Düğmeler, çipler, alanlar, kenarlıklar ve odak halkaları.",
+      "STATUS": "Durum",
+      "STATUS_HINT": "Hata, başarı, uyarı ve bilgi renkleri.",
+      "SIDEBAR": "Kenar çubuğu ayrıntıları",
+      "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık."
     }
   },
   "BILLING": {

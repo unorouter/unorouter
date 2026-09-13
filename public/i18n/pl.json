@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Szron stopki",
       "OVERLAY": "Panele i arkusze",
       "OVERLAY_BLUR": "Szron paneli i arkuszy"
+    },
+    "GROUP": {
+      "SURFACE": "Powierzchnie",
+      "SURFACE_HINT": "Strona, karty, menu i pasek boczny.",
+      "TEXT": "Tekst",
+      "TEXT_HINT": "Tekst na każdej z tych powierzchni.",
+      "CONTROL": "Kontrolki",
+      "CONTROL_HINT": "Przyciski, chipy, pola, obramowania i pierścienie fokusu.",
+      "STATUS": "Stany",
+      "STATUS_HINT": "Kolory błędu, sukcesu, ostrzeżenia i informacji.",
+      "SIDEBAR": "Szczegóły paska bocznego",
+      "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym."
     }
   },
   "BILLING": {

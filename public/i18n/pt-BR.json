@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Vidro fosco do rodapé",
       "OVERLAY": "Painéis e folhas",
       "OVERLAY_BLUR": "Vidro fosco de painéis e folhas"
+    },
+    "GROUP": {
+      "SURFACE": "Superfícies",
+      "SURFACE_HINT": "A página, os cartões, os menus e a barra lateral.",
+      "TEXT": "Texto",
+      "TEXT_HINT": "O texto sobre cada uma dessas superfícies.",
+      "CONTROL": "Controles",
+      "CONTROL_HINT": "Botões, chips, campos, bordas e anéis de foco.",
+      "STATUS": "Status",
+      "STATUS_HINT": "Cores de erro, sucesso, aviso e informação.",
+      "SIDEBAR": "Detalhes da barra lateral",
+      "SIDEBAR_HINT": "Item ativo, hover e borda dentro da barra lateral."
     }
   },
   "BILLING": {

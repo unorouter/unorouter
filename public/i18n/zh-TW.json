@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "頁尾磨砂",
       "OVERLAY": "面板與抽屜",
       "OVERLAY_BLUR": "面板與抽屜磨砂"
+    },
+    "GROUP": {
+      "SURFACE": "表面",
+      "SURFACE_HINT": "頁面、卡片、選單和側邊欄。",
+      "TEXT": "文字",
+      "TEXT_HINT": "各個表面上的文字。",
+      "CONTROL": "控制項",
+      "CONTROL_HINT": "按鈕、標籤、輸入框、邊框和焦點環。",
+      "STATUS": "狀態",
+      "STATUS_HINT": "錯誤、成功、警告和資訊的顏色。",
+      "SIDEBAR": "側邊欄細節",
+      "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。"
     }
   },
   "BILLING": {

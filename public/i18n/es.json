@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Escarcha del pie de página",
       "OVERLAY": "Paneles y hojas",
       "OVERLAY_BLUR": "Escarcha de paneles y hojas"
+    },
+    "GROUP": {
+      "SURFACE": "Superficies",
+      "SURFACE_HINT": "La página, las tarjetas, los menús y la barra lateral.",
+      "TEXT": "Texto",
+      "TEXT_HINT": "El texto sobre cada una de esas superficies.",
+      "CONTROL": "Controles",
+      "CONTROL_HINT": "Botones, chips, campos, bordes y anillos de foco.",
+      "STATUS": "Estado",
+      "STATUS_HINT": "Colores de error, éxito, aviso e información.",
+      "SIDEBAR": "Detalles de la barra lateral",
+      "SIDEBAR_HINT": "Elemento activo, hover y borde dentro de la barra lateral."
     }
   },
   "BILLING": {

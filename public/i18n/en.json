@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Page footer frost",
       "OVERLAY": "Panels and sheets",
       "OVERLAY_BLUR": "Panels and sheets frost"
+    },
+    "GROUP": {
+      "SURFACE": "Surfaces",
+      "SURFACE_HINT": "The page, cards, menus and the sidebar panel.",
+      "TEXT": "Text",
+      "TEXT_HINT": "Text on each of those surfaces.",
+      "CONTROL": "Controls",
+      "CONTROL_HINT": "Buttons, chips, inputs, borders and focus rings.",
+      "STATUS": "Status",
+      "STATUS_HINT": "Error, success, warning and info colours.",
+      "SIDEBAR": "Sidebar details",
+      "SIDEBAR_HINT": "Active item, hover and border inside the sidebar."
     }
   },
   "BILLING": {

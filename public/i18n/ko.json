@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "페이지 하단 반투명 효과",
       "OVERLAY": "패널과 시트",
       "OVERLAY_BLUR": "패널과 시트 반투명 효과"
+    },
+    "GROUP": {
+      "SURFACE": "면",
+      "SURFACE_HINT": "페이지, 카드, 메뉴, 사이드바.",
+      "TEXT": "글자",
+      "TEXT_HINT": "각 면 위의 글자.",
+      "CONTROL": "컨트롤",
+      "CONTROL_HINT": "버튼, 칩, 입력란, 테두리, 포커스 링.",
+      "STATUS": "상태",
+      "STATUS_HINT": "오류, 성공, 경고, 정보 색상.",
+      "SIDEBAR": "사이드바 세부",
+      "SIDEBAR_HINT": "사이드바 안의 선택 항목, 호버, 테두리."
     }
   },
   "BILLING": {
