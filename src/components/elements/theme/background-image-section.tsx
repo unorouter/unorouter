@@ -4,17 +4,20 @@ import { TokenField } from "@/components/elements/theme/token-field";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { ThemeEditor } from "@/hooks/ui/use-theme-editor-hook";
-import { tokensIn } from "@/lib/theme/tokens";
+import { TOKEN_BY_ID, tokensIn } from "@/lib/theme/tokens";
 import {
   fileToScaledDataUrl,
   scaleDataUrl,
   wallpaperMaxDim,
 } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { toast } from "sonner";
 
-export function BackgroundImageSection(props: { editor: ThemeEditor }) {
+export function BackgroundImageSection(props: {
+  editor: ThemeEditor;
+  modeTabs: ReactNode;
+}) {
   const t = useTranslations();
   const { editor } = props;
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -38,6 +41,9 @@ export function BackgroundImageSection(props: { editor: ThemeEditor }) {
 
   return (
     <>
+      <div className="flex items-center justify-end px-1">{props.modeTabs}</div>
+      <TokenField def={TOKEN_BY_ID.get("background")!} editor={editor} />
+      <TokenField def={TOKEN_BY_ID.get("sidebar")!} editor={editor} />
       {shown ? (
         <div className="ring-foreground/10 relative h-24 w-full overflow-hidden rounded-lg ring-1">
           {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
