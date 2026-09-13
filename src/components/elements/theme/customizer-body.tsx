@@ -283,7 +283,7 @@ export function ThemeCustomizerBody() {
         {fields("prose")}
       </>
     ),
-    wallpaper: <BackgroundImageSection editor={editor} />,
+    wallpaper: <BackgroundImageSection editor={editor} modeTabs={colorTabs} />,
     saved: <SavedThemesSection editor={editor} />,
   };
 
