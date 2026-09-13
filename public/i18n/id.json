@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "Tampilkan biaya",
       "SHOW_TOKENS": "Tampilkan token",
-      "SHOW_MESSAGES": "Tampilkan jumlah pesan"
+      "SHOW_MESSAGES": "Tampilkan jumlah pesan",
+      "SHOW_THINKING_TOKENS": "Tampilkan token berpikir"
     },
     "GROUPS": {
       "NEW_GROUP": "Grup baru",

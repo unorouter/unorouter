@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "إظهار التكلفة",
       "SHOW_TOKENS": "إظهار الرموز",
-      "SHOW_MESSAGES": "عرض عدد الرسائل"
+      "SHOW_MESSAGES": "عرض عدد الرسائل",
+      "SHOW_THINKING_TOKENS": "إظهار رموز التفكير"
     },
     "GROUPS": {
       "NEW_GROUP": "مجموعة جديدة",

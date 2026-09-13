@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "Hiển thị chi phí",
       "SHOW_TOKENS": "Hiển thị token",
-      "SHOW_MESSAGES": "Hiển thị số tin nhắn"
+      "SHOW_MESSAGES": "Hiển thị số tin nhắn",
+      "SHOW_THINKING_TOKENS": "Hiện token suy nghĩ"
     },
     "GROUPS": {
       "NEW_GROUP": "Nhóm mới",

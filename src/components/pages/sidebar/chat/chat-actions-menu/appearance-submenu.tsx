@@ -16,6 +16,7 @@ import {
   showStatsCostAtom,
   showStatsMessagesAtom,
   showStatsTokensAtom,
+  showThinkingTokensAtom,
 } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import type { Locale } from "next-intl";
@@ -28,6 +29,7 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
   const [showCost, setShowCost] = useAtom(showStatsCostAtom);
   const [showTokens, setShowTokens] = useAtom(showStatsTokensAtom);
   const [showMessages, setShowMessages] = useAtom(showStatsMessagesAtom);
+  const [showThinking, setShowThinking] = useAtom(showThinkingTokensAtom);
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -113,6 +115,13 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
           closeOnClick={false}
         >
           {t("CHAT.STATS.SHOW_MESSAGES")}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showThinking}
+          onCheckedChange={setShowThinking}
+          closeOnClick={false}
+        >
+          {t("CHAT.STATS.SHOW_THINKING_TOKENS")}
         </DropdownMenuCheckboxItem>
         {/* Desktop reaches the theme menu from the header, but the customizer
             is only offered there, so without this it is unreachable here. */}

@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "显示费用",
       "SHOW_TOKENS": "显示词元",
-      "SHOW_MESSAGES": "显示消息数"
+      "SHOW_MESSAGES": "显示消息数",
+      "SHOW_THINKING_TOKENS": "显示思考 token"
     },
     "GROUPS": {
       "NEW_GROUP": "新建分组",

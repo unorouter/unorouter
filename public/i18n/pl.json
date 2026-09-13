@@ -3838,7 +3838,8 @@
     "STATS": {
       "SHOW_COST": "Pokaż koszt",
       "SHOW_TOKENS": "Pokaż tokeny",
-      "SHOW_MESSAGES": "Pokaż liczbę wiadomości"
+      "SHOW_MESSAGES": "Pokaż liczbę wiadomości",
+      "SHOW_THINKING_TOKENS": "Pokaż tokeny myślenia"
     },
     "GROUPS": {
       "NEW_GROUP": "Nowa grupa",
