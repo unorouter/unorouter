@@ -216,9 +216,12 @@
   .aui-md [data-md-quote="dq"] {
     color: var(--md-double-quote);
   }
-  .aui-md img[data-asset] {
-    max-width: min(100%, var(--asset-img-max-width, 20rem));
-  }
+}
+
+/* Unlayered on purpose: the img carries max-w-full, and a layered rule loses to
+   that utility, so the asset width slider would never reach the image. */
+.aui-md img[data-asset] {
+  max-width: min(100%, var(--asset-img-max-width, 20rem));
 }
 
 /* Inner scroll regions: contain the bounce so an over-scroll never leaks to a
