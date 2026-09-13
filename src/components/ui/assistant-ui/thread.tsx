@@ -805,7 +805,7 @@ const ComposerAction: FC = () => {
   };
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
-      <div className="flex items-center">
+      <div className="text-primary flex items-center">
         <ComposerAddAttachment />
         <ComposerWebSearchToggle />
         <ComposerContinueButton />
