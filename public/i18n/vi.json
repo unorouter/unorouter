@@ -3138,8 +3138,6 @@
     "MONO_FONT": "Phông chữ đơn cách",
     "STYLE": "Phong cách",
     "ICON_LIBRARY": "Thư viện biểu tượng",
-    "MENU": "Menu",
-    "MENU_ACCENT": "Nhấn menu",
     "LETTER_SPACING": "Khoảng cách chữ",
     "RADIUS": "Bo góc",
     "MD_NORMAL": "Văn bản thường",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "Kiểu chữ",
       "SHAPE": "Hình dạng",
       "ICONS": "Biểu tượng",
-      "MENUS": "Trình đơn",
       "CHARTS": "Biểu đồ",
       "SAVED": "Chủ đề đã lưu",
       "WALLPAPER": "Nền",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "Không",
       "SHADOW_SOFT": "Nhẹ",
       "SHADOW_MEDIUM": "Vừa",
-      "SHADOW_STRONG": "Đậm",
-      "MENU_DEFAULT": "Mặc định",
-      "MENU_INVERTED": "Đảo ngược",
-      "MENU_DEFAULT_TRANSLUCENT": "Trong mờ",
-      "MENU_INVERTED_TRANSLUCENT": "Đảo ngược trong mờ",
-      "ACCENT_SUBTLE": "Nhẹ nhàng",
-      "ACCENT_BOLD": "Nổi bật"
+      "SHADOW_STRONG": "Đậm"
     },
     "TOKEN": {
       "POPOVER": "Cửa sổ bật lên",

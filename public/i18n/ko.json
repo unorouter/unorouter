@@ -3138,8 +3138,6 @@
     "MONO_FONT": "고정폭 글꼴",
     "STYLE": "스타일",
     "ICON_LIBRARY": "아이콘 라이브러리",
-    "MENU": "메뉴",
-    "MENU_ACCENT": "메뉴 강조색",
     "LETTER_SPACING": "자간",
     "RADIUS": "테두리 반경",
     "MD_NORMAL": "일반 텍스트",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "타이포그래피",
       "SHAPE": "형태",
       "ICONS": "아이콘",
-      "MENUS": "메뉴",
       "CHARTS": "차트",
       "SAVED": "저장된 테마",
       "WALLPAPER": "배경",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "없음",
       "SHADOW_SOFT": "약함",
       "SHADOW_MEDIUM": "중간",
-      "SHADOW_STRONG": "강함",
-      "MENU_DEFAULT": "기본",
-      "MENU_INVERTED": "반전",
-      "MENU_DEFAULT_TRANSLUCENT": "반투명",
-      "MENU_INVERTED_TRANSLUCENT": "반전 반투명",
-      "ACCENT_SUBTLE": "은은하게",
-      "ACCENT_BOLD": "뚜렷하게"
+      "SHADOW_STRONG": "강함"
     },
     "TOKEN": {
       "POPOVER": "팝오버",

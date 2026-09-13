@@ -23,7 +23,6 @@ export type TokenGroup =
   | "typography"
   | "shape"
   | "icons"
-  | "menus"
   | "prose"
   | "regions"
   | "wallpaper";
@@ -126,24 +125,6 @@ const SHADOW_OPTIONS = [
   { value: "soft", labelKey: "THEME.PRESET.SHADOW_SOFT" },
   { value: "medium", labelKey: "THEME.PRESET.SHADOW_MEDIUM" },
   { value: "strong", labelKey: "THEME.PRESET.SHADOW_STRONG" },
-] as const;
-
-export const MENU_OPTIONS = [
-  { value: "default", labelKey: "THEME.PRESET.MENU_DEFAULT" },
-  { value: "inverted", labelKey: "THEME.PRESET.MENU_INVERTED" },
-  {
-    value: "default-translucent",
-    labelKey: "THEME.PRESET.MENU_DEFAULT_TRANSLUCENT",
-  },
-  {
-    value: "inverted-translucent",
-    labelKey: "THEME.PRESET.MENU_INVERTED_TRANSLUCENT",
-  },
-] as const;
-
-export const MENU_ACCENT_OPTIONS = [
-  { value: "subtle", labelKey: "THEME.PRESET.ACCENT_SUBTLE" },
-  { value: "bold", labelKey: "THEME.PRESET.ACCENT_BOLD" },
 ] as const;
 
 export const ICON_LIBRARY_OPTIONS: readonly {
@@ -394,10 +375,6 @@ export const TOKENS: readonly TokenDef[] = [
   select("shadow", "shape", "THEME.TOKEN.SHADOW", SHADOW_OPTIONS),
 
   select("icon-library", "icons", "THEME.ICON_LIBRARY", ICON_LIBRARY_OPTIONS, [
-    "app",
-  ]),
-  select("menu", "menus", "THEME.MENU", MENU_OPTIONS, ["app"]),
-  select("menu-accent", "menus", "THEME.MENU_ACCENT", MENU_ACCENT_OPTIONS, [
     "app",
   ]),
 

@@ -93,7 +93,6 @@ const SECTIONS: readonly SectionDef[] = [
   { id: "typography", labelKey: "THEME.CATEGORY.TYPOGRAPHY" },
   { id: "shape", labelKey: "THEME.CATEGORY.SHAPE" },
   { id: "icons", labelKey: "THEME.CATEGORY.ICONS", appOnly: true },
-  { id: "menus", labelKey: "THEME.CATEGORY.MENUS", appOnly: true },
   { id: "charts", labelKey: "THEME.CATEGORY.CHARTS" },
   { id: "regions", labelKey: "THEME.CATEGORY.REGIONS" },
   { id: "prose", labelKey: "THEME.CATEGORY.CHAT_TEXT" },
@@ -307,7 +306,6 @@ export function ThemeCustomizerBody() {
     typography: fields("typography"),
     shape: fields("shape"),
     icons: fields("icons"),
-    menus: fields("menus"),
     charts: (
       <>
         {scope === "app" && <ChartPresetSection editor={editor} />}

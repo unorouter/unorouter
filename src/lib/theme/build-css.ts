@@ -216,65 +216,6 @@ function modeSelector(scope: ThemeScope, mode: ThemeMode): string {
 
 const FONT_IDS = ["font-sans", "font-display", "font-mono"];
 
-function menuBlock(values: TokenValues): string {
-  const name = String(values.menu ?? "default");
-  if (name === "default") return "";
-  // Submenus override data-slot to `dropdown-menu-sub-content`.
-  const selectors =
-    "[data-slot=dropdown-menu-content],[data-slot=dropdown-menu-sub-content],[data-slot=popover-content]";
-  const inverted = name.startsWith("inverted");
-  const translucent = name.endsWith("translucent");
-  const surface = inverted ? "var(--foreground)" : "var(--popover)";
-  const rules: string[] = [];
-  if (inverted) {
-    rules.push(
-      `background-color: ${surface};`,
-      "color: var(--background);",
-      "border-color: color-mix(in srgb, var(--background) 15%, transparent);",
-      "--popover-foreground: var(--background);",
-      "--accent: color-mix(in srgb, var(--background) 12%, transparent);",
-      "--accent-foreground: var(--background);",
-      "--muted-foreground: color-mix(in srgb, var(--background) 65%, transparent);",
-    );
-  }
-  if (translucent) {
-    rules.push(
-      `background-color: color-mix(in srgb, ${surface} 75%, transparent);`,
-      "backdrop-filter: blur(12px);",
-    );
-  }
-  return `${selectors}{${rules.join("")}}`;
-}
-
-// Base UI marks the hovered or focused row with a bare `data-highlighted` and
-// an open sub-trigger with `data-popup-open`.
-function menuAccentBlock(values: TokenValues): string {
-  if (values["menu-accent"] !== "bold") return "";
-  const rows = [
-    "dropdown-menu-item",
-    "dropdown-menu-checkbox-item",
-    "dropdown-menu-radio-item",
-    "dropdown-menu-sub-trigger",
-  ];
-  const selectors = rows
-    .flatMap((r) => [
-      `[data-slot=${r}][data-highlighted]`,
-      `[data-slot=${r}][data-popup-open]`,
-      `[data-slot=${r}]:focus`,
-    ])
-    .join(",");
-  // Row labels carry their own text colour utilities, so the text rule must
-  // reach into the row.
-  const text = rows
-    .flatMap((r) => [
-      `[data-slot=${r}][data-highlighted] *`,
-      `[data-slot=${r}][data-popup-open] *`,
-      `[data-slot=${r}]:focus *`,
-    ])
-    .join(",");
-  return `${selectors}{background-color: var(--primary) !important;color: var(--primary-foreground) !important;}${text}{color: var(--primary-foreground) !important;}`;
-}
-
 export function buildThemeCss(theme: UserTheme): string {
   const blocks: string[] = [];
   for (const scope of THEME_SCOPES) {
@@ -319,8 +260,6 @@ export function buildThemeCss(theme: UserTheme): string {
       blocks.push(def.rule(tokenCss(def, raw), scopeSelector(scope)));
     }
   }
-  const all = theme.global.all ?? {};
-  blocks.push(menuBlock(all), menuAccentBlock(all));
   return blocks.filter(Boolean).join("\n");
 }
 

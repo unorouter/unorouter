@@ -3138,8 +3138,6 @@
     "MONO_FONT": "等幅フォント",
     "STYLE": "スタイル",
     "ICON_LIBRARY": "アイコンライブラリ",
-    "MENU": "メニュー",
-    "MENU_ACCENT": "メニューアクセント",
     "LETTER_SPACING": "文字間隔",
     "RADIUS": "角丸",
     "MD_NORMAL": "通常テキスト",
@@ -3180,7 +3178,6 @@
       "TYPOGRAPHY": "タイポグラフィ",
       "SHAPE": "形状",
       "ICONS": "アイコン",
-      "MENUS": "メニュー",
       "CHARTS": "チャート",
       "SAVED": "保存したテーマ",
       "WALLPAPER": "背景",
@@ -3200,13 +3197,7 @@
       "SHADOW_NONE": "なし",
       "SHADOW_SOFT": "弱",
       "SHADOW_MEDIUM": "中",
-      "SHADOW_STRONG": "強",
-      "MENU_DEFAULT": "標準",
-      "MENU_INVERTED": "反転",
-      "MENU_DEFAULT_TRANSLUCENT": "半透明",
-      "MENU_INVERTED_TRANSLUCENT": "反転・半透明",
-      "ACCENT_SUBTLE": "控えめ",
-      "ACCENT_BOLD": "強調"
+      "SHADOW_STRONG": "強"
     },
     "TOKEN": {
       "POPOVER": "ポップオーバー",
