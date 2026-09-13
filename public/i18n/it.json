@@ -3948,7 +3948,9 @@
     "DB_HELD": "Un'altra scheda, o una pagina appena chiusa, trattiene ancora il database locale, quindi le chat non possono essere caricate. Chiudi le altre schede di UnoRouter, oppure esci dal browser e riaprilo, poi riprova.",
     "DB_HELD_DOWNLOAD": "Scarica il file grezzo del database",
     "STORAGE_BLOCKED": "Il browser sta bloccando l'archiviazione per questo sito, quindi le chat non possono essere salvate e i messaggi spariscono all'invio. Consenti i cookie e i dati del sito, disattiva la cancellazione dei dati alla chiusura ed esci dalla navigazione privata. Le versioni di Chromium orientate alla privacy lo bloccano per impostazione predefinita.",
-    "THOUGHT_TOKENS": "{count} token"
+    "THOUGHT_TOKENS": "{count} token",
+    "DELETE_CHAT_TITLE": "Eliminare questa chat?",
+    "DELETE_CHAT_DESC": "La chat e tutti i suoi messaggi verranno eliminati definitivamente. Non è possibile annullare."
   },
   "ROOM": {
     "HOST_TITLE": "Stanza multigiocatore",

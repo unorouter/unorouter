@@ -3948,7 +3948,9 @@
     "DB_HELD": "Başka bir sekme ya da az önce kapatılan bir sayfa yerel veritabanını hâlâ tutuyor, bu yüzden sohbetler yüklenemiyor. Diğer UnoRouter sekmelerini kapatın veya tarayıcıdan çıkıp yeniden açın, ardından tekrar deneyin.",
     "DB_HELD_DOWNLOAD": "Ham veritabanı dosyasını indir",
     "STORAGE_BLOCKED": "Tarayıcınız bu site için depolamayı engelliyor, bu yüzden sohbetler kaydedilemiyor ve mesajlar gönderildiğinde kayboluyor. Bu site için çerezlere ve site verilerine izin verin, kapatırken verileri silen ayarı kapatın ve gizli moddan çıkın. Gizlilik odaklı Chromium sürümleri bunu varsayılan olarak engeller.",
-    "THOUGHT_TOKENS": "{count} jeton"
+    "THOUGHT_TOKENS": "{count} jeton",
+    "DELETE_CHAT_TITLE": "Bu sohbet silinsin mi?",
+    "DELETE_CHAT_DESC": "Sohbet ve tüm mesajları kalıcı olarak silinir. Bu işlem geri alınamaz."
   },
   "ROOM": {
     "HOST_TITLE": "Çok oyunculu oda",

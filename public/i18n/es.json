@@ -3948,7 +3948,9 @@
     "DB_HELD": "Otra pestaña, o una página que acaba de cerrarse, sigue reteniendo la base de datos local, por lo que los chats no se pueden cargar. Cierra las demás pestañas de UnoRouter o sal del navegador y vuelve a abrirlo, y luego inténtalo de nuevo.",
     "DB_HELD_DOWNLOAD": "Descargar el archivo de base de datos sin procesar",
     "STORAGE_BLOCKED": "Tu navegador está bloqueando el almacenamiento de este sitio, por lo que los chats no se pueden guardar y los mensajes desaparecen al enviarlos. Permite las cookies y los datos del sitio, desactiva el borrado de datos al cerrar y sal de la navegación privada. Las versiones de Chromium centradas en la privacidad lo bloquean de forma predeterminada.",
-    "THOUGHT_TOKENS": "{count} tokens"
+    "THOUGHT_TOKENS": "{count} tokens",
+    "DELETE_CHAT_TITLE": "¿Eliminar este chat?",
+    "DELETE_CHAT_DESC": "Esto elimina permanentemente el chat y todos sus mensajes. No se puede deshacer."
   },
   "ROOM": {
     "HOST_TITLE": "Sala multijugador",

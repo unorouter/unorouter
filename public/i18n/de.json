@@ -3948,7 +3948,9 @@
     "DB_HELD": "Ein anderer Tab oder eine gerade geschlossene Seite hält die lokale Datenbank noch, deshalb können Chats nicht geladen werden. Schließe andere UnoRouter-Tabs oder beende den Browser und öffne ihn erneut, dann versuche es noch einmal.",
     "DB_HELD_DOWNLOAD": "Rohdatei der Datenbank herunterladen",
     "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gespeichert werden und Nachrichten verschwinden beim Senden. Erlaube Cookies und Websitedaten für diese Seite, deaktiviere das Löschen der Daten beim Schließen und verlasse den privaten Modus. Datenschutzorientierte Chromium-Varianten blockieren das standardmäßig.",
-    "THOUGHT_TOKENS": "{count} Tokens"
+    "THOUGHT_TOKENS": "{count} Tokens",
+    "DELETE_CHAT_TITLE": "Diesen Chat löschen?",
+    "DELETE_CHAT_DESC": "Der Chat und alle seine Nachrichten werden dauerhaft gelöscht. Das lässt sich nicht rückgängig machen."
   },
   "ROOM": {
     "HOST_TITLE": "Mehrspieler-Raum",

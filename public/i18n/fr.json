@@ -3948,7 +3948,9 @@
     "DB_HELD": "Un autre onglet, ou une page qui vient de se fermer, retient encore la base de données locale, donc les conversations ne peuvent pas se charger. Fermez les autres onglets UnoRouter, ou quittez et rouvrez le navigateur, puis réessayez.",
     "DB_HELD_DOWNLOAD": "Télécharger le fichier brut de la base de données",
     "STORAGE_BLOCKED": "Votre navigateur bloque le stockage pour ce site, les conversations ne peuvent donc pas être enregistrées et les messages disparaissent à l'envoi. Autorisez les cookies et les données de site, désactivez la suppression des données à la fermeture et quittez la navigation privée. Les variantes de Chromium axées sur la vie privée bloquent cela par défaut.",
-    "THOUGHT_TOKENS": "{count} jetons"
+    "THOUGHT_TOKENS": "{count} jetons",
+    "DELETE_CHAT_TITLE": "Supprimer cette discussion ?",
+    "DELETE_CHAT_DESC": "La discussion et tous ses messages seront supprimés définitivement. Cette action est irréversible."
   },
   "ROOM": {
     "HOST_TITLE": "Salon multijoueur",
