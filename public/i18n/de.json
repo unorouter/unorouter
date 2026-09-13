@@ -3277,7 +3277,11 @@
       "FOOTER": "Seitenfuß",
       "FOOTER_BLUR": "Seitenfuß Milchglas",
       "OVERLAY": "Panels und Sheets",
-      "OVERLAY_BLUR": "Panels und Sheets Milchglas"
+      "OVERLAY_BLUR": "Panels und Sheets Milchglas",
+      "SIDEBAR_HEADER": "Seitenleiste oben",
+      "SIDEBAR_HEADER_BLUR": "Seitenleiste oben Milchglas",
+      "CARD_BLUR": "Karten Milchglas",
+      "POPOVER_BLUR": "Menü Milchglas"
     },
     "GROUP": {
       "SURFACE": "Flächen",

@@ -3277,7 +3277,11 @@
       "FOOTER": "כותרת תחתונה",
       "FOOTER_BLUR": "טשטוש הכותרת התחתונה",
       "OVERLAY": "פאנלים וגיליונות",
-      "OVERLAY_BLUR": "טשטוש פאנלים וגיליונות"
+      "OVERLAY_BLUR": "טשטוש פאנלים וגיליונות",
+      "SIDEBAR_HEADER": "ראש סרגל הצד",
+      "SIDEBAR_HEADER_BLUR": "טשטוש ראש סרגל הצד",
+      "CARD_BLUR": "טשטוש כרטיסים",
+      "POPOVER_BLUR": "טשטוש תפריטים"
     },
     "GROUP": {
       "SURFACE": "משטחים",

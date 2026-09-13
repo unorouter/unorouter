@@ -3277,7 +3277,11 @@
       "FOOTER": "Stopka",
       "FOOTER_BLUR": "Szron stopki",
       "OVERLAY": "Panele i arkusze",
-      "OVERLAY_BLUR": "Szron paneli i arkuszy"
+      "OVERLAY_BLUR": "Szron paneli i arkuszy",
+      "SIDEBAR_HEADER": "Góra paska bocznego",
+      "SIDEBAR_HEADER_BLUR": "Szron góry paska bocznego",
+      "CARD_BLUR": "Szron kart",
+      "POPOVER_BLUR": "Szron menu"
     },
     "GROUP": {
       "SURFACE": "Powierzchnie",

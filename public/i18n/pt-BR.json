@@ -3277,7 +3277,11 @@
       "FOOTER": "Rodapé",
       "FOOTER_BLUR": "Vidro fosco do rodapé",
       "OVERLAY": "Painéis e folhas",
-      "OVERLAY_BLUR": "Vidro fosco de painéis e folhas"
+      "OVERLAY_BLUR": "Vidro fosco de painéis e folhas",
+      "SIDEBAR_HEADER": "Topo da barra lateral",
+      "SIDEBAR_HEADER_BLUR": "Vidro fosco do topo da barra lateral",
+      "CARD_BLUR": "Vidro fosco dos cartões",
+      "POPOVER_BLUR": "Vidro fosco dos menus"
     },
     "GROUP": {
       "SURFACE": "Superfícies",

@@ -216,54 +216,63 @@ function modeSelector(scope: ThemeScope, mode: ThemeMode): string {
 
 const FONT_IDS = ["font-sans", "font-display", "font-mono"];
 
-function menuBlock(
-  values: TokenValues,
-  invertAgainstForeground: boolean,
-): string {
+function menuBlock(values: TokenValues): string {
   const name = String(values.menu ?? "default");
   if (name === "default") return "";
-  // Foreground is optional and near-white by default in dark mode, so a menu
-  // inverted against it turned white for a user who never chose it.
-  const surface = invertAgainstForeground
-    ? "var(--foreground)"
-    : "var(--popover)";
-  const text = invertAgainstForeground
-    ? "var(--background)"
-    : "var(--popover-foreground)";
   // Submenus override data-slot to `dropdown-menu-sub-content`.
   const selectors =
     "[data-slot=dropdown-menu-content],[data-slot=dropdown-menu-sub-content],[data-slot=popover-content]";
   const inverted = name.startsWith("inverted");
   const translucent = name.endsWith("translucent");
+  const surface = inverted ? "var(--foreground)" : "var(--popover)";
   const rules: string[] = [];
   if (inverted) {
     rules.push(
-      ...(invertAgainstForeground ? ["color-scheme: dark;"] : []),
       `background-color: ${surface};`,
-      `color: ${text};`,
-      `border-color: color-mix(in srgb, ${text} 15%, transparent);`,
+      "color: var(--background);",
+      "border-color: color-mix(in srgb, var(--background) 15%, transparent);",
+      "--popover-foreground: var(--background);",
+      "--accent: color-mix(in srgb, var(--background) 12%, transparent);",
+      "--accent-foreground: var(--background);",
+      "--muted-foreground: color-mix(in srgb, var(--background) 65%, transparent);",
     );
   }
   if (translucent) {
     rules.push(
-      `background-color: color-mix(in srgb, ${inverted ? surface : "var(--popover)"} 75%, transparent);`,
+      `background-color: color-mix(in srgb, ${surface} 75%, transparent);`,
       "backdrop-filter: blur(12px);",
     );
   }
-  return rules.length ? `${selectors}{${rules.join("")}}` : "";
+  return `${selectors}{${rules.join("")}}`;
 }
 
+// Base UI marks the hovered or focused row with a bare `data-highlighted` and
+// an open sub-trigger with `data-popup-open`.
 function menuAccentBlock(values: TokenValues): string {
   if (values["menu-accent"] !== "bold") return "";
   const rows = [
-    "[data-slot=dropdown-menu-item]",
-    "[data-slot=dropdown-menu-sub-trigger]",
+    "dropdown-menu-item",
+    "dropdown-menu-checkbox-item",
+    "dropdown-menu-radio-item",
+    "dropdown-menu-sub-trigger",
   ];
-  const states = ["[data-highlighted=true]", "[data-state=open]"];
   const selectors = rows
-    .flatMap((row) => states.map((s) => `${row}${s}`))
+    .flatMap((r) => [
+      `[data-slot=${r}][data-highlighted]`,
+      `[data-slot=${r}][data-popup-open]`,
+      `[data-slot=${r}]:focus`,
+    ])
     .join(",");
-  return `${selectors}{background-color: var(--primary);color: var(--primary-foreground);}`;
+  // Row labels carry their own text colour utilities, so the text rule must
+  // reach into the row.
+  const text = rows
+    .flatMap((r) => [
+      `[data-slot=${r}][data-highlighted] *`,
+      `[data-slot=${r}][data-popup-open] *`,
+      `[data-slot=${r}]:focus *`,
+    ])
+    .join(",");
+  return `${selectors}{background-color: var(--primary) !important;color: var(--primary-foreground) !important;}${text}{color: var(--primary-foreground) !important;}`;
 }
 
 export function buildThemeCss(theme: UserTheme): string {
@@ -311,10 +320,7 @@ export function buildThemeCss(theme: UserTheme): string {
     }
   }
   const all = theme.global.all ?? {};
-  const explicitForeground = Boolean(
-    theme.global.light?.foreground || theme.global.dark?.foreground,
-  );
-  blocks.push(menuBlock(all, explicitForeground), menuAccentBlock(all));
+  blocks.push(menuBlock(all), menuAccentBlock(all));
   return blocks.filter(Boolean).join("\n");
 }
 
