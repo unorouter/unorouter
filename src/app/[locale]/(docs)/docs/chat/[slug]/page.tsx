@@ -10,6 +10,7 @@ import { PluginsContent } from "@/components/pages/docs/chat/content/plugins-con
 import { DataContent } from "@/components/pages/docs/chat/content/data-content";
 import { JanitoraiImportContent } from "@/components/pages/docs/chat/content/janitorai-import-content";
 import { BackupsContent } from "@/components/pages/docs/chat/content/backups-content";
+import { ThemeContent } from "@/components/pages/docs/chat/content/theme-content";
 import { GettingStartedContent } from "@/components/pages/docs/chat/content/getting-started-content";
 import { GroupChatsContent } from "@/components/pages/docs/chat/content/group-chats-content";
 import { ImagesContent } from "@/components/pages/docs/chat/content/images-content";
@@ -70,6 +71,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   data: DataContent,
   "janitorai-import": JanitoraiImportContent,
   backups: BackupsContent,
+  theme: ThemeContent,
 };
 
 export default async function ChatDocPage(props: PageProps) {
