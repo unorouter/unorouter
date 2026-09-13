@@ -54,6 +54,8 @@ function cssColorToHex(input: string): string | null {
 export function ColorField(props: {
   label: string;
   value: string | undefined;
+  // The value in force when this field is unset, shown greyed in its place.
+  placeholder?: string;
   onChange: (next: string | undefined) => void;
 }) {
   const t = useTranslations();
@@ -84,7 +86,7 @@ export function ColorField(props: {
         type="button"
         onClick={() => colorInputRef.current?.click()}
         className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
-        style={{ backgroundColor: local || "transparent" }}
+        style={{ backgroundColor: local || props.placeholder || "transparent" }}
         aria-label={`${props.label} swatch`}
       />
       <input
@@ -105,7 +107,7 @@ export function ColorField(props: {
         <input
           type="text"
           value={local}
-          placeholder="#rrggbb"
+          placeholder={props.placeholder ?? "#rrggbb"}
           onChange={(e) => {
             const raw = e.target.value;
             setLocal(raw);

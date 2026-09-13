@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { normFontFamily } from "@/components/ui/theme/theme-build-css";
+import { normFontFamily } from "@/lib/theme/build-css";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 

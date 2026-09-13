@@ -32,7 +32,7 @@ const ConversationOverridesDrawer = dynamic(
 );
 const ThemeCustomizerSheet = dynamic(
   () =>
-    import("@/components/ui/theme/customizer-sheet").then(
+    import("@/components/elements/theme/customizer-sheet").then(
       (m) => m.ThemeCustomizerSheet,
     ),
   { ssr: false },

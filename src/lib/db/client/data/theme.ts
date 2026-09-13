@@ -1,7 +1,10 @@
 "use client";
 
-import type { UserTheme } from "@/components/ui/theme/theme-store";
+import { savedThemes, type SavedTheme } from "@/lib/db/schema/client";
 import { userThemes } from "@/lib/db/schema/shared";
+import { migrateTheme } from "@/lib/theme/migrate";
+import type { ThemeImages, UserTheme } from "@/lib/theme/theme-types";
+import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { desc, eq, lt } from "drizzle-orm";
 import { getLocalDb } from "../client";
@@ -66,7 +69,8 @@ export async function readPreviousTheme(): Promise<{
     .limit(2);
   const [newest, previous] = rows;
   if (!newest || !previous) return null;
-  return { theme: previous.themeJson, dropId: newest.id };
+  // Rows written before the token model still hold the old shape.
+  return { theme: migrateTheme(previous.themeJson), dropId: newest.id };
 }
 
 export async function dropThemeEntry(id: number) {
@@ -80,4 +84,63 @@ export async function countThemeHistory(): Promise<number> {
   if (!local) return 0;
   const rows = await local.db.select({ id: userThemes.id }).from(userThemes);
   return rows.length;
+}
+
+export async function listSavedThemes(): Promise<SavedTheme[]> {
+  const local = await getLocalDb();
+  if (!local) return [];
+  const rows = await local.db
+    .select()
+    .from(savedThemes)
+    .orderBy(desc(savedThemes.updatedAt));
+  return rows.map((r) => ({ ...r, themeJson: migrateTheme(r.themeJson) }));
+}
+
+export type SavedThemeInput = {
+  id?: string;
+  name: string;
+  themeJson: UserTheme;
+  backgroundImages: ThemeImages;
+};
+
+// Saving under an existing name overwrites it, so re-saving after a tweak
+// updates the theme the user is working on instead of growing near-duplicates.
+export async function saveTheme(input: SavedThemeInput): Promise<SavedTheme> {
+  const local = await getLocalDb();
+  if (!local) throw new Error("local-db-unavailable");
+  const name = input.name.trim();
+  const [existing] = await local.db
+    .select()
+    .from(savedThemes)
+    .where(input.id ? eq(savedThemes.id, input.id) : eq(savedThemes.name, name))
+    .limit(1);
+  const now = dayjs().toDate();
+  const row: SavedTheme = {
+    id: existing?.id ?? input.id ?? uid(),
+    name,
+    themeJson: input.themeJson,
+    backgroundImages: input.backgroundImages,
+    createdAt: existing?.createdAt ?? now,
+    updatedAt: now,
+  };
+  await local.db
+    .insert(savedThemes)
+    .values(row)
+    .onConflictDoUpdate({ target: savedThemes.id, set: row });
+  return row;
+}
+
+export async function renameSavedTheme(id: string, name: string) {
+  const local = await getLocalDb();
+  if (!local) return;
+  await local.db
+    .update(savedThemes)
+    .set({ name: name.trim(), updatedAt: dayjs().toDate() })
+    .where(eq(savedThemes.id, id));
+}
+
+export async function deleteSavedTheme(id: string) {
+  const local = await getLocalDb();
+  if (!local) return;
+  await local.db.delete(savedThemes).where(eq(savedThemes.id, id));
 }

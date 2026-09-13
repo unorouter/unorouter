@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
-import type { UserTheme } from "@/components/ui/theme/theme-store";
+import type { UserTheme } from "@/lib/theme/theme-types";
 import type {
   MessageItemType,
   MessageRole,

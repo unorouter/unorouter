@@ -64,6 +64,13 @@
       "when": 1789152422927,
       "tag": "0008_faithful_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1789258790354,
+      "tag": "0009_chunky_wrecking_crew",
+      "breakpoints": true
     }
   ]
 }

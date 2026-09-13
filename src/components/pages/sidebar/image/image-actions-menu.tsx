@@ -18,7 +18,7 @@ import { useState } from "react";
 // Chat's three-dot menu, minus everything that needs a conversation.
 const ThemeCustomizerSheet = dynamic(
   () =>
-    import("@/components/ui/theme/customizer-sheet").then(
+    import("@/components/elements/theme/customizer-sheet").then(
       (m) => m.ThemeCustomizerSheet,
     ),
   { ssr: false },

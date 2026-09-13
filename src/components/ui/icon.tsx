@@ -6,7 +6,8 @@ import type {
   IconName,
 } from "@/lib/config/icon-map";
 import { LUCIDE_STATIC } from "@/lib/config/lucide-static";
-import { userThemeAtom } from "@/components/ui/theme/theme-store";
+import { userThemeAtom } from "@/lib/theme/theme-store";
+import { ICON_LIBRARY_OPTIONS } from "@/lib/theme/tokens";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
@@ -71,7 +72,9 @@ function LibraryIcon(props: Props & { lib: LibraryName }) {
 
 export function Icon(props: Props) {
   const theme = useAtomValue(userThemeAtom);
-  const lib = theme.iconLibrary ?? "lucide";
+  const chosen = theme.global.all?.["icon-library"];
+  const lib =
+    ICON_LIBRARY_OPTIONS.find((o) => o.value === chosen)?.value ?? "lucide";
   const { name, size, ...rest } = props;
 
   // SSR and hydration always render the default library (the cookie-backed

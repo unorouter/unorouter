@@ -42,25 +42,26 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc((var(--radius) - 4px) * var(--style-radius-scale, 1));
-  --radius-md: calc((var(--radius) - 2px) * var(--style-radius-scale, 1));
-  --radius-lg: calc(var(--radius) * var(--style-radius-scale, 1));
-  --radius-xl: calc((var(--radius) + 4px) * var(--style-radius-scale, 1));
-  --radius-2xl: calc((var(--radius) + 8px) * var(--style-radius-scale, 1));
-  --radius-3xl: calc((var(--radius) + 12px) * var(--style-radius-scale, 1));
-  --radius-4xl: calc((var(--radius) + 16px) * var(--style-radius-scale, 1));
-  /* Style presets emit --style-shadow and --style-hover-lift alongside the
-     radius scale above. Route the shadow through the vars Tailwind's shadow
-     utilities resolve, defaulting to stock values when unset. */
-  --shadow-xs: var(--style-shadow, 0 1px 2px 0 rgb(0 0 0 / 0.05));
-  --shadow-sm: var(--style-shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1));
-  --shadow-md: var(--style-shadow, 0 4px 6px -1px rgb(0 0 0 / 0.1));
-  --shadow-lg: var(--style-shadow, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  /* Inline theme values are pasted into every utility, so a var() here is what
+     lets the user theme swap shadows at runtime. */
+  --shadow-xs: var(--theme-shadow-xs, 0 1px 2px 0 rgb(0 0 0 / 0.05));
+  --shadow-sm: var(--theme-shadow-sm, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+  --shadow-md: var(--theme-shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+  --shadow-lg: var(--theme-shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
 }
 
 :root {
   --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --radius: 0;
+  --chat-avatar-sm: calc(1.25rem * var(--chat-avatar, 1));
+  --chat-avatar-md: calc(1.75rem * var(--chat-avatar, 1));
   --background: #ffffff;
   --foreground: #09090b;
   --card: #ffffff;
@@ -139,17 +140,17 @@
     @apply border-border outline-ring/50;
   }
 
-  /* Hover-lift from the active style preset. Inert (0px) unless one asks for
-     it. Border opacity is deliberately NOT a style preset: `*` would override
-     every component's own border colour, and the surface Border field already
-     gives the user direct control. */
-  button:hover:not(:disabled),
-  [role="button"]:hover:not([aria-disabled="true"]) {
-    transform: translateY(calc(var(--style-hover-lift, 0px) * -1));
+  /* User theme tokens land as variables; these rules are their only readers.
+     An unset var() on an inherited property resolves to inherit, which is the
+     fallback every one of them wants. */
+  html {
+    font-size: calc(100% * var(--font-scale, 1));
   }
 
   body {
     @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans;
+    font-weight: var(--font-weight, 400);
+    letter-spacing: var(--tracking, normal);
     /* Kill double-tap-to-zoom (the per-message zoom drift Matic hit) without a
        hard viewport zoom lock, so pinch-zoom accessibility still works. */
     touch-action: manipulation;
@@ -157,8 +158,6 @@
     overscroll-behavior: none;
   }
 
-  /* The customizer's heading font wrote --font-display and nothing ever read
-     it, so picking one changed nothing: headings inherited the body font. */
   h1,
   h2,
   h3,
@@ -170,6 +169,37 @@
 
   button {
     @apply cursor-pointer;
+  }
+
+  .aui-user-message-content,
+  .aui-md:not(.aui-user-message-content .aui-md) {
+    font-size: calc(1em * var(--prose-scale, 1));
+  }
+  .aui-md p,
+  .aui-md li {
+    color: var(--md-normal);
+  }
+  .aui-md em {
+    color: var(--md-italic);
+  }
+  .aui-md strong {
+    color: var(--md-bold);
+    /* Preflight's `bolder` jumps 600 straight to 900, a weight almost no
+       family ships. */
+    font-weight: calc(var(--font-weight, 400) + 200);
+  }
+  .aui-md strong em,
+  .aui-md em strong {
+    color: var(--md-italic-bold);
+  }
+  .aui-md [data-md-quote="sq"] {
+    color: var(--md-single-quote);
+  }
+  .aui-md [data-md-quote="dq"] {
+    color: var(--md-double-quote);
+  }
+  .aui-md img[data-asset] {
+    max-width: min(100%, var(--asset-img-max-width, 20rem));
   }
 }
 

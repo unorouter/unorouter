@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  INITIAL_USER_THEME,
-  userThemeAtom,
-} from "@/components/ui/theme/theme-store";
-import type { UserTheme } from "@/components/ui/theme/theme-store";
+import { userThemeAtom } from "@/lib/theme/theme-store";
+import { INITIAL_USER_THEME, type UserTheme } from "@/lib/theme/theme-types";
 import { environmentManager } from "@tanstack/react-query";
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";

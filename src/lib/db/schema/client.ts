@@ -12,6 +12,7 @@ import type {
   ImageVisibility,
   ReferenceEntry,
 } from "@/lib/validation/image";
+import type { ThemeImages, UserTheme } from "@/lib/theme/theme-types";
 import { uid } from "@/lib/utils/base";
 import { getTableName, sql } from "drizzle-orm";
 import {
@@ -177,6 +178,29 @@ export const imagePresets = sqliteTable(
 );
 
 export type ImagePreset = typeof imagePresets.$inferSelect;
+
+// Named themes the user keeps; the working theme itself lives in the cookie
+// and `user_themes` is its undo history.
+export const savedThemes = sqliteTable(
+  "saved_themes",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    name: text("name").notNull(),
+    themeJson: text("theme_json", { mode: "json" })
+      .$type<UserTheme>()
+      .notNull(),
+    backgroundImages: text("background_images", { mode: "json" })
+      .$type<ThemeImages>()
+      .notNull()
+      .default({}),
+    ...timestamps(),
+  },
+  (table) => [index("idx_saved_themes_updated").on(table.updatedAt)],
+);
+
+export type SavedTheme = typeof savedThemes.$inferSelect;
 
 export const imageSessions = sqliteTable(
   "image_sessions",
