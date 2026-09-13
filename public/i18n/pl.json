@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Nowa grupa",
       "EMPTY": "Brak czatów",
       "DELETE_CONFIRM_TITLE": "Usunąć grupę?",
-      "DELETE_CONFIRM_DESC": "Grupa zostanie usunięta; jej czaty pozostaną i staną się bez grupy."
+      "DELETE_CONFIRM_DESC": "Grupa zostanie usunięta; jej czaty i podgrupy przejdą o poziom wyżej.",
+      "NEW_SUBGROUP": "Nowa podgrupa",
+      "MOVE_GROUP_TO": "Przenieś do",
+      "TOP_LEVEL": "Najwyższy poziom"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Niestandardowi dostawcy",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "Kolejka importu jest teraz zajęta. Spróbuj ponownie za chwilę.",
     "CARD_IMPORT_JOB_GONE": "Ten import wygasł przed zakończeniem. Wyślij link ponownie.",
     "CARD_IMPORT_UNAVAILABLE": "Usługa importu jest teraz niedostępna. Spróbuj ponownie za kilka minut.",
-    "CARD_FILE_INVALID": "Ten plik nie jest eksportem karty."
+    "CARD_FILE_INVALID": "Ten plik nie jest eksportem karty.",
+    "GROUP_CYCLE": "Grupy nie można przenieść do niej samej."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

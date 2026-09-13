@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Nhóm mới",
       "EMPTY": "Không có cuộc trò chuyện",
       "DELETE_CONFIRM_TITLE": "Xóa nhóm?",
-      "DELETE_CONFIRM_DESC": "Nhóm bị xóa; các cuộc trò chuyện được giữ lại và trở thành chưa phân nhóm."
+      "DELETE_CONFIRM_DESC": "Nhóm sẽ bị xóa; các cuộc trò chuyện và nhóm con của nó được chuyển lên một cấp.",
+      "NEW_SUBGROUP": "Nhóm con mới",
+      "MOVE_GROUP_TO": "Chuyển đến",
+      "TOP_LEVEL": "Cấp cao nhất"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Nhà cung cấp tùy chỉnh",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "Hàng đợi nhập đang bận. Vui lòng thử lại sau giây lát.",
     "CARD_IMPORT_JOB_GONE": "Lượt nhập đó đã hết hạn trước khi hoàn tất. Hãy gửi lại liên kết.",
     "CARD_IMPORT_UNAVAILABLE": "Hiện không kết nối được dịch vụ nhập. Vui lòng thử lại sau vài phút.",
-    "CARD_FILE_INVALID": "Tệp đó không phải là bản xuất thẻ."
+    "CARD_FILE_INVALID": "Tệp đó không phải là bản xuất thẻ.",
+    "GROUP_CYCLE": "Không thể chuyển nhóm vào chính nó."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Yeni grup",
       "EMPTY": "Sohbet yok",
       "DELETE_CONFIRM_TITLE": "Grup silinsin mi?",
-      "DELETE_CONFIRM_DESC": "Grup kaldırılır; sohbetleri korunur ve grupsuz olur."
+      "DELETE_CONFIRM_DESC": "Grup kaldırılır; sohbetleri ve alt grupları bir düzey yukarı taşınır.",
+      "NEW_SUBGROUP": "Yeni alt grup",
+      "MOVE_GROUP_TO": "Şuraya taşı",
+      "TOP_LEVEL": "Üst düzey"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Özel sağlayıcılar",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "İçe aktarma kuyruğu şu anda yoğun. Birazdan tekrar deneyin.",
     "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin.",
     "CARD_IMPORT_UNAVAILABLE": "İçe aktarma servisine şu anda ulaşılamıyor. Lütfen birkaç dakika sonra tekrar dene.",
-    "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil."
+    "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil.",
+    "GROUP_CYCLE": "Bir grup kendi içine taşınamaz."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

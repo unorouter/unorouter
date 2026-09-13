@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "New group",
       "EMPTY": "No chats",
       "DELETE_CONFIRM_TITLE": "Delete group?",
-      "DELETE_CONFIRM_DESC": "The group is removed; its chats are kept and become ungrouped."
+      "DELETE_CONFIRM_DESC": "The group is removed; its chats and subgroups move up one level.",
+      "NEW_SUBGROUP": "New subgroup",
+      "MOVE_GROUP_TO": "Move to",
+      "TOP_LEVEL": "Top level"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Custom providers",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "The import queue is busy right now. Try again in a moment.",
     "CARD_IMPORT_JOB_GONE": "That import expired before it finished. Please submit the link again.",
     "CARD_IMPORT_UNAVAILABLE": "The import service is unreachable right now. Please try again in a few minutes.",
-    "CARD_FILE_INVALID": "That file is not a card export."
+    "CARD_FILE_INVALID": "That file is not a card export.",
+    "GROUP_CYCLE": "A group cannot be moved into itself."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

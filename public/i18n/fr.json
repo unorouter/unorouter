@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Nouveau groupe",
       "EMPTY": "Aucun chat",
       "DELETE_CONFIRM_TITLE": "Supprimer le groupe ?",
-      "DELETE_CONFIRM_DESC": "Le groupe est supprimé ; ses chats sont conservés et deviennent sans groupe."
+      "DELETE_CONFIRM_DESC": "Le groupe est supprimé ; ses discussions et sous-groupes remontent d'un niveau.",
+      "NEW_SUBGROUP": "Nouveau sous-groupe",
+      "MOVE_GROUP_TO": "Déplacer vers",
+      "TOP_LEVEL": "Niveau supérieur"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Fournisseurs personnalisés",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "La file d'attente d'import est chargée pour le moment. Réessayez dans un instant.",
     "CARD_IMPORT_JOB_GONE": "Cet import a expiré avant de se terminer. Renvoie le lien.",
     "CARD_IMPORT_UNAVAILABLE": "Le service d'import est injoignable pour le moment. Réessaie dans quelques minutes.",
-    "CARD_FILE_INVALID": "Ce fichier n'est pas un export de carte."
+    "CARD_FILE_INVALID": "Ce fichier n'est pas un export de carte.",
+    "GROUP_CYCLE": "Un groupe ne peut pas être déplacé dans lui-même."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

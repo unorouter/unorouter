@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "新規グループ",
       "EMPTY": "チャットなし",
       "DELETE_CONFIRM_TITLE": "グループを削除しますか？",
-      "DELETE_CONFIRM_DESC": "グループは削除されますが、チャットは残り未分類になります。"
+      "DELETE_CONFIRM_DESC": "グループは削除され、そのチャットとサブグループは一つ上の階層に移動します。",
+      "NEW_SUBGROUP": "新しいサブグループ",
+      "MOVE_GROUP_TO": "移動先",
+      "TOP_LEVEL": "最上位"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "カスタムプロバイダー",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "インポートの順番待ちが混み合っています。少し待ってからもう一度お試しください。",
     "CARD_IMPORT_JOB_GONE": "そのインポートは完了前に期限切れになりました。もう一度リンクを送信してください。",
     "CARD_IMPORT_UNAVAILABLE": "インポートサービスに現在接続できません。数分後にもう一度お試しください。",
-    "CARD_FILE_INVALID": "このファイルはカードのエクスポートではありません。"
+    "CARD_FILE_INVALID": "このファイルはカードのエクスポートではありません。",
+    "GROUP_CYCLE": "グループを自分自身の中に移動することはできません。"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

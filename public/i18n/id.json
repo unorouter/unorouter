@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "Grup baru",
       "EMPTY": "Tidak ada obrolan",
       "DELETE_CONFIRM_TITLE": "Hapus grup?",
-      "DELETE_CONFIRM_DESC": "Grup dihapus; obrolannya tetap ada dan menjadi tanpa grup."
+      "DELETE_CONFIRM_DESC": "Grup dihapus; obrolan dan subgrupnya naik satu tingkat.",
+      "NEW_SUBGROUP": "Subgrup baru",
+      "MOVE_GROUP_TO": "Pindahkan ke",
+      "TOP_LEVEL": "Tingkat atas"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "Penyedia khusus",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "Antrean impor sedang sibuk. Coba lagi sebentar lagi.",
     "CARD_IMPORT_JOB_GONE": "Impor itu kedaluwarsa sebelum selesai. Kirim tautannya lagi.",
     "CARD_IMPORT_UNAVAILABLE": "Layanan impor sedang tidak dapat dijangkau. Coba lagi beberapa menit lagi.",
-    "CARD_FILE_INVALID": "Berkas itu bukan hasil ekspor kartu."
+    "CARD_FILE_INVALID": "Berkas itu bukan hasil ekspor kartu.",
+    "GROUP_CYCLE": "Grup tidak dapat dipindahkan ke dalam dirinya sendiri."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

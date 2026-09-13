@@ -32,6 +32,7 @@ import {
   replaceLocalConversationBindings,
   replaceLocalMessageItems,
   setChatGroupFolded,
+  setChatGroupParent,
   setConversationGroup,
   updateLocalConversationSettings,
   upsertLocalChatGroup,
@@ -114,11 +115,12 @@ export function useChatGroupsQuery() {
 
 export function useCreateChatGroupMutation() {
   return useChatMutation(
-    async (args: { name: string }) => {
+    async (args: { name: string; parentId?: string }) => {
       const id = uid();
       await upsertLocalChatGroup({
         id,
         name: args.name.trim() || "New group",
+        parentId: args.parentId ?? null,
       });
       return { id };
     },
@@ -143,6 +145,16 @@ export function useDeleteChatGroupMutation() {
       return { id: args.id };
     },
     () => [queryKeys.chatGroups(), queryKeys.conversations()],
+  );
+}
+
+export function useMoveChatGroupMutation() {
+  return useChatMutation(
+    async (args: { id: string; parentId: string | null }) => {
+      await setChatGroupParent(args.id, args.parentId);
+      return { id: args.id };
+    },
+    () => [queryKeys.chatGroups()],
   );
 }
 

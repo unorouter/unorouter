@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "新建分组",
       "EMPTY": "暂无对话",
       "DELETE_CONFIRM_TITLE": "删除分组？",
-      "DELETE_CONFIRM_DESC": "分组将被移除；其对话会保留并变为未分组。"
+      "DELETE_CONFIRM_DESC": "分组将被删除；其中的聊天和子分组会上移一级。",
+      "NEW_SUBGROUP": "新建子分组",
+      "MOVE_GROUP_TO": "移动到",
+      "TOP_LEVEL": "顶层"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "自定义提供商",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "导入队列当前繁忙，请稍后再试。",
     "CARD_IMPORT_JOB_GONE": "该导入在完成前已过期。请重新提交链接。",
     "CARD_IMPORT_UNAVAILABLE": "导入服务当前无法访问。请在几分钟后重试。",
-    "CARD_FILE_INVALID": "该文件不是卡片导出文件。"
+    "CARD_FILE_INVALID": "该文件不是卡片导出文件。",
+    "GROUP_CYCLE": "分组不能移动到其自身内部。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

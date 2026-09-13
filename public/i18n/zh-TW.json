@@ -3850,7 +3850,10 @@
       "GROUP_UNTITLED": "新增分組",
       "EMPTY": "暫無對話",
       "DELETE_CONFIRM_TITLE": "刪除分組？",
-      "DELETE_CONFIRM_DESC": "分組將被移除；其對話會保留並變為未分組。"
+      "DELETE_CONFIRM_DESC": "群組將被刪除；其中的聊天和子群組會上移一層。",
+      "NEW_SUBGROUP": "新增子群組",
+      "MOVE_GROUP_TO": "移動到",
+      "TOP_LEVEL": "頂層"
     },
     "CUSTOM_PROVIDER": {
       "TITLE": "自訂提供商",
@@ -4276,7 +4279,8 @@
     "CARD_IMPORT_BUSY": "匯入佇列目前繁忙，請稍後再試。",
     "CARD_IMPORT_JOB_GONE": "該匯入在完成前已過期。請重新提交連結。",
     "CARD_IMPORT_UNAVAILABLE": "匯入服務目前無法連線。請在幾分鐘後重試。",
-    "CARD_FILE_INVALID": "該檔案不是卡片匯出檔。"
+    "CARD_FILE_INVALID": "該檔案不是卡片匯出檔。",
+    "GROUP_CYCLE": "群組不能移動到其自身內部。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",
