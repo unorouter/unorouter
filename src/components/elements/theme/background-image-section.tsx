@@ -42,8 +42,9 @@ export function BackgroundImageSection(props: {
   return (
     <>
       <div className="flex items-center justify-end px-1">{props.modeTabs}</div>
-      <TokenField def={TOKEN_BY_ID.get("background")!} editor={editor} />
-      <TokenField def={TOKEN_BY_ID.get("sidebar")!} editor={editor} />
+      {["background", "header", "sidebar", "sidebar-header"].map((id) => (
+        <TokenField key={id} def={TOKEN_BY_ID.get(id)!} editor={editor} />
+      ))}
       {shown ? (
         <div className="ring-foreground/10 relative h-24 w-full overflow-hidden rounded-lg ring-1">
           {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
