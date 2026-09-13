@@ -1,6 +1,5 @@
 import type { StreamBody } from "@/lib/ai/chat/pipeline/prepare.service";
-import { GUEST_USER_ID, msg } from "@/lib/config/constants";
-import { captureServerEvent } from "@/lib/posthog-server";
+import { msg } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import {
@@ -10,12 +9,7 @@ import {
   handleVideoTaskStream,
 } from "./media-stream";
 
-export async function streamMedia(
-  apiKey: string,
-  body: StreamBody,
-  request: Request,
-  userId: number,
-) {
+export async function streamMedia(apiKey: string, body: StreamBody) {
   const mediaType = (await getModelByName(body.model))?.type;
 
   const settingsGroup = (
@@ -28,18 +22,6 @@ export async function streamMedia(
     model: body.model,
     mediaType,
     convId: body.convId,
-  });
-
-  captureServerEvent({
-    event: "chat_stream_started",
-    request,
-    userId,
-    properties: {
-      model: body.model,
-      media_type: mediaType,
-      conv_id: body.convId,
-      is_guest: userId === GUEST_USER_ID,
-    },
   });
 
   switch (mediaType) {

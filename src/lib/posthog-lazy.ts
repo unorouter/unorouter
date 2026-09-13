@@ -82,6 +82,22 @@ const SAMPLE_EXCEPTIONS = [
 ];
 const SAMPLE_KEEP_RATE = 0.1;
 
+// PostHog earns its keep on error triage only, so nothing else is sent: at
+// ~150k events a day the product-analytics tier is gone in a week and the
+// overage is dropped events, not a bill. Every named event in analytics.ts
+// still fires and dies here, so restoring product analytics is one line
+// rather than re-instrumenting the app.
+const KEEP_EVENTS = new Set([
+  // Replay snapshots are captured like any other event, so an allowlist
+  // without this one silently turns session recording off.
+  "$snapshot",
+  "$exception",
+  // Keeps an exception attributable to a user; both are a rounding error next
+  // to the browse events this drops.
+  "$identify",
+  "$create_alias",
+]);
+
 // Type + message only, never stack frames, so a frame NAME can never trigger a drop.
 function exceptionMessage(properties: Record<string, unknown> | undefined) {
   // Client-side the SDK puts exceptions on $exception_list ({type, value}[]);
@@ -121,8 +137,10 @@ function loadNow() {
       capture_performance: false,
       capture_heatmaps: false,
       capture_dead_clicks: false,
-      // On by default under `defaults`, ~800k events a month, and no insight
-      // reads it. $pageview still carries every funnel.
+      // Both are on by default under `defaults`, together ~35% of everything
+      // ingested. KEEP_EVENTS would drop them anyway; off here so the SDK
+      // never builds them in the first place.
+      capture_pageview: false,
       capture_pageleave: false,
       // maskAllInputs stays ON: it is what keeps typed passwords and API keys out
       // of recordings. Rendered text is deliberately unmasked.
@@ -134,6 +152,7 @@ function loadNow() {
       },
       before_send: (event) => {
         if (!event) return event;
+        if (!KEEP_EVENTS.has(event.event)) return null;
         const verdict = noiseVerdict(event);
         if (verdict === "drop") return null;
         if (verdict === "sample" && Math.random() > SAMPLE_KEEP_RATE)

@@ -82,9 +82,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/stream",
-    async ({ body, request, apiKey, userId }) => {
+    async ({ body, apiKey, userId }) => {
       await assertGuestFreeModel(userId, body.model);
-      return streamMedia(apiKey, body, request, userId);
+      return streamMedia(apiKey, body);
     },
     { body: streamBody },
   )
