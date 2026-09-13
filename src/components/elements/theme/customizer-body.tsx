@@ -388,11 +388,9 @@ export function ThemeCustomizerBody() {
               ))}
             </TabsList>
           </Tabs>
-          {scope !== "app" && (
-            <p className="text-muted-foreground px-1 text-[11px]">
-              {t("THEME.SCOPE_HINT")}
-            </p>
-          )}
+          <p className="text-muted-foreground px-1 text-[11px]">
+            {t(scope === "app" ? "THEME.SCOPE_HINT_APP" : "THEME.SCOPE_HINT")}
+          </p>
           {SECTIONS.filter((s) => !s.appOnly || scope === "app").map((s) => (
             <Section
               key={s.id}

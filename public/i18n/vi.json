@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Nhỏ",
     "AVATAR_SIZE_MEDIUM": "Vừa",
     "AVATAR_SIZE_LARGE": "Lớn",
-    "SCOPE_APP": "Ứng dụng",
-    "SCOPE_CHAT": "Trò chuyện",
+    "SCOPE_APP": "Mọi nơi",
+    "SCOPE_CHAT": "Chỉ trò chuyện",
     "BG_UPLOAD": "Tải ảnh lên",
     "BG_REPLACE": "Thay thế",
     "BG_REMOVE": "Xóa",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Bề mặt trò chuyện"
     },
     "INHERITED": "kế thừa",
-    "SCOPE_IMAGE": "Hình ảnh",
-    "SCOPE_HINT": "Mục nào để trống ở đây sẽ theo chủ đề của ứng dụng.",
+    "SCOPE_IMAGE": "Chỉ hình ảnh",
+    "SCOPE_HINT": "Chỉ thay đổi trang này. Mục nào để trống ở đây sẽ theo Mọi nơi.",
     "PRESET": {
       "DEFAULT": "Mặc định",
       "PALETTE": "Bảng màu",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Chi tiết thanh bên",
       "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên.",
       "PROSE_HINT": "Chữ tin nhắn, trích dẫn, cỡ ảnh đại diện và chiều rộng hình ảnh."
-    }
+    },
+    "SCOPE_HINT_APP": "Giao diện gốc cho mọi trang, bao gồm cả trò chuyện."
   },
   "BILLING": {
     "SUBSCRIPTION": {

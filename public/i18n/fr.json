@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Petit",
     "AVATAR_SIZE_MEDIUM": "Moyen",
     "AVATAR_SIZE_LARGE": "Grand",
-    "SCOPE_APP": "Application",
-    "SCOPE_CHAT": "Discussion",
+    "SCOPE_APP": "Partout",
+    "SCOPE_CHAT": "Discussion seulement",
     "BG_UPLOAD": "Téléverser une image",
     "BG_REPLACE": "Remplacer",
     "BG_REMOVE": "Supprimer",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Surfaces du chat"
     },
     "INHERITED": "hérité",
-    "SCOPE_IMAGE": "Image",
-    "SCOPE_HINT": "Tout ce qui reste vide ici suit le thème de l'application.",
+    "SCOPE_IMAGE": "Image seulement",
+    "SCOPE_HINT": "Ne change que cette page. Tout ce qui reste vide ici suit Partout.",
     "PRESET": {
       "DEFAULT": "Par défaut",
       "PALETTE": "Palette",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Détails de la barre latérale",
       "SIDEBAR_HINT": "Élément actif, survol et bordure dans la barre latérale.",
       "PROSE_HINT": "Texte des messages, citations, taille de l'avatar et largeur des images."
-    }
+    },
+    "SCOPE_HINT_APP": "Le thème de base pour toutes les pages, discussion comprise."
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "Mały",
     "AVATAR_SIZE_MEDIUM": "Średni",
     "AVATAR_SIZE_LARGE": "Duży",
-    "SCOPE_APP": "Aplikacja",
-    "SCOPE_CHAT": "Czat",
+    "SCOPE_APP": "Wszędzie",
+    "SCOPE_CHAT": "Tylko czat",
     "BG_UPLOAD": "Prześlij obraz",
     "BG_REPLACE": "Zamień",
     "BG_REMOVE": "Usuń",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "Powierzchnie czatu"
     },
     "INHERITED": "dziedziczone",
-    "SCOPE_IMAGE": "Obraz",
-    "SCOPE_HINT": "Wszystko, co tu zostawisz puste, przejmuje motyw aplikacji.",
+    "SCOPE_IMAGE": "Tylko obraz",
+    "SCOPE_HINT": "Zmienia tylko tę stronę. Wszystko, co tu zostawisz puste, podąża za Wszędzie.",
     "PRESET": {
       "DEFAULT": "Domyślny",
       "PALETTE": "Paleta",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "Szczegóły paska bocznego",
       "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym.",
       "PROSE_HINT": "Tekst wiadomości, cytaty, rozmiar awatara i szerokość obrazów."
-    }
+    },
+    "SCOPE_HINT_APP": "Motyw bazowy dla każdej strony, łącznie z czatem."
   },
   "BILLING": {
     "SUBSCRIPTION": {

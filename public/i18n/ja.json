@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "小",
     "AVATAR_SIZE_MEDIUM": "中",
     "AVATAR_SIZE_LARGE": "大",
-    "SCOPE_APP": "アプリ",
-    "SCOPE_CHAT": "チャット",
+    "SCOPE_APP": "すべて",
+    "SCOPE_CHAT": "チャットのみ",
     "BG_UPLOAD": "画像をアップロード",
     "BG_REPLACE": "置き換え",
     "BG_REMOVE": "削除",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "チャットの面"
     },
     "INHERITED": "継承",
-    "SCOPE_IMAGE": "画像",
-    "SCOPE_HINT": "ここで空欄のままにした項目はアプリのテーマに従います。",
+    "SCOPE_IMAGE": "画像のみ",
+    "SCOPE_HINT": "このページだけを変更します。ここで空欄のままにした項目は「すべて」に従います。",
     "PRESET": {
       "DEFAULT": "デフォルト",
       "PALETTE": "パレット",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "サイドバーの詳細",
       "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。",
       "PROSE_HINT": "メッセージの文字、引用、アバターのサイズ、画像の幅。"
-    }
+    },
+    "SCOPE_HINT_APP": "チャットを含むすべてのページの基本テーマです。"
   },
   "BILLING": {
     "SUBSCRIPTION": {

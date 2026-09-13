@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "छोटा",
     "AVATAR_SIZE_MEDIUM": "मध्यम",
     "AVATAR_SIZE_LARGE": "बड़ा",
-    "SCOPE_APP": "ऐप",
-    "SCOPE_CHAT": "चैट",
+    "SCOPE_APP": "हर जगह",
+    "SCOPE_CHAT": "केवल चैट",
     "BG_UPLOAD": "छवि अपलोड करें",
     "BG_REPLACE": "बदलें",
     "BG_REMOVE": "हटाएं",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "चैट सतहें"
     },
     "INHERITED": "विरासत में",
-    "SCOPE_IMAGE": "छवि",
-    "SCOPE_HINT": "यहाँ जो खाली छोड़ा जाएगा वह ऐप थीम का अनुसरण करेगा।",
+    "SCOPE_IMAGE": "केवल छवि",
+    "SCOPE_HINT": "केवल यह पेज बदलता है। यहाँ खाली छोड़ी गई चीज़ें हर जगह वाली सेटिंग का पालन करती हैं।",
     "PRESET": {
       "DEFAULT": "डिफ़ॉल्ट",
       "PALETTE": "पैलेट",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "साइडबार विवरण",
       "SIDEBAR_HINT": "साइडबार के भीतर सक्रिय आइटम, होवर और बॉर्डर।",
       "PROSE_HINT": "संदेश का टेक्स्ट, उद्धरण, अवतार का आकार और छवि की चौड़ाई।"
-    }
+    },
+    "SCOPE_HINT_APP": "चैट सहित हर पेज के लिए आधार थीम।"
   },
   "BILLING": {
     "SUBSCRIPTION": {

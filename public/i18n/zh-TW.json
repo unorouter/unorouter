@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "小",
     "AVATAR_SIZE_MEDIUM": "中",
     "AVATAR_SIZE_LARGE": "大",
-    "SCOPE_APP": "應用程式",
-    "SCOPE_CHAT": "聊天",
+    "SCOPE_APP": "全域",
+    "SCOPE_CHAT": "僅聊天",
     "BG_UPLOAD": "上傳圖片",
     "BG_REPLACE": "替換",
     "BG_REMOVE": "移除",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "聊天表面"
     },
     "INHERITED": "繼承",
-    "SCOPE_IMAGE": "圖像",
-    "SCOPE_HINT": "此處留空的項目將沿用應用程式主題。",
+    "SCOPE_IMAGE": "僅圖片",
+    "SCOPE_HINT": "僅更改此頁面。此處留空的項目將沿用全域設定。",
     "PRESET": {
       "DEFAULT": "預設",
       "PALETTE": "配色",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "側邊欄細節",
       "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。",
       "PROSE_HINT": "訊息文字、引用、頭像大小和圖片寬度。"
-    }
+    },
+    "SCOPE_HINT_APP": "所有頁面（包括聊天）的基礎主題。"
   },
   "BILLING": {
     "SUBSCRIPTION": {

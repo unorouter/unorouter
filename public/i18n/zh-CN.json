@@ -3152,8 +3152,8 @@
     "AVATAR_SIZE_SMALL": "小",
     "AVATAR_SIZE_MEDIUM": "中",
     "AVATAR_SIZE_LARGE": "大",
-    "SCOPE_APP": "应用",
-    "SCOPE_CHAT": "聊天",
+    "SCOPE_APP": "全局",
+    "SCOPE_CHAT": "仅聊天",
     "BG_UPLOAD": "上传图片",
     "BG_REPLACE": "替换",
     "BG_REMOVE": "移除",
@@ -3182,8 +3182,8 @@
       "CHAT_SURFACES": "聊天表面"
     },
     "INHERITED": "继承",
-    "SCOPE_IMAGE": "图像",
-    "SCOPE_HINT": "此处留空的项目将沿用应用主题。",
+    "SCOPE_IMAGE": "仅图片",
+    "SCOPE_HINT": "仅更改此页面。此处留空的项目将沿用全局设置。",
     "PRESET": {
       "DEFAULT": "默认",
       "PALETTE": "配色",
@@ -3282,7 +3282,8 @@
       "SIDEBAR": "侧边栏细节",
       "SIDEBAR_HINT": "侧边栏内的选中项、悬停和边框。",
       "PROSE_HINT": "消息文字、引用、头像大小和图片宽度。"
-    }
+    },
+    "SCOPE_HINT_APP": "所有页面（包括聊天）的基础主题。"
   },
   "BILLING": {
     "SUBSCRIPTION": {
