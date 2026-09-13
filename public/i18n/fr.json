@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Givre du pied de page",
       "OVERLAY": "Panneaux et volets",
       "OVERLAY_BLUR": "Givre des panneaux et volets"
+    },
+    "GROUP": {
+      "SURFACE": "Surfaces",
+      "SURFACE_HINT": "La page, les cartes, les menus et la barre latérale.",
+      "TEXT": "Texte",
+      "TEXT_HINT": "Le texte sur chacune de ces surfaces.",
+      "CONTROL": "Contrôles",
+      "CONTROL_HINT": "Boutons, puces, champs, bordures et anneaux de focus.",
+      "STATUS": "États",
+      "STATUS_HINT": "Couleurs d'erreur, de succès, d'avertissement et d'information.",
+      "SIDEBAR": "Détails de la barre latérale",
+      "SIDEBAR_HINT": "Élément actif, survol et bordure dans la barre latérale."
     }
   },
   "BILLING": {

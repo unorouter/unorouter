@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "页脚磨砂",
       "OVERLAY": "面板与抽屉",
       "OVERLAY_BLUR": "面板与抽屉磨砂"
+    },
+    "GROUP": {
+      "SURFACE": "表面",
+      "SURFACE_HINT": "页面、卡片、菜单和侧边栏。",
+      "TEXT": "文字",
+      "TEXT_HINT": "各个表面上的文字。",
+      "CONTROL": "控件",
+      "CONTROL_HINT": "按钮、标签、输入框、边框和焦点环。",
+      "STATUS": "状态",
+      "STATUS_HINT": "错误、成功、警告和信息的颜色。",
+      "SIDEBAR": "侧边栏细节",
+      "SIDEBAR_HINT": "侧边栏内的选中项、悬停和边框。"
     }
   },
   "BILLING": {

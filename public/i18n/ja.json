@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "フッターのすりガラス",
       "OVERLAY": "パネルとシート",
       "OVERLAY_BLUR": "パネルとシートのすりガラス"
+    },
+    "GROUP": {
+      "SURFACE": "面",
+      "SURFACE_HINT": "ページ、カード、メニュー、サイドバー。",
+      "TEXT": "文字",
+      "TEXT_HINT": "それぞれの面の上の文字。",
+      "CONTROL": "操作要素",
+      "CONTROL_HINT": "ボタン、チップ、入力欄、枠線、フォーカスリング。",
+      "STATUS": "状態",
+      "STATUS_HINT": "エラー、成功、警告、情報の色。",
+      "SIDEBAR": "サイドバーの詳細",
+      "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。"
     }
   },
   "BILLING": {

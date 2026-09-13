@@ -3278,6 +3278,18 @@
       "FOOTER_BLUR": "Efek kaca kaki halaman",
       "OVERLAY": "Panel dan lembar",
       "OVERLAY_BLUR": "Efek kaca panel dan lembar"
+    },
+    "GROUP": {
+      "SURFACE": "Permukaan",
+      "SURFACE_HINT": "Halaman, kartu, menu, dan bilah samping.",
+      "TEXT": "Teks",
+      "TEXT_HINT": "Teks di masing-masing permukaan itu.",
+      "CONTROL": "Kontrol",
+      "CONTROL_HINT": "Tombol, chip, kolom input, batas, dan cincin fokus.",
+      "STATUS": "Status",
+      "STATUS_HINT": "Warna galat, sukses, peringatan, dan info.",
+      "SIDEBAR": "Detail bilah samping",
+      "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping."
     }
   },
   "BILLING": {

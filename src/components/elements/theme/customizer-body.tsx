@@ -53,12 +53,36 @@ const SCOPE_LABEL: Record<ThemeScope, MessageKey> = {
   image: "THEME.SCOPE_IMAGE",
 };
 
-const COLOR_GROUPS: readonly TokenGroup[] = [
-  "surface",
-  "text",
-  "control",
-  "status",
-  "sidebar",
+const COLOR_GROUPS: readonly {
+  group: TokenGroup;
+  labelKey: MessageKey;
+  hintKey: MessageKey;
+}[] = [
+  {
+    group: "surface",
+    labelKey: "THEME.GROUP.SURFACE",
+    hintKey: "THEME.GROUP.SURFACE_HINT",
+  },
+  {
+    group: "text",
+    labelKey: "THEME.GROUP.TEXT",
+    hintKey: "THEME.GROUP.TEXT_HINT",
+  },
+  {
+    group: "control",
+    labelKey: "THEME.GROUP.CONTROL",
+    hintKey: "THEME.GROUP.CONTROL_HINT",
+  },
+  {
+    group: "status",
+    labelKey: "THEME.GROUP.STATUS",
+    hintKey: "THEME.GROUP.STATUS_HINT",
+  },
+  {
+    group: "sidebar",
+    labelKey: "THEME.GROUP.SIDEBAR",
+    hintKey: "THEME.GROUP.SIDEBAR_HINT",
+  },
 ];
 
 type SectionDef = { id: string; labelKey: MessageKey; appOnly?: boolean };
@@ -265,7 +289,19 @@ export function ThemeCustomizerBody() {
             {t(mode === "light" ? "THEME.COPY_TO_DARK" : "THEME.COPY_TO_LIGHT")}
           </Button>
         </div>
-        {COLOR_GROUPS.flatMap((g) => fields(g))}
+        {COLOR_GROUPS.map((g) => (
+          <div key={g.group} className="flex flex-col gap-2.5">
+            <div className="px-1 pt-2">
+              <div className="text-foreground text-xs font-medium">
+                {t(g.labelKey)}
+              </div>
+              <div className="text-muted-foreground text-[11px]">
+                {t(g.hintKey)}
+              </div>
+            </div>
+            {fields(g.group)}
+          </div>
+        ))}
       </>
     ),
     typography: fields("typography"),
