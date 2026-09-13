@@ -101,9 +101,7 @@ function FontField(props: {
       label: f.label,
       fontVar: f.varName,
     })),
-    ...(kind === "mono"
-      ? []
-      : [{ value: CUSTOM, label: t("THEME.FONT_CUSTOM") }]),
+    { value: CUSTOM, label: t("THEME.FONT_CUSTOM") },
   ];
   const raw = props.value ?? "";
   const custom = raw.startsWith(`${CUSTOM}:`) || raw === CUSTOM;
