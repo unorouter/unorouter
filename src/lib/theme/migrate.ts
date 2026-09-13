@@ -182,10 +182,6 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
     if (panelOpacity !== undefined) all["panel-opacity"] = panelOpacity;
     const panelBlur = num(bg.panelBlur);
     if (panelBlur !== undefined) all["panel-blur"] = panelBlur;
-    const bubble = num(bg.bubbleOpacity);
-    if (bubble !== undefined) chatAll["bubble-opacity"] = bubble;
-    const composer = num(bg.composerOpacity);
-    if (composer !== undefined) chatAll["composer-opacity"] = composer;
   }
 
   if (Object.keys(all).length) global.all = all;

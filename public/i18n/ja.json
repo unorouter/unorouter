@@ -3165,8 +3165,6 @@
     "BG_BLUR": "画像のぼかし",
     "BG_PANEL_BLUR": "パネルのぼかし",
     "BG_PANEL_OPACITY": "パネルの不透明度",
-    "BG_BUBBLE_OPACITY": "メッセージバブルの不透明度",
-    "BG_COMPOSER_OPACITY": "入力欄の不透明度",
     "FONT_CUSTOM": "カスタム (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "フォント名または Google Fonts のリンク",
     "FONT_CUSTOM_HINT": "無料の Google フォント。使用時に Google から読み込みます。",

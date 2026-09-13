@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Sfocatura immagine",
     "BG_PANEL_BLUR": "Sfocatura pannelli",
     "BG_PANEL_OPACITY": "Opacità dei pannelli",
-    "BG_BUBBLE_OPACITY": "Opacita dei fumetti dei messaggi",
-    "BG_COMPOSER_OPACITY": "Opacità dell'area di scrittura",
     "FONT_CUSTOM": "Personalizzato (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Nome della famiglia o link di Google Fonts",
     "FONT_CUSTOM_HINT": "Qualsiasi font Google gratuito. Caricato da Google quando lo usi.",

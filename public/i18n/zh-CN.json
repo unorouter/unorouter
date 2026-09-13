@@ -3165,8 +3165,6 @@
     "BG_BLUR": "图片模糊",
     "BG_PANEL_BLUR": "面板模糊",
     "BG_PANEL_OPACITY": "面板不透明度",
-    "BG_BUBBLE_OPACITY": "消息气泡不透明度",
-    "BG_COMPOSER_OPACITY": "输入框不透明度",
     "FONT_CUSTOM": "自定义（Google Fonts）",
     "FONT_CUSTOM_PLACEHOLDER": "字体名称或 Google Fonts 链接",
     "FONT_CUSTOM_HINT": "任意免费 Google 字体。使用时从 Google 加载。",

@@ -3165,8 +3165,6 @@
     "BG_BLUR": "ضبابية الصورة",
     "BG_PANEL_BLUR": "ضبابية اللوحات",
     "BG_PANEL_OPACITY": "شفافية اللوحات",
-    "BG_BUBBLE_OPACITY": "تعتيم فقاعات الرسائل",
-    "BG_COMPOSER_OPACITY": "عتامة حقل الكتابة",
     "FONT_CUSTOM": "مخصص (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "اسم الخط أو رابط Google Fonts",
     "FONT_CUSTOM_HINT": "أي خط مجاني من Google. يُحمّل من Google عند استخدامه.",

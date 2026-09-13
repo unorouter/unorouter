@@ -3165,8 +3165,6 @@
     "BG_BLUR": "이미지 흐림",
     "BG_PANEL_BLUR": "패널 흐림",
     "BG_PANEL_OPACITY": "패널 불투명도",
-    "BG_BUBBLE_OPACITY": "메시지 말풍선 불투명도",
-    "BG_COMPOSER_OPACITY": "입력창 불투명도",
     "FONT_CUSTOM": "사용자 지정 (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "글꼴 이름 또는 Google Fonts 링크",
     "FONT_CUSTOM_HINT": "무료 Google 글꼴. 사용할 때 Google에서 불러옵니다.",

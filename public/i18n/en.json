@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Image blur",
     "BG_PANEL_BLUR": "Panel blur",
     "BG_PANEL_OPACITY": "Panel opacity",
-    "BG_BUBBLE_OPACITY": "Message bubble opacity",
-    "BG_COMPOSER_OPACITY": "Type area opacity",
     "FONT_CUSTOM": "Custom (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Family name or Google Fonts link",
     "FONT_CUSTOM_HINT": "Any free Google font. Loaded from Google when you use it.",

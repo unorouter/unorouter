@@ -269,8 +269,6 @@ type Wallpaper = {
   blur: number;
   panelOpacity: number;
   panelBlur: number;
-  bubbleOpacity: number;
-  composerOpacity: number;
 };
 
 function num(v: string | number | undefined, fallback: number): number {
@@ -294,14 +292,6 @@ function wallpaperFor(theme: UserTheme, scope: ThemeScope): Wallpaper {
     panelOpacity,
     // 8 keeps the look every existing theme was built against.
     panelBlur: Math.min(24, Math.max(0, num(values["panel-blur"], 8))),
-    bubbleOpacity: Math.min(
-      1,
-      Math.max(0, num(values["bubble-opacity"], panelOpacity)),
-    ),
-    composerOpacity: Math.min(
-      1,
-      Math.max(0, num(values["composer-opacity"], panelOpacity)),
-    ),
   };
 }
 
@@ -329,7 +319,17 @@ function imageRules(scope: ThemeScope, image: string, w: Wallpaper): string {
   ].join("");
 }
 
-function panelRules(scope: ThemeScope, w: Wallpaper): string {
+// A region the user coloured keeps that colour (alpha included) under a
+// wallpaper; only untouched regions get the generic panel tint. Any scope
+// counts: the app-level rule reaches into every page.
+function regionSet(theme: UserTheme, id: string): boolean {
+  const layers = [theme.global, ...Object.values(theme.scopes)];
+  return layers.some(
+    (l) => l.light?.[id] !== undefined || l.dark?.[id] !== undefined,
+  );
+}
+
+function panelRules(theme: UserTheme, scope: ThemeScope, w: Wallpaper): string {
   const at =
     scope === "app"
       ? "[data-bg-active]"
@@ -362,23 +362,31 @@ function panelRules(scope: ThemeScope, w: Wallpaper): string {
           `${at} [data-slot="sidebar-container"] .bg-sidebar{background-color:transparent !important;backdrop-filter:none;}`,
         ].join("")
       : "";
-  const bubblePct = Math.round(w.bubbleOpacity * 100);
+  const untouched = (id: string) => !regionSet(theme, id);
   // Tint only, no backdrop-filter: on iOS each blurred bubble is its own
   // full-resolution GPU surface, and a long thread froze whole tabs.
   const bubble =
-    w.bubbleOpacity < 1
-      ? `${at} .aui-user-message-content{background-color:${mix("bubble-user", bubblePct)} !important;}${at} .aui-assistant-message-content{background-color:${mix("bubble-assistant", bubblePct)} !important;}`
+    w.panelOpacity < 1
+      ? [
+          untouched("bubble-user")
+            ? `${at} .aui-user-message-content{background-color:${mix("bubble-user", pct)} !important;}`
+            : "",
+          untouched("bubble-assistant")
+            ? `${at} .aui-assistant-message-content{background-color:${mix("bubble-assistant", pct)} !important;}`
+            : "",
+        ].join("")
       : "";
   // The reasoning box ships as the outline variant with no fill, so it needs
-  // one at every bubble opacity.
-  const reasoning = `${at} .aui-reasoning-root{background-color:${mix("muted", bubblePct)} !important;}`;
-  const composerPct = Math.round(w.composerOpacity * 100);
-  const composer = [
-    // Doubled attribute selector on purpose: it must outrank the
-    // three-class nested-surface reset above.
-    `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${mix("composer", composerPct)} !important;${w.panelBlur > 0 ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
-    `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
-  ].join("");
+  // one at every panel opacity.
+  const reasoning = `${at} .aui-reasoning-root{background-color:${mix("muted", pct)} !important;}`;
+  const composer = untouched("composer")
+    ? [
+        // Doubled attribute selector on purpose: it must outrank the
+        // three-class nested-surface reset above.
+        `${at} [data-slot="composer-shell"][data-slot="composer-shell"]{background-color:${mix("composer", pct)} !important;${w.panelBlur > 0 ? `backdrop-filter:blur(${(w.panelBlur * 2).toFixed(1)}px) saturate(1.4) !important;` : ""}}`,
+        `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`,
+      ].join("")
+    : `${at} .aui-thread-viewport-footer{background-color:transparent !important;backdrop-filter:none;}`;
   return translucent + bubble + reasoning + composer;
 }
 
@@ -400,7 +408,7 @@ export function buildBackgroundCss(
     if (scope === "app" ? !image : !own) continue;
     const w = wallpaperFor(theme, scope);
     if (image) blocks.push(imageRules(scope, image, w));
-    blocks.push(panelRules(scope, w));
+    blocks.push(panelRules(theme, scope, w));
   }
   return blocks.join("");
 }

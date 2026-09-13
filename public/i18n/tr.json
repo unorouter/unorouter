@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Görsel bulanıklığı",
     "BG_PANEL_BLUR": "Panel bulanıklığı",
     "BG_PANEL_OPACITY": "Panel saydamlığı",
-    "BG_BUBBLE_OPACITY": "Mesaj balonu opakligi",
-    "BG_COMPOSER_OPACITY": "Yazma alanı opaklığı",
     "FONT_CUSTOM": "Özel (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Yazı tipi adı veya Google Fonts bağlantısı",
     "FONT_CUSTOM_HINT": "Herhangi bir ücretsiz Google yazı tipi. Kullanınca Google'dan yüklenir.",

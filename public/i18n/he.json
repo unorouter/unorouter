@@ -3165,8 +3165,6 @@
     "BG_BLUR": "טשטוש התמונה",
     "BG_PANEL_BLUR": "טשטוש הפאנלים",
     "BG_PANEL_OPACITY": "אטימות הלוחות",
-    "BG_BUBBLE_OPACITY": "אטימות בועות ההודעה",
-    "BG_COMPOSER_OPACITY": "אטימות שדה הכתיבה",
     "FONT_CUSTOM": "מותאם אישית (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "שם הגופן או קישור Google Fonts",
     "FONT_CUSTOM_HINT": "כל גופן חינמי של Google. נטען מ‑Google בעת השימוש.",

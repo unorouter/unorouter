@@ -3165,8 +3165,6 @@
     "BG_BLUR": "Размытие изображения",
     "BG_PANEL_BLUR": "Размытие панелей",
     "BG_PANEL_OPACITY": "Непрозрачность панелей",
-    "BG_BUBBLE_OPACITY": "Непрозрачность пузырьков сообщений",
-    "BG_COMPOSER_OPACITY": "Непрозрачность поля ввода",
     "FONT_CUSTOM": "Свой шрифт (Google Fonts)",
     "FONT_CUSTOM_PLACEHOLDER": "Название семейства или ссылка Google Fonts",
     "FONT_CUSTOM_HINT": "Любой бесплатный шрифт Google. Загружается из Google при использовании.",
