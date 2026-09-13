@@ -44,7 +44,7 @@ import {
 } from "@/lib/theme/tokens";
 import { pick } from "@/lib/utils/base";
 import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 export type ThemeBundle = {
   name: string;
@@ -98,6 +98,25 @@ export function parseThemeFile(
   ];
 }
 
+const STYLE_IDS = ["user-theme", "user-theme-bg"];
+
+function subscribeThemeStyles(onChange: () => void): () => void {
+  const observer = new MutationObserver(onChange);
+  for (const id of STYLE_IDS) {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el, { childList: true, characterData: true });
+  }
+  // The wallpaper tag is created on first use, so watch for it arriving too.
+  observer.observe(document.head, { childList: true });
+  return () => observer.disconnect();
+}
+
+function themeStylesSnapshot(): string {
+  return STYLE_IDS.map(
+    (id) => document.getElementById(id)?.textContent ?? "",
+  ).join("\n");
+}
+
 export function useThemeEditor() {
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
   const [editor, setEditor] = useAtom(themeEditorAtom);
@@ -109,6 +128,9 @@ export function useThemeEditor() {
     chat: chatImage ?? undefined,
     image: imageImage ?? undefined,
   };
+  // `inherited` reads computed vars off the page, which the provider only
+  // rewrites after this render; re-render once the style tags really changed.
+  useSyncExternalStore(subscribeThemeStyles, themeStylesSnapshot, () => "");
   const imageSetters = {
     app: setAppImage,
     chat: setChatImage,
