@@ -86,9 +86,9 @@ export function SavedThemesSection(props: { editor: ThemeEditor }) {
       {list.data?.map((row) => (
         <div
           key={row.id}
-          className="ring-foreground/10 flex items-center gap-2 rounded-lg px-3 py-2 ring-1"
+          className="ring-foreground/10 flex flex-col gap-2 rounded-lg px-3 py-2 ring-1"
         >
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0">
             <div className="text-foreground truncate text-sm font-medium">
               {row.name}
             </div>
@@ -96,53 +96,56 @@ export function SavedThemesSection(props: { editor: ThemeEditor }) {
               {dayjs(row.updatedAt).fromNow()}
             </div>
           </div>
-          <Button
-            type="button"
-            size="sm"
-            variant="secondary"
-            onClick={() =>
-              editor.applyBundle({
-                name: row.name,
-                theme: row.themeJson,
-                backgroundImages: row.backgroundImages,
-              })
-            }
-          >
-            {t("THEME.SAVED.APPLY")}
-          </Button>
-          <Button
-            type="button"
-            size="icon-sm"
-            variant="ghost"
-            aria-label={t("THEME.SAVED.RENAME")}
-            onClick={() => setPrompt({ id: row.id, name: row.name })}
-          >
-            <Icon name="pencil" className="size-3.5" />
-          </Button>
-          <Button
-            type="button"
-            size="icon-sm"
-            variant="ghost"
-            aria-label={t("THEME.SAVED.DELETE")}
-            onClick={async () => {
-              const ok = await confirm({
-                title: t("THEME.SAVED.DELETE"),
-                description: row.name,
-                confirmLabel: t("COMMON.DELETE"),
-                cancelLabel: t("COMMON.CANCEL"),
-                destructive: true,
-              });
-              if (ok)
-                remove.mutate(row.id, {
-                  onSuccess: () =>
-                    toast.success(t("THEME.SAVED.DELETED_DONE"), {
-                      position: "top-center",
-                    }),
+          <div className="flex items-center gap-1.5">
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="flex-1"
+              onClick={() =>
+                editor.applyBundle({
+                  name: row.name,
+                  theme: row.themeJson,
+                  backgroundImages: row.backgroundImages,
+                })
+              }
+            >
+              {t("THEME.SAVED.APPLY")}
+            </Button>
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="outline"
+              aria-label={t("THEME.SAVED.RENAME")}
+              onClick={() => setPrompt({ id: row.id, name: row.name })}
+            >
+              <Icon name="pencil" className="size-3.5" />
+            </Button>
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="outline"
+              aria-label={t("THEME.SAVED.DELETE")}
+              onClick={async () => {
+                const ok = await confirm({
+                  title: t("THEME.SAVED.DELETE"),
+                  description: row.name,
+                  confirmLabel: t("COMMON.DELETE"),
+                  cancelLabel: t("COMMON.CANCEL"),
+                  destructive: true,
                 });
-            }}
-          >
-            <Icon name="trash-2" className="size-3.5" />
-          </Button>
+                if (ok)
+                  remove.mutate(row.id, {
+                    onSuccess: () =>
+                      toast.success(t("THEME.SAVED.DELETED_DONE"), {
+                        position: "top-center",
+                      }),
+                  });
+              }}
+            >
+              <Icon name="trash-2" className="size-3.5" />
+            </Button>
+          </div>
         </div>
       ))}
       <Dialog
