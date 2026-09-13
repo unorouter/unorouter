@@ -35,6 +35,10 @@
     {
       "tag": "0008_faithful_wendigo",
       "sql": "ALTER TABLE `cards` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `characters` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `lorebooks` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `personas` ADD `is_favorite` integer DEFAULT false NOT NULL;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `is_favorite` integer DEFAULT false NOT NULL;"
+    },
+    {
+      "tag": "0009_chunky_wrecking_crew",
+      "sql": "CREATE TABLE `saved_themes` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`name` text NOT NULL,\n\t`theme_json` text NOT NULL,\n\t`background_images` text DEFAULT '{}' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_saved_themes_updated` ON `saved_themes` (`updated_at`);"
     }
   ]
 }

@@ -3,17 +3,10 @@ import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-captu
 import { ClientRuntimeGuards } from "@/components/provider/app/client-runtime-guards";
 import { SwRegister } from "@/components/provider/app/sw-register";
 import { Providers } from "@/components/provider/providers";
-import {
-  buildThemeCss,
-  googleFontHref,
-  themeDataAttrs,
-} from "@/components/ui/theme/theme-build-css";
-import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
-import {
-  INITIAL_USER_THEME,
-  USER_THEME_KEY,
-  type UserTheme,
-} from "@/components/ui/theme/theme-store";
+import { buildThemeCss, googleFontHref } from "@/lib/theme/build-css";
+import { allFontVariablesClass } from "@/lib/theme/fonts";
+import { migrateTheme } from "@/lib/theme/migrate";
+import { INITIAL_USER_THEME, USER_THEME_KEY } from "@/lib/theme/theme-types";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -94,25 +87,17 @@ const NotifyProvider = dynamic(() =>
   })),
 );
 
-const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
-  const userTheme = await getCookieValue<UserTheme>(USER_THEME_KEY);
-  const themeAttrs = userTheme
-    ? themeDataAttrs(userTheme)
-    : DEFAULT_THEME_ATTRS;
+  const rawTheme = await getCookieValue<unknown>(USER_THEME_KEY);
+  const userTheme = rawTheme === undefined ? undefined : migrateTheme(rawTheme);
   const themeCss = userTheme ? buildThemeCss(userTheme) : DEFAULT_THEME_CSS;
-  const fontHref = googleFontHref([
-    userTheme?.fontBody === "custom" ? userTheme.fontBodyCustom : undefined,
-    userTheme?.fontHeading === "custom"
-      ? userTheme.fontHeadingCustom
-      : undefined,
-  ]);
+  const fontHref = userTheme ? googleFontHref(userTheme) : null;
 
   return (
-    <html lang={params.locale} {...themeAttrs} suppressHydrationWarning>
+    <html lang={params.locale} suppressHydrationWarning>
       <head>
         {/* A second head-level next-themes provider emits this script twice:
             next-themes does not dedupe across React trees. */}
@@ -133,7 +118,7 @@ export default async function LocaleLayout(props: Props) {
       >
         <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />
-        <Providers userTheme={userTheme ?? undefined}>
+        <Providers userTheme={userTheme}>
           <Toaster richColors />
           <SwRegister />
           <NotifyProvider />

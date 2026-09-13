@@ -8,11 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
 export type PickerOption = {
   value: string;
   label: string;
   swatch?: string;
+  // CSS variable of a self-hosted font; the label renders in it once scrolled
+  // into view, so opening the menu does not fetch every font file at once.
+  fontVar?: string;
 };
 
 type Props = {
@@ -66,12 +70,39 @@ export function Picker(props: Props) {
                   style={{ backgroundColor: opt.swatch }}
                 />
               )}
-              <span className="truncate">{opt.label}</span>
+              {opt.fontVar ? (
+                <FontPreviewLabel label={opt.label} fontVar={opt.fontVar} />
+              ) : (
+                <span className="truncate">{opt.label}</span>
+              )}
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+function FontPreviewLabel(props: { label: string; fontVar: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || visible) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) setVisible(true);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [visible]);
+  return (
+    <span
+      ref={ref}
+      className="truncate"
+      style={visible ? { fontFamily: `var(${props.fontVar})` } : undefined}
+    >
+      {props.label}
+    </span>
   );
 }
 
@@ -81,38 +112,5 @@ export function ColorSwatch(props: { value: string }) {
       className="ring-foreground/15 size-4 rounded-full ring-1"
       style={{ backgroundColor: props.value }}
     />
-  );
-}
-
-export function RadiusGlyph(props: { radius: number }) {
-  const r = Math.max(0, Math.min(20, props.radius * 12));
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      className="text-foreground"
-      aria-hidden
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d={`M4 20v-${10 - Math.round(r / 4)}C4 ${10 - Math.round(r / 4)} ${
-          10 - Math.round(r / 4)
-        } 4 ${20 - Math.round(r / 4)} 4h${4 + Math.round(r / 4)}`}
-      />
-    </svg>
-  );
-}
-
-export function FontGlyph() {
-  return (
-    <span className="text-foreground text-base leading-none font-semibold">
-      Aa
-    </span>
   );
 }

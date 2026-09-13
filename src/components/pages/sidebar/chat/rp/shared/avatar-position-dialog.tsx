@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { focalToObjectPosition } from "@/hooks/ai/use-media-src";
 import { pushLocalTheme } from "@/lib/db/client/data/theme";
-import { AVATAR_SIZES, userThemeAtom } from "@/components/ui/theme/theme-store";
+import { userThemeAtom } from "@/lib/theme/theme-store";
+import { readToken, writeToken } from "@/lib/theme/theme-types";
+import { AVATAR_OPTIONS, TOKEN_BY_ID } from "@/lib/theme/tokens";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -23,25 +25,23 @@ const clamp = (n: number) => Math.min(100, Math.max(0, Math.round(n)));
 export function AvatarSizeRow() {
   const t = useTranslations();
   const [theme, setTheme] = useAtom(userThemeAtom);
+  const def = TOKEN_BY_ID.get("chat-avatar")!;
+  const current = String(readToken(theme, "chat", "dark", def) ?? "1");
   return (
     <div className="flex flex-col gap-1.5">
       <span className="text-muted-foreground text-xs">
         {t("THEME.AVATAR_SCALE")}
       </span>
       <div className="flex flex-wrap gap-2">
-        {AVATAR_SIZES.map((size) => (
+        {AVATAR_OPTIONS.map((size) => (
           <Button
-            key={size.scale}
+            key={size.value}
             type="button"
             size="sm"
             className="min-w-20 flex-1"
-            variant={
-              (theme.chatAvatarScale ?? 1) === size.scale
-                ? "default"
-                : "outline"
-            }
+            variant={current === size.value ? "default" : "outline"}
             onClick={() => {
-              const next = { ...theme, chatAvatarScale: size.scale };
+              const next = writeToken(theme, "chat", "dark", def, size.value);
               setTheme(next);
               void pushLocalTheme(next).catch(() => {});
             }}

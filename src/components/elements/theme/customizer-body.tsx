@@ -1,0 +1,393 @@
+"use client";
+
+import { BackgroundImageSection } from "@/components/elements/theme/background-image-section";
+import { FieldGroup } from "@/components/elements/theme/field";
+import {
+  ChartPresetSection,
+  PresetsSection,
+} from "@/components/elements/theme/presets-section";
+import { SavedThemesSection } from "@/components/elements/theme/saved-themes-section";
+import { TokenField } from "@/components/elements/theme/token-field";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  useSaveThemeMutation,
+  useSavedThemesQuery,
+} from "@/hooks/ui/use-saved-themes-hook";
+import {
+  parseThemeFile,
+  useThemeEditor,
+  type ThemeBundle,
+} from "@/hooks/ui/use-theme-editor-hook";
+import { env } from "@/lib/config/env";
+import {
+  THEME_SCOPES,
+  tokensIn,
+  type MessageKey,
+  type ThemeMode,
+  type ThemeScope,
+  type TokenGroup,
+} from "@/lib/theme/tokens";
+import { downloadJson } from "@/lib/utils/client";
+import { useTranslations } from "next-intl";
+import { useRef, useState, type ReactNode } from "react";
+import { toast } from "sonner";
+
+const SCOPE_LABEL: Record<ThemeScope, MessageKey> = {
+  app: "THEME.SCOPE_APP",
+  chat: "THEME.SCOPE_CHAT",
+  image: "THEME.SCOPE_IMAGE",
+};
+
+const COLOR_GROUPS: readonly TokenGroup[] = [
+  "surface",
+  "text",
+  "control",
+  "status",
+  "sidebar",
+];
+
+type SectionDef = { id: string; labelKey: MessageKey; appOnly?: boolean };
+
+const SECTIONS: readonly SectionDef[] = [
+  { id: "presets", labelKey: "THEME.CATEGORY.PRESETS", appOnly: true },
+  { id: "colors", labelKey: "THEME.CATEGORY.COLORS" },
+  { id: "typography", labelKey: "THEME.CATEGORY.TYPOGRAPHY" },
+  { id: "shape", labelKey: "THEME.CATEGORY.SHAPE" },
+  { id: "icons", labelKey: "THEME.CATEGORY.ICONS", appOnly: true },
+  { id: "menus", labelKey: "THEME.CATEGORY.MENUS", appOnly: true },
+  { id: "charts", labelKey: "THEME.CATEGORY.CHARTS" },
+  { id: "prose", labelKey: "THEME.CATEGORY.CHAT_TEXT" },
+  { id: "wallpaper", labelKey: "THEME.CATEGORY.WALLPAPER" },
+  { id: "saved", labelKey: "THEME.CATEGORY.SAVED", appOnly: true },
+];
+
+function Section(props: {
+  id: string;
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <div className="ring-foreground/10 rounded-lg ring-1">
+      <button
+        type="button"
+        onClick={props.onToggle}
+        className="text-foreground flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
+      >
+        {props.label}
+        <Icon
+          name="chevron-down"
+          className={`size-4 transition-transform ${props.open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {props.open && (
+        <div className="flex flex-col gap-2.5 border-t p-2.5">
+          {props.children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function ThemeCustomizerBody() {
+  const t = useTranslations();
+  const editor = useThemeEditor();
+  const { scope, mode } = editor;
+  const saved = useSavedThemesQuery();
+  const saveTheme = useSaveThemeMutation();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState("");
+
+  const setScope = (next: ThemeScope) =>
+    editor.setEditor({ ...editor.editor, scope: next });
+  const setMode = (next: ThemeMode) =>
+    editor.setEditor({ ...editor.editor, mode: next });
+  const toggleSection = (id: string) =>
+    editor.setEditor({
+      ...editor.editor,
+      section: editor.editor.section === id ? "" : id,
+    });
+
+  const fields = (group: TokenGroup) =>
+    tokensIn(group, scope).map((def) => (
+      <TokenField key={def.id} def={def} editor={editor} />
+    ));
+
+  const exportThemes = () => {
+    const themes: ThemeBundle[] = [
+      {
+        name: t("THEME.SAVED.CURRENT"),
+        theme: editor.theme,
+        backgroundImages: editor.images,
+      },
+      ...(saved.data ?? []).map((row) => ({
+        name: row.name,
+        theme: row.themeJson,
+        backgroundImages: row.backgroundImages,
+      })),
+    ];
+    downloadJson({ v: 2, themes }, `${env.appName.toLowerCase()}-themes.json`);
+  };
+
+  // Lands in the saved list without touching the working theme; a single
+  // import offers Apply right in the toast.
+  const importText = async (text: string) => {
+    let bundles: ThemeBundle[];
+    try {
+      bundles = parseThemeFile(text, t("THEME.SAVED.IMPORTED_NAME"));
+    } catch {
+      toast.error(t("THEME.IMPORT_FAILED"));
+      return;
+    }
+    for (const bundle of bundles) {
+      await saveTheme.mutateAsync({
+        name: bundle.name,
+        themeJson: bundle.theme,
+        backgroundImages: bundle.backgroundImages,
+      });
+    }
+    const only = bundles.length === 1 ? bundles[0] : undefined;
+    toast.success(t("THEME.SAVED.IMPORTED_COUNT", { count: bundles.length }), {
+      action: only
+        ? {
+            label: t("THEME.SAVED.APPLY"),
+            onClick: () => editor.applyBundle(only),
+          }
+        : undefined,
+    });
+  };
+
+  const importFile = (file: File) =>
+    file.text().then(importText, () => toast.error(t("THEME.IMPORT_FAILED")));
+
+  const colorTabs = (
+    <Tabs
+      value={mode}
+      onValueChange={(v) => setMode(v === "light" ? "light" : "dark")}
+    >
+      <TabsList className="h-7">
+        <TabsTrigger value="light" className="text-xs">
+          {t("THEME.LIGHT")}
+        </TabsTrigger>
+        <TabsTrigger value="dark" className="text-xs">
+          {t("THEME.DARK")}
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  );
+
+  const content: Record<string, ReactNode> = {
+    presets: <PresetsSection editor={editor} />,
+    colors: (
+      <>
+        <div className="flex items-center justify-between gap-2 px-1">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={editor.copyModeToOther}
+          >
+            <Icon name="copy" className="mr-1.5 size-3.5" />
+            {t(mode === "light" ? "THEME.COPY_TO_DARK" : "THEME.COPY_TO_LIGHT")}
+          </Button>
+          {colorTabs}
+        </div>
+        {COLOR_GROUPS.flatMap((g) => fields(g))}
+      </>
+    ),
+    typography: fields("typography"),
+    shape: fields("shape"),
+    icons: fields("icons"),
+    menus: fields("menus"),
+    charts: (
+      <>
+        {scope === "app" && <ChartPresetSection editor={editor} />}
+        {fields("chart")}
+      </>
+    ),
+    prose: (
+      <>
+        <div className="flex items-center justify-end px-1">{colorTabs}</div>
+        {fields("prose")}
+      </>
+    ),
+    wallpaper: <BackgroundImageSection editor={editor} />,
+    saved: <SavedThemesSection editor={editor} />,
+  };
+
+  return (
+    <Card className="bg-card/95 relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
+      <CardHeader className="flex flex-col gap-3 border-b py-4">
+        <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
+        <Tabs
+          value={scope}
+          onValueChange={(v) =>
+            setScope(THEME_SCOPES.find((s) => s === v) ?? "app")
+          }
+        >
+          <TabsList className="w-full">
+            {THEME_SCOPES.map((s) => (
+              <TabsTrigger key={s} value={s} className="text-xs">
+                {t(SCOPE_LABEL[s])}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+        {scope !== "app" && (
+          <p className="text-muted-foreground text-[11px]">
+            {t("THEME.SCOPE_HINT")}
+          </p>
+        )}
+      </CardHeader>
+      <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
+        <FieldGroup>
+          {SECTIONS.filter((s) => !s.appOnly || scope === "app").map((s) => (
+            <Section
+              key={s.id}
+              id={s.id}
+              label={t(s.labelKey)}
+              open={editor.editor.section === s.id}
+              onToggle={() => toggleSection(s.id)}
+            >
+              {content[s.id]}
+            </Section>
+          ))}
+        </FieldGroup>
+      </CardContent>
+      <CardFooter className="grid grid-cols-2 gap-2 border-t pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            void editor
+              .undo()
+              .then((ok) => ok && toast.success(t("THEME.UNDO_DONE")))
+          }
+          disabled={!editor.canUndo}
+        >
+          <Icon name="rotate-ccw" className="mr-1.5 size-3.5" />
+          {t("THEME.UNDO")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => editor.redo() && toast.success(t("THEME.REDO_DONE"))}
+          disabled={!editor.canRedo}
+        >
+          <Icon name="rotate-cw" className="mr-1.5 size-3.5" />
+          {t("THEME.REDO")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={editor.shuffle}
+        >
+          <Icon name="shuffle" className="mr-1.5 size-3.5" />
+          {t("THEME.SHUFFLE")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            editor.resetAll();
+            toast.success(t("THEME.RESET_DONE"));
+          }}
+          disabled={editor.isDefault}
+        >
+          <Icon name="refresh-ccw" className="mr-1.5 size-3.5" />
+          {t("THEME.RESET_ALL")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Icon name="upload" className="mr-1.5 size-3.5" />
+          {t("THEME.IMPORT")}
+        </Button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json,application/json"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void importFile(f);
+            e.target.value = "";
+          }}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setPasteOpen(true)}
+        >
+          <Icon name="clipboard-copy" className="mr-1.5 size-3.5" />
+          {t("THEME.IMPORT_PASTE")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={exportThemes}
+        >
+          <Icon name="download" className="mr-1.5 size-3.5" />
+          {t("THEME.EXPORT")}
+        </Button>
+      </CardFooter>
+      <Dialog open={pasteOpen} onOpenChange={setPasteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("THEME.IMPORT_PASTE")}</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={pasteText}
+            onChange={(e) => setPasteText(e.target.value)}
+            placeholder={t("THEME.IMPORT_PASTE_HINT")}
+            rows={8}
+            className="font-mono text-xs"
+          />
+          <DialogFooter>
+            <Button
+              type="button"
+              size="sm"
+              disabled={pasteText.trim().length === 0}
+              onClick={() => {
+                void importText(pasteText).then(() => {
+                  setPasteText("");
+                  setPasteOpen(false);
+                });
+              }}
+            >
+              {t("THEME.IMPORT_PASTE_APPLY")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Card>
+  );
+}

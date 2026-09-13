@@ -84,6 +84,7 @@ export const queryKeys = {
   checkpointSearch: (q: string) => ["checkpoint-search", q] as const,
   savedImageModels: () => ["saved-image-models"] as const,
   imagePresets: () => ["image-presets"] as const,
+  savedThemes: () => ["saved-themes"] as const,
   loraCatalog: (params?: unknown) => ["lora-catalog", params] as const,
   civitaiLoraVersions: (q: string) => ["civitai-lora-versions", q] as const,
 
