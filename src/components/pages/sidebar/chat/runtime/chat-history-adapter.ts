@@ -480,11 +480,16 @@ export function createChatHistoryAdapter(
                 : await readJoinedMessages(id),
             );
 
+            // A load that lands while a turn is live replaces the live list
+            // with the stored one, so record what it replaced.
+            const thread = getThreadRuntime()?.getState();
             logChatDebug("history.load", {
               convId: id,
               convIdAtom: chatStore.get(convIdAtom),
               count: allMessages.length,
               source: cached ? "cache" : "db",
+              live: thread?.messages.length ?? null,
+              running: thread?.isRunning ?? null,
             });
             return buildRepository(allMessages, formatAdapter);
           } finally {
@@ -497,17 +502,19 @@ export function createChatHistoryAdapter(
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
-          logChatDebug("history.append", {
-            convId: id,
-            convIdAtom: chatStore.get(convIdAtom),
-            messageId,
-            role: (item.message as { role?: string }).role,
-          });
           // A group turn and auto-continue stream into the SAME message, so the
           // row exists and now holds the next speaker's parts too.
           const existingRow = ((await readLocalMessages(id)) ?? []).find(
             (m) => m.id === messageId,
           );
+          logChatDebug("history.append", {
+            convId: id,
+            convIdAtom: chatStore.get(convIdAtom),
+            messageId,
+            role: (item.message as { role?: string }).role,
+            parentId: item.parentId ?? null,
+            existing: !!existingRow,
+          });
           const content = formatAdapter.encode(
             item,
           ) as unknown as EncodedContent;
