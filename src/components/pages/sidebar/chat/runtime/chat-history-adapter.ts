@@ -431,7 +431,10 @@ function fireIllustrator(
 
 // assistant-ui appends a turn only once it completes, so a stream that never
 // terminates persists NEITHER side. append() dedups on message id.
-export type PersistTurn = (message: object) => Promise<void>;
+export type PersistTurn = (
+  message: object,
+  parentId: string | null,
+) => Promise<void>;
 
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
@@ -651,7 +654,7 @@ export function createChatHistoryAdapter(
         },
       };
 
-      onFormatReady?.(async (message) => {
+      onFormatReady?.(async (message, parentId) => {
         let messageId: string | undefined;
         try {
           messageId = formatAdapter.getId(message as TMessage);
@@ -659,7 +662,7 @@ export function createChatHistoryAdapter(
           return;
         }
         if (!messageId) return;
-        await format.append({ message: message as TMessage, parentId: null });
+        await format.append({ message: message as TMessage, parentId });
       });
       return format;
     },

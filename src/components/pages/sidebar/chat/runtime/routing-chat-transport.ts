@@ -410,6 +410,7 @@ async function runClientStream(args: {
 
 export function makeRoutingTransport(
   getConvId: () => string | null,
+  onSend?: (messages: ChatUIMessage[]) => void,
 ): ChatTransport<ChatUIMessage> {
   const mediaTransport = new DefaultChatTransport<ChatUIMessage>({
     api: "/api/ai/chat/stream",
@@ -436,6 +437,7 @@ export function makeRoutingTransport(
 
   return {
     sendMessages: async (options) => {
+      onSend?.(options.messages);
       const modelId = chatStore.get(chatModelAtom) ?? "";
       if (await isMediaModel(modelId))
         return mediaTransport.sendMessages(options);
