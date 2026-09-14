@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Thao tác này xoá vĩnh viễn lần tạo này và các ảnh của nó.",
       "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
-      "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
+      "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?",
+      "IMPORT_DB_TITLE": "Nhập cơ sở dữ liệu?"
     },
     "COPIED": "Đã sao chép",
     "COPIED_CLIPBOARD": "Đã sao chép vào bộ nhớ tạm",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Cơ sở dữ liệu",
       "DATA": "Dữ liệu",
       "LOCAL_DB_DOWNLOAD": "Tải xuống tệp SQLite cục bộ",
-      "LOCAL_DB_UPLOAD": "Nhập tệp SQLite (thay thế cục bộ)",
+      "LOCAL_DB_UPLOAD": "Nhập tệp SQLite",
       "LOCAL_DB_SEND": "Gửi sang thiết bị khác",
       "LOCAL_DB_RECEIVE": "Nhận từ thiết bị khác",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Giữ thẻ này mở và ở phía trước cho đến khi hoàn tất; điện thoại sẽ đóng băng thẻ chạy nền và việc nhập sẽ dừng theo.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Nhập bản ghi từ tệp này? Tệp được di chuyển sang lược đồ hiện tại và thay thế dữ liệu cục bộ của bạn; các bản ghi được chuyển quyền sở hữu sang phiên này.",
       "LOCAL_DB_IMPORT_SUMMARY": "Đã nhập {imported} bản ghi trên {tables} bảng ({skipped} bị bỏ qua).",
+      "LOCAL_DB_MERGE_SUMMARY": "Đã thêm {imported} bản ghi, cập nhật {updated}, {skipped} đã có sẵn.",
+      "LOCAL_DB_IMPORT_CHOICE": "Hợp nhất giữ mọi thứ trên thiết bị này và thêm những gì tệp có, bản mới hơn thắng khi cả hai bên cùng thay đổi. Thay thế sẽ bỏ đi những gì đang có ở đây.",
+      "LOCAL_DB_IMPORT_MERGE": "Hợp nhất",
+      "LOCAL_DB_IMPORT_REPLACE": "Thay thế tất cả",
       "LOCAL_DB_EXPORT_CHATS": "Bao gồm cuộc trò chuyện",
       "LOCAL_DB_EXPORT_LOGS": "Bao gồm nhật ký yêu cầu",
       "LOCAL_DB_EXPORT_MEDIA": "Bao gồm phương tiện",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "Bản sao bị xóa sau 72 giờ.",
       "EXPIRES_UNTIL_RECEIVED": "Bản sao bị xóa ngay khi được nhận.",
       "ENTER_CODE": "Dán mã chuyển",
-      "RECEIVE": "Nhận và thay thế dữ liệu cục bộ"
+      "RECEIVE": "Nhận"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",

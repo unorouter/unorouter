@@ -1,6 +1,6 @@
 "use client";
 
-import { confirm } from "@/components/ui/confirm";
+import { confirm, confirmChoice } from "@/components/ui/confirm";
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuItem,
@@ -49,24 +49,32 @@ export function DatabaseSubmenu() {
   };
 
   const upload = async (file: File) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.UPLOAD_DB_TITLE"),
-      description: `${t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
-      confirmLabel: t("COMMON.CONFIRM.CONTINUE"),
+    const choice = await confirmChoice({
+      title: t("COMMON.CONFIRM.IMPORT_DB_TITLE"),
+      description: `${t("CHAT.MORE.LOCAL_DB_IMPORT_CHOICE")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
+      confirmLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_MERGE"),
+      altLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_REPLACE"),
+      altDestructive: true,
       cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
     });
-    if (!ok) return;
+    if (!choice) return;
+    const mode = choice === "primary" ? "merge" : "replace";
     try {
       const { importDatabaseBuffer } =
         await import("@/lib/db/client/transfer/transfer");
-      const res = await importDatabaseBuffer(await file.arrayBuffer());
+      const res = await importDatabaseBuffer(await file.arrayBuffer(), mode);
       toast.success(
-        t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
-          imported: res.imported,
-          skipped: res.skipped,
-          tables: res.tables,
-        }),
+        t(
+          mode === "merge"
+            ? "CHAT.MORE.LOCAL_DB_MERGE_SUMMARY"
+            : "CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY",
+          {
+            imported: res.imported,
+            updated: res.updated,
+            skipped: res.skipped,
+            tables: res.tables,
+          },
+        ),
       );
       setTimeout(() => location.reload(), 1200);
     } catch (err) {

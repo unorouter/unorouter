@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Cela supprime définitivement cette génération et ses images.",
       "CLEAR_CHAT_TITLE": "Vider le chat ?",
       "WIPE_DB_TITLE": "Effacer la base de données locale ?",
-      "UPLOAD_DB_TITLE": "Écraser la base de données locale ?"
+      "UPLOAD_DB_TITLE": "Écraser la base de données locale ?",
+      "IMPORT_DB_TITLE": "Importer la base de données ?"
     },
     "COPIED": "Copie",
     "COPIED_CLIPBOARD": "Copié dans le presse-papiers",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Base de données",
       "DATA": "Données",
       "LOCAL_DB_DOWNLOAD": "Télécharger le fichier SQLite local",
-      "LOCAL_DB_UPLOAD": "Importer un fichier SQLite (remplace la base locale)",
+      "LOCAL_DB_UPLOAD": "Importer un fichier SQLite",
       "LOCAL_DB_SEND": "Envoyer vers un autre appareil",
       "LOCAL_DB_RECEIVE": "Recevoir depuis un autre appareil",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Gardez cet onglet ouvert et au premier plan jusqu'à la fin ; un téléphone gèle un onglet en arrière-plan et l'import s'arrête avec lui.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Importer les enregistrements de ce fichier ? Il est migré vers le schéma actuel et remplace vos données locales ; les enregistrements sont réattribués à cette session.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} enregistrements importés dans {tables} tables ({skipped} ignorés).",
+      "LOCAL_DB_MERGE_SUMMARY": "{imported} enregistrements ajoutés, {updated} mis à jour, {skipped} déjà présents.",
+      "LOCAL_DB_IMPORT_CHOICE": "Fusionner conserve tout ce qui est sur cet appareil et ajoute le contenu du fichier ; en cas de modification des deux côtés, la version la plus récente l'emporte. Remplacer supprime ce qui est ici.",
+      "LOCAL_DB_IMPORT_MERGE": "Fusionner",
+      "LOCAL_DB_IMPORT_REPLACE": "Tout remplacer",
       "LOCAL_DB_EXPORT_CHATS": "Inclure les discussions",
       "LOCAL_DB_EXPORT_LOGS": "Inclure les journaux de requêtes",
       "LOCAL_DB_EXPORT_MEDIA": "Inclure les médias",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "La copie est supprimée après 72 heures.",
       "EXPIRES_UNTIL_RECEIVED": "La copie est supprimée dès qu'elle est reçue.",
       "ENTER_CODE": "Collez le code de transfert",
-      "RECEIVE": "Recevoir et remplacer les données locales"
+      "RECEIVE": "Recevoir"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { confirm } from "@/components/ui/confirm";
+import { confirmChoice } from "@/components/ui/confirm";
 import {
   Dialog,
   DialogContent,
@@ -169,23 +169,33 @@ function ReceiveBody(props: {
     }
     props.onBusy(true);
     try {
-      const result = await receiveDatabase(parsed, setStage, () =>
-        confirm({
-          title: t("COMMON.CONFIRM.UPLOAD_DB_TITLE"),
-          description: `${t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
-          confirmLabel: t("COMMON.CONFIRM.CONTINUE"),
+      let merged = false;
+      const result = await receiveDatabase(parsed, setStage, async () => {
+        const choice = await confirmChoice({
+          title: t("COMMON.CONFIRM.IMPORT_DB_TITLE"),
+          description: `${t("CHAT.MORE.LOCAL_DB_IMPORT_CHOICE")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
+          confirmLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_MERGE"),
+          altLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_REPLACE"),
+          altDestructive: true,
           cancelLabel: t("COMMON.CANCEL"),
-          destructive: true,
-        }),
-      );
+        });
+        merged = choice === "primary";
+        return choice ? (merged ? "merge" : "replace") : null;
+      });
       if (!result) return;
       analytics.chat.dbTransferReceived({ host: parsed.host.name });
       toast.success(
-        t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
-          imported: result.imported,
-          skipped: result.skipped,
-          tables: result.tables,
-        }),
+        t(
+          merged
+            ? "CHAT.MORE.LOCAL_DB_MERGE_SUMMARY"
+            : "CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY",
+          {
+            imported: result.imported,
+            updated: result.updated,
+            skipped: result.skipped,
+            tables: result.tables,
+          },
+        ),
       );
       setTimeout(() => location.reload(), 1200);
     } catch (err) {

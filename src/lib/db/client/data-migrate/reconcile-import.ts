@@ -9,8 +9,11 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
+export type ImportMode = "merge" | "replace";
+
 export type ReconcileImportResult = {
   imported: number;
+  updated: number;
   skipped: number;
   tables: number;
   skippedByTable: { table: string; skipped: number }[];
@@ -37,6 +40,19 @@ async function columnNames(
     `PRAGMA table_info(\`${table}\`)`,
   );
   return rows.map((r) => r.name);
+}
+
+async function primaryKey(
+  sql: SQLocalDrizzle,
+  table: string,
+): Promise<string[]> {
+  const rows = await sql.sql<{ name: string; pk: number }>(
+    `PRAGMA table_info(\`${table}\`)`,
+  );
+  return rows
+    .filter((r) => r.pk > 0)
+    .sort((a, b) => a.pk - b.pk)
+    .map((r) => r.name);
 }
 
 async function countRows(sql: SQLocalDrizzle, table: string): Promise<number> {
@@ -89,14 +105,97 @@ async function copyTable(
   return after - before;
 }
 
+type MergeOutcome = {
+  inserted: number;
+  updated: number;
+  updatedKeys: string[];
+};
+
+// A row present on both sides is the same row edited twice, so the newer
+// updated_at wins. Tables without one (join rows, media, message items, request
+// logs) are append-only or content-addressed, and there the local row stands.
+async function mergeTable(
+  source: SQLocalDrizzle,
+  target: SQLocalDrizzle,
+  table: string,
+  cols: string[],
+): Promise<MergeOutcome> {
+  const pk = await primaryKey(target, table);
+  const mergeable =
+    pk.length > 0 &&
+    pk.every((c) => cols.includes(c)) &&
+    cols.includes("updated_at");
+  if (!mergeable) {
+    const inserted = await copyTable(source, target, table, cols);
+    return { inserted, updated: 0, updatedKeys: [] };
+  }
+
+  const colList = cols.map((c) => `\`${c}\``).join(", ");
+  const rows = await source.sql<Record<string, unknown>>(
+    `SELECT ${colList} FROM \`${table}\``,
+  );
+  if (rows.length === 0) return { inserted: 0, updated: 0, updatedKeys: [] };
+
+  // JSON, not a joined string: a composite key of ("a", "b:c") and ("a:b",
+  // "c") are different rows and any single separator would collide them.
+  const keyOf = (row: Record<string, unknown>) =>
+    JSON.stringify(pk.map((c) => String(row[c])));
+  const existing = new Map<string, number>();
+  for (const row of await target.sql<Record<string, unknown>>(
+    `SELECT ${[...pk, "updated_at"].map((c) => `\`${c}\``).join(", ")} FROM \`${table}\``,
+  )) {
+    existing.set(keyOf(row), Number(row.updated_at ?? 0));
+  }
+
+  let inserted = 0;
+  const updatedKeys: string[] = [];
+  for (const row of rows) {
+    const key = keyOf(row);
+    const mine = existing.get(key);
+    if (mine === undefined) inserted += 1;
+    else if (Number(row.updated_at ?? 0) > mine) updatedKeys.push(key);
+  }
+
+  const placeholders = `(${cols.map(() => "?").join(", ")})`;
+  const conflict = pk.map((c) => `\`${c}\``).join(", ");
+  const assignments = cols
+    .filter((c) => !pk.includes(c))
+    .map((c) => `\`${c}\` = excluded.\`${c}\``)
+    .join(", ");
+  for (let i = 0; i < rows.length; i += INSERT_BATCH) {
+    const batch = rows.slice(i, i + INSERT_BATCH);
+    const values = batch.map(() => placeholders).join(", ");
+    const params: unknown[] = [];
+    for (const row of batch) {
+      for (const c of cols) params.push(row[c] ?? null);
+    }
+    await target.sql(
+      `INSERT INTO \`${table}\` (${colList}) VALUES ${values}
+       ON CONFLICT(${conflict}) DO UPDATE SET ${assignments}
+         WHERE excluded.\`updated_at\` > \`${table}\`.\`updated_at\``,
+      ...params,
+    );
+  }
+  return { inserted, updated: updatedKeys.length, updatedKeys };
+}
+
 async function copySharedTables(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
   result: ReconcileImportResult,
+  mode: ImportMode = "replace",
 ): Promise<void> {
   const skip = new Set<string>(LOCAL_ONLY_TABLES);
   const sourceTables = new Set(await tableNames(source));
-  for (const table of await tableNames(target)) {
+  const tables = await tableNames(target);
+  // messages first: message_items carry no updated_at of their own, so which of
+  // them to take is decided by which message rows this merge just replaced.
+  const ordered = [
+    ...tables.filter((t) => t === "messages"),
+    ...tables.filter((t) => t !== "messages"),
+  ];
+  let replacedMessages: string[] = [];
+  for (const table of ordered) {
     if (skip.has(table) || !sourceTables.has(table)) continue;
     const targetCols = await columnNames(target, table);
     const srcCols = new Set(await columnNames(source, table));
@@ -104,13 +203,48 @@ async function copySharedTables(
     if (shared.length === 0) continue;
 
     const available = await countRows(source, table);
-    const inserted = await copyTable(source, target, table, shared);
-    const skipped = available - inserted;
+    if (
+      mode === "merge" &&
+      table === "message_items" &&
+      replacedMessages.length
+    )
+      await dropItemsOfMessages(target, replacedMessages);
+    const outcome =
+      mode === "merge"
+        ? await mergeTable(source, target, table, shared)
+        : {
+            inserted: await copyTable(source, target, table, shared),
+            updated: 0,
+            updatedKeys: [],
+          };
+    if (table === "messages") replacedMessages = outcome.updatedKeys;
+    const skipped = available - outcome.inserted - outcome.updated;
     result.tables += 1;
-    result.imported += inserted;
+    result.imported += outcome.inserted;
+    result.updated += outcome.updated;
     result.skipped += skipped;
     if (skipped > 0) result.skippedByTable.push({ table, skipped });
-    logChatDebug("import.reconcile.copy", { table, inserted, skipped });
+    logChatDebug("import.reconcile.copy", {
+      table,
+      inserted: outcome.inserted,
+      updated: outcome.updated,
+      skipped,
+    });
+  }
+}
+
+// The incoming message won, and an edit rewrites its items under fresh ids, so
+// keeping both sides would render the old text and the new text back to back.
+async function dropItemsOfMessages(
+  target: SQLocalDrizzle,
+  messageIds: string[],
+): Promise<void> {
+  for (let i = 0; i < messageIds.length; i += INSERT_BATCH) {
+    const batch = messageIds.slice(i, i + INSERT_BATCH);
+    await target.sql(
+      `DELETE FROM \`message_items\` WHERE \`message_id\` IN (${batch.map(() => "?").join(", ")})`,
+      ...batch,
+    );
   }
 }
 
@@ -162,6 +296,7 @@ async function cleanup(
 // built in a detached file, so a crash can never leave it half-imported.
 export async function reconcileImport(
   buffer: ArrayBuffer,
+  mode: ImportMode = "replace",
 ): Promise<ReconcileImportResult> {
   const appName = env.appName.toLowerCase();
   const livePath = singleDbPath();
@@ -172,6 +307,7 @@ export async function reconcileImport(
 
   const result: ReconcileImportResult = {
     imported: 0,
+    updated: 0,
     skipped: 0,
     tables: 0,
     skippedByTable: [],
@@ -222,8 +358,25 @@ export async function reconcileImport(
     final = newSql(finalPath);
     await runMigrations(final);
     await final.sql`PRAGMA foreign_keys = OFF`;
-    await copySharedTables(work, final, result);
     liveSrc = newSql(livePath);
+    // Merge seeds the replacement with what this device already holds, so the
+    // import pass below lands on top of it rather than in place of it. The
+    // counts only ever describe the imported file, so they are taken after.
+    if (mode === "merge") {
+      const seeded: ReconcileImportResult = {
+        imported: 0,
+        updated: 0,
+        skipped: 0,
+        tables: 0,
+        skippedByTable: [],
+      };
+      await copySharedTables(liveSrc, final, seeded);
+      logChatDebug("import.reconcile.seeded_local", {
+        rows: seeded.imported,
+        tables: seeded.tables,
+      });
+    }
+    await copySharedTables(work, final, result, mode);
     const finalTables = new Set(await tableNames(final));
     const liveTables = new Set(await tableNames(liveSrc));
     for (const table of GRAFT_FROM_LIVE) {

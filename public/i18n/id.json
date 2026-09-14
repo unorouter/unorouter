@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Ini menghapus generasi ini dan gambarnya secara permanen.",
       "CLEAR_CHAT_TITLE": "Bersihkan chat?",
       "WIPE_DB_TITLE": "Hapus database lokal?",
-      "UPLOAD_DB_TITLE": "Timpa database lokal?"
+      "UPLOAD_DB_TITLE": "Timpa database lokal?",
+      "IMPORT_DB_TITLE": "Impor database?"
     },
     "COPIED": "Disalin",
     "COPIED_CLIPBOARD": "Disalin ke clipboard",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Basis data",
       "DATA": "Data",
       "LOCAL_DB_DOWNLOAD": "Unduh file SQLite lokal",
-      "LOCAL_DB_UPLOAD": "Impor file SQLite (mengganti lokal)",
+      "LOCAL_DB_UPLOAD": "Impor file SQLite",
       "LOCAL_DB_SEND": "Kirim ke perangkat lain",
       "LOCAL_DB_RECEIVE": "Terima dari perangkat lain",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Biarkan tab ini tetap terbuka dan di depan sampai selesai; ponsel membekukan tab di latar belakang dan impor ikut terhenti.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",
       "LOCAL_DB_IMPORT_SUMMARY": "Mengimpor {imported} record di {tables} tabel ({skipped} dilewati).",
+      "LOCAL_DB_MERGE_SUMMARY": "{imported} record ditambahkan, {updated} diperbarui, {skipped} sudah ada di sini.",
+      "LOCAL_DB_IMPORT_CHOICE": "Gabungkan mempertahankan semua yang ada di perangkat ini dan menambahkan isi file, jika keduanya berubah maka salinan yang lebih baru menang. Ganti membuang apa yang ada di sini.",
+      "LOCAL_DB_IMPORT_MERGE": "Gabungkan",
+      "LOCAL_DB_IMPORT_REPLACE": "Ganti semua",
       "LOCAL_DB_EXPORT_CHATS": "Sertakan obrolan",
       "LOCAL_DB_EXPORT_LOGS": "Sertakan log permintaan",
       "LOCAL_DB_EXPORT_MEDIA": "Sertakan media",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "Salinan dihapus setelah 72 jam.",
       "EXPIRES_UNTIL_RECEIVED": "Salinan dihapus segera setelah diterima.",
       "ENTER_CODE": "Tempel kode transfer",
-      "RECEIVE": "Terima dan ganti data lokal"
+      "RECEIVE": "Terima"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",

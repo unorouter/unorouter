@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "이 생성물과 이미지가 영구적으로 삭제됩니다.",
       "CLEAR_CHAT_TITLE": "채팅을 지우시겠습니까?",
       "WIPE_DB_TITLE": "로컬 데이터베이스를 지우시겠습니까?",
-      "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?"
+      "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?",
+      "IMPORT_DB_TITLE": "데이터베이스를 가져올까요?"
     },
     "COPIED": "복사됨",
     "COPIED_CLIPBOARD": "클립보드에 복사됨",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "데이터베이스",
       "DATA": "데이터",
       "LOCAL_DB_DOWNLOAD": "로컬 SQLite 파일 다운로드",
-      "LOCAL_DB_UPLOAD": "SQLite 파일 가져오기 (로컬 교체)",
+      "LOCAL_DB_UPLOAD": "SQLite 파일 가져오기",
       "LOCAL_DB_SEND": "다른 기기로 보내기",
       "LOCAL_DB_RECEIVE": "다른 기기에서 받기",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "완료될 때까지 이 탭을 열어 두고 앞에 유지하세요. 휴대폰은 백그라운드 탭을 정지시키므로 가져오기도 함께 멈춥니다.",
       "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 레코드를 가져오시겠습니까? 현재 스키마로 마이그레이션되어 로컬 데이터를 교체하며, 레코드는 이 세션으로 재할당됩니다.",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables}개 테이블에 {imported}개 레코드를 가져왔습니다 ({skipped}개 건너뜀).",
+      "LOCAL_DB_MERGE_SUMMARY": "{imported}개를 추가하고 {updated}개를 갱신했습니다 ({skipped}개는 이미 있음).",
+      "LOCAL_DB_IMPORT_CHOICE": "병합은 이 기기에 있는 모든 것을 유지하면서 파일의 내용을 추가하고, 양쪽이 모두 바뀐 경우 더 최신 사본을 사용합니다. 교체는 지금 여기 있는 것을 버립니다.",
+      "LOCAL_DB_IMPORT_MERGE": "병합",
+      "LOCAL_DB_IMPORT_REPLACE": "전부 교체",
       "LOCAL_DB_EXPORT_CHATS": "채팅 포함",
       "LOCAL_DB_EXPORT_LOGS": "요청 로그 포함",
       "LOCAL_DB_EXPORT_MEDIA": "미디어 포함",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "복사본은 72시간 후 삭제됩니다.",
       "EXPIRES_UNTIL_RECEIVED": "복사본은 수신 즉시 삭제됩니다.",
       "ENTER_CODE": "전송 코드를 붙여넣으세요",
-      "RECEIVE": "받아서 로컬 데이터 교체"
+      "RECEIVE": "받기"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",

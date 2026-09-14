@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "To trwale usuwa tę generację i jej obrazy.",
       "CLEAR_CHAT_TITLE": "Wyczyścić chat?",
       "WIPE_DB_TITLE": "Wymazać lokalną bazę danych?",
-      "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?"
+      "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?",
+      "IMPORT_DB_TITLE": "Zaimportować bazę danych?"
     },
     "COPIED": "Skopiowano",
     "COPIED_CLIPBOARD": "Skopiowano do schowka",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Baza danych",
       "DATA": "Dane",
       "LOCAL_DB_DOWNLOAD": "Pobierz lokalny plik SQLite",
-      "LOCAL_DB_UPLOAD": "Importuj plik SQLite (zastępuje lokalny)",
+      "LOCAL_DB_UPLOAD": "Importuj plik SQLite",
       "LOCAL_DB_SEND": "Wyślij na inne urządzenie",
       "LOCAL_DB_RECEIVE": "Odbierz z innego urządzenia",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Zostaw tę kartę otwartą i na pierwszym planie do końca; telefon zamraża kartę w tle i import zatrzymuje się razem z nią.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Zaimportować rekordy z tego pliku? Zostanie zmigrowany do bieżącego schematu i zastąpi Twoje dane lokalne; rekordy są przypisywane do tej sesji.",
       "LOCAL_DB_IMPORT_SUMMARY": "Zaimportowano {imported} rekordów w {tables} tabelach (pominięto {skipped}).",
+      "LOCAL_DB_MERGE_SUMMARY": "Dodano {imported} rekordów, zaktualizowano {updated}, {skipped} już tu było.",
+      "LOCAL_DB_IMPORT_CHOICE": "Scalanie zachowuje wszystko z tego urządzenia i dodaje zawartość pliku, a przy zmianach po obu stronach wygrywa nowsza wersja. Zastąpienie usuwa to, co jest tutaj.",
+      "LOCAL_DB_IMPORT_MERGE": "Scal",
+      "LOCAL_DB_IMPORT_REPLACE": "Zastąp wszystko",
       "LOCAL_DB_EXPORT_CHATS": "Uwzględnij czaty",
       "LOCAL_DB_EXPORT_LOGS": "Uwzględnij dzienniki żądań",
       "LOCAL_DB_EXPORT_MEDIA": "Uwzględnij multimedia",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "Kopia jest usuwana po 72 godzinach.",
       "EXPIRES_UNTIL_RECEIVED": "Kopia jest usuwana zaraz po odebraniu.",
       "ENTER_CODE": "Wklej kod transferu",
-      "RECEIVE": "Odbierz i zastąp dane lokalne"
+      "RECEIVE": "Odbierz"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# postać} few {# postacie} many {# postaci} other {# postaci}}",

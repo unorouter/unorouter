@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "هذا يحذف هذا الإنشاء وصوره نهائياً.",
       "CLEAR_CHAT_TITLE": "مسح الدردشة؟",
       "WIPE_DB_TITLE": "محو قاعدة البيانات المحلية؟",
-      "UPLOAD_DB_TITLE": "الكتابة فوق قاعدة البيانات المحلية؟"
+      "UPLOAD_DB_TITLE": "الكتابة فوق قاعدة البيانات المحلية؟",
+      "IMPORT_DB_TITLE": "استيراد قاعدة البيانات؟"
     },
     "COPIED": "تم النسخ",
     "COPIED_CLIPBOARD": "تمّ النسخ إلى الحافظة",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "قاعدة البيانات",
       "DATA": "البيانات",
       "LOCAL_DB_DOWNLOAD": "تنزيل ملف SQLite المحلي",
-      "LOCAL_DB_UPLOAD": "استيراد ملف SQLite (يستبدل المحلي)",
+      "LOCAL_DB_UPLOAD": "استيراد ملف SQLite",
       "LOCAL_DB_SEND": "إرسال إلى جهاز آخر",
       "LOCAL_DB_RECEIVE": "الاستلام من جهاز آخر",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "أبقِ هذا التبويب مفتوحًا وفي المقدمة حتى ينتهي؛ فالهاتف يجمّد التبويب في الخلفية ويتوقف الاستيراد معه.",
       "LOCAL_DB_UPLOAD_CONFIRM": "استيراد السجلات من هذا الملف؟ يُرحَّل إلى المخطط الحالي ويستبدل بياناتك المحلية، وتُعاد ملكية السجلات إلى هذه الجلسة.",
       "LOCAL_DB_IMPORT_SUMMARY": "تم استيراد {imported} سجلًا عبر {tables} جداول (تم تخطي {skipped}).",
+      "LOCAL_DB_MERGE_SUMMARY": "تمت إضافة {imported} سجلًا وتحديث {updated}، و{skipped} كانت موجودة بالفعل.",
+      "LOCAL_DB_IMPORT_CHOICE": "الدمج يبقي كل ما على هذا الجهاز ويضيف ما في الملف، وعند التغيير من الجانبين تفوز النسخة الأحدث. الاستبدال يتخلص مما هو موجود هنا.",
+      "LOCAL_DB_IMPORT_MERGE": "دمج",
+      "LOCAL_DB_IMPORT_REPLACE": "استبدال الكل",
       "LOCAL_DB_EXPORT_CHATS": "تضمين المحادثات",
       "LOCAL_DB_EXPORT_LOGS": "تضمين سجلات الطلبات",
       "LOCAL_DB_EXPORT_MEDIA": "تضمين الوسائط",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "تُحذف النسخة بعد 72 ساعة.",
       "EXPIRES_UNTIL_RECEIVED": "تُحذف النسخة فور استلامها.",
       "ENTER_CODE": "الصق رمز النقل",
-      "RECEIVE": "استلام واستبدال البيانات المحلية"
+      "RECEIVE": "استلام"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",
