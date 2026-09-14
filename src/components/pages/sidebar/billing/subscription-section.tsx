@@ -78,7 +78,7 @@ export function SubscriptionSection() {
     portalMutation.mutate(undefined, {
       onSuccess: (data) => {
         const url = data?.portal_url;
-        if (url) window.open(url, "_blank");
+        if (url) window.location.assign(url);
         else toast.error(t("BILLING.PORTAL.ERROR"));
       },
       onError: () => {
