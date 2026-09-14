@@ -108,7 +108,8 @@ async function copyTable(
 type MergeOutcome = {
   inserted: number;
   updated: number;
-  updatedKeys: string[];
+  /** Raw single column key values of the rows the import overwrote. */
+  updatedIds: string[];
 };
 
 // A row present on both sides is the same row edited twice, so the newer
@@ -127,14 +128,14 @@ async function mergeTable(
     cols.includes("updated_at");
   if (!mergeable) {
     const inserted = await copyTable(source, target, table, cols);
-    return { inserted, updated: 0, updatedKeys: [] };
+    return { inserted, updated: 0, updatedIds: [] };
   }
 
   const colList = cols.map((c) => `\`${c}\``).join(", ");
   const rows = await source.sql<Record<string, unknown>>(
     `SELECT ${colList} FROM \`${table}\``,
   );
-  if (rows.length === 0) return { inserted: 0, updated: 0, updatedKeys: [] };
+  if (rows.length === 0) return { inserted: 0, updated: 0, updatedIds: [] };
 
   // JSON, not a joined string: a composite key of ("a", "b:c") and ("a:b",
   // "c") are different rows and any single separator would collide them.
@@ -148,12 +149,16 @@ async function mergeTable(
   }
 
   let inserted = 0;
-  const updatedKeys: string[] = [];
+  let updated = 0;
+  const updatedIds: string[] = [];
   for (const row of rows) {
-    const key = keyOf(row);
-    const mine = existing.get(key);
-    if (mine === undefined) inserted += 1;
-    else if (Number(row.updated_at ?? 0) > mine) updatedKeys.push(key);
+    const mine = existing.get(keyOf(row));
+    if (mine === undefined) {
+      inserted += 1;
+    } else if (Number(row.updated_at ?? 0) > mine) {
+      updated += 1;
+      if (pk.length === 1) updatedIds.push(String(row[pk[0]]));
+    }
   }
 
   const placeholders = `(${cols.map(() => "?").join(", ")})`;
@@ -176,7 +181,7 @@ async function mergeTable(
       ...params,
     );
   }
-  return { inserted, updated: updatedKeys.length, updatedKeys };
+  return { inserted, updated, updatedIds };
 }
 
 async function copySharedTables(
@@ -215,9 +220,9 @@ async function copySharedTables(
         : {
             inserted: await copyTable(source, target, table, shared),
             updated: 0,
-            updatedKeys: [],
+            updatedIds: [],
           };
-    if (table === "messages") replacedMessages = outcome.updatedKeys;
+    if (table === "messages") replacedMessages = outcome.updatedIds;
     const skipped = available - outcome.inserted - outcome.updated;
     result.tables += 1;
     result.imported += outcome.inserted;
@@ -410,6 +415,7 @@ export async function reconcileImport(
 
     logChatDebug("import.reconcile.done", {
       imported: result.imported,
+      updated: result.updated,
       skipped: result.skipped,
       tables: result.tables,
     });
