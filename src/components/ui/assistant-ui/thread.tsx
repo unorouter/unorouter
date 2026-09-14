@@ -1309,7 +1309,7 @@ const AssistantMessageHeader: FC = () => {
           <RpAvatar
             mediaId={character.avatarMediaId}
             name={character.name}
-            className="size-(--chat-avatar-sm)"
+            className="size-[calc(1.25rem*var(--chat-avatar,1))]"
           />
           <span className="text-foreground truncate font-medium">
             {character.name}
@@ -1474,7 +1474,7 @@ const UserPersonaAvatar: FC = () => {
       <RpAvatar
         mediaId={persona.avatarMediaId}
         name={name}
-        className="size-(--chat-avatar-sm)"
+        className="size-[calc(1.25rem*var(--chat-avatar,1))]"
       />
       <span className="text-foreground truncate font-medium">{name}</span>
     </div>
