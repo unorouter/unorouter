@@ -124,11 +124,30 @@ function ChatRuntimeHook() {
   }, [threadId, remoteId]);
   const history = useHistoryAdapter(getConvId);
   const historyAdapter = history.adapter;
+  // Writing the turn as the request leaves is what survives a run that never
+  // settles (tab discarded mid-stream): the completion path is otherwise the
+  // only writer, and a killed run loses what the user typed. The ai-sdk fills
+  // its message list a microtask after sendMessage(), so the outgoing request
+  // is the first point the message exists with its final id.
+  const persistUserTurn = async (messages: ChatUIMessage[]) => {
+    const persist = history.persistRef.current;
+    const last = messages.at(-1);
+    if (!persist || last?.role !== "user") return;
+    try {
+      await persist(last, messages.at(-2)?.id ?? null);
+    } catch (e) {
+      logChatDebug("history.user_turn_persist_error", {
+        error: String(e).slice(0, 200),
+      });
+    }
+  };
   const transportRef = useRef<ReturnType<typeof makeRoutingTransport> | null>(
     null,
   );
   if (transportRef.current === null) {
-    transportRef.current = makeRoutingTransport(getConvId);
+    transportRef.current = makeRoutingTransport(getConvId, (messages) => {
+      void persistUserTurn(messages);
+    });
   }
   const transport = transportRef.current;
 
@@ -252,22 +271,6 @@ function ChatRuntimeHook() {
     },
   });
 
-  // Writing the turn NOW is what survives a stream that never terminates: the
-  // completion path is otherwise the only writer and never runs.
-  const persistUserTurn = async () => {
-    const persist = history.persistRef.current;
-    if (!persist) return;
-    const last = chat.messages.at(-1);
-    if (!last || last.role !== "user") return;
-    try {
-      await persist(last);
-    } catch (e) {
-      logChatDebug("history.user_turn_persist_error", {
-        error: String(e).slice(0, 200),
-      });
-    }
-  };
-
   const wrappedChat: typeof chat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
@@ -311,11 +314,8 @@ function ChatRuntimeHook() {
           try {
             for (let i = 0; i < order.length; i++) {
               chatStore.set(speakingCharacterIdAtom, order[i]);
-              if (i === 0) {
-                const first = chat.sendMessage(...args);
-                void persistUserTurn();
-                await first;
-              } else await chat.sendMessage();
+              if (i === 0) await chat.sendMessage(...args);
+              else await chat.sendMessage();
             }
           } finally {
             chatStore.set(speakingCharacterIdAtom, null);
@@ -327,9 +327,7 @@ function ChatRuntimeHook() {
         }
       }
       chatStore.set(speakingCharacterIdAtom, null);
-      const sent = chat.sendMessage(...args);
-      void persistUserTurn();
-      return sent;
+      return chat.sendMessage(...args);
     },
   };
 
