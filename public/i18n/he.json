@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "פעולה זו מוחקת את הייצור הזה ואת התמונות שלו לצמיתות.",
       "CLEAR_CHAT_TITLE": "לנקות צ'אט?",
       "WIPE_DB_TITLE": "למחוק את מסד הנתונים המקומי?",
-      "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?"
+      "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?",
+      "IMPORT_DB_TITLE": "לייבא את מסד הנתונים?"
     },
     "COPIED": "הועתק",
     "COPIED_CLIPBOARD": "הועתק ללוח",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "מסד נתונים",
       "DATA": "נתונים",
       "LOCAL_DB_DOWNLOAD": "הורד קובץ SQLite מקומי",
-      "LOCAL_DB_UPLOAD": "ייבא קובץ SQLite (מחליף מקומי)",
+      "LOCAL_DB_UPLOAD": "ייבוא קובץ SQLite",
       "LOCAL_DB_SEND": "שליחה למכשיר אחר",
       "LOCAL_DB_RECEIVE": "קבלה ממכשיר אחר",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "השאירו את הלשונית הזו פתוחה ובחזית עד לסיום; טלפון מקפיא לשונית ברקע והייבוא נעצר יחד איתה.",
       "LOCAL_DB_UPLOAD_CONFIRM": "לייבא רשומות מהקובץ הזה? הוא עובר מיגרציה לסכמה הנוכחית ומחליף את הנתונים המקומיים שלך; הרשומות מועברות לבעלות ההפעלה הנוכחית.",
       "LOCAL_DB_IMPORT_SUMMARY": "יובאו {imported} רשומות ב-{tables} טבלאות ({skipped} דולגו).",
+      "LOCAL_DB_MERGE_SUMMARY": "נוספו {imported} רשומות, {updated} עודכנו, {skipped} כבר היו כאן.",
+      "LOCAL_DB_IMPORT_CHOICE": "מיזוג שומר על כל מה שנמצא במכשיר הזה ומוסיף את מה שיש בקובץ, וכששני הצדדים השתנו הגרסה החדשה יותר מנצחת. החלפה מוחקת את מה שיש כאן.",
+      "LOCAL_DB_IMPORT_MERGE": "מיזוג",
+      "LOCAL_DB_IMPORT_REPLACE": "להחליף הכול",
       "LOCAL_DB_EXPORT_CHATS": "כלול צ'אטים",
       "LOCAL_DB_EXPORT_LOGS": "כלול יומני בקשות",
       "LOCAL_DB_EXPORT_MEDIA": "כלול מדיה",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "העותק נמחק אחרי 72 שעות.",
       "EXPIRES_UNTIL_RECEIVED": "העותק נמחק מיד עם קבלתו.",
       "ENTER_CODE": "הדביקו את קוד ההעברה",
-      "RECEIVE": "קבלה והחלפת הנתונים המקומיים"
+      "RECEIVE": "קבלה"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {דמות אחת} two {# דמויות} many {# דמויות} other {# דמויות}}",

@@ -3,7 +3,10 @@ import {
   buildExportFile,
   type DbExportOptions,
 } from "@/lib/db/client/data/diagnostics/db-export";
-import type { ReconcileImportResult } from "@/lib/db/client/data-migrate/reconcile-import";
+import type {
+  ImportMode,
+  ReconcileImportResult,
+} from "@/lib/db/client/data-migrate/reconcile-import";
 import { uid } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { decryptTransfer, encryptTransfer } from "./crypto";
@@ -86,6 +89,7 @@ export function parseTransferCode(raw: string): ParsedCode | null {
 
 export async function importDatabaseBuffer(
   buffer: ArrayBuffer,
+  mode: ImportMode,
 ): Promise<ReconcileImportResult> {
   const { getLocalDb, suspendLocalDb, resumeLocalDb, resetLocalDbCache } =
     await import("@/lib/db/client/client");
@@ -97,7 +101,7 @@ export async function importDatabaseBuffer(
     if (local) await local.destroy();
     const { reconcileImport } =
       await import("@/lib/db/client/data-migrate/reconcile-import");
-    return await reconcileImport(buffer).finally(resumeLocalDb);
+    return await reconcileImport(buffer, mode).finally(resumeLocalDb);
   } catch (err) {
     logChatDebug("opfs.import.error", { error: String(err).slice(0, 200) });
     resumeLocalDb();
@@ -109,7 +113,7 @@ export async function importDatabaseBuffer(
 export async function receiveDatabase(
   parsed: ParsedCode,
   onStage: (stage: TransferStage) => void,
-  confirmImport: () => Promise<boolean>,
+  confirmImport: () => Promise<ImportMode | null>,
 ): Promise<ReconcileImportResult | null> {
   onStage("download");
   const res = await fetch(parsed.host.downloadUrl(parsed.id));
@@ -125,9 +129,10 @@ export async function receiveDatabase(
   const header = new TextDecoder().decode(plain.slice(0, SQLITE_HEADER.length));
   if (header !== SQLITE_HEADER)
     throw new Error(msg("ERRORS.TRANSFER_BAD_CODE"));
-  if (!(await confirmImport())) return null;
+  const mode = await confirmImport();
+  if (!mode) return null;
   onStage("import");
-  const result = await importDatabaseBuffer(plain);
+  const result = await importDatabaseBuffer(plain, mode);
   logChatDebug("transfer.received", { host: parsed.host.name });
   void parsed.host.remove?.(parsed.id, parsed.deleteToken).catch((err) =>
     logChatDebug("transfer.remove_failed", {

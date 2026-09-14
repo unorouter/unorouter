@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Questo elimina permanentemente questa generazione e le sue immagini.",
       "CLEAR_CHAT_TITLE": "Cancellare la chat?",
       "WIPE_DB_TITLE": "Cancellare il database locale?",
-      "UPLOAD_DB_TITLE": "Sovrascrivere il database locale?"
+      "UPLOAD_DB_TITLE": "Sovrascrivere il database locale?",
+      "IMPORT_DB_TITLE": "Importare il database?"
     },
     "COPIED": "Copiato",
     "COPIED_CLIPBOARD": "Copiato negli appunti",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Database",
       "DATA": "Dati",
       "LOCAL_DB_DOWNLOAD": "Scarica file SQLite locale",
-      "LOCAL_DB_UPLOAD": "Importa file SQLite (sostituisce locale)",
+      "LOCAL_DB_UPLOAD": "Importa file SQLite",
       "LOCAL_DB_SEND": "Invia a un altro dispositivo",
       "LOCAL_DB_RECEIVE": "Ricevi da un altro dispositivo",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Tieni questa scheda aperta e in primo piano fino alla fine; un telefono congela una scheda in secondo piano e l'importazione si blocca con essa.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Importare i record da questo file? Viene migrato allo schema attuale e sostituisce i tuoi dati locali; i record vengono riassegnati a questa sessione.",
       "LOCAL_DB_IMPORT_SUMMARY": "Importati {imported} record in {tables} tabelle ({skipped} ignorati).",
+      "LOCAL_DB_MERGE_SUMMARY": "Aggiunti {imported} record, {updated} aggiornati, {skipped} già presenti.",
+      "LOCAL_DB_IMPORT_CHOICE": "Unisci mantiene tutto ciò che è su questo dispositivo e aggiunge quello del file; se qualcosa è cambiato da entrambe le parti vince la copia più recente. Sostituisci elimina ciò che è qui.",
+      "LOCAL_DB_IMPORT_MERGE": "Unisci",
+      "LOCAL_DB_IMPORT_REPLACE": "Sostituisci tutto",
       "LOCAL_DB_EXPORT_CHATS": "Includi le chat",
       "LOCAL_DB_EXPORT_LOGS": "Includi i log delle richieste",
       "LOCAL_DB_EXPORT_MEDIA": "Includi i media",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "La copia viene eliminata dopo 72 ore.",
       "EXPIRES_UNTIL_RECEIVED": "La copia viene eliminata non appena viene ricevuta.",
       "ENTER_CODE": "Incolla il codice di trasferimento",
-      "RECEIVE": "Ricevi e sostituisci i dati locali"
+      "RECEIVE": "Ricevi"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaggio} other {# personaggi}}",

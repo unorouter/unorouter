@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Dadurch werden diese Generierung und ihre Bilder endgültig gelöscht.",
       "CLEAR_CHAT_TITLE": "Chat leeren?",
       "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
-      "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
+      "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?",
+      "IMPORT_DB_TITLE": "Datenbank importieren?"
     },
     "COPIED": "Kopiert",
     "COPIED_CLIPBOARD": "In die Zwischenablage kopiert",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Datenbank",
       "DATA": "Daten",
       "LOCAL_DB_DOWNLOAD": "Lokale SQLite-Datei herunterladen",
-      "LOCAL_DB_UPLOAD": "SQLite-Datei importieren (ersetzt lokal)",
+      "LOCAL_DB_UPLOAD": "SQLite-Datei importieren",
       "LOCAL_DB_SEND": "An ein anderes Gerät senden",
       "LOCAL_DB_RECEIVE": "Von einem anderen Gerät empfangen",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Lass diesen Tab bis zum Ende geöffnet und im Vordergrund; ein Handy friert einen Hintergrund-Tab ein und der Import bleibt mit ihm stehen.",
       "LOCAL_DB_UPLOAD_CONFIRM": "Datensätze aus dieser Datei importieren? Sie wird auf das aktuelle Schema migriert und ersetzt deine lokalen Daten; die Datensätze werden dieser Sitzung zugeordnet.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} Datensätze in {tables} Tabellen importiert ({skipped} übersprungen).",
+      "LOCAL_DB_MERGE_SUMMARY": "{imported} Datensätze hinzugefügt, {updated} aktualisiert, {skipped} bereits vorhanden.",
+      "LOCAL_DB_IMPORT_CHOICE": "Zusammenführen behält alles auf diesem Gerät und ergänzt den Inhalt der Datei, bei Änderungen auf beiden Seiten gewinnt die neuere Fassung. Ersetzen verwirft, was hier liegt.",
+      "LOCAL_DB_IMPORT_MERGE": "Zusammenführen",
+      "LOCAL_DB_IMPORT_REPLACE": "Alles ersetzen",
       "LOCAL_DB_EXPORT_CHATS": "Chats einschließen",
       "LOCAL_DB_EXPORT_LOGS": "Anfrageprotokolle einschließen",
       "LOCAL_DB_EXPORT_MEDIA": "Medien einschließen",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "Die Kopie wird nach 72 Stunden gelöscht.",
       "EXPIRES_UNTIL_RECEIVED": "Die Kopie wird gelöscht, sobald sie empfangen wurde.",
       "ENTER_CODE": "Übertragungscode einfügen",
-      "RECEIVE": "Empfangen und lokale Daten ersetzen"
+      "RECEIVE": "Empfangen"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# Charakter} other {# Charaktere}}",

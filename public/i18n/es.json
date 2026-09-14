@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "Esto elimina permanentemente esta generación y sus imágenes.",
       "CLEAR_CHAT_TITLE": "¿Limpiar chat?",
       "WIPE_DB_TITLE": "¿Borrar base de datos local?",
-      "UPLOAD_DB_TITLE": "¿Sobrescribir base de datos local?"
+      "UPLOAD_DB_TITLE": "¿Sobrescribir base de datos local?",
+      "IMPORT_DB_TITLE": "¿Importar base de datos?"
     },
     "COPIED": "Copiado",
     "COPIED_CLIPBOARD": "Copiado al portapapeles",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "Base de datos",
       "DATA": "Datos",
       "LOCAL_DB_DOWNLOAD": "Descargar archivo SQLite local",
-      "LOCAL_DB_UPLOAD": "Importar archivo SQLite (reemplaza local)",
+      "LOCAL_DB_UPLOAD": "Importar archivo SQLite",
       "LOCAL_DB_SEND": "Enviar a otro dispositivo",
       "LOCAL_DB_RECEIVE": "Recibir de otro dispositivo",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Mantén esta pestaña abierta y en primer plano hasta que termine; el teléfono congela una pestaña en segundo plano y la importación se detiene con ella.",
       "LOCAL_DB_UPLOAD_CONFIRM": "¿Importar registros de este archivo? Se migra al esquema actual y reemplaza tus datos locales; los registros pasan a esta sesión.",
       "LOCAL_DB_IMPORT_SUMMARY": "Se importaron {imported} registros en {tables} tablas ({skipped} omitidos).",
+      "LOCAL_DB_MERGE_SUMMARY": "Se añadieron {imported} registros, {updated} actualizados, {skipped} ya estaban aquí.",
+      "LOCAL_DB_IMPORT_CHOICE": "Combinar conserva todo lo de este dispositivo y añade lo del archivo; si algo cambió en ambos lados, gana la copia más reciente. Reemplazar descarta lo que hay aquí.",
+      "LOCAL_DB_IMPORT_MERGE": "Combinar",
+      "LOCAL_DB_IMPORT_REPLACE": "Reemplazar todo",
       "LOCAL_DB_EXPORT_CHATS": "Incluir chats",
       "LOCAL_DB_EXPORT_LOGS": "Incluir registros de solicitudes",
       "LOCAL_DB_EXPORT_MEDIA": "Incluir multimedia",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "La copia se elimina después de 72 horas.",
       "EXPIRES_UNTIL_RECEIVED": "La copia se elimina en cuanto se recibe.",
       "ENTER_CODE": "Pega el código de transferencia",
-      "RECEIVE": "Recibir y reemplazar los datos locales"
+      "RECEIVE": "Recibir"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaje} other {# personajes}}",

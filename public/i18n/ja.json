@@ -2527,7 +2527,8 @@
       "DELETE_GENERATION_DESC": "この生成とその画像を完全に削除します。",
       "CLEAR_CHAT_TITLE": "チャットを消去しますか？",
       "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
-      "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
+      "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？",
+      "IMPORT_DB_TITLE": "データベースをインポートしますか？"
     },
     "COPIED": "コピーしました",
     "COPIED_CLIPBOARD": "クリップボードにコピーしました",
@@ -3791,12 +3792,16 @@
       "LOCAL_DB": "データベース",
       "DATA": "データ",
       "LOCAL_DB_DOWNLOAD": "ローカルSQLiteファイルをダウンロード",
-      "LOCAL_DB_UPLOAD": "SQLiteファイルをインポート（ローカルを置き換え）",
+      "LOCAL_DB_UPLOAD": "SQLiteファイルをインポート",
       "LOCAL_DB_SEND": "別の端末に送る",
       "LOCAL_DB_RECEIVE": "別の端末から受け取る",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "完了するまでこのタブを開いたまま前面に置いてください。スマートフォンはバックグラウンドのタブを停止させるため、インポートも一緒に止まります。",
       "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからレコードをインポートしますか？現在のスキーマに移行され、ローカルデータを置き換えます。レコードはこのセッションに再割り当てされます。",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables}個のテーブルに{imported}件のレコードをインポートしました（{skipped}件スキップ）。",
+      "LOCAL_DB_MERGE_SUMMARY": "{imported}件を追加し、{updated}件を更新しました（{skipped}件は既存）。",
+      "LOCAL_DB_IMPORT_CHOICE": "統合はこの端末にあるものをすべて残したうえでファイルの内容を追加し、両方で変更があった場合は新しいほうを採用します。置き換えはここにあるものを破棄します。",
+      "LOCAL_DB_IMPORT_MERGE": "統合",
+      "LOCAL_DB_IMPORT_REPLACE": "すべて置き換え",
       "LOCAL_DB_EXPORT_CHATS": "チャットを含める",
       "LOCAL_DB_EXPORT_LOGS": "リクエストログを含める",
       "LOCAL_DB_EXPORT_MEDIA": "メディアを含める",
@@ -3822,7 +3827,7 @@
       "EXPIRES_3DAYS": "コピーは72時間後に削除されます。",
       "EXPIRES_UNTIL_RECEIVED": "コピーは受信した時点で削除されます。",
       "ENTER_CODE": "転送コードを貼り付け",
-      "RECEIVE": "受け取ってローカルデータを置き換える"
+      "RECEIVE": "受け取る"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# キャラクター}}",
