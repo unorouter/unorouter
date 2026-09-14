@@ -126,8 +126,11 @@ export function useBillingActions() {
     toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
   }
 
+  // Same tab on purpose: this runs after the mutation resolves, outside the
+  // click gesture, and mobile browsers silently block window.open there. The
+  // checkout was created and nothing opened; one user reached 67 pending orders.
   function openPayLink(url: string | undefined) {
-    if (url) window.open(url, "_blank");
+    if (url) window.location.assign(url);
   }
 
   function subscribe(plan: SubscriptionPlanDTO, opts?: SubscribeOptions) {
