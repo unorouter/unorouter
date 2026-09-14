@@ -46,11 +46,13 @@ import {
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import type {
-  MessageFormatAdapter,
-  MessageFormatItem,
-  MessageFormatRepository,
-  ThreadHistoryAdapter,
+import {
+  getExternalStoreMessages,
+  type MessageFormatAdapter,
+  type MessageFormatItem,
+  type MessageFormatRepository,
+  type ThreadHistoryAdapter,
+  type ThreadMessage,
 } from "@assistant-ui/core";
 import type { QueryClient } from "@tanstack/react-query";
 
@@ -113,6 +115,62 @@ async function repairBrokenChain(
     } catch {}
   }
   return out;
+}
+
+function withLiveTurn<TMessage>(
+  convId: string,
+  stored: ApiMessage[],
+  threadMessages: readonly ThreadMessage[],
+  encode: (message: TMessage) => EncodedContent,
+): ApiMessage[] {
+  const known = new Set(stored.map((m) => m.id));
+  const out = [...stored];
+  let parentId =
+    [...stored].reverse().find((m) => m.isActiveBranch !== false)?.id ?? null;
+  const now = dayjs().toDate();
+  for (const tm of threadMessages) {
+    // The streaming reply stays out: the sdk re-pushes it on the next chunk,
+    // and a copy here would mark it persisted before it ever settles.
+    const settled =
+      tm.status === undefined ||
+      tm.status.type === "complete" ||
+      tm.status.type === "incomplete";
+    if (!settled) continue;
+    for (const inner of getExternalStoreMessages<TMessage>(tm)) {
+      const content = encode(inner);
+      const id = formatIdOf(inner);
+      if (!id) continue;
+      if (!known.has(id)) {
+        out.push({
+          id,
+          convId,
+          parentId,
+          role: content.role,
+          isActiveBranch: true,
+          createdAt: now,
+          items: partsToItems(content.parts).map((it, seq) => ({
+            id: it.id ?? uid(),
+            sequenceIndex: seq,
+            outputIndex: it.output_index ?? null,
+            type: it.type,
+            data: it.data,
+          })),
+        });
+        known.add(id);
+      }
+      parentId = id;
+    }
+  }
+  return out;
+}
+
+function formatIdOf(message: unknown): string | null {
+  return typeof message === "object" &&
+    message !== null &&
+    "id" in message &&
+    typeof message.id === "string"
+    ? message.id
+    : null;
 }
 
 function buildRepository<TMessage>(
@@ -473,23 +531,38 @@ export function createChatHistoryAdapter(
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
             ]);
-            const allMessages = await repairBrokenChain(
+            const stored = await repairBrokenChain(
               id,
               cached
                 ? cached.pages.flatMap((p) => p.messages)
                 : await readJoinedMessages(id),
             );
 
-            // A load that lands while a turn is live replaces the live list
-            // with the stored one, so record what it replaced.
+            // assistant-ui replaces the live list with whatever load() returns,
+            // and on a new chat it loads while the first turn is streaming, so
+            // the turn's own messages must ride along or the user's message
+            // vanishes and the reply lands as a sibling of its stored row.
             const thread = getThreadRuntime()?.getState();
+            const allMessages = thread?.isRunning
+              ? withLiveTurn<TMessage>(
+                  id,
+                  stored,
+                  thread.messages,
+                  (m) =>
+                    formatAdapter.encode({
+                      message: m,
+                      parentId: null,
+                    }) as unknown as EncodedContent,
+                )
+              : stored;
             logChatDebug("history.load", {
               convId: id,
               convIdAtom: chatStore.get(convIdAtom),
-              count: allMessages.length,
+              count: stored.length,
               source: cached ? "cache" : "db",
               live: thread?.messages.length ?? null,
               running: thread?.isRunning ?? null,
+              merged: allMessages.length - stored.length,
             });
             return buildRepository(allMessages, formatAdapter);
           } finally {
