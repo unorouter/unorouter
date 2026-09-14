@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} ספרי לור",
     "CARDS_IMPORT": "ייבוא כרטיס",
     "CARDS_IMPORT_PARTIAL": "הכרטיס יובא, אך {count} פריטים לא נמצאו במכשיר הזה ודולגו.",
-    "PRESET_REASONING_EFFORT_HINT": "כמה המודל חושב לפני שהוא עונה. ההגדרה בשיחה גוברת על זו; ריק פירושו ברירת המחדל של המודל."
+    "PRESET_REASONING_EFFORT_HINT": "כמה המודל חושב לפני שהוא עונה. ההגדרה בשיחה גוברת על זו; ריק פירושו ברירת המחדל של המודל.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "הגדר את כל התפקידים"
   },
   "ERRORS": {
     "MISSING_ENV": "חסר משתנה סביבה נדרש: {var}",

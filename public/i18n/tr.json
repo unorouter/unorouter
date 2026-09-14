@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Kart içe aktar",
     "CARDS_IMPORT_PARTIAL": "Kart içe aktarıldı, ancak {count} öge bu cihazda yoktu ve atlandı.",
-    "PRESET_REASONING_EFFORT_HINT": "Modelin yanıtlamadan önce ne kadar düşüneceği. Sohbet ayarı bunu geçersiz kılar; boş, modelin varsayılanı demektir."
+    "PRESET_REASONING_EFFORT_HINT": "Modelin yanıtlamadan önce ne kadar düşüneceği. Sohbet ayarı bunu geçersiz kılar; boş, modelin varsayılanı demektir.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Tüm rolleri ayarla"
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",

@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} Lorebooks",
     "CARDS_IMPORT": "Karte importieren",
     "CARDS_IMPORT_PARTIAL": "Karte importiert, aber {count} Einträge sind nicht auf diesem Gerät und wurden übersprungen.",
-    "PRESET_REASONING_EFFORT_HINT": "Wie intensiv das Modell vor der Antwort nachdenkt. Die Einstellung im Chat überschreibt diesen Wert; leer bedeutet Modellstandard."
+    "PRESET_REASONING_EFFORT_HINT": "Wie intensiv das Modell vor der Antwort nachdenkt. Die Einstellung im Chat überschreibt diesen Wert; leer bedeutet Modellstandard.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Alle Rollen setzen"
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",

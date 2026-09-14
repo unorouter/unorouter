@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importer une carte",
     "CARDS_IMPORT_PARTIAL": "Carte importée, mais {count} éléments absents de cet appareil ont été ignorés.",
-    "PRESET_REASONING_EFFORT_HINT": "Intensité de réflexion du modèle avant de répondre. Le réglage de la conversation le remplace; vide signifie la valeur par défaut du modèle."
+    "PRESET_REASONING_EFFORT_HINT": "Intensité de réflexion du modèle avant de répondre. Le réglage de la conversation le remplace; vide signifie la valeur par défaut du modèle.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Définir tous les rôles"
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",

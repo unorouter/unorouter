@@ -18,7 +18,11 @@ import type { LorebookRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
+import type {
+  LorebookBody,
+  LorebookEntryBody,
+  LorebookInjectionRole,
+} from "@/lib/validation/rp";
 import { makeRpEntity } from "./factory";
 import { runUrlImport } from "./use-url-import";
 
@@ -171,6 +175,27 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       };
       await upsertLocalLorebookEntry(updated);
       return updated;
+    },
+    invalidates: [queryKeys.lorebook(lorebookId)],
+    successKey: "COMMON.SAVED",
+  });
+}
+
+export function useSetLorebookEntriesRoleMutation(lorebookId: string) {
+  return useApiMutation({
+    mutationFn: async (role: LorebookInjectionRole) => {
+      const now = dayjs().toDate();
+      const lb = await readLocalLorebook(lorebookId);
+      if (!lb) return { count: 0 };
+      const targets = lb.entries.filter((e) => e.injectionRole !== role);
+      for (const entry of targets) {
+        await upsertLocalLorebookEntry({
+          ...entry,
+          injectionRole: role,
+          updatedAt: now,
+        });
+      }
+      return { count: targets.length };
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
     successKey: "COMMON.SAVED",

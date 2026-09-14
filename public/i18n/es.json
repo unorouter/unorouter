@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importar tarjeta",
     "CARDS_IMPORT_PARTIAL": "Tarjeta importada, pero {count} elementos no estaban en este dispositivo y se omitieron.",
-    "PRESET_REASONING_EFFORT_HINT": "Cuánto piensa el modelo antes de responder. El ajuste de la conversación lo anula; vacío significa el valor predeterminado del modelo."
+    "PRESET_REASONING_EFFORT_HINT": "Cuánto piensa el modelo antes de responder. El ajuste de la conversación lo anula; vacío significa el valor predeterminado del modelo.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Definir todos los roles"
   },
   "ERRORS": {
     "MISSING_ENV": "Variable de entorno requerida faltante: {var}",
