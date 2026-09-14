@@ -4,23 +4,41 @@ import { SortableList } from "@/components/elements/dnd/sortable-list";
 import { confirm } from "@/components/ui/confirm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import {
   useDeleteLorebookEntryMutation,
   useLorebookQuery,
   useReorderLorebookEntriesMutation,
+  useSetLorebookEntriesRoleMutation,
 } from "@/hooks/ai/rp/lorebooks";
 import { analytics } from "@/lib/analytics";
-import type { EntityEditId } from "@/lib/types";
+import type { EntityEditId, TranslationKey } from "@/lib/types";
+import {
+  LOREBOOK_INJECTION_ROLES,
+  type LorebookInjectionRole,
+} from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LorebookEntryForm } from "./lorebook-entry-form";
+
+const ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> = {
+  user: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER",
+  system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
+  assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
+};
 
 export function LorebookEntries(props: { lorebookId: string }) {
   const t = useTranslations();
   const lbQuery = useLorebookQuery(props.lorebookId);
   const deleteMut = useDeleteLorebookEntryMutation(props.lorebookId);
   const reorderMut = useReorderLorebookEntriesMutation(props.lorebookId);
+  const setRoleMut = useSetLorebookEntriesRoleMutation(props.lorebookId);
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -52,19 +70,42 @@ export function LorebookEntries(props: { lorebookId: string }) {
         <h2 className="text-foreground text-lg font-medium">
           {t("RP.LOREBOOK_ENTRIES_TITLE")}
         </h2>
-        <Button
-          onClick={() => {
-            analytics.rp.entityAction({
-              entity: "lorebook_entries",
-              action: "create_started",
-            });
-            setEditingId("new");
-          }}
-          size="sm"
-        >
-          <Icon name="plus" className="size-4" />
-          {t("RP.LOREBOOK_ENTRY_NEW")}
-        </Button>
+        <div className="flex items-center gap-2">
+          {(lbQuery.data?.entries.length ?? 0) > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={<Button variant="outline" size="sm" />}
+                disabled={setRoleMut.isPending}
+              >
+                <Icon name="users" className="size-4" />
+                {t("RP.LOREBOOK_ENTRIES_SET_ROLE")}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {LOREBOOK_INJECTION_ROLES.map((role) => (
+                  <DropdownMenuItem
+                    key={role}
+                    onClick={() => setRoleMut.mutate(role)}
+                  >
+                    {t(ROLE_LABEL_KEY[role])}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          <Button
+            onClick={() => {
+              analytics.rp.entityAction({
+                entity: "lorebook_entries",
+                action: "create_started",
+              });
+              setEditingId("new");
+            }}
+            size="sm"
+          >
+            <Icon name="plus" className="size-4" />
+            {t("RP.LOREBOOK_ENTRY_NEW")}
+          </Button>
+        </div>
       </div>
 
       {editingId && (

@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Importar card",
     "CARDS_IMPORT_PARTIAL": "Card importado, mas {count} itens não estavam neste dispositivo e foram ignorados.",
-    "PRESET_REASONING_EFFORT_HINT": "Quanto o modelo pensa antes de responder. A configuração da conversa substitui esta; vazio significa o padrão do modelo."
+    "PRESET_REASONING_EFFORT_HINT": "Quanto o modelo pensa antes de responder. A configuração da conversa substitui esta; vazio significa o padrão do modelo.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Definir todos os papéis"
   },
   "ERRORS": {
     "MISSING_ENV": "Variável de ambiente obrigatória ausente: {var}",

@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooks",
     "CARDS_IMPORT": "Import card",
     "CARDS_IMPORT_PARTIAL": "Card imported, but {count} items were not on this device and were skipped.",
-    "PRESET_REASONING_EFFORT_HINT": "How much the model thinks before answering. The in-chat conversation setting overrides this; empty means the model's default."
+    "PRESET_REASONING_EFFORT_HINT": "How much the model thinks before answering. The in-chat conversation setting overrides this; empty means the model's default.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Set all roles"
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",

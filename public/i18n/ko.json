@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "로어북 {count}개",
     "CARDS_IMPORT": "카드 가져오기",
     "CARDS_IMPORT_PARTIAL": "카드를 가져왔지만 이 기기에 없는 {count}개 항목은 건너뛰었습니다.",
-    "PRESET_REASONING_EFFORT_HINT": "모델이 답하기 전에 얼마나 깊이 생각할지 정합니다. 채팅 내 설정이 이 값을 덮어씁니다. 비워 두면 모델 기본값입니다."
+    "PRESET_REASONING_EFFORT_HINT": "모델이 답하기 전에 얼마나 깊이 생각할지 정합니다. 채팅 내 설정이 이 값을 덮어씁니다. 비워 두면 모델 기본값입니다.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "모든 역할 설정"
   },
   "ERRORS": {
     "MISSING_ENV": "필수 환경 변수 누락: {var}",

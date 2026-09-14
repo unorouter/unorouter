@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebooków",
     "CARDS_IMPORT": "Importuj kartę",
     "CARDS_IMPORT_PARTIAL": "Zaimportowano kartę, ale {count} elementów nie ma na tym urządzeniu i zostało pominiętych.",
-    "PRESET_REASONING_EFFORT_HINT": "Jak intensywnie model myśli przed odpowiedzią. Ustawienie w czacie ma pierwszeństwo; puste oznacza domyślne ustawienie modelu."
+    "PRESET_REASONING_EFFORT_HINT": "Jak intensywnie model myśli przed odpowiedzią. Ustawienie w czacie ma pierwszeństwo; puste oznacza domyślne ustawienie modelu.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Ustaw wszystkie role"
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",

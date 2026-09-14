@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "ロアブック{count}冊",
     "CARDS_IMPORT": "カードをインポート",
     "CARDS_IMPORT_PARTIAL": "カードを取り込みましたが、この端末にない{count}件はスキップされました。",
-    "PRESET_REASONING_EFFORT_HINT": "回答前にモデルがどれだけ考えるか。チャット内の設定が優先されます。空欄はモデルの既定値です。"
+    "PRESET_REASONING_EFFORT_HINT": "回答前にモデルがどれだけ考えるか。チャット内の設定が優先されます。空欄はモデルの既定値です。",
+    "LOREBOOK_ENTRIES_SET_ROLE": "すべてのロールを設定"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",

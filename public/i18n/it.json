@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} lorebook",
     "CARDS_IMPORT": "Importa carta",
     "CARDS_IMPORT_PARTIAL": "Carta importata, ma {count} elementi non erano su questo dispositivo e sono stati saltati.",
-    "PRESET_REASONING_EFFORT_HINT": "Quanto il modello riflette prima di rispondere. L'impostazione della conversazione la sovrascrive; vuoto significa il valore predefinito del modello."
+    "PRESET_REASONING_EFFORT_HINT": "Quanto il modello riflette prima di rispondere. L'impostazione della conversazione la sovrascrive; vuoto significa il valore predefinito del modello.",
+    "LOREBOOK_ENTRIES_SET_ROLE": "Imposta tutti i ruoli"
   },
   "ERRORS": {
     "MISSING_ENV": "Variabile d'ambiente richiesta mancante: {var}",

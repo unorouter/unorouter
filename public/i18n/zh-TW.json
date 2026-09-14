@@ -4235,7 +4235,8 @@
     "CARDS_SUMMARY_LOREBOOKS": "{count} 本設定集",
     "CARDS_IMPORT": "匯入卡片",
     "CARDS_IMPORT_PARTIAL": "卡片已匯入，但有 {count} 項不在此裝置上，已略過。",
-    "PRESET_REASONING_EFFORT_HINT": "模型回答前思考的深度。聊天內設定會覆蓋此項；留空表示使用模型預設值。"
+    "PRESET_REASONING_EFFORT_HINT": "模型回答前思考的深度。聊天內設定會覆蓋此項；留空表示使用模型預設值。",
+    "LOREBOOK_ENTRIES_SET_ROLE": "設定全部角色"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",
