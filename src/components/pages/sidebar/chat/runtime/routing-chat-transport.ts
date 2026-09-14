@@ -344,7 +344,18 @@ async function runClientStream(args: {
   void Promise.resolve(result.text).catch(() => {});
   void Promise.resolve(result.finishReason).catch(() => {});
 
-  const responseMessageId = uid();
+  // A group turn and auto-continue run again with no new user message, and the
+  // ai-sdk seeds that run from a COPY of the last assistant message. A fresh id
+  // makes the copy a SECOND message, so the previous character's reply renders
+  // and persists twice; keeping the id lets the sdk replace its own message.
+  const last = args.options.messages.at(-1);
+  const continuedId =
+    args.options.messageId && last?.role === "assistant"
+      ? last.id === args.options.messageId
+        ? args.options.messageId
+        : null
+      : null;
+  const responseMessageId = continuedId ?? uid();
   const uiStream = toUIMessageStream({
     stream: result.stream,
     generateMessageId: () => responseMessageId,
