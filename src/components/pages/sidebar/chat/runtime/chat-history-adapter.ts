@@ -18,6 +18,7 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
   readJoinedMessages,
+  replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import type { IllustratorConvSettings } from "./illustrator-run";
@@ -499,13 +500,15 @@ export function createChatHistoryAdapter(
             messageId,
             role: (item.message as { role?: string }).role,
           });
-          {
-            const existingRows = (await readLocalMessages(id)) ?? [];
-            if (existingRows.some((m) => m.id === messageId)) return;
-          }
+          // A group turn and auto-continue stream into the SAME message, so the
+          // row exists and now holds the next speaker's parts too.
+          const existingRow = ((await readLocalMessages(id)) ?? []).find(
+            (m) => m.id === messageId,
+          );
           const content = formatAdapter.encode(
             item,
           ) as unknown as EncodedContent;
+          if (existingRow && content.role !== "assistant") return;
           const isAssistant = content.role === "assistant";
           const originalAssistantText = assistantTextOf(content);
 
@@ -523,7 +526,7 @@ export function createChatHistoryAdapter(
           }
 
           const illustratorJob =
-            isAssistant && originalAssistantText.trim()
+            isAssistant && !existingRow && originalAssistantText.trim()
               ? await prepareIllustratorJob(id, items, resolvedModel)
               : null;
 
@@ -543,30 +546,36 @@ export function createChatHistoryAdapter(
               chatStore.get(speakingCharacterIdAtom))
             : null;
 
-          const placement = await placeOnBranch(
-            id,
-            messageId,
-            item.parentId ?? null,
-            now,
-          );
+          const placement = existingRow
+            ? {
+                parentId: existingRow.parentId ?? null,
+                parentBranchVars: existingRow.branchVars ?? null,
+                nextBranchIndex: existingRow.branchIndex ?? 0,
+              }
+            : await placeOnBranch(id, messageId, item.parentId ?? null, now);
           const branchVars = isAssistant
             ? (varsWriteback ?? placement.parentBranchVars)
             : placement.parentBranchVars;
           const newMessage = {
+            ...(existingRow ?? {}),
             id: messageId,
             convId: id,
             parentId: placement.parentId,
             role: content.role,
             model: resolvedModel,
-            characterId: speakingCharId,
-            inputTokens: usage?.inputTokens ?? null,
-            outputTokens: usage?.outputTokens ?? null,
-            cost: usage?.cost ?? null,
+            characterId: existingRow?.characterId ?? speakingCharId,
+            inputTokens:
+              (existingRow?.inputTokens ?? 0) + (usage?.inputTokens ?? 0) ||
+              null,
+            outputTokens:
+              (existingRow?.outputTokens ?? 0) + (usage?.outputTokens ?? 0) ||
+              null,
+            cost: (existingRow?.cost ?? 0) + (usage?.cost ?? 0) || null,
             isActiveBranch: true,
             isEdited: false,
             branchIndex: placement.nextBranchIndex,
             branchVars,
-            createdAt: now,
+            createdAt: existingRow?.createdAt ?? now,
             updatedAt: now,
           };
           const existingConv = await readLocalConversation(id);
@@ -607,8 +616,12 @@ export function createChatHistoryAdapter(
             data: it.data,
             createdAt: now,
           }));
-          for (const row of itemRows) {
-            await upsertLocalMessageItem(row);
+          if (existingRow) {
+            await replaceLocalMessageItems(messageId, itemRows);
+          } else {
+            for (const row of itemRows) {
+              await upsertLocalMessageItem(row);
+            }
           }
 
           await persistRequestLog(
