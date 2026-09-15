@@ -5,7 +5,11 @@ import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";
 
-const TRIGGER_LLM_MAX_TOKENS = 1024;
+// A reasoning model spends this budget thinking before it writes anything, and
+// at 1024 it ran out first and returned an empty reply, which the gateway
+// reports as the provider having failed. Utility replies are short, so the
+// headroom costs nothing on a model that does not think.
+const TRIGGER_LLM_MAX_TOKENS = 4096;
 
 // Must THROW, never return the error as text: the illustrator treats whatever
 // comes back as the image prompt and would generate from the rejection message.
