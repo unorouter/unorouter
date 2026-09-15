@@ -76,6 +76,7 @@ const PLATFORM_DOC_DATES: Record<string, string> = {
   "discord-rewards": "2026-07-18",
   notifications: "2026-07-19",
   "group-pinning": "2026-07-19",
+  "platform-api": "2026-09-15",
 };
 
 const PLATFORM_DOC_UPDATED: Record<string, string> = {
