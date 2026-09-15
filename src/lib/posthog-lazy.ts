@@ -82,21 +82,82 @@ const SAMPLE_EXCEPTIONS = [
 ];
 const SAMPLE_KEEP_RATE = 0.1;
 
-// PostHog earns its keep on error triage only, so nothing else is sent: at
-// ~150k events a day the product-analytics tier is gone in a week and the
-// overage is dropped events, not a bill. Every named event in analytics.ts
-// still fires and dies here, so restoring product analytics is one line
-// rather than re-instrumenting the app.
-const KEEP_EVENTS = new Set([
-  // Replay snapshots are captured like any other event, so an allowlist
-  // without this one silently turns session recording off.
-  "$snapshot",
-  "$exception",
-  // Keeps an exception attributable to a user; both are a rounding error next
-  // to the browse events this drops.
-  "$identify",
-  "$create_alias",
+// PostHog carries two things: error triage, and the named events in
+// analytics.ts (which feature was used, what was clicked). Named events never
+// start with "$", so the rule is that prefix plus one exception: $exception
+// itself. Everything else PostHog would send on its own is dropped here.
+//
+// $snapshot and $identify used to be kept. Both are gone on purpose: replay is
+// off (recordings of /chat rendered the conversation in clear text, and the
+// identify call sent email, username and display_name), and person_profiles is
+// "never", so there is no person to attach an event to. Nothing here should
+// ever be able to answer "who", only "what".
+function isWantedEvent(name: string) {
+  return name === "$exception" || !name.startsWith("$");
+}
+
+// The free tier is 1M events a month, ~33k a day, and past it PostHog drops
+// everything for the rest of the month instead of billing. So the budget is
+// the constraint and error triage is what must survive it: $exception is never
+// touched by this, only by the noise filters above.
+//
+// Chrome, not behaviour: a tab switch, a refresh button, a dialog opening, a
+// copy icon. Knowing someone opened the import picker says nothing that
+// chat_conversation_imported does not say better, and these are a large share
+// of the budget. Dropped outright rather than sampled, because a sampled count
+// of "clicked refresh" is still worth nothing. They keep firing in
+// analytics.ts, so putting one back is a line here, not re-instrumenting.
+const DROP_EVENTS = new Set([
+  "affiliate_tab_changed",
+  "affiliate_transfer_dialog_opened",
+  "billing_refreshed",
+  "chat_clear_confirm_opened",
+  "chat_conversation_list_paginated",
+  "chat_conversation_list_searched",
+  "chat_conversation_rename_cancelled",
+  "chat_conversation_rename_started",
+  "chat_conversation_selected",
+  "chat_import_picker_opened",
+  "chat_markdown_copied",
+  "chat_memory_folded",
+  "chat_model_auto_picked",
+  "chat_overrides_drawer_opened",
+  "content_copied",
+  "dashboard_chart_tab_changed",
+  "dashboard_date_range_changed",
+  "dashboard_date_range_reset",
+  "dashboard_refreshed",
+  "dashboard_section_changed",
+  "docs_os_tab_changed",
+  "logs_filter_changed",
+  "logs_filters_reset",
+  "logs_model_name_copied",
+  "logs_refreshed",
+  "logs_token_name_copied",
+  "nav_sidebar_toggled",
+  "settings_theme_changed",
 ]);
+
+// Real signal, but one per message or per keystroke, so they were most of the
+// ~150k/day that got the named events switched off in September. A 10% sample
+// still gives model share, rough message volume and what people search for;
+// the rare feature events (image generated, web search toggled, branched,
+// topup, token created) pass whole, since those answer which feature is used.
+//
+// The split between this set and DROP_EVENTS is read off the event names, not
+// off data: everything has been dropped at this gate since September, so
+// PostHog has no volume history. Check per-event counts after a week and move
+// entries around.
+const HIGH_VOLUME_EVENTS = new Set([
+  "chat_auto_continued",
+  "chat_group_turn",
+  "chat_message_edited",
+  "chat_message_regenerated",
+  "chat_message_swiped",
+  "chat_stream_completed",
+  "models_searched",
+]);
+const HIGH_VOLUME_KEEP_RATE = 0.1;
 
 // Type + message only, never stack frames, so a frame NAME can never trigger a drop.
 function exceptionMessage(properties: Record<string, unknown> | undefined) {
@@ -132,6 +193,10 @@ function loadNow() {
       api_host: env.posthogHost,
       ui_host: "https://eu.posthog.com",
       defaults: "2026-01-30",
+      // No person profiles at all: events answer which feature was used, never
+      // by whom. Also the cheaper tier, which is what pays for having the
+      // named events switched on.
+      person_profiles: "never",
       // ~48% of ingested events against a 1M/month tier, and nothing reads them.
       autocapture: false,
       capture_performance: false,
@@ -142,17 +207,21 @@ function loadNow() {
       // never builds them in the first place.
       capture_pageview: false,
       capture_pageleave: false,
-      // maskAllInputs stays ON: it is what keeps typed passwords and API keys out
-      // of recordings. Rendered text is deliberately unmasked.
-      disable_session_recording: false,
-      enable_recording_console_log: false,
-      session_recording: {
-        maskAllInputs: true,
-        recordCrossOriginIframes: false,
-      },
+      // Off, not masked. Masking was the answer in July (maskTextSelector "*",
+      // 5% sample, 8s minimum); that got dropped when recording moved to 100%
+      // of error sessions, and recordings of /chat then held the rendered
+      // conversation in clear text, tied to a named user. The named events
+      // below cover what replay was actually being used for.
+      disable_session_recording: true,
       before_send: (event) => {
         if (!event) return event;
-        if (!KEEP_EVENTS.has(event.event)) return null;
+        if (!isWantedEvent(event.event)) return null;
+        if (DROP_EVENTS.has(event.event)) return null;
+        if (
+          HIGH_VOLUME_EVENTS.has(event.event) &&
+          Math.random() > HIGH_VOLUME_KEEP_RATE
+        )
+          return null;
         const verdict = noiseVerdict(event);
         if (verdict === "drop") return null;
         if (verdict === "sample" && Math.random() > SAMPLE_KEEP_RATE)
@@ -223,11 +292,11 @@ function run(fn: (p: PostHog) => void) {
   ensureLoaded();
 }
 
+// No identify and no reset on purpose: person_profiles is "never", so there is
+// nobody to identify, and leaving the method here is how email and username
+// found their way into PostHog the last time.
 export const posthog = {
   capture: (event: string, properties?: Record<string, unknown>) =>
     run((p) => p.capture(event, properties)),
-  identify: (id: string, properties?: Record<string, unknown>) =>
-    run((p) => p.identify(id, properties)),
-  reset: () => run((p) => p.reset()),
   captureException: (error: Error) => run((p) => p.captureException(error)),
 };
