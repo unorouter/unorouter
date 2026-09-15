@@ -197,6 +197,14 @@ function loadNow() {
       // by whom. Also the cheaper tier, which is what pays for having the
       // named events switched on.
       person_profiles: "never",
+      // Nothing is written to the visitor's device: no ph_phc_* cookie, no
+      // localStorage. § 25 TDDDG is about storing on or reading from terminal
+      // equipment, so with none of that happening the analytics need no consent
+      // banner. Price: a reload starts a new anonymous id, so counts are
+      // per-session and "unique users" is not a number this can answer. It
+      // answers which feature was used and what failed, which is the point.
+      // This also empties the cookie that lib/posthog-server.ts used to read.
+      persistence: "memory",
       // ~48% of ingested events against a 1M/month tier, and nothing reads them.
       autocapture: false,
       capture_performance: false,

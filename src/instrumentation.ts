@@ -12,14 +12,8 @@ export const onRequestError: Instrumentation.onRequestError = async (
 ) => {
   if (IS_DEV || POSTHOG_DISABLED) return;
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { extractDistinctId, getPostHogServer } =
-      await import("./lib/posthog-server");
+    const { getPostHogServer } = await import("./lib/posthog-server");
     const posthog = getPostHogServer();
-    const distinctId = extractDistinctId(
-      Array.isArray(request.headers.cookie)
-        ? request.headers.cookie.join("; ")
-        : request.headers.cookie,
-    );
 
     const digest =
       err && typeof err === "object" && "digest" in err
@@ -39,7 +33,10 @@ export const onRequestError: Instrumentation.onRequestError = async (
     // Bot POSTs Next parses as Server Action FormData.
     if (context.routePath === "/_not-found/page") return;
 
-    posthog.captureException(err, distinctId, {
+    // No distinct id: the client runs persistence "memory", so the ph_phc_*
+    // cookie this used to be read from never exists. Server exceptions carry
+    // the route and the error, never a person.
+    posthog.captureException(err, undefined, {
       $exception_digest: digest || undefined,
       request_path: request.path,
       request_method: request.method,
