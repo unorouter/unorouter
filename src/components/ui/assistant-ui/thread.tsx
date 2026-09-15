@@ -768,6 +768,11 @@ const ComposerImpersonateButton: FC = () => {
         } catch (e) {
           const { SpokeAsCharacterError } =
             await import("@/components/pages/sidebar/chat/runtime/impersonate-run");
+          logChatDebug("impersonate.failed", {
+            convId: convId ?? null,
+            draftChars: draft.length,
+            error: String(e).slice(0, 300),
+          });
           toast.error(
             e instanceof SpokeAsCharacterError
               ? t("CHAT.ACTION.IMPERSONATE_AS_CHAR")
