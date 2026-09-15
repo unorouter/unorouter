@@ -45,6 +45,7 @@ spec:
                 labelSelector:
                   matchLabels: { app: unorouter }
                 topologyKey: kubernetes.io/hostname
+      priorityClassName: serving
       imagePullSecrets:
         - name: ghcr-pull
       containers:
