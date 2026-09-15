@@ -1,3 +1,4 @@
+import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import {
   freeModelRace,
   type FreeModelRaceArgs,
@@ -41,9 +42,13 @@ export async function rollSummary(
 
   const chunk = unsummarized.slice(0, input.chunkSize);
   const roleName = { user: "User", assistant: "Char", system: "System" };
+  // Clipped to what the utility route accepts: a chunk of long roleplay turns
+  // passes 100k characters, and the 422 that follows is swallowed below, so the
+  // summary would simply stop advancing with nothing said about it.
   const chunkText = chunk
     .map((m) => `${roleName[m.role]}: ${m.text}`)
-    .join("\n");
+    .join("\n")
+    .slice(-(MAX_TEXT_LEN - input.priorSummary.length - 2_000));
   const prompt = input.priorSummary
     ? `Existing summary:\n${input.priorSummary}\n\nNew messages to fold in:\n${chunkText}`
     : chunkText;

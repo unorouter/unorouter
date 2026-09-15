@@ -7,6 +7,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { readLocalPersona, readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import { chatModelAtom, chatLoadoutAtom, chatStore } from "@/store/chat-store";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
@@ -25,6 +26,9 @@ const DIRECTION_LINE =
 
 const MAX_TOKENS = 1024;
 const HISTORY_TURNS = 12;
+// Room for the system block, the labels and the trailing turn marker, so the
+// assembled prompt lands under the route's own limit rather than on it.
+const PROMPT_HEADROOM = 4_000;
 
 const macro = (text: string, user: string, char: string) =>
   text.replaceAll("{{user}}", user).replaceAll("{{char}}", char);
@@ -107,13 +111,23 @@ export async function runImpersonate(
     personaBlock && `# ${userName}\n${personaBlock}`,
   ]
     .filter(Boolean)
-    .join("\n\n");
+    .join("\n\n")
+    .slice(0, MAX_TEXT_LEN - PROMPT_HEADROOM);
 
   const history = convId ? await readConvHistoryForSend(convId) : null;
-  const recent = (history?.branch ?? []).slice(-HISTORY_TURNS).map((m) => {
+  // Newest first until the budget runs out: the turns nearest the reply are the
+  // ones worth keeping, and a dozen turns of a long roleplay is far past what
+  // the route accepts.
+  const budget = MAX_TEXT_LEN - systemPrompt.length - PROMPT_HEADROOM;
+  const recent: string[] = [];
+  let used = 0;
+  for (const m of (history?.branch ?? []).slice(-HISTORY_TURNS).reverse()) {
     const who = m.role === "user" ? userName : charName;
-    return `${who}: ${partsToText(m.parts)}`;
-  });
+    const line = `${who}: ${partsToText(m.parts)}`.slice(-budget);
+    if (recent.length > 0 && used + line.length > budget) break;
+    recent.unshift(line);
+    used += line.length;
+  }
   const prompt = [recent.join("\n\n"), `\n${userName}:`].join("\n");
 
   const modelId = chatStore.get(chatModelAtom);

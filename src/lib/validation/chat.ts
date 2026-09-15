@@ -5,7 +5,10 @@ import { t } from "elysia";
 import { samplingOptional, unionLiterals } from "./helpers";
 
 const MAX_ID_LEN = 64;
-const MAX_TEXT_LEN = 100_000;
+// Exported for the same reason as MAX_TITLE_SEED_LEN below: a sender that
+// builds a prompt out of chat history has to stop short of it, or a long
+// roleplay 422s here and the feature reads as permanently broken.
+export const MAX_TEXT_LEN = 100_000;
 const MAX_MODEL_LEN = 128;
 const MAX_URL_LEN = 2048;
 // Exported: the sender truncates to it. A first message longer than this used
