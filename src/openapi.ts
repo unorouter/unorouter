@@ -5289,6 +5289,10 @@ export type GetPricingCatalogParams = {
    */
   full?: boolean;
   /**
+   * Also return models whose every lane is currently down, flagged online=false (the sitemap needs them; the picker does not)
+   */
+  include_offline?: boolean;
+  /**
    * Only models served by this vendor, newest first (the vendor page)
    */
   vendor?: string;
