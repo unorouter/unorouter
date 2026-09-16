@@ -6,8 +6,11 @@ import {
 } from "@/openapi";
 import { cache } from "react";
 
-export const getCatalog = cache(async (full = false) => {
-  const res = await getPricingCatalog({ full });
+// includeOffline keeps models whose every lane is down, flagged online=false.
+// Only the sitemap wants them: their pages answer 200 the whole time, so leaving
+// them out silently unpublishes thousands of live URLs whenever a provider flaps.
+export const getCatalog = cache(async (full = false, includeOffline = false) => {
+  const res = await getPricingCatalog({ full, include_offline: includeOffline });
   return unwrap(res);
 });
 

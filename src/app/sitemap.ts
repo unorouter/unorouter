@@ -84,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
   );
 
-  const pricing = await getCatalog().catch(() => null);
+  const pricing = await getCatalog(false, true).catch(() => null);
   if (!pricing?.models?.length)
     console.error(
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
