@@ -39,16 +39,23 @@ export const useDuplicatePresetMutation = presets.useDuplicate;
 export function useImportPresetMutation() {
   return useApiMutation({
     mutationFn: async (file: File) => {
+      // RisuAI scrambles this one on the way out and only its own build can
+      // unscramble it, so the JSON export beside it is the way in.
+      if (file.name.toLowerCase().endsWith(".risup")) {
+        throw new Error(msg("ERRORS.PRESET_RISUP"));
+      }
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
       } catch {
-        throw new Error("ERRORS.REQUEST_FAILED");
+        throw new Error(msg("ERRORS.PRESET_NOT_JSON"));
       }
+      // SillyTavern and Risu name the preset by its filename, never inside it.
+      const fallbackName = file.name.replace(/\.[^.]+$/, "").trim();
       const parsed = (
         await import("@/lib/ai/rp/preset-import")
-      ).parsePresetJson(raw);
-      if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
+      ).parsePresetJson(raw, fallbackName || "Imported preset");
+      if (!parsed) throw new Error(msg("ERRORS.PRESET_UNRECOGNIZED"));
       const now = dayjs().toDate();
       await upsertLocalPreset({
         ...parsed,
