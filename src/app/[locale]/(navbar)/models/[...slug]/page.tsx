@@ -79,7 +79,12 @@ export default async function ModelDetailPage(props: PageProps) {
     const queryClient = getQueryClient();
     queryClient.setQueryData(
       queryKeys.pricingVendor(resolved.vendor),
-      unwrap(await getPricingCatalog({ vendor: resolved.vendor })).models,
+      unwrap(
+        await getPricingCatalog({
+          vendor: resolved.vendor,
+          include_offline: true,
+        }),
+      ).models,
     );
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>

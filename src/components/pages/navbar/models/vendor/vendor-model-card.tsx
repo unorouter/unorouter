@@ -32,6 +32,7 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
         "flex flex-col gap-3 rounded-xl border p-4 transition-all hover:-translate-y-0.5",
         theme.bg,
         theme.border,
+        !model.online && "opacity-70",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -47,6 +48,11 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
           </span>
         </div>
         <div className="flex shrink-0 items-center gap-1">
+          {!model.online && (
+            <span className="rounded bg-amber-500/15 px-1.5 py-0.5 font-mono text-[10px] text-amber-700 dark:text-amber-400">
+              {t("MODELS.VENDOR.AT_CAPACITY_BADGE")}
+            </span>
+          )}
           {model.is_free && (
             <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
               {t("MODELS.TABLE.FREE")}

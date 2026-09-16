@@ -474,7 +474,10 @@
       "EMPTY": "Không tìm thấy mô hình nào cho nhà cung cấp này.",
       "NEW": "Mới",
       "DEPRECATED": "Ngừng hỗ trợ",
-      "BROWSE_ALL": "Duyệt mô hình theo nhà cung cấp"
+      "BROWSE_ALL": "Duyệt mô hình theo nhà cung cấp",
+      "AT_CAPACITY_HEADING": "Hiện đang bận",
+      "AT_CAPACITY_NOTE": "Tất cả nhà cung cấp cho các mô hình này đã đạt giới hạn yêu cầu. Chúng sẽ tự động hoạt động trở lại khi giới hạn được đặt lại.",
+      "AT_CAPACITY_BADGE": "Đang bận"
     },
     "DISCORD": "Yêu cầu một mô hình trên Discord"
   },

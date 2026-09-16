@@ -474,7 +474,10 @@
       "EMPTY": "이 공급업체의 모델을 찾을 수 없습니다.",
       "NEW": "신규",
       "DEPRECATED": "지원 종료",
-      "BROWSE_ALL": "제공업체별 모델 보기"
+      "BROWSE_ALL": "제공업체별 모델 보기",
+      "AT_CAPACITY_HEADING": "현재 혼잡",
+      "AT_CAPACITY_NOTE": "이 모델의 모든 제공자가 요청 한도에 도달했습니다. 한도가 해제되면 자동으로 다시 사용할 수 있습니다.",
+      "AT_CAPACITY_BADGE": "혼잡"
     },
     "DISCORD": "Discord에서 모델을 요청하세요"
   },

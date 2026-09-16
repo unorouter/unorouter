@@ -474,7 +474,10 @@
       "EMPTY": "このベンダーのモデルは見つかりませんでした。",
       "NEW": "新着",
       "DEPRECATED": "非推奨",
-      "BROWSE_ALL": "プロバイダー別にモデルを見る"
+      "BROWSE_ALL": "プロバイダー別にモデルを見る",
+      "AT_CAPACITY_HEADING": "現在混雑中",
+      "AT_CAPACITY_NOTE": "これらのモデルのすべてのプロバイダーがレート制限に達しています。制限が解除されると自動的に復旧します。",
+      "AT_CAPACITY_BADGE": "混雑中"
     },
     "DISCORD": "Discord でモデルをリクエスト"
   },

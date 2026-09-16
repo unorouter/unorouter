@@ -474,7 +474,10 @@
       "EMPTY": "Tidak ada model untuk vendor ini.",
       "NEW": "Baru",
       "DEPRECATED": "Usang",
-      "BROWSE_ALL": "Jelajahi model berdasarkan penyedia"
+      "BROWSE_ALL": "Jelajahi model berdasarkan penyedia",
+      "AT_CAPACITY_HEADING": "Sedang sibuk",
+      "AT_CAPACITY_NOTE": "Semua penyedia untuk model ini telah mencapai batas permintaan. Model akan kembali otomatis setelah batas direset.",
+      "AT_CAPACITY_BADGE": "Sibuk"
     },
     "DISCORD": "Minta model di Discord"
   },

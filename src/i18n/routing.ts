@@ -1162,6 +1162,11 @@ export const privateRoutes = {
     "/image",
     "/forgot-password",
     "/reset",
+    // Auth and the service-worker escape hatch: shells of under 40 rendered
+    // words, and a sitemap full of them is what trains Google to distrust it.
+    "/login",
+    "/register",
+    "/recover",
     "/vendor-icons",
   ],
   dynamicParents: ["/chat/[convId]", "/image/[id]", "/room/[roomId]"],

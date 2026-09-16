@@ -474,7 +474,10 @@
       "EMPTY": "No models found for this vendor.",
       "NEW": "New",
       "DEPRECATED": "Deprecated",
-      "BROWSE_ALL": "Browse models by provider"
+      "BROWSE_ALL": "Browse models by provider",
+      "AT_CAPACITY_HEADING": "Currently busy",
+      "AT_CAPACITY_NOTE": "Every provider for these models has hit its rate limit. They come back automatically once the limits lift.",
+      "AT_CAPACITY_BADGE": "Busy"
     },
     "DISCORD": "Request a model on Discord"
   },

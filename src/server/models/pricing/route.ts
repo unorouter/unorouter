@@ -27,7 +27,9 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get(
     "/vendor",
     async (ctx) =>
-      unwrap(await getPricingCatalog({ vendor: ctx.query.name })).models,
+      unwrap(
+        await getPricingCatalog({ vendor: ctx.query.name, include_offline: true }),
+      ).models,
     { query: t.Object({ name: t.String() }) },
   )
 

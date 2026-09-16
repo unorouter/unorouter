@@ -474,7 +474,10 @@
       "EMPTY": "Nie znaleziono modeli dla tego dostawcy.",
       "NEW": "Nowość",
       "DEPRECATED": "Wycofany",
-      "BROWSE_ALL": "Przeglądaj modele według dostawcy"
+      "BROWSE_ALL": "Przeglądaj modele według dostawcy",
+      "AT_CAPACITY_HEADING": "Obecnie przeciążone",
+      "AT_CAPACITY_NOTE": "Wszyscy dostawcy tych modeli osiągnęli limit żądań. Wrócą automatycznie, gdy limity zostaną zresetowane.",
+      "AT_CAPACITY_BADGE": "Zajęte"
     },
     "DISCORD": "Poproś o model na Discordzie"
   },
