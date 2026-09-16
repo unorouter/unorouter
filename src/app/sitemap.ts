@@ -109,7 +109,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapVendorSlugs = [
     ...new Set(
       (pricing?.models ?? [])
-        .filter((m) => m.online)
         .map((m) => vendorSlug(m.vendor))
         .filter(Boolean),
     ),

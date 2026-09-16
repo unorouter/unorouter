@@ -474,7 +474,10 @@
       "EMPTY": "Bu sağlayıcı için model bulunamadı.",
       "NEW": "Yeni",
       "DEPRECATED": "Kullanımdan kaldırıldı",
-      "BROWSE_ALL": "Modelleri sağlayıcıya göre inceleyin"
+      "BROWSE_ALL": "Modelleri sağlayıcıya göre inceleyin",
+      "AT_CAPACITY_HEADING": "Şu anda meşgul",
+      "AT_CAPACITY_NOTE": "Bu modellerin tüm sağlayıcıları istek sınırına ulaştı. Sınırlar kalktığında otomatik olarak geri gelirler.",
+      "AT_CAPACITY_BADGE": "Meşgul"
     },
     "DISCORD": "Discord'da bir model iste"
   },

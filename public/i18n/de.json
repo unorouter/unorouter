@@ -474,7 +474,10 @@
       "EMPTY": "Keine Modelle für diesen Anbieter gefunden.",
       "NEW": "Neu",
       "DEPRECATED": "Veraltet",
-      "BROWSE_ALL": "Modelle nach Anbieter durchsuchen"
+      "BROWSE_ALL": "Modelle nach Anbieter durchsuchen",
+      "AT_CAPACITY_HEADING": "Derzeit ausgelastet",
+      "AT_CAPACITY_NOTE": "Alle Anbieter für diese Modelle haben ihr Anfragelimit erreicht. Sie sind automatisch wieder verfügbar, sobald die Limits zurückgesetzt werden.",
+      "AT_CAPACITY_BADGE": "Ausgelastet"
     },
     "DISCORD": "Fordere ein Modell auf Discord an"
   },

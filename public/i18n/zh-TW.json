@@ -474,7 +474,10 @@
       "EMPTY": "找不到該廠商的模型。",
       "NEW": "新",
       "DEPRECATED": "已棄用",
-      "BROWSE_ALL": "依供應商瀏覽模型"
+      "BROWSE_ALL": "依供應商瀏覽模型",
+      "AT_CAPACITY_HEADING": "目前繁忙",
+      "AT_CAPACITY_NOTE": "這些模型的所有供應商都已達到請求上限。限制解除後會自動恢復。",
+      "AT_CAPACITY_BADGE": "繁忙"
     },
     "DISCORD": "在 Discord 上請求模型"
   },

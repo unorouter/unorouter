@@ -18,6 +18,11 @@ export function VendorModelsPage(props: { vendor: string }) {
   const models = (query.data ?? []).filter(
     (m) => vendorSlug(m.vendor) === target,
   );
+  // Split rather than interleave: the catalog sorts by release date, so without
+  // this a dead model lands above a working one. Both stay on the page, because
+  // a model page nothing links to is a model page Google never crawls.
+  const live = models.filter((m) => m.online);
+  const busy = models.filter((m) => !m.online);
 
   const display = vendorDisplayName(props.vendor);
 
@@ -55,11 +60,31 @@ export function VendorModelsPage(props: { vendor: string }) {
           </p>
         )
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {models.map((model) => (
-            <VendorModelCard key={model.model_name} model={model} />
-          ))}
-        </div>
+        <>
+          {live.length > 0 && (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {live.map((model) => (
+                <VendorModelCard key={model.model_name} model={model} />
+              ))}
+            </div>
+          )}
+
+          {busy.length > 0 && (
+            <section className={live.length > 0 ? "mt-10" : undefined}>
+              <h2 className="text-muted-foreground mb-1 text-sm font-bold tracking-wider uppercase">
+                {t("MODELS.VENDOR.AT_CAPACITY_HEADING")}
+              </h2>
+              <p className="text-muted-foreground mb-4 text-sm">
+                {t("MODELS.VENDOR.AT_CAPACITY_NOTE")}
+              </p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {busy.map((model) => (
+                  <VendorModelCard key={model.model_name} model={model} />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
     </div>
   );

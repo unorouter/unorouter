@@ -474,7 +474,10 @@
       "EMPTY": "Nenhum modelo encontrado para este fornecedor.",
       "NEW": "Novo",
       "DEPRECATED": "Descontinuado",
-      "BROWSE_ALL": "Explorar modelos por provedor"
+      "BROWSE_ALL": "Explorar modelos por provedor",
+      "AT_CAPACITY_HEADING": "Ocupados no momento",
+      "AT_CAPACITY_NOTE": "Todos os provedores desses modelos atingiram o limite de requisições. Eles voltam automaticamente assim que os limites são liberados.",
+      "AT_CAPACITY_BADGE": "Ocupado"
     },
     "DISCORD": "Solicite um modelo no Discord"
   },

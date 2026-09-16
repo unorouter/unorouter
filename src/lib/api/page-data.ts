@@ -54,7 +54,13 @@ async function seedCatalogClient() {
 }
 
 export async function getModelsPageData() {
-  const seeded = await seedCatalogClient();
+  // The browse grid keeps the routable catalog, but the vendor links come from
+  // the offline-inclusive one: a vendor whose every lane is down still has a
+  // page, and dropping it leaves its model pages with no inbound link at all.
+  const [seeded, everyVendor] = await Promise.all([
+    seedCatalogClient(),
+    getCatalog(false, true).catch(() => null),
+  ]);
   return {
     dehydrated: dehydrate(seeded.qc),
     topModels: seeded.browse.models
@@ -65,9 +71,11 @@ export async function getModelsPageData() {
         vendorName: m.vendor,
         description: m.description ?? null,
       })),
-    vendorNames: [...new Set(seeded.browse.models.map((m) => m.vendor))].sort(
-      (a, b) => a.localeCompare(b),
-    ),
+    vendorNames: [
+      ...new Set(
+        (everyVendor?.models ?? seeded.browse.models).map((m) => m.vendor),
+      ),
+    ].sort((a, b) => a.localeCompare(b)),
   };
 }
 
