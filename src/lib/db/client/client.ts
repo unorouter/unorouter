@@ -33,6 +33,7 @@ import {
 } from "@/lib/db/client/data-migrate/adopt-single-db";
 import type { LocalClient } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { analytics } from "@/lib/analytics";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -401,6 +402,10 @@ function noteRowCount(rowCount: number, liveBytes: number): void {
     const before = Number(localStorage.getItem(LAST_ROWS_KEY) ?? 0);
     if (before > 0 && rowCount === 0) {
       logChatDebug("db.open.emptied", { rowsBefore: before, liveBytes });
+      analytics.health.dbEmptied({
+        rows_before: before,
+        live_bytes: liveBytes,
+      });
       logger.error("Local DB opened empty on a device that held data", {
         context: "local-db.client",
         rowsBefore: before,
