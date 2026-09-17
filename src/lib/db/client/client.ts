@@ -164,6 +164,9 @@ export function resetLocalDbCache() {
 }
 
 async function removeOpfsEntries(): Promise<void> {
+  try {
+    localStorage.removeItem(LAST_ROWS_KEY);
+  } catch {}
   const root = await navigator.storage.getDirectory();
   // Collect first: removing while async-iterating a directory skips entries.
   const names: string[] = [];
@@ -356,7 +359,9 @@ async function assertNotSilentlyEmptied(
   const rows = await sql.sql<{ n: number }>(
     "SELECT (SELECT COUNT(*) FROM conversations) + (SELECT COUNT(*) FROM characters) + (SELECT COUNT(*) FROM lorebooks) + (SELECT COUNT(*) FROM sampling_presets) AS n",
   );
-  if (Number(rows[0]?.n ?? 0) > 0) return;
+  const rowCount = Number(rows[0]?.n ?? 0);
+  noteRowCount(rowCount, liveBytes);
+  if (rowCount > 0) return;
 
   let orphanBytes = 0;
   try {
@@ -385,6 +390,27 @@ async function assertNotSilentlyEmptied(
   throw new Error(
     `${ORPHAN_MARKER}: opened an empty database while ${orphanBytes} bytes sit unreferenced in the pool`,
   );
+}
+
+// A database the storage layer truncated opens as a normal empty one and the
+// orphan check above finds nothing, since the bytes are gone: the loss left no
+// trace anywhere. What this device held at its last open is the only witness.
+const LAST_ROWS_KEY = "unorouter-db-last-rows";
+function noteRowCount(rowCount: number, liveBytes: number): void {
+  try {
+    const before = Number(localStorage.getItem(LAST_ROWS_KEY) ?? 0);
+    if (before > 0 && rowCount === 0) {
+      logChatDebug("db.open.emptied", { rowsBefore: before, liveBytes });
+      logger.error("Local DB opened empty on a device that held data", {
+        context: "local-db.client",
+        rowsBefore: before,
+        liveBytes,
+      });
+    }
+    localStorage.setItem(LAST_ROWS_KEY, String(rowCount));
+  } catch {
+    // Storage blocked: nothing to compare against.
+  }
 }
 
 async function migrateLegacySqliteFile(
