@@ -155,6 +155,16 @@ type GroupOption = {
 
 const DESC_RE = /^(.+?) via (.+?)(?: \((.+)\))?$/;
 
+/**
+ * A group label carries the model name the way the group NAME spells it, with
+ * dots flattened to dashes, so "claude-sonnet-4.5" arrives as
+ * "claude-sonnet-4-5" and never matches the catalogue. No two published models
+ * differ only by that, so flattening both sides is unambiguous.
+ */
+function modelKey(model: string): string {
+  return model.toLowerCase().replace(/\./g, "-");
+}
+
 export function buildModelGroupOptions(
   groups: Record<string, UserGroupInfo>,
   mapping: GroupMapping = {},
@@ -171,13 +181,14 @@ export function buildModelGroupOptions(
       ratio: typeof info.ratio === "number" ? info.ratio : null,
       online: info.online !== false,
     };
-    const list = byModel.get(match[1]);
+    const key = modelKey(match[1]);
+    const list = byModel.get(key);
     if (list) list.push(option);
-    else byModel.set(match[1], [option]);
+    else byModel.set(key, [option]);
   }
   // Re-add anything the key still pins that the catalogue no longer lists.
   for (const [model, entry] of Object.entries(mapping)) {
-    const list = byModel.get(model);
+    const list = byModel.get(modelKey(model));
     const known = new Set((list ?? []).map((o) => o.group));
     const pinned = Array.isArray(entry) ? entry : (entry?.groups ?? []);
     const ghosts = pinned
@@ -191,7 +202,7 @@ export function buildModelGroupOptions(
       }));
     if (ghosts.length === 0) continue;
     if (list) list.push(...ghosts);
-    else byModel.set(model, ghosts);
+    else byModel.set(modelKey(model), ghosts);
   }
   for (const list of byModel.values()) {
     list.sort(
@@ -579,7 +590,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const overriddenCount = Object.keys(props.mapping).length;
 
   const overridableModels = props.models.filter((m) =>
-    modelGroups.has(m.model_name),
+    modelGroups.has(modelKey(m.model_name)),
   );
   const TAG_ORDER = ["Text", "Image", "Video"];
   const tags = [...new Set(overridableModels.map((m) => m.tag))].sort(
@@ -710,7 +721,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                       )}
                       {windowedModels.map((model) => {
                         const entry = entryOf(props.mapping, model.model_name);
-                        const options = modelGroups.get(model.model_name) ?? [];
+                        const options = modelGroups.get(modelKey(model.model_name)) ?? [];
                         const bandOn =
                           entry.min !== undefined || entry.max !== undefined;
                         const overridden =
