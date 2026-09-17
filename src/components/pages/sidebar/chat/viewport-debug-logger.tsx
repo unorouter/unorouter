@@ -15,15 +15,9 @@ export function ViewportDebugLogger() {
     const viewportMeta = document.querySelector('meta[name="viewport"]');
     const metaContent = viewportMeta?.getAttribute("content");
     if (viewportMeta && metaContent) {
-      // interactive-widget comes off on iOS, every browser there being WebKit.
-      // Device logs from August had iOS 26 half honour it, resizing the layout
-      // viewport in steps and parking the composer mid dismiss. It went back
-      // into the static meta later, and the stranded footer was reported again.
-      const wanted = (
-        metaContent.includes("maximum-scale")
-          ? metaContent.replace(/maximum-scale=[\d.]+/, "maximum-scale=1")
-          : `${metaContent}, maximum-scale=1`
-      ).replace(/,?\s*interactive-widget=[\w-]+/, "");
+      const wanted = metaContent.includes("maximum-scale")
+        ? metaContent.replace(/maximum-scale=[\d.]+/, "maximum-scale=1")
+        : `${metaContent}, maximum-scale=1`;
       if (wanted !== metaContent) viewportMeta.setAttribute("content", wanted);
     }
 

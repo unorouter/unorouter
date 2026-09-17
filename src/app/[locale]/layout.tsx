@@ -1,6 +1,7 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { ClientRuntimeGuards } from "@/components/provider/app/client-runtime-guards";
+import { InteractiveWidgetMeta } from "@/components/provider/app/interactive-widget-meta";
 import { SwRegister } from "@/components/provider/app/sw-register";
 import { Providers } from "@/components/provider/providers";
 import { buildThemeCss, googleFontHref } from "@/lib/theme/build-css";
@@ -25,14 +26,11 @@ import {
 } from "next/font/google";
 import "../globals.css";
 
-// interactiveWidget: without it the Android composer sits under the keyboard.
-// iOS strips it again at runtime (ViewportDebugLogger): WebKit is documented as
-// ignoring the key, but iOS 26 device logs show it half honoured.
+// interactive-widget is absent on purpose: see InteractiveWidgetMeta.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  interactiveWidget: "resizes-content",
   viewportFit: "cover",
 };
 
@@ -121,6 +119,7 @@ export default async function LocaleLayout(props: Props) {
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />
         <Providers userTheme={userTheme}>
           <Toaster richColors />
+          <InteractiveWidgetMeta />
           <SwRegister />
           <NotifyProvider />
           <ClientRuntimeGuards />
