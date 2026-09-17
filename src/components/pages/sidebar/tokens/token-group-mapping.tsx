@@ -60,6 +60,12 @@ export function bandRatioToPos(ratio: number): number {
   );
 }
 
+// A slider step lands on values like 0.2266666. Rounding here rather than at the
+// input keeps the two in step, so a typed ratio is stored and shown exactly.
+function roundBand(ratio: number): number {
+  return Number(ratio.toFixed(3));
+}
+
 function bandRatioLabel(ratio: number, atCeiling: boolean): string {
   if (atCeiling) return `${BAND_MAX}x+`;
   return ratio < 1 ? `${ratio.toFixed(3)}x` : `${ratio.toFixed(2)}x`;
@@ -255,11 +261,7 @@ function BandNumber(props: {
   onCommit: (next: number | undefined) => void;
 }) {
   const [draft, setDraft] = useState<string | null>(null);
-  // A slider step lands on values like 0.2266666: show it rounded, but only
-  // while the user is not typing, so their own digits are never rewritten.
-  const shown =
-    draft ??
-    (props.value === undefined ? "" : String(Number(props.value.toFixed(3))));
+  const shown = draft ?? (props.value === undefined ? "" : String(props.value));
 
   const commit = () => {
     if (draft === null) return;
@@ -346,13 +348,17 @@ function ModelGroupPopover(props: {
   }
 
   function setBand(low: number, high: number) {
+    // Typing a bigger number into the left box reads as intent, not as an empty
+    // band: order the pair rather than storing min above max, which matches nothing.
+    const lo = Math.min(low, high);
+    const hi = Math.max(low, high);
     // The top thumb means "and above", so it stores no upper bound at all: a
     // provider that later prices above the ceiling must not be silently
     // excluded by a slider someone parked at the top.
     props.onChange({
       ...props.entry,
-      min: low <= 0 ? undefined : low,
-      max: high >= BAND_MAX ? undefined : high,
+      min: lo <= 0 ? undefined : lo,
+      max: hi >= BAND_MAX ? undefined : hi,
       auto: undefined,
     });
   }
@@ -408,7 +414,10 @@ function ModelGroupPopover(props: {
             onValueChange={(value) => {
               if (!Array.isArray(value)) return;
               const [low, high] = value;
-              setBand(bandPosToRatio(low), bandPosToRatio(high));
+              setBand(
+                roundBand(bandPosToRatio(low)),
+                roundBand(bandPosToRatio(high)),
+              );
             }}
           />
           <div className="mt-1.5 flex items-center justify-between gap-1.5">
