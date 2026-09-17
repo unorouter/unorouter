@@ -26,7 +26,8 @@ import {
 import "../globals.css";
 
 // interactiveWidget: without it the Android composer sits under the keyboard.
-// WebKit has not implemented the key (bug 259770) and ignores it harmlessly.
+// iOS strips it again at runtime (ViewportDebugLogger): WebKit is documented as
+// ignoring the key, but iOS 26 device logs show it half honoured.
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
