@@ -142,6 +142,42 @@ function SidebarProvider({
   );
 }
 
+// iOS never resizes the layout viewport for the keyboard, so a full height
+// sheet keeps its lower half behind it: typing in the chat search left the
+// results unreachable. Capped to what is actually visible; on Android the
+// layout viewport shrinks by itself and this stays idle.
+function MobileSidebarBody(props: { children: React.ReactNode }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const sync = () => {
+      if (!ref.current) return;
+      const visible = vv.offsetTop + vv.height;
+      const capped = visible < window.innerHeight - 1;
+      ref.current.style.maxHeight = capped ? `${Math.round(visible)}px` : "";
+      ref.current.style.overflowY = capped ? "auto" : "";
+      // The menu above the search fills what the keyboard leaves, so the
+      // field goes to the top and its results get the room below it.
+      const field = document.activeElement;
+      if (capped && field && ref.current.contains(field))
+        field.scrollIntoView({ block: "start" });
+    };
+    sync();
+    vv.addEventListener("resize", sync);
+    vv.addEventListener("scroll", sync);
+    return () => {
+      vv.removeEventListener("resize", sync);
+      vv.removeEventListener("scroll", sync);
+    };
+  }, []);
+  return (
+    <div ref={ref} className="flex h-full w-full flex-col">
+      {props.children}
+    </div>
+  );
+}
+
 function Sidebar({
   side = "left",
   variant = "sidebar",
@@ -192,7 +228,7 @@ function Sidebar({
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
+          <MobileSidebarBody>{children}</MobileSidebarBody>
         </SheetContent>
       </Sheet>
     );

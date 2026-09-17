@@ -343,7 +343,7 @@ export function ConversationList() {
       <SidebarGroup className="shrink-0">
         <SidebarGroupContent>{searchInput}</SidebarGroupContent>
       </SidebarGroup>
-      <SidebarGroup className="thin-scrollbar min-h-0 flex-1 overflow-y-auto">
+      <SidebarGroup className="thin-scrollbar min-h-0 flex-1 overflow-y-auto max-md:min-h-56">
         <SidebarGroupContent>{conversationItems}</SidebarGroupContent>
       </SidebarGroup>
     </>
