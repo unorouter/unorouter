@@ -1,5 +1,6 @@
 "use client";
 
+import { releaseLocalDbForReload } from "@/lib/db/client/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
@@ -87,19 +88,21 @@ export function SwRegister() {
         duration: Infinity,
         action: { label: reloadText, onClick: apply },
       });
+    const reload = (reason: string) => {
+      logChatDebug("sw.reload", { reason });
+      releaseLocalDbForReload().finally(() => window.location.reload());
+    };
     const applyWaiting = (reason: string) => {
       const worker = registration?.waiting;
       if (!worker) {
         // Activated elsewhere already; the reload alone picks it up.
-        logChatDebug("sw.reload", { reason });
-        window.location.reload();
+        reload(reason);
         return;
       }
       logChatDebug("sw.apply_update", { reason });
       worker.addEventListener("statechange", () => {
         if (worker.state !== "activated") return;
-        logChatDebug("sw.reload", { reason });
-        window.location.reload();
+        reload(reason);
       });
       worker.postMessage({ type: "SKIP_WAITING" });
     };
