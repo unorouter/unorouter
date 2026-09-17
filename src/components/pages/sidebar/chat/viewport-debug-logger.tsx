@@ -1,5 +1,6 @@
 "use client";
 
+import { analytics } from "@/lib/analytics";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useEffect } from "react";
 
@@ -148,6 +149,30 @@ export function ViewportDebugLogger() {
     // keyboard left it, with nothing painted below: the nudges above run and do
     // not clear it (CriOS 153, iOS 26.7). Only a real relayout of the scroller
     // does, so it is reserved for the state actually being observed.
+    // Once per kind per page load: a stuck layout repeats on every keyboard
+    // cycle, and the question is how many people see it, not how often.
+    const reported = new Set<string>();
+    const report = (
+      kind: "footer_stranded" | "composer_cut" | "page_displaced",
+      g: ReturnType<typeof geometry>,
+      gapAfterRepair?: number | null,
+    ) => {
+      if (reported.has(kind)) return;
+      reported.add(kind);
+      analytics.health.viewportStuck({
+        kind,
+        gap: g.footerGap,
+        ...(gapAfterRepair !== undefined && {
+          gap_after_repair: gapAfterRepair,
+        }),
+        inner_h: g.innerH,
+        vv_h: g.vvH,
+        vv_top: g.vvOffsetTop,
+        scroll_y: g.scrollY,
+        shell_h: g.shellH,
+      });
+    };
+
     let unstickTimer: ReturnType<typeof setTimeout> | null = null;
     const unstickFooter = () => {
       if (composerFocused()) return;
@@ -162,10 +187,12 @@ export function ViewportDebugLogger() {
       void scroller.offsetHeight;
       scroller.style.display = "";
       scroller.scrollTop = top;
+      const after = geometry();
       logChatDebug("viewport.unstick", {
         gapBefore: before.footerGap,
-        gapAfter: geometry().footerGap,
+        gapAfter: after.footerGap,
       });
+      report("footer_stranded", before, after.footerGap);
     };
 
     // viewport.change fires per animation frame, so nearly all of its lines
@@ -178,6 +205,8 @@ export function ViewportDebugLogger() {
       if (line === lastSettled) return;
       lastSettled = line;
       logChatDebug("viewport.settled", { reason, ...g });
+      if (g.footerGap != null && g.footerGap < -40) report("composer_cut", g);
+      if (Math.abs(g.scrollY) > 4) report("page_displaced", g);
     };
 
     const onTrigger = (reason: string) => {

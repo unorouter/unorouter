@@ -1,5 +1,6 @@
 import type { RpEntityKind } from "@/lib/db/schema/client";
 import { posthog } from "@/lib/posthog-lazy";
+import { RELEASE } from "@/lib/utils/client-runtime-guards";
 
 type RpAnalyticsEntity =
   Exclude<RpEntityKind, "conversations"> | "lorebook_entries" | "js_plugins";
@@ -458,6 +459,28 @@ const rp = {
   },
 };
 
+// Broken states the app can see for itself. Users almost never report these:
+// an emptied chat list looks self inflicted and a stuck layout clears on the
+// next scroll, so the only count of how often they happen is this one. Numbers
+// only, never content.
+const health = {
+  dbEmptied: (props: { rows_before: number; live_bytes: number }) => {
+    posthog.capture("health_db_emptied", { ...props, release: RELEASE });
+  },
+  viewportStuck: (props: {
+    kind: "footer_stranded" | "composer_cut" | "page_displaced";
+    gap: number | null;
+    gap_after_repair?: number | null;
+    inner_h: number;
+    vv_h: number | null;
+    vv_top: number | null;
+    scroll_y: number;
+    shell_h: number | null;
+  }) => {
+    posthog.capture("health_viewport_stuck", { ...props, release: RELEASE });
+  },
+};
+
 const content = {
   copied: (props: { label: string }) => {
     posthog.capture("content_copied", { label: props.label });
@@ -477,5 +500,6 @@ export const analytics = {
   docs,
   models,
   rp,
+  health,
   content,
 } as const;
