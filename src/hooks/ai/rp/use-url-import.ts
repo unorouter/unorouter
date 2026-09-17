@@ -46,6 +46,8 @@ function importFailureMessage(raw: string | null | undefined): string {
   // looking for a missing card when the answer is simply to try again.
   if (e.startsWith("busy:")) return msg("ERRORS.CARD_IMPORT_BUSY");
   if (e.includes("timed out")) return msg("ERRORS.CARD_IMPORT_TIMED_OUT");
+  if (e.includes("disabled by creator"))
+    return msg("ERRORS.CARD_IMPORT_CREATOR_BLOCKED");
   if (e.includes("private") || e.includes("downloads disabled"))
     return msg("ERRORS.CARD_IMPORT_PRIVATE");
   // JanitorAI characters are fetched through datacat's crawl, so a card that
