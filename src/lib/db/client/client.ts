@@ -148,6 +148,17 @@ export function subscribeLocalDbOpenFailure(listener: () => void): () => void {
   return () => openFailureListeners.delete(listener);
 }
 
+// pagehide gives the worker UNLOAD_GRACE_MS to close the pool's handles and on
+// iOS that close takes seconds, so a reload killed it mid release and the next
+// page read a slot the OS had not let go of yet. A reload we choose can wait.
+export async function releaseLocalDbForReload(): Promise<void> {
+  const open = cached;
+  liveSuspended = true;
+  cached = null;
+  const client = await open?.catch(() => null);
+  await client?.release().catch(() => {});
+}
+
 export function resetLocalDbCache() {
   cached = null;
 }
@@ -592,7 +603,9 @@ async function openClient(): Promise<LocalClient> {
     onVisibility();
   };
 
+  let released = false;
   const ensureOwned = async (): Promise<void> => {
+    if (released) throw new Error("local db released ahead of a reload");
     while (transition) await transition.catch(() => {});
     if (!parked) return;
     transition = unparkNow().finally(() => (transition = null));
@@ -661,6 +674,12 @@ async function openClient(): Promise<LocalClient> {
       await ensureOwned().catch(() => {});
       await sql.destroy();
       releaseLock(lockKey);
+    },
+    release: async () => {
+      detach();
+      while (transition) await transition.catch(() => {});
+      released = true;
+      if (!parked) await parkNow(true, true);
     },
     wipe: async () => {
       detach();
