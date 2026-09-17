@@ -66,11 +66,6 @@ function roundBand(ratio: number): number {
   return Number(ratio.toFixed(3));
 }
 
-function bandRatioLabel(ratio: number, atCeiling: boolean): string {
-  if (atCeiling) return `${BAND_MAX}x+`;
-  return ratio < 1 ? `${ratio.toFixed(3)}x` : `${ratio.toFixed(2)}x`;
-}
-
 /** Groups the band currently catches, cheapest first. */
 function groupsInBand(
   options: GroupOption[],
@@ -286,7 +281,7 @@ function BandNumber(props: {
         if (e.key === "Enter") e.currentTarget.blur();
         if (e.key === "Escape") setDraft(null);
       }}
-      className="border-input bg-background focus-visible:ring-ring/50 h-6 w-16 rounded border px-1.5 text-center font-mono text-[11px] outline-none focus-visible:ring-2"
+      className="focus-visible:ring-ring/50 h-6 w-14 rounded bg-transparent px-1 text-center font-mono text-[11px] outline-none focus-visible:ring-2"
     />
   );
 }
@@ -395,15 +390,33 @@ function ModelGroupPopover(props: {
           />
         </div>
         <div className={cn("border-b px-3 py-2", isAuto && "opacity-50")}>
+          {/* The two ends are one field: the boxes ARE the readout, so a drag and a
+              typed ratio land in the same place instead of being shown twice. */}
           <div className="mb-1.5 flex items-center justify-between gap-2">
             <span className="text-xs font-medium">
               {t("TOKEN.FORM.BAND_LABEL")}
             </span>
-            <span className="text-muted-foreground font-mono text-[11px]">
-              {hasBand
-                ? `${bandRatioLabel(bandLow, false)} - ${bandRatioLabel(bandHigh, props.entry.max === undefined)}`
-                : t("TOKEN.FORM.BAND_OFF")}
-            </span>
+            <div className="border-input bg-background flex items-center rounded border">
+              <BandNumber
+                value={props.entry.min}
+                placeholder="0"
+                ariaLabel={t("TOKEN.FORM.BAND_MIN")}
+                onCommit={(next) =>
+                  setBand(next ?? 0, props.entry.max ?? BAND_MAX)
+                }
+              />
+              <span className="text-muted-foreground px-0.5 text-[11px]">
+                -
+              </span>
+              <BandNumber
+                value={props.entry.max}
+                placeholder={`${BAND_MAX}+`}
+                ariaLabel={t("TOKEN.FORM.BAND_MAX")}
+                onCommit={(next) =>
+                  setBand(props.entry.min ?? 0, next ?? BAND_MAX)
+                }
+              />
+            </div>
           </div>
           <Slider
             min={0}
@@ -420,24 +433,6 @@ function ModelGroupPopover(props: {
               );
             }}
           />
-          <div className="mt-1.5 flex items-center justify-between gap-1.5">
-            <BandNumber
-              value={props.entry.min}
-              placeholder="0"
-              ariaLabel={t("TOKEN.FORM.BAND_MIN")}
-              onCommit={(next) =>
-                setBand(next ?? 0, props.entry.max ?? BAND_MAX)
-              }
-            />
-            <BandNumber
-              value={props.entry.max}
-              placeholder={String(BAND_MAX)}
-              ariaLabel={t("TOKEN.FORM.BAND_MAX")}
-              onCommit={(next) =>
-                setBand(props.entry.min ?? 0, next ?? BAND_MAX)
-              }
-            />
-          </div>
           <div className="mt-1.5 flex items-center justify-between gap-2">
             <span className="text-muted-foreground text-[10px]">
               {hasBand ? "" : t("TOKEN.FORM.BAND_HINT")}
