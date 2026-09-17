@@ -4293,6 +4293,7 @@
     "CARD_IMPORT_TOO_MANY": "Des imports sont déjà en cours. Attends qu'ils se terminent, puis réessaie.",
     "CARD_IMPORT_NOT_FOUND": "Ce personnage n'existe plus à la source, ou il est devenu privé.",
     "CARD_IMPORT_NOT_INDEXED": "Ce personnage n'est pas encore sur datacat, d'où proviennent les cartes JanitorAI. Utilise le script navigateur ou importe le fichier de carte directement.",
+    "CARD_IMPORT_CREATOR_BLOCKED": "Le créateur a demandé à datacat, d'où proviennent les cartes JanitorAI, de bloquer les téléchargements de ce personnage. Utilisez plutôt le script de navigateur ou importez directement le fichier de la carte.",
     "CARD_IMPORT_PRIVATE": "L'auteur l'a gardé privé, il ne peut donc pas être téléchargé.",
     "CARD_IMPORT_EMPTY": "Il n'y avait rien d'importable à ce lien.",
     "CARD_IMPORT_TIMED_OUT": "La source a mis trop de temps à répondre. Réessaie dans une minute.",
