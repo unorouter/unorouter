@@ -19,8 +19,11 @@ const SKIP_TAGS = new Set([
   "math",
   "mjx-container",
   "svg",
-  // Non phrasing tags a message can now carry as real HTML. Wrapping one in a
-  // span is invalid nesting, and React says so at hydration.
+]);
+
+// Still walked for quotes of their own, but never pulled into a run: wrapping a
+// block in a span is invalid nesting, and React says so at hydration.
+const BLOCK_TAGS = new Set([
   "p",
   "ul",
   "ol",
@@ -29,7 +32,6 @@ const SKIP_TAGS = new Set([
   "details",
   "summary",
   "hr",
-  "br",
 ]);
 
 type Span = { start: number; end: number; kind: "dq" | "sq" };
@@ -89,7 +91,8 @@ function detectSpans(value: string): Span[] {
 
 function isQuotable(node: RootContent): node is ElementContent {
   if (node.type === "text") return true;
-  if (node.type === "element") return !SKIP_TAGS.has(node.tagName);
+  if (node.type === "element")
+    return !SKIP_TAGS.has(node.tagName) && !BLOCK_TAGS.has(node.tagName);
   return false;
 }
 
