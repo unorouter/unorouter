@@ -455,3 +455,13 @@ mjx-container[display="true"] {
 .chat-shell:has(.chat-shell-reveal) .chat-welcome-placeholder {
   display: none;
 }
+
+/* iOS zooms the page into any field under 16px on focus and leaves it zoomed.
+   Unlayered on purpose, so it outranks a text-xs on the field itself. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+}
