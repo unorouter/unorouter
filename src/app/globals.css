@@ -156,6 +156,9 @@
      fallback every one of them wants. */
   html {
     font-size: calc(100% * var(--font-scale, 1));
+    /* The root is what iOS rubber bands; the same rule on body alone does
+       nothing for it. */
+    overscroll-behavior: none;
   }
 
   body {
