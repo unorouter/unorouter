@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Введите сообщение...",
     "THINKING": "Думаю",
+    "HIDDEN_BLOCK": "{count, plural, one {Скрытый блок} few {# скрытых блока} many {# скрытых блоков} other {# скрытых блоков}}",
     "MESSAGE_INPUT": "Ввод сообщения",
     "SEARCH_CHATS": "Поиск по чатам",
     "TOKENS_IN": "вход",

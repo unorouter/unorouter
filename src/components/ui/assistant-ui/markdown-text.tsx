@@ -3,6 +3,11 @@
 import { rehypeQuoteSpans } from "@/components/ui/assistant-ui/rehype-quote-spans";
 import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
 import {
@@ -17,6 +22,12 @@ import {
   rehypeDropHoles,
   withHoleRepair,
 } from "@/components/ui/assistant-ui/rehype-drop-holes";
+import {
+  HTML_SANITIZE_SCHEMA,
+  escapeUnknownTags,
+  hasAllowedHtml,
+  splitHiddenBlocks,
+} from "@/lib/ai/chat/html-tags";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
   imgVersionAtom,
@@ -41,6 +52,8 @@ import "@assistant-ui/react-markdown/styles/dot.css";
 import { atom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { type FC, type SyntheticEvent, useEffect, useState } from "react";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
@@ -101,6 +114,33 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
   return wanted ? plugin : null;
 }
 
+// The model is told to keep tracking state in an HTML comment so it stays out of
+// the prose. It still belongs to the reader, so it folds away here instead of
+// disappearing, the same bargain the reasoning box makes.
+const HiddenBlocks: FC<{ blocks: string[] }> = (props) => {
+  const t = useTranslations();
+  return (
+    <Collapsible className="aui-md-hidden group/hidden my-2">
+      <CollapsibleTrigger className="text-muted-foreground hover:text-foreground group/trigger flex items-center gap-1.5 text-xs">
+        <Icon name="eye-off" className="size-3.5 shrink-0" />
+        <span>{t("CHAT.HIDDEN_BLOCK", { count: props.blocks.length })}</span>
+        <Icon
+          name="chevron-down"
+          className={cn(
+            "size-3.5 shrink-0 transition-transform",
+            "group-data-[state=closed]/trigger:-rotate-90",
+          )}
+        />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <pre className="text-muted-foreground border-border/60 mt-1.5 overflow-x-auto border-l-2 pl-2 text-xs whitespace-pre-wrap">
+          {props.blocks.join("\n\n")}
+        </pre>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+};
+
 const MarkdownTextImpl = () => {
   const hasMath = useAuiState((s) =>
     s.message.content.some(
@@ -108,6 +148,11 @@ const MarkdownTextImpl = () => {
     ),
   );
   const mathjax = useRehypeMathjax(hasMath);
+  const messageText = useAuiState((s) =>
+    s.message.content.map((p) => (p.type === "text" ? p.text : "")).join("\n"),
+  );
+  const hidden = splitHiddenBlocks(stripThinkForDisplay(messageText));
+  const html = hasAllowedHtml(hidden.text);
   // Subscribe to the media version counters ONLY when this message actually
   // carries a token. They are global counters bumped once per resolved image,
   // so an unconditional subscription re-ran every message's full markdown
@@ -134,33 +179,45 @@ const MarkdownTextImpl = () => {
   // would bump a counter nobody reads. The atom never changes without plugins.
   useAtomValue(jsDisplayVersionAtom);
   return (
-    <MarkdownTextPrimitive
-      remarkPlugins={[remarkGfm, remarkMath]}
-      // rehypeDropHoles brackets the chain against holes left by a plugin that
-      // splices children mid-traversal. mathjax additionally gets wrapped,
-      // because it throws INSIDE its own visitParents and a bracketing pass
-      // never runs: without the wrapper one unlucky message unmounts entirely.
-      rehypePlugins={
-        mathjax
-          ? [
-              rehypeDropHoles,
-              withHoleRepair(mathjax),
-              rehypeQuoteSpans,
-              rehypeDropHoles,
-            ]
-          : [rehypeDropHoles, rehypeQuoteSpans, rehypeDropHoles]
-      }
-      urlTransform={allowDataMediaUrls}
-      className="aui-md"
-      components={defaultComponents}
-      preprocess={(text) => {
-        let t = stripThinkForDisplay(text);
-        if (t.includes("{{inlay::")) t = replaceInlayTokens(t);
-        if (t.includes("{{img::")) t = replaceImgTokens(t);
-        t = transformDisplayJsSync(t);
-        return normalizeMathDelimiters(t);
-      }}
-    />
+    <>
+      <MarkdownTextPrimitive
+        remarkPlugins={[remarkGfm, remarkMath]}
+        // rehypeDropHoles brackets the chain against holes left by a plugin that
+        // splices children mid-traversal. mathjax additionally gets wrapped,
+        // because it throws INSIDE its own visitParents and a bracketing pass
+        // never runs: without the wrapper one unlucky message unmounts entirely.
+        // rehypeRaw rebuilds the tree from positions, so it has to run before
+        // quote spans and mathjax, which both emit position-less nodes.
+        rehypePlugins={[
+          rehypeDropHoles,
+          ...(html
+            ? ([
+                rehypeRaw,
+                [rehypeSanitize, HTML_SANITIZE_SCHEMA],
+              ] as Pluggable[])
+            : []),
+          ...(mathjax ? [withHoleRepair(mathjax)] : []),
+          rehypeQuoteSpans,
+          rehypeDropHoles,
+        ]}
+        urlTransform={allowDataMediaUrls}
+        className="aui-md"
+        components={defaultComponents}
+        preprocess={(text) => {
+          let t = splitHiddenBlocks(stripThinkForDisplay(text)).text;
+          if (t.includes("{{inlay::")) t = replaceInlayTokens(t);
+          if (t.includes("{{img::")) t = replaceImgTokens(t);
+          // After the plugin pass on purpose: a display handler returns a string
+          // that is spliced straight in, so its output goes through the same
+          // allowlist as the model's.
+          t = outsideCode(transformDisplayJsSync(t), escapeUnknownTags);
+          return normalizeMathDelimiters(t);
+        }}
+      />
+      {hidden.blocks.length > 0 ? (
+        <HiddenBlocks blocks={hidden.blocks} />
+      ) : null}
+    </>
   );
 };
 
@@ -169,14 +226,28 @@ export const MarkdownText = MarkdownTextImpl;
 // For text outside a chat runtime (a room guest's transcript): the same
 // components and quote styling, without the message-scope lookups that drive
 // math, inlays and plugins.
+// This text was written by another person in the room, not by the reader, so the
+// allowlist matters more here than anywhere else: the raw pass runs
+// unconditionally and everything outside it is escaped to plain text.
 export const StandaloneMarkdownText: FC = () => (
   <MarkdownTextPrimitive
     remarkPlugins={[remarkGfm]}
-    rehypePlugins={[rehypeDropHoles, rehypeQuoteSpans, rehypeDropHoles]}
+    rehypePlugins={[
+      rehypeDropHoles,
+      rehypeRaw,
+      [rehypeSanitize, HTML_SANITIZE_SCHEMA],
+      rehypeQuoteSpans,
+      rehypeDropHoles,
+    ]}
     urlTransform={allowDataMediaUrls}
     className="aui-md"
     components={defaultComponents}
-    preprocess={stripThinkForDisplay}
+    preprocess={(text) =>
+      outsideCode(
+        splitHiddenBlocks(stripThinkForDisplay(text)).text,
+        escapeUnknownTags,
+      )
+    }
   />
 );
 

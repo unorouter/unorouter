@@ -19,6 +19,17 @@ const SKIP_TAGS = new Set([
   "math",
   "mjx-container",
   "svg",
+  // Non phrasing tags a message can now carry as real HTML. Wrapping one in a
+  // span is invalid nesting, and React says so at hydration.
+  "p",
+  "ul",
+  "ol",
+  "li",
+  "blockquote",
+  "details",
+  "summary",
+  "hr",
+  "br",
 ]);
 
 type Span = { start: number; end: number; kind: "dq" | "sq" };

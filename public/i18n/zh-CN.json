@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "输入您的消息...",
     "THINKING": "思考中",
+    "HIDDEN_BLOCK": "{count, plural, other {{count} 个隐藏块}}",
     "MESSAGE_INPUT": "消息输入",
     "SEARCH_CHATS": "搜索对话",
     "TOKENS_IN": "输入",

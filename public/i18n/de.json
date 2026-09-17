@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Nachricht eingeben...",
     "THINKING": "Denkt nach",
+    "HIDDEN_BLOCK": "{count, plural, one {Ausgeblendeter Block} other {# ausgeblendete Blöcke}}",
     "MESSAGE_INPUT": "Nachrichteneingabe",
     "SEARCH_CHATS": "Chats durchsuchen",
     "TOKENS_IN": "ein",

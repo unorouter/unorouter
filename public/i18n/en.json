@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Type your message...",
     "THINKING": "Thinking",
+    "HIDDEN_BLOCK": "{count, plural, one {Hidden block} other {# hidden blocks}}",
     "MESSAGE_INPUT": "Message input",
     "SEARCH_CHATS": "Search chats",
     "TOKENS_IN": "in",

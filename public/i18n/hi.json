@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "अपना message type करें...",
     "THINKING": "सोच रहा है",
+    "HIDDEN_BLOCK": "{count, plural, one {छिपा हुआ ब्लॉक} other {# छिपे हुए ब्लॉक}}",
     "MESSAGE_INPUT": "Message input",
     "SEARCH_CHATS": "Chats खोजें",
     "TOKENS_IN": "in",

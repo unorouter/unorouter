@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "メッセージを入力...",
     "THINKING": "思考中",
+    "HIDDEN_BLOCK": "{count, plural, other {非表示ブロック {count} 件}}",
     "MESSAGE_INPUT": "メッセージ入力",
     "SEARCH_CHATS": "チャットを検索",
     "TOKENS_IN": "入力",

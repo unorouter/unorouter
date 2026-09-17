@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "輸入您的訊息...",
     "THINKING": "思考中",
+    "HIDDEN_BLOCK": "{count, plural, other {{count} 個隱藏區塊}}",
     "MESSAGE_INPUT": "訊息輸入",
     "SEARCH_CHATS": "搜尋對話",
     "TOKENS_IN": "輸入",
