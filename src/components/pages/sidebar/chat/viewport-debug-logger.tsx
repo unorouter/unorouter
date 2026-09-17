@@ -150,6 +150,30 @@ export function ViewportDebugLogger() {
       });
     };
 
+    // After the iOS keyboard closes the sticky footer can stay where the
+    // keyboard left it, with nothing painted below: the nudges above run and do
+    // not clear it (CriOS 153, iOS 26.7). Only a real relayout of the scroller
+    // does, so it is reserved for the state actually being observed.
+    let unstickTimer: ReturnType<typeof setTimeout> | null = null;
+    const unstickFooter = () => {
+      if (composerFocused()) return;
+      const before = geometry();
+      if (before.footerGap == null || before.footerGap < 40) return;
+      const scroller = document.querySelector<HTMLElement>(
+        ".aui-thread-viewport",
+      );
+      if (!scroller) return;
+      const top = scroller.scrollTop;
+      scroller.style.display = "none";
+      void scroller.offsetHeight;
+      scroller.style.display = "";
+      scroller.scrollTop = top;
+      logChatDebug("viewport.unstick", {
+        gapBefore: before.footerGap,
+        gapAfter: geometry().footerGap,
+      });
+    };
+
     const onTrigger = (reason: string) => {
       const g = geometry();
       logChatDebug("viewport.change", { reason, ...g });
@@ -160,6 +184,8 @@ export function ViewportDebugLogger() {
       if (!composerFocused()) {
         requestAnimationFrame(realignStuckViewport);
       }
+      if (unstickTimer) clearTimeout(unstickTimer);
+      unstickTimer = setTimeout(unstickFooter, 350);
     };
 
     const onVvResize = () => onTrigger("vv-resize");
@@ -202,6 +228,7 @@ export function ViewportDebugLogger() {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pageshow", onPageShow);
       ro.disconnect();
+      if (unstickTimer) clearTimeout(unstickTimer);
     };
   }, []);
 
