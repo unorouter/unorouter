@@ -168,6 +168,18 @@ export function ViewportDebugLogger() {
       });
     };
 
+    // viewport.change fires per animation frame, so nearly all of its lines
+    // show a keyboard half way up and read as a cut off composer. Only the
+    // state the screen comes to rest in says whether anything is wrong.
+    let lastSettled = "";
+    const logSettled = (reason: string) => {
+      const g = geometry();
+      const line = JSON.stringify(g);
+      if (line === lastSettled) return;
+      lastSettled = line;
+      logChatDebug("viewport.settled", { reason, ...g });
+    };
+
     const onTrigger = (reason: string) => {
       const g = geometry();
       logChatDebug("viewport.change", { reason, ...g });
@@ -179,7 +191,10 @@ export function ViewportDebugLogger() {
         requestAnimationFrame(realignStuckViewport);
       }
       if (unstickTimer) clearTimeout(unstickTimer);
-      unstickTimer = setTimeout(unstickFooter, 350);
+      unstickTimer = setTimeout(() => {
+        unstickFooter();
+        logSettled(reason);
+      }, 600);
     };
 
     // Weeks of fixes on this went in blind: the chat geometry above says
