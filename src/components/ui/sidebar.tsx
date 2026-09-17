@@ -157,6 +157,9 @@ function MobileSidebarBody(props: { children: React.ReactNode }) {
       const capped = visible < window.innerHeight - 1;
       ref.current.style.maxHeight = capped ? `${Math.round(visible)}px` : "";
       ref.current.style.overflowY = capped ? "auto" : "";
+      // Without this a scroll that reaches either end is handed to the page,
+      // which iOS then pans underneath the sheet.
+      ref.current.style.overscrollBehavior = capped ? "contain" : "";
       // The menu above the search fills what the keyboard leaves, so the
       // field goes to the top and its results get the room below it.
       const field = document.activeElement;
@@ -172,7 +175,11 @@ function MobileSidebarBody(props: { children: React.ReactNode }) {
     };
   }, []);
   return (
-    <div ref={ref} className="flex h-full w-full flex-col">
+    <div
+      ref={ref}
+      data-slot="sidebar-mobile-body"
+      className="flex h-full w-full flex-col"
+    >
       {props.children}
     </div>
   );
