@@ -139,7 +139,10 @@ export function buildBodyMutations(
   const effort = assembled.reasoningEffort;
   return {
     injectCacheControl:
-      modelInfo?.metadata?.supportsCache === true && autoFlags.cacheControl,
+      modelInfo?.metadata?.supportsCache === true &&
+      autoFlags.cacheControl &&
+      !assembled.flags.disableCaching,
+    cacheBust: assembled.flags.disableCaching || undefined,
     deepSeekPrefix: autoFlags.deepSeekPrefix || undefined,
     deepSeekReasoningContent,
     deepSeekThinking:

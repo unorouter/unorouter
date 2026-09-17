@@ -27,6 +27,7 @@ import {
   buildFinishMeta,
   createMetaCollector,
   makeBuildUsage,
+  type TotalUsage,
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
@@ -240,7 +241,7 @@ async function runClientStream(args: {
   let streamedChars = 0;
   let streamedReasoning = 0;
   const finishMeta = (
-    totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
+    totalUsage: TotalUsage | undefined,
     finishReason?: string,
   ) =>
     buildFinishMeta({

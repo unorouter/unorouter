@@ -73,6 +73,7 @@ export const samplingPresetBody = t.Object({
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
+  disableCaching: t.Boolean({ default: false }),
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;

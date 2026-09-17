@@ -94,6 +94,7 @@ export type AssembledSystem = {
     noSystemRole: boolean;
     mustStartWithUserInput: boolean;
     geminiBlockOff: boolean;
+    disableCaching: boolean;
   };
 };
 
@@ -192,6 +193,7 @@ function baseAssembled(system: string | undefined): AssembledSystem {
       noSystemRole: false,
       mustStartWithUserInput: false,
       geminiBlockOff: false,
+      disableCaching: false,
     },
   };
 }
@@ -495,6 +497,7 @@ export async function assembleForStream(
       noSystemRole: preset?.noSystemRole ?? false,
       mustStartWithUserInput: preset?.mustStartWithUserInput ?? false,
       geminiBlockOff: preset?.geminiBlockOff ?? false,
+      disableCaching: preset?.disableCaching ?? false,
     },
   };
 }

@@ -43,6 +43,10 @@
     {
       "tag": "0010_gray_jean_grey",
       "sql": "ALTER TABLE `chat_groups` ADD `parent_id` text;--> statement-breakpoint\nCREATE INDEX `idx_chat_group_parent` ON `chat_groups` (`parent_id`);"
+    },
+    {
+      "tag": "0011_motionless_hellfire_club",
+      "sql": "ALTER TABLE `request_logs` ADD `cached_input_tokens` integer;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `disable_caching` integer DEFAULT false NOT NULL;"
     }
   ]
 }

@@ -197,6 +197,7 @@ export const requestLogs = sqliteTable(
     endpoint: text("endpoint"),
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
+    cachedInputTokens: integer("cached_input_tokens"),
     cost: real("cost"),
     durationMs: integer("duration_ms"),
     tokensPerSecond: real("tokens_per_second"),
@@ -386,6 +387,9 @@ export const samplingPresets = sqliteTable(
       .notNull()
       .default(false),
     geminiBlockOff: integer("gemini_block_off", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    disableCaching: integer("disable_caching", { mode: "boolean" })
       .notNull()
       .default(false),
     isDefault: integer("is_default", { mode: "boolean" })

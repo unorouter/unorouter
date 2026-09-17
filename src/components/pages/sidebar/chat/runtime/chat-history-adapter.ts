@@ -406,6 +406,7 @@ async function persistRequestLog(
     convId,
     inputTokens: usage?.inputTokens ?? null,
     outputTokens: usage?.outputTokens ?? null,
+    cachedInputTokens: usage?.cachedInputTokens ?? null,
     cost: usage?.cost ?? null,
     durationMs: usage?.durationMs ?? null,
     tokensPerSecond: usage?.tokensPerSecond ?? null,

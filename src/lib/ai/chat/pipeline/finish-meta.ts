@@ -3,9 +3,16 @@ import type { PreparedChatRequest } from "./prepare.service";
 export type StreamUsage = {
   inputTokens: number;
   outputTokens: number;
+  cachedInputTokens: number | null;
   cost: number;
   durationMs: number;
   tokensPerSecond: number | undefined;
+};
+
+export type TotalUsage = {
+  inputTokens?: number;
+  outputTokens?: number;
+  inputTokenDetails?: { cacheReadTokens?: number };
 };
 
 export function createMetaCollector() {
@@ -42,11 +49,16 @@ export function makeBuildUsage(
   startedAtMs: number,
   now: () => number,
 ) {
-  return (inputTokens: number, outputTokens: number): StreamUsage => {
+  return (
+    inputTokens: number,
+    outputTokens: number,
+    cachedInputTokens: number | null,
+  ): StreamUsage => {
     const durationMs = now() - startedAtMs;
     return {
       inputTokens,
       outputTokens,
+      cachedInputTokens,
       cost: prepared.estimateCost(inputTokens, outputTokens),
       durationMs,
       tokensPerSecond:
@@ -60,8 +72,8 @@ export function makeBuildUsage(
 export function buildFinishMeta(args: {
   prepared: PreparedChatRequest;
   collector: MetaCollector;
-  buildUsage: (inputTokens: number, outputTokens: number) => StreamUsage;
-  totalUsage: { inputTokens?: number; outputTokens?: number } | undefined;
+  buildUsage: ReturnType<typeof makeBuildUsage>;
+  totalUsage: TotalUsage | undefined;
   speakingCharacterId?: string | null;
   finishReason?: string;
   hasText?: boolean;
@@ -86,6 +98,7 @@ export function buildFinishMeta(args: {
   const u = args.buildUsage(
     args.totalUsage?.inputTokens ?? 0,
     args.totalUsage?.outputTokens ?? 0,
+    args.totalUsage?.inputTokenDetails?.cacheReadTokens ?? null,
   );
   if (u.inputTokens > 0 || u.outputTokens > 0) meta.usage = u;
   meta.debug = {
