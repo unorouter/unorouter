@@ -39,7 +39,10 @@ export async function transformRoles(
     assembled.flags.forceAlternateRoles || autoFlags.alternateRoles;
   const mustStartWithUserInput =
     assembled.flags.mustStartWithUserInput || autoFlags.userStub;
-  const mustEndWithUserInput = autoFlags.endUserStub && !assembled.prefill;
+  // A prefill only holds the trailing assistant slot on providers that accept one.
+  // Gemini does not, so its prefill stays in the transcript and the stub still closes.
+  const mustEndWithUserInput =
+    autoFlags.endUserStub && !(assembled.prefill && autoFlags.prefillSupported);
 
   let processedMessages = walkTemplate(
     assembled,
