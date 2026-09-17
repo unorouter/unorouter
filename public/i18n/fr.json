@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Tapez votre message...",
     "THINKING": "Réflexion",
+    "HIDDEN_BLOCK": "{count, plural, one {Bloc masqué} other {# blocs masqués}}",
     "MESSAGE_INPUT": "Saisie du message",
     "SEARCH_CHATS": "Rechercher des chats",
     "TOKENS_IN": "entrée",

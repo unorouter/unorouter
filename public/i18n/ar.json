@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "اكتب رسالتك...",
     "THINKING": "يفكّر",
+    "HIDDEN_BLOCK": "{count, plural, zero {لا كتل مخفية} one {كتلة مخفية} two {كتلتان مخفيتان} few {# كتل مخفية} many {# كتلة مخفية} other {# كتلة مخفية}}",
     "MESSAGE_INPUT": "إدخال الرسالة",
     "SEARCH_CHATS": "بحث الدردشات",
     "TOKENS_IN": "داخل",

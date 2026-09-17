@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Ketik pesan Anda...",
     "THINKING": "Berpikir",
+    "HIDDEN_BLOCK": "{count, plural, other {# blok tersembunyi}}",
     "MESSAGE_INPUT": "Input pesan",
     "SEARCH_CHATS": "Cari chat",
     "TOKENS_IN": "in",

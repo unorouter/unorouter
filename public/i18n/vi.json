@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Nhập tin nhắn của bạn...",
     "THINKING": "Đang suy nghĩ",
+    "HIDDEN_BLOCK": "{count, plural, other {# khối ẩn}}",
     "MESSAGE_INPUT": "Ô nhập tin nhắn",
     "SEARCH_CHATS": "Tìm hội thoại",
     "TOKENS_IN": "vào",

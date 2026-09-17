@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Mesajınızı yazın...",
     "THINKING": "Düşünüyor",
+    "HIDDEN_BLOCK": "{count, plural, one {Gizli blok} other {# gizli blok}}",
     "MESSAGE_INPUT": "Mesaj girişi",
     "SEARCH_CHATS": "Sohbetleri ara",
     "TOKENS_IN": "gir",

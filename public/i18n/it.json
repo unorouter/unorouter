@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "Digita il tuo messaggio...",
     "THINKING": "Pensando",
+    "HIDDEN_BLOCK": "{count, plural, one {Blocco nascosto} other {# blocchi nascosti}}",
     "MESSAGE_INPUT": "Input messaggio",
     "SEARCH_CHATS": "Cerca chat",
     "TOKENS_IN": "in",

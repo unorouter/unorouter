@@ -3682,6 +3682,7 @@
     },
     "INPUT_PLACEHOLDER": "הקלידו את ההודעה שלכם...",
     "THINKING": "חושב",
+    "HIDDEN_BLOCK": "{count, plural, one {בלוק מוסתר} two {# בלוקים מוסתרים} many {# בלוקים מוסתרים} other {# בלוקים מוסתרים}}",
     "MESSAGE_INPUT": "קלט הודעה",
     "SEARCH_CHATS": "חיפוש צ'אטים",
     "TOKENS_IN": "קלט",
