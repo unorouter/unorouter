@@ -182,7 +182,79 @@ export function ViewportDebugLogger() {
       unstickTimer = setTimeout(unstickFooter, 350);
     };
 
-    const onVvResize = () => onTrigger("vv-resize");
+    // Weeks of fixes on this went in blind: the chat geometry above says
+    // nothing about the phone sidebar, and nothing recorded WHAT moved when the
+    // page slid under it. One line per distinct state, only while the sheet is
+    // open, so it cannot crowd the rest of the log out.
+    let lastSheetLine = "";
+    let sheetTimer: ReturnType<typeof setTimeout> | null = null;
+    const rect = (el: Element | null | undefined) => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return [Math.round(r.top), Math.round(r.bottom)];
+    };
+    const logSheet = (src: string) => {
+      const sheet = document.querySelector<HTMLElement>('[data-mobile="true"]');
+      if (!sheet) return;
+      const body = sheet.querySelector<HTMLElement>(
+        '[data-slot="sidebar-mobile-body"]',
+      );
+      const list = sheet.querySelector<HTMLElement>(".thin-scrollbar");
+      const vv = window.visualViewport;
+      const active = document.activeElement;
+      const state = {
+        vvTop: vv ? Math.round(vv.offsetTop) : null,
+        vvPageTop: vv ? Math.round(vv.pageTop) : null,
+        vvH: vv ? Math.round(vv.height) : null,
+        innerH: window.innerHeight,
+        scrollY: Math.round(window.scrollY),
+        docTop: Math.round(document.documentElement.scrollTop),
+        bodyTop: Math.round(document.body.scrollTop),
+        shell: rect(document.querySelector('[data-slot="sidebar-wrapper"]')),
+        sheet: rect(sheet),
+        sheetBody: rect(body),
+        bodyScroll: body
+          ? [Math.round(body.scrollTop), body.scrollHeight, body.clientHeight]
+          : null,
+        bodyMaxH: body?.style.maxHeight || null,
+        list: rect(list),
+        listScroll: list
+          ? [Math.round(list.scrollTop), list.scrollHeight, list.clientHeight]
+          : null,
+        active:
+          active instanceof HTMLElement
+            ? `${active.tagName.toLowerCase()}${sheet.contains(active) ? ":sheet" : ""}`
+            : null,
+        activeRect: sheet.contains(active) ? rect(active) : null,
+      };
+      const line = JSON.stringify(state);
+      if (line === lastSheetLine) return;
+      lastSheetLine = line;
+      logChatDebug("sidebar.kb", { src, ...state });
+    };
+    const queueSheet = (src: string) => {
+      if (sheetTimer) return;
+      sheetTimer = setTimeout(() => {
+        sheetTimer = null;
+        logSheet(src);
+      }, 250);
+    };
+    const onVvScroll = () => queueSheet("vv-scroll");
+    const onWinScroll = () => queueSheet("win-scroll");
+    const onAnyScroll = (e: Event) => {
+      const t = e.target;
+      if (t instanceof HTMLElement && t.closest('[data-mobile="true"]'))
+        queueSheet(
+          `scroll:${t.getAttribute("data-slot") ?? t.tagName.toLowerCase()}`,
+        );
+    };
+    const onTouchEnd = () => queueSheet("touchend");
+    const onFocusIn = () => queueSheet("focusin");
+
+    const onVvResize = () => {
+      queueSheet("vv-resize");
+      onTrigger("vv-resize");
+    };
     const onFocusOut = () => setTimeout(() => onTrigger("focusout"), 100);
     const onVisibility = () => {
       if (document.visibilityState === "visible")
@@ -201,6 +273,14 @@ export function ViewportDebugLogger() {
     });
     requestAnimationFrame(realignStuckViewport);
     window.visualViewport?.addEventListener("resize", onVvResize);
+    window.visualViewport?.addEventListener("scroll", onVvScroll);
+    window.addEventListener("scroll", onWinScroll, { passive: true });
+    document.addEventListener("scroll", onAnyScroll, {
+      capture: true,
+      passive: true,
+    });
+    document.addEventListener("touchend", onTouchEnd, { passive: true });
+    document.addEventListener("focusin", onFocusIn);
     document.addEventListener("focusout", onFocusOut);
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("pageshow", onPageShow);
@@ -218,6 +298,12 @@ export function ViewportDebugLogger() {
 
     return () => {
       window.visualViewport?.removeEventListener("resize", onVvResize);
+      window.visualViewport?.removeEventListener("scroll", onVvScroll);
+      window.removeEventListener("scroll", onWinScroll);
+      document.removeEventListener("scroll", onAnyScroll, { capture: true });
+      document.removeEventListener("touchend", onTouchEnd);
+      document.removeEventListener("focusin", onFocusIn);
+      if (sheetTimer) clearTimeout(sheetTimer);
       document.removeEventListener("focusout", onFocusOut);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pageshow", onPageShow);
