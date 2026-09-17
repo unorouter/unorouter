@@ -142,10 +142,12 @@ function SidebarProvider({
   );
 }
 
-// iOS never resizes the layout viewport for the keyboard, so a full height
-// sheet keeps its lower half behind it: typing in the chat search left the
-// results unreachable. Capped to what is actually visible; on Android the
-// layout viewport shrinks by itself and this stays idle.
+// The phone sheet has to scroll on its own, always: the menu above the chat
+// search fills what a keyboard leaves, and a sheet that cannot scroll hands the
+// swipe to the page, which iOS rubber bands underneath it. Chrome on iOS
+// shrinks the layout viewport for the keyboard and needs nothing else. Safari
+// does not, so there the sheet is capped to what is visible; a bounce reports a
+// negative offset and must not count.
 function MobileSidebarBody(props: { children: React.ReactNode }) {
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -153,24 +155,31 @@ function MobileSidebarBody(props: { children: React.ReactNode }) {
     if (!vv) return;
     const sync = () => {
       if (!ref.current) return;
-      const visible = vv.offsetTop + vv.height;
-      const capped = visible < window.innerHeight - 1;
-      ref.current.style.maxHeight = capped ? `${Math.round(visible)}px` : "";
-      ref.current.style.overflowY = capped ? "auto" : "";
-      // Without this a scroll that reaches either end is handed to the page,
-      // which iOS then pans underneath the sheet.
-      ref.current.style.overscrollBehavior = capped ? "contain" : "";
-      // The menu above the search fills what the keyboard leaves, so the
-      // field goes to the top and its results get the room below it.
+      const visible = Math.max(0, vv.offsetTop) + vv.height;
+      ref.current.style.maxHeight =
+        visible < window.innerHeight - 1 ? `${Math.round(visible)}px` : "";
+    };
+    // Once per keyboard change, never per scroll: doing it on every viewport
+    // event dragged the field back while the user was scrolling away from it.
+    const reveal = () => {
       const field = document.activeElement;
-      if (capped && field && ref.current.contains(field))
+      if (
+        ref.current &&
+        field instanceof HTMLElement &&
+        ref.current.contains(field) &&
+        (field.tagName === "INPUT" || field.tagName === "TEXTAREA")
+      )
         field.scrollIntoView({ block: "start" });
     };
+    const onResize = () => {
+      sync();
+      reveal();
+    };
     sync();
-    vv.addEventListener("resize", sync);
+    vv.addEventListener("resize", onResize);
     vv.addEventListener("scroll", sync);
     return () => {
-      vv.removeEventListener("resize", sync);
+      vv.removeEventListener("resize", onResize);
       vv.removeEventListener("scroll", sync);
     };
   }, []);
@@ -178,7 +187,7 @@ function MobileSidebarBody(props: { children: React.ReactNode }) {
     <div
       ref={ref}
       data-slot="sidebar-mobile-body"
-      className="flex h-full w-full flex-col"
+      className="flex h-full w-full flex-col overflow-y-auto overscroll-contain"
     >
       {props.children}
     </div>
