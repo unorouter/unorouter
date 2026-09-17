@@ -136,6 +136,7 @@ export async function exportLocalPreset(
     noSystemRole: row.noSystemRole,
     mustStartWithUserInput: row.mustStartWithUserInput,
     geminiBlockOff: row.geminiBlockOff,
+    disableCaching: row.disableCaching,
     isDefault: row.isDefault,
   };
   const slug = exportSlug(row.name, "preset");

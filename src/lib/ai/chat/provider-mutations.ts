@@ -6,6 +6,7 @@ export type BodyMutations = {
   deepSeekThinking?: { enabled: boolean; effort: string };
   deepSeekReasoningContent?: string;
   claudeAdaptive?: { effort: "high" | "xhigh" };
+  cacheBust?: boolean;
 };
 
 export function hasBodyMutation(opts?: BodyMutations): boolean {
@@ -15,7 +16,8 @@ export function hasBodyMutation(opts?: BodyMutations): boolean {
       opts.deepSeekPrefix ||
       opts.deepSeekThinking ||
       opts.deepSeekReasoningContent ||
-      opts.claudeAdaptive),
+      opts.claudeAdaptive ||
+      opts.cacheBust),
   );
 }
 
@@ -47,6 +49,27 @@ function applyCacheControl(body: Record<string, unknown>) {
   }
 }
 
+// A provider prefix cache matches from the first token and none of them offers
+// an off switch, so the only lever that works across the catalog is a first
+// line that has never been sent before. Random rather than counted: a counter
+// restarts with each chat and repeats across users sharing one upstream key.
+function applyCacheBust(body: Record<string, unknown>) {
+  const first = recArr(body.messages)[0];
+  if (!first) return;
+  const bytes = crypto.getRandomValues(new Uint8Array(12));
+  const id = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  const line = `[${id}]\nIgnore the line above, it is a request id.\n\n`;
+  if (typeof first.content === "string") {
+    first.content = line + first.content;
+    return;
+  }
+  if (!Array.isArray(first.content)) return;
+  const head: unknown = first.content[0];
+  if (isRecord(head) && head.type === "text" && typeof head.text === "string")
+    head.text = line + head.text;
+  else first.content.unshift({ type: "text", text: line });
+}
+
 // Firefox honors a user-agent set on fetch; the SDK's "ai-sdk/..." value then
 // replaces the browser's and trips the edge's browser-only rule on /api/ai/.
 function withoutUserAgent(
@@ -67,6 +90,7 @@ export function makeUpstreamFetch(opts?: BodyMutations): typeof fetch {
         const body = rec(JSON.parse(init.body));
         if (!body) return fetch(input, init);
         if (opts.injectCacheControl) applyCacheControl(body);
+        if (opts.cacheBust) applyCacheBust(body);
         const msgs = recArr(body.messages);
         const last = msgs[msgs.length - 1];
         if (opts.deepSeekPrefix && last?.role === "assistant") {

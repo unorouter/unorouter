@@ -81,6 +81,11 @@ export function RequestLogSheet(props: {
                   {t("CHAT.REQUEST_LOG.BADGE_IN")}: {row.inputTokens}
                 </Badge>
               )}
+              {row.cachedInputTokens != null && (
+                <Badge variant="outline">
+                  {t("CHAT.REQUEST_LOG.BADGE_CACHED")}: {row.cachedInputTokens}
+                </Badge>
+              )}
               {row.outputTokens != null && (
                 <Badge variant="outline">
                   {t("CHAT.REQUEST_LOG.BADGE_OUT")}: {row.outputTokens}

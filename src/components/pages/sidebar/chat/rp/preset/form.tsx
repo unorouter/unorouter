@@ -533,6 +533,16 @@ export function PresetForm(props: Props) {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="disableCaching"
+                  label={t("RP.PRESET_DISABLE_CACHING")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_DISABLE_CACHING_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
                 <MyFormTextarea
                   control={form.control}
                   name="continuePrompt"

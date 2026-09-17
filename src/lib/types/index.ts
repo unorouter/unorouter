@@ -43,6 +43,7 @@ export type StatusBucket = "1m" | "5m" | "15m" | "1h" | "1d";
 type MessageUsage = {
   inputTokens: number;
   outputTokens: number;
+  cachedInputTokens?: number | null;
   cost: number;
   durationMs?: number;
   tokensPerSecond?: number;
@@ -55,6 +56,7 @@ type RequestLogPayload = Omit<
   | "createdAt"
   | "inputTokens"
   | "outputTokens"
+  | "cachedInputTokens"
   | "cost"
   | "durationMs"
   | "tokensPerSecond"
