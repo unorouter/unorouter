@@ -19,6 +19,9 @@ export function ModelLink(props: ModelLinkProps) {
   return (
     <Link
       href={modelHref(props.modelName, props.vendor)}
+      // Every prefetch is a full server render of a model page. One open rankings tab fired
+      // about 1,000 a minute (365,000 a day site wide) and took a gateway pod to its memory limit.
+      prefetch={false}
       className={cn(
         "decoration-foreground/30 hover:decoration-foreground -my-1 inline-block py-1 underline decoration-1 underline-offset-4 transition-colors",
         props.className,
