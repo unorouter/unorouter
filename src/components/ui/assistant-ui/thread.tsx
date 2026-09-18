@@ -96,6 +96,7 @@ import {
   type FC,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -165,6 +166,7 @@ export const Thread: FC = () => {
     return () => clearInterval(timer);
   }, [historyLoaded]);
   const settling = !!params.convId && !settled;
+  const threadId = useAuiState((s) => s.threadListItem?.id ?? "");
   useEffect(() => {
     logChatDebug("viewport.autoscroll", { autoScrollStream });
   }, [autoScrollStream]);
@@ -320,9 +322,7 @@ export const Thread: FC = () => {
           <ThreadWelcomeGate />
         </AuiIf>
 
-        <ThreadPrimitive.Messages>
-          {() => <ThreadMessage />}
-        </ThreadPrimitive.Messages>
+        <ThreadMessageWindow key={threadId} />
 
         {/* sticky bottom-0 INSIDE the scroller (not fixed to the viewport):
             when the iOS keyboard pans the visual viewport, Safari scrolls the
@@ -347,6 +347,65 @@ const ThreadMessage: FC = () => {
   if (isEditing) return <EditComposer />;
   if (role === "user") return <UserMessage />;
   return <AssistantMessage />;
+};
+
+const MESSAGE_COMPONENTS = { Message: ThreadMessage };
+const WINDOW_STEP = 50;
+
+// Every mounted message re-checks its store subscriptions on each composer
+// keystroke, so a thread of 1000 spent ~200ms per key with all of them in the
+// DOM. Only the newest slice is mounted; reaching its top mounts the next.
+const ThreadMessageWindow: FC = () => {
+  const total = useAuiState((s) => s.thread.messages.length);
+  const [shown, setShown] = useState(WINDOW_STEP);
+  const start = Math.max(0, total - shown);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const grow = useRef<{ el: HTMLElement; top: number; height: number } | null>(
+    null,
+  );
+  useEffect(() => {
+    const el = sentinelRef.current;
+    const viewport = el?.closest<HTMLElement>(".aui-thread-viewport");
+    if (!el || !viewport) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        observer.disconnect();
+        grow.current = {
+          el: viewport,
+          top: viewport.scrollTop,
+          height: viewport.scrollHeight,
+        };
+        setShown((n) => n + WINDOW_STEP);
+      },
+      // Mount the next slice a screen early so the top is never reached.
+      { root: viewport, rootMargin: "800px 0px 0px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [start]);
+  // Scroll anchoring holds the view over a prepend, except at scrollTop 0
+  // (where every browser skips it) and on Safari (which has none). Without
+  // this the top of a chat cascades through every slice in one go.
+  useLayoutEffect(() => {
+    const g = grow.current;
+    if (!g) return;
+    grow.current = null;
+    if (g.el.scrollTop !== g.top) return;
+    g.el.scrollTop = g.top + (g.el.scrollHeight - g.height);
+  }, [shown]);
+  return (
+    <>
+      {start > 0 && <div ref={sentinelRef} className="h-px shrink-0" />}
+      {Array.from({ length: total - start }, (_, i) => (
+        <ThreadPrimitive.MessageByIndex
+          key={start + i}
+          index={start + i}
+          components={MESSAGE_COMPONENTS}
+        />
+      ))}
+    </>
+  );
 };
 
 // Distance under which the button hides. One line of text, so a reply that is
