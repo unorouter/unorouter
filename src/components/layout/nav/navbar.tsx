@@ -67,13 +67,13 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
       >
         <div className="flex items-center gap-2 lg:hidden">
           <MobileNav />
-          <Link href="/" className="group flex items-center gap-2">
+          <Link href="/" prefetch={false} className="group flex items-center gap-2">
             <LogoImage alt="" />
             <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
           </Link>
         </div>
 
-        <Link href="/" className="group hidden items-center gap-2 lg:flex">
+        <Link href="/" prefetch={false} className="group hidden items-center gap-2 lg:flex">
           <LogoImage alt="" />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
