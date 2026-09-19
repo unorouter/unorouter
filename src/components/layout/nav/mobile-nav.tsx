@@ -50,6 +50,7 @@ export function MobileNav() {
           <SheetTitle>
             <Link
               href="/"
+              prefetch={false}
               onClick={handleNavigate}
               className="flex items-center gap-2"
             >
