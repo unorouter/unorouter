@@ -363,6 +363,7 @@ print(res.choices[0].message.content)`;
                       <Link
                         key={sim.model_name}
                         href={modelHref(sim.model_name, sim.vendor)}
+                        prefetch={false}
                         className={cn(
                           "group flex items-center gap-3 rounded-lg border p-4 transition-all hover:-translate-y-0.5",
                           simTheme.bg,

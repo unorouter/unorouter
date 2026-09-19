@@ -40,6 +40,9 @@ export function ModelTicker(props: Props) {
                 <Link
                   key={`${model.model_name}-${i}`}
                   href={modelHref(model.model_name, model.vendor)}
+                  // every ticker entry is in the viewport, so the default prefetch
+                  // rendered three model pages per listed model on each home view
+                  prefetch={false}
                   className="flex items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <VendorIcon

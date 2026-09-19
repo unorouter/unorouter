@@ -28,6 +28,7 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
   return (
     <Link
       href={modelHref(model.model_name, model.vendor)}
+      prefetch={false}
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-4 transition-all hover:-translate-y-0.5",
         theme.bg,
