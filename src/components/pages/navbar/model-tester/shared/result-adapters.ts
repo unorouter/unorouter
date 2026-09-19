@@ -1,12 +1,12 @@
 import type { ResultCardData } from "./test-result-card";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
-import type { VerifyResult } from "ai-model-verifier/types";
+import type { VerifyResult } from "ai-model-verifier";
 
 export function fromVerifyResult(r: VerifyResult): ResultCardData {
   return {
     model: r.model,
     baseUrlHost: r.baseUrlHost,
-    provider: r.provider,
+    provider: r.vendor,
     verdict: r.verdict,
     reasons: r.reasons,
     versionUnverifiable: r.versionUnverifiable,
@@ -16,8 +16,8 @@ export function fromVerifyResult(r: VerifyResult): ResultCardData {
     totalTokens: r.totalUsage?.total ?? null,
     latencyMs: r.latencyMs,
     transport: r.transport,
-    resolvedFormat: r.resolvedProvider,
-    formatFellBack: r.resolvedProvider !== r.provider,
+    resolvedFormat: r.resolvedVendor,
+    formatFellBack: r.resolvedVendor !== r.vendor,
     connectivityError: r.connectivityError,
     ...(r.signature
       ? {

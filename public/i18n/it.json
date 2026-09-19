@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Non segnalato quando:",
       "NOT_FRAUD_TITLE": "Cosa NON viene conteggiato come falso",
       "PROOF": "L'intero tester è open source. Leggi esattamente quali sonde vengono eseguite e perché:",
+      "THINKING-FLOOR": {
+        "TITLE": "Ragionamento disattivato",
+        "MEANS": "Un modello che non può saltare il ragionamento (Gemini 2.5 Pro) ha risposto a una richiesta banale senza alcun token di ragionamento.",
+        "WHY": "Il modello vero spende token di pensiero nascosti persino per «rispondi ok»; un backend di classe flash venduto con il nome pro risponde con un solo token. Restituisce ancora il nome pro, quindi solo il conteggio dei token lo tradisce.",
+        "EXCEPTION": "Vengono giudicati solo i modelli che ragionano sempre; una risposta vuota o troncata non è una prova e non viene segnalata."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Impronta del tokenizer",
+        "MEANS": "I token di input fatturati per un testo fisso corrispondono alla firma di un livello più economico su questo endpoint.",
+        "WHY": "Quanti token costa un testo fisso lo decide il tokenizer del backend, e nessun prompt di sistema può influenzarlo. Un delta che corrisponde a un livello più economico calibrato significa che ha risposto quel livello.",
+        "EXCEPTION": "Senza una calibrazione per questo endpoint il delta viene solo registrato; i modelli che condividono un tokenizer fatturano lo stesso delta e non si distinguono mai con esso."
+      },
       "CODING-TOOL": {
         "TITLE": "Wrapper di strumento di programmazione",
         "MEANS": "La risposta usa frasi preconfezionate di un assistente di programmazione (Kiro, Cascade, Codeium e simili) e rifiuta un comune prompt creativo o emotivo.",
@@ -4698,17 +4710,23 @@
         "WHY": "Un modello che indica un laboratorio rivale come proprio creatore è servito da quel rivale, non da quello per cui hai pagato.",
         "EXCEPTION": "il modello è vago sulla propria versione o rifiuta di nominarsi, cosa che i modelli veri fanno spesso."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Declassamento di livello (Claude)",
-        "MEANS": "Hai richiesto un livello di Claude (Opus) ma il modello nomina un livello più economico (Sonnet o Haiku).",
-        "WHY": "Claude può essere vago sulla versione esatta ma non confonde mai il proprio livello, quindi un livello inferiore nominato è un declassamento deliberato.",
-        "EXCEPTION": "il modello non è sicuro del numero di versione; conta solo un livello diverso chiaramente nominato."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "La risposta indica un livello più economico",
+        "MEANS": "La risposta stessa dell'endpoint dichiara che ha risposto un livello Claude diverso da quello richiesto.",
+        "WHY": "Un relay che mappa il nome richiesto su un altro backend riporta quel backend nel campo model della risposta mentre tutte le sonde domanda-risposta continuano a passare.",
+        "EXCEPTION": "Un campo model assente non è una prova; conta solo un livello indicato esplicitamente nella risposta."
       },
       "SUBSTITUTED": {
         "TITLE": "Sostituzione del modello",
         "MEANS": "La risposta dell'endpoint indica un modello diverso da quello richiesto.",
         "WHY": "La risposta contiene l'identificativo del modello che il server dichiara di aver usato. Se contraddice la richiesta, un modello più economico ha servito la chiamata mentre veniva fatturato quello richiesto.",
         "EXCEPTION": "le differenze di scrittura non contano: snapshot datati, un prefisso del fornitore o un punto al posto di un trattino valgono come corrispondenza."
+      },
+      "QUORUM": {
+        "TITLE": "Quorum delle sonde",
+        "MEANS": "Meno di tre sonde su quattro sono passate, e i fallimenti non erano dovuti a errori transitori dell'upstream.",
+        "WHY": "Un modello genuino supera almeno tre sonde; risposte vuote e risposte mescolate che non ripetono mai la loro etichetta sono ciò che produce un endpoint rotto o contraffatto.",
+        "EXCEPTION": "I fallimenti dovuti a limiti di frequenza, errori 5xx o timeout lasciano l'endpoint non verificato invece che segnalato."
       },
       "EXCEPTION": {
         "VERSION": {

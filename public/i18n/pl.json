@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Nie jest oznaczane, gdy:",
       "NOT_FRAUD_TITLE": "Co NIE jest liczone jako podróbka",
       "PROOF": "Cały ten tester jest open source. Przeczytaj dokładnie, które sondy działają i dlaczego:",
+      "THINKING-FLOOR": {
+        "TITLE": "Rozumowanie wyłączone",
+        "MEANS": "Model, który nie może pominąć myślenia (Gemini 2.5 Pro), odpowiedział na trywialne zapytanie bez żadnych tokenów rozumowania.",
+        "WHY": "Prawdziwy model zużywa ukryte tokeny myślenia nawet przy „odpowiedz ok”; backend klasy flash sprzedawany pod nazwą pro odpowiada jednym tokenem. Nadal zwraca nazwę pro, więc zdradza go tylko liczba tokenów.",
+        "EXCEPTION": "Oceniane są tylko modele, o których wiadomo, że zawsze rozumują; pusta lub ucięta odpowiedź nie jest dowodem i nie jest oznaczana."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Odcisk tokenizera",
+        "MEANS": "Tokeny wejściowe naliczone za stały tekst odpowiadają na tym endpoincie sygnaturze tańszego poziomu.",
+        "WHY": "O tym, ile tokenów kosztuje stały tekst, decyduje tokenizer backendu i żaden prompt systemowy tego nie zmieni. Delta zgodna ze skalibrowanym tańszym poziomem oznacza, że odpowiedział ten poziom.",
+        "EXCEPTION": "Bez kalibracji dla tego endpointu delta jest tylko zapisywana; modele dzielące jeden tokenizer naliczają tę samą deltę i nigdy nie da się ich nią rozróżnić."
+      },
       "CODING-TOOL": {
         "TITLE": "Nakładka narzędzia programistycznego",
         "MEANS": "Odpowiedź używa wyświechtanych fraz asystenta programistycznego (Kiro, Cascade, Codeium i podobnych), odmawiając zwykłego polecenia twórczego lub emocjonalnego.",
@@ -4698,17 +4710,23 @@
         "WHY": "Model wskazujący konkurencyjne laboratorium jako swojego twórcę jest obsługiwany przez tego konkurenta, a nie przez tego, któremu zapłaciłeś.",
         "EXCEPTION": "model jest niejasny co do swojej wersji lub odmawia podania swojej nazwy, co prawdziwe modele często robią."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Obniżenie poziomu (Claude)",
-        "MEANS": "Poprosiłeś o jeden poziom Claude (Opus), ale model podaje tańszy poziom (Sonnet lub Haiku).",
-        "WHY": "Claude bywa niejasny co do dokładnej wersji, ale nigdy nie myli swojego poziomu, więc wymieniony z nazwy niższy poziom to celowe obniżenie.",
-        "EXCEPTION": "model nie jest pewny numeru swojej wersji; liczy się tylko wyraźnie wymieniony inny poziom."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Odpowiedź wskazuje tańszy poziom",
+        "MEANS": "Sama odpowiedź endpointu podaje, że odpowiedział inny poziom Claude niż zażądany.",
+        "WHY": "Relay, który mapuje żądaną nazwę na inny backend, zgłasza ten backend w polu model odpowiedzi, podczas gdy każda sonda pytań i odpowiedzi nadal przechodzi.",
+        "EXCEPTION": "Brak pola model nie jest dowodem; liczy się tylko poziom wprost podany w odpowiedzi."
       },
       "SUBSTITUTED": {
         "TITLE": "Podmiana modelu",
         "MEANS": "Odpowiedź endpointu wskazuje inny model niż żądany.",
         "WHY": "Odpowiedź zawiera identyfikator modelu, który według serwera odpowiedział. Gdy przeczy on żądaniu, wywołanie obsłużył tańszy model, a rozliczono żądany.",
         "EXCEPTION": "różnice w zapisie się nie liczą: datowane snapshoty, prefiks dostawcy czy kropka zamiast myślnika są traktowane jako zgodność."
+      },
+      "QUORUM": {
+        "TITLE": "Kworum sond",
+        "MEANS": "Przeszły mniej niż trzy z czterech sond, a niepowodzenia nie wynikały z przejściowych błędów upstreamu.",
+        "WHY": "Prawdziwy model zalicza co najmniej trzy sondy; puste odpowiedzi i pomieszane odpowiedzi, które nigdy nie powtarzają swojego znacznika, to wynik zepsutego lub podrobionego endpointu.",
+        "EXCEPTION": "Niepowodzenia z powodu limitów, błędów 5xx lub przekroczeń czasu pozostawiają endpoint niezweryfikowany zamiast oznaczonego."
       },
       "EXCEPTION": {
         "VERSION": {

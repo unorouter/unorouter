@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "ai-model-verifier/rules";
 import type {
   DetectionExceptionId,
-  DetectionRuleId,
+  VerdictRuleId,
 } from "ai-model-verifier/rules";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -12,41 +12,53 @@ import { CommunityLinks } from "./community-links";
 import { TESTER_LINKS } from "../shared/links";
 import type { TranslationKey } from "@/lib/types";
 
-const RULE_TITLE: Record<DetectionRuleId, TranslationKey> = {
+const RULE_TITLE: Record<VerdictRuleId, TranslationKey> = {
+  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.TITLE",
+  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.TITLE",
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.TITLE",
   scam: "MODEL_TESTER.RULES.SCAM.TITLE",
   "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.TITLE",
   mux: "MODEL_TESTER.RULES.MUX.TITLE",
   foreign: "MODEL_TESTER.RULES.FOREIGN.TITLE",
-  "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.TITLE",
+  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.TITLE",
   substituted: "MODEL_TESTER.RULES.SUBSTITUTED.TITLE",
+  quorum: "MODEL_TESTER.RULES.QUORUM.TITLE",
 };
-const RULE_MEANS: Record<DetectionRuleId, TranslationKey> = {
+const RULE_MEANS: Record<VerdictRuleId, TranslationKey> = {
+  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.MEANS",
+  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.MEANS",
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.MEANS",
   scam: "MODEL_TESTER.RULES.SCAM.MEANS",
   "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.MEANS",
   mux: "MODEL_TESTER.RULES.MUX.MEANS",
   foreign: "MODEL_TESTER.RULES.FOREIGN.MEANS",
-  "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.MEANS",
+  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.MEANS",
   substituted: "MODEL_TESTER.RULES.SUBSTITUTED.MEANS",
+  quorum: "MODEL_TESTER.RULES.QUORUM.MEANS",
 };
-const RULE_WHY: Record<DetectionRuleId, TranslationKey> = {
+const RULE_WHY: Record<VerdictRuleId, TranslationKey> = {
+  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.WHY",
+  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.WHY",
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.WHY",
   scam: "MODEL_TESTER.RULES.SCAM.WHY",
   "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.WHY",
   mux: "MODEL_TESTER.RULES.MUX.WHY",
   foreign: "MODEL_TESTER.RULES.FOREIGN.WHY",
-  "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.WHY",
+  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.WHY",
   substituted: "MODEL_TESTER.RULES.SUBSTITUTED.WHY",
+  quorum: "MODEL_TESTER.RULES.QUORUM.WHY",
 };
-const RULE_EXCEPTION: Record<DetectionRuleId, TranslationKey> = {
+const RULE_EXCEPTION: Record<VerdictRuleId, TranslationKey> = {
+  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.EXCEPTION",
+  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.EXCEPTION",
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.EXCEPTION",
   scam: "MODEL_TESTER.RULES.SCAM.EXCEPTION",
   "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.EXCEPTION",
   mux: "MODEL_TESTER.RULES.MUX.EXCEPTION",
   foreign: "MODEL_TESTER.RULES.FOREIGN.EXCEPTION",
-  "tier-mismatch": "MODEL_TESTER.RULES.TIER-MISMATCH.EXCEPTION",
+  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.EXCEPTION",
   substituted: "MODEL_TESTER.RULES.SUBSTITUTED.EXCEPTION",
+  quorum: "MODEL_TESTER.RULES.QUORUM.EXCEPTION",
 };
 
 const EXCEPTION_TITLE: Record<DetectionExceptionId, TranslationKey> = {

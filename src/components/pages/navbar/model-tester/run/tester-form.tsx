@@ -11,8 +11,8 @@ import {
   useVerifyAndPublish,
 } from "@/hooks/ai/model-tester/tester-hooks";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { CURATED_MODELS, providerForModel } from "ai-model-verifier/models";
-import { runVerification } from "ai-model-verifier/runner";
+import { CURATED_MODELS, vendorForModel } from "ai-model-verifier/models";
+import { verify, type VerifyResult } from "ai-model-verifier";
 import {
   modelTesterForm,
   type ModelTesterForm,
@@ -25,7 +25,6 @@ import { ProviderCards } from "./provider-cards";
 import { fromVerifyResult } from "../shared/result-adapters";
 import { ScoreGauge, type GaugeArc } from "../shared/score-gauge";
 import { CONN_KEY, TestResultCard } from "../shared/test-result-card";
-import type { VerifyResult } from "ai-model-verifier/types";
 
 const INPUT_CLASS = "bg-muted/40 font-mono text-sm shadow-none";
 
@@ -49,7 +48,7 @@ export function TesterForm() {
   const publish = form.watch("publish");
   const watchedModel = form.watch("model");
   const watchedProvider = form.watch("provider");
-  const inferredFmt = watchedModel ? providerForModel(watchedModel) : null;
+  const inferredFmt = watchedModel ? vendorForModel(watchedModel) : null;
   const formatMismatch =
     inferredFmt !== null && inferredFmt !== watchedProvider;
 
@@ -58,14 +57,14 @@ export function TesterForm() {
     setCorsBlocked(false);
     setPublishMsg(null);
     try {
-      const r = await runVerification({
-        provider: values.provider,
+      const r = await verify({
+        vendor: values.provider,
         baseUrl: values.baseUrl.replace(/\/+$/, ""),
         apiKey: values.apiKey,
         model: values.model,
         mode,
-        checkSignature: true,
-        checkTokenTruth: true,
+        serverProxyUrl: "/api/models/verify/probe",
+        checks: { signature: true, tokenTruth: true },
       });
       setResult(r);
       if (r.corsBlocked) {
@@ -161,7 +160,7 @@ export function TesterForm() {
                       onChange={(next) => {
                         field.onChange(next);
                         const cur = form.getValues("model");
-                        const fmt = cur ? providerForModel(cur) : null;
+                        const fmt = cur ? vendorForModel(cur) : null;
                         if (fmt && fmt !== next) form.setValue("model", "");
                       }}
                     />
@@ -205,7 +204,7 @@ export function TesterForm() {
                       onChange={(e) => {
                         const next = e.target.value;
                         field.onChange(next);
-                        const fmt = providerForModel(next);
+                        const fmt = vendorForModel(next);
                         if (fmt && fmt !== form.getValues("provider"))
                           form.setValue("provider", fmt);
                       }}

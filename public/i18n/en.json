@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Not flagged when:",
       "NOT_FRAUD_TITLE": "What is NOT counted as fake",
       "PROOF": "This whole tester is open source. Read exactly which probes run and why:",
+      "THINKING-FLOOR": {
+        "TITLE": "Reasoning switched off",
+        "MEANS": "A model that cannot skip thinking (Gemini 2.5 Pro) answered a trivial prompt with no reasoning tokens at all.",
+        "WHY": "The real model spends hidden thought tokens even on \"reply with ok\"; a flash-class backend sold under the pro name answers with one token. It still echoes the pro name, so only the token count gives it away.",
+        "EXCEPTION": "Only models known to always think are judged; an empty or truncated reply carries no evidence and is not flagged."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Tokenizer fingerprint",
+        "MEANS": "The input tokens billed for a fixed text match a cheaper tier's signature on this endpoint.",
+        "WHY": "How many tokens a fixed text costs is decided by the backend's tokenizer, and no system prompt can coach it. A delta that matches a calibrated cheaper tier means that tier answered.",
+        "EXCEPTION": "Without a calibration for this endpoint the delta is only recorded; models sharing one tokenizer bill the same delta and are never told apart by it."
+      },
       "CODING-TOOL": {
         "TITLE": "Coding-tool wrapper",
         "MEANS": "The reply uses canned phrases from a coding assistant (Kiro, Cascade, Codeium and similar), refusing an ordinary creative or emotional prompt.",
@@ -4698,17 +4710,23 @@
         "WHY": "A model naming a rival lab as its maker is being served by that rival, not the one you paid for.",
         "EXCEPTION": "the model is vague about its version or declines to name itself, which real models often do."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Tier downgrade (Claude)",
-        "MEANS": "You requested one Claude tier (Opus) but the model names a cheaper tier (Sonnet or Haiku).",
-        "WHY": "Claude may be vague about its exact version but never confuses its tier, so a named lower tier is a deliberate downgrade.",
-        "EXCEPTION": "the model is unsure of its version number. Only a clearly named different tier counts."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Response names a cheaper tier",
+        "MEANS": "The endpoint's own response says a different Claude tier answered than the one you requested.",
+        "WHY": "A relay that maps the requested name to another backend reports that backend in the reply's model field while every question-and-answer probe still passes.",
+        "EXCEPTION": "A missing model field is not evidence; only a tier named outright in the reply counts."
       },
       "SUBSTITUTED": {
         "TITLE": "Model substitution",
         "MEANS": "The endpoint's own response names a different model than the one you requested.",
         "WHY": "The reply carries the model id the server says answered. When that contradicts the request, a cheaper model served the call while you were billed for the one you asked for.",
         "EXCEPTION": "spelling differences do not count: dated snapshots, a vendor prefix, or a dot instead of a dash are all treated as a match."
+      },
+      "QUORUM": {
+        "TITLE": "Probe quorum",
+        "MEANS": "Fewer than three of the four probes passed, and the failures were not caused by transient upstream errors.",
+        "WHY": "A genuine model clears at least three probes; blank replies and mixed responses that never echo their tag are what a broken or faked endpoint produces.",
+        "EXCEPTION": "Failures from rate limits, 5xx errors or timeouts leave the endpoint unverified instead of flagged."
       },
       "EXCEPTION": {
         "VERSION": {
