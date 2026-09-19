@@ -11,7 +11,7 @@ import {
   useVerifyAndPublish,
 } from "@/hooks/ai/model-tester/tester-hooks";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { CURATED_MODELS, vendorForModel } from "ai-model-verifier/models";
+import { CURATED_MODELS, wireForModel } from "ai-model-verifier/models";
 import { verify, type VerifyResult } from "ai-model-verifier";
 import {
   modelTesterForm,
@@ -48,7 +48,7 @@ export function TesterForm() {
   const publish = form.watch("publish");
   const watchedModel = form.watch("model");
   const watchedProvider = form.watch("provider");
-  const inferredFmt = watchedModel ? vendorForModel(watchedModel) : null;
+  const inferredFmt = watchedModel ? wireForModel(watchedModel) : null;
   const formatMismatch =
     inferredFmt !== null && inferredFmt !== watchedProvider;
 
@@ -160,7 +160,7 @@ export function TesterForm() {
                       onChange={(next) => {
                         field.onChange(next);
                         const cur = form.getValues("model");
-                        const fmt = cur ? vendorForModel(cur) : null;
+                        const fmt = cur ? wireForModel(cur) : null;
                         if (fmt && fmt !== next) form.setValue("model", "");
                       }}
                     />
@@ -204,7 +204,7 @@ export function TesterForm() {
                       onChange={(e) => {
                         const next = e.target.value;
                         field.onChange(next);
-                        const fmt = vendorForModel(next);
+                        const fmt = wireForModel(next);
                         if (fmt && fmt !== form.getValues("provider"))
                           form.setValue("provider", fmt);
                       }}
