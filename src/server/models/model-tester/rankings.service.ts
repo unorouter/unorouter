@@ -8,7 +8,7 @@ import {
   testerTests,
 } from "@/lib/db/schema/tester";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { vendorForModel } from "ai-model-verifier/models";
+import { wireForModel } from "ai-model-verifier/models";
 import { verify, type VerifyResult } from "ai-model-verifier";
 import { serverTransport } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
@@ -85,7 +85,7 @@ export async function verifyAndPublish(
   | { published: false; deduped: true }
   | { published: false; error: string; result?: VerifyResult }
 > {
-  const inferred = vendorForModel(body.model);
+  const inferred = wireForModel(body.model);
   if (inferred !== null && inferred !== body.provider)
     return { published: false, error: "format-mismatch" };
 
