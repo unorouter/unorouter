@@ -8,8 +8,8 @@ import {
   testerTests,
 } from "@/lib/db/schema/tester";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { providerForModel } from "ai-model-verifier/models";
-import { runVerification } from "ai-model-verifier/runner";
+import { vendorForModel } from "ai-model-verifier/models";
+import { verify, type VerifyResult } from "ai-model-verifier";
 import { serverTransport } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
@@ -22,7 +22,6 @@ import type {
   VerifyProviderValue,
   VerifyVerdictValue,
 } from "@/lib/validation/model-tester";
-import type { VerifyResult } from "ai-model-verifier/types";
 
 const DEDUPE_WINDOW_MS = 60_000;
 
@@ -86,7 +85,7 @@ export async function verifyAndPublish(
   | { published: false; deduped: true }
   | { published: false; error: string; result?: VerifyResult }
 > {
-  const inferred = providerForModel(body.model);
+  const inferred = vendorForModel(body.model);
   if (inferred !== null && inferred !== body.provider)
     return { published: false, error: "format-mismatch" };
 
@@ -120,15 +119,14 @@ export async function verifyAndPublish(
     }
   }
 
-  const result = await runVerification({
-    provider: body.provider,
+  const result = await verify({
+    vendor: body.provider,
     baseUrl: body.baseUrl.replace(/\/+$/, ""),
     apiKey: body.apiKey,
     model: body.model,
     mode: "direct",
     transport: serverTransport,
-    checkSignature: true,
-    checkTokenTruth: true,
+    checks: { signature: true, tokenTruth: true },
   });
   if (result.connectivityError)
     return { published: false, error: result.connectivityError, result };
@@ -195,8 +193,8 @@ async function persistPublishedTest(opts: {
     promptTokens: result.totalUsage?.prompt ?? null,
     completionTokens: result.totalUsage?.completion ?? null,
     transport: result.transport,
-    formatFellBack: result.resolvedProvider !== result.provider,
-    resolvedFormat: result.resolvedProvider,
+    formatFellBack: result.resolvedVendor !== result.vendor,
+    resolvedFormat: result.resolvedVendor,
     testedAt: now,
     verifiedAt: now,
   });

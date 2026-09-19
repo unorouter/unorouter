@@ -11,7 +11,7 @@ import { uid as genId } from "@/lib/utils/base";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
-import type { VerifyResult } from "ai-model-verifier/types";
+import type { VerifyResult } from "ai-model-verifier";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
 
@@ -84,7 +84,7 @@ async function findOrCreateProvider(
     .where(
       and(
         eq(testerProviders.userId, userId),
-        eq(testerProviders.kind, result.provider),
+        eq(testerProviders.kind, result.vendor),
         eq(testerProviders.baseUrlHost, result.baseUrlHost),
       ),
     )
@@ -100,7 +100,7 @@ async function findOrCreateProvider(
   await db.insert(testerProviders).values({
     id,
     userId,
-    kind: result.provider,
+    kind: result.vendor,
     baseUrlHost: result.baseUrlHost,
     firstSeenAt: now,
     lastTestedAt: now,
@@ -180,8 +180,8 @@ export async function recordTestRun(
     totalTokens: result.totalUsage?.total ?? null,
     latencyMs: result.latencyMs,
     transport: result.transport,
-    resolvedFormat: result.resolvedProvider,
-    formatFellBack: result.resolvedProvider !== result.provider,
+    resolvedFormat: result.resolvedVendor,
+    formatFellBack: result.resolvedVendor !== result.vendor,
     testedAt: now,
     publishedAt: publish ? now : null,
   });

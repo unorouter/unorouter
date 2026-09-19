@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Không bị gắn cờ khi:",
       "NOT_FRAUD_TITLE": "Điều gì KHÔNG bị tính là giả mạo",
       "PROOF": "Toàn bộ công cụ kiểm tra này là mã nguồn mở. Đọc chính xác phép thử nào chạy và vì sao:",
+      "THINKING-FLOOR": {
+        "TITLE": "Suy luận bị tắt",
+        "MEANS": "Một mô hình không thể bỏ qua bước suy nghĩ (Gemini 2.5 Pro) đã trả lời một yêu cầu đơn giản mà không có token suy luận nào.",
+        "WHY": "Mô hình thật vẫn tiêu tốn token suy nghĩ ẩn ngay cả với \"trả lời ok\"; một backend lớp flash bán dưới tên pro trả lời chỉ bằng một token. Nó vẫn trả về tên pro, nên chỉ số token mới lộ ra.",
+        "EXCEPTION": "Chỉ những mô hình được biết là luôn suy nghĩ mới bị đánh giá; câu trả lời trống hoặc bị cắt không phải bằng chứng và không bị gắn cờ."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Dấu vân tay tokenizer",
+        "MEANS": "Số token đầu vào bị tính cho một đoạn văn bản cố định trùng với chữ ký của một bậc rẻ hơn trên endpoint này.",
+        "WHY": "Một đoạn văn bản cố định tốn bao nhiêu token là do tokenizer của backend quyết định, và không system prompt nào thay đổi được. Một delta trùng với bậc rẻ hơn đã được hiệu chuẩn nghĩa là bậc đó đã trả lời.",
+        "EXCEPTION": "Không có hiệu chuẩn cho endpoint này thì delta chỉ được ghi lại; các mô hình dùng chung một tokenizer tính cùng một delta và không bao giờ phân biệt được bằng nó."
+      },
       "CODING-TOOL": {
         "TITLE": "Lớp bọc công cụ lập trình",
         "MEANS": "Câu trả lời dùng những cụm từ rập khuôn của một trợ lý lập trình (Kiro, Cascade, Codeium và tương tự), từ chối một lời nhắc sáng tạo hoặc cảm xúc thông thường.",
@@ -4698,17 +4710,23 @@
         "WHY": "Một mô hình nêu tên phòng thí nghiệm đối thủ là người tạo ra mình thì đang được phục vụ bởi chính đối thủ đó, chứ không phải bên bạn đã trả tiền.",
         "EXCEPTION": "mô hình mơ hồ về phiên bản của mình hoặc từ chối nêu tên mình, điều mà các mô hình thật thường làm."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Hạ cấp bậc (Claude)",
-        "MEANS": "Bạn đã yêu cầu một bậc của Claude (Opus) nhưng mô hình nêu tên một bậc rẻ hơn (Sonnet hoặc Haiku).",
-        "WHY": "Claude có thể mơ hồ về phiên bản chính xác nhưng không bao giờ nhầm lẫn cấp bậc của mình, nên một bậc thấp hơn được nêu đích danh là một sự hạ cấp có chủ ý.",
-        "EXCEPTION": "mô hình không chắc về số phiên bản của mình; chỉ một bậc khác được nêu rõ ràng mới được tính."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Phản hồi nêu tên một bậc rẻ hơn",
+        "MEANS": "Chính phản hồi của endpoint cho biết một bậc Claude khác với bậc bạn yêu cầu đã trả lời.",
+        "WHY": "Một relay ánh xạ tên được yêu cầu sang backend khác sẽ báo backend đó trong trường model của phản hồi trong khi mọi đầu dò hỏi đáp vẫn vượt qua.",
+        "EXCEPTION": "Thiếu trường model không phải bằng chứng; chỉ tính bậc được nêu rõ trong phản hồi."
       },
       "SUBSTITUTED": {
         "TITLE": "Thay thế mô hình",
         "MEANS": "Phản hồi của endpoint nêu một mô hình khác với mô hình bạn yêu cầu.",
         "WHY": "Phản hồi chứa mã mô hình mà máy chủ khai báo đã trả lời. Khi nó mâu thuẫn với yêu cầu, một mô hình rẻ hơn đã xử lý lệnh gọi trong khi bạn bị tính phí mô hình đã yêu cầu.",
         "EXCEPTION": "khác biệt cách viết không tính: bản chụp có ngày, tiền tố nhà cung cấp hay dấu chấm thay cho dấu gạch ngang đều được xem là khớp."
+      },
+      "QUORUM": {
+        "TITLE": "Túc số đầu dò",
+        "MEANS": "Ít hơn ba trong bốn đầu dò vượt qua, và các thất bại không do lỗi tạm thời từ upstream.",
+        "WHY": "Một mô hình thật vượt qua ít nhất ba đầu dò; câu trả lời trống và phản hồi bị trộn lẫn không bao giờ lặp lại thẻ của mình là thứ mà một endpoint hỏng hoặc giả tạo ra.",
+        "EXCEPTION": "Thất bại do giới hạn tốc độ, lỗi 5xx hoặc hết thời gian chờ khiến endpoint chưa được xác minh thay vì bị gắn cờ."
       },
       "EXCEPTION": {
         "VERSION": {

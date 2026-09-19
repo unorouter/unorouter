@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Não sinalizado quando:",
       "NOT_FRAUD_TITLE": "O que NÃO é contado como falso",
       "PROOF": "Todo este testador é de código aberto. Leia exatamente quais sondas são executadas e por quê:",
+      "THINKING-FLOOR": {
+        "TITLE": "Raciocínio desligado",
+        "MEANS": "Um modelo que não pode pular o raciocínio (Gemini 2.5 Pro) respondeu a um pedido trivial sem nenhum token de raciocínio.",
+        "WHY": "O modelo real gasta tokens de pensamento ocultos até em “responda ok”; um backend de classe flash vendido com o nome pro responde com um único token. Ele ainda devolve o nome pro, então só a contagem de tokens o entrega.",
+        "EXCEPTION": "Só são julgados modelos que sabidamente sempre raciocinam; uma resposta vazia ou truncada não é prova e não é marcada."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Impressão digital do tokenizador",
+        "MEANS": "Os tokens de entrada cobrados por um texto fixo coincidem com a assinatura de um nível mais barato neste endpoint.",
+        "WHY": "Quantos tokens um texto fixo custa é decidido pelo tokenizador do backend, e nenhum system prompt consegue alterar isso. Um delta que coincide com um nível mais barato calibrado significa que esse nível respondeu.",
+        "EXCEPTION": "Sem calibração para este endpoint o delta é apenas registrado; modelos que compartilham um tokenizador cobram o mesmo delta e nunca são distinguidos por ele."
+      },
       "CODING-TOOL": {
         "TITLE": "Invólucro de ferramenta de programação",
         "MEANS": "A resposta usa frases prontas de um assistente de programação (Kiro, Cascade, Codeium e similares) e recusa um pedido criativo ou emocional comum.",
@@ -4698,17 +4710,23 @@
         "WHY": "Um modelo que aponta um laboratório rival como seu criador está sendo servido por esse rival, não por aquele que você pagou.",
         "EXCEPTION": "o modelo é vago sobre sua versão ou recusa-se a se nomear, o que os modelos reais costumam fazer."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Rebaixamento de nível (Claude)",
-        "MEANS": "Você solicitou um nível do Claude (Opus) mas o modelo nomeia um nível mais barato (Sonnet ou Haiku).",
-        "WHY": "O Claude pode ser vago sobre sua versão exata mas nunca confunde seu nível, então um nível inferior nomeado é um rebaixamento deliberado.",
-        "EXCEPTION": "o modelo não tem certeza do número da versão; só conta um nível diferente claramente nomeado."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "A resposta nomeia um nível mais barato",
+        "MEANS": "A própria resposta do endpoint diz que um nível do Claude diferente do solicitado respondeu.",
+        "WHY": "Um relay que mapeia o nome solicitado para outro backend informa esse backend no campo model da resposta enquanto todas as sondas de pergunta e resposta continuam passando.",
+        "EXCEPTION": "Um campo model ausente não é prova; só conta um nível nomeado explicitamente na resposta."
       },
       "SUBSTITUTED": {
         "TITLE": "Substituição de modelo",
         "MEANS": "A resposta do endpoint indica um modelo diferente do solicitado.",
         "WHY": "A resposta traz o identificador do modelo que o servidor diz ter respondido. Se ele contradiz a solicitação, um modelo mais barato atendeu a chamada enquanto o solicitado era cobrado.",
         "EXCEPTION": "diferenças de grafia não contam: snapshots datados, um prefixo do fornecedor ou um ponto em vez de hífen são tratados como correspondência."
+      },
+      "QUORUM": {
+        "TITLE": "Quórum das sondas",
+        "MEANS": "Menos de três das quatro sondas passaram, e as falhas não foram causadas por erros transitórios do upstream.",
+        "WHY": "Um modelo genuíno passa em pelo menos três sondas; respostas vazias e respostas misturadas que nunca repetem sua etiqueta são o que um endpoint quebrado ou falsificado produz.",
+        "EXCEPTION": "Falhas por limites de taxa, erros 5xx ou timeouts deixam o endpoint não verificado em vez de marcado."
       },
       "EXCEPTION": {
         "VERSION": {

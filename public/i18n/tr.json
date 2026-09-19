@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Şu durumda işaretlenmez:",
       "NOT_FRAUD_TITLE": "Sahte olarak SAYILMAYAN nedir",
       "PROOF": "Bu test aracının tamamı açık kaynaktır. Hangi probların neden çalıştığını tam olarak okuyun:",
+      "THINKING-FLOOR": {
+        "TITLE": "Akıl yürütme kapalı",
+        "MEANS": "Düşünmeyi atlayamayan bir model (Gemini 2.5 Pro), basit bir isteğe hiç akıl yürütme token'ı olmadan yanıt verdi.",
+        "WHY": "Gerçek model \"ok diye yanıtla\" için bile gizli düşünme token'ları harcar; pro adıyla satılan flash sınıfı bir arka uç tek token'la yanıt verir. Yine de pro adını döndürür, onu yalnızca token sayısı ele verir.",
+        "EXCEPTION": "Yalnızca her zaman düşündüğü bilinen modeller değerlendirilir; boş veya kesilmiş bir yanıt kanıt değildir ve işaretlenmez."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Tokenizer parmak izi",
+        "MEANS": "Sabit bir metin için faturalanan girdi token'ları bu uç noktada daha ucuz bir katmanın imzasıyla eşleşiyor.",
+        "WHY": "Sabit bir metnin kaç token'a mal olacağını arka ucun tokenizer'ı belirler ve hiçbir sistem istemi bunu değiştiremez. Kalibre edilmiş daha ucuz bir katmanla eşleşen bir delta, o katmanın yanıt verdiği anlamına gelir.",
+        "EXCEPTION": "Bu uç nokta için kalibrasyon yoksa delta yalnızca kaydedilir; aynı tokenizer'ı paylaşan modeller aynı deltayı faturalar ve bununla asla ayırt edilemez."
+      },
       "CODING-TOOL": {
         "TITLE": "Kodlama aracı sarmalayıcısı",
         "MEANS": "Yanıt, bir kodlama asistanının (Kiro, Cascade, Codeium ve benzerleri) kalıplaşmış ifadelerini kullanır ve sıradan bir yaratıcı ya da duygusal istemi reddeder.",
@@ -4698,17 +4710,23 @@
         "WHY": "Yapımcısı olarak rakip bir laboratuvarı adlandıran bir model, o rakip tarafından sunuluyordur; ödeme yaptığınız taraf değil.",
         "EXCEPTION": "model sürümü konusunda belirsizdir ya da kendini adlandırmayı reddeder; gerçek modeller de bunu sık yapar."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Kademe düşürme (Claude)",
-        "MEANS": "Bir Claude kademesi (Opus) istediniz ama model daha ucuz bir kademe (Sonnet ya da Haiku) adlandırıyor.",
-        "WHY": "Claude tam sürümü konusunda belirsiz olabilir ama kademesini asla karıştırmaz, bu yüzden adı verilmiş daha düşük bir kademe kasıtlı bir düşürmedir.",
-        "EXCEPTION": "model sürüm numarasından emin değildir; yalnızca açıkça adlandırılmış farklı bir kademe sayılır."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Yanıt daha ucuz bir katman bildiriyor",
+        "MEANS": "Uç noktanın kendi yanıtı, istediğinizden farklı bir Claude katmanının yanıt verdiğini söylüyor.",
+        "WHY": "İstenen adı başka bir arka uca eşleyen bir aktarıcı, tüm soru-cevap sondaları geçmeye devam ederken yanıtın model alanında o arka ucu bildirir.",
+        "EXCEPTION": "Eksik bir model alanı kanıt değildir; yalnızca yanıtta açıkça adı geçen bir katman sayılır."
       },
       "SUBSTITUTED": {
         "TITLE": "Model değişimi",
         "MEANS": "Uç noktanın yanıtı, istediğinizden farklı bir model adı veriyor.",
         "WHY": "Yanıt, sunucunun yanıtladığını bildirdiği model kimliğini taşır. Bu istekle çelişiyorsa, çağrıyı daha ucuz bir model karşılamış ve istediğiniz model faturalandırılmıştır.",
         "EXCEPTION": "yazım farkları sayılmaz: tarihli anlık görüntüler, sağlayıcı öneki veya tire yerine nokta eşleşme sayılır."
+      },
+      "QUORUM": {
+        "TITLE": "Sonda çoğunluğu",
+        "MEANS": "Dört sondadan üçten azı geçti ve başarısızlıklar geçici üst akış hatalarından kaynaklanmadı.",
+        "WHY": "Gerçek bir model en az üç sondayı geçer; boş yanıtlar ve etiketini asla yinelemeyen karışmış yanıtlar bozuk veya sahte bir uç noktanın ürettiği şeydir.",
+        "EXCEPTION": "Hız sınırı, 5xx hatası veya zaman aşımından kaynaklanan başarısızlıklar uç noktayı işaretlemek yerine doğrulanmamış bırakır."
       },
       "EXCEPTION": {
         "VERSION": {

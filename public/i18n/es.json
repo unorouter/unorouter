@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "No se marca cuando:",
       "NOT_FRAUD_TITLE": "Qué NO se cuenta como falso",
       "PROOF": "Todo este probador es de código abierto. Lee exactamente qué sondas se ejecutan y por qué:",
+      "THINKING-FLOOR": {
+        "TITLE": "Razonamiento desactivado",
+        "MEANS": "Un modelo que no puede omitir el razonamiento (Gemini 2.5 Pro) respondió a una petición trivial sin ningún token de razonamiento.",
+        "WHY": "El modelo real gasta tokens de pensamiento ocultos incluso ante «responde ok»; un backend de clase flash vendido con el nombre pro responde con un solo token. Sigue devolviendo el nombre pro, así que solo el recuento de tokens lo delata.",
+        "EXCEPTION": "Solo se juzgan los modelos que siempre razonan; una respuesta vacía o truncada no es prueba y no se marca."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Huella del tokenizador",
+        "MEANS": "Los tokens de entrada facturados por un texto fijo coinciden con la firma de un nivel más barato en este endpoint.",
+        "WHY": "Cuántos tokens cuesta un texto fijo lo decide el tokenizador del backend, y ningún system prompt puede alterarlo. Un delta que coincide con un nivel más barato calibrado significa que respondió ese nivel.",
+        "EXCEPTION": "Sin calibración para este endpoint el delta solo se registra; los modelos que comparten tokenizador facturan el mismo delta y nunca se distinguen por él."
+      },
       "CODING-TOOL": {
         "TITLE": "Envoltorio de herramienta de programación",
         "MEANS": "La respuesta usa frases prefabricadas de un asistente de programación (Kiro, Cascade, Codeium y similares) y rechaza una indicación creativa o emocional corriente.",
@@ -4698,17 +4710,23 @@
         "WHY": "Un modelo que nombra a un laboratorio rival como su creador está siendo servido por ese rival, no por el que pagaste.",
         "EXCEPTION": "el modelo es impreciso sobre su versión o se niega a nombrarse a sí mismo, algo que los modelos reales suelen hacer."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Degradación de nivel (Claude)",
-        "MEANS": "Solicitaste un nivel de Claude (Opus) pero el modelo nombra un nivel más barato (Sonnet o Haiku).",
-        "WHY": "Claude puede ser impreciso sobre su versión exacta pero nunca confunde su nivel, así que un nivel inferior nombrado es una degradación deliberada.",
-        "EXCEPTION": "el modelo no está seguro de su número de versión; solo cuenta un nivel distinto nombrado con claridad."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "La respuesta nombra un nivel más barato",
+        "MEANS": "La propia respuesta del endpoint indica que contestó un nivel de Claude distinto del solicitado.",
+        "WHY": "Un relay que asigna el nombre solicitado a otro backend informa de ese backend en el campo model de la respuesta mientras todas las sondas de pregunta y respuesta siguen pasando.",
+        "EXCEPTION": "Un campo model ausente no es prueba; solo cuenta un nivel nombrado explícitamente en la respuesta."
       },
       "SUBSTITUTED": {
         "TITLE": "Sustitución de modelo",
         "MEANS": "La respuesta del endpoint nombra un modelo distinto del solicitado.",
         "WHY": "La respuesta incluye el identificador del modelo que el servidor dice haber usado. Si contradice la solicitud, un modelo más barato atendió la llamada mientras se facturaba el solicitado.",
         "EXCEPTION": "las diferencias de escritura no cuentan: instantáneas con fecha, un prefijo de proveedor o un punto en vez de un guion se consideran coincidencia."
+      },
+      "QUORUM": {
+        "TITLE": "Quórum de sondas",
+        "MEANS": "Pasaron menos de tres de las cuatro sondas, y los fallos no se debieron a errores transitorios del upstream.",
+        "WHY": "Un modelo genuino supera al menos tres sondas; las respuestas vacías y las respuestas mezcladas que nunca repiten su etiqueta son lo que produce un endpoint roto o falsificado.",
+        "EXCEPTION": "Los fallos por límites de tasa, errores 5xx o tiempos de espera dejan el endpoint sin verificar en lugar de marcado."
       },
       "EXCEPTION": {
         "VERSION": {

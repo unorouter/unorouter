@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Nicht markiert, wenn:",
       "NOT_FRAUD_TITLE": "Was NICHT als Fälschung gilt",
       "PROOF": "Dieser gesamte Tester ist quelloffen. Lies genau nach, welche Tests laufen und warum:",
+      "THINKING-FLOOR": {
+        "TITLE": "Denken abgeschaltet",
+        "MEANS": "Ein Modell, das das Denken nicht überspringen kann (Gemini 2.5 Pro), hat eine triviale Anfrage ganz ohne Reasoning-Tokens beantwortet.",
+        "WHY": "Das echte Modell verbraucht selbst bei „antworte mit ok“ verborgene Denk-Tokens; ein Flash-Backend unter dem Pro-Namen antwortet mit einem einzigen Token. Es gibt weiterhin den Pro-Namen zurück, nur die Token-Zahl verrät es.",
+        "EXCEPTION": "Beurteilt werden nur Modelle, die nachweislich immer denken; eine leere oder abgeschnittene Antwort ist kein Beleg und wird nicht markiert."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Tokenizer-Fingerabdruck",
+        "MEANS": "Die für einen festen Text berechneten Eingabe-Tokens entsprechen auf diesem Endpunkt der Signatur einer günstigeren Stufe.",
+        "WHY": "Wie viele Tokens ein fester Text kostet, entscheidet der Tokenizer des Backends, und kein System-Prompt kann das beeinflussen. Ein Delta, das einer kalibrierten günstigeren Stufe entspricht, bedeutet: diese Stufe hat geantwortet.",
+        "EXCEPTION": "Ohne Kalibrierung für diesen Endpunkt wird das Delta nur aufgezeichnet; Modelle mit demselben Tokenizer berechnen dasselbe Delta und lassen sich damit nie unterscheiden."
+      },
       "CODING-TOOL": {
         "TITLE": "Coding-Tool-Wrapper",
         "MEANS": "Die Antwort verwendet vorgefertigte Floskeln eines Programmierassistenten (Kiro, Cascade, Codeium und ähnliche) und verweigert einen gewöhnlichen kreativen oder emotionalen Prompt.",
@@ -4698,17 +4710,23 @@
         "WHY": "Ein Modell, das ein Konkurrenzlabor als seinen Hersteller nennt, wird von genau diesem Konkurrenten bereitgestellt, nicht von dem, für den Sie bezahlt haben.",
         "EXCEPTION": "Das Modell bleibt bei seiner Version unklar oder lehnt es ab, sich selbst zu benennen, was echte Modelle oft tun."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Stufen-Herabstufung (Claude)",
-        "MEANS": "Sie haben eine Claude-Stufe (Opus) angefordert, doch das Modell nennt eine günstigere Stufe (Sonnet oder Haiku).",
-        "WHY": "Claude ist über seine genaue Version manchmal unklar, verwechselt aber nie seine Stufe, daher ist eine namentlich genannte niedrigere Stufe eine bewusste Herabstufung.",
-        "EXCEPTION": "Das Modell ist sich seiner Versionsnummer unsicher; nur eine eindeutig genannte andere Stufe zählt."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Antwort nennt eine günstigere Stufe",
+        "MEANS": "Die Antwort des Endpunkts selbst gibt an, dass eine andere Claude-Stufe geantwortet hat als die angeforderte.",
+        "WHY": "Ein Relay, das den angeforderten Namen auf ein anderes Backend abbildet, meldet dieses Backend im Modellfeld der Antwort, während jede Frage-Antwort-Sonde weiterhin besteht.",
+        "EXCEPTION": "Ein fehlendes Modellfeld ist kein Beleg; nur eine in der Antwort ausdrücklich genannte Stufe zählt."
       },
       "SUBSTITUTED": {
         "TITLE": "Modell ausgetauscht",
         "MEANS": "Die Antwort des Endpunkts nennt ein anderes Modell als das angeforderte.",
         "WHY": "Die Antwort enthält die Modell-ID, die der Server als Antwortendes angibt. Widerspricht sie der Anfrage, hat ein günstigeres Modell geantwortet, während das angeforderte abgerechnet wurde.",
         "EXCEPTION": "Schreibweisen zählen nicht: datierte Snapshots, ein Anbieter-Präfix oder ein Punkt statt eines Bindestrichs gelten als Übereinstimmung."
+      },
+      "QUORUM": {
+        "TITLE": "Sonden-Quorum",
+        "MEANS": "Weniger als drei der vier Sonden haben bestanden, und die Ausfälle gingen nicht auf vorübergehende Upstream-Fehler zurück.",
+        "WHY": "Ein echtes Modell besteht mindestens drei Sonden; leere Antworten und vermischte Antworten ohne ihr Tag sind das, was ein defekter oder gefälschter Endpunkt liefert.",
+        "EXCEPTION": "Ausfälle durch Rate-Limits, 5xx-Fehler oder Timeouts lassen den Endpunkt unverifiziert statt markiert."
       },
       "EXCEPTION": {
         "VERSION": {

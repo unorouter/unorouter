@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Tidak ditandai bila:",
       "NOT_FRAUD_TITLE": "Apa yang TIDAK dihitung sebagai palsu",
       "PROOF": "Seluruh penguji ini bersifat open source. Baca persis probe mana yang berjalan dan mengapa:",
+      "THINKING-FLOOR": {
+        "TITLE": "Penalaran dimatikan",
+        "MEANS": "Model yang tidak bisa melewati proses berpikir (Gemini 2.5 Pro) menjawab permintaan sepele tanpa token penalaran sama sekali.",
+        "WHY": "Model asli menghabiskan token berpikir tersembunyi bahkan untuk \"jawab ok\"; backend kelas flash yang dijual dengan nama pro menjawab dengan satu token. Ia tetap mengembalikan nama pro, jadi hanya jumlah token yang membongkarnya.",
+        "EXCEPTION": "Hanya model yang diketahui selalu berpikir yang dinilai; balasan kosong atau terpotong bukan bukti dan tidak ditandai."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Sidik jari tokenizer",
+        "MEANS": "Token masukan yang ditagih untuk teks tetap cocok dengan tanda tangan tingkat yang lebih murah pada endpoint ini.",
+        "WHY": "Berapa token yang dibutuhkan teks tetap ditentukan oleh tokenizer backend, dan tidak ada system prompt yang bisa mengubahnya. Delta yang cocok dengan tingkat lebih murah yang sudah dikalibrasi berarti tingkat itulah yang menjawab.",
+        "EXCEPTION": "Tanpa kalibrasi untuk endpoint ini delta hanya dicatat; model yang berbagi satu tokenizer menagih delta yang sama dan tidak pernah bisa dibedakan olehnya."
+      },
       "CODING-TOOL": {
         "TITLE": "Pembungkus alat pemrograman",
         "MEANS": "Balasan memakai frasa baku dari asisten pemrograman (Kiro, Cascade, Codeium, dan sejenisnya), menolak permintaan kreatif atau emosional yang biasa.",
@@ -4698,17 +4710,23 @@
         "WHY": "Model yang menyebut lab pesaing sebagai pembuatnya berarti disajikan oleh pesaing itu, bukan oleh pihak yang Anda bayar.",
         "EXCEPTION": "model bersikap samar tentang versinya atau menolak menyebut dirinya, yang sering dilakukan model asli."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Penurunan tingkat (Claude)",
-        "MEANS": "Anda meminta satu tingkat Claude (Opus) tetapi model menyebut tingkat yang lebih murah (Sonnet atau Haiku).",
-        "WHY": "Claude mungkin samar tentang versi persisnya tetapi tak pernah salah menyebut tingkatnya, jadi tingkat lebih rendah yang disebut namanya adalah penurunan yang disengaja.",
-        "EXCEPTION": "model tidak yakin akan nomor versinya; hanya tingkat berbeda yang disebut dengan jelas yang dihitung."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "Respons menyebut tingkat yang lebih murah",
+        "MEANS": "Respons endpoint itu sendiri menyatakan bahwa tingkat Claude yang berbeda dari yang Anda minta yang menjawab.",
+        "WHY": "Relay yang memetakan nama yang diminta ke backend lain melaporkan backend itu di kolom model respons sementara semua probe tanya jawab tetap lulus.",
+        "EXCEPTION": "Kolom model yang tidak ada bukan bukti; hanya tingkat yang disebut secara eksplisit dalam respons yang dihitung."
       },
       "SUBSTITUTED": {
         "TITLE": "Penggantian model",
         "MEANS": "Respons endpoint menyebut model yang berbeda dari yang Anda minta.",
         "WHY": "Respons memuat id model yang menurut server menjawab. Bila bertentangan dengan permintaan, model yang lebih murah melayani panggilan sementara yang Anda minta tetap ditagihkan.",
         "EXCEPTION": "perbedaan penulisan tidak dihitung: snapshot bertanggal, awalan vendor, atau titik alih-alih tanda hubung dianggap cocok."
+      },
+      "QUORUM": {
+        "TITLE": "Kuorum probe",
+        "MEANS": "Kurang dari tiga dari empat probe lulus, dan kegagalannya bukan karena kesalahan upstream yang sementara.",
+        "WHY": "Model asli lulus setidaknya tiga probe; balasan kosong dan respons tercampur yang tidak pernah mengulang tagnya adalah hasil dari endpoint yang rusak atau palsu.",
+        "EXCEPTION": "Kegagalan akibat batas laju, kesalahan 5xx, atau waktu habis membuat endpoint tidak terverifikasi, bukan ditandai."
       },
       "EXCEPTION": {
         "VERSION": {

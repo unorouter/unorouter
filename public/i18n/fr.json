@@ -4668,6 +4668,18 @@
       "NOT_FLAGGED_LABEL": "Non signalé lorsque :",
       "NOT_FRAUD_TITLE": "Ce qui n'est PAS compté comme falsification",
       "PROOF": "Tout ce testeur est open source. Lisez exactement quelles sondes s'exécutent et pourquoi :",
+      "THINKING-FLOOR": {
+        "TITLE": "Raisonnement désactivé",
+        "MEANS": "Un modèle qui ne peut pas sauter la réflexion (Gemini 2.5 Pro) a répondu à une demande triviale sans aucun jeton de raisonnement.",
+        "WHY": "Le vrai modèle dépense des jetons de réflexion cachés même pour « réponds ok » ; un backend de classe flash vendu sous le nom pro répond avec un seul jeton. Il renvoie toujours le nom pro, seul le nombre de jetons le trahit.",
+        "EXCEPTION": "Seuls les modèles connus pour toujours raisonner sont jugés ; une réponse vide ou tronquée n'est pas une preuve et n'est pas signalée."
+      },
+      "TOKENIZER-FINGERPRINT": {
+        "TITLE": "Empreinte du tokenizer",
+        "MEANS": "Les jetons d'entrée facturés pour un texte fixe correspondent à la signature d'un palier moins cher sur cet endpoint.",
+        "WHY": "Le nombre de jetons que coûte un texte fixe dépend du tokenizer du backend, et aucun prompt système ne peut l'influencer. Un delta qui correspond à un palier moins cher calibré signifie que ce palier a répondu.",
+        "EXCEPTION": "Sans calibration pour cet endpoint, le delta est seulement enregistré ; les modèles partageant un tokenizer facturent le même delta et ne sont jamais distingués par lui."
+      },
       "CODING-TOOL": {
         "TITLE": "Surcouche d'outil de codage",
         "MEANS": "La réponse emploie des formules toutes faites d'un assistant de codage (Kiro, Cascade, Codeium et similaires) et refuse une demande créative ou émotionnelle ordinaire.",
@@ -4698,17 +4710,23 @@
         "WHY": "Un modèle qui désigne un laboratoire rival comme son créateur est servi par ce rival, et non par celui que vous avez payé.",
         "EXCEPTION": "le modèle reste vague sur sa version ou refuse de se nommer, ce que font souvent les vrais modèles."
       },
-      "TIER-MISMATCH": {
-        "TITLE": "Rétrogradation de niveau (Claude)",
-        "MEANS": "Vous avez demandé un niveau de Claude (Opus) mais le modèle nomme un niveau moins cher (Sonnet ou Haiku).",
-        "WHY": "Claude peut rester vague sur sa version exacte mais ne confond jamais son niveau, donc un niveau inférieur nommé est une rétrogradation délibérée.",
-        "EXCEPTION": "le modèle n'est pas sûr de son numéro de version ; seul un niveau différent clairement nommé compte."
+      "SERVED-MODEL-MISMATCH": {
+        "TITLE": "La réponse nomme un palier moins cher",
+        "MEANS": "La réponse de l'endpoint indique elle-même qu'un palier Claude différent de celui demandé a répondu.",
+        "WHY": "Un relais qui fait correspondre le nom demandé à un autre backend indique ce backend dans le champ model de la réponse alors que toutes les sondes questions-réponses passent encore.",
+        "EXCEPTION": "Un champ model absent n'est pas une preuve ; seul un palier nommé explicitement dans la réponse compte."
       },
       "SUBSTITUTED": {
         "TITLE": "Substitution de modèle",
         "MEANS": "La réponse du point de terminaison nomme un modèle différent de celui demandé.",
         "WHY": "La réponse contient l'identifiant du modèle que le serveur déclare avoir répondu. S'il contredit la demande, un modèle moins cher a traité l'appel alors que celui demandé était facturé.",
         "EXCEPTION": "les différences d'écriture ne comptent pas : instantanés datés, préfixe de fournisseur ou point au lieu d'un tiret sont considérés comme identiques."
+      },
+      "QUORUM": {
+        "TITLE": "Quorum des sondes",
+        "MEANS": "Moins de trois des quatre sondes ont réussi, et les échecs ne venaient pas d'erreurs transitoires en amont.",
+        "WHY": "Un modèle authentique réussit au moins trois sondes ; les réponses vides et les réponses mélangées qui ne reprennent jamais leur balise sont ce que produit un endpoint cassé ou falsifié.",
+        "EXCEPTION": "Les échecs dus aux limites de débit, aux erreurs 5xx ou aux délais dépassés laissent l'endpoint non vérifié au lieu de signalé."
       },
       "EXCEPTION": {
         "VERSION": {

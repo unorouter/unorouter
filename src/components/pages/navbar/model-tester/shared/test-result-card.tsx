@@ -7,8 +7,8 @@ import { Icon } from "@/components/ui/icon";
 import { highlightSpans } from "ai-model-verifier/highlight";
 import type { HighlightKind } from "ai-model-verifier/highlight";
 import { vendorForRow } from "ai-model-verifier/models";
-import { ruleIdForSignal } from "ai-model-verifier/rules";
-import type { VerifyProvider } from "ai-model-verifier/types";
+import { RULE_FOR_SIGNAL, type VerdictRuleId } from "ai-model-verifier/rules";
+import type { VendorId } from "ai-model-verifier";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -24,7 +24,7 @@ const SIGNATURE_LABEL: Record<string, TranslationKey> = {
 export type ResultCardData = {
   model: string;
   baseUrlHost: string;
-  provider: VerifyProvider;
+  provider: VendorId;
   verdict: "genuine" | "suspicious" | "unverified";
   reasons: string[];
   versionUnverifiable: boolean;
@@ -133,7 +133,7 @@ const LEGEND_KEY: Record<NonNullable<HighlightKind>, TranslationKey> = {
 
 function HighlightedResponse(props: {
   text: string;
-  provider: VerifyProvider;
+  provider: VendorId;
   label: string;
 }) {
   const t = useTranslations();
@@ -181,12 +181,19 @@ function HighlightedResponse(props: {
   );
 }
 
-function ProbeRow(props: { probe: TestResultProbe; provider: VerifyProvider }) {
+/** Stored signals are plain strings; only the ones the library still maps get a rule. */
+function ruleForSignal(signal: string): VerdictRuleId | null {
+  for (const [key, rule] of Object.entries(RULE_FOR_SIGNAL))
+    if (key === signal) return rule;
+  return null;
+}
+
+function ProbeRow(props: { probe: TestResultProbe; provider: VendorId }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
-  const ruleId = probe.signal ? ruleIdForSignal(probe.signal) : null;
+  const ruleId = probe.signal ? ruleForSignal(probe.signal) : null;
   const ruleTitleKey = ruleId ? RULE_TITLE_KEY[ruleId] : undefined;
   const ruleWhyKey = ruleId ? RULE_WHY_KEY[ruleId] : undefined;
   const intentChecksKey = PROBE_INTENT_CHECKS[probe.label];
