@@ -189,10 +189,14 @@ function useCanvasTint(src: string | null) {
     image.onerror = () => logChatDebug("canvas.tint", { loaded: false });
     image.onload = () => {
       if (!live) return;
-      // next-themes swaps the class from an ancestor effect, which runs after
-      // this one, so the scrim colour is only correct a frame later.
-      document.body.style.removeProperty("background-color");
-      const base = getComputedStyle(document.body).backgroundColor;
+      // The token, not the computed body colour: a wallpaper theme forces body
+      // transparent, which would turn the scrim into a no-op. next-themes swaps
+      // the class from an ancestor effect that runs after this one, so the
+      // value is only correct once the image is in, a task later.
+      const root = document.documentElement;
+      const base = getComputedStyle(root)
+        .getPropertyValue("--background")
+        .trim();
       const size = 8;
       const canvas = document.createElement("canvas");
       canvas.width = size;
@@ -215,6 +219,9 @@ function useCanvasTint(src: string | null) {
         }
         const n = pixels.length / 4;
         const tint = `rgb(${Math.round(r / n)} ${Math.round(g / n)} ${Math.round(b / n)})`;
+        // Both: a wallpaper theme owns body and reads the variable off the root,
+        // a plain theme has the canvas colour propagate from body.
+        root.style.setProperty("--canvas-tint", tint);
         document.body.style.backgroundColor = tint;
         logChatDebug("canvas.tint", { loaded: true, base, tint });
       } catch (e) {
@@ -227,6 +234,7 @@ function useCanvasTint(src: string | null) {
     image.src = src;
     return () => {
       live = false;
+      document.documentElement.style.removeProperty("--canvas-tint");
       document.body.style.removeProperty("background-color");
     };
   }, [src, themes.resolvedTheme]);
