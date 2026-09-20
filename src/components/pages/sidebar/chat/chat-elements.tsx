@@ -25,7 +25,9 @@ import {
 } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
 
@@ -168,6 +170,57 @@ export function ConversationStats(props: { convId?: string }) {
   );
 }
 
+const BACKGROUND_SCRIM = 0.55;
+
+// Everything outside the page (the strip iOS leaves between the composer and
+// the keyboard, the overscroll area) is painted in the canvas colour, which an
+// in-page image can never reach. Averaging the background into that colour
+// stops the strip reading as a bar of its own.
+function useCanvasTint(src: string | null) {
+  const themes = useTheme();
+  useEffect(() => {
+    if (!src) return;
+    let live = true;
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+    image.onload = () => {
+      if (!live) return;
+      // next-themes swaps the class from an ancestor effect, which runs after
+      // this one, so the scrim colour is only correct a frame later.
+      document.body.style.removeProperty("background-color");
+      const base = getComputedStyle(document.body).backgroundColor;
+      const size = 8;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      try {
+        ctx.drawImage(image, 0, 0, size, size);
+        ctx.globalAlpha = BACKGROUND_SCRIM;
+        ctx.fillStyle = base;
+        ctx.fillRect(0, 0, size, size);
+        const pixels = ctx.getImageData(0, 0, size, size).data;
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        for (let i = 0; i < pixels.length; i += 4) {
+          r += pixels[i];
+          g += pixels[i + 1];
+          b += pixels[i + 2];
+        }
+        const n = pixels.length / 4;
+        document.body.style.backgroundColor = `rgb(${Math.round(r / n)} ${Math.round(g / n)} ${Math.round(b / n)})`;
+      } catch {}
+    };
+    image.src = src;
+    return () => {
+      live = false;
+      document.body.style.removeProperty("background-color");
+    };
+  }, [src, themes.resolvedTheme]);
+}
+
 export function CharacterBackground(props: { convId?: string }) {
   const bindings = useChatBindingsQuery(props.convId);
   const primary = (bindings.data?.characters ?? [])
@@ -176,6 +229,7 @@ export function CharacterBackground(props: { convId?: string }) {
   const character = useCharacterQuery(primary?.characterId);
   const src = useMediaSrc(character.data?.backgroundMediaId);
   const backgroundPosition = useMediaFocal(character.data?.backgroundMediaId);
+  useCanvasTint(src);
   if (!src) return null;
   return (
     <>
