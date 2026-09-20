@@ -23,6 +23,7 @@ export const ALLOWED_HTML_TAGS = new Set([
   "ol",
   "li",
   "code",
+  "pre",
 ]);
 
 const TAG_RE = /<\/?([a-zA-Z][a-zA-Z0-9-]*)(\s[^<>]*)?\/?>/g;
@@ -72,11 +73,13 @@ export function splitHiddenBlocks(chunk: string): HiddenBlocks {
 
 // Second line of defence behind escapeUnknownTags, written from scratch rather
 // than extended from the library default, which allows far more than this.
-// Attributes are empty for every tag, so nothing survives that could execute,
-// fetch or navigate; script and style lose their contents as well as their tag.
+// Nothing survives that could execute, fetch or navigate; script and style lose
+// their contents as well as their tag. The one attribute is the fence language,
+// which the highlighter and the code header read: no utility class starts with
+// `language-`, so it cannot be turned into a layout that covers the page.
 export const HTML_SANITIZE_SCHEMA = {
   tagNames: [...ALLOWED_HTML_TAGS],
-  attributes: {},
+  attributes: { code: [["className", /^language-[\w+#.-]+$/]] },
   protocols: {},
   strip: ["script", "style"],
   clobber: [],
