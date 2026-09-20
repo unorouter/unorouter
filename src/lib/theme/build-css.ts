@@ -440,12 +440,9 @@ export function buildBackgroundCss(
   const active = THEME_SCOPES.some((s) => images[s]);
   if (!active) return "";
   const blocks: string[] = [
-    // body::before paints at z-index -1, which is above the root's background
-    // and below body's own, so the image survives a colour on html and is
-    // buried by one on body. html carries the tint the chat background samples:
-    // everything the browser paints outside the page, the strip iOS leaves
-    // under the keyboard among it, takes that colour and no image can reach it.
-    "html{background-color:var(--canvas-tint, transparent) !important;}",
+    // Both must be transparent: body::before paints at z-index -1, so any
+    // opaque color on html or body renders on top of the image and buries it.
+    "html{background-color:transparent !important;}",
     "body{background-color:transparent !important;}",
   ];
   for (const scope of THEME_SCOPES) {

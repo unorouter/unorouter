@@ -14,7 +14,6 @@ import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { NONE_VALUE } from "@/lib/config/constants";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatGroupAtom,
@@ -26,9 +25,7 @@ import {
 } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
 
@@ -171,75 +168,6 @@ export function ConversationStats(props: { convId?: string }) {
   );
 }
 
-const BACKGROUND_SCRIM = 0.55;
-
-// Everything outside the page (the strip iOS leaves between the composer and
-// the keyboard, the overscroll area) is painted in the canvas colour, which an
-// in-page image can never reach. Averaging the background into that colour
-// stops the strip reading as a bar of its own.
-function useCanvasTint(src: string | null) {
-  const themes = useTheme();
-  useEffect(() => {
-    if (!src) return;
-    let live = true;
-    const image = new Image();
-    // No crossOrigin: the source is a blob: URL from the local DB, so the
-    // canvas stays untainted anyway, and WebKit refuses the CORS fetch for one.
-    if (/^https?:/.test(src)) image.crossOrigin = "anonymous";
-    image.onerror = () => logChatDebug("canvas.tint", { loaded: false });
-    image.onload = () => {
-      if (!live) return;
-      // The token, not the computed body colour: a wallpaper theme forces body
-      // transparent, which would turn the scrim into a no-op. next-themes swaps
-      // the class from an ancestor effect that runs after this one, so the
-      // value is only correct once the image is in, a task later.
-      const root = document.documentElement;
-      const base = getComputedStyle(root)
-        .getPropertyValue("--background")
-        .trim();
-      const size = 8;
-      const canvas = document.createElement("canvas");
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      try {
-        ctx.drawImage(image, 0, 0, size, size);
-        ctx.globalAlpha = BACKGROUND_SCRIM;
-        ctx.fillStyle = base;
-        ctx.fillRect(0, 0, size, size);
-        const pixels = ctx.getImageData(0, 0, size, size).data;
-        let r = 0;
-        let g = 0;
-        let b = 0;
-        for (let i = 0; i < pixels.length; i += 4) {
-          r += pixels[i];
-          g += pixels[i + 1];
-          b += pixels[i + 2];
-        }
-        const n = pixels.length / 4;
-        const tint = `rgb(${Math.round(r / n)} ${Math.round(g / n)} ${Math.round(b / n)})`;
-        // Both: a wallpaper theme owns body and reads the variable off the root,
-        // a plain theme has the canvas colour propagate from body.
-        root.style.setProperty("--canvas-tint", tint);
-        document.body.style.backgroundColor = tint;
-        logChatDebug("canvas.tint", { loaded: true, base, tint });
-      } catch (e) {
-        logChatDebug("canvas.tint", {
-          loaded: true,
-          error: String(e).slice(0, 120),
-        });
-      }
-    };
-    image.src = src;
-    return () => {
-      live = false;
-      document.documentElement.style.removeProperty("--canvas-tint");
-      document.body.style.removeProperty("background-color");
-    };
-  }, [src, themes.resolvedTheme]);
-}
-
 export function CharacterBackground(props: { convId?: string }) {
   const bindings = useChatBindingsQuery(props.convId);
   const primary = (bindings.data?.characters ?? [])
@@ -248,7 +176,6 @@ export function CharacterBackground(props: { convId?: string }) {
   const character = useCharacterQuery(primary?.characterId);
   const src = useMediaSrc(character.data?.backgroundMediaId);
   const backgroundPosition = useMediaFocal(character.data?.backgroundMediaId);
-  useCanvasTint(src);
   if (!src) return null;
   return (
     <>
