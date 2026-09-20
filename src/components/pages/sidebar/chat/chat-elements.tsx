@@ -14,6 +14,7 @@ import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatGroupAtom,
@@ -182,7 +183,10 @@ function useCanvasTint(src: string | null) {
     if (!src) return;
     let live = true;
     const image = new Image();
-    image.crossOrigin = "anonymous";
+    // No crossOrigin: the source is a blob: URL from the local DB, so the
+    // canvas stays untainted anyway, and WebKit refuses the CORS fetch for one.
+    if (/^https?:/.test(src)) image.crossOrigin = "anonymous";
+    image.onerror = () => logChatDebug("canvas.tint", { loaded: false });
     image.onload = () => {
       if (!live) return;
       // next-themes swaps the class from an ancestor effect, which runs after
@@ -210,8 +214,15 @@ function useCanvasTint(src: string | null) {
           b += pixels[i + 2];
         }
         const n = pixels.length / 4;
-        document.body.style.backgroundColor = `rgb(${Math.round(r / n)} ${Math.round(g / n)} ${Math.round(b / n)})`;
-      } catch {}
+        const tint = `rgb(${Math.round(r / n)} ${Math.round(g / n)} ${Math.round(b / n)})`;
+        document.body.style.backgroundColor = tint;
+        logChatDebug("canvas.tint", { loaded: true, base, tint });
+      } catch (e) {
+        logChatDebug("canvas.tint", {
+          loaded: true,
+          error: String(e).slice(0, 120),
+        });
+      }
     };
     image.src = src;
     return () => {
