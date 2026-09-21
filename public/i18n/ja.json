@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "お困りですか？",
     "SUPPORT_TEXT": "請求やアカウントについてご質問がありますか？{supportEmail} までメールでお問い合わせいただければ、1営業日以内にご返信いたします。",
     "CURRENT_BALANCE": "現在の残高",
+    "ACCOUNT": "アカウント",
+    "USED_QUOTA": "使用済みクォータ",
     "CONSUMPTION": "消費",
     "REQUESTS": "リクエスト",
     "USED_OF": "使用済み（合計のうち）",

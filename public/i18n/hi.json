@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "मदद चाहिए?",
     "SUPPORT_TEXT": "बिलिंग या अपने खाते के बारे में प्रश्न हैं? हमें {supportEmail} पर ईमेल करें और हम एक कार्यदिवस के भीतर जवाब देंगे।",
     "CURRENT_BALANCE": "वर्तमान Balance",
+    "ACCOUNT": "खाता",
+    "USED_QUOTA": "उपयोग किया गया कोटा",
     "CONSUMPTION": "खपत",
     "REQUESTS": "अनुरोध",
     "USED_OF": "में से उपयोग किया गया",

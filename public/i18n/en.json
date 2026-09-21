@@ -3335,6 +3335,8 @@
     },
     "TITLE": "Billing",
     "CURRENT_BALANCE": "Current Balance",
+    "ACCOUNT": "Account",
+    "USED_QUOTA": "Used quota",
     "CONSUMPTION": "Consumption",
     "REQUESTS": "Requests",
     "USED_OF": "used of",

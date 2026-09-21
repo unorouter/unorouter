@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "Butuh bantuan?",
     "SUPPORT_TEXT": "Ada pertanyaan tentang penagihan atau akun Anda? Kirim email kepada kami di {supportEmail} dan kami akan membalas dalam satu hari kerja.",
     "CURRENT_BALANCE": "Saldo Saat Ini",
+    "ACCOUNT": "Akun",
+    "USED_QUOTA": "Kuota terpakai",
     "CONSUMPTION": "Konsumsi",
     "REQUESTS": "Permintaan",
     "USED_OF": "terpakai dari",
