@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "צריך עזרה?",
     "SUPPORT_TEXT": "יש לך שאלות על החיוב או על החשבון שלך? שלח לנו דוא\"ל לכתובת {supportEmail} ונחזור אליך תוך יום עסקים אחד.",
     "CURRENT_BALANCE": "יתרה נוכחית",
+    "ACCOUNT": "חשבון",
+    "USED_QUOTA": "מכסה שנוצלה",
     "CONSUMPTION": "צריכה",
     "REQUESTS": "בקשות",
     "USED_OF": "נוצל מתוך",

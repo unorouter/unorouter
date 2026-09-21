@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "도움이 필요하신가요?",
     "SUPPORT_TEXT": "결제나 계정에 대해 궁금한 점이 있으신가요? {supportEmail} 로 이메일을 보내주시면 영업일 기준 하루 이내에 답변해 드리겠습니다.",
     "CURRENT_BALANCE": "현재 잔액",
+    "ACCOUNT": "계정",
+    "USED_QUOTA": "사용한 할당량",
     "CONSUMPTION": "소비",
     "REQUESTS": "요청",
     "USED_OF": "사용 / 총",

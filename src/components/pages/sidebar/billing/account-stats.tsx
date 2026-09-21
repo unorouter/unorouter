@@ -39,7 +39,7 @@ export function AccountStats() {
 
   const secondary = [
     {
-      label: t("BILLING.CONSUMPTION"),
+      label: t("BILLING.USED_QUOTA"),
       value: renderQuota(user?.used_quota),
       icon: <Icon name="trending-down" className="h-4 w-4" />,
       color: "var(--chart-3)",
@@ -60,6 +60,16 @@ export function AccountStats() {
       <div className="flex flex-wrap items-start justify-between gap-4 p-5">
         <div className="min-w-0">
           <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
+            {t("BILLING.ACCOUNT")}
+          </span>
+          {isLoading ? (
+            <Skeleton className="mt-1 h-5 w-32" />
+          ) : (
+            <span className="text-foreground block truncate text-base font-semibold">
+              {user?.display_name || user?.username}
+            </span>
+          )}
+          <span className="text-muted-foreground mt-4 block font-mono text-[10px] tracking-widest uppercase">
             {t("BILLING.CURRENT_BALANCE")}
           </span>
           {isLoading ? (

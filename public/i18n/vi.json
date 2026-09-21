@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "Bạn cần trợ giúp?",
     "SUPPORT_TEXT": "Bạn có câu hỏi về thanh toán hoặc tài khoản của mình? Hãy gửi email cho chúng tôi tại {supportEmail} và chúng tôi sẽ phản hồi trong vòng một ngày làm việc.",
     "CURRENT_BALANCE": "Số dư hiện tại",
+    "ACCOUNT": "Tài khoản",
+    "USED_QUOTA": "Hạn mức đã dùng",
     "CONSUMPTION": "Tiêu thụ",
     "REQUESTS": "Yêu cầu",
     "USED_OF": "đã dùng trên",

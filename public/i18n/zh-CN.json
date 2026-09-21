@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "需要帮助吗？",
     "SUPPORT_TEXT": "对账单或账户有疑问？请发送邮件至 {supportEmail}，我们将在一个工作日内回复您。",
     "CURRENT_BALANCE": "当前余额",
+    "ACCOUNT": "账户",
+    "USED_QUOTA": "已用额度",
     "CONSUMPTION": "消耗",
     "REQUESTS": "请求数",
     "USED_OF": "已用",

@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "Brauchen Sie Hilfe?",
     "SUPPORT_TEXT": "Fragen zur Abrechnung oder zu Ihrem Konto? Schreiben Sie uns an {supportEmail} und wir antworten innerhalb eines Werktags.",
     "CURRENT_BALANCE": "Aktuelles Guthaben",
+    "ACCOUNT": "Konto",
+    "USED_QUOTA": "Verbrauchtes Guthaben",
     "CONSUMPTION": "Verbrauch",
     "REQUESTS": "Anfragen",
     "USED_OF": "verbraucht von",

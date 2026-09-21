@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "Precisa de ajuda?",
     "SUPPORT_TEXT": "Tem dúvidas sobre cobrança ou sua conta? Envie um e-mail para {supportEmail} e responderemos em até um dia útil.",
     "CURRENT_BALANCE": "Saldo atual",
+    "ACCOUNT": "Conta",
+    "USED_QUOTA": "Cota usada",
     "CONSUMPTION": "Consumo",
     "REQUESTS": "Solicitações",
     "USED_OF": "usado de",

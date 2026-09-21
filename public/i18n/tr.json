@@ -3337,6 +3337,8 @@
     "SUPPORT_TITLE": "Yardıma mı ihtiyacınız var?",
     "SUPPORT_TEXT": "Faturalandırma veya hesabınızla ilgili sorularınız mı var? Bize {supportEmail} adresinden e-posta gönderin, bir iş günü içinde yanıt verelim.",
     "CURRENT_BALANCE": "Mevcut Bakiye",
+    "ACCOUNT": "Hesap",
+    "USED_QUOTA": "Kullanılan kota",
     "CONSUMPTION": "Tüketim",
     "REQUESTS": "İstekler",
     "USED_OF": "kullanılan",
