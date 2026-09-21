@@ -113,6 +113,7 @@ export enum Vendor {
   OPENBMB = "openbmb",
   AIHORDE = "aihorde",
   RUNWARE = "runware",
+  TYPESAFE = "typesafe",
   STEALTH = "stealth",
 }
 

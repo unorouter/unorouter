@@ -52,20 +52,22 @@ export function ModelRowActions(props: { model: PricingCatalogModel }) {
             />
             {t("MODELS.VIEW_DETAILS")}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(e) => {
-              e.stopPropagation();
-              analytics.models.openInChat({ model: model.model_name });
-              setChatModel(model.model_name);
-            }}
-            render={<Link href="/chat" />}
-          >
-            <Icon
-              name="message-circle"
-              className="text-muted-foreground mr-2 h-3.5 w-3.5"
-            />
-            {t("MODELS.OPEN_IN_CHAT")}
-          </DropdownMenuItem>
+          {model.chat && (
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                analytics.models.openInChat({ model: model.model_name });
+                setChatModel(model.model_name);
+              }}
+              render={<Link href="/chat" />}
+            >
+              <Icon
+                name="message-circle"
+                className="text-muted-foreground mr-2 h-3.5 w-3.5"
+              />
+              {t("MODELS.OPEN_IN_CHAT")}
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();

@@ -56,7 +56,28 @@ export async function ModelDetail(props: ModelDetailProps) {
     tags: m.tags,
   });
 
-  const curlExample = `curl ${docs.apiUrl}/v1/chat/completions \\
+  // A decisions model answers typed questions over a shared state and never
+  // speaks chat, so its samples call /v1/decisions instead.
+  const decisions = (m.supported_endpoint_types ?? []).includes(
+    "typesafe-decisions",
+  );
+
+  const decisionsBody = `{
+    "model": "${m.model_name}",
+    "state": {"ticket": "Payment failed twice, customer asks for a refund."},
+    "questions": {
+      "refund": {"type": "noul", "instructions": "Should we refund?"},
+      "team": {"type": "choice", "instructions": "Which team handles it?", "criteria": {"billing": null, "support": null}},
+      "urgency": {"type": "score", "instructions": "How urgent is it?", "criteria": ["Low", "Medium", "High"]}
+    }
+  }`;
+
+  const curlExample = decisions
+    ? `curl ${docs.apiUrl}/v1/decisions \\
+  -H "Authorization: Bearer ${docs.placeholder}" \\
+  -H "Content-Type: application/json" \\
+  -d '${decisionsBody}'`
+    : `curl ${docs.apiUrl}/v1/chat/completions \\
   -H "Authorization: Bearer ${docs.placeholder}" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -64,7 +85,19 @@ export async function ModelDetail(props: ModelDetailProps) {
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`;
 
-  const tsExample = `import OpenAI from "openai";
+  const tsExample = decisions
+    ? `const res = await fetch("${docs.apiUrl}/v1/decisions", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer ${docs.placeholder}",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(${decisionsBody}),
+});
+
+const { answers } = await res.json();
+console.log(answers);`
+    : `import OpenAI from "openai";
 
 const client = new OpenAI({
   baseURL: "${docs.apiUrl}/v1",
@@ -78,7 +111,17 @@ const res = await client.chat.completions.create({
 
 console.log(res.choices[0].message.content);`;
 
-  const pyExample = `from openai import OpenAI
+  const pyExample = decisions
+    ? `import requests
+
+res = requests.post(
+    "${docs.apiUrl}/v1/decisions",
+    headers={"Authorization": "Bearer ${docs.placeholder}"},
+    json=${decisionsBody.replace(/\bnull\b/g, "None")},
+)
+
+print(res.json()["answers"])`
+    : `from openai import OpenAI
 
 client = OpenAI(
     base_url="${docs.apiUrl}/v1",

@@ -560,6 +560,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-lime-500/20",
     primary: "#afff9f",
   },
+  [Vendor.TYPESAFE]: {
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-700 dark:text-indigo-300",
+    tagBg: "bg-indigo-500/10",
+    tagBorder: "border-indigo-500/20",
+    primary: "#4f46e5",
+  },
   [Vendor.SWISSAI]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",
