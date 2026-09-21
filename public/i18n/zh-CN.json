@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "查看你的 API 密钥",
       "EXAMPLE_REVEAL_TOKEN": "按 id 查看密钥",
       "EXAMPLE_CHAT": "发送对话请求",
+      "EXAMPLE_DECISIONS": "发送决策请求",
       "EXAMPLE_GIFT_CARD": "创建礼品卡",
       "EXAMPLE_GRANT": "向用户发放余额",
       "PASSWORD": "密码",

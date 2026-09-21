@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "Показать список ключей API",
       "EXAMPLE_REVEAL_TOKEN": "Показать ключ по его идентификатору",
       "EXAMPLE_CHAT": "Отправить запрос в чат",
+      "EXAMPLE_DECISIONS": "Отправить запрос решений",
       "EXAMPLE_GIFT_CARD": "Создать подарочную карту",
       "EXAMPLE_GRANT": "Начислить баланс пользователю",
       "PASSWORD": "Пароль",

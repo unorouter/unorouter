@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "檢視你的 API 金鑰",
       "EXAMPLE_REVEAL_TOKEN": "依 id 檢視金鑰",
       "EXAMPLE_CHAT": "傳送對話請求",
+      "EXAMPLE_DECISIONS": "傳送決策請求",
       "EXAMPLE_GIFT_CARD": "建立禮品卡",
       "EXAMPLE_GRANT": "向使用者發放餘額",
       "PASSWORD": "密碼",

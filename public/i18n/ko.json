@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "API 키 목록 보기",
       "EXAMPLE_REVEAL_TOKEN": "ID로 키 확인하기",
       "EXAMPLE_CHAT": "채팅 요청 보내기",
+      "EXAMPLE_DECISIONS": "결정 요청 보내기",
       "EXAMPLE_GIFT_CARD": "기프트 카드 만들기",
       "EXAMPLE_GRANT": "사용자에게 잔액 지급하기",
       "PASSWORD": "비밀번호",
