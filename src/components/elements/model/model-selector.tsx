@@ -322,7 +322,9 @@ export function ModelSelector(props: ModelSelectorProps) {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const pricingData = pricingQuery.data;
-  const models = pricingData?.models ?? [];
+  // Embeddings, moderation and decisions models sit in the catalog but answer
+  // no chat completion; the gateway marks those chat false.
+  const models = (pricingData?.models ?? []).filter((m) => m.chat);
   const modelsByType = groupModelsByType(models);
   const statusMap = useModelStatusMap();
 

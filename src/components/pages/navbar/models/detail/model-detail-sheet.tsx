@@ -123,19 +123,21 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.VIEW_DETAILS")}
             </Button>
-            <Button
-              size="sm"
-              className="flex-1"
-              nativeButton={false}
-              onClick={() => {
-                analytics.models.openInChat({ model: model.model_name });
-                setChatModel(model.model_name);
-              }}
-              render={<Link href="/chat" />}
-            >
-              <Icon name="message-circle" className="mr-2 h-3.5 w-3.5" />
-              {t("MODELS.OPEN_IN_CHAT")}
-            </Button>
+            {model.chat && (
+              <Button
+                size="sm"
+                className="flex-1"
+                nativeButton={false}
+                onClick={() => {
+                  analytics.models.openInChat({ model: model.model_name });
+                  setChatModel(model.model_name);
+                }}
+                render={<Link href="/chat" />}
+              >
+                <Icon name="message-circle" className="mr-2 h-3.5 w-3.5" />
+                {t("MODELS.OPEN_IN_CHAT")}
+              </Button>
+            )}
             <WatchButton modelName={model.model_name} />
           </div>
         </SheetHeader>
