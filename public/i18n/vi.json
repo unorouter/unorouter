@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "Liệt kê các khóa API của bạn",
       "EXAMPLE_REVEAL_TOKEN": "Hiển thị khóa theo id",
       "EXAMPLE_CHAT": "Gửi yêu cầu trò chuyện",
+      "EXAMPLE_DECISIONS": "Gửi yêu cầu quyết định",
       "EXAMPLE_GIFT_CARD": "Tạo thẻ quà tặng",
       "EXAMPLE_GRANT": "Cấp số dư cho người dùng",
       "PASSWORD": "Mật khẩu",

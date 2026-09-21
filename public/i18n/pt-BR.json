@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "Listar suas chaves de API",
       "EXAMPLE_REVEAL_TOKEN": "Exibir uma chave pelo id",
       "EXAMPLE_CHAT": "Enviar uma requisição de chat",
+      "EXAMPLE_DECISIONS": "Enviar uma requisição de decisões",
       "EXAMPLE_GIFT_CARD": "Criar um cartão-presente",
       "EXAMPLE_GRANT": "Conceder saldo a um usuário",
       "PASSWORD": "Senha",

@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "API anahtarlarınızı listeleyin",
       "EXAMPLE_REVEAL_TOKEN": "Bir anahtarı kimliğiyle görüntüleyin",
       "EXAMPLE_CHAT": "Sohbet isteği gönderin",
+      "EXAMPLE_DECISIONS": "Karar isteği gönderin",
       "EXAMPLE_GIFT_CARD": "Hediye kartı oluşturun",
       "EXAMPLE_GRANT": "Bir kullanıcıya bakiye tanımlayın",
       "PASSWORD": "Şifre",

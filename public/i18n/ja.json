@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "APIキーの一覧を取得する",
       "EXAMPLE_REVEAL_TOKEN": "IDを指定してキーを表示する",
       "EXAMPLE_CHAT": "チャットリクエストを送信する",
+      "EXAMPLE_DECISIONS": "決定リクエストを送信する",
       "EXAMPLE_GIFT_CARD": "ギフトカードを作成する",
       "EXAMPLE_GRANT": "ユーザーに残高を付与する",
       "PASSWORD": "パスワード",

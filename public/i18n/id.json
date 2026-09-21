@@ -3466,6 +3466,7 @@
       "EXAMPLE_LIST_TOKENS": "Tampilkan daftar kunci API Anda",
       "EXAMPLE_REVEAL_TOKEN": "Tampilkan kunci berdasarkan id-nya",
       "EXAMPLE_CHAT": "Kirim permintaan chat",
+      "EXAMPLE_DECISIONS": "Kirim permintaan keputusan",
       "EXAMPLE_GIFT_CARD": "Buat kartu hadiah",
       "EXAMPLE_GRANT": "Berikan saldo ke pengguna",
       "PASSWORD": "Kata Sandi",

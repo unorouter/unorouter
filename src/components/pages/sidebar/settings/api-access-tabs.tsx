@@ -100,6 +100,24 @@ export function ApiAccessTabs() {
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`,
     },
+    // Decision models (TypeSafe Jev) answer typed questions over a shared state
+    // and never speak chat, so they have their own route.
+    {
+      key: "decisions",
+      title: t("SETTINGS.SECURITY.EXAMPLE_DECISIONS"),
+      command: `curl "${env.apiUrl}/v1/decisions" \\
+  -H "Authorization: Bearer sk-YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "jev-1.13",
+    "state": {"ticket": "Payment failed twice, customer asks for a refund."},
+    "questions": {
+      "refund": {"type": "noul", "instructions": "Should we refund?"},
+      "team": {"type": "choice", "instructions": "Which team handles it?", "criteria": {"billing": null, "support": null}},
+      "urgency": {"type": "score", "instructions": "How urgent is it?", "criteria": ["Low", "Medium", "High"]}
+    }
+  }'`,
+    },
     // The partner routes identify the caller by token; the user_id in a grant is
     // the RECIPIENT, which is why an account needs to be able to read its own.
     ...(isPartner
