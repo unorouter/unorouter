@@ -307,7 +307,7 @@
       "STAT_LATENCY": "متوسّط زمن الاستجابة",
       "STAT_LATENCY_HINT": "متوسط زمن الاستجابة",
       "STAT_SUCCESS": "معدّل النجاح",
-      "STAT_SUCCESS_HINT": "نسبة الطلبات المكتملة بنجاح",
+      "STAT_SUCCESS_HINT": "نسبة الطلبات المكتملة بنجاح، مع التحويل التلقائي إلى مزوّد آخر",
       "SUPPORTED_PARAMETERS": "المعاملات المدعومة",
       "PERFORMANCE": "الأداء",
       "UPTIME": "مدة التشغيل",

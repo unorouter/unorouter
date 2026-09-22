@@ -307,7 +307,7 @@
       "STAT_LATENCY": "השהיה ממוצעת",
       "STAT_LATENCY_HINT": "זמן התגובה הממוצע",
       "STAT_SUCCESS": "אחוז הצלחה",
-      "STAT_SUCCESS_HINT": "אחוז הבקשות שהושלמו ללא שגיאה",
+      "STAT_SUCCESS_HINT": "אחוז הבקשות שהושלמו ללא שגיאה, כולל מעבר אוטומטי לספק אחר",
       "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
       "PERFORMANCE": "ביצועים",
       "UPTIME": "זמן פעילות",

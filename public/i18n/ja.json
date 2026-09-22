@@ -307,7 +307,7 @@
       "STAT_LATENCY": "平均レイテンシ",
       "STAT_LATENCY_HINT": "平均応答時間",
       "STAT_SUCCESS": "成功率",
-      "STAT_SUCCESS_HINT": "エラーなく完了したリクエストの割合",
+      "STAT_SUCCESS_HINT": "自動フェイルオーバーを含め、エラーなく完了したリクエストの割合",
       "SUPPORTED_PARAMETERS": "対応パラメータ",
       "PERFORMANCE": "パフォーマンス",
       "UPTIME": "稼働率",

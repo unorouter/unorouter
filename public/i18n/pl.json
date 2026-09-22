@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Średnie opóźnienie",
       "STAT_LATENCY_HINT": "Średni czas odpowiedzi",
       "STAT_SUCCESS": "Wskaźnik sukcesu",
-      "STAT_SUCCESS_HINT": "Odsetek żądań zakończonych bez błędu",
+      "STAT_SUCCESS_HINT": "Odsetek żądań zakończonych bez błędu, z automatycznym przełączaniem awaryjnym",
       "SUPPORTED_PARAMETERS": "Obsługiwane parametry",
       "PERFORMANCE": "Wydajność",
       "UPTIME": "Czas dostępności",

@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Độ trễ trung bình",
       "STAT_LATENCY_HINT": "Thời gian phản hồi trung bình",
       "STAT_SUCCESS": "Tỷ lệ thành công",
-      "STAT_SUCCESS_HINT": "Tỷ lệ yêu cầu hoàn tất không lỗi",
+      "STAT_SUCCESS_HINT": "Tỷ lệ yêu cầu hoàn tất không lỗi, tính cả việc tự động chuyển sang nhà cung cấp khác",
       "SUPPORTED_PARAMETERS": "Tham số hỗ trợ",
       "PERFORMANCE": "Hiệu năng",
       "UPTIME": "Thời gian hoạt động",

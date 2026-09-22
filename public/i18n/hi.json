@@ -307,7 +307,7 @@
       "STAT_LATENCY": "औसत लेटेंसी",
       "STAT_LATENCY_HINT": "औसत प्रतिक्रिया समय",
       "STAT_SUCCESS": "सफलता दर",
-      "STAT_SUCCESS_HINT": "बिना त्रुटि पूर्ण हुए अनुरोधों का अनुपात",
+      "STAT_SUCCESS_HINT": "स्वचालित फ़ेलओवर सहित, बिना त्रुटि पूर्ण हुए अनुरोधों का अनुपात",
       "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
       "PERFORMANCE": "प्रदर्शन",
       "UPTIME": "अपटाइम",

@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Latensi rata-rata",
       "STAT_LATENCY_HINT": "Waktu respons rata-rata",
       "STAT_SUCCESS": "Tingkat sukses",
-      "STAT_SUCCESS_HINT": "Proporsi permintaan yang selesai tanpa galat",
+      "STAT_SUCCESS_HINT": "Proporsi permintaan yang selesai tanpa galat, dengan failover otomatis",
       "SUPPORTED_PARAMETERS": "Parameter didukung",
       "PERFORMANCE": "Performa",
       "UPTIME": "Waktu aktif",

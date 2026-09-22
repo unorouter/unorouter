@@ -307,7 +307,7 @@
       "STAT_LATENCY": "평균 지연 시간",
       "STAT_LATENCY_HINT": "평균 응답 시간",
       "STAT_SUCCESS": "성공률",
-      "STAT_SUCCESS_HINT": "오류 없이 완료된 요청의 비율",
+      "STAT_SUCCESS_HINT": "자동 페일오버를 포함해 오류 없이 완료된 요청의 비율",
       "SUPPORTED_PARAMETERS": "지원 파라미터",
       "PERFORMANCE": "성능",
       "UPTIME": "가동 시간",
