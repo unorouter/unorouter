@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Ortalama gecikme",
       "STAT_LATENCY_HINT": "Ortalama yanıt süresi",
       "STAT_SUCCESS": "Başarı oranı",
-      "STAT_SUCCESS_HINT": "Hatasız tamamlanan isteklerin oranı",
+      "STAT_SUCCESS_HINT": "Otomatik yük devretme dahil, hatasız tamamlanan isteklerin oranı",
       "SUPPORTED_PARAMETERS": "Desteklenen parametreler",
       "PERFORMANCE": "Performans",
       "UPTIME": "Çalışma süresi",

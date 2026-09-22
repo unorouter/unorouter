@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Average latency",
       "STAT_LATENCY_HINT": "Average end-to-end response time",
       "STAT_SUCCESS": "Success rate",
-      "STAT_SUCCESS_HINT": "Share of requests completed without error",
+      "STAT_SUCCESS_HINT": "Share of requests completed without error, with automatic failover",
       "SUPPORTED_PARAMETERS": "Supported parameters",
       "PERFORMANCE": "Performance",
       "UPTIME": "Uptime",

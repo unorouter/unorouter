@@ -17,8 +17,8 @@ import {
   CHART_TOOLTIP_STYLE,
 } from "../shared/chart-primitives";
 import { StatusBox } from "../shared/status-box";
-import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
+import { dayjs } from "@/lib/utils/format/date";
 import { StatCard } from "./stat-card";
 import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";
 import { successIntent } from "@/lib/utils/format/math";
@@ -57,34 +57,41 @@ export function PerformanceSection(props: Props) {
   const [showGroups, setShowGroups] = useState(false);
   const query = usePerfMetricsQuery(props.modelName, props.hours ?? 24);
   const groups = query.data?.groups ?? [];
+  // Never average the lanes: that weighs a 3-request fallback like the main lane.
+  const summary = query.data?.summary;
 
   if (query.isLoading) {
     return <StatusBox>{t("MODELS.DETAIL.PERF_LOADING")}</StatusBox>;
   }
 
-  if (groups.length === 0) {
+  if (groups.length === 0 || !summary) {
     return <StatusBox>{t("MODELS.DETAIL.PERF_EMPTY")}</StatusBox>;
   }
 
-  const perf = aggregatePerfGroups(groups);
-  const intent = successIntent(perf.avgSuccess);
+  const intent = successIntent(summary.success_rate);
+  const series = (query.data?.series ?? [])
+    .filter((point) => point.avg_ttft_ms > 0)
+    .map((point) => ({
+      label: dayjs(point.ts * 1000).format("HH:mm"),
+      ttft_ms: point.avg_ttft_ms,
+    }));
 
   return (
     <div className={cn("flex flex-col gap-4", props.className)}>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <StatCard
           label={t("MODELS.DETAIL.STAT_TPS")}
-          value={formatTps(perf.avgTps)}
+          value={formatTps(summary.avg_tps)}
           hint={t("MODELS.DETAIL.STAT_TPS_HINT")}
         />
         <StatCard
           label={t("MODELS.DETAIL.STAT_LATENCY")}
-          value={formatLatency(perf.avgLatency)}
+          value={formatLatency(summary.avg_latency_ms)}
           hint={t("MODELS.DETAIL.STAT_LATENCY_HINT")}
         />
         <StatCard
           label={t("MODELS.DETAIL.STAT_SUCCESS")}
-          value={formatPct(perf.avgSuccess)}
+          value={formatPct(summary.success_rate)}
           hint={t("MODELS.DETAIL.STAT_SUCCESS_HINT")}
           intent={intent}
         />
@@ -155,14 +162,14 @@ export function PerformanceSection(props: Props) {
         </div>
       )}
 
-      {perf.series.length > 1 && (
+      {series.length > 1 && (
         <div className="border-border rounded-md border p-3">
           <div className="text-foreground mb-2 text-xs font-semibold">
             {t("MODELS.DETAIL.PERF_LATENCY_TREND")}
           </div>
           <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={perf.series} margin={CHART_MARGIN}>
+              <LineChart data={series} margin={CHART_MARGIN}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   className="stroke-border"

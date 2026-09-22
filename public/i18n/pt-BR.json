@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Latência média",
       "STAT_LATENCY_HINT": "Tempo médio de resposta",
       "STAT_SUCCESS": "Taxa de sucesso",
-      "STAT_SUCCESS_HINT": "Proporção de solicitações concluídas sem erro",
+      "STAT_SUCCESS_HINT": "Proporção de solicitações concluídas sem erro, com failover automático",
       "SUPPORTED_PARAMETERS": "Parâmetros suportados",
       "PERFORMANCE": "Desempenho",
       "UPTIME": "Tempo de atividade",

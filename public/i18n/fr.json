@@ -307,7 +307,7 @@
       "STAT_LATENCY": "Latence moyenne",
       "STAT_LATENCY_HINT": "Temps de réponse moyen",
       "STAT_SUCCESS": "Taux de succès",
-      "STAT_SUCCESS_HINT": "Part des requêtes abouties sans erreur",
+      "STAT_SUCCESS_HINT": "Part des requêtes abouties sans erreur, avec basculement automatique",
       "SUPPORTED_PARAMETERS": "Paramètres supportés",
       "PERFORMANCE": "Performance",
       "UPTIME": "Disponibilité",
