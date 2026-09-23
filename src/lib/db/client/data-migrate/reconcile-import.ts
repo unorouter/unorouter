@@ -533,23 +533,28 @@ async function sahPoolDirExists(databasePath: string): Promise<boolean> {
   }
 }
 
+// A probe that could not read the pool (null) keeps it: only a pool that
+// answered with no tables at all is deleted.
 async function sahPoolBackupHasContent(backupPath: string): Promise<boolean> {
   if (!(await sahPoolDirExists(backupPath))) return false;
   const probe = newSql(backupPath);
-  let hasContent = false;
+  let tables: number | null = null;
   try {
-    const rows = await probe.sql<{ n: number }>(
-      "SELECT count(*) AS n FROM sqlite_master",
-    );
-    hasContent = (rows[0]?.n ?? 0) > 0;
+    // A pool that did not start answers from an empty in-memory database.
+    if ((await probe.getDatabaseInfo()).storageType === "opfs") {
+      const rows = await probe.sql<{ n: number }>(
+        "SELECT count(*) AS n FROM sqlite_master",
+      );
+      tables = rows[0]?.n ?? 0;
+    }
   } catch {
-    hasContent = false;
+    tables = null;
   } finally {
     await probe.destroy().catch(() => {});
     terminateSql(probe);
   }
-  if (!hasContent) await removePoolDir(backupPath);
-  return hasContent;
+  if (tables === 0) await removePoolDir(backupPath);
+  return tables !== 0;
 }
 
 function backupImportPath(appName: string): string {
@@ -580,17 +585,42 @@ export async function recoverPendingImport(
 
   logChatDebug("import.reconcile.recover.start", {});
   const live = newSql(livePath);
+  // The backup goes only once live is known good or was restored from it.
+  let settled = false;
   try {
-    const liveOk = await integrityOk(live);
-    if (!liveOk) {
-      await restoreLiveFromBackup(livePath, backupPath, live);
-      logChatDebug("import.reconcile.recover.restored", {});
-    } else {
+    const verdict = await liveVerdict(live);
+    if (verdict === "ok") {
+      settled = true;
       logChatDebug("import.reconcile.recover.live_intact", {});
+    } else if (verdict === "corrupt") {
+      settled = await restoreLiveFromBackup(livePath, backupPath, live);
+      logChatDebug("import.reconcile.recover.restored", { restored: settled });
+    } else {
+      logChatDebug("import.reconcile.recover.unverified", {});
     }
   } finally {
     await live.destroy().catch(() => {});
     terminateSql(live);
-    await deleteBackup(backupPath);
+    if (settled) await deleteBackup(backupPath);
+  }
+}
+
+// "unknown" when the check itself could not run, which is no reason to write
+// the pre-import copy over whatever live holds now.
+async function liveVerdict(
+  sql: SQLocalDrizzle,
+): Promise<"ok" | "corrupt" | "unknown"> {
+  try {
+    if ((await sql.getDatabaseInfo()).storageType !== "opfs") return "unknown";
+    const rows = await sql.sql<{ integrity_check: string }>(
+      `PRAGMA integrity_check`,
+    );
+    return rows[0]?.integrity_check === "ok" ? "ok" : "corrupt";
+  } catch (err) {
+    return /SQLITE_CORRUPT|SQLITE_NOTADB|not a database|malformed/i.test(
+      String(err),
+    )
+      ? "corrupt"
+      : "unknown";
   }
 }

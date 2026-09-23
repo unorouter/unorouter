@@ -65,7 +65,7 @@ import {
   replaceMessageParts,
 } from "@/store/chat-store";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
-import { retryLocalDbOpen } from "@/lib/db/client/client";
+import { acceptEmptiedLocalDb, retryLocalDbOpen } from "@/lib/db/client/client";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -76,6 +76,7 @@ import {
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
+  unstable_useThreadMessageIds,
   useAui,
   useAuiState,
   type TextMessagePartProps,
@@ -356,9 +357,9 @@ const WINDOW_STEP = 50;
 // keystroke, so a thread of 1000 spent ~200ms per key with all of them in the
 // DOM. Only the newest slice is mounted; reaching its top mounts the next.
 const ThreadMessageWindow: FC = () => {
-  const total = useAuiState((s) => s.thread.messages.length);
+  const ids = unstable_useThreadMessageIds();
   const [shown, setShown] = useState(WINDOW_STEP);
-  const start = Math.max(0, total - shown);
+  const start = Math.max(0, ids.length - shown);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const grow = useRef<{ el: HTMLElement; top: number; height: number } | null>(
     null,
@@ -397,10 +398,13 @@ const ThreadMessageWindow: FC = () => {
   return (
     <>
       {start > 0 && <div ref={sentinelRef} className="h-px shrink-0" />}
-      {Array.from({ length: total - start }, (_, i) => (
-        <ThreadPrimitive.MessageByIndex
-          key={start + i}
-          index={start + i}
+      {/* By id, not index: a message mounted for an index the thread no longer
+          holds (a thread switch mid-render) threw "Entry not available in the
+          store" and took the whole page down; an id that is gone renders null. */}
+      {ids.slice(start).map((id) => (
+        <ThreadPrimitive.Unstable_MessageById
+          key={id}
+          messageId={id}
           components={MESSAGE_COMPONENTS}
         />
       ))}
@@ -732,6 +736,10 @@ const StorageBlockedNotice: FC = () => {
     retryLocalDbOpen();
     void qc.invalidateQueries();
   };
+  const acceptEmpty = () => {
+    acceptEmptiedLocalDb();
+    void qc.invalidateQueries();
+  };
   return (
     <div className="border-destructive/40 bg-destructive/10 text-foreground flex max-w-md flex-col gap-2 rounded-lg border px-3 py-2 text-xs">
       <div className="flex items-start gap-2">
@@ -740,9 +748,22 @@ const StorageBlockedNotice: FC = () => {
           className="text-destructive mt-0.5 size-3.5 shrink-0"
         />
         <span>
-          {t(kind === "held" ? "CHAT.DB_HELD" : "CHAT.STORAGE_BLOCKED")}
+          {t(
+            kind === "held"
+              ? "CHAT.DB_HELD"
+              : kind === "emptied"
+                ? "CHAT.DB_EMPTIED"
+                : "CHAT.STORAGE_BLOCKED",
+          )}
         </span>
       </div>
+      {kind === "emptied" && (
+        <div className="flex justify-end">
+          <Button variant="outline" size="sm" onClick={acceptEmpty}>
+            {t("CHAT.DB_EMPTIED_CONTINUE")}
+          </Button>
+        </div>
+      )}
       {kind === "held" && (
         <div className="flex justify-end gap-2">
           <Button variant="outline" size="sm" onClick={downloadRawDatabase}>

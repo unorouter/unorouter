@@ -28,6 +28,7 @@ export type SahPoolControlReply = {
 
 export type SahPoolDiagnosis = {
   poolError?: string;
+  filesAtOpen?: string[];
   opfsReachable: boolean;
   opfsError?: string;
   persisted?: boolean;
@@ -49,6 +50,7 @@ function isControlMessage(data: unknown): data is SahPoolControlMessage {
 async function diagnose(): Promise<SahPoolDiagnosis> {
   const result: SahPoolDiagnosis = {
     poolError: driver.lastPoolError,
+    filesAtOpen: driver.filesAtOpen,
     opfsReachable: false,
   };
   try {
