@@ -17,6 +17,8 @@ import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
 import type { CharacterRow } from "@/lib/db/schema/rows";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const characters = makeRpEntity<
   CharacterRow,
@@ -172,9 +174,26 @@ export function useImportCharacterCardMutation() {
 }
 
 export function useImportCharacterFromUrlMutation() {
+  const t = useTranslations();
   return useApiMutation({
     mutationFn: (input: string) => runUrlImport(input, persistImportedCards),
     invalidates: IMPORT_INVALIDATES,
+    onSuccess: (res) => {
+      if (res.withoutDefinition.length > 0) {
+        toast.warning(
+          t("RP.CHARACTERS_IMPORT_NO_DEFINITION", {
+            names: res.withoutDefinition.join(", "),
+          }),
+          { duration: 15_000 },
+        );
+      }
+      if (res.privateBooks.length > 0) {
+        toast.warning(
+          `${t("ERRORS.CARD_IMPORT_LOREBOOK_PRIVATE")}: ${res.privateBooks.join(", ")}`,
+          { duration: 15_000 },
+        );
+      }
+    },
   });
 }
 
@@ -187,9 +206,24 @@ async function persistImportedCards(results: ImportedResult[]) {
   if (cards.length === 0) {
     throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
   }
-  let last: Awaited<ReturnType<typeof persistImportedCard>> | null = null;
-  for (const card of cards) last = await persistImportedCard(card);
-  return last!;
+  const withoutDefinition: string[] = [];
+  const privateBooks: string[] = [];
+  for (const card of cards) {
+    await persistImportedCard(card);
+    const data = card.card.data;
+    // A hidden definition arrives as a name, a greeting and a picture.
+    const blank = [
+      "description",
+      "personality",
+      "scenario",
+      "mes_example",
+    ].every((k) => typeof data[k] !== "string" || data[k].trim() === "");
+    if (blank) withoutDefinition.push(String(data.name ?? ""));
+    if ("skipped" in card) {
+      privateBooks.push(...card.skipped.map((sk) => sk.title));
+    }
+  }
+  return { withoutDefinition, privateBooks };
 }
 
 async function persistImportedCard(result: ImportedResult) {
