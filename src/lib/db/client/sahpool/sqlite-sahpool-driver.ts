@@ -97,10 +97,15 @@ export class SQLiteSahPoolDriver
       await this.destroy();
     }
 
+    // A journal listed here is played back on the first read, onto whatever
+    // file carries the name, so it is the one witness of how a db emptied.
+    this.filesAtOpen = this.poolUtil.getFileNames();
     this.db = new this.poolUtil.OpfsSAHPoolDb(absName(databasePath));
     this.config = config;
     this.initWriteHook();
   }
+
+  filesAtOpen?: string[];
 
   override async isDatabasePersisted(): Promise<boolean> {
     return navigator.storage?.persisted();

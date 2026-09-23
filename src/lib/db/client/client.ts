@@ -19,6 +19,7 @@ import {
   requestOwnership,
   subscribeWant,
 } from "@/lib/db/client/sahpool/db-ownership";
+import type { SahPoolDiagnosis } from "@/lib/db/client/sahpool/sahpool-worker";
 import {
   acquireLock,
   acquireLockWaiting,
@@ -361,7 +362,11 @@ async function assertNotSilentlyEmptied(
     "SELECT (SELECT COUNT(*) FROM conversations) + (SELECT COUNT(*) FROM characters) + (SELECT COUNT(*) FROM lorebooks) + (SELECT COUNT(*) FROM sampling_presets) AS n",
   );
   const rowCount = Number(rows[0]?.n ?? 0);
-  noteRowCount(rowCount, liveBytes);
+  noteRowCount(
+    rowCount,
+    liveBytes,
+    rowCount === 0 ? await diagnoseSql(sql).catch(() => undefined) : undefined,
+  );
   if (rowCount > 0) return;
 
   let orphanBytes = 0;
@@ -397,11 +402,20 @@ async function assertNotSilentlyEmptied(
 // orphan check above finds nothing, since the bytes are gone: the loss left no
 // trace anywhere. What this device held at its last open is the only witness.
 const LAST_ROWS_KEY = "unorouter-db-last-rows";
-function noteRowCount(rowCount: number, liveBytes: number): void {
+function noteRowCount(
+  rowCount: number,
+  liveBytes: number,
+  diagnosis: SahPoolDiagnosis | undefined,
+): void {
   try {
     const before = Number(localStorage.getItem(LAST_ROWS_KEY) ?? 0);
     if (before > 0 && rowCount === 0) {
-      logChatDebug("db.open.emptied", { rowsBefore: before, liveBytes });
+      logChatDebug("db.open.emptied", {
+        rowsBefore: before,
+        liveBytes,
+        poolError: diagnosis?.poolError,
+        filesAtOpen: diagnosis?.filesAtOpen,
+      });
       analytics.health.dbEmptied({
         rows_before: before,
         live_bytes: liveBytes,
