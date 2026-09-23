@@ -3961,6 +3961,8 @@
     "LOCAL_ONLY_NOTICE": "Deine Chats bleiben auf diesem Gerät. Wir sehen sie nie und bewahren keine Kopie auf, also sichere sie selbst.",
     "DB_HELD": "Ein anderer Tab oder eine gerade geschlossene Seite hält die lokale Datenbank noch, deshalb können Chats nicht geladen werden. Schließe andere UnoRouter-Tabs oder beende den Browser und öffne ihn erneut, dann versuche es noch einmal.",
     "DB_HELD_DOWNLOAD": "Rohdatei der Datenbank herunterladen",
+    "DB_EMPTIED": "Deine Chats wurden nicht geladen: Auf diesem Gerät gab es Chats, aber die lokale Datenbank wurde leer geöffnet. Stell nach dem Fortfahren dein neuestes Backup unter Werkzeuge, Datenbank, SQLite-Datei importieren wieder her. Wenn du alles selbst gelöscht hast, fahre einfach fort.",
+    "DB_EMPTIED_CONTINUE": "Mit leerer Datenbank fortfahren",
     "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gespeichert werden und Nachrichten verschwinden beim Senden. Erlaube Cookies und Websitedaten für diese Seite, deaktiviere das Löschen der Daten beim Schließen und verlasse den privaten Modus. Datenschutzorientierte Chromium-Varianten blockieren das standardmäßig.",
     "THOUGHT_TOKENS": "{count} Tokens",
     "DELETE_CHAT_TITLE": "Diesen Chat löschen?",

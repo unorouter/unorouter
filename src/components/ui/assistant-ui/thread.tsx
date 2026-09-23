@@ -65,7 +65,7 @@ import {
   replaceMessageParts,
 } from "@/store/chat-store";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
-import { retryLocalDbOpen } from "@/lib/db/client/client";
+import { acceptEmptiedLocalDb, retryLocalDbOpen } from "@/lib/db/client/client";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -736,6 +736,10 @@ const StorageBlockedNotice: FC = () => {
     retryLocalDbOpen();
     void qc.invalidateQueries();
   };
+  const acceptEmpty = () => {
+    acceptEmptiedLocalDb();
+    void qc.invalidateQueries();
+  };
   return (
     <div className="border-destructive/40 bg-destructive/10 text-foreground flex max-w-md flex-col gap-2 rounded-lg border px-3 py-2 text-xs">
       <div className="flex items-start gap-2">
@@ -744,9 +748,22 @@ const StorageBlockedNotice: FC = () => {
           className="text-destructive mt-0.5 size-3.5 shrink-0"
         />
         <span>
-          {t(kind === "held" ? "CHAT.DB_HELD" : "CHAT.STORAGE_BLOCKED")}
+          {t(
+            kind === "held"
+              ? "CHAT.DB_HELD"
+              : kind === "emptied"
+                ? "CHAT.DB_EMPTIED"
+                : "CHAT.STORAGE_BLOCKED",
+          )}
         </span>
       </div>
+      {kind === "emptied" && (
+        <div className="flex justify-end">
+          <Button variant="outline" size="sm" onClick={acceptEmpty}>
+            {t("CHAT.DB_EMPTIED_CONTINUE")}
+          </Button>
+        </div>
+      )}
       {kind === "held" && (
         <div className="flex justify-end gap-2">
           <Button variant="outline" size="sm" onClick={downloadRawDatabase}>

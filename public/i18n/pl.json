@@ -3961,6 +3961,8 @@
     "LOCAL_ONLY_NOTICE": "Twoje czaty zostają na tym urządzeniu. Nigdy ich nie widzimy i nie przechowujemy kopii, więc zrób kopię zapasową sam.",
     "DB_HELD": "Inna karta lub właśnie zamknięta strona nadal przetrzymuje lokalną bazę danych, więc czaty nie mogą się załadować. Zamknij pozostałe karty UnoRouter albo zamknij i ponownie otwórz przeglądarkę, a potem spróbuj jeszcze raz.",
     "DB_HELD_DOWNLOAD": "Pobierz surowy plik bazy danych",
+    "DB_EMPTIED": "Twoje czaty się nie załadowały: na tym urządzeniu były czaty, ale lokalna baza danych otworzyła się pusta. Po kontynuowaniu przywróć najnowszą kopię zapasową w Narzędzia, Baza danych, Importuj plik SQLite. Jeśli usunięcie wszystkiego było celowe, po prostu kontynuuj.",
+    "DB_EMPTIED_CONTINUE": "Kontynuuj z pustą bazą danych",
     "STORAGE_BLOCKED": "Przeglądarka blokuje pamięć dla tej witryny, więc czaty nie mogą być zapisywane, a wiadomości znikają po wysłaniu. Zezwól na pliki cookie i dane witryny, wyłącz usuwanie danych przy zamykaniu i wyjdź z trybu prywatnego. Warianty Chromium nastawione na prywatność blokują to domyślnie.",
     "THOUGHT_TOKENS": "{count} tokenów",
     "DELETE_CHAT_TITLE": "Usunąć ten czat?",
