@@ -3961,6 +3961,8 @@
     "LOCAL_ONLY_NOTICE": "Le tue chat restano su questo dispositivo. Non le vediamo mai e non ne conserviamo copie, quindi il backup spetta a te.",
     "DB_HELD": "Un'altra scheda, o una pagina appena chiusa, trattiene ancora il database locale, quindi le chat non possono essere caricate. Chiudi le altre schede di UnoRouter, oppure esci dal browser e riaprilo, poi riprova.",
     "DB_HELD_DOWNLOAD": "Scarica il file grezzo del database",
+    "DB_EMPTIED": "Le tue chat non sono state caricate: su questo dispositivo c'erano delle chat, ma il database locale si è aperto vuoto. Dopo aver continuato, ripristina il backup più recente da Strumenti, Database, Importa file SQLite. Se hai eliminato tutto tu, continua pure.",
+    "DB_EMPTIED_CONTINUE": "Continua con un database vuoto",
     "STORAGE_BLOCKED": "Il browser sta bloccando l'archiviazione per questo sito, quindi le chat non possono essere salvate e i messaggi spariscono all'invio. Consenti i cookie e i dati del sito, disattiva la cancellazione dei dati alla chiusura ed esci dalla navigazione privata. Le versioni di Chromium orientate alla privacy lo bloccano per impostazione predefinita.",
     "THOUGHT_TOKENS": "{count} token",
     "DELETE_CHAT_TITLE": "Eliminare questa chat?",

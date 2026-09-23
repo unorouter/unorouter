@@ -3961,6 +3961,8 @@
     "LOCAL_ONLY_NOTICE": "Sohbetleriniz bu cihazda kalır. Onları hiç görmeyiz ve kopyasını saklamayız, bu yüzden yedeği kendiniz alın.",
     "DB_HELD": "Başka bir sekme ya da az önce kapatılan bir sayfa yerel veritabanını hâlâ tutuyor, bu yüzden sohbetler yüklenemiyor. Diğer UnoRouter sekmelerini kapatın veya tarayıcıdan çıkıp yeniden açın, ardından tekrar deneyin.",
     "DB_HELD_DOWNLOAD": "Ham veritabanı dosyasını indir",
+    "DB_EMPTIED": "Sohbetleriniz yüklenmedi: bu cihazda sohbetler vardı ama yerel veritabanı boş açıldı. Devam ettikten sonra en son yedeğinizi Araçlar, Veritabanı, SQLite dosyasını içe aktar üzerinden geri yükleyin. Her şeyi kendiniz sildiyseniz devam etmeniz yeterli.",
+    "DB_EMPTIED_CONTINUE": "Boş veritabanıyla devam et",
     "STORAGE_BLOCKED": "Tarayıcınız bu site için depolamayı engelliyor, bu yüzden sohbetler kaydedilemiyor ve mesajlar gönderildiğinde kayboluyor. Bu site için çerezlere ve site verilerine izin verin, kapatırken verileri silen ayarı kapatın ve gizli moddan çıkın. Gizlilik odaklı Chromium sürümleri bunu varsayılan olarak engeller.",
     "THOUGHT_TOKENS": "{count} jeton",
     "DELETE_CHAT_TITLE": "Bu sohbet silinsin mi?",

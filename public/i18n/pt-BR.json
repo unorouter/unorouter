@@ -3961,6 +3961,8 @@
     "LOCAL_ONLY_NOTICE": "Suas conversas ficam neste aparelho. Nunca as vemos e não guardamos cópia, então faça o backup você mesmo.",
     "DB_HELD": "Outra aba, ou uma página que acabou de fechar, ainda está segurando o banco de dados local, então os chats não podem ser carregados. Feche as outras abas do UnoRouter, ou saia do navegador e abra-o novamente, depois tente de novo.",
     "DB_HELD_DOWNLOAD": "Baixar o arquivo bruto do banco de dados",
+    "DB_EMPTIED": "Seus chats não carregaram: este dispositivo tinha chats, mas o banco de dados local abriu vazio. Depois de continuar, restaure seu backup mais recente em Ferramentas, Banco de dados, Importar arquivo SQLite. Se foi você quem apagou tudo, é só continuar.",
+    "DB_EMPTIED_CONTINUE": "Continuar com um banco de dados vazio",
     "STORAGE_BLOCKED": "Seu navegador está bloqueando o armazenamento deste site, então as conversas não podem ser salvas e as mensagens somem ao enviar. Permita cookies e dados do site, desative a limpeza de dados ao fechar e saia da navegação privada. Versões do Chromium focadas em privacidade bloqueiam isso por padrão.",
     "THOUGHT_TOKENS": "{count} tokens",
     "DELETE_CHAT_TITLE": "Excluir este chat?",
