@@ -254,8 +254,8 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden @4xl:table-cell text-right",
-        cellClassName: "hidden @4xl:table-cell text-right",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
       },
       cell: ({ row }) => <RateCell value={row.original.uptime_24h} />,
     },
@@ -271,8 +271,8 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden @4xl:table-cell text-right",
-        cellClassName: "hidden @4xl:table-cell text-right",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
       },
       cell: ({ row }) => <RateCell value={row.original.success_rate} />,
     },
@@ -288,8 +288,8 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden @4xl:table-cell text-right",
-        cellClassName: "hidden @4xl:table-cell text-right",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
       },
       cell: ({ row }) =>
         row.original.avg_latency_ms == null ? (
@@ -313,9 +313,8 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden @4xl:table-cell text-right",
-        cellClassName:
-          "hidden @4xl:table-cell text-right text-muted-foreground",
+        headerClassName: "text-right",
+        cellClassName: "text-right text-muted-foreground",
       },
       cell: ({ row }) => {
         const ts = row.original.release_ts;

@@ -117,6 +117,7 @@ export function ModelsPage() {
                 columns={columns}
                 localSorting
                 windowVirtual
+                stickyHeaderTop="calc(3.5rem + 2.4375rem)"
                 onRowClick={(model) => openDetail(model.model_name)}
               />
             ) : (
