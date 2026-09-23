@@ -632,6 +632,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-slate-500/20",
     primary: "#334155",
   },
+  [Vendor.IFM]: {
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-700 dark:text-zinc-300",
+    tagBg: "bg-zinc-500/10",
+    tagBorder: "border-zinc-500/20",
+    primary: "#18181b",
+  },
   [Vendor.MEGANOVA]: {
     bg: "bg-emerald-500/5",
     border: "border-emerald-500/20",
@@ -898,6 +906,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
     import("@/components/elements/brand/bruhzwater-icon"),
   [Vendor.THINKINGMACHINES]: () =>
     import("@/components/elements/brand/thinkingmachines-icon"),
+  [Vendor.IFM]: () => import("@/components/elements/brand/ifm-icon"),
   [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
   [Vendor.AGNES]: () => import("@/components/elements/brand/agnes-icon"),
   [Vendor.REQUESTY]: () => import("@/components/elements/brand/requesty-icon"),
