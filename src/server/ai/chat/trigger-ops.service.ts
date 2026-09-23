@@ -5,12 +5,6 @@ import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";
 
-// A reasoning model spends this budget thinking before it writes anything, and
-// at 1024 it ran out first and returned an empty reply, which the gateway
-// reports as the provider having failed. Utility replies are short, so the
-// headroom costs nothing on a model that does not think.
-const TRIGGER_LLM_MAX_TOKENS = 4096;
-
 // Must THROW, never return the error as text: the illustrator treats whatever
 // comes back as the image prompt and would generate from the rejection message.
 export async function runTriggerLLM(
@@ -22,10 +16,12 @@ export async function runTriggerLLM(
   const parsed = parseChatML(prompt);
   const messages = parsed ?? [{ role: "user" as const, content: prompt }];
   const provider = getProvider(apiKey, undefined, group);
+  // No cap, as in the chat: the gateway applies the model's own. A reasoning
+  // model thinks before it writes and glm-5.3 spends ~5k tokens on an RP reply,
+  // so a fixed 4096 came back empty; a higher literal 400s on strict providers.
   const result = await generateText({
     model: provider.chatModel(model),
     messages,
-    maxOutputTokens: TRIGGER_LLM_MAX_TOKENS,
     maxRetries: 1,
   });
   if (!result.text) throw new Error("empty response");
