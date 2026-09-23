@@ -1,178 +1,68 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..79eda39898820125d65135c07e04fdab297fc4c2 100644
+index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..417383f79af51e60480b0bc6fdb8bd36423716b4 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -16223,7 +16223,8 @@ async function sqlite3InitModule$1(moduleArg = {}) {
- 				async acquireAccessHandles(clearFiles = false) {
- 					const files = [];
- 					for await (const [name, h] of this.#dhOpaque) if ("file" === h.kind) files.push([name, h]);
--					return Promise.all(files.map(async ([name, h]) => {
-+					const heldOut = [];
-+					await Promise.all(files.map(async ([name, h]) => {
- 						try {
- 							const ah = await h.createSyncAccessHandle();
- 							this.#mapSAHToName.set(ah, name);
-@@ -16233,7 +16234,8 @@ async function sqlite3InitModule$1(moduleArg = {}) {
- 							} else {
- 								const path = this.getAssociatedPath(ah);
- 								if (path) this.#mapFilenameToSAH.set(path, ah);
--								else this.#availableSAH.add(ah);
-+								else if (path === "") this.#availableSAH.add(ah);
-+								else heldOut.push(`${name} (${ah.getSize() - HEADER_OFFSET_DATA} bytes)`);
- 							}
- 						} catch (e) {
- 							this.storeErr(e);
-@@ -16241,6 +16243,16 @@ async function sqlite3InitModule$1(moduleArg = {}) {
- 							throw e;
- 						}
- 					}));
-+					/* unorouter patch: a held-out slot still holds a database. Carrying on
-+					   opens a fresh empty file under the same name, and a journal that
-+					   fresh file leaves behind can later roll back onto the real one and
-+					   truncate it. Refuse the pool instead; the caller retries. */
-+					if (heldOut.length) {
-+						const e = new Error(`OpfsSAHPool held: ${heldOut.join(", ")} behind an unreadable header`);
-+						this.storeErr(e);
-+						this.releaseAccessHandles();
-+						throw e;
-+					}
- 				}
- 				/**
- 				Given an SAH, returns the client-specified name of
-@@ -16250,9 +16262,25 @@ async function sqlite3InitModule$1(moduleArg = {}) {
- 				returns an empty string.
+@@ -16251,8 +16251,15 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  				*/
  				getAssociatedPath(sah) {
--					sah.read(this.#apBody, { at: 0 });
-+					const gotHeader = sah.read(this.#apBody, { at: 0 });
-+					/* unorouter patch: a header that cannot be read, or that reads as
-+					   empty or corrupt, used to get the slot truncated on the spot. On
-+					   iOS that fired against the live database right after a reload and
-+					   erased it. A slot that still holds bytes is now held out of the
-+					   pool (null) so the data survives for salvage. */
-+					const holdsData = sah.getSize() > HEADER_OFFSET_DATA;
-+					if (holdsData && gotHeader < this.#apBody.byteLength) {
-+						warn("Short header read on a slot holding data; keeping it out of the pool.");
-+						return null;
-+					}
+ 					sah.read(this.#apBody, { at: 0 });
++					const pathBytes = this.#apBody.findIndex((v) => 0 === v);
++					const path = pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
++					const keep = !!path && sah.getSize() > HEADER_OFFSET_DATA;
  					const flags = this.#dvBody.getUint32(HEADER_OFFSET_FLAGS);
  					if (this.#apBody[0] && (flags & capi.SQLITE_OPEN_DELETEONCLOSE || (flags & PERSISTENT_FILE_TYPES) === 0)) {
-+						/* unorouter patch: delete-on-close scratch is garbage by design, but a
-+						   named slot holding data with no persistent type is a torn header. */
-+						if (holdsData && !(flags & capi.SQLITE_OPEN_DELETEONCLOSE)) {
-+							warn(`Slot holding data has unexpected flags ${flags.toString(16)}; keeping it out of the pool.`);
-+							return null;
++						if (keep && !(flags & capi.SQLITE_OPEN_DELETEONCLOSE)) {
++							warn(`Keeping ${path} despite unexpected flags ${flags.toString(16)}`, "because it holds data.");
++							return path;
 +						}
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16262,9 +16290,19 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+@@ -16261,9 +16268,11 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+ 					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
- 						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
--						if (0 === pathBytes) sah.truncate(HEADER_OFFSET_DATA);
-+						if (0 === pathBytes) {
-+							if (holdsData) {
-+								warn("Unnamed slot still holds data; keeping it out of the pool.");
-+								return null;
-+							}
-+							sah.truncate(HEADER_OFFSET_DATA);
-+						}
- 						return pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
+-						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
+ 						if (0 === pathBytes) sah.truncate(HEADER_OFFSET_DATA);
+-						return pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
++						return path;
++					} else if (keep) {
++						warn(`Keeping ${path} despite a bad digest because it holds data.`);
++						return path;
  					} else {
-+						if (holdsData) {
-+							warn("Bad header digest on a slot holding data; keeping it out of the pool.");
-+							return null;
-+						}
  						warn("Disassociating file with bad digest.");
  						this.setAssociatedPath(sah, "", 0);
- 						return "";
 diff --git a/dist/sqlite3-worker1.mjs b/dist/sqlite3-worker1.mjs
-index 55836559c280d5263be6258ba404bb3870081d86..919c0b552cfbaf45a447abcf19d8d7791d5bf5c5 100644
+index 55836559c280d5263be6258ba404bb3870081d86..8d41c9e7101e1df95bdbfc7a2bf8817f41240190 100644
 --- a/dist/sqlite3-worker1.mjs
 +++ b/dist/sqlite3-worker1.mjs
-@@ -16298,7 +16298,8 @@ async function sqlite3InitModule(moduleArg = {}) {
- 				async acquireAccessHandles(clearFiles = false) {
- 					const files = [];
- 					for await (const [name, h] of this.#dhOpaque) if ("file" === h.kind) files.push([name, h]);
--					return Promise.all(files.map(async ([name, h]) => {
-+					const heldOut = [];
-+					await Promise.all(files.map(async ([name, h]) => {
- 						try {
- 							const ah = await h.createSyncAccessHandle();
- 							this.#mapSAHToName.set(ah, name);
-@@ -16308,7 +16309,8 @@ async function sqlite3InitModule(moduleArg = {}) {
- 							} else {
- 								const path = this.getAssociatedPath(ah);
- 								if (path) this.#mapFilenameToSAH.set(path, ah);
--								else this.#availableSAH.add(ah);
-+								else if (path === "") this.#availableSAH.add(ah);
-+								else heldOut.push(`${name} (${ah.getSize() - HEADER_OFFSET_DATA} bytes)`);
- 							}
- 						} catch (e) {
- 							this.storeErr(e);
-@@ -16316,6 +16318,16 @@ async function sqlite3InitModule(moduleArg = {}) {
- 							throw e;
- 						}
- 					}));
-+					/* unorouter patch: a held-out slot still holds a database. Carrying on
-+					   opens a fresh empty file under the same name, and a journal that
-+					   fresh file leaves behind can later roll back onto the real one and
-+					   truncate it. Refuse the pool instead; the caller retries. */
-+					if (heldOut.length) {
-+						const e = new Error(`OpfsSAHPool held: ${heldOut.join(", ")} behind an unreadable header`);
-+						this.storeErr(e);
-+						this.releaseAccessHandles();
-+						throw e;
-+					}
- 				}
- 				/**
- 				Given an SAH, returns the client-specified name of
-@@ -16325,9 +16337,25 @@ async function sqlite3InitModule(moduleArg = {}) {
- 				returns an empty string.
+@@ -16326,8 +16326,15 @@ async function sqlite3InitModule(moduleArg = {}) {
  				*/
  				getAssociatedPath(sah) {
--					sah.read(this.#apBody, { at: 0 });
-+					const gotHeader = sah.read(this.#apBody, { at: 0 });
-+					/* unorouter patch: a header that cannot be read, or that reads as
-+					   empty or corrupt, used to get the slot truncated on the spot. On
-+					   iOS that fired against the live database right after a reload and
-+					   erased it. A slot that still holds bytes is now held out of the
-+					   pool (null) so the data survives for salvage. */
-+					const holdsData = sah.getSize() > HEADER_OFFSET_DATA;
-+					if (holdsData && gotHeader < this.#apBody.byteLength) {
-+						warn("Short header read on a slot holding data; keeping it out of the pool.");
-+						return null;
-+					}
+ 					sah.read(this.#apBody, { at: 0 });
++					const pathBytes = this.#apBody.findIndex((v) => 0 === v);
++					const path = pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
++					const keep = !!path && sah.getSize() > HEADER_OFFSET_DATA;
  					const flags = this.#dvBody.getUint32(HEADER_OFFSET_FLAGS);
  					if (this.#apBody[0] && (flags & capi.SQLITE_OPEN_DELETEONCLOSE || (flags & PERSISTENT_FILE_TYPES) === 0)) {
-+						/* unorouter patch: delete-on-close scratch is garbage by design, but a
-+						   named slot holding data with no persistent type is a torn header. */
-+						if (holdsData && !(flags & capi.SQLITE_OPEN_DELETEONCLOSE)) {
-+							warn(`Slot holding data has unexpected flags ${flags.toString(16)}; keeping it out of the pool.`);
-+							return null;
++						if (keep && !(flags & capi.SQLITE_OPEN_DELETEONCLOSE)) {
++							warn(`Keeping ${path} despite unexpected flags ${flags.toString(16)}`, "because it holds data.");
++							return path;
 +						}
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16337,9 +16365,19 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16336,9 +16343,11 @@ async function sqlite3InitModule(moduleArg = {}) {
+ 					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
- 						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
--						if (0 === pathBytes) sah.truncate(HEADER_OFFSET_DATA);
-+						if (0 === pathBytes) {
-+							if (holdsData) {
-+								warn("Unnamed slot still holds data; keeping it out of the pool.");
-+								return null;
-+							}
-+							sah.truncate(HEADER_OFFSET_DATA);
-+						}
- 						return pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
+-						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
+ 						if (0 === pathBytes) sah.truncate(HEADER_OFFSET_DATA);
+-						return pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
++						return path;
++					} else if (keep) {
++						warn(`Keeping ${path} despite a bad digest because it holds data.`);
++						return path;
  					} else {
-+						if (holdsData) {
-+							warn("Bad header digest on a slot holding data; keeping it out of the pool.");
-+							return null;
-+						}
  						warn("Disassociating file with bad digest.");
  						this.setAssociatedPath(sah, "", 0);
- 						return "";
