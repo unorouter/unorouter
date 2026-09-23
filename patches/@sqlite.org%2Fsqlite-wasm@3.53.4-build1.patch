@@ -1,11 +1,8 @@
-diff --git a/node_modules/@sqlite.org/sqlite-wasm/.bun-tag-7b73edcc552e7576 b/.bun-tag-7b73edcc552e7576
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b470396341 100644
+index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..79eda39898820125d65135c07e04fdab297fc4c2 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -14938,7 +14938,8 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16223,7 +16223,8 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  				async acquireAccessHandles(clearFiles = false) {
  					const files = [];
  					for await (const [name, h] of this.#dhOpaque) if ("file" === h.kind) files.push([name, h]);
@@ -15,7 +12,7 @@ index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b4
  						try {
  							const ah = await h.createSyncAccessHandle();
  							this.#mapSAHToName.set(ah, name);
-@@ -14948,7 +14949,8 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16233,7 +16234,8 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  							} else {
  								const path = this.getAssociatedPath(ah);
  								if (path) this.#mapFilenameToSAH.set(path, ah);
@@ -25,7 +22,7 @@ index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b4
  							}
  						} catch (e) {
  							this.storeErr(e);
-@@ -14956,6 +14958,16 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16241,6 +16243,16 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  							throw e;
  						}
  					}));
@@ -42,7 +39,7 @@ index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b4
  				}
  				/**
  				Given an SAH, returns the client-specified name of
-@@ -14965,9 +14977,25 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16250,9 +16262,25 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
@@ -69,7 +66,7 @@ index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b4
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -14977,9 +15005,19 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16262,9 +16290,19 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
  						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
@@ -91,10 +88,10 @@ index 6475875f8a7d5c1eee34d322ea3e3e91a97c7b1e..6adca84a77d703d5416336a2d546a8b4
  						this.setAssociatedPath(sah, "", 0);
  						return "";
 diff --git a/dist/sqlite3-worker1.mjs b/dist/sqlite3-worker1.mjs
-index 4d0ec9e72da08ad6a0daa640a1d3caa6a86f181a..d378ca4a7a4049326d9382dc18116e95793b0bc9 100644
+index 55836559c280d5263be6258ba404bb3870081d86..919c0b552cfbaf45a447abcf19d8d7791d5bf5c5 100644
 --- a/dist/sqlite3-worker1.mjs
 +++ b/dist/sqlite3-worker1.mjs
-@@ -14750,7 +14750,8 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16298,7 +16298,8 @@ async function sqlite3InitModule(moduleArg = {}) {
  				async acquireAccessHandles(clearFiles = false) {
  					const files = [];
  					for await (const [name, h] of this.#dhOpaque) if ("file" === h.kind) files.push([name, h]);
@@ -104,7 +101,7 @@ index 4d0ec9e72da08ad6a0daa640a1d3caa6a86f181a..d378ca4a7a4049326d9382dc18116e95
  						try {
  							const ah = await h.createSyncAccessHandle();
  							this.#mapSAHToName.set(ah, name);
-@@ -14760,7 +14761,8 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16308,7 +16309,8 @@ async function sqlite3InitModule(moduleArg = {}) {
  							} else {
  								const path = this.getAssociatedPath(ah);
  								if (path) this.#mapFilenameToSAH.set(path, ah);
@@ -114,7 +111,7 @@ index 4d0ec9e72da08ad6a0daa640a1d3caa6a86f181a..d378ca4a7a4049326d9382dc18116e95
  							}
  						} catch (e) {
  							this.storeErr(e);
-@@ -14768,6 +14770,16 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16316,6 +16318,16 @@ async function sqlite3InitModule(moduleArg = {}) {
  							throw e;
  						}
  					}));
@@ -131,7 +128,7 @@ index 4d0ec9e72da08ad6a0daa640a1d3caa6a86f181a..d378ca4a7a4049326d9382dc18116e95
  				}
  				/**
  				Given an SAH, returns the client-specified name of
-@@ -14777,9 +14789,25 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16325,9 +16337,25 @@ async function sqlite3InitModule(moduleArg = {}) {
  				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
@@ -158,7 +155,7 @@ index 4d0ec9e72da08ad6a0daa640a1d3caa6a86f181a..d378ca4a7a4049326d9382dc18116e95
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -14789,9 +14817,19 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16337,9 +16365,19 @@ async function sqlite3InitModule(moduleArg = {}) {
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
  						const pathBytes = this.#apBody.findIndex((v) => 0 === v);
