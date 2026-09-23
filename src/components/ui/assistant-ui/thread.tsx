@@ -76,6 +76,7 @@ import {
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
+  unstable_useThreadMessageIds,
   useAui,
   useAuiState,
   type TextMessagePartProps,
@@ -356,9 +357,9 @@ const WINDOW_STEP = 50;
 // keystroke, so a thread of 1000 spent ~200ms per key with all of them in the
 // DOM. Only the newest slice is mounted; reaching its top mounts the next.
 const ThreadMessageWindow: FC = () => {
-  const total = useAuiState((s) => s.thread.messages.length);
+  const ids = unstable_useThreadMessageIds();
   const [shown, setShown] = useState(WINDOW_STEP);
-  const start = Math.max(0, total - shown);
+  const start = Math.max(0, ids.length - shown);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const grow = useRef<{ el: HTMLElement; top: number; height: number } | null>(
     null,
@@ -397,10 +398,13 @@ const ThreadMessageWindow: FC = () => {
   return (
     <>
       {start > 0 && <div ref={sentinelRef} className="h-px shrink-0" />}
-      {Array.from({ length: total - start }, (_, i) => (
-        <ThreadPrimitive.MessageByIndex
-          key={start + i}
-          index={start + i}
+      {/* By id, not index: a message mounted for an index the thread no longer
+          holds (a thread switch mid-render) threw "Entry not available in the
+          store" and took the whole page down; an id that is gone renders null. */}
+      {ids.slice(start).map((id) => (
+        <ThreadPrimitive.Unstable_MessageById
+          key={id}
+          messageId={id}
           components={MESSAGE_COMPONENTS}
         />
       ))}
