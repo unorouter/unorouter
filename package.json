@@ -141,6 +141,6 @@
   },
   "patchedDependencies": {
     "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
-    "@sqlite.org/sqlite-wasm@3.53.0-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.53.0-build1.patch"
+    "@sqlite.org/sqlite-wasm@3.53.4-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.53.4-build1.patch"
   }
 }
