@@ -19,6 +19,7 @@ import {
   requestOwnership,
   subscribeWant,
 } from "@/lib/db/client/sahpool/db-ownership";
+import type { SahPoolDiagnosis } from "@/lib/db/client/sahpool/sahpool-worker";
 import {
   acquireLock,
   acquireLockWaiting,
@@ -124,8 +125,9 @@ export function localDbOpenFailed(): boolean {
 
 // "held" is another page's worker still on the pool (a tab in the background,
 // or the page this one replaced); "blocked" is the browser refusing storage.
-export function localDbOpenErrorKind(): "blocked" | "held" | null {
+export function localDbOpenErrorKind(): "blocked" | "held" | "emptied" | null {
   if (!dbOpenFailed || !lastOpenError) return null;
+  if (lastOpenError.includes(EMPTIED_MARKER)) return "emptied";
   if (lastOpenError.includes(BLOCKED_MARKER)) return "blocked";
   if (
     lastOpenError.includes(TAB_LOCK_MARKER) ||
@@ -142,6 +144,14 @@ export function retryLocalDbOpen(): void {
   dbOpenFailed = false;
   lastOpenError = null;
   for (const listener of openFailureListeners) listener();
+}
+
+// The user saw the emptied notice and chose to go on with an empty database.
+export function acceptEmptiedLocalDb(): void {
+  try {
+    localStorage.removeItem(LAST_ROWS_KEY);
+  } catch {}
+  retryLocalDbOpen();
 }
 
 export function subscribeLocalDbOpenFailure(listener: () => void): () => void {
@@ -203,6 +213,9 @@ export async function wipeLocalDb(): Promise<void> {
 }
 
 const ORPHAN_MARKER = "OpfsSAHPool orphan";
+// Opened empty on a device whose last open held data. Not an OpfsSAHPool error
+// on purpose: those read as a held pool and get retried.
+const EMPTIED_MARKER = "Local DB emptied";
 const TAB_LOCK_MARKER = "OpfsSAHPool tab-locked";
 // Firefox throws "Security error when calling GetDirectory" for OPFS whenever
 // site data is blocked for the origin: private windows, "block cookies", strict
@@ -215,6 +228,7 @@ function isRecoverable(err: unknown): boolean {
   // Retrying an orphan reopens the same empty replacement and reports success,
   // hiding the user's data.
   if (s.includes(ORPHAN_MARKER)) return false;
+  if (s.includes(EMPTIED_MARKER)) return false;
   if (s.includes(TAB_LOCK_MARKER)) return false;
   if (s.includes(BLOCKED_MARKER)) return false;
   return (
@@ -361,7 +375,11 @@ async function assertNotSilentlyEmptied(
     "SELECT (SELECT COUNT(*) FROM conversations) + (SELECT COUNT(*) FROM characters) + (SELECT COUNT(*) FROM lorebooks) + (SELECT COUNT(*) FROM sampling_presets) AS n",
   );
   const rowCount = Number(rows[0]?.n ?? 0);
-  noteRowCount(rowCount, liveBytes);
+  const emptied = noteRowCount(
+    rowCount,
+    liveBytes,
+    rowCount === 0 ? await diagnoseSql(sql).catch(() => undefined) : undefined,
+  );
   if (rowCount > 0) return;
 
   let orphanBytes = 0;
@@ -377,10 +395,16 @@ async function assertNotSilentlyEmptied(
       }
     }
   } catch {
-    // Cannot inspect the pool: never block a legitimately empty first run.
+    // Cannot inspect the pool: a first run is empty legitimately.
+  }
+  if (orphanBytes === 0) {
+    if (emptied) {
+      throw new Error(
+        `${EMPTIED_MARKER}: opened empty on a device that held data (${liveBytes} bytes live)`,
+      );
+    }
     return;
   }
-  if (orphanBytes === 0) return;
 
   logChatDebug("db.open.orphan_detected", { liveBytes, orphanBytes });
   logger.error("Local DB opened empty while the pool holds a larger database", {
@@ -397,11 +421,20 @@ async function assertNotSilentlyEmptied(
 // orphan check above finds nothing, since the bytes are gone: the loss left no
 // trace anywhere. What this device held at its last open is the only witness.
 const LAST_ROWS_KEY = "unorouter-db-last-rows";
-function noteRowCount(rowCount: number, liveBytes: number): void {
+function noteRowCount(
+  rowCount: number,
+  liveBytes: number,
+  diagnosis: SahPoolDiagnosis | undefined,
+): boolean {
   try {
     const before = Number(localStorage.getItem(LAST_ROWS_KEY) ?? 0);
     if (before > 0 && rowCount === 0) {
-      logChatDebug("db.open.emptied", { rowsBefore: before, liveBytes });
+      logChatDebug("db.open.emptied", {
+        rowsBefore: before,
+        liveBytes,
+        poolError: diagnosis?.poolError,
+        filesAtOpen: diagnosis?.filesAtOpen,
+      });
       analytics.health.dbEmptied({
         rows_before: before,
         live_bytes: liveBytes,
@@ -411,11 +444,14 @@ function noteRowCount(rowCount: number, liveBytes: number): void {
         rowsBefore: before,
         liveBytes,
       });
+      // Kept, so every open stops here until the user chooses.
+      return true;
     }
     localStorage.setItem(LAST_ROWS_KEY, String(rowCount));
   } catch {
     // Storage blocked: nothing to compare against.
   }
+  return false;
 }
 
 async function migrateLegacySqliteFile(
