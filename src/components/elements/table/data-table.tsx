@@ -67,6 +67,8 @@ interface DataTableProps<TData extends RowData> {
   actions?: (props: { table: ReactTable<TableFeats, TData> }) => ReactNode;
   renderExpandedRow?: (row: Row<TableFeats, TData>) => ReactNode;
   getRowCanExpand?: (row: Row<TableFeats, TData>) => boolean;
+  /** CSS top at which the column header pins while the page scrolls. */
+  stickyHeaderTop?: string;
 }
 
 export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
@@ -80,6 +82,12 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
   const [expanded, setExpanded] = useState({});
   const tableContainerRef = useRef<HTMLDivElement>(null);
+  const headScrollRef = useRef<HTMLDivElement>(null);
+  const bodyTableRef = useRef<HTMLTableElement>(null);
+  const [headWidths, setHeadWidths] = useState<{
+    table: number;
+    cells: number[];
+  }>();
 
   const table = useTable<TableFeats, TData>({
     features: {
@@ -144,6 +152,74 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
         (virtualRows[virtualRows.length - 1].end - scrollMargin)
       : 0;
 
+  // The body scrolls sideways, and a sticky cell cannot leave its scroll
+  // container, so the visible header lives outside it and copies the widths a
+  // zero-height header row inside the body table lays out.
+  useEffect(() => {
+    const bodyTable = bodyTableRef.current;
+    if (!props.stickyHeaderTop || !bodyTable) return;
+    const measure = () => {
+      const sizers = bodyTable.querySelectorAll<HTMLElement>(
+        "thead th[data-sizer]",
+      );
+      setHeadWidths({
+        table: bodyTable.offsetWidth,
+        cells: Array.from(sizers, (th) => th.getBoundingClientRect().width),
+      });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(bodyTable);
+    bodyTable
+      .querySelectorAll("thead th[data-sizer]")
+      .forEach((th) => observer.observe(th));
+    return () => observer.disconnect();
+  }, [props.stickyHeaderTop]);
+
+  function renderHeaderRows(sizer: boolean) {
+    return table.getHeaderGroups().map((headerGroup) => (
+      <TableRow
+        key={headerGroup.id}
+        className={cn("hover:bg-transparent", sizer && "border-0")}
+      >
+        {headerGroup.headers.map((header, index) => {
+          const meta = header.column.columnDef.meta;
+          const width = sizer ? undefined : headWidths?.cells[index];
+          return (
+            <TableHead
+              key={header.id}
+              colSpan={header.colSpan}
+              data-sizer={sizer || undefined}
+              aria-hidden={sizer || undefined}
+              inert={sizer || undefined}
+              style={
+                width === undefined
+                  ? undefined
+                  : { width, minWidth: width, maxWidth: width }
+              }
+              className={cn(
+                "text-muted-foreground font-mono text-[10px] tracking-widest uppercase",
+                meta?.headerClassName,
+                sizer && "h-0 py-0",
+              )}
+            >
+              {header.isPlaceholder ? null : sizer ? (
+                <div className="h-0 overflow-hidden">
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )}
+                </div>
+              ) : (
+                flexRender(header.column.columnDef.header, header.getContext())
+              )}
+            </TableHead>
+          );
+        })}
+      </TableRow>
+    ));
+  }
+
   function renderRow(row: (typeof rows)[number]) {
     const canExpand = props.renderExpandedRow && row.getCanExpand();
     return (
@@ -185,6 +261,58 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
     );
   }
 
+  const body = (
+    <TableBody>
+      {props.isLoading && (
+        <>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <TableRow key={`skeleton-${i}`}>
+              {props.columns.map((_, j) => (
+                <TableCell key={`skeleton-${i}-${j}`}>
+                  <Skeleton className="h-4 w-20" />
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </>
+      )}
+
+      {!props.isLoading && table.getRowModel().rows.length === 0 && (
+        <TableRow className="hover:bg-transparent">
+          <TableCell
+            colSpan={props.columns.length}
+            className="h-40 text-center"
+          >
+            {props.emptyState ?? (
+              <span className="text-muted-foreground text-sm">No results.</span>
+            )}
+          </TableCell>
+        </TableRow>
+      )}
+
+      {!props.isLoading &&
+        !props.windowVirtual &&
+        rows.map((row) => renderRow(row))}
+
+      {!props.isLoading &&
+        props.windowVirtual &&
+        rows.length > 0 &&
+        (virtualReady ? (
+          <>
+            {paddingTop > 0 && (
+              <tr aria-hidden style={{ height: paddingTop }} />
+            )}
+            {virtualRows.map((vr) => renderRow(rows[vr.index]))}
+            {paddingBottom > 0 && (
+              <tr aria-hidden style={{ height: paddingBottom }} />
+            )}
+          </>
+        ) : (
+          rows.slice(0, 25).map((row) => renderRow(row))
+        ))}
+    </TableBody>
+  );
+
   return (
     <div className="flex w-full flex-col gap-4">
       {(props.columnVisibility || props.filter || props.actions) && (
@@ -199,91 +327,50 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
         </div>
       )}
 
-      <div
-        ref={tableContainerRef}
-        className="border-border overflow-hidden border"
-      >
-        <Table>
-          <DataTableColgroup table={table} />
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="hover:bg-transparent">
-                {headerGroup.headers.map((header) => {
-                  const meta = header.column.columnDef.meta;
-                  return (
-                    <TableHead
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className={cn(
-                        "text-muted-foreground font-mono text-[10px] tracking-widest uppercase",
-                        meta?.headerClassName,
-                      )}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {props.isLoading && (
-              <>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <TableRow key={`skeleton-${i}`}>
-                    {props.columns.map((_, j) => (
-                      <TableCell key={`skeleton-${i}-${j}`}>
-                        <Skeleton className="h-4 w-20" />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </>
-            )}
-
-            {!props.isLoading && table.getRowModel().rows.length === 0 && (
-              <TableRow className="hover:bg-transparent">
-                <TableCell
-                  colSpan={props.columns.length}
-                  className="h-40 text-center"
-                >
-                  {props.emptyState ?? (
-                    <span className="text-muted-foreground text-sm">
-                      No results.
-                    </span>
-                  )}
-                </TableCell>
-              </TableRow>
-            )}
-
-            {!props.isLoading &&
-              !props.windowVirtual &&
-              rows.map((row) => renderRow(row))}
-
-            {!props.isLoading &&
-              props.windowVirtual &&
-              rows.length > 0 &&
-              (virtualReady ? (
-                <>
-                  {paddingTop > 0 && (
-                    <tr aria-hidden style={{ height: paddingTop }} />
-                  )}
-                  {virtualRows.map((vr) => renderRow(rows[vr.index]))}
-                  {paddingBottom > 0 && (
-                    <tr aria-hidden style={{ height: paddingBottom }} />
-                  )}
-                </>
-              ) : (
-                rows.slice(0, 25).map((row) => renderRow(row))
-              ))}
-          </TableBody>
-        </Table>
-      </div>
+      {props.stickyHeaderTop ? (
+        <div ref={tableContainerRef} className="border-border border">
+          <div
+            ref={headScrollRef}
+            className="scroll-surface border-border sticky z-10 overflow-hidden border-b"
+            style={{ top: props.stickyHeaderTop }}
+          >
+            <table
+              className="table-fixed caption-bottom text-sm"
+              style={{ width: headWidths?.table }}
+            >
+              <TableHeader className="[&_tr]:border-0">
+                {renderHeaderRows(false)}
+              </TableHeader>
+            </table>
+          </div>
+          <div
+            className="relative w-full overflow-x-auto"
+            onScroll={(e) => {
+              if (headScrollRef.current)
+                headScrollRef.current.scrollLeft = e.currentTarget.scrollLeft;
+            }}
+          >
+            <table ref={bodyTableRef} className="w-full caption-bottom text-sm">
+              <DataTableColgroup table={table} />
+              <TableHeader className="[&_tr]:border-0">
+                {renderHeaderRows(true)}
+              </TableHeader>
+              {body}
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div
+          ref={tableContainerRef}
+          className="border-border overflow-hidden border"
+        >
+          <Table>
+            <DataTableColgroup table={table} />
+            <TableHeader>{renderHeaderRows(false)}</TableHeader>
+            {body}
+          </Table>
+        </div>
+      )}
 
       {(props.total ?? 0) > 0 && (
         <DataTablePagination table={table} total={props.total} />
