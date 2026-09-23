@@ -40,7 +40,10 @@ export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 export const useDuplicateCharacterMutation = characters.useDuplicate;
 
-async function persistCharacterSetupFromFile(file: File) {
+async function persistCharacterSetupFromFile(
+  file: File,
+  lorebookIds: string[] = [],
+) {
   const { card, imageBytes, imageMime, namedAssets } =
     await import("@/lib/ai/rp/character-card").then((m) =>
       m.parseCharacterCardFile(file),
@@ -154,7 +157,9 @@ async function persistCharacterSetupFromFile(file: File) {
       updatedAt: now,
     },
     cardCharacters: [{ cardId, characterId, orderIndex: 0 }],
-    cardLorebooks: lorebookId ? [{ cardId, lorebookId, orderIndex: 0 }] : [],
+    cardLorebooks: [...(lorebookId ? [lorebookId] : []), ...lorebookIds].map(
+      (id, orderIndex) => ({ cardId, lorebookId: id, orderIndex }),
+    ),
   });
 
   return { characterId, lorebookId, cardId };
@@ -232,33 +237,14 @@ async function persistImportedCard(result: ImportedResult) {
   }
   const rich = result.kind === "rich-character" ? result : null;
 
-  const json = JSON.stringify(result.card);
-  const file = new File([json], "card.json", { type: "application/json" });
-  const setup = await persistCharacterSetupFromFile(file);
-
-  if (result.avatar) {
-    const mediaId = uid();
-    await upsertLocalMedia({
-      id: mediaId,
-      convId: null,
-      mimeType: result.avatar.mimeType,
-      sizeBytes: base64ToUint8(result.avatar.base64).byteLength,
-      dataBase64: result.avatar.base64,
-    });
-    await upsertLocalCharacter({
-      ...(await readLocalCharacter(setup.characterId)),
-      id: setup.characterId,
-      avatarMediaId: mediaId,
-      updatedAt: dayjs().toDate(),
-    });
-  }
-
   // A Date, not an ISO string: the timestamp columns are timestamp_ms, so
   // drizzle calls .getTime() on whatever it is given and a string throws.
   const now = dayjs().toDate();
+  const lorebookIds: string[] = [];
   for (const book of result.lorebooks ?? []) {
     if (book.entries.length === 0) continue;
     const lorebookId = uid();
+    lorebookIds.push(lorebookId);
     await upsertLocalLorebookBundle({
       lorebook: {
         id: lorebookId,
@@ -279,6 +265,27 @@ async function persistImportedCard(result: ImportedResult) {
         createdAt: now,
         updatedAt: now,
       })),
+    });
+  }
+
+  const json = JSON.stringify(result.card);
+  const file = new File([json], "card.json", { type: "application/json" });
+  const setup = await persistCharacterSetupFromFile(file, lorebookIds);
+
+  if (result.avatar) {
+    const mediaId = uid();
+    await upsertLocalMedia({
+      id: mediaId,
+      convId: null,
+      mimeType: result.avatar.mimeType,
+      sizeBytes: base64ToUint8(result.avatar.base64).byteLength,
+      dataBase64: result.avatar.base64,
+    });
+    await upsertLocalCharacter({
+      ...(await readLocalCharacter(setup.characterId)),
+      id: setup.characterId,
+      avatarMediaId: mediaId,
+      updatedAt: dayjs().toDate(),
     });
   }
 
