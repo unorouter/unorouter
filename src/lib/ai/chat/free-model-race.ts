@@ -3,7 +3,7 @@ export type FreeModelGenerate = (
   opts: {
     systemPrompt: string;
     prompt: string;
-    maxOutputTokens: number;
+    maxOutputTokens?: number;
     abortSignal?: AbortSignal;
     // Provider lane for THIS call. Per-call rather than baked into the deps,
     // because one generate is reused across a race whose models do not share

@@ -8,7 +8,12 @@ import {
 import { readLocalPersona, readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { MAX_TEXT_LEN } from "@/lib/validation/chat";
-import { chatModelAtom, chatLoadoutAtom, chatStore } from "@/store/chat-store";
+import {
+  chatGroupAtom,
+  chatModelAtom,
+  chatLoadoutAtom,
+  chatStore,
+} from "@/store/chat-store";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 // SillyTavern's impersonation prompt, which is the one open-source wording with
@@ -24,7 +29,6 @@ const IMPERSONATE_PROMPT =
 const DIRECTION_LINE =
   "Additional direction for this reply, follow it closely: {{direction}}";
 
-const MAX_TOKENS = 1024;
 const HISTORY_TURNS = 12;
 // Room for the system block, the labels and the trailing turn marker, so the
 // assembled prompt lands under the route's own limit rather than on it.
@@ -139,7 +143,7 @@ export async function runImpersonate(
   const res = await target.deps.runUtilityLLM(target.model, {
     systemPrompt: "",
     prompt: `${systemPrompt}\n\n${prompt}`,
-    maxOutputTokens: MAX_TOKENS,
+    group: chatStore.get(chatGroupAtom),
   });
   return clean(res.text, userName, charName);
 }
