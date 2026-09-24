@@ -623,7 +623,7 @@ function OverridePreview(props: {
   return (
     <div
       ref={boxRef}
-      className="relative flex min-w-0 flex-1 gap-1 overflow-hidden"
+      className="relative flex w-0 flex-1 gap-1 overflow-hidden"
     >
       <div
         ref={rowRef}
