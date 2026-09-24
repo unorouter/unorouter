@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import type { PricingVendorModel, UserGroupInfo } from "@/openapi";
 import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { Control } from "react-hook-form";
 import type { TokenFormSchema, TokenPinEntry } from "@/lib/validation/token";
 import { Slider } from "@/components/ui/slider";
@@ -123,6 +123,15 @@ function entryIsEmpty(entry: TokenPinEntry): boolean {
     entry.min === undefined &&
     entry.max === undefined &&
     !entry.auto
+  );
+}
+
+function entryOverrides(entry: TokenPinEntry): boolean {
+  return (
+    !entry.auto &&
+    (entry.groups.length > 0 ||
+      entry.min !== undefined ||
+      entry.max !== undefined)
   );
 }
 
@@ -577,6 +586,67 @@ function ModelGroupPopover(props: {
   );
 }
 
+// Measures a hidden copy: once collapsed to the count, no chips are left to measure.
+function OverridePreview(props: {
+  models: { name: string; vendor?: string }[];
+}) {
+  const t = useTranslations();
+  const boxRef = useRef<HTMLDivElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [fits, setFits] = useState(true);
+
+  useLayoutEffect(() => {
+    const box = boxRef.current;
+    const row = rowRef.current;
+    if (!box || !row) return;
+    const measure = () => setFits(row.offsetWidth <= box.clientWidth);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(box);
+    observer.observe(row);
+    return () => observer.disconnect();
+  }, []);
+
+  const badge = "rounded-sm px-1.5 py-0.5 font-mono text-[10px]";
+  const auto = (
+    <Badge variant="secondary" className={badge}>
+      auto
+    </Badge>
+  );
+  const chips = props.models.map((model) => (
+    <Badge key={model.name} variant="secondary" className={cn("gap-1", badge)}>
+      {model.vendor && <VendorIcon vendor={model.vendor} size={12} />}
+      {model.name}
+    </Badge>
+  ));
+
+  return (
+    <div
+      ref={boxRef}
+      className="relative flex min-w-0 flex-1 gap-1 overflow-hidden"
+    >
+      <div
+        ref={rowRef}
+        aria-hidden
+        className="invisible absolute flex w-max gap-1"
+      >
+        {auto}
+        {chips}
+      </div>
+      {auto}
+      {fits ? (
+        chips
+      ) : (
+        <Badge className={badge}>
+          {t("TOKEN.FORM.GROUP_OVERRIDES_COUNT", {
+            count: props.models.length,
+          })}
+        </Badge>
+      )}
+    </div>
+  );
+}
+
 export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const t = useTranslations();
   const [search, setSearch] = useState("");
@@ -587,7 +657,9 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const modelGroups = buildModelGroupOptions(props.groups, props.mapping);
   const query = search.trim().toLowerCase();
 
-  const overriddenCount = Object.keys(props.mapping).length;
+  const overriddenModels = Object.entries(props.mapping)
+    .filter(([, entry]) => entryOverrides(entry))
+    .map(([model]) => model);
 
   const overridableModels = props.models.filter((m) =>
     modelGroups.has(modelKey(m.model_name)),
@@ -647,21 +719,14 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                       variant="outline"
                       className="h-auto min-h-9 w-full items-center justify-between gap-2 px-2 py-1.5 font-normal"
                     >
-                      <div className="flex min-w-0 flex-1 flex-wrap gap-1">
-                        <Badge
-                          variant="secondary"
-                          className="rounded-sm px-1.5 py-0.5 font-mono text-[10px]"
-                        >
-                          auto
-                        </Badge>
-                        {overriddenCount > 0 && (
-                          <Badge className="rounded-sm px-1.5 py-0.5 font-mono text-[10px]">
-                            {t("TOKEN.FORM.GROUP_OVERRIDES_COUNT", {
-                              count: overriddenCount,
-                            })}
-                          </Badge>
-                        )}
-                      </div>
+                      <OverridePreview
+                        models={overriddenModels.map((name) => ({
+                          name,
+                          vendor: props.models.find(
+                            (m) => m.model_name === name,
+                          )?.vendor,
+                        }))}
+                      />
                       <Icon
                         name="chevrons-up-down"
                         className="text-muted-foreground h-3.5 w-3.5 shrink-0"
@@ -691,11 +756,11 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                       ))}
                     </div>
                   )}
-                  {overriddenCount > 0 && (
+                  {overriddenModels.length > 0 && (
                     <div className="text-muted-foreground flex items-center justify-between border-b px-3 py-1.5 text-[11px]">
                       <span>
                         {t("TOKEN.FORM.GROUP_OVERRIDES_COUNT", {
-                          count: overriddenCount,
+                          count: overriddenModels.length,
                         })}
                       </span>
                       <button
@@ -721,11 +786,11 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                       )}
                       {windowedModels.map((model) => {
                         const entry = entryOf(props.mapping, model.model_name);
-                        const options = modelGroups.get(modelKey(model.model_name)) ?? [];
+                        const options =
+                          modelGroups.get(modelKey(model.model_name)) ?? [];
                         const bandOn =
                           entry.min !== undefined || entry.max !== undefined;
-                        const overridden =
-                          !entry.auto && (entry.groups.length > 0 || bandOn);
+                        const overridden = entryOverrides(entry);
                         const cheapest = options.find((o) =>
                           entry.groups.includes(o.group),
                         );
