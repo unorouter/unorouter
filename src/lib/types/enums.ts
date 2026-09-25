@@ -83,6 +83,7 @@ export enum Vendor {
   FALLENMERICK = "fallenmerick",
   THINKINGMACHINES = "thinking machines",
   IFM = "ifm",
+  AXON = "axon labs",
   LOREBARY = "lorebary",
   MEGANOVA = "meganova",
   AGNES = "agnes ai",
