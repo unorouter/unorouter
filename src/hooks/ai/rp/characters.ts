@@ -108,7 +108,7 @@ async function persistCharacterSetupFromFile(
         : undefined;
     if (characterBook) {
       const parsed = await import("@/lib/ai/rp/lorebook-import").then((m) =>
-        m.parseLorebookJson(characterBook),
+        m.parseLorebookJson(characterBook, `${card.name} lorebook`),
       );
       if (parsed && parsed.entries.length > 0) {
         lorebookId = uid();
