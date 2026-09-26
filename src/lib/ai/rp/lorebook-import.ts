@@ -25,6 +25,20 @@ type ParsedLorebook = {
   }>;
 };
 
+// The parser invents these when a file carries no name of its own.
+const PLACEHOLDER_NAMES = new Set([
+  "Lorebook",
+  "Imported Lorebook",
+  "Risu Lorebook",
+  "Unknown Lorebook",
+  "Wyvern Lorebook",
+]);
+
+function nameField(obj: unknown): string {
+  if (!obj || typeof obj !== "object" || !("name" in obj)) return "";
+  return typeof obj.name === "string" ? obj.name.trim() : "";
+}
+
 export function parseLorebookJson(
   raw: unknown,
   fallbackName = "Imported lorebook",
@@ -66,7 +80,14 @@ export function parseLorebookJson(
   if (entries.length === 0) return null;
 
   return {
-    name: parsed.book.name?.trim() || fallbackName,
+    // SillyTavern keeps a card book's title only in originalData.
+    name:
+      nameField(raw) ||
+      ("originalData" in raw ? nameField(raw.originalData) : "") ||
+      (PLACEHOLDER_NAMES.has(nameField(parsed.book))
+        ? ""
+        : nameField(parsed.book)) ||
+      fallbackName,
     description: parsed.book.description,
     scanDepth: parsed.book.scan_depth,
     tokenBudget: parsed.book.token_budget,
