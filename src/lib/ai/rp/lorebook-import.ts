@@ -25,7 +25,10 @@ type ParsedLorebook = {
   }>;
 };
 
-export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
+export function parseLorebookJson(
+  raw: unknown,
+  fallbackName = "Imported lorebook",
+): ParsedLorebook | null {
   if (!raw || typeof raw !== "object") return null;
 
   let parsed;
@@ -63,7 +66,7 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
   if (entries.length === 0) return null;
 
   return {
-    name: parsed.book.name ?? "Imported lorebook",
+    name: parsed.book.name?.trim() || fallbackName,
     description: parsed.book.description,
     scanDepth: parsed.book.scan_depth,
     tokenBudget: parsed.book.token_budget,

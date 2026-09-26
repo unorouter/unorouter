@@ -95,7 +95,7 @@ export function useImportLorebookMutation() {
       }
       const parsed = (
         await import("@/lib/ai/rp/lorebook-import")
-      ).parseLorebookJson(raw);
+      ).parseLorebookJson(raw, file.name.replace(/\.[^.]+$/, ""));
       if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
       const id = uid();
       const now = dayjs().toDate();
