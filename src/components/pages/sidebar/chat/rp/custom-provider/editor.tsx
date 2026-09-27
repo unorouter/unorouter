@@ -27,11 +27,7 @@ import {
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  type FieldErrors,
-  useFieldArray,
-  type UseFormReturn,
-} from "react-hook-form";
+import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { FormFooter } from "../shared/form-footer";
 import { TokenizerSelect } from "../tokenizer-select";
 
@@ -62,15 +58,22 @@ export function CustomProviderEditor(props: Props) {
 
   // A model list past the cap failed the whole form with nothing on screen,
   // since the array itself has no field to show the error on.
-  const onInvalid = (errors: FieldErrors<CustomProviderForm>) => {
+  const onInvalid = () => {
     toast.error(
-      errors.models
+      form.getValues("models").length > MAX_MODELS
         ? t("CHAT.CUSTOM_PROVIDER.TOO_MANY_MODELS", { max: MAX_MODELS })
         : t("CHAT.CUSTOM_PROVIDER.FORM_INVALID"),
     );
   };
 
-  const onSubmit = async (data: CustomProviderForm) => {
+  const onSubmit = async (values: CustomProviderForm) => {
+    const data = {
+      ...values,
+      models: values.models.map((m) => ({
+        ...m,
+        label: m.label.trim() || m.key,
+      })),
+    };
     if (isNew) {
       await createMut.mutateAsync({ body: data });
     } else {

@@ -45,6 +45,12 @@ export const customProviderForm = t.Object({
     { default: "openai-compatible" },
   ),
   proxy: t.Boolean({ default: false }),
-  models: t.Array(customProviderModel, { maxItems: MAX_MODELS, default: [] }),
+  models: t.Array(
+    t.Object({
+      ...customProviderModel.properties,
+      label: t.String({ maxLength: 256 }),
+    }),
+    { maxItems: MAX_MODELS, default: [] },
+  ),
 });
 export type CustomProviderForm = Static<typeof customProviderForm>;
