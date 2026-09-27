@@ -439,6 +439,13 @@ export function ModelSelector(props: ModelSelectorProps) {
           )}
           <CommandList>
             <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
+            {customProviders.length > 0 && typeFilter === null && (
+              <CustomProviderItems
+                providers={customProviders}
+                value={props.value}
+                onPick={pickModel}
+              />
+            )}
             {(typeFilter
               ? modelsByType.filter(({ tag }) => tag === typeFilter)
               : modelsByType
@@ -457,13 +464,6 @@ export function ModelSelector(props: ModelSelectorProps) {
                 ))}
               </CommandGroup>
             ))}
-            {customProviders.length > 0 && typeFilter === null && (
-              <CustomProviderItems
-                providers={customProviders}
-                value={props.value}
-                onPick={pickModel}
-              />
-            )}
           </CommandList>
           {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
             <GroupSubmenu
