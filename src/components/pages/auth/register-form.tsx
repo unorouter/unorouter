@@ -143,7 +143,19 @@ export function RegisterForm() {
       <div className="space-y-6">
         {showPasswordForm && (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                // The username input is not rendered in email mode, so the schema's
+                // required username would fail validation with no visible error.
+                if (emailAsUsername)
+                  form.setValue(
+                    "username",
+                    form.getValues("email")?.trim() ?? "",
+                  );
+                return form.handleSubmit(onSubmit)(e);
+              }}
+              className="space-y-4"
+            >
               <div className="space-y-3">
                 {!emailAsUsername && (
                   <MyFormInput
