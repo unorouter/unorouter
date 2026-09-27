@@ -39,13 +39,14 @@ export class SQLiteSahPoolDriver
   }
 
   protected async getPool(databasePath: string): Promise<SAHPoolUtil> {
-    if (!this.sqlite3InitModule) {
-      const { default: sqlite3InitModule } =
-        await import("@sqlite.org/sqlite-wasm");
-      this.sqlite3InitModule = sqlite3InitModule;
-    }
     if (!this.sqlite3) {
-      this.sqlite3 = await this.sqlite3InitModule();
+      const init =
+        this.sqlite3InitModule ??
+        (await import("@sqlite.org/sqlite-wasm")).default;
+      if (!init)
+        throw new Error("@sqlite.org/sqlite-wasm has no default export");
+      this.sqlite3InitModule = init;
+      this.sqlite3 = await init();
     }
 
     const name = `sahpool-${sahPoolSlug(databasePath)}`;
