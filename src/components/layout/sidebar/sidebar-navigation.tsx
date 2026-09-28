@@ -170,10 +170,12 @@ function ChatSidebarNav(props: { authenticated: boolean; isPartner: boolean }) {
 
   if (props.authenticated) {
     const accountItems = sidebarNavigation(props.isPartner);
-    const chatEntry = navigation(true).find((item) => item.href === "/chat");
-    const items = chatEntry
-      ? accountItems.toSpliced(1, 0, { ...chatEntry, onClick: newThread })
-      : accountItems;
+    const entries = navigation(true)
+      .filter((item) => item.href === "/chat" || item.href === "/image")
+      .map((item) =>
+        item.href === "/chat" ? { ...item, onClick: newThread } : item,
+      );
+    const items = accountItems.toSpliced(1, 0, ...entries);
     return <NavGroup label={t("SIDEBAR.MENU")} items={items} />;
   }
 

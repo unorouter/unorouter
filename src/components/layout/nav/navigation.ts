@@ -150,6 +150,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   },
   { name: "NAV.PRICING", href: "/pricing", iconName: "dollar-sign" },
   { name: "NAV.CHAT", href: "/chat", iconName: "message-circle", exact: true },
+  { name: "NAV.IMAGE", href: "/image", iconName: "image" },
   {
     name: "NAV.DOCS",
     href: "/docs",

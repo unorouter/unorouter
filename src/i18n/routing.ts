@@ -1159,7 +1159,6 @@ export const privateRoutes = {
     "/consent",
     "/offline",
     "/ai-api-model-tester/history",
-    "/image",
     "/forgot-password",
     "/reset",
     // Auth and the service-worker escape hatch: shells of under 40 rendered

@@ -25,6 +25,7 @@
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Log In",
     "CHAT": "Chat",
+    "IMAGE": "Image",
     "STATUS": "Status",
     "LANGUAGE": "Language",
     "MODEL_TESTER": "Inspector",
