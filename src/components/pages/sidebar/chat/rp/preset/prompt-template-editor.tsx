@@ -27,21 +27,31 @@ import {
   type SlotName,
 } from "@/lib/ai/chat/prompt/template";
 import type { SamplingPresetForm } from "@/lib/validation/rp-forms";
+import type { TranslationKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 type Card = PromptItem & { id: string };
 
-const SLOT_LABELS: Record<SlotName, string> = {
-  main: "Main prompt",
-  description: "Character description",
-  persona: "User persona",
-  lorebook: "Lorebook",
-  prefill: "Prefill",
-  postHistory: "Post-history instructions",
-  systemPrompt: "System prompt",
-};
+const SLOT_LABELS = {
+  main: "RP.PRESET_SLOT_MAIN",
+  description: "RP.PRESET_SLOT_DESCRIPTION",
+  persona: "RP.PRESET_SLOT_PERSONA",
+  lorebook: "RP.PRESET_SLOT_LOREBOOK",
+  prefill: "RP.PRESET_PREFILL",
+  postHistory: "RP.PRESET_POST_HISTORY",
+  systemPrompt: "RP.PRESET_SLOT_SYSTEM_PROMPT",
+} as const satisfies Record<SlotName, TranslationKey>;
+const SLOTS: SlotName[] = [
+  "main",
+  "description",
+  "persona",
+  "lorebook",
+  "prefill",
+  "postHistory",
+  "systemPrompt",
+];
 
 const ROLES: PromptItemRole[] = ["system", "user", "assistant"];
 
@@ -154,7 +164,7 @@ export function PromptTemplateEditor(props: Props) {
               {card.type === "slot" && (
                 <div className="flex flex-col gap-1.5">
                   <span className="text-sm font-medium">
-                    {SLOT_LABELS[card.slot]}
+                    {t(SLOT_LABELS[card.slot])}
                   </span>
                   {card.slot === "prefill" && (
                     <>
@@ -268,13 +278,11 @@ export function PromptTemplateEditor(props: Props) {
           <DropdownMenuItem onClick={addPlain}>
             {t("RP.PRESET_TEMPLATE_PLAIN")}
           </DropdownMenuItem>
-          {(Object.keys(SLOT_LABELS) as SlotName[])
-            .filter((s) => !usedSlots.has(s))
-            .map((s) => (
-              <DropdownMenuItem key={s} onClick={() => addSlot(s)}>
-                {SLOT_LABELS[s]}
-              </DropdownMenuItem>
-            ))}
+          {SLOTS.filter((s) => !usedSlots.has(s)).map((s) => (
+            <DropdownMenuItem key={s} onClick={() => addSlot(s)}>
+              {t(SLOT_LABELS[s])}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
