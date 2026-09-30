@@ -67,8 +67,24 @@ const reasoningComponents = memoizeMarkdownComponents({
   ),
 });
 
+// Some models indent every reasoning line, which markdown reads as one code block.
+function dedent(text: string): string {
+  const indents = text
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => line.length - line.trimStart().length);
+  const min = indents.length > 0 ? Math.min(...indents) : 0;
+  return min === 0
+    ? text
+    : text
+        .split("\n")
+        .map((line) => line.slice(min))
+        .join("\n");
+}
+
 export const ReasoningMarkdown = () => (
   <MarkdownTextPrimitive
+    preprocess={dedent}
     remarkPlugins={[remarkGfm]}
     className="aui-md text-muted-foreground text-xs"
     components={reasoningComponents}
