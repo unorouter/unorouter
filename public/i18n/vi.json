@@ -2808,6 +2808,7 @@
       "SAVE": "Lưu",
       "QUOTA_EQUIVALENT": "= {quota} hạn mức",
       "QUOTA_POSITIVE": "Hạn mức token phải lớn hơn 0. Bật hạn mức không giới hạn để tạo khóa cho các mô hình miễn phí.",
+      "MODEL_LIMITS_EMPTY": "Hãy chọn ít nhất một mô hình hoặc tắt giới hạn mô hình. Danh sách trống sẽ chặn mọi mô hình.",
       "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào.",
       "GROUP": "Nhóm tính phí",
       "GROUP_EMPTY": "Không tìm thấy nhóm nào.",

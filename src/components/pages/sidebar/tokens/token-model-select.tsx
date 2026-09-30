@@ -8,7 +8,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import {
   Popover,
@@ -182,6 +187,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
               </Command>
             </PopoverContent>
           </Popover>
+          <FormMessage />
         </FormItem>
       )}
     />

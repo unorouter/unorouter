@@ -2808,6 +2808,7 @@
       "SAVE": "Save",
       "QUOTA_EQUIVALENT": "= {quota} quota",
       "QUOTA_POSITIVE": "Token quota must be greater than 0. Enable unlimited quota for a free-models key.",
+      "MODEL_LIMITS_EMPTY": "Select at least one model, or turn model limits off. An empty list blocks every model.",
       "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key.",
       "GROUP": "Billing group",
       "GROUP_EMPTY": "No groups found.",

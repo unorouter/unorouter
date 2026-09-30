@@ -2808,6 +2808,7 @@
       "SAVE": "Enregistrer",
       "QUOTA_EQUIVALENT": "= {quota} de quota",
       "QUOTA_POSITIVE": "Le quota du jeton doit être supérieur à 0. Activez le quota illimité pour une clé de modèles gratuits.",
+      "MODEL_LIMITS_EMPTY": "Sélectionnez au moins un modèle ou désactivez la restriction de modèles. Une liste vide bloque tous les modèles.",
       "QUOTA_ZERO_HINT": "Un quota de 0 ne fonctionne pas. Les modèles gratuits (suffixe :free) fonctionnent avec n'importe quelle clé valide.",
       "GROUP": "Groupe de facturation",
       "GROUP_EMPTY": "Aucun groupe trouvé.",

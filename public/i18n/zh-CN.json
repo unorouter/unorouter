@@ -2808,6 +2808,7 @@
       "SAVE": "保存",
       "QUOTA_EQUIVALENT": "= {quota} 配额",
       "QUOTA_POSITIVE": "令牌额度必须大于 0。如需仅免费模型的密钥，请启用无限额度。",
+      "MODEL_LIMITS_EMPTY": "请至少选择一个模型，或关闭模型限制。空列表会禁止所有模型。",
       "QUOTA_ZERO_HINT": "额度为 0 将无法使用。免费模型（以 :free 结尾）可用于任何有效密钥。",
       "GROUP": "计费分组",
       "GROUP_EMPTY": "未找到分组。",

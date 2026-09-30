@@ -2808,6 +2808,7 @@
       "SAVE": "Speichern",
       "QUOTA_EQUIVALENT": "= {quota} Kontingent",
       "QUOTA_POSITIVE": "Das Token-Guthaben muss größer als 0 sein. Aktiviere unbegrenztes Guthaben für einen Schlüssel mit freien Modellen.",
+      "MODEL_LIMITS_EMPTY": "Wähle mindestens ein Modell aus oder schalte die Modellbeschränkung aus. Eine leere Liste sperrt alle Modelle.",
       "QUOTA_ZERO_HINT": "Ein Guthaben von 0 funktioniert nicht. Freie Modelle (Endung :free) sind mit jedem gültigen Schlüssel nutzbar.",
       "GROUP": "Abrechnungsgruppe",
       "GROUP_EMPTY": "Keine Gruppen gefunden.",

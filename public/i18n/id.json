@@ -2808,6 +2808,7 @@
       "SAVE": "Simpan",
       "QUOTA_EQUIVALENT": "= {quota} kuota",
       "QUOTA_POSITIVE": "Kuota token harus lebih dari 0. Aktifkan kuota tak terbatas untuk kunci model gratis.",
+      "MODEL_LIMITS_EMPTY": "Pilih setidaknya satu model atau matikan pembatasan model. Daftar kosong memblokir semua model.",
       "QUOTA_ZERO_HINT": "Kuota 0 tidak akan berfungsi. Model gratis (berakhiran :free) berfungsi dengan kunci valid apa pun.",
       "GROUP": "Grup penagihan",
       "GROUP_EMPTY": "Tidak ada grup ditemukan.",

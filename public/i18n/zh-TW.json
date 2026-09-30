@@ -2808,6 +2808,7 @@
       "SAVE": "儲存",
       "QUOTA_EQUIVALENT": "= {quota} 配額",
       "QUOTA_POSITIVE": "權杖額度必須大於 0。如需僅免費模型的金鑰，請啟用無限額度。",
+      "MODEL_LIMITS_EMPTY": "請至少選擇一個模型，或關閉模型限制。空清單會禁止所有模型。",
       "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。",
       "GROUP": "計費分組",
       "GROUP_EMPTY": "未找到分組。",

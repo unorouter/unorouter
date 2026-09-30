@@ -2808,6 +2808,7 @@
       "SAVE": "Salva",
       "QUOTA_EQUIVALENT": "= {quota} di quota",
       "QUOTA_POSITIVE": "La quota del token deve essere maggiore di 0. Abilita la quota illimitata per una chiave con modelli gratuiti.",
+      "MODEL_LIMITS_EMPTY": "Seleziona almeno un modello oppure disattiva la limitazione dei modelli. Un elenco vuoto blocca tutti i modelli.",
       "QUOTA_ZERO_HINT": "Una quota di 0 non funziona. I modelli gratuiti (che terminano con :free) funzionano con qualsiasi chiave valida.",
       "GROUP": "Gruppo di fatturazione",
       "GROUP_EMPTY": "Nessun gruppo trovato.",

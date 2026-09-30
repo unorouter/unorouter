@@ -207,6 +207,14 @@ export function TokenDialog(props: TokenDialogProps) {
       });
       return;
     }
+    // The gateway reads limits on with an empty list as "no model allowed".
+    if (data.model_limits_enabled && data.model_limits.length === 0) {
+      form.setError("model_limits", {
+        type: "manual",
+        message: t("TOKEN.FORM.MODEL_LIMITS_EMPTY"),
+      });
+      return;
+    }
     const payload = {
       name: data.name.trim(),
       remain_quota: data.unlimited_quota ? 0 : data.remain_quota,
