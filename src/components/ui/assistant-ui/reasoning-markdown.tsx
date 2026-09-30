@@ -67,24 +67,16 @@ const reasoningComponents = memoizeMarkdownComponents({
   ),
 });
 
-// Some models indent every reasoning line, which markdown reads as one code block.
-function dedent(text: string): string {
-  const indents = text
-    .split("\n")
-    .filter((line) => line.trim())
-    .map((line) => line.length - line.trimStart().length);
-  const min = indents.length > 0 ? Math.min(...indents) : 0;
-  return min === 0
-    ? text
-    : text
-        .split("\n")
-        .map((line) => line.slice(min))
-        .join("\n");
+// Some upstreams wrap the whole reasoning in a bare ``` fence, which renders
+// it as one scrolling code block. The closing fence is absent while streaming.
+function unwrapFence(text: string): string {
+  const match = /^\s*```[ \t]*\n([\s\S]*?)(?:\n```\s*)?$/.exec(text);
+  return match && !match[1].includes("```") ? match[1] : text;
 }
 
 export const ReasoningMarkdown = () => (
   <MarkdownTextPrimitive
-    preprocess={dedent}
+    preprocess={unwrapFence}
     remarkPlugins={[remarkGfm]}
     className="aui-md text-muted-foreground text-xs"
     components={reasoningComponents}
