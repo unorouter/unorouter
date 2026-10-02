@@ -19,6 +19,7 @@ import {
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import {
   useImageModelsQuery,
+  useTaskImageModelsQuery,
   useModelGroupsQuery,
   usePricingCatalogQuery,
 } from "@/hooks/models/pricing-hook";
@@ -360,8 +361,12 @@ export function ImageModelField<TForm extends FieldValues>(props: {
 }) {
   const t = useTranslations();
   const imageModels = useImageModelsQuery().data;
+  const taskImageModels = useTaskImageModelsQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = (imageModels ?? []).map((m) => ({
+  const catalogModels = [
+    ...(imageModels ?? []),
+    ...(taskImageModels ?? []),
+  ].map((m) => ({
     model_name: m.model_name,
     is_free: m.is_free,
     vendor: m.vendor,

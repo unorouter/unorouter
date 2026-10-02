@@ -9,7 +9,10 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { rpc } from "@/lib/rpc";
-import { handleElysia, rec, uid } from "@/lib/utils/base";
+import { base64ToUint8, handleElysia, rec, uid } from "@/lib/utils/base";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 import {
   readLocalMedia,
   upsertLocalMedia,
@@ -67,6 +70,65 @@ export async function resolveIllustratorSettings(
   };
 }
 
+const TASK_POLL_MS = 5_000;
+// A free community queue: a job can sit behind others for minutes.
+const TASK_TIMEOUT_MS = 10 * 60_000;
+
+async function isTaskImageModel(model: string): Promise<boolean> {
+  const models = handleElysia(
+    await getQueryClient().query({
+      queryKey: queryKeys.pricingTaskImageModels(),
+      queryFn: () => rpc.api.models.pricing["task-image-models"].get(),
+      staleTime: 5 * 60 * 1000,
+    }),
+  );
+  return models.some((m) => m.model_name === model);
+}
+
+// Polled from the browser: one server request would outlive the edge's limit.
+async function generateTaskImage(
+  prompt: string,
+  model: string,
+  group?: string | null,
+): Promise<InlayImage> {
+  const task = handleElysia(
+    await rpc.api.ai.chat["trigger-op"].imgtask.post({
+      prompt,
+      model,
+      group: group || undefined,
+    }),
+  );
+  const deadline = Date.now() + TASK_TIMEOUT_MS;
+  while (Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, TASK_POLL_MS));
+    const state = handleElysia(
+      await rpc.api.ai.chat.task({ taskId: task.taskId }).get(),
+    );
+    if (state.status === "FAILURE") {
+      throw new Error(state.failReason ?? "image task failed");
+    }
+    if (state.status !== "SUCCESS" || !state.resultUrl) continue;
+    const done = handleElysia(
+      await rpc.api.ai.chat.task.finalize.post({
+        msgId: task.taskId,
+        taskId: task.taskId,
+        resultUrl: state.resultUrl,
+      }),
+    );
+    const comma = done.url.indexOf(",");
+    const dataBase64 = done.url.slice(comma + 1);
+    return {
+      id: uid(),
+      dataBase64,
+      mimeType: done.url.slice(5, done.url.indexOf(";")),
+      sizeBytes: base64ToUint8(dataBase64).byteLength,
+      width: null,
+      height: null,
+    };
+  }
+  throw new Error("image task timed out");
+}
+
 export async function requestImggen(
   prompt: string,
   opts: {
@@ -88,6 +150,9 @@ export async function requestImggen(
       prompt,
       opts.refUrls ?? [],
     );
+  }
+  if (opts.imageModel && (await isTaskImageModel(opts.imageModel))) {
+    return generateTaskImage(prompt, opts.imageModel, opts.imageGroup);
   }
   return handleElysia(
     await rpc.api.ai.chat["trigger-op"].imggen.post({

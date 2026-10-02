@@ -5,6 +5,7 @@ import {
   streamBody,
   titleGenerationBody,
   triggerImggenBody,
+  triggerImgTaskBody,
   triggerLlmBody,
   triggerSimilarityBody,
   webSearchBody,
@@ -16,7 +17,11 @@ import {
 import { getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import { generateInlayImage } from "./media/inlay.service";
-import { fetchVideoTaskStatus, finalizeVideoTask } from "./media/task.service";
+import {
+  fetchVideoTaskStatus,
+  finalizeVideoTask,
+  submitVideoTask,
+} from "./media/task.service";
 import { generateChatTitle } from "./title.service";
 import { runTriggerLLM, runTriggerSimilarity } from "./trigger-ops.service";
 import { streamMedia } from "./media/stream.service";
@@ -147,6 +152,20 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data };
     },
     { body: triggerImggenBody },
+  )
+  .post(
+    "/trigger-op/imgtask",
+    async ({ body, cookie, apiKey }) => {
+      await getUserId(cookie);
+      const data = await submitVideoTask(
+        apiKey,
+        body.model,
+        body.prompt,
+        body.group,
+      );
+      return { success: true, data };
+    },
+    { body: triggerImgTaskBody },
   )
 
   .get("/task/:taskId", async ({ params, apiKey }) => {

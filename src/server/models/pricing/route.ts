@@ -8,6 +8,7 @@ import {
 import {
   getCatalog,
   getImageModels,
+  getTaskImageModels,
   getModelByName,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
@@ -24,11 +25,16 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/image-models", async () => getImageModels())
 
+  .get("/task-image-models", async () => getTaskImageModels())
+
   .get(
     "/vendor",
     async (ctx) =>
       unwrap(
-        await getPricingCatalog({ vendor: ctx.query.name, include_offline: true }),
+        await getPricingCatalog({
+          vendor: ctx.query.name,
+          include_offline: true,
+        }),
       ).models,
     { query: t.Object({ name: t.String() }) },
   )

@@ -343,6 +343,11 @@ export const triggerImggenBody = t.Object({
     }),
   ),
 });
+export const triggerImgTaskBody = t.Object({
+  prompt: t.String({ maxLength: MAX_TEXT_LEN }),
+  model: t.String({ maxLength: MAX_MODEL_LEN }),
+  group: t.Optional(t.String({ maxLength: 128 })),
+});
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

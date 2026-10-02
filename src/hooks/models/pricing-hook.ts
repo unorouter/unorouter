@@ -37,6 +37,14 @@ export function useImageModelsQuery() {
   );
 }
 
+export function useTaskImageModelsQuery() {
+  return useElysiaQuery(
+    queryKeys.pricingTaskImageModels(),
+    () => rpc.api.models.pricing["task-image-models"].get(),
+    { staleTime: "static" },
+  );
+}
+
 export function usePricingVendorQuery(name: string) {
   return useElysiaQuery(
     queryKeys.pricingVendor(name),
