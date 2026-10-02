@@ -22,6 +22,9 @@ export async function runTriggerLLM(
   const result = await generateText({
     model: provider.chatModel(model),
     messages,
+    // ChatML from the client carries its system turn inline, which the SDK
+    // rejects by default.
+    allowSystemInMessages: true,
     maxRetries: 1,
   });
   if (!result.text) throw new Error("empty response");
