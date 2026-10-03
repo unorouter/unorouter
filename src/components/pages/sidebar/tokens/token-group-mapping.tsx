@@ -237,7 +237,12 @@ function mergeHiddenPreviewLanes(
     if (!key.includes("-preview") || catalog.has(key)) continue;
     const base = key.replace("-preview", "");
     if (!catalog.has(base)) continue;
-    const list = byModel.get(base) ?? [];
+    // A pin on the base name was marked missing before the preview lanes
+    // joined, so the real lane replaces its ghost here.
+    const real = new Set(options.map((o) => o.group));
+    const list = (byModel.get(base) ?? []).filter(
+      (o) => !(o.missing && real.has(o.group)),
+    );
     const known = new Set(list.map((o) => o.group));
     list.push(...options.filter((o) => !known.has(o.group)));
     list.sort(
