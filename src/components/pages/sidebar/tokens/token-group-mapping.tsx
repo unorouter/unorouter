@@ -223,6 +223,32 @@ export function buildModelGroupOptions(
   return byModel;
 }
 
+/**
+ * A lane's label names the model it was published under, so lanes published as
+ * a preview id (gemini-3.1-pro-preview) never reached the base name the catalog
+ * lists instead, and the picker showed one 3.1 Pro lane out of fifteen. A
+ * preview name the catalog hides serves the same lanes as its base name.
+ */
+function mergeHiddenPreviewLanes(
+  byModel: Map<string, GroupOption[]>,
+  catalog: Set<string>,
+): void {
+  for (const [key, options] of [...byModel]) {
+    if (!key.includes("-preview") || catalog.has(key)) continue;
+    const base = key.replace("-preview", "");
+    if (!catalog.has(base)) continue;
+    const list = byModel.get(base) ?? [];
+    const known = new Set(list.map((o) => o.group));
+    list.push(...options.filter((o) => !known.has(o.group)));
+    list.sort(
+      (a, b) =>
+        Number(b.online) - Number(a.online) ||
+        (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
+    );
+    byModel.set(base, list);
+  }
+}
+
 function ratioLabel(ratio: number | null): string {
   return ratio == null ? "" : `${ratio}x`;
 }
@@ -655,6 +681,10 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const modelGroups = buildModelGroupOptions(props.groups, props.mapping);
+  mergeHiddenPreviewLanes(
+    modelGroups,
+    new Set(props.models.map((m) => modelKey(m.model_name))),
+  );
   const query = search.trim().toLowerCase();
 
   const overriddenModels = Object.entries(props.mapping)
