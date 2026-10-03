@@ -32,8 +32,8 @@ const FREE_RATE_LIMIT_PCT_BY_TIER = [50, 75, 100];
 
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
-// DeloPay takes whole dollars only (int64 upstream).
-const DELOPAY_MAX = 100000;
+// PayPal is the chargeback-prone rail: preset amounts only, capped (gateway enforces it too).
+const DELOPAY_MAX = 500;
 
 export function Pricing() {
   const t = useTranslations();
@@ -59,12 +59,11 @@ export function Pricing() {
 
   const cryptoCustomEnabled =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
-  const paypalCustomEnabled =
+  const paypalSelected =
     billing.paymentMethod === "paypal" && billing.enableDeloPay;
-  const showCustomField =
-    !!customTopUpProductId || cryptoCustomEnabled || paypalCustomEnabled;
-  const customMax = paypalCustomEnabled ? DELOPAY_MAX : CUSTOM_MAX;
-  const customMin = paypalCustomEnabled ? billing.deloPayMinTopUp : CUSTOM_MIN;
+  const showCustomField = !!customTopUpProductId || cryptoCustomEnabled;
+  const customMax = CUSTOM_MAX;
+  const customMin = CUSTOM_MIN;
   const paypalFee = billing.deloPayChargedAmount(1) - 1;
   const paypalFeeNotice =
     paypalFee > 0
@@ -74,10 +73,6 @@ export function Pricing() {
   function payCustom() {
     if (!isLoggedIn) {
       redirectToLogin();
-      return;
-    }
-    if (paypalCustomEnabled) {
-      billing.payDeloPay(Number(customAmount));
       return;
     }
     if (cryptoCustomEnabled) {
@@ -91,8 +86,7 @@ export function Pricing() {
   const customValid =
     customAmount.trim() !== "" &&
     Number.isFinite(parsedCustom) &&
-    (!(cryptoCustomEnabled || paypalCustomEnabled) ||
-      Number.isInteger(parsedCustom)) &&
+    (!cryptoCustomEnabled || Number.isInteger(parsedCustom)) &&
     parsedCustom >= customMin &&
     parsedCustom <= customMax;
 
@@ -228,7 +222,7 @@ export function Pricing() {
                 </button>
               ))}
             </div>
-            {paypalCustomEnabled && paypalFeeNotice && (
+            {paypalSelected && paypalFeeNotice && (
               <p className="text-muted-foreground mt-3 text-center font-mono text-[10px]">
                 {paypalFeeNotice}
               </p>
@@ -244,9 +238,7 @@ export function Pricing() {
                     inputMode="decimal"
                     min={customMin}
                     max={customMax}
-                    step={
-                      cryptoCustomEnabled || paypalCustomEnabled ? "1" : "0.01"
-                    }
+                    step={cryptoCustomEnabled ? "1" : "0.01"}
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
                     placeholder={

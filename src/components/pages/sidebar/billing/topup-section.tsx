@@ -9,8 +9,8 @@ import { useState } from "react";
 // Mirrors Creem's custom_price bounds in the upstream handler; NowPayments shares them.
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
-// DeloPay takes whole dollars only (int64 upstream).
-const DELOPAY_MAX = 100000;
+// PayPal is the chargeback-prone rail: preset amounts only, capped (gateway enforces it too).
+const DELOPAY_MAX = 500;
 
 function CustomAmountField(props: {
   disabled: boolean;
@@ -208,14 +208,6 @@ export function TopUpSection() {
                 />
               ))}
           </div>
-          <CustomAmountField
-            integer
-            min={billing.deloPayMinTopUp}
-            max={DELOPAY_MAX}
-            chargedAmount={billing.deloPayChargedAmount}
-            disabled={billing.isTopUpMutating}
-            onPay={(amount) => billing.payDeloPay(amount)}
-          />
         </div>
       )}
     </div>
