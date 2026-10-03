@@ -851,10 +851,12 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                                   auto
                                 </Badge>
                               )}
-                              <Icon
-                                name="chevron-right"
-                                className="text-muted-foreground ml-1 h-3.5 w-3.5 shrink-0"
-                              />
+                              <span className="ml-1 flex shrink-0">
+                                <Icon
+                                  name="chevron-right"
+                                  className="text-muted-foreground h-3.5 w-3.5"
+                                />
+                              </span>
                             </CommandItem>
                           </ModelGroupPopover>
                         );
