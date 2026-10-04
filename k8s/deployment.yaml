@@ -106,7 +106,8 @@ spec:
       containers:
         - name: mcp
           image: node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
-          command: [npx, -y, --package=unorouter-mcp@0.2.1, unorouter-mcp-http]
+          # 0.2.2 bundles its dependencies, so this pin fixes every line of code that runs
+          command: [npx, -y, --package=unorouter-mcp@0.2.2, unorouter-mcp-http]
           resources:
             requests: { memory: 128Mi, cpu: 50m }
             limits: { memory: 256Mi }
