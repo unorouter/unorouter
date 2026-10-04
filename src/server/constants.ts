@@ -86,6 +86,14 @@ export function getProvider(
   });
 }
 
+export function getClientIp(headers: Headers): string | null {
+  return (
+    headers.get("cf-connecting-ip") ??
+    headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headers.get("x-real-ip")
+  );
+}
+
 export async function deriveUpstream({ request }: { request: Request }) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const headers: Record<string, string> = {};
@@ -98,10 +106,7 @@ export async function deriveUpstream({ request }: { request: Request }) {
   // paying. Upstream only honors an origin it already has configured.
   headers["X-Return-Base"] = env.siteOrigin;
 
-  const clientIp =
-    request.headers.get("cf-connecting-ip") ??
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip");
+  const clientIp = getClientIp(request.headers);
   // CF-Connecting-IP, not X-Forwarded-For: the gateway trusts only the former,
   // because XFF is append-style and any pod can prepend to it. Sending XFF here
   // meant the gateway discarded it and audited the BFF pod address instead, so

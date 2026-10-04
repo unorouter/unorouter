@@ -1,5 +1,6 @@
 import {
   createTokenBody,
+  tokenIdParams,
   tokenSearchQuery,
   updateTokenBody,
 } from "@/lib/api/typebox/token";
@@ -84,10 +85,14 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     { body: updateTokenBody },
   )
 
-  .post("/:id/key", async ({ params, upstream }) => {
-    const res = await getTokenKey(params.id, { headers: upstream.headers });
-    return unwrap(res);
-  })
+  .post(
+    "/:id/key",
+    async ({ params, upstream }) => {
+      const res = await getTokenKey(params.id, { headers: upstream.headers });
+      return unwrap(res);
+    },
+    { params: tokenIdParams },
+  )
 
   .get("/best-key", async ({ upstream }) => {
     const key = await resolveBestKey(upstream.headers);
@@ -100,7 +105,11 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     return body.data ?? {};
   })
 
-  .delete("/:id", async ({ params, upstream }) => {
-    const res = await deleteToken(params.id, { headers: upstream.headers });
-    return unwrap(res);
-  });
+  .delete(
+    "/:id",
+    async ({ params, upstream }) => {
+      const res = await deleteToken(params.id, { headers: upstream.headers });
+      return unwrap(res);
+    },
+    { params: tokenIdParams },
+  );

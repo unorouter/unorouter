@@ -297,7 +297,7 @@ export async function submitGeneration(
         loras,
         size,
       );
-      collected.push(await fetchGeneratedImage(uri, apiKey, result.seed));
+      collected.push(await fetchGeneratedImage(uri, result.seed));
     }
   }
 

@@ -14,5 +14,5 @@ export const partnerGrantBody = t.Object({
 });
 
 export const partnerVoidParams = t.Object({
-  id: t.String(),
+  id: t.String({ pattern: "^[0-9]{1,20}$" }),
 });

@@ -56,13 +56,16 @@ const BLOCKED_IPV4_CIDRS: [ipaddr.IPv4, number][] = [
 ].map((c) => ipaddr.IPv4.parseCIDR(c));
 
 const BLOCKED_IPV6_CIDRS: [ipaddr.IPv6, number][] = [
+  "::/96",
   "::/128",
   "::1/128",
   "::ffff:0:0/96",
   "64:ff9b::/96",
+  "64:ff9b:1::/48",
   "100::/64",
   "2001::/23",
   "2001:db8::/32",
+  "2002::/16",
   "fc00::/7",
   "fe80::/10",
   "ff00::/8",
@@ -215,44 +218,70 @@ export async function safeFetchStream(
 
 async function safeFetch(
   url: string,
-  method: "GET" | "HEAD" = "GET",
-  headers?: Record<string, string>,
-): Promise<UndiciResponse> {
+  opts: {
+    method?: "GET" | "POST";
+    headers?: Record<string, string>;
+    body?: string;
+  } = {},
+): Promise<{ res: UndiciResponse; deadline: number }> {
   await parseAndCheckUrl(url);
+  const deadline = Date.now() + DOWNLOAD_TIMEOUT;
   const res = await undiciFetch(url, {
-    method,
+    method: opts.method ?? "GET",
+    headers: opts.headers,
+    body: opts.body,
     signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
     dispatcher: safeAgent,
     redirect: "manual",
-    headers,
   });
   if (res.status >= 300 && res.status < 400) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
-  return res;
+  return { res, deadline };
 }
 
-async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
+// On Bun a read never settles once the abort fires after the headers arrived,
+// so each read races the deadline the request started with.
+async function readBefore(
+  reader: ReadableStreamDefaultReader<Uint8Array>,
+  deadline: number,
+) {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const expired = new Promise<never>((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"))),
+      Math.max(0, deadline - Date.now()),
+    );
+  });
+  try {
+    return await Promise.race([reader.read(), expired]);
+  } catch (err) {
+    reader.cancel().catch(() => {});
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function readBodyWithLimit(
+  res: UndiciResponse,
+  maxBytes: number,
+  deadline: number,
+): Promise<Buffer> {
   const declared = Number(res.headers.get("content-length") ?? "0");
-  if (declared && declared > MAX_DOWNLOAD_BYTES) {
+  if (declared && declared > maxBytes) {
     throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
   }
   const reader = res.body?.getReader();
-  if (!reader) {
-    const buf = Buffer.from(await res.arrayBuffer());
-    if (buf.length > MAX_DOWNLOAD_BYTES) {
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
-    }
-    return buf;
-  }
+  if (!reader) return Buffer.alloc(0);
   const chunks: Uint8Array[] = [];
   let total = 0;
   while (true) {
-    const next = await reader.read();
+    const next = await readBefore(reader, deadline);
     if (next.done) break;
     total += next.value.byteLength;
-    if (total > MAX_DOWNLOAD_BYTES) {
-      await reader.cancel();
+    if (total > maxBytes) {
+      reader.cancel().catch(() => {});
       throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
     }
     chunks.push(next.value);
@@ -264,35 +293,12 @@ export async function safeFetchBytes(
   url: string,
   maxBytes: number,
 ): Promise<{ buffer: Buffer; contentType: string | null }> {
-  const res = await safeFetch(url);
+  const { res, deadline } = await safeFetch(url);
   if (!res.ok) {
     throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   }
-  const declared = Number(res.headers.get("content-length") ?? "0");
-  if (declared && declared > maxBytes) {
-    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
-  }
-  const reader = res.body?.getReader();
-  if (!reader) {
-    const buf = Buffer.from(await res.arrayBuffer());
-    if (buf.length > maxBytes)
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
-    return { buffer: buf, contentType: res.headers.get("content-type") };
-  }
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  while (true) {
-    const next = await reader.read();
-    if (next.done) break;
-    total += next.value.byteLength;
-    if (total > maxBytes) {
-      await reader.cancel();
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
-    }
-    chunks.push(next.value);
-  }
   return {
-    buffer: Buffer.concat(chunks),
+    buffer: await readBodyWithLimit(res, maxBytes, deadline),
     contentType: res.headers.get("content-type"),
   };
 }
@@ -306,23 +312,12 @@ export async function safeFetchRaw(
     maxBytes?: number;
   } = {},
 ): Promise<{ buffer: Buffer; contentType: string | null; status: number }> {
-  const maxBytes = opts.maxBytes ?? MAX_DOWNLOAD_BYTES;
-  await parseAndCheckUrl(url);
-  const res = await undiciFetch(url, {
-    method: opts.method ?? "GET",
-    headers: opts.headers,
-    body: opts.body,
-    signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
-    dispatcher: safeAgent,
-    redirect: "manual",
-  });
-  if (res.status >= 300 && res.status < 400) {
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
-  }
-  const buffer = await readBodyWithLimit(res);
-  if (buffer.length > maxBytes) {
-    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
-  }
+  const { res, deadline } = await safeFetch(url, opts);
+  const buffer = await readBodyWithLimit(
+    res,
+    opts.maxBytes ?? MAX_DOWNLOAD_BYTES,
+    deadline,
+  );
   return {
     buffer,
     contentType: res.headers.get("content-type"),
@@ -358,7 +353,6 @@ export async function verifyMagicBytes(
 // after the payload is persisted and rendered.
 export async function downloadGenerationBytes(
   url: string,
-  authToken?: string,
 ): Promise<{ buffer: Buffer; mime: string; sizeBytes: number }> {
   if (url.startsWith("data:")) {
     const base64 = url.split(",")[1] ?? "";
@@ -366,12 +360,9 @@ export async function downloadGenerationBytes(
     const mime = await verifyMagicBytes(buffer);
     return { buffer, mime, sizeBytes: buffer.length };
   }
-  const headers = authToken
-    ? { authorization: `Bearer ${authToken}` }
-    : undefined;
-  const res = await safeFetch(url, "GET", headers);
+  const { res, deadline } = await safeFetch(url);
   if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
-  const buffer = await readBodyWithLimit(res);
+  const buffer = await readBodyWithLimit(res, MAX_DOWNLOAD_BYTES, deadline);
   const mime = await verifyMagicBytes(buffer);
   return { buffer, mime, sizeBytes: buffer.length };
 }

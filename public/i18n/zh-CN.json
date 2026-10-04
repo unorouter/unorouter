@@ -4314,7 +4314,8 @@
     "CARD_IMPORT_JOB_GONE": "该导入在完成前已过期。请重新提交链接。",
     "CARD_IMPORT_UNAVAILABLE": "导入服务当前无法访问。请在几分钟后重试。",
     "CARD_FILE_INVALID": "该文件不是卡片导出文件。",
-    "GROUP_CYCLE": "分组不能移动到其自身内部。"
+    "GROUP_CYCLE": "分组不能移动到其自身内部。",
+    "RATE_LIMITED": "请求过于频繁，请等待一分钟后再试。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

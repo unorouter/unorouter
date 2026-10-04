@@ -4314,7 +4314,8 @@
     "CARD_IMPORT_JOB_GONE": "Essa importação expirou antes de terminar. Envie o link novamente.",
     "CARD_IMPORT_UNAVAILABLE": "O serviço de importação está inacessível agora. Tente novamente em alguns minutos.",
     "CARD_FILE_INVALID": "Esse arquivo não é uma exportação de card.",
-    "GROUP_CYCLE": "Um grupo não pode ser movido para dentro de si mesmo."
+    "GROUP_CYCLE": "Um grupo não pode ser movido para dentro de si mesmo.",
+    "RATE_LIMITED": "Muitas solicitações. Aguarde um minuto e tente novamente."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens processados",

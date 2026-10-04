@@ -89,10 +89,9 @@ export async function postImageRequest(
 
 export async function fetchGeneratedImage(
   uri: string,
-  apiKey: string,
   seed?: number,
 ): Promise<GeneratedImage> {
-  const fetched = await downloadGenerationBytes(uri, apiKey);
+  const fetched = await downloadGenerationBytes(uri);
   const size = await probeImageSize(fetched.buffer);
   return {
     resultUrl: uri.startsWith("data:") ? null : uri,
@@ -107,11 +106,8 @@ export async function fetchGeneratedImage(
 
 export function collectImages(
   results: ExtractedResult[],
-  apiKey: string,
 ): Promise<GeneratedImage[]> {
-  return Promise.all(
-    results.map((r) => fetchGeneratedImage(r.uri, apiKey, r.seed)),
-  );
+  return Promise.all(results.map((r) => fetchGeneratedImage(r.uri, r.seed)));
 }
 
 export function batchPlan(endpointSupportsBatch: boolean, count: number) {

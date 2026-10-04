@@ -379,3 +379,8 @@ export const finalizeTaskBody = t.Object({
   resultUrl: t.String({ maxLength: MAX_URL_LEN }),
 });
 export type FinalizeTaskBody = Static<typeof finalizeTaskBody>;
+
+// Spliced unencoded into the gateway path: "/" or "." would reach other routes.
+export const taskIdParams = t.Object({
+  taskId: t.String({ pattern: "^[A-Za-z0-9_-]{1,128}$" }),
+});

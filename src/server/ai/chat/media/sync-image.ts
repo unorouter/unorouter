@@ -70,7 +70,7 @@ export async function submitSyncImage(args: {
     if (results.length === 0) {
       throw new Error(`no image in upstream response (${args.endpoint})`);
     }
-    collected.push(...(await collectImages(results, args.apiKey)));
+    collected.push(...(await collectImages(results)));
   }
 
   return collected;

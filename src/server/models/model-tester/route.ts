@@ -7,6 +7,7 @@ import {
 } from "@/lib/api/typebox/model-tester";
 import { deriveUpstream, getUserId } from "@/server/constants";
 import { resolveSelf } from "@/server/auth/account/self.service";
+import { rateLimit } from "@/server/rate-limit";
 import { Elysia } from "elysia";
 import {
   deletePublishedTest,
@@ -30,7 +31,7 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
         user?.display_name || user?.username || null,
       );
     },
-    { body: verifyAndPublishBody },
+    { body: verifyAndPublishBody, beforeHandle: rateLimit(10) },
   )
   .delete(
     "/published/:id",

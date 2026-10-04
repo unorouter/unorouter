@@ -4314,7 +4314,8 @@
     "CARD_IMPORT_JOB_GONE": "Dieser Import ist abgelaufen, bevor er fertig war. Sende den Link erneut.",
     "CARD_IMPORT_UNAVAILABLE": "Der Importdienst ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten erneut.",
     "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export.",
-    "GROUP_CYCLE": "Eine Gruppe kann nicht in sich selbst verschoben werden."
+    "GROUP_CYCLE": "Eine Gruppe kann nicht in sich selbst verschoben werden.",
+    "RATE_LIMITED": "Zu viele Anfragen. Bitte eine Minute warten und es dann erneut versuchen."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

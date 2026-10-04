@@ -4314,7 +4314,8 @@
     "CARD_IMPORT_JOB_GONE": "해당 가져오기가 끝나기 전에 만료되었습니다. 링크를 다시 보내세요.",
     "CARD_IMPORT_UNAVAILABLE": "가져오기 서비스에 현재 연결할 수 없습니다. 몇 분 후에 다시 시도해 주세요.",
     "CARD_FILE_INVALID": "해당 파일은 카드 내보내기 파일이 아닙니다.",
-    "GROUP_CYCLE": "그룹을 자기 자신 안으로 이동할 수 없습니다."
+    "GROUP_CYCLE": "그룹을 자기 자신 안으로 이동할 수 없습니다.",
+    "RATE_LIMITED": "요청이 너무 많습니다. 1분 후에 다시 시도해 주세요."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

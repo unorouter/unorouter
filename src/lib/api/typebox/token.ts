@@ -36,3 +36,7 @@ export const updateTokenBody = t.Object({
   group_mapping: t.Optional(t.String()),
   auto_groups: t.Optional(t.Nullable(t.Array(t.String()))),
 });
+
+export const tokenIdParams = t.Object({
+  id: t.String({ pattern: "^[0-9]{1,20}$" }),
+});

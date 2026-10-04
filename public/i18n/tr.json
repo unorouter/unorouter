@@ -4314,7 +4314,8 @@
     "CARD_IMPORT_JOB_GONE": "Bu içe aktarma tamamlanmadan süresi doldu. Bağlantıyı tekrar gönderin.",
     "CARD_IMPORT_UNAVAILABLE": "İçe aktarma servisine şu anda ulaşılamıyor. Lütfen birkaç dakika sonra tekrar dene.",
     "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil.",
-    "GROUP_CYCLE": "Bir grup kendi içine taşınamaz."
+    "GROUP_CYCLE": "Bir grup kendi içine taşınamaz.",
+    "RATE_LIMITED": "Çok fazla istek. Bir dakika bekleyip tekrar deneyin."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

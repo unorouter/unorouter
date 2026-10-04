@@ -3,6 +3,7 @@ import {
   finalizeTaskBody,
   forwardBody,
   streamBody,
+  taskIdParams,
   titleGenerationBody,
   triggerImggenBody,
   triggerImgTaskBody,
@@ -15,6 +16,7 @@ import {
   resolveChatApiKey,
 } from "@/server/billing/token/best-key.service";
 import { getUserId } from "@/server/constants";
+import { rateLimit } from "@/server/rate-limit";
 import { Elysia } from "elysia";
 import { generateInlayImage } from "./media/inlay.service";
 import {
@@ -29,30 +31,40 @@ import { forwardChatCompletions } from "./forward.service";
 import { forwardCustomProvider } from "./custom-forward.service";
 import { resolveWebSearch } from "./web-search.service";
 
+const customForwardLimit = rateLimit(120);
+
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
   // Open to guests by design; the caller's own Authorization is what stops this
   // being a free open relay. No chat key is resolved, logged or stored here.
-  .post("/custom-forward/chat/completions", async ({ request }) => {
-    return forwardCustomProvider({
-      targetBase: request.headers.get("x-proxy-target"),
-      path: "/chat/completions",
-      method: "POST",
-      authorization: request.headers.get("authorization"),
-      body: await request.text(),
-      signal: request.signal,
-    });
-  })
+  .post(
+    "/custom-forward/chat/completions",
+    async ({ request }) => {
+      return forwardCustomProvider({
+        targetBase: request.headers.get("x-proxy-target"),
+        path: "/chat/completions",
+        method: "POST",
+        authorization: request.headers.get("authorization"),
+        body: await request.text(),
+        signal: request.signal,
+      });
+    },
+    { beforeHandle: customForwardLimit },
+  )
 
-  .get("/custom-forward/models", async ({ request }) => {
-    return forwardCustomProvider({
-      targetBase: request.headers.get("x-proxy-target"),
-      path: "/models",
-      method: "GET",
-      authorization: request.headers.get("authorization"),
-      signal: request.signal,
-    });
-  })
+  .get(
+    "/custom-forward/models",
+    async ({ request }) => {
+      return forwardCustomProvider({
+        targetBase: request.headers.get("x-proxy-target"),
+        path: "/models",
+        method: "GET",
+        authorization: request.headers.get("authorization"),
+        signal: request.signal,
+      });
+    },
+    { beforeHandle: customForwardLimit },
+  )
 
   .post(
     "/task/finalize",
@@ -60,7 +72,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const data = await finalizeVideoTask(body);
       return { success: true, data };
     },
-    { body: finalizeTaskBody },
+    { body: finalizeTaskBody, beforeHandle: rateLimit(30) },
   )
 
   // Ordering is load-bearing: routes above must NOT resolve a chat key.
@@ -168,7 +180,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: triggerImgTaskBody },
   )
 
-  .get("/task/:taskId", async ({ params, apiKey }) => {
-    const data = await fetchVideoTaskStatus(apiKey, params.taskId);
-    return { success: true, data };
-  });
+  .get(
+    "/task/:taskId",
+    async ({ params, apiKey }) => {
+      const data = await fetchVideoTaskStatus(apiKey, params.taskId);
+      return { success: true, data };
+    },
+    { params: taskIdParams },
+  );
