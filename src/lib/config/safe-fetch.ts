@@ -145,6 +145,8 @@ async function parseAndCheckUrl(url: string): Promise<URL> {
   if (!ALLOWED_PORTS.has(port)) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
+  // URL keeps IPv6 literals bracketed, so "[::ffff:169.254.169.254]" skipped the IP
+  // check and reached the metadata service (2026-10-04).
   const host = parsed.hostname.toLowerCase().replace(/^\[(.*)\]$/, "$1");
   // A trailing dot names the same host to DNS and to Cloudflare but not to a
   // suffix match; "api.unorouter.com." walked past isOwnHost (2026-09-07).
@@ -163,9 +165,8 @@ async function parseAndCheckUrl(url: string): Promise<URL> {
     if (!isPublicIp(host)) throw new Error(msg("ERRORS.BLOCKED_URL"));
     return parsed;
   }
-  // Bun swaps undici for its own fetch and ignores the dispatcher, so the agent's
-  // filteringLookup never runs in production: names resolving to 169.254.169.254
-  // and the cluster service range walked past it (2026-10-04).
+  // filteringLookup only runs while undici is bundled: Bun resolving "undici" itself
+  // swaps in its native fetch and drops the dispatcher, so the name is checked here too.
   let addrs: { address: string }[];
   try {
     addrs = await dnsLookupAll(host, { all: true, verbatim: true });
