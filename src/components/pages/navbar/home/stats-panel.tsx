@@ -18,7 +18,7 @@ export function StatsPanel() {
           </span>
           <Icon name="activity" className="text-muted-foreground h-3.5 w-3.5" />
         </div>
-        <div className="text-foreground text-4xl font-bold tracking-tight tabular-nums md:text-5xl lg:text-5xl">
+        <div className="text-foreground text-2xl font-bold tracking-tight tabular-nums sm:text-4xl md:text-5xl">
           {tokens.toLocaleString()}
         </div>
       </div>
@@ -28,7 +28,7 @@ export function StatsPanel() {
           <span className="text-foreground/70 mb-2 font-mono text-[10px] tracking-widest uppercase">
             {t("HOME.STATS.PANEL.REQUESTS")}
           </span>
-          <div className="text-foreground text-2xl font-bold tabular-nums">
+          <div className="text-foreground text-xl font-bold tabular-nums sm:text-2xl">
             {requests.toLocaleString()}
           </div>
         </div>
@@ -41,7 +41,7 @@ export function StatsPanel() {
               {t("HOME.STATS.PANEL.LIVE")}
             </span>
           </div>
-          <div className="text-foreground text-2xl font-bold tabular-nums">
+          <div className="text-foreground text-xl font-bold tabular-nums sm:text-2xl">
             {tpm.toLocaleString()}
           </div>
         </div>
