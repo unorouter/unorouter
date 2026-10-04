@@ -3,6 +3,7 @@ import { env } from "@/lib/config/env";
 import { fileTypeFromBuffer } from "file-type";
 import ipaddr from "ipaddr.js";
 import { lookup as dnsLookup } from "node:dns";
+import { lookup as dnsLookupAll } from "node:dns/promises";
 import {
   Agent,
   fetch as undiciFetch,
@@ -126,7 +127,7 @@ const safeAgent = new Agent({
   bodyTimeout: DOWNLOAD_TIMEOUT,
 });
 
-function parseAndCheckUrl(url: string): URL {
+async function parseAndCheckUrl(url: string): Promise<URL> {
   let parsed: URL;
   try {
     parsed = new URL(url);
@@ -144,7 +145,7 @@ function parseAndCheckUrl(url: string): URL {
   if (!ALLOWED_PORTS.has(port)) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
-  const host = parsed.hostname.toLowerCase();
+  const host = parsed.hostname.toLowerCase().replace(/^\[(.*)\]$/, "$1");
   // A trailing dot names the same host to DNS and to Cloudflare but not to a
   // suffix match; "api.unorouter.com." walked past isOwnHost (2026-09-07).
   // The public gateway is never a valid target either, whatever the caller
@@ -158,7 +159,20 @@ function parseAndCheckUrl(url: string): URL {
   ) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
-  if (ipaddr.isValid(host) && !isPublicIp(host)) {
+  if (ipaddr.isValid(host)) {
+    if (!isPublicIp(host)) throw new Error(msg("ERRORS.BLOCKED_URL"));
+    return parsed;
+  }
+  // Bun swaps undici for its own fetch and ignores the dispatcher, so the agent's
+  // filteringLookup never runs in production: names resolving to 169.254.169.254
+  // and the cluster service range walked past it (2026-10-04).
+  let addrs: { address: string }[];
+  try {
+    addrs = await dnsLookupAll(host, { all: true, verbatim: true });
+  } catch {
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
+  }
+  if (!addrs.length || addrs.some((a) => !isPublicIp(a.address))) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   return parsed;
@@ -183,7 +197,7 @@ export async function safeFetchStream(
     signal?: AbortSignal;
   } = {},
 ): Promise<UndiciResponse> {
-  parseAndCheckUrl(url);
+  await parseAndCheckUrl(url);
   const res = await undiciFetch(url, {
     method: opts.method ?? "GET",
     headers: opts.headers,
@@ -203,7 +217,7 @@ async function safeFetch(
   method: "GET" | "HEAD" = "GET",
   headers?: Record<string, string>,
 ): Promise<UndiciResponse> {
-  parseAndCheckUrl(url);
+  await parseAndCheckUrl(url);
   const res = await undiciFetch(url, {
     method,
     signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
@@ -292,7 +306,7 @@ export async function safeFetchRaw(
   } = {},
 ): Promise<{ buffer: Buffer; contentType: string | null; status: number }> {
   const maxBytes = opts.maxBytes ?? MAX_DOWNLOAD_BYTES;
-  parseAndCheckUrl(url);
+  await parseAndCheckUrl(url);
   const res = await undiciFetch(url, {
     method: opts.method ?? "GET",
     headers: opts.headers,
