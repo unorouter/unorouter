@@ -8,6 +8,7 @@ on:
     # same tree and roll the pods a second time.
     paths-ignore:
       - k8s/deployment.yaml
+      - renovate.json
 
 concurrency:
   group: ghcr-${{ github.ref }}
