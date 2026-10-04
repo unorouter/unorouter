@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Workflow actions only, pinned by commit SHA. Never a PR: minor, patch and digest bumps merge straight to main in the Monday window; a major waits in the Dependency dashboard issue until its box is ticked. App dependencies are not managed here.",
+  "extends": [
+    "config:recommended",
+    ":semanticCommitsDisabled",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "enabledManagers": [
+    "github-actions"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "ignoreTests": true,
+  "automerge": true,
+  "automergeType": "branch",
+  "automergeSchedule": [
+    "at any time"
+  ],
+  "minimumReleaseAge": "7 days",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency dashboard",
+  "commitMessageAction": "bump",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}
