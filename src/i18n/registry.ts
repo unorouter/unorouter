@@ -435,7 +435,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "free-models-aggregated",
     date: "2026-06-15",
-    updated: "2026-07-05",
+    updated: "2026-10-04",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.FREE_MODELS_AGGREGATED",
     priority: 0.7,
