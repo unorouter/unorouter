@@ -25,8 +25,8 @@ jobs:
     # Lint has pre-existing react-hooks errors; advisory until they are fixed.
     continue-on-error: ${{ matrix.check == 'lint' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
       - run: bun install --frozen-lockfile
       - run: bun run ${{ matrix.check }}
 
@@ -50,16 +50,16 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       # Only reviewed public configuration enters the image build.
       # Server credentials are injected by Kubernetes at runtime.
       - name: Create public build environment
         run: cp .env.public .env
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -68,7 +68,7 @@ jobs:
       # Build+push a per-arch DIGEST only (no shared tag; two runners pushing the
       # same tag would clobber each other). The manifest job assembles the tags.
       - id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: .
           secrets: |
@@ -86,7 +86,7 @@ jobs:
           mkdir -p /tmp/digests
           echo "${{ steps.build.outputs.digest }}" > "/tmp/digests/${{ matrix.arch }}"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: digest-${{ matrix.arch }}
           path: /tmp/digests/*
@@ -96,23 +96,26 @@ jobs:
   manifest:
     runs-on: ubuntu-latest
     needs: build
+    outputs:
+      digest: ${{ steps.manifest.outputs.digest }}
     permissions:
       contents: read
       packages: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           path: /tmp/digests
           pattern: digest-*
           merge-multiple: true
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create + push manifest list
+        id: manifest
         run: |
           IMAGE=ghcr.io/unorouter/unorouter
           REFS=""
@@ -121,6 +124,9 @@ jobs:
             docker buildx imagetools create -t "$IMAGE:$TAG" $REFS
           done
           docker buildx imagetools inspect "$IMAGE:${{ github.sha }}"
+          D=$(docker buildx imagetools inspect "$IMAGE:${{ github.sha }}" --format '{{json .Manifest}}' | jq -r .digest)
+          [[ "$D" == sha256:* ]] || { echo "::error::no manifest digest for $IMAGE:${{ github.sha }}"; exit 1; }
+          echo "digest=$D" >> "$GITHUB_OUTPUT"
 
   # Pin the new image in this repo's own k8s/ manifests. ArgoCD discovers this repo by
   # its k8s/ directory and rolls the Deployment out, so nothing here talks to the cluster
@@ -135,7 +141,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: main
 
@@ -144,11 +150,13 @@ jobs:
           set -euo pipefail
           F=k8s/deployment.yaml
           OLD=$(grep -oP 'image: ghcr\.io/unorouter/unorouter:\K\S+' "$F")
-          if [ "$OLD" = "${{ github.sha }}" ]; then
-            echo "already pinned to ${{ github.sha }}, nothing to do"
+          # tag for people, digest for the cluster: a re-pushed tag cannot change what runs
+          NEW="${{ github.sha }}@${{ needs.manifest.outputs.digest }}"
+          if [ "$OLD" = "$NEW" ]; then
+            echo "already pinned to $NEW, nothing to do"
             exit 0
           fi
-          sed -i "s|image: ghcr.io/unorouter/unorouter:.*|image: ghcr.io/unorouter/unorouter:${{ github.sha }}|" "$F"
+          sed -i "s|image: ghcr.io/unorouter/unorouter:.*|image: ghcr.io/unorouter/unorouter:$NEW|" "$F"
           git config user.name  "unorouter-ci"
           git config user.email "ci@unorouter.com"
           git add "$F"
