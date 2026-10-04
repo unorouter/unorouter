@@ -6,6 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import {
   useCustomProvidersQuery,
   useDeleteCustomProviderMutation,
+  useDuplicateCustomProviderMutation,
 } from "@/hooks/ai/custom-providers-hook";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
@@ -28,6 +29,7 @@ export function CustomProviderList(props: Props) {
   const providersQuery = useCustomProvidersQuery();
   const [rpQuery, setRpQuery] = useState("");
   const deleteMut = useDeleteCustomProviderMutation();
+  const duplicateMut = useDuplicateCustomProviderMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
   const handleDelete = async (id: string) => {
@@ -89,6 +91,7 @@ export function CustomProviderList(props: Props) {
           description={t("CHAT.CUSTOM_PROVIDER.MODEL_COUNT", {
             count: provider.models.length,
           })}
+          onDuplicate={() => duplicateMut.mutate(provider.id)}
           onDelete={() => handleDelete(provider.id)}
         />
       ))}

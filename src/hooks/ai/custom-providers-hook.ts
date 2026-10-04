@@ -29,3 +29,4 @@ export const useCustomProviderQuery = customProviders.useItem;
 export const useCreateCustomProviderMutation = customProviders.useCreate;
 export const useUpdateCustomProviderMutation = customProviders.useUpdate;
 export const useDeleteCustomProviderMutation = customProviders.useDelete;
+export const useDuplicateCustomProviderMutation = customProviders.useDuplicate;
