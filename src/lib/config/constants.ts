@@ -50,6 +50,7 @@ export const USER_THEME_COOKIE = "user-theme" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AUTH_REDIRECT_QUERY = "redirect" as const;
+export const OAUTH_ERROR_QUERY = "oauth_error" as const;
 
 export const RESEND_COOLDOWN_SECONDS = 60;
 export const AFF_CODE_KEY = "aff" as const;

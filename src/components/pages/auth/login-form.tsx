@@ -11,7 +11,11 @@ import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { RouterPush } from "@/i18n/routing";
 import { analytics } from "@/lib/analytics";
-import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  APP_VALUES,
+  AUTH_REDIRECT_COOKIE,
+  OAUTH_ERROR_QUERY,
+} from "@/lib/config/constants";
 import {
   loginChecker,
   loginSchema,
@@ -25,7 +29,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 export function LoginForm() {
@@ -47,6 +51,15 @@ export function LoginForm() {
   const [formError, setFormError] = useState<string | undefined>();
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const oauthError = url.searchParams.get(OAUTH_ERROR_QUERY);
+    if (!oauthError) return;
+    setFormError(oauthError);
+    url.searchParams.delete(OAUTH_ERROR_QUERY);
+    window.history.replaceState(null, "", url);
+  }, []);
 
   const username = useWatch({ control: form.control, name: "username" });
   const password = useWatch({ control: form.control, name: "password" });

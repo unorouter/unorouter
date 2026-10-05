@@ -16,6 +16,8 @@ import {
   AUTH_REDIRECT_COOKIE,
   AUTH_REDIRECT_QUERY,
   LOCALES,
+  NEW_API_USER,
+  OAUTH_ERROR_QUERY,
 } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import { sanitizeRedirectPath } from "@/lib/utils/server";
@@ -136,7 +138,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
 
   .get(
     "/oauth/callback",
-    async ({ query, cookie, set }) => {
+    async ({ query, cookie, set, request }) => {
       // Not Elysia's redirect(): it leaves the location RELATIVE, and Next
       // re-parses that through undici on the way out, which rejects "/login"
       // with "Failed to parse URL from /login" and shows a 500 instead.
@@ -145,8 +147,15 @@ export const authRoute = new Elysia({ prefix: "/account" })
         set.headers.location = location;
       };
 
-      if (query.error)
-        return to(`/settings?bind_error=${encodeURIComponent(query.error)}`);
+      if (query.error) {
+        // A failed bind comes from settings; a failed login has no session yet.
+        const { upstream } = await deriveUpstream({ request });
+        if (upstream.headers[NEW_API_USER])
+          return to(`/settings?bind_error=${encodeURIComponent(query.error)}`);
+        return to(
+          `/login?${new URLSearchParams({ [OAUTH_ERROR_QUERY]: query.error })}`,
+        );
+      }
       if (!query.code) return to("/login");
 
       const res = await exchangeOAuthCode({ code: query.code }).catch(
