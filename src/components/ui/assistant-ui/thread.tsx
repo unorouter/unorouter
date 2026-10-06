@@ -757,21 +757,20 @@ const StorageBlockedNotice: FC = () => {
           )}
         </span>
       </div>
-      {kind === "emptied" && (
-        <div className="flex justify-end">
-          <Button variant="outline" size="sm" onClick={acceptEmpty}>
-            {t("CHAT.DB_EMPTIED_CONTINUE")}
-          </Button>
-        </div>
-      )}
-      {kind === "held" && (
-        <div className="flex justify-end gap-2">
+      {kind !== "blocked" && (
+        <div className="flex flex-wrap justify-end gap-2">
           <Button variant="outline" size="sm" onClick={downloadRawDatabase}>
             {t("CHAT.DB_HELD_DOWNLOAD")}
           </Button>
           <Button variant="outline" size="sm" onClick={retry}>
             {t("MAIN.ACTIONS.TRY_AGAIN")}
           </Button>
+          {/* Opening writes over the slot, so the download comes first. */}
+          {kind === "emptied" && (
+            <Button variant="outline" size="sm" onClick={acceptEmpty}>
+              {t("CHAT.DB_EMPTIED_CONTINUE")}
+            </Button>
+          )}
         </div>
       )}
     </div>
