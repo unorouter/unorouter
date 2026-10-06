@@ -67,12 +67,51 @@ const CHAT_TABLES = [
   "request_logs",
 ] as const;
 
+// The pool's slot files stay readable through getFile() while the sync access
+// handles are held elsewhere, so a user locked out of the database can still
+// walk away with the bytes. The live slot, or the largest SQLite slot when
+// none names the live path.
+export async function downloadRawLocalDb(): Promise<boolean> {
+  const [{ salvagePoolDatabases }, { singleDbPath }] = await Promise.all([
+    import("@/lib/db/client/sahpool/salvage"),
+    import("@/lib/db/client/data-migrate/adopt-single-db"),
+  ]);
+  const candidates = await salvagePoolDatabases(singleDbPath());
+  const pick =
+    candidates.find((c) => c.isLive) ??
+    candidates.reduce<(typeof candidates)[number] | null>(
+      (a, b) => (!a || b.sizeBytes > a.sizeBytes ? b : a),
+      null,
+    );
+  logChatDebug("db.salvage.download", {
+    candidates: candidates.length,
+    bytes: pick?.sizeBytes,
+    isLive: pick?.isLive,
+  });
+  if (!pick) return false;
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  await streamFileToDisk(
+    new File([pick.blob], `unorouter-raw-${stamp}.sqlite`, {
+      type: "application/x-sqlite3",
+    }),
+    `unorouter-raw-${stamp}.sqlite`,
+  );
+  return true;
+}
+
 export async function downloadLocalDb(
   filename: string,
   options?: DbExportOptions,
 ): Promise<void> {
   const opts = resolveOptions(options);
   logChatDebug("export.db.start", { filename, options: opts });
+  try {
+    await getLocalDb();
+  } catch (e) {
+    logChatDebug("export.db.raw_fallback", { error: String(e) });
+    if (!(await downloadRawLocalDb())) throw e;
+    return;
+  }
   let built: {
     file: File;
     lazy: boolean;
