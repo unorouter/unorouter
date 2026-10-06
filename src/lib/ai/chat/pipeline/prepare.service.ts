@@ -64,8 +64,9 @@ export async function prepareChatRequest(
   throwIfAborted(abortSignal);
   const presetTokenizer = rec(body.chatContext?.preset)?.tokenizer;
   const activeTokenizer = tokenizerRefForModel(
-    (isTokenizerRef(presetTokenizer) ? presetTokenizer : undefined) ||
-      body.tokenizer,
+    (isTokenizerRef(presetTokenizer) && presetTokenizer !== "auto"
+      ? presetTokenizer
+      : undefined) || body.tokenizer,
     body.model,
   );
   await setActiveTokenizer(activeTokenizer);
