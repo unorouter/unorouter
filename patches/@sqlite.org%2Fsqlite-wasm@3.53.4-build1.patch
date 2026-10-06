@@ -1,11 +1,34 @@
+diff --git a/node_modules/@sqlite.org/sqlite-wasm/.bun-tag-46e02cd83e93c93 b/.bun-tag-46e02cd83e93c93
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..417383f79af51e60480b0bc6fdb8bd36423716b4 100644
+index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..ecbe0219f49d08b6217e6d01c1a42a253912fb41 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -16251,8 +16251,15 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+@@ -15916,9 +15916,12 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+ 					const file = pool.getOFileForS3File(pFile);
+ 					pool.log(`xRead ${file.path} ${n} @ ${offset64}`);
+ 					try {
+-						const nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at: HEADER_OFFSET_DATA + Number(offset64) });
++						const at = HEADER_OFFSET_DATA + Number(offset64);
++						let nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
++						if (nRead < n && file.sah.getSize() >= at + n) nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
+ 						if (nRead < n) {
+ 							wasm.heap8u().fill(0, Number(pDest) + nRead, Number(pDest) + n);
++							if (file.sah.getSize() >= at + n) return capi.SQLITE_IOERR_READ;
+ 							return capi.SQLITE_IOERR_SHORT_READ;
+ 						}
+ 						return 0;
+@@ -16250,9 +16253,20 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+ 				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
- 					sah.read(this.#apBody, { at: 0 });
+-					sah.read(this.#apBody, { at: 0 });
++					const size = sah.getSize();
++					const want = Math.min(this.#apBody.byteLength, size);
++					let got = 0;
++					for (let i = 0; i < 3 && got < want; ++i) got = sah.read(this.#apBody, { at: 0 });
++					if (got < want) toss(`Short read of a pool file header: ${got} of ${want} bytes.`);
 +					const pathBytes = this.#apBody.findIndex((v) => 0 === v);
 +					const path = pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
 +					const keep = !!path && sah.getSize() > HEADER_OFFSET_DATA;
@@ -18,7 +41,7 @@ index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..417383f79af51e60480b0bc6fdb8bd36
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16261,9 +16268,11 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+@@ -16261,9 +16275,11 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
@@ -32,14 +55,59 @@ index 5e6e43ba2a02c3c7a9d71aabb8134a929ffc94ca..417383f79af51e60480b0bc6fdb8bd36
  					} else {
  						warn("Disassociating file with bad digest.");
  						this.setAssociatedPath(sah, "", 0);
+@@ -16446,13 +16462,14 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+ 				@see pauseVfs()
+ 				@see unpauseVfs()
+ 				*/
+-				async removeVfs() {
++				async removeVfs(keepFiles = false) {
+ 					if (!this.#cVfs.pointer || !this.#dhOpaque) return false;
+ 					capi.sqlite3_vfs_unregister(this.#cVfs.pointer);
+ 					this.#cVfs.dispose();
+ 					delete initPromises[this.vfsName];
+ 					try {
+ 						this.releaseAccessHandles();
++						if (keepFiles) return true;
+ 						await this.#dhVfsRoot.removeEntry(OPAQUE_DIR_NAME, { recursive: true });
+ 						this.#dhOpaque = void 0;
+ 						await this.#dhVfsParent.removeEntry(this.#dhVfsRoot.name, { recursive: true });
+@@ -16950,7 +16967,7 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+ 						thePool.log("VFS initialized.");
+ 						return poolUtil;
+ 					}).catch(async (e) => {
+-						await thePool.removeVfs().catch(() => {});
++						await thePool.removeVfs(true).catch(() => {});
+ 						throw e;
+ 					});
+ 				}).catch((err) => {
 diff --git a/dist/sqlite3-worker1.mjs b/dist/sqlite3-worker1.mjs
-index 55836559c280d5263be6258ba404bb3870081d86..8d41c9e7101e1df95bdbfc7a2bf8817f41240190 100644
+index 55836559c280d5263be6258ba404bb3870081d86..1fb540ace843b18ae5d9151139c6233acec9bb05 100644
 --- a/dist/sqlite3-worker1.mjs
 +++ b/dist/sqlite3-worker1.mjs
-@@ -16326,8 +16326,15 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -15991,9 +15991,12 @@ async function sqlite3InitModule(moduleArg = {}) {
+ 					const file = pool.getOFileForS3File(pFile);
+ 					pool.log(`xRead ${file.path} ${n} @ ${offset64}`);
+ 					try {
+-						const nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at: HEADER_OFFSET_DATA + Number(offset64) });
++						const at = HEADER_OFFSET_DATA + Number(offset64);
++						let nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
++						if (nRead < n && file.sah.getSize() >= at + n) nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
+ 						if (nRead < n) {
+ 							wasm.heap8u().fill(0, Number(pDest) + nRead, Number(pDest) + n);
++							if (file.sah.getSize() >= at + n) return capi.SQLITE_IOERR_READ;
+ 							return capi.SQLITE_IOERR_SHORT_READ;
+ 						}
+ 						return 0;
+@@ -16325,9 +16328,20 @@ async function sqlite3InitModule(moduleArg = {}) {
+ 				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
- 					sah.read(this.#apBody, { at: 0 });
+-					sah.read(this.#apBody, { at: 0 });
++					const size = sah.getSize();
++					const want = Math.min(this.#apBody.byteLength, size);
++					let got = 0;
++					for (let i = 0; i < 3 && got < want; ++i) got = sah.read(this.#apBody, { at: 0 });
++					if (got < want) toss(`Short read of a pool file header: ${got} of ${want} bytes.`);
 +					const pathBytes = this.#apBody.findIndex((v) => 0 === v);
 +					const path = pathBytes ? textDecoder.decode(this.#apBody.subarray(0, pathBytes)) : "";
 +					const keep = !!path && sah.getSize() > HEADER_OFFSET_DATA;
@@ -52,7 +120,7 @@ index 55836559c280d5263be6258ba404bb3870081d86..8d41c9e7101e1df95bdbfc7a2bf8817f
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16336,9 +16343,11 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16336,9 +16350,11 @@ async function sqlite3InitModule(moduleArg = {}) {
  					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
@@ -66,3 +134,28 @@ index 55836559c280d5263be6258ba404bb3870081d86..8d41c9e7101e1df95bdbfc7a2bf8817f
  					} else {
  						warn("Disassociating file with bad digest.");
  						this.setAssociatedPath(sah, "", 0);
+@@ -16521,13 +16537,14 @@ async function sqlite3InitModule(moduleArg = {}) {
+ 				@see pauseVfs()
+ 				@see unpauseVfs()
+ 				*/
+-				async removeVfs() {
++				async removeVfs(keepFiles = false) {
+ 					if (!this.#cVfs.pointer || !this.#dhOpaque) return false;
+ 					capi.sqlite3_vfs_unregister(this.#cVfs.pointer);
+ 					this.#cVfs.dispose();
+ 					delete initPromises[this.vfsName];
+ 					try {
+ 						this.releaseAccessHandles();
++						if (keepFiles) return true;
+ 						await this.#dhVfsRoot.removeEntry(OPAQUE_DIR_NAME, { recursive: true });
+ 						this.#dhOpaque = void 0;
+ 						await this.#dhVfsParent.removeEntry(this.#dhVfsRoot.name, { recursive: true });
+@@ -17025,7 +17042,7 @@ async function sqlite3InitModule(moduleArg = {}) {
+ 						thePool.log("VFS initialized.");
+ 						return poolUtil;
+ 					}).catch(async (e) => {
+-						await thePool.removeVfs().catch(() => {});
++						await thePool.removeVfs(true).catch(() => {});
+ 						throw e;
+ 					});
+ 				}).catch((err) => {
