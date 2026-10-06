@@ -39,11 +39,45 @@ export function normalizeBaseUrl(url: string): string {
   return out;
 }
 
+export type CatalogModel = {
+  id: string;
+  name: string | null;
+  contextLength: number | null;
+  vision: boolean;
+  imageOnly: boolean;
+  free: boolean;
+};
+
+function strings(v: unknown): string[] {
+  return Array.isArray(v)
+    ? v.filter((x): x is string => typeof x === "string")
+    : [];
+}
+
+// Plain OpenAI lists carry only ids; OpenRouter style lists add the rest.
+function toCatalogModel(m: Record<string, unknown>): CatalogModel | null {
+  if (typeof m.id !== "string" || !m.id) return null;
+  const arch = rec(m.architecture);
+  const pricing = rec(m.pricing);
+  const output = strings(arch?.output_modalities);
+  return {
+    id: m.id,
+    name: typeof m.name === "string" && m.name ? m.name : null,
+    contextLength:
+      typeof m.context_length === "number" ? m.context_length : null,
+    vision: strings(arch?.input_modalities).includes("image"),
+    imageOnly: output.length > 0 && !output.includes("text"),
+    free:
+      m.id.endsWith(":free") ||
+      (pricing?.prompt === "0" && pricing?.completion === "0"),
+  };
+}
+
 export async function fetchCustomProviderModels(
   baseUrl: string,
   apiKey: string,
   proxy = false,
-): Promise<string[]> {
+): Promise<CatalogModel[]> {
   const base = normalizeBaseUrl(baseUrl);
   const key = apiKey.trim().replace(/^Bearer\s+/i, "");
   // Proxy toggle: providers without CORS cannot answer the browser directly,
@@ -71,7 +105,7 @@ export async function fetchCustomProviderModels(
   }
   const data = rec(await res.json());
   return recArr(data?.data)
-    .map((m) => m.id)
-    .filter((id): id is string => typeof id === "string" && id.length > 0)
-    .sort();
+    .map(toCatalogModel)
+    .filter((m): m is CatalogModel => m !== null)
+    .sort((a, b) => a.id.localeCompare(b.id));
 }

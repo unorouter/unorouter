@@ -19,11 +19,6 @@ const LorebookList = dynamic(() =>
     (m) => m.LorebookList,
   ),
 );
-const CustomProviderList = dynamic(() =>
-  import("@/components/pages/sidebar/chat/rp/custom-provider/list").then(
-    (m) => m.CustomProviderList,
-  ),
-);
 const RoomHostPanel = dynamic(() =>
   import("@/components/pages/room/room-host-panel").then(
     (m) => m.RoomHostPanel,
@@ -60,12 +55,6 @@ export function RpDialogs() {
         <LorebookList
           open
           onOpenChange={(o) => setOpenTab(o ? "lorebooks" : null)}
-        />
-      )}
-      {openTab === "custom-providers" && (
-        <CustomProviderList
-          open
-          onOpenChange={(o) => setOpenTab(o ? "custom-providers" : null)}
         />
       )}
       {openTab === "js-plugins" && (

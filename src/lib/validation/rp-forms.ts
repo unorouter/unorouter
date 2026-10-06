@@ -112,7 +112,6 @@ export const RP_TABS = [
   "characters",
   "personas",
   "lorebooks",
-  "custom-providers",
   "js-plugins",
 ] as const;
 export type RpTab = (typeof RP_TABS)[number];

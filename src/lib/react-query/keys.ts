@@ -74,6 +74,8 @@ export const queryKeys = {
   card: (id: string) => ["rp-card", id] as const,
   customProviders: () => ["custom-providers"] as const,
   customProvider: (id: string) => ["custom-providers", id] as const,
+  customProviderCatalog: (baseUrl: string, proxy: boolean) =>
+    ["custom-provider-catalog", baseUrl, proxy] as const,
   jsPlugins: () => ["js-plugins"] as const,
   jsPlugin: (id: string) => ["js-plugins", id] as const,
 

@@ -1,22 +1,18 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
-import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import {
+  type CatalogTarget,
   useCreateCustomProviderMutation,
+  useCustomProviderCatalogQuery,
   useCustomProviderQuery,
   useUpdateCustomProviderMutation,
 } from "@/hooks/ai/custom-providers-hook";
-import {
-  fetchCustomProviderModels,
-  ModelListError,
-} from "@/lib/ai/chat/custom-provider-id";
+import { ModelListError } from "@/lib/ai/chat/custom-provider-id";
 import { toast } from "sonner";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
@@ -27,13 +23,22 @@ import {
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { FormFooter } from "../shared/form-footer";
-import { TokenizerSelect } from "../tokenizer-select";
+import { ModelCatalog } from "./model-catalog";
 
-const FORMAT_KEYS = {
-  "openai-compatible": "CHAT.CUSTOM_PROVIDER.FORMAT_OPENAI",
-} as const;
+// All of these answer a browser preflight, so none needs the proxy.
+const QUICK_STARTS = [
+  { name: "OpenRouter", baseUrl: "https://openrouter.ai/api/v1" },
+  { name: "NanoGPT", baseUrl: "https://nano-gpt.com/api/v1" },
+  { name: "Chutes", baseUrl: "https://llm.chutes.ai/v1" },
+  { name: "Featherless", baseUrl: "https://api.featherless.ai/v1" },
+  { name: "DeepSeek", baseUrl: "https://api.deepseek.com/v1" },
+  { name: "OpenAI", baseUrl: "https://api.openai.com/v1" },
+  { name: "Mistral", baseUrl: "https://api.mistral.ai/v1" },
+  { name: "Groq", baseUrl: "https://api.groq.com/openai/v1" },
+  { name: "Ollama", baseUrl: "http://localhost:11434/v1" },
+  { name: "LM Studio", baseUrl: "http://localhost:1234/v1" },
+];
 
 type Props = {
   editingId: string | "new";
@@ -49,15 +54,22 @@ export function CustomProviderEditor(props: Props) {
   const createMut = useCreateCustomProviderMutation();
   const updateMut = useUpdateCustomProviderMutation();
   const existing = providerQuery.data;
-  const [fetching, setFetching] = useState(false);
+  const [requested, setRequested] = useState<CatalogTarget | null>(null);
+  const catalogQuery = useCustomProviderCatalogQuery(
+    requested ??
+      (existing
+        ? {
+            baseUrl: existing.baseUrl,
+            apiKey: existing.apiKey,
+            proxy: existing.proxy,
+          }
+        : null),
+  );
 
   const formValues =
     !isNew && existing ? formDefaults(customProviderForm, existing) : undefined;
   const form = useRpForm(customProviderForm, formValues);
-  const modelsArray = useFieldArray({ control: form.control, name: "models" });
 
-  // A model list past the cap failed the whole form with nothing on screen,
-  // since the array itself has no field to show the error on.
   const onInvalid = () => {
     toast.error(
       form.getValues("models").length > MAX_MODELS
@@ -82,55 +94,78 @@ export function CustomProviderEditor(props: Props) {
     props.onDone();
   };
 
-  const handleFetchModels = async () => {
+  const fetchCatalog = () => {
     const baseUrl = form.getValues("baseUrl");
-    const apiKey = form.getValues("apiKey");
     if (!baseUrl) return;
-    setFetching(true);
-    try {
-      const ids = await fetchCustomProviderModels(
-        baseUrl,
-        apiKey,
-        form.getValues("proxy"),
-      );
-      const existingKeys = new Set(form.getValues("models").map((m) => m.key));
-      let count = existingKeys.size;
-      let capped = false;
-      for (const id of ids) {
-        if (existingKeys.has(id)) continue;
-        if (count >= MAX_MODELS) {
-          capped = true;
-          break;
-        }
-        modelsArray.append({ key: id, label: id, tokenizer: "auto" });
-        count++;
-      }
-      if (capped)
-        toast.error(
-          t("CHAT.CUSTOM_PROVIDER.TOO_MANY_MODELS", { max: MAX_MODELS }),
-        );
-    } catch (e) {
-      const status = e instanceof ModelListError ? e.status : undefined;
-      const notJson = e instanceof ModelListError ? e.notJson : undefined;
-      toast.error(
-        status
-          ? t("CHAT.CUSTOM_PROVIDER.FETCH_FAILED", { status })
-          : notJson
-            ? t("CHAT.CUSTOM_PROVIDER.FETCH_NOT_JSON")
-            : t("CHAT.CUSTOM_PROVIDER.FETCH_BLOCKED"),
-      );
-    } finally {
-      setFetching(false);
-    }
+    const next = {
+      baseUrl,
+      apiKey: form.getValues("apiKey"),
+      proxy: form.getValues("proxy"),
+    };
+    if (
+      requested?.baseUrl === next.baseUrl &&
+      requested.apiKey === next.apiKey &&
+      requested.proxy === next.proxy
+    )
+      void catalogQuery.refetch();
+    else setRequested(next);
   };
 
+  const pickQuickStart = (start: (typeof QUICK_STARTS)[number]) => {
+    const name = form.getValues("name");
+    if (!name || QUICK_STARTS.some((s) => s.name === name))
+      form.setValue("name", start.name, { shouldDirty: true });
+    form.setValue("baseUrl", start.baseUrl, { shouldDirty: true });
+    form.setValue("proxy", false, { shouldDirty: true });
+    setRequested({
+      baseUrl: start.baseUrl,
+      apiKey: form.getValues("apiKey"),
+      proxy: false,
+    });
+  };
+
+  const error = catalogQuery.error;
+  const errorText = !error
+    ? null
+    : error instanceof ModelListError && error.status
+      ? t("CHAT.CUSTOM_PROVIDER.FETCH_FAILED", { status: error.status })
+      : error instanceof ModelListError && error.notJson
+        ? t("CHAT.CUSTOM_PROVIDER.FETCH_NOT_JSON")
+        : t("CHAT.CUSTOM_PROVIDER.FETCH_BLOCKED");
+
   return (
-    <Card className="flex flex-col gap-3 p-4">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
-          className="flex flex-col gap-3"
-        >
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+        className="flex flex-col gap-4"
+      >
+        {isNew && (
+          <div className="flex flex-col gap-2">
+            <span className="text-sm font-medium">
+              {t("CHAT.CUSTOM_PROVIDER.QUICK_START")}
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {QUICK_STARTS.map((start) => (
+                <Button
+                  key={start.name}
+                  type="button"
+                  variant={
+                    form.watch("baseUrl") === start.baseUrl
+                      ? "secondary"
+                      : "outline"
+                  }
+                  size="sm"
+                  onClick={() => pickQuickStart(start)}
+                >
+                  <VendorIcon vendor={start.name} size={14} />
+                  <span>{start.name}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="grid gap-3 sm:grid-cols-2">
           <MyFormInput
             control={form.control}
             name="name"
@@ -144,155 +179,39 @@ export function CustomProviderEditor(props: Props) {
             label={t("CHAT.CUSTOM_PROVIDER.BASE_URL")}
             placeholder="https://api.example.com/v1"
           />
-          <MyFormInput
-            control={form.control}
-            name="apiKey"
-            schema={customProviderForm}
-            label={t("CHAT.CUSTOM_PROVIDER.API_KEY")}
-            type="password"
-          />
-          <MyFormKeyedSelect
-            control={form.control}
-            name="format"
-            label={t("CHAT.CUSTOM_PROVIDER.FORMAT")}
-            fallback="openai-compatible"
-            optionKeys={FORMAT_KEYS}
-          />
-          <MyFormSwitch
-            control={form.control}
-            name="proxy"
-            label={t("CHAT.CUSTOM_PROVIDER.PROXY")}
-            description={t("CHAT.CUSTOM_PROVIDER.PROXY_HINT")}
-          />
-
-          <div className="flex flex-col gap-2">
-            {/* Wraps on a phone: the label plus both button labels overflow a
-                narrow dialog otherwise. */}
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-sm font-medium">
-                {t("CHAT.CUSTOM_PROVIDER.MODELS")}
-              </span>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  disabled={fetching}
-                  onClick={handleFetchModels}
-                >
-                  <Icon
-                    name={fetching ? "loader" : "download"}
-                    className={fetching ? "size-4 animate-spin" : "size-4"}
-                  />
-                  <span>{t("CHAT.CUSTOM_PROVIDER.FETCH_MODELS")}</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    modelsArray.append({
-                      key: "",
-                      label: "",
-                      tokenizer: "auto",
-                    })
-                  }
-                >
-                  <Icon name="plus" className="size-4" />
-                  <span>{t("CHAT.CUSTOM_PROVIDER.ADD_MODEL")}</span>
-                </Button>
-              </div>
-            </div>
-
-            {modelsArray.fields.length === 0 && (
-              <span className="text-muted-foreground text-xs">
-                {t("CHAT.CUSTOM_PROVIDER.MODELS_EMPTY")}
-              </span>
-            )}
-
-            {modelsArray.fields.map((fieldItem, index) => (
-              <ModelRow
-                key={fieldItem.id}
-                form={form}
-                index={index}
-                onRemove={() => modelsArray.remove(index)}
-              />
-            ))}
-          </div>
-
-          <FormFooter onCancel={props.onDone} />
-        </form>
-      </Form>
-    </Card>
-  );
-}
-
-function ModelRow(props: {
-  form: UseFormReturn<CustomProviderForm>;
-  index: number;
-  onRemove: () => void;
-}) {
-  const t = useTranslations();
-  const tokenizerField = `models.${props.index}.tokenizer` as const;
-
-  return (
-    <div className="flex flex-col gap-1.5 rounded-md border p-2">
-      <div className="flex flex-wrap items-center gap-2">
-        <Input
-          className="min-w-32 flex-1 font-mono text-xs"
-          placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_KEY")}
-          {...props.form.register(`models.${props.index}.key`)}
+        </div>
+        <MyFormInput
+          control={form.control}
+          name="apiKey"
+          schema={customProviderForm}
+          label={t("CHAT.CUSTOM_PROVIDER.API_KEY")}
+          type="password"
         />
-        <Input
-          className="min-w-32 flex-1 text-xs"
-          placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_LABEL")}
-          {...props.form.register(`models.${props.index}.label`)}
+        <MyFormSwitch
+          control={form.control}
+          name="proxy"
+          label={t("CHAT.CUSTOM_PROVIDER.PROXY")}
+          description={t("CHAT.CUSTOM_PROVIDER.PROXY_HINT")}
         />
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={props.onRemove}
-        >
-          <Icon name="trash-2" className="size-4" />
-        </Button>
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-muted-foreground shrink-0 text-[11px]">
-          {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE")}
-        </span>
-        <select
-          className="border-input bg-background h-7 rounded-md border px-2 text-xs"
-          value={props.form.watch(`models.${props.index}.type`) ?? "text"}
-          onChange={(e) =>
-            props.form.setValue(
-              `models.${props.index}.type`,
-              e.target.value as CustomProviderForm["models"][number]["type"],
-              { shouldDirty: true },
-            )
-          }
-        >
-          <option value="text">
-            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_TEXT")}
-          </option>
-          <option value="image">
-            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_IMAGE")}
-          </option>
-        </select>
-        <span className="text-muted-foreground shrink-0 text-[11px]">
-          {t("CHAT.CUSTOM_PROVIDER.TOKENIZER")}
-        </span>
-        <TokenizerSelect
-          value={props.form.watch(tokenizerField) ?? "auto"}
-          onChange={(next) =>
-            props.form.setValue(
-              tokenizerField,
-              next as CustomProviderForm["models"][number]["tokenizer"],
-              { shouldDirty: true },
-            )
-          }
+
+        <div className="flex flex-col gap-1">
+          <span className="text-sm font-medium">
+            {t("CHAT.CUSTOM_PROVIDER.MODELS")}
+          </span>
+          <span className="text-muted-foreground text-xs">
+            {t("CHAT.CUSTOM_PROVIDER.MODELS_HINT")}
+          </span>
+        </div>
+        <ModelCatalog
+          form={form}
+          catalog={catalogQuery.data}
+          fetching={catalogQuery.isFetching}
+          error={errorText}
+          onFetch={fetchCatalog}
         />
-      </div>
-    </div>
+
+        <FormFooter onCancel={props.onDone} />
+      </form>
+    </Form>
   );
 }

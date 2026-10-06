@@ -985,4 +985,9 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   gemini: () => import("@lobehub/icons/es/Gemini"),
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
   horde: () => import("@/components/elements/brand/aihorde-icon"),
+  openrouter: () => import("@lobehub/icons/es/OpenRouter"),
+  ollama: () => import("@lobehub/icons/es/Ollama"),
+  "lm studio": () => import("@lobehub/icons/es/LmStudio"),
+  chutes: () => import("@lobehub/icons/es/Chutes"),
+  featherless: () => import("@lobehub/icons/es/Featherless"),
 };

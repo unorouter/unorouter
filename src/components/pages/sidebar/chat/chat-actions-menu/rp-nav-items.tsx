@@ -50,7 +50,7 @@ export function RpNavItems() {
             <Icon name="users" className="size-4" />
             {t("ROOM.HOST_TITLE")}
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpenRpTab("custom-providers")}>
+          <DropdownMenuItem render={<Link href="/chat/providers" />}>
             <Icon name="server" className="size-4" />
             {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
           </DropdownMenuItem>

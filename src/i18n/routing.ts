@@ -1059,6 +1059,25 @@ export const pathnames = {
     id: "/chat/kartu",
     pl: "/chat/karty",
   },
+  "/chat/providers": {
+    de: "/chat/anbieter",
+    fr: "/chat/fournisseurs",
+    ja: "/chat/providers",
+    ru: "/чат/провайдеры",
+    vi: "/chat/providers",
+    "zh-CN": "/duihua/tigongshang",
+    "zh-TW": "/duihua/tigongshang",
+    it: "/chat/provider",
+    es: "/chat/proveedores",
+    "pt-BR": "/chat/provedores",
+    ko: "/chat/providers",
+    tr: "/sohbet/saglayicilar",
+    ar: "/الدردشة/المزودون",
+    he: "/צאט/ספקים",
+    hi: "/chat/providers",
+    id: "/chat/penyedia",
+    pl: "/chat/dostawcy",
+  },
   "/privacy": {
     de: "/datenschutz",
     fr: "/confidentialite",
@@ -1169,7 +1188,7 @@ export const privateRoutes = {
     "/vendor-icons",
   ],
   dynamicParents: ["/chat/[convId]", "/image/[id]", "/room/[roomId]"],
-  publicChildren: ["/chat/presets", "/chat/cards"],
+  publicChildren: ["/chat/presets", "/chat/cards", "/chat/providers"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

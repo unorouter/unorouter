@@ -2,7 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { modelHref } from "@/lib/utils/base";
 import { formatPriceCompact } from "@/lib/utils/format/number";
 import {
@@ -183,6 +183,7 @@ function CustomProviderItems(props: {
   onPick: (id: string) => void;
 }) {
   const t = useTranslations();
+  const router = useRouter();
   return (
     <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
       {props.providers.flatMap((provider) =>
@@ -209,6 +210,15 @@ function CustomProviderItems(props: {
             );
           }),
       )}
+      <CommandItem
+        value="custom-providers-manage"
+        keywords={[t("CHAT.CUSTOM_PROVIDER.MANAGE")]}
+        onSelect={() => router.push("/chat/providers")}
+        className="text-muted-foreground text-xs"
+      >
+        <Icon name="settings-2" className="h-3.5 w-3.5 shrink-0" />
+        <span>{t("CHAT.CUSTOM_PROVIDER.MANAGE")}</span>
+      </CommandItem>
     </CommandGroup>
   );
 }
