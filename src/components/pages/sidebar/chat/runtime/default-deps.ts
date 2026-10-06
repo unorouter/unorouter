@@ -20,12 +20,16 @@ async function fetchModelInfo(
 ): Promise<PricingCatalogDetail | undefined> {
   if (!model) return undefined;
   try {
-    const res = await getQueryClient().query({
+    // Unwrapped like useModelDetailQuery, which shares this key.
+    const detail = await getQueryClient().query({
       queryKey: queryKeys.pricingModel(model),
-      queryFn: () => rpc.api.models.pricing.detail.get({ query: { model } }),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.models.pricing.detail.get({ query: { model } }),
+        ),
       staleTime: 5 * 60 * 1000,
     });
-    return handleElysia(res) ?? undefined;
+    return detail ?? undefined;
   } catch {
     return undefined;
   }

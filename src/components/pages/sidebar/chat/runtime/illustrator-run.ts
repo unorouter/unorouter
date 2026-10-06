@@ -75,13 +75,13 @@ const TASK_POLL_MS = 5_000;
 const TASK_TIMEOUT_MS = 10 * 60_000;
 
 async function isTaskImageModel(model: string): Promise<boolean> {
-  const models = handleElysia(
-    await getQueryClient().query({
-      queryKey: queryKeys.pricingTaskImageModels(),
-      queryFn: () => rpc.api.models.pricing["task-image-models"].get(),
-      staleTime: 5 * 60 * 1000,
-    }),
-  );
+  // Unwrapped like useTaskImageModelsQuery, which shares this key.
+  const models = await getQueryClient().query({
+    queryKey: queryKeys.pricingTaskImageModels(),
+    queryFn: async () =>
+      handleElysia(await rpc.api.models.pricing["task-image-models"].get()),
+    staleTime: 5 * 60 * 1000,
+  });
   return models.some((m) => m.model_name === model);
 }
 
