@@ -84,6 +84,7 @@ export enum Vendor {
   THINKINGMACHINES = "thinking machines",
   IFM = "ifm",
   AXON = "axon labs",
+  APODEX = "apodex",
   MEGANOVA = "meganova",
   AGNES = "agnes ai",
   REQUESTY = "requesty",
