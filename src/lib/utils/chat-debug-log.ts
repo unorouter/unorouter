@@ -8,13 +8,39 @@ const MAX_ENTRIES = 2000;
 const MAX_ENTRY_BYTES = 10_000;
 const MAX_PERSISTED_ENTRIES = 200;
 const SAVE_DEBOUNCE_MS = 1000;
+const MAX_DB_ENTRIES = 400;
+const TAB_ID = Math.random().toString(36).slice(2, 8);
 
 // Each log is lazily read once (getItem + parse blocks, and the chat runtime
 // imports this module on every page load) then written on a debounce, because
 // setItem is synchronous and scales with SERIALIZED size: a full 2000-entry
 // buffer (~400KB) parks the main thread for seconds per write.
-function makeLog<T>(key: string, cap: number, persistCap = cap) {
+// Every tab writes the same key, so a plain write keeps only the last writer's
+// entries. `shared` re-reads the key and keeps the other tabs' entries.
+function makeLog<T extends { tab?: string; ts: number }>(
+  key: string,
+  cap: number,
+  persistCap = cap,
+  shared = false,
+) {
   let items: T[] | null = null;
+  const stored = (): T[] => {
+    try {
+      const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+  const persisted = (): T[] => {
+    const mine = (items ?? []).slice(-persistCap);
+    if (!shared) return mine;
+    return stored()
+      .filter((e) => e.tab !== TAB_ID)
+      .concat(mine)
+      .sort((a, b) => a.ts - b.ts)
+      .slice(-persistCap);
+  };
   let timer: ReturnType<typeof setTimeout> | null = null;
   let disabled = false;
 
@@ -22,10 +48,7 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
     if (items !== null) return items;
     items = [];
     if (typeof localStorage === "undefined") return items;
-    try {
-      const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
-      if (Array.isArray(parsed)) items = parsed;
-    } catch {}
+    items = shared ? stored().filter((e) => e.tab === TAB_ID) : stored();
     return items;
   };
 
@@ -35,7 +58,8 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
     timer = setTimeout(() => {
       timer = null;
       try {
-        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+        get();
+        localStorage.setItem(key, JSON.stringify(persisted()));
       } catch {
         // Over quota or blocked: latch off, a sync write per second cannot land.
         disabled = true;
@@ -57,7 +81,8 @@ function makeLog<T>(key: string, cap: number, persistCap = cap) {
       timer = null;
       if (disabled || typeof localStorage === "undefined") return;
       try {
-        localStorage.setItem(key, JSON.stringify(get().slice(-persistCap)));
+        get();
+        localStorage.setItem(key, JSON.stringify(persisted()));
       } catch {}
     },
     push(entry: T): void {
@@ -82,6 +107,14 @@ const debugLog = makeLog<ChatDebugEntry>(
   MAX_ENTRIES,
   MAX_PERSISTED_ENTRIES,
 );
+// The chat log's 200 persisted entries are minutes of viewport noise, and a
+// pool can be wiped by a tab other than the one that exports.
+const dbLog = makeLog<ChatDebugEntry>(
+  "unorouter-db-debug-log",
+  MAX_DB_ENTRIES,
+  MAX_DB_ENTRIES,
+  true,
+);
 
 export function logChatDebug(
   event: string,
@@ -98,10 +131,25 @@ export function logChatDebug(
     }
   }
   debugLog.push(entry);
+  if (event.startsWith("db.")) dbLog.push({ ...entry, tab: TAB_ID });
 }
 
 export function flushChatDebugLog(): void {
   debugLog.flush();
+  dbLog.flush();
+}
+
+// Every tab's database events, oldest first.
+export function getDbDebugLog(): ChatDebugEntry[] {
+  dbLog.flush();
+  try {
+    const parsed: unknown = JSON.parse(
+      localStorage.getItem("unorouter-db-debug-log") ?? "[]",
+    );
+    return Array.isArray(parsed) ? parsed : dbLog.get().slice();
+  } catch {
+    return dbLog.get().slice();
+  }
 }
 
 export function getChatDebugLog(): ChatDebugEntry[] {

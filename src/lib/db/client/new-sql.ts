@@ -1,4 +1,6 @@
 import { SQLocalDrizzle } from "sqlocal/drizzle";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import type { SahPoolLogMessage } from "./sahpool/pool-log";
 import type {
   SahPoolControlMessage,
   SahPoolControlReply,
@@ -22,9 +24,22 @@ export function newSql(dbPath: string): SQLocalDrizzle {
     reactive: false,
     processor: worker,
   });
+  worker.addEventListener("message", (event: MessageEvent<unknown>) => {
+    if (!isPoolLog(event.data)) return;
+    logChatDebug(event.data.event, event.data.data);
+  });
   workers.set(sql, worker);
   liveWorkers.add(worker);
   return sql;
+}
+
+function isPoolLog(data: unknown): data is SahPoolLogMessage {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "type" in data &&
+    data.type === "sahpool-log"
+  );
 }
 
 let controlSeq = 0;

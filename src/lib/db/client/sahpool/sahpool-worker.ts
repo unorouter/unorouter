@@ -1,6 +1,33 @@
 import { errMessage, rec } from "@/lib/utils/base";
 import { SQLocalProcessor } from "sqlocal";
 import { SQLiteSahPoolDriver } from "./sqlite-sahpool-driver";
+import { poolLog } from "./pool-log";
+
+type Sqlite3Logger = (...args: unknown[]) => void;
+declare global {
+  var sqlite3ApiConfig:
+    { warn?: Sqlite3Logger; error?: Sqlite3Logger } | undefined;
+}
+
+// Read once when sqlite3 boots. The pool reports each slot it keeps, removes
+// or refuses only through these, never as an error the page sees.
+const forward =
+  (event: string, write: Sqlite3Logger): Sqlite3Logger =>
+  (...args) => {
+    write(...args);
+    poolLog(event, {
+      message: args
+        .map((a) =>
+          a instanceof Uint8Array ? `<${a.byteLength} bytes>` : String(a),
+        )
+        .join(" ")
+        .slice(0, 500),
+    });
+  };
+globalThis.sqlite3ApiConfig = {
+  warn: forward("db.pool.warn", console.warn.bind(console)),
+  error: forward("db.pool.error", console.error.bind(console)),
+};
 
 // Replaces sqlocal's own worker entry, which hardwires the isolation-requiring
 // opfs driver; its client accepts this one via the `processor` config.

@@ -14,6 +14,7 @@ import { readLocalJsPlugins } from "@/lib/db/client/data/rp/js-plugins";
 import {
   getCaughtErrors,
   getChatDebugLog,
+  getDbDebugLog,
   getFailedRequestCaptures,
   logChatDebug,
 } from "@/lib/utils/chat-debug-log";
@@ -310,6 +311,7 @@ async function buildDiagnosticsHead() {
     presets,
     convIds: convs.map((c) => c.id),
     debugLog: getChatDebugLog(),
+    dbLog: getDbDebugLog(),
   };
 }
 
@@ -374,6 +376,7 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     caughtErrors: getCaughtErrors(),
     jsPlugins: await describeJsPlugins(),
     debugLog: head.debugLog,
+    dbLog: head.dbLog,
   };
 }
 

@@ -7,6 +7,7 @@ import type {
   SQLocalDriver,
 } from "sqlocal";
 import { sahPoolDirName, sahPoolSlug } from "./pool-name";
+import { poolLog, snapshotSlots } from "./pool-log";
 
 type SAHPoolUtil = Awaited<ReturnType<Sqlite3["installOpfsSAHPoolVfs"]>>;
 
@@ -21,6 +22,23 @@ const POOL_CAPACITY = 8;
 // installOpfsSAHPoolVfs rejects on re-registering a VFS name, so re-init after
 // destroy() must reuse the cached util.
 const poolCache = new Map<string, Promise<SAHPoolUtil>>();
+
+// What every slot held right before the pool reads its headers, so a log
+// shows which header decision lost a database.
+async function logSlots(
+  event: string,
+  databasePath: string,
+  data: Record<string, unknown> = {},
+) {
+  try {
+    poolLog(event, {
+      ...data,
+      slots: await snapshotSlots(sahPoolDirName(databasePath)),
+    });
+  } catch (err) {
+    poolLog(event, { ...data, slotsError: String(err).slice(0, 200) });
+  }
+}
 
 function absName(databasePath: string): string {
   return `/${databasePath.replace(/^\/+/, "")}`;
@@ -52,6 +70,7 @@ export class SQLiteSahPoolDriver
     const name = `sahpool-${sahPoolSlug(databasePath)}`;
     let pool = poolCache.get(name);
     if (!pool) {
+      await logSlots("db.pool.install.start", databasePath);
       pool = this.sqlite3
         .installOpfsSAHPoolVfs({
           name,
@@ -60,11 +79,15 @@ export class SQLiteSahPoolDriver
         })
         .then(async (util) => {
           await util.reserveMinimumCapacity(POOL_CAPACITY);
+          poolLog("db.pool.install.done", { files: util.getFileNames() });
           return util;
         });
       poolCache.set(name, pool);
       pool.catch((err) => {
         poolCache.delete(name);
+        void logSlots("db.pool.install.failed", databasePath, {
+          error: String(err).slice(0, 300),
+        });
         // A DOMException carries an empty stack in Firefox, and `??` keeps an
         // empty string, which is how a whole export arrived with poolError "".
         this.lastPoolError = (
@@ -91,7 +114,7 @@ export class SQLiteSahPoolDriver
     // The cached pool survives destroy(), so one left paused by a handover is
     // handed back paused and every statement fails.
     if (this.poolUtil.isPaused()) {
-      await this.poolUtil.unpauseVfs();
+      await this.unpause(databasePath);
     }
 
     if (this.db) {
@@ -212,6 +235,22 @@ export class SQLiteSahPoolDriver
     if (!this.poolUtil || this.poolUtil.isPaused()) return;
     this.closeDb();
     this.poolUtil.pauseVfs();
+    poolLog("db.pool.paused");
+  }
+
+  // Resuming re-reads every slot header, the same read that wiped two iOS pools.
+  private async unpause(databasePath: string): Promise<void> {
+    if (!this.poolUtil) return;
+    await logSlots("db.pool.resume.start", databasePath);
+    try {
+      await this.poolUtil.unpauseVfs();
+    } catch (err) {
+      await logSlots("db.pool.resume.failed", databasePath, {
+        error: String(err).slice(0, 300),
+      });
+      throw err;
+    }
+    poolLog("db.pool.resume.done", { files: this.poolUtil.getFileNames() });
   }
 
   async resume(): Promise<void> {
@@ -219,7 +258,7 @@ export class SQLiteSahPoolDriver
       throw new Error("Driver not initialized");
     }
     if (this.poolUtil.isPaused()) {
-      await this.poolUtil.unpauseVfs();
+      await this.unpause(this.config.databasePath);
     }
     if (!this.db) {
       this.db = new this.poolUtil.OpfsSAHPoolDb(
