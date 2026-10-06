@@ -19,6 +19,7 @@ const MODALITY_ICON: Record<OutputModality, IconName> = {
   audio: "mic",
   video: "video",
   embeddings: "layers",
+  decisions: "git-branch",
 };
 
 const MODALITY_LABEL_KEY = {
@@ -28,6 +29,7 @@ const MODALITY_LABEL_KEY = {
   audio: msg("MODELS.MODALITY.AUDIO"),
   video: msg("MODELS.MODALITY.VIDEO"),
   embeddings: msg("MODELS.MODALITY.EMBEDDINGS"),
+  decisions: msg("MODELS.MODALITY.DECISIONS"),
 } satisfies Record<OutputModality, ReturnType<typeof msg>>;
 
 export function ModalityTabs(props: {

@@ -31,6 +31,7 @@ const MODALITY_ICON: Record<string, IconName> = {
   video: "video",
   file: "file",
   pdf: "file",
+  decisions: "git-branch",
 };
 
 function ModalityIcons(props: { modalities: string[] }) {

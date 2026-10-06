@@ -401,6 +401,7 @@
       "AUDIO": "音声",
       "VIDEO": "動画",
       "EMBEDDINGS": "埋め込み",
+      "DECISIONS": "意思決定",
       "FILE": "ファイル",
       "ALL": "すべて"
     },

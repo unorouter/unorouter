@@ -18,6 +18,7 @@ const ICON_MAP: Record<string, IconName> = {
   file: "file",
   pdf: "file",
   embeddings: "brain",
+  decisions: "git-branch",
 };
 
 function ModalityIcon(props: { modality: string; sideLabel: string }) {
@@ -37,7 +38,9 @@ function ModalityIcon(props: { modality: string; sideLabel: string }) {
               ? t("MODELS.MODALITY.FILE")
               : key === "embeddings"
                 ? t("MODELS.MODALITY.EMBEDDINGS")
-                : props.modality;
+                : key === "decisions"
+                  ? t("MODELS.MODALITY.DECISIONS")
+                  : props.modality;
   if (!iconName) {
     return (
       <span className="font-mono text-[10px] uppercase">{props.modality}</span>

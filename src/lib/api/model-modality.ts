@@ -33,6 +33,7 @@ export const OUTPUT_MODALITIES = [
   "audio",
   "video",
   "embeddings",
+  "decisions",
 ] as const;
 export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
@@ -49,6 +50,7 @@ type ConcreteModality = Exclude<OutputModality, "all">;
 export function deriveOutputModality(model: ModalityModel): ConcreteModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata?.outputModalities ?? [];
+  if (out.includes("decisions")) return "decisions";
   if (model.type === "image" || out.includes("image")) return "image";
   if (model.type === "video" || out.includes("video")) return "video";
   if (model.type === "audio" || out.includes("audio")) return "audio";
@@ -71,6 +73,7 @@ export function countByOutputModality(
     audio: 0,
     video: 0,
     embeddings: 0,
+    decisions: 0,
   };
   for (const model of models) counts[deriveOutputModality(model)]++;
   return counts;

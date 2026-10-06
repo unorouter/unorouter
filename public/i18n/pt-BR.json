@@ -401,6 +401,7 @@
       "AUDIO": "Áudio",
       "VIDEO": "Vídeo",
       "EMBEDDINGS": "Embeddings",
+      "DECISIONS": "Decisões",
       "FILE": "Arquivo",
       "ALL": "Todos"
     },

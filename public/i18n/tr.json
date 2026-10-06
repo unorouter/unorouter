@@ -401,6 +401,7 @@
       "AUDIO": "Ses",
       "VIDEO": "Video",
       "EMBEDDINGS": "Gömme",
+      "DECISIONS": "Kararlar",
       "FILE": "Dosya",
       "ALL": "Tümü"
     },

@@ -401,6 +401,7 @@
       "AUDIO": "音訊",
       "VIDEO": "影片",
       "EMBEDDINGS": "嵌入",
+      "DECISIONS": "決策",
       "FILE": "檔案",
       "ALL": "全部"
     },
