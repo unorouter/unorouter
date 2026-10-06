@@ -3883,8 +3883,8 @@
       "FORMAT": "형식",
       "TOKENIZER": "토크나이저",
       "FORMAT_OPENAI": "OpenAI 호환",
-      "PROXY": "UnoRouter 경유",
-      "PROXY_HINT": "브라우저를 차단하는 제공자(CORS) 문제를 해결합니다. 요청과 키가 직접 가는 대신 우리 서버를 거치며, 절대 저장하지 않습니다.",
+      "PROXY": "UnoRouter를 통해 중계",
+      "PROXY_HINT": "제공자가 브라우저 요청을 차단할 때만 필요합니다. 그 외에는 꺼 두세요. 그러면 브라우저가 제공자와 직접 통신합니다. 켜면 요청과 키가 저희 서버를 거치지만 서버는 이를 저장하지 않습니다.",
       "TOKENIZER_AUTO": "자동 (이름으로 매칭)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "아직 활성화된 모델이 없습니다. 전체를 열고 원하는 모델에 체크하세요.",
       "BADGE_VISION": "비전",
       "MODEL_SETTINGS": "모델 설정",
-      "MANAGE": "제공자 관리"
+      "MANAGE": "제공자 관리",
+      "ADVANCED": "고급",
+      "RETRY_PROXY": "UnoRouter를 통해 다시 시도"
     },
     "JS_PLUGIN": {
       "TITLE": "플러그인",

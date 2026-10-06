@@ -3883,8 +3883,8 @@
       "FORMAT": "格式",
       "TOKENIZER": "分词器",
       "FORMAT_OPENAI": "兼容 OpenAI",
-      "PROXY": "经由 UnoRouter 转发",
-      "PROXY_HINT": "解决屏蔽浏览器的提供商（CORS）问题。请求和你的密钥改经我们的服务器转发，而非直连；我们绝不存储它们。",
+      "PROXY": "通过 UnoRouter 中转",
+      "PROXY_HINT": "仅在提供商拦截来自浏览器的请求时才需要。否则请保持关闭：此时浏览器直接连接提供商。开启后，请求和你的密钥会经过我们的服务器，但服务器从不保存它们。",
       "TOKENIZER_AUTO": "自动（按名称匹配）",
       "TOKENIZER_CL100K": "GPT（cl100k）",
       "TOKENIZER_O200K": "GPT-4o/5（o200k）",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "还没有启用任何模型。打开“全部”并勾选你想要的模型。",
       "BADGE_VISION": "视觉",
       "MODEL_SETTINGS": "模型设置",
-      "MANAGE": "管理提供商"
+      "MANAGE": "管理提供商",
+      "ADVANCED": "高级",
+      "RETRY_PROXY": "通过 UnoRouter 重试"
     },
     "JS_PLUGIN": {
       "TITLE": "插件",

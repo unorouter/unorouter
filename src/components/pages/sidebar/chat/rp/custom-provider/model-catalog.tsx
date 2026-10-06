@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { TokenizerSelect } from "../tokenizer-select";
@@ -28,7 +28,7 @@ type Props = {
   form: UseFormReturn<CustomProviderForm>;
   catalog: CatalogModel[] | undefined;
   fetching: boolean;
-  error: string | null;
+  error: ReactNode;
   onFetch: () => void;
 };
 
@@ -169,7 +169,9 @@ export function ModelCatalog(props: Props) {
         aria-label={t("CHAT.CUSTOM_PROVIDER.SEARCH_MODELS")}
       />
 
-      {props.error && <p className="text-destructive text-xs">{props.error}</p>}
+      {props.error && (
+        <div className="text-destructive text-xs">{props.error}</div>
+      )}
 
       <div className="flex flex-wrap gap-2">
         {canAddTyped && (

@@ -4,6 +4,12 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Icon } from "@/components/ui/icon";
 import { Form } from "@/components/ui/form";
 import {
   type CatalogTarget,
@@ -55,6 +61,7 @@ export function CustomProviderEditor(props: Props) {
   const updateMut = useUpdateCustomProviderMutation();
   const existing = providerQuery.data;
   const [requested, setRequested] = useState<CatalogTarget | null>(null);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const catalogQuery = useCustomProviderCatalogQuery(
     requested ??
       (existing
@@ -124,7 +131,15 @@ export function CustomProviderEditor(props: Props) {
     });
   };
 
+  const retryThroughProxy = () => {
+    form.setValue("proxy", true, { shouldDirty: true });
+    fetchCatalog();
+  };
+
   const error = catalogQuery.error;
+  const blocked =
+    error !== null &&
+    !(error instanceof ModelListError && (error.status || error.notJson));
   const errorText = !error
     ? null
     : error instanceof ModelListError && error.status
@@ -187,12 +202,30 @@ export function CustomProviderEditor(props: Props) {
           label={t("CHAT.CUSTOM_PROVIDER.API_KEY")}
           type="password"
         />
-        <MyFormSwitch
-          control={form.control}
-          name="proxy"
-          label={t("CHAT.CUSTOM_PROVIDER.PROXY")}
-          description={t("CHAT.CUSTOM_PROVIDER.PROXY_HINT")}
-        />
+        <Collapsible
+          open={advancedOpen || form.watch("proxy")}
+          onOpenChange={setAdvancedOpen}
+        >
+          <CollapsibleTrigger className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs">
+            <Icon
+              name={
+                advancedOpen || form.watch("proxy")
+                  ? "chevron-down"
+                  : "chevron-right"
+              }
+              className="size-3.5"
+            />
+            {t("CHAT.CUSTOM_PROVIDER.ADVANCED")}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-2">
+            <MyFormSwitch
+              control={form.control}
+              name="proxy"
+              label={t("CHAT.CUSTOM_PROVIDER.PROXY")}
+              description={t("CHAT.CUSTOM_PROVIDER.PROXY_HINT")}
+            />
+          </CollapsibleContent>
+        </Collapsible>
 
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">
@@ -206,7 +239,23 @@ export function CustomProviderEditor(props: Props) {
           form={form}
           catalog={catalogQuery.data}
           fetching={catalogQuery.isFetching}
-          error={errorText}
+          error={
+            errorText && (
+              <span className="flex flex-col items-start gap-2">
+                {errorText}
+                {blocked && !form.watch("proxy") && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={retryThroughProxy}
+                  >
+                    {t("CHAT.CUSTOM_PROVIDER.RETRY_PROXY")}
+                  </Button>
+                )}
+              </span>
+            )
+          }
           onFetch={fetchCatalog}
         />
 

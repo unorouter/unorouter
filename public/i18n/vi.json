@@ -3883,8 +3883,8 @@
       "FORMAT": "Định dạng",
       "TOKENIZER": "Bộ tách token",
       "FORMAT_OPENAI": "Tương thích OpenAI",
-      "PROXY": "Định tuyến qua UnoRouter",
-      "PROXY_HINT": "Khắc phục các nhà cung cấp chặn trình duyệt (CORS). Yêu cầu và khóa của bạn đi qua máy chủ của chúng tôi thay vì trực tiếp; chúng tôi không bao giờ lưu chúng.",
+      "PROXY": "Chuyển tiếp qua UnoRouter",
+      "PROXY_HINT": "Chỉ cần khi nhà cung cấp chặn yêu cầu từ trình duyệt. Nếu không, hãy để tắt: trình duyệt của bạn sẽ kết nối thẳng tới nhà cung cấp. Khi bật, yêu cầu và khóa của bạn đi qua máy chủ của chúng tôi, nơi không bao giờ lưu chúng.",
       "TOKENIZER_AUTO": "Tự động (khớp theo tên)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "Chưa bật mô hình nào. Mở Tất cả và đánh dấu mô hình bạn muốn.",
       "BADGE_VISION": "Thị giác",
       "MODEL_SETTINGS": "Cài đặt mô hình",
-      "MANAGE": "Quản lý nhà cung cấp"
+      "MANAGE": "Quản lý nhà cung cấp",
+      "ADVANCED": "Nâng cao",
+      "RETRY_PROXY": "Thử lại qua UnoRouter"
     },
     "JS_PLUGIN": {
       "TITLE": "Tiện ích",

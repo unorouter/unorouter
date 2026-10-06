@@ -3883,8 +3883,8 @@
       "FORMAT": "形式",
       "TOKENIZER": "トークナイザー",
       "FORMAT_OPENAI": "OpenAI互換",
-      "PROXY": "UnoRouter 経由で送信",
-      "PROXY_HINT": "ブラウザをブロックするプロバイダー（CORS）に対応します。リクエストとキーは直接ではなく当社サーバーを経由しますが、保存は一切しません。",
+      "PROXY": "UnoRouter 経由で中継",
+      "PROXY_HINT": "プロバイダーがブラウザからのリクエストをブロックする場合にだけ必要です。それ以外はオフのままにしてください。その場合ブラウザはプロバイダーと直接通信します。オンにすると、リクエストとキーは当社サーバーを経由しますが、保存されることはありません。",
       "TOKENIZER_AUTO": "自動（名前で判定）",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "有効なモデルはまだありません。「すべて」を開いて使いたいモデルにチェックを入れてください。",
       "BADGE_VISION": "画像入力",
       "MODEL_SETTINGS": "モデル設定",
-      "MANAGE": "プロバイダーを管理"
+      "MANAGE": "プロバイダーを管理",
+      "ADVANCED": "詳細設定",
+      "RETRY_PROXY": "UnoRouter 経由で再試行"
     },
     "JS_PLUGIN": {
       "TITLE": "プラグイン",

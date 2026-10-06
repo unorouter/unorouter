@@ -3883,8 +3883,8 @@
       "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
       "FORMAT_OPENAI": "OpenAI-kompatibel",
-      "PROXY": "Über UnoRouter leiten",
-      "PROXY_HINT": "Behebt Anbieter, die Browser blockieren (CORS). Anfragen und dein Schlüssel laufen dann über unseren Server statt direkt; wir speichern nichts davon.",
+      "PROXY": "Über UnoRouter weiterleiten",
+      "PROXY_HINT": "Nur nötig, wenn der Anbieter Anfragen aus dem Browser blockiert. Sonst aus lassen: Dann spricht dein Browser direkt mit dem Anbieter. Wenn an, laufen Anfragen und dein Schlüssel über unseren Server, der sie nie speichert.",
       "TOKENIZER_AUTO": "Automatisch (nach Name)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "Noch keine Modelle aktiviert. Öffne Alle und hake die gewünschten an.",
       "BADGE_VISION": "Bilder",
       "MODEL_SETTINGS": "Modelleinstellungen",
-      "MANAGE": "Anbieter verwalten"
+      "MANAGE": "Anbieter verwalten",
+      "ADVANCED": "Erweitert",
+      "RETRY_PROXY": "Über UnoRouter erneut versuchen"
     },
     "JS_PLUGIN": {
       "TITLE": "Plugins",

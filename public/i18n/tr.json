@@ -3883,8 +3883,8 @@
       "FORMAT": "Biçim",
       "TOKENIZER": "Belirteçleyici",
       "FORMAT_OPENAI": "OpenAI uyumlu",
-      "PROXY": "UnoRouter üzerinden yönlendir",
-      "PROXY_HINT": "Tarayıcıları engelleyen sağlayıcıları (CORS) düzeltir. İstekler ve anahtarınız doğrudan gitmek yerine sunucumuzdan geçer; bunları asla saklamayız.",
+      "PROXY": "UnoRouter üzerinden ilet",
+      "PROXY_HINT": "Yalnızca sağlayıcı tarayıcıdan gelen istekleri engelliyorsa gerekir. Aksi halde kapalı bırak: tarayıcın sağlayıcıyla doğrudan konuşur. Açıkken istekler ve anahtarın, bunları asla saklamayan sunucumuzdan geçer.",
       "TOKENIZER_AUTO": "Otomatik (ada göre eşleştir)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "Henüz etkin model yok. Tümü sekmesini açıp istediklerini işaretle.",
       "BADGE_VISION": "Görsel",
       "MODEL_SETTINGS": "Model ayarları",
-      "MANAGE": "Sağlayıcıları yönet"
+      "MANAGE": "Sağlayıcıları yönet",
+      "ADVANCED": "Gelişmiş",
+      "RETRY_PROXY": "UnoRouter üzerinden yeniden dene"
     },
     "JS_PLUGIN": {
       "TITLE": "Eklentiler",

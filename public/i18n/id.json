@@ -3883,8 +3883,8 @@
       "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
       "FORMAT_OPENAI": "Kompatibel dengan OpenAI",
-      "PROXY": "Rutekan melalui UnoRouter",
-      "PROXY_HINT": "Memperbaiki penyedia yang memblokir peramban (CORS). Permintaan dan kunci Anda melewati server kami alih-alih langsung; kami tidak pernah menyimpannya.",
+      "PROXY": "Teruskan lewat UnoRouter",
+      "PROXY_HINT": "Hanya perlu jika penyedia memblokir permintaan dari browser. Selain itu biarkan mati: browsermu langsung terhubung ke penyedia. Jika aktif, permintaan dan kuncimu lewat server kami, yang tidak pernah menyimpannya.",
       "TOKENIZER_AUTO": "Otomatis (cocokkan nama)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "Belum ada model aktif. Buka Semua dan centang yang kamu mau.",
       "BADGE_VISION": "Visi",
       "MODEL_SETTINGS": "Pengaturan model",
-      "MANAGE": "Kelola penyedia"
+      "MANAGE": "Kelola penyedia",
+      "ADVANCED": "Lanjutan",
+      "RETRY_PROXY": "Coba lagi lewat UnoRouter"
     },
     "JS_PLUGIN": {
       "TITLE": "Plugin",

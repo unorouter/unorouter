@@ -3883,8 +3883,8 @@
       "FORMAT": "格式",
       "TOKENIZER": "分詞器",
       "FORMAT_OPENAI": "相容 OpenAI",
-      "PROXY": "經由 UnoRouter 轉送",
-      "PROXY_HINT": "解決封鎖瀏覽器的供應商（CORS）問題。請求與你的金鑰改經我們的伺服器轉送，而非直連；我們絕不儲存它們。",
+      "PROXY": "透過 UnoRouter 中轉",
+      "PROXY_HINT": "僅在提供商封鎖來自瀏覽器的請求時才需要。否則請保持關閉：此時瀏覽器直接連線提供商。開啟後，請求和你的金鑰會經過我們的伺服器，但伺服器從不儲存它們。",
       "TOKENIZER_AUTO": "自動（依名稱比對）",
       "TOKENIZER_CL100K": "GPT（cl100k）",
       "TOKENIZER_O200K": "GPT-4o/5（o200k）",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "還沒有啟用任何模型。打開「全部」並勾選你想要的模型。",
       "BADGE_VISION": "視覺",
       "MODEL_SETTINGS": "模型設定",
-      "MANAGE": "管理提供商"
+      "MANAGE": "管理提供商",
+      "ADVANCED": "進階",
+      "RETRY_PROXY": "透過 UnoRouter 重試"
     },
     "JS_PLUGIN": {
       "TITLE": "外掛",

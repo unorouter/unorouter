@@ -3883,8 +3883,8 @@
       "FORMAT": "Formato",
       "TOKENIZER": "Tokenizador",
       "FORMAT_OPENAI": "Compatible con OpenAI",
-      "PROXY": "Enrutar a través de UnoRouter",
-      "PROXY_HINT": "Soluciona proveedores que bloquean navegadores (CORS). Las peticiones y tu clave pasan por nuestro servidor en lugar de ir directas; nunca las almacenamos.",
+      "PROXY": "Reenviar a través de UnoRouter",
+      "PROXY_HINT": "Solo hace falta si el proveedor bloquea las solicitudes desde el navegador. Si no, déjalo desactivado: tu navegador habla directamente con el proveedor. Activado, las solicitudes y tu clave pasan por nuestro servidor, que nunca las guarda.",
       "TOKENIZER_AUTO": "Automático (según el nombre)",
       "TOKENIZER_CL100K": "GPT (cl100k)",
       "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
@@ -3930,7 +3930,9 @@
       "NONE_ENABLED": "Aún no hay modelos activados. Abre Todos y marca los que quieras.",
       "BADGE_VISION": "Visión",
       "MODEL_SETTINGS": "Ajustes del modelo",
-      "MANAGE": "Gestionar proveedores"
+      "MANAGE": "Gestionar proveedores",
+      "ADVANCED": "Avanzado",
+      "RETRY_PROXY": "Reintentar a través de UnoRouter"
     },
     "JS_PLUGIN": {
       "TITLE": "Complementos",
