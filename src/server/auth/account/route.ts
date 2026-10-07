@@ -128,6 +128,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
           aff: query.aff,
           redirect_uri: query.redirect,
           action: query.action,
+          turnstile: query.turnstile,
         },
         upstream,
       );

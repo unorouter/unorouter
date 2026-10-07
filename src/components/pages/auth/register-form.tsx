@@ -277,7 +277,28 @@ export function RegisterForm() {
           </Form>
         )}
 
-        {status && <OAuthButtons status={status} />}
+        {!showPasswordForm &&
+          turnstileRequired &&
+          status?.turnstile_site_key && (
+            <div className="flex justify-center">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={status.turnstile_site_key}
+                onSuccess={setTurnstileToken}
+              />
+            </div>
+          )}
+
+        {status && (
+          <OAuthButtons
+            status={status}
+            turnstileToken={turnstileToken}
+            onTurnstileSpent={() => {
+              turnstileRef.current?.reset();
+              setTurnstileToken(undefined);
+            }}
+          />
+        )}
 
         <p className="text-muted-foreground text-center text-sm">
           {t("AUTH.ALREADY_HAVE_ACCOUNT")}{" "}

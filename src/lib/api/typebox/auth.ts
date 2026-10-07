@@ -20,6 +20,7 @@ export const oauthStateQuery = t.Object({
   redirect: t.Optional(t.String()),
   aff: t.Optional(t.String()),
   action: t.Optional(t.String()),
+  turnstile: t.Optional(t.String()),
 });
 
 export const oauthCallbackQuery = t.Object({

@@ -15,6 +15,10 @@ import { useState } from "react";
 
 type OAuthButtonsProps = {
   status: StatusData;
+  /** The parent form's Turnstile token; the gateway challenges every anonymous OAuth start. */
+  turnstileToken?: string;
+  /** Called when a start failed after spending the token, so the parent can reissue it. */
+  onTurnstileSpent?: () => void;
 };
 
 type OAuthProvider = {
@@ -111,6 +115,9 @@ export function OAuthButtons(props: OAuthButtonsProps) {
 
   if (providers.length === 0) return null;
 
+  const awaitingTurnstile =
+    props.status.turnstile_check === true && !props.turnstileToken;
+
   async function handleOAuth(provider: OAuthProvider) {
     setLoading(provider.key);
     analytics.auth.oauthInitiated(provider.key);
@@ -124,6 +131,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
             provider: provider.key,
             redirect: callbackUrl,
             aff: typeof affCode === "string" ? affCode : undefined,
+            turnstile: props.turnstileToken,
           },
         }),
       );
@@ -143,6 +151,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
         provider: provider.key,
         error: extractErrorDetail(e),
       });
+      props.onTurnstileSpent?.();
       throw e;
     } finally {
       setLoading(null);
@@ -164,7 +173,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
           <button
             key={provider.key}
             onClick={() => handleOAuth(provider)}
-            disabled={loading !== null}
+            disabled={loading !== null || awaitingTurnstile}
             className="border-border/60 bg-background/60 hover:bg-accent text-foreground flex h-11 w-full items-center justify-center gap-2 rounded-2xl border text-sm font-medium transition-colors disabled:opacity-50"
           >
             {loading === provider.key ? (

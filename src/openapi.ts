@@ -5216,6 +5216,10 @@ export type GenerateOAuthCodeParams = {
    * Set to 'bind' to link OAuth provider to existing account (requires Authorization header)
    */
   action?: string;
+  /**
+   * Cloudflare Turnstile token, required for anonymous callers when Turnstile is enabled
+   */
+  turnstile?: string;
 };
 
 export type WeChatAuthParams = {

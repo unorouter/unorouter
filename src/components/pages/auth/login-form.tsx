@@ -227,7 +227,28 @@ export function LoginForm() {
           </Form>
         )}
 
-        {statusQuery.data && <OAuthButtons status={statusQuery.data} />}
+        {!showPasswordForm &&
+          statusQuery.data?.turnstile_check &&
+          statusQuery.data.turnstile_site_key && (
+            <div className="flex justify-center">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={statusQuery.data.turnstile_site_key}
+                onSuccess={setTurnstileToken}
+              />
+            </div>
+          )}
+
+        {statusQuery.data && (
+          <OAuthButtons
+            status={statusQuery.data}
+            turnstileToken={turnstileToken}
+            onTurnstileSpent={() => {
+              turnstileRef.current?.reset();
+              setTurnstileToken(undefined);
+            }}
+          />
+        )}
 
         <p className="text-muted-foreground text-center text-sm">
           {t("AUTH.DONT_HAVE_ACCOUNT")}{" "}
