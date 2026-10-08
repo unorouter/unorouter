@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "To ogranicza tylko oczekiwanie na pierwsze słowo. Gdy odpowiedź się zacznie, nigdy nie zostanie przerwana, niezależnie od długości.",
       "SAVE_SETTINGS": "Zapisz limity czasu",
       "SETTINGS_SAVED": "Limity czasu zapisane"
+    },
+    "BACKUP": {
+      "TITLE": "Dane i kopie zapasowe",
+      "DESCRIPTION": "Twoje czaty, postacie, lorebooki i presety istnieją tylko w tej przeglądarce. Te ustawienia dotyczą tylko tej przeglądarki.",
+      "LAST_BACKUP": "Ostatnia kopia",
+      "PERSISTENT": "Chroniona pamięć",
+      "PERSISTENT_YES": "Przyznana. Przeglądarka sama nie usunie twoich danych, gdy zabraknie miejsca.",
+      "PERSISTENT_NO": "Nie przyznana. Przeglądarka może usunąć twoje dane, gdy zabraknie miejsca. Zainstalowanie aplikacji lub dodanie strony do zakładek zwykle to naprawia."
     }
   },
   "SEARCH": {

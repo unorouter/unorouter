@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Cela limite uniquement l'attente avant le premier mot. Une fois la réponse commencée, elle n'est jamais interrompue, quelle que soit sa durée.",
       "SAVE_SETTINGS": "Enregistrer les délais",
       "SETTINGS_SAVED": "Délais enregistrés"
+    },
+    "BACKUP": {
+      "TITLE": "Données et sauvegardes",
+      "DESCRIPTION": "Vos discussions, personnages, lorebooks et presets n'existent que dans ce navigateur. Ces réglages s'appliquent uniquement à ce navigateur.",
+      "LAST_BACKUP": "Dernière sauvegarde",
+      "PERSISTENT": "Stockage protégé",
+      "PERSISTENT_YES": "Accordé. Le navigateur n'effacera pas vos données de lui-même en cas de manque de place.",
+      "PERSISTENT_NO": "Non accordé. Le navigateur peut effacer vos données en cas de manque de place. Installer l'application ou ajouter ce site aux favoris règle généralement cela."
     }
   },
   "SEARCH": {

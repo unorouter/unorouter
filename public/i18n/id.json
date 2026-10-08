@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Ini hanya membatasi tunggu sebelum kata pertama. Setelah balasan dimulai, balasan tidak pernah dipotong, sepanjang apa pun itu.",
       "SAVE_SETTINGS": "Simpan batas waktu",
       "SETTINGS_SAVED": "Batas waktu tersimpan"
+    },
+    "BACKUP": {
+      "TITLE": "Data dan cadangan",
+      "DESCRIPTION": "Chat, karakter, lorebook, dan preset kamu hanya ada di browser ini. Pengaturan ini hanya berlaku untuk browser ini.",
+      "LAST_BACKUP": "Cadangan terakhir",
+      "PERSISTENT": "Penyimpanan terlindungi",
+      "PERSISTENT_YES": "Diberikan. Browser tidak akan menghapus datamu sendiri saat ruang hampir habis.",
+      "PERSISTENT_NO": "Tidak diberikan. Browser bisa menghapus datamu saat ruang hampir habis. Memasang aplikasi atau menandai situs ini biasanya mengatasinya."
     }
   },
   "SEARCH": {

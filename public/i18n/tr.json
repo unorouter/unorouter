@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Bu yalnızca ilk kelimeden önceki beklemeyi sınırlar. Yanıt başladıktan sonra, ne kadar uzun sürerse sürsün asla kesilmez.",
       "SAVE_SETTINGS": "Zaman aşımlarını kaydet",
       "SETTINGS_SAVED": "Zaman aşımı ayarları kaydedildi"
+    },
+    "BACKUP": {
+      "TITLE": "Veriler ve yedekler",
+      "DESCRIPTION": "Sohbetlerin, karakterlerin, lorebook'ların ve ön ayarların yalnızca bu tarayıcıda var. Bu ayarlar yalnızca bu tarayıcı için geçerlidir.",
+      "LAST_BACKUP": "Son yedek",
+      "PERSISTENT": "Korumalı depolama",
+      "PERSISTENT_YES": "Verildi. Tarayıcı yer azaldığında verilerini kendiliğinden silmez.",
+      "PERSISTENT_NO": "Verilmedi. Tarayıcı yer azaldığında verilerini silebilir. Uygulamayı yüklemek ya da siteyi yer imlerine eklemek genellikle bunu çözer."
     }
   },
   "SEARCH": {

@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "This only limits the wait before the first word arrives. Once a reply starts, it is never cut off, no matter how long it runs.",
       "SAVE_SETTINGS": "Save timeouts",
       "SETTINGS_SAVED": "Timeout settings saved"
+    },
+    "BACKUP": {
+      "TITLE": "Data and backups",
+      "DESCRIPTION": "Your chats, characters, lorebooks and presets live only in this browser. These settings apply to this browser only.",
+      "LAST_BACKUP": "Last backup",
+      "PERSISTENT": "Protected storage",
+      "PERSISTENT_YES": "Granted. The browser will not clear your data on its own when space runs low.",
+      "PERSISTENT_NO": "Not granted. The browser may clear your data when space runs low. Installing the app or bookmarking this site usually fixes that."
     }
   },
   "SEARCH": {

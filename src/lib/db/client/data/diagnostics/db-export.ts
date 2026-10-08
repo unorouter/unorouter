@@ -102,6 +102,14 @@ export async function downloadRawLocalDb(): Promise<boolean> {
   return true;
 }
 
+export function backupNow(): Promise<void> {
+  return downloadLocalDb(backupFilename(), {
+    includeChats: true,
+    includeMedia: true,
+    includeRequestLogs: false,
+  });
+}
+
 export function backupFilename(): string {
   return `${env.appName.toLowerCase()}-${new Date()
     .toISOString()

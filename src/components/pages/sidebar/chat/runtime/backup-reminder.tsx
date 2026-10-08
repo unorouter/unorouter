@@ -62,13 +62,9 @@ export function BackupReminder() {
       void qc.invalidateQueries({ queryKey: queryKeys.backupReminder() });
     const backUp = async () => {
       try {
-        const { backupFilename, downloadLocalDb } =
+        const { backupNow } =
           await import("@/lib/db/client/data/diagnostics/db-export");
-        await downloadLocalDb(backupFilename(), {
-          includeChats: true,
-          includeMedia: true,
-          includeRequestLogs: false,
-        });
+        await backupNow();
       } catch (e) {
         toast.error(String(e));
       } finally {

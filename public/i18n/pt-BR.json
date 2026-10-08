@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Isto limita apenas a espera antes da primeira palavra. Depois que a resposta começa, ela nunca é cortada, por mais longa que seja.",
       "SAVE_SETTINGS": "Salvar tempos limite",
       "SETTINGS_SAVED": "Tempos limite salvos"
+    },
+    "BACKUP": {
+      "TITLE": "Dados e backups",
+      "DESCRIPTION": "Seus chats, personagens, lorebooks e presets existem só neste navegador. Estas configurações valem só para este navegador.",
+      "LAST_BACKUP": "Último backup",
+      "PERSISTENT": "Armazenamento protegido",
+      "PERSISTENT_YES": "Concedido. O navegador não vai apagar seus dados sozinho quando faltar espaço.",
+      "PERSISTENT_NO": "Não concedido. O navegador pode apagar seus dados quando faltar espaço. Instalar o app ou salvar este site nos favoritos costuma resolver."
     }
   },
   "SEARCH": {

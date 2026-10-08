@@ -4,6 +4,7 @@ import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { useTranslations } from "next-intl";
 import { AccountCard } from "./account-card";
 import { AccountHeader } from "./account-header";
+import { BackupCard } from "./backup-card";
 import { NotificationCard } from "./notification-card";
 import { SecurityCard } from "./security-card";
 import { TimeoutCard } from "./timeout-card";
@@ -50,6 +51,10 @@ export function SettingsPage() {
 
       <div className="mb-6">
         <TimeoutCard />
+      </div>
+
+      <div className="mb-6">
+        <BackupCard />
       </div>
     </PageContent>
   );

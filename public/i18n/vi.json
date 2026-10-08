@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Điều này chỉ giới hạn thời gian chờ trước từ đầu tiên. Khi câu trả lời đã bắt đầu, nó không bao giờ bị cắt ngang, dù dài đến đâu.",
       "SAVE_SETTINGS": "Lưu thời gian chờ",
       "SETTINGS_SAVED": "Đã lưu thời gian chờ"
+    },
+    "BACKUP": {
+      "TITLE": "Dữ liệu và sao lưu",
+      "DESCRIPTION": "Cuộc trò chuyện, nhân vật, lorebook và preset của bạn chỉ tồn tại trong trình duyệt này. Các cài đặt này chỉ áp dụng cho trình duyệt này.",
+      "LAST_BACKUP": "Lần sao lưu gần nhất",
+      "PERSISTENT": "Bộ nhớ được bảo vệ",
+      "PERSISTENT_YES": "Đã cấp. Trình duyệt sẽ không tự xóa dữ liệu của bạn khi sắp hết dung lượng.",
+      "PERSISTENT_NO": "Chưa cấp. Trình duyệt có thể xóa dữ liệu của bạn khi sắp hết dung lượng. Cài đặt ứng dụng hoặc đánh dấu trang này thường khắc phục được."
     }
   },
   "SEARCH": {

@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Questo limita solo l'attesa prima della prima parola. Una volta iniziata, la risposta non viene mai interrotta, per quanto lunga sia.",
       "SAVE_SETTINGS": "Salva timeout",
       "SETTINGS_SAVED": "Timeout salvati"
+    },
+    "BACKUP": {
+      "TITLE": "Dati e backup",
+      "DESCRIPTION": "Le tue chat, personaggi, lorebook e preset esistono solo in questo browser. Queste impostazioni valgono solo per questo browser.",
+      "LAST_BACKUP": "Ultimo backup",
+      "PERSISTENT": "Archiviazione protetta",
+      "PERSISTENT_YES": "Concessa. Il browser non cancellerà i tuoi dati da solo quando manca spazio.",
+      "PERSISTENT_NO": "Non concessa. Il browser può cancellare i tuoi dati quando manca spazio. Installare l'app o salvare il sito nei preferiti di solito risolve."
     }
   },
   "SEARCH": {

@@ -3562,6 +3562,14 @@
       "STREAMING_NOTE": "Begrenzt wird nur die Wartezeit bis zum ersten Wort. Eine begonnene Antwort wird nie abgeschnitten, egal wie lange sie dauert.",
       "SAVE_SETTINGS": "Zeitlimits speichern",
       "SETTINGS_SAVED": "Zeitlimits gespeichert"
+    },
+    "BACKUP": {
+      "TITLE": "Daten und Backups",
+      "DESCRIPTION": "Deine Chats, Charaktere, Lorebooks und Presets liegen nur in diesem Browser. Diese Einstellungen gelten nur für diesen Browser.",
+      "LAST_BACKUP": "Letztes Backup",
+      "PERSISTENT": "Geschützter Speicher",
+      "PERSISTENT_YES": "Erteilt. Der Browser löscht deine Daten nicht von selbst, wenn der Platz knapp wird.",
+      "PERSISTENT_NO": "Nicht erteilt. Der Browser kann deine Daten löschen, wenn der Platz knapp wird. Die App zu installieren oder die Seite als Lesezeichen zu speichern behebt das meistens."
     }
   },
   "SEARCH": {
