@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Browser Anda memblokir penyimpanan untuk situs ini, sehingga obrolan tidak dapat disimpan dan pesan hilang saat dikirim. Izinkan cookie dan data situs, matikan pengaturan yang menghapus data saat ditutup, dan keluar dari mode penjelajahan pribadi. Varian Chromium yang berfokus pada privasi memblokirnya secara bawaan.",
     "THOUGHT_TOKENS": "{count} token",
     "DELETE_CHAT_TITLE": "Hapus obrolan ini?",
-    "DELETE_CHAT_DESC": "Obrolan dan semua pesannya akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan."
+    "DELETE_CHAT_DESC": "Obrolan dan semua pesannya akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Browser bisa menghapus karakter, lorebook, preset, dan chat kamu saat butuh ruang atau saat aplikasi pembersih berjalan. Memasang aplikasi atau menandai situs ini membuat hal itu lebih kecil kemungkinannya, dan cadangan menjaganya tetap aman.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Karakter, lorebook, preset, dan chat kamu hanya ada di browser ini. Aplikasi pembersih, menghapus data situs, atau kehilangan perangkat akan menghapusnya selamanya.",
+    "BACKUP_NOTICE_NEVER": "Belum ada cadangan.",
+    "BACKUP_NOTICE_LAST": "Cadangan terakhir {days, plural, =0 {hari ini} other {# hari lalu}}.",
+    "BACKUP_LATER": "Nanti",
+    "BACKUP_NOW": "Cadangkan sekarang"
   },
   "ROOM": {
     "HOST_TITLE": "Ruang multipemain",

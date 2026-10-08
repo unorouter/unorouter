@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "浏览器阻止了本站的存储，因此聊天无法保存，消息在发送时会消失。请允许本站的 Cookie 和网站数据，关闭「关闭时清除数据」的设置，并退出隐私浏览模式。注重隐私的 Chromium 分支默认会阻止此功能。",
     "THOUGHT_TOKENS": "{count} 个 token",
     "DELETE_CHAT_TITLE": "删除此聊天？",
-    "DELETE_CHAT_DESC": "这将永久删除该聊天及其所有消息，且无法撤销。"
+    "DELETE_CHAT_DESC": "这将永久删除该聊天及其所有消息，且无法撤销。",
+    "BACKUP_NOTICE_NOT_PERSISTED": "当空间不足或清理应用运行时，浏览器可能会删除你的角色、世界书、预设和聊天。安装应用或将本站加入书签可以降低这种可能，备份则能保证它们安全。",
+    "BACKUP_NOTICE_LOCAL_ONLY": "你的角色、世界书、预设和聊天只保存在这个浏览器里。清理应用、清除网站数据或丢失设备都会让它们永久消失。",
+    "BACKUP_NOTICE_NEVER": "还没有备份。",
+    "BACKUP_NOTICE_LAST": "上次备份：{days, plural, =0 {今天} other {# 天前}}。",
+    "BACKUP_LATER": "稍后",
+    "BACKUP_NOW": "立即备份"
   },
   "ROOM": {
     "HOST_TITLE": "多人房间",

@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Il browser sta bloccando l'archiviazione per questo sito, quindi le chat non possono essere salvate e i messaggi spariscono all'invio. Consenti i cookie e i dati del sito, disattiva la cancellazione dei dati alla chiusura ed esci dalla navigazione privata. Le versioni di Chromium orientate alla privacy lo bloccano per impostazione predefinita.",
     "THOUGHT_TOKENS": "{count} token",
     "DELETE_CHAT_TITLE": "Eliminare questa chat?",
-    "DELETE_CHAT_DESC": "La chat e tutti i suoi messaggi verranno eliminati definitivamente. Non è possibile annullare."
+    "DELETE_CHAT_DESC": "La chat e tutti i suoi messaggi verranno eliminati definitivamente. Non è possibile annullare.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Il browser può eliminare i tuoi personaggi, lorebook, preset e chat quando gli serve spazio o quando gira un'app di pulizia. Installare l'app o salvare il sito nei preferiti lo rende meno probabile, e un backup li tiene al sicuro.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "I tuoi personaggi, lorebook, preset e chat esistono solo in questo browser. Un'app di pulizia, la cancellazione dei dati del sito o la perdita del dispositivo li elimina per sempre.",
+    "BACKUP_NOTICE_NEVER": "Nessun backup ancora.",
+    "BACKUP_NOTICE_LAST": "Ultimo backup {days, plural, =0 {oggi} one {# giorno fa} other {# giorni fa}}.",
+    "BACKUP_LATER": "Più tardi",
+    "BACKUP_NOW": "Fai il backup ora"
   },
   "ROOM": {
     "HOST_TITLE": "Stanza multigiocatore",

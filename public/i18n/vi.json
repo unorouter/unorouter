@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Trình duyệt đang chặn bộ nhớ cho trang này nên các cuộc trò chuyện không thể lưu và tin nhắn biến mất khi gửi. Hãy cho phép cookie và dữ liệu trang, tắt tùy chọn xóa dữ liệu khi đóng, và thoát chế độ duyệt web riêng tư. Các bản Chromium chú trọng quyền riêng tư chặn điều này theo mặc định.",
     "THOUGHT_TOKENS": "{count} token",
     "DELETE_CHAT_TITLE": "Xóa cuộc trò chuyện này?",
-    "DELETE_CHAT_DESC": "Cuộc trò chuyện và toàn bộ tin nhắn sẽ bị xóa vĩnh viễn. Không thể hoàn tác."
+    "DELETE_CHAT_DESC": "Cuộc trò chuyện và toàn bộ tin nhắn sẽ bị xóa vĩnh viễn. Không thể hoàn tác.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Trình duyệt có thể xóa nhân vật, lorebook, preset và cuộc trò chuyện của bạn khi cần dung lượng hoặc khi một ứng dụng dọn dẹp chạy. Cài đặt ứng dụng hoặc đánh dấu trang này giúp giảm khả năng đó, và bản sao lưu giữ chúng an toàn.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Nhân vật, lorebook, preset và cuộc trò chuyện của bạn chỉ tồn tại trong trình duyệt này. Ứng dụng dọn dẹp, xóa dữ liệu trang hoặc mất thiết bị sẽ xóa chúng vĩnh viễn.",
+    "BACKUP_NOTICE_NEVER": "Chưa có bản sao lưu.",
+    "BACKUP_NOTICE_LAST": "Lần sao lưu gần nhất {days, plural, =0 {hôm nay} other {# ngày trước}}.",
+    "BACKUP_LATER": "Để sau",
+    "BACKUP_NOW": "Sao lưu ngay"
   },
   "ROOM": {
     "HOST_TITLE": "Phòng nhiều người",

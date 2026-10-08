@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Votre navigateur bloque le stockage pour ce site, les conversations ne peuvent donc pas être enregistrées et les messages disparaissent à l'envoi. Autorisez les cookies et les données de site, désactivez la suppression des données à la fermeture et quittez la navigation privée. Les variantes de Chromium axées sur la vie privée bloquent cela par défaut.",
     "THOUGHT_TOKENS": "{count} jetons",
     "DELETE_CHAT_TITLE": "Supprimer cette discussion ?",
-    "DELETE_CHAT_DESC": "La discussion et tous ses messages seront supprimés définitivement. Cette action est irréversible."
+    "DELETE_CHAT_DESC": "La discussion et tous ses messages seront supprimés définitivement. Cette action est irréversible.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Votre navigateur peut supprimer vos personnages, lorebooks, presets et discussions quand il manque de place ou qu'une application de nettoyage passe. Installer l'application ou ajouter ce site aux favoris rend cela moins probable, et une sauvegarde les protège.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Vos personnages, lorebooks, presets et discussions n'existent que dans ce navigateur. Une application de nettoyage, l'effacement des données du site ou la perte de l'appareil les supprime définitivement.",
+    "BACKUP_NOTICE_NEVER": "Aucune sauvegarde pour l'instant.",
+    "BACKUP_NOTICE_LAST": "Dernière sauvegarde {days, plural, =0 {aujourd'hui} one {il y a # jour} other {il y a # jours}}.",
+    "BACKUP_LATER": "Plus tard",
+    "BACKUP_NOW": "Sauvegarder maintenant"
   },
   "ROOM": {
     "HOST_TITLE": "Salon multijoueur",

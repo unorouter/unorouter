@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Przeglądarka blokuje pamięć dla tej witryny, więc czaty nie mogą być zapisywane, a wiadomości znikają po wysłaniu. Zezwól na pliki cookie i dane witryny, wyłącz usuwanie danych przy zamykaniu i wyjdź z trybu prywatnego. Warianty Chromium nastawione na prywatność blokują to domyślnie.",
     "THOUGHT_TOKENS": "{count} tokenów",
     "DELETE_CHAT_TITLE": "Usunąć ten czat?",
-    "DELETE_CHAT_DESC": "Czat i wszystkie jego wiadomości zostaną trwale usunięte. Tej operacji nie można cofnąć."
+    "DELETE_CHAT_DESC": "Czat i wszystkie jego wiadomości zostaną trwale usunięte. Tej operacji nie można cofnąć.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Przeglądarka może usunąć twoje postacie, lorebooki, presety i czaty, gdy brakuje miejsca albo działa aplikacja czyszcząca. Zainstalowanie aplikacji lub dodanie strony do zakładek zmniejsza to ryzyko, a kopia zapasowa je chroni.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Twoje postacie, lorebooki, presety i czaty istnieją tylko w tej przeglądarce. Aplikacja czyszcząca, usunięcie danych strony albo utrata urządzenia kasuje je na zawsze.",
+    "BACKUP_NOTICE_NEVER": "Brak kopii zapasowej.",
+    "BACKUP_NOTICE_LAST": "Ostatnia kopia {days, plural, =0 {dzisiaj} one {# dzień temu} few {# dni temu} many {# dni temu} other {# dnia temu}}.",
+    "BACKUP_LATER": "Później",
+    "BACKUP_NOW": "Utwórz kopię teraz"
   },
   "ROOM": {
     "HOST_TITLE": "Pokój wieloosobowy",

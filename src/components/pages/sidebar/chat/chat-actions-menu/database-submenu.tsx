@@ -10,10 +10,8 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import { env } from "@/lib/config/env";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import { dbTransferAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
@@ -33,12 +31,9 @@ export function DatabaseSubmenu() {
 
   const download = async (options: DbExportOptions) => {
     try {
-      const filename = `${env.appName.toLowerCase()}-${dayjs()
-        .toISOString()
-        .replace(/[:.]/g, "-")}.sqlite`;
-      const { downloadLocalDb } =
+      const { backupFilename, downloadLocalDb } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await downloadLocalDb(filename, options);
+      await downloadLocalDb(backupFilename(), options);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.menu",

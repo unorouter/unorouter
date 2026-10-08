@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "瀏覽器封鎖了本站的儲存空間，因此聊天無法儲存，訊息在傳送時會消失。請允許本站的 Cookie 與網站資料，關閉「關閉時清除資料」的設定，並退出隱私瀏覽模式。注重隱私的 Chromium 分支預設會封鎖此功能。",
     "THOUGHT_TOKENS": "{count} 個 token",
     "DELETE_CHAT_TITLE": "刪除此聊天？",
-    "DELETE_CHAT_DESC": "這將永久刪除該聊天及其所有訊息，且無法復原。"
+    "DELETE_CHAT_DESC": "這將永久刪除該聊天及其所有訊息，且無法復原。",
+    "BACKUP_NOTICE_NOT_PERSISTED": "當空間不足或清理應用程式執行時，瀏覽器可能會刪除你的角色、世界書、預設和聊天。安裝應用程式或將本站加入書籤可以降低這種可能，備份則能確保它們安全。",
+    "BACKUP_NOTICE_LOCAL_ONLY": "你的角色、世界書、預設和聊天只保存在這個瀏覽器裡。清理應用程式、清除網站資料或遺失裝置都會讓它們永久消失。",
+    "BACKUP_NOTICE_NEVER": "還沒有備份。",
+    "BACKUP_NOTICE_LAST": "上次備份：{days, plural, =0 {今天} other {# 天前}}。",
+    "BACKUP_LATER": "稍後",
+    "BACKUP_NOW": "立即備份"
   },
   "ROOM": {
     "HOST_TITLE": "多人房間",

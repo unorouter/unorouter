@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Tarayıcınız bu site için depolamayı engelliyor, bu yüzden sohbetler kaydedilemiyor ve mesajlar gönderildiğinde kayboluyor. Bu site için çerezlere ve site verilerine izin verin, kapatırken verileri silen ayarı kapatın ve gizli moddan çıkın. Gizlilik odaklı Chromium sürümleri bunu varsayılan olarak engeller.",
     "THOUGHT_TOKENS": "{count} jeton",
     "DELETE_CHAT_TITLE": "Bu sohbet silinsin mi?",
-    "DELETE_CHAT_DESC": "Sohbet ve tüm mesajları kalıcı olarak silinir. Bu işlem geri alınamaz."
+    "DELETE_CHAT_DESC": "Sohbet ve tüm mesajları kalıcı olarak silinir. Bu işlem geri alınamaz.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Tarayıcın yer gerektiğinde ya da bir temizleme uygulaması çalıştığında karakterlerini, lorebook'larını, ön ayarlarını ve sohbetlerini silebilir. Uygulamayı yüklemek ya da siteyi yer imlerine eklemek bunu daha az olası kılar, yedek ise onları güvende tutar.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Karakterlerin, lorebook'ların, ön ayarların ve sohbetlerin yalnızca bu tarayıcıda var. Bir temizleme uygulaması, site verilerinin silinmesi ya da cihazın kaybolması onları kalıcı olarak siler.",
+    "BACKUP_NOTICE_NEVER": "Henüz yedek yok.",
+    "BACKUP_NOTICE_LAST": "Son yedek {days, plural, =0 {bugün} other {# gün önce}}.",
+    "BACKUP_LATER": "Daha sonra",
+    "BACKUP_NOW": "Şimdi yedekle"
   },
   "ROOM": {
     "HOST_TITLE": "Çok oyunculu oda",

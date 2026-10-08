@@ -49,14 +49,14 @@ export function requestPersistentStorage(): void {
   void navigator.storage
     ?.persist?.()
     .then((persisted) => {
-      if (persisted) return;
-      // Once per session: Safari denies a plain tab every time, and 18
-      // identical lines buried the entries that mattered in one export.
+      // Logged per session and whenever it flips: without a granted line, a
+      // later loss could not tell eviction apart from a cleaner app.
       try {
-        if (sessionStorage.getItem("persist-denied-logged")) return;
-        sessionStorage.setItem("persist-denied-logged", "1");
+        if (sessionStorage.getItem("persist-logged") === String(persisted))
+          return;
+        sessionStorage.setItem("persist-logged", String(persisted));
       } catch {}
-      logChatDebug("storage.persist_denied");
+      logChatDebug(persisted ? "storage.persisted" : "storage.persist_denied");
     })
     .catch((err) =>
       logChatDebug("storage.persist_error", {

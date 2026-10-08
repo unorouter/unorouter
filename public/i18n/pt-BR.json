@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Seu navegador está bloqueando o armazenamento deste site, então as conversas não podem ser salvas e as mensagens somem ao enviar. Permita cookies e dados do site, desative a limpeza de dados ao fechar e saia da navegação privada. Versões do Chromium focadas em privacidade bloqueiam isso por padrão.",
     "THOUGHT_TOKENS": "{count} tokens",
     "DELETE_CHAT_TITLE": "Excluir este chat?",
-    "DELETE_CHAT_DESC": "Isso exclui permanentemente o chat e todas as suas mensagens. Não é possível desfazer."
+    "DELETE_CHAT_DESC": "Isso exclui permanentemente o chat e todas as suas mensagens. Não é possível desfazer.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Seu navegador pode apagar seus personagens, lorebooks, presets e chats quando precisa de espaço ou quando um app de limpeza roda. Instalar o app ou salvar este site nos favoritos torna isso menos provável, e um backup os mantém seguros.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Seus personagens, lorebooks, presets e chats existem só neste navegador. Um app de limpeza, apagar os dados do site ou perder o aparelho os apaga para sempre.",
+    "BACKUP_NOTICE_NEVER": "Nenhum backup ainda.",
+    "BACKUP_NOTICE_LAST": "Último backup {days, plural, =0 {hoje} one {há # dia} other {há # dias}}.",
+    "BACKUP_LATER": "Depois",
+    "BACKUP_NOW": "Fazer backup agora"
   },
   "ROOM": {
     "HOST_TITLE": "Sala multijogador",

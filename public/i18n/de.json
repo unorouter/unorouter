@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Dein Browser blockiert den Speicher für diese Seite, deshalb können Chats nicht gespeichert werden und Nachrichten verschwinden beim Senden. Erlaube Cookies und Websitedaten für diese Seite, deaktiviere das Löschen der Daten beim Schließen und verlasse den privaten Modus. Datenschutzorientierte Chromium-Varianten blockieren das standardmäßig.",
     "THOUGHT_TOKENS": "{count} Tokens",
     "DELETE_CHAT_TITLE": "Diesen Chat löschen?",
-    "DELETE_CHAT_DESC": "Der Chat und alle seine Nachrichten werden dauerhaft gelöscht. Das lässt sich nicht rückgängig machen."
+    "DELETE_CHAT_DESC": "Der Chat und alle seine Nachrichten werden dauerhaft gelöscht. Das lässt sich nicht rückgängig machen.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Dein Browser kann deine Charaktere, Lorebooks, Presets und Chats löschen, wenn er Platz braucht oder eine Aufräum-App läuft. Die App zu installieren oder die Seite als Lesezeichen zu speichern macht das unwahrscheinlicher, und ein Backup hält sie sicher.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Deine Charaktere, Lorebooks, Presets und Chats gibt es nur in diesem Browser. Eine Aufräum-App, gelöschte Websitedaten oder ein verlorenes Gerät löschen sie endgültig.",
+    "BACKUP_NOTICE_NEVER": "Noch kein Backup.",
+    "BACKUP_NOTICE_LAST": "Letztes Backup {days, plural, =0 {heute} one {vor # Tag} other {vor # Tagen}}.",
+    "BACKUP_LATER": "Später",
+    "BACKUP_NOW": "Jetzt sichern"
   },
   "ROOM": {
     "HOST_TITLE": "Mehrspieler-Raum",

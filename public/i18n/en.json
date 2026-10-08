@@ -4002,7 +4002,13 @@
     "STORAGE_BLOCKED": "Your browser is blocking storage for this site, so chats cannot be saved and messages vanish on send. Allow cookies and site data for this site, turn off any setting that clears data on close, and leave private browsing. Privacy-focused Chromium builds block this by default.",
     "THOUGHT_TOKENS": "{count} tokens",
     "DELETE_CHAT_TITLE": "Delete this chat?",
-    "DELETE_CHAT_DESC": "This permanently deletes the chat and all of its messages. It cannot be undone."
+    "DELETE_CHAT_DESC": "This permanently deletes the chat and all of its messages. It cannot be undone.",
+    "BACKUP_NOTICE_NOT_PERSISTED": "Your browser may delete your characters, lorebooks, presets and chats when it needs space or a cleaner app runs. Installing the app or bookmarking this site makes that less likely, and a backup keeps them safe.",
+    "BACKUP_NOTICE_LOCAL_ONLY": "Your characters, lorebooks, presets and chats exist only in this browser. A cleaner app, clearing site data or losing the device deletes them for good.",
+    "BACKUP_NOTICE_NEVER": "No backup yet.",
+    "BACKUP_NOTICE_LAST": "Last backup {days, plural, =0 {today} one {# day ago} other {# days ago}}.",
+    "BACKUP_LATER": "Later",
+    "BACKUP_NOW": "Back up now"
   },
   "ROOM": {
     "HOST_TITLE": "Multiplayer room",

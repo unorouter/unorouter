@@ -4,6 +4,8 @@ import { findPoolFile } from "@/lib/db/client/sahpool/pool-file";
 import type { LocalClient } from "@/lib/types";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { markBackedUp } from "@/lib/utils/backup-reminder";
+import { env } from "@/lib/config/env";
 
 export async function downloadDiagnostics(filename: string): Promise<void> {
   logChatDebug("export.diagnostics.start", { filename });
@@ -96,7 +98,14 @@ export async function downloadRawLocalDb(): Promise<boolean> {
     }),
     `unorouter-raw-${stamp}.sqlite`,
   );
+  markBackedUp();
   return true;
+}
+
+export function backupFilename(): string {
+  return `${env.appName.toLowerCase()}-${new Date()
+    .toISOString()
+    .replace(/[:.]/g, "-")}.sqlite`;
 }
 
 export async function downloadLocalDb(
@@ -132,6 +141,7 @@ export async function downloadLocalDb(
       bytes: built.file.size,
       path,
     });
+    markBackedUp();
   } catch (e) {
     logChatDebug("export.db.error", { error: String(e) });
     throw e;
