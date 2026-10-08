@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Medyayı dahil et",
       "LOCAL_DB_EXPORT_DIRECT": "Doğrudan diskten kaydet (test)",
       "LOCAL_DB_WIPE": "Yerel veritabanını sil ve yeniden yükle",
-      "LOCAL_DB_WIPE_CONFIRM": "TÜM yerel OPFS verisini sil ve yeniden yükle?"
+      "LOCAL_DB_WIPE_CONFIRM": "TÜM yerel OPFS verisini sil ve yeniden yükle?",
+      "BACKUP_REMINDER": "Yedek hatırlatıcısı",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {Her gün} other {# günde bir}}",
+      "BACKUP_REMINDER_OFF": "Kapalı"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Başka bir cihaza gönder",

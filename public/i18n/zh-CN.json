@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "包含媒体",
       "LOCAL_DB_EXPORT_DIRECT": "直接从磁盘保存（测试）",
       "LOCAL_DB_WIPE": "清空本地数据库并重新加载",
-      "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 数据并重新加载？"
+      "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 数据并重新加载？",
+      "BACKUP_REMINDER": "备份提醒",
+      "BACKUP_REMINDER_EVERY": "{days, plural, other {每 # 天}}",
+      "BACKUP_REMINDER_OFF": "关闭"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "发送到另一台设备",

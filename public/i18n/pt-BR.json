@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Incluir mídia",
       "LOCAL_DB_EXPORT_DIRECT": "Salvar direto do disco (teste)",
       "LOCAL_DB_WIPE": "Limpar banco de dados local e recarregar",
-      "LOCAL_DB_WIPE_CONFIRM": "Limpar TODOS os dados OPFS locais e recarregar?"
+      "LOCAL_DB_WIPE_CONFIRM": "Limpar TODOS os dados OPFS locais e recarregar?",
+      "BACKUP_REMINDER": "Lembrete de backup",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {Todo dia} other {A cada # dias}}",
+      "BACKUP_REMINDER_OFF": "Desligado"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Enviar para outro dispositivo",

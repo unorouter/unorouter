@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Inclure les médias",
       "LOCAL_DB_EXPORT_DIRECT": "Enregistrer directement depuis le disque (test)",
       "LOCAL_DB_WIPE": "Effacer la base locale et recharger",
-      "LOCAL_DB_WIPE_CONFIRM": "Effacer TOUTES les données OPFS locales et recharger ?"
+      "LOCAL_DB_WIPE_CONFIRM": "Effacer TOUTES les données OPFS locales et recharger ?",
+      "BACKUP_REMINDER": "Rappel de sauvegarde",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {Chaque jour} other {Tous les # jours}}",
+      "BACKUP_REMINDER_OFF": "Désactivé"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Envoyer vers un autre appareil",

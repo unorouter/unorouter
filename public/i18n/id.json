@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Sertakan media",
       "LOCAL_DB_EXPORT_DIRECT": "Simpan langsung dari disk (uji coba)",
       "LOCAL_DB_WIPE": "Hapus database lokal dan muat ulang",
-      "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?"
+      "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?",
+      "BACKUP_REMINDER": "Pengingat cadangan",
+      "BACKUP_REMINDER_EVERY": "{days, plural, other {Setiap # hari}}",
+      "BACKUP_REMINDER_OFF": "Mati"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Kirim ke perangkat lain",

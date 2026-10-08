@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Включить медиафайлы",
       "LOCAL_DB_EXPORT_DIRECT": "Сохранять напрямую с диска (тест)",
       "LOCAL_DB_WIPE": "Очистить локальную БД и перезагрузить",
-      "LOCAL_DB_WIPE_CONFIRM": "Удалить ВСЕ локальные данные OPFS и перезагрузить?"
+      "LOCAL_DB_WIPE_CONFIRM": "Удалить ВСЕ локальные данные OPFS и перезагрузить?",
+      "BACKUP_REMINDER": "Напоминание о копии",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {Каждый день} few {Каждые # дня} many {Каждые # дней} other {Каждые # дня}}",
+      "BACKUP_REMINDER_OFF": "Выключено"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Отправить на другое устройство",

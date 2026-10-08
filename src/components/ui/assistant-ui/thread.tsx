@@ -1,6 +1,5 @@
 "use client";
 
-import { BackupNotice } from "@/components/ui/assistant-ui/backup-notice";
 import type { CssVars } from "@/lib/types";
 import { Link } from "@/i18n/navigation";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
@@ -542,7 +541,6 @@ const ThreadWelcome: FC = () => {
               {t("CHAT.EMPTY_DESCRIPTION")}
             </p>
           </div>
-          <BackupNotice />
           {/* Users arriving from JanitorAI/SillyTavern assume a web app stores
               chats server-side, then ask whether we read them. Say it up front,
               next to where the backup that this implies is explained. */}

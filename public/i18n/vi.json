@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Bao gồm phương tiện",
       "LOCAL_DB_EXPORT_DIRECT": "Lưu trực tiếp từ ổ đĩa (thử nghiệm)",
       "LOCAL_DB_WIPE": "Xóa CSDL cục bộ và tải lại",
-      "LOCAL_DB_WIPE_CONFIRM": "Xóa TẤT CẢ dữ liệu OPFS cục bộ và tải lại?"
+      "LOCAL_DB_WIPE_CONFIRM": "Xóa TẤT CẢ dữ liệu OPFS cục bộ và tải lại?",
+      "BACKUP_REMINDER": "Nhắc sao lưu",
+      "BACKUP_REMINDER_EVERY": "{days, plural, other {Mỗi # ngày}}",
+      "BACKUP_REMINDER_OFF": "Tắt"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Gửi sang thiết bị khác",

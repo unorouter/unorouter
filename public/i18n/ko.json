@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "미디어 포함",
       "LOCAL_DB_EXPORT_DIRECT": "디스크에서 바로 저장 (테스트)",
       "LOCAL_DB_WIPE": "로컬 데이터베이스 지우고 다시 로드",
-      "LOCAL_DB_WIPE_CONFIRM": "모든 로컬 OPFS 데이터를 지우고 다시 로드하시겠습니까?"
+      "LOCAL_DB_WIPE_CONFIRM": "모든 로컬 OPFS 데이터를 지우고 다시 로드하시겠습니까?",
+      "BACKUP_REMINDER": "백업 알림",
+      "BACKUP_REMINDER_EVERY": "{days, plural, other {#일마다}}",
+      "BACKUP_REMINDER_OFF": "끄기"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "다른 기기로 보내기",

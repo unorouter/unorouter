@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "Uwzględnij multimedia",
       "LOCAL_DB_EXPORT_DIRECT": "Zapisuj bezpośrednio z dysku (test)",
       "LOCAL_DB_WIPE": "Wymaż lokalną bazę danych i przeładuj",
-      "LOCAL_DB_WIPE_CONFIRM": "Wymazać WSZYSTKIE lokalne dane OPFS i przeładować?"
+      "LOCAL_DB_WIPE_CONFIRM": "Wymazać WSZYSTKIE lokalne dane OPFS i przeładować?",
+      "BACKUP_REMINDER": "Przypomnienie o kopii",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {Codziennie} few {Co # dni} many {Co # dni} other {Co # dnia}}",
+      "BACKUP_REMINDER_OFF": "Wyłączone"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "Wyślij na inne urządzenie",

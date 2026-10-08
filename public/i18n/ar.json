@@ -3835,7 +3835,10 @@
       "LOCAL_DB_EXPORT_MEDIA": "تضمين الوسائط",
       "LOCAL_DB_EXPORT_DIRECT": "الحفظ مباشرة من القرص (تجريبي)",
       "LOCAL_DB_WIPE": "محو قاعدة البيانات المحلية وإعادة التحميل",
-      "LOCAL_DB_WIPE_CONFIRM": "محو كل بيانات OPFS المحلية وإعادة التحميل؟"
+      "LOCAL_DB_WIPE_CONFIRM": "محو كل بيانات OPFS المحلية وإعادة التحميل؟",
+      "BACKUP_REMINDER": "تذكير النسخ الاحتياطي",
+      "BACKUP_REMINDER_EVERY": "{days, plural, one {كل يوم} two {كل يومين} few {كل # أيام} many {كل # يومًا} other {كل # يوم}}",
+      "BACKUP_REMINDER_OFF": "إيقاف"
     },
     "DB_TRANSFER": {
       "SEND_TITLE": "إرسال إلى جهاز آخر",

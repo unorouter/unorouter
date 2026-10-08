@@ -4,6 +4,8 @@ import { confirm, confirmChoice } from "@/components/ui/confirm";
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -11,9 +13,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
+import { queryKeys } from "@/lib/react-query/keys";
+import {
+  readBackupState,
+  REMINDER_INTERVALS,
+  setReminderInterval,
+} from "@/lib/utils/backup-reminder";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { dbTransferAtom } from "@/store/chat-store";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -22,6 +31,10 @@ import { toast } from "sonner";
 export function DatabaseSubmenu() {
   const t = useTranslations();
   const setTransfer = useSetAtom(dbTransferAtom);
+  const qc = useQueryClient();
+  const [reminderDays, setReminderDays] = useState(
+    () => readBackupState().intervalDays,
+  );
   const [opts, setOpts] = useState<Required<DbExportOptions>>({
     includeChats: true,
     includeRequestLogs: false,
@@ -183,6 +196,34 @@ export function DatabaseSubmenu() {
             <Icon name="download" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB_RECEIVE")}
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Icon name="bell" className="size-4" />
+              {t("CHAT.MORE.BACKUP_REMINDER")}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={String(reminderDays)}
+                onValueChange={(v) => {
+                  const days = Number(v);
+                  setReminderInterval(days);
+                  setReminderDays(days);
+                  void qc.invalidateQueries({
+                    queryKey: queryKeys.backupReminder(),
+                  });
+                }}
+              >
+                {REMINDER_INTERVALS.map((days) => (
+                  <DropdownMenuRadioItem key={days} value={String(days)}>
+                    {days === 0
+                      ? t("CHAT.MORE.BACKUP_REMINDER_OFF")
+                      : t("CHAT.MORE.BACKUP_REMINDER_EVERY", { days })}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onClick={wipe}>
             <Icon name="trash-2" className="size-4" />
