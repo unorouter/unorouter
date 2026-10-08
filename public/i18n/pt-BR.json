@@ -588,6 +588,23 @@
       "comparison": "comparativo"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "O que aconteceu com o LoreBary e o que o {appName} guarda sobre você",
+        "DESCRIPTION": "Durante quatro dias oferecemos o modelo próprio do LoreBary sem permissão. Veja o que aconteceu, o que mudamos e exatamente o que o {appName} guarda sobre você.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "Se você usa o LoreBary como proxy, provavelmente viu que ele recusa o {appName} desde 29 de setembro. Esse bloqueio vem de um erro nosso. Você merece uma explicação honesta e uma resposta clara para a pergunta que surgiu: o que acontece aqui com os seus dados.",
+        "H_WHAT_HAPPENED": "O que aconteceu",
+        "P_WHAT_HAPPENED": "O LoreLLM é o modelo próprio do LoreBary, financiado por seus apoiadores e feito para a comunidade do LoreBary. Um membro da nossa comunidade nos deu, com boa intenção, a chave da sua conta pessoal do LoreBary, e nós a adicionamos como modelo gratuito sem ler os termos do LoreBary. De 25 a 29 de setembro ele respondeu 1.275 requisições. Não cobramos nada por ele e não ganhamos nada com ele. Quando o LoreBary nos avisou, removemos na mesma manhã e pedimos desculpas. A chave foi apagada do nosso lado.",
+        "H_THEIR_DECISION": "O bloqueio do LoreBary",
+        "P_THEIR_DECISION": "Depois disso, o LoreBary bloqueou o {appName} como proxy no site deles. A decisão é deles, e nós a respeitamos. Não vamos oferecer formas de contornar e não vamos listar nenhum modelo do LoreBary de novo sem permissão por escrito. Se você usava o {appName} pelo LoreBary com o JanitorAI, aponte o JanitorAI direto para <c>https://api.unorouter.com/v1/chat/completions</c> com a sua chave do {appName}, ou converse no próprio {appName}.",
+        "H_WHAT_CHANGED": "O que mudamos",
+        "P_WHAT_CHANGED": "Todo provedor novo agora é conferido com os seus termos antes de entrar no ar, gratuito ou não. Uma chave que alguém nos entrega é a conta dessa pessoa, não um recurso para compartilhar. Sem permissão por escrito, sem modelo.",
+        "H_YOUR_DATA": "O que o {appName} guarda sobre você",
+        "P_YOUR_DATA": "Suas conversas ficam no seu próprio navegador, não nos nossos servidores: apague e elas somem. Nosso gateway não guarda os prompts que você envia nem as respostas que recebe, só o que a cobrança precisa: o modelo, a contagem de tokens, o custo, o tempo e se a requisição funcionou. O endereço IP registrado com uma requisição é apagado depois de 30 dias. Não treinamos com os seus dados, e nossa análise não usa cookies nem guarda identificador. O site, o gateway, a sincronização e o bot do Discord são de código aberto, então você pode conferir cada um desses pontos no GitHub em vez de confiar na nossa palavra.",
+        "H_PROVIDERS": "O que não podemos prometer",
+        "P_PROVIDERS": "Sua requisição ainda precisa chegar ao modelo que você escolhe, e esse provedor a trata conforme os próprios termos. Alguns provedores guardam o que recebem ou treinam com isso, principalmente os gratuitos. Nossa política de privacidade diz isso claramente, e o hábito mais seguro é o mesmo em qualquer lugar: não coloque dados pessoais nos seus prompts.",
+        "CTA": "Dúvidas sobre isso? Pergunte no Discord ou leia o código você mesmo. Se não, <chat>abra uma conversa</chat> ou <models>veja os modelos</models>."
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "O detector de Claude falso agora é uma biblioteca de código aberto",
         "DESCRIPTION": "ai-model-verifier é o motor por trás do nosso testador de modelos, publicado no npm sob AGPL-3.0. Dê a ele uma URL base, uma chave e um modelo e ele diz se o endpoint entrega o que vende, agora com verificação da assinatura de raciocínio e da cobrança de tokens.",

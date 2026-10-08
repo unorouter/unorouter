@@ -588,6 +588,23 @@
       "comparison": "comparison"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "What happened with LoreBary, and what {appName} stores about you",
+        "DESCRIPTION": "For four days we served LoreBary's in-house model without permission. Here is what happened, what we changed, and exactly what {appName} keeps about you.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "If you use LoreBary as a proxy, you have probably seen it refuse {appName} since September 29. That block follows from a mistake we made. You deserve a straight account of it, and a clear answer to the question it raised: what happens to your data here.",
+        "H_WHAT_HAPPENED": "What happened",
+        "P_WHAT_HAPPENED": "LoreLLM is LoreBary's in-house model, funded by its supporters and meant for LoreBary's own community. A member of our community gave us the key to their personal LoreBary account, meaning well, and we added it as a free model without reading LoreBary's terms. From September 25 to September 29 it answered 1,275 requests. We charged nothing for it and earned nothing from it. When LoreBary told us, we removed it the same morning and apologised. The key is deleted on our side.",
+        "H_THEIR_DECISION": "LoreBary's block",
+        "P_THEIR_DECISION": "LoreBary then blocked {appName} as a proxy on its site. That is their decision, and we respect it. We will not offer workarounds, and we will not list any LoreBary model again without their written permission. If you used {appName} through LoreBary with JanitorAI, point JanitorAI straight at <c>https://api.unorouter.com/v1/chat/completions</c> with your {appName} key, or chat in {appName} itself.",
+        "H_WHAT_CHANGED": "What we changed",
+        "P_WHAT_CHANGED": "Every new provider is now checked against its terms before it goes live, free or not. A key someone hands us is their account, not a resource to share. No written permission, no model.",
+        "H_YOUR_DATA": "What {appName} stores about you",
+        "P_YOUR_DATA": "Your chats live in your own browser, not on our servers: clear them and they are gone. Our gateway does not store the prompts you send or the replies you get, only what billing needs: the model, token counts, cost, timing and whether the request worked. The IP address recorded with a request is erased after 30 days. We do not train on your data, and our analytics set no cookies and keep no identifier. The website, the gateway, the sync and the Discord bot are open source, so you can check each of these points on GitHub instead of taking our word for it.",
+        "H_PROVIDERS": "What we cannot promise",
+        "P_PROVIDERS": "Your request still has to reach the model you pick, and that provider handles it under its own terms. Some providers keep or train on what they receive, free ones especially. Our privacy policy says so plainly, and the safest habit is the same everywhere: keep personal data out of your prompts.",
+        "CTA": "Questions about any of this? Ask us in Discord, or read the code yourself. Otherwise, <chat>open a chat</chat> or <models>browse the models</models>."
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "The Claude fake detector is now an open-source library",
         "DESCRIPTION": "ai-model-verifier is the engine behind our model tester, published on npm under AGPL-3.0. Give it a base URL, a key and a model and it tells you whether the endpoint serves what it sells, now with thinking-signature and token-billing checks.",

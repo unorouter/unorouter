@@ -588,6 +588,23 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "Was mit LoreBary passiert ist und was {appName} über dich speichert",
+        "DESCRIPTION": "Vier Tage lang haben wir LoreBarys hauseigenes Modell ohne Erlaubnis angeboten. Hier steht, was passiert ist, was wir geändert haben und was {appName} genau über dich speichert.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Wenn du LoreBary als Proxy nutzt, hast du wahrscheinlich gesehen, dass es {appName} seit dem 29. September ablehnt. Diese Sperre ist die Folge eines Fehlers von uns. Du hast eine ehrliche Erklärung verdient und eine klare Antwort auf die Frage, die dabei aufkam: Was passiert hier mit deinen Daten?",
+        "H_WHAT_HAPPENED": "Was passiert ist",
+        "P_WHAT_HAPPENED": "LoreLLM ist LoreBarys hauseigenes Modell, finanziert von seinen Unterstützern und gedacht für LoreBarys eigene Community. Ein Mitglied unserer Community hat uns in guter Absicht den Schlüssel zu seinem persönlichen LoreBary-Konto gegeben, und wir haben ihn als kostenloses Modell eingebunden, ohne LoreBarys Bedingungen zu lesen. Vom 25. bis 29. September hat es 1.275 Anfragen beantwortet. Wir haben nichts dafür berechnet und nichts daran verdient. Als LoreBary uns informiert hat, haben wir es noch am selben Morgen entfernt und uns entschuldigt. Der Schlüssel ist bei uns gelöscht.",
+        "H_THEIR_DECISION": "LoreBarys Sperre",
+        "P_THEIR_DECISION": "LoreBary hat {appName} daraufhin als Proxy auf seiner Seite gesperrt. Das ist ihre Entscheidung, und wir respektieren sie. Wir bieten keine Umgehungen an und listen kein LoreBary-Modell mehr ohne ihre schriftliche Erlaubnis. Wenn du {appName} über LoreBary mit JanitorAI genutzt hast, trage in JanitorAI direkt <c>https://api.unorouter.com/v1/chat/completions</c> mit deinem {appName}-Schlüssel ein oder chatte direkt in {appName}.",
+        "H_WHAT_CHANGED": "Was wir geändert haben",
+        "P_WHAT_CHANGED": "Jeder neue Anbieter wird jetzt vor dem Start mit seinen Bedingungen abgeglichen, egal ob kostenlos oder nicht. Ein Schlüssel, den uns jemand gibt, ist dessen Konto und keine Ressource zum Teilen. Ohne schriftliche Erlaubnis kein Modell.",
+        "H_YOUR_DATA": "Was {appName} über dich speichert",
+        "P_YOUR_DATA": "Deine Chats liegen in deinem eigenen Browser, nicht auf unseren Servern: Löschst du sie, sind sie weg. Unser Gateway speichert weder die Prompts, die du sendest, noch die Antworten, die du bekommst, sondern nur, was die Abrechnung braucht: Modell, Tokenanzahl, Kosten, Dauer und ob die Anfrage geklappt hat. Die IP-Adresse einer Anfrage wird nach 30 Tagen gelöscht. Wir trainieren nicht mit deinen Daten, und unsere Analyse setzt keine Cookies und speichert keine Kennung. Website, Gateway, Sync und Discord-Bot sind Open Source, du kannst also jeden dieser Punkte auf GitHub prüfen, statt uns einfach zu glauben.",
+        "H_PROVIDERS": "Was wir nicht versprechen können",
+        "P_PROVIDERS": "Deine Anfrage muss trotzdem das Modell erreichen, das du auswählst, und dieser Anbieter behandelt sie nach seinen eigenen Bedingungen. Manche Anbieter speichern, was sie bekommen, oder trainieren damit, vor allem kostenlose. Unsere Datenschutzerklärung sagt das offen, und die sicherste Gewohnheit ist überall dieselbe: Persönliche Daten gehören nicht in deine Prompts.",
+        "CTA": "Fragen dazu? Frag uns im Discord oder lies den Code selbst. Ansonsten <chat>starte einen Chat</chat> oder <models>sieh dir die Modelle an</models>."
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Der Claude-Fälschungsdetektor ist jetzt eine Open-Source-Bibliothek",
         "DESCRIPTION": "ai-model-verifier ist der Motor hinter unserem Modell-Tester, veröffentlicht auf npm unter AGPL-3.0. Gib ihm eine Basis-URL, einen Schlüssel und ein Modell, und er sagt dir, ob der Endpunkt liefert, was er verkauft, jetzt mit Prüfung der Thinking-Signatur und der Token-Abrechnung.",

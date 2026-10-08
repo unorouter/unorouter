@@ -588,6 +588,23 @@
       "comparison": "karşılaştırma"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "LoreBary ile ne oldu ve {appName} senin hakkında ne saklıyor",
+        "DESCRIPTION": "Dört gün boyunca LoreBary'nin kendi modelini izinsiz sunduk. Ne olduğunu, neyi değiştirdiğimizi ve {appName}'ın senin hakkında tam olarak ne sakladığını anlatıyoruz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "LoreBary'yi proxy olarak kullanıyorsan, 29 Eylül'den beri {appName}'ı reddettiğini görmüşsündür. Bu engel bizim yaptığımız bir hatanın sonucu. Dürüst bir açıklamayı ve bunun doğurduğu soruya net bir cevabı hak ediyorsun: burada verilerine ne oluyor?",
+        "H_WHAT_HAPPENED": "Ne oldu",
+        "P_WHAT_HAPPENED": "LoreLLM, LoreBary'nin kendi modeli; destekçilerinin katkılarıyla çalışıyor ve LoreBary topluluğu için yapılmış. Topluluğumuzdan biri iyi niyetle bize kendi LoreBary hesabının anahtarını verdi, biz de LoreBary'nin şartlarını okumadan onu ücretsiz bir model olarak ekledik. 25-29 Eylül arasında 1.275 isteğe yanıt verdi. Bunun için hiç ücret almadık ve hiçbir şey kazanmadık. LoreBary bize haber verdiğinde aynı sabah kaldırdık ve özür diledik. Anahtar bizim tarafımızda silindi.",
+        "H_THEIR_DECISION": "LoreBary'nin engeli",
+        "P_THEIR_DECISION": "Ardından LoreBary, {appName}'ı sitesinde proxy olarak engelledi. Bu onların kararı ve saygı duyuyoruz. Engeli aşmanın yollarını önermeyeceğiz ve yazılı izinleri olmadan hiçbir LoreBary modelini bir daha listelemeyeceğiz. {appName}'ı JanitorAI'da LoreBary üzerinden kullanıyorsan, JanitorAI'ı {appName} anahtarınla doğrudan <c>https://api.unorouter.com/v1/chat/completions</c> adresine yönlendir ya da doğrudan {appName}'da sohbet et.",
+        "H_WHAT_CHANGED": "Neyi değiştirdik",
+        "P_WHAT_CHANGED": "Artık her yeni sağlayıcı, ücretsiz olsun ya da olmasın, yayına girmeden önce şartlarına göre kontrol ediliyor. Birinin bize verdiği anahtar onun hesabıdır, paylaşılacak bir kaynak değil. Yazılı izin yoksa model de yok.",
+        "H_YOUR_DATA": "{appName} senin hakkında ne saklıyor",
+        "P_YOUR_DATA": "Sohbetlerin sunucularımızda değil, kendi tarayıcında duruyor: silersen giderler. Ağ geçidimiz gönderdiğin promptları da aldığın yanıtları da saklamıyor; yalnızca faturalandırmanın ihtiyaç duyduğu bilgileri tutuyor: model, token sayısı, maliyet, süre ve isteğin başarılı olup olmadığı. Bir istekle kaydedilen IP adresi 30 gün sonra siliniyor. Verilerinle model eğitmiyoruz; analizimiz çerez kullanmıyor ve tanımlayıcı saklamıyor. Web sitesi, ağ geçidi, senkronizasyon ve Discord botu açık kaynak, yani bu maddelerin her birini sözümüze güvenmek yerine GitHub'da kontrol edebilirsin.",
+        "H_PROVIDERS": "Söz veremeyeceğimiz şeyler",
+        "P_PROVIDERS": "İsteğin yine de seçtiğin modele ulaşmak zorunda ve o sağlayıcı onu kendi şartlarına göre işliyor. Bazı sağlayıcılar, özellikle ücretsiz olanlar, aldıklarını saklıyor ya da onlarla model eğitiyor. Gizlilik politikamız bunu açıkça söylüyor ve en güvenli alışkanlık her yerde aynı: promptlarına kişisel veri koyma.",
+        "CTA": "Bununla ilgili soruların mı var? Discord'da sor ya da kodu kendin oku. Yoksa <chat>bir sohbet başlat</chat> veya <models>modellere göz at</models>."
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Sahte Claude dedektörü artık açık kaynak bir kütüphane",
         "DESCRIPTION": "ai-model-verifier, model test aracımızın arkasındaki motordur ve npm'de AGPL-3.0 lisansıyla yayımlandı. Ona bir temel URL, bir anahtar ve bir model verin; uç noktanın sattığı şeyi gerçekten sunup sunmadığını söylesin, artık düşünme imzası ve token faturalandırma kontrolleriyle.",

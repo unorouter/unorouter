@@ -138,6 +138,23 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "lorebary-and-your-data",
+    date: "2026-10-08",
+    tags: ["announcement", "community"],
+    i18nKey: "BLOG.POSTS.LOREBARY_AND_YOUR_DATA",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "update",
+    wordCount: 400,
+    headings: [
+      { id: "what-happened", i18nLeaf: "H_WHAT_HAPPENED", level: 2 },
+      { id: "their-decision", i18nLeaf: "H_THEIR_DECISION", level: 2 },
+      { id: "what-changed", i18nLeaf: "H_WHAT_CHANGED", level: 2 },
+      { id: "your-data", i18nLeaf: "H_YOUR_DATA", level: 2 },
+      { id: "providers", i18nLeaf: "H_PROVIDERS", level: 2 },
+    ],
+  },
+  {
     slug: "ai-model-verifier",
     date: "2026-09-03",
     tags: ["engineering", "announcement"],

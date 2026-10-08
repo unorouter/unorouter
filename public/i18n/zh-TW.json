@@ -588,6 +588,23 @@
       "comparison": "比較"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "LoreBary 事件經過，以及 {appName} 會保存你的哪些資料",
+        "DESCRIPTION": "有四天時間，我們在未經許可的情況下提供了 LoreBary 的自有模型。這裡說明發生了什麼、我們做了哪些改變，以及 {appName} 到底保存你的哪些資料。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "如果你把 LoreBary 當作代理使用，大概已經發現它從 9 月 29 日起拒絕 {appName}。這次封鎖源於我們犯的錯。你應該得到一個坦白的說明，也應該清楚知道由此引出的問題的答案：你的資料在這裡會如何處理。",
+        "H_WHAT_HAPPENED": "發生了什麼",
+        "P_WHAT_HAPPENED": "LoreLLM 是 LoreBary 的自有模型，由支持者出資營運，服務 LoreBary 自己的社群。我們社群的一位成員出於好意，把自己 LoreBary 個人帳號的金鑰交給我們，而我們沒有閱讀 LoreBary 的條款，就把它當作免費模型接上了。9 月 25 日至 29 日期間，它回應了 1,275 次請求。我們沒有為此收取任何費用，也沒有從中獲利。LoreBary 通知我們後，我們當天上午就將它下架並道歉。金鑰已在我們這邊刪除。",
+        "H_THEIR_DECISION": "LoreBary 的封鎖",
+        "P_THEIR_DECISION": "隨後 LoreBary 在其網站上封鎖了 {appName} 作為代理。這是他們的決定，我們尊重。我們不會提供任何繞過的方法，沒有他們的書面許可，也不會再上架任何 LoreBary 的模型。如果你之前在 JanitorAI 中透過 LoreBary 使用 {appName}，請在 JanitorAI 直接填入 <c>https://api.unorouter.com/v1/chat/completions</c> 並使用你的 {appName} 金鑰，或直接在 {appName} 裡聊天。",
+        "H_WHAT_CHANGED": "我們做了哪些改變",
+        "P_WHAT_CHANGED": "現在每個新的供應商在上線前都會先核對其條款，無論是否免費。別人交給我們的金鑰是對方的帳號，不是可以共享的資源。沒有書面許可，就不上模型。",
+        "H_YOUR_DATA": "{appName} 會保存你的哪些資料",
+        "P_YOUR_DATA": "你的聊天記錄保存在你自己的瀏覽器裡，不在我們的伺服器上：清除後就沒有了。我們的閘道不保存你送出的提示詞，也不保存你收到的回覆，只記錄計費需要的資訊：模型、token 數、費用、耗時以及請求是否成功。與請求一同記錄的 IP 位址會在 30 天後刪除。我們不會用你的資料訓練模型，我們的統計分析不設定 Cookie，也不保留任何識別碼。網站、閘道、同步工具和 Discord 機器人都是開源的，所以以上每一點你都可以在 GitHub 上自行查證，而不必只相信我們的話。",
+        "H_PROVIDERS": "我們無法保證的事",
+        "P_PROVIDERS": "你的請求終究要送達你選擇的模型，而該供應商會依照自己的條款處理它。有些供應商會保存收到的內容或用於訓練，免費的尤其如此。我們的隱私權政策對此寫得很清楚，而在任何地方最穩妥的習慣都一樣：不要在提示詞裡放個人資料。",
+        "CTA": "對此有疑問？歡迎在 Discord 問我們，或自己去讀程式碼。否則，<chat>開始聊天</chat>或<models>瀏覽模型</models>。"
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "假 Claude 偵測器現已成為開源函式庫",
         "DESCRIPTION": "ai-model-verifier 是我們模型測試器背後的引擎，現以 AGPL-3.0 授權發布於 npm。給它一個基礎 URL、一把金鑰和一個模型，它就能告訴你該端點提供的是否就是它所販售的模型，現在還新增了思考簽章與 token 計費檢查。",

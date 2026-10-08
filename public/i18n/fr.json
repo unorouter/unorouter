@@ -588,6 +588,23 @@
       "comparison": "comparatif"
     },
     "POSTS": {
+      "LOREBARY_AND_YOUR_DATA": {
+        "TITLE": "Ce qui s'est passé avec LoreBary, et ce que {appName} conserve sur vous",
+        "DESCRIPTION": "Pendant quatre jours, nous avons proposé le modèle maison de LoreBary sans autorisation. Voici ce qui s'est passé, ce que nous avons changé et exactement ce que {appName} conserve sur vous.",
+        "AUTHOR": "L'équipe {appName}",
+        "INTRO": "Si vous utilisez LoreBary comme proxy, vous avez sans doute vu qu'il refuse {appName} depuis le 29 septembre. Ce blocage découle d'une erreur de notre part. Vous méritez une explication franche, et une réponse claire à la question qu'elle a soulevée : que deviennent vos données ici ?",
+        "H_WHAT_HAPPENED": "Ce qui s'est passé",
+        "P_WHAT_HAPPENED": "LoreLLM est le modèle maison de LoreBary, financé par ses soutiens et destiné à sa propre communauté. Un membre de notre communauté nous a donné, avec de bonnes intentions, la clé de son compte LoreBary personnel, et nous l'avons ajoutée comme modèle gratuit sans lire les conditions de LoreBary. Du 25 au 29 septembre, il a répondu à 1 275 requêtes. Nous ne l'avons pas facturé et n'en avons rien gagné. Quand LoreBary nous a prévenus, nous l'avons retiré le matin même et nous nous sommes excusés. La clé est supprimée de notre côté.",
+        "H_THEIR_DECISION": "Le blocage de LoreBary",
+        "P_THEIR_DECISION": "LoreBary a ensuite bloqué {appName} comme proxy sur son site. C'est leur décision, et nous la respectons. Nous ne proposerons aucun contournement et ne listerons plus aucun modèle LoreBary sans leur autorisation écrite. Si vous utilisiez {appName} via LoreBary avec JanitorAI, configurez JanitorAI directement sur <c>https://api.unorouter.com/v1/chat/completions</c> avec votre clé {appName}, ou discutez directement dans {appName}.",
+        "H_WHAT_CHANGED": "Ce que nous avons changé",
+        "P_WHAT_CHANGED": "Chaque nouveau fournisseur est désormais vérifié au regard de ses conditions avant sa mise en ligne, gratuit ou non. Une clé qu'on nous confie reste le compte de quelqu'un, pas une ressource à partager. Pas d'autorisation écrite, pas de modèle.",
+        "H_YOUR_DATA": "Ce que {appName} conserve sur vous",
+        "P_YOUR_DATA": "Vos conversations restent dans votre propre navigateur, pas sur nos serveurs : effacez-les et elles disparaissent. Notre passerelle ne conserve ni les prompts que vous envoyez ni les réponses que vous recevez, seulement ce dont la facturation a besoin : le modèle, le nombre de tokens, le coût, la durée et la réussite de la requête. L'adresse IP enregistrée avec une requête est effacée après 30 jours. Nous n'entraînons rien sur vos données, et nos statistiques ne déposent aucun cookie et ne gardent aucun identifiant. Le site, la passerelle, la synchronisation et le bot Discord sont open source : vous pouvez vérifier chacun de ces points sur GitHub au lieu de nous croire sur parole.",
+        "H_PROVIDERS": "Ce que nous ne pouvons pas promettre",
+        "P_PROVIDERS": "Votre requête doit tout de même atteindre le modèle que vous choisissez, et ce fournisseur la traite selon ses propres conditions. Certains fournisseurs conservent ce qu'ils reçoivent ou s'en servent pour entraîner leurs modèles, surtout les gratuits. Notre politique de confidentialité le dit clairement, et la meilleure habitude est la même partout : ne mettez pas de données personnelles dans vos prompts.",
+        "CTA": "Des questions à ce sujet ? Posez-les sur Discord, ou lisez le code vous-même. Sinon, <chat>ouvrez une conversation</chat> ou <models>parcourez les modèles</models>."
+      },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Le détecteur de faux Claude est désormais une bibliothèque open source",
         "DESCRIPTION": "ai-model-verifier est le moteur de notre testeur de modèles, publié sur npm sous licence AGPL-3.0. Donnez-lui une URL de base, une clé et un modèle, et il vous dit si le point de terminaison sert ce qu'il vend, désormais avec vérification de la signature de réflexion et de la facturation des tokens.",
