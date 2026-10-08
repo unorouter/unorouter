@@ -15,6 +15,7 @@ import {
   getCaughtErrors,
   getChatDebugLog,
   getDbDebugLog,
+  getStreamTimingLog,
   getFailedRequestCaptures,
   logChatDebug,
 } from "@/lib/utils/chat-debug-log";
@@ -312,6 +313,7 @@ async function buildDiagnosticsHead() {
     convIds: convs.map((c) => c.id),
     debugLog: getChatDebugLog(),
     dbLog: getDbDebugLog(),
+    timingLog: getStreamTimingLog(),
   };
 }
 
@@ -377,6 +379,7 @@ export async function buildDiagnostics(): Promise<Record<string, unknown>> {
     jsPlugins: await describeJsPlugins(),
     debugLog: head.debugLog,
     dbLog: head.dbLog,
+    timingLog: head.timingLog,
   };
 }
 

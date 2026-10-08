@@ -9,6 +9,7 @@ const MAX_ENTRY_BYTES = 10_000;
 const MAX_PERSISTED_ENTRIES = 200;
 const SAVE_DEBOUNCE_MS = 1000;
 const MAX_DB_ENTRIES = 400;
+const MAX_TIMING_ENTRIES = 200;
 const TAB_ID = Math.random().toString(36).slice(2, 8);
 
 // Each log is lazily read once (getItem + parse blocks, and the chat runtime
@@ -115,6 +116,12 @@ const dbLog = makeLog<ChatDebugEntry>(
   MAX_DB_ENTRIES,
   true,
 );
+const timingLog = makeLog<ChatDebugEntry>(
+  "unorouter-stream-timing-log",
+  MAX_TIMING_ENTRIES,
+  MAX_TIMING_ENTRIES,
+  true,
+);
 
 export function logChatDebug(
   event: string,
@@ -132,24 +139,32 @@ export function logChatDebug(
   }
   debugLog.push(entry);
   if (event.startsWith("db.")) dbLog.push({ ...entry, tab: TAB_ID });
+  if (event === "stream.timing") timingLog.push({ ...entry, tab: TAB_ID });
 }
 
 export function flushChatDebugLog(): void {
   debugLog.flush();
   dbLog.flush();
+  timingLog.flush();
 }
 
-// Every tab's database events, oldest first.
-export function getDbDebugLog(): ChatDebugEntry[] {
-  dbLog.flush();
+// Every tab's entries, oldest first.
+function readShared(log: typeof dbLog, key: string): ChatDebugEntry[] {
+  log.flush();
   try {
-    const parsed: unknown = JSON.parse(
-      localStorage.getItem("unorouter-db-debug-log") ?? "[]",
-    );
-    return Array.isArray(parsed) ? parsed : dbLog.get().slice();
+    const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
+    return Array.isArray(parsed) ? parsed : log.get().slice();
   } catch {
-    return dbLog.get().slice();
+    return log.get().slice();
   }
+}
+
+export function getDbDebugLog(): ChatDebugEntry[] {
+  return readShared(dbLog, "unorouter-db-debug-log");
+}
+
+export function getStreamTimingLog(): ChatDebugEntry[] {
+  return readShared(timingLog, "unorouter-stream-timing-log");
 }
 
 export function getChatDebugLog(): ChatDebugEntry[] {

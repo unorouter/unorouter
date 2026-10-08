@@ -52,6 +52,7 @@ import { isMediaType } from "@/lib/api/pricing";
 import type { PricingCatalogData } from "@/openapi";
 import { buildChatRequestBody, buildMediaRequestBody } from "./chat-transport";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
+import { makeStreamTimer } from "./stream-timer";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
@@ -155,7 +156,9 @@ async function runClientStream(args: {
   extraHeaders?: Record<string, string>;
   includeUsage?: boolean;
 }): Promise<ReadableStream<UIMessageChunk>> {
+  const timer = makeStreamTimer(args.model);
   const history = await mergeDbHistory(args.getConvId(), args.options.messages);
+  timer.mark("history");
   const fields = await buildChatRequestBody(args.getConvId);
   const body = {
     ...fields,
@@ -170,6 +173,7 @@ async function runClientStream(args: {
     args.deps,
     args.options.abortSignal,
   );
+  timer.mark("prepared");
 
   const group = chatStore.get(chatGroupAtom);
   const pinnedModels = group
@@ -281,7 +285,7 @@ async function runClientStream(args: {
           },
         }
       : {}),
-    fetch: makeUpstreamFetch(prepared.bodyMutations),
+    fetch: timer.wrapFetch(makeUpstreamFetch(prepared.bodyMutations)),
   });
 
   const result = streamText({
@@ -332,6 +336,11 @@ async function runClientStream(args: {
         elapsedMs: Date.now() - startedAt,
         message: detail.message.slice(0, 300),
       });
+      timer.end("error", {
+        status: detail.status ?? null,
+        streamedChars,
+        streamedReasoning,
+      });
     },
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
@@ -339,6 +348,12 @@ async function runClientStream(args: {
       ? { abortSignal: args.options.abortSignal }
       : {}),
   });
+
+  args.options.abortSignal?.addEventListener(
+    "abort",
+    () => timer.end("aborted", { streamedChars, streamedReasoning }),
+    { once: true },
+  );
 
   // ai-sdk rejects these terminal promises with AI_NoOutputGeneratedError on a
   // zero-content close; unawaited they land as UNHANDLED rejections.
@@ -363,11 +378,14 @@ async function runClientStream(args: {
     onError: (error) => streamErrorText(error),
     messageMetadata: ({ part }) => {
       if (part.type === "text-delta" && part.text) {
+        timer.mark("firstText");
         sawText = true;
         streamedChars += part.text.length;
       }
-      if (part.type === "reasoning-delta" && part.text)
+      if (part.type === "reasoning-delta" && part.text) {
+        timer.mark("firstReasoning");
         streamedReasoning += part.text.length;
+      }
       if (part.type === "finish-step") {
         collector.captureHeaders(part.response.headers);
         return undefined;
@@ -389,6 +407,12 @@ async function runClientStream(args: {
             elapsedMs: Date.now() - startedAt,
           });
         }
+        timer.end("finish", {
+          finishReason: part.finishReason ?? null,
+          streamedChars,
+          streamedReasoning,
+          outputTokens: part.totalUsage?.outputTokens ?? null,
+        });
         const meta = finishMeta(part.totalUsage, part.finishReason);
         return Object.keys(meta).length > 0 ? meta : undefined;
       }
