@@ -112,6 +112,27 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
     message = plain.slice(0, 300) || message.slice(0, 300);
   }
 
+  // OpenRouter's "Provider returned error" hides the upstream's own answer here.
+  const meta =
+    errObj && typeof errObj === "object" && "metadata" in errObj
+      ? errObj.metadata
+      : undefined;
+  if (meta && typeof meta === "object") {
+    const provider =
+      "provider_name" in meta && typeof meta.provider_name === "string"
+        ? meta.provider_name
+        : "";
+    const raw = "raw" in meta && typeof meta.raw === "string" ? meta.raw : "";
+    let rawMessage = raw;
+    try {
+      rawMessage = pickMessage(JSON.parse(raw))?.message || raw;
+    } catch {}
+    const extra = [provider, rawMessage.trim().slice(0, 300)]
+      .filter(Boolean)
+      .join(": ");
+    if (extra) message = `${message} (${extra})`;
+  }
+
   let code: string | undefined;
   if (errObj && typeof errObj === "object") {
     if ("code" in errObj && typeof errObj.code === "string" && errObj.code)
