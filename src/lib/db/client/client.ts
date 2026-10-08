@@ -34,6 +34,7 @@ import {
 } from "@/lib/db/client/data-migrate/adopt-single-db";
 import type { LocalClient } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { reportDbActivity } from "@/lib/db/client/db-activity";
 import { analytics } from "@/lib/analytics";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
@@ -636,6 +637,7 @@ async function openClient(): Promise<LocalClient> {
     } finally {
       parked = true;
       releaseLock(lockKey);
+      reportDbActivity({ kind: "park" });
       logChatDebug("db.handover.parked", {
         pauseMs: Date.now() - t0,
         hidden,
@@ -695,11 +697,18 @@ async function openClient(): Promise<LocalClient> {
   const gated = async <T>(
     fn: (s: SQLocalDrizzle) => Promise<T>,
   ): Promise<T> => {
+    const t0 = performance.now();
     await ensureOwned();
+    const owned = performance.now();
     inFlight++;
     try {
       return await fn(sql);
     } finally {
+      reportDbActivity({
+        kind: "query",
+        ms: performance.now() - owned,
+        waitMs: owned - t0,
+      });
       inFlight--;
       if (inFlight === 0) {
         idleWaiters.forEach((resolve) => resolve());
