@@ -379,11 +379,13 @@ async function runClientStream(args: {
     messageMetadata: ({ part }) => {
       if (part.type === "text-delta" && part.text) {
         timer.mark("firstText");
+        timer.tickUi();
         sawText = true;
         streamedChars += part.text.length;
       }
       if (part.type === "reasoning-delta" && part.text) {
         timer.mark("firstReasoning");
+        timer.tickUi();
         streamedReasoning += part.text.length;
       }
       if (part.type === "finish-step") {

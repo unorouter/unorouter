@@ -12,6 +12,25 @@ export function makeStreamTimer(model: string) {
   let totalLagMs = 0;
   let lagTimer: ReturnType<typeof setInterval> | undefined;
   let done = false;
+  // Longest silence mid-reply, on the wire and on screen: a stall in both is
+  // the upstream, a stall only on screen is our pipeline holding text back.
+  const gaps = {
+    raw: { last: 0, max: 0, at: 0, over5s: 0 },
+    ui: { last: 0, max: 0, at: 0, over5s: 0 },
+  };
+  const tick = (kind: keyof typeof gaps) => {
+    const g = gaps[kind];
+    const now = at();
+    if (g.last > 0) {
+      const gap = now - g.last;
+      if (gap > 5000) g.over5s++;
+      if (gap > g.max) {
+        g.max = gap;
+        g.at = g.last;
+      }
+    }
+    g.last = now;
+  };
   const at = () => Math.round(performance.now() - t0);
   const mark = (name: string) => {
     if (!(name in marks)) marks[name] = at();
@@ -32,6 +51,7 @@ export function makeStreamTimer(model: string) {
 
   return {
     mark,
+    tickUi: () => tick("ui"),
     wrapFetch(inner: typeof fetch): typeof fetch {
       return async (input, init) => {
         mark("fetchStart");
@@ -44,6 +64,7 @@ export function makeStreamTimer(model: string) {
             transform(chunk, controller) {
               if (rawBytes === 0) mark("firstByte");
               rawBytes += chunk.byteLength;
+              tick("raw");
               marks.lastByte = at();
               controller.enqueue(chunk);
             },
@@ -66,6 +87,12 @@ export function makeStreamTimer(model: string) {
         totalMs: at(),
         ...marks,
         rawBytes,
+        rawMaxGapMs: gaps.raw.max,
+        rawMaxGapAt: gaps.raw.at,
+        rawGapsOver5s: gaps.raw.over5s,
+        uiMaxGapMs: gaps.ui.max,
+        uiMaxGapAt: gaps.ui.at,
+        uiGapsOver5s: gaps.ui.over5s,
         maxLagMs: Math.round(maxLagMs),
         totalLagMs: Math.round(totalLagMs),
         ...extra,
