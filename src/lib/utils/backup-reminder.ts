@@ -1,7 +1,6 @@
 const LAST_BACKUP_KEY = "unorouter-last-backup-at";
 const SNOOZE_KEY = "unorouter-backup-snooze-until";
 const INTERVAL_KEY = "unorouter-backup-reminder-days";
-const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
 
 export type BackupState = {
@@ -56,7 +55,7 @@ export function setReminderInterval(days: number): void {
 }
 
 export function snoozeBackupReminder(): void {
-  write(SNOOZE_KEY, Date.now() + 4 * HOUR_MS);
+  write(SNOOZE_KEY, Date.now() + Math.max(1, readInterval()) * DAY_MS);
 }
 
 export function backupAgeDays(state: BackupState, now: number): number | null {
