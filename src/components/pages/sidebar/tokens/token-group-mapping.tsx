@@ -413,7 +413,7 @@ function ModelGroupPanel(props: {
       <button
         type="button"
         onClick={props.onBack}
-        className="hover:bg-accent flex w-full items-center gap-2 border-b px-3 py-2 text-left"
+        className="hover:bg-accent bg-popover sticky top-0 z-10 flex w-full items-center gap-2 border-b px-3 py-2 text-left"
       >
         <Icon name="arrow-left" className="size-3.5 shrink-0" />
         <VendorIcon vendor={props.vendor ?? props.model} size={14} />
@@ -771,7 +771,10 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                   </FormControl>
                 }
               />
-              <PopoverContent className="w-(--anchor-width) p-0" align="start">
+              <PopoverContent
+                className="max-h-(--available-height) w-(--anchor-width) overflow-y-auto p-0"
+                align="start"
+              >
                 {openRow ? (
                   <ModelGroupPanel
                     model={openRow.model_name}
