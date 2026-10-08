@@ -3941,7 +3941,7 @@
       "IMPORT": "ייבוא קובץ",
       "EXPORT": "ייצוא תוסף",
       "IMPORT_LINK": "ייבוא מקישור",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "הדביקו קישור לסקריפט של JanitorAI",
       "EMPTY": "אין עדיין תוספים.",
       "NAME": "שם",
       "KIND": "סוג",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Presets של sampling",
     "PRESETS_NEW": "Preset חדש",
     "PRESETS_IMPORT": "ייבוא",
-    "PRESETS_IMPORT_LINK": "ייבוא מקישור",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "ייצוא preset",
     "PRESETS_EMPTY": "אין presets עדיין.",
     "PRESETS_PAGE_SUBTITLE": "שמרו הגדרות sampling וכפתורי הנחיה מתקדמים שאתם יכולים להשתמש בהם שוב בצ'אטים שונים.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” יובא כערכה קבועה מראש. בחר אותה בבורר הערכות כדי להשתמש בה.",
     "PERSONAS_IMPORT": "ייבוא",
     "PERSONAS_EXPORT": "ייצוא פרסונה",
-    "PERSONAS_IMPORT_LINK": "ייבוא מקישור",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "הזרק תמיד ערך זה, תוך התעלמות ממפתחות ההפעלה.",
     "PRESET_PROVIDERS_TITLE": "ניתוב ספק",
     "PRESET_PROVIDERS": "ספקים מוצמדים (מופרדים בפסיקים)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "פרסונת ברירת מחדל",
       "P_DEFAULT_1": "סמנו פרסונה אחת כברירת מחדל לשיחות חדשות. החליפו פרסונות לכל שיחה במגירת ההגדרות, או קבעו אחרת בערכה.",
       "H_IMPORT": "ייבוא",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "פרסונות מיובאות מקובצי פרסונה שיוצאו מממשקים אחרים. שכפלו פרסונה קיימת כדי ליצור וריאציה."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "עורך רשומות הלורבוק עם תוכן, מפתחות הפעלה, מתגים ושדות סדר הכנסה ועדיפות",

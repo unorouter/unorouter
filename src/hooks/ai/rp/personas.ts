@@ -9,9 +9,7 @@ import {
   upsertLocalPersona,
 } from "@/lib/db/client/data/rp/rp";
 import type { PersonaRow } from "@/lib/db/schema/rows";
-import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
-import { runUrlImport } from "./use-url-import";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
@@ -72,38 +70,3 @@ export function useImportPersonaMutation() {
   });
 }
 
-// is private account data. Its structured fields (archetype, gender, pronouns,
-// age, traits) land in personality, mirroring character cards, so the prose
-// description survives unmangled.
-export function useImportPersonaFromUrlMutation() {
-  return useApiMutation({
-    mutationFn: (input: string) =>
-      runUrlImport(input, async (results) => {
-        const found = results.flatMap((r) =>
-          "personas" in r ? r.personas : [],
-        );
-        if (found.length === 0)
-          throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-        const now = dayjs().toDate();
-        const rows = found.map((p) => {
-          const attrs = Object.entries(p.attributes ?? {})
-            .map(([k, v]) => `${k}: ${v}`)
-            .join("\n");
-          return {
-            id: uid(),
-            name: p.name,
-            description: p.description ?? null,
-            personality: attrs || null,
-            avatarMediaId: null,
-            isDefault: false,
-            notes: null,
-            createdAt: now,
-            updatedAt: now,
-          };
-        });
-        for (const row of rows) await upsertLocalPersona(row);
-        return rows;
-      }),
-    invalidates: [queryKeys.personas()],
-  });
-}

@@ -3941,7 +3941,7 @@
       "IMPORT": "Nhập tệp",
       "EXPORT": "Xuất plugin",
       "IMPORT_LINK": "Nhập từ liên kết",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "Dán liên kết script JanitorAI",
       "EMPTY": "Chưa có tiện ích nào.",
       "NAME": "Tên",
       "KIND": "Loại",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset mới",
     "PRESETS_IMPORT": "Nhập",
-    "PRESETS_IMPORT_LINK": "Nhập từ liên kết",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Xuất preset",
     "PRESETS_EMPTY": "Chưa có preset.",
     "PRESETS_PAGE_SUBTITLE": "Lưu cài đặt sampling và tuỳ chỉnh prompt nâng cao để dùng lại giữa các chat.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "Đã nhập “{name}” dưới dạng preset. Chọn nó trong trình chọn preset để sử dụng.",
     "PERSONAS_IMPORT": "Nhập",
     "PERSONAS_EXPORT": "Xuất persona",
-    "PERSONAS_IMPORT_LINK": "Nhập từ liên kết",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Luôn chèn mục này, bỏ qua các khóa kích hoạt.",
     "PRESET_PROVIDERS_TITLE": "Định tuyến nhà cung cấp",
     "PRESET_PROVIDERS": "Nhà cung cấp đã ghim (phân tách bằng dấu phẩy)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Persona mặc định",
       "P_DEFAULT_1": "Đánh dấu một hồ sơ nhân vật làm mặc định cho cuộc trò chuyện mới. Đổi hồ sơ theo từng cuộc trò chuyện trong ngăn cài đặt, hoặc ghim một hồ sơ khác trong bộ trang bị.",
       "H_IMPORT": "Nhập",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Hồ sơ nhân vật nhập được từ tệp hồ sơ do các giao diện khác xuất ra. Nhân bản một hồ sơ có sẵn để tạo biến thể."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Trình soạn mục lorebook với nội dung, từ khóa kích hoạt, công tắc cùng các trường thứ tự chèn và độ ưu tiên",

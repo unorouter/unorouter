@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   useDeletePersonaMutation,
   useDuplicatePersonaMutation,
-  useImportPersonaFromUrlMutation,
   useImportPersonaMutation,
   usePersonasQuery,
 } from "@/hooks/ai/rp/personas";
@@ -40,7 +39,6 @@ export function PersonaList(props: Props) {
   const exportMut = useRpExportMutation();
   const favoriteMut = useToggleFavoriteMutation("persona");
   const importMut = useImportPersonaMutation();
-  const importUrlMut = useImportPersonaFromUrlMutation();
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -73,11 +71,8 @@ export function PersonaList(props: Props) {
             entity="personas"
             accept=".json,application/json"
             labelKey="RP.PERSONAS_IMPORT"
-            isPending={importMut.isPending || importUrlMut.isPending}
+            isPending={importMut.isPending}
             onFile={(file) => importMut.mutateAsync(file).then(() => {})}
-            onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
-            urlLabelKey="RP.PERSONAS_IMPORT_LINK"
-            urlPlaceholderKey="RP.PERSONAS_IMPORT_LINK_PLACEHOLDER"
           />
           <Button
             onClick={() => {

@@ -3941,7 +3941,7 @@
       "IMPORT": "파일 가져오기",
       "EXPORT": "플러그인 내보내기",
       "IMPORT_LINK": "링크에서 가져오기",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "JanitorAI 스크립트 링크를 붙여넣으세요",
       "EMPTY": "아직 플러그인이 없습니다.",
       "NAME": "이름",
       "KIND": "종류",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "샘플링 프리셋",
     "PRESETS_NEW": "새 프리셋",
     "PRESETS_IMPORT": "가져오기",
-    "PRESETS_IMPORT_LINK": "링크에서 가져오기",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "프리셋 내보내기",
     "PRESETS_EMPTY": "아직 프리셋이 없습니다.",
     "PRESETS_PAGE_SUBTITLE": "채팅 간 재사용할 수 있는 샘플링 설정과 고급 프롬프트 노브를 저장하세요.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}”을(를) 프리셋으로 가져왔습니다. 프리셋 선택기에서 골라 사용하세요.",
     "PERSONAS_IMPORT": "가져오기",
     "PERSONAS_EXPORT": "페르소나 내보내기",
-    "PERSONAS_IMPORT_LINK": "링크에서 가져오기",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "활성화 키를 무시하고 이 항목을 항상 삽입합니다.",
     "PRESET_PROVIDERS_TITLE": "공급자 라우팅",
     "PRESET_PROVIDERS": "고정 공급자 (쉼표로 구분)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "기본 페르소나",
       "P_DEFAULT_1": "페르소나 하나를 새 채팅의 기본으로 지정하세요. 설정 서랍에서 대화별로 바꾸거나 로드아웃에 다른 것을 고정하세요.",
       "H_IMPORT": "가져오기",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "페르소나는 다른 프런트엔드가 내보낸 페르소나 파일에서 가져올 수 있습니다. 기존 페르소나를 복제하면 변형을 만들 수 있습니다."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "내용, 활성화 키, 토글, 삽입 순서와 우선순위 필드가 있는 로어북 항목 편집기",

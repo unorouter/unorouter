@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   useDeletePresetMutation,
   useDuplicatePresetMutation,
-  useImportPresetFromUrlMutation,
   useImportPresetMutation,
   usePresetsQuery,
 } from "@/hooks/ai/rp/presets";
@@ -34,7 +33,6 @@ export function PresetsPage() {
   const exportMut = useRpExportMutation();
   const favoriteMut = useToggleFavoriteMutation("preset");
   const importMut = useImportPresetMutation();
-  const importUrlMut = useImportPresetFromUrlMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
   const handleExport = (id: string) =>
@@ -74,11 +72,8 @@ export function PresetsPage() {
           entity="presets"
           accept=".json,application/json"
           labelKey="RP.PRESETS_IMPORT"
-          isPending={importMut.isPending || importUrlMut.isPending}
+          isPending={importMut.isPending}
           onFile={(file) => importMut.mutateAsync(file).then(() => {})}
-          onUrl={(input) => importUrlMut.mutateAsync(input).then(() => {})}
-          urlLabelKey="RP.PRESETS_IMPORT_LINK"
-          urlPlaceholderKey="RP.PRESETS_IMPORT_LINK_PLACEHOLDER"
         />
       }
       editor={

@@ -3941,7 +3941,7 @@
       "IMPORT": "匯入檔案",
       "EXPORT": "匯出外掛",
       "IMPORT_LINK": "從連結匯入",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "貼上 JanitorAI 腳本連結",
       "EMPTY": "尚未有外掛。",
       "NAME": "名稱",
       "KIND": "類型",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "取樣預設",
     "PRESETS_NEW": "新增預設",
     "PRESETS_IMPORT": "匯入",
-    "PRESETS_IMPORT_LINK": "從連結匯入",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "匯出預設",
     "PRESETS_EMPTY": "尚無預設。",
     "PRESETS_PAGE_SUBTITLE": "儲存取樣設定與進階提示詞旋鈕，跨對話重複使用。",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "已將「{name}」匯入為預設。在預設選擇器中選取它即可使用。",
     "PERSONAS_IMPORT": "匯入",
     "PERSONAS_EXPORT": "匯出人設",
-    "PERSONAS_IMPORT_LINK": "從連結匯入",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "始終注入此條目，忽略啟用關鍵字。",
     "PRESET_PROVIDERS_TITLE": "供應商路由",
     "PRESET_PROVIDERS": "固定供應商（以逗號分隔）",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "預設人設",
       "P_DEFAULT_1": "可以把一個人設設為新對話的預設。在設定抽屜中依對話切換人設，或在配裝中固定另一個。",
       "H_IMPORT": "匯入",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "人設可以從其他前端匯出的人設檔匯入。複製既有的人設就能做出變體。"
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "世界書條目編輯器，包含內容、觸發關鍵詞、開關以及插入順序和優先級欄位",

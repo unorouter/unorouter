@@ -3941,7 +3941,7 @@
       "IMPORT": "फ़ाइल आयात करें",
       "EXPORT": "प्लगइन export करें",
       "IMPORT_LINK": "लिंक से आयात करें",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "JanitorAI स्क्रिप्ट का लिंक चिपकाएँ",
       "EMPTY": "अभी कोई प्लगइन नहीं है।",
       "NAME": "नाम",
       "KIND": "प्रकार",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "नया preset",
     "PRESETS_IMPORT": "आयात करें",
-    "PRESETS_IMPORT_LINK": "लिंक से आयात करें",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Preset export करें",
     "PRESETS_EMPTY": "अभी तक कोई presets नहीं।",
     "PRESETS_PAGE_SUBTITLE": "Sampling settings और advanced prompt knobs सहेजें जिन्हें आप chats में पुन: उपयोग कर सकते हैं।",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” को प्रीसेट के रूप में आयात किया गया। इसे प्रीसेट चयनकर्ता में चुनकर उपयोग करें।",
     "PERSONAS_IMPORT": "Import",
     "PERSONAS_EXPORT": "Persona export करें",
-    "PERSONAS_IMPORT_LINK": "लिंक से आयात करें",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "सक्रियण कुंजियों को अनदेखा करते हुए इस प्रविष्टि को हमेशा इंजेक्ट करें।",
     "PRESET_PROVIDERS_TITLE": "प्रदाता रूटिंग",
     "PRESET_PROVIDERS": "पिन किए गए प्रदाता (अल्पविराम से अलग)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "डिफ़ॉल्ट पर्सोना",
       "P_DEFAULT_1": "नई चैट के लिए किसी एक व्यक्तित्व को डिफ़ॉल्ट बनाएँ। सेटिंग्स ड्रॉअर में हर बातचीत के लिए व्यक्तित्व बदलें, या लोडआउट में कोई दूसरा टाँक दें।",
       "H_IMPORT": "आयात",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "व्यक्तित्व दूसरे फ़्रंटएंड से निर्यात की गई फ़ाइलों से आयात होते हैं। किसी मौजूदा व्यक्तित्व की नकल बनाकर उसका रूपांतर तैयार करें।"
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "सामग्री, सक्रियण कुंजियों, टॉगल तथा सम्मिलन क्रम और प्राथमिकता फ़ील्ड वाला लोरबुक प्रविष्टि एडिटर",

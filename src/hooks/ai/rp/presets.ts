@@ -12,7 +12,6 @@ import { useApiMutation } from "@/lib/react-query/hooks";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
-import { runUrlImport } from "./use-url-import";
 import type { PresetRow } from "@/lib/db/schema/rows";
 
 const presets = makeRpEntity<
@@ -34,7 +33,6 @@ export const useUpdatePresetMutation = presets.useUpdate;
 export const useDeletePresetMutation = presets.useDelete;
 export const useDuplicatePresetMutation = presets.useDuplicate;
 
-// preset carrying a finished prompt template, so this only writes the row.
 export function useImportPresetMutation() {
   return useApiMutation({
     mutationFn: async (file: File) => {
@@ -68,29 +66,3 @@ export function useImportPresetMutation() {
   });
 }
 
-export function useImportPresetFromUrlMutation() {
-  return useApiMutation({
-    mutationFn: (input: string) =>
-      runUrlImport(input, async (results) => {
-        // alongside its lorebooks, and a document could carry several.
-        const presets = results.flatMap((r) =>
-          "preset" in r ? [r.preset] : [],
-        );
-        if (presets.length === 0) {
-          throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
-        }
-        const now = dayjs().toDate();
-        for (const preset of presets) {
-          await upsertLocalPreset({
-            id: uid(),
-            name: preset.name,
-            promptTemplate: preset.promptTemplate,
-            createdAt: now,
-            updatedAt: now,
-          });
-        }
-        return { name: presets[0].name };
-      }),
-    invalidates: [queryKeys.presets()],
-  });
-}

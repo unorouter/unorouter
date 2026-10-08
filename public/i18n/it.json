@@ -3941,7 +3941,7 @@
       "IMPORT": "Importa file",
       "EXPORT": "Esporta plugin",
       "IMPORT_LINK": "Importa da link",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "Incolla un link a uno script JanitorAI",
       "EMPTY": "Ancora nessun plugin.",
       "NAME": "Nome",
       "KIND": "Tipo",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Preset di sampling",
     "PRESETS_NEW": "Nuovo preset",
     "PRESETS_IMPORT": "Importa",
-    "PRESETS_IMPORT_LINK": "Importa da link",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Esporta preset",
     "PRESETS_EMPTY": "Ancora nessun preset.",
     "PRESETS_PAGE_SUBTITLE": "Salva impostazioni di sampling e manopole avanzate del prompt che puoi riutilizzare tra chat.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” importato come preset. Selezionalo nel selettore dei preset per usarlo.",
     "PERSONAS_IMPORT": "Importa",
     "PERSONAS_EXPORT": "Esporta persona",
-    "PERSONAS_IMPORT_LINK": "Importa da link",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Inserisci sempre questa voce, ignorando le chiavi di attivazione.",
     "PRESET_PROVIDERS_TITLE": "Instradamento provider",
     "PRESET_PROVIDERS": "Provider fissati (separati da virgole)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Persona predefinita",
       "P_DEFAULT_1": "Segna una persona come predefinita per le nuove chat. Cambia persona per singola conversazione nel pannello impostazioni, oppure fissane un'altra nell'equipaggiamento.",
       "H_IMPORT": "Importazione",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Le persone si importano da file persona esportati da altri frontend. Duplica una persona esistente per crearne una variante."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Editor delle voci del lorebook con contenuto, chiavi di attivazione, interruttori e campi di ordine di inserimento e priorità",

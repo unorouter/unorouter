@@ -3941,7 +3941,7 @@
       "IMPORT": "Importer un fichier",
       "EXPORT": "Exporter le plugin",
       "IMPORT_LINK": "Importer depuis un lien",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "Collez un lien de script JanitorAI",
       "EMPTY": "Aucune extension pour l'instant.",
       "NAME": "Nom",
       "KIND": "Type",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Préréglages d'échantillonnage",
     "PRESETS_NEW": "Nouveau préréglage",
     "PRESETS_IMPORT": "Importer",
-    "PRESETS_IMPORT_LINK": "Importer depuis un lien",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Exporter le préréglage",
     "PRESETS_EMPTY": "Aucun préréglage.",
     "PRESETS_PAGE_SUBTITLE": "Enregistre les réglages d'échantillonnage et les options avancées de prompt à réutiliser entre les chats.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "« {name} » a été importé comme préréglage. Sélectionne-le dans le sélecteur de préréglages pour l’utiliser.",
     "PERSONAS_IMPORT": "Importer",
     "PERSONAS_EXPORT": "Exporter le persona",
-    "PERSONAS_IMPORT_LINK": "Importer depuis un lien",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Toujours injecter cette entrée, en ignorant les mots-clés d'activation.",
     "PRESET_PROVIDERS_TITLE": "Routage du fournisseur",
     "PRESET_PROVIDERS": "Fournisseurs epingles (séparés par des virgules)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Persona par défaut",
       "P_DEFAULT_1": "Marquez un persona par défaut pour les nouveaux chats. Changez de persona par conversation dans le tiroir de paramètres, ou épinglez-en un autre dans l'équipement.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Les personas s'importent depuis des fichiers de persona exportés par d'autres interfaces. Dupliquez un persona existant pour en faire une variante."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Éditeur d'entrée de lorebook avec contenu, clés d'activation, interrupteurs et champs d'ordre d'insertion et de priorité",

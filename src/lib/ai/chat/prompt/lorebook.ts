@@ -294,6 +294,7 @@ export function selectLorebookEntries(
       effectivePriority: dec.ignoreOnMaxContext ? -1000 : basePriority,
       // A @@probability decorator in the content wins over the stored column,
       // since it is the per-entry authoring surface; the column is what an
+      // imported trigger carries. One roll either way, so an entry
       // cannot be gated twice.
       probPass: (() => {
         const pct = dec.probability ?? e.chance ?? undefined;

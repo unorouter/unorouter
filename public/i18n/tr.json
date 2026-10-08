@@ -3941,7 +3941,7 @@
       "IMPORT": "Dosya içe aktar",
       "EXPORT": "Eklentiyi dışa aktar",
       "IMPORT_LINK": "Bağlantıdan içe aktar",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "JanitorAI betiği bağlantısı yapıştır",
       "EMPTY": "Henüz eklenti yok.",
       "NAME": "Ad",
       "KIND": "Tür",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Sampling presetleri",
     "PRESETS_NEW": "Yeni preset",
     "PRESETS_IMPORT": "İçe Aktar",
-    "PRESETS_IMPORT_LINK": "Bağlantıdan içe aktar",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Preset dışa aktar",
     "PRESETS_EMPTY": "Henüz preset yok.",
     "PRESETS_PAGE_SUBTITLE": "Sohbetler arasında yeniden kullanabileceğiniz sampling ayarlarını ve gelişmiş istem düğmelerini kaydedin.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” bir ön ayar olarak içe aktarıldı. Kullanmak için ön ayar seçiciden seçin.",
     "PERSONAS_IMPORT": "İçe Aktar",
     "PERSONAS_EXPORT": "Persona dışa aktar",
-    "PERSONAS_IMPORT_LINK": "Bağlantıdan içe aktar",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Etkinleştirme anahtarlarını yok sayarak bu girdiyi her zaman ekle.",
     "PRESET_PROVIDERS_TITLE": "Sağlayıcı yönlendirme",
     "PRESET_PROVIDERS": "Sabitlenen sağlayıcılar (virgülle ayrılmış)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Varsayılan persona",
       "P_DEFAULT_1": "Yeni sohbetler için bir personayı varsayılan olarak işaretleyin. Ayarlar çekmecesinde konuşma başına persona değiştirin ya da donanımda farklı birini sabitleyin.",
       "H_IMPORT": "İçe aktarma",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Personalar diğer arayüzlerin dışa aktardığı persona dosyalarından içe aktarılır. Varyant oluşturmak için mevcut bir personayı çoğaltın."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "İçerik, etkinleştirme anahtarları, anahtarlar ile ekleme sırası ve öncelik alanlarına sahip lorebook girdisi düzenleyici",

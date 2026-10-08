@@ -3941,7 +3941,7 @@
       "IMPORT": "Impor berkas",
       "EXPORT": "Ekspor plugin",
       "IMPORT_LINK": "Impor dari tautan",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "Tempel tautan skrip JanitorAI",
       "EMPTY": "Belum ada plugin.",
       "NAME": "Nama",
       "KIND": "Jenis",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset baru",
     "PRESETS_IMPORT": "Impor",
-    "PRESETS_IMPORT_LINK": "Impor dari tautan",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Ekspor preset",
     "PRESETS_EMPTY": "Belum ada preset.",
     "PRESETS_PAGE_SUBTITLE": "Simpan pengaturan sampling dan tombol prompt lanjutan yang dapat Anda gunakan kembali di sohbet.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "“{name}” diimpor sebagai preset. Pilih di pemilih preset untuk menggunakannya.",
     "PERSONAS_IMPORT": "Impor",
     "PERSONAS_EXPORT": "Ekspor persona",
-    "PERSONAS_IMPORT_LINK": "Impor dari tautan",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Selalu sisipkan entri ini, mengabaikan kunci aktivasi.",
     "PRESET_PROVIDERS_TITLE": "Perutean penyedia",
     "PRESET_PROVIDERS": "Penyedia yang dipasang (dipisahkan koma)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Persona bawaan",
       "P_DEFAULT_1": "Tandai satu persona sebagai bawaan untuk obrolan baru. Ganti persona per percakapan di laci pengaturan, atau sematkan persona lain di loadout.",
       "H_IMPORT": "Impor",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Persona dapat diimpor dari file persona yang diekspor front-end lain. Duplikat persona yang ada untuk membuat variannya."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Editor entri lorebook dengan konten, kunci aktivasi, sakelar, serta kolom urutan sisip dan prioritas",

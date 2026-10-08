@@ -3941,7 +3941,7 @@
       "IMPORT": "Importuj plik",
       "EXPORT": "Eksportuj wtyczkę",
       "IMPORT_LINK": "Importuj z linku",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "Wklej link do skryptu JanitorAI",
       "EMPTY": "Nie ma jeszcze wtyczek.",
       "NAME": "Nazwa",
       "KIND": "Typ",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "Presety samplowania",
     "PRESETS_NEW": "Nowy preset",
     "PRESETS_IMPORT": "Importuj",
-    "PRESETS_IMPORT_LINK": "Importuj z linku",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "Eksportuj preset",
     "PRESETS_EMPTY": "Brak presetów.",
     "PRESETS_PAGE_SUBTITLE": "Zapisz ustawienia samplowania i zaawansowane pokrętła promptu, które możesz wielokrotnie używać w chatach.",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "Zaimportowano „{name}” jako ustawienie wstępne. Wybierz je na liście ustawień, aby go użyć.",
     "PERSONAS_IMPORT": "Importuj",
     "PERSONAS_EXPORT": "Eksportuj personę",
-    "PERSONAS_IMPORT_LINK": "Importuj z linku",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Zawsze wstawiaj ten wpis, ignorując klucze aktywacji.",
     "PRESET_PROVIDERS_TITLE": "Routing dostawcy",
     "PRESET_PROVIDERS": "Przypięte dostawcy (oddzielone przecinkami)",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "Persona domyślna",
       "P_DEFAULT_1": "Oznacz jedną personę jako domyślną dla nowych czatów. Zmieniaj persony w pojedynczej rozmowie w szufladzie ustawień albo przypnij inną w zestawie startowym.",
       "H_IMPORT": "Import",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "Persony importują się z plików person eksportowanych przez inne frontendy. Zduplikuj istniejącą personę, aby zrobić jej wariant."
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "Edytor wpisów lorebooka z treścią, kluczami aktywacji, przełącznikami oraz polami kolejności wstawiania i priorytetu",

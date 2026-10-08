@@ -37,8 +37,8 @@ export const useCreateJsPluginMutation = jsPlugins.useCreate;
 export const useUpdateJsPluginMutation = jsPlugins.useUpdate;
 export const useDeleteJsPluginMutation = jsPlugins.useDelete;
 
-// A link can hold a script (a JanitorAI advanced lorebook) or entries (a
-// same box, so this writes whichever came back and reports which list it went
+// A link can hold a script (a JanitorAI advanced lorebook) or lorebook
+// entries. Both are pasted from the same box, so this writes whichever came back and reports which list it went
 // to, rather than failing a link the user reasonably expected to work.
 export function useImportJsPluginFromUrlMutation() {
   return useApiMutation({

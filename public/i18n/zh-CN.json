@@ -3941,7 +3941,7 @@
       "IMPORT": "导入文件",
       "EXPORT": "导出插件",
       "IMPORT_LINK": "从链接导入",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "粘贴 JanitorAI 脚本链接",
       "EMPTY": "还没有插件。",
       "NAME": "名称",
       "KIND": "类型",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "采样预设",
     "PRESETS_NEW": "新建预设",
     "PRESETS_IMPORT": "导入",
-    "PRESETS_IMPORT_LINK": "从链接导入",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "导出预设",
     "PRESETS_EMPTY": "暂无预设。",
     "PRESETS_PAGE_SUBTITLE": "保存采样设置与高级提示词选项，在多个对话间复用。",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "已将“{name}”导入为预设。在预设选择器中选中它即可使用。",
     "PERSONAS_IMPORT": "导入",
     "PERSONAS_EXPORT": "导出人设",
-    "PERSONAS_IMPORT_LINK": "从链接导入",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "始终注入此条目，忽略激活关键词。",
     "PRESET_PROVIDERS_TITLE": "提供商路由",
     "PRESET_PROVIDERS": "固定提供商（逗号分隔）",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "默认人设",
       "P_DEFAULT_1": "可以把一个人设设为新对话的默认。在设置抽屉中按对话切换人设，或在配装里固定另一个。",
       "H_IMPORT": "导入",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "人设可以从其他前端导出的人设文件导入。复制现有人设即可做出变体。"
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "世界书条目编辑器，包含内容、触发关键词、开关以及插入顺序和优先级字段",

@@ -3941,7 +3941,7 @@
       "IMPORT": "ファイルを読み込む",
       "EXPORT": "プラグインをエクスポート",
       "IMPORT_LINK": "リンクからインポート",
-      "IMPORT_LINK_PLACEHOLDER": \"\",
+      "IMPORT_LINK_PLACEHOLDER": "JanitorAI のスクリプトのリンクを貼り付け",
       "EMPTY": "プラグインはまだありません。",
       "NAME": "名前",
       "KIND": "種類",
@@ -4127,8 +4127,6 @@
     "PRESETS_TITLE": "サンプリングプリセット",
     "PRESETS_NEW": "新しいプリセット",
     "PRESETS_IMPORT": "インポート",
-    "PRESETS_IMPORT_LINK": "リンクからインポート",
-    "PRESETS_IMPORT_LINK_PLACEHOLDER": \"\",
     "PRESETS_EXPORT": "プリセットをエクスポート",
     "PRESETS_EMPTY": "プリセットがありません。",
     "PRESETS_PAGE_SUBTITLE": "サンプリング設定や上級プロンプト項目を保存し、チャットをまたいで再利用できます。",
@@ -4219,8 +4217,6 @@
     "LOREBOOKS_IMPORTED_AS_PRESET": "「{name}」をプリセットとしてインポートしました。プリセット選択から選んでご利用ください。",
     "PERSONAS_IMPORT": "インポート",
     "PERSONAS_EXPORT": "ペルソナをエクスポート",
-    "PERSONAS_IMPORT_LINK": "リンクからインポート",
-    "PERSONAS_IMPORT_LINK_PLACEHOLDER": \"\",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "アクティベーションキーを無視して、このエントリを常に挿入します。",
     "PRESET_PROVIDERS_TITLE": "プロバイダールーティング",
     "PRESET_PROVIDERS": "固定プロバイダー（カンマ区切り）",
@@ -4961,7 +4957,7 @@
       "H_DEFAULT": "デフォルトペルソナ",
       "P_DEFAULT_1": "1つのペルソナを新規チャットの既定に設定できます。会話ごとに設定ドロワーで切り替えるか、ロードアウトで別のものを固定します。",
       "H_IMPORT": "インポート",
-      "P_IMPORT_1": \"\"
+      "P_IMPORT_1": "ペルソナは他のフロントエンドが書き出したペルソナファイルからインポートできます。既存のペルソナを複製すれば派生版を作れます。"
     },
     "LOREBOOKS": {
       "ALT_EDITOR": "内容・アクティベーションキー・トグル・挿入順と優先度の欄があるロアブックエントリーエディター",
