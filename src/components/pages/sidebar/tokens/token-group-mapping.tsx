@@ -352,15 +352,14 @@ function CheckBox(props: { checked: boolean }) {
   );
 }
 
-function ModelGroupPopover(props: {
+function ModelGroupPanel(props: {
   model: string;
+  vendor?: string;
   price?: { input: number; output: number };
   options: GroupOption[];
   entry: TokenPinEntry;
   onChange: (entry: TokenPinEntry) => void;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  children: React.ReactElement;
+  onBack: () => void;
 }) {
   const t = useTranslations();
   const [search, setSearch] = useState("");
@@ -410,210 +409,200 @@ function ModelGroupPopover(props: {
   }
 
   return (
-    <Popover
-      open={props.open}
-      onOpenChange={(next) => {
-        props.onOpenChange(next);
-        if (!next) setSearch("");
-      }}
-    >
-      <PopoverTrigger render={props.children} nativeButton={false} />
-      <PopoverContent
-        side="right"
-        align="start"
-        sideOffset={6}
-        className="w-72 p-0"
+    <div>
+      <button
+        type="button"
+        onClick={props.onBack}
+        className="hover:bg-accent flex w-full items-center gap-2 border-b px-3 py-2 text-left"
       >
-        <div className="flex items-center justify-between gap-2 border-b px-3 py-2">
-          <div className="min-w-0">
-            <div className="text-xs font-medium">
-              {t("TOKEN.FORM.BAND_AUTO")}
-            </div>
-            <div className="text-muted-foreground text-[10px]">
-              {t("TOKEN.FORM.BAND_AUTO_HINT")}
-            </div>
+        <Icon name="arrow-left" className="size-3.5 shrink-0" />
+        <VendorIcon vendor={props.vendor ?? props.model} size={14} />
+        <span className="min-w-0 flex-1 truncate font-mono text-xs">
+          {props.model}
+        </span>
+      </button>
+      <div className="flex items-center justify-between gap-2 border-b px-3 py-2">
+        <div className="min-w-0">
+          <div className="text-xs font-medium">{t("TOKEN.FORM.BAND_AUTO")}</div>
+          <div className="text-muted-foreground text-[10px]">
+            {t("TOKEN.FORM.BAND_AUTO_HINT")}
           </div>
-          <Switch
-            checked={isAuto}
-            onCheckedChange={(checked) =>
-              props.onChange({ ...props.entry, auto: checked || undefined })
-            }
-          />
         </div>
-        <div className={cn("border-b px-3 py-2", isAuto && "opacity-50")}>
-          {/* The two ends are one field: the boxes ARE the readout, so a drag and a
+        <Switch
+          checked={isAuto}
+          onCheckedChange={(checked) =>
+            props.onChange({ ...props.entry, auto: checked || undefined })
+          }
+        />
+      </div>
+      <div className={cn("border-b px-3 py-2", isAuto && "opacity-50")}>
+        {/* The two ends are one field: the boxes ARE the readout, so a drag and a
               typed ratio land in the same place instead of being shown twice. */}
-          <div className="mb-1.5 flex items-center justify-between gap-2">
-            <span className="text-xs font-medium">
-              {t("TOKEN.FORM.BAND_LABEL")}
-            </span>
-            <div className="border-input bg-background flex items-center rounded border">
-              <BandNumber
-                value={props.entry.min}
-                placeholder="0"
-                ariaLabel={t("TOKEN.FORM.BAND_MIN")}
-                onCommit={(next) =>
-                  setBand(next ?? 0, props.entry.max ?? BAND_MAX)
-                }
-              />
-              <span className="text-muted-foreground px-0.5 text-[11px]">
-                -
-              </span>
-              <BandNumber
-                value={props.entry.max}
-                placeholder={`${BAND_MAX}+`}
-                ariaLabel={t("TOKEN.FORM.BAND_MAX")}
-                onCommit={(next) =>
-                  setBand(props.entry.min ?? 0, next ?? BAND_MAX)
-                }
-              />
-            </div>
-          </div>
-          <Slider
-            min={0}
-            max={BAND_STEPS}
-            step={1}
-            value={[bandRatioToPos(bandLow), bandRatioToPos(bandHigh)]}
-            aria-label={t("TOKEN.FORM.BAND_LABEL")}
-            onValueChange={(value) => {
-              if (!Array.isArray(value)) return;
-              const [low, high] = value;
-              setBand(
-                roundBand(bandPosToRatio(low)),
-                roundBand(bandPosToRatio(high)),
-              );
-            }}
-          />
-          <div className="mt-1.5 flex items-center justify-between gap-2">
-            <span className="text-muted-foreground text-[10px]">
-              {hasBand ? "" : t("TOKEN.FORM.BAND_HINT")}
-            </span>
-            {hasBand && (
-              <button
-                type="button"
-                className="text-muted-foreground hover:text-foreground text-[10px] underline"
-                onClick={() =>
-                  props.onChange({
-                    ...props.entry,
-                    min: undefined,
-                    max: undefined,
-                  })
-                }
-              >
-                {t("TOKEN.FORM.BAND_CLEAR")}
-              </button>
-            )}
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          <span className="text-xs font-medium">
+            {t("TOKEN.FORM.BAND_LABEL")}
+          </span>
+          <div className="border-input bg-background flex items-center rounded border">
+            <BandNumber
+              value={props.entry.min}
+              placeholder="0"
+              ariaLabel={t("TOKEN.FORM.BAND_MIN")}
+              onCommit={(next) =>
+                setBand(next ?? 0, props.entry.max ?? BAND_MAX)
+              }
+            />
+            <span className="text-muted-foreground px-0.5 text-[11px]">-</span>
+            <BandNumber
+              value={props.entry.max}
+              placeholder={`${BAND_MAX}+`}
+              ariaLabel={t("TOKEN.FORM.BAND_MAX")}
+              onCommit={(next) =>
+                setBand(props.entry.min ?? 0, next ?? BAND_MAX)
+              }
+            />
           </div>
         </div>
-        <Command shouldFilter={false}>
-          {props.options.length > GROUP_SEARCH_THRESHOLD && (
-            <div className="flex items-center border-b pl-3">
-              {/* pl-3 matches the row checkboxes: CommandGroup p-1 + CommandItem px-2 */}
-              {/* Scoped to what the search shows, so with a filter active this
-                  takes a whole vendor's lanes in one click. */}
-              <button
-                type="button"
-                aria-label={t(
-                  allShownSelected
-                    ? "TOKEN.FORM.GROUP_SELECT_NONE"
-                    : "TOKEN.FORM.GROUP_SELECT_ALL",
-                )}
-                title={t(
-                  allShownSelected
-                    ? "TOKEN.FORM.GROUP_SELECT_NONE"
-                    : "TOKEN.FORM.GROUP_SELECT_ALL",
-                )}
-                onClick={() => {
-                  const shown = options.map((o) => o.group);
-                  const next = allShownSelected
-                    ? selected.filter((g) => !shown.includes(g))
-                    : [...new Set([...selected, ...shown])];
-                  props.onChange({
-                    ...props.entry,
-                    groups: next,
-                    auto: undefined,
-                  });
-                }}
-              >
-                <CheckBox checked={allShownSelected} />
-              </button>
-              {/* The primitive wraps the input in a block div, which in this
-                  flex row would shrink to the placeholder's width. */}
-              <CommandInput
-                placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
-                value={search}
-                onValueChange={setSearch}
-                wrapperClassName="flex-1 pb-1"
-              />
-            </div>
+        <Slider
+          min={0}
+          max={BAND_STEPS}
+          step={1}
+          value={[bandRatioToPos(bandLow), bandRatioToPos(bandHigh)]}
+          aria-label={t("TOKEN.FORM.BAND_LABEL")}
+          onValueChange={(value) => {
+            if (!Array.isArray(value)) return;
+            const [low, high] = value;
+            setBand(
+              roundBand(bandPosToRatio(low)),
+              roundBand(bandPosToRatio(high)),
+            );
+          }}
+        />
+        <div className="mt-1.5 flex items-center justify-between gap-2">
+          <span className="text-muted-foreground text-[10px]">
+            {hasBand ? "" : t("TOKEN.FORM.BAND_HINT")}
+          </span>
+          {hasBand && (
+            <button
+              type="button"
+              className="text-muted-foreground hover:text-foreground text-[10px] underline"
+              onClick={() =>
+                props.onChange({
+                  ...props.entry,
+                  min: undefined,
+                  max: undefined,
+                })
+              }
+            >
+              {t("TOKEN.FORM.BAND_CLEAR")}
+            </button>
           )}
-          <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
-            <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
-            <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  key={option.group}
-                  value={option.group}
-                  onSelect={() => toggleGroup(option.group)}
-                  className={cn(
-                    "[&>svg]:hidden",
-                    !option.online && "opacity-50",
-                  )}
-                >
-                  <CheckBox checked={selected.includes(option.group)} />
-                  {/* Same taxonomy as the chat model drawer's UptimeDot:
+        </div>
+      </div>
+      <Command shouldFilter={false}>
+        {props.options.length > GROUP_SEARCH_THRESHOLD && (
+          <div className="flex items-center border-b pl-3">
+            {/* pl-3 matches the row checkboxes: CommandGroup p-1 + CommandItem px-2 */}
+            {/* Scoped to what the search shows, so with a filter active this
+                  takes a whole vendor's lanes in one click. */}
+            <button
+              type="button"
+              aria-label={t(
+                allShownSelected
+                  ? "TOKEN.FORM.GROUP_SELECT_NONE"
+                  : "TOKEN.FORM.GROUP_SELECT_ALL",
+              )}
+              title={t(
+                allShownSelected
+                  ? "TOKEN.FORM.GROUP_SELECT_NONE"
+                  : "TOKEN.FORM.GROUP_SELECT_ALL",
+              )}
+              onClick={() => {
+                const shown = options.map((o) => o.group);
+                const next = allShownSelected
+                  ? selected.filter((g) => !shown.includes(g))
+                  : [...new Set([...selected, ...shown])];
+                props.onChange({
+                  ...props.entry,
+                  groups: next,
+                  auto: undefined,
+                });
+              }}
+            >
+              <CheckBox checked={allShownSelected} />
+            </button>
+            {/* The primitive wraps the input in a block div, which in this
+                  flex row would shrink to the placeholder's width. */}
+            <CommandInput
+              placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
+              value={search}
+              onValueChange={setSearch}
+              wrapperClassName="flex-1 pb-1"
+            />
+          </div>
+        )}
+        <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
+          <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
+          <CommandGroup>
+            {options.map((option) => (
+              <CommandItem
+                key={option.group}
+                value={option.group}
+                onSelect={() => toggleGroup(option.group)}
+                className={cn("[&>svg]:hidden", !option.online && "opacity-50")}
+              >
+                <CheckBox checked={selected.includes(option.group)} />
+                {/* Same taxonomy as the chat model drawer's UptimeDot:
                       destructive = nothing behind it is serving right now. */}
-                  <span
-                    className={cn(
-                      "mr-1.5 h-2 w-2 shrink-0 rounded-full",
-                      option.online ? "bg-success" : "bg-destructive",
-                    )}
-                    title={
-                      option.online
-                        ? undefined
-                        : t(
-                            option.missing
-                              ? "TOKEN.FORM.GROUP_MISSING"
-                              : "TOKEN.FORM.GROUP_OFFLINE",
-                          )
-                    }
-                  />
-                  <span
-                    className="truncate font-mono text-xs"
-                    title={
-                      option.online
-                        ? option.group
-                        : `${option.group} - ${t(
-                            option.missing
-                              ? "TOKEN.FORM.GROUP_MISSING"
-                              : "TOKEN.FORM.GROUP_OFFLINE",
-                          )}`
-                    }
-                  >
-                    {groupDisplayLabel(
-                      option.group,
-                      props.model.replace(/:/g, "-"),
-                    )}
+                <span
+                  className={cn(
+                    "mr-1.5 h-2 w-2 shrink-0 rounded-full",
+                    option.online ? "bg-success" : "bg-destructive",
+                  )}
+                  title={
+                    option.online
+                      ? undefined
+                      : t(
+                          option.missing
+                            ? "TOKEN.FORM.GROUP_MISSING"
+                            : "TOKEN.FORM.GROUP_OFFLINE",
+                        )
+                  }
+                />
+                <span
+                  className="truncate font-mono text-xs"
+                  title={
+                    option.online
+                      ? option.group
+                      : `${option.group} - ${t(
+                          option.missing
+                            ? "TOKEN.FORM.GROUP_MISSING"
+                            : "TOKEN.FORM.GROUP_OFFLINE",
+                        )}`
+                  }
+                >
+                  {groupDisplayLabel(
+                    option.group,
+                    props.model.replace(/:/g, "-"),
+                  )}
+                </span>
+                <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
+                  <span className="block">
+                    {option.missing
+                      ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
+                      : ratioLabel(option.ratio)}
                   </span>
-                  <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
-                    <span className="block">
-                      {option.missing
-                        ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
-                        : ratioLabel(option.ratio)}
+                  {priceLabel(props.price, option.ratio, cheapestRatio) && (
+                    <span className="block opacity-70">
+                      {priceLabel(props.price, option.ratio, cheapestRatio)}
                     </span>
-                    {priceLabel(props.price, option.ratio, cheapestRatio) && (
-                      <span className="block opacity-70">
-                        {priceLabel(props.price, option.ratio, cheapestRatio)}
-                      </span>
-                    )}
-                  </span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+                  )}
+                </span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
   );
 }
 
@@ -684,6 +673,9 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const [typeFilter, setTypeFilter] = useState("Text");
   const [openModel, setOpenModel] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
+  // Overridden models sort first; taken once per open, so a row never jumps
+  // away under the cursor while its providers are being changed.
+  const [orderSnapshot, setOrderSnapshot] = useState<Set<string>>(new Set());
 
   const modelGroups = buildModelGroupOptions(props.groups, props.mapping);
   mergeHiddenPreviewLanes(
@@ -718,19 +710,21 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
       query ? m.model_name.toLowerCase().includes(query) : m.tag === activeTag,
     )
     .sort((a, b) => {
-      const aOv = !!props.mapping[a.model_name];
-      const bOv = !!props.mapping[b.model_name];
+      const aOv = orderSnapshot.has(a.model_name);
+      const bOv = orderSnapshot.has(b.model_name);
       if (aOv !== bOv) return aOv ? -1 : 1;
       return b.release_ts - a.release_ts;
     });
 
   const [scrollTop, setScrollTop] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
   const startIdx = Math.max(0, Math.floor(scrollTop / MODEL_ROW_PX) - 10);
   const endIdx = Math.min(
     visibleModels.length,
     Math.ceil((scrollTop + LIST_VIEWPORT_PX) / MODEL_ROW_PX) + 10,
   );
   const windowedModels = visibleModels.slice(startIdx, endIdx);
+  const openRow = overridableModels.find((m) => m.model_name === openModel);
 
   return (
     <FormField
@@ -746,7 +740,14 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
         return (
           <FormItem>
-            <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
+            <Popover
+              open={pickerOpen}
+              onOpenChange={(open) => {
+                setPickerOpen(open);
+                setOpenModel(null);
+                if (open) setOrderSnapshot(new Set(Object.keys(props.mapping)));
+              }}
+            >
               <PopoverTrigger
                 render={
                   <FormControl>
@@ -771,91 +772,95 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                 }
               />
               <PopoverContent className="w-(--anchor-width) p-0" align="start">
-                <Command shouldFilter={false}>
-                  <CommandInput
-                    placeholder={t("TOKEN.FORM.GROUP_MODEL_SEARCH")}
-                    value={search}
-                    onValueChange={setSearch}
+                {openRow ? (
+                  <ModelGroupPanel
+                    model={openRow.model_name}
+                    vendor={openRow.vendor}
+                    price={props.prices.get(openRow.model_name)}
+                    options={
+                      modelGroups.get(modelKey(openRow.model_name)) ?? []
+                    }
+                    entry={entryOf(props.mapping, openRow.model_name)}
+                    onChange={(next) => setModelEntry(openRow.model_name, next)}
+                    onBack={() => {
+                      setOpenModel(null);
+                      requestAnimationFrame(() => {
+                        if (listRef.current)
+                          listRef.current.scrollTop = scrollTop;
+                      });
+                    }}
                   />
-                  {tags.length > 1 && !query && (
-                    <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
-                      {tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant={activeTag === tag ? "default" : "outline"}
-                          className="cursor-pointer text-[10px]"
-                          onClick={() => setTypeFilter(tag)}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                  {overriddenModels.length > 0 && (
-                    <div className="text-muted-foreground flex items-center justify-between border-b px-3 py-1.5 text-[11px]">
-                      <span>
-                        {t("TOKEN.FORM.GROUP_OVERRIDES_COUNT", {
-                          count: overriddenModels.length,
-                        })}
-                      </span>
-                      <button
-                        type="button"
-                        className="hover:text-foreground underline"
-                        onClick={() => field.onChange({})}
-                      >
-                        {t("TOKEN.FORM.GROUP_CLEAR_ALL")}
-                      </button>
-                    </div>
-                  )}
-                  <CommandList
-                    className="max-h-72"
-                    onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
-                  >
-                    <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
-                    <CommandGroup>
-                      {startIdx > 0 && (
-                        <div
-                          aria-hidden
-                          style={{ height: startIdx * MODEL_ROW_PX }}
-                        />
-                      )}
-                      {windowedModels.map((model) => {
-                        const entry = entryOf(props.mapping, model.model_name);
-                        const options =
-                          modelGroups.get(modelKey(model.model_name)) ?? [];
-                        const bandOn =
-                          entry.min !== undefined || entry.max !== undefined;
-                        const overridden = entryOverrides(entry);
-                        const cheapest = options.find((o) =>
-                          entry.groups.includes(o.group),
-                        );
-                        const bandCount = bandOn
-                          ? groupsInBand(options, entry.min, entry.max).length
-                          : 0;
-                        return (
-                          <ModelGroupPopover
-                            key={model.model_name}
-                            model={model.model_name}
-                            price={props.prices.get(model.model_name)}
-                            options={options}
-                            entry={entry}
-                            onChange={(next) =>
-                              setModelEntry(model.model_name, next)
-                            }
-                            open={openModel === model.model_name}
-                            onOpenChange={(open) =>
-                              setOpenModel(open ? model.model_name : null)
-                            }
+                ) : (
+                  <Command shouldFilter={false}>
+                    <CommandInput
+                      placeholder={t("TOKEN.FORM.GROUP_MODEL_SEARCH")}
+                      value={search}
+                      onValueChange={setSearch}
+                    />
+                    {tags.length > 1 && !query && (
+                      <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
+                        {tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant={activeTag === tag ? "default" : "outline"}
+                            className="cursor-pointer text-[10px]"
+                            onClick={() => setTypeFilter(tag)}
                           >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    {overriddenModels.length > 0 && (
+                      <div className="text-muted-foreground flex items-center justify-between border-b px-3 py-1.5 text-[11px]">
+                        <span>
+                          {t("TOKEN.FORM.GROUP_OVERRIDES_COUNT", {
+                            count: overriddenModels.length,
+                          })}
+                        </span>
+                        <button
+                          type="button"
+                          className="hover:text-foreground underline"
+                          onClick={() => field.onChange({})}
+                        >
+                          {t("TOKEN.FORM.GROUP_CLEAR_ALL")}
+                        </button>
+                      </div>
+                    )}
+                    <CommandList
+                      ref={listRef}
+                      className="max-h-72"
+                      onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
+                    >
+                      <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
+                      <CommandGroup>
+                        {startIdx > 0 && (
+                          <div
+                            aria-hidden
+                            style={{ height: startIdx * MODEL_ROW_PX }}
+                          />
+                        )}
+                        {windowedModels.map((model) => {
+                          const entry = entryOf(
+                            props.mapping,
+                            model.model_name,
+                          );
+                          const options =
+                            modelGroups.get(modelKey(model.model_name)) ?? [];
+                          const bandOn =
+                            entry.min !== undefined || entry.max !== undefined;
+                          const overridden = entryOverrides(entry);
+                          const cheapest = options.find((o) =>
+                            entry.groups.includes(o.group),
+                          );
+                          const bandCount = bandOn
+                            ? groupsInBand(options, entry.min, entry.max).length
+                            : 0;
+                          return (
                             <CommandItem
+                              key={model.model_name}
                               value={model.model_name}
-                              onSelect={() =>
-                                setOpenModel(
-                                  openModel === model.model_name
-                                    ? null
-                                    : model.model_name,
-                                )
-                              }
+                              onSelect={() => setOpenModel(model.model_name)}
                               className={cn(
                                 "h-8.25 [&>svg]:hidden",
                                 overridden && "border-primary border-l-2",
@@ -893,21 +898,21 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                                 />
                               </span>
                             </CommandItem>
-                          </ModelGroupPopover>
-                        );
-                      })}
-                      {endIdx < visibleModels.length && (
-                        <div
-                          aria-hidden
-                          style={{
-                            height:
-                              (visibleModels.length - endIdx) * MODEL_ROW_PX,
-                          }}
-                        />
-                      )}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
+                          );
+                        })}
+                        {endIdx < visibleModels.length && (
+                          <div
+                            aria-hidden
+                            style={{
+                              height:
+                                (visibleModels.length - endIdx) * MODEL_ROW_PX,
+                            }}
+                          />
+                        )}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                )}
               </PopoverContent>
             </Popover>
           </FormItem>
