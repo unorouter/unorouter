@@ -352,6 +352,7 @@ async function placeOnBranch(
   messageId: string,
   requestedParentId: string | null,
   now: Date,
+  role: string,
 ): Promise<BranchPlacement> {
   let parentId = requestedParentId;
   let parentBranchVars: string | null = null;
@@ -363,6 +364,34 @@ async function placeOnBranch(
     // A requested parent that isn't persisted would FK-fail the insert.
     if (parentId && !existing.some((m) => m.id === parentId)) {
       parentId = tipRow?.id ?? null;
+    }
+    // A history load during a new chat's first send can drop the user's
+    // message from the runtime, which then parents the reply on the greeting
+    // and hides the message on a dead branch. The fresh childless user turn
+    // under that same parent is the one this reply answers.
+    if (role === "assistant" && parentId) {
+      const newest = existing.reduce<(typeof existing)[number] | undefined>(
+        (a, m) =>
+          !a || dayjs(m.createdAt).valueOf() > dayjs(a.createdAt).valueOf()
+            ? m
+            : a,
+        undefined,
+      );
+      if (
+        newest &&
+        newest.role === "user" &&
+        newest.parentId === parentId &&
+        now.getTime() - dayjs(newest.createdAt).valueOf() < 120_000 &&
+        !existing.some((m) => m.parentId === newest.id)
+      ) {
+        logChatDebug("history.reparent", {
+          convId,
+          messageId,
+          from: parentId,
+          to: newest.id,
+        });
+        parentId = newest.id;
+      }
     }
     const parentRow = parentId
       ? existing.find((m) => m.id === parentId)
@@ -636,7 +665,13 @@ export function createChatHistoryAdapter(
                 parentBranchVars: existingRow.branchVars ?? null,
                 nextBranchIndex: existingRow.branchIndex ?? 0,
               }
-            : await placeOnBranch(id, messageId, item.parentId ?? null, now);
+            : await placeOnBranch(
+                id,
+                messageId,
+                item.parentId ?? null,
+                now,
+                content.role,
+              );
           const branchVars = isAssistant
             ? (varsWriteback ?? placement.parentBranchVars)
             : placement.parentBranchVars;
