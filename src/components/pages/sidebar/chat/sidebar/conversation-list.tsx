@@ -305,7 +305,7 @@ export function ConversationList() {
   const listContent = (
     <>
       {searchInput}
-      <div className="mt-2">
+      <div className="thin-scrollbar mt-2 min-h-0 flex-1 overflow-y-auto">
         <SectionBoundary source="chat.conversation_list">
           {conversationItems}
         </SectionBoundary>
@@ -327,7 +327,11 @@ export function ConversationList() {
                 >
                   <Icon name="search" className="size-4" />
                 </PopoverTrigger>
-                <PopoverContent side="right" align="start" className="w-72 p-2">
+                <PopoverContent
+                  side="right"
+                  align="start"
+                  className="flex max-h-(--available-height) w-72 flex-col p-2"
+                >
                   {listContent}
                 </PopoverContent>
               </Popover>
