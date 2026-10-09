@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useJsPluginsQuery } from "@/hooks/ai/js-plugins-hook";
 import { useCardsQuery } from "@/hooks/ai/rp/cards";
@@ -30,6 +31,8 @@ export function BackupReminder() {
   const t = useTranslations();
   const qc = useQueryClient();
   const router = useRouter();
+  // Settings is login only; guests change the interval from the Database menu.
+  const loggedIn = !!useAuthQuery().data;
   const customCount = [
     useCharactersQuery().data,
     useLorebooksQuery().data,
@@ -87,19 +90,21 @@ export function BackupReminder() {
                 ? "CHAT.BACKUP_NOTICE_NOT_PERSISTED"
                 : "CHAT.BACKUP_NOTICE_LOCAL_ONLY",
             )}
-            <button
-              type="button"
-              className="underline underline-offset-2"
-              onClick={() => {
-                toast.dismiss(TOAST_ID);
-                router.push({
-                  pathname: "/settings",
-                  query: { section: "backup" },
-                });
-              }}
-            >
-              {t("CHAT.BACKUP_SETTINGS")}
-            </button>
+            {loggedIn && (
+              <button
+                type="button"
+                className="underline underline-offset-2"
+                onClick={() => {
+                  toast.dismiss(TOAST_ID);
+                  router.push({
+                    pathname: "/settings",
+                    query: { section: "backup" },
+                  });
+                }}
+              >
+                {t("CHAT.BACKUP_SETTINGS")}
+              </button>
+            )}
           </span>
         ),
         action: { label: t("CHAT.BACKUP_NOW"), onClick: () => void backUp() },
@@ -112,7 +117,7 @@ export function BackupReminder() {
         },
       },
     );
-  }, [due, ageDays, notPersisted, qc, t, router]);
+  }, [due, ageDays, notPersisted, qc, t, router, loggedIn]);
 
   return null;
 }
