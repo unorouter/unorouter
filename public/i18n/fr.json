@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Aucune sauvegarde pour l'instant.",
     "BACKUP_NOTICE_LAST": "Dernière sauvegarde {days, plural, =0 {aujourd'hui} one {il y a # jour} other {il y a # jours}}.",
     "BACKUP_LATER": "Plus tard",
-    "BACKUP_NOW": "Sauvegarder maintenant"
+    "BACKUP_NOW": "Sauvegarder maintenant",
+    "BACKUP_SETTINGS": "Réglages du rappel"
   },
   "ROOM": {
     "HOST_TITLE": "Salon multijoueur",

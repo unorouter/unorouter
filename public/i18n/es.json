@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Todavía no hay copia de seguridad.",
     "BACKUP_NOTICE_LAST": "Última copia {days, plural, =0 {hoy} one {hace # día} other {hace # días}}.",
     "BACKUP_LATER": "Más tarde",
-    "BACKUP_NOW": "Hacer copia ahora"
+    "BACKUP_NOW": "Hacer copia ahora",
+    "BACKUP_SETTINGS": "Ajustes del recordatorio"
   },
   "ROOM": {
     "HOST_TITLE": "Sala multijugador",

@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Henüz yedek yok.",
     "BACKUP_NOTICE_LAST": "Son yedek {days, plural, =0 {bugün} other {# gün önce}}.",
     "BACKUP_LATER": "Daha sonra",
-    "BACKUP_NOW": "Şimdi yedekle"
+    "BACKUP_NOW": "Şimdi yedekle",
+    "BACKUP_SETTINGS": "Hatırlatıcı ayarları"
   },
   "ROOM": {
     "HOST_TITLE": "Çok oyunculu oda",

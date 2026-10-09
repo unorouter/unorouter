@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "還沒有備份。",
     "BACKUP_NOTICE_LAST": "上次備份：{days, plural, =0 {今天} other {# 天前}}。",
     "BACKUP_LATER": "稍後",
-    "BACKUP_NOW": "立即備份"
+    "BACKUP_NOW": "立即備份",
+    "BACKUP_SETTINGS": "提醒設定"
   },
   "ROOM": {
     "HOST_TITLE": "多人房間",

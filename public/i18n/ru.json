@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Резервной копии пока нет.",
     "BACKUP_NOTICE_LAST": "Последняя копия {days, plural, =0 {сегодня} one {# день назад} few {# дня назад} many {# дней назад} other {# дня назад}}.",
     "BACKUP_LATER": "Позже",
-    "BACKUP_NOW": "Сделать копию"
+    "BACKUP_NOW": "Сделать копию",
+    "BACKUP_SETTINGS": "Настройки напоминания"
   },
   "ROOM": {
     "HOST_TITLE": "Комната для совместной игры",

@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "まだバックアップがありません。",
     "BACKUP_NOTICE_LAST": "最後のバックアップ: {days, plural, =0 {今日} other {# 日前}}。",
     "BACKUP_LATER": "後で",
-    "BACKUP_NOW": "今すぐバックアップ"
+    "BACKUP_NOW": "今すぐバックアップ",
+    "BACKUP_SETTINGS": "リマインダーの設定"
   },
   "ROOM": {
     "HOST_TITLE": "マルチプレイルーム",

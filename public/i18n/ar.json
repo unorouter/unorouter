@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "لا توجد نسخة احتياطية بعد.",
     "BACKUP_NOTICE_LAST": "آخر نسخة احتياطية {days, plural, =0 {اليوم} one {قبل يوم واحد} two {قبل يومين} few {قبل # أيام} many {قبل # يومًا} other {قبل # يوم}}.",
     "BACKUP_LATER": "لاحقًا",
-    "BACKUP_NOW": "انسخ احتياطيًا الآن"
+    "BACKUP_NOW": "انسخ احتياطيًا الآن",
+    "BACKUP_SETTINGS": "إعدادات التذكير"
   },
   "ROOM": {
     "HOST_TITLE": "غرفة متعددة اللاعبين",

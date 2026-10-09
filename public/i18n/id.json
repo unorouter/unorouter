@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Belum ada cadangan.",
     "BACKUP_NOTICE_LAST": "Cadangan terakhir {days, plural, =0 {hari ini} other {# hari lalu}}.",
     "BACKUP_LATER": "Nanti",
-    "BACKUP_NOW": "Cadangkan sekarang"
+    "BACKUP_NOW": "Cadangkan sekarang",
+    "BACKUP_SETTINGS": "Pengaturan pengingat"
   },
   "ROOM": {
     "HOST_TITLE": "Ruang multipemain",

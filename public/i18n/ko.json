@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "아직 백업이 없습니다.",
     "BACKUP_NOTICE_LAST": "마지막 백업: {days, plural, =0 {오늘} other {#일 전}}.",
     "BACKUP_LATER": "나중에",
-    "BACKUP_NOW": "지금 백업"
+    "BACKUP_NOW": "지금 백업",
+    "BACKUP_SETTINGS": "알림 설정"
   },
   "ROOM": {
     "HOST_TITLE": "멀티플레이 방",

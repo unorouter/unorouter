@@ -15,6 +15,7 @@ import {
   snoozeBackupReminder,
 } from "@/lib/utils/backup-reminder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -28,6 +29,7 @@ const RECHECK_MS = 30 * 60_000;
 export function BackupReminder() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const router = useRouter();
   const customCount = [
     useCharactersQuery().data,
     useLorebooksQuery().data,
@@ -78,10 +80,27 @@ export function BackupReminder() {
       {
         id: TOAST_ID,
         duration: Infinity,
-        description: t(
-          notPersisted
-            ? "CHAT.BACKUP_NOTICE_NOT_PERSISTED"
-            : "CHAT.BACKUP_NOTICE_LOCAL_ONLY",
+        description: (
+          <span className="flex flex-col items-start gap-1">
+            {t(
+              notPersisted
+                ? "CHAT.BACKUP_NOTICE_NOT_PERSISTED"
+                : "CHAT.BACKUP_NOTICE_LOCAL_ONLY",
+            )}
+            <button
+              type="button"
+              className="underline underline-offset-2"
+              onClick={() => {
+                toast.dismiss(TOAST_ID);
+                router.push({
+                  pathname: "/settings",
+                  query: { section: "backup" },
+                });
+              }}
+            >
+              {t("CHAT.BACKUP_SETTINGS")}
+            </button>
+          </span>
         ),
         action: { label: t("CHAT.BACKUP_NOW"), onClick: () => void backUp() },
         cancel: {
@@ -93,7 +112,7 @@ export function BackupReminder() {
         },
       },
     );
-  }, [due, ageDays, notPersisted, qc, t]);
+  }, [due, ageDays, notPersisted, qc, t, router]);
 
   return null;
 }

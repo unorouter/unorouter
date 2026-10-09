@@ -23,8 +23,9 @@ import {
   setReminderInterval,
 } from "@/lib/utils/backup-reminder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 // All of it is per browser and kept outside the database, so restoring a
@@ -34,6 +35,12 @@ export function BackupCard() {
   const locale = useLocale();
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const focused = useSearchParams().get("section") === "backup";
+  // Opened from the backup reminder: the card sits at the bottom of the page.
+  useEffect(() => {
+    if (focused) cardRef.current?.scrollIntoView({ block: "center" });
+  }, [focused]);
   const stateQuery = useQuery({
     queryKey: queryKeys.backupReminder(),
     queryFn: () => ({ ...readBackupState(), now: Date.now() }),
@@ -67,7 +74,7 @@ export function BackupCard() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
         <CardTitle>{t("SETTINGS.BACKUP.TITLE")}</CardTitle>
         <CardDescription>{t("SETTINGS.BACKUP.DESCRIPTION")}</CardDescription>

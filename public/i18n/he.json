@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "עדיין אין גיבוי.",
     "BACKUP_NOTICE_LAST": "גיבוי אחרון {days, plural, =0 {היום} one {לפני יום} two {לפני יומיים} other {לפני # ימים}}.",
     "BACKUP_LATER": "אחר כך",
-    "BACKUP_NOW": "גבו עכשיו"
+    "BACKUP_NOW": "גבו עכשיו",
+    "BACKUP_SETTINGS": "הגדרות תזכורת"
   },
   "ROOM": {
     "HOST_TITLE": "חדר מרובה משתתפים",

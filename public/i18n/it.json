@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Nessun backup ancora.",
     "BACKUP_NOTICE_LAST": "Ultimo backup {days, plural, =0 {oggi} one {# giorno fa} other {# giorni fa}}.",
     "BACKUP_LATER": "Più tardi",
-    "BACKUP_NOW": "Fai il backup ora"
+    "BACKUP_NOW": "Fai il backup ora",
+    "BACKUP_SETTINGS": "Impostazioni promemoria"
   },
   "ROOM": {
     "HOST_TITLE": "Stanza multigiocatore",

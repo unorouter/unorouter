@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Nenhum backup ainda.",
     "BACKUP_NOTICE_LAST": "Último backup {days, plural, =0 {hoje} one {há # dia} other {há # dias}}.",
     "BACKUP_LATER": "Depois",
-    "BACKUP_NOW": "Fazer backup agora"
+    "BACKUP_NOW": "Fazer backup agora",
+    "BACKUP_SETTINGS": "Configurações do lembrete"
   },
   "ROOM": {
     "HOST_TITLE": "Sala multijogador",

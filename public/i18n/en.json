@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "No backup yet.",
     "BACKUP_NOTICE_LAST": "Last backup {days, plural, =0 {today} one {# day ago} other {# days ago}}.",
     "BACKUP_LATER": "Later",
-    "BACKUP_NOW": "Back up now"
+    "BACKUP_NOW": "Back up now",
+    "BACKUP_SETTINGS": "Reminder settings"
   },
   "ROOM": {
     "HOST_TITLE": "Multiplayer room",

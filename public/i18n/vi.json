@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Chưa có bản sao lưu.",
     "BACKUP_NOTICE_LAST": "Lần sao lưu gần nhất {days, plural, =0 {hôm nay} other {# ngày trước}}.",
     "BACKUP_LATER": "Để sau",
-    "BACKUP_NOW": "Sao lưu ngay"
+    "BACKUP_NOW": "Sao lưu ngay",
+    "BACKUP_SETTINGS": "Cài đặt nhắc nhở"
   },
   "ROOM": {
     "HOST_TITLE": "Phòng nhiều người",

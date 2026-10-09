@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "Brak kopii zapasowej.",
     "BACKUP_NOTICE_LAST": "Ostatnia kopia {days, plural, =0 {dzisiaj} one {# dzień temu} few {# dni temu} many {# dni temu} other {# dnia temu}}.",
     "BACKUP_LATER": "Później",
-    "BACKUP_NOW": "Utwórz kopię teraz"
+    "BACKUP_NOW": "Utwórz kopię teraz",
+    "BACKUP_SETTINGS": "Ustawienia przypomnień"
   },
   "ROOM": {
     "HOST_TITLE": "Pokój wieloosobowy",

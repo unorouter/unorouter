@@ -4019,7 +4019,8 @@
     "BACKUP_NOTICE_NEVER": "अभी तक कोई बैकअप नहीं।",
     "BACKUP_NOTICE_LAST": "पिछला बैकअप {days, plural, =0 {आज} one {# दिन पहले} other {# दिन पहले}}।",
     "BACKUP_LATER": "बाद में",
-    "BACKUP_NOW": "अभी बैकअप लें"
+    "BACKUP_NOW": "अभी बैकअप लें",
+    "BACKUP_SETTINGS": "रिमाइंडर सेटिंग्स"
   },
   "ROOM": {
     "HOST_TITLE": "मल्टीप्लेयर रूम",
