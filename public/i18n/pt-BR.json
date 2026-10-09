@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Importar card",
     "CARDS_IMPORT_PARTIAL": "Card importado, mas {count} itens não estavam neste dispositivo e foram ignorados.",
     "PRESET_REASONING_EFFORT_HINT": "Quanto o modelo pensa antes de responder. A configuração da conversa substitui esta; vazio significa o padrão do modelo.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Definir todos os papéis"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Definir todos os papéis",
+    "PRESET_KEEP_SYSTEM_ROLES": "Manter papéis de sistema como escritos",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Envia cada mensagem de sistema como uma mensagem de sistema real onde o preset a coloca, incluindo injeções finais. Ignora modelos que normalmente dobram o texto de sistema em turnos de usuário (GLM, Kimi, DeepSeek, Gemini). Alguns provedores rejeitam uma mensagem de sistema depois do primeiro turno."
   },
   "ERRORS": {
     "MISSING_ENV": "Variável de ambiente obrigatória ausente: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "As instruções pós-histórico são injetadas depois do histórico do chat, com um papel configurável. Estar por último dá a elas o maior peso sobre a próxima resposta.",
       "P_PROMPTS_3": "O prefill semeia o início da resposta do assistente, para direcionar modelos que aceitam continuação do lado do assistente.",
       "H_DEFAULT": "Preset padrão",
-      "P_DEFAULT_1": "Marque um preset como padrão para chats novos ou fixe outro no loadout. Duplique um preset antes de experimentar."
+      "P_DEFAULT_1": "Marque um preset como padrão para chats novos ou fixe outro no loadout. Duplique um preset antes de experimentar.",
+      "B_KEEP_SYSTEM_ROLES": "Envia mensagens de sistema como escritas, inclusive as tardias, em todos os modelos."
     },
     "PROMPT_TEMPLATE": {
       "META": {

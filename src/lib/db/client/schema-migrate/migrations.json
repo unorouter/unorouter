@@ -47,6 +47,10 @@
     {
       "tag": "0011_motionless_hellfire_club",
       "sql": "ALTER TABLE `request_logs` ADD `cached_input_tokens` integer;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `disable_caching` integer DEFAULT false NOT NULL;"
+    },
+    {
+      "tag": "0012_calm_joseph",
+      "sql": "ALTER TABLE `sampling_presets` ADD `keep_system_roles` integer DEFAULT false NOT NULL;"
     }
   ]
 }

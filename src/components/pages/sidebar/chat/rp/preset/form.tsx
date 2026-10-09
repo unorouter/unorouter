@@ -543,6 +543,16 @@ export function PresetForm(props: Props) {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="keepSystemRoles"
+                  label={t("RP.PRESET_KEEP_SYSTEM_ROLES")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_KEEP_SYSTEM_ROLES_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
                 <MyFormTextarea
                   control={form.control}
                   name="continuePrompt"

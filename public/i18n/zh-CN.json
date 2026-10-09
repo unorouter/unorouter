@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "导入卡片",
     "CARDS_IMPORT_PARTIAL": "卡片已导入，但有 {count} 项不在此设备上，已跳过。",
     "PRESET_REASONING_EFFORT_HINT": "模型回答前思考的深度。聊天内设置会覆盖此项；留空表示使用模型默认值。",
-    "LOREBOOK_ENTRIES_SET_ROLE": "设置全部角色"
+    "LOREBOOK_ENTRIES_SET_ROLE": "设置全部角色",
+    "PRESET_KEEP_SYSTEM_ROLES": "按原样保留系统角色",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "在预设放置的位置，把每条系统消息作为真正的系统消息发送，包括末尾注入。会覆盖通常把系统文本并入用户轮次的模型（GLM、Kimi、DeepSeek、Gemini）。有些提供商会拒绝第一轮之后的系统消息。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必需的环境变量：{var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "历史后指令会以可配置的角色注入到聊天历史之后。位于最后使它对下一条回复的影响最强。",
       "P_PROMPTS_3": "预填会给出助手回答的开头，用于引导支持助手侧续写的模型。",
       "H_DEFAULT": "默认预设",
-      "P_DEFAULT_1": "把某个预设设为新对话的默认，或在配装中固定另一个。在试验之前先复制一份预设。"
+      "P_DEFAULT_1": "把某个预设设为新对话的默认，或在配装中固定另一个。在试验之前先复制一份预设。",
+      "B_KEEP_SYSTEM_ROLES": "在所有模型上按原样发送系统消息，包括靠后的消息。"
     },
     "PROMPT_TEMPLATE": {
       "META": {

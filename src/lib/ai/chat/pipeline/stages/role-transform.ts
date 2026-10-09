@@ -34,7 +34,9 @@ export async function transformRoles(
   luaCodes: string[],
 ): Promise<RoleTransformed> {
   const autoFlags = getModelRoleFlags(model);
-  const noSystemRole = assembled.flags.noSystemRole || !autoFlags.fullSystem;
+  const keepSystem = assembled.flags.keepSystemRoles;
+  const noSystemRole =
+    assembled.flags.noSystemRole || (!autoFlags.fullSystem && !keepSystem);
   const forceAlternateRoles =
     assembled.flags.forceAlternateRoles || autoFlags.alternateRoles;
   const mustStartWithUserInput =
@@ -67,7 +69,7 @@ export async function transformRoles(
   processedMessages = dropFailedAssistantTurns(processedMessages);
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
-  processedMessages = demoteLateSystem(processedMessages);
+  if (!keepSystem) processedMessages = demoteLateSystem(processedMessages);
   processedMessages = dropEmptyMessages(processedMessages);
   if (prefillText && !prefillEmitted(assembled)) {
     processedMessages = appendPrefill(processedMessages, prefillText);

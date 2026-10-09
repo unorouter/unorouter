@@ -1,0 +1,1 @@
+ALTER TABLE `sampling_presets` ADD `keep_system_roles` integer DEFAULT false NOT NULL;

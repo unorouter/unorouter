@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Import card",
     "CARDS_IMPORT_PARTIAL": "Card imported, but {count} items were not on this device and were skipped.",
     "PRESET_REASONING_EFFORT_HINT": "How much the model thinks before answering. The in-chat conversation setting overrides this; empty means the model's default.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Set all roles"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Set all roles",
+    "PRESET_KEEP_SYSTEM_ROLES": "Keep system roles as written",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Sends every system message as a real system message where the preset puts it, including end injections. Overrides models that normally get system text folded into user turns (GLM, Kimi, DeepSeek, Gemini). Some providers reject a system message after the first turn."
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Post-history instructions are injected after the chat history with a configurable role. Being last gives them the strongest pull on the next reply.",
       "P_PROMPTS_3": "Prefill seeds the start of the assistant's answer, for steering models that support assistant-side continuation.",
       "H_DEFAULT": "Default preset",
-      "P_DEFAULT_1": "Mark a preset as default for new chats, or pin a different one in the loadout. Duplicate a preset before experimenting."
+      "P_DEFAULT_1": "Mark a preset as default for new chats, or pin a different one in the loadout. Duplicate a preset before experimenting.",
+      "B_KEEP_SYSTEM_ROLES": "Sends system messages as written, also late ones, on every model."
     },
     "PROMPT_TEMPLATE": {
       "META": {

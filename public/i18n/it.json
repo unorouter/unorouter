@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Importa carta",
     "CARDS_IMPORT_PARTIAL": "Carta importata, ma {count} elementi non erano su questo dispositivo e sono stati saltati.",
     "PRESET_REASONING_EFFORT_HINT": "Quanto il modello riflette prima di rispondere. L'impostazione della conversazione la sovrascrive; vuoto significa il valore predefinito del modello.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Imposta tutti i ruoli"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Imposta tutti i ruoli",
+    "PRESET_KEEP_SYSTEM_ROLES": "Mantieni i ruoli di sistema come scritti",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Invia ogni messaggio di sistema come vero messaggio di sistema dove il preset lo mette, incluse le iniezioni finali. Ignora i modelli che di solito ripiegano il testo di sistema nei turni utente (GLM, Kimi, DeepSeek, Gemini). Alcuni provider rifiutano un messaggio di sistema dopo il primo turno."
   },
   "ERRORS": {
     "MISSING_ENV": "Variabile d'ambiente richiesta mancante: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Le istruzioni post cronologia vengono iniettate dopo la cronologia della chat con un ruolo configurabile. Essere per ultime dà loro la presa più forte sulla risposta successiva.",
       "P_PROMPTS_3": "Il prefill imposta l'inizio della risposta dell'assistente, utile per guidare i modelli che supportano la continuazione lato assistente.",
       "H_DEFAULT": "Preset predefinito",
-      "P_DEFAULT_1": "Segna un preset come predefinito per le nuove chat, oppure fissane un altro nell'equipaggiamento. Duplica un preset prima di fare esperimenti."
+      "P_DEFAULT_1": "Segna un preset come predefinito per le nuove chat, oppure fissane un altro nell'equipaggiamento. Duplica un preset prima di fare esperimenti.",
+      "B_KEEP_SYSTEM_ROLES": "Invia i messaggi di sistema come scritti, anche quelli tardivi, su ogni modello."
     },
     "PROMPT_TEMPLATE": {
       "META": {

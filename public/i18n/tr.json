@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Kart içe aktar",
     "CARDS_IMPORT_PARTIAL": "Kart içe aktarıldı, ancak {count} öge bu cihazda yoktu ve atlandı.",
     "PRESET_REASONING_EFFORT_HINT": "Modelin yanıtlamadan önce ne kadar düşüneceği. Sohbet ayarı bunu geçersiz kılar; boş, modelin varsayılanı demektir.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Tüm rolleri ayarla"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Tüm rolleri ayarla",
+    "PRESET_KEEP_SYSTEM_ROLES": "Sistem rollerini yazıldığı gibi koru",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Her sistem mesajını, ön ayarın koyduğu yerde gerçek bir sistem mesajı olarak gönderir, son eklemeler dahil. Sistem metninin normalde kullanıcı turlarına katlandığı modelleri (GLM, Kimi, DeepSeek, Gemini) geçersiz kılar. Bazı sağlayıcılar ilk turdan sonraki sistem mesajını reddeder."
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Geçmiş sonrası talimatlar sohbet geçmişinden sonra, yapılandırılabilir bir rolle enjekte edilir. Sonda olmaları bir sonraki yanıt üzerinde en güçlü etkiyi verir.",
       "P_PROMPTS_3": "Ön dolgu, asistan tarafında devam etmeyi destekleyen modelleri yönlendirmek için asistan yanıtının başlangıcını hazırlar.",
       "H_DEFAULT": "Varsayılan ön ayar",
-      "P_DEFAULT_1": "Yeni sohbetler için bir preseti varsayılan yapın ya da donanımda farklı birini sabitleyin. Denemeden önce preseti çoğaltın."
+      "P_DEFAULT_1": "Yeni sohbetler için bir preseti varsayılan yapın ya da donanımda farklı birini sabitleyin. Denemeden önce preseti çoğaltın.",
+      "B_KEEP_SYSTEM_ROLES": "Sistem mesajlarını, geç olanlar dahil, her modelde yazıldığı gibi gönderir."
     },
     "PROMPT_TEMPLATE": {
       "META": {

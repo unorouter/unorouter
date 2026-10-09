@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Importer une carte",
     "CARDS_IMPORT_PARTIAL": "Carte importée, mais {count} éléments absents de cet appareil ont été ignorés.",
     "PRESET_REASONING_EFFORT_HINT": "Intensité de réflexion du modèle avant de répondre. Le réglage de la conversation le remplace; vide signifie la valeur par défaut du modèle.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Définir tous les rôles"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Définir tous les rôles",
+    "PRESET_KEEP_SYSTEM_ROLES": "Garder les rôles système tels quels",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Envoie chaque message système comme un vrai message système à l'endroit où le preset le place, injections de fin comprises. Passe outre les modèles dont le texte système est normalement replié dans les tours utilisateur (GLM, Kimi, DeepSeek, Gemini). Certains fournisseurs refusent un message système après le premier tour."
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Les instructions post-historique sont injectées après l'historique du chat avec un rôle configurable. Être en dernier leur donne le plus fort ascendant sur la réponse suivante.",
       "P_PROMPTS_3": "Le préremplissage amorce le début de la réponse de l'assistant, pour piloter les modèles qui prennent en charge la continuation côté assistant.",
       "H_DEFAULT": "Preset par défaut",
-      "P_DEFAULT_1": "Marquez un préréglage par défaut pour les nouveaux chats, ou épinglez-en un autre dans l'équipement. Dupliquez un préréglage avant d'expérimenter."
+      "P_DEFAULT_1": "Marquez un préréglage par défaut pour les nouveaux chats, ou épinglez-en un autre dans l'équipement. Dupliquez un préréglage avant d'expérimenter.",
+      "B_KEEP_SYSTEM_ROLES": "Envoie les messages système tels qu'écrits, même tardifs, sur tous les modèles."
     },
     "PROMPT_TEMPLATE": {
       "META": {

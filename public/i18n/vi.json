@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Nhập thẻ",
     "CARDS_IMPORT_PARTIAL": "Đã nhập thẻ, nhưng {count} mục không có trên thiết bị này và đã bị bỏ qua.",
     "PRESET_REASONING_EFFORT_HINT": "Mô hình suy nghĩ sâu đến đâu trước khi trả lời. Cài đặt trong cuộc trò chuyện sẽ ghi đè giá trị này; để trống nghĩa là dùng mặc định của mô hình.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Đặt tất cả vai trò"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Đặt tất cả vai trò",
+    "PRESET_KEEP_SYSTEM_ROLES": "Giữ nguyên vai trò hệ thống",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Gửi mọi tin nhắn hệ thống như tin nhắn hệ thống thật ở đúng vị trí preset đặt, kể cả phần chèn cuối. Ghi đè các mô hình thường gộp văn bản hệ thống vào lượt người dùng (GLM, Kimi, DeepSeek, Gemini). Một số nhà cung cấp từ chối tin nhắn hệ thống sau lượt đầu tiên."
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Chỉ dẫn sau lịch sử được chèn sau phần lịch sử trò chuyện với một vai có thể cấu hình. Nằm ở cuối giúp chúng tác động mạnh nhất lên câu trả lời kế tiếp.",
       "P_PROMPTS_3": "Phần điền sẵn gieo mở đầu cho câu trả lời của trợ lý, dùng để điều hướng những mô hình hỗ trợ viết tiếp từ phía trợ lý.",
       "H_DEFAULT": "Preset mặc định",
-      "P_DEFAULT_1": "Đánh dấu một cấu hình dựng sẵn làm mặc định cho cuộc trò chuyện mới, hoặc ghim một cấu hình khác trong bộ trang bị. Hãy nhân bản một cấu hình trước khi thử nghiệm."
+      "P_DEFAULT_1": "Đánh dấu một cấu hình dựng sẵn làm mặc định cho cuộc trò chuyện mới, hoặc ghim một cấu hình khác trong bộ trang bị. Hãy nhân bản một cấu hình trước khi thử nghiệm.",
+      "B_KEEP_SYSTEM_ROLES": "Gửi tin nhắn hệ thống nguyên văn, kể cả tin nhắn muộn, trên mọi mô hình."
     },
     "PROMPT_TEMPLATE": {
       "META": {

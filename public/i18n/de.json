@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Karte importieren",
     "CARDS_IMPORT_PARTIAL": "Karte importiert, aber {count} Einträge sind nicht auf diesem Gerät und wurden übersprungen.",
     "PRESET_REASONING_EFFORT_HINT": "Wie intensiv das Modell vor der Antwort nachdenkt. Die Einstellung im Chat überschreibt diesen Wert; leer bedeutet Modellstandard.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Alle Rollen setzen"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Alle Rollen setzen",
+    "PRESET_KEEP_SYSTEM_ROLES": "System-Rollen wie geschrieben senden",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Sendet jede Systemnachricht als echte Systemnachricht an der Stelle, an die das Preset sie setzt, auch Ende-Injektionen. Überschreibt Modelle, bei denen Systemtext sonst in Nutzer-Nachrichten gefaltet wird (GLM, Kimi, DeepSeek, Gemini). Manche Anbieter lehnen eine Systemnachricht nach dem ersten Zug ab."
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Anweisungen nach dem Verlauf werden hinter dem Chat-Verlauf mit konfigurierbarer Rolle eingefügt. Ihre letzte Position gibt ihnen den stärksten Einfluss auf die nächste Antwort.",
       "P_PROMPTS_3": "Prefill gibt den Anfang der Assistentenantwort vor, zur Steuerung von Modellen, die eine Fortsetzung auf Assistentenseite unterstützen.",
       "H_DEFAULT": "Standard-Preset",
-      "P_DEFAULT_1": "Ein Preset als Standard für neue Chats markieren oder ein anderes im Loadout festpinnen. Ein Preset vor Experimenten duplizieren."
+      "P_DEFAULT_1": "Ein Preset als Standard für neue Chats markieren oder ein anderes im Loadout festpinnen. Ein Preset vor Experimenten duplizieren.",
+      "B_KEEP_SYSTEM_ROLES": "Sendet Systemnachrichten wie geschrieben, auch späte, bei jedem Modell."
     },
     "PROMPT_TEMPLATE": {
       "META": {

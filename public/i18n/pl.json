@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Importuj kartę",
     "CARDS_IMPORT_PARTIAL": "Zaimportowano kartę, ale {count} elementów nie ma na tym urządzeniu i zostało pominiętych.",
     "PRESET_REASONING_EFFORT_HINT": "Jak intensywnie model myśli przed odpowiedzią. Ustawienie w czacie ma pierwszeństwo; puste oznacza domyślne ustawienie modelu.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Ustaw wszystkie role"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Ustaw wszystkie role",
+    "PRESET_KEEP_SYSTEM_ROLES": "Zachowaj role systemowe w oryginale",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Wysyła każdą wiadomość systemową jako prawdziwą wiadomość systemową tam, gdzie umieszcza ją preset, łącznie z wstrzyknięciami na końcu. Nadpisuje modele, w których tekst systemowy jest zwykle wtapiany w tury użytkownika (GLM, Kimi, DeepSeek, Gemini). Niektórzy dostawcy odrzucają wiadomość systemową po pierwszej turze."
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Instrukcje po historii są wstrzykiwane za historią czatu z konfigurowalną rolą. Bycie na końcu daje im najmocniejszy wpływ na następną odpowiedź.",
       "P_PROMPTS_3": "Prefill zasiewa początek odpowiedzi asystenta, do sterowania modelami, które obsługują kontynuację po stronie asystenta.",
       "H_DEFAULT": "Preset domyślny",
-      "P_DEFAULT_1": "Oznacz preset jako domyślny dla nowych czatów albo przypnij inny w zestawie startowym. Zduplikuj preset, zanim zaczniesz eksperymentować."
+      "P_DEFAULT_1": "Oznacz preset jako domyślny dla nowych czatów albo przypnij inny w zestawie startowym. Zduplikuj preset, zanim zaczniesz eksperymentować.",
+      "B_KEEP_SYSTEM_ROLES": "Wysyła wiadomości systemowe tak, jak są zapisane, także późne, na każdym modelu."
     },
     "PROMPT_TEMPLATE": {
       "META": {

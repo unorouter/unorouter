@@ -392,6 +392,9 @@ export const samplingPresets = sqliteTable(
     disableCaching: integer("disable_caching", { mode: "boolean" })
       .notNull()
       .default(false),
+    keepSystemRoles: integer("keep_system_roles", { mode: "boolean" })
+      .notNull()
+      .default(false),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),

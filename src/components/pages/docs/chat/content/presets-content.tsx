@@ -42,6 +42,10 @@ export async function PresetsContent() {
             ],
             [<DocKbd key="b">geminiBlockOff</DocKbd>, k("B_GEMINI_BLOCK_OFF")],
             [<DocKbd key="b">disableCaching</DocKbd>, k("B_DISABLE_CACHING")],
+            [
+              <DocKbd key="b">keepSystemRoles</DocKbd>,
+              k("B_KEEP_SYSTEM_ROLES"),
+            ],
             [<DocKbd key="b">streamingEnabled</DocKbd>, k("B_STREAMING")],
             [<DocKbd key="b">showReasoning</DocKbd>, k("B_SHOW_REASONING")],
           ]}

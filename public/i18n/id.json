@@ -4308,7 +4308,9 @@
     "CARDS_IMPORT": "Impor kartu",
     "CARDS_IMPORT_PARTIAL": "Kartu diimpor, tetapi {count} item tidak ada di perangkat ini dan dilewati.",
     "PRESET_REASONING_EFFORT_HINT": "Seberapa dalam model berpikir sebelum menjawab. Pengaturan di dalam obrolan menimpa nilai ini; kosong berarti bawaan model.",
-    "LOREBOOK_ENTRIES_SET_ROLE": "Atur semua peran"
+    "LOREBOOK_ENTRIES_SET_ROLE": "Atur semua peran",
+    "PRESET_KEEP_SYSTEM_ROLES": "Pertahankan peran sistem apa adanya",
+    "PRESET_KEEP_SYSTEM_ROLES_HINT": "Mengirim setiap pesan sistem sebagai pesan sistem sungguhan di tempat preset menaruhnya, termasuk injeksi akhir. Mengesampingkan model yang biasanya melipat teks sistem ke giliran pengguna (GLM, Kimi, DeepSeek, Gemini). Beberapa penyedia menolak pesan sistem setelah giliran pertama."
   },
   "ERRORS": {
     "MISSING_ENV": "Env yang diperlukan hilang: {var}",
@@ -5081,7 +5083,8 @@
       "P_PROMPTS_2": "Instruksi pascariwayat disisipkan setelah riwayat obrolan dengan peran yang bisa dikonfigurasi. Karena berada paling akhir, pengaruhnya paling kuat pada balasan berikutnya.",
       "P_PROMPTS_3": "Prefill menanamkan awal jawaban assistant, untuk mengarahkan model yang mendukung kelanjutan dari sisi assistant.",
       "H_DEFAULT": "Preset bawaan",
-      "P_DEFAULT_1": "Tandai satu preset sebagai bawaan untuk obrolan baru, atau sematkan preset lain di loadout. Duplikat preset sebelum bereksperimen."
+      "P_DEFAULT_1": "Tandai satu preset sebagai bawaan untuk obrolan baru, atau sematkan preset lain di loadout. Duplikat preset sebelum bereksperimen.",
+      "B_KEEP_SYSTEM_ROLES": "Mengirim pesan sistem apa adanya, termasuk yang belakangan, di semua model."
     },
     "PROMPT_TEMPLATE": {
       "META": {
