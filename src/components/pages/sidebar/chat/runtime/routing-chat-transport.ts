@@ -303,6 +303,8 @@ async function runClientStream(args: {
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
+    // "Keep system roles as written" leaves system messages inside the history.
+    allowSystemInMessages: true,
     maxRetries: 0,
     // Streaming errors arrive OFF the send-promise: useChat's onError never sees
     // them, so this is the only place the real cause can be captured.
