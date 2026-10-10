@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "Der Importdienst ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten erneut.",
     "CARD_FILE_INVALID": "Diese Datei ist kein Karten-Export.",
     "GROUP_CYCLE": "Eine Gruppe kann nicht in sich selbst verschoben werden.",
-    "RATE_LIMITED": "Zu viele Anfragen. Bitte eine Minute warten und es dann erneut versuchen."
+    "RATE_LIMITED": "Zu viele Anfragen. Bitte eine Minute warten und es dann erneut versuchen.",
+    "STREAM_CONNECTION_LOST": "Die Verbindung ist abgebrochen, während die Antwort geladen wurde. Generiere sie neu, um es noch einmal zu versuchen."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

@@ -31,7 +31,7 @@ import {
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
-import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
+import { CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
 import {
   fingerprintText,
   logChatDebug,
@@ -58,11 +58,18 @@ type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
 // toUIMessageStream flattens the stream error to a STRING, so the detail ships as a
 // JSON envelope the card parses back.
+// The sdk's wording when the response body stops mid-read: the connection
+// dropped, the request itself had succeeded.
+const BODY_READ_FAILED = "Failed to process successful response";
+
 function streamErrorText(error: unknown): string {
   const detail = extractErrorDetail(error);
   return JSON.stringify({
     __unoStreamError: true,
-    message: detail.message,
+    message:
+      detail.message === BODY_READ_FAILED
+        ? msg("ERRORS.STREAM_CONNECTION_LOST")
+        : detail.message,
     status: detail.status ?? null,
     code: detail.code ?? null,
     requestId: detail.requestId ?? null,
@@ -357,6 +364,17 @@ async function runClientStream(args: {
     { once: true },
   );
 
+  // A body read failing mid-stream reaches only these hooks, never
+  // streamText's onError, so the timing and its cause are logged here too.
+  function failStream(error: unknown): string {
+    const cause =
+      error instanceof Error && error.cause != null
+        ? String(error.cause).slice(0, 200)
+        : null;
+    timer.end("error", { cause, streamedChars, streamedReasoning });
+    return streamErrorText(error);
+  }
+
   // ai-sdk rejects these terminal promises with AI_NoOutputGeneratedError on a
   // zero-content close; unawaited they land as UNHANDLED rejections.
   void Promise.resolve(result.text).catch(() => {});
@@ -377,7 +395,7 @@ async function runClientStream(args: {
   const uiStream = toUIMessageStream({
     stream: result.stream,
     generateMessageId: () => responseMessageId,
-    onError: (error) => streamErrorText(error),
+    onError: failStream,
     messageMetadata: ({ part }) => {
       if (part.type === "text-delta" && part.text) {
         timer.mark("firstText");
@@ -427,7 +445,7 @@ async function runClientStream(args: {
   // ALWAYS wrap, even with no start alerts: the raw stream leaks the zero-content
   // AI_NoOutputGeneratedError as an unhandled rejection (vercel/ai#6879).
   return createUIMessageStream({
-    onError: (error) => streamErrorText(error),
+    onError: failStream,
     execute: ({ writer }) => {
       for (const a of prepared.startAlerts) {
         writer.write({ type: "data-alert", data: a, transient: true });

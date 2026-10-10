@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "匯入服務目前無法連線。請在幾分鐘後重試。",
     "CARD_FILE_INVALID": "該檔案不是卡片匯出檔。",
     "GROUP_CYCLE": "群組不能移動到其自身內部。",
-    "RATE_LIMITED": "請求過於頻繁，請等待一分鐘後再試。"
+    "RATE_LIMITED": "請求過於頻繁，請等待一分鐘後再試。",
+    "STREAM_CONNECTION_LOST": "回覆傳輸過程中連線中斷了。請重新產生再試一次。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

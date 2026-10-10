@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "İçe aktarma servisine şu anda ulaşılamıyor. Lütfen birkaç dakika sonra tekrar dene.",
     "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil.",
     "GROUP_CYCLE": "Bir grup kendi içine taşınamaz.",
-    "RATE_LIMITED": "Çok fazla istek. Bir dakika bekleyip tekrar deneyin."
+    "RATE_LIMITED": "Çok fazla istek. Bir dakika bekleyip tekrar deneyin.",
+    "STREAM_CONNECTION_LOST": "Yanıt gelirken bağlantı koptu. Yeniden denemek için yeniden oluştur."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

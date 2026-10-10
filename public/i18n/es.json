@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "El servicio de importación no está disponible ahora mismo. Inténtalo de nuevo en unos minutos.",
     "CARD_FILE_INVALID": "Ese archivo no es una exportación de tarjeta.",
     "GROUP_CYCLE": "Un grupo no puede moverse dentro de sí mismo.",
-    "RATE_LIMITED": "Demasiadas solicitudes. Espera un minuto y vuelve a intentarlo."
+    "RATE_LIMITED": "Demasiadas solicitudes. Espera un minuto y vuelve a intentarlo.",
+    "STREAM_CONNECTION_LOST": "La conexión se cortó mientras llegaba la respuesta. Regenera para intentarlo de nuevo."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",

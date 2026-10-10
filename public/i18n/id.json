@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "Layanan impor sedang tidak dapat dijangkau. Coba lagi beberapa menit lagi.",
     "CARD_FILE_INVALID": "Berkas itu bukan hasil ekspor kartu.",
     "GROUP_CYCLE": "Grup tidak dapat dipindahkan ke dalam dirinya sendiri.",
-    "RATE_LIMITED": "Terlalu banyak permintaan. Tunggu satu menit, lalu coba lagi."
+    "RATE_LIMITED": "Terlalu banyak permintaan. Tunggu satu menit, lalu coba lagi.",
+    "STREAM_CONNECTION_LOST": "Koneksi terputus saat balasan sedang dikirim. Buat ulang untuk mencoba lagi."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "Usługa importu jest teraz niedostępna. Spróbuj ponownie za kilka minut.",
     "CARD_FILE_INVALID": "Ten plik nie jest eksportem karty.",
     "GROUP_CYCLE": "Grupy nie można przenieść do niej samej.",
-    "RATE_LIMITED": "Zbyt wiele żądań. Odczekaj minutę i spróbuj ponownie."
+    "RATE_LIMITED": "Zbyt wiele żądań. Odczekaj minutę i spróbuj ponownie.",
+    "STREAM_CONNECTION_LOST": "Połączenie zerwało się w trakcie odbierania odpowiedzi. Wygeneruj ją ponownie, aby spróbować jeszcze raz."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

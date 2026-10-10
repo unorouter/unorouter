@@ -4365,7 +4365,8 @@
     "CARD_IMPORT_UNAVAILABLE": "Le service d'import est injoignable pour le moment. Réessaie dans quelques minutes.",
     "CARD_FILE_INVALID": "Ce fichier n'est pas un export de carte.",
     "GROUP_CYCLE": "Un groupe ne peut pas être déplacé dans lui-même.",
-    "RATE_LIMITED": "Trop de requêtes. Patientez une minute, puis réessayez."
+    "RATE_LIMITED": "Trop de requêtes. Patientez une minute, puis réessayez.",
+    "STREAM_CONNECTION_LOST": "La connexion a été coupée pendant la réception de la réponse. Régénérez pour réessayer."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",
