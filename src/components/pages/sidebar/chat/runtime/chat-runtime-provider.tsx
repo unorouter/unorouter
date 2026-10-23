@@ -96,10 +96,11 @@ function useLiveOpsBridge(
 function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
+  const isMain = useAuiState((s) => s.threads.mainThreadId === threadId);
   const t = useTranslations();
   const queryClient = useQueryClient();
 
-  useConvIdSync(remoteId);
+  useConvIdSync(remoteId, isMain);
   useResolvedChatModel(remoteId);
   useSettingsSync(remoteId);
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
@@ -109,9 +110,10 @@ function ChatRuntimeHook() {
     logChatDebug("thread.active", {
       threadId,
       remoteId,
+      isMain,
       convIdAtom: chatStore.get(convIdAtom),
     });
-  }, [threadId, remoteId]);
+  }, [threadId, remoteId, isMain]);
   const history = useHistoryAdapter(getConvId);
   const historyAdapter = history.adapter;
   // Writing the turn as the request leaves is what survives a run that never

@@ -15,9 +15,14 @@ import { useEffect, useRef } from "react";
 // One instance per mounted thread, all writing the same atom, and threads overlap
 // during a switch. Claiming on mount and releasing ONLY the id this thread claimed
 // keeps a late-unmounting predecessor from restoring its own conversation over the
-// new one, which sent the next message into the previous chat.
-export function useConvIdSync(remoteId: string | null | undefined) {
+// new one, which sent the next message into the previous chat. The prewarmed
+// new-thread draft also mounts one and must not claim while it is not shown.
+export function useConvIdSync(
+  remoteId: string | null | undefined,
+  isMain: boolean,
+) {
   useEffect(() => {
+    if (!isMain) return;
     const claimed = remoteId ?? null;
     chatStore.set(convIdAtom, claimed);
     if (claimed === null) return;
@@ -25,7 +30,7 @@ export function useConvIdSync(remoteId: string | null | undefined) {
       if (chatStore.get(convIdAtom) === claimed)
         chatStore.set(convIdAtom, null);
     };
-  }, [remoteId]);
+  }, [remoteId, isMain]);
 }
 
 const OVERRIDE_KEYS: readonly (keyof StreamOverrides)[] = [
