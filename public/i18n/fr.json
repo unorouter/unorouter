@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokeniseur d'un autre fabricant",
-        "MEANS": "Quatre textes fixes (chiffres, chinois, espaces, code) ont été facturés selon un motif de jetons qui appartient à la famille de modèles d'un autre fabricant.",
+        "MEANS": "Quatre textes fixes (chiffres, chinois, espaces, code) ont été facturés selon un schéma de tokens propre à la famille de modèles d'un autre éditeur, ou à environ un token pour quatre caractères sur chaque texte, ce qu'aucun vrai tokenizer ne fait : le fournisseur invente ses chiffres d'utilisation.",
         "WHY": "Un prompt système caché peut faire dire à n'importe quel modèle qu'il est Claude, mais il ne peut pas changer la façon dont le backend découpe le texte en jetons. Un « Claude Fable 5.1 » gratuit a réussi les questions d'identité tout en facturant selon le motif de la famille Llama 4 de Meta.",
-        "EXCEPTION": "Jugé uniquement quand les motifs propres au fabricant annoncé sont connus. Les motifs d'OpenAI ne sont jamais signalés car les relais s'en servent pour estimer l'utilisation, et un motif qui ne correspond à aucune famille connue n'est pas signalé."
+        "EXCEPTION": "N'est évalué que lorsque les schémas propres à l'éditeur annoncé sont connus. Les schémas d'OpenAI ne sont jamais signalés, car les relais s'en servent pour estimer l'utilisation. Un schéma qui ne correspond à aucune famille connue n'est signalé que s'il donne environ un token pour quatre caractères sur chaque texte."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Identité masquée",

@@ -54,7 +54,7 @@
     "@tanstack/react-table": "9.2.6",
     "@tanstack/react-virtual": "3.14.13",
     "ai": "7.0.134",
-    "ai-model-verifier": "3.9.1",
+    "ai-model-verifier": "3.9.2",
     "assistant-stream": "0.3.48",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",

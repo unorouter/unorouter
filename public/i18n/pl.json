@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizer innego producenta",
-        "MEANS": "Cztery stałe teksty (cyfry, chiński, spacje, kod) zostały rozliczone według wzorca tokenów należącego do rodziny modeli innego producenta.",
+        "MEANS": "Cztery stałe teksty (cyfry, chiński, spacje, kod) zostały rozliczone według wzorca tokenów należącego do rodziny modeli innego producenta albo w tempie około jednego tokena na cztery znaki w każdym tekście, czego nie robi żaden prawdziwy tokenizer: dostawca zmyśla swoje dane o zużyciu.",
         "WHY": "Ukryty prompt systemowy może sprawić, że każdy model będzie twierdził, że jest Claude, ale nie zmieni sposobu, w jaki backend dzieli tekst na tokeny. Darmowy „Claude Fable 5.1” przeszedł pytania o tożsamość, a mimo to rozliczał według wzorca rodziny Llama 4 firmy Meta.",
-        "EXCEPTION": "Oceniane tylko wtedy, gdy znane są własne wzorce deklarowanego producenta. Wzorce OpenAI nigdy nie są oznaczane, bo pośrednicy szacują nimi zużycie, a wzorzec niepasujący do żadnej znanej rodziny nie jest oznaczany."
+        "EXCEPTION": "Oceniane tylko wtedy, gdy znane są własne wzorce deklarowanego producenta. Wzorce OpenAI nigdy nie są oznaczane, bo relaye używają ich do szacowania zużycia. Wzorzec, który nie pasuje do żadnej znanej rodziny, jest oznaczany tylko wtedy, gdy w każdym tekście daje około jednego tokena na cztery znaki."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Ukryta tożsamość",

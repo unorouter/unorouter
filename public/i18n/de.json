@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizer eines anderen Herstellers",
-        "MEANS": "Vier feste Texte (Ziffern, Chinesisch, Leerzeichen, Code) wurden in einem Token-Muster abgerechnet, das zur Modellfamilie eines anderen Herstellers gehört.",
+        "MEANS": "Vier feste Texte (Ziffern, Chinesisch, Leerzeichen, Code) wurden in einem Token-Muster abgerechnet, das zur Modellfamilie eines anderen Herstellers gehört, oder bei jedem Text mit etwa einem Token pro vier Zeichen. Das macht kein echter Tokenizer: Der Anbieter erfindet seine Nutzungszahlen.",
         "WHY": "Ein versteckter Systemprompt kann jedes Modell behaupten lassen, Claude zu sein, aber er kann nicht ändern, wie das Backend Text in Tokens zerlegt. Ein kostenloses „Claude Fable 5.1“ bestand die Identitätsfragen und rechnete trotzdem im Muster von Metas Llama-4-Familie ab.",
-        "EXCEPTION": "Wird nur bewertet, wenn die eigenen Muster des angegebenen Herstellers bekannt sind. OpenAI-Muster werden nie markiert, weil Relays damit die Nutzung schätzen, und ein Muster, das zu keiner bekannten Familie passt, wird nicht markiert."
+        "EXCEPTION": "Wird nur bewertet, wenn die eigenen Muster des angegebenen Herstellers bekannt sind. OpenAI-Muster werden nie markiert, weil Relays damit die Nutzung schätzen. Ein Muster, das zu keiner bekannten Familie passt, wird nur markiert, wenn es bei jedem Text etwa ein Token pro vier Zeichen ergibt."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Verschleierte Identität",

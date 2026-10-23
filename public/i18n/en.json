@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Another maker's tokenizer",
-        "MEANS": "Four fixed texts (digits, Chinese, spaces, code) were billed in a token pattern that belongs to another maker's model family.",
+        "MEANS": "Four fixed texts (digits, Chinese, spaces, code) were billed in a token pattern that belongs to another maker's model family, or at about one token per four characters on every text, which no real tokenizer does: the provider makes up its usage numbers.",
         "WHY": "A hidden system prompt can make any model claim to be Claude, but it cannot change how the backend splits text into tokens. One free \"Claude Fable 5.1\" passed the identity questions yet billed the pattern of Meta's Llama 4 family.",
-        "EXCEPTION": "Only judged when the claimed maker's own patterns are known. OpenAI patterns are never flagged because relays use them to estimate usage, and a pattern that matches no known family is not flagged."
+        "EXCEPTION": "Only judged when the claimed maker's own patterns are known. OpenAI patterns are never flagged because relays use them to estimate usage. A pattern that matches no known family is flagged only when it is about one token per four characters on every text."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Masked identity",

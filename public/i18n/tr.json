@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Başka bir üreticinin tokenizer'ı",
-        "MEANS": "Dört sabit metin (rakamlar, Çince, boşluklar, kod), başka bir üreticinin model ailesine ait bir token deseniyle faturalandırıldı.",
+        "MEANS": "Dört sabit metin (rakamlar, Çince, boşluklar, kod) başka bir üreticinin model ailesine ait bir token düzeniyle ya da her metinde yaklaşık dört karakter başına bir token olacak şekilde faturalandı. Bunu hiçbir gerçek tokenizer yapmaz: sağlayıcı kullanım rakamlarını uyduruyor.",
         "WHY": "Gizli bir sistem istemi herhangi bir modelin Claude olduğunu söylemesini sağlayabilir, ancak arka ucun metni tokenlere nasıl böldüğünü değiştiremez. Ücretsiz bir \"Claude Fable 5.1\" kimlik sorularını geçti, yine de Meta'nın Llama 4 ailesinin deseniyle faturalandırdı.",
-        "EXCEPTION": "Yalnızca beyan edilen üreticinin kendi desenleri biliniyorsa değerlendirilir. OpenAI desenleri asla işaretlenmez çünkü aracılar kullanımı bunlarla tahmin eder, ve bilinen hiçbir aileyle eşleşmeyen bir desen işaretlenmez."
+        "EXCEPTION": "Yalnızca beyan edilen üreticinin kendi düzenleri biliniyorsa değerlendirilir. OpenAI düzenleri hiçbir zaman işaretlenmez, çünkü relay'ler kullanımı bunlarla tahmin eder. Bilinen hiçbir aileyle eşleşmeyen bir düzen, yalnızca her metinde yaklaşık dört karakter başına bir token veriyorsa işaretlenir."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Maskelenmiş kimlik",

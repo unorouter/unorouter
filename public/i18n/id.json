@@ -4970,9 +4970,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizer milik pembuat lain",
-        "MEANS": "Empat teks tetap (angka, Mandarin, spasi, kode) ditagih dengan pola token yang milik keluarga model pembuat lain.",
+        "MEANS": "Empat teks tetap (angka, Mandarin, spasi, kode) ditagih dengan pola token milik keluarga model pembuat lain, atau sekitar satu token per empat karakter di setiap teks, hal yang tidak dilakukan tokenizer asli mana pun: penyedia mengarang angka pemakaiannya.",
         "WHY": "Prompt sistem tersembunyi bisa membuat model apa pun mengaku sebagai Claude, tetapi tidak bisa mengubah cara backend memecah teks menjadi token. Sebuah \"Claude Fable 5.1\" gratis lolos pertanyaan identitas namun menagih dengan pola keluarga Llama 4 milik Meta.",
-        "EXCEPTION": "Hanya dinilai bila pola milik pembuat yang diklaim sudah diketahui. Pola OpenAI tidak pernah ditandai karena relay memakainya untuk memperkirakan penggunaan, dan pola yang tidak cocok dengan keluarga mana pun tidak ditandai."
+        "EXCEPTION": "Hanya dinilai jika pola milik pembuat yang diklaim sudah diketahui. Pola OpenAI tidak pernah ditandai karena relay memakainya untuk memperkirakan pemakaian. Pola yang tidak cocok dengan keluarga mana pun hanya ditandai jika menghasilkan sekitar satu token per empat karakter di setiap teks."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Identitas tersamar",
