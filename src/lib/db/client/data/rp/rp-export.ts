@@ -61,6 +61,31 @@ async function loadAvatar(
   return null;
 }
 
+const isPng = (data: Uint8Array) =>
+  [0x89, 0x50, 0x4e, 0x47].every((byte, i) => data[i] === byte);
+
+// A PNG card is written into the avatar image itself, so a WebP or JPEG avatar
+// (JanitorAI serves WebP) fails with "Invalid PNG signature" unless re-encoded.
+async function asPng(image: {
+  data: Uint8Array;
+  mime: string;
+}): Promise<{ data: Uint8Array; mime: string } | null> {
+  if (isPng(image.data)) return image;
+  try {
+    const bitmap = await createImageBitmap(
+      new Blob([uint8ToArrayBuffer(image.data)], { type: image.mime }),
+    );
+    const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(bitmap, 0, 0);
+    const png = await canvas.convertToBlob({ type: "image/png" });
+    return { data: new Uint8Array(await png.arrayBuffer()), mime: "image/png" };
+  } catch {
+    return null;
+  }
+}
+
 export async function exportLocalCharacter(
   id: string,
   format: CharacterExportFormat,
@@ -77,7 +102,8 @@ export async function exportLocalCharacter(
       filename: `${slug}.json`,
     };
   }
-  const avatar = await loadAvatar(row.avatarMediaId);
+  const loaded = await loadAvatar(row.avatarMediaId);
+  const avatar = loaded && format === "png" ? await asPng(loaded) : loaded;
   const namedAssets: { name: string; data: Uint8Array; mime: string }[] = [];
   for (const asset of row.assets ?? []) {
     const bytes = await loadAvatar(asset.mediaId);
