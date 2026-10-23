@@ -3069,10 +3069,10 @@ export class TokenBreakout {
         const width = slot.right - slot.left;
         if (width < 18) continue;
 
-        let line = layoutNextLine(this.textWallPrepared, cursor, width);
+        let line = layoutNextLine(this.textWallPrepared, width, cursor);
         if (line === null) {
           cursor = { segmentIndex: 0, graphemeIndex: 0 };
-          line = layoutNextLine(this.textWallPrepared, cursor, width);
+          line = layoutNextLine(this.textWallPrepared, width, cursor);
         }
         if (line === null) return;
 

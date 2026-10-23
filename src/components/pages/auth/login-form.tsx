@@ -77,6 +77,7 @@ export function LoginForm() {
       return;
     }
     if (!loginChallengeChecker.Check(challenge)) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the cookie is only readable after hydration
     setTwoFAFlowToken(challenge.flow_token);
     setChallengeMethods(challenge.methods);
     setShow2FA(true);
