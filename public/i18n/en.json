@@ -602,6 +602,19 @@
       "privacy": "privacy"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos joins the {appName} partners",
+        "DESCRIPTION": "Qronos AI runs its LLM gateway on {appName} and hosts a Discord community for AI roleplay and storytelling. Who they are, and how our partner program works.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "<qronos>Qronos AI</qronos> is the first project in our new partner program. Here is who they are, and how any project built on {appName} can join.",
+        "H_WHO": "Who Qronos is",
+        "P_WHO": "Qronos AI gives developers one OpenAI and Anthropic compatible endpoint for models like Claude, GPT, DeepSeek and MiniMax, and runs it on {appName}. Next to the API, the team hosts <qronos_discord>a Discord community</qronos_discord> for AI roleplay, storytelling and character creation, where you can chat with AI characters, build your own and meet other writers.",
+        "H_PARTNERS": "Our partner program",
+        "P_PARTNERS": "Partners are projects, apps, bots and communities that run on {appName}, and we check every one before listing it. Partners get their own post in the partners channel of our <discord>Discord</discord>, the Partner role and a shoutout like this one. In return they mention {appName} on their side. Reselling {appName} access is allowed with our approval and only for paid models. Free models are never resold.",
+        "H_APPLY": "How to apply",
+        "P_APPLY": "Building something on {appName}? Message us on <discord>Discord</discord> with the name and link of your project, what it does and how it uses {appName}, your {appName} username, and roughly how many users you have.",
+        "CTA": "Want to try Qronos? Visit <qronos>qronos.me</qronos> or join <qronos_discord>their Discord</qronos_discord>. New to {appName}? <register>Create an account</register> or <models>browse the models</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Where your requests go: provider labels, image marking and privacy updates",
         "DESCRIPTION": "Every model page now shows where each provider is based and flags countries without EU data protection safeguards. Here is what the labels mean, how to choose your route, and what else changed.",

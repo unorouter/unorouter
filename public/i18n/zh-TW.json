@@ -602,6 +602,19 @@
       "privacy": "隱私"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos 成為 {appName} 合作夥伴",
+        "DESCRIPTION": "Qronos AI 在 {appName} 上運行其 LLM 閘道，並經營一個以 AI 角色扮演和故事創作為主的 Discord 社群。介紹他們是誰，以及我們的合作夥伴計畫如何運作。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "<qronos>Qronos AI</qronos> 是我們新合作夥伴計畫中的第一個專案。以下介紹他們是誰，以及任何建立在 {appName} 上的專案如何加入。",
+        "H_WHO": "Qronos 是誰",
+        "P_WHO": "Qronos AI 為開發者提供一個相容 OpenAI 和 Anthropic 的統一端點，可呼叫 Claude、GPT、DeepSeek 和 MiniMax 等模型，並運行在 {appName} 上。除了 API，團隊還經營一個以 AI 角色扮演、故事創作和角色建立為主的 <qronos_discord>Discord 社群</qronos_discord>，你可以在那裡與 AI 角色聊天、建立自己的角色，並認識其他寫作者。",
+        "H_PARTNERS": "我們的合作夥伴計畫",
+        "P_PARTNERS": "合作夥伴是運行在 {appName} 上的專案、應用程式、機器人和社群，我們會在收錄前逐一審核。合作夥伴將在我們 <discord>Discord</discord> 的合作夥伴頻道獲得專屬貼文、Partner 身分組，以及像這樣的推薦介紹。作為回報，他們會在自己那邊提及 {appName}。經我們核准，可以轉售 {appName} 的存取權限，但僅限付費模型。免費模型絕不轉售。",
+        "H_APPLY": "如何申請",
+        "P_APPLY": "正在以 {appName} 開發專案嗎？請在 <discord>Discord</discord> 上聯絡我們，提供專案名稱和連結、專案用途以及如何使用 {appName}、你的 {appName} 使用者名稱，以及大致的使用者數量。",
+        "CTA": "想試試 Qronos 嗎？造訪 <qronos>qronos.me</qronos>，或加入<qronos_discord>他們的 Discord</qronos_discord>。第一次使用 {appName}？<register>建立帳戶</register>或<models>瀏覽模型</models>。"
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "你的請求去了哪裡：供應商標籤、圖像標示與隱私更新",
         "DESCRIPTION": "每個模型頁面現在都會顯示各供應商的所在地，並標出缺乏歐盟資料保護保障的國家。以下說明這些標籤的意義、如何選擇你的路線，以及其他變更。",

@@ -602,6 +602,19 @@
       "privacy": "prywatność"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos dołącza do partnerów {appName}",
+        "DESCRIPTION": "Qronos AI uruchamia swoją bramę LLM na {appName} i prowadzi społeczność na Discordzie poświęconą odgrywaniu ról z AI i opowiadaniu historii. Kim są i jak działa nasz program partnerski.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "<qronos>Qronos AI</qronos> to pierwszy projekt w naszym nowym programie partnerskim. Oto kim są i jak może dołączyć każdy projekt zbudowany na {appName}.",
+        "H_WHO": "Kim jest Qronos",
+        "P_WHO": "Qronos AI daje programistom jeden punkt końcowy zgodny z OpenAI i Anthropic dla modeli takich jak Claude, GPT, DeepSeek i MiniMax, i uruchamia go na {appName}. Obok API zespół prowadzi <qronos_discord>społeczność na Discordzie</qronos_discord> poświęconą odgrywaniu ról z AI, opowiadaniu historii i tworzeniu postaci, gdzie możesz rozmawiać z postaciami AI, tworzyć własne i poznawać innych autorów.",
+        "H_PARTNERS": "Nasz program partnerski",
+        "P_PARTNERS": "Partnerzy to projekty, aplikacje, boty i społeczności działające na {appName}, a każdego sprawdzamy przed dodaniem. Partnerzy dostają własny wpis na kanale partnerów naszego <discord>Discorda</discord>, rolę Partner i wyróżnienie takie jak to. W zamian wspominają o {appName} u siebie. Odsprzedaż dostępu do {appName} jest dozwolona za naszą zgodą i tylko dla płatnych modeli. Darmowe modele nigdy nie są odsprzedawane.",
+        "H_APPLY": "Jak się zgłosić",
+        "P_APPLY": "Budujesz coś na {appName}? Napisz do nas na <discord>Discordzie</discord>, podając nazwę i link projektu, co robi i jak korzysta z {appName}, swoją nazwę użytkownika w {appName} oraz mniej więcej liczbę użytkowników.",
+        "CTA": "Chcesz wypróbować Qronos? Wejdź na <qronos>qronos.me</qronos> albo dołącz do <qronos_discord>ich Discorda</qronos_discord>. Nowy w {appName}? <register>Załóż konto</register> lub <models>przeglądaj modele</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Dokąd trafiają twoje zapytania: oznaczenia dostawców, znakowanie obrazów i zmiany w prywatności",
         "DESCRIPTION": "Każda strona modelu pokazuje teraz, gdzie ma siedzibę każdy dostawca, i oznacza kraje bez unijnych zabezpieczeń ochrony danych. Wyjaśniamy, co znaczą oznaczenia, jak wybrać trasę i co jeszcze się zmieniło.",

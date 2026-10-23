@@ -602,6 +602,19 @@
       "privacy": "privasi"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos bergabung dengan mitra {appName}",
+        "DESCRIPTION": "Qronos AI menjalankan gateway LLM mereka di {appName} dan mengelola komunitas Discord untuk roleplay AI dan bercerita. Siapa mereka, dan bagaimana program mitra kami bekerja.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "<qronos>Qronos AI</qronos> adalah proyek pertama dalam program mitra baru kami. Berikut siapa mereka, dan bagaimana setiap proyek yang dibangun di {appName} bisa bergabung.",
+        "H_WHO": "Siapa Qronos",
+        "P_WHO": "Qronos AI memberi developer satu endpoint yang kompatibel dengan OpenAI dan Anthropic untuk model seperti Claude, GPT, DeepSeek dan MiniMax, dan menjalankannya di {appName}. Selain API, tim ini mengelola <qronos_discord>komunitas Discord</qronos_discord> untuk roleplay AI, bercerita dan membuat karakter, tempat kamu bisa mengobrol dengan karakter AI, membuat karaktermu sendiri dan bertemu penulis lain.",
+        "H_PARTNERS": "Program mitra kami",
+        "P_PARTNERS": "Mitra adalah proyek, aplikasi, bot dan komunitas yang berjalan di {appName}, dan kami memeriksa setiap mitra sebelum mencantumkannya. Mitra mendapat postingan sendiri di kanal mitra <discord>Discord</discord> kami, peran Partner dan perkenalan seperti ini. Sebagai gantinya, mereka menyebut {appName} di pihak mereka. Menjual kembali akses {appName} diizinkan dengan persetujuan kami dan hanya untuk model berbayar. Model gratis tidak pernah dijual kembali.",
+        "H_APPLY": "Cara mendaftar",
+        "P_APPLY": "Sedang membangun sesuatu di {appName}? Kirim pesan ke kami di <discord>Discord</discord> berisi nama dan tautan proyekmu, apa fungsinya dan bagaimana proyek itu memakai {appName}, nama pengguna {appName} milikmu, dan perkiraan jumlah penggunamu.",
+        "CTA": "Mau mencoba Qronos? Kunjungi <qronos>qronos.me</qronos> atau gabung ke <qronos_discord>Discord mereka</qronos_discord>. Baru di {appName}? <register>Buat akun</register> atau <models>lihat modelnya</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Ke mana permintaanmu pergi: label penyedia, penandaan gambar, dan pembaruan privasi",
         "DESCRIPTION": "Setiap halaman model kini menunjukkan di mana setiap penyedia berbasis dan menandai negara tanpa perlindungan data UE. Berikut arti label tersebut, cara memilih rutemu, dan apa lagi yang berubah.",

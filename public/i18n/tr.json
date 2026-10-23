@@ -602,6 +602,19 @@
       "privacy": "gizlilik"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos, {appName} ortaklarına katıldı",
+        "DESCRIPTION": "Qronos AI, LLM ağ geçidini {appName} üzerinde çalıştırıyor ve yapay zeka rol yapma ile hikaye anlatımı için bir Discord topluluğu yürütüyor. Kim olduklarını ve ortaklık programımızın nasıl işlediğini anlatıyoruz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "<qronos>Qronos AI</qronos>, yeni ortaklık programımızdaki ilk proje. İşte kim oldukları ve {appName} üzerine kurulu her projenin nasıl katılabileceği.",
+        "H_WHO": "Qronos kimdir",
+        "P_WHO": "Qronos AI, geliştiricilere Claude, GPT, DeepSeek ve MiniMax gibi modeller için OpenAI ve Anthropic uyumlu tek bir uç nokta sunuyor ve bunu {appName} üzerinde çalıştırıyor. API'nin yanında ekip, yapay zeka rol yapma, hikaye anlatımı ve karakter oluşturma için <qronos_discord>bir Discord topluluğu</qronos_discord> yürütüyor; orada yapay zeka karakterleriyle sohbet edebilir, kendi karakterini oluşturabilir ve diğer yazarlarla tanışabilirsin.",
+        "H_PARTNERS": "Ortaklık programımız",
+        "P_PARTNERS": "Ortaklar, {appName} üzerinde çalışan projeler, uygulamalar, botlar ve topluluklardır; her birini listelemeden önce kontrol ediyoruz. Ortaklar <discord>Discord</discord> sunucumuzun ortaklar kanalında kendi gönderilerini, Partner rolünü ve bunun gibi bir tanıtım alır. Karşılığında kendi taraflarında {appName}'dan bahsederler. {appName} erişiminin yeniden satışı onayımızla ve yalnızca ücretli modeller için serbesttir. Ücretsiz modeller asla yeniden satılmaz.",
+        "H_APPLY": "Nasıl başvurulur",
+        "P_APPLY": "{appName} üzerinde bir şey mi geliştiriyorsun? Bize <discord>Discord</discord> üzerinden projenin adı ve bağlantısı, ne yaptığı ve {appName}'ı nasıl kullandığı, {appName} kullanıcı adın ve yaklaşık kullanıcı sayınla yaz.",
+        "CTA": "Qronos'u denemek ister misin? <qronos>qronos.me</qronos> adresini ziyaret et ya da <qronos_discord>Discord sunucularına</qronos_discord> katıl. {appName}'da yeni misin? <register>Hesap oluştur</register> ya da <models>modellere göz at</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "İsteklerin nereye gidiyor: sağlayıcı etiketleri, görsel işaretleme ve gizlilik güncellemeleri",
         "DESCRIPTION": "Her model sayfası artık her sağlayıcının nerede bulunduğunu gösteriyor ve AB veri koruma güvencesi olmayan ülkeleri işaretliyor. Etiketlerin ne anlama geldiğini, rotanı nasıl seçeceğini ve başka nelerin değiştiğini burada bulabilirsin.",

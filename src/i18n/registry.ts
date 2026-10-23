@@ -141,6 +141,21 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "qronos-joins-partners",
+    date: "2026-10-23",
+    tags: ["announcement", "community"],
+    i18nKey: "BLOG.POSTS.QRONOS_JOINS_PARTNERS",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "update",
+    wordCount: 260,
+    headings: [
+      { id: "who-qronos-is", i18nLeaf: "H_WHO", level: 2 },
+      { id: "our-partner-program", i18nLeaf: "H_PARTNERS", level: 2 },
+      { id: "how-to-apply", i18nLeaf: "H_APPLY", level: 2 },
+    ],
+  },
+  {
     slug: "consent-per-provider",
     date: "2026-10-21",
     tags: ["announcement", "privacy"],

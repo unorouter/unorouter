@@ -11,6 +11,7 @@ import { ServerTagCutsFreeModelWaitContent } from "@/components/pages/blog/posts
 import { AiModelVerifierContent } from "@/components/pages/blog/posts/2026-09-03-ai-model-verifier-content";
 import { ConsentForFreeModelsContent } from "@/components/pages/blog/posts/2026-10-16-consent-for-free-models-content";
 import { ConsentPerProviderContent } from "@/components/pages/blog/posts/2026-10-21-consent-per-provider-content";
+import { QronosJoinsPartnersContent } from "@/components/pages/blog/posts/2026-10-23-qronos-joins-partners-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type {
@@ -35,6 +36,7 @@ const CUSTOM_COMPONENTS: Partial<Record<BlogSlug, ComponentType>> = {
   "ai-model-verifier": AiModelVerifierContent,
   "consent-for-free-models": ConsentForFreeModelsContent,
   "consent-per-provider": ConsentPerProviderContent,
+  "qronos-joins-partners": QronosJoinsPartnersContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

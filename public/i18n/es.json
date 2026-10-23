@@ -602,6 +602,19 @@
       "privacy": "privacidad"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos se une a los socios de {appName}",
+        "DESCRIPTION": "Qronos AI ejecuta su gateway de LLM sobre {appName} y tiene una comunidad de Discord para rol con IA y narración. Quiénes son y cómo funciona nuestro programa de socios.",
+        "AUTHOR": "Equipo de {appName}",
+        "INTRO": "<qronos>Qronos AI</qronos> es el primer proyecto de nuestro nuevo programa de socios. Aquí te contamos quiénes son y cómo puede unirse cualquier proyecto construido sobre {appName}.",
+        "H_WHO": "Quién es Qronos",
+        "P_WHO": "Qronos AI ofrece a los desarrolladores un único endpoint compatible con OpenAI y Anthropic para modelos como Claude, GPT, DeepSeek y MiniMax, y lo ejecuta sobre {appName}. Además de la API, el equipo tiene <qronos_discord>una comunidad de Discord</qronos_discord> para rol con IA, narración y creación de personajes, donde puedes chatear con personajes de IA, crear los tuyos y conocer a otros escritores.",
+        "H_PARTNERS": "Nuestro programa de socios",
+        "P_PARTNERS": "Los socios son proyectos, apps, bots y comunidades que funcionan sobre {appName}, y revisamos cada uno antes de incluirlo. Los socios reciben su propia publicación en el canal de socios de nuestro <discord>Discord</discord>, el rol de Partner y una mención como esta. A cambio, mencionan {appName} en su lado. La reventa de acceso a {appName} está permitida con nuestra aprobación y solo para modelos de pago. Los modelos gratuitos nunca se revenden.",
+        "H_APPLY": "Cómo solicitarlo",
+        "P_APPLY": "¿Estás construyendo algo sobre {appName}? Escríbenos en <discord>Discord</discord> con el nombre y el enlace de tu proyecto, qué hace y cómo usa {appName}, tu nombre de usuario de {appName} y cuántos usuarios tienes aproximadamente.",
+        "CTA": "¿Quieres probar Qronos? Visita <qronos>qronos.me</qronos> o únete a <qronos_discord>su Discord</qronos_discord>. ¿Nuevo en {appName}? <register>Crea una cuenta</register> o <models>explora los modelos</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "A dónde van tus solicitudes: etiquetas de proveedores, marcado de imágenes y novedades de privacidad",
         "DESCRIPTION": "Cada página de modelo muestra ahora dónde tiene su sede cada proveedor y señala los países sin garantías de protección de datos de la UE. Aquí te explicamos qué significan las etiquetas, cómo elegir tu ruta y qué más ha cambiado.",

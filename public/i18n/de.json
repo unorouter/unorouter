@@ -602,6 +602,19 @@
       "privacy": "Datenschutz"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos wird Partner von {appName}",
+        "DESCRIPTION": "Qronos AI betreibt sein LLM-Gateway auf {appName} und hat eine Discord-Community für KI-Rollenspiel und Storytelling. Wer sie sind und wie unser Partnerprogramm funktioniert.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "<qronos>Qronos AI</qronos> ist das erste Projekt in unserem neuen Partnerprogramm. Hier erfährst du, wer sie sind und wie jedes Projekt auf {appName} mitmachen kann.",
+        "H_WHO": "Wer Qronos ist",
+        "P_WHO": "Qronos AI bietet Entwicklern einen OpenAI- und Anthropic-kompatiblen Endpunkt für Modelle wie Claude, GPT, DeepSeek und MiniMax und betreibt ihn auf {appName}. Neben der API betreibt das Team <qronos_discord>eine Discord-Community</qronos_discord> für KI-Rollenspiel, Storytelling und Charaktererstellung, in der du mit KI-Charakteren chatten, eigene bauen und andere Autoren treffen kannst.",
+        "H_PARTNERS": "Unser Partnerprogramm",
+        "P_PARTNERS": "Partner sind Projekte, Apps, Bots und Communities, die auf {appName} laufen, und wir prüfen jeden, bevor wir ihn aufnehmen. Partner bekommen einen eigenen Beitrag im Partner-Kanal unseres <discord>Discord</discord>, die Partner-Rolle und eine Vorstellung wie diese. Im Gegenzug erwähnen sie {appName} auf ihrer Seite. Der Weiterverkauf von {appName}-Zugang ist mit unserer Zustimmung erlaubt, und nur für kostenpflichtige Modelle. Kostenlose Modelle werden nie weiterverkauft.",
+        "H_APPLY": "So bewirbst du dich",
+        "P_APPLY": "Du baust etwas auf {appName}? Schreib uns auf <discord>Discord</discord> mit Name und Link deines Projekts, was es macht und wie es {appName} nutzt, deinem {appName}-Benutzernamen und ungefähr wie viele Nutzer du hast.",
+        "CTA": "Lust, Qronos auszuprobieren? Besuche <qronos>qronos.me</qronos> oder tritt <qronos_discord>ihrem Discord</qronos_discord> bei. Neu bei {appName}? <register>Konto erstellen</register> oder <models>Modelle ansehen</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Wohin deine Anfragen gehen: Anbieter-Kennzeichnungen, Markierung von KI-Bildern und Neues zum Datenschutz",
         "DESCRIPTION": "Jede Modellseite zeigt jetzt, wo jeder Anbieter seinen Sitz hat, und markiert Länder ohne EU-Datenschutzgarantien. Hier erfährst du, was die Kennzeichnungen bedeuten, wie du deine Route wählst und was sich sonst geändert hat.",

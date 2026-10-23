@@ -602,6 +602,19 @@
       "privacy": "プライバシー"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos が {appName} のパートナーに",
+        "DESCRIPTION": "Qronos AI は LLM ゲートウェイを {appName} 上で運営し、AI ロールプレイとストーリーテリングの Discord コミュニティも運営しています。彼らについてと、パートナープログラムの仕組みを紹介します。",
+        "AUTHOR": "{appName} チーム",
+        "INTRO": "<qronos>Qronos AI</qronos> は、新しいパートナープログラムの最初のプロジェクトです。彼らについてと、{appName} 上で作られたプロジェクトが参加する方法を紹介します。",
+        "H_WHO": "Qronos について",
+        "P_WHO": "Qronos AI は、Claude、GPT、DeepSeek、MiniMax などのモデルに使える OpenAI と Anthropic 互換のエンドポイントを開発者に提供し、それを {appName} 上で運営しています。API のほかに、AI ロールプレイ、ストーリーテリング、キャラクター作成のための <qronos_discord>Discord コミュニティ</qronos_discord> も運営しており、AI キャラクターと話したり、自分のキャラクターを作ったり、ほかの書き手と交流したりできます。",
+        "H_PARTNERS": "パートナープログラム",
+        "P_PARTNERS": "パートナーは、{appName} 上で動くプロジェクト、アプリ、ボット、コミュニティです。掲載前にすべて確認しています。パートナーには、私たちの <discord>Discord</discord> のパートナーチャンネルでの専用投稿、Partner ロール、そしてこのような紹介が届きます。その代わりに、パートナー側でも {appName} に言及してもらいます。{appName} へのアクセスの再販は、私たちの承認があれば有料モデルに限って認めています。無料モデルが再販されることはありません。",
+        "H_APPLY": "申し込み方法",
+        "P_APPLY": "{appName} 上で何かを作っていますか？ <discord>Discord</discord> で、プロジェクトの名前とリンク、何をするもので {appName} をどう使っているか、{appName} のユーザー名、おおよそのユーザー数を送ってください。",
+        "CTA": "Qronos を試してみませんか？ <qronos>qronos.me</qronos> にアクセスするか、<qronos_discord>彼らの Discord</qronos_discord> に参加してください。{appName} は初めてですか？ <register>アカウントを作成</register>するか、<models>モデルを見て</models>みてください。"
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "リクエストの行き先：プロバイダーラベル、画像のマーキング、プライバシーに関する更新",
         "DESCRIPTION": "すべてのモデルページで各プロバイダーの所在国が表示され、EU のデータ保護措置がない国には印が付くようになりました。ラベルの意味、ルートの選び方、そのほかの変更点をご紹介します。",

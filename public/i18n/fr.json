@@ -602,6 +602,19 @@
       "privacy": "confidentialité"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos rejoint les partenaires de {appName}",
+        "DESCRIPTION": "Qronos AI fait tourner sa passerelle LLM sur {appName} et anime une communauté Discord dédiée au jeu de rôle avec l'IA et à la narration. Qui ils sont, et comment fonctionne notre programme partenaires.",
+        "AUTHOR": "L'équipe {appName}",
+        "INTRO": "<qronos>Qronos AI</qronos> est le premier projet de notre nouveau programme partenaires. Voici qui ils sont, et comment tout projet construit sur {appName} peut nous rejoindre.",
+        "H_WHO": "Qui est Qronos",
+        "P_WHO": "Qronos AI propose aux développeurs un point d'accès unique compatible OpenAI et Anthropic pour des modèles comme Claude, GPT, DeepSeek et MiniMax, et le fait tourner sur {appName}. À côté de l'API, l'équipe anime <qronos_discord>une communauté Discord</qronos_discord> pour le jeu de rôle avec l'IA, la narration et la création de personnages, où vous pouvez discuter avec des personnages IA, créer les vôtres et rencontrer d'autres auteurs.",
+        "H_PARTNERS": "Notre programme partenaires",
+        "P_PARTNERS": "Les partenaires sont des projets, applications, bots et communautés qui fonctionnent sur {appName}, et nous vérifions chacun avant de l'ajouter. Ils reçoivent leur propre publication dans le salon partenaires de notre <discord>Discord</discord>, le rôle Partner et une mise en avant comme celle-ci. En retour, ils mentionnent {appName} de leur côté. La revente d'un accès {appName} est autorisée avec notre accord, et uniquement pour les modèles payants. Les modèles gratuits ne sont jamais revendus.",
+        "H_APPLY": "Comment postuler",
+        "P_APPLY": "Vous construisez quelque chose sur {appName} ? Écrivez-nous sur <discord>Discord</discord> avec le nom et le lien de votre projet, ce qu'il fait et comment il utilise {appName}, votre nom d'utilisateur {appName} et votre nombre approximatif d'utilisateurs.",
+        "CTA": "Envie d'essayer Qronos ? Rendez-vous sur <qronos>qronos.me</qronos> ou rejoignez <qronos_discord>leur Discord</qronos_discord>. Nouveau sur {appName} ? <register>Créez un compte</register> ou <models>parcourez les modèles</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Où vont vos requêtes : étiquettes des fournisseurs, marquage des images et nouveautés sur la confidentialité",
         "DESCRIPTION": "Chaque page de modèle indique désormais où chaque fournisseur est établi et signale les pays sans garanties de protection des données de l'UE. Voici ce que signifient les étiquettes, comment choisir votre route et ce qui a changé par ailleurs.",

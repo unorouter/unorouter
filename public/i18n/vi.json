@@ -602,6 +602,19 @@
       "privacy": "quyền riêng tư"
     },
     "POSTS": {
+      "QRONOS_JOINS_PARTNERS": {
+        "TITLE": "Qronos gia nhập đối tác của {appName}",
+        "DESCRIPTION": "Qronos AI vận hành cổng LLM của họ trên {appName} và quản lý một cộng đồng Discord về nhập vai với AI và kể chuyện. Họ là ai, và chương trình đối tác của chúng tôi hoạt động thế nào.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "<qronos>Qronos AI</qronos> là dự án đầu tiên trong chương trình đối tác mới của chúng tôi. Dưới đây là họ là ai, và cách bất kỳ dự án nào xây dựng trên {appName} có thể tham gia.",
+        "H_WHO": "Qronos là ai",
+        "P_WHO": "Qronos AI cung cấp cho nhà phát triển một endpoint duy nhất tương thích OpenAI và Anthropic cho các mô hình như Claude, GPT, DeepSeek và MiniMax, và vận hành nó trên {appName}. Bên cạnh API, đội ngũ còn quản lý <qronos_discord>một cộng đồng Discord</qronos_discord> về nhập vai với AI, kể chuyện và tạo nhân vật, nơi bạn có thể trò chuyện với nhân vật AI, tự tạo nhân vật và gặp gỡ những người viết khác.",
+        "H_PARTNERS": "Chương trình đối tác của chúng tôi",
+        "P_PARTNERS": "Đối tác là các dự án, ứng dụng, bot và cộng đồng chạy trên {appName}, và chúng tôi kiểm tra từng đối tác trước khi đưa vào danh sách. Đối tác nhận một bài đăng riêng trong kênh đối tác trên <discord>Discord</discord> của chúng tôi, vai trò Partner và một lời giới thiệu như thế này. Đổi lại, họ nhắc đến {appName} ở phía họ. Việc bán lại quyền truy cập {appName} được phép khi có sự chấp thuận của chúng tôi và chỉ với các mô hình trả phí. Mô hình miễn phí không bao giờ được bán lại.",
+        "H_APPLY": "Cách đăng ký",
+        "P_APPLY": "Bạn đang xây dựng thứ gì đó trên {appName}? Nhắn cho chúng tôi trên <discord>Discord</discord> kèm tên và liên kết dự án, dự án làm gì và dùng {appName} thế nào, tên người dùng {appName} của bạn và số người dùng ước tính.",
+        "CTA": "Muốn thử Qronos? Truy cập <qronos>qronos.me</qronos> hoặc tham gia <qronos_discord>Discord của họ</qronos_discord>. Mới dùng {appName}? <register>Tạo tài khoản</register> hoặc <models>xem các mô hình</models>."
+      },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Yêu cầu của bạn đi đâu: nhãn nhà cung cấp, đánh dấu hình ảnh và cập nhật về quyền riêng tư",
         "DESCRIPTION": "Mỗi trang mô hình giờ đây cho biết từng nhà cung cấp đặt trụ sở ở đâu và đánh dấu các quốc gia không có biện pháp bảo vệ dữ liệu của EU. Dưới đây là ý nghĩa của các nhãn, cách chọn tuyến của bạn và những thay đổi khác.",
