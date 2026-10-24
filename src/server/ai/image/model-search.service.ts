@@ -86,6 +86,8 @@ const CATALOG_TTL_MS = 30 * 60_000;
 
 // Provider's per-request max.
 const CATALOG_PAGE_SIZE = 50;
+// The key is caller-chosen search text, so an uncapped map grew per unique query.
+const CATALOG_MAX_ENTRIES = 500;
 const catalogCache = new Map<string, { at: number; items: CatalogItem[] }>();
 
 export async function searchModelCatalog(
@@ -139,7 +141,14 @@ export async function searchModelCatalog(
     .filter(canGenerate)
     .map(toCatalogItem);
   // Never cache empty: one bad response pins "no models" for the whole TTL.
-  if (items.length) catalogCache.set(cacheKey, { at: Date.now(), items });
+  if (items.length) {
+    catalogCache.delete(cacheKey);
+    if (catalogCache.size >= CATALOG_MAX_ENTRIES) {
+      const oldest = catalogCache.keys().next().value;
+      if (oldest !== undefined) catalogCache.delete(oldest);
+    }
+    catalogCache.set(cacheKey, { at: Date.now(), items });
+  }
   return { items };
 }
 

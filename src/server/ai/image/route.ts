@@ -3,6 +3,7 @@ import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { catalogSearchQuery, imageSubmitBody } from "@/lib/validation/image";
 import { assertGuestOwnPurposeAccess } from "@/server/auth/free-consent/free-consent.service";
 import { getUserId } from "@/server/constants";
+import { rateLimit } from "@/server/rate-limit";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia, t } from "elysia";
 import { submitGeneration } from "./image-submit.service";
@@ -18,6 +19,9 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }
+
+// Each lookup below is a Runware call with our key and needs no login.
+const catalogLimit = rateLimit(60);
 
 export const imageRoute = new Elysia({ prefix: "/image" })
   .onError(({ error }): undefined => {
@@ -58,7 +62,7 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       success: true,
       data: await searchModelCatalog("lora", query),
     }),
-    { query: catalogSearchQuery },
+    { query: catalogSearchQuery, beforeHandle: catalogLimit },
   )
   .get(
     "/catalog/embeddings",
@@ -66,7 +70,7 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       success: true,
       data: await searchModelCatalog("embeddings", query),
     }),
-    { query: catalogSearchQuery },
+    { query: catalogSearchQuery, beforeHandle: catalogLimit },
   )
   .get(
     "/checkpoints",
@@ -74,7 +78,10 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       success: true,
       data: { items: await findCheckpoints(query.q) },
     }),
-    { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
+    {
+      query: t.Object({ q: t.String({ maxLength: 512 }) }),
+      beforeHandle: catalogLimit,
+    },
   )
   .post(
     "/civitai-versions",
@@ -82,7 +89,10 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       success: true,
       data: { items: await listCheckpointVersions(body.query) },
     }),
-    { body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }) },
+    {
+      body: t.Object({ query: t.String({ minLength: 1, maxLength: 512 }) }),
+      beforeHandle: catalogLimit,
+    },
   )
   .get(
     "/civitai-lora-versions",
@@ -90,5 +100,8 @@ export const imageRoute = new Elysia({ prefix: "/image" })
       success: true,
       data: { items: await listCheckpointVersions(query.q, "lora") },
     }),
-    { query: t.Object({ q: t.String({ maxLength: 512 }) }) },
+    {
+      query: t.Object({ q: t.String({ maxLength: 512 }) }),
+      beforeHandle: catalogLimit,
+    },
   );
