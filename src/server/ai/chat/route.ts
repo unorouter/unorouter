@@ -206,8 +206,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/trigger-op/llm",
-    async ({ body, cookie, apiKey }) => {
+    async ({ body, cookie, apiKey, userId }) => {
       await getUserId(cookie);
+      await assertGuestOwnPurposeAccess(cookie, userId, body.model);
       const data = await runTriggerLLM(
         apiKey,
         body.model,
