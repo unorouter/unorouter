@@ -123,10 +123,21 @@ const timingLog = makeLog<ChatDebugEntry>(
   true,
 );
 
+// A failed Drizzle query appends its bound values, which are message text.
+const stripSqlParams = (s: string) => s.replace(/\nparams:[\s\S]*/, "");
+
 export function logChatDebug(
   event: string,
   data?: Record<string, unknown>,
 ): void {
+  if (data) {
+    data = Object.fromEntries(
+      Object.entries(data).map(([k, v]) => [
+        k,
+        typeof v === "string" ? stripSqlParams(v) : v,
+      ]),
+    );
+  }
   let entry: ChatDebugEntry = { ts: Date.now(), event, ...data };
   if (data) {
     try {
@@ -292,9 +303,7 @@ export type CaughtErrorEntry = {
   componentStack: string;
   url: string;
   count: number;
-  // The exception to the no-text rule: ONE message, never a transcript, and
-  // kept on the NEWEST crash only.
-  detail?: string;
+  detail?: TextFingerprint;
   loadout?: CrashLoadout;
 };
 
@@ -315,8 +324,6 @@ const caughtLog = makeLog<CaughtErrorEntry>(
   MAX_CAUGHT_ERRORS,
 );
 
-const MAX_DETAIL_CHARS = 20_000;
-
 export function captureCaughtError(detail: {
   source: string;
   error: unknown;
@@ -327,7 +334,10 @@ export function captureCaughtError(detail: {
   const err = detail.error;
   const isError = err instanceof Error;
   const name = isError ? err.name : typeof err;
-  const message = String(isError ? err.message : err).slice(0, 500);
+  const message = stripSqlParams(String(isError ? err.message : err)).slice(
+    0,
+    500,
+  );
   const entries = caughtLog.get();
   const last = entries[entries.length - 1];
   if (last && last.source === detail.source && last.message === message) {
@@ -356,15 +366,18 @@ export function captureCaughtError(detail: {
       .join("\n"),
     url: typeof location === "undefined" ? "" : location.pathname,
     count: 1,
-    ...(detail.detail
-      ? { detail: detail.detail.slice(0, MAX_DETAIL_CHARS) }
-      : {}),
+    ...(detail.detail ? { detail: fingerprintText(detail.detail) } : {}),
     ...(detail.loadout ? { loadout: detail.loadout } : {}),
   });
 }
 
 export function getCaughtErrors(): CaughtErrorEntry[] {
-  return caughtLog.get().slice();
+  // Builds before the fingerprint stored the crashed message's text here.
+  return caughtLog
+    .get()
+    .map((e) =>
+      typeof e.detail === "string" ? { ...e, detail: undefined } : e,
+    );
 }
 
 export function attachCrashLoadout(loadout: CrashLoadout): void {

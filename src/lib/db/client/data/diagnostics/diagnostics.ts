@@ -263,7 +263,6 @@ async function buildDiagnosticsHead() {
   } catch {}
   const conversations = convs.map((c) => ({
     id: c.id,
-    title: c.title,
     model: c.model,
     groupId: c.groupId,
     totalInputTokens: c.totalInputTokens,
@@ -285,8 +284,7 @@ async function buildDiagnosticsHead() {
       noSystemRole: p.noSystemRole,
       mustStartWithUserInput: p.mustStartWithUserInput,
       postHistoryRole: p.postHistoryRole,
-      hasPromptTemplate: !!p.promptTemplate,
-      promptTemplate: p.promptTemplate,
+      promptTemplate: templateShape(p.promptTemplate),
       isDefault: p.isDefault,
     }));
   } catch (e) {
@@ -331,6 +329,22 @@ function messageShape(finalMessages: unknown): unknown {
         : undefined,
     };
   });
+}
+
+function templateShape(template: string | null): unknown {
+  if (!template) return null;
+  try {
+    const blocks: unknown = JSON.parse(template);
+    if (!Array.isArray(blocks)) return "unparsed";
+    return recArr(blocks).map((b) => ({
+      type: b.type,
+      slot: b.slot,
+      role: b.role,
+      chars: typeof b.text === "string" ? b.text.length : undefined,
+    }));
+  } catch {
+    return "unparsed";
+  }
 }
 
 const MAX_SHAPE_ROWS = 3;
