@@ -154,7 +154,15 @@ export async function readJoinedMessages(convId: string) {
     readLocalMessages(convId),
     readLocalMessageItems(convId),
   ]);
-  return joinItemsToMessages(msgs ?? [], items ?? []);
+  // Two concurrent appends of one turn stored every part twice (2026-10-24).
+  const seen = new Set<string>();
+  const unique = (items ?? []).filter((it) => {
+    const key = `${it.messageId}:${it.sequenceIndex}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  return joinItemsToMessages(msgs ?? [], unique);
 }
 
 export async function readActiveBranchParts(convId: string) {

@@ -562,6 +562,8 @@ export type PersistTurn = (
   parentId: string | null,
 ) => Promise<void>;
 
+const pendingAppends = new Map<string, Promise<void>>();
+
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
   getConvId: () => string | null,
@@ -638,174 +640,184 @@ export function createChatHistoryAdapter(
           }
         },
 
-        async append(item: MessageFormatItem<TMessage>) {
-          const id = getConvId();
-          if (!id) return;
-
+        // The user turn is persisted as the request leaves and again by the
+        // runtime; run concurrently, both miss the row and store its parts twice.
+        append(item: MessageFormatItem<TMessage>) {
           const messageId = formatAdapter.getId(item.message);
-          // A group turn and auto-continue stream into the SAME message, so the
-          // row exists and now holds the next speaker's parts too.
-          const existingRow = ((await readLocalMessages(id)) ?? []).find(
-            (m) => m.id === messageId,
+          const run = (pendingAppends.get(messageId) ?? Promise.resolve()).then(
+            () => appendNow(item),
           );
-          logChatDebug("history.append", {
-            convId: id,
-            convIdAtom: chatStore.get(convIdAtom),
-            messageId,
-            role: (item.message as { role?: string }).role,
-            parentId: item.parentId ?? null,
-            existing: !!existingRow,
+          const settled = run.catch(() => {});
+          pendingAppends.set(messageId, settled);
+          void settled.then(() => {
+            if (pendingAppends.get(messageId) === settled)
+              pendingAppends.delete(messageId);
           });
-          const content = formatAdapter.encode(
-            item,
-          ) as unknown as EncodedContent;
-          if (existingRow && content.role !== "assistant") return;
-          const isAssistant = content.role === "assistant";
-          const originalAssistantText = assistantTextOf(content);
-
-          const parts = isAssistant
-            ? await applyAssistantOutputTransforms(id, content.parts)
-            : content.parts;
-          const items = partsToItems(parts);
-          const resolvedModel = isAssistant
-            ? chatStore.get(chatModelAtom)
-            : null;
-
-          if (isAssistant) {
-            appendStreamErrorItem(items, resolvedModel);
-            if (items.length === 0) return;
-          }
-
-          const illustratorJob =
-            isAssistant && !existingRow && originalAssistantText.trim()
-              ? await prepareIllustratorJob(id, items, resolvedModel)
-              : null;
-
-          const now = dayjs().toDate();
-          const metadata =
-            (item.message as { metadata?: ChatMessageMetadata }).metadata ??
-            null;
-          const usage = metadata?.usage ?? null;
-          const varsWriteback = metadata?.vars ?? null;
-          await persistInlayMedia(id, metadata);
-          if (metadata?.globalVars != null) {
-            chatStore.set(globalVarsAtom, metadata.globalVars);
-          }
-
-          const speakingCharId = isAssistant
-            ? (metadata?.speakingCharacterId ??
-              chatStore.get(speakingCharacterIdAtom))
-            : null;
-
-          const placement = existingRow
-            ? {
-                parentId: existingRow.parentId ?? null,
-                parentBranchVars: existingRow.branchVars ?? null,
-                nextBranchIndex: existingRow.branchIndex ?? 0,
-              }
-            : await placeOnBranch(
-                id,
-                messageId,
-                item.parentId ?? null,
-                now,
-                content.role,
-              );
-          const branchVars = isAssistant
-            ? (varsWriteback ?? placement.parentBranchVars)
-            : placement.parentBranchVars;
-          const newMessage = {
-            ...(existingRow ?? {}),
-            id: messageId,
-            convId: id,
-            parentId: placement.parentId,
-            role: content.role,
-            model: resolvedModel,
-            characterId: existingRow?.characterId ?? speakingCharId,
-            inputTokens:
-              (existingRow?.inputTokens ?? 0) + (usage?.inputTokens ?? 0) ||
-              null,
-            outputTokens:
-              (existingRow?.outputTokens ?? 0) + (usage?.outputTokens ?? 0) ||
-              null,
-            cost: (existingRow?.cost ?? 0) + (usage?.cost ?? 0) || null,
-            isActiveBranch: true,
-            isEdited: false,
-            branchIndex: placement.nextBranchIndex,
-            branchVars,
-            createdAt: existingRow?.createdAt ?? now,
-            updatedAt: now,
-          };
-          const existingConv = await readLocalConversation(id);
-          if (!existingConv) {
-            await upsertLocalConversation({
-              id,
-              title: null,
-              totalInputTokens: 0,
-              totalOutputTokens: 0,
-              totalCost: 0,
-              createdAt: now,
-              defaultModel: resolvedModel ?? chatStore.get(chatModelAtom) ?? "",
-              updatedAt: now,
-            });
-          }
-          try {
-            await upsertLocalMessage(newMessage);
-            logChatDebug("history.persisted", {
-              convId: id,
-              messageId,
-              role: content.role,
-            });
-          } catch (e) {
-            logChatDebug("history.persist_error", {
-              convId: id,
-              messageId,
-              error: String(e).slice(0, 200),
-            });
-            throw e;
-          }
-
-          const itemRows = items.map((it, seq) => ({
-            id: it.id ?? uid(),
-            messageId,
-            sequenceIndex: seq,
-            outputIndex: it.output_index ?? null,
-            type: it.type,
-            data: it.data,
-            createdAt: now,
-          }));
-          if (existingRow) {
-            await replaceLocalMessageItems(messageId, itemRows);
-          } else {
-            for (const row of itemRows) {
-              await upsertLocalMessageItem(row);
-            }
-          }
-
-          await persistRequestLog(
-            queryClient,
-            id,
-            messageId,
-            metadata,
-            resolvedModel,
-            now,
-          );
-          await bumpConversationTotals(id, existingConv, metadata, now);
-          for (const queryKey of [
-            queryKeys.chatMeta(id),
-            queryKeys.chatMessages(id),
-            queryKeys.conversations(),
-          ]) {
-            queryClient.invalidateQueries({ queryKey });
-          }
-
-          if (illustratorJob) {
-            fireIllustrator(queryClient, illustratorJob, {
-              convId: id,
-              messageId,
-              responseText: originalAssistantText,
-            });
-          }
+          return run;
         },
+      };
+
+      const appendNow = async (item: MessageFormatItem<TMessage>) => {
+        const id = getConvId();
+        if (!id) return;
+
+        const messageId = formatAdapter.getId(item.message);
+        // A group turn and auto-continue stream into the SAME message, so the
+        // row exists and now holds the next speaker's parts too.
+        const existingRow = ((await readLocalMessages(id)) ?? []).find(
+          (m) => m.id === messageId,
+        );
+        logChatDebug("history.append", {
+          convId: id,
+          convIdAtom: chatStore.get(convIdAtom),
+          messageId,
+          role: (item.message as { role?: string }).role,
+          parentId: item.parentId ?? null,
+          existing: !!existingRow,
+        });
+        const content = formatAdapter.encode(item) as unknown as EncodedContent;
+        if (existingRow && content.role !== "assistant") return;
+        const isAssistant = content.role === "assistant";
+        const originalAssistantText = assistantTextOf(content);
+
+        const parts = isAssistant
+          ? await applyAssistantOutputTransforms(id, content.parts)
+          : content.parts;
+        const items = partsToItems(parts);
+        const resolvedModel = isAssistant ? chatStore.get(chatModelAtom) : null;
+
+        if (isAssistant) {
+          appendStreamErrorItem(items, resolvedModel);
+          if (items.length === 0) return;
+        }
+
+        const illustratorJob =
+          isAssistant && !existingRow && originalAssistantText.trim()
+            ? await prepareIllustratorJob(id, items, resolvedModel)
+            : null;
+
+        const now = dayjs().toDate();
+        const metadata =
+          (item.message as { metadata?: ChatMessageMetadata }).metadata ?? null;
+        const usage = metadata?.usage ?? null;
+        const varsWriteback = metadata?.vars ?? null;
+        await persistInlayMedia(id, metadata);
+        if (metadata?.globalVars != null) {
+          chatStore.set(globalVarsAtom, metadata.globalVars);
+        }
+
+        const speakingCharId = isAssistant
+          ? (metadata?.speakingCharacterId ??
+            chatStore.get(speakingCharacterIdAtom))
+          : null;
+
+        const placement = existingRow
+          ? {
+              parentId: existingRow.parentId ?? null,
+              parentBranchVars: existingRow.branchVars ?? null,
+              nextBranchIndex: existingRow.branchIndex ?? 0,
+            }
+          : await placeOnBranch(
+              id,
+              messageId,
+              item.parentId ?? null,
+              now,
+              content.role,
+            );
+        const branchVars = isAssistant
+          ? (varsWriteback ?? placement.parentBranchVars)
+          : placement.parentBranchVars;
+        const newMessage = {
+          ...(existingRow ?? {}),
+          id: messageId,
+          convId: id,
+          parentId: placement.parentId,
+          role: content.role,
+          model: resolvedModel,
+          characterId: existingRow?.characterId ?? speakingCharId,
+          inputTokens:
+            (existingRow?.inputTokens ?? 0) + (usage?.inputTokens ?? 0) || null,
+          outputTokens:
+            (existingRow?.outputTokens ?? 0) + (usage?.outputTokens ?? 0) ||
+            null,
+          cost: (existingRow?.cost ?? 0) + (usage?.cost ?? 0) || null,
+          isActiveBranch: true,
+          isEdited: false,
+          branchIndex: placement.nextBranchIndex,
+          branchVars,
+          createdAt: existingRow?.createdAt ?? now,
+          updatedAt: now,
+        };
+        const existingConv = await readLocalConversation(id);
+        if (!existingConv) {
+          await upsertLocalConversation({
+            id,
+            title: null,
+            totalInputTokens: 0,
+            totalOutputTokens: 0,
+            totalCost: 0,
+            createdAt: now,
+            defaultModel: resolvedModel ?? chatStore.get(chatModelAtom) ?? "",
+            updatedAt: now,
+          });
+        }
+        try {
+          await upsertLocalMessage(newMessage);
+          logChatDebug("history.persisted", {
+            convId: id,
+            messageId,
+            role: content.role,
+          });
+        } catch (e) {
+          logChatDebug("history.persist_error", {
+            convId: id,
+            messageId,
+            error: String(e).slice(0, 200),
+          });
+          throw e;
+        }
+
+        const itemRows = items.map((it, seq) => ({
+          id: it.id ?? uid(),
+          messageId,
+          sequenceIndex: seq,
+          outputIndex: it.output_index ?? null,
+          type: it.type,
+          data: it.data,
+          createdAt: now,
+        }));
+        if (existingRow) {
+          await replaceLocalMessageItems(messageId, itemRows);
+        } else {
+          for (const row of itemRows) {
+            await upsertLocalMessageItem(row);
+          }
+        }
+
+        await persistRequestLog(
+          queryClient,
+          id,
+          messageId,
+          metadata,
+          resolvedModel,
+          now,
+        );
+        await bumpConversationTotals(id, existingConv, metadata, now);
+        for (const queryKey of [
+          queryKeys.chatMeta(id),
+          queryKeys.chatMessages(id),
+          queryKeys.conversations(),
+        ]) {
+          queryClient.invalidateQueries({ queryKey });
+        }
+
+        if (illustratorJob) {
+          fireIllustrator(queryClient, illustratorJob, {
+            convId: id,
+            messageId,
+            responseText: originalAssistantText,
+          });
+        }
       };
 
       onFormatReady?.(async (message, parentId) => {
