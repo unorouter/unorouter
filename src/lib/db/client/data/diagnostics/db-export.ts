@@ -11,7 +11,7 @@ export async function downloadDiagnostics(filename: string): Promise<void> {
   logChatDebug("export.diagnostics.start", { filename });
   try {
     const data = await buildDiagnostics();
-    downloadJson(data, filename, { pretty: false });
+    downloadJson(data, filename);
     logChatDebug("export.diagnostics.done", { filename });
   } catch (e) {
     logChatDebug("export.diagnostics.error", { error: String(e) });
@@ -26,7 +26,6 @@ export async function downloadDiagnostics(filename: string): Promise<void> {
           debugLog: getChatDebugLog(),
         },
         filename,
-        { pretty: false },
       );
       logChatDebug("export.diagnostics.partial", { filename });
       return;
