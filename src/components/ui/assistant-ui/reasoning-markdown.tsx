@@ -5,6 +5,7 @@ import {
   MarkdownTextPrimitive,
   unstable_memoizeMarkdownComponents as memoizeMarkdownComponents,
 } from "@assistant-ui/react-markdown";
+import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
 const reasoningComponents = memoizeMarkdownComponents({
@@ -77,7 +78,7 @@ function unwrapFence(text: string): string {
 export const ReasoningMarkdown = () => (
   <MarkdownTextPrimitive
     preprocess={unwrapFence}
-    remarkPlugins={[remarkGfm]}
+    remarkPlugins={[remarkGfm, remarkBreaks]}
     className="aui-md text-muted-foreground text-xs"
     components={reasoningComponents}
   />

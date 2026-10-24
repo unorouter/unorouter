@@ -54,6 +54,7 @@ import { useTranslations } from "next-intl";
 import { type FC, type SyntheticEvent, useEffect, useState } from "react";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
+import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
@@ -181,7 +182,7 @@ const MarkdownTextImpl = () => {
   return (
     <>
       <MarkdownTextPrimitive
-        remarkPlugins={[remarkGfm, remarkMath]}
+        remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
         // rehypeDropHoles brackets the chain against holes left by a plugin that
         // splices children mid-traversal. mathjax additionally gets wrapped,
         // because it throws INSIDE its own visitParents and a bracketing pass
@@ -231,7 +232,7 @@ export const MarkdownText = MarkdownTextImpl;
 // unconditionally and everything outside it is escaped to plain text.
 export const StandaloneMarkdownText: FC = () => (
   <MarkdownTextPrimitive
-    remarkPlugins={[remarkGfm]}
+    remarkPlugins={[remarkGfm, remarkBreaks]}
     rehypePlugins={[
       rehypeDropHoles,
       rehypeRaw,
