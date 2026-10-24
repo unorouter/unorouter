@@ -63,11 +63,12 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }
-          # heaviest service on the fleet: ~1.1Gi steady as a compiled binary (the whole
-          # static tree is served from memory). Request must match that or the scheduler
-          # overpacks nodes; limit is ~2x peak.
+          # heaviest service on the fleet as a compiled binary (the whole static tree is
+          # served from memory): ~750Mi typical, one pod peaked at 1.47Gi over 30 days
+          # (2026-10-24). Request covers the steady state or the scheduler overpacks
+          # nodes; limit is ~2x peak.
           resources:
-            requests: { memory: 1536Mi, cpu: "1" }
+            requests: { memory: 1280Mi, cpu: "1" }
             limits: { memory: 3Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
