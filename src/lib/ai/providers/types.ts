@@ -12,6 +12,8 @@ export type ModelRoleFlags = {
   claudeAdaptiveThinking: boolean;
   claudeXHighEffort: boolean;
   noCivilIntegrity: boolean;
+  // reasoning_effort above "high" is a 400 (Gemini's OpenAI endpoint).
+  effortCapHigh: boolean;
   cacheControl: boolean;
 };
 
@@ -35,5 +37,6 @@ export const DEFAULT_ROLE_FLAGS: ModelRoleFlags = {
   claudeAdaptiveThinking: false,
   claudeXHighEffort: false,
   noCivilIntegrity: false,
+  effortCapHigh: false,
   cacheControl: false,
 };

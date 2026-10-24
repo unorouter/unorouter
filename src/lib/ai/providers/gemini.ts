@@ -14,6 +14,7 @@ export const geminiThinkingAdapter: ProviderAdapter = {
     userStub: true,
     endUserStub: true,
     noCivilIntegrity: true,
+    effortCapHigh: true,
   },
 };
 
@@ -27,5 +28,6 @@ export const geminiAdapter: ProviderAdapter = {
     alternateRoles: true,
     userStub: true,
     endUserStub: true,
+    effortCapHigh: true,
   },
 };

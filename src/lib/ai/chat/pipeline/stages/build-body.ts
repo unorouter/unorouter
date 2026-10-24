@@ -116,7 +116,12 @@ export function buildProviderOptions(
       ...defined({
         // camelCase only: the sdk maps this to reasoning_effort on the wire and
         // does not recognize the snake_case name.
-        reasoningEffort: assembled.reasoningEffort,
+        reasoningEffort:
+          autoFlags.effortCapHigh &&
+          (assembled.reasoningEffort === "xhigh" ||
+            assembled.reasoningEffort === "max")
+            ? "high"
+            : assembled.reasoningEffort,
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
             ? GEMINI_SAFETY_OFF.filter(
