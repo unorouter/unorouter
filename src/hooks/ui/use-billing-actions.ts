@@ -43,7 +43,8 @@ export function useBillingActions() {
   const enableDeloPay = topUpInfo?.enable_delopay_topup ?? false;
   const enableCard = enableStripe || enableCreem;
   const enableCrypto = enableNowPayments;
-  const enablePayPal = enableDeloPay;
+  // Hidden for now; DeloPay stays on upstream so in-flight PayPal webhooks still credit.
+  const enablePayPal = false;
   const discount = topUpInfo?.discount ?? {};
   const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
   const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
