@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Model name"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} probes passed",
+      "PASSED": "{passed}/{total} checks passed",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
       "DETECTED_MODEL": "Detected model",
@@ -5092,7 +5092,7 @@
       "READY": "Ready",
       "RUNNING": "Testing",
       "RUNNING_HINT": "Running the probes against your endpoint.",
-      "DONE_HINT": "Each arc is one probe. Expand a probe below to see the prompt, the reply, and the evidence."
+      "DONE_HINT": "Each arc is one probe or one failed rule check. Expand a probe below to see the prompt, the reply, and the evidence."
     },
     "WHY": {
       "TITLE": "Why this tester is different",

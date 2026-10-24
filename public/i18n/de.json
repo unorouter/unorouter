@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Modellname"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} Pruefungen bestanden",
+      "PASSED": "{passed}/{total} Prüfungen bestanden",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "ueber {mode}",
       "DETECTED_MODEL": "Erkanntes Modell",
@@ -5092,7 +5092,7 @@
       "READY": "Bereit",
       "RUNNING": "Wird getestet",
       "RUNNING_HINT": "Die Proben werden gegen Ihren Endpunkt ausgeführt.",
-      "DONE_HINT": "Jeder Bogen ist eine Probe. Klappen Sie unten eine Probe auf, um den Prompt, die Antwort und die Belege zu sehen."
+      "DONE_HINT": "Jeder Bogen ist eine Probe oder eine fehlgeschlagene Regelprüfung. Klappe unten eine Probe auf, um Prompt, Antwort und Beleg zu sehen."
     },
     "WHY": {
       "TITLE": "Warum dieser Tester anders ist",

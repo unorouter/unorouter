@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "模型名稱"
     },
     "RESULT": {
-      "PASSED": "通過 {passed}/{total} 項探測",
+      "PASSED": "通過 {passed}/{total} 項檢查",
       "LATENCY": "{ms} 毫秒",
       "TRANSPORT": "經由 {mode}",
       "DETECTED_MODEL": "偵測到的模型",
@@ -5092,7 +5092,7 @@
       "READY": "就緒",
       "RUNNING": "測試中",
       "RUNNING_HINT": "正在針對你的端點執行探針。",
-      "DONE_HINT": "每段弧線是一個探針。展開下方的探針即可查看提示、回覆和證據。"
+      "DONE_HINT": "每段弧代表一次探測或一項未通過的規則檢查。展開下方的探測可查看提示詞、回覆和證據。"
     },
     "WHY": {
       "TITLE": "這款偵測器為何與眾不同",

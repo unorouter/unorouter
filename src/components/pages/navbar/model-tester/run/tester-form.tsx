@@ -60,11 +60,26 @@ const FORMAT_LABEL: Record<ModelTesterForm["provider"], TranslationKey> = {
   gemini: "MODEL_TESTER.PROVIDER.GEMINI",
 };
 
+// Evidence rules judge the endpoint beside the probes; a fake can pass all four probes.
+function failedChecks(result: VerifyResult | null): number {
+  if (!result) return 0;
+  return result.findings.filter(
+    (f) => f.severity === "fail" && f.layer === "evidence",
+  ).length;
+}
+
 function gaugeArcs(result: VerifyResult | null, running: boolean): GaugeArc[] {
   if (running || !result) return ["pending", "pending", "pending", "pending"];
   if (result.probes.length === 0)
     return ["pending", "pending", "pending", "pending"];
-  return result.probes.map((p) => (p.pass ? "pass" : "fail"));
+  const probes: GaugeArc[] = result.probes.map((p) =>
+    p.pass ? "pass" : "fail",
+  );
+  const checks: GaugeArc[] = Array.from(
+    { length: failedChecks(result) },
+    () => "fail",
+  );
+  return [...probes, ...checks];
 }
 
 export function TesterForm() {
@@ -360,7 +375,7 @@ export function TesterForm() {
             arcs={gaugeArcs(result, running)}
             running={running}
             passed={result?.probesPassed ?? 0}
-            total={result?.probesTotal ?? 0}
+            total={(result?.probesTotal ?? 0) + failedChecks(result)}
             label={
               running
                 ? t("MODEL_TESTER.GAUGE.RUNNING_HINT")

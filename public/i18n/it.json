@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Nome del modello"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} sonde superate",
+      "PASSED": "{passed}/{total} controlli superati",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
       "DETECTED_MODEL": "Modello rilevato",
@@ -5092,7 +5092,7 @@
       "READY": "Pronto",
       "RUNNING": "Test in corso",
       "RUNNING_HINT": "Esecuzione delle sonde sul tuo endpoint.",
-      "DONE_HINT": "Ogni arco è una sonda. Espandi una sonda qui sotto per vedere il prompt, la risposta e le prove."
+      "DONE_HINT": "Ogni arco è una sonda o un controllo di regola fallito. Espandi una sonda qui sotto per vedere il prompt, la risposta e le prove."
     },
     "WHY": {
       "TITLE": "Perché questo tester è diverso",

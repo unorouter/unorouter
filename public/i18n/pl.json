@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Nazwa modelu"
     },
     "RESULT": {
-      "PASSED": "Zaliczono {passed}/{total} sond",
+      "PASSED": "{passed}/{total} kontroli zaliczonych",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "przez {mode}",
       "DETECTED_MODEL": "Wykryty model",
@@ -5092,7 +5092,7 @@
       "READY": "Gotowe",
       "RUNNING": "Testowanie",
       "RUNNING_HINT": "Uruchamianie sond wobec Twojego punktu końcowego.",
-      "DONE_HINT": "Każdy łuk to jedna sonda. Rozwiń sondę poniżej, aby zobaczyć polecenie, odpowiedź i dowody."
+      "DONE_HINT": "Każdy łuk to jedna próba albo jedna nieudana kontrola reguły. Rozwiń próbę poniżej, aby zobaczyć prompt, odpowiedź i dowód."
     },
     "WHY": {
       "TITLE": "Dlaczego ten tester jest inny",

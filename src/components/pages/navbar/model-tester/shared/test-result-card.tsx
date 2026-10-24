@@ -703,7 +703,7 @@ export function TestResultCard(props: {
 
       {!open ? null : (
         <div className="flex flex-col gap-2 border-t px-5 py-4">
-          {result.versionUnverifiable ? (
+          {result.versionUnverifiable && result.verdict === "genuine" ? (
             <p className="text-muted-foreground text-sm">
               {t("MODEL_TESTER.VERDICT.VERSION_UNVERIFIABLE")}
             </p>

@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Ten mo hinh"
     },
     "RESULT": {
-      "PASSED": "Dat {passed}/{total} tham do",
+      "PASSED": "Đạt {passed}/{total} kiểm tra",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "qua {mode}",
       "DETECTED_MODEL": "Mo hinh phat hien",
@@ -5092,7 +5092,7 @@
       "READY": "Sẵn sàng",
       "RUNNING": "Đang kiểm tra",
       "RUNNING_HINT": "Đang chạy các lượt thăm dò đối với điểm cuối của bạn.",
-      "DONE_HINT": "Mỗi cung tròn là một lượt thăm dò. Mở rộng một lượt thăm dò bên dưới để xem lời nhắc, câu trả lời và bằng chứng."
+      "DONE_HINT": "Mỗi cung là một phép thử hoặc một kiểm tra quy tắc bị trượt. Mở một phép thử bên dưới để xem prompt, câu trả lời và bằng chứng."
     },
     "WHY": {
       "TITLE": "Vì sao trình kiểm tra này khác biệt",

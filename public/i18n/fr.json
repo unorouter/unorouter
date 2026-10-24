@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Nom du modele"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} sondes reussies",
+      "PASSED": "{passed}/{total} vérifications réussies",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
       "DETECTED_MODEL": "Modele detecte",
@@ -5092,7 +5092,7 @@
       "READY": "Prêt",
       "RUNNING": "Test en cours",
       "RUNNING_HINT": "Exécution des sondes sur votre point de terminaison.",
-      "DONE_HINT": "Chaque arc est une sonde. Dépliez une sonde ci-dessous pour voir la demande, la réponse et les preuves."
+      "DONE_HINT": "Chaque arc correspond à une sonde ou à une vérification de règle échouée. Dépliez une sonde ci-dessous pour voir le prompt, la réponse et la preuve."
     },
     "WHY": {
       "TITLE": "Pourquoi ce testeur est différent",

@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Model adi"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} sonda gecti",
+      "PASSED": "{passed}/{total} kontrol geçti",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "{mode} uzerinden",
       "DETECTED_MODEL": "Algilanan model",
@@ -5092,7 +5092,7 @@
       "READY": "Hazır",
       "RUNNING": "Test ediliyor",
       "RUNNING_HINT": "Sondalar uç noktanıza karşı çalıştırılıyor.",
-      "DONE_HINT": "Her yay bir sondadır. Aşağıdaki bir sondayı genişleterek istemi, yanıtı ve kanıtı görün."
+      "DONE_HINT": "Her yay bir sondayı ya da başarısız bir kural kontrolünü gösterir. İstemi, yanıtı ve kanıtı görmek için aşağıdan bir sondayı açın."
     },
     "WHY": {
       "TITLE": "Bu test aracı neden farklı",

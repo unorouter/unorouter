@@ -4814,7 +4814,7 @@
       "MODEL-NAME": "Nama model"
     },
     "RESULT": {
-      "PASSED": "{passed}/{total} probe lulus",
+      "PASSED": "{passed}/{total} pemeriksaan lolos",
       "LATENCY": "{ms}ms",
       "TRANSPORT": "via {mode}",
       "DETECTED_MODEL": "Model terdeteksi",
@@ -5092,7 +5092,7 @@
       "READY": "Siap",
       "RUNNING": "Sedang menguji",
       "RUNNING_HINT": "Menjalankan probe terhadap endpoint Anda.",
-      "DONE_HINT": "Setiap busur adalah satu probe. Bentangkan sebuah probe di bawah untuk melihat prompt, balasan, dan buktinya."
+      "DONE_HINT": "Setiap busur adalah satu probe atau satu pemeriksaan aturan yang gagal. Buka probe di bawah untuk melihat prompt, balasan, dan buktinya."
     },
     "WHY": {
       "TITLE": "Mengapa penguji ini berbeda",
