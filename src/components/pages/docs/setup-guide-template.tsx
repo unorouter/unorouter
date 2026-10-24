@@ -88,6 +88,12 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
       }),
     );
   }
+  if (guide.install)
+    tocItems.push({
+      title: t(guide.install.titleKey, APP_VALUES),
+      url: "#install",
+      depth: 2,
+    });
   tocItems.push({
     title: t("DOCS.SETUP_GUIDE.TOC_MODELS"),
     url: "#models",
@@ -125,6 +131,14 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
         ? highlightCode(value, step.code.lang)
         : Promise.resolve(null);
     }),
+  );
+
+  const installCodeHtml = await Promise.all(
+    (guide.install?.steps ?? []).map((step) =>
+      step.code
+        ? highlightCode(step.code.value, step.code.lang)
+        : Promise.resolve(null),
+    ),
   );
 
   const stepOsVariants = await Promise.all(
@@ -307,6 +321,42 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                 />
               }
             />
+          </section>
+        ) : null}
+
+        {guide.install ? (
+          <section className="mt-12">
+            <h2 className="mb-4 text-2xl font-semibold" id="install">
+              {t(guide.install.titleKey, APP_VALUES)}
+            </h2>
+            <p className="text-muted-foreground mb-6 text-sm">
+              {t(guide.install.descKey, APP_VALUES)}
+            </p>
+            <ol className="text-muted-foreground space-y-6 text-sm">
+              {guide.install.steps.map((step, idx) => (
+                <li key={step.titleKey} className="flex gap-3">
+                  <span className="bg-muted text-foreground inline-flex size-6 shrink-0 items-center justify-center rounded-full font-mono text-xs">
+                    {idx + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <strong className="text-foreground">
+                      {t(step.titleKey, APP_VALUES)}
+                    </strong>
+                    <p className="mt-1">{t(step.bodyKey, APP_VALUES)}</p>
+                    {step.code && installCodeHtml[idx] ? (
+                      <div className="mt-3">
+                        <ApiKeyCodeBlock
+                          html={installCodeHtml[idx]!}
+                          code={step.code.value}
+                          language={step.code.lang}
+                          placeholder={docs.placeholder}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ol>
           </section>
         ) : null}
 

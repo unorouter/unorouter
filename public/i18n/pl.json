@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Wklej wyłącznie bazowy adres URL kończący się na `/v1`. SillyTavern sam dokleja `/chat/completions`; dodanie go zwraca błąd 400.",
       "GOTCHA_2": "Pusta lista modeli oznacza, że połączenie się nie powiodło. Sprawdź ponownie bazowy adres URL, a następnie włącz Bypass API status check.",
       "GOTCHA_3": "Błąd 401 oznacza, że klucz wygasł lub został blednie wpisany. Wygeneruj świeży klucz w panelu {appName} i wklej go bez początkowych i końcowych spacji.",
-      "GOTCHA_4": "Jeśli strumień urywa się w połowie zdania, wyłącz Streaming, aby potwierdzić przyczynę, potem włącz je z powrotem. Psują to też firmowe proxy usuwające przedrostek `data:`."
+      "GOTCHA_4": "Jeśli strumień urywa się w połowie zdania, wyłącz Streaming, aby potwierdzić przyczynę, potem włącz je z powrotem. Psują to też firmowe proxy usuwające przedrostek `data:`.",
+      "TERMUX_TITLE": "Uruchom na Androidzie (Termux)",
+      "TERMUX_DESC": "SillyTavern nie ma aplikacji na Androida, ale działa na telefonie w Termuxie. Zainstaluj go raz według tych kroków, otwórz w przeglądarce telefonu, a potem połącz {appName} według kroków powyżej.",
+      "TERMUX_STEP_1_TITLE": "Zainstaluj Termux",
+      "TERMUX_STEP_1_DESC": "Pobierz Termux z F-Droid albo ze strony wydań na GitHubie. Wersja ze Sklepu Play nie jest już rozwijana i nie działa.",
+      "TERMUX_STEP_2_TITLE": "Wybierz mirror i zaktualizuj",
+      "TERMUX_STEP_2_DESC": "Otwórz Termux i uruchom pierwsze polecenie. Wybierz Mirror group i region blisko ciebie, a potem zaktualizuj pakiety.",
+      "TERMUX_STEP_3_TITLE": "Zainstaluj wymagania",
+      "TERMUX_STEP_3_DESC": "To instaluje Git i Node.js. Na starszym telefonie 32-bitowym uruchom też `pkg install esbuild`, jeśli start kończy się błędem Unsupported platform.",
+      "TERMUX_STEP_4_TITLE": "Pobierz SillyTavern",
+      "TERMUX_STEP_4_DESC": "To pobiera stabilną wersję do twojego folderu domowego w Termuxie.",
+      "TERMUX_STEP_5_TITLE": "Uruchom SillyTavern",
+      "TERMUX_STEP_5_DESC": "Otwórz http://127.0.0.1:8000 w przeglądarce telefonu i wykonaj kroki konfiguracji powyżej. Zostaw Termux działający w tle podczas czatu. Aby uruchomić go później ponownie, wykonaj te dwa polecenia.",
+      "TERMUX_STEP_6_TITLE": "Zaktualizuj SillyTavern",
+      "TERMUX_STEP_6_DESC": "Uruchom to, gdy chcesz najnowszą wersję. Twoje postacie i czaty zostają."
     },
     "JANITOR_AI": {
       "META": {

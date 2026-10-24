@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Nur die auf `/v1` endende Basis-URL einfügen. SillyTavern hängt `/chat/completions` selbst an; wird es ergänzt, folgt ein 400-Fehler.",
       "GOTCHA_2": "Eine leere Modellauswahl bedeutet, dass die Verbindung fehlgeschlagen ist. Prüfen Sie die Basis-URL erneut und aktivieren Sie dann Bypass API status check.",
       "GOTCHA_3": "Ein 401 bedeutet, dass der Schlüssel abgelaufen oder falsch eingegeben ist. Erzeuge einen frischen Schlüssel in deinem {appName}-Dashboard und füge ihn ohne führende oder nachgestellte Leerzeichen ein.",
-      "GOTCHA_4": "Bricht das Streaming mitten im Satz ab, Streaming zur Bestätigung der Ursache deaktivieren und danach wieder aktivieren. Firmenproxys, die das Präfix `data:` entfernen, brechen es ebenfalls."
+      "GOTCHA_4": "Bricht das Streaming mitten im Satz ab, Streaming zur Bestätigung der Ursache deaktivieren und danach wieder aktivieren. Firmenproxys, die das Präfix `data:` entfernen, brechen es ebenfalls.",
+      "TERMUX_TITLE": "Auf Android ausführen (Termux)",
+      "TERMUX_DESC": "SillyTavern hat keine Android-App, läuft aber auf dem Handy in Termux. Installieren Sie es einmal mit diesen Schritten, öffnen Sie es im Browser Ihres Handys und verbinden Sie dann {appName} mit den Schritten oben.",
+      "TERMUX_STEP_1_TITLE": "Termux installieren",
+      "TERMUX_STEP_1_DESC": "Laden Sie Termux von F-Droid oder von der GitHub-Releases-Seite. Die Version aus dem Play Store wird nicht mehr gepflegt und funktioniert nicht.",
+      "TERMUX_STEP_2_TITLE": "Mirror wählen und aktualisieren",
+      "TERMUX_STEP_2_DESC": "Öffnen Sie Termux und führen Sie den ersten Befehl aus. Wählen Sie Mirror group und eine Region in Ihrer Nähe, dann aktualisieren Sie die Pakete.",
+      "TERMUX_STEP_3_TITLE": "Voraussetzungen installieren",
+      "TERMUX_STEP_3_DESC": "Damit werden Git und Node.js installiert. Auf einem älteren 32-Bit-Handy führen Sie zusätzlich `pkg install esbuild` aus, falls der Start mit Unsupported platform abbricht.",
+      "TERMUX_STEP_4_TITLE": "SillyTavern herunterladen",
+      "TERMUX_STEP_4_DESC": "Damit wird die stabile Version in Ihren Termux-Home-Ordner geladen.",
+      "TERMUX_STEP_5_TITLE": "SillyTavern starten",
+      "TERMUX_STEP_5_DESC": "Öffnen Sie http://127.0.0.1:8000 im Browser Ihres Handys und folgen Sie den Einrichtungsschritten oben. Lassen Sie Termux im Hintergrund laufen, während Sie chatten. Für einen späteren Start führen Sie diese zwei Befehle erneut aus.",
+      "TERMUX_STEP_6_TITLE": "SillyTavern aktualisieren",
+      "TERMUX_STEP_6_DESC": "Führen Sie das aus, wenn Sie die neueste Version möchten. Ihre Charaktere und Chats bleiben erhalten."
     },
     "JANITOR_AI": {
       "META": {

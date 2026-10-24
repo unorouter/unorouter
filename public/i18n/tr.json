@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Yalnızca `/v1` ile biten temel URL'yi yapıştırın. SillyTavern `/chat/completions` kısmını kendisi ekler; siz eklerseniz 400 hatası döner.",
       "GOTCHA_2": "Boş bir model açılır listesi bağlantının başarısız olduğu anlamına gelir. Temel URL'yi yeniden denetleyin, ardından Bypass API status check seçeneğini etkinleştirin.",
       "GOTCHA_3": "401 hatası, anahtarın süresi dolmuş veya yanlış yazılmış demektir. {appName} panonuzda yeni bir anahtar oluşturun ve başta veya sonda boşluk olmadan yapıştırın.",
-      "GOTCHA_4": "Akış cümle ortasında kesiliyorsa nedeni doğrulamak için Streaming'i kapatın, sonra tekrar açın. `data:` önekini kaldıran kurumsal proxyler de bunu bozar."
+      "GOTCHA_4": "Akış cümle ortasında kesiliyorsa nedeni doğrulamak için Streaming'i kapatın, sonra tekrar açın. `data:` önekini kaldıran kurumsal proxyler de bunu bozar.",
+      "TERMUX_TITLE": "Android''de çalıştır (Termux)",
+      "TERMUX_DESC": "SillyTavern''ın Android uygulaması yok, ama telefonda Termux içinde çalışır. Bu adımlarla bir kez kurun, telefonunuzun tarayıcısında açın, sonra {appName} bağlantısını yukarıdaki adımlarla yapın.",
+      "TERMUX_STEP_1_TITLE": "Termux''u kurun",
+      "TERMUX_STEP_1_DESC": "Termux''u F-Droid''den veya GitHub sürümler sayfasından indirin. Play Store sürümü artık güncellenmiyor ve çalışmıyor.",
+      "TERMUX_STEP_2_TITLE": "Bir mirror seçin ve güncelleyin",
+      "TERMUX_STEP_2_DESC": "Termux''u açın ve ilk komutu çalıştırın. Mirror group ve size yakın bir bölge seçin, sonra paketleri güncelleyin.",
+      "TERMUX_STEP_3_TITLE": "Gereksinimleri kurun",
+      "TERMUX_STEP_3_DESC": "Bu, Git ve Node.js''i kurar. Eski bir 32 bit telefonda başlatma Unsupported platform hatasıyla durursa `pkg install esbuild` komutunu da çalıştırın.",
+      "TERMUX_STEP_4_TITLE": "SillyTavern''ı indirin",
+      "TERMUX_STEP_4_DESC": "Bu, kararlı sürümü Termux ana klasörünüze indirir.",
+      "TERMUX_STEP_5_TITLE": "SillyTavern''ı başlatın",
+      "TERMUX_STEP_5_DESC": "Telefonunuzun tarayıcısında http://127.0.0.1:8000 adresini açın ve yukarıdaki kurulum adımlarını izleyin. Sohbet ederken Termux''u arka planda açık bırakın. Daha sonra yeniden başlatmak için bu iki komutu çalıştırın.",
+      "TERMUX_STEP_6_TITLE": "SillyTavern''ı güncelleyin",
+      "TERMUX_STEP_6_DESC": "En yeni sürümü istediğinizde bunu çalıştırın. Karakterleriniz ve sohbetleriniz korunur."
     },
     "JANITOR_AI": {
       "META": {

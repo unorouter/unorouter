@@ -44,6 +44,11 @@ export interface SetupGuide {
   compatibility: SetupCompatibility;
   recommendedModels: string[];
   steps: SetupStep[];
+  install?: {
+    titleKey: TranslationKey;
+    descKey: TranslationKey;
+    steps: SetupStep[];
+  };
   gotchaKeys?: TranslationKey[];
   quickStart?: Record<OS, string>;
   quickConfig?: string;
@@ -601,6 +606,51 @@ API Endpoint: ${env.apiUrl}/v1`,
         bodyKey: "DOCS.SILLYTAVERN.STEP_6_DESC",
       },
     ],
+    install: {
+      titleKey: "DOCS.SILLYTAVERN.TERMUX_TITLE",
+      descKey: "DOCS.SILLYTAVERN.TERMUX_DESC",
+      steps: [
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_1_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_1_DESC",
+        },
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_2_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_2_DESC",
+          code: {
+            lang: "bash",
+            value: "termux-change-repo\npkg update && pkg upgrade",
+          },
+        },
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_3_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_3_DESC",
+          code: { lang: "bash", value: "pkg install git nodejs-lts nano" },
+        },
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_4_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_4_DESC",
+          code: {
+            lang: "bash",
+            value:
+              "git clone https://github.com/SillyTavern/SillyTavern -b release",
+          },
+        },
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_5_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_5_DESC",
+          code: { lang: "bash", value: "cd ~/SillyTavern\nbash start.sh" },
+        },
+        {
+          titleKey: "DOCS.SILLYTAVERN.TERMUX_STEP_6_TITLE",
+          bodyKey: "DOCS.SILLYTAVERN.TERMUX_STEP_6_DESC",
+          code: {
+            lang: "bash",
+            value: "cd ~/SillyTavern\ngit pull --rebase --autostash",
+          },
+        },
+      ],
+    },
     gotchaKeys: [
       "DOCS.SILLYTAVERN.GOTCHA_1",
       "DOCS.SILLYTAVERN.GOTCHA_2",

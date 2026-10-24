@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "`/v1` で終わるベースURLのみを貼り付けてください。SillyTavern が `/chat/completions` を自動で付加するため、自分で付けると 400 エラーになります。",
       "GOTCHA_2": "モデルのドロップダウンが空の場合は、接続に失敗しています。ベース URL を確認し直したうえで、Bypass API status check を有効にしてください。",
       "GOTCHA_3": "401 はキーが期限切れか誤入力であることを意味します。{appName} ダッシュボードで新しいキーを生成し、前後に空白を入れずに貼り付けてください。",
-      "GOTCHA_4": "ストリーミングが文の途中で切れる場合は、Streaming を無効にして原因を確認し、その後再度有効にしてください。`data:` 接頭辞を除去する企業プロキシも原因になります。"
+      "GOTCHA_4": "ストリーミングが文の途中で切れる場合は、Streaming を無効にして原因を確認し、その後再度有効にしてください。`data:` 接頭辞を除去する企業プロキシも原因になります。",
+      "TERMUX_TITLE": "Androidで動かす（Termux）",
+      "TERMUX_DESC": "SillyTavernにAndroidアプリはありませんが、Termuxの中でスマホでも動きます。以下の手順で一度インストールし、スマホのブラウザで開いてから、上の手順で{appName}に接続してください。",
+      "TERMUX_STEP_1_TITLE": "Termuxをインストール",
+      "TERMUX_STEP_1_DESC": "TermuxはF-DroidかGitHubのリリースページから入手してください。Playストア版はもうメンテナンスされておらず動きません。",
+      "TERMUX_STEP_2_TITLE": "ミラーを選んで更新",
+      "TERMUX_STEP_2_DESC": "Termuxを開いて最初のコマンドを実行します。Mirror groupと近い地域を選び、パッケージを更新します。",
+      "TERMUX_STEP_3_TITLE": "必要なものをインストール",
+      "TERMUX_STEP_3_DESC": "GitとNode.jsをインストールします。古い32ビットのスマホで起動時にUnsupported platformと出る場合は、`pkg install esbuild`も実行してください。",
+      "TERMUX_STEP_4_TITLE": "SillyTavernをダウンロード",
+      "TERMUX_STEP_4_DESC": "安定版をTermuxのホームフォルダにダウンロードします。",
+      "TERMUX_STEP_5_TITLE": "SillyTavernを起動",
+      "TERMUX_STEP_5_DESC": "スマホのブラウザで http://127.0.0.1:8000 を開き、上の設定手順に進みます。チャット中はTermuxをバックグラウンドで動かしたままにしてください。後でもう一度起動するときは、この2つのコマンドを実行します。",
+      "TERMUX_STEP_6_TITLE": "SillyTavernを更新",
+      "TERMUX_STEP_6_DESC": "最新版にしたいときに実行します。キャラクターとチャットはそのまま残ります。"
     },
     "JANITOR_AI": {
       "META": {

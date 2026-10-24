@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "只貼上以 `/v1` 結尾的基礎網址。SillyTavern 會自行補上 `/chat/completions`，自己加上會回傳 400 錯誤。",
       "GOTCHA_2": "模型下拉選單為空表示連線失敗。請重新核對基礎網址，然後啟用 Bypass API status check。",
       "GOTCHA_3": "401 表示金鑰已過期或輸入有誤。請在 {appName} 儀表板產生新金鑰，貼上時不要帶前後空白。",
-      "GOTCHA_4": "如果串流輸出在句子中途中斷，先關閉 Streaming 確認原因，再重新開啟。會移除 `data:` 前綴的公司代理同樣會破壞它。"
+      "GOTCHA_4": "如果串流輸出在句子中途中斷，先關閉 Streaming 確認原因，再重新開啟。會移除 `data:` 前綴的公司代理同樣會破壞它。",
+      "TERMUX_TITLE": "在 Android 上執行（Termux）",
+      "TERMUX_DESC": "SillyTavern 沒有 Android 應用程式，但可以在手機的 Termux 中執行。依照以下步驟安裝一次，在手機瀏覽器中開啟，再依照上方步驟連接 {appName}。",
+      "TERMUX_STEP_1_TITLE": "安裝 Termux",
+      "TERMUX_STEP_1_DESC": "請從 F-Droid 或其 GitHub 發布頁面取得 Termux。Play 商店版本已不再維護，無法使用。",
+      "TERMUX_STEP_2_TITLE": "選擇鏡像並更新",
+      "TERMUX_STEP_2_DESC": "開啟 Termux 並執行第一個指令。選擇 Mirror group 與離你較近的地區，然後更新套件。",
+      "TERMUX_STEP_3_TITLE": "安裝相依套件",
+      "TERMUX_STEP_3_DESC": "這會安裝 Git 和 Node.js。在較舊的 32 位元手機上，如果啟動時出現 Unsupported platform 錯誤，請再執行 `pkg install esbuild`。",
+      "TERMUX_STEP_4_TITLE": "下載 SillyTavern",
+      "TERMUX_STEP_4_DESC": "這會將穩定版下載到你的 Termux 主目錄。",
+      "TERMUX_STEP_5_TITLE": "啟動 SillyTavern",
+      "TERMUX_STEP_5_DESC": "在手機瀏覽器中開啟 http://127.0.0.1:8000，然後依照上方的設定步驟操作。聊天時請讓 Termux 在背景持續執行。之後要再次啟動，執行這兩個指令即可。",
+      "TERMUX_STEP_6_TITLE": "更新 SillyTavern",
+      "TERMUX_STEP_6_DESC": "想要最新版本時執行此指令。你的角色和聊天紀錄都會保留。"
     },
     "JANITOR_AI": {
       "META": {

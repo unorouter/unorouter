@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "`/v1`로 끝나는 기본 URL만 붙여 넣으세요. SillyTavern이 `/chat/completions`를 직접 붙이므로 직접 넣으면 400 오류가 납니다.",
       "GOTCHA_2": "모델 드롭다운이 비어 있다면 연결에 실패한 것입니다. 기본 URL을 다시 확인한 뒤 Bypass API status check를 켜세요.",
       "GOTCHA_3": "401은 키가 만료되었거나 잘못 입력되었음을 의미합니다. {appName} 대시보드에서 새 키를 생성하고 앞뒤 공백 없이 붙여넣으세요.",
-      "GOTCHA_4": "스트리밍이 문장 도중에 끊기면 Streaming을 꺼서 원인을 확인한 뒤 다시 켜세요. `data:` 접두사를 제거하는 사내 프록시도 문제를 일으킵니다."
+      "GOTCHA_4": "스트리밍이 문장 도중에 끊기면 Streaming을 꺼서 원인을 확인한 뒤 다시 켜세요. `data:` 접두사를 제거하는 사내 프록시도 문제를 일으킵니다.",
+      "TERMUX_TITLE": "Android에서 실행하기 (Termux)",
+      "TERMUX_DESC": "SillyTavern은 Android 앱이 없지만 Termux 안에서 휴대폰으로 실행할 수 있습니다. 아래 단계로 한 번 설치하고 휴대폰 브라우저에서 연 다음, 위의 단계로 {appName}에 연결하세요.",
+      "TERMUX_STEP_1_TITLE": "Termux 설치",
+      "TERMUX_STEP_1_DESC": "Termux는 F-Droid나 GitHub 릴리스 페이지에서 받으세요. Play 스토어 버전은 더 이상 관리되지 않아 작동하지 않습니다.",
+      "TERMUX_STEP_2_TITLE": "미러 선택 및 업데이트",
+      "TERMUX_STEP_2_DESC": "Termux를 열고 첫 번째 명령을 실행하세요. Mirror group과 가까운 지역을 고른 뒤 패키지를 업데이트합니다.",
+      "TERMUX_STEP_3_TITLE": "필수 항목 설치",
+      "TERMUX_STEP_3_DESC": "Git과 Node.js를 설치합니다. 오래된 32비트 휴대폰에서 시작할 때 Unsupported platform 오류가 나면 `pkg install esbuild`도 실행하세요.",
+      "TERMUX_STEP_4_TITLE": "SillyTavern 다운로드",
+      "TERMUX_STEP_4_DESC": "안정 버전을 Termux 홈 폴더에 다운로드합니다.",
+      "TERMUX_STEP_5_TITLE": "SillyTavern 실행",
+      "TERMUX_STEP_5_DESC": "휴대폰 브라우저에서 http://127.0.0.1:8000 을 열고 위의 설정 단계를 따르세요. 채팅하는 동안 Termux를 백그라운드에서 계속 실행해 두세요. 나중에 다시 시작하려면 이 두 명령을 실행하면 됩니다.",
+      "TERMUX_STEP_6_TITLE": "SillyTavern 업데이트",
+      "TERMUX_STEP_6_DESC": "최신 버전이 필요할 때 실행하세요. 캐릭터와 채팅은 그대로 유지됩니다."
     },
     "JANITOR_AI": {
       "META": {

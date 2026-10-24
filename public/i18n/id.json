@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Tempel base URL yang berakhir di `/v1` saja. SillyTavern menambahkan `/chat/completions` sendiri; menambahkannya menghasilkan error 400.",
       "GOTCHA_2": "Daftar model yang kosong berarti koneksinya gagal. Periksa lagi URL dasarnya, lalu aktifkan Bypass API status check.",
       "GOTCHA_3": "Error 401 berarti kunci kedaluwarsa atau salah ketik. Buat kunci baru di dasbor {appName} Anda dan tempel tanpa spasi di awal atau akhir.",
-      "GOTCHA_4": "Jika streaming terputus di tengah kalimat, nonaktifkan Streaming untuk memastikan penyebabnya, lalu aktifkan kembali. Proxy perusahaan yang membuang awalan `data:` juga merusaknya."
+      "GOTCHA_4": "Jika streaming terputus di tengah kalimat, nonaktifkan Streaming untuk memastikan penyebabnya, lalu aktifkan kembali. Proxy perusahaan yang membuang awalan `data:` juga merusaknya.",
+      "TERMUX_TITLE": "Jalankan di Android (Termux)",
+      "TERMUX_DESC": "SillyTavern tidak punya aplikasi Android, tapi bisa berjalan di ponsel lewat Termux. Instal sekali dengan langkah ini, buka di browser ponsel, lalu hubungkan {appName} dengan langkah di atas.",
+      "TERMUX_STEP_1_TITLE": "Instal Termux",
+      "TERMUX_STEP_1_DESC": "Unduh Termux dari F-Droid atau halaman rilis GitHub-nya. Versi Play Store sudah tidak dirawat dan tidak berfungsi.",
+      "TERMUX_STEP_2_TITLE": "Pilih mirror dan perbarui",
+      "TERMUX_STEP_2_DESC": "Buka Termux dan jalankan perintah pertama. Pilih Mirror group dan wilayah terdekat, lalu perbarui paket.",
+      "TERMUX_STEP_3_TITLE": "Instal kebutuhan",
+      "TERMUX_STEP_3_DESC": "Ini menginstal Git dan Node.js. Di ponsel lama 32-bit, jalankan juga `pkg install esbuild` jika saat mulai muncul galat Unsupported platform.",
+      "TERMUX_STEP_4_TITLE": "Unduh SillyTavern",
+      "TERMUX_STEP_4_DESC": "Ini mengunduh versi stabil ke folder home Termux kamu.",
+      "TERMUX_STEP_5_TITLE": "Jalankan SillyTavern",
+      "TERMUX_STEP_5_DESC": "Buka http://127.0.0.1:8000 di browser ponsel dan ikuti langkah pengaturan di atas. Biarkan Termux tetap berjalan di latar belakang selama mengobrol. Untuk menjalankannya lagi nanti, jalankan dua perintah ini.",
+      "TERMUX_STEP_6_TITLE": "Perbarui SillyTavern",
+      "TERMUX_STEP_6_DESC": "Jalankan ini kapan pun kamu ingin versi terbaru. Karakter dan obrolanmu tetap aman."
     },
     "JANITOR_AI": {
       "META": {

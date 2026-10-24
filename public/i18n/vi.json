@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Chỉ dán URL cơ sở kết thúc bằng `/v1`. SillyTavern tự thêm `/chat/completions`; nếu bạn tự thêm sẽ nhận lỗi 400.",
       "GOTCHA_2": "Danh sách model trống nghĩa là kết nối đã thất bại. Hãy kiểm tra lại URL gốc, rồi bật Bypass API status check.",
       "GOTCHA_3": "Lỗi 401 nghĩa là khoá đã hết hạn hoặc gõ sai. Hãy tạo một khoá mới trong bảng điều khiển {appName} và dán nó mà không có khoảng trắng ở đầu hoặc cuối.",
-      "GOTCHA_4": "Nếu luồng bị cắt giữa câu, hãy tắt Streaming để xác nhận nguyên nhân, rồi bật lại. Các proxy doanh nghiệp cắt bỏ tiền tố `data:` cũng làm hỏng nó."
+      "GOTCHA_4": "Nếu luồng bị cắt giữa câu, hãy tắt Streaming để xác nhận nguyên nhân, rồi bật lại. Các proxy doanh nghiệp cắt bỏ tiền tố `data:` cũng làm hỏng nó.",
+      "TERMUX_TITLE": "Chạy trên Android (Termux)",
+      "TERMUX_DESC": "SillyTavern không có ứng dụng Android, nhưng chạy được trên điện thoại trong Termux. Cài một lần theo các bước này, mở trong trình duyệt điện thoại, rồi kết nối {appName} theo các bước ở trên.",
+      "TERMUX_STEP_1_TITLE": "Cài Termux",
+      "TERMUX_STEP_1_DESC": "Tải Termux từ F-Droid hoặc trang phát hành trên GitHub. Bản trên Play Store không còn được duy trì và không hoạt động.",
+      "TERMUX_STEP_2_TITLE": "Chọn mirror và cập nhật",
+      "TERMUX_STEP_2_DESC": "Mở Termux và chạy lệnh đầu tiên. Chọn Mirror group và một khu vực gần bạn, rồi cập nhật các gói.",
+      "TERMUX_STEP_3_TITLE": "Cài các thành phần cần thiết",
+      "TERMUX_STEP_3_DESC": "Lệnh này cài Git và Node.js. Trên điện thoại 32-bit đời cũ, hãy chạy thêm `pkg install esbuild` nếu khởi động báo lỗi Unsupported platform.",
+      "TERMUX_STEP_4_TITLE": "Tải SillyTavern",
+      "TERMUX_STEP_4_DESC": "Lệnh này tải bản ổn định vào thư mục home của Termux.",
+      "TERMUX_STEP_5_TITLE": "Khởi động SillyTavern",
+      "TERMUX_STEP_5_DESC": "Mở http://127.0.0.1:8000 trong trình duyệt điện thoại và làm theo các bước thiết lập ở trên. Để Termux chạy nền trong lúc trò chuyện. Để khởi động lại sau này, hãy chạy hai lệnh này.",
+      "TERMUX_STEP_6_TITLE": "Cập nhật SillyTavern",
+      "TERMUX_STEP_6_DESC": "Chạy lệnh này mỗi khi bạn muốn bản mới nhất. Nhân vật và cuộc trò chuyện của bạn vẫn được giữ."
     },
     "JANITOR_AI": {
       "META": {

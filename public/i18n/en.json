@@ -1874,7 +1874,21 @@
       "GOTCHA_1": "Paste the base URL ending in `/v1` only. SillyTavern appends `/chat/completions` itself; adding it returns a 400 error.",
       "GOTCHA_2": "An empty model dropdown means the connection failed. Re-check the base URL, then enable Bypass API status check.",
       "GOTCHA_3": "A 401 means the key is expired or mistyped. Generate a fresh key in your {appName} dashboard and paste it without leading or trailing spaces.",
-      "GOTCHA_4": "If streaming cuts off mid-sentence, disable Streaming to confirm the cause, then re-enable it. Corporate proxies that strip the `data:` prefix also break it."
+      "GOTCHA_4": "If streaming cuts off mid-sentence, disable Streaming to confirm the cause, then re-enable it. Corporate proxies that strip the `data:` prefix also break it.",
+      "TERMUX_TITLE": "Run it on Android (Termux)",
+      "TERMUX_DESC": "SillyTavern has no Android app, but it runs on a phone inside Termux. Install it once with these steps, open it in your phone browser, then connect {appName} with the steps above.",
+      "TERMUX_STEP_1_TITLE": "Install Termux",
+      "TERMUX_STEP_1_DESC": "Get Termux from F-Droid or its GitHub releases page. The Play Store version is no longer maintained and does not work.",
+      "TERMUX_STEP_2_TITLE": "Pick a mirror and update",
+      "TERMUX_STEP_2_DESC": "Open Termux and run the first command. Choose Mirror group and a region near you, then update the packages.",
+      "TERMUX_STEP_3_TITLE": "Install the requirements",
+      "TERMUX_STEP_3_DESC": "This installs Git and Node.js. On an older 32-bit phone, also run `pkg install esbuild` if the start fails with Unsupported platform.",
+      "TERMUX_STEP_4_TITLE": "Download SillyTavern",
+      "TERMUX_STEP_4_DESC": "This downloads the stable release into your Termux home folder.",
+      "TERMUX_STEP_5_TITLE": "Start SillyTavern",
+      "TERMUX_STEP_5_DESC": "Open http://127.0.0.1:8000 in your phone browser and follow the setup steps above. Keep Termux running in the background while you chat. To start it again later, run these two commands.",
+      "TERMUX_STEP_6_TITLE": "Update SillyTavern",
+      "TERMUX_STEP_6_DESC": "Run this whenever you want the newest version. Your characters and chats are kept."
     },
     "JANITOR_AI": {
       "META": {
