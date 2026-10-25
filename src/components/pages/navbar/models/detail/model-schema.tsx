@@ -3,6 +3,7 @@ import { findContextTag, vendorDisplayName } from "@/lib/api/pricing";
 import type { PricingCatalogDetail } from "@/openapi";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
+import { ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
@@ -95,6 +96,7 @@ export async function ModelSchema(props: {
           data={buildProductSchema({
             name: model.model_name,
             url,
+            image: ogBadge("model", props.locale, { model: model.model_name }),
             isFree: model.is_free,
             inputPrice: model.input_price,
             outputPrice: model.output_price,

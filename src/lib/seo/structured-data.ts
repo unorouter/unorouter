@@ -206,6 +206,8 @@ type ProductSchemaInput = {
   name: string;
   description: string;
   url: string;
+  // Google's merchant listings treat a Product without an image as invalid.
+  image: string;
   inputPrice?: number;
   outputPrice?: number;
   isFree: boolean;
@@ -256,10 +258,10 @@ export function buildProductSchema(
     name: input.name,
     description: input.description,
     url: abs(input.url),
+    image: abs(input.image),
     brand: {
-      "@type": "Organization",
+      "@type": "Brand",
       name: env.appName,
-      url: env.siteOrigin,
     },
     ...(offers.length && { offers }),
   };
