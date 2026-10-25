@@ -19,7 +19,9 @@ function buildDisallowList(): string[] {
   // /*_rsc=: Googlebot executes Next's Link prefetches while rendering and each
   // fetch counts as a crawl. They were 72% of all crawl requests in Search
   // Console, starving HTML discovery, and the pages are server-rendered anyway.
-  const disallow = new Set<string>(["/api/", "/*_rsc="]);
+  // /*[ and /*%5B: the client bundles carry route templates like "/blog/[slug]"
+  // as strings, Googlebot crawls them, and they were 404s in Search Console.
+  const disallow = new Set<string>(["/api/", "/*_rsc=", "/*[", "/*%5B"]);
   for (const route of privateRoutes.static) {
     for (const locale of routing.locales) {
       const path = localizedPath(route, locale, false);
