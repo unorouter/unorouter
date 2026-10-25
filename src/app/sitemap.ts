@@ -161,7 +161,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       localizedEntries(
         {
           pathname: "/compare/[...slugs]",
-          params: { slugs: [modelSlug(a), modelSlug(b)] },
+          // The compare page's canonical sorts the slugs; listing the other order
+          // here made Search Console report every pair as an alternate page.
+          params: { slugs: [modelSlug(a), modelSlug(b)].sort() },
         },
         { priority: 0.5, changeFrequency: "weekly" },
       ),

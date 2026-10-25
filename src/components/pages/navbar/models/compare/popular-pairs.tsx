@@ -36,7 +36,7 @@ export function PopularPairs(props: { models: PricingCatalogModel[] }) {
                 slugs: [
                   modelSlug(pair.a.model_name),
                   modelSlug(pair.b.model_name),
-                ],
+                ].sort(),
               },
             }}
             className="border-border hover:border-primary/50 flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-colors"
