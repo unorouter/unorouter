@@ -1,10 +1,6 @@
 import type { LanguageModelMiddleware } from "ai";
 import type { StreamChunk } from "./prefill-think-middleware";
 
-// Some upstreams put `tool_calls: []` on every delta, and the openai-compatible
-// provider closes the reasoning part on any non-null tool_calls, so a 400 token
-// thought arrives as 400 one-word reasoning parts. A reasoning-end is held back
-// until the next chunk; a restart of the same id cancels the pair.
 // The provider and extractReasoningMiddleware both number their parts
 // "reasoning-N", so an upstream that streams reasoning_content and <think>
 // tags together closed one part with the other's end.
@@ -16,6 +12,10 @@ function nativeReasoningId(chunk: StreamChunk): StreamChunk {
     : chunk;
 }
 
+// Some upstreams put `tool_calls: []` on every delta, and the openai-compatible
+// provider closes the reasoning part on any non-null tool_calls, so a 400 token
+// thought arrives as 400 one-word reasoning parts. A reasoning-end is held back
+// until the next chunk; a restart of the same id cancels the pair.
 export function coalesceReasoningMiddleware(): LanguageModelMiddleware {
   return {
     wrapStream: async ({ doStream }) => {
