@@ -648,6 +648,30 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-orange-500/20",
     primary: "#ff784c",
   },
+  [Vendor.REFLECTION]: {
+    bg: "bg-green-700/5",
+    border: "border-green-700/20",
+    text: "text-green-800 dark:text-green-300",
+    tagBg: "bg-green-700/10",
+    tagBorder: "border-green-700/20",
+    primary: "#1f4d2b",
+  },
+  [Vendor.TELEAI]: {
+    bg: "bg-blue-600/5",
+    border: "border-blue-600/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-600/10",
+    tagBorder: "border-blue-600/20",
+    primary: "#1e5bb8",
+  },
+  [Vendor.VOLTROPY]: {
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-800 dark:text-zinc-200",
+    tagBg: "bg-zinc-500/10",
+    tagBorder: "border-zinc-500/20",
+    primary: "#111111",
+  },
   [Vendor.IFM]: {
     bg: "bg-zinc-500/5",
     border: "border-zinc-500/20",
@@ -923,6 +947,10 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.THINKINGMACHINES]: () =>
     import("@/components/elements/brand/thinkingmachines-icon"),
   [Vendor.IFM]: () => import("@/components/elements/brand/ifm-icon"),
+  [Vendor.REFLECTION]: () =>
+    import("@/components/elements/brand/reflection-icon"),
+  [Vendor.TELEAI]: () => import("@/components/elements/brand/teleai-icon"),
+  [Vendor.VOLTROPY]: () => import("@/components/elements/brand/voltropy-icon"),
   [Vendor.AXON]: () => import("@/components/elements/brand/axon-icon"),
   [Vendor.APODEX]: () => import("@/components/elements/brand/apodex-icon"),
   [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
