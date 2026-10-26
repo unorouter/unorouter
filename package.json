@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "test": "bun test --env-file=.env.public",
     "prettier": "prettier --write .",
     "openapi": "orval --config ./orval.config.ts",
     "db:generate": "drizzle-kit generate --config=drizzle.server.config.ts && drizzle-kit generate --config=drizzle.client.config.ts && bun scripts/bundle-migrations.ts"

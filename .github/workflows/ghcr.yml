@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        check: [typecheck, lint]
+        check: [typecheck, lint, test]
     # Lint has pre-existing react-hooks errors; advisory until they are fixed.
     continue-on-error: ${{ matrix.check == 'lint' }}
     steps:
