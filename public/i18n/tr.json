@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Bakiyeye Aktar",
-      "DESC": "Bekleyen affiliate kazançlarınızı anında kullanım için hesap bakiyenize aktarın.",
+      "DESC": "Komisyonlar bu ayrı ortaklık bakiyesinde birikir. İsteklerde kullanmak için onları ana bakiyenize aktarın. Nakit ödeme yoktur.",
       "TO_BALANCE": "Bakiyeye Aktar",
       "TITLE": "Affiliate Kazançlarını Aktar",
-      "DIALOG_DESC": "Bekleyen affiliate kazançlarınızı hesap bakiyenize aktarın. Bu eylem geri alınamaz.",
+      "DIALOG_DESC": "Ortaklık bakiyenizi ana bakiyenize aktarır; orada diğer krediler gibi istekleri öder. Bu işlem geri alınamaz.",
       "AMOUNT": "Miktar",
       "EXCEEDS": "Miktar mevcut bakiyeyi aşıyor"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Komisyon Oranı",
     "MAX_RECHARGES": "Maksimum Yüklemeler",
     "UNLIMITED": "Sınırsız",
-    "PENDING_EARNINGS": "Bekleyen Kazançlar",
+    "PENDING_EARNINGS": "Ortaklık bakiyesi",
     "TOTAL_EARNED": "Toplam Kazanılan",
     "INVITE_COUNT": "Davet Edilen Kullanıcılar",
     "PAYING_COUNT": "{count} ödeme yapan",

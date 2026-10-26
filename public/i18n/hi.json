@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Balance में स्थानांतरित करें",
-      "DESC": "तत्काल उपयोग के लिए अपनी pending affiliate कमाई को अपने खाता balance में स्थानांतरित करें।",
+      "DESC": "कमीशन इस अलग एफ़िलिएट बैलेंस में जमा होता है। रिक्वेस्ट पर खर्च करने के लिए इसे अपने मुख्य बैलेंस में ट्रांसफ़र करें। नकद भुगतान नहीं होता।",
       "TO_BALANCE": "Balance में स्थानांतरित करें",
       "TITLE": "Affiliate कमाई स्थानांतरित करें",
-      "DIALOG_DESC": "अपनी pending affiliate कमाई को अपने खाता balance में स्थानांतरित करें। इस क्रिया को पूर्ववत नहीं किया जा सकता।",
+      "DIALOG_DESC": "आपका एफ़िलिएट बैलेंस मुख्य बैलेंस में ट्रांसफ़र करता है, जहाँ यह किसी भी दूसरे क्रेडिट की तरह रिक्वेस्ट का भुगतान करता है। इसे वापस नहीं किया जा सकता।",
       "AMOUNT": "राशि",
       "EXCEEDS": "राशि उपलब्ध balance से अधिक है"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Commission दर",
     "MAX_RECHARGES": "अधिकतम Recharges",
     "UNLIMITED": "असीमित",
-    "PENDING_EARNINGS": "Pending कमाई",
+    "PENDING_EARNINGS": "एफ़िलिएट बैलेंस",
     "TOTAL_EARNED": "कुल कमाया",
     "INVITE_COUNT": "Invited Users",
     "PAYING_COUNT": "{count} भुगतान करने वाले",

@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Trasferisci al saldo",
-      "DESC": "Trasferisci i tuoi guadagni affiliato in sospeso al saldo del tuo account per uso immediato.",
+      "DESC": "Le commissioni si accumulano in questo saldo affiliazione separato. Spostale sul saldo principale per usarle nelle richieste. Non è previsto alcun pagamento in denaro.",
       "TO_BALANCE": "Trasferisci al saldo",
       "TITLE": "Trasferisci guadagni affiliato",
-      "DIALOG_DESC": "Trasferisci i tuoi guadagni affiliato in sospeso al saldo del tuo account. Questa azione non può essere annullata.",
+      "DIALOG_DESC": "Sposta il saldo affiliazione sul saldo principale, dove paga le richieste come qualsiasi altro credito. L'operazione non può essere annullata.",
       "AMOUNT": "Importo",
       "EXCEEDS": "L'importo supera il saldo disponibile"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Tariffa commissione",
     "MAX_RECHARGES": "Ricariche massime",
     "UNLIMITED": "Illimitate",
-    "PENDING_EARNINGS": "Guadagni in sospeso",
+    "PENDING_EARNINGS": "Saldo affiliazione",
     "TOTAL_EARNED": "Totale guadagnato",
     "INVITE_COUNT": "Utenti invitati",
     "PAYING_COUNT": "{count} paganti",

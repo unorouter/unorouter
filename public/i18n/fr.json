@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Transférer vers le solde",
-      "DESC": "Transférez vos gains d'affiliation en attente vers le solde de votre compte pour une utilisation immédiate.",
+      "DESC": "Les commissions s'accumulent dans ce solde d'affiliation séparé. Transférez-les vers votre solde principal pour les utiliser sur vos requêtes. Il n'y a pas de versement en argent.",
       "TO_BALANCE": "Transférer vers le solde",
       "TITLE": "Transférer les gains d'affiliation",
-      "DIALOG_DESC": "Transférez vos gains d'affiliation en attente vers le solde de votre compte. Cette action ne peut pas être annulée.",
+      "DIALOG_DESC": "Transfère votre solde d'affiliation vers votre solde principal, où il paie les requêtes comme n'importe quel autre crédit. Cette action est irréversible.",
       "AMOUNT": "Montant",
       "EXCEEDS": "Le montant dépasse le solde disponible"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Taux de commission",
     "MAX_RECHARGES": "Recharges maximales",
     "UNLIMITED": "Illimité",
-    "PENDING_EARNINGS": "Gains en attente",
+    "PENDING_EARNINGS": "Solde d'affiliation",
     "TOTAL_EARNED": "Total gagné",
     "INVITE_COUNT": "Utilisateurs invités",
     "PAYING_COUNT": "{count} payants",

@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Przenieś na saldo",
-      "DESC": "Przenieś swoje oczekujące zarobki partnerskie na saldo konta do natychmiastowego użycia.",
+      "DESC": "Prowizje zbierają się na tym osobnym saldzie partnerskim. Przenieś je na saldo główne, aby wykorzystać je na zapytania. Nie ma wypłat w gotówce.",
       "TO_BALANCE": "Przenieś na saldo",
       "TITLE": "Przenieś zarobki partnerskie",
-      "DIALOG_DESC": "Przenieś swoje oczekujące zarobki partnerskie na saldo konta. Ta akcja nie może być cofnięta.",
+      "DIALOG_DESC": "Przenosi saldo partnerskie na saldo główne, gdzie opłaca zapytania jak każdy inny kredyt. Tej operacji nie można cofnąć.",
       "AMOUNT": "Kwota",
       "EXCEEDS": "Kwota przekracza dostępne saldo"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Stawka prowizji",
     "MAX_RECHARGES": "Maks. doładowań",
     "UNLIMITED": "Nieograniczone",
-    "PENDING_EARNINGS": "Oczekujące zarobki",
+    "PENDING_EARNINGS": "Saldo partnerskie",
     "TOTAL_EARNED": "Łącznie zarobione",
     "INVITE_COUNT": "Zaproszeni użytkownicy",
     "PAYING_COUNT": "{count} płacących",

@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "转入余额",
-      "DESC": "将您待结算的推广收益转入账户余额以立即使用。",
+      "DESC": "佣金会累积在这个独立的推广余额中。转入主余额后即可用于请求。不支持提现为现金。",
       "TO_BALANCE": "转入余额",
       "TITLE": "转出推广收益",
-      "DIALOG_DESC": "将您待结算的推广收益转入账户余额。此操作不可撤销。",
+      "DIALOG_DESC": "将推广余额转入主余额，转入后与其他额度一样用于支付请求。此操作无法撤销。",
       "AMOUNT": "金额",
       "EXCEEDS": "金额超过可用余额"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "佣金比例",
     "MAX_RECHARGES": "最大充值次数",
     "UNLIMITED": "无限",
-    "PENDING_EARNINGS": "待结算收益",
+    "PENDING_EARNINGS": "推广余额",
     "TOTAL_EARNED": "累计收益",
     "INVITE_COUNT": "已邀请用户",
     "PAYING_COUNT": "{count} 位已付费",

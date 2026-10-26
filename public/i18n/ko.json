@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "잔액으로 이체",
-      "DESC": "보류 중인 제휴 수익을 즉시 사용하도록 계정 잔액으로 이체하세요.",
+      "DESC": "수수료는 이 별도의 제휴 잔액에 쌓입니다. 요청에 사용하려면 기본 잔액으로 옮기세요. 현금 지급은 없습니다.",
       "TO_BALANCE": "잔액으로 이체",
       "TITLE": "제휴 수익 이체",
-      "DIALOG_DESC": "보류 중인 제휴 수익을 계정 잔액으로 이체합니다. 이 작업은 취소할 수 없습니다.",
+      "DIALOG_DESC": "제휴 잔액을 기본 잔액으로 옮깁니다. 옮긴 잔액은 다른 크레딧처럼 요청 비용으로 사용됩니다. 이 작업은 되돌릴 수 없습니다.",
       "AMOUNT": "금액",
       "EXCEEDS": "금액이 가용 잔액을 초과합니다"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "수수료 비율",
     "MAX_RECHARGES": "최대 충전",
     "UNLIMITED": "무제한",
-    "PENDING_EARNINGS": "보류 중인 수익",
+    "PENDING_EARNINGS": "제휴 잔액",
     "TOTAL_EARNED": "총 획득",
     "INVITE_COUNT": "초대한 사용자",
     "PAYING_COUNT": "{count}명 결제",

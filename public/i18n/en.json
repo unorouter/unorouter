@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Transfer to Balance",
-      "DESC": "Transfer your pending affiliate earnings to your account balance for immediate use.",
+      "DESC": "Commissions collect in this separate affiliate balance. Move them to your main balance to spend them on requests. There is no cash payout.",
       "TO_BALANCE": "Transfer to Balance",
       "TITLE": "Transfer Affiliate Earnings",
-      "DIALOG_DESC": "Transfer your pending affiliate earnings to your account balance. This action cannot be undone.",
+      "DIALOG_DESC": "Move your affiliate balance to your main balance, where it pays for requests like any other credit. This cannot be undone.",
       "AMOUNT": "Amount",
       "EXCEEDS": "Amount exceeds available balance"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Commission Rate",
     "MAX_RECHARGES": "Max Recharges",
     "UNLIMITED": "Unlimited",
-    "PENDING_EARNINGS": "Pending Earnings",
+    "PENDING_EARNINGS": "Affiliate balance",
     "TOTAL_EARNED": "Total Earned",
     "INVITE_COUNT": "Invited Users",
     "PAYING_COUNT": "{count} paying",

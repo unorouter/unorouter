@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "轉入餘額",
-      "DESC": "將您待入帳的聯盟收益轉入帳戶餘額，立即使用。",
+      "DESC": "佣金會累積在這個獨立的推廣餘額中。轉入主餘額後即可用於請求。不支援提領為現金。",
       "TO_BALANCE": "轉入餘額",
       "TITLE": "轉出聯盟收益",
-      "DIALOG_DESC": "將您待入帳的聯盟收益轉入帳戶餘額。此動作無法復原。",
+      "DIALOG_DESC": "將推廣餘額轉入主餘額，轉入後與其他額度一樣用於支付請求。此操作無法復原。",
       "AMOUNT": "金額",
       "EXCEEDS": "金額超出可用餘額"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "分潤比例",
     "MAX_RECHARGES": "最高儲值次數",
     "UNLIMITED": "無限制",
-    "PENDING_EARNINGS": "待入帳收益",
+    "PENDING_EARNINGS": "推廣餘額",
     "TOTAL_EARNED": "總收益",
     "INVITE_COUNT": "邀請人數",
     "PAYING_COUNT": "{count} 位已付費",

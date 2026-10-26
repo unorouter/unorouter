@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Chuyển sang số dư",
-      "DESC": "Chuyển thu nhập tiếp thị liên kết đang chờ sang số dư tài khoản để dùng ngay.",
+      "DESC": "Hoa hồng được tích lũy trong số dư đối tác riêng này. Chuyển sang số dư chính để dùng cho các yêu cầu. Không có rút tiền mặt.",
       "TO_BALANCE": "Chuyển sang số dư",
       "TITLE": "Chuyển thu nhập liên kết",
-      "DIALOG_DESC": "Chuyển thu nhập tiếp thị liên kết đang chờ sang số dư tài khoản. Hành động này không thể hoàn tác.",
+      "DIALOG_DESC": "Chuyển số dư đối tác sang số dư chính, nơi nó thanh toán cho các yêu cầu như mọi khoản tín dụng khác. Thao tác này không thể hoàn tác.",
       "AMOUNT": "Số tiền",
       "EXCEEDS": "Số tiền vượt quá số dư khả dụng"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Tỷ lệ hoa hồng",
     "MAX_RECHARGES": "Số lần nạp tối đa",
     "UNLIMITED": "Không giới hạn",
-    "PENDING_EARNINGS": "Thu nhập đang chờ",
+    "PENDING_EARNINGS": "Số dư đối tác",
     "TOTAL_EARNED": "Tổng đã nhận",
     "INVITE_COUNT": "Người dùng đã mời",
     "PAYING_COUNT": "{count} đã thanh toán",

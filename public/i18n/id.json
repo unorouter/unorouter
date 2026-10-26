@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Transfer ke Saldo",
-      "DESC": "Transfer penghasilan afiliasi tertunda Anda ke saldo akun untuk penggunaan segera.",
+      "DESC": "Komisi terkumpul di saldo afiliasi terpisah ini. Pindahkan ke saldo utama untuk dipakai pada permintaan. Tidak ada pencairan tunai.",
       "TO_BALANCE": "Transfer ke Saldo",
       "TITLE": "Transfer Penghasilan Afiliasi",
-      "DIALOG_DESC": "Transfer penghasilan afiliasi tertunda Anda ke saldo akun. Tindakan ini tidak dapat dibatalkan.",
+      "DIALOG_DESC": "Memindahkan saldo afiliasi ke saldo utama, tempat saldo itu membayar permintaan seperti kredit lainnya. Tindakan ini tidak bisa dibatalkan.",
       "AMOUNT": "Jumlah",
       "EXCEEDS": "Jumlah melebihi saldo tersedia"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Tarif Komisi",
     "MAX_RECHARGES": "Maks Isi Ulang",
     "UNLIMITED": "Tak Terbatas",
-    "PENDING_EARNINGS": "Penghasilan Tertunda",
+    "PENDING_EARNINGS": "Saldo afiliasi",
     "TOTAL_EARNED": "Total Diperoleh",
     "INVITE_COUNT": "Pengguna Diundang",
     "PAYING_COUNT": "{count} membayar",

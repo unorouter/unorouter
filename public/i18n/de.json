@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Auf Guthaben übertragen",
-      "DESC": "Übertragen Sie Ihre ausstehenden Partnereinnahmen auf Ihr Kontoguthaben zur sofortigen Verwendung.",
+      "DESC": "Provisionen sammeln sich in diesem separaten Partnerguthaben. Übertrage sie auf dein Hauptguthaben, um sie für Anfragen zu nutzen. Eine Auszahlung in Geld gibt es nicht.",
       "TO_BALANCE": "Auf Guthaben übertragen",
       "TITLE": "Partnereinnahmen übertragen",
-      "DIALOG_DESC": "Übertragen Sie Ihre ausstehenden Partnereinnahmen auf Ihr Kontoguthaben. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "DIALOG_DESC": "Überträgt dein Partnerguthaben auf dein Hauptguthaben, wo es wie jedes andere Guthaben für Anfragen verwendet wird. Das kann nicht rückgängig gemacht werden.",
       "AMOUNT": "Betrag",
       "EXCEEDS": "Betrag übersteigt das verfügbare Guthaben"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Provisionssatz",
     "MAX_RECHARGES": "Max. Aufladungen",
     "UNLIMITED": "Unbegrenzt",
-    "PENDING_EARNINGS": "Ausstehende Einnahmen",
+    "PENDING_EARNINGS": "Partnerguthaben",
     "TOTAL_EARNED": "Gesamt verdient",
     "INVITE_COUNT": "Eingeladene Nutzer",
     "PAYING_COUNT": "{count} zahlend",

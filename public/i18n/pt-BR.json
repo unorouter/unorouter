@@ -3220,10 +3220,10 @@
     },
     "TRANSFER": {
       "SECTION": "Transferir para o saldo",
-      "DESC": "Transfira seus ganhos de afiliado pendentes para o saldo da sua conta para uso imediato.",
+      "DESC": "As comissões se acumulam neste saldo de afiliado separado. Transfira para o seu saldo principal para usar nas requisições. Não há saque em dinheiro.",
       "TO_BALANCE": "Transferir para o saldo",
       "TITLE": "Transferir ganhos de afiliado",
-      "DIALOG_DESC": "Transfira seus ganhos de afiliado pendentes para o saldo da sua conta. Esta ação não pode ser desfeita.",
+      "DIALOG_DESC": "Transfere seu saldo de afiliado para o saldo principal, onde ele paga as requisições como qualquer outro crédito. Esta ação não pode ser desfeita.",
       "AMOUNT": "Valor",
       "EXCEEDS": "Valor excede o saldo disponível"
     },
@@ -3242,7 +3242,7 @@
     "COMMISSION_RATE": "Taxa de comissão",
     "MAX_RECHARGES": "Recargas máximas",
     "UNLIMITED": "Ilimitadas",
-    "PENDING_EARNINGS": "Ganhos pendentes",
+    "PENDING_EARNINGS": "Saldo de afiliado",
     "TOTAL_EARNED": "Total ganho",
     "INVITE_COUNT": "Usuários convidados",
     "PAYING_COUNT": "{count} pagantes",
