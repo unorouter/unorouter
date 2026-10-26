@@ -60,15 +60,14 @@ export async function ErrorsAndRateLimitsContent() {
   return (
     <>
       <DocSection id="rate-limits" title={k("H_RATE_LIMITS")}>
+        <p>{k("P_RATE_LIMITS_2")}</p>
         <p>{k("P_RATE_LIMITS_1")}</p>
         <ul className="list-disc space-y-2 pl-5">
           <li>{k("L_RATE_LIMITS_OURS")}</li>
           <li>{k("L_RATE_LIMITS_UPSTREAM")}</li>
           <li>{k("L_RATE_LIMITS_DAILY")}</li>
           <li>{k("L_RATE_LIMITS_TPM")}</li>
-          <li>{k("L_RATE_LIMITS_CONCURRENCY")}</li>
         </ul>
-        <p>{k("P_RATE_LIMITS_2")}</p>
       </DocSection>
       <DocSection id="free-model-limit" title={k("H_FREE_MODEL_LIMIT")}>
         <p>{k("P_FREE_MODEL_LIMIT_1")}</p>
