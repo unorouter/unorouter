@@ -15,7 +15,10 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
-import { coalesceReasoningMiddleware } from "@/lib/ai/chat/coalesce-reasoning-middleware";
+import {
+  coalesceReasoningMiddleware,
+  nativeReasoningMiddleware,
+} from "@/lib/ai/chat/coalesce-reasoning-middleware";
 import { prefillThinkMiddleware } from "@/lib/ai/chat/prefill-think-middleware";
 import {
   prepareChatRequest,
@@ -302,14 +305,15 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      // Last entry wraps the model FIRST: prefillThinkMiddleware runs on the
-      // raw provider stream, the tag extractor on its output, coalescing last.
+      // Last entry wraps the model FIRST: native ids are marked on the raw
+      // provider stream, then prefill, the tag extractor, coalescing last.
       middleware: [
         coalesceReasoningMiddleware(),
         extractReasoningMiddleware({ tagName: "think" }),
         ...(prefillOpensThink(prepared.messagesForUpstream)
           ? [prefillThinkMiddleware()]
           : []),
+        nativeReasoningMiddleware(),
       ],
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),

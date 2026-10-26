@@ -1,15 +1,43 @@
 import type { LanguageModelMiddleware } from "ai";
 import type { StreamChunk } from "./prefill-think-middleware";
 
+const NATIVE = "native-";
+
+// Innermost: marks the provider's own reasoning, whose "reasoning-0" ids
+// otherwise collide with the ones extractReasoningMiddleware mints.
+export function nativeReasoningMiddleware(): LanguageModelMiddleware {
+  return {
+    wrapStream: async ({ doStream }) => {
+      const { stream, ...rest } = await doStream();
+      const transformed = stream.pipeThrough(
+        new TransformStream<StreamChunk, StreamChunk>({
+          transform(chunk, controller) {
+            controller.enqueue(
+              chunk.type === "reasoning-start" ||
+                chunk.type === "reasoning-delta" ||
+                chunk.type === "reasoning-end"
+                ? { ...chunk, id: NATIVE + chunk.id }
+                : chunk,
+            );
+          },
+        }),
+      );
+      return { stream: transformed, ...rest };
+    },
+  };
+}
+
 // Upstreams split one thought into many parts: `tool_calls: []` or a blank
-// `content` on every reasoning delta, or reasoning_content and <think> tags
-// interleaved (whose "reasoning-0" ids also collide). One part stays open
-// under its own id until real text, a tool call or the finish arrives.
+// `content` on every reasoning delta, or the same thought sent twice, as
+// reasoning_content and inside <think> tags. One part stays open under its
+// own id, fed by whichever channel spoke first, until real text, a tool call
+// or the finish arrives.
 export function coalesceReasoningMiddleware(): LanguageModelMiddleware {
   return {
     wrapStream: async ({ doStream }) => {
       const { stream, ...rest } = await doStream();
       let open: string | null = null;
+      let native = false;
       let count = 0;
       let endMetadata: StreamChunk | null = null;
       const startedText = new Set<string>();
@@ -33,7 +61,10 @@ export function coalesceReasoningMiddleware(): LanguageModelMiddleware {
             switch (chunk.type) {
               case "reasoning-start":
               case "reasoning-delta":
+                if (open !== null && chunk.id.startsWith(NATIVE) !== native)
+                  return;
                 if (open === null) {
+                  native = chunk.id.startsWith(NATIVE);
                   open = `coalesced-reasoning-${count++}`;
                   controller.enqueue({ type: "reasoning-start", id: open });
                 }
