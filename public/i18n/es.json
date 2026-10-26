@@ -3214,15 +3214,15 @@
         "DESC": "Cuando usuarios referidos se registran y añaden fondos, ganas una comisión."
       },
       "3": {
-        "TITLE": "Gana comisión",
-        "DESC": "Transfiere tus ganancias a tu saldo de cuenta en cualquier momento."
+        "TITLE": "Usa tu crédito",
+        "DESC": "Pasa tu saldo de afiliado a tu saldo principal y úsalo en solicitudes."
       }
     },
     "TRANSFER": {
       "SECTION": "Transferir a saldo",
       "DESC": "Las comisiones se acumulan en este saldo de afiliado separado. Pásalas a tu saldo principal para usarlas en solicitudes. No hay pago en efectivo.",
       "TO_BALANCE": "Transferir a saldo",
-      "TITLE": "Transferir ganancias de afiliado",
+      "TITLE": "Pasar al saldo principal",
       "DIALOG_DESC": "Pasa tu saldo de afiliado a tu saldo principal, donde paga las solicitudes como cualquier otro crédito. Esta acción no se puede deshacer.",
       "AMOUNT": "Monto",
       "EXCEEDS": "El monto excede el saldo disponible"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Transferencia fallida"
     },
     "TITLE": "Programa de afiliados",
-    "DESCRIPTION": "Gana comisiones refiriendo nuevos usuarios. Comparte tu enlace de invitación y gana un porcentaje de sus recargas.",
+    "DESCRIPTION": "Gana crédito invitando a nuevos usuarios. Comparte tu enlace de invitación y recibe una parte de sus recargas como saldo de cuenta.",
     "COMMISSION_RATE": "Tasa de comisión",
     "MAX_RECHARGES": "Recargas máximas",
     "UNLIMITED": "Ilimitadas",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Auditar el uso",
       "P_LOGS_1": "<a>La página de registros</a> lista cada petición con su modelo, recuento de tokens, coste e id de petición. Cita el id de petición si un cargo no cuadra.",
       "P_KEYS_PIN": "Una clave también puede fijar modelos a grupos de proveedores concretos y sus tarifas, consulta",
-      "P_EARN_AFFILIATE": "El programa de afiliados paga comisión por las recargas de tus referidos, hasta 44 $ entre todos los niveles.",
+      "P_EARN_AFFILIATE": "El programa de afiliados abona la comisión de las recargas de tus referidos a tu saldo de cuenta, hasta 44 $ entre todos los niveles. Nunca se paga en efectivo.",
       "ALT_TOPUP": "Opciones de recarga en la página Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Reportar un bug en el foro de bug bounty",
       "R_BOUNTY_REWARD": "Hasta 50 $",
       "F_BOUNTY": "Por hallazgo aprobado, tras revisión del equipo",
-      "P_REWARDS_2": "La web también tiene un programa de afiliados que paga comisión por las recargas de tus referidos. Consulta la página Affiliate en tu panel.",
+      "P_REWARDS_2": "La web también tiene un programa de afiliados que abona a tu saldo la comisión de las recargas de tus referidos. Consulta la página Afiliados en tu panel.",
       "P_REWARDS_SPEND": "El crédito de recompensa llega al mismo saldo que una recarga y se gasta igual, como se describe en",
       "P_REWARDS_MODELS": "Para ver qué compra tu crédito y qué modelos son gratuitos, consulta",
       "H_RECURRING": "Boosts y votos en detalle",

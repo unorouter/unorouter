@@ -3214,15 +3214,15 @@
         "DESC": "Gdy poleceni użytkownicy zarejestrują się i dodadzą środki, zarabiasz prowizję."
       },
       "3": {
-        "TITLE": "Zarabiaj prowizję",
-        "DESC": "Przenieś swoje zarobki na saldo konta w dowolnym momencie."
+        "TITLE": "Wykorzystaj kredyt",
+        "DESC": "Przenieś saldo partnerskie na saldo główne i wykorzystaj je na zapytania."
       }
     },
     "TRANSFER": {
       "SECTION": "Przenieś na saldo",
       "DESC": "Prowizje zbierają się na tym osobnym saldzie partnerskim. Przenieś je na saldo główne, aby wykorzystać je na zapytania. Nie ma wypłat w gotówce.",
       "TO_BALANCE": "Przenieś na saldo",
-      "TITLE": "Przenieś zarobki partnerskie",
+      "TITLE": "Przenieś na saldo główne",
       "DIALOG_DESC": "Przenosi saldo partnerskie na saldo główne, gdzie opłaca zapytania jak każdy inny kredyt. Tej operacji nie można cofnąć.",
       "AMOUNT": "Kwota",
       "EXCEEDS": "Kwota przekracza dostępne saldo"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Transfer nie powiódł się"
     },
     "TITLE": "Program partnerski",
-    "DESCRIPTION": "Zarabiaj prowizje, polecając nowych użytkowników. Udostępnij swój link zapraszający i zarabiaj procent z ich doładowań.",
+    "DESCRIPTION": "Zdobywaj kredyt, polecając nowych użytkowników. Udostępnij link z zaproszeniem i otrzymuj część ich doładowań jako saldo konta.",
     "COMMISSION_RATE": "Stawka prowizji",
     "MAX_RECHARGES": "Maks. doładowań",
     "UNLIMITED": "Nieograniczone",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Audyt użycia",
       "P_LOGS_1": "<a>Strona logów</a> wymienia każde żądanie z modelem, liczbą tokenów, kosztem i identyfikatorem żądania. Podaj ten identyfikator, jeśli obciążenie wygląda źle.",
       "P_KEYS_PIN": "Klucz może też przypiąć modele do konkretnych grup dostawców i ich stawek, zobacz",
-      "P_EARN_AFFILIATE": "Program partnerski wypłaca prowizję od doładowań poleconych osób, do 44 USD łącznie na wszystkich poziomach.",
+      "P_EARN_AFFILIATE": "Program partnerski dopisuje prowizję od doładowań poleconych osób do salda twojego konta, łącznie do 44 $ na wszystkich poziomach. Nigdy nie jest wypłacana w gotówce.",
       "ALT_TOPUP": "Opcje doładowania na stronie Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Zgłoś błąd na forum bug bounty",
       "R_BOUNTY_REWARD": "Do 50 $",
       "F_BOUNTY": "Za zatwierdzone znalezisko, po weryfikacji przez zespół",
-      "P_REWARDS_2": "Strona ma też program partnerski wypłacający prowizję od doładowań osób poleconych. Zobacz stronę Affiliate w swoim panelu.",
+      "P_REWARDS_2": "Strona ma też program partnerski, który dopisuje do twojego salda prowizję od doładowań poleconych osób. Zobacz stronę Program partnerski w panelu.",
       "P_REWARDS_SPEND": "Kredyt z nagród trafia na to samo saldo co doładowanie i jest wydawany tak samo, co opisano w",
       "P_REWARDS_MODELS": "Aby zobaczyć, co kupi twój kredyt i które modele są darmowe, przejrzyj",
       "H_RECURRING": "Boosty i głosy w szczegółach",

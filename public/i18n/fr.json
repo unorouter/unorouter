@@ -3214,15 +3214,15 @@
         "DESC": "Lorsque les utilisateurs parrainés s'inscrivent et ajoutent des fonds, vous gagnez une commission."
       },
       "3": {
-        "TITLE": "Gagnez des commissions",
-        "DESC": "Transférez vos gains vers le solde de votre compte à tout moment."
+        "TITLE": "Utilisez votre crédit",
+        "DESC": "Transférez votre solde d'affiliation vers votre solde principal et utilisez-le pour vos requêtes."
       }
     },
     "TRANSFER": {
       "SECTION": "Transférer vers le solde",
       "DESC": "Les commissions s'accumulent dans ce solde d'affiliation séparé. Transférez-les vers votre solde principal pour les utiliser sur vos requêtes. Il n'y a pas de versement en argent.",
       "TO_BALANCE": "Transférer vers le solde",
-      "TITLE": "Transférer les gains d'affiliation",
+      "TITLE": "Transférer vers le solde principal",
       "DIALOG_DESC": "Transfère votre solde d'affiliation vers votre solde principal, où il paie les requêtes comme n'importe quel autre crédit. Cette action est irréversible.",
       "AMOUNT": "Montant",
       "EXCEEDS": "Le montant dépasse le solde disponible"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Échec du transfert"
     },
     "TITLE": "Programme d'affiliation",
-    "DESCRIPTION": "Gagnez des commissions en parrainant de nouveaux utilisateurs. Partagez votre lien d'invitation et gagnez un pourcentage sur leurs recharges.",
+    "DESCRIPTION": "Gagnez du crédit en parrainant de nouveaux utilisateurs. Partagez votre lien d'invitation et recevez une part de leurs recharges en solde de compte.",
     "COMMISSION_RATE": "Taux de commission",
     "MAX_RECHARGES": "Recharges maximales",
     "UNLIMITED": "Illimité",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Auditer l'utilisation",
       "P_LOGS_1": "<a>La page Journaux</a> liste chaque requête avec le modèle, les comptes de jetons, le coût et l'identifiant de requête. Citez cet identifiant si un montant semble erroné.",
       "P_KEYS_PIN": "Une clé peut aussi épingler des modèles sur des groupes de fournisseurs précis et leurs tarifs, voir",
-      "P_EARN_AFFILIATE": "Le programme d'affiliation verse une commission sur les rechargements des filleuls, jusqu'à 44 $ tous niveaux confondus.",
+      "P_EARN_AFFILIATE": "Le programme d'affiliation crédite les commissions sur les recharges des filleuls sur votre solde de compte, jusqu'à 44 $ tous niveaux confondus. Il n'y a jamais de versement en argent.",
       "ALT_TOPUP": "Options de recharge sur la page Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Signaler un bug dans le forum bug bounty",
       "R_BOUNTY_REWARD": "Jusqu'à 50 $",
       "F_BOUNTY": "Par découverte approuvée, après examen du staff",
-      "P_REWARDS_2": "Le site propose aussi un programme d'affiliation versant une commission sur les rechargements des filleuls. Voir la page Affiliation dans votre tableau de bord.",
+      "P_REWARDS_2": "Le site propose aussi un programme d'affiliation qui crédite les commissions sur les recharges de vos filleuls sur votre solde. Voir la page Affiliation de votre tableau de bord.",
       "P_REWARDS_SPEND": "Le crédit de récompense arrive sur le même solde qu'une recharge et se dépense de la même façon, comme décrit dans",
       "P_REWARDS_MODELS": "Pour voir ce que votre crédit achète et quels modèles sont gratuits, parcourez",
       "H_RECURRING": "Boosts et votes en détail",

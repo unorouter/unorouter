@@ -3214,15 +3214,15 @@
         "DESC": "Wenn geworbene Nutzer sich registrieren und Guthaben aufladen, erhalten Sie eine Provision."
       },
       "3": {
-        "TITLE": "Provision verdienen",
-        "DESC": "Übertragen Sie Ihre Einnahmen jederzeit auf Ihr Kontoguthaben."
+        "TITLE": "Guthaben nutzen",
+        "DESC": "Übertrage dein Partnerguthaben auf dein Hauptguthaben und nutze es für Anfragen."
       }
     },
     "TRANSFER": {
       "SECTION": "Auf Guthaben übertragen",
       "DESC": "Provisionen sammeln sich in diesem separaten Partnerguthaben. Übertrage sie auf dein Hauptguthaben, um sie für Anfragen zu nutzen. Eine Auszahlung in Geld gibt es nicht.",
       "TO_BALANCE": "Auf Guthaben übertragen",
-      "TITLE": "Partnereinnahmen übertragen",
+      "TITLE": "Auf Hauptguthaben übertragen",
       "DIALOG_DESC": "Überträgt dein Partnerguthaben auf dein Hauptguthaben, wo es wie jedes andere Guthaben für Anfragen verwendet wird. Das kann nicht rückgängig gemacht werden.",
       "AMOUNT": "Betrag",
       "EXCEEDS": "Betrag übersteigt das verfügbare Guthaben"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Übertragung fehlgeschlagen"
     },
     "TITLE": "Partnerprogramm",
-    "DESCRIPTION": "Verdienen Sie Provisionen, indem Sie neue Nutzer werben. Teilen Sie Ihren Einladungslink und verdienen Sie einen Prozentsatz ihrer Aufladungen.",
+    "DESCRIPTION": "Verdiene Guthaben, indem du neue Nutzer einlädst. Teile deinen Einladungslink und erhalte einen Anteil ihrer Aufladungen als Kontoguthaben.",
     "COMMISSION_RATE": "Provisionssatz",
     "MAX_RECHARGES": "Max. Aufladungen",
     "UNLIMITED": "Unbegrenzt",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Nutzung prüfen",
       "P_LOGS_1": "<a>Die Protokollseite</a> listet jede Anfrage mit Modell, Token-Zahlen, Kosten und Anfrage-ID. Bei einer falsch wirkenden Buchung die Anfrage-ID angeben.",
       "P_KEYS_PIN": "Ein Schlüssel kann Modelle auch auf bestimmte Anbietergruppen und deren Tarife pinnen, siehe",
-      "P_EARN_AFFILIATE": "Das Partnerprogramm zahlt Provision auf Aufladungen geworbener Nutzer, bis zu 44 $ über alle Stufen.",
+      "P_EARN_AFFILIATE": "Das Partnerprogramm schreibt dir Provisionen auf Aufladungen geworbener Nutzer als Kontoguthaben gut, insgesamt bis zu 44 $ über alle Stufen. Eine Auszahlung in Geld gibt es nie.",
       "ALT_TOPUP": "Auflade-Optionen auf der Billing-Seite"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Einen Bug im Bug-Bounty-Forum melden",
       "R_BOUNTY_REWARD": "Bis zu 50 $",
       "F_BOUNTY": "Pro anerkanntem Fund, nach Prüfung durch das Team",
-      "P_REWARDS_2": "Die Website hat außerdem ein Partnerprogramm, das Provision auf Aufladungen geworbener Nutzer zahlt. Siehe die Affiliate-Seite im Dashboard.",
+      "P_REWARDS_2": "Die Website hat außerdem ein Partnerprogramm, das Provisionen auf Aufladungen geworbener Nutzer deinem Guthaben gutschreibt. Siehe die Partner-Seite in deinem Dashboard.",
       "P_REWARDS_SPEND": "Belohnungsguthaben landet im selben Guthaben wie eine Aufladung und wird genauso ausgegeben, beschrieben in",
       "P_REWARDS_MODELS": "Um zu sehen, was dein Guthaben bringt und welche Modelle kostenlos sind, siehe",
       "H_RECURRING": "Boosts und Votes im Detail",

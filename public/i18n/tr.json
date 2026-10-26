@@ -3214,15 +3214,15 @@
         "DESC": "Yönlendirilen kullanıcılar kaydolduğunda ve fon eklediğinde, komisyon kazanırsınız."
       },
       "3": {
-        "TITLE": "Komisyon Kazanın",
-        "DESC": "Kazançlarınızı istediğiniz zaman hesap bakiyenize aktarın."
+        "TITLE": "Kredinizi kullanın",
+        "DESC": "Ortaklık bakiyenizi ana bakiyenize aktarın ve isteklerde kullanın."
       }
     },
     "TRANSFER": {
       "SECTION": "Bakiyeye Aktar",
       "DESC": "Komisyonlar bu ayrı ortaklık bakiyesinde birikir. İsteklerde kullanmak için onları ana bakiyenize aktarın. Nakit ödeme yoktur.",
       "TO_BALANCE": "Bakiyeye Aktar",
-      "TITLE": "Affiliate Kazançlarını Aktar",
+      "TITLE": "Ana bakiyeye aktar",
       "DIALOG_DESC": "Ortaklık bakiyenizi ana bakiyenize aktarır; orada diğer krediler gibi istekleri öder. Bu işlem geri alınamaz.",
       "AMOUNT": "Miktar",
       "EXCEEDS": "Miktar mevcut bakiyeyi aşıyor"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Transfer başarısız"
     },
     "TITLE": "Affiliate Programı",
-    "DESCRIPTION": "Yeni kullanıcıları yönlendirerek komisyon kazanın. Davet bağlantınızı paylaşın ve yüklemelerinin bir yüzdesini kazanın.",
+    "DESCRIPTION": "Yeni kullanıcıları davet ederek kredi kazanın. Davet bağlantınızı paylaşın ve onların yüklemelerinden bir payı hesap bakiyesi olarak alın.",
     "COMMISSION_RATE": "Komisyon Oranı",
     "MAX_RECHARGES": "Maksimum Yüklemeler",
     "UNLIMITED": "Sınırsız",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Kullanımı denetleme",
       "P_LOGS_1": "<a>Loglar sayfası</a> her isteği model, token sayıları, maliyet ve istek id'siyle listeler. Bir ücret yanlış görünüyorsa istek id'sini belirtin.",
       "P_KEYS_PIN": "Bir anahtar, modelleri belirli sağlayıcı gruplarına ve tarifelerine de sabitleyebilir, bkz.",
-      "P_EARN_AFFILIATE": "Ortaklık programı, tüm seviyeler boyunca 44 dolara kadar, referans yüklemeleri üzerinden komisyon öder.",
+      "P_EARN_AFFILIATE": "Ortaklık programı, davet ettiğiniz kişilerin yüklemelerinden gelen komisyonu hesap bakiyenize ekler, tüm seviyelerde toplam 44 $'a kadar. Asla nakit olarak ödenmez.",
       "ALT_TOPUP": "Billing sayfasındaki yükleme seçenekleri"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Bug bounty forumunda hata bildir",
       "R_BOUNTY_REWARD": "50 $'a kadar",
       "F_BOUNTY": "Onaylanan bulgu başına, ekip incelemesinden sonra",
-      "P_REWARDS_2": "Web sitesinin ayrıca referans yüklemeleri üzerinden komisyon ödeyen bir ortaklık programı vardır. Panelinizdeki Ortaklık sayfasına bakın.",
+      "P_REWARDS_2": "Sitede ayrıca davet ettiğiniz kişilerin yüklemelerinden gelen komisyonu bakiyenize ekleyen bir ortaklık programı da var. Panelinizdeki Ortaklık sayfasına bakın.",
       "P_REWARDS_SPEND": "Ödül kredisi bir yüklemeyle aynı bakiyeye geçer ve aynı şekilde harcanır; ayrıntılar",
       "P_REWARDS_MODELS": "Kredinizin neye yettiğini ve hangi modellerin ücretsiz olduğunu görmek için şuraya göz atın:",
       "H_RECURRING": "Boostlar ve oylar ayrıntılı",

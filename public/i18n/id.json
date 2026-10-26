@@ -3214,15 +3214,15 @@
         "DESC": "Saat pengguna yang dirujuk mendaftar dan menambahkan dana, Anda mendapatkan komisi."
       },
       "3": {
-        "TITLE": "Dapatkan Komisi",
-        "DESC": "Transfer penghasilan Anda ke saldo akun kapan saja."
+        "TITLE": "Gunakan kreditmu",
+        "DESC": "Pindahkan saldo afiliasi ke saldo utama dan gunakan untuk permintaan."
       }
     },
     "TRANSFER": {
       "SECTION": "Transfer ke Saldo",
       "DESC": "Komisi terkumpul di saldo afiliasi terpisah ini. Pindahkan ke saldo utama untuk dipakai pada permintaan. Tidak ada pencairan tunai.",
       "TO_BALANCE": "Transfer ke Saldo",
-      "TITLE": "Transfer Penghasilan Afiliasi",
+      "TITLE": "Pindahkan ke saldo utama",
       "DIALOG_DESC": "Memindahkan saldo afiliasi ke saldo utama, tempat saldo itu membayar permintaan seperti kredit lainnya. Tindakan ini tidak bisa dibatalkan.",
       "AMOUNT": "Jumlah",
       "EXCEEDS": "Jumlah melebihi saldo tersedia"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Transfer gagal"
     },
     "TITLE": "Program Afiliasi",
-    "DESCRIPTION": "Dapatkan komisi dengan merujuk pengguna baru. Bagikan tautan undangan Anda dan dapatkan persentase dari isi ulang mereka.",
+    "DESCRIPTION": "Dapatkan kredit dengan mengajak pengguna baru. Bagikan tautan undanganmu dan dapatkan bagian dari top-up mereka sebagai saldo akun.",
     "COMMISSION_RATE": "Tarif Komisi",
     "MAX_RECHARGES": "Maks Isi Ulang",
     "UNLIMITED": "Tak Terbatas",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Mengaudit penggunaan",
       "P_LOGS_1": "<a>Halaman Logs</a> mencantumkan setiap permintaan beserta model, jumlah token, biaya, dan id permintaan. Sebutkan id permintaan jika ada tagihan yang tampak keliru.",
       "P_KEYS_PIN": "Kunci juga bisa menyematkan model ke grup penyedia tertentu beserta tarifnya, lihat",
-      "P_EARN_AFFILIATE": "Program afiliasi membayar komisi atas isi ulang dari rujukan, hingga $44 di semua tingkat.",
+      "P_EARN_AFFILIATE": "Program afiliasi memberikan komisi dari top-up pengguna yang kamu ajak ke saldo akunmu, hingga $44 di semua level. Komisi ini tidak pernah dibayarkan tunai.",
       "ALT_TOPUP": "Opsi isi ulang di halaman Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Laporkan bug di forum bug bounty",
       "R_BOUNTY_REWARD": "Hingga $50",
       "F_BOUNTY": "Per temuan yang disetujui, setelah ditinjau staf",
-      "P_REWARDS_2": "Situs web juga punya program afiliasi yang membayar komisi atas isi ulang dari rujukan. Lihat halaman Affiliate di dasbor Anda.",
+      "P_REWARDS_2": "Situs ini juga punya program afiliasi yang menambahkan komisi dari top-up pengguna yang kamu ajak ke saldomu. Lihat halaman Afiliasi di dasbor.",
       "P_REWARDS_SPEND": "Kredit hadiah masuk ke saldo yang sama dengan isi ulang dan dibelanjakan dengan cara yang sama, dijelaskan di",
       "P_REWARDS_MODELS": "Untuk melihat apa yang bisa dibeli kredit Anda dan model mana yang gratis, jelajahi",
       "H_RECURRING": "Boost dan vote lebih detail",

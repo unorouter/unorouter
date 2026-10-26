@@ -3214,15 +3214,15 @@
         "DESC": "Khi người được giới thiệu đăng ký và nạp tiền, bạn sẽ nhận hoa hồng."
       },
       "3": {
-        "TITLE": "Nhận hoa hồng",
-        "DESC": "Chuyển thu nhập sang số dư tài khoản bất cứ lúc nào."
+        "TITLE": "Dùng tín dụng của bạn",
+        "DESC": "Chuyển số dư đối tác sang số dư chính và dùng cho các yêu cầu."
       }
     },
     "TRANSFER": {
       "SECTION": "Chuyển sang số dư",
       "DESC": "Hoa hồng được tích lũy trong số dư đối tác riêng này. Chuyển sang số dư chính để dùng cho các yêu cầu. Không có rút tiền mặt.",
       "TO_BALANCE": "Chuyển sang số dư",
-      "TITLE": "Chuyển thu nhập liên kết",
+      "TITLE": "Chuyển sang số dư chính",
       "DIALOG_DESC": "Chuyển số dư đối tác sang số dư chính, nơi nó thanh toán cho các yêu cầu như mọi khoản tín dụng khác. Thao tác này không thể hoàn tác.",
       "AMOUNT": "Số tiền",
       "EXCEEDS": "Số tiền vượt quá số dư khả dụng"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Chuyển khoản thất bại"
     },
     "TITLE": "Chương trình tiếp thị liên kết",
-    "DESCRIPTION": "Nhận hoa hồng khi giới thiệu người dùng mới. Chia sẻ liên kết mời và nhận phần trăm số tiền nạp của họ.",
+    "DESCRIPTION": "Nhận tín dụng khi giới thiệu người dùng mới. Chia sẻ liên kết mời và nhận một phần số tiền nạp của họ vào số dư tài khoản.",
     "COMMISSION_RATE": "Tỷ lệ hoa hồng",
     "MAX_RECHARGES": "Số lần nạp tối đa",
     "UNLIMITED": "Không giới hạn",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Kiểm tra việc sử dụng",
       "P_LOGS_1": "<a>Trang nhật ký</a> liệt kê mọi yêu cầu kèm mô hình, số token, chi phí và request id. Hãy nêu request id nếu một khoản trừ có vẻ sai.",
       "P_KEYS_PIN": "Khóa cũng có thể ghim mô hình vào các nhóm nhà cung cấp cụ thể và mức giá của chúng, xem",
-      "P_EARN_AFFILIATE": "Chương trình đối tác trả hoa hồng trên các lượt nạp tiền của người được giới thiệu, tối đa $44 trên toàn bộ các cấp.",
+      "P_EARN_AFFILIATE": "Chương trình đối tác cộng hoa hồng từ các lần nạp của người được giới thiệu vào số dư tài khoản của bạn, tối đa $44 cho tất cả các cấp. Không bao giờ trả bằng tiền mặt.",
       "ALT_TOPUP": "Tùy chọn nạp tiền trên trang Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Báo lỗi trong diễn đàn bug bounty",
       "R_BOUNTY_REWARD": "Lên đến 50 $",
       "F_BOUNTY": "Cho mỗi phát hiện được duyệt, sau khi đội ngũ xem xét",
-      "P_REWARDS_2": "Trang web cũng có chương trình đối tác trả hoa hồng trên các lượt nạp tiền được giới thiệu. Xem trang Affiliate trong bảng điều khiển của bạn.",
+      "P_REWARDS_2": "Trang web còn có chương trình đối tác cộng hoa hồng từ các lần nạp của người được giới thiệu vào số dư của bạn. Xem trang Đối tác trong bảng điều khiển.",
       "P_REWARDS_SPEND": "Tín dụng thưởng vào cùng số dư với khoản nạp tiền và được chi tiêu theo cách giống nhau, được mô tả trong",
       "P_REWARDS_MODELS": "Để xem tín dụng của bạn mua được gì và mô hình nào miễn phí, hãy xem",
       "H_RECURRING": "Chi tiết về boost và bình chọn",

@@ -3214,15 +3214,15 @@
         "DESC": "When referred users register and add funds, you earn a commission."
       },
       "3": {
-        "TITLE": "Earn Commission",
-        "DESC": "Transfer your earnings to your account balance anytime."
+        "TITLE": "Use your credit",
+        "DESC": "Move your affiliate balance to your main balance and spend it on requests."
       }
     },
     "TRANSFER": {
       "SECTION": "Transfer to Balance",
       "DESC": "Commissions collect in this separate affiliate balance. Move them to your main balance to spend them on requests. There is no cash payout.",
       "TO_BALANCE": "Transfer to Balance",
-      "TITLE": "Transfer Affiliate Earnings",
+      "TITLE": "Move to main balance",
       "DIALOG_DESC": "Move your affiliate balance to your main balance, where it pays for requests like any other credit. This cannot be undone.",
       "AMOUNT": "Amount",
       "EXCEEDS": "Amount exceeds available balance"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Transfer failed"
     },
     "TITLE": "Affiliate Program",
-    "DESCRIPTION": "Earn commissions by referring new users. Share your invite link and earn a percentage of their top-ups.",
+    "DESCRIPTION": "Earn credit by referring new users. Share your invite link and get a share of their top-ups as account balance.",
     "COMMISSION_RATE": "Commission Rate",
     "MAX_RECHARGES": "Max Recharges",
     "UNLIMITED": "Unlimited",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Auditing usage",
       "P_LOGS_1": "<a>The Logs page</a> lists every request with model, token counts, cost and request id. Quote the request id if a charge looks wrong.",
       "P_KEYS_PIN": "A key can also pin models to specific provider groups and their rates, see",
-      "P_EARN_AFFILIATE": "The affiliate program pays commission on referral top-ups, up to $44 across all levels.",
+      "P_EARN_AFFILIATE": "The affiliate program credits commission on referral top-ups to your account balance, up to $44 across all levels. It is never paid out in cash.",
       "ALT_TOPUP": "Top-up options on the Billing page"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Report a bug in the bug-bounty forum",
       "R_BOUNTY_REWARD": "Up to $50",
       "F_BOUNTY": "Per approved finding, after staff review",
-      "P_REWARDS_2": "The website also has an affiliate program paying commission on referred top-ups. See the Affiliate page in your dashboard.",
+      "P_REWARDS_2": "The website also has an affiliate program that credits commission on referred top-ups to your balance. See the Affiliate page in your dashboard.",
       "P_REWARDS_SPEND": "Reward credit lands in the same balance as a top-up and is spent the same way, described in",
       "P_REWARDS_MODELS": "To see what your credit buys and which models are free, browse",
       "H_RECURRING": "Boosts and votes in detail",

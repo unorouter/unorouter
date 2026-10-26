@@ -3214,15 +3214,15 @@
         "DESC": "Quando gli utenti riferiti si registrano e aggiungono fondi, guadagni una commissione."
       },
       "3": {
-        "TITLE": "Guadagna commissioni",
-        "DESC": "Trasferisci i tuoi guadagni al saldo del tuo account in qualsiasi momento."
+        "TITLE": "Usa il tuo credito",
+        "DESC": "Sposta il saldo affiliazione sul saldo principale e usalo per le richieste."
       }
     },
     "TRANSFER": {
       "SECTION": "Trasferisci al saldo",
       "DESC": "Le commissioni si accumulano in questo saldo affiliazione separato. Spostale sul saldo principale per usarle nelle richieste. Non è previsto alcun pagamento in denaro.",
       "TO_BALANCE": "Trasferisci al saldo",
-      "TITLE": "Trasferisci guadagni affiliato",
+      "TITLE": "Sposta sul saldo principale",
       "DIALOG_DESC": "Sposta il saldo affiliazione sul saldo principale, dove paga le richieste come qualsiasi altro credito. L'operazione non può essere annullata.",
       "AMOUNT": "Importo",
       "EXCEEDS": "L'importo supera il saldo disponibile"
@@ -3238,7 +3238,7 @@
       "TRANSFER": "Trasferimento fallito"
     },
     "TITLE": "Programma affiliato",
-    "DESCRIPTION": "Guadagna commissioni riferendo nuovi utenti. Condividi il tuo link di invito e guadagna una percentuale delle loro ricariche.",
+    "DESCRIPTION": "Guadagna credito invitando nuovi utenti. Condividi il tuo link di invito e ricevi una parte delle loro ricariche come saldo dell'account.",
     "COMMISSION_RATE": "Tariffa commissione",
     "MAX_RECHARGES": "Ricariche massime",
     "UNLIMITED": "Illimitate",
@@ -6085,7 +6085,7 @@
       "H_LOGS": "Verificare l'uso",
       "P_LOGS_1": "<a>La pagina Log</a> elenca ogni richiesta con modello, conteggio dei token, costo e id di richiesta. Cita l'id di richiesta se un addebito sembra sbagliato.",
       "P_KEYS_PIN": "Una chiave può anche bloccare i modelli su gruppi di provider specifici e le loro tariffe, vedi",
-      "P_EARN_AFFILIATE": "Il programma di affiliazione paga una commissione sulle ricariche dei referral, fino a 44 $ considerando tutti i livelli.",
+      "P_EARN_AFFILIATE": "Il programma di affiliazione accredita le commissioni sulle ricariche dei referral sul saldo del tuo account, fino a 44 $ su tutti i livelli. Non viene mai pagato in denaro.",
       "ALT_TOPUP": "Opzioni di ricarica nella pagina Billing"
     },
     "DISCORD_REWARDS": {
@@ -6127,7 +6127,7 @@
       "R_BOUNTY_ACTION": "Segnala un bug nel forum bug bounty",
       "R_BOUNTY_REWARD": "Fino a 50 $",
       "F_BOUNTY": "Per segnalazione approvata, dopo la revisione dello staff",
-      "P_REWARDS_2": "Il sito ha anche un programma di affiliazione che paga una commissione sulle ricariche dei referral. Vedi la pagina Affiliate nella tua dashboard.",
+      "P_REWARDS_2": "Il sito ha anche un programma di affiliazione che accredita sul tuo saldo le commissioni sulle ricariche dei referral. Vedi la pagina Affiliazione nella tua dashboard.",
       "P_REWARDS_SPEND": "Il credito delle ricompense finisce nello stesso saldo di una ricarica e si spende allo stesso modo, come descritto in",
       "P_REWARDS_MODELS": "Per vedere cosa compra il tuo credito e quali modelli sono gratuiti, sfoglia",
       "H_RECURRING": "Boost e voti nel dettaglio",
