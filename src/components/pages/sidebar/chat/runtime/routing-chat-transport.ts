@@ -302,14 +302,14 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      // Last entry wraps the model FIRST: coalescing runs on the raw provider
-      // stream, prefillThinkMiddleware on its output, the tag extractor last.
+      // Last entry wraps the model FIRST: prefillThinkMiddleware runs on the
+      // raw provider stream, the tag extractor on its output, coalescing last.
       middleware: [
+        coalesceReasoningMiddleware(),
         extractReasoningMiddleware({ tagName: "think" }),
         ...(prefillOpensThink(prepared.messagesForUpstream)
           ? [prefillThinkMiddleware()]
           : []),
-        coalesceReasoningMiddleware(),
       ],
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
