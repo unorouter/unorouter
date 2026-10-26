@@ -76,6 +76,7 @@ export class SQLiteSahPoolDriver
           name,
           directory: sahPoolDirName(databasePath),
           initialCapacity: POOL_CAPACITY,
+          preserveOnInitFailure: true,
         })
         .then(async (util) => {
           await util.reserveMinimumCapacity(POOL_CAPACITY);

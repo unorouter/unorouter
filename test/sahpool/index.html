@@ -1,0 +1,7 @@
+<!doctype html>
+<meta charset="utf-8" />
+<script type="module">
+  const w = new Worker(`/worker.js${location.search}`, { type: "module" });
+  w.onmessage = (e) => (window.__result = e.data);
+  w.onerror = (e) => (window.__result = { fatal: String(e.message) });
+</script>
