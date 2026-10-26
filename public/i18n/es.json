@@ -2676,8 +2676,6 @@
       "TO": "Hasta",
       "APPLY": "Aplicar"
     },
-    "UPDATE_AVAILABLE": "Hay una nueva versión disponible",
-    "UPDATE_RELOAD": "Recargar",
     "TOTAL_COUNT": "{count} en total",
     "ROWS": "Filas"
   },

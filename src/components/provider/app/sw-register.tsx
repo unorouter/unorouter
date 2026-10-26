@@ -4,15 +4,9 @@ import { releaseLocalDbForReload } from "@/lib/db/client/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
-import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { toast } from "sonner";
 
 export function SwRegister() {
-  const t = useTranslations();
-  const updateText = t("COMMON.UPDATE_AVAILABLE");
-  const reloadText = t("COMMON.UPDATE_RELOAD");
-
   useEffect(() => {
     // Mounting proves this build's chunks loaded, so release error-fallback's one-shot guard.
     sessionStorage.removeItem("chunk-reload-once");
@@ -76,18 +70,12 @@ export function SwRegister() {
 
     // A new worker installs and then WAITS (skipWaiting/clientsClaim are off
     // in sw.ts). This page applies it with SKIP_WAITING on its next return to
-    // the foreground while nothing is mid-flight, or from the toast; the
-    // reload follows activation. Nothing is pulled out from under a page
-    // that is busy, hidden, or still booting.
+    // the foreground while nothing is mid-flight; the reload follows
+    // activation. Nothing is pulled out from under a page that is busy,
+    // hidden, or still booting.
     let stale = false;
     const busy = () =>
       chatStore.get(chatRunningAtom) || chatStore.get(dirtyFormsAtom) > 0;
-    const offer = (apply: () => void) =>
-      toast(updateText, {
-        id: "sw-update",
-        duration: Infinity,
-        action: { label: reloadText, onClick: apply },
-      });
     const reload = (reason: string) => {
       logChatDebug("sw.reload", { reason });
       releaseLocalDbForReload().finally(() => window.location.reload());
@@ -113,8 +101,6 @@ export function SwRegister() {
       logChatDebug("sw.update_ready", {
         visible: document.visibilityState === "visible",
       });
-      if (document.visibilityState === "visible")
-        offer(() => applyWaiting("toast"));
     };
     const watchInstalling = (reg: ServiceWorkerRegistration) => {
       const worker = reg.installing;
@@ -131,8 +117,6 @@ export function SwRegister() {
       logChatDebug("sw.controllerchange", {
         visible: document.visibilityState === "visible",
       });
-      if (document.visibilityState === "visible")
-        offer(() => applyWaiting("toast"));
     };
     navigator.serviceWorker.addEventListener(
       "controllerchange",
@@ -142,10 +126,7 @@ export function SwRegister() {
     const onVisible = () => {
       if (document.visibilityState !== "visible") return;
       if (stale) {
-        if (busy()) {
-          offer(() => applyWaiting("toast"));
-          return;
-        }
+        if (busy()) return;
         stale = false;
         applyWaiting("stale_on_visible");
         return;
@@ -163,7 +144,6 @@ export function SwRegister() {
         onControllerChange,
       );
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- register once per mount; the toast strings are captured at registration and a locale change must not re-register the worker
   }, []);
 
   return null;

@@ -2676,8 +2676,6 @@
       "TO": "Do",
       "APPLY": "Zastosuj"
     },
-    "UPDATE_AVAILABLE": "Dostępna jest nowa wersja",
-    "UPDATE_RELOAD": "Odśwież",
     "TOTAL_COUNT": "łącznie {count}",
     "ROWS": "Wiersze"
   },
