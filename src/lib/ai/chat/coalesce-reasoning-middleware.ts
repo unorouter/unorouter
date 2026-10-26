@@ -5,6 +5,17 @@ import type { StreamChunk } from "./prefill-think-middleware";
 // provider closes the reasoning part on any non-null tool_calls, so a 400 token
 // thought arrives as 400 one-word reasoning parts. A reasoning-end is held back
 // until the next chunk; a restart of the same id cancels the pair.
+// The provider and extractReasoningMiddleware both number their parts
+// "reasoning-N", so an upstream that streams reasoning_content and <think>
+// tags together closed one part with the other's end.
+function nativeReasoningId(chunk: StreamChunk): StreamChunk {
+  return chunk.type === "reasoning-start" ||
+    chunk.type === "reasoning-delta" ||
+    chunk.type === "reasoning-end"
+    ? { ...chunk, id: `native-${chunk.id}` }
+    : chunk;
+}
+
 export function coalesceReasoningMiddleware(): LanguageModelMiddleware {
   return {
     wrapStream: async ({ doStream }) => {
@@ -12,7 +23,8 @@ export function coalesceReasoningMiddleware(): LanguageModelMiddleware {
       let heldEnd: StreamChunk | null = null;
       const transformed = stream.pipeThrough(
         new TransformStream<StreamChunk, StreamChunk>({
-          transform(chunk, controller) {
+          transform(raw, controller) {
+            const chunk = nativeReasoningId(raw);
             if (heldEnd) {
               if (
                 chunk.type === "reasoning-start" &&
