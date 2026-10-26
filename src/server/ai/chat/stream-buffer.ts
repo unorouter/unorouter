@@ -7,7 +7,9 @@ import { networkInterfaces } from "node:os";
 
 const KEEP_AFTER_DONE_MS = 10 * 60_000;
 const MAX_RUN_MS = 30 * 60_000;
-const MAX_BYTES = 4 * 1024 * 1024;
+// SSE spends 150 to 250 bytes per streamed token: a 100K token thinking reply
+// is about 25 MiB.
+const MAX_BYTES = 48 * 1024 * 1024;
 const MAX_ENTRIES = 500;
 // The custom provider relay is open to guests, so the whole buffer is capped
 // well inside the pod's 3Gi limit.
@@ -81,6 +83,10 @@ function append(entry: Entry, chunk: Uint8Array) {
   entry.wake.clear();
 }
 
+const TOO_LONG_FRAME = new TextEncoder().encode(
+  `\n\ndata: ${JSON.stringify({ error: { message: "The reply grew past the server's stream buffer and was stopped." } })}\n\ndata: [DONE]\n\n`,
+);
+
 // Reads the source to the end whether or not anyone is listening; `abort`
 // stops it for real (the Stop button), a dropped connection does not.
 export function bufferStream(
@@ -113,6 +119,7 @@ export function bufferStream(
           totalBytes + chunk.value.byteLength > TOTAL_BUDGET
         ) {
           abort();
+          append(entry, TOO_LONG_FRAME);
           break;
         }
         append(entry, chunk.value);
