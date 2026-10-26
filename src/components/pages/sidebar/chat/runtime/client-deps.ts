@@ -14,22 +14,32 @@ import {
 import { makeClientTriggerOps } from "./trigger-ops-client";
 import type { CustomProviderRow } from "@/lib/db/schema/rows";
 
-function makeProvider(provider: CustomProviderRow, mutations?: BodyMutations) {
+function makeProvider(
+  provider: CustomProviderRow,
+  relay: boolean,
+  mutations?: BodyMutations,
+) {
+  const target = normalizeBaseUrl(provider.baseUrl);
   return createOpenAICompatible({
     name: "custom",
-    baseURL: normalizeBaseUrl(provider.baseUrl),
+    baseURL: relay
+      ? `${window.location.origin}/api/ai/chat/custom-forward`
+      : target,
     apiKey: provider.apiKey,
+    ...(relay ? { headers: { "x-proxy-target": target } } : {}),
     fetch: makeUpstreamFetch(mutations),
   });
 }
 
 export function buildClientDeps(provider: CustomProviderRow): AssemblerDeps {
-  const sdk = makeProvider(provider);
+  // The forward route only relays chat completions and the model list.
+  const sdk = makeProvider(provider, false);
+  const chatSdk = makeProvider(provider, provider.proxy === true);
   const firstModel = provider.models[0]?.key;
 
   const generate: FreeModelGenerate = (modelName, opts) =>
     generateText({
-      model: sdk.chatModel(modelName),
+      model: chatSdk.chatModel(modelName),
       system: opts.systemPrompt,
       prompt: opts.prompt,
       maxOutputTokens: opts.maxOutputTokens,
