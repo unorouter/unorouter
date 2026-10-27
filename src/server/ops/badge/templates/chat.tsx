@@ -21,6 +21,9 @@ const DIMS: Record<BadgeSize, FeatureBadgeDims> = {
   og: {
     ...FEATURE_BADGE_DIMS.og,
     count: 10,
+    cell: 48,
+    iconSize: 28,
+    gap: 12,
     vendorGrid: { cols: 3, rows: 3, cell: 96, icon: 52, gap: 14 },
     statFont: 44,
   },

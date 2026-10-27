@@ -140,6 +140,7 @@ export function IconCell(props: {
         display: "flex",
         width: props.cell,
         height: props.cell,
+        boxSizing: "border-box",
         borderRadius: Math.max(8, Math.round(props.cell * 0.22)),
         backgroundColor: "rgba(10,8,16,0.72)",
         border: "1px solid rgba(255,255,255,0.06)",
@@ -319,6 +320,7 @@ export async function renderFeatureBadge(
           display: "flex",
           flexWrap: "wrap",
           width: vendorW,
+          flexShrink: 0,
           gap: vg.gap,
           transform: "rotate(-9deg)",
           alignContent: "center",
@@ -353,6 +355,7 @@ export async function renderFeatureBadge(
           flexDirection: "column",
           width: d.W,
           height: d.H - rainbowH,
+          boxSizing: "border-box",
           padding: `${d.pad}px ${d.pad}px ${Math.round(d.pad * 0.75)}px`,
           justifyContent: "space-between",
         }}

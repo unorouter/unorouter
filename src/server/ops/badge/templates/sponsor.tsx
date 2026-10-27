@@ -114,16 +114,16 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     H: 630,
     pad: 64,
     layout: "twoColumn",
-    logoSize: 130,
-    brandFont: 60,
+    logoSize: 96,
+    brandFont: 48,
     brandGap: 28,
     statSize: 40,
     labelSize: 22,
     dotSize: 14,
     rightWidth: 540,
-    bulletFont: 34,
+    bulletFont: 30,
     ctaFont: 30,
-    modelCountFont: 34,
+    modelCountFont: 30,
   },
 };
 
@@ -323,6 +323,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
         style={{
           padding: `${d.pad}px ${d.pad}px ${d.pad}px 24px`,
           width: d.rightWidth,
+          boxSizing: "border-box",
           justifyContent: "center",
           gap: 10,
         }}
