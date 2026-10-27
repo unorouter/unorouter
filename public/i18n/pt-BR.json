@@ -6451,7 +6451,7 @@
     "SAVED": "Consentimento salvo",
     "META": {
       "TITLE": "Consentimentos para modelos | {appName}",
-      "DESCRIPTION": "Dê, renove ou retire seu consentimento para cada modelo do {appName} cujos provedores usam suas entradas para fins próprios.",
+      "DESCRIPTION": "Dê ou retire seu consentimento para cada provedor do {appName} que usa suas entradas para fins próprios.",
       "KEYWORDS": "uso para treinamento, consentimento, privacidade, transferência para país terceiro"
     },
     "PAGE_TITLE": "Consentimentos para modelos",

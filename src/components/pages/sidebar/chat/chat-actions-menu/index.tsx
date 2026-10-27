@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -123,13 +124,15 @@ export function ChatActionsMenu(props: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("FREE_CONSENT.SETTINGS_TITLE")}</DialogTitle>
+            <DialogDescription>
+              <Link
+                href="/consents"
+                className="text-primary text-sm underline-offset-4 hover:underline"
+              >
+                {t("FREE_CONSENT.MANAGE")}
+              </Link>
+            </DialogDescription>
           </DialogHeader>
-          <Link
-            href="/consents"
-            className="text-primary text-sm underline-offset-4 hover:underline"
-          >
-            {t("FREE_CONSENT.MANAGE")}
-          </Link>
           <div className="space-y-2 border-t pt-4">
             <h3 className="text-foreground text-sm font-medium">
               {t("OWN_PURPOSE.TITLE")}

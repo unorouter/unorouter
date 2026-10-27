@@ -6451,7 +6451,7 @@
     "SAVED": "Onay kaydedildi",
     "META": {
       "TITLE": "Model onayları | {appName}",
-      "DESCRIPTION": "{appName} üzerinde sağlayıcıları girdilerini kendi amaçları için kullanan her model için onayını ver, yenile veya geri çek.",
+      "DESCRIPTION": "{appName} üzerinde girdilerini kendi amaçları için kullanan her sağlayıcı için onayını ver veya geri çek.",
       "KEYWORDS": "eğitim amaçlı kullanım, onay, gizlilik, üçüncü ülkeye aktarım"
     },
     "PAGE_TITLE": "Model onayları",

@@ -6451,7 +6451,7 @@
     "SAVED": "Consenso salvato",
     "META": {
       "TITLE": "Consensi per i modelli | {appName}",
-      "DESCRIPTION": "Dai, rinnova o revoca il tuo consenso per ogni modello su {appName} i cui fornitori usano i tuoi input per scopi propri.",
+      "DESCRIPTION": "Dai o revoca il tuo consenso per ogni fornitore su {appName} che usa i tuoi input per scopi propri.",
       "KEYWORDS": "uso per l'addestramento, consenso, privacy, trasferimento verso paesi terzi"
     },
     "PAGE_TITLE": "Consensi per i modelli",

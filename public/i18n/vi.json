@@ -6451,7 +6451,7 @@
     "SAVED": "Đã lưu sự đồng ý",
     "META": {
       "TITLE": "Đồng ý cho mô hình | {appName}",
-      "DESCRIPTION": "Đồng ý, gia hạn hoặc rút lại sự đồng ý cho từng mô hình trên {appName} có nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng.",
+      "DESCRIPTION": "Đồng ý hoặc rút lại sự đồng ý cho từng nhà cung cấp trên {appName} sử dụng dữ liệu đầu vào của bạn cho mục đích riêng.",
       "KEYWORDS": "sử dụng để huấn luyện, đồng ý, quyền riêng tư, chuyển dữ liệu sang nước thứ ba"
     },
     "PAGE_TITLE": "Đồng ý cho mô hình",

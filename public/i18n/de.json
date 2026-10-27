@@ -6451,7 +6451,7 @@
     "SAVED": "Einwilligung gespeichert",
     "META": {
       "TITLE": "Einwilligungen für Modelle | {appName}",
-      "DESCRIPTION": "Erteile, erneuere oder widerrufe deine Einwilligung für jedes Modell auf {appName}, dessen Anbieter deine Eingaben für eigene Zwecke nutzen.",
+      "DESCRIPTION": "Erteile oder widerrufe deine Einwilligung für jeden Anbieter auf {appName}, der deine Eingaben für eigene Zwecke nutzt.",
       "KEYWORDS": "Trainingsnutzung, Einwilligung, Datenschutz, Drittlandübermittlung"
     },
     "PAGE_TITLE": "Einwilligungen für Modelle",

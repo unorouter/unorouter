@@ -6451,7 +6451,7 @@
     "SAVED": "Consentement enregistré",
     "META": {
       "TITLE": "Consentements pour les modèles | {appName}",
-      "DESCRIPTION": "Donne, renouvelle ou retire ton consentement pour chaque modèle de {appName} dont les fournisseurs utilisent tes saisies à leurs propres fins.",
+      "DESCRIPTION": "Donne ou retire ton consentement pour chaque fournisseur de {appName} qui utilise tes saisies à ses propres fins.",
       "KEYWORDS": "utilisation pour l'entraînement, consentement, confidentialité, transfert vers un pays tiers"
     },
     "PAGE_TITLE": "Consentements pour les modèles",

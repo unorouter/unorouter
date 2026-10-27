@@ -6451,7 +6451,7 @@
     "SAVED": "已儲存同意",
     "META": {
       "TITLE": "模型同意 | {appName}",
-      "DESCRIPTION": "在 {appName} 上為每個供應商將你的輸入用於其自身目的的模型給予、更新或撤回同意。",
+      "DESCRIPTION": "在 {appName} 上為每個將你的輸入用於其自身目的的供應商給予或撤回同意。",
       "KEYWORDS": "訓練用途, 同意, 隱私, 跨境傳輸"
     },
     "PAGE_TITLE": "模型同意",

@@ -6451,7 +6451,7 @@
     "SAVED": "Zgoda zapisana",
     "META": {
       "TITLE": "Zgody dla modeli | {appName}",
-      "DESCRIPTION": "Wyraź, odnów lub wycofaj zgodę dla każdego modelu w {appName}, którego dostawcy wykorzystują Twoje dane wejściowe do własnych celów.",
+      "DESCRIPTION": "Wyraź lub wycofaj zgodę dla każdego dostawcy w {appName}, który wykorzystuje Twoje dane wejściowe do własnych celów.",
       "KEYWORDS": "wykorzystanie do trenowania, zgoda, prywatność, przekazanie do państwa trzeciego"
     },
     "PAGE_TITLE": "Zgody dla modeli",

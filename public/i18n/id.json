@@ -6451,7 +6451,7 @@
     "SAVED": "Persetujuan disimpan",
     "META": {
       "TITLE": "Persetujuan untuk model | {appName}",
-      "DESCRIPTION": "Berikan, perbarui, atau tarik persetujuanmu untuk setiap model di {appName} yang penyedianya menggunakan masukanmu untuk tujuan mereka sendiri.",
+      "DESCRIPTION": "Berikan atau tarik persetujuanmu untuk setiap penyedia di {appName} yang menggunakan masukanmu untuk tujuannya sendiri.",
       "KEYWORDS": "penggunaan untuk pelatihan, persetujuan, privasi, pemindahan ke negara ketiga"
     },
     "PAGE_TITLE": "Persetujuan untuk model",

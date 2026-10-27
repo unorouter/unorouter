@@ -6451,7 +6451,7 @@
     "SAVED": "Consent saved",
     "META": {
       "TITLE": "Model consents | {appName}",
-      "DESCRIPTION": "Give, renew or withdraw your consent for each model on {appName} whose providers use your inputs for their own purposes.",
+      "DESCRIPTION": "Give or withdraw your consent for each provider on {appName} that uses your inputs for its own purposes.",
       "KEYWORDS": "training use, consent, privacy, third country transfer"
     },
     "PAGE_TITLE": "Model consents",
