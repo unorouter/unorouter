@@ -24,10 +24,15 @@ export function useModelConsentGate(
   const providerQuery = useModelProviderConsentsQuery(name, providerMode);
   const noticeQuery = useFreeConsentsQuery(noticeMode);
 
+  // A stale "not covered" with nothing left to consent to would leave a dead
+  // end, so the gateway gets the final word then.
+  const missing = (providerQuery.data?.providers ?? []).some(
+    (p) => p.status === "missing",
+  );
   const needsConsent =
     name !== null &&
     (providerMode
-      ? providerQuery.data?.covered === false
+      ? providerQuery.data?.covered === false && missing
       : noticeMode &&
         noticeQuery.data != null &&
         !hasCoveringConsent(noticeQuery.data.consents, name));
