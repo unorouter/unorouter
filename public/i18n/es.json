@@ -4982,9 +4982,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizador de otro fabricante",
-        "MEANS": "Cuatro textos fijos (dígitos, chino, espacios, código) se facturaron con un patrón de tokens que pertenece a la familia de modelos de otro fabricante, o a razón de aproximadamente un token por cada cuatro caracteres en todos los textos, algo que ningún tokenizador real hace: el proveedor se inventa sus cifras de uso.",
+        "MEANS": "Cuatro textos fijos (dígitos, chino, espacios, código) se facturaron con un patrón de tokens que pertenece a la familia de modelos de otro fabricante, a razón de un token por cada cuatro caracteres en todos los textos, o con menos tokens de los que cualquier tokenizador necesita solo para el texto: el proveedor se inventa sus cifras de uso.",
         "WHY": "Un prompt de sistema oculto puede hacer que cualquier modelo diga ser Claude, pero no puede cambiar cómo el backend divide el texto en tokens. Un «Claude Fable 5.1» gratuito superó las preguntas de identidad y aun así facturó con el patrón de la familia Llama 4 de Meta.",
-        "EXCEPTION": "Solo se evalúa cuando se conocen los patrones propios del fabricante indicado. Los patrones de OpenAI nunca se marcan porque los relays los usan para estimar el uso. Un patrón que no coincide con ninguna familia conocida solo se marca cuando da aproximadamente un token por cada cuatro caracteres en todos los textos."
+        "EXCEPTION": "Solo se evalúa cuando se conocen los patrones propios del fabricante indicado. Los patrones de OpenAI nunca se marcan porque los relays los usan para estimar el uso. Si un solo texto se factura de forma imposiblemente baja, el resultado queda sin verificar, porque una respuesta en caché puede causarlo; con dos o más, falla."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Identidad enmascarada",

@@ -4982,9 +4982,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizador de outro fabricante",
-        "MEANS": "Quatro textos fixos (dígitos, chinês, espaços, código) foram cobrados em um padrão de tokens que pertence à família de modelos de outro fabricante, ou a cerca de um token a cada quatro caracteres em todos os textos, algo que nenhum tokenizador real faz: o provedor inventa seus números de uso.",
+        "MEANS": "Quatro textos fixos (dígitos, chinês, espaços, código) foram cobrados com um padrão de tokens que pertence à família de modelos de outro fabricante, a cerca de um token a cada quatro caracteres em todos os textos, ou com menos tokens do que qualquer tokenizador precisa só para o texto: o provedor inventa seus números de uso.",
         "WHY": "Um prompt de sistema oculto pode fazer qualquer modelo dizer que é o Claude, mas não muda como o backend divide o texto em tokens. Um \"Claude Fable 5.1\" gratuito passou nas perguntas de identidade e mesmo assim cobrou no padrão da família Llama 4 da Meta.",
-        "EXCEPTION": "Só é avaliado quando os padrões próprios do fabricante informado são conhecidos. Padrões da OpenAI nunca são sinalizados, porque relays os usam para estimar o uso. Um padrão que não corresponde a nenhuma família conhecida só é sinalizado quando dá cerca de um token a cada quatro caracteres em todos os textos."
+        "EXCEPTION": "Só é avaliado quando os padrões do próprio fabricante informado são conhecidos. Padrões da OpenAI nunca são sinalizados, porque relays os usam para estimar o uso. Um único texto cobrado de forma impossivelmente baixa deixa o resultado não verificado, pois uma resposta em cache pode causar isso; com dois ou mais, falha."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Identidade mascarada",

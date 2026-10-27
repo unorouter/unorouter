@@ -4982,9 +4982,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Bộ tách token của hãng khác",
-        "MEANS": "Bốn văn bản cố định (chữ số, tiếng Trung, khoảng trắng, mã) bị tính phí theo mẫu token thuộc họ mô hình của một nhà sản xuất khác, hoặc khoảng một token cho mỗi bốn ký tự ở mọi văn bản, điều mà không tokenizer thật nào làm: nhà cung cấp tự bịa ra số liệu sử dụng.",
+        "MEANS": "Bốn văn bản cố định (chữ số, tiếng Trung, khoảng trắng, mã) bị tính phí theo kiểu token thuộc dòng mô hình của một hãng khác, khoảng một token cho mỗi bốn ký tự trên mọi văn bản, hoặc ít token hơn mức mà bất kỳ bộ tách token nào cần cho chính văn bản đó: nhà cung cấp tự bịa số liệu sử dụng.",
         "WHY": "Một system prompt ẩn có thể khiến bất kỳ mô hình nào tự nhận là Claude, nhưng không thể thay đổi cách backend tách văn bản thành token. Một \"Claude Fable 5.1\" miễn phí đã vượt qua các câu hỏi danh tính nhưng vẫn tính phí theo mẫu của họ Llama 4 của Meta.",
-        "EXCEPTION": "Chỉ được đánh giá khi đã biết các mẫu riêng của nhà sản xuất được khai báo. Mẫu của OpenAI không bao giờ bị gắn cờ vì các relay dùng chúng để ước tính mức sử dụng. Một mẫu không khớp với họ nào đã biết chỉ bị gắn cờ khi nó cho khoảng một token cho mỗi bốn ký tự ở mọi văn bản."
+        "EXCEPTION": "Chỉ đánh giá khi đã biết các kiểu token của chính hãng được khai báo. Kiểu của OpenAI không bao giờ bị đánh dấu vì các relay dùng chúng để ước tính mức sử dụng. Nếu chỉ một văn bản bị tính thấp đến mức không thể, kết quả vẫn chưa được xác minh vì câu trả lời từ bộ nhớ đệm có thể gây ra điều đó; từ hai văn bản trở lên thì không đạt."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Danh tính bị che giấu",

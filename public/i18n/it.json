@@ -4982,9 +4982,9 @@
       },
       "TOKENIZER-FAMILY": {
         "TITLE": "Tokenizer di un altro produttore",
-        "MEANS": "Quattro testi fissi (cifre, cinese, spazi, codice) sono stati fatturati con uno schema di token che appartiene alla famiglia di modelli di un altro produttore, oppure a circa un token ogni quattro caratteri su ogni testo, cosa che nessun tokenizer reale fa: il fornitore si inventa i dati di utilizzo.",
+        "MEANS": "Quattro testi fissi (cifre, cinese, spazi, codice) sono stati fatturati con uno schema di token che appartiene alla famiglia di modelli di un altro produttore, a circa un token ogni quattro caratteri su ogni testo, oppure con meno token di quanti ne servano a qualsiasi tokenizer per il solo testo: il fornitore inventa i propri dati di utilizzo.",
         "WHY": "Un prompt di sistema nascosto può far dire a qualsiasi modello di essere Claude, ma non può cambiare il modo in cui il backend divide il testo in token. Un «Claude Fable 5.1» gratuito ha superato le domande sull'identità ma ha fatturato con lo schema della famiglia Llama 4 di Meta.",
-        "EXCEPTION": "Viene valutato solo quando sono noti gli schemi propri del produttore dichiarato. Gli schemi di OpenAI non vengono mai segnalati perché i relay li usano per stimare l'utilizzo. Uno schema che non corrisponde a nessuna famiglia nota viene segnalato solo se dà circa un token ogni quattro caratteri su ogni testo."
+        "EXCEPTION": "Valutato solo quando sono noti gli schemi propri del produttore dichiarato. Gli schemi di OpenAI non vengono mai segnalati perché i relay li usano per stimare l'utilizzo. Un solo testo fatturato in modo impossibilmente basso lascia il risultato non verificato, perché può dipendere da una risposta in cache; con due o più il controllo fallisce."
       },
       "MASKED-IDENTITY": {
         "TITLE": "Identità mascherata",
