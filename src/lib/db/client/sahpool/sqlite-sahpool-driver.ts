@@ -40,6 +40,22 @@ async function logSlots(
   }
 }
 
+// An interrupted export (tab killed, page hidden mid VACUUM) leaves its copy
+// and journal in the pool; four of them filled all 8 slots and every write
+// then failed for want of a journal slot. Recent ones may still be a lazy
+// download in another tab.
+const STALE_EXPORT_MS = 10 * 60_000;
+
+function purgeStaleExports(util: SAHPoolUtil) {
+  const removed: string[] = [];
+  for (const fileName of util.getFileNames()) {
+    const ts = /^\/backup-(\d+)--/.exec(fileName)?.[1];
+    if (!ts || Date.now() - Number(ts) < STALE_EXPORT_MS) continue;
+    if (util.unlink(fileName)) removed.push(fileName);
+  }
+  if (removed.length) poolLog("db.pool.stale_exports_purged", { removed });
+}
+
 function absName(databasePath: string): string {
   return `/${databasePath.replace(/^\/+/, "")}`;
 }
@@ -81,6 +97,7 @@ export class SQLiteSahPoolDriver
         .then(async (util) => {
           await util.reserveMinimumCapacity(POOL_CAPACITY);
           poolLog("db.pool.install.done", { files: util.getFileNames() });
+          purgeStaleExports(util);
           return util;
         });
       poolCache.set(name, pool);

@@ -141,7 +141,7 @@ export async function downloadLocalDb(
     // disk-backed File reads the pool slot while it downloads: unlinking it
     // now hands the browser a file that changed underneath it. The share and
     // picker paths resolve only once the bytes are written, so they clean up
-    // at once. The next open purges a /backup- slot left by a closed tab.
+    // at once. Pool install purges a stale /backup- slot left by a closed tab.
     deferCleanup = built.lazy && path === "blob";
     logChatDebug("export.db.done", {
       filename,
@@ -173,8 +173,6 @@ export async function buildExportFile(
   if (!local) throw new Error("SQLocal unavailable");
   const info = await local.getDatabaseInfo();
   const dbName = (info.databasePath ?? "unorouter.sqlite").replace(/^\/+/, "");
-  // Same shape purgeOrphans() recognises, so a crash mid-export leaves
-  // nothing a later open cannot clean up.
   const tempName = `/backup-${Date.now()}--${dbName}`;
   logChatDebug("export.db.copy", { srcBytes: info.databaseSizeBytes ?? 0 });
 
