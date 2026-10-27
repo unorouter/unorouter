@@ -2,7 +2,7 @@ import {
   providerConsentGrantBody,
   providerConsentListQuery,
   providerConsentRevokeBody,
-} from "@/lib/api/typebox/free-consent";
+} from "@/lib/api/typebox/consent";
 import { unwrap } from "@/lib/utils/base";
 import {
   grantGuestProviderConsents,
@@ -17,14 +17,13 @@ import {
   forgetGuestConsents,
   guestConsentHeaders,
   readGuestId,
-} from "../free-consent/free-consent.service";
+} from "../guest-consent.service";
 import {
   fetchGuestProviderConsents,
   fetchProviderConsents,
 } from "./provider-consent.service";
 
-// Same split as the model consents: the account when logged in, otherwise the
-// browser's guest id.
+// The account when logged in, otherwise the browser's guest id.
 export const providerConsentRoute = new Elysia({
   prefix: "/provider-consents",
 })

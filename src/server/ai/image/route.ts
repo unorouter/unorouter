@@ -1,7 +1,7 @@
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { catalogSearchQuery, imageSubmitBody } from "@/lib/validation/image";
-import { assertGuestOwnPurposeAccess } from "@/server/auth/free-consent/free-consent.service";
+import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service";
 import { getUserId } from "@/server/constants";
 import { rateLimit } from "@/server/rate-limit";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";

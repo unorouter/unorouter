@@ -1,6 +1,6 @@
 "use client";
 
-import { ModelConsentPanel } from "@/components/elements/model/provider-consent-panel";
+import { ProviderConsentPanel } from "@/components/elements/model/provider-consent-panel";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { estimateImageCost, willClamp } from "@/lib/ai/image/cost-estimate";
@@ -71,7 +71,7 @@ export function SubmitBar(props: Props) {
       </p>
     );
   if (needsConsent)
-    return <ModelConsentPanel model={props.descriptor.model_name} />;
+    return <ProviderConsentPanel model={props.descriptor.model_name} />;
 
   return (
     <div className="bg-background sticky bottom-0 z-10 flex flex-col gap-2 py-2">

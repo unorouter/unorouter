@@ -8,13 +8,12 @@ import {
   ConsentActionButton,
   ConsentStatusText,
   KIND_LABEL,
-  type ConsentHandlers,
 } from "./consent-action";
 import type { ConsentRow } from "./consent-rows";
 
 export function ConsentModelCard(props: {
   row: ConsentRow;
-  handlers: ConsentHandlers;
+  onOpen: (model: string) => void;
 }) {
   const t = useTranslations();
   const row = props.row;
@@ -35,7 +34,7 @@ export function ConsentModelCard(props: {
         <ConsentStatusText row={row} />
       </div>
       <div className="shrink-0">
-        <ConsentActionButton row={row} handlers={props.handlers} />
+        <ConsentActionButton row={row} onOpen={props.onOpen} />
       </div>
     </div>
   );

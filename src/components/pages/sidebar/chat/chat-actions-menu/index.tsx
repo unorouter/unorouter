@@ -1,12 +1,10 @@
 "use client";
 
-import { FreeConsentList } from "@/components/elements/model/free-consent-list";
 import { OwnPurposeObjectionToggle } from "@/components/elements/model/own-purpose-objection-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -18,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import { Link } from "@/i18n/navigation";
 import {
   conversationSettingsOpenAtom,
   focusMemoryFieldAtom,
@@ -124,11 +123,13 @@ export function ChatActionsMenu(props: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("FREE_CONSENT.SETTINGS_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("FREE_CONSENT.SETTINGS_DESC")}
-            </DialogDescription>
           </DialogHeader>
-          <FreeConsentList />
+          <Link
+            href="/consents"
+            className="text-primary text-sm underline-offset-4 hover:underline"
+          >
+            {t("FREE_CONSENT.MANAGE")}
+          </Link>
           <div className="space-y-2 border-t pt-4">
             <h3 className="text-foreground text-sm font-medium">
               {t("OWN_PURPOSE.TITLE")}

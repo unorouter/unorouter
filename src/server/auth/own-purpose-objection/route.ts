@@ -1,4 +1,4 @@
-import { ownPurposeObjectionBody } from "@/lib/api/typebox/free-consent";
+import { ownPurposeObjectionBody } from "@/lib/api/typebox/consent";
 import { unwrap } from "@/lib/utils/base";
 import {
   getGuestOwnPurposeObjection,
@@ -11,7 +11,7 @@ import {
   forgetGuestObjection,
   guestConsentHeaders,
   readGuestId,
-} from "@/server/auth/free-consent/free-consent.service";
+} from "@/server/auth/guest-consent.service";
 import { deriveUpstream, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 

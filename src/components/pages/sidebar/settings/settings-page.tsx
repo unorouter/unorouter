@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 import { AccountCard } from "./account-card";
 import { AccountHeader } from "./account-header";
 import { BackupCard } from "./backup-card";
+import { ConsentsCard } from "./consents-card";
 import { CustomerTypeCard } from "./customer-type-card";
-import { FreeConsentCard } from "./free-consent-card";
 import { NotificationCard } from "./notification-card";
 import { OwnPurposeObjectionCard } from "./own-purpose-objection-card";
 import { SecurityCard } from "./security-card";
@@ -61,7 +61,7 @@ export function SettingsPage() {
       </div>
 
       <div className="mb-6">
-        <FreeConsentCard />
+        <ConsentsCard />
       </div>
 
       <div className="mb-6">

@@ -1,41 +1,28 @@
 "use client";
 
-import { useFreeConsentsQuery } from "@/hooks/auth/free-consent-hook";
 import { useModelProviderConsentsQuery } from "@/hooks/auth/provider-consent-hook";
-import {
-  hasCoveringConsent,
-  needsTransferConsent,
-  type OwnPurposeModel,
-} from "@/lib/api/own-purpose";
+import type { OwnPurposeModel } from "@/lib/api/own-purpose";
+import { ProviderConsentItemStatus } from "@/openapi";
 
-// A model the gateway requires a consent for is covered by provider consents
-// (or an earlier model consent, which the gateway counts). A :free model that
-// needs only the notice keeps its acknowledgement per model. `demanded` is a
-// gateway refusal for a model the catalog did not flag.
+// A model the gateway requires a consent for is covered by provider consents.
+// `demanded` is a gateway refusal for a model the catalog did not flag.
 export function useModelConsentGate(
   model: OwnPurposeModel | undefined,
   name: string | null,
   demanded: boolean,
 ) {
-  const providerMode =
+  const consentModel =
     (model?.own_purpose?.consent_required ?? false) || demanded;
-  const noticeMode =
-    !providerMode && model !== undefined && needsTransferConsent(model);
-  const providerQuery = useModelProviderConsentsQuery(name, providerMode);
-  const noticeQuery = useFreeConsentsQuery(noticeMode);
+  const query = useModelProviderConsentsQuery(name, consentModel);
 
-  // A stale "not covered" with nothing left to consent to would leave a dead
-  // end, so the gateway gets the final word then.
-  const missing = (providerQuery.data?.providers ?? []).some(
-    (p) => p.status === "missing",
-  );
+  // A stale "not covered" with nothing left to consent to would be a dead end,
+  // so the gateway gets the final word then.
   const needsConsent =
     name !== null &&
-    (providerMode
-      ? providerQuery.data?.covered === false && missing
-      : noticeMode &&
-        noticeQuery.data != null &&
-        !hasCoveringConsent(noticeQuery.data.consents, name));
+    query.data?.covered === false &&
+    (query.data.providers ?? []).some(
+      (p) => p.status === ProviderConsentItemStatus.missing,
+    );
 
-  return { consentModel: providerMode || noticeMode, needsConsent };
+  return { consentModel, needsConsent };
 }

@@ -17,18 +17,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  useFreeConsentsQuery,
-  useRevokeFreeConsentMutation,
-} from "@/hooks/auth/free-consent-hook";
 import { useProviderConsentsQuery } from "@/hooks/auth/provider-consent-hook";
 import { useConsentModelsQuery } from "@/hooks/models/pricing-hook";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { KIND_LABEL, type ConsentHandlers } from "./consent-action";
+import { KIND_LABEL } from "./consent-action";
 import { buildConsentColumns } from "./consent-columns";
 import { ConsentFilterSidebar } from "./consent-filter-sidebar";
 import { ConsentModelCard } from "./consent-model-card";
@@ -44,13 +39,10 @@ export function ModelView(props: {
 }) {
   const t = useTranslations();
   const consentModelsQuery = useConsentModelsQuery();
-  const consentsQuery = useFreeConsentsQuery();
   const providersQuery = useProviderConsentsQuery();
-  const revokeMutation = useRevokeFreeConsentMutation();
 
   const rows = buildConsentRows(
     consentModelsQuery.data ?? [],
-    consentsQuery.data?.consents ?? [],
     providersQuery.data?.providers ?? [],
   );
   const filters = useConsentFilters(rows);
@@ -58,28 +50,15 @@ export function ModelView(props: {
   const columnSorting = useAtomValue(consentTableAtoms.sortingAtom);
   const setColumnSorting = useSetAtom(consentTableAtoms.sortingAtom);
 
-  const handlers: ConsentHandlers = {
-    open: props.onOpen,
-    revoke: (model) =>
-      revokeMutation.mutate(
-        { body: { model } },
-        {
-          onSuccess: () => toast.success(t("FREE_CONSENT.REVOKED")),
-          onError: (error) => toast.error(error.message),
-        },
-      ),
-    revoking: revokeMutation.isPending,
-  };
-
   const columns = buildConsentColumns({
-    handlers,
+    onOpen: props.onOpen,
     kindLabel: (row) => t(KIND_LABEL[row.kind]),
     offlineLabel: t("FREE_CONSENT.OFFLINE"),
     freeLabel: t("MODELS.TABLE.FREE"),
     flatNoParamsLabel: t("MODELS.TABLE.FLAT_NO_PARAMS"),
   });
 
-  const loading = consentModelsQuery.isLoading || consentsQuery.isLoading;
+  const loading = consentModelsQuery.isLoading || providersQuery.isLoading;
   const showReset =
     filters.activeFilterCount > 0 ||
     params.order.length > 0 ||
@@ -160,7 +139,7 @@ export function ModelView(props: {
               <ConsentModelCard
                 key={row.model.model_name}
                 row={row}
-                handlers={handlers}
+                onOpen={props.onOpen}
               />
             ))
           )}

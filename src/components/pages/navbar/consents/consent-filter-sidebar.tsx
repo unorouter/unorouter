@@ -27,7 +27,6 @@ import type { useConsentFilters } from "./use-consent-filters";
 const STATUS_LABEL = {
   given: msg("FREE_CONSENT.FILTER.GIVEN"),
   missing: msg("FREE_CONSENT.FILTER.MISSING"),
-  stale: msg("FREE_CONSENT.FILTER.STALE"),
 } satisfies Record<(typeof CONSENT_STATUSES)[number], ReturnType<typeof msg>>;
 
 const PRICE_LABEL = {

@@ -8,7 +8,6 @@ export const queryKeys = {
   status: () => ["status"] as const,
   twoFAStatus: () => ["2fa-status"] as const,
   passkeyStatus: () => ["passkey-status"] as const,
-  freeConsents: () => ["free-consents"] as const,
   providerConsents: () => ["provider-consents"] as const,
   providerConsentsForModel: (model: string) =>
     ["provider-consents", model] as const,

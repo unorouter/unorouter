@@ -32,7 +32,9 @@ export type ProviderModel = {
 
 // model_details is newer than models; a gateway without it lists names only.
 // Most active channels first, then active, then by name.
-export function providerModels(p: ProviderConsentItem): ProviderModel[] {
+export function providerModels(
+  p: Pick<ProviderConsentItem, "model_details" | "models">,
+): ProviderModel[] {
   const details: ProviderModel[] =
     p.model_details && p.model_details.length > 0
       ? p.model_details
@@ -48,10 +50,6 @@ export function providerModels(p: ProviderConsentItem): ProviderModel[] {
       Number(b.active) - Number(a.active) ||
       a.name.localeCompare(b.name),
   );
-}
-
-export function providerStatus(p: ProviderConsentItem): ProviderStatus {
-  return p.status === "given" ? "given" : "missing";
 }
 
 // Only a provider still waiting for consent can join a batch grant.
@@ -88,7 +86,10 @@ export function sortProviders(
 
 // A provider of the model that needs no consent shares the table; `reason`
 // says why, and it has no counts, models or action.
-export type ProviderRow = ProviderConsentItem & { reason?: string };
+export type ProviderRow = Omit<ProviderConsentItem, "status"> & {
+  status: ProviderConsentItem["status"] | "not_needed";
+  reason?: string;
+};
 
 export function otherProviderRow(o: ProviderOtherItem): ProviderRow {
   return {

@@ -6,17 +6,13 @@ import { ModelNameCell } from "@/components/pages/navbar/models/browse/model-col
 import { Badge } from "@/components/ui/badge";
 import type { TableFeats } from "@/lib/config/table-features";
 import type { ColumnDef } from "@tanstack/react-table";
-import {
-  ConsentActionButton,
-  ConsentStatusText,
-  type ConsentHandlers,
-} from "./consent-action";
+import { ConsentActionButton, ConsentStatusText } from "./consent-action";
 import type { ConsentRow } from "./consent-rows";
 
-const STATUS_ORDER = { stale: 0, missing: 1, given: 2, not_needed: 3 };
+const STATUS_ORDER = { missing: 0, given: 1, not_needed: 2 };
 
 export function buildConsentColumns(opts: {
-  handlers: ConsentHandlers;
+  onOpen: (model: string) => void;
   kindLabel: (row: ConsentRow) => string;
   offlineLabel: string;
   freeLabel: string;
@@ -92,7 +88,7 @@ export function buildConsentColumns(opts: {
       header: () => null,
       meta: { headerClassName: "w-32", cellClassName: "text-right" },
       cell: ({ row }) => (
-        <ConsentActionButton row={row.original} handlers={opts.handlers} />
+        <ConsentActionButton row={row.original} onOpen={opts.onOpen} />
       ),
     },
   ];

@@ -301,25 +301,28 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
+export interface ClaudeServerToolUse {
+  code_execution_requests?: number;
+  tool_search_requests?: number;
+  web_fetch_requests?: number;
+  web_search_requests?: number;
 }
 
 export interface BillingUsage {
   billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface BucketPoint {
@@ -519,11 +522,6 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
 /**
  * ClaudeMessageResponse schema
  */
@@ -538,13 +536,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeServerToolUse {
-  code_execution_requests?: number;
-  tool_search_requests?: number;
-  web_fetch_requests?: number;
-  web_search_requests?: number;
 }
 
 export interface ClaudeUsage {
@@ -1229,43 +1220,16 @@ export interface FlowQuotaData {
 }
 
 /**
- * FreeConsentGrantRequest schema
- */
-export interface FreeConsentGrantRequest {
-  /** @maxLength 16 */
-  locale: string;
-  /** @maxLength 255 */
-  model: string;
-  /** @maxLength 20000 */
-  text: string;
-}
-
-export interface FreeConsentItem {
-  covers: boolean;
-  created_at: number;
-  locale: string;
-  model: string;
-}
-
-export interface FreeConsentListData {
-  /** @nullable */
-  consents: FreeConsentItem[] | null;
-}
-
-/**
- * FreeConsentRevokeRequest schema
- */
-export interface FreeConsentRevokeRequest {
-  /** @maxLength 255 */
-  model: string;
-}
-
-/**
  * GeminiModelList schema
  */
 export interface GeminiModelList {
   models: unknown;
   nextPageToken: unknown;
+}
+
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
 }
 
 export interface GeminiUsageMetadata {
@@ -1306,6 +1270,7 @@ export interface GrantDiscordQuotaData {
   ip_duplicate?: boolean;
   linked: boolean;
   user_id: number;
+  user_mismatch?: boolean;
 }
 
 /**
@@ -1314,6 +1279,8 @@ export interface GrantDiscordQuotaData {
 export interface GrantDiscordQuotaRequest {
   check_ip_unique?: boolean;
   discord_id: string;
+  dry_run?: boolean;
+  expected_user_id?: number;
   granted_by?: string;
   quota: number;
   reason?: string;
@@ -2477,6 +2444,14 @@ export interface ProviderConsentGrantRequest {
   text: string;
 }
 
+export type ProviderConsentItemStatus =
+  (typeof ProviderConsentItemStatus)[keyof typeof ProviderConsentItemStatus];
+
+export const ProviderConsentItemStatus = {
+  given: "given",
+  missing: "missing",
+} as const;
+
 export interface ProviderConsentModelItem {
   active: boolean;
   active_channels: number;
@@ -2502,7 +2477,7 @@ export interface ProviderConsentItem {
   models: string[] | null;
   onward_unvetted: boolean;
   practice: string;
-  status: string;
+  status: ProviderConsentItemStatus;
   /** @nullable */
   tags: string[] | null;
   trains_or_retains: boolean;
@@ -3352,15 +3327,6 @@ export interface ResponseDtoFetchUpstreamRatiosResult {
  */
 export interface ResponseDtoFixAbilityData {
   data: FixAbilityData;
-  message: string;
-  success: boolean;
-}
-
-/**
- * Response_dto.FreeConsentListData schema
- */
-export interface ResponseDtoFreeConsentListData {
-  data: FreeConsentListData;
   message: string;
   success: boolean;
 }
@@ -17878,173 +17844,6 @@ export const getUserGroups = async (
   });
 };
 
-export type revokeGuestFreeConsentResponse200ApplicationJson = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type revokeGuestFreeConsentResponse200ApplicationXml = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type revokeGuestFreeConsentResponseSuccess = (
-  | revokeGuestFreeConsentResponse200ApplicationJson
-  | revokeGuestFreeConsentResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type revokeGuestFreeConsentResponse =
-  revokeGuestFreeConsentResponseSuccess;
-
-export const getRevokeGuestFreeConsentUrl = () => {
-  return `/api/user/guest/free-consents`;
-};
-
-/**
- * @summary Revoke Guest Free Consent
- */
-export const revokeGuestFreeConsent = async (
-  freeConsentRevokeRequest: FreeConsentRevokeRequest,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<revokeGuestFreeConsentResponse> => {
-  const getHeaders = (
-    h?: NonNullable<RequestInit["headers"]>,
-  ): Record<string, string | readonly string[]> => {
-    if (!h) return {};
-    if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Symbol.iterator in h) {
-      return Object.fromEntries(
-        Array.from(
-          h as Iterable<Iterable<string>>,
-          (entry) => Array.from(entry) as [string, string],
-        ),
-      );
-    }
-    const headers: Record<string, string | readonly string[]> = {};
-    for (const [name, value] of Object.entries<
-      string | readonly string[] | undefined
-    >(h)) {
-      if (value !== undefined) headers[name] = value;
-    }
-    return headers;
-  };
-  return customFetch<revokeGuestFreeConsentResponse>(
-    getRevokeGuestFreeConsentUrl(),
-    {
-      ...options,
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...getHeaders(options?.headers),
-      },
-      body: JSON.stringify(freeConsentRevokeRequest),
-    },
-  );
-};
-
-export type getGuestFreeConsentsResponse200ApplicationJson = {
-  data: ResponseDtoFreeConsentListData;
-  status: 200;
-};
-
-export type getGuestFreeConsentsResponse200ApplicationXml = {
-  data: ResponseDtoFreeConsentListData;
-  status: 200;
-};
-
-export type getGuestFreeConsentsResponseSuccess = (
-  | getGuestFreeConsentsResponse200ApplicationJson
-  | getGuestFreeConsentsResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getGuestFreeConsentsResponse = getGuestFreeConsentsResponseSuccess;
-
-export const getGetGuestFreeConsentsUrl = () => {
-  return `/api/user/guest/free-consents`;
-};
-
-/**
- * @summary Get Guest Free Consents
- */
-export const getGuestFreeConsents = async (
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getGuestFreeConsentsResponse> => {
-  return customFetch<getGuestFreeConsentsResponse>(
-    getGetGuestFreeConsentsUrl(),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
-
-export type grantGuestFreeConsentResponse200ApplicationJson = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type grantGuestFreeConsentResponse200ApplicationXml = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type grantGuestFreeConsentResponseSuccess = (
-  | grantGuestFreeConsentResponse200ApplicationJson
-  | grantGuestFreeConsentResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type grantGuestFreeConsentResponse =
-  grantGuestFreeConsentResponseSuccess;
-
-export const getGrantGuestFreeConsentUrl = () => {
-  return `/api/user/guest/free-consents`;
-};
-
-/**
- * @summary Grant Guest Free Consent
- */
-export const grantGuestFreeConsent = async (
-  freeConsentGrantRequest: FreeConsentGrantRequest,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<grantGuestFreeConsentResponse> => {
-  const getHeaders = (
-    h?: NonNullable<RequestInit["headers"]>,
-  ): Record<string, string | readonly string[]> => {
-    if (!h) return {};
-    if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Symbol.iterator in h) {
-      return Object.fromEntries(
-        Array.from(
-          h as Iterable<Iterable<string>>,
-          (entry) => Array.from(entry) as [string, string],
-        ),
-      );
-    }
-    const headers: Record<string, string | readonly string[]> = {};
-    for (const [name, value] of Object.entries<
-      string | readonly string[] | undefined
-    >(h)) {
-      if (value !== undefined) headers[name] = value;
-    }
-    return headers;
-  };
-  return customFetch<grantGuestFreeConsentResponse>(
-    getGrantGuestFreeConsentUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...getHeaders(options?.headers),
-      },
-      body: JSON.stringify(freeConsentGrantRequest),
-    },
-  );
-};
-
 export type getGuestOwnPurposeObjectionResponse200ApplicationJson = {
   data: ResponseDtoOwnPurposeObjectionData;
   status: 200;
@@ -19797,162 +19596,6 @@ export const updateSelf = async (
   return customFetch<updateSelfResponse>(getUpdateSelfUrl(), {
     ...options,
     method: "PUT",
-  });
-};
-
-export type revokeFreeConsentResponse200ApplicationJson = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type revokeFreeConsentResponse200ApplicationXml = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type revokeFreeConsentResponseSuccess = (
-  | revokeFreeConsentResponse200ApplicationJson
-  | revokeFreeConsentResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type revokeFreeConsentResponse = revokeFreeConsentResponseSuccess;
-
-export const getRevokeFreeConsentUrl = () => {
-  return `/api/user/self/free-consents`;
-};
-
-/**
- * @summary Revoke Free Consent
- */
-export const revokeFreeConsent = async (
-  freeConsentRevokeRequest: FreeConsentRevokeRequest,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<revokeFreeConsentResponse> => {
-  const getHeaders = (
-    h?: NonNullable<RequestInit["headers"]>,
-  ): Record<string, string | readonly string[]> => {
-    if (!h) return {};
-    if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Symbol.iterator in h) {
-      return Object.fromEntries(
-        Array.from(
-          h as Iterable<Iterable<string>>,
-          (entry) => Array.from(entry) as [string, string],
-        ),
-      );
-    }
-    const headers: Record<string, string | readonly string[]> = {};
-    for (const [name, value] of Object.entries<
-      string | readonly string[] | undefined
-    >(h)) {
-      if (value !== undefined) headers[name] = value;
-    }
-    return headers;
-  };
-  return customFetch<revokeFreeConsentResponse>(getRevokeFreeConsentUrl(), {
-    ...options,
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      ...getHeaders(options?.headers),
-    },
-    body: JSON.stringify(freeConsentRevokeRequest),
-  });
-};
-
-export type getFreeConsentsResponse200ApplicationJson = {
-  data: ResponseDtoFreeConsentListData;
-  status: 200;
-};
-
-export type getFreeConsentsResponse200ApplicationXml = {
-  data: ResponseDtoFreeConsentListData;
-  status: 200;
-};
-
-export type getFreeConsentsResponseSuccess = (
-  | getFreeConsentsResponse200ApplicationJson
-  | getFreeConsentsResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getFreeConsentsResponse = getFreeConsentsResponseSuccess;
-
-export const getGetFreeConsentsUrl = () => {
-  return `/api/user/self/free-consents`;
-};
-
-/**
- * @summary Get Free Consents
- */
-export const getFreeConsents = async (
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getFreeConsentsResponse> => {
-  return customFetch<getFreeConsentsResponse>(getGetFreeConsentsUrl(), {
-    ...options,
-    method: "GET",
-  });
-};
-
-export type grantFreeConsentResponse200ApplicationJson = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type grantFreeConsentResponse200ApplicationXml = {
-  data: ResponseDtoMessageResponse;
-  status: 200;
-};
-
-export type grantFreeConsentResponseSuccess = (
-  | grantFreeConsentResponse200ApplicationJson
-  | grantFreeConsentResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type grantFreeConsentResponse = grantFreeConsentResponseSuccess;
-
-export const getGrantFreeConsentUrl = () => {
-  return `/api/user/self/free-consents`;
-};
-
-/**
- * @summary Grant Free Consent
- */
-export const grantFreeConsent = async (
-  freeConsentGrantRequest: FreeConsentGrantRequest,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<grantFreeConsentResponse> => {
-  const getHeaders = (
-    h?: NonNullable<RequestInit["headers"]>,
-  ): Record<string, string | readonly string[]> => {
-    if (!h) return {};
-    if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Symbol.iterator in h) {
-      return Object.fromEntries(
-        Array.from(
-          h as Iterable<Iterable<string>>,
-          (entry) => Array.from(entry) as [string, string],
-        ),
-      );
-    }
-    const headers: Record<string, string | readonly string[]> = {};
-    for (const [name, value] of Object.entries<
-      string | readonly string[] | undefined
-    >(h)) {
-      if (value !== undefined) headers[name] = value;
-    }
-    return headers;
-  };
-  return customFetch<grantFreeConsentResponse>(getGrantFreeConsentUrl(), {
-    ...options,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getHeaders(options?.headers),
-    },
-    body: JSON.stringify(freeConsentGrantRequest),
   });
 };
 

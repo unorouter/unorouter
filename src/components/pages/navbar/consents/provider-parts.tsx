@@ -293,16 +293,6 @@ export function ProviderStatusBadge(props: { provider: ProviderRow }) {
         {t("FREE_CONSENT.FILTER.GIVEN")}
       </Badge>
     );
-  if (p.status === "model_consent")
-    return (
-      <Badge
-        variant="secondary"
-        className="text-[10px]"
-        title={t("PROVIDER_CONSENT.MODEL_CONSENT_STATUS")}
-      >
-        {t("FREE_CONSENT.FILTER.GIVEN")}
-      </Badge>
-    );
   return (
     <Badge variant="outline" className="text-[10px]">
       {t("FREE_CONSENT.FILTER.MISSING")}

@@ -15,7 +15,6 @@ import {
   DEFAULT_PROVIDER_SORT,
   PROVIDER_SORT_VALUES,
   PROVIDER_STATUSES,
-  providerStatus,
   sortProviders,
 } from "./provider-rows";
 
@@ -47,7 +46,7 @@ export function useProviderFilters(providers: ProviderConsentItem[]) {
     const matchesCountry =
       params.pcountry.length === 0 || params.pcountry.includes(p.country);
     const matchesStatus =
-      params.pstatus.length === 0 || params.pstatus.includes(providerStatus(p));
+      params.pstatus.length === 0 || params.pstatus.includes(p.status);
     const matchesActive = !params.pactive || p.active;
     return matchesSearch && matchesCountry && matchesStatus && matchesActive;
   });

@@ -4,17 +4,9 @@ import {
   GUEST_USER_ID,
   msg,
 } from "@/lib/config/constants";
-import {
-  hasCoveringConsent,
-  needsTransferConsent,
-  usesInputsForOwnPurposes,
-} from "@/lib/api/own-purpose";
+import { usesInputsForOwnPurposes } from "@/lib/api/own-purpose";
 import { logger } from "@/lib/utils/logger";
-import {
-  getGuestFreeConsents,
-  getGuestOwnPurposeObjection,
-  getStatus,
-} from "@/openapi";
+import { getGuestOwnPurposeObjection, getStatus } from "@/openapi";
 import { fetchGuestProviderConsents } from "@/server/auth/provider-consent/provider-consent.service";
 import { bffServiceHeader, cookieString } from "@/server/constants";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
@@ -24,18 +16,12 @@ const GUEST_ID_PATTERN = /^[A-Za-z0-9-]{16,64}$/;
 const GUEST_CONSENT_TTL_MS = 30_000;
 const GUEST_CACHE_MAX = 10_000;
 
-// Per pod; a revoke reaches the other pods within the TTL.
-const guestConsents = new Map<
-  string,
-  { models: Set<string>; expires: number }
->();
-
 // Per pod, keyed by guest and model; only a yes is cached, so a consent given
 // through another pod counts at once.
 const guestCoverage = new Map<string, { expires: number }>();
 
 // Guest ids are unbounded caller input: expired entries go first, then the
-// oldest, so neither cache grows with the number of guests.
+// oldest, so no cache grows with the number of guests.
 function cacheGuestEntry<T extends { expires: number }>(
   cache: Map<string, T>,
   guestId: string,
@@ -81,7 +67,6 @@ export function guestConsentHeaders(guestId: string): Record<string, string> {
 }
 
 export function forgetGuestConsents(guestId: string) {
-  guestConsents.delete(guestId);
   for (const key of guestCoverage.keys())
     if (key.startsWith(`${guestId}\n`)) guestCoverage.delete(key);
 }
@@ -118,31 +103,6 @@ async function guestObjects(guestId: string): Promise<boolean> {
     });
     return false;
   }
-}
-
-async function guestConsentedModels(
-  guestId: string,
-  model: string,
-): Promise<Set<string>> {
-  const cached = guestConsents.get(guestId);
-  // Only a cached yes is trusted: a consent given through the other pod must
-  // count immediately.
-  if (cached && cached.expires > Date.now() && cached.models.has(model))
-    return cached.models;
-  const res = await getGuestFreeConsents({
-    headers: guestConsentHeaders(guestId),
-  });
-  const consents = res.data?.success ? (res.data.data?.consents ?? []) : [];
-  const models = new Set(
-    consents
-      .filter((consent) => hasCoveringConsent(consents, consent.model))
-      .map((consent) => consent.model),
-  );
-  cacheGuestEntry(guestConsents, guestId, {
-    models,
-    expires: Date.now() + GUEST_CONSENT_TTL_MS,
-  });
-  return models;
 }
 
 const ENFORCEMENT_TTL_MS = 30_000;
@@ -201,13 +161,8 @@ export async function assertGuestOwnPurposeAccess(
     (await guestObjects(guestId))
   )
     throw new Error(msg("OWN_PURPOSE.OBJECTED_ERROR"));
-  if (!needsTransferConsent(info)) return;
+  if (!info.own_purpose?.consent_required) return;
   if (!(await consentEnforcedFor([model, info.model_name]))) return;
-  // A provider consent covers what the gateway requires; a :free model that
-  // needs only the notice keeps its acknowledgement per model.
-  const covered = info.own_purpose?.consent_required
-    ? guestId !== undefined && (await guestProviderCovered(guestId, model))
-    : guestId !== undefined &&
-      (await guestConsentedModels(guestId, model)).has(model);
-  if (!covered) throw new Error(msg("FREE_CONSENT.DECLINED"));
+  if (!guestId || !(await guestProviderCovered(guestId, model)))
+    throw new Error(msg("FREE_CONSENT.DECLINED"));
 }

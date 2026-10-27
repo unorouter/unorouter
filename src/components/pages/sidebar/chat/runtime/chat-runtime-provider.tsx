@@ -199,9 +199,6 @@ function ChatRuntimeHook() {
             prev.includes(model) ? prev : [...prev, model],
           );
         void queryClient.invalidateQueries({
-          queryKey: queryKeys.freeConsents(),
-        });
-        void queryClient.invalidateQueries({
           queryKey: queryKeys.providerConsents(),
         });
       }

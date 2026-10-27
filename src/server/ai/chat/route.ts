@@ -1,5 +1,5 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { assertGuestOwnPurposeAccess } from "@/server/auth/free-consent/free-consent.service";
+import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service";
 import {
   finalizeTaskBody,
   forwardBody,

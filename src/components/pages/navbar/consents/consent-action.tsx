@@ -2,83 +2,39 @@
 
 import { Button } from "@/components/ui/button";
 import { msg } from "@/lib/config/constants";
-import { formatLongDate } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import type { ConsentKind, ConsentRow } from "./consent-rows";
 
 export const KIND_LABEL = {
   consent: msg("FREE_CONSENT.KIND_CONSENT"),
-  notice: msg("FREE_CONSENT.KIND_NOTICE"),
   none: msg("FREE_CONSENT.NOT_NEEDED"),
 } satisfies Record<ConsentKind, ReturnType<typeof msg>>;
 
-export type ConsentHandlers = {
-  open: (model: string) => void;
-  revoke: (model: string) => void;
-  revoking: boolean;
-};
+const STATUS_TEXT = {
+  given: msg("FREE_CONSENT.COVERED_BY_PROVIDERS"),
+  missing: msg("FREE_CONSENT.FILTER.MISSING"),
+  not_needed: msg("FREE_CONSENT.NOT_NEEDED"),
+} satisfies Record<ConsentRow["status"], ReturnType<typeof msg>>;
 
 export function ConsentStatusText(props: { row: ConsentRow }) {
   const t = useTranslations();
-  const row = props.row;
-  if (row.status === "given" && row.via === "providers")
-    return (
-      <span className="text-muted-foreground text-xs">
-        {t("FREE_CONSENT.COVERED_BY_PROVIDERS")}
-      </span>
-    );
-  if (row.status === "given" && row.grantedAt != null)
-    return (
-      <span className="text-muted-foreground text-xs">
-        {t("FREE_CONSENT.GRANTED_ON", { date: formatLongDate(row.grantedAt) })}
-      </span>
-    );
-  if (row.status === "stale")
-    return (
-      <span className="text-warning text-xs">{t("FREE_CONSENT.STALE")}</span>
-    );
-  if (row.status === "missing")
-    return (
-      <span className="text-muted-foreground text-xs">
-        {t("FREE_CONSENT.FILTER.MISSING")}
-      </span>
-    );
   return (
     <span className="text-muted-foreground text-xs">
-      {t("FREE_CONSENT.NOT_NEEDED")}
+      {t(STATUS_TEXT[props.row.status])}
     </span>
   );
 }
 
+// Withdrawal happens per provider on the providers tab.
 export function ConsentActionButton(props: {
   row: ConsentRow;
-  handlers: ConsentHandlers;
+  onOpen: (model: string) => void;
 }) {
   const t = useTranslations();
-  const row = props.row;
-  const model = row.model.model_name;
-  // Provider consents are withdrawn per provider on the providers tab.
-  if (row.via === "providers") return null;
-  // A model that needs nothing any more only offers the withdrawal.
-  if (row.status === "given" || (row.status === "stale" && row.kind === "none"))
-    return (
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => props.handlers.revoke(model)}
-        disabled={props.handlers.revoking}
-      >
-        {t("FREE_CONSENT.REVOKE_BUTTON")}
-      </Button>
-    );
-  if (row.kind === "none") return null;
+  if (props.row.status !== "missing") return null;
   return (
-    <Button size="sm" onClick={() => props.handlers.open(model)}>
-      {row.status === "stale"
-        ? t("FREE_CONSENT.RENEW")
-        : row.kind === "notice"
-          ? t("FREE_CONSENT.NOTICE_CONFIRM")
-          : t("FREE_CONSENT.GIVE")}
+    <Button size="sm" onClick={() => props.onOpen(props.row.model.model_name)}>
+      {t("FREE_CONSENT.GIVE")}
     </Button>
   );
 }

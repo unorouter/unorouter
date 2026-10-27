@@ -1,6 +1,5 @@
 "use client";
 
-import { FreeConsentPanel } from "@/components/elements/model/free-consent-panel";
 import { ProviderConsentDialog } from "@/components/elements/model/provider-consent-panel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -122,21 +121,16 @@ export function ModelFocus(props: {
     </>
   );
 
-  // No provider consent behind this model: a :free notice or nothing at all.
   if (providers.length === 0)
     return (
       <div className="space-y-4 px-4 md:px-6">
         <div className="flex flex-wrap items-center gap-2">{chip}</div>
-        {props.model.toLowerCase().endsWith(":free") ? (
-          <FreeConsentPanel model={props.model} onDone={props.onClear} />
-        ) : (
-          <div className="bg-card flex flex-wrap items-center gap-3 rounded-lg border p-4">
-            <p className="text-muted-foreground flex-1 text-sm">
-              {t("PROVIDER_CONSENT.FOCUS.NONE_NEEDED", { model: props.model })}
-            </p>
-            {backLink}
-          </div>
-        )}
+        <div className="bg-card flex flex-wrap items-center gap-3 rounded-lg border p-4">
+          <p className="text-muted-foreground flex-1 text-sm">
+            {t("PROVIDER_CONSENT.FOCUS.NONE_NEEDED", { model: props.model })}
+          </p>
+          {backLink}
+        </div>
         {table}
       </div>
     );

@@ -1,7 +1,4 @@
-import {
-  needsTransferConsent,
-  usesInputsForOwnPurposes,
-} from "@/lib/api/own-purpose";
+import { usesInputsForOwnPurposes } from "@/lib/api/own-purpose";
 import { unwrap } from "@/lib/utils/base";
 import {
   getPricingCatalog,
@@ -29,13 +26,10 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/catalog", async () => getCatalog())
 
   // Offline ones included: a consent can be given before the model is back.
-  // Paid models whose providers use inputs for their own purposes belong here
-  // too; the route keeps its old name.
+  // A model that needs a consent always has providers using inputs for their
+  // own purposes, so this covers both.
   .get("/consent-models", async () =>
-    (await getCatalog(false, true)).models.filter(
-      (m) =>
-        m.is_free || needsTransferConsent(m) || usesInputsForOwnPurposes(m),
-    ),
+    (await getCatalog(false, true)).models.filter(usesInputsForOwnPurposes),
   )
 
   .get("/image-models", async () => getImageModels())

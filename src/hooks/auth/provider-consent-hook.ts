@@ -29,14 +29,11 @@ export function useModelProviderConsentsQuery(
   );
 }
 
-// Model consents stay valid alongside, so both caches follow a change.
-const CONSENT_KEYS = [queryKeys.providerConsents(), queryKeys.freeConsents()];
-
 export function useGrantProviderConsentMutation() {
   return useApiMutation({
     mutationFn: async (args: EdenArgs<ProviderConsents, "post">) =>
       handleElysia(await rpc.api.auth["provider-consents"].post(args.body)),
-    invalidates: CONSENT_KEYS,
+    invalidates: [queryKeys.providerConsents()],
   });
 }
 
@@ -44,6 +41,6 @@ export function useRevokeProviderConsentMutation() {
   return useApiMutation({
     mutationFn: async (args: EdenArgs<ProviderConsents, "delete">) =>
       handleElysia(await rpc.api.auth["provider-consents"].delete(args.body)),
-    invalidates: CONSENT_KEYS,
+    invalidates: [queryKeys.providerConsents()],
   });
 }

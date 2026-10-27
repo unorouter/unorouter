@@ -5,7 +5,6 @@ import {
   providerPractice,
   type Practice,
 } from "@/lib/api/provider-consent";
-import { FreeConsentPanel } from "@/components/elements/model/free-consent-panel";
 import { countryName } from "@/components/elements/model/group-data-policy";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -239,20 +238,6 @@ export function ProviderConsentPanel(props: {
       </div>
     </div>
   );
-}
-
-// Providers the gateway requires a consent for get the provider consent; a
-// model without any (a :free model that needs only the notice) keeps the
-// model panel.
-export function ModelConsentPanel(props: {
-  model: string;
-  onDone?: () => void;
-}) {
-  const query = useModelProviderConsentsQuery(props.model);
-  if (!query.data) return <PanelLoader />;
-  if ((query.data.providers ?? []).length > 0)
-    return <ProviderConsentPanel model={props.model} onDone={props.onDone} />;
-  return <FreeConsentPanel model={props.model} onDone={props.onDone} />;
 }
 
 export function ProviderConsentDialog(props: {

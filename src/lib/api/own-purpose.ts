@@ -1,31 +1,13 @@
 import { msg } from "@/lib/config/constants";
-import type { FreeConsentItem, OwnPurposeSummary } from "@/openapi";
+import type { OwnPurposeSummary } from "@/openapi";
 
 export type OwnPurposeModel = {
   model_name: string;
   own_purpose?: OwnPurposeSummary;
 };
 
-// The gateway still takes a grant for every :free model, so those stay gated
-// even when their summary says no consent is needed.
-export function needsTransferConsent(model: OwnPurposeModel): boolean {
-  return (
-    (model.own_purpose?.consent_required ?? false) ||
-    model.model_name.toLowerCase().endsWith(":free")
-  );
-}
-
 export function usesInputsForOwnPurposes(model: OwnPurposeModel): boolean {
   return model.own_purpose?.trains_or_retains ?? false;
-}
-
-// A consent stops counting once a provider it did not cover serves the model.
-// Gateways that predate the flag omit it, so a missing value still counts.
-export function hasCoveringConsent(
-  consents: FreeConsentItem[] | null | undefined,
-  model: string,
-): boolean {
-  return (consents ?? []).some((c) => c.model === model && c.covers !== false);
 }
 
 export const OWN_PURPOSE_OBJECTED = "own_purpose_objected";
