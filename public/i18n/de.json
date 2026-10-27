@@ -5104,7 +5104,7 @@
       "READY": "Bereit",
       "RUNNING": "Wird getestet",
       "RUNNING_HINT": "Die Proben werden gegen Ihren Endpunkt ausgeführt.",
-      "DONE_HINT": "Jeder Bogen ist eine Probe oder eine fehlgeschlagene Regelprüfung. Klappe unten eine Probe auf, um Prompt, Antwort und Beleg zu sehen."
+      "DONE_HINT": "Jeder Bogen ist eine Probe, eine fehlgeschlagene Regelprüfung (rot) oder eine Regelprüfung, die nicht abgeschlossen werden konnte (gelb). Klappe unten eine Probe auf, um Prompt, Antwort und Beleg zu sehen."
     },
     "WHY": {
       "TITLE": "Warum dieser Tester anders ist",

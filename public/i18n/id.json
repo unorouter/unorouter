@@ -5104,7 +5104,7 @@
       "READY": "Siap",
       "RUNNING": "Sedang menguji",
       "RUNNING_HINT": "Menjalankan probe terhadap endpoint Anda.",
-      "DONE_HINT": "Setiap busur adalah satu probe atau satu pemeriksaan aturan yang gagal. Buka probe di bawah untuk melihat prompt, balasan, dan buktinya."
+      "DONE_HINT": "Setiap busur adalah satu probe, satu pemeriksaan aturan yang gagal (merah), atau satu pemeriksaan aturan yang tidak bisa selesai (kuning). Buka probe di bawah untuk melihat prompt, balasan, dan buktinya."
     },
     "WHY": {
       "TITLE": "Mengapa penguji ini berbeda",

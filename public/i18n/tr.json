@@ -5104,7 +5104,7 @@
       "READY": "Hazır",
       "RUNNING": "Test ediliyor",
       "RUNNING_HINT": "Sondalar uç noktanıza karşı çalıştırılıyor.",
-      "DONE_HINT": "Her yay bir sondayı ya da başarısız bir kural kontrolünü gösterir. İstemi, yanıtı ve kanıtı görmek için aşağıdan bir sondayı açın."
+      "DONE_HINT": "Her yay bir sondayı, başarısız bir kural kontrolünü (kırmızı) ya da tamamlanamayan bir kural kontrolünü (kehribar) gösterir. İstemi, yanıtı ve kanıtı görmek için aşağıdan bir sondayı açın."
     },
     "WHY": {
       "TITLE": "Bu test aracı neden farklı",

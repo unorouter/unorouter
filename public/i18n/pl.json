@@ -5104,7 +5104,7 @@
       "READY": "Gotowe",
       "RUNNING": "Testowanie",
       "RUNNING_HINT": "Uruchamianie sond wobec Twojego punktu końcowego.",
-      "DONE_HINT": "Każdy łuk to jedna próba albo jedna nieudana kontrola reguły. Rozwiń próbę poniżej, aby zobaczyć prompt, odpowiedź i dowód."
+      "DONE_HINT": "Każdy łuk to jedna próba, jedna nieudana kontrola reguły (czerwony) albo jedna kontrola reguły, której nie udało się dokończyć (bursztynowy). Rozwiń próbę poniżej, aby zobaczyć prompt, odpowiedź i dowód."
     },
     "WHY": {
       "TITLE": "Dlaczego ten tester jest inny",

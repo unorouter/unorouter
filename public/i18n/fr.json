@@ -5104,7 +5104,7 @@
       "READY": "Prêt",
       "RUNNING": "Test en cours",
       "RUNNING_HINT": "Exécution des sondes sur votre point de terminaison.",
-      "DONE_HINT": "Chaque arc correspond à une sonde ou à une vérification de règle échouée. Dépliez une sonde ci-dessous pour voir le prompt, la réponse et la preuve."
+      "DONE_HINT": "Chaque arc correspond à une sonde, à une vérification de règle échouée (rouge) ou à une vérification de règle qui n'a pas pu aboutir (ambre). Dépliez une sonde ci-dessous pour voir le prompt, la réponse et la preuve."
     },
     "WHY": {
       "TITLE": "Pourquoi ce testeur est différent",

@@ -5104,7 +5104,7 @@
       "READY": "Ready",
       "RUNNING": "Testing",
       "RUNNING_HINT": "Running the probes against your endpoint.",
-      "DONE_HINT": "Each arc is one probe or one failed rule check. Expand a probe below to see the prompt, the reply, and the evidence."
+      "DONE_HINT": "Each arc is one probe, one failed rule check (red) or one rule check that could not finish (amber). Expand a probe below to see the prompt, the reply, and the evidence."
     },
     "WHY": {
       "TITLE": "Why this tester is different",

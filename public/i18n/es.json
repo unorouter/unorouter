@@ -5104,7 +5104,7 @@
       "READY": "Listo",
       "RUNNING": "Probando",
       "RUNNING_HINT": "Ejecutando las sondas contra tu endpoint.",
-      "DONE_HINT": "Cada arco es una prueba o una comprobación de regla fallida. Despliega una prueba abajo para ver el prompt, la respuesta y la evidencia."
+      "DONE_HINT": "Cada arco es una prueba, una comprobación de regla fallida (rojo) o una comprobación de regla que no pudo terminar (ámbar). Despliega una prueba abajo para ver el prompt, la respuesta y la evidencia."
     },
     "WHY": {
       "TITLE": "Por qué este probador es diferente",

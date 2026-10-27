@@ -61,11 +61,21 @@ const FORMAT_LABEL: Record<ModelTesterForm["provider"], TranslationKey> = {
 };
 
 // Evidence rules judge the endpoint beside the probes; a fake can pass all four probes.
-function failedChecks(result: VerifyResult | null): number {
+function evidenceFindings(
+  result: VerifyResult | null,
+  severity: "fail" | "inconclusive",
+): number {
   if (!result) return 0;
   return result.findings.filter(
-    (f) => f.severity === "fail" && f.layer === "evidence",
+    (f) => f.severity === severity && f.layer === "evidence",
   ).length;
+}
+
+// A check that could not finish is not a pass: without its arc an unverified run read 100%.
+function ruleChecks(result: VerifyResult | null): number {
+  return (
+    evidenceFindings(result, "fail") + evidenceFindings(result, "inconclusive")
+  );
 }
 
 function gaugeArcs(result: VerifyResult | null, running: boolean): GaugeArc[] {
@@ -75,11 +85,15 @@ function gaugeArcs(result: VerifyResult | null, running: boolean): GaugeArc[] {
   const probes: GaugeArc[] = result.probes.map((p) =>
     p.pass ? "pass" : "fail",
   );
-  const checks: GaugeArc[] = Array.from(
-    { length: failedChecks(result) },
+  const failed: GaugeArc[] = Array.from(
+    { length: evidenceFindings(result, "fail") },
     () => "fail",
   );
-  return [...probes, ...checks];
+  const open: GaugeArc[] = Array.from(
+    { length: evidenceFindings(result, "inconclusive") },
+    () => "open",
+  );
+  return [...probes, ...failed, ...open];
 }
 
 export function TesterForm() {
@@ -375,7 +389,7 @@ export function TesterForm() {
             arcs={gaugeArcs(result, running)}
             running={running}
             passed={result?.probesPassed ?? 0}
-            total={(result?.probesTotal ?? 0) + failedChecks(result)}
+            total={(result?.probesTotal ?? 0) + ruleChecks(result)}
             label={
               running
                 ? t("MODEL_TESTER.GAUGE.RUNNING_HINT")

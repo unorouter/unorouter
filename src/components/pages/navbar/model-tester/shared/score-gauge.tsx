@@ -3,12 +3,13 @@
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-export type GaugeArc = "pending" | "pass" | "fail";
+export type GaugeArc = "pending" | "pass" | "fail" | "open";
 
 const ARC_COLOR: Record<GaugeArc, string> = {
   pending: "stroke-muted-foreground/25",
   pass: "stroke-emerald-500",
   fail: "stroke-destructive",
+  open: "stroke-amber-500",
 };
 
 export function ScoreGauge(props: {

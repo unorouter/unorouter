@@ -5104,7 +5104,7 @@
       "READY": "Pronto",
       "RUNNING": "Testando",
       "RUNNING_HINT": "Executando as sondas contra o seu endpoint.",
-      "DONE_HINT": "Cada arco é uma sonda ou uma verificação de regra que falhou. Expanda uma sonda abaixo para ver o prompt, a resposta e a evidência."
+      "DONE_HINT": "Cada arco é uma sonda, uma verificação de regra que falhou (vermelho) ou uma verificação de regra que não pôde terminar (âmbar). Expanda uma sonda abaixo para ver o prompt, a resposta e a evidência."
     },
     "WHY": {
       "TITLE": "Por que este testador é diferente",

@@ -5104,7 +5104,7 @@
       "READY": "Sẵn sàng",
       "RUNNING": "Đang kiểm tra",
       "RUNNING_HINT": "Đang chạy các lượt thăm dò đối với điểm cuối của bạn.",
-      "DONE_HINT": "Mỗi cung là một phép thử hoặc một kiểm tra quy tắc bị trượt. Mở một phép thử bên dưới để xem prompt, câu trả lời và bằng chứng."
+      "DONE_HINT": "Mỗi cung là một phép thử, một kiểm tra quy tắc bị trượt (đỏ) hoặc một kiểm tra quy tắc không thể hoàn tất (hổ phách). Mở một phép thử bên dưới để xem prompt, câu trả lời và bằng chứng."
     },
     "WHY": {
       "TITLE": "Vì sao trình kiểm tra này khác biệt",
