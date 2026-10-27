@@ -2676,6 +2676,8 @@
       "TO": "Đến",
       "APPLY": "Áp dụng"
     },
+    "UPDATE_AVAILABLE": "Đã có phiên bản mới",
+    "UPDATE_RELOAD": "Tải lại",
     "TOTAL_COUNT": "tổng {count}",
     "ROWS": "Hàng"
   },

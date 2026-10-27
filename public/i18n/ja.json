@@ -2676,6 +2676,8 @@
       "TO": "終了",
       "APPLY": "適用"
     },
+    "UPDATE_AVAILABLE": "新しいバージョンが利用可能です",
+    "UPDATE_RELOAD": "再読み込み",
     "TOTAL_COUNT": "合計 {count} 件",
     "ROWS": "行数"
   },

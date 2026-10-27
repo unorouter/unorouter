@@ -2676,6 +2676,8 @@
       "TO": "至",
       "APPLY": "应用"
     },
+    "UPDATE_AVAILABLE": "有新版本可用",
+    "UPDATE_RELOAD": "重新加载",
     "TOTAL_COUNT": "共 {count} 条",
     "ROWS": "每页行数"
   },

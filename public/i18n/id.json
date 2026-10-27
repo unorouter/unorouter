@@ -2676,6 +2676,8 @@
       "TO": "Sampai",
       "APPLY": "Terapkan"
     },
+    "UPDATE_AVAILABLE": "Versi baru tersedia",
+    "UPDATE_RELOAD": "Muat ulang",
     "TOTAL_COUNT": "total {count}",
     "ROWS": "Baris"
   },

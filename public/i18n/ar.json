@@ -2676,6 +2676,8 @@
       "TO": "إلى",
       "APPLY": "تطبيق"
     },
+    "UPDATE_AVAILABLE": "يتوفر إصدار جديد",
+    "UPDATE_RELOAD": "إعادة التحميل",
     "TOTAL_COUNT": "{count} إجمالاً",
     "ROWS": "الصفوف"
   },

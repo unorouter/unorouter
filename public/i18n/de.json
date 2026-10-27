@@ -2676,6 +2676,8 @@
       "TO": "Bis",
       "APPLY": "Anwenden"
     },
+    "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
+    "UPDATE_RELOAD": "Neu laden",
     "TOTAL_COUNT": "{count} gesamt",
     "ROWS": "Zeilen"
   },
