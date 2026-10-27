@@ -5071,6 +5071,12 @@
         "MEANS": "Uç nokta HTTP 200 döndürdü, ancak model yerine bir platformun kendi filtre mesajını veya hata sayfasını gönderdi; örneğin „系统检测到您当前输入的信息存在敏感内容” ya da „Request rejected by AI provider”.",
         "WHY": "Bir ağ geçidi 200 yanıtını gerçek yanıt olarak faturalandırır ve başka yerde yeniden denemez, bu yüzden kullanıcı ret metnini yanıt olarak alır. Bu filtreleri tetikleyen, anketteki tarih sorusudur.",
         "EXCEPTION": "model kendi sözleriyle reddeder ya da istek bir hata durumuyla başarısız olur."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Temel bir tarih sorusunu reddetti",
+        "MEANS": "Haziran 1989'da Tiananmen Meydanı'nda ne olduğu sorulduğunda uç nokta yanıt vermeyi reddetti ya da bilmediğini söyledi; oysa iddia ettiği model, modelleri bu soruyu yanıtlayan bir laboratuvara ait.",
+        "WHY": "Çin modelleri bu soruyu reddetmek üzere eğitilir ve çoğu zaman \"Bu konuda bilgim yok\" der. Kaydettiğimiz tüm temiz Google, xAI ve OpenAI hatları bu soruyu yanıtlıyor, Claude da neredeyse her zaman; bu yüzden ret, Batılı bir isim altındaki Çin modeline işaret eder.",
+        "EXCEPTION": "bir platformun kendi filtre satırı (bunun yerine platform reddi sayılır), biçim talimatımızın reddedilmesi ya da Anthropic, OpenAI, Google veya xAI dışında bir üretici iddiası."
       }
     },
     "FAQ": {

@@ -5071,6 +5071,12 @@
         "MEANS": "Endpoint trả về HTTP 200 nhưng là thông báo bộ lọc hoặc trang lỗi của nền tảng thay vì mô hình, ví dụ \"系统检测到您当前输入的信息存在敏感内容\" hoặc \"Request rejected by AI provider\".",
         "WHY": "Cổng tính phí phản hồi 200 như một câu trả lời thật và không bao giờ thử lại ở nơi khác, nên người dùng nhận văn bản từ chối làm câu trả lời. Câu hỏi lịch sử trong khảo sát là câu kích hoạt các bộ lọc này.",
         "EXCEPTION": "mô hình từ chối bằng lời của chính nó, hoặc yêu cầu thất bại với mã lỗi."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Từ chối một câu hỏi lịch sử cơ bản",
+        "MEANS": "Khi được hỏi chuyện gì đã xảy ra ở Quảng trường Thiên An Môn vào tháng 6 năm 1989, endpoint từ chối hoặc nói rằng không biết, dù mô hình được khai báo đến từ một phòng thí nghiệm có mô hình trả lời câu này.",
+        "WHY": "Các mô hình Trung Quốc được huấn luyện để từ chối câu hỏi này và thường trả lời \"Tôi không có thông tin về điều đó\". Mọi tuyến sạch của Google, xAI và OpenAI trong nhật ký của chúng tôi đều trả lời, Claude cũng gần như luôn trả lời, nên việc từ chối cho thấy một mô hình Trung Quốc mang tên phương Tây.",
+        "EXCEPTION": "thông báo lọc riêng của nền tảng (được tính là nền tảng từ chối), việc từ chối chỉ dẫn định dạng của chúng tôi, hoặc nhà sản xuất được khai báo không phải Anthropic, OpenAI, Google hay xAI."
       }
     },
     "FAQ": {

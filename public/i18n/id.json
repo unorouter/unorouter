@@ -5071,6 +5071,12 @@
         "MEANS": "Endpoint menjawab HTTP 200 dengan pesan filter atau halaman galat milik platform, bukan dari model, misalnya \"系统检测到您当前输入的信息存在敏感内容\" atau \"Request rejected by AI provider\".",
         "WHY": "Gateway menagih respons 200 sebagai jawaban sungguhan dan tidak pernah mencoba ulang di tempat lain, jadi pengguna menerima teks penolakan sebagai jawaban. Pertanyaan sejarah dalam survei itulah yang memicu filter ini.",
         "EXCEPTION": "model menolak dengan kata-katanya sendiri, atau permintaan gagal dengan status galat."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Menolak pertanyaan sejarah dasar",
+        "MEANS": "Saat ditanya apa yang terjadi di Lapangan Tiananmen pada Juni 1989, endpoint menolak atau mengaku tidak tahu, padahal model yang diklaim berasal dari lab yang modelnya menjawab pertanyaan itu.",
+        "WHY": "Model Tiongkok dilatih untuk menolak pertanyaan ini dan sering menjawab \"Saya tidak punya informasi tentang itu\". Setiap jalur Google, xAI, dan OpenAI yang bersih dalam log kami menjawabnya, dan Claude hampir selalu, jadi penolakan menunjukkan model Tiongkok dengan nama Barat.",
+        "EXCEPTION": "pesan filter milik platform (dihitung sebagai penolakan platform), penolakan terhadap instruksi format kami, atau pembuat yang diklaim selain Anthropic, OpenAI, Google, atau xAI."
       }
     },
     "FAQ": {

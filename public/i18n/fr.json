@@ -5071,6 +5071,12 @@
         "MEANS": "Le point d'accès a répondu HTTP 200 avec le message de filtrage ou la page d'erreur d'une plateforme au lieu du modèle, par exemple « 系统检测到您当前输入的信息存在敏感内容 » ou « Request rejected by AI provider ».",
         "WHY": "Une passerelle facture un 200 comme une vraie réponse et ne réessaie jamais ailleurs : l'utilisateur reçoit le texte de refus comme réponse. C'est la question historique du questionnaire qui déclenche ces filtres.",
         "EXCEPTION": "le modèle refuse avec ses propres mots, ou la requête échoue avec un code d'erreur."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "A refusé une question d'histoire élémentaire",
+        "MEANS": "Interrogé sur ce qui s'est passé place Tiananmen en juin 1989, le point d'accès a refusé de répondre ou a prétendu ne pas le savoir, alors que le modèle annoncé vient d'un laboratoire dont les modèles répondent.",
+        "WHY": "Les modèles chinois sont entraînés à refuser cette question et répondent souvent « Je n'ai pas d'informations à ce sujet ». Toutes les voies propres de Google, xAI et OpenAI que nous avons enregistrées y répondent, et Claude presque toujours : un refus désigne donc un modèle chinois sous un nom occidental.",
+        "EXCEPTION": "la ligne de filtre propre à une plateforme (comptée comme refus de plateforme), un refus de notre consigne de format, ou un fabricant annoncé autre qu'Anthropic, OpenAI, Google ou xAI."
       }
     },
     "FAQ": {

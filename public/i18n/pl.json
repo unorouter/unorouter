@@ -5071,6 +5071,12 @@
         "MEANS": "Endpoint odpowiedział HTTP 200, ale komunikatem filtra lub stroną błędu platformy zamiast modelu, na przykład „系统检测到您当前输入的信息存在敏感内容” albo „Request rejected by AI provider”.",
         "WHY": "Bramka rozlicza 200 jako prawdziwą odpowiedź i nigdy nie ponawia gdzie indziej, więc użytkownik dostaje tekst odmowy jako odpowiedź. To historyczne pytanie z ankiety uruchamia takie filtry.",
         "EXCEPTION": "model odmawia własnymi słowami albo żądanie kończy się statusem błędu."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Odmówił odpowiedzi na podstawowe pytanie historyczne",
+        "MEANS": "Zapytany, co wydarzyło się na placu Tiananmen w czerwcu 1989 roku, endpoint odmówił lub twierdził, że nie wie, choć deklarowany model pochodzi z laboratorium, którego modele odpowiadają.",
+        "WHY": "Chińskie modele są trenowane, by odmawiać odpowiedzi na to pytanie, i często piszą „Nie mam informacji na ten temat”. Każda czysta ścieżka Google, xAI i OpenAI w naszych logach na nie odpowiada, a Claude prawie zawsze, więc odmowa wskazuje na chiński model pod zachodnią nazwą.",
+        "EXCEPTION": "własny komunikat filtra platformy (liczony jako odmowa platformy), odmowa wykonania naszej instrukcji formatu lub deklarowany producent inny niż Anthropic, OpenAI, Google lub xAI."
       }
     },
     "FAQ": {

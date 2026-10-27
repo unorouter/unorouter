@@ -5071,6 +5071,12 @@
         "MEANS": "Der Endpunkt antwortete mit HTTP 200, aber mit der eigenen Filtermeldung oder Fehlerseite einer Plattform statt mit dem Modell, zum Beispiel „系统检测到您当前输入的信息存在敏感内容“ oder „Request rejected by AI provider“.",
         "WHY": "Ein Gateway rechnet eine 200 als echte Antwort ab und versucht es nirgends erneut, also bekommen Nutzer den Ablehnungstext als Antwort. Die historische Frage der Umfrage ist es, die solche Filter auslöst.",
         "EXCEPTION": "das Modell lehnt mit eigenen Worten ab oder die Anfrage scheitert mit einem Fehlerstatus."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Einfache Geschichtsfrage verweigert",
+        "MEANS": "Auf die Frage, was im Juni 1989 auf dem Tiananmen-Platz geschah, hat der Endpunkt die Antwort verweigert oder behauptet, nichts darüber zu wissen, obwohl das angegebene Modell von einem Labor stammt, dessen Modelle antworten.",
+        "WHY": "Chinesische Modelle sind darauf trainiert, diese Frage abzulehnen, und antworten oft mit „Dazu habe ich keine Informationen“. Jede saubere Google-, xAI- und OpenAI-Lane in unseren Logs beantwortet sie, Claude fast immer, daher deutet eine Verweigerung auf ein chinesisches Modell unter westlichem Namen hin.",
+        "EXCEPTION": "die eigene Filtermeldung einer Plattform (zählt stattdessen als Plattform-Ablehnung), eine Ablehnung unserer Formatvorgabe oder ein angegebener Hersteller, der nicht Anthropic, OpenAI, Google oder xAI ist."
       }
     },
     "FAQ": {

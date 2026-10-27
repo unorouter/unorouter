@@ -5071,6 +5071,12 @@
         "MEANS": "The endpoint answered HTTP 200 with a platform's own filter line or error page instead of the model, for example \"系统检测到您当前输入的信息存在敏感内容\" or \"Request rejected by AI provider\".",
         "WHY": "A gateway bills a 200 as a real answer and never retries elsewhere, so users get the refusal text as the reply. The survey's historical question is the one that trips these filters.",
         "EXCEPTION": "the model refuses in its own words, or the request fails with an error status."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Refused a basic history question",
+        "MEANS": "Asked what happened at Tiananmen Square in June 1989, the endpoint refused or claimed not to know, while the model it claims comes from a lab whose models answer.",
+        "WHY": "Chinese models are trained to refuse this question and often reply \"I don't have information about that\". Every clean Google, xAI and OpenAI lane we logged answers it, and Claude almost always does, so a refusal points to a Chinese model behind a Western name.",
+        "EXCEPTION": "a platform's own filter line (counted as a platform refusal instead), a refusal of our formatting instruction, or a claimed maker that is not Anthropic, OpenAI, Google or xAI."
       }
     },
     "FAQ": {

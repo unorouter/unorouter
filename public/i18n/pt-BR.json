@@ -5071,6 +5071,12 @@
         "MEANS": "O endpoint respondeu HTTP 200 com a mensagem de filtro ou a página de erro de uma plataforma em vez do modelo, por exemplo “系统检测到您当前输入的信息存在敏感内容” ou “Request rejected by AI provider”.",
         "WHY": "Um gateway cobra um 200 como resposta real e nunca tenta em outro lugar, então o usuário recebe o texto de recusa como resposta. É a pergunta histórica do questionário que aciona esses filtros.",
         "EXCEPTION": "o modelo recusa com as próprias palavras, ou a requisição falha com um status de erro."
+      },
+      "CENSORED-HISTORY": {
+        "TITLE": "Recusou uma pergunta básica de história",
+        "MEANS": "Ao ser perguntado sobre o que aconteceu na Praça da Paz Celestial em junho de 1989, o endpoint recusou ou afirmou não saber, embora o modelo declarado venha de um laboratório cujos modelos respondem.",
+        "WHY": "Modelos chineses são treinados para recusar essa pergunta e costumam responder \"Não tenho informações sobre isso\". Todas as rotas limpas do Google, xAI e OpenAI que registramos respondem, e o Claude quase sempre, então uma recusa aponta para um modelo chinês com nome ocidental.",
+        "EXCEPTION": "a linha de filtro da própria plataforma (contada como recusa da plataforma), uma recusa da nossa instrução de formato ou um fabricante declarado que não seja Anthropic, OpenAI, Google ou xAI."
       }
     },
     "FAQ": {
