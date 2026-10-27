@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "トークンクォータはキー自体にのみ制限を設けます。実際の使用量はアカウント残高によって制限されます。",
       "MODEL_LIMITS": "モデル制限",
       "MODEL_LIMITS_PLACEHOLDER": "空欄の場合はすべてのモデルが対象",
-      "MODEL_LIMITS_DESC": "必要な場合を除き推奨しません。",
+      "MODEL_LIMITS_DESC": "このキーではここで選んだモデルだけを呼び出せます。それ以外のモデルは拒否されます。モデルの応答内容や許可されるコンテンツは変わりません。すべてのモデルを使う場合はオフのままにしてください。",
       "MODEL_SELECT_PLACEHOLDER": "モデルを検索...",
       "MODEL_SELECT_EMPTY": "モデルが見つかりません",
       "IP_WHITELIST": "IP ホワイトリスト",

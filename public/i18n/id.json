@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Kuota token hanya membatasi kunci itu sendiri. Penggunaan sebenarnya tetap dibatasi oleh saldo akun Anda.",
       "MODEL_LIMITS": "Pembatasan Model",
       "MODEL_LIMITS_PLACEHOLDER": "Biarkan kosong untuk semua model",
-      "MODEL_LIMITS_DESC": "Tidak direkomendasikan kecuali diperlukan.",
+      "MODEL_LIMITS_DESC": "Kunci ini hanya bisa memanggil model yang Anda pilih di sini, model lain akan ditolak. Ini tidak mengubah cara model menjawab atau konten yang diizinkannya. Biarkan nonaktif untuk memakai semua model.",
       "MODEL_SELECT_PLACEHOLDER": "Cari model...",
       "MODEL_SELECT_EMPTY": "Tidak ada model ditemukan",
       "IP_WHITELIST": "Whitelist IP",

@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Token quota केवल key को ही सीमित करता है। वास्तविक उपयोग अभी भी आपके खाता balance से सीमित है।",
       "MODEL_LIMITS": "Model प्रतिबंध",
       "MODEL_LIMITS_PLACEHOLDER": "सभी मॉडलों के लिए खाली छोड़ें",
-      "MODEL_LIMITS_DESC": "जब तक आवश्यक न हो अनुशंसित नहीं।",
+      "MODEL_LIMITS_DESC": "यह कुंजी केवल यहाँ चुने गए मॉडल ही कॉल कर सकेगी, बाकी सभी मॉडल अस्वीकार कर दिए जाएँगे। इससे मॉडल के जवाब देने का तरीका या अनुमत सामग्री नहीं बदलती। सभी मॉडल इस्तेमाल करने के लिए इसे बंद रखें।",
       "MODEL_SELECT_PLACEHOLDER": "मॉडल खोजें...",
       "MODEL_SELECT_EMPTY": "कोई मॉडल नहीं मिला",
       "IP_WHITELIST": "IP Whitelist",

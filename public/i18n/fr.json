@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Le quota du token ne limite que la clé elle-même. L'utilisation réelle reste limitée par le solde de votre compte.",
       "MODEL_LIMITS": "Restrictions de modèles",
       "MODEL_LIMITS_PLACEHOLDER": "Laissez vide pour tous les modèles",
-      "MODEL_LIMITS_DESC": "Non recommandé, sauf nécessité.",
+      "MODEL_LIMITS_DESC": "Cette clé ne pourra appeler que les modèles choisis ici, tous les autres seront refusés. Cela ne change ni la façon dont un modèle répond ni le contenu qu'il autorise. Laissez désactivé pour utiliser tous les modèles.",
       "MODEL_SELECT_PLACEHOLDER": "Rechercher des modèles...",
       "MODEL_SELECT_EMPTY": "Aucun modèle trouvé",
       "IP_WHITELIST": "Liste blanche IP",

@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Cota de token limita apenas a própria chave. Uso real ainda é limitado pelo saldo da sua conta.",
       "MODEL_LIMITS": "Restrições de modelo",
       "MODEL_LIMITS_PLACEHOLDER": "Deixe vazio para todos os modelos",
-      "MODEL_LIMITS_DESC": "Não recomendado a menos que necessário.",
+      "MODEL_LIMITS_DESC": "Esta chave só poderá usar os modelos escolhidos aqui; qualquer outro modelo será recusado. Não muda como um modelo responde nem que conteúdo ele permite. Deixe desativado para usar todos os modelos.",
       "MODEL_SELECT_PLACEHOLDER": "Buscar modelos...",
       "MODEL_SELECT_EMPTY": "Nenhum modelo encontrado",
       "IP_WHITELIST": "Lista branca de IP",

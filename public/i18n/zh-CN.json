@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "令牌额度仅限制密钥本身。实际用量仍受您账户余额约束。",
       "MODEL_LIMITS": "模型限制",
       "MODEL_LIMITS_PLACEHOLDER": "留空表示全部模型",
-      "MODEL_LIMITS_DESC": "除非必要，否则不推荐使用。",
+      "MODEL_LIMITS_DESC": "此密钥只能调用你在这里选择的模型，其他模型都会被拒绝。它不会改变模型的回答方式或允许的内容。如需使用全部模型，请保持关闭。",
       "MODEL_SELECT_PLACEHOLDER": "搜索模型...",
       "MODEL_SELECT_EMPTY": "未找到模型",
       "IP_WHITELIST": "IP 白名单",

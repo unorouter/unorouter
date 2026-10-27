@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "토큰 할당량은 키 자체만 제한합니다. 실제 사용은 여전히 계정 잔액에 의해 제한됩니다.",
       "MODEL_LIMITS": "모델 제한",
       "MODEL_LIMITS_PLACEHOLDER": "모든 모델에 대해 비워 두세요",
-      "MODEL_LIMITS_DESC": "필요한 경우가 아니면 권장되지 않습니다.",
+      "MODEL_LIMITS_DESC": "이 키로는 여기서 선택한 모델만 호출할 수 있으며, 다른 모델은 모두 거부됩니다. 모델의 응답 방식이나 허용되는 콘텐츠는 바뀌지 않습니다. 모든 모델을 사용하려면 꺼 두세요.",
       "MODEL_SELECT_PLACEHOLDER": "모델 검색...",
       "MODEL_SELECT_EMPTY": "모델을 찾을 수 없음",
       "IP_WHITELIST": "IP 허용 목록",

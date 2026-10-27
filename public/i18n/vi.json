@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Hạn mức token chỉ giới hạn bản thân key. Mức sử dụng thực tế vẫn bị giới hạn bởi số dư tài khoản.",
       "MODEL_LIMITS": "Giới hạn mô hình",
       "MODEL_LIMITS_PLACEHOLDER": "Để trống để áp dụng mọi mô hình",
-      "MODEL_LIMITS_DESC": "Không khuyến nghị trừ khi cần thiết.",
+      "MODEL_LIMITS_DESC": "Khóa này chỉ có thể gọi các mô hình bạn chọn ở đây, mọi mô hình khác sẽ bị từ chối. Nó không thay đổi cách mô hình trả lời hay nội dung được cho phép. Để tắt nếu muốn dùng tất cả mô hình.",
       "MODEL_SELECT_PLACEHOLDER": "Tìm mô hình...",
       "MODEL_SELECT_EMPTY": "Không tìm thấy mô hình nào",
       "IP_WHITELIST": "Danh sách IP cho phép",

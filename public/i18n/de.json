@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Das Token-Kontingent begrenzt nur den Schlüssel selbst. Der tatsächliche Verbrauch wird durch Ihr Kontoguthaben begrenzt.",
       "MODEL_LIMITS": "Modellbeschränkungen",
       "MODEL_LIMITS_PLACEHOLDER": "Leer lassen für alle Modelle",
-      "MODEL_LIMITS_DESC": "Nicht empfohlen, es sei denn notwendig.",
+      "MODEL_LIMITS_DESC": "Mit diesem Schlüssel lassen sich nur die hier ausgewählten Modelle aufrufen, alle anderen werden abgelehnt. Es ändert nicht, wie ein Modell antwortet oder welche Inhalte es zulässt. Ausgeschaltet lassen, um alle Modelle zu nutzen.",
       "MODEL_SELECT_PLACEHOLDER": "Modelle suchen...",
       "MODEL_SELECT_EMPTY": "Keine Modelle gefunden",
       "IP_WHITELIST": "IP-Whitelist",

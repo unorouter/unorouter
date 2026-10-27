@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "金鑰額度僅限制該金鑰本身，實際用量仍會受帳戶餘額限制。",
       "MODEL_LIMITS": "模型限制",
       "MODEL_LIMITS_PLACEHOLDER": "留空則代表所有模型",
-      "MODEL_LIMITS_DESC": "非必要不建議使用。",
+      "MODEL_LIMITS_DESC": "此金鑰只能呼叫你在這裡選擇的模型，其他模型都會被拒絕。它不會改變模型的回答方式或允許的內容。如需使用全部模型，請保持關閉。",
       "MODEL_SELECT_PLACEHOLDER": "搜尋模型...",
       "MODEL_SELECT_EMPTY": "找不到模型",
       "IP_WHITELIST": "IP 白名單",

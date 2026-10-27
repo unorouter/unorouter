@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Token kotası sadece anahtarın kendisini sınırlar. Gerçek kullanım hala hesap bakiyenizle sınırlıdır.",
       "MODEL_LIMITS": "Model Kısıtlamaları",
       "MODEL_LIMITS_PLACEHOLDER": "Tüm modeller için boş bırakın",
-      "MODEL_LIMITS_DESC": "Gerekli olmadıkça önerilmez.",
+      "MODEL_LIMITS_DESC": "Bu anahtar yalnızca burada seçtiğiniz modelleri çağırabilir, diğer tüm modeller reddedilir. Bir modelin nasıl yanıt verdiğini veya hangi içeriğe izin verdiğini değiştirmez. Tüm modelleri kullanmak için kapalı bırakın.",
       "MODEL_SELECT_PLACEHOLDER": "Modelleri ara...",
       "MODEL_SELECT_EMPTY": "Model bulunamadı",
       "IP_WHITELIST": "IP Beyaz Liste",

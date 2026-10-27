@@ -2945,7 +2945,7 @@
       "UNLIMITED_QUOTA_DESC": "Token quota only limits the key itself. Actual usage is still bounded by your account balance.",
       "MODEL_LIMITS": "Model Restrictions",
       "MODEL_LIMITS_PLACEHOLDER": "Leave empty for all models",
-      "MODEL_LIMITS_DESC": "Not recommended unless necessary.",
+      "MODEL_LIMITS_DESC": "Lets this key call only the models you pick here, every other model is refused. It does not change how a model answers or what content it allows. Leave it off to use every model.",
       "MODEL_SELECT_PLACEHOLDER": "Search models...",
       "MODEL_SELECT_EMPTY": "No models found",
       "IP_WHITELIST": "IP Whitelist",
