@@ -25,13 +25,13 @@ import {
 import type { useConsentFilters } from "./use-consent-filters";
 
 const STATUS_LABEL = {
-  given: msg("FREE_CONSENT.FILTER.GIVEN"),
-  missing: msg("FREE_CONSENT.FILTER.MISSING"),
+  given: msg("CONSENT.FILTER.GIVEN"),
+  missing: msg("CONSENT.FILTER.MISSING"),
 } satisfies Record<(typeof CONSENT_STATUSES)[number], ReturnType<typeof msg>>;
 
 const PRICE_LABEL = {
-  paid: msg("FREE_CONSENT.FILTER.PAID"),
-  free: msg("FREE_CONSENT.FILTER.FREE"),
+  paid: msg("CONSENT.FILTER.PAID"),
+  free: msg("CONSENT.FILTER.FREE"),
 } satisfies Record<(typeof PRICE_KINDS)[number], ReturnType<typeof msg>>;
 
 function toggled<T>(values: readonly T[], value: T): T[] {
@@ -77,7 +77,7 @@ export function ConsentFilterSidebar(props: {
           )}
         </SidebarHeader>
         <SidebarContent className="gap-4 overflow-y-auto px-3 py-2">
-          <GroupShell label={t("FREE_CONSENT.FILTER.STATUS")}>
+          <GroupShell label={t("CONSENT.FILTER.STATUS")}>
             {CONSENT_STATUSES.map((status) => (
               <CheckRow
                 key={status}
@@ -89,7 +89,7 @@ export function ConsentFilterSidebar(props: {
               />
             ))}
           </GroupShell>
-          <GroupShell label={t("FREE_CONSENT.FILTER.KIND")}>
+          <GroupShell label={t("CONSENT.FILTER.KIND")}>
             {CONSENT_KINDS.map((kind) => (
               <CheckRow
                 key={kind}
@@ -101,7 +101,7 @@ export function ConsentFilterSidebar(props: {
               />
             ))}
           </GroupShell>
-          <GroupShell label={t("FREE_CONSENT.FILTER.PRICE")}>
+          <GroupShell label={t("CONSENT.FILTER.PRICE")}>
             {PRICE_KINDS.map((price) => (
               <CheckRow
                 key={price}
@@ -114,7 +114,7 @@ export function ConsentFilterSidebar(props: {
             ))}
           </GroupShell>
           <MultiSelectGroup
-            label={t("FREE_CONSENT.FILTER.COUNTRY")}
+            label={t("CONSENT.FILTER.COUNTRY")}
             options={countryOptions}
             value={params.country}
             onChange={(country) => void setParams({ country })}

@@ -16,8 +16,8 @@ const TABS = ["providers", "models"] as const;
 type Tab = (typeof TABS)[number];
 
 const TAB_LABEL = {
-  providers: msg("FREE_CONSENT.TAB_PROVIDERS"),
-  models: msg("FREE_CONSENT.TAB_MODELS"),
+  providers: msg("CONSENT.TAB_PROVIDERS"),
+  models: msg("CONSENT.TAB_MODELS"),
 } satisfies Record<Tab, ReturnType<typeof msg>>;
 
 const TAB_ICON: Record<Tab, IconName> = {
@@ -46,10 +46,10 @@ export function ConsentsPage() {
     <div className="w-full pt-20 pb-16">
       <div className="mb-4 space-y-3 px-4 md:px-6">
         <h1 className="text-lg font-semibold tracking-tight">
-          {t("FREE_CONSENT.PAGE_TITLE")}
+          {t("CONSENT.PAGE_TITLE")}
         </h1>
         <p className="text-muted-foreground text-sm">
-          {t("FREE_CONSENT.PAGE_INTRO")}
+          {t("CONSENT.PAGE_INTRO")}
         </p>
         <div className="bg-card space-y-2 rounded-lg border p-4">
           <h2 className="text-foreground text-sm font-medium">

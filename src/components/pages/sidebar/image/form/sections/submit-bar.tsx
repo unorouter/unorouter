@@ -67,7 +67,7 @@ export function SubmitBar(props: Props) {
   if (business)
     return (
       <p className="text-muted-foreground py-2 text-sm">
-        {t("FREE_CONSENT.BUSINESS")}
+        {t("CONSENT.BUSINESS")}
       </p>
     );
   if (needsConsent)

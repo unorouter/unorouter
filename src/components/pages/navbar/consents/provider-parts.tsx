@@ -39,9 +39,7 @@ function isReason(reason: string): reason is keyof typeof REASON_LABEL {
 }
 
 function reasonLabel(reason: string) {
-  return isReason(reason)
-    ? REASON_LABEL[reason]
-    : msg("FREE_CONSENT.NOT_NEEDED");
+  return isReason(reason) ? REASON_LABEL[reason] : msg("CONSENT.NOT_NEEDED");
 }
 
 export type ProviderHandlers = {
@@ -272,7 +270,7 @@ export function ProviderStatusBadge(props: { provider: ProviderRow }) {
     return (
       <span className="flex items-center gap-1.5 whitespace-nowrap">
         <Badge variant="outline" className="text-muted-foreground text-[10px]">
-          {t("FREE_CONSENT.NOT_NEEDED")}
+          {t("CONSENT.NOT_NEEDED")}
         </Badge>
         <span className="text-muted-foreground text-[10px]">
           {t(reasonLabel(p.reason))}
@@ -286,16 +284,16 @@ export function ProviderStatusBadge(props: { provider: ProviderRow }) {
         className="text-[10px]"
         title={
           p.given_at
-            ? t("FREE_CONSENT.GRANTED_ON", { date: formatLongDate(p.given_at) })
+            ? t("CONSENT.GRANTED_ON", { date: formatLongDate(p.given_at) })
             : undefined
         }
       >
-        {t("FREE_CONSENT.FILTER.GIVEN")}
+        {t("CONSENT.FILTER.GIVEN")}
       </Badge>
     );
   return (
     <Badge variant="outline" className="text-[10px]">
-      {t("FREE_CONSENT.FILTER.MISSING")}
+      {t("CONSENT.FILTER.MISSING")}
     </Badge>
   );
 }
@@ -319,7 +317,7 @@ export function ProviderAction(props: {
         }}
         disabled={props.handlers.revoking}
       >
-        {t("FREE_CONSENT.REVOKE_BUTTON")}
+        {t("CONSENT.REVOKE_BUTTON")}
       </Button>
     );
   return (
@@ -330,7 +328,7 @@ export function ProviderAction(props: {
         props.handlers.open(alias);
       }}
     >
-      {t("FREE_CONSENT.GIVE")}
+      {t("CONSENT.GIVE")}
     </Button>
   );
 }

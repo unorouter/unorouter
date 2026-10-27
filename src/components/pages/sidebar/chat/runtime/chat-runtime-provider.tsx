@@ -24,10 +24,7 @@ import { useRoomBroadcast } from "@/lib/ai/chat/room/use-room-broadcast";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";
-import {
-  gatewayCodeMessage,
-  isConsentRequiredCode,
-} from "@/lib/api/own-purpose";
+import { gatewayCodeMessage, CONSENT_REQUIRED } from "@/lib/api/own-purpose";
 import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { extractErrorDetail, handleError } from "@/lib/utils/client";
@@ -192,7 +189,7 @@ function ChatRuntimeHook() {
         (detail.message === msg("OWN_PURPOSE.OBJECTED_ERROR")
           ? detail.message
           : null);
-      if (isConsentRequiredCode(detail.code)) {
+      if (detail.code === CONSENT_REQUIRED) {
         const model = chatStore.get(chatModelAtom);
         if (model)
           chatStore.set(consentDemandedModelsAtom, (prev) =>

@@ -28,7 +28,7 @@ export function ConsentModelCard(props: {
           <span>{t(KIND_LABEL[row.kind])}</span>
           <CountryFlags codes={row.countries} />
           {!row.model.online && (
-            <Badge variant="outline">{t("FREE_CONSENT.OFFLINE")}</Badge>
+            <Badge variant="outline">{t("CONSENT.OFFLINE")}</Badge>
           )}
         </div>
         <ConsentStatusText row={row} />

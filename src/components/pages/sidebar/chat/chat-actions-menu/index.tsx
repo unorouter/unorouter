@@ -106,7 +106,7 @@ export function ChatActionsMenu(props: Props) {
           {/* Guests have no settings page, so revoking lives here too. */}
           <DropdownMenuItem onClick={() => setConsentsOpen(true)}>
             <Icon name="shield-check" className="size-4" />
-            {t("FREE_CONSENT.MANAGE")}
+            {t("CONSENT.MANAGE")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -123,13 +123,13 @@ export function ChatActionsMenu(props: Props) {
       <Dialog open={consentsOpen} onOpenChange={setConsentsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t("FREE_CONSENT.SETTINGS_TITLE")}</DialogTitle>
+            <DialogTitle>{t("CONSENT.SETTINGS_TITLE")}</DialogTitle>
             <DialogDescription>
               <Link
                 href="/consents"
                 className="text-primary text-sm underline-offset-4 hover:underline"
               >
-                {t("FREE_CONSENT.MANAGE")}
+                {t("CONSENT.MANAGE")}
               </Link>
             </DialogDescription>
           </DialogHeader>

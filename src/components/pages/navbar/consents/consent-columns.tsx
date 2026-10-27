@@ -47,7 +47,7 @@ export function buildConsentColumns(opts: {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title="FREE_CONSENT.TABLE.COUNTRIES"
+          title="CONSENT.TABLE.COUNTRIES"
         />
       ),
       cell: ({ row }) =>
@@ -64,7 +64,7 @@ export function buildConsentColumns(opts: {
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title="FREE_CONSENT.TABLE.REQUIREMENT"
+          title="CONSENT.TABLE.REQUIREMENT"
         />
       ),
       meta: { cellClassName: "text-muted-foreground text-xs" },
@@ -75,10 +75,7 @@ export function buildConsentColumns(opts: {
       accessorFn: (row) => STATUS_ORDER[row.status],
       enableSorting: true,
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="FREE_CONSENT.TABLE.STATUS"
-        />
+        <DataTableColumnHeader column={column} title="CONSENT.TABLE.STATUS" />
       ),
       cell: ({ row }) => <ConsentStatusText row={row.original} />,
     },

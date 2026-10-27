@@ -20,8 +20,8 @@ import { PROVIDER_STATUSES, type ProviderStatus } from "./provider-rows";
 import type { useProviderFilters } from "./use-provider-filters";
 
 const STATUS_LABEL = {
-  given: msg("FREE_CONSENT.FILTER.GIVEN"),
-  missing: msg("FREE_CONSENT.FILTER.MISSING"),
+  given: msg("CONSENT.FILTER.GIVEN"),
+  missing: msg("CONSENT.FILTER.MISSING"),
 } satisfies Record<ProviderStatus, ReturnType<typeof msg>>;
 
 export function ProviderFilterSidebar(props: {
@@ -68,7 +68,7 @@ export function ProviderFilterSidebar(props: {
               onToggle={() => void setParams({ pactive: !params.pactive })}
             />
           </GroupShell>
-          <GroupShell label={t("FREE_CONSENT.FILTER.STATUS")}>
+          <GroupShell label={t("CONSENT.FILTER.STATUS")}>
             {PROVIDER_STATUSES.map((status) => (
               <CheckRow
                 key={status}

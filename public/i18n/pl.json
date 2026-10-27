@@ -6429,7 +6429,7 @@
     "COPY": "Kopiuj kod",
     "COPIED": "Kod skopiowany"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Spośród nich następujące państwa mogą nie zapewniać poziomu ochrony danych porównywalnego z UE: {countries}. Możesz tam nie mieć egzekwowalnych praw ani skutecznych środków prawnych, może brakować niezależnego nadzoru, a tamtejsze organy mogą uzyskać dostęp do Twoich danych.",
     "NO_INFLUENCE": "{appName} nie ma wpływu na to wykorzystanie i nie może odzyskać już przekazanych danych wejściowych ani doprowadzić do ich usunięcia.",
     "THIRD_PARTY": "Wprowadzanie danych osobowych osób trzecich oraz szczególnych kategorii danych osobowych, na przykład danych o zdrowiu, jest zabronione. Odradzamy wprowadzanie własnych danych osobowych.",

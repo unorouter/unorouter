@@ -6429,7 +6429,7 @@
     "COPY": "Code kopieren",
     "COPIED": "Code kopiert"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Davon gewährleisten folgende Länder möglicherweise kein mit der EU vergleichbares Datenschutzniveau: {countries}. Dort stehen dir unter Umständen keine durchsetzbaren Rechte und wirksamen Rechtsbehelfe zur Verfügung, eine unabhängige Aufsicht kann fehlen, und Behörden können auf deine Daten zugreifen.",
     "NO_INFLUENCE": "{appName} hat auf diese Nutzung keinen Einfluss und kann bereits übermittelte Eingaben weder zurückholen noch löschen lassen.",
     "THIRD_PARTY": "Die Eingabe personenbezogener Daten Dritter sowie besonderer Kategorien personenbezogener Daten, etwa Gesundheitsdaten, ist untersagt. Wir raten davon ab, eigene personenbezogene Daten einzugeben.",

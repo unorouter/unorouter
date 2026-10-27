@@ -6429,7 +6429,7 @@
     "COPY": "Kodu kopyala",
     "COPIED": "Kod kopyalandı"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Bunlardan şu ülkeler AB ile karşılaştırılabilir bir veri koruma düzeyi sağlamayabilir: {countries}. Orada uygulanabilir haklara ve etkili hukuki başvuru yollarına sahip olmayabilirsin, bağımsız bir denetim bulunmayabilir ve oradaki makamlar verilerine erişebilir.",
     "NO_INFLUENCE": "{appName} bu kullanım üzerinde hiçbir etkiye sahip değildir ve daha önce aktarılmış girdileri geri alamaz veya sildiremez.",
     "THIRD_PARTY": "Üçüncü kişilere ait kişisel verilerin ve sağlık verileri gibi özel nitelikli kişisel verilerin girilmesi yasaktır. Kendi kişisel verilerini girmemeni öneririz.",

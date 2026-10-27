@@ -10,14 +10,14 @@ export function ConsentsCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("FREE_CONSENT.SETTINGS_TITLE")}</CardTitle>
+        <CardTitle>{t("CONSENT.SETTINGS_TITLE")}</CardTitle>
       </CardHeader>
       <CardContent>
         <Link
           href="/consents"
           className="text-primary text-sm underline-offset-4 hover:underline"
         >
-          {t("FREE_CONSENT.MANAGE")}
+          {t("CONSENT.MANAGE")}
         </Link>
       </CardContent>
     </Card>

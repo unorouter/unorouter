@@ -6,14 +6,14 @@ import { useTranslations } from "next-intl";
 import type { ConsentKind, ConsentRow } from "./consent-rows";
 
 export const KIND_LABEL = {
-  consent: msg("FREE_CONSENT.KIND_CONSENT"),
-  none: msg("FREE_CONSENT.NOT_NEEDED"),
+  consent: msg("CONSENT.KIND_CONSENT"),
+  none: msg("CONSENT.NOT_NEEDED"),
 } satisfies Record<ConsentKind, ReturnType<typeof msg>>;
 
 const STATUS_TEXT = {
-  given: msg("FREE_CONSENT.COVERED_BY_PROVIDERS"),
-  missing: msg("FREE_CONSENT.FILTER.MISSING"),
-  not_needed: msg("FREE_CONSENT.NOT_NEEDED"),
+  given: msg("CONSENT.COVERED_BY_PROVIDERS"),
+  missing: msg("CONSENT.FILTER.MISSING"),
+  not_needed: msg("CONSENT.NOT_NEEDED"),
 } satisfies Record<ConsentRow["status"], ReturnType<typeof msg>>;
 
 export function ConsentStatusText(props: { row: ConsentRow }) {
@@ -34,7 +34,7 @@ export function ConsentActionButton(props: {
   if (props.row.status !== "missing") return null;
   return (
     <Button size="sm" onClick={() => props.onOpen(props.row.model.model_name)}>
-      {t("FREE_CONSENT.GIVE")}
+      {t("CONSENT.GIVE")}
     </Button>
   );
 }

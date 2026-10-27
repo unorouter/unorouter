@@ -53,7 +53,7 @@ export function ModelView(props: {
   const columns = buildConsentColumns({
     onOpen: props.onOpen,
     kindLabel: (row) => t(KIND_LABEL[row.kind]),
-    offlineLabel: t("FREE_CONSENT.OFFLINE"),
+    offlineLabel: t("CONSENT.OFFLINE"),
     freeLabel: t("MODELS.TABLE.FREE"),
     flatNoParamsLabel: t("MODELS.TABLE.FLAT_NO_PARAMS"),
   });
@@ -71,7 +71,7 @@ export function ModelView(props: {
   const search = (className: string) => (
     <SearchInput
       className={className}
-      placeholder={t("FREE_CONSENT.SEARCH")}
+      placeholder={t("CONSENT.SEARCH")}
       value={params.q}
       onChange={(q) => void filters.setParams({ q: q || null })}
     />

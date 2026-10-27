@@ -12,20 +12,12 @@ export function usesInputsForOwnPurposes(model: OwnPurposeModel): boolean {
 
 export const OWN_PURPOSE_OBJECTED = "own_purpose_objected";
 
-// The gateway renamed free_consent_required and free_models_business; both
-// spellings are mapped while either may arrive.
-const CONSENT_REQUIRED_CODES = ["consent_required", "free_consent_required"];
-
-export function isConsentRequiredCode(code: string | null | undefined) {
-  return code != null && CONSENT_REQUIRED_CODES.includes(code);
-}
+export const CONSENT_REQUIRED = "consent_required";
 
 const GATEWAY_CODE_MESSAGES = {
   [OWN_PURPOSE_OBJECTED]: msg("OWN_PURPOSE.OBJECTED_ERROR"),
-  consent_required: msg("FREE_CONSENT.REQUIRED_ERROR"),
-  free_consent_required: msg("FREE_CONSENT.REQUIRED_ERROR"),
-  consent_business: msg("FREE_CONSENT.BUSINESS"),
-  free_models_business: msg("FREE_CONSENT.BUSINESS"),
+  [CONSENT_REQUIRED]: msg("CONSENT.REQUIRED_ERROR"),
+  consent_business: msg("CONSENT.BUSINESS"),
 } as const;
 
 function isMappedCode(

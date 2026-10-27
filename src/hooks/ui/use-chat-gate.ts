@@ -20,7 +20,6 @@ export function useChatGate() {
     selectedModel,
     selectedModel != null && demanded.includes(selectedModel),
   );
-  const consentModel = consentGate.consentModel;
 
   const inputsSettled = selectedModel != null && pricingData != null;
   const needsToken =
@@ -28,7 +27,8 @@ export function useChatGate() {
     token.needsToken &&
     inputsSettled &&
     !isSelectedModelFree;
-  const business = consentModel && authQuery.data?.customer_type === "business";
+  const business =
+    consentGate.consentModel && authQuery.data?.customer_type === "business";
   const needsConsent = !business && consentGate.needsConsent;
 
   return { needsToken, needsConsent, business, selectedModel };

@@ -6429,7 +6429,7 @@
     "COPY": "Copy code",
     "COPIED": "Code copied"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Of these, the following may not ensure a level of data protection comparable to the EU: {countries}. You may have no enforceable rights or effective legal remedies there, independent supervision may be missing, and authorities there may access your data.",
     "NO_INFLUENCE": "{appName} has no influence on this use and cannot retrieve inputs already transferred or have them deleted.",
     "THIRD_PARTY": "Entering personal data of third parties and special categories of personal data, such as health data, is prohibited. We advise against entering your own personal data.",

@@ -134,8 +134,8 @@ export function ProviderConsentPanel(props: {
         : [],
   };
   const where = token.isLoggedIn
-    ? t("FREE_CONSENT.WHERE_ACCOUNT")
-    : t("FREE_CONSENT.WHERE_GUEST");
+    ? t("CONSENT.WHERE_ACCOUNT")
+    : t("CONSENT.WHERE_GUEST");
   const title = t("PROVIDER_CONSENT.TITLE");
   const paragraphs = [
     t("PROVIDER_CONSENT.PROVIDERS", {
@@ -145,7 +145,7 @@ export function ProviderConsentPanel(props: {
       ? [t("PROVIDER_CONSENT.FOR_MODEL", { model: props.model })]
       : []),
     ...(unsafe.length > 0
-      ? [t("FREE_CONSENT.RISK", { countries: unsafe.join(", ") })]
+      ? [t("CONSENT.RISK", { countries: unsafe.join(", ") })]
       : []),
     ...(onward.length > 0
       ? [t("PROVIDER_CONSENT.ONWARD_RISK", { providers: onward.join(", ") })]
@@ -154,11 +154,11 @@ export function ProviderConsentPanel(props: {
     ...practiceLines.trains,
     ...practiceLines.retains,
     ...practiceLines.unknown,
-    t("FREE_CONSENT.NO_INFLUENCE", APP_VALUES),
-    t("FREE_CONSENT.THIRD_PARTY"),
+    t("CONSENT.NO_INFLUENCE", APP_VALUES),
+    t("CONSENT.THIRD_PARTY"),
     t("PROVIDER_CONSENT.CONSENT"),
-    t("FREE_CONSENT.REVOKE", { where }),
-    t("FREE_CONSENT.MORE_INFO"),
+    t("CONSENT.REVOKE", { where }),
+    t("CONSENT.MORE_INFO"),
   ];
 
   function confirm() {
@@ -176,7 +176,7 @@ export function ProviderConsentPanel(props: {
       },
       {
         onSuccess: () => {
-          toast.success(t("FREE_CONSENT.SAVED"));
+          toast.success(t("CONSENT.SAVED"));
           props.onGranted?.();
           props.onDone?.();
         },
@@ -206,11 +206,11 @@ export function ProviderConsentPanel(props: {
           target="_blank"
           className="text-primary inline-block text-sm underline-offset-4 hover:underline"
         >
-          {t("FREE_CONSENT.PRIVACY_LINK")}
+          {t("CONSENT.PRIVACY_LINK")}
         </Link>
         {declined && (
           <p className="text-foreground text-sm font-medium">
-            {t("FREE_CONSENT.DECLINED")}
+            {t("CONSENT.DECLINED")}
           </p>
         )}
         <div
@@ -225,14 +225,14 @@ export function ProviderConsentPanel(props: {
             onClick={() => (props.onDone ? props.onDone() : setDeclined(true))}
             disabled={grantMutation.isPending}
           >
-            {t("FREE_CONSENT.DECLINE")}
+            {t("CONSENT.DECLINE")}
           </Button>
           <Button
             size="sm"
             onClick={confirm}
             disabled={grantMutation.isPending}
           >
-            {t("FREE_CONSENT.CONFIRM")}
+            {t("CONSENT.CONFIRM")}
           </Button>
         </div>
       </div>

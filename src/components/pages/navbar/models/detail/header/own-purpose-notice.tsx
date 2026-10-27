@@ -14,7 +14,7 @@ export async function OwnPurposeNotice() {
           href="/privacy"
           className="text-foreground hover:text-warning mt-3 inline-flex items-center gap-1.5 font-medium"
         >
-          {t("FREE_CONSENT.PRIVACY_LINK")}
+          {t("CONSENT.PRIVACY_LINK")}
         </Link>
       </div>
     </div>

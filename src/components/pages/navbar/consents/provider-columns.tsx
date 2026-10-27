@@ -81,10 +81,7 @@ export function buildProviderColumns(opts: {
       accessorFn: (p) => (p.status === "given" ? 1 : 0),
       enableSorting: true,
       header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="FREE_CONSENT.TABLE.STATUS"
-        />
+        <DataTableColumnHeader column={column} title="CONSENT.TABLE.STATUS" />
       ),
       cell: ({ row }) => <ProviderStatusBadge provider={row.original} />,
     },

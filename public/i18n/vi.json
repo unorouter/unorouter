@@ -6429,7 +6429,7 @@
     "COPY": "Sao chép mã",
     "COPIED": "Đã sao chép mã"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Trong số đó, các quốc gia sau có thể không bảo đảm mức độ bảo vệ dữ liệu tương đương với EU: {countries}. Tại đó, bạn có thể không có các quyền được thực thi và biện pháp pháp lý hiệu quả, có thể không có cơ quan giám sát độc lập, và cơ quan chức năng ở đó có thể truy cập dữ liệu của bạn.",
     "NO_INFLUENCE": "{appName} không có ảnh hưởng gì đến việc sử dụng này và không thể lấy lại hoặc yêu cầu xóa dữ liệu đã chuyển.",
     "THIRD_PARTY": "Nghiêm cấm nhập dữ liệu cá nhân của bên thứ ba và các loại dữ liệu cá nhân đặc biệt, chẳng hạn dữ liệu sức khỏe. Chúng tôi khuyên bạn không nhập dữ liệu cá nhân của chính mình.",

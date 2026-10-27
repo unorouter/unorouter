@@ -6,7 +6,7 @@ export function generateMetadata(props: {
 }) {
   return pageMetadata({
     props,
-    namespace: "FREE_CONSENT",
+    namespace: "CONSENT",
     href: "/consents",
     robots: false,
   });

@@ -6429,7 +6429,7 @@
     "COPY": "Copiar código",
     "COPIED": "Código copiado"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Desses, os seguintes podem não garantir um nível de proteção de dados comparável ao da UE: {countries}. Lá você pode não ter direitos exigíveis nem recursos legais efetivos, pode faltar uma supervisão independente e as autoridades podem acessar seus dados.",
     "NO_INFLUENCE": "O {appName} não tem nenhuma influência sobre esse uso e não pode recuperar nem mandar excluir as entradas já transferidas.",
     "THIRD_PARTY": "É proibido inserir dados pessoais de terceiros e categorias especiais de dados pessoais, como dados de saúde. Não recomendamos inserir seus próprios dados pessoais.",

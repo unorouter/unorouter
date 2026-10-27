@@ -41,7 +41,7 @@ export function ModelFocus(props: {
       revokeMutation.mutate(
         { body: { alias } },
         {
-          onSuccess: () => toast.success(t("FREE_CONSENT.REVOKED")),
+          onSuccess: () => toast.success(t("CONSENT.REVOKED")),
           onError: (error) => toast.error(error.message),
         },
       ),

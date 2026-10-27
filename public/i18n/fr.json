@@ -6429,7 +6429,7 @@
     "COPY": "Copier le code",
     "COPIED": "Code copié"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Parmi eux, les pays suivants n'offrent peut-être pas un niveau de protection des données comparable à celui de l'UE : {countries}. Tu pourrais ne pas y disposer de droits opposables ni de voies de recours effectives, une autorité de contrôle indépendante peut faire défaut et les autorités locales peuvent accéder à tes données.",
     "NO_INFLUENCE": "{appName} n'a aucune influence sur cette utilisation et ne peut ni récupérer ni faire supprimer les saisies déjà transférées.",
     "THIRD_PARTY": "Il est interdit de saisir des données personnelles de tiers ainsi que des catégories particulières de données personnelles, par exemple des données de santé. Nous te déconseillons de saisir tes propres données personnelles.",

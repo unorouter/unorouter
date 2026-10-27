@@ -6429,7 +6429,7 @@
     "COPY": "Salin kode",
     "COPIED": "Kode disalin"
   },
-  "FREE_CONSENT": {
+  "CONSENT": {
     "RISK": "Dari negara tersebut, negara berikut mungkin tidak menjamin tingkat perlindungan data yang setara dengan UE: {countries}. Di sana kamu mungkin tidak memiliki hak yang dapat ditegakkan maupun upaya hukum yang efektif, pengawasan independen bisa tidak ada, dan otoritas setempat dapat mengakses datamu.",
     "NO_INFLUENCE": "{appName} tidak memiliki pengaruh atas penggunaan ini dan tidak dapat mengambil kembali atau meminta penghapusan masukan yang sudah dipindahkan.",
     "THIRD_PARTY": "Dilarang memasukkan data pribadi pihak ketiga serta kategori khusus data pribadi, misalnya data kesehatan. Kami menyarankan agar kamu tidak memasukkan data pribadimu sendiri.",

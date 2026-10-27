@@ -164,5 +164,5 @@ export async function assertGuestOwnPurposeAccess(
   if (!info.own_purpose?.consent_required) return;
   if (!(await consentEnforcedFor([model, info.model_name]))) return;
   if (!guestId || !(await guestProviderCovered(guestId, model)))
-    throw new Error(msg("FREE_CONSENT.DECLINED"));
+    throw new Error(msg("CONSENT.DECLINED"));
 }
