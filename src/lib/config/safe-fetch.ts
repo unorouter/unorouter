@@ -185,9 +185,11 @@ async function parseAndCheckUrl(url: string): Promise<URL> {
 
 // Separate agent for SSE: the download agent's 10s body timeout would kill any
 // longer generation. Headers still time out, so a dead host cannot hang open.
+// Busy hosts queue well past 30s before answering; Cloudflare's 100s origin
+// read timeout is the real ceiling.
 const safeStreamAgent = new Agent({
   connect: { lookup: filteringLookup },
-  headersTimeout: 30_000,
+  headersTimeout: 90_000,
   bodyTimeout: 0,
 });
 
