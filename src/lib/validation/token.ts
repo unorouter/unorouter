@@ -23,6 +23,12 @@ export const tokenFormSchema = t.Object({
     ],
     { default: "off" },
   ),
+  prompt_cache: t.Union(
+    [t.Literal("auto"), t.Literal("on"), t.Literal("off")],
+    {
+      default: "auto",
+    },
+  ),
   group_mapping: t.Record(
     t.String(),
     t.Object({

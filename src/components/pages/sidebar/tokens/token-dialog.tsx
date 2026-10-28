@@ -78,6 +78,12 @@ const REASONING_OPTION_KEYS = {
   TranslationKey
 >;
 
+const PROMPT_CACHE_OPTION_KEYS = {
+  auto: "TOKEN.FORM.PROMPT_CACHE_AUTO",
+  on: "TOKEN.FORM.PROMPT_CACHE_ON",
+  off: "TOKEN.FORM.PROMPT_CACHE_OFF",
+} as const satisfies Record<TokenFormSchema["prompt_cache"], TranslationKey>;
+
 function reasoningFormValue(
   value: string | undefined,
 ): TokenFormSchema["default_reasoning_effort"] {
@@ -152,6 +158,11 @@ export function TokenDialog(props: TokenDialogProps) {
         default_reasoning_effort: reasoningFormValue(
           props.token.default_reasoning_effort,
         ),
+        prompt_cache:
+          props.token.prompt_cache === "on" ||
+          props.token.prompt_cache === "off"
+            ? props.token.prompt_cache
+            : "auto",
       });
     } else {
       form.reset(formDefaults(tokenFormSchema));
@@ -257,6 +268,7 @@ export function TokenDialog(props: TokenDialogProps) {
         data.default_reasoning_effort === "off"
           ? ""
           : data.default_reasoning_effort,
+      prompt_cache: data.prompt_cache === "auto" ? "" : data.prompt_cache,
     };
 
     if (isEdit) {
@@ -565,6 +577,34 @@ export function TokenDialog(props: TokenDialogProps) {
                   />
                   <p className="text-muted-foreground text-[11px]">
                     {t("TOKEN.FORM.REASONING_DESC")}
+                  </p>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <Icon
+                    name="database"
+                    className="text-muted-foreground h-4 w-4"
+                  />
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.FORM.PROMPT_CACHE")}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <MyFormKeyedSelect
+                    control={form.control}
+                    name="prompt_cache"
+                    label={t("TOKEN.FORM.PROMPT_CACHE")}
+                    labelClassName="sr-only"
+                    fallback="auto"
+                    optionKeys={PROMPT_CACHE_OPTION_KEYS}
+                  />
+                  <p className="text-muted-foreground text-[11px]">
+                    {t("TOKEN.FORM.PROMPT_CACHE_DESC")}
                   </p>
                 </div>
               </div>

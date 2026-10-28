@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "低",
       "REASONING_MEDIUM": "中",
       "REASONING_HIGH": "高",
-      "REASONING_MAX": "最大"
+      "REASONING_MAX": "最大",
+      "PROMPT_CACHE": "プロンプトキャッシュ",
+      "PROMPT_CACHE_DESC": "自動ではリクエストをそのまま送信します。オンではプロンプトの先頭をキャッシュ対象としてマークします。一部のプロバイダーはこれがないと何もキャッシュしません。繰り返されるコンテキストが安くなります。オフでは毎回のリクエストを最初から処理するため、何もキャッシュされず、すべての入力トークンが通常料金で請求されます。",
+      "PROMPT_CACHE_AUTO": "自動",
+      "PROMPT_CACHE_ON": "オン",
+      "PROMPT_CACHE_OFF": "オフ"
     },
     "ENUM": {
       "ENABLED": "有効",

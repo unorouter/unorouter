@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Thấp",
       "REASONING_MEDIUM": "Trung bình",
       "REASONING_HIGH": "Cao",
-      "REASONING_MAX": "Tối đa"
+      "REASONING_MAX": "Tối đa",
+      "PROMPT_CACHE": "Bộ nhớ đệm prompt",
+      "PROMPT_CACHE_DESC": "Tự động gửi yêu cầu nguyên vẹn. Bật đánh dấu phần đầu prompt để lưu đệm, điều mà một số nhà cung cấp cần trước khi lưu bất cứ thứ gì; ngữ cảnh lặp lại khi đó sẽ rẻ hơn. Tắt khiến mỗi yêu cầu bắt đầu lại từ đầu, nên không có gì được lưu đệm và mọi token đầu vào đều tính giá đầy đủ.",
+      "PROMPT_CACHE_AUTO": "Tự động",
+      "PROMPT_CACHE_ON": "Bật",
+      "PROMPT_CACHE_OFF": "Tắt"
     },
     "ENUM": {
       "ENABLED": "Đã bật",

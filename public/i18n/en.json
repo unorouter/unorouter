@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Low",
       "REASONING_MEDIUM": "Medium",
       "REASONING_HIGH": "High",
-      "REASONING_MAX": "Max"
+      "REASONING_MAX": "Max",
+      "PROMPT_CACHE": "Prompt caching",
+      "PROMPT_CACHE_DESC": "Auto sends requests as they are. On marks the start of the prompt for caching, which some providers need before they cache anything; repeated context then costs less. Off makes every request start fresh, so nothing is cached and every input token is billed at full price.",
+      "PROMPT_CACHE_AUTO": "Auto",
+      "PROMPT_CACHE_ON": "On",
+      "PROMPT_CACHE_OFF": "Off"
     },
     "ENUM": {
       "ENABLED": "Enabled",

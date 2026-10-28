@@ -32,9 +32,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
-// default_reasoning_effort is served by the gateway ahead of the generated spec.
+// default_reasoning_effort and prompt_cache are served by the gateway ahead of the generated spec.
 export type TokenRow = NonNullable<TokenResponse> & {
   default_reasoning_effort?: string;
+  prompt_cache?: string;
 };
 
 const MODEL_PREVIEW_CAP = 12;

@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "低",
       "REASONING_MEDIUM": "中",
       "REASONING_HIGH": "高",
-      "REASONING_MAX": "最高"
+      "REASONING_MAX": "最高",
+      "PROMPT_CACHE": "提示快取",
+      "PROMPT_CACHE_DESC": "自動：按原樣傳送請求。開啟：為提示開頭加上快取標記，部分供應商需要此標記才會快取，重複的上下文因此更便宜。關閉：每個請求都從頭開始，不會快取任何內容，所有輸入 token 都按全價計費。",
+      "PROMPT_CACHE_AUTO": "自動",
+      "PROMPT_CACHE_ON": "開啟",
+      "PROMPT_CACHE_OFF": "關閉"
     },
     "ENUM": {
       "ENABLED": "已啟用",

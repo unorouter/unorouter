@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Niedrig",
       "REASONING_MEDIUM": "Mittel",
       "REASONING_HIGH": "Hoch",
-      "REASONING_MAX": "Maximal"
+      "REASONING_MAX": "Maximal",
+      "PROMPT_CACHE": "Prompt-Caching",
+      "PROMPT_CACHE_DESC": "Auto sendet Anfragen unverändert. Ein markiert den Anfang des Prompts für das Caching, das manche Anbieter brauchen, bevor sie etwas zwischenspeichern; wiederholter Kontext kostet dann weniger. Aus lässt jede Anfrage neu beginnen, sodass nichts zwischengespeichert und jedes Eingabe-Token zum vollen Preis abgerechnet wird.",
+      "PROMPT_CACHE_AUTO": "Auto",
+      "PROMPT_CACHE_ON": "Ein",
+      "PROMPT_CACHE_OFF": "Aus"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",

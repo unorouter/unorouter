@@ -768,6 +768,8 @@ export interface CreateTokenRequest {
   cross_group_retry: boolean | null;
   /** @nullable */
   default_reasoning_effort: string | null;
+  /** @nullable */
+  prompt_cache?: string | null;
   expired_time: number;
   group: string;
   /** @nullable */
@@ -3028,6 +3030,7 @@ export interface TokenResponse {
   created_time: number;
   cross_group_retry: boolean;
   default_reasoning_effort: string;
+  prompt_cache?: string;
   expired_time: number;
   group: string;
   group_mapping: string;
@@ -4879,6 +4882,8 @@ export interface UpdateTokenRequest {
   cross_group_retry: boolean | null;
   /** @nullable */
   default_reasoning_effort: string | null;
+  /** @nullable */
+  prompt_cache?: string | null;
   expired_time: number;
   group: string;
   /** @nullable */

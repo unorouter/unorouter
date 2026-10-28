@@ -21,6 +21,7 @@ export const createTokenBody = t.Object({
   auto_groups: t.Optional(t.Nullable(t.Array(t.String()))),
   allow_user_quota_query: t.Optional(t.Nullable(t.Boolean())),
   default_reasoning_effort: t.Optional(t.String()),
+  prompt_cache: t.Optional(t.String()),
 });
 
 export const updateTokenBody = t.Object({
@@ -39,6 +40,7 @@ export const updateTokenBody = t.Object({
   auto_groups: t.Optional(t.Nullable(t.Array(t.String()))),
   allow_user_quota_query: t.Optional(t.Nullable(t.Boolean())),
   default_reasoning_effort: t.Optional(t.String()),
+  prompt_cache: t.Optional(t.String()),
 });
 
 export const tokenIdParams = t.Object({

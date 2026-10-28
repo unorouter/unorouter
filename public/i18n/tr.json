@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Düşük",
       "REASONING_MEDIUM": "Orta",
       "REASONING_HIGH": "Yüksek",
-      "REASONING_MAX": "Maksimum"
+      "REASONING_MAX": "Maksimum",
+      "PROMPT_CACHE": "İstem önbelleği",
+      "PROMPT_CACHE_DESC": "Otomatik, istekleri olduğu gibi gönderir. Açık, istemin başını önbellek için işaretler; bazı sağlayıcılar bir şeyi önbelleğe almadan önce buna ihtiyaç duyar ve tekrarlanan bağlam daha ucuza gelir. Kapalı, her isteğin sıfırdan başlamasını sağlar; hiçbir şey önbelleğe alınmaz ve her giriş tokenı tam fiyattan ücretlendirilir.",
+      "PROMPT_CACHE_AUTO": "Otomatik",
+      "PROMPT_CACHE_ON": "Açık",
+      "PROMPT_CACHE_OFF": "Kapalı"
     },
     "ENUM": {
       "ENABLED": "Etkin",

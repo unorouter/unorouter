@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Niski",
       "REASONING_MEDIUM": "Średni",
       "REASONING_HIGH": "Wysoki",
-      "REASONING_MAX": "Maksymalny"
+      "REASONING_MAX": "Maksymalny",
+      "PROMPT_CACHE": "Pamięć podręczna promptów",
+      "PROMPT_CACHE_DESC": "Auto wysyła żądania bez zmian. Włączone oznacza początek promptu do buforowania, którego niektórzy dostawcy wymagają, zanim cokolwiek zapiszą; powtarzany kontekst kosztuje wtedy mniej. Wyłączone sprawia, że każde żądanie zaczyna się od nowa, więc nic nie jest buforowane, a każdy token wejściowy jest rozliczany po pełnej cenie.",
+      "PROMPT_CACHE_AUTO": "Auto",
+      "PROMPT_CACHE_ON": "Włączone",
+      "PROMPT_CACHE_OFF": "Wyłączone"
     },
     "ENUM": {
       "ENABLED": "Włączony",

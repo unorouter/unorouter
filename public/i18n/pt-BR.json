@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Baixo",
       "REASONING_MEDIUM": "Médio",
       "REASONING_HIGH": "Alto",
-      "REASONING_MAX": "Máximo"
+      "REASONING_MAX": "Máximo",
+      "PROMPT_CACHE": "Cache de prompts",
+      "PROMPT_CACHE_DESC": "Auto envia as solicitações como estão. Ativado marca o início do prompt para cache, algo de que alguns provedores precisam antes de guardar qualquer coisa; o contexto repetido passa a custar menos. Desativado faz cada solicitação começar do zero, então nada fica em cache e cada token de entrada é cobrado pelo preço cheio.",
+      "PROMPT_CACHE_AUTO": "Auto",
+      "PROMPT_CACHE_ON": "Ativado",
+      "PROMPT_CACHE_OFF": "Desativado"
     },
     "ENUM": {
       "ENABLED": "Ativada",

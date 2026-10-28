@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "Rendah",
       "REASONING_MEDIUM": "Sedang",
       "REASONING_HIGH": "Tinggi",
-      "REASONING_MAX": "Maksimal"
+      "REASONING_MAX": "Maksimal",
+      "PROMPT_CACHE": "Cache prompt",
+      "PROMPT_CACHE_DESC": "Otomatis mengirim permintaan apa adanya. Aktif menandai awal prompt untuk cache, yang dibutuhkan sebagian penyedia sebelum menyimpan apa pun; konteks yang berulang jadi lebih murah. Nonaktif membuat setiap permintaan mulai dari awal, sehingga tidak ada yang disimpan di cache dan setiap token input ditagih harga penuh.",
+      "PROMPT_CACHE_AUTO": "Otomatis",
+      "PROMPT_CACHE_ON": "Aktif",
+      "PROMPT_CACHE_OFF": "Nonaktif"
     },
     "ENUM": {
       "ENABLED": "Aktif",

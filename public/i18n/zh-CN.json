@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "低",
       "REASONING_MEDIUM": "中",
       "REASONING_HIGH": "高",
-      "REASONING_MAX": "最高"
+      "REASONING_MAX": "最高",
+      "PROMPT_CACHE": "提示缓存",
+      "PROMPT_CACHE_DESC": "自动：按原样发送请求。开启：为提示开头添加缓存标记，部分提供商需要该标记才会缓存，重复的上下文因此更便宜。关闭：每个请求都从头开始，不会缓存任何内容，所有输入 token 都按全价计费。",
+      "PROMPT_CACHE_AUTO": "自动",
+      "PROMPT_CACHE_ON": "开启",
+      "PROMPT_CACHE_OFF": "关闭"
     },
     "ENUM": {
       "ENABLED": "已启用",

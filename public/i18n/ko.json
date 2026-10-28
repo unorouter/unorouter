@@ -2983,7 +2983,12 @@
       "REASONING_LOW": "낮음",
       "REASONING_MEDIUM": "보통",
       "REASONING_HIGH": "높음",
-      "REASONING_MAX": "최대"
+      "REASONING_MAX": "최대",
+      "PROMPT_CACHE": "프롬프트 캐싱",
+      "PROMPT_CACHE_DESC": "자동은 요청을 그대로 보냅니다. 켜기는 프롬프트 앞부분을 캐싱 대상으로 표시하며, 일부 제공업체는 이 표시가 있어야 캐싱합니다. 반복되는 컨텍스트 비용이 줄어듭니다. 끄기는 모든 요청을 처음부터 시작하게 하므로 아무것도 캐싱되지 않고 모든 입력 토큰이 정가로 청구됩니다.",
+      "PROMPT_CACHE_AUTO": "자동",
+      "PROMPT_CACHE_ON": "켜기",
+      "PROMPT_CACHE_OFF": "끄기"
     },
     "ENUM": {
       "ENABLED": "활성화됨",
