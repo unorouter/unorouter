@@ -333,6 +333,11 @@ export interface BucketPoint {
   ts: number;
 }
 
+export interface CacheWriteTokenDetails {
+  ttl_12h_tokens: number;
+  ttl_30m_tokens: number;
+}
+
 export interface CachedTokenDetails {
   /** @nullable */
   audio_tokens?: number | null;
@@ -768,8 +773,6 @@ export interface CreateTokenRequest {
   cross_group_retry: boolean | null;
   /** @nullable */
   default_reasoning_effort: string | null;
-  /** @nullable */
-  prompt_cache?: string | null;
   expired_time: number;
   group: string;
   /** @nullable */
@@ -777,6 +780,8 @@ export interface CreateTokenRequest {
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;
+  /** @nullable */
+  prompt_cache: string | null;
   remain_quota: number;
   unlimited_quota: boolean;
 }
@@ -1078,40 +1083,34 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
 }
 
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  cached_tokens_details?: CachedTokenDetails;
-  image_tokens: number;
-  text_tokens: number;
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
 }
 
 export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  output_tokens_details?: OutputTokenDetails;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 /**
@@ -1177,6 +1176,25 @@ export interface FetchDiscoveryData {
   well_known_url: string;
 }
 
+export interface UpstreamDTO {
+  base_url: string;
+  endpoint: string;
+  id?: number;
+  name: string;
+}
+
+/**
+ * FetchUpstreamRatiosRequest schema
+ */
+export interface FetchUpstreamRatiosRequest {
+  /** @nullable */
+  channel_ids: number[] | null;
+  include_unchanged: boolean;
+  timeout: number;
+  /** @nullable */
+  upstreams: UpstreamDTO[] | null;
+}
+
 export type FetchUpstreamRatiosResultDifferencesAnyOf = {
   [key: string]: { [key: string]: DifferenceItem };
 };
@@ -1227,27 +1245,6 @@ export interface FlowQuotaData {
 export interface GeminiModelList {
   models: unknown;
   nextPageToken: unknown;
-}
-
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
 }
 
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
@@ -1399,6 +1396,18 @@ export interface ImageParams {
   supportsSize: boolean;
   supportsSteps: boolean;
   supportsStrength: boolean;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_creation_input_tokens?: number;
+  cache_write_tokens?: number;
+  cache_write_tokens_details?: CacheWriteTokenDetails;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  cached_tokens_details?: CachedTokenDetails;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1973,6 +1982,13 @@ export interface OptionUpdateRequest {
   value: unknown;
 }
 
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
 export interface OwnPurposeObjectionData {
   objection: boolean;
 }
@@ -2533,6 +2549,8 @@ export interface QueryResult {
 }
 
 export interface QuotaData {
+  cache_creation_tokens: number;
+  cache_read_tokens: number;
   channel_id: number;
   count: number;
   created_at: number;
@@ -3030,7 +3048,6 @@ export interface TokenResponse {
   created_time: number;
   cross_group_retry: boolean;
   default_reasoning_effort: string;
-  prompt_cache?: string;
   expired_time: number;
   group: string;
   group_mapping: string;
@@ -3039,6 +3056,7 @@ export interface TokenResponse {
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;
+  prompt_cache: string;
   remain_quota: number;
   status: number;
   unlimited_quota: boolean;
@@ -4014,6 +4032,8 @@ export interface StatusData {
   privacy_policy_url?: string;
   quota_display_type: string;
   quota_per_unit: number;
+  quota_remind_enabled: boolean;
+  quota_remind_threshold: number;
   register_enabled: boolean;
   self_use_mode_enabled: boolean;
   server_address: string;
@@ -4882,8 +4902,6 @@ export interface UpdateTokenRequest {
   cross_group_retry: boolean | null;
   /** @nullable */
   default_reasoning_effort: string | null;
-  /** @nullable */
-  prompt_cache?: string | null;
   expired_time: number;
   group: string;
   /** @nullable */
@@ -4892,6 +4910,8 @@ export interface UpdateTokenRequest {
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;
+  /** @nullable */
+  prompt_cache: string | null;
   remain_quota: number;
   status: number;
   unlimited_quota: boolean;
@@ -4903,6 +4923,8 @@ export interface UpdateTokenRequest {
 export interface UpdateUserSettingRequest {
   accept_unset_model_ratio_model: boolean;
   bark_url?: string;
+  /** @nullable */
+  channel_notify_enabled?: boolean | null;
   gotify_priority?: number;
   gotify_token?: string;
   gotify_url?: string;
@@ -4915,24 +4937,6 @@ export interface UpdateUserSettingRequest {
   upstream_model_update_notify_enabled?: boolean | null;
   webhook_secret?: string;
   webhook_url?: string;
-}
-
-export interface UpstreamDTO {
-  base_url: string;
-  endpoint: string;
-  id?: number;
-  name: string;
-}
-
-/**
- * UpstreamRequest schema
- */
-export interface UpstreamRequest {
-  /** @nullable */
-  channel_ids: number[] | null;
-  timeout: number;
-  /** @nullable */
-  upstreams: UpstreamDTO[] | null;
 }
 
 /**
@@ -13592,7 +13596,7 @@ export const getFetchUpstreamRatiosUrl = () => {
  * @summary Fetch Upstream Ratios
  */
 export const fetchUpstreamRatios = async (
-  upstreamRequest: UpstreamRequest,
+  fetchUpstreamRatiosRequest: FetchUpstreamRatiosRequest,
   options?: Parameters<typeof customFetch>[1],
 ): Promise<fetchUpstreamRatiosResponse> => {
   const getHeaders = (
@@ -13623,7 +13627,7 @@ export const fetchUpstreamRatios = async (
       "Content-Type": "application/json",
       ...getHeaders(options?.headers),
     },
-    body: JSON.stringify(upstreamRequest),
+    body: JSON.stringify(fetchUpstreamRatiosRequest),
   });
 };
 

@@ -32,11 +32,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
-// default_reasoning_effort and prompt_cache are served by the gateway ahead of the generated spec.
-export type TokenRow = NonNullable<TokenResponse> & {
-  default_reasoning_effort?: string;
-  prompt_cache?: string;
-};
+export type TokenRow = NonNullable<TokenResponse>;
 
 const MODEL_PREVIEW_CAP = 12;
 // A token spanning every vendor rendered ~45 icons, widening the row past the

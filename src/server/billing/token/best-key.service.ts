@@ -83,6 +83,7 @@ async function createAutoToken(
       group_mapping: "",
       auto_groups: null,
       allow_user_quota_query: null,
+      prompt_cache: null,
     },
     { headers },
   );
