@@ -47,18 +47,21 @@ function EntityPicker(props: {
 }) {
   const options = props.options ?? [];
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex min-w-0 flex-col gap-1">
       <span className="text-muted-foreground text-xs">{props.label}</span>
       <Select
         value={props.value ?? NONE_VALUE}
         onValueChange={(v) => props.onChange(v === NONE_VALUE ? null : v)}
       >
-        <SelectTrigger className="h-8">
-          <SelectValue>
+        <SelectTrigger className="h-8 w-full min-w-0">
+          <SelectValue className="min-w-0">
             {(value: string) => {
-              if (value === NONE_VALUE) return props.noneLabel;
               const match = options.find((o) => o.id === value);
-              return match ? entityLabel(match) : props.noneLabel;
+              return (
+                <span className="truncate">
+                  {match ? entityLabel(match) : props.noneLabel}
+                </span>
+              );
             }}
           </SelectValue>
         </SelectTrigger>
