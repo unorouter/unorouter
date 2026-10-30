@@ -120,6 +120,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     ...(env.googleSiteVerification && {
       verification: { google: env.googleSiteVerification },
     }),
+    other: { "google-adsense-account": "ca-pub-8476786816449555" },
     alternates: {
       canonical: canonicalPath,
       languages: buildAlternateLanguages(canonicalTarget),
