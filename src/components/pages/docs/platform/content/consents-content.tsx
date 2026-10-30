@@ -18,7 +18,7 @@ export const CONSENT_ERROR = `HTTP/1.1 403 Forbidden
 {
   "error": {
     "code": "consent_required",
-    "message": "claude-opus-5.5 needs your consent for these providers: a7 (China), ih (Indonesia), pol (Hong Kong). Give it once at https://${APP_VALUES.appDomain}/consents?model=claude-opus-5.5; it covers every model these providers serve. (request id: ...)",
+    "message": "claude-opus-5.5 needs your consent for these providers: relay-a (China), relay-b (Indonesia), relay-c (Hong Kong). Give it once at https://${APP_VALUES.appDomain}/consents?model=claude-opus-5.5; it covers every model these providers serve. (request id: ...)",
     "param": "CN-19,ID-01,HK-01",
     "type": "new_api_error"
   }

@@ -43,7 +43,7 @@ type Props = {
 };
 
 // Group names are `{provider}-{sanitized-model}`; strip the trailing model slug
-// so the per-provider rows read as just the provider (trp1, kilo1, nvda1...).
+// so the per-provider rows read as just the provider.
 function providerLabel(group: string, modelName: string): string {
   const slug = modelSlug(modelName).replace(/[^a-z0-9]+/gi, "-");
   const suffix = `-${slug}`;

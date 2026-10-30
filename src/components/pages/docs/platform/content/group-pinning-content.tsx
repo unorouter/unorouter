@@ -14,7 +14,7 @@ const P = "DOCS_PLATFORM.GROUP_PINNING";
 const HEADER_OVERRIDE_CURL = `curl https://api.${APP_VALUES.appDomain}/v1/chat/completions \\
   -H "Authorization: Bearer $UNOROUTER_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -H "X-Group: glm-new-pol-glm-5.2" \\
+  -H "X-Group: glm-new-relay-glm-5.2" \\
   -d '{
     "model": "glm-5.2",
     "messages": [{ "role": "user", "content": "Hello" }]
