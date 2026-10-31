@@ -90,7 +90,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
       <SheetContent side="right" className="overflow-y-auto sm:max-w-2xl">
         <SheetHeader className="border-border border-b pb-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pr-10">
             <span
               className={`flex size-11 shrink-0 items-center justify-center rounded-lg border ${theme.bg} ${theme.border}`}
             >
