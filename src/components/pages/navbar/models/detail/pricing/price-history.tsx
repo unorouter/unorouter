@@ -8,7 +8,7 @@ import { usePriceHistoryQuery } from "@/hooks/models/price-history-hook";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatUtcDay } from "@/lib/utils/format/date";
-import { formatPrice, QUOTA_TO_USD } from "@/lib/utils/format/number";
+import { formatPriceCompact, QUOTA_TO_USD } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import {
   Line,
@@ -59,8 +59,8 @@ export function PriceHistory(props: {
         </span>
         <span className={cn("font-mono text-xs", props.theme.text)}>
           {t("MODEL_PAGE.PRICE_LOW_VALUE", {
-            input: formatPrice(input),
-            output: formatPrice(output),
+            input: formatPriceCompact(input),
+            output: formatPriceCompact(output),
           })}
         </span>
         <span
@@ -103,14 +103,14 @@ export function PriceHistory(props: {
                 tickLine={false}
                 axisLine={false}
                 width={56}
-                tickFormatter={(v: number) => formatPrice(v)}
+                tickFormatter={(v: number) => formatPriceCompact(v)}
                 domain={["auto", "auto"]}
               />
               <Tooltip
                 contentStyle={CHART_TOOLTIP_STYLE}
                 labelStyle={CHART_TOOLTIP_LABEL_STYLE}
                 formatter={(v) => [
-                  formatPrice(Number(v)),
+                  formatPriceCompact(Number(v)),
                   t("MODEL_PAGE.PRICE_LOW_CHART"),
                 ]}
               />

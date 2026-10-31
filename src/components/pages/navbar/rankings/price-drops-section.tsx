@@ -4,7 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { usePriceDropsQuery } from "@/hooks/models/price-history-hook";
 import { formatUtcDay } from "@/lib/utils/format/date";
-import { formatPrice, QUOTA_TO_USD } from "@/lib/utils/format/number";
+import { formatPriceCompact, QUOTA_TO_USD } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -63,10 +63,10 @@ export function PriceDropsSection() {
               <div className="shrink-0 text-right font-mono text-[11px] tabular-nums">
                 <div className="text-muted-foreground">
                   <span className="line-through">
-                    {formatPrice(row.previous_ratio * QUOTA_TO_USD)}
+                    {formatPriceCompact(row.previous_ratio * QUOTA_TO_USD)}
                   </span>{" "}
                   <span className="text-foreground">
-                    {formatPrice(row.ratio * QUOTA_TO_USD)}
+                    {formatPriceCompact(row.ratio * QUOTA_TO_USD)}
                   </span>
                 </div>
                 <div className="font-semibold text-emerald-700 dark:text-emerald-400">
