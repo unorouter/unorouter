@@ -109,16 +109,49 @@ export async function pushServiceBroken(): Promise<boolean> {
   }
 }
 
+const PUSH_SYNC_KEY = "notify-push-sync";
+const PUSH_SYNC_TTL_MS = 6 * 60 * 60 * 1000;
+
+// An unchanged subscription is not re-sent within the TTL: the gateway rate limits subscribe per IP.
+function pushSyncFresh(sig: string): boolean {
+  try {
+    const saved: unknown = JSON.parse(
+      localStorage.getItem(PUSH_SYNC_KEY) ?? "null",
+    );
+    if (!saved || typeof saved !== "object") return false;
+    if (!("sig" in saved) || !("at" in saved)) return false;
+    return (
+      saved.sig === sig && Date.now() - Number(saved.at) < PUSH_SYNC_TTL_MS
+    );
+  } catch {
+    return false;
+  }
+}
+
+function rememberPushSync(sig: string | null) {
+  try {
+    if (sig)
+      localStorage.setItem(
+        PUSH_SYNC_KEY,
+        JSON.stringify({ sig, at: Date.now() }),
+      );
+    else localStorage.removeItem(PUSH_SYNC_KEY);
+  } catch {}
+}
+
 export async function syncPushTopics(
   topics: string[],
   locale: string,
 ): Promise<boolean> {
   const sub = await getPushSubscription();
   if (!sub) return false;
+  const sig = JSON.stringify([sub.endpoint, [...topics].sort(), locale]);
+  if (pushSyncFresh(sig)) return true;
   if (topics.length === 0) {
     await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(
       () => undefined,
     );
+    rememberPushSync(sig);
     return true;
   }
   const json = sub.toJSON();
@@ -128,7 +161,9 @@ export async function syncPushTopics(
     topics,
     locale,
   }).catch(() => null);
-  return res?.data.success === true;
+  const ok = res?.data.success === true;
+  rememberPushSync(ok ? sig : null);
+  return ok;
 }
 
 export async function showOsBanner(title: string, body: string, tag: string) {
@@ -150,6 +185,7 @@ export async function showOsBanner(title: string, body: string, tag: string) {
 }
 
 export async function unsubscribePush(): Promise<void> {
+  rememberPushSync(null);
   const sub = await getPushSubscription();
   if (!sub) return;
   await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(
