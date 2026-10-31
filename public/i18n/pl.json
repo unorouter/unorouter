@@ -555,7 +555,16 @@
       "GENERIC": "Nie można załadować danych rankingów. Spróbuj ponownie później.",
       "NO_HISTORY": "Brak danych historycznych"
     },
-    "DISCORD": "Porozmawiaj o wydajności modeli na Discordzie"
+    "DISCORD": "Porozmawiaj o wydajności modeli na Discordzie",
+    "PRICE_DROPS": {
+      "TITLE": "Obniżki cen",
+      "SUBTITLE": "Nowe minima, co najmniej 10% poniżej najniższej ceny z poprzedniego tygodnia",
+      "LOADING": "Ładowanie obniżek cen",
+      "EMPTY": "Brak obniżek cen w ostatnich 14 dniach",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "Pokaż wszystkie ({count})",
+      "SHOW_LESS": "Pokaż mniej"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "Jaka jest granica wiedzy {name}?",
     "FAQ_CUTOFF_A": "Granica wiedzy {name} to {value}.",
     "FAQ_MODERATED_Q": "Czy {name} jest moderowany?",
-    "FAQ_MODERATED_A": "Tak. Zapytania do {name} przechodzą przez moderację treści."
+    "FAQ_MODERATED_A": "Tak. Zapytania do {name} przechodzą przez moderację treści.",
+    "PRICE_LOW_TITLE": "Najniższa cena, ostatnie 7 dni",
+    "PRICE_LOW_VALUE": "{input} wejście / {output} wyjście za 1M",
+    "PRICE_LOW_LIVE": "Aktywny",
+    "PRICE_LOW_OFFLINE": "Offline",
+    "PRICE_LOW_SEEN": "Najtaniej {day}",
+    "PRICE_LOW_CHART": "Najniższa cena wejścia"
   },
   "PRICING": {
     "FEATURE": {

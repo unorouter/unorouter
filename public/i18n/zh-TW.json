@@ -555,7 +555,16 @@
       "GENERIC": "無法載入排行榜資料，請稍後再試。",
       "NO_HISTORY": "暫無歷史資料"
     },
-    "DISCORD": "在 Discord 上討論模型表現"
+    "DISCORD": "在 Discord 上討論模型表現",
+    "PRICE_DROPS": {
+      "TITLE": "降價",
+      "SUBTITLE": "新低價，比前一週最低價至少低 10%",
+      "LOADING": "正在載入降價資訊",
+      "EMPTY": "近 14 天沒有降價",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "顯示全部（{count}）",
+      "SHOW_LESS": "收合"
+    }
   },
   "BLOG": {
     "META_TITLE": "部落格｜{appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "{name} 的知識截止時間是什麼？",
     "FAQ_CUTOFF_A": "{name} 的知識截止時間為 {value}。",
     "FAQ_MODERATED_Q": "{name} 會被內容審核嗎？",
-    "FAQ_MODERATED_A": "是的。傳送給 {name} 的提示會經過內容審核。"
+    "FAQ_MODERATED_A": "是的。傳送給 {name} 的提示會經過內容審核。",
+    "PRICE_LOW_TITLE": "近 7 天最低價",
+    "PRICE_LOW_VALUE": "輸入 {input} / 輸出 {output}（每百萬）",
+    "PRICE_LOW_LIVE": "上線",
+    "PRICE_LOW_OFFLINE": "離線",
+    "PRICE_LOW_SEEN": "{day} 最低",
+    "PRICE_LOW_CHART": "最低輸入價格"
   },
   "PRICING": {
     "FEATURE": {

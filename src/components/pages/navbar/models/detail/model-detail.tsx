@@ -27,6 +27,7 @@ import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
 import { CodeExamplesTabs } from "./tabs/code-examples-tabs";
 import { GridPricingTable } from "./pricing/grid-pricing-table";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
+import { PriceHistory } from "./pricing/price-history";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
@@ -356,6 +357,7 @@ print(res.choices[0].message.content)`;
                   />
                 </div>
               )}
+              {!m.is_fixed_price && <PriceHistory model={m} theme={theme} />}
               {m.enable_groups.length > 0 && !m.is_tiered && (
                 <GroupPricingSection
                   model={m}

@@ -555,7 +555,16 @@
       "GENERIC": "Sıralama verileri yüklenemiyor. Lütfen daha sonra tekrar deneyin.",
       "NO_HISTORY": "Geçmiş veri mevcut değil"
     },
-    "DISCORD": "Model performansını Discord'da tartış"
+    "DISCORD": "Model performansını Discord'da tartış",
+    "PRICE_DROPS": {
+      "TITLE": "Fiyat düşüşleri",
+      "SUBTITLE": "Yeni dipler, önceki haftanın en ucuz fiyatının en az %10 altında",
+      "LOADING": "Fiyat düşüşleri yükleniyor",
+      "EMPTY": "Son 14 günde fiyat düşüşü yok",
+      "PCT": "-%{pct}",
+      "SHOW_ALL": "Tümünü göster ({count})",
+      "SHOW_LESS": "Daha az göster"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "{name} bilgi kesim tarihi nedir?",
     "FAQ_CUTOFF_A": "{name} bilgi kesim tarihi {value}.",
     "FAQ_MODERATED_Q": "{name} denetleniyor mu?",
-    "FAQ_MODERATED_A": "Evet. {name} istekleri içerik denetiminden geçer."
+    "FAQ_MODERATED_A": "Evet. {name} istekleri içerik denetiminden geçer.",
+    "PRICE_LOW_TITLE": "En düşük fiyat, son 7 gün",
+    "PRICE_LOW_VALUE": "1M başına {input} girdi / {output} çıktı",
+    "PRICE_LOW_LIVE": "Aktif",
+    "PRICE_LOW_OFFLINE": "Çevrimdışı",
+    "PRICE_LOW_SEEN": "En ucuz: {day}",
+    "PRICE_LOW_CHART": "En düşük girdi fiyatı"
   },
   "PRICING": {
     "FEATURE": {

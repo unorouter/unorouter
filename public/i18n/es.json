@@ -555,7 +555,16 @@
       "GENERIC": "No se pueden cargar los datos de clasificaciones. Inténtalo más tarde.",
       "NO_HISTORY": "No hay datos de historial disponibles"
     },
-    "DISCORD": "Comenta el rendimiento de los modelos en Discord"
+    "DISCORD": "Comenta el rendimiento de los modelos en Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Bajadas de precio",
+      "SUBTITLE": "Nuevos mínimos, al menos un 10 % por debajo del precio más barato de la semana anterior",
+      "LOADING": "Cargando bajadas de precio",
+      "EMPTY": "Sin bajadas de precio en los últimos 14 días",
+      "PCT": "-{pct} %",
+      "SHOW_ALL": "Mostrar los {count}",
+      "SHOW_LESS": "Mostrar menos"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "¿Cuál es el corte de conocimiento de {name}?",
     "FAQ_CUTOFF_A": "El corte de conocimiento de {name} es {value}.",
     "FAQ_MODERATED_Q": "¿{name} está moderado?",
-    "FAQ_MODERATED_A": "Sí. Las solicitudes a {name} pasan por moderación de contenido."
+    "FAQ_MODERATED_A": "Sí. Las solicitudes a {name} pasan por moderación de contenido.",
+    "PRICE_LOW_TITLE": "Precio más bajo, últimos 7 días",
+    "PRICE_LOW_VALUE": "{input} entrada / {output} salida por 1M",
+    "PRICE_LOW_LIVE": "Activo",
+    "PRICE_LOW_OFFLINE": "Sin conexión",
+    "PRICE_LOW_SEEN": "Más barato el {day}",
+    "PRICE_LOW_CHART": "Precio de entrada más bajo"
   },
   "PRICING": {
     "FEATURE": {

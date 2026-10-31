@@ -149,6 +149,9 @@ export const queryKeys = {
   modelRanking: (modelName: string, period: string) =>
     ["model-ranking", modelName, period] as const,
 
+  priceHistory: (modelName: string) => ["price-history", modelName] as const,
+  priceDrops: () => ["price-history", "drops"] as const,
+
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,

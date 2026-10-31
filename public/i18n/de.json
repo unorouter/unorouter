@@ -555,7 +555,16 @@
       "GENERIC": "Die Ranglistendaten konnten nicht geladen werden. Bitte versuche es später erneut.",
       "NO_HISTORY": "Keine Verlaufsdaten verfügbar"
     },
-    "DISCORD": "Diskutiere die Modellleistung auf Discord"
+    "DISCORD": "Diskutiere die Modellleistung auf Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Preissenkungen",
+      "SUBTITLE": "Neue Tiefstwerte, mindestens 10 % unter dem günstigsten Preis der Vorwoche",
+      "LOADING": "Preissenkungen werden geladen",
+      "EMPTY": "Keine Preissenkungen in den letzten 14 Tagen",
+      "PCT": "-{pct} %",
+      "SHOW_ALL": "Alle {count} anzeigen",
+      "SHOW_LESS": "Weniger anzeigen"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "Was ist der Wissensstand von {name}?",
     "FAQ_CUTOFF_A": "Der Wissensstand von {name} ist {value}.",
     "FAQ_MODERATED_Q": "Wird {name} moderiert?",
-    "FAQ_MODERATED_A": "Ja. Anfragen an {name} durchlaufen eine Inhaltsmoderation."
+    "FAQ_MODERATED_A": "Ja. Anfragen an {name} durchlaufen eine Inhaltsmoderation.",
+    "PRICE_LOW_TITLE": "Niedrigster Preis, letzte 7 Tage",
+    "PRICE_LOW_VALUE": "{input} Eingabe / {output} Ausgabe pro 1M",
+    "PRICE_LOW_LIVE": "Live",
+    "PRICE_LOW_OFFLINE": "Offline",
+    "PRICE_LOW_SEEN": "Am günstigsten am {day}",
+    "PRICE_LOW_CHART": "Niedrigster Eingabepreis"
   },
   "PRICING": {
     "FEATURE": {

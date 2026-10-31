@@ -6,6 +6,7 @@ import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { PriceDropsSection } from "./price-drops-section";
 import { PulseSection } from "./pulse-section";
 import { RANKING_PERIODS } from "./rankings-helpers";
 import { RankingsHero } from "./rankings-hero";
@@ -119,6 +120,8 @@ export function Rankings(props: RankingsProps) {
               movers={snapshot.top_movers}
               droppers={snapshot.top_droppers}
             />
+
+            <PriceDropsSection />
           </>
         )}
       </div>

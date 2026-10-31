@@ -555,7 +555,16 @@
       "GENERIC": "לא ניתן לטעון את נתוני הדירוגים. אנא נסו שוב מאוחר יותר.",
       "NO_HISTORY": "אין נתוני היסטוריה זמינים"
     },
-    "DISCORD": "דון בביצועי המודלים בדיסקורד"
+    "DISCORD": "דון בביצועי המודלים בדיסקורד",
+    "PRICE_DROPS": {
+      "TITLE": "ירידות מחיר",
+      "SUBTITLE": "שפל חדש, לפחות 10% מתחת למחיר הזול ביותר בשבוע הקודם",
+      "LOADING": "טוען ירידות מחיר",
+      "EMPTY": "אין ירידות מחיר ב-14 הימים האחרונים",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "הצג הכול ({count})",
+      "SHOW_LESS": "הצג פחות"
+    }
   },
   "BLOG": {
     "META_TITLE": "בלוג | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "מהו מועד עדכון הידע של {name}?",
     "FAQ_CUTOFF_A": "מועד עדכון הידע של {name} הוא {value}.",
     "FAQ_MODERATED_Q": "האם {name} עובר בקרת תוכן?",
-    "FAQ_MODERATED_A": "כן. בקשות אל {name} עוברות בקרת תוכן."
+    "FAQ_MODERATED_A": "כן. בקשות אל {name} עוברות בקרת תוכן.",
+    "PRICE_LOW_TITLE": "המחיר הנמוך ביותר, 7 הימים האחרונים",
+    "PRICE_LOW_VALUE": "{input} קלט / {output} פלט לכל מיליון",
+    "PRICE_LOW_LIVE": "פעיל",
+    "PRICE_LOW_OFFLINE": "לא מקוון",
+    "PRICE_LOW_SEEN": "הזול ביותר ב-{day}",
+    "PRICE_LOW_CHART": "מחיר הקלט הנמוך ביותר"
   },
   "PRICING": {
     "FEATURE": {

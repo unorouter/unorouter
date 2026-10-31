@@ -555,7 +555,16 @@
       "GENERIC": "Unable to load rankings data. Please try again later.",
       "NO_HISTORY": "No history data available"
     },
-    "DISCORD": "Discuss model performance on Discord"
+    "DISCORD": "Discuss model performance on Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Price drops",
+      "SUBTITLE": "New lows, at least 10% under the cheapest price of the week before",
+      "LOADING": "Loading price drops",
+      "EMPTY": "No price drops in the last 14 days",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "Show all {count}",
+      "SHOW_LESS": "Show less"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "What is the knowledge cutoff of {name}?",
     "FAQ_CUTOFF_A": "The knowledge cutoff of {name} is {value}.",
     "FAQ_MODERATED_Q": "Is {name} moderated?",
-    "FAQ_MODERATED_A": "Yes. Prompts to {name} pass through content moderation."
+    "FAQ_MODERATED_A": "Yes. Prompts to {name} pass through content moderation.",
+    "PRICE_LOW_TITLE": "Lowest price, last 7 days",
+    "PRICE_LOW_VALUE": "{input} in / {output} out per 1M",
+    "PRICE_LOW_LIVE": "Live",
+    "PRICE_LOW_OFFLINE": "Offline",
+    "PRICE_LOW_SEEN": "Cheapest on {day}",
+    "PRICE_LOW_CHART": "Lowest input price"
   },
   "PRICING": {
     "FEATURE": {

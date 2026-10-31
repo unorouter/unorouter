@@ -555,7 +555,16 @@
       "GENERIC": "Impossible de charger les données de classement. Réessayez plus tard.",
       "NO_HISTORY": "Aucune donnée historique disponible"
     },
-    "DISCORD": "Discutez des performances des modèles sur Discord"
+    "DISCORD": "Discutez des performances des modèles sur Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Baisses de prix",
+      "SUBTITLE": "Nouveaux plus bas, au moins 10 % sous le prix le plus bas de la semaine précédente",
+      "LOADING": "Chargement des baisses de prix",
+      "EMPTY": "Aucune baisse de prix ces 14 derniers jours",
+      "PCT": "-{pct} %",
+      "SHOW_ALL": "Tout afficher ({count})",
+      "SHOW_LESS": "Afficher moins"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "Quelle est la date limite de connaissances de {name} ?",
     "FAQ_CUTOFF_A": "La date limite de connaissances de {name} est {value}.",
     "FAQ_MODERATED_Q": "{name} est-il modéré ?",
-    "FAQ_MODERATED_A": "Oui. Les requêtes vers {name} passent par une modération de contenu."
+    "FAQ_MODERATED_A": "Oui. Les requêtes vers {name} passent par une modération de contenu.",
+    "PRICE_LOW_TITLE": "Prix le plus bas, 7 derniers jours",
+    "PRICE_LOW_VALUE": "{input} en entrée / {output} en sortie par 1M",
+    "PRICE_LOW_LIVE": "En ligne",
+    "PRICE_LOW_OFFLINE": "Hors ligne",
+    "PRICE_LOW_SEEN": "Le moins cher le {day}",
+    "PRICE_LOW_CHART": "Prix d'entrée le plus bas"
   },
   "PRICING": {
     "FEATURE": {

@@ -555,7 +555,16 @@
       "GENERIC": "Không thể tải dữ liệu bảng xếp hạng. Vui lòng thử lại sau.",
       "NO_HISTORY": "Không có dữ liệu lịch sử"
     },
-    "DISCORD": "Thảo luận về hiệu suất mô hình trên Discord"
+    "DISCORD": "Thảo luận về hiệu suất mô hình trên Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Giảm giá",
+      "SUBTITLE": "Mức thấp mới, thấp hơn ít nhất 10% so với giá rẻ nhất của tuần trước",
+      "LOADING": "Đang tải các đợt giảm giá",
+      "EMPTY": "Không có đợt giảm giá nào trong 14 ngày qua",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "Hiện tất cả ({count})",
+      "SHOW_LESS": "Thu gọn"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "Mốc kiến thức của {name} là gì?",
     "FAQ_CUTOFF_A": "Mốc kiến thức của {name} là {value}.",
     "FAQ_MODERATED_Q": "{name} có được kiểm duyệt không?",
-    "FAQ_MODERATED_A": "Có. Các yêu cầu tới {name} đi qua kiểm duyệt nội dung."
+    "FAQ_MODERATED_A": "Có. Các yêu cầu tới {name} đi qua kiểm duyệt nội dung.",
+    "PRICE_LOW_TITLE": "Giá thấp nhất, 7 ngày qua",
+    "PRICE_LOW_VALUE": "{input} đầu vào / {output} đầu ra mỗi 1M",
+    "PRICE_LOW_LIVE": "Đang hoạt động",
+    "PRICE_LOW_OFFLINE": "Ngoại tuyến",
+    "PRICE_LOW_SEEN": "Rẻ nhất vào {day}",
+    "PRICE_LOW_CHART": "Giá đầu vào thấp nhất"
   },
   "PRICING": {
     "FEATURE": {

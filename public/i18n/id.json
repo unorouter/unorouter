@@ -555,7 +555,16 @@
       "GENERIC": "Tidak dapat memuat data peringkat. Silakan coba lagi nanti.",
       "NO_HISTORY": "Tidak ada data riwayat tersedia"
     },
-    "DISCORD": "Diskusikan performa model di Discord"
+    "DISCORD": "Diskusikan performa model di Discord",
+    "PRICE_DROPS": {
+      "TITLE": "Penurunan harga",
+      "SUBTITLE": "Titik terendah baru, minimal 10% di bawah harga termurah minggu sebelumnya",
+      "LOADING": "Memuat penurunan harga",
+      "EMPTY": "Tidak ada penurunan harga dalam 14 hari terakhir",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "Tampilkan semua ({count})",
+      "SHOW_LESS": "Tampilkan lebih sedikit"
+    }
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "Apa batas pengetahuan {name}?",
     "FAQ_CUTOFF_A": "Batas pengetahuan {name} adalah {value}.",
     "FAQ_MODERATED_Q": "Apakah {name} dimoderasi?",
-    "FAQ_MODERATED_A": "Ya. Permintaan ke {name} melewati moderasi konten."
+    "FAQ_MODERATED_A": "Ya. Permintaan ke {name} melewati moderasi konten.",
+    "PRICE_LOW_TITLE": "Harga terendah, 7 hari terakhir",
+    "PRICE_LOW_VALUE": "{input} input / {output} output per 1M",
+    "PRICE_LOW_LIVE": "Aktif",
+    "PRICE_LOW_OFFLINE": "Offline",
+    "PRICE_LOW_SEEN": "Termurah pada {day}",
+    "PRICE_LOW_CHART": "Harga input terendah"
   },
   "PRICING": {
     "FEATURE": {

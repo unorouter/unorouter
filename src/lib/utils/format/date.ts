@@ -16,6 +16,11 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
+/** A UTC calendar day ("2026-10-31") as "Oct 31", the same day in every timezone. */
+export function formatUtcDay(day: string): string {
+  return dayjs.utc(day).format("MMM D");
+}
+
 export function formatMsDate(ms: number): string {
   if (!ms) return "";
   const d = dayjs(ms);

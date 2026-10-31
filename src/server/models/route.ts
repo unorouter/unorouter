@@ -4,6 +4,7 @@ import { modelRankingRoute } from "./model-ranking/route";
 import { modelStatusRoute } from "./model-status/route";
 import { modelTesterRoute } from "./model-tester/route";
 import { perfMetricsRoute } from "./perf-metrics/route";
+import { priceHistoryRoute } from "./price-history/route";
 import { pricingRoute } from "./pricing/route";
 import { rankingsRoute } from "./rankings/route";
 import { verifyRoute } from "./verify/route";
@@ -15,5 +16,6 @@ export const modelsDomainRoute = new Elysia({ prefix: "/models" })
   .use(rankingsRoute)
   .use(benchmarksRoute)
   .use(modelRankingRoute)
+  .use(priceHistoryRoute)
   .use(verifyRoute)
   .use(modelTesterRoute);

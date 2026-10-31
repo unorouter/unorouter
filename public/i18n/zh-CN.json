@@ -555,7 +555,16 @@
       "GENERIC": "无法加载排行榜数据，请稍后再试。",
       "NO_HISTORY": "暂无历史数据"
     },
-    "DISCORD": "在 Discord 上讨论模型表现"
+    "DISCORD": "在 Discord 上讨论模型表现",
+    "PRICE_DROPS": {
+      "TITLE": "降价",
+      "SUBTITLE": "新低价，比前一周最低价至少低 10%",
+      "LOADING": "正在加载降价信息",
+      "EMPTY": "近 14 天没有降价",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "显示全部（{count}）",
+      "SHOW_LESS": "收起"
+    }
   },
   "BLOG": {
     "META_TITLE": "博客 | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "{name} 的知识截止时间是什么？",
     "FAQ_CUTOFF_A": "{name} 的知识截止时间为 {value}。",
     "FAQ_MODERATED_Q": "{name} 会被内容审核吗？",
-    "FAQ_MODERATED_A": "是的。发送给 {name} 的提示会经过内容审核。"
+    "FAQ_MODERATED_A": "是的。发送给 {name} 的提示会经过内容审核。",
+    "PRICE_LOW_TITLE": "近 7 天最低价",
+    "PRICE_LOW_VALUE": "输入 {input} / 输出 {output}（每百万）",
+    "PRICE_LOW_LIVE": "在线",
+    "PRICE_LOW_OFFLINE": "离线",
+    "PRICE_LOW_SEEN": "{day} 最低",
+    "PRICE_LOW_CHART": "最低输入价格"
   },
   "PRICING": {
     "FEATURE": {

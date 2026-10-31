@@ -555,7 +555,16 @@
       "GENERIC": "랭킹 데이터를 불러올 수 없습니다. 잠시 후 다시 시도하세요.",
       "NO_HISTORY": "사용 가능한 이력 데이터가 없습니다"
     },
-    "DISCORD": "Discord에서 모델 성능에 대해 이야기하세요"
+    "DISCORD": "Discord에서 모델 성능에 대해 이야기하세요",
+    "PRICE_DROPS": {
+      "TITLE": "가격 인하",
+      "SUBTITLE": "전주 최저가보다 10% 이상 낮은 새 최저가",
+      "LOADING": "가격 인하 불러오는 중",
+      "EMPTY": "최근 14일간 가격 인하가 없습니다",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "모두 보기 ({count}개)",
+      "SHOW_LESS": "간단히 보기"
+    }
   },
   "BLOG": {
     "META_TITLE": "블로그 | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "{name} 의 지식 컷오프는?",
     "FAQ_CUTOFF_A": "{name} 의 지식 컷오프는 {value} 입니다.",
     "FAQ_MODERATED_Q": "{name} 은 검열되나요?",
-    "FAQ_MODERATED_A": "예. {name} 에 대한 프롬프트는 콘텐츠 검열을 거칩니다."
+    "FAQ_MODERATED_A": "예. {name} 에 대한 프롬프트는 콘텐츠 검열을 거칩니다.",
+    "PRICE_LOW_TITLE": "최근 7일 최저가",
+    "PRICE_LOW_VALUE": "100만 토큰당 입력 {input} / 출력 {output}",
+    "PRICE_LOW_LIVE": "운영 중",
+    "PRICE_LOW_OFFLINE": "오프라인",
+    "PRICE_LOW_SEEN": "{day} 최저가",
+    "PRICE_LOW_CHART": "최저 입력 가격"
   },
   "PRICING": {
     "FEATURE": {

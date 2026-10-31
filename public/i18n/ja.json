@@ -555,7 +555,16 @@
       "GENERIC": "ランキングデータを読み込めませんでした。しばらくしてからもう一度お試しください。",
       "NO_HISTORY": "履歴データがありません"
     },
-    "DISCORD": "Discord でモデルの性能について語り合う"
+    "DISCORD": "Discord でモデルの性能について語り合う",
+    "PRICE_DROPS": {
+      "TITLE": "値下げ",
+      "SUBTITLE": "前週の最安値より10%以上安い新しい最安値",
+      "LOADING": "値下げを読み込み中",
+      "EMPTY": "過去14日間に値下げはありません",
+      "PCT": "-{pct}%",
+      "SHOW_ALL": "すべて表示（{count}件）",
+      "SHOW_LESS": "表示を減らす"
+    }
   },
   "BLOG": {
     "META_TITLE": "ブログ | {appName}",
@@ -1423,7 +1432,13 @@
     "FAQ_CUTOFF_Q": "{name} の知識のカットオフは？",
     "FAQ_CUTOFF_A": "{name} の知識のカットオフは {value} です。",
     "FAQ_MODERATED_Q": "{name} はモデレーションされますか？",
-    "FAQ_MODERATED_A": "はい。{name} へのプロンプトはコンテンツモデレーションを通過します。"
+    "FAQ_MODERATED_A": "はい。{name} へのプロンプトはコンテンツモデレーションを通過します。",
+    "PRICE_LOW_TITLE": "過去7日間の最安値",
+    "PRICE_LOW_VALUE": "入力 {input} / 出力 {output}（100万トークンあたり）",
+    "PRICE_LOW_LIVE": "稼働中",
+    "PRICE_LOW_OFFLINE": "オフライン",
+    "PRICE_LOW_SEEN": "{day} に最安",
+    "PRICE_LOW_CHART": "最安の入力価格"
   },
   "PRICING": {
     "FEATURE": {
