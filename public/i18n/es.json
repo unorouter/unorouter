@@ -6521,7 +6521,10 @@
     "LABEL": "Oponerme al uso para fines propios",
     "SAVED": "Oposición guardada",
     "WITHDRAWN": "Oposición retirada",
-    "OBJECTED_ERROR": "Te has opuesto a que tus entradas se transmitan a proveedores que las utilizan para sus propios fines, y este modelo se ofrece a través de esos proveedores. Elige otro modelo o retira la oposición en la configuración de tu cuenta o mediante «Gestionar consentimientos» en el chat."
+    "OBJECTED_ERROR": "Tu oposición bloquea este modelo. Te opusiste a los proveedores que usan tus entradas para sus propios fines, por ejemplo para entrenar, y este modelo solo se ofrece a través de ellos. Tus consentimientos no cambian esto, la oposición tiene prioridad. Retira la oposición aquí o elige otro modelo.",
+    "OBJECTED_ERROR_PROVIDERS": "Tu oposición bloquea este modelo. Te opusiste a los proveedores que usan tus entradas para sus propios fines, por ejemplo para entrenar, y todos los proveedores de este modelo lo hacen: {providers}. Tus consentimientos no cambian esto, la oposición tiene prioridad.",
+    "WITHDRAW_BUTTON": "Retirar la oposición",
+    "ACTIVE_NOTE": "Tu oposición al uso para fines propios está activa. Sigue bloqueando a los proveedores que usan tus entradas para sus propios fines, incluso después de que des tu consentimiento aquí."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consentimiento para la transferencia de tus entradas a estos proveedores",

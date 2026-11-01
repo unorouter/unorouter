@@ -6521,7 +6521,10 @@
     "LABEL": "M'opposer à l'utilisation à leurs propres fins",
     "SAVED": "Opposition enregistrée",
     "WITHDRAWN": "Opposition retirée",
-    "OBJECTED_ERROR": "Tu t'es opposé à la transmission de tes saisies à des fournisseurs qui les utilisent à leurs propres fins, et ce modèle est proposé par l'intermédiaire de tels fournisseurs. Choisis un autre modèle ou retire l'opposition dans les paramètres de ton compte ou via « Gérer les consentements » dans le chat."
+    "OBJECTED_ERROR": "Ton opposition bloque ce modèle. Tu t'es opposé aux fournisseurs qui utilisent tes saisies à leurs propres fins, par exemple pour l'entraînement, et ce modèle n'est proposé que par de tels fournisseurs. Tes consentements n'y changent rien, l'opposition prime. Retire l'opposition ici ou choisis un autre modèle.",
+    "OBJECTED_ERROR_PROVIDERS": "Ton opposition bloque ce modèle. Tu t'es opposé aux fournisseurs qui utilisent tes saisies à leurs propres fins, par exemple pour l'entraînement, et tous les fournisseurs de ce modèle le font : {providers}. Tes consentements n'y changent rien, l'opposition prime.",
+    "WITHDRAW_BUTTON": "Retirer l'opposition",
+    "ACTIVE_NOTE": "Ton opposition à l'utilisation à des fins propres est active. Elle bloque toujours les fournisseurs qui utilisent tes saisies à leurs propres fins, même après ton consentement ici."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consentement au transfert de tes saisies vers ces fournisseurs",

@@ -282,6 +282,7 @@ function appendStreamErrorItem(
       message: streamError.message,
       ...(resolvedModel && { model: resolvedModel }),
       ...(streamError.code && { code: streamError.code }),
+      ...(streamError.param && { param: streamError.param }),
       ...(streamError.status && { status: streamError.status }),
       ...(streamError.requestId && { requestId: streamError.requestId }),
     },

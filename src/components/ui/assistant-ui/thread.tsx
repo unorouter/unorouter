@@ -18,6 +18,11 @@ import {
   ReasoningGroup,
 } from "@/components/ui/assistant-ui/reasoning";
 import { TaskCardRenderer } from "@/components/ui/assistant-ui/task-card";
+import {
+  objectedProvidersText,
+  OwnPurposeObjectionWithdrawButton,
+  parseObjectedProviders,
+} from "@/components/elements/model/own-purpose-objection-withdraw";
 import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
@@ -46,6 +51,8 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { partsToItems } from "@/lib/ai/chat/messages";
+import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
+import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { copyToClipboard } from "@/lib/utils/base";
@@ -88,7 +95,7 @@ import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import {
@@ -925,6 +932,7 @@ type StreamErrorDetail = {
   message: string;
   status?: number | null;
   code?: string | null;
+  param?: string | null;
   requestId?: string | null;
 };
 
@@ -943,6 +951,7 @@ function parseStreamErrorEnvelope(raw: string): StreamErrorDetail {
           message: m,
           status: typeof parsed.status === "number" ? parsed.status : null,
           code: typeof parsed.code === "string" ? parsed.code : null,
+          param: typeof parsed.param === "string" ? parsed.param : null,
           requestId:
             typeof parsed.requestId === "string" ? parsed.requestId : null,
         };
@@ -952,14 +961,33 @@ function parseStreamErrorEnvelope(raw: string): StreamErrorDetail {
   return { message: raw };
 }
 
+// The guest check in the BFF throws the bare key, without the gateway code.
+function isObjection(code: string | null | undefined, message: string) {
+  return (
+    code === OWN_PURPOSE_OBJECTED ||
+    message === msg("OWN_PURPOSE.OBJECTED_ERROR")
+  );
+}
+
 const ErrorCard: FC<{
   message: string;
   model?: string;
   code?: string | null;
+  param?: string | null;
   status?: number | null;
   requestId?: string | null;
+  objection?: boolean;
 }> = (props) => {
   const t = useTranslations();
+  const locale = useLocale();
+  const blocking = props.objection ? parseObjectedProviders(props.param) : [];
+  const message = !props.objection
+    ? props.message
+    : blocking.length > 0
+      ? t("OWN_PURPOSE.OBJECTED_ERROR_PROVIDERS", {
+          providers: objectedProvidersText(blocking, locale),
+        })
+      : t("OWN_PURPOSE.OBJECTED_ERROR");
   const displayModel =
     props.model && isCustomModelId(props.model)
       ? (parseCustomModelId(props.model)?.modelKey ?? props.model)
@@ -974,7 +1002,7 @@ const ErrorCard: FC<{
     props.status ? `status: ${props.status}` : null,
     props.code ? `code: ${props.code}` : null,
     props.requestId ? `request id: ${props.requestId}` : null,
-    `message: ${props.message}`,
+    `message: ${message}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -985,7 +1013,7 @@ const ErrorCard: FC<{
     >
       <div className="flex items-start justify-between gap-2">
         <span className="aui-message-error-message min-w-0">
-          {displayModel ? `${displayModel}: ${props.message}` : props.message}
+          {displayModel ? `${displayModel}: ${message}` : message}
         </span>
         <TooltipIconButton
           tooltip={t("CHAT.ACTION.COPY")}
@@ -998,6 +1026,9 @@ const ErrorCard: FC<{
           <Icon name="copy" className="h-3.5 w-3.5" />
         </TooltipIconButton>
       </div>
+      {props.objection && (
+        <OwnPurposeObjectionWithdrawButton className="mt-2" />
+      )}
       {meta.length > 0 && (
         <div className="mt-1.5 flex min-w-0 flex-wrap gap-x-2 gap-y-0.5 font-mono text-[11px] opacity-70">
           {meta.map((m) => (
@@ -1016,6 +1047,7 @@ const PersistedErrorPart: FC<{
     message?: string;
     model?: string;
     code?: string;
+    param?: string;
     status?: number;
     requestId?: string;
   };
@@ -1027,8 +1059,10 @@ const PersistedErrorPart: FC<{
       message={data.message}
       model={data.model}
       code={data.code}
+      param={data.param}
       status={data.status}
       requestId={data.requestId}
+      objection={isObjection(data.code, data.message)}
     />
   );
 };
@@ -1046,8 +1080,10 @@ const MessageErrorBody: FC = () => {
     <ErrorCard
       message={message}
       code={detail.code}
+      param={detail.param}
       status={detail.status}
       requestId={detail.requestId}
+      objection={isObjection(detail.code, detail.message)}
     />
   );
 };

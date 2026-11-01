@@ -6521,7 +6521,10 @@
     "LABEL": "Object to use for own purposes",
     "SAVED": "Objection saved",
     "WITHDRAWN": "Objection withdrawn",
-    "OBJECTED_ERROR": "You have objected to your inputs being passed to providers that use them for their own purposes, and this model is offered through such providers. Choose another model or withdraw the objection in your account settings or via \"Manage consents\" in the chat."
+    "OBJECTED_ERROR": "Your objection blocks this model. You objected to providers that use your inputs for their own purposes, for example training, and this model is only offered through such providers. Your consents do not change this, the objection takes priority. Withdraw the objection here or choose another model.",
+    "OBJECTED_ERROR_PROVIDERS": "Your objection blocks this model. You objected to providers that use your inputs for their own purposes, for example training, and every provider of it does: {providers}. Your consents do not change this, the objection takes priority.",
+    "WITHDRAW_BUTTON": "Withdraw objection",
+    "ACTIVE_NOTE": "Your objection to use for own purposes is active. It still blocks providers that use your inputs for their own purposes, even after you consent here."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consent to the transfer of your inputs to these providers",

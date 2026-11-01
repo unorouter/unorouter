@@ -250,6 +250,12 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
           data: {
             message: String(data.message ?? ""),
             ...(typeof data.model === "string" && { model: data.model }),
+            ...(typeof data.code === "string" && { code: data.code }),
+            ...(typeof data.param === "string" && { param: data.param }),
+            ...(typeof data.status === "number" && { status: data.status }),
+            ...(typeof data.requestId === "string" && {
+              requestId: data.requestId,
+            }),
           },
         });
         break;

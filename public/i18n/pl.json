@@ -6521,7 +6521,10 @@
     "LABEL": "Sprzeciwiam się wykorzystaniu do własnych celów",
     "SAVED": "Sprzeciw zapisany",
     "WITHDRAWN": "Sprzeciw wycofany",
-    "OBJECTED_ERROR": "Wniosłeś sprzeciw wobec przekazywania Twoich danych wejściowych dostawcom, którzy wykorzystują je do własnych celów, a ten model jest oferowany za pośrednictwem takich dostawców. Wybierz inny model albo wycofaj sprzeciw w ustawieniach konta lub przez „Zarządzaj zgodami” w czacie."
+    "OBJECTED_ERROR": "Twój sprzeciw blokuje ten model. Sprzeciwiłeś się dostawcom, którzy wykorzystują Twoje dane wejściowe do własnych celów, na przykład do trenowania, a ten model jest oferowany tylko przez takich dostawców. Twoje zgody tego nie zmieniają, sprzeciw ma pierwszeństwo. Wycofaj sprzeciw tutaj lub wybierz inny model.",
+    "OBJECTED_ERROR_PROVIDERS": "Twój sprzeciw blokuje ten model. Sprzeciwiłeś się dostawcom, którzy wykorzystują Twoje dane wejściowe do własnych celów, na przykład do trenowania, a robi to każdy dostawca tego modelu: {providers}. Twoje zgody tego nie zmieniają, sprzeciw ma pierwszeństwo.",
+    "WITHDRAW_BUTTON": "Wycofaj sprzeciw",
+    "ACTIVE_NOTE": "Twój sprzeciw wobec wykorzystania do własnych celów jest aktywny. Nadal blokuje dostawców, którzy wykorzystują Twoje dane wejściowe do własnych celów, nawet po wyrażeniu zgody tutaj."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Zgoda na przekazanie Twoich danych wejściowych tym dostawcom",

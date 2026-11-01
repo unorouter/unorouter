@@ -6521,7 +6521,10 @@
     "LABEL": "Der Nutzung für eigene Zwecke widersprechen",
     "SAVED": "Widerspruch gespeichert",
     "WITHDRAWN": "Widerspruch zurückgenommen",
-    "OBJECTED_ERROR": "Du hast der Weitergabe deiner Eingaben an Anbieter widersprochen, die sie für eigene Zwecke nutzen, und dieses Modell wird über solche Anbieter angeboten. Wähle ein anderes Modell oder nimm den Widerspruch in den Kontoeinstellungen oder über „Einwilligungen verwalten“ im Chat zurück."
+    "OBJECTED_ERROR": "Dein Widerspruch sperrt dieses Modell. Du hast der Weitergabe an Anbieter widersprochen, die deine Eingaben für eigene Zwecke nutzen, etwa zum Training, und dieses Modell wird nur über solche Anbieter angeboten. Deine Einwilligungen ändern daran nichts, der Widerspruch hat Vorrang. Widerrufe den Widerspruch hier oder wähle ein anderes Modell.",
+    "OBJECTED_ERROR_PROVIDERS": "Dein Widerspruch sperrt dieses Modell. Du hast der Weitergabe an Anbieter widersprochen, die deine Eingaben für eigene Zwecke nutzen, etwa zum Training, und jeder Anbieter dieses Modells tut das: {providers}. Deine Einwilligungen ändern daran nichts, der Widerspruch hat Vorrang.",
+    "WITHDRAW_BUTTON": "Widerspruch zurücknehmen",
+    "ACTIVE_NOTE": "Dein Widerspruch gegen die Nutzung für eigene Zwecke ist aktiv. Er sperrt Anbieter, die deine Eingaben für eigene Zwecke nutzen, auch nachdem du hier einwilligst."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Einwilligung in die Übermittlung deiner Eingaben an diese Anbieter",

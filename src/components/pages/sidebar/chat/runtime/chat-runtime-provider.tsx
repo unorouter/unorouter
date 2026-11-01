@@ -203,6 +203,7 @@ function ChatRuntimeHook() {
         message: mapped ? t(mapped) : detail.message,
         at: Date.now(),
         code: detail.code,
+        param: detail.param,
         status: detail.status,
         requestId: detail.requestId,
       });

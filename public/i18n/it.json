@@ -6521,7 +6521,10 @@
     "LABEL": "Mi oppongo all'uso per scopi propri",
     "SAVED": "Opposizione salvata",
     "WITHDRAWN": "Opposizione revocata",
-    "OBJECTED_ERROR": "Ti sei opposto alla trasmissione dei tuoi input a fornitori che li utilizzano per scopi propri, e questo modello è offerto tramite tali fornitori. Scegli un altro modello oppure revoca l'opposizione nelle impostazioni del tuo account o tramite «Gestisci consensi» nella chat."
+    "OBJECTED_ERROR": "La tua opposizione blocca questo modello. Ti sei opposto ai fornitori che usano i tuoi input per scopi propri, ad esempio per l'addestramento, e questo modello è offerto solo tramite tali fornitori. I tuoi consensi non cambiano nulla, l'opposizione ha la precedenza. Ritira l'opposizione qui o scegli un altro modello.",
+    "OBJECTED_ERROR_PROVIDERS": "La tua opposizione blocca questo modello. Ti sei opposto ai fornitori che usano i tuoi input per scopi propri, ad esempio per l'addestramento, e tutti i fornitori di questo modello lo fanno: {providers}. I tuoi consensi non cambiano nulla, l'opposizione ha la precedenza.",
+    "WITHDRAW_BUTTON": "Ritira l'opposizione",
+    "ACTIVE_NOTE": "La tua opposizione all'uso per scopi propri è attiva. Continua a bloccare i fornitori che usano i tuoi input per scopi propri, anche dopo il tuo consenso qui."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consenso al trasferimento dei tuoi input a questi fornitori",

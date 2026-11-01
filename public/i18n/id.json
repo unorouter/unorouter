@@ -6521,7 +6521,10 @@
     "LABEL": "Ajukan keberatan atas penggunaan untuk tujuan sendiri",
     "SAVED": "Keberatan disimpan",
     "WITHDRAWN": "Keberatan ditarik",
-    "OBJECTED_ERROR": "Kamu telah mengajukan keberatan atas penerusan masukanmu ke penyedia yang menggunakannya untuk tujuan mereka sendiri, dan model ini ditawarkan melalui penyedia tersebut. Pilih model lain atau tarik keberatanmu di pengaturan akunmu atau melalui \"Kelola persetujuan\" di chat."
+    "OBJECTED_ERROR": "Keberatanmu memblokir model ini. Kamu menolak penyedia yang menggunakan masukanmu untuk tujuan mereka sendiri, misalnya pelatihan, dan model ini hanya ditawarkan melalui penyedia seperti itu. Persetujuanmu tidak mengubah hal ini, keberatan didahulukan. Tarik keberatan di sini atau pilih model lain.",
+    "OBJECTED_ERROR_PROVIDERS": "Keberatanmu memblokir model ini. Kamu menolak penyedia yang menggunakan masukanmu untuk tujuan mereka sendiri, misalnya pelatihan, dan semua penyedia model ini melakukannya: {providers}. Persetujuanmu tidak mengubah hal ini, keberatan didahulukan.",
+    "WITHDRAW_BUTTON": "Tarik keberatan",
+    "ACTIVE_NOTE": "Keberatanmu terhadap penggunaan untuk tujuan sendiri sedang aktif. Keberatan ini tetap memblokir penyedia yang menggunakan masukanmu untuk tujuan mereka sendiri, bahkan setelah kamu memberi persetujuan di sini."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Persetujuan pemindahan masukanmu ke penyedia ini",

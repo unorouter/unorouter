@@ -71,6 +71,7 @@ function streamErrorText(error: unknown): string {
         : (gatewayCodeMessage(detail.code) ?? detail.message),
     status: detail.status ?? null,
     code: detail.code ?? null,
+    param: detail.param ?? null,
     requestId: detail.requestId ?? null,
   });
 }

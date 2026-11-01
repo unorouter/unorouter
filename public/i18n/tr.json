@@ -6521,7 +6521,10 @@
     "LABEL": "Kendi amaçları için kullanıma itiraz ediyorum",
     "SAVED": "İtiraz kaydedildi",
     "WITHDRAWN": "İtiraz geri alındı",
-    "OBJECTED_ERROR": "Girdilerinin, onları kendi amaçları için kullanan sağlayıcılara iletilmesine itiraz ettin ve bu model bu tür sağlayıcılar aracılığıyla sunuluyor. Başka bir model seç ya da itirazını hesap ayarlarından veya sohbetteki \"Onayları yönet\" üzerinden geri al."
+    "OBJECTED_ERROR": "İtirazın bu modeli engelliyor. Girdilerini kendi amaçları için, örneğin eğitim için kullanan sağlayıcılara itiraz ettin ve bu model yalnızca bu tür sağlayıcılar üzerinden sunuluyor. Onayların bunu değiştirmez, itiraz önceliklidir. İtirazı buradan geri çek veya başka bir model seç.",
+    "OBJECTED_ERROR_PROVIDERS": "İtirazın bu modeli engelliyor. Girdilerini kendi amaçları için, örneğin eğitim için kullanan sağlayıcılara itiraz ettin ve bu modelin tüm sağlayıcıları bunu yapıyor: {providers}. Onayların bunu değiştirmez, itiraz önceliklidir.",
+    "WITHDRAW_BUTTON": "İtirazı geri çek",
+    "ACTIVE_NOTE": "Kendi amaçları için kullanıma itirazın etkin. Burada onay versen bile girdilerini kendi amaçları için kullanan sağlayıcıları engellemeye devam eder."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Girdilerinin bu sağlayıcılara aktarılmasına onay",

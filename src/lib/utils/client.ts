@@ -55,6 +55,8 @@ type ErrorDetail = {
   /** ICU values for `message` when it is a translation key. */
   params?: Record<string, string | number>;
   code?: string;
+  /** The gateway's machine-readable detail next to `code`. */
+  param?: string;
   status?: number;
   requestId?: string;
 };
@@ -134,13 +136,16 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   }
 
   let code: string | undefined;
+  let param: string | undefined;
   if (errObj && typeof errObj === "object") {
     if ("code" in errObj && typeof errObj.code === "string" && errObj.code)
       code = errObj.code;
+    if ("param" in errObj && typeof errObj.param === "string" && errObj.param)
+      param = errObj.param;
   }
 
   const requestId = message.match(REQUEST_ID_RE)?.[1];
-  return { message, params: found?.params, code, status, requestId };
+  return { message, params: found?.params, code, param, status, requestId };
 }
 
 export function translateFormError(

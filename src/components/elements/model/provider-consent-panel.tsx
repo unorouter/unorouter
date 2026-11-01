@@ -6,6 +6,7 @@ import {
   type Practice,
 } from "@/lib/api/provider-consent";
 import { countryName } from "@/components/elements/model/group-data-policy";
+import { OwnPurposeObjectionWithdrawButton } from "@/components/elements/model/own-purpose-objection-withdraw";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
@@ -15,6 +16,7 @@ import {
   useModelProviderConsentsQuery,
   useProviderConsentsQuery,
 } from "@/hooks/auth/provider-consent-hook";
+import { useOwnPurposeObjectionQuery } from "@/hooks/auth/own-purpose-objection-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
@@ -78,6 +80,7 @@ export function ProviderConsentPanel(props: {
   const token = useApiKey();
   const grantMutation = useGrantProviderConsentMutation();
   const found = useTargets(props);
+  const objectionQuery = useOwnPurposeObjectionQuery();
   const [declined, setDeclined] = useState(false);
 
   if (!found) return <PanelLoader />;
@@ -196,6 +199,14 @@ export function ProviderConsentPanel(props: {
         >
           {title}
         </h2>
+        {objectionQuery.data?.objection && (
+          <div className="border-warning/40 bg-warning/10 space-y-2 rounded-md border p-3">
+            <p className="text-foreground text-sm">
+              {t("OWN_PURPOSE.ACTIVE_NOTE")}
+            </p>
+            <OwnPurposeObjectionWithdrawButton />
+          </div>
+        )}
         {paragraphs.map((paragraph) => (
           <p key={paragraph} className="text-muted-foreground text-sm">
             {paragraph}

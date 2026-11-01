@@ -6521,7 +6521,10 @@
     "LABEL": "Opor-me ao uso para fins próprios",
     "SAVED": "Oposição salva",
     "WITHDRAWN": "Oposição retirada",
-    "OBJECTED_ERROR": "Você se opôs ao repasse das suas entradas a provedores que as usam para fins próprios, e este modelo é oferecido por meio desses provedores. Escolha outro modelo ou retire a oposição nas configurações da sua conta ou em \"Gerenciar consentimentos\" no chat."
+    "OBJECTED_ERROR": "Sua oposição bloqueia este modelo. Você se opôs aos provedores que usam suas entradas para fins próprios, por exemplo treinamento, e este modelo só é oferecido por esses provedores. Seus consentimentos não mudam isso, a oposição tem prioridade. Retire a oposição aqui ou escolha outro modelo.",
+    "OBJECTED_ERROR_PROVIDERS": "Sua oposição bloqueia este modelo. Você se opôs aos provedores que usam suas entradas para fins próprios, por exemplo treinamento, e todos os provedores deste modelo fazem isso: {providers}. Seus consentimentos não mudam isso, a oposição tem prioridade.",
+    "WITHDRAW_BUTTON": "Retirar a oposição",
+    "ACTIVE_NOTE": "Sua oposição ao uso para fins próprios está ativa. Ela continua bloqueando provedores que usam suas entradas para fins próprios, mesmo depois que você consentir aqui."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consentimento para a transferência das suas entradas a estes provedores",

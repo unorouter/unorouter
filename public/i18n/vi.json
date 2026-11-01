@@ -6521,7 +6521,10 @@
     "LABEL": "Phản đối việc sử dụng cho mục đích riêng",
     "SAVED": "Đã lưu phản đối",
     "WITHDRAWN": "Đã rút lại phản đối",
-    "OBJECTED_ERROR": "Bạn đã phản đối việc chuyển dữ liệu bạn nhập cho các nhà cung cấp sử dụng chúng cho mục đích riêng, và mô hình này được cung cấp qua những nhà cung cấp đó. Hãy chọn mô hình khác hoặc rút lại phản đối trong cài đặt tài khoản hoặc qua \"Quản lý đồng ý\" trong chat."
+    "OBJECTED_ERROR": "Sự phản đối của bạn đang chặn mô hình này. Bạn đã phản đối các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, ví dụ để huấn luyện, và mô hình này chỉ được cung cấp qua các nhà cung cấp như vậy. Các sự đồng ý của bạn không thay đổi điều này, sự phản đối được ưu tiên. Hãy rút lại sự phản đối tại đây hoặc chọn mô hình khác.",
+    "OBJECTED_ERROR_PROVIDERS": "Sự phản đối của bạn đang chặn mô hình này. Bạn đã phản đối các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, ví dụ để huấn luyện, và mọi nhà cung cấp của mô hình này đều làm vậy: {providers}. Các sự đồng ý của bạn không thay đổi điều này, sự phản đối được ưu tiên.",
+    "WITHDRAW_BUTTON": "Rút lại sự phản đối",
+    "ACTIVE_NOTE": "Sự phản đối việc sử dụng cho mục đích riêng của bạn đang bật. Nó vẫn chặn các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, kể cả sau khi bạn đồng ý tại đây."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Đồng ý chuyển dữ liệu đầu vào của bạn đến các nhà cung cấp này",

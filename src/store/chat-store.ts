@@ -158,6 +158,7 @@ export type ChatRuntimeState = {
     message: string;
     at: number;
     code?: string;
+    param?: string;
     status?: number;
     requestId?: string;
   } | null;
