@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Brakujące narzędzia build",
       "LINUX_ISSUE_BUILD_DESC": "Niektóre dystrybucje wymagają pakietów budowania:",
       "TOC_FEATURES": "Funkcje",
-      "TOC_CONFIG": "Konfiguracja modelu AI"
+      "TOC_CONFIG": "Konfiguracja modelu AI",
+      "TOC_DESKTOP": "Aplikacja desktopowa Claude",
+      "DESKTOP_TITLE": "Aplikacja desktopowa Claude",
+      "DESKTOP_DESC": "Aplikacja desktopowa, łącznie z kartą Code, nie czyta settings.json ani zmiennych środowiskowych. Bramę bierze z własnych ustawień inferencji zewnętrznej.",
+      "DESKTOP_STEP_1": "Otwórz Help > Troubleshooting > Enable Developer Mode. Aplikacja uruchomi się ponownie z menu Developer.",
+      "DESKTOP_STEP_2": "Otwórz Developer > Configure Third-Party Inference i ustaw Inference provider na Gateway.",
+      "DESKTOP_STEP_3": "Wpisz {url} jako gateway base URL, wklej swój klucz API {appName} jako gateway API key i zostaw schemat uwierzytelniania na Bearer.",
+      "DESKTOP_STEP_4": "Kliknij Apply Changes. Aplikacja uruchomi się ponownie i będzie wysyłać każde zapytanie przez {appName}.",
+      "DESKTOP_MODELS_TITLE": "Wybór modeli",
+      "DESKTOP_MODELS_DESC": "Lista modeli pokazuje tylko modele, których id wygląda jak Claude. Aby użyć innego modelu, dodaj jego id w sekcji Models w tym samym oknie."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Wyeksportuj zmienną wskazaną przez env_key. Codex odczytuje klucz własnego dostawcy ze środowiska; plik auth.json służy wyłącznie do logowania w OpenAI.",
       "STEP_4_TITLE": "Uruchom Codex",
       "STEP_4_DESC": "Uruchom `codex` w katalogu projektu.",
+      "STEP_5_TITLE": "Aplikacja desktopowa Codex",
+      "STEP_5_DESC": "Aplikacja desktopowa czyta ten sam `~/.codex/config.toml`, ale uruchomiona z Docka lub menu Start nie widzi zmiennych powłoki. Wpisz klucz w bloku dostawcy jako `experimental_bearer_token` zamiast env_key, potem całkowicie zamknij aplikację i otwórz ją ponownie.",
       "TS_1_DESC": "Przy błędzie nieobsługiwanego punktu końcowego sprawdź, czy `wire_api` ma wartość `responses`, a bazowy adres URL kończy się na `/v1`.",
       "TS_2_DESC": "Jeśli żądania są nieuwierzytelnione, sprawdź, czy env_key wskazuje zmienną faktycznie wyeksportowaną w powłoce, w której działa codex.",
-      "TS_3_DESC": "Nie możesz użyć zarezerwowanego identyfikatora openai dla własnego dostawcy. Każdy inny identyfikator zadziała, zarówno w model_providers, jak i w model_provider."
+      "TS_3_DESC": "Nie możesz użyć zarezerwowanego identyfikatora openai dla własnego dostawcy. Każdy inny identyfikator zadziała, zarówno w model_providers, jak i w model_provider.",
+      "TS_4_DESC": "Lista modeli w aplikacji desktopowej pokazuje modele OpenAI i jedną pozycję Custom dla twojego głównego modelu. Aby zmienić model, zmień `model` w config.toml i uruchom aplikację ponownie."
     },
     "GEMINI_CLI": {
       "META": {

@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Ferramentas de build faltando",
       "LINUX_ISSUE_BUILD_DESC": "Algumas distribuições precisam das ferramentas de compilação:",
       "TOC_FEATURES": "Características",
-      "TOC_CONFIG": "Configuração de modelo de IA"
+      "TOC_CONFIG": "Configuração de modelo de IA",
+      "TOC_DESKTOP": "App de desktop do Claude",
+      "DESKTOP_TITLE": "App de desktop do Claude",
+      "DESKTOP_DESC": "O app de desktop, incluindo a aba Code, não lê o settings.json nem variáveis de ambiente. Ele pega o gateway das próprias configurações de inferência de terceiros.",
+      "DESKTOP_STEP_1": "Abra Help > Troubleshooting > Enable Developer Mode. O app reinicia com um menu Developer.",
+      "DESKTOP_STEP_2": "Abra Developer > Configure Third-Party Inference e defina Inference provider como Gateway.",
+      "DESKTOP_STEP_3": "Informe {url} como gateway base URL, cole sua chave de API do {appName} como gateway API key e mantenha o esquema de autenticação em Bearer.",
+      "DESKTOP_STEP_4": "Clique em Apply Changes. O app reinicia e envia cada requisição pelo {appName}.",
+      "DESKTOP_MODELS_TITLE": "Escolher modelos",
+      "DESKTOP_MODELS_DESC": "O seletor de modelos só lista modelos cujo id parece ser do Claude. Para usar outro modelo, adicione o id dele em Models na mesma janela."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Exporte a variável indicada em env_key. O Codex lê a chave de um provedor personalizado a partir do ambiente; o auth.json serve apenas para entrar na OpenAI.",
       "STEP_4_TITLE": "Iniciar o Codex",
       "STEP_4_DESC": "Execute `codex` no diretório do seu projeto.",
+      "STEP_5_TITLE": "App de desktop do Codex",
+      "STEP_5_DESC": "O app de desktop lê o mesmo `~/.codex/config.toml`, mas aberto pelo Dock ou pelo menu Iniciar ele não vê as variáveis do seu shell. Coloque a chave no bloco do provedor com `experimental_bearer_token` em vez de env_key, depois feche o app por completo e abra de novo.",
       "TS_1_DESC": "Em erro de endpoint não suportado, confirme que `wire_api` é `responses` e que a URL base termina em `/v1`.",
       "TS_2_DESC": "Se as requisições saírem sem autenticação, confira se env_key aponta para uma variável realmente exportada no shell que executa o codex.",
-      "TS_3_DESC": "Você não pode reutilizar o id reservado openai para um provedor personalizado. Qualquer outro id funciona, tanto em model_providers quanto em model_provider."
+      "TS_3_DESC": "Você não pode reutilizar o id reservado openai para um provedor personalizado. Qualquer outro id funciona, tanto em model_providers quanto em model_provider.",
+      "TS_4_DESC": "O seletor de modelos do app de desktop mostra modelos da OpenAI e uma entrada Custom para o seu modelo principal. Para trocar de modelo, altere `model` no config.toml e reinicie o app."
     },
     "GEMINI_CLI": {
       "META": {

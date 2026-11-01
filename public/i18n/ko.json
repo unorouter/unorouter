@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "빌드 도구 누락",
       "LINUX_ISSUE_BUILD_DESC": "일부 배포판에는 빌드 도구가 필요합니다:",
       "TOC_FEATURES": "기능",
-      "TOC_CONFIG": "AI 모델 설정"
+      "TOC_CONFIG": "AI 모델 설정",
+      "TOC_DESKTOP": "Claude 데스크톱 앱",
+      "DESKTOP_TITLE": "Claude 데스크톱 앱",
+      "DESKTOP_DESC": "데스크톱 앱은 Code 탭을 포함해 settings.json이나 환경 변수를 읽지 않습니다. 게이트웨이는 앱 자체의 서드파티 추론 설정에서 가져옵니다.",
+      "DESKTOP_STEP_1": "Help > Troubleshooting > Enable Developer Mode를 엽니다. 앱이 Developer 메뉴와 함께 다시 시작됩니다.",
+      "DESKTOP_STEP_2": "Developer > Configure Third-Party Inference를 열고 Inference provider를 Gateway로 설정합니다.",
+      "DESKTOP_STEP_3": "gateway base URL에 {url}을 입력하고, {appName} API 키를 gateway API key에 붙여 넣고, 인증 방식은 Bearer로 둡니다.",
+      "DESKTOP_STEP_4": "Apply Changes를 누릅니다. 앱이 다시 시작되고 모든 요청을 {appName}을 통해 보냅니다.",
+      "DESKTOP_MODELS_TITLE": "모델 선택",
+      "DESKTOP_MODELS_DESC": "모델 선택기에는 ID가 Claude처럼 보이는 모델만 표시됩니다. 다른 모델을 쓰려면 같은 창의 Models에 해당 ID를 추가하세요."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "env_key에 지정한 변수를 export하세요. Codex는 사용자 지정 공급자의 키를 환경 변수에서 읽습니다. auth.json은 OpenAI 로그인 전용입니다.",
       "STEP_4_TITLE": "Codex 시작",
       "STEP_4_DESC": "프로젝트 디렉터리에서 `codex`를 실행하세요.",
+      "STEP_5_TITLE": "Codex 데스크톱 앱",
+      "STEP_5_DESC": "데스크톱 앱도 같은 `~/.codex/config.toml`을 읽지만, Dock이나 시작 메뉴에서 실행하면 셸 변수를 보지 못합니다. 공급자 블록에 env_key 대신 `experimental_bearer_token`으로 키를 넣고, 앱을 완전히 종료한 뒤 다시 여세요.",
       "TS_1_DESC": "지원하지 않는 엔드포인트 오류가 나면 `wire_api`가 `responses`인지, 기본 URL이 `/v1`로 끝나는지 확인하세요.",
       "TS_2_DESC": "요청이 인증되지 않는다면, env_key가 가리키는 변수가 codex를 실행하는 셸에서 실제로 export되어 있는지 확인하세요.",
-      "TS_3_DESC": "예약된 ID인 openai는 사용자 지정 공급자에 다시 사용할 수 없습니다. model_providers에서든 model_provider에서든 다른 ID라면 무엇이든 동작합니다."
+      "TS_3_DESC": "예약된 ID인 openai는 사용자 지정 공급자에 다시 사용할 수 없습니다. model_providers에서든 model_provider에서든 다른 ID라면 무엇이든 동작합니다.",
+      "TS_4_DESC": "데스크톱 앱의 모델 선택기에는 OpenAI 모델과 최상위 모델용 Custom 항목 하나가 표시됩니다. 모델을 바꾸려면 config.toml의 `model`을 수정하고 앱을 다시 시작하세요."
     },
     "GEMINI_CLI": {
       "META": {

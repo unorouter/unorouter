@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "כלי build חסרים",
       "LINUX_ISSUE_BUILD_DESC": "חלק מההפצות דורשות כלי בנייה בסיסיים:",
       "TOC_FEATURES": "תכונות",
-      "TOC_CONFIG": "תצורת מודל AI"
+      "TOC_CONFIG": "תצורת מודל AI",
+      "TOC_DESKTOP": "אפליקציית Claude לשולחן העבודה",
+      "DESKTOP_TITLE": "אפליקציית Claude לשולחן העבודה",
+      "DESKTOP_DESC": "אפליקציית שולחן העבודה, כולל לשונית Code, לא קוראת את settings.json או משתני סביבה. היא לוקחת את השער מהגדרות ההסקה של צד שלישי שלה.",
+      "DESKTOP_STEP_1": "פתחו Help > Troubleshooting > Enable Developer Mode. האפליקציה תופעל מחדש עם תפריט Developer.",
+      "DESKTOP_STEP_2": "פתחו Developer > Configure Third-Party Inference והגדירו את Inference provider ל-Gateway.",
+      "DESKTOP_STEP_3": "הזינו {url} בשדה gateway base URL, הדביקו את מפתח ה-API שלכם מ-{appName} בשדה gateway API key והשאירו את שיטת האימות על Bearer.",
+      "DESKTOP_STEP_4": "לחצו על Apply Changes. האפליקציה תופעל מחדש ותשלח כל בקשה דרך {appName}.",
+      "DESKTOP_MODELS_TITLE": "בחירת מודלים",
+      "DESKTOP_MODELS_DESC": "בורר המודלים מציג רק מודלים שהמזהה שלהם נראה כמו Claude. כדי להשתמש במודל אחר, הוסיפו את המזהה שלו תחת Models באותו חלון."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "ייצאו את המשתנה שצוין ב-env_key. ‏Codex קורא את המפתח של ספק מותאם אישית מתוך הסביבה; הקובץ auth.json משמש רק להתחברות אל OpenAI.",
       "STEP_4_TITLE": "הפעילו את Codex",
       "STEP_4_DESC": "הריצו `codex` בתיקיית הפרויקט שלכם.",
+      "STEP_5_TITLE": "אפליקציית Codex לשולחן העבודה",
+      "STEP_5_DESC": "אפליקציית שולחן העבודה קוראת את אותו `~/.codex/config.toml`, אבל כשהיא נפתחת מה-Dock או מתפריט התחל היא לא רואה את משתני המעטפת. שימו את המפתח בבלוק הספק עם `experimental_bearer_token` במקום env_key, ואז סגרו את האפליקציה לגמרי ופתחו אותה מחדש.",
       "TS_1_DESC": "בשגיאת נקודת קצה לא נתמכת, ודאו ש-`wire_api` הוא `responses` ושכתובת הבסיס מסתיימת ב-`/v1`.",
       "TS_2_DESC": "אם הבקשות יוצאות ללא אימות, בדקו ש-env_key מצביע על משתנה שאכן יוצא בפועל במעטפת שבה רץ codex.",
-      "TS_3_DESC": "אי אפשר להשתמש שוב במזהה השמור openai עבור ספק מותאם אישית. כל מזהה אחר יעבוד, הן ב-model_providers והן ב-model_provider."
+      "TS_3_DESC": "אי אפשר להשתמש שוב במזהה השמור openai עבור ספק מותאם אישית. כל מזהה אחר יעבוד, הן ב-model_providers והן ב-model_provider.",
+      "TS_4_DESC": "בורר המודלים באפליקציית שולחן העבודה מציג מודלים של OpenAI ועוד רשומת Custom אחת למודל הראשי שלכם. כדי להחליף מודל, שנו את `model` ב-config.toml והפעילו את האפליקציה מחדש."
     },
     "GEMINI_CLI": {
       "META": {

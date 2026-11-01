@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "缺少建置工具",
       "LINUX_ISSUE_BUILD_DESC": "部分發行版需要安裝建置工具：",
       "TOC_FEATURES": "功能",
-      "TOC_CONFIG": "AI 模型設定"
+      "TOC_CONFIG": "AI 模型設定",
+      "TOC_DESKTOP": "Claude 桌面應用程式",
+      "DESKTOP_TITLE": "Claude 桌面應用程式",
+      "DESKTOP_DESC": "桌面應用程式（包括 Code 分頁）不會讀取 settings.json，也不會讀取環境變數。它從自己的第三方推論設定取得閘道。",
+      "DESKTOP_STEP_1": "開啟 Help > Troubleshooting > Enable Developer Mode。應用程式會重新啟動並出現 Developer 選單。",
+      "DESKTOP_STEP_2": "開啟 Developer > Configure Third-Party Inference，將 Inference provider 設為 Gateway。",
+      "DESKTOP_STEP_3": "在 gateway base URL 填入 {url}，將你的 {appName} API 金鑰貼到 gateway API key，驗證方式維持 Bearer。",
+      "DESKTOP_STEP_4": "點選 Apply Changes。應用程式會重新啟動，並透過 {appName} 傳送每個請求。",
+      "DESKTOP_MODELS_TITLE": "選擇模型",
+      "DESKTOP_MODELS_DESC": "模型選擇器只會顯示 ID 看起來像 Claude 的模型。要使用其他模型，請在同一個視窗的 Models 中加入它的 ID。"
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "匯出 env_key 所指定的那個變數。Codex 會從環境變數讀取自訂供應商的金鑰；auth.json 只用於登入 OpenAI。",
       "STEP_4_TITLE": "啟動 Codex",
       "STEP_4_DESC": "在專案目錄中執行 `codex`。",
+      "STEP_5_TITLE": "Codex 桌面應用程式",
+      "STEP_5_DESC": "桌面應用程式讀取同一個 `~/.codex/config.toml`，但從 Dock 或開始選單啟動時看不到你的 shell 變數。請在供應商區塊中用 `experimental_bearer_token` 取代 env_key 寫入金鑰，然後完全結束應用程式再重新開啟。",
       "TS_1_DESC": "出現端點不支援的錯誤時，請確認 `wire_api` 是 `responses`，且基礎網址以 `/v1` 結尾。",
       "TS_2_DESC": "如果請求處於未驗證狀態，請檢查 env_key 指定的變數在執行 codex 的 shell 中是否真的已經匯出。",
-      "TS_3_DESC": "你無法把保留 ID openai 重複用於自訂供應商。換成其他任意 ID 都可以，無論是在 model_providers 中還是在 model_provider 中。"
+      "TS_3_DESC": "你無法把保留 ID openai 重複用於自訂供應商。換成其他任意 ID 都可以，無論是在 model_providers 中還是在 model_provider 中。",
+      "TS_4_DESC": "桌面應用程式的模型選擇器會顯示 OpenAI 模型，以及一個對應你頂層模型的 Custom 項目。要切換模型，請修改 config.toml 中的 `model` 並重新啟動應用程式。"
     },
     "GEMINI_CLI": {
       "META": {

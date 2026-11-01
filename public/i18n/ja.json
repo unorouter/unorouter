@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "ビルドツールの不足",
       "LINUX_ISSUE_BUILD_DESC": "一部のディストリビューションではビルド用パッケージが必要です：",
       "TOC_FEATURES": "機能",
-      "TOC_CONFIG": "AI モデル設定"
+      "TOC_CONFIG": "AI モデル設定",
+      "TOC_DESKTOP": "Claude デスクトップアプリ",
+      "DESKTOP_TITLE": "Claude デスクトップアプリ",
+      "DESKTOP_DESC": "デスクトップアプリは Code タブも含め、settings.json も環境変数も読みません。ゲートウェイはアプリ自身のサードパーティ推論設定から取得します。",
+      "DESKTOP_STEP_1": "Help > Troubleshooting > Enable Developer Mode を開きます。アプリが再起動し、Developer メニューが表示されます。",
+      "DESKTOP_STEP_2": "Developer > Configure Third-Party Inference を開き、Inference provider を Gateway にします。",
+      "DESKTOP_STEP_3": "gateway base URL に {url} を入力し、{appName} の API キーを gateway API key に貼り付け、認証方式は Bearer のままにします。",
+      "DESKTOP_STEP_4": "Apply Changes をクリックします。アプリが再起動し、すべてのリクエストを {appName} 経由で送ります。",
+      "DESKTOP_MODELS_TITLE": "モデルの選択",
+      "DESKTOP_MODELS_DESC": "モデル選択には ID が Claude に見えるモデルだけが表示されます。別のモデルを使うには、同じウィンドウの Models にその ID を追加してください。"
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "env_key で指定した変数を export してください。Codex はカスタムプロバイダーのキーを環境変数から読み取ります。auth.json は OpenAI へのサインイン専用です。",
       "STEP_4_TITLE": "Codex を起動する",
       "STEP_4_DESC": "プロジェクトディレクトリで `codex` を実行します。",
+      "STEP_5_TITLE": "Codex デスクトップアプリ",
+      "STEP_5_DESC": "デスクトップアプリも同じ `~/.codex/config.toml` を読みますが、Dock やスタートメニューから起動するとシェルの環境変数が見えません。プロバイダーのブロックで env_key の代わりに `experimental_bearer_token` にキーを書き、アプリを完全に終了してから開き直してください。",
       "TS_1_DESC": "未対応エンドポイントのエラーが出たら、`wire_api` が `responses` であること、ベースURLが `/v1` で終わることを確認します。",
       "TS_2_DESC": "リクエストが未認証になる場合は、env_key が指す変数が codex を実行しているシェルで実際に export されているか確認してください。",
-      "TS_3_DESC": "予約済みの ID である openai をカスタムプロバイダーに再利用することはできません。model_providers でも model_provider でも、それ以外の ID なら使用できます。"
+      "TS_3_DESC": "予約済みの ID である openai をカスタムプロバイダーに再利用することはできません。model_providers でも model_provider でも、それ以外の ID なら使用できます。",
+      "TS_4_DESC": "デスクトップアプリのモデル選択には OpenAI のモデルと、トップレベルのモデル用の Custom 項目が 1 つ表示されます。モデルを切り替えるには config.toml の `model` を変更し、アプリを再起動してください。"
     },
     "GEMINI_CLI": {
       "META": {

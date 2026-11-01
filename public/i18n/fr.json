@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Outils de compilation manquants",
       "LINUX_ISSUE_BUILD_DESC": "Certaines distributions exigent les outils de compilation :",
       "TOC_FEATURES": "Fonctionnalités",
-      "TOC_CONFIG": "Configuration du modèle IA"
+      "TOC_CONFIG": "Configuration du modèle IA",
+      "TOC_DESKTOP": "Application de bureau Claude",
+      "DESKTOP_TITLE": "Application de bureau Claude",
+      "DESKTOP_DESC": "L'application de bureau, onglet Code compris, ne lit ni settings.json ni les variables d'environnement. Elle prend la passerelle dans ses propres réglages d'inférence tierce.",
+      "DESKTOP_STEP_1": "Ouvrez Help > Troubleshooting > Enable Developer Mode. L'application redémarre avec un menu Developer.",
+      "DESKTOP_STEP_2": "Ouvrez Developer > Configure Third-Party Inference et réglez Inference provider sur Gateway.",
+      "DESKTOP_STEP_3": "Saisissez {url} comme gateway base URL, collez votre clé API {appName} comme gateway API key et laissez le schéma d'authentification sur Bearer.",
+      "DESKTOP_STEP_4": "Cliquez sur Apply Changes. L'application redémarre et envoie chaque requête via {appName}.",
+      "DESKTOP_MODELS_TITLE": "Choisir les modèles",
+      "DESKTOP_MODELS_DESC": "Le sélecteur de modèles n'affiche que les modèles dont l'identifiant ressemble à Claude. Pour un autre modèle, ajoutez son identifiant sous Models dans la même fenêtre."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Exportez la variable désignée par env_key. Codex lit la clé d'un fournisseur personnalisé depuis l'environnement ; auth.json ne sert qu'à la connexion à OpenAI.",
       "STEP_4_TITLE": "Démarrer Codex",
       "STEP_4_DESC": "Lancez `codex` dans le répertoire de votre projet.",
+      "STEP_5_TITLE": "Application de bureau Codex",
+      "STEP_5_DESC": "L'application de bureau lit le même `~/.codex/config.toml`, mais lancée depuis le Dock ou le menu Démarrer, elle ne voit pas vos variables de shell. Mettez la clé dans le bloc du fournisseur avec `experimental_bearer_token` au lieu de env_key, puis quittez complètement l'application et rouvrez-la.",
       "TS_1_DESC": "En cas d'erreur de point de terminaison non pris en charge, vérifiez que `wire_api` vaut `responses` et que l'URL de base se termine par `/v1`.",
       "TS_2_DESC": "Si les requêtes ne sont pas authentifiées, vérifiez que env_key désigne une variable réellement exportée dans le shell qui exécute codex.",
-      "TS_3_DESC": "Vous ne pouvez pas réutiliser l'identifiant réservé openai pour un fournisseur personnalisé. Tout autre identifiant fonctionne, aussi bien dans model_providers que dans model_provider."
+      "TS_3_DESC": "Vous ne pouvez pas réutiliser l'identifiant réservé openai pour un fournisseur personnalisé. Tout autre identifiant fonctionne, aussi bien dans model_providers que dans model_provider.",
+      "TS_4_DESC": "Le sélecteur de modèles de l'application de bureau affiche les modèles OpenAI et une entrée Custom pour votre modèle principal. Pour changer de modèle, modifiez `model` dans config.toml et relancez l'application."
     },
     "GEMINI_CLI": {
       "META": {

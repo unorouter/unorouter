@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Thiếu công cụ biên dịch",
       "LINUX_ISSUE_BUILD_DESC": "Một số bản phân phối cần gói công cụ biên dịch:",
       "TOC_FEATURES": "Tính năng",
-      "TOC_CONFIG": "Cấu hình mô hình AI"
+      "TOC_CONFIG": "Cấu hình mô hình AI",
+      "TOC_DESKTOP": "Ứng dụng Claude trên máy tính",
+      "DESKTOP_TITLE": "Ứng dụng Claude trên máy tính",
+      "DESKTOP_DESC": "Ứng dụng máy tính, kể cả tab Code, không đọc settings.json hay biến môi trường. Nó lấy cổng từ phần cài đặt suy luận bên thứ ba của chính nó.",
+      "DESKTOP_STEP_1": "Mở Help > Troubleshooting > Enable Developer Mode. Ứng dụng sẽ khởi động lại với menu Developer.",
+      "DESKTOP_STEP_2": "Mở Developer > Configure Third-Party Inference và đặt Inference provider thành Gateway.",
+      "DESKTOP_STEP_3": "Nhập {url} làm gateway base URL, dán khóa API {appName} của bạn vào gateway API key và giữ kiểu xác thực là Bearer.",
+      "DESKTOP_STEP_4": "Bấm Apply Changes. Ứng dụng khởi động lại và gửi mọi yêu cầu qua {appName}.",
+      "DESKTOP_MODELS_TITLE": "Chọn mô hình",
+      "DESKTOP_MODELS_DESC": "Bộ chọn mô hình chỉ hiện các mô hình có id trông giống Claude. Để dùng mô hình khác, thêm id của nó vào mục Models trong cùng cửa sổ."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Hãy export biến được nêu trong env_key. Codex đọc khoá của nhà cung cấp tuỳ chỉnh từ môi trường; auth.json chỉ dùng để đăng nhập vào OpenAI.",
       "STEP_4_TITLE": "Khởi động Codex",
       "STEP_4_DESC": "Chạy `codex` trong thư mục dự án.",
+      "STEP_5_TITLE": "Ứng dụng Codex trên máy tính",
+      "STEP_5_DESC": "Ứng dụng máy tính đọc cùng tệp `~/.codex/config.toml`, nhưng khi mở từ Dock hoặc menu Start, nó không thấy biến shell của bạn. Đặt khóa trong khối nhà cung cấp bằng `experimental_bearer_token` thay cho env_key, rồi thoát hẳn ứng dụng và mở lại.",
       "TS_1_DESC": "Khi gặp lỗi điểm cuối không được hỗ trợ, hãy xác nhận `wire_api` là `responses` và URL cơ sở kết thúc bằng `/v1`.",
       "TS_2_DESC": "Nếu các yêu cầu không được xác thực, hãy kiểm tra xem env_key có trỏ tới một biến thực sự đã được export trong shell đang chạy codex hay không.",
-      "TS_3_DESC": "Bạn không thể dùng lại mã dành riêng openai cho một nhà cung cấp tuỳ chỉnh. Mọi mã khác đều dùng được, cả trong model_providers lẫn trong model_provider."
+      "TS_3_DESC": "Bạn không thể dùng lại mã dành riêng openai cho một nhà cung cấp tuỳ chỉnh. Mọi mã khác đều dùng được, cả trong model_providers lẫn trong model_provider.",
+      "TS_4_DESC": "Bộ chọn mô hình trong ứng dụng máy tính hiện các mô hình OpenAI và một mục Custom cho mô hình chính của bạn. Để đổi mô hình, sửa `model` trong config.toml rồi mở lại ứng dụng."
     },
     "GEMINI_CLI": {
       "META": {

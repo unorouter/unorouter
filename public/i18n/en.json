@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Missing Build Tools",
       "LINUX_ISSUE_BUILD_DESC": "Some distributions need build essentials:",
       "TOC_FEATURES": "Features",
-      "TOC_CONFIG": "AI Model Configuration"
+      "TOC_CONFIG": "AI Model Configuration",
+      "TOC_DESKTOP": "Claude desktop app",
+      "DESKTOP_TITLE": "Claude desktop app",
+      "DESKTOP_DESC": "The desktop app, Code tab included, does not read settings.json or environment variables. It takes the gateway from its own third-party inference settings.",
+      "DESKTOP_STEP_1": "Open Help > Troubleshooting > Enable Developer Mode. The app restarts with a Developer menu.",
+      "DESKTOP_STEP_2": "Open Developer > Configure Third-Party Inference and set Inference provider to Gateway.",
+      "DESKTOP_STEP_3": "Enter {url} as the gateway base URL, paste your {appName} API key as the gateway API key and keep the auth scheme on Bearer.",
+      "DESKTOP_STEP_4": "Click Apply Changes. The app relaunches and sends every request through {appName}.",
+      "DESKTOP_MODELS_TITLE": "Picking models",
+      "DESKTOP_MODELS_DESC": "The model picker only lists models whose ids look like Claude. To use another model, add its id under Models in the same window."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Export the variable named by env_key. Codex reads a custom provider's key from the environment; auth.json is only for signing in to OpenAI.",
       "STEP_4_TITLE": "Start Codex",
       "STEP_4_DESC": "Run `codex` in your project directory.",
+      "STEP_5_TITLE": "Codex desktop app",
+      "STEP_5_DESC": "The desktop app reads the same `~/.codex/config.toml`, but started from the dock or Start menu it does not see your shell variables. Put the key in the provider block with `experimental_bearer_token` instead of env_key, then quit the app fully and reopen it.",
       "TS_1_DESC": "On an unsupported endpoint error, confirm `wire_api` is `responses` and the base URL ends in `/v1`.",
       "TS_2_DESC": "If requests are unauthenticated, check that env_key names a variable that is actually exported in the shell running codex.",
-      "TS_3_DESC": "You cannot reuse the reserved id openai for a custom provider. Any other id works, in the model_providers section and model_provider alike."
+      "TS_3_DESC": "You cannot reuse the reserved id openai for a custom provider. Any other id works, in the model_providers section and model_provider alike.",
+      "TS_4_DESC": "The desktop app model picker shows OpenAI models plus one Custom entry for your top-level model. To switch models, change `model` in config.toml and relaunch the app."
     },
     "GEMINI_CLI": {
       "META": {

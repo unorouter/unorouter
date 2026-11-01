@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "Fehlende Build-Tools",
       "LINUX_ISSUE_BUILD_DESC": "Manche Distributionen benötigen Build-Werkzeuge:",
       "TOC_FEATURES": "Funktionen",
-      "TOC_CONFIG": "KI-Modellkonfiguration"
+      "TOC_CONFIG": "KI-Modellkonfiguration",
+      "TOC_DESKTOP": "Claude Desktop-App",
+      "DESKTOP_TITLE": "Claude Desktop-App",
+      "DESKTOP_DESC": "Die Desktop-App, auch der Code-Tab, liest weder settings.json noch Umgebungsvariablen. Sie holt das Gateway aus ihren eigenen Einstellungen für Drittanbieter-Inferenz.",
+      "DESKTOP_STEP_1": "Öffne Help > Troubleshooting > Enable Developer Mode. Die App startet neu und zeigt ein Developer-Menü.",
+      "DESKTOP_STEP_2": "Öffne Developer > Configure Third-Party Inference und stelle Inference provider auf Gateway.",
+      "DESKTOP_STEP_3": "Trage {url} als Gateway base URL ein, füge deinen {appName}-API-Schlüssel als Gateway API key ein und lass das Auth-Schema auf Bearer.",
+      "DESKTOP_STEP_4": "Klicke auf Apply Changes. Die App startet neu und schickt jede Anfrage über {appName}.",
+      "DESKTOP_MODELS_TITLE": "Modelle auswählen",
+      "DESKTOP_MODELS_DESC": "Die Modellauswahl zeigt nur Modelle, deren ID nach Claude aussieht. Für ein anderes Modell trägst du seine ID im selben Fenster unter Models ein."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "Exportieren Sie die Variable, die in env_key genannt ist. Codex liest den Schlüssel eines eigenen Providers aus der Umgebung; auth.json dient nur zur Anmeldung bei OpenAI.",
       "STEP_4_TITLE": "Codex starten",
       "STEP_4_DESC": "`codex` im Projektverzeichnis ausführen.",
+      "STEP_5_TITLE": "Codex Desktop-App",
+      "STEP_5_DESC": "Die Desktop-App liest dieselbe `~/.codex/config.toml`, sieht aber beim Start über Dock oder Startmenü deine Shell-Variablen nicht. Trage den Schlüssel im Provider-Block mit `experimental_bearer_token` statt env_key ein, beende die App komplett und öffne sie neu.",
       "TS_1_DESC": "Bei einem Fehler wegen nicht unterstütztem Endpunkt prüfen, ob `wire_api` auf `responses` steht und die Basis-URL auf `/v1` endet.",
       "TS_2_DESC": "Sind die Anfragen nicht authentifiziert, prüfen Sie, ob env_key eine Variable benennt, die in der Shell, in der codex läuft, auch tatsächlich exportiert ist.",
-      "TS_3_DESC": "Die reservierte ID openai lässt sich für einen eigenen Provider nicht wiederverwenden. Jede andere ID funktioniert, sowohl in model_providers als auch in model_provider."
+      "TS_3_DESC": "Die reservierte ID openai lässt sich für einen eigenen Provider nicht wiederverwenden. Jede andere ID funktioniert, sowohl in model_providers als auch in model_provider.",
+      "TS_4_DESC": "Die Modellauswahl der Desktop-App zeigt OpenAI-Modelle und einen Custom-Eintrag für dein oberstes Modell. Zum Wechseln änderst du `model` in der config.toml und startest die App neu."
     },
     "GEMINI_CLI": {
       "META": {

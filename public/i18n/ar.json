@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "أدوات البناء مفقودة",
       "LINUX_ISSUE_BUILD_DESC": "بعض التوزيعات تحتاج أدوات البناء الأساسية:",
       "TOC_FEATURES": "الميزات",
-      "TOC_CONFIG": "تهيئة نماذج الذكاء الاصطناعي"
+      "TOC_CONFIG": "تهيئة نماذج الذكاء الاصطناعي",
+      "TOC_DESKTOP": "تطبيق Claude لسطح المكتب",
+      "DESKTOP_TITLE": "تطبيق Claude لسطح المكتب",
+      "DESKTOP_DESC": "تطبيق سطح المكتب، بما فيه تبويب Code، لا يقرأ settings.json ولا متغيرات البيئة. بل يأخذ البوابة من إعدادات الاستدلال الخارجي الخاصة به.",
+      "DESKTOP_STEP_1": "افتح Help > Troubleshooting > Enable Developer Mode. سيُعاد تشغيل التطبيق مع قائمة Developer.",
+      "DESKTOP_STEP_2": "افتح Developer > Configure Third-Party Inference واضبط Inference provider على Gateway.",
+      "DESKTOP_STEP_3": "أدخل {url} في gateway base URL، والصق مفتاح API الخاص بك من {appName} في gateway API key، واترك نوع المصادقة على Bearer.",
+      "DESKTOP_STEP_4": "انقر Apply Changes. سيُعاد تشغيل التطبيق ويرسل كل طلب عبر {appName}.",
+      "DESKTOP_MODELS_TITLE": "اختيار النماذج",
+      "DESKTOP_MODELS_DESC": "تعرض قائمة النماذج فقط النماذج التي يبدو معرّفها مثل Claude. لاستخدام نموذج آخر، أضف معرّفه تحت Models في النافذة نفسها."
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "صدّر المتغير المذكور في env_key. يقرأ Codex مفتاح المزوّد المخصص من بيئة التشغيل؛ أما auth.json فهو لتسجيل الدخول إلى OpenAI فقط.",
       "STEP_4_TITLE": "ابدأ Codex",
       "STEP_4_DESC": "شغّل `codex` في مجلّد مشروعك.",
+      "STEP_5_TITLE": "تطبيق Codex لسطح المكتب",
+      "STEP_5_DESC": "يقرأ تطبيق سطح المكتب الملف نفسه `~/.codex/config.toml`، لكنه عند تشغيله من Dock أو قائمة ابدأ لا يرى متغيرات الطرفية. ضع المفتاح في كتلة المزوّد عبر `experimental_bearer_token` بدلًا من env_key، ثم أغلق التطبيق تمامًا وأعد فتحه.",
       "TS_1_DESC": "عند خطأ نقطة نهاية غير مدعومة، تأكّد أنّ `wire_api` هو `responses` وأنّ الرابط الأساسي ينتهي بـ `/v1`.",
       "TS_2_DESC": "إذا كانت الطلبات غير موثّقة، فتحقق من أن env_key يشير إلى متغير مُصدَّر فعليًا في الصدفة التي تشغّل codex.",
-      "TS_3_DESC": "لا يمكنك إعادة استخدام المعرّف المحجوز openai لمزوّد مخصص. أي معرّف آخر يعمل، سواء في model_providers أو في model_provider."
+      "TS_3_DESC": "لا يمكنك إعادة استخدام المعرّف المحجوز openai لمزوّد مخصص. أي معرّف آخر يعمل، سواء في model_providers أو في model_provider.",
+      "TS_4_DESC": "تعرض قائمة النماذج في تطبيق سطح المكتب نماذج OpenAI مع إدخال Custom واحد لنموذجك الأساسي. لتغيير النموذج، عدّل `model` في config.toml وأعد تشغيل التطبيق."
     },
     "GEMINI_CLI": {
       "META": {

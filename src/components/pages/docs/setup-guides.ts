@@ -1359,11 +1359,28 @@ env_key = "OPENAI_API_KEY"`,
         bodyKey: "DOCS.CODEX.STEP_4_DESC",
         code: { lang: "bash", value: "codex" },
       },
+      {
+        titleKey: "DOCS.CODEX.STEP_5_TITLE",
+        bodyKey: "DOCS.CODEX.STEP_5_DESC",
+        code: {
+          lang: "toml",
+          value: `# ~/.codex/config.toml
+model = "YOUR_MODEL_ID"
+model_provider = "unorouter"
+
+[model_providers.unorouter]
+name = "UnoRouter"
+base_url = "${env.apiUrl}/v1"
+wire_api = "responses"
+experimental_bearer_token = "YOUR_API_KEY"`,
+        },
+      },
     ],
     gotchaKeys: [
       "DOCS.CODEX.TS_1_DESC",
       "DOCS.CODEX.TS_2_DESC",
       "DOCS.CODEX.TS_3_DESC",
+      "DOCS.CODEX.TS_4_DESC",
     ],
     quickStart: {
       windows: `$env:OPENAI_BASE_URL="${env.apiUrl}/v1"

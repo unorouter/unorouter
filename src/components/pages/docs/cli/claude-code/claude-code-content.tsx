@@ -33,6 +33,11 @@ export async function ClaudeCodeContent() {
         url: "#ai-model-configuration",
         depth: 2,
       },
+      {
+        title: t("DOCS.CLAUDE_CODE.TOC_DESKTOP"),
+        url: "#desktop-app",
+        depth: 2,
+      },
     ],
     t("DOCS.TOC_TITLE"),
   );
@@ -365,6 +370,32 @@ npm install -g @anthropic-ai/claude-code`}
               linux: t("DOCS.OS.LINUX"),
             }}
           />
+        </section>
+
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="desktop-app">
+            {t("DOCS.CLAUDE_CODE.DESKTOP_TITLE")}
+          </h2>
+          <p className="text-muted-foreground mb-6 text-sm">
+            {t("DOCS.CLAUDE_CODE.DESKTOP_DESC")}
+          </p>
+          <ol className="text-muted-foreground list-decimal space-y-3 pl-5 text-sm">
+            <li>{t("DOCS.CLAUDE_CODE.DESKTOP_STEP_1")}</li>
+            <li>{t("DOCS.CLAUDE_CODE.DESKTOP_STEP_2")}</li>
+            <li>
+              {t("DOCS.CLAUDE_CODE.DESKTOP_STEP_3", {
+                ...APP_VALUES,
+                url: docs.apiUrl,
+              })}
+            </li>
+            <li>{t("DOCS.CLAUDE_CODE.DESKTOP_STEP_4", APP_VALUES)}</li>
+          </ol>
+          <Callout
+            type="info"
+            title={t("DOCS.CLAUDE_CODE.DESKTOP_MODELS_TITLE")}
+          >
+            <p>{t("DOCS.CLAUDE_CODE.DESKTOP_MODELS_DESC")}</p>
+          </Callout>
         </section>
 
         <section className="border-border mt-16 border-t pt-12 text-center">

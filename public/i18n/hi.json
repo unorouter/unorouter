@@ -1700,7 +1700,16 @@
       "LINUX_ISSUE_BUILD_TITLE": "गायब Build Tools",
       "LINUX_ISSUE_BUILD_DESC": "कुछ वितरणों में बिल्ड टूल चाहिए होते हैं:",
       "TOC_FEATURES": "विशेषताएं",
-      "TOC_CONFIG": "AI मॉडल कॉन्फ़िगरेशन"
+      "TOC_CONFIG": "AI मॉडल कॉन्फ़िगरेशन",
+      "TOC_DESKTOP": "Claude डेस्कटॉप ऐप",
+      "DESKTOP_TITLE": "Claude डेस्कटॉप ऐप",
+      "DESKTOP_DESC": "डेस्कटॉप ऐप, Code टैब समेत, settings.json या एनवायरनमेंट वेरिएबल नहीं पढ़ता। यह गेटवे अपनी थर्ड-पार्टी इन्फ़रेंस सेटिंग्स से लेता है।",
+      "DESKTOP_STEP_1": "Help > Troubleshooting > Enable Developer Mode खोलें। ऐप Developer मेन्यू के साथ फिर से शुरू होगा।",
+      "DESKTOP_STEP_2": "Developer > Configure Third-Party Inference खोलें और Inference provider को Gateway पर सेट करें।",
+      "DESKTOP_STEP_3": "gateway base URL में {url} डालें, अपनी {appName} API कुंजी gateway API key में पेस्ट करें और ऑथ स्कीम Bearer पर ही रहने दें।",
+      "DESKTOP_STEP_4": "Apply Changes पर क्लिक करें। ऐप फिर से शुरू होगा और हर अनुरोध {appName} से भेजेगा।",
+      "DESKTOP_MODELS_TITLE": "मॉडल चुनना",
+      "DESKTOP_MODELS_DESC": "मॉडल पिकर सिर्फ़ उन मॉडलों को दिखाता है जिनकी id Claude जैसी दिखती है। कोई दूसरा मॉडल इस्तेमाल करने के लिए उसी विंडो में Models के तहत उसकी id जोड़ें।"
     },
     "CODEX": {
       "META": {
@@ -1728,9 +1737,12 @@
       "STEP_3_DESC": "env_key में बताए गए वेरिएबल को export करें। Codex कस्टम प्रदाता की कुंजी परिवेश से पढ़ता है; auth.json सिर्फ़ OpenAI में साइन इन करने के लिए है।",
       "STEP_4_TITLE": "Codex शुरू करें",
       "STEP_4_DESC": "अपनी परियोजना की डायरेक्टरी में `codex` चलाएँ।",
+      "STEP_5_TITLE": "Codex डेस्कटॉप ऐप",
+      "STEP_5_DESC": "डेस्कटॉप ऐप वही `~/.codex/config.toml` पढ़ता है, लेकिन Dock या Start मेन्यू से खोलने पर आपके शेल वेरिएबल नहीं देखता। कुंजी को प्रोवाइडर ब्लॉक में env_key की जगह `experimental_bearer_token` से डालें, फिर ऐप को पूरी तरह बंद करके दोबारा खोलें।",
       "TS_1_DESC": "असमर्थित एंडपॉइंट की त्रुटि आने पर पुष्टि करें कि `wire_api` का मान `responses` है और बेस URL `/v1` पर खत्म होता है।",
       "TS_2_DESC": "अगर अनुरोध बिना प्रमाणीकरण के जा रहे हों, तो जाँचें कि env_key जिस वेरिएबल का नाम बताता है वह codex चलाने वाले शेल में सचमुच export किया गया है या नहीं।",
-      "TS_3_DESC": "आरक्षित आईडी openai को किसी कस्टम प्रदाता के लिए दोबारा इस्तेमाल नहीं किया जा सकता। कोई भी दूसरी आईडी काम करेगी, model_providers में भी और model_provider में भी।"
+      "TS_3_DESC": "आरक्षित आईडी openai को किसी कस्टम प्रदाता के लिए दोबारा इस्तेमाल नहीं किया जा सकता। कोई भी दूसरी आईडी काम करेगी, model_providers में भी और model_provider में भी।",
+      "TS_4_DESC": "डेस्कटॉप ऐप का मॉडल पिकर OpenAI मॉडल और आपके टॉप-लेवल मॉडल के लिए एक Custom एंट्री दिखाता है। मॉडल बदलने के लिए config.toml में `model` बदलें और ऐप फिर से शुरू करें।"
     },
     "GEMINI_CLI": {
       "META": {
