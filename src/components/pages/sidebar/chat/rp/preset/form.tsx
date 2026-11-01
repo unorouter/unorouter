@@ -545,6 +545,16 @@ export function PresetForm(props: Props) {
               <div className="flex flex-col gap-1">
                 <MyFormSwitch
                   control={form.control}
+                  name="keepReasoning"
+                  label={t("RP.PRESET_KEEP_REASONING")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_KEEP_REASONING_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
                   name="keepSystemRoles"
                   label={t("RP.PRESET_KEEP_SYSTEM_ROLES")}
                 />

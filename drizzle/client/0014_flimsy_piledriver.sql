@@ -1,0 +1,1 @@
+ALTER TABLE `sampling_presets` ADD `keep_reasoning` integer DEFAULT false NOT NULL;

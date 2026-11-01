@@ -55,6 +55,10 @@
     {
       "tag": "0013_amused_guardian",
       "sql": "ALTER TABLE `tester_probes` ADD `finish_reason` text;--> statement-breakpoint\nALTER TABLE `tester_probes` ADD `reasoning_tokens` integer;--> statement-breakpoint\nALTER TABLE `tester_probes` ADD `error_body` text;--> statement-breakpoint\nALTER TABLE `tester_tests` ADD `findings` text;--> statement-breakpoint\nALTER TABLE `tester_tests` ADD `reports` text;"
+    },
+    {
+      "tag": "0014_flimsy_piledriver",
+      "sql": "ALTER TABLE `sampling_presets` ADD `keep_reasoning` integer DEFAULT false NOT NULL;"
     }
   ]
 }

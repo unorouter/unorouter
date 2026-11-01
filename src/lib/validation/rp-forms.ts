@@ -228,6 +228,7 @@ export const samplingPresetFormSchema = t.Object({
   mustStartWithUserInput: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
   disableCaching: t.Boolean({ default: false }),
+  keepReasoning: t.Boolean({ default: false }),
   keepSystemRoles: t.Boolean({ default: false }),
   isDefault: t.Boolean({ default: false }),
 });

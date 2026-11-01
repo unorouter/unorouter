@@ -163,6 +163,7 @@ export async function exportLocalPreset(
     mustStartWithUserInput: row.mustStartWithUserInput,
     geminiBlockOff: row.geminiBlockOff,
     disableCaching: row.disableCaching,
+    keepReasoning: row.keepReasoning,
     keepSystemRoles: row.keepSystemRoles,
     isDefault: row.isDefault,
   };

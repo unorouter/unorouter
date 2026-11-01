@@ -67,7 +67,10 @@ export async function transformRoles(
   );
 
   processedMessages = dropFailedAssistantTurns(processedMessages);
-  processedMessages = stripReasoningParts(processedMessages);
+  processedMessages = stripReasoningParts(
+    processedMessages,
+    assembled.flags.keepReasoning,
+  );
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
   if (!keepSystem) processedMessages = demoteLateSystem(processedMessages);
   processedMessages = dropEmptyMessages(processedMessages);

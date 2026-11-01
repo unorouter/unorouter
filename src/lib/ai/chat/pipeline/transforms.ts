@@ -166,13 +166,19 @@ export function dropFailedAssistantTurns(
   );
 }
 
-export function stripReasoningParts(messages: StreamMessages): StreamMessages {
+export function stripReasoningParts(
+  messages: StreamMessages,
+  keepReasoning = false,
+): StreamMessages {
   return messages.map((m) => {
     if (!Array.isArray(m.parts)) return m;
     let changed = false;
     const parts = m.parts
       .filter((p) => {
-        if (p.type === "reasoning" || p.type === "data-error") {
+        if (
+          (p.type === "reasoning" && !keepReasoning) ||
+          p.type === "data-error"
+        ) {
           changed = true;
           return false;
         }
