@@ -86,7 +86,7 @@ Four guards in `src/lib/db/client/`, each commented at the site with its data-lo
 ## i18n and routing
 
 - 18 locales in `public/i18n/`. Messages precompile: `t.raw` unsupported, bad ICU fails the build, missing key throws in dev.
-- `src/proxy.ts` stays thin. Edge cacheability of anonymous pages is decided by Cloudflare rules generated from `pathnames` (sops file above), not headers here. The matcher omits `.js` on purpose, so `.js` files in `public/` 404 (hence `janitor-*.js.txt`).
+- `src/proxy.ts` stays thin. Edge cacheability of anonymous pages is decided by Cloudflare rules generated from `pathnames` (sops file above); the one header set there is `Cache-Control` with `stale-while-revalidate`/`stale-if-error` on anonymous documents, because Cloudflare Pro serves stale only when the origin allows it and Next's dynamic default forbids it. Its cookie exclusions must match the cache rule; it also requires `Accept: text/html`, since Next hides the RSC header and `_rsc` param from middleware. The matcher omits `.js` on purpose, so `.js` files in `public/` 404 (hence `janitor-*.js.txt`).
 - `privateRoutes` in `src/i18n/routing.ts` is the single source for robots Disallow and sitemap exclusion; robots emits end-anchored pairs.
 - SEO dates are static registry data (`GUIDE_DATES`); setup guides are one route over `SETUP_GUIDES`, `DOCS_REGISTRY` derives from it.
 - Discord reward figures are fetched from the bot at render; `FALLBACK` in `rewards.ts` is not where payouts change.
