@@ -126,7 +126,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }
           # 0.2.2 bundles its dependencies, so this pin fixes every line of code that runs
-          command: [npx, -y, --package=unorouter-mcp@0.2.3, unorouter-mcp-http]
+          command: [npx, -y, --package=unorouter-mcp@0.2.4, unorouter-mcp-http]
           # npx installs the package on every start; at 256Mi that install was OOM killed
           resources:
             requests: { memory: 128Mi, cpu: 50m }
