@@ -86,6 +86,7 @@ export type AssembledSystem = {
   extraBody?: Record<string, unknown>;
   providerRouting?: ProviderRouting;
   prefill?: string;
+  reasoningPrefill?: string;
   promptParts: PromptPart[];
   promptTokens: number;
   vars: MacroScope;
@@ -418,6 +419,7 @@ export async function assembleForStream(
     persona: sys(personaSlot),
     systemPrompt: sys(systemPromptSlot),
     prefill: prefillText ? { text: prefillText, role: "assistant" } : null,
+    reasoningPrefill: null,
     postHistory: postHistorySlot
       ? {
           text: postHistorySlot,
@@ -428,6 +430,11 @@ export async function assembleForStream(
 
   const template =
     parsePromptTemplate(preset?.promptTemplate) ?? DEFAULT_PROMPT_TEMPLATE;
+  const reasoningPrefillText =
+    preset?.reasoningPrefill &&
+    template.some((i) => i.type === "slot" && i.slot === "reasoningPrefill")
+      ? expand(preset.reasoningPrefill)
+      : "";
   const promptParts = walkTemplate(template, slots);
 
   const exampleTurns = parseExampleMessages(
@@ -493,6 +500,7 @@ export async function assembleForStream(
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
     prefill: prefillText || undefined,
+    reasoningPrefill: reasoningPrefillText || undefined,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, authorNote),
     vars: macroScope,

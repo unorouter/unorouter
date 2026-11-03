@@ -130,6 +130,25 @@ export function appendPrefill(
   return [...messages, mkMsg("assistant", prefill)];
 }
 
+// Kimi partial mode and DeepSeek prefix completion continue the trailing
+// assistant's reasoning_content, which the SDK fills from reasoning parts.
+export function appendReasoningPrefill(
+  messages: StreamMessages,
+  text: string,
+): StreamMessages {
+  const last = messages[messages.length - 1];
+  if (last?.role !== "assistant" || !Array.isArray(last.parts)) {
+    return [
+      ...messages,
+      { role: "assistant", parts: [{ type: "reasoning", text }] },
+    ];
+  }
+  return [
+    ...messages.slice(0, -1),
+    { ...last, parts: [{ type: "reasoning", text }, ...last.parts] },
+  ];
+}
+
 export function stripSystemRole(messages: StreamMessages): StreamMessages {
   return messages.map((m) =>
     m.role === "system"

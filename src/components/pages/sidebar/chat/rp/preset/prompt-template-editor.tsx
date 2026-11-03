@@ -40,6 +40,7 @@ const SLOT_LABELS = {
   persona: "RP.PRESET_SLOT_PERSONA",
   lorebook: "RP.PRESET_SLOT_LOREBOOK",
   prefill: "RP.PRESET_PREFILL",
+  reasoningPrefill: "RP.PRESET_REASONING_PREFILL",
   postHistory: "RP.PRESET_POST_HISTORY",
   systemPrompt: "RP.PRESET_SLOT_SYSTEM_PROMPT",
 } as const satisfies Record<SlotName, TranslationKey>;
@@ -49,6 +50,7 @@ const SLOTS: SlotName[] = [
   "persona",
   "lorebook",
   "prefill",
+  "reasoningPrefill",
   "postHistory",
   "systemPrompt",
 ];
@@ -111,6 +113,9 @@ export function PromptTemplateEditor(props: Props) {
     const card = cards.find((c) => c.id === id);
     if (card?.type === "slot" && card.slot === "prefill") {
       form.setValue("prefill", "", { shouldDirty: true });
+    }
+    if (card?.type === "slot" && card.slot === "reasoningPrefill") {
+      form.setValue("reasoningPrefill", "", { shouldDirty: true });
     }
     commit(cards.filter((c) => c.id !== id));
   };
@@ -180,6 +185,25 @@ export function PromptTemplateEditor(props: Props) {
                       />
                       <p className="text-muted-foreground text-xs">
                         {t("RP.PRESET_PREFILL_HINT")}
+                      </p>
+                    </>
+                  )}
+                  {card.slot === "reasoningPrefill" && (
+                    <>
+                      <Textarea
+                        value={form.watch("reasoningPrefill") ?? ""}
+                        onChange={(e) =>
+                          form.setValue("reasoningPrefill", e.target.value, {
+                            shouldDirty: true,
+                          })
+                        }
+                        className="max-h-24 overflow-y-auto"
+                        placeholder={t(
+                          "RP.PRESET_REASONING_PREFILL_PLACEHOLDER",
+                        )}
+                      />
+                      <p className="text-muted-foreground text-xs">
+                        {t("RP.PRESET_REASONING_PREFILL_HINT")}
                       </p>
                     </>
                   )}

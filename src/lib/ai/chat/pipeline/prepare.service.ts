@@ -101,6 +101,7 @@ export async function prepareChatRequest(
     messagesForUpstream,
     effectiveSystem,
     deepSeekReasoningContent,
+    moonshotPartial,
     autoFlags,
   } = await transformRoles(
     body.model,
@@ -155,6 +156,7 @@ export async function prepareChatRequest(
       autoFlags,
       modelInfo,
       deepSeekReasoningContent,
+      moonshotPartial,
     ),
     startAlerts: prompt.startAlerts,
     stopRequested: prompt.stopRequested,

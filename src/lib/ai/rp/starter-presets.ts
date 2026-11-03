@@ -21,6 +21,7 @@ const NULL_SAMPLING: Pick<
   | "repetitionPenalty"
   | "extraBody"
   | "prefill"
+  | "reasoningPrefill"
   | "continuePrompt"
   | "impersonatePrompt"
   | "tokenizer"
@@ -40,6 +41,7 @@ const NULL_SAMPLING: Pick<
   repetitionPenalty: null,
   extraBody: null,
   prefill: null,
+  reasoningPrefill: null,
   continuePrompt: null,
   impersonatePrompt: null,
   tokenizer: null,

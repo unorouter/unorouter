@@ -1,0 +1,1 @@
+ALTER TABLE `sampling_presets` ADD `reasoning_prefill` text;

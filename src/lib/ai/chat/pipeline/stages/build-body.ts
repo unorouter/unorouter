@@ -140,6 +140,7 @@ export function buildBodyMutations(
   autoFlags: AutoFlags,
   modelInfo: PricingCatalogDetail | undefined,
   deepSeekReasoningContent: string | undefined,
+  moonshotPartial: boolean,
 ): BodyMutations {
   const effort = assembled.reasoningEffort;
   return {
@@ -150,6 +151,7 @@ export function buildBodyMutations(
     cacheBust: assembled.flags.disableCaching || undefined,
     deepSeekPrefix: autoFlags.deepSeekPrefix || undefined,
     deepSeekReasoningContent,
+    moonshotPartial: moonshotPartial || undefined,
     deepSeekThinking:
       autoFlags.deepSeekThinkingToggle && effort != null
         ? {

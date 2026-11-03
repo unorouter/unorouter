@@ -7,6 +7,7 @@ import { resolveChatRange } from "../../prompt/template";
 import { getModelRoleFlags } from "../role-flags";
 import {
   appendPrefill,
+  appendReasoningPrefill,
   appendUserStub,
   demoteLateSystem,
   dropEmptyMessages,
@@ -24,6 +25,7 @@ export type RoleTransformed = {
   messagesForUpstream: StreamMessages;
   effectiveSystem: string | undefined;
   deepSeekReasoningContent: string | undefined;
+  moonshotPartial: boolean;
   autoFlags: ReturnType<typeof getModelRoleFlags>;
 };
 
@@ -89,6 +91,17 @@ export async function transformRoles(
     processedMessages = prependUserStub(processedMessages);
   if (mustEndWithUserInput)
     processedMessages = appendUserStub(processedMessages);
+  // A history that already ends on the model is a continue, which has no
+  // fresh reasoning to seed.
+  const reasoningPrefill =
+    processedMessages.at(-1)?.role !== "assistant" || prefillText
+      ? assembled.reasoningPrefill
+      : undefined;
+  if (reasoningPrefill)
+    processedMessages = appendReasoningPrefill(
+      processedMessages,
+      reasoningPrefill,
+    );
 
   if (luaCodes.length > 0) {
     processedMessages = await applyRequestEdit(processedMessages, (ctx, f) =>
@@ -126,6 +139,7 @@ export async function transformRoles(
     messagesForUpstream: unescapeMessages(processedMessages),
     effectiveSystem,
     deepSeekReasoningContent,
+    moonshotPartial: !!reasoningPrefill && /kimi|moonshot/i.test(model),
     autoFlags,
   };
 }

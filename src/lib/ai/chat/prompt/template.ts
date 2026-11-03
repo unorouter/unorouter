@@ -8,6 +8,7 @@ export type SlotName =
   | "persona" // user persona block
   | "lorebook" // all selected lorebook entries, one role-tagged message each, orderIndex-then-priority sorted
   | "prefill" // trailing assistant priming text, emitted as an assistant message
+  | "reasoningPrefill" // start of the model's thinking, sent as the trailing assistant's reasoning
   | "postHistory" // jailbreak/UJB + preset.postHistory
   | "systemPrompt"; // systemPromptOverride ?? primary.systemPrompt
 
@@ -95,6 +96,7 @@ const SLOT_NAMES: readonly SlotName[] = [
   "persona",
   "lorebook",
   "prefill",
+  "reasoningPrefill",
   "postHistory",
   "systemPrompt",
 ];

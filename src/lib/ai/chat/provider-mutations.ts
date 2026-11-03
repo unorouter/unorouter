@@ -5,6 +5,7 @@ export type BodyMutations = {
   deepSeekPrefix?: boolean;
   deepSeekThinking?: { enabled: boolean; effort: string };
   deepSeekReasoningContent?: string;
+  moonshotPartial?: boolean;
   claudeAdaptive?: { effort: "high" | "xhigh" | "max" };
   cacheBust?: boolean;
 };
@@ -16,6 +17,7 @@ export function hasBodyMutation(opts?: BodyMutations): boolean {
       opts.deepSeekPrefix ||
       opts.deepSeekThinking ||
       opts.deepSeekReasoningContent ||
+      opts.moonshotPartial ||
       opts.claudeAdaptive ||
       opts.cacheBust),
   );
@@ -98,6 +100,9 @@ export function makeUpstreamFetch(opts?: BodyMutations): typeof fetch {
         }
         if (opts.deepSeekReasoningContent && last?.role === "assistant") {
           last.reasoning_content = opts.deepSeekReasoningContent;
+        }
+        if (opts.moonshotPartial && last?.role === "assistant") {
+          last.partial = true;
         }
         if (opts.deepSeekThinking) {
           body.thinking = {

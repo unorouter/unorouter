@@ -217,6 +217,7 @@ export const samplingPresetFormSchema = t.Object({
     default: "system",
   }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  reasoningPrefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   continuePrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   impersonatePrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   tokenizer: t.String({ default: "", maxLength: 256 }),

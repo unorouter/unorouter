@@ -158,6 +158,7 @@ export async function exportLocalPreset(
     mainPrompt: row.mainPrompt,
     postHistory: row.postHistory,
     prefill: row.prefill,
+    reasoningPrefill: row.reasoningPrefill,
     forceAlternateRoles: row.forceAlternateRoles,
     noSystemRole: row.noSystemRole,
     mustStartWithUserInput: row.mustStartWithUserInput,

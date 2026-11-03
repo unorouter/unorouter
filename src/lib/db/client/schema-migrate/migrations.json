@@ -59,6 +59,10 @@
     {
       "tag": "0014_flimsy_piledriver",
       "sql": "ALTER TABLE `sampling_presets` ADD `keep_reasoning` integer DEFAULT false NOT NULL;"
+    },
+    {
+      "tag": "0015_optimal_nocturne",
+      "sql": "ALTER TABLE `sampling_presets` ADD `reasoning_prefill` text;"
     }
   ]
 }
