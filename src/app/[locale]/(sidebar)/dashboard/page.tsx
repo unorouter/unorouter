@@ -17,8 +17,8 @@ export default async function DashboardPage() {
     prefetchElysia(queryClient, queryKeys.status(), (cookies) =>
       rpc.api.auth.account.status.get(cookies),
     ),
-    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
-      rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
+    prefetchElysia(queryClient, queryKeys.usageLogsPerf(24), (cookies) =>
+      rpc.api.ops.logs.perf.get({ ...cookies, query: { hours: 24 } }),
     ),
     prefetchElysia(queryClient, queryKeys.dashboardQuota(quota), (cookies) =>
       rpc.api.billing.dashboard.quota.get({ ...cookies, query: quota }),

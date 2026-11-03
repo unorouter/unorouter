@@ -66,6 +66,20 @@ export function StatsCards() {
       isLoading,
     },
     {
+      icon: "download",
+      label: t("DASHBOARD.STATS.CACHE_READ"),
+      value: formatTokens(stats.totalCacheRead),
+      caption: t("DASHBOARD.STATS.CACHE_READ_CAPTION"),
+      isLoading,
+    },
+    {
+      icon: "upload",
+      label: t("DASHBOARD.STATS.CACHE_WRITE"),
+      value: formatTokens(stats.totalCacheWrite),
+      caption: t("DASHBOARD.STATS.CACHE_WRITE_CAPTION"),
+      isLoading,
+    },
+    {
       icon: "gauge",
       label: t("DASHBOARD.STATS.AVERAGE_RPM"),
       value: stats.avgRpm.toFixed(2),
@@ -82,7 +96,7 @@ export function StatsCards() {
   ];
 
   return (
-    <div className="divide-border grid grid-cols-1 divide-y sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:divide-x xl:divide-y-0">
+    <div className="divide-border grid grid-cols-1 divide-y sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 xl:divide-x xl:divide-y-0">
       {tiles.map((tile) => (
         <Tile key={tile.label} {...tile} />
       ))}

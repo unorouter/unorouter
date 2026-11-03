@@ -55,6 +55,7 @@ export const queryKeys = {
     ["usage-logs", params] as const,
   usageLogsStat: (params?: EdenQuery<typeof rpc.api.ops.logs.stat>) =>
     ["usage-logs-stat", params] as const,
+  usageLogsPerf: (hours: number) => ["usage-logs-perf", hours] as const,
   midjourneyLogs: (params?: EdenQuery<typeof rpc.api.ops.logs.midjourney>) =>
     ["midjourney-logs", params] as const,
   taskLogs: (params?: EdenQuery<typeof rpc.api.ops.logs.task>) =>

@@ -36,6 +36,12 @@ export function useUsageLogsStatQuery(
   );
 }
 
+export function useUsageLogsPerfQuery(hours: number) {
+  return useElysiaQuery(queryKeys.usageLogsPerf(hours), () =>
+    rpc.api.ops.logs.perf.get({ query: { hours } }),
+  );
+}
+
 export function useMidjourneyLogsQuery(
   query?: EdenQuery<typeof rpc.api.ops.logs.midjourney>,
 ) {

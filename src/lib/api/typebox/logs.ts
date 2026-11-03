@@ -22,6 +22,8 @@ export const logsStatQuery = t.Object({
   model_name: t.Optional(t.String()),
 });
 
+export const logsPerfQuery = t.Object({ hours: t.Optional(t.Number()) });
+
 export const byRequestQuery = t.Object({ request_id: t.String() });
 
 const nullableStr = t.Union([t.String(), t.Null()], { default: null });

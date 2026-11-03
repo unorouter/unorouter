@@ -41,6 +41,8 @@ export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
   let totalCount = 0;
   let totalQuota = 0;
   let totalTokens = 0;
+  let totalCacheRead = 0;
+  let totalCacheWrite = 0;
   const byHour = new Map<number, BucketData>();
 
   for (const item of data) {
@@ -48,6 +50,8 @@ export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
     totalCount += item.count ?? 0;
     totalQuota += item.quota ?? 0;
     totalTokens += item.token_used ?? 0;
+    totalCacheRead += item.cache_read_tokens ?? 0;
+    totalCacheWrite += item.cache_creation_tokens ?? 0;
 
     const hourKey = item.created_at ?? 0;
     const existing = byHour.get(hourKey);
@@ -78,6 +82,8 @@ export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
     totalCount,
     totalQuota,
     totalTokens,
+    totalCacheRead,
+    totalCacheWrite,
     avgRpm,
     avgTpm,
     trends: {

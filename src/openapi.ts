@@ -301,36 +301,12 @@ export interface BillingPreferenceRequest {
   billing_preference: string;
 }
 
-export interface ClaudeCacheCreationUsage {
-  ephemeral_1h_input_tokens?: number;
-  ephemeral_5m_input_tokens?: number;
-}
-
-export interface ClaudeServerToolUse {
-  code_execution_requests?: number;
-  tool_search_requests?: number;
-  web_fetch_requests?: number;
-  web_search_requests?: number;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
-}
-
 export interface GeminiPromptTokensDetails {
   modality: string;
   tokenCount: number;
 }
 
-export interface GeminiUsageMetadata {
+export interface BillingUsage {
   billing_usage?: BillingUsage;
   cachedContentTokenCount: number;
   candidatesTokenCount: number;
@@ -346,11 +322,12 @@ export interface GeminiUsageMetadata {
   totalTokenCount: number;
 }
 
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
+export interface BucketPoint {
+  avg_latency_ms: number;
+  avg_tps: number;
+  avg_ttft_ms: number;
+  success_rate: number;
+  ts: number;
 }
 
 export interface CacheWriteTokenDetails {
@@ -365,54 +342,6 @@ export interface CachedTokenDetails {
   image_tokens?: number | null;
   /** @nullable */
   text_tokens?: number | null;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_creation_input_tokens?: number;
-  cache_write_tokens?: number;
-  cache_write_tokens_details?: CacheWriteTokenDetails;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  cached_tokens_details?: CachedTokenDetails;
-  image_tokens: number;
-  text_tokens: number;
-}
-
-export interface Usage {
-  billing_usage?: BillingUsage;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: OutputTokenDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: InputTokenDetails;
-  output_tokens: number;
-  output_tokens_details?: OutputTokenDetails;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: InputTokenDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
-}
-
-export interface BillingUsage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
-}
-
-export interface BucketPoint {
-  avg_latency_ms: number;
-  avg_tps: number;
-  avg_ttft_ms: number;
-  success_rate: number;
-  ts: number;
 }
 
 export interface CardItemDTO {
@@ -595,6 +524,11 @@ export interface CheckinStatusData {
   stats: CheckinStats;
 }
 
+export interface ClaudeCacheCreationUsage {
+  ephemeral_1h_input_tokens?: number;
+  ephemeral_5m_input_tokens?: number;
+}
+
 /**
  * ClaudeMessageResponse schema
  */
@@ -609,6 +543,25 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
+}
+
+export interface ClaudeServerToolUse {
+  code_execution_requests?: number;
+  tool_search_requests?: number;
+  web_fetch_requests?: number;
+  web_search_requests?: number;
+}
+
+export interface ClaudeUsage {
+  billing_usage?: BillingUsage;
+  cache_creation?: ClaudeCacheCreationUsage;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  input_tokens: number;
+  output_tokens: number;
+  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -1139,6 +1092,31 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface Usage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
+}
+
 /**
  * EmbeddingResponse schema
  */
@@ -1422,6 +1400,18 @@ export interface ImageParams {
   supportsSize: boolean;
   supportsSteps: boolean;
   supportsStrength: boolean;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_creation_input_tokens?: number;
+  cache_write_tokens?: number;
+  cache_write_tokens_details?: CacheWriteTokenDetails;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  cached_tokens_details?: CachedTokenDetails;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -2008,6 +1998,13 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 }
 
 export interface OwnPurposeObjectionData {
@@ -5424,6 +5421,13 @@ export type GetUserLogsParams = {
    * Filter by subscription plan title (substring)
    */
   subscription_plan?: string;
+};
+
+export type GetSelfPerfMetricsParams = {
+  /**
+   * Lookback window in hours (default 24, max 720)
+   */
+  hours?: number;
 };
 
 export type GetLogsSelfStatParams = {
@@ -10356,6 +10360,56 @@ export const exportUserLogs = async (
     ...options,
     method: "GET",
   });
+};
+
+export type getSelfPerfMetricsResponse200ApplicationJson = {
+  data: ResponsePerfMetricsSummaryAllResult;
+  status: 200;
+};
+
+export type getSelfPerfMetricsResponse200ApplicationXml = {
+  data: ResponsePerfMetricsSummaryAllResult;
+  status: 200;
+};
+
+export type getSelfPerfMetricsResponseSuccess = (
+  | getSelfPerfMetricsResponse200ApplicationJson
+  | getSelfPerfMetricsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getSelfPerfMetricsResponse = getSelfPerfMetricsResponseSuccess;
+
+export const getGetSelfPerfMetricsUrl = (params?: GetSelfPerfMetricsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/log/self/perf?${stringifiedParams}`
+    : `/api/log/self/perf`;
+};
+
+/**
+ * @summary Get Self Perf Metrics
+ */
+export const getSelfPerfMetrics = async (
+  params?: GetSelfPerfMetricsParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<getSelfPerfMetricsResponse> => {
+  return customFetch<getSelfPerfMetricsResponse>(
+    getGetSelfPerfMetricsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 export type searchUserLogsResponse200ApplicationJson = {

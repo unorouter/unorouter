@@ -2,20 +2,10 @@
 
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
-import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
+import { useUsageLogsPerfQuery } from "@/hooks/ops/logs-hook";
 import { useTranslations } from "next-intl";
 
 const TOP_MODELS = 6;
-
-function aggregate(models: { success_rate: number; request_count: number }[]) {
-  let weighted = 0;
-  let total = 0;
-  for (const model of models) {
-    weighted += model.success_rate * model.request_count;
-    total += model.request_count;
-  }
-  return total > 0 ? weighted / total : 0;
-}
 
 // success_rate arrives as a 0-100 percentage, not a fraction.
 function rateDot(rate: number) {
@@ -32,31 +22,18 @@ function rateText(rate: number) {
 
 export function PerformanceStrip() {
   const t = useTranslations();
-  const summaryQuery = usePerfMetricsSummaryQuery(24);
+  const perfQuery = useUsageLogsPerfQuery(24);
+  const summary = perfQuery.data?.summary;
+  const models = (perfQuery.data?.models ?? []).slice(0, TOP_MODELS);
 
-  const all = summaryQuery.data?.models ?? [];
-  const models = [...all]
-    .sort((a, b) => b.request_count - a.request_count)
-    .slice(0, TOP_MODELS);
-
-  const successRate = aggregate(all);
-  const avgLatency =
-    models.length > 0
-      ? models.reduce((sum, m) => sum + m.avg_latency_ms, 0) / models.length
-      : 0;
-  const throughput =
-    models.length > 0
-      ? models.reduce((sum, m) => sum + m.avg_tps, 0) / models.length
-      : 0;
-
-  if (summaryQuery.isLoading) {
+  if (perfQuery.isLoading) {
     return (
       <div className="border-border bg-card border p-4">
         <Skeleton className="h-12 w-full" />
       </div>
     );
   }
-  if (models.length === 0) return null;
+  if (!summary || models.length === 0) return null;
 
   return (
     <div className="border-border bg-card flex flex-wrap items-center gap-x-6 gap-y-3 border p-4">
@@ -65,23 +42,26 @@ export function PerformanceStrip() {
         <span className="text-sm font-semibold">
           {t("DASHBOARD.PANEL.PERFORMANCE")}
         </span>
+        <span className="text-muted-foreground text-[11px]">
+          {t("DASHBOARD.PANEL.PERFORMANCE_SCOPE")}
+        </span>
       </div>
 
       <Metric
         icon="circle-check"
         label={t("DASHBOARD.PANEL.SUCCESS_RATE")}
-        value={`${successRate.toFixed(2)}%`}
-        tone={rateText(successRate)}
+        value={`${summary.success_rate.toFixed(2)}%`}
+        tone={rateText(summary.success_rate)}
       />
       <Metric
         icon="clock"
         label={t("DASHBOARD.PANEL.AVG_LATENCY")}
-        value={`${(avgLatency / 1000).toFixed(2)}s`}
+        value={`${(summary.avg_latency_ms / 1000).toFixed(2)}s`}
       />
       <Metric
         icon="zap"
         label={t("DASHBOARD.PANEL.THROUGHPUT")}
-        value={`${throughput.toFixed(1)} t/s`}
+        value={`${summary.avg_tps.toFixed(1)} t/s`}
       />
 
       <div className="flex flex-wrap items-center gap-2">
