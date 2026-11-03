@@ -576,7 +576,7 @@ function ModelGroupPanel(props: {
                       on phones and cut every name to its first two letters. */}
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span
-                    className="truncate font-mono text-xs"
+                    className="font-mono text-xs break-all"
                     title={
                       option.online
                         ? option.group
