@@ -194,6 +194,13 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
       // public/ assets get Next's 4h default, which Lighthouse flags on every
       // page. Not immutable (no content hash in names), so 30d + SWR.
       ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(
