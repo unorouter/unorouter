@@ -17,7 +17,6 @@ metadata:
   name: unorouter
   namespace: services
 spec:
-  replicas: 2
   strategy:
     rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
   selector:
