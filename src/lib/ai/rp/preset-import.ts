@@ -4,15 +4,17 @@ import {
 } from "@/lib/validation/rp";
 import { rec } from "@/lib/utils/base";
 import {
+  isLoreBaryPreset,
   isRisuPreset,
   isSillyTavernPreset,
+  mapLoreBaryPreset,
   mapRisuPreset,
   mapSillyTavernPreset,
 } from "./foreign-preset";
 import { Value } from "@sinclair/typebox/value";
 
 // Accepts our own .preset.json export and anything shaped like it, plus the
-// SillyTavern and RisuAI exports, which carry the same settings under their own
+// SillyTavern, RisuAI and LoreBary exports, which carry the same settings under their own
 // names and carry no name of their own. Keys the file leaves out become null
 // where the schema allows it, so a hand-trimmed file still imports; isDefault
 // never survives an import.
@@ -46,7 +48,9 @@ function mapForeign(
     ? mapSillyTavernPreset(data, fallbackName)
     : isRisuPreset(data)
       ? mapRisuPreset(data, fallbackName)
-      : null;
+      : isLoreBaryPreset(data)
+        ? mapLoreBaryPreset(data, fallbackName)
+        : null;
   if (!mapped) return null;
   const out: Record<string, unknown> = {
     name: mapped.name,

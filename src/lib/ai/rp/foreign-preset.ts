@@ -215,3 +215,34 @@ export function mapRisuPreset(
     },
   };
 }
+
+// LoreBary exports a core prompt plus optional modules, and the modules overlap:
+// "ALL MODULES" repeats the single ones, so only the core becomes the main prompt.
+export function isLoreBaryPreset(data: Record<string, unknown>): boolean {
+  return Array.isArray(data.modules);
+}
+
+export function mapLoreBaryPreset(
+  data: Record<string, unknown>,
+  fallbackName: string,
+): Mapped {
+  const modules = (Array.isArray(data.modules) ? data.modules : []).flatMap(
+    (m) => {
+      const r = rec(m);
+      return r ? [r] : [];
+    },
+  );
+  const core = modules.filter((m) => m.isCore === true);
+  const mainPrompt = (core.length > 0 ? core : modules.slice(0, 1))
+    .map((m) => str(m.content))
+    .filter((t) => t !== null)
+    .join("\n\n");
+  return {
+    name: str(data.title) ?? fallbackName,
+    promptTemplate: null,
+    fields: {
+      mainPrompt: mainPrompt || null,
+      temperature: num(rec(data.recommendations)?.temperature, 0, 4),
+    },
+  };
+}
