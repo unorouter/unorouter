@@ -46,7 +46,8 @@ export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
 export const EDGE_SESSION_COOKIE = "edge-session" as const;
 export const USER_THEME_COOKIE = "user-theme" as const;
-// Same exclusions as the Cloudflare anonymous HTML cache rule.
+// Same exclusions as the Cloudflare anonymous HTML cache rule and the render admission gate
+// in patches/next-bun-compile@*.patch (which also exempts edge-session).
 export const PERSONAL_COOKIES = [
   ACCESS_TOKEN_COOKIE,
   USER_ID_COOKIE,

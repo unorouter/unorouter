@@ -1,0 +1,123 @@
+diff --git a/dist/runtime/serve.js b/dist/runtime/serve.js
+index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a016ee20c30 100644
+--- a/dist/runtime/serve.js
++++ b/dist/runtime/serve.js
+@@ -214,8 +214,65 @@ class NodeResponseShim extends Writable {
+   }
+ }
+ 
+-function createBridge(getHandler) {
++// Must match PERSONAL_COOKIES plus EDGE_SESSION_COOKIE in the app's src/lib/config/constants.ts.
++const PERSONAL_COOKIE = /(?:^|;\s*)(?:access_token|user-id|user-theme|edge-session)=/;
++
++function isAnonymousDocument(request) {
++  if (request.method !== "GET") return false;
++  if (!(request.headers.get("accept") ?? "").includes("text/html")) return false;
++  const cookie = request.headers.get("cookie");
++  if (cookie && PERSONAL_COOKIE.test(cookie)) return false;
++  const pathname = new URL(request.url).pathname;
++  return !pathname.startsWith("/api/") && !pathname.startsWith("/_next/");
++}
++
++const BUSY_BODY =
++  '<!doctype html><meta charset="utf-8"><title>503</title><p>503</p><script>setTimeout(function(){location.reload()},5000)</script>';
++
++// Queued renders are what OOM killed the pods in a flood: past the cap, shed at once.
++function createAdmission(cap) {
++  let inFlight = 0;
++  let shed = 0;
++  let lastReport = 0;
++  return {
++    tryAcquire(request) {
++      if (!(cap > 0) || !isAnonymousDocument(request)) return () => {};
++      if (inFlight >= cap) {
++        shed++;
++        const now = Date.now();
++        if (now - lastReport >= 10_000) {
++          console.warn(`[admission] shed ${shed} anonymous renders, cap ${cap}`);
++          lastReport = now;
++          shed = 0;
++        }
++        return null;
++      }
++      inFlight++;
++      let released = false;
++      return () => {
++        if (released) return;
++        released = true;
++        inFlight--;
++      };
++    },
++  };
++}
++
++function busyResponse() {
++  return new Response(BUSY_BODY, {
++    status: 503,
++    headers: {
++      "Content-Type": "text/html; charset=utf-8",
++      "Retry-After": "5",
++      "Cache-Control": "no-store",
++    },
++  });
++}
++
++function createBridge(getHandler, admission = createAdmission(0)) {
+   return async function bridge(request, server) {
++    const release = admission.tryAcquire(request);
++    if (!release) return busyResponse();
+     const remoteAddr =
+       (server && server.requestIP(request)?.address) || "127.0.0.1";
+     const req = makeNodeRequest(request, remoteAddr);
+@@ -235,9 +292,16 @@ function createBridge(getHandler) {
+           })
+         );
+       });
++      // A client abort closes res while Next may still render: free the slot only once both are done.
++      let pending = 2;
++      const done = () => {
++        if (--pending === 0) release();
++      };
++      res.once("close", done);
+       res.on("error", (err) => {
+         if (!settled) {
+           settled = true;
++          release();
+           reject(err);
+         }
+       });
+@@ -246,12 +310,15 @@ function createBridge(getHandler) {
+         req.destroy();
+         res.destroy();
+       });
+-      Promise.resolve(getHandler()(req, res)).catch((err) => {
+-        if (!settled) {
+-          settled = true;
+-          reject(err);
+-        }
+-      });
++      Promise.resolve(getHandler()(req, res))
++        .catch((err) => {
++          if (!settled) {
++            settled = true;
++            release();
++            reject(err);
++          }
++        })
++        .finally(done);
+     });
+   };
+ }
+@@ -1323,7 +1390,11 @@ async function start(opts) {
+     return handlerPromise;
+   };
+   let handler = null;
+-  const bridge = createBridge(() => handler);
++  const renderCap = Number(process.env.ANON_RENDER_CAP ?? 24);
++  const bridge = createBridge(() => handler, createAdmission(renderCap));
++  if (renderCap > 0) {
++    console.log(`   - Admission: ${renderCap} concurrent anonymous document renders`);
++  }
+   const bridgeLazy = async (req, server) => {
+     if (!handler) handler = await getHandlerOnce();
+     return bridge(req, server);

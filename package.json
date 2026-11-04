@@ -140,7 +140,8 @@
   },
   "patchedDependencies": {
     "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
-    "@sqlite.org/sqlite-wasm@3.54.1-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.54.1-build1.patch"
+    "@sqlite.org/sqlite-wasm@3.54.1-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.54.1-build1.patch",
+    "next-bun-compile@2.1.1": "patches/next-bun-compile@2.1.1.patch"
   },
   "overrides": {
     "@sqlite.org/sqlite-wasm": "3.54.1-build1",
