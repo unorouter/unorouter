@@ -50,6 +50,13 @@ spec:
                 labelSelector:
                   matchLabels: { app: unorouter }
                 topologyKey: kubernetes.io/hostname
+      # The preferred anti-affinity above stacked two pods on one node once the HPA scaled.
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels: { app: unorouter }
       priorityClassName: serving
       imagePullSecrets:
         - name: ghcr-pull
@@ -64,11 +71,12 @@ spec:
             capabilities: { drop: [ALL] }
           # heaviest service on the fleet as a compiled binary (the whole static tree is
           # served from memory): ~750Mi typical, one pod peaked at 1.47Gi over 30 days
-          # (2026-10-24). Request covers the steady state or the scheduler overpacks
-          # nodes; limit is ~2x peak.
+          # (2026-10-24). On 2026-11-04 two flood-bloated pods on one node grew toward a 3Gi
+          # limit, the node went into global OOM and took etcd and both database primaries
+          # with it: the limit must OOM this container long before the node runs out.
           resources:
-            requests: { memory: 1280Mi, cpu: "1" }
-            limits: { memory: 3Gi }
+            requests: { memory: 1536Mi, cpu: "1" }
+            limits: { memory: 2Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
           ports:
