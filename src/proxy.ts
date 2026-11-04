@@ -18,7 +18,7 @@ function logEdgeFingerprint(request: NextRequest, status: number) {
   if (!httpVersion) return;
   const ua = (headers.get("user-agent") ?? "").slice(0, 200);
   console.log(
-    `[fp] ${status} ${request.nextUrl.pathname} c=${headers.get("x-uno-tls-ciphers") ?? ""} l=${headers.get("x-uno-tls-hello-len") ?? ""} e=${headers.get("x-uno-tls-ext") ?? ""} h=${httpVersion} asn=${headers.get("x-uno-asn") ?? ""} ua=${JSON.stringify(ua)}`,
+    `[fp] ${status} ${request.nextUrl.pathname} c=${headers.get("x-uno-tls-ciphers") ?? ""} l=${headers.get("x-uno-tls-hello-len") ?? ""} e=${headers.get("x-uno-tls-ext") ?? ""} h=${httpVersion} asn=${headers.get("x-uno-asn") ?? ""} ip=${headers.get("cf-connecting-ip") ?? ""} ua=${JSON.stringify(ua)}`,
   );
 }
 
