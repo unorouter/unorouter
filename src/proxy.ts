@@ -1,10 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
-import { SERVER_URL_KEY } from "./lib/config/constants";
-
-// Same exclusions as the Cloudflare anonymous HTML cache rule.
-const PERSONAL_COOKIES = ["access_token", "user-id", "user-theme"];
+import { PERSONAL_COOKIES, SERVER_URL_KEY } from "./lib/config/constants";
 
 // Cloudflare serves stale only when the origin allows it; Next keeps a header set here.
 function isAnonymousDocument(request: NextRequest): boolean {

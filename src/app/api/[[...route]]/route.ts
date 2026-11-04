@@ -2,6 +2,7 @@ import { setEdgeSessionCookie } from "@/lib/api/auth";
 import {
   APP_VALUES,
   EDGE_SESSION_COOKIE,
+  PERSONAL_COOKIES,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -71,18 +72,22 @@ export const app = new Elysia({ prefix: "/api" })
     }),
   )
   // Anonymous public reads that only mirror upstream catalog/status data. Cloudflare
-  // caches on CDN-Cache-Control and strips it from the client response, so browsers keep
-  // revalidating while a flood of the same URL is absorbed at the edge. Anything carrying
-  // a credential is left alone: the header is set only when the request has neither an
-  // Authorization header nor a session cookie.
-  .onAfterHandle(({ request, path, set }) => {
+  // caches on CDN-Cache-Control, so browsers keep revalidating while a flood of the same
+  // URL is absorbed at the edge. Upstream prices by the caller's group, so any credential
+  // (Authorization or a session cookie) leaves the response uncached.
+  .onAfterHandle(({ request, path, set, cookie }) => {
     const ttl = PUBLIC_READ_TTL.find((e) => e.match(path))?.ttl;
     if (ttl === undefined) return;
     if (request.method !== "GET") return;
     if (request.headers.get("authorization")) return;
-    if (request.headers.get("cookie")?.includes("session=")) return;
+    if (
+      [...PERSONAL_COOKIES, EDGE_SESSION_COOKIE].some(
+        (name) => cookie[name]?.value !== undefined,
+      )
+    )
+      return;
     set.headers["cdn-cache-control"] =
-      `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`;
+      `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}, stale-if-error=86400`;
   })
   // Sessions that predate the edge cookie get it from their next API call.
   .onAfterHandle(async ({ cookie }) => {
