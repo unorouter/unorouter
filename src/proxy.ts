@@ -11,15 +11,28 @@ function isAnonymousDocument(request: NextRequest): boolean {
   return request.headers.get("accept")?.includes("text/html") ?? false;
 }
 
+// The x-uno-* headers come from a Cloudflare request header transform, so only edge traffic carries them.
+function logEdgeFingerprint(request: NextRequest, status: number) {
+  const headers = request.headers;
+  const httpVersion = headers.get("x-uno-http");
+  if (!httpVersion) return;
+  const ua = (headers.get("user-agent") ?? "").slice(0, 200);
+  console.log(
+    `[fp] ${status} ${request.nextUrl.pathname} c=${headers.get("x-uno-tls-ciphers") ?? ""} l=${headers.get("x-uno-tls-hello-len") ?? ""} e=${headers.get("x-uno-tls-ext") ?? ""} h=${httpVersion} asn=${headers.get("x-uno-asn") ?? ""} ua=${JSON.stringify(ua)}`,
+  );
+}
+
 export default function proxy(request: NextRequest) {
   request.headers.set(SERVER_URL_KEY, request.url);
   const response = createMiddleware(routing)(request);
-  if (response.status === 200 && isAnonymousDocument(request)) {
+  const anonymousDocument = isAnonymousDocument(request);
+  if (response.status === 200 && anonymousDocument) {
     response.headers.set(
       "Cache-Control",
       "public, max-age=0, stale-while-revalidate=600, stale-if-error=86400",
     );
   }
+  if (anonymousDocument) logEdgeFingerprint(request, response.status);
   return response;
 }
 
