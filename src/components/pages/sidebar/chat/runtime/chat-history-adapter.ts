@@ -37,12 +37,14 @@ import { parseStringMap, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   chatModelAtom,
+  chatRunningAtom,
   chatStore,
   convIdAtom,
   getThreadRuntime,
   globalVarsAtom,
   historyLoadedAtom,
   lastStreamErrorAtom,
+  reloadLiveThreadFromDb,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -554,6 +556,10 @@ function fireIllustrator(
       queryClient.invalidateQueries({
         queryKey: queryKeys.chatMessages(args.convId),
       });
+      // The open thread renders its live array, not the rows just rewritten.
+      if (!chatStore.get(chatRunningAtom)) {
+        await reloadLiveThreadFromDb(args.convId);
+      }
     }
   })();
 }

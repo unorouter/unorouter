@@ -23,14 +23,22 @@ export async function generateInlayImage(
     models.find((m) => m.is_free) ??
     models[0];
   if (!model) return null;
-  const endpoint = toSyncImageEndpoint(model.metadata?.imageParams?.endpoint);
+  const params = model.metadata?.imageParams;
+  const endpoint = toSyncImageEndpoint(params?.endpoint);
   if (!endpoint) return null;
+  // A reference makes this an edit, and a lane without edits answers 404.
+  const maxRefs = params?.supportsReferences
+    ? params.maxReferenceImages || 1
+    : params?.supportsSeedImage
+      ? 1
+      : 0;
+  const references = opts?.references?.slice(0, maxRefs);
   const images = await submitSyncImage({
     apiKey,
     body: {
       model: model.model_name,
       prompt,
-      references: opts?.references,
+      references: references?.length ? references : undefined,
     },
     endpoint,
     n: 1,
