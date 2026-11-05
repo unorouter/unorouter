@@ -46,6 +46,7 @@ import {
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { handleError } from "@/lib/utils/client";
 import {
   getExternalStoreMessages,
   type MessageFormatAdapter,
@@ -547,7 +548,8 @@ function fireIllustrator(
         refMediaIds: job.settings.refMediaIds,
         reviewPrompt,
       });
-    } catch {
+    } catch (err) {
+      handleError(err);
     } finally {
       queryClient.invalidateQueries({
         queryKey: queryKeys.chatMessages(args.convId),

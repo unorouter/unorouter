@@ -232,14 +232,21 @@ export async function runIllustrator(
   const refUrls = input.refMediaIds?.length
     ? await resolveRefUrls(input.refMediaIds)
     : [];
+  const generateImage = makeGenerateImage(input.convId, {
+    imageModel: input.imageModel,
+    imageGroup: input.imageGroup,
+    refUrls,
+  });
+  // The agent pipeline settles every agent, so a failed image would vanish.
+  let imageError: unknown;
   const runtime: AgentRuntime = {
     listFreeModels: async () => [target.model],
     generate: target.deps.runUtilityLLM,
-    generateImage: makeGenerateImage(input.convId, {
-      imageModel: input.imageModel,
-      imageGroup: input.imageGroup,
-      refUrls,
-    }),
+    generateImage: (prompt) =>
+      generateImage(prompt).catch((err: unknown) => {
+        imageError = err;
+        throw err;
+      }),
   };
   const pipeline = createAgentPipeline(
     [
@@ -297,5 +304,6 @@ export async function runIllustrator(
     const id = image.token.match(/\{\{inlay::([\w-]+)\}\}/)?.[1];
     if (id) invalidateInlay(id);
   }
+  if (!image && imageError) throw imageError;
   return !!image;
 }
