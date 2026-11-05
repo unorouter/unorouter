@@ -73,9 +73,11 @@ spec:
           # served from memory): ~750Mi typical, one pod peaked at 1.47Gi over 30 days
           # (2026-10-24). On 2026-11-04 two flood-bloated pods on one node grew toward a 3Gi
           # limit, the node went into global OOM and took etcd and both database primaries
-          # with it: the limit must OOM this container long before the node runs out.
+          # with it: the limit must OOM this container long before the node runs out. The
+          # admission cap (ANON_RENDER_CAP) keeps a flooded pod near 1.4Gi, so 1Gi covers the
+          # steady state without the cluster overcommitting its spare node.
           resources:
-            requests: { memory: 1536Mi, cpu: "1" }
+            requests: { memory: 1Gi, cpu: "1" }
             limits: { memory: 2Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
