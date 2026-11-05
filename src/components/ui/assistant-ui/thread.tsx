@@ -141,39 +141,49 @@ const THREAD_VARS: CssVars = {
   "--composer-padding": "10px",
 };
 
+const USER_SCROLL_EVENTS = ["wheel", "touchstart", "keydown"] as const;
+
 export const Thread: FC = () => {
   const autoScrollStream = useStreamFlag("autoScrollStream");
   const viewportRef = useRef<HTMLDivElement>(null);
   const [viewportEl, setViewportEl] = useState<HTMLDivElement | null>(null);
   // The library's one jump on open fires before a long history has rendered,
-  // so a chat opened with the setting off landed partway up. Follow the
-  // bottom until the rendered history stops growing, then honor the setting.
+  // and historyLoaded stays true across chat switches, so each opened chat
+  // follows its own bottom until the rendered history stops growing.
   const params = useParams<{ convId?: string }>();
   const historyLoaded = useAtomValue(historyLoadedAtom);
-  const [settled, setSettled] = useState(false);
+  const threadId = useAuiState((s) => s.threadListItem?.id ?? "");
+  const [settledFor, setSettledFor] = useState<string | null>(null);
   useEffect(() => {
     const el = viewportRef.current;
-    if (!historyLoaded || !el) return;
+    if (!historyLoaded || !el || !threadId) return;
     // Polled rather than observed: the nodes present at load are the skeleton,
     // and the message list that replaces them is what grows.
     let lastHeight = -1;
     let stableSince = Date.now();
     const started = Date.now();
+    const stop = () => {
+      clearInterval(timer);
+      for (const ev of USER_SCROLL_EVENTS) el.removeEventListener(ev, stop);
+      setSettledFor(threadId);
+    };
+    for (const ev of USER_SCROLL_EVENTS)
+      el.addEventListener(ev, stop, { passive: true });
     const timer = setInterval(() => {
       const now = Date.now();
       if (el.scrollHeight !== lastHeight) {
         lastHeight = el.scrollHeight;
         stableSince = now;
+        el.scrollTop = el.scrollHeight;
       }
-      if (now - stableSince > 400 || now - started > 8000) {
-        clearInterval(timer);
-        setSettled(true);
-      }
+      if (now - stableSince > 1200 || now - started > 8000) stop();
     }, 100);
-    return () => clearInterval(timer);
-  }, [historyLoaded]);
-  const settling = !!params.convId && !settled;
-  const threadId = useAuiState((s) => s.threadListItem?.id ?? "");
+    return () => {
+      clearInterval(timer);
+      for (const ev of USER_SCROLL_EVENTS) el.removeEventListener(ev, stop);
+    };
+  }, [historyLoaded, threadId]);
+  const settling = !!params.convId && settledFor !== threadId;
   useEffect(() => {
     logChatDebug("viewport.autoscroll", { autoScrollStream });
   }, [autoScrollStream]);
