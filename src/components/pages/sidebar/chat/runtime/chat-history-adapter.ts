@@ -45,6 +45,7 @@ import {
   historyLoadedAtom,
   lastStreamErrorAtom,
   reloadLiveThreadFromDb,
+  replaceMessageParts,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -821,6 +822,19 @@ export function createChatHistoryAdapter(
         }
 
         if (illustratorJob) {
+          // The placeholder went to the DB only; the open thread renders its live copy.
+          replaceMessageParts(messageId, (parts) => [
+            ...parts,
+            {
+              type: "data-task",
+              data: {
+                taskId: illustratorJob.taskId,
+                model: illustratorJob.utilityModel,
+                status: "generating",
+                kind: "image",
+              },
+            },
+          ]);
           fireIllustrator(queryClient, illustratorJob, {
             convId: id,
             messageId,
