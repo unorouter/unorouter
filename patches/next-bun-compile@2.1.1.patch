@@ -1,8 +1,8 @@
 diff --git a/dist/runtime/serve.js b/dist/runtime/serve.js
-index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a016ee20c30 100644
+index 1425ee3a476bdf34ebbf51d08652cce755493129..91310245c977f8a392337140b0daa88e139265ac 100644
 --- a/dist/runtime/serve.js
 +++ b/dist/runtime/serve.js
-@@ -214,8 +214,65 @@ class NodeResponseShim extends Writable {
+@@ -214,8 +214,92 @@ class NodeResponseShim extends Writable {
    }
  }
  
@@ -22,16 +22,43 @@ index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a01
 +const BUSY_BODY =
 +  '<!doctype html><meta charset="utf-8"><title>503</title><p>503</p><script>setTimeout(function(){location.reload()},5000)</script>';
 +
++// The app's [fp] line never runs for a shed request; w= counts the shed requests this line stands for.
++function createShedLog(burst = 3, every = 20, perSecond = 10) {
++  let unlogged = 0;
++  let second = 0;
++  let thisSecond = 0;
++  return (request) => {
++    const h = request.headers;
++    const httpVersion = h.get("x-uno-http");
++    if (!httpVersion) return;
++    unlogged++;
++    const now = Math.floor(Date.now() / 1000);
++    if (now !== second) {
++      second = now;
++      thisSecond = 0;
++    }
++    if (thisSecond >= perSecond || (thisSecond >= burst && unlogged < every)) return;
++    thisSecond++;
++    const ua = JSON.stringify((h.get("user-agent") ?? "").slice(0, 200));
++    console.log(
++      `[fp-shed] 503 ${new URL(request.url).pathname} w=${unlogged} c=${h.get("x-uno-tls-ciphers") ?? ""} l=${h.get("x-uno-tls-hello-len") ?? ""} e=${h.get("x-uno-tls-ext") ?? ""} h=${httpVersion} asn=${h.get("x-uno-asn") ?? ""} ip=${h.get("cf-connecting-ip") ?? ""} ua=${ua}`,
++    );
++    unlogged = 0;
++  };
++}
++
 +// Queued renders are what OOM killed the pods in a flood: past the cap, shed at once.
 +function createAdmission(cap) {
 +  let inFlight = 0;
 +  let shed = 0;
 +  let lastReport = 0;
++  const logShed = createShedLog();
 +  return {
 +    tryAcquire(request) {
 +      if (!(cap > 0) || !isAnonymousDocument(request)) return () => {};
 +      if (inFlight >= cap) {
 +        shed++;
++        logShed(request);
 +        const now = Date.now();
 +        if (now - lastReport >= 10_000) {
 +          console.warn(`[admission] shed ${shed} anonymous renders, cap ${cap}`);
@@ -69,7 +96,7 @@ index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a01
      const remoteAddr =
        (server && server.requestIP(request)?.address) || "127.0.0.1";
      const req = makeNodeRequest(request, remoteAddr);
-@@ -235,9 +292,16 @@ function createBridge(getHandler) {
+@@ -235,9 +319,16 @@ function createBridge(getHandler) {
            })
          );
        });
@@ -86,7 +113,7 @@ index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a01
            reject(err);
          }
        });
-@@ -246,12 +310,15 @@ function createBridge(getHandler) {
+@@ -246,12 +337,15 @@ function createBridge(getHandler) {
          req.destroy();
          res.destroy();
        });
@@ -108,7 +135,7 @@ index 1425ee3a476bdf34ebbf51d08652cce755493129..d86d8bd97c66816dde2ef94ca7e50a01
      });
    };
  }
-@@ -1323,7 +1390,11 @@ async function start(opts) {
+@@ -1323,7 +1417,11 @@ async function start(opts) {
      return handlerPromise;
    };
    let handler = null;
