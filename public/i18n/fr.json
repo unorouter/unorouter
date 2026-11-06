@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Une clé pour chaque modèle IA",
-    "DESCRIPTION": "Une clé pour chaque modèle IA. Utilisez-la dans votre code, dans Claude Code ou dans vos clients IA préférés. Routage intelligent vers tous les grands fournisseurs.",
-    "KEYWORDS": "API IA, point d'accès IA unifié, alternative OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, routeur IA, passerelle IA, API multi-modèles, API compatible OpenAI, client de chat IA",
+    "TITLE": "{appName} - Proxy IA gratuit pour JanitorAI et tous les modèles",
+    "DESCRIPTION": "Des modèles d’IA gratuits pour JanitorAI et SillyTavern, plus Claude, GPT, Gemini et DeepSeek avec une seule clé. Dans votre code, Claude Code ou n’importe quel client IA.",
+    "KEYWORDS": "proxy IA gratuit, proxy gratuit pour Janitor AI, proxy Janitor AI, API SillyTavern, API IA gratuite, API IA, alternative à OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, routeur IA, passerelle IA",
     "ACCOUNT": {
       "TITLE": "Compte {appName}",
       "DESC": "Gérez votre compte {appName}, vos clés, votre consommation et votre facturation.",

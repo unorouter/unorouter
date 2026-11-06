@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
-    "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong các ứng dụng khách AI yêu thích của bạn. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
-    "KEYWORDS": "API AI, endpoint AI thống nhất, thay thế OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, router AI, gateway AI, API đa mô hình, API tương thích OpenAI, ứng dụng chat AI",
+    "TITLE": "{appName} - Proxy AI miễn phí cho JanitorAI và mọi mô hình AI",
+    "DESCRIPTION": "Mô hình AI miễn phí cho JanitorAI và SillyTavern, cùng Claude, GPT, Gemini và DeepSeek trên một khóa. Dùng trong code, Claude Code hoặc bất kỳ ứng dụng AI nào.",
+    "KEYWORDS": "proxy AI miễn phí, proxy miễn phí Janitor AI, proxy Janitor AI, API SillyTavern, API AI miễn phí, API AI, thay thế OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, bộ định tuyến AI, cổng AI",
     "ACCOUNT": {
       "TITLE": "Tài khoản {appName}",
       "DESC": "Quản lý tài khoản {appName}, token, mức sử dụng và thanh toán.",

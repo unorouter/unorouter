@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - מפתח אחד לכל מודל AI",
-    "DESCRIPTION": "מפתח אחד לכל מודל AI. השתמשו בו בקוד שלכם, ב-Claude Code, או בלקוחות ה-AI האהובים עליכם. ניתוב חכם בין כל הספקים המובילים.",
-    "KEYWORDS": "API של AI, נקודת קצה AI מאוחדת, חלופה ל-OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, נתב AI, שער AI, API רב-מודלי, API תואם OpenAI, לקוח צ'אט AI",
+    "TITLE": "{appName} - פרוקסי AI חינמי ל-JanitorAI ולכל המודלים",
+    "DESCRIPTION": "מודלי AI חינמיים ל-JanitorAI ול-SillyTavern, וגם Claude, ‏GPT, ‏Gemini ו-DeepSeek עם מפתח אחד. בקוד שלכם, ב-Claude Code או בכל לקוח AI.",
+    "KEYWORDS": "פרוקסי AI חינמי, פרוקסי חינמי ל-Janitor AI, פרוקסי Janitor AI, SillyTavern API, API AI חינמי, API AI, חלופה ל-OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, נתב AI",
     "ACCOUNT": {
       "TITLE": "חשבון {appName}",
       "DESC": "ניהול חשבון {appName} שלכם, טוקנים, שימוש וחיובים.",

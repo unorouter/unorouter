@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - すべてのAIモデルに、ひとつの鍵",
-    "DESCRIPTION": "すべてのAIモデルに、ひとつの鍵。コードでも、Claude Codeでも、お気に入りのAIクライアントでも使えます。主要プロバイダー全体へのスマートルーティング。",
-    "KEYWORDS": "AI API、統合AIエンドポイント、OpenAI代替、Claude API、GPT API、Gemini API、DeepSeek API、AIルーター、AIゲートウェイ、マルチモデルAPI、OpenAI互換API、AIチャットクライアント",
+    "TITLE": "{appName} - JanitorAI向け無料AIプロキシ、全AIモデルを1つのキーで",
+    "DESCRIPTION": "JanitorAI と SillyTavern で使える無料AIモデルに加え、Claude、GPT、Gemini、DeepSeek を1つのキーで。コード、Claude Code、あらゆるAIクライアントで使えます。",
+    "KEYWORDS": "無料AIプロキシ, Janitor AI 無料プロキシ, Janitor AI プロキシ, SillyTavern API, 無料AI API, AI API, OpenAI 代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ",
     "ACCOUNT": {
       "TITLE": "{appName} アカウント",
       "DESC": "{appName} のアカウント、トークン、利用状況、請求を管理します。",

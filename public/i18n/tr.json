@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-    "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-    "KEYWORDS": "AI API, birleşik AI endpoint, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, çoklu model API, OpenAI uyumlu API, AI sohbet istemcisi",
+    "TITLE": "{appName} - JanitorAI ve tüm modeller için ücretsiz yapay zekâ proxy’si",
+    "DESCRIPTION": "JanitorAI ve SillyTavern için ücretsiz yapay zekâ modelleri, ayrıca tek anahtarla Claude, GPT, Gemini ve DeepSeek. Kodunuzda, Claude Code’da veya herhangi bir yapay zekâ istemcisinde kullanın.",
+    "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici",
     "ACCOUNT": {
       "TITLE": "{appName} Hesabı",
       "DESC": "{appName} hesabınızı, tokenlerinizi, kullanımınızı ve faturalandırmanızı yönetin.",

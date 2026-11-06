@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
-    "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在你喜爱的 AI 客户端里都能用。智能路由覆盖所有主要厂商。",
-    "KEYWORDS": "AI API，统一 AI 端点，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 网关，多模型 API，OpenAI 兼容 API，AI 聊天客户端",
+    "TITLE": "{appName} - JanitorAI 免费 AI 代理，一个密钥用遍所有模型",
+    "DESCRIPTION": "为 JanitorAI 和 SillyTavern 提供免费 AI 模型，Claude、GPT、Gemini 和 DeepSeek 也只需一个密钥。可用于你的代码、Claude Code 或任何 AI 客户端。",
+    "KEYWORDS": "免费 AI 代理, Janitor AI 免费代理, Janitor AI 代理, SillyTavern API, 免费 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关",
     "ACCOUNT": {
       "TITLE": "{appName} 账户",
       "DESC": "管理您的 {appName} 账户、令牌、用量和账单。",

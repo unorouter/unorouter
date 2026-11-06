@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - One Key for Every AI Model",
-    "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in your favorite AI clients. Smart routing across every major provider.",
-    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API, OpenAI-compatible API, AI chat client",
+    "TITLE": "{appName} - Free AI Proxy for JanitorAI & All AI Models",
+    "DESCRIPTION": "Free AI models for JanitorAI and SillyTavern, plus Claude, GPT, Gemini and DeepSeek on one key. Use it in your code, Claude Code or any AI client.",
+    "KEYWORDS": "free AI proxy, free proxy for Janitor AI, Janitor AI proxy, SillyTavern API, free AI API, AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, OpenAI-compatible API",
     "ACCOUNT": {
       "TITLE": "{appName} Account",
       "DESC": "Manage your {appName} account, tokens, usage and billing.",
