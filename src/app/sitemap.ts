@@ -25,7 +25,20 @@ type EntryOptions = {
   priority?: number;
   changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
   lastModified?: Date | SeoTimestampSlug;
+  locales?: readonly (typeof routing.locales)[number][];
 };
+
+// All 18 locales of every model page left ~10k URLs discovered but never crawled.
+const MODEL_SITEMAP_LOCALES = [
+  "en",
+  "id",
+  "ru",
+  "pt-BR",
+  "vi",
+  "es",
+  "pl",
+  "de",
+] as const satisfies readonly (typeof routing.locales)[number][];
 
 const privateSet = new Set<string>([
   ...privateRoutes.static,
@@ -57,7 +70,7 @@ function localizedEntries(
 
   // No per-URL hreflang alternates: 18 locales pushed this past Google's 50MB
   // limit (53MB, ~416k xhtml:link entries) and it stopped being read.
-  return routing.locales.map((locale) => ({
+  return (options.locales ?? routing.locales).map((locale) => ({
     url: `${env.siteOrigin}${getPathname({ locale, href })}`,
     lastModified: resolved,
     ...(options.priority !== undefined && { priority: options.priority }),
@@ -149,13 +162,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           // No build-date fallback: "changed today" every deploy stalled recrawl
           // of ~5.6k model URLs.
           lastModified: nameToReleaseDate.get(name),
+          locales: MODEL_SITEMAP_LOCALES,
         },
       );
     }),
     ...sitemapVendorSlugs.flatMap((slug) =>
       localizedEntries(
         { pathname: "/models/[...slug]", params: { slug: [slug] } },
-        { priority: 0.5, changeFrequency: "weekly" },
+        {
+          priority: 0.5,
+          changeFrequency: "weekly",
+          locales: MODEL_SITEMAP_LOCALES,
+        },
       ),
     ),
     ...COMPARE_PAIRS.filter(([a, b]) =>
