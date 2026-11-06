@@ -106,8 +106,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const ms = model.release_ts;
     if (ms) nameToReleaseDate.set(model.model_name, new Date(ms));
   }
-  const sitemapModelNames = modelNames.filter((name) =>
-    vendorSlug(nameToVendor.get(name) ?? ""),
+  // A :free page with a paid sibling canonicalizes to it, so it is not listed.
+  const sitemapModelNames = modelNames.filter(
+    (name) =>
+      vendorSlug(nameToVendor.get(name) ?? "") &&
+      !(name.endsWith(":free") && nameSet.has(name.slice(0, -":free".length))),
   );
   const sitemapVendorSlugs = [
     ...new Set(

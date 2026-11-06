@@ -67,7 +67,7 @@ async function resolveVendor(slug: string[]): Promise<string | null> {
   return res.data?.[0]?.vendor ?? null;
 }
 
-export function canonicalHref(model: PricingCatalogDetail) {
+export function canonicalHref(model: { model_name: string; vendor: string }) {
   const vendor = vendorSlug(model.vendor) || "unknown";
   const slug = [vendor, modelSlug(model.model_name)];
   return { pathname: "/models/[...slug]" as const, params: { slug } };

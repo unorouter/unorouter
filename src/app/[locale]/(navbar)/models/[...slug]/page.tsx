@@ -50,6 +50,13 @@ export async function generateMetadata(props: PageProps) {
   }
 
   const model = resolved.model.model;
+  // A :free page mostly repeats its paid sibling; pointing Google at the paid
+  // page consolidates them instead of leaving thousands discovered, not indexed.
+  const paidSibling = model.model_name.endsWith(":free")
+    ? resolved.model.models.find(
+        (m) => m.model_name === model.model_name.slice(0, -":free".length),
+      )
+    : undefined;
   const values = {
     ...APP_VALUES,
     name: model.model_name,
@@ -57,7 +64,7 @@ export async function generateMetadata(props: PageProps) {
   };
   return getPageMetadata({
     locale,
-    href: canonicalHref(model),
+    href: canonicalHref(paidSibling ?? model),
     title: t("MODEL_PAGE.META_TITLE", values),
     description: t("MODEL_PAGE.META_DESC", values),
     keywords: t("MODEL_PAGE.META_KEYWORDS", values),
