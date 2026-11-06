@@ -50,6 +50,7 @@ export interface SetupGuide {
     steps: SetupStep[];
   };
   gotchaKeys?: TranslationKey[];
+  faq?: { questionKey: TranslationKey; answerKey: TranslationKey }[];
   quickStart?: Record<OS, string>;
   quickConfig?: string;
   customComponent?: "cc-switch" | "claude-code";
@@ -716,6 +717,24 @@ API Endpoint: ${env.apiUrl}/v1`,
       "DOCS.JANITOR_AI.GOTCHA_3",
       "DOCS.JANITOR_AI.GOTCHA_4",
       "DOCS.JANITOR_AI.GOTCHA_5",
+    ],
+    faq: [
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_1_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_1_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_2_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_2_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_3_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_3_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_4_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_4_A",
+      },
     ],
   },
   {

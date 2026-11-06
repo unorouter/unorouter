@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "코드를 작성하고 실행하는 에디터와 에이전트.",
       "CATEGORY_ROLEPLAY_DESC": "캐릭터 채팅과 픽션 프런트엔드입니다.",
       "CATEGORY_GENERAL_DESC": "채팅 앱과 데스크톱 클라이언트.",
-      "CATEGORY_CLI_DESC": "터미널 도구와 명령줄 에이전트입니다."
+      "CATEGORY_CLI_DESC": "터미널 도구와 명령줄 에이전트입니다.",
+      "FAQ": "자주 묻는 질문",
+      "TOC_FAQ": "FAQ"
     },
     "GENERATE_API_KEY": "API 키 생성",
     "GENERATE_API_KEY_DESC": "시작하려면 API 키를 생성하세요",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor.AI 통합 가이드 | {appName}",
-        "DESCRIPTION": "Janitor.AI를 커스텀 프록시로 {appName}에 연결합니다. 정확한 전체 경로 URL과 대부분의 안내가 빠뜨리는 브라우저 새로고침 단계 포함.",
-        "KEYWORDS": "Janitor AI, Janitor 프록시, Janitor API, {appName} Janitor, AI 캐릭터 채팅, OpenAI 호환 API, Janitor 커스텀 프록시 URL"
+        "TITLE": "Janitor AI 무료 프록시: 설정 가이드 | {appName}",
+        "DESCRIPTION": "{appName}을 Janitor AI 무료 프록시로 사용하세요. 무료 DeepSeek와 GLM 모델, 정확한 프록시 URL, 대부분의 가이드가 놓치는 새로고침 단계까지 2분 만에 설정할 수 있습니다.",
+        "KEYWORDS": "Janitor AI 무료 프록시, 재니터 AI 무료 프록시, Janitor AI 추천 무료 프록시, Janitor AI 프록시 URL, Janitor AI 프록시, Janitor AI 무료 모델, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor.AI 통합 가이드",
-      "SUBTITLE": "{appName}을 Janitor.AI의 커스텀 프록시로 연결합니다. API Settings 패널이 요구하는 URL 형식으로 설정합니다.",
+      "TITLE": "Janitor AI 무료 프록시",
+      "SUBTITLE": "{appName}을 Janitor.AI에 무료 사용자 지정 프록시로 연결하세요. 무료 모델과 API Settings 패널이 요구하는 정확한 URL 형식을 안내합니다.",
       "INTRO_TITLE": "Janitor.AI란?",
-      "INTRO_DESC": "Janitor.AI는 브라우저 기반 캐릭터 채팅 플랫폼입니다. 무료 모델을 제공하며 OpenAI 호환 프록시라면 무엇이든 받습니다. {appName}은 API Settings 패널에서 연결합니다.",
+      "INTRO_DESC": "Janitor.AI는 OpenAI 호환 프록시라면 무엇이든 사용할 수 있는 브라우저 기반 캐릭터 채팅 플랫폼입니다. {appName}은 API Settings 패널에서 추가하며, 무료 모델과 함께 같은 키로 유료 모델도 쓸 수 있습니다.",
       "OVERVIEW": "개요",
       "OVERVIEW_DESC": "Janitor.AI는 프록시를 전체 경로인 `/v1/chat/completions` URL로 호출합니다. 그 URL과 API 키, 모델 이름을 붙여 넣고 Save를 누른 뒤, 브라우저를 강력 새로고침해 설정을 적용하세요.",
       "QUICK_CONFIG": "빠른 설정",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI는 페이지를 불러올 때 프록시 맵을 캐시하므로, 저장한 설정은 강력 새로고침 후에만 적용됩니다. 테스트 전에 Ctrl+Shift+R 또는 Cmd+Shift+R을 누르세요.",
       "GOTCHA_3": "Janitor는 저장 후 API 키를 가리고 다시는 보여주지 않습니다. 먼저 비밀번호 관리자에 저장해 두면 키 교체 때 새 키를 만들지 않아도 됩니다.",
       "GOTCHA_4": "「Free tier limit reached」 배너는 {appName}이 아니라 Janitor 자체 등급의 것입니다. 모델 드롭다운에서 대화를 사용자의 프록시 설정으로 바꾸세요.",
-      "GOTCHA_5": "Model Name은 모델 id와 정확히 일치해야 합니다. {appName} 모델 페이지에서 복사해 붙여 넣으세요."
+      "GOTCHA_5": "Model Name은 모델 id와 정확히 일치해야 합니다. {appName} 모델 페이지에서 복사해 붙여 넣으세요.",
+      "FAQ_1_Q": "{appName}은 Janitor AI용 무료 프록시인가요?",
+      "FAQ_1_A": "네. 이름이 :free로 끝나는 모델은 모두 무료입니다. 계정을 만들고(Google, Discord, GitHub 로그인이 가장 빠릅니다) API 키를 복사한 뒤 무료 모델을 고르세요. 필요하면 유료 모델도 같은 키로 사용할 수 있습니다.",
+      "FAQ_2_Q": "Janitor AI 롤플레이에 가장 좋은 무료 모델은?",
+      "FAQ_2_A": "위의 추천 모델 중에서 고르세요. DeepSeek와 GLM 계열은 긴 롤플레이에서도 캐릭터 카드와 설정을 가장 잘 지키고, 작은 모델은 이야기의 흐름을 자주 놓칩니다.",
+      "FAQ_3_Q": "\"Too many requests\"(429) 오류가 나는 이유는?",
+      "FAQ_3_A": "무료 모델은 계정과 모델별로 요청 수가 제한되며, 보통 1분에 한 번입니다. 바로 다시 보내도 소용없으니 카운트다운이 끝날 때까지 기다리거나 다른 무료 모델로 바꾸세요. 유료 모델에는 분당 제한이 없습니다.",
+      "FAQ_4_Q": "{appName}의 Janitor AI 프록시 URL은?",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions 입니다. /v1/chat/completions까지 포함한 전체 URL을 Proxy URL 칸에 붙여넣은 뒤 브라우저를 완전히 새로고침하세요."
     },
     "RISUAI": {
       "META": {

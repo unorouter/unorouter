@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "Trình soạn thảo và tác nhân biết viết và chạy mã.",
       "CATEGORY_ROLEPLAY_DESC": "Giao diện chat nhân vật và hư cấu.",
       "CATEGORY_GENERAL_DESC": "Ứng dụng trò chuyện và ứng dụng khách trên máy tính.",
-      "CATEGORY_CLI_DESC": "Công cụ dòng lệnh và tác nhân dòng lệnh."
+      "CATEGORY_CLI_DESC": "Công cụ dòng lệnh và tác nhân dòng lệnh.",
+      "FAQ": "Câu hỏi thường gặp",
+      "TOC_FAQ": "Hỏi đáp"
     },
     "GENERATE_API_KEY": "Tạo API Key",
     "GENERATE_API_KEY_DESC": "Tạo API key để bắt đầu",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Janitor.AI | {appName}",
-        "DESCRIPTION": "Kết nối Janitor.AI với {appName} dưới dạng proxy tùy chỉnh, kèm đúng URL đầy đủ đường dẫn và bước làm mới trình duyệt mà hầu hết hướng dẫn bỏ sót.",
-        "KEYWORDS": "Janitor AI, proxy Janitor, API Janitor, {appName} Janitor, chat nhân vật AI, API tương thích OpenAI, URL proxy tùy chỉnh Janitor"
+        "TITLE": "Proxy miễn phí cho Janitor AI: Hướng dẫn cài đặt | {appName}",
+        "DESCRIPTION": "Dùng {appName} làm proxy miễn phí cho Janitor AI: mô hình DeepSeek và GLM miễn phí, URL proxy chính xác và cài đặt trong hai phút kèm bước tải lại mà hầu hết hướng dẫn bỏ qua.",
+        "KEYWORDS": "proxy miễn phí Janitor AI, Janitor AI proxy miễn phí, proxy miễn phí tốt nhất cho Janitor AI, URL proxy Janitor AI, proxy Janitor AI, mô hình miễn phí Janitor AI, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Hướng dẫn tích hợp Janitor.AI",
-      "SUBTITLE": "Kết nối {appName} với Janitor.AI dưới dạng proxy tùy chỉnh, theo định dạng URL mà bảng API Settings yêu cầu.",
+      "TITLE": "Proxy miễn phí cho Janitor AI",
+      "SUBTITLE": "Kết nối {appName} với Janitor.AI như một proxy tùy chỉnh miễn phí, với các mô hình miễn phí và đúng định dạng URL mà bảng API Settings yêu cầu.",
       "INTRO_TITLE": "Janitor.AI là gì?",
-      "INTRO_DESC": "Janitor.AI là nền tảng trò chuyện nhân vật chạy trên trình duyệt. Nó có sẵn một mô hình miễn phí và nhận mọi proxy tương thích OpenAI. {appName} được cắm vào tại bảng API Settings.",
+      "INTRO_DESC": "Janitor.AI là nền tảng trò chuyện với nhân vật trên trình duyệt, chấp nhận mọi proxy tương thích OpenAI. {appName} được thêm vào bảng API Settings và cho bạn các mô hình miễn phí, cùng các mô hình trả phí dùng chung một khóa.",
       "OVERVIEW": "Tổng quan",
       "OVERVIEW_DESC": "Janitor.AI gọi proxy của bạn bằng URL đầy đủ `/v1/chat/completions`. Dán URL đó, khóa API và tên mô hình, nhấn Save, rồi làm mới cứng trình duyệt để kích hoạt cấu hình.",
       "QUICK_CONFIG": "Cấu hình nhanh",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI lưu bản đồ proxy vào bộ nhớ đệm khi tải trang, nên cấu hình đã lưu chỉ có hiệu lực sau khi làm mới cứng. Nhấn Ctrl+Shift+R hoặc Cmd+Shift+R trước khi thử.",
       "GOTCHA_3": "Janitor che khóa API sau khi lưu và không bao giờ hiện lại. Hãy lưu nó vào trình quản lý mật khẩu trước, để việc xoay khóa không buộc bạn tạo khóa mới.",
       "GOTCHA_4": "Biểu ngữ \"Free tier limit reached\" thuộc gói có sẵn của Janitor, không phải của {appName}. Hãy chuyển cuộc trò chuyện sang cấu hình proxy của bạn trong danh sách mô hình.",
-      "GOTCHA_5": "Model Name phải khớp chính xác với một model id. Hãy sao chép và dán từ trang mô hình của {appName}."
+      "GOTCHA_5": "Model Name phải khớp chính xác với một model id. Hãy sao chép và dán từ trang mô hình của {appName}.",
+      "FAQ_1_Q": "{appName} có phải proxy miễn phí cho Janitor AI không?",
+      "FAQ_1_A": "Có. Mọi mô hình có hậu tố :free đều miễn phí. Tạo tài khoản (nhanh nhất là đăng nhập bằng Google, Discord hoặc GitHub), sao chép khóa API và chọn một mô hình miễn phí. Các mô hình trả phí cũng dùng được với cùng khóa nếu sau này bạn cần.",
+      "FAQ_2_Q": "Mô hình miễn phí nào tốt nhất để nhập vai trên Janitor AI?",
+      "FAQ_2_A": "Chọn một trong các mô hình được đề xuất ở trên. Dòng DeepSeek và GLM bám sát thẻ nhân vật và cốt truyện tốt nhất khi nhập vai dài, còn các mô hình nhỏ thường quên mạch truyện.",
+      "FAQ_3_Q": "Vì sao tôi nhận lỗi \"Too many requests\" (429)?",
+      "FAQ_3_A": "Mô hình miễn phí chỉ cho phép một số yêu cầu giới hạn trên mỗi tài khoản và mỗi mô hình, thường là một yêu cầu mỗi phút. Gửi lại ngay không giúp được: hãy chờ hết đếm ngược hoặc chuyển sang mô hình miễn phí khác. Mô hình trả phí không giới hạn theo phút.",
+      "FAQ_4_Q": "URL proxy Janitor AI cho {appName} là gì?",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Dán đầy đủ URL, gồm cả /v1/chat/completions, vào ô Proxy URL, rồi tải lại hoàn toàn trình duyệt."
     },
     "RISUAI": {
       "META": {

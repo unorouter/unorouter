@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "會撰寫並執行程式碼的編輯器與代理程式。",
       "CATEGORY_ROLEPLAY_DESC": "角色聊天與虛構創作前端。",
       "CATEGORY_GENERAL_DESC": "聊天應用程式與桌面用戶端。",
-      "CATEGORY_CLI_DESC": "終端機工具與命令列代理。"
+      "CATEGORY_CLI_DESC": "終端機工具與命令列代理。",
+      "FAQ": "常見問題",
+      "TOC_FAQ": "常見問題"
     },
     "GENERATE_API_KEY": "產生 API 金鑰",
     "GENERATE_API_KEY_DESC": "產生一把 API 金鑰以開始使用",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor.AI 整合指南 | {appName}",
-        "DESCRIPTION": "把 Janitor.AI 當作自訂代理連到 {appName}，附上精確的完整路徑網址，以及多數教學會漏掉的瀏覽器重新整理步驟。",
-        "KEYWORDS": "Janitor AI, Janitor 代理, Janitor API, {appName} Janitor, AI 角色聊天, OpenAI 相容 API, Janitor 自訂代理 URL"
+        "TITLE": "Janitor AI 免費代理：設定指南 | {appName}",
+        "DESCRIPTION": "把 {appName} 當作 Janitor AI 的免費代理：免費的 DeepSeek 與 GLM 模型、正確的代理 URL，以及多數教學都漏掉的重新整理步驟，兩分鐘完成設定。",
+        "KEYWORDS": "Janitor AI 免費代理, Janitor AI 代理 免費, Janitor AI 最好的免費代理, Janitor AI 代理 URL, Janitor AI 代理, Janitor AI 免費模型, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor.AI 整合指南",
-      "SUBTITLE": "把 {appName} 當作自訂代理接進 Janitor.AI，使用其 API Settings 面板要求的網址格式。",
+      "TITLE": "Janitor AI 免費代理",
+      "SUBTITLE": "將 {appName} 作為免費自訂代理連接 Janitor.AI，提供免費模型以及 API Settings 面板所需的正確 URL 格式。",
       "INTRO_TITLE": "什麼是 Janitor.AI？",
-      "INTRO_DESC": "Janitor.AI 是以瀏覽器為主的角色聊天平台。它內建一個免費模型，並接受任何 OpenAI 相容代理。{appName} 從 API Settings 面板接入。",
+      "INTRO_DESC": "Janitor.AI 是一個以瀏覽器為基礎的角色聊天平台，支援任何相容 OpenAI 的代理。在 API Settings 面板中加入 {appName}，即可使用免費模型，付費模型也能用同一把金鑰。",
       "OVERVIEW": "概觀",
       "OVERVIEW_DESC": "Janitor.AI 會用完整的 `/v1/chat/completions` 網址呼叫你的代理。貼上該網址、API 金鑰與模型名稱，按下 Save，再強制重新整理瀏覽器讓設定生效。",
       "QUICK_CONFIG": "快速設定",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI 會在頁面載入時快取代理對應表，因此儲存的設定只有在強制重新整理後才會生效。測試前請按 Ctrl+Shift+R 或 Cmd+Shift+R。",
       "GOTCHA_3": "Janitor 在儲存後會遮蔽 API 金鑰，而且不會再顯示。請先把它存進密碼管理員，這樣輪換金鑰時不必重新申請。",
       "GOTCHA_4": "「Free tier limit reached」橫幅來自 Janitor 內建的方案，而不是 {appName}。請在模型下拉選單中把該對話切換到你的代理設定。",
-      "GOTCHA_5": "Model Name 必須與模型 id 完全相同。請從 {appName} 的模型頁面複製貼上。"
+      "GOTCHA_5": "Model Name 必須與模型 id 完全相同。請從 {appName} 的模型頁面複製貼上。",
+      "FAQ_1_Q": "{appName} 是 Janitor AI 的免費代理嗎？",
+      "FAQ_1_A": "是的。所有帶有 :free 字尾的模型都免費。註冊帳號（用 Google、Discord 或 GitHub 登入最快），複製 API 金鑰並選擇一個免費模型即可。以後需要時，付費模型也能用同一把金鑰。",
+      "FAQ_2_Q": "哪個免費模型最適合在 Janitor AI 上角色扮演？",
+      "FAQ_2_A": "從上方推薦的模型中選擇。DeepSeek 與 GLM 系列在長篇角色扮演中最能遵循角色卡和設定，小模型則容易失去劇情脈絡。",
+      "FAQ_3_Q": "為什麼會出現「Too many requests」（429）？",
+      "FAQ_3_A": "免費模型對每個帳號、每個模型的請求次數有限制，通常每分鐘一次。立刻重送沒有用：請等倒數結束，或改用其他免費模型。付費模型沒有每分鐘限制。",
+      "FAQ_4_Q": "{appName} 的 Janitor AI 代理 URL 是什麼？",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions。把包含 /v1/chat/completions 的完整 URL 貼到 Proxy URL 欄位，然後完全重新整理瀏覽器。"
     },
     "RISUAI": {
       "META": {

@@ -5,7 +5,10 @@ import { getSetupGuide } from "@/components/pages/docs/setup-guides";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
-import { buildHowToSchema } from "@/lib/seo/structured-data";
+import {
+  buildFAQPageSchema,
+  buildHowToSchema,
+} from "@/lib/seo/structured-data";
 import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
@@ -60,6 +63,17 @@ export default async function SetupGuidePage(props: PageProps) {
             guide.steps.map((step) => ({
               name: t(step.titleKey, APP_VALUES),
               text: t(step.bodyKey, APP_VALUES),
+            })),
+          )}
+        />
+      )}
+      {guide.faq && guide.faq.length > 0 && (
+        <JsonLd
+          id={`${guide.slug}-faq`}
+          data={buildFAQPageSchema(
+            guide.faq.map((item) => ({
+              question: t(item.questionKey, APP_VALUES),
+              answer: t(item.answerKey, APP_VALUES),
             })),
           )}
         />

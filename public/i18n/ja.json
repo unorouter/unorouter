@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "コードを書いて実行するエディタとエージェント。",
       "CATEGORY_ROLEPLAY_DESC": "キャラクターチャットとフィクションのフロントエンド。",
       "CATEGORY_GENERAL_DESC": "チャットアプリとデスクトップクライアント。",
-      "CATEGORY_CLI_DESC": "ターミナルツールやコマンドラインエージェント。"
+      "CATEGORY_CLI_DESC": "ターミナルツールやコマンドラインエージェント。",
+      "FAQ": "よくある質問",
+      "TOC_FAQ": "よくある質問"
     },
     "GENERATE_API_KEY": "APIキーを生成",
     "GENERATE_API_KEY_DESC": "APIキーを生成して始めましょう",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor.AI 連携ガイド | {appName}",
-        "DESCRIPTION": "Janitor.AI をカスタムプロキシとして {appName} に接続します。正確なフルパスURLと、多くのガイドが見落とすブラウザ更新の手順付き。",
-        "KEYWORDS": "Janitor AI, Janitor プロキシ, Janitor API, {appName} Janitor, AIキャラクターチャット, OpenAI互換API, Janitor カスタムプロキシURL"
+        "TITLE": "Janitor AI 向け無料プロキシ：設定ガイド | {appName}",
+        "DESCRIPTION": "{appName} を Janitor AI の無料プロキシとして使う方法。無料の DeepSeek と GLM モデル、正確なプロキシ URL、多くのガイドが見落とすリロード手順まで、2分で設定できます。",
+        "KEYWORDS": "Janitor AI 無料プロキシ, Janitor AI プロキシ 無料, Janitor AI おすすめ無料プロキシ, Janitor AI プロキシ URL, Janitor AI プロキシ, Janitor AI 無料モデル, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor.AI 連携ガイド",
-      "SUBTITLE": "{appName} を Janitor.AI のカスタムプロキシとして接続します。API Settings パネルが想定するURL形式で設定します。",
+      "TITLE": "Janitor AI 向け無料プロキシ",
+      "SUBTITLE": "{appName} を無料のカスタムプロキシとして Janitor.AI に接続します。無料モデルと、API Settings パネルが求める正確な URL 形式を紹介します。",
       "INTRO_TITLE": "Janitor.AI とは",
-      "INTRO_DESC": "Janitor.AI はブラウザベースのキャラクターチャットプラットフォームです。無料モデルを備え、任意のOpenAI互換プロキシを受け付けます。{appName} は API Settings パネルから接続します。",
+      "INTRO_DESC": "Janitor.AI は、OpenAI 互換のプロキシなら何でも使えるブラウザ型のキャラクターチャットです。{appName} は API Settings パネルから追加でき、無料モデルに加えて、同じキーで有料モデルも使えます。",
       "OVERVIEW": "概要",
       "OVERVIEW_DESC": "Janitor.AI はプロキシをフルパスの `/v1/chat/completions` URL で呼び出します。そのURL、APIキー、モデル名を貼り付けて Save を押し、ブラウザをハードリロードして設定を有効化します。",
       "QUICK_CONFIG": "クイック設定",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI はページ読み込み時にプロキシマップをキャッシュするため、保存した設定はハードリロード後にのみ有効になります。テストの前に Ctrl+Shift+R または Cmd+Shift+R を押してください。",
       "GOTCHA_3": "Janitor は保存後にAPIキーを伏せ字にし、二度と表示しません。先にパスワードマネージャーへ保存しておけば、ローテーションで新しいキーを作らずに済みます。",
       "GOTCHA_4": "「Free tier limit reached」のバナーは {appName} ではなく Janitor 組み込みのプランのものです。モデルのドロップダウンでチャットを自分のプロキシ設定に切り替えてください。",
-      "GOTCHA_5": "Model Name はモデルIDと完全に一致する必要があります。{appName} のモデルページからコピー＆ペーストしてください。"
+      "GOTCHA_5": "Model Name はモデルIDと完全に一致する必要があります。{appName} のモデルページからコピー＆ペーストしてください。",
+      "FAQ_1_Q": "{appName} は Janitor AI の無料プロキシですか？",
+      "FAQ_1_A": "はい。末尾に :free が付くモデルはすべて無料です。アカウントを作成し（Google、Discord、GitHub でのログインが最速です）、API キーをコピーして無料モデルを選んでください。必要になれば有料モデルも同じキーで使えます。",
+      "FAQ_2_Q": "Janitor AI のロールプレイに最適な無料モデルは？",
+      "FAQ_2_A": "上のおすすめモデルから選んでください。DeepSeek と GLM のモデルは長いロールプレイでもキャラクターカードや設定をよく守り、小さいモデルは話の流れを見失いがちです。",
+      "FAQ_3_Q": "「Too many requests」（429）が出るのはなぜですか？",
+      "FAQ_3_A": "無料モデルはアカウントとモデルごとにリクエスト数が制限されており、通常は1分に1回です。すぐに再送しても解決しないため、カウントダウンが終わるまで待つか、別の無料モデルに切り替えてください。有料モデルには1分あたりの制限はありません。",
+      "FAQ_4_Q": "{appName} の Janitor AI 用プロキシ URL は？",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions です。/v1/chat/completions を含む完全な URL を Proxy URL 欄に貼り付け、その後ブラウザを完全に再読み込みしてください。"
     },
     "RISUAI": {
       "META": {

@@ -47,6 +47,7 @@ export async function SetupGuideTemplate(props: { guide: SetupGuide }) {
   const hasSteps = guide.steps.length > 0;
   const hasCompat = COMPAT_ROWS.some((row) => guide.compatibility[row.key]);
   const hasGotchas = (guide.gotchaKeys?.length ?? 0) > 0;
+  const faq = guide.faq ?? [];
 
   const fullUrl = guide.apiPath
     ? `${guide.baseUrl}${guide.apiPath}`
@@ -103,6 +104,12 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
     tocItems.push({
       title: t("DOCS.SETUP_GUIDE.TOC_GOTCHAS"),
       url: "#gotchas",
+      depth: 2,
+    });
+  if (faq.length > 0)
+    tocItems.push({
+      title: t("DOCS.SETUP_GUIDE.TOC_FAQ"),
+      url: "#faq",
       depth: 2,
     });
 
@@ -392,6 +399,26 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                 </li>
               ))}
             </ul>
+          </section>
+        ) : null}
+
+        {faq.length > 0 ? (
+          <section className="mt-12">
+            <h2 className="mb-4 text-2xl font-semibold" id="faq">
+              {t("DOCS.SETUP_GUIDE.FAQ")}
+            </h2>
+            <dl className="space-y-5 text-sm">
+              {faq.map((item) => (
+                <div key={item.questionKey}>
+                  <dt className="text-foreground font-medium">
+                    {t(item.questionKey, APP_VALUES)}
+                  </dt>
+                  <dd className="text-muted-foreground mt-1">
+                    {t(item.answerKey, APP_VALUES)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </section>
         ) : null}
 

@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "Kod yazan ve çalıştıran editörler ve ajanlar.",
       "CATEGORY_ROLEPLAY_DESC": "Karakter sohbeti ve kurgu ön yüzleri.",
       "CATEGORY_GENERAL_DESC": "Sohbet uygulamaları ve masaüstü istemciler.",
-      "CATEGORY_CLI_DESC": "Terminal araçları ve komut satırı ajanları."
+      "CATEGORY_CLI_DESC": "Terminal araçları ve komut satırı ajanları.",
+      "FAQ": "Sık sorulan sorular",
+      "TOC_FAQ": "SSS"
     },
     "GENERATE_API_KEY": "API Anahtarı Oluştur",
     "GENERATE_API_KEY_DESC": "Başlamak için bir API anahtarı oluşturun",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor.AI Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Janitor.AI''yi {appName}''e özel proxy olarak bağlayın; tam yol URL''si ve çoğu rehberin atladığı tarayıcı yenileme adımıyla.",
-        "KEYWORDS": "Janitor AI, Janitor proxy, Janitor API, {appName} Janitor, yapay zeka karakter sohbeti, OpenAI uyumlu API, Janitor özel proxy URL'si"
+        "TITLE": "Janitor AI için Ücretsiz Proxy: Kurulum Rehberi | {appName}",
+        "DESCRIPTION": "{appName} uygulamasını Janitor AI için ücretsiz proxy olarak kullanın: ücretsiz DeepSeek ve GLM modelleri, tam proxy URL’si ve çoğu rehberin atladığı yenileme adımıyla iki dakikada kurulum.",
+        "KEYWORDS": "Janitor AI ücretsiz proxy, Janitor AI için ücretsiz proxy, en iyi ücretsiz Janitor AI proxy, Janitor AI proxy URL, Janitor AI proxy, ücretsiz Janitor AI modelleri, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor.AI Entegrasyon Kılavuzu",
-      "SUBTITLE": "{appName}''i Janitor.AI''ye özel proxy olarak, API Settings panelinin beklediği URL biçimiyle bağlayın.",
+      "TITLE": "Janitor AI için Ücretsiz Proxy",
+      "SUBTITLE": "{appName} uygulamasını Janitor.AI’ye ücretsiz özel proxy olarak bağlayın; ücretsiz modeller ve API Settings panelinin beklediği tam URL biçimiyle.",
       "INTRO_TITLE": "Janitor.AI nedir?",
-      "INTRO_DESC": "Janitor.AI tarayıcı tabanlı bir karakter sohbeti platformudur. Ücretsiz bir model sunar ve OpenAI uyumlu her proxyi kabul eder. {appName} API Settings panelinden bağlanır.",
+      "INTRO_DESC": "Janitor.AI, OpenAI uyumlu her proxy’yi kabul eden, tarayıcı tabanlı bir karakter sohbet platformudur. {appName}, API Settings panelinden eklenir ve size ücretsiz modeller sunar; ücretli modeller de aynı anahtarla çalışır.",
       "OVERVIEW": "Genel Bakış",
       "OVERVIEW_DESC": "Janitor.AI proxyinizi tam `/v1/chat/completions` URL''si üzerinden çağırır. Bu URL''yi, API anahtarınızı ve model adını yapıştırın, Save''e basın, ardından yapılandırmayı etkinleştirmek için tarayıcıyı zorla yenileyin.",
       "QUICK_CONFIG": "Hızlı Yapılandırma",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI proxy haritasını sayfa yüklenirken önbelleğe alır, bu yüzden kaydedilen bir yapılandırma ancak zorla yenilemeden sonra etkinleşir. Test etmeden önce Ctrl+Shift+R veya Cmd+Shift+R tuşlarına basın.",
       "GOTCHA_3": "Janitor kaydettikten sonra API anahtarını maskeler ve bir daha göstermez. Rotasyonun yeni anahtar gerektirmemesi için önce bir parola yöneticisinde saklayın.",
       "GOTCHA_4": "''Free tier limit reached'' afişi Janitor''ın dahili kademesidir, {appName} değil. Model açılır listesinden sohbeti proxy yapılandırmanıza geçirin.",
-      "GOTCHA_5": "Model Name bir model id''siyle birebir eşleşmelidir. {appName}''in modeller sayfasından kopyalayıp yapıştırın."
+      "GOTCHA_5": "Model Name bir model id''siyle birebir eşleşmelidir. {appName}''in modeller sayfasından kopyalayıp yapıştırın.",
+      "FAQ_1_Q": "{appName}, Janitor AI için ücretsiz bir proxy mi?",
+      "FAQ_1_A": "Evet. Sonu :free ile biten her model ücretsizdir. Bir hesap oluşturun (en hızlısı Google, Discord veya GitHub ile giriş yapmaktır), API anahtarınızı kopyalayın ve ücretsiz bir model seçin. Ücretli modeller de gerekirse aynı anahtarla çalışır.",
+      "FAQ_2_Q": "Janitor AI rol yapma için en iyi ücretsiz model hangisi?",
+      "FAQ_2_A": "Yukarıdaki önerilen modellerden birini seçin. DeepSeek ve GLM aileleri uzun rol oyunlarında karakter kartlarına ve hikâye detaylarına en iyi şekilde uyar; küçük modeller ise hikâyenin ipini sık sık kaçırır.",
+      "FAQ_3_Q": "Neden \"Too many requests\" (429) hatası alıyorum?",
+      "FAQ_3_A": "Ücretsiz modeller hesap ve model başına sınırlı sayıda isteğe izin verir, genellikle dakikada bir. Hemen yeniden göndermek işe yaramaz: geri sayımın bitmesini bekleyin veya başka bir ücretsiz modele geçin. Ücretli modellerde dakika sınırı yoktur.",
+      "FAQ_4_Q": "{appName} için Janitor AI proxy URL’si nedir?",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. /v1/chat/completions dahil tam URL’yi Proxy URL alanına yapıştırın, ardından tarayıcıyı tamamen yenileyin."
     },
     "RISUAI": {
       "META": {

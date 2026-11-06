@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "Editor dan agen yang menulis serta menjalankan kode.",
       "CATEGORY_ROLEPLAY_DESC": "Front-end obrolan karakter dan fiksi.",
       "CATEGORY_GENERAL_DESC": "Aplikasi obrolan dan klien desktop.",
-      "CATEGORY_CLI_DESC": "Alat terminal dan agen baris perintah."
+      "CATEGORY_CLI_DESC": "Alat terminal dan agen baris perintah.",
+      "FAQ": "Pertanyaan umum",
+      "TOC_FAQ": "FAQ"
     },
     "GENERATE_API_KEY": "Buat Kunci API",
     "GENERATE_API_KEY_DESC": "Buat kunci API untuk memulai",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Panduan Integrasi Janitor.AI | {appName}",
-        "DESCRIPTION": "Hubungkan Janitor.AI ke {appName} sebagai proxy kustom, dengan URL jalur penuh yang tepat dan langkah muat ulang browser yang sering terlewat di panduan lain.",
-        "KEYWORDS": "Janitor AI, proxy Janitor, API Janitor, {appName} Janitor, obrolan karakter AI, API kompatibel OpenAI, URL proxy kustom Janitor"
+        "TITLE": "Proxy Gratis untuk Janitor AI: Panduan Setup | {appName}",
+        "DESCRIPTION": "Pakai {appName} sebagai proxy gratis untuk Janitor AI: model DeepSeek dan GLM gratis, URL proxy yang tepat, dan setup dua menit lengkap dengan langkah refresh yang sering terlewat.",
+        "KEYWORDS": "proxy gratis Janitor AI, Janitor AI proxy gratis, proxy gratis terbaik untuk Janitor AI, URL proxy Janitor AI, proxy Janitor AI, model gratis Janitor AI, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Panduan Integrasi Janitor.AI",
-      "SUBTITLE": "Hubungkan {appName} ke Janitor.AI sebagai proxy kustom dengan format URL yang diharapkan panel API Settings-nya.",
+      "TITLE": "Proxy Gratis untuk Janitor AI",
+      "SUBTITLE": "Hubungkan {appName} ke Janitor.AI sebagai proxy kustom gratis, dengan model gratis dan format URL tepat yang diminta panel API Settings.",
       "INTRO_TITLE": "Apa itu Janitor.AI?",
-      "INTRO_DESC": "Janitor.AI adalah platform obrolan karakter berbasis browser. Ia menyediakan satu model gratis dan menerima proxy apa pun yang kompatibel dengan OpenAI. {appName} dipasang di panel API Settings.",
+      "INTRO_DESC": "Janitor.AI adalah platform chat karakter berbasis browser yang menerima proxy apa pun yang kompatibel dengan OpenAI. {appName} dipasang di panel API Settings dan memberi kamu model gratis, ditambah model berbayar dengan key yang sama.",
       "OVERVIEW": "Gambaran Umum",
       "OVERVIEW_DESC": "Janitor.AI memanggil proxy Anda pada URL lengkap `/v1/chat/completions`. Tempel URL itu, kunci API Anda, dan nama model, tekan Save, lalu muat ulang paksa browser agar konfigurasinya aktif.",
       "QUICK_CONFIG": "Konfigurasi Cepat",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI menyimpan peta proxy dalam cache saat halaman dimuat, jadi konfigurasi yang tersimpan baru aktif setelah muat ulang paksa. Tekan Ctrl+Shift+R atau Cmd+Shift+R sebelum menguji.",
       "GOTCHA_3": "Janitor menyamarkan kunci API setelah disimpan dan tidak pernah menampilkannya lagi. Simpan dulu di pengelola kata sandi agar rotasi tidak memaksa Anda membuat kunci baru.",
       "GOTCHA_4": "Spanduk ''Free tier limit reached'' berasal dari tier bawaan Janitor, bukan {appName}. Alihkan obrolan ke konfigurasi proxy Anda di dropdown model.",
-      "GOTCHA_5": "Model Name harus sama persis dengan sebuah id model. Salin-tempel dari halaman model {appName}."
+      "GOTCHA_5": "Model Name harus sama persis dengan sebuah id model. Salin-tempel dari halaman model {appName}.",
+      "FAQ_1_Q": "Apakah {appName} proxy gratis untuk Janitor AI?",
+      "FAQ_1_A": "Ya. Semua model berakhiran :free tidak dipungut biaya. Buat akun (paling cepat masuk dengan Google, Discord, atau GitHub), salin API key kamu, lalu pilih model gratis. Model berbayar juga bisa dipakai dengan key yang sama kalau suatu saat kamu butuh.",
+      "FAQ_2_Q": "Model gratis mana yang terbaik untuk roleplay di Janitor AI?",
+      "FAQ_2_A": "Pilih salah satu model rekomendasi di atas. Keluarga DeepSeek dan GLM paling setia pada kartu karakter dan lore di roleplay panjang, sedangkan model kecil sering kehilangan alur cerita.",
+      "FAQ_3_Q": "Kenapa saya dapat \"Too many requests\" (429)?",
+      "FAQ_3_A": "Model gratis hanya mengizinkan sejumlah permintaan terbatas per akun dan per model, biasanya satu per menit. Mengirim ulang langsung tidak membantu: tunggu hitung mundurnya selesai atau ganti ke model gratis lain. Model berbayar tidak punya batas per menit.",
+      "FAQ_4_Q": "Apa URL proxy Janitor AI untuk {appName}?",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Tempel URL lengkap, termasuk /v1/chat/completions, ke kolom Proxy URL, lalu refresh browser sepenuhnya."
     },
     "RISUAI": {
       "META": {

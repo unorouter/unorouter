@@ -1594,7 +1594,9 @@
       "CATEGORY_CODING_DESC": "Editores y agentes que escriben y ejecutan código.",
       "CATEGORY_ROLEPLAY_DESC": "Front-ends de chat de personajes y ficción.",
       "CATEGORY_GENERAL_DESC": "Apps de chat y clientes de escritorio.",
-      "CATEGORY_CLI_DESC": "Herramientas de terminal y agentes de línea de comandos."
+      "CATEGORY_CLI_DESC": "Herramientas de terminal y agentes de línea de comandos.",
+      "FAQ": "Preguntas frecuentes",
+      "TOC_FAQ": "Preguntas frecuentes"
     },
     "GENERATE_API_KEY": "Generar clave API",
     "GENERATE_API_KEY_DESC": "Genera una clave API para comenzar",
@@ -1919,15 +1921,15 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Guía de integración con Janitor.AI | {appName}",
-        "DESCRIPTION": "Conecta Janitor.AI a {appName} como proxy personalizado, con la URL de ruta completa exacta y el paso de recarga del navegador que casi ninguna guía menciona.",
-        "KEYWORDS": "Janitor AI, proxy de Janitor, API de Janitor, {appName} Janitor, chat de personajes con IA, API compatible con OpenAI, URL de proxy personalizado de Janitor"
+        "TITLE": "Proxy gratis para Janitor AI: guía de configuración | {appName}",
+        "DESCRIPTION": "Usa {appName} como proxy gratis para Janitor AI: modelos gratuitos de DeepSeek y GLM, la URL exacta del proxy y una configuración de dos minutos con el paso de recarga que casi todas las guías olvidan.",
+        "KEYWORDS": "proxy gratis para Janitor AI, Janitor AI proxy gratis, mejor proxy gratis para Janitor AI, URL de proxy Janitor AI, proxy Janitor AI, modelos gratis Janitor AI, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Guía de integración con Janitor.AI",
-      "SUBTITLE": "Conecta {appName} a Janitor.AI como proxy personalizado con el formato de URL que espera su panel API Settings.",
+      "TITLE": "Proxy gratis para Janitor AI",
+      "SUBTITLE": "Conecta {appName} a Janitor.AI como proxy personalizado gratuito, con modelos gratis y el formato de URL exacto que espera su panel API Settings.",
       "INTRO_TITLE": "¿Qué es Janitor.AI?",
-      "INTRO_DESC": "Janitor.AI es una plataforma de chat con personajes que funciona en el navegador. Incluye un modelo gratuito y acepta cualquier proxy compatible con OpenAI. {appName} se conecta en el panel API Settings.",
+      "INTRO_DESC": "Janitor.AI es una plataforma de chat con personajes en el navegador que acepta cualquier proxy compatible con OpenAI. {appName} se configura en el panel API Settings y te da modelos gratuitos, además de modelos de pago con la misma clave.",
       "OVERVIEW": "Resumen",
       "OVERVIEW_DESC": "Janitor.AI llama a tu proxy con la URL completa `/v1/chat/completions`. Pega esa URL, tu clave API y el nombre del modelo, pulsa Save y luego recarga el navegador a fondo para activar la configuración.",
       "QUICK_CONFIG": "Configuración rápida",
@@ -1960,7 +1962,15 @@
       "GOTCHA_2": "Janitor.AI guarda en caché el mapa de proxies al cargar la página, así que una configuración guardada solo se activa tras una recarga forzada. Pulsa Ctrl+Shift+R o Cmd+Shift+R antes de probar.",
       "GOTCHA_3": "Janitor oculta la clave API tras guardarla y no vuelve a mostrarla. Guárdala antes en un gestor de contraseñas para que una rotación no te obligue a crear otra.",
       "GOTCHA_4": "Un aviso de ''Free tier limit reached'' viene del plan integrado de Janitor, no de {appName}. Cambia el chat a tu configuración de proxy en el desplegable de modelos.",
-      "GOTCHA_5": "El Model Name debe coincidir exactamente con un id de modelo. Cópialo y pégalo desde la página de modelos de {appName}."
+      "GOTCHA_5": "El Model Name debe coincidir exactamente con un id de modelo. Cópialo y pégalo desde la página de modelos de {appName}.",
+      "FAQ_1_Q": "¿Es {appName} un proxy gratis para Janitor AI?",
+      "FAQ_1_A": "Sí. Todos los modelos con el sufijo :free no cuestan nada. Crea una cuenta (lo más rápido es entrar con Google, Discord o GitHub), copia tu clave API y elige un modelo gratuito. Los modelos de pago funcionan con la misma clave si algún día los quieres.",
+      "FAQ_2_Q": "¿Qué modelo gratis es el mejor para rol en Janitor AI?",
+      "FAQ_2_A": "Elige uno de los modelos recomendados arriba. Las familias DeepSeek y GLM siguen mejor las fichas de personaje y el lore en partidas largas, mientras que los modelos pequeños suelen perder el hilo de la historia.",
+      "FAQ_3_Q": "¿Por qué recibo \"Too many requests\" (429)?",
+      "FAQ_3_A": "Los modelos gratuitos permiten un número limitado de solicitudes por cuenta y modelo, normalmente una por minuto. Reenviar enseguida no ayuda: espera la cuenta atrás o cambia a otro modelo gratuito. Los modelos de pago no tienen límite por minuto.",
+      "FAQ_4_Q": "¿Cuál es la URL de proxy de Janitor AI para {appName}?",
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Pega la URL completa, incluido /v1/chat/completions, en el campo Proxy URL y luego recarga el navegador por completo."
     },
     "RISUAI": {
       "META": {
