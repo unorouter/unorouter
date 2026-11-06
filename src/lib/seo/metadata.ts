@@ -20,9 +20,26 @@ import {
   type Theme,
 } from "../validation/badge";
 
-function buildAlternateLanguages(href: Pathname): Record<string, string> {
+// Model and vendor pages are thin and near identical across languages: only the
+// languages with their own search traffic are indexed, sitemapped and linked as
+// alternates, or the other 10 stay discoverable through hreflang.
+export const MODEL_PAGE_LOCALES = [
+  "en",
+  "id",
+  "ru",
+  "pt-BR",
+  "vi",
+  "es",
+  "pl",
+  "de",
+] as const satisfies readonly Locale[];
+
+function buildAlternateLanguages(
+  href: Pathname,
+  locales: readonly Locale[] = routing.locales,
+): Record<string, string> {
   const languages: Record<string, string> = {};
-  for (const loc of routing.locales) {
+  for (const loc of locales) {
     languages[loc] = getPathname({ locale: loc, href });
   }
   languages["x-default"] = getPathname({ locale: LOCALES[0], href });
@@ -59,6 +76,7 @@ type MetadataParams = {
   keywords: string;
   ogImage?: string;
   robots?: boolean;
+  locales?: readonly Locale[];
 };
 
 export async function pageMetadata(opts: {
@@ -123,7 +141,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     other: { "google-adsense-account": "ca-pub-8476786816449555" },
     alternates: {
       canonical: canonicalPath,
-      languages: buildAlternateLanguages(canonicalTarget),
+      languages: buildAlternateLanguages(canonicalTarget, params.locales),
       types: {
         "application/rss+xml": `/${params.locale}/blog/feed.xml`,
       },

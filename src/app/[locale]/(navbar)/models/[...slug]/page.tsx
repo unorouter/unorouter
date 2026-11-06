@@ -12,7 +12,12 @@ import { unwrap } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  getPageMetadata,
+  MODEL_PAGE_LOCALES,
+  notFoundMetadata,
+  ogBadge,
+} from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -37,6 +42,8 @@ export async function generateMetadata(props: PageProps) {
   // a missing branch would otherwise emit.
   if (resolved.kind === "redirect") return {};
 
+  const indexed = MODEL_PAGE_LOCALES.some((l) => l === locale);
+
   if (resolved.kind === "vendor") {
     const vendor = resolved.vendor;
     return getPageMetadata({
@@ -46,6 +53,8 @@ export async function generateMetadata(props: PageProps) {
       description: t("MODELS.VENDOR.META_DESC", { ...APP_VALUES, vendor }),
       keywords: t("MODELS.VENDOR.META_KEYWORDS", { ...APP_VALUES, vendor }),
       ogImage: ogBadge("sponsor", locale),
+      locales: MODEL_PAGE_LOCALES,
+      robots: indexed,
     });
   }
 
@@ -81,6 +90,8 @@ export async function generateMetadata(props: PageProps) {
       values,
     ),
     ogImage: ogBadge("model", locale, { model: model.model_name }),
+    locales: MODEL_PAGE_LOCALES,
+    robots: indexed,
   });
 }
 

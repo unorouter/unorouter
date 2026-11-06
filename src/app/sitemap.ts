@@ -1,4 +1,5 @@
 import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
+import { MODEL_PAGE_LOCALES } from "@/lib/seo/metadata";
 import { getPathname } from "@/i18n/navigation";
 import {
   BLOG_REGISTRY,
@@ -27,18 +28,6 @@ type EntryOptions = {
   lastModified?: Date | SeoTimestampSlug;
   locales?: readonly (typeof routing.locales)[number][];
 };
-
-// All 18 locales of every model page left ~10k URLs discovered but never crawled.
-const MODEL_SITEMAP_LOCALES = [
-  "en",
-  "id",
-  "ru",
-  "pt-BR",
-  "vi",
-  "es",
-  "pl",
-  "de",
-] as const satisfies readonly (typeof routing.locales)[number][];
 
 const privateSet = new Set<string>([
   ...privateRoutes.static,
@@ -162,7 +151,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           // No build-date fallback: "changed today" every deploy stalled recrawl
           // of ~5.6k model URLs.
           lastModified: nameToReleaseDate.get(name),
-          locales: MODEL_SITEMAP_LOCALES,
+          locales: MODEL_PAGE_LOCALES,
         },
       );
     }),
@@ -172,7 +161,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         {
           priority: 0.5,
           changeFrequency: "weekly",
-          locales: MODEL_SITEMAP_LOCALES,
+          locales: MODEL_PAGE_LOCALES,
         },
       ),
     ),
