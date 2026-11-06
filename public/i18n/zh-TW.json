@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "上線",
     "PRICE_LOW_OFFLINE": "離線",
     "PRICE_LOW_SEEN": "{day} 最低",
-    "PRICE_LOW_CHART": "最低輸入價格"
+    "PRICE_LOW_CHART": "最低輸入價格",
+    "META_TITLE_FREE": "{name} 免費 API：零費用，相容 OpenAI | {appName}",
+    "META_DESC_FREE": "透過相容 OpenAI 的 API 免費使用 {vendor} 的 {name}。可用於 JanitorAI、SillyTavern 和你的程式碼，附上限制說明、上下文長度和可直接複製的範例。",
+    "META_KEYWORDS_FREE": "{name} 免費 API, {name} 免費, {vendor} 免費 API, {name} API, 免費 AI API, {appName}"
   },
   "PRICING": {
     "FEATURE": {

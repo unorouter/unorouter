@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "운영 중",
     "PRICE_LOW_OFFLINE": "오프라인",
     "PRICE_LOW_SEEN": "{day} 최저가",
-    "PRICE_LOW_CHART": "최저 입력 가격"
+    "PRICE_LOW_CHART": "최저 입력 가격",
+    "META_TITLE_FREE": "{name} 무료 API: 비용 없이 OpenAI 호환 | {appName}",
+    "META_DESC_FREE": "{vendor}의 {name}을 OpenAI 호환 API로 무료로 사용하세요. JanitorAI, SillyTavern, 내 코드에서 동작하며 제한, 컨텍스트 길이, 복사해 쓸 수 있는 예제를 제공합니다.",
+    "META_KEYWORDS_FREE": "{name} 무료 API, {name} 무료, {vendor} 무료 API, {name} API, 무료 AI API, {appName}"
   },
   "PRICING": {
     "FEATURE": {

@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "פעיל",
     "PRICE_LOW_OFFLINE": "לא מקוון",
     "PRICE_LOW_SEEN": "הזול ביותר ב-{day}",
-    "PRICE_LOW_CHART": "מחיר הקלט הנמוך ביותר"
+    "PRICE_LOW_CHART": "מחיר הקלט הנמוך ביותר",
+    "META_TITLE_FREE": "API חינמי של {name}: בלי עלות, תואם OpenAI | {appName}",
+    "META_DESC_FREE": "השתמשו ב-{name} של {vendor} בחינם דרך API תואם OpenAI. עובד ב-JanitorAI, ב-SillyTavern ובקוד שלכם, עם מגבלות, חלון הקשר ודוגמאות להעתקה.",
+    "META_KEYWORDS_FREE": "API חינמי {name}, {name} בחינם, API חינמי {vendor}, {name} API, API AI חינמי, {appName}"
   },
   "PRICING": {
     "FEATURE": {

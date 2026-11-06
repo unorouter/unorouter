@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "En ligne",
     "PRICE_LOW_OFFLINE": "Hors ligne",
     "PRICE_LOW_SEEN": "Le moins cher le {day}",
-    "PRICE_LOW_CHART": "Prix d'entrée le plus bas"
+    "PRICE_LOW_CHART": "Prix d'entrée le plus bas",
+    "META_TITLE_FREE": "API {name} gratuite : sans frais, compatible OpenAI | {appName}",
+    "META_DESC_FREE": "Utilisez {name} de {vendor} gratuitement via une API compatible OpenAI. Fonctionne dans JanitorAI, SillyTavern et votre code, avec limites, fenêtre de contexte et exemples à copier.",
+    "META_KEYWORDS_FREE": "API {name} gratuite, {name} gratuit, API {vendor} gratuite, API {name}, API IA gratuite, {appName}"
   },
   "PRICING": {
     "FEATURE": {

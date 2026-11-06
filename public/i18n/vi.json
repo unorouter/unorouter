@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "Đang hoạt động",
     "PRICE_LOW_OFFLINE": "Ngoại tuyến",
     "PRICE_LOW_SEEN": "Rẻ nhất vào {day}",
-    "PRICE_LOW_CHART": "Giá đầu vào thấp nhất"
+    "PRICE_LOW_CHART": "Giá đầu vào thấp nhất",
+    "META_TITLE_FREE": "API {name} miễn phí: không tốn phí, tương thích OpenAI | {appName}",
+    "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI. Hoạt động trong JanitorAI, SillyTavern và code của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ để sao chép.",
+    "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}"
   },
   "PRICING": {
     "FEATURE": {

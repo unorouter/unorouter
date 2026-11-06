@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "Активен",
     "PRICE_LOW_OFFLINE": "Офлайн",
     "PRICE_LOW_SEEN": "Дешевле всего {day}",
-    "PRICE_LOW_CHART": "Самая низкая цена входа"
+    "PRICE_LOW_CHART": "Самая низкая цена входа",
+    "META_TITLE_FREE": "Бесплатный API {name}: без оплаты, совместим с OpenAI | {appName}",
+    "META_DESC_FREE": "Используйте {name} от {vendor} бесплатно через API, совместимый с OpenAI. Работает в JanitorAI, SillyTavern и вашем коде, с лимитами, контекстным окном и примерами для копирования.",
+    "META_KEYWORDS_FREE": "бесплатный API {name}, {name} бесплатно, бесплатный API {vendor}, API {name}, бесплатный ИИ API, {appName}"
   },
   "PRICING": {
     "FEATURE": {

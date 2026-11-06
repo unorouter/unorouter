@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "Live",
     "PRICE_LOW_OFFLINE": "Offline",
     "PRICE_LOW_SEEN": "Am günstigsten am {day}",
-    "PRICE_LOW_CHART": "Niedrigster Eingabepreis"
+    "PRICE_LOW_CHART": "Niedrigster Eingabepreis",
+    "META_TITLE_FREE": "Kostenlose {name} API: gratis und OpenAI-kompatibel | {appName}",
+    "META_DESC_FREE": "Nutze {name} von {vendor} kostenlos über eine OpenAI-kompatible API. Funktioniert in JanitorAI, SillyTavern und deinem Code, mit Limits, Kontextfenster und Beispielen zum Kopieren.",
+    "META_KEYWORDS_FREE": "kostenlose {name} API, {name} kostenlos, kostenlose {vendor} API, {name} API, kostenlose KI-API, {appName}"
   },
   "PRICING": {
     "FEATURE": {

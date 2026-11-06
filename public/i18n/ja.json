@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "稼働中",
     "PRICE_LOW_OFFLINE": "オフライン",
     "PRICE_LOW_SEEN": "{day} に最安",
-    "PRICE_LOW_CHART": "最安の入力価格"
+    "PRICE_LOW_CHART": "最安の入力価格",
+    "META_TITLE_FREE": "{name} 無料API：費用なし、OpenAI互換 | {appName}",
+    "META_DESC_FREE": "{vendor} の {name} を OpenAI 互換 API で無料で使えます。JanitorAI、SillyTavern、あなたのコードで動作し、制限、コンテキスト長、コピーできるサンプルも掲載しています。",
+    "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}"
   },
   "PRICING": {
     "FEATURE": {

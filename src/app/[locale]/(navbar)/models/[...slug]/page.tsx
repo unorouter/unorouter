@@ -52,22 +52,34 @@ export async function generateMetadata(props: PageProps) {
   const model = resolved.model.model;
   // A :free page mostly repeats its paid sibling; pointing Google at the paid
   // page consolidates them instead of leaving thousands discovered, not indexed.
-  const paidSibling = model.model_name.endsWith(":free")
-    ? resolved.model.models.find(
-        (m) => m.model_name === model.model_name.slice(0, -":free".length),
-      )
+  const isFree = model.model_name.endsWith(":free");
+  const baseName = isFree
+    ? model.model_name.slice(0, -":free".length)
+    : model.model_name;
+  const paidSibling = isFree
+    ? resolved.model.models.find((m) => m.model_name === baseName)
     : undefined;
+  // People search "free <model> API", not the ":free" id.
   const values = {
     ...APP_VALUES,
-    name: model.model_name,
+    name: isFree ? baseName : model.model_name,
     vendor: model.vendor,
   };
   return getPageMetadata({
     locale,
     href: canonicalHref(paidSibling ?? model),
-    title: t("MODEL_PAGE.META_TITLE", values),
-    description: t("MODEL_PAGE.META_DESC", values),
-    keywords: t("MODEL_PAGE.META_KEYWORDS", values),
+    title: t(
+      isFree ? "MODEL_PAGE.META_TITLE_FREE" : "MODEL_PAGE.META_TITLE",
+      values,
+    ),
+    description: t(
+      isFree ? "MODEL_PAGE.META_DESC_FREE" : "MODEL_PAGE.META_DESC",
+      values,
+    ),
+    keywords: t(
+      isFree ? "MODEL_PAGE.META_KEYWORDS_FREE" : "MODEL_PAGE.META_KEYWORDS",
+      values,
+    ),
     ogImage: ogBadge("model", locale, { model: model.model_name }),
   });
 }

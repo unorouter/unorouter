@@ -1438,7 +1438,10 @@
     "PRICE_LOW_LIVE": "Aktif",
     "PRICE_LOW_OFFLINE": "Çevrimdışı",
     "PRICE_LOW_SEEN": "En ucuz: {day}",
-    "PRICE_LOW_CHART": "En düşük girdi fiyatı"
+    "PRICE_LOW_CHART": "En düşük girdi fiyatı",
+    "META_TITLE_FREE": "Ücretsiz {name} API: masrafsız, OpenAI uyumlu | {appName}",
+    "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu bir API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda çalışır; limitler, bağlam penceresi ve kopyalanabilir örneklerle.",
+    "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}"
   },
   "PRICING": {
     "FEATURE": {
