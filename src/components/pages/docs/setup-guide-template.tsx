@@ -373,7 +373,9 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
         {/* Recommended models (runtime free-model list) */}
         <section className="mt-12">
           <h2 className="mb-4 text-2xl font-semibold" id="models">
-            {t("DOCS.SETUP_GUIDE.RECOMMENDED_MODELS")}
+            {t("DOCS.SETUP_GUIDE.BEST_FREE_MODELS", {
+              app: t(guide.badgeKey),
+            })}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.SETUP_GUIDE.RECOMMENDED_MODELS_DESC")}

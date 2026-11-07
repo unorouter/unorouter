@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { ComparisonTable } from "./comparison-table";
 import { CompareBreadcrumb } from "./compare-breadcrumb";
-import { comboTitle } from "./compare-text";
+import { comboModelList, comboTitle } from "./compare-text";
 import { ModelPicker } from "./model-picker";
 import { PopularPairs } from "./popular-pairs";
 import { PresetCards } from "./preset-cards";
@@ -96,9 +96,14 @@ export function ComparePage() {
         </>
       ) : (
         <>
-          <h1 className="mb-6 text-2xl font-semibold tracking-tight">
+          <h1 className="mb-2 text-2xl font-semibold tracking-tight">
             {combo}
           </h1>
+          <p className="text-muted-foreground mb-6 text-sm">
+            {t("MODELS.COMPARE.META.DESCRIPTION_COMBO", {
+              models: comboModelList(selectedModels, t("MODELS.COMPARE.FROM")),
+            })}
+          </p>
           <div className="mb-6 flex items-center gap-2">
             <ModelPicker models={models} selected={selectedNames} onAdd={add} />
             <button

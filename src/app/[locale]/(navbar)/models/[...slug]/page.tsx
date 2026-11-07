@@ -7,7 +7,7 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import { vendorDisplayName } from "@/lib/api/pricing";
+import { modelDisplayName, vendorDisplayName } from "@/lib/api/pricing";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
   buildBreadcrumbListSchema,
@@ -75,11 +75,11 @@ export async function generateMetadata(props: PageProps) {
   const paidSibling = isFree
     ? resolved.model.models.find((m) => m.model_name === baseName)
     : undefined;
-  // People search "free <model> API", not the ":free" id.
+  // People search "free DeepSeek V4 Pro API", not the ":free" id or the slug.
   const values = {
     ...APP_VALUES,
-    name: isFree ? baseName : model.model_name,
-    vendor: model.vendor,
+    name: modelDisplayName(paidSibling ?? model),
+    vendor: vendorDisplayName(model.vendor),
   };
   return getPageMetadata({
     locale,
@@ -107,7 +107,19 @@ export default async function ModelDetailPage(props: PageProps) {
   const params = await props.params;
   const locale = await serverLocale(props);
   const resolved = await resolveSlug(params.slug);
-  if (!resolved) notFound();
+  if (!resolved) {
+    // Model ids are lowercase; a mistyped /Anthropic/Claude-Opus-5 link gets the
+    // real page instead of a 404.
+    const lower = params.slug.map((s) => s.toLowerCase());
+    if (lower.join("/") !== params.slug.join("/") && (await resolveSlug(lower)))
+      permanentRedirect(
+        localeUrl(locale, {
+          pathname: "/models/[...slug]",
+          params: { slug: lower },
+        }),
+      );
+    notFound();
+  }
 
   if (resolved.kind === "redirect") {
     permanentRedirect(localeUrl(locale, canonicalHref(resolved.model)));
@@ -170,6 +182,9 @@ export default async function ModelDetailPage(props: PageProps) {
       <ModelSchema
         model={hit.model}
         canonical={paidSibling ?? hit.model}
+        hasFreeTwin={hit.models.some(
+          (m) => m.model_name === `${hit.model.model_name}:free`,
+        )}
         locale={locale}
         idSlug={params.slug.join("-")}
       />

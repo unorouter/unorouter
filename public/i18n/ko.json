@@ -226,6 +226,17 @@
       "TITLE": "{appName}: Janitor AI 무료 프록시",
       "DESCRIPTION": "Janitor AI와 SillyTavern용 무료 프록시. DeepSeek, GLM 등 100개+ 무료 모델, 키 하나, 카드 불필요.",
       "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이"
+    },
+    "FAQ": {
+      "TITLE": "{appName} 자주 묻는 질문",
+      "Q1": "{appName} 무료인가요?",
+      "A1": "네. 이름이 :free로 끝나는 모델은 모두 무료이며, 모델당 분당 약 1회 요청으로 제한됩니다. 유료 모델은 $1 충전부터 사용한 만큼 지불하며, 충전한 크레딧은 만료되지 않습니다. 시작할 때 신용카드는 필요 없습니다.",
+      "Q2": "{appName} 안전한가요?",
+      "A2": "{appName} 채팅 앱의 대화는 저희 서버가 아니라 사용자의 브라우저에 저장됩니다. 일부 제공자는 입력을 보관하거나 학습에 사용하며, 이런 제공자의 경우 요청이 전달되기 전에 안내가 표시되거나 제공자별로 한 번 동의하게 됩니다. 모든 코드는 오픈 소스입니다.",
+      "Q3": "Janitor AI에서 {appName} 사용하는 방법은?",
+      "A3": "API 키를 만들고 Janitor AI의 Proxy URL에 https://api.unorouter.com/v1/chat/completions를 붙여넣은 뒤, 무료 모델을 고르고 페이지를 강력 새로고침하세요. Janitor AI 가이드에서 모든 항목을 차례로 설명합니다.",
+      "Q4": "{appName} 다운됐나요?",
+      "A4": "대부분 아닙니다. 무료 모델이 응답하지 않는다면 그 모델의 모든 제공자가 몇 분간 바쁜 상태입니다. 다른 무료 모델로 바꾸거나, 모델별 상태를 실시간으로 보여주는 상태 페이지를 확인하세요."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "블로그 | {appName}",
+    "META_TITLE": "{appName} 블로그: AI 모델, 무료 API, 설정 가이드",
     "META_DESC": "{appName} 팀의 제품 업데이트, 통합 가이드, 그리고 메모.",
     "META_KEYWORDS": "{appName} 블로그, AI API 뉴스, LLM 라우팅, 제품 업데이트, 통합 가이드",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "{vendor}의 {name}을 OpenAI 호환 API로 무료로 사용하세요. JanitorAI, SillyTavern, 내 코드에서 동작하며 제한, 컨텍스트 길이, 복사해 쓸 수 있는 예제를 제공합니다.",
     "META_KEYWORDS_FREE": "{name} 무료 API, {name} 무료, {vendor} 무료 API, {name} API, 무료 AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} 비교",
-    "USE_IN_TITLE": "{model} 사용 가능한 도구"
+    "USE_IN_TITLE": "{model} 사용 가능한 도구",
+    "FAQ_FREE_Q": "{name}은(는) 무료인가요?",
+    "FAQ_FREE_A": "네. {name}:free는 {appName}의 무료 버전으로 비용이 들지 않으며, 분당 약 1회 요청으로 제한됩니다. 유료 {name}에는 분당 제한이 없습니다."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "채팅 앱과 데스크톱 클라이언트.",
       "CATEGORY_CLI_DESC": "터미널 도구와 명령줄 에이전트입니다.",
       "FAQ": "자주 묻는 질문",
-      "TOC_FAQ": "FAQ"
+      "TOC_FAQ": "FAQ",
+      "BEST_FREE_MODELS": "{app}에 좋은 무료 모델"
     },
     "GENERATE_API_KEY": "API 키 생성",
     "GENERATE_API_KEY_DESC": "시작하려면 API 키를 생성하세요",

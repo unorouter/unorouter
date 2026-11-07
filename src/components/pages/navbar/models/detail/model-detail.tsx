@@ -398,7 +398,12 @@ print(res.choices[0].message.content)`;
             )}
 
             <section className="mt-12">
-              <ModelFaq model={m} />
+              <ModelFaq
+                model={m}
+                hasFreeTwin={props.models.some(
+                  (x) => x.model_name === `${m.model_name}:free`,
+                )}
+              />
             </section>
 
             <ModelCrossLinks

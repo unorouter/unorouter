@@ -226,6 +226,17 @@
       "TITLE": "{appName}: ücretsiz Janitor AI proxy, DeepSeek/GLM, kartsız",
       "DESCRIPTION": "Janitor AI ve SillyTavern için ücretsiz proxy: DeepSeek, GLM ve 100+ ücretsiz model tek anahtarda, kartsız. URL'yi yapıştırın, 2 dakikada sohbet edin.",
       "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici"
+    },
+    "FAQ": {
+      "TITLE": "{appName} hakkında sık sorulan sorular",
+      "Q1": "{appName} ücretsiz mi?",
+      "A1": "Evet. Sonu :free ile biten her model ücretsizdir; model başına dakikada yaklaşık bir istek sınırı vardır. Ücretli modellerde en az $1 bakiye yükleyip kullandıkça ödersiniz ve bu bakiyenin süresi hiç dolmaz. Başlamak için kredi kartı gerekmez.",
+      "Q2": "{appName} güvenli mi?",
+      "A2": "{appName} sohbet uygulamasındaki sohbetler sunucularımızda değil, tarayıcınızda saklanır. Bazı sağlayıcılar girdileri saklar veya onlarla model eğitir; bu sağlayıcılarda, herhangi bir istek onlara ulaşmadan önce bir bildirim görürsünüz ya da sağlayıcı başına bir kez onay verirsiniz. Kodun tamamı açık kaynaktır.",
+      "Q3": "{appName} Janitor AI ile nasıl kullanılır?",
+      "A3": "Bir API anahtarı oluşturun, Janitor AI içinde Proxy URL alanına https://api.unorouter.com/v1/chat/completions adresini yapıştırın, ücretsiz bir model seçin ve sayfayı önbelleği temizleyerek yenileyin. Janitor AI rehberi her alanı tek tek anlatır.",
+      "Q4": "{appName} çöktü mü?",
+      "A4": "Genellikle hayır: ücretsiz bir model yanıt vermeyi bıraktığında, o modelin tüm sağlayıcıları birkaç dakikalığına meşguldür. Başka bir ücretsiz modele geçin veya her modeli canlı gösteren durum sayfasına bakın."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "Blog | {appName}",
+    "META_TITLE": "{appName} Blog: yapay zeka modelleri, ücretsiz API ve rehberler",
     "META_DESC": "{appName} ekibinden ürün güncellemeleri, entegrasyon kılavuzları ve notlar.",
     "META_KEYWORDS": "{appName} blog, AI API haberleri, LLM yönlendirme, ürün güncellemeleri, entegrasyon kılavuzları",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda; limitler ve örneklerle.",
     "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}",
     "COMPARE_WITH_TITLE": "{model} karşılaştır",
-    "USE_IN_TITLE": "{model} modelini şurada kullan"
+    "USE_IN_TITLE": "{model} modelini şurada kullan",
+    "FAQ_FREE_Q": "{name} ücretsiz mi?",
+    "FAQ_FREE_A": "Evet. {name}:free, {appName} üzerindeki ücretsiz sürümdür: hiçbir ücreti yoktur, dakikada yaklaşık bir istek sınırı vardır. Ücretli {name} sürümünde dakikalık sınır yoktur."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "Sohbet uygulamaları ve masaüstü istemciler.",
       "CATEGORY_CLI_DESC": "Terminal araçları ve komut satırı ajanları.",
       "FAQ": "Sık sorulan sorular",
-      "TOC_FAQ": "SSS"
+      "TOC_FAQ": "SSS",
+      "BEST_FREE_MODELS": "{app} için en iyi ücretsiz modeller"
     },
     "GENERATE_API_KEY": "API Anahtarı Oluştur",
     "GENERATE_API_KEY_DESC": "Başlamak için bir API anahtarı oluşturun",

@@ -38,6 +38,9 @@ export async function GET(request: Request) {
     "- Paid models bill pay as you go per token, pay as you go credit never expires, top up from $1. Subscription credit resets weekly and unused credit does not carry over.",
   );
   lines.push(
+    "- Janitor AI, SillyTavern, RisuAI and Chub proxy URL: https://api.unorouter.com/v1/chat/completions (paste the full URL, pick a `:free` model, then hard refresh Janitor).",
+  );
+  lines.push(
     "- The entire stack is open source under OSI licenses: https://github.com/unorouter",
   );
   lines.push(
@@ -80,11 +83,24 @@ export async function GET(request: Request) {
   const models = pricing?.models ?? [];
   if (models.length > 0) {
     lines.push(`## ${t("FOOTER.MODELS")}`);
-    for (const model of models.slice(0, 50)) {
+    const names = new Set(models.map((m) => m.model_name));
+    // A :free twin canonicalizes to its paid page, so list the paid page once
+    // and say it has a free tier instead of linking a non-canonical URL.
+    const listed = models
+      .filter(
+        (m) =>
+          !(
+            m.model_name.endsWith(":free") &&
+            names.has(m.model_name.slice(0, -":free".length))
+          ),
+      )
+      .slice(0, 50);
+    for (const model of listed) {
       const url = `${env.siteOrigin}${localeUrl(locale, modelHref(model.model_name, model.vendor))}`;
+      const freeTwin = names.has(`${model.model_name}:free`);
       const price = model.is_free
         ? "free"
-        : `${model.input_price} in / ${model.output_price} out per 1M tokens`;
+        : `${model.input_price} in / ${model.output_price} out per 1M tokens${freeTwin ? ", free tier as " + model.model_name + ":free" : ""}`;
       lines.push(`- [${model.model_name}](${url}): ${price}`);
     }
     lines.push("");

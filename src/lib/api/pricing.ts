@@ -117,3 +117,22 @@ export function gridPriceParts(
     suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
   };
 }
+
+const alnum = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+// The human name people search ("DeepSeek V4 Pro") from the catalog blurb's
+// opening "<Name> is ...", trusted only when it spells exactly the model id.
+export function modelDisplayName(model: {
+  model_name: string;
+  description?: string | null;
+}): string {
+  const id = model.model_name.replace(/:free$/, "");
+  const match = model.description?.match(/^(.{3,48}?) (?:is|are) /);
+  const name = match?.[1];
+  return name &&
+    /^[\w .+-]+$/.test(name) &&
+    /[A-Z0-9]/.test(name) &&
+    alnum(id) === alnum(name)
+    ? name
+    : id;
+}

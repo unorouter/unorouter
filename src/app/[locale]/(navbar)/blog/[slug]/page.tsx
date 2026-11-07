@@ -75,6 +75,7 @@ export default async function BlogPostPage(props: PageProps) {
       <JsonLd
         id={`blog-${post.slug}-article`}
         data={buildArticleSchema({
+          kind: "BlogPosting",
           locale,
           headline: title,
           description,

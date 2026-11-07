@@ -226,6 +226,17 @@
       "SIGNUP_DISCORD": "Tiếp tục với Discord",
       "SIGNUP_EMAIL": "Tiếp tục với email",
       "API_KEY_COMPATIBLE": "Tương thích hoàn toàn với OpenAI"
+    },
+    "FAQ": {
+      "TITLE": "Câu hỏi thường gặp về {appName}",
+      "Q1": "{appName} có miễn phí không?",
+      "A1": "Có. Mọi mô hình có đuôi :free đều miễn phí, với giới hạn khoảng một yêu cầu mỗi phút cho mỗi mô hình. Các mô hình trả phí tính theo mức sử dụng, nạp từ $1, và số dư đó không bao giờ hết hạn. Không cần thẻ tín dụng để bắt đầu.",
+      "Q2": "{appName} có an toàn không?",
+      "A2": "Các cuộc trò chuyện trong ứng dụng chat của {appName} được lưu trong trình duyệt của bạn, không phải trên máy chủ của chúng tôi. Một số nhà cung cấp lưu giữ dữ liệu đầu vào hoặc dùng nó để huấn luyện; với những nhà cung cấp đó, bạn sẽ thấy thông báo hoặc đồng ý một lần cho mỗi nhà cung cấp trước khi bất kỳ yêu cầu nào đến được họ. Toàn bộ mã nguồn đều mở.",
+      "Q3": "Dùng {appName} với Janitor AI như thế nào?",
+      "A3": "Tạo khóa API, dán https://api.unorouter.com/v1/chat/completions vào ô Proxy URL trong Janitor AI, chọn một mô hình miễn phí và tải lại trang bằng hard refresh (bỏ qua bộ nhớ đệm). Hướng dẫn Janitor AI giải thích từng trường.",
+      "Q4": "{appName} có bị sập không?",
+      "A4": "Thường là không: khi một mô hình miễn phí ngừng trả lời, tất cả nhà cung cấp của mô hình đó đang bận trong vài phút. Hãy chuyển sang mô hình miễn phí khác hoặc xem trang trạng thái, nơi hiển thị trực tiếp tình trạng từng mô hình."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "Blog | {appName}",
+    "META_TITLE": "Blog {appName}: mô hình AI, API miễn phí và hướng dẫn",
     "META_DESC": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ {appName}.",
     "META_KEYWORDS": "blog {appName}, tin tức API AI, định tuyến LLM, cập nhật sản phẩm, hướng dẫn tích hợp",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI trong JanitorAI, SillyTavern và mã của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ mẫu.",
     "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}",
     "COMPARE_WITH_TITLE": "So sánh {model}",
-    "USE_IN_TITLE": "Dùng {model} trong"
+    "USE_IN_TITLE": "Dùng {model} trong",
+    "FAQ_FREE_Q": "{name} có miễn phí không?",
+    "FAQ_FREE_A": "Có. {name}:free là bản miễn phí trên {appName}: không mất phí, giới hạn khoảng một yêu cầu mỗi phút. Bản {name} trả phí không có giới hạn theo phút."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "Ứng dụng trò chuyện và ứng dụng khách trên máy tính.",
       "CATEGORY_CLI_DESC": "Công cụ dòng lệnh và tác nhân dòng lệnh.",
       "FAQ": "Câu hỏi thường gặp",
-      "TOC_FAQ": "Hỏi đáp"
+      "TOC_FAQ": "Hỏi đáp",
+      "BEST_FREE_MODELS": "Mô hình miễn phí tốt nhất cho {app}"
     },
     "GENERATE_API_KEY": "Tạo API Key",
     "GENERATE_API_KEY_DESC": "Tạo API key để bắt đầu",

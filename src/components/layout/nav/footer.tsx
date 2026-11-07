@@ -439,6 +439,18 @@ export function Footer() {
               <h2 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h2>
               <ul className="space-y-2">
                 <FooterLinks links={NAV_LINKS} pathname={pathname} />
+                {/* The one guide that ranks for searches outside our brand. */}
+                <li>
+                  <Link
+                    href={{
+                      pathname: "/docs/integrations/[slug]",
+                      params: { slug: "janitor-ai" },
+                    }}
+                    className="text-foreground/70 hover:text-foreground transition-colors"
+                  >
+                    {t("DOCS.JANITOR_AI.BADGE")}
+                  </Link>
+                </li>
                 {EXTERNAL_NAV_LINKS.map((item) => (
                   <li key={item.key}>
                     <NextLink

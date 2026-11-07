@@ -226,6 +226,17 @@
       "SIGNUP_DISCORD": "使用 Discord 继续",
       "SIGNUP_EMAIL": "使用邮箱继续",
       "API_KEY_COMPATIBLE": "完全兼容 OpenAI"
+    },
+    "FAQ": {
+      "TITLE": "关于 {appName} 的常见问题",
+      "Q1": "{appName} 免费吗？",
+      "A1": "是的。所有以 :free 结尾的模型都免费，每个模型每分钟大约可请求一次。付费模型按量计费，最低充值 $1，余额永不过期。开始使用无需信用卡。",
+      "Q2": "{appName} 安全吗？",
+      "A2": "{appName} 聊天应用中的对话保存在你的浏览器里，而不是我们的服务器上。部分提供方会保留输入或用其训练模型；对于这些提供方，在任何请求到达之前，你会看到提示，或对每个提供方同意一次。全部代码均已开源。",
+      "Q3": "如何在 Janitor AI 中使用 {appName}？",
+      "A3": "创建 API 密钥，在 Janitor AI 的 Proxy URL 中粘贴 https://api.unorouter.com/v1/chat/completions，选择一个免费模型，然后强制刷新页面。Janitor AI 指南会逐项讲解每个字段。",
+      "Q4": "{appName} 挂了吗？",
+      "A4": "通常没有：某个免费模型不再回复时，说明该模型的所有提供方都在繁忙中，持续几分钟。请换用其他免费模型，或查看状态页面，那里实时显示每个模型的状态。"
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "博客 | {appName}",
+    "META_TITLE": "{appName} 博客：AI 模型、免费 API 与设置指南",
     "META_DESC": "{appName} 团队的产品更新、集成指南与笔记。",
     "META_KEYWORDS": "{appName} 博客，AI API 资讯，LLM 路由，产品更新，集成指南",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "通过兼容 OpenAI 的 API 免费使用 {vendor} 的 {name}。支持 JanitorAI、SillyTavern 和代码，附限制说明与示例。",
     "META_KEYWORDS_FREE": "{name} 免费 API, {name} 免费, {vendor} 免费 API, {name} API, 免费 AI API, {appName}",
     "COMPARE_WITH_TITLE": "对比 {model}",
-    "USE_IN_TITLE": "在这些工具中使用 {model}"
+    "USE_IN_TITLE": "在这些工具中使用 {model}",
+    "FAQ_FREE_Q": "{name} 免费吗？",
+    "FAQ_FREE_A": "是的。{name}:free 是 {appName} 上的免费版本：不收任何费用，限制约为每分钟一次请求。付费版 {name} 没有每分钟限制。"
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "聊天应用和桌面客户端。",
       "CATEGORY_CLI_DESC": "终端工具和命令行智能体。",
       "FAQ": "常见问题",
-      "TOC_FAQ": "常见问题"
+      "TOC_FAQ": "常见问题",
+      "BEST_FREE_MODELS": "适合 {app} 的最佳免费模型"
     },
     "GENERATE_API_KEY": "生成 API 密钥",
     "GENERATE_API_KEY_DESC": "生成 API 密钥以开始使用",

@@ -226,6 +226,17 @@
       "TITLE": "{appName}: proxy Janitor AI gratis, DeepSeek/GLM, sin tarjeta",
       "DESCRIPTION": "Proxy gratis para Janitor AI y SillyTavern: DeepSeek, GLM y 100+ modelos gratis con una clave, sin tarjeta de crédito. Pega la URL y chatea en dos minutos.",
       "KEYWORDS": "proxy de IA gratis, proxy gratis para Janitor AI, proxy Janitor AI, API SillyTavern, API de IA gratis, API de IA, alternativa a OpenAI, API de Claude, API de GPT, API de Gemini, API de DeepSeek, router de IA, gateway de IA"
+    },
+    "FAQ": {
+      "TITLE": "Preguntas frecuentes sobre {appName}",
+      "Q1": "¿{appName} es gratis?",
+      "A1": "Sí. Todos los modelos que terminan en :free no cuestan nada, con un límite de aproximadamente una solicitud por minuto por modelo. Los modelos de pago se pagan por uso desde una recarga de $1, y ese saldo nunca caduca. No necesitas tarjeta de crédito para empezar.",
+      "Q2": "¿Es seguro usar {appName}?",
+      "A2": "Los chats en la app de chat de {appName} se guardan en tu navegador, no en nuestros servidores. Algunos proveedores guardan las entradas o entrenan con ellas; con esos ves un aviso o das tu consentimiento una vez por proveedor antes de que les llegue cualquier solicitud. Todo el código es open source.",
+      "Q3": "¿Cómo usar {appName} con Janitor AI?",
+      "A3": "Crea una clave API, pega https://api.unorouter.com/v1/chat/completions como Proxy URL en Janitor AI, elige un modelo gratuito y recarga la página forzando la actualización (sin caché). La guía de Janitor AI explica cada campo.",
+      "Q4": "¿{appName} está caído?",
+      "A4": "Normalmente no: cuando un modelo gratuito deja de responder, todos los proveedores de ese modelo están ocupados durante unos minutos. Cambia a otro modelo gratuito o revisa la página de estado, que muestra cada modelo en tiempo real."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "Blog | {appName}",
+    "META_TITLE": "Blog de {appName}: modelos de IA, API gratis y guías",
     "META_DESC": "Actualizaciones de producto, guías de integración y notas del equipo de {appName}.",
     "META_KEYWORDS": "blog {appName}, noticias de API de IA, enrutamiento LLM, actualizaciones de producto, guías de integración",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "Usa {name} de {vendor} gratis con una API compatible con OpenAI, en JanitorAI, SillyTavern o tu código. Límites, contexto y ejemplos para copiar.",
     "META_KEYWORDS_FREE": "API de {name} gratis, {name} gratis, API de {vendor} gratis, API de {name}, API de IA gratis, {appName}",
     "COMPARE_WITH_TITLE": "Comparar {model}",
-    "USE_IN_TITLE": "Usar {model} en"
+    "USE_IN_TITLE": "Usar {model} en",
+    "FAQ_FREE_Q": "¿{name} es gratis?",
+    "FAQ_FREE_A": "Sí. {name}:free es la versión gratuita en {appName}: no cuesta nada, con un límite de aproximadamente una solicitud por minuto. La versión de pago de {name} no tiene límite por minuto."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "Apps de chat y clientes de escritorio.",
       "CATEGORY_CLI_DESC": "Herramientas de terminal y agentes de línea de comandos.",
       "FAQ": "Preguntas frecuentes",
-      "TOC_FAQ": "Preguntas frecuentes"
+      "TOC_FAQ": "Preguntas frecuentes",
+      "BEST_FREE_MODELS": "Mejores modelos gratis para {app}"
     },
     "GENERATE_API_KEY": "Generar clave API",
     "GENERATE_API_KEY_DESC": "Genera una clave API para comenzar",

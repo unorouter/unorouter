@@ -4,6 +4,7 @@ import type {
   Article,
   BreadcrumbList,
   CollectionPage,
+  Dataset,
   FAQPage,
   HowTo,
   Offer,
@@ -18,9 +19,18 @@ function abs(path: string): string {
 }
 
 export function buildOrganizationSchema(): WithContext<Organization> {
-  const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
-    (v): v is string => Boolean(v),
-  );
+  // Every official profile, so search engines tie them to one entity.
+  const sameAs = [
+    env.githubUrl,
+    env.twitterUrl,
+    env.discordUrl,
+    env.redditUrl,
+    env.youtubeUrl,
+    env.telegramUrl,
+    env.instagramUrl,
+    env.trustpilotUrl,
+    "https://huggingface.co/unorouter",
+  ].filter((v): v is string => Boolean(v));
 
   return {
     "@context": "https://schema.org",
@@ -77,6 +87,27 @@ export function buildSoftwareApplicationSchema(
       availability: "https://schema.org/InStock",
     },
     publisher: buildOrganizationSchema(),
+  };
+}
+
+// First-party measurements (model authenticity tests), the kind of data AI
+// answers and dataset search cite.
+export function buildDatasetSchema(input: {
+  name: string;
+  description: string;
+  url: string;
+  keywords: string;
+}): WithContext<Dataset> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: input.name,
+    description: input.description,
+    url: abs(input.url),
+    keywords: input.keywords,
+    isAccessibleForFree: true,
+    creator: buildOrganizationSchema(),
+    license: "https://creativecommons.org/licenses/by/4.0/",
   };
 }
 
@@ -169,6 +200,7 @@ type ArticleInput = {
   dateModified?: string;
   author?: string | { name: string; type: "Person" | "Organization" };
   locale: string;
+  kind?: "Article" | "BlogPosting" | "TechArticle";
 };
 
 function authorEntity(name: string): Organization {
@@ -186,7 +218,7 @@ function authorEntity(name: string): Organization {
 export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": input.kind ?? "Article",
     headline: input.headline,
     description: input.description,
     url: abs(input.url),

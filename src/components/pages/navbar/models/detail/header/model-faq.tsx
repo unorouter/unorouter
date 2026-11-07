@@ -9,14 +9,21 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { SectionHeading } from "../shared/section-heading";
 import { cn } from "@/lib/utils";
-import { formatPrice, formatTokenCount } from "@/lib/utils/format/number";
+import {
+  formatPrice,
+  formatPriceCompact,
+  formatTokenCount,
+} from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 type FaqItem = { q: string; a: string };
 
-export function ModelFaq(props: { model: PricingCatalogDetail }) {
+export function ModelFaq(props: {
+  model: PricingCatalogDetail;
+  hasFreeTwin: boolean;
+}) {
   const t = useTranslations();
   const locale = useLocale();
   const m = props.model;
@@ -55,8 +62,8 @@ export function ModelFaq(props: { model: PricingCatalogDetail }) {
       q: t("MODEL_PAGE.FAQ_COST_Q", { name }),
       a: t("MODEL_PAGE.FAQ_COST_A", {
         name,
-        input: formatPrice(m.input_price),
-        output: formatPrice(m.output_price),
+        input: formatPriceCompact(m.input_price),
+        output: formatPriceCompact(m.output_price),
       }),
     });
   }
@@ -112,6 +119,13 @@ export function ModelFaq(props: { model: PricingCatalogDetail }) {
     items.push({
       q: t("MODEL_PAGE.FAQ_MODERATED_Q", { name }),
       a: t("MODEL_PAGE.FAQ_MODERATED_A", { name }),
+    });
+  }
+
+  if (props.hasFreeTwin) {
+    items.push({
+      q: t("MODEL_PAGE.FAQ_FREE_Q", { name }),
+      a: t("MODEL_PAGE.FAQ_FREE_A", { ...APP_VALUES, name }),
     });
   }
 

@@ -226,6 +226,17 @@
       "TITLE": "{appName}: Proxy Janitor AI Gratis, DeepSeek/GLM, Tanpa Kartu",
       "DESCRIPTION": "Proxy gratis untuk Janitor AI dan SillyTavern: DeepSeek, GLM, dan 100+ model gratis, satu kunci, tanpa kartu kredit. Tempel URL, mengobrol dalam 2 menit.",
       "KEYWORDS": "proxy AI gratis, proxy gratis Janitor AI, proxy Janitor AI, API SillyTavern, API AI gratis, API AI, alternatif OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI"
+    },
+    "FAQ": {
+      "TITLE": "Pertanyaan seputar {appName}",
+      "Q1": "Apakah {appName} gratis?",
+      "A1": "Ya. Semua model berakhiran :free tidak dipungut biaya, dengan batas sekitar satu permintaan per menit per model. Model berbayar dibayar sesuai pemakaian mulai dari top up $1, dan saldo itu tidak pernah kedaluwarsa. Tidak perlu kartu kredit untuk mulai.",
+      "Q2": "Apakah {appName} aman?",
+      "A2": "Chat di aplikasi chat {appName} disimpan di browser kamu, bukan di server kami. Beberapa penyedia menyimpan input atau memakainya untuk melatih model; untuk penyedia seperti itu kamu melihat pemberitahuan atau memberi persetujuan sekali per penyedia sebelum ada permintaan yang sampai ke mereka. Seluruh kodenya open source.",
+      "Q3": "Bagaimana cara memakai {appName} di Janitor AI?",
+      "A3": "Buat API key, tempel https://api.unorouter.com/v1/chat/completions sebagai Proxy URL di Janitor AI, pilih model gratis, lalu lakukan hard refresh pada halaman. Panduan Janitor AI menjelaskan setiap kolom.",
+      "Q4": "Apakah {appName} sedang down?",
+      "A4": "Biasanya tidak: kalau model gratis berhenti menjawab, semua penyedia model itu sedang sibuk selama beberapa menit. Pindah ke model gratis lain, atau cek halaman status yang menampilkan setiap model secara langsung."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "Blog | {appName}",
+    "META_TITLE": "Blog {appName}: model AI, API gratis, dan panduan",
     "META_DESC": "Pembaruan produk, panduan integrasi, dan catatan dari tim {appName}.",
     "META_KEYWORDS": "blog {appName}, berita AI API, routing LLM, pembaruan produk, panduan integrasi",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "Pakai {name} dari {vendor} gratis lewat API kompatibel OpenAI di JanitorAI, SillyTavern, atau kode kamu, lengkap dengan batas, jendela konteks, dan contoh.",
     "META_KEYWORDS_FREE": "API {name} gratis, {name} gratis, API {vendor} gratis, API {name}, API AI gratis, {appName}",
     "COMPARE_WITH_TITLE": "Bandingkan {model}",
-    "USE_IN_TITLE": "Gunakan {model} di"
+    "USE_IN_TITLE": "Gunakan {model} di",
+    "FAQ_FREE_Q": "Apakah {name} gratis?",
+    "FAQ_FREE_A": "Ya. {name}:free adalah versi gratis di {appName}: tanpa biaya, dengan batas sekitar satu permintaan per menit. {name} berbayar tidak punya batas per menit."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "Aplikasi obrolan dan klien desktop.",
       "CATEGORY_CLI_DESC": "Alat terminal dan agen baris perintah.",
       "FAQ": "Pertanyaan umum",
-      "TOC_FAQ": "FAQ"
+      "TOC_FAQ": "FAQ",
+      "BEST_FREE_MODELS": "Model gratis terbaik untuk {app}"
     },
     "GENERATE_API_KEY": "Buat Kunci API",
     "GENERATE_API_KEY_DESC": "Buat kunci API untuk memulai",

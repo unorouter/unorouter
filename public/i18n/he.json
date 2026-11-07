@@ -226,6 +226,17 @@
       "TITLE": "{appName}: פרוקסי Janitor AI חינם, DeepSeek ו-GLM, בלי כרטיס",
       "DESCRIPTION": "פרוקסי חינמי ל-Janitor AI ול-SillyTavern: DeepSeek, GLM ויותר מ-100 מודלים חינמיים במפתח אחד, בלי כרטיס אשראי. מדביקים את הכתובת ומתחילים תוך שתי דקות.",
       "KEYWORDS": "פרוקסי AI חינמי, פרוקסי חינמי ל-Janitor AI, פרוקסי Janitor AI, SillyTavern API, API AI חינמי, API AI, חלופה ל-OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, נתב AI"
+    },
+    "FAQ": {
+      "TITLE": "שאלות נפוצות על {appName}",
+      "Q1": "האם {appName} בחינם?",
+      "A1": "כן. כל מודל שמסתיים ב-:free הוא בחינם, עם מגבלה של בערך בקשה אחת לדקה לכל מודל. מודלים בתשלום מחויבים לפי שימוש, החל מטעינה של $1, והקרדיט הזה לא פג לעולם. לא צריך כרטיס אשראי כדי להתחיל.",
+      "Q2": "האם {appName} בטוח?",
+      "A2": "שיחות באפליקציית הצ׳אט של {appName} נשמרות בדפדפן שלכם, לא בשרתים שלנו. ספקים מסוימים שומרים את הקלט או מאמנים עליו; אצלם תראו הודעה או תיתנו הסכמה פעם אחת לכל ספק לפני שבקשה כלשהי מגיעה אליהם. כל הקוד הוא קוד פתוח.",
+      "Q3": "איך משתמשים ב-{appName} עם Janitor AI?",
+      "A3": "צרו מפתח API, הדביקו את https://api.unorouter.com/v1/chat/completions בשדה Proxy URL ב-Janitor AI, בחרו מודל חינמי ורעננו את הדף בריענון מלא (בלי מטמון). המדריך ל-Janitor AI עובר על כל שדה.",
+      "Q4": "האם {appName} נפל?",
+      "A4": "בדרך כלל לא: כשמודל חינמי מפסיק לענות, כל הספקים של אותו מודל עמוסים לכמה דקות. עברו למודל חינמי אחר, או בדקו את דף הסטטוס, שמציג כל מודל בזמן אמת."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "בלוג | {appName}",
+    "META_TITLE": "הבלוג של {appName}: מודלי AI, ממשקי API חינמיים ומדריכים",
     "META_DESC": "עדכוני מוצר, מדריכי אינטגרציה ורשימות מצוות {appName}.",
     "META_KEYWORDS": "בלוג {appName}, חדשות API של AI, ניתוב LLM, עדכוני מוצר, מדריכי אינטגרציה",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "השתמשו ב-{name} של {vendor} בחינם דרך API תואם OpenAI. עובד ב-JanitorAI, ב-SillyTavern ובקוד שלכם, עם מגבלות, חלון הקשר ודוגמאות להעתקה.",
     "META_KEYWORDS_FREE": "API חינמי {name}, {name} בחינם, API חינמי {vendor}, {name} API, API AI חינמי, {appName}",
     "COMPARE_WITH_TITLE": "השוואת {model}",
-    "USE_IN_TITLE": "שימוש ב־{model} ב"
+    "USE_IN_TITLE": "שימוש ב־{model} ב",
+    "FAQ_FREE_Q": "האם {name} חינמי?",
+    "FAQ_FREE_A": "כן. {name}:free היא הגרסה החינמית ב־{appName}: היא לא עולה כלום, עם מגבלה של כבקשה אחת לדקה. ל־{name} בתשלום אין מגבלה לדקה."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "אפליקציות צ'אט ולקוחות שולחן עבודה.",
       "CATEGORY_CLI_DESC": "כלי טרמינל וסוכני שורת פקודה.",
       "FAQ": "שאלות נפוצות",
-      "TOC_FAQ": "שאלות נפוצות"
+      "TOC_FAQ": "שאלות נפוצות",
+      "BEST_FREE_MODELS": "המודלים החינמיים הטובים ביותר ל־{app}"
     },
     "GENERATE_API_KEY": "ייצור מפתח API",
     "GENERATE_API_KEY_DESC": "ייצרו מפתח API כדי להתחיל",

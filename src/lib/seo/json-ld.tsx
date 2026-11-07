@@ -57,6 +57,7 @@ export async function DocPageSchema(props: DocPageSchemaProps) {
       <JsonLd
         id={`${props.slug}-article`}
         data={buildArticleSchema({
+          kind: "TechArticle",
           locale,
           headline: props.title,
           description: props.description,

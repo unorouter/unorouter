@@ -16,6 +16,7 @@ import { canonicalHref, vendorHref } from "./resolve-slug";
 
 export async function ModelSchema(props: {
   model: PricingCatalogDetail;
+  hasFreeTwin: boolean;
   // The page canonical: a :free page points at its paid sibling.
   canonical: { model_name: string; vendor: string };
   locale: Locale;
@@ -48,6 +49,17 @@ export async function ModelSchema(props: {
             output: formatPriceCompact(model.output_price),
           }),
     },
+    ...(props.hasFreeTwin
+      ? [
+          {
+            question: t("MODEL_PAGE.FAQ_FREE_Q", { name: model.model_name }),
+            answer: t("MODEL_PAGE.FAQ_FREE_A", {
+              ...APP_VALUES,
+              name: model.model_name,
+            }),
+          },
+        ]
+      : []),
     {
       question: t("MODEL_PAGE.FAQ_API_Q", { name: model.model_name }),
       answer: t("MODEL_PAGE.FAQ_API_A", {

@@ -226,6 +226,17 @@
       "SIGNUP_DISCORD": "Mit Discord fortfahren",
       "SIGNUP_EMAIL": "Mit E-Mail fortfahren",
       "API_KEY_COMPATIBLE": "Vollständig OpenAI-kompatibel"
+    },
+    "FAQ": {
+      "TITLE": "Häufige Fragen zu {appName}",
+      "Q1": "Ist {appName} kostenlos?",
+      "A1": "Ja. Jedes Modell mit der Endung :free kostet nichts, mit einem Limit von etwa einer Anfrage pro Minute und Modell. Kostenpflichtige Modelle zahlst du nach Verbrauch ab einer Aufladung von $1, und dieses Guthaben verfällt nie. Zum Start brauchst du keine Kreditkarte.",
+      "Q2": "Ist {appName} sicher?",
+      "A2": "Chats in der Chat-App von {appName} werden in deinem Browser gespeichert, nicht auf unseren Servern. Manche Anbieter speichern Eingaben oder trainieren damit; bei diesen siehst du einen Hinweis oder gibst einmal pro Anbieter deine Einwilligung, bevor eine Anfrage sie erreicht. Der gesamte Code ist Open Source.",
+      "Q3": "Wie nutze ich {appName} mit Janitor AI?",
+      "A3": "Erstelle einen API-Schlüssel, füge https://api.unorouter.com/v1/chat/completions in Janitor AI als Proxy URL ein, wähle ein kostenloses Modell und lade die Seite komplett neu (Hard Reload). Die Anleitung zu Janitor AI erklärt jedes Feld.",
+      "Q4": "Ist {appName} gerade down?",
+      "A4": "Meist nicht: Wenn ein kostenloses Modell nicht mehr antwortet, sind alle Anbieter dieses Modells für ein paar Minuten ausgelastet. Wechsle zu einem anderen kostenlosen Modell oder sieh auf der Statusseite nach, die jedes Modell live zeigt."
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "Blog | {appName}",
+    "META_TITLE": "{appName} Blog: KI-Modelle, kostenlose APIs und Anleitungen",
     "META_DESC": "Produktupdates, Integrationsanleitungen und Notizen vom {appName}-Team.",
     "META_KEYWORDS": "{appName} Blog, KI-API-News, LLM-Routing, Produktupdates, Integrationsanleitungen",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "Nutze {name} von {vendor} kostenlos über eine OpenAI-kompatible API in JanitorAI, SillyTavern oder deinem Code. Mit Limits, Kontextfenster und Beispielen.",
     "META_KEYWORDS_FREE": "kostenlose {name} API, {name} kostenlos, kostenlose {vendor} API, {name} API, kostenlose KI-API, {appName}",
     "COMPARE_WITH_TITLE": "{model} vergleichen",
-    "USE_IN_TITLE": "{model} nutzen in"
+    "USE_IN_TITLE": "{model} nutzen in",
+    "FAQ_FREE_Q": "Ist {name} kostenlos?",
+    "FAQ_FREE_A": "Ja. {name}:free ist die kostenlose Version auf {appName}: Sie kostet nichts, mit einem Limit von etwa einer Anfrage pro Minute. Das kostenpflichtige {name} hat kein Minutenlimit."
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "Chat-Apps und Desktop-Clients.",
       "CATEGORY_CLI_DESC": "Terminal-Tools und Kommandozeilen-Agenten.",
       "FAQ": "Häufige Fragen",
-      "TOC_FAQ": "FAQ"
+      "TOC_FAQ": "FAQ",
+      "BEST_FREE_MODELS": "Die besten kostenlosen Modelle für {app}"
     },
     "GENERATE_API_KEY": "API-Key generieren",
     "GENERATE_API_KEY_DESC": "Generiere einen API-Key, um loszulegen",

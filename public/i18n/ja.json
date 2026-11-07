@@ -226,6 +226,17 @@
       "SIGNUP_DISCORD": "Discord で続行",
       "SIGNUP_EMAIL": "メールで続行",
       "API_KEY_COMPATIBLE": "OpenAI と完全互換"
+    },
+    "FAQ": {
+      "TITLE": "{appName} についてよくある質問",
+      "Q1": "{appName} は無料ですか？",
+      "A1": "はい。末尾が :free のモデルはすべて無料で、モデルごとに1分あたり約1リクエストの制限があります。有料モデルは $1 からのチャージによる従量課金で、残高に有効期限はありません。始めるのにクレジットカードは不要です。",
+      "Q2": "{appName} は安全ですか？",
+      "A2": "{appName} のチャットアプリでの会話は、当社のサーバーではなくお使いのブラウザに保存されます。入力内容を保存したり学習に使ったりする提供者もあり、そうした提供者には、リクエストが届く前にお知らせが表示されるか、提供者ごとに一度だけ同意していただきます。コードはすべてオープンソースです。",
+      "Q3": "{appName} を Janitor AI で使うには？",
+      "A3": "API キーを作成し、Janitor AI の Proxy URL に https://api.unorouter.com/v1/chat/completions を貼り付け、無料モデルを選んでページをスーパーリロード（強制再読み込み）してください。各項目の詳細は Janitor AI ガイドで説明しています。",
+      "Q4": "{appName} はダウンしていますか？",
+      "A4": "たいていは違います。無料モデルが応答しなくなったときは、そのモデルのすべての提供者が数分間混み合っています。別の無料モデルに切り替えるか、各モデルの状況をリアルタイムで表示するステータスページを確認してください。"
     }
   },
   "MODELS": {
@@ -568,7 +579,7 @@
     }
   },
   "BLOG": {
-    "META_TITLE": "ブログ | {appName}",
+    "META_TITLE": "{appName} ブログ：AIモデル、無料API、設定ガイド",
     "META_DESC": "{appName} チームによるプロダクトアップデート、連携ガイド、メモ。",
     "META_KEYWORDS": "{appName} ブログ、AI APIニュース、LLMルーティング、プロダクトアップデート、連携ガイド",
     "POST_META_TITLE": "{title} | {appName}",
@@ -1483,7 +1494,9 @@
     "META_DESC_FREE": "{vendor} の {name} をOpenAI互換APIで無料利用。JanitorAI、SillyTavern、コードで動作し、制限とコード例も掲載。",
     "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} を比較",
-    "USE_IN_TITLE": "{model} を使えるツール"
+    "USE_IN_TITLE": "{model} を使えるツール",
+    "FAQ_FREE_Q": "{name} は無料ですか？",
+    "FAQ_FREE_A": "はい。{name}:free は {appName} の無料版で、料金はかかりません。上限はモデルごとに1分あたり約1リクエストです。有料の {name} には1分あたりの上限がありません。"
   },
   "PRICING": {
     "FEATURE": {
@@ -1641,7 +1654,8 @@
       "CATEGORY_GENERAL_DESC": "チャットアプリとデスクトップクライアント。",
       "CATEGORY_CLI_DESC": "ターミナルツールやコマンドラインエージェント。",
       "FAQ": "よくある質問",
-      "TOC_FAQ": "よくある質問"
+      "TOC_FAQ": "よくある質問",
+      "BEST_FREE_MODELS": "{app} におすすめの無料モデル"
     },
     "GENERATE_API_KEY": "APIキーを生成",
     "GENERATE_API_KEY_DESC": "APIキーを生成して始めましょう",

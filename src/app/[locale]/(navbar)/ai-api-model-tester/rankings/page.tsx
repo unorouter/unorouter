@@ -7,7 +7,10 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
-import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
+import {
+  buildBreadcrumbListSchema,
+  buildDatasetSchema,
+} from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -60,6 +63,15 @@ export default async function ModelTesterRankingsPage(props: {
             url: localeUrl(locale, "/ai-api-model-tester/rankings"),
           },
         ])}
+      />
+      <JsonLd
+        id="model-tester-rankings-dataset"
+        data={buildDatasetSchema({
+          name: t("MODEL_TESTER.RANKINGS.META_TITLE", APP_VALUES),
+          description: t("MODEL_TESTER.RANKINGS.META_DESCRIPTION", APP_VALUES),
+          url: localeUrl(locale, "/ai-api-model-tester/rankings"),
+          keywords: t("MODEL_TESTER.META.KEYWORDS"),
+        })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <RankingsTable />

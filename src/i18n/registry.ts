@@ -48,12 +48,18 @@ function guideDate(slug: string): string {
   return date;
 }
 
+const GUIDE_UPDATED: Record<string, string> = {
+  "janitor-ai": "2026-11-07",
+};
+
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   slug: `docs/integrations/${guide.slug}`,
   path: guide.href,
   i18nPrefix: guide.i18nPrefix,
   date: guideDate(guide.slug),
-  priority: 0.7,
+  updated: GUIDE_UPDATED[guide.slug],
+  // The Janitor guide is the page that ranks outside brand searches.
+  priority: guide.slug === "janitor-ai" ? 0.9 : 0.7,
   changeFrequency: "weekly",
 }));
 
