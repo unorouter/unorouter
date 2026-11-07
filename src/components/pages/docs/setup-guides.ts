@@ -735,6 +735,22 @@ API Endpoint: ${env.apiUrl}/v1`,
         questionKey: "DOCS.JANITOR_AI.FAQ_4_Q",
         answerKey: "DOCS.JANITOR_AI.FAQ_4_A",
       },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_5_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_5_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_6_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_6_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_7_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_7_A",
+      },
+      {
+        questionKey: "DOCS.JANITOR_AI.FAQ_8_Q",
+        answerKey: "DOCS.JANITOR_AI.FAQ_8_A",
+      },
     ],
   },
   {

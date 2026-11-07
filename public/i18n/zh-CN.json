@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - JanitorAI 免费 AI 代理，一个密钥用遍所有模型",
-    "DESCRIPTION": "为 JanitorAI 和 SillyTavern 提供免费 AI 模型，Claude、GPT、Gemini 和 DeepSeek 也只需一个密钥。可用于你的代码、Claude Code 或任何 AI 客户端。",
+    "TITLE": "{appName}：Janitor AI 免费代理，免绑卡",
+    "DESCRIPTION": "Janitor AI 和 SillyTavern 免费代理：DeepSeek、GLM 等 100 多个免费模型，一个密钥，无需信用卡。粘贴 URL，两分钟开聊。",
     "KEYWORDS": "免费 AI 代理, Janitor AI 免费代理, Janitor AI 代理, SillyTavern API, 免费 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关",
     "ACCOUNT": {
       "TITLE": "{appName} 账户",
@@ -38,7 +38,8 @@
       "SUBTITLE": "{appName} 用一把密钥，把你连接到 {modelCount}+ 个 AI 模型。用它来构建应用、运行智能体，或者跳过设置，直接在本站与角色聊天。同一把密钥，同样的速度，同样的价格。",
       "CTA_PRIMARY": "立即开始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "API,聊天,角色,故事,代码,智能"
+      "TITLE_ROTATE": "API,聊天,角色,故事,代码,智能",
+      "SEO_HEADING": "适用于 Janitor AI 和所有模型的免费 AI 代理"
     },
     "STATS": {
       "MODELS": "模型",
@@ -200,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - JanitorAI 免费 AI 代理，一个密钥用遍所有模型",
-      "DESCRIPTION": "为 JanitorAI 和 SillyTavern 提供免费 AI 模型，Claude、GPT、Gemini 和 DeepSeek 也只需一个密钥。可用于你的代码、Claude Code 或任何 AI 客户端。",
+      "TITLE": "{appName}：Janitor AI 免费代理，免绑卡",
+      "DESCRIPTION": "Janitor AI 和 SillyTavern 免费代理：DeepSeek、GLM 等 100 多个免费模型，一个密钥，无需信用卡。粘贴 URL，两分钟开聊。",
       "KEYWORDS": "免费 AI 代理, Janitor AI 免费代理, Janitor AI 代理, SillyTavern API, 免费 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关"
     },
     "HOW_IT_WORKS": {
@@ -354,8 +355,8 @@
       "TABLE": "表格视图"
     },
     "META": {
-      "TITLE": "AI 模型：{appName}",
-      "DESCRIPTION": "所有 AI 模型集于一处。GPT、Claude、Gemini、DeepSeek 等等。在你的代码中使用，或在任意 OpenAI 兼容的 AI 聊天客户端中使用，两者价格相同。",
+      "TITLE": "AI 模型与免费大模型：价格、上下文与限制 | {appName}",
+      "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek 等所有 AI 模型集于一处。代码中或任意 OpenAI 兼容聊天客户端中使用，价格相同。",
       "KEYWORDS": "AI 模型，模型库，AI 价格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型对比，多模型 API，AI 聊天模型"
     },
     "BADGE": "模型库",
@@ -498,7 +499,7 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "排行榜 | {appName}",
+      "TITLE": "AI 模型排行榜（按真实用量） | {appName}",
       "DESCRIPTION": "在 {appName} 上发现最受欢迎的 AI 模型与正在崛起的供应商，按实时词元用量排序。基于平台真实使用数据持续更新。",
       "KEYWORDS": "AI 模型排行榜，LLM 排行榜，热门 AI 模型，AI 供应商市场份额，最常用 AI 模型，模型使用统计"
     },
@@ -622,7 +623,8 @@
         "P_PARTNERS": "合作伙伴是运行在 {appName} 上的项目、应用、机器人和社区，我们会在收录前逐一审核。合作伙伴将在我们 <discord>Discord</discord> 的合作伙伴频道获得专属帖子、Partner 身份组，以及像这样的推荐介绍。作为回报，他们会在自己那边提及 {appName}。经我们批准，可以转售 {appName} 的访问权限，但仅限付费模型。免费模型绝不转售。",
         "H_APPLY": "如何申请",
         "P_APPLY": "正在基于 {appName} 开发项目？请在 <discord>Discord</discord> 上联系我们，提供项目名称和链接、项目用途以及如何使用 {appName}、你的 {appName} 用户名，以及大致的用户数量。",
-        "CTA": "想试试 Qronos？访问 <qronos>qronos.me</qronos>，或加入<qronos_discord>他们的 Discord</qronos_discord>。第一次使用 {appName}？<register>创建账户</register>或<models>浏览模型</models>。"
+        "CTA": "想试试 Qronos？访问 <qronos>qronos.me</qronos>，或加入<qronos_discord>他们的 Discord</qronos_discord>。第一次使用 {appName}？<register>创建账户</register>或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "Qronos AI 在 {appName} 上运行 LLM 网关，并运营 AI 角色扮演 Discord 社区。介绍他们以及我们的合作伙伴计划。"
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "你的请求去了哪里：提供方标签、图像标识与隐私更新",
@@ -641,7 +643,8 @@
         "P_MARKING": "自 2026 年 12 月起，欧盟《人工智能法》要求以机器可读的方式将生成的图像和视频标记为 AI 生成。{appName} 现在会为其交付的每张图像和每段视频添加这一标识，以标准元数据的形式写入文件内部。外观上没有任何变化，图像也不会重新编码，因此画质完全不变。提供方已经嵌入的标识会原样保留。",
         "H_ALSO": "其他更新",
         "P_ALSO": "我们的隐私政策现在列明了你的请求可能被路由到的国家，以及各自的法律依据。网站新增了法律信息（Impressum）页面。此前因故障无法设置的双重身份验证已恢复正常，敏感的账户更改现在也会要求你确认是本人操作。完整列表见我们的<privacy>隐私政策</privacy>。此外，免费模型现在会为每个模型征求一次你的同意，<post_consent_for_free_models>了解具体方式</post_consent_for_free_models>。",
-        "CTA": "对某个提供方有疑问？欢迎在我们的 Discord 提问，或查看<models>模型页面</models>上的标签。"
+        "CTA": "对某个提供方有疑问？欢迎在我们的 Discord 提问，或查看<models>模型页面</models>上的标签。",
+        "META_DESCRIPTION": "模型页面现在显示各提供方所在地，并标出缺乏欧盟数据保护的国家。说明标签含义、如何选择路线及其他变化。"
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "LoreBary 事件经过，以及 {appName} 会保存你的哪些数据",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "你的聊天记录保存在你自己的浏览器里，不在我们的服务器上：清除后就没有了。我们的网关不保存你发送的提示词，也不保存你收到的回复，只记录计费需要的信息：模型、token 数、费用、耗时以及请求是否成功。与请求一同记录的 IP 地址会在 30 天后删除。我们不会用你的数据训练模型，网站也不使用任何统计分析。网站、网关、同步工具和 Discord 机器人都是开源的，所以以上每一点你都可以在 GitHub 上自己核实，而不必只相信我们的话。",
         "H_PROVIDERS": "我们无法保证的事",
         "P_PROVIDERS": "你的请求终究要送达你选择的模型，而该提供方会按照自己的条款处理它。有些提供方会保存收到的内容或用于训练，免费的尤其如此。我们的隐私政策对此写得很清楚，而在任何地方最稳妥的习惯都一样：不要在提示词里放个人信息。此后，每个模型都会显示其提供商所在地（<post_where_your_requests_go>标识的含义</post_where_your_requests_go>），免费模型也会先征求你的同意（<post_consent_for_free_models>具体方式</post_consent_for_free_models>）。完整说明见我们的<privacy>隐私政策</privacy>。",
-        "CTA": "对此有疑问？欢迎在 Discord 里问我们，或者自己去读代码。否则，<chat>开始聊天</chat>或<models>浏览模型</models>。"
+        "CTA": "对此有疑问？欢迎在 Discord 里问我们，或者自己去读代码。否则，<chat>开始聊天</chat>或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "我们曾有四天未经许可提供 LoreBary 的自有模型。说明经过、我们做了哪些改变，以及 {appName} 保存你的哪些数据。"
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "假 Claude 检测器现已成为开源库",
@@ -683,7 +687,8 @@
         "H_USE_IT": "如何使用",
         "P_USE_1": "<tester>模型测试器</tester>会在你的浏览器里运行全套检查，包括签名和 token 检查，除了发往你供应商的调用之外没有任何数据离开你的机器。<rankings>排行榜页面</rankings>发布的是人们主动选择分享的结果。在你自己的流水线里：",
         "P_USE_2": "按需开启。<c>checkSignature</c> 和 <c>checkTokenTruth</c> 各自需要额外请求，因此不指定就保持关闭。信封元数据和吞吐量从本次运行已经拿到的响应中读取，不产生任何开销。",
-        "CTA": "<tester>测试一个供应商</tester>，阅读<first>四月的文章</first>了解这一切的起点数据，或者在某个真实端点得到错误判定时到 <repo>GitHub</repo> 提交 issue。"
+        "CTA": "<tester>测试一个供应商</tester>，阅读<first>四月的文章</first>了解这一切的起点数据，或者在某个真实端点得到错误判定时到 <repo>GitHub</repo> 提交 issue。",
+        "META_DESCRIPTION": "假 Claude 检测引擎 ai-model-verifier 以 AGPL-3.0 发布到 npm，可判断端点提供的是否是其所售卖的模型。"
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "角色扮演的 Claude Opus 4.8 对 4.6 对 4.7：亲手实测排名",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 最令人抓狂：它重复措辞和对白，想要变化就得多次重新生成。4.6 是一大进步，会给动作、氛围和神情添上自己的小细节。4.8 是真的让人惊喜：它挑了一个以自发性著称的原作角色，并演得恰到好处，开始一个动作，又在同一拍里把它反转过来，这种贴合角色的误导很难伪装。正是这一点把 4.8 推上了顶峰。",
         "H_VERDICT": "结论",
         "P_VERDICT": "在 {appName} 上做角色扮演，现在就选 4.8，把 4.6 留作更便宜的备胎，跳过 4.7。三者在<models>模型选择器</models>里只差一次点击，所以拿你自己的角色分别跑一遍。采样器、设定集和记忆设置在每个模型间都能通用，自定义提示词还能把 4.6 往更强的推进力推，或把 4.8 往更深的情感推。小贴士：每个模型都要在你用完它之后、下一个模型还没让你眼花缭乱之前立刻打分，这是唯一能抓住一个全新模型到底缺了什么的办法。",
-        "CTA": "想亲自试试吗？<register>创建一个免费账户</register>或<chat>打开聊天</chat>，在同一个地方切换<post_claude_authenticity>各个 Opus 版本</post_claude_authenticity>。"
+        "CTA": "想亲自试试吗？<register>创建一个免费账户</register>或<chat>打开聊天</chat>，在同一个地方切换<post_claude_authenticity>各个 Opus 版本</post_claude_authenticity>。",
+        "META_DESCRIPTION": "一位玩家在 {appName} 上从记忆力、情感深度等方面为 Claude Opus 4.8、4.6、4.7 排名：4.8 胜出，4.6 力压 4.7。"
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} 对比 MegaLLM：同样的编程网关，外加一个聊天客户端",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "和MegaLLM一样，{appName}<post_what_is_an_llm_gateway>兼容OpenAI</post_what_is_an_llm_gateway>。把你的客户端指向<c>https://api.unorouter.com/v1</c>，代码照旧。同一把钥匙也够得到聊天那一侧，所以没有第二个账号。",
         "H_VERDICT": "怎么选",
         "P_VERDICT": "只写代码、想要一个为token成本优化过的精简前沿模型网关？MegaLLM很扎实。想要一把钥匙从同一笔余额驱动你的编码代理和内置聊天客户端，且目录更广？那就是{appName}。",
-        "CTA": "想要网关和聊天合二为一？<register>创建免费账户</register>或<models>浏览模型</models>。"
+        "CTA": "想要网关和聊天合二为一？<register>创建免费账户</register>或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "MegaLLM 是面向编程智能体的热门模型网关。{appName} 做同样的事，还内置聊天与角色客户端。"
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} 对比 Portkey：AI 网关，还是完整的 LLMOps 平台",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey围绕平台定价：低量免费，随后是为可观测性和治理付费的套餐，叠加在你付给每家供应商的费用之上。当控制面为团队省下实打实的时间，它就值。{appName}对200多个模型按用量付费，一笔不过期的余额，有免费档。在团队规模之下，精简这条路花得更少。",
         "H_VERDICT": "怎么选",
         "P_VERDICT": "为一个组织运营LLM功能，需要可观测性、护栏和治理？Portkey正是为此而造。想要一把无需运维、能在你的编码代理和聊天客户端里用的钥匙？{appName}。无所谓更好或更差，只是更少平台。",
-        "CTA": "想要一个无需运维的网关？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+        "CTA": "想要一个无需运维的网关？<register>创建免费账户</register>，或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "Portkey 是面向企业的 LLMOps 平台，具备可观测性与治理能力。{appName} 是内置聊天客户端的精简托管网关。"
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} 对比 nano-gpt：聊天市场，还是一把密钥两头通吃",
@@ -751,7 +759,8 @@
         "P_PAY": "两者都按用量付费，对突发的、多模型的使用来说这是对的模式。{appName}把它保持在一笔不过期的余额、一个<free>免费档</free>，以及一把横跨代码和聊天的钥匙，而不是只能在一个UI里花的市场钱包。计费的形态一样，差别在这一把钥匙能触及多远。",
         "H_VERDICT": "怎么选",
         "P_VERDICT": "主要想要一个网页UI去尝遍尽可能广的模型清单？nano-gpt在这上面很行。想要一把在你的编码代理和一个真正的角色客户端里都能用、额度还能带着走的钥匙？{appName}。",
-        "CTA": "想要一把同时管代码和角色聊天的密钥？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+        "CTA": "想要一把同时管代码和角色聊天的密钥？<register>创建免费账户</register>，或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "nano-gpt 在聊天界面背后提供庞大模型目录。{appName} 同样按量付费，另有开发者 API 和角色客户端，一把密钥搞定。"
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "2026 年最适合 SillyTavern 的 AI 网关",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName} 有免费档和 200 多个模型，所以你可以先用<free>免费模型</free>试一张角色卡，等场景值得了再换到更强的付费模型。额度不过期，计费是按量付费，一个余额覆盖每个客户端和每个模型。没有需要为之辩护的按月席位，歇一个月也没有什么要取消。",
         "H_VERDICT": "简短的答案",
         "P_VERDICT": "最好的 SillyTavern 网关，是那个拥有 OpenAI 兼容端点、真正的模型广度、按量付费额度，以及供你起步的免费档的，这样一把密钥就能承载你的整套设置。{appName} 正是为这种情形而生，而且同一把密钥在你使用的任何其他角色聊天前端里都能继续工作。",
-        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "SillyTavern 需要一个 OpenAI 兼容端点和一把密钥。挑选网关时真正重要的是什么，以及如何在一分钟内连上。"
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 对比 RisuAI：我们把角色聊天引擎移植进了一个托管式 2 合 1",
@@ -786,7 +796,8 @@
         "H_VERDICT": "怎么选",
         "P_VERDICT": "想要一个自托管、开放、可深度扩展、记忆最丰富的前端，又不介意自带钥匙？用Risu。想要同样的世界书、CBS和卡片功能，只是以托管形式呈现，且一把钥匙也驱动你的编码代理？那就是{appName}。",
         "CTA": "试试把一切都移植进来的聊天。<register>创建免费账户</register>或<chat>打开聊天</chat>。",
-        "METHOD": "我们是如何核实的：本文关于 RisuAI 功能的说法，都是对照 RisuAI 自己的开源代码核对过的，看的是它的 lorebook、CBS 宏、触发器和记忆模块，而不是它的宣传文案。凡是我们说 {appName} 移植了某个思路，意思就是我们读了那段代码，并把它的行为重建了出来。"
+        "METHOD": "我们是如何核实的：本文关于 RisuAI 功能的说法，都是对照 RisuAI 自己的开源代码核对过的，看的是它的 lorebook、CBS 宏、触发器和记忆模块，而不是它的宣传文案。凡是我们说 {appName} 移植了某个思路，意思就是我们读了那段代码，并把它的行为重建了出来。",
+        "META_DESCRIPTION": "{appName} 把 RisuAI 的引擎（世界书、CBS 宏、触发器、正则）移植进托管产品，同一把密钥还能驱动编程智能体。"
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} 对比 LiteLLM：托管网关还是自托管代理",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM不抽加价，但你要付给每家供应商，并背上基础设施加DevOps的时间。有团队、量大时这会赢。{appName}对200多个模型<pricing>按用量付费</pricing>，一笔不过期的余额，没有要付费的服务器。在真正的规模之下，把工时算进去，托管通常更便宜。",
         "H_VERDICT": "怎么选",
         "P_VERDICT": "有平台团队、想要零加价？LiteLLM。想要一把无需部署、能在你的编码代理和聊天客户端里用的钥匙？{appName}。",
-        "CTA": "想要一个无需部署的网关吗？<register>创建免费账户</register>或<models>浏览模型</models>。"
+        "CTA": "想要一个无需部署的网关吗？<register>创建免费账户</register>或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "LiteLLM 是最受欢迎的自托管 LLM 代理，{appName} 是内置聊天客户端的托管网关。关键在于是否想自己运维基础设施。"
       },
       "FEATURED_ON": {
         "TITLE": "在哪里找到{appName}：我们的目录收录",
@@ -817,7 +829,8 @@
         "H_VERIFY": "信任之前先核实",
         "P_VERIFY": "打开任意徽章，确认收录指向我们真实的域名，并查看独立描述。切勿将 API 密钥粘贴到无法追溯至<post_open_source_openrouter_alternative>可核实公开来源</post_open_source_openrouter_alternative>的服务中。",
         "H_TRY": "亲自试一试",
-        "CTA": "看够了吗？<register>创建免费账户</register>或<models>浏览模型</models>。"
+        "CTA": "看够了吗？<register>创建免费账户</register>或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "{appName}已收录于各大 AI 工具与创业产品目录。在这里找到我们、核实收录信息并阅读独立评价。"
       },
       "LAUNCH": {
         "TITLE": "我们受够了假 Claude。所以做了 {appName}。",
@@ -832,7 +845,8 @@
         "P_HARNESS": "模型只有在您的工具里能用才算有用。我们对每个模型端到端测试 HTTP 完成、流式响应和工具调用。这三项能力正是 AI 终端框架所依赖的。只要某个模型在我们的目录里，它就能在 <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>、Codex CLI、Gemini CLI 以及任何 OpenAI 兼容客户端中运行。不会在会话中途遇到意外的「不支持流式」故障。",
         "H_NEXT": "接下来",
         "P_NEXT": "我们每周发版。期待更多模型、<rankings>更精细的健康信号</rankings>驱动更聪明的回退、更丰富的成本与延迟看板，以及与您日常使用的终端和 IDE 更深度的集成。",
-        "CTA": "准备试用？<register>获取 API 密钥</register>或<models>浏览模型目录</models>。"
+        "CTA": "准备试用？<register>获取 API 密钥</register>或<models>浏览模型目录</models>。",
+        "META_DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己做了路由器。这就是上线故事。"
       },
       "AGENT_READY": {
         "TITLE": "我们让 Cloudflare 的 AI Agent 扫描器扫了我们的站。结果：100/100。",
@@ -851,7 +865,8 @@
         "P_STUBS": "这些检查都是很简单的桩。扫描器主要确认 well-known URL 存在、返回 200，并且顶层结构正确。它不会真的跑完一次 OAuth 流程，也不会真的调用 MCP 工具，更不会真的清算一笔 x402 支付。绿色对勾意味着门是开的，并不代表门后那间屋子已经装修完工。任何在生产环境中依赖某项协议的人，仍然应当<post_ai_model_verifier>自己做端到端验证</post_ai_model_verifier>：把 OAuth 流程完整跑一遍，从真实客户端调用 MCP 工具，把一笔 x402 支付一直走到清算。这个分数是一个很好的信号，说明表面已经就位，但它替代不了协议层面的合规测试。",
         "H_TRY": "在自己的站点上跑一次",
         "P_TRY": "如果你做的东西未来可能被 AI 代理触达，这个扫描器真的值得花上一分钟。它把一长串细小的标准汇集到一个视图里，并明确告诉你哪些 well-known 路径缺失或者格式不对。我们每次改到发现、认证或商业相关的接口，都会拿它跑一次回归。",
-        "CTA": "去 <scanner>isitagentready.com</scanner> 扫一扫你自己的站点；如果你是为 {appName} 而来，那就 <register>领一个 API 密钥</register>，<post_what_is_an_llm_gateway>开始路由</post_what_is_an_llm_gateway>。"
+        "CTA": "去 <scanner>isitagentready.com</scanner> 扫一扫你自己的站点；如果你是为 {appName} 而来，那就 <register>领一个 API 密钥</register>，<post_what_is_an_llm_gateway>开始路由</post_what_is_an_llm_gateway>。",
+        "META_DESCRIPTION": "我们在 Cloudflare 的 AI 智能体就绪扫描器中拿到 100/100 和最高 5 级。它查什么，为什么大多数站点过不了关。"
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "我们如何分辨真假 Claude",
@@ -887,7 +902,8 @@
         "H_TEST": "测试你自己的服务商",
         "TEST_P": "不需要安装任何东西。打开 <link>API 模型测试工具</link>，粘贴服务商的地址和密钥，选择一个模型，它就会实时运行这些检查，并清楚地告诉你哪些通过了、哪些没通过。",
         "TEST_CURL": "更喜欢用命令行？这就是上面提到的小猫测试。如果回复拒绝了你，或者把话题往编程上引，那你的“Claude”就不是 Claude。",
-        "TEST_OPEN": "这两部分都是开源的，任何人都可以查看它们的工作原理，或者自己运行：检查由 <verifier>ai-model-verifier</verifier> 完成（也已发布在 <npm>npm</npm> 上），而 <sync>new-api-sync</sync> 负责在我们接入的每个服务商上运行这些检查。"
+        "TEST_OPEN": "这两部分都是开源的，任何人都可以查看它们的工作原理，或者自己运行：检查由 <verifier>ai-model-verifier</verifier> 完成（也已发布在 <npm>npm</npm> 上），而 <sync>new-api-sync</sync> 负责在我们接入的每个服务商上运行这些检查。",
+        "META_DESCRIPTION": "便宜的 Claude 往往是冒名的其他模型。为什么问模型和知识截止日期都证明不了什么，以及哪些检查真能揪出假货。"
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "到底哪些图像模型真的能接受 6 张参考图？我们跑了基准测试。",
@@ -918,7 +934,8 @@
         "METADATA_P2": "如果只关心哪些模型能接 6 张图的 payload，直接按这个字段过滤。新模型只要过了同一套基准，就会自动拿到同一个 tag。",
         "H_TRY": "上手",
         "TRY_P": "上面列出的模型都通过<docs>同一个 OpenAI 兼容 endpoint</docs> 提供。多参考图编辑按上游定义的样子原样暴露，没有额外包一层。带上六张图和一段 prompt，路由器会替你挑一个能跑的提供商。",
-        "CTA": "<register>领取 API key</register> 或 <models>浏览图像目录</models>，查看完整的已验证清单。"
+        "CTA": "<register>领取 API key</register> 或 <models>浏览图像目录</models>，查看完整的已验证清单。",
+        "META_DESCRIPTION": "我们把固定的 6 图合成提示词 发给每个图像通道：332 次运行，136 个模型，54 个至少有一个验证通过的提供商。"
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "加入 {appName} Discord，领取免费余额",
@@ -934,7 +951,8 @@
         "H_BUGS": "漏洞赏金，最高 50 美元",
         "P_BUGS": "<post_open_source_openrouter_alternative>在平台上发现真实漏洞</post_open_source_openrouter_alternative>，就到 bug-bounty 论坛发帖。团队会评估严重程度，机器人据此发放赏金：Low 0.25 美元、Medium 0.50 美元、High 1 美元、Critical 50 美元。真正定位漏洞的人拿钱，而不仅仅是开帖的人。",
         "H_JOIN": "欢迎常来玩",
-        "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。"
+        "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。",
+        "META_DESCRIPTION": "绑定账号即得 1 美元，助推服务器每月再得 1 美元，提交漏洞最高 50 美元。{appName} 的 Discord 刚刚上线。"
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "我们把来自约 50 家提供商的 130+ 个免费 AI 模型聚合到了一个端点",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "免费额度的速率限制是多少？",
         "FAQ_2_A": "每个模型每位用户每分钟约 1 次请求。超出限制会返回带 Retry-After 头的 HTTP 429。既然有 130+ 个免费模型，实际做法是轮换模型，而不是干等。",
         "FAQ_3_Q": "使用免费模型需要信用卡吗？",
-        "FAQ_3_A": "不需要。用 Discord 或 GitHub 注册，创建密钥，就能使用任何带 :free 后缀的模型。一次性的 $1 Discord 验证奖励可以用在付费模型上。"
+        "FAQ_3_A": "不需要。用 Discord 或 GitHub 注册，创建密钥，就能使用任何带 :free 后缀的模型。一次性的 $1 Discord 验证奖励可以用在付费模型上。",
+        "META_DESCRIPTION": "我们把约 50 家免费提供商接入 {appName}：130+ 个免费模型，一个兼容 OpenAI 的端点，每个 token 0 美元。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 对比 OpenRouter：一次诚实的比较",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "同一把密钥能同时用于编程智能体和角色扮演聊天吗？",
         "FAQ_2_A": "可以。一把 {appName} 密钥通过 OpenAI 兼容 API 即可在 Claude Code、Cline 和 OpenCode 中使用，同一账号还自带完整的角色聊天客户端，也能直接接入 SillyTavern 或 JanitorAI。",
         "FAQ_3_Q": "如何从 OpenRouter 切换到 {appName}？",
-        "FAQ_3_A": "把客户端指向 https://api.unorouter.com/v1，代码保持不变。API 与 OpenAI 兼容，模型名称通过 GET /v1/models 获取，Anthropic 和 Gemini 的原生端点同样可用。"
+        "FAQ_3_A": "把客户端指向 https://api.unorouter.com/v1，代码保持不变。API 与 OpenAI 兼容，模型名称通过 GET /v1/models 获取，Anthropic 和 Gemini 的原生端点同样可用。",
+        "META_DESCRIPTION": "{appName} 和 OpenRouter 都用一个 OpenAI 兼容密钥接入众多模型。区别在于是否内置聊天与角色客户端。"
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026 年最佳的 OpenRouter 替代方案",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "OpenRouter 的替代方案能用于 SillyTavern 和 JanitorAI 吗？",
         "FAQ_2_A": "任何 OpenAI 兼容网关都可以。在 SillyTavern 中使用基础 URL https://api.unorouter.com/v1，在 JanitorAI 中使用完整端点 https://api.unorouter.com/v1/chat/completions，并配上对应的密钥。",
         "FAQ_3_Q": "有开源的 OpenRouter 替代方案吗？",
-        "FAQ_3_A": "{appName} 从头到尾以 OSI 许可证开源，前端、网关、机器人和供应商同步都在 github.com/unorouter。LiteLLM 也是开源的，但它是自带密钥的代理，没有托管的模型目录。"
+        "FAQ_3_A": "{appName} 从头到尾以 OSI 许可证开源，前端、网关、机器人和供应商同步都在 github.com/unorouter。LiteLLM 也是开源的，但它是自带密钥的代理，没有托管的模型目录。",
+        "META_DESCRIPTION": "一把密钥触达众多模型，OpenRouter 并非唯一选择。2026 年值得了解的替代方案、各自擅长什么，以及如何挑选。"
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}：开源的 OpenRouter 替代品",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "我可以自托管 {appName} 吗？",
         "FAQ_2_A": "可以。克隆仓库自己跑整个技术栈，或者把任意 OpenAI 兼容客户端指向托管端点 https://api.unorouter.com/v1，省去运维工作。",
         "FAQ_3_Q": "{appName} 和 LiteLLM 有什么区别？",
-        "FAQ_3_A": "LiteLLM 是自托管代理，需要你自带供应商密钥并自行管理账号。{appName} 是托管服务，一把密钥、200+ 个模型和免费额度，同时和 LiteLLM 一样保持开源。"
+        "FAQ_3_A": "LiteLLM 是自托管代理，需要你自带供应商密钥并自行管理账号。{appName} 是托管服务，一把密钥、200+ 个模型和免费额度，同时和 LiteLLM 一样保持开源。",
+        "META_DESCRIPTION": "OpenRouter 是闭源的。{appName} 一把密钥调用 200 多个模型，全栈以 OSI 许可证开源，可自托管，另有免费额度。"
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "什么是 LLM 网关？",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "LLM 网关会增加延迟吗？",
         "FAQ_2_A": "多一跳而已，通常是几十毫秒，实际使用中会被流式输出掩盖。响应慢更多是模型本身的问题，而非网关。",
         "FAQ_3_Q": "{appName} 提供哪些端点？",
-        "FAQ_3_A": "OpenAI 兼容的 /v1/chat/completions、/v1/responses 和 /v1/embeddings，Anthropic 原生的 /v1/messages，以及 Gemini 原生的 /v1beta，全部在一把密钥之后。"
+        "FAQ_3_A": "OpenAI 兼容的 /v1/chat/completions、/v1/responses 和 /v1/embeddings，Anthropic 原生的 /v1/messages，以及 Gemini 原生的 /v1beta，全部在一把密钥之后。",
+        "META_DESCRIPTION": "LLM 网关是一个端点和一把密钥，把请求路由到众多模型供应商。它做什么、为何有用，以及谁真正需要它。"
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "如何把任意 LLM 连接到 SillyTavern",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "如果模型列表加载不出来，再次检查基础 URL 是否以 <c>/v1</c> 结尾，以及密钥是否粘得没有多余空格。401 意味着密钥错误或已过期；再复制一遍。某个模型上的 404 意味着那个模型名没有从已加载的列表中选中。如果回复被截断，在 SillyTavern 的设置里把响应长度调高。多数设置失败是基础 URL 打错或密钥带空格，所以先查这些。",
         "H_VERDICT": "全部诀窍就这些",
         "P_VERDICT": "把任意 LLM 连接到 SillyTavern，归根结底就是一个 OpenAI 兼容端点加一把密钥，而一个网关会把它变成同一套设置背后的众多模型。{appName} 给你那个基础 URL、供你起步的免费档，以及 200+ 个可随意切换、无需重做任何设置的模型。设置一次，同一把密钥就会在每一个角色聊天前端里跟着你走。",
-        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "SillyTavern 通过一个兼容 OpenAI 的端点即可连接几乎任何模型。这里是确切设置、换模型方法和常见错误修复。"
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "一把 API 密钥，同时用于 Claude Code 和角色聊天",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "由于两边都跑在同一把密钥上，你的编程用量和角色聊天用量都从<pricing>同一份按量付费余额</pricing>中扣除。额度不会过期，没有需要去衡量是否值得的月度席位，你在一处就能看到全部支出，而不必把它们分散到各个供应商。免费档让你在付费前先试用两边。一个账户覆盖你一整天，工作与娱乐皆然。",
         "H_VERDICT": "要点",
         "P_VERDICT": "编程智能体和角色聊天客户端共享 OpenAI 兼容协议，因此一把密钥就能从同一份余额驱动两者。{appName} 正是为这种跨度而生：为 Claude Code 等提供干净的 API，为讲故事提供<chat>聊天与角色客户端</chat>，200+ 个模型，以及不会过期的额度。一把密钥，一份账单，两个世界。",
-        "CTA": "想要一把密钥用于代码和聊天吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+        "CTA": "想要一把密钥用于代码和聊天吗？<register>创建免费账户</register>，或<models>浏览模型</models>。",
+        "META_DESCRIPTION": "编程智能体和角色聊天客户端都支持 OpenAI 兼容 API。一把密钥、一份余额即可同时驱动 Claude Code 和角色聊天。"
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} 对比 Janitor.AI：既是后端，又自带聊天",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "喜欢 Janitor 就继续用，只要把它指向 <c>https://api.unorouter.com/v1</c>。或者用同一把密钥打开 {appName} 自己的聊天，把你的卡片导入进来。两种方式都不用安装任何东西。",
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想留在 Janitor，只是需要一个靠谱的后端？{appName} 一把密钥就是那个后端。想要一个账号同时是后端、是真正的角色聊天、又是<post_one_api_key_for_claude_code_and_roleplay>编程智能体的网关</post_one_api_key_for_claude_code_and_roleplay>？这正是 {appName} 的全部意义。",
-        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+        "META_DESCRIPTION": "Janitor.AI 是需要后端的角色聊天前端。{appName} 就是那个后端，只需一把密钥，还自带角色聊天，一站搞定。"
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} 对比 Character.AI：开放模型和一把真正的密钥",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} 本地优先：<post_lorebary_and_your_data>聊天存在你的浏览器里，不在我们服务器上</post_lorebary_and_your_data>，整套栈都是开源、可审计的。Character.AI 把一切都存在服务器端，藏在一层你看不见的过滤后面。如果掌控和开放对你重要，这就是两者之间一条很硬的分界线。",
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要一个封闭、安全、零配置的应用，永远不碰模型设置？Character.AI 挺好。想要开放的模型选择、一把还能写代码的真密钥，以及本地留存的数据？那就是 {appName}。",
-        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+        "META_DESCRIPTION": "Character.AI 封闭且过滤严格，没有 API。{appName} 是开放的：200 多个模型，一把真正的 OpenAI 兼容密钥。"
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} 对比 SillyTavern：一样的深度，托管好，一把密钥",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要最大限度的本地掌控、又爱运行 SillyTavern？那就留着它，<post_best_ai_gateway_for_sillytavern>用 {appName} 当后端</post_best_ai_gateway_for_sillytavern>。想要同样的深度但做成托管、还有一把能运行编程智能体的密钥？那就是 {appName}。",
         "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
-        "METHOD": "我们是如何核实的：本文关于 SillyTavern 的说法，都是从它的开源代码里读出来的（它的 World Info、prompt 和角色卡代码），而不是照着文档转述的。如果哪个细节有误，那是我们读代码时出了错，请告诉我们。"
+        "METHOD": "我们是如何核实的：本文关于 SillyTavern 的说法，都是从它的开源代码里读出来的（它的 World Info、prompt 和角色卡代码），而不是照着文档转述的。如果哪个细节有误，那是我们读代码时出了错，请告诉我们。",
+        "META_DESCRIPTION": "SillyTavern 需要自己托管、自己配密钥。{appName} 把同样的深度做成托管版，密钥就是账号，还能运行编程智能体。"
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} 对比 Chub / Venus：卡片深度，外加一把密钥写代码",
@@ -1160,7 +1188,8 @@
         "P_COST": "用 Chub，你要么选一个档去用小模型，要么直接付钱给供应商去用好的，两种都是两张账单。{appName} 是一个余额覆盖所有，积分永不过期，还有<free>免费额度可以起步</free>。一把密钥就能连上模型和编程智能体。",
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要 Chub 的卡片生态，也乐意用小档模型或 BYOK？它是个不错的归宿。想要那份深度，加上 200 多个模型，还有一把能写代码的密钥，全在一个账号里？那就是 {appName}。",
-        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+        "META_DESCRIPTION": "Chub（Venus）是卡片库加聊天。{appName} 有卡片和世界书的深度，一把密钥连接 200 多个模型，还能写代码。"
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} 对比 Marinara：我们把 preset 引擎搬进了一个 2合1",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要一个完全由你掌控的自托管 preset 引擎？那就运行那个专用的。想要那种基于段落的 prompt 深度但做成托管，一把密钥还能运行你的编程智能体？那就是 {appName}。",
         "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
-        "METHOD": "我们是如何核实的：本文关于 Marinara Engine 的说法（它的内置智能体和三阶段管线），都是从它自己的源码里读出来的，而不是照着它的落地页写的。凡是我们说移植了某个思路，都是先读过那段代码的。"
+        "METHOD": "我们是如何核实的：本文关于 Marinara Engine 的说法（它的内置智能体和三阶段管线），都是从它自己的源码里读出来的，而不是照着它的落地页写的。凡是我们说移植了某个思路，都是先读过那段代码的。",
+        "META_DESCRIPTION": "Marinara Engine 是围绕 22 个智能体打造的自托管扮演应用。{appName} 把这一思路装进托管产品，密钥还能写代码。"
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} 对比 Lumiverse：记忆的思路，托管好，外加代码",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要一个自托管引擎，配上最丰富的记忆图谱和完全掌控？那就运行它。想要那些记忆和拆解的思路但做成托管，还有一把能运行你编程智能体的密钥？那就是 {appName}。",
         "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
-        "METHOD": "我们是如何核实的：本文关于 Lumiverse 的说法，包括它的 Memory Cortex 比我们钻得更深这一点，都是从它自己的源码和许可证里读出来的，而不是想当然。我们宁愿诚实承认一处落败，也不愿摆一个没核实过的胜绩。"
+        "METHOD": "我们是如何核实的：本文关于 Lumiverse 的说法，包括它的 Memory Cortex 比我们钻得更深这一点，都是从它自己的源码和许可证里读出来的，而不是想当然。我们宁愿诚实承认一处落败，也不愿摆一个没核实过的胜绩。",
+        "META_DESCRIPTION": "Lumiverse 的 Memory Cortex 是最有深度的 RP 记忆。{appName} 把同样思路装进托管 2合1，还能写代码，可免费商用。"
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} 对比 LibreChat：多模型聊天，托管好，外加角色聊天",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想自托管一个多供应商助手，带智能体、MCP、一个代码解释器和团队认证？LibreChat 很出色。想要托管的多模型聊天，外加一个真正的角色客户端，还有<post_one_api_key_for_claude_code_and_roleplay>一把也能写代码的密钥</post_one_api_key_for_claude_code_and_roleplay>？那就是 {appName}。",
         "CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。",
-        "METHOD": "我们是如何核实的：关于 LibreChat 没有角色聊天功能这个说法，是对照它实际的源码核实过的（里面没有角色卡、没有 lorebooks、也没有 personas），而不是从它的定位里推断出来的。"
+        "METHOD": "我们是如何核实的：关于 LibreChat 没有角色聊天功能这个说法，是对照它实际的源码核实过的（里面没有角色卡、没有 lorebooks、也没有 personas），而不是从它的定位里推断出来的。",
+        "META_DESCRIPTION": "LibreChat 是自托管、BYOK 的 ChatGPT 克隆。{appName} 是托管的多模型聊天，密钥就是账号，还带真正的角色客户端。"
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} 对比 Open WebUI：200 多个托管模型，不用 Ollama，外加角色聊天",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想自托管、跑本地 Ollama 模型、靠深度文档 RAG，还想用角色和 SSO 管理一支团队？Open WebUI 恰恰在这上面很出色。想要 200+ 个托管模型外加一个真正的角色客户端，<post_one_api_key_for_claude_code_and_roleplay>一把密钥还能写代码</post_one_api_key_for_claude_code_and_roleplay>，而且什么都不用运行？那就是 {appName}。",
         "CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。",
-        "METHOD": "我们是如何核实的：关于 Open WebUI 是一个助手平台、而不是角色客户端这个说法，是对照它的源码核实过的；它的角色卡解析器虽然在代码里，却没有被用到，而且里面没有 lorebooks 也没有 personas。"
+        "METHOD": "我们是如何核实的：关于 Open WebUI 是一个助手平台、而不是角色客户端这个说法，是对照它的源码核实过的；它的角色卡解析器虽然在代码里，却没有被用到，而且里面没有 lorebooks 也没有 personas。",
+        "META_DESCRIPTION": "Open WebUI 是自托管、以 Ollama 为先的聊天界面。{appName} 一把密钥接入 200 多个托管模型，无需基础设施。"
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} 对比 Agnai：一样的 RP 深度，托管好，一把密钥",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要开放、自己运行的 RP，给一群人配上真正的多人和免费的 Horde 算力？Agnai 就是那个选择，而且它在这上面是真的行。想要<post_unorouter_vs_risuai>更深的单用户脚本</post_unorouter_vs_risuai>和 200+ 个托管模型，都在一把还能运行你编程智能体的密钥上？那就是 {appName}。",
         "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
-        "METHOD": "我们是如何核实的：本文关于 Agnai 的说法，包括它的多人群聊是一个我们没有对标上的实打实的强项这一点，都是从它自己的源码里读出来的，而不是它的宣传文案。"
+        "METHOD": "我们是如何核实的：本文关于 Agnai 的说法，包括它的多人群聊是一个我们没有对标上的实打实的强项这一点，都是从它自己的源码里读出来的，而不是它的宣传文案。",
+        "META_DESCRIPTION": "Agnai 是以多人聊天见长的开源 RP 前端。{appName} 把单用户 RP 深度做成托管，密钥就是账号，还能运行编程智能体。"
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} 对比 SpicyChat：轻松那条路，外加深度、模型和代码",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "SpicyChat 无从应对的 2合1：跑你扮演的那把密钥，能通过 <c>https://api.unorouter.com/v1</c> 让 <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>、Cline 或 Codex 指向 200 多个模型。一个账号，角色聊天和编程智能体都在里面。SpicyChat 是个封闭的 RP 网站；{appName} 是聊天、模型和代码，全在一把密钥上。",
         "H_VERDICT": "该怎么选",
         "P_VERDICT": "想要一个尽可能简单、无审查、什么都不用学的 RP 网站，也不介意为更多记忆付费分档？SpicyChat 就是那个。想要同样轻松的开局，配上开放的模型选择、默认就有的深度 lorebooks，还有一把也能写代码的密钥？那就是 {appName}。",
-        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+        "CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+        "META_DESCRIPTION": "SpicyChat 的记忆和上下文锁在付费档后。{appName} 同样轻松上手，还有 200+ 个模型、深度世界书 和能写代码的密钥。"
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "如何把 {appName} 接入 Nevika",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "做角色扮演时，<c>glm-5.2</c> 是个很稳的默认选择：不需要特殊后缀就会推理，能把长场景撑住，而且成本很低。<post_free_models_aggregated>免费模型</post_free_models_aggregated>拿来做第一次测试没问题，但它们是共享的并且有速率限制，所以一旦某个故事对你重要起来，就换成付费的。",
         "H_TROUBLESHOOTING": "如果出问题",
         "P_TROUBLESHOOTING": "模型列表为空，说明复制密钥时带上了多余的空格。401 说明密钥错了或已被吊销，重新生成一把即可。模型报 404，说明名字是手打的，而不是从列表里选的。<post_how_to_connect_any_llm_to_sillytavern>SillyTavern 设置指南</post_how_to_connect_any_llm_to_sillytavern>更详细地讲解了同样的错误。",
-        "CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者<models>浏览模型</models>。"
+        "CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者<models>浏览模型</models>。",
+        "META_DESCRIPTION": "Nevika 接受任意 OpenAI 兼容端点作为自定义代理。一分钟配置流程、该选哪个模型，以及两个最常见的报错。"
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "服务器标签现在能缩短你的免费模型等待时间",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "它做不到什么",
         "P_NOT_DO_1": "它缩短的是你的等待，并不会提高供应商的限额。当免费模型因为上游饱和或异常而繁忙时，我们这边更短的窗口无法凭空变出并不存在的容量，请求仍然可能卡住或失败。",
         "P_NOT_DO_2": "付费模型完全没有每分钟限制。所以如果你需要一个每次都能回应、而不是大多数时候能回应的模型，这就是诚实的建议。<pricing>价格</pricing>从每百万 token 不到一美分起。",
-        "CTA": "<discord>加入 Discord</discord> 领取标签，或者先<models>浏览免费模型</models>。"
+        "CTA": "<discord>加入 Discord</discord> 领取标签，或者先<models>浏览免费模型</models>。",
+        "META_DESCRIPTION": "佩戴 {appName} 的 Discord 标签，免费模型限流窗口缩短 25%：原本每分钟一次，现在每 45 秒一次。"
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "免费模型现在需要你的同意",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "撤回与企业账户",
         "P_BUSINESS": "你可以随时在免费模型页面、<settings>账户设置</settings>或聊天中撤回同意；之后该模型对你锁定，直到你再次同意。企业账户无法使用免费模型，因为其提示词可能包含他人的个人数据。",
         "CTA": "准备好了吗？打开<free>免费模型页面</free>，启用你使用的模型。",
-        "NOTE": "2026 年 10 月 21 日更新：本文内容已过时。现在只需对每个提供商同意一次，且同样适用于付费模型。<post_consent_per_provider>了解现在的方式</post_consent_per_provider>。"
+        "NOTE": "2026 年 10 月 21 日更新：本文内容已过时。现在只需对每个提供商同意一次，且同样适用于付费模型。<post_consent_per_provider>了解现在的方式</post_consent_per_provider>。",
+        "META_DESCRIPTION": "免费模型的提供商可能将你的输入用于自身目的，现在每个模型需要你确认一次。下面说明原因和方法。"
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "按提供商同意，适用于免费和付费模型",
@@ -1334,9 +1372,11 @@
         "P_WHEN": "还没有开始。目前未经同意的请求不会被拒绝。我们将按模型、按账户分阶段启用拦截，并提前在我们的 <discord>Discord</discord> 和本博客公布日期。如果你现在就给予同意，启用时一切照常运行。",
         "H_TERMS": "服务条款和隐私政策已更新",
         "P_TERMS": "我们的<terms>服务条款</terms>新增了关于第三国提供商的第 6 节：其服务会注明提供商所在国家，你不得在其中输入他人的个人数据。<privacy>隐私政策</privacy>详细说明了同意与反对。如果你有账户，下次登录使用网站时需接受一次更新后的条款。你的 API 密钥不受影响。",
-        "CTA": "现在就打开<consents>同意页面</consents>，同意你使用的提供商。完整说明请见<docs>文档</docs>。"
+        "CTA": "现在就打开<consents>同意页面</consents>，同意你使用的提供商。完整说明请见<docs>文档</docs>。",
+        "META_DESCRIPTION": "{appName} 的同意现在按提供商计算，一次同意即覆盖该提供商的所有付费和免费模型。说明如何同意或反对。"
       }
-    }
+    },
+    "TRENDING_MODELS": "本周热门模型"
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API 价格、上下文与示例 | {appName}",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "{day} 最低",
     "PRICE_LOW_CHART": "最低输入价格",
     "META_TITLE_FREE": "{name} 免费 API：零费用，兼容 OpenAI | {appName}",
-    "META_DESC_FREE": "通过兼容 OpenAI 的 API 免费使用 {vendor} 的 {name}。可用于 JanitorAI、SillyTavern 和你的代码，附带限制说明、上下文长度和可直接复制的示例。",
+    "META_DESC_FREE": "通过兼容 OpenAI 的 API 免费使用 {vendor} 的 {name}。支持 JanitorAI、SillyTavern 和代码，附限制说明与示例。",
     "META_KEYWORDS_FREE": "{name} 免费 API, {name} 免费, {vendor} 免费 API, {name} API, 免费 AI API, {appName}",
     "COMPARE_WITH_TITLE": "对比 {model}",
     "USE_IN_TITLE": "在这些工具中使用 {model}"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "未用完的额度不会结转到下一{period}。"
     },
     "META": {
-      "TITLE": "价格：{appName}",
-      "DESCRIPTION": "每一个 AI 模型都有简单的价格。订阅更划算，或按用量付费。可与你的代码、与 Claude Code，以及与 SillyTavern、RisuAI 和任意 OpenAI 兼容的 AI 聊天客户端配合使用。",
+      "TITLE": "{appName} 价格：免费模型、按量付费与订阅",
+      "DESCRIPTION": "所有 AI 模型价格简单：免费模型、按量付费，或更划算的订阅。适用于你的代码、Claude Code、SillyTavern 和 RisuAI。",
       "KEYWORDS": "AI API 价格，AI 订阅，按 token 付费，AI 模型价格，便宜 AI API，实惠 AI，OpenAI 兼容价格，多模型 API 价格"
     },
     "TITLE": "价格",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "集成：{appName}",
-      "DESCRIPTION": "面向所有主流 AI 工具和角色聊天客户端的设置指南。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、RisuAI，以及其他 OpenAI 兼容客户端。",
+      "DESCRIPTION": "Claude Code、Codex CLI、Gemini CLI、SillyTavern、RisuAI 等主流 AI 工具和角色聊天客户端的设置指南。",
       "KEYWORDS": "AI 集成指南, Claude Code 设置, Codex CLI 设置, Gemini CLI 设置, OpenClaw 设置, SillyTavern 设置, RisuAI 设置, AI 角色聊天设置, AI API 文档, OpenAI 兼容 API 设置"
     },
     "BADGE": "集成",
@@ -1869,7 +1909,7 @@
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 集成指南 | {appName}",
-        "DESCRIPTION": "通过 Custom OpenAI 兼容的聊天补全来源把 SillyTavern 连接到 {appName}，附 SillyTavern 要求的精确 URL 格式。",
+        "DESCRIPTION": "通过 Custom OpenAI 兼容聊天补全来源把 SillyTavern 连接到 {appName}，附精确的 URL 格式。",
         "KEYWORDS": "SillyTavern, SillyTavern 代理, SillyTavern API, SillyTavern 自定义端点, {appName} SillyTavern, AI 角色聊天, OpenAI 兼容 API"
       },
       "BADGE": "SillyTavern",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor AI 免费代理：设置指南 | {appName}",
-        "DESCRIPTION": "把 {appName} 用作 Janitor AI 的免费代理：免费的 DeepSeek 和 GLM 模型、准确的代理 URL，以及大多数教程都漏掉的刷新步骤，两分钟完成设置。",
+        "TITLE": "Janitor AI 代理教程（2026）：免费 URL 与设置 | {appName}",
+        "DESCRIPTION": "URL：https://api.unorouter.com/v1/chat/completions。Janitor AI 免费 DeepSeek、GLM。",
         "KEYWORDS": "Janitor AI 免费代理, Janitor AI 代理 免费, Janitor AI 最好的免费代理, Janitor AI 代理 URL, Janitor AI 代理, Janitor AI 免费模型, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor AI 免费代理",
+      "TITLE": "Janitor AI 代理教程：免费代理设置",
       "SUBTITLE": "将 {appName} 作为免费自定义代理接入 Janitor.AI，提供免费模型以及 API Settings 面板所需的准确 URL 格式。",
       "INTRO_TITLE": "什么是 Janitor.AI？",
       "INTRO_DESC": "Janitor.AI 是一个基于浏览器的角色聊天平台，支持任何兼容 OpenAI 的代理。在 API Settings 面板中添加 {appName}，即可使用免费模型，付费模型也能用同一个密钥。",
@@ -1975,12 +2015,20 @@
       "FAQ_3_Q": "为什么会出现“Too many requests”（429）？",
       "FAQ_3_A": "免费模型对每个账号、每个模型的请求次数有限制，通常每分钟一次。立刻重发没有用：请等倒计时结束，或换用其他免费模型。付费模型没有每分钟限制。",
       "FAQ_4_Q": "{appName} 的 Janitor AI 代理 URL 是什么？",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions。把包含 /v1/chat/completions 的完整 URL 粘贴到 Proxy URL 一栏，然后彻底刷新浏览器。"
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions。把包含 /v1/chat/completions 的完整 URL 粘贴到 Proxy URL 一栏，然后彻底刷新浏览器。",
+      "FAQ_5_Q": "Janitor AI 提示「A network error occurred」或「failed to fetch」，怎么办？",
+      "FAQ_5_A": "几乎总是 Proxy URL 的问题。它必须正好是 https://api.unorouter.com/v1/chat/completions，不能有空格，并且 Janitor 的「Add /chat/completions」复选框必须保持关闭。保存后按 Ctrl+Shift+R 强制刷新。如果仍然失败，请检查 Model Name 是否与模型 id 完全一致。",
+      "FAQ_6_Q": "为什么 Janitor AI 显示 401（Unauthorized）错误？",
+      "FAQ_6_A": "API 密钥缺失、输入有误或已被禁用。请从 {appName} 的 API 密钥页面按原样粘贴密钥，不要加 Bearer 字样，并在该页面确认密钥仍处于启用状态。",
+      "FAQ_7_Q": "为什么 Janitor AI 显示 403（Forbidden）错误？",
+      "FAQ_7_A": "你的密钥无权使用该模型：通常是余额为零时选了付费模型，或者密钥被限制为只能使用特定模型或 IP 地址。请选择以 :free 结尾的模型、充值，或在 API 密钥页面检查该密钥的限制。",
+      "FAQ_8_Q": "机器人完全不回复。{appName} 宕机了吗？",
+      "FAQ_8_A": "通常是该免费模型的所有提供商都在忙，或者模型名称有拼写错误。换一个免费模型再试。状态页面会显示当前哪些模型在线。"
     },
     "RISUAI": {
       "META": {
         "TITLE": "RisuAI 集成指南 | {appName}",
-        "DESCRIPTION": "通过 Custom Models 把 RisuAI 连接到 {appName}，包括取消勾选 Autofill Request URL，这是 RisuAI 代理配置最常见的支持问题。",
+        "DESCRIPTION": "通过 Custom Models 把 RisuAI 连接到 {appName}，含最常见问题的解法：取消勾选 Autofill Request URL。",
         "KEYWORDS": "RisuAI, RisuAI 代理, RisuAI 自定义端点, {appName} RisuAI, AI 角色聊天, Autofill Request URL, RisuAI OpenAI 兼容"
       },
       "BADGE": "RisuAI",
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Chub / Venus 集成指南 | {appName}",
-        "DESCRIPTION": "把 Chub.ai（Venus）作为反向代理连接到 {appName}，并针对 Chub 的第三方代理警告给出第一方中继说明。",
+        "TITLE": "Chub AI（Venus）反向代理设置：URL 与免费模型 | {appName}",
+        "DESCRIPTION": "在 Chub AI 中将{appName}设为反向代理：https://api.unorouter.com/v1/chat/completions。",
         "KEYWORDS": "Chub AI, Venus AI, Chub 反向代理, {appName} Chub, AI 角色聊天, OpenAI 兼容 API, Chub OpenAI 设置"
       },
       "BADGE": "Chub / Venus",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "平台指南与常见问题",
-        "DESCRIPTION": "{appName} API 的快速入门、模型、定价、速率限制、错误码与计费。一个兼容 OpenAI 的端点，支持 200 多个模型。",
+        "TITLE": "{appName} API 文档：密钥、基础 URL 与限制",
+        "DESCRIPTION": "获取 {appName} API 密钥，设置基础 URL https://api.unorouter.com/v1，发送首个请求。含价格、限制与计费。",
         "KEYWORDS": "{appName} API，快速入门，速率限制，错误码，计费，定价，免费模型"
       },
       "TITLE": "平台指南",

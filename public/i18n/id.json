@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Proxy AI Gratis untuk JanitorAI & Semua Model AI",
-    "DESCRIPTION": "Model AI gratis untuk JanitorAI dan SillyTavern, plus Claude, GPT, Gemini, dan DeepSeek dengan satu key. Pakai di kode kamu, Claude Code, atau klien AI mana pun.",
+    "TITLE": "{appName}: Proxy Janitor AI Gratis, DeepSeek/GLM, Tanpa Kartu",
+    "DESCRIPTION": "Proxy gratis untuk Janitor AI dan SillyTavern: DeepSeek, GLM, dan 100+ model gratis, satu kunci, tanpa kartu kredit. Tempel URL, mengobrol dalam 2 menit.",
     "KEYWORDS": "proxy AI gratis, proxy gratis Janitor AI, proxy Janitor AI, API SillyTavern, API AI gratis, API AI, alternatif OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI",
     "ACCOUNT": {
       "TITLE": "Akun {appName}",
@@ -38,7 +38,8 @@
       "TITLE_ROTATE": "API,OBROLAN,KARAKTER,CERITA,KODE,KECERDASAN",
       "SUBTITLE": "{appName} menghubungkan Anda ke {modelCount}+ model AI melalui satu kunci. Bangun aplikasi dan jalankan agen dengannya, atau lewati pengaturan dan mengobrol dengan karakter langsung di situs ini. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
-      "CTA_SECONDARY": "Lihat Model"
+      "CTA_SECONDARY": "Lihat Model",
+      "SEO_HEADING": "Proxy AI gratis untuk Janitor AI dan semua model"
     },
     "STATS": {
       "MODELS": "Model",
@@ -222,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Proxy AI Gratis untuk JanitorAI & Semua Model AI",
-      "DESCRIPTION": "Model AI gratis untuk JanitorAI dan SillyTavern, plus Claude, GPT, Gemini, dan DeepSeek dengan satu key. Pakai di kode kamu, Claude Code, atau klien AI mana pun.",
+      "TITLE": "{appName}: Proxy Janitor AI Gratis, DeepSeek/GLM, Tanpa Kartu",
+      "DESCRIPTION": "Proxy gratis untuk Janitor AI dan SillyTavern: DeepSeek, GLM, dan 100+ model gratis, satu kunci, tanpa kartu kredit. Tempel URL, mengobrol dalam 2 menit.",
       "KEYWORDS": "proxy AI gratis, proxy gratis Janitor AI, proxy Janitor AI, API SillyTavern, API AI gratis, API AI, alternatif OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI"
     }
   },
@@ -354,8 +355,8 @@
       "TABLE": "Tampilan tabel"
     },
     "META": {
-      "TITLE": "Model AI - {appName}",
-      "DESCRIPTION": "Setiap model AI di satu tempat. GPT, Claude, Gemini, DeepSeek dan lainnya. Gunakan di kode Anda atau di klien obrolan AI apa pun yang kompatibel dengan OpenAI. Harga sama untuk keduanya.",
+      "TITLE": "Model AI dan LLM Gratis: Harga, Konteks, dan Batas | {appName}",
+      "DESCRIPTION": "Semua model AI di satu tempat: GPT, Claude, Gemini, DeepSeek, dan lainnya. Pakai di kode Anda atau klien obrolan kompatibel OpenAI, dengan harga yang sama.",
       "KEYWORDS": "model AI, perpustakaan model, harga AI, model GPT, model Claude, model Gemini, model DeepSeek, perbandingan model AI, API multi-model, model chat AI"
     },
     "BADGE": "Perpustakaan Model",
@@ -498,8 +499,8 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "Peringkat | {appName}",
-      "DESCRIPTION": "Temukan model AI paling banyak digunakan dan vendor yang naik daun di {appName}, diperingkat berdasarkan volume token langsung. Diperbarui terus-menerus dari penggunaan platform nyata.",
+      "TITLE": "Peringkat Model AI Berdasarkan Penggunaan Nyata | {appName}",
+      "DESCRIPTION": "Model AI paling banyak dipakai dan vendor yang naik daun di {appName}, diperingkat berdasarkan volume token langsung dari penggunaan nyata platform.",
       "KEYWORDS": "peringkat model AI, leaderboard LLM, model AI teratas, pangsa pasar vendor AI, model AI paling banyak digunakan, statistik penggunaan model"
     },
     "HERO": {
@@ -622,7 +623,8 @@
         "P_PARTNERS": "Mitra adalah proyek, aplikasi, bot dan komunitas yang berjalan di {appName}, dan kami memeriksa setiap mitra sebelum mencantumkannya. Mitra mendapat postingan sendiri di kanal mitra <discord>Discord</discord> kami, peran Partner dan perkenalan seperti ini. Sebagai gantinya, mereka menyebut {appName} di pihak mereka. Menjual kembali akses {appName} diizinkan dengan persetujuan kami dan hanya untuk model berbayar. Model gratis tidak pernah dijual kembali.",
         "H_APPLY": "Cara mendaftar",
         "P_APPLY": "Sedang membangun sesuatu di {appName}? Kirim pesan ke kami di <discord>Discord</discord> berisi nama dan tautan proyekmu, apa fungsinya dan bagaimana proyek itu memakai {appName}, nama pengguna {appName} milikmu, dan perkiraan jumlah penggunamu.",
-        "CTA": "Mau mencoba Qronos? Kunjungi <qronos>qronos.me</qronos> atau gabung ke <qronos_discord>Discord mereka</qronos_discord>. Baru di {appName}? <register>Buat akun</register> atau <models>lihat modelnya</models>."
+        "CTA": "Mau mencoba Qronos? Kunjungi <qronos>qronos.me</qronos> atau gabung ke <qronos_discord>Discord mereka</qronos_discord>. Baru di {appName}? <register>Buat akun</register> atau <models>lihat modelnya</models>.",
+        "META_DESCRIPTION": "Qronos AI menjalankan gerbang LLM mereka di {appName} dan mengelola komunitas Discord permainan peran AI. Siapa mereka dan cara kerja program mitra kami."
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Ke mana permintaanmu pergi: label penyedia, penandaan gambar, dan pembaruan privasi",
@@ -641,7 +643,8 @@
         "P_MARKING": "Mulai Desember 2026, Undang-Undang AI Uni Eropa (EU AI Act) mewajibkan gambar dan video hasil generasi ditandai sebagai buatan AI dalam format yang dapat dibaca mesin. {appName} kini menambahkan tanda ini ke setiap gambar dan video yang dikirimkannya, sebagai metadata standar di dalam file. Tidak ada yang berubah secara visual dan gambar tidak dienkode ulang, jadi kualitasnya tetap sama persis. Tanda yang sudah disematkan penyedia dibiarkan utuh.",
         "H_ALSO": "Hal baru lainnya",
         "P_ALSO": "Kebijakan privasi kami kini menyebutkan negara tujuan yang bisa menerima permintaanmu beserta dasar hukum masing-masing. Situs ini kini punya halaman informasi hukum. Penyiapan autentikasi dua faktor kembali berfungsi setelah bug yang memblokirnya diperbaiki, dan perubahan akun yang sensitif kini memintamu memastikan bahwa itu memang kamu. Daftar lengkapnya ada di <privacy>kebijakan privasi</privacy> kami. Model gratis kini juga meminta persetujuanmu sekali per model, <post_consent_for_free_models>begini cara kerjanya</post_consent_for_free_models>.",
-        "CTA": "Ada pertanyaan tentang penyedia tertentu? Tanyakan di Discord kami atau lihat label di <models>halaman model</models>."
+        "CTA": "Ada pertanyaan tentang penyedia tertentu? Tanyakan di Discord kami atau lihat label di <models>halaman model</models>.",
+        "META_DESCRIPTION": "Halaman model kini menunjukkan lokasi setiap penyedia dan menandai negara tanpa perlindungan data UE. Arti labelnya, cara memilih rute, dan perubahan lain."
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "Apa yang terjadi dengan LoreBary, dan apa yang disimpan {appName} tentang kamu",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "Obrolanmu tersimpan di browsermu sendiri, bukan di server kami: hapus, maka obrolan itu hilang. Gateway kami tidak menyimpan prompt yang kamu kirim maupun balasan yang kamu terima, hanya yang dibutuhkan untuk penagihan: model, jumlah token, biaya, waktu, dan apakah permintaan berhasil. Alamat IP yang tercatat bersama sebuah permintaan dihapus setelah 30 hari. Kami tidak melatih model dengan datamu, dan situs web ini tidak memakai analitik. Situs web, gateway, sinkronisasi, dan bot Discord bersifat open source, jadi kamu bisa memeriksa setiap poin ini di GitHub alih-alih hanya percaya kata-kata kami.",
         "H_PROVIDERS": "Yang tidak bisa kami janjikan",
         "P_PROVIDERS": "Permintaanmu tetap harus sampai ke model yang kamu pilih, dan penyedia itu menanganinya sesuai ketentuannya sendiri. Sebagian penyedia menyimpan atau melatih model dengan apa yang mereka terima, terutama yang gratis. Kebijakan privasi kami menyatakannya dengan jelas, dan kebiasaan paling aman sama di mana pun: jangan masukkan data pribadi ke dalam prompt. Sejak itu setiap model menunjukkan tempat kedudukan penyedianya (<post_where_your_requests_go>arti label</post_where_your_requests_go>), dan model gratis meminta persetujuanmu terlebih dahulu (<post_consent_for_free_models>cara kerjanya</post_consent_for_free_models>). Gambaran lengkapnya ada di <privacy>kebijakan privasi</privacy> kami.",
-        "CTA": "Ada pertanyaan soal ini? Tanyakan di Discord, atau baca sendiri kodenya. Atau langsung <chat>buka obrolan</chat> atau <models>lihat model-modelnya</models>."
+        "CTA": "Ada pertanyaan soal ini? Tanyakan di Discord, atau baca sendiri kodenya. Atau langsung <chat>buka obrolan</chat> atau <models>lihat model-modelnya</models>.",
+        "META_DESCRIPTION": "Selama empat hari kami menyediakan model internal LoreBary tanpa izin. Kejadiannya, apa yang kami ubah, dan data apa yang disimpan {appName} tentang kamu."
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Pendeteksi Claude palsu kini menjadi pustaka sumber terbuka",
@@ -683,7 +687,8 @@
         "H_USE_IT": "Gunakan",
         "P_USE_1": "<tester>Penguji model</tester> menjalankan seluruh rangkaian di peramban Anda, termasuk pemeriksaan tanda tangan dan token, dan tidak ada yang keluar dari mesin Anda selain panggilan ke penyedia Anda. <rankings>Halaman peringkat</rankings> menerbitkan hasil yang orang pilih untuk dibagikan. Untuk pipeline Anda sendiri:",
         "P_USE_2": "Aktifkan yang Anda butuhkan. <c>checkSignature</c> dan <c>checkTokenTruth</c> masing-masing memakan permintaan tambahan, jadi tetap mati kecuali diminta. Metadata amplop dan throughput dibaca dari respons yang sudah dibuat oleh proses dan tidak memakan biaya apa pun.",
-        "CTA": "<tester>Uji sebuah penyedia</tester>, baca <first>tulisan bulan April</first> untuk angka-angka yang memulai semua ini, atau buka issue di <repo>GitHub</repo> jika endpoint asli mendapat vonis yang salah."
+        "CTA": "<tester>Uji sebuah penyedia</tester>, baca <first>tulisan bulan April</first> untuk angka-angka yang memulai semua ini, atau buka issue di <repo>GitHub</repo> jika endpoint asli mendapat vonis yang salah.",
+        "META_DESCRIPTION": "ai-model-verifier, mesin penguji model kami, kini sumber terbuka di npm (AGPL-3.0). Cek apakah endpoint menyajikan model yang dijual, dan tagihan token."
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "Claude Opus 4.8 vs 4.6 vs 4.7 untuk roleplay: peringkat berdasarkan pengalaman langsung",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 paling menjengkelkan: ia mengulang-ulang frasa dan dialog serta perlu banyak regenerasi demi variasi. 4.6 adalah lompatan besar, menambahkan detail-detail kecilnya sendiri pada aksi, atmosfer, dan raut wajah. 4.8 benar-benar mengejutkan: ia mengambil karakter kanon yang terkenal dengan spontanitasnya dan memerankannya dengan meyakinkan, memulai sebuah aksi lalu membalikkannya dalam momen yang sama, jenis pengecohan dalam karakter yang sulit dipalsukan. Itulah yang mengangkat 4.8 ke puncak.",
         "H_VERDICT": "Vonis",
         "P_VERDICT": "Untuk roleplay di {appName}, pakai 4.8 sekarang, simpan 4.6 sebagai cadangan yang lebih murah, lewati 4.7. Ketiganya hanya berjarak satu klik di <models>pemilih model</models>, jadi jalankan karaktermu sendiri lewat masing-masing. Sampler, lorebook, dan pengaturan memori berlaku di semua model, dan prompt kustom bisa mendorong 4.6 ke arah daya dorong lebih atau 4.8 ke arah kedalaman lebih. Tips: nilai setiap model tepat setelah kau memakainya, sebelum model berikutnya memukau kau, itu satu-satunya cara menangkap apa yang sebenarnya kurang dari sebuah model baru.",
-        "CTA": "Ingin mencobanya sendiri? <register>Buat akun gratis</register> atau <chat>buka obrolan</chat> dan beralih antar <post_claude_authenticity>versi Opus</post_claude_authenticity> di satu tempat."
+        "CTA": "Ingin mencobanya sendiri? <register>Buat akun gratis</register> atau <chat>buka obrolan</chat> dan beralih antar <post_claude_authenticity>versi Opus</post_claude_authenticity> di satu tempat.",
+        "META_DESCRIPTION": "Pemain peran memeringkat Claude Opus 4.8, 4.6, dan 4.7 di {appName}: memori, emosi, daya dorong, dan tulisan kreatif. 4.8 menang, 4.6 mengalahkan 4.7."
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: gateway koding yang sama, plus klien chat",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "Seperti MegaLLM, {appName} <post_what_is_an_llm_gateway>kompatibel dengan OpenAI</post_what_is_an_llm_gateway>. Arahkan klienmu ke <c>https://api.unorouter.com/v1</c> dan pertahankan kodemu. Kunci yang sama juga menjangkau sisi chat, jadi tidak ada akun kedua.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Hanya menulis kode dan mau gateway model frontier yang ramping dan dioptimalkan untuk biaya token? MegaLLM solid. Mau satu kunci yang menggerakkan agen kodemu dan klien chat bawaan dari saldo yang sama, dengan katalog lebih luas? Itulah {appName}.",
-        "CTA": "Ingin gateway dan chat dalam satu? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+        "CTA": "Ingin gateway dan chat dalam satu? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>.",
+        "META_DESCRIPTION": "MegaLLM adalah gerbang model terdepan untuk agen pemrograman. {appName} melakukan hal yang sama, plus klien obrolan dan karakter bawaan untuk mengobrol."
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} vs Portkey: gateway AI atau platform LLMOps lengkap",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey memberi harga di sekitar platform: gratis untuk volume rendah, lalu paket berbayar untuk observabilitas dan tata kelola, di atas yang kamu bayar tiap penyedia. Layak ketika bidang kontrol menghemat waktu nyata sebuah tim. {appName} bersifat bayar sesuai pemakaian di 200+ model, satu saldo yang tidak kedaluwarsa, tingkat gratis. Di bawah skala tim, jalur ramping lebih murah.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Menjalankan fitur LLM untuk organisasi dan butuh observabilitas, guardrail, serta tata kelola? Portkey dibuat persis untuk itu. Mau satu kunci tanpa apa pun untuk dioperasikan yang bekerja di agen kodemu dan klien chat? {appName}. Bukan lebih baik atau lebih buruk, hanya lebih sedikit platform.",
-        "CTA": "Ingin gateway tanpa perlu dioperasikan? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Ingin gateway tanpa perlu dioperasikan? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "META_DESCRIPTION": "Portkey adalah platform LLMOps perusahaan dengan pemantauan dan pagar pengaman. {appName} adalah gerbang terkelola yang ramping dengan klien obrolan."
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} vs nano-gpt: marketplace chat atau satu kunci untuk keduanya",
@@ -751,7 +759,8 @@
         "P_PAY": "Keduanya bayar sesuai pemakaian, model yang tepat untuk penggunaan multimodel yang menyembur. {appName} menjaganya di satu saldo yang tidak kedaluwarsa, <free>tingkat gratis</free>, satu kunci lintas kode dan chat alih-alih dompet pasar yang hanya kamu belanjakan di satu UI. Bentuk penagihannya sama; bedanya seberapa jauh satu kunci menjangkau.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Terutama mau UI web untuk mencicipi daftar model seluas mungkin? nano-gpt jago di situ. Mau satu kunci yang bekerja di agen kodemu dan klien karakter sungguhan, dengan kredit yang ikut berpindah? {appName}.",
-        "CTA": "Ingin satu kunci untuk kode dan chat karakter? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Ingin satu kunci untuk kode dan chat karakter? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "META_DESCRIPTION": "nano-gpt punya katalog model besar di balik antarmuka obrolan. {appName} memberi akses bayar per pemakaian yang sama, plus API pengembang dan klien RP."
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "Gateway AI terbaik untuk SillyTavern pada 2026",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName} punya tingkat gratis dan lebih dari 200 model, jadi Anda bisa menguji sebuah kartu pada <free>model gratis</free>, lalu beralih ke model berbayar yang lebih kuat hanya saat adegannya sepadan. Kredit tidak kedaluwarsa, penagihan bayar sesuai pemakaian, dan satu saldo mencakup setiap klien dan setiap model. Tak ada kursi bulanan yang harus dibenarkan dan tak ada yang perlu dibatalkan jika Anda istirahat sebulan.",
         "H_VERDICT": "Jawaban singkatnya",
         "P_VERDICT": "Gateway SillyTavern terbaik adalah yang punya endpoint kompatibel OpenAI, keluasan model yang nyata, kredit bayar sesuai pemakaian, dan tingkat gratis untuk memulai, sehingga satu kunci membawa seluruh pengaturan Anda. {appName} dibuat tepat untuk kasus itu, dan kunci yang sama tetap berfungsi di setiap front-end obrolan karakter lain yang Anda gunakan.",
-        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "META_DESCRIPTION": "SillyTavern butuh endpoint kompatibel OpenAI dan sebuah kunci. Inilah yang penting saat memilih gerbang AI, dan cara menghubungkannya dalam satu menit."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: kami mem-port mesin obrolan karakter ke 2-dalam-1 yang di-host",
@@ -786,7 +796,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Mau frontend swakelola, terbuka, dan sangat dapat diperluas dengan memori terkaya, serta tak masalah membawa kuncimu sendiri? Pakai Risu. Mau fitur lorebook, CBS, dan kartu yang sama dalam bentuk terhosting, di mana satu kunci juga menggerakkan agen kodemu? Itulah {appName}.",
         "CTA": "Coba chat dengan semua yang diporting. <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
-        "METHOD": "Cara kami memverifikasi: klaim fitur RisuAI di sini kami cek terhadap kode sumber terbuka RisuAI sendiri, yaitu modul lorebook, makro CBS, trigger, dan memorinya, bukan materi pemasarannya. Saat kami bilang {appName} mem-port suatu ide, artinya kami membaca kode itu lalu membangun ulang perilakunya."
+        "METHOD": "Cara kami memverifikasi: klaim fitur RisuAI di sini kami cek terhadap kode sumber terbuka RisuAI sendiri, yaitu modul lorebook, makro CBS, trigger, dan memorinya, bukan materi pemasarannya. Saat kami bilang {appName} mem-port suatu ide, artinya kami membaca kode itu lalu membangun ulang perilakunya.",
+        "META_DESCRIPTION": "{appName} memindahkan mesin RisuAI (lorebook, makro CBS, pemicu, regex, impor kartu) ke produk terkelola, di mana kunci yang sama juga untuk pemrograman."
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gateway terkelola atau proxy swakelola",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM tidak mengambil markup, tetapi kamu bayar tiap penyedia dan memikul infrastruktur plus waktu DevOps. Itu menang di volume tinggi bila punya tim. {appName} bersifat <pricing>bayar sesuai pemakaian</pricing> di 200+ model, satu saldo yang tidak kedaluwarsa, tanpa server untuk dibayar. Di bawah skala serius, terhosting biasanya lebih murah setelah jam kerja dihitung.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Punya tim platform dan mau markup nol? LiteLLM. Mau satu kunci tanpa apa pun untuk di-deploy yang bekerja di agen kodemu dan klien chat? {appName}.",
-        "CTA": "Ingin gateway tanpa apa pun untuk di-deploy? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+        "CTA": "Ingin gateway tanpa apa pun untuk di-deploy? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>.",
+        "META_DESCRIPTION": "LiteLLM adalah proksi LLM swakelola terpopuler, {appName} gerbang terkelola dengan klien obrolan bawaan. Pertanyaannya: mau kelola infrastruktur sendiri?"
       },
       "FEATURED_ON": {
         "TITLE": "Tempat menemukan {appName}: daftar direktori kami",
@@ -817,7 +829,8 @@
         "H_VERIFY": "Verifikasi sebelum percaya",
         "P_VERIFY": "Buka lencana mana pun, pastikan daftarnya mengarah ke domain asli kami, dan periksa deskripsi independennya. Jangan pernah menempelkan kunci API ke layanan yang asal-usulnya tidak dapat Anda lacak ke <post_open_source_openrouter_alternative>sumber publik yang dapat diverifikasi</post_open_source_openrouter_alternative>.",
         "H_TRY": "Coba sendiri",
-        "CTA": "Sudah cukup melihat? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+        "CTA": "Sudah cukup melihat? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>.",
+        "META_DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan perusahaan rintisan. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan."
       },
       "LAUNCH": {
         "TITLE": "Kami lelah dengan Claude palsu. Jadi kami membangun {appName}.",
@@ -832,7 +845,8 @@
         "P_HARNESS": "Sebuah model hanya berguna jika bekerja di alat Anda. Kami menguji setiap model ujung ke ujung untuk HTTP completion, streaming, dan tool calling. Tiga kapabilitas itu adalah yang menjadi sandaran harness terminal AI. Jika sebuah model ada di katalog kami, ia bekerja di <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Codex CLI, Gemini CLI, dan klien apa pun yang kompatibel dengan OpenAI. Tidak ada kegagalan 'streaming tidak didukung' di tengah sesi.",
         "H_NEXT": "Apa selanjutnya",
         "P_NEXT": "Kami merilis mingguan. Harapkan lebih banyak model, <rankings>sinyal kesehatan yang lebih ketat</rankings> menggerakkan fallback yang lebih cerdas, dashboard biaya dan latensi yang lebih kaya, dan integrasi yang lebih dalam dengan terminal dan IDE tempat Anda sudah hidup.",
-        "CTA": "Siap mencobanya? <register>Ambil kunci API</register> atau <models>jelajahi katalog model</models>."
+        "CTA": "Siap mencobanya? <register>Ambil kunci API</register> atau <models>jelajahi katalog model</models>.",
+        "META_DESCRIPTION": "Pemadaman tiap minggu, model premium diam-diam diganti klon murah. Kami marah, meluncurkan router sendiri, dan membuatnya paranoid soal keduanya."
       },
       "AGENT_READY": {
         "TITLE": "Kami mengarahkan agent scanner Cloudflare ke situs kami. Hasilnya 100/100.",
@@ -851,7 +865,8 @@
         "P_STUBS": "Pemeriksaan ini adalah stub sederhana. Scanner sebagian besar memverifikasi bahwa URL well-known ada, mengembalikan 200, dan berisi bentuk top-level yang benar. Ia tidak menjalankan alur OAuth nyata, ia tidak benar-benar memanggil alat MCP, ia tidak menyelesaikan pembayaran x402. Centang hijau berarti pintu terbuka, bukan ruangan di baliknya sudah selesai. Siapa pun yang bergantung pada protokol di produksi harus tetap melakukan <post_ai_model_verifier>verifikasi ujung ke ujung sendiri</post_ai_model_verifier>: round-trip alur OAuth, panggil alat MCP dari klien nyata, jalankan pembayaran x402 sampai ke penyelesaian. Skor adalah sinyal hebat bahwa area permukaan sudah ada. Itu bukan pengganti pengujian kesesuaian tingkat protokol.",
         "H_TRY": "Jalankan di situs Anda sendiri",
         "P_TRY": "Jika Anda membangun apa pun yang mungkin disentuh agen AI suatu hari nanti, scanner benar-benar layak satu menit waktu Anda. Ia memunculkan daftar panjang standar kecil dalam satu tampilan dan memberi tahu Anda persis path well-known mana yang hilang atau tidak benar. Kami menggunakannya sebagai pemeriksaan regresi setiap kali kami merilis apa pun yang menyentuh permukaan discovery, auth, atau commerce.",
-        "CTA": "Pindai situs Anda di <scanner>isitagentready.com</scanner>, atau jika Anda datang untuk {appName}, <register>ambil kunci API</register> dan <post_what_is_an_llm_gateway>mulai routing</post_what_is_an_llm_gateway>."
+        "CTA": "Pindai situs Anda di <scanner>isitagentready.com</scanner>, atau jika Anda datang untuk {appName}, <register>ambil kunci API</register> dan <post_what_is_an_llm_gateway>mulai routing</post_what_is_an_llm_gateway>.",
+        "META_DESCRIPTION": "Pemindai baru Cloudflare menilai kesiapan situs untuk agen AI. Kami meraih 100/100 dan Level 5. Inilah yang diperiksanya dan mengapa banyak situs gagal."
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "Cara kami membedakan Claude asli dari yang palsu",
@@ -887,7 +902,8 @@
         "H_TEST": "Uji penyedia Anda sendiri",
         "TEST_P": "Anda tidak perlu memasang apa pun. Buka <link>penguji model API</link>, tempel alamat dan kunci penyedia Anda, pilih model, lalu alat itu akan menjalankan pemeriksaan ini secara langsung dan menunjukkan dengan tepat apa yang lolos dan apa yang gagal.",
         "TEST_CURL": "Lebih suka baris perintah? Ini tes anak kucing yang tadi. Jika balasannya menolak atau mengarahkan Anda ke urusan pemrograman, “Claude” Anda bukanlah Claude.",
-        "TEST_OPEN": "Kedua bagian ini open source, jadi siapa pun bisa memeriksa cara kerjanya atau menjalankannya sendiri: pemeriksaannya ada di <verifier>ai-model-verifier</verifier> (juga tersedia di <npm>npm</npm>), dan <sync>new-api-sync</sync> yang menjalankannya di setiap penyedia yang kami gunakan."
+        "TEST_OPEN": "Kedua bagian ini open source, jadi siapa pun bisa memeriksa cara kerjanya atau menjalankannya sendiri: pemeriksaannya ada di <verifier>ai-model-verifier</verifier> (juga tersedia di <npm>npm</npm>), dan <sync>new-api-sync</sync> yang menjalankannya di setiap penyedia yang kami gunakan.",
+        "META_DESCRIPTION": "Claude murah sering kali model lain yang memakai nama Claude. Mengapa bertanya ke model tidak membuktikan apa pun, dan cek apa yang benar-benar ampuh."
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "Model gambar mana yang benar-benar menerima 6 input referensi? Kami menjalankan benchmark.",
@@ -918,7 +934,8 @@
         "METADATA_P2": "Jika Anda hanya peduli model mana yang akan menerima payload 6 gambar Anda, filter di field ini. Model baru yang ditambahkan kemudian mendapat tag yang sama setelah mereka lulus benchmark yang sama.",
         "H_TRY": "Coba",
         "TRY_P": "Setiap model di atas tersedia melalui <docs>satu endpoint yang kompatibel dengan OpenAI</docs>. Pengeditan gambar multi-referensi diekspos persis seperti yang didefinisikan upstream, tanpa pembungkusan tambahan. Bawa enam gambar dan prompt; router memilih penyedia yang bekerja.",
-        "CTA": "<register>Ambil kunci API</register> atau <models>jelajahi katalog gambar</models> untuk melihat daftar terverifikasi lengkap."
+        "CTA": "<register>Ambil kunci API</register> atau <models>jelajahi katalog gambar</models> untuk melihat daftar terverifikasi lengkap.",
+        "META_DESCRIPTION": "Kami menguji perintah adegan dengan 6 gambar referensi di setiap saluran gambar kami: 332 uji, 136 model unik, 54 dengan minimal satu penyedia yang lulus."
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "Bergabunglah dengan Discord {appName}, dapatkan saldo gratis",
@@ -934,7 +951,8 @@
         "H_BUGS": "Bug bounty, hingga $50",
         "P_BUGS": "Temukan <post_open_source_openrouter_alternative>bug nyata di platform</post_open_source_openrouter_alternative> dan laporkan di forum bug-bounty. Staf memilih tingkat keparahan dan bot membayarnya: Rendah $0,25, Sedang $0,50, Tinggi $1, Kritis $50. Siapa yang benar-benar mengidentifikasi bug yang dibayar, bukan hanya pemulai thread.",
         "H_JOIN": "Datang nongkrong",
-        "CTA": "Siap? <invite>Bergabunglah dengan Discord {appName}</invite>, lalu <register>ambil kunci API</register> dan <settings>tautkan akun Anda</settings> untuk mengklaim $1 pertama Anda."
+        "CTA": "Siap? <invite>Bergabunglah dengan Discord {appName}</invite>, lalu <register>ambil kunci API</register> dan <settings>tautkan akun Anda</settings> untuk mengklaim $1 pertama Anda.",
+        "META_DESCRIPTION": "Tautkan akun Anda untuk $1, boost server untuk $1 setiap bulan, buru bug hingga $50. Kami baru saja membuka Discord {appName}."
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "Kami mengumpulkan 130+ model AI gratis dari sekitar 50 penyedia ke dalam satu endpoint",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "Berapa batas laju tier gratis?",
         "FAQ_2_A": "Sekitar 1 permintaan per menit per model per pengguna. Batas ini mengembalikan HTTP 429 dengan header Retry-After. Dengan 130+ model gratis, solusi praktisnya adalah merotasi model alih-alih menunggu.",
         "FAQ_3_Q": "Apakah aku perlu kartu kredit untuk model gratis?",
-        "FAQ_3_A": "Tidak. Daftar dengan Discord atau GitHub, buat kunci, dan pakai model mana pun dengan sufiks :free. Bonus verifikasi Discord satu kali sebesar $1 bisa dipakai untuk model berbayar."
+        "FAQ_3_A": "Tidak. Daftar dengan Discord atau GitHub, buat kunci, dan pakai model mana pun dengan sufiks :free. Bonus verifikasi Discord satu kali sebesar $1 bisa dipakai untuk model berbayar.",
+        "META_DESCRIPTION": "Sekitar 50 penyedia gratis di {appName}: 130+ model, satu endpoint kompatibel OpenAI, $0 per token. Plus batas penyedia dan batas 1 permintaan per menit."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs OpenRouter: perbandingan yang jujur",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "Bisakah aku memakai kunci yang sama untuk agen coding dan chat roleplay?",
         "FAQ_2_A": "Bisa. Satu kunci {appName} bekerja di Claude Code, Cline, dan OpenCode lewat API yang kompatibel dengan OpenAI, dan akun yang sama menyertakan klien chat karakter lengkap yang juga bisa dipasang di SillyTavern atau JanitorAI.",
         "FAQ_3_Q": "Bagaimana cara pindah dari OpenRouter ke {appName}?",
-        "FAQ_3_A": "Arahkan klienmu ke https://api.unorouter.com/v1 dan pertahankan kodemu. API-nya kompatibel dengan OpenAI, nama model berasal dari GET /v1/models, dan endpoint native Anthropic dan Gemini juga dilayani."
+        "FAQ_3_A": "Arahkan klienmu ke https://api.unorouter.com/v1 dan pertahankan kodemu. API-nya kompatibel dengan OpenAI, nama model berasal dari GET /v1/models, dan endpoint native Anthropic dan Gemini juga dilayani.",
+        "META_DESCRIPTION": "{appName} dan OpenRouter sama-sama menaruh banyak model di balik satu kunci kompatibel OpenAI. Bedanya: API saja, atau API plus klien obrolan dan karakter."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Alternatif OpenRouter terbaik pada 2026",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "Apakah alternatif OpenRouter bekerja dengan SillyTavern dan JanitorAI?",
         "FAQ_2_A": "Gateway apa pun yang kompatibel dengan OpenAI bisa. Di SillyTavern gunakan URL dasar https://api.unorouter.com/v1, di JanitorAI gunakan endpoint lengkap https://api.unorouter.com/v1/chat/completions dengan kunci yang sesuai.",
         "FAQ_3_Q": "Apakah ada alternatif OpenRouter yang open source?",
-        "FAQ_3_A": "{appName} open source dari ujung ke ujung di bawah lisensi OSI, frontend, gateway, bot, dan sinkronisasi provider, di github.com/unorouter. LiteLLM juga open source, tetapi berupa proxy bawa-kunci-sendiri tanpa katalog terkelola."
+        "FAQ_3_A": "{appName} open source dari ujung ke ujung di bawah lisensi OSI, frontend, gateway, bot, dan sinkronisasi provider, di github.com/unorouter. LiteLLM juga open source, tetapi berupa proxy bawa-kunci-sendiri tanpa katalog terkelola.",
+        "META_DESCRIPTION": "OpenRouter bukan satu-satunya cara menjangkau banyak model dengan satu kunci. Alternatif yang layak diketahui pada 2026, kegunaannya, dan cara memilih."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: alternatif OpenRouter yang open source",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "Bisakah aku self-host {appName}?",
         "FAQ_2_A": "Bisa. Clone repositorinya dan jalankan stack-nya sendiri, atau arahkan klien apa pun yang kompatibel dengan OpenAI ke endpoint terkelola https://api.unorouter.com/v1 dan lewati urusan operasionalnya.",
         "FAQ_3_Q": "Apa bedanya {appName} dengan LiteLLM?",
-        "FAQ_3_A": "LiteLLM adalah proxy self-hosted tempat kamu membawa kunci provider dan mengelola akun sendiri. {appName} terkelola dengan satu kunci, 200+ model, dan tier gratis, sambil tetap open source seperti LiteLLM."
+        "FAQ_3_A": "LiteLLM adalah proxy self-hosted tempat kamu membawa kunci provider dan mengelola akun sendiri. {appName} terkelola dengan satu kunci, 200+ model, dan tier gratis, sambil tetap open source seperti LiteLLM.",
+        "META_DESCRIPTION": "OpenRouter tertutup kodenya. {appName} memberi satu kunci untuk 200+ model, seluruh kode publik berlisensi OSI, bisa di-host sendiri, dan ada paket gratis."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Apa itu gateway LLM?",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "Apakah gateway LLM menambah latensi?",
         "FAQ_2_A": "Satu lompatan ekstra, biasanya puluhan milidetik, yang dalam praktiknya tertutupi oleh streaming. Respons lambat jauh lebih sering datang dari modelnya sendiri daripada dari gateway.",
         "FAQ_3_Q": "Endpoint apa saja yang dilayani {appName}?",
-        "FAQ_3_A": "Kompatibel OpenAI /v1/chat/completions, /v1/responses, dan /v1/embeddings, Anthropic native /v1/messages, dan Gemini native /v1beta, semuanya di balik satu kunci."
+        "FAQ_3_A": "Kompatibel OpenAI /v1/chat/completions, /v1/responses, dan /v1/embeddings, Anthropic native /v1/messages, dan Gemini native /v1beta, semuanya di balik satu kunci.",
+        "META_DESCRIPTION": "Gerbang LLM adalah satu endpoint dan kunci yang merutekan permintaan ke banyak penyedia model. Apa fungsinya, manfaatnya, dan siapa yang membutuhkannya."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Cara menghubungkan LLM apa pun ke SillyTavern",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "Jika daftar model tak mau dimuat, periksa lagi bahwa URL dasar diakhiri <c>/v1</c> dan kunci ditempel tanpa spasi liar. 401 berarti kunci salah atau kedaluwarsa; salin lagi. 404 pada model berarti nama model itu tak terpilih dari daftar yang dimuat. Jika balasan terpotong, naikkan panjang respons di pengaturan SillyTavern. Kebanyakan kegagalan penyiapan adalah URL dasar yang salah ketik atau kunci dengan spasi, jadi periksa itu dulu.",
         "H_VERDICT": "Itulah seluruh triknya",
         "P_VERDICT": "Menghubungkan LLM apa pun ke SillyTavern bermuara pada satu endpoint yang kompatibel dengan OpenAI plus sebuah kunci, dan sebuah gateway mengubahnya menjadi banyak model di balik satu pengaturan. {appName} memberi Anda URL dasar itu, tingkat gratis untuk memulai, dan 200+ model yang bisa Anda alihkan tanpa mengulangi apa pun. Atur sekali dan kunci yang sama mengikuti Anda di setiap front-end obrolan karakter.",
-        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "META_DESCRIPTION": "SillyTavern bisa memakai hampir semua model lewat satu endpoint kompatibel OpenAI. Ini penyiapan persisnya, cara ganti model, dan cara memperbaiki galat."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "Satu kunci API untuk Claude Code dan obrolan karakter",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "Karena kedua sisi berjalan pada kunci yang sama, pemakaian coding dan pemakaian obrolan karakter Anda diambil dari <pricing>satu saldo bayar sesuai pemakaian</pricing>. Kredit tidak kedaluwarsa, tidak ada kursi bulanan yang perlu dibenarkan, dan Anda melihat semua pengeluaran di satu tempat alih-alih membaginya di antara penyedia. Tingkat gratis membiarkan Anda menguji salah satu sisi sebelum membayar. Satu akun mencakup seluruh hari Anda, kerja dan bermain.",
         "H_VERDICT": "Intinya",
         "P_VERDICT": "Agen coding dan klien obrolan karakter berbagi protokol yang kompatibel dengan OpenAI, jadi satu kunci dapat menjalankan keduanya dari satu saldo. {appName} dibuat tepat untuk rentang itu: API yang bersih untuk Claude Code dan kawan-kawan, <chat>klien obrolan dan karakter</chat> untuk bercerita, 200+ model, dan kredit yang tidak kedaluwarsa. Satu kunci, satu tagihan, kedua dunia.",
-        "CTA": "Mau satu kunci untuk kode dan chat? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Mau satu kunci untuk kode dan chat? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "META_DESCRIPTION": "Agen pemrograman dan klien obrolan karakter sama-sama memakai API kompatibel OpenAI. Begini satu kunci menjalankan Claude Code dan obrolan dari satu saldo."
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} vs Janitor.AI: backend-nya, plus chat milik Anda sendiri",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Tetap pakai Janitor kalau Anda menyukainya, cukup arahkan ke <c>https://api.unorouter.com/v1</c>. Atau buka chat milik {appName} dengan key yang sama dan impor kartu Anda. Tidak ada yang perlu diinstal, apa pun pilihannya.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin tetap di Janitor dan hanya butuh backend yang solid? {appName} adalah itu dengan satu key. Ingin satu akun yang sekaligus backend, character chat sungguhan, dan <post_one_api_key_for_claude_code_and_roleplay>gateway coding agent Anda</post_one_api_key_for_claude_code_and_roleplay>? Itulah inti dari {appName}.",
-        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
+        "META_DESCRIPTION": "Janitor.AI adalah antarmuka obrolan karakter yang butuh layanan di belakangnya. {appName} adalah layanan itu dengan satu kunci, plus obrolan karakternya."
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} vs Character.AI: model terbuka dan key sungguhan",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} bersifat local-first: <post_lorebary_and_your_data>chat tersimpan di browser Anda, bukan di server kami</post_lorebary_and_your_data>, dan seluruh stack-nya open source dan bisa diaudit. Character.AI menyimpan semuanya di sisi server di balik filter yang tidak bisa Anda lihat. Kalau kendali dan keterbukaan itu penting, itu adalah garis tegas antara keduanya.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin aplikasi tertutup, aman, tanpa setup, dan tidak pernah menyentuh pengaturan model? Character.AI baik-baik saja. Ingin pilihan model terbuka, key sungguhan yang juga bisa coding, dan data Anda lokal? Itulah {appName}.",
-        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
+        "META_DESCRIPTION": "Character.AI tertutup, terfilter, tanpa API atau pilihan model. {appName} terbuka: 200+ model, kunci kompatibel OpenAI, data lokal, dan bisa untuk koding."
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} vs SillyTavern: kedalaman yang sama, ter-hosting, dengan satu key",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin kendali lokal maksimal dan suka menjalankan SillyTavern? Pertahankan, dan <post_best_ai_gateway_for_sillytavern>pakai {appName} sebagai backend</post_best_ai_gateway_for_sillytavern>. Ingin kedalaman yang sama secara ter-hosting, dengan key yang juga menjalankan coding agent Anda? Itulah {appName}.",
         "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
-        "METHOD": "Cara kami memverifikasi: klaim SillyTavern di sini kami baca dari kode sumber terbukanya (kode World Info, prompt, dan character-card-nya), bukan diparafrasekan dari dokumentasi. Kalau ada detail yang keliru, itu adalah bug dalam pembacaan kami, jadi beri tahu kami."
+        "METHOD": "Cara kami memverifikasi: klaim SillyTavern di sini kami baca dari kode sumber terbukanya (kode World Info, prompt, dan character-card-nya), bukan diparafrasekan dari dokumentasi. Kalau ada detail yang keliru, itu adalah bug dalam pembacaan kami, jadi beri tahu kami.",
+        "META_DESCRIPTION": "SillyTavern harus Anda host sendiri dengan kunci sendiri. {appName} punya kedalaman yang sama secara terkelola, dan kuncinya juga untuk agen pemrograman."
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} vs Chub / Venus: kedalaman kartunya, plus coding dengan satu key",
@@ -1160,7 +1188,8 @@
         "P_COST": "Dengan Chub Anda memilih tier untuk model kecil atau membayar provider langsung untuk yang bagus, dua tagihan apa pun caranya. {appName} adalah satu saldo untuk semuanya, kredit yang tidak kedaluwarsa, dan <free>tier gratis untuk memulai</free>. Satu key menjangkau model dan coding agent.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin ekosistem kartu Chub dan puas dengan model tier kecil atau BYOK? Itu rumah yang baik. Ingin kedalaman itu dengan 200+ model dan key yang juga bisa coding, semuanya dalam satu akun? Itulah {appName}.",
-        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
+        "META_DESCRIPTION": "Chub (Venus) adalah pustaka kartu dan obrolan dengan model bertingkat atau BYOK. {appName}: kartu dan lorebook mendalam, 200+ model, kunci untuk koding."
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} vs Marinara: kami memindahkan preset engine-nya ke dalam 2-in-1",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin preset engine self-host yang Anda kendalikan penuh? Jalankan yang khusus. Ingin kedalaman prompt berbasis bagian itu secara ter-hosting, di mana satu key juga menjalankan coding agent Anda? Itulah {appName}.",
         "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
-        "METHOD": "Cara kami memverifikasi: klaim Marinara Engine di sini (agen bawaan dan pipeline tiga fasenya) kami baca dari kode sumbernya sendiri, bukan dari halaman landing-nya. Saat kami bilang kami mem-port suatu ide, kami membaca kode itu terlebih dahulu."
+        "METHOD": "Cara kami memverifikasi: klaim Marinara Engine di sini (agen bawaan dan pipeline tiga fasenya) kami baca dari kode sumbernya sendiri, bukan dari halaman landing-nya. Saat kami bilang kami mem-port suatu ide, kami membaca kode itu terlebih dahulu.",
+        "META_DESCRIPTION": "Marinara Engine adalah aplikasi permainan peran swakelola dengan 22 agen bawaan. {appName} membawa ide alur agen itu ke produk terkelola, plus pemrograman."
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} vs Lumiverse: ide memori-nya, ter-hosting, plus coding",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin engine self-host dengan graf memori terkaya dan kendali total? Jalankan. Ingin ide memori dan rincian itu secara ter-hosting, dengan key yang juga menjalankan coding agent Anda? Itulah {appName}.",
         "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
-        "METHOD": "Cara kami memverifikasi: klaim Lumiverse di sini, termasuk bahwa Memory Cortex-nya melangkah lebih dalam daripada milik kami, kami baca dari kode sumber dan lisensinya sendiri, bukan diasumsikan. Kami lebih memilih menyatakan kekalahan yang jujur ketimbang kemenangan yang tak teruji."
+        "METHOD": "Cara kami memverifikasi: klaim Lumiverse di sini, termasuk bahwa Memory Cortex-nya melangkah lebih dalam daripada milik kami, kami baca dari kode sumber dan lisensinya sendiri, bukan diasumsikan. Kami lebih memilih menyatakan kekalahan yang jujur ketimbang kemenangan yang tak teruji.",
+        "META_DESCRIPTION": "Memory Cortex Lumiverse adalah memori RP terdalam. {appName} membawa ide itu ke 2-dalam-1 terkelola, satu kunci juga untuk koding, gratis untuk komersial."
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} vs LibreChat: chat multi-model, ter-hosting, plus character chat",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin self-host asisten multi-provider dengan agen, MCP, code interpreter, dan auth tim? LibreChat luar biasa. Ingin chat multi-model ter-hosting plus character client sungguhan, dengan <post_one_api_key_for_claude_code_and_roleplay>satu key yang juga menjalankan kode</post_one_api_key_for_claude_code_and_roleplay>? Itulah {appName}.",
         "CTA": "Siap mencobanya? <register>Buat akun gratis</register> atau <models>jelajahi model-modelnya</models>.",
-        "METHOD": "Cara kami memverifikasi: klaim bahwa LibreChat tidak memiliki fitur chat karakter kami cek terhadap kode sumber aslinya (tidak ada character card, lorebook, atau persona di dalamnya), bukan disimpulkan dari pemosisiannya."
+        "METHOD": "Cara kami memverifikasi: klaim bahwa LibreChat tidak memiliki fitur chat karakter kami cek terhadap kode sumber aslinya (tidak ada character card, lorebook, atau persona di dalamnya), bukan disimpulkan dari pemosisiannya.",
+        "META_DESCRIPTION": "LibreChat adalah tiruan ChatGPT yang di-host sendiri, MIT, BYOK. {appName}: obrolan multimodel terkelola dengan klien karakter, satu kunci untuk koding."
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} vs Open WebUI: 200+ model ter-hosting, tanpa Ollama, plus character chat",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin self-host, menjalankan model Ollama lokal, bersandar pada RAG dokumen yang mendalam, dan mengelola tim dengan role dan SSO? Open WebUI unggul justru pada hal itu. Ingin 200+ model ter-hosting plus character client sungguhan, dengan <post_one_api_key_for_claude_code_and_roleplay>satu key yang juga menjalankan kode</post_one_api_key_for_claude_code_and_roleplay>, tanpa apa pun yang perlu dijalankan? Itulah {appName}.",
         "CTA": "Siap mencobanya? <register>Buat akun gratis</register> atau <models>jelajahi model-modelnya</models>.",
-        "METHOD": "Cara kami memverifikasi: klaim bahwa Open WebUI adalah platform asisten, bukan klien karakter, kami cek terhadap kode sumbernya; parser character-card-nya ada tetapi tidak dipakai, dan tidak ada lorebook maupun persona."
+        "METHOD": "Cara kami memverifikasi: klaim bahwa Open WebUI adalah platform asisten, bukan klien karakter, kami cek terhadap kode sumbernya; parser character-card-nya ada tetapi tidak dipakai, dan tidak ada lorebook maupun persona.",
+        "META_DESCRIPTION": "Open WebUI adalah antarmuka obrolan berbasis Ollama yang di-host sendiri. {appName}: 200+ model terkelola, satu kunci, tanpa server, plus klien karakter."
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} vs Agnai: kedalaman RP yang sama, ter-hosting, dengan satu key",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin RP terbuka yang dijalankan sendiri dengan multiplayer nyata untuk sebuah grup dan komputasi Horde gratis? Agnai adalah pilihannya, dan ia benar-benar jago dalam hal itu. Ingin <post_unorouter_vs_risuai>skripting satu-pengguna yang lebih dalam</post_unorouter_vs_risuai> dan 200+ model ter-hosting, dengan satu key yang juga menjalankan coding agent Anda? Itulah {appName}.",
         "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
-        "METHOD": "Cara kami memverifikasi: klaim Agnai di sini, termasuk bahwa group chat multiplayer-nya adalah keunggulan sejati yang tidak kami tandingi, kami baca dari kode sumbernya sendiri, bukan dari materi pemasarannya."
+        "METHOD": "Cara kami memverifikasi: klaim Agnai di sini, termasuk bahwa group chat multiplayer-nya adalah keunggulan sejati yang tidak kami tandingi, kami baca dari kode sumbernya sendiri, bukan dari materi pemasarannya.",
+        "META_DESCRIPTION": "Agnai adalah antarmuka RP sumber terbuka dengan mode banyak pemain. {appName} punya kedalaman RP satu pengguna, terkelola, dan kuncinya juga untuk koding."
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} vs SpicyChat: jalur mudahnya, plus kedalaman, model, dan coding",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "2-in-1 yang tidak punya jawaban dari SpicyChat: key yang sama yang menjalankan role-play Anda mengarahkan <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Cline, atau Codex ke 200+ model via <c>https://api.unorouter.com/v1</c>. Satu akun untuk character chat dan coding agent. SpicyChat adalah situs RP tertutup; {appName} adalah chat, model, dan coding dengan satu key.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Ingin situs RP tanpa-sensor paling sederhana yang mungkin tanpa hal yang perlu dipelajari, dan Anda tidak keberatan membayar tier untuk memori lebih banyak? SpicyChat adalah itu. Ingin awalan mudah yang sama dengan pilihan model terbuka, lorebook mendalam secara default, dan key yang juga menjalankan kode? Itulah {appName}.",
-        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+        "CTA": "Siap mencoba 2-in-1-nya? <register>Buat akun gratis</register> atau <chat>buka chat</chat>.",
+        "META_DESCRIPTION": "SpicyChat mengunci memori dan konteks di balik paket berbayar. {appName} tetap mudah, plus 200+ model, lorebook mendalam, dan kunci yang juga untuk koding."
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "Cara menghubungkan {appName} ke Nevika",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "<c>glm-5.2</c> adalah default yang kuat untuk roleplay: ia bernalar tanpa perlu sufiks khusus, menjaga adegan panjang tetap nyambung, dan biayanya kecil. <post_free_models_aggregated>Model gratis</post_free_models_aggregated> cukup untuk uji coba pertama, tapi sifatnya berbagi dan kena rate limit, jadi pindah ke yang berbayar begitu sebuah cerita mulai berarti.",
         "H_TROUBLESHOOTING": "Kalau ada yang rusak",
         "P_TROUBLESHOOTING": "Daftar model kosong berarti key kemasukan spasi saat disalin. 401 berarti key salah atau sudah dicabut, jadi buat yang baru. 404 pada sebuah model berarti namanya diketik manual, bukan dipilih dari daftar. <post_how_to_connect_any_llm_to_sillytavern>Panduan penyiapan SillyTavern</post_how_to_connect_any_llm_to_sillytavern> membahas galat yang sama dengan lebih rinci.",
-        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>lihat model-modelnya</models>."
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>lihat model-modelnya</models>.",
+        "META_DESCRIPTION": "Nevika menerima endpoint kompatibel OpenAI apa pun sebagai proksi kustom. Ini penyiapan satu menitnya, model yang dipilih, dan dua galat paling umum."
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "Tag server kini memangkas waktu tunggu model gratismu",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "Yang tidak dilakukannya",
         "P_NOT_DO_1": "Ini memangkas waktu tunggumu. Ini tidak menaikkan batas dari penyedia. Ketika model gratis sibuk karena upstream jenuh atau bermasalah, jendela yang lebih pendek di sisi kami tidak menciptakan kapasitas yang memang tidak ada, dan permintaan tetap bisa macet atau gagal.",
         "P_NOT_DO_2": "Model berbayar sama sekali tidak punya batas per menit. Jadi kalau kamu butuh model yang menjawab setiap saat, bukan sekadar sering, itulah rekomendasi jujurnya. <pricing>Harga</pricing> mulai dari pecahan sen per juta token.",
-        "CTA": "<discord>Gabung ke Discord</discord> untuk mengambil tag, atau <models>lihat dulu model gratisnya</models>."
+        "CTA": "<discord>Gabung ke Discord</discord> untuk mengambil tag, atau <models>lihat dulu model gratisnya</models>.",
+        "META_DESCRIPTION": "Tag Discord {appName} memangkas jendela batas laju model gratis sebesar 25 persen: model yang tadinya sekali per menit kini bisa dipanggil setiap 45 detik."
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "Model gratis kini meminta persetujuanmu",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "Penarikan dan akun bisnis",
         "P_BUSINESS": "Kamu dapat menarik persetujuan kapan saja di halaman model gratis, di <settings>pengaturan akun</settings>, atau di chat; model lalu diblokir untukmu sampai kamu menyetujuinya lagi. Model gratis tidak tersedia untuk akun bisnis, karena prompt mereka bisa memuat data pribadi orang lain.",
         "CTA": "Siap? Buka <free>halaman model gratis</free> dan aktifkan model yang kamu pakai.",
-        "NOTE": "Pembaruan 21 Oktober 2026: tulisan ini sudah tidak berlaku. Persetujuan kini diberikan sekali per penyedia dan juga mencakup model berbayar. <post_consent_per_provider>Baca cara kerjanya sekarang</post_consent_per_provider>."
+        "NOTE": "Pembaruan 21 Oktober 2026: tulisan ini sudah tidak berlaku. Persetujuan kini diberikan sekali per penyedia dan juga mencakup model berbayar. <post_consent_per_provider>Baca cara kerjanya sekarang</post_consent_per_provider>.",
+        "META_DESCRIPTION": "Model gratis disediakan penyedia yang dapat memakai masukanmu untuk tujuan mereka. Kini kamu mengonfirmasinya sekali per model. Ini alasan dan caranya."
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "Persetujuan per penyedia, untuk model gratis dan berbayar",
@@ -1334,9 +1372,11 @@
         "P_WHEN": "Belum sekarang. Saat ini permintaan tanpa persetujuan tidak ditolak. Kami akan mengaktifkan pemblokiran secara bertahap, per model dan per akun, dan mengumumkan tanggalnya terlebih dahulu di <discord>Discord</discord> kami dan di blog ini. Jika kamu menyetujuinya sekarang, tidak ada yang rusak saat pemblokiran dimulai.",
         "H_TERMS": "Ketentuan dan kebijakan privasi yang diperbarui",
         "P_TERMS": "<terms>Ketentuan Layanan</terms> kami punya bagian 6 baru tentang penyedia di negara ketiga: penawaran mereka ditandai dengan negara tempat penyedia berkedudukan, dan kamu tidak boleh memasukkan data pribadi orang lain ke dalamnya. <privacy>Kebijakan privasi</privacy> menjelaskan persetujuan dan keberatan secara rinci. Jika kamu punya akun, kamu cukup menerima ketentuan yang diperbarui sekali, saat berikutnya kamu memakai situs dalam keadaan masuk. Kunci API-mu tidak terpengaruh.",
-        "CTA": "Buka <consents>halaman persetujuan</consents> sekarang dan setujui penyedia yang kamu pakai. Detail lengkapnya ada di <docs>dokumentasi</docs>."
+        "CTA": "Buka <consents>halaman persetujuan</consents> sekarang dan setujui penyedia yang kamu pakai. Detail lengkapnya ada di <docs>dokumentasi</docs>.",
+        "META_DESCRIPTION": "Persetujuan di {appName} kini per penyedia: satu persetujuan mencakup semua modelnya, gratis maupun berbayar. Cara menyetujui, menolak, dan dampaknya."
       }
-    }
+    },
+    "TRENDING_MODELS": "Model populer minggu ini"
   },
   "MODEL_PAGE": {
     "META_TITLE": "Harga API {name}, konteks dan contoh | {appName}",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "Termurah pada {day}",
     "PRICE_LOW_CHART": "Harga input terendah",
     "META_TITLE_FREE": "API {name} Gratis: tanpa biaya, kompatibel OpenAI | {appName}",
-    "META_DESC_FREE": "Pakai {name} dari {vendor} secara gratis lewat API yang kompatibel dengan OpenAI. Bisa di JanitorAI, SillyTavern, dan kode kamu, lengkap dengan batas, context window, dan contoh siap salin.",
+    "META_DESC_FREE": "Pakai {name} dari {vendor} gratis lewat API kompatibel OpenAI di JanitorAI, SillyTavern, atau kode kamu, lengkap dengan batas, jendela konteks, dan contoh.",
     "META_KEYWORDS_FREE": "API {name} gratis, {name} gratis, API {vendor} gratis, API {name}, API AI gratis, {appName}",
     "COMPARE_WITH_TITLE": "Bandingkan {model}",
     "USE_IN_TITLE": "Gunakan {model} di"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "Kredit yang tidak terpakai tidak dibawa ke {period} berikutnya."
     },
     "META": {
-      "TITLE": "Harga - {appName}",
-      "DESCRIPTION": "Harga sederhana untuk setiap model AI. Berlangganan untuk nilai lebih baik atau bayar sesuai pemakaian. Berfungsi dengan kode Anda, dengan Claude Code, dan dengan SillyTavern, RisuAI, serta klien obrolan AI apa pun yang kompatibel dengan OpenAI.",
+      "TITLE": "Harga {appName}: Model Gratis, Bayar Sesuai Pakai, Langganan",
+      "DESCRIPTION": "Harga sederhana untuk semua model AI: model gratis, bayar sesuai pakai, atau langganan lebih hemat. Untuk kode Anda, Claude Code, SillyTavern, dan RisuAI.",
       "KEYWORDS": "harga AI API, langganan AI, bayar per token, harga model AI, AI API murah, AI terjangkau, harga kompatibel OpenAI, harga API multi-model"
     },
     "TITLE": "Harga",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integrasi - {appName}",
-      "DESCRIPTION": "Panduan pengaturan untuk setiap alat AI besar dan klien obrolan karakter. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI, dan klien lain yang kompatibel dengan OpenAI.",
+      "DESCRIPTION": "Panduan penyiapan alat AI dan klien obrolan karakter: Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI, dan klien kompatibel OpenAI.",
       "KEYWORDS": "panduan integrasi AI, pengaturan Claude Code, pengaturan Codex CLI, pengaturan Gemini CLI, pengaturan OpenClaw, pengaturan SillyTavern, pengaturan RisuAI, pengaturan obrolan karakter AI, dokumentasi API AI, pengaturan API kompatibel OpenAI"
     },
     "BADGE": "Integrasi",
@@ -1869,7 +1909,7 @@
     "SILLYTAVERN": {
       "META": {
         "TITLE": "Panduan Integrasi SillyTavern | {appName}",
-        "DESCRIPTION": "Hubungkan SillyTavern ke {appName} lewat sumber Chat Completion Custom yang kompatibel dengan OpenAI, dengan format URL persis seperti yang diharapkan SillyTavern.",
+        "DESCRIPTION": "Hubungkan SillyTavern ke {appName} lewat sumber Chat Completion Custom kompatibel OpenAI, dengan format URL persis seperti yang diharapkan SillyTavern.",
         "KEYWORDS": "SillyTavern, proxy SillyTavern, API SillyTavern, endpoint kustom SillyTavern, {appName} SillyTavern, obrolan karakter AI, API kompatibel OpenAI"
       },
       "BADGE": "SillyTavern",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Proxy Gratis untuk Janitor AI: Panduan Setup | {appName}",
-        "DESCRIPTION": "Pakai {appName} sebagai proxy gratis untuk Janitor AI: model DeepSeek dan GLM gratis, URL proxy yang tepat, dan setup dua menit lengkap dengan langkah refresh yang sering terlewat.",
+        "TITLE": "Panduan Proxy Janitor AI (2026): URL Gratis dan Pengaturan | {appName}",
+        "DESCRIPTION": "URL proxy: https://api.unorouter.com/v1/chat/completions. DeepSeek dan GLM gratis untuk Janitor AI, pengaturan dua menit, dan langkah muat ulang.",
         "KEYWORDS": "proxy gratis Janitor AI, Janitor AI proxy gratis, proxy gratis terbaik untuk Janitor AI, URL proxy Janitor AI, proxy Janitor AI, model gratis Janitor AI, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Proxy Gratis untuk Janitor AI",
+      "TITLE": "Panduan Proxy Janitor AI: Atur Proxy Gratis",
       "SUBTITLE": "Hubungkan {appName} ke Janitor.AI sebagai proxy kustom gratis, dengan model gratis dan format URL tepat yang diminta panel API Settings.",
       "INTRO_TITLE": "Apa itu Janitor.AI?",
       "INTRO_DESC": "Janitor.AI adalah platform chat karakter berbasis browser yang menerima proxy apa pun yang kompatibel dengan OpenAI. {appName} dipasang di panel API Settings dan memberi kamu model gratis, ditambah model berbayar dengan key yang sama.",
@@ -1975,7 +2015,15 @@
       "FAQ_3_Q": "Kenapa saya dapat \"Too many requests\" (429)?",
       "FAQ_3_A": "Model gratis hanya mengizinkan sejumlah permintaan terbatas per akun dan per model, biasanya satu per menit. Mengirim ulang langsung tidak membantu: tunggu hitung mundurnya selesai atau ganti ke model gratis lain. Model berbayar tidak punya batas per menit.",
       "FAQ_4_Q": "Apa URL proxy Janitor AI untuk {appName}?",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Tempel URL lengkap, termasuk /v1/chat/completions, ke kolom Proxy URL, lalu refresh browser sepenuhnya."
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Tempel URL lengkap, termasuk /v1/chat/completions, ke kolom Proxy URL, lalu refresh browser sepenuhnya.",
+      "FAQ_5_Q": "Janitor AI menampilkan \"A network error occurred\" atau \"failed to fetch\". Apa yang harus dilakukan?",
+      "FAQ_5_A": "Hampir selalu penyebabnya Proxy URL. Isinya harus persis https://api.unorouter.com/v1/chat/completions tanpa spasi, dan kotak centang ''Add /chat/completions'' di Janitor harus tetap mati. Simpan, lalu lakukan hard refresh dengan Ctrl+Shift+R. Kalau masih gagal, pastikan Model Name sama persis dengan sebuah id model.",
+      "FAQ_6_Q": "Kenapa Janitor AI menampilkan error 401 (Unauthorized)?",
+      "FAQ_6_A": "API key kosong, salah ketik, atau dinonaktifkan. Tempel key dari halaman Kunci API {appName} persis seperti yang ditampilkan, tanpa kata Bearer, dan cek di halaman itu bahwa key masih aktif.",
+      "FAQ_7_Q": "Kenapa Janitor AI menampilkan error 403 (Forbidden)?",
+      "FAQ_7_A": "Key kamu tidak diizinkan memakai model itu: biasanya model berbayar dengan saldo kosong, atau key yang dibatasi ke model atau alamat IP tertentu. Pilih model berakhiran :free, isi saldo, atau cek batasan key di halaman Kunci API.",
+      "FAQ_8_Q": "Bot sama sekali tidak membalas. Apakah {appName} sedang down?",
+      "FAQ_8_A": "Biasanya semua penyedia untuk model gratis itu sedang sibuk, atau nama modelnya salah ketik. Ganti ke model gratis lain lalu coba lagi. Halaman status menampilkan model mana yang sedang online saat ini."
     },
     "RISUAI": {
       "META": {
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Panduan Integrasi Chub / Venus | {appName}",
-        "DESCRIPTION": "Hubungkan Chub.ai (Venus) ke {appName} sebagai reverse proxy, dengan penjelasan relai pihak pertama untuk peringatan proxy pihak ketiga milik Chub.",
+        "TITLE": "Reverse Proxy Chub AI (Venus): URL dan Model Gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Chub AI (Venus) ke {appName} sebagai reverse proxy: tempel https://api.unorouter.com/v1/chat/completions, pilih model gratis, lalu mengobrol.",
         "KEYWORDS": "Chub AI, Venus AI, reverse proxy Chub, {appName} Chub, obrolan karakter AI, API kompatibel OpenAI, pengaturan Chub OpenAI"
       },
       "BADGE": "Chub / Venus",
@@ -2070,7 +2118,7 @@
     "LIBRECHAT": {
       "META": {
         "TITLE": "Panduan Integrasi LibreChat | {appName}",
-        "DESCRIPTION": "Hubungkan LibreChat ke {appName} dengan endpoint kustom yang kompatibel dengan OpenAI. Tambahkan bloknya ke librechat.yaml dan setel variabel lingkungannya.",
+        "DESCRIPTION": "Hubungkan LibreChat ke {appName} lewat endpoint kustom kompatibel OpenAI. Tambahkan bloknya ke librechat.yaml dan setel variabel lingkungannya.",
         "KEYWORDS": "LibreChat, endpoint kustom LibreChat, LibreChat kompatibel OpenAI, {appName} LibreChat, antarmuka chat swakelola"
       },
       "BADGE": "LibreChat",
@@ -2553,7 +2601,7 @@
   "REFUND": {
     "META": {
       "TITLE": "Kebijakan Pengembalian Dana - {appName}",
-      "DESCRIPTION": "Pelajari cara penanganan pengembalian dana untuk kredit dan langganan yang dibeli melalui {appName}, termasuk kelayakan, jangka waktu, dan cara mengajukannya.",
+      "DESCRIPTION": "Cara pengembalian dana untuk kredit dan langganan yang dibeli di {appName}: siapa yang memenuhi syarat, batas waktunya, dan cara mengajukannya.",
       "KEYWORDS": "kebijakan pengembalian dana, pengembalian dana, refund {appName}, refund API AI, refund langganan"
     },
     "TITLE": "Kebijakan Pengembalian Dana",
@@ -2591,7 +2639,7 @@
     "LAST_UPDATED": "Terakhir Diperbarui: 30 Juni 2026",
     "META": {
       "TITLE": "Kebijakan Penggunaan yang Dapat Diterima - {appName}",
-      "DESCRIPTION": "Kebijakan Penggunaan yang Dapat Diterima untuk {appName}. Konten dan perilaku yang dilarang, termasuk larangan pembuatan konten seksual eksplisit, NSFW, deepfake, dan berbahaya.",
+      "DESCRIPTION": "Kebijakan Penggunaan yang Dapat Diterima {appName}: konten dan perilaku terlarang, termasuk konten seksual eksplisit, NSFW, deepfake, dan berbahaya.",
       "KEYWORDS": "kebijakan penggunaan yang dapat diterima, {appName} AUP, konten terlarang, kebijakan konten, kebijakan penggunaan AI, larangan NSFW"
     },
     "INTRO": "Kebijakan Penggunaan yang Dapat Diterima ini mengatur penggunaan {appName} oleh Anda, sebuah platform agregasi API yang merutekan permintaan Anda ke penyedia model AI pihak ketiga. Kebijakan ini berlaku untuk setiap fitur {appName}, termasuk chat, pembuatan gambar, dan pembuatan video. Dengan menggunakan Layanan, Anda menyetujui aturan di bawah ini selain Ketentuan Layanan kami.",
@@ -3944,9 +3992,9 @@
     "MESSAGES_COUNT": "pesan",
     "FILTER_ALL": "Semua",
     "META": {
-      "TITLE": "AI Chat - {appName}",
-      "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
-      "DESCRIPTION": "Chat dengan model AI apa pun: GPT, Claude, Gemini, DeepSeek dan lainnya dalam satu antarmuka, atau gunakan endpoint dan kunci milikmu yang kompatibel dengan OpenAI.",
+      "TITLE": "Chat AI - {appName}",
+      "TITLE_WITH_NAME": "{title} | Chat AI - {appName}",
+      "DESCRIPTION": "Mengobrol dengan model AI apa pun: GPT, Claude, Gemini, DeepSeek, dan lainnya di satu antarmuka, atau pakai endpoint dan kunci kompatibel OpenAI milikmu.",
       "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model, BYOK, penyedia AI khusus"
     },
     "OVERRIDES": {
@@ -4832,7 +4880,7 @@
   "MODEL_TESTER": {
     "META": {
       "TITLE": "Penguji Model API AI | {appName}",
-      "DESCRIPTION": "Verifikasi model apa yang sebenarnya dilayani oleh endpoint API. Pemeriksaan keaslian deterministik untuk Claude, GPT, dan Gemini, berjalan di browser Anda.",
+      "DESCRIPTION": "Cek model apa yang sebenarnya dilayani endpoint API. Pemeriksaan keaslian deterministik untuk Claude, GPT, dan Gemini, langsung di peramban Anda.",
       "KEYWORDS": "penguji model, keaslian api, model palsu, claude, gpt, gemini"
     },
     "HERO": {
@@ -5689,7 +5737,7 @@
     "JANITORAI_IMPORT": {
       "META": {
         "TITLE": "Impor chat JanitorAI ke {appName}",
-        "DESCRIPTION": "Pindahkan semua chat, karakter, dan lorebook JanitorAI ke {appName} dengan skrip browser gratis. Langkah demi langkah untuk desktop dan Android, sepenuhnya lokal.",
+        "DESCRIPTION": "Pindahkan obrolan, karakter, dan lorebook JanitorAI ke {appName} dengan skrip peramban gratis. Panduan untuk komputer dan Android, sepenuhnya lokal.",
         "KEYWORDS": "ekspor janitorai, impor janitorai, pindah chat janitorai, cadangan janitorai, tampermonkey"
       },
       "TITLE": "Impor dari JanitorAI",
@@ -5733,7 +5781,7 @@
     "BACKUPS": {
       "META": {
         "TITLE": "Mencadangkan dan memulihkan data {appName}",
-        "DESCRIPTION": "Cadangkan dan pulihkan obrolan, karakter, lorebook, dan gambar hasil buatan dari basis data lokal, termasuk apa yang harus dilakukan bila cadangannya terlalu besar.",
+        "DESCRIPTION": "Cadangkan dan pulihkan obrolan, karakter, lorebook, dan gambar buatan dari basis data lokal, termasuk solusi bila cadangannya terlalu besar.",
         "KEYWORDS": "cadangan obrolan, memulihkan cadangan, basis data lokal, ekspor gambar, pindah perangkat, cadangan sqlite"
       },
       "TITLE": "Cadangan dan pemulihan",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "Panduan Platform & FAQ",
-        "DESCRIPTION": "Panduan cepat, model, harga, batas laju, kode kesalahan, dan penagihan untuk API {appName}. Satu endpoint kompatibel OpenAI untuk 200+ model.",
+        "TITLE": "Dokumentasi API {appName}: Mulai Cepat, Kunci API, URL Dasar",
+        "DESCRIPTION": "Dapatkan kunci API {appName}, atur URL dasar https://api.unorouter.com/v1, lalu kirim permintaan. Model, harga, batas laju, kode galat, dan penagihan.",
         "KEYWORDS": "API {appName}, panduan cepat, batas laju, kode kesalahan, penagihan, harga, model gratis"
       },
       "TITLE": "Panduan Platform",
@@ -5923,7 +5971,7 @@
     "NOTIFICATIONS": {
       "META": {
         "TITLE": "Notifikasi model dan peringatan harga",
-        "DESCRIPTION": "Pantau model apa pun dan dapatkan peringatan real-time untuk perubahan harga, gangguan, pemulihan, dan model gratis baru: sebagai toast di situs dan push browser saat tab ditutup.",
+        "DESCRIPTION": "Pantau model apa pun dan dapatkan peringatan seketika soal perubahan harga, gangguan, pemulihan, dan model gratis baru, di situs atau notifikasi peramban.",
         "KEYWORDS": "notifikasi model, peringatan harga, model gratis, push browser, pantau model, peringatan gangguan"
       },
       "TITLE": "Notifikasi",
@@ -5965,7 +6013,7 @@
     "GROUP_PINNING": {
       "META": {
         "TITLE": "Penyematan grup penyedia",
-        "DESCRIPTION": "Sematkan model pada kunci API ke grup penyedia tertentu: penagihan terkunci ke tarif mereka, dirutekan dari yang termurah di antaranya, dan failover otomatis.",
+        "DESCRIPTION": "Sematkan model pada kunci API ke grup penyedia tertentu: tagihan terkunci ke tarif mereka, rute dari yang termurah, dan peralihan otomatis saat gangguan.",
         "KEYWORDS": "grup penyedia, penyematan grup, perutean per model, harga grup, penyedia termurah, perutean kunci API"
       },
       "TITLE": "Penyematan Grup",
@@ -6001,7 +6049,7 @@
     "PLATFORM_API": {
       "META": {
         "TITLE": "API Platform",
-        "DESCRIPTION": "Baca katalog model dan harga penyedia terkini tanpa kunci, lalu gunakan token akses untuk membaca saldo, kunci API, dan log penggunaan Anda langsung dari kode.",
+        "DESCRIPTION": "Baca katalog model dan harga penyedia tanpa kunci, lalu pakai token akses untuk membaca saldo, kunci API, dan log penggunaan Anda langsung dari kode.",
         "KEYWORDS": "api platform, api harga model, token akses, api log penggunaan, api kuota, akses programatik, katalog model json"
       },
       "TITLE": "API Platform",
@@ -6155,7 +6203,7 @@
     "DISCORD_REWARDS": {
       "META": {
         "TITLE": "Hadiah Discord dan aturannya",
-        "DESCRIPTION": "Semua cara mendapatkan saldo {appName} gratis di server Discord: bonus tautan akun, boost, vote, undangan, level aktivitas, dan bug bounty, plus aturan di balik pembayarannya.",
+        "DESCRIPTION": "Cara mendapatkan saldo {appName} gratis di Discord: bonus tautan akun, boost, voting, undangan, tingkat aktivitas, hadiah laporan galat, dan aturan.",
         "KEYWORDS": "hadiah discord, saldo gratis, hadiah boost, hadiah vote, hadiah undangan, level aktivitas, bug bounty, aturan"
       },
       "TITLE": "Hadiah Discord",
@@ -6237,7 +6285,7 @@
     "CONSENTS": {
       "META": {
         "TITLE": "Persetujuan untuk penyedia model",
-        "DESCRIPTION": "Penyedia mana di {appName} yang memerlukan persetujuan Anda, cara memberikannya sekali per penyedia, cara mengajukan keberatan, dan cara klien API menangani error consent_required.",
+        "DESCRIPTION": "Penyedia {appName} yang butuh persetujuan Anda, cara memberikannya sekali per penyedia, cara menolak, dan cara klien API menangani galat consent_required.",
         "KEYWORDS": "persetujuan, GDPR, transfer ke negara ketiga, pelatihan model, keberatan, consent_required"
       },
       "TITLE": "Persetujuan untuk penyedia model",

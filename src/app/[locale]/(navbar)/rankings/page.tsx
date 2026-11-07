@@ -50,6 +50,7 @@ export default async function RankingsPage(props: {
           name: t("RANKINGS.META.TITLE", APP_VALUES),
           description: t("RANKINGS.META.DESCRIPTION", APP_VALUES),
           url: localeUrl(locale, "/rankings"),
+          ranked: true,
           items: topModels.map((m) => ({
             name: m.model_name,
             url: localeUrl(locale, modelHref(m.model_name, m.vendor)),

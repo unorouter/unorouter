@@ -9,6 +9,7 @@ import { vendorDisplayName } from "@/lib/api/pricing";
 import { vendorSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { VendorModelCard } from "./vendor-model-card";
+import { APP_VALUES } from "@/lib/config/constants";
 
 export function VendorModelsPage(props: { vendor: string }) {
   const t = useTranslations();
@@ -38,11 +39,16 @@ export function VendorModelsPage(props: { vendor: string }) {
           <Icon name="arrow-left" className="h-5 w-5" />
         </Button>
         <VendorIcon vendor={props.vendor} size={32} />
-        <h1 className="text-xl font-semibold tracking-tight">{display}</h1>
+        <h1 className="text-xl font-semibold tracking-tight">
+          {t("MODELS.VENDOR.META_TITLE", { ...APP_VALUES, vendor: display })}
+        </h1>
         <span className="text-muted-foreground text-sm">
           {t("MODELS.VENDOR.N_MODELS", { count: models.length })}
         </span>
       </div>
+      <p className="text-muted-foreground -mt-2 mb-6 text-sm">
+        {t("MODELS.VENDOR.META_DESC", { ...APP_VALUES, vendor: display })}
+      </p>
 
       {models.length === 0 ? (
         query.isPending ? (

@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - JanitorAI ve tüm modeller için ücretsiz yapay zekâ proxy’si",
-    "DESCRIPTION": "JanitorAI ve SillyTavern için ücretsiz yapay zekâ modelleri, ayrıca tek anahtarla Claude, GPT, Gemini ve DeepSeek. Kodunuzda, Claude Code’da veya herhangi bir yapay zekâ istemcisinde kullanın.",
+    "TITLE": "{appName}: ücretsiz Janitor AI proxy, DeepSeek/GLM, kartsız",
+    "DESCRIPTION": "Janitor AI ve SillyTavern için ücretsiz proxy: DeepSeek, GLM ve 100+ ücretsiz model tek anahtarda, kartsız. URL'yi yapıştırın, 2 dakikada sohbet edin.",
     "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici",
     "ACCOUNT": {
       "TITLE": "{appName} Hesabı",
@@ -38,7 +38,8 @@
       "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,HİKÂYELER,KOD,ZEKA",
       "SUBTITLE": "{appName} sizi tek bir anahtarla {modelCount}'den fazla yapay zeka modeline bağlar. Onunla uygulamalar geliştirin ve ajanlar çalıştırın ya da kurulumu atlayıp doğrudan burada sitede karakterlerle sohbet edin. Aynı anahtar, aynı hız, aynı fiyat.",
       "CTA_PRIMARY": "Başla",
-      "CTA_SECONDARY": "Modelleri Görüntüle"
+      "CTA_SECONDARY": "Modelleri Görüntüle",
+      "SEO_HEADING": "Janitor AI ve tüm modeller için ücretsiz yapay zeka proxy'si"
     },
     "STATS": {
       "MODELS": "Modeller",
@@ -222,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - JanitorAI ve tüm modeller için ücretsiz yapay zekâ proxy’si",
-      "DESCRIPTION": "JanitorAI ve SillyTavern için ücretsiz yapay zekâ modelleri, ayrıca tek anahtarla Claude, GPT, Gemini ve DeepSeek. Kodunuzda, Claude Code’da veya herhangi bir yapay zekâ istemcisinde kullanın.",
+      "TITLE": "{appName}: ücretsiz Janitor AI proxy, DeepSeek/GLM, kartsız",
+      "DESCRIPTION": "Janitor AI ve SillyTavern için ücretsiz proxy: DeepSeek, GLM ve 100+ ücretsiz model tek anahtarda, kartsız. URL'yi yapıştırın, 2 dakikada sohbet edin.",
       "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici"
     }
   },
@@ -354,8 +355,8 @@
       "TABLE": "Tablo görünümü"
     },
     "META": {
-      "TITLE": "AI Modelleri - {appName}",
-      "DESCRIPTION": "Her yapay zeka modeli tek bir yerde. GPT, Claude, Gemini, DeepSeek ve daha fazlası. Bunları kodunuzda ya da OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisinde kullanın. İkisi için de aynı fiyat.",
+      "TITLE": "Yapay Zeka Modelleri ve Ücretsiz LLM: Fiyat, Bağlam, Limit | {appName}",
+      "DESCRIPTION": "Tüm yapay zeka modelleri tek yerde: GPT, Claude, Gemini, DeepSeek ve fazlası. Kodunuzda ya da OpenAI uyumlu her sohbet istemcisinde aynı fiyatla kullanın.",
       "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, çoklu model API, AI sohbet modelleri"
     },
     "BADGE": "Model Kütüphanesi",
@@ -498,8 +499,8 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "Sıralamalar | {appName}",
-      "DESCRIPTION": "Canlı token hacmiyle sıralanan {appName}'deki en çok kullanılan AI modellerini ve yükselen sağlayıcıları keşfedin. Gerçek platform kullanımından sürekli güncellenir.",
+      "TITLE": "Gerçek Kullanıma Göre Yapay Zeka Model Sıralaması | {appName}",
+      "DESCRIPTION": "{appName} üzerinde en çok kullanılan AI modellerini ve yükselen sağlayıcıları canlı token hacmine göre keşfedin. Gerçek platform kullanımıyla güncellenir.",
       "KEYWORDS": "AI model sıralamaları, LLM leaderboard, en iyi AI modelleri, AI sağlayıcı pazar payı, en çok kullanılan AI modelleri, model kullanım istatistikleri"
     },
     "HERO": {
@@ -622,7 +623,8 @@
         "P_PARTNERS": "Ortaklar, {appName} üzerinde çalışan projeler, uygulamalar, botlar ve topluluklardır; her birini listelemeden önce kontrol ediyoruz. Ortaklar <discord>Discord</discord> sunucumuzun ortaklar kanalında kendi gönderilerini, Partner rolünü ve bunun gibi bir tanıtım alır. Karşılığında kendi taraflarında {appName}'dan bahsederler. {appName} erişiminin yeniden satışı onayımızla ve yalnızca ücretli modeller için serbesttir. Ücretsiz modeller asla yeniden satılmaz.",
         "H_APPLY": "Nasıl başvurulur",
         "P_APPLY": "{appName} üzerinde bir şey mi geliştiriyorsun? Bize <discord>Discord</discord> üzerinden projenin adı ve bağlantısı, ne yaptığı ve {appName}'ı nasıl kullandığı, {appName} kullanıcı adın ve yaklaşık kullanıcı sayınla yaz.",
-        "CTA": "Qronos'u denemek ister misin? <qronos>qronos.me</qronos> adresini ziyaret et ya da <qronos_discord>Discord sunucularına</qronos_discord> katıl. {appName}'da yeni misin? <register>Hesap oluştur</register> ya da <models>modellere göz at</models>."
+        "CTA": "Qronos'u denemek ister misin? <qronos>qronos.me</qronos> adresini ziyaret et ya da <qronos_discord>Discord sunucularına</qronos_discord> katıl. {appName}'da yeni misin? <register>Hesap oluştur</register> ya da <models>modellere göz at</models>.",
+        "META_DESCRIPTION": "Qronos AI, LLM ağ geçidini {appName} üzerinde çalıştırıyor ve rol yapma ile hikaye anlatımı için Discord topluluğu yürütüyor. Ortaklık programı da burada."
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "İsteklerin nereye gidiyor: sağlayıcı etiketleri, görsel işaretleme ve gizlilik güncellemeleri",
@@ -641,7 +643,8 @@
         "P_MARKING": "Aralık 2026'dan itibaren AB Yapay Zekâ Yasası, üretilen görsel ve videoların makine tarafından okunabilir şekilde yapay zekâ ürünü olarak işaretlenmesini zorunlu kılıyor. {appName} artık teslim ettiği her görsel ve videoya bu işareti dosyanın içinde standart meta veri olarak ekliyor. Görünürde hiçbir şey değişmiyor ve görsel yeniden kodlanmıyor, yani kalite birebir aynı kalıyor. Bir sağlayıcının zaten yerleştirdiği işaretlere dokunulmuyor.",
         "H_ALSO": "Diğer yenilikler",
         "P_ALSO": "Gizlilik politikamız artık isteklerinin yönlendirilebileceği ülkeleri ve her biri için hukuki dayanağı belirtiyor. Sitede artık bir künye sayfası var. İki faktörlü kimlik doğrulamayı kurmak, onu engelleyen bir hata giderildikten sonra yeniden çalışıyor ve hassas hesap değişikliklerinde artık gerçekten sen olduğunu doğrulaman isteniyor. Tam liste <privacy>gizlilik politikamızda</privacy> yer alıyor. Ücretsiz modeller artık ayrıca her model için bir kez onayını istiyor, <post_consent_for_free_models>nasıl çalıştığını buradan oku</post_consent_for_free_models>.",
-        "CTA": "Belirli bir sağlayıcı hakkında sorun mu var? Discord'umuzda sor ya da <models>model sayfalarındaki</models> etiketlere göz at."
+        "CTA": "Belirli bir sağlayıcı hakkında sorun mu var? Discord'umuzda sor ya da <models>model sayfalarındaki</models> etiketlere göz at.",
+        "META_DESCRIPTION": "Model sayfaları sağlayıcıların konumunu gösteriyor ve AB veri koruma güvencesi olmayan ülkeleri işaretliyor. Etiketlerin anlamı ve rota seçimi burada."
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "LoreBary ile ne oldu ve {appName} senin hakkında ne saklıyor",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "Sohbetlerin sunucularımızda değil, kendi tarayıcında duruyor: silersen giderler. Ağ geçidimiz gönderdiğin promptları da aldığın yanıtları da saklamıyor; yalnızca faturalandırmanın ihtiyaç duyduğu bilgileri tutuyor: model, token sayısı, maliyet, süre ve isteğin başarılı olup olmadığı. Bir istekle kaydedilen IP adresi 30 gün sonra siliniyor. Verilerinle model eğitmiyoruz; web sitesi hiçbir analiz aracı kullanmıyor. Web sitesi, ağ geçidi, senkronizasyon ve Discord botu açık kaynak, yani bu maddelerin her birini sözümüze güvenmek yerine GitHub'da kontrol edebilirsin.",
         "H_PROVIDERS": "Söz veremeyeceğimiz şeyler",
         "P_PROVIDERS": "İsteğin yine de seçtiğin modele ulaşmak zorunda ve o sağlayıcı onu kendi şartlarına göre işliyor. Bazı sağlayıcılar, özellikle ücretsiz olanlar, aldıklarını saklıyor ya da onlarla model eğitiyor. Gizlilik politikamız bunu açıkça söylüyor ve en güvenli alışkanlık her yerde aynı: promptlarına kişisel veri koyma. O zamandan beri her model, sağlayıcılarının merkezinin nerede olduğunu gösteriyor (<post_where_your_requests_go>etiketlerin anlamı</post_where_your_requests_go>) ve ücretsiz modeller önce onayını istiyor (<post_consent_for_free_models>nasıl çalışıyor</post_consent_for_free_models>). Tüm ayrıntılar <privacy>gizlilik politikamızda</privacy>.",
-        "CTA": "Bununla ilgili soruların mı var? Discord'da sor ya da kodu kendin oku. Yoksa <chat>bir sohbet başlat</chat> veya <models>modellere göz at</models>."
+        "CTA": "Bununla ilgili soruların mı var? Discord'da sor ya da kodu kendin oku. Yoksa <chat>bir sohbet başlat</chat> veya <models>modellere göz at</models>.",
+        "META_DESCRIPTION": "Dört gün LoreBary'nin modelini izinsiz sunduk. Ne olduğunu, neyi değiştirdiğimizi ve {appName} hizmetinin senin hakkında ne sakladığını anlatıyoruz."
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Sahte Claude dedektörü artık açık kaynak bir kütüphane",
@@ -683,7 +687,8 @@
         "H_USE_IT": "Kullanın",
         "P_USE_1": "<tester>Model test aracı</tester> tüm seti, imza ve token kontrolleri dâhil, tarayıcınızda çalıştırır; sağlayıcınıza yapılan çağrılar dışında hiçbir şey makinenizden çıkmaz. <rankings>Sıralama sayfası</rankings>, insanların paylaşmayı seçtiği sonuçları yayımlar. Kendi hattınız için:",
         "P_USE_2": "İhtiyacınız olanı açın. <c>checkSignature</c> ve <c>checkTokenTruth</c> ek istekler gerektirir, bu yüzden istenmedikçe kapalı kalır. Zarf üst verisi ve üretim hızı, çalıştırmanın zaten yaptığı yanıtlardan okunur ve hiçbir maliyeti yoktur.",
-        "CTA": "<tester>Bir sağlayıcıyı test edin</tester>, her şeyi başlatan rakamlar için <first>Nisan yazısını</first> okuyun ya da gerçek bir uç nokta yanlış karar alıyorsa <repo>GitHub</repo> üzerinde bir issue açın."
+        "CTA": "<tester>Bir sağlayıcıyı test edin</tester>, her şeyi başlatan rakamlar için <first>Nisan yazısını</first> okuyun ya da gerçek bir uç nokta yanlış karar alıyorsa <repo>GitHub</repo> üzerinde bir issue açın.",
+        "META_DESCRIPTION": "Model test aracımızın motoru ai-model-verifier, AGPL-3.0 lisansıyla npm'de. Bir uç noktanın sattığı modeli gerçekten sunup sunmadığını söyler."
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "Roleplay için Claude Opus 4.8, 4.6 ve 4.7 karşılaştırması: uygulamalı bir sıralama",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 en sinir bozucu olanıydı: ifadeleri ve diyalogları tekrar ediyor, çeşitlilik için çok sayıda yeniden üretim gerektiriyordu. 4.6 büyük bir sıçramaydı; eylemlere, atmosfere ve yüz ifadelerine kendi küçük ayrıntılarını ekliyordu. 4.8 gerçekten şaşırttı: kendiliğindenliğiyle tanınan kanon bir karakteri alıp inandırıcı biçimde canlandırdı, bir eyleme başlayıp aynı an içinde onu tersine çevirdi; taklit edilmesi zor, karaktere uygun bir yanıltma. 4.8'i zirveye taşıyan da buydu.",
         "H_VERDICT": "Karar",
         "P_VERDICT": "{appName} üzerinde roleplay için şimdi 4.8'e yönel, 4.6'yı daha ucuz bir yedek olarak tut, 4.7'yi atla. Üçü de <models>model seçici</models>de tek tıklık mesafede, o yüzden kendi karakterini her birinden geçir. Sampler'lar, lorebook'lar ve bellek ayarları tüm modellerde aynen taşınıyor ve özel bir prompt 4.6'yı daha fazla itici güce ya da 4.8'i daha fazla derinliğe yönlendirebilir. İpucu: her modeli kullandıktan hemen sonra, bir sonraki gözünü kamaştırmadan puanla; yeni bir modelin gerçekte neyi eksik bıraktığını yakalamanın tek yolu budur.",
-        "CTA": "Kendin denemek ister misin? <register>Ücretsiz hesap oluştur</register> ya da <chat>sohbeti aç</chat> ve <post_claude_authenticity>Opus sürümleri</post_claude_authenticity> arasında tek bir yerden geçiş yap."
+        "CTA": "Kendin denemek ister misin? <register>Ücretsiz hesap oluştur</register> ya da <chat>sohbeti aç</chat> ve <post_claude_authenticity>Opus sürümleri</post_claude_authenticity> arasında tek bir yerden geçiş yap.",
+        "META_DESCRIPTION": "{appName} üzerinde Claude Opus 4.8, 4.6 ve 4.7 rol yapmada sıralandı: bellek, duygu derinliği, itici güç, yaratıcılık. 4.8 birinci, 4.6 da 4.7'yi geçiyor."
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: aynı kodlama ağ geçidi, artı bir sohbet istemcisi",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "MegaLLM gibi {appName} de <post_what_is_an_llm_gateway>OpenAI uyumlu</post_what_is_an_llm_gateway>dur. İstemcinizi <c>https://api.unorouter.com/v1</c> adresine yönlendirin ve kodunuzu koruyun. Aynı anahtar sohbet tarafına da ulaşır, dolayısıyla ikinci bir hesap yoktur.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Yalnızca kod yazıyor ve token maliyetine göre ayarlanmış yalın bir sınır model ağ geçidi mi istiyorsunuz? MegaLLM sağlamdır. Kod ajanlarınızı ve yerleşik bir sohbet istemcisini aynı bakiyeden süren, daha geniş kataloglu tek bir anahtar mı istiyorsunuz? İşte o {appName}.",
-        "CTA": "Ağ geçidini ve sohbeti tek arada mı istiyorsun? <register>Ücretsiz hesap oluştur</register> ya da <models>modellere göz at</models>."
+        "CTA": "Ağ geçidini ve sohbeti tek arada mı istiyorsun? <register>Ücretsiz hesap oluştur</register> ya da <models>modellere göz at</models>.",
+        "META_DESCRIPTION": "MegaLLM, kodlama ajanları için popüler bir öncü model ağ geçididir. {appName} aynı işi yapar ve dahili bir sohbet ve karakter istemcisi ekler."
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} ile Portkey karşılaştırması: AI ağ geçidi mi, tam bir LLMOps platformu mu",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey platform çevresinde fiyatlandırır: düşük hacimde ücretsiz, sonra gözlemlenebilirlik ve yönetişim için ücretli planlar, her sağlayıcıya ödediğinizin üstüne. Denetim düzlemi bir ekibe gerçek zaman kazandırdığında değer. {appName} 200'den fazla modelde kullandıkça öde modelindedir, süresi dolmayan tek bakiye, ücretsiz katman. Ekip ölçeğinin altında yalın yol daha az tutar.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Bir kuruluş için LLM özellikleri işletiyor ve gözlemlenebilirlik, guardrail ve yönetişim mi gerekiyor? Portkey tam bunun için yapılmıştır. İşletilecek hiçbir şeyi olmayan, kod ajanınızda ve bir sohbet istemcisinde çalışan tek bir anahtar mı istiyorsunuz? {appName}. Ne daha iyi ne daha kötü, sadece daha az platform.",
-        "CTA": "İşletilecek hiçbir şeyi olmayan bir ağ geçidi mi istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "İşletilecek hiçbir şeyi olmayan bir ağ geçidi mi istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "Portkey; gözlemlenebilirlik, koruma bariyerleri ve yönetişim sunan kurumsal LLMOps platformudur. {appName} dahili sohbet istemcili sade bir ağ geçididir."
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} ile nano-gpt karşılaştırması: sohbet pazaryeri mi, ikisi için tek anahtar mı",
@@ -751,7 +759,8 @@
         "P_PAY": "İkisi de kullandıkça öde modelindedir; ani, çok modelli kullanım için doğru model. {appName} bunu süresi dolmayan tek bir bakiyede tutar, <free>ücretsiz katman</free>, tek bir UI'de harcadığınız bir pazar cüzdanı yerine kod ve sohbet arasında tek anahtar. Faturalandırma biçimi aynı; fark, tek anahtarın ne kadar uzağa uzandığı.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Çoğunlukla mümkün olan en geniş model listesini tatmak için bir web UI mı istiyorsunuz? nano-gpt bunda iyi. Kod ajanınızda ve gerçek bir karakter istemcisinde çalışan, kredileri sizinle yolculuk eden tek bir anahtar mı istiyorsunuz? {appName}.",
-        "CTA": "Kod ve karakter sohbeti için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Kod ve karakter sohbeti için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "nano-gpt, sohbet arayüzü ardında dev bir model kataloğu sunar. {appName} kullandıkça öde modeline gerçek API ve karakter istemcisini tek anahtarla ekler."
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "2026'da SillyTavern için en iyi AI ağ geçidi",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName}'in bir ücretsiz katmanı ve 200 üstü modeli var, böylece bir kartı <free>ücretsiz bir modelde</free> deneyebilir, sahne buna değdiğinde daha güçlü bir ücretli modele geçebilirsiniz. Krediler dolmaz, faturalandırma kullandıkça ödedir ve tek bir bakiye her istemciyi ve her modeli kapsar. Gerekçe gösterilecek aylık bir koltuk yok ve bir ay ara verirseniz iptal edilecek bir şey yok.",
         "H_VERDICT": "Kısa yanıt",
         "P_VERDICT": "En iyi SillyTavern ağ geçidi, OpenAI uyumlu bir uç noktaya, gerçek model genişliğine, kullandıkça öde kredilerine ve başlamak için ücretsiz bir katmana sahip olandır; böylece tek bir anahtar tüm kurulumunuzu taşır. {appName} tam olarak bu durum için yapılmıştır ve aynı anahtar kullandığınız her başka karakter sohbeti ön yüzünde çalışmaya devam eder.",
-        "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "SillyTavern, OpenAI uyumlu bir uç nokta ve anahtar ister. Ağ geçidi seçerken gerçekten önemli olanlar ve bir dakikada nasıl bağlanacağınız burada."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: karakter sohbeti motorunu barındırılan bir 2-si-1-arada'ya taşıdık",
@@ -786,7 +796,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "En zengin bellekle, kendi kendine barındırılan, açık ve derinlemesine genişletilebilir bir önyüz istiyor ve kendi anahtarlarınızı getirmeye razı mısınız? Risu'yu kullanın. Aynı lorebook, CBS ve kart özelliklerini, bir anahtarın kod ajanlarınızı da sürdüğü barındırılan bir üründe mi istiyorsunuz? İşte o {appName}.",
         "CTA": "Her şeyi taşınmış sohbeti deneyin. <register>Ücretsiz hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
-        "METHOD": "Nasıl doğruladık: buradaki RisuAI özellik iddiaları, pazarlama metnine değil, RisuAI'nin kendi açık kaynağına, lorebook, CBS makro, trigger ve bellek modüllerine bakılarak denetlendi. {appName} bir fikri taşıdı dediğimizde, o kodu okuyup davranışı yeniden kurduğumuzu kastediyoruz."
+        "METHOD": "Nasıl doğruladık: buradaki RisuAI özellik iddiaları, pazarlama metnine değil, RisuAI'nin kendi açık kaynağına, lorebook, CBS makro, trigger ve bellek modüllerine bakılarak denetlendi. {appName} bir fikri taşıdı dediğimizde, o kodu okuyup davranışı yeniden kurduğumuzu kastediyoruz.",
+        "META_DESCRIPTION": "{appName}, RisuAI motorunu (bilgi kitapları, CBS makroları, tetikleyiciler, düzenli ifadeler, kart aktarımı) kodlama ajanlarını da süren bir ürüne taşıdı."
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: barındırılan ağ geçidi mi yoksa kendin barındıran vekil mi",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM ek ücret almaz, ama her sağlayıcıya siz ödersiniz ve altyapıyı artı DevOps zamanını siz taşırsınız. Bu, ekibiniz varsa yüksek hacimde kazanır. {appName} 200'den fazla modelde <pricing>kullandıkça öde</pricing> modelindedir, süresi dolmayan tek bir bakiye, ödenecek sunucu yok. Ciddi ölçeğin altında, saatleri sayınca barındırılan genelde daha ucuzdur.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Bir platform ekibiniz var ve sıfır ek ücret mi istiyorsunuz? LiteLLM. Dağıtılacak hiçbir şeyi olmayan, kod ajanınızda ve bir sohbet istemcisinde çalışan tek bir anahtar mı? {appName}.",
-        "CTA": "Dağıtılacak hiçbir şey olmayan bir ağ geçidi mi istiyorsun? <register>Ücretsiz hesap oluştur</register> ya da <models>modellere göz at</models>."
+        "CTA": "Dağıtılacak hiçbir şey olmayan bir ağ geçidi mi istiyorsun? <register>Ücretsiz hesap oluştur</register> ya da <models>modellere göz at</models>.",
+        "META_DESCRIPTION": "LiteLLM, kendi sunucunda çalışan en popüler LLM vekilidir; {appName} ise dahili sohbetli barındırılan bir ağ geçididir. Asıl soru: altyapıyı kim yönetecek?"
       },
       "FEATURED_ON": {
         "TITLE": "{appName} nerede bulunur: dizin kayıtlarımız",
@@ -817,7 +829,8 @@
         "H_VERIFY": "Güvenmeden önce doğrulayın",
         "P_VERIFY": "Herhangi bir rozeti açın, kaydın gerçek alan adımıza işaret ettiğini doğrulayın ve bağımsız açıklamayı inceleyin. Kaynağını <post_open_source_openrouter_alternative>doğrulanabilir, herkese açık bir kaynağa</post_open_source_openrouter_alternative> kadar izleyemediğiniz bir hizmete asla API anahtarı yapıştırmayın.",
         "H_TRY": "Kendiniz deneyin",
-        "CTA": "Yeterince gördünüz mu? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Yeterince gördünüz mu? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "{appName}, yapay zeka aracı ve girişim dizinlerinde listelenmiştir. Bizi burada bulun, kayıtları doğrulayın ve bağımsız değerlendirmeleri okuyun."
       },
       "LAUNCH": {
         "TITLE": "Sahte Claude'dan bıktık. Bu yüzden {appName}'i kurduk.",
@@ -832,7 +845,8 @@
         "P_HARNESS": "Bir model ancak araçlarınızda çalışırsa kullanışlıdır. Her modeli HTTP completion, streaming ve tool calling için uçtan uca test ederiz. Bu üç yetenek AI terminal harness'larının dayandığı şeydir. Bir model kataloğumuzdaysa, <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Codex CLI, Gemini CLI ve herhangi bir OpenAI uyumlu istemcide çalışır. Oturum ortasında sürpriz 'streaming desteklenmiyor' hatası yok.",
         "H_NEXT": "Sırada ne var",
         "P_NEXT": "Haftalık olarak yayınlıyoruz. Daha fazla model, daha akıllı fallback'leri yönlendiren <rankings>daha sıkı sağlık sinyalleri</rankings>, daha zengin maliyet ve gecikme dashboardları ve zaten yaşadığınız terminaller ve IDE'lerle daha derin entegrasyonlar bekleyin.",
-        "CTA": "Denemeye hazır mısın? <register>API anahtarı al</register> veya <models>model kataloğuna göz at</models>."
+        "CTA": "Denemeye hazır mısın? <register>API anahtarı al</register> veya <models>model kataloğuna göz at</models>.",
+        "META_DESCRIPTION": "İki haftada bir kesinti, sessizce ucuz klonlarla değiştirilen premium modeller. Biz de paranoyak bir yönlendirici kurup çıkardık. İşte lansman hikayesi."
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare'in ajan tarayıcısını sitemize yönelttik. 100/100 ile döndü.",
@@ -851,7 +865,8 @@
         "P_STUBS": "Bu kontroller basit stub'lardır. Tarayıcı çoğunlukla iyi bilinen bir URL'nin var olduğunu, 200 döndürdüğünü ve doğru üst düzey şekli içerdiğini doğrular. Gerçek bir OAuth akışı çalıştırmaz, gerçekten bir MCP aracı çağırmaz, x402 ödemesini sonuçlandırmaz. Yeşil bir onay kapının kilitsiz olduğu anlamına gelir, arkasındaki odanın bitmiş olduğu anlamına gelmez. Üretimde bir protokole bağımlı olan herkes yine de <post_ai_model_verifier>kendi uçtan uca doğrulamasını</post_ai_model_verifier> yapmalıdır: OAuth akışını gidip gelip yapın, gerçek bir istemciden MCP aracını çağırın, x402 ödemesini tamamen sonuçlandırın. Skor, yüzey alanının yerinde olduğuna dair harika bir sinyaldir. Protokol seviyesinde uyumluluk testinin yerini almaz.",
         "H_TRY": "Kendi sitenizde çalıştırın",
         "P_TRY": "AI ajanlarının bir gün dokunabileceği herhangi bir şey inşa ediyorsanız, tarayıcı gerçekten zamanınıza değer. Tek bir görünümde uzun bir küçük standart listesini yüzeye çıkarır ve hangi iyi bilinen yolların eksik veya hatalı olduğunu tam olarak söyler. Keşif, kimlik doğrulama veya ticaret yüzeylerine dokunan herhangi bir şey yayınladığımızda gerileme kontrolü olarak kullanırız.",
-        "CTA": "Sitenizi <scanner>isitagentready.com</scanner>'de tarayın veya {appName} için buraya geldiyseniz, <register>API anahtarı alın</register> ve <post_what_is_an_llm_gateway>yönlendirmeye başlayın</post_what_is_an_llm_gateway>."
+        "CTA": "Sitenizi <scanner>isitagentready.com</scanner>'de tarayın veya {appName} için buraya geldiyseniz, <register>API anahtarı alın</register> ve <post_what_is_an_llm_gateway>yönlendirmeye başlayın</post_what_is_an_llm_gateway>.",
+        "META_DESCRIPTION": "Cloudflare, sitelerin AI ajanlarına hazırlığını ölçen bir tarayıcı yayınladı. 100/100 ve Level 5 aldık. Neyi kontrol ettiği ve çoğu sitenin neden kaldığı."
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "Gerçek Claude'u sahtesinden nasıl ayırt ediyoruz",
@@ -887,7 +902,8 @@
         "H_TEST": "Kendi sağlayıcınızı test edin",
         "TEST_P": "Hiçbir şey kurmanıza gerek yok. <link>API model test aracını</link> açın, sağlayıcınızın adresini ve anahtarını yapıştırın, bir model seçin; araç bu kontrolleri canlı olarak çalıştırır ve neyin geçip neyin kaldığını tam olarak gösterir.",
         "TEST_CURL": "Komut satırını mı tercih edersiniz? Bu, yukarıdaki yavru kedi testidir. Cevap reddederse ya da sizi kodlamaya yönlendirirse, “Claude”unuz Claude değildir.",
-        "TEST_OPEN": "Her iki parça da açık kaynaklıdır, yani herkes nasıl çalıştığını inceleyebilir ya da kendisi çalıştırabilir: kontroller <verifier>ai-model-verifier</verifier> içindedir (<npm>npm</npm> üzerinde de var), <sync>new-api-sync</sync> ise bunları yönlendirdiğimiz tüm sağlayıcılarda çalıştırır."
+        "TEST_OPEN": "Her iki parça da açık kaynaklıdır, yani herkes nasıl çalıştığını inceleyebilir ya da kendisi çalıştırabilir: kontroller <verifier>ai-model-verifier</verifier> içindedir (<npm>npm</npm> üzerinde de var), <sync>new-api-sync</sync> ise bunları yönlendirdiğimiz tüm sağlayıcılarda çalıştırır.",
+        "META_DESCRIPTION": "Ucuz Claude çoğu zaman Claude adını taşıyan başka bir modeldir. Modele sormak neden bir şey kanıtlamaz ve sahteyi gerçekten yakalayan kontroller nelerdir."
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "Hangi görsel modelleri gerçekten 6 referans girdi alır? Benchmarki çalıştırdık.",
@@ -918,7 +934,8 @@
         "METADATA_P2": "Sadece hangi modellerin 6 görsel yükünüzü kabul edeceği umurunuzdaysa, bu alana filtre uygulayın. Daha sonra eklenen yeni modeller aynı benchmarki geçtiklerinde aynı etiketi alır.",
         "H_TRY": "Deneyin",
         "TRY_P": "Yukarıdaki her model <docs>tek bir OpenAI uyumlu endpoint</docs> üzerinden kullanılabilir. Çoklu referans görsel düzenleme upstream'in tanımladığı gibi sunulur, fazladan sarma yok. Altı görsel ve bir istem getirin; router çalışan bir sağlayıcı seçer.",
-        "CTA": "<register>API anahtarı al</register> veya <models>görsel kataloğuna göz at</models> tüm doğrulanmış listeyi gör."
+        "CTA": "<register>API anahtarı al</register> veya <models>görsel kataloğuna göz at</models> tüm doğrulanmış listeyi gör.",
+        "META_DESCRIPTION": "Katalogdaki her görsel kanalına 6 referanslı sabit sahne istemi gönderdik: 332 kanal çalıştırması, 136 model, 54'ünde en az bir doğrulanmış sağlayıcı."
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "{appName} Discord'a katılın, ücretsiz bakiye alın",
@@ -934,7 +951,8 @@
         "H_BUGS": "Bug bounty, 50$'a kadar",
         "P_BUGS": "<post_open_source_openrouter_alternative>Platformda gerçek bir bug</post_open_source_openrouter_alternative> bulun ve bug-bounty forumunda raporlayın. Ekip bir önem seviyesi seçer ve bot öder: Düşük 0.25$, Orta 0.50$, Yüksek 1$, Kritik 50$. Bug'ı gerçekten tespit eden ödenir, sadece thread başlatan değil.",
         "H_JOIN": "Gelip takılın",
-        "CTA": "Hazır mısın? <invite>{appName} Discord'a katıl</invite>, sonra <register>API anahtarı al</register> ve ilk 1$'ınızı talep etmek için <settings>hesabınızı bağlayın</settings>."
+        "CTA": "Hazır mısın? <invite>{appName} Discord'a katıl</invite>, sonra <register>API anahtarı al</register> ve ilk 1$'ınızı talep etmek için <settings>hesabınızı bağlayın</settings>.",
+        "META_DESCRIPTION": "Hesabınızı bağlayın 1$, sunucuyu boost edin her ay 1$, bug avlayın 50$'a kadar. {appName} Discord'unu açtık."
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "130'dan fazla ücretsiz yapay zeka modelini yaklaşık 50 sağlayıcıdan tek bir uç noktada topladık",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "Ücretsiz katmanın hız sınırları nedir?",
         "FAQ_2_A": "Kullanıcı başına model başına dakikada yaklaşık 1 istek. Sınır aşıldığında Retry-After başlığıyla birlikte HTTP 429 döner. 130'dan fazla ücretsiz modelle pratik çözüm, beklmek yerine modeller arasında geçiş yapmaktır.",
         "FAQ_3_Q": "Ücretsiz modeller için kredi kartı gerekiyor mu?",
-        "FAQ_3_A": "Hayır. Discord veya GitHub ile kaydolun, bir anahtar oluşturun ve :free son ekine sahip herhangi bir modeli kullanın. Tek seferlik $1 Discord doğrulama bonusu ücretli modellerde harcanabilir."
+        "FAQ_3_A": "Hayır. Discord veya GitHub ile kaydolun, bir anahtar oluşturun ve :free son ekine sahip herhangi bir modeli kullanın. Tek seferlik $1 Discord doğrulama bonusu ücretli modellerde harcanabilir.",
+        "META_DESCRIPTION": "Yaklaşık 50 ücretsiz sağlayıcıyı {appName} hizmetine bağladık: 130'dan fazla model, tek OpenAI uyumlu uç nokta, token başına $0 ve dakikada 1 istek sınırı."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} ve OpenRouter: dürüst bir karşılaştırma",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "Aynı anahtarı hem kodlama ajanları hem de rol yapma sohbeti için kullanabilir miyim?",
         "FAQ_2_A": "Evet. Tek bir {appName} anahtarı, OpenAI uyumlu API üzerinden Claude Code, Cline ve OpenCode'da çalışır; aynı hesap, SillyTavern veya JanitorAI'ye de takılabilen eksiksiz bir karakter sohbet istemcisi içerir.",
         "FAQ_3_Q": "OpenRouter'dan {appName}'e nasıl geçerim?",
-        "FAQ_3_A": "İstemcinizi https://api.unorouter.com/v1 adresine yönlendirin ve kodunuzu koruyun. API, OpenAI uyumludur, model adları GET /v1/models üzerinden gelir ve Anthropic ile Gemini yerel uç noktaları da sunulur."
+        "FAQ_3_A": "İstemcinizi https://api.unorouter.com/v1 adresine yönlendirin ve kodunuzu koruyun. API, OpenAI uyumludur, model adları GET /v1/models üzerinden gelir ve Anthropic ile Gemini yerel uç noktaları da sunulur.",
+        "META_DESCRIPTION": "{appName} ve OpenRouter birçok modeli tek OpenAI uyumlu anahtarla sunar. Fark üstte: arayüzsüz bir API mi, yoksa yerleşik sohbet ve karakter istemcisi mi?"
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026'da OpenRouter'a en iyi alternatifler",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "OpenRouter alternatifleri SillyTavern ve JanitorAI ile çalışır mı?",
         "FAQ_2_A": "OpenAI uyumlu her ağ geçidi çalışır. SillyTavern'de temel URL olarak https://api.unorouter.com/v1 kullanın, JanitorAI'de eşleşen bir anahtarla tam https://api.unorouter.com/v1/chat/completions uç noktasını kullanın.",
         "FAQ_3_Q": "Açık kaynaklı bir OpenRouter alternatifi var mı?",
-        "FAQ_3_A": "{appName}, github.com/unorouter adresinde ön yüz, ağ geçidi, bot ve sağlayıcı senkronizasyonu dahil uçtan uca OSI lisanslı açık kaynaktır. LiteLLM de açık kaynaktır ama barındırılan bir katalog olmadan kendi anahtarlarınızı getirdiğiniz bir proxy'dir."
+        "FAQ_3_A": "{appName}, github.com/unorouter adresinde ön yüz, ağ geçidi, bot ve sağlayıcı senkronizasyonu dahil uçtan uca OSI lisanslı açık kaynaktır. LiteLLM de açık kaynaktır ama barındırılan bir katalog olmadan kendi anahtarlarınızı getirdiğiniz bir proxy'dir.",
+        "META_DESCRIPTION": "OpenRouter, tek anahtarla çok sayıda modele ulaşmanın tek yolu değil. 2026'da bilmeye değer alternatifler, her birinin güçlü yanı ve nasıl seçileceği."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: açık kaynak OpenRouter alternatifi",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "{appName}'i kendim barındırabilir miyim?",
         "FAQ_2_A": "Evet. Depoları klonlayıp yığını kendiniz çalıştırın ya da OpenAI uyumlu herhangi bir istemciyi barındırılan https://api.unorouter.com/v1 uç noktasına yönlendirip operasyon işini atlayın.",
         "FAQ_3_Q": "{appName} ile LiteLLM arasındaki fark nedir?",
-        "FAQ_3_A": "LiteLLM, sağlayıcı anahtarlarını sizin getirdiğiniz ve hesapları kendinizin yönettiği, kendi barındırdığınız bir proxy'dir. {appName} ise tek anahtar, 200+ model ve ücretsiz katmanla barındırılır ve LiteLLM gibi açık kaynak kalır."
+        "FAQ_3_A": "LiteLLM, sağlayıcı anahtarlarını sizin getirdiğiniz ve hesapları kendinizin yönettiği, kendi barındırdığınız bir proxy'dir. {appName} ise tek anahtar, 200+ model ve ücretsiz katmanla barındırılır ve LiteLLM gibi açık kaynak kalır.",
+        "META_DESCRIPTION": "OpenRouter kapalı kaynak. {appName} tek anahtarla 200+ model sunar ve yazılım yığını OSI lisanslarıyla açıktır; kendiniz barındırın veya ücretsiz deneyin."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLM ağ geçidi nedir?",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "LLM ağ geçidi gecikme ekler mi?",
         "FAQ_2_A": "Fazladan bir sıçrama, genellikle onlarca milisaniye; akış bunu pratikte gizler. Yavaş yanıtlar, ağ geçidinden çok daha sık modelin kendisinden kaynaklanır.",
         "FAQ_3_Q": "{appName} hangi uç noktaları sunar?",
-        "FAQ_3_A": "OpenAI uyumlu /v1/chat/completions, /v1/responses ve /v1/embeddings, Anthropic yerel /v1/messages ve Gemini yerel /v1beta, hepsi tek anahtarın arkasında."
+        "FAQ_3_A": "OpenAI uyumlu /v1/chat/completions, /v1/responses ve /v1/embeddings, Anthropic yerel /v1/messages ve Gemini yerel /v1beta, hepsi tek anahtarın arkasında.",
+        "META_DESCRIPTION": "LLM ağ geçidi, istekleri birçok model sağlayıcısına yönlendiren tek uç nokta ve anahtardır. Ne yaptığı, neden yararlı olduğu ve kime gerçekten gerektiği."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Herhangi bir LLM SillyTavern'e nasıl bağlanır",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "Model listesi yüklenmiyorsa, temel URL'nin <c>/v1</c> ile bittiğini ve anahtarın baskara boşluk olmadan yapıştırıldığını yeniden kontrol edin. 401, anahtarın yanlış ya da süresinin dolmuş olduğu anlamına gelir; tekrar kopyalayın. Bir modelde 404, o model adinin yüklenen listeden seçilmediği anlamına gelir. Yanıtlar kesiliyorsa, SillyTavern ayarlarında yanıt uzunluğunu yükseltin. Çoğu kurulum hatası yanlış yazılmış bir temel URL ya da boslukli bir anahtardir, bu yüzden önce bunları kontrol edin.",
         "H_VERDICT": "Bütün hile bu",
         "P_VERDICT": "Herhangi bir LLM'i SillyTavern'e bağlamak, OpenAI uyumlu bir uç nokta artı bir anahtara iner ve bir ağ geçidi bunu tek bir kurulumun ardındaki birçok modele dönüştürür. {appName} size o temel URL'yi, başlamak için ücretsiz bir katmanı ve hiçbir şeyi yeniden yapmadan aralarında geçiş yapabileceğiniz 200+ modeli verir. Bir kez ayarlayın ve aynı anahtar sizi her karakter sohbeti ön yüzünde takip eder.",
-        "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "SillyTavern, OpenAI uyumlu tek bir uç nokta üzerinden neredeyse her modelle konuşabilir. Tam kurulum, model değiştirme ve sık hataların çözümü burada."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "Claude Code ve karakter sohbeti için tek API anahtarı",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "Her iki taraf da aynı anahtar üzerinde çalıştığı için kodlama kullanımınız ve karakter sohbeti kullanımınız <pricing>tek bir kullandıkça öde bakiyesi</pricing>nden çekilir. Krediler süresi dolmaz, gerekçelendirilecek aylık bir koltuk yoktur ve tüm harcamanızı sağlayıcılara bölmek yerine tek bir yerde görürsünüz. Ücretsiz bir katman, ödemeden önce her iki tarafı da test etmenizi sağlar. Tek hesap tüm gününüzü kapsar, iş ve eğlence.",
         "H_VERDICT": "Çıkarım",
         "P_VERDICT": "Kodlama ajanları ve karakter sohbet istemcileri OpenAI uyumlu protokolü paylaşır, böylece tek bir anahtar ikisini de tek bakiyeden çalıştırabilir. {appName} tam olarak bu aralık için yapılmıştır: Claude Code ve dostları için temiz bir API, hikaye anlatımı için <chat>bir sohbet ve karakter istemcisi</chat>, 200+ model ve süresi dolmayan krediler. Tek anahtar, tek fatura, her iki dünya.",
-        "CTA": "Kod ve sohbet için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Kod ve sohbet için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "Kodlama ajanları ve karakter sohbet istemcileri OpenAI uyumlu API konuşur. Tek anahtarla Claude Code ve karakter sohbetlerinizi aynı bakiyeden çalıştırın."
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} ve Janitor.AI: backend, üstüne kendi sohbetiniz",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Janitor'ı seviyorsanız kullanmaya devam edin, sadece onu <c>https://api.unorouter.com/v1</c> adresine yönlendirin. Ya da aynı anahtarla {appName}'in kendi sohbetini açıp kartlarınızı içe aktarın. İki durumda da kurulacak bir şey yok.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Janitor'da kalıp yalnızca sağlam bir backend mi istiyorsunuz? {appName} tek anahtarla bunu verir. Hem backend hem gerçek bir karakter sohbeti hem de <post_one_api_key_for_claude_code_and_roleplay>kodlama ajanlarınızın geçidi</post_one_api_key_for_claude_code_and_roleplay> olan tek bir hesap mı istiyorsunuz? {appName}'in bütün olayı budur.",
-        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+        "META_DESCRIPTION": "Janitor.AI, arka uç gerektiren bir karakter sohbeti ön yüzüdür. {appName} tek anahtarla o arka uç olur ve kendi karakter sohbetini de sunar."
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} ve Character.AI: açık modeller ve gerçek bir anahtar",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} yerel öncelikli: <post_lorebary_and_your_data>sohbetler bizim sunucularımızda değil, tarayıcınızda yaşar</post_lorebary_and_your_data> ve tüm yığın açık kaynak ve denetlenebilir. Character.AI her şeyi göremediğiniz bir filtrenin ardında, sunucu tarafında saklar. Kontrol ve açıklık sizin için önemliyse, ikisi arasındaki keskin çizgi budur.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Kapalı, güvenli, sıfır kurulumlu bir uygulama mı istiyorsunuz ve hiçbir model ayarına dokunmak istemiyor musunuz? Character.AI iş görür. Açık model seçimi, kod da yazan gerçek bir anahtar ve verilerinizin yerelde olması mı istiyorsunuz? İşte o {appName}.",
-        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+        "META_DESCRIPTION": "Character.AI; API'siz, model seçeneksiz, kapalı ve filtreli bir sohbettir. {appName} ise açık: 200+ model, OpenAI uyumlu anahtar, yerel veri ve kodlama."
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} ve SillyTavern: aynı derinlik, barındırılmış, tek anahtarla",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Azami yerel kontrol mü istiyorsunuz ve SillyTavern çalıştırmayı mı seviyorsunuz? Onu tutun ve <post_best_ai_gateway_for_sillytavern>{appName}'i backend olarak kullanın</post_best_ai_gateway_for_sillytavern>. Aynı derinliği barındırılmış olarak ve kodlama ajanlarınızı da çalıştıran bir anahtarla mı istiyorsunuz? İşte o {appName}.",
         "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
-        "METHOD": "Nasıl doğruladık: buradaki SillyTavern iddiaları, belgelerden aktarılmadı; kendi açık kaynağından (World Info, prompt ve karakter kartı kodundan) okundu. Bir ayrıntı yanlışsa, bu bizim okumamızdaki bir hatadır, o yüzden bize söyleyin."
+        "METHOD": "Nasıl doğruladık: buradaki SillyTavern iddiaları, belgelerden aktarılmadı; kendi açık kaynağından (World Info, prompt ve karakter kartı kodundan) okundu. Bir ayrıntı yanlışsa, bu bizim okumamızdaki bir hatadır, o yüzden bize söyleyin.",
+        "META_DESCRIPTION": "SillyTavern, kendiniz barındırdığınız güçlü bir karakter ön yüzüdür. {appName} aynı derinliği barındırılmış sunar; anahtar hesabınızdır ve kod da yazar."
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} ve Chub / Venus: kart derinliği, üstüne tek anahtarla kod",
@@ -1160,7 +1188,8 @@
         "P_COST": "Chub'da küçük modeller için bir kademe seçer ya da iyi olanlar için doğrudan bir sağlayıcıya ödersiniz; iki durumda da iki fatura. {appName} her şey için tek bakiye, süresi dolmayan krediler ve <free>başlamak için bir ücretsiz kademe</free>. Tek anahtar hem modellere hem de kodlama ajanlarına ulaşır.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Chub kart ekosistemini mi istiyorsunuz ve küçük kademe modelleri ya da BYOK ile mutlu musunuz? İyi bir yuvadır. O derinliği 200+ modelle ve kod da yazan bir anahtarla, hepsi tek hesapta mı istiyorsunuz? İşte o {appName}.",
-        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+        "META_DESCRIPTION": "Chub (Venus), kademeli modeller ya da BYOK sunan kart kütüphanesi ve sohbettir. {appName} kart ve bilgi kitabı derinliğine tek anahtarla 200+ model ekler."
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} ve Marinara: preset motorunu bir 2 in 1'e taşıdık",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Tamamen kontrol ettiğiniz, kendiniz barındırdığınız bir preset motoru mu istiyorsunuz? Özel olanı çalıştırın. O bölüm tabanlı istem derinliğini barındırılmış olarak ve tek anahtarın kodlama ajanlarınızı da çalıştırdığı yerde mi istiyorsunuz? İşte o {appName}.",
         "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
-        "METHOD": "Nasıl doğruladık: buradaki Marinara Engine iddiaları (yerleşik ajanları ve üç aşamalı boru hattı), açılış sayfasından değil, kendi kaynağından okundu. Bir fikri taşıdık dediğimizde, önce o kodu okuduk."
+        "METHOD": "Nasıl doğruladık: buradaki Marinara Engine iddiaları (yerleşik ajanları ve üç aşamalı boru hattı), açılış sayfasından değil, kendi kaynağından okundu. Bir fikri taşıdık dediğimizde, önce o kodu okuduk.",
+        "META_DESCRIPTION": "Marinara Engine, 22 yerleşik ajanlı, kendi sunucunuzda çalışan rol yapma uygulamasıdır. {appName} aynı ajan hattı fikrini barındırılan bir üründe sunar."
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} ve Lumiverse: hafıza fikirleri, barındırılmış, üstüne kod",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "En zengin hafıza grafiği ve tam kontrolle kendiniz barındırılan bir motor mu istiyorsunuz? Onu çalıştırın. O hafıza ve döküm fikirlerini barındırılmış olarak ve kodlama ajanlarınızı da çalıştıran bir anahtarla mı istiyorsunuz? İşte o {appName}.",
         "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
-        "METHOD": "Nasıl doğruladık: buradaki Lumiverse iddiaları, Memory Cortex'inin bizimkinden daha derine indiği dahil, varsayılmadı; kendi kaynağından ve lisansından okundu. Denetlenmemiş bir kazanç yerine dürüst bir kaybı belirtmeyi tercih ederiz."
+        "METHOD": "Nasıl doğruladık: buradaki Lumiverse iddiaları, Memory Cortex'inin bizimkinden daha derine indiği dahil, varsayılmadı; kendi kaynağından ve lisansından okundu. Denetlenmemiş bir kazanç yerine dürüst bir kaybı belirtmeyi tercih ederiz.",
+        "META_DESCRIPTION": "Lumiverse içindeki Memory Cortex en derin RP belleğidir. {appName} bu fikirleri, kodlama ajanlarını da süren ve ticari kullanımı serbest bir üründe sunar."
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} ve LibreChat: çok modelli sohbet, barındırılmış, üstüne karakter sohbeti",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Ajanlar, MCP, bir kod yorumlayıcı ve ekip kimlik doğrulamasıyla çok sağlayıcılı bir asistanı kendiniz mi barındırmak istiyorsunuz? LibreChat mükemmeldir. Barındırılan çok modelli sohbet artı gerçek bir karakter istemcisi mi, üstelik <post_one_api_key_for_claude_code_and_roleplay>kod da yazan tek bir anahtarda</post_one_api_key_for_claude_code_and_roleplay> mı istiyorsunuz? İşte o {appName}.",
         "CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
-        "METHOD": "Nasıl doğruladık: LibreChat'in karakter sohbeti özelliği bulunmadığı iddiası, konumlandırmasından çıkarsanmadı; gerçek kaynağına bakılarak denetlendi (içinde karakter kartı, lorebook ya da persona yok)."
+        "METHOD": "Nasıl doğruladık: LibreChat'in karakter sohbeti özelliği bulunmadığı iddiası, konumlandırmasından çıkarsanmadı; gerçek kaynağına bakılarak denetlendi (içinde karakter kartı, lorebook ya da persona yok).",
+        "META_DESCRIPTION": "LibreChat, kendi sunucunuzda çalışan MIT lisanslı BYOK bir ChatGPT klonudur. {appName} barındırılan çok modelli sohbet, karakter istemcisi ve kod sunar."
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} ve Open WebUI: 200+ barındırılmış model, Ollama yok, üstüne karakter sohbeti",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Kendiniz barındırmak, yerel Ollama modelleri çalıştırmak, derin belge RAG'ına yaslanmak ve rollerle ve SSO'yla bir ekibi yönetmek mi istiyorsunuz? Open WebUI tam bunda mükemmeldir. 200'den fazla barındırılan model artı gerçek bir karakter istemcisi mi, üstelik <post_one_api_key_for_claude_code_and_roleplay>kod da yazan tek bir anahtarda</post_one_api_key_for_claude_code_and_roleplay> ve çalıştırılacak hiçbir şey olmadan mı istiyorsunuz? İşte o {appName}.",
         "CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
-        "METHOD": "Nasıl doğruladık: Open WebUI'nin bir karakter istemcisi değil, bir asistan platformu olduğu iddiası kaynağına bakılarak denetlendi; karakter kartı ayrıştırıcısı mevcut ama kullanılmıyor ve lorebook ya da persona yok."
+        "METHOD": "Nasıl doğruladık: Open WebUI'nin bir karakter istemcisi değil, bir asistan platformu olduğu iddiası kaynağına bakılarak denetlendi; karakter kartı ayrıştırıcısı mevcut ama kullanılmıyor ve lorebook ya da persona yok.",
+        "META_DESCRIPTION": "Open WebUI, kendiniz kurduğunuz Ollama öncelikli sohbet arayüzüdür. {appName} altyapısız, tek anahtarla 200+ model, karakter istemcisi ve kodlama sunar."
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} ve Agnai: aynı RP derinliği, barındırılmış, tek anahtarla",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Bir grup için gerçek çok oyunculu ve ücretsiz Horde işlem gücüyle açık, kendi çalıştırdığınız RP mi istiyorsunuz? Agnai bu seçim ve bunda gerçekten iyidir. <post_unorouter_vs_risuai>Daha derin tek kullanıcılı betikleme</post_unorouter_vs_risuai> ve barındırılan 200'den fazla model mi, üstelik kodlama ajanlarınızı da süren tek bir anahtarda mı istiyorsunuz? İşte o {appName}.",
         "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
-        "METHOD": "Nasıl doğruladık: buradaki Agnai iddiaları, çok oyunculu grup sohbetinin bizim eşleyemediğimiz gerçek bir güç olduğu dahil, pazarlamasından değil, kendi kaynağından okundu."
+        "METHOD": "Nasıl doğruladık: buradaki Agnai iddiaları, çok oyunculu grup sohbetinin bizim eşleyemediğimiz gerçek bir güç olduğu dahil, pazarlamasından değil, kendi kaynağından okundu.",
+        "META_DESCRIPTION": "Agnai gerçek çok oyunculu sohbetiyle öne çıkar. {appName} ise derin tek kişilik RP'yi barındırılmış sunar ve anahtarı kodlama ajanlarını da çalıştırır."
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} ve SpicyChat: kolay yol, üstüne derinlik, modeller ve kod",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "SpicyChat'in karşılık veremediği 2 in 1: rol yapmanızı çalıştıran aynı anahtar, <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Cline ya da Codex'i <c>https://api.unorouter.com/v1</c> üzerinden 200+ modele yönlendirir. Karakter sohbeti ve kodlama ajanları için tek hesap. SpicyChat kapalı bir RP sitesidir; {appName} tek anahtarla sohbet, modeller ve koddur.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Öğrenilecek hiçbir şeyi olmayan, mümkün olan en basit sansürsüz RP sitesini mi istiyorsunuz ve daha fazla bellek için katmanlara ödemeye aldırmıyor musunuz? SpicyChat budur. Açık model seçimiyle, öntanımlı derin lorebook'larla ve kod da yazan bir anahtarla aynı kolay başlangıcı mı istiyorsunuz? İşte o {appName}.",
-        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+        "CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+        "META_DESCRIPTION": "SpicyChat'te bellek ve bağlam ücretli katmanlarda. {appName} kolay başlangıcı korur, üstüne 200+ model, bilgi kitapları ve kodlama ajanı anahtarı ekler."
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "{appName} Nevika''ya nasıl bağlanır",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "Rol yapma için <c>glm-5.2</c> güçlü bir varsayılan: özel bir ek gerekmeden akıl yürütür, uzun sahneleri bir arada tutar ve az maliyetlidir. <post_free_models_aggregated>Ücretsiz modeller</post_free_models_aggregated> ilk deneme için yeterli, ancak paylaşımlı ve hız sınırlı olduklarından bir hikaye önem kazandığında ücretli bir modele geçin.",
         "H_TROUBLESHOOTING": "Bir şey bozulursa",
         "P_TROUBLESHOOTING": "Boş model listesi, kopyalarken anahtara bir boşluk karıştığı anlamına gelir. 401, anahtarın yanlış ya da iptal edilmiş olduğunu gösterir, yenisini üretin. Bir modelde 404 ise adın listeden seçilmek yerine elle yazıldığı anlamına gelir. <post_how_to_connect_any_llm_to_sillytavern>SillyTavern kurulum rehberi</post_how_to_connect_any_llm_to_sillytavern> aynı hataları daha ayrıntılı ele alır.",
-        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "META_DESCRIPTION": "Nevika, OpenAI uyumlu her uç noktayı özel vekil sunucu olarak kabul eder. Bir dakikalık kurulum, model seçimi ve herkesin takıldığı iki hata."
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "Sunucu etiketi artık ücretsiz model bekleme süreni kısaltıyor",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "Ne yapmaz",
         "P_NOT_DO_1": "Bu senin bekleme süreni kısaltır. Sağlayıcının sınırlarını yükseltmez. Ücretsiz bir model, yukarı akış doygun ya da bozuk olduğu için meşgulse, bizim tarafımızdaki daha kısa pencere var olmayan kapasiteyi yaratmaz ve istek yine takılabilir veya başarısız olabilir.",
         "P_NOT_DO_2": "Ücretli modellerde dakika başına hiçbir sınır yoktur. Yani her seferinde değil de çoğu zaman değil, her seferinde yanıt veren bir modele ihtiyacın varsa dürüst tavsiye budur. <pricing>Fiyatlar</pricing> milyon token başına kuruşun kesirlerinden başlıyor.",
-        "CTA": "Etiketi almak için <discord>Discord'a katıl</discord> ya da önce <models>ücretsiz modellere göz at</models>."
+        "CTA": "Etiketi almak için <discord>Discord'a katıl</discord> ya da önce <models>ücretsiz modellere göz at</models>.",
+        "META_DESCRIPTION": "{appName} Discord etiketi, ücretsiz modellerdeki hız sınırı pencereni yüzde 25 kısaltır: dakikada bir çağrılan model artık 45 saniyede bir çağrılabilir."
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "Ücretsiz modeller artık onayını istiyor",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "Geri alma ve kurumsal hesaplar",
         "P_BUSINESS": "Bir onayı istediğin zaman ücretsiz modeller sayfasından, <settings>hesap ayarlarından</settings> veya sohbetten geri alabilirsin; model bundan sonra yeniden onay verene kadar senin için engellenir. Ücretsiz modeller kurumsal hesaplar için kullanılamaz, çünkü onların istemleri başkalarının kişisel verilerini içerebilir.",
         "CTA": "Hazır mısın? <free>Ücretsiz modeller sayfasını</free> aç ve kullandığın modelleri etkinleştir.",
-        "NOTE": "21 Ekim 2026 tarihli güncelleme: bu yazı artık güncel değil. Onay artık her sağlayıcı için bir kez veriliyor ve ücretli modelleri de kapsıyor. <post_consent_per_provider>Şimdi nasıl çalıştığını oku</post_consent_per_provider>."
+        "NOTE": "21 Ekim 2026 tarihli güncelleme: bu yazı artık güncel değil. Onay artık her sağlayıcı için bir kez veriliyor ve ücretli modelleri de kapsıyor. <post_consent_per_provider>Şimdi nasıl çalıştığını oku</post_consent_per_provider>.",
+        "META_DESCRIPTION": "Ücretsiz modeller, girdilerini kendi amaçlarına kullanabilen sağlayıcılardan gelir. Artık her model için bunu bir kez onaylıyorsun. Nedeni ve yolu burada."
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "Ücretsiz ve ücretli modeller için sağlayıcı başına onay",
@@ -1334,13 +1372,15 @@
         "P_WHEN": "Henüz değil. Bugün onayı olmayan istekler reddedilmiyor. Engellemeyi aşamalı olarak, model ve hesap bazında açacağız ve tarihi önceden <discord>Discord</discord>'umuzda ve burada, blogda duyuracağız. Şimdi onay verirsen başladığında hiçbir şey bozulmaz.",
         "H_TERMS": "Güncellenen şartlar ve gizlilik politikası",
         "P_TERMS": "<terms>Hizmet Şartlarımızda</terms> üçüncü ülkelerdeki sağlayıcılarla ilgili yeni bir 6. madde var: bu sağlayıcıların teklifleri sağlayıcının merkez ülkesiyle işaretlenir ve bu tekliflere başkalarının kişisel verilerini girmemelisin. <privacy>Gizlilik politikası</privacy> onayı ve itirazı ayrıntılı olarak anlatıyor. Hesabın varsa, siteyi oturum açmış olarak bir sonraki kullanışında güncellenen şartları bir kez kabul edersin. API anahtarların bundan etkilenmez.",
-        "CTA": "<consents>Onaylar sayfasını</consents> şimdi aç ve kullandığın sağlayıcılara onay ver. Tüm ayrıntılar <docs>dokümantasyonda</docs> yer alıyor."
+        "CTA": "<consents>Onaylar sayfasını</consents> şimdi aç ve kullandığın sağlayıcılara onay ver. Tüm ayrıntılar <docs>dokümantasyonda</docs> yer alıyor.",
+        "META_DESCRIPTION": "{appName} üzerinde onay artık sağlayıcıya ait; tek onay o sağlayıcının ücretli ve ücretsiz tüm modellerini kapsar. Onay, itiraz ve API istemcileri burada."
       }
-    }
+    },
+    "TRENDING_MODELS": "Bu haftanın popüler modelleri"
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API fiyatlandırma, context ve örnekler | {appName}",
-    "META_DESC": "{vendor} tarafından {name}'i tek bir OpenAI uyumlu endpoint üzerinden kullanın. Token başına fiyatlandırma, context penceresi, endpointler ve kopyala-yapıştır kod örnekleri görün.",
+    "META_DESC": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu tek bir uç nokta ile kullanın. Token fiyatı, bağlam penceresi ve hazır kod örnekleri.",
     "META_KEYWORDS": "{name} API, {name} fiyatlandırma, {name} context penceresi, {vendor} API, {appName}",
     "PRICING_TITLE": "Fiyatlandırma",
     "INPUT_PRICE": "Girdi fiyatı",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "En ucuz: {day}",
     "PRICE_LOW_CHART": "En düşük girdi fiyatı",
     "META_TITLE_FREE": "Ücretsiz {name} API: masrafsız, OpenAI uyumlu | {appName}",
-    "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu bir API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda çalışır; limitler, bağlam penceresi ve kopyalanabilir örneklerle.",
+    "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda; limitler ve örneklerle.",
     "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}",
     "COMPARE_WITH_TITLE": "{model} karşılaştır",
     "USE_IN_TITLE": "{model} modelini şurada kullan"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "Kullanılmayan kredi bir sonraki {period} dönemine devredilmez."
     },
     "META": {
-      "TITLE": "Fiyatlandırma - {appName}",
-      "DESCRIPTION": "Her yapay zeka modeli için basit fiyatlandırma. Daha iyi değer için abone olun ya da kullandıkça ödeyin. Kodunuzla, Claude Code ile ve SillyTavern, RisuAI ile ve OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisiyle çalışır.",
+      "TITLE": "{appName} Fiyat: Ücretsiz Model, Kullandıkça Öde, Abonelik",
+      "DESCRIPTION": "Her yapay zeka modeline basit fiyat: ücretsiz modeller, kullandıkça öde veya avantajlı abonelik. Kodunuzla, Claude Code, SillyTavern ve RisuAI ile çalışır.",
       "KEYWORDS": "AI API fiyatlandırma, AI abonelik, token başına ödeme, AI model fiyatlandırma, ucuz AI API, uygun fiyatlı AI, OpenAI uyumlu fiyatlandırma, çoklu model API fiyatlandırma"
     },
     "TITLE": "Fiyatlandırma",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Entegrasyonlar - {appName}",
-      "DESCRIPTION": "Her büyük yapay zeka aracı ve karakter sohbet istemcisi için kurulum kılavuzları. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI ve diğer OpenAI uyumlu istemciler.",
+      "DESCRIPTION": "Yapay zeka araçları ve karakter sohbet istemcileri için kılavuzlar: Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI ve daha fazlası.",
       "KEYWORDS": "yapay zeka entegrasyon kılavuzları, Claude Code kurulumu, Codex CLI kurulumu, Gemini CLI kurulumu, OpenClaw kurulumu, SillyTavern kurulumu, RisuAI kurulumu, yapay zeka karakter sohbeti kurulumu, yapay zeka API dokümantasyonu, OpenAI uyumlu API kurulumu"
     },
     "BADGE": "Entegrasyonlar",
@@ -1847,7 +1887,7 @@
     "MCP": {
       "META": {
         "TITLE": "MCP Sunucusu Kurulum Rehberi | {appName}",
-        "DESCRIPTION": "unorouter-mcp sunucusu ile herhangi bir MCP istemcisini {appName}''e bağlayın. Model kataloğunda arayın, fiyatlara bakın ve herhangi bir modelle sohbet edin.",
+        "DESCRIPTION": "unorouter-mcp sunucusuyla herhangi bir MCP istemcisini {appName} hizmetine bağlayın. Model kataloğunda arayın, fiyatlara bakın ve her modelle sohbet edin.",
         "KEYWORDS": "MCP sunucusu, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, model kataloğu"
       },
       "BADGE": "MCP Sunucusu",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor AI için Ücretsiz Proxy: Kurulum Rehberi | {appName}",
-        "DESCRIPTION": "{appName} uygulamasını Janitor AI için ücretsiz proxy olarak kullanın: ücretsiz DeepSeek ve GLM modelleri, tam proxy URL’si ve çoğu rehberin atladığı yenileme adımıyla iki dakikada kurulum.",
+        "TITLE": "Janitor AI Proxy Rehberi (2026): Ücretsiz URL ve Kurulum | {appName}",
+        "DESCRIPTION": "Proxy URL'si: https://api.unorouter.com/v1/chat/completions. Janitor AI için ücretsiz DeepSeek ve GLM modelleri, iki dakikada kurulum ve yenileme adımı.",
         "KEYWORDS": "Janitor AI ücretsiz proxy, Janitor AI için ücretsiz proxy, en iyi ücretsiz Janitor AI proxy, Janitor AI proxy URL, Janitor AI proxy, ücretsiz Janitor AI modelleri, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor AI için Ücretsiz Proxy",
+      "TITLE": "Janitor AI Proxy Rehberi: Ücretsiz Proxy Kurulumu",
       "SUBTITLE": "{appName} uygulamasını Janitor.AI’ye ücretsiz özel proxy olarak bağlayın; ücretsiz modeller ve API Settings panelinin beklediği tam URL biçimiyle.",
       "INTRO_TITLE": "Janitor.AI nedir?",
       "INTRO_DESC": "Janitor.AI, OpenAI uyumlu her proxy’yi kabul eden, tarayıcı tabanlı bir karakter sohbet platformudur. {appName}, API Settings panelinden eklenir ve size ücretsiz modeller sunar; ücretli modeller de aynı anahtarla çalışır.",
@@ -1975,12 +2015,20 @@
       "FAQ_3_Q": "Neden \"Too many requests\" (429) hatası alıyorum?",
       "FAQ_3_A": "Ücretsiz modeller hesap ve model başına sınırlı sayıda isteğe izin verir, genellikle dakikada bir. Hemen yeniden göndermek işe yaramaz: geri sayımın bitmesini bekleyin veya başka bir ücretsiz modele geçin. Ücretli modellerde dakika sınırı yoktur.",
       "FAQ_4_Q": "{appName} için Janitor AI proxy URL’si nedir?",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. /v1/chat/completions dahil tam URL’yi Proxy URL alanına yapıştırın, ardından tarayıcıyı tamamen yenileyin."
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. /v1/chat/completions dahil tam URL’yi Proxy URL alanına yapıştırın, ardından tarayıcıyı tamamen yenileyin.",
+      "FAQ_5_Q": "Janitor AI \"A network error occurred\" veya \"failed to fetch\" diyor. Ne yapmalıyım?",
+      "FAQ_5_A": "Sorun neredeyse her zaman Proxy URL''dedir. Boşluk olmadan tam olarak https://api.unorouter.com/v1/chat/completions olmalı ve Janitor''daki ''Add /chat/completions'' kutusu kapalı kalmalıdır. Kaydedin, ardından Ctrl+Shift+R ile sayfayı zorla yenileyin. Hâlâ başarısız oluyorsa Model Name''in bir model id''siyle birebir eşleştiğini kontrol edin.",
+      "FAQ_6_Q": "Janitor AI neden 401 (Unauthorized) hatası gösteriyor?",
+      "FAQ_6_A": "API anahtarı eksik, yanlış yazılmış veya devre dışı. Anahtarı {appName} API Anahtarları sayfasında göründüğü gibi, Bearer kelimesi olmadan yapıştırın ve aynı sayfada anahtarın hâlâ etkin olduğunu kontrol edin.",
+      "FAQ_7_Q": "Janitor AI neden 403 (Forbidden) hatası gösteriyor?",
+      "FAQ_7_A": "Anahtarınızın bu modeli kullanma izni yok: genellikle bakiye sıfırken ücretli bir model seçilmiştir ya da anahtar belirli modeller veya IP adresleriyle sınırlandırılmıştır. Sonu :free ile biten bir model seçin, bakiye yükleyin veya API Anahtarları sayfasında anahtarın kısıtlamalarını kontrol edin.",
+      "FAQ_8_Q": "Bot hiç yanıt vermiyor. {appName} çöktü mü?",
+      "FAQ_8_A": "Genellikle o ücretsiz modelin tüm sağlayıcıları meşguldür ya da model adında bir yazım hatası vardır. Başka bir ücretsiz modele geçip tekrar deneyin. Durum sayfası şu anda hangi modellerin çevrimiçi olduğunu gösterir."
     },
     "RISUAI": {
       "META": {
         "TITLE": "RisuAI Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "RisuAI''yi Custom Models üzerinden {appName}''e bağlayın; Autofill Request URL seçeneğinin kaldırılması dahil, RisuAI proxy kurulumlarının en sık destek sorunu.",
+        "DESCRIPTION": "RisuAI uygulamasını Custom Models üzerinden {appName} hizmetine bağlayın. Autofill Request URL seçeneğini kaldırmayı unutmayın: en sık destek sorunu budur.",
         "KEYWORDS": "RisuAI, RisuAI proxy, RisuAI özel uç nokta, {appName} RisuAI, yapay zeka karakter sohbeti, Autofill Request URL, RisuAI OpenAI uyumlu"
       },
       "BADGE": "RisuAI",
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Chub / Venus Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Chub.ai (Venus) uygulamasını {appName}''e reverse proxy olarak bağlayın; Chub''ın üçüncü taraf proxy uyarısına karşı first-party relay açıklamasıyla.",
+        "TITLE": "Chub AI (Venus) Ters Proxy: URL ve Ücretsiz Modeller | {appName}",
+        "DESCRIPTION": "Chub AI'ı (Venus) ters proxy olarak {appName}'a bağlayın: https://api.unorouter.com/v1/chat/completions adresini yapıştırın, ücretsiz model seçin.",
         "KEYWORDS": "Chub AI, Venus AI, Chub ters proxy, {appName} Chub, yapay zeka karakter sohbeti, OpenAI uyumlu API, Chub OpenAI kurulumu"
       },
       "BADGE": "Chub / Venus",
@@ -2553,7 +2601,7 @@
   "REFUND": {
     "META": {
       "TITLE": "İade Politikası - {appName}",
-      "DESCRIPTION": "{appName} üzerinden satın alınan krediler ve abonelikler için iadelerin nasıl işlendiğini; uygunluk koşullarını, süreleri ve nasıl talep edileceğini öğrenin.",
+      "DESCRIPTION": "{appName} üzerinden alınan krediler ve abonelikler için iadelerin nasıl işlendiğini, uygunluk koşullarını, süreleri ve nasıl talep edileceğini öğrenin.",
       "KEYWORDS": "iade politikası, iadeler, {appName} iade, AI API iadesi, abonelik iadesi"
     },
     "TITLE": "İade Politikası",
@@ -2591,7 +2639,7 @@
     "LAST_UPDATED": "Son Güncelleme: 30 Haziran 2026",
     "META": {
       "TITLE": "Kabul Edilebilir Kullanım Politikası - {appName}",
-      "DESCRIPTION": "{appName} için Kabul Edilebilir Kullanım Politikası. Cinsel içerikli, NSFW, deepfake ve zararlı içerik üretiminin yasaklanması da dahil olmak üzere yasaklı içerik ve davranışlar.",
+      "DESCRIPTION": "{appName} Kabul Edilebilir Kullanım Politikası: cinsel içerik, NSFW, deepfake ve zararlı içerik üretimi yasağı dahil yasaklı içerik ve davranışlar.",
       "KEYWORDS": "kabul edilebilir kullanım politikası, {appName} AUP, yasaklı içerik, içerik politikası, AI kullanım politikası, NSFW yasağı"
     },
     "INTRO": "Bu Kabul Edilebilir Kullanım Politikası, isteklerinizi üçüncü taraf AI model sağlayıcılarına yönlendiren bir API toplama platformu olan {appName} kullanımınızı düzenler. Sohbet, görsel üretimi ve video üretimi dahil olmak üzere {appName} öğesinin her özelliği için geçerlidir. Hizmetleri kullanarak, Hizmet Şartlarımıza ek olarak aşağıdaki kuralları kabul etmiş olursunuz.",
@@ -3946,7 +3994,7 @@
     "META": {
       "TITLE": "AI Sohbet - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Sohbet - {appName}",
-      "DESCRIPTION": "Herhangi bir AI modeliyle sohbet edin: GPT, Claude, Gemini, DeepSeek ve daha fazlası tek bir arayüzde ya da kendi OpenAI uyumlu uç noktanız ve anahtarınızla.",
+      "DESCRIPTION": "Herhangi bir AI modeliyle sohbet edin: GPT, Claude, Gemini, DeepSeek ve fazlası tek arayüzde ya da kendi OpenAI uyumlu uç noktanız ve anahtarınızla.",
       "KEYWORDS": "AI sohbet, AI ile sohbet, GPT sohbet, Claude sohbet, Gemini sohbet, AI playground, model test, BYOK, özel AI sağlayıcı"
     },
     "OVERRIDES": {
@@ -5221,7 +5269,7 @@
     "INDEX": {
       "META": {
         "TITLE": "{appName} Sohbet Kılavuzu",
-        "DESCRIPTION": "Yerleşik {appName} rol yapma sohbetinin tüm özellikleri: karakterler, lorebooklar, presetler, makrolar, betikleme, hafıza, görsel üretimi ve veri taşınabilirliği.",
+        "DESCRIPTION": "{appName} rol yapma sohbetinin özellikleri: karakterler, bilgi kitapları, ön ayarlar, makrolar, betikleme, hafıza, görsel üretimi ve veri taşınabilirliği.",
         "KEYWORDS": "rol yapma sohbet kılavuzu, karakter kartları, lorebook, prompt ön ayarı, CBS makroları, yapay zeka rol yapma dokümantasyonu"
       },
       "TITLE": "Sohbet Kılavuzu",
@@ -5689,7 +5737,7 @@
     "JANITORAI_IMPORT": {
       "META": {
         "TITLE": "JanitorAI sohbetlerini {appName} içine aktar",
-        "DESCRIPTION": "Tüm JanitorAI sohbetlerini, karakterleri ve lorebook'ları ücretsiz bir tarayıcı betiğiyle {appName} içine taşı. Masaüstü ve Android için adım adım, tamamen yerel.",
+        "DESCRIPTION": "JanitorAI sohbet, karakter ve bilgi kitaplarınızı ücretsiz tarayıcı betiğiyle {appName} içine taşıyın. Masaüstü ve Android için adım adım, tamamen yerel.",
         "KEYWORDS": "janitorai dışa aktarma, janitorai içe aktarma, janitorai sohbet taşıma, janitorai yedek, tampermonkey"
       },
       "TITLE": "JanitorAI'dan içe aktar",
@@ -5733,7 +5781,7 @@
     "BACKUPS": {
       "META": {
         "TITLE": "{appName} verilerinizi yedekleme ve geri yükleme",
-        "DESCRIPTION": "Sohbetleri, karakterleri, lorebookları ve üretilen görselleri yerel veritabanından yedekleyin ve geri yükleyin; yedek çok büyük olduğunda ne yapılacağı dahil.",
+        "DESCRIPTION": "Sohbetleri, karakterleri, bilgi kitaplarını ve üretilen görselleri yerel veritabanından yedekleyin ve geri yükleyin; yedek çok büyükse ne yapılacağı dahil.",
         "KEYWORDS": "sohbet yedekleme, yedeği geri yükleme, yerel veritabanı, görsel dışa aktarma, cihaz değiştirme, sqlite yedek"
       },
       "TITLE": "Yedekleme ve geri yükleme",
@@ -5787,7 +5835,7 @@
     "THEME": {
       "META": {
         "TITLE": "Tema düzenleyici",
-        "DESCRIPTION": "{appName} tema düzenleyicisi nasıl çalışır: Her yerde, Yalnızca sohbet ve Yalnızca görsel sekmeleri, renk başına opaklık, duvar kâğıtları ve kayıtlı temalar.",
+        "DESCRIPTION": "{appName} tema düzenleyicisi: Her yerde, Yalnızca sohbet ve Yalnızca görsel sekmeleri, renk başına opaklık, duvar kâğıtları ve kayıtlı temalar.",
         "KEYWORDS": "tema, düzenleyici, koyu mod, duvar kâğıdı, opaklık, renkler, yazı tipleri"
       },
       "TITLE": "Tema düzenleyici",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "Platform Kılavuzu ve SSS",
-        "DESCRIPTION": "{appName} API'si için hızlı başlangıç, modeller, fiyatlandırma, hız sınırları, hata kodları ve faturalandırma. 200'den fazla model için tek bir OpenAI uyumlu uç nokta.",
+        "TITLE": "{appName} API Belgeleri: Başlangıç, API Anahtarı, Temel URL",
+        "DESCRIPTION": "{appName} API anahtarı alın, temel URL'yi https://api.unorouter.com/v1 yapın ve ilk isteği gönderin. Modeller, fiyatlar, limitler, hatalar, faturalama.",
         "KEYWORDS": "{appName} API, hızlı başlangıç, hız sınırları, hata kodları, faturalandırma, fiyatlandırma, ücretsiz modeller"
       },
       "TITLE": "Platform Kılavuzu",
@@ -5923,7 +5971,7 @@
     "NOTIFICATIONS": {
       "META": {
         "TITLE": "Model bildirimleri ve fiyat uyarıları",
-        "DESCRIPTION": "Herhangi bir modeli izleyin; fiyat değişimi, kesinti, geri dönüş ve yeni ücretsiz modeller için gerçek zamanlı uyarılar alın: sitede toast olarak, sekme kapalıyken tarayıcı push ile.",
+        "DESCRIPTION": "Modelleri izleyin; fiyat değişimi, kesinti, geri dönüş ve yeni ücretsiz modeller için uyarı alın: sitede bildirim, sekme kapalıyken tarayıcı bildirimi.",
         "KEYWORDS": "model bildirimleri, fiyat uyarısı, ücretsiz model uyarısı, tarayıcı push, model izleme, kesinti uyarısı"
       },
       "TITLE": "Bildirimler",
@@ -5965,7 +6013,7 @@
     "GROUP_PINNING": {
       "META": {
         "TITLE": "Sağlayıcı grubu sabitleme",
-        "DESCRIPTION": "Bir API anahtarındaki modelleri belirli sağlayıcı gruplarına sabitleyin: faturalama onların tarifelerine kilitlenir, aralarında önce en ucuz yönlendirilir ve otomatik yedeğe geçilir.",
+        "DESCRIPTION": "API anahtarındaki modelleri sağlayıcı gruplarına sabitleyin: onların tarifeleriyle faturalanır, önce en ucuza yönlendirilir, otomatik yedeğe geçilir.",
         "KEYWORDS": "sağlayıcı grupları, grup sabitleme, model bazlı yönlendirme, grup fiyatları, en ucuz sağlayıcı, API anahtarı yönlendirme"
       },
       "TITLE": "Grup Sabitleme",
@@ -6001,7 +6049,7 @@
     "PLATFORM_API": {
       "META": {
         "TITLE": "Platform API",
-        "DESCRIPTION": "Model kataloğunu ve sağlayıcıların güncel fiyatlarını anahtar olmadan okuyun, ardından bakiyenizi, API anahtarlarınızı ve kullanım kayıtlarınızı koddan okumak için bir erişim belirteci kullanın.",
+        "DESCRIPTION": "Model kataloğunu ve güncel fiyatları anahtarsız okuyun; bakiyenizi, API anahtarlarınızı ve kullanım kayıtlarınızı erişim belirteciyle koddan alın.",
         "KEYWORDS": "platform api, model fiyatlandırma api, erişim belirteci, kullanım kayıtları api, kota api, programatik erişim, model kataloğu json"
       },
       "TITLE": "Platform API",
@@ -6155,7 +6203,7 @@
     "DISCORD_REWARDS": {
       "META": {
         "TITLE": "Discord ödülleri ve kurallar",
-        "DESCRIPTION": "Discord sunucusunda ücretsiz {appName} bakiyesi kazanmanın tüm yolları: bağlama bonusu, boostlar, oylar, davetler, aktivite seviyeleri ve bug bounty, artı ödemelerin arkasındaki kurallar.",
+        "DESCRIPTION": "Discord'da ücretsiz {appName} bakiyesi kazanmanın yolları: bağlama bonusu, takviyeler, oylar, davetler, aktivite seviyeleri, hata ödülü ve ödeme kuralları.",
         "KEYWORDS": "discord ödülleri, ücretsiz bakiye, boost ödülü, oy ödülü, davet ödülü, aktivite seviyeleri, bug bounty, kurallar"
       },
       "TITLE": "Discord Ödülleri",
@@ -6237,7 +6285,7 @@
     "CONSENTS": {
       "META": {
         "TITLE": "Model sağlayıcıları için onaylar",
-        "DESCRIPTION": "{appName} üzerinde hangi sağlayıcıların onayınıza ihtiyaç duyduğu, onayı sağlayıcı başına bir kez nasıl vereceğiniz, nasıl itiraz edeceğiniz ve API istemcilerinin consent_required hatasını nasıl ele aldığı.",
+        "DESCRIPTION": "{appName} üzerinde onay isteyen sağlayıcılar, sağlayıcı başına tek seferlik onay, itiraz yolu ve API istemcilerinin consent_required hatasını ele alışı.",
         "KEYWORDS": "onay, GDPR, üçüncü ülkeye aktarım, model eğitimi, itiraz, consent_required"
       },
       "TITLE": "Model sağlayıcıları için onaylar",

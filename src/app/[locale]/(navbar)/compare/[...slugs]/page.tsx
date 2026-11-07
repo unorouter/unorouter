@@ -44,9 +44,10 @@ export async function generateMetadata(props: {
     });
   }
 
-  const title = t("MODELS.COMPARE.META.TITLE_COMBO", {
+  // The combo key carries no brand; fitTitle drops it again when too long.
+  const title = `${t("MODELS.COMPARE.META.TITLE_COMBO", {
     models: comboTitle(models),
-  });
+  })} | ${APP_VALUES.appName}`;
   const description = t("MODELS.COMPARE.META.DESCRIPTION_COMBO", {
     models: comboModelList(models, t("MODELS.COMPARE.FROM")),
   });

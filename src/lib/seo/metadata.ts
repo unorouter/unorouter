@@ -104,7 +104,23 @@ export async function pageMetadata(opts: {
   });
 }
 
+const TITLE_LIMIT = 60;
+
+// Search results cut titles near 60 characters. A long title drops its brand
+// suffix rather than its subject; the brand still ships as og:site_name.
+// A short title without the brand ("Cards", "Platform API") gets it appended.
+export function fitTitle(title: string): string {
+  const suffix = ` | ${env.appName}`;
+  if (!title.includes(env.appName)) {
+    return title.length + suffix.length <= TITLE_LIMIT ? title + suffix : title;
+  }
+  if (title.length <= TITLE_LIMIT) return title;
+  const match = title.match(new RegExp(`\\s*(?:[|\\-]|｜)\\s*${env.appName}$`));
+  return match ? title.slice(0, match.index) : title;
+}
+
 export function getPageMetadata(params: MetadataParams): Metadata {
+  const title = fitTitle(params.title);
   const canonicalTarget = params.canonicalHref ?? params.href;
   const canonicalPath = getPathname({
     locale: params.locale,
@@ -112,10 +128,14 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   });
   const shouldIndex = params.robots ?? true;
   const ogImageUrl = params.ogImage ?? ogBadge("hero", params.locale);
+  // Every badge template renders its og size at 1200x630; other images vary.
+  const ogImageSize = ogImageUrl.includes("/api/ops/badge/")
+    ? { width: 1200, height: 630 }
+    : {};
 
   return {
     metadataBase: new URL(env.appUrl),
-    title: params.title,
+    title,
     description: params.description,
     keywords: params.keywords.split(", "),
     icons: {
@@ -148,7 +168,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       },
     },
     openGraph: {
-      title: params.title,
+      title,
       description: params.description,
       ...(params.article
         ? { type: "article", ...params.article }
@@ -164,13 +184,14 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       images: [
         {
           url: ogImageUrl,
-          alt: params.title,
+          alt: title,
+          ...ogImageSize,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: params.title,
+      title,
       description: params.description,
       ...(env.twitterHandle && {
         site: env.twitterHandle,
@@ -179,7 +200,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       images: [
         {
           url: ogImageUrl,
-          alt: params.title,
+          alt: title,
         },
       ],
     },
@@ -204,9 +225,10 @@ export function getPageMetadata(params: MetadataParams): Metadata {
 // so the 200 is already committed and cannot be changed. An empty metadata
 // object would inherit the parent's "index, follow" plus a locale-root
 // canonical, which Google reports as a soft 404.
-export function notFoundMetadata(): Metadata {
+export async function notFoundMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
   return {
-    title: "Not Found",
+    title: t("MAIN.NOT_FOUND.TITLE"),
     robots: {
       index: false,
       follow: false,

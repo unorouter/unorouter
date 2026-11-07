@@ -7,8 +7,14 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
+import { vendorDisplayName } from "@/lib/api/pricing";
+import { JsonLd } from "@/lib/seo/json-ld";
+import {
+  buildBreadcrumbListSchema,
+  buildCollectionPageSchema,
+} from "@/lib/seo/structured-data";
 import { getPricingCatalog } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
+import { unwrap, vendorSlug } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -40,7 +46,7 @@ export async function generateMetadata(props: PageProps) {
 
   // The page redirects this one, so the head never ships. Skip the noindex that
   // a missing branch would otherwise emit.
-  if (resolved.kind === "redirect") return {};
+  if (resolved.kind === "redirect" || resolved.kind === "retired") return {};
 
   const indexed = MODEL_PAGE_LOCALES.some((l) => l === locale);
 
@@ -54,7 +60,8 @@ export async function generateMetadata(props: PageProps) {
       keywords: t("MODELS.VENDOR.META_KEYWORDS", { ...APP_VALUES, vendor }),
       ogImage: ogBadge("sponsor", locale),
       locales: MODEL_PAGE_LOCALES,
-      robots: indexed,
+      // "unknown" collects models with no vendor; it is not a real provider.
+      robots: indexed && vendorSlug(vendor) !== "unknown",
     });
   }
 
@@ -91,7 +98,8 @@ export async function generateMetadata(props: PageProps) {
     ),
     ogImage: ogBadge("model", locale, { model: model.model_name }),
     locales: MODEL_PAGE_LOCALES,
-    robots: indexed,
+    // No vendor means a /models/unknown/ URL, which the sitemap already skips.
+    robots: indexed && Boolean(vendorSlug(model.vendor)),
   });
 }
 
@@ -104,30 +112,64 @@ export default async function ModelDetailPage(props: PageProps) {
   if (resolved.kind === "redirect") {
     permanentRedirect(localeUrl(locale, canonicalHref(resolved.model)));
   }
+  if (resolved.kind === "retired") {
+    permanentRedirect(localeUrl(locale, vendorHref(resolved.vendor)));
+  }
 
   if (resolved.kind === "vendor") {
+    const vendor = resolved.vendor;
+    const t = await getTranslations({ locale });
     const queryClient = getQueryClient();
-    queryClient.setQueryData(
-      queryKeys.pricingVendor(resolved.vendor),
-      unwrap(
-        await getPricingCatalog({
-          vendor: resolved.vendor,
-          include_offline: true,
-        }),
-      ).models,
-    );
+    const vendorModels = unwrap(
+      await getPricingCatalog({ vendor, include_offline: true }),
+    ).models;
+    queryClient.setQueryData(queryKeys.pricingVendor(vendor), vendorModels);
+    const vendorUrl = localeUrl(locale, vendorHref(vendor));
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <VendorModelsPage vendor={resolved.vendor} />
-      </HydrationBoundary>
+      <>
+        <JsonLd
+          id="vendor-breadcrumb"
+          data={buildBreadcrumbListSchema([
+            { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+            { name: t("NAV.MODELS"), url: localeUrl(locale, "/models") },
+            { name: vendorDisplayName(vendor), url: vendorUrl },
+          ])}
+        />
+        <JsonLd
+          id="vendor-collection"
+          data={buildCollectionPageSchema({
+            name: t("MODELS.VENDOR.META_TITLE", { ...APP_VALUES, vendor }),
+            description: t("MODELS.VENDOR.META_DESC", {
+              ...APP_VALUES,
+              vendor,
+            }),
+            url: vendorUrl,
+            items: vendorModels
+              .filter((m) => m.online)
+              .map((m) => ({
+                name: m.model_name,
+                url: localeUrl(locale, canonicalHref(m)),
+              })),
+          })}
+        />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <VendorModelsPage vendor={vendor} />
+        </HydrationBoundary>
+      </>
     );
   }
 
   const hit = resolved.model;
+  const paidSibling = hit.model.model_name.endsWith(":free")
+    ? hit.models.find(
+        (m) => m.model_name === hit.model.model_name.slice(0, -":free".length),
+      )
+    : undefined;
   return (
     <>
       <ModelSchema
         model={hit.model}
+        canonical={paidSibling ?? hit.model}
         locale={locale}
         idSlug={params.slug.join("-")}
       />

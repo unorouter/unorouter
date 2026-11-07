@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Free AI Proxy for JanitorAI & All AI Models",
-    "DESCRIPTION": "Free AI models for JanitorAI and SillyTavern, plus Claude, GPT, Gemini and DeepSeek on one key. Use it in your code, Claude Code or any AI client.",
+    "TITLE": "{appName}: Free Janitor AI Proxy with DeepSeek and GLM, No Card",
+    "DESCRIPTION": "Free proxy for Janitor AI and SillyTavern: DeepSeek, GLM and 100+ free models on one key, no credit card. Paste the proxy URL and chat in two minutes.",
     "KEYWORDS": "free AI proxy, free proxy for Janitor AI, Janitor AI proxy, SillyTavern API, free AI API, AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, OpenAI-compatible API",
     "ACCOUNT": {
       "TITLE": "{appName} Account",
@@ -38,7 +38,8 @@
       "TITLE_ROTATE": "API,CHAT,CHARACTERS,STORYTELLING,CODE,INTELLIGENCE",
       "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps and run agents with it, or skip the setup and chat with characters right here on the site. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
-      "CTA_SECONDARY": "View Models"
+      "CTA_SECONDARY": "View Models",
+      "SEO_HEADING": "Free AI proxy for Janitor AI and every model"
     },
     "STATS": {
       "MODELS": "Models",
@@ -222,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Free AI Proxy for JanitorAI & All AI Models",
-      "DESCRIPTION": "Free AI models for JanitorAI and SillyTavern, plus Claude, GPT, Gemini and DeepSeek on one key. Use it in your code, Claude Code or any AI client.",
+      "TITLE": "{appName}: Free Janitor AI Proxy with DeepSeek and GLM, No Card",
+      "DESCRIPTION": "Free proxy for Janitor AI and SillyTavern: DeepSeek, GLM and 100+ free models on one key, no credit card. Paste the proxy URL and chat in two minutes.",
       "KEYWORDS": "free AI proxy, free proxy for Janitor AI, Janitor AI proxy, SillyTavern API, free AI API, AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, OpenAI-compatible API"
     }
   },
@@ -354,8 +355,8 @@
       "TABLE": "Table view"
     },
     "META": {
-      "TITLE": "AI Models - {appName}",
-      "DESCRIPTION": "Every AI model in one place. GPT, Claude, Gemini, DeepSeek and more. Use them in your code or in any OpenAI-compatible AI chat client. Same pricing for both.",
+      "TITLE": "AI Models and Free LLMs: Prices, Context and Limits | {appName}",
+      "DESCRIPTION": "Every AI model in one place: GPT, Claude, Gemini, DeepSeek and more. Use them in your code or any OpenAI-compatible chat client, same pricing for both.",
       "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison, multi-model API, AI chat models"
     },
     "BADGE": "Model Library",
@@ -498,7 +499,7 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "Rankings | {appName}",
+      "TITLE": "AI Model Rankings by Real Usage | {appName}",
       "DESCRIPTION": "Discover the most-used AI models and rising vendors on {appName}, ranked by live token volume. Updated continuously from real platform usage.",
       "KEYWORDS": "AI model rankings, LLM leaderboard, top AI models, AI vendor market share, most used AI models, model usage statistics"
     },
@@ -622,7 +623,8 @@
         "P_PARTNERS": "Partners are projects, apps, bots and communities that run on {appName}, and we check every one before listing it. Partners get their own post in the partners channel of our <discord>Discord</discord>, the Partner role and a shoutout like this one. In return they mention {appName} on their side. Reselling {appName} access is allowed with our approval and only for paid models. Free models are never resold.",
         "H_APPLY": "How to apply",
         "P_APPLY": "Building something on {appName}? Message us on <discord>Discord</discord> with the name and link of your project, what it does and how it uses {appName}, your {appName} username, and roughly how many users you have.",
-        "CTA": "Want to try Qronos? Visit <qronos>qronos.me</qronos> or join <qronos_discord>their Discord</qronos_discord>. New to {appName}? <register>Create an account</register> or <models>browse the models</models>."
+        "CTA": "Want to try Qronos? Visit <qronos>qronos.me</qronos> or join <qronos_discord>their Discord</qronos_discord>. New to {appName}? <register>Create an account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "Qronos AI runs its LLM gateway on {appName} and hosts a Discord community for AI roleplay and storytelling. Who they are and how our partner program works."
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Where your requests go: provider labels, image marking and privacy updates",
@@ -641,7 +643,8 @@
         "P_MARKING": "From December 2026 the EU AI Act requires generated images and videos to be marked as AI generated in a machine readable way. {appName} now adds this mark to every image and video it delivers, as standard metadata inside the file. Nothing visible changes and the image is not re-encoded, so quality stays exactly the same. Marks that a provider already embedded are kept untouched.",
         "H_ALSO": "Also new",
         "P_ALSO": "Our privacy policy now names the countries your requests can be routed to and the legal basis for each. The site has an imprint. Setting up two factor authentication works again after a bug that blocked it, and sensitive account changes now ask you to confirm it is really you. The full list is in our <privacy>privacy policy</privacy>. Free models now also ask for your consent once per model, <post_consent_for_free_models>here is how that works</post_consent_for_free_models>.",
-        "CTA": "Questions about a specific provider? Ask in our Discord or check the labels on the <models>model pages</models>."
+        "CTA": "Questions about a specific provider? Ask in our Discord or check the labels on the <models>model pages</models>.",
+        "META_DESCRIPTION": "Model pages now show where each provider is based and flag countries without EU data protection. What the labels mean and how to choose your route."
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "What happened with LoreBary, and what {appName} stores about you",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "Your chats live in your own browser, not on our servers: clear them and they are gone. Our gateway does not store the prompts you send or the replies you get, only what billing needs: the model, token counts, cost, timing and whether the request worked. The IP address recorded with a request is erased after 30 days. We do not train on your data, and the website uses no analytics. The website, the gateway, the sync and the Discord bot are open source, so you can check each of these points on GitHub instead of taking our word for it.",
         "H_PROVIDERS": "What we cannot promise",
         "P_PROVIDERS": "Your request still has to reach the model you pick, and that provider handles it under its own terms. Some providers keep or train on what they receive, free ones especially. Our privacy policy says so plainly, and the safest habit is the same everywhere: keep personal data out of your prompts. Since then every model shows where its providers are based (<post_where_your_requests_go>what the labels mean</post_where_your_requests_go>), and free models ask for your consent first (<post_consent_for_free_models>how that works</post_consent_for_free_models>). The full picture is in our <privacy>privacy policy</privacy>.",
-        "CTA": "Questions about any of this? Ask us in Discord, or read the code yourself. Otherwise, <chat>open a chat</chat> or <models>browse the models</models>."
+        "CTA": "Questions about any of this? Ask us in Discord, or read the code yourself. Otherwise, <chat>open a chat</chat> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "For four days we served LoreBary's in-house model without permission. Here is what happened, what we changed, and exactly what {appName} keeps about you."
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "The Claude fake detector is now an open-source library",
@@ -683,7 +687,8 @@
         "H_USE_IT": "Use it",
         "P_USE_1": "The <tester>model tester</tester> runs the full set in your browser, signature and token checks included, and nothing leaves your machine except the calls to your provider. The <rankings>rankings page</rankings> publishes results people chose to share. For your own pipeline:",
         "P_USE_2": "Opt in to what you need. <c>checkSignature</c> and <c>checkTokenTruth</c> each cost extra requests, so they stay off unless asked for. Envelope metadata and throughput are read from responses the run already made and cost nothing.",
-        "CTA": "<tester>Test a provider</tester>, read the <first>April post</first> for the numbers that started this, or open an issue on <repo>GitHub</repo> if a real endpoint gets a wrong verdict."
+        "CTA": "<tester>Test a provider</tester>, read the <first>April post</first> for the numbers that started this, or open an issue on <repo>GitHub</repo> if a real endpoint gets a wrong verdict.",
+        "META_DESCRIPTION": "ai-model-verifier, the engine behind our model tester, is on npm under AGPL-3.0. It checks whether an endpoint really serves the model it sells."
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "Claude Opus 4.8 vs 4.6 vs 4.7 for roleplay: a hands-on ranking",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 was the most frustrating: it repeated phrases and dialogue and needed many regenerations for variety. 4.6 was a big step up, adding its own small details to actions, atmosphere, and faces. 4.8 genuinely surprised: it took a canon character known for spontaneity and played it straight, starting an action then reversing it in the same beat, the kind of in-character misdirection that is hard to fake. That is what pushed 4.8 to the top.",
         "H_VERDICT": "Verdict",
         "P_VERDICT": "For roleplay on {appName}, reach for 4.8 now, keep 4.6 as a cheaper backup, skip 4.7. All three are one click apart in <models>the model picker</models>, so run your own character through each. Samplers, lorebooks, and memory settings carry across every model, and a custom prompt can push 4.6 toward more drive or 4.8 toward more depth. Tip: score each model right after you use it, before the next one dazzles you, that is the only way to catch what a fresh model is actually missing.",
-        "CTA": "Want to try it yourself? <register>Create a free account</register> or <chat>open the chat</chat> and switch between <post_claude_authenticity>the Opus versions</post_claude_authenticity> in one place."
+        "CTA": "Want to try it yourself? <register>Create a free account</register> or <chat>open the chat</chat> and switch between <post_claude_authenticity>the Opus versions</post_claude_authenticity> in one place.",
+        "META_DESCRIPTION": "A roleplayer ranks Claude Opus 4.8, 4.6 and 4.7 on {appName} for memory, emotional depth, drive and creative writing. 4.8 wins, 4.6 beats 4.7."
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: same coder gateway, plus a chat client",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "Like MegaLLM, {appName} is <post_what_is_an_llm_gateway>OpenAI-compatible</post_what_is_an_llm_gateway>. Point your client at <c>https://api.unorouter.com/v1</c> and keep your code. The same key reaches the chat side too, so there is no second account.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Only shipping code and want a lean frontier-model gateway tuned for token cost? MegaLLM is solid. Want one key that runs your coding agents and a built-in chat client off the same balance, with a wider catalog? That is {appName}.",
-        "CTA": "Want the gateway and the chat in one? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want the gateway and the chat in one? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "MegaLLM is a popular frontier-model gateway for coding agents. {appName} does the same job and adds a built-in chat and character client."
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} vs Portkey: AI gateway or full LLMOps platform",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey prices around the platform: free for low volume, then paid plans for observability and governance, on top of what you pay each provider. Worth it when the control plane saves a team real time. {appName} is pay-as-you-go across 200+ models, one balance, credits that never expire, free tier. Below team scale, lean costs less.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Run LLM features for an org and need observability, guardrails, and governance? Portkey is built for it. Want one key with nothing to operate that works in your coding agent and a chat client? {appName}. It is not better or worse, just less platform.",
-        "CTA": "Want a gateway with nothing to operate? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want a gateway with nothing to operate? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "Portkey is an enterprise LLMOps platform with observability, guardrails and governance. {appName} is a simpler hosted gateway with a built-in chat client."
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} vs nano-gpt: chat marketplace or one key for both",
@@ -751,7 +759,8 @@
         "P_PAY": "Both are pay-as-you-go, the right model for bursty multi-model use. {appName} keeps it to one balance, credits that never expire, <free>free tier</free>, one key across coding and chat instead of a marketplace wallet you spend in one UI. Same billing shape; the difference is how far the one key reaches.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Mostly want a web UI to sample the widest model list? nano-gpt is good at that. Want one key that works in your coding agent and a real character client, with credits that travel? {appName}.",
-        "CTA": "Want one key for code and character chat? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want one key for code and character chat? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "nano-gpt offers a huge model catalog behind a chat UI. {appName} adds a real developer API and a built-in character client, all pay as you go on one key."
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "The best AI gateway for SillyTavern in 2026",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName} has a free tier and 200+ models, so you can test a card on <free>a free model</free>, then move to a stronger paid one only when the scene is worth it. Credits do not expire, billing is pay-as-you-go, and one balance covers every client and every model. There is no monthly seat to justify and nothing to cancel if you take a month off.",
         "H_VERDICT": "The short answer",
         "P_VERDICT": "The best SillyTavern gateway is the one with an OpenAI-compatible endpoint, real model breadth, pay-as-you-go credits, and a free tier to start, so a single key carries your whole setup. {appName} is built for exactly that case, and the same key keeps working in every other character chat front end you use.",
-        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "SillyTavern needs an OpenAI-compatible endpoint and a key. Here is what actually matters when you pick a gateway, and how to connect one in under a minute."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: we ported the character chat engine into a hosted 2-in-1",
@@ -786,7 +796,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want a self-hosted, open, deeply extensible frontend with the richest memory, and you are fine bringing your own keys? Use Risu. Want the same lorebook, CBS, and card features hosted, where one key also runs your coding agents? That is {appName}.",
         "CTA": "Try the chat with everything ported in. <register>Create a free account</register> or <chat>open the chat</chat>.",
-        "METHOD": "How we verified: the RisuAI feature claims here were checked against RisuAI's own open source, its lorebook, CBS macro, trigger, and memory modules, not its marketing. Where we say {appName} ported an idea, we mean we read that code and rebuilt the behavior."
+        "METHOD": "How we verified: the RisuAI feature claims here were checked against RisuAI's own open source, its lorebook, CBS macro, trigger, and memory modules, not its marketing. Where we say {appName} ported an idea, we mean we read that code and rebuilt the behavior.",
+        "META_DESCRIPTION": "{appName} ported the RisuAI engine (lorebooks, CBS macros, triggers, regex, card import) into a hosted 2-in-1 where the same key also drives coding agents."
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: hosted gateway or self-hosted proxy",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM takes no markup, but you pay each provider and carry the infra plus DevOps time. That wins at high volume with a team. {appName} is <pricing>pay-as-you-go</pricing> across 200+ models, one balance, credits that never expire, no servers to pay for. Below serious scale, hosted is usually cheaper once you count the hours.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Have a platform team and want zero markup? LiteLLM. Want one key with nothing to deploy that works in your coding agent and a chat client? {appName}.",
-        "CTA": "Want a gateway with nothing to deploy? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want a gateway with nothing to deploy? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "LiteLLM is the most popular self-hosted LLM proxy. {appName} is a hosted gateway with a built-in chat client. Do you want to run the infrastructure?"
       },
       "FEATURED_ON": {
         "TITLE": "Where to find {appName}: our directory listings",
@@ -817,7 +829,8 @@
         "H_VERIFY": "Verify before you trust",
         "P_VERIFY": "Open any badge, confirm the listing points back to our real domain, and check the independent description. Never paste an API key into a service you cannot trace to <post_open_source_openrouter_alternative>a verifiable, publicly listed source</post_open_source_openrouter_alternative>.",
         "H_TRY": "Try it yourself",
-        "CTA": "Seen enough? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Seen enough? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "{appName} is listed across the AI tool and startup directories. Here is where you can find us, verify the listings, and read independent takes."
       },
       "LAUNCH": {
         "TITLE": "We got tired of fake Claude. So we built {appName}.",
@@ -832,7 +845,8 @@
         "P_HARNESS": "A model is only useful if it works in your tools. We test every model end to end for HTTP completion, streaming, and tool calling. Those three capabilities are what AI terminal harnesses depend on. If a model is in our catalog, it works in <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Codex CLI, Gemini CLI, and any OpenAI-compatible client. No surprise 'streaming not supported' failures mid-session.",
         "H_NEXT": "What's next",
         "P_NEXT": "We ship weekly. Expect more models, <rankings>tighter health signals</rankings> driving smarter fallbacks, richer cost and latency dashboards, and deeper integrations with the terminals and IDEs you already live in.",
-        "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>."
+        "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>.",
+        "META_DESCRIPTION": "Outages every other week. Premium models silently swapped for cheap clones. So we shipped our own router, paranoid about both. Here is the launch story."
       },
       "AGENT_READY": {
         "TITLE": "We pointed Cloudflare's agent scanner at our site. It came back 100/100.",
@@ -851,7 +865,8 @@
         "P_STUBS": "These checks are simple stubs. The scanner mostly verifies that a well-known URL exists, returns a 200, and contains the right top-level shape. It does not run a real OAuth flow, it does not actually invoke an MCP tool, it does not settle an x402 payment. A green tick means the door is unlocked, not that the room behind it is finished. Anyone who depends on a protocol in production should still do <post_ai_model_verifier>their own end-to-end verification</post_ai_model_verifier>: round-trip the OAuth flow, call the MCP tool from a real client, run an x402 payment all the way to settlement. The score is a great signal that the surface area is in place. It is not a substitute for protocol-level conformance testing.",
         "H_TRY": "Run it on your own site",
         "P_TRY": "If you build anything that AI agents might one day touch, the scanner is genuinely worth a minute of your time. It surfaces a long list of small standards in one view and tells you exactly which well-known paths are missing or malformed. We use it as a regression check whenever we ship anything that touches discovery, auth, or commerce surfaces.",
-        "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and <post_what_is_an_llm_gateway>start routing</post_what_is_an_llm_gateway>."
+        "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and <post_what_is_an_llm_gateway>start routing</post_what_is_an_llm_gateway>.",
+        "META_DESCRIPTION": "Cloudflare's new scanner grades how ready a site is for AI agents. We scored a perfect 100/100 and Level 5. What it checks and why most sites fail."
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "How we tell real Claude from a fake",
@@ -887,7 +902,8 @@
         "H_TEST": "Test your own provider",
         "TEST_P": "You do not need to install anything. Open the <link>API model tester</link>, paste your provider's address and key, pick a model, and it runs these checks live and shows you exactly what passed and what failed.",
         "TEST_CURL": "Prefer the command line? This is the kitten test from above. If the reply refuses or steers you toward coding, your \"Claude\" is not Claude.",
-        "TEST_OPEN": "Both pieces are open source, so anyone can check how it works or run it themselves: the checks are <verifier>ai-model-verifier</verifier> (also on <npm>npm</npm>), and <sync>new-api-sync</sync> is what runs them across every provider we route to."
+        "TEST_OPEN": "Both pieces are open source, so anyone can check how it works or run it themselves: the checks are <verifier>ai-model-verifier</verifier> (also on <npm>npm</npm>), and <sync>new-api-sync</sync> is what runs them across every provider we route to.",
+        "META_DESCRIPTION": "Cheap Claude is often another model wearing Claude's name. Why asking the model proves nothing, and the checks that actually catch a fake."
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "Which image models actually take 6 reference inputs? We ran the benchmark.",
@@ -918,7 +934,8 @@
         "METADATA_P2": "If you only care about which models will accept your 6-image payload, filter on this field. New models added later get the same tag once they pass the same benchmark.",
         "H_TRY": "Try it",
         "TRY_P": "Every model above is available through <docs>one OpenAI-compatible endpoint</docs>. Multi-reference image edit is exposed exactly as the upstream defines it, no extra wrapping. Bring six images and a prompt; the router picks a working provider.",
-        "CTA": "<register>Grab an API key</register> or <models>browse the image catalog</models> to see the full verified list."
+        "CTA": "<register>Grab an API key</register> or <models>browse the image catalog</models> to see the full verified list.",
+        "META_DESCRIPTION": "We sent a fixed 6-image composition prompt to every image channel: 332 runs, 136 models, 54 with at least one verified passing provider."
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "Join the {appName} Discord, get free balance",
@@ -934,7 +951,8 @@
         "H_BUGS": "Bug bounty, up to $50",
         "P_BUGS": "Find <post_open_source_openrouter_alternative>a real bug in the platform</post_open_source_openrouter_alternative> and report it in the bug-bounty forum. Staff picks a severity tier and the bot pays it out: Low $0.25, Medium $0.50, High $1, Critical $50. Whoever actually identified the bug gets paid, not just the thread starter.",
         "H_JOIN": "Come hang out",
-        "CTA": "Ready? <invite>Join the {appName} Discord</invite>, then <register>grab an API key</register> and <settings>link your account</settings> to claim your first $1."
+        "CTA": "Ready? <invite>Join the {appName} Discord</invite>, then <register>grab an API key</register> and <settings>link your account</settings> to claim your first $1.",
+        "META_DESCRIPTION": "Link your account for $1, boost the server for $1 every month, hunt bugs for up to $50. We just opened the {appName} Discord."
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "We aggregated 130+ free AI models from about 50 providers into one endpoint",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "What are the free tier rate limits?",
         "FAQ_2_A": "About 1 request per minute per model per user. The cap returns HTTP 429 with a Retry-After header. With 130+ free models the practical answer is to rotate models instead of waiting.",
         "FAQ_3_Q": "Do I need a credit card for the free models?",
-        "FAQ_3_A": "No. Sign up with Discord or GitHub, create a key, and use any model with the :free suffix. A one time $1 Discord verify bonus can be spent on the paid models."
+        "FAQ_3_A": "No. Sign up with Discord or GitHub, create a key, and use any model with the :free suffix. A one time $1 Discord verify bonus can be spent on the paid models.",
+        "META_DESCRIPTION": "About 50 free providers in {appName}: 130+ free models, one OpenAI-compatible endpoint, $0 per token. Upstream limits and our 1-per-minute cap, explained."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs OpenRouter: an honest comparison",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "Can I use the same key for coding agents and roleplay chat?",
         "FAQ_2_A": "Yes. One {appName} key works in Claude Code, Cline, and OpenCode through the OpenAI compatible API, and the same account includes a full character chat client that also drops into SillyTavern or JanitorAI.",
         "FAQ_3_Q": "How do I switch from OpenRouter to {appName}?",
-        "FAQ_3_A": "Point your client at https://api.unorouter.com/v1 and keep your code. The API is OpenAI compatible, model names come from GET /v1/models, and Anthropic and Gemini native endpoints are also served."
+        "FAQ_3_A": "Point your client at https://api.unorouter.com/v1 and keep your code. The API is OpenAI compatible, model names come from GET /v1/models, and Anthropic and Gemini native endpoints are also served.",
+        "META_DESCRIPTION": "{appName} and OpenRouter both put many models behind one OpenAI-compatible key. The difference: a headless API, or an API plus a chat and character client."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "The best OpenRouter alternatives in 2026",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "Do OpenRouter alternatives work with SillyTavern and JanitorAI?",
         "FAQ_2_A": "Any OpenAI compatible gateway does. In SillyTavern use the base URL https://api.unorouter.com/v1, in JanitorAI use the full https://api.unorouter.com/v1/chat/completions endpoint with a matching key.",
         "FAQ_3_Q": "Is there an open source OpenRouter alternative?",
-        "FAQ_3_A": "{appName} is open source end to end under OSI licenses, frontend, gateway, bot, and provider sync, at github.com/unorouter. LiteLLM is open source too but is a bring your own keys proxy without a hosted catalog."
+        "FAQ_3_A": "{appName} is open source end to end under OSI licenses, frontend, gateway, bot, and provider sync, at github.com/unorouter. LiteLLM is open source too but is a bring your own keys proxy without a hosted catalog.",
+        "META_DESCRIPTION": "OpenRouter is not the only way to reach many models from one key. Here are the alternatives worth knowing in 2026, what each is good for, and how to pick."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: the open source OpenRouter alternative",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "Can I self host {appName}?",
         "FAQ_2_A": "Yes. Clone the repositories and run the stack yourself, or point any OpenAI compatible client at the hosted endpoint https://api.unorouter.com/v1 and skip the ops work.",
         "FAQ_3_Q": "How is {appName} different from LiteLLM?",
-        "FAQ_3_A": "LiteLLM is a self hosted proxy where you bring provider keys and manage accounts yourself. {appName} is hosted with one key, 200+ models, and a free tier, while staying open source like LiteLLM."
+        "FAQ_3_A": "LiteLLM is a self hosted proxy where you bring provider keys and manage accounts yourself. {appName} is hosted with one key, 200+ models, and a free tier, while staying open source like LiteLLM.",
+        "META_DESCRIPTION": "OpenRouter is closed source. {appName} offers one key for 200+ models with its full stack public under OSI licenses, self-hostable, with a free tier."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "What is an LLM gateway?",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "Does an LLM gateway add latency?",
         "FAQ_2_A": "One extra hop, typically tens of milliseconds, which streaming hides in practice. Slow responses come from the model itself far more often than from the gateway.",
         "FAQ_3_Q": "Which endpoints does {appName} serve?",
-        "FAQ_3_A": "OpenAI compatible /v1/chat/completions, /v1/responses and /v1/embeddings, Anthropic native /v1/messages, and Gemini native /v1beta, all behind one key."
+        "FAQ_3_A": "OpenAI compatible /v1/chat/completions, /v1/responses and /v1/embeddings, Anthropic native /v1/messages, and Gemini native /v1beta, all behind one key.",
+        "META_DESCRIPTION": "An LLM gateway is one endpoint and key that routes requests to many model providers. Here is what it does, why it helps, and who actually needs one."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "How to connect any LLM to SillyTavern",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "If the model list will not load, recheck the base URL ends in <c>/v1</c> and the key is pasted with no stray spaces. A 401 means the key is wrong or expired; copy it again. A 404 on a model means that model name is not selected from the loaded list. If replies cut off, raise the response length in SillyTavern's settings. Most setup failures are a typo'd base URL or a key with whitespace, so check those first.",
         "H_VERDICT": "That is the whole trick",
         "P_VERDICT": "Connecting any LLM to SillyTavern comes down to one OpenAI-compatible endpoint plus a key, and a gateway turns that into many models behind a single setup. {appName} gives you that base URL, a free tier to start, and 200+ models you can switch between without redoing anything. Set it once and the same key follows you across every character chat front end.",
-        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "SillyTavern can talk to almost any model through one OpenAI-compatible endpoint. The exact setup, how to switch models and how to fix common errors."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "One API key for Claude Code and character chat",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "Because both sides run on the same key, your coding usage and your character chat usage draw from <pricing>one pay-as-you-go balance</pricing>. Credits do not expire, there is no monthly seat to justify, and you see all spending in one place instead of splitting it across providers. A free tier lets you test either side before paying. One account covers your whole day, work and play.",
         "H_VERDICT": "The takeaway",
         "P_VERDICT": "Coding agents and character chat clients share the OpenAI-compatible protocol, so one key can power both from a single balance. {appName} is built for exactly that span: a clean API for Claude Code and friends, <chat>a chat and character client</chat> for storytelling, 200+ models, and credits that do not expire. One key, one bill, both worlds.",
-        "CTA": "Want one key for code and chat? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want one key for code and chat? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "Coding agents and character chat clients both speak OpenAI-compatible APIs. How one key powers Claude Code and your character chats from a single balance."
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} vs Janitor.AI: the backend, plus a chat of your own",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Keep using Janitor if you love it, just point it at <c>https://api.unorouter.com/v1</c>. Or open {appName}'s own chat with the same key and import your cards. Nothing to install either way.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want to stay in Janitor and just need a solid backend? {appName} is that on one key. Want one account that is the backend and a real character chat and <post_one_api_key_for_claude_code_and_roleplay>your coding agents' gateway</post_one_api_key_for_claude_code_and_roleplay>? That is the whole point of {appName}.",
-        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>."
+        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
+        "META_DESCRIPTION": "Janitor.AI is a character chat front-end that needs a backend. {appName} is that backend on one key, with its own character chat so you stay in one place."
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} vs Character.AI: open models and a real key",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} is local-first: <post_lorebary_and_your_data>chats live in your browser, not on our servers</post_lorebary_and_your_data>, and the whole stack is open source and auditable. Character.AI stores everything server-side behind a filter you cannot see. If control and openness matter, that is a hard line between the two.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want a closed, safe, zero-setup app and never touch a model setting? Character.AI is fine. Want open model choice, a real key that also codes, and your data local? That is {appName}.",
-        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>."
+        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
+        "META_DESCRIPTION": "Character.AI is closed and filtered, with no API or model choice. {appName} is open: 200+ models, a real OpenAI-compatible key, your data local."
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} vs SillyTavern: same depth, hosted, on one key",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want maximum local control and love running SillyTavern? Keep it, and <post_best_ai_gateway_for_sillytavern>use {appName} as the backend</post_best_ai_gateway_for_sillytavern>. Want the same depth hosted, on a key that also runs your coding agents? That is {appName}.",
         "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
-        "METHOD": "How we verified: the SillyTavern claims here were read from its open source (its World Info, prompt, and character-card code), not paraphrased from docs. If a detail is wrong, it is a bug in our reading, so tell us."
+        "METHOD": "How we verified: the SillyTavern claims here were read from its open source (its World Info, prompt, and character-card code), not paraphrased from docs. If a detail is wrong, it is a bug in our reading, so tell us.",
+        "META_DESCRIPTION": "SillyTavern is the self-hosted power-user front-end you feed your own keys. {appName} offers the same depth hosted, on one key that also runs code agents."
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} vs Chub / Venus: the card depth, plus code on one key",
@@ -1160,7 +1188,8 @@
         "P_COST": "With Chub you pick a tier for the small models or pay a provider directly for the good ones, two bills either way. {appName} is one balance across everything, credits that do not expire, and <free>a free tier to start</free>. One key reaches the models and the coding agents.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want the Chub card ecosystem and are happy with small tier models or BYOK? It is a fine home. Want that depth with 200+ models and a key that also codes, all on one account? That is {appName}.",
-        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>."
+        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
+        "META_DESCRIPTION": "Chub (Venus) is a card library and chat with tiered models or BYOK. {appName} has the card and lorebook depth plus 200+ models on one key that also codes."
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} vs Marinara: we ported the preset engine into a 2-in-1",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want a self-hosted preset engine you fully control? Run the dedicated one. Want that section-based prompt depth hosted, where one key also runs your coding agents? That is {appName}.",
         "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
-        "METHOD": "How we verified: the Marinara Engine claims here (its built-in agents and three-phase pipeline) were read from its own source, not its landing page. Where we say we ported an idea, we read that code first."
+        "METHOD": "How we verified: the Marinara Engine claims here (its built-in agents and three-phase pipeline) were read from its own source, not its landing page. Where we say we ported an idea, we read that code first.",
+        "META_DESCRIPTION": "Marinara Engine is a self-hosted roleplay and game app built on 22 agents. {appName} brings the same agent pipeline, hosted, on one key that also codes."
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} vs Lumiverse: the memory ideas, hosted, plus code",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want a self-hosted engine with the richest memory graph and total control? Run it. Want those memory and breakdown ideas hosted, on a key that also runs your coding agents? That is {appName}.",
         "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
-        "METHOD": "How we verified: the Lumiverse claims here, including that its Memory Cortex goes deeper than ours, were read from its own source and license, not assumed. We would rather state an honest loss than an unchecked win."
+        "METHOD": "How we verified: the Lumiverse claims here, including that its Memory Cortex goes deeper than ours, were read from its own source and license, not assumed. We would rather state an honest loss than an unchecked win.",
+        "META_DESCRIPTION": "Lumiverse's Memory Cortex is the deepest RP memory around. {appName} brings its ideas to a hosted 2-in-1, free for commercial use, whose key also codes."
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} vs LibreChat: multi-model chat, hosted, plus character chat",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want to self-host a multi-provider assistant with agents, MCP, a code interpreter, and team auth? LibreChat is excellent. Want hosted multi-model chat plus a real character client, on <post_one_api_key_for_claude_code_and_roleplay>one key that also codes</post_one_api_key_for_claude_code_and_roleplay>? That is {appName}.",
         "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>.",
-        "METHOD": "How we verified: the claim that LibreChat has no character-chat features was checked against its actual source (no character cards, lorebooks, or personas exist in it), not inferred from its positioning."
+        "METHOD": "How we verified: the claim that LibreChat has no character-chat features was checked against its actual source (no character cards, lorebooks, or personas exist in it), not inferred from its positioning.",
+        "META_DESCRIPTION": "LibreChat is a self-hosted, MIT, BYOK ChatGPT clone. {appName} is hosted multi-model chat plus a real character client, on one key that also codes."
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} vs Open WebUI: 200+ hosted models, no Ollama, plus character chat",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want to self-host, run local Ollama models, lean on deep document RAG, and manage a team with roles and SSO? Open WebUI is excellent at exactly that. Want 200+ hosted models plus a real character client, on <post_one_api_key_for_claude_code_and_roleplay>one key that also codes</post_one_api_key_for_claude_code_and_roleplay>, with nothing to run? That is {appName}.",
         "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>.",
-        "METHOD": "How we verified: the claim that Open WebUI is an assistant platform, not a character client, was checked against its source; its character-card parser is present but unused, and there are no lorebooks or personas."
+        "METHOD": "How we verified: the claim that Open WebUI is an assistant platform, not a character client, was checked against its source; its character-card parser is present but unused, and there are no lorebooks or personas.",
+        "META_DESCRIPTION": "Open WebUI is a self-hosted, Ollama-first chat UI. {appName} is 200+ hosted models on one key, no infra, plus a real character client, and the key codes."
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} vs Agnai: the same RP depth, hosted, on one key",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want open, self-run RP with real multiplayer for a group and free Horde compute? Agnai is the pick, and it is genuinely good at it. Want <post_unorouter_vs_risuai>deeper single-user scripting</post_unorouter_vs_risuai> and 200+ models hosted, on one key that also runs your coding agents? That is {appName}.",
         "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
-        "METHOD": "How we verified: the Agnai claims here, including that its multiplayer group chat is a genuine strength we do not match, were read from its own source, not its marketing."
+        "METHOD": "How we verified: the Agnai claims here, including that its multiplayer group chat is a genuine strength we do not match, were read from its own source, not its marketing.",
+        "META_DESCRIPTION": "Agnai is an open-source RP frontend with true multiplayer chats. {appName} offers single-user RP depth, hosted, on one key that also runs coding agents."
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} vs SpicyChat: the easy path, plus depth, models, and code",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "The 2-in-1 SpicyChat has no answer to: the same key that runs your role-play points <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Cline, or Codex at 200+ models via <c>https://api.unorouter.com/v1</c>. One account for character chat and coding agents. SpicyChat is a closed RP site; {appName} is chat, models, and code on one key.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Want the simplest possible uncensored RP site with nothing to learn, and you do not mind paying tiers for more memory? SpicyChat is that. Want the same easy start with open model choice, deep lorebooks by default, and a key that also codes? That is {appName}.",
-        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>."
+        "CTA": "Ready to try the 2-in-1? <register>Create a free account</register> or <chat>open the chat</chat>.",
+        "META_DESCRIPTION": "SpicyChat gates memory and context behind paid tiers. {appName} keeps the easy start and adds 200+ models, deep lorebooks and a key that also codes."
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "How to connect {appName} to Nevika",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "<c>glm-5.2</c> is a strong default for roleplay: it reasons without any special suffix, holds long scenes together, and costs little. <post_free_models_aggregated>Free models</post_free_models_aggregated> are fine for a first test, but they are shared and rate limited, so switch to a paid one once a story matters.",
         "H_TROUBLESHOOTING": "If something breaks",
         "P_TROUBLESHOOTING": "Empty model list means the key has a stray space from copying. A 401 means the key is wrong or revoked, so generate a new one. A 404 on a model means it was typed by hand instead of picked from the list. The <post_how_to_connect_any_llm_to_sillytavern>SillyTavern setup guide</post_how_to_connect_any_llm_to_sillytavern> covers the same errors in more detail.",
-        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>.",
+        "META_DESCRIPTION": "Nevika takes any OpenAI-compatible endpoint as a custom proxy. Here is the one minute setup, which model to pick, and the two errors people hit."
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "The server tag now cuts your free model wait",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "What it does not do",
         "P_NOT_DO_1": "This shortens your wait. It does not raise the provider's limits. When a free model is busy because the upstream is saturated or degraded, a shorter window on our side does not conjure capacity that is not there, and the request can still stall or fail.",
         "P_NOT_DO_2": "Paid models have no per-minute limit at all, so if you need a model that answers every time rather than most of the time, that is the honest recommendation. <pricing>Pricing</pricing> starts at fractions of a cent per million tokens.",
-        "CTA": "<discord>Join the Discord</discord> to pick up the tag, or <models>browse the free models</models> first."
+        "CTA": "<discord>Join the Discord</discord> to pick up the tag, or <models>browse the free models</models> first.",
+        "META_DESCRIPTION": "Wearing the {appName} Discord tag cuts your free-model rate limit window by 25 percent: a model you could call once a minute now works every 45 seconds."
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "Free models now ask for your consent",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "Withdrawing, and business accounts",
         "P_BUSINESS": "You can withdraw a consent at any time on the free models page, in your <settings>account settings</settings> or in the chat; the model is then blocked for you until you consent again. Free models are not available to business accounts, because their prompts may contain personal data of other people.",
         "CTA": "Ready? Open the <free>free models page</free> and enable the models you use.",
-        "NOTE": "Update from October 21, 2026: this post is out of date. Consent is now given once per provider and covers paid models too. <post_consent_per_provider>Read how it works now</post_consent_per_provider>."
+        "NOTE": "Update from October 21, 2026: this post is out of date. Consent is now given once per provider and covers paid models too. <post_consent_per_provider>Read how it works now</post_consent_per_provider>.",
+        "META_DESCRIPTION": "Free models are served by providers that may use your inputs for their own purposes. You now confirm that once per model. Here is why and how."
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "Consent per provider, for free and paid models",
@@ -1334,9 +1372,11 @@
         "P_WHEN": "Not yet. Today requests without a consent are not refused. We will switch blocking on in stages, per model and per account, and announce the date beforehand in our <discord>Discord</discord> and here on the blog. If you consent now, nothing breaks when it starts.",
         "H_TERMS": "Updated terms and privacy policy",
         "P_TERMS": "Our <terms>Terms of Service</terms> have a new section 6 on providers in third countries: their offers are marked with the country the provider is based in, and you must not enter other people's personal data into them. The <privacy>privacy policy</privacy> describes the consent and the objection in detail. If you have an account, you accept the updated terms once, the next time you use the site while logged in. Your API keys are not affected.",
-        "CTA": "Open the <consents>consents page</consents> now and agree to the providers you use. The full details are in the <docs>documentation</docs>."
+        "CTA": "Open the <consents>consents page</consents> now and agree to the providers you use. The full details are in the <docs>documentation</docs>.",
+        "META_DESCRIPTION": "Consent on {appName} now belongs to the provider: one consent covers all its models, paid or free. Who asks, how to consent or object, and what APIs see."
       }
-    }
+    },
+    "TRENDING_MODELS": "Trending models this week"
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API pricing, context and examples | {appName}",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "Cheapest on {day}",
     "PRICE_LOW_CHART": "Lowest input price",
     "META_TITLE_FREE": "Free {name} API: no cost, OpenAI-compatible | {appName}",
-    "META_DESC_FREE": "Use {name} from {vendor} for free through an OpenAI-compatible API. Works in JanitorAI, SillyTavern and your code, with limits, context window and copy-paste examples.",
+    "META_DESC_FREE": "Use {name} from {vendor} free via an OpenAI-compatible API in JanitorAI, SillyTavern or your code. Limits, context window and copy-paste examples.",
     "META_KEYWORDS_FREE": "free {name} API, {name} free, free {vendor} API, {name} API, free AI API, {appName}",
     "COMPARE_WITH_TITLE": "Compare {model}",
     "USE_IN_TITLE": "Use {model} in"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "Unused credit does not carry over to the next {period}."
     },
     "META": {
-      "TITLE": "Pricing - {appName}",
-      "DESCRIPTION": "Simple pricing for every AI model. Subscribe for better value or pay as you go. Works with your code, with Claude Code, and with SillyTavern, RisuAI, and any OpenAI-compatible AI chat client.",
+      "TITLE": "{appName} Pricing: Free Models, Pay as You Go and Subscriptions",
+      "DESCRIPTION": "Simple pricing for every AI model: free models, pay as you go or a subscription for better value. Works in your code, Claude Code, SillyTavern and RisuAI.",
       "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI, OpenAI-compatible pricing, multi-model API pricing"
     },
     "TITLE": "Pricing",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integrations - {appName}",
-      "DESCRIPTION": "Setup guides for every major AI tool and character chat client. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI, and more OpenAI-compatible clients.",
+      "DESCRIPTION": "Setup guides for major AI tools and character chat clients: Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI and more.",
       "KEYWORDS": "AI integration guides, Claude Code setup, Codex CLI setup, Gemini CLI setup, OpenClaw setup, SillyTavern setup, RisuAI setup, AI character chat setup, AI API documentation, OpenAI-compatible API setup"
     },
     "BADGE": "Integrations",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Free Proxy for Janitor AI: Setup Guide | {appName}",
-        "DESCRIPTION": "Use {appName} as a free proxy for Janitor AI: free DeepSeek and GLM models, the exact proxy URL, and a two-minute setup with the refresh step most guides miss.",
+        "TITLE": "Janitor AI Proxy Guide (2026): Free Proxy URL and Setup | {appName}",
+        "DESCRIPTION": "Proxy URL: https://api.unorouter.com/v1/chat/completions. Free DeepSeek and GLM models for Janitor AI, a two-minute setup and the refresh step most guides miss.",
         "KEYWORDS": "free proxy for Janitor AI, Janitor AI free proxy, best free proxy for Janitor AI, Janitor AI proxy URL, Janitor AI proxy, free Janitor AI models, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Free Proxy for Janitor AI",
+      "TITLE": "Janitor AI Proxy Guide: Free Proxy Setup",
       "SUBTITLE": "Connect {appName} to Janitor.AI as a free custom proxy, with free models and the exact URL format its API Settings panel expects.",
       "INTRO_TITLE": "What is Janitor.AI?",
       "INTRO_DESC": "Janitor.AI is a browser-based character chat platform that accepts any OpenAI-compatible proxy. {appName} plugs in at the API Settings panel and gives you free models, with paid models on the same key.",
@@ -1975,7 +2015,15 @@
       "FAQ_3_Q": "Why do I get \"Too many requests\" (429)?",
       "FAQ_3_A": "Free models allow a limited number of requests per account and model, usually one per minute. Resending right away does not help: wait for the countdown or switch to another free model. Paid models have no per-minute limit.",
       "FAQ_4_Q": "What is the Janitor AI proxy URL for {appName}?",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Paste the full URL, including /v1/chat/completions, into the Proxy URL field, then hard-refresh the browser."
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Paste the full URL, including /v1/chat/completions, into the Proxy URL field, then hard-refresh the browser.",
+      "FAQ_5_Q": "Janitor AI says \"A network error occurred\" or \"failed to fetch\". What do I do?",
+      "FAQ_5_A": "Almost always the Proxy URL. It must be exactly https://api.unorouter.com/v1/chat/completions with no spaces, and Janitor''s ''Add /chat/completions'' checkbox must stay off. Save, then hard-refresh with Ctrl+Shift+R. If it still fails, check that the Model Name matches a model id exactly.",
+      "FAQ_6_Q": "Why does Janitor AI show error 401 (Unauthorized)?",
+      "FAQ_6_A": "The API key is missing, mistyped or disabled. Paste the key from your {appName} Tokens page exactly as shown, without the word Bearer, and check on that page that the key is still enabled.",
+      "FAQ_7_Q": "Why does Janitor AI show error 403 (Forbidden)?",
+      "FAQ_7_A": "Your key is not allowed to use that model: usually a paid model on an empty balance, or a key limited to certain models or IP addresses. Pick a model ending in :free, top up, or check the key''s restrictions on the Tokens page.",
+      "FAQ_8_Q": "The bot does not reply at all. Is {appName} down?",
+      "FAQ_8_A": "Usually every provider for that free model is busy, or the model name has a typo. Switch to another free model and try again. The status page shows which models are online right now."
     },
     "RISUAI": {
       "META": {
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Chub / Venus Integration Guide | {appName}",
-        "DESCRIPTION": "Connect Chub.ai (Venus) to {appName} as a reverse proxy, with a first-party relay disclaimer for Chub''s third-party-proxy warning.",
+        "TITLE": "Chub AI (Venus) Reverse Proxy Setup: URL and Free Models | {appName}",
+        "DESCRIPTION": "Connect Chub AI (Venus) to {appName} as a reverse proxy: paste https://api.unorouter.com/v1/chat/completions, pick a free model and start chatting.",
         "KEYWORDS": "Chub AI, Venus AI, Chub reverse proxy, {appName} Chub, AI character chat, OpenAI-compatible API, Chub OpenAI setup"
       },
       "BADGE": "Chub / Venus",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "Platform Guide & FAQ",
-        "DESCRIPTION": "Quickstart, models, pricing, rate limits, error codes and billing for the {appName} API. One OpenAI-compatible endpoint for 200+ models.",
+        "TITLE": "{appName} API Docs: Quickstart, API Key, Base URL and Limits",
+        "DESCRIPTION": "Get an {appName} API key, set the base URL https://api.unorouter.com/v1 and send your first request. Models, pricing, rate limits, error codes and billing.",
         "KEYWORDS": "{appName} API, quickstart, rate limits, error codes, billing, pricing, free models"
       },
       "TITLE": "Platform Guide",
@@ -5923,7 +5971,7 @@
     "NOTIFICATIONS": {
       "META": {
         "TITLE": "Model notifications & price alerts",
-        "DESCRIPTION": "Watch any model and get real-time alerts for price changes, downtime, comebacks and new free models - as toasts on the site and browser push when the tab is closed.",
+        "DESCRIPTION": "Watch any model for real-time alerts on price changes, downtime, comebacks and new free models, as site toasts or browser push when the tab is closed.",
         "KEYWORDS": "model notifications, price alerts, free model alerts, browser push, watch model, downtime alert"
       },
       "TITLE": "Notifications",
@@ -6155,7 +6203,7 @@
     "DISCORD_REWARDS": {
       "META": {
         "TITLE": "Discord rewards & rules",
-        "DESCRIPTION": "Every way to earn free {appName} balance on the Discord server: connect bonus, boosts, votes, invites, activity levels and bug bounties, plus the rules behind payouts.",
+        "DESCRIPTION": "Every way to earn free {appName} balance on Discord: connect bonus, boosts, votes, invites, activity levels and bug bounties, plus the payout rules.",
         "KEYWORDS": "discord rewards, free balance, boost reward, vote reward, invite reward, activity levels, bug bounty, rules"
       },
       "TITLE": "Discord Rewards",

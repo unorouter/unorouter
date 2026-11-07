@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Proxy AI miễn phí cho JanitorAI và mọi mô hình AI",
-    "DESCRIPTION": "Mô hình AI miễn phí cho JanitorAI và SillyTavern, cùng Claude, GPT, Gemini và DeepSeek trên một khóa. Dùng trong code, Claude Code hoặc bất kỳ ứng dụng AI nào.",
+    "TITLE": "{appName}: Proxy Janitor AI miễn phí với DeepSeek và GLM",
+    "DESCRIPTION": "Proxy miễn phí cho Janitor AI và SillyTavern: DeepSeek, GLM và 100+ mô hình miễn phí một khóa, không cần thẻ tín dụng. Dán URL, trò chuyện sau 2 phút.",
     "KEYWORDS": "proxy AI miễn phí, proxy miễn phí Janitor AI, proxy Janitor AI, API SillyTavern, API AI miễn phí, API AI, thay thế OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, bộ định tuyến AI, cổng AI",
     "ACCOUNT": {
       "TITLE": "Tài khoản {appName}",
@@ -38,7 +38,8 @@
       "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khóa duy nhất. Xây ứng dụng và chạy tác nhân với nó, hoặc bỏ qua phần thiết lập và trò chuyện với nhân vật ngay tại đây trên trang. Cùng một khóa, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
-      "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,KỂ CHUYỆN,MÃ,TRÍ TUỆ"
+      "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,KỂ CHUYỆN,MÃ,TRÍ TUỆ",
+      "SEO_HEADING": "Proxy AI miễn phí cho Janitor AI và mọi mô hình"
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -200,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Proxy AI miễn phí cho JanitorAI và mọi mô hình AI",
-      "DESCRIPTION": "Mô hình AI miễn phí cho JanitorAI và SillyTavern, cùng Claude, GPT, Gemini và DeepSeek trên một khóa. Dùng trong code, Claude Code hoặc bất kỳ ứng dụng AI nào.",
+      "TITLE": "{appName}: Proxy Janitor AI miễn phí với DeepSeek và GLM",
+      "DESCRIPTION": "Proxy miễn phí cho Janitor AI và SillyTavern: DeepSeek, GLM và 100+ mô hình miễn phí một khóa, không cần thẻ tín dụng. Dán URL, trò chuyện sau 2 phút.",
       "KEYWORDS": "proxy AI miễn phí, proxy miễn phí Janitor AI, proxy Janitor AI, API SillyTavern, API AI miễn phí, API AI, thay thế OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, bộ định tuyến AI, cổng AI"
     },
     "HOW_IT_WORKS": {
@@ -354,8 +355,8 @@
       "TABLE": "Dạng bảng"
     },
     "META": {
-      "TITLE": "Mô hình AI - {appName}",
-      "DESCRIPTION": "Mọi mô hình AI ở một nơi. GPT, Claude, Gemini, DeepSeek và nhiều hơn nữa. Dùng chúng trong mã của bạn hoặc trong bất kỳ ứng dụng chat AI tương thích OpenAI nào. Cùng một mức giá cho cả hai.",
+      "TITLE": "Mô hình AI và LLM miễn phí: Giá, ngữ cảnh và giới hạn | {appName}",
+      "DESCRIPTION": "Mọi mô hình AI ở một nơi: GPT, Claude, Gemini, DeepSeek và hơn thế. Dùng trong mã hoặc ứng dụng trò chuyện tương thích OpenAI, cùng một mức giá.",
       "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI, API đa mô hình, mô hình chat AI"
     },
     "BADGE": "Thư viện mô hình",
@@ -498,8 +499,8 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "Xếp hạng | {appName}",
-      "DESCRIPTION": "Khám phá những mô hình AI được dùng nhiều nhất và các nhà cung cấp đang lên trên {appName}, xếp theo lượng token thực tế. Cập nhật liên tục từ dữ liệu sử dụng nền tảng.",
+      "TITLE": "Xếp hạng mô hình AI theo mức sử dụng thực tế | {appName}",
+      "DESCRIPTION": "Các mô hình AI được dùng nhiều nhất và nhà cung cấp đang lên trên {appName}, xếp theo lượng token thực tế, cập nhật liên tục từ dữ liệu sử dụng.",
       "KEYWORDS": "xếp hạng mô hình AI, bảng xếp hạng LLM, mô hình AI phổ biến, thị phần nhà cung cấp AI, mô hình AI dùng nhiều nhất, thống kê sử dụng mô hình"
     },
     "HERO": {
@@ -622,7 +623,8 @@
         "P_PARTNERS": "Đối tác là các dự án, ứng dụng, bot và cộng đồng chạy trên {appName}, và chúng tôi kiểm tra từng đối tác trước khi đưa vào danh sách. Đối tác nhận một bài đăng riêng trong kênh đối tác trên <discord>Discord</discord> của chúng tôi, vai trò Partner và một lời giới thiệu như thế này. Đổi lại, họ nhắc đến {appName} ở phía họ. Việc bán lại quyền truy cập {appName} được phép khi có sự chấp thuận của chúng tôi và chỉ với các mô hình trả phí. Mô hình miễn phí không bao giờ được bán lại.",
         "H_APPLY": "Cách đăng ký",
         "P_APPLY": "Bạn đang xây dựng thứ gì đó trên {appName}? Nhắn cho chúng tôi trên <discord>Discord</discord> kèm tên và liên kết dự án, dự án làm gì và dùng {appName} thế nào, tên người dùng {appName} của bạn và số người dùng ước tính.",
-        "CTA": "Muốn thử Qronos? Truy cập <qronos>qronos.me</qronos> hoặc tham gia <qronos_discord>Discord của họ</qronos_discord>. Mới dùng {appName}? <register>Tạo tài khoản</register> hoặc <models>xem các mô hình</models>."
+        "CTA": "Muốn thử Qronos? Truy cập <qronos>qronos.me</qronos> hoặc tham gia <qronos_discord>Discord của họ</qronos_discord>. Mới dùng {appName}? <register>Tạo tài khoản</register> hoặc <models>xem các mô hình</models>.",
+        "META_DESCRIPTION": "Qronos AI vận hành cổng LLM trên {appName} và quản lý cộng đồng Discord về nhập vai AI và kể chuyện. Họ là ai và chương trình đối tác hoạt động thế nào."
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "Yêu cầu của bạn đi đâu: nhãn nhà cung cấp, đánh dấu hình ảnh và cập nhật về quyền riêng tư",
@@ -641,7 +643,8 @@
         "P_MARKING": "Từ tháng 12 năm 2026, Đạo luật AI của EU yêu cầu hình ảnh và video được tạo ra phải được đánh dấu là do AI tạo theo cách máy có thể đọc được. {appName} giờ thêm dấu này vào mọi hình ảnh và video mà nó trả về, dưới dạng siêu dữ liệu tiêu chuẩn bên trong tệp. Không có gì thay đổi về mặt hiển thị và hình ảnh không bị mã hóa lại, nên chất lượng giữ nguyên hoàn toàn. Các dấu mà nhà cung cấp đã nhúng sẵn được giữ nguyên.",
         "H_ALSO": "Những điểm mới khác",
         "P_ALSO": "Chính sách quyền riêng tư của chúng tôi giờ nêu rõ các quốc gia mà yêu cầu của bạn có thể được định tuyến đến và cơ sở pháp lý cho từng quốc gia. Trang web đã có trang thông tin pháp lý (Impressum). Việc thiết lập xác thực hai yếu tố đã hoạt động trở lại sau khi sửa một lỗi từng chặn nó, và các thay đổi nhạy cảm trên tài khoản giờ sẽ yêu cầu bạn xác nhận rằng đó thực sự là bạn. Danh sách đầy đủ có trong <privacy>chính sách quyền riêng tư</privacy> của chúng tôi. Mô hình miễn phí giờ cũng hỏi sự đồng ý của bạn một lần cho mỗi mô hình, <post_consent_for_free_models>đây là cách hoạt động</post_consent_for_free_models>.",
-        "CTA": "Có câu hỏi về một nhà cung cấp cụ thể? Hãy hỏi trên Discord của chúng tôi hoặc xem các nhãn trên <models>trang mô hình</models>."
+        "CTA": "Có câu hỏi về một nhà cung cấp cụ thể? Hãy hỏi trên Discord của chúng tôi hoặc xem các nhãn trên <models>trang mô hình</models>.",
+        "META_DESCRIPTION": "Trang mô hình giờ cho biết trụ sở từng nhà cung cấp và đánh dấu nước không có bảo vệ dữ liệu của EU. Ý nghĩa các nhãn, cách chọn tuyến và thay đổi khác."
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "Chuyện gì đã xảy ra với LoreBary, và {appName} lưu gì về bạn",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "Các cuộc trò chuyện của bạn nằm trong trình duyệt của chính bạn, không phải trên máy chủ của chúng tôi: xóa đi là chúng biến mất. Cổng của chúng tôi không lưu prompt bạn gửi hay câu trả lời bạn nhận, chỉ lưu những gì cần cho việc tính phí: mô hình, số token, chi phí, thời gian và yêu cầu có thành công hay không. Địa chỉ IP ghi lại cùng một yêu cầu sẽ bị xóa sau 30 ngày. Chúng tôi không huấn luyện mô hình trên dữ liệu của bạn, và trang web không sử dụng công cụ phân tích nào. Trang web, cổng, bộ đồng bộ và bot Discord đều là mã nguồn mở, nên bạn có thể tự kiểm tra từng điểm trên GitHub thay vì chỉ tin lời chúng tôi.",
         "H_PROVIDERS": "Điều chúng tôi không thể hứa",
         "P_PROVIDERS": "Yêu cầu của bạn vẫn phải đến được mô hình bạn chọn, và nhà cung cấp đó xử lý nó theo điều khoản của riêng họ. Một số nhà cung cấp lưu lại hoặc dùng dữ liệu nhận được để huấn luyện, nhất là các nhà cung cấp miễn phí. Chính sách quyền riêng tư của chúng tôi nói rõ điều này, và thói quen an toàn nhất ở đâu cũng vậy: đừng đưa dữ liệu cá nhân vào prompt. Kể từ đó, mỗi mô hình đều cho biết nhà cung cấp đặt trụ sở ở đâu (<post_where_your_requests_go>ý nghĩa của các nhãn</post_where_your_requests_go>), và mô hình miễn phí hỏi sự đồng ý của bạn trước (<post_consent_for_free_models>cách hoạt động</post_consent_for_free_models>). Bức tranh đầy đủ có trong <privacy>chính sách quyền riêng tư</privacy> của chúng tôi.",
-        "CTA": "Có câu hỏi về chuyện này? Hãy hỏi chúng tôi trên Discord, hoặc tự đọc mã nguồn. Còn không thì <chat>mở một cuộc trò chuyện</chat> hoặc <models>xem các mô hình</models>."
+        "CTA": "Có câu hỏi về chuyện này? Hãy hỏi chúng tôi trên Discord, hoặc tự đọc mã nguồn. Còn không thì <chat>mở một cuộc trò chuyện</chat> hoặc <models>xem các mô hình</models>.",
+        "META_DESCRIPTION": "Trong bốn ngày, chúng tôi cung cấp mô hình riêng của LoreBary mà không xin phép. Chuyện gì đã xảy ra, chúng tôi đã sửa gì và {appName} lưu gì về bạn."
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "Bộ phát hiện Claude giả giờ đã là một thư viện mã nguồn mở",
@@ -683,7 +687,8 @@
         "H_USE_IT": "Cách dùng",
         "P_USE_1": "<tester>Trình kiểm tra mô hình</tester> chạy trọn bộ ngay trong trình duyệt của bạn, gồm cả kiểm tra chữ ký và token, và không gì rời khỏi máy bạn ngoài các lời gọi tới nhà cung cấp của bạn. <rankings>Trang xếp hạng</rankings> công bố các kết quả mà mọi người chọn chia sẻ. Cho pipeline của riêng bạn:",
         "P_USE_2": "Chỉ bật những gì bạn cần. <c>checkSignature</c> và <c>checkTokenTruth</c> đều tốn thêm yêu cầu, nên mặc định tắt trừ khi được yêu cầu. Siêu dữ liệu phong bì và thông lượng được đọc từ các phản hồi mà lần chạy đã có sẵn và không tốn gì.",
-        "CTA": "<tester>Kiểm tra một nhà cung cấp</tester>, đọc <first>bài viết tháng Tư</first> để xem các con số khởi đầu tất cả, hoặc mở issue trên <repo>GitHub</repo> nếu một endpoint thật nhận kết luận sai."
+        "CTA": "<tester>Kiểm tra một nhà cung cấp</tester>, đọc <first>bài viết tháng Tư</first> để xem các con số khởi đầu tất cả, hoặc mở issue trên <repo>GitHub</repo> nếu một endpoint thật nhận kết luận sai.",
+        "META_DESCRIPTION": "ai-model-verifier, động cơ trình kiểm tra mô hình của chúng tôi, đã lên npm (AGPL-3.0). Nó cho biết endpoint có bán đúng mô hình, kèm kiểm tra tính token."
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "Claude Opus 4.8 so với 4.6 so với 4.7 cho nhập vai: bảng xếp hạng qua trải nghiệm thực tế",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 gây bực nhất: nó lặp lại câu chữ và lời thoại, và cần tạo lại nhiều lần mới có sự đa dạng. 4.6 là một bước tiến lớn, tự thêm những chi tiết nhỏ của riêng nó vào hành động, bầu không khí và nét mặt. 4.8 khiến người ta thật sự bất ngờ: nó lấy một nhân vật chính truyện nổi tiếng bởi sự tự phát và diễn đúng chất ấy, bắt đầu một hành động rồi đảo ngược ngay trong cùng một nhịp, kiểu đánh lạc hướng đúng nhân vật mà rất khó giả tạo. Chính điều đó đã đưa 4.8 lên đầu bảng.",
         "H_VERDICT": "Kết luận",
         "P_VERDICT": "Để nhập vai trên {appName}, hãy dùng 4.8 ngay bây giờ, giữ 4.6 làm phương án dự phòng rẻ hơn, bỏ qua 4.7. Cả ba chỉ cách nhau một cú nhấp trong <models>bộ chọn mô hình</models>, nên hãy cho nhân vật của riêng bạn chạy qua từng bản. Sampler, lorebook và các thiết lập trí nhớ được áp dụng chung cho mọi mô hình, và một prompt tùy chỉnh có thể đẩy 4.6 hướng tới nhiều sức đẩy hơn hoặc đẩy 4.8 hướng tới nhiều chiều sâu hơn. Mẹo: chấm điểm mỗi mô hình ngay sau khi dùng, trước khi bản kế tiếp làm bạn lóa mắt, đó là cách duy nhất để nhận ra một mô hình mới thực sự còn thiếu điều gì.",
-        "CTA": "Muốn tự mình thử? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở khung chat</chat> và chuyển đổi giữa <post_claude_authenticity>các phiên bản Opus</post_claude_authenticity> ở cùng một nơi."
+        "CTA": "Muốn tự mình thử? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở khung chat</chat> và chuyển đổi giữa <post_claude_authenticity>các phiên bản Opus</post_claude_authenticity> ở cùng một nơi.",
+        "META_DESCRIPTION": "Người chơi nhập vai xếp hạng Claude Opus 4.8, 4.6 và 4.7 trên {appName}: trí nhớ, cảm xúc, sức đẩy và viết sáng tạo. 4.8 thắng, 4.6 vượt 4.7."
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} so với MegaLLM: cùng một cổng cho lập trình, thêm một client chat",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "Như MegaLLM, {appName} <post_what_is_an_llm_gateway>tương thích OpenAI</post_what_is_an_llm_gateway>. Trỏ client của bạn tới <c>https://api.unorouter.com/v1</c> và giữ nguyên mã. Cùng khóa đó cũng chạm tới phía chat, nên không có tài khoản thứ hai.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Chỉ viết mã và muốn một cổng mô hình tiên phong gọn nhẹ tối ưu cho chi phí token? MegaLLM chắc chắn. Muốn một khóa vận hành agent lập trình của bạn và một client chat tích hợp từ cùng số dư, với danh mục rộng hơn? Đó là {appName}.",
-        "CTA": "Muốn cổng và chat trong một? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn cổng và chat trong một? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "MegaLLM là cổng mô hình tiên phong cho tác tử lập trình. {appName} làm điều tương tự, thêm ứng dụng trò chuyện và nhân vật tích hợp cho ai muốn trò chuyện."
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} so với Portkey: cổng AI hay nền tảng LLMOps đầy đủ",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey định giá quanh nền tảng: miễn phí cho khối lượng thấp, rồi các gói trả phí cho quan sát và quản trị, cộng thêm những gì bạn trả cho từng nhà cung cấp. Đáng giá khi mặt phẳng điều khiển giúp một đội tiết kiệm thời gian thực. {appName} trả theo mức dùng trên hơn 200 mô hình, một số dư không hết hạn, bậc miễn phí. Dưới quy mô đội, con đường gọn tốn ít hơn.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Vận hành tính năng LLM cho một tổ chức và cần quan sát, guardrail và quản trị? Portkey được dựng đúng cho điều đó. Muốn một khóa không phải vận hành gì mà chạy trong agent lập trình và một client chat? {appName}. Không tốt hơn hay tệ hơn, chỉ ít nền tảng hơn.",
-        "CTA": "Muốn một cổng không có gì để vận hành? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn một cổng không có gì để vận hành? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "Portkey là nền tảng LLMOps doanh nghiệp với quan sát, rào chắn và quản trị. {appName} là cổng được lưu trữ gọn hơn, có sẵn ứng dụng trò chuyện."
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} so với nano-gpt: chỗ chat hay một khoá cho cả hai",
@@ -751,7 +759,8 @@
         "P_PAY": "Cả hai đều trả theo mức dùng, mô hình đúng cho việc dùng nhiều mô hình theo đợt. {appName} giữ điều đó trên một số dư không hết hạn, <free>bậc miễn phí</free>, một khóa xuyên mã và chat thay vì một ví chợ mà bạn chỉ tiêu ở một UI. Hình thức tính phí như nhau; khác biệt là một khóa vươn tới đâu.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Chủ yếu muốn một UI web để nếm danh sách mô hình rộng nhất có thể? nano-gpt giỏi việc đó. Muốn một khóa chạy được trong agent lập trình của bạn và một client nhân vật thực thụ, với tín dụng đi cùng? {appName}.",
-        "CTA": "Muốn một khoá cho cả mã nguồn và chat nhân vật? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn một khoá cho cả mã nguồn và chat nhân vật? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "nano-gpt có kho mô hình lớn sau giao diện trò chuyện. {appName} cho cùng quyền truy cập trả theo mức dùng, thêm API cho lập trình viên và nhân vật."
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "Cổng AI tốt nhất cho SillyTavern năm 2026",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName} có một bậc miễn phí và hơn 200 mô hình, nên bạn có thể thử một thẻ trên <free>một mô hình miễn phí</free>, rồi chuyển sang một mô hình trả phí mạnh hơn chỉ khi cảnh đó đáng giá. Tín dụng không hết hạn, cách tính phí là trả theo mức dùng, và một số dư bao phủ mọi trình khách và mọi mô hình. Không có chỗ ngồi theo tháng phải biện minh và không có gì để hủy nếu bạn nghỉ một tháng.",
         "H_VERDICT": "Câu trả lời ngắn gọn",
         "P_VERDICT": "Cổng SillyTavern tốt nhất là cổng có một endpoint tương thích OpenAI, độ rộng mô hình thực sự, tín dụng trả theo mức dùng và một bậc miễn phí để bắt đầu, sao cho một khóa duy nhất mang toàn bộ thiết lập của bạn. {appName} được xây đúng cho trường hợp đó, và cùng một khóa tiếp tục hoạt động trong mọi giao diện chat nhân vật khác mà bạn dùng.",
-        "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "SillyTavern cần một endpoint tương thích OpenAI và một khoá. Điều thực sự quan trọng khi chọn cổng, và cách kết nối trong chưa đầy một phút."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} so với RisuAI: chúng tôi đã chuyển bộ máy chat nhân vật vào một sản phẩm 2-trong-1 được lưu trữ",
@@ -786,7 +796,8 @@
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Muốn một frontend tự lưu trữ, mở và có thể mở rộng sâu với bộ nhớ giàu nhất, và bạn sẵn lòng mang khóa của mình? Dùng Risu. Muốn cùng các tính năng lorebook, CBS và thẻ ở dạng được lưu trữ, nơi một khóa cũng vận hành agent lập trình của bạn? Đó là {appName}.",
         "CTA": "Hãy thử chat với tất cả đã được chuyển vào. <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về tính năng của RisuAI ở đây được đối chiếu với chính mã nguồn mở của RisuAI, các module lorebook, macro CBS, trigger và bộ nhớ của nó, chứ không phải với lời quảng cáo. Khi chúng tôi nói {appName} đã chuyển một ý tưởng qua, nghĩa là chúng tôi đã đọc đoạn mã đó và dựng lại hành vi."
+        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về tính năng của RisuAI ở đây được đối chiếu với chính mã nguồn mở của RisuAI, các module lorebook, macro CBS, trigger và bộ nhớ của nó, chứ không phải với lời quảng cáo. Khi chúng tôi nói {appName} đã chuyển một ý tưởng qua, nghĩa là chúng tôi đã đọc đoạn mã đó và dựng lại hành vi.",
+        "META_DESCRIPTION": "{appName} đưa bộ máy RisuAI (sổ tri thức, macro CBS, trình kích hoạt, regex, nhập thẻ) vào sản phẩm 2-trong-1 lưu trữ sẵn, cùng khóa cho cả lập trình."
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} so với LiteLLM: cổng được lưu trữ hay proxy tự lưu trữ",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM không lấy phụ phí, nhưng bạn trả cho từng nhà cung cấp và gánh hạ tầng cộng thời gian DevOps. Điều đó thắng ở khối lượng lớn khi có đội. {appName} <pricing>trả theo mức dùng</pricing> trên hơn 200 mô hình, một số dư không hết hạn, không máy chủ để trả tiền. Dưới quy mô nghiêm túc, được lưu trữ thường rẻ hơn khi tính cả số giờ.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Có một đội nền tảng và muốn phụ phí bằng không? LiteLLM. Muốn một khóa không phải triển khai gì mà chạy trong agent lập trình và một client chat? {appName}.",
-        "CTA": "Muốn một cổng không cần triển khai gì? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn một cổng không cần triển khai gì? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "LiteLLM là proxy LLM tự lưu trữ phổ biến nhất. {appName} là cổng lưu trữ sẵn kèm ứng dụng trò chuyện. Câu hỏi thực sự: bạn có muốn tự vận hành hạ tầng?"
       },
       "FEATURED_ON": {
         "TITLE": "Tìm {appName} ở đâu: các mục liệt kê trong thư mục",
@@ -817,7 +829,8 @@
         "H_VERIFY": "Xác minh trước khi tin tưởng",
         "P_VERIFY": "Mở bất kỳ huy hiệu nào, xác nhận mục liệt kê trỏ về tên miền thật của chúng tôi và kiểm tra mô tả độc lập. Không bao giờ dán chìa khoá API vào một dịch vụ mà bạn không thể truy nguồn đến <post_open_source_openrouter_alternative>một nguồn công khai có thể xác minh</post_open_source_openrouter_alternative>.",
         "H_TRY": "Tự mình thử",
-        "CTA": "Đã xem đủ chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Đã xem đủ chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "{appName} được liệt kê trong các thư mục công cụ AI và khởi nghiệp. Tại đây bạn có thể tìm chúng tôi, xác minh các mục liệt kê và đọc đánh giá độc lập."
       },
       "LAUNCH": {
         "TITLE": "Chúng tôi quá mệt với Claude giả. Nên đã xây {appName}.",
@@ -832,7 +845,8 @@
         "P_HARNESS": "Một mô hình chỉ hữu ích nếu nó hoạt động trong công cụ của bạn. Chúng tôi kiểm thử mọi mô hình từ đầu đến cuối về HTTP completion, streaming và tool calling. Ba khả năng đó là những gì các terminal AI dựa vào. Nếu một mô hình có trong catalog của chúng tôi, nó hoạt động với <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Codex CLI, Gemini CLI và mọi client tương thích OpenAI. Không có lỗi bất ngờ kiểu \"streaming not supported\" giữa phiên làm việc.",
         "H_NEXT": "Tiếp theo là gì",
         "P_NEXT": "Chúng tôi phát hành hàng tuần. Hãy chờ đợi thêm nhiều mô hình, <rankings>tín hiệu sức khỏe chặt chẽ hơn</rankings> thúc đẩy dự phòng thông minh hơn, bảng điều khiển chi phí và độ trễ phong phú hơn, và tích hợp sâu hơn với các terminal và IDE mà bạn đã gắn bó.",
-        "CTA": "Sẵn sàng thử? <register>Lấy API key</register> hoặc <models>duyệt catalog mô hình</models>."
+        "CTA": "Sẵn sàng thử? <register>Lấy API key</register> hoặc <models>duyệt catalog mô hình</models>.",
+        "META_DESCRIPTION": "Sập vài tuần một lần, mô hình cao cấp bị tráo bằng bản sao rẻ tiền. Hết kiên nhẫn, chúng tôi tự làm bộ định tuyến và đề phòng cả hai. Đây là câu chuyện."
       },
       "AGENT_READY": {
         "TITLE": "Cho scanner AI agent của Cloudflare quét site. Kết quả: 100/100.",
@@ -851,7 +865,8 @@
         "P_STUBS": "Những kiểm tra này là các stub đơn giản. Trình quét chủ yếu xác minh rằng một URL well-known tồn tại, trả 200 và có đúng hình dạng tầng trên. Nó không chạy hết một luồng OAuth thật, không thực sự gọi một công cụ MCP, không tất toán một khoản thanh toán x402. Một dấu tích xanh nghĩa là cánh cửa đã mở, chứ không phải căn phòng phía sau đã hoàn thiện. Ai dựa vào một giao thức trong môi trường sản xuất vẫn nên <post_ai_model_verifier>tự kiểm tra đầu cuối</post_ai_model_verifier>: chạy trọn luồng OAuth, gọi công cụ MCP từ một client thực, tất toán một khoản x402 đến cuối cùng. Điểm số là tín hiệu tốt cho thấy bề mặt đã sẵn sàng. Nó không thay thế cho kiểm tra tuân thủ ở tầng giao thức.",
         "H_TRY": "Hãy chạy nó trên website của bạn",
         "P_TRY": "Nếu bạn xây bất cứ thứ gì mà AI agent có thể chạm tới một ngày nào đó, trình quét này thực sự đáng dành ra một phút. Nó gom một danh sách dài các tiêu chuẩn nhỏ vào cùng một màn hình và chỉ rõ đường well-known nào đang thiếu hoặc bị hỏng. Chúng tôi dùng nó như một bài kiểm tra hồi quy mỗi khi đụng vào các bề mặt khám phá, xác thực hay thương mại.",
-        "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi <post_what_is_an_llm_gateway>bắt đầu định tuyến</post_what_is_an_llm_gateway>."
+        "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi <post_what_is_an_llm_gateway>bắt đầu định tuyến</post_what_is_an_llm_gateway>.",
+        "META_DESCRIPTION": "Cloudflare vừa tung ra trình quét chấm độ sẵn sàng của trang web cho tác tử AI. Chúng tôi đạt 100/100 và Level 5. Nó kiểm tra gì và vì sao nhiều trang rớt."
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "Cách chúng tôi phân biệt Claude thật với Claude giả",
@@ -887,7 +902,8 @@
         "H_TEST": "Tự kiểm tra nhà cung cấp của bạn",
         "TEST_P": "Bạn không cần cài đặt gì cả. Mở <link>công cụ kiểm tra mô hình API</link>, dán địa chỉ và khóa của nhà cung cấp, chọn một mô hình, và công cụ sẽ chạy trực tiếp các bước kiểm tra này rồi cho bạn thấy chính xác mục nào đạt và mục nào không.",
         "TEST_CURL": "Thích dùng dòng lệnh hơn? Đây là phép thử chú mèo con ở trên. Nếu câu trả lời từ chối hoặc lái bạn sang chuyện lập trình, thì “Claude” của bạn không phải là Claude.",
-        "TEST_OPEN": "Cả hai phần đều là mã nguồn mở, nên bất kỳ ai cũng có thể xem cách chúng hoạt động hoặc tự chạy: các bước kiểm tra nằm trong <verifier>ai-model-verifier</verifier> (cũng có trên <npm>npm</npm>), còn <sync>new-api-sync</sync> là thứ chạy chúng trên mọi nhà cung cấp mà chúng tôi định tuyến tới."
+        "TEST_OPEN": "Cả hai phần đều là mã nguồn mở, nên bất kỳ ai cũng có thể xem cách chúng hoạt động hoặc tự chạy: các bước kiểm tra nằm trong <verifier>ai-model-verifier</verifier> (cũng có trên <npm>npm</npm>), còn <sync>new-api-sync</sync> là thứ chạy chúng trên mọi nhà cung cấp mà chúng tôi định tuyến tới.",
+        "META_DESCRIPTION": "Claude giá rẻ thường là mô hình khác khoác tên Claude. Vì sao hỏi mô hình chẳng chứng minh gì, và những bước kiểm tra nào thực sự bắt được hàng giả."
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "Mô hình ảnh nào thực sự nhận 6 ảnh tham chiếu? Chúng tôi đã chạy benchmark.",
@@ -918,7 +934,8 @@
         "METADATA_P2": "Nếu chỉ quan tâm mô hình nào nhận payload 6 ảnh, hãy lọc trên trường này. Mô hình mới sẽ nhận cùng tag ngay khi vượt qua cùng benchmark.",
         "H_TRY": "Dùng thử",
         "TRY_P": "Mọi mô hình ở trên đều dùng được qua <docs>một endpoint tương thích OpenAI</docs>. Chỉnh sửa ảnh đa tham chiếu được phơi ra đúng như thượng nguồn định nghĩa, không bọc thêm. Mang sáu ảnh và một prompt, router sẽ chọn provider hoạt động.",
-        "CTA": "<register>Lấy khóa API</register> hoặc <models>duyệt catalog ảnh</models> để xem danh sách đã xác minh đầy đủ."
+        "CTA": "<register>Lấy khóa API</register> hoặc <models>duyệt catalog ảnh</models> để xem danh sách đã xác minh đầy đủ.",
+        "META_DESCRIPTION": "Chúng tôi gửi lời nhắc ghép cảnh từ 6 ảnh tham chiếu tới mọi kênh ảnh: 332 lần chạy, 136 mô hình, 54 mô hình có ít nhất một nhà cung cấp đã xác minh đậu."
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "Tham gia Discord {appName}, nhận số dư miễn phí",
@@ -934,7 +951,8 @@
         "H_BUGS": "Bug bounty, tới 50$",
         "P_BUGS": "Tìm thấy <post_open_source_openrouter_alternative>lỗi thật trên nền tảng</post_open_source_openrouter_alternative> thì hãy báo trong forum bug-bounty. Đội ngũ chọn mức độ nghiêm trọng và bot trả thưởng: Low 0,25$, Medium 0,50$, High 1$, Critical 50$. Người thực sự xác định ra lỗi sẽ nhận tiền, không nhất thiết là người mở thread.",
         "H_JOIN": "Ghé chơi với chúng mình",
-        "CTA": "Sẵn sàng chưa? <invite>Tham gia Discord {appName}</invite>, sau đó <register>lấy API key</register> và <settings>liên kết tài khoản</settings> để nhận 1$ đầu tiên."
+        "CTA": "Sẵn sàng chưa? <invite>Tham gia Discord {appName}</invite>, sau đó <register>lấy API key</register> và <settings>liên kết tài khoản</settings> để nhận 1$ đầu tiên.",
+        "META_DESCRIPTION": "Liên kết tài khoản để nhận 1$, boost máy chủ để nhận 1$ mỗi tháng, săn lỗi để nhận tới 50$. Discord {appName} vừa mở cửa."
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "Chúng tôi tổng hợp hơn 130 mô hình AI miễn phí từ khoảng 50 nhà cung cấp vào một endpoint duy nhất",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "Giới hạn tốc độ của bậc miễn phí là gì?",
         "FAQ_2_A": "Khoảng 1 yêu cầu mỗi phút mỗi mô hình mỗi người dùng. Khi đạt giới hạn sẽ trả về HTTP 429 kèm header Retry-After. Với hơn 130 mô hình miễn phí, cách thực tế hơn là luân chuyển giữa các mô hình thay vì chờ đợi.",
         "FAQ_3_Q": "Tôi có cần thẻ tín dụng cho các mô hình miễn phí không?",
-        "FAQ_3_A": "Không. Đăng ký bằng Discord hoặc GitHub, tạo một khóa và dùng bất kỳ mô hình nào có hậu tố :free. Khoản thưởng xác minh Discord một lần trị giá $1 có thể dùng cho các mô hình trả phí."
+        "FAQ_3_A": "Không. Đăng ký bằng Discord hoặc GitHub, tạo một khóa và dùng bất kỳ mô hình nào có hậu tố :free. Khoản thưởng xác minh Discord một lần trị giá $1 có thể dùng cho các mô hình trả phí.",
+        "META_DESCRIPTION": "Khoảng 50 nhà cung cấp miễn phí trên {appName}: hơn 130 mô hình, một endpoint tương thích OpenAI, $0 mỗi token. Sự thật về giới hạn và mức 1 yêu cầu/phút."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} so với OpenRouter: một so sánh trung thực",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "Tôi có thể dùng cùng một khóa cho agent lập trình và chat nhập vai không?",
         "FAQ_2_A": "Có. Một khóa {appName} hoạt động trong Claude Code, Cline và OpenCode qua API tương thích OpenAI, và cùng tài khoản đó bao gồm một client chat nhân vật đầy đủ, cũng cắm được vào SillyTavern hoặc JanitorAI.",
         "FAQ_3_Q": "Làm sao để chuyển từ OpenRouter sang {appName}?",
-        "FAQ_3_A": "Trỏ client của bạn tới https://api.unorouter.com/v1 và giữ nguyên mã. API tương thích OpenAI, tên mô hình lấy từ GET /v1/models, và các endpoint gốc của Anthropic và Gemini cũng được phục vụ."
+        "FAQ_3_A": "Trỏ client của bạn tới https://api.unorouter.com/v1 và giữ nguyên mã. API tương thích OpenAI, tên mô hình lấy từ GET /v1/models, và các endpoint gốc của Anthropic và Gemini cũng được phục vụ.",
+        "META_DESCRIPTION": "{appName} và OpenRouter đều đặt nhiều mô hình sau một khóa tương thích OpenAI. Khác biệt: chỉ API, hay API kèm ứng dụng trò chuyện và nhân vật."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Các lựa chọn thay thế OpenRouter tốt nhất năm 2026",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "Các lựa chọn thay thế OpenRouter có hoạt động với SillyTavern và JanitorAI không?",
         "FAQ_2_A": "Bất kỳ gateway tương thích OpenAI nào cũng được. Trong SillyTavern dùng URL gốc https://api.unorouter.com/v1, trong JanitorAI dùng endpoint đầy đủ https://api.unorouter.com/v1/chat/completions với khóa tương ứng.",
         "FAQ_3_Q": "Có lựa chọn thay thế OpenRouter mã nguồn mở không?",
-        "FAQ_3_A": "{appName} là mã nguồn mở từ đầu đến cuối theo giấy phép OSI, gồm frontend, gateway, bot và đồng bộ nhà cung cấp, tại github.com/unorouter. LiteLLM cũng là mã nguồn mở nhưng là proxy tự mang khóa riêng, không có danh mục được lưu trữ sẵn."
+        "FAQ_3_A": "{appName} là mã nguồn mở từ đầu đến cuối theo giấy phép OSI, gồm frontend, gateway, bot và đồng bộ nhà cung cấp, tại github.com/unorouter. LiteLLM cũng là mã nguồn mở nhưng là proxy tự mang khóa riêng, không có danh mục được lưu trữ sẵn.",
+        "META_DESCRIPTION": "OpenRouter không phải cách duy nhất để dùng nhiều mô hình bằng một khoá. Các lựa chọn thay thế đáng biết năm 2026, mỗi cái hợp với việc gì và cách chọn."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: lựa chọn mã nguồn mở thay thế OpenRouter",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "Tôi có thể tự lưu trữ {appName} không?",
         "FAQ_2_A": "Có. Clone các repository và tự chạy stack, hoặc trỏ bất kỳ client tương thích OpenAI nào tới endpoint được lưu trữ https://api.unorouter.com/v1 để khỏi phải lo vận hành.",
         "FAQ_3_Q": "{appName} khác LiteLLM ở điểm nào?",
-        "FAQ_3_A": "LiteLLM là proxy tự lưu trữ, nơi bạn tự mang khóa nhà cung cấp và tự quản lý tài khoản. {appName} được lưu trữ sẵn với một khóa, 200+ mô hình và bậc miễn phí, trong khi vẫn là mã nguồn mở như LiteLLM."
+        "FAQ_3_A": "LiteLLM là proxy tự lưu trữ, nơi bạn tự mang khóa nhà cung cấp và tự quản lý tài khoản. {appName} được lưu trữ sẵn với một khóa, 200+ mô hình và bậc miễn phí, trong khi vẫn là mã nguồn mở như LiteLLM.",
+        "META_DESCRIPTION": "OpenRouter là mã nguồn đóng. {appName} cho một khóa, hơn 200 mô hình, toàn bộ mã nguồn công khai theo giấy phép OSI, tự lưu trữ được, kèm gói miễn phí."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Cổng LLM là gì?",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "Gateway LLM có làm tăng độ trễ không?",
         "FAQ_2_A": "Thêm một chặng, thường chỉ vài chục mili giây, mà streaming trên thực tế che lấp được. Phản hồi chậm đến từ chính mô hình thường xuyên hơn nhiều so với từ gateway.",
         "FAQ_3_Q": "{appName} phục vụ những endpoint nào?",
-        "FAQ_3_A": "Tương thích OpenAI gồm /v1/chat/completions, /v1/responses và /v1/embeddings, Anthropic gốc /v1/messages, và Gemini gốc /v1beta, tất cả sau một khóa duy nhất."
+        "FAQ_3_A": "Tương thích OpenAI gồm /v1/chat/completions, /v1/responses và /v1/embeddings, Anthropic gốc /v1/messages, và Gemini gốc /v1beta, tất cả sau một khóa duy nhất.",
+        "META_DESCRIPTION": "Cổng LLM là một điểm cuối và một khoá định tuyến yêu cầu tới nhiều nhà cung cấp mô hình. Đây là việc nó làm, vì sao nó giúp và ai thực sự cần một cái."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Cách kết nối bất kỳ LLM nào với SillyTavern",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "Nếu danh sách mô hình không tải, kiểm tra lại URL cơ sở kết thúc bằng <c>/v1</c> và khoá được dán không có khoảng trắng thừa. Lỗi 401 nghĩa là khoá sai hoặc hết hạn; sao chép lại. Lỗi 404 trên một mô hình nghĩa là tên mô hình đó chưa được chọn từ danh sách đã tải. Nếu các câu trả lời bị cắt, tăng độ dài trả lời trong cài đặt của SillyTavern. Hầu hết các thất bại thiết lập là một URL cơ sở gõ sai hoặc một khoá có khoảng trắng, nên kiểm tra những cái đó trước.",
         "H_VERDICT": "Đó là toàn bộ mẹo",
         "P_VERDICT": "Kết nối bất kỳ LLM nào với SillyTavern rút lại còn một endpoint tương thích OpenAI cộng một khóa, và một cổng biến điều đó thành nhiều mô hình sau một lần thiết lập duy nhất. {appName} cho bạn URL cơ sở đó, một bậc miễn phí để bắt đầu, và hơn 200 mô hình bạn có thể đổi qua lại mà không phải làm lại gì. Thiết lập một lần và cùng một khóa theo bạn qua mọi giao diện chat nhân vật.",
-        "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "SillyTavern dùng được gần như mọi mô hình qua một endpoint tương thích OpenAI. Cách thiết lập chính xác, đổi mô hình và sửa các lỗi thường gặp."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "Một khóa API cho Claude Code và chat nhân vật",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "Vì cả hai phía chạy trên cùng một khóa, việc dùng cho lập trình và việc dùng cho chat nhân vật của bạn đều rút từ <pricing>một số dư trả theo mức dùng</pricing>. Tín dụng không hết hạn, không có ghế hằng tháng phải biện minh, và bạn thấy toàn bộ chi tiêu ở một nơi thay vì chia nó giữa các nhà cung cấp. Một bậc miễn phí cho phép bạn thử cả hai phía trước khi trả tiền. Một tài khoản bao trọn cả ngày của bạn, công việc và giải trí.",
         "H_VERDICT": "Điểm mấu chốt",
         "P_VERDICT": "Tác nhân lập trình và ứng dụng chat nhân vật chia sẻ giao thức tương thích OpenAI, nên một khóa duy nhất có thể chạy cả hai từ một số dư. {appName} được xây dựng đúng cho khoảng đó: một API gọn gàng cho Claude Code và các công cụ tương tự, <chat>một ứng dụng chat và nhân vật</chat> để kể chuyện, hơn 200 mô hình, và tín dụng không hết hạn. Một khóa, một hóa đơn, cả hai thế giới.",
-        "CTA": "Muốn một khoá cho mã và chat? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn một khoá cho mã và chat? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "META_DESCRIPTION": "Tác tử lập trình và ứng dụng trò chuyện nhân vật đều dùng API tương thích OpenAI. Cách một khóa chạy cả Claude Code và nhập vai từ một số dư."
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} so với Janitor.AI: backend, kèm theo một chat của riêng bạn",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Cứ tiếp tục dùng Janitor nếu bạn thích, chỉ cần trỏ nó vào <c>https://api.unorouter.com/v1</c>. Hoặc mở chat riêng của {appName} với cùng key đó và nhập card của bạn. Dù cách nào cũng chẳng phải cài đặt gì.",
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn ở lại Janitor và chỉ cần một backend chắc chắn? {appName} chính là điều đó chỉ với một key. Muốn một tài khoản vừa là backend, vừa là một chat nhân vật thực thụ, vừa là <post_one_api_key_for_claude_code_and_roleplay>cổng cho các coding agent của bạn</post_one_api_key_for_claude_code_and_roleplay>? Đó chính là toàn bộ ý nghĩa của {appName}.",
-        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+        "META_DESCRIPTION": "Janitor.AI là giao diện trò chuyện nhân vật cần dịch vụ phía sau. {appName} chính là dịch vụ đó với một khóa, lại có trò chuyện nhân vật riêng."
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} so với Character.AI: model mở và một key thực thụ",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} ưu tiên cục bộ: <post_lorebary_and_your_data>các cuộc chat nằm trong trình duyệt của bạn, không phải trên máy chủ của chúng tôi</post_lorebary_and_your_data>, và toàn bộ hệ thống là mã nguồn mở, có thể kiểm tra được. Character.AI lưu mọi thứ ở phía máy chủ sau một bộ lọc bạn không nhìn thấy. Nếu quyền kiểm soát và tính mở quan trọng với bạn, đó là một ranh giới rõ ràng giữa hai bên.",
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn một app đóng, an toàn, không cần thiết lập và không bao giờ đụng tới cài đặt model? Character.AI cũng ổn. Muốn quyền chọn model mở, một key thực thụ cũng code được, và dữ liệu nằm cục bộ? Đó chính là {appName}.",
-        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+        "META_DESCRIPTION": "Character.AI đóng, bị lọc, không API, không chọn mô hình. {appName} thì mở: hơn 200 mô hình, khóa tương thích OpenAI, dữ liệu cục bộ, khóa lập trình được."
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} so với SillyTavern: cùng độ sâu, được host sẵn, trên một key",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn kiểm soát cục bộ tối đa và thích chạy SillyTavern? Cứ giữ nó, và <post_best_ai_gateway_for_sillytavern>dùng {appName} làm backend</post_best_ai_gateway_for_sillytavern>. Muốn cùng độ sâu đó được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
         "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về SillyTavern ở đây được đọc từ chính mã nguồn mở của nó (mã World Info, prompt và thẻ nhân vật), chứ không diễn giải lại từ tài liệu. Nếu có chi tiết nào sai, đó là lỗi trong cách chúng tôi đọc, nên hãy báo cho chúng tôi biết."
+        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về SillyTavern ở đây được đọc từ chính mã nguồn mở của nó (mã World Info, prompt và thẻ nhân vật), chứ không diễn giải lại từ tài liệu. Nếu có chi tiết nào sai, đó là lỗi trong cách chúng tôi đọc, nên hãy báo cho chúng tôi biết.",
+        "META_DESCRIPTION": "SillyTavern bạn phải tự lưu trữ và nạp khóa. {appName} có cùng độ sâu nhưng lưu trữ sẵn, khóa chính là tài khoản và chạy cả tác tử lập trình."
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} so với Chub / Venus: độ sâu về card, kèm code trên một key",
@@ -1160,7 +1188,8 @@
         "P_COST": "Với Chub bạn chọn một tầng cho các model nhỏ hoặc trả trực tiếp cho nhà cung cấp để lấy model tốt, đằng nào cũng hai hóa đơn. {appName} là một số dư cho mọi thứ, credit không bao giờ hết hạn, và <free>một gói miễn phí để bắt đầu</free>. Một key vươn tới cả model lẫn các coding agent.",
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn hệ sinh thái card của Chub và thấy ổn với các model tầng nhỏ hoặc BYOK? Đó là một mái nhà tốt. Muốn độ sâu đó với hơn 200 model và một key cũng code được, tất cả trên một tài khoản? Đó chính là {appName}.",
-        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+        "META_DESCRIPTION": "Chub (Venus) là thư viện thẻ và trò chuyện với mô hình phân tầng hoặc BYOK. {appName} có thẻ và sổ tri thức sâu, hơn 200 mô hình, một khóa lập trình được."
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} so với Marinara: chúng tôi đưa preset engine vào một 2 trong 1",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn một preset engine tự host mà bạn kiểm soát hoàn toàn? Hãy chạy cái chuyên dụng. Muốn độ sâu prompt dựa theo phần đó được host sẵn, nơi một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
         "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Marinara Engine ở đây (các agent tích hợp và pipeline ba pha của nó) được đọc từ chính mã nguồn của nó, chứ không phải từ trang giới thiệu. Khi chúng tôi nói mình đã chuyển một ý tưởng qua, chúng tôi đã đọc đoạn mã đó trước."
+        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Marinara Engine ở đây (các agent tích hợp và pipeline ba pha của nó) được đọc từ chính mã nguồn của nó, chứ không phải từ trang giới thiệu. Khi chúng tôi nói mình đã chuyển một ý tưởng qua, chúng tôi đã đọc đoạn mã đó trước.",
+        "META_DESCRIPTION": "Marinara Engine là ứng dụng nhập vai tự lưu trữ với 22 tác tử. {appName} mang ý tưởng chuỗi tác tử vào sản phẩm lưu trữ sẵn, một khóa cho cả lập trình."
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} so với Lumiverse: các ý tưởng về bộ nhớ, được host sẵn, kèm code",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn một engine tự host với đồ thị bộ nhớ giàu nhất và toàn quyền kiểm soát? Hãy chạy nó. Muốn những ý tưởng về bộ nhớ và bảng phân tích đó được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
         "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Lumiverse ở đây, bao gồm cả việc Memory Cortex của nó đi sâu hơn của chúng tôi, được đọc từ chính mã nguồn và giấy phép của nó, chứ không phải phỏng đoán. Chúng tôi thà nêu ra một điểm thua một cách trung thực còn hơn tuyên bố một chiến thắng chưa được kiểm chứng."
+        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Lumiverse ở đây, bao gồm cả việc Memory Cortex của nó đi sâu hơn của chúng tôi, được đọc từ chính mã nguồn và giấy phép của nó, chứ không phải phỏng đoán. Chúng tôi thà nêu ra một điểm thua một cách trung thực còn hơn tuyên bố một chiến thắng chưa được kiểm chứng.",
+        "META_DESCRIPTION": "Memory Cortex của Lumiverse là bộ nhớ RP sâu nhất. {appName} đưa ý tưởng đó vào 2 trong 1 lưu trữ sẵn, khóa dùng cả để lập trình, dùng thương mại miễn phí."
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} so với LibreChat: chat đa model, được host sẵn, kèm chat nhân vật",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn tự host một trợ lý đa nhà cung cấp với agent, MCP, một trình thông dịch code, và xác thực đội? LibreChat xuất sắc. Muốn chat đa model được host sẵn cộng thêm một client nhân vật thực thụ, trên <post_one_api_key_for_claude_code_and_roleplay>một key cũng code được</post_one_api_key_for_claude_code_and_roleplay>? Đó là {appName}.",
         "CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng LibreChat không có tính năng chat nhân vật được đối chiếu với chính mã nguồn thực tế của nó (trong đó không tồn tại thẻ nhân vật, lorebook, hay persona nào), chứ không suy ra từ định vị của nó."
+        "METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng LibreChat không có tính năng chat nhân vật được đối chiếu với chính mã nguồn thực tế của nó (trong đó không tồn tại thẻ nhân vật, lorebook, hay persona nào), chứ không suy ra từ định vị của nó.",
+        "META_DESCRIPTION": "LibreChat là bản sao ChatGPT tự lưu trữ, MIT, BYOK. {appName} là trò chuyện đa mô hình lưu trữ sẵn, kèm nhân vật, và cùng một khóa lập trình được."
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} so với Open WebUI: hơn 200 model host sẵn, không Ollama, kèm chat nhân vật",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn tự host, chạy model Ollama cục bộ, dựa vào RAG tài liệu chuyên sâu, và quản lý một đội với vai trò và SSO? Open WebUI xuất sắc đúng ở việc đó. Muốn 200+ model host sẵn cộng thêm một client nhân vật thực thụ, trên <post_one_api_key_for_claude_code_and_roleplay>một key cũng code được</post_one_api_key_for_claude_code_and_roleplay>, mà không phải vận hành gì? Đó chính là {appName}.",
         "CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng Open WebUI là một nền tảng trợ lý, chứ không phải một client nhân vật, được đối chiếu với mã nguồn của nó; bộ phân tích thẻ nhân vật của nó có tồn tại nhưng không được dùng tới, và không hề có lorebook hay persona nào."
+        "METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng Open WebUI là một nền tảng trợ lý, chứ không phải một client nhân vật, được đối chiếu với mã nguồn của nó; bộ phân tích thẻ nhân vật của nó có tồn tại nhưng không được dùng tới, và không hề có lorebook hay persona nào.",
+        "META_DESCRIPTION": "Open WebUI là giao diện trò chuyện tự lưu trữ ưu tiên Ollama. {appName} là hơn 200 mô hình lưu trữ sẵn trên một khóa, không cần hạ tầng, kèm nhân vật."
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} so với Agnai: cùng độ sâu nhập vai, được host sẵn, trên một key",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn nhập vai mở, tự vận hành với multiplayer thực thụ cho một nhóm và tài nguyên tính toán Horde miễn phí? Agnai là lựa chọn, và nó thực sự giỏi việc đó. Muốn <post_unorouter_vs_risuai>scripting một người dùng sâu hơn</post_unorouter_vs_risuai> và 200+ model được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
         "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
-        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Agnai ở đây, bao gồm cả việc chat nhóm multiplayer của nó là một thế mạnh thực thụ mà chúng tôi không sánh được, được đọc từ chính mã nguồn của nó, chứ không phải từ quảng cáo."
+        "METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Agnai ở đây, bao gồm cả việc chat nhóm multiplayer của nó là một thế mạnh thực thụ mà chúng tôi không sánh được, được đọc từ chính mã nguồn của nó, chứ không phải từ quảng cáo.",
+        "META_DESCRIPTION": "Agnai là giao diện nhập vai mã nguồn mở với chế độ nhiều người chơi. {appName} có độ sâu nhập vai một người, lưu trữ sẵn, khóa chạy cả tác tử lập trình."
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} so với SpicyChat: con đường dễ dàng, kèm độ sâu, model, và code",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "2 trong 1 mà SpicyChat không có lời đáp: cùng một key chạy nhập vai của bạn cũng trỏ <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Cline, hoặc Codex vào hơn 200 model qua <c>https://api.unorouter.com/v1</c>. Một tài khoản cho chat nhân vật và các coding agent. SpicyChat là một trang nhập vai đóng; {appName} là chat, model, và code trên một key.",
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Muốn trang nhập vai không kiểm duyệt đơn giản nhất có thể mà chẳng có gì phải học, và bạn không ngại trả phí theo tầng để có thêm bộ nhớ? SpicyChat chính là điều đó. Muốn cùng khởi đầu dễ dàng đó với quyền chọn model mở, lorebook chuyên sâu theo mặc định, và một key cũng code được? Đó chính là {appName}.",
-        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+        "CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+        "META_DESCRIPTION": "SpicyChat khóa bộ nhớ và ngữ cảnh sau gói trả phí. {appName} giữ khởi đầu dễ dàng, thêm 200+ mô hình, sổ tri thức sâu và khóa chạy cả tác tử lập trình."
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "Cách kết nối {appName} với Nevika",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "<c>glm-5.2</c> là lựa chọn mặc định mạnh cho nhập vai: nó suy luận mà không cần hậu tố đặc biệt, giữ được những cảnh dài liền mạch, và chi phí thấp. <post_free_models_aggregated>Model miễn phí</post_free_models_aggregated> đủ dùng cho lần thử đầu, nhưng chúng dùng chung và bị giới hạn tốc độ, nên hãy chuyển sang model trả phí khi câu chuyện đã quan trọng.",
         "H_TROUBLESHOOTING": "Nếu có gì đó hỏng",
         "P_TROUBLESHOOTING": "Danh sách model trống nghĩa là key dính khoảng trắng thừa khi copy. Lỗi 401 nghĩa là key sai hoặc đã bị thu hồi, hãy tạo key mới. Lỗi 404 ở một model nghĩa là tên được gõ tay chứ không chọn từ danh sách. <post_how_to_connect_any_llm_to_sillytavern>Hướng dẫn thiết lập SillyTavern</post_how_to_connect_any_llm_to_sillytavern> nói kỹ hơn về chính những lỗi này.",
-        "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem các model</models>."
+        "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem các model</models>.",
+        "META_DESCRIPTION": "Nevika chấp nhận bất kỳ endpoint tương thích OpenAI nào làm proxy tùy chỉnh. Cách thiết lập trong một phút, nên chọn mô hình nào, và hai lỗi ai cũng gặp."
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "Thẻ máy chủ giờ rút ngắn thời gian chờ mô hình miễn phí của bạn",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "Điều nó không làm được",
         "P_NOT_DO_1": "Nó rút ngắn thời gian chờ của bạn. Nó không nâng giới hạn của nhà cung cấp. Khi một mô hình miễn phí bận vì thượng nguồn quá tải hoặc suy giảm, cửa sổ ngắn hơn ở phía chúng tôi không tạo ra năng lực vốn không tồn tại, và yêu cầu vẫn có thể treo hoặc thất bại.",
         "P_NOT_DO_2": "Các mô hình trả phí hoàn toàn không có giới hạn mỗi phút. Vậy nên nếu bạn cần một mô hình trả lời mọi lúc chứ không phải hầu hết thời gian, đó là lời khuyên thành thật. <pricing>Bảng giá</pricing> bắt đầu từ vài phần trăm xu cho mỗi triệu token.",
-        "CTA": "<discord>Tham gia Discord</discord> để lấy thẻ, hoặc <models>xem các mô hình miễn phí</models> trước đã."
+        "CTA": "<discord>Tham gia Discord</discord> để lấy thẻ, hoặc <models>xem các mô hình miễn phí</models> trước đã.",
+        "META_DESCRIPTION": "Đeo thẻ Discord của {appName} rút ngắn 25 phần trăm giới hạn tốc độ mô hình miễn phí: trước đây mỗi phút một lần, giờ cứ 45 giây gọi được một lần."
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "Mô hình miễn phí giờ yêu cầu sự đồng ý của bạn",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "Rút lại và tài khoản doanh nghiệp",
         "P_BUSINESS": "Bạn có thể rút lại sự đồng ý bất cứ lúc nào trên trang mô hình miễn phí, trong <settings>cài đặt tài khoản</settings> hoặc trong chat; sau đó mô hình bị chặn cho đến khi bạn đồng ý lại. Mô hình miễn phí không khả dụng cho tài khoản doanh nghiệp, vì prompt của họ có thể chứa dữ liệu cá nhân của người khác.",
         "CTA": "Sẵn sàng chưa? Mở <free>trang mô hình miễn phí</free> và bật các mô hình bạn dùng.",
-        "NOTE": "Cập nhật ngày 21 tháng 10 năm 2026: bài viết này đã lỗi thời. Sự đồng ý giờ được cấp một lần cho mỗi nhà cung cấp và cũng áp dụng cho mô hình trả phí. <post_consent_per_provider>Xem cách hoạt động hiện nay</post_consent_per_provider>."
+        "NOTE": "Cập nhật ngày 21 tháng 10 năm 2026: bài viết này đã lỗi thời. Sự đồng ý giờ được cấp một lần cho mỗi nhà cung cấp và cũng áp dụng cho mô hình trả phí. <post_consent_per_provider>Xem cách hoạt động hiện nay</post_consent_per_provider>.",
+        "META_DESCRIPTION": "Mô hình miễn phí đến từ các nhà cung cấp có thể dùng dữ liệu bạn nhập cho mục đích riêng. Giờ bạn xác nhận một lần cho mỗi mô hình. Lý do và cách làm."
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "Đồng ý theo từng nhà cung cấp, cho cả mô hình miễn phí và trả phí",
@@ -1334,9 +1372,11 @@
         "P_WHEN": "Chưa phải bây giờ. Hiện tại, yêu cầu không có sự đồng ý vẫn không bị từ chối. Chúng tôi sẽ bật tính năng chặn theo từng giai đoạn, theo từng mô hình và từng tài khoản, và thông báo ngày bắt đầu trước trên <discord>Discord</discord> của chúng tôi và tại blog này. Nếu bạn đồng ý ngay bây giờ, sẽ không có gì bị gián đoạn khi việc chặn bắt đầu.",
         "H_TERMS": "Cập nhật điều khoản và chính sách quyền riêng tư",
         "P_TERMS": "<terms>Điều khoản dịch vụ</terms> của chúng tôi có mục 6 mới về các nhà cung cấp tại nước thứ ba: dịch vụ của họ được đánh dấu kèm quốc gia nơi nhà cung cấp đặt trụ sở, và bạn không được nhập dữ liệu cá nhân của người khác vào đó. <privacy>Chính sách quyền riêng tư</privacy> mô tả chi tiết về sự đồng ý và quyền phản đối. Nếu bạn có tài khoản, bạn chấp nhận điều khoản cập nhật một lần, vào lần tới bạn sử dụng trang web khi đã đăng nhập. Khóa API của bạn không bị ảnh hưởng.",
-        "CTA": "Mở <consents>trang đồng ý</consents> ngay và đồng ý với các nhà cung cấp bạn dùng. Toàn bộ chi tiết có trong <docs>tài liệu</docs>."
+        "CTA": "Mở <consents>trang đồng ý</consents> ngay và đồng ý với các nhà cung cấp bạn dùng. Toàn bộ chi tiết có trong <docs>tài liệu</docs>.",
+        "META_DESCRIPTION": "Trên {appName}, sự đồng ý giờ gắn với nhà cung cấp và áp dụng cho mọi mô hình của họ, trả phí hay miễn phí. Ai hỏi, cách đồng ý, phản đối và API thấy gì."
       }
-    }
+    },
+    "TRENDING_MODELS": "Mô hình thịnh hành tuần này"
   },
   "MODEL_PAGE": {
     "META_TITLE": "Giá API {name}, ngữ cảnh và ví dụ | {appName}",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "Rẻ nhất vào {day}",
     "PRICE_LOW_CHART": "Giá đầu vào thấp nhất",
     "META_TITLE_FREE": "API {name} miễn phí: không tốn phí, tương thích OpenAI | {appName}",
-    "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI. Hoạt động trong JanitorAI, SillyTavern và code của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ để sao chép.",
+    "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI trong JanitorAI, SillyTavern và mã của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ mẫu.",
     "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}",
     "COMPARE_WITH_TITLE": "So sánh {model}",
     "USE_IN_TITLE": "Dùng {model} trong"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "Tín dụng chưa dùng không được chuyển sang {period} tiếp theo."
     },
     "META": {
-      "TITLE": "Bảng giá - {appName}",
-      "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI. Đăng ký để có giá trị tốt hơn hoặc trả theo mức dùng. Hoạt động với mã của bạn, với Claude Code, và với SillyTavern, RisuAI cùng bất kỳ ứng dụng chat AI tương thích OpenAI nào.",
+      "TITLE": "Giá {appName}: mô hình miễn phí, trả theo mức dùng, đăng ký",
+      "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI: mô hình miễn phí, trả theo mức dùng hoặc gói đăng ký tiết kiệm hơn. Cho mã của bạn, Claude Code, SillyTavern và RisuAI.",
       "KEYWORDS": "giá API AI, đăng ký AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá hợp lý, giá tương thích OpenAI, giá API đa mô hình"
     },
     "TITLE": "Bảng giá",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Tích hợp - {appName}",
-      "DESCRIPTION": "Hướng dẫn thiết lập cho mọi công cụ AI lớn và ứng dụng chat nhân vật. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI và các ứng dụng tương thích OpenAI khác.",
+      "DESCRIPTION": "Hướng dẫn thiết lập công cụ AI và ứng dụng trò chuyện nhân vật: Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI và nhiều ứng dụng khác.",
       "KEYWORDS": "hướng dẫn tích hợp AI, thiết lập Claude Code, thiết lập Codex CLI, thiết lập Gemini CLI, thiết lập OpenClaw, thiết lập SillyTavern, thiết lập RisuAI, thiết lập chat nhân vật AI, tài liệu API AI, thiết lập API tương thích OpenAI"
     },
     "BADGE": "Tích hợp",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Proxy miễn phí cho Janitor AI: Hướng dẫn cài đặt | {appName}",
-        "DESCRIPTION": "Dùng {appName} làm proxy miễn phí cho Janitor AI: mô hình DeepSeek và GLM miễn phí, URL proxy chính xác và cài đặt trong hai phút kèm bước tải lại mà hầu hết hướng dẫn bỏ qua.",
+        "TITLE": "Hướng dẫn proxy Janitor AI (2026): URL miễn phí và cài đặt | {appName}",
+        "DESCRIPTION": "URL proxy: https://api.unorouter.com/v1/chat/completions. DeepSeek và GLM miễn phí cho Janitor AI, cài đặt trong hai phút và bước tải lại thường bị bỏ sót.",
         "KEYWORDS": "proxy miễn phí Janitor AI, Janitor AI proxy miễn phí, proxy miễn phí tốt nhất cho Janitor AI, URL proxy Janitor AI, proxy Janitor AI, mô hình miễn phí Janitor AI, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Proxy miễn phí cho Janitor AI",
+      "TITLE": "Hướng dẫn proxy Janitor AI: Cài đặt proxy miễn phí",
       "SUBTITLE": "Kết nối {appName} với Janitor.AI như một proxy tùy chỉnh miễn phí, với các mô hình miễn phí và đúng định dạng URL mà bảng API Settings yêu cầu.",
       "INTRO_TITLE": "Janitor.AI là gì?",
       "INTRO_DESC": "Janitor.AI là nền tảng trò chuyện với nhân vật trên trình duyệt, chấp nhận mọi proxy tương thích OpenAI. {appName} được thêm vào bảng API Settings và cho bạn các mô hình miễn phí, cùng các mô hình trả phí dùng chung một khóa.",
@@ -1975,7 +2015,15 @@
       "FAQ_3_Q": "Vì sao tôi nhận lỗi \"Too many requests\" (429)?",
       "FAQ_3_A": "Mô hình miễn phí chỉ cho phép một số yêu cầu giới hạn trên mỗi tài khoản và mỗi mô hình, thường là một yêu cầu mỗi phút. Gửi lại ngay không giúp được: hãy chờ hết đếm ngược hoặc chuyển sang mô hình miễn phí khác. Mô hình trả phí không giới hạn theo phút.",
       "FAQ_4_Q": "URL proxy Janitor AI cho {appName} là gì?",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Dán đầy đủ URL, gồm cả /v1/chat/completions, vào ô Proxy URL, rồi tải lại hoàn toàn trình duyệt."
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions. Dán đầy đủ URL, gồm cả /v1/chat/completions, vào ô Proxy URL, rồi tải lại hoàn toàn trình duyệt.",
+      "FAQ_5_Q": "Janitor AI báo \"A network error occurred\" hoặc \"failed to fetch\". Tôi phải làm gì?",
+      "FAQ_5_A": "Gần như luôn là do Proxy URL. Nó phải đúng chính xác https://api.unorouter.com/v1/chat/completions, không có khoảng trắng, và ô chọn ''Add /chat/completions'' của Janitor phải để tắt. Lưu lại, rồi làm mới cứng bằng Ctrl+Shift+R. Nếu vẫn lỗi, hãy kiểm tra Model Name có khớp chính xác với một model id không.",
+      "FAQ_6_Q": "Vì sao Janitor AI báo lỗi 401 (Unauthorized)?",
+      "FAQ_6_A": "Khóa API bị thiếu, gõ sai hoặc đã bị tắt. Dán khóa từ trang API Key của {appName} đúng như hiển thị, không kèm chữ Bearer, và kiểm tra trên trang đó rằng khóa vẫn đang bật.",
+      "FAQ_7_Q": "Vì sao Janitor AI báo lỗi 403 (Forbidden)?",
+      "FAQ_7_A": "Khóa của bạn không được phép dùng mô hình đó: thường là mô hình trả phí khi số dư bằng 0, hoặc khóa bị giới hạn ở một số mô hình hay địa chỉ IP. Hãy chọn mô hình có đuôi :free, nạp thêm tiền, hoặc kiểm tra giới hạn của khóa trên trang API Key.",
+      "FAQ_8_Q": "Bot hoàn toàn không trả lời. Có phải {appName} đang gặp sự cố?",
+      "FAQ_8_A": "Thường là mọi nhà cung cấp của mô hình miễn phí đó đều đang bận, hoặc tên mô hình bị gõ sai. Hãy chuyển sang mô hình miễn phí khác và thử lại. Trang trạng thái cho biết những mô hình nào đang trực tuyến."
     },
     "RISUAI": {
       "META": {
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Chub / Venus | {appName}",
-        "DESCRIPTION": "Kết nối Chub.ai (Venus) với {appName} dưới dạng proxy ngược, kèm giải thích về việc đây là bên chuyển tiếp chính chủ để đối chiếu với cảnh báo proxy bên thứ ba của Chub.",
+        "TITLE": "Cài proxy ngược cho Chub AI (Venus): URL và mô hình miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Chub AI (Venus) với {appName} làm proxy ngược: dán https://api.unorouter.com/v1/chat/completions, chọn một mô hình miễn phí và trò chuyện.",
         "KEYWORDS": "Chub AI, Venus AI, reverse proxy Chub, {appName} Chub, chat nhân vật AI, API tương thích OpenAI, thiết lập Chub với OpenAI"
       },
       "BADGE": "Chub / Venus",
@@ -3946,7 +3994,7 @@
     "META": {
       "TITLE": "Trò chuyện AI - {appName}",
       "TITLE_WITH_NAME": "{title} | Trò chuyện AI - {appName}",
-      "DESCRIPTION": "Trò chuyện với bất kỳ mô hình AI nào: GPT, Claude, Gemini, DeepSeek và nhiều hơn trong một giao diện, hoặc dùng endpoint và khóa tương thích OpenAI của riêng bạn.",
+      "DESCRIPTION": "Trò chuyện với mọi mô hình AI: GPT, Claude, Gemini, DeepSeek và hơn thế trong một giao diện, hoặc dùng endpoint và khóa tương thích OpenAI của bạn.",
       "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình, BYOK, nhà cung cấp AI tùy chỉnh"
     },
     "OVERRIDES": {
@@ -5221,7 +5269,7 @@
     "INDEX": {
       "META": {
         "TITLE": "Hướng dẫn Chat {appName}",
-        "DESCRIPTION": "Mọi tính năng của phần trò chuyện nhập vai tích hợp trong {appName}: nhân vật, sổ tri thức, cấu hình dựng sẵn, macro, kịch bản, bộ nhớ, tạo ảnh và khả năng mang dữ liệu đi.",
+        "DESCRIPTION": "Mọi tính năng trò chuyện nhập vai tích hợp trong {appName}: nhân vật, sổ tri thức, cấu hình dựng sẵn, macro, kịch bản, bộ nhớ, tạo ảnh và mang dữ liệu đi.",
         "KEYWORDS": "hướng dẫn chat nhập vai, thẻ nhân vật, sổ tri thức, preset prompt, macro CBS, tài liệu nhập vai AI"
       },
       "TITLE": "Hướng dẫn Chat",
@@ -5689,7 +5737,7 @@
     "JANITORAI_IMPORT": {
       "META": {
         "TITLE": "Nhập các cuộc trò chuyện JanitorAI vào {appName}",
-        "DESCRIPTION": "Chuyển toàn bộ cuộc trò chuyện, nhân vật và lorebook từ JanitorAI sang {appName} bằng một script trình duyệt miễn phí. Hướng dẫn từng bước cho máy tính và Android, hoàn toàn cục bộ.",
+        "DESCRIPTION": "Chuyển cuộc trò chuyện, nhân vật và sổ tri thức từ JanitorAI sang {appName} bằng tập lệnh trình duyệt miễn phí. Từng bước cho máy tính và Android.",
         "KEYWORDS": "xuất janitorai, nhập janitorai, chuyển chat janitorai, sao lưu janitorai, tampermonkey"
       },
       "TITLE": "Nhập từ JanitorAI",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "Hướng dẫn nền tảng & FAQ",
-        "DESCRIPTION": "Bắt đầu nhanh, mô hình, giá, giới hạn tốc độ, mã lỗi và thanh toán cho API {appName}. Một endpoint tương thích OpenAI cho hơn 200 mô hình.",
+        "TITLE": "Tài liệu API {appName}: bắt đầu, khóa API, URL gốc, giới hạn",
+        "DESCRIPTION": "Lấy khóa API {appName}, đặt URL gốc https://api.unorouter.com/v1 và gửi yêu cầu đầu tiên. Mô hình, giá, giới hạn tốc độ, mã lỗi và thanh toán.",
         "KEYWORDS": "API {appName}, bắt đầu nhanh, giới hạn tốc độ, mã lỗi, thanh toán, giá, mô hình miễn phí"
       },
       "TITLE": "Hướng dẫn nền tảng",
@@ -5923,7 +5971,7 @@
     "NOTIFICATIONS": {
       "META": {
         "TITLE": "Thông báo mô hình và cảnh báo giá",
-        "DESCRIPTION": "Theo dõi bất kỳ mô hình nào và nhận cảnh báo thời gian thực về thay đổi giá, sự cố, phục hồi và mô hình miễn phí mới: dạng toast trên trang và đẩy trình duyệt khi thẻ đã đóng.",
+        "DESCRIPTION": "Theo dõi mọi mô hình, nhận cảnh báo tức thì về thay đổi giá, sự cố, phục hồi và mô hình miễn phí mới, trên trang hoặc qua thông báo đẩy trình duyệt.",
         "KEYWORDS": "thông báo mô hình, cảnh báo giá, mô hình miễn phí, đẩy trình duyệt, theo dõi mô hình, cảnh báo sự cố"
       },
       "TITLE": "Thông báo",
@@ -5965,7 +6013,7 @@
     "GROUP_PINNING": {
       "META": {
         "TITLE": "Ghim nhóm nhà cung cấp",
-        "DESCRIPTION": "Ghim các mô hình của khóa API vào những nhóm nhà cung cấp cụ thể: tính phí khóa theo mức giá của chúng, định tuyến rẻ nhất trước trong số đó và tự động chuyển dự phòng.",
+        "DESCRIPTION": "Ghim mô hình của khóa API vào nhóm nhà cung cấp cụ thể: tính phí theo giá của họ, định tuyến từ rẻ nhất và tự động chuyển dự phòng.",
         "KEYWORDS": "nhóm nhà cung cấp, ghim nhóm, định tuyến theo mô hình, giá theo nhóm, nhà cung cấp rẻ nhất, định tuyến khóa API"
       },
       "TITLE": "Ghim nhóm",
@@ -6001,7 +6049,7 @@
     "PLATFORM_API": {
       "META": {
         "TITLE": "API nền tảng",
-        "DESCRIPTION": "Đọc danh mục mô hình và giá theo thời gian thực của các nhà cung cấp mà không cần khóa, sau đó dùng token truy cập để đọc số dư, các khóa API và nhật ký sử dụng của bạn ngay trong mã nguồn.",
+        "DESCRIPTION": "Đọc danh mục mô hình và giá nhà cung cấp không cần khóa, rồi dùng token truy cập để xem số dư, khóa API và nhật ký sử dụng ngay từ mã nguồn.",
         "KEYWORDS": "api nền tảng, api giá mô hình, token truy cập, api nhật ký sử dụng, api hạn mức, truy cập bằng mã, danh mục mô hình json"
       },
       "TITLE": "API nền tảng",
@@ -6155,7 +6203,7 @@
     "DISCORD_REWARDS": {
       "META": {
         "TITLE": "Phần thưởng Discord và luật lệ",
-        "DESCRIPTION": "Mọi cách kiếm số dư {appName} miễn phí trên máy chủ Discord: thưởng liên kết, boost, bình chọn, lời mời, cấp độ hoạt động và bug bounty, cùng các luật đằng sau việc chi trả.",
+        "DESCRIPTION": "Cách kiếm số dư {appName} miễn phí trên Discord: thưởng liên kết, boost máy chủ, bình chọn, lời mời, cấp độ hoạt động, thưởng tìm lỗi và luật chi trả.",
         "KEYWORDS": "phần thưởng discord, số dư miễn phí, thưởng boost, thưởng bình chọn, thưởng lời mời, cấp độ hoạt động, bug bounty, luật lệ"
       },
       "TITLE": "Phần thưởng Discord",
@@ -6237,7 +6285,7 @@
     "CONSENTS": {
       "META": {
         "TITLE": "Sự đồng ý cho nhà cung cấp mô hình",
-        "DESCRIPTION": "Những nhà cung cấp nào trên {appName} cần sự đồng ý của bạn, cách đồng ý một lần cho mỗi nhà cung cấp, cách phản đối và cách ứng dụng API xử lý lỗi consent_required.",
+        "DESCRIPTION": "Nhà cung cấp nào trên {appName} cần bạn đồng ý, cách đồng ý một lần mỗi nhà cung cấp, cách phản đối và cách ứng dụng API xử lý lỗi consent_required.",
         "KEYWORDS": "đồng ý, GDPR, chuyển dữ liệu ra nước thứ ba, huấn luyện mô hình, phản đối, consent_required"
       },
       "TITLE": "Sự đồng ý cho nhà cung cấp mô hình",

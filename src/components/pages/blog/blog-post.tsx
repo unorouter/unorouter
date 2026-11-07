@@ -26,6 +26,7 @@ import {
 } from "./posts";
 import { PrevNextNav } from "./prev-next-nav";
 import { RelatedPosts } from "./related-posts";
+import { TrendingModels } from "./trending-models";
 import { upper } from "@/lib/utils/base";
 
 interface BlogPostProps {
@@ -181,6 +182,8 @@ export async function BlogPost(props: BlogPostProps) {
               </section>
             )}
           </div>
+
+          <TrendingModels />
 
           <BlogEngagement slug={post.slug} />
 

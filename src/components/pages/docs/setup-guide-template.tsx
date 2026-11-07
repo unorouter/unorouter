@@ -11,6 +11,7 @@ import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { Link } from "@/i18n/navigation";
+import { modelHref } from "@/lib/utils/base";
 import { getCachedFreeChatModels, getDocsApiKey } from "@/lib/api/page-data";
 import { APP_VALUES } from "@/lib/config/constants";
 import { OS } from "@/lib/types/enums";
@@ -41,8 +42,10 @@ export async function SetupGuideTemplate(props: { guide: SetupGuide }) {
   const guide = props.guide;
   const t = await getTranslations();
   const docs = await getDocsApiKey();
-  const freeModels = (await getCachedFreeChatModels(5)).map((m) => m.name);
+  const freeList = await getCachedFreeChatModels(5);
+  const freeModels = freeList.map((m) => m.name);
   const models = freeModels.length > 0 ? freeModels : guide.recommendedModels;
+  const vendorOf = new Map(freeList.map((m) => [m.name, m.vendor]));
 
   const hasSteps = guide.steps.length > 0;
   const hasCompat = COMPAT_ROWS.some((row) => guide.compatibility[row.key]);
@@ -377,7 +380,17 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           </p>
           <div className="flex flex-wrap gap-2">
             {models.map((model) => (
-              <Badge key={model} variant="outline" className="font-mono">
+              <Badge
+                key={model}
+                variant="outline"
+                className="hover:bg-muted/50 font-mono"
+                render={
+                  <Link
+                    href={modelHref(model, vendorOf.get(model))}
+                    prefetch={false}
+                  />
+                }
+              >
                 {model}
               </Badge>
             ))}

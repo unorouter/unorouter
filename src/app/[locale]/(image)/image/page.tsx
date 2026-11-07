@@ -19,6 +19,14 @@ export async function generateMetadata(props: {
   });
 }
 
-export default function ImageRootPage() {
-  return <ImagePageHydrated />;
+export default async function ImageRootPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const t = await getTranslations({ locale: await serverLocale(props) });
+  return (
+    <>
+      <h1 className="sr-only">{t("IMAGE.META_TITLE", APP_VALUES)}</h1>
+      <ImagePageHydrated />
+    </>
+  );
 }

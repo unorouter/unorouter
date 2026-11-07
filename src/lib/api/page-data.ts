@@ -40,6 +40,14 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
+// Top weekly paid models with a vendor page, for internal links from content.
+export async function getTrendingModels(limit: number) {
+  const data = await fetchRankings("week").catch(() => null);
+  return (data?.models ?? [])
+    .filter((m) => !m.model_name.endsWith(":free") && m.vendor)
+    .slice(0, limit);
+}
+
 async function seedCatalogClient() {
   const qc = new QueryClient();
   const [browse, rankings, perf] = await Promise.all([
@@ -113,7 +121,8 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   }));
 
   const modelFor = (vendor: string) =>
-    models.find((m) => m.vendor?.toLowerCase() === vendor.toLowerCase())?.name ??
+    models.find((m) => m.vendor?.toLowerCase() === vendor.toLowerCase())
+      ?.name ??
     models[0]?.name ??
     "model-name";
   const anthropicModel = modelFor("Anthropic");

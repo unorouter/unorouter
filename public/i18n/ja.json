@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - JanitorAI向け無料AIプロキシ、全AIモデルを1つのキーで",
-    "DESCRIPTION": "JanitorAI と SillyTavern で使える無料AIモデルに加え、Claude、GPT、Gemini、DeepSeek を1つのキーで。コード、Claude Code、あらゆるAIクライアントで使えます。",
+    "TITLE": "{appName}：Janitor AI無料プロキシ、カード不要",
+    "DESCRIPTION": "Janitor AIとSillyTavern向け無料プロキシ。DeepSeekやGLMなど100以上の無料モデルを1つのキーで、カード不要。2分で使えます。",
     "KEYWORDS": "無料AIプロキシ, Janitor AI 無料プロキシ, Janitor AI プロキシ, SillyTavern API, 無料AI API, AI API, OpenAI 代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ",
     "ACCOUNT": {
       "TITLE": "{appName} アカウント",
@@ -38,7 +38,8 @@
       "SUBTITLE": "{appName} は、ひとつの鍵であなたを {modelCount}以上のAIモデルにつなぎます。それでアプリを作りエージェントを動かすもよし、セットアップを省いてこのサイト上で直接キャラクターとチャットするもよし。同じ鍵、同じ速度、同じ価格。",
       "CTA_PRIMARY": "はじめる",
       "CTA_SECONDARY": "モデルを見る",
-      "TITLE_ROTATE": "API,チャット,キャラクター,ストーリー,コード,知能"
+      "TITLE_ROTATE": "API,チャット,キャラクター,ストーリー,コード,知能",
+      "SEO_HEADING": "Janitor AIとすべてのモデルに使える無料AIプロキシ"
     },
     "STATS": {
       "MODELS": "モデル",
@@ -200,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - JanitorAI向け無料AIプロキシ、全AIモデルを1つのキーで",
-      "DESCRIPTION": "JanitorAI と SillyTavern で使える無料AIモデルに加え、Claude、GPT、Gemini、DeepSeek を1つのキーで。コード、Claude Code、あらゆるAIクライアントで使えます。",
+      "TITLE": "{appName}：Janitor AI無料プロキシ、カード不要",
+      "DESCRIPTION": "Janitor AIとSillyTavern向け無料プロキシ。DeepSeekやGLMなど100以上の無料モデルを1つのキーで、カード不要。2分で使えます。",
       "KEYWORDS": "無料AIプロキシ, Janitor AI 無料プロキシ, Janitor AI プロキシ, SillyTavern API, 無料AI API, AI API, OpenAI 代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ"
     },
     "HOW_IT_WORKS": {
@@ -354,8 +355,8 @@
       "TABLE": "テーブル表示"
     },
     "META": {
-      "TITLE": "AIモデル {appName}",
-      "DESCRIPTION": "すべてのAIモデルをひとつの場所に。GPT、Claude、Gemini、DeepSeek など。コード内でも、OpenAI互換の任意のAIチャットクライアントでも使えます。どちらも同じ価格。",
+      "TITLE": "AIモデルと無料LLM：料金、コンテキスト、制限 | {appName}",
+      "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek などすべてのAIモデルを一か所に。コードでもOpenAI互換チャットクライアントでも同じ価格です。",
       "KEYWORDS": "AIモデル、モデルライブラリ、AI料金、GPTモデル、Claudeモデル、Geminiモデル、DeepSeekモデル、AIモデル比較、マルチモデルAPI、AIチャットモデル"
     },
     "BADGE": "モデルライブラリ",
@@ -498,8 +499,8 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "ランキング | {appName}",
-      "DESCRIPTION": "{appName} で最も使われている AI モデルと急成長中のベンダーを、リアルタイムのトークン使用量でランキング。プラットフォームの実利用データから継続的に更新されます。",
+      "TITLE": "実際の利用量によるAIモデルランキング | {appName}",
+      "DESCRIPTION": "{appName} で最も使われているAIモデルと急成長中のベンダーを、実際のトークン使用量でリアルタイムにランキング。",
       "KEYWORDS": "AI モデルランキング, LLM リーダーボード, 人気 AI モデル, AI ベンダーシェア, 最も使われている AI モデル, モデル利用統計"
     },
     "HERO": {
@@ -622,7 +623,8 @@
         "P_PARTNERS": "パートナーは、{appName} 上で動くプロジェクト、アプリ、ボット、コミュニティです。掲載前にすべて確認しています。パートナーには、私たちの <discord>Discord</discord> のパートナーチャンネルでの専用投稿、Partner ロール、そしてこのような紹介が届きます。その代わりに、パートナー側でも {appName} に言及してもらいます。{appName} へのアクセスの再販は、私たちの承認があれば有料モデルに限って認めています。無料モデルが再販されることはありません。",
         "H_APPLY": "申し込み方法",
         "P_APPLY": "{appName} 上で何かを作っていますか？ <discord>Discord</discord> で、プロジェクトの名前とリンク、何をするもので {appName} をどう使っているか、{appName} のユーザー名、おおよそのユーザー数を送ってください。",
-        "CTA": "Qronos を試してみませんか？ <qronos>qronos.me</qronos> にアクセスするか、<qronos_discord>彼らの Discord</qronos_discord> に参加してください。{appName} は初めてですか？ <register>アカウントを作成</register>するか、<models>モデルを見て</models>みてください。"
+        "CTA": "Qronos を試してみませんか？ <qronos>qronos.me</qronos> にアクセスするか、<qronos_discord>彼らの Discord</qronos_discord> に参加してください。{appName} は初めてですか？ <register>アカウントを作成</register>するか、<models>モデルを見て</models>みてください。",
+        "META_DESCRIPTION": "Qronos AI は {appName} 上で LLM ゲートウェイと AI ロールプレイの Discord コミュニティを運営。パートナープログラムも紹介。"
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "リクエストの行き先：プロバイダーラベル、画像のマーキング、プライバシーに関する更新",
@@ -641,7 +643,8 @@
         "P_MARKING": "2026 年 12 月から、EU AI 法により、生成された画像や動画には AI 生成であることを機械可読な形で表示することが義務付けられます。{appName} は、配信するすべての画像と動画に、ファイル内の標準メタデータとしてこの表示を追加するようになりました。見た目は何も変わらず、画像の再エンコードも行わないため、品質はまったく同じです。プロバイダーがすでに埋め込んでいる表示はそのまま残します。",
         "H_ALSO": "そのほかの変更点",
         "P_ALSO": "プライバシーポリシーに、リクエストがルーティングされる可能性のある国と、それぞれの法的根拠を明記しました。サイトに法定表記（Impressum）ページを設けました。不具合で設定できなくなっていた二要素認証が、再び設定できるようになりました。また、アカウントの重要な変更を行う際には、本人であることの確認を求めるようになりました。完全な一覧は<privacy>プライバシーポリシー</privacy>にあります。また、無料モデルはモデルごとに一度同意を求めるようになりました。<post_consent_for_free_models>仕組みはこちら</post_consent_for_free_models>。",
-        "CTA": "特定のプロバイダーについて質問がありますか？Discord でお気軽にお尋ねいただくか、<models>モデルページ</models>のラベルをご確認ください。"
+        "CTA": "特定のプロバイダーについて質問がありますか？Discord でお気軽にお尋ねいただくか、<models>モデルページ</models>のラベルをご確認ください。",
+        "META_DESCRIPTION": "各モデルページにプロバイダーの所在国を表示し、EUのデータ保護がない国に印を付けました。ラベルの意味とルートの選び方。"
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "LoreBary の件で起きたことと、{appName} があなたについて保存しているもの",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "チャットは私たちのサーバーではなく、あなた自身のブラウザに保存されます。消せばそれで消えます。私たちのゲートウェイは、送信したプロンプトも受け取った返信も保存せず、請求に必要な情報だけを記録します。モデル、トークン数、費用、所要時間、リクエストが成功したかどうかです。リクエストとともに記録された IP アドレスは 30 日後に消去されます。あなたのデータで学習することはなく、ウェブサイトではアクセス解析を使用していません。ウェブサイト、ゲートウェイ、同期システム、Discord ボットはオープンソースなので、私たちの言葉を信じる代わりに、これらすべてを GitHub で確認できます。",
         "H_PROVIDERS": "約束できないこと",
         "P_PROVIDERS": "それでもリクエストは、あなたが選んだモデルまで届ける必要があり、そのプロバイダーは自社の規約に従ってそれを扱います。受け取った内容を保存したり学習に使ったりするプロバイダーもあり、特に無料のものに多く見られます。私たちのプライバシーポリシーにもはっきり書いてあります。どこでも通用するいちばん安全な習慣は、プロンプトに個人情報を入れないことです。その後、各モデルにはプロバイダーの所在地が表示されるようになり（<post_where_your_requests_go>ラベルの意味</post_where_your_requests_go>）、無料モデルは利用前に同意を求めるようになりました（<post_consent_for_free_models>仕組み</post_consent_for_free_models>）。全体像は<privacy>プライバシーポリシー</privacy>をご覧ください。",
-        "CTA": "この件について質問があれば Discord でどうぞ。コードを自分で読むこともできます。そのほかは <chat>チャットを始める</chat> か <models>モデルを見る</models> からどうぞ。"
+        "CTA": "この件について質問があれば Discord でどうぞ。コードを自分で読むこともできます。そのほかは <chat>チャットを始める</chat> か <models>モデルを見る</models> からどうぞ。",
+        "META_DESCRIPTION": "4日間、LoreBary の自社モデルを無断で提供していました。経緯と変更点、{appName} が保存するデータを正確に説明します。"
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "偽Claude検出器がオープンソースライブラリになりました",
@@ -683,7 +687,8 @@
         "H_USE_IT": "使い方",
         "P_USE_1": "<tester>モデルテスター</tester>は署名検査とトークン検査を含む全セットをあなたのブラウザ内で実行し、プロバイダーへの呼び出し以外は何もあなたのマシンから出ていきません。<rankings>ランキングページ</rankings>は、利用者が共有を選んだ結果を公開しています。自分のパイプラインで使うなら次のとおりです。",
         "P_USE_2": "必要なものだけ有効にしてください。<c>checkSignature</c>と<c>checkTokenTruth</c>はそれぞれ追加のリクエストを消費するため、指定しない限り無効のままです。エンベロープのメタデータとスループットは、実行がすでに受け取った応答から読み取るので追加コストはかかりません。",
-        "CTA": "<tester>プロバイダーをテストする</tester>か、すべての発端となった数字を知るために<first>4月の記事</first>を読むか、本物のエンドポイントが誤った判定を受けた場合は<repo>GitHub</repo>でissueを開いてください。"
+        "CTA": "<tester>プロバイダーをテストする</tester>か、すべての発端となった数字を知るために<first>4月の記事</first>を読むか、本物のエンドポイントが誤った判定を受けた場合は<repo>GitHub</repo>でissueを開いてください。",
+        "META_DESCRIPTION": "偽Claude検出エンジン ai-model-verifier をAGPL-3.0でnpm公開。エンドポイントが表示どおりのモデルかを判定します。"
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "ロールプレイ向け Claude Opus 4.8 対 4.6 対 4.7：実地ランキング",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7 が最ももどかしく、言い回しやセリフを繰り返し、変化を出すには何度も再生成が必要でした。4.6 は大きく前進し、動作や雰囲気、表情に独自の細部を加えてきました。4.8 は本当に驚かせてくれました。自発性で知られるキャノンのキャラクターを取り上げ、それを真っ向から演じ、動作を始めたかと思えば同じ一拍のうちにそれを覆す、キャラクターに沿ったミスディレクションはそう簡単には真似できません。それこそが 4.8 を頂点へ押し上げたものです。",
         "H_VERDICT": "結論",
         "P_VERDICT": "{appName} 上のロールプレイなら、いま手を伸ばすべきは 4.8、4.6 は安価な控えとして残し、4.7 は飛ばしましょう。3つとも<models>モデル選択</models>で1クリックの差なので、自分のキャラクターをそれぞれで試してみてください。サンプラー、ロアブック、記憶設定はどのモデルでも引き継がれ、カスタムプロンプトで 4.6 をより推進力寄りに、4.8 をより深み寄りに押しやることもできます。ヒント：各モデルは使い終えた直後、次のモデルに目を奪われる前に採点すること。それが、新しいモデルに実際に何が欠けているかを見抜く唯一の方法です。",
-        "CTA": "自分でも試してみたいですか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開いて</chat>、一つの場所で <post_claude_authenticity>Opus の各バージョン</post_claude_authenticity>を切り替えてみましょう。"
+        "CTA": "自分でも試してみたいですか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開いて</chat>、一つの場所で <post_claude_authenticity>Opus の各バージョン</post_claude_authenticity>を切り替えてみましょう。",
+        "META_DESCRIPTION": "ロールプレイヤーが {appName} で Claude Opus 4.8、4.6、4.7 を記憶力や感情の深みで採点。勝者は 4.8、次点は 4.6。"
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM：同じコーダー向けゲートウェイ、さらにチャットクライアント",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "MegaLLMと同様、{appName}は<post_what_is_an_llm_gateway>OpenAI互換</post_what_is_an_llm_gateway>です。クライアントを<c>https://api.unorouter.com/v1</c>に向けて、コードはそのまま。同じキーがチャット側にも届くので、二つ目のアカウントはありません。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "コードだけ書いて、トークンコスト向けに調整された無駄のないフロンティアモデルのゲートウェイが欲しい？MegaLLMは堅実です。コーディングエージェントと組み込みチャットクライアントを同じ残高から、より広いカタログで動かす一つのキーが欲しい？それが{appName}です。",
-        "CTA": "ゲートウェイとチャットを一つに。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "ゲートウェイとチャットを一つに。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "MegaLLM はコーディングエージェント向けゲートウェイ。{appName} は同じ役割に加え、チャットとキャラクタークライアントを内蔵。"
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} 対 Portkey：AIゲートウェイか、本格的なLLMOpsプラットフォームか",
@@ -734,7 +741,8 @@
         "P_COST": "Portkeyはプラットフォームを軸に値付けします。低ボリュームは無料、その後は可観測性と統制のための有料プランが、各プロバイダーへの支払いの上に乗ります。コントロールプレーンがチームの実時間を節約するなら価値があります。{appName}は200以上のモデルにわたる従量課金で、失効しない一つの残高、無料枠。チームの規模を下回るなら、無駄のない道の方が安くつきます。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "組織のためにLLM機能を運用し、可観測性、ガードレール、統制が必要？Portkeyはまさにそのために作られています。運用するものが何もなく、コーディングエージェントとチャットクライアントで動く一つのキーが欲しい？{appName}。良し悪しではなく、ただプラットフォームが少ないだけです。",
-        "CTA": "運用不要のゲートウェイをお探しですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "運用不要のゲートウェイをお探しですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "Portkey はエンタープライズ向けLLMOpsプラットフォーム。{appName} はチャット内蔵のシンプルなホスト型ゲートウェイです。"
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} 対 nano-gpt：チャットマーケットプレイスか、両方に効く1つのキーか",
@@ -751,7 +759,8 @@
         "P_PAY": "どちらも従量課金で、断続的でマルチモデルな使い方に正しいモデルです。{appName}はそれを、失効しない一つの残高、<free>無料枠</free>、そして一つのUIでしか使えないマーケットの財布ではなく、コードとチャットをまたぐ一つのキーに保ちます。請求の形は同じ、違いは一つのキーがどこまで届くかです。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "主に、できるだけ広いモデル一覧を味見するWebのUIが欲しい？nano-gptはそれが得意です。コーディングエージェントと本物のキャラクタークライアントで動き、クレジットが旅する一つのキーが欲しい？{appName}。",
-        "CTA": "コードとキャラクターチャットを1つのキーで使いたいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "コードとキャラクターチャットを1つのキーで使いたいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "nano-gpt はチャットUIと巨大なカタログ。{appName} は従量課金に加え、開発者向けAPIとキャラクタークライアントを1つのキーで。"
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "2026年、SillyTavernに最適なAIゲートウェイ",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName}には無料枠と200を超えるモデルがあるので、<free>無料モデル</free>でカードを試し、シーンに値打ちがあるときだけ、より強力な有料モデルに移れます。クレジットは期限切れにならず、課金は従量制で、1つの残高があらゆるクライアントとモデルをカバーします。正当化すべき月額の席はなく、1か月休んでも解約するものはありません。",
         "H_VERDICT": "手短な答え",
         "P_VERDICT": "最良の SillyTavern ゲートウェイは、OpenAI互換のエンドポイント、本物のモデルの幅広さ、従量課金クレジット、そして始めるための無料枠を備え、1つの鍵が設定全体を運ぶものです。{appName} はまさにそのケースのために作られており、同じ鍵はあなたが使う他のどのキャラクターチャットフロントエンドでも動き続けます。",
-        "CTA": "SillyTavernを接続する準備はできましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "SillyTavernを接続する準備はできましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "SillyTavern にはOpenAI互換エンドポイントとキーが必要。ゲートウェイ選びで重要な点と、1分以内で接続する方法。"
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 対 RisuAI：キャラクターチャットエンジンをホスト型2-in-1に移植しました",
@@ -786,7 +796,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "最も豊かなメモリを備えた、自前ホスティングでオープンで深く拡張できるフロントエンドが欲しく、自分のキーを持ち込むのも構わない？Risuを。同じロアブック、CBS、カードの機能を、キーがコーディングエージェントも動かすホスティング済みの形で欲しい？それが{appName}です。",
         "CTA": "すべて移植されたチャットを試してください。<register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
-        "METHOD": "どう検証したか。ここでのRisuAIの機能に関する主張は、そのマーケティングではなく、RisuAI自身のオープンソース、すなわちそのlorebook、CBSマクロ、トリガー、メモリの各モジュールに照らして確認しました。{appName}がアイデアを移植したと述べているところは、私たちがそのコードを読み、その挙動を作り直したという意味です。"
+        "METHOD": "どう検証したか。ここでのRisuAIの機能に関する主張は、そのマーケティングではなく、RisuAI自身のオープンソース、すなわちそのlorebook、CBSマクロ、トリガー、メモリの各モジュールに照らして確認しました。{appName}がアイデアを移植したと述べているところは、私たちがそのコードを読み、その挙動を作り直したという意味です。",
+        "META_DESCRIPTION": "{appName} は RisuAI のエンジン（ロアブック、CBSマクロ、正規表現）をホスト型に移植。同じキーでコーディングエージェントも。"
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM：ホスト型ゲートウェイか自前運用プロキシか",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLMは上乗せを取りませんが、各プロバイダーには自分で払い、インフラとDevOpsの時間を背負います。チームがいて高ボリュームなら勝ちます。{appName}は200以上のモデルにわたる<pricing>従量課金</pricing>で、失効しない一つの残高、支払うサーバーなし。本気の規模を下回るなら、時間を数えればホスティング済みの方がたいてい安くつきます。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "プラットフォームチームがいて上乗せゼロが欲しい？LiteLLM。デプロイするものが何もなく、コーディングエージェントとチャットクライアントで動く一つのキーが欲しい？{appName}。",
-        "CTA": "デプロイ不要のゲートウェイが欲しいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "デプロイ不要のゲートウェイが欲しいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "LiteLLM は人気の自前運用LLMプロキシ、{appName} はチャット内蔵のホスト型ゲートウェイ。インフラを自分で運用するかが分かれ目。"
       },
       "FEATURED_ON": {
         "TITLE": "{appName}を見つける場所：ディレクトリ掲載一覧",
@@ -817,7 +829,8 @@
         "H_VERIFY": "信頼する前に検証してください",
         "P_VERIFY": "いずれかのバッジを開き、掲載が当社の本物のドメインを指していることを確認し、独立した説明を確認してください。<post_open_source_openrouter_alternative>検証可能で公開された出所</post_open_source_openrouter_alternative>までたどれないサービスに、APIキーを貼り付けてはいけません。",
         "H_TRY": "ご自身でお試しください",
-        "CTA": "十分にご覧いただけましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "十分にご覧いただけましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "{appName}はAIツールとスタートアップのディレクトリに掲載されています。掲載先の確認や第三者の評価はこちら。"
       },
       "LAUNCH": {
         "TITLE": "偽Claude にうんざりしたので、{appName} を作りました。",
@@ -832,7 +845,8 @@
         "P_HARNESS": "モデルはツールで動いてこそ役立ちます。すべてのモデルについて HTTP 補完、ストリーミング、ツール呼び出しをエンドツーエンドでテストしています。この3つの機能こそ、AIターミナルハーネスが依存するものです。私たちのカタログに載っているモデルであれば、<post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>、Codex CLI、Gemini CLI、そしてあらゆる OpenAI 互換クライアントで動作します。セッション中に「ストリーミング非対応」で突然失敗する心配はありません。",
         "H_NEXT": "今後の予定",
         "P_NEXT": "私たちは毎週リリースしています。より多くのモデル、スマートなフォールバックを導く<rankings>より精密なヘルスシグナル</rankings>、より充実したコストとレイテンシのダッシュボード、そしてすでに使い慣れたターミナルやIDEとのより深い統合をお届けします。",
-        "CTA": "試してみませんか？<register>APIキーを取得</register> または <models>モデルカタログを閲覧</models> してください。"
+        "CTA": "試してみませんか？<register>APIキーを取得</register> または <models>モデルカタログを閲覧</models> してください。",
+        "META_DESCRIPTION": "頻繁な障害と、安物にすり替えられるプレミアムモデル。我慢の限界で自前のルーターを作ったローンチ秘話です。"
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare の AIエージェント対応スキャナーをかけたら、100点満点でした。",
@@ -851,7 +865,8 @@
         "P_STUBS": "これらのチェックは単純なスタブです。スキャナーは基本的に、ウェルノウン URL が存在し、200 を返し、最上位の形が正しいかを確認するだけです。本物の OAuth フローを最後まで走らせるわけではなく、MCP ツールを実際に呼び出すわけでもなく、x402 の支払いを精算するわけでもありません。緑のチェックはドアが開いていることを意味するだけで、その奥の部屋まで仕上がっているわけではありません。プロトコルを本番で頼りにする側は、<post_ai_model_verifier>独自のエンドツーエンド検証</post_ai_model_verifier>を行うべきです。OAuth フローを最後まで往復し、本物のクライアントから MCP ツールを呼び、x402 支払いを最終的な決済まで通すといった具合です。スコアは表面が整っていることを示す強いシグナルですが、プロトコルレベルの適合性テストの代わりにはなりません。",
         "H_TRY": "あなたのサイトでも試してみてください",
         "P_TRY": "AI エージェントがいつか触れる可能性のあるものを作っているなら、このスキャナーは本当に試す価値があります。多数の小さな標準を 1 つのビューにまとめ、どのウェルノウンパスが欠けていたり壊れていたりするかを正確に教えてくれます。私たちはディスカバリ、認証、コマース面に手を入れるたびに、リグレッションチェックとして使っています。",
-        "CTA": "あなたのサイトは <scanner>isitagentready.com</scanner> でスキャンできます。もし {appName} を試しに来てくれたなら、<register>API キーを取得</register> して<post_what_is_an_llm_gateway>ルーティングを始めましょう</post_what_is_an_llm_gateway>。"
+        "CTA": "あなたのサイトは <scanner>isitagentready.com</scanner> でスキャンできます。もし {appName} を試しに来てくれたなら、<register>API キーを取得</register> して<post_what_is_an_llm_gateway>ルーティングを始めましょう</post_what_is_an_llm_gateway>。",
+        "META_DESCRIPTION": "Cloudflare のAIエージェント対応スキャナーで 100/100、最上位のレベル5 を獲得。何を検査し、なぜ多くのサイトが落ちるのか。"
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "本物のClaudeと偽物の見分け方",
@@ -887,7 +902,8 @@
         "H_TEST": "自分のプロバイダーをテストする",
         "TEST_P": "何もインストールする必要はありません。<link>APIモデルテスター</link>を開き、プロバイダーのアドレスとキーを貼り付けてモデルを選ぶだけで、これらのチェックがその場で実行され、何が合格し何が不合格だったのかが正確に表示されます。",
         "TEST_CURL": "コマンドラインのほうがお好みですか？これは上で紹介した子猫テストです。応答が断ったり、コーディングの話に誘導したりするなら、あなたの「Claude」はClaudeではありません。",
-        "TEST_OPEN": "どちらもオープンソースなので、誰でも仕組みを確かめたり、自分で動かしたりできます。チェックを行うのは<verifier>ai-model-verifier</verifier>（<npm>npm</npm>でも公開）で、私たちがルーティングするすべてのプロバイダーに対してそれを実行しているのが<sync>new-api-sync</sync>です。"
+        "TEST_OPEN": "どちらもオープンソースなので、誰でも仕組みを確かめたり、自分で動かしたりできます。チェックを行うのは<verifier>ai-model-verifier</verifier>（<npm>npm</npm>でも公開）で、私たちがルーティングするすべてのプロバイダーに対してそれを実行しているのが<sync>new-api-sync</sync>です。",
+        "META_DESCRIPTION": "格安Claudeの多くは別モデル。モデルへの質問や知識カットオフでは証明できない理由と、偽物を本当に見抜くチェック方法。"
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "本当に 6 枚の参照画像を受け取れる画像モデルはどれか。ベンチマークを走らせました。",
@@ -918,7 +934,8 @@
         "METADATA_P2": "6 枚のペイロードを受け取れるモデルだけ知りたければ、このフィールドでフィルタしてください。新しいモデルも同じベンチマークを通過した時点で同じタグが付きます。",
         "H_TRY": "試す",
         "TRY_P": "上のモデルはすべて、<docs>ひとつの OpenAI 互換エンドポイント</docs>から使えます。マルチリファレンスの画像編集は、上流が定義したそのままの形で公開しており、追加のラッピングはありません。6 枚の画像とプロンプトを渡せば、ルーターが通るプロバイダを選びます。",
-        "CTA": "<register>API キーを取得</register>、または <models>画像カタログを見る</models>で検証済みリスト全体を確認できます。"
+        "CTA": "<register>API キーを取得</register>、または <models>画像カタログを見る</models>で検証済みリスト全体を確認できます。",
+        "META_DESCRIPTION": "6枚の参照画像で合成するプロンプトを全画像チャネルに送信。332回実行、136モデル中54モデルで検証済みの合格を確認。"
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "{appName} のDiscordに参加して無料クレジットをもらおう",
@@ -934,7 +951,8 @@
         "H_BUGS": "バグバウンティ、最大50ドル",
         "P_BUGS": "<post_open_source_openrouter_alternative>プラットフォームの本物のバグ</post_open_source_openrouter_alternative>を見つけたらbug-bountyフォーラムに報告してください。スタッフが深刻度を選び、botが支払います：Low 0.25ドル、Medium 0.50ドル、High 1ドル、Critical 50ドル。スレッドの作成者ではなく、実際にバグを特定した人に支払われます。",
         "H_JOIN": "気軽に遊びに来てください",
-        "CTA": "準備はいい？ <invite>{appName} のDiscordに参加</invite>して、<register>APIキーを取得</register>し、<settings>アカウントをリンク</settings>して最初の1ドルを受け取りましょう。"
+        "CTA": "準備はいい？ <invite>{appName} のDiscordに参加</invite>して、<register>APIキーを取得</register>し、<settings>アカウントをリンク</settings>して最初の1ドルを受け取りましょう。",
+        "META_DESCRIPTION": "アカウントをリンクして1ドル、サーバーをブーストして毎月1ドル、バグハントで最大50ドル。{appName} のDiscordがオープンしました。"
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "約50プロバイダーの130以上の無料AIモデルを1つのエンドポイントに集約しました",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "無料枠のレート制限はどうなっていますか？",
         "FAQ_2_A": "ユーザーあたり、モデルあたり約1リクエスト/分です。上限に達するとHTTP 429がRetry-Afterヘッダーとともに返されます。130以上の無料モデルがあるため、待つよりもモデルをローテーションする方が現実的です。",
         "FAQ_3_Q": "無料モデルにクレジットカードは必要ですか？",
-        "FAQ_3_A": "いいえ。DiscordかGitHubでサインアップし、キーを作成して、:free サフィックスの付いたモデルを使うだけです。1回限りの $1 のDiscord認証ボーナスは有料モデルに使えます。"
+        "FAQ_3_A": "いいえ。DiscordかGitHubでサインアップし、キーを作成して、:free サフィックスの付いたモデルを使うだけです。1回限りの $1 のDiscord認証ボーナスは有料モデルに使えます。",
+        "META_DESCRIPTION": "約50の無料プロバイダーを{appName}に接続。130以上の無料モデルを1つのOpenAI互換エンドポイントで、トークン単価$0。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} と OpenRouter：正直な比較",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "同じキーをコーディングエージェントとロールプレイチャットの両方で使えますか？",
         "FAQ_2_A": "はい。{appName}のキー1つがOpenAI互換APIを通じてClaude Code、Cline、OpenCodeで動き、同じアカウントに本格的なキャラクターチャットクライアントも含まれ、SillyTavernやJanitorAIにもそのまま組み込めます。",
         "FAQ_3_Q": "OpenRouterから{appName}へはどう乗り換えますか？",
-        "FAQ_3_A": "クライアントの接続先を https://api.unorouter.com/v1 に変えるだけで、コードはそのままです。APIはOpenAI互換で、モデル名は GET /v1/models から取得でき、AnthropicとGeminiのネイティブエンドポイントも提供されます。"
+        "FAQ_3_A": "クライアントの接続先を https://api.unorouter.com/v1 に変えるだけで、コードはそのままです。APIはOpenAI互換で、モデル名は GET /v1/models から取得でき、AnthropicとGeminiのネイティブエンドポイントも提供されます。",
+        "META_DESCRIPTION": "{appName} も OpenRouter も多数のモデルを1つのOpenAI互換キーで提供。違いはチャットとキャラクタークライアントの有無。"
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026年のOpenRouterに代わるベストな選択肢",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "OpenRouterの代替はSillyTavernやJanitorAIで動きますか？",
         "FAQ_2_A": "OpenAI互換のゲートウェイなら動きます。SillyTavernではベースURLに https://api.unorouter.com/v1 を、JanitorAIでは完全なエンドポイント https://api.unorouter.com/v1/chat/completions を対応するキーとともに使います。",
         "FAQ_3_Q": "オープンソースのOpenRouter代替はありますか？",
-        "FAQ_3_A": "{appName}はフロントエンド、ゲートウェイ、ボット、プロバイダー同期まで、github.com/unorouter でOSIライセンスの下、端から端までオープンソースです。LiteLLMもオープンソースですが、自分のキーを持ち込むプロキシで、ホストされたカタログはありません。"
+        "FAQ_3_A": "{appName}はフロントエンド、ゲートウェイ、ボット、プロバイダー同期まで、github.com/unorouter でOSIライセンスの下、端から端までオープンソースです。LiteLLMもオープンソースですが、自分のキーを持ち込むプロキシで、ホストされたカタログはありません。",
+        "META_DESCRIPTION": "1つのキーで多数のモデルを使う方法は OpenRouter だけではありません。2026年の代替手段、得意分野、選び方をまとめます。"
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}：オープンソースのOpenRouter代替",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "{appName}をセルフホストできますか？",
         "FAQ_2_A": "はい。リポジトリをクローンしてスタックを自分で動かすか、任意のOpenAI互換クライアントをホスト版エンドポイント https://api.unorouter.com/v1 に向けて運用の手間を省くこともできます。",
         "FAQ_3_Q": "{appName}はLiteLLMと何が違いますか？",
-        "FAQ_3_A": "LiteLLMは自分でプロバイダーのキーを持ち込み、アカウントも自分で管理するセルフホスト型プロキシです。{appName}はキー1つ、200+のモデル、無料枠を備えたホスト型でありながら、LiteLLMと同じくオープンソースのままです。"
+        "FAQ_3_A": "LiteLLMは自分でプロバイダーのキーを持ち込み、アカウントも自分で管理するセルフホスト型プロキシです。{appName}はキー1つ、200+のモデル、無料枠を備えたホスト型でありながら、LiteLLMと同じくオープンソースのままです。",
+        "META_DESCRIPTION": "{appName} は1つのキーで200以上のモデル。OSIライセンスで全スタック公開、セルフホスト可能、ホスト版の無料枠付き。"
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLMゲートウェイとは何か",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "LLMゲートウェイでレイテンシは増えますか？",
         "FAQ_2_A": "ホップが1つ増える分、通常は数十ミリ秒程度で、実際にはストリーミングで隠れます。応答が遅い原因はゲートウェイよりもモデル自体であることのほうがはるかに多いです。",
         "FAQ_3_Q": "{appName}はどのエンドポイントを提供していますか？",
-        "FAQ_3_A": "OpenAI互換の /v1/chat/completions、/v1/responses、/v1/embeddings、Anthropicネイティブの /v1/messages、Geminiネイティブの /v1beta を、すべてキー1つで提供します。"
+        "FAQ_3_A": "OpenAI互換の /v1/chat/completions、/v1/responses、/v1/embeddings、Anthropicネイティブの /v1/messages、Geminiネイティブの /v1beta を、すべてキー1つで提供します。",
+        "META_DESCRIPTION": "LLMゲートウェイは、多数のモデルプロバイダーへ振り分ける1つのエンドポイントとキー。役割、利点、必要な人を解説します。"
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "どんなLLMもSillyTavernにつなぐ方法",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "モデル一覧が読み込まれないときは、ベースURLが<c>/v1</c>で終わっているか、キーに余計な空白がなく貼られているか、もう一度確かめてください。401はキーが間違っているか期限切れの意味です。もう一度コピーしてください。モデルでの404は、そのモデル名が読み込んだ一覧から選ばれていない意味です。返信が途切れるなら、SillyTavernの設定で応答の長さを上げてください。セットアップ失敗のほとんどは打ち間違えたベースURLか空白入りのキーなので、まずそこを確かめてください。",
         "H_VERDICT": "種明かしはこれだけ",
         "P_VERDICT": "どのLLMを SillyTavern につなぐかは、結局OpenAI互換のエンドポイント1つと鍵1つに行き着き、ゲートウェイがそれを1つのセットアップの背後にある多数のモデルに変えます。{appName} はそのベースURL、始めるための無料枠、そして何もやり直さずに切り替えられる200以上のモデルを提供します。一度設定すれば、同じ鍵がどのキャラクターチャットフロントエンドでもあなたに付いてきます。",
-        "CTA": "SillyTavernを接続する準備はできましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "SillyTavernを接続する準備はできましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "OpenAI互換エンドポイント1つで SillyTavern をほぼどんなモデルにも接続。設定手順、モデル切り替え、よくあるエラーの直し方。"
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "Claude Code とキャラクターチャットのための1つのAPIキー",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "両方が同じ鍵で動くため、コーディングの利用もキャラクターチャットの利用も、<pricing>1つの従量課金残高</pricing>から引かれます。クレジットは失効せず、正当化すべき月額席もなく、すべての支出をプロバイダーごとに分けずに1か所で確認できます。無料枠で支払い前に両方を試せます。1つのアカウントが、仕事も遊びも、あなたの1日すべてをカバーします。",
         "H_VERDICT": "要点",
         "P_VERDICT": "コーディングエージェントとキャラクターチャットクライアントはOpenAI互換プロトコルを共有するので、1つの鍵で両方を1つの残高から動かせます。{appName} はまさにその範囲のために作られています。Claude Code などのためのクリーンなAPI、物語のための<chat>チャット兼キャラクタークライアント</chat>、200以上のモデル、そして失効しないクレジット。1つの鍵、1つの請求、両方の世界。",
-        "CTA": "コードとチャットに1つのキーが欲しいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "コードとチャットに1つのキーが欲しいですか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "1つのOpenAI互換キーと1つの残高で、Claude Code とキャラクターチャットの両方を動かす方法を紹介します。"
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} vs Janitor.AI：バックエンド、さらに自分専用のチャットも",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Janitor が好きなら使い続けてください。ただ <c>https://api.unorouter.com/v1</c> に向けるだけです。あるいは同じキーで {appName} 自身のチャットを開き、カードをインポートしましょう。どちらの道もインストール不要です。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "Janitor にとどまって、しっかりしたバックエンドさえあればいい？ {appName} はそれを 1 つのキーで叶えます。バックエンドであり、本物のキャラクターチャットであり、<post_one_api_key_for_claude_code_and_roleplay>コーディングエージェントのゲートウェイ</post_one_api_key_for_claude_code_and_roleplay>でもある 1 アカウントが欲しい？ それこそが {appName} の狙いそのものです。",
-        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。"
+        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
+        "META_DESCRIPTION": "Janitor.AI はバックエンドが必要なフロントエンド。{appName} はそのバックエンドを1つのキーで提供し、独自のチャットも備えます。"
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} vs Character.AI：オープンなモデルと本物のキー",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName} はローカルファーストです。<post_lorebary_and_your_data>チャットは私たちのサーバーではなくあなたのブラウザに残り</post_lorebary_and_your_data>、スタック全体がオープンソースで監査可能です。Character.AI は、あなたには見えないフィルターの裏で、すべてをサーバー側に保存します。コントロールとオープンさが大事なら、それが両者を分ける明確な一線です。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "閉じていて、安全で、設定ゼロのアプリが欲しくて、モデル設定に一切触れたくない？ Character.AI で十分です。オープンなモデル選択、コードも書ける本物のキー、そしてローカルなデータが欲しい？ それが {appName} です。",
-        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。"
+        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
+        "META_DESCRIPTION": "Character.AI はAPIもモデル選択もない閉じたチャット。{appName} は200以上のモデルと本物のOpenAI互換キーを提供します。"
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} vs SillyTavern：同じ深さを、ホスト型で、1 つのキーで",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "ローカルの最大限のコントロールが欲しくて SillyTavern を動かすのが好き？ そのまま使って、<post_best_ai_gateway_for_sillytavern>{appName} をバックエンドにしましょう</post_best_ai_gateway_for_sillytavern>。同じ深さをホスト型で、コーディングエージェントも動かすキーで欲しい？ それが {appName} です。",
         "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
-        "METHOD": "どう検証したか。ここでのSillyTavernに関する主張は、ドキュメントを言い換えたものではなく、そのオープンソース（World Info、プロンプト、キャラクターカードのコード）を読んで得たものです。もし細部が誤っていれば、それは私たちの読み違いというバグですから、ぜひ教えてください。"
+        "METHOD": "どう検証したか。ここでのSillyTavernに関する主張は、ドキュメントを言い換えたものではなく、そのオープンソース（World Info、プロンプト、キャラクターカードのコード）を読んで得たものです。もし細部が誤っていれば、それは私たちの読み違いというバグですから、ぜひ教えてください。",
+        "META_DESCRIPTION": "SillyTavern は自分でホストするフロントエンド。{appName} は同じ深さをホスト型で、キーがアカウントになりコードも書けます。"
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} vs Chub / Venus：カードの深さ、さらに 1 つのキーでコードも",
@@ -1160,7 +1188,8 @@
         "P_COST": "Chub では小さなモデルのためにティアを選ぶか、良いモデルのためにプロバイダーへ直接支払うか、どちらにせよ請求は 2 つ。{appName} はすべてを 1 つの残高でまかない、クレジットは失効せず、<free>始めるための無料枠</free>もあります。1 つのキーでモデルにもコーディングエージェントにも届きます。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "Chub のカードエコシステムが欲しくて、小さなティアモデルや BYOK で満足？ 良い住み処です。その深さを 200 以上のモデルと、コードも書けるキーで、すべて 1 アカウントで欲しい？ それが {appName} です。",
-        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。"
+        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
+        "META_DESCRIPTION": "Chub（Venus）はカードライブラリ兼チャット。{appName} はカードと ロアブック の深さに加え、1つのキーで200以上のモデル。"
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} vs Marinara：preset エンジンを 2-in-1 に移植しました",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "完全に自分で制御する自己ホストの preset エンジンが欲しい？ 専用のものを動かしましょう。そのセクションベースのプロンプトの深さをホスト型で、1 つのキーがコーディングエージェントも動かす形で欲しい？ それが {appName} です。",
         "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
-        "METHOD": "どう検証したか。ここでのMarinara Engineに関する主張（その組み込みエージェントと三段階パイプライン）は、ランディングページではなく、それ自身のソースを読んで得たものです。私たちがアイデアを移植したと述べているところは、まずそのコードを読んでいます。"
+        "METHOD": "どう検証したか。ここでのMarinara Engineに関する主張（その組み込みエージェントと三段階パイプライン）は、ランディングページではなく、それ自身のソースを読んで得たものです。私たちがアイデアを移植したと述べているところは、まずそのコードを読んでいます。",
+        "META_DESCRIPTION": "Marinara Engine は22のエージェントを持つ自己ホスト型RPアプリ。{appName} はその発想をホスト型に、キーでコードも動かせます。"
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} vs Lumiverse：メモリの発想を、ホスト型で、さらにコードも",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "最も豊かなメモリグラフと完全なコントロールを備えた自己ホストのエンジンが欲しい？ それを動かしましょう。そのメモリと分解の発想をホスト型で、コーディングエージェントも動かすキーで欲しい？ それが {appName} です。",
         "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
-        "METHOD": "どう検証したか。ここでのLumiverseに関する主張は、そのMemory Cortexが私たちのものより深く踏み込むという点も含めて、憶測ではなく、それ自身のソースとライセンスを読んで得たものです。私たちは、検証していない勝ちを掲げるより、正直な負けを述べる方を選びます。"
+        "METHOD": "どう検証したか。ここでのLumiverseに関する主張は、そのMemory Cortexが私たちのものより深く踏み込むという点も含めて、憶測ではなく、それ自身のソースとライセンスを読んで得たものです。私たちは、検証していない勝ちを掲げるより、正直な負けを述べる方を選びます。",
+        "META_DESCRIPTION": "Lumiverse の Memory Cortex は最も深いRPメモリ。{appName} は同じ発想をホスト型2-in-1に宿し、商用利用も無料です。"
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} vs LibreChat：マルチモデルチャットを、ホスト型で、さらにキャラクターチャットも",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "エージェント、MCP、コードインタープリター、そしてチーム認証を備えたマルチプロバイダーのアシスタントを自己ホストしたい？ LibreChatは優秀です。ホスト型のマルチモデルチャットに本物のキャラクタークライアントを加え、<post_one_api_key_for_claude_code_and_roleplay>コードも書ける1つのキー</post_one_api_key_for_claude_code_and_roleplay>で欲しい？ それが{appName}です。",
         "CTA": "試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
-        "METHOD": "どう検証したか。LibreChatにキャラクターチャットの機能がないという主張は、その位置づけから推測したのではなく、実際のソース（キャラクターカードもロアブックもペルソナも存在しない）に照らして確認しました。"
+        "METHOD": "どう検証したか。LibreChatにキャラクターチャットの機能がないという主張は、その位置づけから推測したのではなく、実際のソース（キャラクターカードもロアブックもペルソナも存在しない）に照らして確認しました。",
+        "META_DESCRIPTION": "LibreChat は自己ホスト型のBYOKなChatGPTクローン。{appName} はホスト型マルチモデルチャットで、キャラクターチャットも内蔵。"
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} vs Open WebUI：ホスト型の 200 以上のモデル、Ollama 不要、さらにキャラクターチャットも",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "自己ホストして、ローカルのOllamaモデルを動かし、奥深いドキュメントRAGに頼り、ロールとSSOでチームを管理したい？ Open WebUIはまさにそれが得意です。200+のホスト型モデルに本物のキャラクタークライアントを加え、<post_one_api_key_for_claude_code_and_roleplay>コードも書ける1つのキー</post_one_api_key_for_claude_code_and_roleplay>で、動かすものは何もなしで欲しい？ それが{appName}です。",
         "CTA": "試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
-        "METHOD": "どう検証したか。Open WebUIがキャラクタークライアントではなくアシスタントプラットフォームだという主張は、そのソースに照らして確認しました。キャラクターカードのパーサーは存在するものの使われておらず、ロアブックもペルソナもありません。"
+        "METHOD": "どう検証したか。Open WebUIがキャラクタークライアントではなくアシスタントプラットフォームだという主張は、そのソースに照らして確認しました。キャラクターカードのパーサーは存在するものの使われておらず、ロアブックもペルソナもありません。",
+        "META_DESCRIPTION": "Open WebUI は自己ホスト型でOllama中心のチャットUI。{appName} は1つのキーで200以上のホスト型モデル、インフラ不要です。"
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} vs Agnai：同じ RP の深さを、ホスト型で、1 つのキーで",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "選び方",
         "P_VERDICT": "グループ向けの本物のマルチプレイヤーと無料のHorde計算資源を備えた、オープンで自己運用のRPが欲しい？ Agnaiがその選択で、しかもそれが実に得意です。<post_unorouter_vs_risuai>より奥深いシングルユーザーのスクリプティング</post_unorouter_vs_risuai>と200+のモデルをホスト型で、あなたのコーディングエージェントも動かす1つのキーで欲しい？ それが{appName}です。",
         "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
-        "METHOD": "どう検証したか。ここでのAgnaiに関する主張は、そのマルチプレイヤーのグループチャットが私たちには及ばない本物の強みであるという点も含めて、マーケティングではなく、それ自身のソースを読んで得たものです。"
+        "METHOD": "どう検証したか。ここでのAgnaiに関する主張は、そのマルチプレイヤーのグループチャットが私たちには及ばない本物の強みであるという点も含めて、マーケティングではなく、それ自身のソースを読んで得たものです。",
+        "META_DESCRIPTION": "Agnai はマルチプレイヤーが特長のオープンソースRPフロントエンド。{appName} は同じRPの深さをホスト型で、1つのキーで。"
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} vs SpicyChat：手軽な道、さらに深さ、モデル、コードも",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "SpicyChat には答えられない 2-in-1 です。ロールプレイを動かすのと同じキーが、<c>https://api.unorouter.com/v1</c> 経由で <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>、Cline、Codex を 200 以上のモデルに向けます。キャラクターチャットとコーディングエージェントで 1 アカウント。SpicyChat は閉じた RP サイト。{appName} はチャット、モデル、コードが 1 つのキーに。",
         "H_VERDICT": "選び方",
         "P_VERDICT": "学ぶことは何もない、可能な限りシンプルな無修正のRPサイトが欲しくて、より多くのメモリのためにティアを払うのも構わない？ SpicyChatがそれです。同じ手軽な入り口に、オープンなモデル選択、デフォルトで奥深いロアブック、そしてコードも書けるキーが欲しい？ それが{appName}です。",
-        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。"
+        "CTA": "2-in-1 を試す準備はできましたか？ <register>無料アカウントを作成</register>するか、<chat>チャットを開く</chat>。",
+        "META_DESCRIPTION": "SpicyChat はメモリが有料ティア限定。{appName} は手軽さはそのままに、200以上のモデル、ロアブック、コードも動くキーを提供。"
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "{appName} を Nevika に接続する方法",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "ロールプレイなら <c>glm-5.2</c> が有力な既定候補です。特別なサフィックスなしで推論し、長い場面をまとめ上げ、コストも低く抑えられます。最初のテストには<post_free_models_aggregated>無料モデル</post_free_models_aggregated>で十分ですが、共有かつレート制限があるため、物語が大事になったら有料モデルに切り替えてください。",
         "H_TROUBLESHOOTING": "うまくいかないとき",
         "P_TROUBLESHOOTING": "モデル一覧が空なら、コピー時にキーへ余計な空白が入っています。401 はキーが誤っているか失効しているので、新しいキーを発行してください。モデルの 404 は、一覧から選ばずに名前を手入力した場合です。<post_how_to_connect_any_llm_to_sillytavern>SillyTavern のセットアップガイド</post_how_to_connect_any_llm_to_sillytavern>では、同じエラーをより詳しく説明しています。",
-        "CTA": "試してみませんか？ <register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+        "CTA": "試してみませんか？ <register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。",
+        "META_DESCRIPTION": "Nevika はOpenAI互換エンドポイントをカスタムプロキシとして使えます。1分で終わる設定、選ぶべきモデル、よくある2つのエラー。"
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "サーバータグで無料モデルの待ち時間が短くなりました",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "できないこと",
         "P_NOT_DO_1": "これは待ち時間を短くします。プロバイダー側の制限を引き上げるものではありません。上流が飽和または不調で無料モデルが混雑している場合、当社側のウィンドウを短くしても存在しない処理能力は生まれず、リクエストは依然として停止したり失敗したりします。",
         "P_NOT_DO_2": "有料モデルには毎分の制限が一切ありません。ほとんどの場合ではなく毎回応答するモデルが必要なら、これが正直なおすすめです。<pricing>料金</pricing>は100万トークンあたり1セント未満から始まります。",
-        "CTA": "タグを取りに<discord>Discord に参加</discord>するか、まず<models>無料モデルを見る</models>のもおすすめです。"
+        "CTA": "タグを取りに<discord>Discord に参加</discord>するか、まず<models>無料モデルを見る</models>のもおすすめです。",
+        "META_DESCRIPTION": "{appName} の Discord タグで無料モデルのレート制限が25%短縮。1分に1回だったモデルを45秒ごとに呼べます。"
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "無料モデルの利用に同意が必要になりました",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "撤回とビジネスアカウント",
         "P_BUSINESS": "同意は、無料モデルのページ、<settings>アカウント設定</settings>、またはチャットからいつでも撤回できます。撤回すると、再び同意するまでそのモデルは利用できません。ビジネスアカウントのプロンプトには第三者の個人データが含まれる可能性があるため、無料モデルはビジネスアカウントではご利用いただけません。",
         "CTA": "準備はいいですか？<free>無料モデルのページ</free>を開いて、利用するモデルを有効にしましょう。",
-        "NOTE": "2026年10月21日更新：この記事の内容は古くなっています。同意は現在、提供者ごとに一度いただく形になり、有料モデルも対象になりました。<post_consent_per_provider>現在の仕組みはこちら</post_consent_per_provider>。"
+        "NOTE": "2026年10月21日更新：この記事の内容は古くなっています。同意は現在、提供者ごとに一度いただく形になり、有料モデルも対象になりました。<post_consent_per_provider>現在の仕組みはこちら</post_consent_per_provider>。",
+        "META_DESCRIPTION": "無料モデルのプロバイダーは入力を独自に利用する場合があります。モデルごとに一度確認していただく理由と手順を説明します。"
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "提供者ごとの同意：無料モデルにも有料モデルにも",
@@ -1334,13 +1372,15 @@
         "P_WHEN": "まだ始まっていません。現時点では、同意のないリクエストは拒否されません。ブロックはモデルごと、アカウントごとに段階的に有効化し、開始日は事前に<discord>Discord</discord>とこのブログでお知らせします。今のうちに同意しておけば、開始時にも何も止まりません。",
         "H_TERMS": "利用規約とプライバシーポリシーの改定",
         "P_TERMS": "<terms>利用規約</terms>に、第三国の提供者に関する第6条を新設しました。これらの提供者の提供には所在国が表示され、第三者の個人データを入力することはできません。<privacy>プライバシーポリシー</privacy>では、同意と異議について詳しく説明しています。アカウントをお持ちの場合は、次にログインした状態でサイトをご利用いただく際に、改定後の利用規約に一度同意していただきます。API キーには影響ありません。",
-        "CTA": "今すぐ<consents>同意ページ</consents>を開いて、お使いの提供者に同意しましょう。詳細は<docs>ドキュメント</docs>をご覧ください。"
+        "CTA": "今すぐ<consents>同意ページ</consents>を開いて、お使いの提供者に同意しましょう。詳細は<docs>ドキュメント</docs>をご覧ください。",
+        "META_DESCRIPTION": "{appName} の同意が提供者ごとになりました。一度の同意で、その提供者の有料と無料のすべてのモデルが対象になります。"
       }
-    }
+    },
+    "TRENDING_MODELS": "今週のトレンドモデル"
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API の料金、コンテキスト、サンプル | {appName}",
-    "META_DESC": "{vendor} の {name} を単一の OpenAI 互換エンドポイント経由で利用できます。トークン単価、コンテキストウィンドウ、エンドポイント、コピー&ペーストできるコード例をご覧ください。",
+    "META_DESC": "{vendor} の {name} をOpenAI互換エンドポイント1つで利用。トークン単価、コンテキスト長、コード例を掲載。",
     "META_KEYWORDS": "{name} API, {name} 料金, {name} コンテキストウィンドウ, {vendor} API, {appName}",
     "PRICING_TITLE": "料金",
     "INPUT_PRICE": "入力料金",
@@ -1440,7 +1480,7 @@
     "PRICE_LOW_SEEN": "{day} に最安",
     "PRICE_LOW_CHART": "最安の入力価格",
     "META_TITLE_FREE": "{name} 無料API：費用なし、OpenAI互換 | {appName}",
-    "META_DESC_FREE": "{vendor} の {name} を OpenAI 互換 API で無料で使えます。JanitorAI、SillyTavern、あなたのコードで動作し、制限、コンテキスト長、コピーできるサンプルも掲載しています。",
+    "META_DESC_FREE": "{vendor} の {name} をOpenAI互換APIで無料利用。JanitorAI、SillyTavern、コードで動作し、制限とコード例も掲載。",
     "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} を比較",
     "USE_IN_TITLE": "{model} を使えるツール"
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "未使用のクレジットは次の{period}に繰り越されません。"
     },
     "META": {
-      "TITLE": "料金 {appName}",
-      "DESCRIPTION": "すべてのAIモデルにシンプルな価格設定。お得に使うなら定期購入、または従量課金。あなたのコード、Claude Code、そして SillyTavern、RisuAI やOpenAI互換の任意のAIチャットクライアントで動作します。",
+      "TITLE": "{appName}の料金：無料モデル、従量課金、サブスク",
+      "DESCRIPTION": "すべてのAIモデルにシンプルな料金。無料モデル、従量課金、お得なサブスク。コード、Claude Code、SillyTavern、RisuAIで使えます。",
       "KEYWORDS": "AI API 料金、AI サブスク、トークン課金、AIモデル料金、安いAI API、手頃なAI、OpenAI互換の料金、マルチモデルAPI 料金"
     },
     "TITLE": "料金",
@@ -1513,7 +1553,7 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "連携 {appName}",
-      "DESCRIPTION": "すべての主要なAIツールとキャラクターチャットクライアント向けのセットアップガイド。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、RisuAI、そして他のOpenAI互換クライアント。",
+      "DESCRIPTION": "Claude Code、Codex CLI、Gemini CLI、SillyTavern、RisuAI など主要AIツールとチャットクライアントの設定ガイド。",
       "KEYWORDS": "AI連携ガイド, Claude Code セットアップ, Codex CLI セットアップ, Gemini CLI セットアップ, OpenClaw セットアップ, SillyTavern セットアップ, RisuAI セットアップ, AIキャラクターチャット セットアップ, AI APIドキュメント, OpenAI互換API セットアップ"
     },
     "BADGE": "連携",
@@ -1815,7 +1855,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Hermes Agent連携 - {appName}",
-        "DESCRIPTION": "{appName} を Nous Research の Hermes Agent のモデルプロバイダーとして使います。OpenAI互換エンドポイント1つですべてのモデルへ。",
+        "DESCRIPTION": "{appName} を Nous Research の Hermes Agent のモデルプロバイダーに。OpenAI互換エンドポイント1つで全モデルへ。",
         "KEYWORDS": "Hermes Agent, Nous Research, Hermesセットアップ, AIエージェント, {appName} Hermes, モデルプロバイダー, OpenAI互換"
       },
       "BADGE": "Hermes Agent",
@@ -1847,7 +1887,7 @@
     "MCP": {
       "META": {
         "TITLE": "MCPサーバー セットアップガイド | {appName}",
-        "DESCRIPTION": "unorouter-mcp サーバーで任意の MCP クライアントを {appName} に接続します。モデルカタログの検索、価格の確認、任意のモデルとのチャットができます。",
+        "DESCRIPTION": "unorouter-mcp で任意の MCP クライアントを {appName} に接続。モデル検索、価格確認、チャットができます。",
         "KEYWORDS": "MCPサーバー, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, モデルカタログ"
       },
       "BADGE": "MCPサーバー",
@@ -1869,7 +1909,7 @@
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 連携ガイド | {appName}",
-        "DESCRIPTION": "SillyTavern を Custom OpenAI互換のチャット補完ソース経由で {appName} に接続します。SillyTavern が想定する正確なURL形式付き。",
+        "DESCRIPTION": "SillyTavern を Custom OpenAI互換ソースで {appName} に接続。SillyTavern が求める正確なURL形式付き。",
         "KEYWORDS": "SillyTavern, SillyTavern プロキシ, SillyTavern API, SillyTavern カスタムエンドポイント, {appName} SillyTavern, AIキャラクターチャット, OpenAI互換API"
       },
       "BADGE": "SillyTavern",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor AI 向け無料プロキシ：設定ガイド | {appName}",
-        "DESCRIPTION": "{appName} を Janitor AI の無料プロキシとして使う方法。無料の DeepSeek と GLM モデル、正確なプロキシ URL、多くのガイドが見落とすリロード手順まで、2分で設定できます。",
+        "TITLE": "Janitor AIプロキシ設定ガイド（2026）：無料URL | {appName}",
+        "DESCRIPTION": "URL：https://api.unorouter.com/v1/chat/completions。Janitor AIでDeepSeekとGLMが無料。",
         "KEYWORDS": "Janitor AI 無料プロキシ, Janitor AI プロキシ 無料, Janitor AI おすすめ無料プロキシ, Janitor AI プロキシ URL, Janitor AI プロキシ, Janitor AI 無料モデル, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor AI 向け無料プロキシ",
+      "TITLE": "Janitor AIプロキシガイド：無料プロキシの設定",
       "SUBTITLE": "{appName} を無料のカスタムプロキシとして Janitor.AI に接続します。無料モデルと、API Settings パネルが求める正確な URL 形式を紹介します。",
       "INTRO_TITLE": "Janitor.AI とは",
       "INTRO_DESC": "Janitor.AI は、OpenAI 互換のプロキシなら何でも使えるブラウザ型のキャラクターチャットです。{appName} は API Settings パネルから追加でき、無料モデルに加えて、同じキーで有料モデルも使えます。",
@@ -1975,12 +2015,20 @@
       "FAQ_3_Q": "「Too many requests」（429）が出るのはなぜですか？",
       "FAQ_3_A": "無料モデルはアカウントとモデルごとにリクエスト数が制限されており、通常は1分に1回です。すぐに再送しても解決しないため、カウントダウンが終わるまで待つか、別の無料モデルに切り替えてください。有料モデルには1分あたりの制限はありません。",
       "FAQ_4_Q": "{appName} の Janitor AI 用プロキシ URL は？",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions です。/v1/chat/completions を含む完全な URL を Proxy URL 欄に貼り付け、その後ブラウザを完全に再読み込みしてください。"
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions です。/v1/chat/completions を含む完全な URL を Proxy URL 欄に貼り付け、その後ブラウザを完全に再読み込みしてください。",
+      "FAQ_5_Q": "Janitor AI に「A network error occurred」や「failed to fetch」と表示されます。どうすればいいですか？",
+      "FAQ_5_A": "ほとんどの場合、原因は Proxy URL です。スペースなしで正確に https://api.unorouter.com/v1/chat/completions と入力し、Janitor の「Add /chat/completions」チェックボックスはオフのままにしてください。保存したら Ctrl+Shift+R でハードリロードします。それでも失敗する場合は、Model Name がモデルIDと完全に一致しているか確認してください。",
+      "FAQ_6_Q": "Janitor AI でエラー 401（Unauthorized）が表示されるのはなぜですか？",
+      "FAQ_6_A": "API キーが未入力、入力ミス、または無効になっています。{appName} の APIキー ページに表示されているキーを、Bearer という語を付けずにそのまま貼り付け、同じページでキーがまだ有効か確認してください。",
+      "FAQ_7_Q": "Janitor AI でエラー 403（Forbidden）が表示されるのはなぜですか？",
+      "FAQ_7_A": "そのキーではこのモデルを使えません。多くは残高ゼロのまま有料モデルを選んでいる場合か、特定のモデルや IP アドレスに制限されたキーの場合です。:free で終わるモデルを選ぶか、チャージするか、APIキー ページでキーの制限を確認してください。",
+      "FAQ_8_Q": "ボットがまったく返信しません。{appName} が落ちていますか？",
+      "FAQ_8_A": "たいていは、その無料モデルのプロバイダーがすべて混雑しているか、モデル名に誤字があります。別の無料モデルに切り替えて再試行してください。ステータスページで、現在オンラインのモデルを確認できます。"
     },
     "RISUAI": {
       "META": {
         "TITLE": "RisuAI 連携ガイド | {appName}",
-        "DESCRIPTION": "RisuAI を Custom Models 経由で {appName} に接続します。RisuAI のプロキシ設定で最も多いサポート問題である Autofill Request URL のチェック解除も含みます。",
+        "DESCRIPTION": "RisuAI を Custom Models で {appName} に接続。最も多いつまずき、Autofill Request URL のチェック解除も解説。",
         "KEYWORDS": "RisuAI, RisuAI プロキシ, RisuAI カスタムエンドポイント, {appName} RisuAI, AIキャラクターチャット, Autofill Request URL, RisuAI OpenAI互換"
       },
       "BADGE": "RisuAI",
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Chub / Venus 連携ガイド | {appName}",
-        "DESCRIPTION": "Chub.ai（Venus）をリバースプロキシとして {appName} に接続します。Chub のサードパーティプロキシ警告に対するファーストパーティ中継の説明付き。",
+        "TITLE": "Chub AI（Venus）リバースプロキシ：URLと無料モデル | {appName}",
+        "DESCRIPTION": "Chub AIを{appName}に接続。https://api.unorouter.com/v1/chat/completions を貼るだけ。",
         "KEYWORDS": "Chub AI, Venus AI, Chub リバースプロキシ, {appName} Chub, AIキャラクターチャット, OpenAI互換API, Chub OpenAI セットアップ"
       },
       "BADGE": "Chub / Venus",
@@ -2070,7 +2118,7 @@
     "LIBRECHAT": {
       "META": {
         "TITLE": "LibreChat 連携ガイド | {appName}",
-        "DESCRIPTION": "LibreChat をカスタムのOpenAI互換エンドポイントで {appName} に接続します。librechat.yaml にブロックを追加し、環境変数を設定します。",
+        "DESCRIPTION": "LibreChat をカスタムのOpenAI互換エンドポイントで {appName} に接続。librechat.yaml と環境変数を設定します。",
         "KEYWORDS": "LibreChat, LibreChat カスタムエンドポイント, LibreChat OpenAI 互換, {appName} LibreChat, セルフホスト型チャット"
       },
       "BADGE": "LibreChat",
@@ -2130,7 +2178,7 @@
     "ANYTHINGLLM": {
       "META": {
         "TITLE": "AnythingLLM 連携ガイド | {appName}",
-        "DESCRIPTION": "AnythingLLM を {appName} に Generic OpenAI プロバイダーとして接続します。モデルを入力し、コンテキストウィンドウを設定して保存します。",
+        "DESCRIPTION": "AnythingLLM を Generic OpenAI プロバイダーとして {appName} に接続。モデルとコンテキスト長を設定して保存。",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, セルフホスト型 RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2358,7 +2406,7 @@
     "ROO_CODE": {
       "META": {
         "TITLE": "Roo Code セットアップガイド | {appName}",
-        "DESCRIPTION": "Roo Code を OpenAI Compatible プロバイダーとして {appName} に接続すると、計画、コード、QA の各ロールが1つのベースURLを共有します。",
+        "DESCRIPTION": "Roo Code を OpenAI Compatible で {appName} に接続。計画、コード、QA の各ロールが1つのベースURLを共有します。",
         "KEYWORDS": "Roo Code, Roo Code セットアップ, マルチエージェント VSCode, {appName} Roo Code, OpenAI Compatible, コーディングエージェント"
       },
       "BADGE": "Roo Code",
@@ -2379,7 +2427,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Continue.dev セットアップガイド | {appName}",
-        "DESCRIPTION": "バージョン管理できる config.yaml で Continue.dev を {appName} に接続します。Continue はモデルエントリをホットリロードします。",
+        "DESCRIPTION": "config.yaml で Continue.dev を {appName} に接続。バージョン管理でき、モデル設定はホットリロードされます。",
         "KEYWORDS": "Continue.dev, Continue セットアップ, VSCode JetBrains アシスタント, {appName} Continue, config.yaml, OpenAI 互換"
       },
       "BADGE": "Continue.dev",
@@ -2591,7 +2639,7 @@
     "LAST_UPDATED": "最終更新日：2026年6月30日",
     "META": {
       "TITLE": "利用ポリシー - {appName}",
-      "DESCRIPTION": "{appName} の利用ポリシー。性的に露骨なコンテンツ、NSFW、ディープフェイク、有害なコンテンツの生成禁止を含む、禁止されたコンテンツおよび行為について定めます。",
+      "DESCRIPTION": "{appName} の利用ポリシー。性的に露骨なコンテンツ、ディープフェイク、有害コンテンツなど禁止事項を定めます。",
       "KEYWORDS": "利用ポリシー、{appName} AUP、禁止コンテンツ、コンテンツポリシー、AI利用ポリシー、NSFW禁止"
     },
     "INTRO": "本利用ポリシーは、お客様のリクエストをサードパーティのAIモデルプロバイダーへルーティングするAPIアグリゲーションプラットフォームである {appName} の利用を規定します。本ポリシーは、チャット、画像生成、動画生成を含む {appName} のすべての機能に適用されます。本サービスを利用することにより、お客様は当社の利用規約に加えて以下のルールに同意したものとみなされます。",
@@ -3946,7 +3994,7 @@
     "META": {
       "TITLE": "AI チャット {appName}",
       "TITLE_WITH_NAME": "{title} | AI チャット {appName}",
-      "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek などを単一インターフェースで、または自分の OpenAI 互換エンドポイントとキーを使って利用できます。",
+      "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek などあらゆるAIモデルと1つの画面でチャット。自分のOpenAI互換エンドポイントも使えます。",
       "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト, BYOK, カスタム AI プロバイダー"
     },
     "OVERRIDES": {
@@ -5689,7 +5737,7 @@
     "JANITORAI_IMPORT": {
       "META": {
         "TITLE": "JanitorAIのチャットを{appName}にインポート",
-        "DESCRIPTION": "無料のブラウザスクリプトで、JanitorAIのチャット・キャラクター・ロアブックをすべて{appName}へ移行。デスクトップとAndroid向けの手順、完全にローカルで完結。",
+        "DESCRIPTION": "無料のブラウザスクリプトで JanitorAI のチャット、キャラクター、ロアブックを{appName}へ移行。完全ローカルで完結。",
         "KEYWORDS": "janitorai エクスポート, janitorai インポート, janitorai チャット 移行, janitorai バックアップ, tampermonkey"
       },
       "TITLE": "JanitorAIからインポート",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "プラットフォームガイドとよくある質問",
-        "DESCRIPTION": "{appName} API のクイックスタート、モデル、料金、レート制限、エラーコード、請求について。200 以上のモデルに対応する 1 つの OpenAI 互換エンドポイント。",
+        "TITLE": "{appName} APIドキュメント：キー、ベースURL、制限",
+        "DESCRIPTION": "{appName}のAPIキーを取得し、ベースURL https://api.unorouter.com/v1 で最初のリクエストを送信。料金や制限も解説。",
         "KEYWORDS": "{appName} API、クイックスタート、レート制限、エラーコード、請求、料金、無料モデル"
       },
       "TITLE": "プラットフォームガイド",
@@ -6155,7 +6203,7 @@
     "DISCORD_REWARDS": {
       "META": {
         "TITLE": "Discord 報酬とルール",
-        "DESCRIPTION": "Discord サーバーで無料の {appName} 残高を獲得するすべての方法：連携ボーナス、ブースト、投票、招待、アクティビティレベル、バグバウンティ、そして支払いの裏にあるルール。",
+        "DESCRIPTION": "Discord で無料の {appName} 残高を得る方法：連携ボーナス、ブースト、投票、招待、レベル、バグバウンティ。",
         "KEYWORDS": "discord 報酬, 無料残高, ブースト報酬, 投票報酬, 招待報酬, アクティビティレベル, バグバウンティ, ルール"
       },
       "TITLE": "Discord 報酬",
@@ -6237,7 +6285,7 @@
     "CONSENTS": {
       "META": {
         "TITLE": "モデル提供者への同意",
-        "DESCRIPTION": "{appName} でどの提供者にお客様の同意が必要か、提供者ごとに一度だけ同意する方法、異議の申し立て方、API クライアントでの consent_required エラーの扱い方。",
+        "DESCRIPTION": "{appName} で同意が必要な提供者、提供者ごとの同意と異議の方法、API の consent_required エラーの扱い方。",
         "KEYWORDS": "同意, GDPR, 第三国への移転, モデルの学習, 異議, consent_required"
       },
       "TITLE": "モデル提供者への同意",

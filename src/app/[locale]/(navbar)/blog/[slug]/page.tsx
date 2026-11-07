@@ -30,14 +30,14 @@ export async function generateMetadata(props: PageProps) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  const { title, description } = translated(t, post);
+  const { title, metaDescription } = translated(t, post);
   const ts = getSeoTimestamps(`blog/${post.slug}`);
 
   return getPageMetadata({
     locale,
     href: { pathname: "/blog/[slug]", params: { slug: post.slug } },
     title: t("BLOG.POST_META_TITLE", { ...APP_VALUES, title }),
-    description,
+    description: metaDescription,
     keywords: post.tags.join(", "),
     ogImage: post.heroImage ?? ogBadge("banner", locale),
     article: {

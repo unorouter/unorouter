@@ -27,6 +27,7 @@ export const resolveSlug = cache(
     | { kind: "model"; model: ResolvedModel }
     | { kind: "vendor"; vendor: string }
     | { kind: "redirect"; model: PricingCatalogDetail }
+    | { kind: "retired"; vendor: string }
     | null
   > => {
     const model = await resolveModel(modelSegment(slug));
@@ -36,6 +37,16 @@ export const resolveSlug = cache(
     if (slug.length === 1) {
       const legacy = await resolveModel(slug[0]!);
       if (legacy) return { kind: "redirect", model: legacy.model };
+    }
+    // A model gone past its retire window under a vendor that still exists: send
+    // its links and rankings to the vendor page instead of a 404. Only when the
+    // catalog loaded, so an upstream blip never redirects a live model.
+    if (slug.length === 2) {
+      const catalog = await getCatalog().catch(() => null);
+      const owner = catalog?.models.length
+        ? await resolveVendor([slug[0]!])
+        : null;
+      if (owner) return { kind: "retired", vendor: owner };
     }
     return null;
   },

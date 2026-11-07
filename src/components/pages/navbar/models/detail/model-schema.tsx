@@ -7,22 +7,23 @@ import { ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
-  buildProductSchema,
-  buildSoftwareApplicationSchema,
+  buildModelSchema,
 } from "@/lib/seo/structured-data";
-import { formatPrice } from "@/lib/utils/format/number";
+import { formatPriceCompact } from "@/lib/utils/format/number";
 import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { canonicalHref, vendorHref } from "./resolve-slug";
 
 export async function ModelSchema(props: {
   model: PricingCatalogDetail;
+  // The page canonical: a :free page points at its paid sibling.
+  canonical: { model_name: string; vendor: string };
   locale: Locale;
   idSlug: string;
 }) {
   const model = props.model;
   const t = await getTranslations({ locale: props.locale });
-  const url = localeUrl(props.locale, canonicalHref(model));
+  const url = localeUrl(props.locale, canonicalHref(props.canonical));
   const vendorUrl = localeUrl(props.locale, vendorHref(model.vendor));
 
   const description =
@@ -43,8 +44,8 @@ export async function ModelSchema(props: {
         ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.model_name })
         : t("MODEL_PAGE.FAQ_COST_A", {
             name: model.model_name,
-            input: formatPrice(model.input_price),
-            output: formatPrice(model.output_price),
+            input: formatPriceCompact(model.input_price),
+            output: formatPriceCompact(model.output_price),
           }),
     },
     {
@@ -78,25 +79,16 @@ export async function ModelSchema(props: {
           { name: model.model_name, url },
         ])}
       />
-      <JsonLd
-        id={`${props.idSlug}-software`}
-        data={buildSoftwareApplicationSchema({
-          locale: props.locale,
-          name: model.model_name,
-          url,
-          brandName: model.vendor,
-          description,
-        })}
-      />
-      {/* Tiered pricing has no single input/output rate, so a Product offer
-          would have to invent one. Omit the schema rather than mislead. */}
+      {/* Tiered pricing has no single input/output rate, so an offer would
+          have to invent one. Omit the schema rather than mislead. */}
       {!model.is_tiered && (
         <JsonLd
-          id={`${props.idSlug}-product`}
-          data={buildProductSchema({
+          id={`${props.idSlug}-software`}
+          data={buildModelSchema({
             name: model.model_name,
             url,
             image: ogBadge("model", props.locale, { model: model.model_name }),
+            vendorName: vendorDisplayName(model.vendor),
             isFree: model.is_free,
             inputPrice: model.input_price,
             outputPrice: model.output_price,

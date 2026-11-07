@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - JanitorAI용 무료 AI 프록시, 모든 AI 모델을 하나의 키로",
-    "DESCRIPTION": "JanitorAI와 SillyTavern용 무료 AI 모델은 물론 Claude, GPT, Gemini, DeepSeek까지 하나의 키로. 코드, Claude Code, 어떤 AI 클라이언트에서든 사용하세요.",
+    "TITLE": "{appName}: Janitor AI 무료 프록시",
+    "DESCRIPTION": "Janitor AI와 SillyTavern용 무료 프록시. DeepSeek, GLM 등 100개+ 무료 모델, 키 하나, 카드 불필요.",
     "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이",
     "ACCOUNT": {
       "TITLE": "{appName} 계정",
@@ -38,7 +38,8 @@
       "TITLE_ROTATE": "API,채팅,캐릭터,스토리,코드,지능",
       "SUBTITLE": "{appName}은(는) 하나의 키로 당신을 {modelCount}개 이상의 AI 모델에 연결합니다. 그것으로 앱을 만들고 에이전트를 돌리거나, 설정을 건너뛰고 이 사이트에서 바로 캐릭터와 채팅하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
-      "CTA_SECONDARY": "모델 보기"
+      "CTA_SECONDARY": "모델 보기",
+      "SEO_HEADING": "Janitor AI와 모든 모델을 위한 무료 AI 프록시"
     },
     "STATS": {
       "MODELS": "모델",
@@ -222,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - JanitorAI용 무료 AI 프록시, 모든 AI 모델을 하나의 키로",
-      "DESCRIPTION": "JanitorAI와 SillyTavern용 무료 AI 모델은 물론 Claude, GPT, Gemini, DeepSeek까지 하나의 키로. 코드, Claude Code, 어떤 AI 클라이언트에서든 사용하세요.",
+      "TITLE": "{appName}: Janitor AI 무료 프록시",
+      "DESCRIPTION": "Janitor AI와 SillyTavern용 무료 프록시. DeepSeek, GLM 등 100개+ 무료 모델, 키 하나, 카드 불필요.",
       "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이"
     }
   },
@@ -354,7 +355,7 @@
       "TABLE": "테이블 보기"
     },
     "META": {
-      "TITLE": "AI 모델 - {appName}",
+      "TITLE": "AI 모델과 무료 LLM: 가격, 컨텍스트, 제한 | {appName}",
       "DESCRIPTION": "모든 AI 모델을 한곳에. GPT, Claude, Gemini, DeepSeek 등. 코드에서, 또는 OpenAI 호환 AI 채팅 클라이언트 어디에서나 사용하세요. 둘 다 같은 가격.",
       "KEYWORDS": "AI 모델, 모델 라이브러리, AI 요금, GPT 모델, Claude 모델, Gemini 모델, DeepSeek 모델, AI 모델 비교, 멀티 모델 API, AI 채팅 모델"
     },
@@ -498,7 +499,7 @@
   },
   "RANKINGS": {
     "META": {
-      "TITLE": "랭킹 | {appName}",
+      "TITLE": "실제 사용량 기준 AI 모델 순위 | {appName}",
       "DESCRIPTION": "{appName}에서 실시간 토큰 볼륨으로 순위가 매겨진 가장 많이 사용되는 AI 모델과 떠오르는 공급자를 확인하세요. 실제 플랫폼 사용량을 기반으로 지속적으로 업데이트됩니다.",
       "KEYWORDS": "AI 모델 랭킹, LLM 리더보드, 최고 AI 모델, AI 공급자 시장 점유율, 가장 많이 사용되는 AI 모델, 모델 사용 통계"
     },
@@ -622,7 +623,8 @@
         "P_PARTNERS": "파트너는 {appName} 위에서 동작하는 프로젝트, 앱, 봇, 커뮤니티이며, 등록 전에 모두 확인합니다. 파트너는 저희 <discord>Discord</discord> 파트너 채널의 전용 게시물, Partner 역할, 그리고 이런 소개 글을 받습니다. 그 대신 파트너도 자신들 쪽에서 {appName}를 언급합니다. {appName} 접근 권한의 재판매는 저희 승인하에 유료 모델에 한해 허용됩니다. 무료 모델은 절대 재판매되지 않습니다.",
         "H_APPLY": "신청 방법",
         "P_APPLY": "{appName} 위에서 무언가를 만들고 계신가요? <discord>Discord</discord>로 프로젝트 이름과 링크, 무엇을 하는지와 {appName}를 어떻게 쓰는지, {appName} 사용자 이름, 대략적인 사용자 수를 보내 주세요.",
-        "CTA": "Qronos를 써 보고 싶으신가요? <qronos>qronos.me</qronos>를 방문하거나 <qronos_discord>그들의 Discord</qronos_discord>에 참여하세요. {appName}가 처음이신가요? <register>계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+        "CTA": "Qronos를 써 보고 싶으신가요? <qronos>qronos.me</qronos>를 방문하거나 <qronos_discord>그들의 Discord</qronos_discord>에 참여하세요. {appName}가 처음이신가요? <register>계정을 만들거나</register> <models>모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "Qronos AI는 {appName} 위에서 LLM 게이트웨이를 운영하며 AI 롤플레이와 스토리텔링 Discord 커뮤니티를 이끕니다. 파트너 프로그램도 소개합니다."
       },
       "WHERE_YOUR_REQUESTS_GO": {
         "TITLE": "요청은 어디로 갈까: 제공자 라벨, 이미지 표시, 개인정보 관련 업데이트",
@@ -641,7 +643,8 @@
         "P_MARKING": "2026년 12월부터 EU 인공지능법(AI Act)에 따라 생성된 이미지와 동영상에는 AI로 생성되었다는 사실을 기계가 읽을 수 있는 방식으로 표시해야 합니다. 이제 {appName}는 제공하는 모든 이미지와 동영상에 파일 내부의 표준 메타데이터로 이 표시를 추가합니다. 눈에 보이는 변화는 없고 이미지를 다시 인코딩하지도 않으므로 화질은 완전히 그대로입니다. 제공자가 이미 넣어 둔 표시는 손대지 않고 유지합니다.",
         "H_ALSO": "그 밖의 새 소식",
         "P_ALSO": "개인정보 처리방침에 요청이 전달될 수 있는 국가와 국가별 법적 근거를 명시했습니다. 사이트에 법적 고지(Impressum) 페이지가 생겼습니다. 버그 때문에 막혀 있던 2단계 인증 설정이 다시 작동하며, 이제 계정의 중요한 변경 시에는 본인 확인을 요청합니다. 전체 목록은 <privacy>개인정보처리방침</privacy>에 있습니다. 또한 무료 모델은 이제 모델마다 한 번 동의를 요청합니다. <post_consent_for_free_models>작동 방식은 여기에서 확인하세요</post_consent_for_free_models>.",
-        "CTA": "특정 제공자에 대해 궁금한 점이 있으신가요? Discord에서 물어보시거나 <models>모델 페이지</models>의 라벨을 확인해 보세요."
+        "CTA": "특정 제공자에 대해 궁금한 점이 있으신가요? Discord에서 물어보시거나 <models>모델 페이지</models>의 라벨을 확인해 보세요.",
+        "META_DESCRIPTION": "모든 모델 페이지에 제공자 소재국과 EU 데이터 보호 조치 여부가 표시됩니다. 라벨의 의미와 경로 선택 방법을 알려 드립니다."
       },
       "LOREBARY_AND_YOUR_DATA": {
         "TITLE": "LoreBary와 관련해 일어난 일, 그리고 {appName}가 여러분에 대해 저장하는 것",
@@ -658,7 +661,8 @@
         "P_YOUR_DATA": "채팅은 저희 서버가 아니라 여러분의 브라우저에 저장됩니다. 지우면 사라집니다. 저희 게이트웨이는 보낸 프롬프트도 받은 답변도 저장하지 않고, 요금 계산에 필요한 정보만 기록합니다. 모델, 토큰 수, 비용, 소요 시간, 요청 성공 여부입니다. 요청과 함께 기록된 IP 주소는 30일 후 삭제됩니다. 여러분의 데이터로 학습하지 않으며, 웹사이트는 분석 도구를 사용하지 않습니다. 웹사이트, 게이트웨이, 동기화 도구, Discord 봇은 오픈 소스이므로, 저희 말을 믿는 대신 이 모든 내용을 GitHub에서 직접 확인할 수 있습니다.",
         "H_PROVIDERS": "약속할 수 없는 것",
         "P_PROVIDERS": "그래도 요청은 여러분이 고른 모델까지 전달되어야 하고, 그 제공자는 자체 약관에 따라 요청을 처리합니다. 받은 내용을 보관하거나 학습에 쓰는 제공자도 있으며, 특히 무료 제공자가 그렇습니다. 저희 개인정보 처리방침에도 분명히 적혀 있습니다. 어디서나 가장 안전한 습관은 같습니다. 프롬프트에 개인정보를 넣지 마세요. 그 이후 모든 모델에 제공자의 소재지가 표시되며(<post_where_your_requests_go>표시의 의미</post_where_your_requests_go>), 무료 모델은 먼저 동의를 요청합니다(<post_consent_for_free_models>작동 방식</post_consent_for_free_models>). 전체 내용은 <privacy>개인정보처리방침</privacy>에 있습니다.",
-        "CTA": "이 일에 대해 궁금한 점이 있다면 Discord에서 물어보시거나 코드를 직접 읽어 보세요. 아니면 <chat>채팅을 시작</chat>하거나 <models>모델을 둘러보세요</models>."
+        "CTA": "이 일에 대해 궁금한 점이 있다면 Discord에서 물어보시거나 코드를 직접 읽어 보세요. 아니면 <chat>채팅을 시작</chat>하거나 <models>모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "나흘 동안 저희는 LoreBary의 자체 모델을 허락 없이 제공했습니다. 무슨 일이 있었는지, 무엇을 바꿨는지, 그리고 {appName}가 여러분에 대해 정확히 무엇을 저장하는지 알려 드립니다."
       },
       "AI_MODEL_VERIFIER": {
         "TITLE": "가짜 Claude 탐지기가 오픈 소스 라이브러리가 되었습니다",
@@ -683,7 +687,8 @@
         "H_USE_IT": "사용하기",
         "P_USE_1": "<tester>모델 테스터</tester>는 서명 검사와 토큰 검사를 포함한 전체 세트를 브라우저 안에서 실행하며, 공급자로 가는 호출 외에는 아무것도 컴퓨터 밖으로 나가지 않습니다. <rankings>랭킹 페이지</rankings>는 사람들이 공유하기로 한 결과를 공개합니다. 직접 파이프라인에 넣으려면:",
         "P_USE_2": "필요한 것만 켜세요. <c>checkSignature</c>와 <c>checkTokenTruth</c>는 각각 추가 요청이 들기 때문에 요청하지 않으면 꺼진 채로 있습니다. 엔벨로프 메타데이터와 처리량은 실행이 이미 받은 응답에서 읽어 오므로 비용이 들지 않습니다.",
-        "CTA": "<tester>공급자를 테스트</tester>하거나, 이 모든 것의 시작이 된 수치를 보려면 <first>4월 글</first>을 읽거나, 실제 엔드포인트가 잘못된 판정을 받으면 <repo>GitHub</repo>에 이슈를 열어 주세요."
+        "CTA": "<tester>공급자를 테스트</tester>하거나, 이 모든 것의 시작이 된 수치를 보려면 <first>4월 글</first>을 읽거나, 실제 엔드포인트가 잘못된 판정을 받으면 <repo>GitHub</repo>에 이슈를 열어 주세요.",
+        "META_DESCRIPTION": "모델 테스터 엔진 ai-model-verifier를 AGPL-3.0으로 npm에 공개했습니다. 엔드포인트가 판매하는 모델을 실제로 제공하는지 확인해 줍니다."
       },
       "CLAUDE_OPUS_4_8_VS_4_6_VS_4_7_ROLEPLAY": {
         "TITLE": "롤플레이용 Claude Opus 4.8 대 4.6 대 4.7: 직접 해본 순위 매기기",
@@ -700,7 +705,8 @@
         "P_CREATIVE": "4.7이 가장 답답했습니다. 표현과 대사를 반복하고, 변화를 주려면 여러 번 재생성해야 했습니다. 4.6은 크게 나아져 동작과 분위기, 표정에 자기만의 작은 디테일을 더했습니다. 4.8은 정말로 놀라게 했습니다. 자발성으로 유명한 캐넌 캐릭터를 골라 그대로 살려내, 어떤 동작을 시작하는가 싶더니 같은 한 박자 안에서 그것을 뒤집었습니다. 그런 캐릭터에 충실한 미스디렉션은 흉내 내기 어렵습니다. 바로 그것이 4.8을 정상으로 밀어 올렸습니다.",
         "H_VERDICT": "결론",
         "P_VERDICT": "{appName}에서의 롤플레이라면 지금은 4.8에 손을 뻗고, 4.6은 더 저렴한 백업으로 남겨 두고, 4.7은 건너뛰세요. 셋 다 <models>모델 선택기</models>에서 한 번의 클릭 차이니, 당신만의 캐릭터를 각각에 돌려 보세요. 샘플러, 로어북, 기억 설정은 모든 모델에 걸쳐 그대로 이어지고, 커스텀 프롬프트로 4.6을 더 추진력 쪽으로, 4.8을 더 깊이 쪽으로 밀 수 있습니다. 팁: 각 모델은 쓴 직후, 다음 모델이 당신의 눈을 사로잡기 전에 점수를 매기세요. 그것이 새 모델에 실제로 무엇이 빠져 있는지 잡아내는 유일한 방법입니다.",
-        "CTA": "직접 시험해 보고 싶나요? <register>무료 계정을 만들거나</register> <chat>채팅을 열어</chat> 한곳에서 <post_claude_authenticity>Opus 버전들</post_claude_authenticity>을 전환해 보세요."
+        "CTA": "직접 시험해 보고 싶나요? <register>무료 계정을 만들거나</register> <chat>채팅을 열어</chat> 한곳에서 <post_claude_authenticity>Opus 버전들</post_claude_authenticity>을 전환해 보세요.",
+        "META_DESCRIPTION": "{appName}에서 Claude Opus 4.8, 4.6, 4.7을 기억력, 감정의 깊이, 추진력, 창작력으로 비교한 롤플레이 순위. 승자는 4.8, 4.6은 4.7을 앞섭니다."
       },
       "UNOROUTER_VS_MEGALLM": {
         "TITLE": "{appName} vs MegaLLM: 같은 코더 게이트웨이에 채팅 클라이언트까지",
@@ -717,7 +723,8 @@
         "P_MIGRATE": "MegaLLM처럼 {appName}도 <post_what_is_an_llm_gateway>OpenAI 호환</post_what_is_an_llm_gateway>입니다. 클라이언트를 <c>https://api.unorouter.com/v1</c>로 향하게 하고 코드는 그대로 두세요. 같은 키가 채팅 쪽에도 닿으니 두 번째 계정이 없습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "코드만 짜고 토큰 비용에 맞춰 최적화된 군더더기 없는 프런티어 모델 게이트웨이를 원하나요? MegaLLM은 견고합니다. 코딩 에이전트와 내장 채팅 클라이언트를 같은 잔액에서, 더 넓은 카탈로그로 구동하는 하나의 키를 원하나요? 그게 {appName}입니다.",
-        "CTA": "게이트웨이와 채팅을 하나로? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+        "CTA": "게이트웨이와 채팅을 하나로? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "MegaLLM은 코딩 에이전트용 인기 게이트웨이입니다. {appName}는 같은 일을 하면서 채팅과 캐릭터 클라이언트까지 내장했습니다."
       },
       "UNOROUTER_VS_PORTKEY": {
         "TITLE": "{appName} 대 Portkey: AI 게이트웨이인가, 완전한 LLMOps 플랫폼인가",
@@ -734,7 +741,8 @@
         "P_COST": "Portkey는 플랫폼을 중심으로 값을 매깁니다. 낮은 물량은 무료, 이후엔 관측성과 거버넌스를 위한 유료 요금제가 각 제공자에게 내는 비용 위에 얹힙니다. 컨트롤 플레인이 팀의 실제 시간을 아껴줄 때 값어치를 합니다. {appName}은 200개 이상 모델에 걸쳐 사용한 만큼 내는 방식이며, 만료되지 않는 하나의 잔액, 무료 등급. 팀 규모 아래에서는 군더더기 없는 쪽이 덜 듭니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "조직을 위해 LLM 기능을 운영하고 관측성, 가드레일, 거버넌스가 필요한가요? Portkey는 바로 그걸 위해 만들어졌습니다. 운영할 것이 전혀 없고 코딩 에이전트와 채팅 클라이언트에서 작동하는 하나의 키를 원하나요? {appName}. 더 낫거나 못한 게 아니라, 그저 플랫폼이 덜한 것입니다.",
-        "CTA": "운영할 것 없는 게이트웨이가 필요하신가요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "운영할 것 없는 게이트웨이가 필요하신가요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "Portkey는 관찰성과 가드레일을 갖춘 엔터프라이즈 LLMOps 플랫폼, {appName}는 채팅 클라이언트가 내장된 가벼운 호스팅 게이트웨이입니다."
       },
       "UNOROUTER_VS_NANO_GPT": {
         "TITLE": "{appName} 대 nano-gpt: 채팅 마켓플레이스인가, 둘 다를 위한 키 하나인가",
@@ -751,7 +759,8 @@
         "P_PAY": "둘 다 사용한 만큼 내는 방식으로, 몰아치는 멀티모델 사용에 맞는 모델입니다. {appName}은 그것을 만료되지 않는 하나의 잔액, <free>무료 등급</free>, 그리고 하나의 UI에서만 쓰는 마켓 지갑이 아니라 코드와 채팅을 가로지르는 하나의 키로 유지합니다. 청구의 형태는 같고, 차이는 하나의 키가 얼마나 멀리 닿느냐입니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "주로 가능한 한 넓은 모델 목록을 맛볼 웹 UI를 원하나요? nano-gpt가 그걸 잘합니다. 코딩 에이전트와 진짜 캐릭터 클라이언트에서 작동하고 크레딧이 함께 이동하는 하나의 키를 원하나요? {appName}.",
-        "CTA": "코드와 캐릭터 채팅을 위한 키 하나가 필요하신가요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "코드와 캐릭터 채팅을 위한 키 하나가 필요하신가요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "nano-gpt는 채팅 UI 중심의 모델 마켓플레이스입니다. {appName}는 종량제에 개발자 API와 캐릭터 클라이언트를 키 하나로 더합니다."
       },
       "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
         "TITLE": "2026년 SillyTavern을 위한 최고의 AI 게이트웨이",
@@ -768,7 +777,8 @@
         "P_FREE": "{appName}에는 무료 등급과 200개가 넘는 모델이 있어, <free>무료 모델</free>로 카드를 시험해 보고 장면이 그만한 값어치가 있을 때만 더 강력한 유료 모델로 옮길 수 있습니다. 크레딧은 만료되지 않고 과금은 사용한 만큼이며, 잔액 하나가 모든 클라이언트와 모델을 아우릅니다. 정당화할 월 단위 좌석도 없고, 한 달 쉬어도 해지할 것이 없습니다.",
         "H_VERDICT": "짧은 답",
         "P_VERDICT": "최고의 SillyTavern 게이트웨이는 OpenAI 호환 엔드포인트, 실제 모델의 폭, 사용량 기반 크레딧, 시작용 무료 등급을 갖춰 하나의 키가 설정 전체를 나르는 것입니다. {appName}은(는) 바로 그 경우를 위해 만들어졌으며, 같은 키는 당신이 쓰는 다른 모든 캐릭터 채팅 프런트엔드에서 계속 작동합니다.",
-        "CTA": "SillyTavern을 연결할 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "SillyTavern을 연결할 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "SillyTavern에는 OpenAI 호환 엔드포인트와 키가 필요합니다. 게이트웨이를 고를 때 정말 중요한 점과, 1분 안에 연결하는 방법을 소개합니다."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 대 RisuAI: 캐릭터 채팅 엔진을 호스팅형 2-in-1로 이식했습니다",
@@ -786,7 +796,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "가장 풍부한 메모리를 갖춘, 자체 호스팅되고 개방적이며 깊이 확장 가능한 프론트엔드를 원하고, 자기 키를 가져오는 것도 괜찮나요? Risu를 쓰세요. 같은 로어북, CBS, 카드 기능을 키가 코딩 에이전트도 구동하는 호스팅된 형태로 원하나요? 그게 {appName}입니다.",
         "CTA": "모든 게 이식된 채팅을 사용해 보세요. <register>무료 계정을 만들거나</register> <chat>채팅을 여세요</chat>.",
-        "METHOD": "검증 방법: 여기 적힌 RisuAI 기능 주장은 마케팅이 아니라 RisuAI 자체의 오픈소스, 즉 그 로어북, CBS 매크로, 트리거, 메모리 모듈을 대조해 확인했습니다. {appName}이(가) 어떤 아이디어를 이식했다고 말할 때는, 그 코드를 실제로 읽고 동작을 다시 구현했다는 뜻입니다."
+        "METHOD": "검증 방법: 여기 적힌 RisuAI 기능 주장은 마케팅이 아니라 RisuAI 자체의 오픈소스, 즉 그 로어북, CBS 매크로, 트리거, 메모리 모듈을 대조해 확인했습니다. {appName}이(가) 어떤 아이디어를 이식했다고 말할 때는, 그 코드를 실제로 읽고 동작을 다시 구현했다는 뜻입니다.",
+        "META_DESCRIPTION": "{appName}는 RisuAI의 엔진(로어북, CBS 매크로, 트리거, 정규식, 카드 가져오기)을 코딩 에이전트도 돌리는 키 하나와 함께 호스팅형으로 제공합니다."
       },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: 호스팅 게이트웨이냐 자체 호스팅 프록시냐",
@@ -803,7 +814,8 @@
         "P_COST": "LiteLLM은 마진을 떼지 않지만, 각 제공자에게 직접 내고 인프라와 DevOps 시간을 짊어집니다. 팀이 있고 물량이 크면 그게 이깁니다. {appName}은 200개 이상 모델에 걸쳐 <pricing>사용한 만큼 내는 방식</pricing>이며, 만료되지 않는 하나의 잔액, 내야 할 서버 없음. 진지한 규모 아래에서는 시간을 계산하면 대개 호스팅이 더 쌉니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "플랫폼 팀이 있고 마진 제로를 원하나요? LiteLLM. 배포할 것이 전혀 없고 코딩 에이전트와 채팅 클라이언트에서 작동하는 하나의 키를 원하나요? {appName}.",
-        "CTA": "배포할 것 없는 게이트웨이를 원하시나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+        "CTA": "배포할 것 없는 게이트웨이를 원하시나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "LiteLLM은 인기 있는 자체 호스팅 LLM 프록시, {appName}는 채팅 클라이언트가 내장된 호스팅 게이트웨이입니다. 인프라를 직접 운영할지가 관건입니다."
       },
       "FEATURED_ON": {
         "TITLE": "{appName}을 찾을 수 있는 곳: 디렉터리 등록 목록",
@@ -817,7 +829,8 @@
         "H_VERIFY": "신뢰하기 전에 검증하세요",
         "P_VERIFY": "아무 배지나 열어 등록이 저희 실제 도메인을 가리키는지 확인하고 독립적인 설명을 살펴보세요. <post_open_source_openrouter_alternative>검증 가능한 공개 출처</post_open_source_openrouter_alternative>로 추적할 수 없는 서비스에는 절대 API 키를 붙여넣지 마세요.",
         "H_TRY": "직접 사용해 보세요",
-        "CTA": "충분히 보셨나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+        "CTA": "충분히 보셨나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "{appName}는 AI 도구 및 스타트업 디렉터리에 등록되어 있습니다. 여기에서 저희를 찾고, 등록 내용을 확인하고, 독립적인 평가를 읽어보세요."
       },
       "LAUNCH": {
         "TITLE": "가짜 Claude에 지쳤다. 그래서 {appName}을 만들었다.",
@@ -832,7 +845,8 @@
         "P_HARNESS": "모델은 도구에서 작동해야만 유용합니다. 우리는 모든 모델을 HTTP 완료, 스트리밍, 도구 호출까지 끝까지 테스트합니다. 이 세 가지 기능이 AI 터미널 하네스가 의존하는 것입니다. 카탈로그에 있는 모델은 <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Codex CLI, Gemini CLI, 그리고 OpenAI 호환 클라이언트 어디서든 작동합니다. 세션 중간에 '스트리밍이 지원되지 않습니다' 같은 깜짝 실패도 없습니다.",
         "H_NEXT": "다음은",
         "P_NEXT": "매주 출시합니다. 더 많은 모델, 더 똑똑한 폴백을 이끄는 <rankings>더 정교한 건강 신호</rankings>, 더 풍부한 비용 및 지연 시간 대시보드, 그리고 이미 사용 중인 터미널과 IDE와의 더 깊은 통합을 기대하세요.",
-        "CTA": "사용해 볼 준비가 되셨나요? <register>API 키 받기</register> 또는 <models>모델 카탈로그 둘러보기</models>."
+        "CTA": "사용해 볼 준비가 되셨나요? <register>API 키 받기</register> 또는 <models>모델 카탈로그 둘러보기</models>.",
+        "META_DESCRIPTION": "잦은 장애와 몰래 저렴한 복제품으로 바뀌는 프리미엄 모델에 지쳐 직접 라우터를 만들었습니다. 출시 이야기입니다."
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare의 에이전트 스캐너를 우리 사이트에 돌렸다. 100/100이 나왔다.",
@@ -851,7 +865,8 @@
         "P_STUBS": "이 확인들은 단순한 스텁입니다. 스캐너는 대체로 잘 알려진 URL이 존재하는지, 200을 반환하는지, 올바른 최상위 형태를 포함하는지만 검증합니다. 실제 OAuth 흐름을 실행하지 않고, 실제로 MCP 도구를 호출하지 않으며, x402 결제를 정산하지 않습니다. 녹색 체크 표시는 문이 잠겨 있지 않다는 뜻이지, 그 뒤의 방이 완성되었다는 뜻은 아닙니다. 프로덕션에서 프로토콜에 의존하는 사람은 여전히 <post_ai_model_verifier>자체적인 end-to-end 검증</post_ai_model_verifier>을 해야 합니다. OAuth 흐름을 왕복하고, 실제 클라이언트에서 MCP 도구를 호출하고, x402 결제를 정산까지 끝내야 합니다. 점수는 표면적이 갖춰져 있다는 훌륭한 신호입니다. 프로토콜 수준 적합성 테스트의 대체물은 아닙니다.",
         "H_TRY": "자신의 사이트에서 실행하기",
         "P_TRY": "AI 에이전트가 언젠가 접근할 만한 것을 만든다면, 이 스캐너는 1분의 시간을 들일 가치가 충분히 있습니다. 작은 표준들의 긴 목록을 한눈에 보여주고, 어떤 잘 알려진 경로가 누락되거나 형식이 잘못되었는지 정확히 알려줍니다. 우리는 발견, 인증, 또는 상거래 표면을 다루는 것을 출시할 때마다 회귀 체크로 사용합니다.",
-        "CTA": "<scanner>isitagentready.com</scanner>에서 사이트를 스캔하거나, {appName} 때문에 오셨다면 <register>API 키를 받고</register> <post_what_is_an_llm_gateway>라우팅을 시작하세요</post_what_is_an_llm_gateway>."
+        "CTA": "<scanner>isitagentready.com</scanner>에서 사이트를 스캔하거나, {appName} 때문에 오셨다면 <register>API 키를 받고</register> <post_what_is_an_llm_gateway>라우팅을 시작하세요</post_what_is_an_llm_gateway>.",
+        "META_DESCRIPTION": "Cloudflare의 AI 에이전트 준비도 스캐너에서 100/100, 최고 Level 5를 받았습니다. 무엇을 검사하는지, 왜 대부분의 사이트가 실패하는지 알려 드립니다."
       },
       "CLAUDE_AUTHENTICITY": {
         "TITLE": "진짜 Claude와 가짜를 구별하는 방법",
@@ -887,7 +902,8 @@
         "H_TEST": "직접 사용하는 제공업체를 테스트해 보세요",
         "TEST_P": "아무것도 설치할 필요가 없습니다. <link>API 모델 테스터</link>를 열고, 제공업체의 주소와 키를 붙여 넣은 뒤 모델을 고르면, 이 검사들이 실시간으로 실행되어 무엇이 통과하고 무엇이 실패했는지 정확히 보여 줍니다.",
         "TEST_CURL": "명령줄이 더 편하신가요? 위에서 소개한 새끼 고양이 테스트입니다. 답이 거절하거나 코딩 쪽으로 이야기를 돌린다면, 여러분의 \"Claude\"는 Claude가 아닙니다.",
-        "TEST_OPEN": "두 가지 모두 오픈 소스라서 누구나 작동 방식을 확인하거나 직접 실행해 볼 수 있습니다. 검사를 담당하는 것은 <verifier>ai-model-verifier</verifier>(<npm>npm</npm>에도 있음)이고, 저희가 연결하는 모든 제공업체에 그 검사를 실행하는 것이 <sync>new-api-sync</sync>입니다."
+        "TEST_OPEN": "두 가지 모두 오픈 소스라서 누구나 작동 방식을 확인하거나 직접 실행해 볼 수 있습니다. 검사를 담당하는 것은 <verifier>ai-model-verifier</verifier>(<npm>npm</npm>에도 있음)이고, 저희가 연결하는 모든 제공업체에 그 검사를 실행하는 것이 <sync>new-api-sync</sync>입니다.",
+        "META_DESCRIPTION": "싼 Claude는 이름만 빌린 다른 모델인 경우가 많습니다. 모델에게 물어봐서는 증명할 수 없는 이유와 가짜를 잡아내는 검사 방법을 소개합니다."
       },
       "SIX_INPUT_IMAGE_MODELS": {
         "TITLE": "어떤 이미지 모델이 실제로 6개의 참조 입력을 받을까요? 벤치마크를 돌렸습니다.",
@@ -918,7 +934,8 @@
         "METADATA_P2": "어떤 모델이 6장 이미지 페이로드를 받아들일지에만 관심이 있다면, 이 필드로 필터링하세요. 나중에 추가된 새 모델은 같은 벤치마크를 통과하면 같은 태그를 받습니다.",
         "H_TRY": "사용해 보기",
         "TRY_P": "위의 모든 모델은 <docs>하나의 OpenAI 호환 엔드포인트</docs>를 통해 사용할 수 있습니다. 멀티 참조 이미지 편집은 업스트림이 정의한 그대로 노출되며 추가 래핑이 없습니다. 여섯 이미지와 프롬프트를 가져오세요; 라우터가 작동하는 공급자를 고릅니다.",
-        "CTA": "<register>API 키 받기</register> 또는 전체 검증된 목록을 보려면 <models>이미지 카탈로그 둘러보기</models>."
+        "CTA": "<register>API 키 받기</register> 또는 전체 검증된 목록을 보려면 <models>이미지 카탈로그 둘러보기</models>.",
+        "META_DESCRIPTION": "6장 참조 이미지 장면 구성 프롬프트로 332개 채널, 136개 이미지 모델을 테스트했습니다. 54개 모델에 검증된 통과 공급자가 있었습니다."
       },
       "DISCORD_COMMUNITY": {
         "TITLE": "{appName} Discord에 가입하고 무료 잔액을 받으세요",
@@ -934,7 +951,8 @@
         "H_BUGS": "버그 바운티, 최대 $50",
         "P_BUGS": "<post_open_source_openrouter_alternative>플랫폼에서 진짜 버그</post_open_source_openrouter_alternative>를 찾아 버그 바운티 포럼에 신고하세요. 스태프가 심각도 등급을 선택하고 봇이 지급합니다: Low $0.25, Medium $0.50, High $1, Critical $50. 단순히 스레드를 시작한 사람이 아니라 실제로 버그를 식별한 사람에게 지급됩니다.",
         "H_JOIN": "놀러 오세요",
-        "CTA": "준비되셨나요? <invite>{appName} Discord에 가입</invite>한 다음 <register>API 키를 받고</register> <settings>계정을 연결</settings>해 첫 $1을 받으세요."
+        "CTA": "준비되셨나요? <invite>{appName} Discord에 가입</invite>한 다음 <register>API 키를 받고</register> <settings>계정을 연결</settings>해 첫 $1을 받으세요.",
+        "META_DESCRIPTION": "계정을 연결하고 $1, 매월 서버를 부스트하고 $1, 버그 헌팅으로 최대 $50. 방금 {appName} Discord를 열었습니다."
       },
       "FREE_MODELS_AGGREGATED": {
         "TITLE": "약 50개 제공업체의 130개 이상 무료 AI 모델을 하나의 엔드포인트로 통합했습니다",
@@ -961,7 +979,8 @@
         "FAQ_2_Q": "무료 티어의 속도 제한은 어떻게 되나요?",
         "FAQ_2_A": "사용자당 모델당 분당 약 1회 요청입니다. 한도 초과 시 Retry-After 헤더와 함께 HTTP 429가 반환됩니다. 130개 이상의 무료 모델이 있으므로, 기다리는 대신 모델을 교체하는 것이 현실적인 방법입니다.",
         "FAQ_3_Q": "무료 모델을 쓰려면 신용카드가 필요한가요?",
-        "FAQ_3_A": "아니요. Discord나 GitHub로 가입해 키를 만들고 :free 접미사가 붙은 아무 모델이나 쓰면 됩니다. 1회성 $1 Discord 인증 보너스는 유료 모델에 쓸 수 있습니다."
+        "FAQ_3_A": "아니요. Discord나 GitHub로 가입해 키를 만들고 :free 접미사가 붙은 아무 모델이나 쓰면 됩니다. 1회성 $1 Discord 인증 보너스는 유료 모델에 쓸 수 있습니다.",
+        "META_DESCRIPTION": "약 50개 무료 제공업체를 {appName}에 연결했습니다. 130개 이상 모델, OpenAI 호환 엔드포인트 하나, 토큰당 $0. 업스트림 한도와 분당 1회 제한도 솔직하게 설명합니다."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 대 OpenRouter: 정직한 비교",
@@ -985,7 +1004,8 @@
         "FAQ_2_Q": "같은 키를 코딩 에이전트와 롤플레이 채팅에 모두 쓸 수 있나요?",
         "FAQ_2_A": "네. {appName} 키 하나가 OpenAI 호환 API를 통해 Claude Code, Cline, OpenCode에서 작동하고, 같은 계정에 SillyTavern이나 JanitorAI에도 바로 연결되는 완전한 캐릭터 채팅 클라이언트가 포함됩니다.",
         "FAQ_3_Q": "OpenRouter에서 {appName}으로 어떻게 갈아타나요?",
-        "FAQ_3_A": "클라이언트를 https://api.unorouter.com/v1 로 향하게 하고 코드는 그대로 두세요. API는 OpenAI 호환이고, 모델 이름은 GET /v1/models 에서 가져오며, Anthropic과 Gemini 네이티브 엔드포인트도 제공됩니다."
+        "FAQ_3_A": "클라이언트를 https://api.unorouter.com/v1 로 향하게 하고 코드는 그대로 두세요. API는 OpenAI 호환이고, 모델 이름은 GET /v1/models 에서 가져오며, Anthropic과 Gemini 네이티브 엔드포인트도 제공됩니다.",
+        "META_DESCRIPTION": "{appName}와 OpenRouter 모두 OpenAI 호환 키 하나로 많은 모델을 제공합니다. 차이는 API만 있는지, 채팅과 캐릭터 클라이언트까지 있는지입니다."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026년 최고의 OpenRouter 대안",
@@ -1009,7 +1029,8 @@
         "FAQ_2_Q": "OpenRouter 대안들이 SillyTavern과 JanitorAI에서도 작동하나요?",
         "FAQ_2_A": "OpenAI 호환 게이트웨이라면 무엇이든 됩니다. SillyTavern에서는 베이스 URL https://api.unorouter.com/v1 을, JanitorAI에서는 전체 엔드포인트 https://api.unorouter.com/v1/chat/completions 을 해당 키와 함께 사용하세요.",
         "FAQ_3_Q": "오픈 소스 OpenRouter 대안이 있나요?",
-        "FAQ_3_A": "{appName}은 프런트엔드, 게이트웨이, 봇, 프로바이더 동기화까지 github.com/unorouter 에서 OSI 라이선스로 처음부터 끝까지 오픈 소스입니다. LiteLLM도 오픈 소스지만 자기 키를 가져오는 프록시라 호스팅된 카탈로그가 없습니다."
+        "FAQ_3_A": "{appName}은 프런트엔드, 게이트웨이, 봇, 프로바이더 동기화까지 github.com/unorouter 에서 OSI 라이선스로 처음부터 끝까지 오픈 소스입니다. LiteLLM도 오픈 소스지만 자기 키를 가져오는 프록시라 호스팅된 카탈로그가 없습니다.",
+        "META_DESCRIPTION": "하나의 키로 많은 모델에 닿는 방법이 OpenRouter만 있는 것은 아닙니다. 2026년에 알아둘 만한 대안과, 각각 무엇에 좋은지, 그리고 어떻게 고를지 정리합니다."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: 오픈소스 OpenRouter 대안",
@@ -1033,7 +1054,8 @@
         "FAQ_2_Q": "{appName}을 셀프 호스팅할 수 있나요?",
         "FAQ_2_A": "네. 저장소를 클론해 스택을 직접 돌리거나, 아무 OpenAI 호환 클라이언트나 호스팅 엔드포인트 https://api.unorouter.com/v1 로 향하게 해서 운영 부담을 건너뛸 수 있습니다.",
         "FAQ_3_Q": "{appName}은 LiteLLM과 어떻게 다른가요?",
-        "FAQ_3_A": "LiteLLM은 프로바이더 키를 직접 가져오고 계정도 직접 관리하는 셀프 호스팅 프록시입니다. {appName}은 키 하나, 200+개 모델, 무료 티어를 갖춘 호스팅 서비스이면서 LiteLLM처럼 오픈 소스를 유지합니다."
+        "FAQ_3_A": "LiteLLM은 프로바이더 키를 직접 가져오고 계정도 직접 관리하는 셀프 호스팅 프록시입니다. {appName}은 키 하나, 200+개 모델, 무료 티어를 갖춘 호스팅 서비스이면서 LiteLLM처럼 오픈 소스를 유지합니다.",
+        "META_DESCRIPTION": "OpenRouter는 클로즈드 소스입니다. {appName}는 키 하나로 200개 이상 모델을 쓰면서 전체 스택을 OSI 라이선스로 공개하고 셀프 호스팅과 무료 티어를 제공합니다."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLM 게이트웨이란 무엇인가",
@@ -1057,7 +1079,8 @@
         "FAQ_2_Q": "LLM 게이트웨이가 지연 시간을 늘리나요?",
         "FAQ_2_A": "홉이 하나 늘어 보통 수십 밀리초 수준이며, 실제로는 스트리밍이 이를 가려 줍니다. 느린 응답은 게이트웨이보다 모델 자체에서 오는 경우가 훨씬 많습니다.",
         "FAQ_3_Q": "{appName}은 어떤 엔드포인트를 제공하나요?",
-        "FAQ_3_A": "OpenAI 호환 /v1/chat/completions, /v1/responses, /v1/embeddings, Anthropic 네이티브 /v1/messages, Gemini 네이티브 /v1beta 를 모두 키 하나로 제공합니다."
+        "FAQ_3_A": "OpenAI 호환 /v1/chat/completions, /v1/responses, /v1/embeddings, Anthropic 네이티브 /v1/messages, Gemini 네이티브 /v1beta 를 모두 키 하나로 제공합니다.",
+        "META_DESCRIPTION": "LLM 게이트웨이는 요청을 많은 모델 공급자로 라우팅하는 하나의 엔드포인트와 키입니다. 무엇을 하는지, 왜 도움이 되는지, 누가 정말 필요로 하는지 살펴봅니다."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "어떤 LLM이든 SillyTavern에 연결하는 법",
@@ -1074,7 +1097,8 @@
         "P_TROUBLESHOOTING": "모델 목록이 불러와지지 않으면, 베이스 URL이 <c>/v1</c>로 끝나는지와 키가 군더더기 공백 없이 붙었는지 다시 확인하세요. 401은 키가 틀렸거나 만료됐다는 뜻입니다. 다시 복사하세요. 모델에서의 404는 그 모델 이름이 불러온 목록에서 선택되지 않았다는 뜻입니다. 답변이 잘리면 SillyTavern 설정에서 응답 길이를 올리세요. 설정 실패의 대부분은 잘못 친 베이스 URL이나 공백이 든 키이니, 그것부터 확인하세요.",
         "H_VERDICT": "이게 비법의 전부",
         "P_VERDICT": "어떤 LLM이든 SillyTavern에 연결하는 것은 결국 OpenAI 호환 엔드포인트 하나와 키 하나로 귀결되고, 게이트웨이는 그것을 하나의 설정 뒤에 있는 많은 모델로 바꿉니다. {appName}은(는) 그 기본 URL, 시작용 무료 등급, 그리고 아무것도 다시 하지 않고 오갈 수 있는 200개 이상의 모델을 제공합니다. 한 번 설정하면 같은 키가 모든 캐릭터 채팅 프런트엔드에서 당신을 따라갑니다.",
-        "CTA": "SillyTavern을 연결할 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "SillyTavern을 연결할 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "SillyTavern은 OpenAI 호환 엔드포인트 하나로 거의 모든 모델과 대화할 수 있습니다. 정확한 설정, 모델 전환, 흔한 오류 해결법을 알려 드립니다."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
         "TITLE": "Claude Code와 캐릭터 채팅을 위한 하나의 API 키",
@@ -1091,7 +1115,8 @@
         "P_ONE_BALANCE": "양쪽 모두 같은 키로 돌아가기 때문에, 코딩 사용량과 캐릭터 채팅 사용량이 <pricing>하나의 사용량 기반 잔액</pricing>에서 빠져나갑니다. 크레딧은 만료되지 않고, 정당화할 월별 좌석도 없으며, 모든 지출을 공급자별로 나누지 않고 한곳에서 봅니다. 무료 등급으로 결제 전에 양쪽을 테스트할 수 있습니다. 하나의 계정이 일과 놀이, 당신의 하루 전체를 커버합니다.",
         "H_VERDICT": "핵심",
         "P_VERDICT": "코딩 에이전트와 캐릭터 채팅 클라이언트는 OpenAI 호환 프로토콜을 공유하므로, 하나의 키가 둘 다를 하나의 잔액에서 구동할 수 있습니다. {appName}은(는) 바로 그 범위를 위해 만들어졌습니다. Claude Code 등을 위한 깔끔한 API, 이야기를 위한 <chat>채팅 및 캐릭터 클라이언트</chat>, 200개 이상의 모델, 그리고 만료되지 않는 크레딧. 하나의 키, 하나의 청구서, 두 세계.",
-        "CTA": "코드와 채팅을 위한 키 하나를 원하시나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "코드와 채팅을 위한 키 하나를 원하시나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "코딩 에이전트와 캐릭터 채팅 클라이언트는 모두 OpenAI 호환 API를 씁니다. 키 하나와 잔액 하나로 Claude Code와 캐릭터 채팅을 함께 쓰는 법을 소개합니다."
       },
       "UNOROUTER_VS_JANITORAI": {
         "TITLE": "{appName} vs Janitor.AI: 백엔드, 그리고 나만의 채팅까지",
@@ -1108,7 +1133,8 @@
         "P_MIGRATE": "Janitor가 좋다면 그대로 쓰세요. <c>https://api.unorouter.com/v1</c>만 지정하면 됩니다. 아니면 같은 키로 {appName} 자체 채팅을 열고 카드를 임포트하세요. 어느 쪽이든 설치할 것은 없습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "Janitor에 머물면서 탄탄한 백엔드만 필요한가요? {appName}이 키 하나로 그것입니다. 백엔드이자 진짜 캐릭터 채팅이자 <post_one_api_key_for_claude_code_and_roleplay>코딩 에이전트 게이트웨이</post_one_api_key_for_claude_code_and_roleplay>인 계정 하나를 원하나요? 그게 바로 {appName}의 핵심입니다.",
-        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>."
+        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
+        "META_DESCRIPTION": "Janitor.AI는 백엔드가 필요한 캐릭터 채팅 프런트엔드입니다. {appName}는 키 하나로 그 백엔드가 되고 자체 캐릭터 채팅도 갖췄습니다."
       },
       "UNOROUTER_VS_CHARACTER_AI": {
         "TITLE": "{appName} vs Character.AI: 열린 모델과 진짜 키",
@@ -1125,7 +1151,8 @@
         "P_PRIVACY": "{appName}은 로컬 우선입니다. <post_lorebary_and_your_data>대화는 우리 서버가 아니라 브라우저에 남고</post_lorebary_and_your_data>, 전체 스택은 오픈소스이며 감사 가능합니다. Character.AI는 볼 수 없는 필터 뒤 서버에 모든 것을 저장합니다. 통제와 개방성이 중요하다면, 이것이 둘 사이의 분명한 경계선입니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "폐쇄적이고 안전하며 설정이 필요 없는 앱을 원하고 모델 설정은 절대 건드리지 않겠다면? Character.AI로 충분합니다. 열린 모델 선택, 코딩까지 되는 진짜 키, 로컬에 남는 데이터를 원한다면? 그게 {appName}입니다.",
-        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>."
+        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
+        "META_DESCRIPTION": "Character.AI는 API도 모델 선택도 없는 폐쇄형 채팅입니다. {appName}는 200개 이상 모델, 진짜 OpenAI 호환 키, 로컬 데이터, 코딩까지 제공합니다."
       },
       "UNOROUTER_VS_SILLYTAVERN": {
         "TITLE": "{appName} vs SillyTavern: 같은 깊이, 호스팅형, 키 하나로",
@@ -1143,7 +1170,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "최대한의 로컬 통제를 원하고 SillyTavern 운영을 즐긴다면? 그대로 쓰되 <post_best_ai_gateway_for_sillytavern>{appName}을 백엔드로 삼으세요</post_best_ai_gateway_for_sillytavern>. 같은 깊이를 호스팅형으로, 코딩 에이전트도 돌리는 키로 원한다면? 그게 {appName}입니다.",
         "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
-        "METHOD": "검증 방법: 여기 적힌 SillyTavern 주장은 문서를 옮겨 쓴 것이 아니라 그 오픈소스(World Info, 프롬프트, 캐릭터 카드 코드)를 직접 읽어 확인했습니다. 세부가 틀렸다면 우리가 읽는 과정의 오류이니, 알려 주세요."
+        "METHOD": "검증 방법: 여기 적힌 SillyTavern 주장은 문서를 옮겨 쓴 것이 아니라 그 오픈소스(World Info, 프롬프트, 캐릭터 카드 코드)를 직접 읽어 확인했습니다. 세부가 틀렸다면 우리가 읽는 과정의 오류이니, 알려 주세요.",
+        "META_DESCRIPTION": "SillyTavern은 직접 호스팅하고 키를 넣는 파워 유저용 프런트엔드입니다. {appName}는 같은 깊이를 호스팅형으로, 코딩 에이전트도 돌리는 키 하나로 제공합니다."
       },
       "UNOROUTER_VS_CHUB": {
         "TITLE": "{appName} vs Chub / Venus: 카드 깊이, 그리고 키 하나로 코드까지",
@@ -1160,7 +1188,8 @@
         "P_COST": "Chub에서는 소형 모델을 위해 티어를 고르거나 좋은 모델을 위해 프로바이더에 직접 돈을 냅니다. 어느 쪽이든 청구서가 둘입니다. {appName}은 모든 것을 아우르는 잔액 하나, 만료되지 않는 크레딧, <free>시작할 무료 티어</free>입니다. 키 하나가 모델과 코딩 에이전트에 닿습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "Chub 카드 생태계를 원하고 소형 티어 모델이나 BYOK으로 만족한다면? 좋은 보금자리입니다. 그 깊이를 200개 이상 모델과, 코딩까지 되는 키로, 모두 계정 하나에 원한다면? 그게 {appName}입니다.",
-        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>."
+        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
+        "META_DESCRIPTION": "Chub(Venus)는 카드 라이브러리 겸 채팅입니다. {appName}는 카드와 로어북 깊이에 200개 이상 모델을, 코딩 에이전트도 돌리는 키 하나로 제공합니다."
       },
       "UNOROUTER_VS_MARINARA": {
         "TITLE": "{appName} vs Marinara: preset 엔진을 2-in-1으로 옮겨왔습니다",
@@ -1178,7 +1207,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "완전히 통제하는 셀프호스팅 preset 엔진을 원하나요? 전용 엔진을 운영하세요. 그 섹션 기반 프롬프트 깊이를 호스팅형으로, 키 하나가 코딩 에이전트도 돌리는 형태로 원한다면? 그게 {appName}입니다.",
         "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
-        "METHOD": "검증 방법: 여기 적힌 Marinara Engine 주장(내장 에이전트와 3단계 파이프라인)은 랜딩 페이지가 아니라 그 자체 소스를 읽어 확인했습니다. 어떤 아이디어를 이식했다고 말할 때는, 먼저 그 코드를 읽었습니다."
+        "METHOD": "검증 방법: 여기 적힌 Marinara Engine 주장(내장 에이전트와 3단계 파이프라인)은 랜딩 페이지가 아니라 그 자체 소스를 읽어 확인했습니다. 어떤 아이디어를 이식했다고 말할 때는, 먼저 그 코드를 읽었습니다.",
+        "META_DESCRIPTION": "Marinara Engine은 22개 내장 에이전트 기반의 셀프 호스팅 롤플레이 앱입니다. {appName}는 같은 에이전트 파이프라인을 코딩도 되는 키 하나와 함께 호스팅형으로 제공합니다."
       },
       "UNOROUTER_VS_LUMIVERSE": {
         "TITLE": "{appName} vs Lumiverse: 메모리 아이디어, 호스팅형, 코드까지",
@@ -1196,7 +1226,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "가장 풍부한 메모리 그래프와 완전한 통제를 갖춘 셀프호스팅 엔진을 원하나요? 그걸 운영하세요. 그 메모리와 분해 아이디어를 호스팅형으로, 코딩 에이전트도 돌리는 키로 원한다면? 그게 {appName}입니다.",
         "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
-        "METHOD": "검증 방법: 여기 적힌 Lumiverse 주장은, 그 Memory Cortex가 우리 것보다 더 깊이 들어간다는 점을 포함해, 짐작이 아니라 그 자체 소스와 라이선스를 읽어 확인했습니다. 검증하지 않은 승리를 내세우기보다 정직한 패배를 밝히는 편을 택합니다."
+        "METHOD": "검증 방법: 여기 적힌 Lumiverse 주장은, 그 Memory Cortex가 우리 것보다 더 깊이 들어간다는 점을 포함해, 짐작이 아니라 그 자체 소스와 라이선스를 읽어 확인했습니다. 검증하지 않은 승리를 내세우기보다 정직한 패배를 밝히는 편을 택합니다.",
+        "META_DESCRIPTION": "Lumiverse의 Memory Cortex는 가장 깊은 RP 메모리입니다. {appName}는 그 아이디어를 코딩 에이전트도 돌리는 키 하나와 함께, 상업적으로도 무료인 호스팅형 통합 제품에 담았습니다."
       },
       "UNOROUTER_VS_LIBRECHAT": {
         "TITLE": "{appName} vs LibreChat: 멀티모델 채팅, 호스팅형, 캐릭터 채팅까지",
@@ -1214,7 +1245,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "에이전트, MCP, 코드 인터프리터, 팀 인증을 갖춘 멀티프로바이더 어시스턴트를 셀프호스팅하고 싶나요? LibreChat은 훌륭합니다. 호스팅형 멀티모델 채팅에 진짜 캐릭터 클라이언트를, <post_one_api_key_for_claude_code_and_roleplay>코딩까지 되는 키 하나</post_one_api_key_for_claude_code_and_roleplay>로 원하나요? 그게 {appName}입니다.",
         "CTA": "써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
-        "METHOD": "검증 방법: LibreChat에 캐릭터 채팅 기능이 없다는 주장은 그 포지셔닝에서 추정한 것이 아니라 실제 소스를 대조해 확인했습니다(그 안에는 캐릭터 카드도, 로어북도, 페르소나도 존재하지 않습니다)."
+        "METHOD": "검증 방법: LibreChat에 캐릭터 채팅 기능이 없다는 주장은 그 포지셔닝에서 추정한 것이 아니라 실제 소스를 대조해 확인했습니다(그 안에는 캐릭터 카드도, 로어북도, 페르소나도 존재하지 않습니다).",
+        "META_DESCRIPTION": "LibreChat은 셀프 호스팅형 MIT BYOK ChatGPT 클론입니다. {appName}는 호스팅형 멀티모델 채팅에 캐릭터 클라이언트와 코딩까지 키 하나로 제공합니다."
       },
       "UNOROUTER_VS_OPEN_WEBUI": {
         "TITLE": "{appName} vs Open WebUI: 호스팅형 200개 이상 모델, Ollama 없이, 캐릭터 채팅까지",
@@ -1232,7 +1264,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "셀프호스팅하고, 로컬 Ollama 모델을 돌리고, 깊은 문서 RAG에 기대며, 역할과 SSO로 팀을 관리하고 싶나요? Open WebUI는 바로 그것을 훌륭히 해냅니다. 200+ 호스팅 모델에 진짜 캐릭터 클라이언트를, <post_one_api_key_for_claude_code_and_roleplay>코딩까지 되는 키 하나</post_one_api_key_for_claude_code_and_roleplay>로, 돌릴 것 없이 원하나요? 그게 {appName}입니다.",
         "CTA": "써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
-        "METHOD": "검증 방법: Open WebUI가 캐릭터 클라이언트가 아니라 어시스턴트 플랫폼이라는 주장은 그 소스를 대조해 확인했습니다. 캐릭터 카드 파서는 있지만 쓰이지 않으며, 로어북도 페르소나도 없습니다."
+        "METHOD": "검증 방법: Open WebUI가 캐릭터 클라이언트가 아니라 어시스턴트 플랫폼이라는 주장은 그 소스를 대조해 확인했습니다. 캐릭터 카드 파서는 있지만 쓰이지 않으며, 로어북도 페르소나도 없습니다.",
+        "META_DESCRIPTION": "Open WebUI는 Ollama 중심의 셀프 호스팅 채팅 UI입니다. {appName}는 인프라 없이 키 하나로 200개 이상 모델과 캐릭터 클라이언트, 코딩까지 제공합니다."
       },
       "UNOROUTER_VS_AGNAI": {
         "TITLE": "{appName} vs Agnai: 같은 RP 깊이, 호스팅형, 키 하나로",
@@ -1250,7 +1283,8 @@
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "그룹을 위한 진짜 멀티플레이어와 무료 Horde 연산을 갖춘, 열려 있고 직접 운영하는 RP를 원하나요? Agnai가 그 선택이고, 그 일을 정말 잘합니다. <post_unorouter_vs_risuai>더 깊은 1인용 스크립팅</post_unorouter_vs_risuai>과 200+ 모델을 호스팅형으로, 코딩 에이전트도 돌리는 키 하나로 원하나요? 그게 {appName}입니다.",
         "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
-        "METHOD": "검증 방법: 여기 적힌 Agnai 주장은, 그 멀티플레이어 그룹 채팅이 우리가 따라가지 못하는 진짜 강점이라는 점을 포함해, 마케팅이 아니라 그 자체 소스를 읽어 확인했습니다."
+        "METHOD": "검증 방법: 여기 적힌 Agnai 주장은, 그 멀티플레이어 그룹 채팅이 우리가 따라가지 못하는 진짜 강점이라는 점을 포함해, 마케팅이 아니라 그 자체 소스를 읽어 확인했습니다.",
+        "META_DESCRIPTION": "Agnai는 멀티플레이어가 강점인 오픈소스 RP 프런트엔드입니다. {appName}는 깊은 1인용 RP를 호스팅형으로, 코딩 에이전트도 돌리는 키 하나로 제공합니다."
       },
       "UNOROUTER_VS_SPICYCHAT": {
         "TITLE": "{appName} vs SpicyChat: 쉬운 길, 그리고 깊이, 모델, 코드까지",
@@ -1267,7 +1301,8 @@
         "P_ONE_KEY": "SpicyChat이 답할 수 없는 2-in-1입니다. 롤플레이를 돌리는 그 키가 <c>https://api.unorouter.com/v1</c>를 통해 <post_one_api_key_for_claude_code_and_roleplay>Claude Code</post_one_api_key_for_claude_code_and_roleplay>, Cline, Codex를 200개 이상 모델로 겨냥합니다. 캐릭터 채팅과 코딩 에이전트를 계정 하나로. SpicyChat은 폐쇄적인 RP 사이트지만, {appName}은 채팅, 모델, 코드를 키 하나에 담습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "배울 것 없는 가능한 한 가장 단순한 무검열 RP 사이트를 원하고, 더 많은 메모리를 위해 등급 요금을 내는 것도 괜찮나요? SpicyChat이 그것입니다. 같은 쉬운 시작에 열린 모델 선택, 기본으로 제공되는 깊은 로어북, 코딩까지 되는 키를 원하나요? 그게 {appName}입니다.",
-        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>."
+        "CTA": "2-in-1을 써볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <chat>채팅 열기</chat>.",
+        "META_DESCRIPTION": "SpicyChat은 메모리와 컨텍스트가 유료 등급에 묶인 RP 사이트입니다. {appName}는 쉬운 시작에 200개 이상 모델, 깊은 로어북, 코딩용 키를 더합니다."
       },
       "HOW_TO_CONNECT_UNOROUTER_TO_NEVIKA": {
         "TITLE": "{appName}을 Nevika에 연결하는 방법",
@@ -1280,7 +1315,8 @@
         "P_PICKING_A_MODEL": "롤플레이에는 <c>glm-5.2</c>가 강력한 기본값입니다. 별도 접미사 없이 추론하고, 긴 장면을 잘 붙들며, 비용도 적습니다. <post_free_models_aggregated>무료 모델</post_free_models_aggregated>은 처음 시험해 보기에 충분하지만 공유되고 속도 제한이 걸리니, 이야기가 중요해지면 유료 모델로 옮기세요.",
         "H_TROUBLESHOOTING": "문제가 생기면",
         "P_TROUBLESHOOTING": "모델 목록이 비어 있다면 복사 과정에서 키에 공백이 딸려 들어간 것입니다. 401은 키가 틀렸거나 폐기됐다는 뜻이니 새로 발급하세요. 모델에서 나는 404는 이름을 목록에서 고르지 않고 손으로 입력했다는 뜻입니다. <post_how_to_connect_any_llm_to_sillytavern>SillyTavern 설정 가이드</post_how_to_connect_any_llm_to_sillytavern>에서 같은 오류를 더 자세히 다룹니다.",
-        "CTA": "써 볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "써 볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "META_DESCRIPTION": "Nevika는 OpenAI 호환 엔드포인트라면 무엇이든 커스텀 프록시로 받습니다. 1분이면 끝나는 설정, 어떤 모델을 고를지, 그리고 다들 겪는 오류 두 가지를 정리했습니다."
       },
       "SERVER_TAG_CUTS_FREE_MODEL_WAIT": {
         "TITLE": "서버 태그가 이제 무료 모델 대기 시간을 줄여 줍니다",
@@ -1296,7 +1332,8 @@
         "H_WHAT_IT_DOES_NOT_DO": "할 수 없는 것",
         "P_NOT_DO_1": "이것은 여러분의 대기 시간을 줄입니다. 제공업체의 한도를 올리지는 않습니다. 상위 서비스가 포화되거나 성능이 떨어져 무료 모델이 바쁠 때, 저희 쪽 창이 짧아져도 없는 용량이 생기지는 않으며 요청은 여전히 멈추거나 실패할 수 있습니다.",
         "P_NOT_DO_2": "유료 모델에는 분당 제한이 전혀 없습니다. 그러니 대부분이 아니라 매번 응답하는 모델이 필요하다면 그것이 솔직한 권장 사항입니다. <pricing>요금</pricing>은 100만 토큰당 1센트의 몇 분의 1부터 시작합니다.",
-        "CTA": "태그를 받으려면 <discord>디스코드에 참여</discord>하시거나, 먼저 <models>무료 모델을 둘러보세요</models>."
+        "CTA": "태그를 받으려면 <discord>디스코드에 참여</discord>하시거나, 먼저 <models>무료 모델을 둘러보세요</models>.",
+        "META_DESCRIPTION": "{appName} 디스코드 태그를 달면 무료 모델의 속도 제한 창이 25퍼센트 짧아집니다. 1분에 한 번 호출하던 모델을 45초마다 호출할 수 있습니다."
       },
       "CONSENT_FOR_FREE_MODELS": {
         "TITLE": "무료 모델 이용에 이제 동의가 필요합니다",
@@ -1314,7 +1351,8 @@
         "H_BUSINESS": "철회와 비즈니스 계정",
         "P_BUSINESS": "동의는 무료 모델 페이지, <settings>계정 설정</settings> 또는 채팅에서 언제든지 철회할 수 있으며, 철회하면 다시 동의할 때까지 해당 모델이 차단됩니다. 비즈니스 계정의 프롬프트에는 다른 사람의 개인정보가 포함될 수 있으므로 무료 모델은 비즈니스 계정에서 사용할 수 없습니다.",
         "CTA": "준비되셨나요? <free>무료 모델 페이지</free>를 열고 사용하는 모델을 활성화하세요.",
-        "NOTE": "2026년 10월 21일 업데이트: 이 글의 내용은 더 이상 최신이 아닙니다. 이제 동의는 제공자마다 한 번 이루어지며 유료 모델에도 적용됩니다. <post_consent_per_provider>현재 방식 알아보기</post_consent_per_provider>."
+        "NOTE": "2026년 10월 21일 업데이트: 이 글의 내용은 더 이상 최신이 아닙니다. 이제 동의는 제공자마다 한 번 이루어지며 유료 모델에도 적용됩니다. <post_consent_per_provider>현재 방식 알아보기</post_consent_per_provider>.",
+        "META_DESCRIPTION": "무료 모델은 입력 내용을 자체 목적에 사용할 수 있는 제공자를 통해 제공됩니다. 이제 모델마다 한 번씩 이를 확인하게 됩니다. 이유와 방법을 알려드립니다."
       },
       "CONSENT_PER_PROVIDER": {
         "TITLE": "제공자별 동의, 무료 모델과 유료 모델 모두에 적용",
@@ -1334,9 +1372,11 @@
         "P_WHEN": "아직은 아닙니다. 현재는 동의 없는 요청도 거부되지 않습니다. 차단은 모델별, 계정별로 단계적으로 적용할 예정이며, 날짜는 <discord>Discord</discord>와 이 블로그에서 미리 공지합니다. 지금 동의해 두시면 차단이 시작되어도 문제가 생기지 않습니다.",
         "H_TERMS": "서비스 약관과 개인정보 처리방침 업데이트",
         "P_TERMS": "<terms>서비스 약관</terms>에 제3국 제공자에 관한 제6조가 새로 추가되었습니다. 해당 제공자의 서비스에는 제공자의 소재국이 표시되며, 여기에 다른 사람의 개인정보를 입력해서는 안 됩니다. <privacy>개인정보 처리방침</privacy>에는 동의와 이의 제기가 자세히 설명되어 있습니다. 계정이 있으시면 다음에 로그인한 상태로 사이트를 이용할 때 변경된 약관에 한 번 동의하시면 됩니다. API 키에는 영향이 없습니다.",
-        "CTA": "지금 <consents>동의 페이지</consents>를 열어 사용하는 제공자에 동의하세요. 자세한 내용은 <docs>문서</docs>에 있습니다."
+        "CTA": "지금 <consents>동의 페이지</consents>를 열어 사용하는 제공자에 동의하세요. 자세한 내용은 <docs>문서</docs>에 있습니다.",
+        "META_DESCRIPTION": "{appName}의 동의는 이제 제공자 단위입니다. 한 번 동의하면 그 제공자의 유료, 무료 모델 전체에 적용됩니다. 동의와 이의 제기 방법을 알려 드립니다."
       }
-    }
+    },
+    "TRENDING_MODELS": "이번 주 인기 모델"
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API 요금, 컨텍스트 및 예제 | {appName}",
@@ -1464,8 +1504,8 @@
       "RESET_NOTE": "사용하지 않은 크레딧은 다음 {period}(으)로 이월되지 않습니다."
     },
     "META": {
-      "TITLE": "요금 - {appName}",
-      "DESCRIPTION": "모든 AI 모델에 단순한 가격. 더 나은 가치를 위해 구독하거나 사용한 만큼 지불하세요. 당신의 코드, Claude Code, 그리고 SillyTavern, RisuAI와 OpenAI 호환 AI 채팅 클라이언트 어디에서나 작동합니다.",
+      "TITLE": "{appName} 요금: 무료 모델, 종량제, 구독",
+      "DESCRIPTION": "모든 AI 모델에 간단한 요금: 무료 모델, 종량제, 저렴한 구독. 코드, Claude Code, SillyTavern, RisuAI 지원.",
       "KEYWORDS": "AI API 요금, AI 구독, 토큰당 결제, AI 모델 요금, 저렴한 AI API, 합리적인 AI, OpenAI 호환 요금, 멀티 모델 API 요금"
     },
     "TITLE": "요금",
@@ -1926,12 +1966,12 @@
     },
     "JANITOR_AI": {
       "META": {
-        "TITLE": "Janitor AI 무료 프록시: 설정 가이드 | {appName}",
-        "DESCRIPTION": "{appName}을 Janitor AI 무료 프록시로 사용하세요. 무료 DeepSeek와 GLM 모델, 정확한 프록시 URL, 대부분의 가이드가 놓치는 새로고침 단계까지 2분 만에 설정할 수 있습니다.",
+        "TITLE": "Janitor AI 프록시 가이드(2026): 무료 설정 | {appName}",
+        "DESCRIPTION": "URL: https://api.unorouter.com/v1/chat/completions. 무료 DeepSeek, GLM 지원.",
         "KEYWORDS": "Janitor AI 무료 프록시, 재니터 AI 무료 프록시, Janitor AI 추천 무료 프록시, Janitor AI 프록시 URL, Janitor AI 프록시, Janitor AI 무료 모델, {appName} Janitor AI"
       },
       "BADGE": "Janitor.AI",
-      "TITLE": "Janitor AI 무료 프록시",
+      "TITLE": "Janitor AI 프록시 가이드: 무료 프록시 설정",
       "SUBTITLE": "{appName}을 Janitor.AI에 무료 사용자 지정 프록시로 연결하세요. 무료 모델과 API Settings 패널이 요구하는 정확한 URL 형식을 안내합니다.",
       "INTRO_TITLE": "Janitor.AI란?",
       "INTRO_DESC": "Janitor.AI는 OpenAI 호환 프록시라면 무엇이든 사용할 수 있는 브라우저 기반 캐릭터 채팅 플랫폼입니다. {appName}은 API Settings 패널에서 추가하며, 무료 모델과 함께 같은 키로 유료 모델도 쓸 수 있습니다.",
@@ -1975,7 +2015,15 @@
       "FAQ_3_Q": "\"Too many requests\"(429) 오류가 나는 이유는?",
       "FAQ_3_A": "무료 모델은 계정과 모델별로 요청 수가 제한되며, 보통 1분에 한 번입니다. 바로 다시 보내도 소용없으니 카운트다운이 끝날 때까지 기다리거나 다른 무료 모델로 바꾸세요. 유료 모델에는 분당 제한이 없습니다.",
       "FAQ_4_Q": "{appName}의 Janitor AI 프록시 URL은?",
-      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions 입니다. /v1/chat/completions까지 포함한 전체 URL을 Proxy URL 칸에 붙여넣은 뒤 브라우저를 완전히 새로고침하세요."
+      "FAQ_4_A": "https://api.unorouter.com/v1/chat/completions 입니다. /v1/chat/completions까지 포함한 전체 URL을 Proxy URL 칸에 붙여넣은 뒤 브라우저를 완전히 새로고침하세요.",
+      "FAQ_5_Q": "Janitor AI에 \"A network error occurred\" 또는 \"failed to fetch\"가 뜹니다. 어떻게 해야 하나요?",
+      "FAQ_5_A": "거의 항상 Proxy URL 문제입니다. 공백 없이 정확히 https://api.unorouter.com/v1/chat/completions 여야 하며, Janitor의 「Add /chat/completions」 체크박스는 꺼 두어야 합니다. 저장한 뒤 Ctrl+Shift+R로 강력 새로고침하세요. 그래도 실패하면 Model Name이 모델 id와 정확히 일치하는지 확인하세요.",
+      "FAQ_6_Q": "왜 Janitor AI에 401 (Unauthorized) 오류가 뜨나요?",
+      "FAQ_6_A": "API 키가 없거나, 잘못 입력되었거나, 비활성화된 상태입니다. {appName}의 API 키 페이지에 표시된 키를 Bearer라는 단어 없이 그대로 붙여 넣고, 같은 페이지에서 키가 아직 활성화되어 있는지 확인하세요.",
+      "FAQ_7_Q": "왜 Janitor AI에 403 (Forbidden) 오류가 뜨나요?",
+      "FAQ_7_A": "키에 해당 모델을 사용할 권한이 없습니다. 보통 잔액이 없는 상태에서 유료 모델을 쓰거나, 키가 특정 모델이나 IP 주소로 제한된 경우입니다. :free로 끝나는 모델을 고르거나, 잔액을 충전하거나, API 키 페이지에서 키의 제한 설정을 확인하세요.",
+      "FAQ_8_Q": "봇이 전혀 답하지 않아요. {appName}에 장애가 있나요?",
+      "FAQ_8_A": "대개 해당 무료 모델의 모든 제공업체가 혼잡하거나 모델 이름에 오타가 있는 경우입니다. 다른 무료 모델로 바꾼 뒤 다시 시도하세요. 상태 페이지에서 지금 온라인인 모델을 확인할 수 있습니다."
     },
     "RISUAI": {
       "META": {
@@ -2023,8 +2071,8 @@
     },
     "CHUB": {
       "META": {
-        "TITLE": "Chub / Venus 통합 가이드 | {appName}",
-        "DESCRIPTION": "Chub.ai(Venus)를 리버스 프록시로 {appName}에 연결합니다. Chub의 서드파티 프록시 경고에 대한 퍼스트파티 중계 설명 포함.",
+        "TITLE": "Chub AI(Venus) 리버스 프록시 설정 | {appName}",
+        "DESCRIPTION": "Chub AI를 {appName}에 연결: https://api.unorouter.com/v1/chat/completions 입력.",
         "KEYWORDS": "Chub AI, Venus AI, Chub 리버스 프록시, {appName} Chub, AI 캐릭터 채팅, OpenAI 호환 API, Chub OpenAI 설정"
       },
       "BADGE": "Chub / Venus",
@@ -5848,8 +5896,8 @@
     },
     "INDEX": {
       "META": {
-        "TITLE": "플랫폼 가이드 및 자주 묻는 질문",
-        "DESCRIPTION": "{appName} API의 빠른 시작, 모델, 가격, 속도 제한, 오류 코드 및 청구. 200개 이상의 모델을 위한 하나의 OpenAI 호환 엔드포인트.",
+        "TITLE": "{appName} API 문서: 키, 베이스 URL, 제한",
+        "DESCRIPTION": "{appName} API 키 발급, 베이스 URL https://api.unorouter.com/v1 설정. 모델, 가격, 제한, 결제 안내.",
         "KEYWORDS": "{appName} API, 빠른 시작, 속도 제한, 오류 코드, 청구, 가격, 무료 모델"
       },
       "TITLE": "플랫폼 가이드",

@@ -131,9 +131,14 @@ export function translated(
   t: ReturnType<typeof useTranslations<never>>,
   post: BlogPost,
 ) {
+  const description = t(`${post.i18nKey}.DESCRIPTION`, APP_VALUES);
   return {
     title: t(`${post.i18nKey}.TITLE`, APP_VALUES),
-    description: t(`${post.i18nKey}.DESCRIPTION`, APP_VALUES),
+    description,
+    // The on-page summary can run long; the search snippet gets a short one.
+    metaDescription: t.has(`${post.i18nKey}.META_DESCRIPTION`)
+      ? t(`${post.i18nKey}.META_DESCRIPTION`, APP_VALUES)
+      : description,
     author: t(`${post.i18nKey}.AUTHOR`, APP_VALUES),
   };
 }

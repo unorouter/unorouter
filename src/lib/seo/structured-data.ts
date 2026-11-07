@@ -8,7 +8,6 @@ import type {
   HowTo,
   Offer,
   Organization,
-  Product,
   SoftwareApplication,
   WebSite,
   WithContext,
@@ -34,44 +33,50 @@ export function buildOrganizationSchema(): WithContext<Organization> {
 }
 
 export function buildWebSiteSchema(locale: string): WithContext<WebSite> {
+  // schema-dts does not model Google's "query-input" shorthand.
+  const searchAction = {
+    "@type": "SearchAction" as const,
+    target: {
+      "@type": "EntryPoint" as const,
+      urlTemplate: `${env.siteOrigin}/${locale}/models?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  };
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: env.appName,
     url: `${env.siteOrigin}/${locale}`,
     inLanguage: locale,
+    potentialAction: searchAction,
   };
 }
 
 type SoftwareApplicationInput = {
   locale: string;
   description: string;
-  modelCount?: number;
-  name?: string;
-  url?: string;
-  brandName?: string;
 };
 
+// The platform itself. Google requires offers or a rating; the free tier is a
+// real zero-price offer.
 export function buildSoftwareApplicationSchema(
   input: SoftwareApplicationInput,
 ): WithContext<SoftwareApplication> {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: input.name ?? env.appName,
-    url: input.url ? abs(input.url) : `${env.siteOrigin}/${input.locale}`,
-    applicationCategory: "WebApplication",
+    name: env.appName,
+    url: `${env.siteOrigin}/${input.locale}`,
+    applicationCategory: "DeveloperApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,
-    ...(input.brandName && {
-      brand: { "@type": "Brand", name: input.brandName },
-    }),
-    ...(() => {
-      const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
-        (v): v is string => Boolean(v),
-      );
-      return sameAs.length > 0 ? { sameAs } : {};
-    })(),
+    offers: {
+      "@type": "Offer",
+      price: 0,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    publisher: buildOrganizationSchema(),
   };
 }
 
@@ -126,6 +131,7 @@ type CollectionPageInput = {
   description: string;
   url: string;
   items: CollectionItem[];
+  ranked?: boolean;
 };
 
 export function buildCollectionPageSchema(
@@ -140,6 +146,9 @@ export function buildCollectionPageSchema(
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: input.items.length,
+      ...(input.ranked && {
+        itemListOrder: "https://schema.org/ItemListOrderDescending",
+      }),
       itemListElement: input.items.map((item, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -193,7 +202,10 @@ export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
     ...(input.author && {
       author:
         typeof input.author === "string"
-          ? authorEntity(input.author)
+          ? // "{appName} team" is us; any other byline is a person.
+            input.author.includes(env.appName)
+            ? authorEntity(input.author)
+            : { "@type": "Person", name: input.author }
           : input.author.type === "Organization"
             ? authorEntity(input.author.name)
             : { "@type": "Person", name: input.author.name },
@@ -202,67 +214,65 @@ export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
   };
 }
 
-type ProductSchemaInput = {
+type ModelSchemaInput = {
   name: string;
   description: string;
   url: string;
-  // Google's merchant listings treat a Product without an image as invalid.
   image: string;
+  vendorName: string;
   inputPrice?: number;
   outputPrice?: number;
   isFree: boolean;
 };
 
-export function buildProductSchema(
-  input: ProductSchemaInput,
-): WithContext<Product> {
+function perMillionTokens(price: number, name: string): Offer {
+  return {
+    "@type": "Offer",
+    name,
+    price,
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    seller: { "@type": "Organization", name: env.appName },
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price,
+      priceCurrency: "USD",
+      referenceQuantity: {
+        "@type": "QuantitativeValue",
+        value: 1000000,
+        unitText: "tokens",
+      },
+    },
+  };
+}
+
+// A model is software made by its vendor and sold through us per million tokens.
+// Product markup made Google validate model pages as merchant listings
+// (shipping, returns), which an API can never satisfy.
+export function buildModelSchema(
+  input: ModelSchemaInput,
+): WithContext<SoftwareApplication> {
   const offers: Offer[] = input.isFree
-    ? [
-        {
-          "@type": "Offer" as const,
-          price: 0,
-          priceCurrency: "USD",
-          description:
-            "Free tier, shared pools with a light per model rate limit",
-          availability: "https://schema.org/InStock" as const,
-        },
-      ]
+    ? [perMillionTokens(0, "Free tier")]
     : [
         ...(input.inputPrice != null
-          ? [
-              {
-                "@type": "Offer" as const,
-                price: input.inputPrice,
-                priceCurrency: "USD",
-                description: "USD per 1M input tokens, pay as you go",
-                availability: "https://schema.org/InStock" as const,
-              },
-            ]
+          ? [perMillionTokens(input.inputPrice, "Input tokens")]
           : []),
         ...(input.outputPrice != null
-          ? [
-              {
-                "@type": "Offer" as const,
-                price: input.outputPrice,
-                priceCurrency: "USD",
-                description: "USD per 1M output tokens, pay as you go",
-                availability: "https://schema.org/InStock" as const,
-              },
-            ]
+          ? [perMillionTokens(input.outputPrice, "Output tokens")]
           : []),
       ];
 
   return {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "SoftwareApplication",
     name: input.name,
     description: input.description,
     url: abs(input.url),
     image: abs(input.image),
-    brand: {
-      "@type": "Brand",
-      name: env.appName,
-    },
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any (HTTP API)",
+    author: { "@type": "Organization", name: input.vendorName },
     ...(offers.length && { offers }),
   };
 }

@@ -39,7 +39,12 @@ export async function DocPageSchema(props: DocPageSchemaProps) {
 
   const breadcrumb: BreadcrumbItem[] = [
     { name: t("NAV.HOME"), url: `/${locale}` },
-    { name: t("NAV.DOCS"), url: `/${locale}/docs` },
+    // The section index (/docs/platform, /docs/chat, /docs/integrations);
+    // bare /docs is a redirect.
+    {
+      name: t("NAV.DOCS"),
+      url: `/${locale}/${props.slug.split("/").slice(0, 2).join("/")}`,
+    },
     { name: props.title, url: `/${locale}/${props.slug}` },
   ];
 

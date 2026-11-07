@@ -28,7 +28,7 @@ export default async function HomePage(props: {
   const t = await getTranslations({ locale });
 
   const queryClient = getQueryClient();
-  const [counts] = await Promise.all([
+  await Promise.all([
     prefetchElysia(queryClient, queryKeys.pricingCounts(), () =>
       rpc.api.models.pricing.counts.get(),
     ),
@@ -47,7 +47,6 @@ export default async function HomePage(props: {
         data={buildSoftwareApplicationSchema({
           locale,
           description: t("HOME.META.DESCRIPTION"),
-          modelCount: counts?.models,
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>

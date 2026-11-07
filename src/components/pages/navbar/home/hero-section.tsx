@@ -30,7 +30,13 @@ export async function HeroSection() {
             </span>
           </div>
 
-          <h1 className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+          {/* The stylised wordmark below says nothing a searcher typed; the
+              page heading carries what people actually search for. */}
+          <h1 className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+            {t("HOME.HERO.SEO_HEADING")}
+          </h1>
+
+          <p className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             {t("HOME.HERO.TITLE_LINE1")} <br />
             <span className="text-muted-foreground">
               <ScrambleRotate
@@ -42,7 +48,7 @@ export async function HeroSection() {
               />
             </span>
             .
-          </h1>
+          </p>
 
           <HeroSubtitle />
         </div>
@@ -70,6 +76,17 @@ export async function HeroSection() {
             {t("HOME.CHAT.CTA_OPEN")}
           </Link>
         </div>
+
+        <Link
+          href={{
+            pathname: "/docs/integrations/[slug]",
+            params: { slug: "janitor-ai" },
+          }}
+          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 font-mono text-xs underline underline-offset-4"
+        >
+          {t("DOCS.JANITOR_AI.TITLE")}
+          <Icon name="chevron-right" className="h-3 w-3" />
+        </Link>
 
         <HeroStatsGrid />
       </div>
