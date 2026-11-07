@@ -119,7 +119,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
 
   if (props.navConfig === "docs") {
     const mainNavItems = navigation(authenticated).filter(
-      (item) => !item.hidden && item.href !== "/docs",
+      (item) => !item.hidden && item.href !== "/docs/platform",
     );
     const platformDocs = pathname.startsWith("/docs/platform");
     const chatDocs = !platformDocs && pathname.startsWith("/docs/chat");

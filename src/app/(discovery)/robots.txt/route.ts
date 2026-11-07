@@ -38,7 +38,8 @@ function buildDisallowList(): string[] {
 }
 
 function buildAllowList(): string[] {
-  const allow = new Set<string>();
+  // og:image and Product.image are served from the badge route under /api/.
+  const allow = new Set<string>(["/api/ops/badge/"]);
   for (const route of privateRoutes.publicChildren) {
     for (const locale of routing.locales) {
       allow.add(localizedPath(route, locale, false));
@@ -47,8 +48,9 @@ function buildAllowList(): string[] {
   return Array.from(allow).sort();
 }
 
-// Named explicitly so GEO visibility never depends on the generic block or on a
-// CDN default flipping to block-AI.
+// Named explicitly so GEO visibility never depends on a CDN default flipping to
+// block-AI. They share the generic group: a crawler obeys only its most specific
+// group, so a separate "Allow: /" group would drop every Disallow for them.
 const AI_CRAWLERS = [
   "GPTBot",
   "OAI-SearchBot",
@@ -63,7 +65,7 @@ export function GET() {
   const disallow = buildDisallowList();
   const allow = buildAllowList();
   const lines: string[] = [
-    ...AI_CRAWLERS.flatMap((bot) => [`User-Agent: ${bot}`, "Allow: /", ""]),
+    ...AI_CRAWLERS.map((bot) => `User-Agent: ${bot}`),
     "User-Agent: *",
     "Content-Signal: search=yes, ai-train=yes, ai-input=yes",
     "Allow: /",
@@ -71,7 +73,6 @@ export function GET() {
     ...disallow.map((path) => `Disallow: ${path}`),
     "",
     `Sitemap: ${env.siteOrigin}/sitemap.xml`,
-    `Host: ${env.siteOrigin}`,
     "",
   ];
   return new Response(lines.join("\n"), {

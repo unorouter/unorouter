@@ -3,6 +3,7 @@ import { faqI18nKey, getPost, translated } from "@/components/pages/blog/posts";
 import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   getPageMetadata,
   getSeoTimestamps,
@@ -30,6 +31,7 @@ export async function generateMetadata(props: PageProps) {
   const t = await getTranslations({ locale });
 
   const { title, description } = translated(t, post);
+  const ts = getSeoTimestamps(`blog/${post.slug}`);
 
   return getPageMetadata({
     locale,
@@ -37,7 +39,11 @@ export async function generateMetadata(props: PageProps) {
     title: t("BLOG.POST_META_TITLE", { ...APP_VALUES, title }),
     description,
     keywords: post.tags.join(", "),
-    ogImage: ogBadge("banner", locale),
+    ogImage: post.heroImage ?? ogBadge("banner", locale),
+    article: {
+      publishedTime: dayjs(ts?.published ?? post.date).toISOString(),
+      modifiedTime: dayjs(ts?.modified ?? post.date).toISOString(),
+    },
   });
 }
 
@@ -76,6 +82,7 @@ export default async function BlogPostPage(props: PageProps) {
           datePublished: ts?.published ?? post.date,
           dateModified: ts?.modified ?? post.date,
           author,
+          image: post.heroImage ?? ogBadge("banner", locale),
         })}
       />
       {faqKey && (

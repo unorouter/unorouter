@@ -538,7 +538,7 @@ print(res.choices[0].message.content)`;
                 <Button
                   nativeButton={false}
                   variant="outline"
-                  render={<Link href="/docs" />}
+                  render={<Link href="/docs/platform" />}
                 >
                   <Icon name="file-text" className="h-4 w-4" />
                   {t("MODEL_PAGE.VIEW_DOCS")}

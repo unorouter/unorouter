@@ -1214,21 +1214,25 @@ export const privateRoutes = {
     "/gift-cards",
     "/settings",
     "/consent",
-    "/offline",
     "/ai-api-model-tester/history",
+    "/vendor-icons",
+  ],
+  // Crawlable but noindex and out of the sitemap: auth shells and the service
+  // worker escape hatch. A robots Disallow hid their noindex, so Google kept
+  // them as URL-only results.
+  noindex: [
+    "/offline",
     "/forgot-password",
     "/reset",
-    // Auth and the service-worker escape hatch: shells of under 40 rendered
-    // words, and a sitemap full of them is what trains Google to distrust it.
     "/login",
     "/register",
     "/recover",
-    "/vendor-icons",
   ],
   dynamicParents: ["/chat/[convId]", "/image/[id]", "/room/[roomId]"],
   publicChildren: ["/chat/presets", "/chat/cards", "/chat/providers"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
+  noindex: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];
   publicChildren: readonly (keyof typeof pathnames)[];
 };

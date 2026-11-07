@@ -10,6 +10,7 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   return getPageMetadata({
+    robots: false,
     locale,
     href: "/forgot-password",
     title: t("AUTH.META.FORGOT_PASSWORD_TITLE", APP_VALUES),

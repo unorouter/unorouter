@@ -17,7 +17,7 @@ import { isActiveLink } from "./navigation";
 const NAV_LINKS = [
   { href: "/models", key: msg("FOOTER.MODELS") },
   { href: "/pricing", key: msg("FOOTER.PRICING") },
-  { href: "/docs", key: msg("FOOTER.DOCUMENTATION") },
+  { href: "/docs/platform", key: msg("FOOTER.DOCUMENTATION") },
   { href: "/blog", key: msg("FOOTER.BLOG") },
 ] as const;
 

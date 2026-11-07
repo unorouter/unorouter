@@ -1,9 +1,9 @@
 "use client";
 
-import { getPathname, Link } from "@/i18n/navigation";
+import { vendorHref } from "@/components/pages/navbar/models/detail/resolve-slug";
+import { Link } from "@/i18n/navigation";
 import { modelHref } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
-import { useLocale } from "next-intl";
 
 type EntityLinkBaseProps = {
   className?: string;
@@ -18,7 +18,8 @@ type ModelLinkProps = EntityLinkBaseProps & {
 export function ModelLink(props: ModelLinkProps) {
   return (
     <Link
-      href={modelHref(props.modelName, props.vendor)}
+      // Usage logs carry context variants like "claude-opus-5[1m]" that have no page of their own.
+      href={modelHref(props.modelName.replace(/\[[^\]]*\]$/, ""), props.vendor)}
       // Every prefetch is a full server render of a model page. One open rankings tab fired
       // about 1,000 a minute (365,000 a day site wide) and took a gateway pod to its memory limit.
       prefetch={false}
@@ -37,19 +38,16 @@ type VendorLinkProps = EntityLinkBaseProps & {
 };
 
 export function VendorLink(props: VendorLinkProps) {
-  const locale = useLocale();
-  const modelsPath = getPathname({ locale, href: "/models" });
-  const href = `${modelsPath}?vendor=${encodeURIComponent(props.vendor)}`;
-
   return (
-    <a
-      href={href}
+    <Link
+      href={vendorHref(props.vendor)}
+      prefetch={false}
       className={cn(
         "hover:text-foreground -my-1 inline-block py-1 underline decoration-current/40 decoration-1 underline-offset-2 transition-colors hover:decoration-current",
         props.className,
       )}
     >
       {props.children ?? props.vendor}
-    </a>
+    </Link>
   );
 }

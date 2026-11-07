@@ -25,7 +25,7 @@ export async function GET() {
       {
         name: "route-chat-completion",
         description: t("WELL_KNOWN.AGENT_SKILLS.ROUTE_CHAT"),
-        homepage: `${env.siteOrigin}${localeUrl(locale, "/docs")}`,
+        homepage: `${env.siteOrigin}${localeUrl(locale, "/docs/platform")}`,
       },
       {
         name: "browse-model-catalog",

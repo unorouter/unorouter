@@ -77,6 +77,7 @@ type MetadataParams = {
   ogImage?: string;
   robots?: boolean;
   locales?: readonly Locale[];
+  article?: { publishedTime: string; modifiedTime: string };
 };
 
 export async function pageMetadata(opts: {
@@ -149,9 +150,16 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     openGraph: {
       title: params.title,
       description: params.description,
-      type: "website",
+      ...(params.article
+        ? { type: "article", ...params.article }
+        : { type: "website" }),
+      url: canonicalPath,
       locale: LANGUAGES.find((l) => l.locale === params.locale)?.ogLocale,
-      alternateLocale: LANGUAGES.map((l) => l.ogLocale),
+      alternateLocale: LANGUAGES.filter(
+        (l) =>
+          l.locale !== params.locale &&
+          (params.locales ?? routing.locales).some((x) => x === l.locale),
+      ).map((l) => l.ogLocale),
       siteName: env.appName,
       images: [
         {
@@ -175,13 +183,15 @@ export function getPageMetadata(params: MetadataParams): Metadata {
         },
       ],
     },
+    // noindex pages still pass link equity: locale copies of model pages are
+    // noindex but link to indexed ones.
     robots: {
       index: shouldIndex,
-      follow: shouldIndex,
+      follow: true,
       nocache: !shouldIndex,
       googleBot: {
         index: shouldIndex,
-        follow: shouldIndex,
+        follow: true,
         "max-video-preview": -1,
         "max-image-preview": "large",
         "max-snippet": -1,

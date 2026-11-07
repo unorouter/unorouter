@@ -18,7 +18,7 @@ export const PAGE_CHUNKS: Chunks = {
   ),
   settings: (chunks) => <Link href="/settings">{chunks}</Link>,
   pricing: (chunks) => <Link href="/pricing">{chunks}</Link>,
-  docs: (chunks) => <Link href="/docs">{chunks}</Link>,
+  docs: (chunks) => <Link href="/docs/platform">{chunks}</Link>,
   privacy: (chunks) => <Link href="/privacy">{chunks}</Link>,
   rankings: (chunks) => <Link href="/rankings">{chunks}</Link>,
   tester: (chunks) => <Link href="/ai-api-model-tester">{chunks}</Link>,

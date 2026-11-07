@@ -153,9 +153,8 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   { name: "NAV.IMAGE", href: "/image", iconName: "image" },
   {
     name: "NAV.DOCS",
-    href: "/docs",
+    href: "/docs/platform",
     iconName: "book-open",
-    exact: true,
     submenu: docsSubmenu(),
   },
 ];

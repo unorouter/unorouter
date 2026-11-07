@@ -31,6 +31,7 @@ type EntryOptions = {
 
 const privateSet = new Set<string>([
   ...privateRoutes.static,
+  ...privateRoutes.noindex,
   ...privateRoutes.dynamicParents,
 ]);
 

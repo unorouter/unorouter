@@ -61,7 +61,7 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  return getPageMetadata({
+  const metadata = getPageMetadata({
     locale,
     href: "/",
     title: t("METADATA.TITLE", APP_VALUES),
@@ -69,6 +69,14 @@ export async function generateMetadata(props: {
     keywords: t("METADATA.KEYWORDS"),
     ogImage: ogBadge("hero", locale),
   });
+  // Site-wide fields only: a page without its own metadata (404s, detail pages)
+  // inherited the home canonical and index,follow next to Next's 404 noindex.
+  return {
+    ...metadata,
+    alternates: undefined,
+    robots: undefined,
+    openGraph: { ...metadata.openGraph, url: undefined },
+  };
 }
 
 type Props = {

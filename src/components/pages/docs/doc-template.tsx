@@ -46,7 +46,7 @@ export async function DocIndexTemplate(props: {
         id={`${props.idPrefix}-breadcrumb`}
         data={buildBreadcrumbListSchema([
           { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
-          { name: t("NAV.DOCS"), url: localeUrl(locale, "/docs") },
+          { name: t("NAV.DOCS"), url: localeUrl(locale, "/docs/platform") },
           {
             name: t(docKey(props.namespace, "INDEX.TITLE"), APP_VALUES),
             url: localeUrl(locale, props.href),
