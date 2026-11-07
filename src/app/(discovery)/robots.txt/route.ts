@@ -61,6 +61,10 @@ const AI_CRAWLERS = [
   "Applebot-Extended",
 ];
 
+// Rendered per request: the prerendered build of this route is missing from the
+// image (MODULE_NOT_FOUND, 500), and a 5xx robots.txt makes Google stop crawling.
+export const dynamic = "force-dynamic";
+
 export function GET() {
   const disallow = buildDisallowList();
   const allow = buildAllowList();
