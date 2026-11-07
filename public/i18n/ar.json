@@ -222,9 +222,9 @@
       "DISCORD": "ديسكورد"
     },
     "META": {
-      "TITLE": "{appName} - مفتاح واحد لكل نماذج الذكاء الاصطناعي",
-      "DESCRIPTION": "مفتاح واحد لكل نماذج الذكاء الاصطناعي. استخدمه في كودك، أو في Claude Code، أو في عملاء الذكاء الاصطناعي المفضّلين لديك. توجيه ذكي عبر كل مزوّد رئيسي.",
-      "KEYWORDS": "بوابة AI API، نقطة طرفية موحّدة، متوافق مع OpenAI، Claude API، GPT API، Gemini API، تحويل تلقائي، توجيه ذكي، API متعدّد النماذج، عميل دردشة ذكاء اصطناعي"
+      "TITLE": "{appName} - بروكسي ذكاء اصطناعي مجاني لـ JanitorAI وكل النماذج",
+      "DESCRIPTION": "نماذج ذكاء اصطناعي مجانية لـ JanitorAI وSillyTavern، بالإضافة إلى Claude وGPT وGemini وDeepSeek بمفتاح واحد. استخدمه في الكود أو في Claude Code أو في أي عميل ذكاء اصطناعي.",
+      "KEYWORDS": "بروكسي ذكاء اصطناعي مجاني, بروكسي مجاني لـ Janitor AI, بروكسي Janitor AI, SillyTavern API, واجهة ذكاء اصطناعي مجانية, واجهة برمجة ذكاء اصطناعي, بديل OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, موجه ذكاء اصطناعي"
     }
   },
   "MODELS": {

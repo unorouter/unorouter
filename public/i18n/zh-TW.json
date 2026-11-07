@@ -200,9 +200,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
-      "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在你喜愛的 AI 用戶端裡都能用。智慧路由涵蓋所有主要供應商。",
-      "KEYWORDS": "AI API 閘道，統一 AI 端點，OpenAI 相容，Claude API，GPT API，Gemini API，自動容錯，智慧路由，多模型 API，AI 聊天用戶端"
+      "TITLE": "{appName} - JanitorAI 免費 AI 代理，一把金鑰用遍所有模型",
+      "DESCRIPTION": "為 JanitorAI 和 SillyTavern 提供免費 AI 模型，Claude、GPT、Gemini 與 DeepSeek 也只需一把金鑰。可用於你的程式碼、Claude Code 或任何 AI 用戶端。",
+      "KEYWORDS": "免費 AI 代理, Janitor AI 免費代理, Janitor AI 代理, SillyTavern API, 免費 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 閘道"
     },
     "HOW_IT_WORKS": {
       "LABEL": "開始使用",

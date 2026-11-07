@@ -222,9 +222,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",
-      "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 즐겨 쓰는 AI 클라이언트에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
-      "KEYWORDS": "AI API 게이트웨이, 통합 AI 엔드포인트, OpenAI 호환, Claude API, GPT API, Gemini API, 자동 페일오버, 스마트 라우팅, 멀티 모델 API, AI 채팅 클라이언트"
+      "TITLE": "{appName} - JanitorAI용 무료 AI 프록시, 모든 AI 모델을 하나의 키로",
+      "DESCRIPTION": "JanitorAI와 SillyTavern용 무료 AI 모델은 물론 Claude, GPT, Gemini, DeepSeek까지 하나의 키로. 코드, Claude Code, 어떤 AI 클라이언트에서든 사용하세요.",
+      "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이"
     }
   },
   "MODELS": {

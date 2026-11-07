@@ -222,9 +222,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - हर AI मॉडल के लिए एक key",
-      "DESCRIPTION": "हर AI मॉडल के लिए एक की। इसे अपने कोड में, Claude Code में, या अपने पसंदीदा AI क्लाइंट में उपयोग करें। हर प्रमुख प्रदाता के बीच स्मार्ट रूटिंग।",
-      "KEYWORDS": "AI API गेटवे, एकीकृत AI एंडपॉइंट, OpenAI संगत, Claude API, GPT API, Gemini API, स्वचालित failover, स्मार्ट रूटिंग, मल्टी-मॉडल API, AI चैट क्लाइंट"
+      "TITLE": "{appName} - JanitorAI और सभी AI मॉडलों के लिए मुफ़्त AI प्रॉक्सी",
+      "DESCRIPTION": "JanitorAI और SillyTavern के लिए मुफ़्त AI मॉडल, साथ ही एक ही की पर Claude, GPT, Gemini और DeepSeek। अपने कोड, Claude Code या किसी भी AI क्लाइंट में इस्तेमाल करें।",
+      "KEYWORDS": "मुफ़्त AI प्रॉक्सी, Janitor AI मुफ़्त प्रॉक्सी, Janitor AI प्रॉक्सी, SillyTavern API, मुफ़्त AI API, AI API, OpenAI विकल्प, Claude API, GPT API, Gemini API, DeepSeek API, AI राउटर, AI गेटवे"
     }
   },
   "MODELS": {

@@ -222,9 +222,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Jeden klucz do każdego modelu AI",
-      "DESCRIPTION": "Jeden klucz do każdego modelu AI. Użyj go w swoim kodzie, w Claude Code, lub w ulubionych klientach AI. Inteligentny routing przez każdego głównego dostawcę.",
-      "KEYWORDS": "brama API AI, ujednolicony endpoint AI, kompatybilne z OpenAI, API Claude, API GPT, API Gemini, automatyczny failover, inteligentny routing, API multi-model, klient czatu AI"
+      "TITLE": "{appName} - Darmowe proxy AI do JanitorAI i wszystkich modeli",
+      "DESCRIPTION": "Darmowe modele AI do JanitorAI i SillyTavern, a do tego Claude, GPT, Gemini i DeepSeek na jednym kluczu. W Twoim kodzie, w Claude Code lub w dowolnym kliencie AI.",
+      "KEYWORDS": "darmowe proxy AI, darmowe proxy do Janitor AI, proxy Janitor AI, API SillyTavern, darmowe API AI, API AI, alternatywa dla OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, bramka AI"
     }
   },
   "MODELS": {

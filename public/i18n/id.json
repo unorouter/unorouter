@@ -222,9 +222,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",
-      "DESCRIPTION": "Satu kunci untuk setiap model AI. Gunakan di kode Anda, di Claude Code, atau di klien AI favorit Anda. Routing cerdas di seluruh penyedia utama.",
-      "KEYWORDS": "AI API gateway, endpoint AI terpadu, kompatibel OpenAI, Claude API, GPT API, Gemini API, failover otomatis, routing cerdas, API multi-model, klien chat AI"
+      "TITLE": "{appName} - Proxy AI Gratis untuk JanitorAI & Semua Model AI",
+      "DESCRIPTION": "Model AI gratis untuk JanitorAI dan SillyTavern, plus Claude, GPT, Gemini, dan DeepSeek dengan satu key. Pakai di kode kamu, Claude Code, atau klien AI mana pun.",
+      "KEYWORDS": "proxy AI gratis, proxy gratis Janitor AI, proxy Janitor AI, API SillyTavern, API AI gratis, API AI, alternatif OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI"
     }
   },
   "MODELS": {

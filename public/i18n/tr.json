@@ -222,9 +222,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-      "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-      "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, çoklu model API, AI sohbet istemcisi"
+      "TITLE": "{appName} - JanitorAI ve tüm modeller için ücretsiz yapay zekâ proxy’si",
+      "DESCRIPTION": "JanitorAI ve SillyTavern için ücretsiz yapay zekâ modelleri, ayrıca tek anahtarla Claude, GPT, Gemini ve DeepSeek. Kodunuzda, Claude Code’da veya herhangi bir yapay zekâ istemcisinde kullanın.",
+      "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici"
     }
   },
   "MODELS": {

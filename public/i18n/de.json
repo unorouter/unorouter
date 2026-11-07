@@ -200,9 +200,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
-      "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in deinen bevorzugten KI-Clients. Smartes Routing über alle großen Anbieter.",
-      "KEYWORDS": "KI-API-Gateway, einheitlicher KI-Endpunkt, OpenAI-kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, smartes Routing, Multi-Modell-API, KI-Chat-Client"
+      "TITLE": "{appName} - Kostenloser KI-Proxy für JanitorAI & alle KI-Modelle",
+      "DESCRIPTION": "Kostenlose KI-Modelle für JanitorAI und SillyTavern, dazu Claude, GPT, Gemini und DeepSeek mit einem Schlüssel. Für deinen Code, Claude Code oder jeden KI-Client.",
+      "KEYWORDS": "kostenloser KI-Proxy, kostenloser Proxy für Janitor AI, Janitor AI Proxy, SillyTavern API, kostenlose KI-API, KI-API, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI-Router, KI-Gateway, OpenAI-kompatible API"
     },
     "HOW_IT_WORKS": {
       "LABEL": "Loslegen",

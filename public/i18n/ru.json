@@ -200,9 +200,9 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName} - Один ключ ко всем моделям ИИ",
-      "DESCRIPTION": "Один ключ ко всем моделям ИИ. Используйте его в коде, в Claude Code или в любимых ИИ-клиентах. Умная маршрутизация по всем крупным провайдерам.",
-      "KEYWORDS": "шлюз API ИИ, единый эндпоинт ИИ, OpenAI-совместимый, Claude API, GPT API, Gemini API, автоматический failover, умная маршрутизация, мультимодельный API, ИИ-чат-клиент"
+      "TITLE": "{appName} - Бесплатный ИИ-прокси для JanitorAI и всех моделей",
+      "DESCRIPTION": "Бесплатные ИИ-модели для JanitorAI и SillyTavern, а также Claude, GPT, Gemini и DeepSeek на одном ключе. В вашем коде, в Claude Code или в любом ИИ-клиенте.",
+      "KEYWORDS": "бесплатный ИИ прокси, бесплатный прокси для Janitor AI, прокси Janitor AI, API SillyTavern, бесплатный ИИ API, ИИ API, альтернатива OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, ИИ роутер, ИИ шлюз"
     },
     "HOW_IT_WORKS": {
       "LABEL": "Начать",
