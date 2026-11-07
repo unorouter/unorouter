@@ -153,6 +153,12 @@ export const queryKeys = {
   priceHistory: (modelName: string) => ["price-history", modelName] as const,
   priceDrops: () => ["price-history", "drops"] as const,
 
+  blogComments: (slug: string, sort: string) =>
+    ["blog", "comments", slug, sort] as const,
+  blogCommentsAll: (slug: string) => ["blog", "comments", slug] as const,
+  blogPostStats: (slug: string) => ["blog", "stats", slug] as const,
+  blogStatsSummary: () => ["blog", "stats-summary"] as const,
+
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,

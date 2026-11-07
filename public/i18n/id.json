@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, other {Setujui # penyedia yang dipilih}}",
       "GRANT_ALL_MISSING": "Setujui semua yang belum ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Suka",
+    "REACT_HELPFUL": "Membantu",
+    "REACT_INSIGHTFUL": "Mencerahkan",
+    "REACT_FUNNY": "Lucu",
+    "VIEWS": "{count, plural, other {# tayangan}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Komentar} other {# komentar}}",
+    "SORT_BEST": "Terbaik",
+    "SORT_TOP": "Teratas",
+    "SORT_NEW": "Terbaru",
+    "SORT_OLD": "Terlama",
+    "SORT_CONTROVERSIAL": "Kontroversial",
+    "LOADING": "Memuat komentar",
+    "EMPTY": "Belum ada komentar. Jadilah yang pertama.",
+    "LOGIN_TO_COMMENT": "Masuk untuk ikut berdiskusi.",
+    "LOGIN": "Masuk",
+    "PLACEHOLDER": "Bagikan pendapatmu",
+    "REPLY_PLACEHOLDER": "Tulis balasan",
+    "CANCEL": "Batal",
+    "REPLY": "Balas",
+    "POST": "Komentar",
+    "EXPAND": "Buka",
+    "COLLAPSE": "Tutup",
+    "REMOVED": "[dihapus]",
+    "POINTS": "{count, plural, other {# poin}}",
+    "HIDDEN_BADGE": "Disembunyikan",
+    "UPVOTE": "Upvote",
+    "DOWNVOTE": "Downvote",
+    "HIDE": "Sembunyikan",
+    "UNHIDE": "Tampilkan"
+  },
+  "BLOG_SORT": {
+    "HOT": "Populer",
+    "NEW": "Terbaru",
+    "TOP": "Teratas"
   }
 }

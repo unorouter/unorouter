@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, zero {الموافقة على المزودين المحددين} one {الموافقة على المزود المحدد} two {الموافقة على المزودَين المحددَين} few {الموافقة على # مزودين محددين} many {الموافقة على # مزودًا محددًا} other {الموافقة على # مزود محدد}}",
       "GRANT_ALL_MISSING": "الموافقة على كل المزودين الناقصين ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "إعجاب",
+    "REACT_HELPFUL": "مفيد",
+    "REACT_INSIGHTFUL": "ملهم",
+    "REACT_FUNNY": "مضحك",
+    "VIEWS": "{count, plural, zero {لا مشاهدات} one {مشاهدة واحدة} two {مشاهدتان} few {# مشاهدات} many {# مشاهدة} other {# مشاهدة}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {التعليقات} one {تعليق واحد} two {تعليقان} few {# تعليقات} many {# تعليقًا} other {# تعليق}}",
+    "SORT_BEST": "الأفضل",
+    "SORT_TOP": "الأعلى",
+    "SORT_NEW": "الأحدث",
+    "SORT_OLD": "الأقدم",
+    "SORT_CONTROVERSIAL": "مثير للجدل",
+    "LOADING": "جارٍ تحميل التعليقات",
+    "EMPTY": "لا توجد تعليقات بعد. كن أول من يشارك رأيه.",
+    "LOGIN_TO_COMMENT": "سجّل الدخول للمشاركة في النقاش.",
+    "LOGIN": "تسجيل الدخول",
+    "PLACEHOLDER": "شارك أفكارك",
+    "REPLY_PLACEHOLDER": "اكتب ردًا",
+    "CANCEL": "إلغاء",
+    "REPLY": "رد",
+    "POST": "تعليق",
+    "EXPAND": "توسيع",
+    "COLLAPSE": "طي",
+    "REMOVED": "[محذوف]",
+    "POINTS": "{count, plural, zero {# نقطة} one {نقطة واحدة} two {نقطتان} few {# نقاط} many {# نقطة} other {# نقطة}}",
+    "HIDDEN_BADGE": "مخفي",
+    "UPVOTE": "تصويت إيجابي",
+    "DOWNVOTE": "تصويت سلبي",
+    "HIDE": "إخفاء",
+    "UNHIDE": "إظهار"
+  },
+  "BLOG_SORT": {
+    "HOT": "الأكثر رواجًا",
+    "NEW": "الأحدث",
+    "TOP": "الأعلى"
   }
 }

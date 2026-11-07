@@ -15,6 +15,13 @@
       "when": 1791734995907,
       "tag": "0001_naive_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794012645482,
+      "tag": "0002_blog_engagement",
+      "breakpoints": true
     }
   ]
 }

@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {מתן הסכמה לספק שנבחר} other {מתן הסכמה ל־# הספקים שנבחרו}}",
       "GRANT_ALL_MISSING": "מתן הסכמה לכל הספקים החסרים ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "אהבתי",
+    "REACT_HELPFUL": "מועיל",
+    "REACT_INSIGHTFUL": "מעורר מחשבה",
+    "REACT_FUNNY": "מצחיק",
+    "VIEWS": "{count, plural, one {צפייה אחת} other {# צפיות}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {תגובות} one {תגובה אחת} other {# תגובות}}",
+    "SORT_BEST": "הטובות ביותר",
+    "SORT_TOP": "מובילות",
+    "SORT_NEW": "חדשות",
+    "SORT_OLD": "ישנות",
+    "SORT_CONTROVERSIAL": "שנויות במחלוקת",
+    "LOADING": "טוען תגובות",
+    "EMPTY": "אין עדיין תגובות. היו הראשונים להגיב.",
+    "LOGIN_TO_COMMENT": "התחברו כדי להצטרף לדיון.",
+    "LOGIN": "התחברות",
+    "PLACEHOLDER": "שתפו את המחשבות שלכם",
+    "REPLY_PLACEHOLDER": "כתבו תשובה",
+    "CANCEL": "ביטול",
+    "REPLY": "השב",
+    "POST": "הגב",
+    "EXPAND": "הרחב",
+    "COLLAPSE": "כווץ",
+    "REMOVED": "[הוסר]",
+    "POINTS": "{count, plural, one {נקודה אחת} other {# נקודות}}",
+    "HIDDEN_BADGE": "מוסתר",
+    "UPVOTE": "הצבעה בעד",
+    "DOWNVOTE": "הצבעה נגד",
+    "HIDE": "הסתר",
+    "UNHIDE": "הצג"
+  },
+  "BLOG_SORT": {
+    "HOT": "חם",
+    "NEW": "חדש",
+    "TOP": "מוביל"
   }
 }

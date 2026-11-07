@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, other {同意所选的 # 个提供商}}",
       "GRANT_ALL_MISSING": "同意全部未同意的提供商（{count}）"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "赞",
+    "REACT_HELPFUL": "有帮助",
+    "REACT_INSIGHTFUL": "有见地",
+    "REACT_FUNNY": "有趣",
+    "VIEWS": "{count, plural, other {# 次浏览}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {评论} other {# 条评论}}",
+    "SORT_BEST": "最佳",
+    "SORT_TOP": "最高",
+    "SORT_NEW": "最新",
+    "SORT_OLD": "最早",
+    "SORT_CONTROVERSIAL": "有争议",
+    "LOADING": "正在加载评论",
+    "EMPTY": "还没有评论，来抢沙发吧。",
+    "LOGIN_TO_COMMENT": "登录后参与讨论。",
+    "LOGIN": "登录",
+    "PLACEHOLDER": "分享你的想法",
+    "REPLY_PLACEHOLDER": "写下回复",
+    "CANCEL": "取消",
+    "REPLY": "回复",
+    "POST": "发表评论",
+    "EXPAND": "展开",
+    "COLLAPSE": "收起",
+    "REMOVED": "[已移除]",
+    "POINTS": "{count, plural, other {# 分}}",
+    "HIDDEN_BADGE": "已隐藏",
+    "UPVOTE": "赞同",
+    "DOWNVOTE": "反对",
+    "HIDE": "隐藏",
+    "UNHIDE": "取消隐藏"
+  },
+  "BLOG_SORT": {
+    "HOT": "热门",
+    "NEW": "最新",
+    "TOP": "最高"
   }
 }

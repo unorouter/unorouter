@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, other {선택한 제공자 #곳에 동의}}",
       "GRANT_ALL_MISSING": "동의하지 않은 모든 제공자에 동의 ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "좋아요",
+    "REACT_HELPFUL": "도움됨",
+    "REACT_INSIGHTFUL": "통찰력 있음",
+    "REACT_FUNNY": "재미있음",
+    "VIEWS": "{count, plural, other {조회 #회}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {댓글} other {댓글 #개}}",
+    "SORT_BEST": "베스트",
+    "SORT_TOP": "인기",
+    "SORT_NEW": "최신",
+    "SORT_OLD": "오래된순",
+    "SORT_CONTROVERSIAL": "논쟁",
+    "LOADING": "댓글을 불러오는 중",
+    "EMPTY": "아직 댓글이 없습니다. 첫 댓글을 남겨 보세요.",
+    "LOGIN_TO_COMMENT": "로그인하고 토론에 참여하세요.",
+    "LOGIN": "로그인",
+    "PLACEHOLDER": "생각을 공유해 주세요",
+    "REPLY_PLACEHOLDER": "답글 작성",
+    "CANCEL": "취소",
+    "REPLY": "답글",
+    "POST": "댓글",
+    "EXPAND": "펼치기",
+    "COLLAPSE": "접기",
+    "REMOVED": "[삭제됨]",
+    "POINTS": "{count, plural, other {#점}}",
+    "HIDDEN_BADGE": "숨김",
+    "UPVOTE": "추천",
+    "DOWNVOTE": "비추천",
+    "HIDE": "숨기기",
+    "UNHIDE": "표시"
+  },
+  "BLOG_SORT": {
+    "HOT": "인기",
+    "NEW": "최신",
+    "TOP": "추천순"
   }
 }

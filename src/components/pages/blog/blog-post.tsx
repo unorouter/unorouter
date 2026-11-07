@@ -1,3 +1,4 @@
+import { BlogEngagement } from "@/components/pages/blog/engagement/blog-comments";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Badge } from "@/components/ui/badge";
@@ -180,6 +181,8 @@ export async function BlogPost(props: BlogPostProps) {
               </section>
             )}
           </div>
+
+          <BlogEngagement slug={post.slug} />
 
           <PrevNextNav prev={adjacent.prev} next={adjacent.next} />
 

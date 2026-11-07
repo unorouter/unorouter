@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {Consentir pour # fournisseur sélectionné} other {Consentir pour # fournisseurs sélectionnés}}",
       "GRANT_ALL_MISSING": "Consentir pour tous les manquants ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "J’aime",
+    "REACT_HELPFUL": "Utile",
+    "REACT_INSIGHTFUL": "Éclairant",
+    "REACT_FUNNY": "Drôle",
+    "VIEWS": "{count, plural, one {# vue} other {# vues}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Commentaires} one {# commentaire} other {# commentaires}}",
+    "SORT_BEST": "Meilleurs",
+    "SORT_TOP": "Top",
+    "SORT_NEW": "Nouveaux",
+    "SORT_OLD": "Anciens",
+    "SORT_CONTROVERSIAL": "Controversés",
+    "LOADING": "Chargement des commentaires",
+    "EMPTY": "Aucun commentaire pour l’instant. Soyez le premier à réagir.",
+    "LOGIN_TO_COMMENT": "Connectez-vous pour participer à la discussion.",
+    "LOGIN": "Se connecter",
+    "PLACEHOLDER": "Partagez votre avis",
+    "REPLY_PLACEHOLDER": "Écrire une réponse",
+    "CANCEL": "Annuler",
+    "REPLY": "Répondre",
+    "POST": "Commenter",
+    "EXPAND": "Déplier",
+    "COLLAPSE": "Replier",
+    "REMOVED": "[supprimé]",
+    "POINTS": "{count, plural, one {# point} other {# points}}",
+    "HIDDEN_BADGE": "Masqué",
+    "UPVOTE": "Voter pour",
+    "DOWNVOTE": "Voter contre",
+    "HIDE": "Masquer",
+    "UNHIDE": "Afficher"
+  },
+  "BLOG_SORT": {
+    "HOT": "Tendance",
+    "NEW": "Nouveau",
+    "TOP": "Top"
   }
 }

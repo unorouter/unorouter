@@ -11,6 +11,7 @@ import { serverEnv } from "@/server/env";
 import { aiDomainRoute } from "@/server/ai/route";
 import { authDomainRoute } from "@/server/auth/route";
 import { billingDomainRoute } from "@/server/billing/route";
+import { blogDomainRoute } from "@/server/blog/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
 import { fromTypes, openapi } from "@elysiajs/openapi";
@@ -38,6 +39,7 @@ const PUBLIC_READ_TTL: { match: (p: string) => boolean; ttl: number }[] = [
   { match: (p) => p.startsWith("/api/models/model-status/"), ttl: 45 },
   { match: (p) => p.startsWith("/api/models/perf-metrics"), ttl: 300 },
   { match: (p) => p === "/api/models/rankings", ttl: 300 },
+  { match: (p) => p === "/api/blog/stats", ttl: 60 },
 ];
 
 export const app = new Elysia({ prefix: "/api" })
@@ -101,6 +103,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(aiDomainRoute)
   .use(authDomainRoute)
   .use(billingDomainRoute)
+  .use(blogDomainRoute)
   .use(modelsDomainRoute)
   .use(opsDomainRoute);
 

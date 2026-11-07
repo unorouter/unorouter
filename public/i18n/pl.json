@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {Wyraź zgodę dla # zaznaczonego dostawcy} few {Wyraź zgodę dla # zaznaczonych dostawców} many {Wyraź zgodę dla # zaznaczonych dostawców} other {Wyraź zgodę dla # zaznaczonych dostawców}}",
       "GRANT_ALL_MISSING": "Wyraź zgodę dla wszystkich brakujących ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Lubię to",
+    "REACT_HELPFUL": "Pomocne",
+    "REACT_INSIGHTFUL": "Wnikliwe",
+    "REACT_FUNNY": "Zabawne",
+    "VIEWS": "{count, plural, one {# wyświetlenie} few {# wyświetlenia} many {# wyświetleń} other {# wyświetlenia}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Komentarze} one {# komentarz} few {# komentarze} many {# komentarzy} other {# komentarza}}",
+    "SORT_BEST": "Najlepsze",
+    "SORT_TOP": "Top",
+    "SORT_NEW": "Nowe",
+    "SORT_OLD": "Najstarsze",
+    "SORT_CONTROVERSIAL": "Kontrowersyjne",
+    "LOADING": "Ładowanie komentarzy",
+    "EMPTY": "Brak komentarzy. Bądź pierwszy.",
+    "LOGIN_TO_COMMENT": "Zaloguj się, aby dołączyć do dyskusji.",
+    "LOGIN": "Zaloguj się",
+    "PLACEHOLDER": "Podziel się swoją opinią",
+    "REPLY_PLACEHOLDER": "Napisz odpowiedź",
+    "CANCEL": "Anuluj",
+    "REPLY": "Odpowiedz",
+    "POST": "Skomentuj",
+    "EXPAND": "Rozwiń",
+    "COLLAPSE": "Zwiń",
+    "REMOVED": "[usunięty]",
+    "POINTS": "{count, plural, one {# punkt} few {# punkty} many {# punktów} other {# punktu}}",
+    "HIDDEN_BADGE": "Ukryty",
+    "UPVOTE": "Głosuj za",
+    "DOWNVOTE": "Głosuj przeciw",
+    "HIDE": "Ukryj",
+    "UNHIDE": "Pokaż"
+  },
+  "BLOG_SORT": {
+    "HOT": "Gorące",
+    "NEW": "Nowe",
+    "TOP": "Top"
   }
 }

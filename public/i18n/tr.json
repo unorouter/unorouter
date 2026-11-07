@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, other {Seçili # sağlayıcıya onay ver}}",
       "GRANT_ALL_MISSING": "Eksik olanların tümüne onay ver ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Beğen",
+    "REACT_HELPFUL": "Faydalı",
+    "REACT_INSIGHTFUL": "Ufuk açıcı",
+    "REACT_FUNNY": "Komik",
+    "VIEWS": "{count, plural, other {# görüntülenme}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Yorumlar} other {# yorum}}",
+    "SORT_BEST": "En iyi",
+    "SORT_TOP": "En çok oy alan",
+    "SORT_NEW": "Yeni",
+    "SORT_OLD": "Eski",
+    "SORT_CONTROVERSIAL": "Tartışmalı",
+    "LOADING": "Yorumlar yükleniyor",
+    "EMPTY": "Henüz yorum yok. İlk yorumu sen yap.",
+    "LOGIN_TO_COMMENT": "Tartışmaya katılmak için giriş yap.",
+    "LOGIN": "Giriş yap",
+    "PLACEHOLDER": "Düşüncelerini paylaş",
+    "REPLY_PLACEHOLDER": "Yanıt yaz",
+    "CANCEL": "İptal",
+    "REPLY": "Yanıtla",
+    "POST": "Yorum yap",
+    "EXPAND": "Genişlet",
+    "COLLAPSE": "Daralt",
+    "REMOVED": "[kaldırıldı]",
+    "POINTS": "{count, plural, other {# puan}}",
+    "HIDDEN_BADGE": "Gizli",
+    "UPVOTE": "Olumlu oy",
+    "DOWNVOTE": "Olumsuz oy",
+    "HIDE": "Gizle",
+    "UNHIDE": "Göster"
+  },
+  "BLOG_SORT": {
+    "HOT": "Popüler",
+    "NEW": "Yeni",
+    "TOP": "En çok"
   }
 }

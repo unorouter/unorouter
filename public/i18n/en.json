@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {Consent to # selected provider} other {Consent to # selected providers}}",
       "GRANT_ALL_MISSING": "Consent to all missing ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Like",
+    "REACT_HELPFUL": "Helpful",
+    "REACT_INSIGHTFUL": "Insightful",
+    "REACT_FUNNY": "Funny",
+    "VIEWS": "{count, plural, one {# view} other {# views}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Comments} one {# comment} other {# comments}}",
+    "SORT_BEST": "Best",
+    "SORT_TOP": "Top",
+    "SORT_NEW": "New",
+    "SORT_OLD": "Old",
+    "SORT_CONTROVERSIAL": "Controversial",
+    "LOADING": "Loading comments",
+    "EMPTY": "No comments yet. Be the first to share your thoughts.",
+    "LOGIN_TO_COMMENT": "Sign in to join the discussion.",
+    "LOGIN": "Sign in",
+    "PLACEHOLDER": "Share your thoughts",
+    "REPLY_PLACEHOLDER": "Write a reply",
+    "CANCEL": "Cancel",
+    "REPLY": "Reply",
+    "POST": "Comment",
+    "EXPAND": "Expand",
+    "COLLAPSE": "Collapse",
+    "REMOVED": "[removed]",
+    "POINTS": "{count, plural, one {# point} other {# points}}",
+    "HIDDEN_BADGE": "Hidden",
+    "UPVOTE": "Upvote",
+    "DOWNVOTE": "Downvote",
+    "HIDE": "Hide",
+    "UNHIDE": "Unhide"
+  },
+  "BLOG_SORT": {
+    "HOT": "Hot",
+    "NEW": "New",
+    "TOP": "Top"
   }
 }

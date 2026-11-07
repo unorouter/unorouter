@@ -5,6 +5,8 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useBlogFilter } from "@/hooks/ui/use-blog-filter-hook";
+import { useBlogStatsSummary } from "@/hooks/blog/blog-hook";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { Link } from "@/i18n/navigation";
 import { BLOG_CATEGORIES, getBlogTheme } from "@/lib/config/blog-categories";
 import type { BlogListPost } from "@/lib/types";
@@ -15,6 +17,28 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { upper } from "@/lib/utils/base";
 
+const LIST_SORTS = ["hot", "new", "top"] as const;
+type ListSort = (typeof LIST_SORTS)[number];
+const LIST_SORT_LABEL = {
+  hot: "BLOG_SORT.HOT",
+  new: "BLOG_SORT.NEW",
+  top: "BLOG_SORT.TOP",
+} as const satisfies Record<ListSort, string>;
+
+type PostStats = { views: number; comments: number; reactions: number };
+
+function engagement(stats: PostStats | undefined) {
+  if (!stats) return 0;
+  return stats.reactions + 2 * stats.comments + stats.views / 50;
+}
+
+// Reddit's hot: log of engagement plus age, so one day of age equals a tenfold
+// difference in engagement at 45000 seconds per order of magnitude.
+function hotScore(date: string, stats: PostStats | undefined) {
+  const order = Math.log10(Math.max(engagement(stats), 1));
+  return order + dayjs(date).unix() / 45000;
+}
+
 interface BlogListProps {
   posts: BlogListPost[];
   locale: string;
@@ -23,6 +47,20 @@ interface BlogListProps {
 export function BlogList(props: BlogListProps) {
   const t = useTranslations();
   const filter = useBlogFilter(props.posts);
+  const [sort, setSort] = useQueryState(
+    "sort",
+    parseAsStringLiteral(LIST_SORTS).withDefault("hot"),
+  );
+  const summary = useBlogStatsSummary();
+  const stats = summary.data ?? {};
+  const ordered = [...filter.filtered].sort((a, b) =>
+    sort === "new"
+      ? b.date.localeCompare(a.date)
+      : sort === "top"
+        ? engagement(stats[b.slug]) - engagement(stats[a.slug]) ||
+          b.date.localeCompare(a.date)
+        : hotScore(b.date, stats[b.slug]) - hotScore(a.date, stats[a.slug]),
+  );
 
   const categoryPills = [
     { key: "all" as const, label: t("BLOG.FILTER.ALL") },
@@ -63,6 +101,21 @@ export function BlogList(props: BlogListProps) {
             className="pl-10"
           />
         </div>
+        <div role="tablist" className="flex flex-wrap gap-1">
+          {LIST_SORTS.map((option) => (
+            <Button
+              key={option}
+              role="tab"
+              aria-selected={sort === option}
+              variant={sort === option ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setSort(option)}
+              className="font-mono text-xs"
+            >
+              {t(LIST_SORT_LABEL[option])}
+            </Button>
+          ))}
+        </div>
         <div className="flex flex-wrap gap-1">
           {categoryPills.map((pill) => (
             <Button
@@ -84,13 +137,14 @@ export function BlogList(props: BlogListProps) {
         </div>
       ) : (
         <ul className="border-border divide-border divide-y border-y">
-          {filter.filtered.map((post, index) => {
+          {ordered.map((post, index) => {
             const theme = getBlogTheme(post.category);
             const minutes = estimateReadingMinutes(post.wordCount);
             const sectionNumber = String(
               filter.filtered.length - index,
             ).padStart(2, "0");
             const categoryLabel = t(`BLOG.CATEGORY.${upper(post.category)}`);
+            const postStats = stats[post.slug];
 
             return (
               <li key={post.slug}>
@@ -133,6 +187,22 @@ export function BlogList(props: BlogListProps) {
                         </time>
                         <span>·</span>
                         <span>{t("BLOG.READ_TIME", { minutes })}</span>
+                        {postStats && (
+                          <span className="inline-flex items-center gap-3">
+                            <span className="inline-flex items-center gap-1">
+                              <Icon name="heart" className="h-3 w-3" />
+                              {postStats.reactions}
+                            </span>
+                            <span className="inline-flex items-center gap-1">
+                              <Icon name="message-circle" className="h-3 w-3" />
+                              {postStats.comments}
+                            </span>
+                            <span className="inline-flex items-center gap-1">
+                              <Icon name="eye" className="h-3 w-3" />
+                              {postStats.views}
+                            </span>
+                          </span>
+                        )}
                       </div>
 
                       <h2 className="group-hover:text-primary mb-3 text-2xl font-semibold tracking-tight transition-colors md:text-3xl">

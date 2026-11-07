@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, other {Đồng ý cho # nhà cung cấp đã chọn}}",
       "GRANT_ALL_MISSING": "Đồng ý cho tất cả nhà cung cấp còn thiếu ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Thích",
+    "REACT_HELPFUL": "Hữu ích",
+    "REACT_INSIGHTFUL": "Sâu sắc",
+    "REACT_FUNNY": "Hài hước",
+    "VIEWS": "{count, plural, other {# lượt xem}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Bình luận} other {# bình luận}}",
+    "SORT_BEST": "Hay nhất",
+    "SORT_TOP": "Hàng đầu",
+    "SORT_NEW": "Mới nhất",
+    "SORT_OLD": "Cũ nhất",
+    "SORT_CONTROVERSIAL": "Gây tranh cãi",
+    "LOADING": "Đang tải bình luận",
+    "EMPTY": "Chưa có bình luận nào. Hãy là người đầu tiên.",
+    "LOGIN_TO_COMMENT": "Đăng nhập để tham gia thảo luận.",
+    "LOGIN": "Đăng nhập",
+    "PLACEHOLDER": "Chia sẻ suy nghĩ của bạn",
+    "REPLY_PLACEHOLDER": "Viết trả lời",
+    "CANCEL": "Hủy",
+    "REPLY": "Trả lời",
+    "POST": "Bình luận",
+    "EXPAND": "Mở rộng",
+    "COLLAPSE": "Thu gọn",
+    "REMOVED": "[đã xóa]",
+    "POINTS": "{count, plural, other {# điểm}}",
+    "HIDDEN_BADGE": "Đã ẩn",
+    "UPVOTE": "Bình chọn lên",
+    "DOWNVOTE": "Bình chọn xuống",
+    "HIDE": "Ẩn",
+    "UNHIDE": "Hiện"
+  },
+  "BLOG_SORT": {
+    "HOT": "Nổi bật",
+    "NEW": "Mới",
+    "TOP": "Hàng đầu"
   }
 }

@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {Дать согласие # выбранному поставщику} few {Дать согласие # выбранным поставщикам} many {Дать согласие # выбранным поставщикам} other {Дать согласие # выбранным поставщикам}}",
       "GRANT_ALL_MISSING": "Дать согласие всем без согласия ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "Нравится",
+    "REACT_HELPFUL": "Полезно",
+    "REACT_INSIGHTFUL": "Интересно",
+    "REACT_FUNNY": "Смешно",
+    "VIEWS": "{count, plural, one {# просмотр} few {# просмотра} many {# просмотров} other {# просмотра}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {Комментарии} one {# комментарий} few {# комментария} many {# комментариев} other {# комментария}}",
+    "SORT_BEST": "Лучшие",
+    "SORT_TOP": "Топ",
+    "SORT_NEW": "Новые",
+    "SORT_OLD": "Старые",
+    "SORT_CONTROVERSIAL": "Спорные",
+    "LOADING": "Загрузка комментариев",
+    "EMPTY": "Комментариев пока нет. Будьте первым.",
+    "LOGIN_TO_COMMENT": "Войдите, чтобы участвовать в обсуждении.",
+    "LOGIN": "Войти",
+    "PLACEHOLDER": "Поделитесь своим мнением",
+    "REPLY_PLACEHOLDER": "Напишите ответ",
+    "CANCEL": "Отмена",
+    "REPLY": "Ответить",
+    "POST": "Комментировать",
+    "EXPAND": "Развернуть",
+    "COLLAPSE": "Свернуть",
+    "REMOVED": "[удалено]",
+    "POINTS": "{count, plural, one {# балл} few {# балла} many {# баллов} other {# балла}}",
+    "HIDDEN_BADGE": "Скрыт",
+    "UPVOTE": "Голосовать за",
+    "DOWNVOTE": "Голосовать против",
+    "HIDE": "Скрыть",
+    "UNHIDE": "Показать"
+  },
+  "BLOG_SORT": {
+    "HOT": "Горячее",
+    "NEW": "Новое",
+    "TOP": "Топ"
   }
 }

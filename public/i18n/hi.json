@@ -6617,5 +6617,41 @@
       "GRANT_SELECTED": "{count, plural, one {# चुने गए प्रदाता को सहमति दें} other {# चुने गए प्रदाताओं को सहमति दें}}",
       "GRANT_ALL_MISSING": "सहमति बाकी वाले सभी को सहमति दें ({count})"
     }
+  },
+  "BLOG_ENGAGE": {
+    "REACT_LIKE": "पसंद",
+    "REACT_HELPFUL": "उपयोगी",
+    "REACT_INSIGHTFUL": "ज्ञानवर्धक",
+    "REACT_FUNNY": "मज़ेदार",
+    "VIEWS": "{count, plural, one {# बार देखा गया} other {# बार देखा गया}}",
+    "COMMENTS_TITLE": "{count, plural, =0 {टिप्पणियाँ} one {# टिप्पणी} other {# टिप्पणियाँ}}",
+    "SORT_BEST": "सर्वश्रेष्ठ",
+    "SORT_TOP": "शीर्ष",
+    "SORT_NEW": "नया",
+    "SORT_OLD": "पुराना",
+    "SORT_CONTROVERSIAL": "विवादित",
+    "LOADING": "टिप्पणियाँ लोड हो रही हैं",
+    "EMPTY": "अभी तक कोई टिप्पणी नहीं। पहली टिप्पणी आप करें।",
+    "LOGIN_TO_COMMENT": "चर्चा में शामिल होने के लिए साइन इन करें।",
+    "LOGIN": "साइन इन करें",
+    "PLACEHOLDER": "अपने विचार साझा करें",
+    "REPLY_PLACEHOLDER": "जवाब लिखें",
+    "CANCEL": "रद्द करें",
+    "REPLY": "जवाब दें",
+    "POST": "टिप्पणी करें",
+    "EXPAND": "फैलाएँ",
+    "COLLAPSE": "समेटें",
+    "REMOVED": "[हटाया गया]",
+    "POINTS": "{count, plural, one {# अंक} other {# अंक}}",
+    "HIDDEN_BADGE": "छिपा हुआ",
+    "UPVOTE": "अपवोट",
+    "DOWNVOTE": "डाउनवोट",
+    "HIDE": "छिपाएँ",
+    "UNHIDE": "दिखाएँ"
+  },
+  "BLOG_SORT": {
+    "HOT": "लोकप्रिय",
+    "NEW": "नया",
+    "TOP": "शीर्ष"
   }
 }
