@@ -6,6 +6,7 @@ import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-sele
 import { REASONING_EFFORT_KEY } from "../../overrides/form-handler";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
+import { TokenEstimate } from "@/components/elements/form/token-estimate";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -411,6 +412,7 @@ export function PresetForm(props: Props) {
               placeholder={t("RP.PRESET_MAIN_PROMPT_PLACEHOLDER")}
               description={t("RP.PRESET_MAIN_PROMPT_HINT")}
             />
+            <TokenEstimate control={form.control} name="mainPrompt" />
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
                 <Label>{t("RP.PRESET_POST_HISTORY")}</Label>
@@ -447,6 +449,7 @@ export function PresetForm(props: Props) {
                 placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
                 description={t("RP.PRESET_POST_HISTORY_HINT")}
               />
+              <TokenEstimate control={form.control} name="postHistory" />
             </div>
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">

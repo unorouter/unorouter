@@ -33,12 +33,11 @@ import {
   type LorebookEntryForm as LorebookEntryFormValues,
   type LorebookInjectionRole,
 } from "@/lib/validation/rp-forms";
-import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { useWatch, type Control } from "react-hook-form";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
+import { TokenEstimate } from "@/components/elements/form/token-estimate";
 
 const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
   {
@@ -46,20 +45,6 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
-
-function EntryTokenEstimate(props: {
-  control: Control<LorebookEntryFormValues>;
-}) {
-  const t = useTranslations();
-  const content = useWatch({ control: props.control, name: "content" });
-  const count = countTokens(content);
-  if (!content?.trim() || count === 0) return null;
-  return (
-    <p className="text-muted-foreground text-xs">
-      {t("RP.LOREBOOK_ENTRY_TOKENS", { count })}
-    </p>
-  );
-}
 
 function splitDecorators(content: string): {
   content: string;
@@ -183,7 +168,7 @@ export function LorebookEntryForm(props: {
               label={t("RP.LOREBOOK_ENTRY_CONTENT")}
               rows={5}
             />
-            <EntryTokenEstimate control={form.control} />
+            <TokenEstimate control={form.control} name="content" />
           </div>
 
           <div className="flex flex-col gap-1">
