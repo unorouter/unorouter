@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { formatMsDate } from "@/lib/utils/format/date";
 import { formatTokenCount, formatTokens } from "@/lib/utils/format/number";
 import { ModelPriceMetas } from "../model-price-meta";
+import { ModelPageLink } from "./model-page-link";
 import { useLocale, useTranslations } from "next-intl";
 
 export function ModelListCard(props: {
@@ -31,13 +32,23 @@ export function ModelListCard(props: {
   );
 
   return (
-    <button
-      type="button"
+    // Not a <button>: it contains the model page link, and an <a> inside a
+    // button is invalid HTML that crawlers and screen readers drop.
+    <div
+      role="button"
+      tabIndex={0}
       onClick={props.onClick}
-      className="border-border/60 hover:bg-muted/30 w-full border-b px-2 py-5 text-left transition-colors"
+      onKeyDown={(e) => {
+        if (e.target !== e.currentTarget) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          props.onClick();
+        }
+      }}
+      className="border-border/60 hover:bg-muted/30 w-full cursor-pointer border-b px-2 py-5 text-left transition-colors"
     >
       <div className="flex items-start justify-between gap-4">
-        <ModelCardTitle model={model} />
+        <ModelCardTitle model={model} interceptLink />
         {props.rank && (
           <span className="text-muted-foreground shrink-0 font-mono text-sm">
             {formatTokens(props.rank.total_tokens, locale)}{" "}
@@ -71,18 +82,27 @@ export function ModelListCard(props: {
         ) : null}
         <ModelPriceMetas model={model} />
       </div>
-    </button>
+    </div>
   );
 }
 
-export function ModelCardTitle(props: { model: PricingCatalogModel }) {
+export function ModelCardTitle(props: {
+  model: PricingCatalogModel;
+  interceptLink?: boolean;
+}) {
   const t = useTranslations();
   const model = props.model;
   const theme = getVendorTheme(model.vendor);
   return (
     <div className="flex min-w-0 items-center gap-2">
       <VendorIcon vendor={model.vendor} size={22} />
-      <span className="truncate text-lg font-medium">{model.model_name}</span>
+      <ModelPageLink
+        model={model}
+        intercept={props.interceptLink}
+        className="truncate text-lg font-medium"
+      >
+        {model.model_name}
+      </ModelPageLink>
       <span
         className={cn(
           "shrink-0 rounded px-1 py-0.5 font-mono text-[10px] uppercase",

@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "Harga input terendah",
     "META_TITLE_FREE": "API {name} Gratis: tanpa biaya, kompatibel OpenAI | {appName}",
     "META_DESC_FREE": "Pakai {name} dari {vendor} secara gratis lewat API yang kompatibel dengan OpenAI. Bisa di JanitorAI, SillyTavern, dan kode kamu, lengkap dengan batas, context window, dan contoh siap salin.",
-    "META_KEYWORDS_FREE": "API {name} gratis, {name} gratis, API {vendor} gratis, API {name}, API AI gratis, {appName}"
+    "META_KEYWORDS_FREE": "API {name} gratis, {name} gratis, API {vendor} gratis, API {name}, API AI gratis, {appName}",
+    "COMPARE_WITH_TITLE": "Bandingkan {model}",
+    "USE_IN_TITLE": "Gunakan {model} di"
   },
   "PRICING": {
     "FEATURE": {

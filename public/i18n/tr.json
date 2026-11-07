@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "En düşük girdi fiyatı",
     "META_TITLE_FREE": "Ücretsiz {name} API: masrafsız, OpenAI uyumlu | {appName}",
     "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu bir API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda çalışır; limitler, bağlam penceresi ve kopyalanabilir örneklerle.",
-    "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}"
+    "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}",
+    "COMPARE_WITH_TITLE": "{model} karşılaştır",
+    "USE_IN_TITLE": "{model} modelini şurada kullan"
   },
   "PRICING": {
     "FEATURE": {

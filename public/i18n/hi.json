@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "सबसे कम इनपुट कीमत",
     "META_TITLE_FREE": "मुफ़्त {name} API: कोई शुल्क नहीं, OpenAI-संगत | {appName}",
     "META_DESC_FREE": "{vendor} के {name} को OpenAI-संगत API से मुफ़्त में इस्तेमाल करें। JanitorAI, SillyTavern और आपके कोड में चलता है, साथ में सीमाएँ, कॉन्टेक्स्ट विंडो और कॉपी करने लायक उदाहरण।",
-    "META_KEYWORDS_FREE": "मुफ़्त {name} API, {name} मुफ़्त, मुफ़्त {vendor} API, {name} API, मुफ़्त AI API, {appName}"
+    "META_KEYWORDS_FREE": "मुफ़्त {name} API, {name} मुफ़्त, मुफ़्त {vendor} API, {name} API, मुफ़्त AI API, {appName}",
+    "COMPARE_WITH_TITLE": "{model} की तुलना करें",
+    "USE_IN_TITLE": "{model} को इनमें इस्तेमाल करें"
   },
   "PRICING": {
     "FEATURE": {

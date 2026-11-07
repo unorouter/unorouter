@@ -44,10 +44,10 @@ export function ModelTabs(props: ModelTabsProps) {
       <TabsContent value="overview" className="[&>section:first-child]:mt-6">
         {props.overview}
       </TabsContent>
-      <TabsContent value="api" className="[&>section:first-child]:mt-6">
+      <TabsContent value="api" keepMounted className="[&>section:first-child]:mt-6">
         {props.api}
       </TabsContent>
-      <TabsContent value="benchmarks" className="[&>section:first-child]:mt-6">
+      <TabsContent value="benchmarks" keepMounted className="[&>section:first-child]:mt-6">
         {props.benchmarks}
       </TabsContent>
     </Tabs>

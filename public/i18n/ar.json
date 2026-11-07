@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "أدنى سعر إدخال",
     "META_TITLE_FREE": "واجهة {name} المجانية: بلا تكلفة ومتوافقة مع OpenAI | {appName}",
     "META_DESC_FREE": "استخدم {name} من {vendor} مجانًا عبر واجهة برمجة متوافقة مع OpenAI. يعمل في JanitorAI وSillyTavern وفي الكود الخاص بك، مع الحدود ونافذة السياق وأمثلة جاهزة للنسخ.",
-    "META_KEYWORDS_FREE": "واجهة {name} مجانية, {name} مجانًا, واجهة {vendor} مجانية, {name} API, واجهة ذكاء اصطناعي مجانية, {appName}"
+    "META_KEYWORDS_FREE": "واجهة {name} مجانية, {name} مجانًا, واجهة {vendor} مجانية, {name} API, واجهة ذكاء اصطناعي مجانية, {appName}",
+    "COMPARE_WITH_TITLE": "قارن {model}",
+    "USE_IN_TITLE": "استخدم {model} في"
   },
   "PRICING": {
     "FEATURE": {

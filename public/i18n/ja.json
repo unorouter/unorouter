@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "最安の入力価格",
     "META_TITLE_FREE": "{name} 無料API：費用なし、OpenAI互換 | {appName}",
     "META_DESC_FREE": "{vendor} の {name} を OpenAI 互換 API で無料で使えます。JanitorAI、SillyTavern、あなたのコードで動作し、制限、コンテキスト長、コピーできるサンプルも掲載しています。",
-    "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}"
+    "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}",
+    "COMPARE_WITH_TITLE": "{model} を比較",
+    "USE_IN_TITLE": "{model} を使えるツール"
   },
   "PRICING": {
     "FEATURE": {

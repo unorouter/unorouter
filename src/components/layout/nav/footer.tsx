@@ -16,6 +16,9 @@ import { isActiveLink } from "./navigation";
 
 const NAV_LINKS = [
   { href: "/models", key: msg("FOOTER.MODELS") },
+  { href: "/rankings", key: msg("NAV.RANKINGS") },
+  { href: "/compare", key: msg("MODELS.COMPARE.TITLE") },
+  { href: "/ai-api-model-tester", key: msg("NAV.MODEL_TESTER") },
   { href: "/pricing", key: msg("FOOTER.PRICING") },
   { href: "/docs/platform", key: msg("FOOTER.DOCUMENTATION") },
   { href: "/blog", key: msg("FOOTER.BLOG") },

@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "מחיר הקלט הנמוך ביותר",
     "META_TITLE_FREE": "API חינמי של {name}: בלי עלות, תואם OpenAI | {appName}",
     "META_DESC_FREE": "השתמשו ב-{name} של {vendor} בחינם דרך API תואם OpenAI. עובד ב-JanitorAI, ב-SillyTavern ובקוד שלכם, עם מגבלות, חלון הקשר ודוגמאות להעתקה.",
-    "META_KEYWORDS_FREE": "API חינמי {name}, {name} בחינם, API חינמי {vendor}, {name} API, API AI חינמי, {appName}"
+    "META_KEYWORDS_FREE": "API חינמי {name}, {name} בחינם, API חינמי {vendor}, {name} API, API AI חינמי, {appName}",
+    "COMPARE_WITH_TITLE": "השוואת {model}",
+    "USE_IN_TITLE": "שימוש ב־{model} ב"
   },
   "PRICING": {
     "FEATURE": {

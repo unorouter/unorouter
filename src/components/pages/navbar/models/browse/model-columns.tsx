@@ -30,6 +30,7 @@ import {
 } from "@/lib/utils/format/number";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
+import { ModelPageLink } from "./model-page-link";
 
 function fixedPriceSide(m: PricingCatalogModel): "input" | "output" {
   const modality = deriveOutputModality(m);
@@ -98,14 +99,19 @@ export function ModelNameCell(props: {
   model: PricingCatalogModel;
   freeLabel: string;
   flatNoParamsLabel: string;
+  interceptLink?: boolean;
 }) {
   const m = props.model;
   return (
     <span className="flex min-w-0 items-center gap-1.5">
       <VendorIcon vendor={m.vendor} size={18} />
-      <span className="truncate font-mono text-xs lg:text-sm @max-4xl:max-w-56">
+      <ModelPageLink
+        model={m}
+        intercept={props.interceptLink}
+        className="truncate font-mono text-xs lg:text-sm @max-4xl:max-w-56"
+      >
         {m.model_name}
-      </span>
+      </ModelPageLink>
       {m.is_free && (
         <span className="flex shrink-0 items-center gap-0.5 rounded bg-emerald-500/15 px-1 py-0.5 font-mono text-[10px] text-emerald-600 lg:px-1.5 dark:text-emerald-400">
           <Icon name="gift" className="h-3 w-3" />
@@ -156,6 +162,7 @@ export function buildModelColumns(opts: {
           model={row.original}
           freeLabel={opts.freeLabel}
           flatNoParamsLabel={opts.flatNoParamsLabel}
+          interceptLink
         />
       ),
     },

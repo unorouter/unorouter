@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "Prezzo di input più basso",
     "META_TITLE_FREE": "API {name} gratuita: senza costi, compatibile OpenAI | {appName}",
     "META_DESC_FREE": "Usa {name} di {vendor} gratis tramite un’API compatibile con OpenAI. Funziona in JanitorAI, SillyTavern e nel tuo codice, con limiti, finestra di contesto ed esempi da copiare.",
-    "META_KEYWORDS_FREE": "API {name} gratuita, {name} gratis, API {vendor} gratuita, API {name}, API IA gratuita, {appName}"
+    "META_KEYWORDS_FREE": "API {name} gratuita, {name} gratis, API {vendor} gratuita, API {name}, API IA gratuita, {appName}",
+    "COMPARE_WITH_TITLE": "Confronta {model}",
+    "USE_IN_TITLE": "Usa {model} in"
   },
   "PRICING": {
     "FEATURE": {

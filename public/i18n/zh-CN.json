@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "最低输入价格",
     "META_TITLE_FREE": "{name} 免费 API：零费用，兼容 OpenAI | {appName}",
     "META_DESC_FREE": "通过兼容 OpenAI 的 API 免费使用 {vendor} 的 {name}。可用于 JanitorAI、SillyTavern 和你的代码，附带限制说明、上下文长度和可直接复制的示例。",
-    "META_KEYWORDS_FREE": "{name} 免费 API, {name} 免费, {vendor} 免费 API, {name} API, 免费 AI API, {appName}"
+    "META_KEYWORDS_FREE": "{name} 免费 API, {name} 免费, {vendor} 免费 API, {name} API, 免费 AI API, {appName}",
+    "COMPARE_WITH_TITLE": "对比 {model}",
+    "USE_IN_TITLE": "在这些工具中使用 {model}"
   },
   "PRICING": {
     "FEATURE": {

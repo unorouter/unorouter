@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "Najniższa cena wejścia",
     "META_TITLE_FREE": "Darmowe API {name}: bez opłat, zgodne z OpenAI | {appName}",
     "META_DESC_FREE": "Używaj {name} od {vendor} za darmo przez API zgodne z OpenAI. Działa w JanitorAI, SillyTavern i w Twoim kodzie, z limitami, oknem kontekstu i przykładami do skopiowania.",
-    "META_KEYWORDS_FREE": "darmowe API {name}, {name} za darmo, darmowe API {vendor}, API {name}, darmowe API AI, {appName}"
+    "META_KEYWORDS_FREE": "darmowe API {name}, {name} za darmo, darmowe API {vendor}, API {name}, darmowe API AI, {appName}",
+    "COMPARE_WITH_TITLE": "Porównaj {model}",
+    "USE_IN_TITLE": "Używaj {model} w"
   },
   "PRICING": {
     "FEATURE": {

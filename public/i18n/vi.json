@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "Giá đầu vào thấp nhất",
     "META_TITLE_FREE": "API {name} miễn phí: không tốn phí, tương thích OpenAI | {appName}",
     "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI. Hoạt động trong JanitorAI, SillyTavern và code của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ để sao chép.",
-    "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}"
+    "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}",
+    "COMPARE_WITH_TITLE": "So sánh {model}",
+    "USE_IN_TITLE": "Dùng {model} trong"
   },
   "PRICING": {
     "FEATURE": {

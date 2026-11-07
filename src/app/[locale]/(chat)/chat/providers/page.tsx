@@ -9,6 +9,7 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   return getPageMetadata({
+    robots: false,
     locale,
     href: "/chat/providers",
     title: t("CHAT.CUSTOM_PROVIDER.TITLE"),

@@ -13,7 +13,9 @@ import {
 import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
 import type { IconName } from "@/lib/config/icon-map";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { modelHref } from "@/lib/utils/base";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {
   formatPrice,
@@ -271,9 +273,13 @@ export function ComparisonTable(props: {
                     <Icon name="x" className="h-3.5 w-3.5" />
                   </Button>
                 </div>
-                <span className="truncate font-mono text-sm font-medium">
+                <Link
+                  href={modelHref(m.model_name, m.vendor)}
+                  prefetch={false}
+                  className="hover:decoration-foreground truncate font-mono text-sm font-medium underline decoration-transparent underline-offset-4"
+                >
                   {m.model_name}
-                </span>
+                </Link>
               </div>
             ))}
           </div>

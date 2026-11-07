@@ -31,6 +31,7 @@ import { PriceHistory } from "./pricing/price-history";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
+import { ModelCrossLinks } from "./model-cross-links";
 import { SectionHeading } from "./shared/section-heading";
 import { ModelRankingSection } from "./tabs/model-ranking-section";
 import { ModelTabs } from "./tabs/model-tabs";
@@ -399,6 +400,12 @@ print(res.choices[0].message.content)`;
             <section className="mt-12">
               <ModelFaq model={m} />
             </section>
+
+            <ModelCrossLinks
+              modelName={m.model_name}
+              available={new Set(props.models.map((x) => x.model_name))}
+              theme={theme}
+            />
 
             {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
               <section className="mt-12">

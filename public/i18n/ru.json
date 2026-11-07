@@ -1441,7 +1441,9 @@
     "PRICE_LOW_CHART": "Самая низкая цена входа",
     "META_TITLE_FREE": "Бесплатный API {name}: без оплаты, совместим с OpenAI | {appName}",
     "META_DESC_FREE": "Используйте {name} от {vendor} бесплатно через API, совместимый с OpenAI. Работает в JanitorAI, SillyTavern и вашем коде, с лимитами, контекстным окном и примерами для копирования.",
-    "META_KEYWORDS_FREE": "бесплатный API {name}, {name} бесплатно, бесплатный API {vendor}, API {name}, бесплатный ИИ API, {appName}"
+    "META_KEYWORDS_FREE": "бесплатный API {name}, {name} бесплатно, бесплатный API {vendor}, API {name}, бесплатный ИИ API, {appName}",
+    "COMPARE_WITH_TITLE": "Сравнить {model}",
+    "USE_IN_TITLE": "Использовать {model} в"
   },
   "PRICING": {
     "FEATURE": {

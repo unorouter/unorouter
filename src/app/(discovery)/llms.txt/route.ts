@@ -8,7 +8,7 @@ import { handleElysia, modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });
   const pricing = await rpc.api.models.pricing.catalog
@@ -106,7 +106,12 @@ export async function GET() {
   return new Response(lines.join("\n"), {
     headers: {
       "content-type": "text/markdown; charset=utf-8",
-      "cache-control": "public, max-age=3600, s-maxage=3600",
+      // The homepage rewrites here on Accept: text/markdown; a shared cache keyed
+      // on the URL alone would then serve markdown at /en to every visitor.
+      "cache-control": request.headers.get("accept")?.includes("text/markdown")
+        ? "private, no-store"
+        : "public, max-age=3600, s-maxage=3600",
+      vary: "Accept",
     },
   });
 }

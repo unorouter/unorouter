@@ -32,6 +32,8 @@ type EntryOptions = {
 const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.noindex,
+  // Browser-local data only, so a crawler gets an empty shell; noindex in metadata.
+  ...privateRoutes.publicChildren,
   ...privateRoutes.dynamicParents,
 ]);
 
@@ -54,15 +56,15 @@ function localizedEntries(
     typeof options.lastModified === "string"
       ? (getSeoTimestamps(options.lastModified)?.modified ?? null)
       : options.lastModified;
-  const resolved = dayjs(
-    lastModified ?? process.env.NEXT_PUBLIC_BUILD_DATE,
-  ).toDate();
+  // No lastmod beats a fake one: the build date told Google every page changed
+  // on each deploy.
+  const resolved = lastModified ? dayjs(lastModified).toDate() : undefined;
 
   // No per-URL hreflang alternates: 18 locales pushed this past Google's 50MB
   // limit (53MB, ~416k xhtml:link entries) and it stopped being read.
   return (options.locales ?? routing.locales).map((locale) => ({
     url: `${env.siteOrigin}${getPathname({ locale, href })}`,
-    lastModified: resolved,
+    ...(resolved && { lastModified: resolved }),
     ...(options.priority !== undefined && { priority: options.priority }),
     ...(options.changeFrequency && {
       changeFrequency: options.changeFrequency,
@@ -90,22 +92,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
   );
 
-  const pricing = await getCatalog(false, true).catch(() => null);
-  if (!pricing?.models?.length)
-    console.error(
-      "[sitemap] pricing returned no models; model pages omitted from sitemap",
-    );
+  // Fail rather than publish a sitemap missing ~5k model URLs: Google retries an
+  // error, but reads a shrunken sitemap as those pages being gone.
+  const pricing = await getCatalog(false, true);
+  if (!pricing.models?.length)
+    throw new Error("[sitemap] pricing returned no models");
 
-  const modelNames = [
-    ...new Set((pricing?.models ?? []).map((m) => m.model_name)),
-  ];
+  const modelNames = [...new Set(pricing.models.map((m) => m.model_name))];
   const nameSet = new Set(modelNames);
 
   const nameToVendor = new Map<string, string>(
-    (pricing?.models ?? []).map((m) => [m.model_name, m.vendor] as const),
+    pricing.models.map((m) => [m.model_name, m.vendor] as const),
   );
   const nameToReleaseDate = new Map<string, Date>();
-  for (const model of pricing?.models ?? []) {
+  for (const model of pricing.models) {
     const ms = model.release_ts;
     if (ms) nameToReleaseDate.set(model.model_name, new Date(ms));
   }
@@ -115,10 +115,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       vendorSlug(nameToVendor.get(name) ?? "") &&
       !(name.endsWith(":free") && nameSet.has(name.slice(0, -":free".length))),
   );
+  const vendorLatest = new Map<string, Date>();
+  for (const [name, date] of nameToReleaseDate) {
+    const slug = vendorSlug(nameToVendor.get(name) ?? "");
+    const prev = vendorLatest.get(slug);
+    if (slug && (!prev || date > prev)) vendorLatest.set(slug, date);
+  }
   const sitemapVendorSlugs = [
-    ...new Set(
-      (pricing?.models ?? []).map((m) => vendorSlug(m.vendor)).filter(Boolean),
-    ),
+    ...new Set(pricing.models.map((m) => vendorSlug(m.vendor)).filter(Boolean)),
   ];
 
   return [
@@ -162,6 +166,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         {
           priority: 0.5,
           changeFrequency: "weekly",
+          lastModified: vendorLatest.get(slug),
           locales: MODEL_PAGE_LOCALES,
         },
       ),
@@ -176,7 +181,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           // here made Search Console report every pair as an alternate page.
           params: { slugs: [modelSlug(a), modelSlug(b)].sort() },
         },
-        { priority: 0.5, changeFrequency: "weekly" },
+        {
+          priority: 0.5,
+          changeFrequency: "weekly",
+          locales: MODEL_PAGE_LOCALES,
+          lastModified: [a, b]
+            .map((name) => nameToReleaseDate.get(name))
+            .reduce<Date | undefined>(
+              (acc, d) => (d && (!acc || d > acc) ? d : acc),
+              undefined,
+            ),
+        },
       ),
     ),
   ];
