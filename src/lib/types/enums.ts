@@ -121,6 +121,8 @@ export enum Vendor {
   RUNWARE = "runware",
   TYPESAFE = "typesafe",
   STEALTH = "stealth",
+  UPSTAGE = "upstage",
+  REKA = "reka",
 }
 
 export enum OS {
