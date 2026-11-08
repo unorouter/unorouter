@@ -1521,7 +1521,7 @@
       "DESCRIPTION": "所有 AI 模型价格简单：免费模型、按量付费，或更划算的订阅。适用于你的代码、Claude Code、SillyTavern 和 RisuAI。",
       "KEYWORDS": "AI API 价格，AI 订阅，按 token 付费，AI 模型价格，便宜 AI API，实惠 AI，OpenAI 兼容价格，多模型 API 价格"
     },
-    "TITLE": "价格",
+    "TITLE": "AI API 价格",
     "SUBTITLE": "无论你是在发布应用，还是在进行长时间的角色聊天会话。一个套餐，所有模型。",
     "CTA": "订阅",
     "FAQ": {

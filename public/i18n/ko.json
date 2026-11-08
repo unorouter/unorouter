@@ -1521,7 +1521,7 @@
       "DESCRIPTION": "모든 AI 모델에 간단한 요금: 무료 모델, 종량제, 저렴한 구독. 코드, Claude Code, SillyTavern, RisuAI 지원.",
       "KEYWORDS": "AI API 요금, AI 구독, 토큰당 결제, AI 모델 요금, 저렴한 AI API, 합리적인 AI, OpenAI 호환 요금, 멀티 모델 API 요금"
     },
-    "TITLE": "요금",
+    "TITLE": "AI API 요금",
     "SUBTITLE": "앱을 출시하든 긴 캐릭터 채팅 세션을 이어가든. 하나의 요금제, 모든 모델.",
     "CTA": "구독",
     "FAQ": {
