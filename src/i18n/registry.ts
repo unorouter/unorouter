@@ -147,6 +147,23 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "free-ai-api",
+    date: "2026-11-08",
+    tags: ["guide", "product"],
+    i18nKey: "BLOG.POSTS.FREE_AI_API",
+    priority: 0.8,
+    changeFrequency: "weekly",
+    category: "product",
+    wordCount: 480,
+    headings: [
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "start", i18nLeaf: "H_START", level: 2 },
+      { id: "image", i18nLeaf: "H_IMAGE", level: 2 },
+      { id: "limits", i18nLeaf: "H_LIMITS", level: 2 },
+      { id: "paid", i18nLeaf: "H_PAID", level: 2 },
+    ],
+  },
+  {
     slug: "best-janitor-ai-proxy",
     date: "2026-11-08",
     tags: ["guide", "product"],

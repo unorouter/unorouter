@@ -67,6 +67,7 @@ export const GEO_SLUGS = [
   "free-models-aggregated",
   "best-janitor-ai-proxy",
   "free-deepseek-api-key",
+  "free-ai-api",
 ] as const;
 export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
 

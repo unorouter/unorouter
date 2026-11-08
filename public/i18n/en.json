@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Sign up at {appName} with Google, Discord or GitHub, copy your key from the Tokens page, and use it with the base URL https://api.unorouter.com/v1 and a free DeepSeek model. No credit card is needed.",
         "FAQ_3_Q": "What are the limits of the free DeepSeek API?",
         "FAQ_3_A": "About one request per minute per model and account. Faster requests get HTTP 429 with a Retry-After header; wait or switch to another free model."
+      },
+      "FREE_AI_API": {
+        "TITLE": "Free AI API in 2026: about 200 models on one key",
+        "DESCRIPTION": "Chat, image, embedding and speech models you can call for free through one OpenAI compatible API, what the limits are, and how to start in two minutes.",
+        "META_DESCRIPTION": "Free AI API with about 200 chat, image, embedding and speech models on one OpenAI compatible key. Limits, examples and setup in two minutes.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Most free AI APIs give you one provider's small model and a tight daily cap. {appName} puts every free tier we can find behind one OpenAI compatible key: at the time of writing about 200 free models, from GPT, Gemini, Claude Haiku, DeepSeek, GLM and Qwen chat models to image, embedding and speech models.",
+        "H_WHAT": "What you get for free",
+        "P_WHAT": "Any model id ending in <c>:free</c> costs nothing. Today that is more than 100 chat models, about 30 image models, embedding models for search and RAG, and speech models. Free capacity comes from many providers, so the list changes; the <models>models page</models> always shows what is free right now.",
+        "H_START": "Start in two minutes",
+        "P_START": "<register>Create an account</register> with Google, Discord or GitHub, copy your key from the Tokens page, and set the base URL to <c>https://api.unorouter.com/v1</c>. Any OpenAI SDK or compatible client works unchanged: send <c>POST /v1/chat/completions</c> with a model such as <c>gemini-3.8-flash:free</c>. No credit card is needed.",
+        "H_IMAGE": "Free image generation API",
+        "P_IMAGE": "Image models use the same key on <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> is a good start, and there are free anime and photo style models too. You can also try them without code in the built in <image>image studio</image>.",
+        "H_LIMITS": "The limits, honestly",
+        "P_LIMITS": "Free models allow about one request per minute per model and account; faster calls get HTTP 429 with a Retry-After header. Each free model has its own allowance, so rotating between models is allowed. Some free providers keep or train on prompts; for those you are asked once for consent before any request reaches them. The <docs>docs</docs> list every limit and error code.",
+        "H_PAID": "When to pay",
+        "P_PAID": "Pay when you need steady throughput or a frontier model. The same key then reaches paid models per token, from a $1 top up that never expires, so nothing in your code changes. See <pricing>pricing</pricing>.",
+        "CTA": "<register>Get your free key</register> or <models>browse the free models</models>.",
+        "TLDR": "{appName} is a free AI API with about 200 free models (chat, image, embedding and speech) behind one OpenAI compatible key at https://api.unorouter.com/v1. Any model ending in :free costs nothing, with about one request per minute per model.",
+        "FAQ_1_Q": "Is there a free AI API?",
+        "FAQ_1_A": "Yes. {appName} serves about 200 models for free through one OpenAI compatible key. Any model id ending in :free costs nothing; sign up with Google, Discord or GitHub, no card needed.",
+        "FAQ_2_Q": "Is there a free AI image generation API?",
+        "FAQ_2_A": "Yes. Free image models such as flux-2-dev:free run on POST /v1/images/generations with the same {appName} key.",
+        "FAQ_3_Q": "What are the limits of the free AI API?",
+        "FAQ_3_A": "About one request per minute per model and account. Faster calls get HTTP 429 with a Retry-After header; wait or switch to another free model."
       }
     },
     "TRENDING_MODELS": "Trending models this week"

@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "用 Google、Discord 或 GitHub 注册 {appName}，在 Tokens 页面复制密钥，配合 base URL https://api.unorouter.com/v1 和一个免费 DeepSeek 模型使用即可。无需信用卡。",
         "FAQ_3_Q": "免费 DeepSeek API 有什么限制？",
         "FAQ_3_A": "每个账号每个模型每分钟大约一次请求。请求过快会收到带 Retry-After 头的 HTTP 429；请等待，或换用另一个免费模型。"
+      },
+      "FREE_AI_API": {
+        "TITLE": "免费 AI API（2026）：一个密钥用约 200 个模型",
+        "DESCRIPTION": "通过一个兼容 OpenAI 的 API 免费调用的聊天、图像、嵌入和语音模型，有哪些限制，以及如何在两分钟内上手。",
+        "META_DESCRIPTION": "免费 AI API：一个兼容 OpenAI 的密钥即可调用约 200 个聊天、图像、嵌入和语音模型。限制说明、示例，两分钟完成配置。",
+        "AUTHOR": "{appName} 团队",
+        "INTRO": "大多数免费 AI API 只给你一家服务商的小模型，外加很紧的每日额度。{appName} 把我们能找到的所有免费额度都放在一个兼容 OpenAI 的密钥后面：撰写本文时约有 200 个免费模型，从 GPT、Gemini、Claude Haiku、DeepSeek、GLM 和 Qwen 的聊天模型，到图像、嵌入和语音模型。",
+        "H_WHAT": "这个 AI API 有哪些免费内容",
+        "P_WHAT": "所有以 <c>:free</c> 结尾的模型 ID 都不收费。目前包括 100 多个聊天模型、约 30 个图像模型、用于搜索和 RAG 的嵌入模型，以及语音模型。免费算力来自许多服务商，所以列表会变化；<models>模型页面</models>始终显示当前免费的模型。",
+        "H_START": "免费 AI API 怎么用：两分钟上手",
+        "P_START": "用 Google、Discord 或 GitHub <register>创建账号</register>，在 Tokens 页面复制密钥，并把 base URL 设为 <c>https://api.unorouter.com/v1</c>。任何 OpenAI SDK 或兼容客户端都无需改动：用 <c>gemini-3.8-flash:free</c> 这样的模型发送 <c>POST /v1/chat/completions</c> 即可。不需要信用卡。",
+        "H_IMAGE": "免费 AI 图像生成 API",
+        "P_IMAGE": "图像模型用同一个密钥调用 <c>POST /v1/images/generations</c>。<c>flux-2-dev:free</c> 是不错的起点，另外还有免费的动漫风格和写实照片风格模型。你也可以不写代码，直接在内置的<image>图像工作室</image>里试用。",
+        "H_LIMITS": "免费 AI API 有什么限制？",
+        "P_LIMITS": "免费模型每个账号每个模型每分钟约可请求一次；更快的调用会收到带 Retry-After 标头的 HTTP 429。每个免费模型都有各自的额度，所以可以在模型之间轮换。部分免费服务商会保存提示词或用其训练；对于这些服务商，在任何请求发给它们之前，会先征求你一次同意。<docs>文档</docs>列出了所有限制和错误码。",
+        "H_PAID": "什么时候该付费",
+        "P_PAID": "当你需要稳定的吞吐量或顶级模型时再付费。届时同一个密钥就能按 token 计费调用付费模型，最低充值 $1 且永不过期，代码无需任何改动。详见<pricing>价格</pricing>。",
+        "CTA": "<register>获取免费密钥</register>，或<models>浏览免费模型</models>。",
+        "TLDR": "{appName} 是免费 AI API，在 https://api.unorouter.com/v1 用一个兼容 OpenAI 的密钥即可使用约 200 个免费模型（聊天、图像、嵌入和语音）。所有以 :free 结尾的模型都不收费，每个模型每分钟约可请求一次。",
+        "FAQ_1_Q": "有免费的 AI API 吗？",
+        "FAQ_1_A": "有。{appName} 通过一个兼容 OpenAI 的密钥免费提供约 200 个模型。所有以 :free 结尾的模型 ID 都不收费；用 Google、Discord 或 GitHub 注册，无需绑卡。",
+        "FAQ_2_Q": "有免费的 AI 图像生成 API 吗？",
+        "FAQ_2_A": "有。flux-2-dev:free 等免费图像模型可以用同一个 {appName} 密钥在 POST /v1/images/generations 上运行。",
+        "FAQ_3_Q": "免费 AI API 有什么限制？",
+        "FAQ_3_A": "每个账号每个模型每分钟约一次请求。更快的调用会收到带 Retry-After 标头的 HTTP 429；请稍等，或换用另一个免费模型。"
       }
     },
     "TRENDING_MODELS": "本周热门模型"

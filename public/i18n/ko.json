@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Google, Discord, GitHub로 {appName}에 가입하고 토큰 페이지에서 키를 복사한 뒤, base URL https://api.unorouter.com/v1과 무료 DeepSeek 모델로 사용하세요. 신용카드는 필요 없습니다.",
         "FAQ_3_Q": "무료 DeepSeek API의 제한은?",
         "FAQ_3_A": "모델과 계정마다 약 1분에 1회 요청입니다. 더 빠른 요청에는 Retry-After 헤더와 함께 HTTP 429가 반환되니, 기다리거나 다른 무료 모델로 바꾸세요."
+      },
+      "FREE_AI_API": {
+        "TITLE": "무료 AI API 2026: 키 하나로 약 200개 모델",
+        "DESCRIPTION": "OpenAI 호환 API 하나로 무료로 호출할 수 있는 채팅, 이미지, 임베딩, 음성 모델과 그 제한, 그리고 2분 만에 시작하는 방법을 소개합니다.",
+        "META_DESCRIPTION": "무료 AI API로 채팅, 이미지, 임베딩, 음성 모델 약 200개를 OpenAI 호환 키 하나로. 제한, 예제, 2분 설정까지 정리했습니다.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "대부분의 무료 AI API는 한 제공업체의 작은 모델과 빠듯한 일일 한도만 줍니다. {appName}은 찾을 수 있는 모든 무료 티어를 OpenAI 호환 키 하나 뒤에 모았습니다. 글을 쓰는 시점에 약 200개의 무료 모델이 있으며, GPT, Gemini, Claude Haiku, DeepSeek, GLM, Qwen 채팅 모델부터 이미지, 임베딩, 음성 모델까지 포함됩니다.",
+        "H_WHAT": "이 AI API에서 무료인 것",
+        "P_WHAT": "<c>:free</c>로 끝나는 모델 ID는 모두 무료입니다. 현재 채팅 모델 100개 이상, 이미지 모델 약 30개, 검색과 RAG용 임베딩 모델, 음성 모델이 있습니다. 무료 용량은 여러 제공업체에서 오기 때문에 목록이 바뀝니다. 지금 무료인 모델은 <models>모델 페이지</models>에서 언제든 확인할 수 있습니다.",
+        "H_START": "무료 AI API 사용법: 2분 만에 시작하기",
+        "P_START": "Google, Discord, GitHub로 <register>계정을 만들고</register> 토큰 페이지에서 키를 복사한 다음, base URL을 <c>https://api.unorouter.com/v1</c>로 설정하세요. OpenAI SDK나 호환 클라이언트라면 수정 없이 작동합니다. <c>gemini-3.8-flash:free</c> 같은 모델로 <c>POST /v1/chat/completions</c>를 보내면 됩니다. 신용카드는 필요 없습니다.",
+        "H_IMAGE": "무료 AI 이미지 생성 API",
+        "P_IMAGE": "이미지 모델은 같은 키로 <c>POST /v1/images/generations</c>에서 사용합니다. <c>flux-2-dev:free</c>로 시작하기 좋고, 애니메이션 스타일과 사진 스타일의 무료 모델도 있습니다. 코드 없이 내장 <image>이미지 스튜디오</image>에서 써 볼 수도 있습니다.",
+        "H_LIMITS": "무료 AI API 제한은?",
+        "P_LIMITS": "무료 모델은 모델과 계정마다 분당 약 1회 요청을 허용합니다. 더 빠르게 호출하면 Retry-After 헤더와 함께 HTTP 429가 반환됩니다. 무료 모델마다 별도 한도가 있으므로 모델을 번갈아 써도 됩니다. 일부 무료 제공업체는 프롬프트를 보관하거나 학습에 사용합니다. 이런 제공업체에는 요청이 전달되기 전에 한 번 동의를 받습니다. 모든 제한과 오류 코드는 <docs>문서</docs>에 나와 있습니다.",
+        "H_PAID": "언제 유료로 전환할까",
+        "P_PAID": "안정적인 처리량이나 최상위 모델이 필요할 때 결제하세요. 그러면 같은 키로 토큰당 과금되는 유료 모델도 쓸 수 있으며, 만료되지 않는 $1 충전부터 시작할 수 있고 코드는 바꿀 필요가 없습니다. <pricing>요금</pricing>을 확인하세요.",
+        "CTA": "<register>무료 키를 받거나</register> <models>무료 모델을 둘러보세요</models>.",
+        "TLDR": "{appName}은 https://api.unorouter.com/v1 의 OpenAI 호환 키 하나로 약 200개 무료 모델(채팅, 이미지, 임베딩, 음성)을 쓸 수 있는 무료 AI API입니다. :free로 끝나는 모델은 모두 무료이며, 모델당 분당 약 1회 요청할 수 있습니다.",
+        "FAQ_1_Q": "무료 AI API가 있나요?",
+        "FAQ_1_A": "네. {appName}은 OpenAI 호환 키 하나로 약 200개 모델을 무료로 제공합니다. :free로 끝나는 모델 ID는 모두 무료이며, Google, Discord, GitHub로 가입하면 되고 카드는 필요 없습니다.",
+        "FAQ_2_Q": "무료 AI 이미지 생성 API가 있나요?",
+        "FAQ_2_A": "네. flux-2-dev:free 같은 무료 이미지 모델은 같은 {appName} 키로 POST /v1/images/generations에서 실행됩니다.",
+        "FAQ_3_Q": "무료 AI API 제한은 어떻게 되나요?",
+        "FAQ_3_A": "모델과 계정마다 분당 약 1회 요청입니다. 더 빠르게 호출하면 Retry-After 헤더와 함께 HTTP 429가 반환되니, 기다리거나 다른 무료 모델로 바꾸세요."
       }
     },
     "TRENDING_MODELS": "이번 주 인기 모델"

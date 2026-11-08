@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Cadastre-se no {appName} com Google, Discord ou GitHub, copie sua chave na página Tokens e use com a base URL https://api.unorouter.com/v1 e um modelo DeepSeek grátis. Não precisa de cartão de crédito.",
         "FAQ_3_Q": "Quais são os limites da API grátis da DeepSeek?",
         "FAQ_3_A": "Cerca de uma requisição por minuto por modelo e conta. Requisições mais rápidas recebem HTTP 429 com um header Retry-After; espere ou troque para outro modelo grátis."
+      },
+      "FREE_AI_API": {
+        "TITLE": "API de IA grátis em 2026: cerca de 200 modelos com uma chave",
+        "DESCRIPTION": "Modelos de chat, imagem, embeddings e voz que você pode chamar de graça por uma API compatível com a OpenAI, quais são os limites e como começar em dois minutos.",
+        "META_DESCRIPTION": "API de IA grátis com cerca de 200 modelos de chat, imagem, embeddings e voz em uma chave compatível com a OpenAI. Limites, exemplos e setup em 2 minutos.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "A maioria das APIs de IA grátis te dá o modelo pequeno de um único provedor e um limite diário apertado. O {appName} junta todos os planos gratuitos que encontramos atrás de uma única chave compatível com a OpenAI: no momento em que escrevemos, cerca de 200 modelos grátis, de modelos de chat GPT, Gemini, Claude Haiku, DeepSeek, GLM e Qwen a modelos de imagem, embeddings e voz.",
+        "H_WHAT": "O que é grátis nesta API de IA",
+        "P_WHAT": "Qualquer ID de modelo que termine em <c>:free</c> não custa nada. Hoje são mais de 100 modelos de chat, cerca de 30 modelos de imagem, modelos de embeddings para busca e RAG e modelos de voz. A capacidade gratuita vem de vários provedores, então a lista muda; a <models>página de modelos</models> sempre mostra o que está grátis agora.",
+        "H_START": "Como usar uma API de IA grátis em dois minutos",
+        "P_START": "<register>Crie uma conta</register> com Google, Discord ou GitHub, copie sua chave na página Tokens e defina a URL base como <c>https://api.unorouter.com/v1</c>. Qualquer SDK da OpenAI ou cliente compatível funciona sem mudanças: envie <c>POST /v1/chat/completions</c> com um modelo como <c>gemini-3.8-flash:free</c>. Não precisa de cartão de crédito.",
+        "H_IMAGE": "API grátis para gerar imagens com IA",
+        "P_IMAGE": "Os modelos de imagem usam a mesma chave em <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> é um bom começo, e também há modelos grátis em estilo anime e fotográfico. Você também pode testá-los sem código no <image>estúdio de imagens</image> integrado.",
+        "H_LIMITS": "Quais são os limites da API de IA grátis?",
+        "P_LIMITS": "Os modelos grátis permitem cerca de uma requisição por minuto por modelo e conta; chamadas mais rápidas recebem HTTP 429 com um cabeçalho Retry-After. Cada modelo grátis tem sua própria cota, então alternar entre modelos é permitido. Alguns provedores gratuitos guardam os prompts ou treinam com eles; para esses, pedimos seu consentimento uma vez antes que qualquer requisição chegue até eles. A <docs>documentação</docs> lista cada limite e código de erro.",
+        "H_PAID": "Quando vale a pena pagar",
+        "P_PAID": "Pague quando precisar de vazão constante ou de um modelo de ponta. A mesma chave passa a acessar modelos pagos por token, a partir de uma recarga de $1 que nunca expira, sem mudar nada no seu código. Veja os <pricing>preços</pricing>.",
+        "CTA": "<register>Pegue sua chave grátis</register> ou <models>veja os modelos grátis</models>.",
+        "TLDR": "O {appName} é uma API de IA grátis com cerca de 200 modelos gratuitos (chat, imagem, embeddings e voz) atrás de uma única chave compatível com a OpenAI em https://api.unorouter.com/v1. Qualquer modelo que termine em :free não custa nada, com cerca de uma requisição por minuto por modelo.",
+        "FAQ_1_Q": "Existe API de IA grátis?",
+        "FAQ_1_A": "Sim. O {appName} oferece cerca de 200 modelos de graça por uma única chave compatível com a OpenAI. Qualquer ID de modelo que termine em :free não custa nada; cadastre-se com Google, Discord ou GitHub, sem cartão.",
+        "FAQ_2_Q": "Existe API grátis para gerar imagens com IA?",
+        "FAQ_2_A": "Sim. Modelos de imagem grátis como flux-2-dev:free rodam em POST /v1/images/generations com a mesma chave do {appName}.",
+        "FAQ_3_Q": "Quais são os limites da API de IA grátis?",
+        "FAQ_3_A": "Cerca de uma requisição por minuto por modelo e conta. Chamadas mais rápidas recebem HTTP 429 com um cabeçalho Retry-After; espere ou troque para outro modelo grátis."
       }
     },
     "TRENDING_MODELS": "Modelos em alta nesta semana"

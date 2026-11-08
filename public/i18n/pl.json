@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Zarejestruj się w {appName} przez Google, Discord lub GitHub, skopiuj klucz ze strony Tokens i użyj go z base URL https://api.unorouter.com/v1 oraz darmowym modelem DeepSeek. Karta kredytowa nie jest potrzebna.",
         "FAQ_3_Q": "Jakie są limity darmowego API DeepSeek?",
         "FAQ_3_A": "Około jedno zapytanie na minutę na model i konto. Szybsze zapytania dostają HTTP 429 z nagłówkiem Retry-After; odczekaj lub przełącz się na inny darmowy model."
+      },
+      "FREE_AI_API": {
+        "TITLE": "Darmowe API AI w 2026: około 200 modeli na jednym kluczu",
+        "DESCRIPTION": "Modele czatu, obrazów, embeddingów i mowy, które możesz wywołać za darmo przez jedno API zgodne z OpenAI, jakie mają limity i jak zacząć w dwie minuty.",
+        "META_DESCRIPTION": "Darmowe API AI z około 200 modelami czatu, obrazów, embeddingów i mowy na jednym kluczu zgodnym z OpenAI. Limity, przykłady i start w 2 minuty.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "Większość darmowych API AI daje mały model jednego dostawcy i ciasny dzienny limit. {appName} zbiera każdy darmowy plan, jaki znajdziemy, za jednym kluczem zgodnym z OpenAI: w chwili pisania około 200 darmowych modeli, od modeli czatu GPT, Gemini, Claude Haiku, DeepSeek, GLM i Qwen po modele obrazów, embeddingów i mowy.",
+        "H_WHAT": "Co jest darmowe w tym API AI",
+        "P_WHAT": "Każde ID modelu kończące się na <c>:free</c> nic nie kosztuje. Dziś to ponad 100 modeli czatu, około 30 modeli obrazów, modele embeddingów do wyszukiwania i RAG oraz modele mowy. Darmowa moc pochodzi od wielu dostawców, więc lista się zmienia; <models>strona modeli</models> zawsze pokazuje, co jest teraz darmowe.",
+        "H_START": "Jak używać darmowego API AI w dwie minuty",
+        "P_START": "<register>Załóż konto</register> przez Google, Discord lub GitHub, skopiuj klucz ze strony Tokens i ustaw bazowy URL na <c>https://api.unorouter.com/v1</c>. Każde SDK OpenAI i każdy zgodny klient działa bez zmian: wyślij <c>POST /v1/chat/completions</c> z modelem takim jak <c>gemini-3.8-flash:free</c>. Karta kredytowa nie jest potrzebna.",
+        "H_IMAGE": "Darmowe API do generowania obrazów AI",
+        "P_IMAGE": "Modele obrazów używają tego samego klucza na <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> to dobry początek, są też darmowe modele w stylu anime i fotograficznym. Możesz je też wypróbować bez kodu we wbudowanym <image>studiu obrazów</image>.",
+        "H_LIMITS": "Jakie limity ma darmowe API AI?",
+        "P_LIMITS": "Darmowe modele pozwalają na około jedno zapytanie na minutę na model i konto; szybsze wywołania dostają HTTP 429 z nagłówkiem Retry-After. Każdy darmowy model ma własny limit, więc przełączanie się między modelami jest dozwolone. Niektórzy darmowi dostawcy przechowują prompty lub trenują na nich; w ich przypadku raz prosimy o zgodę, zanim trafi do nich jakiekolwiek zapytanie. <docs>Dokumentacja</docs> wymienia każdy limit i kod błędu.",
+        "H_PAID": "Kiedy warto zapłacić",
+        "P_PAID": "Płać, gdy potrzebujesz stałej przepustowości albo czołowego modelu. Ten sam klucz obsługuje wtedy płatne modele rozliczane za token, od doładowania $1, które nigdy nie wygasa, a w Twoim kodzie nic się nie zmienia. Zobacz <pricing>cennik</pricing>.",
+        "CTA": "<register>Zdobądź darmowy klucz</register> albo <models>przeglądaj darmowe modele</models>.",
+        "TLDR": "{appName} to darmowe API AI z około 200 darmowymi modelami (czat, obrazy, embeddingi i mowa) za jednym kluczem zgodnym z OpenAI pod adresem https://api.unorouter.com/v1. Każdy model kończący się na :free nic nie kosztuje, przy około jednym zapytaniu na minutę na model.",
+        "FAQ_1_Q": "Czy jest darmowe API AI?",
+        "FAQ_1_A": "Tak. {appName} udostępnia około 200 modeli za darmo przez jeden klucz zgodny z OpenAI. Każde ID modelu kończące się na :free nic nie kosztuje; rejestracja przez Google, Discord lub GitHub, bez karty.",
+        "FAQ_2_Q": "Czy jest darmowe API do generowania obrazów AI?",
+        "FAQ_2_A": "Tak. Darmowe modele obrazów, takie jak flux-2-dev:free, działają na POST /v1/images/generations z tym samym kluczem {appName}.",
+        "FAQ_3_Q": "Jakie limity ma darmowe API AI?",
+        "FAQ_3_A": "Około jedno zapytanie na minutę na model i konto. Szybsze wywołania dostają HTTP 429 z nagłówkiem Retry-After; poczekaj albo przełącz się na inny darmowy model."
       }
     },
     "TRENDING_MODELS": "Popularne modele w tym tygodniu"

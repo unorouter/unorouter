@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Registriere dich bei {appName} mit Google, Discord oder GitHub, kopiere deinen Schlüssel von der Seite Tokens und nutze ihn mit der Basis-URL https://api.unorouter.com/v1 und einem kostenlosen DeepSeek-Modell. Eine Kreditkarte ist nicht nötig.",
         "FAQ_3_Q": "Welche Limits hat die kostenlose DeepSeek API?",
         "FAQ_3_A": "Etwa eine Anfrage pro Minute, Modell und Konto. Schnellere Anfragen bekommen HTTP 429 mit einem Retry-After-Header; warte oder wechsle zu einem anderen kostenlosen Modell."
+      },
+      "FREE_AI_API": {
+        "TITLE": "Kostenlose KI API 2026: rund 200 Modelle mit einem Schlüssel",
+        "DESCRIPTION": "Chat-, Bild-, Embedding- und Sprachmodelle, die du kostenlos über eine OpenAI-kompatible API aufrufen kannst, welche Limits gelten und wie du in zwei Minuten startest.",
+        "META_DESCRIPTION": "Kostenlose KI API mit rund 200 Chat-, Bild-, Embedding- und Sprachmodellen auf einem OpenAI-kompatiblen Schlüssel. Limits, Beispiele, Start in 2 Minuten.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Die meisten kostenlosen KI APIs geben dir das kleine Modell eines einzigen Anbieters und ein knappes Tageslimit. {appName} bündelt jedes kostenlose Kontingent, das wir finden, hinter einem OpenAI-kompatiblen Schlüssel: zum Zeitpunkt des Schreibens rund 200 kostenlose Modelle, von Chatmodellen wie GPT, Gemini, Claude Haiku, DeepSeek, GLM und Qwen bis zu Bild-, Embedding- und Sprachmodellen.",
+        "H_WHAT": "Was ist bei der KI API kostenlos?",
+        "P_WHAT": "Jede Modell-ID mit der Endung <c>:free</c> kostet nichts. Heute sind das mehr als 100 Chatmodelle, rund 30 Bildmodelle, Embedding-Modelle für Suche und RAG sowie Sprachmodelle. Die kostenlose Kapazität kommt von vielen Anbietern, deshalb ändert sich die Liste; die <models>Modellseite</models> zeigt immer, was gerade kostenlos ist.",
+        "H_START": "Kostenlose KI API in zwei Minuten nutzen",
+        "P_START": "<register>Erstelle ein Konto</register> mit Google, Discord oder GitHub, kopiere deinen Schlüssel auf der Seite Tokens und setze die Base URL auf <c>https://api.unorouter.com/v1</c>. Jedes OpenAI SDK und jeder kompatible Client funktioniert unverändert: Sende <c>POST /v1/chat/completions</c> mit einem Modell wie <c>gemini-3.8-flash:free</c>. Eine Kreditkarte brauchst du nicht.",
+        "H_IMAGE": "Kostenlose API für KI-Bildgenerierung",
+        "P_IMAGE": "Bildmodelle nutzen denselben Schlüssel auf <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> ist ein guter Einstieg, und es gibt auch kostenlose Modelle im Anime- und Fotostil. Ohne Code kannst du sie im integrierten <image>Bildstudio</image> ausprobieren.",
+        "H_LIMITS": "Welche Limits hat die kostenlose KI API?",
+        "P_LIMITS": "Kostenlose Modelle erlauben etwa eine Anfrage pro Minute, Modell und Konto; schnellere Aufrufe bekommen HTTP 429 mit einem Retry-After-Header. Jedes kostenlose Modell hat sein eigenes Kontingent, der Wechsel zwischen Modellen ist also erlaubt. Einige kostenlose Anbieter speichern Prompts oder trainieren damit; für diese wirst du einmal um Zustimmung gebeten, bevor eine Anfrage sie erreicht. Die <docs>Dokumentation</docs> listet jedes Limit und jeden Fehlercode.",
+        "H_PAID": "Wann sich Bezahlen lohnt",
+        "P_PAID": "Zahle, wenn du gleichmäßigen Durchsatz oder ein Spitzenmodell brauchst. Derselbe Schlüssel erreicht dann kostenpflichtige Modelle pro Token, ab einer Aufladung von $1, die nie verfällt, und an deinem Code ändert sich nichts. Siehe <pricing>Preise</pricing>.",
+        "CTA": "<register>Hol dir deinen kostenlosen Schlüssel</register> oder <models>stöbere in den kostenlosen Modellen</models>.",
+        "TLDR": "{appName} ist eine kostenlose KI API mit rund 200 kostenlosen Modellen (Chat, Bild, Embedding und Sprache) hinter einem OpenAI-kompatiblen Schlüssel unter https://api.unorouter.com/v1. Jedes Modell mit der Endung :free kostet nichts, bei etwa einer Anfrage pro Minute und Modell.",
+        "FAQ_1_Q": "Gibt es eine kostenlose KI API?",
+        "FAQ_1_A": "Ja. {appName} bietet rund 200 Modelle kostenlos über einen OpenAI-kompatiblen Schlüssel an. Jede Modell-ID mit der Endung :free kostet nichts; Anmeldung mit Google, Discord oder GitHub, ohne Karte.",
+        "FAQ_2_Q": "Gibt es eine kostenlose API für KI-Bildgenerierung?",
+        "FAQ_2_A": "Ja. Kostenlose Bildmodelle wie flux-2-dev:free laufen auf POST /v1/images/generations mit demselben {appName}-Schlüssel.",
+        "FAQ_3_Q": "Welche Limits hat die kostenlose KI API?",
+        "FAQ_3_A": "Etwa eine Anfrage pro Minute, Modell und Konto. Schnellere Aufrufe bekommen HTTP 429 mit einem Retry-After-Header; warte oder wechsle zu einem anderen kostenlosen Modell."
       }
     },
     "TRENDING_MODELS": "Beliebte Modelle diese Woche"

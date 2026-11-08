@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "{appName}'e Google, Discord veya GitHub ile kaydolun, anahtarınızı Tokens sayfasından kopyalayın ve https://api.unorouter.com/v1 base URL'si ile ücretsiz bir DeepSeek modeliyle kullanın. Kredi kartı gerekmez.",
         "FAQ_3_Q": "Ücretsiz DeepSeek API'nin sınırları neler?",
         "FAQ_3_A": "Model ve hesap başına dakikada yaklaşık bir istek. Daha hızlı istekler Retry-After başlığıyla HTTP 429 alır; bekleyin ya da başka bir ücretsiz modele geçin."
+      },
+      "FREE_AI_API": {
+        "TITLE": "Ücretsiz Yapay Zeka API 2026: tek anahtarla yaklaşık 200 model",
+        "DESCRIPTION": "Tek bir OpenAI uyumlu API üzerinden ücretsiz çağırabileceğiniz sohbet, görsel, embedding ve ses modelleri, limitleri ve iki dakikada nasıl başlayacağınız.",
+        "META_DESCRIPTION": "Tek OpenAI uyumlu anahtarda yaklaşık 200 sohbet, görsel, embedding ve ses modeli sunan ücretsiz yapay zeka API. Limitler, örnekler, 2 dakikada kurulum.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Ücretsiz yapay zeka API hizmetlerinin çoğu size tek bir sağlayıcının küçük modelini ve dar bir günlük kota verir. {appName}, bulabildiğimiz her ücretsiz katmanı tek bir OpenAI uyumlu anahtarın arkasında toplar: bu yazı yazılırken yaklaşık 200 ücretsiz model, GPT, Gemini, Claude Haiku, DeepSeek, GLM ve Qwen sohbet modellerinden görsel, embedding ve ses modellerine kadar.",
+        "H_WHAT": "Bu yapay zeka API ile neler ücretsiz",
+        "P_WHAT": "<c>:free</c> ile biten her model kimliği ücretsizdir. Bugün bu, 100 üzeri sohbet modeli, yaklaşık 30 görsel modeli, arama ve RAG için embedding modelleri ve ses modelleri demek. Ücretsiz kapasite birçok sağlayıcıdan geldiği için liste değişir; şu an neyin ücretsiz olduğunu her zaman <models>modeller sayfası</models> gösterir.",
+        "H_START": "Ücretsiz yapay zeka API nasıl kullanılır: iki dakikada başlayın",
+        "P_START": "Google, Discord veya GitHub ile <register>bir hesap oluşturun</register>, anahtarınızı Tokens sayfasından kopyalayın ve temel URL olarak <c>https://api.unorouter.com/v1</c> ayarlayın. Her OpenAI SDK ve uyumlu istemci değişiklik olmadan çalışır: <c>gemini-3.8-flash:free</c> gibi bir modelle <c>POST /v1/chat/completions</c> gönderin. Kredi kartı gerekmez.",
+        "H_IMAGE": "Ücretsiz yapay zeka görsel oluşturma API",
+        "P_IMAGE": "Görsel modelleri aynı anahtarı <c>POST /v1/images/generations</c> üzerinde kullanır. <c>flux-2-dev:free</c> iyi bir başlangıçtır, ayrıca ücretsiz anime ve fotoğraf tarzı modeller de var. Bunları kod yazmadan yerleşik <image>görsel stüdyosunda</image> da deneyebilirsiniz.",
+        "H_LIMITS": "Ücretsiz yapay zeka API limitleri nelerdir?",
+        "P_LIMITS": "Ücretsiz modeller, model ve hesap başına dakikada yaklaşık bir isteğe izin verir; daha hızlı çağrılar Retry-After başlığıyla HTTP 429 alır. Her ücretsiz modelin kendi kotası vardır, bu yüzden modeller arasında geçiş yapmak serbesttir. Bazı ücretsiz sağlayıcılar istemleri saklar veya onlarla model eğitir; bunlar için herhangi bir istek onlara ulaşmadan önce bir kez onayınız istenir. <docs>Dokümantasyon</docs> her limiti ve hata kodunu listeler.",
+        "H_PAID": "Ne zaman ödeme yapmalı",
+        "P_PAID": "Sabit bir verim veya en üst düzey bir model gerektiğinde ödeyin. Aynı anahtar o zaman token başına ücretli modellere de ulaşır, hiç sona ermeyen $1 bakiye yüklemesinden başlayarak, ve kodunuzda hiçbir şey değişmez. <pricing>Fiyatlandırmaya</pricing> göz atın.",
+        "CTA": "<register>Ücretsiz anahtarınızı alın</register> veya <models>ücretsiz modellere göz atın</models>.",
+        "TLDR": "{appName}, https://api.unorouter.com/v1 adresinde tek bir OpenAI uyumlu anahtarın arkasında yaklaşık 200 ücretsiz model (sohbet, görsel, embedding ve ses) sunan ücretsiz bir yapay zeka API hizmetidir. :free ile biten her model ücretsizdir, model başına dakikada yaklaşık bir istekle.",
+        "FAQ_1_Q": "Ücretsiz yapay zeka API var mı?",
+        "FAQ_1_A": "Evet. {appName}, tek bir OpenAI uyumlu anahtar üzerinden yaklaşık 200 modeli ücretsiz sunar. :free ile biten her model kimliği ücretsizdir; Google, Discord veya GitHub ile kaydolun, kart gerekmez.",
+        "FAQ_2_Q": "Ücretsiz yapay zeka görsel oluşturma API var mı?",
+        "FAQ_2_A": "Evet. flux-2-dev:free gibi ücretsiz görsel modelleri, aynı {appName} anahtarıyla POST /v1/images/generations üzerinde çalışır.",
+        "FAQ_3_Q": "Ücretsiz yapay zeka API limitleri nelerdir?",
+        "FAQ_3_A": "Model ve hesap başına dakikada yaklaşık bir istek. Daha hızlı çağrılar Retry-After başlığıyla HTTP 429 alır; bekleyin veya başka bir ücretsiz modele geçin."
       }
     },
     "TRENDING_MODELS": "Bu haftanın popüler modelleri"

@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Daftar di {appName} dengan Google, Discord, atau GitHub, salin key kamu dari halaman Tokens, lalu pakai dengan base URL https://api.unorouter.com/v1 dan model DeepSeek gratis. Tidak perlu kartu kredit.",
         "FAQ_3_Q": "Apa batasan API DeepSeek gratis?",
         "FAQ_3_A": "Sekitar satu permintaan per menit per model dan akun. Permintaan yang lebih cepat mendapat HTTP 429 dengan header Retry-After; tunggu atau beralih ke model gratis lain."
+      },
+      "FREE_AI_API": {
+        "TITLE": "API AI Gratis 2026: sekitar 200 model dengan satu key",
+        "DESCRIPTION": "Model chat, gambar, embedding, dan suara yang bisa kamu panggil gratis lewat satu API yang kompatibel OpenAI, apa saja batasnya, dan cara mulai dalam dua menit.",
+        "META_DESCRIPTION": "API AI gratis dengan sekitar 200 model chat, gambar, embedding, dan suara di satu key yang kompatibel OpenAI. Batas, contoh, dan setup dalam 2 menit.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Kebanyakan API AI gratis cuma memberi model kecil dari satu penyedia dengan kuota harian yang ketat. {appName} mengumpulkan setiap paket gratis yang bisa kami temukan di balik satu key yang kompatibel OpenAI: saat tulisan ini dibuat ada sekitar 200 model gratis, mulai dari model chat GPT, Gemini, Claude Haiku, DeepSeek, GLM, dan Qwen sampai model gambar, embedding, dan suara.",
+        "H_WHAT": "Apa saja yang gratis di API AI ini",
+        "P_WHAT": "Setiap ID model yang berakhiran <c>:free</c> tidak dipungut biaya. Saat ini jumlahnya lebih dari 100 model chat, sekitar 30 model gambar, model embedding untuk pencarian dan RAG, serta model suara. Kapasitas gratis datang dari banyak penyedia, jadi daftarnya berubah; <models>halaman model</models> selalu menunjukkan apa yang gratis saat ini.",
+        "H_START": "Cara pakai API AI gratis dalam dua menit",
+        "P_START": "<register>Buat akun</register> dengan Google, Discord, atau GitHub, salin key kamu dari halaman Tokens, lalu atur base URL ke <c>https://api.unorouter.com/v1</c>. SDK OpenAI atau klien kompatibel apa pun langsung jalan tanpa diubah: kirim <c>POST /v1/chat/completions</c> dengan model seperti <c>gemini-3.8-flash:free</c>. Tidak perlu kartu kredit.",
+        "H_IMAGE": "API generate gambar AI gratis",
+        "P_IMAGE": "Model gambar memakai key yang sama di <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> cocok untuk mulai, dan ada juga model gratis bergaya anime dan foto. Kamu juga bisa mencobanya tanpa kode di <image>studio gambar</image> bawaan.",
+        "H_LIMITS": "Berapa batas API AI gratis?",
+        "P_LIMITS": "Model gratis mengizinkan sekitar satu request per menit per model dan akun; panggilan yang lebih cepat mendapat HTTP 429 dengan header Retry-After. Setiap model gratis punya jatahnya sendiri, jadi bergantian antar model diperbolehkan. Beberapa penyedia gratis menyimpan prompt atau melatih model dengannya; untuk mereka kamu dimintai persetujuan sekali sebelum ada request yang sampai ke sana. <docs>Dokumentasi</docs> mencantumkan setiap batas dan kode error.",
+        "H_PAID": "Kapan perlu bayar",
+        "P_PAID": "Bayar saat kamu butuh throughput yang stabil atau model kelas atas. Key yang sama lalu bisa mengakses model berbayar per token, mulai dari top up $1 yang tidak pernah kedaluwarsa, tanpa mengubah apa pun di kode kamu. Lihat <pricing>harga</pricing>.",
+        "CTA": "<register>Dapatkan key gratis kamu</register> atau <models>lihat model gratis</models>.",
+        "TLDR": "{appName} adalah API AI gratis dengan sekitar 200 model gratis (chat, gambar, embedding, dan suara) di balik satu key yang kompatibel OpenAI di https://api.unorouter.com/v1. Setiap model yang berakhiran :free tidak dipungut biaya, dengan sekitar satu request per menit per model.",
+        "FAQ_1_Q": "Apakah ada API AI gratis?",
+        "FAQ_1_A": "Ada. {appName} menyediakan sekitar 200 model gratis lewat satu key yang kompatibel OpenAI. Setiap ID model yang berakhiran :free tidak dipungut biaya; daftar dengan Google, Discord, atau GitHub, tanpa kartu.",
+        "FAQ_2_Q": "Apakah ada API generate gambar AI gratis?",
+        "FAQ_2_A": "Ada. Model gambar gratis seperti flux-2-dev:free berjalan di POST /v1/images/generations dengan key {appName} yang sama.",
+        "FAQ_3_Q": "Berapa batas API AI gratis?",
+        "FAQ_3_A": "Sekitar satu request per menit per model dan akun. Panggilan yang lebih cepat mendapat HTTP 429 dengan header Retry-After; tunggu atau ganti ke model gratis lain."
       }
     },
     "TRENDING_MODELS": "Model populer minggu ini"

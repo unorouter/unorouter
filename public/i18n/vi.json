@@ -1437,6 +1437,31 @@
         "FAQ_2_A": "Đăng ký {appName} bằng Google, Discord hoặc GitHub, sao chép khóa từ trang Tokens, rồi dùng nó với base URL https://api.unorouter.com/v1 và một mô hình DeepSeek miễn phí. Không cần thẻ tín dụng.",
         "FAQ_3_Q": "API DeepSeek miễn phí có giới hạn gì?",
         "FAQ_3_A": "Khoảng một yêu cầu mỗi phút cho mỗi mô hình và tài khoản. Yêu cầu nhanh hơn sẽ nhận HTTP 429 kèm header Retry-After; hãy chờ hoặc chuyển sang mô hình miễn phí khác."
+      },
+      "FREE_AI_API": {
+        "TITLE": "API AI miễn phí 2026: khoảng 200 mô hình với một khóa",
+        "DESCRIPTION": "Các mô hình chat, hình ảnh, embedding và giọng nói bạn có thể gọi miễn phí qua một API tương thích OpenAI, giới hạn là gì và cách bắt đầu trong hai phút.",
+        "META_DESCRIPTION": "API AI miễn phí với khoảng 200 mô hình chat, hình ảnh, embedding và giọng nói trên một khóa tương thích OpenAI. Giới hạn, ví dụ và cài đặt trong 2 phút.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Phần lớn API AI miễn phí chỉ cho bạn một mô hình nhỏ của một nhà cung cấp kèm hạn mức hằng ngày eo hẹp. {appName} gom mọi gói miễn phí chúng tôi tìm được về sau một khóa tương thích OpenAI: tại thời điểm viết bài là khoảng 200 mô hình miễn phí, từ các mô hình chat GPT, Gemini, Claude Haiku, DeepSeek, GLM và Qwen đến mô hình hình ảnh, embedding và giọng nói.",
+        "H_WHAT": "API AI này miễn phí những gì",
+        "P_WHAT": "Mọi ID mô hình kết thúc bằng <c>:free</c> đều không mất phí. Hiện tại đó là hơn 100 mô hình chat, khoảng 30 mô hình hình ảnh, các mô hình embedding cho tìm kiếm và RAG, cùng các mô hình giọng nói. Dung lượng miễn phí đến từ nhiều nhà cung cấp nên danh sách luôn thay đổi; <models>trang mô hình</models> luôn cho thấy những gì đang miễn phí lúc này.",
+        "H_START": "Cách dùng API AI miễn phí trong hai phút",
+        "P_START": "<register>Tạo tài khoản</register> bằng Google, Discord hoặc GitHub, sao chép khóa từ trang Tokens và đặt base URL là <c>https://api.unorouter.com/v1</c>. Mọi SDK OpenAI hay client tương thích đều chạy mà không cần sửa: gửi <c>POST /v1/chat/completions</c> với một mô hình như <c>gemini-3.8-flash:free</c>. Không cần thẻ tín dụng.",
+        "H_IMAGE": "API tạo ảnh AI miễn phí",
+        "P_IMAGE": "Mô hình hình ảnh dùng cùng khóa trên <c>POST /v1/images/generations</c>. <c>flux-2-dev:free</c> là lựa chọn tốt để bắt đầu, ngoài ra còn có các mô hình miễn phí phong cách anime và ảnh chụp. Bạn cũng có thể thử chúng mà không cần code trong <image>studio hình ảnh</image> tích hợp sẵn.",
+        "H_LIMITS": "Giới hạn của API AI miễn phí là gì?",
+        "P_LIMITS": "Mô hình miễn phí cho phép khoảng một yêu cầu mỗi phút cho mỗi mô hình và tài khoản; gọi nhanh hơn sẽ nhận HTTP 429 kèm header Retry-After. Mỗi mô hình miễn phí có hạn mức riêng, nên bạn được phép luân phiên giữa các mô hình. Một số nhà cung cấp miễn phí lưu prompt hoặc dùng chúng để huấn luyện; với những nhà cung cấp này, bạn sẽ được hỏi đồng ý một lần trước khi có yêu cầu nào đến được họ. <docs>Tài liệu</docs> liệt kê mọi giới hạn và mã lỗi.",
+        "H_PAID": "Khi nào nên trả phí",
+        "P_PAID": "Hãy trả phí khi bạn cần thông lượng ổn định hoặc một mô hình hàng đầu. Khi đó cùng một khóa sẽ dùng được các mô hình trả phí theo token, bắt đầu từ lần nạp $1 không bao giờ hết hạn, và code của bạn không cần thay đổi gì. Xem <pricing>bảng giá</pricing>.",
+        "CTA": "<register>Lấy khóa miễn phí</register> hoặc <models>xem các mô hình miễn phí</models>.",
+        "TLDR": "{appName} là API AI miễn phí với khoảng 200 mô hình miễn phí (chat, hình ảnh, embedding và giọng nói) sau một khóa tương thích OpenAI tại https://api.unorouter.com/v1. Mọi mô hình kết thúc bằng :free đều không mất phí, với khoảng một yêu cầu mỗi phút cho mỗi mô hình.",
+        "FAQ_1_Q": "Có API AI miễn phí không?",
+        "FAQ_1_A": "Có. {appName} cung cấp khoảng 200 mô hình miễn phí qua một khóa tương thích OpenAI. Mọi ID mô hình kết thúc bằng :free đều không mất phí; đăng ký bằng Google, Discord hoặc GitHub, không cần thẻ.",
+        "FAQ_2_Q": "Có API tạo ảnh AI miễn phí không?",
+        "FAQ_2_A": "Có. Các mô hình hình ảnh miễn phí như flux-2-dev:free chạy trên POST /v1/images/generations với cùng khóa {appName}.",
+        "FAQ_3_Q": "Giới hạn của API AI miễn phí là gì?",
+        "FAQ_3_A": "Khoảng một yêu cầu mỗi phút cho mỗi mô hình và tài khoản. Gọi nhanh hơn sẽ nhận HTTP 429 kèm header Retry-After; hãy chờ hoặc chuyển sang mô hình miễn phí khác."
       }
     },
     "TRENDING_MODELS": "Mô hình thịnh hành tuần này"
