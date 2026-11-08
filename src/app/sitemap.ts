@@ -17,7 +17,7 @@ import {
 } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { modelSlug, vendorSlug } from "@/lib/utils/base";
+import { hasRealVendor, modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { getCatalog } from "@/server/models/pricing/pricing.service";
 import type { MetadataRoute } from "next";
@@ -112,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // A :free page with a paid sibling canonicalizes to it, so it is not listed.
   const sitemapModelNames = modelNames.filter(
     (name) =>
-      vendorSlug(nameToVendor.get(name) ?? "") &&
+      hasRealVendor(nameToVendor.get(name) ?? "") &&
       !(name.endsWith(":free") && nameSet.has(name.slice(0, -":free".length))),
   );
   const vendorLatest = new Map<string, Date>();
@@ -122,7 +122,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (slug && (!prev || date > prev)) vendorLatest.set(slug, date);
   }
   const sitemapVendorSlugs = [
-    ...new Set(pricing.models.map((m) => vendorSlug(m.vendor)).filter(Boolean)),
+    ...new Set(
+      pricing.models
+        .filter((m) => hasRealVendor(m.vendor))
+        .map((m) => vendorSlug(m.vendor)),
+    ),
   ];
 
   return [

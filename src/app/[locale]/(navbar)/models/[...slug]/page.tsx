@@ -14,7 +14,7 @@ import {
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
 import { getPricingCatalog } from "@/openapi";
-import { unwrap, vendorSlug } from "@/lib/utils/base";
+import { hasRealVendor, unwrap, vendorSlug } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -98,8 +98,7 @@ export async function generateMetadata(props: PageProps) {
     ),
     ogImage: ogBadge("model", locale, { model: model.model_name }),
     locales: MODEL_PAGE_LOCALES,
-    // No vendor means a /models/unknown/ URL, which the sitemap already skips.
-    robots: indexed && Boolean(vendorSlug(model.vendor)),
+    robots: indexed && hasRealVendor(model.vendor),
   });
 }
 

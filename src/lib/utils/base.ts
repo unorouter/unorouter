@@ -121,6 +121,12 @@ export function vendorSlug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
+// Models without a real vendor land under /models/unknown/, which is no provider.
+export function hasRealVendor(vendorName: string): boolean {
+  const slug = vendorSlug(vendorName);
+  return Boolean(slug) && slug !== "unknown";
+}
+
 export function modelHref(name: string, vendorName?: string) {
   const vendor = vendorName ? vendorSlug(vendorName) : "";
   const slug = [vendor || "unknown", modelSlug(name)];
