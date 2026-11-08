@@ -232,6 +232,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-cyan-600/20",
     primary: "#1a8596",
   },
+  [Vendor.PKRD]: {
+    bg: "bg-violet-600/5",
+    border: "border-violet-600/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-600/10",
+    tagBorder: "border-violet-600/20",
+    primary: "#7327eb",
+  },
   [Vendor.UPSTAGE]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
@@ -982,6 +990,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.RECURSIVE]: () =>
     import("@/components/elements/brand/recursive-icon"),
   [Vendor.MINDSHUB]: () => import("@/components/elements/brand/mindshub-icon"),
+  [Vendor.PKRD]: () => import("@/components/elements/brand/pkrd-icon"),
   [Vendor.REFLECTION]: () =>
     import("@/components/elements/brand/reflection-icon"),
   [Vendor.TELEAI]: () => import("@/components/elements/brand/teleai-icon"),

@@ -124,6 +124,7 @@ export enum Vendor {
   UPSTAGE = "upstage",
   RECURSIVE = "recursive",
   MINDSHUB = "mindshub",
+  PKRD = "pkrd",
   REKA = "reka",
 }
 
