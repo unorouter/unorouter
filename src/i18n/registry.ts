@@ -147,6 +147,41 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "best-janitor-ai-proxy",
+    date: "2026-11-08",
+    tags: ["guide", "product"],
+    i18nKey: "BLOG.POSTS.BEST_JANITOR_AI_PROXY",
+    priority: 0.8,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 640,
+    headings: [
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "good", i18nLeaf: "H_GOOD", level: 2 },
+      { id: "options", i18nLeaf: "H_OPTIONS", level: 2 },
+      { id: "free", i18nLeaf: "H_FREE", level: 2 },
+      { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
+      { id: "pick", i18nLeaf: "H_PICK", level: 2 },
+    ],
+  },
+  {
+    slug: "free-deepseek-api-key",
+    date: "2026-11-08",
+    tags: ["guide", "product"],
+    i18nKey: "BLOG.POSTS.FREE_DEEPSEEK_API_KEY",
+    priority: 0.8,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 520,
+    headings: [
+      { id: "free", i18nLeaf: "H_FREE", level: 2 },
+      { id: "get", i18nLeaf: "H_GET", level: 2 },
+      { id: "call", i18nLeaf: "H_CALL", level: 2 },
+      { id: "limits", i18nLeaf: "H_LIMITS", level: 2 },
+      { id: "use", i18nLeaf: "H_USE", level: 2 },
+    ],
+  },
+  {
     slug: "qronos-joins-partners",
     date: "2026-10-23",
     tags: ["announcement", "community"],

@@ -448,6 +448,19 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                 </div>
               ))}
             </dl>
+            {guide.slug === "janitor-ai" && (
+              <p className="mt-6 text-sm">
+                <Link
+                  href={{
+                    pathname: "/blog/[slug]",
+                    params: { slug: "best-janitor-ai-proxy" },
+                  }}
+                  className="underline underline-offset-4"
+                >
+                  {t("BLOG.POSTS.BEST_JANITOR_AI_PROXY.TITLE", APP_VALUES)}
+                </Link>
+              </p>
+            )}
           </section>
         ) : null}
 

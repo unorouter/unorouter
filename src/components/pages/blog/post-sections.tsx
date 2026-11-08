@@ -22,6 +22,16 @@ export const PAGE_CHUNKS: Chunks = {
   privacy: (chunks) => <Link href="/privacy">{chunks}</Link>,
   rankings: (chunks) => <Link href="/rankings">{chunks}</Link>,
   tester: (chunks) => <Link href="/ai-api-model-tester">{chunks}</Link>,
+  janitor: (chunks) => (
+    <Link
+      href={{
+        pathname: "/docs/integrations/[slug]",
+        params: { slug: "janitor-ai" },
+      }}
+    >
+      {chunks}
+    </Link>
+  ),
 };
 
 // One tag per post, <post_where_your_requests_go>, so posts can link each other.

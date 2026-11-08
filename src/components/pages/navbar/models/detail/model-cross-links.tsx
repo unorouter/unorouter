@@ -2,6 +2,7 @@ import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { Link } from "@/i18n/navigation";
 import type { getVendorTheme } from "@/lib/config/vendor-registry";
+import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { modelSlug } from "@/lib/utils/base";
 import { getTranslations } from "next-intl/server";
@@ -81,6 +82,20 @@ export async function ModelCrossLinks(props: {
             </Link>
           ))}
         </div>
+        {base.startsWith("deepseek") && (
+          <p className="mt-4 text-sm">
+            <Link
+              href={{
+                pathname: "/blog/[slug]",
+                params: { slug: "free-deepseek-api-key" },
+              }}
+              prefetch={false}
+              className="underline underline-offset-4"
+            >
+              {t("BLOG.POSTS.FREE_DEEPSEEK_API_KEY.TITLE", APP_VALUES)}
+            </Link>
+          </p>
+        )}
       </section>
     </>
   );

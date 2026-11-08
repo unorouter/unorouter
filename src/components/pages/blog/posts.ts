@@ -65,6 +65,8 @@ export const GEO_SLUGS = [
   "open-source-openrouter-alternative",
   "what-is-an-llm-gateway",
   "free-models-aggregated",
+  "best-janitor-ai-proxy",
+  "free-deepseek-api-key",
 ] as const;
 export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
 
