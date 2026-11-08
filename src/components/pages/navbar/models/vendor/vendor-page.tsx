@@ -10,6 +10,8 @@ import { vendorSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { VendorModelCard } from "./vendor-model-card";
 import { APP_VALUES } from "@/lib/config/constants";
+import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
+import { modelSlug } from "@/lib/utils/base";
 
 export function VendorModelsPage(props: { vendor: string }) {
   const t = useTranslations();
@@ -26,6 +28,10 @@ export function VendorModelsPage(props: { vendor: string }) {
   const busy = models.filter((m) => !m.online);
 
   const display = vendorDisplayName(props.vendor);
+  // Curated compare pages for this vendor's models, which otherwise only the
+  // model pages and /compare reach.
+  const names = new Set(models.map((m) => m.model_name));
+  const pairs = COMPARE_PAIRS.filter((pair) => pair.some((n) => names.has(n)));
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pt-20 pb-16 md:px-6">
@@ -86,6 +92,29 @@ export function VendorModelsPage(props: { vendor: string }) {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {busy.map((model) => (
                   <VendorModelCard key={model.model_name} model={model} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {pairs.length > 0 && (
+            <section className="mt-10">
+              <h2 className="text-muted-foreground mb-3 text-sm font-bold tracking-wider uppercase">
+                {t("MODELS.COMPARE.POPULAR")}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {pairs.map((pair) => (
+                  <Link
+                    key={pair.join("|")}
+                    href={{
+                      pathname: "/compare/[...slugs]",
+                      params: { slugs: pair.map((n) => modelSlug(n)).sort() },
+                    }}
+                    prefetch={false}
+                    className="hover:bg-muted/50 rounded-md border px-3 py-1.5 font-mono text-xs transition-colors"
+                  >
+                    {pair[0]} vs {pair[1]}
+                  </Link>
                 ))}
               </div>
             </section>

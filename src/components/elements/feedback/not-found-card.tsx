@@ -41,6 +41,30 @@ export function NotFoundCard(props: { fullScreen?: boolean }) {
               {t("NAV.MODELS")}
             </Link>
           </div>
+          {/* Dead links still lead somewhere: the pages people arrive for. */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-mono text-xs">
+            <Link
+              href={{
+                pathname: "/docs/integrations/[slug]",
+                params: { slug: "janitor-ai" },
+              }}
+              className="text-muted-foreground hover:text-foreground underline underline-offset-4"
+            >
+              {t("DOCS.JANITOR_AI.BADGE")}
+            </Link>
+            <Link
+              href="/docs/platform"
+              className="text-muted-foreground hover:text-foreground underline underline-offset-4"
+            >
+              {t("NAV.DOCS")}
+            </Link>
+            <Link
+              href="/pricing"
+              className="text-muted-foreground hover:text-foreground underline underline-offset-4"
+            >
+              {t("NAV.PRICING")}
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
