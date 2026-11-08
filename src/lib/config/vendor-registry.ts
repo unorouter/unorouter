@@ -216,6 +216,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-indigo-500/20",
     primary: "#6366f1",
   },
+  [Vendor.RECURSIVE]: {
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-700 dark:text-zinc-300",
+    tagBg: "bg-zinc-500/10",
+    tagBorder: "border-zinc-500/20",
+    primary: "#18181b",
+  },
+  [Vendor.MINDSHUB]: {
+    bg: "bg-cyan-600/5",
+    border: "border-cyan-600/20",
+    text: "text-cyan-700 dark:text-cyan-300",
+    tagBg: "bg-cyan-600/10",
+    tagBorder: "border-cyan-600/20",
+    primary: "#1a8596",
+  },
   [Vendor.UPSTAGE]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
@@ -963,6 +979,9 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.THINKINGMACHINES]: () =>
     import("@/components/elements/brand/thinkingmachines-icon"),
   [Vendor.IFM]: () => import("@/components/elements/brand/ifm-icon"),
+  [Vendor.RECURSIVE]: () =>
+    import("@/components/elements/brand/recursive-icon"),
+  [Vendor.MINDSHUB]: () => import("@/components/elements/brand/mindshub-icon"),
   [Vendor.REFLECTION]: () =>
     import("@/components/elements/brand/reflection-icon"),
   [Vendor.TELEAI]: () => import("@/components/elements/brand/teleai-icon"),

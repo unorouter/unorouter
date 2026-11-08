@@ -122,6 +122,8 @@ export enum Vendor {
   TYPESAFE = "typesafe",
   STEALTH = "stealth",
   UPSTAGE = "upstage",
+  RECURSIVE = "recursive",
+  MINDSHUB = "mindshub",
   REKA = "reka",
 }
 
