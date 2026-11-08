@@ -41,6 +41,13 @@ export const resolveSlug = cache(
     // A model gone past its retire window under a vendor that still exists: send
     // its links and rankings to the vendor page instead of a 404. Only when the
     // catalog loaded, so an upstream blip never redirects a live model.
+    // Model ids are lowercase: a mistyped /DeepSeek/DeepSeek-V4-Pro link gets
+    // the model page, not its vendor page or a 404.
+    const lower = slug.map((s) => s.toLowerCase());
+    if (lower.join("/") !== slug.join("/")) {
+      const hit = await resolveModel(modelSegment(lower) || lower[0]!);
+      if (hit) return { kind: "redirect", model: hit.model };
+    }
     if (slug.length === 2) {
       const catalog = await getCatalog().catch(() => null);
       const owner = catalog?.models.length

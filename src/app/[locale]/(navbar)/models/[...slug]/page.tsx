@@ -107,19 +107,7 @@ export default async function ModelDetailPage(props: PageProps) {
   const params = await props.params;
   const locale = await serverLocale(props);
   const resolved = await resolveSlug(params.slug);
-  if (!resolved) {
-    // Model ids are lowercase; a mistyped /Anthropic/Claude-Opus-5 link gets the
-    // real page instead of a 404.
-    const lower = params.slug.map((s) => s.toLowerCase());
-    if (lower.join("/") !== params.slug.join("/") && (await resolveSlug(lower)))
-      permanentRedirect(
-        localeUrl(locale, {
-          pathname: "/models/[...slug]",
-          params: { slug: lower },
-        }),
-      );
-    notFound();
-  }
+  if (!resolved) notFound();
 
   if (resolved.kind === "redirect") {
     permanentRedirect(localeUrl(locale, canonicalHref(resolved.model)));

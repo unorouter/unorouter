@@ -7,7 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
-import { findContextTag, findSimilarModels } from "@/lib/api/pricing";
+import {
+  findContextTag,
+  findSimilarModels,
+  modelDisplayName,
+} from "@/lib/api/pricing";
 import type { PricingCatalogModel } from "@/openapi";
 import type { ModelDetailData } from "@/lib/validation/data-policy";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -215,7 +219,8 @@ print(res.choices[0].message.content)`;
                   {m.vendor}
                 </span>
                 <span className="text-muted-foreground">: </span>
-                {m.model_name}
+                {/* The searched name; the exact id is right below with a copy button. */}
+                {modelDisplayName(m)}
               </h1>
               <div className="text-muted-foreground mt-1 flex items-center gap-1 font-mono text-xs">
                 <span className="break-all">{m.model_name}</span>

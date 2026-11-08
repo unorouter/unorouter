@@ -371,7 +371,7 @@
       "KEYWORDS": "modelos de IA, biblioteca de modelos, preços de IA, modelos GPT, modelos Claude, modelos Gemini, modelos DeepSeek, comparação de modelos de IA, API multi-modelo, modelos de chat de IA"
     },
     "BADGE": "Biblioteca de modelos",
-    "TITLE": "Biblioteca de modelos",
+    "TITLE": "Biblioteca de modelos de IA",
     "SUBTITLE": "Todos os modelos, uma chave. Usado por desenvolvedores que criam apps e por criadores que constroem experiências de personagens. Mesmo preço para ambos.",
     "SEARCH_PLACEHOLDER": "Buscar modelos...",
     "MODEL_COUNT": "modelos",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Tabelas de classificação",
-      "TITLE": "Classificações",
+      "TITLE": "Ranking de modelos de IA",
       "SUBTITLE": "Descubra os modelos mais usados e provedores em ascensão na plataforma, atualizados com dados de uso ao vivo."
     },
     "PERIODS": {

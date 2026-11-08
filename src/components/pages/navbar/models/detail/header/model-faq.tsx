@@ -1,6 +1,6 @@
 "use client";
 
-import { findContextTag } from "@/lib/api/pricing";
+import { findContextTag, modelDisplayName } from "@/lib/api/pricing";
 import { EMPTY_METADATA } from "@/lib/api/model-modality";
 import type { ModelMetadata, PricingCatalogDetail } from "@/openapi";
 
@@ -31,6 +31,8 @@ export function ModelFaq(props: {
   // default keeps this readable instead of chaining every access.
   const meta: ModelMetadata = m.metadata ?? EMPTY_METADATA;
   const name = m.model_name;
+  // Questions use the name people search; answers keep the exact id to paste.
+  const displayName = modelDisplayName(m);
   const theme = getVendorTheme(m.vendor);
   const items: FaqItem[] = [];
   const [open, setOpen] = useState<number[]>([]);
@@ -41,7 +43,7 @@ export function ModelFaq(props: {
 
   if (m.is_fixed_price) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_COST_FIXED_A", {
         name,
         price: formatPrice(m.fixed_price),
@@ -49,17 +51,17 @@ export function ModelFaq(props: {
     });
   } else if (m.is_tiered) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_COST_TIERED_A", { name }),
     });
   } else if (m.grid_pricing) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_COST_GRID_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_COST_GRID_A", { name }),
     });
   } else {
     items.push({
-      q: t("MODEL_PAGE.FAQ_COST_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_COST_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_COST_A", {
         name,
         input: formatPriceCompact(m.input_price),
@@ -71,14 +73,14 @@ export function ModelFaq(props: {
   const contextTag = findContextTag(m);
   if (contextTag) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_CONTEXT_A", { name, context: contextTag }),
     });
   }
 
   if (meta.maxOutputTokens) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_OUTPUT_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_OUTPUT_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_OUTPUT_A", {
         name,
         value: formatTokenCount(meta.maxOutputTokens, locale),
@@ -88,21 +90,21 @@ export function ModelFaq(props: {
 
   if (meta.supportsTools) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_TOOLS_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_TOOLS_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_TOOLS_A", { name }),
     });
   }
 
   if (meta.isReasoning || (meta.reasoningEfforts?.length ?? 0) > 0) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_REASONING_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_REASONING_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_REASONING_A", { name }),
     });
   }
 
   if (meta.supportsVision) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_VISION_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_VISION_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_VISION_A", { name }),
     });
   }
@@ -110,27 +112,27 @@ export function ModelFaq(props: {
   const cutoff = formatYearMonth(meta.knowledgeCutoff);
   if (cutoff) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_CUTOFF_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_CUTOFF_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_CUTOFF_A", { name, value: cutoff }),
     });
   }
 
   if (meta.isModerated === true) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_MODERATED_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_MODERATED_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_MODERATED_A", { name }),
     });
   }
 
   if (props.hasFreeTwin) {
     items.push({
-      q: t("MODEL_PAGE.FAQ_FREE_Q", { name }),
+      q: t("MODEL_PAGE.FAQ_FREE_Q", { name: displayName }),
       a: t("MODEL_PAGE.FAQ_FREE_A", { ...APP_VALUES, name }),
     });
   }
 
   items.push({
-    q: t("MODEL_PAGE.FAQ_API_Q", { name }),
+    q: t("MODEL_PAGE.FAQ_API_Q", { name: displayName }),
     a: t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name }),
   });
 

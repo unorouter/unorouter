@@ -10,6 +10,7 @@ import { OSTabs } from "@/components/pages/docs/os/os-tabs";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { modelHref } from "@/lib/utils/base";
 import { getCachedFreeChatModels, getDocsApiKey } from "@/lib/api/page-data";
@@ -175,6 +176,19 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
+        <nav
+          aria-label="Breadcrumb"
+          className="text-muted-foreground mb-8 flex items-center justify-center gap-1.5 font-mono text-[11px] tracking-wide"
+        >
+          <Link
+            href="/docs/integrations"
+            className="hover:text-foreground transition-colors"
+          >
+            {t("DOCS_INDEX.TITLE")}
+          </Link>
+          <Icon name="chevron-right" className="h-3 w-3 shrink-0" />
+          <span className="text-foreground">{t(guide.badgeKey)}</span>
+        </nav>
         <div className="mb-6 flex justify-center">
           <div className="relative">
             <div

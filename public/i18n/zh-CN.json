@@ -371,7 +371,7 @@
       "KEYWORDS": "AI 模型，模型库，AI 价格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型对比，多模型 API，AI 聊天模型"
     },
     "BADGE": "模型库",
-    "TITLE": "模型库",
+    "TITLE": "AI 模型库",
     "SUBTITLE": "每一个模型，一把密钥。既被构建应用的开发者使用，也被打造角色体验的创作者使用，两者价格相同。",
     "SEARCH_PLACEHOLDER": "搜索模型...",
     "MODEL_COUNT": "个模型",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "排行榜",
-      "TITLE": "排行榜",
+      "TITLE": "AI 模型排行榜",
       "SUBTITLE": "基于实时使用数据，发现平台上最受欢迎的模型与正在崛起的供应商。"
     },
     "PERIODS": {

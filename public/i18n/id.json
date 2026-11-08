@@ -371,7 +371,7 @@
       "KEYWORDS": "model AI, perpustakaan model, harga AI, model GPT, model Claude, model Gemini, model DeepSeek, perbandingan model AI, API multi-model, model chat AI"
     },
     "BADGE": "Perpustakaan Model",
-    "TITLE": "Perpustakaan Model",
+    "TITLE": "Perpustakaan Model AI",
     "SUBTITLE": "Setiap model, satu kunci. Digunakan oleh developer yang membangun aplikasi dan kreator yang membangun pengalaman karakter. Harga sama untuk keduanya.",
     "SEARCH_PLACEHOLDER": "Cari model...",
     "MODEL_COUNT": "model",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Leaderboard",
-      "TITLE": "Peringkat",
+      "TITLE": "Peringkat Model AI",
       "SUBTITLE": "Temukan model paling banyak digunakan dan vendor yang naik daun di platform, diperbarui dari data penggunaan langsung."
     },
     "PERIODS": {

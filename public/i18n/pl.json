@@ -371,7 +371,7 @@
       "KEYWORDS": "modele AI, biblioteka modeli, cennik AI, modele GPT, modele Claude, modele Gemini, modele DeepSeek, porównanie modeli AI, API multi-model, modele czatu AI"
     },
     "BADGE": "Biblioteka modeli",
-    "TITLE": "Biblioteka modeli",
+    "TITLE": "Biblioteka modeli AI",
     "SUBTITLE": "Każdy model, jeden klucz. Używany przez deweloperów tworzących aplikacje i twórców budujących doświadczenia z postaciami. Ta sama cena za obie opcje.",
     "SEARCH_PLACEHOLDER": "Szukaj modeli...",
     "MODEL_COUNT": "modele",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Tabele wyników",
-      "TITLE": "Rankingi",
+      "TITLE": "Ranking modeli AI",
       "SUBTITLE": "Odkryj najczęściej używane modele i wschodzących dostawców na platformie, aktualizowane z danych użycia na żywo."
     },
     "PERIODS": {

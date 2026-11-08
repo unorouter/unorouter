@@ -1,5 +1,9 @@
 import { localeUrl } from "@/i18n/navigation";
-import { findContextTag, vendorDisplayName } from "@/lib/api/pricing";
+import {
+  findContextTag,
+  modelDisplayName,
+  vendorDisplayName,
+} from "@/lib/api/pricing";
 import type { PricingCatalogDetail } from "@/openapi";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -25,6 +29,7 @@ export async function ModelSchema(props: {
   const model = props.model;
   const t = await getTranslations({ locale: props.locale });
   const url = localeUrl(props.locale, canonicalHref(props.canonical));
+  const displayName = modelDisplayName(model);
   const vendorUrl = localeUrl(props.locale, vendorHref(model.vendor));
 
   const description =
@@ -39,8 +44,8 @@ export async function ModelSchema(props: {
   const faqEntries = [
     {
       question: model.is_tiered
-        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: model.model_name })
-        : t("MODEL_PAGE.FAQ_COST_Q", { name: model.model_name }),
+        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: displayName })
+        : t("MODEL_PAGE.FAQ_COST_Q", { name: displayName }),
       answer: model.is_tiered
         ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.model_name })
         : t("MODEL_PAGE.FAQ_COST_A", {
@@ -52,7 +57,7 @@ export async function ModelSchema(props: {
     ...(props.hasFreeTwin
       ? [
           {
-            question: t("MODEL_PAGE.FAQ_FREE_Q", { name: model.model_name }),
+            question: t("MODEL_PAGE.FAQ_FREE_Q", { name: displayName }),
             answer: t("MODEL_PAGE.FAQ_FREE_A", {
               ...APP_VALUES,
               name: model.model_name,
@@ -61,7 +66,7 @@ export async function ModelSchema(props: {
         ]
       : []),
     {
-      question: t("MODEL_PAGE.FAQ_API_Q", { name: model.model_name }),
+      question: t("MODEL_PAGE.FAQ_API_Q", { name: displayName }),
       answer: t("MODEL_PAGE.FAQ_API_A", {
         ...APP_VALUES,
         name: model.model_name,
@@ -70,7 +75,7 @@ export async function ModelSchema(props: {
     ...(contextTag
       ? [
           {
-            question: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: model.model_name }),
+            question: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: displayName }),
             answer: t("MODEL_PAGE.FAQ_CONTEXT_A", {
               name: model.model_name,
               context: contextTag,

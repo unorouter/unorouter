@@ -371,7 +371,7 @@
       "KEYWORDS": "AI 모델, 모델 라이브러리, AI 요금, GPT 모델, Claude 모델, Gemini 모델, DeepSeek 모델, AI 모델 비교, 멀티 모델 API, AI 채팅 모델"
     },
     "BADGE": "모델 라이브러리",
-    "TITLE": "모델 라이브러리",
+    "TITLE": "AI 모델 라이브러리",
     "SUBTITLE": "모든 모델, 하나의 키. 앱을 만드는 개발자와 캐릭터 경험을 만드는 크리에이터가 사용합니다. 둘 다 같은 가격입니다.",
     "SEARCH_PLACEHOLDER": "모델 검색...",
     "MODEL_COUNT": "모델",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "리더보드",
-      "TITLE": "랭킹",
+      "TITLE": "AI 모델 랭킹",
       "SUBTITLE": "실시간 사용 데이터로 업데이트되는, 플랫폼에서 가장 많이 사용되는 모델과 떠오르는 공급자를 확인하세요."
     },
     "PERIODS": {

@@ -371,7 +371,7 @@
       "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison, multi-model API, AI chat models"
     },
     "BADGE": "Model Library",
-    "TITLE": "Model Library",
+    "TITLE": "AI Model Library",
     "SUBTITLE": "Every model, one key. Used by developers building apps and creators building character experiences. Same pricing for both.",
     "SEARCH_PLACEHOLDER": "Search models...",
     "MODEL_COUNT": "models",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Leaderboards",
-      "TITLE": "Rankings",
+      "TITLE": "AI Model Rankings",
       "SUBTITLE": "Discover the most-used models and rising vendors on the platform, updated from live usage data."
     },
     "PERIODS": {

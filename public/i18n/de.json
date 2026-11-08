@@ -371,7 +371,7 @@
       "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich, Multi-Modell-API, KI-Chat-Modelle"
     },
     "BADGE": "Modellbibliothek",
-    "TITLE": "Modellbibliothek",
+    "TITLE": "KI-Modellbibliothek",
     "SUBTITLE": "Jedes Modell, ein Schlüssel. Genutzt von Entwicklern, die Apps bauen, und von Creators, die Charakter-Erlebnisse gestalten. Gleicher Preis für beide.",
     "SEARCH_PLACEHOLDER": "Modelle suchen...",
     "MODEL_COUNT": "Modelle",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Leaderboards",
-      "TITLE": "Rangliste",
+      "TITLE": "KI-Modell-Rangliste",
       "SUBTITLE": "Entdecke die meistgenutzten Modelle und aufstrebende Anbieter auf der Plattform, basierend auf Live-Nutzungsdaten."
     },
     "PERIODS": {

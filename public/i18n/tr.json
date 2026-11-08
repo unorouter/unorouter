@@ -371,7 +371,7 @@
       "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, çoklu model API, AI sohbet modelleri"
     },
     "BADGE": "Model Kütüphanesi",
-    "TITLE": "Model Kütüphanesi",
+    "TITLE": "Yapay Zeka Model Kütüphanesi",
     "SUBTITLE": "Her model, tek anahtar. Uygulama geliştiren geliştiriciler ve karakter deneyimleri kuran içerik üreticileri tarafından kullanılır. İkisi için de aynı fiyat.",
     "SEARCH_PLACEHOLDER": "Modelleri ara...",
     "MODEL_COUNT": "model",
@@ -516,7 +516,7 @@
     },
     "HERO": {
       "EYEBROW": "Leaderboardlar",
-      "TITLE": "Sıralamalar",
+      "TITLE": "Yapay Zeka Model Sıralaması",
       "SUBTITLE": "Canlı kullanım verilerinden güncellenen, platformdaki en çok kullanılan modelleri ve yükselen sağlayıcıları keşfedin."
     },
     "PERIODS": {
