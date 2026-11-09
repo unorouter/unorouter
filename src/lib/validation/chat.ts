@@ -1,4 +1,5 @@
 import { MAX_CHAT_MEMORY, NONE_VALUE } from "@/lib/config/constants";
+import { AIR_PATTERN } from "@/lib/ai/image/constants";
 import { isRecord } from "@/lib/utils/base";
 import type { Static } from "elysia";
 import { t } from "elysia";
@@ -344,6 +345,7 @@ export const triggerImggenBody = t.Object({
   negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
   model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
   group: t.Optional(t.String({ maxLength: 128 })),
+  air: t.Optional(t.String({ pattern: AIR_PATTERN.source, maxLength: 128 })),
   references: t.Optional(
     t.Array(t.Object({ url: t.String({ maxLength: 15_000_000 }) }), {
       maxItems: 6,

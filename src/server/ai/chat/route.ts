@@ -235,6 +235,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const data = await generateInlayImage(apiKey, body.prompt, {
         model: body.model,
         group: body.group,
+        air: body.air,
         references: body.references,
       });
       return { success: true, data };

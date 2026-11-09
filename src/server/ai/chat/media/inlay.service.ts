@@ -1,3 +1,4 @@
+import { CUSTOM_CIVITAI_MODEL_ID } from "@/lib/ai/image/constants";
 import { toSyncImageEndpoint } from "@/lib/ai/image/dispatch";
 import { getImageModels } from "@/server/models/pricing/pricing.service";
 import { uid } from "@/lib/utils/base";
@@ -10,6 +11,7 @@ export async function generateInlayImage(
   opts?: {
     model?: string;
     group?: string | null;
+    air?: string;
     references?: { url: string }[];
   },
 ): Promise<InlayImage | null> {
@@ -39,6 +41,11 @@ export async function generateInlayImage(
       model: model.model_name,
       prompt,
       references: references?.length ? references : undefined,
+      // Only the pass-through model reads it; without it that model runs the
+      // channel's default checkpoint.
+      ...(opts?.air && model.model_name === CUSTOM_CIVITAI_MODEL_ID
+        ? { extraParams: { air: opts.air } }
+        : {}),
     },
     endpoint,
     n: 1,

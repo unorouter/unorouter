@@ -5,7 +5,8 @@ import {
   type SyncImageEndpoint,
 } from "@/lib/ai/image/dispatch";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import { MAX_INLAY_REFS } from "@/lib/ai/image/constants";
+import { isValidAir, MAX_INLAY_REFS } from "@/lib/ai/image/constants";
+import { rec } from "@/lib/utils/base";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { logger } from "@/lib/utils/logger";
 import { groupHeader } from "@/server/constants";
@@ -36,6 +37,7 @@ export async function submitSyncImage(args: {
   // loadRefs, not a plain fetch: illustrator references are data URIs.
   const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];
 
+  const air = rec(args.body.extraParams)?.air;
   const plan = batchPlan(args.endpoint === "image-generation", args.n);
 
   const collected: GeneratedImage[] = [];
@@ -51,6 +53,7 @@ export async function submitSyncImage(args: {
       background: params.background,
       strength: params.strength,
       seed: params.seed,
+      diffusion: isValidAir(air) ? { air } : undefined,
     });
 
     const res = await postImageRequest(

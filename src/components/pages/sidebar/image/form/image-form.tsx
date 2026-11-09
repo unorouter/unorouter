@@ -20,11 +20,8 @@ import { CivitaiResolverField } from "../fields/civitai-resolver-field";
 import { LoraPicker } from "../fields/lora-picker";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import { TokenEstimate } from "../fields/token-estimate";
-import {
-  clampVariants,
-  CUSTOM_CIVITAI_MODEL_ID,
-  VARIANT_CHOICES,
-} from "../image-constants";
+import { CUSTOM_CIVITAI_MODEL_ID } from "@/lib/ai/image/constants";
+import { clampVariants, VARIANT_CHOICES } from "../image-constants";
 import { useImageNav } from "../image-nav";
 import { AdvancedFields } from "./sections/advanced-fields";
 import { applyPreset } from "./logic/apply-preset";

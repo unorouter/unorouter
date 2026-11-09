@@ -38,6 +38,8 @@ import {
   NONE_VALUE,
   type TranslationKey,
 } from "@/lib/config/constants";
+import { CivitaiResolverField } from "@/components/pages/sidebar/image/fields/civitai-resolver-field";
+import { CUSTOM_CIVITAI_MODEL_ID, isValidAir } from "@/lib/ai/image/constants";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -356,6 +358,32 @@ function ModelGroupField<TForm extends FieldValues>(props: {
   );
 }
 
+// The preset stores the resolved AIR itself as its image model.
+function CivitaiAirInput(props: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [query, setQuery] = useState("");
+  return (
+    <CivitaiResolverField
+      value={
+        isValidAir(props.value)
+          ? {
+              air: props.value,
+              name: props.value,
+              architecture: null,
+              heroImage: null,
+              nsfwLevel: null,
+            }
+          : null
+      }
+      onChange={(next) => props.onChange(next?.air ?? CUSTOM_CIVITAI_MODEL_ID)}
+      query={query}
+      onQueryChange={setQuery}
+    />
+  );
+}
+
 export function ImageModelField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   name: FieldPath<TForm>;
@@ -398,11 +426,16 @@ export function ImageModelField<TForm extends FieldValues>(props: {
             customOptions={customOptions}
             catalogModels={catalogModels}
           />
-          <ModelGroupField
-            control={props.control}
-            groupName={props.groupName}
-            model={field.value}
-          />
+          {field.value === CUSTOM_CIVITAI_MODEL_ID ||
+          isValidAir(field.value) ? (
+            <CivitaiAirInput value={field.value} onChange={field.onChange} />
+          ) : (
+            <ModelGroupField
+              control={props.control}
+              groupName={props.groupName}
+              model={field.value}
+            />
+          )}
           {props.hintKey && (
             <p className="text-muted-foreground text-xs">{t(props.hintKey)}</p>
           )}

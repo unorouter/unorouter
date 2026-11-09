@@ -1,10 +1,9 @@
 import { MAX_IMAGES_PER_GEN, type ImageModelId } from "@/lib/validation/image";
+import { CUSTOM_CIVITAI_MODEL_ID } from "@/lib/ai/image/constants";
 import { rec } from "@/lib/utils/base";
 
 export const INITIAL_MODEL: ImageModelId = "pony";
 
-// The passthrough model: it carries no checkpoint of its own, the AIR rides on the request.
-export const CUSTOM_CIVITAI_MODEL_ID = "custom-civitai";
 export const VARIANT_CHOICES = [1, 2, MAX_IMAGES_PER_GEN] as const;
 export type VariantChoice = (typeof VARIANT_CHOICES)[number];
 

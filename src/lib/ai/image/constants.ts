@@ -2,6 +2,9 @@
 export const COST_MARKUP = 20;
 export const COST_FLOOR_FALLBACK = 0.02;
 
+// The passthrough model: it carries no checkpoint of its own, the AIR rides on the request.
+export const CUSTOM_CIVITAI_MODEL_ID = "custom-civitai";
+
 // `<publisher>:<modelId>@<versionId>`
 export const AIR_PATTERN = /^[a-z0-9_-]+:\d+@\d+$/i;
 

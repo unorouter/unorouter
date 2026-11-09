@@ -7,6 +7,7 @@ import {
   isCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
+import { CUSTOM_CIVITAI_MODEL_ID, isValidAir } from "@/lib/ai/image/constants";
 import { rpc } from "@/lib/rpc";
 import { base64ToUint8, handleElysia, rec, uid } from "@/lib/utils/base";
 import getQueryClient from "@/lib/react-query/client";
@@ -150,14 +151,16 @@ export async function requestImggen(
       opts.refUrls ?? [],
     );
   }
-  if (opts.imageModel && (await isTaskImageModel(opts.imageModel))) {
+  const air = isValidAir(opts.imageModel) ? opts.imageModel : undefined;
+  if (!air && opts.imageModel && (await isTaskImageModel(opts.imageModel))) {
     return generateTaskImage(prompt, opts.imageModel, opts.imageGroup);
   }
   return handleElysia(
     await rpc.api.ai.chat["trigger-op"].imggen.post({
       prompt,
-      model: opts.imageModel || undefined,
-      group: opts.imageGroup || undefined,
+      model: air ? CUSTOM_CIVITAI_MODEL_ID : opts.imageModel || undefined,
+      group: (!air && opts.imageGroup) || undefined,
+      air,
       references: opts.refUrls?.length
         ? opts.refUrls.map((url) => ({ url }))
         : undefined,
