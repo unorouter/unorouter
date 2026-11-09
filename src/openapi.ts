@@ -1302,6 +1302,8 @@ export interface GroupResult {
   avg_latency_ms: number;
   avg_tps: number;
   avg_ttft_ms: number;
+  /** @nullable */
+  cache_hit_percent?: number | null;
   group: string;
   /** @nullable */
   series: BucketPoint[] | null;

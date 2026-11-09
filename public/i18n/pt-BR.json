@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Parâmetros suportados",
       "PERFORMANCE": "Desempenho",
       "UPTIME": "Tempo de atividade",
+      "CACHE_HIT": "Acertos de cache",
       "UPTIME_EMPTY": "Os dados de tempo de atividade ainda não estão disponíveis para este modelo.",
       "STAT_UPTIME": "Tempo de atividade",
       "STAT_UPTIME_HINT": "Proporção do tempo em que pelo menos um provedor esteve atendendo",

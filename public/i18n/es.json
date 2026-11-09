@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Parámetros compatibles",
       "PERFORMANCE": "Rendimiento",
       "UPTIME": "Tiempo de actividad",
+      "CACHE_HIT": "Aciertos de caché",
       "UPTIME_EMPTY": "Los datos de tiempo de actividad aún no están disponibles para este modelo.",
       "STAT_UPTIME": "Tiempo de actividad",
       "STAT_UPTIME_HINT": "Proporción del tiempo en que al menos un proveedor estuvo sirviendo",

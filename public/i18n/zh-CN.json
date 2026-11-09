@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "支持的参数",
       "PERFORMANCE": "性能",
       "UPTIME": "在线时长",
+      "CACHE_HIT": "缓存命中",
       "UPTIME_EMPTY": "该模型的在线时长数据尚不可用。",
       "STAT_UPTIME": "在线时长",
       "STAT_UPTIME_HINT": "至少有一个提供商提供服务的时间占比",

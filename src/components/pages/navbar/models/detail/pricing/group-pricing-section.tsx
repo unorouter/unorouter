@@ -122,6 +122,7 @@ type GroupHealth = {
   ttftMs: number;
   successRate: number;
   uptimePct: number | null;
+  cacheHitPct: number | null;
 };
 
 function buildHealthMap(
@@ -135,6 +136,7 @@ function buildHealthMap(
       // Uptime comes from channel transition history, so a group with no
       // recorded flips has none rather than 0%.
       uptimePct: g.uptime_percent ?? null,
+      cacheHitPct: g.cache_hit_percent ?? null,
     });
   return map;
 }
@@ -154,6 +156,9 @@ function HealthCells(props: { health: GroupHealth | undefined }) {
       <td className="text-muted-foreground py-1.5 pl-4 text-right">
         {h?.uptimePct != null ? formatPct(h.uptimePct) : "-"}
       </td>
+      <td className="text-muted-foreground py-1.5 pl-4 text-right">
+        {h?.cacheHitPct != null ? formatPct(h.cacheHitPct) : "-"}
+      </td>
     </>
   );
 }
@@ -170,6 +175,8 @@ function GroupHealthInline(props: { health: GroupHealth | undefined }) {
       {t("MODELS.DETAIL.PERF_SUCCESS")} {formatPct(props.health.successRate)}
       {props.health.uptimePct != null &&
         `, ${t("MODELS.DETAIL.UPTIME")} ${formatPct(props.health.uptimePct)}`}
+      {props.health.cacheHitPct != null &&
+        `, ${t("MODELS.DETAIL.CACHE_HIT")} ${formatPct(props.health.cacheHitPct)}`}
     </span>
   );
 }
@@ -186,6 +193,9 @@ function HealthHeaders() {
       </th>
       <th className="py-1.5 pl-4 text-right font-normal">
         {t("MODELS.DETAIL.UPTIME")}
+      </th>
+      <th className="py-1.5 pl-4 text-right font-normal">
+        {t("MODELS.DETAIL.CACHE_HIT")}
       </th>
     </>
   );

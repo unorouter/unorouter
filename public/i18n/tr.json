@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Desteklenen parametreler",
       "PERFORMANCE": "Performans",
       "UPTIME": "Çalışma süresi",
+      "CACHE_HIT": "Önbellek isabeti",
       "UPTIME_EMPTY": "Bu model için çalışma süresi verileri henüz mevcut değil.",
       "STAT_UPTIME": "Çalışma süresi",
       "STAT_UPTIME_HINT": "En az bir sağlayıcının hizmet verdiği zaman oranı",

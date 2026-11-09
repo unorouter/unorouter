@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Tham số hỗ trợ",
       "PERFORMANCE": "Hiệu năng",
       "UPTIME": "Thời gian hoạt động",
+      "CACHE_HIT": "Trúng bộ nhớ đệm",
       "UPTIME_EMPTY": "Dữ liệu thời gian hoạt động chưa có sẵn cho mô hình này.",
       "STAT_UPTIME": "Thời gian hoạt động",
       "STAT_UPTIME_HINT": "Tỷ lệ thời gian có ít nhất một nhà cung cấp đang phục vụ",

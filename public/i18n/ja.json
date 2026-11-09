@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "対応パラメータ",
       "PERFORMANCE": "パフォーマンス",
       "UPTIME": "稼働率",
+      "CACHE_HIT": "キャッシュヒット",
       "UPTIME_EMPTY": "このモデルの稼働率データはまだ利用できません。",
       "STAT_UPTIME": "稼働率",
       "STAT_UPTIME_HINT": "少なくとも1つのプロバイダーが提供していた時間の割合",

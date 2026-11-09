@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Parameter didukung",
       "PERFORMANCE": "Performa",
       "UPTIME": "Waktu aktif",
+      "CACHE_HIT": "Cache terpakai",
       "UPTIME_EMPTY": "Data waktu aktif belum tersedia untuk model ini.",
       "STAT_UPTIME": "Waktu aktif",
       "STAT_UPTIME_HINT": "Persentase waktu ketika setidaknya satu penyedia melayani",

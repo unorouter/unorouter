@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "支援的參數",
       "PERFORMANCE": "效能",
       "UPTIME": "在線時長",
+      "CACHE_HIT": "快取命中",
       "UPTIME_EMPTY": "此模型的在線時長資料尚未提供。",
       "STAT_UPTIME": "在線時長",
       "STAT_UPTIME_HINT": "至少有一個供應商提供服務的時間占比",

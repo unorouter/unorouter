@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "지원 파라미터",
       "PERFORMANCE": "성능",
       "UPTIME": "가동 시간",
+      "CACHE_HIT": "캐시 적중",
       "UPTIME_EMPTY": "이 모델의 가동 시간 데이터가 아직 없습니다.",
       "STAT_UPTIME": "가동 시간",
       "STAT_UPTIME_HINT": "최소 한 개의 제공자가 서비스를 제공한 시간의 비율",

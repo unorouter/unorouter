@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
       "PERFORMANCE": "प्रदर्शन",
       "UPTIME": "अपटाइम",
+      "CACHE_HIT": "कैश हिट",
       "UPTIME_EMPTY": "इस मॉडल के लिए अपटाइम डेटा अभी उपलब्ध नहीं है।",
       "STAT_UPTIME": "अपटाइम",
       "STAT_UPTIME_HINT": "वह समयांश जब कम से कम एक प्रदाता सेवा दे रहा था",

@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Parametri supportati",
       "PERFORMANCE": "Performance",
       "UPTIME": "Disponibilità",
+      "CACHE_HIT": "Hit della cache",
       "UPTIME_EMPTY": "I dati sulla disponibilità non sono ancora disponibili per questo modello.",
       "STAT_UPTIME": "Disponibilità",
       "STAT_UPTIME_HINT": "Percentuale di tempo in cui almeno un provider ha erogato il servizio",

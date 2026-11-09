@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Supported parameters",
       "PERFORMANCE": "Performance",
       "UPTIME": "Uptime",
+      "CACHE_HIT": "Cache hit",
       "UPTIME_EMPTY": "Uptime data is not yet available for this model.",
       "STAT_UPTIME": "Uptime",
       "STAT_UPTIME_HINT": "Share of time at least one provider was serving",

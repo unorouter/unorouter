@@ -324,6 +324,7 @@
       "SUPPORTED_PARAMETERS": "Obsługiwane parametry",
       "PERFORMANCE": "Wydajność",
       "UPTIME": "Czas dostępności",
+      "CACHE_HIT": "Trafienia cache",
       "UPTIME_EMPTY": "Dane o czasie dostępności nie są jeszcze dostępne dla tego modelu.",
       "STAT_UPTIME": "Czas dostępności",
       "STAT_UPTIME_HINT": "Odsetek czasu, w którym co najmniej jeden dostawca obsługiwał żądania",
