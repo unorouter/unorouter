@@ -144,7 +144,6 @@ export function TaskCard(props: Props) {
           convId: props.convId,
           msgId: props.msgId,
           taskId: props.part.taskId,
-          resultUrl: data.resultUrl,
         },
         {
           onSuccess: (result) => {

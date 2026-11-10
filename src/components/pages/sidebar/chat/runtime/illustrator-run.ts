@@ -112,7 +112,6 @@ async function generateTaskImage(
       await rpc.api.ai.chat.task.finalize.post({
         msgId: task.taskId,
         taskId: task.taskId,
-        resultUrl: state.resultUrl,
       }),
     );
     const comma = done.url.indexOf(",");

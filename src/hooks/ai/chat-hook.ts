@@ -295,17 +295,11 @@ export function useTaskStatusQuery(
 
 export function useFinalizeTaskMutation() {
   return useChatMutation(
-    async (args: {
-      convId: string;
-      msgId: string;
-      taskId: string;
-      resultUrl: string;
-    }) => {
+    async (args: { convId: string; msgId: string; taskId: string }) => {
       const data = handleElysia(
         await rpc.api.ai.chat.task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
-          resultUrl: args.resultUrl,
         }),
       );
       await replaceLocalMessageItems(args.msgId, [

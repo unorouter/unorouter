@@ -11,7 +11,6 @@ import { bffServiceHeader, groupHeader } from "@/server/constants";
 import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import type { FinalizeTaskBody } from "@/lib/validation/chat";
 
 export type TaskStatus =
   | "NOT_START"
@@ -91,8 +90,11 @@ export async function submitVideoTask(
   };
 }
 
-export async function finalizeVideoTask(body: FinalizeTaskBody) {
-  const bytes = await downloadGenerationBytes(body.resultUrl);
+export async function finalizeVideoTask(apiKey: string, taskId: string) {
+  const task = await fetchVideoTaskStatus(apiKey, taskId);
+  if (task.status !== "SUCCESS" || !task.resultUrl)
+    throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  const bytes = await downloadGenerationBytes(task.resultUrl);
   // AI Horde image tasks return webp.
   const isImage = bytes.mime.startsWith("image/");
   const isVideo = bytes.mime.startsWith("video/");

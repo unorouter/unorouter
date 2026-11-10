@@ -384,10 +384,8 @@ export const webSearchBody = t.Object({
 
 export const finalizeTaskBody = t.Object({
   msgId: t.String({ maxLength: MAX_ID_LEN }),
-  taskId: t.String({ maxLength: MAX_ID_LEN }),
-  resultUrl: t.String({ maxLength: MAX_URL_LEN }),
+  taskId: t.String({ pattern: "^[A-Za-z0-9_-]{1,128}$" }),
 });
-export type FinalizeTaskBody = Static<typeof finalizeTaskBody>;
 
 // Spliced unencoded into the gateway path: "/" or "." would reach other routes.
 export const taskIdParams = t.Object({
