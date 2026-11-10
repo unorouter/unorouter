@@ -138,27 +138,9 @@ const FOOTER_BADGES: {
     width: 179,
   },
   {
-    href: "https://unitelist.com/product/unorouter",
-    src: "/images/badges/unitelist.png",
-    name: "Unite List",
-    width: 150,
-  },
-  {
-    href: "https://dofollow.tools",
-    src: "https://dofollow.tools/badge/badge_light.svg",
-    name: "Dofollow.Tools",
-    width: 150,
-  },
-  {
     href: "https://roozna.com/project/unorouter",
     src: "/images/badges/roozna.svg",
     name: "Roozna",
-    width: 150,
-  },
-  {
-    href: "https://firstlook.tools",
-    src: "/images/badges/firstlook.svg",
-    name: "First Look",
     width: 150,
   },
   {
@@ -168,35 +150,16 @@ const FOOTER_BADGES: {
     width: 150,
   },
   {
-    href: "https://acidtools.com/ai/unorouter",
-    src: "/images/badges/acidtools.png",
-    name: "Acid Tools",
-    width: 150,
-  },
-  {
     href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
     src: "/images/badges/launchllama.png",
     name: "As seen on Launch Llama Newsletter",
     width: 150,
   },
   {
-    href: "https://aibesttop.com",
-    src: "/images/badges/aibesttop.svg",
-    name: "AIBestTop",
-    width: 72,
-  },
-  {
     href: "https://ailaunch.space/",
     src: "/images/badges/ailaunchspace.svg",
     name: "AI Launch Space",
     width: 89,
-  },
-  {
-    href: "https://dododirectory.com",
-    src: "/images/badges/dododirectory.png",
-    name: "DodoDirectory",
-    width: 103,
-    lightBg: true,
   },
   {
     href: "https://fastlaunch.io",
@@ -224,25 +187,6 @@ const FOOTER_BADGES: {
     width: 81,
   },
   {
-    href: "https://postmake.io",
-    src: "/images/badges/postmake.png",
-    name: "Postmake",
-    width: 103,
-  },
-  {
-    href: "https://saasbison.com",
-    src: "/images/badges/saasbison.png",
-    name: "SaaSBison",
-    width: 111,
-    lightBg: true,
-  },
-  {
-    href: "https://sumodir.com",
-    src: "/images/badges/sumodir.png",
-    name: "SumoDir",
-    width: 111,
-  },
-  {
     href: "https://www.stork.ai/",
     src: "/images/badges/stork.svg",
     name: "Stork Verified",
@@ -265,12 +209,6 @@ const FOOTER_BADGES: {
     src: "https://cdn.openhunts.com/badges/club.webp",
     name: "OpenHunts",
     width: 111,
-  },
-  {
-    href: "https://showmebest.ai",
-    src: "https://showmebest.ai/badge/feature-badge-white.webp",
-    name: "ShowMeBestAI",
-    width: 220,
   },
   {
     href: "https://saasgrow.app?ref=unorouter.com",
@@ -303,7 +241,6 @@ const FOOTER_TEXT_LINKS = [
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
   { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
   { href: "https://animatephoto.io", label: "Animate Photo AI" },
-  { href: "https://lookaitools.com", label: "LookAITools" },
 ] as const;
 
 function FooterLinks(props: {
@@ -489,8 +426,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Every badge and text link must stay in the server-rendered DOM: huzzler,
-            dododirectory and saasbison auto-delist when their link is missing. */}
+        {/* Every badge and text link must stay in the server-rendered DOM: huzzler
+            and others auto-delist when their link is missing. */}
         <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
           {badgeRows.map((row, rowIndex) => (
             <div
