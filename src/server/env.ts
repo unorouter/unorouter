@@ -20,6 +20,10 @@ export const serverEnv = {
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   tavilyApiKey: process.env.TAVILY_API_KEY,
   standalone: process.env.STANDALONE,
+  // Optional: with Sentinels set, chat replies are mirrored to Redis so any replica can resume
+  // them; without, they live only in the writing process (dev).
+  redisSentinels: process.env.REDIS_SENTINEL_ADDRS ?? "",
+  redisMasterName: process.env.REDIS_MASTER_NAME ?? "newapi",
 } as const;
 
 if (typeof window === "undefined" && !process.env.NEXT_PHASE) {

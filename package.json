@@ -74,6 +74,7 @@
     "http-message-sig": "0.3.0",
     "iconoir-react": "7.12.1",
     "input-otp": "1.5.0",
+    "ioredis": "5.11.1",
     "ipaddr.js": "2.5.0",
     "iron-session": "9.0.1",
     "jotai": "3.0.1",

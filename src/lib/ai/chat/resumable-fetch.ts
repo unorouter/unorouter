@@ -27,9 +27,7 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
     const res = await inner(input, init);
     const id = res.headers.get("x-uno-stream");
     if (!id || !res.body) return res;
-    const pod = res.headers.get("x-uno-pod");
     const path = `/api/ai/chat/resume/${encodeURIComponent(id)}`;
-    const podQuery = pod ? `pod=${encodeURIComponent(pod)}` : "";
     const signal = init?.signal ?? null;
 
     let reader = res.body.getReader();
@@ -45,7 +43,7 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
     const stopServer = () => {
       if (completed || stopped) return;
       stopped = true;
-      void fetch(`${path}?${podQuery}`, { method: "DELETE", keepalive: true });
+      void fetch(path, { method: "DELETE", keepalive: true });
     };
     signal?.addEventListener("abort", stopServer, { once: true });
 
@@ -66,10 +64,9 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
       resumes++;
       await visibleAgain();
       await new Promise((r) => setTimeout(r, 300 * resumes));
-      const next = await fetch(
-        `${path}?from=${received}${podQuery ? `&${podQuery}` : ""}`,
-        { signal },
-      ).catch(() => null);
+      const next = await fetch(`${path}?from=${received}`, { signal }).catch(
+        () => null,
+      );
       logChatDebug("stream.resume", {
         attempt: resumes,
         from: received,

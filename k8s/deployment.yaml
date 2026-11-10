@@ -85,6 +85,10 @@ spec:
             # 24 still OOM killed three pods on 2026-11-05: real /en renders are heavier than
             # the offline load test, and throughput already peaks near 16 concurrent renders.
             - { name: ANON_RENDER_CAP, value: "12" }
+            # chat resume mirror on the gateway's Sentinel set (src/server/ai/chat/stream-mirror.ts)
+            - name: REDIS_SENTINEL_ADDRS
+              value: newapi-redis-ha-0.newapi-redis-ha.services.svc.cluster.local:26379,newapi-redis-ha-1.newapi-redis-ha.services.svc.cluster.local:26379,newapi-redis-ha-2.newapi-redis-ha.services.svc.cluster.local:26379
+            - { name: REDIS_MASTER_NAME, value: newapi }
           ports:
             - containerPort: 3000
           # readiness gates traffic on deps (db/upstream); generous timeout, deps can be slow

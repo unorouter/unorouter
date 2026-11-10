@@ -1,9 +1,16 @@
 import { uid } from "@/lib/utils/base";
-import { networkInterfaces } from "node:os";
+import {
+  initMirror,
+  mirrorChunk,
+  mirrorDrop,
+  mirrorEnd,
+  mirrorStart,
+} from "./stream-mirror";
 
 // A phone that backgrounds the tab (iOS freezes it within seconds) drops the
 // connection mid reply. The reply keeps streaming into this buffer so the tab
-// can fetch the rest when it comes back, from either replica.
+// can fetch the rest when it comes back; stream-mirror makes that work from any
+// replica when Redis is configured.
 
 const KEEP_AFTER_DONE_MS = 10 * 60_000;
 const MAX_RUN_MS = 30 * 60_000;
@@ -33,19 +40,11 @@ function drop(id: string) {
   if (!entry) return;
   totalBytes -= entry.bytes;
   entries.delete(id);
+  mirrorDrop(id);
 }
 
 export const STREAM_ID_HEADER = "x-uno-stream";
-export const STREAM_POD_HEADER = "x-uno-pod";
-
-export const podAddress = (() => {
-  for (const list of Object.values(networkInterfaces())) {
-    for (const nic of list ?? []) {
-      if (nic.family === "IPv4" && !nic.internal) return nic.address;
-    }
-  }
-  return null;
-})();
+const MIRROR_TTL_S = (MAX_RUN_MS + KEEP_AFTER_DONE_MS) / 1000;
 
 function sweep() {
   const now = Date.now();
@@ -68,14 +67,16 @@ function freeFinished() {
   }
 }
 
-function finish(entry: Entry) {
+function finish(id: string, entry: Entry) {
+  mirrorEnd(id, KEEP_AFTER_DONE_MS / 1000);
   entry.done = true;
   entry.doneAt = Date.now();
   entry.wake.forEach((fn) => fn());
   entry.wake.clear();
 }
 
-function append(entry: Entry, chunk: Uint8Array) {
+function append(id: string, entry: Entry, chunk: Uint8Array) {
+  mirrorChunk(id, chunk, MIRROR_TTL_S);
   entry.chunks.push(chunk);
   entry.bytes += chunk.byteLength;
   totalBytes += chunk.byteLength;
@@ -106,6 +107,7 @@ export function bufferStream(
     doneAt: null,
   };
   entries.set(id, entry);
+  mirrorStart(id, userId, MIRROR_TTL_S);
   const deadline = setTimeout(abort, MAX_RUN_MS);
   void (async () => {
     const reader = source.getReader();
@@ -119,16 +121,16 @@ export function bufferStream(
           totalBytes + chunk.value.byteLength > TOTAL_BUDGET
         ) {
           abort();
-          append(entry, TOO_LONG_FRAME);
+          append(id, entry, TOO_LONG_FRAME);
           break;
         }
-        append(entry, chunk.value);
+        append(id, entry, chunk.value);
       }
     } catch {
       // The listener already holds every byte that arrived; nothing to add.
     } finally {
       clearTimeout(deadline);
-      finish(entry);
+      finish(id, entry);
     }
   })();
   return id;
@@ -185,7 +187,6 @@ export function resumableResponse(
 ): Response {
   const id = bufferStream(source, userId, () => abort.abort());
   headers.set(STREAM_ID_HEADER, id);
-  if (podAddress) headers.set(STREAM_POD_HEADER, podAddress);
   return new Response(tailStream(id, userId, 0), { status, headers });
 }
 
@@ -196,10 +197,5 @@ export function abortStream(id: string, userId: number): boolean {
   return true;
 }
 
-// A returning tab may land on the other replica; only a pod address inside
-// the cluster pod range is ever dialed.
-export function peerUrl(pod: string | null, path: string): string | null {
-  if (!pod || pod === podAddress) return null;
-  if (!/^10\.42\.\d{1,3}\.\d{1,3}$/.test(pod)) return null;
-  return `http://${pod}:${process.env.PORT ?? "3000"}${path}`;
-}
+// connected at start, so the first reply after a restart is already mirrored
+if (!process.env.NEXT_PHASE) initMirror(abortStream);
