@@ -45,6 +45,7 @@ const FOOTER_BADGES: {
   liveFrom?: string;
   verified?: boolean;
   lightBg?: boolean;
+  data?: Record<`data-${string}`, string>;
 }[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -627,8 +628,8 @@ const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://capylaunch.com/tools/unorouter",
-    src: "https://capylaunch.com/badge.svg?site=a5a367ba-50af-4c5e-a86b-2797ef0108a8",
+    href: "https://capylaunch.com/tools/unorouter-2",
+    src: "https://capylaunch.com/badge.svg?site=d1e854cd-14b9-4f55-a172-575f1a0377bd",
     name: "CapyLaunch",
     width: 100,
   },
@@ -1281,7 +1282,7 @@ const FOOTER_BADGES: {
     width: 87,
   },
   {
-    href: "https://saasrove.com",
+    href: "https://saasrove.com/tools/unorouter",
     src: "https://saasrove.com/light.svg",
     name: "SaaS Products Directory",
     width: 80,
@@ -1456,6 +1457,10 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://submitforbacklinks.com/badge/CEz-M3Yth16UWLNr68AQ46te?ref=badge",
+    data: {
+      "data-s4b-token": "CEz-M3Yth16UWLNr68AQ46te",
+      "data-s4b-theme": "light",
+    },
     src: "https://submitforbacklinks.com/api/badge/CEz-M3Yth16UWLNr68AQ46te.svg?variant=verified&theme=light",
     name: "SaaS Backlink Directory",
     width: 110,
@@ -1720,25 +1725,25 @@ const FOOTER_TEXT_LINKS = [
     href: "https://600.tools",
     label: "600.tools: Explore 600 curated tools for every purpose",
   },
-  { href: "https://ai-findr.com/", label: "Get your best AI Tools" },
-  { href: "https://aiblog.tools", label: "AIBlog.Tools" },
+  { href: "https://ai-findr.com/", label: "AI Findr Tools Diresctory" },
+  { href: "https://aiblog.tools", label: "Find us on AIBlog.Tools" },
   {
     href: "https://aihuntbase.com",
-    label: "AI Tools Directory for Finding the Right Tool",
+    label: "AI Hunt Base",
   },
-  { href: "https://aihustle.tools", label: "AI Hustle" },
+  { href: "https://aihustle.tools", label: "AI Hustle Tools" },
   { href: "https://www.ailabhub.online", label: "AI Tools Hub" },
   { href: "https://aitoolcenter.com/", label: "AI Tool Center" },
   { href: "https://www.aitoolsaver.com", label: "Featured on AiToolSaver" },
   { href: "https://aitoolscoop.com", label: "AI Tool Scoop" },
   {
     href: "https://aitoolsdirectory.si",
-    label: "AI Tools Directory: Discover & Compare the Best AI Tools",
+    label: "FEATURED ON AIToolsDirectory.si",
   },
   { href: "https://www.aitoolzdir.com", label: "AI Toolz Dir" },
   {
     href: "https://aitop10.tools/",
-    label: "AITop10.Tools: The Ultimate AI Tools Directory & Guide",
+    label: "AiTop10 Tools",
   },
   { href: "https://aixlist.com/", label: "AIXList" },
   { href: "https://appstackbuilder.com", label: "appstackbuilder" },
@@ -1755,18 +1760,18 @@ const FOOTER_TEXT_LINKS = [
     href: "https://benchmark.directory/tools/unorouter",
     label: "Listed on benchmark.directory",
   },
-  { href: "https://bestaitool.app/", label: "Get your best AI Tools" },
+  { href: "https://bestaitool.app/", label: "BestAITool AI Tools Diresctory" },
   { href: "https://bestaitools.me/", label: "Best AI Tools" },
   {
     href: "https://boostdomainrating.com/item/unorouter.com?utm_source=badge",
     label: "UnoRouter Domain Rating",
   },
   { href: "https://www.buildway.cc", label: "BuildWay" },
-  { href: "https://devtool.io", label: "DevTool.io" },
+  { href: "https://devtool.io", label: "Listed on DevTool.io" },
   { href: "https://dirnets.com/", label: "Dirnets" },
   {
     href: "https://dirs.cc",
-    label: "Discover Best Tools, Products and Websites",
+    label: "Dirs.cc",
   },
   {
     href: "https://www.ecobluedirectory.com/",
@@ -1775,13 +1780,12 @@ const FOOTER_TEXT_LINKS = [
   { href: "https://featuredtool.com", label: "FeaturedTool.com" },
   {
     href: "https://www.findgreatsites.com/",
-    label: "Showcase Your Projects, Earn a DR37+ Backlink",
+    label: "FindGreatSites",
   },
   { href: "https://findingourway.net/", label: "Finding Our Way Directory" },
   {
     href: "https://finetools.ai/",
-    label:
-      "Finetools AI Tools: Direct to Specific Features Pages, Not Websites",
+    label: "Finetools AI Tools Directory",
   },
   {
     href: "https://getbannerbid.com/directory",
@@ -1790,31 +1794,36 @@ const FOOTER_TEXT_LINKS = [
   { href: "https://hotools.com/", label: "HoTools" },
   {
     href: "https://www.indietools.work",
-    label: "Indie Tools: 640+ Tools for Indie Developers & SaaS Makers",
+    label: "Indie Tools",
   },
-  { href: "https://launched.tools/tools/unorouter", label: "launched.tools" },
+  {
+    href: "https://launched.tools/tools/unorouter",
+    label: "Featured on launched.tools REVIEWED ✓",
+  },
   {
     href: "https://launchpadly.co/startup/unorouter?ref=badge",
-    label: "Discover Startups Weekly",
+    label: "Proudly listed on Launchpadly Startup Directory",
   },
-  { href: "https://launchtory.com/projects/unorouter", label: "New AI Tools" },
+  {
+    href: "https://launchtory.com/projects/unorouter",
+    label: "UnoRouter on Launchtory",
+  },
   { href: "https://launchvoid.com", label: "Featured on LaunchVoid" },
-  { href: "https://www.listyourproject.com", label: "Showcase Your Projects" },
+  { href: "https://www.listyourproject.com", label: "ListYourProject" },
   { href: "https://mydirs.com", label: "Mydirs" },
   { href: "https://okeiai.com/", label: "Okei AI Tools" },
   {
     href: "https://right-ai.com/",
-    label:
-      "Discover and Compare the Best AI Tools, Easily Find Your Ideal AI Solution",
+    label: "RightAI Tools Diresctory",
   },
-  { href: "https://saascubes.com", label: "SaaS Cubes" },
+  { href: "https://saascubes.com", label: "Listed on SaaS Cubes" },
   { href: "https://saasvault.pro/p/UnoRouter", label: "Listed on SaaSVault" },
   { href: "https://showmeyour.site", label: "ShowMeYourSite" },
-  { href: "https://www.showmysites.com", label: "Directory & Launch Platform" },
+  { href: "https://www.showmysites.com", label: "ShowMySites" },
   { href: "https://starthub.zip", label: "starthub.zip" },
   {
     href: "https://t0ai.com",
-    label: "T0 AI Directory: List of the Best & Latest AI Tools in 2026",
+    label: "T0 AI Tools Directory",
   },
   { href: "https://thistools.app", label: "thistools" },
   { href: "https://toolsify.ai/", label: "Toolsify AI Tools Diresctory" },
@@ -1825,13 +1834,13 @@ const FOOTER_TEXT_LINKS = [
   },
   { href: "https://www.vibe-coding.cloud/", label: "Vibe Coding" },
   { href: "https://vinggle.com", label: "LISTED ON VINGGLE" },
-  { href: "https://www.webprojectlist.com/", label: "Showcase Your Website" },
-  { href: "https://webtech.tools", label: "WebTech Tools" },
+  { href: "https://www.webprojectlist.com/", label: "WebProjectList" },
+  { href: "https://webtech.tools", label: "WebTech" },
   {
     href: "https://whatisaitools.com/",
-    label: "Best AI Tools Directory & AI Tools List",
+    label: "What Is Ai Tools",
   },
-  { href: "https://wtai.cc/", label: "Home" },
+  { href: "https://wtai.cc/", label: "WTAI Navigation" },
 ] as const;
 
 function FooterLinks(props: {
@@ -2048,6 +2057,7 @@ export function Footer() {
                       "src" in item ? (
                         <NextLink
                           key={item.href}
+                          {...("data" in item ? item.data : undefined)}
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
