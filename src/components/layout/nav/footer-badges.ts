@@ -1602,7 +1602,9 @@ export const FOOTER_BADGES: {
   {
     href: "https://www.topaitools4u.site",
     src: "https://www.topaitools4u.site/logo.svg",
-    name: "Top AI Tools 2026: Find AI Tools by Task",
+    name: "TopAITools4U",
+    alt: "TopAITools4U",
+    data: { "data-topaitools4u-badge": "verified-listing" },
     width: 24,
   },
   {
