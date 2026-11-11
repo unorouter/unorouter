@@ -80,7 +80,7 @@ export const FOOTER_BADGES: {
     width: 153,
   },
   {
-    href: "https://launchbuff.com",
+    href: "https://launchbuff.com/products/unorouter-ratcls",
     src: "https://launchbuff.com/badge-featured-dark.svg",
     name: "LaunchBuff",
     width: 160,
@@ -140,7 +140,7 @@ export const FOOTER_BADGES: {
     width: 150,
   },
   {
-    href: "https://tools.launchllama.co?utm_source=badge&utm_medium=referral",
+    href: "https://tools.launchllama.co/products/unorouter",
     src: "/images/badges/launchllama.png",
     name: "As seen on Launch Llama Newsletter",
     width: 150,
@@ -165,7 +165,7 @@ export const FOOTER_BADGES: {
     lightBg: true,
   },
   {
-    href: "https://fastlaunch.io",
+    href: "https://fastlaunch.io/projects/unorouter",
     src: "https://fastlaunch.io/images/badges/featured-light.svg",
     name: "FastLaunch",
     width: 103,
@@ -960,7 +960,7 @@ export const FOOTER_BADGES: {
     width: 109,
   },
   {
-    href: "https://launchmcp.co?utm_source=badge&utm_medium=referral",
+    href: "https://launchmcp.co/mcp/servers/unorouter/unorouter-mcp",
     src: "https://launchmcp.co/featured-badge.png?v=1",
     name: "MCP Directory",
     width: 92,
@@ -1110,7 +1110,7 @@ export const FOOTER_BADGES: {
     width: 132,
   },
   {
-    href: "https://mytoolssuitepro.com/?ref=badge",
+    href: "https://mytoolssuitepro.com/tool/unorouter",
     src: "https://mytoolssuitepro.com/badge.svg",
     name: "ToolSuite Pro",
     width: 89,
@@ -1706,7 +1706,7 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://lookaitools.com", label: "LookAITools" },
   { href: "https://www.1ai.tools", label: "1ai.tools" },
   {
-    href: "https://21st.tools?utm_source=badge&ref=unorouter.com",
+    href: "https://21st.tools/p/unorouter",
     label: "21st Tools",
   },
   {
