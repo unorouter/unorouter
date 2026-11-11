@@ -106,21 +106,18 @@ async function guestObjects(guestId: string): Promise<boolean> {
 }
 
 const ENFORCEMENT_TTL_MS = 30_000;
-let enforcement:
-  { on: boolean; models: Set<string>; expires: number } | undefined;
+let enforcement: { on: boolean; expires: number } | undefined;
 
-// Follows the gateway's staging: the global switch or its model list.
-async function consentEnforcedFor(names: string[]): Promise<boolean> {
+// Follows the gateway's global switch.
+async function consentEnforced(): Promise<boolean> {
   if (!enforcement || enforcement.expires <= Date.now()) {
     const data = (await getStatus()).data?.data;
     enforcement = {
       on: data?.consent_enforced === true,
-      models: new Set(data?.consent_enforced_models ?? []),
       expires: Date.now() + ENFORCEMENT_TTL_MS,
     };
   }
-  const current = enforcement;
-  return current.on || names.some((name) => current.models.has(name));
+  return enforcement.on;
 }
 
 async function guestProviderCovered(
@@ -162,7 +159,7 @@ export async function assertGuestOwnPurposeAccess(
   )
     throw new Error(msg("OWN_PURPOSE.OBJECTED_ERROR"));
   if (!info.own_purpose?.consent_required) return;
-  if (!(await consentEnforcedFor([model, info.model_name]))) return;
+  if (!(await consentEnforced())) return;
   if (!guestId || !(await guestProviderCovered(guestId, model)))
     throw new Error(msg("CONSENT.DECLINED"));
 }

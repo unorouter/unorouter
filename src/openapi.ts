@@ -4013,8 +4013,6 @@ export interface StatusData {
   chats: StatusDataChatsItem[] | null;
   checkin_enabled: boolean;
   consent_enforced: boolean;
-  /** @nullable */
-  consent_enforced_models: string[] | null;
   custom_currency_exchange_rate: number;
   custom_currency_symbol: string;
   /** @nullable */
