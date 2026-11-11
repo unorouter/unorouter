@@ -342,7 +342,7 @@ const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://ai-webcatalog.space/r/11392be1e2bd8a3fcf92f0ba8ee9b1a4",
+    href: "https://ai-webcatalog.space/r/afcfb0db69a3f87dce2ff41f7e065860",
     src: "https://ai-webcatalog.space/badges/badge-dark.svg",
     name: "Каталог нейросетей и ИИ-инструментов",
     width: 107,
