@@ -273,7 +273,7 @@ export function inferTokenizerPreset(
   if (/deepseek.*(v4|v3\.2|3\.2)/.test(m)) return "deepseek-v4";
   if (m.includes("deepseek")) return "deepseek";
   if (m.includes("claude")) return "claude";
-  if (m.includes("gemma")) return "gemma";
+  if (m.includes("gemma") || m.includes("gemini")) return "gemma";
   if (m.includes("command") || m.includes("cohere") || m.includes("aya"))
     return "cohere";
   if (m.includes("qwen")) return "qwen";
