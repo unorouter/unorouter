@@ -1704,7 +1704,7 @@ const FOOTER_BADGES: {
 
 // These directories delist us when their plain text backlink is removed.
 // Same scroll speed on every row: the duration scales with the row length.
-const BADGES_PER_ROW = 40;
+const BADGE_ROWS = 3;
 
 const FOOTER_TEXT_LINKS = [
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
@@ -1876,9 +1876,9 @@ export function Footer() {
   const badgeItems: Array<
     (typeof visibleBadges)[number] | (typeof FOOTER_TEXT_LINKS)[number]
   > = [...visibleBadges, ...FOOTER_TEXT_LINKS];
-  const badgeRows = Array.from(
-    { length: Math.ceil(badgeItems.length / BADGES_PER_ROW) },
-    (_, i) => badgeItems.slice(i * BADGES_PER_ROW, (i + 1) * BADGES_PER_ROW),
+  const perRow = Math.ceil(badgeItems.length / BADGE_ROWS);
+  const badgeRows = Array.from({ length: BADGE_ROWS }, (_, i) =>
+    badgeItems.slice(i * perRow, (i + 1) * perRow),
   );
 
   const socialLinks = [
