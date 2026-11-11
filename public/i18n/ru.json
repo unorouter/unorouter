@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: бесплатный прокси Janitor AI с DeepSeek и GLM",
-    "DESCRIPTION": "Бесплатный прокси для Janitor AI и SillyTavern: DeepSeek, GLM и 100+ бесплатных моделей на одном ключе, без карты. Вставьте URL и общайтесь через 2 минуты.",
+    "TITLE": "{appName}: один API-ключ для любых ИИ-моделей, бесплатные модели включены",
+    "DESCRIPTION": "Один OpenAI-совместимый ключ для GPT, Claude, Gemini, DeepSeek, GLM и других, с бесплатными моделями и без банковской карты. Для приложений, агентов для кода и чат-клиентов.",
     "KEYWORDS": "бесплатный ИИ прокси, бесплатный прокси для Janitor AI, прокси Janitor AI, API SillyTavern, бесплатный ИИ API, ИИ API, альтернатива OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, ИИ роутер, ИИ шлюз",
     "ACCOUNT": {
       "TITLE": "Аккаунт {appName}",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: бесплатный прокси Janitor AI с DeepSeek и GLM",
-      "DESCRIPTION": "Бесплатный прокси для Janitor AI и SillyTavern: DeepSeek, GLM и 100+ бесплатных моделей на одном ключе, без карты. Вставьте URL и общайтесь через 2 минуты.",
+      "TITLE": "{appName}: один API-ключ для любых ИИ-моделей, бесплатные модели включены",
+      "DESCRIPTION": "Один OpenAI-совместимый ключ для GPT, Claude, Gemini, DeepSeek, GLM и других, с бесплатными моделями и без банковской карты. Для приложений, агентов для кода и чат-клиентов.",
       "KEYWORDS": "бесплатный ИИ прокси, бесплатный прокси для Janitor AI, прокси Janitor AI, API SillyTavern, бесплатный ИИ API, ИИ API, альтернатива OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, ИИ роутер, ИИ шлюз"
     },
     "HOW_IT_WORKS": {

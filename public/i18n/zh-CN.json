@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}：Janitor AI 免费代理，免绑卡",
-    "DESCRIPTION": "Janitor AI 和 SillyTavern 免费代理：DeepSeek、GLM 等 100 多个免费模型，一个密钥，无需信用卡。粘贴 URL，两分钟开聊。",
+    "TITLE": "{appName}：一个 API 密钥用遍所有 AI 模型，含免费模型",
+    "DESCRIPTION": "一个兼容 OpenAI 的密钥，可用于 GPT、Claude、Gemini、DeepSeek、GLM 等模型，提供免费模型，无需信用卡。适用于应用、编程智能体和聊天客户端。",
     "KEYWORDS": "免费 AI 代理, Janitor AI 免费代理, Janitor AI 代理, SillyTavern API, 免费 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关",
     "ACCOUNT": {
       "TITLE": "{appName} 账户",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}：Janitor AI 免费代理，免绑卡",
-      "DESCRIPTION": "Janitor AI 和 SillyTavern 免费代理：DeepSeek、GLM 等 100 多个免费模型，一个密钥，无需信用卡。粘贴 URL，两分钟开聊。",
+      "TITLE": "{appName}：一个 API 密钥用遍所有 AI 模型，含免费模型",
+      "DESCRIPTION": "一个兼容 OpenAI 的密钥，可用于 GPT、Claude、Gemini、DeepSeek、GLM 等模型，提供免费模型，无需信用卡。适用于应用、编程智能体和聊天客户端。",
       "KEYWORDS": "免费 AI 代理, Janitor AI 免费代理, Janitor AI 代理, SillyTavern API, 免费 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关"
     },
     "HOW_IT_WORKS": {

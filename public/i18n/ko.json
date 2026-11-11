@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: Janitor AI 무료 프록시",
-    "DESCRIPTION": "Janitor AI와 SillyTavern용 무료 프록시. DeepSeek, GLM 등 100개+ 무료 모델, 키 하나, 카드 불필요.",
+    "TITLE": "{appName}: 모든 AI 모델을 위한 하나의 API 키, 무료 모델 포함",
+    "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM 등을 위한 OpenAI 호환 키. 무료 모델 제공, 신용카드 불필요. 앱, 코딩 에이전트, 채팅 클라이언트에서 사용하세요.",
     "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이",
     "ACCOUNT": {
       "TITLE": "{appName} 계정",
@@ -223,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: Janitor AI 무료 프록시",
-      "DESCRIPTION": "Janitor AI와 SillyTavern용 무료 프록시. DeepSeek, GLM 등 100개+ 무료 모델, 키 하나, 카드 불필요.",
+      "TITLE": "{appName}: 모든 AI 모델을 위한 하나의 API 키, 무료 모델 포함",
+      "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM 등을 위한 OpenAI 호환 키. 무료 모델 제공, 신용카드 불필요. 앱, 코딩 에이전트, 채팅 클라이언트에서 사용하세요.",
       "KEYWORDS": "무료 AI 프록시, Janitor AI 무료 프록시, Janitor AI 프록시, SillyTavern API, 무료 AI API, AI API, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이"
     },
     "FAQ": {

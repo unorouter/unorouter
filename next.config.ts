@@ -195,12 +195,23 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/:path*",
+        source: `/:path((?!(?:${LOCALES.join("|")})?$).*)`,
         headers: [
           { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
         ],
       },
+      // Directories that preview the home page in an iframe before listing us.
+      ...["/", localePattern].map((source) => ({
+        source,
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://buildhop.io https://*.buildhop.io",
+          },
+        ],
+      })),
       // public/ assets get Next's 4h default, which Lighthouse flags on every
       // page. Not immutable (no content hash in names), so 30d + SWR.
       ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(

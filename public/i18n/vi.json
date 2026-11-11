@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: Proxy Janitor AI miễn phí với DeepSeek và GLM",
-    "DESCRIPTION": "Proxy miễn phí cho Janitor AI và SillyTavern: DeepSeek, GLM và 100+ mô hình miễn phí một khóa, không cần thẻ tín dụng. Dán URL, trò chuyện sau 2 phút.",
+    "TITLE": "{appName}: Một khóa API cho mọi mô hình AI, có sẵn mô hình miễn phí",
+    "DESCRIPTION": "Một khóa tương thích OpenAI cho GPT, Claude, Gemini, DeepSeek, GLM và nhiều hơn nữa, có mô hình miễn phí, không cần thẻ tín dụng. Dùng cho ứng dụng, agent lập trình và ứng dụng chat.",
     "KEYWORDS": "proxy AI miễn phí, proxy miễn phí Janitor AI, proxy Janitor AI, API SillyTavern, API AI miễn phí, API AI, thay thế OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, bộ định tuyến AI, cổng AI",
     "ACCOUNT": {
       "TITLE": "Tài khoản {appName}",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: Proxy Janitor AI miễn phí với DeepSeek và GLM",
-      "DESCRIPTION": "Proxy miễn phí cho Janitor AI và SillyTavern: DeepSeek, GLM và 100+ mô hình miễn phí một khóa, không cần thẻ tín dụng. Dán URL, trò chuyện sau 2 phút.",
+      "TITLE": "{appName}: Một khóa API cho mọi mô hình AI, có sẵn mô hình miễn phí",
+      "DESCRIPTION": "Một khóa tương thích OpenAI cho GPT, Claude, Gemini, DeepSeek, GLM và nhiều hơn nữa, có mô hình miễn phí, không cần thẻ tín dụng. Dùng cho ứng dụng, agent lập trình và ứng dụng chat.",
       "KEYWORDS": "proxy AI miễn phí, proxy miễn phí Janitor AI, proxy Janitor AI, API SillyTavern, API AI miễn phí, API AI, thay thế OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, bộ định tuyến AI, cổng AI"
     },
     "HOW_IT_WORKS": {
