@@ -298,3 +298,82 @@ export function buildJanitorRunSource(
     };
   `;
 }
+
+// Perchance AI Character Chat custom code: an `oc` object, MessageAdded
+// handlers, and per-thread and per-character customData that persist.
+export type PerchanceMessage = {
+  author: "user" | "ai" | "system";
+  content: string;
+  name?: string;
+  hiddenFrom?: string[];
+};
+
+export type PerchanceSnapshot = {
+  character: {
+    name: string;
+    roleInstruction: string;
+    reminderMessage: string;
+  };
+  userName: string;
+  messages: PerchanceMessage[];
+};
+
+export type PerchanceRunResult = {
+  roleInstruction: string;
+  reminderMessage: string;
+  messages: PerchanceMessage[];
+  data: Record<string, { thread: unknown; character: unknown }>;
+  logs: string[];
+};
+
+export function buildPerchanceRunSource(
+  snapshot: PerchanceSnapshot,
+  scripts: { id: string; code: string; thread: unknown; character: unknown }[],
+): string {
+  return `
+    const logs = [];
+    const origLog = console.log;
+    console.log = (...a) => { logs.push(a.map(String).join(' ')); };
+    const snap = ${JSON.stringify(snapshot)};
+    const scripts = ${JSON.stringify(scripts)};
+    const character = { ...snap.character };
+    const messages = snap.messages.map((m, i) => ({ id: i, ...m }));
+    const data = {};
+    const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+    const noop = () => {};
+    for (const s of scripts) {
+      const handlers = [];
+      const oc = {
+        character: { ...character, customData: s.character || {} },
+        userCharacter: { name: snap.userName },
+        thread: {
+          messages,
+          customData: s.thread || {},
+          on: (ev, fn) => { if (ev === 'MessageAdded') handlers.push(fn); },
+          off: noop, once: (ev, fn) => { if (ev === 'MessageAdded') handlers.push(fn); },
+        },
+        window: { show: noop, hide: noop },
+        getChatCompletion: async () => '',
+        getInstructCompletion: async () => ({ text: '' }),
+      };
+      try {
+        await new AsyncFunction('oc', s.code)(oc);
+        const last = messages[messages.length - 1];
+        for (const fn of handlers) await fn({ message: last, messageId: last?.id });
+      } catch (e) {
+        logs.push('script error: ' + (e && e.message ? e.message : String(e)));
+      }
+      character.roleInstruction = String(oc.character.roleInstruction ?? character.roleInstruction);
+      character.reminderMessage = String(oc.character.reminderMessage ?? character.reminderMessage);
+      data[s.id] = { thread: oc.thread.customData, character: oc.character.customData };
+    }
+    console.log = origLog;
+    return JSON.parse(JSON.stringify({
+      roleInstruction: character.roleInstruction,
+      reminderMessage: character.reminderMessage,
+      messages: messages.map((m) => ({ author: m.author, content: String(m.content ?? ''), name: m.name, hiddenFrom: m.hiddenFrom })),
+      data,
+      logs,
+    }));
+  `;
+}

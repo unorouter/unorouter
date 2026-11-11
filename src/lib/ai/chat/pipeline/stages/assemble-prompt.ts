@@ -121,17 +121,20 @@ export async function assemblePrompt(
       .map((e) => ({ id: e.id, text: e.content })),
   );
 
+  const perchance = await applyPerchanceScripts(convCtx, messages, body);
+
   const assemblySystem =
     [
       memory.memoryBlock,
       memory.retrievalBlock,
       searchSystemMessage,
       startTrig.extraSystemPrompt,
+      perchance.extraSystem,
     ]
       .filter(Boolean)
       .join("\n\n") || undefined;
 
-  const janitorCtx = await applyJanitorScripts(convCtx, messages, body);
+  const janitorCtx = await applyJanitorScripts(perchance.ctx, messages, body);
 
   const assembled =
     body.convId && convCtx
@@ -322,6 +325,66 @@ function clampOutputTokens(
     assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
     ceiling ?? Number.POSITIVE_INFINITY,
   );
+}
+
+// Perchance code sees the character as roleInstruction (our description) and
+// reminderMessage (our post history instructions). Messages it adds that the
+// model may see ride along as extra system text for this turn only.
+async function applyPerchanceScripts(
+  convCtx: LoadedConvContext,
+  messages: StreamMessages,
+  body: StreamBody,
+): Promise<{ ctx: LoadedConvContext; extraSystem: string }> {
+  const none = { ctx: convCtx, extraSystem: "" };
+  if (typeof window === "undefined" || !convCtx) return none;
+  const primary = convCtx.boundCharacters[0]?.character;
+  if (!primary) return none;
+  const { hasPerchanceScripts, runPerchanceScriptsForTurn } =
+    await import("@/lib/ai/chat/plugins/engine");
+  if (!hasPerchanceScripts()) return none;
+
+  const history = messages.flatMap((m) => {
+    if (!Array.isArray(m.parts)) return [];
+    const content = m.parts
+      .filter((p) => p.type === "text")
+      .map((p) => p.text)
+      .join("\n");
+    const author =
+      m.role === "user" ? "user" : m.role === "assistant" ? "ai" : "system";
+    return content ? [{ author, content } as const] : [];
+  });
+  const result = await runPerchanceScriptsForTurn(
+    {
+      character: {
+        name: primary.name ?? "",
+        roleInstruction: primary.description ?? "",
+        reminderMessage: primary.postHistoryInstructions ?? "",
+      },
+      userName: convCtx.persona?.name ?? "",
+      messages: history,
+    },
+    convCtx.boundCharacters.map((b) => b.character.id),
+    body.convId ?? "",
+  );
+  if (!result) return none;
+  const extraSystem = result.messages
+    .slice(history.length)
+    .filter((m) => !m.hiddenFrom?.includes("ai"))
+    .map((m) => m.content)
+    .join("\n\n");
+  const boundCharacters = convCtx.boundCharacters.map((b, i) =>
+    i === 0
+      ? {
+          ...b,
+          character: {
+            ...b.character,
+            description: result.roleInstruction,
+            postHistoryInstructions: result.reminderMessage,
+          },
+        }
+      : b,
+  );
+  return { ctx: { ...convCtx, boundCharacters }, extraSystem };
 }
 
 // Returns a CLONED context: user scripts must never mutate the stored conversation.

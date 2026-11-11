@@ -1,7 +1,7 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { MAX_NAME_LEN } from "./rp";
 
-export const JS_PLUGIN_KINDS = ["risu", "janitor"] as const;
+export const JS_PLUGIN_KINDS = ["risu", "janitor", "perchance"] as const;
 export const jsPluginKind = t.Union(JS_PLUGIN_KINDS.map((k) => t.Literal(k)));
 export type JsPluginKind = Static<typeof jsPluginKind>;
 

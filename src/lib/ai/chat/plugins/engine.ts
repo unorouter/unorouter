@@ -8,6 +8,8 @@ import type { TriggerContext } from "../triggers/types";
 import type {
   JanitorContextSnapshot,
   JanitorRunResult,
+  PerchanceRunResult,
+  PerchanceSnapshot,
   PluginHandler,
   PluginHookMode,
 } from "./api";
@@ -30,6 +32,11 @@ type PluginInstance = {
 const instances: PluginInstance[] = [];
 let janitorScripts: {
   name: string;
+  script: string;
+  characterId: string | null;
+}[] = [];
+let perchanceScripts: {
+  id: string;
   script: string;
   characterId: string | null;
 }[] = [];
@@ -79,6 +86,7 @@ export function unloadJsPlugins(): void {
   }
   instances.length = 0;
   janitorScripts = [];
+  perchanceScripts = [];
   if (scratchTerminate) {
     try {
       scratchTerminate();
@@ -120,6 +128,15 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
       // plain JS that sucrase rejects still gets a chance to run verbatim
     }
 
+    if (row.kind === "perchance") {
+      perchanceScripts.push({
+        id: row.id,
+        script: row.script,
+        characterId: row.characterId,
+      });
+      continue;
+    }
+
     if (row.kind === "janitor") {
       janitorScripts.push({
         name: row.name,
@@ -155,7 +172,7 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     instances.push({ name: row.name, terminate, handlers });
   }
 
-  if (janitorScripts.length > 0) {
+  if (janitorScripts.length > 0 || perchanceScripts.length > 0) {
     // Janitor scripts reach the frame through executeInIframe and never touch
     // the plugin api, so this host exposes only the bootstrap the bridge needs.
     const host = new SandboxHost({ ...PLUGIN_API_BOOTSTRAP });
@@ -307,4 +324,96 @@ export async function runJanitorScriptsForTurn(
     // silent failure is the Janitor contract
     return null;
   }
+}
+
+const PERCHANCE_DATA_KEY = "perchance-data:";
+
+function readPerchanceData(convId: string, id: string) {
+  try {
+    const raw = localStorage.getItem(`${PERCHANCE_DATA_KEY}${convId}:${id}`);
+    return rec(raw ? JSON.parse(raw) : null);
+  } catch {
+    return null;
+  }
+}
+
+export async function runPerchanceScriptsForTurn(
+  snapshot: PerchanceSnapshot,
+  characterIds: string[],
+  convId: string,
+): Promise<PerchanceRunResult | null> {
+  if (typeof window === "undefined") return null;
+  const scripts = perchanceScripts.filter(
+    (s) => !s.characterId || characterIds.includes(s.characterId),
+  );
+  if (!scratchHost || scripts.length === 0) return null;
+  const { buildPerchanceRunSource } = await import("./api");
+  try {
+    const result = rec(
+      await withTimeout(
+        scratchHost.executeInIframe(
+          buildPerchanceRunSource(
+            snapshot,
+            scripts.map((s) => {
+              const saved = readPerchanceData(convId, s.id);
+              return {
+                id: s.id,
+                code: s.script,
+                thread: saved?.thread ?? {},
+                character: saved?.character ?? {},
+              };
+            }),
+          ),
+        ),
+        "perchance scripts",
+        JANITOR_TIMEOUT_MS,
+      ),
+    );
+    if (!result) return null;
+    const data = rec(result.data) ?? {};
+    for (const [id, value] of Object.entries(data)) {
+      try {
+        localStorage.setItem(
+          `${PERCHANCE_DATA_KEY}${convId}:${id}`,
+          JSON.stringify(value),
+        );
+      } catch {
+        // storage full or blocked: the script just starts fresh next turn
+      }
+    }
+    const messages = Array.isArray(result.messages)
+      ? result.messages.flatMap((m) => {
+          const o = rec(m);
+          if (!o || typeof o.content !== "string") return [];
+          const author =
+            o.author === "user" || o.author === "ai" ? o.author : "system";
+          return [
+            {
+              author,
+              content: o.content,
+              hiddenFrom: Array.isArray(o.hiddenFrom)
+                ? o.hiddenFrom.map(String)
+                : undefined,
+            } satisfies PerchanceRunResult["messages"][number],
+          ];
+        })
+      : [];
+    return {
+      roleInstruction: String(
+        result.roleInstruction ?? snapshot.character.roleInstruction,
+      ),
+      reminderMessage: String(
+        result.reminderMessage ?? snapshot.character.reminderMessage,
+      ),
+      messages,
+      data: {},
+      logs: Array.isArray(result.logs) ? result.logs.map(String) : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function hasPerchanceScripts(): boolean {
+  return perchanceScripts.length > 0;
 }

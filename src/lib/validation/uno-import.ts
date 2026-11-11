@@ -57,7 +57,15 @@ export const importedResultSchema = t.Union([
     lorebooks: t.Array(uniformLorebook),
     skipped: t.Array(skippedLorebook),
     plugins: t.Optional(
-      t.Array(t.Object({ name: t.String(), script: t.String() })),
+      t.Array(
+        t.Object({
+          name: t.String(),
+          script: t.String(),
+          kind: t.Optional(
+            t.Union([t.Literal("janitor"), t.Literal("perchance")]),
+          ),
+        }),
+      ),
     ),
     skippedScripts: t.Optional(t.Array(t.String())),
   }),

@@ -22,6 +22,7 @@ import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 const KIND_KEYS = {
   risu: "CHAT.JS_PLUGIN.KIND_RISU",
   janitor: "CHAT.JS_PLUGIN.KIND_JANITOR",
+  perchance: "CHAT.JS_PLUGIN.KIND_PERCHANCE",
 } as const;
 
 type Props = {

@@ -56,6 +56,8 @@ async function persistCharacterSetupFromFile(
   const now = dayjs().toDate();
   const characterId = uid();
   const regexScripts = regexScriptsFromCardData(card.raw.data);
+  const ext = rec(rec(card.raw.data)?.extensions);
+  const tavernHelper = !!(ext?.tavern_helper || ext?.TavernHelper_scripts);
   const risuTriggers = rec(
     rec(rec(card.raw.data)?.extensions)?.risuai,
   )?.triggerscript;
@@ -179,7 +181,7 @@ async function persistCharacterSetupFromFile(
     ),
   });
 
-  return { characterId, lorebookId, cardId, reusedLorebooks };
+  return { characterId, lorebookId, cardId, reusedLorebooks, tavernHelper };
 }
 
 const IMPORT_INVALIDATES = [
@@ -195,6 +197,11 @@ export function useImportCharacterCardMutation() {
     mutationFn: (file: File) => persistCharacterSetupFromFile(file),
     invalidates: IMPORT_INVALIDATES,
     onSuccess: (res) => {
+      if (res.tavernHelper) {
+        toast.warning(t("RP.CHARACTERS_IMPORT_TAVERN_HELPER"), {
+          duration: 15_000,
+        });
+      }
       if (res.reusedLorebooks > 0)
         toast.info(
           t("RP.CHARACTERS_IMPORT_LOREBOOK_REUSED", {
@@ -226,6 +233,11 @@ export function useImportCharacterFromUrlMutation() {
           }),
         );
       }
+      if (res.tavernHelper) {
+        toast.warning(t("RP.CHARACTERS_IMPORT_TAVERN_HELPER"), {
+          duration: 15_000,
+        });
+      }
       if (res.privateScripts.length > 0) {
         toast.warning(
           `${t("ERRORS.CARD_IMPORT_SCRIPTS_PRIVATE")}: ${res.privateScripts.join(", ")}`,
@@ -255,8 +267,11 @@ async function persistImportedCards(results: ImportedResult[]) {
   const privateBooks: string[] = [];
   const privateScripts: string[] = [];
   let reusedLorebooks = 0;
+  let tavernHelper = false;
   for (const card of cards) {
-    reusedLorebooks += (await persistImportedCard(card)).reusedLorebooks;
+    const saved = await persistImportedCard(card);
+    reusedLorebooks += saved.reusedLorebooks;
+    tavernHelper ||= saved.tavernHelper;
     const data = card.card.data;
     // A hidden definition arrives as a name, a greeting and a picture.
     const blank = [
@@ -273,7 +288,13 @@ async function persistImportedCards(results: ImportedResult[]) {
       privateScripts.push(...card.skippedScripts);
     }
   }
-  return { withoutDefinition, privateBooks, privateScripts, reusedLorebooks };
+  return {
+    withoutDefinition,
+    privateBooks,
+    privateScripts,
+    reusedLorebooks,
+    tavernHelper,
+  };
 }
 
 async function persistImportedCard(result: ImportedResult) {
@@ -371,7 +392,7 @@ async function persistImportedCard(result: ImportedResult) {
       id: uid(),
       name: plugin.name,
       script: plugin.script,
-      kind: "janitor",
+      kind: plugin.kind ?? "janitor",
       enabled: true,
       characterId: setup.characterId,
       createdAt: now,

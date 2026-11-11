@@ -126,7 +126,9 @@ export function JsPluginList(props: Props) {
               plugin.enabled
                 ? plugin.kind === "janitor"
                   ? "CHAT.JS_PLUGIN.SUMMARY_JANITOR"
-                  : "CHAT.JS_PLUGIN.SUMMARY_UNO"
+                  : plugin.kind === "perchance"
+                    ? "CHAT.JS_PLUGIN.SUMMARY_PERCHANCE"
+                    : "CHAT.JS_PLUGIN.SUMMARY_UNO"
                 : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
             )}
             actions={
