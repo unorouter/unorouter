@@ -115,7 +115,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://launchbuff.com",
-    src: "/images/badges/launchbuff.svg",
+    src: "https://launchbuff.com/badge-featured-dark.svg",
     name: "LaunchBuff",
     width: 160,
   },
@@ -133,13 +133,13 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://dailypings.com/p/unorouter",
-    src: "/images/badges/dailypings.svg",
+    src: "https://dailypings.com/badge.svg",
     name: "DailyPings",
     width: 179,
   },
   {
     href: "https://unitelist.com/product/unorouter",
-    src: "/images/badges/unitelist.png",
+    src: "https://unitelist.com/assets/images/badge.png",
     name: "Unite List",
     width: 150,
   },
@@ -157,7 +157,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://firstlook.tools",
-    src: "/images/badges/firstlook.svg",
+    src: "https://firstlook.tools/badge/badge_dark.svg",
     name: "First Look",
     width: 150,
   },
@@ -169,7 +169,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://acidtools.com/ai/unorouter",
-    src: "/images/badges/acidtools.png",
+    src: "https://acidtools.com/assets/images/badge-dark.png",
     name: "Acid Tools",
     width: 150,
   },
@@ -200,7 +200,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://fastlaunch.io",
-    src: "/images/badges/fastlaunch.svg",
+    src: "https://fastlaunch.io/images/badges/featured-light.svg",
     name: "FastLaunch",
     width: 103,
   },
@@ -213,7 +213,7 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
-    src: "/images/badges/sharefast.svg",
+    src: "https://sharefast.co/sharefast-featured-badge.svg",
     name: "Share Fast",
     width: 110,
   },
@@ -231,14 +231,14 @@ const FOOTER_BADGES: {
   },
   {
     href: "https://saasbison.com",
-    src: "/images/badges/saasbison.png",
+    src: "https://saasbison.com/badge.png",
     name: "SaaSBison",
     width: 111,
     lightBg: true,
   },
   {
     href: "https://sumodir.com",
-    src: "/images/badges/sumodir.png",
+    src: "https://sumodir.com/badge.png",
     name: "SumoDir",
     width: 111,
   },
