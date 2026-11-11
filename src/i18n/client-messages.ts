@@ -31,6 +31,7 @@ const CLIENT_DOCS_KEPT = [
 ] as const;
 
 const CLIENT_DOCS_GUIDE_LEAVES = [
+  "BADGE",
   "TITLE",
   "SUBTITLE",
   "CTA_SIGNUP",
