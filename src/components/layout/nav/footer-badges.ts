@@ -1671,6 +1671,27 @@ export const FOOTER_BADGES: {
     name: "Zivaro Launch: bootstrapped startups, built from zero",
     width: 111,
   },
+  {
+    href: "https://www.launchscaler.com/v/unorouter.com?t=6ZMFXysO3PNu4OpGU0kUxqx3_piKRvIga395MBzrx4Y&utm_source=badge&utm_medium=referral",
+    src: "https://www.launchscaler.com/api/badge/unorouter.com/image?theme=light&variant=credential&tone=outline",
+    name: "LaunchScaler",
+    alt: "UnoRouter on LaunchScaler",
+    width: 113,
+  },
+  {
+    href: "https://submitmysaas.com",
+    src: "https://submitmysaas.com/featured-badge.png",
+    name: "SubmitMySaas",
+    alt: "Featured on SubmitMySaas",
+    width: 120,
+  },
+  {
+    href: "https://postyourstartup.com/startup/unorouter?ref=badge",
+    src: "https://postyourstartup.com/api/badge/unorouter?theme=light",
+    name: "PostYourStartup",
+    alt: "Featured on PostYourStartup",
+    width: 93,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
