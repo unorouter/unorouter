@@ -402,7 +402,7 @@ const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://aiextension.ai/unorouter",
+    href: "https://aiextension.ai/item/unorouter",
     src: "https://aiextension.ai/badges/aiextension-light.svg",
     name: "AIExtension.ai",
     width: 89,
