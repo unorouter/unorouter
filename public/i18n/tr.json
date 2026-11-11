@@ -39,7 +39,7 @@
       "SUBTITLE": "{appName} sizi tek bir anahtarla {modelCount}'den fazla yapay zeka modeline bağlar. Onunla uygulamalar geliştirin ve ajanlar çalıştırın ya da kurulumu atlayıp doğrudan burada sitede karakterlerle sohbet edin. Aynı anahtar, aynı hız, aynı fiyat.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Modelleri Görüntüle",
-      "SEO_HEADING": "Janitor AI ve tüm modeller için ücretsiz yapay zeka proxy'si"
+      "SEO_HEADING": "Tüm yapay zeka modelleri için tek API anahtarı, ücretsiz modeller dahil"
     },
     "STATS": {
       "MODELS": "Modeller",

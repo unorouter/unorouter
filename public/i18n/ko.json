@@ -39,7 +39,7 @@
       "SUBTITLE": "{appName}은(는) 하나의 키로 당신을 {modelCount}개 이상의 AI 모델에 연결합니다. 그것으로 앱을 만들고 에이전트를 돌리거나, 설정을 건너뛰고 이 사이트에서 바로 캐릭터와 채팅하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
       "CTA_SECONDARY": "모델 보기",
-      "SEO_HEADING": "Janitor AI와 모든 모델을 위한 무료 AI 프록시"
+      "SEO_HEADING": "모든 AI 모델을 위한 하나의 API 키, 무료 모델 포함"
     },
     "STATS": {
       "MODELS": "모델",
