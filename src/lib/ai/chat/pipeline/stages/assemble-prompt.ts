@@ -358,26 +358,29 @@ async function applyJanitorScripts(
   }
   const lastUser = [...texts].reverse().find((t) => t.role === "user");
 
-  const result = await runJanitorScriptsForTurn({
-    character: {
-      name: primary.name ?? "",
-      chat_name: primary.name ?? "",
-      example_dialogs: primary.exampleMessages ?? "",
-      personality: primary.personality ?? "",
-      scenario: primary.scenario ?? "",
-      description: primary.description ?? "",
-      first_message: primary.firstMessage ?? "",
+  const result = await runJanitorScriptsForTurn(
+    {
+      character: {
+        name: primary.name ?? "",
+        chat_name: primary.name ?? "",
+        example_dialogs: primary.exampleMessages ?? "",
+        personality: primary.personality ?? "",
+        scenario: primary.scenario ?? "",
+        description: primary.description ?? "",
+        first_message: primary.firstMessage ?? "",
+      },
+      chat: {
+        last_message: lastUser?.text ?? "",
+        lastMessage: lastUser?.text ?? "",
+        message_count: texts.length,
+        last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
+        user_name: convCtx.persona?.name ?? "",
+        conversation_id: body.convId ?? "",
+        message_created_at: null,
+      },
     },
-    chat: {
-      last_message: lastUser?.text ?? "",
-      lastMessage: lastUser?.text ?? "",
-      message_count: texts.length,
-      last_messages: texts.slice(-20).map((t) => ({ message: t.text })),
-      user_name: convCtx.persona?.name ?? "",
-      conversation_id: body.convId ?? "",
-      message_created_at: null,
-    },
-  });
+    convCtx.boundCharacters.map((b) => b.character.id),
+  );
   if (!result) return convCtx;
   if (
     result.personality === (primary.personality ?? "") &&

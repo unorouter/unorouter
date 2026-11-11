@@ -1,0 +1,1 @@
+ALTER TABLE `js_plugins` ADD `character_id` text;

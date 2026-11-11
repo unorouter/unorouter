@@ -56,6 +56,9 @@ export const importedResultSchema = t.Union([
     card: cardPayload,
     lorebooks: t.Array(uniformLorebook),
     skipped: t.Array(skippedLorebook),
+    plugins: t.Optional(
+      t.Array(t.Object({ name: t.String(), script: t.String() })),
+    ),
   }),
   t.Object({
     kind: t.Literal("lorebook"),

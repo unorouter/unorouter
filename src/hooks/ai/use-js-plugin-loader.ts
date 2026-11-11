@@ -20,6 +20,7 @@ export function useJsPluginLoader() {
           script: r.script,
           kind: r.kind,
           enabled: r.enabled,
+          characterId: r.characterId ?? null,
         })),
       ),
     );

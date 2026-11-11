@@ -96,6 +96,9 @@ export const jsPlugins = sqliteTable("js_plugins", {
   script: text("script").notNull(),
   kind: text("kind").$type<JsPluginKind>().notNull().default("risu"),
   enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+  // Set for a script imported with a character: it runs only in that
+  // character's chats.
+  characterId: text("character_id"),
   createdAt: integer("created_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),

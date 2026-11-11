@@ -1,6 +1,7 @@
 "use client";
 
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
+import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
 import {
   deleteLocalCharacter,
   findLocalLorebookCopy,
@@ -177,6 +178,7 @@ async function persistCharacterSetupFromFile(
 
 const IMPORT_INVALIDATES = [
   queryKeys.characters(),
+  queryKeys.jsPlugins(),
   queryKeys.lorebooks(),
   queryKeys.cards(),
 ];
@@ -346,6 +348,18 @@ async function persistImportedCard(result: ImportedResult) {
       triggers: rich?.triggers ?? null,
       assets: assets.length > 0 ? assets : (existing?.assets ?? null),
       updatedAt: dayjs().toDate(),
+    });
+  }
+  for (const plugin of ("plugins" in result && result.plugins) || []) {
+    await upsertLocalJsPlugin({
+      id: uid(),
+      name: plugin.name,
+      script: plugin.script,
+      kind: "janitor",
+      enabled: true,
+      characterId: setup.characterId,
+      createdAt: now,
+      updatedAt: now,
     });
   }
   return {

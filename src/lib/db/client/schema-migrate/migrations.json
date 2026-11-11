@@ -63,6 +63,10 @@
     {
       "tag": "0015_optimal_nocturne",
       "sql": "ALTER TABLE `sampling_presets` ADD `reasoning_prefill` text;"
+    },
+    {
+      "tag": "0016_icy_harrier",
+      "sql": "ALTER TABLE `js_plugins` ADD `character_id` text;"
     }
   ]
 }

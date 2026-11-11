@@ -18,6 +18,7 @@ export type LoadedJsPlugin = {
   script: string;
   kind: JsPluginKind;
   enabled: boolean;
+  characterId: string | null;
 };
 
 type PluginInstance = {
@@ -27,7 +28,11 @@ type PluginInstance = {
 };
 
 const instances: PluginInstance[] = [];
-let janitorScripts: { name: string; script: string }[] = [];
+let janitorScripts: {
+  name: string;
+  script: string;
+  characterId: string | null;
+}[] = [];
 let scratchHost: {
   executeInIframe: (code: string) => Promise<unknown>;
 } | null = null;
@@ -116,7 +121,11 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     }
 
     if (row.kind === "janitor") {
-      janitorScripts.push({ name: row.name, script: code });
+      janitorScripts.push({
+        name: row.name,
+        script: code,
+        characterId: row.characterId,
+      });
       continue;
     }
 
@@ -265,16 +274,20 @@ export function transformDisplayJsSync(text: string): string {
 
 export async function runJanitorScriptsForTurn(
   snapshot: JanitorContextSnapshot,
+  characterIds: string[],
 ): Promise<JanitorRunResult | null> {
   if (typeof window === "undefined") return null;
-  if (!scratchHost || janitorScripts.length === 0) return null;
+  const scripts = janitorScripts.filter(
+    (s) => !s.characterId || characterIds.includes(s.characterId),
+  );
+  if (!scratchHost || scripts.length === 0) return null;
   const { buildJanitorRunSource } = await import("./api");
   try {
     const result = await withTimeout(
       scratchHost.executeInIframe(
         buildJanitorRunSource(
           snapshot,
-          janitorScripts.map((s) => s.script),
+          scripts.map((s) => s.script),
         ),
       ),
       "janitor scripts",
