@@ -4751,6 +4751,7 @@
     "PRESET_NOT_JSON": "Tego pliku nie da się odczytać jako ustawienia. Ustawienia to pliki JSON wyeksportowane z unorouter, SillyTavern lub RisuAI.",
     "PRESET_UNRECOGNIZED": "Ten plik JSON nie wygląda na ustawienie. Wyeksportuj je ponownie z unorouter, SillyTavern lub RisuAI.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Autor zachował te lorebooki jako prywatne, więc nie można ich pobrać",
+    "CARD_IMPORT_SCRIPTS_PRIVATE": "Autor ustawił te skrypty jako prywatne, więc nie można ich zaimportować. Ich efekt został w miarę możliwości odtworzony w lorebooku",
     "UNEXPECTED_ERROR": "Wystąpił nieoczekiwany błąd",
     "DB_UNAVAILABLE": "Nie udało się zapisać danych, ponieważ lokalna baza danych jest zajęta. Spróbuj ponownie za chwilę.",
     "TRANSFER_TOO_LARGE": "Eksport przekracza 100 MB, więcej niż zmieści transfer. Wyłącz „Dołącz media” i spróbuj ponownie.",

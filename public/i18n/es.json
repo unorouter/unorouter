@@ -4751,6 +4751,7 @@
     "PRESET_NOT_JSON": "Este archivo no es un preset que podamos leer. Los presets son archivos JSON exportados desde unorouter, SillyTavern o RisuAI.",
     "PRESET_UNRECOGNIZED": "Este JSON no parece un preset. Vuelve a exportarlo desde unorouter, SillyTavern o RisuAI.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "El autor mantuvo estos lorebooks en privado, así que no se pueden descargar",
+    "CARD_IMPORT_SCRIPTS_PRIVATE": "El autor mantuvo estos scripts privados, por lo que no se pueden importar. Su efecto se recuperó en el lorebook cuando fue posible",
     "UNEXPECTED_ERROR": "Ocurrió un error inesperado",
     "DB_UNAVAILABLE": "No se pudieron guardar tus datos porque la base de datos local está ocupada. Vuelve a intentarlo en un momento.",
     "TRANSFER_TOO_LARGE": "La exportación supera los 100 MB, más de lo que admite una transferencia. Desactiva «Incluir medios» e inténtalo de nuevo.",

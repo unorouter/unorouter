@@ -4751,6 +4751,7 @@
     "PRESET_NOT_JSON": "這個檔案不是我們能讀取的預設。預設是從 unorouter、SillyTavern 或 RisuAI 匯出的 JSON 檔案。",
     "PRESET_UNRECOGNIZED": "這段 JSON 看起來不像預設。請從 unorouter、SillyTavern 或 RisuAI 重新匯出。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者將這些世界書設為私密，因此無法下載",
+    "CARD_IMPORT_SCRIPTS_PRIVATE": "作者將這些腳本設為私密，因此無法匯入。已盡可能將其效果還原到世界書中",
     "UNEXPECTED_ERROR": "發生未預期的錯誤",
     "DB_UNAVAILABLE": "本機資料庫正忙，資料未能儲存。請稍後再試。",
     "TRANSFER_TOO_LARGE": "匯出超過 100 MB，超出單次傳輸的上限。關閉「包含媒體」後再試一次。",

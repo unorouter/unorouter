@@ -59,6 +59,7 @@ export const importedResultSchema = t.Union([
     plugins: t.Optional(
       t.Array(t.Object({ name: t.String(), script: t.String() })),
     ),
+    skippedScripts: t.Optional(t.Array(t.String())),
   }),
   t.Object({
     kind: t.Literal("lorebook"),

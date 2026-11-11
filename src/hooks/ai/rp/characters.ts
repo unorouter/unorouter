@@ -12,8 +12,9 @@ import {
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { base64ToUint8, uid, uint8ToBase64 } from "@/lib/utils/base";
+import { base64ToUint8, rec, uid, uint8ToBase64 } from "@/lib/utils/base";
 import { msg } from "@/lib/config/constants";
+import { regexScriptsFromCardData } from "@/lib/ai/chat/regex-scripts";
 import type { ImportedResult } from "@/lib/validation/uno-import";
 import { runUrlImport } from "./use-url-import";
 import { useApiMutation } from "@/lib/react-query/hooks";
@@ -54,6 +55,10 @@ async function persistCharacterSetupFromFile(
 
   const now = dayjs().toDate();
   const characterId = uid();
+  const regexScripts = regexScriptsFromCardData(card.raw.data);
+  const risuTriggers = rec(
+    rec(rec(card.raw.data)?.extensions)?.risuai,
+  )?.triggerscript;
 
   let avatarMediaId: string | null = null;
   if (imageBytes && imageMime) {
@@ -94,7 +99,8 @@ async function persistCharacterSetupFromFile(
     postHistoryInstructions: card.postHistoryInstructions ?? null,
     defaultReasoningEffort: null,
     tags: card.tags ?? null,
-    triggers: null,
+    regexScripts: regexScripts.length > 0 ? regexScripts : null,
+    triggers: Array.isArray(risuTriggers) ? risuTriggers : null,
     alwaysActive: true,
     matchWholeWords: false,
     assets: assets.length > 0 ? assets : null,
@@ -220,6 +226,12 @@ export function useImportCharacterFromUrlMutation() {
           }),
         );
       }
+      if (res.privateScripts.length > 0) {
+        toast.warning(
+          `${t("ERRORS.CARD_IMPORT_SCRIPTS_PRIVATE")}: ${res.privateScripts.join(", ")}`,
+          { duration: 15_000 },
+        );
+      }
       if (res.privateBooks.length > 0) {
         toast.warning(
           `${t("ERRORS.CARD_IMPORT_LOREBOOK_PRIVATE")}: ${res.privateBooks.join(", ")}`,
@@ -241,6 +253,7 @@ async function persistImportedCards(results: ImportedResult[]) {
   }
   const withoutDefinition: string[] = [];
   const privateBooks: string[] = [];
+  const privateScripts: string[] = [];
   let reusedLorebooks = 0;
   for (const card of cards) {
     reusedLorebooks += (await persistImportedCard(card)).reusedLorebooks;
@@ -256,8 +269,11 @@ async function persistImportedCards(results: ImportedResult[]) {
     if ("skipped" in card) {
       privateBooks.push(...card.skipped.map((sk) => sk.title));
     }
+    if ("skippedScripts" in card && card.skippedScripts) {
+      privateScripts.push(...card.skippedScripts);
+    }
   }
-  return { withoutDefinition, privateBooks, reusedLorebooks };
+  return { withoutDefinition, privateBooks, privateScripts, reusedLorebooks };
 }
 
 async function persistImportedCard(result: ImportedResult) {
@@ -344,8 +360,8 @@ async function persistImportedCard(result: ImportedResult) {
     await upsertLocalCharacter({
       ...existing,
       id: setup.characterId,
-      regexScripts: rich?.regexScripts ?? null,
-      triggers: rich?.triggers ?? null,
+      regexScripts: rich?.regexScripts ?? existing?.regexScripts ?? null,
+      triggers: rich?.triggers ?? existing?.triggers ?? null,
       assets: assets.length > 0 ? assets : (existing?.assets ?? null),
       updatedAt: dayjs().toDate(),
     });

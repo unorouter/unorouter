@@ -4751,6 +4751,7 @@
     "PRESET_NOT_JSON": "Berkas ini bukan preset yang bisa kami baca. Preset adalah berkas JSON dari unorouter, SillyTavern, atau RisuAI.",
     "PRESET_UNRECOGNIZED": "JSON ini tidak tampak seperti preset. Ekspor ulang dari unorouter, SillyTavern, atau RisuAI.",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "Penulis merahasiakan lorebook ini, jadi tidak dapat diunduh",
+    "CARD_IMPORT_SCRIPTS_PRIVATE": "Pembuat menjadikan skrip ini privat, jadi tidak bisa diimpor. Efeknya dipulihkan ke lorebook bila memungkinkan",
     "UNEXPECTED_ERROR": "Terjadi error tak terduga",
     "DB_UNAVAILABLE": "Data kamu tidak dapat disimpan karena basis data lokal sedang sibuk. Coba lagi sebentar.",
     "TRANSFER_TOO_LARGE": "Ekspor melebihi 100 MB, lebih dari yang bisa dibawa satu transfer. Matikan \"Sertakan media\" lalu coba lagi.",

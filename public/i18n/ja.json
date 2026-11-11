@@ -4751,6 +4751,7 @@
     "PRESET_NOT_JSON": "このファイルは読み取れるプリセットではありません。プリセットはunorouter、SillyTavern、RisuAIから書き出したJSONファイルです。",
     "PRESET_UNRECOGNIZED": "このJSONはプリセットではないようです。unorouter、SillyTavern、RisuAIから書き出し直してください。",
     "CARD_IMPORT_LOREBOOK_PRIVATE": "作者がこれらのロアブックを非公開にしているため、ダウンロードできません",
+    "CARD_IMPORT_SCRIPTS_PRIVATE": "作者がこれらのスクリプトを非公開にしているため、インポートできません。可能な範囲で、その効果をロアブックに復元しました",
     "UNEXPECTED_ERROR": "予期しないエラーが発生しました",
     "DB_UNAVAILABLE": "ローカルデータベースが使用中のため保存できませんでした。少し待ってからもう一度お試しください。",
     "TRANSFER_TOO_LARGE": "エクスポートが100 MBを超えており、転送できる上限を上回っています。「メディアを含める」をオフにしてもう一度お試しください。",

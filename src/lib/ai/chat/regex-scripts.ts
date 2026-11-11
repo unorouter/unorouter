@@ -269,3 +269,52 @@ export function parseRegexScripts(raw: unknown): RegexScript[] {
   }
   return out;
 }
+
+// SillyTavern placement ids: 1 user input, 2 AI output.
+const ST_PLACEMENT_USER = 1;
+const ST_PLACEMENT_AI = 2;
+
+function fromSillyTavern(raw: unknown): RegexScript[] {
+  if (!Array.isArray(raw)) return [];
+  const out: RegexScript[] = [];
+  for (const item of raw) {
+    const o = rec(item);
+    if (!o || o.disabled === true || typeof o.findRegex !== "string") continue;
+    const m = /^\/([\s\S]*)\/([a-z]*)$/.exec(o.findRegex);
+    const pattern = m ? m[1]! : o.findRegex;
+    const flag = m ? m[2]! || "g" : "g";
+    const replace =
+      typeof o.replaceString === "string"
+        ? o.replaceString.replaceAll("{{match}}", "$&")
+        : "";
+    const placement = Array.isArray(o.placement) ? o.placement : [];
+    const types: RegexScriptMode[] =
+      o.markdownOnly === true
+        ? ["editdisplay"]
+        : o.promptOnly === true
+          ? ["editprocess"]
+          : [
+              ...(placement.includes(ST_PLACEMENT_USER)
+                ? (["editinput"] as const)
+                : []),
+              ...(placement.includes(ST_PLACEMENT_AI)
+                ? (["editoutput"] as const)
+                : []),
+            ];
+    for (const type of types) {
+      out.push({ in: pattern, out: replace, type, flag, ableFlag: true });
+    }
+  }
+  return out;
+}
+
+// Regex scripts a card carries in its own extensions: RisuAI's native list or
+// SillyTavern's scoped regex.
+export function regexScriptsFromCardData(data: unknown): RegexScript[] {
+  const ext = rec(rec(data)?.extensions);
+  if (!ext) return [];
+  return [
+    ...parseRegexScripts(rec(ext.risuai)?.customScripts),
+    ...fromSillyTavern(ext.regex_scripts),
+  ];
+}
