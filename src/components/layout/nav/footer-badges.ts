@@ -128,7 +128,7 @@ export const FOOTER_BADGES: {
     width: 150,
   },
   {
-    href: "https://yo.directory",
+    href: "https://yo.directory/tool/unorouter-llm-gateway",
     src: "https://assets.yo.directory/badges/yo-directory-featured-dark.svg",
     name: "Yo.directory",
     width: 150,
@@ -152,7 +152,7 @@ export const FOOTER_BADGES: {
     width: 72,
   },
   {
-    href: "https://ailaunch.space/",
+    href: "https://ailaunch.space/project/unorouter",
     src: "/images/badges/ailaunchspace.svg",
     name: "AI Launch Space",
     width: 89,
@@ -209,7 +209,7 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://www.stork.ai/",
+    href: "https://www.stork.ai/en/unorouter",
     src: "/images/badges/stork.svg",
     name: "Stork Verified",
     width: 120,
@@ -227,7 +227,7 @@ export const FOOTER_BADGES: {
     width: 24,
   },
   {
-    href: "https://openhunts.com",
+    href: "https://openhunts.com/projects/unorouter",
     src: "https://cdn.openhunts.com/badges/club.webp",
     name: "OpenHunts",
     width: 111,
@@ -623,7 +623,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://debutpin.com",
+    href: "https://debutpin.com/p/unorouter",
     src: "https://debutpin.com/brand/badge.svg",
     name: "Launch platform for indie products",
     width: 117,
@@ -828,7 +828,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://indielaunch.site",
+    href: "https://indielaunch.site/projects/unorouter",
     src: "https://indielaunch.site/images/badges/listed-light.svg",
     name: "Indie Launch",
     width: 93,
@@ -846,7 +846,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://indieshowcase.io",
+    href: "https://indieshowcase.io/unorouter",
     src: "https://indieshowcase.io/badge/featured-light.svg",
     name: "IndieShowcase",
     width: 120,
@@ -1236,7 +1236,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://saashunt.site",
+    href: "https://saashunt.site/projects/unorouter",
     src: "https://saashunt.site/images/badges/listed-light.svg",
     name: "SaaS Hunt",
     width: 120,
@@ -1398,7 +1398,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://startupog.com",
+    href: "https://startupog.com/products/unorouter",
     src: "https://startupog.com/startupog-badge-wide.webp",
     name: "Startup Directory: Software, Alternatives and Free Tools",
     width: 111,
@@ -1614,7 +1614,7 @@ export const FOOTER_BADGES: {
     width: 109,
   },
   {
-    href: "https://urise.dev",
+    href: "https://urise.dev/products/unorouter-8l5rd",
     src: "https://urise.dev/badges/powered-by-light.svg",
     name: "Home",
     width: 82,
@@ -1626,7 +1626,7 @@ export const FOOTER_BADGES: {
     width: 72,
   },
   {
-    href: "https://vibetoyou.com",
+    href: "https://vibetoyou.com/s/unorouter/",
     src: "https://vibetoyou.com/images/badge-light.svg",
     name: "The AI Readable Directory for Business Services",
     width: 80,
@@ -1644,13 +1644,13 @@ export const FOOTER_BADGES: {
     width: 90,
   },
   {
-    href: "https://worthtotry.com",
+    href: "https://worthtotry.com/tools/unorouter",
     src: "https://worthtotry.com/badges/featured.png",
     name: "Best AI Tools, Sorted by Category",
     width: 105,
   },
   {
-    href: "https://xinquji.com",
+    href: "https://xinquji.com/posts/860813",
     src: "https://xinquji.com/badge",
     name: "新趣集",
     width: 89,
@@ -1698,7 +1698,10 @@ export const FOOTER_BADGES: {
 
 export const FOOTER_TEXT_LINKS = [
   { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
-  { href: "https://www.toolpilot.ai", label: "Toolpilot.ai" },
+  {
+    href: "https://www.toolpilot.ai/products/unorouter",
+    label: "Toolpilot.ai",
+  },
   { href: "https://animatephoto.io", label: "Animate Photo AI" },
   { href: "https://lookaitools.com", label: "LookAITools" },
   { href: "https://www.1ai.tools", label: "1ai.tools" },
@@ -1764,7 +1767,7 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://featuredtool.com", label: "FeaturedTool.com" },
   {
-    href: "https://www.findgreatsites.com/",
+    href: "https://www.findgreatsites.com/doncryptus/unorouter/",
     label: "FindGreatSites",
   },
   { href: "https://findingourway.net/", label: "Finding Our Way Directory" },
@@ -1794,7 +1797,10 @@ export const FOOTER_TEXT_LINKS = [
     label: "UnoRouter on Launchtory",
   },
   { href: "https://launchvoid.com", label: "Featured on LaunchVoid" },
-  { href: "https://www.listyourproject.com", label: "ListYourProject" },
+  {
+    href: "https://www.listyourproject.com/doncryptus/unorouter/",
+    label: "ListYourProject",
+  },
   { href: "https://mydirs.com", label: "Mydirs" },
   { href: "https://okeiai.com/", label: "Okei AI Tools" },
   {
@@ -1804,13 +1810,16 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://saascubes.com", label: "Listed on SaaS Cubes" },
   { href: "https://saasvault.pro/p/UnoRouter", label: "Listed on SaaSVault" },
   { href: "https://showmeyour.site", label: "ShowMeYourSite" },
-  { href: "https://www.showmysites.com", label: "ShowMySites" },
+  {
+    href: "https://www.showmysites.com/unorouter/unorouter/",
+    label: "ShowMySites",
+  },
   { href: "https://starthub.zip", label: "starthub.zip" },
   {
     href: "https://t0ai.com",
     label: "T0 AI Tools Directory",
   },
-  { href: "https://thistools.app", label: "thistools" },
+  { href: "https://thistools.app/projects/unorouter", label: "thistools" },
   { href: "https://toolsify.ai/", label: "Toolsify AI Tools Diresctory" },
   { href: "https://top5tool.com", label: "Top5tool" },
   {
@@ -1819,7 +1828,10 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://www.vibe-coding.cloud/", label: "Vibe Coding" },
   { href: "https://vinggle.com", label: "LISTED ON VINGGLE" },
-  { href: "https://www.webprojectlist.com/", label: "WebProjectList" },
+  {
+    href: "https://www.webprojectlist.com/doncryptusunorouter/unorouter/",
+    label: "WebProjectList",
+  },
   { href: "https://webtech.tools", label: "WebTech" },
   {
     href: "https://whatisaitools.com/",
