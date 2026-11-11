@@ -46,6 +46,8 @@ const FOOTER_BADGES: {
   verified?: boolean;
   lightBg?: boolean;
   data?: Record<`data-${string}`, string>;
+  // Exact alt text, for the few verifiers that match on it.
+  alt?: string;
 }[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -775,6 +777,7 @@ const FOOTER_BADGES: {
     href: "https://findyouragent.ai",
     src: "https://findyouragent.ai/embed-badge-gradient.svg",
     name: "Find Your Agent",
+    alt: "FindYourAgent Logo",
     width: 93,
   },
   {
@@ -1252,7 +1255,7 @@ const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://SaaS.fyi/tools/<your-slug>.html",
+    href: "https://saas.fyi/",
     src: "https://SaaS.fyi/assets/brand/badge.svg",
     name: "Human-curated directory of the best SaaS tools",
     width: 60,
@@ -1768,7 +1771,7 @@ const FOOTER_TEXT_LINKS = [
   },
   { href: "https://www.buildway.cc", label: "BuildWay" },
   { href: "https://devtool.io", label: "Listed on DevTool.io" },
-  { href: "https://dirnets.com/", label: "Dirnets" },
+  { href: "http://computer.dirnets.com", label: "Dirnets" },
   {
     href: "https://dirs.cc",
     label: "Dirs.cc",
@@ -2067,12 +2070,16 @@ export function Footer() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={item.src}
-                            alt={t(
-                              "verified" in item && item.verified
-                                ? "FOOTER.BADGE_VERIFIED_ON"
-                                : "FOOTER.BADGE_FEATURED_ON",
-                              { name: item.name },
-                            )}
+                            alt={
+                              "alt" in item && item.alt
+                                ? item.alt
+                                : t(
+                                    "verified" in item && item.verified
+                                      ? "FOOTER.BADGE_VERIFIED_ON"
+                                      : "FOOTER.BADGE_FEATURED_ON",
+                                    { name: item.name },
+                                  )
+                            }
                             width={item.width}
                             height={24}
                             loading="lazy"
