@@ -6,6 +6,11 @@
  * OpenAPI spec version: 0.0.1
  */
 import { customFetch } from "./lib/custom-fetch";
+export interface AddChannelInputResult {
+  channel_id: number;
+  input_index: number;
+}
+
 export type ChannelInfoMultiKeyDisabledReasonAnyOf = { [key: string]: string };
 
 /**
@@ -105,6 +110,14 @@ export interface AddChannelRequest {
   channel: Channel;
   mode: string;
   multi_key_mode: string;
+}
+
+export interface AddChannelResult {
+  id?: number;
+  /** @nullable */
+  ids: number[] | null;
+  /** @nullable */
+  results: AddChannelInputResult[] | null;
 }
 
 /**
@@ -1092,29 +1105,42 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_creation_input_tokens?: number;
+  cache_write_tokens?: number;
+  cache_write_tokens_details?: CacheWriteTokenDetails;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  cached_tokens_details?: CachedTokenDetails;
+  image_tokens: number;
+  text_tokens: number;
 }
 
 export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  output_tokens_details?: OutputTokenDetails;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
 }
 
 /**
@@ -1249,6 +1275,22 @@ export interface FlowQuotaData {
 export interface GeminiModelList {
   models: unknown;
   nextPageToken: unknown;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
 }
 
 export type GetAllChannelsDataTypeCountsAnyOf = { [key: string]: number };
@@ -1404,18 +1446,6 @@ export interface ImageParams {
   supportsStrength: boolean;
 }
 
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_creation_input_tokens?: number;
-  cache_write_tokens?: number;
-  cache_write_tokens_details?: CacheWriteTokenDetails;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  cached_tokens_details?: CachedTokenDetails;
-  image_tokens: number;
-  text_tokens: number;
-}
-
 export interface InvitedUser {
   commission_count: number;
   display_name: string;
@@ -1557,7 +1587,15 @@ export interface ManageRequest {
   value: number;
 }
 
+export interface RewardIpCheckData {
+  cleared: boolean;
+  earlier_accounts: number;
+  earlier_rewarded: number;
+  earlier_same_email: number;
+}
+
 export interface ManageUserData {
+  reward_ip?: RewardIpCheckData;
   role: number;
   status: number;
 }
@@ -2000,13 +2038,6 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
-}
-
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
 }
 
 export interface OwnPurposeObjectionData {
@@ -3104,6 +3135,15 @@ export interface TokenResponse {
  */
 export interface ResponseControllerTokenResponse {
   data: TokenResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.AddChannelResult schema
+ */
+export interface ResponseDtoAddChannelResult {
+  data: AddChannelResult;
   message: string;
   success: boolean;
 }
@@ -5028,174 +5068,106 @@ export interface FetchModelsRequest {
 export interface UnknownInterface {}
 
 export type GetAllChannelsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
   id_sort?: boolean;
   tag_mode?: boolean;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
   type?: number;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
-  /**
-   * Column to sort by
-   */
+  /** Column to sort by */
   sort_by?: string;
-  /**
-   * asc or desc
-   */
+  /** asc or desc */
   sort_order?: string;
 };
 
 export type CopyChannelParams = {
-  /**
-   * Name suffix
-   */
+  /** Name suffix */
   suffix?: string;
   reset_balance?: boolean;
 };
 
 export type PruneChannelDiagnosticsParams = {
-  /**
-   * Delete rows older than this unix-second cutoff
-   */
+  /** Delete rows older than this unix-second cutoff */
   before_timestamp?: number;
 };
 
 export type GetChannelDiagnosticsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Filter by channel ID
-   */
+  /** Filter by channel ID */
   channel_id?: number;
-  /**
-   * Filter by resulting status (1 enabled / 2 manual disabled / 3 auto disabled)
-   */
+  /** Filter by resulting status (1 enabled / 2 manual disabled / 3 auto disabled) */
   to_status?: number;
-  /**
-   * Filter by trigger source (live_request|scheduled_test|manual|by_tag|balance)
-   */
+  /** Filter by trigger source (live_request|scheduled_test|manual|by_tag|balance) */
   trigger_source?: string;
-  /**
-   * Filter by parsed upstream HTTP status code
-   */
+  /** Filter by parsed upstream HTTP status code */
   status_code?: number;
-  /**
-   * Filter by triggering model name
-   */
+  /** Filter by triggering model name */
   model_name?: string;
-  /**
-   * Search channel name / base url / reason substring
-   */
+  /** Search channel name / base url / reason substring */
   keyword?: string;
-  /**
-   * Row type: all (default) | transitions | probe
-   */
+  /** Row type: all (default) | transitions | probe */
   row_type?: string;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Sort column: created_at|first_seen_at|status_code|occurrence_count|channel_id|seconds_in_prev_status
-   */
+  /** Sort column: created_at|first_seen_at|status_code|occurrence_count|channel_id|seconds_in_prev_status */
   sort_by?: string;
-  /**
-   * Sort direction: asc|desc (default desc)
-   */
+  /** Sort direction: asc|desc (default desc) */
   sort_order?: string;
 };
 
 export type GetLanePromptCapacityParams = {
-  /**
-   * Model whose lanes to report (required)
-   */
+  /** Model whose lanes to report (required) */
   model_name?: string;
 };
 
 export type GetChannelDiagnosticStatsParams = {
-  /**
-   * Window start (unix seconds); defaults to last 7 days
-   */
+  /** Window start (unix seconds); defaults to last 7 days */
   start_timestamp?: number;
-  /**
-   * Sort: transitions|uptime|downtime (default transitions)
-   */
+  /** Sort: transitions|uptime|downtime (default transitions) */
   order_by?: string;
-  /**
-   * Max channels returned (0 = all)
-   */
+  /** Max channels returned (0 = all) */
   limit?: number;
 };
 
 export type SearchChannelsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
-  /**
-   * Filter by model
-   */
+  /** Filter by model */
   model?: string;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
   id_sort?: boolean;
   tag_mode?: boolean;
   type?: number;
-  /**
-   * Column to sort by
-   */
+  /** Column to sort by */
   sort_by?: string;
-  /**
-   * asc or desc
-   */
+  /** asc or desc */
   sort_order?: string;
 };
 
 export type GetTagModelsParams = {
-  /**
-   * Tag name
-   */
+  /** Tag name */
   tag?: string;
 };
 
 export type TestChannelParams = {
-  /**
-   * Model to test
-   */
+  /** Model to test */
   model?: string;
-  /**
-   * Endpoint type
-   */
+  /** Endpoint type */
   endpoint_type?: string;
   stream?: boolean;
 };
@@ -5203,27 +5175,21 @@ export type TestChannelParams = {
 export type GetAllQuotaDatesParams = {
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by username
-   */
+  /** Filter by username */
   username?: string;
 };
 
 export type GetFlowQuotaDatesParams = {
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by username (ignored for non-admin callers)
-   */
+  /** Filter by username (ignored for non-admin callers) */
   username?: string;
 };
 
 export type GetUserFlowQuotaDatesParams = {
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by username (ignored for non-admin callers)
-   */
+  /** Filter by username (ignored for non-admin callers) */
   username?: string;
 };
 
@@ -5238,17 +5204,11 @@ export type GetQuotaDataSummaryParams = {
 };
 
 export type GetAllDeploymentsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
 };
 
@@ -5258,57 +5218,35 @@ export type GetAvailableReplicasParams = {
 };
 
 export type CheckClusterNameAvailabilityParams = {
-  /**
-   * Cluster name to check
-   */
+  /** Cluster name to check */
   name?: string;
 };
 
 export type SearchDeploymentsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
 };
 
 export type GetDeploymentLogsParams = {
-  /**
-   * Container ID
-   */
+  /** Container ID */
   container_id?: string;
-  /**
-   * Log level
-   */
+  /** Log level */
   level?: string;
-  /**
-   * Stream type
-   */
+  /** Stream type */
   stream?: string;
-  /**
-   * Pagination cursor
-   */
+  /** Pagination cursor */
   cursor?: string;
   limit?: number;
   follow?: boolean;
-  /**
-   * Start time (RFC3339)
-   */
+  /** Start time (RFC3339) */
   start_time?: string;
-  /**
-   * End time (RFC3339)
-   */
+  /** End time (RFC3339) */
   end_time?: string;
 };
 
@@ -5317,116 +5255,70 @@ export type DeleteHistoryLogsParams = {
 };
 
 export type GetAllLogsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
   type?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by username
-   */
+  /** Filter by username */
   username?: string;
-  /**
-   * Filter by the Discord ID bound to a user
-   */
+  /** Filter by the Discord ID bound to a user */
   discord_id?: string;
-  /**
-   * Filter by token name
-   */
+  /** Filter by token name */
   token_name?: string;
-  /**
-   * Filter by model name
-   */
+  /** Filter by model name */
   model_name?: string;
   channel?: number;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
-  /**
-   * Filter by request ID
-   */
+  /** Filter by request ID */
   request_id?: string;
-  /**
-   * Filter by upstream request ID
-   */
+  /** Filter by upstream request ID */
   upstream_request_id?: string;
-  /**
-   * Filter by subscription plan title (substring)
-   */
+  /** Filter by subscription plan title (substring) */
   subscription_plan?: string;
 };
 
 export type GetLogByRequestParams = {
-  /**
-   * Full request ID naming exactly one log row
-   */
+  /** Full request ID naming exactly one log row */
   request_id?: string;
 };
 
 export type GetChannelAffinityUsageCacheStatsParams = {
-  /**
-   * Filter by rule name
-   */
+  /** Filter by rule name */
   rule_name?: string;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   using_group?: string;
-  /**
-   * Filter by key fingerprint
-   */
+  /** Filter by key fingerprint */
   key_fp?: string;
 };
 
 export type GetUserLogsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
   type?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by token name
-   */
+  /** Filter by token name */
   token_name?: string;
-  /**
-   * Filter by model name
-   */
+  /** Filter by model name */
   model_name?: string;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
-  /**
-   * Filter by request ID
-   */
+  /** Filter by request ID */
   request_id?: string;
-  /**
-   * Filter by upstream request ID
-   */
+  /** Filter by upstream request ID */
   upstream_request_id?: string;
-  /**
-   * Filter by subscription plan title (substring)
-   */
+  /** Filter by subscription plan title (substring) */
   subscription_plan?: string;
 };
 
 export type GetSelfPerfMetricsParams = {
-  /**
-   * Lookback window in hours (default 24, max 720)
-   */
+  /** Lookback window in hours (default 24, max 720) */
   hours?: number;
 };
 
@@ -5434,18 +5326,12 @@ export type GetLogsSelfStatParams = {
   type?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by token name
-   */
+  /** Filter by token name */
   token_name?: string;
-  /**
-   * Filter by model name
-   */
+  /** Filter by model name */
   model_name?: string;
   channel?: number;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
 };
 
@@ -5453,688 +5339,424 @@ export type GetLogsStatParams = {
   type?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by token name
-   */
+  /** Filter by token name */
   token_name?: string;
-  /**
-   * Filter by username
-   */
+  /** Filter by username */
   username?: string;
-  /**
-   * Filter by model name
-   */
+  /** Filter by model name */
   model_name?: string;
   channel?: number;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
 };
 
 export type GetAllMidjourneyParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Filter by channel ID
-   */
+  /** Filter by channel ID */
   channel_id?: string;
-  /**
-   * Midjourney task ID
-   */
+  /** Midjourney task ID */
   mj_id?: string;
-  /**
-   * Start timestamp
-   */
+  /** Start timestamp */
   start_timestamp?: string;
-  /**
-   * End timestamp
-   */
+  /** End timestamp */
   end_timestamp?: string;
 };
 
 export type GetUserMidjourneyParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Midjourney task ID
-   */
+  /** Midjourney task ID */
   mj_id?: string;
-  /**
-   * Start timestamp
-   */
+  /** Start timestamp */
   start_timestamp?: string;
-  /**
-   * End timestamp
-   */
+  /** End timestamp */
   end_timestamp?: string;
 };
 
 export type GetModelStatusBucketsParams = {
-  /**
-   * Model name (required)
-   */
+  /** Model name (required) */
   model?: string;
-  /**
-   * Bucket size: 1m|5m|15m|1h|1d (default 15m)
-   */
+  /** Bucket size: 1m|5m|15m|1h|1d (default 15m) */
   bucket?: string;
-  /**
-   * History window in hours (default 24, max 720)
-   */
+  /** History window in hours (default 24, max 720) */
   hours?: number;
 };
 
 export type GetModelStatusIncidentsParams = {
-  /**
-   * Unix seconds; default now-24h
-   */
+  /** Unix seconds; default now-24h */
   since?: number;
-  /**
-   * Unix seconds; default now
-   */
+  /** Unix seconds; default now */
   until?: number;
-  /**
-   * Optional model filter
-   */
+  /** Optional model filter */
   model?: string;
 };
 
 export type GetModelStatusPageCompactParams = {
-  /**
-   * Bucket size: 1m|5m|15m|1h|1d (default 15m)
-   */
+  /** Bucket size: 1m|5m|15m|1h|1d (default 15m) */
   bucket?: string;
-  /**
-   * History window in hours (default 24, max 720)
-   */
+  /** History window in hours (default 24, max 720) */
   hours?: number;
-  /**
-   * 1 = emit compact per-bucket tuples; default 0 (verbose StatusBarData[])
-   */
+  /** 1 = emit compact per-bucket tuples; default 0 (verbose StatusBarData[]) */
   compact?: number;
 };
 
 export type GetAllModelsMetaParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type SearchModelsMetaParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type GetNotifyEventsParams = {
-  /**
-   * Only return events newer than this unix timestamp
-   */
+  /** Only return events newer than this unix timestamp */
   since?: string;
-  /**
-   * Comma-separated topic filter
-   */
+  /** Comma-separated topic filter */
   topics?: string;
 };
 
 export type GetRoomHistoryParams = {
-  /**
-   * Room id from the invite link
-   */
+  /** Room id from the invite link */
   room?: string;
 };
 
 export type EmailBindParams = {
-  /**
-   * Email address
-   */
+  /** Email address */
   email?: string;
-  /**
-   * Verification code
-   */
+  /** Verification code */
   code?: string;
 };
 
 export type GenerateOAuthCodeQueryParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
-  /**
-   * OAuth provider name
-   */
+  /** OAuth provider name */
   provider?: string;
-  /**
-   * OAuth flow intent: login, bind or verify
-   */
+  /** OAuth flow intent: login, bind or verify */
   intent?: string;
-  /**
-   * Affiliate code
-   */
+  /** Affiliate code */
   aff?: string;
-  /**
-   * URL to redirect to after OAuth login (must match allowed origins)
-   */
+  /** URL to redirect to after OAuth login (must match allowed origins) */
   redirect_uri?: string;
-  /**
-   * Set to 'bind' to link OAuth provider to existing account (requires Authorization header)
-   */
+  /** Set to 'bind' to link OAuth provider to existing account (requires Authorization header) */
   action?: string;
-  /**
-   * Declared customer type for an account created by this login: consumer or business
-   */
+  /** Declared customer type for an account created by this login: consumer or business */
   customer_type?: string;
-  /**
-   * Step-up scope a verify intent proves (requires Authorization header)
-   */
+  /** Step-up scope a verify intent proves (requires Authorization header) */
   scope?: string;
-  /**
-   * JSON object with the step-up context, for scopes that bind one
-   */
+  /** JSON object with the step-up context, for scopes that bind one */
   context?: string;
-  /**
-   * Terms of use version the signup page showed (YYYY-MM-DD), recorded as accepted on an account this login creates
-   */
+  /** Terms of use version the signup page showed (YYYY-MM-DD), recorded as accepted on an account this login creates */
   terms_version?: string;
-  /**
-   * Locale of the terms notice shown
-   */
+  /** Locale of the terms notice shown */
   terms_locale?: string;
-  /**
-   * The terms notice exactly as shown
-   */
+  /** The terms notice exactly as shown */
   terms_text?: string;
 };
 
 export type GenerateOAuthCodeParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
 };
 
 export type WeChatAuthParams = {
-  /**
-   * WeChat auth code
-   */
+  /** WeChat auth code */
   code?: string;
 };
 
 export type HandleOAuthParams = {
-  /**
-   * OAuth state
-   */
+  /** OAuth state */
   state?: string;
-  /**
-   * OAuth authorization code
-   */
+  /** OAuth authorization code */
   code?: string;
 };
 
 export type ClearChannelAffinityCacheParams = {
-  /**
-   * Clear all entries
-   */
+  /** Clear all entries */
   all?: string;
-  /**
-   * Filter by rule name
-   */
+  /** Filter by rule name */
   rule_name?: string;
 };
 
 export type GetPerfMetricsParams = {
-  /**
-   * Model name (required)
-   */
+  /** Model name (required) */
   model?: string;
-  /**
-   * Optional group filter
-   */
+  /** Optional group filter */
   group?: string;
-  /**
-   * Lookback window in hours (default 24, max 720)
-   */
+  /** Lookback window in hours (default 24, max 720) */
   hours?: number;
 };
 
 export type GetPerfMetricsSummaryParams = {
-  /**
-   * Lookback window in hours (default 24, max 720)
-   */
+  /** Lookback window in hours (default 24, max 720) */
   hours?: number;
 };
 
 export type GetPrefillGroupsParams = {
-  /**
-   * Filter by group type
-   */
+  /** Filter by group type */
   type?: string;
 };
 
 export type GetPricingCatalogParams = {
-  /**
-   * Include description and metadata (browse/compare need them; the model picker does not)
-   */
+  /** Include description and metadata (browse/compare need them; the model picker does not) */
   full?: boolean;
-  /**
-   * Only models served by this vendor, newest first (the vendor page)
-   */
+  /** Only models served by this vendor, newest first (the vendor page) */
   vendor?: string;
-  /**
-   * Comma-separated endpoint types; keeps only models served by one of them, newest first
-   */
+  /** Comma-separated endpoint types; keeps only models served by one of them, newest first */
   endpoint?: string;
-  /**
-   * Only models of this modality (text, image, video, audio, embedding), newest first
-   */
+  /** Only models of this modality (text, image, video, audio, embedding), newest first */
   type?: string;
-  /**
-   * Also return models whose every lane is currently down, flagged online=false (the sitemap needs them; the picker does not)
-   */
+  /** Also return models whose every lane is currently down, flagged online=false (the sitemap needs them; the picker does not) */
   include_offline?: boolean;
 };
 
 export type GetPricingCatalogModelParams = {
-  /**
-   * Model name to look up (returns it even when all channels are offline)
-   */
+  /** Model name to look up (returns it even when all channels are offline) */
   model?: string;
 };
 
 export type GetPricingModelGroupsParams = {
-  /**
-   * Model name to look up (returns it even when all channels are offline)
-   */
+  /** Model name to look up (returns it even when all channels are offline) */
   model?: string;
 };
 
 export type GetRankingsParams = {
-  /**
-   * Ranking period: today|week|month|year (default week)
-   */
+  /** Ranking period: today|week|month|year (default week) */
   period?: string;
 };
 
 export type GetModelRankingParams = {
-  /**
-   * Model name (required)
-   */
+  /** Model name (required) */
   model?: string;
-  /**
-   * Ranking period: today|week|month|year (default week)
-   */
+  /** Ranking period: today|week|month|year (default week) */
   period?: string;
 };
 
 export type GetModelPriceHistoryParams = {
-  /**
-   * Model name (required)
-   */
+  /** Model name (required) */
   model?: string;
 };
 
 export type GetAllRedemptionsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type UpdateRedemptionParams = {
-  /**
-   * Only update status
-   */
+  /** Only update status */
   status_only?: string;
 };
 
 export type SearchRedemptionsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
-  /**
-   * Redemption status filter
-   */
+  /** Redemption status filter */
   status?: string;
 };
 
 export type SendPasswordResetEmailParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
-  /**
-   * Email address
-   */
+  /** Email address */
   email?: string;
 };
 
 export type GetUserSubscriptionOrdersParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type GetAllTaskParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by platform
-   */
+  /** Filter by platform */
   platform?: string;
-  /**
-   * Filter by task ID
-   */
+  /** Filter by task ID */
   task_id?: string;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
-  /**
-   * Filter by action
-   */
+  /** Filter by action */
   action?: string;
-  /**
-   * Filter by channel ID
-   */
+  /** Filter by channel ID */
   channel_id?: string;
 };
 
 export type GetUserTaskParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
   start_timestamp?: number;
   end_timestamp?: number;
-  /**
-   * Filter by platform
-   */
+  /** Filter by platform */
   platform?: string;
-  /**
-   * Filter by task ID
-   */
+  /** Filter by task ID */
   task_id?: string;
-  /**
-   * Filter by status
-   */
+  /** Filter by status */
   status?: string;
-  /**
-   * Filter by action
-   */
+  /** Filter by action */
   action?: string;
 };
 
 export type GetAllTokensParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type UpdateTokenParams = {
-  /**
-   * Only update status
-   */
+  /** Only update status */
   status_only?: string;
 };
 
 export type SearchTokensParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
-  /**
-   * Filter by token
-   */
+  /** Filter by token */
   token?: string;
 };
 
 export type GetAllUsersParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type GetReferralCommissionsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type GetInvitedUsersParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type GetBillingPortalParams = {
-  /**
-   * Payment provider portal to open (stripe|creem); defaults to the latest payment
-   */
+  /** Payment provider portal to open (stripe|creem); defaults to the latest payment */
   provider?: string;
 };
 
 export type GetCheckinStatusParams = {
-  /**
-   * Month in YYYY-MM format
-   */
+  /** Month in YYYY-MM format */
   month?: string;
 };
 
 export type DoCheckinParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
 };
 
 export type LoginParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
 };
 
 export type PartnerListRedemptionsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type RegisterParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
 };
 
 export type SearchUsersParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
-  /**
-   * Filter by group
-   */
+  /** Filter by group */
   group?: string;
-  /**
-   * Only users whose balance is below zero
-   */
+  /** Only users whose balance is below zero */
   negative_quota?: boolean;
-  /**
-   * Only users with consent enforcement switched on for their account
-   */
+  /** Only users with consent enforcement switched on for their account */
   consent_enforced?: boolean;
-  /**
-   * Field to sort by
-   */
+  /** Field to sort by */
   sort_by?: string;
-  /**
-   * Sort order: asc or desc
-   */
+  /** Sort order: asc or desc */
   sort_order?: string;
 };
 
 export type GetAllTopUpsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
 };
 
 export type GetUserTopUpsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
-  /**
-   * Search keyword
-   */
+  /** Search keyword */
   keyword?: string;
 };
 
 export type GetAllVendorsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type SearchVendorsParams = {
-  /**
-   * Page number (1-based)
-   */
+  /** Page number (1-based) */
   p?: number;
-  /**
-   * Items per page
-   */
+  /** Items per page */
   page_size?: number;
 };
 
 export type SendEmailVerificationParams = {
-  /**
-   * Cloudflare Turnstile verification token
-   */
+  /** Cloudflare Turnstile verification token */
   turnstile?: string;
-  /**
-   * Email address
-   */
+  /** Email address */
   email?: string;
 };
 
 export type GetVerificationMethodsParams = {
-  /**
-   * Step-up scope to list the verification methods for
-   */
+  /** Step-up scope to list the verification methods for */
   scope: string;
 };
 
@@ -6257,12 +5879,12 @@ export const getAllChannels = async (
 };
 
 export type addChannelResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoAddChannelResult;
   status: 200;
 };
 
 export type addChannelResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoAddChannelResult;
   status: 200;
 };
 
@@ -22561,109 +22183,6 @@ export const playground = async (
   });
 };
 
-export type relayTaskFetchResponse200ApplicationJson = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type relayTaskFetchResponse200ApplicationXml = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type relayTaskFetchResponseSuccess = (
-  | relayTaskFetchResponse200ApplicationJson
-  | relayTaskFetchResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type relayTaskFetchResponse = relayTaskFetchResponseSuccess;
-
-export const getRelayTaskFetchUrl = () => {
-  return `/suno/fetch`;
-};
-
-/**
- * @summary Relay Task Fetch
- */
-export const relayTaskFetch = async (
-  options?: Parameters<typeof customFetch>[1],
-): Promise<relayTaskFetchResponse> => {
-  return customFetch<relayTaskFetchResponse>(getRelayTaskFetchUrl(), {
-    ...options,
-    method: "POST",
-  });
-};
-
-export type getSunoFetchIdResponse200ApplicationJson = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type getSunoFetchIdResponse200ApplicationXml = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type getSunoFetchIdResponseSuccess = (
-  | getSunoFetchIdResponse200ApplicationJson
-  | getSunoFetchIdResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getSunoFetchIdResponse = getSunoFetchIdResponseSuccess;
-
-export const getGetSunoFetchIdUrl = (id: string) => {
-  return `/suno/fetch/${id}`;
-};
-
-/**
- * @summary Get Suno Fetch Id
- */
-export const getSunoFetchId = async (
-  id: string,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getSunoFetchIdResponse> => {
-  return customFetch<getSunoFetchIdResponse>(getGetSunoFetchIdUrl(id), {
-    ...options,
-    method: "GET",
-  });
-};
-
-export type relayTaskResponse200ApplicationJson = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type relayTaskResponse200ApplicationXml = {
-  data: TaskResponseDoc;
-  status: 200;
-};
-
-export type relayTaskResponseSuccess = (
-  relayTaskResponse200ApplicationJson | relayTaskResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type relayTaskResponse = relayTaskResponseSuccess;
-
-export const getRelayTaskUrl = (action: string) => {
-  return `/suno/submit/${action}`;
-};
-
-/**
- * @summary Relay Task
- */
-export const relayTask = async (
-  action: string,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<relayTaskResponse> => {
-  return customFetch<relayTaskResponse>(getRelayTaskUrl(action), {
-    ...options,
-    method: "POST",
-  });
-};
-
 export type relayAlphaSearchResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
@@ -23193,40 +22712,6 @@ export const deleteV1FilesId = async (
   return customFetch<deleteV1FilesIdResponse>(getDeleteV1FilesIdUrl(id), {
     ...options,
     method: "DELETE",
-  });
-};
-
-export type getV1FilesIdResponse200ApplicationJson = {
-  data: RelayNotImplementedError;
-  status: 200;
-};
-
-export type getV1FilesIdResponse200ApplicationXml = {
-  data: RelayNotImplementedError;
-  status: 200;
-};
-
-export type getV1FilesIdResponseSuccess = (
-  getV1FilesIdResponse200ApplicationJson | getV1FilesIdResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getV1FilesIdResponse = getV1FilesIdResponseSuccess;
-
-export const getGetV1FilesIdUrl = (id: string) => {
-  return `/v1/files/${id}`;
-};
-
-/**
- * @summary Get V1 Files Id
- */
-export const getV1FilesId = async (
-  id: string,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getV1FilesIdResponse> => {
-  return customFetch<getV1FilesIdResponse>(getGetV1FilesIdUrl(id), {
-    ...options,
-    method: "GET",
   });
 };
 
@@ -23862,7 +23347,7 @@ export const getGetV1VideoGenerationsTaskIdUrl = (taskId: string) => {
 };
 
 /**
- * @summary Get V1 Video Generations Task_id
+ * @summary Relay Task Fetch
  */
 export const getV1VideoGenerationsTaskId = async (
   taskId: string,
@@ -23901,7 +23386,7 @@ export const getPostV1VideosVideoIdRemixUrl = (videoId: string) => {
 };
 
 /**
- * @summary Post V1 Videos Video_id Remix
+ * @summary Relay Task
  */
 export const postV1VideosVideoIdRemix = async (
   videoId: string,
