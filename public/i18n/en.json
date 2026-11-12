@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: One API Key for Every AI Model, Free Models Included",
-    "DESCRIPTION": "One OpenAI compatible key for GPT, Claude, Gemini, DeepSeek, GLM and more, with free models and no credit card. Use it in apps, coding agents and chat clients.",
+    "TITLE": "{appName}: Free Janitor AI Proxy, One Key for Every AI Model",
+    "DESCRIPTION": "One OpenAI compatible key for GPT, Claude, Gemini, DeepSeek and GLM, plus a free proxy for Janitor AI and SillyTavern. Free models, no credit card.",
     "KEYWORDS": "free AI proxy, free proxy for Janitor AI, Janitor AI proxy, SillyTavern API, free AI API, AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, OpenAI-compatible API",
     "ACCOUNT": {
       "TITLE": "{appName} Account",
@@ -223,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: One API Key for Every AI Model, Free Models Included",
-      "DESCRIPTION": "One OpenAI compatible key for GPT, Claude, Gemini, DeepSeek, GLM and more, with free models and no credit card. Use it in apps, coding agents and chat clients.",
+      "TITLE": "{appName}: Free Janitor AI Proxy, One Key for Every AI Model",
+      "DESCRIPTION": "One OpenAI compatible key for GPT, Claude, Gemini, DeepSeek and GLM, plus a free proxy for Janitor AI and SillyTavern. Free models, no credit card.",
       "KEYWORDS": "free AI proxy, free proxy for Janitor AI, Janitor AI proxy, SillyTavern API, free AI API, AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, OpenAI-compatible API"
     },
     "FAQ": {

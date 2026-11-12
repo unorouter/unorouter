@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: हर AI मॉडल के लिए एक API कुंजी, मुफ़्त मॉडल शामिल",
-    "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM और अन्य के लिए एक OpenAI-संगत कुंजी, मुफ़्त मॉडल के साथ और बिना क्रेडिट कार्ड। ऐप्स, कोडिंग एजेंट और चैट क्लाइंट में इस्तेमाल करें।",
+    "TITLE": "{appName}: Janitor AI के लिए मुफ़्त प्रॉक्सी, हर AI मॉडल के लिए एक कुंजी",
+    "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek और GLM के लिए एक OpenAI-संगत कुंजी, साथ में Janitor AI और SillyTavern के लिए मुफ़्त प्रॉक्सी। मुफ़्त मॉडल, बिना क्रेडिट कार्ड।",
     "KEYWORDS": "मुफ़्त AI प्रॉक्सी, Janitor AI मुफ़्त प्रॉक्सी, Janitor AI प्रॉक्सी, SillyTavern API, मुफ़्त AI API, AI API, OpenAI विकल्प, Claude API, GPT API, Gemini API, DeepSeek API, AI राउटर, AI गेटवे",
     "ACCOUNT": {
       "TITLE": "{appName} खाता",
@@ -223,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: हर AI मॉडल के लिए एक API कुंजी, मुफ़्त मॉडल शामिल",
-      "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM और अन्य के लिए एक OpenAI-संगत कुंजी, मुफ़्त मॉडल के साथ और बिना क्रेडिट कार्ड। ऐप्स, कोडिंग एजेंट और चैट क्लाइंट में इस्तेमाल करें।",
+      "TITLE": "{appName}: Janitor AI के लिए मुफ़्त प्रॉक्सी, हर AI मॉडल के लिए एक कुंजी",
+      "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek और GLM के लिए एक OpenAI-संगत कुंजी, साथ में Janitor AI और SillyTavern के लिए मुफ़्त प्रॉक्सी। मुफ़्त मॉडल, बिना क्रेडिट कार्ड।",
       "KEYWORDS": "मुफ़्त AI प्रॉक्सी, Janitor AI मुफ़्त प्रॉक्सी, Janitor AI प्रॉक्सी, SillyTavern API, मुफ़्त AI API, AI API, OpenAI विकल्प, Claude API, GPT API, Gemini API, DeepSeek API, AI राउटर, AI गेटवे"
     },
     "FAQ": {

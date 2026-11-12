@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: Tüm yapay zeka modelleri için tek API anahtarı, ücretsiz modeller dahil",
-    "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM ve daha fazlası için OpenAI uyumlu tek anahtar; ücretsiz modeller var, kredi kartı gerekmez. Uygulamalarda, kod ajanlarında ve sohbet istemcilerinde kullanın.",
+    "TITLE": "{appName}: Ücretsiz Janitor AI proxy'si, tüm yapay zeka modelleri için tek anahtar",
+    "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek ve GLM için OpenAI uyumlu tek anahtar, ayrıca Janitor AI ve SillyTavern için ücretsiz proxy. Ücretsiz modeller, kredi kartı gerekmez.",
     "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici",
     "ACCOUNT": {
       "TITLE": "{appName} Hesabı",
@@ -223,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: Tüm yapay zeka modelleri için tek API anahtarı, ücretsiz modeller dahil",
-      "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek, GLM ve daha fazlası için OpenAI uyumlu tek anahtar; ücretsiz modeller var, kredi kartı gerekmez. Uygulamalarda, kod ajanlarında ve sohbet istemcilerinde kullanın.",
+      "TITLE": "{appName}: Ücretsiz Janitor AI proxy'si, tüm yapay zeka modelleri için tek anahtar",
+      "DESCRIPTION": "GPT, Claude, Gemini, DeepSeek ve GLM için OpenAI uyumlu tek anahtar, ayrıca Janitor AI ve SillyTavern için ücretsiz proxy. Ücretsiz modeller, kredi kartı gerekmez.",
       "KEYWORDS": "ücretsiz yapay zeka proxy, Janitor AI ücretsiz proxy, Janitor AI proxy, SillyTavern API, ücretsiz yapay zeka API, yapay zeka API, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, yapay zeka yönlendirici"
     },
     "FAQ": {

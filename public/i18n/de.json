@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: Ein API-Schlüssel für jedes KI-Modell, mit Gratis-Modellen",
-    "DESCRIPTION": "Ein OpenAI-kompatibler Schlüssel für GPT, Claude, Gemini, DeepSeek, GLM und mehr, mit Gratis-Modellen und ohne Kreditkarte. Für Apps, Coding-Agents und Chat-Clients.",
+    "TITLE": "{appName}: Gratis Janitor AI Proxy, ein Schlüssel für jedes KI-Modell",
+    "DESCRIPTION": "Ein OpenAI-kompatibler Schlüssel für GPT, Claude, Gemini, DeepSeek und GLM, dazu ein gratis Proxy für Janitor AI und SillyTavern. Gratis-Modelle, ohne Kreditkarte.",
     "KEYWORDS": "kostenloser KI-Proxy, kostenloser Proxy für Janitor AI, Janitor AI Proxy, SillyTavern API, kostenlose KI-API, KI-API, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI-Router, KI-Gateway, OpenAI-kompatible API",
     "ACCOUNT": {
       "TITLE": "{appName} Konto",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: Ein API-Schlüssel für jedes KI-Modell, mit Gratis-Modellen",
-      "DESCRIPTION": "Ein OpenAI-kompatibler Schlüssel für GPT, Claude, Gemini, DeepSeek, GLM und mehr, mit Gratis-Modellen und ohne Kreditkarte. Für Apps, Coding-Agents und Chat-Clients.",
+      "TITLE": "{appName}: Gratis Janitor AI Proxy, ein Schlüssel für jedes KI-Modell",
+      "DESCRIPTION": "Ein OpenAI-kompatibler Schlüssel für GPT, Claude, Gemini, DeepSeek und GLM, dazu ein gratis Proxy für Janitor AI und SillyTavern. Gratis-Modelle, ohne Kreditkarte.",
       "KEYWORDS": "kostenloser KI-Proxy, kostenloser Proxy für Janitor AI, Janitor AI Proxy, SillyTavern API, kostenlose KI-API, KI-API, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI-Router, KI-Gateway, OpenAI-kompatible API"
     },
     "HOW_IT_WORKS": {

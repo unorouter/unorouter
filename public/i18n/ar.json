@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: مفتاح API واحد لكل نماذج الذكاء الاصطناعي، مع نماذج مجانية",
-    "DESCRIPTION": "مفتاح واحد متوافق مع OpenAI لـ GPT وClaude وGemini وDeepSeek وGLM وغيرها، مع نماذج مجانية ودون بطاقة ائتمان. للتطبيقات ووكلاء البرمجة وتطبيقات الدردشة.",
+    "TITLE": "{appName}: بروكسي مجاني لـ Janitor AI ومفتاح واحد لكل نماذج الذكاء الاصطناعي",
+    "DESCRIPTION": "مفتاح واحد متوافق مع OpenAI لـ GPT وClaude وGemini وDeepSeek وGLM، مع بروكسي مجاني لـ Janitor AI وSillyTavern. نماذج مجانية ودون بطاقة ائتمان.",
     "KEYWORDS": "بروكسي ذكاء اصطناعي مجاني, بروكسي مجاني لـ Janitor AI, بروكسي Janitor AI, SillyTavern API, واجهة ذكاء اصطناعي مجانية, واجهة برمجة ذكاء اصطناعي, بديل OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, موجه ذكاء اصطناعي",
     "ACCOUNT": {
       "TITLE": "حساب {appName}",
@@ -223,8 +223,8 @@
       "DISCORD": "ديسكورد"
     },
     "META": {
-      "TITLE": "{appName}: مفتاح API واحد لكل نماذج الذكاء الاصطناعي، مع نماذج مجانية",
-      "DESCRIPTION": "مفتاح واحد متوافق مع OpenAI لـ GPT وClaude وGemini وDeepSeek وGLM وغيرها، مع نماذج مجانية ودون بطاقة ائتمان. للتطبيقات ووكلاء البرمجة وتطبيقات الدردشة.",
+      "TITLE": "{appName}: بروكسي مجاني لـ Janitor AI ومفتاح واحد لكل نماذج الذكاء الاصطناعي",
+      "DESCRIPTION": "مفتاح واحد متوافق مع OpenAI لـ GPT وClaude وGemini وDeepSeek وGLM، مع بروكسي مجاني لـ Janitor AI وSillyTavern. نماذج مجانية ودون بطاقة ائتمان.",
       "KEYWORDS": "بروكسي ذكاء اصطناعي مجاني, بروكسي مجاني لـ Janitor AI, بروكسي Janitor AI, SillyTavern API, واجهة ذكاء اصطناعي مجانية, واجهة برمجة ذكاء اصطناعي, بديل OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, موجه ذكاء اصطناعي"
     },
     "FAQ": {

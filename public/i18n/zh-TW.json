@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}：一組 API 金鑰通用所有 AI 模型，含免費模型",
-    "DESCRIPTION": "一組相容 OpenAI 的金鑰，可用於 GPT、Claude、Gemini、DeepSeek、GLM 等模型，提供免費模型，無需信用卡。適用於應用程式、程式設計代理與聊天客戶端。",
+    "TITLE": "{appName}：免費 Janitor AI 代理，一組金鑰通用所有 AI 模型",
+    "DESCRIPTION": "一組相容 OpenAI 的金鑰，可用於 GPT、Claude、Gemini、DeepSeek 和 GLM，另有適用於 Janitor AI 與 SillyTavern 的免費代理。提供免費模型，無需信用卡。",
     "KEYWORDS": "免費 AI 代理, Janitor AI 免費代理, Janitor AI 代理, SillyTavern API, 免費 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 閘道",
     "ACCOUNT": {
       "TITLE": "{appName} 帳戶",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}：一組 API 金鑰通用所有 AI 模型，含免費模型",
-      "DESCRIPTION": "一組相容 OpenAI 的金鑰，可用於 GPT、Claude、Gemini、DeepSeek、GLM 等模型，提供免費模型，無需信用卡。適用於應用程式、程式設計代理與聊天客戶端。",
+      "TITLE": "{appName}：免費 Janitor AI 代理，一組金鑰通用所有 AI 模型",
+      "DESCRIPTION": "一組相容 OpenAI 的金鑰，可用於 GPT、Claude、Gemini、DeepSeek 和 GLM，另有適用於 Janitor AI 與 SillyTavern 的免費代理。提供免費模型，無需信用卡。",
       "KEYWORDS": "免費 AI 代理, Janitor AI 免費代理, Janitor AI 代理, SillyTavern API, 免費 AI API, AI API, OpenAI 替代, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 閘道"
     },
     "HOW_IT_WORKS": {

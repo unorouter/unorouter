@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: una chiave API per ogni modello di IA, modelli gratuiti inclusi",
-    "DESCRIPTION": "Una chiave compatibile con OpenAI per GPT, Claude, Gemini, DeepSeek, GLM e altri, con modelli gratuiti e senza carta di credito. Per app, agenti di coding e client di chat.",
+    "TITLE": "{appName}: proxy Janitor AI gratuito, una chiave per ogni modello di IA",
+    "DESCRIPTION": "Una chiave compatibile con OpenAI per GPT, Claude, Gemini, DeepSeek e GLM, più un proxy gratuito per Janitor AI e SillyTavern. Modelli gratuiti, senza carta di credito.",
     "KEYWORDS": "proxy IA gratuito, proxy gratuito per Janitor AI, proxy Janitor AI, API SillyTavern, API IA gratuita, API IA, alternativa a OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router IA, gateway IA",
     "ACCOUNT": {
       "TITLE": "Account {appName}",
@@ -223,8 +223,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}: una chiave API per ogni modello di IA, modelli gratuiti inclusi",
-      "DESCRIPTION": "Una chiave compatibile con OpenAI per GPT, Claude, Gemini, DeepSeek, GLM e altri, con modelli gratuiti e senza carta di credito. Per app, agenti di coding e client di chat.",
+      "TITLE": "{appName}: proxy Janitor AI gratuito, una chiave per ogni modello di IA",
+      "DESCRIPTION": "Una chiave compatibile con OpenAI per GPT, Claude, Gemini, DeepSeek e GLM, più un proxy gratuito per Janitor AI e SillyTavern. Modelli gratuiti, senza carta di credito.",
       "KEYWORDS": "proxy IA gratuito, proxy gratuito per Janitor AI, proxy Janitor AI, API SillyTavern, API IA gratuita, API IA, alternativa a OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router IA, gateway IA"
     },
     "FAQ": {

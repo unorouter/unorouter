@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}：すべてのAIモデルに使える1つのAPIキー、無料モデル付き",
-    "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek、GLMなどに使えるOpenAI互換のキー。無料モデルあり、クレジットカード不要。アプリ、コーディングエージェント、チャットクライアントで使えます。",
+    "TITLE": "{appName}：無料のJanitor AIプロキシ、すべてのAIモデルに使える1つのキー",
+    "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek、GLMに使えるOpenAI互換のキーと、Janitor AIとSillyTavern向けの無料プロキシ。無料モデルあり、クレジットカード不要。",
     "KEYWORDS": "無料AIプロキシ, Janitor AI 無料プロキシ, Janitor AI プロキシ, SillyTavern API, 無料AI API, AI API, OpenAI 代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ",
     "ACCOUNT": {
       "TITLE": "{appName} アカウント",
@@ -201,8 +201,8 @@
       "DISCORD": "Discord"
     },
     "META": {
-      "TITLE": "{appName}：すべてのAIモデルに使える1つのAPIキー、無料モデル付き",
-      "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek、GLMなどに使えるOpenAI互換のキー。無料モデルあり、クレジットカード不要。アプリ、コーディングエージェント、チャットクライアントで使えます。",
+      "TITLE": "{appName}：無料のJanitor AIプロキシ、すべてのAIモデルに使える1つのキー",
+      "DESCRIPTION": "GPT、Claude、Gemini、DeepSeek、GLMに使えるOpenAI互換のキーと、Janitor AIとSillyTavern向けの無料プロキシ。無料モデルあり、クレジットカード不要。",
       "KEYWORDS": "無料AIプロキシ, Janitor AI 無料プロキシ, Janitor AI プロキシ, SillyTavern API, 無料AI API, AI API, OpenAI 代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ"
     },
     "HOW_IT_WORKS": {

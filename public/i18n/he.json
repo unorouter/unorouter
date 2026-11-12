@@ -1,7 +1,7 @@
 {
   "METADATA": {
-    "TITLE": "{appName}: מפתח API אחד לכל מודל AI, כולל מודלים חינמיים",
-    "DESCRIPTION": "מפתח אחד תואם OpenAI ל-GPT, Claude, Gemini, DeepSeek, GLM ועוד, עם מודלים חינמיים וללא כרטיס אשראי. לאפליקציות, לסוכני קוד וללקוחות צ'אט.",
+    "TITLE": "{appName}: פרוקסי חינמי ל-Janitor AI, מפתח אחד לכל מודל AI",
+    "DESCRIPTION": "מפתח אחד תואם OpenAI ל-GPT, Claude, Gemini, DeepSeek ו-GLM, ועוד פרוקסי חינמי ל-Janitor AI ול-SillyTavern. מודלים חינמיים, ללא כרטיס אשראי.",
     "KEYWORDS": "פרוקסי AI חינמי, פרוקסי חינמי ל-Janitor AI, פרוקסי Janitor AI, SillyTavern API, API AI חינמי, API AI, חלופה ל-OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, נתב AI",
     "ACCOUNT": {
       "TITLE": "חשבון {appName}",
@@ -223,8 +223,8 @@
       "DISCORD": "דיסקורד"
     },
     "META": {
-      "TITLE": "{appName}: מפתח API אחד לכל מודל AI, כולל מודלים חינמיים",
-      "DESCRIPTION": "מפתח אחד תואם OpenAI ל-GPT, Claude, Gemini, DeepSeek, GLM ועוד, עם מודלים חינמיים וללא כרטיס אשראי. לאפליקציות, לסוכני קוד וללקוחות צ'אט.",
+      "TITLE": "{appName}: פרוקסי חינמי ל-Janitor AI, מפתח אחד לכל מודל AI",
+      "DESCRIPTION": "מפתח אחד תואם OpenAI ל-GPT, Claude, Gemini, DeepSeek ו-GLM, ועוד פרוקסי חינמי ל-Janitor AI ול-SillyTavern. מודלים חינמיים, ללא כרטיס אשראי.",
       "KEYWORDS": "פרוקסי AI חינמי, פרוקסי חינמי ל-Janitor AI, פרוקסי Janitor AI, SillyTavern API, API AI חינמי, API AI, חלופה ל-OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, נתב AI"
     },
     "FAQ": {
