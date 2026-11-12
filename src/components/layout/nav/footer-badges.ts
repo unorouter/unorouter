@@ -2164,6 +2164,55 @@ export const FOOTER_BADGES: {
     alt: "Featured on SaaSAffiliate.net",
     width: 89,
   },
+  {
+    href: "https://tailyai.co",
+    src: "https://tailyai.co/badge.svg",
+    name: "TailyAI",
+    alt: "Featured on TailyAI",
+    width: 78,
+  },
+  {
+    href: "https://toolboard.org",
+    src: "https://toolboard.org/badge.svg",
+    name: "Toolboard",
+    alt: "Featured on Toolboard",
+    width: 78,
+  },
+  {
+    href: "https://launchedhere.com/launch/unorouter",
+    src: "https://launchedhere.com/badge/unorouter.svg?kind=listed&shape=standard&mode=light&size=m&v=2",
+    name: "Launched Here: the Product Hunt alternative where every day is race day",
+    alt: "Listed on Launched Here",
+    width: 111,
+  },
+  {
+    href: "https://saasdirectorypro.com/launch/unorouter",
+    src: "https://saasdirectorypro.com/badge/unorouter.svg?kind=listed&shape=standard&mode=light&size=m&v=2",
+    name: "SaaS Directory Pro: SaaS procurement shortlists for software buyers",
+    alt: "Listed on SaaS Directory Pro",
+    width: 111,
+  },
+  {
+    href: "https://toolb.dev",
+    src: "https://toolb.dev/badge.svg",
+    name: "Toolb",
+    alt: "Featured on Toolb",
+    width: 78,
+  },
+  {
+    href: "https://veyzalaunch.com/launch/unorouter",
+    src: "https://veyzalaunch.com/badge/unorouter.svg?kind=listed&shape=standard&mode=light&size=m&v=2",
+    name: "Veyza Launch: a startup newsletter of this week's launches",
+    alt: "Listed on Veyza Launch",
+    width: 111,
+  },
+  {
+    href: "https://alternativebiz.com/launch/unorouter",
+    src: "https://alternativebiz.com/badge/unorouter.svg?kind=listed&shape=standard&mode=light&size=m&v=2",
+    name: "Alternative Biz: alternatives to any software or product, ranked",
+    alt: "Listed on Alternative Biz",
+    width: 111,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
@@ -2345,4 +2394,5 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://aitoolbus.com", label: "AI Tools Bus" },
   { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
+  { href: "https://agentgo.net", label: "AI Tools Directory" },
 ] as const;
