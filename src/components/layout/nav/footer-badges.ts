@@ -2338,7 +2338,6 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://earlylaunch.co/startup/unorouter/",
     label: "Startup Directory",
   },
-  { href: "http://www.nctweb.com/", label: "Nctweb Web Directory" },
   { href: "https://innolope.com", label: "Innolope" },
   {
     href: "https://residentevilveronica.com/",
