@@ -497,12 +497,6 @@ export const FOOTER_BADGES: {
     width: 96,
   },
   {
-    href: "https://altern.ai/ai/unorouter",
-    src: "https://data.altern.ai/alternbadge.png",
-    name: "Altern: Best AI Tools and Agents for 2026",
-    width: 112,
-  },
-  {
     href: "https://althunt.io/compare/unorouter-vs-openrouter",
     src: "https://althunt.io/api/badge/unorouter-vs-openrouter.svg?style=featured&theme=light",
     name: "AI Search Visibility for SaaS",
@@ -2008,13 +2002,6 @@ export const FOOTER_BADGES: {
     width: 109,
   },
   {
-    href: "https://akralabs.in/product/unorouter (slug assumed, set by their submission)",
-    src: "https://akralabs.in/badge/dark.svg",
-    name: "AkraLabs",
-    alt: "Listed on AkraLabs , The Software Universe",
-    width: 120,
-  },
-  {
     href: "https://tool0.org",
     src: "https://tool0.org/theme/nav001/default/style/submit_badge_light.svg",
     name: "Tool0",
@@ -2154,6 +2141,13 @@ export const FOOTER_BADGES: {
     alt: "Listed on wentlive.today",
     width: 90,
   },
+  {
+    href: "https://abacklaunch.com/launch/unorouter",
+    src: "https://abacklaunch.com/badges/listed-on-light.svg",
+    name: "Aback Launch",
+    alt: "Listed on Aback Launch",
+    width: 113,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
@@ -2215,7 +2209,6 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://www.buildway.cc", label: "BuildWay" },
   { href: "https://devtool.io", label: "Listed on DevTool.io" },
-  { href: "http://computer.dirnets.com", label: "Dirnets" },
   {
     href: "https://dirs.cc",
     label: "Dirs.cc",
@@ -2295,7 +2288,6 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://tap4ai.org/", label: "Tap4 AI Tools Diresctory" },
   { href: "https://youwant.ai", label: "YouWant.ai" },
   { href: "https://describepicture.cc/", label: "AI Image Describer" },
-  { href: "https://launchai.tools", label: "Featured onLaunchAI" },
   { href: "https://genify.dev", label: "Genify" },
   { href: "https://hubfortools.com", label: "Tools Hub" },
   {
@@ -2313,7 +2305,6 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://needaiforthis.com", label: "Need AI For This" },
   { href: "https://in-sla.org/", label: "In-SLA Directory" },
   { href: "https://toolsbox.me", label: "AI Tools Box" },
-  { href: "https://dirnets.com/", label: "Dirnets" },
   { href: "https://345tool.com", label: "345tool.com" },
   { href: "https://www.lddir.com", label: "LinkDirs" },
   {
@@ -2328,4 +2319,5 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://aitoolbus.com", label: "AI Tools Bus" },
   { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
   { href: "https://agentgo.net", label: "AI Tools Directory" },
+  { href: "https://antdirectory.com/", label: "Ant Directory" },
 ] as const;
