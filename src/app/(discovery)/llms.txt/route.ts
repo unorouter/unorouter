@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   // Agent-facing hard facts; English on purpose, this file is for AI crawlers.
   lines.push("## Facts");
   lines.push(
-    `- ${env.appName} is an OpenAI compatible AI gateway: one API key for 200+ models across OpenAI, Anthropic, Google, DeepSeek, Moonshot, Zhipu, Qwen and more.`,
+    `- ${env.appName} is an OpenAI compatible AI gateway: one API key for the models of OpenAI, Anthropic, Google, DeepSeek, Moonshot, Zhipu, Qwen and more, with the live list at ${env.siteOrigin}/models.`,
   );
   lines.push(
     "- Most models have a genuine free tier (`:free` suffix), about 1 request per minute per model per user; the cap returns HTTP 429 with a Retry-After header.",
