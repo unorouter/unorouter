@@ -2129,6 +2129,41 @@ export const FOOTER_BADGES: {
     alt: "Listed on Find Indie Apps",
     width: 83,
   },
+  {
+    href: "https://www.aitrove.ai",
+    src: "https://www.aitrove.ai/images/aitrove-badge.svg",
+    name: "Best AI Tools 2026",
+    alt: "Featured on AITrove",
+    width: 105,
+  },
+  {
+    href: "https://www.mochilaunch.com/get-free-backlink",
+    src: "https://www.mochilaunch.com/badge.svg",
+    name: "MochiLaunch",
+    alt: "Featured on MochiLaunch",
+    width: 89,
+  },
+  {
+    href: "https://discoverly.tech/",
+    src: "https://discoverly.tech/badge.svg",
+    name: "Discoverly: App directory to discover SaaS tools and software alternatives",
+    alt: "Featured on Discoverly",
+    width: 89,
+  },
+  {
+    href: "https://hx-std.com/badge?r=unorouter.com",
+    src: "https://hx-std.com/badge.svg?r=unorouter.com",
+    name: "Product Tower",
+    alt: "Listed on Product Tower",
+    width: 120,
+  },
+  {
+    href: "https://saasaffiliate.net/",
+    src: "https://saasaffiliate.net/badges/badge-light.svg",
+    name: "SaaS Affiliate Programs: 96 Verified & Compared",
+    alt: "Featured on SaaSAffiliate.net",
+    width: 89,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
@@ -2305,4 +2340,10 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "http://www.nctweb.com/", label: "Nctweb Web Directory" },
   { href: "https://innolope.com", label: "Innolope" },
+  {
+    href: "https://residentevilveronica.com/",
+    label: "Veronica Hub: useful AI, productivity & developer tools",
+  },
+  { href: "https://aitoolbus.com", label: "AI Tools Bus" },
+  { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
 ] as const;
