@@ -1876,13 +1876,6 @@ export const FOOTER_BADGES: {
     width: 105,
   },
   {
-    href: "https://kitoolsheute.com",
-    src: "https://kitoolsheute.com/api/badge",
-    name: "258 KI-Tools",
-    alt: "Vorgestellt auf KI Tools Heute",
-    width: 90,
-  },
-  {
     href: "https://buildlist.io/tool/unorouter",
     src: "https://buildlist.io/badge.svg",
     name: "The Best SaaS Directory for Builders",
@@ -1895,13 +1888,6 @@ export const FOOTER_BADGES: {
     name: "SaaS Dance",
     alt: "Featured on SaaSDance",
     width: 89,
-  },
-  {
-    href: "https://ki-alternativen.com",
-    src: "https://ki-alternativen.com/api/badge",
-    name: "12 Kategorien mit Alternativen",
-    alt: "Vorgestellt auf KI Alternativen",
-    width: 101,
   },
   {
     href: "https://productdebuts.com/launch/unorouter",
