@@ -122,12 +122,6 @@ export const FOOTER_BADGES: {
     width: 150,
   },
   {
-    href: "https://firstlook.tools",
-    src: "https://firstlook.tools/badge/badge_dark.svg",
-    name: "First Look",
-    width: 150,
-  },
-  {
     href: "https://yo.directory/tool/unorouter-llm-gateway",
     src: "https://assets.yo.directory/badges/yo-directory-featured-dark.svg",
     name: "Yo.directory",
@@ -231,12 +225,6 @@ export const FOOTER_BADGES: {
     src: "https://cdn.openhunts.com/badges/club.webp",
     name: "OpenHunts",
     width: 111,
-  },
-  {
-    href: "https://showmebest.ai",
-    src: "https://showmebest.ai/badge/feature-badge-white.webp",
-    name: "ShowMeBestAI",
-    width: 220,
   },
   {
     href: "https://saasgrow.app?ref=unorouter.com",
@@ -591,12 +579,6 @@ export const FOOTER_BADGES: {
     src: "https://businesslistingfinder.com/badge/unorouter.svg?kind=listed&shape=standard&mode=auto&size=m&v=2",
     name: "Business Listing Finder: local business directory, find a new business",
     width: 111,
-  },
-  {
-    href: "https://capylaunch.com/tools/unorouter-2",
-    src: "https://capylaunch.com/badge.svg?site=d1e854cd-14b9-4f55-a172-575f1a0377bd",
-    name: "CapyLaunch",
-    width: 100,
   },
   {
     href: "https://www.codehype.ai/product/unorouter?utm_source=codehype_badge",
@@ -2053,13 +2035,6 @@ export const FOOTER_BADGES: {
     width: 81,
   },
   {
-    href: "https://www.mf8.biz",
-    src: "https://www.mf8.biz/badge/badge_dark.svg",
-    name: "Practical Tool Directory",
-    alt: "Listed on MF8.BIZ",
-    width: 89,
-  },
-  {
     href: "https://effecthub.net/ai/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "https://effecthub.net/badge/unorouter",
     name: "EffectHub",
@@ -2294,10 +2269,6 @@ export const FOOTER_TEXT_LINKS = [
     label: "Dirs.cc",
   },
   {
-    href: "https://www.ecobluedirectory.com/",
-    label: "Eco Blue Directory.com",
-  },
-  {
     href: "https://featuredtool.com/item/unorouter",
     label: "FeaturedTool.com",
   },
@@ -2309,10 +2280,6 @@ export const FOOTER_TEXT_LINKS = [
   {
     href: "https://finetools.ai/",
     label: "Finetools AI Tools Directory",
-  },
-  {
-    href: "https://getbannerbid.com/directory",
-    label: "Listed on GetBannerBid",
   },
   { href: "https://hotools.com/", label: "HoTools" },
   {
