@@ -23,11 +23,11 @@ export function GET() {
       .join("");
     const alt =
       "alt" in badge && badge.alt ? badge.alt : `Featured on ${badge.name}`;
-    return `<a href="${escapeHtml(badge.href)}" target="_blank" rel="noopener"${data}><img src="${escapeHtml(badge.src)}" alt="${escapeHtml(alt)}" width="${badge.width}" height="24" loading="lazy"></a>`;
+    return `<a href="${escapeHtml(badge.href)}" target="_blank" rel="sponsored nofollow noopener"${data}><img src="${escapeHtml(badge.src)}" alt="${escapeHtml(alt)}" width="${badge.width}" height="24" loading="lazy"></a>`;
   });
   const texts = FOOTER_TEXT_LINKS.map(
     (link) =>
-      `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`,
+      `<a href="${escapeHtml(link.href)}" target="_blank" rel="sponsored nofollow noopener">${escapeHtml(link.label)}</a>`,
   );
 
   const html = `<!doctype html>

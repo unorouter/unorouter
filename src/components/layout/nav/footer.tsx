@@ -230,7 +230,9 @@ export function Footer() {
         </div>
 
         {/* Every badge and text link must stay in the server-rendered DOM: huzzler,
-            dododirectory and saasbison auto-delist when their link is missing. */}
+            dododirectory and saasbison auto-delist when their link is missing.
+            They are sponsored nofollow because a required badge is a link exchange
+            under Google's link spam policy. */}
         <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
           {badgeRows.map((row, rowIndex) => (
             <div
@@ -263,7 +265,7 @@ export function Footer() {
                           {...("data" in item ? item.data : undefined)}
                           href={item.href}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="sponsored nofollow noopener noreferrer"
                           className="shrink-0"
                           tabIndex={isDup ? -1 : undefined}
                         >
@@ -297,7 +299,7 @@ export function Footer() {
                           key={item.href}
                           href={item.href}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="sponsored nofollow noopener noreferrer"
                           tabIndex={isDup ? -1 : undefined}
                           className="text-foreground/50 hover:text-foreground/70 shrink-0 text-xs whitespace-nowrap transition-colors"
                         >
