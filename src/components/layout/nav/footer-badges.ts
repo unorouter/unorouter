@@ -44,12 +44,6 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://thesaasdir.com/product/unorouter?ref=badge",
-    src: "https://thesaasdir.com/badge/unorouter.svg",
-    name: "TheSaaSDir",
-    width: 182,
-  },
-  {
     href: "https://turbo0.com/item/unorouter",
     src: "/images/badges/turbo0.svg",
     name: "Turbo0",
@@ -816,12 +810,6 @@ export const FOOTER_BADGES: {
     width: 93,
   },
   {
-    href: "https://indielineup.com/product/unorouter?ref=badge",
-    src: "https://indielineup.com/badge/unorouter.svg",
-    name: "IndieLineup",
-    width: 87,
-  },
-  {
     href: "https://indiescroll.com/projects/unorouter?utm_source=badge",
     src: "https://indiescroll.com/indiescroll/images/badges/featured-on-light.svg",
     name: "Indie Scroll",
@@ -1224,12 +1212,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://saaslineup.com/product/unorouter?ref=badge",
-    src: "https://saaslineup.com/badge/unorouter.svg",
-    name: "SaaSLineup",
-    width: 87,
-  },
-  {
     href: "https://saasrove.com/tools/unorouter",
     src: "https://saasrove.com/light.svg",
     name: "SaaS Products Directory",
@@ -1450,34 +1432,10 @@ export const FOOTER_BADGES: {
     width: 78,
   },
   {
-    href: "https://theaitoolsdir.com/product/unorouter?ref=badge",
-    src: "https://theaitoolsdir.com/badge/unorouter.svg",
-    name: "TheAIToolsDir",
-    width: 87,
-  },
-  {
     href: "https://theaitoolsindex.com",
     src: "https://theaitoolsindex.com/api/badge",
     name: "262 AI tools indexed",
     width: 101,
-  },
-  {
-    href: "https://thedevtoolsdir.com/product/unorouter?ref=badge",
-    src: "https://thedevtoolsdir.com/badge/unorouter.svg",
-    name: "TheDevToolsDir",
-    width: 87,
-  },
-  {
-    href: "https://thedevtoolsindex.com/product/unorouter?ref=badge",
-    src: "https://thedevtoolsindex.com/badge/unorouter.svg",
-    name: "TheDevToolsIndex",
-    width: 87,
-  },
-  {
-    href: "https://thedevtoolslist.com/product/unorouter?ref=badge",
-    src: "https://thedevtoolslist.com/badge/unorouter.svg",
-    name: "TheDevToolsList",
-    width: 87,
   },
   {
     href: "https://thelaunchdirectory.com/launch/unorouter",
@@ -1490,12 +1448,6 @@ export const FOOTER_BADGES: {
     src: "https://themakerora.com/api/badge?product=9dd8057c-e013-4a9f-b8f4-8949fb6be78c",
     name: "Makerora",
     width: 120,
-  },
-  {
-    href: "https://themicrosaasdir.com/product/unorouter?ref=badge",
-    src: "https://themicrosaasdir.com/badge/unorouter.svg",
-    name: "TheMicroSaaSDir",
-    width: 87,
   },
   {
     href: "https://theonestartup.com",
