@@ -2213,6 +2213,20 @@ export const FOOTER_BADGES: {
     alt: "Listed on Alternative Biz",
     width: 111,
   },
+  {
+    href: "https://launcholio.com/product/unorouter",
+    src: "https://launcholio.com/api/badge/unorouter.svg?theme=light&score=on&v=7",
+    name: "Launcholio",
+    alt: "Featured on Launcholio",
+    width: 69,
+  },
+  {
+    href: "https://wentlive.today/",
+    src: "https://wentlive.today/badges/7ad8b08c-6727-4fc3-a0e6-84a6bf272d5c/dark.svg",
+    name: "wentlive.today",
+    alt: "Listed on wentlive.today",
+    width: 90,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
