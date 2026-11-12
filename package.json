@@ -34,7 +34,7 @@
     "@elysiajs/eden": "1.4.9",
     "@elysiajs/openapi": "github:unorouter/elysia-openapi-fork#fix/fromtypes-response-parsing-dist",
     "@heroicons/react": "2.2.0",
-    "@hookform/resolvers": "7.0.6",
+    "@hookform/resolvers": "6.0.0",
     "@huggingface/transformers": "4.3.2",
     "@kitajs/html": "4.2.13",
     "@lenml/tokenizer-claude": "3.7.2",
