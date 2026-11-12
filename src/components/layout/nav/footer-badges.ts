@@ -2107,7 +2107,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://faslaunch.com/?ref=unorouter.com",
+    href: "https://faslaunch.com/launches/unorouter",
     src: "https://faslaunch.com/badges/faslaunch-badge-dark.svg",
     name: "FasLaunch: The database of verified AI startups",
     alt: "Featured on FasLaunch",
@@ -2259,7 +2259,7 @@ export const FOOTER_BADGES: {
     width: 90,
   },
   {
-    href: "https://buildlist.io",
+    href: "https://buildlist.io/tool/unorouter",
     src: "https://buildlist.io/badge.svg",
     name: "The Best SaaS Directory for Builders",
     alt: "Featured on Buildlist",
@@ -2376,7 +2376,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://visnook.com/rankings/unorouter-com",
+    href: "https://visnook.com/included/unorouter-com",
     src: "https://visnook.com/badge.jpg?domain=unorouter.com&token=5ad54f4a-e016-4738-bbcb-653b3d38c56a",
     name: "Curated Website Directory & Submissions",
     alt: "Included in visnook",
