@@ -2265,6 +2265,12 @@ export const FOOTER_BADGES: {
     alt: "Listed on Nexaro Launch",
     width: 111,
   },
+  {
+    href: "https://saasdb.net",
+    src: "/images/badges/saasdb.svg",
+    name: "SaaSDB",
+    width: 80,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
