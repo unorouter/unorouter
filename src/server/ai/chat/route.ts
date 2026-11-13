@@ -42,11 +42,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   // Open to guests by design; the caller's own Authorization is what stops this
   // being a free open relay. No chat key is resolved, logged or stored here.
-  // Not buffered for resume: relay streams sharing the chat buffer let anyone
-  // abort every paid reply on a pod, so a dropped caller ends the upstream call.
   .post(
     "/custom-forward/chat/completions",
-    async ({ request }) => {
+    async ({ request, cookie }) => {
       return forwardCustomProvider({
         targetBase: request.headers.get("x-proxy-target"),
         path: "/chat/completions",
@@ -54,6 +52,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         authorization: request.headers.get("authorization"),
         body: await request.text(),
         signal: request.signal,
+        resumeFor: await getUserId(cookie, true),
       });
     },
     { beforeHandle: customForwardLimit },

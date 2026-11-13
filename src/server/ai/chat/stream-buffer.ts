@@ -17,12 +17,18 @@ const MAX_RUN_MS = 30 * 60_000;
 // SSE spends 150 to 250 bytes per streamed token: a 100K token thinking reply
 // is about 25 MiB.
 const MAX_BYTES = 48 * 1024 * 1024;
-const MAX_ENTRIES = 500;
-// The custom provider relay is open to guests, so the whole buffer is capped
-// well inside the pod's 3Gi limit.
-const TOTAL_BUDGET = 256 * 1024 * 1024;
+
+// Relay replies (custom providers through uno) get their own pool: sharing one
+// let a relay flood evict and abort paid replies to make room.
+export type StreamPool = "chat" | "relay";
+const POOLS: Record<StreamPool, { maxEntries: number; budget: number }> = {
+  chat: { maxEntries: 500, budget: 256 * 1024 * 1024 },
+  relay: { maxEntries: 100, budget: 64 * 1024 * 1024 },
+};
+const totals: Record<StreamPool, number> = { chat: 0, relay: 0 };
 
 type Entry = {
+  pool: StreamPool;
   userId: number;
   chunks: Uint8Array[];
   bytes: number;
@@ -33,12 +39,11 @@ type Entry = {
 };
 
 const entries = new Map<string, Entry>();
-let totalBytes = 0;
 
 function drop(id: string) {
   const entry = entries.get(id);
   if (!entry) return;
-  totalBytes -= entry.bytes;
+  totals[entry.pool] -= entry.bytes;
   entries.delete(id);
   mirrorDrop(id);
 }
@@ -46,24 +51,25 @@ function drop(id: string) {
 export const STREAM_ID_HEADER = "x-uno-stream";
 const MIRROR_TTL_S = (MAX_RUN_MS + KEEP_AFTER_DONE_MS) / 1000;
 
-function sweep() {
+function sweep(pool: StreamPool) {
   const now = Date.now();
   for (const [id, entry] of entries) {
     if (entry.doneAt !== null && now - entry.doneAt > KEEP_AFTER_DONE_MS)
       drop(id);
   }
-  while (entries.size >= MAX_ENTRIES) {
-    const oldest = entries.keys().next().value;
-    if (oldest === undefined) break;
-    entries.get(oldest)?.abort();
-    drop(oldest);
+  const inPool = [...entries].filter(([, e]) => e.pool === pool);
+  for (const [id, entry] of inPool) {
+    if (inPool.length - 1 < POOLS[pool].maxEntries) break;
+    entry.abort();
+    drop(id);
+    inPool.shift();
   }
 }
 
-function freeFinished() {
+function freeFinished(pool: StreamPool) {
   for (const [id, entry] of entries) {
-    if (totalBytes <= TOTAL_BUDGET / 2) return;
-    if (entry.done) drop(id);
+    if (totals[pool] <= POOLS[pool].budget / 2) return;
+    if (entry.pool === pool && entry.done) drop(id);
   }
 }
 
@@ -79,7 +85,7 @@ function append(id: string, entry: Entry, chunk: Uint8Array) {
   mirrorChunk(id, chunk, MIRROR_TTL_S);
   entry.chunks.push(chunk);
   entry.bytes += chunk.byteLength;
-  totalBytes += chunk.byteLength;
+  totals[entry.pool] += chunk.byteLength;
   entry.wake.forEach((fn) => fn());
   entry.wake.clear();
 }
@@ -94,10 +100,13 @@ export function bufferStream(
   source: ReadableStream<Uint8Array>,
   userId: number,
   abort: () => void,
+  pool: StreamPool = "chat",
 ): string {
-  sweep();
+  sweep(pool);
+  const budget = POOLS[pool].budget;
   const id = uid(24);
   const entry: Entry = {
+    pool,
     userId,
     chunks: [],
     bytes: 0,
@@ -115,10 +124,10 @@ export function bufferStream(
       for (;;) {
         const chunk = await reader.read();
         if (chunk.done) break;
-        if (totalBytes + chunk.value.byteLength > TOTAL_BUDGET) freeFinished();
+        if (totals[pool] + chunk.value.byteLength > budget) freeFinished(pool);
         if (
           entry.bytes + chunk.value.byteLength > MAX_BYTES ||
-          totalBytes + chunk.value.byteLength > TOTAL_BUDGET
+          totals[pool] + chunk.value.byteLength > budget
         ) {
           abort();
           append(id, entry, TOO_LONG_FRAME);
@@ -184,8 +193,9 @@ export function resumableResponse(
   abort: AbortController,
   status: number,
   headers: Headers,
+  pool: StreamPool = "chat",
 ): Response {
-  const id = bufferStream(source, userId, () => abort.abort());
+  const id = bufferStream(source, userId, () => abort.abort(), pool);
   headers.set(STREAM_ID_HEADER, id);
   return new Response(tailStream(id, userId, 0), { status, headers });
 }
