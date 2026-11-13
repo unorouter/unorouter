@@ -155,28 +155,6 @@ export function OverridesGenerationFields(props: {
                     field.onChange(Math.min(MAX_CHAT_MEMORY, Math.max(1, n)));
                   }}
                 />
-                <FormField
-                  control={props.control}
-                  name="contextTokens"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center gap-1.5">
-                        <FormLabel>
-                          {t("CHAT.OVERRIDES.CONTEXT_TOKENS")}
-                        </FormLabel>
-                        <InfoPopover
-                          text={t("CHAT.OVERRIDES.CONTEXT_TOKENS_HINT")}
-                        />
-                      </div>
-                      <FormControl>
-                        <ContextTokensSlider
-                          value={field.value ?? null}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
               </div>
               <FormControl>
                 {/* Without step the browser derives one from the range, and at
@@ -189,6 +167,24 @@ export function OverridesGenerationFields(props: {
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)
                   }
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={props.control}
+          name="contextTokens"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-2">
+              <div className="flex items-center gap-1.5">
+                <FormLabel>{t("CHAT.OVERRIDES.CONTEXT_TOKENS")}</FormLabel>
+                <InfoPopover text={t("CHAT.OVERRIDES.CONTEXT_TOKENS_HINT")} />
+              </div>
+              <FormControl>
+                <ContextTokensSlider
+                  value={field.value ?? null}
+                  onChange={field.onChange}
                 />
               </FormControl>
             </FormItem>
