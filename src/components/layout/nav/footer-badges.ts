@@ -485,12 +485,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://alphashot.com/products/unorouter?utm_source=alphashot&utm_medium=badge&utm_campaign=embed",
-    src: "https://alphashot.com/badge/unorouter.svg",
-    name: "Startup & AI Tools Directory, Ranked by Votes",
-    width: 92,
-  },
-  {
     href: "https://alterbase.co/tool/unorouter",
     src: "https://alterbase.co/badge/alterbase-v1-light.svg",
     name: "AlterBase",
@@ -1504,12 +1498,6 @@ export const FOOTER_BADGES: {
     width: 136,
   },
   {
-    href: "https://toolso.ai",
-    src: "https://toolso.ai/badges/featured-light.svg",
-    name: "Toolso.AI",
-    width: 75,
-  },
-  {
     href: "https://tooltrim.com/?utm_source=unorouter&utm_medium=badge&utm_campaign=tool_submission",
     src: "https://tooltrim.com/tooltrim-badge.svg",
     name: "ToolTrim",
@@ -1671,13 +1659,6 @@ export const FOOTER_BADGES: {
     name: "Best Software & SaaS Tools",
     alt: "Softgin",
     width: 120,
-  },
-  {
-    href: "https://minylist.com",
-    src: "https://minylist.com/badge/featured.svg",
-    name: "Must-have AI and SaaS tools for every role, one per task",
-    alt: "Featured on minylist",
-    width: 70,
   },
   {
     href: "https://submitby.ai/projects/27bf1c01-471c-4078-b672-a340f43be57f",
@@ -2144,7 +2125,6 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://animatephoto.io", label: "Animate Photo AI" },
   { href: "https://lookaitools.com", label: "LookAITools" },
-  { href: "https://www.1ai.tools/developer/unorouter", label: "1ai.tools" },
   {
     href: "https://21st.tools/p/unorouter",
     label: "21st Tools",
@@ -2252,7 +2232,6 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://t0ai.com",
     label: "T0 AI Tools Directory",
   },
-  { href: "https://thistools.app/projects/unorouter", label: "thistools" },
   { href: "https://toolsify.ai/", label: "Toolsify AI Tools Diresctory" },
   { href: "https://top5tool.com", label: "Top5tool" },
   {
