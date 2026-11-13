@@ -7,7 +7,8 @@ import { REASONING_EFFORT_KEY } from "../../overrides/form-handler";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { TokenEstimate } from "@/components/elements/form/token-estimate";
-import { Form } from "@/components/ui/form";
+import { ContextTokensSlider } from "@/components/elements/form/context-tokens-slider";
+import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -251,6 +252,26 @@ export function PresetForm(props: Props) {
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_CHAT_MEMORY_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <FormField
+                  control={form.control}
+                  name="contextTokens"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("CHAT.OVERRIDES.CONTEXT_TOKENS")}
+                      </FormLabel>
+                      <ContextTokensSlider
+                        value={field.value ?? null}
+                        onChange={field.onChange}
+                      />
+                    </FormItem>
+                  )}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("CHAT.OVERRIDES.CONTEXT_TOKENS_HINT")}
                 </p>
               </div>
               <div className="flex flex-col gap-1">

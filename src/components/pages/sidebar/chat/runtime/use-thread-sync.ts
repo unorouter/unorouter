@@ -49,6 +49,7 @@ const OVERRIDE_KEYS: readonly (keyof StreamOverrides)[] = [
   "authorNote",
   "authorNoteDepth",
   "chatMemory",
+  "contextTokens",
   "streamingEnabled",
   "autoScrollStream",
   "showReasoning",

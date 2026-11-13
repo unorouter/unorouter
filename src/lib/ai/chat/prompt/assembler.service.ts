@@ -81,6 +81,7 @@ export type AssembledSystem = {
   };
   reasoningEffort?: string;
   chatMemory: number;
+  contextTokens?: number;
   streamingEnabled: boolean;
   authorNote?: DepthInjection;
   extraBody?: Record<string, unknown>;
@@ -225,6 +226,7 @@ export function assembleFromOverrides(
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
     chatMemory: overrides?.chatMemory ?? DEFAULT_CHAT_MEMORY,
+    contextTokens: overrides?.contextTokens ?? undefined,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
     extraBody: parseExtraBody(overrides?.extraBody),
@@ -494,6 +496,7 @@ export async function assembleForStream(
     reasoningEffort: reasoningEffort ?? undefined,
     chatMemory:
       settings.chatMemory ?? preset?.chatMemory ?? DEFAULT_CHAT_MEMORY,
+    contextTokens: settings.contextTokens ?? preset?.contextTokens ?? undefined,
     streamingEnabled:
       settings.streamingEnabled ?? preset?.streamingEnabled ?? true,
     authorNote,

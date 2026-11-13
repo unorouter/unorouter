@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { InfoPopover } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
+import { ContextTokensSlider } from "@/components/elements/form/context-tokens-slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -153,6 +154,28 @@ export function OverridesGenerationFields(props: {
                     if (!Number.isFinite(n)) return;
                     field.onChange(Math.min(MAX_CHAT_MEMORY, Math.max(1, n)));
                   }}
+                />
+                <FormField
+                  control={props.control}
+                  name="contextTokens"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-1.5">
+                        <FormLabel>
+                          {t("CHAT.OVERRIDES.CONTEXT_TOKENS")}
+                        </FormLabel>
+                        <InfoPopover
+                          text={t("CHAT.OVERRIDES.CONTEXT_TOKENS_HINT")}
+                        />
+                      </div>
+                      <FormControl>
+                        <ContextTokensSlider
+                          value={field.value ?? null}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
                 />
               </div>
               <FormControl>

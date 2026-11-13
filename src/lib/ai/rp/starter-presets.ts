@@ -31,6 +31,7 @@ const NULL_SAMPLING: Pick<
   | "showReasoning"
   | "reasoningEffort"
   | "chatMemory"
+  | "contextTokens"
 > = {
   topP: null,
   topK: null,
@@ -51,6 +52,7 @@ const NULL_SAMPLING: Pick<
   showReasoning: null,
   reasoningEffort: null,
   chatMemory: null,
+  contextTokens: null,
 };
 
 const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of actor and novelist. You should actively research and utilize the various cultural contents of various countries, such as history, myth, literature, visual media, games, etc.

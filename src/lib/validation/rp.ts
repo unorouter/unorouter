@@ -3,7 +3,11 @@ import { t } from "elysia";
 import { nullable, samplingNullable } from "./helpers";
 import { tokenizerRef } from "./tokenizer";
 import { reasoningEffort } from "./chat";
-import { MAX_CHAT_MEMORY } from "../config/constants";
+import {
+  MAX_CHAT_MEMORY,
+  MAX_CONTEXT_TOKENS,
+  MIN_CONTEXT_TOKENS,
+} from "../config/constants";
 
 export const MAX_NAME_LEN = 200;
 export const MAX_DESC_LEN = 200_000;
@@ -59,6 +63,9 @@ export const samplingPresetBody = t.Object({
   showReasoning: nullable(t.Boolean()),
   reasoningEffort: nullable(t.Union(reasoningEffort.anyOf)),
   chatMemory: nullable(t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY })),
+  contextTokens: nullable(
+    t.Number({ minimum: MIN_CONTEXT_TOKENS, maximum: MAX_CONTEXT_TOKENS }),
+  ),
   extraBody: nullable(t.String({ maxLength: 8_192 })),
   providers: nullable(t.String({ maxLength: 4_096 })),
   promptTemplate: nullable(t.String({ maxLength: 131_072 })),

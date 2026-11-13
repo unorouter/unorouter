@@ -67,6 +67,10 @@
     {
       "tag": "0016_icy_harrier",
       "sql": "ALTER TABLE `js_plugins` ADD `character_id` text;"
+    },
+    {
+      "tag": "0017_wakeful_trish_tilby",
+      "sql": "ALTER TABLE `conversations` ADD `context_tokens` integer;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `context_tokens` integer;"
     }
   ]
 }

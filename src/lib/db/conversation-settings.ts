@@ -8,6 +8,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "authorNote",
   "authorNoteDepth",
   "chatMemory",
+  "contextTokens",
   "reasoningEffort",
   "webSearchEnabled",
   "webSearchEngine",

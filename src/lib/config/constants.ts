@@ -172,6 +172,8 @@ export const CONTEXT_SAFETY_MARGIN = 2048;
 export const DEFAULT_CHAT_MEMORY = 200;
 
 export const MAX_CHAT_MEMORY = 1000;
+export const MIN_CONTEXT_TOKENS = 1024;
+export const MAX_CONTEXT_TOKENS = 2_000_000;
 
 export const DEFAULT_AUTHOR_NOTE_DEPTH = 4;
 

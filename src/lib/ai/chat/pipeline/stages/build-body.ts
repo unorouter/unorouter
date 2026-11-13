@@ -260,6 +260,7 @@ export function buildDebugSnapshot(
       autoFlags,
       reasoningEffort: assembled?.reasoningEffort ?? null,
       chatMemory: assembled?.chatMemory ?? null,
+      contextTokens: assembled?.contextTokens ?? null,
       streamingEnabled: assembled?.streamingEnabled ?? null,
       maxOutputTokens: assembled?.sampling.maxOutputTokens ?? null,
       authorNote: assembled?.authorNote

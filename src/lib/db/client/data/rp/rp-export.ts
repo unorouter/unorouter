@@ -152,6 +152,8 @@ export async function exportLocalPreset(
     presencePenalty: row.presencePenalty,
     repetitionPenalty: row.repetitionPenalty,
     maxTokens: row.maxTokens,
+    chatMemory: row.chatMemory,
+    contextTokens: row.contextTokens,
     extraBody: row.extraBody,
     providers: row.providers,
     promptTemplate: row.promptTemplate,

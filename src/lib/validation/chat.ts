@@ -1,4 +1,9 @@
-import { MAX_CHAT_MEMORY, NONE_VALUE } from "@/lib/config/constants";
+import {
+  MAX_CHAT_MEMORY,
+  MAX_CONTEXT_TOKENS,
+  MIN_CONTEXT_TOKENS,
+  NONE_VALUE,
+} from "@/lib/config/constants";
 import { AIR_PATTERN } from "@/lib/ai/image/constants";
 import { isRecord } from "@/lib/utils/base";
 import type { Static } from "elysia";
@@ -205,6 +210,12 @@ export const streamOverrides = t.Object({
   chatMemory: t.Optional(
     t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
   ),
+  contextTokens: t.Optional(
+    t.Union([
+      t.Number({ minimum: MIN_CONTEXT_TOKENS, maximum: MAX_CONTEXT_TOKENS }),
+      t.Null(),
+    ]),
+  ),
   systemPromptOverride: t.Optional(
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
   ),
@@ -241,6 +252,12 @@ export const updateConversationSettingsBody = t.Object({
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
   chatMemory: t.Optional(
     t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
+  ),
+  contextTokens: t.Optional(
+    t.Union([
+      t.Number({ minimum: MIN_CONTEXT_TOKENS, maximum: MAX_CONTEXT_TOKENS }),
+      t.Null(),
+    ]),
   ),
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   webSearchEnabled: t.Optional(t.Boolean()),

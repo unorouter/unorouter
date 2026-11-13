@@ -141,6 +141,7 @@ function buildDefaultsForm(
     reasoningEffort:
       modelMemory.reasoningEffort ?? chatDefaults.reasoningEffort ?? NONE_VALUE,
     chatMemory: chatDefaults.chatMemory ?? null,
+    contextTokens: chatDefaults.contextTokens ?? null,
     authorNoteDepth: chatDefaults.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
     systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
     authorNote: chatDefaults.authorNote ?? "",
@@ -178,7 +179,10 @@ type InheritSource = {
   autoScrollStream?: boolean | null;
   showReasoning?: boolean | null;
 } & Partial<
-  Record<(typeof SAMPLING_FIELDS)[number] | "chatMemory", number | null>
+  Record<
+    (typeof SAMPLING_FIELDS)[number] | "chatMemory" | "contextTokens",
+    number | null
+  >
 >;
 
 function resolveBool(
@@ -208,6 +212,7 @@ function buildSettingsForm(
       NONE_VALUE,
     ),
     chatMemory: resolveNum(settings.chatMemory, preset?.chatMemory),
+    contextTokens: resolveNum(settings.contextTokens, preset?.contextTokens),
     authorNoteDepth: settings.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
     systemPromptOverride: settings.systemPromptOverride ?? "",
     authorNote: settings.authorNote ?? "",
@@ -266,6 +271,7 @@ export function buildDefaultsOverrides(
   return {
     reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
     chatMemory: data.chatMemory,
+    contextTokens: data.contextTokens,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,
     authorNoteDepth: data.authorNoteDepth,
@@ -304,6 +310,7 @@ export function buildSettingsBody(
 ) {
   return {
     chatMemory: data.chatMemory ?? null,
+    contextTokens: data.contextTokens ?? null,
     authorNoteDepth: data.authorNoteDepth,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,

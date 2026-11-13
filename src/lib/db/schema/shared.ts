@@ -48,6 +48,7 @@ export const conversations = sqliteTable(
     authorNote: text("author_note"),
     authorNoteDepth: integer("author_note_depth").notNull().default(4),
     chatMemory: integer("chat_memory"),
+    contextTokens: integer("context_tokens"),
     reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
       .notNull()
@@ -353,6 +354,7 @@ export const samplingPresets = sqliteTable(
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
     reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     chatMemory: integer("chat_memory"),
+    contextTokens: integer("context_tokens"),
     utilityModel: text("utility_model"),
     // Provider lane for the model beside it, shipped as X-Group. Null = auto.
     utilityGroup: text("utility_group"),

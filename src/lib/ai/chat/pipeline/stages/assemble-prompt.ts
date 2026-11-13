@@ -171,7 +171,11 @@ export async function assemblePrompt(
 
   const effectiveMaxOutputTokens = clampOutputTokens(assembled, modelInfo);
 
-  const contextWindow = modelInfo?.metadata?.contextWindow;
+  const modelWindow = modelInfo?.metadata?.contextWindow;
+  const contextWindow =
+    assembled.contextTokens && modelWindow
+      ? Math.min(assembled.contextTokens, modelWindow)
+      : (assembled.contextTokens ?? modelWindow);
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
     : effectiveMaxOutputTokens;
@@ -197,6 +201,7 @@ export async function assemblePrompt(
     summaryAnchor,
     afterSummary: unsummarized.length,
     chatMemory: assembled.chatMemory ?? null,
+    contextTokens: contextWindow ?? null,
     afterCount: countSliced.length,
     afterBudget: slicedMessages.length,
     droppedBySummary: messages.length - unsummarized.length,
