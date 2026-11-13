@@ -990,12 +990,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://marketingdb.live",
-    src: "https://marketingdb.live/badge.svg",
-    name: "See what people just shipped",
-    width: 104,
-  },
-  {
     href: "https://microhunts.com/projects/unorouter?utm_source=badge",
     src: "https://microhunts.com/microhunts/images/badges/featured-on-light.svg",
     name: "Micro Hunts",
@@ -1482,12 +1476,6 @@ export const FOOTER_BADGES: {
     width: 82,
   },
   {
-    href: "https://vantaige.io/?utm_source=badge&utm_medium=embed",
-    src: "https://vantaige.io/badges/vantaige-featured-badge-dark-1200x400.webp",
-    name: "Vantaige",
-    width: 72,
-  },
-  {
     href: "https://vibetoyou.com/s/unorouter/",
     src: "https://vibetoyou.com/images/badge-light.svg",
     name: "The AI Readable Directory for Business Services",
@@ -1625,13 +1613,6 @@ export const FOOTER_BADGES: {
     name: "StartupSkyline",
     alt: "Listed on StartupSkyline",
     width: 123,
-  },
-  {
-    href: "https://nukkadly.com",
-    src: "https://nukkadly.com/live_on_nukkadly_white.png",
-    name: "Discover New Products & Startup Launches",
-    alt: "Live on Nukkadly",
-    width: 120,
   },
   {
     href: "https://lanzamientosia.com/tools/unorouter-5",
@@ -1800,13 +1781,6 @@ export const FOOTER_BADGES: {
     name: "SaaS Directory List: top SaaS companies, ranked weekly",
     alt: "Listed on SaaS Directory List",
     width: 111,
-  },
-  {
-    href: "https://www.codewithrandom.com/products/unorouter",
-    src: "https://www.codewithrandom.com/badges/codewithrandom-featured-light.svg",
-    name: "CodeWithRandom",
-    alt: "Featured on CodeWithRandom",
-    width: 105,
   },
   {
     href: "https://buildlist.io/tool/unorouter",
